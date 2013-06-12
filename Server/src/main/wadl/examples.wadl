@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml-stylesheet type="text/xsl" href="wadl.xsl"?>
+<application xmlns="http://wadl.dev.java.net/2009/02"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://wadl.dev.java.net/2009/02 http://www.w3.org/Submission/wadl/wadl.xsd"
+	xmlns:ngusd="http://ngusd.org/ngusd/rest/examples">
+	
+	<doc title="ngusd example rest services"/>
+	<grammars>
+		<include href="../resources/rest/xsd/examples.xsd" />
+	</grammars>
+	
+	<resources>
+		<resource path="/rest/echo" id="Echo" >
+			<param name="resourceParam" style="query"/>
+			<method name="GET" id="getEcho">
+				<request>
+					<param name="methodParam" style="query"/>
+				</request>
+				<response status="200">
+					<representation mediaType="text/plain" element="xsi:string"/>
+				</response>
+			</method>
+			<method name="POST" id="postEcho">
+				<doc>Submit an echo text</doc>
+				<request>
+					<representation id="echoItem" mediaType="application/xml" element="nsl:echo"/>
+				</request>
+				<response status="200">
+					<doc>Success</doc>
+				</response>
+			</method>
+		</resource>
+		
+		<resource path="/rest/echoException" id="EchoException">
+			<method name="GET" id="getException">
+				<request>
+					<param name="resourceParam" style="query"/>
+				</request>
+				<response status="200">
+					<representation mediaType="text/plain" element="xsi:string"/>
+				</response>
+				<response status="500">
+					<representation mediaType="text/plain" element="xsi:string"/>
+				</response>
+			</method>
+		</resource>
+	</resources>
+</application>
