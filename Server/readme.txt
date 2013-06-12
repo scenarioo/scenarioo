@@ -21,3 +21,4 @@ Files:
 	
 TODO:
  - unit test
+ - json instead of xml
