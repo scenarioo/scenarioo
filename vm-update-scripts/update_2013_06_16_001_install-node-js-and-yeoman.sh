@@ -6,5 +6,5 @@ sudo apt-get install nodejs
 sudo npm install -g yo grunt-cli bower
 sudo npm install -g generator-webapp
 sudo npm install -g generator-angular
-cd ..
+
 
