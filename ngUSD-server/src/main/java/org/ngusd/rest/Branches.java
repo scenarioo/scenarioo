@@ -10,7 +10,6 @@ import org.ngusd.rest.model.Branch;
 public class Branches {
 
 	@GET
-	@Produces({"application/json"})
 	public Branch listBranches() {
 		return new Branch("trunk", "main development");
 	}
