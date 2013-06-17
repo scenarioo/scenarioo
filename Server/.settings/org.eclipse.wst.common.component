@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="ngusd-web">
+    <wb-module deploy-name="ngUSD-server">
         <wb-resource deploy-path="/" source-path="/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/wadl"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/cxf"/>
         <property name="context-root" value="ngUSD_Server"/>
-        <property name="java-output-path" value="/ngusd-web/build/classes"/>
+        <property name="java-output-path" value="/ngUSD-server/build/classes"/>
     </wb-module>
 </project-modules>
