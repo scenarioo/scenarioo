@@ -30,6 +30,7 @@
 			<plugin>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-wadl2java-plugin</artifactId>
+				<version>2.7.5</version>
 				<executions>
 					<execution>
 						<id>generate-sources</id>
