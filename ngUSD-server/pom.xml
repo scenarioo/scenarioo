@@ -37,31 +37,6 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-wadl2java-plugin</artifactId>
-				<version>2.7.5</version>
-				<executions>
-					<execution>
-						<id>generate-sources</id>
-						<phase>generate-sources</phase>
-						<configuration>
-							<wadlOptions>
-								<wadlOption>
-									<wadl>${basedir}/src/main/wadl/examples.wadl</wadl>
-									<packagename>org.ngusd.rest.generated.examples</packagename>
-									<schemaPackagenames>
-										<schemaPackagename>http://ngusd.org/ngusd/rest/examples=org.ngusd.rest.generated.examples.model</schemaPackagename>
-									</schemaPackagenames>
-								</wadlOption>
-							</wadlOptions>
-						</configuration>
-						<goals>
-							<goal>wadl2java</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>

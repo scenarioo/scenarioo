@@ -7,7 +7,9 @@ REST stuff:
 	2. select ngusd-web/Run As/Maven generate-sources
 	3. done
  
- - manual test: http://localhost:8080/ngusd-web/rest/echo?resourceParam=x&methodParam=y
+ - manual test:
+    http://localhost:8080/ngusd-server/rest/branches
+ 
  
  - request/response monitoring: use Eclipse/Window/Preferences/Run-Debug/TCP-IP Monitor
 
