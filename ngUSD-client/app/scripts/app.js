@@ -1,17 +1,23 @@
 'use strict';
 
-angular.module('ngUSDClientApp', [])
+angular.module('ngUSDClientApp', ['ui.bootstrap.dropdownToggle'])
     .config(function ($routeProvider) {
         $routeProvider
-            .when('/', {
-                templateUrl: 'views/main.html',
-                controller: 'MainCtrl'
+            .when('/build/:branchId', {
+                redirectTo: '/build/:branchId/current'
             })
-            .when('/usecase', {
+            .when('/build/:branchId/:buildId', {
+                templateUrl: 'views/main.html',
+                controller: 'MainCtrl',
+                branchId: '@branchId',
+                buildId: '@buildId'
+            })
+            .when('/usecase/:useCaseId', {
                 templateUrl: 'views/usecase.html',
-                controller: 'UseCaseCtrl'
+                controller: 'UseCaseCtrl',
+                useCaseId: '@useCaseId'
             })
             .otherwise({
-                redirectTo: '/'
+                redirectTo: '/build/current/current'
             });
     });

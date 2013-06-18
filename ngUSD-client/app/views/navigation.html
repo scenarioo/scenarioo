@@ -1,9 +1,17 @@
 <div class="navbar">
     <div class="navbar-inner">
-        <a class="brand" href="#">Title</a>
+        <a class="brand" href="#">ngUSD</a>
         <ul class="nav">
-           <li ng-repeat="branch in branches">
-               <a href="{{loc}}">{{branch}}</a>
+           <li ng-repeat="branch in branches" class="dropdown">
+               <a class="dropdown-toggle">
+                   {{branch.id}}<b class="caret"></b>
+               </a>
+               <ul class="dropdown-menu">
+                   <li>
+                       <a href="#/build/l{{branch.id}}/current">Current</a>
+                   </li>
+               </ul>
+           </a>
            </li>
         </ul>
     </div>

@@ -12,7 +12,7 @@ import ngusd.rest.model.Details;
 import ngusd.rest.model.Page;
 import ngusd.rest.model.Step;
 
-@Path("/rest/branches/{branchId}/build/{buildId}/usecases/{usecaseId}/scenarios/{scenarioId}/pages/")
+@Path("/rest/branches/{branchId}/builds/{buildId}/usecases/{usecaseId}/scenarios/{scenarioId}/pages/")
 public class PagesResource {
 	
 	@GET
