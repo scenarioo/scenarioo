@@ -1,14 +1,10 @@
 'use strict';
 
-var RestServerPath = "http://localhost:port/ngusd-web/rest";
-var RestServerPort = ":8080";
+var RestServerPath = "http://localhost:port/ngUSD-server/rest";
+var RestServerPort = ":8050";
 
 NgUsdClientApp.config(function($httpProvider){
         $httpProvider.defaults.headers.common['Accept'] = 'application/json';
-
-        // Only needed for cross domain
-        // $httpProvider.defaults.useXDomain = true;
-        // delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });
 
 NgUsdClientApp.factory('BranchService', function($resource) {
@@ -19,7 +15,6 @@ NgUsdClientApp.factory('BranchService', function($resource) {
 
     branchService.findAllBranches = function() {
         return branchService.query({}, function() {
-            alert("juhu");
         });
     };
 
