@@ -24,21 +24,20 @@ public class DummyDataProvider {
 		
 		Build build2 = new Build("build2");
 		build2.setDate(new Date());
-		build2.setRevision("rev:42");
+		build2.setRevision("rev:56");
 		build2.setState("failed");
 		trunk.addBuild(build1);
 		
-		Branch maiBranch = new Branch("trunk", "main development");
-		String maiBranchName = "maiBranch";
+		Branch maiBranch = new Branch("mai", "");
 		Build build3 = new Build("build3");
 		build3.setDate(new Date());
-		build3.setRevision("rev:42");
+		build3.setRevision("rev:22");
 		build3.setState("successful");
 		maiBranch.addBuild(build3);
 		
 		Build build4 = new Build("build4");
 		build4.setDate(new Date());
-		build4.setRevision("rev:42");
+		build4.setRevision("rev:12");
 		build4.setState("warning");
 		maiBranch.addBuild(build4);
 		
