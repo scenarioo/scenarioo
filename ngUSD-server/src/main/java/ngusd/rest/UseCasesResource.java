@@ -5,17 +5,19 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import ngusd.rest.model.Scenario;
 import ngusd.rest.model.UseCase;
 
-@Path("/rest/scenarios")
-public class ScenariosResource {
+@Path("/rest/branches/{branchId}/builds/{buildId}/usecases/")
+public class UseCasesResource {
 	
 	@GET
 	@Produces({ "application/xml", "application/json" })
-	public List<UseCase> listUseCaseScenarios() {
+	public List<UseCase> listUseCaseScenarios(@PathParam("branchId") final String branchId,
+			@PathParam("buildId") final String buildId) {
 		
 		// Create a dummy model
 		
