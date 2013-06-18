@@ -11,9 +11,9 @@ angular.module('ngUSDClientApp')
                 "status": "failed"}
         ];
 
-        $scope.onButton1Click = function() {
+        $scope.resetSearchField = function() {
             $scope.searchFieldText = "";
         }
 
-        $scope.searchFieldText = "";
+        $scope.searchFieldText;
   });
