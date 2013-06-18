@@ -17,7 +17,7 @@ module.exports = function (grunt) {
   try {
     yeomanConfig.app = require('./component.json').appPath || yeomanConfig.app;
   } catch (e) {}
-
+  grunt.loadNpmTasks('grunt-proxy');
   grunt.initConfig({
     yeoman: yeomanConfig,
     watch: {
@@ -42,6 +42,18 @@ module.exports = function (grunt) {
         ],
         tasks: ['livereload']
       }
+    },
+    proxy: {
+        proxy1: {
+          options: {
+            port : 8050,
+            host : 'localhost',
+            router : {
+              'localhost/ngUSD-server/rest/*' : 'localhost:8080',
+              'localhost' : 'localhost:9000'
+            }
+          }
+        }
     },
     connect: {
       options: {
@@ -73,7 +85,7 @@ module.exports = function (grunt) {
     },
     open: {
       server: {
-        url: 'http://localhost:<%= connect.options.port %>'
+        url: 'http://localhost:<%= proxy.proxy1.options.port %>'
       }
     },
     clean: {
@@ -280,6 +292,23 @@ module.exports = function (grunt) {
     'karma'
   ]);
 
+  grunt.registerTask('build-light', [
+    'clean:dist',
+    'jshint',
+    'test',
+    'coffee',
+    'compass:dist',
+    'useminPrepare',
+    'imagemin',
+    'cssmin',
+    'htmlmin',
+    'concat',
+    'copy',
+    'ngmin',
+    'uglify',
+    'rev',
+    'usemin'
+  ]);
   grunt.registerTask('build', [
     'clean:dist',
     'jshint',
