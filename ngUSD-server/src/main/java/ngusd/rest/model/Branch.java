@@ -52,4 +52,8 @@ public class Branch {
 		this.builds = builds;
 	}
 	
+	public void addBuild(final Build build) {
+		this.builds.add(build);
+	}
+	
 }
