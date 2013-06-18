@@ -13,27 +13,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Step {
 	
-	private String name = "";
 	private String screenshotURL;
-	private final Details details = new Details();
 	@XmlElementWrapper(name = "metadatas")
 	@XmlElement(name = "metadata")
 	private final List<Metadata> metadatas = new ArrayList<Metadata>();
+	private final Details details = new Details();
 	
 	public Step() {
-	}
-	
-	public Step(final String name) {
-		super();
-		this.setName(name);
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(final String name) {
-		this.name = name;
 	}
 	
 	public String getScreenshotURL() {
