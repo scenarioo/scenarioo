@@ -6,7 +6,6 @@
  * To change this template use File | Settings | File Templates.
  */
 
-function NavigationCtrl($scope, $location) {
-    $scope.branches = ['trunk', 'februar'];
-    $scope.loc = $location.path();
+function NavigationCtrl($scope) {
+    $scope.branches = [{'id': 'trunk', builds: ['Build 1', 'Build 2'], current: 'Build 1'} , {id: 'februar'}];
 }
