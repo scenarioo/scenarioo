@@ -8,10 +8,12 @@
                </a>
                <ul class="dropdown-menu">
                    <li>
-                       <a href="#/build/l{{branch.id}}/current">Current</a>
+                       <a href="#/build/l{{branch.name}}/current">Current</a>
+                   </li>
+                   <li ng-repeat="build in branch.builds">
+                       <a href="#/build/l{{branch.name}}/{{build.name}}">{{build.name}}</a>
                    </li>
                </ul>
-           </a>
            </li>
         </ul>
     </div>

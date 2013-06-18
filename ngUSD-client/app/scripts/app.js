@@ -1,7 +1,8 @@
 'use strict';
 
-angular.module('ngUSDClientApp', ['ui.bootstrap.dropdownToggle'])
-    .config(function ($routeProvider) {
+var NgUsdClientApp = angular.module('ngUSDClientApp', ['ui.bootstrap.dropdownToggle', 'ngResource']);
+
+NgUsdClientApp.config(function ($routeProvider) {
         $routeProvider
             .when('/build/:branchId', {
                 redirectTo: '/build/:branchId/current'
