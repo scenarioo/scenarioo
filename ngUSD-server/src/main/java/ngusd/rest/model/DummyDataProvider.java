@@ -26,7 +26,7 @@ public class DummyDataProvider {
 		build2.setDate(new Date());
 		build2.setRevision("rev:56");
 		build2.setState("failed");
-		trunk.addBuild(build1);
+		trunk.addBuild(build2);
 		
 		Branch maiBranch = new Branch("mai", "");
 		Build build3 = new Build("build3");
@@ -56,6 +56,5 @@ public class DummyDataProvider {
 	
 	public Branch getBranch(final String branchName) {
 		return this.branches.get(branchName);
-		
 	}
 }

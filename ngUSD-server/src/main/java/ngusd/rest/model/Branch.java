@@ -31,9 +31,6 @@ public class Branch {
 	public Branch(final String name, final String description) {
 		this.name = name;
 		this.description = description;
-		builds.add(new Build("build1"));
-		builds.add(new Build("build2"));
-		builds.add(new Build("build3"));
 	}
 	
 	public String getName() {

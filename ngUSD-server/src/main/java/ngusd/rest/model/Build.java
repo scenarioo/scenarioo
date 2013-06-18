@@ -14,9 +14,6 @@ public class Build {
 	
 	public Build(final String name) {
 		this.name = name;
-		this.revision = "r1234";
-		this.date = new Date();
-		this.state = "success";
 	}
 	
 	public String getName() {

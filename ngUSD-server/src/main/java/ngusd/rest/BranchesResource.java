@@ -12,18 +12,18 @@ import ngusd.rest.model.DummyDataProvider;
 
 @Path("/rest/branches")
 public class BranchesResource {
+	private final DummyDataProvider dataProvider = DummyDataProvider.getInstance();
 	
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	public Collection<Branch> listBranches() {
-		return DummyDataProvider.getInstance().getBranches().values();
+		return dataProvider.getBranches().values();
 	}
 	
 	@GET
 	@Path("{branchId}")
 	@Produces({ "application/xml", "application/json" })
-	public Branch getBranch(@PathParam("{branchId}") final String branchId) {
-		return DummyDataProvider.getInstance().getBranch(branchId);
+	public Branch getBranch(@PathParam("branchId") final String branchId) {
+		return dataProvider.getBranch(branchId);
 	}
-	
 }
