@@ -8,7 +8,7 @@ REST stuff:
 	3. done
  
  - manual test:
-    http://localhost:8080/ngusd-server/rest/branches
+    http://localhost:8080/ngusd/rest/branches
  
  
  - request/response monitoring: use Eclipse/Window/Preferences/Run-Debug/TCP-IP Monitor
