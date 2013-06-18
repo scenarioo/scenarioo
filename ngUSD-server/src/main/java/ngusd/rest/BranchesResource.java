@@ -1,4 +1,4 @@
-package org.ngusd.rest;
+package ngusd.rest;
 
 import java.util.Collection;
 
@@ -25,4 +25,5 @@ public class BranchesResource {
 	public Branch getBranch(@PathParam("{branchId}") final String branchId) {
 		return DummyDataProvider.getInstance().getBranch(branchId);
 	}
+	
 }
