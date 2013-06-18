@@ -1,5 +1,19 @@
 'use strict';
 
-NgUsdClientApp.controller('MainCtrl', function ($scope) {
+angular.module('ngUSDClientApp')
+  .controller('MainCtrl', function ($scope) {
+        $scope.useCases = [
+            {"name": "UseCase Name A",
+                "description": "Description use case A.",
+                "status": "ok"},
+            {"name": "UseCase Name B",
+                "description": "Description use case B.",
+                "status": "failed"}
+        ];
 
+        $scope.onButton1Click = function() {
+            $scope.searchFieldText = "";
+        }
+
+        $scope.searchFieldText = "";
   });
