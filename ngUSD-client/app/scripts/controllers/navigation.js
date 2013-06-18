@@ -6,6 +6,6 @@
  * To change this template use File | Settings | File Templates.
  */
 
-function NavigationCtrl($scope) {
-    $scope.branches = [{'id': 'trunk', builds: ['Build 1', 'Build 2'], current: 'Build 1'} , {id: 'februar'}];
+function NavigationCtrl($scope, BranchService) {
+    $scope.branches = BranchService.findAllBranches();
 }
