@@ -27,11 +27,12 @@ NgUsdClientApp.factory('UseCaseService', function ($resource) {
             usecaseName: '@usecaseName',
             port: RestServerPort}, {});
 
+    useCaseService.findAllUseCases = function (branchName, buildName) {
+        return useCaseService.query({'branchName': branchName, 'buildName': buildName});
+    }
     useCaseService.getUseCase = function (branchName, buildName, usecaseName, fn, error) {
         return useCaseService.get({'branchName': branchName, 'buildName': buildName, 'usecaseName': usecaseName}, fn, function (response) {
-            if (response.status === 404) {
-                error();
-            }
+
         });
     }
     return useCaseService;

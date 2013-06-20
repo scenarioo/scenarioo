@@ -7,6 +7,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import ngusd.rest.model.Scenario;
 import ngusd.rest.model.UseCase;
@@ -33,7 +35,7 @@ public class UseCasesResource {
 						null));
 		case1.getScenarios().add(
 				createScenario("selecting_branch_and_build_through_url",
-						"Branch and build can be selected through URL parameters", "success"));
+						"Branch and build can be selected through URL parameters", "successful"));
 		case1.setStatus("success");
 		cases.add(case1);
 		
@@ -51,6 +53,20 @@ public class UseCasesResource {
 		cases.add(case2);
 		
 		return cases;
+	}
+	
+	@GET
+	@Path("{usecaseName}")
+	@Produces({ "application/xml", "application/json" })
+	public Response getUseCase(@PathParam("branchId") final String branchId,
+			@PathParam("buildId") final String buildId, @PathParam("usecaseName") final String usecaseName) {
+		List<UseCase> listUseCaseScenarios = getUseCases(branchId, buildId);
+		for (UseCase usecase : listUseCaseScenarios) {
+			if (usecase.getName().equals(usecaseName)) {
+				return Response.ok(usecase).build();
+			}
+		}
+		return Response.status(Status.NOT_FOUND).build();
 	}
 	
 	private Scenario createScenario(final String name, final String description, final String status) {
