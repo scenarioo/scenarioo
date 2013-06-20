@@ -20,3 +20,17 @@ NgUsdClientApp.factory('BranchService', function($resource) {
 
     return branchService;
 });
+
+NgUsdClientApp.factory('UseCaseService', function($resource) {
+
+    //var useCaseService = $resource(RestServerPath +'/branches/'+NgUsdClientApp.branchId+'/builds/'+NgUsdClientApp.buildId+'/usecases/', {
+    var useCaseService = $resource(RestServerPath +'/branches/current/builds/current/usecases/', {
+        port: RestServerPort
+    }, {});
+
+    useCaseService.findAllUseCases = function() {
+        return useCaseService.query({}, function() {});
+    };
+
+    return useCaseService;
+});
