@@ -15,7 +15,7 @@
             <tbody ng-repeat="useCase in useCases | filter:searchFieldText">
                 <tr>
                     <td>{{useCase.status}}</td>
-                    <td><a href='./usecase/{{useCase.name}}'>{{useCase.name}}</a></td>
+                    <td><a href='#/usecase/{{useCase.name}}'>{{useCase.name}}</a></td>
                     <td>{{useCase.description}}</td>
                     <td>{{useCase.scenarios.length}}</td>
                 </tr>
