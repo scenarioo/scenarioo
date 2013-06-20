@@ -1,21 +1,23 @@
 <div class="container-fluid">
     <h3>Welcome to the ngUSD</h3>
     <div class="span2,input-append">
-        Search: <input ng-model="searchFieldText" />
-        <button ng-click="onButton1Click()" class="btn1">reset</button>
+        <input ng-model="searchFieldText" tooltip="See? Now click away..." data-trigger="focus" bs-tooltip="bla"/>
+        <button ng-click="resetSearchField()" class="btn1">reset</button>
     </div>
     <div class="spanResultTable">
-        <table>
+        <table class="table table-bordered table-striped">
             <tr>
+                <th>Status</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Status</th>
+                <th># Scenarios</th>
             </tr>
             <tbody ng-repeat="useCase in useCases | filter:searchFieldText">
                 <tr>
-                    <td>{{useCase.name}}</td>
-                    <td>{{useCase.description}}</td>
                     <td>{{useCase.status}}</td>
+                    <td><a href='#/usecase/{{useCase.name}}'>{{useCase.name}}</a></td>
+                    <td>{{useCase.description}}</td>
+                    <td>{{useCase.scenarios.length}}</td>
                 </tr>
             </tbody>
         </table>
