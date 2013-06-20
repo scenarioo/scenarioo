@@ -2,12 +2,19 @@ package ngusd.rest.model;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Build {
 	
 	private String name;
 	private String revision;
 	private Date date;
 	private String state;
+	private Details details = new Details();
 	
 	public Build() {
 	}
@@ -46,6 +53,14 @@ public class Build {
 	
 	public void setState(final String state) {
 		this.state = state;
+	}
+	
+	public Details getDetails() {
+		return details;
+	}
+	
+	public void setDetails(Details details) {
+		this.details = details;
 	}
 	
 }

@@ -1,11 +1,10 @@
 package ngusd.rest.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Scenario {
 	
@@ -14,8 +13,7 @@ public class Scenario {
 	private String status = "";
 	private int numberOfPages;
 	private int numberOfSteps;
-	
-	private Map<String, Object> properties = new HashMap<>();
+	private Details details = new Details();
 	
 	public Scenario() {
 		this("", "", 0, 0);
@@ -69,12 +67,12 @@ public class Scenario {
 		this.numberOfSteps = numberOfSteps;
 	}
 	
-	public Map<String, Object> getProperties() {
-		return properties;
+	public Details getDetails() {
+		return details;
 	}
 	
-	public void setProperties(final Map<String, Object> properties) {
-		this.properties = properties;
+	public void setDetails(Details details) {
+		this.details = details;
 	}
 	
 }
