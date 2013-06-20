@@ -8,22 +8,22 @@ NgUsdClientApp.config(function ($routeProvider) {
                 templateUrl: 'views/main.html',
                 controller: 'MainCtrl'
             })
-            .when('/useCase/:useCaseName', {
+            .when('/usecase/:usecaseName', {
                 templateUrl: 'views/usecase.html',
                 controller: 'UseCaseCtrl',
-                useCaseName: '@useCaseName'
+                usecaseName: '@usecaseName'
             })
-            .when('/scenario/:useCaseName/:scenarioName', {
+            .when('/scenario/:usecaseName/:scenarioName', {
                 templateUrl: 'views/scenario.html',
                 controller: 'ScenarioCtrl',
-                useCaseName: '@useCaseName',
+                usecaseName: '@usecaseName',
                 scenarioName: '@scenarioName'
 
             })
-            .when('/step/:useCaseName/:scenarioName/:pageName/:pageOccurenceInScenario/:stepIndex', {
+            .when('/step/:usecaseName/:scenarioName/:pageName/:pageOccurenceInScenario/:stepIndex', {
                 templateUrl: 'views/step.html',
                 controller: 'StepCtrl',
-                useCaseName: '@useCaseName',
+                usecaseName: '@usecaseName',
                 scenarioName: '@scenarioName',
                 pageName: '@pageName',
                 pageOccurenceInScenario: '@pageOccurenceInScenario',
