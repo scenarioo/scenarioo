@@ -4,21 +4,34 @@ var NgUsdClientApp = angular.module('ngUSDClientApp', ['ui.bootstrap.dropdownTog
 
 NgUsdClientApp.config(function ($routeProvider) {
         $routeProvider
-            .when('/build/:branchId', {
-                redirectTo: '/build/:branchId/current'
-            })
-            .when('/build/:branchId/:buildId', {
+            .when('/', {
                 templateUrl: 'views/main.html',
-                controller: 'MainCtrl',
-                branchId: '@branchId',
-                buildId: '@buildId'
+                controller: 'MainCtrl'
             })
-            .when('/usecase/:useCaseId', {
+            .when('/usecase/:usecaseName', {
                 templateUrl: 'views/usecase.html',
                 controller: 'UseCaseCtrl',
-                useCaseId: '@useCaseId'
+                usecaseName: '@usecaseName'
+            })
+            .when('/scenario/:usecaseName/:scenarioName', {
+                templateUrl: 'views/scenario.html',
+                controller: 'ScenarioCtrl',
+                usecaseName: '@usecaseName',
+                scenarioName: '@scenarioName'
+
+            })
+            .when('/step/:usecaseName/:scenarioName/:pageName/:pageOccurenceInScenario/:stepIndex', {
+                templateUrl: 'views/step.html',
+                controller: 'StepCtrl',
+                usecaseName: '@usecaseName',
+                scenarioName: '@scenarioName',
+                pageName: '@pageName',
+                pageOccurenceInScenario: '@pageOccurenceInScenario',
+                stepIndex: '@stepIndex'
+
+
             })
             .otherwise({
-                redirectTo: '/build/current/current'
+                redirectTo: '/'
             });
     });
