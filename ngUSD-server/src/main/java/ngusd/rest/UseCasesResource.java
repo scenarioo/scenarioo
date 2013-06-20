@@ -49,7 +49,7 @@ public class UseCasesResource {
 				createScenario("selecting_use_case_with_filter_search",
 						"A use case is selected by searching it through filter search.", null));
 		cases.add(case2);
-		
+		case2.setStatus("failed");
 		return cases;
 	}
 	
