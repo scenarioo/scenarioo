@@ -10,5 +10,13 @@ NgUsdClientApp.controller('MainCtrl', function ($scope, UseCaseService) {
             $scope.searchFieldText = '';
     }
 
+    $scope.getStatusType = function(status){
+        switch (status) {
+            case "success": return "label label-success";
+            case "failed":  return "label label-important";
+            default: return "label";
+        }
+    }
+
   });
 
