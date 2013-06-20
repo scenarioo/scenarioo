@@ -7,6 +7,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import ngusd.rest.model.Scenario;
 import ngusd.rest.model.UseCase;
@@ -27,34 +29,49 @@ public class UseCasesResource {
 		case1.getProperties().put("testClassName", "BranchAndBuildNavigationViewWebTest");
 		case1.getScenarios().add(
 				createScenario("default_selection_is_trunk_latest_green",
-						"The default selection is the latest green build on trunk"));
+						"The default selection is the latest green build on trunk", "successful"));
 		case1.getScenarios().add(
-				createScenario("selecting_build_on_different_branch", "User can select a branch and build through UI"));
+				createScenario("selecting_build_on_different_branch", "User can select a branch and build through UI",
+						"failed"));
 		case1.getScenarios().add(
 				createScenario("selecting_branch_and_build_through_url",
-						"Branch and build can be selected through URL parameters"));
+						"Branch and build can be selected through URL parameters", "failed"));
 		cases.add(case1);
 		
 		UseCase case2 = new UseCase("Browsing Usecases", "Customer can browse all use cases and select a use case");
 		case2.getProperties().put("testClassName", "UseCasesViewWebTest");
 		case2.getScenarios().add(
 				createScenario("table_of_usecases_displayed",
-						"The table of all use cases is presented correctly and the user can filter it"));
+						"The table of all use cases is presented correctly and the user can filter it", "successful"));
 		case2.getScenarios().add(
 				createScenario("selecting_use_case",
-						"A use case is selected without using the filter search"));
+						"A use case is selected without using the filter search", "successful"));
 		case2.getScenarios().add(
 				createScenario("selecting_use_case_with_filter_search",
-						"A use case is selected by searching it through filter search."));
+						"A use case is selected by searching it through filter search.", "successful"));
 		
 		cases.add(case2);
 		
 		return cases;
 	}
 	
-	private Scenario createScenario(final String name, final String description) {
+	@GET
+	@Path("{usecaseName}")
+	@Produces({ "application/xml", "application/json" })
+	public Response getUseCase(@PathParam("branchId") final String branchId,
+			@PathParam("buildId") final String buildId, @PathParam("usecaseName") final String usecaseName) {
+		List<UseCase> listUseCaseScenarios = listUseCaseScenarios(branchId, buildId);
+		for (UseCase usecase : listUseCaseScenarios) {
+			if (usecase.getName().equals(usecaseName)) {
+				return Response.ok(usecase).build();
+			}
+		}
+		return Response.status(Status.NOT_FOUND).build();
+	}
+	
+	private Scenario createScenario(final String name, final String description, final String buildState) {
 		Scenario scenario = new Scenario(name, description, 9, 42);
-		scenario.setStatus("green");
+		scenario.setStatus(buildState);
 		return scenario;
 	}
 }
