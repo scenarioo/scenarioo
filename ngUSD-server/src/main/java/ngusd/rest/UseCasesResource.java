@@ -16,7 +16,7 @@ public class UseCasesResource {
 	
 	@GET
 	@Produces({ "application/xml", "application/json" })
-	public List<UseCase> listUseCaseScenarios(@PathParam("branchId") final String branchId,
+	public List<UseCase> getUseCases(@PathParam("branchId") final String branchId,
 			@PathParam("buildId") final String buildId) {
 		
 		// Create a dummy model
@@ -27,34 +27,35 @@ public class UseCasesResource {
 		case1.getProperties().put("testClassName", "BranchAndBuildNavigationViewWebTest");
 		case1.getScenarios().add(
 				createScenario("default_selection_is_trunk_latest_green",
-						"The default selection is the latest green build on trunk"));
+						"The default selection is the latest green build on trunk", "failed"));
 		case1.getScenarios().add(
-				createScenario("selecting_build_on_different_branch", "User can select a branch and build through UI"));
+				createScenario("selecting_build_on_different_branch", "User can select a branch and build through UI",
+						null));
 		case1.getScenarios().add(
 				createScenario("selecting_branch_and_build_through_url",
-						"Branch and build can be selected through URL parameters"));
+						"Branch and build can be selected through URL parameters", "success"));
+		case1.setStatus("success");
 		cases.add(case1);
 		
 		UseCase case2 = new UseCase("Browsing Usecases", "Customer can browse all use cases and select a use case");
 		case2.getProperties().put("testClassName", "UseCasesViewWebTest");
 		case2.getScenarios().add(
 				createScenario("table_of_usecases_displayed",
-						"The table of all use cases is presented correctly and the user can filter it"));
+						"The table of all use cases is presented correctly and the user can filter it", null));
 		case2.getScenarios().add(
 				createScenario("selecting_use_case",
-						"A use case is selected without using the filter search"));
+						"A use case is selected without using the filter search", null));
 		case2.getScenarios().add(
 				createScenario("selecting_use_case_with_filter_search",
-						"A use case is selected by searching it through filter search."));
-		
+						"A use case is selected by searching it through filter search.", null));
 		cases.add(case2);
 		
 		return cases;
 	}
 	
-	private Scenario createScenario(final String name, final String description) {
+	private Scenario createScenario(final String name, final String description, final String status) {
 		Scenario scenario = new Scenario(name, description, 9, 42);
-		scenario.setStatus("green");
+		scenario.setStatus(status);
 		return scenario;
 	}
 }
