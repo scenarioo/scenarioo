@@ -8,9 +8,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import ngusd.rest.model.Details;
-import ngusd.rest.model.Page;
-import ngusd.rest.model.Step;
+import ngusd.docu.model.Details;
+import ngusd.docu.model.Page;
+import ngusd.docu.model.StepDescription;
 
 @Path("/rest/branches/{branchId}/builds/{buildId}/usecases/{usecaseId}/scenarios/{scenarioId}/pages/")
 public class PagesResource {
@@ -24,22 +24,22 @@ public class PagesResource {
 		Page page1 = new Page("mainPage");
 		Details detailsPage1 = page1.getDetails();
 		detailsPage1.addDetail("url", "www.google.ch");
-		Step step1InPage1 = new Step();
+		StepDescription step1InPage1 = new StepDescription();
 		step1InPage1.getDetails().addDetail("action", "listAllUseCases");
-		Step step2InPage1 = new Step();
+		StepDescription step2InPage1 = new StepDescription();
 		step2InPage1.getDetails().addDetail("action", "listAllServiceCalls");
-		Step step3InPage1 = new Step();
+		StepDescription step3InPage1 = new StepDescription();
 		step3InPage1.getDetails().addDetail("action", "performFulltextSearch");
-		page1.addStep(step1InPage1);
-		page1.addStep(step2InPage1);
-		page1.addStep(step3InPage1);
+		// page1.addStep(step1InPage1);
+		// page1.addStep(step2InPage1);
+		// page1.addStep(step3InPage1);
 		
 		Page page2 = new Page("usecaseOverview");
 		page2.getDetails().addDetail("url", "www.fork.ch");
-		Step step1InPage2 = new Step();
+		StepDescription step1InPage2 = new StepDescription();
 		step1InPage2.getDetails().addDetail("action", "listAllScenarios");
 		
-		page2.addStep(step1InPage2);
+		// page2.addStep(step1InPage2);
 		
 		return Arrays.asList(page1, page2);
 		

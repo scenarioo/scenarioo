@@ -15,7 +15,7 @@ public class ConfigurationResource {
 	public Map<String, String> getStatusClasses() {
 		Map<String, String> classes = new HashMap<String, String>();
 		
-		classes.put("successful", "label-success");
+		classes.put("success", "label-success");
 		classes.put("warning", "label-warning");
 		classes.put("failed", "label-important");
 		
