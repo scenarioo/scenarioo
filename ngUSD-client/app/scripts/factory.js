@@ -13,9 +13,8 @@ NgUsdClientApp.factory('BranchService', function($resource) {
         port: RestServerPort
     }, {});
 
-    branchService.findAllBranches = function() {
-        return branchService.query({}, function() {
-        });
+    branchService.findAllBranches = function(fn) {
+        return branchService.query(fn);
     };
 
     return branchService;

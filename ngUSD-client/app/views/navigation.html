@@ -2,16 +2,29 @@
     <div class="navbar-inner">
         <a class="brand" href="#">ngUSD</a>
         <ul class="nav">
-           <li ng-repeat="branch in branches" class="dropdown">
+            <li class="dropdown">
+                <a class="dropdown-toggle">
+                    Branch: {{selectedBranch.name}}<b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a ng-click="resetBranch()">Current</a>
+                    </li>
+                    <li ng-repeat="branch in branches">
+                        <a ng-click="setBranch(branch)">{{branch.name}}</a>
+                    </li>
+                </ul>
+            </li>
+           <li class="dropdown">
                <a class="dropdown-toggle">
-                   {{branch.id}}<b class="caret"></b>
+                   Build: {{selectedBuild.name}}<b class="caret"></b>
                </a>
                <ul class="dropdown-menu">
                    <li>
-                       <a href="#/build/l{{branch.name}}/current">Current</a>
+                       <a ng-click="resetBuild()">Current</a>
                    </li>
-                   <li ng-repeat="build in branch.builds">
-                       <a href="#/build/l{{branch.name}}/{{build.name}}">{{build.name}}</a>
+                   <li ng-repeat="build in selectedBranch.builds">
+                       <a ng-click="setBuild(build)">{{build.name}}</a>
                    </li>
                </ul>
            </li>
