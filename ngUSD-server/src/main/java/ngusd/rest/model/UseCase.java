@@ -1,9 +1,7 @@
 package ngusd.rest.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -17,13 +15,12 @@ public class UseCase {
 	
 	private String name;
 	private String description;
-	private String status;
-	
-	private Map<String, Object> properties = new HashMap<>();
+	private String status;	
+	private Details details = new Details();
 	
 	@XmlElementWrapper(name = "scenarios")
 	@XmlElement(name = "scenario")
-	private List<Scenario> scenarios = new ArrayList<>();
+	private List<Scenario> scenarios = new ArrayList<Scenario>();
 	
 	public UseCase() {
 		this("", "");
@@ -52,14 +49,6 @@ public class UseCase {
 		this.description = description;
 	}
 	
-	public Map<String, Object> getProperties() {
-		return properties;
-	}
-	
-	public void setProperties(final Map<String, Object> properties) {
-		this.properties = properties;
-	}
-	
 	public List<Scenario> getScenarios() {
 		return scenarios;
 	}
@@ -74,6 +63,14 @@ public class UseCase {
 	
 	public void setStatus(final String status) {
 		this.status = status;
+	}
+	
+	public Details getDetails() {
+		return details;
+	}
+	
+	public void setDetails(Details details) {
+		this.details = details;
 	}
 	
 }

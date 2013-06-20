@@ -24,7 +24,7 @@ public class UseCasesResource {
 		List<UseCase> cases = new ArrayList<UseCase>();
 		
 		UseCase case1 = new UseCase("Browsing Branches and Builds", "A User can navigate through Branches and Builds");
-		case1.getProperties().put("testClassName", "BranchAndBuildNavigationViewWebTest");
+		case1.getDetails().addDetail("testClassName", "BranchAndBuildNavigationViewWebTest");
 		case1.getScenarios().add(
 				createScenario("default_selection_is_trunk_latest_green",
 						"The default selection is the latest green build on trunk", "failed"));
@@ -38,7 +38,7 @@ public class UseCasesResource {
 		cases.add(case1);
 		
 		UseCase case2 = new UseCase("Browsing Usecases", "Customer can browse all use cases and select a use case");
-		case2.getProperties().put("testClassName", "UseCasesViewWebTest");
+		case2.getDetails().addDetail("testClassName", "UseCasesViewWebTest");
 		case2.getScenarios().add(
 				createScenario("table_of_usecases_displayed",
 						"The table of all use cases is presented correctly and the user can filter it", null));

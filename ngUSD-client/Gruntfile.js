@@ -49,7 +49,7 @@ module.exports = function (grunt) {
             port : 8050,
             host : 'localhost',
             router : {
-              'localhost/ngUSD-server/rest/*' : 'localhost:8080',
+              'localhost/ngusd/rest/*' : 'localhost:8080',
               'localhost' : 'localhost:9000'
             }
           }
