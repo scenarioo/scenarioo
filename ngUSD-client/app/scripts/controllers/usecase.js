@@ -13,4 +13,9 @@ NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$routeParams', 'UseCaseServ
         });
     });
 
+
+    $scope.resetSearchField = function() {
+        $scope.searchFieldText = '';
+    }
+
 }]);
