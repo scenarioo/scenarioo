@@ -1,6 +1,6 @@
 'use strict';
 
-var RestServerPath = "http://localhost:port/ngUSD-server/rest";
+var RestServerPath = "http://localhost:port/ngusd/rest";
 var RestServerPort = ":8050";
 
 NgUsdClientApp.config(function ($httpProvider) {

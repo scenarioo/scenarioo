@@ -17,7 +17,12 @@ public class Details {
 	}
 	
 	public void addDetail(final String key, final Object value) {
-		properties.put(key, value);
+		if (value != null) {
+			properties.put(key, value);
+		}
+		else {
+			properties.remove(key);
+		}
 	}
 	
 	public Object getDetail(final String key) {
