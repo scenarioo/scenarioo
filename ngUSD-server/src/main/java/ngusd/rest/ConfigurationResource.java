@@ -5,13 +5,14 @@ import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 
 @Path("/rest/configuration/")
 public class ConfigurationResource {
 	
 	@GET
-	@Path("/statusclasses")
+	@Path("/buildstates")
+	@Produces("application/json")
 	public Map<String, String> getStatusClasses() {
 		Map<String, String> classes = new HashMap<String, String>();
 		
@@ -20,12 +21,5 @@ public class ConfigurationResource {
 		classes.put("failed", "label-important");
 		
 		return classes;
-	}
-	
-	@GET
-	@Path("/statusclasses/{status}")
-	public String getStatusClasses(@PathParam("status") final String status) {
-		return getStatusClasses().get(status);
-		
 	}
 }
