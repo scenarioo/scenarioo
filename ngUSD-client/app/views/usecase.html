@@ -1,5 +1,38 @@
 <div class="row-fluid">
     <div class="span12">
-            <h1>Use case {{useCaseId}}</h1>
+        <h1>Use case: {{usecase.name}}</h1>
+    </div>
+
+</div>
+<div class="row-fluid">
+    <div class="span12">
+        <div class="row-fluid">
+            <div class="input-append">
+                Search: <input type="text" class="span2" ng-model="searchFieldText" />
+                <button ng-click="resetSearchField()" class="btn">reset</button>
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="span12">
+                <table class="table table-stiped table-bordered table-hover">
+                    <tr>
+                        <th>Status</th>
+                        <th>Description</th>
+                        <th>Name</th>
+                    </tr>
+                    <tbody ng-repeat="scenario in usecase.scenarios | filter:searchFieldText">
+                    <tr>
+                        <td>
+                            <span class="label {{scenario.buildStateClass}}">{{scenario.status}}</span>
+                        </td>
+                        <td>{{scenario.name}}</td>
+                        <td>{{scenario.description}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
     </div>
 </div>
