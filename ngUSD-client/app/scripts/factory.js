@@ -13,40 +13,24 @@ NgUsdClientApp.factory('BranchService', function($resource) {
         port: RestServerPort
     }, {});
 
-    branchService.findAllBranches = function(fn) {
-        return branchService.query(fn);
+    branchService.findAllBranches = function() {
+        return branchService.query({}, function() {
+        });
     };
 
     return branchService;
 });
 
-NgUsdClientApp.factory('UseCaseService',function($resource) {
-    var useCaseService = $resource(RestServerPath + '/branches/:branchName/builds/:buildName/usecases/:usecaseName',
-        {branchName: '@branchName',
-         buildName: '@buildName',
-         usecaseName: '@usecaseName',
-         port: RestServerPort}, {});
+NgUsdClientApp.factory('UseCaseService', function($resource) {
 
-    useCaseService.getUseCase = function(branchName, buildName, usecaseName, fn, error) {
-        return useCaseService.get({'branchName': branchName, 'buildName' : buildName, 'usecaseName': usecaseName}, fn, function(response) {
-            if(response.status === 404) {
-                error();
-            }
-        });
-    }
+    //var useCaseService = $resource(RestServerPath +'/branches/'+NgUsdClientApp.branchId+'/builds/'+NgUsdClientApp.buildId+'/usecases/', {
+    var useCaseService = $resource(RestServerPath +'/branches/current/builds/current/usecases/', {
+        port: RestServerPort
+    }, {});
+
+    useCaseService.findAllUseCases = function() {
+        return useCaseService.query({}, function() {});
+    };
+
     return useCaseService;
-
-});
-
-NgUsdClientApp.factory('BuildStateService',function($resource) {
-    var buildStateService = $resource(RestServerPath + '/configuration/buildstates/:state',
-        {state: '@state',
-         port: RestServerPort},
-        {
-            ListBuildStates: { method: "GET", params: {} }
-        });
-
-
-    return buildStateService;
-
 });
