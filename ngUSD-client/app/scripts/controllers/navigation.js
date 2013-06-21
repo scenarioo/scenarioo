@@ -23,11 +23,11 @@ NgUsdClientApp
         function reload() {
             var params = $location.search();
             var branchParam = getQueryParameter(params, parameterBranch);
-            $scope.selectedBranch = retrieveOrDefault($scope.branches,
+            $scope.selectedBranch = retrieveOrDefault($scope.branches, "branch.name",
                 branchParam, defaultBranch);
             if ($scope.selectedBranch != null) {
                 var buildParam = getQueryParameter(params, parameterBuild);
-                $scope.selectedBuild = retrieveOrDefault($scope.selectedBranch.builds,
+                $scope.selectedBuild = retrieveOrDefault($scope.selectedBranch.builds, "name",
                     buildParam, defaultBuild);
             }
         }
@@ -36,7 +36,7 @@ NgUsdClientApp
             return {key: paramName, value: params[paramName]};
         }
 
-        function retrieveOrDefault(list, param, defaultValue) {
+        function retrieveOrDefault(list, attributeName, param, defaultValue) {
             var value=defaultValue;
             if (param != null) value=param.value;
 
@@ -44,7 +44,7 @@ NgUsdClientApp
             if (list == null || list.length==0)  return null;
             for (var i=0; i<list.length; i++) {
                 var item = list[i];
-                if (item["name"] == value)  return item;
+                if (resolve(item, attributeName) == value)  return item;
             }
             // Invalid parameter
             if (param!=null)  {
@@ -57,9 +57,18 @@ NgUsdClientApp
             return list[0];
         }
 
+        function resolve(item, attributeName) {
+            var attributeNames = attributeName.split(".");
+            var subItem = item;
+            for (var i=0; i<attributeNames.length; i++) {
+                subItem = subItem[attributeNames[i]];
+            }
+            return subItem;
+        }
+
         $scope.setBranch = function(branch) {
             $scope.selectedBranch = branch;
-            $location.search(parameterBranch, (branch.name == defaultBranch)? null : $scope.selectedBranch.name);
+            $location.search(parameterBranch, (branch.branch.name == defaultBranch)? null : $scope.selectedBranch.branch.name);
             $location.search(parameterBuild,  null);
             reload();
         }

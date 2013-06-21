@@ -5,11 +5,11 @@
             <li class="dropdown">
                 <a class="dropdown-toggle">
                     <span class="headerLabel">Branch:</span>
-                    {{selectedBranch.name}}<b class="caret"></b>
+                    {{selectedBranch.branch.name}}<b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
                     <li ng-repeat="branch in branches">
-                        <a ng-click="setBranch(branch)">{{branch.name}}</a>
+                        <a ng-click="setBranch(branch)">{{branch.branch.name}}</a>
                     </li>
                 </ul>
             </li>
