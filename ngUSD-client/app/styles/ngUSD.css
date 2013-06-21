@@ -5,3 +5,7 @@
     margin-top: 50px;
     position: absolute;
 }
+
+.link {
+      cursor: pointer;
+}

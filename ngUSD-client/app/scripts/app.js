@@ -1,6 +1,6 @@
 'use strict';
 
-var NgUsdClientApp = angular.module('ngUSDClientApp', ['ui.bootstrap.dropdownToggle', 'ngResource', 'ng']);
+var NgUsdClientApp = angular.module('ngUSDClientApp', ['ui.bootstrap.dropdownToggle', 'ngResource', 'ng', 'ngCookies']);
 
 NgUsdClientApp.config(function ($routeProvider) {
         $routeProvider
@@ -8,22 +8,22 @@ NgUsdClientApp.config(function ($routeProvider) {
                 templateUrl: 'views/main.html',
                 controller: 'MainCtrl'
             })
-            .when('/usecase/:usecaseName', {
+            .when('/usecase/:useCaseName', {
                 templateUrl: 'views/usecase.html',
                 controller: 'UseCaseCtrl',
-                usecaseName: '@usecaseName'
+                useCaseName: '@useCaseName'
             })
-            .when('/scenario/:usecaseName/:scenarioName', {
+            .when('/scenario/:useCaseName/:scenarioName', {
                 templateUrl: 'views/scenario.html',
                 controller: 'ScenarioCtrl',
-                usecaseName: '@usecaseName',
+                useCaseName: '@useCaseName',
                 scenarioName: '@scenarioName'
 
             })
-            .when('/step/:usecaseName/:scenarioName/:pageName/:pageOccurenceInScenario/:stepIndex', {
+            .when('/step/:useCaseName/:scenarioName/:pageName/:pageOccurenceInScenario/:stepIndex', {
                 templateUrl: 'views/step.html',
                 controller: 'StepCtrl',
-                usecaseName: '@usecaseName',
+                useCaseName: '@useCaseName',
                 scenarioName: '@scenarioName',
                 pageName: '@pageName',
                 pageOccurenceInScenario: '@pageOccurenceInScenario',

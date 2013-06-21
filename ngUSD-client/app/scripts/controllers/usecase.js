@@ -1,11 +1,13 @@
 'use strict';
 
-NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$location', '$routeParams', 'UseCaseService', 'BuildStateService', 'Config', function ($scope, $location, $routeParams, UseCaseService, BuildStateService, Config) {
-    var useCase = UseCaseService.getUseCase(Config.selectedBranch($location), Config.selectedBuild($location), $routeParams.usecaseName, function (usecase) {
-        $scope.usecase = usecase;
+NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$routeParams', '$location', 'ScenarioService', 'BuildStateService', 'Config', function ($scope, $routeParams, $location, ScenarioService, BuildStateService, Config) {
+    var useCaseName = $routeParams.useCaseName;
+    var useCase = ScenarioService.findAllScenarios(Config.selectedBranch($location), Config.selectedBuild($location), useCaseName, function (useCaseAndScenarios) {
+        $scope.useCase = useCaseAndScenarios.useCase;
+        $scope.scenarios = useCaseAndScenarios.scenarios;
         var states = BuildStateService.ListBuildStates(function (states) {
 
-            angular.forEach($scope.usecase.scenarios, function (scenario) {
+            angular.forEach($scope.scenarios, function (scenario) {
                 scenario.buildStateClass = states[scenario.status];
             });
         });
@@ -14,6 +16,10 @@ NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$location', '$routeParams',
 
     $scope.resetSearchField = function() {
         $scope.searchFieldText = '';
+    }
+
+    $scope.go = function(useCaseName, scenarioName) {
+        $location.path('/scenario/' +useCaseName + '/' + scenarioName);
     }
 
 }]);
