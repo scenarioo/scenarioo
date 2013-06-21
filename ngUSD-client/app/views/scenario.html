@@ -17,11 +17,11 @@
             <div class="span12">
                 <table class="table table-stiped table-bordered table-hover">
                     <tr>
-                        <th>Status</th>
-                        <th>Description</th>
-                        <th>Name</th>
+                        <th>Screenshot</th>
+                        <th>Page-Name</th>
+                        <th>Step-Title</th>
                     </tr>
-                    <tbody ng-repeat="scenario in usecase.scenarios | filter:searchFieldText">
+                    <tbody ng-repeat="page in pagesAndSteps | filter:searchFieldText">
                     <tr>
                         <td>
                             <span class="label {{scenario.buildStateClass}}">{{scenario.status}}</span>
