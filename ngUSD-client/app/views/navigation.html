@@ -1,17 +1,37 @@
-<div class="navbar">
+<div class="header navbar">
     <div class="navbar-inner">
         <a class="brand" href="#">ngUSD</a>
         <ul class="nav">
-           <li ng-repeat="branch in branches" class="dropdown">
+            <li class="dropdown">
+                <a class="dropdown-toggle">
+                    <span class="headerLabel">Branch:</span>
+                    {{selectedBranch.branch.name}}<b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="branch in branches">
+                        <a ng-click="setBranch(branch)">{{branch.branch.name}}</a>
+                    </li>
+                </ul>
+            </li>
+           <li class="builds dropdown">
                <a class="dropdown-toggle">
-                   {{branch.id}}<b class="caret"></b>
+                   <span class="headerLabel">Build:</span>
+                   {{selectedBuild.name}}
+                   <b class="caret"></b>
+                   <span class="label buildState" ng-class="getStatusType(selectedBuild.state)">{{selectedBuild.state}}</span>
                </a>
                <ul class="dropdown-menu">
-                   <li>
-                       <a href="#/build/l{{branch.name}}/current">Current</a>
-                   </li>
-                   <li ng-repeat="build in branch.builds">
-                       <a href="#/build/l{{branch.name}}/{{build.name}}">{{build.name}}</a>
+                   <li ng-repeat="build in selectedBranch.builds">
+                       <a class="buildItem" ng-click="setBuild(selectedBranch, build)">
+                           <div style="width: 100%">
+                               <div class="buildLabel">
+                                   <span class="label buildState" ng-class="getStatusType(build.state)">{{build.state}}</span>
+                                   <span ng-show="displayName(build)">{{build.name}}</span>
+                                   <span ng-hide="displayName(build)">{{build.revision}}</span>
+                               </div>
+                               <div class="buildDate">{{build.date | date:'MM/dd/yyyy HH:mm:ss'}}</div>
+                           </div>
+                       </a>
                    </li>
                </ul>
            </li>
