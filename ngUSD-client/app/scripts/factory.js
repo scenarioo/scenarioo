@@ -40,8 +40,25 @@ NgUsdClientApp.factory('UseCaseService', function ($resource) {
 });
 
 
+NgUsdClientApp.factory('ScenarioService', function ($resource) {
+    var scenarioService = $resource(RestServerPath + '/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName',
+        {
+            branchName: '@branchName',
+            buildName: '@buildName',
+            usecaseName: '@usecaseName',
+            scenarioName: '@scenarioName',
+            port: RestServerPort}, {});
+
+    scenarioService.getScenario = function(branchName, buildName, usecaseName, scenarioName) {
+        return scenarioService.get({'branchName': branchName, 'buildName': buildName, 'usecaseName': usecaseName, 'scenarioName': scenarioName})
+    }
+
+    return scenarioService;
+
+});
+
 NgUsdClientApp.factory('PagesService', function ($resource) {
-    var useCaseService = $resource(RestServerPath + '/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName/pages/:pageName',
+    var pagesService = $resource(RestServerPath + '/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName/pages/:pageName',
         {branchName: '@branchName',
             buildName: '@buildName',
             usecaseName: '@usecaseName',
@@ -49,7 +66,11 @@ NgUsdClientApp.factory('PagesService', function ($resource) {
             pageName: '@pageName',
             port: RestServerPort}, {});
 
-    return useCaseService;
+    pagesService.listAllPages = function() {
+        return pagesService.query();
+    }
+
+    return pagesService;
 
 });
 
