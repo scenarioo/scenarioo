@@ -1,15 +1,16 @@
 'use strict';
 
 angular.module('ngUSDClientApp')
-    .controller('NavigationCtrl', function ($scope, $location, BranchService) {
+    .controller('NavigationCtrl', function ($scope, $location, BranchService,
+                                            $routeParams) {
 
     $scope.branches = BranchService.findAllBranches(postProcessing);
 
     function postProcessing() {
 
-        var retrieveOrFirst = function(list, name) {
+        var retrieveOrFirst = function(list, params, paramName) {
             if (list == null || list.length==0)  return null;
-            if (name == null)  return list[0];
+            if (params == null || params.length==0 || params[paramName]==null)  return list[0];
             var item;
             for (item in list) {
                 if (item.name == name)  return item;
@@ -17,14 +18,14 @@ angular.module('ngUSDClientApp')
             return list[0];
         }
 
+        console.log($routeParams)
+        var param = $location.search();
         $scope.selectedBranch = retrieveOrFirst($scope.branches,
-            $location.search("branch"));
+            param, "branch");
         if ($scope.selectedBranch != null) {
             $scope.selectedBuild = retrieveOrFirst($scope.selectedBranch.builds,
-                $location.search("build"));
+                param, "build");
         }
-
-
 
         $scope.resetBranch = function() {
             $location.search("branch", null);

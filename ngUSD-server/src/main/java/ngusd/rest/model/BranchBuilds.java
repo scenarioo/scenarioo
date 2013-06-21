@@ -9,44 +9,31 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ngusd.docu.model.Branch;
+import ngusd.docu.model.Build;
+
+/**
+ * All builds for a specififc branch
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Branch {
+public class BranchBuilds {
 	
-	private String name;
-	private String description;
+	private Branch branch;
 	
 	@XmlElementWrapper(name = "builds")
 	@XmlElement(name = "build")
 	private List<Build> builds = new ArrayList<Build>();
 	
-	public Branch() {
-		this("", "");
+	public BranchBuilds() {
 	}
 	
-	public Branch(final String name) {
-		this(name, "");
+	public Branch getBranch() {
+		return branch;
 	}
 	
-	public Branch(final String name, final String description) {
-		this.name = name;
-		this.description = description;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(final String name) {
-		this.name = name;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-	
-	public void setDescription(final String description) {
-		this.description = description;
+	public void setBranch(final Branch branch) {
+		this.branch = branch;
 	}
 	
 	public List<Build> getBuilds() {
@@ -55,10 +42,6 @@ public class Branch {
 	
 	public void setBuilds(final List<Build> builds) {
 		this.builds = builds;
-	}
-	
-	public void addBuild(final Build build) {
-		this.builds.add(build);
 	}
 	
 }

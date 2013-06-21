@@ -1,12 +1,7 @@
-package ngusd.rest.model;
-
-import java.util.ArrayList;
-import java.util.List;
+package ngusd.docu.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -15,12 +10,8 @@ public class UseCase {
 	
 	private String name;
 	private String description;
-	private String status;	
+	private String status;
 	private Details details = new Details();
-	
-	@XmlElementWrapper(name = "scenarios")
-	@XmlElement(name = "scenario")
-	private List<Scenario> scenarios = new ArrayList<Scenario>();
 	
 	public UseCase() {
 		this("", "");
@@ -49,14 +40,6 @@ public class UseCase {
 		this.description = description;
 	}
 	
-	public List<Scenario> getScenarios() {
-		return scenarios;
-	}
-	
-	public void setScenarios(final List<Scenario> scenarios) {
-		this.scenarios = scenarios;
-	}
-	
 	public String getStatus() {
 		return status;
 	}
@@ -69,7 +52,7 @@ public class UseCase {
 		return details;
 	}
 	
-	public void setDetails(Details details) {
+	public void setDetails(final Details details) {
 		this.details = details;
 	}
 	

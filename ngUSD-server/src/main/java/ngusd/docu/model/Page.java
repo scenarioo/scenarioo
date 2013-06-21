@@ -1,29 +1,21 @@
-package ngusd.rest.model;
-
-import java.util.ArrayList;
-import java.util.List;
+package ngusd.docu.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Page {
+	
 	private String name;
 	private final Details details = new Details();
 	
-	@XmlElementWrapper(name = "steps")
-	@XmlElement(name = "step")
-	private final List<Step> steps = new ArrayList<Step>();
-	
 	public Page() {
+		this.name = "";
 	}
 	
 	public Page(final String name) {
-		super();
 		this.name = name;
 	}
 	
@@ -37,14 +29,6 @@ public class Page {
 	
 	public Details getDetails() {
 		return details;
-	}
-	
-	public List<Step> getSteps() {
-		return steps;
-	}
-	
-	public void addStep(final Step step) {
-		this.steps.add(step);
 	}
 	
 }
