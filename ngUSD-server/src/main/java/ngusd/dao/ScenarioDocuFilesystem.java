@@ -1,12 +1,14 @@
 package ngusd.dao;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import ngusd.docu.model.Branch;
 import ngusd.docu.model.Build;
 import ngusd.docu.model.Scenario;
 import ngusd.docu.model.UseCase;
+import ngusd.rest.model.BuildLink;
 
 public class ScenarioDocuFilesystem {
 	
@@ -28,9 +30,15 @@ public class ScenarioDocuFilesystem {
 		return XMLFileUtil.unmarshal(file, Branch.class);
 	}
 	
-	public List<Build> getBuilds(final String branchName) {
+	public List<BuildLink> getBuilds(final String branchName) {
 		File dir = filePath(branchName);
-		return XMLFileUtil.unmarshallListOfFilesFromSubdirs(dir, "build.xml", Build.class);
+		List<BuildLink> result = new ArrayList<BuildLink>();
+		for (ObjectFromDirectory<Build> build : XMLFileUtil.unmarshallListOfFilesFromSubdirsWithDirNames(dir,
+				"build.xml", Build.class)) {
+			BuildLink link = new BuildLink(build.getObject(), build.getDirectoryName());
+			result.add(link);
+		}
+		return result;
 	}
 	
 	public Build getBuild(final String branchName, final String buildName) {
