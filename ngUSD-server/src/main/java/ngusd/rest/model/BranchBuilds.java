@@ -10,7 +10,6 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ngusd.docu.model.Branch;
-import ngusd.docu.model.Build;
 
 /**
  * All builds for a specififc branch
@@ -22,8 +21,8 @@ public class BranchBuilds {
 	private Branch branch;
 	
 	@XmlElementWrapper(name = "builds")
-	@XmlElement(name = "build")
-	private List<Build> builds = new ArrayList<Build>();
+	@XmlElement(name = "buildLink")
+	private List<BuildLink> builds = new ArrayList<BuildLink>();
 	
 	public BranchBuilds() {
 	}
@@ -36,11 +35,11 @@ public class BranchBuilds {
 		this.branch = branch;
 	}
 	
-	public List<Build> getBuilds() {
+	public List<BuildLink> getBuilds() {
 		return builds;
 	}
 	
-	public void setBuilds(final List<Build> builds) {
+	public void setBuilds(final List<BuildLink> builds) {
 		this.builds = builds;
 	}
 	
