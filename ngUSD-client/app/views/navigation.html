@@ -16,18 +16,17 @@
            <li class="builds dropdown">
                <a class="dropdown-toggle">
                    <span class="headerLabel">Build:</span>
-                   {{selectedBuild.name}}
+                   {{getDisplayName(selectedBuild)}}
                    <b class="caret"></b>
-                   <span class="label buildState" ng-class="getStatusType(selectedBuild.state)">{{selectedBuild.state}}</span>
+                   <span class="label buildState" ng-class="getStatusType(selectedBuild.state)">{{selectedBuild.build.state}}</span>
                </a>
                <ul class="dropdown-menu">
                    <li ng-repeat="build in selectedBranch.builds">
                        <a class="buildItem" ng-click="setBuild(selectedBranch, build)">
                            <div style="width: 100%">
                                <div class="buildLabel">
-                                   <span class="label buildState" ng-class="getStatusType(build.state)">{{build.state}}</span>
-                                   <span ng-show="displayName(build)">{{build.name}}</span>
-                                   <span ng-hide="displayName(build)">{{build.revision}}</span>
+                                   <span class="label buildState" ng-class="getStatusType(build.build.state)">{{build.build.state}}</span>
+                                   {{getDisplayName(build)}}
                                </div>
                                <div class="buildDate">{{build.date | date:'MM/dd/yyyy HH:mm:ss'}}</div>
                            </div>

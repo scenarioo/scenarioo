@@ -1,7 +1,7 @@
 'use strict';
 
 NgUsdClientApp
-    .controller('NavigationCtrl', ['$scope', '$location', 'BranchService', 'Config', function ($scope, $location, BranchService, Config) {
+    .controller('NavigationCtrl', ['$scope', '$location', 'BranchService', 'BuildStateService', 'Config', function ($scope, $location, BranchService, BuildStateService, Config) {
 
     //configuration
     var parameterBuild = Config.buildUrlParameter;
@@ -9,6 +9,8 @@ NgUsdClientApp
 
     var defaultBuild = Config.buildDefaultValue;
     var defaultBranch = Config.branchDefaultValue;
+
+    var statesToClass = BuildStateService.ListBuildStates();
 
     $scope.branches = BranchService.findAllBranches(postProcessing);
 
@@ -27,7 +29,7 @@ NgUsdClientApp
                 branchParam, defaultBranch);
             if ($scope.selectedBranch != null) {
                 var buildParam = getQueryParameter(params, parameterBuild);
-                $scope.selectedBuild = retrieveOrDefault($scope.selectedBranch.builds, "name",
+                $scope.selectedBuild = retrieveOrDefault($scope.selectedBranch.builds, "linkName",
                     buildParam, defaultBuild);
             }
         }
@@ -74,22 +76,23 @@ NgUsdClientApp
         }
         $scope.setBuild = function(branch, build) {
             $scope.selectedBuild = build;
-            $location.search(parameterBranch,  (branch.name == defaultBranch && build.name == defaultBuild)? null :$scope.selectedBranch.name);
-            $location.search(parameterBuild,  (build.name == defaultBuild)? null : $scope.selectedBuild.name);
+            $location.search(parameterBranch,  (branch.branch.name == defaultBranch && build.linkName == defaultBuild)? null :$scope.selectedBranch.branch.name);
+            $location.search(parameterBuild,  (build.linkName == defaultBuild)? null : $scope.selectedBuild.build.name);
             reload();
         };
     }
 
 
     $scope.getStatusType = function(status){
-        switch (status) {
-            case "successful": return "label label-success";
-            case "failed":  return "label label-important";
-            default: return "label";
-        }
+        return statesToClass[status];
     }
 
-    $scope.displayName = function(branch) {
-        return branch.name !=null && branch.name.length!=0;
+    $scope.getDisplayName = function(build) {
+        if (build.build.name != build.linkName) {
+            return build.linkName;
+        } else {
+            return "Revision: "+build.build.revision;
+        }
+
     }
 }]);

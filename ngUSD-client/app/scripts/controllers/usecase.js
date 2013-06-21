@@ -6,8 +6,6 @@ NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$location', '$routeParams',
         var states = BuildStateService.ListBuildStates(function (states) {
 
             angular.forEach($scope.usecase.scenarios, function (scenario) {
-                var s = {"successful": "sdfsdf"};
-                var t = s["successful"];
                 scenario.buildStateClass = states[scenario.status];
             });
         });
