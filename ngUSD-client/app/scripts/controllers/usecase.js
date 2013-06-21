@@ -1,24 +1,8 @@
 'use strict';
 
-NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$routeParams', '$location', '$cookieStore', 'ScenarioService', 'BuildStateService', function ($scope, $routeParams, $location, $cookieStore, ScenarioService, BuildStateService) {
-    var branch = $routeParams.branch;
-    var build = $routeParams.build;
-    if(!branch) {
-        branch = $cookieStore.get('branch');
-    }
-    if(!branch) {
-        branch = 'trunk';
-    }
-    $cookieStore.put(branch);
-    if(!build) {
-        build = $cookieStore.get('build');
-    }
-    if(!build) {
-        build = 'current';
-    }
-    $cookieStore.put(build);
+NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$routeParams', '$location', 'ScenarioService', 'BuildStateService', 'Config', function ($scope, $routeParams, $location, ScenarioService, BuildStateService, Config) {
     var useCaseName = $routeParams.useCaseName;
-    var useCase = ScenarioService.findAllScenarios('trunk', 'current', useCaseName, function (useCaseAndScenarios) {
+    var useCase = ScenarioService.findAllScenarios(Config.selectedBranch($location), Config.selectedBuild($location), useCaseName, function (useCaseAndScenarios) {
         $scope.useCase = useCaseAndScenarios.useCase;
         $scope.scenarios = useCaseAndScenarios.scenarios;
         var states = BuildStateService.ListBuildStates(function (states) {

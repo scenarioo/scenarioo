@@ -20,7 +20,8 @@ public class ScreenshotResource {
 			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
 			@PathParam("pageOccurenceInScenario") final int pageOccurenceInScenario,
 			@PathParam("stepIndex") final int stepIndex) {
-		filesystem.getStep(branchName, buildName, usecaseName, scenarioName, pageName, stepIndex);
+		// filesystem.getStep(branchName, buildName, usecaseName, scenarioName,
+		// pageName, stepIndex);
 		return Response.ok().build();
 		
 	}
