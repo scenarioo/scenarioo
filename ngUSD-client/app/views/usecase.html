@@ -24,7 +24,7 @@
                     <tbody ng-repeat="scenario in usecase.scenarios | filter:searchFieldText">
                     <tr ng-click="go(usecase.name, scenario.name)" class="link">
                         <td>
-                            <span class="label {{scenario.buildStateClass}}">{{scenario.status}}</span>
+                            <span class="label {{scenario.buildStateClass}} state">{{scenario.status}}</span>
                         </td>
                         <td>{{scenario.name}}</td>
                         <td>{{scenario.description}}</td>

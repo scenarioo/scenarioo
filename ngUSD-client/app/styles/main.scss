@@ -1,1 +1,34 @@
 @import "compass_twitter_bootstrap";
+
+.header .builds.dropdown {
+  width: 500px;
+}
+
+.header .builds.dropdown ul.dropdown-menu,
+.header .builds.dropdown ul.dropdown-menu li {
+  width: 100%;
+}
+
+.header .buildState {
+  width: 80px;
+  text-align: center;
+  margin-right: 10px;
+}
+.header .buildDate {
+  display: inline-block;
+  width: 20%;
+}
+.header .buildLabel {
+  display: inline-block;
+  width: 70%;
+}
+
+.header .headerLabel {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.label.state {
+  width: 100%;
+  padding-right: -8px !important;
+}
