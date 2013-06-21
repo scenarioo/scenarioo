@@ -21,12 +21,12 @@
                         <th>Page-Name</th>
                         <th>Step-Title</th>
                     </tr>
-                    <tbody ng-repeat="page in pagesAndSteps | filter:searchFieldText">
-                    <tr>
+                    <tbody>
+                    <tr ng-repeat="page in pagesAndSteps | filter:searchFieldText">
                         <td>
                             <span class="label {{scenario.buildStateClass}}">{{scenario.status}}</span>
                         </td>
-                        <td>{{scenario.name}}</td>
+                        <td>{{page.name}}</td>
                         <td>{{scenario.description}}</td>
                     </tr>
                     </tbody>

@@ -53,8 +53,8 @@ NgUsdClientApp.factory('ScenarioService', function ($resource) {
         return scenarioService.get({'branchName': branchName, 'buildName': buildName, 'usecaseName': usecaseName}, fn);
     }
 
-    scenarioService.getScenario = function(branchName, buildName, usecaseName, scenarioName) {
-        return scenarioService.get({'branchName': branchName, 'buildName': buildName, 'usecaseName': usecaseName, 'scenarioName': scenarioName})
+    scenarioService.getScenario = function(branchName, buildName, usecaseName, scenarioName, fn) {
+        return scenarioService.get({'branchName': branchName, 'buildName': buildName, 'usecaseName': usecaseName, 'scenarioName': scenarioName}, fn)
     }
 
     return scenarioService;
@@ -70,8 +70,8 @@ NgUsdClientApp.factory('PagesService', function ($resource) {
             pageName: '@pageName',
             port: RestServerPort}, {});
 
-    pagesService.listAllPages = function() {
-        return pagesService.query();
+    pagesService.listAllPages = function(branchName, buildName, usecaseName, scenarioName, fn) {
+        return pagesService.get({'branchName': branchName, 'buildName': buildName, 'usecaseName': usecaseName, 'scenarioName': scenarioName}, fn);
     }
 
     return pagesService;
