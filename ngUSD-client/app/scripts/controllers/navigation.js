@@ -1,14 +1,13 @@
 'use strict';
 
 NgUsdClientApp
-    .controller('NavigationCtrl', ['$scope', '$location', 'BranchService', 'BuildStateService', 'Config', function ($scope, $location, BranchService, BuildStateService, Config) {
+    .controller('NavigationCtrl', ['$scope', '$location', '$cookieStore', 'BranchService', 'BuildStateService', 'Config', function ($scope, $location, $cookieStore, BranchService, BuildStateService, Config) {
 
     //configuration
-    var parameterBuild = Config.buildUrlParameter;
-    var parameterBranch = Config.branchUrlParameter;
-
-    var defaultBuild = Config.buildDefaultValue;
-    var defaultBranch = Config.branchDefaultValue;
+    var parameterUrl = {'build': Config.buildUrlParameter, 'branch': Config.branchUrlParameter};
+    var parameterCookie = {'build': Config.buildUrlParameter, 'branch': Config.branchUrlParameter};
+    var defaultValue = {'build': Config.buildDefaultValue, 'branch': Config.branchDefaultValue};
+    var attributeRelativePath = {'build': "linkName", 'branch': "branch.name"};
 
     var statesToClass = BuildStateService.ListBuildStates();
 
@@ -23,40 +22,50 @@ NgUsdClientApp
         });
 
         function reload() {
-            var params = $location.search();
-            var branchParam = getQueryParameter(params, parameterBranch);
-            $scope.selectedBranch = retrieveOrDefault($scope.branches, "branch.name",
-                branchParam, defaultBranch);
+            $scope.selectedBranch = retrieveOrCookieOrDefault($scope.branches, 'branch');
             if ($scope.selectedBranch != null) {
-                var buildParam = getQueryParameter(params, parameterBuild);
-                $scope.selectedBuild = retrieveOrDefault($scope.selectedBranch.builds, "linkName",
-                    buildParam, defaultBuild);
+                $scope.selectedBuild = retrieveOrCookieOrDefault($scope.selectedBranch.builds, 'build');
             }
         }
-        function getQueryParameter(params, paramName) {
+        function getQueryParameter(paramName) {
+            var params = $location.search()
             if (params == null || params.length==0 || params[paramName]==null)  return null;
             return {key: paramName, value: params[paramName]};
         }
 
-        function retrieveOrDefault(list, attributeName, param, defaultValue) {
-            var value=defaultValue;
-            if (param != null) value=param.value;
+        function retrieveOrCookieOrDefault(list, type) {
+            // Get name
+            var param = getQueryParameter(parameterUrl[type]);
+            var value = null;
+            if (param != null) {
+                value=param.value;
+            } else {
+                value=getCookie(parameterCookie[type]);
+                if (value != null) {
+                    setParameter(type, value);
+                } else {
+                    value=defaultValue[type];
+                }
+            }
 
-            // Retrieve
+            // Retrieve object by name
             if (list == null || list.length==0)  return null;
             for (var i=0; i<list.length; i++) {
                 var item = list[i];
-                if (resolve(item, attributeName) == value)  return item;
+                if (resolve(item, attributeRelativePath[type]) == value)  return item;
             }
             // Invalid parameter
             if (param!=null)  {
-                $location.search(param.key, null);
-                console.warn("Invalid parameter '"+param.key+"' with value '"+param.value+"'.");
-                param = null;
+                console.warn("Invalid parameter for "+type+"' with value '"+param+"'.");
+                setParameter(type, null);
             } else {
-                console.warn("Invalid default value for branch (default value: '"+defaultBranch+") or build (default value: '"+defaultBuild+"').");
+                console.warn("Invalid default value for branch (default value: '"+defaultValue['branch']+"') or build (default value: '"+defaultValue['build']+"').");
             }
             return list[0];
+        }
+
+        function getCookie(cookie) {
+             return $cookieStore.get(cookie);
         }
 
         function resolve(item, attributeName) {
@@ -70,16 +79,22 @@ NgUsdClientApp
 
         $scope.setBranch = function(branch) {
             $scope.selectedBranch = branch;
-            $location.search(parameterBranch, (branch.branch.name == defaultBranch)? null : $scope.selectedBranch.branch.name);
-            $location.search(parameterBuild,  null);
+            setParameter('branch', (branch.branch.name == defaultValue['branch'])? null : $scope.selectedBranch.branch.name);
+            setParameter('build', null);
             reload();
         }
+
         $scope.setBuild = function(branch, build) {
             $scope.selectedBuild = build;
-            $location.search(parameterBranch,  (branch.branch.name == defaultBranch && build.linkName == defaultBuild)? null :$scope.selectedBranch.branch.name);
-            $location.search(parameterBuild,  (build.linkName == defaultBuild)? null : $scope.selectedBuild.build.name);
+            setParameter('branch', (branch.branch.name == defaultValue['branch'] && build.linkName == defaultValue['build'])? null :$scope.selectedBranch.branch.name);
+            setParameter('build', (build.linkName == defaultValue['build'])? null : $scope.selectedBuild.build.name);
             reload();
         };
+
+        function setParameter(type, value) {
+            $location.search(parameterUrl[type], value);
+            $cookieStore.put(parameterCookie[type], value);
+        }
     }
 
 

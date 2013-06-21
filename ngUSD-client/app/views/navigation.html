@@ -17,8 +17,8 @@
                <a class="dropdown-toggle">
                    <span class="headerLabel">Build:</span>
                    {{getDisplayName(selectedBuild)}}
+                   <span class="label buildState" style="margin-left: 10px" ng-class="getStatusType(selectedBuild.build.state)">{{selectedBuild.build.state}}</span>
                    <b class="caret"></b>
-                   <span class="label buildState" ng-class="getStatusType(selectedBuild.state)">{{selectedBuild.build.state}}</span>
                </a>
                <ul class="dropdown-menu">
                    <li ng-repeat="build in selectedBranch.builds">
