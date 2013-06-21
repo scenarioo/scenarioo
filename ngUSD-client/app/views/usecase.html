@@ -1,6 +1,6 @@
 <div class="row-fluid">
     <div class="span12">
-        <h1>Use case: {{usecase.name}}</h1>
+        <h1>Use case: {{useCase.name}}</h1>
     </div>
 
 </div>
@@ -18,11 +18,11 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <th>Status</th>
-                        <th>Description</th>
                         <th>Name</th>
+                        <th>Description</th>
                     </tr>
-                    <tbody ng-repeat="scenario in usecase.scenarios | filter:searchFieldText">
-                    <tr ng-click="go(usecase.name, scenario.name)" class="link">
+                    <tbody ng-repeat="scenario in scenarios | filter:searchFieldText">
+                    <tr ng-click="go(useCase.name, scenario.name)" class="link">
                         <td>
                             <span class="label {{scenario.buildStateClass}} state">{{scenario.status}}</span>
                         </td>

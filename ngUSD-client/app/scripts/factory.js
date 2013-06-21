@@ -49,6 +49,10 @@ NgUsdClientApp.factory('ScenarioService', function ($resource) {
             scenarioName: '@scenarioName',
             port: RestServerPort}, {});
 
+    scenarioService.findAllScenarios = function (branchName, buildName, usecaseName, fn) {
+        return scenarioService.get({'branchName': branchName, 'buildName': buildName, 'usecaseName': usecaseName}, fn);
+    }
+
     scenarioService.getScenario = function(branchName, buildName, usecaseName, scenarioName) {
         return scenarioService.get({'branchName': branchName, 'buildName': buildName, 'usecaseName': usecaseName, 'scenarioName': scenarioName})
     }
