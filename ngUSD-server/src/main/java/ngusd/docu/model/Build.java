@@ -15,6 +15,7 @@ public class Build {
 	private Date date;
 	private String state;
 	private Details details = new Details();
+	private String linkName;
 	
 	public Build() {
 	}
@@ -59,7 +60,7 @@ public class Build {
 		return details;
 	}
 	
-	public void setDetails(Details details) {
+	public void setDetails(final Details details) {
 		this.details = details;
 	}
 	
