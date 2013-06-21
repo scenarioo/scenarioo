@@ -1,4 +1,4 @@
-package ngusd.rest.model;
+package ngusd.docu.model;
 
 public class StepHtml {
 	
