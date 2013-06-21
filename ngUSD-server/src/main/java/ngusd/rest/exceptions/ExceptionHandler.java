@@ -1,4 +1,4 @@
-package ngusd.rest;
+package ngusd.rest.exceptions;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

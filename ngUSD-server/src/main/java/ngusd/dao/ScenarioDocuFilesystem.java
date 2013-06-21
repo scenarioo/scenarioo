@@ -6,9 +6,13 @@ import java.util.List;
 
 import ngusd.docu.model.Branch;
 import ngusd.docu.model.Build;
+import ngusd.docu.model.Page;
 import ngusd.docu.model.Scenario;
+import ngusd.docu.model.Step;
+import ngusd.docu.model.StepDescription;
 import ngusd.docu.model.UseCase;
 import ngusd.rest.model.BuildLink;
+import ngusd.rest.model.PageSteps;
 
 public class ScenarioDocuFilesystem {
 	
@@ -22,7 +26,7 @@ public class ScenarioDocuFilesystem {
 	}
 	
 	public List<Branch> getBranches() {
-		return XMLFileUtil.unmarshallListOfFilesFromSubdirs(rootDir, "branch.xml", Branch.class);
+		return XMLFileUtil.unmarshalListOfFilesFromSubdirs(rootDir, "branch.xml", Branch.class);
 	}
 	
 	public Branch getBranch(final String branchName) {
@@ -33,7 +37,7 @@ public class ScenarioDocuFilesystem {
 	public List<BuildLink> getBuilds(final String branchName) {
 		File dir = filePath(branchName);
 		List<BuildLink> result = new ArrayList<BuildLink>();
-		for (ObjectFromDirectory<Build> build : XMLFileUtil.unmarshallListOfFilesFromSubdirsWithDirNames(dir,
+		for (ObjectFromDirectory<Build> build : XMLFileUtil.unmarshalListOfFilesFromSubdirsWithDirNames(dir,
 				"build.xml", Build.class)) {
 			BuildLink link = new BuildLink(build.getObject(), build.getDirectoryName());
 			result.add(link);
@@ -48,7 +52,7 @@ public class ScenarioDocuFilesystem {
 	
 	public List<UseCase> getUsecases(final String branchName, final String buildName) {
 		File dir = filePath(branchName, buildName);
-		return XMLFileUtil.unmarshallListOfFilesFromSubdirs(dir, "usecase.xml", UseCase.class);
+		return XMLFileUtil.unmarshalListOfFilesFromSubdirs(dir, "usecase.xml", UseCase.class);
 	}
 	
 	public UseCase getUsecase(final String branchName, final String buildName, final String usecaseName) {
@@ -58,7 +62,7 @@ public class ScenarioDocuFilesystem {
 	
 	public List<Scenario> getScenarios(final String branchName, final String buildName, final String usecaseName) {
 		File dir = filePath(branchName, buildName, usecaseName);
-		return XMLFileUtil.unmarshallListOfFilesFromSubdirs(dir, "scenario.xml", Scenario.class);
+		return XMLFileUtil.unmarshalListOfFilesFromSubdirs(dir, "scenario.xml", Scenario.class);
 	}
 	
 	public Scenario getScenario(final String branchName, final String buildName, final String usecaseName,
@@ -75,4 +79,23 @@ public class ScenarioDocuFilesystem {
 		return file;
 	}
 	
+	public List<PageSteps> readPageSteps(final String branchName, final String buildName, final String usecaseName,
+			final String scenarioName) {
+		File dir = filePath(branchName, buildName, usecaseName, scenarioName, "steps");
+		List<Step> steps = XMLFileUtil.unmarshalListOfFiles(dir, Step.class);
+		List<PageSteps> result = new ArrayList<PageSteps>();
+		Page page = null;
+		PageSteps pageSteps = null;
+		for (Step step : steps) {
+			if (page == null || step.getPage() == null || page.getName() != step.getPage().getName()) {
+				page = step.getPage();
+				pageSteps = new PageSteps();
+				pageSteps.setPage(page);
+				pageSteps.setSteps(new ArrayList<StepDescription>());
+				result.add(pageSteps);
+			}
+			pageSteps.getSteps().add(step.getStep());
+		}
+		return result;
+	}
 }
