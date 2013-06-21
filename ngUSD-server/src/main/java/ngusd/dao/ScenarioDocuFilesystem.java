@@ -1,12 +1,15 @@
 package ngusd.dao;
 
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import ngusd.docu.model.Branch;
 import ngusd.docu.model.Build;
 import ngusd.docu.model.Scenario;
+import ngusd.docu.model.Step;
 import ngusd.docu.model.UseCase;
 import ngusd.rest.model.BuildLink;
 
@@ -73,6 +76,15 @@ public class ScenarioDocuFilesystem {
 			file = new File(file, name);
 		}
 		return file;
+	}
+	
+	public Step getStep(final String branchName, final String buildName, final String usecaseName,
+			final String scenarioName, final String pageName,
+			final int stepIndex) {
+		NumberFormat nf = new DecimalFormat("000");
+		String stepIndexPadded = nf.format(stepIndex);
+		File file = filePath(branchName, buildName, usecaseName, scenarioName, "steps", stepIndexPadded);
+		return XMLFileUtil.unmarshal(file, Step.class);
 	}
 	
 }
