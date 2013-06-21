@@ -32,16 +32,4 @@ public class UseCasesResource {
 		return result;
 	}
 	
-	@GET
-	@Produces({ "application/xml", "application/json" })
-	@Path("{usecaseName}/scenarios")
-	public UseCaseScenarios listScenarios(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName) {
-		UseCase usecase = filesystem.getUsecase(branchName, buildName, usecaseName);
-		UseCaseScenarios item = new UseCaseScenarios();
-		item.setUseCase(usecase);
-		item.setScenarios(filesystem.getScenarios(branchName, buildName, usecase.getName()));
-		return item;
-	}
-	
 }

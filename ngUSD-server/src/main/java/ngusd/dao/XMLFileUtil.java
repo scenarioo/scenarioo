@@ -30,11 +30,27 @@ public class XMLFileUtil {
 		
 	}
 	
+	public static <T> List<T> unmarshalListOfFiles(final File directory, final Class<T> targetClass,
+			final Class<?>... classesToBind) {
+		List<T> result = new ArrayList<T>();
+		if (!directory.exists() || !directory.isDirectory()) {
+			throw new ResourceNotFoundException(directory.getAbsolutePath());
+		}
+		File[] files = directory.listFiles();
+		Arrays.sort(files, new AlphanumericFileComparator());
+		for (File file : files) {
+			if (!file.isDirectory()) {
+				result.add(unmarshal(file, targetClass, classesToBind));
+			}
+		}
+		return result;
+	}
+	
 	/**
 	 * Read all files with given name from all subdirectories of 'directory' and
 	 * unmarshall these to the given object type.
 	 */
-	public static <T> List<ObjectFromDirectory<T>> unmarshallListOfFilesFromSubdirsWithDirNames(final File directory,
+	public static <T> List<ObjectFromDirectory<T>> unmarshalListOfFilesFromSubdirsWithDirNames(final File directory,
 			final String filename,
 			final Class<T> targetClass, final Class<?>... classesToBind) {
 		
@@ -57,7 +73,7 @@ public class XMLFileUtil {
 	 * Read all files with given name from all subdirectories of 'directory' and
 	 * unmarshall these to the given object type.
 	 */
-	public static <T> List<T> unmarshallListOfFilesFromSubdirs(final File directory,
+	public static <T> List<T> unmarshalListOfFilesFromSubdirs(final File directory,
 			final String filename,
 			final Class<T> targetClass, final Class<?>... classesToBind) {
 		List<T> result = new ArrayList<T>();
