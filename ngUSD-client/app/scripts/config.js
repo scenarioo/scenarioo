@@ -8,7 +8,7 @@ NgUsdClientApp.value('Config', {
     branchUrlParameter: "branch",
     branchDefaultValue: "trunk",
 
-    selectedBuild: function () {
+    selectedBuild: function ($location) {
         var params = $location.search();
         if (params != null && params[this.buildUrlParameter] != null ) {
             return params[this.buildUrlParameter];
@@ -16,7 +16,7 @@ NgUsdClientApp.value('Config', {
             return this.buildDefaultValue;
         }
     },
-    selectedBranch: function () {
+    selectedBranch: function ($location) {
         var params = $location.search();
         if (params != null && params[this.branchUrlParameter] != null ) {
             return params[this.branchUrlParameter];

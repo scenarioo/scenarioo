@@ -1,10 +1,10 @@
 'use strict';
 
-NgUsdClientApp.controller('MainCtrl', function ($scope, UseCaseService) {
+NgUsdClientApp.controller('MainCtrl', function ($scope, $location, Config, UseCaseService) {
 
     $scope.searchFieldText;
 
-    $scope.useCases = UseCaseService.findAllUseCases("trunk", "current");
+    $scope.useCases = UseCaseService.findAllUseCases(Config.selectedBranch($location), Config.selectedBuild($location));
 
     $scope.resetSearchField = function() {
             $scope.searchFieldText = '';
