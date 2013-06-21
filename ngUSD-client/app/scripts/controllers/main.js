@@ -4,7 +4,7 @@ NgUsdClientApp.controller('MainCtrl', function ($scope, $location, Config, UseCa
 
     $scope.searchFieldText;
 
-    $scope.useCases = UseCaseService.findAllUseCases(Config.selectedBranch($location), Config.selectedBuild($location));
+    $scope.useCaseScenariosList = UseCaseService.findAllUseCases(Config.selectedBranch($location), Config.selectedBuild($location));
 
     $scope.resetSearchField = function() {
             $scope.searchFieldText = '';
