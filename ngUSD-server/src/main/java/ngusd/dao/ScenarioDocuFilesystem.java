@@ -87,7 +87,7 @@ public class ScenarioDocuFilesystem {
 		Page page = null;
 		PageSteps pageSteps = null;
 		for (Step step : steps) {
-			if (page == null || step.getPage() == null || page.getName() != step.getPage().getName()) {
+			if (page == null || step.getPage() == null || !page.equals(step.getPage())) {
 				page = step.getPage();
 				pageSteps = new PageSteps();
 				pageSteps.setPage(page);
