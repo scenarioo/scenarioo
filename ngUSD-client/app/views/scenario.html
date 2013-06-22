@@ -20,17 +20,18 @@
                         <tr>
 
                             <th>Screenshot</th>
-                            <th>Page-Name</th>
-                            <th>Step-Title</th>
+                            <th>Step-Nr. - Title</th>
                         </tr>
                     </thead>
                     <tbody ng-repeat="pageSteps in pagesAndSteps">
-                        <tr ng-repeat="step in pageSteps.steps">
+                        <tr ng-repeat="step in pageSteps.steps | filter:searchFieldText">
                             <td>
                                 <span class="label {{step.status}}">{{step.status}}</span>
                             </td>
-                            <td>{{pageSteps.page.name}}</td>
-                            <td>{{step.title}}</td>
+                            <td>
+                                <b>{{$parent.$index}}.{{$index}} - {{step.title || "untitled"}}</b><br/>
+                                {{pageSteps.page.name}}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
