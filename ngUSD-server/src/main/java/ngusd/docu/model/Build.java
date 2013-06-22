@@ -15,7 +15,6 @@ public class Build {
 	private Date date;
 	private String state;
 	private Details details = new Details();
-	private String linkName;
 	
 	public Build() {
 	}
