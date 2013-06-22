@@ -16,19 +16,22 @@
         <div class="row-fluid">
             <div class="span12">
                 <table class="table table-stiped table-bordered table-hover">
-                    <tr>
-                        <th>Screenshot</th>
-                        <th>Page-Name</th>
-                        <th>Step-Title</th>
-                    </tr>
-                    <tbody>
-                    <tr ng-repeat="page in pagesAndSteps | filter:searchFieldText">
-                        <td>
-                            <span class="label {{scenario.buildStateClass}}">{{scenario.status}}</span>
-                        </td>
-                        <td>{{scenario.name}}</td>
-                        <td>{{scenario.description}}</td>
-                    </tr>
+                    <thead>
+                        <tr>
+
+                            <th>Screenshot</th>
+                            <th>Page-Name</th>
+                            <th>Step-Title</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="pageSteps in pagesAndSteps">
+                        <tr ng-repeat="step in pageSteps.steps">
+                            <td>
+                                <span class="label {{step.status}}">{{step.status}}</span>
+                            </td>
+                            <td>{{pageSteps.page.name}}</td>
+                            <td>{{step.title}}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
