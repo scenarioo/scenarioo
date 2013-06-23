@@ -13,14 +13,23 @@ import javax.xml.bind.Unmarshaller;
 
 public class XMLFileUtil {
 	
-	public static void marshal(final Object object,
-			final File destFile, Class<?>... classesToBind) {
+	/**
+	 * List all files in the given directory sorted alphanumerically using a
+	 * collator.
+	 */
+	public static File[] listFiles(final File directory) {
+		File[] files = directory.listFiles();
+		Arrays.sort(files, new AlphanumericFileComparator());
+		return files;
+	}
+	
+	public static <T> void marshal(final T object,
+			final File destFile, final Class<T> rootClass, Class<?>... classesToBind) {
 		JAXBContext contextObj;
 		try {
-			
+			classesToBind = appendClass(classesToBind, rootClass);
 			classesToBind = appendClass(classesToBind, HashMap.class);
 			contextObj = JAXBContext.newInstance(classesToBind);
-			
 			Marshaller marshallerObj = contextObj.createMarshaller();
 			marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			marshallerObj.marshal(object, new FileOutputStream(destFile));
@@ -36,9 +45,7 @@ public class XMLFileUtil {
 		if (!directory.exists() || !directory.isDirectory()) {
 			throw new ResourceNotFoundException(directory.getAbsolutePath());
 		}
-		File[] files = directory.listFiles();
-		Arrays.sort(files, new AlphanumericFileComparator());
-		for (File file : files) {
+		for (File file : listFiles(directory)) {
 			if (!file.isDirectory()) {
 				result.add(unmarshal(file, targetClass, classesToBind));
 			}
@@ -58,7 +65,7 @@ public class XMLFileUtil {
 		if (!directory.exists() || !directory.isDirectory()) {
 			throw new ResourceNotFoundException(directory.getAbsolutePath());
 		}
-		for (File subDir : directory.listFiles()) {
+		for (File subDir : listFiles(directory)) {
 			if (subDir.isDirectory()) {
 				File file = new File(subDir, filename);
 				if (file.exists()) {
@@ -80,7 +87,7 @@ public class XMLFileUtil {
 		if (!directory.exists() || !directory.isDirectory()) {
 			throw new ResourceNotFoundException(directory.getAbsolutePath());
 		}
-		for (File subDir : directory.listFiles()) {
+		for (File subDir : listFiles(directory)) {
 			if (subDir.isDirectory()) {
 				File file = new File(subDir, filename);
 				if (file.exists()) {

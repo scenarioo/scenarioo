@@ -11,9 +11,8 @@ public class Scenario {
 	private String name;
 	private String description;
 	private String status = "";
-	private int numberOfPages;
-	private int numberOfSteps;
 	private Details details = new Details();
+	private ScenarioCalculatedData calculatedData;
 	
 	public Scenario() {
 		this("", "", 0, 0);
@@ -23,8 +22,6 @@ public class Scenario {
 		super();
 		this.name = name;
 		this.description = description;
-		this.numberOfPages = numberOfPages;
-		this.numberOfSteps = numberOfSteps;
 	}
 	
 	public String getName() {
@@ -51,28 +48,20 @@ public class Scenario {
 		this.status = status;
 	}
 	
-	public int getNumberOfPages() {
-		return numberOfPages;
-	}
-	
-	public void setNumberOfPages(final int numberOfPages) {
-		this.numberOfPages = numberOfPages;
-	}
-	
-	public int getNumberOfSteps() {
-		return numberOfSteps;
-	}
-	
-	public void setNumberOfSteps(final int numberOfSteps) {
-		this.numberOfSteps = numberOfSteps;
-	}
-	
 	public Details getDetails() {
 		return details;
 	}
 	
-	public void setDetails(Details details) {
+	public void setDetails(final Details details) {
 		this.details = details;
+	}
+	
+	public ScenarioCalculatedData getCalculatedData() {
+		return calculatedData;
+	}
+	
+	public void setCalculatedData(final ScenarioCalculatedData calculatedData) {
+		this.calculatedData = calculatedData;
 	}
 	
 }

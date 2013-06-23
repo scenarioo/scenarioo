@@ -6,12 +6,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import ngusd.dao.ScenarioDocuFilesystem;
-
 @Path("/rest/branches/{branchName}/builds/{buildName}/usecases/{usecaseName}/scenarios/{scenarioName}/pages/{pageName}/{pageOccurenceInScenario}/steps/{stepIndex}")
 public class ScreenshotResource {
-	
-	ScenarioDocuFilesystem filesystem = new ScenarioDocuFilesystem();
 	
 	@GET
 	@Produces({ "application/xml", "application/json" })

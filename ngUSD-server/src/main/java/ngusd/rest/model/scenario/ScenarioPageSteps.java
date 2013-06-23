@@ -1,4 +1,4 @@
-package ngusd.rest.model;
+package ngusd.rest.model.scenario;
 
 import java.util.List;
 
@@ -11,6 +11,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import ngusd.docu.model.Scenario;
 import ngusd.docu.model.UseCase;
 
+/**
+ * Represents a scenario of a usecase with all its pages and steps.
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ScenarioPageSteps {

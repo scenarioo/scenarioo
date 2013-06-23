@@ -1,4 +1,4 @@
-package ngusd.rest.model;
+package ngusd.rest.model.usecases;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import ngusd.docu.model.Scenario;
 import ngusd.docu.model.UseCase;
 
+/**
+ * Represents a use case with all its scenarios
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UseCaseScenarios {

@@ -1,4 +1,4 @@
-package ngusd.rest.model;
+package ngusd.rest.model.branches;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

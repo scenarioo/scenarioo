@@ -1,4 +1,4 @@
-package ngusd.rest.model;
+package ngusd.rest.model.branches;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import ngusd.docu.model.Branch;
 
 /**
- * All builds for a specififc branch
+ * Represents a branch and all its belonging builds.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

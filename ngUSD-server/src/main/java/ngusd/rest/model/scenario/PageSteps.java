@@ -1,4 +1,4 @@
-package ngusd.rest.model;
+package ngusd.rest.model.scenario;
 
 import java.util.List;
 
