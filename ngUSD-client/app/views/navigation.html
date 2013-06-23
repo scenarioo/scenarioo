@@ -28,7 +28,7 @@
                                    <span class="label buildState" ng-class="getStatusType(build.build.state)">{{build.build.state}}</span>
                                    {{getDisplayName(build)}}
                                </div>
-                               <div class="buildDate">{{build.date | date:'MM/dd/yyyy HH:mm:ss'}}</div>
+                               <div class="buildDate">{{build.build.date | date:'MM/dd/yyyy HH:mm:ss'}}</div>
                            </div>
                        </a>
                    </li>
