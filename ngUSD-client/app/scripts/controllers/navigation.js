@@ -23,9 +23,7 @@ NgUsdClientApp
 
         function reload() {
             $scope.selectedBranch = retrieveOrCookieOrDefault($scope.branches, 'branch');
-            if ($scope.selectedBranch != null) {
-                $scope.selectedBuild = retrieveOrCookieOrDefault($scope.selectedBranch.builds, 'build');
-            }
+            $scope.selectedBuild = retrieveOrCookieOrDefault($scope.selectedBranch.builds, 'build');
         }
         function getQueryParameter(paramName) {
             var params = $location.search()
@@ -85,6 +83,7 @@ NgUsdClientApp
         }
 
         $scope.setBuild = function(branch, build) {
+            $scope.selectedBranch = branch;
             $scope.selectedBuild = build;
             setParameter('branch', (branch.branch.name == defaultValue['branch'] && build.linkName == defaultValue['build'])? null :$scope.selectedBranch.branch.name);
             setParameter('build', (build.linkName == defaultValue['build'])? null : $scope.selectedBuild.build.name);
@@ -95,19 +94,18 @@ NgUsdClientApp
             $location.search(parameterUrl[type], value);
             $cookieStore.put(parameterCookie[type], value);
         }
-    }
 
-
-    $scope.getStatusType = function(status){
-        return statesToClass[status];
-    }
-
-    $scope.getDisplayName = function(build) {
-        if (build.build.name != build.linkName) {
-            return build.linkName;
-        } else {
-            return "Revision: "+build.build.revision;
+        $scope.getStatusType = function(status){
+            return statesToClass[status];
         }
 
+        $scope.getDisplayName = function(build) {
+            if (build.build.name != build.linkName) {
+                return build.linkName;
+            } else {
+                return "Revision: "+build.build.revision;
+            }
+
+        }
     }
 }]);

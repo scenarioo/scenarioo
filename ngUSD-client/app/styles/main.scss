@@ -4,23 +4,13 @@
   width: 500px;
 }
 
-.header .builds.dropdown ul.dropdown-menu,
-.header .builds.dropdown ul.dropdown-menu li {
+.header .dropdown .dropdown-menu,
+.header .dropdown .dropdown-menu li {
   width: 100%;
 }
 
-.header .buildState {
-  width: 80px;
-  text-align: center;
-  margin-right: 10px;
-}
-.header .buildDate {
-  display: inline-block;
-  width: 20%;
-}
 .header .buildLabel {
-  display: inline-block;
-  width: 70%;
+  padding-left: 20px;
 }
 
 .header .headerLabel {
@@ -29,6 +19,7 @@
 }
 
 .label.state {
-  width: 100%;
+  min-width: 80px;
+  text-align: center;
   padding-right: -8px !important;
 }

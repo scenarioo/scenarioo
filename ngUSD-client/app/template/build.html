@@ -1,0 +1,7 @@
+<div class="row-fluid link">
+    <div class="span2"><div class="label state" ng-class="getStatusType(build.build.state)">{{build.build.state}}</div></div>
+    <div class="span6 buildLabel">
+        {{getDisplayName(build)}}
+    </div>
+    <div class="span4 buildDate">{{build.build.date | date:'MM/dd/yyyy HH:mm:ss'}}</div>
+</div>

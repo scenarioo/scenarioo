@@ -13,27 +13,20 @@
                     </li>
                 </ul>
             </li>
-           <li class="builds dropdown">
-               <a class="dropdown-toggle">
-                   <span class="headerLabel">Build:</span>
-                   {{getDisplayName(selectedBuild)}}
-                   <span class="label buildState" style="margin-left: 10px" ng-class="getStatusType(selectedBuild.build.state)">{{selectedBuild.build.state}}</span>
-                   <b class="caret"></b>
-               </a>
-               <ul class="dropdown-menu">
-                   <li ng-repeat="build in selectedBranch.builds">
-                       <a class="buildItem" ng-click="setBuild(selectedBranch, build)">
-                           <div style="width: 100%">
-                               <div class="buildLabel">
-                                   <span class="label buildState" ng-class="getStatusType(build.build.state)">{{build.build.state}}</span>
-                                   {{getDisplayName(build)}}
-                               </div>
-                               <div class="buildDate">{{build.build.date | date:'MM/dd/yyyy HH:mm:ss'}}</div>
-                           </div>
-                       </a>
-                   </li>
-               </ul>
-           </li>
+            <li class="builds dropdown">
+                <a class="dropdown-toggle">
+                    <span class="headerLabel">Build:</span>
+                    {{getDisplayName(selectedBuild)}}
+                    <span class="label state" style="margin-left: 10px" ng-class="getStatusType(selectedBuild.build.state)">{{selectedBuild.build.state}}</span>
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu container-fluid">
+                    <li ng-repeat="build in selectedBranch.builds">
+                        <a ng-include="'/template/build.html'" ng-click="setBuild(selectedBranch, build)">
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </div>
 </div>
