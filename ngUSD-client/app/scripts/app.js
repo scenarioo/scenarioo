@@ -6,12 +6,13 @@ NgUsdClientApp.config(function ($routeProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: 'views/main.html',
-                controller: 'MainCtrl'
+                controller: 'MainCtrl',
+                breadcrumb: "<i class='icon-home'></i>"
             })
             .when('/usecase/:useCaseName', {
                 templateUrl: 'views/usecase.html',
                 controller: 'UseCaseCtrl',
-                useCaseName: '@useCaseName'
+                useCaseName: '@useCaseName',
             })
             .when('/scenario/:useCaseName/:scenarioName', {
                 templateUrl: 'views/scenario.html',
@@ -28,7 +29,6 @@ NgUsdClientApp.config(function ($routeProvider) {
                 pageName: '@pageName',
                 pageOccurenceInScenario: '@pageOccurenceInScenario',
                 stepIndex: '@stepIndex'
-
 
             })
             .otherwise({

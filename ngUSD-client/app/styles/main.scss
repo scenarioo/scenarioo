@@ -1,5 +1,8 @@
 @import "compass_twitter_bootstrap";
 
+$FontAwesomePath: "/components/font-awesome/font";
+@import "font-awesome/scss/font-awesome.scss";
+
 .header .builds.dropdown {
   width: 500px;
 }
@@ -15,11 +18,15 @@
 
 .header .headerLabel {
   margin-right: 10px;
-  font-weight: bold;
 }
 
 .label.state {
   min-width: 80px;
   text-align: center;
   padding-right: -8px !important;
+}
+
+.icon-with-padding {
+  padding-left: 5px;
+  padding-right: 10px;
 }

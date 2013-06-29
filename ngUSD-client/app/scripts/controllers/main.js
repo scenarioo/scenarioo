@@ -18,5 +18,10 @@ NgUsdClientApp.controller('MainCtrl', function ($scope, $location, Config, UseCa
         }
     }
 
-  });
+    $scope.go = function(useCaseName) {
+        $location.path('/usecase/' +useCaseName);
+    }
+
+
+});
 

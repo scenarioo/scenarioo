@@ -1,3 +1,5 @@
+<usd-breadcrumb></usd-breadcrumb>
+
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span6 hero-unit"><h3>Welcome to the ngUSD</h3></div>
@@ -31,26 +33,33 @@
     </div>
 
 
-    <div class="span2,input-append">
-        <input data-toggle="tooltip" title="filter for use case" ng-model="searchFieldText"/>
-        <button ng-click="resetSearchField()" class="btn1">reset</button>
-    </div>
-    <div class="spanResultTable">
-        <table ng-table="tableParams" class="table table-bordered">
-            <tr>
-                <th>Status</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th># Scenarios</th>
-            </tr>
-            <tr ng-repeat="useCaseScenarios in useCaseScenariosList | filter:searchFieldText">
-                <td>
-                    <span ng-class="getStatusType(useCaseScenarios.useCase.status)">{{useCaseScenarios.useCase.status}}</span>
-                </td>
-                <td><a href='#/usecase/{{useCaseScenarios.useCase.name}}'>{{useCaseScenarios.useCase.name}}</a></td>
-                <td>{{useCaseScenarios.useCase.description}}</td>
-                <td>{{useCaseScenarios.scenarios.length}}</td>
-            </tr>
+    <div class="resultTable row-fluid span12">
+        <div class="controls">
+            <div class="input-append">
+                <input class="span2 ng-pristine ng-valid tableSearch" id="useCasesSearchField" data-toggle="tooltip" title="filter for use case" ng-model="searchFieldText" placeholder="Search use case..."/>
+                <button ng-click="resetSearchField()" class="btn">reset</button>
+            </div>
+        </div>
+
+        <table ng-table="tableParams" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th># Scenarios</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="useCaseScenarios in useCaseScenariosList | filter:searchFieldText" ng-click="go(useCaseScenarios.useCase.name)" class="link">
+                    <td>
+                        <span ng-class="getStatusType(useCaseScenarios.useCase.status)">{{useCaseScenarios.useCase.status}}</span>
+                    </td>
+                    <td>{{useCaseScenarios.useCase.name}}</td>
+                    <td>{{useCaseScenarios.useCase.description}}</td>
+                    <td>{{useCaseScenarios.scenarios.length}}</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>

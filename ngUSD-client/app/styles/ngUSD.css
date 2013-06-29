@@ -1,11 +1,33 @@
 
-.spanResultTable {
-    float: none;
-    margin-left: 20px;
-    margin-top: 50px;
-    position: absolute;
+.resultTable {
+    margin-left: 0px;
 }
 
 .link {
       cursor: pointer;
+}
+
+.table {
+    border-width: 2px;
+}
+.table thead {
+    background-color: whitesmoke;
+    background-image: linear-gradient(to bottom, #FFFFFF, #E6E6E6);
+}
+
+.table tbody, input.tableSearch {
+    background-color: #FAFAFA;
+}
+
+.breadcrumbs {
+    margin-bottom: 15px:
+}
+
+.breadcrumbs ul {
+    list-style: none outside none;
+}
+
+.breadcrumbs ul li {
+    padding-left: 5px;
+    float: left;
 }

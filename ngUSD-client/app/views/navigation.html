@@ -2,10 +2,12 @@
     <div class="navbar-inner">
         <a class="brand" href="#">ngUSD</a>
         <ul class="nav">
+            <li><a href="#"><i class="icon-home icon-with-padding"></i>Home</a></li>
             <li class="dropdown">
                 <a class="dropdown-toggle">
-                    <span class="headerLabel">Branch:</span>
-                    {{selectedBranch.branch.name}}<b class="caret"></b>
+                    <span class="headerLabel"><i class="icon-hdd icon-with-padding"></i>Branch:</span>
+                    {{selectedBranch.branch.name}}
+                    <div class="icon-with-padding"><b class="caret"></b></div>
                 </a>
                 <ul class="dropdown-menu">
                     <li ng-repeat="branch in branches">
@@ -15,10 +17,10 @@
             </li>
             <li class="builds dropdown">
                 <a class="dropdown-toggle">
-                    <span class="headerLabel">Build:</span>
+                    <span class="headerLabel"><i class="icon-folder-close-alt icon-with-padding"></i>Build:</span>
                     {{getDisplayName(selectedBuild)}}
                     <span class="label state" style="margin-left: 10px" ng-class="getStatusType(selectedBuild.build.state)">{{selectedBuild.build.state}}</span>
-                    <b class="caret"></b>
+                    <div class="icon-with-padding"><b class="caret"></b></div>
                 </a>
                 <ul class="dropdown-menu container-fluid">
                     <li ng-repeat="build in selectedBranch.builds">
