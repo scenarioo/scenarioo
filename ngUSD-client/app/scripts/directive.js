@@ -22,7 +22,7 @@ NgUsdClientApp.directive('usdBreadcrumb', function($location, $route            
 
                 var routeKey = findPath($route.routes, path);
                 var route = $route.routes[routeKey];
-                if(route != null) {
+                if(route) {
                     var text = item;
                     if (route.breadcrumb != undefined) {
                         text = route.breadcrumb;

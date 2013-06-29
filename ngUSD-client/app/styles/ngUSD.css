@@ -35,7 +35,18 @@
 .screenshot-small {
     height: 500px;
     overflow:hidden;
+    margin-bottom: 30px;
+}
+
+.hero-unit-hover:hover {
+    background-color: #F8F8F8;
+    border-radius: 6px 6px 6px 6px;
 }
 .screenshot-small img {
     width: 800px;
+}
+
+.hero-unit-small {
+    margin-bottom: 10px;
+    padding: 10px 20px;
 }

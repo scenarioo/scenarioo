@@ -13,8 +13,10 @@ NgUsdClientApp.controller('ScenarioCtrl', ['$scope', '$routeParams', '$location'
             $scope.searchFieldText = '';
         }
 
-        $scope.go = function(useCaseName, scenarioName) {
-            $location.path('/scenario/' +useCaseName + '/' + scenarioName);
+        $scope.go = function(pageSteps, pageIndex, stepIndex) {
+            var pageName = pageSteps.page.name;
+            console.log("Openend: "+'/step/' + useCaseName + '/' + scenarioName + '/' + pageName + '/' + pageIndex + '/' + stepIndex);
+            $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) + '/' + pageIndex + '/' + stepIndex);
         }
 
         $scope.getScreenShotUrl = function(imgName) {
