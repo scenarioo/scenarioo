@@ -100,4 +100,11 @@ public class UserScenarioDocuFilesystem {
 		
 	}
 	
+	public File loadScreenshot(final String branchName, final String buildName, final String usecaseName,
+			final String scenarioName, final String imgName) {
+		File img = filePath(branchName, buildName, usecaseName,
+				scenarioName, "screenshots", imgName);
+		return img;
+	}
+	
 }

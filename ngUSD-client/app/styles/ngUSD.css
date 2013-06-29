@@ -31,3 +31,11 @@
     padding-left: 5px;
     float: left;
 }
+
+.screenshot-small {
+    height: 500px;
+    overflow:hidden;
+}
+.screenshot-small img {
+    width: 800px;
+}

@@ -28,7 +28,9 @@
                     <tbody ng-repeat="pageSteps in pagesAndSteps">
                         <tr ng-repeat="step in pageSteps.steps | filter:searchFieldText">
                             <td>
-                                <span class="label {{step.status}}">{{step.status}}</span>
+                                <div class="screenshot-small">
+                                    <img src="{{getScreenShotUrl(step.screenshotURL)}}"/>
+                                </div>
                             </td>
                             <td>
                                 <b>{{$parent.$index}}.{{$index}} - {{step.title || "untitled"}}</b><br/>

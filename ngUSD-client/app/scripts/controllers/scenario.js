@@ -16,6 +16,10 @@ NgUsdClientApp.controller('ScenarioCtrl', ['$scope', '$routeParams', '$location'
         $scope.go = function(useCaseName, scenarioName) {
             $location.path('/scenario/' +useCaseName + '/' + scenarioName);
         }
+
+        $scope.getScreenShotUrl = function(imgName) {
+            return "http://localhost:8050/ngusd/rest/branches/"+Config.selectedBranch($location)+"/builds/"+Config.selectedBuild($location)+"/usecases/"+useCaseName+"/scenarios/"+scenarioName+"/image/"+imgName;
+        }
     });
 
 }]);
