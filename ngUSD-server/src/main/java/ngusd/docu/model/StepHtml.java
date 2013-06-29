@@ -1,22 +1,17 @@
 package ngusd.docu.model;
 
+import lombok.Data;
+
+@Data
 public class StepHtml {
 	
 	private String htmlSource = "";
 	
-	public StepHtml() {		
+	public StepHtml() {
 	}
 	
-	public StepHtml(String htmlSource) {
+	public StepHtml(final String htmlSource) {
 		this.htmlSource = htmlSource;
 	}
-
-	public String getHtmlSource() {
-		return htmlSource;
-	}
-
-	public void setHtmlSource(String htmlSource) {
-		this.htmlSource = htmlSource;
-	}
-
+	
 }

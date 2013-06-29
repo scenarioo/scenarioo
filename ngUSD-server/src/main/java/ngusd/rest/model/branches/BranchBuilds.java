@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
 import ngusd.docu.model.Branch;
 
 /**
@@ -16,6 +17,7 @@ import ngusd.docu.model.Branch;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@Data()
 public class BranchBuilds {
 	
 	private Branch branch;
@@ -23,24 +25,5 @@ public class BranchBuilds {
 	@XmlElementWrapper(name = "builds")
 	@XmlElement(name = "buildLink")
 	private List<BuildLink> builds = new ArrayList<BuildLink>();
-	
-	public BranchBuilds() {
-	}
-	
-	public Branch getBranch() {
-		return branch;
-	}
-	
-	public void setBranch(final Branch branch) {
-		this.branch = branch;
-	}
-	
-	public List<BuildLink> getBuilds() {
-		return builds;
-	}
-	
-	public void setBuilds(final List<BuildLink> builds) {
-		this.builds = builds;
-	}
 	
 }

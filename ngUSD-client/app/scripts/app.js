@@ -12,7 +12,7 @@ NgUsdClientApp.config(function ($routeProvider) {
             .when('/usecase/:useCaseName', {
                 templateUrl: 'views/usecase.html',
                 controller: 'UseCaseCtrl',
-                useCaseName: '@useCaseName',
+                useCaseName: '@useCaseName'
             })
             .when('/scenario/:useCaseName/:scenarioName', {
                 templateUrl: 'views/scenario.html',

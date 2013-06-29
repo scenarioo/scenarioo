@@ -8,11 +8,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
 import ngusd.docu.model.Page;
 import ngusd.docu.model.StepDescription;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@Data
 public class PageSteps {
 	
 	private Page page;
@@ -20,21 +22,5 @@ public class PageSteps {
 	@XmlElementWrapper(name = "steps")
 	@XmlElement(name = "step")
 	private List<StepDescription> steps;
-	
-	public Page getPage() {
-		return page;
-	}
-	
-	public void setPage(final Page page) {
-		this.page = page;
-	}
-	
-	public List<StepDescription> getSteps() {
-		return steps;
-	}
-	
-	public void setSteps(final List<StepDescription> steps) {
-		this.steps = steps;
-	}
 	
 }

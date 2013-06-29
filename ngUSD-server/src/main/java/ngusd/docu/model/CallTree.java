@@ -9,8 +9,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@Data
 public class CallTree {
 	
 	private Call call;
@@ -18,22 +21,6 @@ public class CallTree {
 	@XmlElementWrapper(name = "childCallTrees")
 	@XmlElement(name = "callTree")
 	private List<CallTree> childCallTrees = new ArrayList<CallTree>();
-	
-	public Call getCall() {
-		return call;
-	}
-	
-	public void setCall(final Call call) {
-		this.call = call;
-	}
-	
-	public List<CallTree> getChildCallTrees() {
-		return childCallTrees;
-	}
-	
-	public void setChildCallTrees(final List<CallTree> childCallTrees) {
-		this.childCallTrees = childCallTrees;
-	}
 	
 	public void addChildCallTree(final CallTree callTree) {
 		childCallTrees.add(callTree);

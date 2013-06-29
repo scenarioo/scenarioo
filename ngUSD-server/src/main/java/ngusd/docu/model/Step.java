@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+
 /**
  * Contains all the data collected from a webtest for one step of the webtest.
  * 
@@ -12,6 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@Data
 public class Step {
 	
 	private Page page;
@@ -23,45 +26,5 @@ public class Step {
 	private CallTree callTree = new CallTree();
 	
 	private StepMetadata metadata = new StepMetadata();
-	
-	public Page getPage() {
-		return page;
-	}
-	
-	public void setPage(final Page page) {
-		this.page = page;
-	}
-	
-	public StepDescription getStep() {
-		return step;
-	}
-	
-	public void setStep(final StepDescription step) {
-		this.step = step;
-	}
-	
-	public StepHtml getHtml() {
-		return html;
-	}
-	
-	public void setHtml(final StepHtml html) {
-		this.html = html;
-	}
-	
-	public CallTree getCallTree() {
-		return callTree;
-	}
-	
-	public void setCallTree(final CallTree callTree) {
-		this.callTree = callTree;
-	}
-	
-	public StepMetadata getMetadata() {
-		return metadata;
-	}
-	
-	public void setMetadata(final StepMetadata metadata) {
-		this.metadata = metadata;
-	}
 	
 }

@@ -4,8 +4,11 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@Data
 public class Scenario {
 	
 	private String name;
@@ -22,46 +25,6 @@ public class Scenario {
 		super();
 		this.name = name;
 		this.description = description;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(final String name) {
-		this.name = name;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-	
-	public void setDescription(final String description) {
-		this.description = description;
-	}
-	
-	public String getStatus() {
-		return status;
-	}
-	
-	public void setStatus(final String status) {
-		this.status = status;
-	}
-	
-	public Details getDetails() {
-		return details;
-	}
-	
-	public void setDetails(final Details details) {
-		this.details = details;
-	}
-	
-	public ScenarioCalculatedData getCalculatedData() {
-		return calculatedData;
-	}
-	
-	public void setCalculatedData(final ScenarioCalculatedData calculatedData) {
-		this.calculatedData = calculatedData;
 	}
 	
 }

@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Data;
 import ngusd.docu.model.Build;
 
 /**
@@ -14,6 +15,7 @@ import ngusd.docu.model.Build;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@Data
 public class BuildLink {
 	
 	private String linkName;
@@ -31,21 +33,4 @@ public class BuildLink {
 		this.build = build;
 		this.linkName = linkName;
 	}
-	
-	public String getLinkName() {
-		return linkName;
-	}
-	
-	public void setLinkName(final String linkName) {
-		this.linkName = linkName;
-	}
-	
-	public Build getBuild() {
-		return build;
-	}
-	
-	public void setBuild(final Build build) {
-		this.build = build;
-	}
-	
 }
