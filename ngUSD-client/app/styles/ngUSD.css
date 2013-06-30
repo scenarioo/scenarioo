@@ -33,7 +33,7 @@
 }
 
 .screenshot-small {
-    height: 500px;
+    max-height: 500px;
     overflow:hidden;
     margin-bottom: 30px;
 }

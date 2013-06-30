@@ -24,9 +24,15 @@
 
             <div class="row-fluid">
                 <div class="span8 offset4">
-                    <div class="screenshot-small hero-unit-hover link" style="text-align: center" ng-repeat="step in pageSteps.steps | filter:searchFieldText" ng-click="go(pageSteps, $parent.$index, $index)">
-                        <div class="hero-unit hero-unit-small"><h4>{{$parent.$index}}.{{$index}} - {{step.title || "untitled"}}</h4></div>
-                        <img src="{{getScreenShotUrl(step.screenshotURL)}}"/>
+                    <div class="screenshot-small hero-unit-hover link" ng-repeat="step in pageSteps.steps | filter:searchFieldText">
+                        <div ng-click="showingSteps[$parent.$index]=!showingSteps[$parent.$index]" ng-show="$index==1">
+                            <i ng-hide="showingSteps[$parent.$index]" class="icon-with-padding icon-large icon-plus-sign link"></i>
+                            <i ng-show="showingSteps[$parent.$index]" class="icon-with-padding icon-large icon-minus-sign link"></i>
+                        </div>
+                        <div ng-click="go(pageSteps, $parent.$index, $index)" ng-show="$index==0 || showingSteps[$parent.$index]">
+                            <div class="hero-unit hero-unit-small"><h4>{{$parent.$index}}.{{$index}} - {{step.title || "untitled"}}</h4></div>
+                            <img src="{{getScreenShotUrl(step.screenshotURL)}}"/>
+                        </div>
                     </div>
                 </div>
             </div>

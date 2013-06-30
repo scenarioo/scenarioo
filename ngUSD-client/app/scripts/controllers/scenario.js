@@ -6,7 +6,7 @@ NgUsdClientApp.controller('ScenarioCtrl', ['$scope', '$routeParams', '$location'
     var pagesAndScenarios = ScenarioService.getScenario(Config.selectedBranch($location), Config.selectedBuild($location), useCaseName, scenarioName, function(pagesAndScenarios) {
         $scope.scenario = pagesAndScenarios.scenario;
         $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
-
+        $scope.showingSteps = [];
 
         $scope.resetSearchField = function() {
             $scope.searchFieldText = '';
