@@ -1,6 +1,6 @@
 'use strict';
 
-NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location, Config, ScenarioService) {
+NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location, Config, ScenarioService, $window) {
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
     $scope.pageName = decodeURIComponent($routeParams.pageName);
@@ -21,6 +21,26 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
         return pagesAndSteps[pageNr].steps[stepNr];
     }
 
+    var w = angular.element($window);
+    w.bind("keypress", function(event) {
+        var ctrlPressed = !!event.ctrlKey;
+        var keyCode = event.keyCode;
+        if (keyCode==37) {
+            if (ctrlPressed) {
+                $scope.goToPreviousPage();
+            } else {
+                $scope.goToPreviousStep();
+            }
+        } else if (keyCode==39) {
+            if (ctrlPressed) {
+                $scope.goToNextPage();
+            } else {
+                $scope.goToNextStep();
+            }
+        }
+        $scope.$apply();
+        return false;
+    });
 
     $scope.getScreenShotUrl = function(imgName) {
         return "http://localhost:8050/ngusd/rest/branches/"+Config.selectedBranch($location)+"/builds/"+Config.selectedBuild($location)+"/usecases/"+useCaseName+"/scenarios/"+scenarioName+"/image/"+imgName;
@@ -44,8 +64,13 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
         var pageIndex = $scope.pageIndex;
         var stepIndex = $scope.stepIndex-1;
         if ($scope.stepIndex==0) {
-            pageIndex = $scope.pageIndex-1;
-            stepIndex = $scope.pagesAndSteps[pageIndex].steps.length-1;
+            if ($scope.pageIndex==0) {
+                pageIndex = 0;
+                stepIndex = 0;
+            } else {
+                pageIndex = $scope.pageIndex-1;
+                stepIndex = $scope.pagesAndSteps[pageIndex].steps.length-1;
+            }
         }
         $scope.go($scope.pagesAndSteps[pageIndex], pageIndex, stepIndex);
     }
