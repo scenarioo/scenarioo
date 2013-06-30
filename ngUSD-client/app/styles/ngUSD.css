@@ -50,3 +50,7 @@
     margin-bottom: 10px;
     padding: 10px 20px;
 }
+
+.step-navigation div {
+    display: inline;
+}
