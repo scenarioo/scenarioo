@@ -4,7 +4,6 @@ NgUsdClientApp.controller('ScenarioCtrl', ['$scope', '$routeParams', '$location'
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
     var pagesAndScenarios = ScenarioService.getScenario(Config.selectedBranch($location), Config.selectedBuild($location), useCaseName, scenarioName, function(pagesAndScenarios) {
-        $scope.useCase = { name: useCaseName };
         $scope.scenario = pagesAndScenarios.scenario;
         $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
 
@@ -15,7 +14,6 @@ NgUsdClientApp.controller('ScenarioCtrl', ['$scope', '$routeParams', '$location'
 
         $scope.go = function(pageSteps, pageIndex, stepIndex) {
             var pageName = pageSteps.page.name;
-            console.log("Openend: "+'/step/' + useCaseName + '/' + scenarioName + '/' + pageName + '/' + pageIndex + '/' + stepIndex);
             $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) + '/' + pageIndex + '/' + stepIndex);
         }
 

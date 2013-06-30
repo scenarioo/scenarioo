@@ -1,6 +1,6 @@
 'use strict';
 
-var NgUsdClientApp = angular.module('ngUSDClientApp', ['ui.bootstrap.dropdownToggle', 'ui.bootstrap.accordion', 'ngResource', 'ng', 'ngCookies']);
+var NgUsdClientApp = angular.module('ngUSDClientApp', ['ui.bootstrap.dropdownToggle', 'ui.bootstrap.tabs', 'ui.bootstrap.accordion', 'ngResource', 'ng', 'ngCookies']);
 
 NgUsdClientApp.config(function ($routeProvider) {
         $routeProvider

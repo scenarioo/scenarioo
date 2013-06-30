@@ -13,6 +13,8 @@ NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$routeParams', '$location',
         });
     });
 
+    $scope.propertiesToShow = Config.scenarioPropertiesInOverview;
+
     $scope.resetSearchField = function() {
         $scope.searchFieldText = '';
     }
@@ -20,5 +22,13 @@ NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$routeParams', '$location',
     $scope.go = function(useCaseName, scenarioName) {
         $location.path('/scenario/' +useCaseName + '/' + scenarioName);
     }
+
+    $scope.goToFirstStep = function(useCaseName, scenarioName) {
+        //FIXME This could be improved, if the scenario service for finding all scenarios would also retrieve the name of the first page
+        var pagesAndScenarios = ScenarioService.getScenario(Config.selectedBranch($location), Config.selectedBuild($location), useCaseName, scenarioName, function(pagesAndScenarios) {
+            $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pagesAndScenarios.pagesAndSteps[0].page.name) + '/0/0');
+        });
+    }
+
 
 }]);

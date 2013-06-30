@@ -8,6 +8,8 @@ NgUsdClientApp.value('Config', {
     branchUrlParameter: "branch",
     branchDefaultValue: "trunk",
 
+    scenarioPropertiesInOverview: ['userProfile', 'configuration'],
+
     selectedBuild: function ($location) {
         var params = $location.search();
         if (params != null && params[this.buildUrlParameter] != null ) {
