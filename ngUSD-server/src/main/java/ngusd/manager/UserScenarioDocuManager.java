@@ -9,8 +9,8 @@ import java.util.List;
 import ngusd.configuration.NgusdConfiguration;
 import ngusd.dao.UserScenarioDocuAggregator;
 import ngusd.dao.UserScenarioDocuFilesystem;
-import ngusd.rest.model.branches.BranchBuilds;
-import ngusd.rest.model.branches.BuildLink;
+import ngusd.model.docu.aggregates.branches.BranchBuilds;
+import ngusd.model.docu.aggregates.branches.BuildLink;
 
 /**
  * Manages the user scenario docu file contents.

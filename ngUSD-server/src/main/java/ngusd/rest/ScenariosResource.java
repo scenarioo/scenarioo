@@ -6,8 +6,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import ngusd.dao.UserScenarioDocuContentDAO;
-import ngusd.rest.model.scenario.ScenarioPageSteps;
-import ngusd.rest.model.usecases.UseCaseScenarios;
+import ngusd.model.docu.aggregates.scenarios.ScenarioPageSteps;
+import ngusd.model.docu.aggregates.usecases.UseCaseScenarios;
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/usecases/{usecaseName}/scenarios/")
 public class ScenariosResource {

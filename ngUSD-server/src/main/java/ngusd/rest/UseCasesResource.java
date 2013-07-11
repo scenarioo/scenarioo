@@ -8,7 +8,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import ngusd.dao.UserScenarioDocuContentDAO;
-import ngusd.rest.model.usecases.UseCaseScenarios;
+import ngusd.model.docu.aggregates.usecases.UseCaseScenarios;
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/usecases/")
 public class UseCasesResource {

@@ -10,6 +10,10 @@ import javax.ws.rs.Produces;
 @Path("/rest/configuration/")
 public class ConfigurationResource {
 	
+	// @GET
+	// @Produces("application/json", "application/xml")
+	// public
+	//
 	@GET
 	@Path("/buildstates")
 	@Produces("application/json")

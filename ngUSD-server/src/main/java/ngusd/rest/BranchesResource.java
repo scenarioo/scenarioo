@@ -7,7 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import ngusd.manager.UserScenarioDocuManager;
-import ngusd.rest.model.branches.BranchBuilds;
+import ngusd.model.docu.aggregates.branches.BranchBuilds;
 
 @Path("/rest/branches/")
 public class BranchesResource {

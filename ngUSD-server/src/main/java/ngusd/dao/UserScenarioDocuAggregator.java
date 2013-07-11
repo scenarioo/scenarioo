@@ -4,16 +4,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import ngusd.docu.model.Page;
-import ngusd.docu.model.Scenario;
-import ngusd.docu.model.ScenarioCalculatedData;
-import ngusd.docu.model.Step;
-import ngusd.docu.model.StepDescription;
-import ngusd.docu.model.UseCase;
-import ngusd.rest.model.scenario.PageSteps;
-import ngusd.rest.model.scenario.ScenarioPageSteps;
-import ngusd.rest.model.usecases.UseCaseScenarios;
-import ngusd.rest.model.usecases.UseCaseScenariosList;
+import ngusd.model.docu.aggregates.scenarios.PageSteps;
+import ngusd.model.docu.aggregates.scenarios.ScenarioPageSteps;
+import ngusd.model.docu.aggregates.usecases.UseCaseScenarios;
+import ngusd.model.docu.aggregates.usecases.UseCaseScenariosList;
+import ngusd.model.docu.entities.Page;
+import ngusd.model.docu.entities.Scenario;
+import ngusd.model.docu.entities.ScenarioCalculatedData;
+import ngusd.model.docu.entities.Step;
+import ngusd.model.docu.entities.StepDescription;
+import ngusd.model.docu.entities.UseCase;
 
 public class UserScenarioDocuAggregator {
 	

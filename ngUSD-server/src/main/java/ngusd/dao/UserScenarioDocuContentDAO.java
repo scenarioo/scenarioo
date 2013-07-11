@@ -3,9 +3,9 @@ package ngusd.dao;
 import java.io.File;
 import java.util.List;
 
-import ngusd.rest.model.scenario.ScenarioPageSteps;
-import ngusd.rest.model.usecases.UseCaseScenarios;
-import ngusd.rest.model.usecases.UseCaseScenariosList;
+import ngusd.model.docu.aggregates.scenarios.ScenarioPageSteps;
+import ngusd.model.docu.aggregates.usecases.UseCaseScenarios;
+import ngusd.model.docu.aggregates.usecases.UseCaseScenariosList;
 
 /**
  * DAO for accessing user scenario docu content from filesystem, that is either
