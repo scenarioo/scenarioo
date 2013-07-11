@@ -89,3 +89,15 @@ NgUsdClientApp.factory('BuildStateService', function ($resource) {
     return buildStateService;
 
 });
+
+NgUsdClientApp.factory('AdminService', function ($resource) {
+    var buildStateService = $resource(RestServerPath + '/admin/update',
+        {
+            port: RestServerPort},
+        {
+            UpdateData: { method: "GET", params: {} }
+        });
+
+    return buildStateService;
+
+});

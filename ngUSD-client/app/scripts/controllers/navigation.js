@@ -1,7 +1,6 @@
 'use strict';
 
-NgUsdClientApp
-    .controller('NavigationCtrl', ['$scope', '$location', '$cookieStore', 'BranchService', 'BuildStateService', 'Config', function ($scope, $location, $cookieStore, BranchService, BuildStateService, Config) {
+NgUsdClientApp.controller('NavigationCtrl', ['$scope', '$location', '$cookieStore', 'BranchService', 'BuildStateService', 'AdminService', 'Config', function ($scope, $location, $cookieStore, BranchService, BuildStateService, AdminService, Config) {
 
     //configuration
     var parameterUrl = {'build': Config.buildUrlParameter, 'branch': Config.branchUrlParameter};
@@ -10,6 +9,8 @@ NgUsdClientApp
     var attributeRelativePath = {'build': "linkName", 'branch': "branch.name"};
 
     var statesToClass = BuildStateService.ListBuildStates();
+
+    $scope.updating = false;
 
     $scope.branches = BranchService.findAllBranches(postProcessing);
 
@@ -106,6 +107,11 @@ NgUsdClientApp
                 return "Revision: "+build.build.revision;
             }
 
+        }
+
+        $scope.updateData = function() {
+            $scope.updating = true;
+            AdminService.UpdateData({}, function() {$scope.updating = false;}, function() {$scope.updating = false});
         }
     }
 }]);
