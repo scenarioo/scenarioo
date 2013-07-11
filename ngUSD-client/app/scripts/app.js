@@ -9,6 +9,11 @@ NgUsdClientApp.config(function ($routeProvider) {
                 controller: 'MainCtrl',
                 breadcrumb: "<i class='icon-home'></i>"
             })
+            .when('/config', {
+                templateUrl: 'views/config.html',
+                controller: 'ConfigCtrl',
+                breadcrumb: "<i class='icon-cogs'></i>"
+            })
             .when('/usecase/:useCaseName', {
                 templateUrl: 'views/usecase.html',
                 controller: 'UseCaseCtrl',
