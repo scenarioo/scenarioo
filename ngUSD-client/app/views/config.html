@@ -1,2 +1,14 @@
-<usd-breadcrumb></usd-breadcrumb>
-<div class="container-fluid">Konfiguration Seite</div>
+<usd-breadcrumb xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"></usd-breadcrumb>
+<div class="container-fluid">
+    Konfiguration Seite  <br/>
+
+
+
+    <form novalidate class="simple-form">
+        Data: <input type="text" ng-model="data.testDocumentationDirPath" /><br />
+        Default Branch: <input type="text" ng-model="data.defaultBranchName" /><br />
+        Default Build: <input type="text" ng-model="data.defaultBuildName" /><br />
+        <input type="button" ng-click="updateConfiguration()" value="send"/><input type="button" ng-click="resetConfiguration()" value="reset"/>
+    </form>
+
+    </div>

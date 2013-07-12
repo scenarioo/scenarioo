@@ -101,3 +101,16 @@ NgUsdClientApp.factory('AdminService', function ($resource) {
     return buildStateService;
 
 });
+
+NgUsdClientApp.factory('ConfigService', function ($resource) {
+    var buildStateService = $resource(RestServerPath + '/configuration/',
+        {
+            port: RestServerPort},
+        {
+            UpdateConfiguration: { method: "PUT", params: {} },
+            GetConfiguration: { method: "GET", params: {} }
+        });
+
+    return buildStateService;
+
+});
