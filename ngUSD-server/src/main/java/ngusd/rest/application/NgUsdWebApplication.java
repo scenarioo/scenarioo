@@ -3,7 +3,7 @@ package ngusd.rest.application;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import ngusd.configuration.NgusdConfiguration;
+import ngusd.dao.ConfigurationDAO;
 import ngusd.manager.UserScenarioDocuManager;
 
 /**
@@ -13,16 +13,21 @@ public class NgUsdWebApplication implements ServletContextListener {
 	
 	@Override
 	public void contextInitialized(final ServletContextEvent arg0) {
+		
 		System.out.println("====================================");
 		System.out.println("ngUSD Application starting up ...");
 		System.out.println("====================================");
+		ConfigurationDAO.getConfiguration();
+		System.out.println("  Configuration loaded.");
 		System.out.println("  Updating documentation content directory ...");
 		System.out.println("  Configured documentation content directory: " +
-				NgusdConfiguration.DOCU_ROOT_DIR);
+				ConfigurationDAO.getConfiguration().getTestDocumentationDirPath());
 		System.out.println("  Processing documentation content data and calculating aggregated data, " +
 				"this may take a while ...");
 		UserScenarioDocuManager.INSTANCE.updateAll();
+		
 		System.out.println("  Documentation content directory has been processed and updated.");
+		
 		System.out.println("====================================");
 		System.out.println("ngUSD Application started succesfully.");
 		System.out.println("====================================");

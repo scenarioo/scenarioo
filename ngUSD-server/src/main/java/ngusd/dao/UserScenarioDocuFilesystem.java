@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import ngusd.configuration.NgusdConfiguration;
 import ngusd.model.docu.aggregates.branches.BranchBuilds;
 import ngusd.model.docu.aggregates.branches.BuildLink;
 import ngusd.model.docu.entities.Branch;
@@ -22,8 +21,7 @@ public class UserScenarioDocuFilesystem {
 	public File rootDir;
 	
 	public UserScenarioDocuFilesystem() {
-		// TODO read this from configuration file instead.
-		this.rootDir = NgusdConfiguration.DOCU_ROOT_DIR;
+		this.rootDir = new File(ConfigurationDAO.getConfiguration().getTestDocumentationDirPath());
 	}
 	
 	public File filePath(final String... names) {

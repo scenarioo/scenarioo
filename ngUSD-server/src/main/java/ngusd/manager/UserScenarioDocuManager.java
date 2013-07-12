@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import ngusd.configuration.NgusdConfiguration;
+import ngusd.dao.ConfigurationDAO;
 import ngusd.dao.UserScenarioDocuAggregator;
 import ngusd.dao.UserScenarioDocuFilesystem;
 import ngusd.model.docu.aggregates.branches.BranchBuilds;
@@ -73,11 +73,13 @@ public class UserScenarioDocuManager {
 			@Override
 			public int compare(final BuildLink bl1, final BuildLink bl2) {
 				
+				String defaultBuildName = ConfigurationDAO.getConfiguration().getDefaultBuildName();
+				
 				// Default build is always sorted to the top
-				if (bl1.getLinkName().equals(NgusdConfiguration.DEFAULT_BUILD_NAME)) {
+				if (bl1.getLinkName().equals(defaultBuildName)) {
 					return -1;
 				}
-				if (bl2.getLinkName().equals(NgusdConfiguration.DEFAULT_BUILD_NAME)) {
+				if (bl2.getLinkName().equals(defaultBuildName)) {
 					return 1;
 				}
 				
