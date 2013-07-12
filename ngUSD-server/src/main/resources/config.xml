@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration>
+    <testDocumentationDirPath>/home/ngUSD/webtestDocuContentExample</testDocumentationDirPath>
+    <defaultBranchName>trunk</defaultBranchName>
+    <defaultBuildName>current</defaultBuildName>
+    <buildstates>
+        <entry>
+            <key>success</key>
+            <value>label-success</value>
+        </entry>
+        <entry>
+            <key>warning</key>
+            <value>label-warning</value>
+        </entry>
+        <entry>
+            <key>failed</key>
+            <value>label-important</value>
+        </entry>
+    </buildstates>
+</configuration>
