@@ -1,10 +1,16 @@
 
-.resultTable {
-    margin-left: 0px;
-}
-
 .link {
       cursor: pointer;
+}
+
+h1, h2, h3, h4 {
+    color: #4B4B4B;
+    font-weight: normal;
+}
+
+h1 {
+    font-size: 32px;
+    padding: 10px 0px 10px;
 }
 
 .table {
@@ -19,12 +25,21 @@
     background-color: #FAFAFA;
 }
 
+.table tbody tr:nth-child(2n) td {
+    background-color: 	#EEEEEE;
+}
+
+.table tbody tr:hover td {
+    background-color: #EBF5FF;
+}
+
 .breadcrumbs {
     margin-bottom: 15px:
 }
 
 .breadcrumbs ul {
     list-style: none outside none;
+    margin-left: 0px;
 }
 
 .breadcrumbs ul li {
@@ -53,6 +68,10 @@
 .steps {
     margin-left: -25px;
     position: relative;
+}
+
+.step-panes {
+    cursor: default;
 }
 
 .screenshot-small .screenshot-div {

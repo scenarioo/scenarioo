@@ -67,6 +67,15 @@ NgUsdClientApp.controller('NavigationCtrl', ['$scope', '$location', '$cookieStor
              return $cookieStore.get(cookie);
         }
 
+        function setCookie(cookie, value) {
+            $cookieStore.put(cookie, value);
+        }
+
+        function isCookiesEnabled() {
+            return navigator.cookieEnabled;
+        }
+
+
         function resolve(item, attributeName) {
             var attributeNames = attributeName.split(".");
             var subItem = item;
@@ -93,7 +102,7 @@ NgUsdClientApp.controller('NavigationCtrl', ['$scope', '$location', '$cookieStor
 
         function setParameter(type, value) {
             $location.search(parameterUrl[type], value);
-            $cookieStore.put(parameterCookie[type], value);
+            setCookie(parameterCookie[type], value);
         }
 
         $scope.getStatusType = function(status){
@@ -112,6 +121,25 @@ NgUsdClientApp.controller('NavigationCtrl', ['$scope', '$location', '$cookieStor
         $scope.updateData = function() {
             $scope.updating = true;
             AdminService.UpdateData({}, function() {$scope.updating = false;}, function() {$scope.updating = false});
+        }
+
+        $scope.showingInfoModal = isAFirstTimeUser();
+
+        function isAFirstTimeUser() {
+            var previouslyVisited = getCookie("previouslyVisited");
+            if (previouslyVisited || !isCookiesEnabled()) {
+                return false;
+            }
+            setCookie("previouslyVisited", true);
+            return true;
+        }
+
+        $scope.openInfoModal = function() {
+            $scope.showingInfoModal = true;
+        }
+
+        $scope.closeInfoModal = function() {
+            $scope.showingInfoModal = false;
         }
     }
 }]);

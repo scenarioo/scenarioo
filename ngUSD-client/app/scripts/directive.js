@@ -1,6 +1,7 @@
 'use strict';
 
-NgUsdClientApp.directive('usdBreadcrumb', function($location, $route                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ) {
+NgUsdClientApp.directive('usdBreadcrumb', function($location, $route, $compile) {
+    var limit = 25;
     var breadcrumbDescriptionObject = {
         restrict:'E',
         priority:0,
@@ -8,38 +9,63 @@ NgUsdClientApp.directive('usdBreadcrumb', function($location, $route            
         transclude:true,
         templateUrl:'template/breadcrumbs.html',
         scope: false,
-        link:function (scope, element) {
+        link:function (scope, element, attrs) {
             var ul = angular.element(element.children()[0]);
             var paths = splitPath($location.path());
             var path = "";
-            angular.forEach(paths, function (item) {
+            var htmlCode = "";
+            angular.forEach(paths, function (item, index) {
                 item=item.trim();
-                var last = paths.indexOf(item) == (paths.length - 1);
+                var last = index == (paths.length - 1);
                 if (item=="" || (path[path.length-1]!='/')) {
                     path += '/';
                 }
-                path += item;
+                path += encodeURIComponent(item);
 
                 var routeKey = findPath($route.routes, path);
                 var route = $route.routes[routeKey];
                 if(route) {
-                    var text = item;
+                    var longText = decodeURIComponent(item);
+                    var text = getShortenedText(longText);
+                    var tooltip = getTooltip(longText);
                     if (route.breadcrumb != undefined) {
                         text = route.breadcrumb;
+                        tooltip = "";
                     }
                     var href = "#" + getBreadCrumbPathWithParameters(path, routeKey);
                     var lnk;
                     if (!last) {
-                        lnk = "<li><a href='" + href + "'>" + text + "</a> <span class='divider'>&gt;</span></li>"
+                        lnk = "<li " + tooltip + "><a href='" + href + "' " + tooltip + ">" + text + "</a> <span class='divider'>&gt;</span></li>"
                     } else {
-                        lnk = "<li class='active'>" + text + "</li>";
+                        if (attrs['name']) {
+                            tooltip = "";
+                            text = attrs['name'];
+                        }
+                        lnk = "<li class='active'  " + tooltip + ">" + text + "</li>";
                     }
-                    this.append(lnk);
+                    htmlCode = htmlCode + lnk;
                 }
             }, ul);
+            element.html("<ul>"+htmlCode+"</ul>");
+            $compile(element)(scope);
         }
     };
     return breadcrumbDescriptionObject;
+
+    function getShortenedText(text) {
+        if (text.length>limit) {
+            var shortenedText = text.substr(0, limit);
+            return shortenedText + "..";
+        }
+        return text;
+    }
+
+    function getTooltip(text) {
+        if (text.length>limit) {
+            return "tooltip='"+text+"' tooltip-placement='top'";
+        }
+        return "";
+    }
 
     function findPath(routes, path) {
         for (var key in routes) {

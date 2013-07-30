@@ -38,7 +38,22 @@
                 <li>
                     <a href="#/config"><i class="icon-cogs icon-with-padding"></i>Configuration</a>
                 </li>
+                <li>
+                    <a ng-click="openInfoModal()" class="link"><i class="icon-info icon-with-padding"></i>Info</a>
+                </li>
             </ul>
         </div>
+    </div>
+</div>
+
+
+<div class="screenshot-overlay" modal="showingInfoModal" close="closeInfoModal()" options="modalInfoOptions">
+    <div class="modal-header">
+        <h3>User Scenario Documentation</h3>
+    </div>
+    <div class="modal-body" ng-include="'/views/information.html'">
+    </div>
+    <div class="modal-footer">
+        <button class="btn" ng-click="closeInfoModal()">Close</button>
     </div>
 </div>

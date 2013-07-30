@@ -26,6 +26,9 @@ NgUsdClientApp.config(function ($routeProvider) {
                 scenarioName: '@scenarioName'
 
             })
+            .when('/step/:useCaseName/:scenarioName/:pageName', {
+                redirectTo: '/step/:useCaseName/:scenarioName/:pageName/0/0'
+            })
             .when('/step/:useCaseName/:scenarioName/:pageName/:pageOccurenceInScenario/:stepIndex', {
                 templateUrl: 'views/step.html',
                 controller: 'StepCtrl',

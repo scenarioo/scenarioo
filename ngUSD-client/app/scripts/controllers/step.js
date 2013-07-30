@@ -94,15 +94,27 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
         $scope.go($scope.pagesAndSteps[pageIndex], pageIndex, stepIndex);
     }
 
-    $scope.openModal = function() {
-        $scope.showingModal = true;
+    $scope.goToFirstPage = function() {
+        var pageIndex = 0;
+        var stepIndex = 0;
+        $scope.go($scope.pagesAndSteps[pageIndex], pageIndex, stepIndex);
     }
 
-    $scope.closeModal = function() {
-        $scope.showingModal = false;
+    $scope.goToLastPage = function() {
+        var pageIndex = $scope.pagesAndSteps.length-1;
+        var stepIndex = 0;
+        $scope.go($scope.pagesAndSteps[pageIndex], pageIndex, stepIndex);
     }
 
-    $scope.modalOptions = {
+    $scope.openScreenshotModal = function() {
+        $scope.showingScreenshotModal = true;
+    }
+
+    $scope.closeScreenshotModal = function() {
+        $scope.showingScreenshotModal = false;
+    }
+
+    $scope.modalScreenshotOptions = {
         backdropFade: true,
         dialogClass:'modal modal-huge'
     };

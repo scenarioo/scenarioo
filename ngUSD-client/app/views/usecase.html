@@ -17,7 +17,7 @@
 
         <div class="row-fluid">
             <div class="span12">
-                <table class="table table-striped table-bordered table-hover">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>Status</th>
@@ -28,8 +28,8 @@
                             <th>#Steps</th>
                         </tr>
                     </thead>
-                    <tbody ng-repeat="scenario in scenarios | filter:searchFieldText">
-                        <tr ng-click="go(useCase.name, scenario.name)" class="link">
+                    <tbody>
+                        <tr ng-click="go(useCase.name, scenario.name)" class="link" ng-repeat="scenario in scenarios | filter:searchFieldText">
                             <td>
                                 <span class="label {{scenario.buildStateClass}} state">{{scenario.status}}</span>
                             </td>
