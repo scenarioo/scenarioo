@@ -1,18 +1,18 @@
 'use strict';
 
-var NgUsdClientApp = angular.module('ngUSDClientApp', ['ui.bootstrap.dropdownToggle', 'ui.bootstrap.tabs', 'ui.bootstrap.tooltip', 'ui.bootstrap.accordion', 'ngResource', 'ng', 'ngCookies']);
+var NgUsdClientApp = angular.module('ngUSDClientApp', ['ui.bootstrap.modal', 'ui.bootstrap.dropdownToggle', 'ui.bootstrap.tabs', 'ui.bootstrap.tooltip', 'ui.bootstrap.accordion', 'ngResource', 'ng', 'ngCookies']);
 
 NgUsdClientApp.config(function ($routeProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: 'views/main.html',
                 controller: 'MainCtrl',
-                breadcrumb: "<i class='icon-home'></i>"
+                breadcrumb: "<i class='icon-home'></i> Home"
             })
             .when('/config', {
                 templateUrl: 'views/config.html',
                 controller: 'ConfigCtrl',
-                breadcrumb: "<i class='icon-cogs'></i>"
+                breadcrumb: "<i class='icon-cogs'></i> Configuration"
             })
             .when('/usecase/:useCaseName', {
                 templateUrl: 'views/usecase.html',

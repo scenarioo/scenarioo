@@ -93,4 +93,17 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
         }
         $scope.go($scope.pagesAndSteps[pageIndex], pageIndex, stepIndex);
     }
+
+    $scope.openModal = function() {
+        $scope.showingModal = true;
+    }
+
+    $scope.closeModal = function() {
+        $scope.showingModal = false;
+    }
+
+    $scope.modalOptions = {
+        backdropFade: true,
+        dialogClass:'modal modal-huge'
+    };
 });

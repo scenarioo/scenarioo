@@ -27,7 +27,18 @@
     <div class="span12">
         <tabs>
             <pane heading="Screenshot">
-                <img src="{{getScreenShotUrl(step.screenshotURL)}}"/>
+                <img src="{{getScreenShotUrl(step.screenshotURL)}}" ng-click="openModal()" class="link"/>
+                <div class="screenshot-overlay" modal="showingModal" close="closeModal()" options="modalOptions">
+                    <div class="modal-header">
+                        <h3>Step {{pageIndex}}.{{stepIndex}} {{pageName}}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <img src="{{getScreenShotUrl(step.screenshotURL)}}"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" ng-click="closeModal()">Close</button>
+                    </div>
+                </div>
             </pane>
             <pane heading="HTML"></pane>
         </tabs>

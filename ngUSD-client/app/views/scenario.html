@@ -15,23 +15,20 @@
             </div>
         </div>
 
-        <div ng-repeat="pageSteps in pagesAndSteps">
-            <div class="row-fluid">
-                <div class="span12 hero-unit hero-unit-small">
-                    <h3>{{pageSteps.page.name}}</h3>
-                </div>
-            </div>
+        <div class="row-fluid">
+            <div ng-repeat="pageSteps in pagesAndSteps" class="steps">
+                <div ng-show="$index==0 || showingSteps[$parent.$index]" class="hero-unit-hover link span5 step-view" ng-repeat="step in pageSteps.steps | filter:searchFieldText">
+                    <div class="hero-unit hero-unit-small screenshot-small">
+                        <div class="step-title">
+                            <span ng-click="go(pageSteps, $parent.$index, $index)">{{step.title && step.title+" - "}}{{pageSteps.page.name}}  ({{$parent.$index+1}}{{$index>0 && "."+$index || " of "+pagesAndSteps.length}})</span>
 
-            <div class="row-fluid">
-                <div class="span8 offset4">
-                    <div class="screenshot-small hero-unit-hover link" ng-repeat="step in pageSteps.steps | filter:searchFieldText">
-                        <div ng-click="showingSteps[$parent.$index]=!showingSteps[$parent.$index]" ng-show="$index==1">
-                            <i ng-hide="showingSteps[$parent.$index]" class="icon-with-padding icon-large icon-plus-sign link"></i>
-                            <i ng-show="showingSteps[$parent.$index]" class="icon-with-padding icon-large icon-minus-sign link"></i>
+                            <span ng-click="showingSteps[$parent.$index]=!showingSteps[$parent.$index]" ng-show="$index==0 && pageSteps.steps.length>1" class="pull-right">
+                                <i ng-hide="showingSteps[$parent.$index]" class="icon-with-padding icon-large icon-plus-sign link"></i>
+                                <i ng-show="showingSteps[$parent.$index]" class="icon-with-padding icon-large icon-minus-sign link"></i>
+                            </span>
                         </div>
-                        <div ng-click="go(pageSteps, $parent.$index, $index)" ng-show="$index==0 || showingSteps[$parent.$index]">
-                            <div class="hero-unit hero-unit-small"><h4>{{$parent.$index}}.{{$index}} - {{step.title || "untitled"}}</h4></div>
-                            <img src="{{getScreenShotUrl(step.screenshotURL)}}"/>
+                        <div class="screenshot-div">
+                            <img src="{{getScreenShotUrl(step.screenshotURL)}}" ng-click="go(pageSteps, $parent.$index, $index)"/>
                         </div>
                     </div>
                 </div>
