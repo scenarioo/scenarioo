@@ -22,4 +22,30 @@ NgUsdClientApp.controller('ScenarioCtrl', ['$scope', '$routeParams', '$location'
         }
     });
 
+    $scope.openScreenshotModal = function() {
+        $scope.showingScreenshotModal = true;
+    }
+
+    $scope.closeScreenshotModal = function() {
+        $scope.showingScreenshotModal = false;
+    }
+
+    $scope.modalScreenshotOptions = {
+        backdropFade: true,
+        dialogClass:'modal modal-huge'
+    };
+
+    $scope.openScreenshotModal = function(step) {
+        step.showingScreenshotModal = true;
+    }
+
+    $scope.closeScreenshotModal = function(step) {
+        step.showingScreenshotModal = false;
+    }
+
+    $scope.modalScreenshotOptions = {
+        backdropFade: true,
+        dialogClass:'modal modal-huge'
+    };
+
 }]);

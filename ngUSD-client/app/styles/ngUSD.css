@@ -56,17 +56,26 @@ h1 {
     border-radius: 6px 6px 6px 6px;
 }
 
-.step-navigation div {
+.step-navigation .btn {
     display: inline;
+    margin-right: 10px;
 }
 
 .step-view .hero-unit-small {
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     padding: 10px 20px;
 }
 
 .step-view {
     margin: 25px 25px 0px 25px !important;
+}
+
+.step-view .step-icon {
+    padding-top: 10px;
+}
+
+.step-view .step-icon i {
+    font-size: 32px;
 }
 
 .steps {
@@ -79,8 +88,10 @@ h1 {
 }
 
 .screenshot-small .screenshot-div {
-    max-height: 500px;
+    max-height: 300px;
+    margin: 10px 0px 10px;
     overflow:hidden;
+    border: 3px;
 }
 
 .screenshot-small img {

@@ -9,17 +9,17 @@
 
 <div class="row-fluid step-navigation">
     <div class="span4">
-        <div ng-click="goToPreviousPage()" class="link" tooltip="Previous Page" tooltip-placement="bottom">
-            <i class="icon-with-padding icon-large icon-backward"></i>
+        <div ng-click="goToPreviousPage()" class="link btn" tooltip="Previous Page" tooltip-placement="bottom">
+            <i class="icon-with-padding icon-large icon-fast-backward"></i>
         </div>
-        <div ng-click="goToPreviousStep()" class="link" tooltip="Previous Step" tooltip-placement="bottom">
+        <div ng-click="goToPreviousStep()" class="link btn" tooltip="Previous Step" tooltip-placement="bottom">
             <i class="icon-with-padding icon-large icon-step-backward"></i>
         </div>
-        <div ng-click="goToNextStep()" class="link" tooltip="Next Step" tooltip-placement="bottom">
+        <div ng-click="goToNextStep()" class="link btn" tooltip="Next Step" tooltip-placement="bottom">
             <i class="icon-with-padding icon-large icon-step-forward"></i>
         </div>
-        <div ng-click="goToNextPage()" class="link" tooltip="Next Page" tooltip-placement="bottom">
-            <i class="icon-with-padding icon-large icon-forward"></i>
+        <div ng-click="goToNextPage()" class="link btn" tooltip="Next Page" tooltip-placement="bottom">
+            <i class="icon-with-padding icon-large icon-fast-forward"></i>
         </div>
     </div>
     <div class="span4 offset4">
@@ -45,12 +45,13 @@
     <div class="span12">
         <tabs class="step-panes">
             <pane heading="Screenshot">
-                <img src="{{getScreenShotUrl(step.screenshotURL)}}" ng-click="openModal()" class="link"/>
+                <img src="{{getScreenShotUrl(step.screenshotURL)}}" ng-click="openScreenshotModal()" class="link"/>
             </pane>
             <pane heading="HTML"></pane>
         </tabs>
     </div>
 </div>
+
 
 
 <div class="screenshot-overlay" modal="showingScreenshotModal" close="closeScreenshotModal()" options="modalScreenshotOptions">
