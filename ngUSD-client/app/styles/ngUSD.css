@@ -47,6 +47,10 @@ h1 {
     float: left;
 }
 
+.breadcrumbs ul li a {
+    text-decoration: none;
+}
+
 .hero-unit-hover:hover {
     background-color: #F8F8F8;
     border-radius: 6px 6px 6px 6px;
