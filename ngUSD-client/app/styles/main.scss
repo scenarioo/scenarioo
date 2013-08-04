@@ -3,30 +3,3 @@
 $FontAwesomePath: "/components/font-awesome/font";
 @import "font-awesome/scss/font-awesome.scss";
 
-.header .builds.dropdown {
-  width: 500px;
-}
-
-.header .dropdown .dropdown-menu,
-.header .dropdown .dropdown-menu li {
-  width: 100%;
-}
-
-.header .buildLabel {
-  padding-left: 20px;
-}
-
-.header .headerLabel {
-  margin-right: 10px;
-}
-
-.label.state {
-  min-width: 80px;
-  text-align: center;
-  padding-right: -8px !important;
-}
-
-.icon-with-padding {
-  padding-left: 5px;
-  padding-right: 5px;
-}

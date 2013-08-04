@@ -1,6 +1,6 @@
 'use strict';
 
-NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$routeParams', '$location', 'ScenarioService', 'BuildStateService', 'Config', function ($scope, $routeParams, $location, ScenarioService, BuildStateService, Config) {
+NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$filter', '$routeParams', '$location', 'ScenarioService', 'BuildStateService', 'Config', function ($scope, $filter, $routeParams, $location, ScenarioService, BuildStateService, Config) {
     var useCaseName = $routeParams.useCaseName;
     var useCase = ScenarioService.findAllScenarios(Config.selectedBranch($location), Config.selectedBuild($location), useCaseName, function (useCaseAndScenarios) {
         $scope.useCase = useCaseAndScenarios.useCase;
@@ -11,9 +11,25 @@ NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$routeParams', '$location',
                 scenario.buildStateClass = states[scenario.status];
             });
         });
+
+        $scope.propertiesToShow = Config.scenarioPropertiesInOverview;
+        var properties = new Array($scope.propertiesToShow.length);
+        var propLength = 0;
+        for(var i=0; i<$scope.propertiesToShow.length; i++) {
+            var property = $scope.propertiesToShow[i];
+            properties[i] = {text: $filter('toHumanReadable')(property), property: "details.properties."+property, attr: property};
+        }
+        $scope.columns = [
+            {text: 'Status', property: 'status'},
+            {text: 'Name', property: 'name'},
+            {text: 'Actions'},
+            {text: 'Description'}]
+            .concat(properties)
+            .concat([
+                {text: '# Steps', property: 'calculatedData.numberOfSteps'}]);
+
     });
 
-    $scope.propertiesToShow = Config.scenarioPropertiesInOverview;
 
     $scope.resetSearchField = function() {
         $scope.searchFieldText = '';
@@ -29,6 +45,6 @@ NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$routeParams', '$location',
             $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pagesAndScenarios.pagesAndSteps[0].page.name) + '/0/0');
         });
     }
-
+    $scope.sort = {column: 'name', reverse: false};
 
 }]);

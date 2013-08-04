@@ -1,51 +1,48 @@
 <usd-breadcrumb></usd-breadcrumb>
 
-<div class="row-fluid">
-    <div class="span12">
-        <h1>Use case: {{useCase.name}}</h1>
-    </div>
-
-</div>
-<div class="row-fluid">
-    <div class="span12">
-        <div class="row-fluid">
-            <div class="input-append ">
-                <input type="text" class="span2" ng-model="searchFieldText" placeholder="Search scenario..."/>
-                <button ng-click="resetSearchField()" class="btn">reset</button>
-            </div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h1>Use case: {{useCase.name | toHumanReadable}}</h1>
         </div>
 
-        <div class="row-fluid">
-            <div class="span12">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Status</th>
-                            <th>Name</th>
-                            <th>Actions</th>
-                            <th>Description</th>
-                            <th ng-repeat="property in propertiesToShow">{{property | camelCase}}</th>
-                            <th>#Steps</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-click="go(useCase.name, scenario.name)" class="link" ng-repeat="scenario in scenarios | filter:searchFieldText">
-                            <td>
-                                <span class="label {{scenario.buildStateClass}} state">{{scenario.status}}</span>
-                            </td>
-                            <td>{{scenario.name}}</td>
-                            <td>
-                                <a ng-click="goToFirstStep(useCase.name, scenario.name)" tooltip="Go to first step" tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
-                                <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview" tooltip-placement="bottom"></i></a>
-                            </td>
-                            <td>{{scenario.description}}</td>
-                            <td ng-repeat="property in propertiesToShow">{{scenario.details.properties[property]}}</td>
-                            <td>{{scenario.calculatedData.numberOfSteps}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="row-fluid">
+                <div class="input-append ">
+                    <input type="text" class="span2" ng-model="searchFieldText" placeholder="Search scenario..."/>
+                    <button ng-click="resetSearchField()" class="btn">reset</button>
+                </div>
             </div>
 
+            <div class="row-fluid">
+                <div class="span12">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th ng-repeat="col in columns" sortable="{{col.property}}">{{col.text}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-click="go(useCase.name, scenario.name)" class="link" ng-repeat="scenario in scenarios | filter:searchFieldText | orderBy:sort.column:sort.reverse">
+                                <td>
+                                    <span class="label {{scenario.buildStateClass}} state">{{scenario.status}}</span>
+                                </td>
+                                <td>{{scenario.name | toHumanReadable }}</td>
+                                <td>
+                                    <a ng-click="goToFirstStep(useCase.name, scenario.name)" tooltip="Go to first step" tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
+                                    <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview" tooltip-placement="bottom"></i></a>
+                                </td>
+                                <td>{{scenario.description}}</td>
+                                <td ng-repeat="property in propertiesToShow">{{scenario.details.properties[property]}}</td>
+                                <td>{{scenario.calculatedData.numberOfSteps}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>

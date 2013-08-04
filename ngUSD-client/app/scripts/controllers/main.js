@@ -22,6 +22,7 @@ NgUsdClientApp.controller('MainCtrl', function ($scope, $location, Config, UseCa
         $location.path('/usecase/' +useCaseName);
     }
 
+    $scope.sort = {column: 'useCase.name', reverse: false};
 
 });
 

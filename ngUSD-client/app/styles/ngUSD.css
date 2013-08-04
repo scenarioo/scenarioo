@@ -1,4 +1,4 @@
-
+/** General **/
 .link {
       cursor: pointer;
 }
@@ -10,9 +10,44 @@ h1, h2, h3, h4 {
 
 h1 {
     font-size: 32px;
-    padding: 10px 0px 10px;
+    margin: 0px 0px 20px;
 }
 
+.label.state {
+    min-width: 80px;
+    text-align: center;
+    padding-right: -8px !important;
+}
+
+.icon-with-padding {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.hero-unit-hover:hover {
+    background-color: #F8F8F8;
+    border-radius: 6px 6px 6px 6px;
+}
+
+/** Breadcrumbs **/
+.breadcrumbs {
+    margin-top: -20px;
+}
+
+.breadcrumbs ul {
+    padding-left: 20px;
+}
+
+.breadcrumbs a {
+    color: #999999;
+}
+
+.breadcrumbs a:hover {
+    text-decoration: none;
+    color: #0088CC;
+}
+
+/** Tables **/
 .table {
     border-width: 2px;
 }
@@ -33,29 +68,43 @@ h1 {
     background-color: #EBF5FF;
 }
 
-.breadcrumbs {
-    margin-bottom: 15px:
+/** Navigation **/
+@media screen and (max-width: 1024px) {
+    .header .builds .state  {
+        display: none !important;
+    }
 }
 
-.breadcrumbs ul {
-    list-style: none outside none;
-    margin-left: 0px;
+.header .builds.dropdown .dropdown-menu {
+    width: 500px;
 }
 
-.breadcrumbs ul li {
-    padding-left: 5px;
-    float: left;
+.header .dropdown .dropdown-menu,
+.header .dropdown .dropdown-menu li {
+    width: 100%;
 }
 
-.breadcrumbs ul li a {
-    text-decoration: none;
+.header .buildLabel {
+    padding-left: 20px;
 }
 
-.hero-unit-hover:hover {
-    background-color: #F8F8F8;
-    border-radius: 6px 6px 6px 6px;
+.header .headerLabel {
+    margin-right: 10px;
 }
 
+/** Overview */
+.builds-information {
+    max-width: 800px;
+}
+.builds-information .accordion-heading {
+    background-color: #E6E6E6;
+}
+.builds-information .accordion-heading a {
+    color: 	#333333;
+    border: thin solid #999999;
+}
+
+/** Step-View */
 .step-navigation .btn {
     display: inline;
     margin-right: 10px;
@@ -78,20 +127,44 @@ h1 {
     font-size: 32px;
 }
 
-.steps {
-    margin-left: -25px;
-    position: relative;
-}
-
 .step-panes {
     cursor: default;
 }
 
+/** Scenario-View */
+.scenario-span1 {
+    width: 3% !important;
+    margin-right: 10px;
+    min-width: 50px;
+    clear: both;
+}
+
+.scenario-span2 {
+    width: 800px !important;
+}
+
+.scenario-span3 {
+    padding-top: 15px;
+    padding-left: 20px;
+    margin-left: 0px !important;
+    width: auto !important;
+}
+
+.scenario-span1and2 {
+    width: 90% !important;
+}
+
+/** Screenshot */
 .screenshot-small .screenshot-div {
     max-height: 300px;
     margin: 10px 0px 10px;
     overflow:hidden;
-    border: 3px;
+    border: medium solid #333333;
+}
+
+.screenshot img {
+    border: medium solid #333333;
+    max-width: 98%;
 }
 
 .screenshot-small img {
@@ -103,6 +176,7 @@ h1 {
     position: relative;
 }
 
+/** Modal */
 .modal-huge .modal-body {
     height: 100%;
     max-height: 670px;

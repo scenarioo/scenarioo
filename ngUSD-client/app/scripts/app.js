@@ -17,14 +17,15 @@ NgUsdClientApp.config(function ($routeProvider) {
             .when('/usecase/:useCaseName', {
                 templateUrl: 'views/usecase.html',
                 controller: 'UseCaseCtrl',
-                useCaseName: '@useCaseName'
+                useCaseName: '@useCaseName',
+                breadcrumb: '<strong>Use Case:</strong> $param'
             })
             .when('/scenario/:useCaseName/:scenarioName', {
                 templateUrl: 'views/scenario.html',
                 controller: 'ScenarioCtrl',
                 useCaseName: '@useCaseName',
-                scenarioName: '@scenarioName'
-
+                scenarioName: '@scenarioName',
+                breadcrumb: '<strong>Scenario:</strong> $param'
             })
             .when('/step/:useCaseName/:scenarioName/:pageName/:pageOccurenceInScenario/:stepIndex', {
                 templateUrl: 'views/step.html',
@@ -33,8 +34,8 @@ NgUsdClientApp.config(function ($routeProvider) {
                 scenarioName: '@scenarioName',
                 pageName: '@pageName',
                 pageOccurenceInScenario: '@pageOccurenceInScenario',
-                stepIndex: '@stepIndex'
-
+                stepIndex: '@stepIndex',
+                breadcrumb: 'Step {{pageIndex+1}}.{{stepIndex}} - {{pageName}}'
             })
             .otherwise({
                 redirectTo: '/'

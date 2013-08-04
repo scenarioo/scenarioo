@@ -1,78 +1,84 @@
 <usd-breadcrumb></usd-breadcrumb>
 
-<div class="row-fluid">
-    <div class="span12">
-        <h1>Home</h1>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h1>Home</h1>
+        </div>
     </div>
-</div>
-<div class="row-fluid">
-    <div class="span12">
-        <tabs class="step-panes">
+    <div class="row-fluid">
+        <div class="span12">
+            <tabs class="step-panes">
 
-            <pane heading="Use Cases">
-                <div class="resultTable row-fluid span12">
-                    <div class="controls">
-                        <div class="input-append">
-                            <input class="span2 ng-pristine ng-valid tableSearch" id="useCasesSearchField" data-toggle="tooltip" title="filter for use case" ng-model="searchFieldText" placeholder="Search use case..."/>
-                            <button ng-click="resetSearchField()" class="btn">reset</button>
-                        </div>
-                    </div>
-
-                    <table ng-table="tableParams" class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Status</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th># Scenarios</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="useCaseScenarios in useCaseScenariosList | filter:searchFieldText" ng-click="go(useCaseScenarios.useCase.name)" class="link">
-                            <td>
-                                <span ng-class="getStatusType(useCaseScenarios.useCase.status)">{{useCaseScenarios.useCase.status}}</span>
-                            </td>
-                            <td>{{useCaseScenarios.useCase.name}}</td>
-                            <td>{{useCaseScenarios.useCase.description}}</td>
-                            <td>{{useCaseScenarios.scenarios.length}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </pane>
-
-            <pane heading="Build Information">
-                <div class="container-fluid">
-                    <div class="row-fluid">
-                        <div class="span6" ng-controller="NavigationCtrl" class="header">
-                            <h4>Build Information</h4>
-                            <div>
-                                <div class="row-fluid">
-                                    <div class="span4">Name</div>
-                                    <div class="span8">{{selectedBuild.linkName}}</div>
-                                </div>
-                                <div class="row-fluid">
-                                    <div class="span4">Revision</div>
-                                    <div class="span8">{{selectedBuild.build.revision}}</div>
-                                </div>
-                                <div ng-repeat="(key,value) in selectedBuild.build.details.details" class="row-fluid">
-                                    <div class="span4">{{key | camelCase}}</div>
-                                    <div class="span8">{{value}}</div>
-                                </div>
+                <pane heading="Use Cases">
+                    <div class="resultTable row-fluid span12">
+                        <div class="controls">
+                            <div class="input-append">
+                                <input class="span2 ng-pristine ng-valid tableSearch" id="useCasesSearchField" data-toggle="tooltip" title="filter for use case" ng-model="searchFieldText" placeholder="Search use case..."/>
+                                <button ng-click="resetSearchField()" class="btn">reset</button>
                             </div>
+                        </div>
 
+                        <table ng-table="tableParams" class="table table-bordered" ng-model="sort">
+                            <thead>
+                            <tr>
+                                <th sortable="useCase.status">Status</th>
+                                <th sortable="useCase.name">Name</th>
+                                <th>Description</th>
+                                <th sortable="scenarios.length"># Scenarios</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="useCaseScenarios in useCaseScenariosList | filter:searchFieldText | orderBy:sort.column:sort.reverse" ng-click="go(useCaseScenarios.useCase.name)" class="link">
+                                <td>
+                                    <span ng-class="getStatusType(useCaseScenarios.useCase.status)">{{useCaseScenarios.useCase.status}}</span>
+                                </td>
+                                <td>{{useCaseScenarios.useCase.name | toHumanReadable }}</td>
+                                <td>{{useCaseScenarios.useCase.description}}</td>
+                                <td>{{useCaseScenarios.scenarios.length}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </pane>
 
-                            <h4>Latest Builds</h4>
-                            <accordion close-others="true">
-                                <accordion-group ng-repeat="branch in branches" heading="{{branch.branch.name}}">
-                                    <div ng-repeat="build in branch.builds" ng-include="'/template/build.html'" ng-click="setBuild(branch, build)">
+                <pane heading="Build Information">
+                    <div class="container-fluid builds-information">
+                        <div class="row-fluid">
+                            <div class="span12" ng-controller="NavigationCtrl" class="header">
+                                <h4>Build Information</h4>
+                                <div>
+                                    <div class="row-fluid">
+                                        <div class="span4">Build Name:</div>
+                                        <div class="span8">{{selectedBuild.linkName}}</div>
                                     </div>
-                                </accordion-group>
-                            </accordion>
+                                    <div class="row-fluid">
+                                        <div class="span4">Branch Name:</div>
+                                        <div class="span8">{{selectedBranch.branch.name}}</div>
+                                    </div>
+                                    <div class="row-fluid">
+                                        <div class="span4">Revision:</div>
+                                        <div class="span8">{{selectedBuild.build.revision}}</div>
+                                    </div>
+                                    <div ng-repeat="(key,value) in selectedBuild.build.details.details" class="row-fluid">
+                                        <div class="span4">{{key | toHumanReadable}}</div>
+                                        <div class="span8">{{value}}</div>
+                                    </div>
+                                </div>
+
+
+                                <h4>Latest Builds</h4>
+                                <accordion close-others="true">
+                                    <accordion-group ng-repeat="branch in branches" heading="{{branch.branch.name}}">
+                                        <div ng-repeat="build in branch.builds" ng-include="'/template/build.html'" ng-click="setBuild(branch, build)">
+                                        </div>
+                                    </accordion-group>
+                                </accordion>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </pane>
-        </tabs>
+                </pane>
+            </tabs>
+        </div>
     </div>
 </div>

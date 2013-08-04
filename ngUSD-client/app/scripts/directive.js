@@ -1,6 +1,45 @@
 'use strict';
 
-NgUsdClientApp.directive('usdBreadcrumb', function($location, $route, $compile) {
+NgUsdClientApp.directive("sortable", function($compile, $filter) {
+    var sortableDescriptionObject = {
+        restrict:'A',
+        scope: false,
+        link:function (scope, element, attrs) {
+            scope.$watch(attrs['sortable'], function() {
+                var sortable = attrs['sortable'];
+                if (!sortable) {
+                    return;
+                }
+                element.addClass("link");
+
+                var iconStr = "<i class='icon-sort pull-right' ng-show=\"sort.column!='"+sortable+"'\"></i>"+
+                    "<i class='icon-sort-up pull-right' ng-show=\"sort.column=='"+sortable+"' && !sort.reverse\"></i>" +
+                    "<i class='icon-sort-down pull-right' ng-show=\"sort.column=='"+sortable+"' && sort.reverse\"></i>";
+                var icons = angular.element(iconStr);
+                var icons = $compile(icons)(scope);
+                element.append(icons);
+                element.bind('click', function() {
+                    if (!scope.sort) {
+                        scope.sort = {};
+                    }
+                    var changed = scope.sort.column != sortable;
+                    if (changed) {
+                        scope.sort.column = sortable;
+                    }
+                    if (changed) {
+                        scope.sort.reverse = false;
+                    } else {
+                        scope.sort.reverse = !scope.sort.reverse;
+                    }
+                    scope.$apply();
+                });
+            });
+        }
+    };
+    return sortableDescriptionObject;
+});
+
+NgUsdClientApp.directive('usdBreadcrumb', function($location, $route, $compile, $filter) {
     var limit = 25;
     var breadcrumbDescriptionObject = {
         restrict:'E',
@@ -26,16 +65,17 @@ NgUsdClientApp.directive('usdBreadcrumb', function($location, $route, $compile) 
                 var route = $route.routes[routeKey];
                 if(route) {
                     var longText = decodeURIComponent(item);
+                    longText = $filter('toHumanReadable')(longText);
                     var text = getShortenedText(longText);
                     var tooltip = getTooltip(longText);
-                    if (route.breadcrumb != undefined) {
-                        text = route.breadcrumb;
+                    if (route.breadcrumb) {
+                        text = route.breadcrumb.replace("$param", text);
                         tooltip = "";
                     }
                     var href = "#" + getBreadCrumbPathWithParameters(path, routeKey);
                     var lnk;
                     if (!last) {
-                        lnk = "<li " + tooltip + "><a href='" + href + "' " + tooltip + ">" + text + "</a> <span class='divider'>&gt;</span></li>"
+                        lnk = "<li " + tooltip + "><a href='" + href + "' " + tooltip + ">" + text + "</a> <span class='divider'> / </span></li>"
                     } else {
                         if (attrs['name']) {
                             tooltip = "";
@@ -46,7 +86,8 @@ NgUsdClientApp.directive('usdBreadcrumb', function($location, $route, $compile) 
                     htmlCode = htmlCode + lnk;
                 }
             }, ul);
-            element.html("<ul>"+htmlCode+"</ul>");
+            var ul = angular.element(element.children()[0]);
+            ul.html(htmlCode);
             $compile(element)(scope);
         }
     };
