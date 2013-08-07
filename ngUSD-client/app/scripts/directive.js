@@ -15,7 +15,10 @@ NgUsdClientApp.directive("sortandfilter", function($compile, $filter) {
                 var iconStr = "<i class='icon-sort pull-right' ng-show=\"table.sort.column!='"+sortAndFilter+"'\"></i>"+
                     "<i class='icon-sort-up pull-right' ng-show=\"table.sort.column=='"+sortAndFilter+"' && !table.sort.reverse\"></i>" +
                     "<i class='icon-sort-down pull-right' ng-show=\"table.sort.column=='"+sortAndFilter+"' && table.sort.reverse\"></i>";
-                var filterStr = "<div class='tableFilter' ng-show=\"table.filtering\"><input type='text' ng-model='table.search."+sortAndFilter+"' stop-event='click' placeholder='Enter search criteria...'></div>"
+                var filterStr = "";
+                if (!element.hasClass("filter-none")) {
+                    filterStr = "<div class='tableFilter' ng-show=\"table.filtering\"><input type='text' ng-model='table.search[\""+sortAndFilter+"\"]' stop-event='click' placeholder='Enter search criteria...'></div>"
+                }
                 var iconsAndFilter = angular.element(iconStr+filterStr);
                 var iconsAndFilterCompiled = $compile(iconsAndFilter)(scope);
                 element.append(iconsAndFilterCompiled);
