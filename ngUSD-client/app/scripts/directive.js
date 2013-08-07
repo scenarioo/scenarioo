@@ -96,12 +96,18 @@ NgUsdClientApp.directive('usdBreadcrumb', function($location, $route, $compile, 
                             tooltip = "";
                             text = attrs['name'];
                         }
+                        scope.emailTitle = encodeURIComponent($filter('toHumanReadable')(removeHtmlTags(item)));
                         lnk = "<li class='active'  " + tooltip + ">" + text + "</li>";
                     }
                     htmlCode = htmlCode + lnk;
                 }
-            }, ul);
-            var ul = angular.element(element.children()[0]);
+            });
+            if (!scope.emailTitle) {
+                scope.emailTitle = encodeURIComponent("Link to the User Scenario Documentation");
+            }
+            scope.emailLink = $location.absUrl();
+            var div = angular.element(element.children()[0]);
+            var ul = angular.element(div.children()[0]);
             ul.html(htmlCode);
             $compile(element)(scope);
         }
@@ -114,6 +120,10 @@ NgUsdClientApp.directive('usdBreadcrumb', function($location, $route, $compile, 
             return shortenedText + "..";
         }
         return text;
+    }
+
+    function removeHtmlTags(text) {
+        return text.replace(/<(?:.|\n)*?>/gm, '');
     }
 
     function getTooltip(text) {

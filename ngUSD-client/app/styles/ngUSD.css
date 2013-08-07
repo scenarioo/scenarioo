@@ -35,19 +35,30 @@ h1 {
 }
 
 /** Breadcrumbs **/
-.breadcrumbs {
+.breadcrumb-row {
     margin-top: -20px;
+    background-color: #F5F5F5;
+    margin-bottom: 20px;
 }
 
-.breadcrumbs ul {
+.breadcrumb-row div.email-div {
+    padding: 8px 15px 8px;
+}
+
+.breadcrumb-row div.breadcrumb-div {
+    float: left;
+}
+
+ul.breadcrumb {
     padding-left: 20px;
+    margin-bottom: 0px;
 }
 
-.breadcrumbs a {
+ul.breadcrumb a {
     color: #999999;
 }
 
-.breadcrumbs a:hover {
+ul.breadcrumb a:hover {
     text-decoration: none;
     color: #0088CC;
 }
