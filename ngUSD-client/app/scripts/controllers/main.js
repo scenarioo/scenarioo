@@ -6,9 +6,6 @@ NgUsdClientApp.controller('MainCtrl', function ($scope, $location, Config, UseCa
 
     $scope.useCaseScenariosList = UseCaseService.findAllUseCases(Config.selectedBranch($location), Config.selectedBuild($location));
 
-    $scope.resetSearchField = function() {
-            $scope.searchFieldText = '';
-    }
 
     $scope.getStatusType = function(status){
         switch (status) {
@@ -22,7 +19,20 @@ NgUsdClientApp.controller('MainCtrl', function ($scope, $location, Config, UseCa
         $location.path('/usecase/' +useCaseName);
     }
 
-    $scope.sort = {column: 'useCase.name', reverse: false};
+    $scope.table = {search: {$: ''}, sort: {column: 'useCase.name', reverse: false}, filtering: false};
+
+    $scope.resetSearchField = function() {
+        $scope.table.search = {$: ''};
+    }
+
+    $scope.switchFilter = function() {
+        $scope.table.filtering=!$scope.table.filtering
+        if (!$scope.table.filtering) {
+            var temp = $scope.table.search.$;
+            $scope.table.search = { $: temp };
+        }
+    }
+
 
 });
 

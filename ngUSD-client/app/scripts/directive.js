@@ -1,35 +1,36 @@
 'use strict';
 
-NgUsdClientApp.directive("sortable", function($compile, $filter) {
+NgUsdClientApp.directive("sortandfilter", function($compile, $filter) {
     var sortableDescriptionObject = {
         restrict:'A',
-        scope: false,
+        scope: true,
         link:function (scope, element, attrs) {
-            scope.$watch(attrs['sortable'], function() {
-                var sortable = attrs['sortable'];
-                if (!sortable) {
+            scope.$watch(attrs['sortandfilter'], function() {
+                var sortAndFilter = attrs['sortandfilter'];
+                if (!sortAndFilter) {
                     return;
                 }
                 element.addClass("link");
 
-                var iconStr = "<i class='icon-sort pull-right' ng-show=\"sort.column!='"+sortable+"'\"></i>"+
-                    "<i class='icon-sort-up pull-right' ng-show=\"sort.column=='"+sortable+"' && !sort.reverse\"></i>" +
-                    "<i class='icon-sort-down pull-right' ng-show=\"sort.column=='"+sortable+"' && sort.reverse\"></i>";
-                var icons = angular.element(iconStr);
-                var icons = $compile(icons)(scope);
-                element.append(icons);
+                var iconStr = "<i class='icon-sort pull-right' ng-show=\"table.sort.column!='"+sortAndFilter+"'\"></i>"+
+                    "<i class='icon-sort-up pull-right' ng-show=\"table.sort.column=='"+sortAndFilter+"' && !table.sort.reverse\"></i>" +
+                    "<i class='icon-sort-down pull-right' ng-show=\"table.sort.column=='"+sortAndFilter+"' && table.sort.reverse\"></i>";
+                var filterStr = "<div class='tableFilter' ng-show=\"table.filtering\"><input type='text' ng-model='table.search."+sortAndFilter+"' stop-event='click' placeholder='Enter search criteria...'></div>"
+                var iconsAndFilter = angular.element(iconStr+filterStr);
+                var iconsAndFilterCompiled = $compile(iconsAndFilter)(scope);
+                element.append(iconsAndFilterCompiled);
                 element.bind('click', function() {
-                    if (!scope.sort) {
-                        scope.sort = {};
+                    if (!scope.table.sort) {
+                        scope.table.sort = {};
                     }
-                    var changed = scope.sort.column != sortable;
+                    var changed = scope.table.sort.column != sortAndFilter;
                     if (changed) {
-                        scope.sort.column = sortable;
+                        scope.table.sort.column = sortAndFilter;
                     }
                     if (changed) {
-                        scope.sort.reverse = false;
+                        scope.table.sort.reverse = false;
                     } else {
-                        scope.sort.reverse = !scope.sort.reverse;
+                        scope.table.sort.reverse = !scope.table.sort.reverse;
                     }
                     scope.$apply();
                 });
@@ -37,6 +38,17 @@ NgUsdClientApp.directive("sortable", function($compile, $filter) {
         }
     };
     return sortableDescriptionObject;
+});
+
+NgUsdClientApp.directive('stopEvent', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            element.bind(attr.stopEvent, function (e) {
+                e.stopPropagation();
+            });
+        }
+    };
 });
 
 NgUsdClientApp.directive('usdBreadcrumb', function($location, $route, $compile, $filter) {

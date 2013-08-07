@@ -29,6 +29,11 @@ h1 {
     border-radius: 6px 6px 6px 6px;
 }
 
+.controls div {
+    display: inline;
+    margin-bottom: 10px;
+}
+
 /** Breadcrumbs **/
 .breadcrumbs {
     margin-top: -20px;
@@ -54,6 +59,15 @@ h1 {
 .table thead {
     background-color: whitesmoke;
     background-image: linear-gradient(to bottom, #FFFFFF, #E6E6E6);
+}
+.table thead th {
+    vertical-align: top;
+}
+
+.table thead th .tableFilter input {
+    font-size: 14px;
+    height: 16px;
+    margin: 5px 0px 5px;
 }
 
 .table tbody, input.tableSearch {

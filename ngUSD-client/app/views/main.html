@@ -11,25 +11,31 @@
             <tabs class="step-panes">
 
                 <pane heading="Use Cases">
-                    <div class="resultTable row-fluid span12">
+                    <div class="resultTable span12">
                         <div class="controls">
                             <div class="input-append">
-                                <input class="span2 ng-pristine ng-valid tableSearch" id="useCasesSearchField" data-toggle="tooltip" title="filter for use case" ng-model="searchFieldText" placeholder="Search use case..."/>
-                                <button ng-click="resetSearchField()" class="btn">reset</button>
+                                <input class="span2 ng-pristine ng-valid tableSearch" id="useCasesSearchField" data-toggle="tooltip" title="filter for use case" ng-model="table.search.$" placeholder="Search use case..."/>
+                                <button ng-click="resetSearchField()" class="btn btn-primary">reset</button>
+                            </div>
+                            <div class="pull-right">
+                                <button ng-click="switchFilter()" class="btn btn-primary">
+                                    <span ng-show="!table.filtering">Show filter</span>
+                                    <span ng-show="table.filtering">Hide filter</span>
+                                </button>
                             </div>
                         </div>
 
                         <table ng-table="tableParams" class="table table-bordered" ng-model="sort">
                             <thead>
                             <tr>
-                                <th sortable="useCase.status">Status</th>
-                                <th sortable="useCase.name">Name</th>
+                                <th sortandfilter="useCase.status">Status</th>
+                                <th sortandfilter="useCase.name">Name</th>
                                 <th>Description</th>
-                                <th sortable="scenarios.length"># Scenarios</th>
+                                <th sortandfilter="scenarios.length"># Scenarios</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="useCaseScenarios in useCaseScenariosList | filter:searchFieldText | orderBy:sort.column:sort.reverse" ng-click="go(useCaseScenarios.useCase.name)" class="link">
+                            <tr ng-repeat="useCaseScenarios in useCaseScenariosList | filter:table.search | orderBy:table.sort.column:table.sort.reverse" ng-click="go(useCaseScenarios.useCase.name)" class="link">
                                 <td>
                                     <span ng-class="getStatusType(useCaseScenarios.useCase.status)">{{useCaseScenarios.useCase.status}}</span>
                                 </td>

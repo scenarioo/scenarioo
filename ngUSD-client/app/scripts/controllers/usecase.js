@@ -31,10 +31,6 @@ NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$filter', '$routeParams', '
     });
 
 
-    $scope.resetSearchField = function() {
-        $scope.searchFieldText = '';
-    }
-
     $scope.go = function(useCaseName, scenarioName) {
         $location.path('/scenario/' +useCaseName + '/' + scenarioName);
     }
@@ -45,6 +41,19 @@ NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$filter', '$routeParams', '
             $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pagesAndScenarios.pagesAndSteps[0].page.name) + '/0/0');
         });
     }
-    $scope.sort = {column: 'name', reverse: false};
+    $scope.table = {search: {$: ''}, sort: {column: 'name', reverse: false}, filtering: false};
+
+    $scope.resetSearchField = function() {
+        $scope.table.search = {$: ''};
+    }
+
+    $scope.switchFilter = function() {
+        $scope.table.filtering=!$scope.table.filtering
+        if (!$scope.table.filtering) {
+            var temp = $scope.table.search.$;
+            $scope.table.search = { $: temp };
+        }
+    }
+
 
 }]);
