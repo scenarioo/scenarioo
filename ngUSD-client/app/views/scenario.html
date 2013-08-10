@@ -17,8 +17,8 @@
             </div>
 
             <div ng-repeat="pageSteps in pagesAndSteps" class="steps">
-                <hr/>
                 <div ng-show="$index==0 || showingSteps[$parent.$index]" class="link row step-view" ng-repeat="step in pageSteps.steps | filter:searchFieldText">
+                    <hr ng-show="$index==0"/>
                     <div class="span12">
                         <div class="scenario-span1">
                             <div ng-click="showingSteps[$parent.$index]=!showingSteps[$parent.$index]" ng-show="$index==0 && pageSteps.steps.length>1" class="step-icon pull-right">
@@ -39,7 +39,18 @@
                                 <div class="step-title">
                                     <h4>{{($parent.$index+1)}} {{$index>0 && "."+$index || ""}} - {{step.title && step.title || "undefined"}}</h4>
                                     {{pageSteps.page.name}} ({{($parent.$index+1) + " of "+pagesAndSteps.length}})
+
+                                    <div ng-repeat="(key,value) in step.details.properties" class="row-fluid">
+                                        <div class="span4">{{key | toHumanReadable}}</div>
+                                        <div class="span8">{{value}}</div>
+                                    </div>
+                                    <div ng-repeat="(key,value) in pageSteps.page.details.properties" class="row-fluid">
+                                        <div class="span4">{{key | toHumanReadable}}</div>
+                                        <div class="span8">{{value}}</div>
+                                    </div>
                                 </div>
+
+                            </div>
                             </div>
                         </div>
                     </div>
