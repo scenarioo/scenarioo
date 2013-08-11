@@ -37,14 +37,14 @@
                             </div>
                             <div class="scenario-span3">
                                 <div class="step-title">
-                                    <h4>{{($parent.$index+1)}} {{$index>0 && "."+$index || ""}} - {{step.title && step.title || "undefined"}}</h4>
-                                    {{pageSteps.page.name}} ({{($parent.$index+1) + " of "+pagesAndSteps.length}})
+                                    <h4>{{step.number}} - {{step.title}}</h4>
+                                    {{step.page.name}} ({{step.page.index}} of {{pagesAndSteps.length}})
 
                                     <div ng-repeat="(key,value) in step.details.properties" class="row-fluid">
                                         <div class="span4">{{key | toHumanReadable}}</div>
                                         <div class="span8">{{value}}</div>
                                     </div>
-                                    <div ng-repeat="(key,value) in pageSteps.page.details.properties" class="row-fluid">
+                                    <div ng-repeat="(key,value) in step.page.details.properties" class="row-fluid">
                                         <div class="span4">{{key | toHumanReadable}}</div>
                                         <div class="span8">{{value}}</div>
                                     </div>
