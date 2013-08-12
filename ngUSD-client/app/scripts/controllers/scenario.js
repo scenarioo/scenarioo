@@ -1,6 +1,6 @@
 'use strict';
 
-NgUsdClientApp.controller('ScenarioCtrl', ['$scope', '$filter', '$routeParams', '$location', 'ScenarioService','Config', function ($scope, $filter, $routeParams,$location, ScenarioService, Config) {
+NgUsdClientApp.controller('ScenarioCtrl', ['$scope', '$filter', '$routeParams', '$location', 'ScenarioService','Config', function ($scope, $filter, $routeParams, $location, ScenarioService, Config) {
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
     var pagesAndScenarios = ScenarioService.getScenario(Config.selectedBranch($location), Config.selectedBuild($location), useCaseName, scenarioName, function(pagesAndScenarios) {

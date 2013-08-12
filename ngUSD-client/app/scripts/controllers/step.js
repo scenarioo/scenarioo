@@ -1,24 +1,43 @@
 'use strict';
 
-NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location, Config, ScenarioService, $window) {
+NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location, $window, Config, ScenarioService, StepService) {
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
+    var stepIndex = parseInt($routeParams.stepIndex);
     $scope.pageName = decodeURIComponent($routeParams.pageName);
     $scope.pageIndex = parseInt($routeParams.pageOccurenceInScenario);
-    $scope.stepIndex = parseInt($routeParams.stepIndex);
+    $scope.stepIndex = stepIndex;
 
     var pagesAndScenarios = ScenarioService.getScenario(Config.selectedBranch($location), Config.selectedBuild($location), useCaseName, scenarioName, function(pagesAndScenarios) {
         $scope.scenario = pagesAndScenarios.scenario;
         $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
-        $scope.step = getStep($scope.pagesAndSteps, $scope.pageIndex, $scope.stepIndex);
     });
 
-    function getStep(pagesAndSteps, pageNr, stepNr) {
-        //FIXME handle if page does (no longer) exist
-        if (pagesAndSteps.length<=pageNr) {
-            return null;
-        }
-        return pagesAndSteps[pageNr].steps[stepNr];
+    var step = StepService.getStep(Config.selectedBranch($location), Config.selectedBuild($location), useCaseName, scenarioName, stepIndex, function(step) {
+        $scope.step = step;
+        beautify(step);
+    });
+
+    function beautify(step) {
+        var source = step.html.htmlSource;
+        var opts = {};
+
+        opts.indent_size = 1;
+        opts.indent_char = '\t';
+        opts.max_preserve_newlines = 0;
+        opts.preserve_newlines = opts.max_preserve_newlines !== -1;
+        opts.keep_array_indentation = true;
+        opts.break_chained_methods = true;
+        opts.indent_scripts = 'normal';
+        opts.brace_style = 'collapse';
+        opts.space_before_conditional = true;
+        opts.unescape_strings = true;
+        opts.wrap_line_length = 0;
+        opts.space_after_anon_function = true;
+
+        var output = $window.html_beautify(source, opts);
+        //output = js_beautify(source, opts);
+        $scope.formattedHtml = output;
     }
 
     var w = angular.element($window);

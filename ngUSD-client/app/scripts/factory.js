@@ -61,20 +61,20 @@ NgUsdClientApp.factory('ScenarioService', function ($resource) {
 
 });
 
-NgUsdClientApp.factory('PagesService', function ($resource) {
-    var pagesService = $resource(RestServerPath + '/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName/pages/:pageName',
+NgUsdClientApp.factory('StepService', function ($resource) {
+    var stepService = $resource(RestServerPath + '/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName/steps/:stepIndex',
         {branchName: '@branchName',
             buildName: '@buildName',
             usecaseName: '@usecaseName',
             scenarioName: '@scenarioName',
-            pageName: '@pageName',
+            stepIndex: '@stepIndex',
             port: RestServerPort}, {});
 
-    pagesService.listAllPages = function(branchName, buildName, usecaseName, scenarioName, fn) {
-        return pagesService.get({'branchName': branchName, 'buildName': buildName, 'usecaseName': usecaseName, 'scenarioName': scenarioName}, fn);
+    stepService.getStep = function(branchName, buildName, usecaseName, scenarioName, stepIndex, fn) {
+        return stepService.get({'branchName': branchName, 'buildName': buildName, 'usecaseName': usecaseName, 'scenarioName': scenarioName, 'stepIndex': stepIndex}, fn);
     }
 
-    return pagesService;
+    return stepService;
 
 });
 

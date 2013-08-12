@@ -45,15 +45,16 @@
             <tabs class="step-panes">
                 <pane heading="Screenshot">
                     <div class="screenshot">
-                        <img src="{{getScreenShotUrl(step.screenshotURL)}}" ng-click="openScreenshotModal()" class="link"/>
+                        <img src="{{getScreenShotUrl(step.step.screenshotURL)}}" ng-click="openScreenshotModal()" class="link"/>
                     </div>
                 </pane>
-                <pane heading="HTML"></pane>
+                <pane heading="HTML">
+                    <pre ng-bind="formattedHtml">
+                    </pre>
+                </pane>
             </tabs>
         </div>
     </div>
-
-
 
     <div class="screenshot-overlay" modal="showingScreenshotModal" close="closeScreenshotModal()" options="modalScreenshotOptions">
         <div class="modal-header">
