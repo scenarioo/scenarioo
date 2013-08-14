@@ -34,6 +34,10 @@ h1 {
     margin-bottom: 10px;
 }
 
+.inline-block {
+    display: inline-block;
+}
+
 /** Breadcrumbs **/
 .breadcrumb-row {
     margin-top: -20px;
@@ -155,6 +159,23 @@ ul.breadcrumb a:hover {
 .step-panes {
     cursor: default;
 }
+
+.meta-data {
+    font-size: 15px;
+}
+.meta-data label {
+    padding-top: 6px;
+    font-size: 16px;
+}
+
+.meta-data .row-fluid {
+    padding-bottom: 15px;
+}
+
+.meta-data dl {
+    margin: 8px 0px;
+}
+
 
 /** Scenario-View */
 .scenario-span1 {

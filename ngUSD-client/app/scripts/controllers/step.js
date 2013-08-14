@@ -137,4 +137,6 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
         backdropFade: true,
         dialogClass:'modal modal-huge'
     };
+
+    $scope.showingMetaData = true;
 });

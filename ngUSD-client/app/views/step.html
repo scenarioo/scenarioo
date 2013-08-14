@@ -22,26 +22,32 @@
             <div ng-click="goToNextPage()" class="link btn btn-primary" tooltip="Next Page" tooltip-placement="bottom">
                 <i class="icon-with-padding icon-large icon-fast-forward"></i>
             </div>
-            <div class="dropdown pull-right">
-                <a class="dropdown-toggle btn btn-default btn-primary">
-                    More Actions
-                    <div class="icon-with-padding"><b class="caret"></b></div>
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a ng-click="goToFirstPage()" class="link">Go to the first page</a>
-                    </li>
-                    <li>
-                        <a ng-click="goToLastPage()" class="link">Go to the last page</a>
-                    </li>
-                </ul>
+            <div class="pull-right">
+                <div class="inline-block dropdown" style="padding-bottom: 2px">
+                    <a class="dropdown-toggle btn btn-default btn-primary">
+                        More Actions
+                        <div class="icon-with-padding"><b class="caret"></b></div>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a ng-click="goToFirstPage()" class="link">Go to the first page</a>
+                        </li>
+                        <li>
+                            <a ng-click="goToLastPage()" class="link">Go to the last page</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="inline-block" ng-click="showingMetaData=!showingMetaData">
+                    <a class="btn btn-default btn-primary" ng-show="showingMetaData">Hide Meta Data</a>
+                    <a class="btn btn-default btn-primary" ng-show="!showingMetaData">Show Meta Data</a>
+                </div>
             </div>
         </div>
     </div>
     <br/>
 
     <div class="row-fluid">
-        <div class="span12">
+        <div ng-class="{true: 'span7', false: 'span12'}[showingMetaData]">
             <tabs class="step-panes">
                 <pane heading="Screenshot">
                     <div class="screenshot">
@@ -54,14 +60,35 @@
                 </pane>
             </tabs>
         </div>
+        <div ng-show="showingMetaData" class="span5 hero-unit meta-data">
+            <h3>Meta Data</h3>
+            <div ng-repeat="(key,value) in step.metadata.details.properties" class="row-fluid">
+                <div class="span4"><label>{{key | toHumanReadable}}</label></div>
+                <div class="span8"><span objecttolist='step.metadata.details.properties.{{key}}'></span></div>
+            </div>
+            <div ng-show="step.step.details.properties && step.step.details.properties.length>1">
+                <h3>Step Properties</h3>
+                <div ng-repeat="(key,value) in step.step.details.properties" class="row-fluid">
+                    <div class="span4"><label>{{key | toHumanReadable}}</label></div>
+                    <div class="span8"><span objecttolist='step.step.properties.{{key}}'></span></div>
+                </div>
+            </div>
+            <div ng-show="step.page.details.properties && step.page.details.properties.length>1">
+                <h3>Page Properties</h3>
+                <div ng-repeat="(key,value) in step.page.details.properties" class="row-fluid">
+                    <div class="span4"><label>{{key | toHumanReadable}}</label></div>
+                    <div class="span8"><span objecttolist='step.page.details.properties.{{key}}'></span></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="screenshot-overlay" modal="showingScreenshotModal" close="closeScreenshotModal()" options="modalScreenshotOptions">
         <div class="modal-header">
-            <h3>Step {{pageIndex}}.{{stepIndex}} {{pageName}}</h3>
+            <h3>Step {{pageIndex+1}}.{{stepIndex}} {{pageName}}</h3>
         </div>
         <div class="modal-body">
-            <img src="{{getScreenShotUrl(step.screenshotURL)}}"/>
+            <img src="{{getScreenShotUrl(step.step.screenshotURL)}}"/>
         </div>
         <div class="modal-footer">
             <button class="btn" ng-click="closeScreenshotModal()">Close</button>
