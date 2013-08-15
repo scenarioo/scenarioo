@@ -46,8 +46,8 @@
     </div>
     <br/>
 
-    <div class="row-fluid">
-        <div ng-class="{true: 'span7', false: 'span12'}[showingMetaData]">
+    <div class="row-fluid step-main">
+        <div ng-class="{true: 'step-data-small span7', false: 'step-data-large span12'}[showingMetaData]">
             <tabs class="step-panes">
                 <pane heading="Screenshot">
                     <div class="screenshot">
@@ -63,20 +63,20 @@
         <div ng-show="showingMetaData" class="span5 hero-unit meta-data">
             <h3>Meta Data</h3>
             <div ng-repeat="(key,value) in step.metadata.details.properties" class="row-fluid">
-                <div class="span4"><label>{{key | toHumanReadable}}</label></div>
-                <div class="span8"><span objecttolist='step.metadata.details.properties.{{key}}'></span></div>
+                <div class="span4" class="label">{{key | toHumanReadable}}</div>
+                <div class="span8" objecttolist='step.metadata.details.properties.{{key}}'></div>
             </div>
             <div ng-show="step.step.details.properties && step.step.details.properties.length>1">
                 <h3>Step Properties</h3>
                 <div ng-repeat="(key,value) in step.step.details.properties" class="row-fluid">
-                    <div class="span4"><label>{{key | toHumanReadable}}</label></div>
+                    <div class="span4" class="label">{{key | toHumanReadable}}</div>
                     <div class="span8"><span objecttolist='step.step.properties.{{key}}'></span></div>
                 </div>
             </div>
             <div ng-show="step.page.details.properties && step.page.details.properties.length>1">
                 <h3>Page Properties</h3>
                 <div ng-repeat="(key,value) in step.page.details.properties" class="row-fluid">
-                    <div class="span4"><label>{{key | toHumanReadable}}</label></div>
+                    <div class="span4" class="label">{{key | toHumanReadable}}</div>
                     <div class="span8"><span objecttolist='step.page.details.properties.{{key}}'></span></div>
                 </div>
             </div>

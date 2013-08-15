@@ -63,11 +63,16 @@ NgUsdClientApp.directive("objecttolist", function($filter, $compile) {
                 if (listMore) {
                     var moreInfoLink = angular.element('<a class="link">more ...</a>');
                     moreInfoLink.bind('click', function() {
-                        listMore.css('display', 'block');
-                        moreInfoLink.css('display', 'none');
-                    })
+                        if (listMore.css('display')=='none') {
+                            listMore.css('display', 'block');
+                            moreInfoLink.text('less ...');
+                        } else {
+                            listMore.css('display', 'none');
+                            moreInfoLink.text('more ...');
+                        }
+                    });
                     listMore.css('display', 'none');
-                    objRepresentation.append(moreInfoLink).append(listMore);
+                    objRepresentation.append(listMore).append(moreInfoLink);
                 }
                 return objRepresentation;
             }

@@ -159,13 +159,33 @@ ul.breadcrumb a:hover {
 .step-panes {
     cursor: default;
 }
+@media (max-width: 1300px) {
+    .meta-data {
+        padding: 15px;
+    }
+}
+@media (max-width: 1000px) {
+    .meta-data {
+        width: 96% !important;
+    }
 
+    .step-data-small {
+        display: none !important;
+    }
+
+}
 .meta-data {
     font-size: 15px;
+    margin-top: 30px;
 }
-.meta-data label {
+.meta-data .label {
     padding-top: 6px;
     font-size: 16px;
+}
+
+.meta-data div.row-fluid div {
+    line-height: 20px;
+    padding: 0px 10px;
 }
 
 .meta-data .row-fluid {
@@ -174,6 +194,11 @@ ul.breadcrumb a:hover {
 
 .meta-data dl {
     margin: 8px 0px;
+}
+
+.element-floating {
+    display: block;
+    float: left;
 }
 
 
@@ -211,6 +236,7 @@ ul.breadcrumb a:hover {
 .screenshot img {
     border: medium solid #333333;
     max-width: 98%;
+    width: auto;
 }
 
 .screenshot-small img {
