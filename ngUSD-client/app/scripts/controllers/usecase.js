@@ -1,44 +1,57 @@
 'use strict';
 
-NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$filter', '$routeParams', '$location', 'ScenarioService', 'BuildStateService', 'Config', function ($scope, $filter, $routeParams, $location, ScenarioService, BuildStateService, Config) {
+NgUsdClientApp.controller('UseCaseCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioService, BuildStateService, Config) {
     var useCaseName = $routeParams.useCaseName;
-    var useCase = ScenarioService.findAllScenarios(Config.selectedBranch($location), Config.selectedBuild($location), useCaseName, function (useCaseAndScenarios) {
-        $scope.useCase = useCaseAndScenarios.useCase;
-        $scope.scenarios = useCaseAndScenarios.scenarios;
-        var states = BuildStateService.ListBuildStates(function (states) {
+    var selectedBranch = Config.selectedBranch($location);
+    var selectedBuild = Config.selectedBuild($location);
 
-            angular.forEach($scope.scenarios, function (scenario) {
-                scenario.buildStateClass = states[scenario.status];
+    $q.all([selectedBranch, selectedBuild]).then(function(result) {
+
+        var useCaseAndScenarios = ScenarioService.findAllScenarios({'branchName': result[0], 'buildName': result[1], 'usecaseName': useCaseName});
+        var propertiesToShow = Config.getConfiguration('scenarioPropertiesInOverview');
+        var states = BuildStateService.ListBuildStates();
+
+        useCaseAndScenarios.then(function(resultScenarios) {
+            $scope.useCase = resultScenarios.useCase;
+            $scope.scenarios = resultScenarios.scenarios;
+
+            propertiesToShow.then(function (resultProperties) {
+                $scope.propertiesToShow = resultProperties;
+                var properties = new Array(resultProperties.length);
+                var propLength = 0;
+                for(var i=0; i<resultProperties.length; i++) {
+                    var property = resultProperties[i];
+                    properties[i] = {text: $filter('toHumanReadable')(property), property: "details.properties."+property, attr: property};
+                }
+                $scope.columns = [
+                    {text: 'Status', property: 'status'},
+                    {text: 'Name', property: 'name'},
+                    {text: 'Actions'},
+                    {text: 'Description'}]
+                    .concat(properties)
+                    .concat([
+                        {text: '# Steps', property: 'calculatedData.numberOfSteps'}]);
             });
         });
 
-        $scope.propertiesToShow = Config.scenarioPropertiesInOverview;
-        var properties = new Array($scope.propertiesToShow.length);
-        var propLength = 0;
-        for(var i=0; i<$scope.propertiesToShow.length; i++) {
-            var property = $scope.propertiesToShow[i];
-            properties[i] = {text: $filter('toHumanReadable')(property), property: "details.properties."+property, attr: property};
-        }
-        $scope.columns = [
-            {text: 'Status', property: 'status'},
-            {text: 'Name', property: 'name'},
-            {text: 'Actions'},
-            {text: 'Description'}]
-            .concat(properties)
-            .concat([
-                {text: '# Steps', property: 'calculatedData.numberOfSteps'}]);
-
-    });
-
+        states.then(function(result) {
+            $scope.getStatusType = function(status){
+                return result[status];
+            }
+        });
+    })
 
     $scope.go = function(useCaseName, scenarioName) {
         $location.path('/scenario/' +useCaseName + '/' + scenarioName);
     }
 
     $scope.goToFirstStep = function(useCaseName, scenarioName) {
-        //FIXME This could be improved, if the scenario service for finding all scenarios would also retrieve the name of the first page
-        var pagesAndScenarios = ScenarioService.getScenario(Config.selectedBranch($location), Config.selectedBuild($location), useCaseName, scenarioName, function(pagesAndScenarios) {
-            $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pagesAndScenarios.pagesAndSteps[0].page.name) + '/0/0');
+        $q.all([selectedBranch, selectedBuild]).then(function(result) {
+            //FIXME This could be improved, if the scenario service for finding all scenarios would also retrieve the name of the first page
+            var scenario = ScenarioService.getScenario({'branchName': result[0], 'buildName': result[1], 'usecaseName': useCaseName, 'scenarioName': scenarioName});
+            scenario.then(function(scenarioResult) {
+                $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(scenarioResult.pagesAndSteps[0].page.name) + '/0/0');
+            });
         });
     }
     $scope.table = {search: {$: ''}, sort: {column: 'name', reverse: false}, filtering: false};
@@ -56,4 +69,4 @@ NgUsdClientApp.controller('UseCaseCtrl', ['$scope', '$filter', '$routeParams', '
     }
 
 
-}]);
+});

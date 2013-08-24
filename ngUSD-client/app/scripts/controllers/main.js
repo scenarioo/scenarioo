@@ -1,18 +1,25 @@
 'use strict';
 
-NgUsdClientApp.controller('MainCtrl', function ($scope, $location, Config, UseCaseService) {
+NgUsdClientApp.controller('MainCtrl', function ($scope, $q, $location, Config, UseCaseService, BuildStateService) {
 
     $scope.searchFieldText;
 
-    $scope.useCaseScenariosList = UseCaseService.findAllUseCases(Config.selectedBranch($location), Config.selectedBuild($location));
+    var selectedBranch = Config.selectedBranch($location);
+    var selectedBuild = Config.selectedBuild($location);
+    $q.all([selectedBranch, selectedBuild]).then(function (result) {
+        $scope.useCaseScenariosList = UseCaseService.findAllUseCases({'branchName': result[0], 'buildName': result[1]});
+    });
 
 
+    var states = BuildStateService.ListBuildStates();
     $scope.getStatusType = function(status){
-        switch (status) {
-            case "success": return "label label-success";
-            case "failed":  return "label label-important";
-            default: return "label";
-        }
+        states.then(function() {
+            if (states[status]) {
+                return states[status] + " label";
+            } else {
+                return "label";
+            }
+        });
     }
 
     $scope.go = function(useCaseName) {

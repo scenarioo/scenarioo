@@ -4,19 +4,19 @@
         <ul class="nav">
             <li><a href="#"><i class="icon-home icon-with-padding"></i>Home</a></li>
             <li class="dropdown">
-                <a class="dropdown-toggle">
+                <a class="dropdown-toggle link">
                     <span class="headerLabel"><i class="icon-hdd icon-with-padding"></i>Branch:</span>
                     {{selectedBranch.branch.name}}
                     <div class="icon-with-padding"><b class="caret"></b></div>
                 </a>
                 <ul class="dropdown-menu">
                     <li ng-repeat="branch in branches">
-                        <a ng-click="setBranch(branch)">{{branch.branch.name}}</a>
+                        <a class="link" ng-click="setBranch(branch)">{{branch.branch.name}}</a>
                     </li>
                 </ul>
             </li>
             <li class="builds dropdown">
-                <a class="dropdown-toggle">
+                <a class="dropdown-toggle link">
                     <span class="headerLabel"><i class="icon-folder-close-alt icon-with-padding"></i>Build:</span>
                     {{getDisplayName(selectedBuild)}}
                     <span class="label state" style="margin-left: 10px" ng-class="getStatusType(selectedBuild.build.state)">{{selectedBuild.build.state}}</span>

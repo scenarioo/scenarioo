@@ -1,15 +1,16 @@
 'use strict';
 
-NgUsdClientApp.controller('ConfigCtrl', function ($scope, ConfigService) {
+NgUsdClientApp.controller('ConfigCtrl', function ($scope, ConfigService, Config) {
 
-    $scope.data = ConfigService.GetConfiguration();
+    $scope.data = ConfigService.getConfiguration();
 
     $scope.resetConfiguration = function() {
-        $scope.data = ConfigService.GetConfiguration();
+        $scope.data = ConfigService.getConfiguration();
     }
 
     $scope.updateConfiguration = function(){
-        ConfigService.UpdateConfiguration($scope.data);
+        ConfigService.updateConfiguration($scope.data);
+        Config.updateConfiguration($scope.data);
     }
 
 });

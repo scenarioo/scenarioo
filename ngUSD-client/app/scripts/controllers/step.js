@@ -1,25 +1,42 @@
 'use strict';
 
-NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location, $window, Config, ScenarioService, StepService) {
+NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, StepService) {
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
+    var selectedBranch = Config.selectedBranch($location);
+    var selectedBuild = Config.selectedBuild($location);
     var stepIndex = parseInt($routeParams.stepIndex);
     $scope.pageName = decodeURIComponent($routeParams.pageName);
     $scope.pageIndex = parseInt($routeParams.pageOccurenceInScenario);
     $scope.stepIndex = stepIndex;
 
-    var pagesAndScenarios = ScenarioService.getScenario(Config.selectedBranch($location), Config.selectedBuild($location), useCaseName, scenarioName, function(pagesAndScenarios) {
-        $scope.scenario = pagesAndScenarios.scenario;
-        $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
-    });
+    $scope.modalScreenshotOptions = {
+        backdropFade: true,
+        dialogClass:'modal modal-huge'
+    };
 
-    var step = StepService.getStep(Config.selectedBranch($location), Config.selectedBuild($location), useCaseName, scenarioName, stepIndex, function(step) {
-        $scope.step = step;
-        beautify(step);
-    });
+    $scope.showingMetaData = $window.innerWidth>1000;
 
-    function beautify(step) {
-        var source = step.html.htmlSource;
+    $q.all([selectedBranch, selectedBuild]).then(function(result) {
+        var pagesAndScenarios = ScenarioService.getScenario({'branchName': result[0], 'buildName': result[1], 'usecaseName': useCaseName, 'scenarioName': scenarioName});
+        pagesAndScenarios.then(function(result) {
+            $scope.scenario = pagesAndScenarios.scenario;
+            $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
+        });
+
+        var step = StepService.getStep({'branchName': result[0], 'buildName': result[1], 'usecaseName': useCaseName, 'scenarioName': scenarioName, 'stepIndex': stepIndex});
+        step.then(function(result) {
+            $scope.step = result;
+            beautify(result.html);
+        });
+
+        $scope.getScreenShotUrl = function(imgName) {
+            return "http://localhost:8050/ngusd/rest/branches/"+result[0]+"/builds/"+result[1]+"/usecases/"+useCaseName+"/scenarios/"+scenarioName+"/image/"+imgName;
+        }
+
+    });
+    function beautify(html) {
+        var source = html.htmlSource;
         var opts = {};
 
         opts.indent_size = 1;
@@ -36,7 +53,6 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
         opts.space_after_anon_function = true;
 
         var output = $window.html_beautify(source, opts);
-        //output = js_beautify(source, opts);
         $scope.formattedHtml = output;
     }
 
@@ -60,10 +76,6 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
         $scope.$apply();
         return false;
     });
-
-    $scope.getScreenShotUrl = function(imgName) {
-        return "http://localhost:8050/ngusd/rest/branches/"+Config.selectedBranch($location)+"/builds/"+Config.selectedBuild($location)+"/usecases/"+useCaseName+"/scenarios/"+scenarioName+"/image/"+imgName;
-    }
 
     $scope.go = function(pageSteps, pageIndex, stepIndex) {
         var pageName = pageSteps.page.name;
@@ -132,11 +144,4 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
     $scope.closeScreenshotModal = function() {
         $scope.showingScreenshotModal = false;
     }
-
-    $scope.modalScreenshotOptions = {
-        backdropFade: true,
-        dialogClass:'modal modal-huge'
-    };
-
-    $scope.showingMetaData = $window.innerWidth>1000;
 });

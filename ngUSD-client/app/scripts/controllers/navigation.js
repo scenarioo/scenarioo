@@ -1,20 +1,24 @@
 'use strict';
 
-NgUsdClientApp.controller('NavigationCtrl', ['$scope', '$location', '$cookieStore', 'BranchService', 'BuildStateService', 'AdminService', 'Config', function ($scope, $location, $cookieStore, BranchService, BuildStateService, AdminService, Config) {
+NgUsdClientApp.controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchService, BuildStateService, AdminService, Config, $q) {
 
     //configuration
     var parameterUrl = {'build': Config.buildUrlParameter, 'branch': Config.branchUrlParameter};
     var parameterCookie = {'build': Config.buildUrlParameter, 'branch': Config.branchUrlParameter};
-    var defaultValue = {'build': Config.buildDefaultValue, 'branch': Config.branchDefaultValue};
     var attributeRelativePath = {'build': "linkName", 'branch': "branch.name"};
 
     var statesToClass = BuildStateService.ListBuildStates();
 
     $scope.updating = false;
 
-    $scope.branches = BranchService.findAllBranches(postProcessing);
+    $scope.branches = BranchService.findAllBranches();
 
-    function postProcessing() {
+    var defaultBranch = Config.defaultBranch();
+    var defaultBuild = Config.defaultBuild();
+
+    $q.all([$scope.branches, defaultBranch, defaultBuild]).then(function(results) {
+        var branches = results[0];
+        var defaultValue = {'branch': results[1], 'build': results[2]};
         reload();
 
         // Trigger reload when query parameters change
@@ -23,7 +27,7 @@ NgUsdClientApp.controller('NavigationCtrl', ['$scope', '$location', '$cookieStor
         });
 
         function reload() {
-            $scope.selectedBranch = retrieveOrCookieOrDefault($scope.branches, 'branch');
+            $scope.selectedBranch = retrieveOrCookieOrDefault(branches, 'branch');
             $scope.selectedBuild = retrieveOrCookieOrDefault($scope.selectedBranch.builds, 'build');
         }
         function getQueryParameter(paramName) {
@@ -105,9 +109,11 @@ NgUsdClientApp.controller('NavigationCtrl', ['$scope', '$location', '$cookieStor
             setCookie(parameterCookie[type], value);
         }
 
-        $scope.getStatusType = function(status){
-            return statesToClass[status];
-        }
+        statesToClass.then(function(result) {
+            $scope.getStatusType = function(status){
+                return result[status];
+            }
+        });
 
         $scope.getDisplayName = function(build) {
             if (build.build.name != build.linkName) {
@@ -141,5 +147,5 @@ NgUsdClientApp.controller('NavigationCtrl', ['$scope', '$location', '$cookieStor
         $scope.closeInfoModal = function() {
             $scope.showingInfoModal = false;
         }
-    }
-}]);
+    });
+});
