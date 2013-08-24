@@ -18,10 +18,12 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
     $scope.showingMetaData = $window.innerWidth>1000;
 
     $q.all([selectedBranch, selectedBuild]).then(function(result) {
+        //FIXME this is could be improved. Add information to the getStep call. however with caching it could be fixed as well
         var pagesAndScenarios = ScenarioService.getScenario({'branchName': result[0], 'buildName': result[1], 'usecaseName': useCaseName, 'scenarioName': scenarioName});
         pagesAndScenarios.then(function(result) {
-            $scope.scenario = pagesAndScenarios.scenario;
-            $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
+            $scope.scenario = result.scenario;
+            $scope.pagesAndSteps = result.pagesAndSteps;
+            bindStepNavigation(result.pagesAndSteps);
         });
 
         var step = StepService.getStep({'branchName': result[0], 'buildName': result[1], 'usecaseName': useCaseName, 'scenarioName': scenarioName, 'stepIndex': stepIndex});
@@ -56,85 +58,83 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
         $scope.formattedHtml = output;
     }
 
-    var w = angular.element($window);
-    w.bind("keypress", function(event) {
-        var ctrlPressed = !!event.ctrlKey;
-        var keyCode = event.keyCode;
-        if (keyCode==37) {
-            if (ctrlPressed) {
-                $scope.goToPreviousPage();
-            } else {
+    function bindStepNavigation(pagesAndSteps) {
+        var w = angular.element($window);
+        w.bind("keypress", function(event) {
+            var ctrlPressed = !!event.ctrlKey;
+            var keyCode = event.keyCode;
+            if (keyCode==37) {
                 $scope.goToPreviousStep();
-            }
-        } else if (keyCode==39) {
-            if (ctrlPressed) {
-                $scope.goToNextPage();
-            } else {
+            } else if (keyCode==38) {
+                $scope.goToPreviousPage();
+            } else if (keyCode==39) {
                 $scope.goToNextStep();
+            } else if (keyCode==40) {
+                $scope.goToNextPage();
             }
+            $scope.$apply();
+            return false;
+        });
+
+        $scope.goToPreviousPage = function() {
+            var pageIndex = $scope.pageIndex-1;
+            var stepIndex = 0;
+            if (pageIndex<0) {
+                pageIndex = 0;
+            }
+            $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
         }
-        $scope.$apply();
-        return false;
-    });
+
+        $scope.goToPreviousStep = function() {
+            var pageIndex = $scope.pageIndex;
+            var stepIndex = $scope.stepIndex-1;
+            if ($scope.stepIndex==0) {
+                if ($scope.pageIndex==0) {
+                    pageIndex = 0;
+                    stepIndex = 0;
+                } else {
+                    pageIndex = $scope.pageIndex-1;
+                    stepIndex = pagesAndSteps[pageIndex].steps.length-1;
+                }
+            }
+            $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
+        }
+
+        $scope.goToNextStep = function() {
+            var pageIndex = $scope.pageIndex;
+            var stepIndex = $scope.stepIndex+1;
+            if (stepIndex >= pagesAndSteps[$scope.pageIndex].steps.length) {
+                pageIndex = $scope.pageIndex+1;
+                stepIndex = 0;
+            }
+            $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
+        }
+
+        $scope.goToNextPage = function() {
+            var pageIndex = $scope.pageIndex+1;
+            var stepIndex = 0;
+            if (pageIndex >= $scope.pagesAndSteps.length) {
+                pageIndex = $scope.pagesAndSteps.length-1;
+            }
+            $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
+        }
+
+        $scope.goToFirstPage = function() {
+            var pageIndex = 0;
+            var stepIndex = 0;
+            $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
+        }
+
+        $scope.goToLastPage = function() {
+            var pageIndex = $scope.pagesAndSteps.length-1;
+            var stepIndex = 0;
+            $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
+        }
+    }
 
     $scope.go = function(pageSteps, pageIndex, stepIndex) {
         var pageName = pageSteps.page.name;
         $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) + '/' + pageIndex + '/' + stepIndex);
-    }
-
-    $scope.goToPreviousPage = function() {
-        var pageIndex = $scope.pageIndex-1;
-        var stepIndex = 0;
-        if (pageIndex<0) {
-            pageIndex = 0;
-        }
-        $scope.go($scope.pagesAndSteps[pageIndex], pageIndex, stepIndex);
-    }
-
-    $scope.goToPreviousStep = function() {
-        var pageIndex = $scope.pageIndex;
-        var stepIndex = $scope.stepIndex-1;
-        if ($scope.stepIndex==0) {
-            if ($scope.pageIndex==0) {
-                pageIndex = 0;
-                stepIndex = 0;
-            } else {
-                pageIndex = $scope.pageIndex-1;
-                stepIndex = $scope.pagesAndSteps[pageIndex].steps.length-1;
-            }
-        }
-        $scope.go($scope.pagesAndSteps[pageIndex], pageIndex, stepIndex);
-    }
-
-    $scope.goToNextStep = function() {
-        var pageIndex = $scope.pageIndex;
-        var stepIndex = $scope.stepIndex+1;
-        if (stepIndex >= $scope.pagesAndSteps[$scope.pageIndex].steps.length) {
-            pageIndex = $scope.pageIndex+1;
-            stepIndex = 0;
-        }
-        $scope.go($scope.pagesAndSteps[pageIndex], pageIndex, stepIndex);
-    }
-
-    $scope.goToNextPage = function() {
-        var pageIndex = $scope.pageIndex+1;
-        var stepIndex = 0;
-        if (pageIndex >= $scope.pagesAndSteps.length) {
-            pageIndex = $scope.pagesAndSteps.length-1;
-        }
-        $scope.go($scope.pagesAndSteps[pageIndex], pageIndex, stepIndex);
-    }
-
-    $scope.goToFirstPage = function() {
-        var pageIndex = 0;
-        var stepIndex = 0;
-        $scope.go($scope.pagesAndSteps[pageIndex], pageIndex, stepIndex);
-    }
-
-    $scope.goToLastPage = function() {
-        var pageIndex = $scope.pagesAndSteps.length-1;
-        var stepIndex = 0;
-        $scope.go($scope.pagesAndSteps[pageIndex], pageIndex, stepIndex);
     }
 
     $scope.openScreenshotModal = function() {

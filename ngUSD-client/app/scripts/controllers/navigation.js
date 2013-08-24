@@ -1,6 +1,6 @@
 'use strict';
 
-NgUsdClientApp.controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchService, BuildStateService, AdminService, Config, $q) {
+NgUsdClientApp.controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchService, BuildStateService, AdminService, Config, $q, $rootScope) {
 
     //configuration
     var parameterUrl = {'build': Config.buildUrlParameter, 'branch': Config.branchUrlParameter};
@@ -129,7 +129,7 @@ NgUsdClientApp.controller('NavigationCtrl', function ($scope, $location, $cookie
             AdminService.UpdateData({}, function() {$scope.updating = false;}, function() {$scope.updating = false});
         }
 
-        $scope.showingInfoModal = isAFirstTimeUser();
+        $rootScope.infoModal = {showing: isAFirstTimeUser() , tab: null};
 
         function isAFirstTimeUser() {
             var previouslyVisited = getCookie("previouslyVisited");
@@ -140,12 +140,12 @@ NgUsdClientApp.controller('NavigationCtrl', function ($scope, $location, $cookie
             return true;
         }
 
-        $scope.openInfoModal = function() {
-            $scope.showingInfoModal = true;
+        $rootScope.openInfoModal = function(tabValue) {
+            $rootScope.infoModal = {showing: true, tab: tabValue};
         }
 
-        $scope.closeInfoModal = function() {
-            $scope.showingInfoModal = false;
+        $rootScope.closeInfoModal = function() {
+            $rootScope.infoModal = {showing: false};
         }
     });
 });
