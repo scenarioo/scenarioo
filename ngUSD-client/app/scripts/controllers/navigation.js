@@ -132,7 +132,8 @@ NgUsdClientApp.controller('NavigationCtrl', function ($scope, $location, $cookie
 
         $scope.updateData = function() {
             $scope.updating = true;
-            AdminService.UpdateData({}, function() {$scope.updating = false;}, function() {$scope.updating = false});
+            var result = AdminService.updateData({});
+            result.then(function() {$scope.updating = false;}, function() {$scope.updating = false});
         }
 
         $rootScope.infoModal = {showing: isAFirstTimeUser() , tab: null};

@@ -1,6 +1,6 @@
 'use strict';
 
-NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, StepService) {
+NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, PageVariantService, StepService) {
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
     var selectedBranch = Config.selectedBranch($location);
@@ -17,7 +17,10 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
 
     $scope.showingMetaData = $window.innerWidth>1000;
 
+
     $q.all([selectedBranch, selectedBuild]).then(function(result) {
+        $scope.pageVariants = PageVariantService.getPageVariants({'branchName': result[0], 'buildName': result[1]});
+
         //FIXME this is could be improved. Add information to the getStep call. however with caching it could be fixed as well
         var pagesAndScenarios = ScenarioService.getScenario({'branchName': result[0], 'buildName': result[1], 'usecaseName': useCaseName, 'scenarioName': scenarioName});
         pagesAndScenarios.then(function(result) {
@@ -35,7 +38,6 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
         $scope.getScreenShotUrl = function(imgName) {
             return "http://localhost:8050/ngusd/rest/branches/"+result[0]+"/builds/"+result[1]+"/usecases/"+useCaseName+"/scenarios/"+scenarioName+"/image/"+imgName;
         }
-
     });
     function beautify(html) {
         var source = html.htmlSource;
@@ -137,11 +139,26 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
         $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) + '/' + pageIndex + '/' + stepIndex);
     }
 
+
+    $scope.goToPageVariant = function(stepIdentification) {
+        stepIdentification.then(function(result) {
+            $location.path('/step/' + result.useCaseName + '/' + result.scenarioName + '/' + encodeURIComponent(result.pageName) + '/' + result.index + '/' + result.relativeIndex);
+        });
+    }
+
     $scope.openScreenshotModal = function() {
         $scope.showingScreenshotModal = true;
     }
 
     $scope.closeScreenshotModal = function() {
         $scope.showingScreenshotModal = false;
+    }
+
+    $scope.shuffleVariant = function() {
+        return $scope.pageVariants.then(function (result) {
+            var variants = result.mapPageToOccurences[$scope.pageName].variants;
+            var index = Math.floor((Math.random()*variants.length));
+            return variants[index];
+        })
     }
 });

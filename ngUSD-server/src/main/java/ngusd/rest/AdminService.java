@@ -12,7 +12,7 @@ public class AdminService {
 	@GET
 	@Path("update")
 	@Produces({ "application/xml", "application/json" })
-	public void listBranchesAndBuilds() {
+	public void updateAll() {
 		System.out.println("Start updating...");
 		UserScenarioDocuManager.INSTANCE.updateAll();
 		System.out.println("Data updated...");
