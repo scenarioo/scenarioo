@@ -3,7 +3,13 @@
     <testDocumentationDirPath>/home/ngUSD/webtestDocuContentExample</testDocumentationDirPath>
     <defaultBranchName>trunk</defaultBranchName>
     <defaultBuildName>current</defaultBuildName>
+    <scenarioPropertiesInOverview>userProfile, configuration</scenarioPropertiesInOverview>
+    <applicationInformation>This is a sample text. Please describe your application.</applicationInformation>
     <buildstates>
+        <entry>
+            <key>failed</key>
+            <value>label-important</value>
+        </entry>
         <entry>
             <key>success</key>
             <value>label-success</value>
@@ -11,10 +17,6 @@
         <entry>
             <key>warning</key>
             <value>label-warning</value>
-        </entry>
-        <entry>
-            <key>failed</key>
-            <value>label-important</value>
         </entry>
     </buildstates>
 </configuration>
