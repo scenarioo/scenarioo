@@ -1,6 +1,10 @@
 /** General **/
-.link {
+.link, .informationModal .nav-tabs {
       cursor: pointer;
+}
+
+.link-no-hover:hover {
+    text-decoration: none;
 }
 
 h1, h2, h3, h4 {
@@ -36,6 +40,10 @@ h1 {
 
 .inline-block {
     display: inline-block;
+}
+
+.btn-wide {
+    width: 150px !important;
 }
 
 /** Breadcrumbs **/
@@ -249,6 +257,10 @@ ul.breadcrumb a:hover {
 }
 
 /** Modal */
+.modal-small div.tab-pane{
+    height: 400px;
+}
+
 .modal-huge .modal-body {
     height: 100%;
     max-height: 670px;
@@ -276,11 +288,33 @@ ul.breadcrumb a:hover {
     max-width: 300px;
     width: 100%;
 }
-.configuration input {
+.configuration input[type="text"], .configuration textarea {
     height: 25px;
     padding-left: 8px;
-    max-width: 290px;
-    width: 100%;
     border: 1px solid #CCCCCC;
     border-radius: 4px 4px 4px 4px;
+    width: 100%;
+}
+.configuration input[type="text"] {
+    max-width: 290px;
+}
+.configuration textarea {
+    max-width: 500px;
+    height: 150px;
+}
+
+/** Information */
+.informationModal div {
+    text-align: justify;
+}
+
+.informationModal .github-link {
+    padding-top: 20px;
+    text-align: center;
+}
+.informationModal .github-link a {
+    color: #5b5b5b !important;
+}
+.informationModal .github-link a:hover {
+    color: #7b7b7b !important;
 }

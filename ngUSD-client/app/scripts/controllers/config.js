@@ -23,8 +23,12 @@ NgUsdClientApp.controller('ConfigCtrl', function ($scope, $q, ConfigService, Bra
     }
 
     $scope.updateConfiguration = function(){
+        $scope.successfullyUpdatedConfiguration = false;
         $scope.configuration.defaultBranchName = $scope.configuredBranch.branch.name;
-        ConfigService.updateConfiguration($scope.configuration);
+        var request = ConfigService.updateConfiguration($scope.configuration);
+        request.then(function() {
+            $scope.successfullyUpdatedConfiguration = true;
+        });
         Config.updateConfiguration($scope.configuration);
     }
 });

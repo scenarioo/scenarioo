@@ -13,8 +13,14 @@ NgUsdClientApp.controller('NavigationCtrl', function ($scope, $location, $cookie
 
     $scope.branches = BranchService.findAllBranches();
 
+    $scope.modalInfoOptions = {
+        backdropFade: true,
+        dialogClass:'modal modal-small'
+    };
+
     var defaultBranch = Config.defaultBranch();
     var defaultBuild = Config.defaultBuild();
+    $scope.applicationInformation = Config.applicationInformation();
 
     $q.all([$scope.branches, defaultBranch, defaultBuild]).then(function(results) {
         var branches = results[0];

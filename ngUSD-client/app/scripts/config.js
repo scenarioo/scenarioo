@@ -56,6 +56,10 @@ NgUsdClientApp.factory('Config', function (ConfigService, $q) {
             return this.getConfigurationAsArray('scenarioPropertiesInOverview');
         },
 
+        applicationInformation: function() {
+            return this.getConfiguration("applicationInformation");
+        },
+
         getConfiguration: function(property) {
             return this.configData.then(function (result) {
                 return eval("result."+property);

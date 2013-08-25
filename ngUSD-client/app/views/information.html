@@ -1,26 +1,50 @@
-<tabs active="Shortcuts">
+<tabs active="Shortcuts" class="informationModal">
+    <pane heading="Application" ng-show="applicationInformation">
+        <div ng-bind-html-unsafe="applicationInformation">
+        </div>
+    </pane>
     <pane heading="Vision">
-        ngUSD is an education project by some developers from Switzerland to develop a webapplication that can be used to browse "User Scenario Documentations",
-        which are documentations generated automatically from your UI tests (e.g. by Selenium). A user scenario documentation is a functional documentation of
-        your software describing all use cases and the most important user scenarios of your software. Each scenario is documented by step by step screenshots
-        and a lot of additional meta information about what is going on in your application.
+        <div>
+            <blockquote style="width: 100%">
+                <p>Documentation is in the Code.</p>
+                <small>Our vision</small>
+            </blockquote>
+            <p>
+                ngUSD is a user scenario documentation, a functional documentation of the software describing all
+                use cases and the most important user scenarios of your software. Each scenario is documented by step by
+                step screenshots and a lot of additional meta information about what is going on in your application.
+            <p/>
+            <p>
+                With the help of webtests and ngUSD the documentation of your application
+                will never be out of date. You can browse through the nightly created screenshots or compare the newest
+                version to the version of the last release.
+            </p>
+        </div>
     </pane>
 
     <pane heading="Shortcuts" active="infoModal.tab=='Shortcuts'">
         You can use shortcuts to navigate through the steps of a scenario.
-        <dl>
-            <dt><i class="icon icon-arrow-left icon-with-padding"></i> Arrow-Left</dt>
+        <dl class="dl-horizontal">
+            <dt>Arrow-Left <i class="icon icon-arrow-left icon-with-padding"></i> </dt>
             <dd>Previous Step</dd>
-            <dt><i class="icon icon-arrow-right icon-with-padding"></i> Arrow-Right</dt>
+            <dt>Arrow-Right <i class="icon icon-arrow-right icon-with-padding"></i></dt>
             <dd>Next Step</dd>
-            <dt><i class="icon icon-arrow-up icon-with-padding"></i> Arrow-Up</dt>
+            <dt>Arrow-Up <i class="icon icon-arrow-up icon-with-padding"></i></dt>
             <dd>Previous Page</dd>
-            <dt><i class="icon icon-arrow-down icon-with-padding"></i> Arrow-Down</dt>
+            <dt>Arrow-Down <i class="icon icon-arrow-down icon-with-padding"></i></dt>
             <dd>Next Page</dd>
         </dl>
     </pane>
 
     <pane heading="Contributors">
-        <a href="http://github.com/forkch/ngUSD/" target="_blank">http://github.com/forkch/ngUSD/</a>
+        <div>
+            <p>
+                ngUSD is an education project by some developers from Switzerland to develop a web application that can be used to browse "User Scenario Documentations",
+                which are documentations generated automatically from your UI tests (e.g. by Selenium).
+            </p>
+            <h3 class="github-link">
+                <a href="http://github.com/forkch/ngUSD/" target="_blank" class="link-no-hover"><i class="icon-github-sign icon-with-padding"></i> Visit us on Github</a>
+            </h3>
+        </div>
     </pane>
 </tabs>

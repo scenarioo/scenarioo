@@ -24,5 +24,9 @@ public class Configuration {
 	
 	private String defaultBuildName;
 	
+	private String scenarioPropertiesInOverview;
+	
+	private String applicationInformation;
+	
 	private Map<String, String> buildstates = new HashMap<String, String>();
 }
