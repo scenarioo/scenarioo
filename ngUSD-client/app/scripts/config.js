@@ -6,18 +6,20 @@ NgUsdClientApp.factory('Config', function (ConfigService, $q) {
 
     var branchDefaultValue= "trunk";
 
-    var scenarioPropertiesInOverview= ['userProfile', 'configuration'];
+    var scenarioPropertiesInOverview= [];
 
     var Config = {
         configData: {},
         branchUrlParameter: "branch",
         buildUrlParameter: "build",
 
-        updateConfiguration: function (data) {
-            if (!data) {
-                this.configData = ConfigService.getConfiguration();
+        updateConfiguration: function (newConfig) {
+            if (newConfig) {
+                var deferred = $q.defer();
+                deferred.resolve(newConfig);
+                this.configData = deferred.promise;
             } else {
-                this.configData = data;
+                this.configData = ConfigService.getConfiguration();
             }
         },
 
@@ -50,10 +52,23 @@ NgUsdClientApp.factory('Config', function (ConfigService, $q) {
             return this.getConfiguration("defaultBuildName");
         },
 
+        scenarioPropertiesInOverview: function() {
+            return this.getConfigurationAsArray('scenarioPropertiesInOverview');
+        },
 
         getConfiguration: function(property) {
             return this.configData.then(function (result) {
                 return eval("result."+property);
+            });
+        },
+
+        getConfigurationAsArray: function(property) {
+            return this.getConfiguration(property).then(function (result) {
+                var array = result.split(',');
+                for (var index=0; index<array.length; index++) {
+                    array[index] = array[index].replace(/^\s+|\s+$/g, '');
+                }
+                return array;
             });
         }
     };

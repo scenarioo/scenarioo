@@ -7,9 +7,24 @@
         </div>
     </div>
 
-    <form novalidate class="simple-form">
-        <div class="row-fluid" ng-repeat="(key,value) in data" ng-show="value.length">
-          <div class="span2">{{ key | toHumanReadable }}</div><div class="span8"><input type="text" ng-model="data[key]" /></div>
+    <form novalidate class="simple-form configuration">
+        <div class="row-fluid">
+            <div class="span2">Default Branch</div>
+            <div class="span8">
+                <select ng-model="configuredBranch" ng-options="branch as branch.branch.name for branch in configurableBranches"></select>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span2">Default Build</div>
+            <div class="span8">
+                <select ng-model="configuration.defaultBuildName" ng-options="build.linkName as build.linkName for build in configuredBranch.builds"></select>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span2" tooltip="... shown in the overview of a use case">Scenario Properties</div>
+            <div class="span8">
+                <input ng-model="configuration.scenarioPropertiesInOverview"/>
+            </div>
         </div>
         <div class="row-fluid">
             <input type="button" ng-click="updateConfiguration()" value="Send" class="btn span1"/>

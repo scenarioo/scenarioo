@@ -270,3 +270,17 @@ ul.breadcrumb a:hover {
         margin-left: -290px;
     }
 }
+
+/** Configuration */
+.configuration select {
+    max-width: 300px;
+    width: 100%;
+}
+.configuration input {
+    height: 25px;
+    padding-left: 8px;
+    max-width: 290px;
+    width: 100%;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px 4px 4px 4px;
+}

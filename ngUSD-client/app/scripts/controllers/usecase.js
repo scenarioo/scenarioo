@@ -8,7 +8,7 @@ NgUsdClientApp.controller('UseCaseCtrl', function ($scope, $q, $filter, $routePa
     $q.all([selectedBranch, selectedBuild]).then(function(result) {
 
         var useCaseAndScenarios = ScenarioService.findAllScenarios({'branchName': result[0], 'buildName': result[1], 'usecaseName': useCaseName});
-        var propertiesToShow = Config.getConfiguration('scenarioPropertiesInOverview');
+        var propertiesToShow = Config.scenarioPropertiesInOverview();
         var states = BuildStateService.ListBuildStates();
 
         useCaseAndScenarios.then(function(resultScenarios) {
