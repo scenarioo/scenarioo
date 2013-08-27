@@ -27,18 +27,6 @@ NgUsdClientApp.factory('BranchService', function ($resource, $q, REST_API_URL) {
     return branchService;
 });
 
-NgUsdClientApp.factory('PageVariantService', function ($resource, $q, REST_API_URL) {
-    var pageVariantsService = $resource(REST_API_URL + '/branches/:branchName/builds/:buildName/pagevariants',
-        {   branchName: '@branchName',
-            buildName: '@buildName'}, {});
-
-    pageVariantsService.getPageVariants = getPromise($q, function(parameters, fnSuccess, fnError) {
-        return pageVariantsService.get(parameters, fnSuccess, fnError);
-    });
-    return pageVariantsService;
-});
-
-
 NgUsdClientApp.factory('UseCaseService', function ($resource, $q, REST_API_URL) {
     var useCaseService = $resource(REST_API_URL + '/branches/:branchName/builds/:buildName/usecases/:usecaseName',
         {   branchName: '@branchName',

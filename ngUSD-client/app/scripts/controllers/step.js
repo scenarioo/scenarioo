@@ -1,6 +1,6 @@
 'use strict';
 
-NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, PageVariantService, StepService) {
+NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, StepService) {
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
     var selectedBranch = Config.selectedBranch($location);
@@ -19,14 +19,23 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
 
 
     $q.all([selectedBranch, selectedBuild]).then(function(result) {
-        $scope.pageVariants = PageVariantService.getPageVariants({'branchName': result[0], 'buildName': result[1]});
-
         //FIXME this is could be improved. Add information to the getStep call. however with caching it could be fixed as well
         var pagesAndScenarios = ScenarioService.getScenario({'branchName': result[0], 'buildName': result[1], 'usecaseName': useCaseName, 'scenarioName': scenarioName});
         pagesAndScenarios.then(function(result) {
             $scope.scenario = result.scenario;
             $scope.pagesAndSteps = result.pagesAndSteps;
+            $scope.stepDescription = result.pagesAndSteps[$scope.pageIndex].steps[$scope.stepIndex];
             bindStepNavigation(result.pagesAndSteps);
+
+            $scope.goToPreviousVariant = function() {
+                var previousVariant = $scope.stepDescription.previousStepVariant;
+                $location.path('/step/' + previousVariant.useCaseName + '/' + previousVariant.scenarioName + '/' + encodeURIComponent(previousVariant.pageName) + '/' + previousVariant.occurence + '/' + previousVariant.relativeIndex);
+            };
+
+            $scope.goToNextVariant = function() {
+                var nextStepVariant = $scope.stepDescription.nextStepVariant;
+                $location.path('/step/' + nextStepVariant.useCaseName + '/' + nextStepVariant.scenarioName + '/' + encodeURIComponent(nextStepVariant.pageName) + '/' + nextStepVariant.occurence + '/' + nextStepVariant.relativeIndex);
+            };
         });
 
         var step = StepService.getStep({'branchName': result[0], 'buildName': result[1], 'usecaseName': useCaseName, 'scenarioName': scenarioName, 'stepIndex': stepIndex});
@@ -139,26 +148,11 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
         $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) + '/' + pageIndex + '/' + stepIndex);
     }
 
-
-    $scope.goToPageVariant = function(stepIdentification) {
-        stepIdentification.then(function(result) {
-            $location.path('/step/' + result.useCaseName + '/' + result.scenarioName + '/' + encodeURIComponent(result.pageName) + '/' + result.index + '/' + result.relativeIndex);
-        });
-    }
-
     $scope.openScreenshotModal = function() {
         $scope.showingScreenshotModal = true;
     }
 
     $scope.closeScreenshotModal = function() {
         $scope.showingScreenshotModal = false;
-    }
-
-    $scope.shuffleVariant = function() {
-        return $scope.pageVariants.then(function (result) {
-            var variants = result.mapPageToOccurences[$scope.pageName].variants;
-            var index = Math.floor((Math.random()*variants.length));
-            return variants[index];
-        })
     }
 });

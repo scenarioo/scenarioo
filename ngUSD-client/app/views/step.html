@@ -23,8 +23,12 @@
                 <i class="icon-with-padding icon-large icon-fast-forward"></i>
             </div>
             <div class="pull-right">
-                <div ng-click="goToPageVariant(shuffleVariant())" class="link btn btn-primary" tooltip="Other variant" tooltip-placement="bottom">
-                    <i class="icon-with-padding icon-large icon-shield"></i>
+                <div ng-click="goToPreviousVariant()" class="link btn btn-primary" tooltip="Other variant" tooltip-placement="bottom">
+                    <i class="icon-with-padding icon-large icon-step-backward"></i>
+                </div>
+                {{stepDescription.variantIndex}}
+                <div ng-click="goToNextVariant()" class="link btn btn-primary" tooltip="Other variant" tooltip-placement="bottom">
+                    <i class="icon-with-padding icon-large icon-step-forward"></i>
                 </div>
 
                 <div class="inline-block dropdown" style="padding-bottom: 2px">

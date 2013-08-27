@@ -31,5 +31,4 @@ public class StepIdentification {
 	private int index;
 	private int occurence;
 	private int relativeIndex;
-	
 }

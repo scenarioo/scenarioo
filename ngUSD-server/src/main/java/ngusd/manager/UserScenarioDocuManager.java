@@ -34,8 +34,6 @@ public class UserScenarioDocuManager {
 	
 	private final UserScenarioDocuFilesystem filesystem = new UserScenarioDocuFilesystem();
 	
-	private final UserScenarioDocuAggregator aggregator = new UserScenarioDocuAggregator();
-	
 	private List<BranchBuilds> branchBuildsList = new ArrayList<BranchBuilds>();
 	
 	/**
@@ -50,6 +48,7 @@ public class UserScenarioDocuManager {
 		List<BranchBuilds> branchBuildsList = filesystem.loadBranchBuildsList();
 		for (BranchBuilds branchBuilds : branchBuildsList) {
 			for (BuildLink buildLink : branchBuilds.getBuilds()) {
+				UserScenarioDocuAggregator aggregator = new UserScenarioDocuAggregator();
 				if (!aggregator.containsAggregatedDataForBuild(branchBuilds.getBranch().getName(),
 						buildLink.getLinkName())) {
 					aggregator.calculateAggregatedDataForBuild(branchBuilds.getBranch().getName(),
