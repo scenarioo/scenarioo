@@ -1,6 +1,6 @@
 'use strict';
 
-NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, StepService) {
+NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, PageVariantService, StepService) {
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
     var selectedBranch = Config.selectedBranch($location);
@@ -19,8 +19,11 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
 
 
     $q.all([selectedBranch, selectedBuild]).then(function(result) {
+        $scope.pageVariantCounts = PageVariantService.getPageVariantCount({'branchName': result[0], 'buildName': result[1]});
+
         //FIXME this is could be improved. Add information to the getStep call. however with caching it could be fixed as well
         var pagesAndScenarios = ScenarioService.getScenario({'branchName': result[0], 'buildName': result[1], 'usecaseName': useCaseName, 'scenarioName': scenarioName});
+
         pagesAndScenarios.then(function(result) {
             $scope.scenario = result.scenario;
             $scope.pagesAndSteps = result.pagesAndSteps;
@@ -75,11 +78,19 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
             var ctrlPressed = !!event.ctrlKey;
             var keyCode = event.keyCode;
             if (keyCode==37) {
-                $scope.goToPreviousStep();
+                if (event.ctrlKey==1) {
+                    $scope.goToPreviousVariant();
+                } else {
+                    $scope.goToPreviousStep();
+                }
             } else if (keyCode==38) {
                 $scope.goToPreviousPage();
             } else if (keyCode==39) {
-                $scope.goToNextStep();
+                if (event.ctrlKey==1) {
+                    $scope.goToNextVariant();
+                } else {
+                    $scope.goToNextStep();
+                }
             } else if (keyCode==40) {
                 $scope.goToNextPage();
             }

@@ -318,3 +318,12 @@ ul.breadcrumb a:hover {
 .informationModal .github-link a:hover {
     color: #7b7b7b !important;
 }
+
+.ngusd-icon-ctrl {
+    border: 1px solid #CCCCCC;
+    border-radius: 4px 4px 4px 4px;
+    display: inline-block;
+    font-size: 10px;
+    padding: 0px 3px;
+    vertical-align: middle;
+}

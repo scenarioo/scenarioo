@@ -42,6 +42,17 @@ NgUsdClientApp.factory('UseCaseService', function ($resource, $q, REST_API_URL) 
     return useCaseService;
 });
 
+NgUsdClientApp.factory('PageVariantService', function ($resource, $q, REST_API_URL) {
+    var pageVariantService = $resource(REST_API_URL + '/branches/:branchName/builds/:buildName/search/pagevariants/',
+        {   branchName: '@branchName',
+            buildName: '@buildName'}, {});
+
+    pageVariantService.getPageVariantCount = getPromise($q, function(parameters, fnSuccess, fnError) {
+        return pageVariantService.query(parameters, fnSuccess, fnError);
+    });
+    return pageVariantService;
+});
+
 
 NgUsdClientApp.factory('ScenarioService', function ($resource, $q, REST_API_URL) {
     var scenarioService = $resource(REST_API_URL + '/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName',

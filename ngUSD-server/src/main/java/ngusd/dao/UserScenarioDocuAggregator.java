@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import lombok.Data;
 import ngusd.model.docu.aggregates.scenarios.PageSteps;
 import ngusd.model.docu.aggregates.scenarios.ScenarioPageSteps;
+import ngusd.model.docu.aggregates.usecases.PageVariantsCounter;
 import ngusd.model.docu.aggregates.usecases.UseCaseScenarios;
 import ngusd.model.docu.aggregates.usecases.UseCaseScenariosList;
 import ngusd.model.docu.entities.Page;
@@ -56,17 +57,19 @@ public class UserScenarioDocuAggregator {
 		}
 		
 		// Set all
-		Map<String, Integer> counters = new HashMap<String, Integer>();
+		HashMap<String, Integer> counters = new HashMap<String, Integer>();
 		for (Entry<String, StepVariantState> entry : mapOfStepVariant.entrySet()) {
 			StepVariantState variant = entry.getValue();
 			counters.put(entry.getKey(), variant.getCounter());
-			
-			// TODO set counter list
 			
 			StepIdentification lastStep = variant.getPreviousStep();
 			setNextVariant(branchName, buildName, null, lastStep, variant.getFirstStep());
 			setPreviousVariant(branchName, buildName, variant.getFirstStep(), lastStep);
 		}
+		
+		// Write counter
+		File fileCounter = filesystem.filePath(branchName, buildName, "pageVariantCounter.xml");
+		XMLFileUtil.marshal(new PageVariantsCounter(counters), fileCounter, PageVariantsCounter.class);
 		
 		// Write usecases
 		File file = filesystem.filePath(branchName, buildName, "usecases.xml");

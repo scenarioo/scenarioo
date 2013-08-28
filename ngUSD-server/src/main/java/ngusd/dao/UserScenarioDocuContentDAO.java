@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import ngusd.model.docu.aggregates.scenarios.ScenarioPageSteps;
+import ngusd.model.docu.aggregates.usecases.PageVariantsCounter;
 import ngusd.model.docu.aggregates.usecases.UseCaseScenarios;
 import ngusd.model.docu.aggregates.usecases.UseCaseScenariosList;
 
@@ -42,6 +43,12 @@ public class UserScenarioDocuContentDAO {
 		File file = filesystem.filePath(branchName, buildName, usecaseName,
 				scenarioName, "scenarioPageSteps.xml");
 		return XMLFileUtil.unmarshal(file, ScenarioPageSteps.class);
+	}
+	
+	public PageVariantsCounter loadPageVariantsCounter(final String branchName, final String buildName) {
+		
+		File file = filesystem.filePath(branchName, buildName, "pageVariantCounter.xml");
+		return XMLFileUtil.unmarshal(file, PageVariantsCounter.class);
 	}
 	
 }
