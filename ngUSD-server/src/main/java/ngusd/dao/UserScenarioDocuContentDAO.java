@@ -27,7 +27,7 @@ public class UserScenarioDocuContentDAO {
 	private final UserScenarioDocuFilesystem filesystem = new UserScenarioDocuFilesystem();
 	
 	public List<UseCaseScenarios> loadUseCaseScenariosList(final String branchName, final String buildName) {
-		File file = filesystem.filePath(branchName, buildName, "usecases.xml");
+		File file = filesystem.filePath(branchName, buildName, UserScenarioDocuAggregator.FILENAME_USECASES_XML);
 		UseCaseScenariosList list = XMLFileUtil.unmarshal(file, UseCaseScenariosList.class);
 		return list.getUseCaseScenarios();
 	}
@@ -35,7 +35,7 @@ public class UserScenarioDocuContentDAO {
 	public UseCaseScenarios loadUseCaseScenarios(final String branchName, final String buildName,
 			final String usecaseName) {
 		File scenariosFile = filesystem.filePath(branchName, buildName, usecaseName,
-				"scenarios.xml");
+				UserScenarioDocuAggregator.FILENAME_SCENARIOS_XML);
 		return XMLFileUtil.unmarshal(scenariosFile, UseCaseScenarios.class);
 	}
 	
@@ -44,13 +44,13 @@ public class UserScenarioDocuContentDAO {
 			final String scenarioName) {
 		
 		File file = filesystem.filePath(branchName, buildName, usecaseName,
-				scenarioName, "scenarioPageSteps.xml");
+				scenarioName, UserScenarioDocuAggregator.FILENAME_SCENARIO_PAGE_STEPS_XML);
 		return XMLFileUtil.unmarshal(file, ScenarioPageSteps.class);
 	}
 	
 	public PageVariantsCounter loadPageVariantsCounter(final String branchName, final String buildName) {
 		
-		File file = filesystem.filePath(branchName, buildName, "pageVariantCounter.xml");
+		File file = filesystem.filePath(branchName, buildName, UserScenarioDocuAggregator.FILENAME_PAGE_VARIANT_COUNTERS_XML);
 		return XMLFileUtil.unmarshal(file, PageVariantsCounter.class);
 	}
 	
