@@ -3,6 +3,9 @@ package ngusd.dao;
 import java.io.File;
 import java.util.List;
 
+import ngusd.aggregator.UserScenarioDocuAggregator;
+import ngusd.dao.filesystem.UserScenarioDocuFilesystem;
+import ngusd.dao.filesystem.XMLFileUtil;
 import ngusd.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import ngusd.model.docu.aggregates.usecases.PageVariantsCounter;
 import ngusd.model.docu.aggregates.usecases.UseCaseScenarios;

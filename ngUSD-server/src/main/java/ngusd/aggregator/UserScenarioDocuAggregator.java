@@ -1,13 +1,20 @@
-package ngusd.dao;
+package ngusd.aggregator;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 
 import lombok.Data;
+import ngusd.dao.UserScenarioDocuContentDAO;
+import ngusd.dao.filesystem.UserScenarioDocuFilesystem;
+import ngusd.dao.filesystem.XMLFileUtil;
 import ngusd.model.docu.aggregates.scenarios.PageSteps;
 import ngusd.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import ngusd.model.docu.aggregates.usecases.PageVariantsCounter;
@@ -21,7 +28,26 @@ import ngusd.model.docu.entities.StepDescription;
 import ngusd.model.docu.entities.StepIdentification;
 import ngusd.model.docu.entities.UseCase;
 
+import org.apache.commons.lang3.StringUtils;
+
+/**
+ * The aggregator reads the input docu files of a build and generates the
+ * aggregated docu files with additional precalculated data (like indexes etc.).
+ * 
+ * Make sure to adjust the value of
+ * {@link UserScenarioDocuAggregator#CURRENT_FILE_FORMAT_VERSION} when the
+ * format of generated data is extended or changed.
+ */
 public class UserScenarioDocuAggregator {
+	
+	/**
+	 * Version of the file format in filesystem. The data aggregator checks
+	 * whether the file format is the same, otherwise the data has to be
+	 * recalculated.
+	 */
+	public static final String CURRENT_FILE_FORMAT_VERSION = "0.2";
+	
+	private static final String VERSION_PROPERTY_KEY = "ngUSD.derived.file.format.version";
 	
 	private final UserScenarioDocuFilesystem filesystem = new UserScenarioDocuFilesystem();
 	
@@ -46,8 +72,21 @@ public class UserScenarioDocuAggregator {
 	}
 	
 	public boolean containsAggregatedDataForBuild(final String branchName, final String buildName) {
-		File fileUsecases = filesystem.filePath(branchName, buildName, "usecases.xml");
-		return fileUsecases.exists();
+		File versionFile = filesystem.filePath(branchName, buildName, "version.derived.properties");
+		if (versionFile.exists()) {
+			Properties properties = new Properties();
+			try {
+				properties.load(new FileReader(versionFile));
+				String version = properties.getProperty(VERSION_PROPERTY_KEY);
+				return !StringUtils.isBlank(version) && version.equals(CURRENT_FILE_FORMAT_VERSION);
+			} catch (FileNotFoundException e) {
+				throw new RuntimeException("file not found: " + versionFile.getAbsolutePath(), e);
+			} catch (IOException e) {
+				throw new RuntimeException("file not readable: " + versionFile.getAbsolutePath(), e);
+			}
+		} else {
+			return false;
+		}
 	}
 	
 	public void calculateAggregatedDataForBuild(final String branchName, final String buildName) {
@@ -68,12 +107,19 @@ public class UserScenarioDocuAggregator {
 		}
 		
 		// Write counter
-		File fileCounter = filesystem.filePath(branchName, buildName, "pageVariantCounter.xml");
+		File fileCounter = filesystem.filePath(branchName, buildName, "pageVariantCounter.derived.xml");
 		XMLFileUtil.marshal(new PageVariantsCounter(counters), fileCounter, PageVariantsCounter.class);
 		
 		// Write usecases
-		File file = filesystem.filePath(branchName, buildName, "usecases.xml");
+		File file = filesystem.filePath(branchName, buildName, "usecases.derived.xml");
 		XMLFileUtil.marshal(useCaseScenariosList, file, UseCaseScenariosList.class);
+		
+		// Write version
+		File versionFile = filesystem.filePath(branchName, buildName, "version.derived.properties");
+		Properties versionProperties = new Properties();
+		versionProperties.setProperty(VERSION_PROPERTY_KEY, CURRENT_FILE_FORMAT_VERSION);
+		filesystem.saveProperties(versionFile, versionProperties, "ngUSD derived files format version");
+		
 	}
 	
 	private UseCaseScenariosList calculateUseCaseScenariosList(final String branchName, final String buildName) {
@@ -102,7 +148,7 @@ public class UserScenarioDocuAggregator {
 	private void writeUseCaseScenarios(final String branchName, final String buildName,
 			final UseCaseScenarios useCaseScenarios) {
 		File scenariosFile = filesystem.filePath(branchName, buildName, useCaseScenarios.getUseCase().getName(),
-				"scenarios.xml");
+				"scenarios.derived.xml");
 		XMLFileUtil.marshal(useCaseScenarios, scenariosFile, UseCaseScenarios.class);
 	}
 	
@@ -116,7 +162,8 @@ public class UserScenarioDocuAggregator {
 	
 	private void writeScenarioPageSteps(final String branchName, final String buildName, final String usecaseName,
 			final String scenarioName, final ScenarioPageSteps scenarioPageSteps) {
-		File file = filesystem.filePath(branchName, buildName, usecaseName, scenarioName, "scenarioPageSteps.xml");
+		File file = filesystem.filePath(branchName, buildName, usecaseName, scenarioName,
+				"scenarioPageSteps.derived.xml");
 		XMLFileUtil.marshal(scenarioPageSteps, file, ScenarioPageSteps.class);
 	}
 	

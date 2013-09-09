@@ -7,7 +7,7 @@ import javax.ws.rs.Produces;
 import ngusd.manager.UserScenarioDocuManager;
 
 @Path("/rest/admin/")
-public class AdminService {
+public class AdminResource {
 	
 	@GET
 	@Path("update")

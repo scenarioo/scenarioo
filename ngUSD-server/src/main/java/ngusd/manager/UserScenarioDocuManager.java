@@ -6,9 +6,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import ngusd.aggregator.UserScenarioDocuAggregator;
 import ngusd.dao.ConfigurationDAO;
-import ngusd.dao.UserScenarioDocuAggregator;
-import ngusd.dao.UserScenarioDocuFilesystem;
+import ngusd.dao.filesystem.UserScenarioDocuFilesystem;
 import ngusd.model.docu.aggregates.branches.BranchBuilds;
 import ngusd.model.docu.aggregates.branches.BuildLink;
 

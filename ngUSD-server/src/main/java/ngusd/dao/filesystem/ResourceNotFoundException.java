@@ -1,4 +1,4 @@
-package ngusd.dao;
+package ngusd.dao.filesystem;
 
 import lombok.Getter;
 

@@ -2,18 +2,11 @@ package ngusd.dao;
 
 import java.io.File;
 
+import ngusd.dao.filesystem.XMLFileUtil;
 import ngusd.model.configuration.Configuration;
 
 /**
- * DAO for accessing user scenario docu content from filesystem, that is either
- * generated or already precalculated.
- * 
- * The DAO should in general only access data by reading one file and should not
- * have to calculate additional data or read a lot of different files or even
- * strip unwanted data.
- * 
- * Data that is not available directly from a file should be precalculated in
- * {@link UserScenarioDocuAggregator} to make it easily available for DAO.
+ * DAO for accessing USD configuration data from filesysem.
  */
 public class ConfigurationDAO {
 	

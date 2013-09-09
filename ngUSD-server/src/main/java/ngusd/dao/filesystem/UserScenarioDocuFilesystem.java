@@ -1,9 +1,13 @@
-package ngusd.dao;
+package ngusd.dao.filesystem;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
+import ngusd.dao.ConfigurationDAO;
 import ngusd.model.docu.aggregates.branches.BranchBuilds;
 import ngusd.model.docu.aggregates.branches.BuildLink;
 import ngusd.model.docu.entities.Branch;
@@ -113,6 +117,16 @@ public class UserScenarioDocuFilesystem {
 		File img = filePath(branchName, buildName, usecaseName,
 				scenarioName, "screenshots", imgName);
 		return img;
+	}
+	
+	public void saveProperties(final File file, final Properties properties, final String comment) {
+		
+		try {
+			properties.store(new FileWriter(file), comment);
+		} catch (IOException e) {
+			throw new RuntimeException("could not write " + file.getAbsolutePath(), e);
+		}
+		
 	}
 	
 }

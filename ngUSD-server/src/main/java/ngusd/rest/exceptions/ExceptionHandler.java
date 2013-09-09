@@ -4,7 +4,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import ngusd.dao.ResourceNotFoundException;
+import ngusd.dao.filesystem.ResourceNotFoundException;
 
 import com.sun.istack.logging.Logger;
 
