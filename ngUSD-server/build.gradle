@@ -30,3 +30,13 @@ eclipse {
 // Prevent Eclipse "Gradle -> Refresh All" to execute cleanEclipseJdt,
 // because it would delete our version of the org.eclipse.jdt.ui.prefs file.
 cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt
+
+task buildClient(type: Exec) {
+    commandLine '../ngUSD-client/build.sh'
+}																																																																																																																																																																																																																																																																																																
+																																																																																																																																																																																																	
+war {
+    from '../ngUSD-client/dist'
+}
+
+war.dependsOn = war.taskDependencies.values + tasks.buildClient
