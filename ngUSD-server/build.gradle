@@ -10,13 +10,13 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.jboss.resteasy', name: 'resteasy-jaxrs', version: '2.3.3.Final'
-    compile group: 'org.jboss.resteasy', name: 'resteasy-jaxb-provider', version: '2.3.3.Final'
-    compile group: 'org.jboss.resteasy', name: 'resteasy-jackson-provider', version: '2.3.3.Final'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.1'
+    compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.3.Final'
+    compile 'org.jboss.resteasy:resteasy-jaxb-provider:2.3.3.Final'
+    compile 'org.jboss.resteasy:resteasy-jackson-provider:2.3.3.Final'
+    compile 'org.apache.commons:commons-lang3:3.1'
     compile 'log4j:log4j:1.2.17'
-    providedCompile group: 'org.projectlombok', name: 'lombok', version: '0.11.8'
-    providedCompile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
+    providedCompile 'org.projectlombok:lombok:0.11.8'
+    providedCompile 'javax.servlet:servlet-api:2.5'
 }
 
 eclipse {
