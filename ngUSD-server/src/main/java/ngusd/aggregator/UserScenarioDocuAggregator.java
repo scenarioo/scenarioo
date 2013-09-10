@@ -29,7 +29,6 @@ import ngusd.model.docu.entities.StepIdentification;
 import ngusd.model.docu.entities.UseCase;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 
 /**
  * The aggregator reads the input docu files of a build and generates the
@@ -40,9 +39,6 @@ import org.apache.log4j.Logger;
  * format of generated data is extended or changed.
  */
 public class UserScenarioDocuAggregator {
-	
-	private static final Logger LOGGER = Logger
-			.getLogger(UserScenarioDocuAggregator.class);
 	
 	/**
 	 * Version of the file format in filesystem. The data aggregator checks
@@ -81,78 +77,58 @@ public class UserScenarioDocuAggregator {
 		}
 	}
 	
-	public boolean containsAggregatedDataForBuild(final String branchName,
-			final String buildName) {
-		File versionFile = filesystem.filePath(branchName, buildName,
-				FILENAME_VERSION_PROPERTIES);
+	public boolean containsAggregatedDataForBuild(final String branchName, final String buildName) {
+		File versionFile = filesystem.filePath(branchName, buildName, FILENAME_VERSION_PROPERTIES);
 		if (versionFile.exists()) {
 			Properties properties = new Properties();
 			try {
 				properties.load(new FileReader(versionFile));
 				String version = properties.getProperty(VERSION_PROPERTY_KEY);
-				return !StringUtils.isBlank(version)
-						&& version.equals(CURRENT_FILE_FORMAT_VERSION);
+				return !StringUtils.isBlank(version) && version.equals(CURRENT_FILE_FORMAT_VERSION);
 			} catch (FileNotFoundException e) {
-				throw new RuntimeException("file not found: "
-						+ versionFile.getAbsolutePath(), e);
+				throw new RuntimeException("file not found: " + versionFile.getAbsolutePath(), e);
 			} catch (IOException e) {
-				throw new RuntimeException("file not readable: "
-						+ versionFile.getAbsolutePath(), e);
+				throw new RuntimeException("file not readable: " + versionFile.getAbsolutePath(), e);
 			}
 		} else {
 			return false;
 		}
 	}
 	
-	public void calculateAggregatedDataForBuild(final String branchName,
-			final String buildName) {
-		
-		UseCaseScenariosList useCaseScenariosList = calculateUseCaseScenariosList(
-				branchName, buildName);
-		for (UseCaseScenarios scenarios : useCaseScenariosList
-				.getUseCaseScenarios()) {
+	public void calculateAggregatedDataForBuild(final String branchName, final String buildName) {
+		UseCaseScenariosList useCaseScenariosList = calculateUseCaseScenariosList(branchName, buildName);
+		for (UseCaseScenarios scenarios : useCaseScenariosList.getUseCaseScenarios()) {
 			calulateAggregatedDataForUseCase(branchName, buildName, scenarios);
 		}
 		
 		// Set all
 		HashMap<String, Integer> counters = new HashMap<String, Integer>();
-		for (Entry<String, StepVariantState> entry : mapOfStepVariant
-				.entrySet()) {
+		for (Entry<String, StepVariantState> entry : mapOfStepVariant.entrySet()) {
 			StepVariantState variant = entry.getValue();
 			counters.put(entry.getKey(), variant.getCounter());
 			
 			StepIdentification lastStep = variant.getPreviousStep();
-			setNextVariant(branchName, buildName, null, lastStep,
-					variant.getFirstStep());
-			setPreviousVariant(branchName, buildName, variant.getFirstStep(),
-					lastStep);
+			setNextVariant(branchName, buildName, null, lastStep, variant.getFirstStep());
+			setPreviousVariant(branchName, buildName, variant.getFirstStep(), lastStep);
 		}
 		
 		// Write counter
-		File fileCounter = filesystem.filePath(branchName, buildName,
-				FILENAME_PAGE_VARIANT_COUNTERS_XML);
-		XMLFileUtil.marshal(new PageVariantsCounter(counters), fileCounter,
-				PageVariantsCounter.class);
+		File fileCounter = filesystem.filePath(branchName, buildName, FILENAME_PAGE_VARIANT_COUNTERS_XML);
+		XMLFileUtil.marshal(new PageVariantsCounter(counters), fileCounter, PageVariantsCounter.class);
 		
 		// Write usecases
-		File file = filesystem.filePath(branchName, buildName,
-				FILENAME_USECASES_XML);
-		XMLFileUtil.marshal(useCaseScenariosList, file,
-				UseCaseScenariosList.class);
+		File file = filesystem.filePath(branchName, buildName, FILENAME_USECASES_XML);
+		XMLFileUtil.marshal(useCaseScenariosList, file, UseCaseScenariosList.class);
 		
 		// Write version
-		File versionFile = filesystem.filePath(branchName, buildName,
-				FILENAME_VERSION_PROPERTIES);
+		File versionFile = filesystem.filePath(branchName, buildName, FILENAME_VERSION_PROPERTIES);
 		Properties versionProperties = new Properties();
-		versionProperties.setProperty(VERSION_PROPERTY_KEY,
-				CURRENT_FILE_FORMAT_VERSION);
-		filesystem.saveProperties(versionFile, versionProperties,
-				"ngUSD derived files format version");
+		versionProperties.setProperty(VERSION_PROPERTY_KEY, CURRENT_FILE_FORMAT_VERSION);
+		filesystem.saveProperties(versionFile, versionProperties, "ngUSD derived files format version");
 		
 	}
 	
-	private UseCaseScenariosList calculateUseCaseScenariosList(
-			final String branchName, final String buildName) {
+	private UseCaseScenariosList calculateUseCaseScenariosList(final String branchName, final String buildName) {
 		
 		UseCaseScenariosList result = new UseCaseScenariosList();
 		List<UseCaseScenarios> useCaseScenarios = new ArrayList<UseCaseScenarios>();
@@ -160,61 +136,54 @@ public class UserScenarioDocuAggregator {
 		for (UseCase usecase : usecases) {
 			UseCaseScenarios item = new UseCaseScenarios();
 			item.setUseCase(usecase);
-			item.setScenarios(filesystem.loadScenarios(branchName, buildName,
-					usecase.getName()));
+			item.setScenarios(filesystem.loadScenarios(branchName, buildName, usecase.getName()));
 			useCaseScenarios.add(item);
 		}
 		result.setUseCaseScenarios(useCaseScenarios);
 		return result;
 	}
 	
-	private void calulateAggregatedDataForUseCase(final String branchName,
-			final String buildName, final UseCaseScenarios useCaseScenarios) {
+	private void calulateAggregatedDataForUseCase(final String branchName, final String buildName,
+			final UseCaseScenarios useCaseScenarios) {
 		for (Scenario scenario : useCaseScenarios.getScenarios()) {
-			calculateAggregatedDataForScenario(branchName, buildName,
-					useCaseScenarios.getUseCase(), scenario);
+			calculateAggregatedDataForScenario(branchName, buildName, useCaseScenarios.getUseCase(), scenario);
 		}
 		writeUseCaseScenarios(branchName, buildName, useCaseScenarios);
 	}
 	
-	private void writeUseCaseScenarios(final String branchName,
-			final String buildName, final UseCaseScenarios useCaseScenarios) {
-		File scenariosFile = filesystem
-				.filePath(branchName, buildName, useCaseScenarios.getUseCase()
-						.getName(), FILENAME_SCENARIOS_XML);
-		XMLFileUtil.marshal(useCaseScenarios, scenariosFile,
-				UseCaseScenarios.class);
+	private void writeUseCaseScenarios(final String branchName, final String buildName,
+			final UseCaseScenarios useCaseScenarios) {
+		File scenariosFile = filesystem.filePath(branchName, buildName, useCaseScenarios.getUseCase().getName(),
+				FILENAME_SCENARIOS_XML);
+		XMLFileUtil.marshal(useCaseScenarios, scenariosFile, UseCaseScenarios.class);
 	}
 	
-	private void calculateAggregatedDataForScenario(final String branchName,
-			final String buildName, final UseCase usecase,
-			final Scenario scenario) {
-		ScenarioPageSteps scenarioPageSteps = calculateScenarioPageSteps(
-				branchName, buildName, usecase, scenario);
+	private void calculateAggregatedDataForScenario(final String branchName, final String buildName,
+			final UseCase usecase, final Scenario scenario) {
+		ScenarioPageSteps scenarioPageSteps = calculateScenarioPageSteps(branchName, buildName, usecase,
+				scenario);
 		
-		writeScenarioPageSteps(branchName, buildName, usecase.getName(),
-				scenario.getName(), scenarioPageSteps);
+		writeScenarioPageSteps(branchName, buildName, usecase.getName(), scenario.getName(), scenarioPageSteps);
 	}
 	
-	private void writeScenarioPageSteps(final String branchName,
-			final String buildName, final String usecaseName,
+	private void writeScenarioPageSteps(final String branchName, final String buildName, final String usecaseName,
 			final String scenarioName, final ScenarioPageSteps scenarioPageSteps) {
-		File file = filesystem.filePath(branchName, buildName, usecaseName,
-				scenarioName, FILENAME_SCENARIO_PAGE_STEPS_XML);
+		File file = filesystem.filePath(branchName, buildName, usecaseName, scenarioName,
+				FILENAME_SCENARIO_PAGE_STEPS_XML);
 		XMLFileUtil.marshal(scenarioPageSteps, file, ScenarioPageSteps.class);
 	}
 	
-	private ScenarioPageSteps calculateScenarioPageSteps(
-			final String branchName, final String buildName,
-			final UseCase usecase, final Scenario scenario) {
+	private ScenarioPageSteps calculateScenarioPageSteps(final String branchName, final String buildName,
+			final UseCase usecase,
+			final Scenario scenario) {
 		
 		ScenarioPageSteps result = new ScenarioPageSteps();
 		result.setUseCase(usecase);
 		result.setScenario(scenario);
 		
 		// pages and steps
-		List<Step> steps = filesystem.loadSteps(branchName, buildName,
-				usecase.getName(), scenario.getName());
+		List<Step> steps = filesystem.loadSteps(branchName, buildName, usecase.getName(),
+				scenario.getName());
 		int numberOfSteps = steps.size();
 		List<PageSteps> pageStepsList = new ArrayList<PageSteps>();
 		Page page = null;
@@ -223,8 +192,7 @@ public class UserScenarioDocuAggregator {
 		int relativeIndex = 0;
 		int index = 0;
 		for (Step step : steps) {
-			boolean isNewOccurence = page == null || step.getPage() == null
-					|| !page.equals(step.getPage());
+			boolean isNewOccurence = page == null || step.getPage() == null || !page.equals(step.getPage());
 			if (isNewOccurence) {
 				page = step.getPage();
 				pageSteps = new PageSteps();
@@ -241,11 +209,9 @@ public class UserScenarioDocuAggregator {
 			stepDescription.setRelativeIndex(relativeIndex);
 			pageSteps.getSteps().add(stepDescription);
 			
-			StepIdentification stepIdentification = new StepIdentification(
-					usecase.getName(), scenario.getName(), page.getName(),
-					index, occurence, relativeIndex);
-			processStepVariant(branchName, buildName, pageStepsList, step,
-					page.getName(), stepIdentification);
+			StepIdentification stepIdentification = new StepIdentification(usecase.getName(), scenario.getName(),
+					page.getName(), index, occurence, relativeIndex);
+			processStepVariant(branchName, buildName, pageStepsList, step, page.getName(), stepIdentification);
 			
 			index++;
 			relativeIndex++;
@@ -261,9 +227,8 @@ public class UserScenarioDocuAggregator {
 		return result;
 	}
 	
-	private void processStepVariant(final String branchName,
-			final String buildName, final List<PageSteps> pageStepsList,
-			final Step step, final String pageName,
+	private void processStepVariant(final String branchName, final String buildName,
+			final List<PageSteps> pageStepsList, final Step step, final String pageName,
 			final StepIdentification stepIdentification) {
 		StepVariantState variant = null;
 		if (mapOfStepVariant.containsKey(pageName)) {
@@ -278,52 +243,40 @@ public class UserScenarioDocuAggregator {
 			StepDescription stepDescription = step.getStep();
 			stepDescription.setVariantIndex(variant.getCounter());
 			stepDescription.setPreviousStepVariant(variant.getPreviousStep());
-			setNextVariant(branchName, buildName, pageStepsList,
-					variant.getPreviousStep(), stepIdentification);
+			setNextVariant(branchName, buildName, pageStepsList, variant.getPreviousStep(), stepIdentification);
 		}
 		variant.setPreviousStep(stepIdentification);
 	}
 	
-	private void setNextVariant(final String branchName,
-			final String buildName, final List<PageSteps> pageStepsList,
+	private void setNextVariant(final String branchName, final String buildName, final List<PageSteps> pageStepsList,
 			final StepIdentification step,
 			final StepIdentification nextStepVariant) {
 		if (pageStepsList != null && isSameScenario(nextStepVariant, step)) {
 			PageSteps page = pageStepsList.get(step.getOccurence());
-			StepDescription stepDescription = page.getSteps().get(
-					step.getRelativeIndex());
+			StepDescription stepDescription = page.getSteps().get(step.getRelativeIndex());
 			stepDescription.setNextStepVariant(nextStepVariant);
 		} else {
-			ScenarioPageSteps pageSteps = dao.loadScenarioPageSteps(branchName,
-					buildName, step.getUseCaseName(), step.getScenarioName());
-			PageSteps page = pageSteps.getPagesAndSteps().get(
-					step.getOccurence());
-			StepDescription stepDescription = page.getSteps().get(
-					step.getRelativeIndex());
+			ScenarioPageSteps pageSteps = dao.loadScenarioPageSteps(branchName, buildName,
+					step.getUseCaseName(), step.getScenarioName());
+			PageSteps page = pageSteps.getPagesAndSteps().get(step.getOccurence());
+			StepDescription stepDescription = page.getSteps().get(step.getRelativeIndex());
 			stepDescription.setNextStepVariant(nextStepVariant);
-			writeScenarioPageSteps(branchName, buildName,
-					step.getUseCaseName(), step.getScenarioName(), pageSteps);
+			writeScenarioPageSteps(branchName, buildName, step.getUseCaseName(), step.getScenarioName(), pageSteps);
 		}
 	}
 	
-	private void setPreviousVariant(final String branchName,
-			final String buildName, final StepIdentification step,
+	private void setPreviousVariant(final String branchName, final String buildName, final StepIdentification step,
 			final StepIdentification previousStepVariant) {
-		ScenarioPageSteps pageSteps = dao.loadScenarioPageSteps(branchName,
-				buildName, step.getUseCaseName(), step.getScenarioName());
+		ScenarioPageSteps pageSteps = dao.loadScenarioPageSteps(branchName, buildName,
+				step.getUseCaseName(), step.getScenarioName());
 		PageSteps page = pageSteps.getPagesAndSteps().get(step.getOccurence());
-		StepDescription stepDescription = page.getSteps().get(
-				step.getRelativeIndex());
+		StepDescription stepDescription = page.getSteps().get(step.getRelativeIndex());
 		stepDescription.setPreviousStepVariant(previousStepVariant);
-		writeScenarioPageSteps(branchName, buildName, step.getUseCaseName(),
-				step.getScenarioName(), pageSteps);
+		writeScenarioPageSteps(branchName, buildName, step.getUseCaseName(), step.getScenarioName(), pageSteps);
 	}
 	
-	private boolean isSameScenario(final StepIdentification stepIdentification,
-			final StepIdentification nextStepVariant) {
-		return stepIdentification.getUseCaseName().equals(
-				nextStepVariant.getUseCaseName())
-				&& stepIdentification.getScenarioName().equals(
-						nextStepVariant.getScenarioName());
+	private boolean isSameScenario(final StepIdentification stepIdentification, final StepIdentification nextStepVariant) {
+		return stepIdentification.getUseCaseName().equals(nextStepVariant.getUseCaseName())
+				&& stepIdentification.getScenarioName().equals(nextStepVariant.getScenarioName());
 	}
 }
