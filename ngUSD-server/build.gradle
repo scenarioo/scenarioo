@@ -14,6 +14,7 @@ dependencies {
     compile group: 'org.jboss.resteasy', name: 'resteasy-jaxb-provider', version: '2.3.3.Final'
     compile group: 'org.jboss.resteasy', name: 'resteasy-jackson-provider', version: '2.3.3.Final'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.1'
+    compile 'log4j:log4j:1.2.17'
     providedCompile group: 'org.projectlombok', name: 'lombok', version: '0.11.8'
     providedCompile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
 }
