@@ -34,25 +34,29 @@ cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt
 
 
 
-task gruntPathInfo << {
-	println "Additional path is '" + additionalPathForGrunt
-    if (project.hasProperty('additionalPathForGrunt')) {
-        println "Additional path for grunt is passed: " + additionalPathForGrunt  	
+task printPathConfigInformationForNodeJSAndGrunt << {
+	if (project.hasProperty('pathToNodeJS')) {
+        println "Path to Node JS was configued as: " + pathToNodeJS  	
     } else {
-    	println "Path not specified, set property 'additionalPathForGrunt' if needed."        
+    	println "Path to Node JS not specified, set property 'pathToNodeJS' in case the PATH variable is not set properly or not propagated to the client's build script."        
+    }
+    if (project.hasProperty('installGrunt')) {
+        println "installGrunt is specified, this will trigger installation of grunt in client build: " + installGrunt + " (this value should be 'installGrunt')"
+    } else {
+        println "installGrunt: property is undefined, this means grunt is assumed to be installed already."    
     }
 }
 
 
 task buildClient(type: Exec) {	
-	 if (project.hasProperty('additionalPathForGrunt')) {
-    	commandLine '../ngUSD-client/build.sh', additionalPathForGrunt
+	 if (project.hasProperty('pathToNodeJS')) {
+    	commandLine '../ngUSD-client/build.sh', pathToNodeJS, installGrunt
      } else {
         commandLine '../ngUSD-client/build.sh'
-     }    
+     }
 }	
 
-buildClient.dependsOn gruntPathInfo																																																																																																																																																																																																																																																																																															
+buildClient.dependsOn printPathConfigInformationForNodeJSAndGrunt																																																																																																																																																																																																																																																																																															
 																																																																																																																																																																																																	
 war {
     from '../ngUSD-client/dist'
