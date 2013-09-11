@@ -33,7 +33,7 @@ eclipse {
 cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt
 
 task buildClient(type: Exec) {
-	 if (hasProperty('additionalPathForGrunt') {
+	 if (hasProperty('additionalPathForGrunt')) {
         println "Additional path for grunt is passed: " + additionalPathForGrunt    
     	commandLine '../ngUSD-client/build.sh', additionalPathForGrunt
      } else {
