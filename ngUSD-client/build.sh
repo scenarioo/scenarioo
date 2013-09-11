@@ -9,7 +9,7 @@ fi
 
 if [ "$#" -gt 1 ]; then
     if [ "$1" -eq "installGrunt" ]; then
-        echo "Was started with option 'installGrunt", therefore grunt will be installed for building."
+        echo "Was started with option 'installGrunt', therefore grunt will be installed for building."
         npm install grunt-cli
         #npm install less
         #npm install grunt
