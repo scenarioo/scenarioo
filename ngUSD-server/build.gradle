@@ -32,14 +32,27 @@ eclipse {
 // because it would delete our version of the org.eclipse.jdt.ui.prefs file.
 cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt
 
-task buildClient(type: Exec) {
-	 if (hasProperty('additionalPathForGrunt')) {
-        println "Additional path for grunt is passed: " + additionalPathForGrunt    
+
+
+task gruntPathInfo << {
+	println "Additional path is '" + additionalPathForGrunt
+    if (project.hasProperty('additionalPathForGrunt')) {
+        println "Additional path for grunt is passed: " + additionalPathForGrunt  	
+    } else {
+    	println "Path not specified, set property 'additionalPathForGrunt' if needed."        
+    }
+}
+
+
+task buildClient(type: Exec) {	
+	 if (project.hasProperty('additionalPathForGrunt')) {
     	commandLine '../ngUSD-client/build.sh', additionalPathForGrunt
      } else {
         commandLine '../ngUSD-client/build.sh'
-     }   
-}																																																																																																																																																																																																																																																																																																
+     }    
+}	
+
+buildClient.dependsOn gruntPathInfo																																																																																																																																																																																																																																																																																															
 																																																																																																																																																																																																	
 war {
     from '../ngUSD-client/dist'

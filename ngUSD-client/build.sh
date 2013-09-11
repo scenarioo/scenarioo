@@ -7,6 +7,7 @@ if [ "$#" -gt 0 ]; then
     export PATH=$PATH:$1
 fi
 
+# TODO remove this debug output, once this works:
 echo $PATH
 
 # TODO remove --force, as soon as all problems are resolved
