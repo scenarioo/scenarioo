@@ -7,10 +7,8 @@ if [ "$#" -gt 0 ]; then
     export PATH=$PATH:$1
 fi
 
-# TODO remove this debug output, once this works:
-echo $PATH
+# first install all needed dependencies
+npm install
 
 # TODO remove --force, as soon as all problems are resolved
-node --version
-grunt --version
 grunt build --force
