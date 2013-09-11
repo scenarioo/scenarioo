@@ -11,4 +11,6 @@ fi
 echo $PATH
 
 # TODO remove --force, as soon as all problems are resolved
+node --version
+grunt --version
 grunt build --force
