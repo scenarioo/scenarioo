@@ -2,22 +2,22 @@
 BASEDIR=$(dirname $0)
 cd $BASEDIR
 
+# node JS path config (usually only needed on build server)
 if [ "$#" -gt 0 ]; then
     echo "Set path for nodeJS as configured: $1"
     export PATH=$PATH:$1
 fi
 
+# grunt installation (usually only needed on build server, or when grunt somehow not available yet on your machine)"
 if [ "$#" -gt 1 ]; then
     if [ "$2" == "installGrunt" ]; then
+
         echo "Was started with option 'installGrunt', therefore grunt will be installed for building."
         npm install grunt-cli
-        #npm install less
-        #npm install grunt
-        #npm install grunt-cli
-        #npm install --save-dev grunt-contrib-livereload
 
         echo "Set path for installed grunt to ./node_modules/grunt-cli/bin/"
         export PATH=$PATH:./node_modules/grunt-cli/bin/
+
     fi
 fi
 
