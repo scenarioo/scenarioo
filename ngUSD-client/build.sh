@@ -24,6 +24,7 @@ fi
 
 # install all other needed dependencies
 npm install
+bower install
 
 # let grunt build everything
 # TODO remove --force, as soon as all problems are resolved
