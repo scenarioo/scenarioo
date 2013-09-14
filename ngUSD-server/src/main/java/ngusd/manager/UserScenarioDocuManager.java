@@ -51,7 +51,10 @@ public class UserScenarioDocuManager {
 	 */
 	public void updateAll() {
 		File docuDirectory = ConfigurationDAO.getDocuDataDirectoryPath();
-		if (docuDirectory == null || !docuDirectory.exists()) {
+		if (docuDirectory == null) {
+			LOGGER.error("No documentation directory is configured.");
+			LOGGER.error("Please configure valid documentation directory in configuration UI");
+		} else if (!docuDirectory.exists()) {
 			LOGGER.error("No valid documentation directory is configured: " + docuDirectory.getAbsolutePath());
 			LOGGER.error("Please configure valid documentation directory in configuration UI");
 		}
