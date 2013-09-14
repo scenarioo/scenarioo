@@ -85,7 +85,7 @@ public class ConfigurationDAO {
 			} catch (URISyntaxException e) {
 				throw new IllegalStateException("Example documentation data is not accessible in resources.", e);
 			}
-			if (!exampleDocuDataDirectoryPath.exists()) {
+			if (exampleDocuDataDirectoryPath == null || !exampleDocuDataDirectoryPath.exists()) {
 				throw new IllegalStateException("Example documentation data is missing in resources.");
 			}
 			return exampleDocuDataDirectoryPath;
