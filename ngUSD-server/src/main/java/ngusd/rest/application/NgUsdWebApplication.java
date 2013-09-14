@@ -1,7 +1,5 @@
 package ngusd.rest.application;
 
-import java.io.File;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -31,17 +29,7 @@ public class NgUsdWebApplication implements ServletContextListener {
 		LOGGER.info("  Configured documentation content directory: " +
 				config.getTestDocumentationDirPath());
 		
-		File docuDirectory = ConfigurationDAO.getDocuDataDirectoryPath();
-		if (!docuDirectory.exists()) {
-			LOGGER.error("No valid documentation directory is configured: " + docuDirectory.getAbsolutePath());
-			LOGGER.error("Please configure valid documentation directory in configuration UI");
-		}
-		else {
-			LOGGER.info("  Processing documentation content data in directory: " + docuDirectory.getAbsoluteFile());
-			LOGGER.info("  Calculating aggregated data in derived XML files, this may take a while ...");
-			UserScenarioDocuManager.INSTANCE.updateAll();
-			LOGGER.info("  Documentation content directory has been processed and updated.");
-		}
+		UserScenarioDocuManager.INSTANCE.updateAll();
 		
 		LOGGER.info("====================================");
 		LOGGER.info("ngUSD Application started succesfully.");

@@ -1,5 +1,6 @@
 package ngusd.manager;
 
+import java.io.File;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,6 +12,8 @@ import ngusd.dao.ConfigurationDAO;
 import ngusd.dao.filesystem.UserScenarioDocuFilesystem;
 import ngusd.model.docu.aggregates.branches.BranchBuilds;
 import ngusd.model.docu.aggregates.branches.BuildLink;
+
+import org.apache.log4j.Logger;
 
 /**
  * Manages the user scenario docu file contents.
@@ -29,6 +32,8 @@ public class UserScenarioDocuManager {
 	
 	public static UserScenarioDocuManager INSTANCE = new UserScenarioDocuManager();
 	
+	private static final Logger LOGGER = Logger.getLogger(UserScenarioDocuManager.class);
+	
 	private UserScenarioDocuManager() {
 	}
 	
@@ -45,6 +50,20 @@ public class UserScenarioDocuManager {
 	 * the filesystem changed.
 	 */
 	public void updateAll() {
+		File docuDirectory = ConfigurationDAO.getDocuDataDirectoryPath();
+		if (docuDirectory == null || !docuDirectory.exists()) {
+			LOGGER.error("No valid documentation directory is configured: " + docuDirectory.getAbsolutePath());
+			LOGGER.error("Please configure valid documentation directory in configuration UI");
+		}
+		else {
+			LOGGER.info("  Processing documentation content data in directory: " + docuDirectory.getAbsoluteFile());
+			LOGGER.info("  Calculating aggregated data in derived XML files, this may take a while ...");
+			doUpdateAll();
+			LOGGER.info("  Documentation content directory has been processed and updated.");
+		}
+	}
+	
+	private synchronized void doUpdateAll() {
 		List<BranchBuilds> branchBuildsList = filesystem.loadBranchBuildsList();
 		for (BranchBuilds branchBuilds : branchBuildsList) {
 			for (BuildLink buildLink : branchBuilds.getBuilds()) {

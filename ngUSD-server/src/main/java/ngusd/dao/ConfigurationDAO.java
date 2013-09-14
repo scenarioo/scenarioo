@@ -8,11 +8,14 @@ import ngusd.dao.filesystem.XMLFileUtil;
 import ngusd.model.configuration.Configuration;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 /**
  * DAO for accessing USD configuration data from filesysem.
  */
 public class ConfigurationDAO {
+	
+	private static final Logger LOGGER = Logger.getLogger(ConfigurationDAO.class);
 	
 	private static String EXAMPLE_DOCUMENTATION_DIRECTORY = "documentationExample";
 	
@@ -83,10 +86,12 @@ public class ConfigurationDAO {
 					exampleDocuDataDirectoryPath = new File(exampleDocuDataPath.toURI());
 				}
 			} catch (URISyntaxException e) {
-				throw new IllegalStateException("Example documentation data is not accessible in resources.", e);
+				LOGGER.error("Example documentation data is not accessible in resources.", e);
+				return null;
 			}
 			if (exampleDocuDataDirectoryPath == null || !exampleDocuDataDirectoryPath.exists()) {
-				throw new IllegalStateException("Example documentation data is missing in resources.");
+				LOGGER.error("Example documentation data is missing in resources.");
+				return null;
 			}
 			return exampleDocuDataDirectoryPath;
 		}
