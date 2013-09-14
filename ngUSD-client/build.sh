@@ -13,10 +13,13 @@ if [ "$#" -gt 1 ]; then
     if [ "$2" == "installGrunt" ]; then
 
         echo "Was started with option 'installGrunt', therefore grunt will be installed for building."
-        npm install grunt-cli
+        npm install grunt-cli bower
 
         echo "Set path for installed grunt to ./node_modules/grunt-cli/bin/"
         export PATH=$PATH:./node_modules/grunt-cli/bin/
+
+        echo "Set path for installed bower to ./node_modules/grunt-cli/bin/"
+        export PATH=$PATH:./node_modules/bower/bin/
 
     fi
 fi
