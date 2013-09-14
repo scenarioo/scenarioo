@@ -33,7 +33,6 @@ eclipse {
 cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt
 
 
-
 task printPathConfigInformationForNodeJSAndGrunt << {
 	if (project.hasProperty('pathToNodeJS')) {
         println "Path to Node JS was configued as: " + pathToNodeJS  	
@@ -47,7 +46,6 @@ task printPathConfigInformationForNodeJSAndGrunt << {
     }
 }
 
-
 task buildClient(type: Exec) {	
 	 if (project.hasProperty('pathToNodeJS')) {
     	commandLine '../ngUSD-client/build.sh', pathToNodeJS, installGrunt
@@ -57,7 +55,8 @@ task buildClient(type: Exec) {
 }	
 
 buildClient.dependsOn printPathConfigInformationForNodeJSAndGrunt																																																																																																																																																																																																																																																																																															
-																																																																																																																																																																																																	
+
+
 war {
     from '../ngUSD-client/dist'
 }
