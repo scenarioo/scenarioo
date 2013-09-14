@@ -27,7 +27,7 @@ public class UserScenarioDocuFilesystem {
 	public File rootDir;
 	
 	public UserScenarioDocuFilesystem() {
-		this.rootDir = new File(ConfigurationDAO.getConfiguration().getTestDocumentationDirPath());
+		this.rootDir = ConfigurationDAO.getDocuDataDirectoryPath();
 	}
 	
 	public File filePath(final String... names) {

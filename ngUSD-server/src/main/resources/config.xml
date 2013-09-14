@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
-    <testDocumentationDirPath>/home/ngUSD/webtestDocuContentExample</testDocumentationDirPath>
+    <testDocumentationDirPath></testDocumentationDirPath>
     <defaultBranchName>trunk</defaultBranchName>
     <defaultBuildName>current</defaultBuildName>
     <scenarioPropertiesInOverview>userProfile, configuration</scenarioPropertiesInOverview>

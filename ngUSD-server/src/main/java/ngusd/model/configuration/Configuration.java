@@ -29,4 +29,5 @@ public class Configuration {
 	private String applicationInformation;
 	
 	private Map<String, String> buildstates = new HashMap<String, String>();
+	
 }

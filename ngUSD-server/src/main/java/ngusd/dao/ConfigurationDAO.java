@@ -14,7 +14,10 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class ConfigurationDAO {
 	
+	private static String EXAMPLE_DOCUMENTATION_DIRECTORY = "documentationExample";
+	
 	private static final String DEFAULT_CONFIG_PATH = "config.xml";
+	
 	private static Configuration configuration = loadConfiguration();
 	
 	public static Configuration getConfiguration() {
@@ -71,4 +74,24 @@ public class ConfigurationDAO {
 		return defaultConfigFile;
 	}
 	
+	public static File getDocuDataDirectoryPath() {
+		if (StringUtils.isBlank(configuration.getTestDocumentationDirPath())) {
+			URL exampleDocuDataPath = Configuration.class.getClassLoader().getResource(EXAMPLE_DOCUMENTATION_DIRECTORY);
+			File exampleDocuDataDirectoryPath = null;
+			try {
+				if (exampleDocuDataPath != null) {
+					exampleDocuDataDirectoryPath = new File(exampleDocuDataPath.toURI());
+				}
+			} catch (URISyntaxException e) {
+				throw new IllegalStateException("Example documentation data is not accessible in resources.", e);
+			}
+			if (!exampleDocuDataDirectoryPath.exists()) {
+				throw new IllegalStateException("Example documentation data is missing in resources.");
+			}
+			return exampleDocuDataDirectoryPath;
+		}
+		else {
+			return new File(configuration.getTestDocumentationDirPath());
+		}
+	}
 }
