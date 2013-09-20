@@ -19,7 +19,8 @@ public class ConfigurationDAO {
 	
 	private static String EXAMPLE_DOCUMENTATION_DIRECTORY = "documentationExample";
 	
-	private static final String DEFAULT_CONFIG_PATH = "config.xml";
+	private static final String CONFIG_FILE_NAME = "config.xml";
+	private static final String DEFAULT_CONFIG_PATH = CONFIG_FILE_NAME;
 	
 	private static Configuration configuration = loadConfiguration();
 	
@@ -59,7 +60,7 @@ public class ConfigurationDAO {
 		}
 		File userHomePath = new File(userHomeDir);
 		File ngusdConfigDirectory = new File(userHomePath, ".ngusd");
-		File configFile = new File(ngusdConfigDirectory, "config.xml");
+		File configFile = new File(ngusdConfigDirectory, CONFIG_FILE_NAME);
 		return configFile;
 	}
 	
