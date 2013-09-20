@@ -10,17 +10,16 @@ NgUsdClientApp.controller('ConfigCtrl', function ($scope, $q, ConfigService, Bra
 
         $scope.configurableBranches.then(function(branches) {
             for (var index=0; index<branches.length; index++) {
-                if (branches[index].branch.name == $scope.configuration.defaultBranchName) {
+                if (branches[index].branch.name === $scope.configuration.defaultBranchName) {
                     $scope.configuredBranch = branches[index];
                 }
             }
-        })
+        });
     });
-
 
     $scope.resetConfiguration = function() {
         $scope.configuration = ConfigService.getConfiguration();
-    }
+    };
 
     $scope.updateConfiguration = function(){
         $scope.successfullyUpdatedConfiguration = false;
@@ -30,5 +29,5 @@ NgUsdClientApp.controller('ConfigCtrl', function ($scope, $q, ConfigService, Bra
             $scope.successfullyUpdatedConfiguration = true;
         });
         Config.updateConfiguration($scope.configuration);
-    }
+    };
 });

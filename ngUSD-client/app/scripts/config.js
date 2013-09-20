@@ -2,16 +2,14 @@
 
 NgUsdClientApp.factory('Config', function (ConfigService, $q) {
 
-    var buildDefaultValue= "current";
-
-    var branchDefaultValue= "trunk";
-
-    var scenarioPropertiesInOverview= [];
+    var buildDefaultValue = 'current';
+    var branchDefaultValue = 'trunk';
+    var scenarioPropertiesInOverview = [];
 
     var Config = {
         configData: {},
-        branchUrlParameter: "branch",
-        buildUrlParameter: "build",
+        branchUrlParameter: 'branch',
+        buildUrlParameter: 'build',
 
         updateConfiguration: function (newConfig) {
             if (newConfig) {
@@ -25,7 +23,7 @@ NgUsdClientApp.factory('Config', function (ConfigService, $q) {
 
         selectedBuild: function ($location) {
             var params = $location.search();
-            if (params != null && params[this.buildUrlParameter] != null ) {
+            if (params !== null && params[this.buildUrlParameter] !== null) {
                 var deferred = $q.defer();
                 deferred.resolve(params[this.buildUrlParameter]);
                 return deferred.promise;
@@ -33,9 +31,10 @@ NgUsdClientApp.factory('Config', function (ConfigService, $q) {
                 return this.defaultBuild();
             }
         },
+
         selectedBranch: function ($location) {
             var params = $location.search();
-            if (params != null && params[this.branchUrlParameter] != null ) {
+            if (params !== null && params[this.branchUrlParameter] !== null ) {
                 var deferred = $q.defer();
                 deferred.resolve(params[this.branchUrlParameter]);
                 return deferred;
@@ -45,11 +44,11 @@ NgUsdClientApp.factory('Config', function (ConfigService, $q) {
         },
 
         defaultBranch: function() {
-            return this.getConfiguration("defaultBranchName");
+            return this.getConfiguration('defaultBranchName');
         },
 
         defaultBuild: function() {
-            return this.getConfiguration("defaultBuildName");
+            return this.getConfiguration('defaultBuildName');
         },
 
         scenarioPropertiesInOverview: function() {
@@ -57,12 +56,12 @@ NgUsdClientApp.factory('Config', function (ConfigService, $q) {
         },
 
         applicationInformation: function() {
-            return this.getConfiguration("applicationInformation");
+            return this.getConfiguration('applicationInformation');
         },
 
         getConfiguration: function(property) {
             return this.configData.then(function (result) {
-                return eval("result."+property);
+                return eval('result.' + property);
             });
         },
 
