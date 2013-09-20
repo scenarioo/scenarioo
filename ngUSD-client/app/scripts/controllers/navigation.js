@@ -109,17 +109,17 @@ NgUsdClientApp.controller('NavigationCtrl', function ($scope, $location, $cookie
         $scope.setBranch = function (branch) {
             // Adrian: Is this line really necessary?
             $scope.selectedBranch = branch;
-            setParameter('branch', (branch.branch.name === defaultValue['branch']) ? null : branch.branch.name);
+            setParameter('branch', (branch.branch.name === defaultValue.branch) ? null : branch.branch.name);
             setParameter('build', null);
             reload();
-        }
+        };
 
         $scope.setBuild = function (branch, build) {
             // Adrian: Are those two lines really necessary?
             $scope.selectedBranch = branch;
             $scope.selectedBuild = build;
-            setParameter('branch', (branch.branch.name == defaultValue['branch'] && build.linkName == defaultValue['build']) ? null : branch.branch.name);
-            setParameter('build', (build.linkName == defaultValue['build']) ? null : build.build.name);
+            setParameter('branch', (branch.branch.name === defaultValue.branch && build.linkName === defaultValue.build) ? null : branch.branch.name);
+            setParameter('build', (build.linkName === defaultValue.build) ? null : build.build.name);
             reload();
         };
 
@@ -131,16 +131,16 @@ NgUsdClientApp.controller('NavigationCtrl', function ($scope, $location, $cookie
         statesToClass.then(function (result) {
             $scope.getStatusType = function (status) {
                 return result[status];
-            }
+            };
         });
 
         $scope.getDisplayName = function (build) {
-            if (build.build.name != build.linkName) {
+            if (build.build.name !== build.linkName) {
                 return build.linkName;
             } else {
-                return "Revision: " + build.build.revision;
+                return 'Revision: ' + build.build.revision;
             }
-        }
+        };
 
         $scope.updateData = function () {
             $scope.updating = true;
@@ -150,25 +150,25 @@ NgUsdClientApp.controller('NavigationCtrl', function ($scope, $location, $cookie
             }, function () {
                 $scope.updating = false;
             });
+        };
+
+        function isAFirstTimeUser() {
+            var previouslyVisited = getCookie('previouslyVisited');
+            if (previouslyVisited || !isCookiesEnabled()) {
+                return false;
+            }
+            setCookie('previouslyVisited', true);
+            return true;
         }
 
         $rootScope.infoModal = {showing: isAFirstTimeUser(), tab: null};
 
-        function isAFirstTimeUser() {
-            var previouslyVisited = getCookie("previouslyVisited");
-            if (previouslyVisited || !isCookiesEnabled()) {
-                return false;
-            }
-            setCookie("previouslyVisited", true);
-            return true;
-        }
-
         $rootScope.openInfoModal = function (tabValue) {
             $rootScope.infoModal = {showing: true, tab: tabValue};
-        }
+        };
 
         $rootScope.closeInfoModal = function () {
             $rootScope.infoModal = {showing: false};
-        }
+        };
     });
 });
