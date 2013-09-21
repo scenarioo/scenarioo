@@ -2,8 +2,6 @@
 
 NgUsdClientApp.controller('MainCtrl', function ($scope, $q, $location, Config, UseCaseService, BuildStateService) {
 
-    $scope.searchFieldText;
-
     var selectedBranch = Config.selectedBranch($location);
     var selectedBuild = Config.selectedBuild($location);
     $q.all([selectedBranch, selectedBuild]).then(function (result) {

@@ -2,11 +2,7 @@
 
 NgUsdClientApp.factory('Config', function (ConfigService, $q) {
 
-    var buildDefaultValue = 'current';
-    var branchDefaultValue = 'trunk';
-    var scenarioPropertiesInOverview = [];
-
-    var Config = {
+    var config = {
         configData: {},
         branchUrlParameter: 'branch',
         buildUrlParameter: 'build',
@@ -23,10 +19,8 @@ NgUsdClientApp.factory('Config', function (ConfigService, $q) {
 
         selectedBuild: function ($location) {
             var params = $location.search();
-            if (params !== null && params[this.buildUrlParameter] !== null) {
-                var deferred = $q.defer();
-                deferred.resolve(params[this.buildUrlParameter]);
-                return deferred.promise;
+            if (params !== null && params[this.buildUrlParameter]) {
+                return params[this.buildUrlParameter];
             } else {
                 return this.defaultBuild();
             }
@@ -34,10 +28,8 @@ NgUsdClientApp.factory('Config', function (ConfigService, $q) {
 
         selectedBranch: function ($location) {
             var params = $location.search();
-            if (params !== null && params[this.branchUrlParameter] !== null ) {
-                var deferred = $q.defer();
-                deferred.resolve(params[this.branchUrlParameter]);
-                return deferred;
+            if (params !== null && params[this.branchUrlParameter]) {
+                return params[this.branchUrlParameter];
             } else {
                 return this.defaultBranch();
             }
@@ -75,6 +67,6 @@ NgUsdClientApp.factory('Config', function (ConfigService, $q) {
             });
         }
     };
-    Config.updateConfiguration();
-    return Config;
+    config.updateConfiguration();
+    return config;
 });

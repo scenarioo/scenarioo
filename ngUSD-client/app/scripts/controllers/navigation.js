@@ -42,7 +42,7 @@ NgUsdClientApp.controller('NavigationCtrl', function ($scope, $location, $cookie
 
         function getQueryParameter(paramName) {
             var params = $location.search();
-            if (params === null || params.length === 0 || params[paramName] === null) {
+            if (params === null || params.length === 0 || !params[paramName]) {
                 return null;
             }
             return {key: paramName, value: params[paramName]};
@@ -56,12 +56,13 @@ NgUsdClientApp.controller('NavigationCtrl', function ($scope, $location, $cookie
                 value = param.value;
             } else {
                 value = getCookie(parameterCookie[type]);
-                if (value !== null) {
+                if (value) {
                     setParameter(type, value);
                 } else {
                     value = defaultValue[type];
                 }
             }
+
 
             // Retrieve object by name
             if (list === null || list.length === 0) {
