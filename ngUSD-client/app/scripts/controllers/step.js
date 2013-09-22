@@ -12,43 +12,43 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
 
     $scope.modalScreenshotOptions = {
         backdropFade: true,
-        dialogClass:'modal modal-huge'
+        dialogClass: 'modal modal-huge'
     };
 
-    $scope.showingMetaData = $window.innerWidth>1000;
+    $scope.showingMetaData = $window.innerWidth > 1000;
 
 
-    $q.all([selectedBranch, selectedBuild]).then(function(result) {
+    $q.all([selectedBranch, selectedBuild]).then(function (result) {
         $scope.pageVariantCounts = PageVariantService.getPageVariantCount({'branchName': result[0], 'buildName': result[1]});
 
         //FIXME this is could be improved. Add information to the getStep call. however with caching it could be fixed as well
         var pagesAndScenarios = ScenarioService.getScenario({'branchName': result[0], 'buildName': result[1], 'usecaseName': useCaseName, 'scenarioName': scenarioName});
 
-        pagesAndScenarios.then(function(result) {
+        pagesAndScenarios.then(function (result) {
             $scope.scenario = result.scenario;
             $scope.pagesAndSteps = result.pagesAndSteps;
             $scope.stepDescription = result.pagesAndSteps[$scope.pageIndex].steps[$scope.stepIndex];
             bindStepNavigation(result.pagesAndSteps);
 
-            $scope.goToPreviousVariant = function() {
+            $scope.goToPreviousVariant = function () {
                 var previousVariant = $scope.stepDescription.previousStepVariant;
                 $location.path('/step/' + previousVariant.useCaseName + '/' + previousVariant.scenarioName + '/' + encodeURIComponent(previousVariant.pageName) + '/' + previousVariant.occurence + '/' + previousVariant.relativeIndex);
             };
 
-            $scope.goToNextVariant = function() {
+            $scope.goToNextVariant = function () {
                 var nextStepVariant = $scope.stepDescription.nextStepVariant;
                 $location.path('/step/' + nextStepVariant.useCaseName + '/' + nextStepVariant.scenarioName + '/' + encodeURIComponent(nextStepVariant.pageName) + '/' + nextStepVariant.occurence + '/' + nextStepVariant.relativeIndex);
             };
         });
 
         var step = StepService.getStep({'branchName': result[0], 'buildName': result[1], 'usecaseName': useCaseName, 'scenarioName': scenarioName, 'stepIndex': stepIndex});
-        step.then(function(result) {
+        step.then(function (result) {
             $scope.step = result;
             beautify(result.html);
         });
 
-        $scope.getScreenShotUrl = function(imgName) {
-            return "http://localhost:8050/ngusd/rest/branches/"+result[0]+"/builds/"+result[1]+"/usecases/"+useCaseName+"/scenarios/"+scenarioName+"/image/"+imgName;
+        $scope.getScreenShotUrl = function (imgName) {
+            return "http://localhost:8050/ngusd/rest/branches/" + result[0] + "/builds/" + result[1] + "/usecases/" + useCaseName + "/scenarios/" + scenarioName + "/image/" + imgName;
         }
     });
     function beautify(html) {
@@ -74,96 +74,96 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
 
     function bindStepNavigation(pagesAndSteps) {
         var w = angular.element($window);
-        w.bind("keypress", function(event) {
+        w.bind("keypress", function (event) {
             var ctrlPressed = !!event.ctrlKey;
             var keyCode = event.keyCode;
-            if (keyCode==37) {
-                if (event.ctrlKey==1) {
+            if (keyCode == 37) {
+                if (event.ctrlKey == 1) {
                     $scope.goToPreviousVariant();
                 } else {
                     $scope.goToPreviousStep();
                 }
-            } else if (keyCode==38) {
+            } else if (keyCode == 38) {
                 $scope.goToPreviousPage();
-            } else if (keyCode==39) {
-                if (event.ctrlKey==1) {
+            } else if (keyCode == 39) {
+                if (event.ctrlKey == 1) {
                     $scope.goToNextVariant();
                 } else {
                     $scope.goToNextStep();
                 }
-            } else if (keyCode==40) {
+            } else if (keyCode == 40) {
                 $scope.goToNextPage();
             }
             $scope.$apply();
             return false;
         });
 
-        $scope.goToPreviousPage = function() {
-            var pageIndex = $scope.pageIndex-1;
+        $scope.goToPreviousPage = function () {
+            var pageIndex = $scope.pageIndex - 1;
             var stepIndex = 0;
-            if (pageIndex<0) {
+            if (pageIndex < 0) {
                 pageIndex = 0;
             }
             $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
         }
 
-        $scope.goToPreviousStep = function() {
+        $scope.goToPreviousStep = function () {
             var pageIndex = $scope.pageIndex;
-            var stepIndex = $scope.stepIndex-1;
-            if ($scope.stepIndex==0) {
-                if ($scope.pageIndex==0) {
+            var stepIndex = $scope.stepIndex - 1;
+            if ($scope.stepIndex == 0) {
+                if ($scope.pageIndex == 0) {
                     pageIndex = 0;
                     stepIndex = 0;
                 } else {
-                    pageIndex = $scope.pageIndex-1;
-                    stepIndex = pagesAndSteps[pageIndex].steps.length-1;
+                    pageIndex = $scope.pageIndex - 1;
+                    stepIndex = pagesAndSteps[pageIndex].steps.length - 1;
                 }
             }
             $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
         }
 
-        $scope.goToNextStep = function() {
+        $scope.goToNextStep = function () {
             var pageIndex = $scope.pageIndex;
-            var stepIndex = $scope.stepIndex+1;
+            var stepIndex = $scope.stepIndex + 1;
             if (stepIndex >= pagesAndSteps[$scope.pageIndex].steps.length) {
-                pageIndex = $scope.pageIndex+1;
+                pageIndex = $scope.pageIndex + 1;
                 stepIndex = 0;
             }
             $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
         }
 
-        $scope.goToNextPage = function() {
-            var pageIndex = $scope.pageIndex+1;
+        $scope.goToNextPage = function () {
+            var pageIndex = $scope.pageIndex + 1;
             var stepIndex = 0;
             if (pageIndex >= $scope.pagesAndSteps.length) {
-                pageIndex = $scope.pagesAndSteps.length-1;
+                pageIndex = $scope.pagesAndSteps.length - 1;
             }
             $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
         }
 
-        $scope.goToFirstPage = function() {
+        $scope.goToFirstPage = function () {
             var pageIndex = 0;
             var stepIndex = 0;
             $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
         }
 
-        $scope.goToLastPage = function() {
-            var pageIndex = $scope.pagesAndSteps.length-1;
+        $scope.goToLastPage = function () {
+            var pageIndex = $scope.pagesAndSteps.length - 1;
             var stepIndex = 0;
             $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
         }
     }
 
-    $scope.go = function(pageSteps, pageIndex, stepIndex) {
+    $scope.go = function (pageSteps, pageIndex, stepIndex) {
         var pageName = pageSteps.page.name;
         $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) + '/' + pageIndex + '/' + stepIndex);
     }
 
-    $scope.openScreenshotModal = function() {
+    $scope.openScreenshotModal = function () {
         $scope.showingScreenshotModal = true;
     }
 
-    $scope.closeScreenshotModal = function() {
+    $scope.closeScreenshotModal = function () {
         $scope.showingScreenshotModal = false;
     }
 });
