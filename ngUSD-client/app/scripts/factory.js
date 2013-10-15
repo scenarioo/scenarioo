@@ -1,6 +1,6 @@
 'use strict';
 
-NgUsdClientApp.constant('REST_API_URL', 'http://localhost\\:8050/ngusd/rest');
+NgUsdClientApp.constant('REST_API_URL', '/ngusd/rest');
 
 NgUsdClientApp.config(function ($httpProvider) {
     $httpProvider.defaults.headers.common.Accept = 'application/json';
