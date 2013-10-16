@@ -2,7 +2,7 @@
 # usage: thisscript.sh [directory name]
 directory=$1
 
-vmupdatelog=.vm-update.log
+vmupdatelog=~/.vm-update.log
 touch $vmupdatelog
 
 find $directory -name '*.sh' |
