@@ -1,9 +1,8 @@
 #!/bin/bash
 # usage: updatevm.sh [directory name]
-directory=$1
+directory=vm-update-scripts
 
-
-if [ ! -n $directory ] || [ ! -d $directory ]; then
+if [ ! -d "$directory" ]; then
   echo "usage: updatevm.sh [directory name]"
   exit -1
 fi
