@@ -1,8 +1,14 @@
 #!/bin/bash
-# usage: thisscript.sh [directory name]
+# usage: updatevm.sh [directory name]
 directory=$1
 
-vmupdatelog=~/.vm-update.log
+
+if [ ! -n $directory ] || [ ! -d $directory ]; then
+  echo "usage: updatevm.sh [directory name]"
+  exit -1
+fi
+
+vmupdatelog=~/.updatevm.log
 touch $vmupdatelog
 
 find $directory -name '*.sh' |
