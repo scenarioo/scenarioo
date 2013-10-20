@@ -23,7 +23,7 @@ NgUsdClientApp.controller('ScenarioCtrl', function ($scope, $q, $filter, $routeP
         });
 
         $scope.getScreenShotUrl = function (imgName) {
-            return 'http://localhost:8050/ngusd/rest/branches/' + result[0] + '/builds/' + result[1] +
+            return 'rest/branches/' + result[0] + '/builds/' + result[1] +
                 '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
         };
     });

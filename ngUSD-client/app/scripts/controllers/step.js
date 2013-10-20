@@ -48,7 +48,7 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
         });
 
         $scope.getScreenShotUrl = function (imgName) {
-            return "http://localhost:8050/ngusd/rest/branches/" + result[0] + "/builds/" + result[1] + "/usecases/" + useCaseName + "/scenarios/" + scenarioName + "/image/" + imgName;
+            return "rest/branches/" + result[0] + "/builds/" + result[1] + "/usecases/" + useCaseName + "/scenarios/" + scenarioName + "/image/" + imgName;
         }
     });
     function beautify(html) {

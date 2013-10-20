@@ -32,7 +32,7 @@
                         <div class="hero-unit-hover scenario-span1and2" style="width: 100%" ng-click="go(pageSteps, $parent.$index, $index)">
                             <div class="hero-unit-small screenshot-small scenario-span2 hero-unit">
                                 <div class="screenshot-div">
-                                    <img src="{{getScreenShotUrl(step.screenshotURL)}}"/>
+                                    <img ng-src="{{getScreenShotUrl(step.screenshotURL)}}"/>
                                 </div>
                             </div>
                             <div class="scenario-span3">
@@ -60,7 +60,7 @@
                             <h3>Step {{pageIndex}}.{{stepIndex}} {{pageName}}</h3>
                         </div>
                         <div class="modal-body">
-                            <img src="{{getScreenShotUrl(step.screenshotURL)}}"/>
+                            <img ng-src="{{getScreenShotUrl(step.screenshotURL)}}"/>
                         </div>
                         <div class="modal-footer">
                             <button class="btn" ng-click="closeScreenshotModal(step)">Close</button>
