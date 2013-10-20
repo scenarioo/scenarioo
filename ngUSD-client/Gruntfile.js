@@ -167,6 +167,9 @@ module.exports = function (grunt) {
                     '<%= yeoman.dist %>/scripts/scripts.js': [
                         '.tmp/scripts/{,*/}*.js',
                         '<%= yeoman.app %>/scripts/{,*/}*.js'
+                    ],
+                    '<%= yeoman.dist %>/scripts/js-beautify.js': [
+                        '<%= yeoman.app %>/third-party/js-beautify/js/{,*/}*.js'
                     ]
                 }
             }
@@ -322,7 +325,7 @@ module.exports = function (grunt) {
         'concat',
         'copy',
         'ngmin',
-        'uglify',
+        //'uglify',
         'rev',
         'usemin'
     ]);
