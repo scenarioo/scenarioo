@@ -76,7 +76,7 @@
                                 <h4>Latest Builds</h4>
                                 <accordion close-others="true">
                                     <accordion-group ng-repeat="branch in branches" heading="{{branch.branch.name}}">
-                                        <div ng-repeat="build in branch.builds" ng-include="'/template/build.html'" ng-click="setBuild(branch, build)">
+                                        <div ng-repeat="build in branch.builds" ng-include="'template/build.html'" ng-click="setBuild(branch, build)">
                                         </div>
                                     </accordion-group>
                                 </accordion>

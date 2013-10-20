@@ -1,5 +1,5 @@
 @import "compass_twitter_bootstrap";
 
-$FontAwesomePath: "/components/font-awesome/font";
-@import "font-awesome/scss/font-awesome.scss";
+$FontAwesomePath: "fonts";
+@import "../components/font-awesome/scss/font-awesome";
 
