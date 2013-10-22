@@ -18,7 +18,6 @@ angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', functi
         $location.search(Config.BUILD_URL_PARAMETER, build.build.name);
     };
 
-
     $scope.$on(CONFIG_LOADED_EVENT, function () {
         $scope.applicationInformation = Config.applicationInformation();
         $scope.branches = BranchService.findAllBranches();
@@ -36,7 +35,6 @@ angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', functi
                     $scope.selectedBuild = allBuildsOnSelectedBranch[index];
                 }
             }
-
         });
     });
 
@@ -48,7 +46,6 @@ angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', functi
     };
 
     $scope.updating = false;
-
 
     $scope.getDisplayName = function (build) {
         if (angular.isUndefined(build)) {
