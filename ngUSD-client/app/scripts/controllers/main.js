@@ -3,7 +3,7 @@
 angular.module('ngUSDClientApp.controllers').controller('MainCtrl', function (CONFIG_LOADED_EVENT, $scope, $q, $location, Config, UseCaseService, BuildStateService) {
 
     $scope.$on(CONFIG_LOADED_EVENT, function () {
-        $scope.useCaseScenariosList = UseCaseService.findAllUseCases({'branchName': Config.selectedBranch, 'buildName': Config.selectedBuild});
+        $scope.useCaseScenariosList = UseCaseService.findAllUseCases({'branchName': Config.selectedBranch(), 'buildName': Config.selectedBuild()});
     });
 
     var states = BuildStateService.ListBuildStates();

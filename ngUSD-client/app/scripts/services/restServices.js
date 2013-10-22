@@ -107,7 +107,6 @@ angular.module('ngUSDClientApp.services').factory('AdminService', function ($res
     });
 
     return adminService;
-
 });
 
 

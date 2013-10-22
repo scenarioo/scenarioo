@@ -77,6 +77,9 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
     }
 
     var serviceInstance = {
+        BRANCH_URL_PARAMETER: BRANCH_URL_PARAMETER,
+        BUILD_URL_PARAMETER: BUILD_URL_PARAMETER,
+
 
         getRawConfigDataCopy: function () {
             return angular.copy(configData);
@@ -112,6 +115,7 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
         applicationInformation: function () {
             return getValue('applicationInformation');
         }
+
     };
 
     return serviceInstance;

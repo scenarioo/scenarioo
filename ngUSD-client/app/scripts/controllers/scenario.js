@@ -1,8 +1,14 @@
 'use strict';
 
 angular.module('ngUSDClientApp.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioService, Config) {
+
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
+
+
+
+
+
     var selectedBranch = Config.selectedBranch($location);
     var selectedBuild = Config.selectedBuild($location);
 

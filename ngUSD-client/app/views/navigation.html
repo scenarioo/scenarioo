@@ -19,7 +19,7 @@
                 <a class="dropdown-toggle link">
                     <span class="headerLabel"><i class="icon-folder-close-alt icon-with-padding"></i>Build:</span>
                     {{getDisplayName(selectedBuild)}}
-                    <span class="label state" style="margin-left: 10px" ng-class="getStatusType(selectedBuild.build.state)">{{selectedBuild.build.state}}</span>
+                    <span class="label state" style="margin-left: 10px" ng-class="{{statesToClass[selectedBuild.build.state]}}">{{selectedBuild.build.state}}</span>
                     <div class="icon-with-padding"><b class="caret"></b></div>
                 </a>
                 <ul class="dropdown-menu container-fluid">
@@ -33,7 +33,7 @@
         <div class="pull-right">
             <ul class="nav">
                 <li>
-                    <a href="#" ng-click="updateData()"><i class="icon-with-padding" ng-class="{'icon-download': !updating, 'icon-refresh': updating, 'icon-spin': updating}"></i>Import</a>
+                    <a href="#" ng-click="aggregate()"><i class="icon-with-padding" ng-class="{'icon-download': !aggregationInProgress, 'icon-refresh': aggregationInProgress, 'icon-spin': aggregationInProgress  }"></i>Import</a>
                 </li>
                 <li>
                     <a href="#/config"><i class="icon-cogs icon-with-padding"></i>Configuration</a>
