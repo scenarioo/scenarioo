@@ -4,7 +4,7 @@ apply plugin: 'maven'
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "file://localhost/tmp/myRepo/")
+            repository(url: "file://localhost/home/ngUSD/Code/mvn-repo")
         }
     }
 }
