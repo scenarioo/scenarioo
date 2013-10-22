@@ -8,10 +8,20 @@ angular.module('ngUSDClientApp.filter').filter('toHumanReadable', function () {
             text = text.charAt(0).toUpperCase() + text.substr(1);
             // Underline
             text = text.replace(/([_])/g, ' ');
+
             // Camel Case
-            text = text.charAt(0) + text.substr(1).replace(/([A-Z])([a-z])/g, function (s, group1, group2) {
-                return ' ' + group1.toUpperCase() + group2;
-            });
+            // example 1: ThisIsSomeText
+            var regex = /([a-z])([A-Z])/g;
+            var replaceFn = function (s, group0, group1) {
+                return group0 + ' ' + group1;
+            };
+            // example 2: ABadExample
+            text = text.replace(regex, replaceFn);
+            regex = /([A-Z])([A-Z])([a-z])/g;
+            replaceFn = function (s, group0, group1, group2) {
+                return group0 + ' ' + group1 + group2;
+            };
+            text = text.replace(regex, replaceFn);
         }
         return text;
     };

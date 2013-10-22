@@ -1,8 +1,9 @@
 <div class="row-fluid breadcrumb-row">
     <div class="breadcrumb-div">
         <ul class="breadcrumb">
-            <li tooltip="{{breadcrumb.tooltip}}" tooltip-placement="top" ng-class="{'active': breadcrumb.isLast}" ng-repeat="breadcrumb in breadcrumbs">
-                <a href="{{breadcrumb.href}}" ng-bind-html-unsafe="breadcrumb.text" ng-show="!breadcrumb.isLast"></a>
+            <li ng-class="{'active': breadcrumb.isLast}" ng-repeat="breadcrumb in breadcrumbs">
+                <a ng-show="!breadcrumb.showTooltip && !breadcrumb.isLast" href="{{breadcrumb.href}}" ng-bind-html-unsafe="breadcrumb.text"></a>
+                <a ng-show="breadcrumb.showTooltip && !breadcrumb.isLast" tooltip="{{breadcrumb.tooltip}}" tooltip-placement="top" href="{{breadcrumb.href}}" ng-bind-html-unsafe="breadcrumb.text"></a>
                 <div ng-show="breadcrumb.isLast" ng-bind-html-unsafe="breadcrumb.text"></div>
                 <span class="divider" ng-show="!breadcrumb.isLast"> / </span>
             </li>

@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('ngUSDClientApp.directives').directive('usdBreadcrumb', function ($location, $route, $compile, $filter) {
-    var limit = 40;
+    var limit = 50;
 
 
     var breadcrumbDescriptionObject = {
+        scope: true,
         restrict: 'E',
         priority: 0,
         replace: true,
@@ -34,7 +35,7 @@ angular.module('ngUSDClientApp.directives').directive('usdBreadcrumb', function 
                         text = matchingRoute.breadcrumb.replace('$param', text);
 
                         if (scope.title && isLastBreadcrumb)
-                            text = matchingRoute.breadcrumb.replace('$title', scope.title);
+                            text = text.replace('$title', scope.title);
                     }
 
                     // Create breadcrumb object
@@ -54,6 +55,7 @@ angular.module('ngUSDClientApp.directives').directive('usdBreadcrumb', function 
                 title: encodeURIComponent('Link to the User Scenario Documentation'),
                 link: encodeURIComponent($location.absUrl())
             };
+            element.debuggingHelp = "test";
         }
     };
 

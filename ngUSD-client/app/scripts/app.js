@@ -44,7 +44,7 @@ NgUsdClientApp.config(function ($routeProvider) {
             pageName: '@pageName',
             pageOccurenceInScenario: '@pageOccurenceInScenario',
             stepIndex: '@stepIndex',
-            breadcrumb: '<strong>Step:</strong> {{pageIndex+1}}.{{stepIndex}} - {{pageName}}'
+            breadcrumb: '<strong>Step:</strong> $title'
         })
         .otherwise({
             redirectTo: '/'
