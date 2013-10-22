@@ -1,6 +1,6 @@
 'use strict';
 
-NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, PageVariantService, StepService) {
+angular.module('ngUSDClientApp.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, PageVariantService, StepService) {
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
     var selectedBranch = Config.selectedBranch($location);

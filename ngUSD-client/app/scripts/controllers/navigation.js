@@ -1,6 +1,6 @@
 'use strict';
 
-NgUsdClientApp.controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchService, BuildStateService, AdminService, Config, $q, $rootScope) {
+angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchService, BuildStateService, AdminService, Config, $q, $rootScope) {
 
     //configuration
     var parameterUrl = {'build': Config.buildUrlParameter, 'branch': Config.branchUrlParameter};

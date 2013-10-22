@@ -1,8 +1,8 @@
 'use strict';
 
-NgUsdClientApp.controller('ConfigCtrl', function ($scope, $q, ConfigService, BranchService, Config) {
+angular.module('ngUSDClientApp.controllers').controller('ConfigCtrl', function ($scope, $q, ConfigResource, BranchService, Config) {
 
-    var data = ConfigService.getConfiguration();
+    var data = ConfigResource.get();
     $scope.configurableBranches = BranchService.findAllBranches();
 
     data.then(function (result) {
@@ -18,13 +18,13 @@ NgUsdClientApp.controller('ConfigCtrl', function ($scope, $q, ConfigService, Bra
     });
 
     $scope.resetConfiguration = function () {
-        $scope.configuration = ConfigService.getConfiguration();
+        $scope.configuration = ConfigResource.get();
     };
 
     $scope.updateConfiguration = function () {
         $scope.successfullyUpdatedConfiguration = false;
         $scope.configuration.defaultBranchName = $scope.configuredBranch.branch.name;
-        var request = ConfigService.updateConfiguration($scope.configuration);
+        var request = ConfigResource.updateConfiguration($scope.configuration);
         request.then(function () {
             $scope.successfullyUpdatedConfiguration = true;
         });

@@ -1,6 +1,6 @@
 'use strict';
 
-NgUsdClientApp.controller('UseCaseCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioService, BuildStateService, Config) {
+angular.module('ngUSDClientApp.controllers').controller('UseCaseCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioService, BuildStateService, Config) {
     var useCaseName = $routeParams.useCaseName;
     var selectedBranch = Config.selectedBranch($location);
     var selectedBuild = Config.selectedBuild($location);

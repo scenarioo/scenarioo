@@ -9,6 +9,7 @@ files = [
   JASMINE_ADAPTER,
   'app/components/angular/angular.js',
   'app/components/angular-resource/angular-*.js',
+  'app/components/angular-cookies/angular-*.js',
   'app/components/angular-mocks/angular-*.js',
   'app/components/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle.js',
   'app/scripts/*.js',
@@ -22,7 +23,7 @@ exclude = [];
 
 // test results reporter to use
 // possible values: dots || progress || growl
-reporters = ['progress'];
+reporters = ['progress','junit'];
 
 // web server port
 port = 8080;
