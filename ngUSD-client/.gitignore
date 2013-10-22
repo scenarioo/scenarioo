@@ -4,3 +4,5 @@ dist
 .sass-cache
 app/components
 /.project
+test-results.xml
+coverage

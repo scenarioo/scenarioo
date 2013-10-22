@@ -13,9 +13,6 @@ dependencies {
     compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.3.Final'
     compile 'org.jboss.resteasy:resteasy-jaxb-provider:2.3.3.Final'
     compile 'org.jboss.resteasy:resteasy-jackson-provider:2.3.3.Final'
-    compile 'org.apache.commons:commons-lang3:3.1'
-    compile 'log4j:log4j:1.2.17'
-    providedCompile 'org.projectlombok:lombok:0.11.8'
     providedCompile 'javax.servlet:servlet-api:2.5'
 }
 

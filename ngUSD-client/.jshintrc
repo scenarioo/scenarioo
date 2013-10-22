@@ -21,6 +21,16 @@
     "smarttabs": true,
     "globals": {
         "angular": false,
-        "NgUsdClientApp": false
+        "inject":false,
+        "NgUsdClientApp": false,
+
+        "it": false,
+        "describe": false,
+        "expect": false,
+        "beforeEach": false,
+        "afterEach": false,
+        "spyOn":false
+
+
     }
 }

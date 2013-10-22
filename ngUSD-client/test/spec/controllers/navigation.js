@@ -50,4 +50,4 @@ describe('Controller: NavigationCtrl', function () {
         $httpBackend.verifyNoOutstandingRequest();
     });
 });
-  */
+*/
