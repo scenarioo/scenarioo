@@ -1,12 +1,9 @@
 'use strict';
 
-angular.module('ngUSDClientApp.controllers').controller('MainCtrl', function ($scope, $q, $location, Config, UseCaseService, BuildStateService) {
+angular.module('ngUSDClientApp.controllers').controller('MainCtrl', function (CONFIG_LOADED_EVENT, $scope, $q, $location, Config, UseCaseService, BuildStateService) {
 
-    var selectedBranch = Config.selectedBranch($location);
-    var selectedBuild = Config.selectedBuild($location);
-
-    $q.all([selectedBranch, selectedBuild]).then(function (result) {
-        $scope.useCaseScenariosList = UseCaseService.findAllUseCases({'branchName': result[0], 'buildName': result[1]});
+    $scope.$on(CONFIG_LOADED_EVENT, function () {
+        $scope.useCaseScenariosList = UseCaseService.findAllUseCases({'branchName': Config.selectedBranch, 'buildName': Config.selectedBuild});
     });
 
     var states = BuildStateService.ListBuildStates();

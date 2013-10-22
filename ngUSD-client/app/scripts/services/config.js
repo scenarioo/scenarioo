@@ -1,7 +1,8 @@
 'use strict';
 
+angular.module('ngUSDClientApp.services').constant('CONFIG_LOADED_EVENT', 'configLoaded');
 
-angular.module('ngUSDClientApp.services').service('Config', function ($location,ConfigResource, $rootScope) {
+angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOADED_EVENT, ConfigResource, $rootScope, $location, $cookieStore) {
 
     var configData = {},
         BRANCH_URL_PARAMETER = 'branch',
@@ -19,7 +20,8 @@ angular.module('ngUSDClientApp.services').service('Config', function ($location,
     function doLoad() {
         ConfigResource.get({}, function (response) {
             configData = postProcessConfigData(response);
-            $rootScope.$broadcast('configLoaded');
+            watchLocationChanges();
+            $rootScope.$broadcast(CONFIG_LOADED_EVENT);
         });
     }
 
@@ -39,8 +41,10 @@ angular.module('ngUSDClientApp.services').service('Config', function ($location,
         }
 
         // check cookie
-        // TODO
-
+        var buildCookieValue = $cookieStore.get(BUILD_URL_PARAMETER);
+        if (angular.isDefined(buildCookieValue)) {
+            return buildCookieValue;
+        }
 
         // else, take default
         return configData.defaultBuildName;
@@ -49,37 +53,34 @@ angular.module('ngUSDClientApp.services').service('Config', function ($location,
     function getConfiguredBranch(configData) {
 
         // check URL
-        var params =  $location.search();
+        var params = $location.search();
         if (params !== null && params[BRANCH_URL_PARAMETER]) {
             return params[BRANCH_URL_PARAMETER];
         }
 
         // check cookie
-        // TODO
+        var branchCookieValue = $cookieStore.get(BRANCH_URL_PARAMETER);
+        if (angular.isDefined(branchCookieValue)) {
+            return branchCookieValue;
+        }
 
         // else, take default
         return configData.defaultBranchName;
     }
 
-    /*var config : {
-     getConfiguration: function (property) {
-     return this.configData.then(function (result) {
-     return result[property];
-     });
-     },
-
-     getConfigurationAsArray: function (property) {
-     return this.getConfiguration(property).then(function (result) {
-     var array = result.split(',');
-     for (var index = 0; index < array.length; index++) {
-     array[index] = array[index].replace(/^\s+|\s+$/g, '');
-     }
-     return array;
-     });
-     }
-     };*/
+    function watchLocationChanges() {
+        $rootScope.$watch(function () {
+            return $location.search();
+        }, function (newValue) {
+            configData = postProcessConfigData(configData);
+        });
+    }
 
     var serviceInstance = {
+
+        getRawConfigDataCopy: function () {
+            return angular.copy(configData);
+        },
 
         /**
          * Will fire event 'configLoaded'
@@ -88,8 +89,12 @@ angular.module('ngUSDClientApp.services').service('Config', function ($location,
             doLoad();
         },
 
-        updateConfiguration: function (newConfig) {
+        updateConfiguration: function (newConfig, successCallback) {
             // TODO
+
+            if (successCallback) {
+                successCallback();
+            }
         },
 
         selectedBuild: function () {

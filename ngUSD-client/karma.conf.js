@@ -23,7 +23,11 @@ exclude = [];
 
 // test results reporter to use
 // possible values: dots || progress || growl
-reporters = ['progress','junit'];
+reporters = ['progress', 'junit', 'coverage'];
+
+preprocessors = {
+    'app/scripts/services/*.js' : 'coverage'
+}
 
 // web server port
 port = 8080;

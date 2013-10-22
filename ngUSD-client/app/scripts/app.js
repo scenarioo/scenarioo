@@ -4,7 +4,6 @@
 angular.module('ngUSDClientApp.services', [ 'ngCookies', 'ngResource']);
 angular.module('ngUSDClientApp.controllers', ['ngUSDClientApp.services']);
 
-
 var NgUsdClientApp = angular.module('ngUSDClientApp', ['ngUSDClientApp.controllers', 'ui.bootstrap.modal',
     'ui.bootstrap.popover',
     'ui.bootstrap.dropdownToggle',
@@ -48,4 +47,6 @@ NgUsdClientApp.config(function ($routeProvider) {
         .otherwise({
             redirectTo: '/'
         });
+}).run(function(Config) {
+    Config.load();
 });

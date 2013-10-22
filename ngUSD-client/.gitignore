@@ -5,3 +5,4 @@ dist
 app/components
 /.project
 test-results.xml
+coverage

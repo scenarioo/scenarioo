@@ -17,17 +17,12 @@ describe('Service :: config', function () {
 
     beforeEach(angular.mock.module('ngUSDClientApp.services'));
 
-
     it('should inject Config', inject(function (Config) {
         expect(Config).not.toBeUndefined();
     }));
 
-    it('should be able to load config from server, with defaults', inject(function (Config, $rootScope, $httpBackend, $location) {
-
-        // this is needed, that injection of $location in service and flushing of $httpBackend works as expected
-        $rootScope.$apply();
-
-        spyOn($rootScope, '$broadcast');
+    it('should be able to load config from server', inject(function (CONFIG_LOADED_EVENT, Config, $rootScope, $httpBackend, $location) {
+        spyOn($rootScope, '$broadcast').andCallThrough();
 
         $httpBackend.when('GET', '/ngusd/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
 
@@ -35,26 +30,18 @@ describe('Service :: config', function () {
 
         $httpBackend.flush();
 
-        expect($rootScope.$broadcast).toHaveBeenCalledWith('configLoaded');
+        expect($rootScope.$broadcast).toHaveBeenCalledWith(CONFIG_LOADED_EVENT);
 
-        expect(Config.selectedBuild()).toBeDefined();
-        expect(Config.selectedBranch()).toBeDefined();
-        expect(Config.selectedBuild()).toBe('current');
-        expect(Config.selectedBranch()).toBe('trunk');
-
-        expect(Config.scenarioPropertiesInOverview()).toBeDefined();
-        expect(Config.applicationInformation()).toBeDefined();
+        expect(Config.selectedBuild()).toBe(DUMMY_CONFIG_RESPONSE.defaultBuildName);
+        expect(Config.selectedBranch()).toBe(DUMMY_CONFIG_RESPONSE.defaultBranchName);
+        expect(Config.scenarioPropertiesInOverview()).toBe(DUMMY_CONFIG_RESPONSE.scenarioPropertiesInOverview);
+        expect(Config.applicationInformation()).toBe(DUMMY_CONFIG_RESPONSE.applicationInformation);
     }));
 
-
-
-    it('should be able to load config from server, with values from URL', inject(function (Config, $rootScope, $httpBackend,$location) {
-
+    it('should be able to load config from server, with values from URL', inject(function (CONFIG_LOADED_EVENT, Config, $rootScope, $httpBackend, $location) {
         $location.url('/new/path/?build=2013-08&branch=someotherbranch');
-        // this is needed, that injection of $location in service and flushing of $httpBackend works as expected
-        $rootScope.$apply();
 
-        spyOn($rootScope, '$broadcast');
+        spyOn($rootScope, '$broadcast').andCallThrough();
 
         $httpBackend.when('GET', '/ngusd/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
 
@@ -62,15 +49,51 @@ describe('Service :: config', function () {
 
         $httpBackend.flush();
 
-        expect($rootScope.$broadcast).toHaveBeenCalledWith('configLoaded');
+        expect($rootScope.$broadcast).toHaveBeenCalledWith(CONFIG_LOADED_EVENT);
 
-        expect(Config.selectedBuild()).toBeDefined();
-        expect(Config.selectedBranch()).toBeDefined();
-        expect(Config.selectedBranch()).toBe('someotherbranch');
         expect(Config.selectedBuild()).toBe('2013-08');
+        expect(Config.selectedBranch()).toBe('someotherbranch');
+    }));
 
-        expect(Config.scenarioPropertiesInOverview()).toBeDefined();
-        expect(Config.applicationInformation()).toBeDefined();
+    it('should react to $location changes', inject(function (CONFIG_LOADED_EVENT,Config, $rootScope, $httpBackend, $location) {
+        spyOn($rootScope, '$broadcast').andCallThrough();
+
+        $location.url('/new/path/?a=b');
+
+        $httpBackend.when('GET', '/ngusd/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
+
+        Config.load();
+
+        $httpBackend.flush();
+
+        expect($rootScope.$broadcast).toHaveBeenCalledWith(CONFIG_LOADED_EVENT);
+        expect(Config.selectedBuild()).toBe(DUMMY_CONFIG_RESPONSE.defaultBuildName);
+        expect(Config.selectedBranch()).toBe(DUMMY_CONFIG_RESPONSE.defaultBranchName);
+
+        $location.url('/new/path/?build=2013-08_changed&branch=someotherbranch_changed');
+        $rootScope.$digest();
+
+
+        expect(Config.selectedBuild()).toBe('2013-08_changed');
+        expect(Config.selectedBranch()).toBe('someotherbranch_changed');
+    }));
+
+    it('should be able to load config from server, with values from cookie', inject(function (CONFIG_LOADED_EVENT,Config, $rootScope, $httpBackend, $cookieStore) {
+        $cookieStore.put('branch', 'cookieBranch');
+        $cookieStore.put('build', '2013-08-cookie');
+
+        spyOn($rootScope, '$broadcast').andCallThrough();
+
+        $httpBackend.when('GET', '/ngusd/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
+
+        Config.load();
+
+        $httpBackend.flush();
+
+        expect($rootScope.$broadcast).toHaveBeenCalledWith(CONFIG_LOADED_EVENT);
+
+        expect(Config.selectedBuild()).toBe('2013-08-cookie');
+        expect(Config.selectedBranch()).toBe('cookieBranch');
     }));
 
 });

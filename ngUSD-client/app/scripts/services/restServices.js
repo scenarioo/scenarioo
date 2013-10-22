@@ -91,14 +91,12 @@ angular.module('ngUSDClientApp.services').factory('StepService', function ($reso
 });
 
 angular.module('ngUSDClientApp.services').factory('BuildStateService', function ($resource, $q, REST_API_URL) {
-    var buildStateService = $resource(REST_API_URL + '/configuration/buildstates/:state',
-        {state: '@state'}, {});
+    var buildStateService = $resource(REST_API_URL + '/configuration/buildstates', {}, {});
 
     buildStateService.ListBuildStates = getPromise($q, function (parameters, fnSuccess, fnError) {
         return buildStateService.get(parameters, fnSuccess, fnError);
     });
     return buildStateService;
-
 });
 
 angular.module('ngUSDClientApp.services').factory('AdminService', function ($resource, $q, REST_API_URL) {
