@@ -48,8 +48,8 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
         });
 
         $scope.getScreenShotUrl = function (imgName) {
-            return "rest/branches/" + result[0] + "/builds/" + result[1] + "/usecases/" + useCaseName + "/scenarios/" + scenarioName + "/image/" + imgName;
-        }
+            return 'rest/branches/' + result[0] + '/builds/' + result[1] + '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
+        };
     });
     function beautify(html) {
         var source = html.htmlSource;
@@ -74,24 +74,23 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
 
     function bindStepNavigation(pagesAndSteps) {
         var w = angular.element($window);
-        w.bind("keypress", function (event) {
-            var ctrlPressed = !!event.ctrlKey;
+        w.bind('keypress', function (event) {
             var keyCode = event.keyCode;
-            if (keyCode == 37) {
-                if (event.ctrlKey == 1) {
+            if (keyCode === 37) {
+                if (event.ctrlKey === 1) {
                     $scope.goToPreviousVariant();
                 } else {
                     $scope.goToPreviousStep();
                 }
-            } else if (keyCode == 38) {
+            } else if (keyCode === 38) {
                 $scope.goToPreviousPage();
-            } else if (keyCode == 39) {
-                if (event.ctrlKey == 1) {
+            } else if (keyCode === 39) {
+                if (event.ctrlKey === 1) {
                     $scope.goToNextVariant();
                 } else {
                     $scope.goToNextStep();
                 }
-            } else if (keyCode == 40) {
+            } else if (keyCode === 40) {
                 $scope.goToNextPage();
             }
             $scope.$apply();
@@ -105,13 +104,13 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
                 pageIndex = 0;
             }
             $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
-        }
+        };
 
         $scope.goToPreviousStep = function () {
             var pageIndex = $scope.pageIndex;
             var stepIndex = $scope.stepIndex - 1;
-            if ($scope.stepIndex == 0) {
-                if ($scope.pageIndex == 0) {
+            if ($scope.stepIndex === 0) {
+                if ($scope.pageIndex === 0) {
                     pageIndex = 0;
                     stepIndex = 0;
                 } else {
@@ -120,7 +119,7 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
                 }
             }
             $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
-        }
+        };
 
         $scope.goToNextStep = function () {
             var pageIndex = $scope.pageIndex;
@@ -130,7 +129,7 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
                 stepIndex = 0;
             }
             $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
-        }
+        };
 
         $scope.goToNextPage = function () {
             var pageIndex = $scope.pageIndex + 1;
@@ -139,31 +138,31 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
                 pageIndex = $scope.pagesAndSteps.length - 1;
             }
             $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
-        }
+        };
 
         $scope.goToFirstPage = function () {
             var pageIndex = 0;
             var stepIndex = 0;
             $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
-        }
+        };
 
         $scope.goToLastPage = function () {
             var pageIndex = $scope.pagesAndSteps.length - 1;
             var stepIndex = 0;
             $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
-        }
+        };
     }
 
     $scope.go = function (pageSteps, pageIndex, stepIndex) {
         var pageName = pageSteps.page.name;
         $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) + '/' + pageIndex + '/' + stepIndex);
-    }
+    };
 
     $scope.openScreenshotModal = function () {
         $scope.showingScreenshotModal = true;
-    }
+    };
 
     $scope.closeScreenshotModal = function () {
         $scope.showingScreenshotModal = false;
-    }
+    };
 });

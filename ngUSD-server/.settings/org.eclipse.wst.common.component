@@ -5,6 +5,9 @@
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="src/main/resources"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="src/main/java"/>
 		<wb-resource deploy-path="/" source-path="src/main/webapp"/>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/ngUSD-api/ngUSD-api">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
 		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//home/ngUSD/.gradle/caches/artifacts-23/filestore/org.codehaus.jackson/jackson-jaxrs/1.8.5/jar/9a808075c5a0422536b9b9209e4da8f887daf693/jackson-jaxrs-1.8.5.jar">
 			<dependency-type>uses</dependency-type>
 		</dependent-module>
