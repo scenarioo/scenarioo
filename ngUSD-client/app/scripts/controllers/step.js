@@ -9,6 +9,7 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
     $scope.pageName = decodeURIComponent($routeParams.pageName);
     $scope.pageIndex = parseInt($routeParams.pageOccurenceInScenario);
     $scope.stepIndex = stepIndex;
+    $scope.title = ($scope.pageIndex+1) + "." + $scope.stepIndex + " - " + $scope.pageName;
 
     $scope.modalScreenshotOptions = {
         backdropFade: true,
@@ -48,7 +49,7 @@ NgUsdClientApp.controller('StepCtrl', function ($scope, $routeParams, $location,
         });
 
         $scope.getScreenShotUrl = function (imgName) {
-            return 'rest/branches/' + result[0] + '/builds/' + result[1] + '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
+            return '/ngusd/rest/branches/' + result[0] + '/builds/' + result[1] + '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
         };
     });
     function beautify(html) {
