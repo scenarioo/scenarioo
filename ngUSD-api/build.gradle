@@ -10,3 +10,6 @@ uploadArchives {
     }
 }
 
+// Prevent Eclipse "Gradle -> Refresh All" to execute cleanEclipseJdt,
+// because it would delete our version of the org.eclipse.jdt.ui.prefs file.
+cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt

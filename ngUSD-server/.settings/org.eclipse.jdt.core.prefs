@@ -1,5 +1,5 @@
 #
-#Tue Oct 22 12:16:44 CEST 2013
+#Tue Oct 22 14:09:51 CEST 2013
 org.eclipse.jdt.core.formatter.insert_space_before_comma_in_for_inits=do not insert
 org.eclipse.jdt.core.formatter.brace_position_for_block=end_of_line
 org.eclipse.jdt.core.formatter.insert_space_after_at_in_annotation_type_declaration=do not insert
@@ -58,7 +58,7 @@ org.eclipse.jdt.core.formatter.insert_space_after_colon_in_case=insert
 org.eclipse.jdt.core.formatter.insert_space_after_opening_paren_in_for=do not insert
 org.eclipse.jdt.core.formatter.insert_space_before_semicolon=do not insert
 org.eclipse.jdt.core.formatter.alignment_for_superinterfaces_in_enum_declaration=16
-org.eclipse.jdt.core.formatter.comment.line_length=80
+org.eclipse.jdt.core.formatter.comment.line_length=120
 org.eclipse.jdt.core.formatter.insert_space_before_comma_in_array_initializer=do not insert
 org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_catch=do not insert
 org.eclipse.jdt.core.formatter.indent_switchstatements_compare_to_cases=true

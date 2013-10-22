@@ -3,7 +3,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     group = 'org.ngusd'
-    version = '0.1'
+    version = '0.1.1'
 
 	configurations {
 	  compileOnly
