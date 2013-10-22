@@ -5,11 +5,17 @@ angular.module('ngUSDClientApp.directives', ['ngUSDClientApp.filter']);
 angular.module('ngUSDClientApp.services', [ 'ngCookies', 'ngResource']);
 angular.module('ngUSDClientApp.controllers', ['ngUSDClientApp.services']);
 
-var NgUsdClientApp = angular.module('ngUSDClientApp', ['ngUSDClientApp.controllers', 'ngUSDClientApp.directives', 'ui.bootstrap.modal',
+var NgUsdClientApp = angular.module('ngUSDClientApp', [
+    'ngUSDClientApp.controllers',
+    'ngUSDClientApp.directives',
+    'ngUSDClientApp.filter',
+    'ui.bootstrap.modal',
     'ui.bootstrap.popover',
     'ui.bootstrap.dropdownToggle',
-    'ui.bootstrap.tabs', 'ui.bootstrap.tooltip', 'ui.bootstrap.accordion']);
-
+    'ui.bootstrap.tabs',
+    'ui.bootstrap.tooltip',
+    'ui.bootstrap.accordion'
+]);
 
 NgUsdClientApp.config(function ($routeProvider) {
     $routeProvider
@@ -44,7 +50,7 @@ NgUsdClientApp.config(function ($routeProvider) {
             pageName: '@pageName',
             pageOccurenceInScenario: '@pageOccurenceInScenario',
             stepIndex: '@stepIndex',
-            breadcrumb: '<strong>Step:</strong> $title'
+            breadcrumb: '<strong>Step:</strong> {{pageIndex+1}}.{{stepIndex}} - {{pageName}}'
         })
         .otherwise({
             redirectTo: '/'
