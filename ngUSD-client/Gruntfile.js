@@ -337,7 +337,8 @@ module.exports = function (grunt) {
     grunt.registerTask('build-light', [
         'clean:dist',
         'jshint',
-        'test',
+        'karma:unit',
+        'karma:e2e',
         'coffee',
         'compass:dist',
         'useminPrepare',
@@ -354,7 +355,8 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'jshint',
-        'test',
+        'karma:unit',
+        'karma:e2e',
         'coffee',
         'compass:dist',
         'useminPrepare',
