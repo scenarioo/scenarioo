@@ -92,6 +92,10 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
             doLoad();
         },
 
+        isLoaded: function () {
+            return angular.isDefined(configData.defaultBuildName);
+        },
+
         updateConfiguration: function (newConfig, successCallback) {
             // TODO
 
