@@ -1,6 +1,6 @@
 'use strict';
 
-NgUsdClientApp.filter('toHumanReadable', function () {
+angular.module('ngUSDClientApp.filter').filter('toHumanReadable', function () {
     return function (input) {
         var text = input;
         if (text) {

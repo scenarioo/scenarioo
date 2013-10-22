@@ -1,6 +1,9 @@
 'use strict';
 
-var NgUsdClientApp = angular.module('ngUSDClientApp', ['ui.bootstrap.modal', 'ui.bootstrap.popover', 'ui.bootstrap.dropdownToggle', 'ui.bootstrap.tabs', 'ui.bootstrap.tooltip', 'ui.bootstrap.accordion', 'ngResource', 'ng', 'ngCookies']);
+angular.module('ngUSDClientApp.filter', []);
+angular.module('ngUSDClientApp.directives', ['ngUSDClientApp.filter']);
+
+var NgUsdClientApp = angular.module('ngUSDClientApp', ['ngUSDClientApp.directives', 'ui.bootstrap.modal', 'ui.bootstrap.popover', 'ui.bootstrap.dropdownToggle', 'ui.bootstrap.tabs', 'ui.bootstrap.tooltip', 'ui.bootstrap.accordion', 'ngResource', 'ng', 'ngCookies']);
 
 NgUsdClientApp.config(function ($routeProvider) {
     $routeProvider
@@ -35,7 +38,7 @@ NgUsdClientApp.config(function ($routeProvider) {
             pageName: '@pageName',
             pageOccurenceInScenario: '@pageOccurenceInScenario',
             stepIndex: '@stepIndex',
-            breadcrumb: '<strong>Step:</strong> {{pageIndex+1}}.{{stepIndex}} - {{pageName}}'
+            breadcrumb: '<strong>Step:</strong> $title'
         })
         .otherwise({
             redirectTo: '/'
