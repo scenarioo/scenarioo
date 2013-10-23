@@ -147,7 +147,7 @@ public class ScenarioDocuGenerator {
 					+ destinationRootDirectory.getAbsolutePath());
 		}
 		if (!directory.exists()) {
-			getBuildDirectory().mkdirs();
+			directory.mkdirs();
 		}
 	}
 	
