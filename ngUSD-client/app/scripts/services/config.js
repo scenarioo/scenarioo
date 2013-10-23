@@ -1,3 +1,4 @@
+
 'use strict';
 
 angular.module('ngUSDClientApp.services').constant('CONFIG_LOADED_EVENT', 'configLoaded');

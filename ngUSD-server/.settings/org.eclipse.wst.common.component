@@ -23,13 +23,13 @@
 		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//home/ngUSD/.gradle/caches/artifacts-23/filestore/javax.activation/activation/1.1/jar/e6cb541461c2834bdea3eb920f1884d1eb508b50/activation-1.1.jar">
 			<dependency-type>uses</dependency-type>
 		</dependent-module>
-		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//home/ngUSD/.gradle/caches/artifacts-23/filestore/org.apache.commons/commons-lang3/3.1/jar/905075e6c80f206bbe6cf1e809d2caa69f420c76/commons-lang3-3.1.jar">
-			<dependency-type>uses</dependency-type>
-		</dependent-module>
 		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//home/ngUSD/.gradle/caches/artifacts-23/filestore/commons-codec/commons-codec/1.4/jar/4216af16d38465bbab0f3dff8efa14204f7a399a/commons-codec-1.4.jar">
 			<dependency-type>uses</dependency-type>
 		</dependent-module>
 		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//home/ngUSD/.gradle/caches/artifacts-23/filestore/org.codehaus.jackson/jackson-xc/1.8.5/jar/b88ff47f12822e782158bc926d096c4a20b9c1fc/jackson-xc-1.8.5.jar">
+			<dependency-type>uses</dependency-type>
+		</dependent-module>
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//home/ngUSD/.gradle/caches/artifacts-23/filestore/org.apache.commons/commons-lang3/3.0.1/jar/4c3f3e51174a0260a2c5e78da49fac4710803aa5/commons-lang3-3.0.1.jar">
 			<dependency-type>uses</dependency-type>
 		</dependent-module>
 		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//home/ngUSD/.gradle/caches/artifacts-23/filestore/org.jboss.resteasy/jaxrs-api/2.3.3.Final/jar/ec5a461d992ed7ff0ae34ab328361616262ffb49/jaxrs-api-2.3.3.Final.jar">
