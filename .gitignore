@@ -10,3 +10,4 @@ app/bower_components
 .idea
 .vm-update.log
 .gradle
+third-party
