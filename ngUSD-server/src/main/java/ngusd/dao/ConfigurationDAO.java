@@ -43,6 +43,7 @@ public class ConfigurationDAO {
 		if (!configFile.exists()) {
 			configFile = getDefaultConfigFile();
 		}
+		LOGGER.info("  loading configuration from file: " + configFile);
 		return XMLFileUtil.unmarshal(configFile, Configuration.class);
 	}
 	

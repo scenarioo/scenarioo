@@ -24,7 +24,7 @@ public class NgUsdWebApplication implements ServletContextListener {
 		LOGGER.info("  Loading configuration ...");
 		
 		String configurationDirectory = arg0.getServletContext().getInitParameter("configurationDirectory");
-		LOGGER.info(configurationDirectory);
+		LOGGER.info("  " + configurationDirectory);
 		ConfigurationDAO.setConfigurationDirectory(configurationDirectory);
 		Configuration config = ConfigurationDAO.getConfiguration();
 		LOGGER.info("  Configuration loaded.");
