@@ -22,9 +22,19 @@ public class ConfigurationDAO {
 	private static final String CONFIG_FILE_NAME = "config.xml";
 	private static final String DEFAULT_CONFIG_PATH = CONFIG_FILE_NAME;
 	
-	private static Configuration configuration = loadConfiguration();
+	private static Configuration configuration = null;
+	
+	private static String configurationDirectory = null;
+	
+	public static void setConfigurationDirectory(final String configurationDirectory) {
+		ConfigurationDAO.configurationDirectory = configurationDirectory;
+		
+	}
 	
 	public static Configuration getConfiguration() {
+		if (configuration == null) {
+			configuration = loadConfiguration();
+		}
 		return configuration;
 	}
 	
@@ -50,17 +60,18 @@ public class ConfigurationDAO {
 	}
 	
 	/**
-	 * Get the place where customized configuration file is or will be stored
-	 * (as soon as first configuration change has been applied).
+	 * Get the place where customized configuration file is or will be stored (as soon as first configuration change has
+	 * been applied).
 	 */
 	private static File getConfigFile() {
-		String userHomeDir = System.getProperty("user.home");
-		if (StringUtils.isBlank(userHomeDir)) {
-			userHomeDir = "";
+		if (StringUtils.isBlank(configurationDirectory)) {
+			configurationDirectory = System.getProperty("user.home");
+			if (StringUtils.isBlank(configurationDirectory)) {
+				configurationDirectory = "";
+			}
 		}
-		File userHomePath = new File(userHomeDir);
-		File ngusdConfigDirectory = new File(userHomePath, ".ngusd");
-		File configFile = new File(ngusdConfigDirectory, CONFIG_FILE_NAME);
+		File configurationPath = new File(configurationDirectory);
+		File configFile = new File(configurationPath, CONFIG_FILE_NAME);
 		return configFile;
 	}
 	
