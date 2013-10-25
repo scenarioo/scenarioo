@@ -51,8 +51,7 @@ task buildClient(type: Exec) {
      }
 }	
 
-buildClient.dependsOn printPathConfigInformationForNodeJSAndGrunt																																																																																																																																																																																																																																																																																															
-
+buildClient.dependsOn printPathConfigInformationForNodeJSAndGrunt
 
 war {
     from '../ngUSD-client/dist'

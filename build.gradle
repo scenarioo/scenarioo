@@ -43,3 +43,6 @@ project(':ngUSD-server') {
         compile project(':ngUSD-api')
     }
 }
+
+task wrapper(type: Wrapper) {
+}
