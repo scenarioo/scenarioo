@@ -40,10 +40,12 @@ public class ConfigurationDAO {
 	
 	private static Configuration loadConfiguration() {
 		File configFile = getConfigFile();
+		
+		LOGGER.info("  loading configuration from file: " + configFile);
 		if (!configFile.exists()) {
+			LOGGER.warn("  file " + configFile + " does not exist: " + configFile.canRead());
 			configFile = getDefaultConfigFile();
 		}
-		LOGGER.info("  loading configuration from file: " + configFile);
 		return XMLFileUtil.unmarshal(configFile, Configuration.class);
 	}
 	
