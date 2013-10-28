@@ -2,13 +2,6 @@
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 
-repositories {
-    mavenCentral()
-    maven {
-        url "http://projectlombok.org/mavenrepo"
-    }
-}
-
 dependencies {
     compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.3.Final'
     compile 'org.jboss.resteasy:resteasy-jaxb-provider:2.3.3.Final'
@@ -55,6 +48,7 @@ buildClient.dependsOn printPathConfigInformationForNodeJSAndGrunt
 
 war {
     from '../ngUSD-client/dist'
+	archiveName 'ngusd.war'
 }
 
 war.dependsOn = war.taskDependencies.values + tasks.buildClient
