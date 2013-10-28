@@ -13,7 +13,7 @@ angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', functi
         $location.search(Config.BRANCH_URL_PARAMETER, branch.branch.name);
     };
 
-    $scope.setBuild = function (build) {
+    $scope.setBuild = function (selectedBranch, build) {
         $scope.selectedBuild = build;
         $location.search(Config.BUILD_URL_PARAMETER, build.build.name);
     };
