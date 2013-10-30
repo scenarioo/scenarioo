@@ -59,7 +59,7 @@ module.exports = function (grunt) {
     	    }
     	  }],
     	  production: [{
-    	    dest: '<%= yeoman.dist %>/scripts/environment_config.js',
+    	    dest: '<%= yeoman.app %>/scripts/environment_config.js',
     	    wrap: '"use strict";\n\n <%= __ngModule %>',
     	    name: 'ngUSDClientApp.config',
     	    constants: {
@@ -187,6 +187,7 @@ module.exports = function (grunt) {
                     '<%= yeoman.dist %>/scripts/js-beautify.js': [
                         '<%= yeoman.app %>/third-party/js-beautify/js/{,*/}*.js'
                     ]
+
                 }
             }
         },
