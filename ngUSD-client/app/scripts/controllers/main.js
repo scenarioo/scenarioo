@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngUSDClientApp.controllers').controller('MainCtrl', function (CONFIG_LOADED_EVENT, $scope, $location, Config, UseCaseService, BuildStateService) {
+angular.module('ngUSDClientApp.controllers').controller('MainCtrl', function (CONFIG_LOADED_EVENT, $scope, $location, Config, UseCaseService) {
 
     function loadUseCases(){
         $scope.useCaseScenariosList = UseCaseService.findAllUseCases({'branchName': Config.selectedBranch(), 'buildName': Config.selectedBuild()});
@@ -13,8 +13,6 @@ angular.module('ngUSDClientApp.controllers').controller('MainCtrl', function (CO
     $scope.$on(CONFIG_LOADED_EVENT, function () {
         loadUseCases();
     });
-
-    $scope.statesToClass = BuildStateService.ListBuildStates();
 
     $scope.go = function (useCaseName) {
         $location.path('/usecase/' + useCaseName);
