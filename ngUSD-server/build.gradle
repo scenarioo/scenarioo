@@ -6,6 +6,8 @@ dependencies {
     compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.3.Final'
     compile 'org.jboss.resteasy:resteasy-jaxb-provider:2.3.3.Final'
     compile 'org.jboss.resteasy:resteasy-jackson-provider:2.3.3.Final'
+	runtime 'com.thetransactioncompany:cors-filter:1.7.1'
+	runtime 'com.thetransactioncompany:java-property-utils:1.9'
     providedCompile 'javax.servlet:servlet-api:2.5'
 }
 
