@@ -19,7 +19,7 @@
                 <a class="dropdown-toggle link">
                     <span class="headerLabel"><i class="icon-folder-close-alt icon-with-padding"></i>Build:</span>
                     {{getDisplayName(selectedBuild)}}
-                    <span class="label state" style="margin-left: 10px" ng-class="{{statesToClass[selectedBuild.build.state]}}">{{selectedBuild.build.state}}</span>
+                    <span ng-class="[statesToClass[selectedBuild.build.state], 'label', 'state']">{{selectedBuild.build.state}}</span>
                     <div class="icon-with-padding"><b class="caret"></b></div>
                 </a>
                 <ul class="dropdown-menu container-fluid">
@@ -51,7 +51,7 @@
     <div class="modal-header">
         <h3>ngUSD</h3>
     </div>
-    <div class="modal-body" ng-include="'/views/information.html'">
+    <div class="modal-body" ng-include="'/views/applicationInfoPopup.html'">
     </div>
     <div class="modal-footer">
         <button class="btn" ng-click="closeInfoModal()">Close</button>
