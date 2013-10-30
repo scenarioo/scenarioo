@@ -14,16 +14,7 @@ angular.module('ngUSDClientApp.controllers').controller('MainCtrl', function (CO
         loadUseCases();
     });
 
-    var states = BuildStateService.ListBuildStates();
-    $scope.getStatusType = function (status) {
-        states.then(function () {
-            if (states[status]) {
-                return states[status] + ' label';
-            } else {
-                return 'label';
-            }
-        });
-    };
+    $scope.statesToClass = BuildStateService.ListBuildStates();
 
     $scope.go = function (useCaseName) {
         $location.path('/usecase/' + useCaseName);
