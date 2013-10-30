@@ -18,7 +18,7 @@ module.exports = function (grunt) {
         yeomanConfig.app = require('./component.json').appPath || yeomanConfig.app;
     } catch (e) {
     }
-    grunt.loadNpmTasks('grunt-proxy');
+    grunt.loadNpmTasks('grunt-ng-constant');
     grunt.initConfig({
         yeoman: yeomanConfig,
         watch: {
@@ -44,18 +44,29 @@ module.exports = function (grunt) {
                 tasks: ['livereload']
             }
         },
-        proxy: {
-            proxy1: {
-                options: {
-                    port: 8050,
-                    host: 'localhost',
-                    router: {
-                        'localhost/ngusd/rest/*': 'localhost:8080',
-                        'localhost': 'localhost:9000'
-                    }
-                }
-            }
-        },
+    	ngconstant: {
+    	  options: {
+    	    space: '  '
+    	  },
+
+    	  // targets
+    	  development: [{
+    	    dest: '<%= yeoman.app %>/scripts/environment_config.js',
+    	    wrap: '"use strict";\n\n <%= __ngModule %>',
+    	    name: 'ngUSDClientApp.config',
+    	    constants: {
+    	      ENV: 'development'
+    	    }
+    	  }],
+    	  production: [{
+    	    dest: '<%= yeoman.dist %>/scripts/environment_config.js',
+    	    wrap: '"use strict";\n\n <%= __ngModule %>',
+    	    name: 'ngUSDClientApp.config',
+    	    constants: {
+    	      ENV: 'production'
+    	    }
+    	  }]
+    	},
         connect: {
             options: {
                 port: 9000,
@@ -86,7 +97,7 @@ module.exports = function (grunt) {
         },
         open: {
             server: {
-                url: 'http://localhost:<%= proxy.proxy1.options.port %>'
+                url: 'http://localhost:<%= connect.options.port %>'
             }
         },
         clean: {
@@ -301,6 +312,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('server', [
         'clean:server',
+	    'ngconstant:development',
         'coffee:dist',
         'compass:server',
         'livereload-start',
@@ -336,6 +348,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build-light', [
         'clean:dist',
+  	'ngconstant:production',
         'jshint',
         'karma:unit',
         'karma:e2e',
@@ -354,6 +367,7 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('build', [
         'clean:dist',
+  	'ngconstant:production',
         'jshint',
         'karma:unit',
         'karma:e2e',

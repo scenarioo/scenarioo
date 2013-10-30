@@ -26,10 +26,10 @@
 		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//home/ngUSD/.gradle/caches/artifacts-26/filestore/org.jboss.resteasy/resteasy-jaxrs/2.3.3.Final/jar/5413dfcccd263bbf44ad68f9d10e1fef47a4d39d/resteasy-jaxrs-2.3.3.Final.jar">
 			<dependency-type>uses</dependency-type>
 		</dependent-module>
-		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//home/ngUSD/.gradle/caches/artifacts-26/filestore/org.scannotation/scannotation/1.0.3/jar/752458e33fd31d8dff9f0afa953b8e2bf90fe703/scannotation-1.0.3.jar">
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//home/ngUSD/.gradle/caches/artifacts-26/filestore/com.thetransactioncompany/java-property-utils/1.9/jar/96af50b8dbd8059777b8f16374a0d83df32ac606/java-property-utils-1.9.jar">
 			<dependency-type>uses</dependency-type>
 		</dependent-module>
-		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//home/ngUSD/.gradle/caches/artifacts-26/filestore/com.thetransactioncompany/java-property-utils/1.9/jar/96af50b8dbd8059777b8f16374a0d83df32ac606/java-property-utils-1.9.jar">
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//home/ngUSD/.gradle/caches/artifacts-26/filestore/org.scannotation/scannotation/1.0.3/jar/752458e33fd31d8dff9f0afa953b8e2bf90fe703/scannotation-1.0.3.jar">
 			<dependency-type>uses</dependency-type>
 		</dependent-module>
 		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//home/ngUSD/.gradle/caches/artifacts-26/filestore/org.codehaus.jackson/jackson-xc/1.8.5/jar/b88ff47f12822e782158bc926d096c4a20b9c1fc/jackson-xc-1.8.5.jar">

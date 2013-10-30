@@ -10,7 +10,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>CORS</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/rest/*</url-pattern>
 	</filter-mapping>
 	<listener>
 		<listener-class>ngusd.rest.application.NgUsdWebApplication</listener-class>
@@ -30,4 +30,5 @@
 		<servlet-name>ResteasyServlet</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
+	
 </web-app>

@@ -6,6 +6,16 @@ angular.module('ngUSDClientApp.services').config(function ($httpProvider) {
     $httpProvider.defaults.headers.common.Accept = 'application/json';
 });
 
+angular.module('ngUSDClientApp.services').factory('ngUSDResource', function(ENV, $resource, $http) {
+    return function(url, params, actions) {
+        if(ENV === 'production') {
+            return $resource('/ngusd/rest' + url, params, actions);
+        } else if (ENV === 'development') {
+            return $resource('http://localhost\\:8080/ngusd/rest' + url, params, actions);
+        }
+    }
+});
+
 function getPromise($q, fn) {
     return function (parameters) {
         var deferred = $q.defer();
@@ -18,9 +28,9 @@ function getPromise($q, fn) {
     };
 }
 
-angular.module('ngUSDClientApp.services').factory('BranchService', function ($resource, $q, REST_API_URL) {
+angular.module('ngUSDClientApp.services').factory('BranchService', function (ngUSDResource, $q) {
 
-    var branchService = $resource(REST_API_URL + '/branches', {}, {});
+    var branchService = ngUSDResource('/branches', {}, {});
 
     branchService.findAllBranches = getPromise($q, function (parameters, fnSuccess, fnError) {
         return branchService.query(parameters, fnSuccess, fnError);
@@ -29,8 +39,8 @@ angular.module('ngUSDClientApp.services').factory('BranchService', function ($re
     return branchService;
 });
 
-angular.module('ngUSDClientApp.services').factory('UseCaseService', function ($resource, $q, REST_API_URL) {
-    var useCaseService = $resource(REST_API_URL + '/branches/:branchName/builds/:buildName/usecases/:usecaseName',
+angular.module('ngUSDClientApp.services').factory('UseCaseService', function (ngUSDResource, $q) {
+    var useCaseService = ngUSDResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName',
         {   branchName: '@branchName',
             buildName: '@buildName',
             usecaseName: '@usecaseName'}, {});
@@ -44,8 +54,8 @@ angular.module('ngUSDClientApp.services').factory('UseCaseService', function ($r
     return useCaseService;
 });
 
-angular.module('ngUSDClientApp.services').factory('PageVariantService', function ($resource, $q, REST_API_URL) {
-    var pageVariantService = $resource(REST_API_URL + '/branches/:branchName/builds/:buildName/search/pagevariants/',
+angular.module('ngUSDClientApp.services').factory('PageVariantService', function (ngUSDResource, $q) {
+    var pageVariantService = ngUSDResource('/branches/:branchName/builds/:buildName/search/pagevariants/',
         {   branchName: '@branchName',
             buildName: '@buildName'}, {});
 
@@ -56,8 +66,8 @@ angular.module('ngUSDClientApp.services').factory('PageVariantService', function
 });
 
 
-angular.module('ngUSDClientApp.services').factory('ScenarioService', function ($resource, $q, REST_API_URL) {
-    var scenarioService = $resource(REST_API_URL + '/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName',
+angular.module('ngUSDClientApp.services').factory('ScenarioService', function (ngUSDResource, $q) {
+    var scenarioService = ngUSDResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName',
         {   branchName: '@branchName',
             buildName: '@buildName',
             usecaseName: '@usecaseName',
@@ -75,8 +85,8 @@ angular.module('ngUSDClientApp.services').factory('ScenarioService', function ($
 
 });
 
-angular.module('ngUSDClientApp.services').factory('StepService', function ($resource, $q, REST_API_URL) {
-    var stepService = $resource(REST_API_URL + '/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName/steps/:stepIndex',
+angular.module('ngUSDClientApp.services').factory('StepService', function (ngUSDResource, $q) {
+    var stepService = ngUSDResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName/steps/:stepIndex',
         {branchName: '@branchName',
             buildName: '@buildName',
             usecaseName: '@usecaseName',
@@ -90,8 +100,8 @@ angular.module('ngUSDClientApp.services').factory('StepService', function ($reso
     return stepService;
 });
 
-angular.module('ngUSDClientApp.services').factory('BuildStateService', function ($resource, $q, REST_API_URL) {
-    var buildStateService = $resource(REST_API_URL + '/configuration/buildstates', {}, {});
+angular.module('ngUSDClientApp.services').factory('BuildStateService', function (ngUSDResource, $q) {
+    var buildStateService = ngUSDResource('/configuration/buildstates', {}, {});
 
     buildStateService.ListBuildStates = getPromise($q, function (parameters, fnSuccess, fnError) {
         return buildStateService.get(parameters, fnSuccess, fnError);
@@ -99,8 +109,8 @@ angular.module('ngUSDClientApp.services').factory('BuildStateService', function 
     return buildStateService;
 });
 
-angular.module('ngUSDClientApp.services').factory('AdminService', function ($resource, $q, REST_API_URL) {
-    var adminService = $resource(REST_API_URL + '/admin/update', {});
+angular.module('ngUSDClientApp.services').factory('AdminService', function (ngUSDResource, $q) {
+    var adminService = ngUSDResource('/admin/update', {});
 
     adminService.updateData = getPromise($q, function (parameters, fnSuccess, fnError) {
         return adminService.get(parameters, fnSuccess, fnError);
@@ -110,6 +120,6 @@ angular.module('ngUSDClientApp.services').factory('AdminService', function ($res
 });
 
 
-angular.module('ngUSDClientApp.services').factory('ConfigResource', function ($resource, REST_API_URL) {
-    return $resource(REST_API_URL + '/configuration', {} );
+angular.module('ngUSDClientApp.services').factory('ConfigResource', function (ngUSDResource) {
+    return ngUSDResource( '/configuration', {} );
 });

@@ -2,7 +2,7 @@
 
 angular.module('ngUSDClientApp.filter', []);
 angular.module('ngUSDClientApp.directives', ['ngUSDClientApp.filter']);
-angular.module('ngUSDClientApp.services', [ 'ngCookies', 'ngResource']);
+angular.module('ngUSDClientApp.services', [ 'ngCookies', 'ngResource', 'ngUSDClientApp.config']);
 angular.module('ngUSDClientApp.controllers', ['ngUSDClientApp.services']);
 
 var NgUsdClientApp = angular.module('ngUSDClientApp', [
