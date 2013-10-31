@@ -128,7 +128,7 @@ describe('Service :: config', function () {
     }));
 
     function loadConfigFromService(Config, $httpBackend) {
-        $httpBackend.when('GET', '/ngusd/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
+        $httpBackend.when('GET', 'http://localhost:8080/ngusd/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
         Config.load();
         $httpBackend.flush();
     }
