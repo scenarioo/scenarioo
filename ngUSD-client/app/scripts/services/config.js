@@ -21,6 +21,7 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
     function doLoad() {
         ConfigResource.get({}, function (response) {
             configData = postProcessConfigData(response);
+            $rootScope.buildStateToClassMapping = configData.buildstates;
             watchLocationChanges();
             $rootScope.$broadcast(CONFIG_LOADED_EVENT);
         });
@@ -74,7 +75,30 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
             return $location.search();
         }, function (newValue) {
             configData = postProcessConfigData(configData);
+            writeBranchAndBuildFromConfigToCookie();
         });
+    }
+
+    function writeBranchAndBuildFromConfigToCookie() {
+        $cookieStore.put(BUILD_URL_PARAMETER, configData[CONFIG_KEY_SELECTED_BUILD]);
+        $cookieStore.put(BRANCH_URL_PARAMETER, configData[CONFIG_KEY_SELECTED_BRANCH]);
+    }
+
+    function getBuildStateToClassMapping() {
+        return configData.buildstates;
+    }
+
+    function getScenarioPropertiesInOverview() {
+        var stringValue =  getValue('scenarioPropertiesInOverview');
+        var propertiesStringArray = stringValue.split(',');
+
+        var properties = new Array(propertiesStringArray.length);
+
+        for (var i = 0; i < propertiesStringArray.length; i++) {
+            properties[i] = propertiesStringArray[i].trim();
+        }
+
+        return properties;
     }
 
     var serviceInstance = {
@@ -114,11 +138,15 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
         },
 
         scenarioPropertiesInOverview: function () {
-            return getValue('scenarioPropertiesInOverview');
+            return getScenarioPropertiesInOverview();
         },
 
         applicationInformation: function () {
             return getValue('applicationInformation');
+        },
+
+        buildStateToClassMapping: function () {
+            return getBuildStateToClassMapping();
         }
 
     };

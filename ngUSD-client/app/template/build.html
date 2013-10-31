@@ -1,5 +1,5 @@
 <div class="row-fluid link">
-    <div class="span2"><div ng-class="[statesToClass[build.build.state], 'label', 'state']">{{build.build.state}}</div></div>
+    <div class="span2"><div ng-class="[buildStateToClassMapping[build.build.state], 'label', 'state']">{{build.build.state}}</div></div>
     <div class="span6 buildLabel">
         {{getDisplayName(build)}}
     </div>

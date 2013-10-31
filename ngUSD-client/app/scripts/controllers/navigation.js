@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', function (CONFIG_LOADED_EVENT, $scope, $location, $cookieStore, BranchService, AdminService, BuildStateService, Config, $rootScope) {
+angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', function (CONFIG_LOADED_EVENT, $scope, $location, $cookieStore, BranchService, AdminService, Config, $rootScope) {
 
     /**
      * is set to true while server is updating it's docu
@@ -37,8 +37,6 @@ angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', functi
             }
         });
     });
-
-    $scope.statesToClass = BuildStateService.ListBuildStates();
 
     $scope.modalInfoOptions = {
         backdropFade: true,
