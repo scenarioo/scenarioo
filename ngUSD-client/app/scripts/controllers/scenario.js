@@ -1,16 +1,12 @@
 'use strict';
 
-angular.module('ngUSDClientApp.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioService, Config) {
+angular.module('ngUSDClientApp.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioService, Config, HostnameAndPort) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
 
-
-
-
-
-    var selectedBranch = Config.selectedBranch($location);
-    var selectedBuild = Config.selectedBuild($location);
+    var selectedBranch = Config.selectedBranch();
+    var selectedBuild = Config.selectedBuild();
 
     $scope.showingSteps = [];
 
@@ -29,7 +25,7 @@ angular.module('ngUSDClientApp.controllers').controller('ScenarioCtrl', function
         });
 
         $scope.getScreenShotUrl = function (imgName) {
-            return '/ngusd/rest/branches/' + result[0] + '/builds/' + result[1] +
+            return HostnameAndPort.forLink() + '/ngusd/rest/branches/' + result[0] + '/builds/' + result[1] +
                 '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
         };
     });
