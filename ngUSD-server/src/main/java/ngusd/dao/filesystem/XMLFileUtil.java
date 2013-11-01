@@ -11,12 +11,10 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-
 public class XMLFileUtil {
 	
 	/**
-	 * List all files in the given directory sorted alphanumerically using a
-	 * collator.
+	 * List all files in the given directory sorted alphanumerically using a collator.
 	 */
 	public static File[] listFiles(final File directory) {
 		File[] files = directory.listFiles();
@@ -55,8 +53,8 @@ public class XMLFileUtil {
 	}
 	
 	/**
-	 * Read all files with given name from all subdirectories of 'directory' and
-	 * unmarshall these to the given object type.
+	 * Read all files with given name from all subdirectories of 'directory' and unmarshall these to the given object
+	 * type.
 	 */
 	public static <T> List<ObjectFromDirectory<T>> unmarshalListOfFilesFromSubdirsWithDirNames(final File directory,
 			final String filename,
@@ -78,8 +76,8 @@ public class XMLFileUtil {
 	}
 	
 	/**
-	 * Read all files with given name from all subdirectories of 'directory' and
-	 * unmarshall these to the given object type.
+	 * Read all files with given name from all subdirectories of 'directory' and unmarshall these to the given object
+	 * type.
 	 */
 	public static <T> List<T> unmarshalListOfFilesFromSubdirs(final File directory,
 			final String filename,

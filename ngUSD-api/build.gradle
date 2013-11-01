@@ -1,6 +1,7 @@
 apply plugin: 'maven'
 apply plugin: 'eclipse-wtp'
-
+sourceCompatibility=1.6
+targetCompatibility=1.6
 
 uploadArchives {
     repositories {

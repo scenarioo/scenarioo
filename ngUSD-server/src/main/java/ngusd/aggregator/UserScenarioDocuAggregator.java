@@ -13,6 +13,7 @@ import java.util.Properties;
 
 import lombok.Data;
 import ngusd.dao.UserScenarioDocuContentDAO;
+import ngusd.dao.filesystem.ResourceNotFoundException;
 import ngusd.dao.filesystem.UserScenarioDocuFilesystem;
 import ngusd.dao.filesystem.XMLFileUtil;
 import ngusd.model.docu.aggregates.scenarios.PageSteps;
@@ -29,23 +30,23 @@ import ngusd.model.docu.entities.StepIdentification;
 import ngusd.model.docu.entities.UseCase;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 /**
- * The aggregator reads the input docu files of a build and generates the
- * aggregated docu files with additional precalculated data (like indexes etc.).
+ * The aggregator reads the input docu files of a build and generates the aggregated docu files with additional
+ * precalculated data (like indexes etc.).
  * 
- * Make sure to adjust the value of
- * {@link UserScenarioDocuAggregator#CURRENT_FILE_FORMAT_VERSION} when the
- * format of generated data is extended or changed.
+ * Make sure to adjust the value of {@link UserScenarioDocuAggregator#CURRENT_FILE_FORMAT_VERSION} when the format of
+ * generated data is extended or changed.
  */
 public class UserScenarioDocuAggregator {
 	
 	/**
-	 * Version of the file format in filesystem. The data aggregator checks
-	 * whether the file format is the same, otherwise the data has to be
-	 * recalculated.
+	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
+	 * otherwise the data has to be recalculated.
 	 */
-	public static final String CURRENT_FILE_FORMAT_VERSION = "0.3";
+	public static final String CURRENT_FILE_FORMAT_VERSION = "0.4";
+	private final static Logger LOGGER = Logger.getLogger(UserScenarioDocuAggregator.class);
 	
 	private static final String VERSION_PROPERTY_KEY = "ngUSD.derived.file.format.version";
 	
@@ -96,6 +97,7 @@ public class UserScenarioDocuAggregator {
 	}
 	
 	public void calculateAggregatedDataForBuild(final String branchName, final String buildName) {
+		LOGGER.info("  calculating aggregated data for build : " + buildName);
 		UseCaseScenariosList useCaseScenariosList = calculateUseCaseScenariosList(branchName, buildName);
 		for (UseCaseScenarios scenarios : useCaseScenariosList.getUseCaseScenarios()) {
 			calulateAggregatedDataForUseCase(branchName, buildName, scenarios);
@@ -145,8 +147,14 @@ public class UserScenarioDocuAggregator {
 	
 	private void calulateAggregatedDataForUseCase(final String branchName, final String buildName,
 			final UseCaseScenarios useCaseScenarios) {
+		LOGGER.info("    calculating aggregated data for use case : " + useCaseScenarios.getUseCase().getName());
 		for (Scenario scenario : useCaseScenarios.getScenarios()) {
-			calculateAggregatedDataForScenario(branchName, buildName, useCaseScenarios.getUseCase(), scenario);
+			try {
+				calculateAggregatedDataForScenario(branchName, buildName, useCaseScenarios.getUseCase(), scenario);
+			} catch (ResourceNotFoundException ex) {
+				LOGGER.warn("could not load scenario " + scenario.getName() + " in use case"
+						+ useCaseScenarios.getUseCase().getName());
+			}
 		}
 		writeUseCaseScenarios(branchName, buildName, useCaseScenarios);
 	}
@@ -160,6 +168,8 @@ public class UserScenarioDocuAggregator {
 	
 	private void calculateAggregatedDataForScenario(final String branchName, final String buildName,
 			final UseCase usecase, final Scenario scenario) {
+		
+		LOGGER.info("      calculating aggregated data for scenario : " + scenario.getName());
 		ScenarioPageSteps scenarioPageSteps = calculateScenarioPageSteps(branchName, buildName, usecase,
 				scenario);
 		
