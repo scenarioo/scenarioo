@@ -10,34 +10,34 @@
 
     <div class="row-fluid step-navigation">
         <div class="span12">
-            <div ng-click="goToPreviousPage()" class="link btn btn-primary" tooltip="Previous Page" tooltip-placement="bottom">
+            <div ng-click="goToPreviousPage()" class="link btn" tooltip="Previous Page" tooltip-placement="bottom">
                 <i class="icon-with-padding icon-large icon-fast-backward"></i>
             </div>
-            <div ng-click="goToPreviousStep()" class="link btn btn-primary" tooltip="Previous Step" tooltip-placement="bottom">
+            <div ng-click="goToPreviousStep()" class="link btn" tooltip="Previous Step" tooltip-placement="bottom">
                 <i class="icon-with-padding icon-large icon-step-backward"></i>
             </div>
-            <div ng-click="goToNextStep()" class="link btn btn-primary" tooltip="Next Step" tooltip-placement="bottom">
+            <div ng-click="goToNextStep()" class="link btn" tooltip="Next Step" tooltip-placement="bottom">
                 <i class="icon-with-padding icon-large icon-step-forward"></i>
             </div>
-            <div ng-click="goToNextPage()" class="link btn btn-primary" tooltip="Next Page" tooltip-placement="bottom">
+            <div ng-click="goToNextPage()" class="link btn" tooltip="Next Page" tooltip-placement="bottom">
                 <i class="icon-with-padding icon-large icon-fast-forward"></i>
             </div>
             <div class="pull-right">
-                <div ng-click="goToPreviousVariant()" class="link btn btn-primary" tooltip="Other variant" tooltip-placement="bottom">
+                <div ng-click="goToPreviousVariant()" class="link btn" tooltip="Previous variant" tooltip-placement="bottom">
                     <i class="icon-with-padding icon-large icon-step-backward"></i>
                 </div>
                 <div style="min-width: 70px; text-align: center;" class="inline-block">
                     {{stepDescription.variantIndex}} of {{pageVariantCounts[0][pageName]}}
                 </div>
-                <div ng-click="goToNextVariant()" class="link btn btn-primary" tooltip="Other variant" tooltip-placement="bottom">
+                <div ng-click="goToNextVariant()" class="link btn" tooltip="Next variant" tooltip-placement="bottom">
                     <i class="icon-with-padding icon-large icon-step-forward"></i>
                 </div>
 
-                <div class="inline-block dropdown" style="padding-bottom: 2px">
-                    <a class="dropdown-toggle btn btn-default btn-primary">
+                <div class="inline-block dropdown">
+                    <button class="dropdown-toggle btn btn-default">
                         More Actions
                         <div class="icon-with-padding"><b class="caret"></b></div>
-                    </a>
+                    </button>
                     <ul class="dropdown-menu">
                         <li>
                             <a ng-click="goToFirstPage()" class="link">Go to the first page</a>
@@ -51,8 +51,8 @@
                     </ul>
                 </div>
                 <div class="inline-block" ng-click="showingMetaData=!showingMetaData">
-                    <a class="btn btn-default btn-primary" ng-show="showingMetaData">Hide Meta Data</a>
-                    <a class="btn btn-default btn-primary" ng-show="!showingMetaData">Show Meta Data</a>
+                    <a class="btn btn-default" ng-show="showingMetaData">Hide Meta Data</a>
+                    <a class="btn btn-default" ng-show="!showingMetaData">Show Meta Data</a>
                 </div>
             </div>
         </div>
