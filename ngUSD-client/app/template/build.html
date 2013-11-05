@@ -1,7 +1,3 @@
-<div class="row-fluid link">
-    <div class="span2"><div ng-class="[buildStateToClassMapping[build.build.state], 'label', 'state']">{{build.build.state}}</div></div>
-    <div class="span6 buildLabel">
-        {{getDisplayName(build)}}
-    </div>
-    <div class="span4 buildDate">{{build.build.date | date:'MM/dd/yyyy HH:mm:ss'}}</div>
-</div>
+<span ng-class="[buildStateToClassMapping[build.build.state], 'label']">{{build.build.state}}</span>&nbsp;&nbsp;
+{{getDisplayName(build)}}&nbsp;&nbsp;
+({{build.build.date | date:'MM/dd/yyyy HH:mm:ss'}})

@@ -17,12 +17,6 @@ h1 {
     margin: 0px 0px 20px;
 }
 
-.label.state {
-    min-width: 80px;
-    text-align: center;
-    padding-right: -8px !important;
-}
-
 .icon-with-padding {
     padding-left: 5px;
     padding-right: 5px;
@@ -46,33 +40,12 @@ h1 {
     width: 150px !important;
 }
 
-/** Breadcrumbs **/
-.breadcrumb-row {
-    margin-top: -20px;
-    background-color: #F5F5F5;
-    margin-bottom: 20px;
-}
+/** Breadcrumbs (basically styled by bootstrap!) **/
 
-.breadcrumb-row div.email-div {
-    padding: 8px 15px 8px;
-}
-
-.breadcrumb-row div.breadcrumb-div {
-    float: left;
-}
-
-ul.breadcrumb {
-    padding-left: 20px;
-    margin-bottom: 0px;
-}
-
-ul.breadcrumb a {
-    color: #999999;
-}
-
-ul.breadcrumb a:hover {
-    text-decoration: none;
-    color: #0088CC;
+.breadcrumb {
+    display: inline-block;
+    margin-bottom: 0;
+    padding: 0 0 0 5px;
 }
 
 /** Tables **/
@@ -123,10 +96,6 @@ ul.breadcrumb a:hover {
 
 .header .buildLabel {
     padding-left: 20px;
-}
-
-.header .headerLabel {
-    margin-right: 10px;
 }
 
 /** Overview */
@@ -326,4 +295,8 @@ ul.breadcrumb a:hover {
     font-size: 10px;
     padding: 0px 3px;
     vertical-align: middle;
+}
+
+.ngusd-container {
+    margin: 0 10px 10px 10px;
 }

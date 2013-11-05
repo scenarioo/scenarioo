@@ -8,7 +8,7 @@
     <buildstates>
         <entry>
             <key>failed</key>
-            <value>label-important</value>
+            <value>label-danger</value>
         </entry>
         <entry>
             <key>success</key>

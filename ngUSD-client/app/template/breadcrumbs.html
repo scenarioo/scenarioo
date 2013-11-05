@@ -1,15 +1,14 @@
-<div class="row-fluid breadcrumb-row">
-    <div class="breadcrumb-div">
-        <ul class="breadcrumb">
+<div class="well well-sm">
+    <span>
+        <ol class="breadcrumb">
             <li ng-class="{'active': breadcrumb.isLast}" ng-repeat="breadcrumb in breadcrumbs">
                 <a ng-show="!breadcrumb.showTooltip && !breadcrumb.isLast" href="{{breadcrumb.href}}" ng-bind-html-unsafe="breadcrumb.text"></a>
                 <a ng-show="breadcrumb.showTooltip && !breadcrumb.isLast" tooltip="{{breadcrumb.tooltip}}" tooltip-placement="top" href="{{breadcrumb.href}}" ng-bind-html-unsafe="breadcrumb.text"></a>
-                <div ng-show="breadcrumb.isLast" ng-bind-html-unsafe="breadcrumb.text"></div>
-                <span class="divider" ng-show="!breadcrumb.isLast"> / </span>
+                <span ng-show="breadcrumb.isLast" ng-bind-html-unsafe="breadcrumb.text"></span>
             </li>
-        </ul>
-    </div>
-    <div class="pull-right email-div">
+        </ol>
+    </span>
+    <span class="pull-right">
         <a href="mailto:?subject=ngUSD:%20{{email.title}}&body={{email.link}}"><i class="icon-envelope icon-with-padding"></i>Email this page</a>
-    </div>
+    </span>
 </div>
