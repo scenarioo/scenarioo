@@ -18,7 +18,7 @@ angular.module('ngUSDClientApp.directives').directive('sortandfilter', function 
                 var filterStr = '';
                 if (!element.hasClass('filter-none')) {
                     filterStr = '<div class="tableFilter" ng-show="table.filtering">' +
-                        '<input type="text" ng-model="table.search[\'' + sortAndFilter + '\']" stop-event="click" placeholder="Enter search criteria..."></div>';
+                        '<input type="text" class="form-control" ng-model="table.search[\'' + sortAndFilter + '\']" stop-event="click" placeholder="Enter search criteria..."></div>';
                 }
                 var iconsAndFilter = angular.element(iconStr + filterStr);
                 var iconsAndFilterCompiled = $compile(iconsAndFilter)(scope);

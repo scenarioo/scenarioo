@@ -56,19 +56,8 @@ h1 {
     background-color: whitesmoke;
     background-image: linear-gradient(to bottom, #FFFFFF, #E6E6E6);
 }
-.table thead th {
-    vertical-align: top;
-}
 
-.table thead th .tableFilter input {
-    font-size: 14px;
-    height: 16px;
-    margin: 5px 0px 5px;
-}
 
-.table tbody, input.tableSearch {
-    background-color: #FAFAFA;
-}
 
 .table tbody tr:nth-child(2n) td {
     background-color: 	#EEEEEE;
@@ -298,5 +287,18 @@ h1 {
 }
 
 .ngusd-container {
-    margin: 0 10px 10px 10px;
+    margin: 0 15px 15px 15px;
+}
+
+.ngusd-space-top {
+    margin-top: 10px;
+}
+
+.ngusd-space-bottom {
+    margin-bottom: 10px;
+}
+
+/** Overwrite Bootstrap styles **/
+.table > thead > tr > th {
+    vertical-align: top;
 }
