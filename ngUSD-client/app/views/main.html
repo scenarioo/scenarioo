@@ -35,7 +35,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="useCaseScenarios in useCaseScenariosList | filter:table.search | orderBy:table.sort.column:table.sort.reverse" ng-click="go(useCaseScenarios.useCase.name)" class="link">
+                            <tr ng-repeat="useCaseScenarios in useCaseScenariosList | filter:table.search | orderBy:table.sort.column:table.sort.reverse" ng-click="goToUseCase(useCaseScenarios.useCase.name)" class="link">
                                 <td>
                                     <span ng-class="[buildStateToClassMapping[useCaseScenarios.useCase.status], 'label']">{{useCaseScenarios.useCase.status}}</span>
                                 </td>

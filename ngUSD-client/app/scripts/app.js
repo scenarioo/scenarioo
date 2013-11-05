@@ -42,13 +42,13 @@ NgUsdClientApp.config(function ($routeProvider) {
             scenarioName: '@scenarioName',
             breadcrumb: '<strong>Scenario:</strong> $param'
         })
-        .when('/step/:useCaseName/:scenarioName/:pageName/:pageOccurenceInScenario/:stepIndex', {
+        .when('/step/:useCaseName/:scenarioName/:pageName/:pageIndex/:stepIndex', {
             templateUrl: 'views/step.html',
             controller: 'StepCtrl',
             useCaseName: '@useCaseName',
             scenarioName: '@scenarioName',
             pageName: '@pageName',
-            pageOccurenceInScenario: '@pageOccurenceInScenario',
+            pageIndex: '@pageIndex',
             stepIndex: '@stepIndex',
             breadcrumb: '<strong>Step:</strong> {{pageIndex+1}}.{{stepIndex}} - {{pageName}}'
         })

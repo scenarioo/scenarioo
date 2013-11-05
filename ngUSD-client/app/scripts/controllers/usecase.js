@@ -3,10 +3,10 @@
 angular.module('ngUSDClientApp.controllers').controller('UseCaseCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioService, Config) {
 
     $scope.$watch(function () {
-        return '' + Config.selectedBranch() + Config.selectedBuild();
-    }, function () {
-        loadScenariosAndUseCase(Config.selectedBranch(), Config.selectedBuild());
-    });
+        return Config.selectedBuildAndBranch();
+    }, function (branchAndBuild) {
+        loadScenariosAndUseCase(branchAndBuild.branch, branchAndBuild.build);
+    }, true);
 
     function loadScenariosAndUseCase(selectedBranch, selectedBuild) {
         var useCaseName = $routeParams.useCaseName;
@@ -20,7 +20,7 @@ angular.module('ngUSDClientApp.controllers').controller('UseCaseCtrl', function 
         $scope.propertiesToShow = Config.scenarioPropertiesInOverview();
     };
 
-    $scope.go = function (useCaseName, scenarioName) {
+    $scope.goToScenario = function (useCaseName, scenarioName) {
         $location.path('/scenario/' + useCaseName + '/' + scenarioName);
     };
 

@@ -29,7 +29,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-click="go(useCase.name, scenario.name)" class="link" ng-repeat="scenario in scenarios | filter:table.search | orderBy:table.sort.column:table.sort.reverse">
+            <tr ng-click="goToScenario(useCase.name, scenario.name)" class="link" ng-repeat="scenario in scenarios | filter:table.search | orderBy:table.sort.column:table.sort.reverse">
                 <td>
                     <span class="label state" ng-class="buildStateToClassMapping[scenario.status]">{{scenario.status}}</span>
                 </td>

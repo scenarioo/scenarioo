@@ -8,9 +8,7 @@ describe('Controller :: useCase', function () {
 
     var scope, routeParams, configFake, controller, scenarioService;
 
-    beforeEach(
-        angular.mock.module('ngUSDClientApp.controllers')
-    );
+    beforeEach(module('ngUSDClientApp.controllers'));
 
     beforeEach(inject(function ($rootScope, $routeParams, $controller, ScenarioService) {
             scope = $rootScope.$new();
@@ -44,39 +42,6 @@ describe('Controller :: useCase', function () {
         expect(scope.scenarios).toBeDefined();
         expect(scope.propertiesToShow).toBeDefined();
     });
-
-    function createConfigFake() {
-        return {
-            branch : undefined,
-            build : undefined,
-
-            selectedBranch : function() {
-                return this.branch;
-            },
-
-            selectedBuild : function() {
-                return this.build;
-            },
-
-            setSelectedBranch : function(branch) {
-                this.branch = branch;
-            },
-
-            setSelectedBuild : function(build) {
-                this.build = build;
-            },
-
-            scenarioPropertiesInOverview : function() {
-                return [
-                    {
-                        text: 'User Profile',
-                        property: 'details.properties.userProfile',
-                        attr: 'userProfile'
-                    }
-                ];
-            }
-        };
-    }
 
     function getFindAllScenariosFake() {
         return function() {

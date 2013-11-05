@@ -14,7 +14,7 @@ angular.module('ngUSDClientApp.controllers').controller('MainCtrl', function (CO
         loadUseCases();
     });
 
-    $scope.go = function (useCaseName) {
+    $scope.goToUseCase = function (useCaseName) {
         $location.path('/usecase/' + useCaseName);
     };
 

@@ -16,6 +16,7 @@ angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', functi
     $scope.setBuild = function (selectedBranch, build) {
         $scope.selectedBuild = build;
         $location.search(Config.BUILD_URL_PARAMETER, build.build.name);
+        console.log($location.search());
     };
 
     $scope.$on(CONFIG_LOADED_EVENT, function () {

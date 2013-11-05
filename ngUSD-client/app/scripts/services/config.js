@@ -76,7 +76,7 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
         }, function (newValue) {
             configData = postProcessConfigData(configData);
             writeBranchAndBuildFromConfigToCookie();
-        });
+        }, true);
     }
 
     function writeBranchAndBuildFromConfigToCookie() {
@@ -129,12 +129,19 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
             }
         },
 
+        selectedBranch: function () {
+            return getValue(CONFIG_KEY_SELECTED_BRANCH);
+        },
+
         selectedBuild: function () {
             return  getValue(CONFIG_KEY_SELECTED_BUILD);
         },
 
-        selectedBranch: function () {
-            return getValue(CONFIG_KEY_SELECTED_BRANCH);
+        selectedBuildAndBranch: function() {
+            return {
+                branch: this.selectedBranch(),
+                build: this.selectedBuild()
+            }
         },
 
         scenarioPropertiesInOverview: function () {
