@@ -17,8 +17,6 @@ public class AdminResource {
 	@Path("update")
 	@Produces({ "application/xml", "application/json" })
 	public void updateAll() {
-		LOGGER.info("Start updating all scenario documentation builds ...");
 		UserScenarioDocuManager.INSTANCE.updateAll();
-		LOGGER.info("Finished updating scenario documentation builds.");
 	}
 }

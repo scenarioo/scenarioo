@@ -137,5 +137,4 @@ public class UserScenarioDocuManager {
 	public List<BranchBuilds> getBranchBuildsList() {
 		return branchBuildsList;
 	}
-	
 }
