@@ -13,7 +13,7 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
 
     function getValue(key) {
         if (angular.isUndefined(configData[key])) {
-            throw 'ngUSDerror :: Key ' + key + ' not present in configData';
+           // throw 'ngUSDerror :: Key ' + key + ' not present in configData';
         }
         return configData[key];
     }

@@ -17,11 +17,11 @@
             <!-- Branch selection dropdown -->
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-hdd"></span> Branch: {{selectedBranch.branch.name}}
+                    <span class="glyphicon glyphicon-hdd"></span> Branch: {{branchesAndBuilds.selectedBranch.branch.name}}
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li ng-repeat="branch in branches">
+                    <li ng-repeat="branch in branchesAndBuilds.branches">
                         <a ng-click="setBranch(branch)">{{branch.branch.name}}</a>
                     </li>
                 </ul>
@@ -30,12 +30,12 @@
             <!-- Build selection dropdown -->
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Build: {{getDisplayName(selectedBuild)}}&nbsp;&nbsp;
-                    <span ng-class="[buildStateToClassMapping[selectedBuild.build.state], 'label']">{{selectedBuild.build.state}}</span>
+                    <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Build: {{getDisplayName(branchesAndBuilds.selectedBuild)}}&nbsp;&nbsp;
+                    <span ng-class="[buildStateToClassMapping[branchesAndBuilds.selectedBuild.build.state], 'label']">{{branchesAndBuilds.selectedBuild.build.state}}</span>
                     <div class="icon-with-padding"><b class="caret"></b></div>
                 </a>
                 <ul class="dropdown-menu">
-                    <li ng-repeat="build in selectedBranch.builds">
+                    <li ng-repeat="build in branchesAndBuilds.selectedBranch.builds">
                         <a ng-include="'template/build.html'" ng-click="setBuild(selectedBranch, build)"></a>
                     </li>
                 </ul>

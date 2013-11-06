@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', function (CONFIG_LOADED_EVENT, $scope, $location, $cookieStore, BranchService, AdminService, Config, $rootScope) {
+angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', function (CONFIG_LOADED_EVENT, $scope, $location, $cookieStore, BranchesAndBuilds, BranchService, AdminService, Config, $rootScope) {
 
     /**
      * is set to true while server is updating it's docu
@@ -10,6 +10,7 @@ angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', functi
     $scope.setBranch = function (branch) {
         $scope.selectedBranch = branch;
         // TODO:  maybe set build to default
+        $cookieStore.remove(Config.BUILD_URL_PARAMETER);
         $location.search(Config.BRANCH_URL_PARAMETER, branch.branch.name);
     };
 
@@ -18,25 +19,15 @@ angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', functi
         $location.search(Config.BUILD_URL_PARAMETER, build.build.name);
     };
 
-    $scope.$on(CONFIG_LOADED_EVENT, function () {
-        $scope.applicationInformation = Config.applicationInformation();
-        $scope.branches = BranchService.findAllBranches();
-        $scope.branches.then(function (branches) {
-            for (var index = 0; index < branches.length; index++) {
-                if (branches[index].branch.name === Config.selectedBranch()) {
-                    $scope.selectedBranch = branches[index];
-                }
-            }
+    $scope.$watch(function() {
+        return Config.selectedBuildAndBranch();
+    }, function() {
+        loadBranchesAndBuilds();
+    }, true);
 
-            var configBuildName = Config.selectedBuild();
-            var allBuildsOnSelectedBranch = $scope.selectedBranch.builds;
-            for (var index = 0; index < $scope.selectedBranch.builds.length; index++) {
-                if (allBuildsOnSelectedBranch[index].build.name === configBuildName || allBuildsOnSelectedBranch[index].linkName === configBuildName) {
-                    $scope.selectedBuild = allBuildsOnSelectedBranch[index];
-                }
-            }
-        });
-    });
+    function loadBranchesAndBuilds () {
+        $scope.branchesAndBuilds = BranchesAndBuilds.getBranchesAndBuilds();
+    };
 
     $scope.modalInfoOptions = {
         backdropFade: true,

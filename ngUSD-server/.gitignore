@@ -3,3 +3,6 @@
 /target
 /data
 /.gradle
+/.project
+/.classpath
+/.settings/

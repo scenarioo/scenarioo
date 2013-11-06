@@ -53,15 +53,15 @@
                     <div>
                         <div class="row">
                             <div class="col-lg-4">Build Name:</div>
-                            <div class="col-lg-8">{{selectedBuild.linkName}}</div>
+                            <div class="col-lg-8">{{branchesAndBuilds.selectedBuild.linkName}}</div>
                         </div>
                         <div class="row">
                             <div class="col-lg-4">Branch Name:</div>
-                            <div class="col-lg-8">{{selectedBranch.branch.name}}</div>
+                            <div class="col-lg-8">{{branchesAndBuilds.selectedBranch.branch.name}}</div>
                         </div>
                         <div class="row">
                             <div class="col-lg-4">Revision:</div>
-                            <div class="col-lg-8">{{selectedBuild.build.revision}}</div>
+                            <div class="col-lg-8">{{branchesAndBuilds.selectedBuild.build.revision}}</div>
                         </div>
                         <div ng-repeat="(key,value) in selectedBuild.build.details.details" class="row">
                             <div class="col-lg-4">{{key | toHumanReadable}}</div>

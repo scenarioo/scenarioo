@@ -55,6 +55,7 @@ NgUsdClientApp.config(function ($routeProvider) {
         .otherwise({
             redirectTo: '/'
         });
-}).run(function(Config) {
+}).run(function($rootScope, Config) {
     Config.load();
+
 });
