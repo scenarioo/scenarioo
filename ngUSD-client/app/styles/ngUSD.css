@@ -114,10 +114,6 @@ h1 {
     margin: 25px 25px 0px 25px !important;
 }
 
-.step-view .step-icon {
-    padding-top: 10px;
-}
-
 .step-view .step-icon i {
     font-size: 32px;
 }
@@ -301,4 +297,8 @@ h1 {
 /** Overwrite Bootstrap styles **/
 .table > thead > tr > th {
     vertical-align: top;
+}
+
+.tab-content {
+    margin-top: 10px;
 }

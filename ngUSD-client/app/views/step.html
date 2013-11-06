@@ -1,108 +1,104 @@
 <usd-breadcrumb></usd-breadcrumb>
 
-    <div class="row-fluid">
-        <div class="span12">
-            <h1>Step {{pageIndex+1}}.{{stepIndex}} - {{pageName}}</h1>
+<h1>Step {{pageIndex+1}}.{{stepIndex}} - {{pageName}}</h1>
+
+<div class="row step-navigation ngusd-space-top ngusd-space-bottom">
+    <div class="col-lg-6">
+        <div ng-click="goToPreviousPage()" class="btn btn-default" tooltip="Previous Page" tooltip-placement="bottom">
+            <span class="icon-with-padding icon-large icon-fast-backward"></span>
+        </div>
+        <div ng-click="goToPreviousStep()" class="btn btn-default" tooltip="Previous Step" tooltip-placement="bottom">
+            <i class="icon-with-padding icon-large icon-step-backward"></i>
+        </div>
+        <div ng-click="goToNextStep()" class="btn btn-default" tooltip="Next Step" tooltip-placement="bottom">
+            <i class="icon-with-padding icon-large icon-step-forward"></i>
+        </div>
+        <div ng-click="goToNextPage()" class="btn btn-default" tooltip="Next Page" tooltip-placement="bottom">
+            <i class="icon-with-padding icon-large icon-fast-forward"></i>
         </div>
     </div>
-
-
-    <div class="row-fluid step-navigation">
-        <div class="span12">
-            <div ng-click="goToPreviousPage()" class="link btn" tooltip="Previous Page" tooltip-placement="bottom">
-                <i class="icon-with-padding icon-large icon-fast-backward"></i>
-            </div>
-            <div ng-click="goToPreviousStep()" class="link btn" tooltip="Previous Step" tooltip-placement="bottom">
+    <div class="col-lg-6">
+        <div class="pull-right">
+            <div ng-click="goToPreviousVariant()" class="btn btn-default" tooltip="Previous variant" tooltip-placement="bottom">
                 <i class="icon-with-padding icon-large icon-step-backward"></i>
             </div>
-            <div ng-click="goToNextStep()" class="link btn" tooltip="Next Step" tooltip-placement="bottom">
+            <div style="min-width: 70px; text-align: center;" class="inline-block">
+                {{stepDescription.variantIndex}} of {{pageVariantCounts[0][pageName]}}
+            </div>
+            <div ng-click="goToNextVariant()" class="btn btn-default" tooltip="Next variant" tooltip-placement="bottom">
                 <i class="icon-with-padding icon-large icon-step-forward"></i>
             </div>
-            <div ng-click="goToNextPage()" class="link btn" tooltip="Next Page" tooltip-placement="bottom">
-                <i class="icon-with-padding icon-large icon-fast-forward"></i>
-            </div>
-            <div class="pull-right">
-                <div ng-click="goToPreviousVariant()" class="link btn" tooltip="Previous variant" tooltip-placement="bottom">
-                    <i class="icon-with-padding icon-large icon-step-backward"></i>
-                </div>
-                <div style="min-width: 70px; text-align: center;" class="inline-block">
-                    {{stepDescription.variantIndex}} of {{pageVariantCounts[0][pageName]}}
-                </div>
-                <div ng-click="goToNextVariant()" class="link btn" tooltip="Next variant" tooltip-placement="bottom">
-                    <i class="icon-with-padding icon-large icon-step-forward"></i>
-                </div>
 
-                <div class="inline-block dropdown">
-                    <button class="dropdown-toggle btn btn-default">
-                        More Actions
-                        <div class="icon-with-padding"><b class="caret"></b></div>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a ng-click="goToFirstPage()" class="link">Go to the first page</a>
-                        </li>
-                        <li>
-                            <a ng-click="goToLastPage()" class="link">Go to the last page</a>
-                        </li>
-                        <li>
-                            <a ng-click="openInfoModal('Shortcuts')" class="link">Key Shortcuts</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="inline-block" ng-click="showingMetaData=!showingMetaData">
-                    <a class="btn btn-default" ng-show="showingMetaData">Hide Meta Data</a>
-                    <a class="btn btn-default" ng-show="!showingMetaData">Show Meta Data</a>
-                </div>
+            <div class="inline-block dropdown">
+                <button class="dropdown-toggle btn btn-default">
+                    More Actions
+                    <div class="icon-with-padding"><b class="caret"></b></div>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a ng-click="goToFirstPage()" class="link">Go to the first page</a>
+                    </li>
+                    <li>
+                        <a ng-click="goToLastPage()" class="link">Go to the last page</a>
+                    </li>
+                    <li>
+                        <a ng-click="openInfoModal('Shortcuts')" class="link">Key Shortcuts</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="inline-block" ng-click="showingMetaData=!showingMetaData">
+                <a class="btn btn-default" ng-show="showingMetaData">Hide Meta Data</a>
+                <a class="btn btn-default" ng-show="!showingMetaData">Show Meta Data</a>
             </div>
         </div>
     </div>
-    <br/>
+</div>
 
-    <div class="row-fluid step-main">
-        <div ng-class="{true: 'step-data-small span7', false: 'step-data-large span12'}[showingMetaData]">
-            <tabs class="step-panes">
-                <pane heading="Screenshot">
-                    <div class="screenshot">
-                        <img ng-src="{{getScreenShotUrl(step.step.screenshotURL)}}" ng-click="openScreenshotModal()" class="link"/>
-                    </div>
-                </pane>
-                <pane heading="HTML">
-                    <pre ng-bind="formattedHtml">
-                    </pre>
-                </pane>
-            </tabs>
+<div class="row step-main">
+    <div ng-class="{true: 'step-data-small col-lg-7', false: 'step-data-large col-lg-12'}[showingMetaData]">
+        <tabs class="step-panes">
+            <pane heading="Screenshot">
+                <div class="screenshot">
+                    <img ng-src="{{getScreenShotUrl(step.step.screenshotURL)}}" ng-click="openScreenshotModal()" class="link"/>
+                </div>
+            </pane>
+            <pane heading="HTML">
+                <pre ng-bind="formattedHtml">
+                </pre>
+            </pane>
+        </tabs>
+    </div>
+    <div ng-show="showingMetaData" class="col-lg-5 hero-unit meta-data">
+        <h3>Meta Data</h3>
+        <div ng-repeat="(key,value) in step.metadata.details.properties" class="row">
+            <div class="col-lg-4" class="label">{{key | toHumanReadable}}</div>
+            <div class="col-lg-8" objecttolist='step.metadata.details.properties.{{key}}'></div>
         </div>
-        <div ng-show="showingMetaData" class="span5 hero-unit meta-data">
-            <h3>Meta Data</h3>
-            <div ng-repeat="(key,value) in step.metadata.details.properties" class="row-fluid">
-                <div class="span4" class="label">{{key | toHumanReadable}}</div>
-                <div class="span8" objecttolist='step.metadata.details.properties.{{key}}'></div>
+        <div ng-show="step.step.details.properties && step.step.details.properties.length>1">
+            <h3>Step Properties</h3>
+            <div ng-repeat="(key,value) in step.step.details.properties" class="row">
+                <div class="col-lg-4" class="label">{{key | toHumanReadable}}</div>
+                <div class="col-lg-8"><span objecttolist='step.step.properties.{{key}}'></span></div>
             </div>
-            <div ng-show="step.step.details.properties && step.step.details.properties.length>1">
-                <h3>Step Properties</h3>
-                <div ng-repeat="(key,value) in step.step.details.properties" class="row-fluid">
-                    <div class="span4" class="label">{{key | toHumanReadable}}</div>
-                    <div class="span8"><span objecttolist='step.step.properties.{{key}}'></span></div>
-                </div>
-            </div>
-            <div ng-show="step.page.details.properties && step.page.details.properties.length>1">
-                <h3>Page Properties</h3>
-                <div ng-repeat="(key,value) in step.page.details.properties" class="row-fluid">
-                    <div class="span4" class="label">{{key | toHumanReadable}}</div>
-                    <div class="span8"><span objecttolist='step.page.details.properties.{{key}}'></span></div>
-                </div>
+        </div>
+        <div ng-show="step.page.details.properties && step.page.details.properties.length>1">
+            <h3>Page Properties</h3>
+            <div ng-repeat="(key,value) in step.page.details.properties" class="row">
+                <div class="col-lg-4" class="label">{{key | toHumanReadable}}</div>
+                <div class="col-lg-8"><span objecttolist='step.page.details.properties.{{key}}'></span></div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="screenshot-overlay" modal="showingScreenshotModal" close="closeScreenshotModal()" options="modalScreenshotOptions">
-        <div class="modal-header">
-            <h3>Step {{pageIndex+1}}.{{stepIndex}} {{pageName}}</h3>
-        </div>
-        <div class="modal-body">
-            <img ng-src="{{getScreenShotUrl(step.step.screenshotURL)}}"/>
-        </div>
-        <div class="modal-footer">
-            <button class="btn" ng-click="closeScreenshotModal()">Close</button>
-        </div>
+<div class="screenshot-overlay" modal="showingScreenshotModal" close="closeScreenshotModal()" options="modalScreenshotOptions">
+    <div class="modal-header">
+        <h3>Step {{pageIndex+1}}.{{stepIndex}} {{pageName}}</h3>
     </div>
+    <div class="modal-body">
+        <img ng-src="{{getScreenShotUrl(step.step.screenshotURL)}}"/>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" ng-click="closeScreenshotModal()">Close</button>
+    </div>
+</div>

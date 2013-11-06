@@ -1,71 +1,61 @@
 <usd-breadcrumb></usd-breadcrumb>
 
-    <div class="row-fluid">
-        <div class="span12">
-            <h1>Scenario: {{scenario.name | toHumanReadable}}</h1>
+<h1>Scenario: {{scenario.name | toHumanReadable}}</h1>
+
+<div class="row ngusd-space-top ngusd-space-bottom">
+    <div class="col-lg-3">
+        <div class="input-group">
+            <input type="text" class="form-control" ng-model="searchFieldText" placeholder="Search page..."/>
+            <span class="input-group-btn">
+                <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
+            </span>
         </div>
-
     </div>
-    <div class="row-fluid">
-        <div class="span12">
-            <div class="row-fluid">
-                <div class="input-append">
-                    <input type="text" class="span2" ng-model="searchFieldText" placeholder="Search page..."/>
-                    <button ng-click="resetSearchField()" class="btn">reset</button>
-                </div>
+</div>
+
+<div ng-repeat="pageSteps in pagesAndSteps" class="steps">
+    <hr/>
+    <div ng-show="$index==0 || showingSteps[$parent.$index]" class="link row step-view" ng-repeat="step in pageSteps.steps | filter:searchFieldText">
+        <div class="col-lg-1">
+            <div ng-click="showingSteps[$parent.$index]=!showingSteps[$parent.$index]" ng-show="$index==0 && pageSteps.steps.length>1" class="step-icon pull-right">
+                <i ng-hide="showingSteps[$parent.$index]" class="icon-with-padding icon-plus-sign link"></i>
+                <i ng-show="showingSteps[$parent.$index]" class="icon-with-padding icon-minus-sign link"></i>
             </div>
+            <div class="step-icon pull-right"  ng-show="$index==0 && pageSteps.steps.length==1">
+                <i class="icon-with-padding icon-circle"></i>
+            </div>
+        </div>
+        <div class="col-lg-7" ng-click="goToStep(pageSteps, $parent.$index, $index)">
+            <div class="screenshot-div" style="max-height:300px;overflow:hidden;">
+                <img ng-src="{{getScreenShotUrl(step.screenshotURL)}}" style="width:100%"/>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="step-title">
+                <h4>{{step.number}} - {{step.title}}</h4>
+                {{step.page.name}} ({{step.page.index}} of {{pagesAndSteps.length}})
 
-            <div ng-repeat="pageSteps in pagesAndSteps" class="steps">
-                <div ng-show="$index==0 || showingSteps[$parent.$index]" class="link row step-view" ng-repeat="step in pageSteps.steps | filter:searchFieldText">
-                    <hr ng-show="$index==0"/>
-                    <div class="span12">
-                        <div class="scenario-span1">
-                            <div ng-click="showingSteps[$parent.$index]=!showingSteps[$parent.$index]" ng-show="$index==0 && pageSteps.steps.length>1" class="step-icon pull-right">
-                                <i ng-hide="showingSteps[$parent.$index]" class="icon-with-padding icon-plus-sign link"></i>
-                                <i ng-show="showingSteps[$parent.$index]" class="icon-with-padding icon-minus-sign link"></i>
-                            </div>
-                            <div class="step-icon pull-right"  ng-show="$index==0 && pageSteps.steps.length==1">
-                                <i class="icon-with-padding icon-circle"></i>
-                            </div>
-                        </div>
-                        <div class="hero-unit-hover scenario-span1and2" style="width: 100%" ng-click="goToStep(pageSteps, $parent.$index, $index)">
-                            <div class="hero-unit-small screenshot-small scenario-span2 hero-unit">
-                                <div class="screenshot-div">
-                                    <img ng-src="{{getScreenShotUrl(step.screenshotURL)}}"/>
-                                </div>
-                            </div>
-                            <div class="scenario-span3">
-                                <div class="step-title">
-                                    <h4>{{step.number}} - {{step.title}}</h4>
-                                    {{step.page.name}} ({{step.page.index}} of {{pagesAndSteps.length}})
-
-                                    <div ng-repeat="(key,value) in step.details.properties" class="row-fluid">
-                                        <div class="span4">{{key | toHumanReadable}}</div>
-                                        <div class="span8">{{value}}</div>
-                                    </div>
-                                    <div ng-repeat="(key,value) in step.page.details.properties" class="row-fluid">
-                                        <div class="span4">{{key | toHumanReadable}}</div>
-                                        <div class="span8">{{value}}</div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="screenshot-overlay" modal="step.showingScreenshotModal" close="closeScreenshotModal(step)" options="modalScreenshotOptions">
-                        <div class="modal-header">
-                            <h3>Step {{pageIndex}}.{{stepIndex}} {{pageName}}</h3>
-                        </div>
-                        <div class="modal-body">
-                            <img ng-src="{{getScreenShotUrl(step.screenshotURL)}}"/>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn" ng-click="closeScreenshotModal(step)">Close</button>
-                        </div>
-                    </div>
+                <div ng-repeat="(key,value) in step.details.properties" class="row">
+                    <div class="col-lg-4">{{key | toHumanReadable}}</div>
+                    <div class="col-lg-8">{{value}}</div>
+                </div>
+                <div ng-repeat="(key,value) in step.page.details.properties" class="row">
+                    <div class="col-lg-4">{{key | toHumanReadable}}</div>
+                    <div class="col-lg-8">{{value}}</div>
                 </div>
             </div>
         </div>
+
+        <div class="screenshot-overlay" modal="step.showingScreenshotModal" close="closeScreenshotModal(step)" options="modalScreenshotOptions">
+            <div class="modal-header">
+                <h3>Step {{pageIndex}}.{{stepIndex}} {{pageName}}</h3>
+            </div>
+            <div class="modal-body">
+                <img ng-src="{{getScreenShotUrl(step.screenshotURL)}}"/>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" ng-click="closeScreenshotModal(step)">Close</button>
+            </div>
+        </div>
     </div>
+</div>

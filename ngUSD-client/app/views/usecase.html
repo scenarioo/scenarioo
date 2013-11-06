@@ -1,45 +1,50 @@
 <usd-breadcrumb></usd-breadcrumb>
 
+<h1>Use Case: {{useCase.name | toHumanReadable}}</h1>
 
-    <h1>Use Case: {{useCase.name | toHumanReadable}}</h1>
-
-    <div class="controls">
-        <div class="input-append">
-            <input type="text" ng-model="table.search.$" placeholder="Search scenario..."/>
-            <button ng-click="resetSearchField()" class="btn btn-primary">reset</button>
+<div class="row ngusd-space-top ngusd-space-bottom">
+    <div class="col-lg-3">
+        <div class="input-group">
+            <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="useCasesSearchField" data-toggle="tooltip" title="filter for use case" ng-model="table.search.$" placeholder="Search scenario..."/>
+            <span class="input-group-btn">
+                <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
+            </span>
         </div>
-        <div class="pull-right">
+    </div>
+    <div class="col-lg-9">
+        <span class="pull-right">
             <button ng-click="switchFilter()" class="btn btn-primary">
                 <span ng-show="!table.filtering">Show filter</span>
                 <span ng-show="table.filtering">Hide filter</span>
             </button>
-        </div>
+        </span>
     </div>
+</div>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th sortandfilter="status">Status</th>
-                <th sortandfilter="name">Name</th>
-                <th>Actions</th>
-                <th>Description</th>
-                <th ng-repeat="property in propertiesToShow" sortandfilter="details.properties.{{property}}">{{property | toHumanReadable}}</th>
-                <th sortandfilter="calculatedData.numberOfSteps" class="filter-none"># Steps</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-click="goToScenario(useCase.name, scenario.name)" class="link" ng-repeat="scenario in scenarios | filter:table.search | orderBy:table.sort.column:table.sort.reverse">
-                <td>
-                    <span class="label state" ng-class="buildStateToClassMapping[scenario.status]">{{scenario.status}}</span>
-                </td>
-                <td>{{scenario.name | toHumanReadable }}</td>
-                <td>
-                    <a ng-click="goToFirstStep(useCase.name, scenario.name)" tooltip="Go to first step" tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
-                    <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview" tooltip-placement="bottom"></i></a>
-                </td>
-                <td>{{scenario.description}}</td>
-                <td ng-repeat="property in propertiesToShow">{{scenario.details.properties[property]}}</td>
-                <td>{{scenario.calculatedData.numberOfSteps}}</td>
-            </tr>
-        </tbody>
-    </table>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th sortandfilter="status">Status</th>
+            <th sortandfilter="name">Name</th>
+            <th>Actions</th>
+            <th>Description</th>
+            <th ng-repeat="property in propertiesToShow" sortandfilter="details.properties.{{property}}">{{property | toHumanReadable}}</th>
+            <th sortandfilter="calculatedData.numberOfSteps" class="filter-none"># Steps</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-click="goToScenario(useCase.name, scenario.name)" class="link" ng-repeat="scenario in scenarios | filter:table.search | orderBy:table.sort.column:table.sort.reverse">
+            <td>
+                <span class="label state" ng-class="buildStateToClassMapping[scenario.status]">{{scenario.status}}</span>
+            </td>
+            <td>{{scenario.name | toHumanReadable }}</td>
+            <td>
+                <a ng-click="goToFirstStep(useCase.name, scenario.name)" tooltip="Go to first step" tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
+                <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview" tooltip-placement="bottom"></i></a>
+            </td>
+            <td>{{scenario.description}}</td>
+            <td ng-repeat="property in propertiesToShow">{{scenario.details.properties[property]}}</td>
+            <td>{{scenario.calculatedData.numberOfSteps}}</td>
+        </tr>
+    </tbody>
+</table>
