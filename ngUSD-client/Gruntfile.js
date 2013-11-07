@@ -299,8 +299,10 @@ module.exports = function (grunt) {
                             '*.{ico,txt}',
                             '.htaccess',
                             'components/**/*',
+                            'scripts/**/*',
                             'images/{,*/}*.{gif,webp}',
                             'styles/fonts/*',
+                            'styles/ngUSD.css',
                             'template/**/*'
                         ]
                     }
@@ -349,7 +351,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build-light', [
         'clean:dist',
-  	'ngconstant:production',
+        'ngconstant:production',
         'jshint',
         'karma:unit',
         'karma:e2e',
@@ -368,7 +370,7 @@ module.exports = function (grunt) {
     ]);
     grunt.registerTask('build', [
         'clean:dist',
-  	'ngconstant:production',
+        'ngconstant:production',
         'jshint',
         'karma:unit',
         'karma:e2e',
@@ -378,13 +380,13 @@ module.exports = function (grunt) {
         'imagemin',
         'cssmin',
         'htmlmin',
-        'concat',
-        'copy',
-        'cdnify',
-        'ngmin',
-        'uglify',
-        'rev',
-        'usemin'
+        //'concat',
+        'copy'
+        //'cdnify',
+        //'ngmin',
+        //'uglify',
+        //'rev',
+        //'usemin'
     ]);
 
     grunt.registerTask('default', ['build']);
