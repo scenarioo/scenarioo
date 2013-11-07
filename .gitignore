@@ -13,3 +13,4 @@ app/bower_components
 third-party
 ngUSD-client/app/scripts/environment_config.js
 .project
+/build

@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="output" path="bin"/>
 	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="src" path="src/test/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
-	<classpathentry sourcepath="/home/ngUSD/.gradle/caches/artifacts-26/filestore/org.apache.commons/commons-lang3/3.0.1/source/e048d9cecbc49a3563fb05cdd8db1a25da887201/commons-lang3-3.0.1-sources.jar" kind="lib" path="/home/ngUSD/.gradle/caches/artifacts-26/filestore/org.apache.commons/commons-lang3/3.0.1/jar/4c3f3e51174a0260a2c5e78da49fac4710803aa5/commons-lang3-3.0.1.jar" exported="true">
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="con" path="org.springsource.ide.eclipse.gradle.classpathcontainer">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="/home/ngUSD/.gradle/caches/artifacts-26/filestore/log4j/log4j/1.2.17/source/677abe279b68c5e7490d6d50c6951376238d7d3e/log4j-1.2.17-sources.jar" kind="lib" path="/home/ngUSD/.gradle/caches/artifacts-26/filestore/log4j/log4j/1.2.17/bundle/5af35056b4d257e4b64b9e8069c0746e8b08629f/log4j-1.2.17.jar" exported="true">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry sourcepath="/home/ngUSD/.gradle/caches/artifacts-26/filestore/org.projectlombok/lombok/0.11.8/source/c34c03b4e61991c32a7ad9ae37c3baccde4951d3/lombok-0.11.8-sources.jar" kind="lib" path="/home/ngUSD/.gradle/caches/artifacts-26/filestore/org.projectlombok/lombok/0.11.8/jar/e43ce2be16d8990568a4182c0bf996ad3ff0ba42/lombok-0.11.8.jar" exported="true">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="output" path="bin"/>
 </classpath>
