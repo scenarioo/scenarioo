@@ -4,8 +4,8 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import ngusd.dao.filesystem.XMLFileUtil;
 import ngusd.model.configuration.Configuration;
+import ngusd.util.files.XMLFileUtil;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;

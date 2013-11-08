@@ -5,11 +5,11 @@ import java.util.List;
 
 import ngusd.aggregator.UserScenarioDocuAggregator;
 import ngusd.dao.filesystem.UserScenarioDocuFilesystem;
-import ngusd.dao.filesystem.XMLFileUtil;
 import ngusd.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import ngusd.model.docu.aggregates.usecases.PageVariantsCounter;
 import ngusd.model.docu.aggregates.usecases.UseCaseScenarios;
 import ngusd.model.docu.aggregates.usecases.UseCaseScenariosList;
+import ngusd.util.files.XMLFileUtil;
 
 /**
  * DAO for accessing user scenario docu content from filesystem, that is either

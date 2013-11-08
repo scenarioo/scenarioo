@@ -13,9 +13,7 @@ import java.util.Properties;
 
 import lombok.Data;
 import ngusd.dao.UserScenarioDocuContentDAO;
-import ngusd.dao.filesystem.ResourceNotFoundException;
 import ngusd.dao.filesystem.UserScenarioDocuFilesystem;
-import ngusd.dao.filesystem.XMLFileUtil;
 import ngusd.model.docu.aggregates.scenarios.PageSteps;
 import ngusd.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import ngusd.model.docu.aggregates.usecases.PageVariantsCounter;
@@ -28,6 +26,8 @@ import ngusd.model.docu.entities.Step;
 import ngusd.model.docu.entities.StepDescription;
 import ngusd.model.docu.entities.StepIdentification;
 import ngusd.model.docu.entities.UseCase;
+import ngusd.util.files.ResourceNotFoundException;
+import ngusd.util.files.XMLFileUtil;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;

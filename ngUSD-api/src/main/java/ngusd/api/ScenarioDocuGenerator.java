@@ -1,19 +1,14 @@
 package ngusd.api;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.text.NumberFormat;
-import java.util.Arrays;
-import java.util.HashMap;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
 
 import ngusd.model.docu.entities.Branch;
 import ngusd.model.docu.entities.Build;
 import ngusd.model.docu.entities.Scenario;
 import ngusd.model.docu.entities.Step;
 import ngusd.model.docu.entities.UseCase;
+import ngusd.util.files.XMLFileUtil;
 
 /**
  * Generator to produce documentation files for a specific build.
@@ -53,7 +48,7 @@ public class ScenarioDocuGenerator {
 	public void saveBranchDescription(final Branch branch) {
 		createBuildDirectoryIfNotYetExists();
 		File destBranchFile = new File(getBranchDirectory(), "branch.xml");
-		marshal(branch, destBranchFile, Branch.class);
+		XMLFileUtil.marshal(branch, destBranchFile, Branch.class);
 	}
 	
 	/**
@@ -65,7 +60,7 @@ public class ScenarioDocuGenerator {
 	public void saveBuildDescription(final Build build) {
 		createBuildDirectoryIfNotYetExists();
 		File destBuildFile = new File(getBuildDirectory(), "build.xml");
-		marshal(build, destBuildFile, Build.class);
+		XMLFileUtil.marshal(build, destBuildFile, Build.class);
 	}
 	
 	/**
@@ -78,7 +73,7 @@ public class ScenarioDocuGenerator {
 		File destCaseDir = getUseCaseDirectory(useCase.getName());
 		createDirectoryIfNotYetExists(destCaseDir);
 		File destCaseFile = new File(destCaseDir, "usecase.xml");
-		marshal(useCase, destCaseFile, UseCase.class);
+		XMLFileUtil.marshal(useCase, destCaseFile, UseCase.class);
 	}
 	
 	public void saveScenario(final UseCase useCase, final Scenario scenario) {
@@ -89,7 +84,7 @@ public class ScenarioDocuGenerator {
 		File destScenarioDir = getScenarioDirectory(useCaseName, scenario.getName());
 		createDirectoryIfNotYetExists(destScenarioDir);
 		File destScenarioFile = new File(destScenarioDir, "scenario.xml");
-		marshal(scenario, destScenarioFile, Scenario.class);
+		XMLFileUtil.marshal(scenario, destScenarioFile, Scenario.class);
 	}
 	
 	public void saveScenarioStep(final UseCase useCase, final Scenario scenario, final Step step) {
@@ -101,7 +96,7 @@ public class ScenarioDocuGenerator {
 		createDirectoryIfNotYetExists(destStepsDir);
 		File destStepFile = new File(destStepsDir,
 				THREE_DIGIT_NUM_FORMAT.format(step.getStep().getIndex()) + ".xml");
-		marshal(step, destStepFile, Step.class);
+		XMLFileUtil.marshal(step, destStepFile, Step.class);
 	}
 	
 	private File getBuildDirectory() {
@@ -149,29 +144,6 @@ public class ScenarioDocuGenerator {
 		if (!directory.exists()) {
 			directory.mkdirs();
 		}
-	}
-	
-	private static void marshal(final Object object,
-			final File destFile, Class<?>... classesToBind) {
-		JAXBContext contextObj;
-		try {
-			classesToBind = appendClass(classesToBind, HashMap.class);
-			contextObj = JAXBContext.newInstance(classesToBind);
-			
-			Marshaller marshallerObj = contextObj.createMarshaller();
-			marshallerObj.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			marshallerObj.marshal(object, new FileOutputStream(destFile));
-		} catch (Exception e) {
-			throw new RuntimeException("Could not marshall Object of type " + object.getClass().getName()
-					+ " into file: " + destFile.getAbsolutePath(), e);
-		}
-		
-	}
-	
-	private static Class<?>[] appendClass(Class<?>[] classesToBind, final Class<?> additionalClass) {
-		classesToBind = Arrays.copyOf(classesToBind, classesToBind.length + 1);
-		classesToBind[classesToBind.length - 1] = additionalClass;
-		return classesToBind;
 	}
 	
 	private static NumberFormat createNumberFormatWithMinimumIntegerDigits(

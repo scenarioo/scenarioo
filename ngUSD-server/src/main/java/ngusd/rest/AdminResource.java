@@ -6,12 +6,8 @@ import javax.ws.rs.Produces;
 
 import ngusd.manager.UserScenarioDocuManager;
 
-import org.apache.log4j.Logger;
-
 @Path("/rest/admin/")
 public class AdminResource {
-	
-	private static final Logger LOGGER = Logger.getLogger(AdminResource.class);
 	
 	@GET
 	@Path("update")

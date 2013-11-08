@@ -80,6 +80,7 @@ public class UserScenarioDocuManager {
 							buildLink.getLinkName());
 				}
 			}
+			// TODO: why is this commented???
 			// sortBuilds(branchBuilds);
 		}
 		this.branchBuildsList = branchBuildsList;
