@@ -50,8 +50,7 @@ public class ScenarioDocuSaveException extends RuntimeException {
 	
 	private void println(final Appendable s, final String message) {
 		try {
-			String lineSeparator = java.security.AccessController.doPrivileged(
-					new sun.security.action.GetPropertyAction("line.separator"));
+			String lineSeparator = String.format("%n");
 			s.append(message + lineSeparator);
 		} catch (IOException e) {
 			throw new RuntimeException("Could not print stack trace for very unexpected reason.");
