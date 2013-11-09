@@ -10,3 +10,7 @@ app/bower_components
 .idea
 .vm-update.log
 .gradle
+third-party
+ngUSD-client/app/scripts/environment_config.js
+.project
+/build

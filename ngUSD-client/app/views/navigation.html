@@ -1,48 +1,58 @@
-<div class="header navbar navbar-inverse">
-    <div class="navbar-inner">
-        <a class="brand" href="#">ngUSD</a>
-        <ul class="nav">
-            <li><a href="#"><i class="icon-home icon-with-padding"></i>Home</a></li>
+<div class="navbar navbar-default navbar-inverse navbar-static-top" role="navigation">
+
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#ngusd-navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Scenarioo</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="ngusd-navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+
+            <!-- Branch selection dropdown -->
             <li class="dropdown">
-                <a class="dropdown-toggle link">
-                    <span class="headerLabel"><i class="icon-hdd icon-with-padding"></i>Branch:</span>
-                    {{selectedBranch.branch.name}}
-                    <div class="icon-with-padding"><b class="caret"></b></div>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-hdd"></span> Branch: {{branchesAndBuilds.selectedBranch.branch.name}}
+                    <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li ng-repeat="branch in branches">
-                        <a class="link" ng-click="setBranch(branch)">{{branch.branch.name}}</a>
+                    <li ng-repeat="branch in branchesAndBuilds.branches">
+                        <a ng-click="setBranch(branch)">{{branch.branch.name}}</a>
                     </li>
                 </ul>
             </li>
-            <li class="builds dropdown">
-                <a class="dropdown-toggle link">
-                    <span class="headerLabel"><i class="icon-folder-close-alt icon-with-padding"></i>Build:</span>
-                    {{getDisplayName(selectedBuild)}}
-                    <span class="label state" style="margin-left: 10px" ng-class="{{statesToClass[selectedBuild.build.state]}}">{{selectedBuild.build.state}}</span>
+
+            <!-- Build selection dropdown -->
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Build: {{getDisplayName(branchesAndBuilds.selectedBuild)}}&nbsp;&nbsp;
+                    <span ng-class="[buildStateToClassMapping[branchesAndBuilds.selectedBuild.build.state], 'label']">{{branchesAndBuilds.selectedBuild.build.state}}</span>
                     <div class="icon-with-padding"><b class="caret"></b></div>
                 </a>
-                <ul class="dropdown-menu container-fluid">
-                    <li ng-repeat="build in selectedBranch.builds">
-                        <a ng-include="'template/build.html'" ng-click="setBuild(selectedBranch, build)">
-                        </a>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="build in branchesAndBuilds.selectedBranch.builds">
+                        <a ng-include="'template/build.html'" ng-click="setBuild(selectedBranch, build)"></a>
                     </li>
                 </ul>
             </li>
         </ul>
-        <div class="pull-right">
-            <ul class="nav">
-                <li>
-                    <a href="#" ng-click="aggregate()"><i class="icon-with-padding" ng-class="{'icon-download': !aggregationInProgress, 'icon-refresh': aggregationInProgress, 'icon-spin': aggregationInProgress  }"></i>Import</a>
-                </li>
-                <li>
-                    <a href="#/config"><i class="icon-cogs icon-with-padding"></i>Configuration</a>
-                </li>
-                <li>
-                    <a ng-click="openInfoModal()" class="link"><i class="icon-info icon-with-padding"></i>Info</a>
-                </li>
-            </ul>
-        </div>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="#" ng-click="aggregate()"><span class="glyphicon" ng-class="{'glyphicon-download': !aggregationInProgress, 'glyphicon-refresh': aggregationInProgress  }"></span> Import</a>
+            </li>
+            <li>
+                <a href="#/config"><span class="glyphicon glyphicon-cog"></span> Configuration</a>
+            </li>
+            <li>
+                <a ng-click="openInfoModal()" class="link"><span class="glyphicon glyphicon-info-sign"></span> Info</a>
+            </li>
+        </ul>
     </div>
 </div>
 
@@ -51,7 +61,7 @@
     <div class="modal-header">
         <h3>ngUSD</h3>
     </div>
-    <div class="modal-body" ng-include="'/views/information.html'">
+    <div class="modal-body" ng-include="'/views/applicationInfoPopup.html'">
     </div>
     <div class="modal-footer">
         <button class="btn" ng-click="closeInfoModal()">Close</button>

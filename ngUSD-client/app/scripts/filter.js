@@ -3,7 +3,7 @@
 angular.module('ngUSDClientApp.filter').filter('toHumanReadable', function () {
     return function (input) {
         var text = input;
-        if (text) {
+        if (text && text.length > 0) {
             // First Char
             text = text.charAt(0).toUpperCase() + text.substr(1);
             // Underline

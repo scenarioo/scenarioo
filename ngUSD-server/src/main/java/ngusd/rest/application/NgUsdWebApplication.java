@@ -18,11 +18,14 @@ public class NgUsdWebApplication implements ServletContextListener {
 	
 	@Override
 	public void contextInitialized(final ServletContextEvent arg0) {
-		
 		LOGGER.info("====================================");
 		LOGGER.info("ngUSD Application starting up ...");
 		LOGGER.info("====================================");
 		LOGGER.info("  Loading configuration ...");
+		
+		String configurationDirectory = arg0.getServletContext().getInitParameter("configurationDirectory");
+		LOGGER.info("  " + configurationDirectory);
+		ConfigurationDAO.setConfigurationDirectory(configurationDirectory);
 		Configuration config = ConfigurationDAO.getConfiguration();
 		LOGGER.info("  Configuration loaded.");
 		LOGGER.info("  Updating documentation content directory ...");

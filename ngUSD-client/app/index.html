@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title></title>
+    <title>Scenarioo</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -34,8 +34,8 @@
 <div ng-include="'views/navigation.html'" ng-controller="NavigationCtrl">
 </div>
 
-<!-- Add your site or application content here -->
-<div ng-view>
+<div class="ngusd-container">
+    <div ng-view></div>
 </div>
 
 <script src="components/angular/angular.js"></script>
@@ -57,9 +57,14 @@
 <script src="third-party/js-beautify/js/lib/beautify-html.js"></script>
 <!-- endbuild -->
 
+<!-- build:js scripts/environment_config.js -->
+<script src="scripts/environment_config.js"></script>
+<!-- endbuild -->
+
 <!-- build:js scripts/scripts.js -->
 <script src="scripts/app.js"></script>
 <script src="scripts/filter.js"></script>
+<script src="scripts/services/branchesAndBuilds.js"></script>
 <script src="scripts/services/config.js"></script>
 <script src="scripts/services/restServices.js"></script>
 <script src="scripts/directives/breadcrumbs.js"></script>

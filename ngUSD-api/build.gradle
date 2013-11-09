@@ -1,6 +1,7 @@
 apply plugin: 'maven'
 apply plugin: 'eclipse-wtp'
-
+sourceCompatibility=1.6
+targetCompatibility=1.6
 
 uploadArchives {
     repositories {
@@ -9,6 +10,7 @@ uploadArchives {
         }
     }
 }
+
 
 // Prevent Eclipse "Gradle -> Refresh All" to execute cleanEclipseJdt,
 // because it would delete our version of the org.eclipse.jdt.ui.prefs file.

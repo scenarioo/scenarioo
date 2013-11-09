@@ -3,10 +3,15 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
-	<display-name>ngUSD</display-name>
-
-
-
+	<display-name>Scenarioo</display-name>
+	<filter>
+		<filter-name>CORS</filter-name>
+		<filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CORS</filter-name>
+		<url-pattern>/rest/*</url-pattern>
+	</filter-mapping>
 	<listener>
 		<listener-class>ngusd.rest.application.NgUsdWebApplication</listener-class>
 	</listener>
@@ -25,4 +30,5 @@
 		<servlet-name>ResteasyServlet</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
+	
 </web-app>

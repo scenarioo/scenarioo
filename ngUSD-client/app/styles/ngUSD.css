@@ -1,6 +1,5 @@
 /** General **/
 .link, .informationModal .nav-tabs {
-      cursor: pointer;
 }
 
 .link-no-hover:hover {
@@ -15,12 +14,6 @@ h1, h2, h3, h4 {
 h1 {
     font-size: 32px;
     margin: 0px 0px 20px;
-}
-
-.label.state {
-    min-width: 80px;
-    text-align: center;
-    padding-right: -8px !important;
 }
 
 .icon-with-padding {
@@ -46,36 +39,20 @@ h1 {
     width: 150px !important;
 }
 
-/** Breadcrumbs **/
-.breadcrumb-row {
-    margin-top: -20px;
-    background-color: #F5F5F5;
-    margin-bottom: 20px;
+/** Breadcrumbs (basically styled by bootstrap!) **/
+
+.breadcrumb {
+    display: inline-block;
+    margin-bottom: 0;
+    padding: 0 0 0 5px;
 }
 
-.breadcrumb-row div.email-div {
-    padding: 8px 15px 8px;
-}
-
-.breadcrumb-row div.breadcrumb-div {
-    float: left;
-}
-
-ul.breadcrumb {
-    padding-left: 20px;
-    margin-bottom: 0px;
-}
-
-ul.breadcrumb a {
-    color: #999999;
-}
-
-ul.breadcrumb a:hover {
-    text-decoration: none;
-    color: #0088CC;
+.nav, .link {
+    cursor: pointer;
 }
 
 /** Tables **/
+/*
 .table {
     border-width: 2px;
 }
@@ -83,19 +60,8 @@ ul.breadcrumb a:hover {
     background-color: whitesmoke;
     background-image: linear-gradient(to bottom, #FFFFFF, #E6E6E6);
 }
-.table thead th {
-    vertical-align: top;
-}
 
-.table thead th .tableFilter input {
-    font-size: 14px;
-    height: 16px;
-    margin: 5px 0px 5px;
-}
 
-.table tbody, input.tableSearch {
-    background-color: #FAFAFA;
-}
 
 .table tbody tr:nth-child(2n) td {
     background-color: 	#EEEEEE;
@@ -103,6 +69,37 @@ ul.breadcrumb a:hover {
 
 .table tbody tr:hover td {
     background-color: #EBF5FF;
+}        */
+
+.table-curved {
+    border-collapse: separate;
+}
+.table-curved {
+    border: solid #ccc 1px;
+    border-radius: 6px;
+    border-left:0px;
+}
+.table-curved td, .table-curved th {
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+}
+.table-curved th {
+    border-top: none;
+}
+.table-curved th:first-child {
+    border-radius: 6px 0 0 0;
+}
+.table-curved th:last-child {
+    border-radius: 0 6px 0 0;
+}
+.table-curved th:only-child{
+    border-radius: 6px 6px 0 0;
+}
+.table-curved tr:last-child td:first-child {
+    border-radius: 0 0 0 6px;
+}
+.table-curved tr:last-child td:last-child {
+    border-radius: 0 0 6px 0;
 }
 
 /** Navigation **/
@@ -123,10 +120,6 @@ ul.breadcrumb a:hover {
 
 .header .buildLabel {
     padding-left: 20px;
-}
-
-.header .headerLabel {
-    margin-right: 10px;
 }
 
 /** Overview */
@@ -156,17 +149,10 @@ ul.breadcrumb a:hover {
     margin: 25px 25px 0px 25px !important;
 }
 
-.step-view .step-icon {
-    padding-top: 10px;
-}
-
 .step-view .step-icon i {
     font-size: 32px;
 }
 
-.step-panes {
-    cursor: default;
-}
 @media (max-width: 1300px) {
     .meta-data {
         padding: 15px;
@@ -326,4 +312,25 @@ ul.breadcrumb a:hover {
     font-size: 10px;
     padding: 0px 3px;
     vertical-align: middle;
+}
+
+.ngusd-container {
+    margin: 0 15px 15px 15px;
+}
+
+.ngusd-space-top {
+    margin-top: 10px;
+}
+
+.ngusd-space-bottom {
+    margin-bottom: 10px;
+}
+
+/** Overwrite Bootstrap styles **/
+.table > thead > tr > th {
+    vertical-align: top;
+}
+
+.tab-content {
+    margin-top: 10px;
 }

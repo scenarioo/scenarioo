@@ -1,16 +1,9 @@
 'use strict';
 
-angular.module('ngUSDClientApp.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioService, Config) {
+angular.module('ngUSDClientApp.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioService, Config, HostnameAndPort) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
-
-
-
-
-
-    var selectedBranch = Config.selectedBranch($location);
-    var selectedBuild = Config.selectedBuild($location);
 
     $scope.showingSteps = [];
 
@@ -19,9 +12,19 @@ angular.module('ngUSDClientApp.controllers').controller('ScenarioCtrl', function
         dialogClass: 'modal modal-huge'
     };
 
-    $q.all([selectedBranch, selectedBuild]).then(function (result) {
+    $scope.$watch(function () {
+            return Config.isLoaded();
+        },
+        function () {
+            loadScenario();
+        }
+    );
 
-        var pagesAndScenarios = ScenarioService.getScenario({'branchName': result[0], 'buildName': result[1],
+    function loadScenario() {
+        var selectedBranch = Config.selectedBranch();
+        var selectedBuild = Config.selectedBuild();
+
+        var pagesAndScenarios = ScenarioService.getScenario({'branchName': selectedBranch, 'buildName': selectedBuild,
             'usecaseName': useCaseName, 'scenarioName': scenarioName});
         pagesAndScenarios.then(function (result) {
             // Add page to the step to allow search for step- as well as page-properties
@@ -29,10 +32,11 @@ angular.module('ngUSDClientApp.controllers').controller('ScenarioCtrl', function
         });
 
         $scope.getScreenShotUrl = function (imgName) {
-            return '/ngusd/rest/branches/' + result[0] + '/builds/' + result[1] +
+            return HostnameAndPort.forLink() + '/ngusd/rest/branches/' + selectedBranch + '/builds/' + selectedBuild +
                 '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
         };
-    });
+    };
+
 
     function populatePageAndSteps(pagesAndScenarios) {
         for (var indexPage = 0; indexPage < pagesAndScenarios.pagesAndSteps.length; indexPage++) {
@@ -53,7 +57,7 @@ angular.module('ngUSDClientApp.controllers').controller('ScenarioCtrl', function
         $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
     }
 
-    $scope.go = function (pageSteps, pageIndex, stepIndex) {
+    $scope.goToStep = function (pageSteps, pageIndex, stepIndex) {
         var pageName = pageSteps.page.name;
         $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) +
             '/' + pageIndex + '/' + stepIndex);

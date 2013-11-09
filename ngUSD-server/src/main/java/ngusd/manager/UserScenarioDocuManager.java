@@ -18,15 +18,13 @@ import org.apache.log4j.Logger;
 /**
  * Manages the user scenario docu file contents.
  * 
- * As soon as a new build or branch is added to one of the branch directories
- * the manager takes care of aggregating and precalculating all needed data for
- * this build in the form needed to access it efficiently.
+ * As soon as a new build or branch is added to one of the branch directories the manager takes care of aggregating and
+ * precalculating all needed data for this build in the form needed to access it efficiently.
  * 
- * Only after this information is calculated correctly the build will be
- * available for browsing.
+ * Only after this information is calculated correctly the build will be available for browsing.
  * 
- * TODO: ensure that the manager runs updateAll from time to time when it
- * detects changes in the documentation directory.
+ * TODO: ensure that the manager runs updateAll from time to time when it detects changes in the documentation
+ * directory.
  */
 public class UserScenarioDocuManager {
 	
@@ -42,12 +40,10 @@ public class UserScenarioDocuManager {
 	private List<BranchBuilds> branchBuildsList = new ArrayList<BranchBuilds>();
 	
 	/**
-	 * Processes the content of configured documentation filesystem directory
-	 * discovering newly added builds or branches to calculate all data for
-	 * them. Also updates the branches and builds list.
+	 * Processes the content of configured documentation filesystem directory discovering newly added builds or branches
+	 * to calculate all data for them. Also updates the branches and builds list.
 	 * 
-	 * This method should be called on server startup and whenever something on
-	 * the filesystem changed.
+	 * This method should be called on server startup and whenever something on the filesystem changed.
 	 */
 	public void updateAll() {
 		File docuDirectory = ConfigurationDAO.getDocuDataDirectoryPath();
@@ -61,14 +57,21 @@ public class UserScenarioDocuManager {
 		else {
 			LOGGER.info("  Processing documentation content data in directory: " + docuDirectory.getAbsoluteFile());
 			LOGGER.info("  Calculating aggregated data in derived XML files, this may take a while ...");
-			doUpdateAll();
-			LOGGER.info("  Documentation content directory has been processed and updated.");
+			Thread t = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					doUpdateAll();
+					LOGGER.info("  Documentation content directory has been processed and updated.");
+				}
+			});
+			t.start();
 		}
 	}
 	
 	private synchronized void doUpdateAll() {
 		List<BranchBuilds> branchBuildsList = filesystem.loadBranchBuildsList();
 		for (BranchBuilds branchBuilds : branchBuildsList) {
+			LOGGER.info("calculating aggregated data for branch : " + branchBuilds.getBranch().getName());
 			for (BuildLink buildLink : branchBuilds.getBuilds()) {
 				UserScenarioDocuAggregator aggregator = new UserScenarioDocuAggregator();
 				if (!aggregator.containsAggregatedDataForBuild(branchBuilds.getBranch().getName(),
@@ -77,14 +80,15 @@ public class UserScenarioDocuManager {
 							buildLink.getLinkName());
 				}
 			}
-			sortBuilds(branchBuilds);
+			// TODO: why is this commented???
+			// sortBuilds(branchBuilds);
 		}
 		this.branchBuildsList = branchBuildsList;
 	}
 	
 	/**
-	 * Special sorting for builds: 1. default build 2. other tagged builds in
-	 * order of their dates 3. other builds in order of their dates
+	 * Special sorting for builds: 1. default build 2. other tagged builds in order of their dates 3. other builds in
+	 * order of their dates
 	 */
 	private void sortBuilds(final BranchBuilds branchBuilds) {
 		Collections.sort(branchBuilds.getBuilds(), new Comparator<BuildLink>() {
@@ -134,5 +138,4 @@ public class UserScenarioDocuManager {
 	public List<BranchBuilds> getBranchBuildsList() {
 		return branchBuildsList;
 	}
-	
 }

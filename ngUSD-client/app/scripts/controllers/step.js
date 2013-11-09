@@ -1,15 +1,13 @@
 'use strict';
 
-angular.module('ngUSDClientApp.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, PageVariantService, StepService) {
+angular.module('ngUSDClientApp.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, PageVariantService, StepService, HostnameAndPort) {
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
-    var selectedBranch = Config.selectedBranch($location);
-    var selectedBuild = Config.selectedBuild($location);
-    var stepIndex = parseInt($routeParams.stepIndex);
+
     $scope.pageName = decodeURIComponent($routeParams.pageName);
-    $scope.pageIndex = parseInt($routeParams.pageOccurenceInScenario);
-    $scope.stepIndex = stepIndex;
-    $scope.title = ($scope.pageIndex+1) + "." + $scope.stepIndex + " - " + $scope.pageName;
+    $scope.pageIndex = parseInt($routeParams.pageIndex);
+    $scope.stepIndex = parseInt($routeParams.stepIndex);
+    $scope.title = ($scope.pageIndex + 1) + "." + $scope.stepIndex + " - " + $scope.pageName;
 
     $scope.modalScreenshotOptions = {
         backdropFade: true,
@@ -18,12 +16,22 @@ angular.module('ngUSDClientApp.controllers').controller('StepCtrl', function ($s
 
     $scope.showingMetaData = $window.innerWidth > 1000;
 
+    $scope.$watch(function () {
+            return Config.isLoaded();
+        },
+        function () {
+            loadStep();
+        }
+    );
 
-    $q.all([selectedBranch, selectedBuild]).then(function (result) {
-        $scope.pageVariantCounts = PageVariantService.getPageVariantCount({'branchName': result[0], 'buildName': result[1]});
+
+    function loadStep() {
+        var selectedBranch = Config.selectedBranch();
+        var selectedBuild = Config.selectedBuild();
+        $scope.pageVariantCounts = PageVariantService.getPageVariantCount({'branchName': selectedBranch, 'buildName': selectedBuild});
 
         //FIXME this is could be improved. Add information to the getStep call. however with caching it could be fixed as well
-        var pagesAndScenarios = ScenarioService.getScenario({'branchName': result[0], 'buildName': result[1], 'usecaseName': useCaseName, 'scenarioName': scenarioName});
+        var pagesAndScenarios = ScenarioService.getScenario({'branchName': selectedBranch, 'buildName': selectedBuild, 'usecaseName': useCaseName, 'scenarioName': scenarioName});
 
         pagesAndScenarios.then(function (result) {
             $scope.scenario = result.scenario;
@@ -40,18 +48,24 @@ angular.module('ngUSDClientApp.controllers').controller('StepCtrl', function ($s
                 var nextStepVariant = $scope.stepDescription.nextStepVariant;
                 $location.path('/step/' + nextStepVariant.useCaseName + '/' + nextStepVariant.scenarioName + '/' + encodeURIComponent(nextStepVariant.pageName) + '/' + nextStepVariant.occurence + '/' + nextStepVariant.relativeIndex);
             };
-        });
 
-        var step = StepService.getStep({'branchName': result[0], 'buildName': result[1], 'usecaseName': useCaseName, 'scenarioName': scenarioName, 'stepIndex': stepIndex});
-        step.then(function (result) {
-            $scope.step = result;
-            beautify(result.html);
+            var step = StepService.getStep({'branchName': selectedBranch, 'buildName': selectedBuild, 'usecaseName': useCaseName, 'scenarioName': scenarioName, 'stepIndex': $scope.stepDescription.index});
+            step.then(function (result) {
+                $scope.step = result;
+                beautify(result.html);
+            });
         });
 
         $scope.getScreenShotUrl = function (imgName) {
-            return '/ngusd/rest/branches/' + result[0] + '/builds/' + result[1] + '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
+            if (angular.isDefined(imgName)) {
+                return HostnameAndPort.forLink() + '/ngusd/rest/branches/' + selectedBranch + '/builds/' + selectedBuild + '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
+            } else {
+                return '';
+            }
         };
-    });
+    };
+
+
     function beautify(html) {
         var source = html.htmlSource;
         var opts = {};

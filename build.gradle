@@ -3,7 +3,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     group = 'org.ngusd'
-    version = '0.1.2'
+    version = '0.1.3'
 
 	configurations {
 	  compileOnly
@@ -42,4 +42,7 @@ project(':ngUSD-server') {
     dependencies {
         compile project(':ngUSD-api')
     }
+}
+
+task wrapper(type: Wrapper) {
 }

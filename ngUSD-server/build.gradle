@@ -2,17 +2,11 @@
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 
-repositories {
-    mavenCentral()
-    maven {
-        url "http://projectlombok.org/mavenrepo"
-    }
-}
-
 dependencies {
     compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.3.Final'
     compile 'org.jboss.resteasy:resteasy-jaxb-provider:2.3.3.Final'
     compile 'org.jboss.resteasy:resteasy-jackson-provider:2.3.3.Final'
+	runtime 'com.thetransactioncompany:cors-filter:1.7.1'
     providedCompile 'javax.servlet:servlet-api:2.5'
 }
 
@@ -51,11 +45,12 @@ task buildClient(type: Exec) {
      }
 }	
 
-buildClient.dependsOn printPathConfigInformationForNodeJSAndGrunt																																																																																																																																																																																																																																																																																															
-
+buildClient.dependsOn printPathConfigInformationForNodeJSAndGrunt
 
 war {
     from '../ngUSD-client/dist'
+	archiveName 'ngusd.war'
 }
 
 war.dependsOn = war.taskDependencies.values + tasks.buildClient
+

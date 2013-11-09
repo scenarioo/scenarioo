@@ -13,7 +13,7 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
 
     function getValue(key) {
         if (angular.isUndefined(configData[key])) {
-            throw 'ngUSDerror :: Key ' + key + ' not present in configData';
+           // throw 'ngUSDerror :: Key ' + key + ' not present in configData';
         }
         return configData[key];
     }
@@ -21,6 +21,7 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
     function doLoad() {
         ConfigResource.get({}, function (response) {
             configData = postProcessConfigData(response);
+            $rootScope.buildStateToClassMapping = configData.buildstates;
             watchLocationChanges();
             $rootScope.$broadcast(CONFIG_LOADED_EVENT);
         });
@@ -74,7 +75,30 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
             return $location.search();
         }, function (newValue) {
             configData = postProcessConfigData(configData);
-        });
+            writeBranchAndBuildFromConfigToCookie();
+        }, true);
+    }
+
+    function writeBranchAndBuildFromConfigToCookie() {
+        $cookieStore.put(BUILD_URL_PARAMETER, configData[CONFIG_KEY_SELECTED_BUILD]);
+        $cookieStore.put(BRANCH_URL_PARAMETER, configData[CONFIG_KEY_SELECTED_BRANCH]);
+    }
+
+    function getBuildStateToClassMapping() {
+        return configData.buildstates;
+    }
+
+    function getScenarioPropertiesInOverview() {
+        var stringValue =  getValue('scenarioPropertiesInOverview');
+        var propertiesStringArray = stringValue.split(',');
+
+        var properties = new Array(propertiesStringArray.length);
+
+        for (var i = 0; i < propertiesStringArray.length; i++) {
+            properties[i] = propertiesStringArray[i].trim();
+        }
+
+        return properties;
     }
 
     var serviceInstance = {
@@ -105,20 +129,31 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
             }
         },
 
-        selectedBuild: function () {
-            return  getValue(CONFIG_KEY_SELECTED_BUILD);
-        },
-
         selectedBranch: function () {
             return getValue(CONFIG_KEY_SELECTED_BRANCH);
         },
 
+        selectedBuild: function () {
+            return  getValue(CONFIG_KEY_SELECTED_BUILD);
+        },
+
+        selectedBuildAndBranch: function() {
+            return {
+                branch: this.selectedBranch(),
+                build: this.selectedBuild()
+            }
+        },
+
         scenarioPropertiesInOverview: function () {
-            return getValue('scenarioPropertiesInOverview');
+            return getScenarioPropertiesInOverview();
         },
 
         applicationInformation: function () {
             return getValue('applicationInformation');
+        },
+
+        buildStateToClassMapping: function () {
+            return getBuildStateToClassMapping();
         }
 
     };
