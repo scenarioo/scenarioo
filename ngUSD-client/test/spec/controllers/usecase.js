@@ -6,34 +6,34 @@ describe('Controller :: useCase', function () {
         BUILD = 'build_123',
         USE_CASE = 'LogIn';
 
-    var scope, routeParams, configFake, controller, scenarioService;
+    var scope, routeParams, configMock, controller, scenarioService;
 
     beforeEach(module('ngUSDClientApp.controllers'));
 
-    beforeEach(inject(function ($rootScope, $routeParams, $controller, ScenarioService) {
+    beforeEach(inject(function ($rootScope, $routeParams, $controller, ScenarioService, ConfigMock) {
             scope = $rootScope.$new();
             routeParams = $routeParams;
             routeParams.useCaseName = USE_CASE;
-            configFake = createConfigFake();
+            configMock = ConfigMock;
             scenarioService = ScenarioService;
 
-            controller = $controller("UseCaseCtrl", {$scope: scope, $routeParams: routeParams, Config: configFake, ScenarioService: scenarioService});
+            controller = $controller("UseCaseCtrl", {$scope: scope, $routeParams: routeParams, Config: ConfigMock, ScenarioService: scenarioService});
         }
     ));
 
     it('should load all scenarios and and the selected use case', function() {
         spyOn(scenarioService, 'findAllScenarios').andCallFake(getFindAllScenariosFake());
 
-        expect(configFake.selectedBranch()).toBe(undefined);
-        expect(configFake.selectedBuild()).toBe(undefined);
+        expect(configMock.selectedBranch()).toBe(undefined);
+        expect(configMock.selectedBuild()).toBe(undefined);
         expect(scope.useCase).toBeUndefined();
         expect(scope.scenarios).toBeUndefined();
         expect(scope.propertiesToShow).toBeUndefined();
 
-        configFake.setSelectedBranch(BRANCH);
-        configFake.setSelectedBuild(BUILD);
-        expect(configFake.selectedBranch()).toBe(BRANCH);
-        expect(configFake.selectedBuild()).toBe(BUILD);
+        configMock.setSelectedBranch(BRANCH);
+        configMock.setSelectedBuild(BUILD);
+        expect(configMock.selectedBranch()).toBe(BRANCH);
+        expect(configMock.selectedBuild()).toBe(BUILD);
 
         scope.$apply();
 

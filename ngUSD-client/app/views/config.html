@@ -1,43 +1,46 @@
 <usd-breadcrumb></usd-breadcrumb>
 
-    <div class="row-fluid">
-        <div class="span12">
-            <h1>Configuration Page</h1>
+<h1>Scenarioo Configuration</h1>
+
+<div class="alert alert-success fade-out" ng-show="successfullyUpdatedConfiguration">
+    The configuration has been successfully updated.
+    <a ng-click="successfullyUpdatedConfiguration=false" class="pull-right link link-no-hover" style="color: #468847"><i
+            class="icon-remove icon"></i></a>
+</div>
+
+<form novalidate class="configuration">
+    <div class="row ngusd-space-bottom">
+        <div class="col-lg-3">Default Branch</div>
+        <div class="col-lg-9">
+            <select ng-model="configuration.defaultBranchName"
+                    ng-options="branch.branch.name as branch.branch.name for branch in configurableBranches"
+                    class="form-control"></select>
         </div>
     </div>
-
-    <div class="alert alert-success fade-out" ng-show="successfullyUpdatedConfiguration">
-        The configuration has been successfully updated.
-        <a ng-click="successfullyUpdatedConfiguration=false" class="pull-right link link-no-hover" style="color: #468847"><i class="icon-remove icon"></i></a>
+    <div class="row ngusd-space-bottom">
+        <div class="col-lg-3">Default Build</div>
+        <div class="col-lg-9">
+            <select ng-model="configuration.defaultBuildName"
+                    ng-options="build.linkName as build.linkName for build in configuredBranch.builds"
+                    class="form-control"></select>
+        </div>
     </div>
-
-    <form novalidate class="simple-form configuration">
-        <div class="row-fluid">
-            <div class="span4">Default Branch</div>
-            <div class="span8">
-                <select ng-model="configuredBranch" ng-options="branch as branch.branch.name for branch in configurableBranches"></select>
-            </div>
+    <div class="row ngusd-space-bottom">
+        <div class="col-lg-3" tooltip="... shown in the overview of a use case">Scenario Properties</div>
+        <div class="col-lg-9">
+            <input type="text" ng-model="configuration.scenarioPropertiesInOverview" class="form-control"/>
         </div>
-        <div class="row-fluid">
-            <div class="span4">Default Build</div>
-            <div class="span8">
-                <select ng-model="configuration.defaultBuildName" ng-options="build.linkName as build.linkName for build in configuredBranch.builds"></select>
-            </div>
+    </div>
+    <div class="row ngusd-space-bottom">
+        <div class="col-lg-3">Application Information</div>
+        <div class="col-lg-9">
+            <textarea ng-model="configuration.applicationInformation" class="form-control"></textarea>
         </div>
-        <div class="row-fluid">
-            <div class="span4" tooltip="... shown in the overview of a use case">Scenario Properties</div>
-            <div class="span8">
-                <input type="text" ng-model="configuration.scenarioPropertiesInOverview"/>
-            </div>
-        </div>
-        <div class="row-fluid" style="margin-top: 10px">
-            <div class="span4">Application Information</div>
-            <div class="span8">
-                <textarea ng-model="configuration.applicationInformation"></textarea>
-            </div>
-        </div>
-        <div class="row-fluid">
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <input type="button" ng-click="resetConfiguration()" value="Reset" class="btn btn-wide btn-default"/>
             <input type="button" ng-click="updateConfiguration()" value="Send" class="btn btn-wide btn-primary"/>
-            <input type="button" ng-click="resetConfiguration()" value="Reset" class="btn btn-wide btn-primary"/>
         </div>
-    </form>
+    </div>
+</form>

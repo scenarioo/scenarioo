@@ -6,17 +6,17 @@ describe('Service :: config', function () {
         BUILD_STATE_SUCCESS = 'success',
         BUILD_STATE_WARNING = 'warning',
         DUMMY_CONFIG_RESPONSE = {
-        'testDocumentationDirPath': 'webtestDocuContentExample',
-        'defaultBuildName': 'current',
-        'scenarioPropertiesInOverview': 'userProfile, configuration',
-        'applicationInformation': 'This is my personal copy of ngUSD :-)',
-        'buildstates': {
-            BUILD_STATE_FAILED: 'label-important',
-            BUILD_STATE_SUCCESS: 'label-success',
-            BUILD_STATE_WARNING: 'label-warning'
-        },
-        'defaultBranchName': 'trunk'
-    };
+            'testDocumentationDirPath': 'webtestDocuContentExample',
+            'defaultBuildName': 'current',
+            'scenarioPropertiesInOverview': 'userProfile, configuration',
+            'applicationInformation': 'This is my personal copy of Scenarioo :-)',
+            'buildstates': {
+                BUILD_STATE_FAILED: 'label-important',
+                BUILD_STATE_SUCCESS: 'label-success',
+                BUILD_STATE_WARNING: 'label-warning'
+            },
+            'defaultBranchName': 'trunk'
+        };
 
     beforeEach(angular.mock.module('ngUSDClientApp.services'));
 
@@ -24,7 +24,7 @@ describe('Service :: config', function () {
         expect(Config).not.toBeUndefined();
     }));
 
-    it('has undefined branch and build cookies by default', inject(function(Config, $cookieStore) {
+    it('has undefined branch and build cookies by default', inject(function (Config, $cookieStore) {
         expect($cookieStore.get(Config.BRANCH_URL_PARAMETER)).toBeUndefined();
         expect($cookieStore.get(Config.BUILD_URL_PARAMETER)).toBeUndefined();
     }));
@@ -62,7 +62,7 @@ describe('Service :: config', function () {
         expect($cookieStore.get(Config.BUILD_URL_PARAMETER)).toBe(BUILD);
     }));
 
-    it('should react to $location changes', inject(function (CONFIG_LOADED_EVENT,Config, $rootScope, $httpBackend, $location, $cookieStore) {
+    it('should react to $location changes', inject(function (CONFIG_LOADED_EVENT, Config, $rootScope, $httpBackend, $location, $cookieStore) {
         var BRANCH_CHANGED = 'branch_changed',
             BUILD_CHANGED = '2013-08-12_07:43_changed';
 
@@ -85,7 +85,7 @@ describe('Service :: config', function () {
         expect($cookieStore.get(Config.BUILD_URL_PARAMETER)).toBe(BUILD_CHANGED);
     }));
 
-    it('should be able to load config from server, with values from cookie', inject(function (CONFIG_LOADED_EVENT,Config, $rootScope, $httpBackend, $cookieStore) {
+    it('should be able to load config from server, with values from cookie', inject(function (CONFIG_LOADED_EVENT, Config, $rootScope, $httpBackend, $cookieStore) {
         var BRANCH_COOKIE = 'branch_cookie',
             BUILD_COOKIE = '2013-08-12_07:43_cookie';
 
@@ -104,7 +104,7 @@ describe('Service :: config', function () {
         expect($cookieStore.get(Config.BUILD_URL_PARAMETER)).toBe(BUILD_COOKIE);
     }));
 
-    it('contains build state to css class mapping as a map', inject(function(Config, $httpBackend) {
+    it('contains build state to css class mapping as a map', inject(function (Config, $httpBackend) {
         loadConfigFromService(Config, $httpBackend);
 
         var buildStateToClassMapping = Config.buildStateToClassMapping();
@@ -116,7 +116,7 @@ describe('Service :: config', function () {
         expect(buildStateToClassMapping[BUILD_STATE_SUCCESS]).toBe(DUMMY_CONFIG_RESPONSE.buildstates[BUILD_STATE_SUCCESS]);
     }));
 
-    it('contains additional columns for scenario overview', inject(function(Config, $httpBackend) {
+    it('contains additional columns for scenario overview', inject(function (Config, $httpBackend) {
         loadConfigFromService(Config, $httpBackend);
 
         var columns = Config.scenarioPropertiesInOverview();

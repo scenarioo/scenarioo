@@ -1,10 +1,11 @@
 'use strict';
 
-angular.module('ngUSDClientApp.controllers').controller('ConfigCtrl', function ($scope, BranchService, Config, CONFIG_LOADED_EVENT) {
+angular.module('ngUSDClientApp.controllers').controller('ConfigCtrl', function ($scope, BranchService, Config) {
 
-    $scope.$on(CONFIG_LOADED_EVENT, function () {
-        $scope.configurableBranches = BranchService.findAllBranches();
-        $scope.configuration = Config.getRawConfigDataCopy();
+    $scope.$watch(function () {
+        return Config.getRawConfigDataCopy();
+    }, function (configData) {
+        $scope.configuration = configData;
 
         $scope.configurableBranches.then(function (branches) {
             for (var index = 0; index < branches.length; index++) {
@@ -13,7 +14,9 @@ angular.module('ngUSDClientApp.controllers').controller('ConfigCtrl', function (
                 }
             }
         });
-    });
+    }, true);
+
+    $scope.configurableBranches = BranchService.findAllBranches();
 
     $scope.resetConfiguration = function () {
         $scope.configuration = Config.getRawConfigDataCopy();
@@ -26,4 +29,5 @@ angular.module('ngUSDClientApp.controllers').controller('ConfigCtrl', function (
             $scope.successfullyUpdatedConfiguration = true;
         });
     };
+
 });
