@@ -166,6 +166,8 @@ public class ScenarioDocuWriter {
 			public void run() {
 				final File screenshotFile = docuFiles.getScreenshotFile(branchName, buildName, usecaseName,
 						scenarioName, stepIndex);
+				File screenshotsDir = getScreenshotsDirectory(usecaseName, scenarioName);
+				createDirectoryIfNotYetExists(screenshotsDir);
 				try {
 					final byte[] decodedScreenshot = Base64.decodeBase64(imageBase64Encoded);
 					final FileOutputStream fos = new FileOutputStream(screenshotFile);

@@ -18,6 +18,9 @@ public class StepDescription {
 	
 	/**
 	 * Only the filename of the image, the directory is defined through the scenario, usecase etc.
+	 * 
+	 * TODO: may be we should remove this from the model and replace by a convention ({stepIndex}.png: 001.png, 002.png
+	 * etc.)
 	 */
 	private String screenshotFileName;
 	
