@@ -1,4 +1,5 @@
 #!/bin/sh
 
-cd ..
-git clone https://github.com/forkch/mvn-repo
+cd ~/Code
+rm -rf mvn-repo
+git clone https://github.com/scenarioo/mvn-repo
