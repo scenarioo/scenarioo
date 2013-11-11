@@ -1,4 +1,4 @@
-package ngusd.util.files;
+package ngusd.api.util.files;
 
 import lombok.Getter;
 

@@ -1,7 +1,6 @@
 package ngusd.api;
 
 import java.io.File;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -12,21 +11,23 @@ import java.util.concurrent.TimeUnit;
 import ngusd.api.configuration.ScenarioDocuGeneratorConfiguration;
 import ngusd.api.exception.ScenarioDocuSaveException;
 import ngusd.api.exception.ScenarioDocuTimeoutException;
+import ngusd.api.files.ScenarioDocuFiles;
+import ngusd.api.util.files.XMLFileUtil;
 import ngusd.model.docu.entities.Branch;
 import ngusd.model.docu.entities.Build;
 import ngusd.model.docu.entities.Scenario;
 import ngusd.model.docu.entities.Step;
 import ngusd.model.docu.entities.UseCase;
-import ngusd.util.files.XMLFileUtil;
 
 /**
  * Generator to produce documentation files for a specific build.
+ * 
+ * The writer performs all save operations as asynchronous writes, to not block the webtests tht are typically calling
+ * the save operations to save docu content.
  */
-public class ScenarioDocuGenerator {
+public class ScenarioDocuWriter {
 	
-	private static NumberFormat THREE_DIGIT_NUM_FORMAT = createNumberFormatWithMinimumIntegerDigits(3);
-	
-	private File destinationRootDirectory;
+	private ScenarioDocuFiles docuFiles;
 	
 	private String branchName;
 	
@@ -46,8 +47,8 @@ public class ScenarioDocuGenerator {
 	 * @param buildName
 	 *            name of the build (concrete identifier like revision and date) for which we are generating content.
 	 */
-	public ScenarioDocuGenerator(final File destinationRootDirectory, final String branchName, final String buildName) {
-		this.destinationRootDirectory = destinationRootDirectory;
+	public ScenarioDocuWriter(final File destinationRootDirectory, final String branchName, final String buildName) {
+		docuFiles = new ScenarioDocuFiles(destinationRootDirectory);
 		this.branchName = branchName;
 		this.buildName = buildName;
 		createBuildDirectoryIfNotYetExists();
@@ -63,8 +64,8 @@ public class ScenarioDocuGenerator {
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				File destBranchFile = new File(getBranchDirectory(), "branch.xml");
-				XMLFileUtil.marshal(branch, destBranchFile, Branch.class);
+				File destBranchFile = docuFiles.getBranchFile(branchName);
+				XMLFileUtil.marshal(branch, destBranchFile);
 			}
 		});
 	}
@@ -79,8 +80,8 @@ public class ScenarioDocuGenerator {
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				File destBuildFile = new File(getBuildDirectory(), "build.xml");
-				XMLFileUtil.marshal(build, destBuildFile, Build.class);
+				File destBuildFile = docuFiles.getBuildFile(branchName, buildName);
+				XMLFileUtil.marshal(build, destBuildFile);
 			}
 		});
 	}
@@ -97,8 +98,8 @@ public class ScenarioDocuGenerator {
 			public void run() {
 				File destCaseDir = getUseCaseDirectory(useCase.getName());
 				createDirectoryIfNotYetExists(destCaseDir);
-				File destCaseFile = new File(destCaseDir, "usecase.xml");
-				XMLFileUtil.marshal(useCase, destCaseFile, UseCase.class);
+				File destCaseFile = docuFiles.getUseCaseFile(branchName, buildName, useCase.getName());
+				XMLFileUtil.marshal(useCase, destCaseFile);
 			}
 		});
 	}
@@ -113,42 +114,35 @@ public class ScenarioDocuGenerator {
 			public void run() {
 				File destScenarioDir = getScenarioDirectory(useCaseName, scenario.getName());
 				createDirectoryIfNotYetExists(destScenarioDir);
-				File destScenarioFile = new File(destScenarioDir, "scenario.xml");
-				XMLFileUtil.marshal(scenario, destScenarioFile, Scenario.class);
+				File destScenarioFile = docuFiles.getScenarioFile(branchName, buildName, useCaseName,
+						scenario.getName());
+				XMLFileUtil.marshal(scenario, destScenarioFile);
 			}
 		});
 	}
 	
-	public void saveScenarioStep(final UseCase useCase, final Scenario scenario, final Step step) {
-		saveScenarioStep(useCase.getName(), scenario.getName(), step);
+	public void saveStep(final UseCase useCase, final Scenario scenario, final Step step) {
+		saveStep(useCase.getName(), scenario.getName(), step);
 	}
 	
-	public void saveScenarioStep(final String useCaseName, final String scenarioName, final Step step) {
+	public void saveStep(final String useCaseName, final String scenarioName, final Step step) {
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
 				File destStepsDir = getScenarioStepsDirectory(useCaseName, scenarioName);
 				createDirectoryIfNotYetExists(destStepsDir);
-				File destStepFile = new File(destStepsDir,
-						THREE_DIGIT_NUM_FORMAT.format(step.getStep().getIndex()) + ".xml");
-				XMLFileUtil.marshal(step, destStepFile, Step.class);
+				File destStepFile = docuFiles.getStepFile(branchName, buildName, useCaseName, scenarioName, step
+						.getStepDescription().getIndex());
+				XMLFileUtil.marshal(step, destStepFile);
 			}
 		});
-	}
-	
-	/**
-	 * Get the driectory to store screenshots for a given scenario inside. Webtests have to store their screenshots for
-	 * a scenario into this directory.
-	 */
-	public File getScenarioScreenshotsDirectory(final String useCaseName, final String scenarioName) {
-		return new File(getScenarioDirectory(useCaseName, scenarioName), "screenshots");
 	}
 	
 	/**
 	 * Finish asynchronous writing of all saved files. This has to be called in the end, to ensure all data saved in
 	 * this generator is written to the filesystem.
 	 * 
-	 * Will block until writing has finished or timoeut occurs.
+	 * Will block until writing has finished or timeout occurs.
 	 * 
 	 * @throws ScenarioDocuSaveException
 	 *             if any of the save commands throwed an exception during asynchronous execution.
@@ -175,28 +169,19 @@ public class ScenarioDocuGenerator {
 	}
 	
 	private File getBuildDirectory() {
-		File buildDirectory = new File(getBranchDirectory(), buildName);
-		return buildDirectory;
-	}
-	
-	private File getBranchDirectory() {
-		File branchDirectory = new File(destinationRootDirectory, branchName);
-		return branchDirectory;
+		return docuFiles.getBuildDirectory(branchName, buildName);
 	}
 	
 	private File getUseCaseDirectory(final String useCaseName) {
-		File branchDirectory = new File(getBuildDirectory(), useCaseName);
-		return branchDirectory;
+		return docuFiles.getUseCaseDirectory(branchName, buildName, useCaseName);
 	}
 	
 	private File getScenarioDirectory(final String useCaseName, final String scenarioName) {
-		File branchDirectory = new File(getUseCaseDirectory(useCaseName), scenarioName);
-		return branchDirectory;
+		return docuFiles.getScenarioDirectory(branchName, buildName, useCaseName, scenarioName);
 	}
 	
 	private File getScenarioStepsDirectory(final String useCaseName, final String scenarioName) {
-		File branchDirectory = new File(getScenarioDirectory(useCaseName, scenarioName), "steps");
-		return branchDirectory;
+		return docuFiles.getStepsDirectory(branchName, buildName, useCaseName, scenarioName);
 	}
 	
 	private void createBuildDirectoryIfNotYetExists() {
@@ -204,20 +189,10 @@ public class ScenarioDocuGenerator {
 	}
 	
 	private void createDirectoryIfNotYetExists(final File directory) {
-		if (!destinationRootDirectory.exists()) {
-			throw new IllegalArgumentException("Directory for docu content generation does not exist: "
-					+ destinationRootDirectory.getAbsolutePath());
-		}
+		docuFiles.assertRootDirectoryExists();
 		if (!directory.exists()) {
 			directory.mkdirs();
 		}
-	}
-	
-	private static NumberFormat createNumberFormatWithMinimumIntegerDigits(
-			final int minimumIntegerDigits) {
-		final NumberFormat numberFormat = NumberFormat.getIntegerInstance();
-		numberFormat.setMinimumIntegerDigits(minimumIntegerDigits);
-		return numberFormat;
 	}
 	
 	private void executeAsyncWrite(final Runnable writeTask) {

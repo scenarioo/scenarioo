@@ -8,10 +8,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import ngusd.aggregator.UserScenarioDocuAggregator;
+import ngusd.api.ScenarioDocuReader;
 import ngusd.dao.ConfigurationDAO;
-import ngusd.dao.filesystem.UserScenarioDocuFilesystem;
 import ngusd.model.docu.aggregates.branches.BranchBuilds;
-import ngusd.model.docu.aggregates.branches.BuildLink;
+import ngusd.model.docu.derived.BuildLink;
+import ngusd.model.docu.entities.Branch;
 
 import org.apache.log4j.Logger;
 
@@ -35,7 +36,7 @@ public class UserScenarioDocuManager {
 	private UserScenarioDocuManager() {
 	}
 	
-	private final UserScenarioDocuFilesystem filesystem = new UserScenarioDocuFilesystem();
+	private final ScenarioDocuReader reader = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
 	
 	private List<BranchBuilds> branchBuildsList = new ArrayList<BranchBuilds>();
 	
@@ -69,7 +70,8 @@ public class UserScenarioDocuManager {
 	}
 	
 	private synchronized void doUpdateAll() {
-		List<BranchBuilds> branchBuildsList = filesystem.loadBranchBuildsList();
+		
+		List<BranchBuilds> branchBuildsList = loadBranchBuildsList();
 		for (BranchBuilds branchBuilds : branchBuildsList) {
 			LOGGER.info("calculating aggregated data for branch : " + branchBuilds.getBranch().getName());
 			for (BuildLink buildLink : branchBuilds.getBuilds()) {
@@ -80,8 +82,7 @@ public class UserScenarioDocuManager {
 							buildLink.getLinkName());
 				}
 			}
-			// TODO: why is this commented???
-			// sortBuilds(branchBuilds);
+			sortBuilds(branchBuilds);
 		}
 		this.branchBuildsList = branchBuildsList;
 	}
@@ -133,6 +134,18 @@ public class UserScenarioDocuManager {
 				return bl2.getBuild().getDate().compareTo(bl1.getBuild().getDate());
 			}
 		});
+	}
+	
+	public List<BranchBuilds> loadBranchBuildsList() {
+		List<BranchBuilds> result = new ArrayList<BranchBuilds>();
+		List<Branch> branches = reader.loadBranches();
+		for (Branch branch : branches) {
+			BranchBuilds branchBuilds = new BranchBuilds();
+			branchBuilds.setBranch(branch);
+			branchBuilds.setBuilds(reader.loadBuilds(branch.getName()));
+			result.add(branchBuilds);
+		}
+		return result;
 	}
 	
 	public List<BranchBuilds> getBranchBuildsList() {

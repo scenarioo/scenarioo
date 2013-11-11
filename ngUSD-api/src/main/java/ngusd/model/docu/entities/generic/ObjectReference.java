@@ -1,10 +1,8 @@
-package ngusd.model.docu.entities;
+package ngusd.model.docu.entities.generic;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import ngusd.model.docu.entities.generic.Details;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,17 +10,17 @@ import lombok.EqualsAndHashCode;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-@EqualsAndHashCode(exclude = { "details" })
-public class Page {
+@EqualsAndHashCode
+public class ObjectReference {
 	
 	private String name;
-	private final Details details = new Details();
+	private String type;
 	
-	public Page() {
-		this.name = "";
+	public ObjectReference() {
 	}
 	
-	public Page(final String name) {
+	public ObjectReference(final String type, final String name) {
+		this.type = type;
 		this.name = name;
 	}
 	

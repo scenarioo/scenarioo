@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import lombok.Data;
+import ngusd.model.docu.derived.BuildLink;
 import ngusd.model.docu.entities.Branch;
 
 /**

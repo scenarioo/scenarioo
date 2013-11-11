@@ -4,8 +4,8 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import ngusd.api.util.files.XMLFileUtil;
 import ngusd.model.configuration.Configuration;
-import ngusd.util.files.XMLFileUtil;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -57,7 +57,7 @@ public class ConfigurationDAO {
 			throw new RuntimeException("Could not create configuration directory: "
 					+ ngusdConfigDirectory.getAbsolutePath());
 		}
-		XMLFileUtil.marshal(configuration, configFile, Configuration.class);
+		XMLFileUtil.marshal(configuration, configFile);
 		ConfigurationDAO.configuration = loadConfiguration();
 		return configuration;
 	}

@@ -10,19 +10,20 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
-import ngusd.dao.filesystem.UserScenarioDocuFilesystem;
+import ngusd.api.ScenarioDocuReader;
+import ngusd.dao.ConfigurationDAO;
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/usecases/{usecaseName}/scenarios/{scenarioName}/image/{imgName}")
 public class ScreenshotResource {
 	
-	private final UserScenarioDocuFilesystem filesystem = new UserScenarioDocuFilesystem();
+	private final ScenarioDocuReader filesystem = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
 	
 	@GET
 	@Produces("image/jpeg")
 	public Response getScreenshot(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName, @PathParam("imgName") final String imgName) {
-		File img = filesystem.loadScreenshot(branchName, buildName, usecaseName, scenarioName, imgName);
+		File img = filesystem.getScreenshotFile(branchName, buildName, usecaseName, scenarioName, imgName);
 		if (img == null || !img.exists()) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}

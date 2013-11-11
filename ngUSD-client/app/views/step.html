@@ -59,7 +59,7 @@
         <tabs class="step-panes">
             <pane heading="Screenshot">
                 <div class="screenshot">
-                    <img ng-src="{{getScreenShotUrl(step.step.screenshotURL)}}" ng-click="openScreenshotModal()" class="link"/>
+                    <img ng-src="{{getScreenShotUrl(step.stepDescription.screenshotURL)}}" ng-click="openScreenshotModal()" class="link"/>
                 </div>
             </pane>
             <pane heading="HTML">
@@ -74,11 +74,11 @@
             <div class="col-lg-4" class="label">{{key | toHumanReadable}}</div>
             <div class="col-lg-8" objecttolist='step.metadata.details.properties.{{key}}'></div>
         </div>
-        <div ng-show="step.step.details.properties && step.step.details.properties.length>1">
+        <div ng-show="step.stepDescription.details.properties && step.stepDescription.details.properties.length>1">
             <h3>Step Properties</h3>
-            <div ng-repeat="(key,value) in step.step.details.properties" class="row">
+            <div ng-repeat="(key,value) in step.stepDescription.details.properties" class="row">
                 <div class="col-lg-4" class="label">{{key | toHumanReadable}}</div>
-                <div class="col-lg-8"><span objecttolist='step.step.properties.{{key}}'></span></div>
+                <div class="col-lg-8"><span objecttolist='step.stepDescription.properties.{{key}}'></span></div>
             </div>
         </div>
         <div ng-show="step.page.details.properties && step.page.details.properties.length>1">
@@ -96,7 +96,7 @@
         <h3>Step {{pageIndex+1}}.{{stepIndex}} {{pageName}}</h3>
     </div>
     <div class="modal-body">
-        <img ng-src="{{getScreenShotUrl(step.step.screenshotURL)}}"/>
+        <img ng-src="{{getScreenShotUrl(step.stepDescription.screenshotURL)}}"/>
     </div>
     <div class="modal-footer">
         <button class="btn" ng-click="closeScreenshotModal()">Close</button>

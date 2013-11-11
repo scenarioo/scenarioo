@@ -31,7 +31,7 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Build: {{getDisplayName(branchesAndBuilds.selectedBuild)}}&nbsp;&nbsp;
-                    <span ng-class="[buildStateToClassMapping[branchesAndBuilds.selectedBuild.build.state], 'label']">{{branchesAndBuilds.selectedBuild.build.state}}</span>
+                    <span ng-class="[buildStateToClassMapping[branchesAndBuilds.selectedBuild.build.status], 'label']">{{branchesAndBuilds.selectedBuild.build.status}}</span>
                     <div class="icon-with-padding"><b class="caret"></b></div>
                 </a>
                 <ul class="dropdown-menu">

@@ -5,13 +5,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import ngusd.dao.filesystem.UserScenarioDocuFilesystem;
+import ngusd.api.ScenarioDocuReader;
+import ngusd.dao.ConfigurationDAO;
 import ngusd.model.docu.entities.Step;
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/usecases/{usecaseName}/scenarios/{scenarioName}/steps/")
 public class StepResource {
 	
-	private final UserScenarioDocuFilesystem filesystem = new UserScenarioDocuFilesystem();
+	private final ScenarioDocuReader filesystem = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
 	
 	/**
 	 * Get a step with all its data (meta data, html, ..)

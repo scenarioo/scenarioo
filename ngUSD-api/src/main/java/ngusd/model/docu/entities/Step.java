@@ -19,7 +19,7 @@ public class Step {
 	
 	private Page page;
 	
-	private StepDescription step;
+	private StepDescription stepDescription;
 	
 	private StepHtml html;
 	

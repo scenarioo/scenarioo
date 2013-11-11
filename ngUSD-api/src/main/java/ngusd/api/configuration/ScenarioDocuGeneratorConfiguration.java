@@ -1,6 +1,6 @@
 package ngusd.api.configuration;
 
-import ngusd.api.ScenarioDocuGenerator;
+import ngusd.api.ScenarioDocuWriter;
 
 public class ScenarioDocuGeneratorConfiguration {
 	
@@ -18,7 +18,7 @@ public class ScenarioDocuGeneratorConfiguration {
 	
 	/**
 	 * Configure the maximum number of files to buffer for saving them asynchronously. As soon as the buffer capacity is
-	 * full, any further calls to save methods on the {@link ScenarioDocuGenerator} will block the execution of the
+	 * full, any further calls to save methods on the {@link ScenarioDocuWriter} will block the execution of the
 	 * calling thread, and therefore probably also execution of further webtest execution will be blocked.
 	 * 
 	 * Pay attention, that on the other hand increasing the buffer size may lead to out of memory problems.
@@ -32,7 +32,7 @@ public class ScenarioDocuGeneratorConfiguration {
 	}
 	
 	/**
-	 * Configure the number of seconds to wait in method {@link ScenarioDocuGenerator#flush()} until writing has
+	 * Configure the number of seconds to wait in method {@link ScenarioDocuWriter#flush()} until writing has
 	 * finished. If writing has not finished after this time, the method will throw a timeout exception.
 	 */
 	public void setTimeoutWaitingForWritingFinishedInSeconds(final int timeoutWaitingForWritingFinishedInSeconds) {

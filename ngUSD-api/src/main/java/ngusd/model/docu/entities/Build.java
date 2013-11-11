@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ngusd.model.docu.entities.generic.Details;
+
 import lombok.Data;
 
 @XmlRootElement
@@ -16,7 +18,7 @@ public class Build {
 	private String name;
 	private String revision;
 	private Date date;
-	private String state;
+	private String status;
 	private Details details = new Details();
 	
 	public Build() {
