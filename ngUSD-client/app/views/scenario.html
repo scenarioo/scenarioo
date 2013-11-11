@@ -27,7 +27,7 @@
         </div>
         <div class="col-lg-7" ng-click="goToStep(pageSteps, $parent.$index, $index)">
             <div class="screenshot-div" style="max-height:300px;overflow:hidden;">
-                <img ng-src="{{getScreenShotUrl(step.screenshotURL)}}" style="width:100%"/>
+                <img ng-src="{{getScreenShotUrl(step.screenshotFileName)}}" style="width:100%"/>
             </div>
         </div>
         <div class="col-lg-4">
@@ -51,7 +51,7 @@
                 <h3>Step {{pageIndex}}.{{stepIndex}} {{pageName}}</h3>
             </div>
             <div class="modal-body">
-                <img ng-src="{{getScreenShotUrl(step.screenshotURL)}}"/>
+                <img ng-src="{{getScreenShotUrl(step.screenshotFileName)}}"/>
             </div>
             <div class="modal-footer">
                 <button class="btn" ng-click="closeScreenshotModal(step)">Close</button>

@@ -59,7 +59,7 @@
         <tabs class="step-panes">
             <pane heading="Screenshot">
                 <div class="screenshot">
-                    <img ng-src="{{getScreenShotUrl(step.stepDescription.screenshotURL)}}" ng-click="openScreenshotModal()" class="link"/>
+                    <img ng-src="{{getScreenShotUrl(step.stepDescription.screenshotFileName)}}" ng-click="openScreenshotModal()" class="link"/>
                 </div>
             </pane>
             <pane heading="HTML">
@@ -96,7 +96,7 @@
         <h3>Step {{pageIndex+1}}.{{stepIndex}} {{pageName}}</h3>
     </div>
     <div class="modal-body">
-        <img ng-src="{{getScreenShotUrl(step.stepDescription.screenshotURL)}}"/>
+        <img ng-src="{{getScreenShotUrl(step.stepDescription.screenshotFileName)}}"/>
     </div>
     <div class="modal-footer">
         <button class="btn" ng-click="closeScreenshotModal()">Close</button>
