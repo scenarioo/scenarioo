@@ -1,6 +1,7 @@
 package ngusd.api;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -18,6 +19,8 @@ import ngusd.model.docu.entities.Build;
 import ngusd.model.docu.entities.Scenario;
 import ngusd.model.docu.entities.Step;
 import ngusd.model.docu.entities.UseCase;
+
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * Generator to produce documentation files for a specific build.
@@ -136,6 +139,51 @@ public class ScenarioDocuWriter {
 				XMLFileUtil.marshal(step, destStepFile);
 			}
 		});
+	}
+	
+	/**
+	 * In case you want to define your screenshot names differently than by step name, you can save it on your own, into
+	 * the following directory for a scenario.
+	 */
+	public File getScreenshotsDirectory(final String usecaseName, final String scenarioName) {
+		return docuFiles.getScreenshotsDirectory(branchName, buildName, usecaseName, scenarioName);
+	}
+	
+	/**
+	 * Get the file name of the file where the screenshot of a step is stored.
+	 */
+	public File getScreenshotFile(final String usecaseName, final String scenarioName, final int stepIndex) {
+		return docuFiles.getScreenshotFile(branchName, buildName, usecaseName, scenarioName, stepIndex);
+	}
+	
+	/**
+	 * Save Screenshot as a PNG file in usual file for step.
+	 */
+	public void saveScreenshot(final String usecaseName, final String scenarioName, final int stepIndex,
+			final byte[] imageBase64Encoded) {
+		executeAsyncWrite(new Runnable() {
+			@Override
+			public void run() {
+				final File screenshotFile = docuFiles.getScreenshotFile(branchName, buildName, usecaseName,
+						scenarioName, stepIndex);
+				try {
+					final byte[] decodedScreenshot = Base64.decodeBase64(imageBase64Encoded);
+					final FileOutputStream fos = new FileOutputStream(screenshotFile);
+					fos.write(decodedScreenshot);
+					fos.close();
+				} catch (Exception e) {
+					throw new RuntimeException("Could not write image: " + screenshotFile.getAbsolutePath(), e);
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Save Screenshot as a PNG file in usual file for step.
+	 */
+	public void saveScreenshot(final String usecaseName, final String scenarioName, final int stepIndex,
+			final String imageBase64Encoded) {
+		saveScreenshot(usecaseName, scenarioName, stepIndex, imageBase64Encoded.getBytes());
 	}
 	
 	/**
