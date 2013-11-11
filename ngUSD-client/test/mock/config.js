@@ -1,38 +1,39 @@
+'use strict';
 
+angular.module('ngUSDClientApp.services').service('ConfigMock', function () {
 
-function createConfigFake() {
     return {
-        branch : undefined,
-        build : undefined,
+        branch: undefined,
+        build: undefined,
 
-        isLoaded : function() {
+        isLoaded: function () {
             return angular.isDefined(this.build) && angular.isDefined(this.build);
         },
 
-        selectedBranch : function() {
+        selectedBranch: function () {
             return this.branch;
         },
 
-        selectedBuild : function() {
+        selectedBuild: function () {
             return this.build;
         },
 
-        selectedBuildAndBranch : function() {
+        selectedBuildAndBranch: function () {
             return {
                 branch: this.selectedBranch(),
                 build: this.selectedBuild()
             }
         },
 
-        setSelectedBranch : function(branch) {
+        setSelectedBranch: function (branch) {
             this.branch = branch;
         },
 
-        setSelectedBuild : function(build) {
+        setSelectedBuild: function (build) {
             this.build = build;
         },
 
-        scenarioPropertiesInOverview : function() {
+        scenarioPropertiesInOverview: function () {
             return [
                 {
                     text: 'User Profile',
@@ -42,4 +43,5 @@ function createConfigFake() {
             ];
         }
     };
-}
+
+});
