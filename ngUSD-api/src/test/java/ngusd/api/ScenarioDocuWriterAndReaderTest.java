@@ -3,6 +3,7 @@ package ngusd.api;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 import ngusd.api.files.ScenarioDocuFiles;
@@ -60,7 +61,15 @@ public class ScenarioDocuWriterAndReaderTest {
 	
 	@AfterClass
 	public static void tearDown() {
-		FileUtils.deleteQuietly(TEST_ROOT_DIRECTORY);
+		deleteDirectory(TEST_ROOT_DIRECTORY);
+	}
+	
+	private static void deleteDirectory(final File testRootDirectory) {
+		try {
+			FileUtils.deleteDirectory(TEST_ROOT_DIRECTORY);
+		} catch (IOException e) {
+			throw new RuntimeException("Could not delete test data directory", e);
+		}
 	}
 	
 	@Test
