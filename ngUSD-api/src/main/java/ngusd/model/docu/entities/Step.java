@@ -22,9 +22,7 @@ public class Step {
 	private StepDescription stepDescription;
 	
 	private StepHtml html;
-	
-	private CallTree callTree = new CallTree();
-	
+
 	private StepMetadata metadata = new StepMetadata();
 	
 }
