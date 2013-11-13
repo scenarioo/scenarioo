@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
-import ngusd.aggregator.ScenarioDocuAggregatorFiles;
-import ngusd.aggregator.UserScenarioDocuAggregator;
+import ngusd.aggregator.ScenarioDocuAggregator;
 import ngusd.api.util.files.XMLFileUtil;
 import ngusd.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import ngusd.model.docu.aggregates.usecases.PageVariantsCounter;
@@ -22,17 +21,17 @@ import ngusd.model.docu.aggregates.usecases.UseCaseScenariosList;
  * The DAO should in general only access data by reading one file and should not have to calculate additional data or
  * read a lot of different files or even strip unwanted data.
  * 
- * Data that is not available directly from a file should be precalculated in {@link UserScenarioDocuAggregator} to make
+ * Data that is not available directly from a file should be precalculated in {@link ScenarioDocuAggregator} to make
  * it easily available for DAO.
  */
-public class UserScenarioDocuContentDAO {
+public class ScenarioDocuAggregationDAO {
 	
 	private static final String VERSION_PROPERTY_KEY = "ngUSD.derived.file.format.version";
 	
-	private final ScenarioDocuAggregatorFiles files;
+	private final ScenarioDocuAggregationFiles files;
 	
-	public UserScenarioDocuContentDAO(final File rootDirectory) {
-		files = new ScenarioDocuAggregatorFiles(rootDirectory);
+	public ScenarioDocuAggregationDAO(final File rootDirectory) {
+		files = new ScenarioDocuAggregationFiles(rootDirectory);
 	}
 	
 	public String loadVersion(final String branchName, final String buildName) {

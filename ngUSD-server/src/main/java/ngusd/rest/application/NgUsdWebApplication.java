@@ -4,7 +4,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import ngusd.dao.ConfigurationDAO;
-import ngusd.manager.UserScenarioDocuManager;
+import ngusd.manager.ScenarioDocuManager;
 import ngusd.model.configuration.Configuration;
 
 import org.apache.log4j.Logger;
@@ -32,7 +32,7 @@ public class NgUsdWebApplication implements ServletContextListener {
 		LOGGER.info("  Configured documentation content directory: " +
 				config.getTestDocumentationDirPath());
 		
-		UserScenarioDocuManager.INSTANCE.updateAll();
+		ScenarioDocuManager.INSTANCE.updateAll();
 		
 		LOGGER.info("====================================");
 		LOGGER.info("ngUSD Application started succesfully.");

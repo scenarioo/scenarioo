@@ -9,8 +9,7 @@ import lombok.Data;
 /**
  * Contains all the data collected from a webtest for one step of the webtest.
  * 
- * The data is processed by the ngUSd webapplication to transform into webapps
- * internal structure.
+ * The data is processed by the ngUSd webapplication to transform into webapps internal structure.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -22,7 +21,7 @@ public class Step {
 	private StepDescription stepDescription;
 	
 	private StepHtml html;
-
+	
 	private StepMetadata metadata = new StepMetadata();
 	
 }

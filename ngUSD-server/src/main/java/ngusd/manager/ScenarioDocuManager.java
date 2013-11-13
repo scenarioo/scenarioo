@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import ngusd.aggregator.UserScenarioDocuAggregator;
+import ngusd.aggregator.ScenarioDocuAggregator;
 import ngusd.api.ScenarioDocuReader;
 import ngusd.dao.ConfigurationDAO;
 import ngusd.model.docu.aggregates.branches.BranchBuilds;
@@ -27,13 +27,13 @@ import org.apache.log4j.Logger;
  * TODO: ensure that the manager runs updateAll from time to time when it detects changes in the documentation
  * directory.
  */
-public class UserScenarioDocuManager {
+public class ScenarioDocuManager {
 	
-	public static UserScenarioDocuManager INSTANCE = new UserScenarioDocuManager();
+	public static ScenarioDocuManager INSTANCE = new ScenarioDocuManager();
 	
-	private static final Logger LOGGER = Logger.getLogger(UserScenarioDocuManager.class);
+	private static final Logger LOGGER = Logger.getLogger(ScenarioDocuManager.class);
 	
-	private UserScenarioDocuManager() {
+	private ScenarioDocuManager() {
 	}
 	
 	private final ScenarioDocuReader reader = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
@@ -75,7 +75,7 @@ public class UserScenarioDocuManager {
 		for (BranchBuilds branchBuilds : branchBuildsList) {
 			LOGGER.info("calculating aggregated data for branch : " + branchBuilds.getBranch().getName());
 			for (BuildLink buildLink : branchBuilds.getBuilds()) {
-				UserScenarioDocuAggregator aggregator = new UserScenarioDocuAggregator();
+				ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator();
 				if (!aggregator.containsAggregatedDataForBuild(branchBuilds.getBranch().getName(),
 						buildLink.getLinkName())) {
 					aggregator.calculateAggregatedDataForBuild(branchBuilds.getBranch().getName(),

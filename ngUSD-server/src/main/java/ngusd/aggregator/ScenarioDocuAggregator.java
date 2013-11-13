@@ -10,7 +10,7 @@ import lombok.Data;
 import ngusd.api.ScenarioDocuReader;
 import ngusd.api.util.files.ResourceNotFoundException;
 import ngusd.dao.ConfigurationDAO;
-import ngusd.dao.UserScenarioDocuContentDAO;
+import ngusd.dao.ScenarioDocuAggregationDAO;
 import ngusd.model.docu.aggregates.scenarios.PageSteps;
 import ngusd.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import ngusd.model.docu.aggregates.usecases.PageVariantsCounter;
@@ -31,10 +31,10 @@ import org.apache.log4j.Logger;
  * The aggregator reads the input docu files of a build and generates the aggregated docu files with additional
  * precalculated data (like indexes etc.).
  * 
- * Make sure to adjust the value of {@link UserScenarioDocuAggregator#CURRENT_FILE_FORMAT_VERSION} when the format of
+ * Make sure to adjust the value of {@link ScenarioDocuAggregator#CURRENT_FILE_FORMAT_VERSION} when the format of
  * generated data is extended or changed.
  */
-public class UserScenarioDocuAggregator {
+public class ScenarioDocuAggregator {
 	
 	/**
 	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
@@ -42,11 +42,11 @@ public class UserScenarioDocuAggregator {
 	 */
 	public static final String CURRENT_FILE_FORMAT_VERSION = "0.5";
 	
-	private final static Logger LOGGER = Logger.getLogger(UserScenarioDocuAggregator.class);
+	private final static Logger LOGGER = Logger.getLogger(ScenarioDocuAggregator.class);
 	
 	private final ScenarioDocuReader reader = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
 	
-	private final UserScenarioDocuContentDAO dao = new UserScenarioDocuContentDAO(
+	private final ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
 			ConfigurationDAO.getDocuDataDirectoryPath());
 	
 	private final Map<String, StepVariantState> mapOfStepVariant = new HashMap<String, StepVariantState>();

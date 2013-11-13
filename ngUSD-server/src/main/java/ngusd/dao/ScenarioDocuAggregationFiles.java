@@ -1,4 +1,4 @@
-package ngusd.aggregator;
+package ngusd.dao;
 
 import java.io.File;
 
@@ -7,7 +7,7 @@ import ngusd.api.files.ScenarioDocuFiles;
 /**
  * Defines locations of aggregated files containing aggregated (=derived) data from documentation input data.
  */
-public class ScenarioDocuAggregatorFiles {
+public class ScenarioDocuAggregationFiles {
 	
 	public static final String FILENAME_VERSION_PROPERTIES = "version.derived.properties";
 	public static final String FILENAME_USECASES_XML = "usecases.derived.xml";
@@ -17,7 +17,7 @@ public class ScenarioDocuAggregatorFiles {
 	
 	private ScenarioDocuFiles docuFiles;
 	
-	public ScenarioDocuAggregatorFiles(final File rootDirectory) {
+	public ScenarioDocuAggregationFiles(final File rootDirectory) {
 		docuFiles = new ScenarioDocuFiles(rootDirectory);
 	}
 	
