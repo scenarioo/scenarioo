@@ -52,11 +52,7 @@ public class ConfigurationDAO {
 	public static Configuration updateConfiguration(final Configuration configuration) {
 		File configFile = getConfigFile();
 		File ngusdConfigDirectory = configFile.getParentFile();
-		boolean dirCreated = ngusdConfigDirectory.mkdirs();
-		if (!dirCreated) {
-			throw new RuntimeException("Could not create configuration directory: "
-					+ ngusdConfigDirectory.getAbsolutePath());
-		}
+		ngusdConfigDirectory.mkdirs();
 		XMLFileUtil.marshal(configuration, configFile);
 		ConfigurationDAO.configuration = loadConfiguration();
 		return configuration;

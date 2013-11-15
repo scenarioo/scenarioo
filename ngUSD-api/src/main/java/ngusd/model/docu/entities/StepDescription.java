@@ -29,8 +29,13 @@ public class StepDescription {
 	/**
 	 * TODO the following data should be removed from here, this does not belong into the API for generating data
 	 */
+	
+	// TODO: name should be pageIndex
 	private int occurence = 0;
+	
+	// TODO: name should be pageStepIndex
 	private int relativeIndex = 0;
+	
 	private int variantIndex = 0;
 	private StepIdentification previousStepVariant;
 	private StepIdentification nextStepVariant;

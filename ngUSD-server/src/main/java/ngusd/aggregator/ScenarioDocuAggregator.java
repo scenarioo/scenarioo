@@ -23,6 +23,7 @@ import ngusd.model.docu.entities.Step;
 import ngusd.model.docu.entities.StepDescription;
 import ngusd.model.docu.entities.StepIdentification;
 import ngusd.model.docu.entities.UseCase;
+import ngusd.model.docu.entities.generic.ObjectReference;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -40,7 +41,7 @@ public class ScenarioDocuAggregator {
 	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
 	 * otherwise the data has to be recalculated.
 	 */
-	public static final String CURRENT_FILE_FORMAT_VERSION = "0.5";
+	public static final String CURRENT_FILE_FORMAT_VERSION = "0.6";
 	
 	private final static Logger LOGGER = Logger.getLogger(ScenarioDocuAggregator.class);
 	
@@ -50,6 +51,8 @@ public class ScenarioDocuAggregator {
 			ConfigurationDAO.getDocuDataDirectoryPath());
 	
 	private final Map<String, StepVariantState> mapOfStepVariant = new HashMap<String, StepVariantState>();
+	
+	private ObjectRepository objectRepository = new ObjectRepository();
 	
 	@Data
 	public class StepVariantState {
@@ -133,10 +136,17 @@ public class ScenarioDocuAggregator {
 	
 	private void calulateAggregatedDataForUseCase(final String branchName,
 			final String buildName, final UseCaseScenarios useCaseScenarios) {
+		
 		LOGGER.info("    calculating aggregated data for use case : " + useCaseScenarios.getUseCase().getName());
+		
+		List<ObjectReference> referencePath = objectRepository
+				.createPath(new ObjectReference("case", useCaseScenarios.getUseCase().getName()));
+		objectRepository.addObjects(referencePath, useCaseScenarios.getUseCase().getDetails());
+		
 		for (Scenario scenario : useCaseScenarios.getScenarios()) {
 			try {
-				calculateAggregatedDataForScenario(branchName, buildName, useCaseScenarios.getUseCase(), scenario);
+				calculateAggregatedDataForScenario(referencePath, branchName, buildName, useCaseScenarios.getUseCase(),
+						scenario);
 			} catch (ResourceNotFoundException ex) {
 				LOGGER.warn("could not load scenario " + scenario.getName()
 						+ " in use case"
@@ -146,19 +156,21 @@ public class ScenarioDocuAggregator {
 		dao.saveUseCaseScenarios(branchName, buildName, useCaseScenarios);
 	}
 	
-	private void calculateAggregatedDataForScenario(final String branchName,
+	private void calculateAggregatedDataForScenario(List<ObjectReference> referencePath, final String branchName,
 			final String buildName, final UseCase usecase,
 			final Scenario scenario) {
 		
+		referencePath = objectRepository.addReferencedScenarioObjects(referencePath, scenario);
+		
 		LOGGER.info("      calculating aggregated data for scenario : "
 				+ scenario.getName());
-		ScenarioPageSteps scenarioPageSteps = calculateScenarioPageSteps(
+		ScenarioPageSteps scenarioPageSteps = calculateScenarioPageSteps(referencePath,
 				branchName, buildName, usecase, scenario);
 		
 		dao.saveScenarioPageSteps(branchName, buildName, scenarioPageSteps);
 	}
 	
-	private ScenarioPageSteps calculateScenarioPageSteps(
+	private ScenarioPageSteps calculateScenarioPageSteps(final List<ObjectReference> referencePath,
 			final String branchName, final String buildName,
 			final UseCase usecase, final Scenario scenario) {
 		
@@ -173,42 +185,45 @@ public class ScenarioDocuAggregator {
 		List<PageSteps> pageStepsList = new ArrayList<PageSteps>();
 		Page page = null;
 		PageSteps pageSteps = null;
-		int occurence = 0;
-		int relativeIndex = 0;
+		int pageIndex = 0;
+		int pageStepIndex = 0;
 		int index = 0;
 		for (Step step : steps) {
-			boolean isNewOccurence = page == null || step.getPage() == null
+			
+			boolean isNewPage = page == null || step.getPage() == null
 					|| !page.equals(step.getPage());
-			if (isNewOccurence) {
+			if (isNewPage) {
 				page = step.getPage();
 				pageSteps = new PageSteps();
 				pageSteps.setPage(page);
 				pageSteps.setSteps(new ArrayList<StepDescription>());
 				pageStepsList.add(pageSteps);
-				relativeIndex = 0;
+				pageStepIndex = 0;
 				if (index > 0) {
-					occurence++;
+					pageIndex++;
 				}
 			}
 			StepDescription stepDescription = step.getStepDescription();
-			stepDescription.setOccurence(occurence);
-			stepDescription.setRelativeIndex(relativeIndex);
+			stepDescription.setOccurence(pageIndex);
+			stepDescription.setRelativeIndex(pageStepIndex);
 			pageSteps.getSteps().add(stepDescription);
 			
 			StepIdentification stepIdentification = new StepIdentification(
 					usecase.getName(), scenario.getName(), page.getName(),
-					index, occurence, relativeIndex);
+					index, pageIndex, pageStepIndex);
 			processStepVariant(branchName, buildName, pageStepsList, step,
 					page.getName(), stepIdentification);
 			
+			objectRepository.addReferencedStepObjects(referencePath, step);
+			
 			index++;
-			relativeIndex++;
+			pageStepIndex++;
 		}
 		result.setPagesAndSteps(pageStepsList);
 		
 		// scenario calculated data from pages and steps
 		ScenarioCalculatedData calculatedData = new ScenarioCalculatedData();
-		calculatedData.setNumberOfPages(occurence);
+		calculatedData.setNumberOfPages(pageIndex);
 		calculatedData.setNumberOfSteps(numberOfSteps);
 		scenario.setCalculatedData(calculatedData);
 		

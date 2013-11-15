@@ -28,4 +28,8 @@ public class ObjectDescription {
 		this.name = name;
 	}
 	
+	public void addDetail(final String key, final Object value) {
+		details.put(key, value);
+	}
+	
 }

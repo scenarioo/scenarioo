@@ -15,7 +15,7 @@ public class StepResource {
 	private final ScenarioDocuReader filesystem = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
 	
 	/**
-	 * Get a step with all its data (meta data, html, ..)
+	 * Get a step with all its data (meta data, html, ...)
 	 */
 	@GET
 	@Produces({ "application/xml", "application/json" })
@@ -24,7 +24,6 @@ public class StepResource {
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName, @PathParam("stepIndex") final int stepIndex) {
 		return filesystem.loadStep(branchName, buildName, usecaseName, scenarioName, stepIndex);
-		
 	}
 	
 }
