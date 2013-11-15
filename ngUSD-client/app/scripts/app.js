@@ -8,7 +8,6 @@ angular.module('ngUSDClientApp.controllers', ['ngUSDClientApp.services']);
 var NgUsdClientApp = angular.module('ngUSDClientApp', [
     'ngUSDClientApp.controllers',
     'ngUSDClientApp.directives',
-    'ngUSDClientApp.filter',
     'ui.bootstrap.modal',
     'ui.bootstrap.popover',
     'ui.bootstrap.dropdownToggle',

@@ -15,7 +15,7 @@
 
 <div ng-repeat="pageSteps in pagesAndSteps" class="steps">
     <hr/>
-    <div ng-show="$index==0 || showingSteps[$parent.$index]" class="link row step-view" ng-repeat="step in pageSteps.steps | filter:searchFieldText">
+    <div ng-repeat="step in pageSteps.steps | filter:searchFieldText" ng-show="$index==0 || showingSteps[$parent.$index]" class="link row step-view" >
         <div class="col-lg-1">
             <div ng-click="showingSteps[$parent.$index]=!showingSteps[$parent.$index]" ng-show="$index==0 && pageSteps.steps.length>1" class="step-icon pull-right">
                 <i ng-hide="showingSteps[$parent.$index]" class="icon-with-padding icon-plus-sign link"></i>

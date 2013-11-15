@@ -122,11 +122,16 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
         },
 
         updateConfiguration: function (newConfig, successCallback) {
-            // TODO
 
-            if (successCallback) {
-                successCallback();
-            }
+            var configToStore = angular.copy(newConfig);
+            delete configToStore[CONFIG_KEY_SELECTED_BUILD];
+            delete configToStore[CONFIG_KEY_SELECTED_BRANCH];
+
+            ConfigResource.save({}, configToStore, function () {
+                if (successCallback) {
+                    successCallback();
+                }
+            });
         },
 
         selectedBranch: function () {
