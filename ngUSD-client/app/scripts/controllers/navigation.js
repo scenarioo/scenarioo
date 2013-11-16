@@ -69,14 +69,15 @@ angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', functi
         return true;
     }
 
-    $rootScope.infoModal = {showing: isAFirstTimeUser(), tab: null};
+    // TODO: Use $modal from angular-bootstrap, as soon as it works with bootstrap 3
+    $rootScope.infoModal = {showing: (isAFirstTimeUser() ? 'block' : 'none'), tab: null};
 
     $rootScope.openInfoModal = function (tabValue) {
-        $rootScope.infoModal = {showing: true, tab: tabValue};
+        $rootScope.infoModal = {showing: true, tab: tabValue, style: {display: 'block'}};
     };
 
     $rootScope.closeInfoModal = function () {
-        $rootScope.infoModal = {showing: false};
+        $rootScope.infoModal = {showing: false, style: {display: 'none'}};
     };
 
 });

@@ -8,12 +8,7 @@ angular.module('ngUSDClientApp.controllers', ['ngUSDClientApp.services']);
 var NgUsdClientApp = angular.module('ngUSDClientApp', [
     'ngUSDClientApp.controllers',
     'ngUSDClientApp.directives',
-    'ui.bootstrap.modal',
-    'ui.bootstrap.popover',
-    'ui.bootstrap.dropdownToggle',
-    'ui.bootstrap.tabs',
-    'ui.bootstrap.tooltip',
-    'ui.bootstrap.accordion'
+    'ui.bootstrap'
 ]);
 
 NgUsdClientApp.config(function ($routeProvider) {

@@ -56,14 +56,4 @@
     </div>
 </div>
 
-
-<div modal="infoModal.showing" close="closeInfoModal()" options="modalInfoOptions">
-    <div class="modal-header">
-        <h3>ngUSD</h3>
-    </div>
-    <div class="modal-body" ng-include="'/views/applicationInfoPopup.html'">
-    </div>
-    <div class="modal-footer">
-        <button class="btn" ng-click="closeInfoModal()">Close</button>
-    </div>
-</div>
+<div ng-include="'/views/applicationInfoPopup.html'"></div>
