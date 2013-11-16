@@ -44,6 +44,7 @@ describe('Controller :: Config', function () {
             expect($scope.configuration.defaultBranchName).toBeUndefined();
             expect($scope.configuration.scenarioPropertiesInOverview).toBeUndefined();
             expect($scope.configuration.applicationInformation).toBeUndefined();
+            expect($scope.configuration.testDocumentationDirPath).toBeUndefined();
 
 
             loadConfig();
@@ -52,6 +53,7 @@ describe('Controller :: Config', function () {
             expect($scope.configuration.defaultBranchName).toEqual(DUMMY_CONFIG_RESPONSE.defaultBranchName);
             expect($scope.configuration.scenarioPropertiesInOverview).toEqual(DUMMY_CONFIG_RESPONSE.scenarioPropertiesInOverview);
             expect($scope.configuration.applicationInformation).toEqual(DUMMY_CONFIG_RESPONSE.applicationInformation);
+            expect($scope.configuration.testDocumentationDirPath).toEqual(DUMMY_CONFIG_RESPONSE.testDocumentationDirPath);
         });
 
         it('loads all branches and builds', function () {
@@ -76,6 +78,7 @@ describe('Controller :: Config', function () {
             expect($scope.configuration.defaultBranchName).toEqual(DUMMY_CONFIG_RESPONSE.defaultBranchName);
             expect($scope.configuration.scenarioPropertiesInOverview).toEqual(DUMMY_CONFIG_RESPONSE.scenarioPropertiesInOverview);
             expect($scope.configuration.applicationInformation).toEqual(DUMMY_CONFIG_RESPONSE.applicationInformation);
+            expect($scope.configuration.testDocumentationDirPath).toEqual(DUMMY_CONFIG_RESPONSE.testDocumentationDirPath);
         });
     });
 
@@ -103,6 +106,7 @@ describe('Controller :: Config', function () {
         $scope.configuration.defaultBranchName = 'new branch';
         $scope.configuration.scenarioPropertiesInOverview = 'abc';
         $scope.configuration.applicationInformation = 'new information';
+        $scope.configuration.testDocumentationDirPath = 'new path';
     }
 
 });
