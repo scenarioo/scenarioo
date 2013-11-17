@@ -52,7 +52,7 @@ public enum DummySimulationConfigModuleValue {
 	}
 	
 	public ObjectDescription getObjectDescription() {
-		ObjectDescription result = new ObjectDescription("configValue", name().toLowerCase());
+		ObjectDescription result = new ObjectDescription("configModuleValue", name().toLowerCase());
 		result.addDetail("module", getModule().getReference());
 		result.addDetail("description", description);
 		return result;
