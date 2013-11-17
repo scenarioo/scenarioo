@@ -76,7 +76,6 @@ public class ScenarioDocuManager {
 			doUpdateAllBranchesAndBuilds();
 			LOGGER.info("  Recognized valid documentation build directories in file system: " + buildsProcessed);
 			LOGGER.info("  Updated or imported builds: " + buildsImportedOrUpdated);
-			
 			LOGGER.info("  SUCCESS: Documentation content directory has been processed and updated successfully.");
 			LOGGER.info(" ============= END OF SCENARIOO DOCUMENTATION ASYNC DATA UPDATE (success) ===========");
 		} catch (Throwable e) {
@@ -86,8 +85,8 @@ public class ScenarioDocuManager {
 	}
 	
 	private synchronized void doUpdateAllBranchesAndBuilds() {
-		int buildsProcessed = 0;
-		int buildsImportedOrUpdated = 0;
+		buildsProcessed = 0;
+		buildsImportedOrUpdated = 0;
 		List<BranchBuilds> branchBuildsList = loadBranchBuildsList();
 		for (BranchBuilds branchBuilds : branchBuildsList) {
 			LOGGER.info("Calculating aggregated data for branch : " + branchBuilds.getBranch().getName() + "...");
