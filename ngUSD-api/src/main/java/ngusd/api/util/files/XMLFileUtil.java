@@ -15,13 +15,14 @@ import ngusd.model.docu.entities.generic.Details;
 import ngusd.model.docu.entities.generic.ObjectDescription;
 import ngusd.model.docu.entities.generic.ObjectList;
 import ngusd.model.docu.entities.generic.ObjectReference;
+import ngusd.model.docu.entities.generic.ObjectTreeNode;
 
 public class XMLFileUtil {
 	
 	private static final Class<?>[] SUPPORTED_COLLECTION_CLASSES = new Class<?>[] { HashMap.class, ArrayList.class };
 	
 	private static final Class<?>[] SUPPORTED_GENERIC_CLASSES = new Class<?>[] { ObjectDescription.class,
-			ObjectReference.class, ObjectList.class, Details.class };
+			ObjectReference.class, ObjectList.class, ObjectTreeNode.class, Details.class };
 	
 	public static <T> void marshal(final T object,
 			final File destFile, Class<?>... classesToBind) {
