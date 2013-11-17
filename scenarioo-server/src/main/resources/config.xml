@@ -4,7 +4,7 @@
     <defaultBranchName>trunk</defaultBranchName>
     <defaultBuildName>current</defaultBuildName>
     <scenarioPropertiesInOverview>userProfile, configuration</scenarioPropertiesInOverview>
-    <applicationInformation>This is a sample text. Please describe your application.</applicationInformation>
+    <applicationInformation>Welcome to Scenarioo. You can change this welcome message and all other settings on the configuration page.</applicationInformation>
     <buildstates>
         <entry>
             <key>failed</key>
