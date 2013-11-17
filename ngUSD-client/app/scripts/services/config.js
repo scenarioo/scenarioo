@@ -1,13 +1,11 @@
 
 'use strict';
 
-angular.module('ngUSDClientApp.services').service('Config', function (ConfigResource, $rootScope, $location, $cookieStore) {
+angular.module('ngUSDClientApp.services').service('Config', function (ConfigResource, $rootScope) {
 
     var CONFIG_LOADED_EVENT = 'configLoaded';
 
-    var configData = {},
-        BRANCH_URL_PARAMETER = 'branch',
-        BUILD_URL_PARAMETER = 'build';
+    var configData = {};
 
     function getValue(key) {
         if (angular.isUndefined(configData[key])) {
@@ -42,8 +40,6 @@ angular.module('ngUSDClientApp.services').service('Config', function (ConfigReso
     }
 
     var serviceInstance = {
-        BRANCH_URL_PARAMETER: BRANCH_URL_PARAMETER,
-        BUILD_URL_PARAMETER: BUILD_URL_PARAMETER,
         CONFIG_LOADED_EVENT: CONFIG_LOADED_EVENT,
 
         getRawConfigDataCopy: function () {

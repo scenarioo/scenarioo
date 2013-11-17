@@ -14,11 +14,12 @@ angular.module('ngUSDClientApp.services').service('BranchesAndBuilds', function 
             var selected = SelectedBranchAndBuild.selected();
 
             if(branches.length === 0) {
-                console.log("Branch list empty!");
+                console.log('Branch list empty!');
                 return;
             }
 
-            for (var index = 0; index < branches.length; index++) {
+            var index;
+            for (index = 0; index < branches.length; index++) {
                 if (branches[index].branch.name === selected.branch) {
                     loadedData.selectedBranch = branches[index];
                 }
@@ -30,7 +31,7 @@ angular.module('ngUSDClientApp.services').service('BranchesAndBuilds', function 
             }
 
             var allBuildsOnSelectedBranch = loadedData.selectedBranch.builds;
-            for (var index = 0; index < loadedData.selectedBranch.builds.length; index++) {
+            for (index = 0; index < loadedData.selectedBranch.builds.length; index++) {
                 if (allBuildsOnSelectedBranch[index].build.name === selected.build || allBuildsOnSelectedBranch[index].linkName === selected.build) {
                     loadedData.selectedBuild = allBuildsOnSelectedBranch[index];
                 }

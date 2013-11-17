@@ -11,7 +11,7 @@ describe('Service :: restServices', function () {
         expect(ConfigResource.get).not.toBeUndefined();
     }));
 
-    describe("HostnameAndPort :: development", function () {
+    describe('HostnameAndPort :: development', function () {
 
         beforeEach(function () {
             module(function ($provide) {
@@ -26,7 +26,7 @@ describe('Service :: restServices', function () {
 
     });
 
-    describe("HostnameAndPort :: production", function () {
+    describe('HostnameAndPort :: production', function () {
 
         beforeEach(function () {
             module(function ($provide) {
