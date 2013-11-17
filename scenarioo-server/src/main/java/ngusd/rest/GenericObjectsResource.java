@@ -9,12 +9,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.scenarioo.model.docu.entities.generic.ObjectDescription;
+import org.scenarioo.model.docu.entities.generic.ObjectReference;
+import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
+
 import ngusd.dao.ConfigurationDAO;
 import ngusd.dao.ScenarioDocuAggregationDAO;
 import ngusd.model.docu.aggregates.objects.ObjectIndex;
-import ngusd.model.docu.entities.generic.ObjectDescription;
-import ngusd.model.docu.entities.generic.ObjectReference;
-import ngusd.model.docu.entities.generic.ObjectTreeNode;
 
 /**
  * Resource for getting access to generic objects stored inside the documentation with detail informations about where

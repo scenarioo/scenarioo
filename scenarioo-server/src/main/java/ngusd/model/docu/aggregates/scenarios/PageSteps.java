@@ -8,9 +8,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.model.docu.entities.Page;
+import org.scenarioo.model.docu.entities.StepDescription;
+
 import lombok.Data;
-import ngusd.model.docu.entities.Page;
-import ngusd.model.docu.entities.StepDescription;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

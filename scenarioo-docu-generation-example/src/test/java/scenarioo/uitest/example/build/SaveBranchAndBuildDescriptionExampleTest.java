@@ -1,11 +1,11 @@
 package scenarioo.uitest.example.build;
 
 import static scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
-import ngusd.api.ScenarioDocuWriter;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.scenarioo.api.ScenarioDocuWriter;
 
 /**
  * A simple example test to show how to save example branch and build description files.

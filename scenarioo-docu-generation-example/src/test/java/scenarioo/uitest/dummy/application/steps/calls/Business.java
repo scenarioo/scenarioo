@@ -1,7 +1,7 @@
 package scenarioo.uitest.dummy.application.steps.calls;
 
-import ngusd.model.docu.entities.generic.ObjectDescription;
-import ngusd.model.docu.entities.generic.ObjectReference;
+import org.scenarioo.model.docu.entities.generic.ObjectDescription;
+import org.scenarioo.model.docu.entities.generic.ObjectReference;
 
 /**
  * Just some example Business logic operations of your application under test (might be EJB session beans for example)

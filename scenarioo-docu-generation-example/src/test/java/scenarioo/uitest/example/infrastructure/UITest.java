@@ -1,12 +1,11 @@
 package scenarioo.uitest.example.infrastructure;
 
-import ngusd.model.docu.entities.Scenario;
-import ngusd.model.docu.entities.UseCase;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
+import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.UseCase;
 
 import scenarioo.uitest.dummy.toolkit.UITestToolkit;
 

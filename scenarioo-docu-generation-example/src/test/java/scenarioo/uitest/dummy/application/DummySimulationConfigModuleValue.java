@@ -5,7 +5,7 @@ import static scenarioo.uitest.dummy.application.DummySimulationConfigModule.*;
 import java.util.Arrays;
 import java.util.List;
 
-import ngusd.model.docu.entities.generic.ObjectDescription;
+import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 
 /**
  * Just some example dummy simulation config modules configurations with descriptions to display in the scenarioo

@@ -4,7 +4,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import ngusd.api.util.files.ResourceNotFoundException;
+import org.scenarioo.api.util.files.ResourceNotFoundException;
+
 
 import com.sun.istack.logging.Logger;
 

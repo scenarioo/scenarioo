@@ -6,14 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import ngusd.model.docu.entities.Page;
-import ngusd.model.docu.entities.Scenario;
-import ngusd.model.docu.entities.Step;
-import ngusd.model.docu.entities.generic.Details;
-import ngusd.model.docu.entities.generic.ObjectDescription;
-import ngusd.model.docu.entities.generic.ObjectList;
-import ngusd.model.docu.entities.generic.ObjectReference;
-import ngusd.model.docu.entities.generic.ObjectTreeNode;
+import org.scenarioo.model.docu.entities.Page;
+import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.Step;
+import org.scenarioo.model.docu.entities.generic.Details;
+import org.scenarioo.model.docu.entities.generic.ObjectDescription;
+import org.scenarioo.model.docu.entities.generic.ObjectList;
+import org.scenarioo.model.docu.entities.generic.ObjectReference;
+import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
+
 
 public class ObjectRepository {
 	

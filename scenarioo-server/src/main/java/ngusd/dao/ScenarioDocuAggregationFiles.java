@@ -2,7 +2,8 @@ package ngusd.dao;
 
 import java.io.File;
 
-import ngusd.api.files.ScenarioDocuFiles;
+import org.scenarioo.api.files.ScenarioDocuFiles;
+
 
 /**
  * Defines locations of aggregated files containing aggregated (=derived) data from documentation input data.

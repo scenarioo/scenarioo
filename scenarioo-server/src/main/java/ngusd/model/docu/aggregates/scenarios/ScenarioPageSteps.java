@@ -8,9 +8,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.UseCase;
+
 import lombok.Data;
-import ngusd.model.docu.entities.Scenario;
-import ngusd.model.docu.entities.UseCase;
 
 /**
  * Represents a scenario of a usecase with all its pages and steps.

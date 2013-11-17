@@ -4,11 +4,11 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import ngusd.api.util.files.XMLFileUtil;
 import ngusd.model.configuration.Configuration;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.scenarioo.api.util.files.XMLFileUtil;
 
 /**
  * DAO for accessing USD configuration data from filesysem.

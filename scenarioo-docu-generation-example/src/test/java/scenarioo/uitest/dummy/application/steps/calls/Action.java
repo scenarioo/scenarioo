@@ -1,7 +1,7 @@
 package scenarioo.uitest.dummy.application.steps.calls;
 
-import ngusd.model.docu.entities.generic.ObjectDescription;
-import ngusd.model.docu.entities.generic.ObjectReference;
+import org.scenarioo.model.docu.entities.generic.ObjectDescription;
+import org.scenarioo.model.docu.entities.generic.ObjectReference;
 
 /**
  * Just some example UI Action classes of your application (might be Struts actions for examples) to use in dummy

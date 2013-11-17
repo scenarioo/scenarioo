@@ -1,8 +1,6 @@
 package scenarioo.uitest.example.infrastructure;
 
 import static scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
-import ngusd.api.ScenarioDocuWriter;
-import ngusd.model.docu.entities.UseCase;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -10,6 +8,8 @@ import org.junit.ClassRule;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+import org.scenarioo.api.ScenarioDocuWriter;
+import org.scenarioo.model.docu.entities.UseCase;
 
 /**
  * A {@link TestRule} to setup as a static {@link ClassRule} on your UI test classes to generate documentation content

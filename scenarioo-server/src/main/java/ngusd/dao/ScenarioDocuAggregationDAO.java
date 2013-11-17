@@ -8,8 +8,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
+import org.scenarioo.api.util.files.XMLFileUtil;
+
 import ngusd.aggregator.ScenarioDocuAggregator;
-import ngusd.api.util.files.XMLFileUtil;
 import ngusd.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import ngusd.model.docu.aggregates.usecases.PageVariantsCounter;
 import ngusd.model.docu.aggregates.usecases.UseCaseScenarios;

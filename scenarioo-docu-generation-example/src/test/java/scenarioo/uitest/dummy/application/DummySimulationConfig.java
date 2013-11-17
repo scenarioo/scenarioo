@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import ngusd.model.docu.entities.generic.ObjectDescription;
-import ngusd.model.docu.entities.generic.ObjectList;
+import org.scenarioo.model.docu.entities.generic.ObjectDescription;
+import org.scenarioo.model.docu.entities.generic.ObjectList;
 
 /**
  * Some example dummy configurations for UI tests.

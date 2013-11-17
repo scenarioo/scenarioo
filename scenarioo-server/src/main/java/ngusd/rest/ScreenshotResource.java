@@ -10,7 +10,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
-import ngusd.api.ScenarioDocuReader;
+import org.scenarioo.api.ScenarioDocuReader;
+
 import ngusd.dao.ConfigurationDAO;
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/usecases/{usecaseName}/scenarios/{scenarioName}/image/{imgName}")

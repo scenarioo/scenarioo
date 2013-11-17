@@ -1,8 +1,9 @@
 package scenarioo.uitest.dummy.application;
 
 import lombok.Data;
-import ngusd.model.docu.entities.generic.ObjectDescription;
-import ngusd.model.docu.entities.generic.ObjectTreeNode;
+
+import org.scenarioo.model.docu.entities.generic.ObjectDescription;
+import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
 
 /**
  * Just some example data about internal state of your application that you could collect in your UI tests to store and

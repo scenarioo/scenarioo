@@ -8,13 +8,13 @@ import java.util.Comparator;
 import java.util.List;
 
 import ngusd.aggregator.ScenarioDocuAggregator;
-import ngusd.api.ScenarioDocuReader;
 import ngusd.dao.ConfigurationDAO;
 import ngusd.model.docu.aggregates.branches.BranchBuilds;
-import ngusd.model.docu.derived.BuildLink;
-import ngusd.model.docu.entities.Branch;
 
 import org.apache.log4j.Logger;
+import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.model.docu.derived.BuildLink;
+import org.scenarioo.model.docu.entities.Branch;
 
 /**
  * Manages the user scenario docu file contents.

@@ -8,8 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import ngusd.model.docu.entities.generic.ObjectDescription;
-import ngusd.model.docu.entities.generic.ObjectTreeNode;
+import org.scenarioo.model.docu.entities.generic.ObjectDescription;
+import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
+
 import scenarioo.uitest.dummy.application.ApplicationsStateData;
 import scenarioo.uitest.dummy.application.DummySimulationConfig;
 import scenarioo.uitest.dummy.application.steps.calls.Action;

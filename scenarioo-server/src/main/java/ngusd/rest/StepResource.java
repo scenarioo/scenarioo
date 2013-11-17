@@ -5,9 +5,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import ngusd.api.ScenarioDocuReader;
+import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.model.docu.entities.Step;
+
 import ngusd.dao.ConfigurationDAO;
-import ngusd.model.docu.entities.Step;
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/usecases/{usecaseName}/scenarios/{scenarioName}/steps/")
 public class StepResource {

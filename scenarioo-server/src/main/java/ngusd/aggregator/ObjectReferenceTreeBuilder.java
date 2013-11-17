@@ -6,8 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import ngusd.model.docu.entities.generic.ObjectReference;
-import ngusd.model.docu.entities.generic.ObjectTreeNode;
+import org.scenarioo.model.docu.entities.generic.ObjectReference;
+import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
+
 
 /**
  * Builder for collecting trees of object reference pathes and building according reference trees

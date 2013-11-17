@@ -9,9 +9,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.model.docu.derived.BuildLink;
+import org.scenarioo.model.docu.entities.Branch;
+
 import lombok.Data;
-import ngusd.model.docu.derived.BuildLink;
-import ngusd.model.docu.entities.Branch;
 
 /**
  * Represents a branch and all its belonging builds.

@@ -1,6 +1,6 @@
 package scenarioo.uitest.dummy.application;
 
-import ngusd.model.docu.entities.generic.ObjectReference;
+import org.scenarioo.model.docu.entities.generic.ObjectReference;
 
 /**
  * Just some example structure of your dummy simulation configurations into simulation config modules.

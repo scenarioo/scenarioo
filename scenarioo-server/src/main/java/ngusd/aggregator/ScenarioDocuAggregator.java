@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import lombok.Data;
-import ngusd.api.ScenarioDocuReader;
-import ngusd.api.util.files.ResourceNotFoundException;
 import ngusd.dao.ConfigurationDAO;
 import ngusd.dao.ScenarioDocuAggregationDAO;
 import ngusd.model.docu.aggregates.scenarios.PageSteps;
@@ -16,17 +14,19 @@ import ngusd.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import ngusd.model.docu.aggregates.usecases.PageVariantsCounter;
 import ngusd.model.docu.aggregates.usecases.UseCaseScenarios;
 import ngusd.model.docu.aggregates.usecases.UseCaseScenariosList;
-import ngusd.model.docu.entities.Page;
-import ngusd.model.docu.entities.Scenario;
-import ngusd.model.docu.entities.ScenarioCalculatedData;
-import ngusd.model.docu.entities.Step;
-import ngusd.model.docu.entities.StepDescription;
-import ngusd.model.docu.entities.StepIdentification;
-import ngusd.model.docu.entities.UseCase;
-import ngusd.model.docu.entities.generic.ObjectReference;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.api.util.files.ResourceNotFoundException;
+import org.scenarioo.model.docu.entities.Page;
+import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.ScenarioCalculatedData;
+import org.scenarioo.model.docu.entities.Step;
+import org.scenarioo.model.docu.entities.StepDescription;
+import org.scenarioo.model.docu.entities.StepIdentification;
+import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.generic.ObjectReference;
 
 /**
  * The aggregator reads the input docu files of a build and generates the aggregated docu files with additional

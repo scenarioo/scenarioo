@@ -1,12 +1,14 @@
 package scenarioo.uitest.example.infrastructure;
 
 import static scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
-import ngusd.api.ScenarioDocuWriter;
-import ngusd.model.docu.entities.Page;
-import ngusd.model.docu.entities.Step;
-import ngusd.model.docu.entities.StepDescription;
-import ngusd.model.docu.entities.StepHtml;
-import ngusd.model.docu.entities.StepMetadata;
+
+import org.scenarioo.api.ScenarioDocuWriter;
+import org.scenarioo.model.docu.entities.Page;
+import org.scenarioo.model.docu.entities.Step;
+import org.scenarioo.model.docu.entities.StepDescription;
+import org.scenarioo.model.docu.entities.StepHtml;
+import org.scenarioo.model.docu.entities.StepMetadata;
+
 import scenarioo.uitest.dummy.toolkit.UITestToolkit;
 
 /**
