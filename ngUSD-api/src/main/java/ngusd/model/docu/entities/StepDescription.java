@@ -40,4 +40,8 @@ public class StepDescription {
 	private StepIdentification previousStepVariant;
 	private StepIdentification nextStepVariant;
 	
+	public void addDetails(final String key, final Object value) {
+		details.addDetail(key, value);
+	}
+	
 }

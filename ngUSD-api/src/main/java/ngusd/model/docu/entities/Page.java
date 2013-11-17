@@ -4,10 +4,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ngusd.model.docu.entities.generic.Details;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import ngusd.model.docu.entities.generic.Details;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
