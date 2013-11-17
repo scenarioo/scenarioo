@@ -242,33 +242,6 @@ h1 {
     position: relative;
 }
 
-/** Modal */
-.modal-small div.tab-pane{
-    height: 400px;
-}
-
-.modal-huge .modal-body {
-    height: 100%;
-    max-height: 670px;
-}
-
-.modal-huge img {
-    text-align: center;
-    width: 100%;
-}
-
-.modal-huge {
-    width: 80%;
-    max-height: 750px;
-    margin-left: -40%;
-}
-@media (max-width: 600px) {
-    .modal-huge {
-        width: 580px;
-        margin-left: -290px;
-    }
-}
-
 /** Configuration */
 .configuration select {
     max-width: 300px;
@@ -290,10 +263,6 @@ h1 {
 }
 
 /** Information */
-.informationModal div {
-    text-align: justify;
-}
-
 .informationModal .github-link {
     padding-top: 20px;
     text-align: center;

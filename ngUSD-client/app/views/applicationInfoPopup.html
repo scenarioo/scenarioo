@@ -1,59 +1,75 @@
-<tabs active="Shortcuts" class="informationModal">
+<div class="modal" ng-show="infoModal.showing" ng-style="infoModal.style" ng-controller="ApplicationInfoPopupCtrl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>About Scenarioo</h3>
+            </div>
 
-    <pane heading="Application">
-        <div ng-bind-html-unsafe="applicationInformation">
+            <div class="modal-body">
+                <tabset>
+
+                    <tab heading="Application">
+                        <div ng-bind-html-unsafe="applicationInformation">
+                        </div>
+                    </tab>
+
+                    <tab heading="Vision">
+                        <div>
+                            <blockquote>
+                                <p>Documentation is in the Code.</p>
+                                <small>Our vision</small>
+                            </blockquote>
+                            <p>
+                                Scenarioo is a user scenario documentation, a functional documentation of the software describing all
+                                use cases and the most important user scenarios of your software. Each scenario is documented by step by
+                                step screenshots and a lot of additional meta information about what is going on in your application.
+                            <p/>
+                            <p>
+                                With the help of webtests and Scenarioo the documentation of your application
+                                will never be out of date. You can browse through the nightly created screenshots or compare the newest
+                                version to the version of the last release.
+                            </p>
+                        </div>
+                    </tab>
+
+                    <tab heading="Shortcuts">
+                        You can use shortcuts to navigate through the steps of a scenario.
+                        <dl class="dl-horizontal">
+                            <dt>Left <i class="icon icon-arrow-left icon-with-padding"></i> </dt>
+                            <dd>Previous Step</dd>
+                            <dt>Right <i class="icon icon-arrow-right icon-with-padding"></i></dt>
+                            <dd>Next Step</dd>
+                            <dt>Up <i class="icon icon-arrow-up icon-with-padding"></i></dt>
+                            <dd>Previous Page</dd>
+                            <dt>Down <i class="icon icon-arrow-down icon-with-padding"></i></dt>
+                            <dd>Next Page</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Left + Ctrl <span class="Scenarioo-icon-ctrl">ctrl</span><i class="icon icon-arrow-left icon-with-padding"></i> </dt>
+                            <dd>Previous Variant</dd>
+                            <dt>Right + Ctrl <span class="Scenarioo-icon-ctrl">ctrl</span><i class="icon icon-arrow-right icon-with-padding"></i> </dt>
+                            <dd>Next Variant</dd>
+                        </dl>
+                    </tab>
+
+                    <tab heading="Contributors">
+                        <div>
+                            <p>
+                                Scenarioo is an education project by some developers from Switzerland to develop a web application that can be used to browse "User Scenario Documentations",
+                                which are documentations generated automatically from your UI tests (e.g. by Selenium).
+                            </p>
+                            <h3 class="github-link">
+                                <a href="http://github.com/forkch/Scenarioo/" target="_blank" class="link-no-hover"><i class="icon-github-sign icon-with-padding"></i> Visit us on Github</a>
+                            </h3>
+                        </div>
+                    </tab>
+
+                </tabset>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="closeInfoModal()">Close</button>
+            </div>
         </div>
-    </pane>
-
-    <pane heading="Vision">
-        <div>
-            <blockquote>
-                <p>Documentation is in the Code.</p>
-                <small>Our vision</small>
-            </blockquote>
-            <p>
-                ngUSD is a user scenario documentation, a functional documentation of the software describing all
-                use cases and the most important user scenarios of your software. Each scenario is documented by step by
-                step screenshots and a lot of additional meta information about what is going on in your application.
-            <p/>
-            <p>
-                With the help of webtests and ngUSD the documentation of your application
-                will never be out of date. You can browse through the nightly created screenshots or compare the newest
-                version to the version of the last release.
-            </p>
-        </div>
-    </pane>
-
-    <pane heading="Shortcuts" active="infoModal.tab=='Shortcuts'">
-        You can use shortcuts to navigate through the steps of a scenario.
-        <dl class="dl-horizontal">
-            <dt>Left <i class="icon icon-arrow-left icon-with-padding"></i> </dt>
-            <dd>Previous Step</dd>
-            <dt>Right <i class="icon icon-arrow-right icon-with-padding"></i></dt>
-            <dd>Next Step</dd>
-            <dt>Up <i class="icon icon-arrow-up icon-with-padding"></i></dt>
-            <dd>Previous Page</dd>
-            <dt>Down <i class="icon icon-arrow-down icon-with-padding"></i></dt>
-            <dd>Next Page</dd>
-        </dl>
-        <dl class="dl-horizontal">
-            <dt>Left + Ctrl <span class="ngusd-icon-ctrl">ctrl</span><i class="icon icon-arrow-left icon-with-padding"></i> </dt>
-            <dd>Previous Variant</dd>
-            <dt>Right + Ctrl <span class="ngusd-icon-ctrl">ctrl</span><i class="icon icon-arrow-right icon-with-padding"></i> </dt>
-            <dd>Next Variant</dd>
-        </dl>
-    </pane>
-
-    <pane heading="Contributors">
-        <div>
-            <p>
-                ngUSD is an education project by some developers from Switzerland to develop a web application that can be used to browse "User Scenario Documentations",
-                which are documentations generated automatically from your UI tests (e.g. by Selenium).
-            </p>
-            <h3 class="github-link">
-                <a href="http://github.com/forkch/ngUSD/" target="_blank" class="link-no-hover"><i class="icon-github-sign icon-with-padding"></i> Visit us on Github</a>
-            </h3>
-        </div>
-    </pane>
-
-</tabs>
+    </div>
+</div>

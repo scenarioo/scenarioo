@@ -1,33 +1,31 @@
 'use strict';
 
-angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', function (CONFIG_LOADED_EVENT, $scope, $location, $cookieStore, BranchesAndBuilds, BranchService, AdminService, Config, $rootScope) {
+angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchesAndBuilds, BranchService, AdminService, $rootScope, SelectedBranchAndBuild) {
 
     /**
      * is set to true while server is updating it's docu
      */
     $scope.aggregationInProgress = false;
 
-    $scope.setBranch = function (branch) {
-        $scope.selectedBranch = branch;
-        // TODO:  maybe set build to default
-        $cookieStore.remove(Config.BUILD_URL_PARAMETER);
-        $location.search(Config.BRANCH_URL_PARAMETER, branch.branch.name);
-    };
-
-    $scope.setBuild = function (selectedBranch, build) {
-        $scope.selectedBuild = build;
-        $location.search(Config.BUILD_URL_PARAMETER, build.build.name);
-    };
-
-    $scope.$watch(function() {
-        return Config.selectedBuildAndBranch();
-    }, function() {
-        loadBranchesAndBuilds();
-    }, true);
+    SelectedBranchAndBuild.callOnSelectionChange(loadBranchesAndBuilds);
 
     function loadBranchesAndBuilds () {
         $scope.branchesAndBuilds = BranchesAndBuilds.getBranchesAndBuilds();
     };
+
+
+    $scope.setBranch = function (branch) {
+        $scope.selectedBranch = branch;
+        // TODO:  maybe set build to default
+        $cookieStore.remove(SelectedBranchAndBuild.BUILD_KEY);
+        $location.search(SelectedBranchAndBuild.BRANCH_KEY, branch.branch.name);
+    };
+
+    $scope.setBuild = function (selectedBranch, build) {
+        $scope.selectedBuild = build;
+        $location.search(SelectedBranchAndBuild.BUILD_KEY, build.build.name);
+    };
+
 
     $scope.modalInfoOptions = {
         backdropFade: true,
@@ -69,14 +67,15 @@ angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', functi
         return true;
     }
 
-    $rootScope.infoModal = {showing: isAFirstTimeUser(), tab: null};
+    // TODO: Use $modal from angular-bootstrap, as soon as it works with bootstrap 3
+    $rootScope.infoModal = {showing: (isAFirstTimeUser() ? 'block' : 'none'), tab: null};
 
     $rootScope.openInfoModal = function (tabValue) {
-        $rootScope.infoModal = {showing: true, tab: tabValue};
+        $rootScope.infoModal = {showing: true, tab: tabValue, style: {display: 'block'}};
     };
 
     $rootScope.closeInfoModal = function () {
-        $rootScope.infoModal = {showing: false};
+        $rootScope.infoModal = {showing: false, style: {display: 'none'}};
     };
 
 });

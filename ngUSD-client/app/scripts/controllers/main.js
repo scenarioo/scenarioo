@@ -1,18 +1,13 @@
 'use strict';
 
-angular.module('ngUSDClientApp.controllers').controller('MainCtrl', function (CONFIG_LOADED_EVENT, $scope, $location, Config, UseCaseService, BranchesAndBuilds) {
+angular.module('ngUSDClientApp.controllers').controller('MainCtrl', function ($scope, $location, SelectedBranchAndBuild, UseCaseService, BranchesAndBuilds) {
 
-    $scope.$watch(function () {
-        return Config.selectedBuildAndBranch();
-    }, function (branchAndBuild) {
-        loadUseCases();
-    }, true);
+    SelectedBranchAndBuild.callOnSelectionChange(loadUseCases);
 
-    function loadUseCases(){
-        $scope.useCaseScenariosList = UseCaseService.findAllUseCases({'branchName': Config.selectedBranch(), 'buildName': Config.selectedBuild()});
+    function loadUseCases(selected){
+        $scope.useCaseScenariosList = UseCaseService.findAllUseCases({'branchName': selected.branch, 'buildName': selected.build});
         $scope.branchesAndBuilds = BranchesAndBuilds.getBranchesAndBuilds();
     }
-
 
     $scope.goToUseCase = function (useCaseName) {
         $location.path('/usecase/' + useCaseName);

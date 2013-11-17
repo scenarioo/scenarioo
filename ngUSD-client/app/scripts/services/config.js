@@ -1,15 +1,13 @@
 
 'use strict';
 
-angular.module('ngUSDClientApp.services').constant('CONFIG_LOADED_EVENT', 'configLoaded');
+angular.module('ngUSDClientApp.services').service('Config', function (ConfigResource, $rootScope, $location, $cookieStore) {
 
-angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOADED_EVENT, ConfigResource, $rootScope, $location, $cookieStore) {
+    var CONFIG_LOADED_EVENT = 'configLoaded';
 
     var configData = {},
         BRANCH_URL_PARAMETER = 'branch',
-        BUILD_URL_PARAMETER = 'build',
-        CONFIG_KEY_SELECTED_BRANCH = 'selectedBranch',
-        CONFIG_KEY_SELECTED_BUILD = 'selectedBuild';
+        BUILD_URL_PARAMETER = 'build';
 
     function getValue(key) {
         if (angular.isUndefined(configData[key])) {
@@ -20,68 +18,10 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
 
     function doLoad() {
         ConfigResource.get({}, function (response) {
-            configData = postProcessConfigData(response);
+            configData = response;
             $rootScope.buildStateToClassMapping = configData.buildstates;
-            watchLocationChanges();
             $rootScope.$broadcast(CONFIG_LOADED_EVENT);
         });
-    }
-
-    function postProcessConfigData(configDataFromServer) {
-        var postProcessedData = configDataFromServer;
-        postProcessedData[CONFIG_KEY_SELECTED_BUILD] = getConfiguredBuild(configDataFromServer);
-        postProcessedData[CONFIG_KEY_SELECTED_BRANCH] = getConfiguredBranch(configDataFromServer);
-        return postProcessedData;
-    }
-
-    function getConfiguredBuild(configData) {
-
-        // check URL
-        var params = $location.search();
-        if (params !== null && params[BUILD_URL_PARAMETER]) {
-            return params[BUILD_URL_PARAMETER];
-        }
-
-        // check cookie
-        var buildCookieValue = $cookieStore.get(BUILD_URL_PARAMETER);
-        if (angular.isDefined(buildCookieValue)) {
-            return buildCookieValue;
-        }
-
-        // else, take default
-        return configData.defaultBuildName;
-    }
-
-    function getConfiguredBranch(configData) {
-
-        // check URL
-        var params = $location.search();
-        if (params !== null && params[BRANCH_URL_PARAMETER]) {
-            return params[BRANCH_URL_PARAMETER];
-        }
-
-        // check cookie
-        var branchCookieValue = $cookieStore.get(BRANCH_URL_PARAMETER);
-        if (angular.isDefined(branchCookieValue)) {
-            return branchCookieValue;
-        }
-
-        // else, take default
-        return configData.defaultBranchName;
-    }
-
-    function watchLocationChanges() {
-        $rootScope.$watch(function () {
-            return $location.search();
-        }, function (newValue) {
-            configData = postProcessConfigData(configData);
-            writeBranchAndBuildFromConfigToCookie();
-        }, true);
-    }
-
-    function writeBranchAndBuildFromConfigToCookie() {
-        $cookieStore.put(BUILD_URL_PARAMETER, configData[CONFIG_KEY_SELECTED_BUILD]);
-        $cookieStore.put(BRANCH_URL_PARAMETER, configData[CONFIG_KEY_SELECTED_BRANCH]);
     }
 
     function getBuildStateToClassMapping() {
@@ -104,7 +44,7 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
     var serviceInstance = {
         BRANCH_URL_PARAMETER: BRANCH_URL_PARAMETER,
         BUILD_URL_PARAMETER: BUILD_URL_PARAMETER,
-
+        CONFIG_LOADED_EVENT: CONFIG_LOADED_EVENT,
 
         getRawConfigDataCopy: function () {
             return angular.copy(configData);
@@ -122,10 +62,7 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
         },
 
         updateConfiguration: function (newConfig, successCallback) {
-
             var configToStore = angular.copy(newConfig);
-            delete configToStore[CONFIG_KEY_SELECTED_BUILD];
-            delete configToStore[CONFIG_KEY_SELECTED_BRANCH];
 
             ConfigResource.save({}, configToStore, function () {
                 if (successCallback) {
@@ -134,19 +71,11 @@ angular.module('ngUSDClientApp.services').service('Config', function (CONFIG_LOA
             });
         },
 
-        selectedBranch: function () {
-            return getValue(CONFIG_KEY_SELECTED_BRANCH);
-        },
-
-        selectedBuild: function () {
-            return  getValue(CONFIG_KEY_SELECTED_BUILD);
-        },
-
-        selectedBuildAndBranch: function() {
+        defaultBranchAndBuild: function() {
             return {
-                branch: this.selectedBranch(),
-                build: this.selectedBuild()
-            }
+                branch: getValue('defaultBranchName'),
+                build: getValue('defaultBuildName')
+            };
         },
 
         scenarioPropertiesInOverview: function () {
