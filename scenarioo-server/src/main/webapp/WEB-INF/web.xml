@@ -13,7 +13,7 @@
 		<url-pattern>/rest/*</url-pattern>
 	</filter-mapping>
 	<listener>
-		<listener-class>ngusd.rest.application.NgUsdWebApplication</listener-class>
+		<listener-class>org.scenarioo.rest.application.ScenariooWebApplication</listener-class>
 	</listener>
 	<listener>
 		<listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
