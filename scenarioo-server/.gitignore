@@ -1,8 +1,6 @@
 /build
 /target
-/target
 /data
 /.gradle
 /.project
 /.classpath
-/.settings/

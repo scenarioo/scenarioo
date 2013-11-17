@@ -123,9 +123,8 @@
              Documentation at: /docs/config/valve.html
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log." suffix=".txt"/>
-
-      
-     <Context docBase="ngUSD-server" path="/ngusd" reloadable="true" source="org.eclipse.jst.j2ee.server:ngUSD-server"/></Host>
+    		
+	<Context docBase="scenarioo-server" path="/scenarioo" reloadable="true" source="org.eclipse.jst.j2ee.server:scenarioo-server"/></Host>
     </Engine>
   </Service>
 </Server>

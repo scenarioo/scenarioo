@@ -1,1 +1,1 @@
-include 'ngUSD-api','ngUSD-server'
+include 'scenarioo-api','scenarioo-server','scenarioo-docu-generation-example'

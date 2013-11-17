@@ -13,8 +13,8 @@ dependencies {
 eclipse {
   wtp {
     component {
-      contextPath = 'ngusd'
-      deployName = 'ngusd'
+      contextPath = 'scenarioo'
+      deployName = 'scenarioo'
     }
   }
 }
@@ -49,7 +49,7 @@ buildClient.dependsOn printPathConfigInformationForNodeJSAndGrunt
 
 war {
     from '../ngUSD-client/dist'
-	archiveName 'ngusd.war'
+	archiveName 'scenarioo.war'
 }
 
 war.dependsOn = war.taskDependencies.values + tasks.buildClient

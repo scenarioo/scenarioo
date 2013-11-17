@@ -2,8 +2,8 @@
 subprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
-    group = 'org.ngusd'
-    version = '0.1.8'
+    group = 'org.scenarioo'
+    version = '0.1.9'
 
 	configurations {
 	  compileOnly
@@ -23,6 +23,7 @@ subprojects {
 	    compile 'log4j:log4j:1.2.17'
 	    compileOnly 'org.projectlombok:lombok:0.11.8'
 	    testCompile 'junit:junit:4.+'
+	    testCompile 'org.projectlombok:lombok:0.11.8'
 	}
 
 	//Include compileOnly for compilation
@@ -38,12 +39,18 @@ subprojects {
 
 }
 
-project(':ngUSD-api') {
+project(':scenarioo-api') {
 }
 
-project(':ngUSD-server') {
+project(':scenarioo-docu-generation-example') {
     dependencies {
-        compile project(':ngUSD-api')
+        compile project(':scenarioo-api')
+    }
+}
+
+project(':scenarioo-server') {
+    dependencies {
+        compile project(':scenarioo-api')
     }
 }
 
