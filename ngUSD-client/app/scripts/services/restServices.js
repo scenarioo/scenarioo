@@ -28,7 +28,7 @@ angular.module('ngUSDClientApp.services').factory('HostnameAndPort', function(EN
 
 angular.module('ngUSDClientApp.services').factory('NgUsdResource', function(HostnameAndPort, $resource) {
     return function(url, params, actions) {
-        return $resource(HostnameAndPort.forNgResource() + '/ngusd/rest' + url, params, actions);
+        return $resource(HostnameAndPort.forNgResource() + '/scenarioo/rest' + url, params, actions);
     };
 });
 
