@@ -36,8 +36,6 @@ public class ScenarioDocuManager {
 	private ScenarioDocuManager() {
 	}
 	
-	private final ScenarioDocuReader reader = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
-	
 	private List<BranchBuilds> branchBuildsList = new ArrayList<BranchBuilds>();
 	
 	/**
@@ -137,6 +135,7 @@ public class ScenarioDocuManager {
 	}
 	
 	public List<BranchBuilds> loadBranchBuildsList() {
+		final ScenarioDocuReader reader = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
 		List<BranchBuilds> result = new ArrayList<BranchBuilds>();
 		List<Branch> branches = reader.loadBranches();
 		for (Branch branch : branches) {
