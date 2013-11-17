@@ -9,7 +9,6 @@ import org.scenarioo.uitest.example.infrastructure.UITest;
 import org.scenarioo.uitest.example.infrastructure.UITestToolkitAbstraction;
 import org.scenarioo.uitest.example.infrastructure.UseCaseDocuWritingRule;
 
-
 /**
  * An example of how to use the Scenarioo API to generate User Scenario Documentation from your UI tests.
  * 
@@ -62,6 +61,8 @@ public class FindPageUITest extends UITest {
 		toolkit.clickLink("????");
 	}
 	
+	@DocuDescription(
+			description = "User enters text that is not found in pages content.")
 	@Test
 	public void find_page_no_result() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.SEARCH_NOT_FOUND_CONFIG);
