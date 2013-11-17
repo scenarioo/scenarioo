@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngUSDClientApp.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, PageVariantService, StepService, HostnameAndPort) {
+angular.module('ngUSDClientApp.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, PageVariantService, StepService, HostnameAndPort, SelectedBranchAndBuild) {
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
 
@@ -16,22 +16,13 @@ angular.module('ngUSDClientApp.controllers').controller('StepCtrl', function ($s
 
     $scope.showingMetaData = $window.innerWidth > 1000;
 
-    $scope.$watch(function () {
-            return Config.isLoaded();
-        },
-        function () {
-            loadStep();
-        }
-    );
+    SelectedBranchAndBuild.callOnSelectionChange(loadStep);
 
-
-    function loadStep() {
-        var selectedBranch = Config.selectedBranch();
-        var selectedBuild = Config.selectedBuild();
-        $scope.pageVariantCounts = PageVariantService.getPageVariantCount({'branchName': selectedBranch, 'buildName': selectedBuild});
+    function loadStep(selected) {
+        $scope.pageVariantCounts = PageVariantService.getPageVariantCount({'branchName': selected.branch, 'buildName': selected.build});
 
         //FIXME this is could be improved. Add information to the getStep call. however with caching it could be fixed as well
-        var pagesAndScenarios = ScenarioService.getScenario({'branchName': selectedBranch, 'buildName': selectedBuild, 'usecaseName': useCaseName, 'scenarioName': scenarioName});
+        var pagesAndScenarios = ScenarioService.getScenario({'branchName': selected.branch, 'buildName': selected.build, 'usecaseName': useCaseName, 'scenarioName': scenarioName});
 
         pagesAndScenarios.then(function (result) {
             $scope.scenario = result.scenario;
@@ -49,7 +40,7 @@ angular.module('ngUSDClientApp.controllers').controller('StepCtrl', function ($s
                 $location.path('/step/' + nextStepVariant.useCaseName + '/' + nextStepVariant.scenarioName + '/' + encodeURIComponent(nextStepVariant.pageName) + '/' + nextStepVariant.occurence + '/' + nextStepVariant.relativeIndex);
             };
 
-            var step = StepService.getStep({'branchName': selectedBranch, 'buildName': selectedBuild, 'usecaseName': useCaseName, 'scenarioName': scenarioName, 'stepIndex': $scope.stepDescription.index});
+            var step = StepService.getStep({'branchName': selected.branch, 'buildName': selected.build, 'usecaseName': useCaseName, 'scenarioName': scenarioName, 'stepIndex': $scope.stepDescription.index});
             step.then(function (result) {
                 $scope.step = result;
                 beautify(result.html);
@@ -58,7 +49,7 @@ angular.module('ngUSDClientApp.controllers').controller('StepCtrl', function ($s
 
         $scope.getScreenShotUrl = function (imgName) {
             if (angular.isDefined(imgName)) {
-                return HostnameAndPort.forLink() + '/ngusd/rest/branches/' + selectedBranch + '/builds/' + selectedBuild + '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
+                return HostnameAndPort.forLink() + '/ngusd/rest/branches/' + selected.branch + '/builds/' + selected.build + '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
             } else {
                 return '';
             }

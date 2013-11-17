@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngUSDClientApp.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioService, Config, HostnameAndPort) {
+angular.module('ngUSDClientApp.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioService, HostnameAndPort, SelectedBranchAndBuild) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -12,19 +12,10 @@ angular.module('ngUSDClientApp.controllers').controller('ScenarioCtrl', function
         dialogClass: 'modal modal-huge'
     };
 
-    $scope.$watch(function () {
-            return Config.isLoaded();
-        },
-        function () {
-            loadScenario();
-        }
-    );
+    SelectedBranchAndBuild.callOnSelectionChange(loadScenario);
 
-    function loadScenario() {
-        var selectedBranch = Config.selectedBranch();
-        var selectedBuild = Config.selectedBuild();
-
-        var pagesAndScenarios = ScenarioService.getScenario({'branchName': selectedBranch, 'buildName': selectedBuild,
+    function loadScenario(selected) {
+        var pagesAndScenarios = ScenarioService.getScenario({'branchName': selected.branch, 'buildName': selected.build,
             'usecaseName': useCaseName, 'scenarioName': scenarioName});
         pagesAndScenarios.then(function (result) {
             // Add page to the step to allow search for step- as well as page-properties
@@ -32,11 +23,10 @@ angular.module('ngUSDClientApp.controllers').controller('ScenarioCtrl', function
         });
 
         $scope.getScreenShotUrl = function (imgName) {
-            return HostnameAndPort.forLink() + '/ngusd/rest/branches/' + selectedBranch + '/builds/' + selectedBuild +
+            return HostnameAndPort.forLink() + '/ngusd/rest/branches/' + selected.branch + '/builds/' + selected.build +
                 '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
         };
     };
-
 
     function populatePageAndSteps(pagesAndScenarios) {
         for (var indexPage = 0; indexPage < pagesAndScenarios.pagesAndSteps.length; indexPage++) {

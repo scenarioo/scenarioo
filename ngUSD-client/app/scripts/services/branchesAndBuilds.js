@@ -1,23 +1,37 @@
 'use strict';
 
-angular.module('ngUSDClientApp.services').service('BranchesAndBuilds', function (CONFIG_LOADED_EVENT, $rootScope, Config, BranchService, $q) {
+angular.module('ngUSDClientApp.services').service('BranchesAndBuilds', function ($rootScope, Config, BranchService, $q, SelectedBranchAndBuild) {
 
     var branchesAndBuildsData = getPromise($q, function(parameters, successFn, errorFn) {
         var loadedData = {};
         loadedData.applicationInformation = Config.applicationInformation();
         loadedData.branches = BranchService.findAllBranches();
         loadedData.branches.then(function (branches) {
-            var configBranchName = Config.selectedBranch();
+            if(!SelectedBranchAndBuild.isDefined()) {
+                return;
+            }
+
+            var selected = SelectedBranchAndBuild.selected();
+
+            if(branches.length === 0) {
+                console.log("Branch list empty!");
+                return;
+            }
+
             for (var index = 0; index < branches.length; index++) {
-                if (branches[index].branch.name === configBranchName) {
+                if (branches[index].branch.name === selected.branch) {
                     loadedData.selectedBranch = branches[index];
                 }
             }
 
-            var configBuildName = Config.selectedBuild();
+            if(angular.isUndefined(loadedData.selectedBranch)) {
+                console.log('Branch ' + selected.branch + ' not found in branch list!');
+                return;
+            }
+
             var allBuildsOnSelectedBranch = loadedData.selectedBranch.builds;
             for (var index = 0; index < loadedData.selectedBranch.builds.length; index++) {
-                if (allBuildsOnSelectedBranch[index].build.name === configBuildName || allBuildsOnSelectedBranch[index].linkName === configBuildName) {
+                if (allBuildsOnSelectedBranch[index].build.name === selected.build || allBuildsOnSelectedBranch[index].linkName === selected.build) {
                     loadedData.selectedBuild = allBuildsOnSelectedBranch[index];
                 }
             }
