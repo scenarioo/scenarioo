@@ -26,4 +26,8 @@ public class UseCase {
 		this.description = description;
 		this.status = "";
 	}
+	
+	public void addDetail(final String key, final Object value) {
+		details.addDetail(key, value);
+	}
 }

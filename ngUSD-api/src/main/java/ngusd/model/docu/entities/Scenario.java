@@ -28,4 +28,8 @@ public class Scenario {
 		this.description = description;
 	}
 	
+	public void addDetail(final String key, final Object value) {
+		details.addDetail(key, value);
+	}
+	
 }
