@@ -23,13 +23,13 @@ angular.module('ngUSDClientApp.services').factory('HostnameAndPort', function(EN
         forLink: function() {
             return hostAndPort;
         }
-    }
+    };
 });
 
 angular.module('ngUSDClientApp.services').factory('NgUsdResource', function(HostnameAndPort, $resource) {
     return function(url, params, actions) {
         return $resource(HostnameAndPort.forNgResource() + '/ngusd/rest' + url, params, actions);
-    }
+    };
 });
 
 function getPromise($q, fn) {

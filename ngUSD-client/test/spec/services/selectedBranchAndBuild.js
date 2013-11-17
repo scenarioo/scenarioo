@@ -1,8 +1,8 @@
 'use strict';
 
-describe('Service: SelectedBranchAndBuild', function () {
+describe('Service :: SelectedBranchAndBuild', function () {
 
-    var SelectedBranchAndBuild, Config, $cookieStore, $location, CONFIG_LOADED_EVENT, $rootScope, $httpBackend;
+    var SelectedBranchAndBuild, Config, $cookieStore, $location, $rootScope, $httpBackend;
     var BRANCH_COOKIE = 'branch_cookie';
     var BUILD_COOKIE = 'build_cookie';
     var BRANCH_URL = 'branch_url';
@@ -25,7 +25,7 @@ describe('Service: SelectedBranchAndBuild', function () {
 
     beforeEach(angular.mock.module('ngUSDClientApp.services'));
 
-    beforeEach(inject(function(_SelectedBranchAndBuild_, _Config_, _$cookieStore_, _$location_, _$rootScope_, _$httpBackend_) {
+    beforeEach(inject(function (_SelectedBranchAndBuild_, _Config_, _$cookieStore_, _$location_, _$rootScope_, _$httpBackend_) {
         SelectedBranchAndBuild = _SelectedBranchAndBuild_;
         Config = _Config_;
         $cookieStore = _$cookieStore_;
@@ -39,13 +39,13 @@ describe('Service: SelectedBranchAndBuild', function () {
         expect($cookieStore.get(SelectedBranchAndBuild.BUILD_KEY)).toBeUndefined();
     });
 
-    describe('when the config is not yet loaded', function() {
-        it('has undefined values if no cookies or url parameters are set', inject(function(SelectedBranchAndBuild) {
+    describe('when the config is not yet loaded', function () {
+        it('has undefined values if no cookies or url parameters are set', inject(function (SelectedBranchAndBuild) {
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY]).toBeUndefined();
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BUILD_KEY]).toBeUndefined();
         }));
 
-        it('has the cookie values if cookies are set', function() {
+        it('has the cookie values if cookies are set', function () {
             setBranchAndBuildInCookie();
 
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY]).toBe(BRANCH_COOKIE);
@@ -54,7 +54,7 @@ describe('Service: SelectedBranchAndBuild', function () {
             expect($cookieStore.get(SelectedBranchAndBuild.BUILD_KEY)).toBe(BUILD_COOKIE);
         });
 
-        it('has the url parameter values, if cookies and url parameters are set', function() {
+        it('has the url parameter values, if cookies and url parameters are set', function () {
             setBranchAndBuildInCookie();
             setBranchAndBuildInUrlParameters();
 
@@ -65,8 +65,8 @@ describe('Service: SelectedBranchAndBuild', function () {
         });
     });
 
-    describe('when the config is loaded', function() {
-        it('uses the default values from the configuration, if no cookies or url parameters are set', function() {
+    describe('when the config is loaded', function () {
+        it('uses the default values from the configuration, if no cookies or url parameters are set', function () {
             expectBranchAndBuildInCookieIsNotSet();
             expectBranchAndBuildInUrlParametersIsNotSet();
 
@@ -80,7 +80,7 @@ describe('Service: SelectedBranchAndBuild', function () {
             expect($location.search()[SelectedBranchAndBuild.BUILD_KEY]).toBe(BUILD_CONFIG);
         });
 
-        it('uses the cookie values if they were already set, but only because there are no url parameters set', function() {
+        it('uses the cookie values if they were already set, but only because there are no url parameters set', function () {
             setBranchAndBuildInCookie();
 
             loadConfigFromService();
@@ -93,7 +93,7 @@ describe('Service: SelectedBranchAndBuild', function () {
             expect($location.search()[SelectedBranchAndBuild.BUILD_KEY]).toBe(BUILD_COOKIE);
         });
 
-        it('uses the url parameter values if they are set, with priority over the cookie values', function() {
+        it('uses the url parameter values if they are set, with priority over the cookie values', function () {
             setBranchAndBuildInCookie();
             setBranchAndBuildInUrlParameters();
 
@@ -108,8 +108,8 @@ describe('Service: SelectedBranchAndBuild', function () {
         });
     });
 
-    describe('when url parameter changes', function() {
-        it('updates the selection', function() {
+    describe('when url parameter changes', function () {
+        it('updates the selection', function () {
             expectBranchAndBuildInCookieIsNotSet();
             expectBranchAndBuildInUrlParametersIsNotSet();
 
@@ -120,14 +120,14 @@ describe('Service: SelectedBranchAndBuild', function () {
         });
     });
 
-    describe('when branch and build selection changes to a new valid state', function() {
-        it('all registered callbacks are called', function() {
+    describe('when branch and build selection changes to a new valid state', function () {
+        it('all registered callbacks are called', function () {
             expectBranchAndBuildInCookieIsNotSet();
             expectBranchAndBuildInUrlParametersIsNotSet();
 
             var selectedFromCallback;
 
-            SelectedBranchAndBuild.callOnSelectionChange(function(selected) {
+            SelectedBranchAndBuild.callOnSelectionChange(function (selected) {
                 selectedFromCallback = selected;
             });
 
@@ -150,25 +150,25 @@ describe('Service: SelectedBranchAndBuild', function () {
         });
     });
 
-    describe('when a callback is registered and valid data is already available', function() {
-       it('calls the callback immediately', function() {
-           expectBranchAndBuildInCookieIsNotSet();
-           expectBranchAndBuildInUrlParametersIsNotSet();
+    describe('when a callback is registered and valid data is already available', function () {
+        it('calls the callback immediately', function () {
+            expectBranchAndBuildInCookieIsNotSet();
+            expectBranchAndBuildInUrlParametersIsNotSet();
 
-           $location.url('/new/path/?branch=' + BRANCH_URL + '&build=' + BUILD_URL);
-           $rootScope.$apply();
+            $location.url('/new/path/?branch=' + BRANCH_URL + '&build=' + BUILD_URL);
+            $rootScope.$apply();
 
-           var selectedFromCallback;
+            var selectedFromCallback;
 
-           SelectedBranchAndBuild.callOnSelectionChange(function(selected) {
-               selectedFromCallback = selected;
-           });
+            SelectedBranchAndBuild.callOnSelectionChange(function (selected) {
+                selectedFromCallback = selected;
+            });
 
-           // here no further change happens, but the callback was called anyway (immediately when it was registered).
+            // here no further change happens, but the callback was called anyway (immediately when it was registered).
 
-           expect(selectedFromCallback.branch).toBe(BRANCH_URL);
-           expect(selectedFromCallback.build).toBe(BUILD_URL);
-       });
+            expect(selectedFromCallback.branch).toBe(BRANCH_URL);
+            expect(selectedFromCallback.build).toBe(BUILD_URL);
+        });
     });
 
     function setBranchAndBuildInCookie() {

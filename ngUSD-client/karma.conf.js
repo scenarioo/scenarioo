@@ -11,7 +11,6 @@ files = [
   'app/components/angular-resource/angular-*.js',
   'app/components/angular-cookies/angular-*.js',
   'app/components/angular-mocks/angular-*.js',
-  'app/components/angular-ui-bootstrap/src/dropdownToggle/dropdownToggle.js',
   'app/scripts/*.js',
   'app/scripts/**/*.js',
   'test/mock/**/*.js',
@@ -53,7 +52,7 @@ autoWatch = false;
 // - Safari (only Mac)
 // - PhantomJS
 // - IE (only Windows)
-browsers = ['Firefox'];
+browsers = ['PhantomJS'];
 
 // If browser does not capture in given timeout [ms], kill it
 captureTimeout = 5000;

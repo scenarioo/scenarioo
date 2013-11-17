@@ -2,10 +2,8 @@
 
 angular.module('ngUSDClientApp.services').factory('SelectedBranchAndBuild', function ($location, $cookieStore, $rootScope, Config) {
 
-    var BRANCH_KEY = 'branch',
-        BUILD_KEY = 'build',
-        CONFIG_KEY_SELECTED_BRANCH = 'selectedBranch',
-        CONFIG_KEY_SELECTED_BUILD = 'selectedBuild';
+    var BRANCH_KEY = 'branch';
+    var BUILD_KEY = 'build';
 
     var selectedBranch;
     var selectedBuild;
@@ -36,27 +34,30 @@ angular.module('ngUSDClientApp.services').factory('SelectedBranchAndBuild', func
     }
 
     function getFromCookieOrUrl(key) {
+        var value;
+
         // check URL first, this has priority over the cookie value
         var params = $location.search();
         if (params !== null && angular.isDefined(params[key])) {
-            var value = params[key];
-            $cookieStore.put(key, value)
+            value = params[key];
+            $cookieStore.put(key, value);
             return value;
         }
 
         // check cookie if value was not found in URL
-        var value = $cookieStore.get(key);
+        value = $cookieStore.get(key);
         if (angular.isDefined(value)) {
             $location.search(key, value);
             return value;
         }
 
         // If URL and cookie do not specify a value, we use the default from the config
-        var value = Config.defaultBranchAndBuild()[key];
-        if(angular.isDefined(value)) {
+        value = Config.defaultBranchAndBuild()[key];
+        if (angular.isDefined(value)) {
             $cookieStore.put(key, value);
             $location.search(key, value);
         }
+        return value;
     }
 
     $rootScope.$watch(function () {
@@ -81,32 +82,39 @@ angular.module('ngUSDClientApp.services').factory('SelectedBranchAndBuild', func
         return angular.isDefined(selectedBranch) && angular.isDefined(selectedBuild);
     }
 
+    function registerSelectionChangeCallback(callback) {
+        selectionChangeCallbacks.push(callback);
+        var selected = getSelectedBranchAndBuild();
+        if (isBranchAndBuildDefined()) {
+            callback(selected);
+        }
+    }
+
     return {
         BRANCH_KEY: BRANCH_KEY,
         BUILD_KEY: BUILD_KEY,
 
-        selected: function () {
-            return getSelectedBranchAndBuild();
-        },
-
-        isDefined: function() {
-            return isBranchAndBuildDefined();
-        },
+        /**
+         * Returns the currently selected branch and build as a map with the keys 'branch' and 'build'.
+         */
+        selected: getSelectedBranchAndBuild,
 
         /**
-         * This method should be used by all code that is interested in changes of the selected
-         * branch and build.
-         *
-         * The callback is called with the new selection as a parameter.
+         * Returns true only if both values (branch are build) are defined.
          */
-        callOnSelectionChange: function (callback) {
-            selectionChangeCallbacks.push(callback);
-            var selected = getSelectedBranchAndBuild();
-            if (isBranchAndBuildDefined()) {
-                callback(selected);
-            }
-        }
+        isDefined: isBranchAndBuildDefined,
+
+        /**
+         * This method lets you register callbacks that get called, as soon as a new and also valid build and branch
+         * selection is available. The callback is called with the new selection as a parameter.
+         *
+         * Note these special cases:
+         * - If there is already a valid selection available (i.e. branch and build are both defined), the callback
+         *   is called immediately when it is registered.
+         * - If the selection changes to an invalid selection (e.g. branch is defined, but build is undefined),
+         *   the callback is not called.
+         */
+        callOnSelectionChange: registerSelectionChangeCallback
     };
 
-})
-;
+});

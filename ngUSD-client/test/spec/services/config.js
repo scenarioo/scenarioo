@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Service :: config', function () {
+describe('Service :: Config', function () {
 
     var BUILD_STATE_FAILED = 'failed',
         BUILD_STATE_SUCCESS = 'success',
@@ -24,7 +24,7 @@ describe('Service :: config', function () {
         expect(Config).not.toBeUndefined();
     }));
 
-    it('should be able to load config from server', inject(function (Config, $rootScope, $httpBackend, $location, $cookieStore) {
+    it('should be able to load config from server', inject(function (Config, $rootScope, $httpBackend) {
         spyOn($rootScope, '$broadcast').andCallThrough();
 
         loadConfigFromService(Config, $httpBackend);
@@ -67,9 +67,11 @@ describe('Service :: config', function () {
     function getSize(object) {
         var size = 0, key;
         for (key in object) {
-            if (object.hasOwnProperty(key)) size++;
+            if (object.hasOwnProperty(key)) {
+                size++;
+            }
         }
         return size;
-    };
+    }
 
 });
