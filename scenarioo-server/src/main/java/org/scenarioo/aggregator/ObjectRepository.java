@@ -1,11 +1,15 @@
 package org.scenarioo.aggregator;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.io.FileUtils;
+import org.scenarioo.dao.ScenarioDocuAggregationDAO;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
@@ -15,12 +19,21 @@ import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
 
-
 public class ObjectRepository {
 	
-	private final Map<ObjectReference, ObjectDescription> objects = new HashMap<ObjectReference, ObjectDescription>();
+	private ScenarioDocuAggregationDAO dao;
+	
+	private String branchName;
+	
+	private String buildName;
 	
 	private final Map<ObjectReference, ObjectReferenceTreeBuilder> objectReferences = new HashMap<ObjectReference, ObjectReferenceTreeBuilder>();
+	
+	public ObjectRepository(final String branchName, final String buildName, final ScenarioDocuAggregationDAO dao) {
+		this.branchName = branchName;
+		this.buildName = buildName;
+		this.dao = dao;
+	}
 	
 	/**
 	 * Add all objects inside the passed generic object to the object repository for later saving.
@@ -36,15 +49,15 @@ public class ObjectRepository {
 			addObjects(referencePath, (Details) object);
 		}
 		else if (object instanceof ObjectList) {
-			addObjects(referencePath, (ObjectList<?>) object);
+			addListObjects(referencePath, (ObjectList<?>) object);
 		}
 		else if (object instanceof ObjectTreeNode) {
-			addObjects(referencePath, (ObjectTreeNode<?>) object);
+			addTreeObjects(referencePath, (ObjectTreeNode<?>) object);
 		}
 		
 	}
 	
-	public void addObjects(final List<ObjectReference> referencePath, final ObjectTreeNode<?> objectTree) {
+	public void addTreeObjects(final List<ObjectReference> referencePath, final ObjectTreeNode<?> objectTree) {
 		
 		// Add node
 		Object node = objectTree.getItem();
@@ -63,12 +76,12 @@ public class ObjectRepository {
 		if (nodeRef != null) {
 			referencePath.add(nodeRef);
 			addObjects(referencePath, objectTree.getDetails());
-			addObjects(referencePath, objectTree.getChildren());
+			addListObjects(referencePath, objectTree.getChildren());
 			referencePath.remove(referencePath.size() - 1);
 		}
 		else {
 			addObjects(referencePath, objectTree.getDetails());
-			addObjects(referencePath, objectTree.getChildren());
+			addListObjects(referencePath, objectTree.getChildren());
 		}
 	}
 	
@@ -80,7 +93,7 @@ public class ObjectRepository {
 	 * @param referencePath
 	 *            the path of objects that referenced these list.
 	 */
-	public void addObjects(final List<ObjectReference> referencePath, final List<?> objects) {
+	public void addListObjects(final List<ObjectReference> referencePath, final List<?> objects) {
 		for (Object object : objects) {
 			addObject(referencePath, object);
 		}
@@ -111,11 +124,17 @@ public class ObjectRepository {
 	 */
 	public void addObject(final List<ObjectReference> referencePath, final ObjectDescription object) {
 		ObjectReference ref = new ObjectReference(object.getType(), object.getName());
-		objects.put(ref, object);
+		saveObject(object);
 		addObjectReference(referencePath, ref);
 		referencePath.add(ref);
 		addObjects(referencePath, object.getDetails());
 		referencePath.remove(referencePath.size() - 1);
+	}
+	
+	private void saveObject(final ObjectDescription object) {
+		if (!dao.isObjectDescriptionSaved(branchName, buildName, object)) {
+			dao.saveObjectDescription(branchName, buildName, object);
+		}
 	}
 	
 	/**
@@ -185,10 +204,11 @@ public class ObjectRepository {
 		referencePath = extendPath(referencePath, pageReference);
 		addObjectReference(referencePath, pageReference);
 		
-		// Page description (if not yet)
-		if (page != null && !objects.containsKey(pageReference)) {
+		// Save page description (if not yet)
+		if (page != null) {
 			ObjectDescription pageDescription = new ObjectDescription("page", page.getName());
 			pageDescription.setDetails(page.getDetails());
+			saveObject(pageDescription);
 		}
 		
 		// Add referenced objects from page
@@ -197,4 +217,19 @@ public class ObjectRepository {
 		}
 		
 	}
+	
+	public void removeAnyExistingObjectData() {
+		deleteDirectory(dao.getFiles().getObjectsDirectory(branchName, buildName));
+	}
+	
+	private static void deleteDirectory(final File directory) {
+		if (directory.exists()) {
+			try {
+				FileUtils.deleteDirectory(directory);
+			} catch (IOException e) {
+				throw new RuntimeException("Could not delete directory: " + directory.getAbsolutePath(), e);
+			}
+		}
+	}
+	
 }

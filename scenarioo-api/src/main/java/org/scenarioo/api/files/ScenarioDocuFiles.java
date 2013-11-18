@@ -9,7 +9,6 @@ import java.util.List;
 import org.scenarioo.api.util.files.AlphanumericFileComparator;
 import org.scenarioo.api.util.files.ResourceNotFoundException;
 
-
 /**
  * Represents the file structure of the documentation.
  */

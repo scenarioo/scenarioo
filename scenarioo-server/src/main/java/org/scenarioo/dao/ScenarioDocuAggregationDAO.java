@@ -14,6 +14,7 @@ import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.PageVariantsCounter;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 
 /**
  * DAO for accessing user scenario docu content from filesystem, that is either generated or already precalculated.
@@ -116,6 +117,23 @@ public class ScenarioDocuAggregationDAO {
 		String scenarioName = scenarioPageSteps.getScenario().getName();
 		File file = files.getScenarioStepsFile(branchName, buildName, usecaseName, scenarioName);
 		XMLFileUtil.marshal(scenarioPageSteps, file);
+	}
+	
+	public boolean isObjectDescriptionSaved(final String branchName, final String buildName,
+			final ObjectDescription objectDescription) {
+		File objectFile = files.getObjectFile(branchName, buildName, objectDescription);
+		return objectFile.exists();
+	}
+	
+	public void saveObjectDescription(final String branchName, final String buildName,
+			final ObjectDescription objectDescription) {
+		File objectFile = files.getObjectFile(branchName, buildName, objectDescription);
+		objectFile.getParentFile().mkdirs();
+		XMLFileUtil.marshal(objectDescription, objectFile);
+	}
+	
+	public ScenarioDocuAggregationFiles getFiles() {
+		return files;
 	}
 	
 }

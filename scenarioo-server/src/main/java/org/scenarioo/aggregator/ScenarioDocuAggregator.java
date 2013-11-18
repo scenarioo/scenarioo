@@ -41,7 +41,7 @@ public class ScenarioDocuAggregator {
 	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
 	 * otherwise the data has to be recalculated.
 	 */
-	public static final String CURRENT_FILE_FORMAT_VERSION = "0.6";
+	public static final String CURRENT_FILE_FORMAT_VERSION = "0.9";
 	
 	private final static Logger LOGGER = Logger.getLogger(ScenarioDocuAggregator.class);
 	
@@ -52,7 +52,7 @@ public class ScenarioDocuAggregator {
 	
 	private final Map<String, StepVariantState> mapOfStepVariant = new HashMap<String, StepVariantState>();
 	
-	private ObjectRepository objectRepository = new ObjectRepository();
+	private ObjectRepository objectRepository;
 	
 	@Data
 	public class StepVariantState {
@@ -78,6 +78,9 @@ public class ScenarioDocuAggregator {
 	
 	public void calculateAggregatedDataForBuild(final String branchName,
 			final String buildName) {
+		
+		objectRepository = new ObjectRepository(branchName, buildName, dao);
+		objectRepository.removeAnyExistingObjectData();
 		
 		LOGGER.info("  calculating aggregated data for build : " + buildName);
 		UseCaseScenariosList useCaseScenariosList = calculateUseCaseScenariosList(
