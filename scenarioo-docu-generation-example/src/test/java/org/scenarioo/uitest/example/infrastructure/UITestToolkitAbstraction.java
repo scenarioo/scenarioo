@@ -10,7 +10,6 @@ import org.scenarioo.model.docu.entities.StepHtml;
 import org.scenarioo.model.docu.entities.StepMetadata;
 import org.scenarioo.uitest.dummy.toolkit.UITestToolkit;
 
-
 /**
  * Dummy example implementation of an abstraction layer that wrapps the used UI testing toolkit.
  * 
@@ -125,8 +124,7 @@ public class UITestToolkitAbstraction {
 		stepDescription.setIndex(stepIndex);
 		stepDescription.addDetails("url", toolkit.getBrowserUrl());
 		stepDescription.setScreenshotFileName(docuWriter.getScreenshotFile(test.getUseCase().getName(),
-				test.getScenario()
-						.getName(), stepIndex).getName());
+				test.getScenario().getName(), stepIndex).getName());
 		return stepDescription;
 	}
 	
