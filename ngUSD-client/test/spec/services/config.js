@@ -59,7 +59,7 @@ describe('Service :: Config', function () {
     }));
 
     function loadConfigFromService(Config, $httpBackend) {
-        $httpBackend.when('GET', 'http://localhost:8080/ngusd/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
+        $httpBackend.when('GET', 'http://localhost:8080/scenarioo/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
         Config.load();
         $httpBackend.flush();
     }

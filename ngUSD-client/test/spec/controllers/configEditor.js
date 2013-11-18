@@ -28,8 +28,8 @@ describe('Controller :: Config', function () {
         Config = _Config_;
         $httpBackend = _$httpBackend_;
 
-        $httpBackend.whenGET('http://localhost:8080/ngusd/rest/branches').respond(DUMMY_BRANCHES_RESPONSE);
-        $httpBackend.whenGET('http://localhost:8080/ngusd/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
+        $httpBackend.whenGET('http://localhost:8080/scenarioo/rest/branches').respond(DUMMY_BRANCHES_RESPONSE);
+        $httpBackend.whenGET('http://localhost:8080/scenarioo/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
 
         $scope = $rootScope.$new();
         ConfigCtrl = $controller('ConfigCtrl', {$scope: $scope, BranchService: BranchService, Config: Config});

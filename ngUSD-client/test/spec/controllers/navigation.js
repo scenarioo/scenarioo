@@ -32,7 +32,7 @@ describe('Controller: NavigationCtrl', function () {
                 { name: "Build 2b" }
             ]
         }];
-        $httpBackend.expectGET("http://localhost:8050/ngusd/rest/branches").respond(branches);
+        $httpBackend.expectGET("http://localhost:8050/scenarioo/rest/branches").respond(branches);
 
         console.log("Mocked BranchService Response: "+ angular.toJson(branches));
         var NavigationCtrl = $controller('NavigationCtrl', {

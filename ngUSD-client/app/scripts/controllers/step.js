@@ -49,7 +49,7 @@ angular.module('ngUSDClientApp.controllers').controller('StepCtrl', function ($s
 
         $scope.getScreenShotUrl = function (imgName) {
             if (angular.isDefined(imgName)) {
-                return HostnameAndPort.forLink() + '/ngusd/rest/branches/' + selected.branch + '/builds/' + selected.build + '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
+                return HostnameAndPort.forLink() + '/scenarioo/rest/branches/' + selected.branch + '/builds/' + selected.build + '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
             } else {
                 return '';
             }

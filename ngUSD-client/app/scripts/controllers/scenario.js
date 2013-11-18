@@ -23,7 +23,7 @@ angular.module('ngUSDClientApp.controllers').controller('ScenarioCtrl', function
         });
 
         $scope.getScreenShotUrl = function (imgName) {
-            return HostnameAndPort.forLink() + '/ngusd/rest/branches/' + selected.branch + '/builds/' + selected.build +
+            return HostnameAndPort.forLink() + '/scenarioo/rest/branches/' + selected.branch + '/builds/' + selected.build +
                 '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
         };
     };

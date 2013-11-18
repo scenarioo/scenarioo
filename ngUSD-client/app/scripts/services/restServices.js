@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngUSDClientApp.services').constant('REST_API_URL', '/ngusd/rest');
+angular.module('ngUSDClientApp.services').constant('REST_API_URL', '/scenarioo/rest');
 
 angular.module('ngUSDClientApp.services').config(function ($httpProvider) {
     $httpProvider.defaults.headers.common.Accept = 'application/json';
