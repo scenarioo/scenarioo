@@ -11,7 +11,7 @@ import org.scenarioo.model.docu.entities.StepMetadata;
 import org.scenarioo.uitest.dummy.toolkit.UITestToolkit;
 
 /**
- * Dummy example implementation of an abstraction layer that wrapps the used UI testing toolkit.
+ * Example implementation of an abstraction layer that wrapps the used UI testing toolkit.
  * 
  * That's the place where you would usually use the real testing toolkit API that you use for your UI tests.
  * 
@@ -90,7 +90,7 @@ public class UITestToolkitAbstraction {
 	 */
 	public void saveStepErrorWithScreenshot() {
 		String screenshot = toolkit.takeScreenshot();
-		saveStepWithScreenshot(screenshot, "error");
+		saveStepWithScreenshot(screenshot, "failed");
 	}
 	
 	private void saveStepWithScreenshot(final String screenshot, final String status) {
@@ -142,16 +142,16 @@ public class UITestToolkitAbstraction {
 		return metadata;
 	}
 	
-	public void assertElementPresent(final String string) {
-		// dummy implementation: never fails
+	public void assertElementPresent(final String elementId) {
+		toolkit.assertElementPresent(elementId);
 	}
 	
-	public void assertElementNotPresent(final String string) {
-		// dummy implementation: never fails
+	public void assertElementNotPresent(final String elementId) {
+		toolkit.assertElementNotPresent(elementId);
 	}
 	
-	public void assertTextPresent(final String string) {
-		// dummy implementation: never fails
+	public void assertTextPresent(final String text) {
+		toolkit.assertTextPresent(text);
 	}
 	
 }

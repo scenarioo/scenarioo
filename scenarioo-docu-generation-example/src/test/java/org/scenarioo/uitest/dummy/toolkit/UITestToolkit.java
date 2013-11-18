@@ -5,7 +5,8 @@ import org.scenarioo.uitest.dummy.application.DummyApplicationSimulator;
 import org.scenarioo.uitest.example.infrastructure.UITestToolkitAbstraction;
 
 /**
- * Dummy implementation of a UI testing toolkit (could be Selenium for example).
+ * Dummy implementation of a UI testing toolkit (could be Selenium for example, or Robotium por SWTBot, or whatever UI
+ * toolkit you like or use in your project).
  * 
  * You would replace this class by a real UI Testing API in your real UI tests and adopt the wrapper
  * {@link UITestToolkitAbstraction} accordingly.
@@ -77,6 +78,18 @@ public class UITestToolkit {
 	public String getHtmlSource() {
 		// just some dummy html (same for all pages, for simplicity)
 		return "<html>\n<head>\n</head>\n<body>\n   <p>just some dummy html code</p>\n</body>\n</html>";
+	}
+	
+	public void assertElementPresent(final String elementId) {
+		// dummy implementation: never fails
+	}
+	
+	public void assertElementNotPresent(final String elementId) {
+		// dummy implementation: never fails
+	}
+	
+	public void assertTextPresent(final String text) {
+		// dummy implementation: never fails
 	}
 	
 }

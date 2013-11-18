@@ -48,6 +48,7 @@ public class FindPageUITest extends UITest {
 		toolkit.loadUrl("http://www.wikipedia.org");
 		toolkit.enterText("searchField", "FC Basel");
 		toolkit.clickButton("searchButton");
+		toolkit.assertTextPresent("Swiss football club");
 	}
 	
 	@Test
@@ -58,7 +59,8 @@ public class FindPageUITest extends UITest {
 		toolkit.loadUrl("http://www.wikipedia.org");
 		toolkit.enterText("searchField", "42");
 		toolkit.clickButton("searchButton");
-		toolkit.clickLink("????");
+		toolkit.clickLink("42 (number)");
+		toolkit.clickLink("42 - The answer to everything");
 	}
 	
 	@DocuDescription(

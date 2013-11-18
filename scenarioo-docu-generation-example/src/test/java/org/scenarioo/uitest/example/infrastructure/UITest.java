@@ -8,7 +8,6 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.uitest.dummy.toolkit.UITestToolkit;
 
-
 /**
  * Example basis class for unit tests that contains UI test scenarios to record these scenarios using Scenarioo.
  */

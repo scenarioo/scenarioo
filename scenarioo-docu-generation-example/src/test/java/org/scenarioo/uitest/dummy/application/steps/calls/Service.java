@@ -45,7 +45,7 @@ public enum Service {
 	}
 	
 	public String getType() {
-		return "businessOperation";
+		return "service";
 	}
 	
 	public ObjectReference getReference() {
