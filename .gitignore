@@ -11,6 +11,6 @@ app/bower_components
 .vm-update.log
 .gradle
 third-party
-ngUSD-client/app/scripts/environment_config.js
+scenarioo-client/app/scripts/environment_config.js
 .project
 /build
