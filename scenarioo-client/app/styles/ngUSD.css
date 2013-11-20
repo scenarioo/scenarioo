@@ -224,7 +224,7 @@ h2 {
 }
 
 .screenshot img {
-    border: medium solid #333333;
+    border: 2px solid #DDDDDD;
     max-width: 98%;
     width: auto;
 }

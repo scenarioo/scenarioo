@@ -1,7 +1,8 @@
 <usd-breadcrumb></usd-breadcrumb>
 
-<h1>Step {{pageIndex+1}}.{{stepIndex}} - {{pageName}}</h1>
+<h1>Step {{pageIndex+1}}.{{stepIndex}}: {{pageName}}</h1>
 
+<!-- Action buttons -->
 <div class="row step-navigation ngusd-space-top ngusd-space-bottom">
     <div class="col-lg-6">
         <div ng-click="goToPreviousPage()" class="btn btn-default" tooltip="Previous Page" tooltip-placement="bottom">
@@ -54,19 +55,20 @@
     </div>
 </div>
 
+<!-- screenshot and information -->
 <div class="row step-main">
     <div ng-class="{true: 'step-data-small col-lg-7', false: 'step-data-large col-lg-12'}[showingMetaData]">
-        <tabs class="step-panes">
-            <pane heading="Screenshot">
+        <tabset class="step-panes">
+            <tab heading="Screenshot">
                 <div class="screenshot">
-                    <img ng-src="{{getScreenShotUrl(step.stepDescription.screenshotFileName)}}" ng-click="openScreenshotModal()" class="link"/>
+                    <img ng-src="{{getScreenShotUrl(step.stepDescription.screenshotFileName)}}"/>
                 </div>
-            </pane>
-            <pane heading="HTML">
+            </tab>
+            <tab heading="HTML">
                 <pre ng-bind="formattedHtml">
                 </pre>
-            </pane>
-        </tabs>
+            </tab>
+        </tabset>
     </div>
     <div ng-show="showingMetaData" class="col-lg-5 hero-unit meta-data">
         <h3>Meta Data</h3>
@@ -88,17 +90,5 @@
                 <div class="col-lg-8"><span objecttolist='step.page.details.properties.{{key}}'></span></div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="screenshot-overlay" modal="showingScreenshotModal" close="closeScreenshotModal()" options="modalScreenshotOptions">
-    <div class="modal-header">
-        <h3>Step {{pageIndex+1}}.{{stepIndex}} {{pageName}}</h3>
-    </div>
-    <div class="modal-body">
-        <img ng-src="{{getScreenShotUrl(step.stepDescription.screenshotFileName)}}"/>
-    </div>
-    <div class="modal-footer">
-        <button class="btn" ng-click="closeScreenshotModal()">Close</button>
     </div>
 </div>

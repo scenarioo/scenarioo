@@ -163,12 +163,4 @@ angular.module('ngUSDClientApp.controllers').controller('StepCtrl', function ($s
         var pageName = pageSteps.page.name;
         $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) + '/' + pageIndex + '/' + stepIndex);
     };
-
-    $scope.openScreenshotModal = function () {
-        $scope.showingScreenshotModal = true;
-    };
-
-    $scope.closeScreenshotModal = function () {
-        $scope.showingScreenshotModal = false;
-    };
 });

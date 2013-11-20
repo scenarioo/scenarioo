@@ -1,8 +1,17 @@
 <usd-breadcrumb></usd-breadcrumb>
 
-<h1>Use Case: {{useCase.name | toHumanReadable}}</h1>
-
 <div class="row ngusd-space-top ngusd-space-bottom">
+    <div class="col-lg-8">
+        <h1>Use Case: {{useCase.name | toHumanReadable}}</h1>
+    </div>
+    <div class="col-lg-1">
+        <span class="pull-right">
+            <button ng-click="switchFilter()" class="btn btn-default">
+                <span ng-show="!table.filtering">Show filter</span>
+                <span ng-show="table.filtering">Hide filter</span>
+            </button>
+        </span>
+    </div>
     <div class="col-lg-3">
         <div class="input-group">
             <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="useCasesSearchField" data-toggle="tooltip" title="filter for use case" ng-model="table.search.$" placeholder="Search scenario..."/>
@@ -11,21 +20,13 @@
             </span>
         </div>
     </div>
-    <div class="col-lg-9">
-        <span class="pull-right">
-            <button ng-click="switchFilter()" class="btn btn-primary">
-                <span ng-show="!table.filtering">Show filter</span>
-                <span ng-show="table.filtering">Hide filter</span>
-            </button>
-        </span>
-    </div>
 </div>
 
 <table class="table table-bordered">
     <thead>
         <tr>
             <th sortandfilter="status">Status</th>
-            <th sortandfilter="name">Name</th>
+            <th sortandfilter="name">Scenario name</th>
             <th>Actions</th>
             <th>Description</th>
             <th ng-repeat="property in propertiesToShow" sortandfilter="details.properties.{{property}}">{{property | toHumanReadable}}</th>
