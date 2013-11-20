@@ -13,26 +13,22 @@
     </div>
 </div>
 
-<div ng-repeat="pageSteps in pagesAndSteps" class="steps">
-    <hr/>
-    <div ng-repeat="step in pageSteps.steps | filter:searchFieldText" ng-show="$index==0 || showingSteps[$parent.$index]" class="link row step-view" >
-        <div class="col-lg-1">
-            <div ng-click="showingSteps[$parent.$index]=!showingSteps[$parent.$index]" ng-show="$index==0 && pageSteps.steps.length>1" class="step-icon pull-right">
-                <i ng-hide="showingSteps[$parent.$index]" class="icon-with-padding icon-plus-sign link"></i>
-                <i ng-show="showingSteps[$parent.$index]" class="icon-with-padding icon-minus-sign link"></i>
-            </div>
-            <div class="step-icon pull-right"  ng-show="$index==0 && pageSteps.steps.length==1">
-                <i class="icon-with-padding icon-circle"></i>
-            </div>
+<div ng-repeat="page in pagesAndSteps" class="steps">
+    <h2>Page: {{page.page.name}}
+        <div ng-click="showingSteps[$index] =! showingSteps[$index]" ng-show="page.steps.length > 1" class="step-icon pull-right">
+            <i ng-hide="showingSteps[$index]" class="icon-with-padding icon-plus-sign link"></i>
+            <i ng-show="showingSteps[$index]" class="icon-with-padding icon-minus-sign link"></i>
         </div>
-        <div class="col-lg-7" ng-click="goToStep(pageSteps, $parent.$index, $index)">
-            <div class="screenshot-div" style="max-height:300px;overflow:hidden;">
+    </h2>
+    <div ng-repeat="step in page.steps | filter:searchFieldText" ng-show="$index==0 || showingSteps[$parent.$index]" class="link row step-view" >
+        <div class="col-lg-8" ng-click="goToStep(page, $parent.$index, $index)">
+            <div class="screenshot-div" style="max-height:300px;overflow:hidden; margin: 10px 0 10px 0;">
                 <img ng-src="{{getScreenShotUrl(step.screenshotFileName)}}" style="width:100%"/>
             </div>
         </div>
         <div class="col-lg-4">
             <div class="step-title">
-                <h4>{{step.number}} - {{step.title}}</h4>
+                <h4>Step {{step.number}}: {{step.title}}</h4>
                 {{step.page.name}} ({{step.page.index}} of {{pagesAndSteps.length}})
 
                 <div ng-repeat="(key,value) in step.details.properties" class="row">
@@ -43,18 +39,6 @@
                     <div class="col-lg-4">{{key | toHumanReadable}}</div>
                     <div class="col-lg-8">{{value}}</div>
                 </div>
-            </div>
-        </div>
-
-        <div class="screenshot-overlay" modal="step.showingScreenshotModal" close="closeScreenshotModal(step)" options="modalScreenshotOptions">
-            <div class="modal-header">
-                <h3>Step {{pageIndex}}.{{stepIndex}} {{pageName}}</h3>
-            </div>
-            <div class="modal-body">
-                <img ng-src="{{getScreenShotUrl(step.screenshotFileName)}}"/>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" ng-click="closeScreenshotModal(step)">Close</button>
             </div>
         </div>
     </div>

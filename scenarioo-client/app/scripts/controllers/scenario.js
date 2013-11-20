@@ -56,12 +56,4 @@ angular.module('ngUSDClientApp.controllers').controller('ScenarioCtrl', function
     $scope.resetSearchField = function () {
         $scope.searchFieldText = '';
     };
-
-    $scope.openScreenshotModal = function () {
-        $scope.showingScreenshotModal = true;
-    };
-
-    $scope.closeScreenshotModal = function () {
-        $scope.showingScreenshotModal = false;
-    };
 });

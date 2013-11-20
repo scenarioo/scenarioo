@@ -16,6 +16,12 @@ h1 {
     margin: 0px 0px 20px;
 }
 
+h2 {
+    border-bottom: 2px #CCCCCC solid;
+    margin-top: 1.5em;
+    padding-bottom: 0.15em;
+}
+
 .icon-with-padding {
     padding-left: 5px;
     padding-right: 5px;
@@ -140,13 +146,11 @@ h1 {
     margin-right: 10px;
 }
 
-.step-view .hero-unit-small {
-    margin-bottom: 0px;
-    padding: 10px 20px;
-}
-
 .step-view {
-    margin: 25px 25px 0px 25px !important;
+    margin: 20px 0 20px 0;
+    padding: 5px;
+    background-color: #eeeeee;
+    border-radius: 3px;
 }
 
 .step-view .step-icon i {
@@ -219,14 +223,6 @@ h1 {
     width: 90% !important;
 }
 
-/** Screenshot */
-.screenshot-small .screenshot-div {
-    max-height: 300px;
-    margin: 10px 0px 10px;
-    overflow:hidden;
-    border: medium solid #333333;
-}
-
 .screenshot img {
     border: medium solid #333333;
     max-width: 98%;
@@ -235,11 +231,6 @@ h1 {
 
 .screenshot-small img {
     width: 800px;
-}
-
-.screenshot-div {
-    margin-bottom: 10px;
-    position: relative;
 }
 
 /** Configuration */
