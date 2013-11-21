@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('scenarioo.directives').directive('objecttolist', function ($filter) {
+angular.module('scenarioo.directives').directive('scMetadata', function ($filter) {
     var objectToListObject = {
         restrict: 'A',
         scope: true,
         link: function (scope, element, attrs) {
 
-            scope.$watch(attrs.objecttolist, function () {
-                var text = scope.$eval(attrs.objecttolist);
+            scope.$watch(attrs.scMetadata, function () {
+                var text = scope.$eval(attrs.scMetadata);
                 if (!text) {
                     return;
                 }
@@ -15,7 +15,7 @@ angular.module('scenarioo.directives').directive('objecttolist', function ($filt
                     element.html(text);
                 }
 
-                var path = attrs.objecttolist;
+                var path = attrs.scMetadata;
                 if (typeof text === 'object') {
                     var obj = text;
                     var keys = Object.keys(obj);
