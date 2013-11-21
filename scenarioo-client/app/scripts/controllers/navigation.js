@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngUSDClientApp.controllers').controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchesAndBuilds, BranchService, AdminService, $rootScope, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchesAndBuilds, BranchService, AdminService, $rootScope, SelectedBranchAndBuild) {
 
     /**
      * is set to true while server is updating it's docu

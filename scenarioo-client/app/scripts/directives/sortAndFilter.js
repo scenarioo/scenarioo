@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngUSDClientApp.directives').directive('sortandfilter', function ($compile) {
+angular.module('scenarioo.directives').directive('sortandfilter', function ($compile) {
     var sortableDescriptionObject = {
         restrict: 'A',
         scope: true,

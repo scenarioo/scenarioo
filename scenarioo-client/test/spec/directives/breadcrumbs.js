@@ -9,7 +9,7 @@ describe('Directive: Breadcrumbs', function () {
         html;
 
     // load module
-    beforeEach(module('ngUSDClientApp.directives'));
+    beforeEach(module('scenarioo.directives'));
 
     beforeEach(inject(function ($rootScope, $compile, $location, $route, $httpBackend) {
         // create a scope

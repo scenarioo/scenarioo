@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module('ngUSDClientApp.services').constant('REST_API_URL', '/scenarioo/rest');
+angular.module('scenarioo.services').constant('REST_API_URL', '/scenarioo/rest');
 
-angular.module('ngUSDClientApp.services').config(function ($httpProvider) {
+angular.module('scenarioo.services').config(function ($httpProvider) {
     $httpProvider.defaults.headers.common.Accept = 'application/json';
 });
 
-angular.module('ngUSDClientApp.services').factory('HostnameAndPort', function(ENV) {
+angular.module('scenarioo.services').factory('HostnameAndPort', function(ENV) {
     var hostAndPort;
 
     if(ENV === 'production') {
@@ -26,7 +26,7 @@ angular.module('ngUSDClientApp.services').factory('HostnameAndPort', function(EN
     };
 });
 
-angular.module('ngUSDClientApp.services').factory('NgUsdResource', function(HostnameAndPort, $resource) {
+angular.module('scenarioo.services').factory('ScenariooResource', function(HostnameAndPort, $resource) {
     return function(url, params, actions) {
         return $resource(HostnameAndPort.forNgResource() + '/scenarioo/rest' + url, params, actions);
     };
@@ -44,9 +44,9 @@ function getPromise($q, fn) {
     };
 }
 
-angular.module('ngUSDClientApp.services').factory('BranchService', function (NgUsdResource, $q) {
+angular.module('scenarioo.services').factory('BranchService', function (ScenariooResource, $q) {
 
-    var branchService = NgUsdResource('/branches', {}, {});
+    var branchService = ScenariooResource('/branches', {}, {});
 
     branchService.findAllBranches = getPromise($q, function (parameters, fnSuccess, fnError) {
         return branchService.query(parameters, fnSuccess, fnError);
@@ -55,8 +55,8 @@ angular.module('ngUSDClientApp.services').factory('BranchService', function (NgU
     return branchService;
 });
 
-angular.module('ngUSDClientApp.services').factory('UseCaseService', function (NgUsdResource, $q) {
-    var useCaseService = NgUsdResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName',
+angular.module('scenarioo.services').factory('UseCaseService', function (ScenariooResource, $q) {
+    var useCaseService = ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName',
         {   branchName: '@branchName',
             buildName: '@buildName',
             usecaseName: '@usecaseName'}, {});
@@ -70,8 +70,8 @@ angular.module('ngUSDClientApp.services').factory('UseCaseService', function (Ng
     return useCaseService;
 });
 
-angular.module('ngUSDClientApp.services').factory('PageVariantService', function (NgUsdResource, $q) {
-    var pageVariantService = NgUsdResource('/branches/:branchName/builds/:buildName/search/pagevariants/',
+angular.module('scenarioo.services').factory('PageVariantService', function (ScenariooResource, $q) {
+    var pageVariantService = ScenariooResource('/branches/:branchName/builds/:buildName/search/pagevariants/',
         {   branchName: '@branchName',
             buildName: '@buildName'}, {});
 
@@ -82,8 +82,8 @@ angular.module('ngUSDClientApp.services').factory('PageVariantService', function
 });
 
 
-angular.module('ngUSDClientApp.services').factory('ScenarioService', function (NgUsdResource, $q) {
-    var scenarioService = NgUsdResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName',
+angular.module('scenarioo.services').factory('ScenarioService', function (ScenariooResource, $q) {
+    var scenarioService = ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName',
         {   branchName: '@branchName',
             buildName: '@buildName',
             usecaseName: '@usecaseName',
@@ -101,8 +101,8 @@ angular.module('ngUSDClientApp.services').factory('ScenarioService', function (N
 
 });
 
-angular.module('ngUSDClientApp.services').factory('StepService', function (NgUsdResource, $q) {
-    var stepService = NgUsdResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName/steps/:stepIndex',
+angular.module('scenarioo.services').factory('StepService', function (ScenariooResource, $q) {
+    var stepService = ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName/steps/:stepIndex',
         {branchName: '@branchName',
             buildName: '@buildName',
             usecaseName: '@usecaseName',
@@ -116,8 +116,8 @@ angular.module('ngUSDClientApp.services').factory('StepService', function (NgUsd
     return stepService;
 });
 
-angular.module('ngUSDClientApp.services').factory('AdminService', function (NgUsdResource, $q) {
-    var adminService = NgUsdResource('/admin/update', {});
+angular.module('scenarioo.services').factory('AdminService', function (ScenariooResource, $q) {
+    var adminService = ScenariooResource('/admin/update', {});
 
     adminService.updateData = getPromise($q, function (parameters, fnSuccess, fnError) {
         return adminService.get(parameters, fnSuccess, fnError);
@@ -126,6 +126,6 @@ angular.module('ngUSDClientApp.services').factory('AdminService', function (NgUs
     return adminService;
 });
 
-angular.module('ngUSDClientApp.services').factory('ConfigResource', function (NgUsdResource) {
-    return NgUsdResource('/configuration', {} );
+angular.module('scenarioo.services').factory('ConfigResource', function (ScenariooResource) {
+    return ScenariooResource('/configuration', {} );
 });

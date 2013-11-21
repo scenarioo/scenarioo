@@ -8,7 +8,7 @@ describe('Controller :: useCase', function () {
 
     var $scope, routeParams, configMock, controller, scenarioService, SelectedBranchAndBuild, $location, $rootScope;
 
-    beforeEach(module('ngUSDClientApp.controllers'));
+    beforeEach(module('scenarioo.controllers'));
 
     beforeEach(inject(function ($rootScope, $routeParams, $controller, ScenarioService, ConfigMock, _SelectedBranchAndBuild_, _$location_) {
             $scope = $rootScope.$new();

@@ -4,7 +4,7 @@ describe('Controller :: Scenario', function() {
 
     var scope, configFake, scenarioController, $httpBackend;
 
-    beforeEach(module('ngUSDClientApp.controllers'));
+    beforeEach(module('scenarioo.controllers'));
 
     beforeEach(inject(function($rootScope, $controller, _$httpBackend_) {
         scope = $rootScope.$new();

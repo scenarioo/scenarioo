@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngUSDClientApp.services').factory('SelectedBranchAndBuild', function ($location, $cookieStore, $rootScope, Config) {
+angular.module('scenarioo.services').factory('SelectedBranchAndBuild', function ($location, $cookieStore, $rootScope, Config) {
 
     var BRANCH_KEY = 'branch';
     var BUILD_KEY = 'build';

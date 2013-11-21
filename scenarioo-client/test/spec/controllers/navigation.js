@@ -5,7 +5,7 @@ describe('Controller: NavigationCtrl', function () {
     var branches, $httpBackend;
 
     // load the controller's module
-    beforeEach(module('ngUSDClientApp'));
+    beforeEach(module('scenarioo'));
 
     // Initialize the controller and a mock scope
     beforeEach(inject(function () {

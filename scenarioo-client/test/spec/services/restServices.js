@@ -3,7 +3,7 @@
 describe('Service :: restServices', function () {
 
 
-    beforeEach(angular.mock.module('ngUSDClientApp.services'));
+    beforeEach(angular.mock.module('scenarioo.services'));
 
 
     it('should inject ConfigResource', inject(function (ConfigResource) {

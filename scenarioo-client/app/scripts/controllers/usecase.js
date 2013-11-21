@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngUSDClientApp.controllers').controller('UseCaseCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioService, Config, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioService, Config, SelectedBranchAndBuild) {
 
     SelectedBranchAndBuild.callOnSelectionChange(loadScenariosAndUseCase);
 

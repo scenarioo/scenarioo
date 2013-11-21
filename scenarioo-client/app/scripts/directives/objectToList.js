@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngUSDClientApp.directives').directive('objecttolist', function ($filter) {
+angular.module('scenarioo.directives').directive('objecttolist', function ($filter) {
     var objectToListObject = {
         restrict: 'A',
         scope: true,

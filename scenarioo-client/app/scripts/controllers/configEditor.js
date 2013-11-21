@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngUSDClientApp.controllers').controller('ConfigCtrl', function ($scope, BranchService, Config) {
+angular.module('scenarioo.controllers').controller('ConfigCtrl', function ($scope, BranchService, Config) {
 
     $scope.$watch(function () {
         return Config.getRawConfigDataCopy();

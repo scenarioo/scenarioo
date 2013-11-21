@@ -19,7 +19,7 @@ describe('Controller :: Config', function () {
 
     var DUMMY_BRANCHES_RESPONSE = '[{"branch":{"description":"","name":"2013-05"},"builds":[{"linkName":"2013-06-16_001226-497549","build":{"revision":"497549","details":{"properties":{"softwareVersion":"13.0.5"}},"date":1371334346000,"name":"2013-06-16_001226-497549","state":"success"}},{"linkName":"current","build":{"revision":"497549","details":{"properties":{"softwareVersion":"13.0.5"}},"date":1371334346000,"name":"2013-06-16_001226-497549","state":"success"}}]},{"branch":{"description":"","name":"trunk"},"builds":[{"linkName":"2013-06-05_001546-497000","build":{"revision":"497000","details":{"properties":{"softwareVersion":"13.1.1"}},"date":1370384146000,"name":"2013-06-05_001546-497000","state":"failed"}},{"linkName":"2013-06-14_001548-497444","build":{"revision":"497444","details":{"properties":{"softwareVersion":"13.1.1c"}},"date":1371161748000,"name":"2013-06-14_001548-497444","state":"success"}},{"linkName":"current","build":{"revision":"497444","details":{"properties":{"softwareVersion":"13.1.1c"}},"date":1371161748000,"name":"2013-06-14_001548-497444","state":"success"}}]}]';
 
-    beforeEach(module('ngUSDClientApp.controllers'));
+    beforeEach(module('scenarioo.controllers'));
 
     beforeEach(inject(function (_$rootScope_, _$controller_, _BranchService_, _Config_, _$httpBackend_) {
         $rootScope = _$rootScope_;

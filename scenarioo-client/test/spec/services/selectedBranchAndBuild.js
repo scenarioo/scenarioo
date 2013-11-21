@@ -23,7 +23,7 @@ describe('Service :: SelectedBranchAndBuild', function () {
         }
     };
 
-    beforeEach(angular.mock.module('ngUSDClientApp.services'));
+    beforeEach(angular.mock.module('scenarioo.services'));
 
     beforeEach(inject(function (_SelectedBranchAndBuild_, _Config_, _$cookieStore_, _$location_, _$rootScope_, _$httpBackend_) {
         SelectedBranchAndBuild = _SelectedBranchAndBuild_;

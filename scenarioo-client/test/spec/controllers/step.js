@@ -7,7 +7,7 @@ describe('StepCtrl', function () {
 
     var METADATA_TYPE = 'some_type';
 
-    beforeEach(module('ngUSDClientApp.controllers'));
+    beforeEach(module('scenarioo.controllers'));
 
     beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _Config_, _ScenarioService_, _PageVariantService_, _StepService_, _HostnameAndPort_, _SelectedBranchAndBuild_, $controller) {
         $scope = _$rootScope_.$new();

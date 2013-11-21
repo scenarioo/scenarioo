@@ -2,7 +2,7 @@
 
 describe('Controller: ApplicationInfoPopupCtrl', function () {
 
-    beforeEach(module('ngUSDClientApp.controllers'));
+    beforeEach(module('scenarioo.controllers'));
 
     var ApplicationInfoPopupCtrl,
         $scope,

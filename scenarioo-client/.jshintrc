@@ -1,7 +1,6 @@
 {
     "node": true,
     "browser": true,
-    "es5": true,
     "esnext": true,
     "bitwise": true,
     "camelcase": true,
@@ -22,15 +21,11 @@
     "globals": {
         "angular": false,
         "inject":false,
-        "NgUsdClientApp": false,
-
         "it": false,
         "describe": false,
         "expect": false,
         "beforeEach": false,
         "afterEach": false,
         "spyOn":false
-
-
     }
 }

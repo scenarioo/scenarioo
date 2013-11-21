@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngUSDClientApp.services').service('BranchesAndBuilds', function ($rootScope, Config, BranchService, $q, SelectedBranchAndBuild) {
+angular.module('scenarioo.services').service('BranchesAndBuilds', function ($rootScope, Config, BranchService, $q, SelectedBranchAndBuild) {
 
     var branchesAndBuildsData = getPromise($q, function(parameters, successFn, errorFn) {
         var loadedData = {};

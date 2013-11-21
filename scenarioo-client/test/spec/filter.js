@@ -4,7 +4,7 @@ describe('Filter', function () {
     var filter;
 
     // load module
-    beforeEach(module('ngUSDClientApp.filter'));
+    beforeEach(module('scenarioo.filter'));
     beforeEach(inject(function($filter) {
         filter = $filter;
     }));

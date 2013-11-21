@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ngUSDClientApp.services').service('ConfigMock', function () {
+angular.module('scenarioo.services').service('ConfigMock', function () {
 
     return {
         branch: undefined,

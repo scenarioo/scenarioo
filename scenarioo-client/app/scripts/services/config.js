@@ -1,7 +1,7 @@
 
 'use strict';
 
-angular.module('ngUSDClientApp.services').service('Config', function (ConfigResource, $rootScope) {
+angular.module('scenarioo.services').service('Config', function (ConfigResource, $rootScope) {
 
     var CONFIG_LOADED_EVENT = 'configLoaded';
 
@@ -9,7 +9,8 @@ angular.module('ngUSDClientApp.services').service('Config', function (ConfigReso
 
     function getValue(key) {
         if (angular.isUndefined(configData[key])) {
-           // throw 'ngUSDerror :: Key ' + key + ' not present in configData';
+            // TODO fix this, should not have commented out code
+            // throw 'scenariooError :: Key ' + key + ' not present in configData';
         }
         return configData[key];
     }

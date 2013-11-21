@@ -18,7 +18,7 @@ describe('Service :: Config', function () {
             'defaultBranchName': 'trunk'
         };
 
-    beforeEach(angular.mock.module('ngUSDClientApp.services'));
+    beforeEach(angular.mock.module('scenarioo.services'));
 
     it('should inject Config', inject(function (Config) {
         expect(Config).not.toBeUndefined();

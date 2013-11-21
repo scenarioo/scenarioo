@@ -53,7 +53,7 @@ module.exports = function (grunt) {
     	  development: [{
     	    dest: '<%= yeoman.app %>/scripts/environment_config.js',
     	    wrap: '"use strict";\n\n <%= __ngModule %>',
-    	    name: 'ngUSDClientApp.config',
+    	    name: 'scenarioo.config',
     	    constants: {
     	      ENV: 'development'
     	    }
@@ -61,7 +61,7 @@ module.exports = function (grunt) {
     	  production: [{
     	    dest: '<%= yeoman.app %>/scripts/environment_config.js',
     	    wrap: '"use strict";\n\n <%= __ngModule %>',
-    	    name: 'ngUSDClientApp.config',
+    	    name: 'scenarioo.config',
     	    constants: {
     	      ENV: 'production'
     	    }
@@ -303,7 +303,7 @@ module.exports = function (grunt) {
                             'scripts/**/*',
                             'images/{,*/}*.{gif,webp}',
                             'styles/fonts/*',
-                            'styles/ngUSD.css',
+                            'styles/scenarioo.css',
                             'template/**/*'
                         ]
                     }
