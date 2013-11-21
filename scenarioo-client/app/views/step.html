@@ -71,10 +71,16 @@
         </tabset>
     </div>
     <div ng-show="showingMetaData" class="col-lg-5 hero-unit meta-data">
-        <h3>Meta Data</h3>
-        <div ng-repeat="(key,value) in step.metadata.details.properties" class="row">
-            <div class="col-lg-4" class="label">{{key | toHumanReadable}}</div>
-            <div class="col-lg-8" objecttolist='step.metadata.details.properties.{{key}}'></div>
+        <h3>Step meta data</h3>
+        <div ng-repeat="(key,value) in step.metadata.details">
+            <div class="panel panel-default">
+                <div class="panel-heading link" ng-click="toggleMetadataCollapsed(key)">
+                    <h3 class="panel-title">{{key | toHumanReadable}}</h3>
+                </div>
+                <div class="panel-body" ng-class="{hidden: isMetadataCollapsed(key)}" >
+                    <div objecttolist='step.metadata.details[key]'></div>
+                </div>
+            </div>
         </div>
         <div ng-show="step.stepDescription.details.properties && step.stepDescription.details.properties.length>1">
             <h3>Step Properties</h3>

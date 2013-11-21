@@ -15,6 +15,7 @@ angular.module('ngUSDClientApp.controllers').controller('StepCtrl', function ($s
     };
 
     $scope.showingMetaData = $window.innerWidth > 1000;
+    var metadataExpanded = [];
 
     SelectedBranchAndBuild.callOnSelectionChange(loadStep);
 
@@ -74,8 +75,11 @@ angular.module('ngUSDClientApp.controllers').controller('StepCtrl', function ($s
         opts.wrap_line_length = 0;
         opts.space_after_anon_function = true;
 
-        var output = $window.html_beautify(source, opts);
-        $scope.formattedHtml = output;
+        // TODO: fix html_beautify, issue #66
+        // var output = $window.html_beautify(source, opts);
+        // $scope.formattedHtml = output;
+
+        $scope.formattedHtml = source;
     }
 
     function bindStepNavigation(pagesAndSteps) {
@@ -163,4 +167,18 @@ angular.module('ngUSDClientApp.controllers').controller('StepCtrl', function ($s
         var pageName = pageSteps.page.name;
         $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) + '/' + pageIndex + '/' + stepIndex);
     };
+
+    $scope.isMetadataCollapsed = function(type) {
+        var collapsed = angular.isUndefined(metadataExpanded[type]) || metadataExpanded[type] === false;
+        return collapsed;
+    }
+
+    $scope.toggleMetadataCollapsed = function(type) {
+        var currentValue = metadataExpanded[type];
+        if(angular.isUndefined(currentValue)) {
+            currentValue = false;
+        }
+        var newValue = !currentValue;
+        metadataExpanded[type] = newValue;
+    }
 });

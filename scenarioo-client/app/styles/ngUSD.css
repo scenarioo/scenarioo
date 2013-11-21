@@ -157,25 +157,6 @@ h2 {
     font-size: 32px;
 }
 
-@media (max-width: 1300px) {
-    .meta-data {
-        padding: 15px;
-    }
-}
-@media (max-width: 1000px) {
-    .meta-data {
-        width: 96% !important;
-    }
-
-    .step-data-small {
-        display: none !important;
-    }
-
-}
-.meta-data {
-    font-size: 15px;
-    margin-top: 30px;
-}
 .meta-data .label {
     padding-top: 6px;
     font-size: 16px;
