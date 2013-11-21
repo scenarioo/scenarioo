@@ -1,13 +1,12 @@
 'use strict';
 
-angular.module('scenarioo.filter', []);
-angular.module('scenarioo.directives', ['scenarioo.filter']);
+angular.module('scenarioo.filters', []);
+angular.module('scenarioo.directives', ['scenarioo.filters']);
 angular.module('scenarioo.services', [ 'ngCookies', 'ngResource', 'scenarioo.config']);
-angular.module('scenarioo.controllers', ['scenarioo.services']);
+angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
 
 angular.module('scenarioo', [
         'scenarioo.controllers',
-        'scenarioo.directives',
         'ui.bootstrap'
     ]).config(function ($routeProvider) {
         $routeProvider

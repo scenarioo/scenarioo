@@ -4,7 +4,7 @@ describe('Filter', function () {
     var filter;
 
     // load module
-    beforeEach(module('scenarioo.filter'));
+    beforeEach(module('scenarioo.filters'));
     beforeEach(inject(function($filter) {
         filter = $filter;
     }));

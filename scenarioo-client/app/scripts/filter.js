@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('scenarioo.filter').filter('toHumanReadable', function () {
+angular.module('scenarioo.filters').filter('toHumanReadable', function () {
     return function (input) {
         var text = input;
         if (text && text.length > 0) {

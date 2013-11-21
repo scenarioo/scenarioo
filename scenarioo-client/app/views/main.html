@@ -23,24 +23,25 @@
             </div>
         </div>
 
+        <!-- use cases table -->
         <table ng-table="tableParams" class="table table-curved table-hover table-responsive " ng-model="sort">
             <thead>
-            <tr>
-                <th sortandfilter="useCase.status">Status</th>
-                <th sortandfilter="useCase.name">Name</th>
-                <th>Description</th>
-                <th sortandfilter="scenarios.length" class="filter-none"># Scenarios</th>
-            </tr>
+                <tr>
+                    <th sortandfilter="useCase.status">Status</th>
+                    <th sortandfilter="useCase.name">Name</th>
+                    <th>Description</th>
+                    <th sortandfilter="scenarios.length" class="filter-none"># Scenarios</th>
+                </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="useCaseScenarios in useCaseScenariosList | filter:table.search | orderBy:table.sort.column:table.sort.reverse" ng-click="goToUseCase(useCaseScenarios.useCase.name)" class="link">
-                <td>
-                    <span ng-class="[buildStateToClassMapping[useCaseScenarios.useCase.status], 'label']">{{useCaseScenarios.useCase.status}}</span>
-                </td>
-                <td>{{useCaseScenarios.useCase.name | toHumanReadable }}</td>
-                <td>{{useCaseScenarios.useCase.description}}</td>
-                <td>{{useCaseScenarios.scenarios.length}}</td>
-            </tr>
+                <tr ng-repeat="useCaseScenarios in useCaseScenariosList | filter:table.search.$ | orderBy:table.sort.column:table.sort.reverse" ng-click="goToUseCase(useCaseScenarios.useCase.name)" class="link">
+                    <td>
+                        <span ng-class="[buildStateToClassMapping[useCaseScenarios.useCase.status], 'label']">{{useCaseScenarios.useCase.status}}</span>
+                    </td>
+                    <td>{{useCaseScenarios.useCase.name | toHumanReadable }}</td>
+                    <td>{{useCaseScenarios.useCase.description}}</td>
+                    <td>{{useCaseScenarios.scenarios.length}}</td>
+                </tr>
             </tbody>
         </table>
     </tab>

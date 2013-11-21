@@ -11,6 +11,7 @@ files = [
   'app/components/angular-resource/angular-*.js',
   'app/components/angular-cookies/angular-*.js',
   'app/components/angular-mocks/angular-*.js',
+  'app/components/angular-bootstrap/*.js',
   'app/scripts/*.js',
   'app/scripts/**/*.js',
   'test/mock/**/*.js',
