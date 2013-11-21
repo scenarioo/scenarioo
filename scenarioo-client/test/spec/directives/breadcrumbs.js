@@ -36,7 +36,7 @@ describe('Directive: Breadcrumbs', function () {
         // mock location
         location.path(path);
 
-        html = '<usd-breadcrumb></usd-breadcrumb>';
+        html = '<sc-Breadcrumb></sc-Breadcrumb>';
         elem = compile(html)(scope);
         httpBackend.flush();
 

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('scenarioo.directives').directive('usdBreadcrumb', function ($location, $route, $compile, $filter) {
+angular.module('scenarioo.directives').directive('scBreadcrumb', function ($location, $route, $compile, $filter) {
     var limit = 50;
 
 
