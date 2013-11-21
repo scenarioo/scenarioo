@@ -16,7 +16,6 @@ import org.scenarioo.uitest.dummy.application.steps.calls.Action;
 import org.scenarioo.uitest.dummy.application.steps.calls.Business;
 import org.scenarioo.uitest.dummy.application.steps.calls.Service;
 
-
 /**
  * Creates the example data to simulate a running Wikipedia application for some dummy UI test examples.
  * 
@@ -186,7 +185,7 @@ public class DummyApplicationStepDataFactory {
 	private void createStep(final String stepName) {
 		DummyApplicationStepData step = new DummyApplicationStepData();
 		step.setBrowserUrl(browserUrl);
-		step.setElementTexts(elementTexts);
+		step.setElementTexts(new HashMap<String, String>(elementTexts));
 		step.setIndex(index);
 		step.setScreenshotFileName(screenshotPrefix + stepName + ".png");
 		step.setSimulationConfig(config);
