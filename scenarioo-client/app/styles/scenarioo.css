@@ -1,0 +1,277 @@
+/** General **/
+.link, .informationModal .nav-tabs {
+}
+
+.link-no-hover:hover {
+    text-decoration: none;
+}
+
+h1, h2, h3, h4 {
+    color: #4B4B4B;
+    font-weight: normal;
+}
+
+h1 {
+    font-size: 32px;
+    margin: 0px 0px 20px;
+}
+
+h2 {
+    border-bottom: 2px #CCCCCC solid;
+    margin-top: 1.5em;
+    padding-bottom: 0.15em;
+}
+
+.icon-with-padding {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.hero-unit-hover:hover {
+    background-color: #F8F8F8;
+    border-radius: 6px 6px 6px 6px;
+}
+
+.controls div {
+    display: inline;
+    margin-bottom: 10px;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.btn-wide {
+    width: 150px !important;
+}
+
+/** Breadcrumbs (basically styled by bootstrap!) **/
+
+.breadcrumb {
+    display: inline-block;
+    margin-bottom: 0;
+    padding: 0 0 0 5px;
+}
+
+.nav, .link {
+    cursor: pointer;
+}
+
+/** Tables **/
+/*
+.table {
+    border-width: 2px;
+}
+.table thead {
+    background-color: whitesmoke;
+    background-image: linear-gradient(to bottom, #FFFFFF, #E6E6E6);
+}
+
+
+
+.table tbody tr:nth-child(2n) td {
+    background-color: 	#EEEEEE;
+}
+
+.table tbody tr:hover td {
+    background-color: #EBF5FF;
+}        */
+
+.table-curved {
+    border-collapse: separate;
+}
+.table-curved {
+    border: solid #ccc 1px;
+    border-radius: 6px;
+    border-left:0px;
+}
+.table-curved td, .table-curved th {
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+}
+.table-curved th {
+    border-top: none;
+}
+.table-curved th:first-child {
+    border-radius: 6px 0 0 0;
+}
+.table-curved th:last-child {
+    border-radius: 0 6px 0 0;
+}
+.table-curved th:only-child{
+    border-radius: 6px 6px 0 0;
+}
+.table-curved tr:last-child td:first-child {
+    border-radius: 0 0 0 6px;
+}
+.table-curved tr:last-child td:last-child {
+    border-radius: 0 0 6px 0;
+}
+
+/** Navigation **/
+@media screen and (max-width: 1024px) {
+    .header .builds .state  {
+        display: none !important;
+    }
+}
+
+.header .builds.dropdown .dropdown-menu {
+    width: 500px;
+}
+
+.header .dropdown .dropdown-menu,
+.header .dropdown .dropdown-menu li {
+    width: 100%;
+}
+
+.header .buildLabel {
+    padding-left: 20px;
+}
+
+/** Overview */
+.builds-information {
+    max-width: 800px;
+}
+.builds-information .accordion-heading {
+    background-color: #E6E6E6;
+}
+.builds-information .accordion-heading a {
+    color: 	#333333;
+    border: thin solid #999999;
+}
+
+/** Step-View */
+.step-navigation .btn {
+    display: inline;
+    margin-right: 10px;
+}
+
+.step-view {
+    margin: 20px 0 20px 0;
+    padding: 5px;
+    background-color: #eeeeee;
+    border-radius: 3px;
+}
+
+.step-view .step-icon i {
+    font-size: 32px;
+}
+
+.meta-data .label {
+    padding-top: 6px;
+    font-size: 16px;
+}
+
+.meta-data div.row-fluid div {
+    line-height: 20px;
+    padding: 0px 10px;
+}
+
+.meta-data .row-fluid {
+    padding-bottom: 15px;
+}
+
+.meta-data dl {
+    margin: 8px 0px;
+}
+
+.element-floating {
+    display: block;
+    float: left;
+}
+
+
+/** Scenario-View */
+.scenario-span1 {
+    width: 3% !important;
+    margin-right: 10px;
+    min-width: 50px;
+    clear: both;
+}
+
+.scenario-span2 {
+    width: 800px !important;
+}
+
+.scenario-span3 {
+    padding-top: 15px;
+    padding-left: 20px;
+    margin-left: 0px !important;
+    width: auto !important;
+}
+
+.scenario-span1and2 {
+    width: 90% !important;
+}
+
+.screenshot img {
+    border: 2px solid #DDDDDD;
+    max-width: 98%;
+    width: auto;
+}
+
+.screenshot-small img {
+    width: 800px;
+}
+
+/** Configuration */
+.configuration select {
+    max-width: 300px;
+    width: 100%;
+}
+.configuration input[type="text"], .configuration textarea {
+    height: 25px;
+    padding-left: 8px;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px 4px 4px 4px;
+    width: 100%;
+}
+.configuration input[type="text"] {
+    max-width: 290px;
+}
+.configuration textarea {
+    max-width: 500px;
+    height: 150px;
+}
+
+/** Information */
+.informationModal .github-link {
+    padding-top: 20px;
+    text-align: center;
+}
+.informationModal .github-link a {
+    color: #5b5b5b !important;
+}
+.informationModal .github-link a:hover {
+    color: #7b7b7b !important;
+}
+
+.ngusd-icon-ctrl {
+    border: 1px solid #CCCCCC;
+    border-radius: 4px 4px 4px 4px;
+    display: inline-block;
+    font-size: 10px;
+    padding: 0px 3px;
+    vertical-align: middle;
+}
+
+.ngusd-container {
+    margin: 0 15px 15px 15px;
+}
+
+.ngusd-space-top {
+    margin-top: 10px;
+}
+
+.ngusd-space-bottom {
+    margin-bottom: 10px;
+}
+
+/** Overwrite Bootstrap styles **/
+.table > thead > tr > th {
+    vertical-align: top;
+}
+
+.tab-content {
+    margin-top: 10px;
+}

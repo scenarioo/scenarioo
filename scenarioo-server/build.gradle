@@ -39,16 +39,16 @@ task printPathConfigInformationForNodeJSAndGrunt << {
 
 task buildClient(type: Exec) {	
 	 if (project.hasProperty('pathToNodeJS')) {
-    	commandLine '../ngUSD-client/build.sh', pathToNodeJS, installGrunt
+    	commandLine '../scenarioo-client/build.sh', pathToNodeJS, installGrunt
      } else {
-        commandLine '../ngUSD-client/build.sh'
+        commandLine '../scenarioo-client/build.sh'
      }
 }	
 
 buildClient.dependsOn printPathConfigInformationForNodeJSAndGrunt
 
 war {
-    from '../ngUSD-client/dist'
+    from '../scenarioo-client/dist'
 	archiveName 'scenarioo.war'
 }
 
