@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('scenarioo.directives').directive('usdBreadcrumb', function ($location, $route, $compile, $filter) {
+angular.module('scenarioo.directives').directive('scBreadcrumb', function ($location, $route, $compile, $filter) {
     var limit = 50;
 
 
@@ -28,7 +28,7 @@ angular.module('scenarioo.directives').directive('usdBreadcrumb', function ($loc
                 var matchingRoute = $route.routes[keyOfMatchingRoute];
 
                 if (matchingRoute) {
-                    var text = $filter('toHumanReadable')(decodeURIComponent(item));
+                    var text = $filter('scHumanReadable')(decodeURIComponent(item));
 
                     // Override displayed text with breadcrumb configuration in the routes of the app
                     if (matchingRoute.breadcrumb) {

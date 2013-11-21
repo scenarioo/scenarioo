@@ -1,8 +1,8 @@
-<usd-breadcrumb></usd-breadcrumb>
+<sc-breadcrumb></sc-breadcrumb>
 
 <div class="row ngusd-space-top ngusd-space-bottom">
     <div class="col-lg-8">
-        <h1>Use Case: {{useCase.name | toHumanReadable}}</h1>
+        <h1>Use Case: {{useCase.name | scHumanReadable}}</h1>
     </div>
     <div class="col-lg-1">
         <span class="pull-right">
@@ -29,7 +29,7 @@
             <th sortandfilter="name">Scenario name</th>
             <th>Actions</th>
             <th>Description</th>
-            <th ng-repeat="property in propertiesToShow" sortandfilter="details.properties.{{property}}">{{property | toHumanReadable}}</th>
+            <th ng-repeat="property in propertiesToShow" sortandfilter="details.properties.{{property}}">{{property | scHumanReadable}}</th>
             <th sortandfilter="calculatedData.numberOfSteps" class="filter-none"># Steps</th>
         </tr>
     </thead>
@@ -38,7 +38,7 @@
             <td>
                 <span class="label state" ng-class="buildStateToClassMapping[scenario.status]">{{scenario.status}}</span>
             </td>
-            <td>{{scenario.name | toHumanReadable }}</td>
+            <td>{{scenario.name | scHumanReadable }}</td>
             <td>
                 <a ng-click="goToFirstStep(useCase.name, scenario.name)" tooltip="Go to first step" tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
                 <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview" tooltip-placement="bottom"></i></a>

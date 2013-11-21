@@ -1,4 +1,4 @@
-<usd-breadcrumb></usd-breadcrumb>
+<sc-breadcrumb></sc-breadcrumb>
 
 <h1>Step {{pageIndex+1}}.{{stepIndex}}: {{pageName}}</h1>
 
@@ -75,25 +75,25 @@
         <div ng-repeat="(key,value) in step.metadata.details">
             <div class="panel panel-default">
                 <div class="panel-heading link" ng-click="toggleMetadataCollapsed(key)">
-                    <h3 class="panel-title">{{key | toHumanReadable}}</h3>
+                    <h3 class="panel-title">{{key | scHumanReadable}}</h3>
                 </div>
                 <div class="panel-body" ng-class="{hidden: isMetadataCollapsed(key)}" >
-                    <div objecttolist='step.metadata.details[key]'></div>
+                    <div sc-metadata='step.metadata.details[key]'></div>
                 </div>
             </div>
         </div>
         <div ng-show="step.stepDescription.details.properties && step.stepDescription.details.properties.length>1">
             <h3>Step Properties</h3>
             <div ng-repeat="(key,value) in step.stepDescription.details.properties" class="row">
-                <div class="col-lg-4" class="label">{{key | toHumanReadable}}</div>
-                <div class="col-lg-8"><span objecttolist='step.stepDescription.properties.{{key}}'></span></div>
+                <div class="col-lg-4" class="label">{{key | scHumanReadable}}</div>
+                <div class="col-lg-8"><span sc-metadata='step.stepDescription.properties.{{key}}'></span></div>
             </div>
         </div>
         <div ng-show="step.page.details.properties && step.page.details.properties.length>1">
             <h3>Page Properties</h3>
             <div ng-repeat="(key,value) in step.page.details.properties" class="row">
-                <div class="col-lg-4" class="label">{{key | toHumanReadable}}</div>
-                <div class="col-lg-8"><span objecttolist='step.page.details.properties.{{key}}'></span></div>
+                <div class="col-lg-4" class="label">{{key | scHumanReadable}}</div>
+                <div class="col-lg-8"><span sc-metadata='step.page.details.properties.{{key}}'></span></div>
             </div>
         </div>
     </div>
