@@ -44,6 +44,12 @@ describe('Filter: scenarioFilter,', function () {
         });
     });
 
+    describe(' search is not case sensitive,', function () {
+        it('should filter the model', function () {
+            expect(scFilter(MODEL, 'TEST')).toEqual(MODEL_FILTERED);
+        });
+    });
+
     describe('when search text is a simple string,', function () {
         it('should filter the model', function () {
             expect(scFilter(MODEL, 'test')).toEqual(MODEL_FILTERED);
@@ -59,10 +65,9 @@ describe('Filter: scenarioFilter,', function () {
             expect(scFilter(MODEL, 'test weirdthing')).toEqual(MODEL_EMPTY);
         });
 
-        // Fix
-        // it('filters out all objects that miss one or more words,', function () {
-        //     expect(scFilter(MODEL, 'test things')).toEqual(MODEL_FILTERED);
-        // });
+        it('keeps the object if the search words were found internally on different levels,', function () {
+            expect(scFilter(MODEL, 'test THINGS')).toEqual(MODEL_FILTERED);
+        });
     });
 
 });

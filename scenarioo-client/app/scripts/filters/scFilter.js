@@ -3,7 +3,7 @@
 angular.module('scenarioo.filters').filter('scFilterArray', function () {
 
     function contains(haystack, needle) {
-        return haystack.indexOf(needle) > -1;
+        return haystack.toLowerCase().indexOf(needle.toLowerCase()) > -1;
     }
 
     function objectContainsAllSearchElements(object, filterString) {
@@ -26,7 +26,7 @@ angular.module('scenarioo.filters').filter('scFilterArray', function () {
                     if (contains(property, string)) {
                         returnTrue = true;
                     }
-                } else if (typeof value === 'object') {
+                } else {
                     returnTrue = objectContainsString(property, string);
                 }
             }
