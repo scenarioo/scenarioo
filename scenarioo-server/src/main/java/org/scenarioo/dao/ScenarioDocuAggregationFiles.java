@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 
 import org.scenarioo.api.files.ScenarioDocuFiles;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
+import org.scenarioo.model.docu.entities.generic.ObjectReference;
 
 /**
  * Defines locations of aggregated files containing aggregated (=derived) data from documentation input data.
@@ -58,11 +59,34 @@ public class ScenarioDocuAggregationFiles {
 		return new File(getObjectsDirectory(branchName, buildName), typeName);
 	}
 	
-	public File getObjectFile(final String branchName, final String buildName, final ObjectDescription objectDescription) {
-		File objectsDir = getObjectsDirectoryForObjectType(branchName, buildName, objectDescription.getType());
-		return new File(objectsDir, encodeName(objectDescription.getName()) + ".description.xml");
+	public File getObjectsIndexDirectoryForObjectType(final String branchName, final String buildName,
+			final String typeName) {
+		return new File(getObjectsDirectoryForObjectType(branchName, buildName, typeName), "index");
 	}
 	
+	public File getObjectFile(final String branchName, final String buildName, final ObjectDescription objectDescription) {
+		return getObjectFile(branchName, buildName, objectDescription.getType(), objectDescription.getName());
+	}
+	
+	public File getObjectFile(final String branchName, final String buildName, final String objectType,
+			final String objectName) {
+		File objectsDir = getObjectsDirectoryForObjectType(branchName, buildName, objectType);
+		return new File(objectsDir, encodeName(objectName) + ".description.xml");
+	}
+	
+	public File getObjectFile(final String branchName, final String buildName, final ObjectReference objectRef) {
+		return getObjectFile(branchName, buildName, objectRef.getType(), objectRef.getName());
+	}
+	
+	public File getObjectIndexFile(final String branchName, final String buildName, final String type, final String name) {
+		File objectsDir = getObjectsIndexDirectoryForObjectType(branchName, buildName, type);
+		return new File(objectsDir, encodeName(name) + ".index.xml");
+	}
+	
+	/**
+	 * TODO: make sure this helper method is used for encoding all file names (in case of strange characters inside,
+	 * also use it in API!).
+	 */
 	private String encodeName(final String name) {
 		try {
 			return URLEncoder.encode(name, "UTF-8");
@@ -72,4 +96,5 @@ public class ScenarioDocuAggregationFiles {
 					e);
 		}
 	}
+	
 }

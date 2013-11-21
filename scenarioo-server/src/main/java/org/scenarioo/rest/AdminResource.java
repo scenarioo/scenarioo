@@ -4,7 +4,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import org.scenarioo.manager.ScenarioDocuManager;
+import org.scenarioo.manager.ScenarioDocuBuildsManager;
 
 
 @Path("/rest/admin/")
@@ -14,6 +14,6 @@ public class AdminResource {
 	@Path("update")
 	@Produces({ "application/xml", "application/json" })
 	public void updateAll() {
-		ScenarioDocuManager.INSTANCE.updateAll();
+		ScenarioDocuBuildsManager.INSTANCE.updateAll();
 	}
 }

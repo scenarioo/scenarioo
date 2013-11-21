@@ -1,6 +1,7 @@
 package org.scenarioo.api.util.files;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +17,6 @@ import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
-
 
 public class XMLFileUtil {
 	
@@ -55,7 +55,7 @@ public class XMLFileUtil {
 			classesToBind = appendClasses(classesToBind, SUPPORTED_GENERIC_CLASSES);
 			contextObj = JAXBContext.newInstance(classesToBind);
 			Unmarshaller unmarshallerObj = contextObj.createUnmarshaller();
-			return (T) unmarshallerObj.unmarshal(srcFile);
+			return (T) unmarshallerObj.unmarshal(new FileInputStream(srcFile));
 		} catch (Exception e) {
 			throw new RuntimeException("Could not unmarshall " + srcFile.getAbsolutePath(), e);
 		}

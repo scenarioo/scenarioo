@@ -16,29 +16,36 @@ import org.scenarioo.model.docu.derived.BuildLink;
 import org.scenarioo.model.docu.entities.Branch;
 
 /**
- * Manages the user scenario docu file contents.
+ * Manages the list of branches and builds that are currently available in the documentation directory:
  * 
- * As soon as a new build or branch is added to one of the branch directories the manager takes care of aggregating and
- * precalculating all needed data for this build in the form needed to access it efficiently.
+ * 1. Using {@link #updateAll()} all branches and builds are read and processed from the file system, this will
+ * calculate any aggregated data using {@link ScenarioDocuAggregator}.
  * 
- * Only after this information is calculated correctly the build will be available for browsing.
- * 
- * TODO: ensure that the manager runs updateAll from time to time when it detects changes in the documentation
- * directory.
+ * 2. The current (last processed) list of branches and builds is cached and can be accessed using
+ * {@link #getBranchBuildsList()}.
  */
-public class ScenarioDocuManager {
+public class ScenarioDocuBuildsManager {
 	
-	public static ScenarioDocuManager INSTANCE = new ScenarioDocuManager();
+	public static ScenarioDocuBuildsManager INSTANCE = new ScenarioDocuBuildsManager();
 	
-	private static final Logger LOGGER = Logger.getLogger(ScenarioDocuManager.class);
+	private static final Logger LOGGER = Logger.getLogger(ScenarioDocuBuildsManager.class);
 	
-	private ScenarioDocuManager() {
+	/**
+	 * Is a singleton. Use {@link #INSTANCE}.
+	 */
+	private ScenarioDocuBuildsManager() {
 	}
 	
 	private List<BranchBuilds> branchBuildsList = new ArrayList<BranchBuilds>();
-	
 	private int buildsProcessed = 0;
 	private int buildsImportedOrUpdated = 0;
+	
+	/**
+	 * Only available after updateAll() was successfull at least once.
+	 */
+	public List<BranchBuilds> getBranchBuildsList() {
+		return branchBuildsList;
+	}
 	
 	/**
 	 * Processes the content of configured documentation filesystem directory discovering newly added builds or branches
@@ -68,6 +75,9 @@ public class ScenarioDocuManager {
 		}
 	}
 	
+	/**
+	 * Only allowed to be called once at a time (synchronized, because called asynchronously from {@link #updateAll()}).
+	 */
 	private synchronized void doUpdateAll() {
 		try {
 			LOGGER.info(" ============= START OF SCENARIOO DOCUMENTATION ASYNC DATA UPDATE =================");
@@ -103,6 +113,19 @@ public class ScenarioDocuManager {
 			sortBuilds(branchBuilds);
 		}
 		this.branchBuildsList = branchBuildsList;
+	}
+	
+	private List<BranchBuilds> loadBranchBuildsList() {
+		final ScenarioDocuReader reader = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
+		List<BranchBuilds> result = new ArrayList<BranchBuilds>();
+		List<Branch> branches = reader.loadBranches();
+		for (Branch branch : branches) {
+			BranchBuilds branchBuilds = new BranchBuilds();
+			branchBuilds.setBranch(branch);
+			branchBuilds.setBuilds(reader.loadBuilds(branch.getName()));
+			result.add(branchBuilds);
+		}
+		return result;
 	}
 	
 	/**
@@ -154,20 +177,4 @@ public class ScenarioDocuManager {
 		});
 	}
 	
-	public List<BranchBuilds> loadBranchBuildsList() {
-		final ScenarioDocuReader reader = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
-		List<BranchBuilds> result = new ArrayList<BranchBuilds>();
-		List<Branch> branches = reader.loadBranches();
-		for (Branch branch : branches) {
-			BranchBuilds branchBuilds = new BranchBuilds();
-			branchBuilds.setBranch(branch);
-			branchBuilds.setBuilds(reader.loadBuilds(branch.getName()));
-			result.add(branchBuilds);
-		}
-		return result;
-	}
-	
-	public List<BranchBuilds> getBranchBuildsList() {
-		return branchBuildsList;
-	}
 }

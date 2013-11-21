@@ -5,7 +5,7 @@ import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.dao.ConfigurationDAO;
-import org.scenarioo.manager.ScenarioDocuManager;
+import org.scenarioo.manager.ScenarioDocuBuildsManager;
 import org.scenarioo.model.configuration.Configuration;
 
 /**
@@ -31,7 +31,7 @@ public class ScenariooWebApplication implements ServletContextListener {
 				config.getTestDocumentationDirPath());
 		LOGGER.info("  Updating documentation content directory (will be done asynchronously ...)");
 		
-		ScenarioDocuManager.INSTANCE.updateAll();
+		ScenarioDocuBuildsManager.INSTANCE.updateAll();
 		
 		LOGGER.info("====================================================");
 		LOGGER.info("Scenarioo webapplication server started succesfully.");

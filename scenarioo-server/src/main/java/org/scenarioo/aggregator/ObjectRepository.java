@@ -9,7 +9,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.scenarioo.dao.ScenarioDocuAggregationDAO;
+import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
@@ -20,6 +22,8 @@ import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
 
 public class ObjectRepository {
+	
+	private static final Logger LOGGER = Logger.getLogger(ObjectRepository.class);
 	
 	private ScenarioDocuAggregationDAO dao;
 	
@@ -216,6 +220,27 @@ public class ObjectRepository {
 			addObjects(referencePath, page.getDetails());
 		}
 		
+	}
+	
+	public void saveObjectIndexes() {
+		LOGGER.info("Writing object repository index files ... This might take a while ...");
+		for (Entry<ObjectReference, ObjectReferenceTreeBuilder> objectRefTreeBuilder : objectReferences.entrySet()) {
+			ObjectReference objectRef = objectRefTreeBuilder.getKey();
+			ObjectReferenceTreeBuilder referenceTreeBuilder = objectRefTreeBuilder.getValue();
+			if (!dao.isObjectDescriptionSaved(branchName, buildName, objectRef.getType(), objectRef.getName())) {
+				LOGGER.warn("No Object Description for object found, therefore not remembering index for this object: (type='"
+						+ objectRef.getType() + ", name=" + objectRef.getName() + "').");
+			} else {
+				ObjectDescription object = dao.loadObjectDescription(branchName, buildName,
+						objectRefTreeBuilder.getKey());
+				ObjectIndex objectIndex = new ObjectIndex();
+				objectIndex.setObject(object);
+				ObjectTreeNode<ObjectReference> referenceTree = referenceTreeBuilder.build();
+				objectIndex.setReferenceTree(referenceTree);
+				dao.saveObjectIndex(branchName, buildName, objectIndex);
+			}
+		}
+		LOGGER.info("Writing object repository index files finished (success).");
 	}
 	
 	public void removeAnyExistingObjectData() {

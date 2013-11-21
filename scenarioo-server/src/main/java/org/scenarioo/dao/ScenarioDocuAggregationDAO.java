@@ -10,11 +10,13 @@ import java.util.Properties;
 
 import org.scenarioo.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.api.util.files.XMLFileUtil;
+import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.PageVariantsCounter;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
+import org.scenarioo.model.docu.entities.generic.ObjectReference;
 
 /**
  * DAO for accessing user scenario docu content from filesystem, that is either generated or already precalculated.
@@ -121,7 +123,12 @@ public class ScenarioDocuAggregationDAO {
 	
 	public boolean isObjectDescriptionSaved(final String branchName, final String buildName,
 			final ObjectDescription objectDescription) {
-		File objectFile = files.getObjectFile(branchName, buildName, objectDescription);
+		return isObjectDescriptionSaved(branchName, buildName, objectDescription.getType(), objectDescription.getName());
+	}
+	
+	public boolean isObjectDescriptionSaved(final String branchName, final String buildName, final String type,
+			final String name) {
+		File objectFile = files.getObjectFile(branchName, buildName, type, name);
 		return objectFile.exists();
 	}
 	
@@ -130,6 +137,25 @@ public class ScenarioDocuAggregationDAO {
 		File objectFile = files.getObjectFile(branchName, buildName, objectDescription);
 		objectFile.getParentFile().mkdirs();
 		XMLFileUtil.marshal(objectDescription, objectFile);
+	}
+	
+	public ObjectDescription loadObjectDescription(final String branchName, final String buildName,
+			final ObjectReference objectRef) {
+		File objectFile = files.getObjectFile(branchName, buildName, objectRef);
+		return XMLFileUtil.unmarshal(objectFile, ObjectDescription.class);
+	}
+	
+	public void saveObjectIndex(final String branchName, final String buildName, final ObjectIndex objectIndex) {
+		File objectFile = files.getObjectIndexFile(branchName, buildName, objectIndex.getObject().getType(),
+				objectIndex.getObject().getName());
+		objectFile.getParentFile().mkdirs();
+		XMLFileUtil.marshal(objectIndex, objectFile);
+	}
+	
+	public ObjectIndex loadObjectIndex(final String branchName, final String buildName,
+			final String objectType, final String objectName) {
+		File objectFile = files.getObjectIndexFile(branchName, buildName, objectType, objectName);
+		return XMLFileUtil.unmarshal(objectFile, ObjectIndex.class);
 	}
 	
 	public ScenarioDocuAggregationFiles getFiles() {

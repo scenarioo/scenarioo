@@ -34,6 +34,9 @@ import org.scenarioo.model.docu.entities.generic.ObjectReference;
  * 
  * Make sure to adjust the value of {@link ScenarioDocuAggregator#CURRENT_FILE_FORMAT_VERSION} when the format of
  * generated data is extended or changed.
+ * 
+ * TODO: Make aggregator more fail safe ... let him continue in case of exceptions or unexpected data (null pointers?)
+ * to aggregate at least that part of a documentation build that is okay, such that this part can be accessed and read.
  */
 public class ScenarioDocuAggregator {
 	
@@ -41,7 +44,7 @@ public class ScenarioDocuAggregator {
 	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
 	 * otherwise the data has to be recalculated.
 	 */
-	public static final String CURRENT_FILE_FORMAT_VERSION = "0.9";
+	public static final String CURRENT_FILE_FORMAT_VERSION = "0.17";
 	
 	private final static Logger LOGGER = Logger.getLogger(ScenarioDocuAggregator.class);
 	
@@ -109,6 +112,8 @@ public class ScenarioDocuAggregator {
 		dao.saveUseCaseScenariosList(branchName, buildName, useCaseScenariosList);
 		
 		dao.saveVersion(branchName, buildName, CURRENT_FILE_FORMAT_VERSION);
+		
+		objectRepository.saveObjectIndexes();
 		
 	}
 	
