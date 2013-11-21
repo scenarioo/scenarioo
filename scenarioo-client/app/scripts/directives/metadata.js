@@ -45,14 +45,14 @@ angular.module('scenarioo.directives').directive('scMetadata', function ($filter
                         listMore = angular.element('<dl></dl>');
                         currentList = listMore;
                     }
-                    currentList.append('<dt> ' + $filter('toHumanReadable')(key) + '</dt>');
+                    currentList.append('<dt> ' + $filter('scHumanReadable')(key) + '</dt>');
                     var valueList = '';
                     if (typeof value === 'object') {
                         var newPath = path + '.' + key;
                         valueList = addValues(value, newPath);
                         currentList.append(valueList);
                     } else {
-                        valueList = $filter('toHumanReadable')(value);
+                        valueList = $filter('scHumanReadable')(value);
                     }
                     var valueDd = angular.element('<dd></dd>');
                     valueDd.append(valueList);

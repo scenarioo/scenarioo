@@ -38,7 +38,7 @@
                     <td>
                         <span ng-class="[buildStateToClassMapping[useCaseScenarios.useCase.status], 'label']">{{useCaseScenarios.useCase.status}}</span>
                     </td>
-                    <td>{{useCaseScenarios.useCase.name | toHumanReadable }}</td>
+                    <td>{{useCaseScenarios.useCase.name | scHumanReadable }}</td>
                     <td>{{useCaseScenarios.useCase.description}}</td>
                     <td>{{useCaseScenarios.scenarios.length}}</td>
                 </tr>
@@ -65,7 +65,7 @@
                             <div class="col-lg-8">{{branchesAndBuilds.selectedBuild.build.revision}}</div>
                         </div>
                         <div ng-repeat="(key,value) in selectedBuild.build.details.details" class="row">
-                            <div class="col-lg-4">{{key | toHumanReadable}}</div>
+                            <div class="col-lg-4">{{key | scHumanReadable}}</div>
                             <div class="col-lg-8">{{value}}</div>
                         </div>
                     </div>
