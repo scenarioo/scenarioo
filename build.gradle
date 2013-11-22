@@ -3,7 +3,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     group = 'org.scenarioo'
-    version = '0.1.9'
+    version = '0.1.10'
 
 	configurations {
 	  compileOnly

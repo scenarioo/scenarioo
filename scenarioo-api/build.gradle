@@ -1,12 +1,26 @@
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'eclipse-wtp'
+
 sourceCompatibility=1.6
 targetCompatibility=1.6
 
-uploadArchives {
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            artifact sourceJar {
+                classifier "sources"
+            }
+        }
+    }
     repositories {
-        mavenDeployer {
-            repository(url: "file://localhost/home/ngUSD/Code/mvn-repo")
+        maven {
+            url "/home/ngUSD/Code/mvn-repo"
         }
     }
 }
