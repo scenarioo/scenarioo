@@ -22,7 +22,7 @@ subprojects {
 	    compile 'commons-codec:commons-codec:1.2'
 	    compile 'log4j:log4j:1.2.17'
 	    compileOnly 'org.projectlombok:lombok:0.11.8'
-	    testCompile 'junit:junit:4.+'
+	    testCompile 'junit:junit:4.11'
 	    testCompile 'org.projectlombok:lombok:0.11.8'
 	}
 
