@@ -50,7 +50,7 @@ public class ScenarioDocuXMLUtil {
 		}
 	}
 	
-	private static JAXBContext createJAXBContext(Class<?>... classesToBind) throws JAXBException {
+	public static JAXBContext createJAXBContext(Class<?>... classesToBind) throws JAXBException {
 		classesToBind = appendClasses(classesToBind, SUPPORTED_COLLECTION_CLASSES);
 		classesToBind = appendClasses(classesToBind, SUPPORTED_GENERIC_CLASSES);
 		return JAXBContext.newInstance(classesToBind);
