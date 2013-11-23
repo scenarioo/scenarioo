@@ -6,7 +6,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.scenarioo.api.ScenarioDocuReader;
-import org.scenarioo.dao.ConfigurationDAO;
+import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.entities.Step;
 
 

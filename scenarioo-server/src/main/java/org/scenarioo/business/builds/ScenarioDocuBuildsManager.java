@@ -1,4 +1,4 @@
-package org.scenarioo.manager;
+package org.scenarioo.business.builds;
 
 import java.io.File;
 import java.text.Collator;
@@ -8,9 +8,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.api.ScenarioDocuReader;
-import org.scenarioo.dao.ConfigurationDAO;
+import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
+import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.derived.BuildLink;
 import org.scenarioo.model.docu.entities.Branch;

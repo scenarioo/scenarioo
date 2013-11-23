@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.scenarioo.api.ScenarioDocuReader;
-import org.scenarioo.dao.ConfigurationDAO;
+import org.scenarioo.dao.configuration.ConfigurationDAO;
 
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/usecases/{usecaseName}/scenarios/{scenarioName}/image/{imgName}")

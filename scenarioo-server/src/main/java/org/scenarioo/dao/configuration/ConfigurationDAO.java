@@ -1,4 +1,4 @@
-package org.scenarioo.dao;
+package org.scenarioo.dao.configuration;
 
 import java.io.File;
 import java.net.URISyntaxException;

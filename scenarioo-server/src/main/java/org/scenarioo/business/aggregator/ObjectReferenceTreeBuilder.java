@@ -1,4 +1,4 @@
-package org.scenarioo.aggregator;
+package org.scenarioo.business.aggregator;
 
 import java.util.ArrayList;
 import java.util.HashMap;

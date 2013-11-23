@@ -4,8 +4,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.dao.ConfigurationDAO;
-import org.scenarioo.manager.ScenarioDocuBuildsManager;
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.configuration.Configuration;
 
 /**

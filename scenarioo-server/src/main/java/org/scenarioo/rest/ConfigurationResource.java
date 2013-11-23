@@ -8,7 +8,7 @@ import javax.ws.rs.Produces;
 
 
 import org.apache.log4j.Logger;
-import org.scenarioo.dao.ConfigurationDAO;
+import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.configuration.Configuration;
 
 @Path("/rest/configuration/")

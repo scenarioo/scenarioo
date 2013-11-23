@@ -1,4 +1,4 @@
-package org.scenarioo.dao;
+package org.scenarioo.dao.aggregates;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
-import org.scenarioo.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
+import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.PageVariantsCounter;

@@ -1,4 +1,4 @@
-package org.scenarioo.dao;
+package org.scenarioo.dao.aggregates;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
