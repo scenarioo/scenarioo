@@ -1,6 +1,10 @@
 #!/bin/bash
 # usage: updatevm.sh [directory name]
-directory=vm-update-scripts
+# adds all scripts to the log of executed scripts without executing them:
+# CAUTION: only use in case you have run the scripts that have to be run manually on your own already 
+# (e.g. because you wanted to cherry pick witch ones to run!)
+
+directory=~/Code/scenarioo/vm-update-scripts
 
 if [ ! -d "$directory" ]; then
   echo "usage: updatevm-add-previously-executed.sh [directory name]"
