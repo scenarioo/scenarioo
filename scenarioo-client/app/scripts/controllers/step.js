@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, PageVariantService, StepService, HostnameAndPort, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, PageVariantService, StepService, HostnameAndPort, SelectedBranchAndBuild, MetadataTransformer) {
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
 
@@ -44,6 +44,9 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             var step = StepService.getStep({'branchName': selected.branch, 'buildName': selected.build, 'usecaseName': useCaseName, 'scenarioName': scenarioName, 'stepIndex': $scope.stepDescription.index});
             step.then(function (result) {
                 $scope.step = result;
+                $scope.metadataTree = transformMetadataToTreeArray(result.metadata.details);
+                $scope.stepDescriptionTree = MetadataTransformer.transformToTree(result.stepDescription);
+                $scope.pageTree = MetadataTransformer.transformToTree(result.page);
                 beautify(result.html);
             });
         });
@@ -56,6 +59,18 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             }
         };
     };
+
+    function transformMetadataToTreeArray(metadata) {
+
+        var metadataTrees = {};
+
+        angular.forEach(metadata, function (value, key) {
+            metadataTrees[key] = MetadataTransformer.transformToTree(value);
+        });
+
+        return metadataTrees;
+    }
+
 
 
     function beautify(html) {
@@ -168,14 +183,14 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) + '/' + pageIndex + '/' + stepIndex);
     };
 
-    $scope.isMetadataCollapsed = function(type) {
+    $scope.isMetadataCollapsed = function (type) {
         var collapsed = angular.isUndefined(metadataExpanded[type]) || metadataExpanded[type] === false;
         return collapsed;
     }
 
-    $scope.toggleMetadataCollapsed = function(type) {
+    $scope.toggleMetadataCollapsed = function (type) {
         var currentValue = metadataExpanded[type];
-        if(angular.isUndefined(currentValue)) {
+        if (angular.isUndefined(currentValue)) {
             currentValue = false;
         }
         var newValue = !currentValue;

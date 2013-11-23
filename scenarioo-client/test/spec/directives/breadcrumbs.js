@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: Breadcrumbs', function () {
+describe('Directive :: scBreadcrumbs', function () {
     var scope,
         compile,
         location,
@@ -116,8 +116,5 @@ describe('Directive: Breadcrumbs', function () {
             href:       "#/usecase/usecaseIdWithAMuchTooLongNameWhichWillBeDisplayedInATooltipAndTheTooltipIsStrippedOfHTML",
             isLast:      false
         });
-    });
-
-    afterEach(function() {
     });
 });

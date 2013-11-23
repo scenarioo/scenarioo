@@ -24,7 +24,7 @@
                 <i class="icon-with-padding icon-large icon-step-backward"></i>
             </div>
             <div style="min-width: 70px; text-align: center;" class="inline-block">
-                {{stepDescription.variantIndex}} of {{pageVariantCounts[0][pageName]}}
+                {{step.stepDescription.variantIndex}} of {{pageVariantCounts[0][pageName]}}
             </div>
             <div ng-click="goToNextVariant()" class="btn btn-default" tooltip="Next variant" tooltip-placement="bottom">
                 <i class="icon-with-padding icon-large icon-step-forward"></i>
@@ -72,29 +72,21 @@
     </div>
     <div ng-show="showingMetaData" class="col-lg-5 hero-unit meta-data">
         <h3>Step meta data</h3>
-        <div ng-repeat="(key,value) in step.metadata.details">
+        <div ng-repeat="(key,value) in metadataTree">
             <div class="panel panel-default">
                 <div class="panel-heading link" ng-click="toggleMetadataCollapsed(key)">
                     <h3 class="panel-title">{{key | scHumanReadable}}</h3>
                 </div>
-                <div class="panel-body" ng-class="{hidden: isMetadataCollapsed(key)}" >
-                    <div sc-metadata='step.metadata.details[key]'></div>
+                <div class="panel-body" ng-class="{hidden: isMetadataCollapsed(key), metadata: true}">
+                    <sc-tree data='value'></sc-tree>
                 </div>
             </div>
         </div>
-        <div ng-show="step.stepDescription.details.properties && step.stepDescription.details.properties.length>1">
-            <h3>Step Properties</h3>
-            <div ng-repeat="(key,value) in step.stepDescription.details.properties" class="row">
-                <div class="col-lg-4" class="label">{{key | scHumanReadable}}</div>
-                <div class="col-lg-8"><span sc-metadata='step.stepDescription.properties.{{key}}'></span></div>
-            </div>
-        </div>
-        <div ng-show="step.page.details.properties && step.page.details.properties.length>1">
-            <h3>Page Properties</h3>
-            <div ng-repeat="(key,value) in step.page.details.properties" class="row">
-                <div class="col-lg-4" class="label">{{key | scHumanReadable}}</div>
-                <div class="col-lg-8"><span sc-metadata='step.page.details.properties.{{key}}'></span></div>
-            </div>
-        </div>
+
+        <h3>Step Properties</h3>
+        <div><sc-tree data='stepDescriptionTree'></sc-tree></div>
+
+        <h3>Page Properties</h3>
+        <div><sc-tree data='pageTree'></sc-tree></div>
     </div>
 </div>

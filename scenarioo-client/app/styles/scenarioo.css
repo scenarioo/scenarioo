@@ -275,3 +275,22 @@ h2 {
 .tab-content {
     margin-top: 10px;
 }
+
+.metadata ul {
+    margin-left: 0px;
+    padding-left: 0;
+}
+
+.metadata li {
+    margin-left: 16px;
+    padding-left: px;
+}
+
+.sc-node-label {
+    font-weight: bold;
+    color: #428bca;
+}
+
+.sc-node-value {
+    color: #333333;
+}
