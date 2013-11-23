@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.api.util.files.AlphanumericFileComparator;
-import org.scenarioo.api.util.files.ResourceNotFoundException;
 
 /**
  * Represents the file structure of the documentation.

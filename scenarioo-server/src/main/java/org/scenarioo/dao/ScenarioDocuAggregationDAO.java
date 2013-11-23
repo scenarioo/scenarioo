@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.scenarioo.aggregator.ScenarioDocuAggregator;
-import org.scenarioo.api.util.files.XMLFileUtil;
+import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.PageVariantsCounter;
@@ -58,25 +58,25 @@ public class ScenarioDocuAggregationDAO {
 	
 	public List<UseCaseScenarios> loadUseCaseScenariosList(final String branchName, final String buildName) {
 		File file = files.getUseCasesAndScenariosFile(branchName, buildName);
-		UseCaseScenariosList list = XMLFileUtil.unmarshal(file, UseCaseScenariosList.class);
+		UseCaseScenariosList list = ScenarioDocuXMLFileUtil.unmarshal(UseCaseScenariosList.class, file);
 		return list.getUseCaseScenarios();
 	}
 	
 	public UseCaseScenarios loadUseCaseScenarios(final String branchName, final String buildName,
 			final String usecaseName) {
 		File scenariosFile = files.getUseCaseScenariosFile(branchName, buildName, usecaseName);
-		return XMLFileUtil.unmarshal(scenariosFile, UseCaseScenarios.class);
+		return ScenarioDocuXMLFileUtil.unmarshal(UseCaseScenarios.class, scenariosFile);
 	}
 	
 	public ScenarioPageSteps loadScenarioPageSteps(final String branchName, final String buildName,
 			final String usecaseName, final String scenarioName) {
 		File file = files.getScenarioStepsFile(branchName, buildName, usecaseName, scenarioName);
-		return XMLFileUtil.unmarshal(file, ScenarioPageSteps.class);
+		return ScenarioDocuXMLFileUtil.unmarshal(ScenarioPageSteps.class, file);
 	}
 	
 	public PageVariantsCounter loadPageVariantsCounter(final String branchName, final String buildName) {
 		File file = files.getPageVariantsFile(branchName, buildName);
-		return XMLFileUtil.unmarshal(file, PageVariantsCounter.class);
+		return ScenarioDocuXMLFileUtil.unmarshal(PageVariantsCounter.class, file);
 	}
 	
 	public void saveVersion(final String branchName, final String buildName, final String currentFileFormatVersion) {
@@ -97,20 +97,20 @@ public class ScenarioDocuAggregationDAO {
 	public void savePageVariants(final String branchName, final String buildName,
 			final PageVariantsCounter pageVariantsCounter) {
 		File fileCounter = files.getPageVariantsFile(branchName, buildName);
-		XMLFileUtil.marshal(pageVariantsCounter, fileCounter);
+		ScenarioDocuXMLFileUtil.marshal(pageVariantsCounter, fileCounter);
 	}
 	
 	public void saveUseCaseScenariosList(final String branchName, final String buildName,
 			final UseCaseScenariosList useCaseScenariosList) {
 		File file = files.getUseCasesAndScenariosFile(branchName, buildName);
-		XMLFileUtil.marshal(useCaseScenariosList, file);
+		ScenarioDocuXMLFileUtil.marshal(useCaseScenariosList, file);
 	}
 	
 	public void saveUseCaseScenarios(final String branchName, final String buildName,
 			final UseCaseScenarios useCaseScenarios) {
 		File scenariosFile = files.getUseCaseScenariosFile(branchName, buildName, useCaseScenarios
 				.getUseCase().getName());
-		XMLFileUtil.marshal(useCaseScenarios, scenariosFile);
+		ScenarioDocuXMLFileUtil.marshal(useCaseScenarios, scenariosFile);
 	}
 	
 	public void saveScenarioPageSteps(final String branchName, final String buildName,
@@ -118,7 +118,7 @@ public class ScenarioDocuAggregationDAO {
 		String usecaseName = scenarioPageSteps.getUseCase().getName();
 		String scenarioName = scenarioPageSteps.getScenario().getName();
 		File file = files.getScenarioStepsFile(branchName, buildName, usecaseName, scenarioName);
-		XMLFileUtil.marshal(scenarioPageSteps, file);
+		ScenarioDocuXMLFileUtil.marshal(scenarioPageSteps, file);
 	}
 	
 	public boolean isObjectDescriptionSaved(final String branchName, final String buildName,
@@ -136,26 +136,26 @@ public class ScenarioDocuAggregationDAO {
 			final ObjectDescription objectDescription) {
 		File objectFile = files.getObjectFile(branchName, buildName, objectDescription);
 		objectFile.getParentFile().mkdirs();
-		XMLFileUtil.marshal(objectDescription, objectFile);
+		ScenarioDocuXMLFileUtil.marshal(objectDescription, objectFile);
 	}
 	
 	public ObjectDescription loadObjectDescription(final String branchName, final String buildName,
 			final ObjectReference objectRef) {
 		File objectFile = files.getObjectFile(branchName, buildName, objectRef);
-		return XMLFileUtil.unmarshal(objectFile, ObjectDescription.class);
+		return ScenarioDocuXMLFileUtil.unmarshal(ObjectDescription.class, objectFile);
 	}
 	
 	public void saveObjectIndex(final String branchName, final String buildName, final ObjectIndex objectIndex) {
 		File objectFile = files.getObjectIndexFile(branchName, buildName, objectIndex.getObject().getType(),
 				objectIndex.getObject().getName());
 		objectFile.getParentFile().mkdirs();
-		XMLFileUtil.marshal(objectIndex, objectFile);
+		ScenarioDocuXMLFileUtil.marshal(objectIndex, objectFile);
 	}
 	
 	public ObjectIndex loadObjectIndex(final String branchName, final String buildName,
 			final String objectType, final String objectName) {
 		File objectFile = files.getObjectIndexFile(branchName, buildName, objectType, objectName);
-		return XMLFileUtil.unmarshal(objectFile, ObjectIndex.class);
+		return ScenarioDocuXMLFileUtil.unmarshal(ObjectIndex.class, objectFile);
 	}
 	
 	public ScenarioDocuAggregationFiles getFiles() {

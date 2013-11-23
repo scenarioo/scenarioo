@@ -15,7 +15,7 @@ import org.scenarioo.api.configuration.ScenarioDocuGeneratorConfiguration;
 import org.scenarioo.api.exception.ScenarioDocuSaveException;
 import org.scenarioo.api.exception.ScenarioDocuTimeoutException;
 import org.scenarioo.api.files.ScenarioDocuFiles;
-import org.scenarioo.api.util.files.XMLFileUtil;
+import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.Scenario;
@@ -68,7 +68,7 @@ public class ScenarioDocuWriter {
 			@Override
 			public void run() {
 				File destBranchFile = docuFiles.getBranchFile(branchName);
-				XMLFileUtil.marshal(branch, destBranchFile);
+				ScenarioDocuXMLFileUtil.marshal(branch, destBranchFile);
 			}
 		});
 	}
@@ -84,7 +84,7 @@ public class ScenarioDocuWriter {
 			@Override
 			public void run() {
 				File destBuildFile = docuFiles.getBuildFile(branchName, buildName);
-				XMLFileUtil.marshal(build, destBuildFile);
+				ScenarioDocuXMLFileUtil.marshal(build, destBuildFile);
 			}
 		});
 	}
@@ -102,7 +102,7 @@ public class ScenarioDocuWriter {
 				File destCaseDir = getUseCaseDirectory(useCase.getName());
 				createDirectoryIfNotYetExists(destCaseDir);
 				File destCaseFile = docuFiles.getUseCaseFile(branchName, buildName, useCase.getName());
-				XMLFileUtil.marshal(useCase, destCaseFile);
+				ScenarioDocuXMLFileUtil.marshal(useCase, destCaseFile);
 			}
 		});
 	}
@@ -119,7 +119,7 @@ public class ScenarioDocuWriter {
 				createDirectoryIfNotYetExists(destScenarioDir);
 				File destScenarioFile = docuFiles.getScenarioFile(branchName, buildName, useCaseName,
 						scenario.getName());
-				XMLFileUtil.marshal(scenario, destScenarioFile);
+				ScenarioDocuXMLFileUtil.marshal(scenario, destScenarioFile);
 			}
 		});
 	}
@@ -136,7 +136,7 @@ public class ScenarioDocuWriter {
 				createDirectoryIfNotYetExists(destStepsDir);
 				File destStepFile = docuFiles.getStepFile(branchName, buildName, useCaseName, scenarioName, step
 						.getStepDescription().getIndex());
-				XMLFileUtil.marshal(step, destStepFile);
+				ScenarioDocuXMLFileUtil.marshal(step, destStepFile);
 			}
 		});
 	}

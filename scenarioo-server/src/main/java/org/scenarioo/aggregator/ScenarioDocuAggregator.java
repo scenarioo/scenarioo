@@ -11,7 +11,7 @@ import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
-import org.scenarioo.api.util.files.ResourceNotFoundException;
+import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.dao.ConfigurationDAO;
 import org.scenarioo.dao.ScenarioDocuAggregationDAO;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;

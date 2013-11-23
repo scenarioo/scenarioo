@@ -1,4 +1,4 @@
-package org.scenarioo.api.util.files;
+package org.scenarioo.api.exception;
 
 import lombok.Getter;
 

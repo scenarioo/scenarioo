@@ -4,10 +4,9 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.scenarioo.api.util.files.XMLFileUtil;
+import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.model.configuration.Configuration;
 
 /**
@@ -46,14 +45,14 @@ public class ConfigurationDAO {
 			LOGGER.warn("  file " + configFile + " does not exist: " + configFile.canRead());
 			configFile = getDefaultConfigFile();
 		}
-		return XMLFileUtil.unmarshal(configFile, Configuration.class);
+		return ScenarioDocuXMLFileUtil.unmarshal(Configuration.class, configFile);
 	}
 	
 	public static Configuration updateConfiguration(final Configuration configuration) {
 		File configFile = getConfigFile();
 		File configDirectory = configFile.getParentFile();
 		configDirectory.mkdirs();
-		XMLFileUtil.marshal(configuration, configFile);
+		ScenarioDocuXMLFileUtil.marshal(configuration, configFile);
 		ConfigurationDAO.configuration = loadConfiguration();
 		return configuration;
 	}
