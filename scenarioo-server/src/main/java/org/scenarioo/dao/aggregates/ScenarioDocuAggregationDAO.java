@@ -16,6 +16,7 @@ import org.scenarioo.model.docu.aggregates.usecases.PageVariantsCounter;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
+import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 
 /**
@@ -142,7 +143,11 @@ public class ScenarioDocuAggregationDAO {
 	public ObjectDescription loadObjectDescription(final String branchName, final String buildName,
 			final ObjectReference objectRef) {
 		File objectFile = files.getObjectFile(branchName, buildName, objectRef);
-		return ScenarioDocuXMLFileUtil.unmarshal(ObjectDescription.class, objectFile);
+		return loadObjectDescription(objectFile);
+	}
+	
+	public ObjectDescription loadObjectDescription(final File file) {
+		return ScenarioDocuXMLFileUtil.unmarshal(ObjectDescription.class, file);
 	}
 	
 	public void saveObjectIndex(final String branchName, final String buildName, final ObjectIndex objectIndex) {
@@ -156,6 +161,19 @@ public class ScenarioDocuAggregationDAO {
 			final String objectType, final String objectName) {
 		File objectFile = files.getObjectIndexFile(branchName, buildName, objectType, objectName);
 		return ScenarioDocuXMLFileUtil.unmarshal(ObjectIndex.class, objectFile);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ObjectList<ObjectDescription> loadObjectsList(final String branchName, final String buildName,
+			final String type) {
+		File objectListFile = files.getObjectListFile(branchName, buildName, type);
+		return ScenarioDocuXMLFileUtil.unmarshal(ObjectList.class, objectListFile);
+	}
+	
+	public void saveObjectsList(final String branchName, final String buildName, final String type,
+			final ObjectList<ObjectDescription> objectList) {
+		File objectListFile = files.getObjectListFile(branchName, buildName, type);
+		ScenarioDocuXMLFileUtil.marshal(objectList, objectListFile);
 	}
 	
 	public ScenarioDocuAggregationFiles getFiles() {

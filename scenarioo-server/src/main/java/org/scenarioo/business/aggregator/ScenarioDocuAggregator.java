@@ -44,7 +44,7 @@ public class ScenarioDocuAggregator {
 	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
 	 * otherwise the data has to be recalculated.
 	 */
-	public static final String CURRENT_FILE_FORMAT_VERSION = "0.17";
+	public static final String CURRENT_FILE_FORMAT_VERSION = "0.18";
 	
 	private final static Logger LOGGER = Logger.getLogger(ScenarioDocuAggregator.class);
 	
@@ -113,6 +113,7 @@ public class ScenarioDocuAggregator {
 		
 		dao.saveVersion(branchName, buildName, CURRENT_FILE_FORMAT_VERSION);
 		
+		objectRepository.calculateAndSaveObjectLists();
 		objectRepository.saveObjectIndexes();
 		
 	}

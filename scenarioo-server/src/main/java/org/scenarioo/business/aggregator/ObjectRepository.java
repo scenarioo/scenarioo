@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -32,6 +34,8 @@ public class ObjectRepository {
 	private String buildName;
 	
 	private final Map<ObjectReference, ObjectReferenceTreeBuilder> objectReferences = new HashMap<ObjectReference, ObjectReferenceTreeBuilder>();
+	
+	private final Set<String> objectTypes = new HashSet<String>();
 	
 	public ObjectRepository(final String branchName, final String buildName, final ScenarioDocuAggregationDAO dao) {
 		this.branchName = branchName;
@@ -136,6 +140,7 @@ public class ObjectRepository {
 	}
 	
 	private void saveObject(final ObjectDescription object) {
+		objectTypes.add(object.getType());
 		if (!dao.isObjectDescriptionSaved(branchName, buildName, object)) {
 			dao.saveObjectDescription(branchName, buildName, object);
 		}
@@ -220,6 +225,20 @@ public class ObjectRepository {
 			addObjects(referencePath, page.getDetails());
 		}
 		
+	}
+	
+	public void calculateAndSaveObjectLists() {
+		for (String type : objectTypes) {
+			LOGGER.info("Writing object list for type '" + type + "' ...");
+			ObjectList<ObjectDescription> objectsList = new ObjectList<ObjectDescription>();
+			List<File> objectFiles = dao.getFiles().getObjectFiles(branchName, buildName, type);
+			for (File file : objectFiles) {
+				ObjectDescription object = dao.loadObjectDescription(file);
+				objectsList.add(object);
+			}
+			dao.saveObjectsList(branchName, buildName, type, objectsList);
+			LOGGER.info("Finished successfully witing object list for type: " + type);
+		}
 	}
 	
 	public void saveObjectIndexes() {
