@@ -2,6 +2,12 @@
 
 angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function () {
 
+    function removeEmptyChildNodes(childNode, modifiedChildNodes) {
+        if(hasChildNodes(childNode) || hasNodeValue(childNode)) {
+            modifiedChildNodes.push(childNode);
+        }
+    }
+
     function hasChildNodes(node) {
         var childNodes = node.childNodes;
         var childNodesArrayNotEmpty = angular.isArray(childNodes) && childNodes.length > 0;
@@ -17,7 +23,21 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function () {
         return hasStringValue || hasOtherValue;
     }
 
-    function removeEmptyNodes(node) {
+    function pullUpChildrenOfDetailsNodes(childNode, modifiedChildNodes) {
+        if(isDetailsNode(childNode)) {
+            angular.forEach(childNode.childNodes, function(grandChildNode) {
+                modifiedChildNodes.push(grandChildNode);
+            });
+        } else {
+            modifiedChildNodes.push(childNode);
+        }
+    }
+
+    function isDetailsNode(node) {
+        return angular.isDefined(node.nodeLabel) && node.nodeLabel === 'details';
+    }
+
+    function optimizeTree(node, operation) {
         if(angular.isUndefined(node.childNodes)) {
             return;
         }
@@ -25,17 +45,19 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function () {
         var modifiedChildNodes = [];
 
         angular.forEach(node.childNodes, function(childNode) {
-            if(hasChildNodes(childNode) || hasNodeValue(childNode)) {
-                removeEmptyNodes(childNode);
-                modifiedChildNodes.push(childNode);
-            }
+            operation(childNode, modifiedChildNodes);
         });
 
         node.childNodes = modifiedChildNodes;
+
+        angular.forEach(node.childNodes, function(childNode) {
+            optimizeTree(childNode, operation);
+        });
     }
 
     return function (rootNode) {
-        removeEmptyNodes(rootNode);
+        optimizeTree(rootNode, removeEmptyChildNodes);
+        optimizeTree(rootNode, pullUpChildrenOfDetailsNodes);
         return rootNode;
     };
 });

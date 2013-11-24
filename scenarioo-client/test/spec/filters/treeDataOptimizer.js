@@ -2,13 +2,9 @@
 
 describe('Filter :: ObjectToTree', function () {
 
-    var DATA = {
+    var DATA_EMPTY_NODE = {
         nodeLabel : 'root',
         childNodes : [
-            {
-                nodeLabel: 'myKey',
-                nodeValue: 'myValue'
-            },
             {
                 nodeLabel: 'keyTwo',
                 nodeValue: 'valueTwo'
@@ -19,17 +15,36 @@ describe('Filter :: ObjectToTree', function () {
             }
         ]
     };
-
-    var DATA_TRANSFOREMD = {
+    var DATA_EMPTY_NODE_OPTIMIZED = {
         nodeLabel : 'root',
         childNodes : [
             {
-                nodeLabel: 'myKey',
-                nodeValue: 'myValue'
-            },
-            {
                 nodeLabel: 'keyTwo',
                 nodeValue: 'valueTwo'
+            }
+        ]
+    };
+
+    var DATA_DETAILS = {
+        nodeLabel : 'root',
+        childNodes : [
+            {
+                nodeLabel: 'details',
+                childNodes: [
+                    {
+                        nodeLabel: 'name',
+                        nodeValue: 'Donald Duck'
+                    }
+                ]
+            }
+        ]
+    };
+    var DATA_DETAILS_OPTIMIZED = {
+        nodeLabel : 'root',
+        childNodes : [
+            {
+                nodeLabel: 'name',
+                nodeValue: 'Donald Duck'
             }
         ]
     };
@@ -42,7 +57,11 @@ describe('Filter :: ObjectToTree', function () {
     }));
 
     it('removes empty nodes"', function () {
-        expect(scTreeDataOptimizer(DATA)).toEqual(DATA_TRANSFOREMD);
+        expect(scTreeDataOptimizer(DATA_EMPTY_NODE)).toEqual(DATA_EMPTY_NODE_OPTIMIZED);
+    });
+
+    it('pulls children of details nodes one level up"', function () {
+        expect(scTreeDataOptimizer(DATA_DETAILS)).toEqual(DATA_DETAILS_OPTIMIZED);
     });
 
 });
