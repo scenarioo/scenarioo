@@ -6,7 +6,7 @@ angular.module('scenarioo.directives').directive('scTree', function (RecursionHe
         scope: {data: '='},
         template:
             '<div ng-hide="!data.nodeLabel">' +
-                '<span class="sc-node-label">{{data.nodeLabel}}</span><span ng-hide="!data.nodeValue && data.nodeValue != 0">: </span>' +
+                '<span class="sc-node-label">{{data.nodeLabel}}</span><span ng-show="data.nodeValue || data.nodeValue == 0">: </span>' +
                 '<span class="sc-node-value">{{data.nodeValue}}</span>' +
             '</div>' +
             '<ul class="sc-tree">' +
