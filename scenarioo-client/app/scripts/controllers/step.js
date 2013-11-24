@@ -64,6 +64,8 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 return '';
             }
         };
+
+        metadataExpanded['sc-step-properties'] = true;
     };
 
     function transformMetadataToTreeArray(metadata) {
