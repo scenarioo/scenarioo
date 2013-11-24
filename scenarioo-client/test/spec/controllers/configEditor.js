@@ -1,8 +1,8 @@
 'use strict';
 
-describe('Controller :: Config', function () {
+describe('Controller :: ConfigEditorCtrl', function () {
 
-    var $rootScope, $controller, BranchService, Config, $httpBackend, $scope, ConfigCtrl;
+    var $rootScope, $controller, BranchesResource, Config, $httpBackend, $scope, ConfigCtrl;
 
     var DUMMY_CONFIG_RESPONSE = {
         'testDocumentationDirPath': 'webtestDocuContentExample',
@@ -21,10 +21,10 @@ describe('Controller :: Config', function () {
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$controller_, _BranchService_, _Config_, _$httpBackend_) {
+    beforeEach(inject(function (_$rootScope_, _$controller_, _BranchesResource_, _Config_, _$httpBackend_) {
         $rootScope = _$rootScope_;
         $controller = _$controller_;
-        BranchService = _BranchService_;
+        BranchesResource = _BranchesResource_;
         Config = _Config_;
         $httpBackend = _$httpBackend_;
 
@@ -32,43 +32,33 @@ describe('Controller :: Config', function () {
         $httpBackend.whenGET('http://localhost:8080/scenarioo/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
 
         $scope = $rootScope.$new();
-        ConfigCtrl = $controller('ConfigCtrl', {$scope: $scope, BranchService: BranchService, Config: Config});
-        $httpBackend.flush();
+        ConfigCtrl = $controller('ConfigEditorCtrl', {$scope: $scope, BranchesResource: BranchesResource, Config: Config});
     }));
 
     describe('when page is loaded', function () {
         it('loads and displays the config from the server', function () {
-
             expect(ConfigCtrl).toBeDefined();
-            expect($scope.configuration.defaultBuildName).toBeUndefined();
-            expect($scope.configuration.defaultBranchName).toBeUndefined();
-            expect($scope.configuration.scenarioPropertiesInOverview).toBeUndefined();
-            expect($scope.configuration.applicationInformation).toBeUndefined();
-            expect($scope.configuration.testDocumentationDirPath).toBeUndefined();
+            expect($scope.configuration).toBeUndefined();
 
+            $httpBackend.flush();
 
-            loadConfig();
-
-            expect($scope.configuration.defaultBuildName).toEqual(DUMMY_CONFIG_RESPONSE.defaultBuildName);
-            expect($scope.configuration.defaultBranchName).toEqual(DUMMY_CONFIG_RESPONSE.defaultBranchName);
-            expect($scope.configuration.scenarioPropertiesInOverview).toEqual(DUMMY_CONFIG_RESPONSE.scenarioPropertiesInOverview);
-            expect($scope.configuration.applicationInformation).toEqual(DUMMY_CONFIG_RESPONSE.applicationInformation);
-            expect($scope.configuration.testDocumentationDirPath).toEqual(DUMMY_CONFIG_RESPONSE.testDocumentationDirPath);
+            expect($scope.configuration).toEqualData(DUMMY_CONFIG_RESPONSE);
         });
 
         it('loads all branches and builds', function () {
+            expect($scope.branches).toBeUndefined();
             expect($scope.configuredBranch).toBeUndefined();
 
-            loadConfig();
+            $httpBackend.flush();
 
-            expect($scope.configurableBranches).toBeDefined();
+            expect($scope.branches).toBeDefined();
             expect($scope.configuredBranch).toBeDefined();
         })
     });
 
     describe('when reset button is clicked', function () {
         it('resets the config to the loaded values', function () {
-            loadConfig();
+            $httpBackend.flush();
 
             changeAllValues();
 
@@ -86,7 +76,7 @@ describe('Controller :: Config', function () {
         it('saves the edited config', function () {
             spyOn(Config, 'updateConfiguration');
 
-            loadConfig();
+            $httpBackend.flush();
 
             changeAllValues();
 
@@ -95,11 +85,6 @@ describe('Controller :: Config', function () {
             expect(Config.updateConfiguration).toHaveBeenCalled();
         });
     });
-
-    function loadConfig() {
-        Config.load();
-        $httpBackend.flush();
-    }
 
     function changeAllValues() {
         $scope.configuration.defaultBuildName = 'new build';

@@ -1,27 +1,32 @@
 'use strict';
 
-angular.module('scenarioo.services').service('BranchesAndBuilds', function ($rootScope, Config, BranchService, $q, SelectedBranchAndBuild) {
+angular.module('scenarioo.services').service('BranchesAndBuilds', function ($rootScope, Config, BranchesResource, $q, SelectedBranchAndBuild) {
 
-    var branchesAndBuildsData = getPromise($q, function(parameters, successFn, errorFn) {
+    var branchesAndBuildsData = getPromise($q, function(parameters, successFn) {
         var loadedData = {};
         loadedData.applicationInformation = Config.applicationInformation();
-        loadedData.branches = BranchService.findAllBranches();
-        loadedData.branches.then(function (branches) {
+
+        BranchesResource.query({}, function(branches) {
+            loadedData.branches = branches;
+            findSelectedBranchAndBuild();
+        });
+
+        function findSelectedBranchAndBuild() {
             if(!SelectedBranchAndBuild.isDefined()) {
                 return;
             }
 
             var selected = SelectedBranchAndBuild.selected();
 
-            if(branches.length === 0) {
+            if(loadedData.branches.length === 0) {
                 console.log('Branch list empty!');
                 return;
             }
 
             var index;
-            for (index = 0; index < branches.length; index++) {
-                if (branches[index].branch.name === selected.branch) {
-                    loadedData.selectedBranch = branches[index];
+            for (index = 0; index < loadedData.branches.length; index++) {
+                if (loadedData.branches[index].branch.name === selected.branch) {
+                    loadedData.selectedBranch = loadedData.branches[index];
                 }
             }
 
@@ -37,7 +42,7 @@ angular.module('scenarioo.services').service('BranchesAndBuilds', function ($roo
                 }
             }
             successFn(loadedData);
-        }, errorFn);
+        }
     });
 
 

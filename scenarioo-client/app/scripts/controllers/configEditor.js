@@ -1,25 +1,34 @@
 'use strict';
 
-angular.module('scenarioo.controllers').controller('ConfigCtrl', function ($scope, BranchService, Config) {
+angular.module('scenarioo.controllers').controller('ConfigEditorCtrl', function ($scope, BranchesResource, Config) {
 
-    $scope.$watch(function () {
-        return Config.getRawConfigDataCopy();
-    }, function (configData) {
-        $scope.configuration = configData;
+    BranchesResource.query({}, function(branches) {
+        $scope.branches = branches;
+        calculateConfiguredBranch();
+    });
 
-        $scope.configurableBranches.then(function (branches) {
-            for (var index = 0; index < branches.length; index++) {
-                if (branches[index].branch.name === $scope.configuration.defaultBranchName) {
-                    $scope.configuredBranch = branches[index];
-                }
+    $scope.$on(Config.CONFIG_LOADED_EVENT, function() {
+        $scope.configuration = Config.getRawConfigDataCopy();
+        calculateConfiguredBranch();
+    });
+
+    Config.load();
+
+    function calculateConfiguredBranch() {
+        if(angular.isUndefined($scope.branches) || angular.isUndefined($scope.configuration)) {
+            return;
+        }
+
+        for (var index = 0; index < $scope.branches.length; index++) {
+            if ($scope.branches[index].branch.name === $scope.configuration.defaultBranchName) {
+                $scope.configuredBranch = $scope.branches[index];
             }
-        });
-    }, true);
-
-    $scope.configurableBranches = BranchService.findAllBranches();
+        }
+    }
 
     $scope.resetConfiguration = function () {
         $scope.configuration = Config.getRawConfigDataCopy();
+        calculateConfiguredBranch();
     };
 
     $scope.updateConfiguration = function () {

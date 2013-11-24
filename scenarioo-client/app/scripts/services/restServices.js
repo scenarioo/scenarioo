@@ -27,8 +27,8 @@ angular.module('scenarioo.services').factory('HostnameAndPort', function(ENV) {
 });
 
 angular.module('scenarioo.services').factory('ScenariooResource', function(HostnameAndPort, $resource) {
-    return function(url, params, actions) {
-        return $resource(HostnameAndPort.forNgResource() + '/scenarioo/rest' + url, params, actions);
+    return function(url, paramDefaults, actions) {
+        return $resource(HostnameAndPort.forNgResource() + '/scenarioo/rest' + url, paramDefaults, actions);
     };
 });
 
@@ -43,17 +43,6 @@ function getPromise($q, fn) {
         return deferred.promise;
     };
 }
-
-angular.module('scenarioo.services').factory('BranchService', function (ScenariooResource, $q) {
-
-    var branchService = ScenariooResource('/branches', {}, {});
-
-    branchService.findAllBranches = getPromise($q, function (parameters, fnSuccess, fnError) {
-        return branchService.query(parameters, fnSuccess, fnError);
-    });
-
-    return branchService;
-});
 
 angular.module('scenarioo.services').factory('UseCaseService', function (ScenariooResource, $q) {
     var useCaseService = ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName',
@@ -128,4 +117,8 @@ angular.module('scenarioo.services').factory('AdminService', function (Scenarioo
 
 angular.module('scenarioo.services').factory('ConfigResource', function (ScenariooResource) {
     return ScenariooResource('/configuration', {} );
+});
+
+angular.module('scenarioo.services').factory('BranchesResource', function (ScenariooResource) {
+    return ScenariooResource('/branches', {}, {});
 });

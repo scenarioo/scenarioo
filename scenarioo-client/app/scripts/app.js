@@ -17,7 +17,7 @@ angular.module('scenarioo', [
             })
             .when('/config', {
                 templateUrl: 'views/config.html',
-                controller: 'ConfigCtrl',
+                controller: 'ConfigEditorCtrl',
                 breadcrumb: '<i class="icon-cogs"></i> Configuration'
             })
             .when('/usecase/:useCaseName', {
