@@ -276,21 +276,21 @@ h2 {
     margin-top: 10px;
 }
 
-.metadata ul {
+ul.sc-tree {
     margin-left: 0px;
     padding-left: 0;
 }
 
-.metadata li {
+li.sc-tree {
     margin-left: 16px;
     padding-left: px;
 }
 
 .sc-node-label {
     font-weight: bold;
-    color: #428bca;
+    color: #4B4B4B;
 }
 
 .sc-node-value {
-    color: #333333;
+    color: #428bca;
 }

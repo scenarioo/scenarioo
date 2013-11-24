@@ -3,14 +3,14 @@
 describe('Filter :: scTreeDataCreator', function () {
 
     var DATA_1 = {};
-    var DATA_1_TRANSFOREMD = { nodeLabel : 'root', childNodes : [  ] };
+    var DATA_1_TRANSFOREMD = { nodeLabel : '', childNodes : [  ] };
 
     var DATA_2 = {
         myKey : "myValue",
         keyTwo : "valueTwo"
     };
     var DATA_2_TRANSFOREMD = {
-        nodeLabel : 'root',
+        nodeLabel : '',
         childNodes : [
             {
                 nodeLabel: 'myKey',
@@ -35,7 +35,7 @@ describe('Filter :: scTreeDataCreator', function () {
         "type" : "statistics"
     };
     var DATA_3_TRANSFORMED = {
-        nodeLabel: 'root',
+        nodeLabel: '',
         childNodes: [
             {
                 nodeLabel: 'details',
@@ -48,7 +48,7 @@ describe('Filter :: scTreeDataCreator', function () {
                         nodeLabel: 'end',
                         childNodes: [
                             {
-                                nodeLabel: 'Item',
+                                nodeLabel: '',
                                 childNodes: [
                                     {
                                         nodeLabel: 'val',
@@ -57,7 +57,7 @@ describe('Filter :: scTreeDataCreator', function () {
                                 ]
                             },
                             {
-                                nodeLabel: 'Item',
+                                nodeLabel: '',
                                 childNodes: [
                                     {
                                         nodeLabel: 'val2',

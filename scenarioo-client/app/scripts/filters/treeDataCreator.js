@@ -8,7 +8,7 @@ angular.module('scenarioo.filters').filter('scTreeDataCreator', function() {
             return undefined;
         }
 
-        return transformNode(data, 'root');
+        return transformNode(data, '');
     }
 
     function transformNode(node, nodeTitle) {
@@ -57,7 +57,7 @@ angular.module('scenarioo.filters').filter('scTreeDataCreator', function() {
         var childNodes = [];
         angular.forEach(array, function(element) {
             childNodes.push({
-                nodeLabel: 'Item',
+                nodeLabel: '',
                 childNodes: createObjectChildNodes(element)
             });
         });
