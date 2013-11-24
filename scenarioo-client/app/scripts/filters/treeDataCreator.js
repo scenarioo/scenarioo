@@ -1,14 +1,14 @@
 /**
- * Transforms the metadata structure into a tree structure that can be used by our tree directive.
+ * Transforms any nested object and array structure into a tree structure that can be used by our tree directive.
  */
-angular.module('scenarioo.services').service('MetadataTransformer', function() {
+angular.module('scenarioo.filters').filter('scTreeDataCreator', function() {
 
-    function doTransformToTree(metadata) {
-        if(angular.isUndefined(metadata)) {
+    function createTreeData(data) {
+        if(angular.isUndefined(data)) {
             return undefined;
         }
 
-        return transformNode(metadata, 'root');
+        return transformNode(data, 'root');
     }
 
     function transformNode(node, nodeTitle) {
@@ -65,7 +65,5 @@ angular.module('scenarioo.services').service('MetadataTransformer', function() {
         return childNodes;
     }
 
-    return {
-        transformToTree: doTransformToTree
-    }
+    return createTreeData;
 });

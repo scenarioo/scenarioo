@@ -1,8 +1,14 @@
 'use strict';
 
-angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, PageVariantService, StepService, HostnameAndPort, SelectedBranchAndBuild, MetadataTransformer) {
+angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, PageVariantService, StepService, HostnameAndPort, SelectedBranchAndBuild, $filter) {
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
+
+    var scTreeDataCreator = $filter('scTreeDataCreator');
+    var scTreeDataOptimizer = $filter('scTreeDataOptimizer');
+    var transformToTreeData = function(data) {
+        return scTreeDataOptimizer(scTreeDataCreator(data));
+    }
 
     $scope.pageName = decodeURIComponent($routeParams.pageName);
     $scope.pageIndex = parseInt($routeParams.pageIndex);
@@ -45,8 +51,8 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             step.then(function (result) {
                 $scope.step = result;
                 $scope.metadataTree = transformMetadataToTreeArray(result.metadata.details);
-                $scope.stepDescriptionTree = MetadataTransformer.transformToTree(result.stepDescription);
-                $scope.pageTree = MetadataTransformer.transformToTree(result.page);
+                $scope.stepDescriptionTree = transformToTreeData(result.stepDescription);
+                $scope.pageTree = transformToTreeData(result.page);
                 beautify(result.html);
             });
         });
@@ -65,7 +71,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         var metadataTrees = {};
 
         angular.forEach(metadata, function (value, key) {
-            metadataTrees[key] = MetadataTransformer.transformToTree(value);
+            metadataTrees[key] = transformToTreeData(value);
         });
 
         return metadataTrees;
