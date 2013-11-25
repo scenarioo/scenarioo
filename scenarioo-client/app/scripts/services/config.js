@@ -29,7 +29,11 @@ angular.module('scenarioo.services').service('Config', function (ConfigResource,
 
     function getScenarioPropertiesInOverview() {
         var stringValue =  getValue('scenarioPropertiesInOverview');
-        var propertiesStringArray = stringValue.split(',');
+
+        var propertiesStringArray = [];
+        if(angular.isString(stringValue)) {
+            propertiesStringArray = stringValue.split(',');
+        }
 
         var properties = new Array(propertiesStringArray.length);
 

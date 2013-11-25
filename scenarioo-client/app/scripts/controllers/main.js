@@ -25,12 +25,12 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
         $scope.table.search = {searchTerm: ''};
     };
 
-    $scope.switchFilter = function () {
+    $scope.toggleFilter = function () {
         $scope.table.filtering = !$scope.table.filtering;
         if (!$scope.table.filtering) {
-            // TODO: refactor
-            var temp = $scope.table.search.searchTerm;
-            $scope.table.search = { searchTerm: temp };
+            // Removes filter values when filter is switched off
+            var searchTerm = $scope.table.search.searchTerm;
+            $scope.table.search = { searchTerm: searchTerm };
         }
     };
 
