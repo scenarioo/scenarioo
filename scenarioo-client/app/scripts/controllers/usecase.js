@@ -32,14 +32,14 @@ angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($sco
     $scope.table = {search: {$: ''}, sort: {column: 'name', reverse: false}, filtering: false};
 
     $scope.resetSearchField = function () {
-        $scope.table.search = {$: ''};
+        $scope.table.search = {searchTerm: ''};
     };
 
     $scope.switchFilter = function () {
         $scope.table.filtering = !$scope.table.filtering;
         if (!$scope.table.filtering) {
-            var temp = $scope.table.search.$;
-            $scope.table.search = { $: temp };
+            var temp = $scope.table.search.searchTerm;
+            $scope.table.search = { searchTerm: temp };
         }
     };
 

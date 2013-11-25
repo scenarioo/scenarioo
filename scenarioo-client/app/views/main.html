@@ -7,7 +7,7 @@
         <div class="row ngusd-space-top ngusd-space-bottom">
             <div class="col-lg-3">
                 <div class="input-group">
-                    <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="useCasesSearchField" data-toggle="tooltip" title="filter for use case" ng-model="table.search.$" placeholder="Search use case..."/>
+                    <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="useCasesSearchField" data-toggle="tooltip" title="filter for use case" ng-model="table.search.searchTerm" placeholder="Search use case..."/>
                     <span class="input-group-btn">
                         <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
                     </span>
@@ -34,7 +34,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="useCaseScenarios in useCases | scFilterArray:table.search.$ | orderBy:table.sort.column:table.sort.reverse" ng-click="goToUseCase(useCaseScenarios.useCase.name)" class="link">
+                <tr ng-repeat="useCaseScenarios in useCases | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse" ng-click="goToUseCase(useCaseScenarios.useCase.name)" class="link">
                     <td>
                         <span ng-class="[buildStateToClassMapping[useCaseScenarios.useCase.status], 'label']">{{useCaseScenarios.useCase.status}}</span>
                     </td>

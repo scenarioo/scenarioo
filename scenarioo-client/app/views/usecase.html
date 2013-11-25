@@ -14,7 +14,7 @@
     </div>
     <div class="col-lg-3">
         <div class="input-group">
-            <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="useCasesSearchField" data-toggle="tooltip" title="filter for use case" ng-model="table.search.$" placeholder="Search scenario..."/>
+            <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="useCasesSearchField" data-toggle="tooltip" title="filter for use case" ng-model="table.search.searchTerm" placeholder="Search scenario..."/>
             <span class="input-group-btn">
                 <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
             </span>
@@ -34,7 +34,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-click="goToScenario(useCase.name, scenario.name)" class="link" ng-repeat="scenario in scenarios | scFilterArray:table.search.$ | orderBy:table.sort.column:table.sort.reverse">
+        <tr ng-click="goToScenario(useCase.name, scenario.name)" class="link" ng-repeat="scenario in scenarios | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse">
             <td>
                 <span class="label state" ng-class="buildStateToClassMapping[scenario.status]">{{scenario.status}}</span>
             </td>

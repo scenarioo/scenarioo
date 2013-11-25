@@ -19,18 +19,18 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
         $location.path('/usecase/' + useCaseName);
     };
 
-    $scope.table = {search: {$: ''}, sort: {column: 'useCase.name', reverse: false}, filtering: false};
+    $scope.table = {search: {searchTerm: ''}, sort: {column: 'useCase.name', reverse: false}, filtering: false};
 
     $scope.resetSearchField = function () {
-        $scope.table.search = {$: ''};
+        $scope.table.search = {searchTerm: ''};
     };
 
     $scope.switchFilter = function () {
         $scope.table.filtering = !$scope.table.filtering;
         if (!$scope.table.filtering) {
             // TODO: refactor
-            var temp = $scope.table.search.$;
-            $scope.table.search = { $: temp };
+            var temp = $scope.table.search.searchTerm;
+            $scope.table.search = { searchTerm: temp };
         }
     };
 
