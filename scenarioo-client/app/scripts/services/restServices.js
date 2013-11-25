@@ -52,9 +52,6 @@ angular.module('scenarioo.services').factory('UseCaseService', function (Scenari
             buildName: '@buildName',
             usecaseName: '@usecaseName'}, {});
 
-    useCaseService.findAllUseCases = getPromise($q, function (parameters, fnSuccess, fnError) {
-        return useCaseService.query(parameters, fnSuccess, fnError);
-    });
     useCaseService.getUseCase = getPromise($q, function (parameters, fnSuccess, fnError) {
         return useCaseService.get(parameters, fnSuccess, fnError);
     });

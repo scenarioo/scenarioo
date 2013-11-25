@@ -62,9 +62,7 @@ angular.module('scenarioo.services').service('Config', function (ConfigResource,
         },
 
         updateConfiguration: function (newConfig, successCallback) {
-            var configToStore = angular.copy(newConfig);
-
-            ConfigResource.save({}, configToStore, function () {
+            newConfig.$save(function () {
                 if (successCallback) {
                     successCallback();
                 }

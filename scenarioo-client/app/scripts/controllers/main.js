@@ -4,7 +4,7 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
 
     SelectedBranchAndBuild.callOnSelectionChange(loadUseCases);
 
-    function loadUseCases(selected){
+    function loadUseCases(selected) {
         UseCasesResource.query(
             {'branchName': selected.branch, 'buildName': selected.build},
             function onSuccess(result) {
