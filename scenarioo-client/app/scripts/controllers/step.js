@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioService, PageVariantService, StepService, HostnameAndPort, SelectedBranchAndBuild, $filter) {
+angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioResource, PageVariantService, StepService, HostnameAndPort, SelectedBranchAndBuild, $filter) {
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
 
@@ -22,6 +22,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
     $scope.showingMetaData = $window.innerWidth > 1000;
     var metadataExpanded = [];
+    metadataExpanded['sc-step-properties'] = true;
 
     SelectedBranchAndBuild.callOnSelectionChange(loadStep);
 
@@ -29,9 +30,19 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         $scope.pageVariantCounts = PageVariantService.getPageVariantCount({'branchName': selected.branch, 'buildName': selected.build});
 
         //FIXME this is could be improved. Add information to the getStep call. however with caching it could be fixed as well
-        var pagesAndScenarios = ScenarioService.getScenario({'branchName': selected.branch, 'buildName': selected.build, 'usecaseName': useCaseName, 'scenarioName': scenarioName});
+        ScenarioResource.get(
+            {
+                branchName: selected.branch,
+                buildName: selected.build,
+                usecaseName: useCaseName,
+                scenarioName: scenarioName
+            },
+            function(result) {
+                processScenarioResult(result);
+            }
+        );
 
-        pagesAndScenarios.then(function (result) {
+        function processScenarioResult(result) {
             $scope.scenario = result.scenario;
             $scope.pagesAndSteps = result.pagesAndSteps;
             $scope.stepDescription = result.pagesAndSteps[$scope.pageIndex].steps[$scope.stepIndex];
@@ -55,7 +66,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.pageTree = transformToTreeData(result.page);
                 beautify(result.html);
             });
-        });
+        }
 
         $scope.getScreenShotUrl = function (imgName) {
             if (angular.isDefined(imgName)) {
@@ -64,8 +75,6 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 return '';
             }
         };
-
-        metadataExpanded['sc-step-properties'] = true;
     }
 
     function transformMetadataToTreeArray(metadata) {

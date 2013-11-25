@@ -69,26 +69,6 @@ angular.module('scenarioo.services').factory('PageVariantService', function (Sce
     return pageVariantService;
 });
 
-
-angular.module('scenarioo.services').factory('ScenarioService', function (ScenariooResource, $q) {
-    var scenarioService = ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName',
-        {   branchName: '@branchName',
-            buildName: '@buildName',
-            usecaseName: '@usecaseName',
-            scenarioName: '@scenarioName'}, {});
-
-    scenarioService.findAllScenarios = getPromise($q, function (parameters, fnSuccess, fnError) {
-        return scenarioService.get(parameters, fnSuccess, fnError);
-    });
-
-    scenarioService.getScenario = getPromise($q, function (parameters, fnSuccess, fnError) {
-        return scenarioService.get(parameters, fnSuccess, fnError);
-    });
-
-    return scenarioService;
-
-});
-
 angular.module('scenarioo.services').factory('StepService', function (ScenariooResource, $q) {
     var stepService = ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName/steps/:stepIndex',
         {branchName: '@branchName',
@@ -128,5 +108,15 @@ angular.module('scenarioo.services').factory('UseCasesResource', function (Scena
             branchName: '@branchName',
             buildName: '@buildName',
             usecaseName: '@usecaseName'
+        }, {});
+});
+
+angular.module('scenarioo.services').factory('ScenarioResource', function (ScenariooResource) {
+    return ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName',
+        {
+            branchName: '@branchName',
+            buildName: '@buildName',
+            usecaseName: '@usecaseName',
+            scenarioName: '@scenarioName'
         }, {});
 });

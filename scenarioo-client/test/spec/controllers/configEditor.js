@@ -2,35 +2,21 @@
 
 describe('Controller :: ConfigEditorCtrl', function () {
 
-    var $rootScope, $controller, BranchesResource, Config, $httpBackend, $scope, ConfigCtrl, HostnameAndPort;
-
-    var DUMMY_CONFIG_RESPONSE = {
-        'testDocumentationDirPath': 'webtestDocuContentExample',
-        'defaultBuildName': 'current',
-        'scenarioPropertiesInOverview': 'userProfile, configuration',
-        'applicationInformation': 'This is my personal copy of Scenarioo :-)',
-        'buildstates': {
-            BUILD_STATE_FAILED: 'label-important',
-            BUILD_STATE_SUCCESS: 'label-success',
-            BUILD_STATE_WARNING: 'label-warning'
-        },
-        'defaultBranchName': 'trunk'
-    };
-
-    var DUMMY_BRANCHES_RESPONSE = '[{"branch":{"description":"","name":"2013-05"},"builds":[{"linkName":"2013-06-16_001226-497549","build":{"revision":"497549","details":{"properties":{"softwareVersion":"13.0.5"}},"date":1371334346000,"name":"2013-06-16_001226-497549","state":"success"}},{"linkName":"current","build":{"revision":"497549","details":{"properties":{"softwareVersion":"13.0.5"}},"date":1371334346000,"name":"2013-06-16_001226-497549","state":"success"}}]},{"branch":{"description":"","name":"trunk"},"builds":[{"linkName":"2013-06-05_001546-497000","build":{"revision":"497000","details":{"properties":{"softwareVersion":"13.1.1"}},"date":1370384146000,"name":"2013-06-05_001546-497000","state":"failed"}},{"linkName":"2013-06-14_001548-497444","build":{"revision":"497444","details":{"properties":{"softwareVersion":"13.1.1c"}},"date":1371161748000,"name":"2013-06-14_001548-497444","state":"success"}},{"linkName":"current","build":{"revision":"497444","details":{"properties":{"softwareVersion":"13.1.1c"}},"date":1371161748000,"name":"2013-06-14_001548-497444","state":"success"}}]}]';
+    var $rootScope, $controller, BranchesResource, Config, $httpBackend, $scope, ConfigCtrl, HostnameAndPort, TestData;
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$controller_, _BranchesResource_, _Config_, _$httpBackend_, _HostnameAndPort_) {
+    beforeEach(inject(function (_$rootScope_, _$controller_, _BranchesResource_, _Config_, _$httpBackend_, _HostnameAndPort_, _TestData_) {
         $rootScope = _$rootScope_;
         $controller = _$controller_;
         BranchesResource = _BranchesResource_;
         Config = _Config_;
         $httpBackend = _$httpBackend_;
         HostnameAndPort = _HostnameAndPort_;
+        TestData = _TestData_;
 
-        $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/branches').respond(DUMMY_BRANCHES_RESPONSE);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/branches').respond(TestData.BRANCHES);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/configuration').respond(TestData.CONFIG);
 
         $scope = $rootScope.$new();
         ConfigCtrl = $controller('ConfigEditorCtrl', {$scope: $scope, BranchesResource: BranchesResource, Config: Config});
@@ -43,7 +29,7 @@ describe('Controller :: ConfigEditorCtrl', function () {
 
             $httpBackend.flush();
 
-            expect($scope.configuration).toEqualData(DUMMY_CONFIG_RESPONSE);
+            expect($scope.configuration).toEqualData(TestData.CONFIG);
         });
 
         it('loads all branches and builds', function () {
@@ -65,11 +51,7 @@ describe('Controller :: ConfigEditorCtrl', function () {
 
             $scope.resetConfiguration();
 
-            expect($scope.configuration.defaultBuildName).toEqual(DUMMY_CONFIG_RESPONSE.defaultBuildName);
-            expect($scope.configuration.defaultBranchName).toEqual(DUMMY_CONFIG_RESPONSE.defaultBranchName);
-            expect($scope.configuration.scenarioPropertiesInOverview).toEqual(DUMMY_CONFIG_RESPONSE.scenarioPropertiesInOverview);
-            expect($scope.configuration.applicationInformation).toEqual(DUMMY_CONFIG_RESPONSE.applicationInformation);
-            expect($scope.configuration.testDocumentationDirPath).toEqual(DUMMY_CONFIG_RESPONSE.testDocumentationDirPath);
+            expect($scope.configuration).toEqualData(TestData.CONFIG);
         });
     });
 

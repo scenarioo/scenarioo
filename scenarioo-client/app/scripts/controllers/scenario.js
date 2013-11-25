@@ -1,9 +1,10 @@
 'use strict';
 
-angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioService, HostnameAndPort, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
+    var selectedBranchAndBuild;
 
     $scope.showingSteps = [];
 
@@ -15,17 +16,18 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     SelectedBranchAndBuild.callOnSelectionChange(loadScenario);
 
     function loadScenario(selected) {
-        var pagesAndScenarios = ScenarioService.getScenario({'branchName': selected.branch, 'buildName': selected.build,
-            'usecaseName': useCaseName, 'scenarioName': scenarioName});
-        pagesAndScenarios.then(function (result) {
-            // Add page to the step to allow search for step- as well as page-properties
-            populatePageAndSteps(result);
-        });
-
-        $scope.getScreenShotUrl = function (imgName) {
-            return HostnameAndPort.forLink() + '/scenarioo/rest/branches/' + selected.branch + '/builds/' + selected.build +
-                '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
-        };
+        selectedBranchAndBuild = selected;
+        ScenarioResource.get(
+            {
+                branchName: selected.branch,
+                buildName: selected.build,
+                usecaseName: useCaseName,
+                scenarioName: scenarioName
+            },
+            function(result) {
+                // Add page to the step to allow search for step- as well as page-properties
+                populatePageAndSteps(result);
+            });
     }
 
     function populatePageAndSteps(pagesAndScenarios) {
@@ -46,6 +48,14 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         $scope.scenario = pagesAndScenarios.scenario;
         $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
     }
+
+    $scope.getScreenShotUrl = function (imgName) {
+        if(angular.isUndefined(selectedBranchAndBuild)) {
+            return;
+        }
+        return HostnameAndPort.forLink() + '/scenarioo/rest/branches/' + selectedBranchAndBuild.branch + '/builds/' + selectedBranchAndBuild.build +
+            '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
+    };
 
     $scope.goToStep = function (pageSteps, pageIndex, stepIndex) {
         var pageName = pageSteps.page.name;

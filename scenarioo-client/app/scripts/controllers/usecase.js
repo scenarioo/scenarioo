@@ -1,17 +1,22 @@
 'use strict';
 
-angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioService, Config, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild) {
 
     SelectedBranchAndBuild.callOnSelectionChange(loadScenariosAndUseCase);
 
     function loadScenariosAndUseCase(selected) {
         var useCaseName = $routeParams.useCaseName;
-        var useCaseAndScenarios = ScenarioService.findAllScenarios({'branchName': selected.branch, 'buildName': selected.build, 'usecaseName': useCaseName});
-
-        useCaseAndScenarios.then(function (resultScenarios) {
-            $scope.useCase = resultScenarios.useCase;
-            $scope.scenarios = resultScenarios.scenarios;
-        });
+        ScenarioResource.get(
+            {
+                branchName: selected.branch,
+                buildName: selected.build,
+                usecaseName: useCaseName
+            },
+            function onSuccess(result) {
+                $scope.useCase = result.useCase;
+                $scope.scenarios = result.scenarios;
+            }
+        );
 
         $scope.propertiesToShow = Config.scenarioPropertiesInOverview();
     }
@@ -24,10 +29,17 @@ angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($sco
         var selected = SelectedBranchAndBuild.selected();
 
         //FIXME This could be improved, if the scenario service for finding all scenarios would also retrieve the name of the first page
-        var scenario = ScenarioService.getScenario({'branchName': selected.branch, 'buildName': selected.build, 'usecaseName': useCaseName, 'scenarioName': scenarioName});
-        scenario.then(function (scenarioResult) {
-            $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(scenarioResult.pagesAndSteps[0].page.name) + '/0/0');
-        });
+        ScenarioResource.get(
+            {
+                branchName: selected.branch,
+                buildName: selected.build,
+                usecaseName: useCaseName,
+                scenarioName: scenarioName
+            },
+            function onSuccess(scenarioResult) {
+                $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(scenarioResult.pagesAndSteps[0].page.name) + '/0/0');
+            }
+        );
     };
     $scope.table = {search: {$: ''}, sort: {column: 'name', reverse: false}, filtering: false};
 
