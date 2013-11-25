@@ -1,11 +1,17 @@
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope, $location, SelectedBranchAndBuild, UseCaseService, BranchesAndBuilds) {
+angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope, $location, SelectedBranchAndBuild, UseCasesResource, BranchesAndBuilds) {
 
     SelectedBranchAndBuild.callOnSelectionChange(loadUseCases);
 
     function loadUseCases(selected){
-        $scope.useCaseScenariosList = UseCaseService.findAllUseCases({'branchName': selected.branch, 'buildName': selected.build});
+        UseCasesResource.query(
+            {'branchName': selected.branch, 'buildName': selected.build},
+            function(result) {
+                $scope.useCases = result;
+            });
+
+        // TODO: refactor getBranchesAndBuilds()
         $scope.branchesAndBuilds = BranchesAndBuilds.getBranchesAndBuilds();
     }
 
@@ -22,6 +28,7 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
     $scope.switchFilter = function () {
         $scope.table.filtering = !$scope.table.filtering;
         if (!$scope.table.filtering) {
+            // TODO: refactor
             var temp = $scope.table.search.$;
             $scope.table.search = { $: temp };
         }

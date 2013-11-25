@@ -11,8 +11,7 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
 
     function loadBranchesAndBuilds () {
         $scope.branchesAndBuilds = BranchesAndBuilds.getBranchesAndBuilds();
-    };
-
+    }
 
     $scope.setBranch = function (branch) {
         $scope.selectedBranch = branch;

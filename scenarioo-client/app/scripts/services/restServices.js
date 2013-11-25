@@ -6,28 +6,28 @@ angular.module('scenarioo.services').config(function ($httpProvider) {
     $httpProvider.defaults.headers.common.Accept = 'application/json';
 });
 
-angular.module('scenarioo.services').factory('HostnameAndPort', function(ENV) {
+angular.module('scenarioo.services').factory('HostnameAndPort', function (ENV) {
     var hostAndPort;
 
-    if(ENV === 'production') {
+    if (ENV === 'production') {
         hostAndPort = '';
     } else if (ENV === 'development') {
         hostAndPort = 'http://localhost:8080';
     }
 
     return {
-        forNgResource: function() {
+        forNgResource: function () {
             return hostAndPort.replace(/(:[0-9])/, '\\$1');
         },
 
-        forLink: function() {
+        forLink: function () {
             return hostAndPort;
         }
     };
 });
 
-angular.module('scenarioo.services').factory('ScenariooResource', function(HostnameAndPort, $resource) {
-    return function(url, paramDefaults, actions) {
+angular.module('scenarioo.services').factory('ScenariooResource', function (HostnameAndPort, $resource) {
+    return function (url, paramDefaults, actions) {
         return $resource(HostnameAndPort.forNgResource() + '/scenarioo/rest' + url, paramDefaults, actions);
     };
 });
@@ -116,9 +116,18 @@ angular.module('scenarioo.services').factory('AdminService', function (Scenarioo
 });
 
 angular.module('scenarioo.services').factory('ConfigResource', function (ScenariooResource) {
-    return ScenariooResource('/configuration', {} );
+    return ScenariooResource('/configuration', {});
 });
 
 angular.module('scenarioo.services').factory('BranchesResource', function (ScenariooResource) {
     return ScenariooResource('/branches', {}, {});
+});
+
+angular.module('scenarioo.services').factory('UseCasesResource', function (ScenariooResource) {
+    return ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName',
+        {
+            branchName: '@branchName',
+            buildName: '@buildName',
+            usecaseName: '@usecaseName'
+        }, {});
 });
