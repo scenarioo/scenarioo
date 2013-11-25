@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Transforms any nested object and array structure into a tree structure that can be used by our tree directive.
  */

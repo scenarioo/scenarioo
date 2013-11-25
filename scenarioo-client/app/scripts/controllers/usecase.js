@@ -14,7 +14,7 @@ angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($sco
         });
 
         $scope.propertiesToShow = Config.scenarioPropertiesInOverview();
-    };
+    }
 
     $scope.goToScenario = function (useCaseName, scenarioName) {
         $location.path('/scenario/' + useCaseName + '/' + scenarioName);

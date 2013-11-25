@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
 describe('StepCtrl', function () {
 
-    var $rootScope, $scope, $routeParams, $location, $q, $window, Config, ScenarioService, PageVariantService, StepService, HostnameAndPort, SelectedBranchAndBuild;
+    var $scope, $routeParams, $location, $q, $window, Config, ScenarioService, PageVariantService, StepService, HostnameAndPort, SelectedBranchAndBuild;
     var StepCtrl;
 
     var METADATA_TYPE = 'some_type';
@@ -16,7 +16,7 @@ describe('StepCtrl', function () {
         $q = _$q_;
         $window = _$window_;
         Config = _Config_;
-        ScenarioService = _ScenarioService_
+        ScenarioService = _ScenarioService_;
         PageVariantService = _PageVariantService_;
         StepService = _StepService_;
         HostnameAndPort = _HostnameAndPort_;

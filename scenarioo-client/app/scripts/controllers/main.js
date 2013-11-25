@@ -7,12 +7,15 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
     function loadUseCases(selected){
         UseCasesResource.query(
             {'branchName': selected.branch, 'buildName': selected.build},
-            function(result) {
+            function onSuccess(result) {
                 $scope.useCases = result;
             });
 
-        // TODO: refactor getBranchesAndBuilds()
-        $scope.branchesAndBuilds = BranchesAndBuilds.getBranchesAndBuilds();
+        BranchesAndBuilds.getBranchesAndBuilds(
+            function onSuccess(branchesAndBuilds) {
+                $scope.branchesAndBuilds = branchesAndBuilds;
+            }
+        );
     }
 
     $scope.goToUseCase = function (useCaseName) {

@@ -22,26 +22,27 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($fil
         });
     }
 
-    function removeEmptyChildNodes(childNode, modifiedChildNodes) {
-        if(hasChildNodes(childNode) || hasNodeValue(childNode)) {
-            modifiedChildNodes.push(childNode);
-        }
-    }
-
-    function hasChildNodes(node) {
-        var childNodes = node.childNodes;
-        var childNodesArrayNotEmpty = angular.isArray(childNodes) && childNodes.length > 0;
-        var childNodesPropertyDefined = angular.isDefined(childNodes);
-
-        return childNodesPropertyDefined && childNodesArrayNotEmpty;
-    }
-
-    function hasNodeValue(node) {
-        var value = node.nodeValue;
-        var hasStringValue = angular.isString(value) && value.trim() !== '';
-        var hasOtherValue = angular.isDefined(value) && value !== null;
-        return hasStringValue || hasOtherValue;
-    }
+// TODO Decide whether we want do remove empty child nodes or not. Probably not.
+//    function removeEmptyChildNodes(childNode, modifiedChildNodes) {
+//        if(hasChildNodes(childNode) || hasNodeValue(childNode)) {
+//            modifiedChildNodes.push(childNode);
+//        }
+//    }
+//
+//    function hasChildNodes(node) {
+//        var childNodes = node.childNodes;
+//        var childNodesArrayNotEmpty = angular.isArray(childNodes) && childNodes.length > 0;
+//        var childNodesPropertyDefined = angular.isDefined(childNodes);
+//
+//        return childNodesPropertyDefined && childNodesArrayNotEmpty;
+//    }
+//
+//    function hasNodeValue(node) {
+//        var value = node.nodeValue;
+//        var hasStringValue = angular.isString(value) && value.trim() !== '';
+//        var hasOtherValue = angular.isDefined(value) && value !== null;
+//        return hasStringValue || hasOtherValue;
+//    }
 
     function pullUpChildrenOfDetailsNodes(childNode, modifiedChildNodes) {
         if(isDetailsNode(childNode)) {
@@ -57,7 +58,7 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($fil
         return angular.isDefined(node.nodeLabel) && node.nodeLabel === 'details';
     }
 
-    function optimizeNodes(node, operation, isRootNode) {
+    function optimizeNodes(node, operation) {
         operation(node);
 
         if(angular.isUndefined(node.childNodes)) {
@@ -86,7 +87,7 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($fil
     }
 
     function pullUpNameToReplaceEmptyNodeLabel(node) {
-        if(angular.isString(node.nodeLabel) && node.nodeLabel != '') {
+        if(angular.isString(node.nodeLabel) && node.nodeLabel !== '') {
             return;
         }
 
@@ -100,7 +101,7 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($fil
     }
 
     function pullUpNameToReplaceEmptyNodeValue(node) {
-        if(angular.isString(node.nodeValue) && node.nodeValue != '') {
+        if(angular.isString(node.nodeValue) && node.nodeValue !== '') {
             return;
         }
 

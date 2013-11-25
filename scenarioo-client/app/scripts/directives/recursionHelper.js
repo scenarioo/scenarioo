@@ -1,3 +1,5 @@
+'use strict';
+
 // From http://stackoverflow.com/a/18609594/581553
 
 angular.module('scenarioo.directives').factory('RecursionHelper', ['$compile', function($compile){

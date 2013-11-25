@@ -1,4 +1,3 @@
-
 'use strict';
 
 angular.module('scenarioo.services').service('Config', function (ConfigResource, $rootScope) {

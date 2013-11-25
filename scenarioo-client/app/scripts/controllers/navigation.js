@@ -9,8 +9,12 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
 
     SelectedBranchAndBuild.callOnSelectionChange(loadBranchesAndBuilds);
 
-    function loadBranchesAndBuilds () {
-        $scope.branchesAndBuilds = BranchesAndBuilds.getBranchesAndBuilds();
+    function loadBranchesAndBuilds() {
+        BranchesAndBuilds.getBranchesAndBuilds(
+            function onSuccess(branchesAndBuilds) {
+                $scope.branchesAndBuilds = branchesAndBuilds;
+            }
+        );
     }
 
     $scope.setBranch = function (branch) {

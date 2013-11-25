@@ -2,6 +2,8 @@
 
 describe('Service :: Config', function () {
 
+    var HostnameAndPort;
+
     var BUILD_STATE_FAILED = 'failed',
         BUILD_STATE_SUCCESS = 'success',
         BUILD_STATE_WARNING = 'warning',
@@ -19,6 +21,10 @@ describe('Service :: Config', function () {
         };
 
     beforeEach(angular.mock.module('scenarioo.services'));
+
+    beforeEach(inject(function(_HostnameAndPort_) {
+        HostnameAndPort = _HostnameAndPort_;
+    }));
 
     it('should inject Config', inject(function (Config) {
         expect(Config).not.toBeUndefined();
@@ -59,7 +65,7 @@ describe('Service :: Config', function () {
     }));
 
     function loadConfigFromService(Config, $httpBackend) {
-        $httpBackend.when('GET', 'http://localhost:8080/scenarioo/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
+        $httpBackend.when('GET', HostnameAndPort.forNgResource() + '/scenarioo/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
         Config.load();
         $httpBackend.flush();
     }

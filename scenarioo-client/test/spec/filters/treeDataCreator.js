@@ -6,8 +6,8 @@ describe('Filter :: scTreeDataCreator', function () {
     var DATA_1_TRANSFOREMD = { nodeLabel : '', childNodes : [  ] };
 
     var DATA_2 = {
-        myKey : "myValue",
-        keyTwo : "valueTwo"
+        myKey : 'myValue',
+        keyTwo : 'valueTwo'
     };
     var DATA_2_TRANSFOREMD = {
         nodeLabel : '',
@@ -24,15 +24,15 @@ describe('Filter :: scTreeDataCreator', function () {
     };
 
     var DATA_3 = {
-        "details": {
-            "start": "12312",
-            "end": [
-                { "val" : "23123" },
-                { "val2" : "111" }
+        'details': {
+            'start': '12312',
+            'end': [
+                { 'val' : '23123' },
+                { 'val2' : '111' }
             ]
         },
-        "name" : "page_load",
-        "type" : "statistics"
+        'name' : 'page_load',
+        'type' : 'statistics'
     };
     var DATA_3_TRANSFORMED = {
         nodeLabel: '',

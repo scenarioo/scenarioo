@@ -6,7 +6,7 @@ describe('Controller :: useCase', function () {
         BUILD = 'build_123',
         USE_CASE = 'LogIn';
 
-    var $scope, routeParams, configMock, controller, scenarioService, SelectedBranchAndBuild, $location, $rootScope;
+    var $scope, routeParams, configMock, controller, scenarioService, SelectedBranchAndBuild, $location;
 
     beforeEach(module('scenarioo.controllers'));
 
@@ -19,7 +19,7 @@ describe('Controller :: useCase', function () {
             SelectedBranchAndBuild = _SelectedBranchAndBuild_;
             $location = _$location_;
 
-            controller = $controller("UseCaseCtrl", {$scope: $scope, $routeParams: routeParams, Config: ConfigMock, ScenarioService: scenarioService, SelectedBranchAndBuild: SelectedBranchAndBuild});
+            controller = $controller('UseCaseCtrl', {$scope: $scope, $routeParams: routeParams, Config: ConfigMock, ScenarioService: scenarioService, SelectedBranchAndBuild: SelectedBranchAndBuild});
         }
     ));
 
@@ -56,7 +56,7 @@ describe('Controller :: useCase', function () {
                     });
                 }
             };
-        }
+        };
     }
 
 });

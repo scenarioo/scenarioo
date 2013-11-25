@@ -2,7 +2,7 @@
 
 describe('Controller :: ConfigEditorCtrl', function () {
 
-    var $rootScope, $controller, BranchesResource, Config, $httpBackend, $scope, ConfigCtrl;
+    var $rootScope, $controller, BranchesResource, Config, $httpBackend, $scope, ConfigCtrl, HostnameAndPort;
 
     var DUMMY_CONFIG_RESPONSE = {
         'testDocumentationDirPath': 'webtestDocuContentExample',
@@ -21,15 +21,16 @@ describe('Controller :: ConfigEditorCtrl', function () {
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$controller_, _BranchesResource_, _Config_, _$httpBackend_) {
+    beforeEach(inject(function (_$rootScope_, _$controller_, _BranchesResource_, _Config_, _$httpBackend_, _HostnameAndPort_) {
         $rootScope = _$rootScope_;
         $controller = _$controller_;
         BranchesResource = _BranchesResource_;
         Config = _Config_;
         $httpBackend = _$httpBackend_;
+        HostnameAndPort = _HostnameAndPort_;
 
-        $httpBackend.whenGET('http://localhost:8080/scenarioo/rest/branches').respond(DUMMY_BRANCHES_RESPONSE);
-        $httpBackend.whenGET('http://localhost:8080/scenarioo/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
+        $httpBackend.whenGET(HostnameAndPort.forNgResource() + '/scenarioo/rest/branches').respond(DUMMY_BRANCHES_RESPONSE);
+        $httpBackend.whenGET(HostnameAndPort.forNgResource() + '/scenarioo/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
 
         $scope = $rootScope.$new();
         ConfigCtrl = $controller('ConfigEditorCtrl', {$scope: $scope, BranchesResource: BranchesResource, Config: Config});
@@ -53,7 +54,7 @@ describe('Controller :: ConfigEditorCtrl', function () {
 
             expect($scope.branches).toBeDefined();
             expect($scope.configuredBranch).toBeDefined();
-        })
+        });
     });
 
     describe('when reset button is clicked', function () {

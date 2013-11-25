@@ -23,7 +23,7 @@ angular.module('scenarioo.services').service('ConfigMock', function () {
             return {
                 branch: this.selectedBranch(),
                 build: this.selectedBuild()
-            }
+            };
         },
 
         applicationInformation: function() {

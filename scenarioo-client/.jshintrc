@@ -18,14 +18,17 @@
     "strict": true,
     "trailing": true,
     "smarttabs": true,
+    "camelcase": false,
     "globals": {
         "angular": false,
         "inject":false,
         "it": false,
+        "xit": false,
         "describe": false,
         "expect": false,
         "beforeEach": false,
         "afterEach": false,
-        "spyOn":false
+        "spyOn": false,
+        "jasmine": false
     }
 }

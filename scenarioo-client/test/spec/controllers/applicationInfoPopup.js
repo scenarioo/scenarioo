@@ -12,7 +12,8 @@ describe('Controller: ApplicationInfoPopupCtrl', function () {
         Config = ConfigMock;
         $scope = $rootScope.$new();
         ApplicationInfoPopupCtrl = $controller('ApplicationInfoPopupCtrl', {
-            $scope: $scope, Config: ConfigMock
+            $scope: $scope,
+            Config: ConfigMock
         });
     }));
 

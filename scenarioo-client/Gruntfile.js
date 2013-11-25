@@ -44,29 +44,33 @@ module.exports = function (grunt) {
                 tasks: ['livereload']
             }
         },
-    	ngconstant: {
-    	  options: {
-    	    space: '  '
-    	  },
+        ngconstant: {
+            options: {
+                space: '  '
+            },
 
-    	  // targets
-    	  development: [{
-    	    dest: '<%= yeoman.app %>/scripts/environment_config.js',
-    	    wrap: '"use strict";\n\n <%= __ngModule %>',
-    	    name: 'scenarioo.config',
-    	    constants: {
-    	      ENV: 'development'
-    	    }
-    	  }],
-    	  production: [{
-    	    dest: '<%= yeoman.app %>/scripts/environment_config.js',
-    	    wrap: '"use strict";\n\n <%= __ngModule %>',
-    	    name: 'scenarioo.config',
-    	    constants: {
-    	      ENV: 'production'
-    	    }
-    	  }]
-    	},
+            // targets
+            development: [
+                {
+                    dest: '<%= yeoman.app %>/scripts/environment_config.js',
+                    wrap: '\'use strict\';\n\n< %= __ngModule % > ',
+                    name: 'scenarioo.config',
+                    constants: {
+                        ENV: 'development'
+                    }
+                }
+            ],
+            production: [
+                {
+                    dest: '<%= yeoman.app %>/scripts/environment_config.js',
+                    wrap: '\'use strict\';\n\n <%= __ngModule %>',
+                    name: 'scenarioo.config',
+                    constants: {
+                        ENV: 'production'
+                    }
+                }
+            ]
+        },
         connect: {
             options: {
                 port: 9000,
@@ -122,7 +126,8 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                '<%= yeoman.app %>/scripts/{,*/}*.js'
+                '<%= yeoman.app %>/scripts/{,*/}*.js',
+                '!<%= yeoman.app %>/scripts/environment_config.js'
             ]
         },
         karma: {
@@ -133,7 +138,12 @@ module.exports = function (grunt) {
             unitwatch: {
                 configFile: 'karma.conf.js',
                 singleRun: false,
-                autoWatch:true
+                autoWatch: true
+            },
+            e2e: {
+                configFile: 'karma-e2e.conf.js',
+                singleRun: true,
+                autoWatch: false
             }
         },
         coffee: {
@@ -171,7 +181,8 @@ module.exports = function (grunt) {
                 importPath: '<%= yeoman.app %>/components',
                 relativeAssets: true
             },
-            dist: {},
+            dist: {
+            },
             server: {
                 options: {
                     debugInfo: true
@@ -310,13 +321,14 @@ module.exports = function (grunt) {
                 ]
             }
         }
-    });
+    })
+    ;
 
     grunt.renameTask('regarde', 'watch');
 
     grunt.registerTask('server', [
         'clean:server',
-	    'ngconstant:development',
+        'ngconstant:development',
         'coffee:dist',
         'compass:server',
         'livereload-start',
@@ -391,4 +403,5 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('default', ['build']);
-};
+}
+;

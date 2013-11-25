@@ -23,13 +23,13 @@ describe('Directive :: scBreadcrumbs', function () {
 
         // mock routes
         $route.routes = {
-            '/': { breadcrumb: "Home" },
-            '/usecase/:uid': { breadcrumb: "<strong>Usecase</strong>: $param" },
-            '/scenario/:uid/:sid': { breadcrumb: "Scenario: $title" }
+            '/': { breadcrumb: 'Home' },
+            '/usecase/:uid': { breadcrumb: '<strong>Usecase</strong>: $param' },
+            '/scenario/:uid/:sid': { breadcrumb: 'Scenario: $title' }
         };
 
         // mock title
-        scope.title = "thisIsSomeTitle";
+        scope.title = 'thisIsSomeTitle';
     }));
 
     function breadcrumbWithPath(path) {
@@ -44,21 +44,21 @@ describe('Directive :: scBreadcrumbs', function () {
         scope.$digest();
     }
 
-    it('Should consist only of the root breadcrumb', function() {
-        breadcrumbWithPath("/");
+    it('Should consist only of the root breadcrumb', function () {
+        breadcrumbWithPath('/');
 
         var innerScope = elem.scope();
         var breadcrumbs = innerScope.breadcrumbs;
 
         expect(breadcrumbs.length).toBe(1);
-        
+
         // One root breadcrumb
         expect(breadcrumbs[0]).toEqual({
-            text:       "Home",
-            showTooltip:false,
-            href:       "#",
-            isLast:      true,
-            tooltip:    jasmine.any(String)
+            text: 'Home',
+            showTooltip: false,
+            href: '#',
+            isLast: true,
+            tooltip: jasmine.any(String)
         });
 
         // Mail information
@@ -66,8 +66,8 @@ describe('Directive :: scBreadcrumbs', function () {
         expect(innerScope.email.link).toBeDefined();
     });
 
-    it('Should consist of multiple breadcrumbs', function() {
-        breadcrumbWithPath("/scenario/usecaseId/scenarioId");
+    it('Should consist of multiple breadcrumbs', function () {
+        breadcrumbWithPath('/scenario/usecaseId/scenarioId');
 
         var innerScope = elem.scope();
         var breadcrumbs = innerScope.breadcrumbs;
@@ -76,45 +76,45 @@ describe('Directive :: scBreadcrumbs', function () {
 
         // Root breadcrumb
         expect(breadcrumbs[0]).toEqual({
-            text:       "Home",
-            showTooltip:false,
-            href:       "#",
-            isLast:      false,
-            tooltip:    jasmine.any(String)
+            text: 'Home',
+            showTooltip: false,
+            href: '#',
+            isLast: false,
+            tooltip: jasmine.any(String)
         });
 
         // Usecase breadcrumb with $param
         expect(breadcrumbs[1]).toEqual({
-            text:       "<strong>Usecase</strong>: Usecase Id",
-            showTooltip:false,
-            href:       "#/usecase/usecaseId",
-            isLast:      false,
-            tooltip:    jasmine.any(String)
+            text: '<strong>Usecase</strong>: Usecase Id',
+            showTooltip: false,
+            href: '#/usecase/usecaseId',
+            isLast: false,
+            tooltip: jasmine.any(String)
         });
 
         // Scenario breadcrumb with $title
         expect(breadcrumbs[2]).toEqual({
-            text:       "Scenario: thisIsSomeTitle",
-            showTooltip:false,
-            href:       "#/scenario/usecaseId/scenarioId",
-            isLast:      true,
-            tooltip:    jasmine.any(String)
+            text: 'Scenario: thisIsSomeTitle',
+            showTooltip: false,
+            href: '#/scenario/usecaseId/scenarioId',
+            isLast: true,
+            tooltip: jasmine.any(String)
         });
     });
 
-    it('Should consist of multiple breadcrumbs', function() {
-        breadcrumbWithPath("/scenario/usecaseIdWithAMuchTooLongNameWhichWillBeDisplayedInATooltipAndTheTooltipIsStrippedOfHTML/scenarioId");
+    it('Should consist of multiple breadcrumbs', function () {
+        breadcrumbWithPath('/scenario/usecaseIdWithAMuchTooLongNameWhichWillBeDisplayedInATooltipAndTheTooltipIsStrippedOfHTML/scenarioId');
 
         var innerScope = elem.scope();
         var breadcrumbs = innerScope.breadcrumbs;
 
         // Usecase breadcrumb with too long name and tooltip which is stripped of HTML tags
         expect(breadcrumbs[1]).toEqual({
-            text:       "<strong>Usecase</strong>: Usecase Id With A Much T..",
+            text: '<strong>Usecase</strong>: Usecase Id With A Much T..',
             showTooltip: true,
-            tooltip:    "Usecase: Usecase Id With A Much Too Long Name Which Will Be Displayed In A Tooltip And The Tooltip Is Stripped Of HTML",
-            href:       "#/usecase/usecaseIdWithAMuchTooLongNameWhichWillBeDisplayedInATooltipAndTheTooltipIsStrippedOfHTML",
-            isLast:      false
+            tooltip: 'Usecase: Usecase Id With A Much Too Long Name Which Will Be Displayed In A Tooltip And The Tooltip Is Stripped Of HTML',
+            href: '#/usecase/usecaseIdWithAMuchTooLongNameWhichWillBeDisplayedInATooltipAndTheTooltipIsStrippedOfHTML',
+            isLast: false
         });
     });
 });

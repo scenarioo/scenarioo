@@ -2,16 +2,15 @@
 
 angular.module('scenarioo.services').service('BranchesAndBuilds', function ($rootScope, Config, BranchesResource, $q, SelectedBranchAndBuild) {
 
-    var branchesAndBuildsData = getPromise($q, function(parameters, successFn) {
-        var loadedData = {};
-        loadedData.applicationInformation = Config.applicationInformation();
+    var branchesAndBuildsData = function(onSuccess) {
 
-        BranchesResource.query({}, function(branches) {
-            loadedData.branches = branches;
-            findSelectedBranchAndBuild();
-        });
+        BranchesResource.query({}, findSelectedBranchAndBuild);
 
-        function findSelectedBranchAndBuild() {
+        function findSelectedBranchAndBuild(branches) {
+            var loadedData = {
+                branches: branches
+            };
+
             if(!SelectedBranchAndBuild.isDefined()) {
                 return;
             }
@@ -41,26 +40,12 @@ angular.module('scenarioo.services').service('BranchesAndBuilds', function ($roo
                     loadedData.selectedBuild = allBuildsOnSelectedBranch[index];
                 }
             }
-            successFn(loadedData);
+
+            onSuccess(loadedData);
         }
-    });
-
-
-    function getPromise($q, fn) {
-        return function (parameters) {
-            var deferred = $q.defer();
-            fn(parameters, function (result) {
-                deferred.resolve(result);
-            }, function (error) {
-                deferred.reject(error);
-            });
-            return deferred.promise;
-        };
-    }
-
-    var serviceInstance = {
-        getBranchesAndBuilds : branchesAndBuildsData
     };
 
-    return serviceInstance;
+    return {
+        getBranchesAndBuilds : branchesAndBuildsData
+    };
 });

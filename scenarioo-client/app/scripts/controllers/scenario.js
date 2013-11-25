@@ -26,7 +26,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
             return HostnameAndPort.forLink() + '/scenarioo/rest/branches/' + selected.branch + '/builds/' + selected.build +
                 '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
         };
-    };
+    }
 
     function populatePageAndSteps(pagesAndScenarios) {
         for (var indexPage = 0; indexPage < pagesAndScenarios.pagesAndSteps.length; indexPage++) {

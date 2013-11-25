@@ -10,7 +10,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($loca
         priority: 0,
         replace: true,
         templateUrl: 'template/breadcrumbs.html',
-        link: function (scope, element, attrs) {
+        link: function (scope, element) {
 
             var restParameters = splitPath($location.path());
             var pathOfCurrentBreadcrumb = '';
@@ -34,8 +34,9 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($loca
                     if (matchingRoute.breadcrumb) {
                         text = matchingRoute.breadcrumb.replace('$param', text);
 
-                        if (scope.title && isLastBreadcrumb)
+                        if (scope.title && isLastBreadcrumb) {
                             text = text.replace('$title', scope.title);
+                        }
                     }
 
                     // Create breadcrumb object
@@ -46,7 +47,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($loca
                         showTooltip: hasTooltip,
                         href: '#' + getBreadCrumbPathWithParameters(pathOfCurrentBreadcrumb, keyOfMatchingRoute),
                         isLast: isLastBreadcrumb
-                    }
+                    };
 
                     scope.breadcrumbs.push(breadcrumb);
                 }
@@ -55,7 +56,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($loca
                 title: encodeURIComponent('Link to the User Scenario Documentation'),
                 link: encodeURIComponent($location.absUrl())
             };
-            element.debuggingHelp = "test";
+            element.debuggingHelp = 'test';
         }
     };
 
