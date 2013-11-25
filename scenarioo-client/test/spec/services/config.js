@@ -65,7 +65,7 @@ describe('Service :: Config', function () {
     }));
 
     function loadConfigFromService(Config, $httpBackend) {
-        $httpBackend.when('GET', HostnameAndPort.forNgResource() + '/scenarioo/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
+        $httpBackend.when('GET', HostnameAndPort.forTest() + '/scenarioo/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
         Config.load();
         $httpBackend.flush();
     }

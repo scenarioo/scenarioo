@@ -53,7 +53,7 @@ module.exports = function (grunt) {
             development: [
                 {
                     dest: '<%= yeoman.app %>/scripts/environment_config.js',
-                    wrap: '\'use strict\';\n\n< %= __ngModule % > ',
+                    wrap: '\'use strict\';\n\n <%= __ngModule %>',
                     name: 'scenarioo.config',
                     constants: {
                         ENV: 'development'

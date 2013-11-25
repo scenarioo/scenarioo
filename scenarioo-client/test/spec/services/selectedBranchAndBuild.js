@@ -182,7 +182,7 @@ describe('Service :: SelectedBranchAndBuild', function () {
     }
 
     function loadConfigFromService() {
-        $httpBackend.when('GET', HostnameAndPort.forNgResource() + '/scenarioo/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
+        $httpBackend.when('GET', HostnameAndPort.forTest() + '/scenarioo/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
         Config.load();
         $httpBackend.flush();
     }

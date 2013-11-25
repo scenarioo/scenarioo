@@ -2,9 +2,7 @@
 
 describe('Service :: restServices', function () {
 
-
-    beforeEach(angular.mock.module('scenarioo.services'));
-
+    beforeEach(module('scenarioo.services'));
 
     it('should inject ConfigResource', inject(function (ConfigResource) {
         expect(ConfigResource).not.toBeUndefined();
@@ -21,6 +19,7 @@ describe('Service :: restServices', function () {
 
         it('should resolve the host name to local host', inject(function (HostnameAndPort) {
             expect(HostnameAndPort.forNgResource()).toBe('http://localhost\\:8080');
+            expect(HostnameAndPort.forTest()).toBe('http://localhost:8080');
             expect(HostnameAndPort.forLink()).toBe('http://localhost:8080');
         }));
 
@@ -36,6 +35,7 @@ describe('Service :: restServices', function () {
 
         it('should resolve the host name to relative host', inject(function (HostnameAndPort) {
             expect(HostnameAndPort.forNgResource()).toBe('');
+            expect(HostnameAndPort.forTest()).toBe('');
             expect(HostnameAndPort.forLink()).toBe('');
         }));
 

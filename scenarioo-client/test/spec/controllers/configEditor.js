@@ -29,8 +29,8 @@ describe('Controller :: ConfigEditorCtrl', function () {
         $httpBackend = _$httpBackend_;
         HostnameAndPort = _HostnameAndPort_;
 
-        $httpBackend.whenGET(HostnameAndPort.forNgResource() + '/scenarioo/rest/branches').respond(DUMMY_BRANCHES_RESPONSE);
-        $httpBackend.whenGET(HostnameAndPort.forNgResource() + '/scenarioo/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/branches').respond(DUMMY_BRANCHES_RESPONSE);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
 
         $scope = $rootScope.$new();
         ConfigCtrl = $controller('ConfigEditorCtrl', {$scope: $scope, BranchesResource: BranchesResource, Config: Config});

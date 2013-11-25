@@ -19,7 +19,9 @@ angular.module('scenarioo.services').factory('HostnameAndPort', function (ENV) {
         forNgResource: function () {
             return hostAndPort.replace(/(:[0-9])/, '\\$1');
         },
-
+        forTest: function () {
+            return hostAndPort;
+        },
         forLink: function () {
             return hostAndPort;
         }
