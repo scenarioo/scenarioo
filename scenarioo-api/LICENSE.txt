@@ -1,11 +1,11 @@
-Copyright (c) 2013 scenarioo.org Development Team
+Copyright (c) 2013, scenarioo.org Development Team
+All rights reserved.
 
-see https://github.com/scenarioo?tab=members
-for a complete list of contributors to this project
+See https://github.com/scenarioo?tab=members
+for a complete list of contributors to this project.
 
-The Scenarioo API library source code is freely available under the GNU LESSER GENERAL PUBLIC LICENSE to be freely used.
-You may even use this part of Scenarioo (the API part) to be linked in your commercial products that you may redistribute under whatever license you like.
-Please find the complete license text below.
+Redistribution and use of the Scenarioo API source code and library is permitted under the GNU LESSER GENERAL PUBLIC LICENSE, 
+please find the complete license text below.
 
 
 GNU LESSER GENERAL PUBLIC LICENSE
