@@ -4,13 +4,24 @@ All rights reserved.
 See https://github.com/scenarioo?tab=members
 for a complete list of contributors to this project.
 
-Redistribution and use of this source code is permitted under the GNU GENERAL PUBLIC LICENSE, 
-please find the complete license text below.
+Redistribution and use of this source code is permitted under 
+the GNU GENERAL PUBLIC LICENSE.
+Please find the complete license text below.
 
 Some parts of the Scenarioo project are even licensed under more relaxed licenses:
-The scenarioo-API library part is licensed under LGPL license, such that you can link the API library in your commercial product without having to apply the same license to your product.
-The scenarioo examples are even licensed under BSD license, such that you can use and modify these parts of source code in your own commercial software under whatever license you like.
-You will find an accordingly license file inside the sub-project source folder with the according more relaxed license.
+
+The scenarioo-API library part is licensed under LGPL license, 
+such that you can link the API library in your commercial product 
+without having to apply the same license to your product.
+
+The scenarioo examples are even licensed under BSD license, such that you
+can use and modify these parts of source code in your own commercial software 
+under whatever license you like.
+
+You will find a more relaxed license file inside the sub-project source folder
+with the accordingly more relaxed license, for those sources where such
+more relaxed license applies.
+
 
 GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
