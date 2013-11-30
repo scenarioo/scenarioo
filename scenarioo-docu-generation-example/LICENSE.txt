@@ -1,4 +1,4 @@
-Copyright (c) 2013, scenarioo.org
+Copyright (c) 2013, scenarioo.org Development Team
 All rights reserved.
 
 see https://github.com/scenarioo?tab=members
