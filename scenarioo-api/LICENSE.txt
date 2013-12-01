@@ -13,3 +13,5 @@ without having to distribute your product under GPL and without having to confor
 special requirements concerning allowance for debugging or reengineering of your product.
 
 
+TODO license text will follow soon ...
+
