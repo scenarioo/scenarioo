@@ -4,8 +4,8 @@ All rights reserved.
 See https://github.com/scenarioo?tab=members
 for a complete list of contributors to this project.
 
-Redistribution and use of this source code is permitted under 
-the GNU GENERAL PUBLIC LICENSE.
+Redistribution and use of Scenarioo in source and binary forms
+is permitted under the GNU GENERAL PUBLIC LICENSE.
 Please find the complete license text below.
 
 
