@@ -12,7 +12,7 @@ even in your proprietary products without having to distribute your product unde
 and without having to conform to some special requirements concerning allowance for debugging
 or reengineering of your product (that LGPL would demand). 
 
-Please see GPL linking exception and complete GPL license text below.
+Please find the GPL linking exception and complete GPL license text below.
 
 
 GPL LINKING EXCEPTION
