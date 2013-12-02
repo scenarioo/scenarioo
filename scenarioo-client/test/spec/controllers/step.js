@@ -7,12 +7,16 @@ describe('StepCtrl', function () {
     var StepCtrl;
 
     var METADATA_TYPE = 'some_type';
+    var STEP_INFORMATION_TREE = { nodeLabel: '', childNodes: [
+        { nodeLabel: 'Step Title', nodeValue: 'Search results' },
+        { nodeLabel: 'Page', childNodes: [  ], nodeValue: 'startSearch.jsp' },
+        { nodeLabel: 'URL', nodeValue: 'http://www.wikipedia.org' },
+        { nodeLabel: 'Build Status', nodeValue: 'success' }
+    ] };
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _Config_, _ScenarioResource_,
-                                _PageVariantService_, _StepService_, _HostnameAndPort_, _SelectedBranchAndBuild_,
-                                $controller, _$httpBackend_, _TestData_) {
+    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _Config_, _ScenarioResource_, _PageVariantService_, _StepService_, _HostnameAndPort_, _SelectedBranchAndBuild_, $controller, _$httpBackend_, _TestData_) {
         $scope = _$rootScope_.$new();
         $routeParams = _$routeParams_;
         $location = _$location_;
@@ -43,7 +47,7 @@ describe('StepCtrl', function () {
         expect($scope.isMetadataCollapsed(METADATA_TYPE)).toBeTruthy();
     });
 
-    it('collapses metadata sections on click', function() {
+    it('collapses metadata sections on click', function () {
         $scope.toggleMetadataCollapsed(METADATA_TYPE);
         expect($scope.isMetadataCollapsed(METADATA_TYPE)).toBeFalsy();
 
@@ -51,7 +55,17 @@ describe('StepCtrl', function () {
         expect($scope.isMetadataCollapsed(METADATA_TYPE)).toBeTruthy();
     });
 
-    it('loads the step data', function() {
+    it('loads the step data', function () {
+        loadPageContent();
+        expect($scope.step).toEqualData(TestData.STEP);
+    });
+
+    it('shows specific step information', function () {
+        loadPageContent();
+        expect($scope.stepInformationTree).toEqual(STEP_INFORMATION_TREE);
+    });
+
+    function loadPageContent() {
         $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/configuration').respond(TestData.CONFIG);
         $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/branches/trunk/builds/current/search/pagevariants').respond(TestData.PAGE_VARIANTS);
         $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/branches/trunk/builds/current/usecases/uc/scenarios/sc').respond(TestData.SCENARIO);
@@ -59,9 +73,7 @@ describe('StepCtrl', function () {
 
         Config.load();
         $httpBackend.flush();
-
-        expect($scope.step).toEqualData(TestData.STEP);
-    });
+    }
 
 });
 

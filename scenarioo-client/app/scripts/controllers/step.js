@@ -62,7 +62,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             step.then(function (result) {
                 $scope.step = result;
                 $scope.metadataTree = transformMetadataToTreeArray(result.metadata.details);
-                $scope.stepDescriptionTree = transformToTreeData(result.stepDescription);
+                $scope.stepInformationTree = createStepInformationTree(result);
                 $scope.pageTree = transformToTreeData(result.page);
                 beautify(result.html);
             });
@@ -88,7 +88,29 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         return metadataTrees;
     }
 
+    function createStepInformationTree(result) {
+        var stepDescription = result.stepDescription;
 
+        var stepInformation = {};
+
+        if(angular.isDefined(stepDescription.title)) {
+            stepInformation.stepTitle = stepDescription.title;
+        }
+
+        if(angular.isDefined(result.page)) {
+            stepInformation.page = result.page;
+        }
+
+        if(angular.isDefined(stepDescription.details.url)) {
+            stepInformation.URL = stepDescription.details.url;
+        }
+
+        if(angular.isDefined(stepDescription.status)) {
+            stepInformation.buildStatus = stepDescription.status;
+        }
+
+        return transformToTreeData(stepInformation);
+    }
 
     function beautify(html) {
         var source = html.htmlSource;
