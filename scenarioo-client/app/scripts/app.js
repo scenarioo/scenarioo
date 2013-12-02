@@ -41,7 +41,7 @@ angular.module('scenarioo', [
                 pageName: '@pageName',
                 pageIndex: '@pageIndex',
                 stepIndex: '@stepIndex',
-                breadcrumb: '<strong>Step:</strong> {{pageIndex+1}}.{{stepIndex}} - {{pageName}}'
+                breadcrumb: '<strong>Step:</strong> $title'
             })
             .otherwise({
                 redirectTo: '/'
