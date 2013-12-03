@@ -17,6 +17,8 @@ import org.scenarioo.model.docu.entities.generic.Details;
 @EqualsAndHashCode(exclude = { "details" })
 public class Page implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private String name;
 	private final Details details = new Details();
 	
