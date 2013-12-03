@@ -1,6 +1,7 @@
 package org.scenarioo.model.docu.entities.generic;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -12,9 +13,9 @@ import lombok.Data;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class ObjectTreeNode<T> {
+public class ObjectTreeNode<S> {
 	
-	private T item;
+	private S item;
 	
 	private Details details = new Details();
 	
@@ -23,14 +24,33 @@ public class ObjectTreeNode<T> {
 	public ObjectTreeNode() {
 	}
 	
-	public ObjectTreeNode(final T item) {
+	public ObjectTreeNode(final S item) {
 		this.item = item;
 	}
 	
+	/**
+	 * Get the children as unmodifiable list with the expected item type.
+	 * 
+	 * @param <C>
+	 *            the expected node item type
+	 * @return the children as list of expected type
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public <C> List<ObjectTreeNode<C>> getChildren() {
+		return Collections.unmodifiableList((List) children);
+	}
+	
+	/**
+	 * Add a child node. child nodes can be of different item type than the current node.
+	 */
 	public void addChild(final ObjectTreeNode<?> child) {
 		children.add(child);
 	}
 	
+	/**
+	 * Add a detail directly to the current node (this is different than the details on the contained item, because the
+	 * same item could be referenced in different nodes having different details).
+	 */
 	public void addDetail(final String key, final Object value) {
 		details.addDetail(key, value);
 	}
