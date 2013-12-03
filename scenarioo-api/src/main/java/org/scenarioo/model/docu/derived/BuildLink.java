@@ -1,12 +1,14 @@
 package org.scenarioo.model.docu.derived;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.scenarioo.model.docu.entities.Build;
-
 import lombok.Data;
+
+import org.scenarioo.model.docu.entities.Build;
 
 /**
  * Represents a build that might also be linked in file system under a different name (used for tagging builds). Usually
@@ -16,7 +18,9 @@ import lombok.Data;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class BuildLink {
+public class BuildLink implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private String linkName;
 	

@@ -1,5 +1,6 @@
 package org.scenarioo.model.docu.entities.generic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,9 +14,11 @@ import lombok.Data;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class ObjectTreeNode<S> {
+public class ObjectTreeNode<T> implements Serializable {
 	
-	private S item;
+	private static final long serialVersionUID = 1L;
+	
+	private T item;
 	
 	private Details details = new Details();
 	
@@ -24,7 +27,7 @@ public class ObjectTreeNode<S> {
 	public ObjectTreeNode() {
 	}
 	
-	public ObjectTreeNode(final S item) {
+	public ObjectTreeNode(final T item) {
 		this.item = item;
 	}
 	

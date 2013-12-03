@@ -1,9 +1,13 @@
 package org.scenarioo.model.docu.entities;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 @Data
-public class StepHtml {
+public class StepHtml implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private String htmlSource = "";
 	

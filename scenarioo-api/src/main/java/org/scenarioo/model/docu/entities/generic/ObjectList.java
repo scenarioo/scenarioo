@@ -1,5 +1,6 @@
 package org.scenarioo.model.docu.entities.generic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,7 +17,9 @@ import lombok.Data;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class ObjectList<T> implements List<T> {
+public class ObjectList<T> implements List<T>, Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private List<T> items = new ArrayList<T>();
 	

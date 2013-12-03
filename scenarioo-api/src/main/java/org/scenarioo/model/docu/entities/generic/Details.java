@@ -1,5 +1,6 @@
 package org.scenarioo.model.docu.entities.generic;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +17,9 @@ import lombok.EqualsAndHashCode;
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
 @EqualsAndHashCode
-public class Details implements Map<String, Object> {
+public class Details implements Map<String, Object>, Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private final Map<String, Object> properties = new HashMap<String, Object>();
 	
