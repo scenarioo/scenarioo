@@ -90,6 +90,11 @@
                     </span>
                 </div>
             </div>
+
+            <select ng-show="genericObjectTab.objectTypes" ng-model="genericObjectsTypes.selected" ng-options="objectType.label for objectType in genericObjectTab.objectTypes">
+                <option value="">-- Choose objectType --</option>
+            </select>
+
             <div class="col-lg-9">
                 <span class="pull-right">
                     <button ng-click="toggleFilter()" class="btn btn-default">
@@ -99,13 +104,6 @@
                 </span>
             </div>
         </div>
-
-        <select ng-show="genericObjectTab.objectTypes" ng-model="genericObjectsTypes.selected" ng-options="objectType.label for objectType in genericObjectTab.objectTypes">
-            <option value="">-- Choose objectType --</option>
-        </select>
-        <select ng-show="genericObjectTab.objectType" ng-model="genericObjectsTypes.selected" ng-options="objectType.label for objectType in genericObjectTab.objectTypes">
-            <option value="">-- Choose objectType --</option>
-        </select>
 
         <table ng-table="tableParams" class="table table-curved table-hover table-responsive " ng-model="sort">
             <thead>
