@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
-    <testDocumentationDirPath></testDocumentationDirPath>
-    <defaultBranchName>trunk</defaultBranchName>
-    <defaultBuildName>current</defaultBuildName>
+    <testDocumentationDirPath>/home/ngUSD/Code/scenarioo/scenarioo-docu-generation-example/build/scenarioDocuExample</testDocumentationDirPath>
+    <defaultBranchName>example-branch</defaultBranchName>
+    <defaultBuildName>example-build</defaultBuildName>
     <scenarioPropertiesInOverview>userProfile, configuration</scenarioPropertiesInOverview>
     <applicationInformation>Welcome to Scenarioo. You can change this welcome message and all other settings on the configuration page.</applicationInformation>
     <buildstates>
