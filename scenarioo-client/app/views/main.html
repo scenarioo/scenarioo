@@ -1,7 +1,5 @@
 <sc-breadcrumb></sc-breadcrumb>
 
-<h1>Home</h1>
-
 <tabset class="step-panes">
     <tab heading="Use Cases">
         <div class="row ngusd-space-top ngusd-space-bottom">
@@ -81,4 +79,52 @@
             </div>
         </div>
     </tab>
+
+    <tab ng-repeat="genericObjectTab in genericObjectTabs" heading="{{genericObjectTab.label}}" ng-click="loadObjectsForTypes()">
+        <div class="row ngusd-space-top ngusd-space-bottom">
+            <div class="col-lg-3">
+                <div class="input-group">
+                    <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="genericObjectsSearchField" data-toggle="tooltip" title="filter for use case" ng-model="table.search.searchTerm" placeholder="Search use case..."/>
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <span class="pull-right">
+                    <button ng-click="toggleFilter()" class="btn btn-default">
+                        <span ng-show="!table.filtering">Show filter</span>
+                        <span ng-show="table.filtering">Hide filter</span>
+                    </button>
+                </span>
+            </div>
+        </div>
+
+        <select ng-show="genericObjectTab.objectTypes" ng-model="genericObjectsTypes.selected" ng-options="objectType.label for objectType in genericObjectTab.objectTypes">
+            <option value="">-- Choose objectType --</option>
+        </select>
+        <select ng-show="genericObjectTab.objectType" ng-model="genericObjectsTypes.selected" ng-options="objectType.label for objectType in genericObjectTab.objectTypes">
+            <option value="">-- Choose objectType --</option>
+        </select>
+
+        <table ng-table="tableParams" class="table table-curved table-hover table-responsive " ng-model="sort">
+            <thead>
+            <tr>
+                <th sortandfilter="objectDescription.type">Type</th>
+                <th sortandfilter="objectDescription.name">Name</th>
+                <th>Details</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="objectDescription in objectDescriptions  | filter:genericObjectsTypeFilter | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse" ng-click="goToUseCase(useCaseScenarios.useCase.name)" class="link">
+                <td>{{objectDescription.type}}</td>
+                <td>{{objectDescription.name}}</td>
+                <td>
+                    <div ng-repeat="detail in objectDescription.details">{{detail}}<br></div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </tab>
+
 </tabset>

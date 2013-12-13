@@ -126,6 +126,10 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'searchResults.jsp': 4,
                 'contentPage.jsp': 6
             }
-        }
+        },
+
+        OBJECT_DESCRIPTIONS: [
+            {'x': {}}
+        ]
     };
 });
