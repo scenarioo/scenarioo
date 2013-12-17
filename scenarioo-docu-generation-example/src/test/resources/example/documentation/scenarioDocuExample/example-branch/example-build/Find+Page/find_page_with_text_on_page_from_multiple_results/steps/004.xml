@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<step>
+    <page>
+        <name>searchResults.jsp</name>
+        <details/>
+    </page>
+    <stepDescription>
+        <index>4</index>
+        <title>Search results</title>
+        <status>success</status>
+        <screenshotFileName>004.png</screenshotFileName>
+        <details>
+            <entry>
+                <key>url</key>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&amp;go=Go</value>
+            </entry>
+        </details>
+        <occurence>0</occurence>
+        <relativeIndex>0</relativeIndex>
+        <variantIndex>0</variantIndex>
+    </stepDescription>
+    <html>
+        <htmlSource>&lt;html&gt;
+&lt;head&gt;
+&lt;/head&gt;
+&lt;body&gt;
+   &lt;p&gt;just some dummy html code&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</htmlSource>
+    </html>
+    <metadata>
+        <visibleText>Bla bla bla bla bla ... This is the visible text as generated from dummy test.</visibleText>
+        <details>
+            <entry>
+                <key>simulationConfiguration</key>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectDescription">
+                    <name>default_config</name>
+                    <type>configuration</type>
+                    <details>
+                        <entry>
+                            <key>overridenConfigModules</key>
+                            <value xsi:type="objectList"/>
+                        </entry>
+                        <entry>
+                            <key>defaultConfigModules</key>
+                            <value xsi:type="objectList">
+<items xsi:type="objectDescription">
+    <name>user_rights_default</name>
+    <type>configModuleValue</type>
+    <details>
+        <entry>
+            <key>module</key>
+            <value xsi:type="objectReference">
+                <name>user_rights</name>
+                <type>configModule</type>
+            </value>
+        </entry>
+        <entry>
+            <key>description</key>
+            <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">no user rights</value>
+        </entry>
+    </details>
+</items>
+<items xsi:type="objectDescription">
+    <name>search_results_default</name>
+    <type>configModuleValue</type>
+    <details>
+        <entry>
+            <key>module</key>
+            <value xsi:type="objectReference">
+                <name>search_results</name>
+                <type>configModule</type>
+            </value>
+        </entry>
+        <entry>
+            <key>description</key>
+            <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">a default list of pages</value>
+        </entry>
+    </details>
+</items>
+<items xsi:type="objectDescription">
+    <name>page_contents_default</name>
+    <type>configModuleValue</type>
+    <details>
+        <entry>
+            <key>module</key>
+            <value xsi:type="objectReference">
+                <name>page_contents</name>
+                <type>configModule</type>
+            </value>
+        </entry>
+        <entry>
+            <key>description</key>
+            <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">some default test page contents</value>
+        </entry>
+    </details>
+</items>
+<items xsi:type="objectDescription">
+    <name>menu_content_default</name>
+    <type>configModuleValue</type>
+    <details>
+        <entry>
+            <key>module</key>
+            <value xsi:type="objectReference">
+                <name>menu_content</name>
+                <type>configModule</type>
+            </value>
+        </entry>
+        <entry>
+            <key>description</key>
+            <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">usual menu for unauthorised user</value>
+        </entry>
+    </details>
+</items>
+                            </value>
+                        </entry>
+                    </details>
+                </value>
+            </entry>
+            <entry>
+                <key>callTree</key>
+            </entry>
+        </details>
+    </metadata>
+</step>

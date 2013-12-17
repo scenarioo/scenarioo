@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<step>
+    <page>
+        <name>contentPage.jsp</name>
+        <details/>
+    </page>
+    <stepDescription>
+        <index>2</index>
+        <title>FC Basel</title>
+        <status>success</status>
+        <screenshotFileName>002.png</screenshotFileName>
+        <details>
+            <entry>
+                <key>url</key>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">http://en.wikipedia.org/wiki/FC_Basel</value>
+            </entry>
+        </details>
+        <occurence>0</occurence>
+        <relativeIndex>0</relativeIndex>
+        <variantIndex>0</variantIndex>
+    </stepDescription>
+    <html>
+        <htmlSource>&lt;html&gt;
+&lt;head&gt;
+&lt;/head&gt;
+&lt;body&gt;
+   &lt;p&gt;just some dummy html code&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</htmlSource>
+    </html>
+    <metadata>
+        <visibleText>Bla bla bla bla bla ... This is the visible text as generated from dummy test.</visibleText>
+        <details>
+            <entry>
+                <key>simulationConfiguration</key>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectDescription">
+                    <name>direct_search_config</name>
+                    <type>configuration</type>
+                    <details>
+                        <entry>
+                            <key>overridenConfigModules</key>
+                            <value xsi:type="objectList">
+<items xsi:type="objectDescription">
+    <name>search_results_direct_page</name>
+    <type>configModuleValue</type>
+    <details>
+        <entry>
+            <key>module</key>
+            <value xsi:type="objectReference">
+                <name>search_results</name>
+                <type>configModule</type>
+            </value>
+        </entry>
+        <entry>
+            <key>description</key>
+            <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">one direct page</value>
+        </entry>
+    </details>
+</items>
+                            </value>
+                        </entry>
+                        <entry>
+                            <key>defaultConfigModules</key>
+                            <value xsi:type="objectList">
+<items xsi:type="objectDescription">
+    <name>user_rights_default</name>
+    <type>configModuleValue</type>
+    <details>
+        <entry>
+            <key>module</key>
+            <value xsi:type="objectReference">
+                <name>user_rights</name>
+                <type>configModule</type>
+            </value>
+        </entry>
+        <entry>
+            <key>description</key>
+            <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">no user rights</value>
+        </entry>
+    </details>
+</items>
+<items xsi:type="objectDescription">
+    <name>search_results_default</name>
+    <type>configModuleValue</type>
+    <details>
+        <entry>
+            <key>module</key>
+            <value xsi:type="objectReference">
+                <name>search_results</name>
+                <type>configModule</type>
+            </value>
+        </entry>
+        <entry>
+            <key>description</key>
+            <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">a default list of pages</value>
+        </entry>
+    </details>
+</items>
+<items xsi:type="objectDescription">
+    <name>page_contents_default</name>
+    <type>configModuleValue</type>
+    <details>
+        <entry>
+            <key>module</key>
+            <value xsi:type="objectReference">
+                <name>page_contents</name>
+                <type>configModule</type>
+            </value>
+        </entry>
+        <entry>
+            <key>description</key>
+            <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">some default test page contents</value>
+        </entry>
+    </details>
+</items>
+<items xsi:type="objectDescription">
+    <name>menu_content_default</name>
+    <type>configModuleValue</type>
+    <details>
+        <entry>
+            <key>module</key>
+            <value xsi:type="objectReference">
+                <name>menu_content</name>
+                <type>configModule</type>
+            </value>
+        </entry>
+        <entry>
+            <key>description</key>
+            <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">usual menu for unauthorised user</value>
+        </entry>
+    </details>
+</items>
+                            </value>
+                        </entry>
+                    </details>
+                </value>
+            </entry>
+            <entry>
+                <key>callTree</key>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectTreeNode">
+                    <item xsi:type="objectDescription">
+                        <name>http://en.wikipedia.org/wiki/FC_Basel</name>
+                        <type>httpCall</type>
+                        <details/>
+                    </item>
+                    <details/>
+                    <children>
+                        <item xsi:type="objectDescription">
+                            <name>example.action.SearchProcessAction</name>
+                            <type>uiAction</type>
+                            <details>
+<entry>
+    <key>description</key>
+    <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Process user input on search page and start searching</value>
+</entry>
+                            </details>
+                        </item>
+                        <details/>
+                        <children>
+                            <item xsi:type="objectDescription">
+<name>SearchSessionBean.searchForText</name>
+<type>businessOperation</type>
+<details>
+    <entry>
+        <key>description</key>
+        <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Process search for a text</value>
+    </entry>
+</details>
+                            </item>
+                            <details/>
+                            <children>
+<item xsi:type="objectDescription">
+    <name>SearchService.search</name>
+    <type>service</type>
+    <details>
+        <entry>
+            <key>description</key>
+            <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Search for pages using the power grid</value>
+        </entry>
+        <entry>
+            <key>realName</key>
+            <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">PowerGridSearch.search</value>
+        </entry>
+        <entry>
+            <key>eaiName</key>
+            <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">TIBCO:FastSearchService.getSearchResults</value>
+        </entry>
+    </details>
+</item>
+<details/>
+                            </children>
+                        </children>
+                    </children>
+                    <children>
+                        <item xsi:type="objectDescription">
+                            <name>example.action.ShowPageInitAction</name>
+                            <type>uiAction</type>
+                            <details>
+<entry>
+    <key>description</key>
+    <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Initialize page content to display</value>
+</entry>
+                            </details>
+                        </item>
+                        <details/>
+                        <children>
+                            <item xsi:type="objectDescription">
+<name>PageSessionBean.loadPageContent</name>
+<type>businessOperation</type>
+<details>
+    <entry>
+        <key>description</key>
+        <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Load the page content to present to the user</value>
+    </entry>
+</details>
+                            </item>
+                            <details/>
+                            <children>
+<item xsi:type="objectDescription">
+    <name>ContentService.loadPage</name>
+    <type>service</type>
+    <details>
+        <entry>
+            <key>description</key>
+            <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Service to load the whole page content of a page</value>
+        </entry>
+        <entry>
+            <key>realName</key>
+            <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">ContentDB.loadPage</value>
+        </entry>
+        <entry>
+            <key>eaiName</key>
+            <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">TIBCO:PageContentService.getPage</value>
+        </entry>
+    </details>
+</item>
+<details/>
+                            </children>
+                        </children>
+                    </children>
+                </value>
+            </entry>
+        </details>
+    </metadata>
+</step>

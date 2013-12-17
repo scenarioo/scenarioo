@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<useCase>
+    <name>Find Page</name>
+    <description>User wants to search for a page and read it.</description>
+    <details>
+        <entry>
+            <key>webtestClass</key>
+            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">org.scenarioo.uitest.example.testcases.FindPageUITest</value>
+        </entry>
+    </details>
+</useCase>

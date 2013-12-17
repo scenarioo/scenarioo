@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<build>
+    <name>example-build</name>
+    <revision>123456</revision>
+    <date>2013-12-17T10:54:15.726+01:00</date>
+    <status>success</status>
+    <details/>
+</build>
