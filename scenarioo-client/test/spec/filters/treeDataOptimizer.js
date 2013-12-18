@@ -202,9 +202,20 @@ describe('Filter :: scTreeDataOptimizer', function () {
     };
 
     var ITEM_LABEL_ROOT_NODE = {
-        nodeLabel: 'Item'
+        nodeLabel: 'item'
     };
     var ITEM_LABEL_ROOT_NODE_OPTIMIZED = {};
+
+    var ITEM_LABEL_WITH_VALUE_ROOT_NODE = {
+        nodeLabel: 'item',
+        nodeValue: 'someValue'
+    };
+    var ITEM_LABEL_WITH_VALUE_ROOT_NODE_OPTIMIZED = {
+        nodeLabel: 'Item',
+        nodeValue: 'someValue'
+    };
+
+
 
     beforeEach(module('scenarioo.filters'));
 
@@ -248,6 +259,10 @@ describe('Filter :: scTreeDataOptimizer', function () {
 
     it('sets nodeLabel of root node to empty, if it is "Item"', function () {
         expect(scTreeDataOptimizer(ITEM_LABEL_ROOT_NODE)).toEqual(ITEM_LABEL_ROOT_NODE_OPTIMIZED);
+    });
+
+    it('does not change nodeLabel of root node to empty, if it is "Item" and also has a nodeValue', function () {
+        expect(scTreeDataOptimizer(ITEM_LABEL_WITH_VALUE_ROOT_NODE)).toEqual(ITEM_LABEL_WITH_VALUE_ROOT_NODE_OPTIMIZED);
     });
 
 });
