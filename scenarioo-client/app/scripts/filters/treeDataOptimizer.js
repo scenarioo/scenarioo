@@ -20,6 +20,7 @@
 angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($filter) {
 
     var scHumanReadable = $filter('scHumanReadable');
+    var ITEM = 'Item';
 
     function optimizeChildNodes(node, operation) {
         if(angular.isUndefined(node.childNodes)) {
@@ -139,6 +140,12 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($fil
         node.nodeValue = childNode.nodeValue;
     }
 
+    function setFallBackLabelIfLabelIsEmpty(node) {
+        if(!angular.isString(node.nodeLabel) || node.nodeLabel.length === 0) {
+            node.nodeLabel = 'Item';
+        }
+    }
+
     function getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, type) {
         if(!angular.isArray(node.childNodes)) {
             return;
@@ -168,6 +175,12 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($fil
         node.childNodes.push(childNodeToAdd);
     }
 
+    function removeRootNodeLabelIfItIsItem(rootNode) {
+        if(angular.isDefined(rootNode.nodeLabel) && rootNode.nodeLabel === ITEM) {
+            delete rootNode.nodeLabel;
+        }
+    }
+
     return function (rootNode) {
         // TODO Check with Rolf whether we need to remove empty child nodes
         // optimizeTree(rootNode, removeEmptyChildNodes);
@@ -181,6 +194,8 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($fil
         // because the name node value could be a technical expression
         optimizeNodes(rootNode, pullUpNameToReplaceEmptyNodeLabel);
         optimizeNodes(rootNode, pullUpNameToReplaceEmptyNodeValue);
+        optimizeNodes(rootNode, setFallBackLabelIfLabelIsEmpty);
+        removeRootNodeLabelIfItIsItem(rootNode);
 
         return rootNode;
     };

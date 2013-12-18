@@ -97,7 +97,6 @@ describe('Filter :: scTreeDataOptimizer', function () {
         ]
     };
     var DATA_EMPTY_LABEL_OPTIMIZED = {
-        nodeLabel: '',
         childNodes: [
             {
                 nodeLabel: 'Romeo\'s love',
@@ -123,7 +122,6 @@ describe('Filter :: scTreeDataOptimizer', function () {
         ]
     };
     var DATA_EMPTY_VALUE_OPTIMIZED = {
-        nodeLabel: '',
         childNodes: [
             {
                 nodeLabel: 'Julia',
@@ -184,6 +182,30 @@ describe('Filter :: scTreeDataOptimizer', function () {
         ]
     };
 
+    var EMPTY_LABEL = {
+        nodeLabel: 'something',
+        nodeValue: 'special',
+        childNodes: [
+            {
+                nodeLabel: ''
+            }
+        ]
+    };
+    var EMPTY_LABEL_OPTIMIZED = {
+        nodeLabel: 'Something',
+        nodeValue: 'special',
+        childNodes: [
+            {
+                nodeLabel: 'Item'
+            }
+        ]
+    };
+
+    var ITEM_LABEL_ROOT_NODE = {
+        nodeLabel: 'Item'
+    };
+    var ITEM_LABEL_ROOT_NODE_OPTIMIZED = {};
+
     beforeEach(module('scenarioo.filters'));
 
     var scTreeDataOptimizer;
@@ -218,6 +240,14 @@ describe('Filter :: scTreeDataOptimizer', function () {
 
     it('moves nodes with label "children" behind all other childNodes', function () {
         expect(scTreeDataOptimizer(CHILDREN)).toEqual(CHILDREN_OPTIMIZED);
+    });
+
+    it('sets nodeLabel of nodes with empty label to "Item"', function () {
+        expect(scTreeDataOptimizer(EMPTY_LABEL)).toEqual(EMPTY_LABEL_OPTIMIZED);
+    });
+
+    it('sets nodeLabel of root node to empty, if it is "Item"', function () {
+        expect(scTreeDataOptimizer(ITEM_LABEL_ROOT_NODE)).toEqual(ITEM_LABEL_ROOT_NODE_OPTIMIZED);
     });
 
 });
