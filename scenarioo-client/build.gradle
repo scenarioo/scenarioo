@@ -1,7 +1,6 @@
 import org.gradle.api.tasks.Exec
 import org.apache.tools.ant.taskdefs.condition.Os
 
-
 task npm(type: Exec) {
    group = "Build"
    description = "Installs all Node.js dependencies defined in package.json"
@@ -46,9 +45,13 @@ task buildclient(type: GruntTask) {
    gruntArgs = "build"
 }
 
+buildclient.dependsOn npm
+buildclient.dependsOn bower
+
+build.dependsOn buildclient
+
 bower.dependsOn npm
 unittests.dependsOn bower 
 
-build.dependsOn buildclient
 test.dependsOn unittests
 
