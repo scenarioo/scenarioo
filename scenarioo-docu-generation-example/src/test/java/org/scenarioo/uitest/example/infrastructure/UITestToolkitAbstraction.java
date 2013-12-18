@@ -37,6 +37,8 @@ import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.StepHtml;
 import org.scenarioo.model.docu.entities.StepMetadata;
+import org.scenarioo.model.docu.entities.generic.Details;
+import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
 import org.scenarioo.uitest.dummy.toolkit.UITestToolkit;
 
 /**
@@ -50,7 +52,13 @@ import org.scenarioo.uitest.dummy.toolkit.UITestToolkit;
 public class UITestToolkitAbstraction {
 	
 	private static final String TITLE_ELEMENT_ID = "pagetitle";
+	private static final Details TIME_MEASUREMENTS;
 	
+	static {
+		TIME_MEASUREMENTS = new Details();
+		TIME_MEASUREMENTS.addDetail("timeSpan", "1223");
+		TIME_MEASUREMENTS.addDetail("timeOffset", "12332");
+	}
 	private UITestToolkit toolkit;
 	
 	private UITest test;
@@ -167,8 +175,25 @@ public class UITestToolkitAbstraction {
 		metadata.addDetail("simulationConfiguration", toolkit.getApplicationsState()
 				.getCurrentSimulationConfiguration());
 		metadata.addDetail("callTree", toolkit.getApplicationsState().getCallTree());
+		metadata.addDetail("hugeMetadataTree", createHugeMetadataTree());
 		metadata.setVisibleText("Bla bla bla bla bla ... This is the visible text as generated from dummy test.");
 		return metadata;
+	}
+	
+	// This is used to make sure the display mechanism can handle large amounts of data
+	private Object createHugeMetadataTree() {
+		return createMetadataWithDepth(5);
+	}
+	
+	private ObjectTreeNode<String> createMetadataWithDepth(final int depth) {
+		ObjectTreeNode<String> node = new ObjectTreeNode<String>("NodeItem" + depth);
+		node.addDetail("timeMeasurements", TIME_MEASUREMENTS);
+		if (depth > 1) {
+			for (int i = 0; i < 4; i++) {
+				node.addChild(createMetadataWithDepth(depth - 1));
+			}
+		}
+		return node;
 	}
 	
 	public void assertElementPresent(final String elementId) {
