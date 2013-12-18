@@ -30,7 +30,7 @@ preprocessors = {
 }
 
 // web server port
-port = 8080;
+port = 7070;
 
 // cli runner port
 runnerPort = 9100;
