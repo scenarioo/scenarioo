@@ -36,4 +36,7 @@ targetCompatibility=1.6
 // because it would delete our version of the org.eclipse.jdt.ui.prefs 
 cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt
 
-tasks.remove(test)
+test {
+    minHeapSize = "128m"
+  	maxHeapSize = "512m"
+}

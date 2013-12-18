@@ -54,20 +54,10 @@ task printPathConfigInformationForNodeJSAndGrunt << {
     }
 }
 
-task buildClient(type: Exec) {	
-	 if (project.hasProperty('pathToNodeJS')) {
-    	commandLine '../scenarioo-client/build.sh', pathToNodeJS, installGrunt
-     } else {
-        commandLine '../scenarioo-client/build.sh'
-     }
-}	
-
-buildClient.dependsOn printPathConfigInformationForNodeJSAndGrunt
-
 war {
     from '../scenarioo-client/dist'
 	archiveName 'scenarioo.war'
 }
 
-war.dependsOn = war.taskDependencies.values + tasks.buildClient
+war.dependsOn = war.taskDependencies.values
 

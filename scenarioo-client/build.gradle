@@ -39,7 +39,16 @@ task unittests(type: GruntTask) {
    gruntArgs = "test:unit"
 }
 
+
+task buildclient(type: GruntTask) {
+   group = "Verification"
+   description = "Builds the client web app."
+   gruntArgs = "build"
+}
+
 bower.dependsOn npm
 unittests.dependsOn bower 
 
+build.dependsOn buildclient
 test.dependsOn unittests
+
