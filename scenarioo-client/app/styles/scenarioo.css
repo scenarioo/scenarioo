@@ -285,14 +285,18 @@ div.sc-screenshot-scenario {
     margin-top: 10px;
 }
 
+/** Tree **/
 .sc-tree ul {
-    margin-left: 0px;
+    margin-left: 0;
     padding-left: 0;
+    padding-bottom: 2px;
 }
 
 .sc-tree li {
-    margin-left: 16px;
-    padding-left: px;
+    margin: 2px 0 6px 0;
+    padding-left: 8px;
+    list-style-type:  none;
+    border-left: #dddddd solid 1px;
 }
 
 .sc-node-label {
