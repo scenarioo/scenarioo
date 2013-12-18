@@ -39,19 +39,19 @@ describe('Directive :: scTree', function () {
     it('displays empty tree if data is undefined', function () {
         $scope.data = undefined;
         compileDirective();
-        expect(element.html()).toBe('<span ng-hide="!data.nodeLabel" class="ng-scope" style="display: none; "><span class="sc-node-label ng-binding"></span><span ng-show="data.nodeValue || data.nodeValue == 0" style="display: none; ">: </span><span class="sc-node-value ng-binding"></span></span><ul class="sc-tree ng-scope"><!-- ngRepeat: child in data.childNodes --></ul>');
+        expect(element.html()).toBe('<div ng-bind-html-unsafe="treeHtml" class="ng-binding">no data to display</div>');
     });
 
     it('displays empty tree if data is not of type object', function() {
         $scope.data = 'content';
         compileDirective();
-        expect(element.html()).toBe('<span ng-hide="!data.nodeLabel" class="ng-scope" style="display: none; "><span class="sc-node-label ng-binding"></span><span ng-show="data.nodeValue || data.nodeValue == 0" style="display: none; ">: </span><span class="sc-node-value ng-binding"></span></span><ul class="sc-tree ng-scope"><!-- ngRepeat: child in data.childNodes --></ul>');
+        expect(element.html()).toBe('<div ng-bind-html-unsafe="treeHtml" class="ng-binding">no data to display</div>');
     });
 
     it('displays a tree if tree data is provided', function () {
         $scope.data = TREE_DATA;
         compileDirective();
-        expect(element.html()).toBe('<span ng-hide="!data.nodeLabel" class="ng-scope"><span class="sc-node-label ng-binding">root</span><span ng-show="data.nodeValue || data.nodeValue == 0" style="display: none; ">: </span><span class="sc-node-value ng-binding"></span></span><ul class="sc-tree ng-scope"><!-- ngRepeat: child in data.childNodes --><li ng-repeat="child in data.childNodes" class="sc-tree ng-scope"><sc-tree data="child" class="ng-isolate-scope ng-scope"><span ng-hide="!data.nodeLabel" class="ng-scope"><span class="sc-node-label ng-binding">myKey</span><span ng-show="data.nodeValue || data.nodeValue == 0">: </span><span class="sc-node-value ng-binding">myValue</span></span><ul class="sc-tree ng-scope"><!-- ngRepeat: child in data.childNodes --></ul></sc-tree></li><li ng-repeat="child in data.childNodes" class="sc-tree ng-scope"><sc-tree data="child" class="ng-isolate-scope ng-scope"><span ng-hide="!data.nodeLabel" class="ng-scope"><span class="sc-node-label ng-binding">keyTwo</span><span ng-show="data.nodeValue || data.nodeValue == 0">: </span><span class="sc-node-value ng-binding">valueTwo</span></span><ul class="sc-tree ng-scope"><!-- ngRepeat: child in data.childNodes --></ul></sc-tree></li></ul>');
+        expect(element.html()).toBe('<div ng-bind-html-unsafe="treeHtml" class="ng-binding"><span><span class="sc-node-label">root</span></span><ul class="sc-tree"><li class="sc-tree"><span><span class="sc-node-label">myKey</span><span class="sc-node-label">: </span><span class="sc-node-value">myValue</span></span></li><li class="sc-tree"><span><span class="sc-node-label">keyTwo</span><span class="sc-node-label">: </span><span class="sc-node-value">valueTwo</span></span></li></ul></div>');
     });
 
     function compileDirective() {
