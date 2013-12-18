@@ -175,8 +175,8 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($fil
         node.childNodes.push(childNodeToAdd);
     }
 
-    function removeRootNodeLabelIfItIsItem(rootNode) {
-        if(angular.isDefined(rootNode.nodeLabel) && rootNode.nodeLabel === ITEM) {
+    function removeRootNodeLabelIfItIsItemAndHasNoValue(rootNode) {
+        if(angular.isDefined(rootNode.nodeLabel) && rootNode.nodeLabel === ITEM && (angular.isUndefined(rootNode.nodeValue) || rootNode.nodeValue === '')) {
             delete rootNode.nodeLabel;
         }
     }
@@ -195,7 +195,7 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($fil
         optimizeNodes(rootNode, pullUpNameToReplaceEmptyNodeLabel);
         optimizeNodes(rootNode, pullUpNameToReplaceEmptyNodeValue);
         optimizeNodes(rootNode, setFallBackLabelIfLabelIsEmpty);
-        removeRootNodeLabelIfItIsItem(rootNode);
+        removeRootNodeLabelIfItIsItemAndHasNoValue(rootNode);
 
         return rootNode;
     };
