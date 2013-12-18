@@ -1,16 +1,16 @@
 /* scenarioo-client
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -94,7 +94,7 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($fil
     }
 
     function pullUpTypeToReplaceNodeLabel(node) {
-        var childNode = getChildNodeOfTypeAndRemoveIt(node, 'type');
+        var childNode = getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'type');
 
         if(angular.isUndefined(childNode)) {
             return;
@@ -103,12 +103,20 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($fil
         node.nodeLabel = childNode.nodeValue;
     }
 
+    function moveChildrenChildNodeBehindOthers(node) {
+        var childrenNode = getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'children');
+
+        if(angular.isDefined(childrenNode)) {
+            addNodeToChildNodesAfterAllOthers(node, childrenNode);
+        }
+    }
+
     function pullUpNameToReplaceEmptyNodeLabel(node) {
         if(angular.isString(node.nodeLabel) && node.nodeLabel !== '') {
             return;
         }
 
-        var childNode = getChildNodeOfTypeAndRemoveIt(node, 'name');
+        var childNode = getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'name');
 
         if(angular.isUndefined(childNode)) {
             return;
@@ -122,7 +130,7 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($fil
             return;
         }
 
-        var childNode = getChildNodeOfTypeAndRemoveIt(node, 'name');
+        var childNode = getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'name');
 
         if(angular.isUndefined(childNode)) {
             return;
@@ -131,7 +139,7 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($fil
         node.nodeValue = childNode.nodeValue;
     }
 
-    function getChildNodeOfTypeAndRemoveIt(node, type) {
+    function getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, type) {
         if(!angular.isArray(node.childNodes)) {
             return;
         }
@@ -153,11 +161,20 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($fil
         return nameChildNode;
     }
 
+    function addNodeToChildNodesAfterAllOthers(node, childNodeToAdd) {
+        if(!angular.isArray(node.childNodes)) {
+            node.childNodes = [];
+        }
+        node.childNodes.push(childNodeToAdd);
+    }
+
     return function (rootNode) {
         // TODO Check with Rolf whether we need to remove empty child nodes
         // optimizeTree(rootNode, removeEmptyChildNodes);
         optimizeChildNodes(rootNode, pullUpChildrenOfDetailsNodes);
         optimizeNodes(rootNode, pullUpTypeToReplaceNodeLabel);
+        optimizeNodes(rootNode, moveChildrenChildNodeBehindOthers);
+
         optimizeNodes(rootNode, makeLabelsHumanReadable);
 
         // this happens after making the labels human readable,
