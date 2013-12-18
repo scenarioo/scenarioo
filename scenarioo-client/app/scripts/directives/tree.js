@@ -24,7 +24,19 @@ angular.module('scenarioo.directives').directive('scTree', function () {
             return 'no data to display';
         }
 
-        return getNodeHtml(data);
+        return getRootNodeHtml(data);
+    }
+
+    function getRootNodeHtml(rootNode) {
+        var html = '';
+        if(angular.isDefined(rootNode.nodeLabel)) {
+            html += '<ul><li>';
+        }
+        html += getNodeHtml(rootNode);
+        if(angular.isDefined(rootNode.nodeLabel)) {
+            html += '</li></ul>';
+        }
+        return html;
     }
 
     function getNodeHtml(node) {
@@ -40,10 +52,7 @@ angular.module('scenarioo.directives').directive('scTree', function () {
     }
 
     function getNodeTitleHtml(data) {
-        return '<span>' +
-                    '<span class="sc-node-label">' + data.nodeLabel + '</span>' +
-                    getNodeValueHtml(data.nodeValue) +
-               '</span>';
+        return '<span class="sc-node-label">' + data.nodeLabel + '</span>' + getNodeValueHtml(data.nodeValue);
     }
 
     function getNodeValueHtml(nodeValue) {
@@ -57,9 +66,9 @@ angular.module('scenarioo.directives').directive('scTree', function () {
         if(angular.isUndefined(childNodes) || !angular.isArray(childNodes) || childNodes.length === 0) {
             return '';
         }
-        var html = '<ul class="sc-tree">';
+        var html = '<ul>';
         angular.forEach(childNodes, function(value) {
-            html += '<li class="sc-tree">' + getNodeHtml(value) + '</li>';
+            html += '<li>' + getNodeHtml(value) + '</li>';
         });
         html += '</ul>';
         return html;
@@ -68,7 +77,7 @@ angular.module('scenarioo.directives').directive('scTree', function () {
     return {
         restrict: 'E',
         scope: {data: '=data'},
-        template: '<div ng-bind-html-unsafe="treeHtml"></div>',
+        template: '<div ng-bind-html-unsafe="treeHtml" class="sc-tree"></div>',
         link: function(scope) {
             scope.$watch('data', function(newData) {
                 scope.treeHtml = createTreeHtml(newData);
