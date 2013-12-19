@@ -23,16 +23,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     var scenarioName = $routeParams.scenarioName;
     var selectedBranchAndBuild;
 
-    $scope.showingSteps = [];
-
-    $scope.toggleShowAllStepsForPage = function(pageIndex) {
-        $scope.showingSteps[pageIndex] = !$scope.showingSteps[pageIndex];
-    };
-
-    $scope.modalScreenshotOptions = {
-        backdropFade: true,
-        dialogClass: 'modal modal-huge'
-    };
+    var showAllSteps = [];
 
     SelectedBranchAndBuild.callOnSelectionChange(loadScenario);
 
@@ -70,6 +61,14 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
     }
 
+    $scope.showAllStepsForPage = function(pageIndex) {
+        return  showAllSteps[pageIndex];
+    };
+
+    $scope.toggleShowAllStepsForPage = function(pageIndex) {
+        showAllSteps[pageIndex] = !showAllSteps[pageIndex];
+    };
+
     $scope.getScreenShotUrl = function (imgName) {
         if(angular.isUndefined(selectedBranchAndBuild)) {
             return;
@@ -78,8 +77,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
             '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
     };
 
-    $scope.getLinkToStep = function (pageSteps, pageIndex, stepIndex) {
-        var pageName = pageSteps.page.name;
+    $scope.getLinkToStep = function (pageName, pageIndex, stepIndex) {
         return '#/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) +
             '/' + pageIndex + '/' + stepIndex;
     };
@@ -87,4 +85,5 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     $scope.resetSearchField = function () {
         $scope.searchFieldText = '';
     };
+
 });
