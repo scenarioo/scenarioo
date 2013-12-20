@@ -14,3 +14,4 @@ third-party
 scenarioo-client/app/scripts/environment_config.js
 .project
 /build
+*hs_err*.log

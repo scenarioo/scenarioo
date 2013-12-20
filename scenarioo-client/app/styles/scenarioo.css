@@ -1,3 +1,20 @@
+/* scenarioo-client
+ * Copyright (C) 2014, scenarioo.org Development Team
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 /** General **/
 .link, .informationModal .nav-tabs {
 }
@@ -80,37 +97,45 @@ h2 {
 .table-curved {
     border-collapse: separate;
 }
+
 .table-curved {
     border: solid #ccc 1px;
     border-radius: 6px;
-    border-left:0px;
+    border-left: 0px;
 }
+
 .table-curved td, .table-curved th {
     border-left: 1px solid #ccc;
     border-top: 1px solid #ccc;
 }
+
 .table-curved th {
     border-top: none;
 }
+
 .table-curved th:first-child {
     border-radius: 6px 0 0 0;
 }
+
 .table-curved th:last-child {
     border-radius: 0 6px 0 0;
 }
-.table-curved th:only-child{
+
+.table-curved th:only-child {
     border-radius: 6px 6px 0 0;
 }
+
 .table-curved tr:last-child td:first-child {
     border-radius: 0 0 0 6px;
 }
+
 .table-curved tr:last-child td:last-child {
     border-radius: 0 0 6px 0;
 }
 
 /** Navigation **/
 @media screen and (max-width: 1024px) {
-    .header .builds .state  {
+    .header .builds .state {
         display: none !important;
     }
 }
@@ -132,11 +157,13 @@ h2 {
 .builds-information {
     max-width: 800px;
 }
+
 .builds-information .accordion-heading {
     background-color: #E6E6E6;
 }
+
 .builds-information .accordion-heading a {
-    color: 	#333333;
+    color: #333333;
     border: thin solid #999999;
 }
 
@@ -149,12 +176,7 @@ h2 {
 .step-view {
     margin: 20px 0 20px 0;
     padding: 5px;
-    background-color: #eeeeee;
     border-radius: 3px;
-}
-
-.step-view .step-icon i {
-    font-size: 32px;
 }
 
 .meta-data .label {
@@ -180,38 +202,20 @@ h2 {
     float: left;
 }
 
-
-/** Scenario-View */
-.scenario-span1 {
-    width: 3% !important;
-    margin-right: 10px;
-    min-width: 50px;
-    clear: both;
-}
-
-.scenario-span2 {
-    width: 800px !important;
-}
-
-.scenario-span3 {
-    padding-top: 15px;
-    padding-left: 20px;
-    margin-left: 0px !important;
-    width: auto !important;
-}
-
-.scenario-span1and2 {
-    width: 90% !important;
-}
-
-.screenshot img {
+/** Screenshots */
+div.sc-screenshot-border {
     border: 2px solid #DDDDDD;
-    max-width: 98%;
+}
+
+img.sc-screenshot {
+    max-width: 100%;
     width: auto;
 }
 
-.screenshot-small img {
-    width: 800px;
+div.sc-screenshot-scenario {
+    height: 320px;
+    overflow: hidden;
+    margin: 10px 0 10px 0;
 }
 
 /** Configuration */
@@ -219,6 +223,7 @@ h2 {
     max-width: 300px;
     width: 100%;
 }
+
 .configuration input[type="text"], .configuration textarea {
     height: 25px;
     padding-left: 8px;
@@ -226,9 +231,11 @@ h2 {
     border-radius: 4px 4px 4px 4px;
     width: 100%;
 }
+
 .configuration input[type="text"] {
     max-width: 290px;
 }
+
 .configuration textarea {
     max-width: 500px;
     height: 150px;
@@ -239,9 +246,11 @@ h2 {
     padding-top: 20px;
     text-align: center;
 }
+
 .informationModal .github-link a {
     color: #5b5b5b !important;
 }
+
 .informationModal .github-link a:hover {
     color: #7b7b7b !important;
 }
@@ -276,14 +285,18 @@ h2 {
     margin-top: 10px;
 }
 
-ul.sc-tree {
-    margin-left: 0px;
+/** Tree **/
+.sc-tree ul {
+    margin-left: 0;
     padding-left: 0;
+    padding-bottom: 2px;
 }
 
-li.sc-tree {
-    margin-left: 16px;
-    padding-left: px;
+.sc-tree li {
+    margin: 2px 0 6px 0;
+    padding-left: 8px;
+    list-style-type:  none;
+    border-left: #dddddd solid 1px;
 }
 
 .sc-node-label {

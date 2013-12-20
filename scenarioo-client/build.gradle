@@ -1,0 +1,57 @@
+import org.gradle.api.tasks.Exec
+import org.apache.tools.ant.taskdefs.condition.Os
+
+task npm(type: Exec) {
+   group = "Build"
+   description = "Installs all Node.js dependencies defined in package.json"
+   commandLine = ["npm", "install"]
+   inputs.file "package.json"
+   outputs.dir "node_modules"
+}
+
+task bower(type: Exec) {
+	
+	group ="Build"
+	description = "Installs all app components defined in bower.json"
+	commandLine = ["bower", "install"]
+	inputs.file "bower.json"
+}
+
+
+class GruntTask extends Exec {
+   private String gruntExecutable = Os.isFamily(Os.FAMILY_WINDOWS) ? "grunt.cmd" : "grunt"
+   def gruntArgs = ""
+
+   public GruntTask() {
+       super()
+       this.setExecutable(gruntExecutable)
+   }
+
+   public void setGruntArgs(String gruntArgs) {
+       this.args = "$gruntArgs".trim().split(" ") as List
+   }
+}
+
+task unittests(type: GruntTask) {
+   group = "Verification"
+   description = "Runs the unit tests."
+   gruntArgs = "test:unit"
+}
+
+
+task buildclient(type: GruntTask) {
+   group = "Verification"
+   description = "Builds the client web app."
+   gruntArgs = "build"
+}
+
+buildclient.dependsOn npm
+buildclient.dependsOn bower
+
+build.dependsOn buildclient
+
+bower.dependsOn npm
+unittests.dependsOn bower 
+
+test.dependsOn unittests
+

@@ -1,30 +1,66 @@
+import javax.security.auth.login.ConfigurationSpi;
+
+/* scenarioo-api
+ * Copyright (C) 2014, scenarioo.org Development Team
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 apply plugin: 'maven-publish'
 apply plugin: 'eclipse-wtp'
 
 sourceCompatibility=1.6
 targetCompatibility=1.6
 
-task sourceJar(type: Jar) {
-    from sourceSets.main.allJava
-}
+task sourceJar(type: Jar) { from sourceSets.main.allJava }
 
 publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-
-            artifact sourceJar {
-                classifier "sources"
-            }
-        }
-    }
-    repositories {
-        maven {
-            url "/home/ngUSD/Code/mvn-repo"
-        }
-    }
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+			
+			artifact sourceJar { classifier "sources" }
+		}
+	}
+	repositories { maven { url "/home/ngUSD/Code/mvn-repo"
+		} }
 }
 
 // Prevent Eclipse "Gradle -> Refresh All" to execute cleanEclipseJdt,
 // because it would delete our version of the org.eclipse.jdt.ui.prefs file.
 cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt
+
+
+configurations { xjc }
+
+dependencies {
+	xjc group: 'com.sun.xml.bind', name: 'jaxb-xjc', version: '2.2.4-1'
+	xjc 'org.projectlombok:lombok:0.11.8'
+}
+
+schemaTargetDir = new File("scenarioo-schema");
+schemaTargetDir.mkdirs();
+
+task schemagen () {
+	ant.taskdef(name: 'schemagen', classname: 'com.sun.tools.jxc.SchemaGenTask', classpath: configurations.xjc.asPath)
+	
+	ant.schemagen(
+			srcdir: new File('src/main/java/org/scenarioo/model/docu/entities'),
+			destdir: schemaTargetDir, 
+			classpath: configurations.xjc.asPath
+			) { schema (file: 'scenarioo-api.xsd' ) }
+	
+}
+
+compileJava.dependsOn schemagen

@@ -50,6 +50,7 @@ project(':scenarioo-docu-generation-example') {
 
 project(':scenarioo-server') {
     dependencies {
+        compile project(':scenarioo-client')
         compile project(':scenarioo-api')
     }
 }

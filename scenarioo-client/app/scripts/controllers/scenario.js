@@ -1,3 +1,20 @@
+/* scenarioo-client
+ * Copyright (C) 2014, scenarioo.org Development Team
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 'use strict';
 
 angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild) {
@@ -6,12 +23,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     var scenarioName = $routeParams.scenarioName;
     var selectedBranchAndBuild;
 
-    $scope.showingSteps = [];
-
-    $scope.modalScreenshotOptions = {
-        backdropFade: true,
-        dialogClass: 'modal modal-huge'
-    };
+    var showAllSteps = [];
 
     SelectedBranchAndBuild.callOnSelectionChange(loadScenario);
 
@@ -49,6 +61,14 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
     }
 
+    $scope.showAllStepsForPage = function(pageIndex) {
+        return  showAllSteps[pageIndex];
+    };
+
+    $scope.toggleShowAllStepsForPage = function(pageIndex) {
+        showAllSteps[pageIndex] = !showAllSteps[pageIndex];
+    };
+
     $scope.getScreenShotUrl = function (imgName) {
         if(angular.isUndefined(selectedBranchAndBuild)) {
             return;
@@ -57,13 +77,13 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
             '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
     };
 
-    $scope.goToStep = function (pageSteps, pageIndex, stepIndex) {
-        var pageName = pageSteps.page.name;
-        $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) +
-            '/' + pageIndex + '/' + stepIndex);
+    $scope.getLinkToStep = function (pageName, pageIndex, stepIndex) {
+        return '#/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) +
+            '/' + pageIndex + '/' + stepIndex;
     };
 
     $scope.resetSearchField = function () {
         $scope.searchFieldText = '';
     };
+
 });
