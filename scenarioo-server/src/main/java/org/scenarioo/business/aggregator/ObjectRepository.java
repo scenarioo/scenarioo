@@ -33,9 +33,12 @@ public class ObjectRepository {
 	
 	private String buildName;
 	
-	private final Map<ObjectReference, ObjectReferenceTreeBuilder> objectReferences = new HashMap<ObjectReference, ObjectReferenceTreeBuilder>();
+	private Map<ObjectReference, ObjectReferenceTreeBuilder> objectReferences = new HashMap<ObjectReference, ObjectReferenceTreeBuilder>();
 	
 	private final Set<String> objectTypes = new HashSet<String>();
+	
+	private final Map<ObjectReference, ObjectReference> objectReferencePool = new HashMap<ObjectReference, ObjectReference>(
+			100000);
 	
 	public ObjectRepository(final String branchName, final String buildName, final ScenarioDocuAggregationDAO dao) {
 		this.branchName = branchName;
@@ -75,9 +78,9 @@ public class ObjectRepository {
 		ObjectReference nodeRef = null;
 		if (node instanceof ObjectDescription) {
 			ObjectDescription objectDesc = (ObjectDescription) node;
-			nodeRef = new ObjectReference(objectDesc.getType(), objectDesc.getName());
+			nodeRef = createObjectReference(objectDesc.getType(), objectDesc.getName());
 		} else if (node instanceof ObjectReference) {
-			nodeRef = (ObjectReference) node;
+			nodeRef = createObjectReference((ObjectReference) node);
 		}
 		
 		// Add children and details with correct path
@@ -131,12 +134,48 @@ public class ObjectRepository {
 	 *            the path of objects that referenced these details.
 	 */
 	public void addObject(final List<ObjectReference> referencePath, final ObjectDescription object) {
-		ObjectReference ref = new ObjectReference(object.getType(), object.getName());
+		ObjectReference ref = createObjectReference(object.getType(), object.getName());
 		saveObject(object);
 		addObjectReference(referencePath, ref);
 		referencePath.add(ref);
 		addObjects(referencePath, object.getDetails());
 		referencePath.remove(referencePath.size() - 1);
+	}
+	
+	/**
+	 * Create reference or get it from pool if already available. This is done just to avoid out of memory because of a
+	 * lot of same references loaded from xml files.
+	 */
+	private ObjectReference createObjectReference(final ObjectReference node) {
+		return createObjectReference(node.getType(), node.getName());
+	}
+	
+	/**
+	 * Create reference or get it from pool if already available. This is done just to avoid out of memory because of a
+	 * lot of same references loaded from xml files.
+	 */
+	public ObjectReference createObjectReference(final String type, String name) {
+		
+		// TODO: this is only temporary workaround
+		// Just to avoid too long strings in memory (this is not the final solution avoid having too long names in
+		// general
+		if (name.length() > 100) {
+			name = name.substring(0, 100);
+		}
+		
+		ObjectReference newRef = new ObjectReference(type, name);
+		ObjectReference existingRef = objectReferencePool.get(newRef);
+		if (existingRef != null) {
+			return existingRef;
+		}
+		else {
+			objectReferencePool.put(newRef, newRef);
+			if (objectReferencePool.size() % 1000 == 0) {
+				LOGGER.info("******* Added another 1000 object references, objects in total: "
+						+ objectReferencePool.size());
+			}
+			return newRef;
+		}
 	}
 	
 	private void saveObject(final ObjectDescription object) {
@@ -174,7 +213,7 @@ public class ObjectRepository {
 	
 	public List<ObjectReference> addReferencedScenarioObjects(List<ObjectReference> referencePath,
 			final Scenario scenario) {
-		referencePath = extendPath(referencePath, new ObjectReference("scenario", scenario.getName()));
+		referencePath = extendPath(referencePath, createObjectReference("scenario", scenario.getName()));
 		addObjects(referencePath, scenario.getDetails());
 		return referencePath;
 	}
@@ -186,7 +225,7 @@ public class ObjectRepository {
 		if (page != null) {
 			
 			// Page occurence reference:
-			ObjectReference pageOccurenceRef = new ObjectReference("pageOccurence", page.getName() + "/"
+			ObjectReference pageOccurenceRef = createObjectReference("pageOccurence", page.getName() + "/"
 					+ step.getStepDescription().getOccurence());
 			referencePath = extendPath(referencePath, pageOccurenceRef);
 			
@@ -195,7 +234,7 @@ public class ObjectRepository {
 		}
 		
 		// Add referenced objects from step
-		ObjectReference stepReference = new ObjectReference("step", Integer.toString(step.getStepDescription()
+		ObjectReference stepReference = createObjectReference("step", Integer.toString(step.getStepDescription()
 				.getIndex()));
 		referencePath = extendPath(referencePath, stepReference);
 		addObjects(referencePath, step.getStepDescription().getDetails());
@@ -208,20 +247,18 @@ public class ObjectRepository {
 	 */
 	private void addPage(List<ObjectReference> referencePath, final Page page) {
 		
-		// Page reference
-		ObjectReference pageReference = new ObjectReference("page", page.getName());
-		referencePath = extendPath(referencePath, pageReference);
-		addObjectReference(referencePath, pageReference);
-		
-		// Save page description (if not yet)
 		if (page != null) {
+			// Page reference
+			ObjectReference pageReference = createObjectReference("page", page.getName());
+			referencePath = extendPath(referencePath, pageReference);
+			addObjectReference(referencePath, pageReference);
+			
+			// Save page description (if not yet)
 			ObjectDescription pageDescription = new ObjectDescription("page", page.getName());
 			pageDescription.setDetails(page.getDetails());
 			saveObject(pageDescription);
-		}
-		
-		// Add referenced objects from page
-		if (page != null) {
+			
+			// Add referenced objects from page
 			addObjects(referencePath, page.getDetails());
 		}
 		
@@ -241,8 +278,7 @@ public class ObjectRepository {
 		}
 	}
 	
-	public void saveObjectIndexes() {
-		LOGGER.info("Writing object repository index files ... This might take a while ...");
+	public void updateAndSaveObjectIndexesForCurrentCase() {
 		for (Entry<ObjectReference, ObjectReferenceTreeBuilder> objectRefTreeBuilder : objectReferences.entrySet()) {
 			ObjectReference objectRef = objectRefTreeBuilder.getKey();
 			ObjectReferenceTreeBuilder referenceTreeBuilder = objectRefTreeBuilder.getValue();
@@ -250,13 +286,21 @@ public class ObjectRepository {
 				LOGGER.warn("No Object Description for object found, therefore not remembering index for this object: (type='"
 						+ objectRef.getType() + ", name=" + objectRef.getName() + "').");
 			} else {
-				ObjectDescription object = dao.loadObjectDescription(branchName, buildName,
-						objectRefTreeBuilder.getKey());
-				ObjectIndex objectIndex = new ObjectIndex();
-				objectIndex.setObject(object);
-				ObjectTreeNode<ObjectReference> referenceTree = referenceTreeBuilder.build();
-				objectIndex.setReferenceTree(referenceTree);
-				dao.saveObjectIndex(branchName, buildName, objectIndex);
+				ObjectIndex index = dao.loadObjectIndexIfExistant(branchName, buildName, objectRef.getType(),
+						objectRef.getName());
+				if (index == null) {
+					ObjectDescription object = dao.loadObjectDescription(branchName, buildName,
+							objectRefTreeBuilder.getKey());
+					ObjectIndex objectIndex = new ObjectIndex();
+					objectIndex.setObject(object);
+					ObjectTreeNode<ObjectReference> referenceTree = referenceTreeBuilder.build();
+					objectIndex.setReferenceTree(referenceTree);
+					dao.saveObjectIndex(branchName, buildName, objectIndex);
+				}
+				else {
+					index.getReferenceTree().addChildren(referenceTreeBuilder.build().getChildren());
+					dao.saveObjectIndex(branchName, buildName, index);
+				}
 			}
 		}
 		LOGGER.info("Writing object repository index files finished (success).");
@@ -274,6 +318,14 @@ public class ObjectRepository {
 				throw new RuntimeException("Could not delete directory: " + directory.getAbsolutePath(), e);
 			}
 		}
+	}
+	
+	public void saveAndClearObjectIndexesForCurrentCase() {
+		LOGGER.info("Writing object repository index files for last useCase. This might take a while ...");
+		updateAndSaveObjectIndexesForCurrentCase();
+		LOGGER.info("Object index files updated wit all object references in current case.");
+		// Reset object references calculation for next use case.
+		objectReferences.clear();
 	}
 	
 }

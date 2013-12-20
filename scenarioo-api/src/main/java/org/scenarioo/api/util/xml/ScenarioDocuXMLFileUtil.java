@@ -3,6 +3,7 @@ package org.scenarioo.api.util.xml;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,23 +16,42 @@ import org.scenarioo.api.files.ObjectFromDirectory;
 public class ScenarioDocuXMLFileUtil {
 	
 	public static <T> void marshal(final T object, final File destFile) {
+		FileOutputStream fos = null;
 		try {
-			ScenarioDocuXMLUtil.marshal(object, new FileOutputStream(destFile));
+			fos = new FileOutputStream(destFile);
+			ScenarioDocuXMLUtil.marshal(object, fos);
 		} catch (Exception e) {
 			throw new RuntimeException("Could not marshall Object of type " + object.getClass().getName()
 					+ " into file: " + destFile.getAbsolutePath(), e);
+		} finally {
+			try {
+				if (fos != null) {
+					fos.close();
+				}
+			} catch (IOException e) {
+				throw new RuntimeException("Could not close file output stream for " + destFile.getAbsolutePath(), e);
+			}
 		}
-		
 	}
 	
 	public static <T> T unmarshal(final Class<T> targetClass, final File srcFile) {
 		if (!srcFile.exists()) {
 			throw new ResourceNotFoundException(srcFile.getAbsolutePath());
 		}
+		FileInputStream fis = null;
 		try {
-			return ScenarioDocuXMLUtil.unmarshal(targetClass, new FileInputStream(srcFile));
+			fis = new FileInputStream(srcFile);
+			return ScenarioDocuXMLUtil.unmarshal(targetClass, fis);
 		} catch (Exception e) {
 			throw new RuntimeException("Could not unmarshall " + srcFile.getAbsolutePath(), e);
+		} finally {
+			try {
+				if (fis != null) {
+					fis.close();
+				}
+			} catch (IOException e) {
+				throw new RuntimeException("Could not close file input stream for " + srcFile.getAbsolutePath(), e);
+			}
 		}
 	}
 	

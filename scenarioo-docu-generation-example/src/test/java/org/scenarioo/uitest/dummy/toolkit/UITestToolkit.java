@@ -5,7 +5,7 @@ import org.scenarioo.uitest.dummy.application.DummyApplicationSimulator;
 import org.scenarioo.uitest.example.infrastructure.UITestToolkitAbstraction;
 
 /**
- * Dummy implementation of a UI testing toolkit (could be Selenium for example, or Robotium por SWTBot, or whatever UI
+ * Dummy implementation of a UI testing toolkit (could be Selenium for example, or Robotium or SWTBot, or whatever UI
  * toolkit you like or use in your project).
  * 
  * You would replace this class by a real UI Testing API in your real UI tests and adopt the wrapper

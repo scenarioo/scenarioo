@@ -180,4 +180,15 @@ public class ScenarioDocuAggregationDAO {
 		return files;
 	}
 	
+	public ObjectIndex loadObjectIndexIfExistant(final String branchName, final String buildName,
+			final String objectType, final String objectName) {
+		File objectFile = files.getObjectIndexFile(branchName, buildName, objectType, objectName);
+		if (objectFile.exists()) {
+			return loadObjectIndex(branchName, buildName, objectType, objectName);
+		}
+		else {
+			return null;
+		}
+	}
+	
 }

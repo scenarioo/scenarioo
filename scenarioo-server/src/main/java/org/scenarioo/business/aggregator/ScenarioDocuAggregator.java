@@ -44,7 +44,7 @@ public class ScenarioDocuAggregator {
 	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
 	 * otherwise the data has to be recalculated.
 	 */
-	public static final String CURRENT_FILE_FORMAT_VERSION = "0.18";
+	public static final String CURRENT_FILE_FORMAT_VERSION = "0.19";
 	
 	private final static Logger LOGGER = Logger.getLogger(ScenarioDocuAggregator.class);
 	
@@ -58,7 +58,7 @@ public class ScenarioDocuAggregator {
 	private ObjectRepository objectRepository;
 	
 	@Data
-	public class StepVariantState {
+	public static class StepVariantState {
 		private StepIdentification firstStep;
 		private StepIdentification previousStep;
 		private Integer counter;
@@ -91,6 +91,7 @@ public class ScenarioDocuAggregator {
 		for (UseCaseScenarios scenarios : useCaseScenariosList
 				.getUseCaseScenarios()) {
 			calulateAggregatedDataForUseCase(branchName, buildName, scenarios);
+			objectRepository.saveAndClearObjectIndexesForCurrentCase();
 		}
 		
 		// Calculate page variant counters
@@ -114,7 +115,6 @@ public class ScenarioDocuAggregator {
 		dao.saveVersion(branchName, buildName, CURRENT_FILE_FORMAT_VERSION);
 		
 		objectRepository.calculateAndSaveObjectLists();
-		objectRepository.saveObjectIndexes();
 		
 	}
 	
@@ -149,7 +149,7 @@ public class ScenarioDocuAggregator {
 		LOGGER.info("    calculating aggregated data for use case : " + useCaseScenarios.getUseCase().getName());
 		
 		List<ObjectReference> referencePath = objectRepository
-				.createPath(new ObjectReference("case", useCaseScenarios.getUseCase().getName()));
+				.createPath(objectRepository.createObjectReference("case", useCaseScenarios.getUseCase().getName()));
 		objectRepository.addObjects(referencePath, useCaseScenarios.getUseCase().getDetails());
 		
 		for (Scenario scenario : useCaseScenarios.getScenarios()) {
@@ -163,6 +163,7 @@ public class ScenarioDocuAggregator {
 			}
 		}
 		dao.saveUseCaseScenarios(branchName, buildName, useCaseScenarios);
+		
 	}
 	
 	private void calculateAggregatedDataForScenario(List<ObjectReference> referencePath, final String branchName,

@@ -58,4 +58,10 @@ public class ObjectTreeNode<T> implements Serializable {
 		details.addDetail(key, value);
 	}
 	
+	public void addChildren(final List<ObjectTreeNode<Object>> children) {
+		if (children != null && !children.isEmpty()) {
+			this.children.addAll(children);
+		}
+	}
+	
 }
