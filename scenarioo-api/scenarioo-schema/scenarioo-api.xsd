@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns="http://www.scenarioo.org/scenarioo" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="branch" type="branch" xmlns=""/>
+
+  <xs:element name="build" type="build" xmlns=""/>
+
+  <xs:element name="details" type="details" xmlns=""/>
+
+  <xs:element name="objectDescription" type="objectDescription" xmlns=""/>
+
+  <xs:element name="objectList" type="objectList" xmlns=""/>
+
+  <xs:element name="objectReference" type="objectReference" xmlns=""/>
+
+  <xs:element name="objectTreeNode" type="objectTreeNode" xmlns=""/>
+
+  <xs:element name="page" type="page" xmlns=""/>
+
+  <xs:element name="scenario" type="scenario" xmlns=""/>
+
+  <xs:element name="scenarioCalculatedData" type="scenarioCalculatedData" xmlns=""/>
+
+  <xs:element name="step" type="step" xmlns=""/>
+
+  <xs:element name="stepDescription" type="stepDescription" xmlns=""/>
+
+  <xs:element name="stepIdentification" type="stepIdentification" xmlns=""/>
+
+  <xs:element name="stepMetadata" type="stepMetadata" xmlns=""/>
+
+  <xs:element name="useCase" type="useCase" xmlns=""/>
+
+  <xs:complexType name="branch">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="build">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="revision" type="xs:string" minOccurs="0"/>
+      <xs:element name="date" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="status" type="xs:string" minOccurs="0"/>
+      <xs:element name="details">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="key" minOccurs="0" type="xs:string"/>
+                  <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="page">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="details">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="key" minOccurs="0" type="xs:string"/>
+                  <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="scenario">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="status" type="xs:string" minOccurs="0"/>
+      <xs:element name="details">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="key" minOccurs="0" type="xs:string"/>
+                  <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="calculatedData" type="scenarioCalculatedData" minOccurs="0" xmlns=""/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="scenarioCalculatedData">
+    <xs:sequence>
+      <xs:element name="numberOfPages" type="xs:int"/>
+      <xs:element name="numberOfSteps" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="step">
+    <xs:sequence>
+      <xs:element ref="page" minOccurs="0" xmlns=""/>
+      <xs:element ref="stepDescription" minOccurs="0" xmlns=""/>
+      <xs:element name="html" type="stepHtml" minOccurs="0" xmlns=""/>
+      <xs:element name="metadata" type="stepMetadata" minOccurs="0" xmlns=""/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="stepDescription">
+    <xs:sequence>
+      <xs:element name="index" type="xs:int"/>
+      <xs:element name="title" type="xs:string" minOccurs="0"/>
+      <xs:element name="status" type="xs:string" minOccurs="0"/>
+      <xs:element name="screenshotFileName" type="xs:string" minOccurs="0"/>
+      <xs:element name="details">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="key" minOccurs="0" type="xs:string"/>
+                  <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="occurence" type="xs:int"/>
+      <xs:element name="relativeIndex" type="xs:int"/>
+      <xs:element name="variantIndex" type="xs:int"/>
+      <xs:element name="previousStepVariant" type="stepIdentification" minOccurs="0" xmlns=""/>
+      <xs:element name="nextStepVariant" type="stepIdentification" minOccurs="0" xmlns=""/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="stepIdentification">
+    <xs:sequence>
+      <xs:element name="useCaseName" type="xs:string" minOccurs="0"/>
+      <xs:element name="scenarioName" type="xs:string" minOccurs="0"/>
+      <xs:element name="pageName" type="xs:string" minOccurs="0"/>
+      <xs:element name="index" type="xs:int"/>
+      <xs:element name="occurence" type="xs:int"/>
+      <xs:element name="relativeIndex" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="stepHtml">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="stepMetadata">
+    <xs:sequence>
+      <xs:element name="visibleText" type="xs:string" minOccurs="0"/>
+      <xs:element name="details">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="key" minOccurs="0" type="xs:string"/>
+                  <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="useCase">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="status" type="xs:string" minOccurs="0"/>
+      <xs:element name="details">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="key" minOccurs="0" type="xs:string"/>
+                  <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="details">
+    <xs:sequence>
+      <xs:element name="properties">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="key" minOccurs="0" type="xs:string"/>
+                  <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="objectDescription">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="type" type="xs:string" minOccurs="0"/>
+      <xs:element name="details">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="key" minOccurs="0" type="xs:string"/>
+                  <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="objectList">
+    <xs:sequence>
+      <xs:element name="items" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="objectReference">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="type" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="objectTreeNode">
+    <xs:sequence>
+      <xs:element name="item" type="xs:anyType" minOccurs="0"/>
+      <xs:element name="details">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="key" minOccurs="0" type="xs:string"/>
+                  <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="children" type="objectTreeNode" nillable="true" minOccurs="0" maxOccurs="unbounded" xmlns=""/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

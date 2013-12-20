@@ -59,7 +59,7 @@ task schemagen () {
 			srcdir: new File('src/main/java/org/scenarioo/model/docu/entities'),
 			destdir: schemaTargetDir, 
 			classpath: configurations.xjc.asPath
-			) { schema (file: 'scenarioo-api.xsd' ) }
+			) { schema (namespace: '', file: 'scenarioo-api.xsd' ) }
 	
 }
 
