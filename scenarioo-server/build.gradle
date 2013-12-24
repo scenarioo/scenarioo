@@ -56,8 +56,8 @@ task printPathConfigInformationForNodeJSAndGrunt << {
 
 war {
     from '../scenarioo-client/dist'
+    from(sourceSets.main.output.classesDir) {
+        into('WEB-INF/classes')
+    }
 	archiveName 'scenarioo.war'
 }
-
-war.dependsOn = war.taskDependencies.values
-
