@@ -59,7 +59,7 @@ public class ConfigurationDAO {
 		
 		LOGGER.info("  loading configuration from file: " + configFile);
 		if (!configFile.exists()) {
-			LOGGER.warn("  file " + configFile + " does not exist: " + configFile.canRead());
+			LOGGER.warn("  file " + configFile + " does not exist");
 			configFile = getDefaultConfigFile();
 		}
 		return ScenarioDocuXMLFileUtil.unmarshal(Configuration.class, configFile);
@@ -80,7 +80,7 @@ public class ConfigurationDAO {
 	 */
 	private static File getConfigFile() {
 		if (StringUtils.isBlank(configurationDirectory)) {
-			configurationDirectory = System.getProperty("user.home");
+			configurationDirectory = System.getProperty("user.home") + File.separator + ".scenarioo";
 			if (StringUtils.isBlank(configurationDirectory)) {
 				configurationDirectory = "";
 			}
