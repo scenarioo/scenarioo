@@ -40,7 +40,7 @@ public class ScenariooWebApplication implements ServletContextListener {
 		LOGGER.info("  Loading configuration ...");
 		
 		String configurationDirectory = arg0.getServletContext().getInitParameter("configurationDirectory");
-		LOGGER.info("  " + configurationDirectory);
+		LOGGER.info("configured configuration directory:  " + configurationDirectory);
 		ConfigurationDAO.setConfigurationDirectory(configurationDirectory);
 		Configuration config = ConfigurationDAO.getConfiguration();
 		LOGGER.info("  Configuration loaded.");
