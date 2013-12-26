@@ -49,18 +49,25 @@ dependencies {
 	xjc 'org.projectlombok:lombok:0.11.8'
 }
 
-schemaTargetDir = new File("scenarioo-schema");
-schemaTargetDir.mkdirs();
+project.ext.schemaTargetDir = new File(project.name, "scenarioo-schema");
+task createSchemaDirectory << {
+    schemaTargetDir.mkdirs()
+}
 
-task schemagen () {
-	ant.taskdef(name: 'schemagen', classname: 'com.sun.tools.jxc.SchemaGenTask', classpath: configurations.xjc.asPath)
-	
+task removeSchemaDirectory(type: Delete) {
+  delete schemaTargetDir
+}
+
+task schemagen(dependsOn: 'createSchemaDirectory') << {
+    ant.taskdef(name: 'schemagen', classname: 'com.sun.tools.jxc.SchemaGenTask', classpath: configurations.xjc.asPath)
+
 	ant.schemagen(
-			srcdir: new File('src/main/java/org/scenarioo/model/docu/entities'),
-			destdir: schemaTargetDir, 
-			classpath: configurations.xjc.asPath
-			) { schema (namespace: '', file: 'scenarioo-api.xsd' ) }
+		srcdir: new File('src/main/java/org/scenarioo/model/docu/entities'),
+		destdir: schemaTargetDir.name, 
+		classpath: configurations.xjc.asPath
+		) { schema (namespace: '', file: 'scenarioo-api.xsd' ) }
 	
 }
 
+clean.dependsOn removeSchemaDirectory
 compileJava.dependsOn schemagen
