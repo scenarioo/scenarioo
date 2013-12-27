@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummaries;
@@ -49,6 +50,8 @@ import org.scenarioo.model.docu.entities.generic.ObjectReference;
  * easily available for DAO.
  */
 public class ScenarioDocuAggregationDAO {
+	
+	private static final Logger LOGGER = Logger.getLogger(ScenarioDocuAggregationDAO.class);
 	
 	private static final String VERSION_PROPERTY_KEY = "scenarioo.derived.file.format.version";
 	
@@ -217,9 +220,16 @@ public class ScenarioDocuAggregationDAO {
 			return new ArrayList<BuildImportSummary>();
 		}
 		else {
-			BuildImportSummaries summaries = ScenarioDocuXMLFileUtil.unmarshal(BuildImportSummaries.class,
-					buildImportSummariesFile);
-			return summaries.getBuildSummaries();
+			try {
+				BuildImportSummaries summaries = ScenarioDocuXMLFileUtil.unmarshal(BuildImportSummaries.class,
+						buildImportSummariesFile);
+				return summaries.getBuildSummaries();
+			} catch (Exception e) {
+				LOGGER.error(
+						"Failed to load saved build import states, the system is recovering by recreating the list from file system.",
+						e);
+				return new ArrayList<BuildImportSummary>();
+			}
 		}
 	}
 	

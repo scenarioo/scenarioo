@@ -12,4 +12,8 @@ public enum BuildImportStatus {
 		return equals(SUCCESS);
 	}
 	
+	public boolean isImportNeeded() {
+		return equals(UNPROCESSED) || equals(OUTDATED);
+	}
+	
 }

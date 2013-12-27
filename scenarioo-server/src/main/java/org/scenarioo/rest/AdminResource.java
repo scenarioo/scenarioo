@@ -37,9 +37,9 @@ public class AdminResource {
 	}
 	
 	@GET
-	@Path("buildImportStates")
+	@Path("buildImportSummaries")
 	@Produces({ "application/xml", "application/json" })
-	public List<BuildImportSummary> loadBuildImportSummaries() {
+	public List<BuildImportSummary> listImportedBuilds() {
 		return ScenarioDocuBuildsManager.INSTANCE.getBuildImportSummaries();
 	}
 	

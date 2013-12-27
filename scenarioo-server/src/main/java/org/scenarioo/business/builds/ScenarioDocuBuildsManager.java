@@ -116,7 +116,7 @@ public class ScenarioDocuBuildsManager {
 		for (BuildIdentifier buildIdentifier : buildImportSummaries.keySet()) {
 			final BuildImportSummary summary = buildImportSummaries.get(buildIdentifier);
 			if (summary != null) {
-				if (summary.getStatus().equals(BuildImportStatus.UNPROCESSED)
+				if (summary.getStatus().isImportNeeded()
 						&& !buildsInProcessingQueue.contains(buildIdentifier)) {
 					LOGGER.info("   Submitting build for import: " + buildIdentifier.getBranchName() + "/"
 							+ buildIdentifier.getBuildName());

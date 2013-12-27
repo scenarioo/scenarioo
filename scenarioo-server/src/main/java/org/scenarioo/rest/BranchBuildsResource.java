@@ -26,10 +26,15 @@ import javax.ws.rs.Produces;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 
-
+/**
+ * Resource for accessing branches and their contained available builds.
+ */
 @Path("/rest/branches/")
-public class BranchesResource {
+public class BranchBuildsResource {
 	
+	/**
+	 * Returns only the successfully aggregated/imported builds of each branch.
+	 */
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	public List<BranchBuilds> listBranchesAndBuilds() {
