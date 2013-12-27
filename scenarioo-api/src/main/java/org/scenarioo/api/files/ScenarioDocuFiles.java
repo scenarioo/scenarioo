@@ -55,6 +55,10 @@ public class ScenarioDocuFiles {
 		}
 	}
 	
+	public File getRootDirectory() {
+		return rootDirectory;
+	}
+	
 	public File getBranchDirectory(final String branchName) {
 		File branchDirectory = new File(rootDirectory, FilesUtil.encodeName(branchName));
 		return branchDirectory;
@@ -107,7 +111,8 @@ public class ScenarioDocuFiles {
 	}
 	
 	public List<File> getScenarioFiles(final String branchName, final String buildName, final String useCaseName) {
-		return FilesUtil.getListOfFilesFromSubdirs(getUseCaseDirectory(branchName, buildName, useCaseName), FILE_NAME_SCENARIO);
+		return FilesUtil.getListOfFilesFromSubdirs(getUseCaseDirectory(branchName, buildName, useCaseName),
+				FILE_NAME_SCENARIO);
 	}
 	
 	public File getStepsDirectory(final String branchName, final String buildName, final String useCaseName,

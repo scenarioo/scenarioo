@@ -44,6 +44,10 @@ public class ScenarioDocuAggregationFiles {
 		docuFiles = new ScenarioDocuFiles(rootDirectory);
 	}
 	
+	public File getBuildStatesFile() {
+		return new File(docuFiles.getRootDirectory(), "builds.states.derived.xml");
+	}
+	
 	public File getVersionFile(final String branchName, final String buildName) {
 		return new File(docuFiles.getBuildDirectory(branchName, buildName), FILENAME_VERSION_PROPERTIES);
 	}
@@ -105,6 +109,10 @@ public class ScenarioDocuAggregationFiles {
 	public File getObjectIndexFile(final String branchName, final String buildName, final String type, final String name) {
 		File objectsDir = getObjectsIndexDirectoryForObjectType(branchName, buildName, type);
 		return new File(objectsDir, FilesUtil.encodeName(name) + ".index.xml");
+	}
+	
+	public File getBuildImportErrorFile(final String branchName, final String buildName) {
+		return new File(docuFiles.getBuildDirectory(branchName, buildName), "import.error.derived.xml");
 	}
 	
 	public List<File> getObjectFiles(final String branchName, final String buildName, final String typeName) {

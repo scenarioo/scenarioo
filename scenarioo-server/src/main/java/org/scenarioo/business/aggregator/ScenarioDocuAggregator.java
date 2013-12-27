@@ -31,11 +31,15 @@ import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
+import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
+import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
+import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.PageVariantsCounter;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.derived.BuildLink;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.ScenarioCalculatedData;
@@ -61,7 +65,7 @@ public class ScenarioDocuAggregator {
 	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
 	 * otherwise the data has to be recalculated.
 	 */
-	public static final String CURRENT_FILE_FORMAT_VERSION = "0.19";
+	public static final String CURRENT_FILE_FORMAT_VERSION = "0.20";
 	
 	private final static Logger LOGGER = Logger.getLogger(ScenarioDocuAggregator.class);
 	
@@ -315,5 +319,29 @@ public class ScenarioDocuAggregator {
 	private boolean isSameScenario(final StepIdentification stepIdentification, final StepIdentification nextStepVariant) {
 		return stepIdentification.getUseCaseName().equals(nextStepVariant.getUseCaseName())
 				&& stepIdentification.getScenarioName().equals(nextStepVariant.getScenarioName());
+	}
+	
+	public void updateBuildSummary(final BuildImportSummary buildSummary, final BuildLink buildLink) {
+		BuildIdentifier buildIdentifier = buildSummary.getIdentifier();
+		buildSummary.setBuildDescription(buildLink.getBuild());
+		String version = dao.loadVersion(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+		boolean aggregated = !StringUtils.isBlank(version);
+		boolean outdated = aggregated && !version.equals(CURRENT_FILE_FORMAT_VERSION);
+		boolean error = buildSummary.getStatus().isFailed()
+				|| dao.getFiles()
+						.getBuildImportErrorFile(buildIdentifier.getBranchName(), buildIdentifier.getBuildName())
+						.exists();
+		if (error) {
+			buildSummary.setStatus(BuildImportStatus.FAILED);
+		}
+		else if (outdated) {
+			buildSummary.setStatus(BuildImportStatus.OUTDATED);
+		}
+		else if (aggregated) {
+			buildSummary.setStatus(BuildImportStatus.SUCCESS);
+		}
+		else {
+			buildSummary.setStatus(BuildImportStatus.UNPROCESSED);
+		}
 	}
 }

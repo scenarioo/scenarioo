@@ -17,12 +17,14 @@
 
 package org.scenarioo.rest;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-
+import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 
 @Path("/rest/admin/")
 public class AdminResource {
@@ -30,7 +32,22 @@ public class AdminResource {
 	@GET
 	@Path("update")
 	@Produces({ "application/xml", "application/json" })
-	public void updateAll() {
-		ScenarioDocuBuildsManager.INSTANCE.updateAll();
+	public void updateAllBuildsAndSubmitNewBuildsForImport() {
+		ScenarioDocuBuildsManager.INSTANCE.updateAllBuildsAndSubmitNewBuildsForImport();
 	}
+	
+	@GET
+	@Path("buildImportStates")
+	@Produces({ "application/xml", "application/json" })
+	public List<BuildImportSummary> loadBuildImportSummaries() {
+		return ScenarioDocuBuildsManager.INSTANCE.getBuildImportSummaries();
+	}
+	
+	// @GET
+	// @Path("buildImportLogs/{branchName}/{buildName}")
+	// @Produces({ "application/xml", "application/json" })
+	// public String loadBuildImportLog() {
+	// ScenarioDocuBuildsManager.INSTANCE.updateAll();
+	// }
+	
 }

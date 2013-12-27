@@ -17,7 +17,6 @@
 
 package org.scenarioo.model.docu.aggregates.branches;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -28,22 +27,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import lombok.Data;
 
-import org.scenarioo.model.docu.derived.BuildLink;
-import org.scenarioo.model.docu.entities.Branch;
-
-/**
- * Represents a branch and all its belonging builds that have been successfully processed by server and therefore are
- * ready for browsing.
- */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data()
-public class BranchBuilds {
+@Data
+public class BuildImportSummaries {
 	
-	private Branch branch;
+	@XmlElementWrapper(name = "buildSummaries")
+	@XmlElement(name = "buildSummary")
+	List<BuildImportSummary> buildSummaries;
 	
-	@XmlElementWrapper(name = "builds")
-	@XmlElement(name = "buildLink")
-	private List<BuildLink> builds = new ArrayList<BuildLink>();
+	public BuildImportSummaries() {
+	}
+	
+	public BuildImportSummaries(final List<BuildImportSummary> buildSummaries) {
+		super();
+		this.buildSummaries = buildSummaries;
+	}
 	
 }

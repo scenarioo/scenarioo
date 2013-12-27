@@ -22,11 +22,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
+import org.scenarioo.model.docu.aggregates.branches.BuildImportSummaries;
+import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.PageVariantsCounter;
@@ -206,6 +209,23 @@ public class ScenarioDocuAggregationDAO {
 		else {
 			return null;
 		}
+	}
+	
+	public List<BuildImportSummary> loadBuildImportSummaries() {
+		File buildImportSummariesFile = files.getBuildStatesFile();
+		if (!buildImportSummariesFile.exists()) {
+			return new ArrayList<BuildImportSummary>();
+		}
+		else {
+			BuildImportSummaries summaries = ScenarioDocuXMLFileUtil.unmarshal(BuildImportSummaries.class,
+					buildImportSummariesFile);
+			return summaries.getBuildSummaries();
+		}
+	}
+	
+	public void saveBuildImportSummaries(final List<BuildImportSummary> summariesToSave) {
+		BuildImportSummaries summaries = new BuildImportSummaries(summariesToSave);
+		ScenarioDocuXMLFileUtil.marshal(summaries, files.getBuildStatesFile());
 	}
 	
 }
