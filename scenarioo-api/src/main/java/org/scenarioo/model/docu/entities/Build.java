@@ -45,6 +45,6 @@ public class Build implements Serializable {
 	}
 	
 	public Build(final String name) {
-		this();
+		this.name = name;
 	}
 }
