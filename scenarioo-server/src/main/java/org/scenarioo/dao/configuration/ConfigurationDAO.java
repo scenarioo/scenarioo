@@ -47,6 +47,13 @@ public class ConfigurationDAO {
 		ConfigurationDAO.configurationDirectory = configurationDirectory;
 	}
 	
+	/**
+	 * Only for testing
+	 */
+	public static void injectConfiguration(final Configuration configuration) {
+		ConfigurationDAO.configuration = configuration;
+	}
+	
 	public static Configuration getConfiguration() {
 		if (configuration == null) {
 			configuration = loadConfiguration();

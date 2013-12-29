@@ -37,9 +37,13 @@ public class Configuration {
 	
 	private String testDocumentationDirPath;
 	
-	private String defaultBranchName;
+	private String defaultBranchName = "trunk";
 	
-	private String defaultBuildName;
+	private String defaultBuildName = "current";
+	
+	private String aliasForLastBuild = "last";
+	
+	private String aliasForLastSuccessfulBuild = "current";
 	
 	private String scenarioPropertiesInOverview;
 	
