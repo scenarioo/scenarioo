@@ -36,16 +36,14 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
 
     $scope.setBranch = function (branch) {
         $scope.selectedBranch = branch;
-        // TODO:  maybe set build to default
         $cookieStore.remove(SelectedBranchAndBuild.BUILD_KEY);
         $location.search(SelectedBranchAndBuild.BRANCH_KEY, branch.branch.name);
     };
 
     $scope.setBuild = function (selectedBranch, build) {
         $scope.selectedBuild = build;
-        $location.search(SelectedBranchAndBuild.BUILD_KEY, build.build.name);
+        $location.search(SelectedBranchAndBuild.BUILD_KEY, build.linkName);
     };
-
 
     $scope.modalInfoOptions = {
         backdropFade: true,

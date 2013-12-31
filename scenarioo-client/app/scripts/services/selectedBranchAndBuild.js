@@ -117,7 +117,7 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuild', function 
         selected: getSelectedBranchAndBuild,
 
         /**
-         * Returns true only if both values (branch are build) are defined.
+         * Returns true only if both values (branch and build) are defined.
          */
         isDefined: isBranchAndBuildDefined,
 
