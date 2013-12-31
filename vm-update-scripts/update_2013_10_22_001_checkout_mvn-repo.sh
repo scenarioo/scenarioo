@@ -1,4 +1,6 @@
 #!/bin/sh
 
-cd ..
-git clone https://github.com/forkch/mvn-repo
+cd ~/Code 
+if [ ! -d ~/Code/mvn-repo ]; then
+	git clone https://github.com/scenarioo/mvn-repo
+fi

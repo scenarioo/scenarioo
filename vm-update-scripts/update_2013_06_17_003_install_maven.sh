@@ -1,4 +1,4 @@
 #!/bin/sh
-sudo apt-get install maven2
+sudo apt-get -y install maven2
 
 

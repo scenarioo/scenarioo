@@ -1,4 +1,4 @@
 #!/bin/sh
 
 sudo apt-get update
-sudo apt-get install phantomjs
+sudo apt-get -y install phantomjs

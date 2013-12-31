@@ -13,16 +13,22 @@ fi
 vmupdatelog=~/.updatevm.log
 touch $vmupdatelog
 
-find $directory -name '*.sh' |
-while read filename
-do
+all_update_scripts=`find $directory -name '*.sh' | sort` 
+echo $all_update_scripts
+
+for filename in $all_update_scripts; do
 	if grep -Fxq "$filename" $vmupdatelog
 	then
 		echo -e "\e[00;31m>> $filename has already been executed\e[00m"
 	else
 		echo -e "\e[00;32m>> executing $filename \e[00m"
+		read 
 		$filename
-		echo $filename >> $vmupdatelog
+		if [ $? -eq 0 ]; then
+			echo $filename >> $vmupdatelog
+		else
+		    echo FAIL
+		fi
 	fi
 	done
 wait
