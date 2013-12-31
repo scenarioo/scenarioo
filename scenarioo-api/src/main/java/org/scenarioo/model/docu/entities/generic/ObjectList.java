@@ -48,7 +48,7 @@ public class ObjectList<T> implements List<T>, Serializable {
 	}
 	
 	public ObjectList(final T[] items) {
-		this.items = Arrays.asList(items);
+		this.items = new ArrayList<T>(Arrays.asList(items));
 	}
 	
 	@Override

@@ -38,7 +38,7 @@ public class BranchBuildsResource {
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	public List<BranchBuilds> listBranchesAndBuilds() {
-		return ScenarioDocuBuildsManager.INSTANCE.getBranchBuildsList();
+		return ScenarioDocuBuildsManager.INSTANCE.getAvailableBuilds();
 	}
 	
 }

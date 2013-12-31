@@ -41,9 +41,11 @@ public class Configuration {
 	
 	private String defaultBuildName = "current";
 	
-	private String aliasForLastBuild = "last";
+	private String aliasForLastRecentBuild = "recent";
 	
 	private String aliasForLastSuccessfulBuild = "current";
+	
+	private String buildStatusForSuccessfulBuilds = "success";
 	
 	private String scenarioPropertiesInOverview;
 	
