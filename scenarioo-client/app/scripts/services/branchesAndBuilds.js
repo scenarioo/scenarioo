@@ -53,7 +53,7 @@ angular.module('scenarioo.services').service('BranchesAndBuilds', function ($roo
 
             var allBuildsOnSelectedBranch = loadedData.selectedBranch.builds;
             for (index = 0; index < loadedData.selectedBranch.builds.length; index++) {
-                if (allBuildsOnSelectedBranch[index].build.name === selected.build || allBuildsOnSelectedBranch[index].linkName === selected.build) {
+                if (allBuildsOnSelectedBranch[index].linkName === selected.build) {
                     loadedData.selectedBuild = allBuildsOnSelectedBranch[index];
                 }
             }
