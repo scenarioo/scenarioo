@@ -22,7 +22,6 @@ for filename in $all_update_scripts; do
 		echo -e "\e[00;31m>> $filename has already been executed\e[00m"
 	else
 		echo -e "\e[00;32m>> executing $filename \e[00m"
-		read 
 		$filename
 		if [ $? -eq 0 ]; then
 			echo $filename >> $vmupdatelog
