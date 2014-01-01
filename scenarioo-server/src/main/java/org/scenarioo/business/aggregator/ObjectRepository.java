@@ -171,15 +171,7 @@ public class ObjectRepository {
 	 * Create reference or get it from pool if already available. This is done just to avoid out of memory because of a
 	 * lot of same references loaded from xml files.
 	 */
-	public ObjectReference createObjectReference(final String type, String name) {
-		
-		// TODO: this is only temporary workaround
-		// Just to avoid too long strings in memory (this is not the final solution avoid having too long names in
-		// general
-		if (name.length() > 100) {
-			name = name.substring(0, 100);
-		}
-		
+	public ObjectReference createObjectReference(final String type, final String name) {
 		ObjectReference newRef = new ObjectReference(type, name);
 		ObjectReference existingRef = objectReferencePool.get(newRef);
 		if (existingRef != null) {
