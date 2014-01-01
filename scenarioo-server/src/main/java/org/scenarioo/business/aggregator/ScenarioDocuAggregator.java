@@ -65,7 +65,7 @@ public class ScenarioDocuAggregator {
 	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
 	 * otherwise the data has to be recalculated.
 	 */
-	public static final String CURRENT_FILE_FORMAT_VERSION = "0.20";
+	public static final String CURRENT_FILE_FORMAT_VERSION = "0.21";
 	
 	private final static Logger LOGGER = Logger.getLogger(ScenarioDocuAggregator.class);
 	
