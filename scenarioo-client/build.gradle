@@ -1,5 +1,24 @@
+/* scenarioo-client
+ * Copyright (C) 2014, scenarioo.org Development Team
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+ 
 import org.gradle.api.tasks.Exec
 import org.apache.tools.ant.taskdefs.condition.Os
+
+apply plugin: 'base'
 
 task npm(type: Exec) {
    group = "Build"
@@ -10,7 +29,6 @@ task npm(type: Exec) {
 }
 
 task bower(type: Exec) {
-	
 	group ="Build"
 	description = "Installs all app components defined in bower.json"
 	commandLine = ["bower", "install"]
@@ -32,26 +50,31 @@ class GruntTask extends Exec {
    }
 }
 
-task unittests(type: GruntTask) {
+task test(type: GruntTask) {
    group = "Verification"
    description = "Runs the unit tests."
    gruntArgs = "test:unit"
 }
 
 
-task buildclient(type: GruntTask) {
-   group = "Verification"
+task build(type: GruntTask) {
+   group = "Build"
    description = "Builds the client web app."
    gruntArgs = "build"
 }
 
-buildclient.dependsOn npm
-buildclient.dependsOn bower
+task cleanApp(type: GruntTask) {
+	group = "Build"
+	description ="Cleans the client web app."
+	gruntArgs = "clean"
+}
 
-build.dependsOn buildclient
+clean.dependsOn cleanApp
 
 bower.dependsOn npm
-unittests.dependsOn bower 
 
-test.dependsOn unittests
+build.dependsOn npm
+build.dependsOn bower
+test.dependsOn build
 
+assemble.dependsOn test

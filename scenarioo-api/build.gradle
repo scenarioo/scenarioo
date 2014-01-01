@@ -22,8 +22,9 @@
 
 import javax.security.auth.login.ConfigurationSpi;
 
-apply plugin: 'maven-publish'
+
 apply plugin: 'eclipse-wtp'
+apply plugin: 'maven-publish'
 
 sourceCompatibility=1.6
 targetCompatibility=1.6

@@ -1,9 +1,11 @@
-
-subprojects {
-    apply plugin: 'java'
-    apply plugin: 'eclipse'
-    group = 'org.scenarioo'
+allprojects {
+	group = 'org.scenarioo'
     version = '0.1.16'
+}
+
+configure([project(":scenarioo-api"), project(":scenarioo-server"), project(":scenarioo-docu-generation-example")]) {
+    apply plugin: 'eclipse'
+    apply plugin: 'java'
     
 	configurations {
 	  compileOnly
@@ -36,7 +38,6 @@ subprojects {
 			plusConfigurations += configurations.compileOnly 
 		}
 	}
-
 }
 
 project(':scenarioo-api') {
@@ -50,10 +51,9 @@ project(':scenarioo-docu-generation-example') {
 
 project(':scenarioo-server') {
     dependencies {
-        compile project(':scenarioo-client')
         compile project(':scenarioo-api')
     }
 }
 
 task wrapper(type: Wrapper) {
-}
+}	
