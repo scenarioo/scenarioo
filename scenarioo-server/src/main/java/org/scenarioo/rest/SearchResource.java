@@ -22,22 +22,25 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.usecases.PageVariantsCounter;
-
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/search/")
 public class SearchResource {
 	
 	ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
 	
+	// TODO: this resource should be replaced by different data structure for PageVariantsNavigation for step views (put
+	// into StepResource!)
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	@Path("/pagevariants")
-	public PageVariantsCounter readUseCaseScenarios(@PathParam("branchName") final String branchName,
+	public PageVariantsCounter readPageVariantsCounter(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName) {
-		return dao.loadPageVariantsCounter(branchName, buildName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
+		return dao.loadPageVariantsCounter(branchName, resolvedBuildName);
 	}
 	
 }

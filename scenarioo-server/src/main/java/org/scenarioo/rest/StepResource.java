@@ -23,9 +23,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.entities.Step;
-
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/usecases/{usecaseName}/scenarios/{scenarioName}/steps/")
 public class StepResource {
@@ -41,7 +41,8 @@ public class StepResource {
 	public Step readScenarioWithPagesAndSteps(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName, @PathParam("stepIndex") final int stepIndex) {
-		return filesystem.loadStep(branchName, buildName, usecaseName, scenarioName, stepIndex);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
+		return filesystem.loadStep(branchName, resolvedBuildName, usecaseName, scenarioName, stepIndex);
 	}
 	
 }

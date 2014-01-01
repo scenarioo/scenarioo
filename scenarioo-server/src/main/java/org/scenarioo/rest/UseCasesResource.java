@@ -24,10 +24,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
-
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/usecases/")
 public class UseCasesResource {
@@ -38,7 +38,8 @@ public class UseCasesResource {
 	@Produces({ "application/xml", "application/json" })
 	public List<UseCaseScenarios> loadUseCaseScenariosList(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName) {
-		return dao.loadUseCaseScenariosList(branchName, buildName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
+		return dao.loadUseCaseScenariosList(branchName, resolvedBuildName);
 	}
 	
 }

@@ -24,6 +24,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
@@ -43,7 +44,8 @@ public class GenericObjectsResource {
 	@Produces({ "application/xml", "application/json" })
 	public List<ObjectDescription> readList(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("type") final String type) {
-		return dao.loadObjectsList(branchName, buildName, type).getItems();
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
+		return dao.loadObjectsList(branchName, resolvedBuildName, type).getItems();
 	}
 	
 	@GET
@@ -52,6 +54,7 @@ public class GenericObjectsResource {
 	public ObjectIndex readObjectIndex(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("type") final String objectType,
 			@PathParam("name") final String objectName) {
-		return dao.loadObjectIndex(branchName, buildName, objectType, objectName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
+		return dao.loadObjectIndex(branchName, resolvedBuildName, objectType, objectName);
 	}
 }

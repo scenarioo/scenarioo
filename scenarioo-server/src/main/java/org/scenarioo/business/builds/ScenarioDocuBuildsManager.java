@@ -69,6 +69,8 @@ public class ScenarioDocuBuildsManager {
 	
 	/**
 	 * Get branch builds list with those builds that are currently available (have been already successfully imported).
+	 * 
+	 * This list also contains aliases for most recent and last successful builds (which might be the same).
 	 */
 	public List<BranchBuilds> getAvailableBuilds() {
 		return availableBuilds.getBranchBuildsList();
@@ -79,6 +81,15 @@ public class ScenarioDocuBuildsManager {
 	 */
 	public List<BuildImportSummary> getBuildImportSummaries() {
 		return buildImporter.getBuildImportSummariesAsList();
+	}
+	
+	/**
+	 * Resolves possible alias names in 'buildName' for managed build alias links.
+	 * 
+	 * @return the name to use as build name for referencing this build.
+	 */
+	public String resolveAliasBuildName(final String branchName, final String buildName) {
+		return availableBuilds.resolveAliasBuildName(branchName, buildName);
 	}
 	
 	/**

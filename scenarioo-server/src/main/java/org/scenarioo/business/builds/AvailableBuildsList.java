@@ -47,6 +47,11 @@ public class AvailableBuildsList {
 	private Map<String, BranchBuilds> branchBuildsByBranchName = new HashMap<String, BranchBuilds>();
 	
 	/**
+	 * Special aliases to resolve when accessing a build.
+	 */
+	private Map<BuildIdentifier, BuildLink> buildAliases = new HashMap<BuildIdentifier, BuildLink>();
+	
+	/**
 	 * Get branch builds list with those builds that are currently available (have been already successfully imported).
 	 */
 	public synchronized List<BranchBuilds> getBranchBuildsList() {
@@ -147,20 +152,24 @@ public class AvailableBuildsList {
 		}
 		
 		// Update aliases
-		updateOrAddBuildAlias(lastRecentBuild, lastRecentBuildAlias, aliasForLastRecentBuild, branchBuilds.getBuilds());
+		updateOrAddBuildAlias(lastRecentBuild, lastRecentBuildAlias, aliasForLastRecentBuild, branchBuilds);
 		updateOrAddBuildAlias(lastSuccessfulBuild, lastSuccessfulBuildAlias, aliasForLastSuccessfulBuild,
-				branchBuilds.getBuilds());
+				branchBuilds);
 	}
 	
 	private void updateOrAddBuildAlias(final BuildLink buildLinkForAlias, final String aliasName,
-			final BuildLink existingAlias, final List<BuildLink> builds) {
+			final BuildLink existingAlias, final BranchBuilds branchBuilds) {
 		if (buildLinkForAlias != null) {
 			if (existingAlias == null) {
-				builds.add(new BuildLink(buildLinkForAlias.getBuild(), aliasName));
+				branchBuilds.getBuilds().add(new BuildLink(buildLinkForAlias.getBuild(), aliasName));
 			}
 			else {
 				existingAlias.setBuild(buildLinkForAlias.getBuild());
 			}
+			buildAliases.put(new BuildIdentifier(branchBuilds.getBranch().getName(), aliasName), buildLinkForAlias);
+		}
+		else {
+			buildAliases.remove(new BuildIdentifier(branchBuilds.getBranch().getName(), aliasName));
 		}
 	}
 	
@@ -185,6 +194,22 @@ public class AvailableBuildsList {
 		else {
 			// compare dates
 			return buildToCompareWith.getBuild().getDate().compareTo(build.getBuild().getDate()) < 0;
+		}
+	}
+	
+	/**
+	 * Resolves possible alias names in 'buildName' for managed build alias links.
+	 * 
+	 * @return the name to use as build name for referencing this build.
+	 */
+	public String resolveAliasBuildName(final String branchName, final String buildName) {
+		BuildIdentifier id = new BuildIdentifier(branchName, buildName);
+		BuildLink alias = buildAliases.get(id);
+		if (alias != null) {
+			return alias.getLinkName();
+		}
+		else {
+			return buildName;
 		}
 	}
 	

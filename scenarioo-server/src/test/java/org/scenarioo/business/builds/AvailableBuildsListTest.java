@@ -110,6 +110,33 @@ public class AvailableBuildsListTest {
 	}
 	
 	@Test
+	public void testResolveBuildNamesWithSomeSuccessfullyImportedBuilds() {
+		
+		// Given: Some simple builds and some of them successfully imported.
+		List<BranchBuilds> branchBuilds = new ArrayList<BranchBuilds>(Arrays.asList(
+				createBranchBuilds("trunk", build5, build1, build6, build3, build7),
+				createBranchBuilds("branch", build2, build4)));
+		Map<BuildIdentifier, BuildImportSummary> buildImportSummaries = createBuildImportSummaries(branchBuilds,
+				"build1", "build2", "build3", "build4", "build5");
+		
+		// When: updating the list of available builds and resolving some build names
+		availableBuildsList.updateBuildsWithSuccessfullyImportedBuilds(branchBuilds, buildImportSummaries);
+		String trunkCurrentBuildName = availableBuildsList.resolveAliasBuildName("trunk", "current");
+		String trunkRecentBuildName = availableBuildsList.resolveAliasBuildName("trunk", "recent");
+		String trunkBuild1BuildName = availableBuildsList.resolveAliasBuildName("trunk", "build1");
+		String branchCurrentBuildName = availableBuildsList.resolveAliasBuildName("branch", "current");
+		String branchRecentBuildName = availableBuildsList.resolveAliasBuildName("branch", "recent");
+		
+		// Then: Resolved build names are as expected (resolving aliases works)
+		assertEquals("build3", trunkCurrentBuildName);
+		assertEquals("build5", trunkRecentBuildName);
+		assertEquals("build1", trunkBuild1BuildName);
+		assertEquals("build2", branchCurrentBuildName);
+		assertEquals("build4", branchRecentBuildName);
+		
+	}
+	
+	@Test
 	public void testAddImportedBuilds() {
 		
 		// Given: Some simple builds and none successfully imported yet.

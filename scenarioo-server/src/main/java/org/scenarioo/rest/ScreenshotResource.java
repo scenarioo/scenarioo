@@ -28,8 +28,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
-
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/usecases/{usecaseName}/scenarios/{scenarioName}/image/{imgName}")
 public class ScreenshotResource {
@@ -41,7 +41,8 @@ public class ScreenshotResource {
 	public Response getScreenshot(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName, @PathParam("imgName") final String imgName) {
-		File img = filesystem.getScreenshotFile(branchName, buildName, usecaseName, scenarioName, imgName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
+		File img = filesystem.getScreenshotFile(branchName, resolvedBuildName, usecaseName, scenarioName, imgName);
 		if (img == null || !img.exists()) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
