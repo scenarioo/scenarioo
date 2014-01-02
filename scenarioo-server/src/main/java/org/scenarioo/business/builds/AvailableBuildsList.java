@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
@@ -34,6 +35,8 @@ import org.scenarioo.model.docu.derived.BuildLink;
  * This list only contains those builds that have been successfully imported and are currently accessible.
  */
 public class AvailableBuildsList {
+	
+	private static final Logger LOGGER = Logger.getLogger(AvailableBuildsList.class);
 	
 	/**
 	 * Only the successfully imported builds that are available and can be accessed.
@@ -90,11 +93,9 @@ public class AvailableBuildsList {
 			result.add(resultBranchBuilds);
 		}
 		updateBuilds(result);
+		logAvailableBuildsInformation();
 	}
 	
-	/**
-	 * @param result
-	 */
 	private synchronized void updateBuilds(final List<BranchBuilds> result) {
 		this.branchBuildsList = result;
 		branchBuildsByBranchName.clear();
@@ -118,10 +119,12 @@ public class AvailableBuildsList {
 				return;
 			}
 		}
+		throw new IllegalStateException("Branch '" + summary.getIdentifier().getBranchName()
+				+ "' was not found in available builds list for newly imported build.");
 	}
 	
 	/**
-	 * Find the most recent builds (both successful and unsuccessful) and tag them with a special alias names
+	 * Find the most recent builds (both successful and unsuccessful) and tag them with special alias names
 	 */
 	private void updateAliasesForRecentBuilds(final BranchBuilds branchBuilds) {
 		
@@ -210,6 +213,30 @@ public class AvailableBuildsList {
 		}
 		else {
 			return buildName;
+		}
+	}
+	
+	/**
+	 * Logs some information about currently available builds in the log file.
+	 */
+	public void logAvailableBuildsInformation() {
+		LOGGER.info("Number of available branches: " + branchBuildsList.size());
+		if (branchBuildsList.size() == 0) {
+			LOGGER.warn("No branches found, please check the configured documentation directory and whether each of the contained branch directories contains a branch.xml to describe the branch properly.");
+		}
+		for (BranchBuilds branchBuilds : branchBuildsList) {
+			int numberOfBuilds = 0;
+			int numberOfBuildAliases = 0;
+			for (BuildLink link : branchBuilds.getBuilds()) {
+				if (link.getLinkName().equals(link.getBuild().getName())) {
+					numberOfBuilds++;
+				}
+				else {
+					numberOfBuildAliases++;
+				}
+			}
+			LOGGER.info("Branch '" + branchBuilds.getBranch().getName() + "' contains " + numberOfBuilds
+					+ " usual builds and " + numberOfBuildAliases + " build aliases");
 		}
 	}
 	

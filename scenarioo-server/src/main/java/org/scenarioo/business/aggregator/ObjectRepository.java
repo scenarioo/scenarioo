@@ -291,10 +291,7 @@ public class ObjectRepository {
 		for (Entry<ObjectReference, ObjectReferenceTreeBuilder> objectRefTreeBuilder : objectReferences.entrySet()) {
 			ObjectReference objectRef = objectRefTreeBuilder.getKey();
 			ObjectReferenceTreeBuilder referenceTreeBuilder = objectRefTreeBuilder.getValue();
-			if (!dao.isObjectDescriptionSaved(branchName, buildName, objectRef.getType(), objectRef.getName())) {
-				LOGGER.warn("No Object Description for object found, therefore not remembering index for this object: (type='"
-						+ objectRef.getType() + ", name=" + objectRef.getName() + "').");
-			} else {
+			if (dao.isObjectDescriptionSaved(branchName, buildName, objectRef.getType(), objectRef.getName())) {
 				ObjectIndex index = dao.loadObjectIndexIfExistant(branchName, buildName, objectRef.getType(),
 						objectRef.getName());
 				if (index == null) {

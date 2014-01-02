@@ -99,7 +99,7 @@ public class BuildImporter {
 			if (summary != null) {
 				if (summary.getStatus().isImportNeeded()
 						&& !buildsInProcessingQueue.contains(buildIdentifier)) {
-					LOGGER.info("   Submitting build for import: " + buildIdentifier.getBranchName() + "/"
+					LOGGER.info("  Submitting build for import: " + buildIdentifier.getBranchName() + "/"
 							+ buildIdentifier.getBuildName());
 					summary.setStatus(BuildImportStatus.QUEUED_FOR_PROCESSING);
 					asyncBuildImportExecutor.execute(new Runnable() {
@@ -117,7 +117,7 @@ public class BuildImporter {
 		try {
 			LOGGER.info(" ============= START OF ASYNC BUILD IMPORT =================");
 			LOGGER.info("  Importing build: " + summary.getIdentifier().getBranchName() + "/"
-					+ summary.getBuildDescription().getName());
+					+ summary.getIdentifier().getBuildName());
 			LOGGER.info("  This might take a while ...");
 			
 			summary = buildImportSummaries.get(summary.getIdentifier());
@@ -125,17 +125,17 @@ public class BuildImporter {
 			
 			ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator();
 			if (!aggregator.containsAggregatedDataForBuild(summary.getIdentifier().getBranchName(),
-					summary.getBuildDescription().getName())) {
+					summary.getIdentifier().getBuildName())) {
 				aggregator.calculateAggregatedDataForBuild(summary.getIdentifier().getBranchName(),
-						summary.getBuildDescription().getName());
+						summary.getIdentifier().getBuildName());
 				addSuccessfullyImportedBuild(availableBuilds, summary);
 				LOGGER.info("  SUCCESS on importing build: " + summary.getIdentifier().getBranchName() + "/"
-						+ summary.getBuildDescription().getName());
+						+ summary.getIdentifier().getBuildName());
 			}
 			else {
 				addSuccessfullyImportedBuild(availableBuilds, summary);
-				LOGGER.info("  ALREADY IMPORTED build: " + summary.getIdentifier().getBranchName() + "/"
-						+ summary.getBuildDescription().getName());
+				LOGGER.info("  ADDED ALREADY IMPORTED build: " + summary.getIdentifier().getBranchName() + "/"
+						+ summary.getIdentifier().getBuildName());
 			}
 			LOGGER.info(" ============= END OF ASYNC BUILD IMPORT (success) ===========");
 		} catch (Throwable e) {
