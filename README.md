@@ -16,3 +16,5 @@ https://github.com/scenarioo/scenarioo/wiki
 
 License: see https://github.com/scenarioo/scenarioo/blob/master/LICENSE.txt
 
+[![Build Status](http://forkch.dyndns.org/jenkins/job/scenarioo/badge/icon)](http://forkch.dyndns.org/jenkins/job/scenarioo/)
+
