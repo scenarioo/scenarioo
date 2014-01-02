@@ -70,6 +70,7 @@ task cleanApp(type: GruntTask) {
 }
 
 clean.dependsOn cleanApp
+cleanApp.dependsOn npm
 
 bower.dependsOn npm
 
