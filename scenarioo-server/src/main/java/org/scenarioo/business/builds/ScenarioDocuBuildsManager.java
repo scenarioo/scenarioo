@@ -30,7 +30,9 @@ import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
+import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
+import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.model.docu.entities.Branch;
 
 /**
@@ -50,6 +52,12 @@ public class ScenarioDocuBuildsManager {
 	public static ScenarioDocuBuildsManager INSTANCE = new ScenarioDocuBuildsManager();
 	
 	private static final Logger LOGGER = Logger.getLogger(ScenarioDocuBuildsManager.class);
+	
+	/**
+	 * Cached long object name resolver for most recently loaded builds and branches. Is cleared whenever new builds are
+	 * imported.
+	 */
+	private Map<BuildIdentifier, LongObjectNamesResolver> longObjectNamesResolvers = new HashMap<BuildIdentifier, LongObjectNamesResolver>();
 	
 	/**
 	 * Only the successfully imported builds that are available and can be accessed.
@@ -84,12 +92,15 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	/**
-	 * Resolves possible alias names in 'buildName' for managed build alias links.
+	 * Resolves possible alias names in 'buildName' for managed build alias links. Also validates that the passed branch
+	 * and build represents a valid build (imported successfully otherwise an exception is thrown)
 	 * 
 	 * @return the name to use as build name for referencing this build.
 	 */
 	public String resolveAliasBuildName(final String branchName, final String buildName) {
-		return availableBuilds.resolveAliasBuildName(branchName, buildName);
+		String resolvedBuildName = availableBuilds.resolveAliasBuildName(branchName, buildName);
+		validateBuildIsSuccessfullyImported(branchName, resolvedBuildName);
+		return resolvedBuildName;
 	}
 	
 	/**
@@ -114,6 +125,7 @@ public class ScenarioDocuBuildsManager {
 		else {
 			LOGGER.info("  Processing documentation content data in directory: " + docuDirectory.getAbsoluteFile());
 			updateBuildImportStatesAndAvailableBuildsList();
+			longObjectNamesResolvers.clear();
 			buildImporter.submitUnprocessedBuildsForImport(availableBuilds);
 		}
 		LOGGER.info("******************** update finished *******************************");
@@ -150,6 +162,32 @@ public class ScenarioDocuBuildsManager {
 			result.add(branchBuilds);
 		}
 		return result;
+	}
+	
+	public LongObjectNamesResolver getLongObjectNameResolver(final String branchName, final String buildName) {
+		ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
+				ConfigurationDAO.getDocuDataDirectoryPath());
+		BuildIdentifier buildId = new BuildIdentifier(branchName, buildName);
+		validateBuildIsSuccessfullyImported(branchName, buildName);
+		LongObjectNamesResolver longObjectNamesResolver = longObjectNamesResolvers.get(buildId);
+		if (longObjectNamesResolver == null) {
+			longObjectNamesResolver = dao.loadLongObjectNamesIndex(branchName, buildName);
+			longObjectNamesResolvers.put(buildId, longObjectNamesResolver);
+		}
+		return longObjectNamesResolver;
+	}
+	
+	/**
+	 * Throws an exception if the passed build is unavailable or not yet properly imported. Only passes if the build has
+	 * status {@link BuildImportStatus#SUCCESS}
+	 */
+	public void validateBuildIsSuccessfullyImported(final String branchName, final String buildName) {
+		BuildIdentifier buildId = new BuildIdentifier(branchName, buildName);
+		BuildImportSummary buildState = buildImporter.getBuildImportSummaries().get(buildId);
+		if (buildState == null || !buildState.getStatus().isSuccess()) {
+			throw new IllegalArgumentException("Not allowed to access this build " + buildId
+					+ ". It is unavailable, or not yet imported or updated successfully.");
+		}
 	}
 	
 }

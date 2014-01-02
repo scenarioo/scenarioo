@@ -45,9 +45,13 @@ public enum Service {
 			"Service to load a list of ambiguities to display to the user for a ambiguous search."),
 	CONTENT_LOAD("ContentService.loadPage", "TIBCO:PageContentService.getPage", "ContentDB.loadPage",
 			"Service to load the whole page content of a page"),
-	AUTHENTICATION_CHECK("AuthenticationService.checkUserAuthenticated", "LDAP:AuthenticationService",
+	AUTHENTICATION_CHECK(
+			"AuthenticationService.checkUserAuthenticatedServiceOperationWithAVeryVeryVeryUglyAndLongOperationNameJustToCheckHandlingOfLongNames",
+			"LDAP:AuthenticationService",
 			"Service to check via LDAP the authentication for a user for given operation."),
-	CONTENT_SAVE("ContentService.savePage", "TIBCO:PageContentService.updatePage", "ContentDB.savePage",
+	CONTENT_SAVE(
+			"ContentService.savePage",
+			"TIBCO:PageContentService.updatePage", "ContentDB.savePage",
 			"Service to save the updated page content as edited by a user");
 	
 	private String name;

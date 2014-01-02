@@ -25,8 +25,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
-import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 
@@ -35,17 +33,14 @@ import org.scenarioo.model.docu.entities.generic.ObjectDescription;
  * such objects are referenced (on which steps, pages etc.)
  */
 @Path("/rest/branches/{branchName}/builds/{buildName}/objects/{type}")
-public class GenericObjectsResource {
-	
-	private final ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
-			ConfigurationDAO.getDocuDataDirectoryPath());
+public class GenericObjectsResource extends AbstractBuildContentResource {
 	
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	public List<ObjectDescription> readList(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("type") final String type) {
 		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
-		return dao.loadObjectsList(branchName, resolvedBuildName, type).getItems();
+		return getDAO(branchName, buildName).loadObjectsList(branchName, resolvedBuildName, type).getItems();
 	}
 	
 	@GET
@@ -55,6 +50,6 @@ public class GenericObjectsResource {
 			@PathParam("buildName") final String buildName, @PathParam("type") final String objectType,
 			@PathParam("name") final String objectName) {
 		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
-		return dao.loadObjectIndex(branchName, resolvedBuildName, objectType, objectName);
+		return getDAO(branchName, buildName).loadObjectIndex(branchName, resolvedBuildName, objectType, objectName);
 	}
 }

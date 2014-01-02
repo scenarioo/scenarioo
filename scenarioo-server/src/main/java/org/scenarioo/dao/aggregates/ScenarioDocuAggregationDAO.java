@@ -31,6 +31,8 @@ import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummaries;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
+import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
+import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolverTest;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.PageVariantsCounter;
@@ -48,6 +50,9 @@ import org.scenarioo.model.docu.entities.generic.ObjectReference;
  * 
  * Data that is not available directly from a file should be precalculated in {@link ScenarioDocuAggregator} to make it
  * easily available for DAO.
+ * 
+ * If accessing data for a specific build you have to make sure to use the constructor that initializes the
+ * {@link LongObjectNamesResolverTest} with the object names as available for the specific build you want to access.
  */
 public class ScenarioDocuAggregationDAO {
 	
@@ -57,8 +62,15 @@ public class ScenarioDocuAggregationDAO {
 	
 	private final ScenarioDocuAggregationFiles files;
 	
+	private LongObjectNamesResolver longObjectNameResolver = null;
+	
 	public ScenarioDocuAggregationDAO(final File rootDirectory) {
 		files = new ScenarioDocuAggregationFiles(rootDirectory);
+	}
+	
+	public ScenarioDocuAggregationDAO(final File rootDirectory, final LongObjectNamesResolver longObjectNameResolver) {
+		files = new ScenarioDocuAggregationFiles(rootDirectory);
+		this.longObjectNameResolver = longObjectNameResolver;
 	}
 	
 	public String loadVersion(final String branchName, final String buildName) {
@@ -147,25 +159,28 @@ public class ScenarioDocuAggregationDAO {
 	
 	public boolean isObjectDescriptionSaved(final String branchName, final String buildName,
 			final ObjectDescription objectDescription) {
-		return isObjectDescriptionSaved(branchName, buildName, objectDescription.getType(), objectDescription.getName());
+		return isObjectDescriptionSaved(branchName, buildName, objectDescription.getType(),
+				resolveObjectFileName(objectDescription.getName()));
 	}
 	
 	public boolean isObjectDescriptionSaved(final String branchName, final String buildName, final String type,
 			final String name) {
-		File objectFile = files.getObjectFile(branchName, buildName, type, name);
+		File objectFile = files.getObjectFile(branchName, buildName, type, resolveObjectFileName(name));
 		return objectFile.exists();
 	}
 	
 	public void saveObjectDescription(final String branchName, final String buildName,
 			final ObjectDescription objectDescription) {
-		File objectFile = files.getObjectFile(branchName, buildName, objectDescription);
+		File objectFile = files.getObjectFile(branchName, buildName, objectDescription.getType(),
+				resolveObjectFileName(objectDescription.getName()));
 		objectFile.getParentFile().mkdirs();
 		ScenarioDocuXMLFileUtil.marshal(objectDescription, objectFile);
 	}
 	
 	public ObjectDescription loadObjectDescription(final String branchName, final String buildName,
 			final ObjectReference objectRef) {
-		File objectFile = files.getObjectFile(branchName, buildName, objectRef);
+		File objectFile = files.getObjectFile(branchName, buildName, objectRef.getType(),
+				resolveObjectFileName(objectRef.getName()));
 		return loadObjectDescription(objectFile);
 	}
 	
@@ -175,14 +190,15 @@ public class ScenarioDocuAggregationDAO {
 	
 	public void saveObjectIndex(final String branchName, final String buildName, final ObjectIndex objectIndex) {
 		File objectFile = files.getObjectIndexFile(branchName, buildName, objectIndex.getObject().getType(),
-				objectIndex.getObject().getName());
+				resolveObjectFileName(objectIndex.getObject().getName()));
 		objectFile.getParentFile().mkdirs();
 		ScenarioDocuXMLFileUtil.marshal(objectIndex, objectFile);
 	}
 	
 	public ObjectIndex loadObjectIndex(final String branchName, final String buildName,
 			final String objectType, final String objectName) {
-		File objectFile = files.getObjectIndexFile(branchName, buildName, objectType, objectName);
+		File objectFile = files
+				.getObjectIndexFile(branchName, buildName, objectType, resolveObjectFileName(objectName));
 		return ScenarioDocuXMLFileUtil.unmarshal(ObjectIndex.class, objectFile);
 	}
 	
@@ -203,11 +219,20 @@ public class ScenarioDocuAggregationDAO {
 		return files;
 	}
 	
+	public String resolveObjectFileName(final String objectName) {
+		if (longObjectNameResolver == null) {
+			throw new IllegalStateException(
+					"Not allowed to access objects without having LongObjectNameResolver initialized properly on the DAO. Please use ScenarioDocuAggregationDAO constructor with addtional parameter to pass a LongObjectNamesResolver for current build that you try to access.");
+		}
+		return longObjectNameResolver.resolveObjectFileName(objectName);
+	}
+	
 	public ObjectIndex loadObjectIndexIfExistant(final String branchName, final String buildName,
 			final String objectType, final String objectName) {
-		File objectFile = files.getObjectIndexFile(branchName, buildName, objectType, objectName);
+		String resolvedObjectName = resolveObjectFileName(objectName);
+		File objectFile = files.getObjectIndexFile(branchName, buildName, objectType, resolvedObjectName);
 		if (objectFile.exists()) {
-			return loadObjectIndex(branchName, buildName, objectType, objectName);
+			return loadObjectIndex(branchName, buildName, objectType, resolvedObjectName);
 		}
 		else {
 			return null;
@@ -236,6 +261,17 @@ public class ScenarioDocuAggregationDAO {
 	public void saveBuildImportSummaries(final List<BuildImportSummary> summariesToSave) {
 		BuildImportSummaries summaries = new BuildImportSummaries(summariesToSave);
 		ScenarioDocuXMLFileUtil.marshal(summaries, files.getBuildStatesFile());
+	}
+	
+	public void saveLongObjectNamesIndex(final String branchName, final String buildName,
+			final LongObjectNamesResolver longObjectNamesResolver) {
+		File longObjectNamesFile = files.getLongObjectNamesIndexFile(branchName, buildName);
+		ScenarioDocuXMLFileUtil.marshal(longObjectNamesResolver, longObjectNamesFile);
+	}
+	
+	public LongObjectNamesResolver loadLongObjectNamesIndex(final String branchName, final String buildName) {
+		File longObjectNamesFile = files.getLongObjectNamesIndexFile(branchName, buildName);
+		return ScenarioDocuXMLFileUtil.unmarshal(LongObjectNamesResolver.class, longObjectNamesFile);
 	}
 	
 }

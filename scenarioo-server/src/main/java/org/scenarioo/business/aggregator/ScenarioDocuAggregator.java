@@ -34,6 +34,7 @@ import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
+import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.PageVariantsCounter;
@@ -65,14 +66,16 @@ public class ScenarioDocuAggregator {
 	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
 	 * otherwise the data has to be recalculated.
 	 */
-	public static final String CURRENT_FILE_FORMAT_VERSION = "0.21";
+	public static final String CURRENT_FILE_FORMAT_VERSION = "0.22";
 	
 	private final static Logger LOGGER = Logger.getLogger(ScenarioDocuAggregator.class);
 	
 	private final ScenarioDocuReader reader = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
 	
+	private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
+	
 	private final ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
-			ConfigurationDAO.getDocuDataDirectoryPath());
+			ConfigurationDAO.getDocuDataDirectoryPath(), longObjectNamesResolver);
 	
 	private final Map<String, StepVariantState> mapOfStepVariant = new HashMap<String, StepVariantState>();
 	
@@ -133,9 +136,11 @@ public class ScenarioDocuAggregator {
 		
 		dao.saveUseCaseScenariosList(branchName, buildName, useCaseScenariosList);
 		
-		dao.saveVersion(branchName, buildName, CURRENT_FILE_FORMAT_VERSION);
-		
 		objectRepository.calculateAndSaveObjectLists();
+		
+		dao.saveLongObjectNamesIndex(branchName, buildName, longObjectNamesResolver);
+		
+		dao.saveVersion(branchName, buildName, CURRENT_FILE_FORMAT_VERSION);
 		
 	}
 	

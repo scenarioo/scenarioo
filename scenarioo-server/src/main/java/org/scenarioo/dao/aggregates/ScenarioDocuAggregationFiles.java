@@ -22,8 +22,6 @@ import java.util.List;
 
 import org.scenarioo.api.files.ScenarioDocuFiles;
 import org.scenarioo.api.util.files.FilesUtil;
-import org.scenarioo.model.docu.entities.generic.ObjectDescription;
-import org.scenarioo.model.docu.entities.generic.ObjectReference;
 
 /**
  * Defines locations of aggregated files containing aggregated (=derived) data from documentation input data.
@@ -37,6 +35,7 @@ public class ScenarioDocuAggregationFiles {
 	private static final String FILENAME_SCENARIOS_XML = "scenarios.derived.xml";
 	private static final String FILENAME_SCENARIO_PAGE_STEPS_XML = "scenarioPageSteps.derived.xml";
 	private static final String FILENAME_PAGE_VARIANT_COUNTERS_XML = "pageVariantCounters.derived.xml";
+	private static final String FILENAME_LONG_OBJECT_NAMES_INDEX = "longObjectNamesIndex.derived.xml";
 	
 	private ScenarioDocuFiles docuFiles;
 	
@@ -87,18 +86,10 @@ public class ScenarioDocuAggregationFiles {
 				DIRECTORY_NAME_OBJECT_INDEXES);
 	}
 	
-	public File getObjectFile(final String branchName, final String buildName, final ObjectDescription objectDescription) {
-		return getObjectFile(branchName, buildName, objectDescription.getType(), objectDescription.getName());
-	}
-	
 	public File getObjectFile(final String branchName, final String buildName, final String objectType,
 			final String objectName) {
 		File objectsDir = getObjectsDirectoryForObjectType(branchName, buildName, objectType);
 		return new File(objectsDir, FilesUtil.encodeName(objectName) + ".description.xml");
-	}
-	
-	public File getObjectFile(final String branchName, final String buildName, final ObjectReference objectRef) {
-		return getObjectFile(branchName, buildName, objectRef.getType(), objectRef.getName());
 	}
 	
 	public File getObjectListFile(final String branchName, final String buildName, final String type) {
@@ -117,6 +108,13 @@ public class ScenarioDocuAggregationFiles {
 	
 	public List<File> getObjectFiles(final String branchName, final String buildName, final String typeName) {
 		return FilesUtil.getListOfFiles(getObjectsDirectoryForObjectType(branchName, buildName, typeName));
+	}
+	
+	/**
+	 * File to store short name aliases for file names for long object names.
+	 */
+	public File getLongObjectNamesIndexFile(final String branchName, final String buildName) {
+		return new File(docuFiles.getBuildDirectory(branchName, buildName), FILENAME_LONG_OBJECT_NAMES_INDEX);
 	}
 	
 }
