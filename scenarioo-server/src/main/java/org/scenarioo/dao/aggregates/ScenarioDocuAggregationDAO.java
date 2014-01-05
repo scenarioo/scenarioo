@@ -32,7 +32,6 @@ import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummaries;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
-import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolverTest;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.PageVariantsCounter;
@@ -52,7 +51,7 @@ import org.scenarioo.model.docu.entities.generic.ObjectReference;
  * easily available for DAO.
  * 
  * If accessing data for a specific build you have to make sure to use the constructor that initializes the
- * {@link LongObjectNamesResolverTest} with the object names as available for the specific build you want to access.
+ * {@link LongObjectNamesResolver} with the object names as available for the specific build you want to access.
  */
 public class ScenarioDocuAggregationDAO {
 	
