@@ -27,6 +27,7 @@ import javax.ws.rs.Produces;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
+import org.scenarioo.rest.base.AbstractBuildContentResource;
 
 /**
  * Resource for getting access to generic objects stored inside the documentation with detail informations about where
