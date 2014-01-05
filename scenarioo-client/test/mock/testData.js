@@ -44,6 +44,15 @@ angular.module('scenarioo.services').service('TestData', function () {
             ]}
         ],
 
+        BUILD_IMPORT_STATES: [
+            {
+                "buildDescription": {"details":{},"revision":"123456","status":"success","date":1388879915785,"name":"example-build"},
+                "importDate":1388620336537,
+                "status":"SUCCESS",
+                "identifier":{"branchName":"example-branch","buildName":"example-build"}
+            }
+        ],
+
         USECASES: [
             {'useCase': {'details': {'webtestClass': 'org.scenarioo.uitest.example.testcases.FindPageUITest'}, 'status': 'success', 'description': 'User wants to search for a page and read it.', 'name': 'Find Page'}, 'scenarios': [
                 {'details': {'userRole': 'unauthenticated'}, 'status': 'success', 'description': 'User enters text that is not found in pages content.', 'calculatedData': {'numberOfPages': 1, 'numberOfSteps': 3}, 'name': 'find_page_no_result'},

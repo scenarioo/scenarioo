@@ -63,6 +63,23 @@ function getPromise($q, fn) {
     };
 }
 
+
+angular.module('scenarioo.services').factory('BranchesResource', function (ScenariooResource) {
+    return ScenariooResource('/branches', {}, {});
+});
+
+angular.module('scenarioo.services').factory('BuildImportStatesResource', function (ScenariooResource) {
+    return ScenariooResource('/admin/buildImportSummaries', {}, {});
+});
+
+angular.module('scenarioo.services').factory('BuildImportService', function (ScenariooResource, $q) {
+    var buildImportService = ScenariooResource('/admin/update', {});
+    buildImportService.updateData = getPromise($q, function (parameters, fnSuccess, fnError) {
+        return buildImportService.get(parameters, fnSuccess, fnError);
+    });
+    return buildImportService;
+});
+
 angular.module('scenarioo.services').factory('UseCaseService', function (ScenariooResource, $q) {
     var useCaseService = ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName',
         {   branchName: '@branchName',
@@ -101,22 +118,8 @@ angular.module('scenarioo.services').factory('StepService', function (ScenariooR
     return stepService;
 });
 
-angular.module('scenarioo.services').factory('AdminService', function (ScenariooResource, $q) {
-    var adminService = ScenariooResource('/admin/update', {});
-
-    adminService.updateData = getPromise($q, function (parameters, fnSuccess, fnError) {
-        return adminService.get(parameters, fnSuccess, fnError);
-    });
-
-    return adminService;
-});
-
 angular.module('scenarioo.services').factory('ConfigResource', function (ScenariooResource) {
     return ScenariooResource('/configuration', {});
-});
-
-angular.module('scenarioo.services').factory('BranchesResource', function (ScenariooResource) {
-    return ScenariooResource('/branches', {}, {});
 });
 
 angular.module('scenarioo.services').factory('UseCasesResource', function (ScenariooResource) {

@@ -17,37 +17,41 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope, $location, SelectedBranchAndBuild, UseCasesResource, BranchesAndBuilds) {
+angular.module('scenarioo.controllers').controller('MainGenericObjectsTabCtrl', function ($scope, $location, SelectedBranchAndBuild, ObjectsForTypeResource) {
 
-    SelectedBranchAndBuild.callOnSelectionChange(loadBuilds);
+    SelectedBranchAndBuild.callOnSelectionChange(loadGenericObjects);
 
-    function loadBuilds(selected) {
-        BranchesAndBuilds.getBranchesAndBuilds(
-            function onSuccess(branchesAndBuilds) {
-                $scope.branchesAndBuilds = branchesAndBuilds;
+    function loadGenericObjects(selected) {
+        ObjectsForTypeResource.query({'branchName': selected.branch, 'buildName': selected.build},
+            function onSuccess(result) {
+                $scope.objectDescriptions = result;
             }
         );
     }
 
-    $scope.tabs= [
-        {
-          title: "Use Cases",
-          contentViewUrl: "/views/mainUseCasesTab.html",
-          active: true
-        },
-        {
-            title: "Builds",
-            contentViewUrl: "/views/mainBuildsTab.html"
-        }
-    ];
+    $scope.table = {search: {searchTerm: ''}, sort: {column: 'useCase.name', reverse: false}, filtering: false};
 
-    $scope.getLazyTabContentViewUrl = function(tab) {
-        // Only return the tab src as soon as tab is active
-        if (tab.active) {
-            return tab.contentViewUrl;
+    $scope.resetSearchField = function () {
+        $scope.table.search = {searchTerm: ''};
+    };
+
+    $scope.toggleFilter = function () {
+        $scope.table.filtering = !$scope.table.filtering;
+        if (!$scope.table.filtering) {
+            // Removes filter values when filter is switched off
+            var searchTerm = $scope.table.search.searchTerm;
+            $scope.table.search = { searchTerm: searchTerm };
         }
-        else {
-            return null;
+    };
+
+    $scope.genericObjectsTypes = {selected: null};
+    $scope.genericObjectsTypeFilter = function (genericObjectTabs) {
+        if ($scope.genericObjectsTypes.selected) {
+            if ($scope.genericObjectsTypes.selected.objectType === genericObjectTabs.type) {
+                return true;
+            }
+        } else {
+            return true;
         }
     };
 

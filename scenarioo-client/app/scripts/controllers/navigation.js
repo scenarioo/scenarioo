@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchesAndBuilds, AdminService, $rootScope, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchesAndBuilds, BuildImportService, $rootScope, SelectedBranchAndBuild) {
 
     /**
      * is set to true while server is updating it's docu
@@ -67,7 +67,7 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
     $scope.aggregate = function () {
         $scope.aggregationInProgress = true;
 
-        var result = AdminService.updateData({});
+        var result = BuildImportService.updateData({});
         result.then(function () {
             $scope.aggregationInProgress = false;
         }, function () {

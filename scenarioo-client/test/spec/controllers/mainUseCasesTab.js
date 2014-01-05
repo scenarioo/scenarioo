@@ -17,9 +17,9 @@
 
 'use strict';
 
-describe('Controller MainCtrl', function () {
+describe('Controller MainUseCasesTabCtrl', function () {
 
-    var $location, $httpBackend, HostnameAndPort, TestData, $scope, MainCtrl;
+    var $location, $httpBackend, HostnameAndPort, TestData, $scope, MainUseCasesTabCtrl;
 
     beforeEach(module('scenarioo.controllers'));
 
@@ -30,34 +30,39 @@ describe('Controller MainCtrl', function () {
             TestData = _TestData_;
 
             $scope = $rootScope.$new();
-            MainCtrl = $controller('MainCtrl', {$scope: $scope});
+            MainUseCasesTabCtrl = $controller('MainUseCasesTabCtrl', {$scope: $scope});
         }
     ));
 
-    it('does return NO src-URL to load for lazy loaded second tab when not yet activated', function () {
-        expect($scope.getLazyTabContentViewUrl($scope.tabs[1])).toBeNull();
+    it('has no usecases and builds set in the beginning', function () {
+        expect($scope.useCases).toBeUndefined();
+        expect($scope.branchesAndBuilds).toBeUndefined();
     });
 
-    it('does return the expected src-URL to load tab content for first tab', function () {
-        expect($scope.getLazyTabContentViewUrl($scope.tabs[0])).toEqual('/views/mainUseCasesTab.html');
+    it('navigates to use case when link is clicked', function () {
+        expect($location.path()).toBe('');
+
+        $scope.goToUseCase('DisplayWeather');
+
+        expect($location.path()).toBe('/usecase/DisplayWeather');
     });
 
-    it('has no builds set in the beginning', function () {
-         expect($scope.branchesAndBuilds).toBeUndefined();
-    });
-
-    it('loads builds when branch and build selection changes', function () {
+    it('loads use cases and builds when branch and build selection changes', function () {
+        var USECASES_URL = HostnameAndPort.forTest() + '/scenarioo/rest/branches/release-branch-2014-01-16/builds/example-build/usecases';
         var BRANCHES_URL = HostnameAndPort.forTest() + '/scenarioo/rest/branches';
+
+        $httpBackend.whenGET(USECASES_URL).respond(TestData.USECASES);
         $httpBackend.whenGET(BRANCHES_URL).respond(TestData.BRANCHES);
+
         $location.url('/?branch=release-branch-2014-01-16&build=example-build');
         $scope.$apply();
 
         $httpBackend.flush();
 
+        expect($scope.useCases).toEqualData(TestData.USECASES);
         expect($scope.branchesAndBuilds.branches).toEqualData(TestData.BRANCHES);
         expect($scope.branchesAndBuilds.selectedBranch).toEqualData(TestData.BRANCHES[1]);
         expect($scope.branchesAndBuilds.selectedBuild).toEqualData(TestData.BRANCHES[1].builds[0]);
-
     });
 
 });

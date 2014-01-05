@@ -24,6 +24,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
@@ -32,14 +33,16 @@ import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 @Path("/rest/branches/{branchName}/builds/{buildName}/usecases/")
 public class UseCasesResource {
 	
+	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
+	
 	ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
 	
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	public List<UseCaseScenarios> loadUseCaseScenariosList(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName) {
+		LOGGER.info("REQUEST: loadUseCaseScenariosList(" + branchName + ", " + buildName + ")");
 		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
 		return dao.loadUseCaseScenariosList(branchName, resolvedBuildName);
 	}
-	
 }

@@ -17,87 +17,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumb></sc-breadcrumb>
 
+
+<!-- Tabs on the main page -->
 <tabset class="step-panes">
-    <tab heading="Use Cases">
-        <div class="row ngusd-space-top ngusd-space-bottom">
-            <div class="col-lg-3">
-                <div class="input-group">
-                    <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="useCasesSearchField" data-toggle="tooltip" title="filter for use case" ng-model="table.search.searchTerm" placeholder="Search use case..."/>
-                    <span class="input-group-btn">
-                        <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
-                    </span>
-                </div>
-            </div>
-            <div class="col-lg-9">
-                <span class="pull-right">
-                    <button ng-click="toggleFilter()" class="btn btn-default">
-                        <span ng-show="!table.filtering">Show filter</span>
-                        <span ng-show="table.filtering">Hide filter</span>
-                    </button>
-                </span>
-            </div>
-        </div>
 
-        <!-- use cases table -->
-        <table ng-table="tableParams" class="table table-curved table-hover table-responsive " ng-model="sort">
-            <thead>
-                <tr>
-                    <th sortandfilter="useCase.status">Status</th>
-                    <th sortandfilter="useCase.name">Name</th>
-                    <th>Description</th>
-                    <th sortandfilter="scenarios.length" class="filter-none"># Scenarios</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="useCaseScenarios in useCases | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse" ng-click="goToUseCase(useCaseScenarios.useCase.name)" class="link">
-                    <td>
-                        <span ng-class="[buildStateToClassMapping[useCaseScenarios.useCase.status], 'label']">{{useCaseScenarios.useCase.status}}</span>
-                    </td>
-                    <td>{{useCaseScenarios.useCase.name | scHumanReadable }}</td>
-                    <td>{{useCaseScenarios.useCase.description}}</td>
-                    <td>{{useCaseScenarios.scenarios.length}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </tab>
-
-    <tab heading="Build Information">
-        <div class="container-fluid builds-information">
-            <div class="row">
-                <div class="col-lg-12" ng-controller="NavigationCtrl" class="header">
-                    <h4>Build Information</h4>
-                    <div>
-                        <div class="row">
-                            <div class="col-lg-4">Build Name:</div>
-                            <div class="col-lg-8">{{branchesAndBuilds.selectedBuild.linkName}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">Branch Name:</div>
-                            <div class="col-lg-8">{{branchesAndBuilds.selectedBranch.branch.name}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">Revision:</div>
-                            <div class="col-lg-8">{{branchesAndBuilds.selectedBuild.build.revision}}</div>
-                        </div>
-                        <div ng-repeat="(key,value) in selectedBuild.build.details.details" class="row">
-                            <div class="col-lg-4">{{key | scHumanReadable}}</div>
-                            <div class="col-lg-8">{{value}}</div>
-                        </div>
-                    </div>
-
-                    <h4>Latest Builds</h4>
-                    <accordion close-others="true">
-                        <accordion-group ng-repeat="branch in branches" heading="{{branch.branch.name}}">
-                            <div ng-repeat="build in branch.builds" ng-include="'template/build.html'" ng-click="setBuild(branch, build)">
-                            </div>
-                        </accordion-group>
-                    </accordion>
-                </div>
-            </div>
+    <!-- Tabs are defined dynamically in controller inside main.js -->
+    <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active">
+        <div class="container-fluid">
+            <ng-include src="getLazyTabContentViewUrl(tab)"/>
         </div>
     </tab>
 
-    <tab ng-repeat="genericObjectTab in genericObjectTabs" heading="{{genericObjectTab.label}}" ng-click="loadObjectsForTypes()">
+    <!-- Additional tabs for generic objects are defined in genericObjectTabs in main.js ( -->
+    <!-- TODO #64: this is work in progress ... therefore commented it out for now ... -->
+    <!-- Following needs to be done:
+            * also extract nicely in a sub view
+            * also introduce lazy loading
+            * some parts of Controller have already been extracted into mainGenericObjectsTab.js, but this Controller is not yet used and even not imported in index.html !
+    -->
+    <!--
+    <tab ng-repeat="genericObjectTab in genericObjectTabs" heading="{{genericObjectTab.label}}" select="initObjectsForTab(tab)">
         <div class="row ngusd-space-top ngusd-space-bottom">
             <div class="col-lg-3">
                 <div class="input-group">
@@ -142,4 +81,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </table>
     </tab>
 
+    <!-- TODO: is this old static "Build Information" tab still necessary?? what about the builds ("latest builds") did this ever work? -->
+    <!--
+    <tab heading="Build Information (needed?)">
+        <div class="container-fluid builds-information">
+            <div class="row">
+                <div class="col-lg-12" ng-controller="NavigationCtrl" class="header">
+                    <h4>Build Information</h4>
+                    <div>
+                        <div class="row">
+                            <div class="col-lg-4">Build Name:</div>
+                            <div class="col-lg-8">{{branchesAndBuilds.selectedBuild.linkName}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">Branch Name:</div>
+                            <div class="col-lg-8">{{branchesAndBuilds.selectedBranch.branch.name}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">Revision:</div>
+                            <div class="col-lg-8">{{branchesAndBuilds.selectedBuild.build.revision}}</div>
+                        </div>
+                        <div ng-repeat="(key,value) in selectedBuild.build.details.details" class="row">
+                            <div class="col-lg-4">{{key | scHumanReadable}}</div>
+                            <div class="col-lg-8">{{value}}</div>
+                        </div>
+                    </div>
+
+                    <h4>Latest Builds</h4>
+                    <accordion close-others="true">
+                        <accordion-group ng-repeat="branch in branches" heading="{{branch.branch.name}}">
+                            <div ng-repeat="build in branch.builds" ng-include="'template/build.html'" ng-click="setBuild(branch, build)">
+                            </div>
+                        </accordion-group>
+                    </accordion>
+                </div>
+            </div>
+        </div>
+    </tab>
+    -->
+
 </tabset>
+
+
+
+

@@ -1,0 +1,48 @@
+<div ng-controller="MainBuildsTabCtrl">
+
+    <div class="row ngusd-space-top ngusd-space-bottom">
+        <div class="col-lg-3">
+            <div class="input-group">
+                <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="buildsSearchField" data-toggle="tooltip" title="filter for builds" ng-model="table.search.searchTerm" placeholder="Search build ..."/>
+                        <span class="input-group-btn">
+                            <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
+                        </span>
+            </div>
+        </div>
+        <div class="col-lg-9">
+                    <span class="pull-right">
+                        <button ng-click="toggleFilter()" class="btn btn-default">
+                            <span ng-show="!table.filtering">Show filter</span>
+                            <span ng-show="table.filtering">Hide filter</span>
+                        </button>
+                    </span>
+        </div>
+    </div>
+
+    <!-- builds table -->
+    <table ng-table="tableParams" class="table table-curved table-hover table-responsive " ng-model="sort">
+        <thead>
+        <tr>
+            <th sortandfilter="build.status" class="filter-none">Status</th>
+            <th sortandfilter="branch.name">Branch</th>
+            <th sortandfilter="build.name">Build</th>
+            <th sortandfilter="build.date">Date</th>
+            <th sortandfilter="build.revision">Revision</th>
+            <th sortandfilter="build.importStatus">Import Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="build in buildImportStates | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse">
+            <td>
+                <span ng-class="[buildStateToClassMapping[build.buildDescription.status], 'label']">{{build.buildDescription.status}}</span>
+            </td>
+            <td>{{build.identifier.branchName}}</td>
+            <td>{{build.identifier.buildName}}</td>
+            <td>{{build.buildDescription.date | date:'MM/dd/yyyy HH:mm'}}</td>
+            <td>{{build.buildDescription.revision}}</td>
+            <td>{{build.status}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+ </div>

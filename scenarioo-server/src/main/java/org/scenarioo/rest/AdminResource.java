@@ -23,11 +23,14 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 
 @Path("/rest/admin/")
 public class AdminResource {
+	
+	private static final Logger LOGGER = Logger.getLogger(AdminResource.class);
 	
 	@GET
 	@Path("update")
@@ -38,8 +41,9 @@ public class AdminResource {
 	
 	@GET
 	@Path("buildImportSummaries")
-	@Produces({ "application/xml", "application/json" })
+	@Produces({ "application/json" })
 	public List<BuildImportSummary> listImportedBuilds() {
+		LOGGER.info("REQUEST: listImportedBuilds()");
 		return ScenarioDocuBuildsManager.INSTANCE.getBuildImportSummaries();
 	}
 	
