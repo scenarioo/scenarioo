@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </tab>
 
-    <!-- Additional tabs for generic objects are defined in genericObjectTabs in main.js ( -->
+    <!-- Additional tabs for generic objects are defined in genericObjectTabs in main.js -->
     <!-- TODO #64: this is work in progress ... therefore commented it out for now ... -->
     <!-- Following needs to be done:
             * also extract nicely in a sub view
@@ -79,46 +79,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tr>
             </tbody>
         </table>
-    </tab>
-
-    <!-- TODO: is this old static "Build Information" tab still necessary?? what about the builds ("latest builds") did this ever work? -->
-    <!--
-    <tab heading="Build Information (needed?)">
-        <div class="container-fluid builds-information">
-            <div class="row">
-                <div class="col-lg-12" ng-controller="NavigationCtrl" class="header">
-                    <h4>Build Information</h4>
-                    <div>
-                        <div class="row">
-                            <div class="col-lg-4">Build Name:</div>
-                            <div class="col-lg-8">{{branchesAndBuilds.selectedBuild.linkName}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">Branch Name:</div>
-                            <div class="col-lg-8">{{branchesAndBuilds.selectedBranch.branch.name}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">Revision:</div>
-                            <div class="col-lg-8">{{branchesAndBuilds.selectedBuild.build.revision}}</div>
-                        </div>
-                        <div ng-repeat="(key,value) in selectedBuild.build.details.details" class="row">
-                            <div class="col-lg-4">{{key | scHumanReadable}}</div>
-                            <div class="col-lg-8">{{value}}</div>
-                        </div>
-                    </div>
-
-                    <h4>Latest Builds</h4>
-                    <accordion close-others="true">
-                        <accordion-group ng-repeat="branch in branches" heading="{{branch.branch.name}}">
-                            <div ng-repeat="build in branch.builds" ng-include="'template/build.html'" ng-click="setBuild(branch, build)">
-                            </div>
-                        </accordion-group>
-                    </accordion>
-                </div>
-            </div>
-        </div>
-    </tab>
-    -->
+    </tab>  -->
 
 </tabset>
 
