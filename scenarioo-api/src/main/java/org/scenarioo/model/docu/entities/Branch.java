@@ -20,7 +20,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package org.scenarioo.model.docu.entities;
 
 import java.io.Serializable;
@@ -30,6 +29,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import lombok.Data;
+
+import org.scenarioo.model.docu.entities.generic.Details;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -41,6 +42,8 @@ public class Branch implements Serializable {
 	private String name;
 	
 	private String description;
+	
+	private Details details = new Details();
 	
 	public Branch() {
 		this("", "");

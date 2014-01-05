@@ -32,7 +32,8 @@ import lombok.Data;
 
 /**
  * Special calculated data for a scenario, this data gets calculated by the Scenarioo webaplication when generated docu
- * is imported automatically, therefore you do not have to fill this data when generating documentation.
+ * is imported automatically, therefore you do NOT have to fill this data when generating documentation (it will be
+ * overwritten by the webapplication anyway).
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

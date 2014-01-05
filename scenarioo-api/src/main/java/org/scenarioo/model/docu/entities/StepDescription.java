@@ -20,7 +20,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package org.scenarioo.model.docu.entities;
 
 import java.io.Serializable;
@@ -47,25 +46,30 @@ public class StepDescription implements Serializable {
 	/**
 	 * Only the filename of the image, the directory is defined through the scenario, usecase etc.
 	 * 
-	 * TODO: may be we should remove this from the model and replace by a convention ({stepIndex}.png: 001.png, 002.png
-	 * etc.)
+	 * TODO(#72): may be we should remove this from the model and replace by a convention ({stepIndex}.png: 001.png,
+	 * 002.png etc.)
 	 */
 	private String screenshotFileName;
 	
 	private final Details details = new Details();
 	
 	/**
-	 * TODO the following data should be removed from here, this does not belong into the API for generating data
+	 * TODO(#72) the following data should be removed from here, this does not belong into the API for generating data.
+	 * Thsi data is calculated by the webapp anyway.
 	 */
 	
-	// TODO: name should be pageIndex
+	// TODO(#72): name should be something like pageIndex ??
+	@Deprecated
 	private int occurence = 0;
 	
-	// TODO: name should be pageStepIndex
+	// TODO(#72): name should be something like pageStepIndex ??
+	@Deprecated
 	private int relativeIndex = 0;
-	
+	@Deprecated
 	private int variantIndex = 0;
+	@Deprecated
 	private StepIdentification previousStepVariant;
+	@Deprecated
 	private StepIdentification nextStepVariant;
 	
 	public void addDetails(final String key, final Object value) {
