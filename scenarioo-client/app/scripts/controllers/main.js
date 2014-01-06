@@ -21,7 +21,7 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
 
     SelectedBranchAndBuild.callOnSelectionChange(loadBuilds);
 
-    function loadBuilds(selected) {
+    function loadBuilds() {
         BranchesAndBuilds.getBranchesAndBuilds(
             function onSuccess(branchesAndBuilds) {
                 $scope.branchesAndBuilds = branchesAndBuilds;
@@ -29,19 +29,19 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
         );
     }
 
-    $scope.tabs= [
+    $scope.tabs = [
         {
-          title: "Use Cases",
-          contentViewUrl: "/views/mainUseCasesTab.html",
-          active: true
+            title: 'Use Cases',
+            contentViewUrl: '/views/mainUseCasesTab.html',
+            active: true
         },
         {
-            title: "Builds",
-            contentViewUrl: "/views/mainBuildsTab.html"
+            title: 'Builds',
+            contentViewUrl: '/views/mainBuildsTab.html'
         }
     ];
 
-    $scope.getLazyTabContentViewUrl = function(tab) {
+    $scope.getLazyTabContentViewUrl = function (tab) {
         // Only return the tab src as soon as tab is active
         if (tab.active) {
             return tab.contentViewUrl;
