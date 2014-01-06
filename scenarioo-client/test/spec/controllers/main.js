@@ -43,7 +43,7 @@ describe('Controller MainCtrl', function () {
     });
 
     it('has no builds set in the beginning', function () {
-         expect($scope.branchesAndBuilds).toBeUndefined();
+        expect($scope.branchesAndBuilds).toBeUndefined();
     });
 
     it('loads builds when branch and build selection changes', function () {
