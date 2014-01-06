@@ -18,38 +18,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <sc-breadcrumb></sc-breadcrumb>
 
 <div class="row ngusd-space-top ngusd-space-bottom">
-    <div class="col-lg-9">
-        <h1>Scenario: {{scenario.name | scHumanReadable}}</h1>
-    </div>
     <div class="col-lg-3">
         <div class="input-group">
-            <input type="text" class="form-control" ng-model="searchFieldText" placeholder="Search..."/>
+            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip" title="type words separated by spaces to search for" ng-model="searchFieldText" placeholder="Search page / step ..."/>
             <span class="input-group-btn">
                 <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
             </span>
         </div>
     </div>
-</div>
+    <div class="col-lg-9">
 
-<p>
-    {{scenario.description}}
-</p>
+    </div>
+</div>
 
 <div class="row step-view">
     <div ng-repeat="page in pagesAndSteps">
         <div ng-repeat="step in page.steps | scFilterArray:searchFieldText" ng-show="$index == 0 || showAllStepsForPage($parent.$index)" class="col-md-4">
-            <h2 ng-show="$index == 0">
+             <h2 ng-show="$index == 0">
                 Page: {{page.page.name}}
                 <span ng-click="toggleShowAllStepsForPage($parent.$parent.$index)" ng-show="page.steps.length > 1 && $index == 0" tooltip="show / hide additional steps of this page" tooltip-placement="top">
-                    <span ng-hide="showAllStepsForPage($parent.$parent.$index)" class="icon-with-padding icon-plus-sign link"></span>
-                    <span ng-show="showAllStepsForPage($parent.$parent.$index)" class="icon-with-padding icon-minus-sign link"></span>
+                    <span ng-hide="showAllStepsForPage($parent.$parent.$index)" class="icon-with-padding icon-plus-sign link right"></span>
+                    <span ng-show="showAllStepsForPage($parent.$parent.$index)" class="icon-with-padding icon-minus-sign link right"></span>
                 </span>
             </h2>
             <h2 ng-show="$index > 0">&nbsp;</h2>
             <div>
                 <div class="step-title">
-                    <h4><a ng-href="{{getLinkToStep(pageSteps.page.name, $parent.$index, $index)}}">Step {{step.number}}: {{step.title}}</a></h4>
-                    {{step.page.name}} ({{step.page.index}} of {{pagesAndSteps.length}})
+                    <h3><a ng-href="{{getLinkToStep(pageSteps.page.name, $parent.$index, $index)}}">Step {{step.number}}: {{step.title}}</a></h3>
+                    Page: {{step.page.name}} ({{step.page.index}} of {{pagesAndSteps.length}})
                 </div>
                 <div class="sc-screenshot-border sc-screenshot-scenario" >
                     <a ng-href="{{getLinkToStep(pageSteps.page.name, $parent.$index, $index)}}">

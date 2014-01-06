@@ -18,26 +18,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <sc-breadcrumb></sc-breadcrumb>
 
 <div class="row ngusd-space-top ngusd-space-bottom">
-    <div class="col-lg-8">
-        <h1>Use Case: {{useCase.name | scHumanReadable}}</h1>
+    <div class="col-lg-3">
+        <div class="input-group">
+            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip" title="type words separated by spaces to search for" ng-model="table.search.searchTerm" placeholder="Search scenario..."/>
+            <span class="input-group-btn">
+                <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
+            </span>
+        </div>
     </div>
-    <div class="col-lg-1">
+    <div class="col-lg-9">
+        <!-- TODO #93: either make the following feature work or remove it cleanly:
         <span class="pull-right">
             <button ng-click="toggleFilter()" class="btn btn-default">
                 <span ng-show="!table.filtering">Show filter</span>
                 <span ng-show="table.filtering">Hide filter</span>
             </button>
         </span>
-    </div>
-    <div class="col-lg-3">
-        <div class="input-group">
-            <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="useCasesSearchField" data-toggle="tooltip" title="filter for use case" ng-model="table.search.searchTerm" placeholder="Search scenario..."/>
-            <span class="input-group-btn">
-                <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
-            </span>
-        </div>
+        -->
     </div>
 </div>
+
 
 <table class="table table-bordered">
     <thead>
@@ -57,8 +57,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </td>
             <td>{{scenario.name | scHumanReadable }}</td>
             <td>
-                <a ng-click="goToFirstStep(useCase.name, scenario.name)" tooltip="Go to first step" tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
                 <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview" tooltip-placement="bottom"></i></a>
+                <a ng-click="goToFirstStep(useCase.name, scenario.name)" tooltip="Go to first step" tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
+
             </td>
             <td>{{scenario.description}}</td>
             <td ng-repeat="property in propertiesToShow">{{scenario.details.properties[property]}}</td>

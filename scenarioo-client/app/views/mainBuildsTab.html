@@ -3,19 +3,21 @@
     <div class="row ngusd-space-top ngusd-space-bottom">
         <div class="col-lg-3">
             <div class="input-group">
-                <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="buildsSearchField" data-toggle="tooltip" title="filter for builds" ng-model="table.search.searchTerm" placeholder="Search build ..."/>
-                        <span class="input-group-btn">
-                            <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
-                        </span>
+                <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="buildsSearchField" data-toggle="tooltip" title="type words separated by spaces to search for" ng-model="table.search.searchTerm" placeholder="Search build ..."/>
+                <span class="input-group-btn">
+                    <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
+                </span>
             </div>
         </div>
         <div class="col-lg-9">
-                    <span class="pull-right">
-                        <button ng-click="toggleFilter()" class="btn btn-default">
-                            <span ng-show="!table.filtering">Show filter</span>
-                            <span ng-show="table.filtering">Hide filter</span>
-                        </button>
-                    </span>
+            <!-- TODO #93: either make the following feature work or remove it cleanly:
+            <span class="pull-right">
+                <button ng-click="toggleFilter()" class="btn btn-default">
+                    <span ng-show="!table.filtering">Show filter</span>
+                    <span ng-show="table.filtering">Hide filter</span>
+                </button>
+            </span>
+            -->
         </div>
     </div>
 
