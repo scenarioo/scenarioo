@@ -54,9 +54,8 @@ public class GenericObjectsResource extends AbstractBuildContentResource {
 		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
 		
 		ScenarioDocuAggregationDAO scenarioDocuAggregationDao = getDAO(branchName, buildName);
-		String resolvedObjectName = scenarioDocuAggregationDao.resolveObjectFileName(objectName);
 		return scenarioDocuAggregationDao.loadObjectIndex(branchName, resolvedBuildName, objectType,
-				resolvedObjectName);
+				objectName);
 	}
 	
 }

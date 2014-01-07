@@ -199,9 +199,9 @@ public class ScenarioDocuAggregationDAO {
 	 *            Object name, if too long, shortened using {@link LongObjectNamesResolver}
 	 */
 	public ObjectIndex loadObjectIndex(final String branchName, final String buildName,
-			final String objectType, final String resolvedObjectName) {
-		File objectFile = files
-				.getObjectIndexFile(branchName, buildName, objectType, resolvedObjectName);
+			final String objectType, final String objectName) {
+		String objectFileName = resolveObjectFileName(objectName);
+		File objectFile = files.getObjectIndexFile(branchName, buildName, objectType, objectFileName);
 		return ScenarioDocuXMLFileUtil.unmarshal(ObjectIndex.class, objectFile);
 	}
 	
@@ -222,7 +222,7 @@ public class ScenarioDocuAggregationDAO {
 		return files;
 	}
 	
-	public String resolveObjectFileName(final String objectName) {
+	private String resolveObjectFileName(final String objectName) {
 		if (longObjectNameResolver == null) {
 			throw new IllegalStateException(
 					"Not allowed to access objects without having LongObjectNameResolver initialized properly on the DAO. Please use ScenarioDocuAggregationDAO constructor with addtional parameter to pass a LongObjectNamesResolver for current build that you try to access.");
@@ -232,10 +232,10 @@ public class ScenarioDocuAggregationDAO {
 	
 	public ObjectIndex loadObjectIndexIfExistant(final String branchName, final String buildName,
 			final String objectType, final String objectName) {
-		String resolvedObjectName = resolveObjectFileName(objectName);
-		File objectFile = files.getObjectIndexFile(branchName, buildName, objectType, resolvedObjectName);
+		String objectFileName = resolveObjectFileName(objectName);
+		File objectFile = files.getObjectIndexFile(branchName, buildName, objectType, objectFileName);
 		if (objectFile.exists()) {
-			return loadObjectIndex(branchName, buildName, objectType, resolvedObjectName);
+			return loadObjectIndex(branchName, buildName, objectType, objectName);
 		}
 		else {
 			return null;
