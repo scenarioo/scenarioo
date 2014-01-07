@@ -41,12 +41,12 @@ public enum Action {
 	START_INIT("example.action.StartInitAction", "Initializer for wiki, creates user session and initializes the menu"),
 	SEARCH_INIT("example.action.SearchInitAction", "Initializer to init the search page"),
 	SEARCH_PROCESS("example.action.SearchProcessAction", "Process user input on search page and start searching"),
+	SEARCH_RESULTS_LIST_INIT("example.action.SearchResultsListInitAction",
+			"Initilize the list of search results to display to user"),
 	PAGE_SHOW_CONTENT_INIT("example.action.ShowPageInitAction", "Initialize page content to display"),
 	PAGE_EDIT_INIT("example.action.EditPageInitAction", "Initialize edit page to edit the page content"),
 	PAGE_EDIT_PROCESS("example.action.EditPageProcessAction",
-			"Process the input of the user on edit page and store the updated page"),
-	AMBIGUOUS_LIST_INIT("example.action.AmbiguousListInitAction",
-			"Initilize the list of ambiguities to display to user");
+			"Process the input of the user on edit page and store the updated page");
 	
 	private String name;
 	

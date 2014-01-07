@@ -40,9 +40,16 @@ public enum Service {
 	MENU("MenuService.loadMenu", "MENUSYS:LoadMenuService.load", "Service to load current wiki menu."),
 	SEARCH("SearchService.search", "TIBCO:FastSearchService.getSearchResults", "PowerGridSearch.search",
 			"Search for pages using the power grid"),
-	AMBIGUITIES("SearchService.loadAmbiguitiesList", "TIBCO:AmbiguitiesService.getAmbiguitiesList",
+	SEARCH_ADVANCED_FOR_MULTIPLE_RESULTS_WITH_LONG_NAME_1(
+			"SearchService.loadAmbiguitiesListServiceforSearcheswithMultipleResultsThatHasAVeryVeryVeryLongNameJusttoTestAndDemonstrateWhatHappensWithRealyRealyLongNamesAndThatTheyCanBeProperlyHandledEvenIfMultipleNamesStartWithSameFirst100CharactersNumberOne",
+			"TIBCO:AmbiguitiesService.getAmbiguitiesList",
 			"ContentDB.loadAmbiguities",
-			"Service to load a list of ambiguities to display to the user for a ambiguous search."),
+			"Service to load a list of ambiguities to display to the user for a ambiguous search (version 1 to test long names with name clashes)."),
+	SEARCH_ADVANCED_FOR_MULTIPLE_RESULTS_WITH_LONG_NAME_2(
+			"SearchService.loadAmbiguitiesListServiceforSearcheswithMultipleResultsThatHasAVeryVeryVeryLongNameJusttoTestAndDemonstrateWhatHappensWithRealyRealyLongNamesAndThatTheyCanBeProperlyHandledEvenIfMultipleNamesStartWithSameFirst100CharactersNumberTwo",
+			"TIBCO:AmbiguitiesService.getAmbiguitiesList",
+			"ContentDB.loadAmbiguities",
+			"Service to load a list of ambiguities to display to the user for a ambiguous search (version 1 to test long names with name clashes)."),
 	CONTENT_LOAD("ContentService.loadPage", "TIBCO:PageContentService.getPage", "ContentDB.loadPage",
 			"Service to load the whole page content of a page"),
 	AUTHENTICATION_CHECK(

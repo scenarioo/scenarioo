@@ -84,7 +84,8 @@ public class DummyApplicationStepDataFactory {
 		title("Wikipedia Suche").pageName("startSearch.jsp").callTreeStart();
 		createStep("startPage");
 		createStep("startPageTypedFcBasel");
-		title("FC Basel").pageName("contentPage.jsp").url("http://en.wikipedia.org/wiki/FC_Basel").callTreeFindPage();
+		title("FC Basel").pageName("contentPage.jsp").url("http://en.wikipedia.org/wiki/FC_Basel")
+				.callTreeFindPageOneResult();
 		createStep("pageFcBasel");
 		
 		// create DEFAULT_CONFIG step data:
@@ -95,6 +96,8 @@ public class DummyApplicationStepDataFactory {
 		title("Search results").pageName("searchResults.jsp")
 				.url("http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go").callTreeFindPage();
 		createStep("searchResultsMultiple");
+		title("U2").pageName("contentPage.jsp").url("http://en.wikipedia.org/wiki/42_%28number%29")
+				.callTreeLoadPage();
 		createStep("pageU2");
 		
 		// create AMBIGUOTIES_CONFIG step data:
@@ -102,15 +105,15 @@ public class DummyApplicationStepDataFactory {
 		title("Wikipedia Suche").pageName("startSearch.jsp").callTreeStart();
 		createStep("startPage");
 		createStep("startPageTyped42");
-		title("42").pageName("contentPage.jsp").url("http://en.wikipedia.org/wiki/42").callTreeFindPage();
+		title("42").pageName("contentPage.jsp").url("http://en.wikipedia.org/wiki/42").callTreeFindPageOneResult();
 		createStep("page42WithAmbiguoties");
 		title("42 (number)").pageName("contentPage.jsp").url("http://en.wikipedia.org/wiki/42_%28number%29")
-				.callTreeFindPage();
+				.callTreeLoadPage();
 		createStep("page42Number");
 		title("Phrases from The Hitchhiker's Guide to the Galaxy")
 				.pageName("contentPage.jsp")
 				.url("http://en.wikipedia.org/wiki/Phrases_from_The_Hitchhiker%27s_Guide_to_the_Galaxy#Answer_to_the_Ultimate_Question_of_Life.2C_the_Universe.2C_and_Everything_.2842.29")
-				.callTreeFindPage();
+				.callTreeLoadPage();
 		createStep("page42AnswerToUltimateQuestion");
 		
 		// create SEARCH_NOT_FOUND_CONFIG step data:
@@ -132,9 +135,23 @@ public class DummyApplicationStepDataFactory {
 		call(Action.SEARCH_INIT);
 	}
 	
-	private void callTreeFindPage() {
+	private void callTreeFindPageOneResult() {
 		callTree();
 		call(Action.SEARCH_PROCESS).call(Business.SEARCH).call(Service.SEARCH);
+		call(Action.PAGE_SHOW_CONTENT_INIT).call(Business.PAGE_GET).call(Service.CONTENT_LOAD);
+	}
+	
+	private void callTreeFindPage() {
+		callTree();
+		call(Action.SEARCH_PROCESS).call(Business.SEARCH).call(Service.SEARCH)
+				.call(Service.SEARCH_ADVANCED_FOR_MULTIPLE_RESULTS_WITH_LONG_NAME_1)
+				.call(Service.SEARCH_ADVANCED_FOR_MULTIPLE_RESULTS_WITH_LONG_NAME_2);
+		call(Action.SEARCH_RESULTS_LIST_INIT);
+		call(Action.PAGE_SHOW_CONTENT_INIT).call(Business.PAGE_GET).call(Service.CONTENT_LOAD);
+	}
+	
+	private void callTreeLoadPage() {
+		callTree();
 		call(Action.PAGE_SHOW_CONTENT_INIT).call(Business.PAGE_GET).call(Service.CONTENT_LOAD);
 	}
 	
