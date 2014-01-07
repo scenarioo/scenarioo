@@ -47,6 +47,8 @@ public class BuildsImporterResource {
 		return ScenarioDocuBuildsManager.INSTANCE.getBuildImportSummaries();
 	}
 	
+	// TODO #81: add service to get additional larger error log message for a failed build
+	// TODO #81: display it in UI (popup on FAILED-state)
 	// @GET
 	// @Path("buildImportLogs/{branchName}/{buildName}")
 	// @Produces({ "application/xml", "application/json" })

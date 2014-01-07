@@ -23,6 +23,8 @@ public class BuildImportSummary {
 	
 	private BuildImportStatus status = BuildImportStatus.UNPROCESSED;
 	
+	private String statusMessage;
+	
 	private Date importDate = new Date();
 	
 	public BuildImportSummary() {

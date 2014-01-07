@@ -139,7 +139,9 @@ public class BuildImporter {
 			}
 			LOGGER.info(" ============= END OF ASYNC BUILD IMPORT (success) ===========");
 		} catch (Throwable e) {
-			recordBuildImportFinished(summary, BuildImportStatus.FAILED);
+			recordBuildImportFinished(summary, BuildImportStatus.FAILED, e.getMessage());
+			// TODO #81: store the whole exception stack trace into error log of this build directory for additional
+			// information and make this log available through BuildImporterResource-Service
 			LOGGER.error("  FAILURE on importing build " + summary.getIdentifier().getBranchName() + "/"
 					+ summary.getBuildDescription().getName(), e);
 			LOGGER.info(" ============= END OF ASYNC BUILD IMPORT (failed) ===========");
@@ -152,10 +154,16 @@ public class BuildImporter {
 		availableBuilds.addImportedBuild(summary);
 	}
 	
-	private synchronized void recordBuildImportFinished(BuildImportSummary summary,
+	private synchronized void recordBuildImportFinished(final BuildImportSummary summary,
 			final BuildImportStatus buildStatus) {
+		recordBuildImportFinished(summary, buildStatus, null);
+	}
+	
+	private synchronized void recordBuildImportFinished(BuildImportSummary summary,
+			final BuildImportStatus buildStatus, final String statusMessage) {
 		summary = buildImportSummaries.get(summary.getIdentifier());
 		summary.setStatus(buildStatus);
+		summary.setStatusMessage(statusMessage);
 		buildsInProcessingQueue.remove(summary.getIdentifier());
 		saveBuildImportSummaries(buildImportSummaries);
 	}
