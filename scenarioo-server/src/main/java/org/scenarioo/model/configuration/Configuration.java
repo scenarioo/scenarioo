@@ -35,15 +35,18 @@ import lombok.Data;
 @Data()
 public class Configuration {
 	
+	public static final String DEFAULT_ALIAS_FOR_LAST_RECENT_BUILD = "last recent";
+	public static final String DEFAULT_ALIAS_FOR_LAST_SUCCESS_BUILD = "last success";
+	
 	private String testDocumentationDirPath;
 	
 	private String defaultBranchName = "trunk";
 	
 	private String defaultBuildName = "last success";
 	
-	private String aliasForLastRecentBuild = "last recent";
+	private String aliasForLastRecentBuild = DEFAULT_ALIAS_FOR_LAST_RECENT_BUILD;
 	
-	private String aliasForLastSuccessfulBuild = "last success";
+	private String aliasForLastSuccessfulBuild = DEFAULT_ALIAS_FOR_LAST_SUCCESS_BUILD;
 	
 	private String buildStatusForSuccessfulBuilds = "success";
 	
