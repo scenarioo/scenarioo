@@ -44,7 +44,7 @@ public class AvailableBuildsList {
 	private List<BranchBuilds> branchBuildsList = new ArrayList<BranchBuilds>();
 	
 	/**
-	 * The branch builds grouped by brnach name, only containing the available builds that have already been imported
+	 * The branch builds grouped by branch name, only containing the available builds that have already been imported
 	 * successfully.
 	 */
 	private Map<String, BranchBuilds> branchBuildsByBranchName = new HashMap<String, BranchBuilds>();
