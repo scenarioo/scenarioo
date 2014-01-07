@@ -39,11 +39,11 @@ public class Configuration {
 	
 	private String defaultBranchName = "trunk";
 	
-	private String defaultBuildName = "current";
+	private String defaultBuildName = "last success";
 	
-	private String aliasForLastRecentBuild = "recent";
+	private String aliasForLastRecentBuild = "last recent";
 	
-	private String aliasForLastSuccessfulBuild = "current";
+	private String aliasForLastSuccessfulBuild = "last success";
 	
 	private String buildStatusForSuccessfulBuilds = "success";
 	
