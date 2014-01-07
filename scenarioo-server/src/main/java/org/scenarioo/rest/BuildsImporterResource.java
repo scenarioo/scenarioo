@@ -48,7 +48,7 @@ public class BuildsImporterResource {
 	}
 	
 	// TODO #81: add service to get additional larger error log message for a failed build
-	// TODO #81: display it in UI (popup on FAILED-state)
+	// TODO #81: use and display it in UI (popup on FAILED-import-state of a build)
 	// @GET
 	// @Path("buildImportLogs/{branchName}/{buildName}")
 	// @Produces({ "application/xml", "application/json" })
