@@ -194,10 +194,14 @@ public class ScenarioDocuAggregationDAO {
 		ScenarioDocuXMLFileUtil.marshal(objectIndex, objectFile);
 	}
 	
+	/**
+	 * @param resolvedObjectName
+	 *            Object name, if too long, shortened using {@link LongObjectNamesResolver}
+	 */
 	public ObjectIndex loadObjectIndex(final String branchName, final String buildName,
-			final String objectType, final String objectName) {
+			final String objectType, final String resolvedObjectName) {
 		File objectFile = files
-				.getObjectIndexFile(branchName, buildName, objectType, resolveObjectFileName(objectName));
+				.getObjectIndexFile(branchName, buildName, objectType, resolvedObjectName);
 		return ScenarioDocuXMLFileUtil.unmarshal(ObjectIndex.class, objectFile);
 	}
 	

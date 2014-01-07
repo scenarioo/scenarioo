@@ -32,12 +32,12 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
     $scope.tabs = [
         {
             title: 'Use Cases',
-            contentViewUrl: '/views/mainUseCasesTab.html',
+            contentViewUrl: 'views/mainUseCasesTab.html',
             active: true
         },
         {
             title: 'Builds',
-            contentViewUrl: '/views/mainBuildsTab.html'
+            contentViewUrl: 'views/mainBuildsTab.html'
         }
     ];
 
