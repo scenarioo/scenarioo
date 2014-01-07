@@ -31,7 +31,7 @@ describe('Controller MainBuildsTabCtrl', function () {
 
             $scope = $rootScope.$new();
 
-            var BUILD_IMPORT_STATES_URL = HostnameAndPort.forTest() + '/scenarioo/rest/admin/buildImportSummaries';
+            var BUILD_IMPORT_STATES_URL = HostnameAndPort.forTest() + '/scenarioo/rest/builds/buildImportSummaries';
 
             $httpBackend.whenGET(BUILD_IMPORT_STATES_URL).respond(TestData.BUILD_IMPORT_STATES);
 

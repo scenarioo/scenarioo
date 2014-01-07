@@ -69,11 +69,11 @@ angular.module('scenarioo.services').factory('BranchesResource', function (Scena
 });
 
 angular.module('scenarioo.services').factory('BuildImportStatesResource', function (ScenariooResource) {
-    return ScenariooResource('/admin/buildImportSummaries', {}, {});
+    return ScenariooResource('/builds/buildImportSummaries', {}, {});
 });
 
 angular.module('scenarioo.services').factory('BuildImportService', function (ScenariooResource, $q) {
-    var buildImportService = ScenariooResource('/admin/update', {});
+    var buildImportService = ScenariooResource('/builds/updateAndImport', {});
     buildImportService.updateData = getPromise($q, function (parameters, fnSuccess, fnError) {
         return buildImportService.get(parameters, fnSuccess, fnError);
     });
