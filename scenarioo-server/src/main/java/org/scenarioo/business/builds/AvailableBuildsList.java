@@ -130,22 +130,22 @@ public class AvailableBuildsList {
 		
 		// Search for the builds
 		String buildSuccessState = ConfigurationDAO.getConfiguration().getBuildStatusForSuccessfulBuilds();
-		String lastRecentBuildAlias = ConfigurationDAO.getConfiguration().getAliasForLastRecentBuild();
-		String lastSuccessfulBuildAlias = ConfigurationDAO.getConfiguration().getAliasForLastSuccessfulBuild();
-		BuildLink aliasForLastSuccessfulBuild = null;
-		BuildLink aliasForLastRecentBuild = null;
+		String aliasForMostRecentBuild = ConfigurationDAO.getConfiguration().getAliasForMostRecentBuild();
+		String aliasForLastSuccessfulBuild = ConfigurationDAO.getConfiguration().getAliasForLastSuccessfulBuild();
+		BuildLink aliasLinkForLastSuccessfulBuild = null;
+		BuildLink aliasLinkForMostRecentBuild = null;
 		BuildLink lastSuccessfulBuild = null;
-		BuildLink lastRecentBuild = null;
+		BuildLink mostRecentBuild = null;
 		for (BuildLink build : branchBuilds.getBuilds()) {
-			if (build.getLinkName().equals(lastRecentBuildAlias)) {
-				aliasForLastRecentBuild = build;
+			if (build.getLinkName().equals(aliasForMostRecentBuild)) {
+				aliasLinkForMostRecentBuild = build;
 			}
-			else if (build.getLinkName().equals(lastSuccessfulBuildAlias)) {
-				aliasForLastSuccessfulBuild = build;
+			else if (build.getLinkName().equals(aliasForLastSuccessfulBuild)) {
+				aliasLinkForLastSuccessfulBuild = build;
 			}
 			else {
-				if (isMoreRecentThan(build, lastRecentBuild)) {
-					lastRecentBuild = build;
+				if (isMoreRecentThan(build, mostRecentBuild)) {
+					mostRecentBuild = build;
 				}
 				if (build.getBuild().getStatus().equals(buildSuccessState)
 						&& isMoreRecentThan(build, lastSuccessfulBuild)) {
@@ -155,8 +155,8 @@ public class AvailableBuildsList {
 		}
 		
 		// Update aliases
-		updateOrAddBuildAlias(lastRecentBuild, lastRecentBuildAlias, aliasForLastRecentBuild, branchBuilds);
-		updateOrAddBuildAlias(lastSuccessfulBuild, lastSuccessfulBuildAlias, aliasForLastSuccessfulBuild,
+		updateOrAddBuildAlias(mostRecentBuild, aliasForMostRecentBuild, aliasLinkForMostRecentBuild, branchBuilds);
+		updateOrAddBuildAlias(lastSuccessfulBuild, aliasForLastSuccessfulBuild, aliasLinkForLastSuccessfulBuild,
 				branchBuilds);
 	}
 	

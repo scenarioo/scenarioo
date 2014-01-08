@@ -44,8 +44,8 @@ public class BuildSorterTest {
 		BuildLink build1 = createBuildSuccess("build1", 1);
 		BuildLink build2 = createBuildSuccess("build2", 2);
 		BuildLink build3 = createBuildFailed("build3", 3);
-		BuildLink aliasCurrent = createBuildAlias(Configuration.DEFAULT_ALIAS_FOR_LAST_SUCCESS_BUILD, build2.getBuild());
-		BuildLink aliasLast = createBuildAlias(Configuration.DEFAULT_ALIAS_FOR_LAST_RECENT_BUILD, build3.getBuild());
+		BuildLink aliasCurrent = createBuildAlias(Configuration.DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD, build2.getBuild());
+		BuildLink aliasLast = createBuildAlias(Configuration.DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD, build3.getBuild());
 		List<BuildLink> buildsList = Arrays.asList(build1, build2, build3, aliasCurrent, aliasLast);
 		
 		// When: sorting this builds

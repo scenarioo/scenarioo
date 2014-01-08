@@ -99,13 +99,13 @@ public class AvailableBuildsListTest {
 		// Then: only the successfully imported builds are part of the available list and the aliases ("recent" and
 		// "current") are added correctly and in expected order.
 		assertNumberOfBuilds("trunk", 5); // 3 builds plus 2 aliases
-		assertAliasContainedAtPosition("trunk", DEFAULT_ALIAS_FOR_LAST_SUCCESS_BUILD, 0, build3.getBuild());
-		assertAliasContainedAtPosition("trunk", DEFAULT_ALIAS_FOR_LAST_RECENT_BUILD, 1, build5.getBuild());
+		assertAliasContainedAtPosition("trunk", DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD, 0, build3.getBuild());
+		assertAliasContainedAtPosition("trunk", DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD, 1, build5.getBuild());
 		assertBuildContainedAtPosition("trunk", 2, build5);
 		assertBuildContainedAtPosition("trunk", 4, build1);
 		assertNumberOfBuilds("branch", 4); // 2 builds plus 2 aliases
-		assertAliasContainedAtPosition("branch", DEFAULT_ALIAS_FOR_LAST_SUCCESS_BUILD, 0, build2.getBuild());
-		assertAliasContainedAtPosition("branch", DEFAULT_ALIAS_FOR_LAST_RECENT_BUILD, 1, build4.getBuild());
+		assertAliasContainedAtPosition("branch", DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD, 0, build2.getBuild());
+		assertAliasContainedAtPosition("branch", DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD, 1, build4.getBuild());
 		assertBuildContainedAtPosition("branch", 2, build4);
 		assertBuildContainedAtPosition("branch", 3, build2);
 		
@@ -124,14 +124,14 @@ public class AvailableBuildsListTest {
 		// When: updating the list of available builds and resolving some build names
 		availableBuildsList.updateBuildsWithSuccessfullyImportedBuilds(branchBuilds, buildImportSummaries);
 		String trunkCurrentBuildName = availableBuildsList.resolveAliasBuildName("trunk",
-				DEFAULT_ALIAS_FOR_LAST_SUCCESS_BUILD);
+				DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD);
 		String trunkRecentBuildName = availableBuildsList.resolveAliasBuildName("trunk",
-				DEFAULT_ALIAS_FOR_LAST_RECENT_BUILD);
+				DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD);
 		String trunkBuild1BuildName = availableBuildsList.resolveAliasBuildName("trunk", "build1");
 		String branchCurrentBuildName = availableBuildsList.resolveAliasBuildName("branch",
-				DEFAULT_ALIAS_FOR_LAST_SUCCESS_BUILD);
+				DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD);
 		String branchRecentBuildName = availableBuildsList.resolveAliasBuildName("branch",
-				DEFAULT_ALIAS_FOR_LAST_RECENT_BUILD);
+				DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD);
 		
 		// Then: Resolved build names are as expected (resolving aliases works)
 		assertEquals("build3", trunkCurrentBuildName);
@@ -161,12 +161,12 @@ public class AvailableBuildsListTest {
 		
 		// Then: the imported builds are part of available builds and aliases are set correctly, all in expected order.
 		assertNumberOfBuilds("trunk", 5); // 3 build plus 2 aliases
-		assertAliasContainedAtPosition("trunk", DEFAULT_ALIAS_FOR_LAST_SUCCESS_BUILD, 0, build3.getBuild());
-		assertAliasContainedAtPosition("trunk", DEFAULT_ALIAS_FOR_LAST_RECENT_BUILD, 1, build5.getBuild());
+		assertAliasContainedAtPosition("trunk", DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD, 0, build3.getBuild());
+		assertAliasContainedAtPosition("trunk", DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD, 1, build5.getBuild());
 		assertBuildContainedAtPosition("trunk", 2, build5);
 		assertBuildContainedAtPosition("trunk", 4, build1);
 		assertNumberOfBuilds("branch", 3); // 2 builds plus 1 alias (no "current" because none successful)
-		assertAliasContainedAtPosition("branch", DEFAULT_ALIAS_FOR_LAST_RECENT_BUILD, 0, build6.getBuild());
+		assertAliasContainedAtPosition("branch", DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD, 0, build6.getBuild());
 		assertBuildContainedAtPosition("branch", 1, build6);
 		assertBuildContainedAtPosition("branch", 2, build4);
 		
