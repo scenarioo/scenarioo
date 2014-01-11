@@ -13,11 +13,11 @@ http://www.scenarioo.org
 
 https://github.com/scenarioo/scenarioo/wiki
 
-Live-Demo: http://forkch.dyndns.org/scenarioo
+Live-Demo: https://forkch.dyndns.org/scenarioo
 
 
 License: see https://github.com/scenarioo/scenarioo/blob/master/LICENSE.txt
 
 
-CI Build Status: see http://forkch.dyndns.org/jenkins/job/scenarioo/
+CI Build Status: see https://forkch.dyndns.org/jenkins/job/scenarioo/
 
