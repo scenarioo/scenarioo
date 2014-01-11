@@ -42,7 +42,7 @@ describe('Controller: ApplicationInfoPopupCtrl', function () {
 
         $scope.$digest();
 
-        expect($scope.applicationInformation).toBe('abc_TEST');
+        expect($scope.applicationInformation).toBe('abc');
     });
 
 });
