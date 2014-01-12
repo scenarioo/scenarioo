@@ -23,9 +23,9 @@ configure([project(":scenarioo-api"), project(":scenarioo-server"), project(":sc
 	    compile 'commons-io:commons-io:1.3.2'
 	    compile 'commons-codec:commons-codec:1.2'
 	    compile 'log4j:log4j:1.2.17'
-	    compileOnly 'org.projectlombok:lombok:0.11.8'
+	    compileOnly 'org.projectlombok:lombok:1.12.2'
 	    testCompile 'junit:junit:4.11'
-	    testCompile 'org.projectlombok:lombok:0.11.8'
+	    testCompile 'org.projectlombok:lombok:1.12.2'
 	}
 
 	//Include compileOnly for compilation
