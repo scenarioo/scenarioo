@@ -115,7 +115,6 @@ public class ScenarioDocuAggregator {
 		for (UseCaseScenarios scenarios : useCaseScenariosList
 				.getUseCaseScenarios()) {
 			calulateAggregatedDataForUseCase(branchName, buildName, scenarios);
-			objectRepository.saveAndClearObjectIndexesForCurrentCase();
 		}
 		
 		// Calculate page variant counters
@@ -190,6 +189,7 @@ public class ScenarioDocuAggregator {
 		}
 		dao.saveUseCaseScenarios(branchName, buildName, useCaseScenarios);
 		
+		objectRepository.updateAndSaveObjectIndexesForCurrentCase();
 	}
 	
 	private void calculateAggregatedDataForScenario(List<ObjectReference> referencePath, final String branchName,
@@ -332,10 +332,7 @@ public class ScenarioDocuAggregator {
 		String version = dao.loadVersion(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		boolean aggregated = !StringUtils.isBlank(version);
 		boolean outdated = aggregated && !version.equals(CURRENT_FILE_FORMAT_VERSION);
-		boolean error = buildSummary.getStatus().isFailed()
-				|| dao.getFiles()
-						.getBuildImportErrorFile(buildIdentifier.getBranchName(), buildIdentifier.getBuildName())
-						.exists();
+		boolean error = buildSummary.getStatus().isFailed();
 		if (error) {
 			buildSummary.setStatus(BuildImportStatus.FAILED);
 		}

@@ -102,8 +102,8 @@ public class ScenarioDocuAggregationFiles {
 		return new File(objectsDir, FilesUtil.encodeName(name) + ".index.xml");
 	}
 	
-	public File getBuildImportErrorFile(final String branchName, final String buildName) {
-		return new File(docuFiles.getBuildDirectory(branchName, buildName), "import.error.derived.xml");
+	public File getBuildImportLogFile(final String branchName, final String buildName) {
+		return new File(docuFiles.getBuildDirectory(branchName, buildName), "import.derived.log");
 	}
 	
 	public List<File> getObjectFiles(final String branchName, final String buildName, final String typeName) {

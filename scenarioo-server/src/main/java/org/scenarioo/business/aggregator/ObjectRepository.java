@@ -275,7 +275,7 @@ public class ObjectRepository {
 	
 	public void calculateAndSaveObjectLists() {
 		for (String type : objectTypes) {
-			LOGGER.info("Writing object list for type '" + type + "' ...");
+			LOGGER.info("    Writing object list for type '" + type + "' ...");
 			ObjectList<ObjectDescription> objectsList = new ObjectList<ObjectDescription>();
 			List<File> objectFiles = dao.getFiles().getObjectFiles(branchName, buildName, type);
 			for (File file : objectFiles) {
@@ -283,11 +283,12 @@ public class ObjectRepository {
 				objectsList.add(object);
 			}
 			dao.saveObjectsList(branchName, buildName, type, objectsList);
-			LOGGER.info("Finished successfully witing object list for type: " + type);
+			LOGGER.info("    Finished successfully witing object list for type: " + type);
 		}
 	}
 	
 	public void updateAndSaveObjectIndexesForCurrentCase() {
+		LOGGER.info("      Writing object repository index files for last use case. This might take a while ...");
 		for (Entry<ObjectReference, ObjectReferenceTreeBuilder> objectRefTreeBuilder : objectReferences.entrySet()) {
 			ObjectReference objectRef = objectRefTreeBuilder.getKey();
 			ObjectReferenceTreeBuilder referenceTreeBuilder = objectRefTreeBuilder.getValue();
@@ -309,7 +310,8 @@ public class ObjectRepository {
 				}
 			}
 		}
-		LOGGER.info("Writing object repository index files finished (success).");
+		objectReferences.clear();
+		LOGGER.info("      Writing object repository index files for last use case finished (success).");
 	}
 	
 	public void removeAnyExistingObjectData() {
@@ -324,14 +326,6 @@ public class ObjectRepository {
 				throw new RuntimeException("Could not delete directory: " + directory.getAbsolutePath(), e);
 			}
 		}
-	}
-	
-	public void saveAndClearObjectIndexesForCurrentCase() {
-		LOGGER.info("Writing object repository index files for last useCase. This might take a while ...");
-		updateAndSaveObjectIndexesForCurrentCase();
-		LOGGER.info("Object index files updated wit all object references in current case.");
-		// Reset object references calculation for next use case.
-		objectReferences.clear();
 	}
 	
 }

@@ -105,7 +105,11 @@ public class BuildImporter {
 					asyncBuildImportExecutor.execute(new Runnable() {
 						@Override
 						public void run() {
-							importBuild(availableBuilds, summary);
+							try {
+								importBuild(availableBuilds, summary);
+							} catch (Throwable e) {
+								LOGGER.error("Unexpected error on build import.", e);
+							}
 						}
 					});
 				}
@@ -114,8 +118,13 @@ public class BuildImporter {
 	}
 	
 	private void importBuild(final AvailableBuildsList availableBuilds, BuildImportSummary summary) {
+		
+		BuildImportLogAppender buildImportLog = null;
+		
 		try {
-			LOGGER.info(" ============= START OF ASYNC BUILD IMPORT =================");
+			buildImportLog = BuildImportLogAppender.createAndRegisterForLogsOfBuild(summary.getIdentifier());
+			
+			LOGGER.info(" ============= START OF BUILD IMPORT ================");
 			LOGGER.info("  Importing build: " + summary.getIdentifier().getBranchName() + "/"
 					+ summary.getIdentifier().getBuildName());
 			LOGGER.info("  This might take a while ...");
@@ -137,14 +146,16 @@ public class BuildImporter {
 				LOGGER.info("  ADDED ALREADY IMPORTED build: " + summary.getIdentifier().getBranchName() + "/"
 						+ summary.getIdentifier().getBuildName());
 			}
-			LOGGER.info(" ============= END OF ASYNC BUILD IMPORT (success) ===========");
+			LOGGER.info(" ============= END OF BUILD IMPORT (success) ===========");
 		} catch (Throwable e) {
 			recordBuildImportFinished(summary, BuildImportStatus.FAILED, e.getMessage());
-			// TODO #81: store the whole exception stack trace into error log of this build directory for additional
-			// information and make this log available through BuildImporterResource-Service
 			LOGGER.error("  FAILURE on importing build " + summary.getIdentifier().getBranchName() + "/"
 					+ summary.getBuildDescription().getName(), e);
-			LOGGER.info(" ============= END OF ASYNC BUILD IMPORT (failed) ===========");
+			LOGGER.info(" ============= END OF BUILD IMPORT (failed) ===========");
+		} finally {
+			if (buildImportLog != null) {
+				buildImportLog.unregisterAndFlush();
+			}
 		}
 	}
 	

@@ -277,4 +277,8 @@ public class ScenarioDocuAggregationDAO {
 		return ScenarioDocuXMLFileUtil.unmarshal(LongObjectNamesResolver.class, longObjectNamesFile);
 	}
 	
+	public File getBuildImportLogFile(final String branchName, final String buildName) {
+		return files.getBuildImportLogFile(branchName, buildName);
+	}
+	
 }

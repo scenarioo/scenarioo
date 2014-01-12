@@ -17,14 +17,21 @@
 
 package org.scenarioo.rest;
 
+import java.io.File;
 import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
+import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 
 @Path("/rest/builds/")
@@ -47,13 +54,20 @@ public class BuildsImporterResource {
 		return ScenarioDocuBuildsManager.INSTANCE.getBuildImportSummaries();
 	}
 	
-	// TODO #81: add service to get additional larger error log message for a failed build
 	// TODO #81: use and display it in UI (popup on FAILED-import-state of a build)
-	// @GET
-	// @Path("buildImportLogs/{branchName}/{buildName}")
-	// @Produces({ "application/xml", "application/json" })
-	// public String loadBuildImportLog() {
-	// ScenarioDocuBuildsManager.INSTANCE.updateAll();
-	// }
-	
+	@GET
+	@Path("importLogs/{branchName}/{buildName}")
+	@Produces({ "application/xml", "application/json" })
+	public Response loadBuildImportLog(@PathParam("branchName") final String branchName,
+			@PathParam("buildName") final String buildName) {
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
+		ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
+		File logFile = dao.getBuildImportLogFile(branchName, resolvedBuildName);
+		if (logFile == null || !logFile.exists()) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		ResponseBuilder response = Response.ok(logFile);
+		response.header("Content-Disposition", "attachment; filename=\"" + logFile + "\"");
+		return response.build();
+	}
 }
