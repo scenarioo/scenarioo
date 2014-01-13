@@ -15,7 +15,7 @@ https://github.com/scenarioo/scenarioo/wiki
 
 Live-Demo: https://forkch.dyndns.org/scenarioo
 
-CI Build Status: see https://forkch.dyndns.org/jenkins/job/scenarioo/
+CI Build Status: see https://forkch.dyndns.org/jenkins/job/scenarioo/ (triggered)
 
 License: see https://github.com/scenarioo/scenarioo/blob/master/LICENSE.txt
 
