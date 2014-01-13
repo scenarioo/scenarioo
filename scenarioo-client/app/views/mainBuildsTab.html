@@ -34,7 +34,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="build in buildImportStates | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse">
+        <tr ng-repeat="build in buildImportStates | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse" ng-click="goToBuild(build.identifier)" class="link">
             <td>
                 <span ng-class="[buildStateToClassMapping[build.buildDescription.status], 'label']">{{build.buildDescription.status}}</span>
             </td>

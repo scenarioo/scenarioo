@@ -72,6 +72,16 @@ angular.module('scenarioo.services').factory('BuildImportStatesResource', functi
     return ScenariooResource('/builds/buildImportSummaries', {}, {});
 });
 
+angular.module('scenarioo.services').factory('BuildImportLogResource', function (HostnameAndPort, $http) {
+    return {
+        get: function(branchName, buildName, onSuccess, onError) {
+            var callURL = HostnameAndPort.forLink() + '/scenarioo/rest/builds/importLogs/' + encodeURIComponent(branchName) + '/' + encodeURIComponent(buildName);
+            $http({method: 'GET', url: callURL}).success(onSuccess).error(onError);
+        }
+    };
+
+});
+
 angular.module('scenarioo.services').factory('BuildImportService', function (ScenariooResource, $q) {
     var buildImportService = ScenariooResource('/builds/updateAndImport', {});
     buildImportService.updateData = getPromise($q, function (parameters, fnSuccess, fnError) {

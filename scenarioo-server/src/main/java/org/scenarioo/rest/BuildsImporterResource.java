@@ -54,7 +54,6 @@ public class BuildsImporterResource {
 		return ScenarioDocuBuildsManager.INSTANCE.getBuildImportSummaries();
 	}
 	
-	// TODO #81: use and display it in UI (popup on FAILED-import-state of a build)
 	@GET
 	@Path("importLogs/{branchName}/{buildName}")
 	@Produces({ "application/xml", "application/json" })

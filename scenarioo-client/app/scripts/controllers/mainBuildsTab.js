@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function ($scope, BuildImportStatesResource) {
+angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function ($scope, BuildImportStatesResource, BuildImportLogResource, $window) {
 
     BuildImportStatesResource.query({}, function(buildImportStates) {
         $scope.buildImportStates = buildImportStates;
@@ -36,6 +36,13 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
             var searchTerm = $scope.table.search.searchTerm;
             $scope.table.search = { searchTerm: searchTerm };
         }
+    };
+
+    $scope.goToBuild = function (buildIdentifier) {
+        BuildImportLogResource.get(buildIdentifier.branchName, buildIdentifier.buildName, function onSuccess(log) {
+            // TODO #81: introduce a nicer popup for the logs to be displayed (using $modal).
+            $window.alert('Log-Output for Import of Build ' + buildIdentifier.branchName + '/' + buildIdentifier.buildName + ':\n' + log);
+        });
     };
 
 });
