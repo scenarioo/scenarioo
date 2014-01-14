@@ -19,14 +19,17 @@
 
 describe('Filter :: scTreeDataCreator', function () {
 
+    var DATA_STRING = 'value';
+    var DATA_STRING_TRANSFORMED = { nodeLabel : 'value', childNodes : [  ] };
+
     var DATA_1 = {};
-    var DATA_1_TRANSFOREMD = { nodeLabel : '', childNodes : [  ] };
+    var DATA_1_TRANSFORMED = { nodeLabel : '', childNodes : [  ] };
 
     var DATA_2 = {
         myKey : 'myValue',
         keyTwo : 'valueTwo'
     };
-    var DATA_2_TRANSFOREMD = {
+    var DATA_2_TRANSFORMED = {
         nodeLabel : '',
         childNodes : [
             {
@@ -109,14 +112,20 @@ describe('Filter :: scTreeDataCreator', function () {
         expect(tree).toBeUndefined();
     });
 
+
+    it('transforms DATA_STRING', function() {
+        var tree = scTreeDataCreator(DATA_STRING);
+        expect(tree).toEqual(DATA_STRING_TRANSFORMED);
+    });
+
     it('transforms DATA_1', function() {
         var tree = scTreeDataCreator(DATA_1);
-        expect(tree).toEqual(DATA_1_TRANSFOREMD);
+        expect(tree).toEqual(DATA_1_TRANSFORMED);
     });
 
     it('transforms DATA_2', function() {
         var tree = scTreeDataCreator(DATA_2);
-        expect(tree).toEqual(DATA_2_TRANSFOREMD);
+        expect(tree).toEqual(DATA_2_TRANSFORMED);
     });
 
     it('transforms DATA_3', function() {

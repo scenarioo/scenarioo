@@ -176,6 +176,7 @@ public class UITestToolkitAbstraction {
 				.getCurrentSimulationConfiguration());
 		metadata.addDetail("callTree", toolkit.getApplicationsState().getCallTree());
 		metadata.addDetail("hugeMetadataTree", createHugeMetadataTree());
+		metadata.addDetail("madeBy", "Scenarioo-Team");
 		metadata.setVisibleText("Bla bla bla bla bla ... This is the visible text as generated from dummy test.");
 		return metadata;
 	}
