@@ -28,7 +28,7 @@ angular.module('scenarioo.filters').filter('scTreeDataCreator', function () {
         }
 
         if (angular.isString(data)) {
-            return { nodeLabel: data, childNodes: [  ] };
+            return { nodeLabel: 'Value', nodeValue: data, childNodes: [  ] };
         }
 
         return transformNode(data, '');

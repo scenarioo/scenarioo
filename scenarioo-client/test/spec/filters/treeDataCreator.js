@@ -19,8 +19,8 @@
 
 describe('Filter :: scTreeDataCreator', function () {
 
-    var DATA_STRING = 'value';
-    var DATA_STRING_TRANSFORMED = { nodeLabel : 'value', childNodes : [  ] };
+    var DATA_STRING = 'someStringValue';
+    var DATA_STRING_TRANSFORMED = { nodeLabel : 'Value', nodeValue : 'someStringValue', childNodes : [  ] };
 
     var DATA_1 = {};
     var DATA_1_TRANSFORMED = { nodeLabel : '', childNodes : [  ] };
