@@ -19,8 +19,6 @@
 
 angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope, $location, SelectedBranchAndBuild, BranchesAndBuilds) {
 
-    SelectedBranchAndBuild.callOnSelectionChange(loadBuilds);
-
     function loadBuilds() {
         BranchesAndBuilds.getBranchesAndBuilds(
             function onSuccess(branchesAndBuilds) {
@@ -28,14 +26,17 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
             }
         );
     }
+    SelectedBranchAndBuild.callOnSelectionChange(loadBuilds);
 
     $scope.tabs = [
         {
+            tabId: 'usecases',
             title: 'Use Cases',
             contentViewUrl: 'views/mainUseCasesTab.html',
             active: true
         },
         {
+            tabId: 'builds',
             title: 'Builds',
             contentViewUrl: 'views/mainBuildsTab.html'
         }
@@ -63,5 +64,26 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
         ]}
         //,{index: '1', label:'Simulation Configs', objectType: 'httpAction'}
     ];
+
+    $scope.setSelectedTabInUrl = function(tabId) {
+        $location.search('tab', tabId);
+    };
+
+
+    $scope.selectTabFromUrl = function() {
+        var params = $location.search();
+        var selectedTabId = 'undefined';
+        if (params !== null && angular.isDefined(params.tab)) {
+            selectedTabId = params.tab;
+            angular.forEach($scope.tabs, function (tab) {
+                if (tab.tabId === selectedTabId) {
+                    tab.active = true;
+                }
+            });
+        }
+    };
+
+    $scope.selectTabFromUrl();
+
 
 });
