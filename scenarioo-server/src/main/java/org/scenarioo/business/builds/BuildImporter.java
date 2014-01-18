@@ -18,6 +18,7 @@
 package org.scenarioo.business.builds;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -175,6 +176,7 @@ public class BuildImporter {
 		summary = buildImportSummaries.get(summary.getIdentifier());
 		summary.setStatus(buildStatus);
 		summary.setStatusMessage(statusMessage);
+		summary.setImportDate(new Date());
 		buildsInProcessingQueue.remove(summary.getIdentifier());
 		saveBuildImportSummaries(buildImportSummaries);
 	}
