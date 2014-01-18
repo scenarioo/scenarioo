@@ -45,4 +45,13 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
         });
     };
 
+    $scope.styleClassesForBuildImportStatus = {
+        'SUCCESS': 'label-success',
+        'FAILED': 'label-danger',
+        'UNPROCESSED': 'label-warning',
+        'QUEUED_FOR_PROCESSING': 'label-warning',
+        'PROCESSING': 'label-warning',
+        'OUTDATED': 'label-warning'
+    };
+
 });

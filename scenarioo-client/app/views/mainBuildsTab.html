@@ -42,7 +42,7 @@
             <td>{{build.identifier.buildName}}</td>
             <td>{{build.buildDescription.date | date:'MM/dd/yyyy HH:mm'}}</td>
             <td>{{build.buildDescription.revision}}</td>
-            <td title="{{build.statusMessage}}">{{build.status}}</td>
+            <td title="{{build.statusMessage}}"><span ng-class="[styleClassesForBuildImportStatus[build.status], 'label']">{{build.status}}</span></td>
         </tr>
         </tbody>
     </table>
