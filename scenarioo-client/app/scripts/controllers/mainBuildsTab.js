@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function ($scope, BuildImportStatesResource, BuildImportLogResource, $window) {
+angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function ($scope, BuildImportStatesResource, BuildImportLogResource, $modal) {
 
     BuildImportStatesResource.query({}, function(buildImportStates) {
         $scope.buildImportStates = buildImportStates;
@@ -38,10 +38,18 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
         }
     };
 
-    $scope.goToBuild = function (buildIdentifier) {
-        BuildImportLogResource.get(buildIdentifier.branchName, buildIdentifier.buildName, function onSuccess(log) {
-            // TODO #81: introduce a nicer popup for the logs to be displayed (using $modal).
-            $window.alert('Log-Output for Import of Build ' + buildIdentifier.branchName + '/' + buildIdentifier.buildName + ':\n' + log);
+    $scope.goToBuild = function (build) {
+        BuildImportLogResource.get(build.identifier.branchName, build.identifier.buildName, function onSuccess(log) {
+            $modal.open({
+                templateUrl: 'buildImportStatusDialog.html',
+                controller: BuildImportStatusDialogCtrl,
+                windowClass: 'modal-wide',
+                resolve: {
+                    build: function () { return build; },
+                    log: function() { return log; },
+                    styleClassesForBuildImportStatus: function() { return $scope.styleClassesForBuildImportStatus; }
+                }
+            });
         });
     };
 
@@ -55,3 +63,21 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
     };
 
 });
+
+
+/** Sub-Controller for BuildImportStatus-Dialog **/
+var BuildImportStatusDialogCtrl = function ($scope, $modalInstance, build, log, styleClassesForBuildImportStatus) {
+
+    $scope.build = build;
+    $scope.log = log;
+    $scope.styleClassesForBuildImportStatus = styleClassesForBuildImportStatus;
+
+    $scope.hasImportMessage = function() {
+        return angular.isDefined($scope.build.statusMessage);
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+};
