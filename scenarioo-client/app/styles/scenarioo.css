@@ -324,3 +324,26 @@ div.sc-screenshot-scenario {
 .sc-node-value {
     color: #428bca;
 }
+
+
+/** Modal Support with Bootstrap 3.0 - workaround according to http://stackoverflow.com/questions/18895271/angular-bootstrap-cant-get-modal-to-appear */
+
+.modal {
+    display: block;
+    height: 0;
+    overflow: visible;
+}
+
+.modal-body:before,
+.modal-body:after {
+    display: table;
+    content: " ";
+}
+
+.modal-header:before,
+.modal-header:after {
+    display: table;
+    content: " ";
+}
+
+
