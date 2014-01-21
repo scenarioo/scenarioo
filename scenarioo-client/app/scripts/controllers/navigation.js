@@ -65,6 +65,7 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
         var result = BuildImportService.updateData({});
         result.then(function () {
             $scope.aggregationInProgress = false;
+            $location.path('/').search('tab', 'builds');
         }, function () {
             $scope.aggregationInProgress = false;
         });
