@@ -346,4 +346,9 @@ div.sc-screenshot-scenario {
     content: " ";
 }
 
+/** Build Import Status Dialog (wider) **/
+.modal-wide .modal-dialog {
+    width: 75%;
+}
+
 
