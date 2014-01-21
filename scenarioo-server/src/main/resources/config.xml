@@ -8,19 +8,17 @@
     &lt;h3&gt;Welcome to Scenarioo!&lt;/h3&gt;
 &lt;br/&gt;
 &lt;p&gt;
-    You can change this welcome message and all other settings of Scenarioo on t
-he configuration page.
+    You can change this welcome message and all other settings of Scenarioo on the configuration page.
 &lt;/p&gt;
 &lt;p&gt;
-    Please put your application specific welcome message to your user's of Scena
-rioo here. This is the place where you might want to explain the appication spec
-ific structure of your Scenarioo documentation, such that new user's of this too
-l will quickly find their way through your user scenarios of your application.
+    Please put your application specific welcome message to your users of Scenarioo here.
+    This is the place where you might want to explain the appication specific structure of your Scenarioo documentation, 
+    such that new users of this tool will quickly find their way through the user scenarios of your application.
 &lt;/p&gt;
 &lt;p&gt;
-    To start exploring the features of Scenarioo, simply choose one of the examp
-le use cases and then one of its secenarios to browse step by step through the p
-ages and screenshots of one tested user scenario. 
+    Usually, to start exploring the features of Scenarioo, it's best to choose one of the example use cases 
+    and then one of its scenarios to browse step by step through the pages, screenshots and other details of one tested 
+    user scenario. 
 &lt;/p&gt;
 &lt;p&gt;&lt;b&gt;Have fun!&lt;/b&gt;&lt;/p&gt;       
     </applicationInformation>
