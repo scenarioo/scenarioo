@@ -81,7 +81,7 @@
                                 Date: {{build.importDate | date:'MM/dd/yyyy HH:mm'}}
                             </div>
                             <div class="col-md-4">
-                                <div ng-show="hasImportMessage" class="label-warning">
+                                <div ng-show="hasImportMessage()" class="label-warning">
                                     {{build.statusMessage}}
                                 </div>
                             </div>

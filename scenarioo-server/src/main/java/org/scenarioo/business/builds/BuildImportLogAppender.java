@@ -66,6 +66,12 @@ public class BuildImportLogAppender extends AppenderSkeleton {
 		if (buildIdentifier != null && this.buildIdentifier.equals(buildIdentifier)) {
 			try {
 				logWriter.append(event.getRenderedMessage() + "\n");
+				if (event.getThrowableInformation() != null) {
+					logWriter.append("           see following exception messages and stack trace: \n");
+					for (String s : event.getThrowableStrRep()) {
+						logWriter.append("             > " + s + "\n");
+					}
+				}
 			} catch (IOException e) {
 				throw new RuntimeException(
 						"Could not write log file for build "

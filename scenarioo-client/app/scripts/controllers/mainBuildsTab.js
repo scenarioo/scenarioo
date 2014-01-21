@@ -73,7 +73,12 @@ var BuildImportStatusDialogCtrl = function ($scope, $modalInstance, build, log, 
     $scope.styleClassesForBuildImportStatus = styleClassesForBuildImportStatus;
 
     $scope.hasImportMessage = function() {
-        return angular.isDefined($scope.build.statusMessage);
+        if (angular.isUndefined($scope.build.statusMessage)) {
+            return false;
+        }
+        else {
+            return true;
+        }
     };
 
     $scope.cancel = function () {
