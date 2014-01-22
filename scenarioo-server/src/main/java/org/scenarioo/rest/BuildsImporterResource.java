@@ -59,7 +59,8 @@ public class BuildsImporterResource {
 	@Produces({ "application/xml", "application/json" })
 	public Response loadBuildImportLog(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName) {
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildNameUnchecked(branchName,
+				buildName);
 		ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
 		File logFile = dao.getBuildImportLogFile(branchName, resolvedBuildName);
 		if (logFile == null || !logFile.exists()) {

@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchesAndBuilds, BuildImportService, $rootScope, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchesAndBuilds, BuildImportService, $rootScope, SelectedBranchAndBuild, $modal) {
 
     /**
      * is set to true while server is updating it's docu
@@ -45,11 +45,6 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
         $location.search(SelectedBranchAndBuild.BUILD_KEY, build.linkName);
     };
 
-    $scope.modalInfoOptions = {
-        backdropFade: true,
-        dialogClass: 'modal modal-small'
-    };
-
     $scope.updating = false;
 
     $scope.getDisplayName = function (build) {
@@ -70,30 +65,57 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
         var result = BuildImportService.updateData({});
         result.then(function () {
             $scope.aggregationInProgress = false;
+            $location.path('/').search('tab', 'builds');
         }, function () {
             $scope.aggregationInProgress = false;
         });
     };
 
     // TODO:  do not leak to rootScope
-    function isAFirstTimeUser() {
-        var previouslyVisited = $cookieStore.get('previouslyVisited');
+    $scope.isAFirstTimeUser = function() {
+        var previouslyVisited = $cookieStore.get('scenariooFirstTimeUsageApplicationInfoPopupAlreadyVisitedYea');
         if (previouslyVisited) {
             return false;
         }
-        $cookieStore.put('previouslyVisited', true);
+        $cookieStore.put('scenariooFirstTimeUsageApplicationInfoPopupAlreadyVisitedYea', true);
         return true;
-    }
-
-    // TODO: Use $modal from angular-bootstrap, as soon as it works with bootstrap 3
-    $rootScope.infoModal = {showing: (isAFirstTimeUser() ? 'block' : 'none'), tab: null};
+    };
 
     $rootScope.openInfoModal = function (tabValue) {
-        $rootScope.infoModal = {showing: true, tab: tabValue, style: {display: 'block'}};
+        $modal.open({
+            templateUrl: 'views/applicationInfoPopup.html',
+            controller: ApplicationInfoPopupCtrl,
+            windowClass: 'modal-small',
+            backdropFade: true,
+            resolve: {
+                tabValue: function () { return tabValue; }
+            }
+        });
     };
 
-    $rootScope.closeInfoModal = function () {
-        $rootScope.infoModal = {showing: false, style: {display: 'none'}};
+    $scope.openOnFirstTimeUsage = function() {
+        if ($scope.isAFirstTimeUser()===true) {
+            $rootScope.openInfoModal();
+        }
     };
+    $scope.openOnFirstTimeUsage();
 
 });
+
+
+/** Sub-Controller for Application-Info-Popup **/
+var ApplicationInfoPopupCtrl = function($scope, $modalInstance, Config, tabValue) {
+
+    $scope.$watch(function() {
+        return Config.applicationInformation();
+    }, function(applicationInformation) {
+        $scope.applicationInformation = applicationInformation;
+    });
+
+    $scope.tabValue = tabValue;
+
+    $scope.closeInfoModal = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+};

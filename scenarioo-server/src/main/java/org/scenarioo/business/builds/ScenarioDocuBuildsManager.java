@@ -92,13 +92,21 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	/**
+	 * Resolves a potential alias build name but does not fail if build name is not recognized or not successful
+	 */
+	public String resolveAliasBuildNameUnchecked(final String branchName, final String buildName) {
+		String resolvedBuildName = availableBuilds.resolveAliasBuildName(branchName, buildName);
+		return resolvedBuildName;
+	}
+	
+	/**
 	 * Resolves possible alias names in 'buildName' for managed build alias links. Also validates that the passed branch
 	 * and build represents a valid build (imported successfully otherwise an exception is thrown)
 	 * 
 	 * @return the name to use as build name for referencing this build.
 	 */
 	public String resolveAliasBuildName(final String branchName, final String buildName) {
-		String resolvedBuildName = availableBuilds.resolveAliasBuildName(branchName, buildName);
+		String resolvedBuildName = resolveAliasBuildNameUnchecked(branchName, buildName);
 		validateBuildIsSuccessfullyImported(branchName, resolvedBuildName);
 		return resolvedBuildName;
 	}

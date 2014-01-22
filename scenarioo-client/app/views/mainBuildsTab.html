@@ -25,26 +25,80 @@
     <table ng-table="tableParams" class="table table-curved table-hover table-responsive " ng-model="sort">
         <thead>
         <tr>
-            <th sortandfilter="build.status" class="filter-none">Status</th>
             <th sortandfilter="branch.name">Branch</th>
             <th sortandfilter="build.name">Build</th>
             <th sortandfilter="build.date">Date</th>
             <th sortandfilter="build.revision">Revision</th>
+            <th sortandfilter="build.status" class="filter-none">Status</th>
             <th sortandfilter="build.importStatus">Import Status</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="build in buildImportStates | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse" ng-click="goToBuild(build.identifier)" class="link">
-            <td>
-                <span ng-class="[buildStateToClassMapping[build.buildDescription.status], 'label']">{{build.buildDescription.status}}</span>
-            </td>
+        <tr ng-repeat="build in buildImportStates | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse" ng-click="goToBuild(build)" class="link">
             <td>{{build.identifier.branchName}}</td>
             <td>{{build.identifier.buildName}}</td>
             <td>{{build.buildDescription.date | date:'MM/dd/yyyy HH:mm'}}</td>
             <td>{{build.buildDescription.revision}}</td>
-            <td title="{{build.statusMessage}}">{{build.status}}</td>
+            <td>
+                <span ng-class="[buildStateToClassMapping[build.buildDescription.status], 'label']">{{build.buildDescription.status}}</span>
+            </td>
+            <td title="{{build.statusMessage}}"><span ng-class="[styleClassesForBuildImportStatus[build.status], 'label']">{{build.status}}</span></td>
         </tr>
         </tbody>
     </table>
+
+
+    <script type="text/ng-template" id="buildImportStatusDialog.html">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Build {{ build.identifier.buildName }} on Branch {{ build.identifier.branchName }}</h3>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <b>Build</b>
+                        <div class="row">
+                            <div class="col-md-4">
+                                Revision: {{build.buildDescription.revision}}
+                            </div>
+                            <div class="col-md-4">
+                                Date: {{build.buildDescription.date | date:'MM/dd/yyyy HH:mm'}}
+                             </div>
+                             <div class="col-md-4">
+                                  Status: <span ng-class="[buildStateToClassMapping[build.buildDescription.status], 'label']">{{build.buildDescription.status}}</span>
+                             </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <b>Import into Scenarioo</b>
+                        <div class="row">
+                            <div class="col-md-4">
+                                Status: <span ng-class="[styleClassesForBuildImportStatus[build.status], 'label']">{{build.status}}</span>
+                            </div>
+                            <div class="col-md-4">
+                                Date: {{build.importDate | date:'MM/dd/yyyy HH:mm'}}
+                            </div>
+                            <div class="col-md-4">
+                                <div ng-show="hasImportMessage()" class="label-warning">
+                                    {{build.statusMessage}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="importLog" class="control-label">Import Log</label>
+                        <textarea id="importLog" class="form-control" rows="10" wrap="off" readonly="true" title="the output on the server on importing this build into scenarioo">{{log}}</textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="cancel()">Close</button>
+                </div>
+            </div>
+        </div>
+    </script>
 
  </div>

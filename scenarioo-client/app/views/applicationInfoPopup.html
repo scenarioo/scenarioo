@@ -15,7 +15,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div class="modal" ng-show="infoModal.showing" ng-style="infoModal.style" ng-controller="ApplicationInfoPopupCtrl">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -30,27 +29,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </div>
                     </tab>
 
-                    <tab heading="Vision">
+                    <tab heading="Scenarioo">
                         <div>
+                            <h3>Automated Documentation through UI Tests</h3>
+                            <br/>
                             <blockquote>
-                                <p>Documentation is in the Code.</p>
+                                <p>
+                                    Documentation is in your Code and Tests.<br/>
+                                    Yes ... but ... you have to make it visible!
+                                </p>
                                 <small>Our vision</small>
                             </blockquote>
                             <p>
-                                Scenarioo is a user scenario documentation, a functional documentation of the software describing all
-                                use cases and the most important user scenarios of your software. Each scenario is documented by step by
-                                step screenshots and a lot of additional meta information about what is going on in your application.
+                                Scenarioo helps you visualizing and documenting the functionalities of your software in a guidebook, that contains the important user interaction flows of your software, generated out of your UI tests.
+                                Each so called "User Scenario" is presented as step by step page flow with screenshots and any additional useful information that you want to provide. Using the Scenarioo web frontent everybody in your project can jump from step to step of your user scenarios almost like a Kangoroo.
                             <p/>
                             <p>
-                                With the help of webtests and Scenarioo the documentation of your application
-                                will never be out of date. You can browse through the nightly created screenshots or compare the newest
-                                version to the version of the last release.
+                                This might be helpfull to all kind of stakeholders in your project, such as developers, requirement engineers, testers, technical support, product owners, project leaders, business or sales representatives, customers or even users.
+                            </p>
+                            <p>
+                                For more information see <a href="http://www.scenarioo.org">http://www.scenarioo.org</a>
                             </p>
                         </div>
                     </tab>
 
                     <tab heading="Shortcuts">
-                        You can use shortcuts to navigate through the steps of a scenario.
+                        <div>
+                        <h3>Shortcuts for navigating by keys in Scenarioo</h3>
+                        <br/>
                         <dl class="dl-horizontal">
                             <dt>Left <i class="icon icon-arrow-left icon-with-padding"></i> </dt>
                             <dd>Previous Step</dd>
@@ -67,21 +73,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <dt>Right + Ctrl <span class="Scenarioo-icon-ctrl">ctrl</span><i class="icon icon-arrow-right icon-with-padding"></i> </dt>
                             <dd>Next Variant</dd>
                         </dl>
+                        </div>
                     </tab>
 
-                    <tab heading="Contributors">
+                    <tab heading="Contacts">
                         <div>
-                            <p>
-                                Scenarioo is an education project by some developers from Switzerland to develop a web application that can be used to browse "User Scenario Documentations",
-                                which are documentations generated automatically from your UI tests (e.g. by Selenium).
-                            </p>
+                            <h3>Contact the Scenarioo Development Team and Community</h3>
+                            <br/>
                             <h3 class="github-link">
-                                <a href="http://github.com/forkch/Scenarioo/" target="_blank" class="link-no-hover"><i class="icon-github-sign icon-with-padding"></i> Visit us on Github</a>
+                                <a href="http://github.com/scenarioo/scenarioo/" target="_blank" class="link-no-hover"><i class="icon-github-sign icon-with-padding"></i> Visit us on Github</a>
+                            </h3>
+                            <br/>
+                            <h3 class="github-link">
+                                <a href="mailto:admin@scenarioo.org" class="link-no-hover" ><i class="icon-envelope icon-with-padding"></i> Or contact us by Email: admin@scenarioo.org</a>
                             </h3>
                         </div>
                     </tab>
 
                 </tabset>
+
             </div>
 
             <div class="modal-footer">
@@ -89,4 +99,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
     </div>
-</div>

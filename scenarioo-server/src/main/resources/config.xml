@@ -4,7 +4,24 @@
     <defaultBranchName>example-branch</defaultBranchName>
     <defaultBuildName>example-build</defaultBuildName>
     <scenarioPropertiesInOverview>userProfile, configuration</scenarioPropertiesInOverview>
-    <applicationInformation>Welcome to Scenarioo. You can change this welcome message and all other settings on the configuration page.</applicationInformation>
+    <applicationInformation>
+    &lt;h3&gt;Welcome to Scenarioo!&lt;/h3&gt;
+&lt;br/&gt;
+&lt;p&gt;
+    You can change this welcome message and all other settings of Scenarioo on the configuration page.
+&lt;/p&gt;
+&lt;p&gt;
+    Please put your application specific welcome message to your users of Scenarioo here.
+    This is the place where you might want to explain the appication specific structure of your Scenarioo documentation, 
+    such that new users of this tool will quickly find their way through the user scenarios of your application.
+&lt;/p&gt;
+&lt;p&gt;
+    Usually, to start exploring the features of Scenarioo, it's best to choose one of the example use cases 
+    and then one of its scenarios to browse step by step through the pages, screenshots and other details of one tested 
+    user scenario. 
+&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Have fun!&lt;/b&gt;&lt;/p&gt;       
+    </applicationInformation>
     <buildstates>
         <entry>
             <key>failed</key>

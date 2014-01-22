@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function ($scope, BuildImportStatesResource, BuildImportLogResource, $window) {
+angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function ($scope, BuildImportStatesResource, BuildImportLogResource, $modal) {
 
     BuildImportStatesResource.query({}, function(buildImportStates) {
         $scope.buildImportStates = buildImportStates;
@@ -38,11 +38,51 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
         }
     };
 
-    $scope.goToBuild = function (buildIdentifier) {
-        BuildImportLogResource.get(buildIdentifier.branchName, buildIdentifier.buildName, function onSuccess(log) {
-            // TODO #81: introduce a nicer popup for the logs to be displayed (using $modal).
-            $window.alert('Log-Output for Import of Build ' + buildIdentifier.branchName + '/' + buildIdentifier.buildName + ':\n' + log);
+    $scope.goToBuild = function (build) {
+        BuildImportLogResource.get(build.identifier.branchName, build.identifier.buildName, function onSuccess(log) {
+            $modal.open({
+                templateUrl: 'buildImportStatusDialog.html',
+                controller: BuildImportStatusDialogCtrl,
+                windowClass: 'modal-wide',
+                resolve: {
+                    build: function () { return build; },
+                    log: function() { return log; },
+                    styleClassesForBuildImportStatus: function() { return $scope.styleClassesForBuildImportStatus; }
+                }
+            });
         });
     };
 
+    $scope.styleClassesForBuildImportStatus = {
+        'SUCCESS': 'label-success',
+        'FAILED': 'label-danger',
+        'UNPROCESSED': 'label-warning',
+        'QUEUED_FOR_PROCESSING': 'label-warning',
+        'PROCESSING': 'label-warning',
+        'OUTDATED': 'label-warning'
+    };
+
 });
+
+
+/** Sub-Controller for BuildImportStatus-Dialog **/
+var BuildImportStatusDialogCtrl = function ($scope, $modalInstance, build, log, styleClassesForBuildImportStatus) {
+
+    $scope.build = build;
+    $scope.log = log;
+    $scope.styleClassesForBuildImportStatus = styleClassesForBuildImportStatus;
+
+    $scope.hasImportMessage = function() {
+        if (angular.isUndefined($scope.build.statusMessage)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+};
