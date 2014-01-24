@@ -57,7 +57,7 @@ describe('StepCtrl', function () {
         StepCtrl = $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
             $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource,
             PageVariantService: PageVariantService, StepService: StepService, HostnameAndPort: HostnameAndPort,
-            SelectedBranchAndBuild: SelectedBranchAndBuild});
+            SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}});
     }));
 
     it('shows all metadata sections collapsed first', function () {

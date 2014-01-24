@@ -1,23 +1,23 @@
 /* scenarioo-client
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchesAndBuilds, BuildImportService, $rootScope, SelectedBranchAndBuild, $modal) {
+angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchesAndBuilds, BuildImportService, SelectedBranchAndBuild, $modal, ScApplicationInfoPopup) {
 
     /**
      * is set to true while server is updating it's docu
@@ -71,51 +71,10 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
         });
     };
 
-    // TODO:  do not leak to rootScope
-    $scope.isAFirstTimeUser = function() {
-        var previouslyVisited = $cookieStore.get('scenariooFirstTimeUsageApplicationInfoPopupAlreadyVisitedYea');
-        if (previouslyVisited) {
-            return false;
-        }
-        $cookieStore.put('scenariooFirstTimeUsageApplicationInfoPopupAlreadyVisitedYea', true);
-        return true;
+    $scope.showApplicationInfoPopup = function() {
+        ScApplicationInfoPopup.showApplicationInfoPopup();
     };
 
-    $rootScope.openInfoModal = function (tabValue) {
-        $modal.open({
-            templateUrl: 'views/applicationInfoPopup.html',
-            controller: ApplicationInfoPopupCtrl,
-            windowClass: 'modal-small',
-            backdropFade: true,
-            resolve: {
-                tabValue: function () { return tabValue; }
-            }
-        });
-    };
-
-    $scope.openOnFirstTimeUsage = function() {
-        if ($scope.isAFirstTimeUser()===true) {
-            $rootScope.openInfoModal();
-        }
-    };
-    $scope.openOnFirstTimeUsage();
+    ScApplicationInfoPopup.showApplicationInfoPopupIfRequired();
 
 });
-
-
-/** Sub-Controller for Application-Info-Popup **/
-var ApplicationInfoPopupCtrl = function($scope, $modalInstance, Config, tabValue) {
-
-    $scope.$watch(function() {
-        return Config.applicationInformation();
-    }, function(applicationInformation) {
-        $scope.applicationInformation = applicationInformation;
-    });
-
-    $scope.tabValue = tabValue;
-
-    $scope.closeInfoModal = function () {
-        $modalInstance.dismiss('cancel');
-    };
-
-};
