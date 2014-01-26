@@ -67,12 +67,22 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
             );
     };
 
+    $scope.getStyleClassForBuildImportStatus = function(status) {
+        var styleClassFromMapping = $scope.styleClassesForBuildImportStatus[status];
+        if (angular.isUndefined(styleClassFromMapping)) {
+            return 'label-warning';
+        }
+        else {
+            return styleClassFromMapping;
+        }
+    };
+
     $scope.styleClassesForBuildImportStatus = {
         'SUCCESS': 'label-success',
         'FAILED': 'label-danger',
-        'UNPROCESSED': 'label-warning',
-        'QUEUED_FOR_PROCESSING': 'label-warning',
-        'PROCESSING': 'label-warning',
+        'UNPROCESSED': 'label-default',
+        'QUEUED_FOR_PROCESSING': 'label-info',
+        'PROCESSING': 'label-primary',
         'OUTDATED': 'label-warning'
     };
 
