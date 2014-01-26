@@ -42,7 +42,7 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
         BuildImportLogResource.get(build.identifier.branchName, build.identifier.buildName, function onSuccess(log) {
             $modal.open({
                 templateUrl: 'buildImportStatusDialog.html',
-                controller: BuildImportStatusDialogCtrl,
+                controller: 'BuildImportStatusDialogCtrl',
                 windowClass: 'modal-wide',
                 resolve: {
                     build: function () { return build; },
@@ -99,7 +99,7 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
 
 
 /** Sub-Controller for BuildImportStatus-Dialog **/
-var BuildImportStatusDialogCtrl = function ($scope, $modalInstance, build, log, styleClassesForBuildImportStatus) {
+angular.module('scenarioo.controllers').controller('BuildImportStatusDialogCtrl', function ($scope, $modalInstance, build, log, styleClassesForBuildImportStatus) {
 
     $scope.build = build;
     $scope.log = log;
@@ -118,4 +118,4 @@ var BuildImportStatusDialogCtrl = function ($scope, $modalInstance, build, log, 
         $modalInstance.dismiss('cancel');
     };
 
-};
+});
