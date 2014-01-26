@@ -90,7 +90,7 @@ angular.module('scenarioo.services').factory('BuildImportService', function (Sce
     return buildImportService;
 });
 
-angular.module('scenarioo.services').factory('BuildReimportResource', function (ScenariooResource, $q) {
+angular.module('scenarioo.services').factory('BuildReimportResource', function (ScenariooResource) {
     return ScenariooResource('/builds/reimportBuild/:branchName/:buildName',
         {   branchName: '@branchName',
             buildName: '@buildName'}, {});
