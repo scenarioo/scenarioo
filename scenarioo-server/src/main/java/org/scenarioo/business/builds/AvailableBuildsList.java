@@ -124,6 +124,27 @@ public class AvailableBuildsList {
 	}
 	
 	/**
+	 * Remove a build from available builds (e.g. because it is currently processed).
+	 * 
+	 * If build is not found, nothing happens (no effect and no exception)
+	 */
+	public void removeBuild(final BuildIdentifier buildIdentifier) {
+		for (BranchBuilds branchBuilds : branchBuildsList) {
+			if (branchBuilds.getBranch().getName().equals(buildIdentifier.getBranchName())) {
+				for (BuildLink buildLink : branchBuilds.getBuilds()) {
+					if (buildLink.getLinkName().equals(buildIdentifier.getBuildName())) {
+						branchBuilds.getBuilds().remove(buildLink);
+						break;
+					}
+				}
+				updateAliasesForRecentBuilds(branchBuilds);
+				BuildSorter.sort(branchBuilds.getBuilds());
+				return;
+			}
+		}
+	}
+	
+	/**
 	 * Find the most recent builds (both successful and unsuccessful) and tag them with special alias names
 	 */
 	private void updateAliasesForRecentBuilds(final BranchBuilds branchBuilds) {

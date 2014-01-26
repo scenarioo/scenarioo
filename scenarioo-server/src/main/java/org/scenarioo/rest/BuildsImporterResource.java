@@ -70,4 +70,14 @@ public class BuildsImporterResource {
 		response.header("Content-Disposition", "attachment; filename=\"" + logFile + "\"");
 		return response.build();
 	}
+	
+	@GET
+	@Path("reimportBuild/{branchName}/{buildName}")
+	@Produces({ "application/xml", "application/json" })
+	public void reimportBuild(@PathParam("branchName") final String branchName,
+			@PathParam("buildName") final String buildName) {
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildNameUnchecked(branchName,
+				buildName);
+		ScenarioDocuBuildsManager.INSTANCE.reimportBuild(branchName, resolvedBuildName);
+	}
 }

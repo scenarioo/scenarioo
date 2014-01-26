@@ -43,7 +43,7 @@
             <td>
                 <span ng-class="[buildStateToClassMapping[build.buildDescription.status], 'label']">{{build.buildDescription.status}}</span>
             </td>
-            <td title="{{build.statusMessage}}"><span ng-class="[styleClassesForBuildImportStatus[build.status], 'label']">{{build.status}}</span></td>
+            <td title="{{build.statusMessage}}"><span ng-class="[styleClassesForBuildImportStatus[build.status], 'label']">{{build.status}}</span>  <a class="link pull-right" ng-click="reimportBuild(build)" tooltip="Reimport and update this build" tooltip-placement="bottom"><i class="icon-refresh icon-with-padding"></i></a></td>
         </tr>
         </tbody>
     </table>

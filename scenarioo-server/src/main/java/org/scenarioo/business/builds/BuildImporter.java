@@ -97,25 +97,64 @@ public class BuildImporter {
 	public synchronized void submitUnprocessedBuildsForImport(final AvailableBuildsList availableBuilds) {
 		for (BuildIdentifier buildIdentifier : buildImportSummaries.keySet()) {
 			final BuildImportSummary summary = buildImportSummaries.get(buildIdentifier);
-			if (summary != null) {
-				if (summary.getStatus().isImportNeeded()
-						&& !buildsInProcessingQueue.contains(buildIdentifier)) {
-					LOGGER.info("  Submitting build for import: " + buildIdentifier.getBranchName() + "/"
-							+ buildIdentifier.getBuildName());
-					summary.setStatus(BuildImportStatus.QUEUED_FOR_PROCESSING);
-					asyncBuildImportExecutor.execute(new Runnable() {
-						@Override
-						public void run() {
-							try {
-								importBuild(availableBuilds, summary);
-							} catch (Throwable e) {
-								LOGGER.error("Unexpected error on build import.", e);
-							}
-						}
-					});
-				}
+			if (summary != null && summary.getStatus().isImportNeeded()) {
+				submitBuildForImport(availableBuilds, buildIdentifier);
 			}
 		}
+	}
+	
+	public synchronized void submitBuildForReimport(final AvailableBuildsList availableBuilds,
+			final BuildIdentifier buildIdentifier) {
+		removeImportedBuildAndDerivedData(availableBuilds, buildIdentifier);
+		submitBuildForImport(availableBuilds, buildIdentifier);
+		saveBuildImportSummaries(buildImportSummaries);
+	}
+	
+	/**
+	 * Remove a build from the available builds list and mark it as unprocessed, also remove any available derived data
+	 * that mark this build as processed.
+	 */
+	private synchronized void removeImportedBuildAndDerivedData(final AvailableBuildsList availableBuilds,
+			final BuildIdentifier buildIdentifier) {
+		
+		// Precondition: Do not do anything when build is unknown or already queued for asynch processing
+		final BuildImportSummary summary = buildImportSummaries.get(buildIdentifier);
+		if (summary == null || buildsInProcessingQueue.contains(buildIdentifier)) {
+			return;
+		}
+		
+		availableBuilds.removeBuild(buildIdentifier);
+		summary.setStatus(BuildImportStatus.UNPROCESSED);
+		ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator();
+		aggregator.removeAggregatedDataForBuild(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+	}
+	
+	/**
+	 * Submit any build for import.
+	 */
+	private synchronized void submitBuildForImport(final AvailableBuildsList availableBuilds,
+			final BuildIdentifier buildIdentifier) {
+		
+		// Precondition: Do not do anything when build is unknown or already queued
+		final BuildImportSummary summary = buildImportSummaries.get(buildIdentifier);
+		if (summary == null || buildsInProcessingQueue.contains(buildIdentifier)) {
+			return;
+		}
+		
+		LOGGER.info("  Submitting build for import: " + buildIdentifier.getBranchName() + "/"
+				+ buildIdentifier.getBuildName());
+		asyncBuildImportExecutor.execute(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					importBuild(availableBuilds, summary);
+				} catch (Throwable e) {
+					LOGGER.error("Unexpected error on build import.", e);
+				}
+			}
+		});
+		buildsInProcessingQueue.add(buildIdentifier);
+		summary.setStatus(BuildImportStatus.QUEUED_FOR_PROCESSING);
 	}
 	
 	private void importBuild(final AvailableBuildsList availableBuilds, BuildImportSummary summary) {

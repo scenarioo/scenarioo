@@ -103,6 +103,13 @@ public class ScenarioDocuAggregator {
 				&& version.equals(CURRENT_FILE_FORMAT_VERSION);
 	}
 	
+	public void removeAggregatedDataForBuild(final String branchName,
+			final String buildName) {
+		dao.deleteDerivedFiles(branchName, buildName);
+		objectRepository = new ObjectRepository(branchName, buildName, dao);
+		objectRepository.removeAnyExistingObjectData();
+	}
+	
 	public void calculateAggregatedDataForBuild(final String branchName,
 			final String buildName) {
 		

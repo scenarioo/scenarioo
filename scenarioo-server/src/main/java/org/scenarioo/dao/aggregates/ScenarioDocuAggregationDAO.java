@@ -281,4 +281,16 @@ public class ScenarioDocuAggregationDAO {
 		return files.getBuildImportLogFile(branchName, buildName);
 	}
 	
+	/**
+	 * Delete the most important derived files, such that the build is considered as unprocessed again.
+	 */
+	public void deleteDerivedFiles(final String branchName, final String buildName) {
+		File versionFile = files.getVersionFile(branchName, buildName);
+		versionFile.delete();
+		File logFile = getBuildImportLogFile(branchName, buildName);
+		logFile.delete();
+		File longObjectNamesFile = files.getLongObjectNamesIndexFile(branchName, buildName);
+		longObjectNamesFile.delete();
+	}
+	
 }

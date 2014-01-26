@@ -172,6 +172,14 @@ public class ScenarioDocuBuildsManager {
 		return result;
 	}
 	
+	/**
+	 * Schedule a build for reimport, even if the build was already imported once.
+	 */
+	public void reimportBuild(final String branchName, final String buildName) {
+		BuildIdentifier buildId = new BuildIdentifier(branchName, buildName);
+		buildImporter.submitBuildForReimport(availableBuilds, buildId);
+	}
+	
 	public LongObjectNamesResolver getLongObjectNameResolver(final String branchName, final String buildName) {
 		ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
 				ConfigurationDAO.getDocuDataDirectoryPath());

@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function ($scope, $location, $route, BuildImportService, BuildImportStatesResource, BuildImportLogResource, $modal) {
+angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function ($scope, $location, $route, $modal, BuildImportStatesResource, BuildImportService, BuildReimportResource, BuildImportLogResource) {
 
     BuildImportStatesResource.query({}, function(buildImportStates) {
         $scope.buildImportStates = buildImportStates;
@@ -53,6 +53,20 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
         });
     };
 
+    $scope.reimportBuild = function (build) {
+        $scope.updatingBuildsInProgress = true;
+        BuildReimportResource.get({branchName: build.identifier.branchName, buildName: build.identifier.buildName },
+                function onSuccess() {
+                    $scope.updatingBuildsInProgress = false;
+                    $route.reload();
+                },
+                function onError() {
+                    $scope.updatingBuildsInProgress = false;
+                    $route.reload();
+                }
+            );
+    };
+
     $scope.styleClassesForBuildImportStatus = {
         'SUCCESS': 'label-success',
         'FAILED': 'label-danger',
@@ -71,10 +85,10 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
         $scope.updatingBuildsInProgress = true;
 
         var result = BuildImportService.updateData({});
-        result.then(function () {
+        result.then(function onSuccess() {
             $scope.updatingBuildsInProgress = false;
             $route.reload();
-        }, function () {
+        }, function onError() {
             $scope.updatingBuildsInProgress = false;
             $route.reload();
         });

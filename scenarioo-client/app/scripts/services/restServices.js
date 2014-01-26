@@ -90,6 +90,12 @@ angular.module('scenarioo.services').factory('BuildImportService', function (Sce
     return buildImportService;
 });
 
+angular.module('scenarioo.services').factory('BuildReimportResource', function (ScenariooResource, $q) {
+    return ScenariooResource('/builds/reimportBuild/:branchName/:buildName',
+        {   branchName: '@branchName',
+            buildName: '@buildName'}, {});
+});
+
 angular.module('scenarioo.services').factory('UseCaseService', function (ScenariooResource, $q) {
     var useCaseService = ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName',
         {   branchName: '@branchName',
