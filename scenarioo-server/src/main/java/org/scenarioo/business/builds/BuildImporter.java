@@ -143,6 +143,8 @@ public class BuildImporter {
 		
 		LOGGER.info("  Submitting build for import: " + buildIdentifier.getBranchName() + "/"
 				+ buildIdentifier.getBuildName());
+		buildsInProcessingQueue.add(buildIdentifier);
+		summary.setStatus(BuildImportStatus.QUEUED_FOR_PROCESSING);
 		asyncBuildImportExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
@@ -153,8 +155,6 @@ public class BuildImporter {
 				}
 			}
 		});
-		buildsInProcessingQueue.add(buildIdentifier);
-		summary.setStatus(BuildImportStatus.QUEUED_FOR_PROCESSING);
 	}
 	
 	private void importBuild(final AvailableBuildsList availableBuilds, BuildImportSummary summary) {
