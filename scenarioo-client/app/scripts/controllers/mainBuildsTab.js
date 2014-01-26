@@ -23,7 +23,7 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
         $scope.buildImportStates = buildImportStates;
     });
 
-    $scope.table = {search: {searchTerm: ''}, sort: {column: 'build.date', reverse: true}, filtering: false};
+    $scope.table = {search: {searchTerm: ''}, sort: {column: 'buildDescription.date', reverse: true}, filtering: false};
 
     $scope.resetSearchField = function () {
         $scope.table.search = {searchTerm: ''};
