@@ -17,12 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchesAndBuilds, BuildImportService, SelectedBranchAndBuild, $modal, ScApplicationInfoPopup) {
-
-    /**
-     * is set to true while server is updating it's docu
-     */
-    $scope.aggregationInProgress = false;
+angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchesAndBuilds, SelectedBranchAndBuild, $modal, ScApplicationInfoPopup) {
 
     SelectedBranchAndBuild.callOnSelectionChange(loadBranchesAndBuilds);
 
@@ -57,18 +52,6 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
         } else {
             return 'Revision: ' + build.build.revision;
         }
-    };
-
-    $scope.aggregate = function () {
-        $scope.aggregationInProgress = true;
-
-        var result = BuildImportService.updateData({});
-        result.then(function () {
-            $scope.aggregationInProgress = false;
-            $location.path('/').search('tab', 'builds');
-        }, function () {
-            $scope.aggregationInProgress = false;
-        });
     };
 
     $scope.showApplicationInfoPopup = function() {

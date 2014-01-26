@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function ($scope, BuildImportStatesResource, BuildImportLogResource, $modal) {
+angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function ($scope, $location, $route, BuildImportService, BuildImportStatesResource, BuildImportLogResource, $modal) {
 
     BuildImportStatesResource.query({}, function(buildImportStates) {
         $scope.buildImportStates = buildImportStates;
@@ -61,6 +61,25 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
         'PROCESSING': 'label-warning',
         'OUTDATED': 'label-warning'
     };
+
+    /**
+     * Is set to true while call to server for updating available documentation builds is in progress
+     */
+    $scope.updatingBuildsInProgress = false;
+
+    $scope.importAndUpdateBuilds = function () {
+        $scope.updatingBuildsInProgress = true;
+
+        var result = BuildImportService.updateData({});
+        result.then(function () {
+            $scope.updatingBuildsInProgress = false;
+            $route.reload();
+        }, function () {
+            $scope.updatingBuildsInProgress = false;
+            $route.reload();
+        });
+    };
+
 
 });
 
