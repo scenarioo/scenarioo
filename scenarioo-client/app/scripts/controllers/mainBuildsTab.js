@@ -47,7 +47,7 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
                 resolve: {
                     build: function () { return build; },
                     log: function() { return log; },
-                    styleClassesForBuildImportStatus: function() { return $scope.styleClassesForBuildImportStatus; }
+                    getStyleClassForBuildImportStatus: function() { return $scope.getStyleClassForBuildImportStatus; }
                 }
             });
         });
@@ -67,12 +67,22 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
             );
     };
 
+    $scope.getStyleClassForBuildImportStatus = function(status) {
+        var styleClassFromMapping = $scope.styleClassesForBuildImportStatus[status];
+        if (angular.isUndefined(styleClassFromMapping)) {
+            return 'label-warning';
+        }
+        else {
+            return styleClassFromMapping;
+        }
+    };
+
     $scope.styleClassesForBuildImportStatus = {
         'SUCCESS': 'label-success',
         'FAILED': 'label-danger',
-        'UNPROCESSED': 'label-warning',
-        'QUEUED_FOR_PROCESSING': 'label-warning',
-        'PROCESSING': 'label-warning',
+        'UNPROCESSED': 'label-default',
+        'QUEUED_FOR_PROCESSING': 'label-info',
+        'PROCESSING': 'label-primary',
         'OUTDATED': 'label-warning'
     };
 
@@ -99,11 +109,11 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
 
 
 /** Sub-Controller for BuildImportStatus-Dialog **/
-angular.module('scenarioo.controllers').controller('BuildImportStatusDialogCtrl', function ($scope, $modalInstance, build, log, styleClassesForBuildImportStatus) {
+angular.module('scenarioo.controllers').controller('BuildImportStatusDialogCtrl', function ($scope, $modalInstance, build, log, getStyleClassForBuildImportStatus) {
 
     $scope.build = build;
     $scope.log = log;
-    $scope.styleClassesForBuildImportStatus = styleClassesForBuildImportStatus;
+    $scope.getStyleClassForBuildImportStatus = getStyleClassForBuildImportStatus;
 
     $scope.hasImportMessage = function() {
         if (angular.isUndefined($scope.build.statusMessage)) {

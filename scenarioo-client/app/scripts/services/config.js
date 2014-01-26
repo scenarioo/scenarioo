@@ -35,6 +35,16 @@ angular.module('scenarioo.services').service('Config', function (ConfigResource,
         ConfigResource.get({}, function (response) {
             configData = response;
             $rootScope.buildStateToClassMapping = configData.buildstates;
+            $rootScope.getStatusStyleClass = function(buildStatus) {
+                var styleClassFromMapping = $rootScope.buildStateToClassMapping[buildStatus];
+                if (angular.isUndefined(styleClassFromMapping)) {
+                    return 'label-warning';
+                }
+                else {
+                    return styleClassFromMapping;
+                }
+            };
+
             $rootScope.$broadcast(CONFIG_LOADED_EVENT);
         });
     }

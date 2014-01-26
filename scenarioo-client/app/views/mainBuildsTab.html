@@ -41,9 +41,9 @@
             <td>{{build.buildDescription.date | date:'MM/dd/yyyy HH:mm'}}</td>
             <td>{{build.buildDescription.revision}}</td>
             <td>
-                <span ng-class="[buildStateToClassMapping[build.buildDescription.status], 'label']">{{build.buildDescription.status}}</span>
+                <span ng-class="[getStatusStyleClass(build.buildDescription.status), 'label']">{{build.buildDescription.status}}</span>
             </td>
-            <td title="{{build.statusMessage}}"><span ng-class="[styleClassesForBuildImportStatus[build.status], 'label']">{{build.status}}</span>  <a class="link pull-right" ng-click="reimportBuild(build)" tooltip="Reimport and update this build" tooltip-placement="bottom"><i class="icon-refresh icon-with-padding"></i></a></td>
+            <td title="{{build.statusMessage}}"><span ng-class="[getStyleClassForBuildImportStatus(build.status), 'label']">{{build.status}}</span>  <a class="link pull-right" ng-click="reimportBuild(build)" tooltip="Reimport and update this build" tooltip-placement="bottom"><i class="icon-refresh icon-with-padding"></i></a></td>
         </tr>
         </tbody>
     </table>
@@ -67,7 +67,7 @@
                                 Date: {{build.buildDescription.date | date:'MM/dd/yyyy HH:mm'}}
                              </div>
                              <div class="col-md-4">
-                                  Status: <span ng-class="[buildStateToClassMapping[build.buildDescription.status], 'label']">{{build.buildDescription.status}}</span>
+                                  Status: <span ng-class="[getStatusStyleClass(build.buildDescription.status), 'label']">{{build.buildDescription.status}}</span>
                              </div>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                         <b>Import into Scenarioo</b>
                         <div class="row">
                             <div class="col-md-4">
-                                Status: <span ng-class="[styleClassesForBuildImportStatus[build.status], 'label']">{{build.status}}</span>
+                                Status: <span ng-class="[getStyleClassForBuildImportStatus(build.status), 'label']">{{build.status}}</span>
                             </div>
                             <div class="col-md-4">
                                 Date: {{build.importDate | date:'MM/dd/yyyy HH:mm'}}

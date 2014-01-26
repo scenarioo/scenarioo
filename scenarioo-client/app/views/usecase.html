@@ -53,7 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <tbody>
         <tr ng-click="goToScenario(useCase.name, scenario.name)" class="link" ng-repeat="scenario in scenarios | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse">
             <td>
-                <span class="label state" ng-class="buildStateToClassMapping[scenario.status]">{{scenario.status}}</span>
+                <span class="label state" ng-class="getStatusStyleClass(scenario.status)">{{scenario.status}}</span>
             </td>
             <td>{{scenario.name | scHumanReadable }}</td>
             <td>
