@@ -27,7 +27,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.scenarioo.uitest.example.build;
+package org.scenarioo.uitest.example.builds;
 
 import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
 
@@ -81,4 +81,5 @@ public class SaveBranchAndBuildDescriptionExampleTest {
 		build.setStatus("success"); // you should set it to "failed" if one of the tests failed.
 		docuWriter.saveBuildDescription(build);
 	}
+	
 }
