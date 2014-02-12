@@ -34,12 +34,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th sortandfilter="status">Status</th>
-            <th sortandfilter="name">Scenario name</th>
+            <th sc-sortable-column="status">Status</th>
+            <th sc-sortable-column="name">Scenario name</th>
             <th>Actions</th>
             <th>Description</th>
-            <th ng-repeat="property in propertiesToShow" sortandfilter="details.properties.{{property}}">{{property | scHumanReadable}}</th>
-            <th sortandfilter="calculatedData.numberOfSteps" class="filter-none"># Steps</th>
+            <th ng-repeat="property in propertiesToShow" sc-sortable-column="details.properties.{{property}}">{{property | scHumanReadable}}</th>
+            <th sc-sortable-column="calculatedData.numberOfSteps" class="filter-none"># Steps</th>
         </tr>
     </thead>
     <tbody>
@@ -51,7 +51,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <td>
                 <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview" tooltip-placement="bottom"></i></a>
                 <a ng-click="goToFirstStep(useCase.name, scenario.name)" tooltip="Go to first step" tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
-
             </td>
             <td>{{scenario.description}}</td>
             <td ng-repeat="property in propertiesToShow">{{scenario.details.properties[property]}}</td>

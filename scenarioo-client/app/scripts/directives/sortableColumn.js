@@ -17,36 +17,32 @@
 
 'use strict';
 
-angular.module('scenarioo.directives').directive('sortandfilter', function ($compile) {
+angular.module('scenarioo.directives').directive('scSortableColumn', function ($compile) {
     var sortableDescriptionObject = {
         restrict: 'A',
         scope: true,
         link: function (scope, element, attrs) {
-            scope.$watch(attrs.sortandfilter, function () {
-                var sortAndFilter = attrs.sortandfilter;
-                if (!sortAndFilter) {
+            scope.$watch(attrs.scSortableColumn, function () {
+                var scSortableColumn = attrs.scSortableColumn;
+                if (!scSortableColumn) {
                     return;
                 }
                 element.addClass('link');
 
-                var iconStr = '<i class="icon-sort pull-right" ng-show="table.sort.column != \'' + sortAndFilter + '\'"></i>' +
-                    '<i class="icon-sort-up pull-right" ng-show="table.sort.column == \'' + sortAndFilter + '\' && !table.sort.reverse"></i>' +
-                    '<i class="icon-sort-down pull-right" ng-show="table.sort.column == \'' + sortAndFilter + '\' && table.sort.reverse"></i>';
-                var filterStr = '';
-                if (!element.hasClass('filter-none')) {
-                    filterStr = '<div class="tableFilter" ng-show="table.filtering">' +
-                        '<input type="text" class="form-control" ng-model="table.search[\'' + sortAndFilter + '\']" stop-event="click" placeholder="Enter search criteria..."></div>';
-                }
-                var iconsAndFilter = angular.element(iconStr + filterStr);
-                var iconsAndFilterCompiled = $compile(iconsAndFilter)(scope);
-                element.append(iconsAndFilterCompiled);
+                var iconString = '<i class="icon-sort pull-right" ng-show="table.sort.column != \'' + scSortableColumn + '\'"></i>' +
+                    '<i class="icon-sort-up pull-right" ng-show="table.sort.column == \'' + scSortableColumn + '\' && !table.sort.reverse"></i>' +
+                    '<i class="icon-sort-down pull-right" ng-show="table.sort.column == \'' + scSortableColumn + '\' && table.sort.reverse"></i>';
+
+                var iconElement = angular.element(iconString);
+                var iconCompiled = $compile(iconElement)(scope);
+                element.append(iconCompiled);
                 element.bind('click', function () {
                     if (!scope.table.sort) {
                         scope.table.sort = {};
                     }
-                    var changed = scope.table.sort.column !== sortAndFilter;
+                    var changed = scope.table.sort.column !== scSortableColumn;
                     if (changed) {
-                        scope.table.sort.column = sortAndFilter;
+                        scope.table.sort.column = scSortableColumn;
                     }
                     if (changed) {
                         scope.table.sort.reverse = false;
