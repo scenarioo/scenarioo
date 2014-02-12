@@ -64,12 +64,4 @@ angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($sco
         $scope.table.search = {searchTerm: ''};
     };
 
-    $scope.toggleFilter = function () {
-        $scope.table.filtering = !$scope.table.filtering;
-        if (!$scope.table.filtering) {
-            var temp = $scope.table.search.searchTerm;
-            $scope.table.search = { searchTerm: temp };
-        }
-    };
-
 });

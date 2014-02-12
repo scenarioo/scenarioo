@@ -47,13 +47,4 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
         $scope.table.search = {searchTerm: ''};
     };
 
-    $scope.toggleFilter = function () {
-        $scope.table.filtering = !$scope.table.filtering;
-        if (!$scope.table.filtering) {
-            // Removes filter values when filter is switched off
-            var searchTerm = $scope.table.search.searchTerm;
-            $scope.table.search = { searchTerm: searchTerm };
-        }
-    };
-
 });

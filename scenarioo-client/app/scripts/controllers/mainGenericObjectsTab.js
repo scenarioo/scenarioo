@@ -35,15 +35,6 @@ angular.module('scenarioo.controllers').controller('MainGenericObjectsTabCtrl', 
         $scope.table.search = {searchTerm: ''};
     };
 
-    $scope.toggleFilter = function () {
-        $scope.table.filtering = !$scope.table.filtering;
-        if (!$scope.table.filtering) {
-            // Removes filter values when filter is switched off
-            var searchTerm = $scope.table.search.searchTerm;
-            $scope.table.search = { searchTerm: searchTerm };
-        }
-    };
-
     $scope.genericObjectsTypes = {selected: null};
     $scope.genericObjectsTypeFilter = function (genericObjectTabs) {
         if ($scope.genericObjectsTypes.selected) {
