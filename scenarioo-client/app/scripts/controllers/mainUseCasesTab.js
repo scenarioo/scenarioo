@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, SelectedBranchAndBuild, UseCasesResource, BranchesAndBuilds) {
+angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, SelectedBranchAndBuild, UseCasesResource) {
 
     SelectedBranchAndBuild.callOnSelectionChange(loadUseCases);
 

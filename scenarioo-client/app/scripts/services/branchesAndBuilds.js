@@ -22,20 +22,17 @@ angular.module('scenarioo.services').service('BranchesAndBuilds', function ($roo
     var branchesAndBuildsData = function () {
         var deferred = $q.defer();
         BranchesResource.query({}, function findSelectedBranchAndBuild(branches) {
-                var loadedData = {
-                    branches: branches
-                };
+            if (branches.length === 0) {
+                deferred.reject('Branch list empty!');
+                return;
+            }
 
-                if (!SelectedBranchAndBuild.isDefined()) {
-                    return;
-                }
+            var loadedData = {
+                branches: branches
+            };
 
+            if (SelectedBranchAndBuild.isDefined()) {
                 var selected = SelectedBranchAndBuild.selected();
-
-                if (loadedData.branches.length === 0) {
-                    deferred.reject('Branch list empty!');
-                    return;
-                }
 
                 var index;
                 for (index = 0; index < loadedData.branches.length; index++) {
@@ -44,28 +41,20 @@ angular.module('scenarioo.services').service('BranchesAndBuilds', function ($roo
                     }
                 }
 
-                if (angular.isUndefined(loadedData.selectedBranch)) {
-                    deferred.reject('Branch ' + selected.branch + ' not found in branch list!');
-                    return;
-                }
-
-                var allBuildsOnSelectedBranch = loadedData.selectedBranch.builds;
-                for (index = 0; index < loadedData.selectedBranch.builds.length; index++) {
-                    if (allBuildsOnSelectedBranch[index].linkName === selected.build) {
-                        loadedData.selectedBuild = allBuildsOnSelectedBranch[index];
+                if (angular.isDefined(loadedData.selectedBranch)) {
+                    var allBuildsOnSelectedBranch = loadedData.selectedBranch.builds;
+                    for (index = 0; index < loadedData.selectedBranch.builds.length; index++) {
+                        if (allBuildsOnSelectedBranch[index].linkName === selected.build) {
+                            loadedData.selectedBuild = allBuildsOnSelectedBranch[index];
+                        }
                     }
                 }
+            }
 
-                if (angular.isUndefined(loadedData.selectedBuild)) {
-                    deferred.reject('Build ' + selected.build + ' not found in build list of branch' + selected.branch + '!');
-                    return;
-                }
-
-                deferred.resolve(loadedData);
-
-            }, function (error) {
-                deferred.reject(error);
-            });
+            deferred.resolve(loadedData);
+        }, function (error) {
+            deferred.reject(error);
+        });
 
         return deferred.promise;
     };
