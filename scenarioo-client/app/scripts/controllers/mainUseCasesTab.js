@@ -28,20 +28,13 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
             function onSuccess(result) {
                 $scope.useCases = result;
             });
-
-        BranchesAndBuilds.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
-                $scope.branchesAndBuilds = branchesAndBuilds;
-            }, function onFailure(error) {
-                console.log(error);
-            }
-        );
     }
 
     $scope.goToUseCase = function (useCaseName) {
         $location.path('/usecase/' + useCaseName);
     };
 
-    $scope.table = {search: {searchTerm: ''}, sort: {column: 'useCase.name', reverse: false}, filtering: false};
+    $scope.table = {search: {searchTerm: ''}, sort: {column: 'useCase.name', reverse: false}};
 
     $scope.resetSearchField = function () {
         $scope.table.search = {searchTerm: ''};

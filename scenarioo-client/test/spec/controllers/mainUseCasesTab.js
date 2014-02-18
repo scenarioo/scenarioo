@@ -47,21 +47,4 @@ describe('Controller MainUseCasesTabCtrl', function () {
         expect($location.path()).toBe('/usecase/DisplayWeather');
     });
 
-    it('loads use cases and builds when branch and build selection changes', function () {
-        var USECASES_URL = HostnameAndPort.forTest() + '/scenarioo/rest/branches/release-branch-2014-01-16/builds/example-build/usecases';
-        var BRANCHES_URL = HostnameAndPort.forTest() + '/scenarioo/rest/branches';
-
-        $httpBackend.whenGET(USECASES_URL).respond(TestData.USECASES);
-        $httpBackend.whenGET(BRANCHES_URL).respond(TestData.BRANCHES);
-
-        $location.url('/?branch=release-branch-2014-01-16&build=example-build');
-        $scope.$apply();
-
-        $httpBackend.flush();
-        expect($scope.useCases).toEqualData(TestData.USECASES);
-        expect($scope.branchesAndBuilds.branches).toEqualData(TestData.BRANCHES);
-        expect($scope.branchesAndBuilds.selectedBranch).toEqualData(TestData.BRANCHES[1]);
-        expect($scope.branchesAndBuilds.selectedBuild).toEqualData(TestData.BRANCHES[1].builds[0]);
-    });
-
 });
