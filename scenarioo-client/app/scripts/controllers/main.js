@@ -20,12 +20,13 @@
 angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope, $location, SelectedBranchAndBuild, BranchesAndBuilds) {
 
     function loadBuilds() {
-        BranchesAndBuilds.getBranchesAndBuilds(
-            function onSuccess(branchesAndBuilds) {
-                $scope.branchesAndBuilds = branchesAndBuilds;
-            }
-        );
+        BranchesAndBuilds.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
+            $scope.branchesAndBuilds = branchesAndBuilds;
+        }, function onFailure(error) {
+            console.log(error);
+        });
     }
+
     SelectedBranchAndBuild.callOnSelectionChange(loadBuilds);
 
     $scope.tabs = [
@@ -65,12 +66,12 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
         //,{index: '1', label:'Simulation Configs', objectType: 'httpAction'}
     ];
 
-    $scope.setSelectedTabInUrl = function(tabId) {
+    $scope.setSelectedTabInUrl = function (tabId) {
         $location.search('tab', tabId);
     };
 
 
-    $scope.selectTabFromUrl = function() {
+    $scope.selectTabFromUrl = function () {
         var params = $location.search();
         var selectedTabId = 'undefined';
         if (params !== null && angular.isDefined(params.tab)) {

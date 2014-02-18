@@ -22,9 +22,10 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
     SelectedBranchAndBuild.callOnSelectionChange(loadBranchesAndBuilds);
 
     function loadBranchesAndBuilds() {
-        BranchesAndBuilds.getBranchesAndBuilds(
-            function onSuccess(branchesAndBuilds) {
+        BranchesAndBuilds.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
                 $scope.branchesAndBuilds = branchesAndBuilds;
+            }, function onFailure(error) {
+                console.log(error);
             }
         );
     }

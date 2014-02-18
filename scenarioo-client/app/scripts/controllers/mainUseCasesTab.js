@@ -29,12 +29,12 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
                 $scope.useCases = result;
             });
 
-        BranchesAndBuilds.getBranchesAndBuilds(
-            function onSuccess(branchesAndBuilds) {
+        BranchesAndBuilds.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
                 $scope.branchesAndBuilds = branchesAndBuilds;
+            }, function onFailure(error) {
+                console.log(error);
             }
         );
-
     }
 
     $scope.goToUseCase = function (useCaseName) {

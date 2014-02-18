@@ -58,7 +58,6 @@ describe('Controller MainUseCasesTabCtrl', function () {
         $scope.$apply();
 
         $httpBackend.flush();
-
         expect($scope.useCases).toEqualData(TestData.USECASES);
         expect($scope.branchesAndBuilds.branches).toEqualData(TestData.BRANCHES);
         expect($scope.branchesAndBuilds.selectedBranch).toEqualData(TestData.BRANCHES[1]);
