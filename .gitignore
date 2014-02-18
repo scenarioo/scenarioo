@@ -16,3 +16,5 @@ scenarioo-client/app/scripts/environment_config.js
 /build
 *hs_err*.log
 /build
+.classpath
+.settings

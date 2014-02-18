@@ -3,7 +3,9 @@ dist
 .tmp
 .sass-cache
 app/components
-/.project
+.project
 test-results.xml
 coverage
 build
+.classpath
+.settings

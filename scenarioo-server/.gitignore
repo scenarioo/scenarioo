@@ -1,7 +1,7 @@
-/build
-/target
-/data
-/.gradle
-/.project
-/.classpath
-/.settings/org.eclipse.wst.common.component
+build
+target
+data
+.gradle
+.project
+.classpath
+.settings
