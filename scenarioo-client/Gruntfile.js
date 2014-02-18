@@ -36,6 +36,11 @@ module.exports = function (grunt) {
     } catch (e) {
     }
     grunt.loadNpmTasks('grunt-ng-constant');
+    // we want to run protractor via grunt, we need this.
+    // install with npm install grunt-protractor-runner --save-dev
+    // see   https://npmjs.org/package/grunt-protractor-runner    for more info
+    grunt.loadNpmTasks('grunt-protractor-runner');
+
     grunt.initConfig({
         yeoman: yeomanConfig,
         watch: {
@@ -156,11 +161,26 @@ module.exports = function (grunt) {
                 configFile: 'karma.conf.js',
                 singleRun: false,
                 autoWatch: true
+            }
+        },
+        protractor: {
+            options: {
+                configFile: "node_modules/protractor/referenceConf.js", // Default config file
+                keepAlive: false, // If false, the grunt process stops when the test fails.
+                noColor: false, // If true, protractor will not use colors in its output.
+                args: {
+                    // Arguments passed to the command
+                }
             },
             e2e: {
-                configFile: 'karma-e2e.conf.js',
-                singleRun: true,
-                autoWatch: false
+                configFile: "protractor-e2e.conf.js",
+                options: {
+                    args: {
+                    } // Target-specific arguments
+                }
+            },
+            scenariooe2e: {
+                configFile: "protractor-e2e-scenarioo.conf.js"
             }
         },
         coffee: {
@@ -373,10 +393,11 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('test:e2e', [
-        'clean:server',
-        'livereload-start',
-        'connect:livereload',
-        'karma:e2e'
+        'protractor:e2e'
+    ]);
+
+    grunt.registerTask('test:scenariooe2e', [
+        'protractor:scenariooe2e'
     ]);
 
     grunt.registerTask('build-light', [
@@ -384,7 +405,6 @@ module.exports = function (grunt) {
         'ngconstant:production',
         'jshint',
         'karma:unit',
-        'karma:e2e',
         'useminPrepare',
         'imagemin',
         'cssmin',
@@ -402,7 +422,6 @@ module.exports = function (grunt) {
         'jshint',
         'less:dist',
         'karma:unit',
-        'karma:e2e',
         'coffee',
         'useminPrepare',
         'imagemin',
