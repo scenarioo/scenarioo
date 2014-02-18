@@ -25,23 +25,28 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Data;
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data
 public class BuildImportSummaries {
-	
+
 	@XmlElementWrapper(name = "buildSummaries")
 	@XmlElement(name = "buildSummary")
 	List<BuildImportSummary> buildSummaries;
-	
+
 	public BuildImportSummaries() {
 	}
-	
+
 	public BuildImportSummaries(final List<BuildImportSummary> buildSummaries) {
 		super();
 		this.buildSummaries = buildSummaries;
 	}
-	
+
+	public List<BuildImportSummary> getBuildSummaries() {
+		return buildSummaries;
+	}
+
+	public void setBuildSummaries(List<BuildImportSummary> buildSummaries) {
+		this.buildSummaries = buildSummaries;
+	}
+
 }

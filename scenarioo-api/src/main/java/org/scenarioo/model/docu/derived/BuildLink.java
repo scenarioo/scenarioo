@@ -20,7 +20,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package org.scenarioo.model.docu.derived;
 
 import java.io.Serializable;
@@ -28,8 +27,6 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import lombok.Data;
 
 import org.scenarioo.model.docu.entities.Build;
 
@@ -40,13 +37,11 @@ import org.scenarioo.model.docu.entities.Build;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data
 public class BuildLink implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private String linkName;
-	
 	private Build build;
 	
 	public BuildLink() {
@@ -60,4 +55,59 @@ public class BuildLink implements Serializable {
 		this.build = build;
 		this.linkName = linkName;
 	}
+	
+	public String getLinkName() {
+		return linkName;
+	}
+	
+	public void setLinkName(String linkName) {
+		this.linkName = linkName;
+	}
+	
+	public Build getBuild() {
+		return build;
+	}
+	
+	public void setBuild(Build build) {
+		this.build = build;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((build == null) ? 0 : build.hashCode());
+		result = prime * result + ((linkName == null) ? 0 : linkName.hashCode());
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		BuildLink other = (BuildLink) obj;
+		if (build == null) {
+			if (other.build != null) {
+				return false;
+			}
+		} else if (!build.equals(other.build)) {
+			return false;
+		}
+		if (linkName == null) {
+			if (other.linkName != null) {
+				return false;
+			}
+		} else if (!linkName.equals(other.linkName)) {
+			return false;
+		}
+		return true;
+	}
+	
 }

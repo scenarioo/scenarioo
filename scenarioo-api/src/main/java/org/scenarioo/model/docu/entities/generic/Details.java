@@ -20,7 +20,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package org.scenarioo.model.docu.entities.generic;
 
 import java.io.Serializable;
@@ -33,18 +32,17 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data
-@EqualsAndHashCode
 public class Details implements Map<String, Object>, Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private final Map<String, Object> properties = new HashMap<String, Object>();
+	
+	public Map<String, Object> getProperties() {
+		return properties;
+	}
 	
 	public void addDetail(final String key, final Object value) {
 		if (value != null) {
@@ -117,6 +115,36 @@ public class Details implements Map<String, Object>, Serializable {
 	@Override
 	public Set<java.util.Map.Entry<String, Object>> entrySet() {
 		return properties.entrySet();
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((properties == null) ? 0 : properties.hashCode());
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Details other = (Details) obj;
+		if (properties == null) {
+			if (other.properties != null) {
+				return false;
+			}
+		} else if (!properties.equals(other.properties)) {
+			return false;
+		}
+		return true;
 	}
 	
 }

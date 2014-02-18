@@ -174,7 +174,9 @@
   </xs:complexType>
 
   <xs:complexType name="stepHtml">
-    <xs:sequence/>
+    <xs:sequence>
+      <xs:element name="htmlSource" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="stepMetadata">

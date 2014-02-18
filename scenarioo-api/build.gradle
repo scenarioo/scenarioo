@@ -52,7 +52,6 @@ configurations { xjc }
 
 dependencies {
 	xjc group: 'com.sun.xml.bind', name: 'jaxb-xjc', version: '2.2.4-1'
-	xjc 'org.projectlombok:lombok:1.12.2'
 }
 
 project.ext.schemaTargetDir = new File("$projectDir/src/main/resources/scenarioo-schemas");

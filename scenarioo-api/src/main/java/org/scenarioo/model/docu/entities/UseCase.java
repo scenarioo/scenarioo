@@ -20,7 +20,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package org.scenarioo.model.docu.entities;
 
 import java.io.Serializable;
@@ -29,13 +28,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Data;
-
 import org.scenarioo.model.docu.entities.generic.Details;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data
 public class UseCase implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -43,7 +39,7 @@ public class UseCase implements Serializable {
 	private String name;
 	private String description;
 	private String status;
-	private Details details = new Details();
+	private final Details details = new Details();
 	
 	public UseCase() {
 	}
@@ -55,7 +51,36 @@ public class UseCase implements Serializable {
 		this.status = "";
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(final String name) {
+		this.name = name;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public void setDescription(final String description) {
+		this.description = description;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+	
+	public Details getDetails() {
+		return details;
+	}
+	
+	public void setStatus(final String status) {
+		this.status = status;
+	}
+	
 	public void addDetail(final String key, final Object value) {
 		details.addDetail(key, value);
 	}
+	
 }
