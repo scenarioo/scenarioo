@@ -165,7 +165,7 @@ module.exports = function (grunt) {
         },
         protractor: {
             options: {
-                configFile: "node_modules/protractor/referenceConf.js", // Default config file
+                configFile: 'node_modules/protractor/referenceConf.js', // Default config file
                 keepAlive: false, // If false, the grunt process stops when the test fails.
                 noColor: false, // If true, protractor will not use colors in its output.
                 args: {
@@ -173,14 +173,14 @@ module.exports = function (grunt) {
                 }
             },
             e2e: {
-                configFile: "protractor-e2e.conf.js",
+                configFile: 'protractor-e2e.conf.js',
                 options: {
                     args: {
                     } // Target-specific arguments
                 }
             },
             scenariooe2e: {
-                configFile: "protractor-e2e-scenarioo.conf.js"
+                configFile: 'protractor-e2e-scenarioo.conf.js'
             }
         },
         coffee: {
@@ -422,7 +422,6 @@ module.exports = function (grunt) {
         'jshint',
         'less:dist',
         'karma:unit',
-        'coffee',
         'useminPrepare',
         'imagemin',
         'cssmin',
