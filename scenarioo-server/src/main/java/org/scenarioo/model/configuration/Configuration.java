@@ -24,36 +24,108 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Data;
-
 /**
  * The configuration for the server and the client.
  * 
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data()
 public class Configuration {
-	
+
 	public static final String DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD = "most recent";
 	public static final String DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD = "last successful";
-	
+
 	private String testDocumentationDirPath;
-	
+
 	private String defaultBranchName = "trunk";
-	
+
 	private String defaultBuildName = DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD;
-	
+
 	private String aliasForMostRecentBuild = DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD;
-	
+
 	private String aliasForLastSuccessfulBuild = DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD;
-	
+
 	private String buildStatusForSuccessfulBuilds = "success";
-	
+
 	private String scenarioPropertiesInOverview;
-	
+
 	private String applicationInformation;
-	
+
 	private Map<String, String> buildstates = new HashMap<String, String>();
-	
+
+	public String getTestDocumentationDirPath() {
+		return testDocumentationDirPath;
+	}
+
+	public void setTestDocumentationDirPath(String testDocumentationDirPath) {
+		this.testDocumentationDirPath = testDocumentationDirPath;
+	}
+
+	public String getDefaultBranchName() {
+		return defaultBranchName;
+	}
+
+	public void setDefaultBranchName(String defaultBranchName) {
+		this.defaultBranchName = defaultBranchName;
+	}
+
+	public String getDefaultBuildName() {
+		return defaultBuildName;
+	}
+
+	public void setDefaultBuildName(String defaultBuildName) {
+		this.defaultBuildName = defaultBuildName;
+	}
+
+	public String getAliasForMostRecentBuild() {
+		return aliasForMostRecentBuild;
+	}
+
+	public void setAliasForMostRecentBuild(String aliasForMostRecentBuild) {
+		this.aliasForMostRecentBuild = aliasForMostRecentBuild;
+	}
+
+	public String getAliasForLastSuccessfulBuild() {
+		return aliasForLastSuccessfulBuild;
+	}
+
+	public void setAliasForLastSuccessfulBuild(
+			String aliasForLastSuccessfulBuild) {
+		this.aliasForLastSuccessfulBuild = aliasForLastSuccessfulBuild;
+	}
+
+	public String getBuildStatusForSuccessfulBuilds() {
+		return buildStatusForSuccessfulBuilds;
+	}
+
+	public void setBuildStatusForSuccessfulBuilds(
+			String buildStatusForSuccessfulBuilds) {
+		this.buildStatusForSuccessfulBuilds = buildStatusForSuccessfulBuilds;
+	}
+
+	public String getScenarioPropertiesInOverview() {
+		return scenarioPropertiesInOverview;
+	}
+
+	public void setScenarioPropertiesInOverview(
+			String scenarioPropertiesInOverview) {
+		this.scenarioPropertiesInOverview = scenarioPropertiesInOverview;
+	}
+
+	public String getApplicationInformation() {
+		return applicationInformation;
+	}
+
+	public void setApplicationInformation(String applicationInformation) {
+		this.applicationInformation = applicationInformation;
+	}
+
+	public Map<String, String> getBuildstates() {
+		return buildstates;
+	}
+
+	public void setBuildstates(Map<String, String> buildstates) {
+		this.buildstates = buildstates;
+	}
+
 }

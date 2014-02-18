@@ -24,24 +24,23 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Data;
-
 /**
- * A class to manage object names that are too long for file names (only for file names! inside the real data the full
- * names are always used!). Contains an index for long file names that is stored in an XML as index on disk.
+ * A class to manage object names that are too long for file names (only for
+ * file names! inside the real data the full names are always used!). Contains
+ * an index for long file names that is stored in an XML as index on disk.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data()
 public class LongObjectNamesResolver {
-	
+
 	/**
 	 * Key is the first 100 characters of the name.
 	 */
-	private Map<String, UniqueShortObjectNamesForSameNamePrefix> uniqueShortNames = new HashMap<String, UniqueShortObjectNamesForSameNamePrefix>();
-	
+	private final Map<String, UniqueShortObjectNamesForSameNamePrefix> uniqueShortNames = new HashMap<String, UniqueShortObjectNamesForSameNamePrefix>();
+
 	/**
-	 * Returns either the name itself or a unique shorter name in case of the name beeing longer than 100 characters.
+	 * Returns either the name itself or a unique shorter name in case of the
+	 * name beeing longer than 100 characters.
 	 * 
 	 * @param fullLengthName
 	 *            the name in full length
@@ -49,29 +48,30 @@ public class LongObjectNamesResolver {
 	public synchronized String resolveObjectFileName(final String fullLengthName) {
 		if (fullLengthName.length() > 100) {
 			return resolveLongName(fullLengthName);
-		}
-		else {
+		} else {
 			return fullLengthName;
 		}
 	}
-	
+
 	private String resolveLongName(final String fullLenghtName) {
 		UniqueShortObjectNamesForSameNamePrefix uniqueShortNamesForHead = getUniqueShortNamesForHead(fullLenghtName);
 		return uniqueShortNamesForHead.resolveLongName(fullLenghtName);
 	}
-	
-	private UniqueShortObjectNamesForSameNamePrefix getUniqueShortNamesForHead(final String fullLenghtName) {
+
+	private UniqueShortObjectNamesForSameNamePrefix getUniqueShortNamesForHead(
+			final String fullLenghtName) {
 		String headKey = getHeadKey(fullLenghtName);
-		UniqueShortObjectNamesForSameNamePrefix result = uniqueShortNames.get(headKey);
+		UniqueShortObjectNamesForSameNamePrefix result = uniqueShortNames
+				.get(headKey);
 		if (result == null) {
 			result = new UniqueShortObjectNamesForSameNamePrefix();
 			uniqueShortNames.put(headKey, result);
 		}
 		return result;
 	}
-	
+
 	static String getHeadKey(final String fullLenghtName) {
 		return fullLenghtName.substring(0, 100);
 	}
-	
+
 }

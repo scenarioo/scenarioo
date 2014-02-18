@@ -29,20 +29,33 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
 
-import lombok.Data;
-
 /**
  * Represents a use case with all its scenarios
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data
 public class UseCaseScenarios {
-	
+
 	private UseCase useCase;
-	
+
 	@XmlElementWrapper(name = "scenarios")
 	@XmlElement(name = "scenario")
 	private List<Scenario> scenarios = new ArrayList<Scenario>();
-	
+
+	public UseCase getUseCase() {
+		return useCase;
+	}
+
+	public void setUseCase(UseCase useCase) {
+		this.useCase = useCase;
+	}
+
+	public List<Scenario> getScenarios() {
+		return scenarios;
+	}
+
+	public void setScenarios(List<Scenario> scenarios) {
+		this.scenarios = scenarios;
+	}
+
 }

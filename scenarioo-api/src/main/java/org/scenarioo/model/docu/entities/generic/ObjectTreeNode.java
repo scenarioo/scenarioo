@@ -20,7 +20,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package org.scenarioo.model.docu.entities.generic;
 
 import java.io.Serializable;
@@ -32,26 +31,35 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Data;
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data
 public class ObjectTreeNode<T> implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private T item;
 	
-	private Details details = new Details();
+	private final Details details = new Details();
 	
-	private List<ObjectTreeNode<?>> children = new ArrayList<ObjectTreeNode<?>>();
+	private final List<ObjectTreeNode<?>> children = new ArrayList<ObjectTreeNode<?>>();
 	
 	public ObjectTreeNode() {
 	}
 	
 	public ObjectTreeNode(final T item) {
 		this.item = item;
+	}
+	
+	public T getItem() {
+		return item;
+	}
+	
+	public void setItem(T item) {
+		this.item = item;
+	}
+	
+	public Details getDetails() {
+		return details;
 	}
 	
 	/**

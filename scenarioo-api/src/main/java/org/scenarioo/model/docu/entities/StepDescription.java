@@ -28,13 +28,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Data;
-
 import org.scenarioo.model.docu.entities.generic.Details;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data
 public class StepDescription implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -71,6 +68,82 @@ public class StepDescription implements Serializable {
 	private StepIdentification previousStepVariant;
 	@Deprecated
 	private StepIdentification nextStepVariant;
+	
+	public int getIndex() {
+		return index;
+	}
+	
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+	
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	public String getScreenshotFileName() {
+		return screenshotFileName;
+	}
+	
+	public void setScreenshotFileName(String screenshotFileName) {
+		this.screenshotFileName = screenshotFileName;
+	}
+	
+	public Details getDetails() {
+		return details;
+	}
+	
+	public StepIdentification getPreviousStepVariant() {
+		return previousStepVariant;
+	}
+	
+	public void setPreviousStepVariant(StepIdentification previousStepVariant) {
+		this.previousStepVariant = previousStepVariant;
+	}
+	
+	public StepIdentification getNextStepVariant() {
+		return nextStepVariant;
+	}
+	
+	public void setNextStepVariant(StepIdentification nextStepVariant) {
+		this.nextStepVariant = nextStepVariant;
+	}
+	
+	public int getOccurence() {
+		return occurence;
+	}
+	
+	public void setOccurence(int occurence) {
+		this.occurence = occurence;
+	}
+	
+	public int getRelativeIndex() {
+		return relativeIndex;
+	}
+	
+	public void setRelativeIndex(int relativeIndex) {
+		this.relativeIndex = relativeIndex;
+	}
+	
+	public int getVariantIndex() {
+		return variantIndex;
+	}
+	
+	public void setVariantIndex(int variantIndex) {
+		this.variantIndex = variantIndex;
+	}
 	
 	public void addDetails(final String key, final Object value) {
 		details.addDetail(key, value);

@@ -28,8 +28,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Data;
-
 /**
  * Contains all the data collected from a webtest for one step of the webtest.
  * 
@@ -37,17 +35,45 @@ import lombok.Data;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data
 public class Step implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private Page page;
-	
 	private StepDescription stepDescription;
-	
 	private StepHtml html;
-	
 	private StepMetadata metadata = new StepMetadata();
+	
+	public Page getPage() {
+		return page;
+	}
+	
+	public void setPage(Page page) {
+		this.page = page;
+	}
+	
+	public StepDescription getStepDescription() {
+		return stepDescription;
+	}
+	
+	public void setStepDescription(StepDescription stepDescription) {
+		this.stepDescription = stepDescription;
+	}
+	
+	public StepHtml getHtml() {
+		return html;
+	}
+	
+	public void setHtml(StepHtml html) {
+		this.html = html;
+	}
+	
+	public StepMetadata getMetadata() {
+		return metadata;
+	}
+	
+	public void setMetadata(StepMetadata metadata) {
+		this.metadata = metadata;
+	}
 	
 }

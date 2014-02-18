@@ -20,15 +20,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package org.scenarioo.api.exception;
-
-import lombok.Getter;
 
 public class ResourceNotFoundException extends RuntimeException {
 	
 	private static final long serialVersionUID = -8246746281046270932L;
-	@Getter
+	
 	private final String resource;
 	
 	public ResourceNotFoundException(final String resource, final Throwable throwable) {
@@ -39,6 +36,10 @@ public class ResourceNotFoundException extends RuntimeException {
 	public ResourceNotFoundException(final String resource) {
 		super("Resource not found: " + resource);
 		this.resource = resource;
+	}
+	
+	public String getResource() {
+		return resource;
 	}
 	
 }

@@ -20,14 +20,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package org.scenarioo.model.docu.entities;
 
 import java.io.Serializable;
 
-import lombok.Data;
-
-@Data
 public class StepHtml implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -38,6 +34,14 @@ public class StepHtml implements Serializable {
 	}
 	
 	public StepHtml(final String htmlSource) {
+		this.htmlSource = htmlSource;
+	}
+	
+	public String getHtmlSource() {
+		return htmlSource;
+	}
+	
+	public void setHtmlSource(String htmlSource) {
 		this.htmlSource = htmlSource;
 	}
 	

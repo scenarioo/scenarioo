@@ -28,17 +28,30 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.StepDescription;
 
-import lombok.Data;
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data
 public class PageSteps {
-	
+
 	private Page page;
-	
+
 	@XmlElementWrapper(name = "steps")
 	@XmlElement(name = "step")
 	private List<StepDescription> steps;
-	
+
+	public Page getPage() {
+		return page;
+	}
+
+	public void setPage(Page page) {
+		this.page = page;
+	}
+
+	public List<StepDescription> getSteps() {
+		return steps;
+	}
+
+	public void setSteps(List<StepDescription> steps) {
+		this.steps = steps;
+	}
+
 }

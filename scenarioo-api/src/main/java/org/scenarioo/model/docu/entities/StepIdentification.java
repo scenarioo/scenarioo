@@ -20,7 +20,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package org.scenarioo.model.docu.entities;
 
 import java.io.Serializable;
@@ -29,11 +28,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Data;
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data
 public class StepIdentification implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -58,4 +54,53 @@ public class StepIdentification implements Serializable {
 	private int index;
 	private int occurence;
 	private int relativeIndex;
+	
+	public String getUseCaseName() {
+		return useCaseName;
+	}
+	
+	public void setUseCaseName(String useCaseName) {
+		this.useCaseName = useCaseName;
+	}
+	
+	public String getScenarioName() {
+		return scenarioName;
+	}
+	
+	public void setScenarioName(String scenarioName) {
+		this.scenarioName = scenarioName;
+	}
+	
+	public String getPageName() {
+		return pageName;
+	}
+	
+	public void setPageName(String pageName) {
+		this.pageName = pageName;
+	}
+	
+	public int getIndex() {
+		return index;
+	}
+	
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	
+	public int getOccurence() {
+		return occurence;
+	}
+	
+	public void setOccurence(int occurence) {
+		this.occurence = occurence;
+	}
+	
+	public int getRelativeIndex() {
+		return relativeIndex;
+	}
+	
+	public void setRelativeIndex(int relativeIndex) {
+		this.relativeIndex = relativeIndex;
+	}
+	
 }

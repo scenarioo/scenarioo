@@ -28,8 +28,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Data;
-
 /**
  * Special calculated data for a scenario, this data gets calculated by the Scenarioo webaplication when generated docu
  * is imported automatically, therefore you do NOT have to fill this data when generating documentation (it will be
@@ -37,12 +35,27 @@ import lombok.Data;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data
 public class ScenarioCalculatedData implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private int numberOfPages;
 	private int numberOfSteps;
+	
+	public int getNumberOfPages() {
+		return numberOfPages;
+	}
+	
+	public void setNumberOfPages(int numberOfPages) {
+		this.numberOfPages = numberOfPages;
+	}
+	
+	public int getNumberOfSteps() {
+		return numberOfSteps;
+	}
+	
+	public void setNumberOfSteps(int numberOfSteps) {
+		this.numberOfSteps = numberOfSteps;
+	}
 	
 }

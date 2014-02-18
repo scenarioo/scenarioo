@@ -26,24 +26,37 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Data;
-
 import org.scenarioo.model.docu.derived.BuildLink;
 import org.scenarioo.model.docu.entities.Branch;
 
 /**
- * Represents a branch and all its belonging builds that have been successfully processed by server and therefore are
- * ready for browsing.
+ * Represents a branch and all its belonging builds that have been successfully
+ * processed by server and therefore are ready for browsing.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data()
 public class BranchBuilds {
-	
+
 	private Branch branch;
-	
+
 	@XmlElementWrapper(name = "builds")
 	@XmlElement(name = "buildLink")
 	private List<BuildLink> builds = new ArrayList<BuildLink>();
-	
+
+	public Branch getBranch() {
+		return branch;
+	}
+
+	public void setBranch(Branch branch) {
+		this.branch = branch;
+	}
+
+	public List<BuildLink> getBuilds() {
+		return builds;
+	}
+
+	public void setBuilds(List<BuildLink> builds) {
+		this.builds = builds;
+	}
+
 }

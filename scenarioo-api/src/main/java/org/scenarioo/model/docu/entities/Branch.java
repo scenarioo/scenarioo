@@ -28,22 +28,17 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Data;
-
 import org.scenarioo.model.docu.entities.generic.Details;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data
 public class Branch implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private String name;
-	
 	private String description;
-	
-	private Details details = new Details();
+	private final Details details = new Details();
 	
 	public Branch() {
 		this("", "");
@@ -57,4 +52,25 @@ public class Branch implements Serializable {
 		this.name = name;
 		this.description = description;
 	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public Details getDetails() {
+		return details;
+	}
+	
 }

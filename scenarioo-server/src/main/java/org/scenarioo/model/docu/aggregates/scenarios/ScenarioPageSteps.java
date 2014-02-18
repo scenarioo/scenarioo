@@ -28,22 +28,43 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
 
-import lombok.Data;
-
 /**
  * Represents a scenario of a usecase with all its pages and steps.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data
 public class ScenarioPageSteps {
-	
+
 	private Scenario scenario;
-	
+
 	private UseCase useCase;
-	
+
 	@XmlElementWrapper(name = "pagesAndSteps")
 	@XmlElement(name = "pageSteps")
 	private List<PageSteps> pagesAndSteps;
-	
+
+	public Scenario getScenario() {
+		return scenario;
+	}
+
+	public void setScenario(Scenario scenario) {
+		this.scenario = scenario;
+	}
+
+	public UseCase getUseCase() {
+		return useCase;
+	}
+
+	public void setUseCase(UseCase useCase) {
+		this.useCase = useCase;
+	}
+
+	public List<PageSteps> getPagesAndSteps() {
+		return pagesAndSteps;
+	}
+
+	public void setPagesAndSteps(List<PageSteps> pagesAndSteps) {
+		this.pagesAndSteps = pagesAndSteps;
+	}
+
 }

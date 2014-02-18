@@ -20,7 +20,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package org.scenarioo.model.docu.entities.generic;
 
 import java.io.Serializable;
@@ -35,11 +34,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import lombok.Data;
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Data
 public class ObjectList<T> implements List<T>, Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -55,6 +51,14 @@ public class ObjectList<T> implements List<T>, Serializable {
 	
 	public ObjectList(final T[] items) {
 		this.items = new ArrayList<T>(Arrays.asList(items));
+	}
+	
+	public List<T> getItems() {
+		return items;
+	}
+	
+	public void setItems(List<T> items) {
+		this.items = items;
 	}
 	
 	@Override
