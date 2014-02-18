@@ -47,9 +47,9 @@ module.exports = function (grunt) {
                 files: ['test/spec/{,*/}*.coffee'],
                 tasks: ['coffee:test']
             },
-            compass: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-                tasks: ['compass']
+            less: {
+                files: ['<%= yeoman.app %>/styles/{,*/}*.less'],
+                tasks: ['less']
             },
             livereload: {
                 files: [
@@ -187,23 +187,28 @@ module.exports = function (grunt) {
                 ]
             }
         },
-        compass: {
-            options: {
-                sassDir: '<%= yeoman.app %>/styles',
-                //cssDir: '<%= yeoman.app %>/styles',
-                cssDir: '.tmp/styles',
-                imagesDir: '<%= yeoman.app %>/images',
-                javascriptsDir: '<%= yeoman.app %>/scripts',
-                fontsDir: '<%= yeoman.app %>/styles/fonts',
-                importPath: '<%= yeoman.app %>/components',
-                relativeAssets: true
-            },
+        less: {
             dist: {
+                files: [
+                    {
+                        expand: true,     // Enable dynamic expansion.
+                        cwd: '<%= yeoman.app %>/styles/',      // Src matches are relative to this path.
+                        src: ['**/*.less'], // Actual pattern(s) to match.
+                        dest: '.tmp/styles/',   // Destination path prefix.
+                        ext: '.css'   // Dest filepaths will have this extension.
+                    }
+                ]
             },
             server: {
-                options: {
-                    debugInfo: true
-                }
+                files: [
+                    {
+                        expand: true,     // Enable dynamic expansion.
+                        cwd: '<%= yeoman.app %>/styles/',      // Src matches are relative to this path.
+                        src: ['**/*.less'], // Actual pattern(s) to match.
+                        dest: '.tmp/styles/',   // Destination path prefix.
+                        ext: '.css'   // Dest filepaths will have this extension.
+                    }
+                ]
             }
         },
         concat: {
@@ -346,8 +351,7 @@ module.exports = function (grunt) {
     grunt.registerTask('server', [
         'clean:server',
         'ngconstant:development',
-        'coffee:dist',
-        'compass:server',
+        'less:server',
         'livereload-start',
         'connect:livereload',
         'open',
@@ -356,24 +360,20 @@ module.exports = function (grunt) {
 
     grunt.registerTask('test:unit', [
         'clean:server',
-        'coffee',
-        'compass',
+        'jshint',
         'connect:test',
         'karma:unit'
     ]);
 
     grunt.registerTask('test:unitwatch', [
         'clean:server',
-        'coffee',
-        'compass',
+        'jshint',
         'connect:test',
         'karma:unitwatch'
     ]);
 
     grunt.registerTask('test:e2e', [
         'clean:server',
-        'coffee',
-        'compass',
         'livereload-start',
         'connect:livereload',
         'karma:e2e'
@@ -385,8 +385,6 @@ module.exports = function (grunt) {
         'jshint',
         'karma:unit',
         'karma:e2e',
-        'coffee',
-        'compass:dist',
         'useminPrepare',
         'imagemin',
         'cssmin',
@@ -402,10 +400,10 @@ module.exports = function (grunt) {
         'clean:dist',
         'ngconstant:production',
         'jshint',
+        'less:dist',
         'karma:unit',
         'karma:e2e',
         'coffee',
-        'compass:dist',
         'useminPrepare',
         'imagemin',
         'cssmin',
