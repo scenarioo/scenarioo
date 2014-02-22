@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function ($cookieStore, $modal) {
+angular.module('scenarioo.services').factory('ScApplicationInfoPopup',function ($cookieStore, $modal) {
 
     var PREVIOUSLY_VISITED_COOKIE_NAME = 'scenariooPreviouslyVisited';
 
@@ -39,10 +39,12 @@ angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function 
         $modal.open({
             templateUrl: 'views/applicationInfoPopup.html',
             controller: 'ApplicationInfoCtrl',
-            windowClass: 'modal-small',
+            windowClass: 'modal-small about-popup',
             backdropFade: true,
             resolve: {
-                tabValue: function () { return tabValue; }
+                tabValue: function () {
+                    return tabValue;
+                }
             }
         });
     }
@@ -55,16 +57,16 @@ angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function 
         showApplicationInfoPopup: showApplicationInfoPopup
     };
 
-}).controller('ApplicationInfoCtrl', function ($scope, $modalInstance, Config, tabValue) {
-    $scope.$watch(function () {
-        return Config.applicationInformation();
-    }, function (applicationInformation) {
-        $scope.applicationInformation = applicationInformation;
+}).controller('ApplicationInfoCtrl', function ($scope, $modalInstance, Config, tabValue, $sce) {
+        $scope.$watch(function () {
+            return Config.applicationInformation();
+        }, function (applicationInformation) {
+            $scope.applicationInformation = $sce.trustAsHtml(applicationInformation);
+        });
+
+        $scope.tabValue = tabValue;
+
+        $scope.closeInfoModal = function () {
+            $modalInstance.dismiss('cancel');
+        };
     });
-
-    $scope.tabValue = tabValue;
-
-    $scope.closeInfoModal = function () {
-        $modalInstance.dismiss('cancel');
-    };
-});
