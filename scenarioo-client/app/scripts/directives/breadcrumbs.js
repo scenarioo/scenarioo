@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.directives').directive('scBreadcrumb', function ($location, $route, $compile, $filter) {
+angular.module('scenarioo.directives').directive('scBreadcrumb', function ($location, $route, $compile, $filter, $sce) {
     var limit = 50;
 
     var breadcrumbDescriptionObject = {
@@ -65,10 +65,13 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($loca
                         isLast: isLastBreadcrumb
                     };
 
+                    // make sure we can bind html to view
+                    breadcrumb.text = $sce.trustAsHtml(breadcrumb.text);
+
                     scope.breadcrumbs.push(breadcrumb);
                 }
             });
-            scope.email= {
+            scope.email = {
                 title: encodeURIComponent('Link to the User Scenario Documentation'),
                 link: encodeURIComponent($location.absUrl())
             };
@@ -123,5 +126,6 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($loca
         }
         return parts.join('/');
     }
+
     return breadcrumbDescriptionObject;
 });

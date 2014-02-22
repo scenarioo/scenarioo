@@ -15,7 +15,7 @@ scenarioo.describeUseCase('Home', function () {
         homePage.assertUseCasesShown(1);
         scenarioo.docuWriter.saveStep('display the homePage');
     });
-    /*
+
     scenarioo.describeScenario('Navigate to the Home Page, do not display popup when cookie set', function () {
         var homePage = new pages.homePage();
         browser.manage().addCookie("scenariooPreviouslyVisited", "true");
@@ -41,6 +41,6 @@ scenarioo.describeUseCase('Home', function () {
         homePage.filterUseCases('user wants find page');
         homePage.assertUseCasesShown(1);
         scenarioo.docuWriter.saveStep('one use case found');
-    });  */
+    });
 
 });

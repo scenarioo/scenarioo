@@ -61,6 +61,12 @@ describe('Directive :: scBreadcrumbs', function () {
         scope.$digest();
     }
 
+    function expectBreadCrumbToEqual(breadCrumb, expected) {
+        var copiedBC = angular.copy(breadCrumb);
+        copiedBC.text = copiedBC.text.$$unwrapTrustedValue();
+        expect(copiedBC).toEqual(expected);
+    }
+
     it('Should consist only of the root breadcrumb', function () {
         breadcrumbWithPath('/');
 
@@ -70,7 +76,7 @@ describe('Directive :: scBreadcrumbs', function () {
         expect(breadcrumbs.length).toBe(1);
 
         // One root breadcrumb
-        expect(breadcrumbs[0]).toEqual({
+        expectBreadCrumbToEqual(breadcrumbs[0], {
             text: 'Home',
             showTooltip: false,
             href: '#',
@@ -92,7 +98,7 @@ describe('Directive :: scBreadcrumbs', function () {
         expect(breadcrumbs.length).toBe(3);
 
         // Root breadcrumb
-        expect(breadcrumbs[0]).toEqual({
+        expectBreadCrumbToEqual(breadcrumbs[0], {
             text: 'Home',
             showTooltip: false,
             href: '#',
@@ -101,7 +107,7 @@ describe('Directive :: scBreadcrumbs', function () {
         });
 
         // Usecase breadcrumb with $param
-        expect(breadcrumbs[1]).toEqual({
+        expectBreadCrumbToEqual(breadcrumbs[1], {
             text: '<strong>Usecase</strong>: Usecase Id',
             showTooltip: false,
             href: '#/usecase/usecaseId',
@@ -110,7 +116,7 @@ describe('Directive :: scBreadcrumbs', function () {
         });
 
         // Scenario breadcrumb with $title
-        expect(breadcrumbs[2]).toEqual({
+        expectBreadCrumbToEqual(breadcrumbs[2], {
             text: 'Scenario: thisIsSomeTitle',
             showTooltip: false,
             href: '#/scenario/usecaseId/scenarioId',
@@ -126,7 +132,7 @@ describe('Directive :: scBreadcrumbs', function () {
         var breadcrumbs = innerScope.breadcrumbs;
 
         // Usecase breadcrumb with too long name and tooltip which is stripped of HTML tags
-        expect(breadcrumbs[1]).toEqual({
+        expectBreadCrumbToEqual(breadcrumbs[1], {
             text: '<strong>Usecase</strong>: Usecase Id With A Much T..',
             showTooltip: true,
             tooltip: 'Usecase: Usecase Id With A Much Too Long Name Which Will Be Displayed In A Tooltip And The Tooltip Is Stripped Of HTML',
