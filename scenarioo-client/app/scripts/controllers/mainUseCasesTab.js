@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, SelectedBranchAndBuild, UseCasesResource, BranchesAndBuilds) {
+angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, SelectedBranchAndBuild, UseCasesResource) {
 
     SelectedBranchAndBuild.callOnSelectionChange(loadUseCases);
 
@@ -28,20 +28,13 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
             function onSuccess(result) {
                 $scope.useCases = result;
             });
-
-        BranchesAndBuilds.getBranchesAndBuilds(
-            function onSuccess(branchesAndBuilds) {
-                $scope.branchesAndBuilds = branchesAndBuilds;
-            }
-        );
-
     }
 
     $scope.goToUseCase = function (useCaseName) {
         $location.path('/usecase/' + useCaseName);
     };
 
-    $scope.table = {search: {searchTerm: ''}, sort: {column: 'useCase.name', reverse: false}, filtering: false};
+    $scope.table = {search: {searchTerm: ''}, sort: {column: 'useCase.name', reverse: false}};
 
     $scope.resetSearchField = function () {
         $scope.table.search = {searchTerm: ''};

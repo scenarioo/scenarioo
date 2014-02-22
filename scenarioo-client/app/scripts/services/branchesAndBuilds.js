@@ -19,50 +19,47 @@
 
 angular.module('scenarioo.services').service('BranchesAndBuilds', function ($rootScope, Config, BranchesResource, $q, SelectedBranchAndBuild) {
 
-    var branchesAndBuildsData = function(onSuccess) {
+    var branchesAndBuildsData = function () {
+        var deferred = $q.defer();
+        BranchesResource.query({}, function findSelectedBranchAndBuild(branches) {
+            if (branches.length === 0) {
+                deferred.reject('Branch list empty!');
+                return;
+            }
 
-        BranchesResource.query({}, findSelectedBranchAndBuild);
-
-        function findSelectedBranchAndBuild(branches) {
             var loadedData = {
                 branches: branches
             };
 
-            if(!SelectedBranchAndBuild.isDefined()) {
-                return;
-            }
+            if (SelectedBranchAndBuild.isDefined()) {
+                var selected = SelectedBranchAndBuild.selected();
 
-            var selected = SelectedBranchAndBuild.selected();
+                var index;
+                for (index = 0; index < loadedData.branches.length; index++) {
+                    if (loadedData.branches[index].branch.name === selected.branch) {
+                        loadedData.selectedBranch = loadedData.branches[index];
+                    }
+                }
 
-            if(loadedData.branches.length === 0) {
-                console.log('Branch list empty!');
-                return;
-            }
-
-            var index;
-            for (index = 0; index < loadedData.branches.length; index++) {
-                if (loadedData.branches[index].branch.name === selected.branch) {
-                    loadedData.selectedBranch = loadedData.branches[index];
+                if (angular.isDefined(loadedData.selectedBranch)) {
+                    var allBuildsOnSelectedBranch = loadedData.selectedBranch.builds;
+                    for (index = 0; index < loadedData.selectedBranch.builds.length; index++) {
+                        if (allBuildsOnSelectedBranch[index].linkName === selected.build) {
+                            loadedData.selectedBuild = allBuildsOnSelectedBranch[index];
+                        }
+                    }
                 }
             }
 
-            if(angular.isUndefined(loadedData.selectedBranch)) {
-                console.log('Branch ' + selected.branch + ' not found in branch list!');
-                return;
-            }
+            deferred.resolve(loadedData);
+        }, function (error) {
+            deferred.reject(error);
+        });
 
-            var allBuildsOnSelectedBranch = loadedData.selectedBranch.builds;
-            for (index = 0; index < loadedData.selectedBranch.builds.length; index++) {
-                if (allBuildsOnSelectedBranch[index].linkName === selected.build) {
-                    loadedData.selectedBuild = allBuildsOnSelectedBranch[index];
-                }
-            }
-
-            onSuccess(loadedData);
-        }
+        return deferred.promise;
     };
 
     return {
-        getBranchesAndBuilds : branchesAndBuildsData
+        getBranchesAndBuilds: branchesAndBuildsData
     };
 });
