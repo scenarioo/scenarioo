@@ -10,8 +10,8 @@ function HomePage(overridePath) {
     }
 
     this.useCasesSearchField = element(by.id('useCasesSearchField'));
-    this.aboutScenariooPopup = element(by.css('.modal-dialog.about-popup'));
-    this.popupCloseButton = element(by.css('.modal-dialog.about-popup .modal-footer .btn-primary'));
+    this.aboutScenariooPopup = element(by.css('.modal.about-popup'));
+    this.popupCloseButton = element(by.css('.modal.about-popup .modal-footer .btn-primary'));
     this.useCasetable = element(by.css('table.usecase-table'));
 
 }

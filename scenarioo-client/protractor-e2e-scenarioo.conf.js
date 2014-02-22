@@ -17,12 +17,11 @@ exports.config = {
     ],
 
     capabilities: {
-        'browserName': 'chrome'
+        /* use firefox, since chrome crops screenshots */
+        'browserName': 'firefox'
     },
 
-    // use this to run webtests against our cloud deployment
-    // baseUrl: 'http://www.hatch-showcase.ch/webclient',
-    baseUrl: 'http://localhost:9000',
+    baseUrl: this.params.baseUrl,
 
     rootElement: 'body',
 
@@ -33,8 +32,6 @@ exports.config = {
     },
 
     params: {
-        // use this to run webtests against our cloud deployment
-        // baseUrl: 'http://www.hatch-showcase.ch/webclient',
         baseUrl: 'http://localhost:9000'
     },
 
