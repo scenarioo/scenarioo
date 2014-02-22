@@ -1,7 +1,8 @@
 'use strict';
+
 var scenarioo = require('scenarioo-js');
 
-exports.config = {
+var exportsConfig = {
 
     // The location of the selenium standalone server .jar file.
     seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.37.0.jar',
@@ -17,11 +18,10 @@ exports.config = {
     ],
 
     capabilities: {
-        /* use firefox, since chrome crops screenshots */
-        'browserName': 'firefox'
+        'browserName': 'chrome'
     },
 
-    baseUrl: this.params.baseUrl,
+    baseUrl: 'http://localhost:9000',
 
     rootElement: 'body',
 
@@ -48,3 +48,5 @@ exports.config = {
         defaultTimeoutInterval: 30000
     }
 };
+
+exports.config = exportsConfig;

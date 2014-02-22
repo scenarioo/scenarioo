@@ -23,7 +23,8 @@ describe('Service: ScApplicationInfoPopup', function () {
 
     beforeEach(module(function ($provide) {
         $provide.value('$modal', {
-                open : function() {}
+                open: function () {
+                }
             }
         );
         $provide.value('ApplicationInfoCtrl', {});
@@ -44,7 +45,7 @@ describe('Service: ScApplicationInfoPopup', function () {
         expect($modal.open).toHaveBeenCalled();
     });
 
-    it('does not show the application info popup when the user returns to the app', function() {
+    it('does not show the application info popup when the user returns to the app', function () {
         $cookieStore.put(ScApplicationInfoPopup.PREVIOUSLY_VISITED_COOKIE_NAME, true);
 
         spyOn($modal, 'open');
@@ -54,7 +55,7 @@ describe('Service: ScApplicationInfoPopup', function () {
         expect($modal.open).not.toHaveBeenCalled();
     });
 
-    it('shows opens a modal dialog', function() {
+    it('shows opens a modal dialog', function () {
         spyOn($modal, 'open');
 
         ScApplicationInfoPopup.showApplicationInfoPopup();
@@ -91,7 +92,10 @@ describe('Controller: ApplicationInfoCtrl', function () {
 
         $scope.$digest();
 
-        expect($scope.applicationInformation).toBe('abc');
+        /**
+         * $scope.applicationInfo is $sce wrapped!
+         */
+        expect($scope.applicationInformation.$$unwrapTrustedValue()).toBe('abc');
     });
 
 });
