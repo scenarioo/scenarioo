@@ -22,21 +22,22 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
     SelectedBranchAndBuild.callOnSelectionChange(loadBranchesAndBuilds);
 
     function loadBranchesAndBuilds() {
-        BranchesAndBuilds.getBranchesAndBuilds(
-            function onSuccess(branchesAndBuilds) {
+        BranchesAndBuilds.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
                 $scope.branchesAndBuilds = branchesAndBuilds;
+            }, function onFailure(error) {
+                console.log(error);
             }
         );
     }
 
     $scope.setBranch = function (branch) {
-        $scope.selectedBranch = branch;
+        $scope.branchesAndBuilds.selectedBranch = branch;
         $cookieStore.remove(SelectedBranchAndBuild.BUILD_KEY);
         $location.search(SelectedBranchAndBuild.BRANCH_KEY, branch.branch.name);
     };
 
     $scope.setBuild = function (selectedBranch, build) {
-        $scope.selectedBuild = build;
+        $scope.branchesAndBuilds.selectedBuild = build;
         $location.search(SelectedBranchAndBuild.BUILD_KEY, build.linkName);
     };
 
@@ -54,7 +55,7 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
         }
     };
 
-    $scope.showApplicationInfoPopup = function() {
+    $scope.showApplicationInfoPopup = function () {
         ScApplicationInfoPopup.showApplicationInfoPopup();
     };
 
