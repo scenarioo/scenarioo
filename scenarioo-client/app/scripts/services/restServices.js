@@ -114,7 +114,7 @@ angular.module('scenarioo.services').factory('PageVariantService', function (Sce
             buildName: '@buildName'}, {});
 
     pageVariantService.getPageVariantCount = getPromise($q, function (parameters, fnSuccess, fnError) {
-        return pageVariantService.query(parameters, fnSuccess, fnError);
+        return pageVariantService.get(parameters, fnSuccess, fnError);
     });
     return pageVariantService;
 });

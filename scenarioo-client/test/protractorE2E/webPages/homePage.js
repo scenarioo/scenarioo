@@ -10,6 +10,9 @@ function HomePage(overridePath) {
     }
 
     this.useCasesSearchField = element(by.id('useCasesSearchField'));
+    this.aboutScenariooPopup = element(by.css('.modal-dialog.about-popup'));
+    this.popupCloseButton = element(by.css('.modal-dialog.about-popup .modal-footer .btn-primary'));
+    this.useCasetable = element(by.css('table.usecase-table'));
 
 }
 
@@ -20,6 +23,30 @@ HomePage.prototype.assertPageIsDisplayed = function () {
     // call assertPageIsDisplayed on BaseWebPage
     BaseWebPage.prototype.assertPageIsDisplayed.apply(this);
     expect(this.useCasesSearchField.isDisplayed()).toBe(true);
+};
+
+HomePage.prototype.assertScenariooInfoDialogShown = function () {
+    expect(this.aboutScenariooPopup.isDisplayed()).toBe(true);
+    expect(this.popupCloseButton.isDisplayed()).toBe(true);
+};
+
+HomePage.prototype.assertScenariooInfoDialogNotShown = function () {
+    e2eUtils.assertElementNotPresentInDom(by.css('.modal-dialog.about-popup'));
+};
+
+HomePage.prototype.closeScenariooInfoDialog = function () {
+    this.popupCloseButton.click();
+};
+
+HomePage.prototype.filterUseCases = function (filterQuery) {
+    this.useCasesSearchField.clear();
+    this.useCasesSearchField.sendKeys(filterQuery);
+};
+
+HomePage.prototype.assertUseCasesShown = function (count) {
+    this.useCasetable.findElements(by.css('tbody tr')).then(function (elements) {
+        expect(elements.length).toBe(count);
+    });
 };
 
 

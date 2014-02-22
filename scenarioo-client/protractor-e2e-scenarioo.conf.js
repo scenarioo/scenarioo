@@ -17,7 +17,7 @@ exports.config = {
     ],
 
     capabilities: {
-        'browserName': 'firefox'
+        'browserName': 'chrome'
     },
 
     // use this to run webtests against our cloud deployment
@@ -27,7 +27,8 @@ exports.config = {
     rootElement: 'body',
 
     onPrepare: function () {
-        var scenariooReporter = new scenarioo.reporter('./scenariodocu', 'master', 'the master branch', 'main build', 'rev1234');
+        var timeStamp = Math.round((new Date()).getTime() / 1000);
+        var scenariooReporter = new scenarioo.reporter('./scenariodocu', 'master', 'the master branch', 'build_' + timeStamp, '1.0.0');
         jasmine.getEnv().addReporter(scenariooReporter);
     },
 
