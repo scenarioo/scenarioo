@@ -61,3 +61,10 @@ war {
     }
 	archiveName 'scenarioo-' + version + '.war'
 }
+
+task copyWar(type: Copy) {
+	from ('build/libs/')
+	into ('build/libs/')
+	include('scenarioo-' + version + '.war')
+	rename('scenarioo-' + version + '.war', 'scenarioo-latest.war')
+}
