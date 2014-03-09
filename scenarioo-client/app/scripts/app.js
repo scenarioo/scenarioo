@@ -19,7 +19,7 @@
 
 angular.module('scenarioo.filters', []);
 angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute']);
-angular.module('scenarioo.services', [ 'ngCookies', 'ngResource', 'ngRoute', 'scenarioo.config']);
+angular.module('scenarioo.services', [ 'ngCookies', 'ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
 
 angular.module('scenarioo', [

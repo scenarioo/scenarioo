@@ -30,6 +30,7 @@ files = [
   'app/components/angular-cookies/angular-*.js',
   'app/components/angular-mocks/angular-*.js',
   'app/components/angular-bootstrap/*.js',
+  'app/components/angular-local-storage/*.js',
   'app/scripts/*.js',
   'app/scripts/**/*.js',
   'test/mock/**/*.js',
