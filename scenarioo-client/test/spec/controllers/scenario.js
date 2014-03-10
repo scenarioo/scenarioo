@@ -23,7 +23,7 @@ describe('Controller :: Scenario', function() {
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function($rootScope, $controller, _$httpBackend_, _$routeParams_, _Config_, _TestData_, _HostnameAndPort_) {
+    beforeEach(inject(function($rootScope, $controller, _$httpBackend_, _$routeParams_, _Config_, _TestData_, _HostnameAndPort_, localStorageService) {
         $scope = $rootScope.$new();
         $httpBackend = _$httpBackend_;
         $routeParams = _$routeParams_;
@@ -33,6 +33,8 @@ describe('Controller :: Scenario', function() {
 
         $routeParams.useCaseName = 'SearchUseCase';
         $routeParams.scenarioName = 'NotFoundScenario';
+
+        localStorageService.clearAll();
 
         scenarioController = $controller('ScenarioCtrl', {$scope: $scope, Config: configFake});
     }));

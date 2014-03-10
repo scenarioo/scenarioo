@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.services').factory('SelectedBranchAndBuild', function ($location, $cookieStore, $rootScope, Config) {
+angular.module('scenarioo.services').factory('SelectedBranchAndBuild', function ($location, $rootScope, localStorageService, Config) {
 
     var BRANCH_KEY = 'branch';
     var BUILD_KEY = 'build';
@@ -46,24 +46,24 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuild', function 
     });
 
     function calculateSelectedBranchAndBuild() {
-        selectedBranch = getFromCookieOrUrl(BRANCH_KEY);
-        selectedBuild = getFromCookieOrUrl(BUILD_KEY);
+        selectedBranch = getFromLocalStorageOrUrl(BRANCH_KEY);
+        selectedBuild = getFromLocalStorageOrUrl(BUILD_KEY);
     }
 
-    function getFromCookieOrUrl(key) {
+    function getFromLocalStorageOrUrl(key) {
         var value;
 
         // check URL first, this has priority over the cookie value
         var params = $location.search();
         if (params !== null && angular.isDefined(params[key])) {
             value = params[key];
-            $cookieStore.put(key, value);
+            localStorageService.set(key, value);
             return value;
         }
 
         // check cookie if value was not found in URL
-        value = $cookieStore.get(key);
-        if (angular.isDefined(value)) {
+        value = localStorageService.get(key);
+        if (angular.isDefined(value) && value !== null) {
             $location.search(key, value);
             return value;
         }
@@ -71,7 +71,7 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuild', function 
         // If URL and cookie do not specify a value, we use the default from the config
         value = Config.defaultBranchAndBuild()[key];
         if (angular.isDefined(value)) {
-            $cookieStore.put(key, value);
+            localStorageService.set(key, value);
             $location.search(key, value);
         }
         return value;

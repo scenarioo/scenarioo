@@ -27,7 +27,6 @@ files = [
   'app/components/angular/angular.js',
   'app/components/angular-resource/angular-resource.js',
   'app/components/angular-route/angular-route.js',
-  'app/components/angular-cookies/angular-*.js',
   'app/components/angular-mocks/angular-*.js',
   'app/components/angular-bootstrap/*.js',
   'app/components/angular-local-storage/*.js',

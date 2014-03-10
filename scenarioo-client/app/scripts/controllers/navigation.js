@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, $cookieStore, BranchesAndBuilds, SelectedBranchAndBuild, $modal, ScApplicationInfoPopup) {
+angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, localStorageService, BranchesAndBuilds, SelectedBranchAndBuild, $modal, ScApplicationInfoPopup) {
 
     SelectedBranchAndBuild.callOnSelectionChange(loadBranchesAndBuilds);
 
@@ -32,7 +32,7 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
 
     $scope.setBranch = function (branch) {
         $scope.branchesAndBuilds.selectedBranch = branch;
-        $cookieStore.remove(SelectedBranchAndBuild.BUILD_KEY);
+        localStorageService.remove(SelectedBranchAndBuild.BUILD_KEY);
         $location.search(SelectedBranchAndBuild.BRANCH_KEY, branch.branch.name);
     };
 

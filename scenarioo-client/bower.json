@@ -7,7 +7,6 @@
         "json3": "~3.2.4",
         "es5-shim": "~2.0.8",
         "angular-resource": "~1.2.13",
-        "angular-cookies": "~1.2.13",
         "angular-sanitize": "~1.2.13",
         "angular-route": "~1.2.13",
         "angular-bootstrap": "~0.10.0",

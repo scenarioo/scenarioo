@@ -47,7 +47,7 @@ describe('Service: ScApplicationInfoPopup', function () {
     });
 
     it('does not show the application info popup when the user returns to the app', function () {
-        localStorageService.add(ScApplicationInfoPopup.PREVIOUSLY_VISITED_COOKIE_NAME, true);
+        localStorageService.set(ScApplicationInfoPopup.PREVIOUSLY_VISITED_COOKIE_NAME, true);
 
         spyOn($modal, 'open');
 

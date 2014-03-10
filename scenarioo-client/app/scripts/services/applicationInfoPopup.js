@@ -30,7 +30,7 @@ angular.module('scenarioo.services').factory('ScApplicationInfoPopup',function (
             if (localStorageService.get(PREVIOUSLY_VISITED_COOKIE_NAME)) {
                 return false;
             }
-            localStorageService.add(PREVIOUSLY_VISITED_COOKIE_NAME, true);
+            localStorageService.set(PREVIOUSLY_VISITED_COOKIE_NAME, true);
             return true;
         }
     }
