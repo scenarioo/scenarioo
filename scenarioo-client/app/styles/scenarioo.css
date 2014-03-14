@@ -242,7 +242,6 @@ div.sc-screenshot-scenario {
 }
 
 .configuration input[type="text"], .configuration textarea {
-    height: 25px;
     padding-left: 8px;
     border: 1px solid #CCCCCC;
     border-radius: 4px 4px 4px 4px;
