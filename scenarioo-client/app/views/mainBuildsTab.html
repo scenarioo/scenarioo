@@ -26,6 +26,7 @@
             <th sc-sortable-column="identifier.buildName">Build</th>
             <th sc-sortable-column="buildDescription.date">Date</th>
             <th sc-sortable-column="buildDescription.revision">Revision</th>
+            <th>Scenarios</th>
             <th sc-sortable-column="buildDescription.status" class="filter-none">Status</th>
             <th sc-sortable-column="status">Import Status</th>
         </tr>
@@ -37,6 +38,10 @@
             <td>{{build.identifier.buildName}}</td>
             <td>{{build.buildDescription.date | date:'MM/dd/yyyy HH:mm'}}</td>
             <td>{{build.buildDescription.revision}}</td>
+            <td title="Total (successful / failed)">
+            	{{ build.buildStatistics.numberOfSuccessfulScenarios + build.buildStatistics.numberOFailedScenarios }}
+            	({{ build.buildStatistics.numberOfSuccessfulScenarios }} / {{ build.buildStatistics.numberOfFailedScenarios }})
+            </td>
             <td>
                 <span ng-class="[getStatusStyleClass(build.buildDescription.status), 'label']">{{build.buildDescription.status}}</span>
             </td>
