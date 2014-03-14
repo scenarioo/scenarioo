@@ -32,6 +32,7 @@ import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
+import org.scenarioo.model.docu.aggregates.branches.BuildStatistics;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
@@ -63,12 +64,16 @@ import org.scenarioo.model.docu.entities.generic.ObjectReference;
  */
 public class ScenarioDocuAggregator {
 
+	private static final String SUCCESS_STATE = "success";
+
+	private static final String FAILED_STATE = "failed";
+
 	/**
 	 * Version of the file format in filesystem. The data aggregator checks
 	 * whether the file format is the same, otherwise the data has to be
 	 * recalculated.
 	 */
-	public static final String CURRENT_FILE_FORMAT_VERSION = "0.22";
+	public static final String CURRENT_FILE_FORMAT_VERSION = "0.23";
 
 	private final static Logger LOGGER = Logger
 			.getLogger(ScenarioDocuAggregator.class);
@@ -83,7 +88,9 @@ public class ScenarioDocuAggregator {
 			longObjectNamesResolver);
 
 	private final Map<String, StepVariantState> mapOfStepVariant = new HashMap<String, StepVariantState>();
-
+	
+	private BuildStatistics buildStatistics = new BuildStatistics();
+	
 	private ObjectRepository objectRepository;
 
 	public static class StepVariantState {
@@ -151,6 +158,7 @@ public class ScenarioDocuAggregator {
 		for (UseCaseScenarios scenarios : useCaseScenariosList
 				.getUseCaseScenarios()) {
 			calulateAggregatedDataForUseCase(branchName, buildName, scenarios);
+			buildStatistics.incrementUseCase();
 		}
 
 		// Calculate page variant counters
@@ -194,12 +202,12 @@ public class ScenarioDocuAggregator {
 					buildName, usecase.getName());
 			boolean atLeastOneScenarioFailed = false;
 			for (Scenario scenario : scenarios) {
-				if (StringUtils.equals(scenario.getStatus(), "failed")) {
+				if (StringUtils.equals(scenario.getStatus(), FAILED_STATE)) {
 					atLeastOneScenarioFailed = true;
 					break;
 				}
 			}
-			usecase.setStatus(atLeastOneScenarioFailed ? "failed" : "success");
+			usecase.setStatus(atLeastOneScenarioFailed ? FAILED_STATE : SUCCESS_STATE);
 			item.setScenarios(scenarios);
 			item.setUseCase(usecase);
 			useCaseScenarios.add(item);
@@ -224,6 +232,7 @@ public class ScenarioDocuAggregator {
 			try {
 				calculateAggregatedDataForScenario(referencePath, branchName,
 						buildName, useCaseScenarios.getUseCase(), scenario);
+				addScenarioStatistics(scenario);
 			} catch (ResourceNotFoundException ex) {
 				LOGGER.warn("could not load scenario " + scenario.getName()
 						+ " in use case"
@@ -233,6 +242,15 @@ public class ScenarioDocuAggregator {
 		dao.saveUseCaseScenarios(branchName, buildName, useCaseScenarios);
 
 		objectRepository.updateAndSaveObjectIndexesForCurrentCase();
+	}
+
+	private void addScenarioStatistics(Scenario scenario) {
+		String status = scenario.getStatus();
+		if(SUCCESS_STATE.equals(status)) {
+			buildStatistics.incrementSuccessfulScenario();
+		} else if(FAILED_STATE.equals(status)) {
+			buildStatistics.incrementFailedScenario();
+		}
 	}
 
 	private void calculateAggregatedDataForScenario(
@@ -395,5 +413,9 @@ public class ScenarioDocuAggregator {
 		} else {
 			buildSummary.setStatus(BuildImportStatus.UNPROCESSED);
 		}
+	}
+
+	public BuildStatistics getBuildStatistics() {
+		return this.buildStatistics;
 	}
 }
