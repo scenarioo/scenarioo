@@ -21,7 +21,7 @@
 angular.module('scenarioo.controllers').controller('TitleCtrl', function ($scope, Config) {
 
     $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
-        $scope.applicationName = Config.applicationName();
+        $scope.title = 'Scenarioo ' + Config.applicationName();
     });
 
 });
