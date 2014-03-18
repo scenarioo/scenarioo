@@ -220,6 +220,13 @@ h4 {
     float: left;
 }
 
+@media( min-width: 992px ) {
+    .sc-step-in-overview {
+        height: 400px;
+        overflow: hidden;
+    }
+}
+
 /** Screenshots */
 div.sc-screenshot-border {
     border: 2px solid #DDDDDD;

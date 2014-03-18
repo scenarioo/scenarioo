@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <div class="row step-view">
     <div ng-repeat="page in pagesAndSteps">
-        <div ng-repeat="step in page.steps | scFilterArray:searchFieldText" ng-show="$index == 0 || showAllStepsForPage($parent.$index)" class="col-md-4">
+        <div ng-repeat="step in page.steps | scFilterArray:searchFieldText" ng-show="$index == 0 || showAllStepsForPage($parent.$index)" class="col-md-4 sc-step-in-overview">
              <h2 ng-show="$index == 0">
                 Page: {{page.page.name}}
                 <span ng-click="toggleShowAllStepsForPage($parent.$parent.$index)" ng-show="page.steps.length > 1 && $index == 0" tooltip="show / hide additional steps of this page" tooltip-placement="top">
