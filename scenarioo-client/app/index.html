@@ -23,11 +23,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <!--[if IE 8]>
 <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js"> <!--<![endif]-->
+<html class="no-js" ng-app="scenarioo"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Scenarioo</title>
+    <title ng-controller="TitleCtrl">Scenarioo {{applicationName}}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -38,7 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
 </head>
-<body ng-app="scenarioo">
+<body>
 <!--[if lt IE 7]>
 <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser
     today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better
@@ -89,6 +89,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="scripts/controllers/scenario.js"></script>
 <script src="scripts/controllers/step.js"></script>
 <script src="scripts/controllers/configEditor.js"></script>
+<script src="scripts/controllers/title.js"></script>
 <script src="scripts/filters/humanReadable.js"></script>
 <script src="scripts/filters/filterArray.js"></script>
 <script src="scripts/filters/treeDataCreator.js"></script>

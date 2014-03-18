@@ -24,10 +24,6 @@ angular.module('scenarioo.services').service('Config', function (ConfigResource,
     var configData = {};
 
     function getValue(key) {
-        if (angular.isUndefined(configData[key])) {
-            // TODO fix this, should not have commented out code
-            // throw 'scenariooError :: Key ' + key + ' not present in configData';
-        }
         return configData[key];
     }
 
@@ -105,6 +101,10 @@ angular.module('scenarioo.services').service('Config', function (ConfigResource,
 
         scenarioPropertiesInOverview: function () {
             return getScenarioPropertiesInOverview();
+        },
+
+        applicationName: function () {
+            return getValue('applicationName');
         },
 
         applicationInformation: function () {
