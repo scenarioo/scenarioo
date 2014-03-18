@@ -34,10 +34,11 @@ h1 {
 }
 
 h2 {
-    font-size: 20px;
+    font-size: 1.4em;
     border-bottom: 2px #CCCCCC solid;
-    margin-top:0.15em;
-    padding-bottom: 0.15em;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.2em;
 }
 
 h3 {
@@ -236,24 +237,7 @@ div.sc-screenshot-scenario {
 }
 
 /** Configuration */
-.configuration select {
-    max-width: 300px;
-    width: 100%;
-}
-
-.configuration input[type="text"], .configuration textarea {
-    padding-left: 8px;
-    border: 1px solid #CCCCCC;
-    border-radius: 4px 4px 4px 4px;
-    width: 100%;
-}
-
-.configuration input[type="text"] {
-    max-width: 290px;
-}
-
 .configuration textarea {
-    max-width: 500px;
     height: 150px;
 }
 
