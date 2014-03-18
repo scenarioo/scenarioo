@@ -17,8 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumb></sc-breadcrumb>
 
-<h1>Scenarioo Configuration</h1>
-
 <div class="alert alert-success fade-out" ng-show="successfullyUpdatedConfiguration">
     The configuration has been successfully updated.
     <a ng-click="successfullyUpdatedConfiguration=false" class="pull-right link link-no-hover" style="color: #468847"><i
@@ -37,21 +35,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 
     <div class="row ngusd-space-bottom">
-        <div class="col-lg-3">Default Branch</div>
+        <div class="col-lg-3">Application name</div>
         <div class="col-lg-9">
-            <select ng-model="configuration.defaultBranchName"
-                    ng-options="branch.branch.name as branch.branch.name for branch in branches"
-                    class="form-control"></select>
+            <input type="text" ng-model="configuration.applicationName" class="form-control" />
         </div>
     </div>
+
     <div class="row ngusd-space-bottom">
-        <div class="col-lg-3">Default Build</div>
+        <div class="col-lg-3">Application information</div>
         <div class="col-lg-9">
-            <select ng-model="configuration.defaultBuildName"
-                    ng-options="build.linkName as build.linkName for build in configuredBranch.builds"
-                    class="form-control"></select>
+            <textarea ng-model="configuration.applicationInformation" class="form-control"></textarea>
         </div>
     </div>
+
     <div class="row ngusd-space-bottom">
         <div class="col-lg-3" tooltip="... shown in the overview of a use case">Scenario Properties</div>
         <div class="col-lg-9">
@@ -59,15 +55,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
 
+    <h2>Branches and builds</h2>
+
     <div class="row ngusd-space-bottom">
-        <div class="col-lg-3">Application Information</div>
+        <div class="col-lg-3">Default branch</div>
         <div class="col-lg-9">
-            <textarea ng-model="configuration.applicationInformation" class="form-control"></textarea>
+            <select ng-model="configuration.defaultBranchName"
+                    ng-options="branch.branch.name as branch.branch.name for branch in branches"
+                    class="form-control"></select>
         </div>
     </div>
 
+    <div class="row ngusd-space-bottom">
+        <div class="col-lg-3">Default build</div>
+        <div class="col-lg-9">
+            <select ng-model="configuration.defaultBuildName"
+                    ng-options="build.linkName as build.linkName for build in configuredBranch.builds"
+                    class="form-control"></select>
+        </div>
+    </div>
 
-	<h2>Advanced</h2>
 
     <div class="row ngusd-space-bottom ">
         <div class="col-lg-3">Alias most recent build</div>
