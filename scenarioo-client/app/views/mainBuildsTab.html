@@ -38,9 +38,9 @@
             <td>{{build.identifier.buildName}}</td>
             <td>{{build.buildDescription.date | date:'MM/dd/yyyy HH:mm'}}</td>
             <td>{{build.buildDescription.revision}}</td>
-            <td title="Total (successful / failed)">
+            <td>
             	{{ build.buildStatistics.numberOfSuccessfulScenarios + build.buildStatistics.numberOFailedScenarios }}
-            	({{ build.buildStatistics.numberOfSuccessfulScenarios }} / {{ build.buildStatistics.numberOfFailedScenarios }})
+            	<span ng-show="build.buildStatistics.numberOFailedScenarios != 0">({{ build.buildStatistics.numberOfFailedScenarios }} failed)</span>
             </td>
             <td>
                 <span ng-class="[getStatusStyleClass(build.buildDescription.status), 'label']">{{build.buildDescription.status}}</span>
