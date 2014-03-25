@@ -40,7 +40,7 @@
             <td>{{build.buildDescription.revision}}</td>
             <td>
             	{{ build.buildStatistics.numberOfSuccessfulScenarios + build.buildStatistics.numberOFailedScenarios }}
-            	<span ng-show="build.buildStatistics.numberOFailedScenarios != 0">({{ build.buildStatistics.numberOfFailedScenarios }} failed)</span>
+            	<span ng-show="build.buildStatistics.numberOfFailedScenarios != 0">({{ build.buildStatistics.numberOfFailedScenarios }} failed)</span>
             </td>
             <td>
                 <span ng-class="[getStatusStyleClass(build.buildDescription.status), 'label']">{{build.buildDescription.status}}</span>
