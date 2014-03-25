@@ -27,32 +27,56 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
     <div class="col-lg-9">
-
+        <div class="pull-right">
+            <div class="inline-block" ng-click="showingMetaData=!showingMetaData">
+                <a class="btn btn-default" ng-show="showingMetaData">Hide Meta Data</a>
+                <a class="btn btn-default" ng-show="!showingMetaData">Show Meta Data</a>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="row step-view">
-    <div ng-repeat="page in pagesAndSteps">
-        <div ng-repeat="step in page.steps | scFilterArray:searchFieldText" ng-show="$index == 0 || showAllStepsForPage($parent.$index)" class="col-md-4 sc-step-in-overview">
-             <h2 ng-show="$index == 0">
-                Page: {{page.page.name}}
+<div class="row step-main">
+    <div ng-class="{true: 'step-data-small col-lg-8', false: 'step-data-large col-lg-12'}[showingMetaData]">
+        <!-- steps -->
+        <div class="row step-view">
+            <div ng-repeat="page in pagesAndSteps">
+                <div ng-repeat="step in page.steps | scFilterArray:searchFieldText" ng-show="$index == 0 || showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !showingMetaData, 'col-md-6': showingMetaData}">
+                    <h2 ng-show="$index == 0">
+                        Page: {{page.page.name}}
                 <span ng-click="toggleShowAllStepsForPage($parent.$parent.$index)" ng-show="page.steps.length > 1 && $index == 0" tooltip="show / hide additional steps of this page" tooltip-placement="top">
                     <span ng-hide="showAllStepsForPage($parent.$parent.$index)" class="icon-with-padding icon-plus-sign link right"></span>
                     <span ng-show="showAllStepsForPage($parent.$parent.$index)" class="icon-with-padding icon-minus-sign link right"></span>
                 </span>
-            </h2>
-            <h2 ng-show="$index > 0">&nbsp;</h2>
-            <div>
-                <div class="step-title">
-                    <h3><a ng-href="{{getLinkToStep(pageSteps.page.name, $parent.$index, $index)}}">Step {{step.number}}: {{step.title}}</a></h3>
-                    Page: {{step.page.name}} ({{step.page.index}} of {{pagesAndSteps.length}})
+                    </h2>
+                    <h2 ng-show="$index > 0">&nbsp;</h2>
+                    <div>
+                        <div class="step-title">
+                            <h3><a ng-href="{{getLinkToStep(pageSteps.page.name, $parent.$index, $index)}}">Step {{step.number}}: {{step.title}}</a></h3>
+                            Page: {{step.page.name}} ({{step.page.index}} of {{pagesAndSteps.length}})
+                        </div>
+                        <div class="sc-screenshot-border sc-screenshot-scenario" >
+                            <a ng-href="{{getLinkToStep(pageSteps.page.name, $parent.$index, $index)}}">
+                                <img ng-src="{{getScreenShotUrl(step.screenshotFileName)}}" class="sc-screenshot"/>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="sc-screenshot-border sc-screenshot-scenario" >
-                    <a ng-href="{{getLinkToStep(pageSteps.page.name, $parent.$index, $index)}}">
-                        <img ng-src="{{getScreenShotUrl(step.screenshotFileName)}}" class="sc-screenshot"/>
-                    </a>
+            </div>
+        </div>
+    </div>
+    <div ng-show="showingMetaData" class="col-lg-4 hero-unit meta-data">
+        <!-- Metadata -->
+        <div ng-repeat="(key,value) in metadataTree">
+            <div class="panel panel-default">
+                <div class="panel-heading link" ng-click="toggleMetadataCollapsed(key)">
+                    <h3 class="panel-title">{{key | scHumanReadable}}</h3>
+                </div>
+                <div class="panel-body" ng-class="{hidden: isMetadataCollapsed(key), metadata: true}">
+                    <sc-tree data='value'></sc-tree>
                 </div>
             </div>
         </div>
     </div>
 </div>
+

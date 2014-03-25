@@ -59,6 +59,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
 
         $scope.scenario = pagesAndScenarios.scenario;
         $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
+        $scope.metadataTree = transformMetadataToTreeArray(pagesAndScenarios.scenario.details);
     }
 
     $scope.showAllStepsForPage = function(pageIndex) {
@@ -84,6 +85,41 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
 
     $scope.resetSearchField = function () {
         $scope.searchFieldText = '';
+    };
+
+    var scTreeDataCreator = $filter('scTreeDataCreator');
+    var scTreeDataOptimizer = $filter('scTreeDataOptimizer');
+    var transformToTreeData = function(data) {
+        return scTreeDataOptimizer(scTreeDataCreator(data));
+    };
+
+    $scope.showingMetaData = false;
+    var metadataExpanded = [];
+    metadataExpanded['sc-step-properties'] = true;
+
+    function transformMetadataToTreeArray(metadata) {
+
+        var metadataTrees = {};
+
+        angular.forEach(metadata, function (value, key) {
+            metadataTrees[key] = transformToTreeData(value);
+        });
+
+        return metadataTrees;
+    }
+
+    $scope.isMetadataCollapsed = function (type) {
+        var collapsed = angular.isUndefined(metadataExpanded[type]) || metadataExpanded[type] === false;
+        return collapsed;
+    };
+
+    $scope.toggleMetadataCollapsed = function (type) {
+        var currentValue = metadataExpanded[type];
+        if (angular.isUndefined(currentValue)) {
+            currentValue = false;
+        }
+        var newValue = !currentValue;
+        metadataExpanded[type] = newValue;
     };
 
 });
