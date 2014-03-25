@@ -20,7 +20,7 @@
 /**
  * Transforms any nested object and array structure into a tree structure that can be used by our tree directive.
  */
-angular.module('scenarioo.filters').filter('scTreeDataCreator', function () {
+angular.module('scenarioo.filters').filter('scTreeDataCreator', function ($filter) {
 
     function createTreeData(data) {
         if (angular.isUndefined(data)) {

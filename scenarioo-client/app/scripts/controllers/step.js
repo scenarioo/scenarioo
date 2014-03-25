@@ -21,6 +21,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
 
+    var transformMetadataToTreeArray = $filter('scMetadataTreeCreator');
     var scTreeDataCreator = $filter('scTreeDataCreator');
     var scTreeDataOptimizer = $filter('scTreeDataOptimizer');
     var transformToTreeData = function(data) {
@@ -96,17 +97,6 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 return '';
             }
         };
-    }
-
-    function transformMetadataToTreeArray(metadata) {
-
-        var metadataTrees = {};
-
-        angular.forEach(metadata, function (value, key) {
-            metadataTrees[key] = transformToTreeData(value);
-        });
-
-        return metadataTrees;
     }
 
     function createStepInformationTree(result) {

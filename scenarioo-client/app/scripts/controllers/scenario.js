@@ -25,6 +25,8 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
 
     var showAllSteps = [];
 
+    var transformMetadataToTreeArray = $filter('scMetadataTreeCreator');
+
     SelectedBranchAndBuild.callOnSelectionChange(loadScenario);
 
     function loadScenario(selected) {
@@ -87,26 +89,10 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         $scope.searchFieldText = '';
     };
 
-    var scTreeDataCreator = $filter('scTreeDataCreator');
-    var scTreeDataOptimizer = $filter('scTreeDataOptimizer');
-    var transformToTreeData = function(data) {
-        return scTreeDataOptimizer(scTreeDataCreator(data));
-    };
-
+    // TODO make this generic and share it with step.js
     $scope.showingMetaData = false;
     var metadataExpanded = [];
     metadataExpanded['sc-step-properties'] = true;
-
-    function transformMetadataToTreeArray(metadata) {
-
-        var metadataTrees = {};
-
-        angular.forEach(metadata, function (value, key) {
-            metadataTrees[key] = transformToTreeData(value);
-        });
-
-        return metadataTrees;
-    }
 
     $scope.isMetadataCollapsed = function (type) {
         var collapsed = angular.isUndefined(metadataExpanded[type]) || metadataExpanded[type] === false;
