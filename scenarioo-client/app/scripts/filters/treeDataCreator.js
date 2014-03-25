@@ -41,7 +41,7 @@ angular.module('scenarioo.filters').filter('scTreeDataCreator', function () {
         };
 
         if (angular.isArray(node)) {
-
+            transformedNode.childNodes = createArrayChildNodes(node);
         } else if (angular.isObject(node)) {
             transformedNode.childNodes = createObjectChildNodes(node);
         } else if (angular.isString(node)) {
@@ -79,10 +79,16 @@ angular.module('scenarioo.filters').filter('scTreeDataCreator', function () {
     function createArrayChildNodes(array) {
         var childNodes = [];
         angular.forEach(array, function (element) {
-            childNodes.push({
-                nodeLabel: '',
-                childNodes: createObjectChildNodes(element)
-            });
+            if(angular.isString(element)) {
+                childNodes.push({
+                    nodeLabel: element
+                });
+            } else {
+                childNodes.push({
+                    nodeLabel: '',
+                    childNodes: createObjectChildNodes(element)
+                });
+            }
         });
 
         return childNodes;
