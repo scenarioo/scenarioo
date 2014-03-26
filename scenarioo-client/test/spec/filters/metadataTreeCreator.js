@@ -29,14 +29,14 @@ describe('Filter :: scMetadataTreeCreator', function () {
     {
         childNodes: [
             {
-                nodeLabel: 'My Key',
+                nodeLabel: 'myKey',
                 nodeValue: 'myValue'
             },
             {
-                nodeLabel: 'Key Two',
+                nodeLabel: 'keyTwo',
                 childNodes: [
                     {
-                        nodeLabel: 'The Answer',
+                        nodeLabel: 'theAnswer',
                         nodeValue: 42
                     }
                 ]

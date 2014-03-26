@@ -101,11 +101,11 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         var stepInformation = {};
 
         if(angular.isDefined(stepDescription.title)) {
-            stepInformation.stepTitle = stepDescription.title;
+            stepInformation['Step title'] = stepDescription.title;
         }
 
         if(angular.isDefined(result.page)) {
-            stepInformation.page = result.page;
+            stepInformation['Page name'] = result.page;
         }
 
         if(angular.isDefined(stepDescription.details.url)) {
@@ -113,7 +113,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         }
 
         if(angular.isDefined(stepDescription.status)) {
-            stepInformation.buildStatus = stepDescription.status;
+            stepInformation['Build status'] = stepDescription.status;
         }
 
         return transformMetadataToTree(stepInformation);
