@@ -39,18 +39,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div class="row step-view">
             <div ng-repeat="page in pagesAndSteps">
                 <div ng-repeat="step in page.steps | scFilterArray:searchFieldText" ng-show="$index == 0 || showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !showingMetaData, 'col-md-6': showingMetaData}">
-                    <h2 ng-show="$index == 0">
-                        Page: {{page.page.name}}
-                <span ng-click="toggleShowAllStepsForPage($parent.$parent.$index)" ng-show="page.steps.length > 1 && $index == 0" tooltip="show / hide additional steps of this page" tooltip-placement="top">
-                    <span ng-hide="showAllStepsForPage($parent.$parent.$index)" class="icon-with-padding icon-plus-sign link right"></span>
-                    <span ng-show="showAllStepsForPage($parent.$parent.$index)" class="icon-with-padding icon-minus-sign link right"></span>
-                </span>
+                    <h2>
+                        <span class="sc-truncate" ng-show="$index == 0">
+                            <span class="sc-no-truncate">
+                                <span ng-click="toggleShowAllStepsForPage($parent.$parent.$index)" ng-show="page.steps.length > 1 && $index == 0" tooltip="show / hide additional steps of this page" tooltip-placement="top">
+                                        <span ng-hide="showAllStepsForPage($parent.$parent.$index)" class="icon-plus-sign link right"></span>
+                                        <span ng-show="showAllStepsForPage($parent.$parent.$index)" class="icon-minus-sign link right"></span>
+                                </span>
+                            </span>
+                            Page: {{page.page.name}}
+                        </span>
+                        <span ng-show="$index != 0">&nbsp;</span>
                     </h2>
-                    <h2 ng-show="$index > 0">&nbsp;</h2>
                     <div>
                         <div class="step-title">
-                            <h3><a ng-href="{{getLinkToStep(pageSteps.page.name, $parent.$index, $index)}}">Step {{step.number}}: {{step.title}}</a></h3>
-                            Page: {{step.page.name}} ({{step.page.index}} of {{pagesAndSteps.length}})
+                            <h3 class="sc-truncate"><a ng-href="{{getLinkToStep(pageSteps.page.name, $parent.$index, $index)}}">Step {{step.number}}: {{step.title}}</a></h3>
+                            <span class="sc-truncate">Page: {{step.page.name}} ({{step.page.index}} of {{pagesAndSteps.length}})</span>
                         </div>
                         <div class="sc-screenshot-border sc-screenshot-scenario" >
                             <a ng-href="{{getLinkToStep(pageSteps.page.name, $parent.$index, $index)}}">

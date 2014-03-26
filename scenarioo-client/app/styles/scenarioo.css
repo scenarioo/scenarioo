@@ -220,11 +220,17 @@ h4 {
     float: left;
 }
 
-@media( min-width: 992px ) {
-    .sc-step-in-overview {
-        height: 400px;
-        overflow: hidden;
-    }
+.sc-truncate {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sc-no-truncate {
+    white-space: normal;
+    overflow: auto;
+    text-overflow: clip;
 }
 
 /** Screenshots */
