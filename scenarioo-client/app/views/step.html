@@ -97,16 +97,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
 
         <!-- meta info -->
-        <div ng-repeat="(key,value) in metadataTree">
-            <div class="panel panel-default">
-                <div class="panel-heading link" ng-click="toggleMetadataCollapsed(key)">
-                    <h3 class="panel-title">{{key | scHumanReadable}}</h3>
-                </div>
-                <div class="panel-body" ng-class="{hidden: isMetadataCollapsed(key), metadata: true}">
-                    <sc-tree data='value'></sc-tree>
-                </div>
-            </div>
-        </div>
+        <span sc-static-include="views/metadata.html"></span>
 
     </div>
 </div>
