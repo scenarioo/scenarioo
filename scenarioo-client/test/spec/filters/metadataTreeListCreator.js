@@ -17,7 +17,7 @@
 
 'use strict';
 
-describe('Filter :: scMetadataTreeCreator', function () {
+describe('Filter :: scMetadataTreeListCreator', function () {
 
     var DATA = {
         myKey: 'myValue',
@@ -25,33 +25,30 @@ describe('Filter :: scMetadataTreeCreator', function () {
             theAnswer: 42
         }
     };
-    var DATA_TRANSFORMED =
-    {
-        childNodes: [
-            {
-                nodeLabel: 'My Key',
-                nodeValue: 'myValue'
-            },
-            {
-                nodeLabel: 'Key Two',
-                childNodes: [
-                    {
-                        nodeLabel: 'The Answer',
-                        nodeValue: 42
-                    }
-                ]
-            }
-        ]
+    var DATA_TRANSFORMED = {
+        myKey: {
+            nodeLabel: 'Value',
+            nodeValue: 'myValue',
+            childNodes: []
+        },
+        keyTwo: {
+            childNodes: [
+                {
+                    nodeLabel: 'The Answer',
+                    nodeValue: 42
+                }
+            ]
+        }
     };
 
     beforeEach(module('scenarioo.filters'));
 
     var scMetadataTreeCreator;
     beforeEach(inject(function (_$filter_) {
-        scMetadataTreeCreator = _$filter_('scMetadataTreeCreator', {$filter: _$filter_});
+        scMetadataTreeCreator = _$filter_('scMetadataTreeListCreator', {$filter: _$filter_});
     }));
 
-    it('transforms javascript object into an optimized tree', function () {
+    it('transforms javascript object into a list of optimized trees', function () {
         expect(scMetadataTreeCreator(DATA)).toEqual(DATA_TRANSFORMED);
     });
 

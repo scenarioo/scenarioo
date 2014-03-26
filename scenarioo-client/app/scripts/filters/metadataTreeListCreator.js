@@ -17,15 +17,20 @@
 
 'use strict';
 
-angular.module('scenarioo.filters').filter('scMetadataTreeCreator', function ($filter) {
+angular.module('scenarioo.filters').filter('scMetadataTreeListCreator', function ($filter) {
 
-    var scTreeDataCreator = $filter('scTreeDataCreator');
-    var scTreeDataOptimizer = $filter('scTreeDataOptimizer');
+    var transformToOptimizedTree = $filter('scMetadataTreeCreator');
 
-    function transformToOptimizedTree(data) {
-        return scTreeDataOptimizer(scTreeDataCreator(data));
+    function transformMetadataToTreeArray(metadata) {
+        var metadataTrees = {};
+
+        angular.forEach(metadata, function (value, key) {
+            metadataTrees[key] = transformToOptimizedTree(value);
+        });
+
+        return metadataTrees;
     }
 
-    return transformToOptimizedTree;
+    return transformMetadataToTreeArray;
 
 });

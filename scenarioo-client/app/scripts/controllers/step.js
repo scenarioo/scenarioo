@@ -21,12 +21,8 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
 
-    var transformMetadataToTreeArray = $filter('scMetadataTreeCreator');
-    var scTreeDataCreator = $filter('scTreeDataCreator');
-    var scTreeDataOptimizer = $filter('scTreeDataOptimizer');
-    var transformToTreeData = function(data) {
-        return scTreeDataOptimizer(scTreeDataCreator(data));
-    };
+    var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
+    var transformMetadataToTree = $filter('scMetadataTreeCreator');
 
     $scope.pageName = decodeURIComponent($routeParams.pageName);
     $scope.pageIndex = parseInt($routeParams.pageIndex, 10);
@@ -85,7 +81,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.step = result;
                 $scope.metadataTree = transformMetadataToTreeArray(result.metadata.details);
                 $scope.stepInformationTree = createStepInformationTree(result);
-                $scope.pageTree = transformToTreeData(result.page);
+                $scope.pageTree = transformMetadataToTree(result.page);
                 beautify(result.html);
             });
         }
@@ -120,7 +116,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             stepInformation.buildStatus = stepDescription.status;
         }
 
-        return transformToTreeData(stepInformation);
+        return transformMetadataToTree(stepInformation);
     }
 
     function beautify(html) {
@@ -246,4 +242,5 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         var newValue = !currentValue;
         metadataExpanded[type] = newValue;
     };
+
 });

@@ -25,7 +25,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
 
     var showAllSteps = [];
 
-    var transformMetadataToTreeArray = $filter('scMetadataTreeCreator');
+    var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
 
     SelectedBranchAndBuild.callOnSelectionChange(loadScenario);
 
