@@ -21,15 +21,12 @@ angular.module('scenarioo.filters').filter('scMetadataTreeCreator', function ($f
 
     var scTreeDataCreator = $filter('scTreeDataCreator');
     var scTreeDataOptimizer = $filter('scTreeDataOptimizer');
-    var transformToTreeData = function(data) {
-        return scTreeDataOptimizer(scTreeDataCreator(data));
-    };
 
     function transformMetadataToTreeArray(metadata) {
         var metadataTrees = {};
 
         angular.forEach(metadata, function (value, key) {
-            metadataTrees[key] = transformToTreeData(value);
+            metadataTrees[key] = scTreeDataOptimizer(scTreeDataCreator(value));
         });
 
         return metadataTrees;
