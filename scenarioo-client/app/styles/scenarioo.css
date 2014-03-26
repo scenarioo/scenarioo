@@ -30,7 +30,7 @@ h1, h2, h3, h4 {
 
 h1 {
     font-size: 24px;
-    margin: 0px 0px 20px;
+    margin: 0 0 20px;
 }
 
 h2 {
@@ -114,7 +114,7 @@ h4 {
 .table-curved {
     border: solid #ccc 1px;
     border-radius: 6px;
-    border-left: 0px;
+    border-left: 0;
 }
 
 .table-curved td, .table-curved th {
@@ -187,8 +187,8 @@ h4 {
 }
 
 .step-title {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 .step-view {
@@ -204,7 +204,7 @@ h4 {
 
 .meta-data div.row-fluid div {
     line-height: 20px;
-    padding: 0px 10px;
+    padding: 0 10px;
 }
 
 .meta-data .row-fluid {
@@ -212,7 +212,7 @@ h4 {
 }
 
 .meta-data dl {
-    margin: 8px 0px;
+    margin: 8px 0;
 }
 
 .element-floating {
@@ -227,7 +227,8 @@ h4 {
     text-overflow: ellipsis;
 }
 
-.sc-no-truncate {
+/** Necessary for tooltips inside an element with class sc-truncate */
+.tooltip-inner {
     white-space: normal;
     overflow: auto;
     text-overflow: clip;
@@ -273,7 +274,7 @@ div.sc-screenshot-scenario {
     border-radius: 4px 4px 4px 4px;
     display: inline-block;
     font-size: 10px;
-    padding: 0px 3px;
+    padding: 0 3px;
     vertical-align: middle;
 }
 
