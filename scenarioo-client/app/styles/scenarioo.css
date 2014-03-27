@@ -30,14 +30,15 @@ h1, h2, h3, h4 {
 
 h1 {
     font-size: 24px;
-    margin: 0px 0px 20px;
+    margin: 0 0 20px;
 }
 
 h2 {
-    font-size: 20px;
+    font-size: 1.4em;
     border-bottom: 2px #CCCCCC solid;
-    margin-top:0.15em;
-    padding-bottom: 0.15em;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.2em;
 }
 
 h3 {
@@ -113,7 +114,7 @@ h4 {
 .table-curved {
     border: solid #ccc 1px;
     border-radius: 6px;
-    border-left: 0px;
+    border-left: 0;
 }
 
 .table-curved td, .table-curved th {
@@ -186,8 +187,8 @@ h4 {
 }
 
 .step-title {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 .step-view {
@@ -203,7 +204,7 @@ h4 {
 
 .meta-data div.row-fluid div {
     line-height: 20px;
-    padding: 0px 10px;
+    padding: 0 10px;
 }
 
 .meta-data .row-fluid {
@@ -211,12 +212,26 @@ h4 {
 }
 
 .meta-data dl {
-    margin: 8px 0px;
+    margin: 8px 0;
 }
 
 .element-floating {
     display: block;
     float: left;
+}
+
+.sc-truncate {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/** Necessary for tooltips inside an element with class sc-truncate */
+.tooltip-inner {
+    white-space: normal;
+    overflow: auto;
+    text-overflow: clip;
 }
 
 /** Screenshots */
@@ -236,25 +251,7 @@ div.sc-screenshot-scenario {
 }
 
 /** Configuration */
-.configuration select {
-    max-width: 300px;
-    width: 100%;
-}
-
-.configuration input[type="text"], .configuration textarea {
-    height: 25px;
-    padding-left: 8px;
-    border: 1px solid #CCCCCC;
-    border-radius: 4px 4px 4px 4px;
-    width: 100%;
-}
-
-.configuration input[type="text"] {
-    max-width: 290px;
-}
-
 .configuration textarea {
-    max-width: 500px;
     height: 150px;
 }
 
@@ -277,7 +274,7 @@ div.sc-screenshot-scenario {
     border-radius: 4px 4px 4px 4px;
     display: inline-block;
     font-size: 10px;
-    padding: 0px 3px;
+    padding: 0 3px;
     vertical-align: middle;
 }
 
@@ -299,7 +296,7 @@ div.sc-screenshot-scenario {
 }
 
 .tab-content {
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 /** Tree **/

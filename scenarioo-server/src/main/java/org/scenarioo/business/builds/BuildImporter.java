@@ -177,6 +177,7 @@ public class BuildImporter {
 					summary.getIdentifier().getBuildName())) {
 				aggregator.calculateAggregatedDataForBuild(summary.getIdentifier().getBranchName(),
 						summary.getIdentifier().getBuildName());
+				summary.setBuildStatistics(aggregator.getBuildStatistics());
 				addSuccessfullyImportedBuild(availableBuilds, summary);
 				LOGGER.info("  SUCCESS on importing build: " + summary.getIdentifier().getBranchName() + "/"
 						+ summary.getIdentifier().getBuildName());

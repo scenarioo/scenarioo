@@ -20,18 +20,18 @@
 describe('Filter :: scTreeDataCreator', function () {
 
     var DATA_STRING = 'someStringValue';
-    var DATA_STRING_TRANSFORMED = { nodeLabel : 'Value', nodeValue : 'someStringValue', childNodes : [  ] };
+    var DATA_STRING_TRANSFORMED = { nodeLabel: 'someStringValue' };
 
     var DATA_1 = {};
-    var DATA_1_TRANSFORMED = { nodeLabel : '', childNodes : [  ] };
+    var DATA_1_TRANSFORMED = { nodeLabel: '', childNodes: [  ] };
 
     var DATA_2 = {
-        myKey : 'myValue',
-        keyTwo : 'valueTwo'
+        myKey: 'myValue',
+        keyTwo: 'valueTwo'
     };
     var DATA_2_TRANSFORMED = {
-        nodeLabel : '',
-        childNodes : [
+        nodeLabel: '',
+        childNodes: [
             {
                 nodeLabel: 'myKey',
                 nodeValue: 'myValue'
@@ -47,12 +47,12 @@ describe('Filter :: scTreeDataCreator', function () {
         'details': {
             'start': '12312',
             'end': [
-                { 'val' : '23123' },
-                { 'val2' : '111' }
+                { 'val': '23123' },
+                { 'val2': '111' }
             ]
         },
-        'name' : 'page_load',
-        'type' : 'statistics'
+        'name': 'page_load',
+        'type': 'statistics'
     };
     var DATA_3_TRANSFORMED = {
         nodeLabel: '',
@@ -100,6 +100,37 @@ describe('Filter :: scTreeDataCreator', function () {
         ]
     };
 
+    var DATA_4_LIST = {
+        'list': [
+            'Listentry 0', 'Listentry 1'
+        ]
+    };
+    var DATA_4_LIST_TRANSFORMED = {
+        nodeLabel: '',
+        childNodes: [
+            {
+                nodeLabel: 'list',
+                childNodes: [
+                    {
+                        nodeLabel: 'Listentry 0'
+                    },
+                    {
+                        nodeLabel: 'Listentry 1'
+                    }
+                ]
+            }
+        ]
+    };
+
+    var DATA_5_LIST = ['Listentry 0', 'Listentry 1'];
+    var DATA_5_LIST_TRANSFORMED = {
+        nodeLabel: '',
+        childNodes: [
+            { nodeLabel: 'Listentry 0' },
+            { nodeLabel: 'Listentry 1' }
+        ]
+    };
+
     beforeEach(module('scenarioo.filters'));
 
     var scTreeDataCreator;
@@ -107,30 +138,40 @@ describe('Filter :: scTreeDataCreator', function () {
         scTreeDataCreator = $filter('scTreeDataCreator');
     }));
 
-    it('creates empty tree from undefined input', function() {
+    it('creates empty tree from undefined input', function () {
         var tree = scTreeDataCreator(undefined);
         expect(tree).toBeUndefined();
     });
 
 
-    it('transforms DATA_STRING', function() {
+    it('transforms DATA_STRING', function () {
         var tree = scTreeDataCreator(DATA_STRING);
         expect(tree).toEqual(DATA_STRING_TRANSFORMED);
     });
 
-    it('transforms DATA_1', function() {
+    it('transforms DATA_1', function () {
         var tree = scTreeDataCreator(DATA_1);
         expect(tree).toEqual(DATA_1_TRANSFORMED);
     });
 
-    it('transforms DATA_2', function() {
+    it('transforms DATA_2', function () {
         var tree = scTreeDataCreator(DATA_2);
         expect(tree).toEqual(DATA_2_TRANSFORMED);
     });
 
-    it('transforms DATA_3', function() {
+    it('transforms DATA_3', function () {
         var tree = scTreeDataCreator(DATA_3);
         expect(tree).toEqual(DATA_3_TRANSFORMED);
+    });
+
+    it('transforms DATA_4', function () {
+        var tree = scTreeDataCreator(DATA_4_LIST);
+        expect(tree).toEqual(DATA_4_LIST_TRANSFORMED);
+    });
+
+    it('transforms DATA_5', function () {
+        var tree = scTreeDataCreator(DATA_5_LIST);
+        expect(tree).toEqual(DATA_5_LIST_TRANSFORMED);
     });
 
 });

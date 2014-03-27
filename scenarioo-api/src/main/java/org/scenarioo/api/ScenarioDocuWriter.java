@@ -20,7 +20,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package org.scenarioo.api;
 
 import java.io.File;
@@ -32,8 +31,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
 import org.scenarioo.api.configuration.ScenarioDocuGeneratorConfiguration;
 import org.scenarioo.api.exception.ScenarioDocuSaveException;
 import org.scenarioo.api.exception.ScenarioDocuTimeoutException;
@@ -190,14 +189,16 @@ public class ScenarioDocuWriter {
 				final File screenshotFile = docuFiles.getScreenshotFile(branchName, buildName, usecaseName,
 						scenarioName, stepIndex);
 				File screenshotsDir = getScreenshotsDirectory(usecaseName, scenarioName);
+				FileOutputStream fos = null;
 				createDirectoryIfNotYetExists(screenshotsDir);
 				try {
 					final byte[] decodedScreenshot = Base64.decodeBase64(imageBase64Encoded);
-					final FileOutputStream fos = new FileOutputStream(screenshotFile);
+					fos = new FileOutputStream(screenshotFile);
 					fos.write(decodedScreenshot);
-					fos.close();
 				} catch (Exception e) {
 					throw new RuntimeException("Could not write image: " + screenshotFile.getAbsolutePath(), e);
+				} finally {
+					IOUtils.closeQuietly(fos);
 				}
 			}
 		});

@@ -19,7 +19,7 @@
 
 describe('Service :: SelectedBranchAndBuild', function () {
 
-    var SelectedBranchAndBuild, Config, $cookieStore, $location, $rootScope, $httpBackend, HostnameAndPort;
+    var SelectedBranchAndBuild, Config, localStorageService, $location, $rootScope, $httpBackend, HostnameAndPort;
     var BRANCH_COOKIE = 'branch_cookie';
     var BUILD_COOKIE = 'build_cookie';
     var BRANCH_URL = 'branch_url';
@@ -42,10 +42,10 @@ describe('Service :: SelectedBranchAndBuild', function () {
 
     beforeEach(angular.mock.module('scenarioo.services'));
 
-    beforeEach(inject(function (_SelectedBranchAndBuild_, _Config_, _$cookieStore_, _$location_, _$rootScope_, _$httpBackend_, _HostnameAndPort_) {
+    beforeEach(inject(function (_SelectedBranchAndBuild_, _Config_, _localStorageService_, _$location_, _$rootScope_, _$httpBackend_, _HostnameAndPort_) {
         SelectedBranchAndBuild = _SelectedBranchAndBuild_;
         Config = _Config_;
-        $cookieStore = _$cookieStore_;
+        localStorageService = _localStorageService_;
         $location = _$location_;
         $rootScope = _$rootScope_;
         $httpBackend = _$httpBackend_;
@@ -53,12 +53,12 @@ describe('Service :: SelectedBranchAndBuild', function () {
     }));
 
     it('has undefined branch and build cookies by default', function () {
-        expect($cookieStore.get(SelectedBranchAndBuild.BRANCH_KEY)).toBeUndefined();
-        expect($cookieStore.get(SelectedBranchAndBuild.BUILD_KEY)).toBeUndefined();
+        branchAndBuildInLocalStorageIsNotSet();
     });
 
     describe('when the config is not yet loaded', function () {
         it('has undefined values if no cookies or url parameters are set', inject(function (SelectedBranchAndBuild) {
+            localStorageService.clearAll();
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY]).toBeUndefined();
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BUILD_KEY]).toBeUndefined();
         }));
@@ -68,8 +68,8 @@ describe('Service :: SelectedBranchAndBuild', function () {
 
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY]).toBe(BRANCH_COOKIE);
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BUILD_KEY]).toBe(BUILD_COOKIE);
-            expect($cookieStore.get(SelectedBranchAndBuild.BRANCH_KEY)).toBe(BRANCH_COOKIE);
-            expect($cookieStore.get(SelectedBranchAndBuild.BUILD_KEY)).toBe(BUILD_COOKIE);
+            expect(localStorageService.get(SelectedBranchAndBuild.BRANCH_KEY)).toBe(BRANCH_COOKIE);
+            expect(localStorageService.get(SelectedBranchAndBuild.BUILD_KEY)).toBe(BUILD_COOKIE);
         });
 
         it('has the url parameter values, if cookies and url parameters are set', function () {
@@ -78,22 +78,22 @@ describe('Service :: SelectedBranchAndBuild', function () {
 
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY]).toBe(BRANCH_URL);
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BUILD_KEY]).toBe(BUILD_URL);
-            expect($cookieStore.get(SelectedBranchAndBuild.BRANCH_KEY)).toBe(BRANCH_URL);
-            expect($cookieStore.get(SelectedBranchAndBuild.BUILD_KEY)).toBe(BUILD_URL);
+            expect(localStorageService.get(SelectedBranchAndBuild.BRANCH_KEY)).toBe(BRANCH_URL);
+            expect(localStorageService.get(SelectedBranchAndBuild.BUILD_KEY)).toBe(BUILD_URL);
         });
     });
 
     describe('when the config is loaded', function () {
         it('uses the default values from the configuration, if no cookies or url parameters are set', function () {
-            expectBranchAndBuildInCookieIsNotSet();
-            expectBranchAndBuildInUrlParametersIsNotSet();
+            branchAndBuildInLocalStorageIsNotSet();
+            branchAndBuildInUrlParametersIsNotSet();
 
             loadConfigFromService();
 
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY]).toBe(BRANCH_CONFIG);
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BUILD_KEY]).toBe(BUILD_CONFIG);
-            expect($cookieStore.get(SelectedBranchAndBuild.BRANCH_KEY)).toBe(BRANCH_CONFIG);
-            expect($cookieStore.get(SelectedBranchAndBuild.BUILD_KEY)).toBe(BUILD_CONFIG);
+            expect(localStorageService.get(SelectedBranchAndBuild.BRANCH_KEY)).toBe(BRANCH_CONFIG);
+            expect(localStorageService.get(SelectedBranchAndBuild.BUILD_KEY)).toBe(BUILD_CONFIG);
             expect($location.search()[SelectedBranchAndBuild.BRANCH_KEY]).toBe(BRANCH_CONFIG);
             expect($location.search()[SelectedBranchAndBuild.BUILD_KEY]).toBe(BUILD_CONFIG);
         });
@@ -105,8 +105,8 @@ describe('Service :: SelectedBranchAndBuild', function () {
 
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY]).toBe(BRANCH_COOKIE);
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BUILD_KEY]).toBe(BUILD_COOKIE);
-            expect($cookieStore.get(SelectedBranchAndBuild.BRANCH_KEY)).toBe(BRANCH_COOKIE);
-            expect($cookieStore.get(SelectedBranchAndBuild.BUILD_KEY)).toBe(BUILD_COOKIE);
+            expect(localStorageService.get(SelectedBranchAndBuild.BRANCH_KEY)).toBe(BRANCH_COOKIE);
+            expect(localStorageService.get(SelectedBranchAndBuild.BUILD_KEY)).toBe(BUILD_COOKIE);
             expect($location.search()[SelectedBranchAndBuild.BRANCH_KEY]).toBe(BRANCH_COOKIE);
             expect($location.search()[SelectedBranchAndBuild.BUILD_KEY]).toBe(BUILD_COOKIE);
         });
@@ -119,8 +119,8 @@ describe('Service :: SelectedBranchAndBuild', function () {
 
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY]).toBe(BRANCH_URL);
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BUILD_KEY]).toBe(BUILD_URL);
-            expect($cookieStore.get(SelectedBranchAndBuild.BRANCH_KEY)).toBe(BRANCH_URL);
-            expect($cookieStore.get(SelectedBranchAndBuild.BUILD_KEY)).toBe(BUILD_URL);
+            expect(localStorageService.get(SelectedBranchAndBuild.BRANCH_KEY)).toBe(BRANCH_URL);
+            expect(localStorageService.get(SelectedBranchAndBuild.BUILD_KEY)).toBe(BUILD_URL);
             expect($location.search()[SelectedBranchAndBuild.BRANCH_KEY]).toBe(BRANCH_URL);
             expect($location.search()[SelectedBranchAndBuild.BUILD_KEY]).toBe(BUILD_URL);
         });
@@ -128,8 +128,8 @@ describe('Service :: SelectedBranchAndBuild', function () {
 
     describe('when url parameter changes', function () {
         it('updates the selection', function () {
-            expectBranchAndBuildInCookieIsNotSet();
-            expectBranchAndBuildInUrlParametersIsNotSet();
+            branchAndBuildInLocalStorageIsNotSet();
+            branchAndBuildInUrlParametersIsNotSet();
 
             setBranchAndBuildInUrlParameters();
 
@@ -140,8 +140,8 @@ describe('Service :: SelectedBranchAndBuild', function () {
 
     describe('when branch and build selection changes to a new valid state', function () {
         it('all registered callbacks are called', function () {
-            expectBranchAndBuildInCookieIsNotSet();
-            expectBranchAndBuildInUrlParametersIsNotSet();
+            branchAndBuildInLocalStorageIsNotSet();
+            branchAndBuildInUrlParametersIsNotSet();
 
             var selectedFromCallback;
 
@@ -170,8 +170,8 @@ describe('Service :: SelectedBranchAndBuild', function () {
 
     describe('when a callback is registered and valid data is already available', function () {
         it('calls the callback immediately', function () {
-            expectBranchAndBuildInCookieIsNotSet();
-            expectBranchAndBuildInUrlParametersIsNotSet();
+            branchAndBuildInLocalStorageIsNotSet();
+            branchAndBuildInUrlParametersIsNotSet();
 
             $location.url('/new/path/?branch=' + BRANCH_URL + '&build=' + BUILD_URL);
             $rootScope.$apply();
@@ -190,8 +190,8 @@ describe('Service :: SelectedBranchAndBuild', function () {
     });
 
     function setBranchAndBuildInCookie() {
-        $cookieStore.put('branch', BRANCH_COOKIE);
-        $cookieStore.put('build', BUILD_COOKIE);
+        localStorageService.set('branch', BRANCH_COOKIE);
+        localStorageService.set('build', BUILD_COOKIE);
     }
 
     function setBranchAndBuildInUrlParameters() {
@@ -204,12 +204,13 @@ describe('Service :: SelectedBranchAndBuild', function () {
         $httpBackend.flush();
     }
 
-    function expectBranchAndBuildInCookieIsNotSet() {
-        expect($cookieStore.get(SelectedBranchAndBuild.BRANCH_KEY)).toBeUndefined();
-        expect($cookieStore.get(SelectedBranchAndBuild.BUILD_KEY)).toBeUndefined();
+    function branchAndBuildInLocalStorageIsNotSet() {
+        localStorageService.clearAll();
+        expect(localStorageService.get(SelectedBranchAndBuild.BRANCH_KEY)).toBeNull();
+        expect(localStorageService.get(SelectedBranchAndBuild.BUILD_KEY)).toBeNull();
     }
 
-    function expectBranchAndBuildInUrlParametersIsNotSet() {
+    function branchAndBuildInUrlParametersIsNotSet() {
         expect($location.search()[SelectedBranchAndBuild.BRANCH_KEY]).toBeUndefined();
         expect($location.search()[SelectedBranchAndBuild.BUILD_KEY]).toBeUndefined();
     }

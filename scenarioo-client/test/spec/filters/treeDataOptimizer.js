@@ -56,7 +56,7 @@ describe('Filter :: scTreeDataOptimizer', function () {
     var DATA_DETAILS_OPTIMIZED = {
         childNodes: [
             {
-                nodeLabel: 'Hero',
+                nodeLabel: 'hero',
                 nodeValue: 'Donald Duck'
             }
         ]
@@ -72,10 +72,10 @@ describe('Filter :: scTreeDataOptimizer', function () {
         ]
     };
     var DATA_HUMAN_READABLE_OPTIMIZED = {
-        nodeLabel: 'Very Important Node',
+        nodeLabel: 'veryImportantNode',
         childNodes: [
             {
-                nodeLabel: 'First Name',
+                nodeLabel: 'firstName',
                 nodeValue: 'donaldDuck'
             }
         ]
@@ -86,7 +86,7 @@ describe('Filter :: scTreeDataOptimizer', function () {
         childNodes: [
             {
                 nodeLabel: '',
-                nodeValue: 'Julia',
+                nodeValue: 'Juliet',
                 childNodes: [
                     {
                         nodeLabel: 'name',
@@ -100,7 +100,7 @@ describe('Filter :: scTreeDataOptimizer', function () {
         childNodes: [
             {
                 nodeLabel: 'Romeo\'s love',
-                nodeValue: 'Julia',
+                nodeValue: 'Juliet',
                 childNodes: []
             }
         ]
@@ -110,7 +110,7 @@ describe('Filter :: scTreeDataOptimizer', function () {
         nodeLabel: '',
         childNodes: [
             {
-                nodeLabel: 'Julia',
+                nodeLabel: 'Juliet',
                 nodeValue: '',
                 childNodes: [
                     {
@@ -124,7 +124,7 @@ describe('Filter :: scTreeDataOptimizer', function () {
     var DATA_EMPTY_VALUE_OPTIMIZED = {
         childNodes: [
             {
-                nodeLabel: 'Julia',
+                nodeLabel: 'Juliet',
                 nodeValue: 'Romeo\'s love',
                 childNodes: []
             }
@@ -142,7 +142,7 @@ describe('Filter :: scTreeDataOptimizer', function () {
         ]
     };
     var DATA_TYPE_OPTIMIZED = {
-        nodeLabel: 'Config Module',
+        nodeLabel: 'configModule',
         nodeValue: 'special',
         childNodes: []
     };
@@ -165,17 +165,17 @@ describe('Filter :: scTreeDataOptimizer', function () {
         ]
     };
     var CHILDREN_OPTIMIZED = {
-        nodeLabel: 'Something',
+        nodeLabel: 'something',
         nodeValue: 'special',
         childNodes: [
             {
-                nodeLabel: 'Other Node'
+                nodeLabel: 'otherNode'
             },
             {
-                nodeLabel: 'Children',
+                nodeLabel: 'children',
                 childNodes: [
                     {
-                        nodeLabel: 'Some Label'
+                        nodeLabel: 'someLabel'
                     }
                 ]
             }
@@ -192,7 +192,7 @@ describe('Filter :: scTreeDataOptimizer', function () {
         ]
     };
     var EMPTY_LABEL_OPTIMIZED = {
-        nodeLabel: 'Something',
+        nodeLabel: 'something',
         nodeValue: 'special',
         childNodes: [
             {
@@ -202,12 +202,12 @@ describe('Filter :: scTreeDataOptimizer', function () {
     };
 
     var ITEM_LABEL_ROOT_NODE = {
-        nodeLabel: 'item'
+        nodeLabel: 'Item'
     };
     var ITEM_LABEL_ROOT_NODE_OPTIMIZED = {};
 
     var ITEM_LABEL_WITH_VALUE_ROOT_NODE = {
-        nodeLabel: 'item',
+        nodeLabel: 'Item',
         nodeValue: 'someValue'
     };
     var ITEM_LABEL_WITH_VALUE_ROOT_NODE_OPTIMIZED = {
@@ -216,12 +216,11 @@ describe('Filter :: scTreeDataOptimizer', function () {
     };
 
 
-
     beforeEach(module('scenarioo.filters'));
 
     var scTreeDataOptimizer;
-    beforeEach(inject(function (_$filter_) {
-        scTreeDataOptimizer = _$filter_('scTreeDataOptimizer', {$filter: _$filter_});
+    beforeEach(inject(function ($filter) {
+        scTreeDataOptimizer = $filter('scTreeDataOptimizer');
     }));
 
     // TODO Check with Rolf whether we need to remove empty child nodes

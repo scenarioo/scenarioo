@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <!-- Tabs are defined dynamically in controller inside main.js -->
     <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="setSelectedTabInUrl(tab.tabId)">
-        <div class="container-fluid">
+        <div>
             <ng-include src="getLazyTabContentViewUrl(tab)"/>
         </div>
     </tab>

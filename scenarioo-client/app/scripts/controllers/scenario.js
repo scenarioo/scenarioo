@@ -25,6 +25,8 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
 
     var showAllSteps = [];
 
+    var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
+
     SelectedBranchAndBuild.callOnSelectionChange(loadScenario);
 
     function loadScenario(selected) {
@@ -59,6 +61,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
 
         $scope.scenario = pagesAndScenarios.scenario;
         $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
+        $scope.metadataTree = transformMetadataToTreeArray(pagesAndScenarios.scenario.details);
     }
 
     $scope.showAllStepsForPage = function(pageIndex) {
@@ -84,6 +87,25 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
 
     $scope.resetSearchField = function () {
         $scope.searchFieldText = '';
+    };
+
+    // TODO make this generic and share it with step.js
+    $scope.showingMetaData = false;
+    var metadataExpanded = [];
+    metadataExpanded['sc-step-properties'] = true;
+
+    $scope.isMetadataCollapsed = function (type) {
+        var collapsed = angular.isUndefined(metadataExpanded[type]) || metadataExpanded[type] === false;
+        return collapsed;
+    };
+
+    $scope.toggleMetadataCollapsed = function (type) {
+        var currentValue = metadataExpanded[type];
+        if (angular.isUndefined(currentValue)) {
+            currentValue = false;
+        }
+        var newValue = !currentValue;
+        metadataExpanded[type] = newValue;
     };
 
 });

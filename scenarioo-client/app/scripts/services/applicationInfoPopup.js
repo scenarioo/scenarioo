@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.services').factory('ScApplicationInfoPopup',function ($cookieStore, $modal) {
+angular.module('scenarioo.services').factory('ScApplicationInfoPopup',function (localStorageService, $modal) {
 
     var PREVIOUSLY_VISITED_COOKIE_NAME = 'scenariooPreviouslyVisited';
 
@@ -27,10 +27,10 @@ angular.module('scenarioo.services').factory('ScApplicationInfoPopup',function (
         }
 
         function userVisitsAppForTheFirstTime() {
-            if ($cookieStore.get(PREVIOUSLY_VISITED_COOKIE_NAME)) {
+            if (localStorageService.get(PREVIOUSLY_VISITED_COOKIE_NAME)) {
                 return false;
             }
-            $cookieStore.put(PREVIOUSLY_VISITED_COOKIE_NAME, true);
+            localStorageService.set(PREVIOUSLY_VISITED_COOKIE_NAME, true);
             return true;
         }
     }

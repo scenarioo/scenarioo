@@ -24,7 +24,7 @@ package org.scenarioo.model.docu.entities.generic;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,7 +38,7 @@ public class Details implements Map<String, Object>, Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private final Map<String, Object> properties = new HashMap<String, Object>();
+	private final Map<String, Object> properties = new LinkedHashMap<String, Object>();
 	
 	public Map<String, Object> getProperties() {
 		return properties;
@@ -126,7 +126,7 @@ public class Details implements Map<String, Object>, Serializable {
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
