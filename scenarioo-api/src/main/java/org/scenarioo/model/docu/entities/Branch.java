@@ -38,7 +38,7 @@ public class Branch implements Serializable {
 	
 	private String name;
 	private String description;
-	private final Details details = new Details();
+	private Details details = new Details();
 	
 	public Branch() {
 		this("", "");
@@ -71,6 +71,10 @@ public class Branch implements Serializable {
 	
 	public Details getDetails() {
 		return details;
+	}
+	
+	public void setDetails(Details details) {
+		this.details = details;
 	}
 	
 }
