@@ -300,6 +300,10 @@ div.sc-screenshot-scenario {
 }
 
 /** Tree **/
+.sc-tree {
+    word-wrap: break-word;
+}
+
 .sc-tree ul {
     margin-left: 0;
     padding-left: 0;
