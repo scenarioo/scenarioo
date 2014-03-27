@@ -39,7 +39,7 @@ public class Scenario implements Serializable {
 	private String name;
 	private String description;
 	private String status = "";
-	private final Details details = new Details();
+	private Details details = new Details();
 	
 	private ScenarioCalculatedData calculatedData;
 	
@@ -81,6 +81,14 @@ public class Scenario implements Serializable {
 		return details;
 	}
 	
+	public void setDetails(final Details details) {
+		this.details = details;
+	}
+	
+	public void addDetail(final String key, final Object value) {
+		details.addDetail(key, value);
+	}
+	
 	public ScenarioCalculatedData getCalculatedData() {
 		return calculatedData;
 	}
@@ -89,8 +97,5 @@ public class Scenario implements Serializable {
 		this.calculatedData = calculatedData;
 	}
 	
-	public void addDetail(final String key, final Object value) {
-		details.addDetail(key, value);
-	}
 	
 }

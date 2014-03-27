@@ -38,7 +38,7 @@ public class StepMetadata implements Serializable {
 	
 	private String visibleText;
 	
-	private final Details details = new Details();
+	private Details details = new Details();
 	
 	public String getVisibleText() {
 		return visibleText;
@@ -50,6 +50,10 @@ public class StepMetadata implements Serializable {
 	
 	public Details getDetails() {
 		return details;
+	}
+	
+	public void setDetails(Details details) {
+		this.details = details;
 	}
 	
 	public void addDetail(final String key, final Object value) {
