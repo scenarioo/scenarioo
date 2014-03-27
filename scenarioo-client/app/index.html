@@ -32,6 +32,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/scenarioo.css">
+    <!--[if lt IE 9]>
+        <link rel="stylesheet" href="styles/ie-hacks.css">
+    <![endif]-->
     <!-- endbuild -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <!--[if lte IE 8]>
@@ -59,7 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div ng-include="'views/navigation.html'" ng-controller="NavigationCtrl">
 </div>
 
-<div class="ngusd-container">
+<div class="ngusd-container sc-viewcontainer">
     <div ng-view></div>
 </div>
 
