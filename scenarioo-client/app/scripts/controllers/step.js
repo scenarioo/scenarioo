@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioResource, PageVariantService, StepService, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup) {
+angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioResource, PageVariantService, StepService, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService) {
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
 
@@ -144,29 +144,32 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     }
 
     function bindStepNavigation(pagesAndSteps) {
-        var w = angular.element($window);
-        w.bind('keypress', function (event) {
-            var keyCode = event.keyCode;
-            if (keyCode === 37) {
-                if (event.ctrlKey === 1) {
-                    $scope.goToPreviousVariant();
-                } else {
-                    $scope.goToPreviousStep();
-                }
-            } else if (keyCode === 38) {
-                $scope.goToPreviousPage();
-            } else if (keyCode === 39) {
-                if (event.ctrlKey === 1) {
-                    $scope.goToNextVariant();
-                } else {
-                    $scope.goToNextStep();
-                }
-            } else if (keyCode === 40) {
-                $scope.goToNextPage();
-            }
-            $scope.$apply();
-            return false;
+
+        GlobalHotkeysService.registerPageHotKeyCode(37, function () {
+            // left arrow
+            $scope.goToPreviousStep();
         });
+        GlobalHotkeysService.registerPageHotKeyCode(39, function () {
+            // right arrow
+            $scope.goToNextStep();
+        });
+        GlobalHotkeysService.registerPageHotKeyCode('shift+37', function () {
+            // left arrow
+            $scope.goToPreviousPage();
+        });
+        GlobalHotkeysService.registerPageHotKeyCode('shift+39', function () {
+            // right arrow
+            $scope.goToNextPage();
+        });
+        GlobalHotkeysService.registerPageHotKeyCode(38, function () {
+            // up arrow
+            $scope.goToPreviousVariant();
+        });
+        GlobalHotkeysService.registerPageHotKeyCode(4, function () {
+            // down arrow
+            $scope.goToNextVariant();
+        });
+
 
         $scope.goToPreviousPage = function () {
             var pageIndex = $scope.pageIndex - 1;
