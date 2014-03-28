@@ -153,6 +153,11 @@ h4 {
     }
 }
 
+.navbar-nav>li {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
 .header .builds.dropdown .dropdown-menu {
     width: 500px;
 }
@@ -278,7 +283,7 @@ div.sc-screenshot-scenario {
     vertical-align: middle;
 }
 
-.ngusd-container {
+.sc-viewcontainer {
     margin: 0 15px 15px 15px;
 }
 

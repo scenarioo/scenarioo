@@ -27,8 +27,10 @@ angular.module('scenarioo.filters').filter('scFilterArray', function () {
         var searchElements = filterString.split(' ');
 
         for(var i in searchElements) {
-            if(!objectContainsString(object, searchElements[i])) {
-                return false;
+            if (typeof searchElements[i] === 'string') {
+                if(!objectContainsString(object, searchElements[i])) {
+                    return false;
+                }
             }
         }
         return true;

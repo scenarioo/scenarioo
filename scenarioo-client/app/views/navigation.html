@@ -16,57 +16,50 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <div class="navbar navbar-default navbar-inverse navbar-static-top" role="navigation">
+    <div class="navbar-inner">
+        <div class="ngusd-container">
+			<a class="nav navbar-brand" href="#">Scenarioo {{applicationName}}</a>
 
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#ngusd-navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Scenarioo {{applicationName}}</a>
-    </div>
+			<ul class="nav navbar-nav">
+				<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
 
-    <div class="collapse navbar-collapse" id="ngusd-navbar-collapse">
-        <ul class="nav navbar-nav">
-            <li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+				<!-- Branch selection dropdown -->
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<span class="glyphicon glyphicon-hdd"></span> Branch: {{branchesAndBuilds.selectedBranch.branch.name}}
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li ng-repeat="branch in branchesAndBuilds.branches">
+							<a ng-click="setBranch(branch)">{{branch.branch.name}}</a>
+						</li>
+					</ul>
+				</li>
 
-            <!-- Branch selection dropdown -->
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-hdd"></span> Branch: {{branchesAndBuilds.selectedBranch.branch.name}}
-                    <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                    <li ng-repeat="branch in branchesAndBuilds.branches">
-                        <a ng-click="setBranch(branch)">{{branch.branch.name}}</a>
-                    </li>
-                </ul>
-            </li>
+				<!-- Build selection dropdown -->
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Build: {{getDisplayName(branchesAndBuilds.selectedBuild)}}&nbsp;&nbsp;
+						<span ng-class="[getStatusStyleClass(branchesAndBuilds.selectedBuild.build.status), 'label']">{{branchesAndBuilds.selectedBuild.build.status}}</span>
+						<div class="icon-with-padding"><b class="caret"></b></div>
+					</a>
+					<ul class="dropdown-menu">
+						<li ng-repeat="build in branchesAndBuilds.selectedBranch.builds">
+							<a ng-include="'template/build.html'" ng-click="setBuild(selectedBranch, build)"></a>
+						</li>
+					</ul>
+				</li>
+			</ul>
 
-            <!-- Build selection dropdown -->
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Build: {{getDisplayName(branchesAndBuilds.selectedBuild)}}&nbsp;&nbsp;
-                    <span ng-class="[getStatusStyleClass(branchesAndBuilds.selectedBuild.build.status), 'label']">{{branchesAndBuilds.selectedBuild.build.status}}</span>
-                    <div class="icon-with-padding"><b class="caret"></b></div>
-                </a>
-                <ul class="dropdown-menu">
-                    <li ng-repeat="build in branchesAndBuilds.selectedBranch.builds">
-                        <a ng-include="'template/build.html'" ng-click="setBuild(selectedBranch, build)"></a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-
-        <ul class="nav navbar-nav pull-right">
-            <li>
-                <a href="#/config"><span class="glyphicon glyphicon-cog"></span> Configuration</a>
-            </li>
-            <li>
-                <a href="" ng-click="showApplicationInfoPopup()" class="link"><span class="glyphicon glyphicon-info-sign"></span> Info</a>
-            </li>
-        </ul>
+			<ul class="nav navbar-nav pull-right">
+				<li>
+					<a href="#/config"><span class="glyphicon glyphicon-cog"></span> Configuration</a>
+				</li>
+				<li>
+					<a href="" ng-click="showApplicationInfoPopup()" class="link"><span class="glyphicon glyphicon-info-sign"></span> Info</a>
+				</li>
+			</ul>
+		</div>
     </div>
 </div>
 

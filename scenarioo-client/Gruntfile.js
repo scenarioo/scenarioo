@@ -357,6 +357,7 @@ module.exports = function (grunt) {
                             'images/{,*/}*.{gif,webp}',
                             'styles/fonts/*',
                             'styles/scenarioo.css',
+                            'styles/ie-hacks.css',
                             'template/**/*'
                         ]
                     }
