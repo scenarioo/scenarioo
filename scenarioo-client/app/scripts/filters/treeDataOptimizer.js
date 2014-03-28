@@ -17,9 +17,8 @@
 
 'use strict';
 
-angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($filter) {
+angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function () {
 
-    var scHumanReadable = $filter('scHumanReadable');
     var ITEM = 'Item';
 
     function optimizeChildNodes(node, operation) {
@@ -86,12 +85,6 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($fil
         angular.forEach(node.childNodes, function(childNode) {
             optimizeNodes(childNode, operation);
         });
-    }
-
-    function makeLabelsHumanReadable(node) {
-        if(angular.isString(node.nodeLabel)) {
-            node.nodeLabel = scHumanReadable(node.nodeLabel);
-        }
     }
 
     function pullUpTypeToReplaceNodeLabel(node) {
@@ -187,8 +180,6 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function ($fil
         optimizeChildNodes(rootNode, pullUpChildrenOfDetailsNodes);
         optimizeNodes(rootNode, pullUpTypeToReplaceNodeLabel);
         optimizeNodes(rootNode, moveChildrenChildNodeBehindOthers);
-
-        optimizeNodes(rootNode, makeLabelsHumanReadable);
 
         // this happens after making the labels human readable,
         // because the name node value could be a technical expression

@@ -35,9 +35,9 @@ describe('Service :: restServices', function () {
         });
 
         it('should resolve the host name to local host', inject(function (HostnameAndPort) {
-            expect(HostnameAndPort.forNgResource()).toBe('http://localhost\\:8080');
-            expect(HostnameAndPort.forTest()).toBe('http://localhost:8080');
-            expect(HostnameAndPort.forLink()).toBe('http://localhost:8080');
+            expect(HostnameAndPort.forNgResource()).toBe('http://localhost\\:8080/scenarioo/');
+            expect(HostnameAndPort.forTest()).toBe('http://localhost:8080/scenarioo/');
+            expect(HostnameAndPort.forLink()).toBe('http://localhost:8080/scenarioo/');
         }));
 
     });

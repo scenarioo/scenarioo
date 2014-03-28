@@ -47,7 +47,7 @@ describe('Controller MainCtrl', function () {
     });
 
     it('loads builds when branch and build selection changes', function () {
-        var BRANCHES_URL = HostnameAndPort.forTest() + '/scenarioo/rest/branches';
+        var BRANCHES_URL = HostnameAndPort.forTest() + 'rest/branches';
         $httpBackend.whenGET(BRANCHES_URL).respond(TestData.BRANCHES);
         $location.url('/?branch=release-branch-2014-01-16&build=example-build');
         $scope.$apply();

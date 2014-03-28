@@ -39,8 +39,11 @@ publishing {
 			artifact sourceJar { classifier "sources" }
 		}
 	}
-	repositories { maven { url "/home/ngUSD/Code/mvn-repo"
-		} }
+	repositories { 
+		maven { 
+			url "../../mvn-repo" 
+		} 
+	}
 }
 
 // Prevent Eclipse "Gradle -> Refresh All" to execute cleanEclipseJdt,

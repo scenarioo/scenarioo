@@ -53,7 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <a ng-click="goToFirstStep(useCase.name, scenario.name)" tooltip="Go to first step" tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
             </td>
             <td>{{scenario.description}}</td>
-            <td ng-repeat="property in propertiesToShow">{{scenario.details.properties[property]}}</td>
+            <td ng-repeat="property in propertiesToShow">{{scenario.details[property]}}</td>
             <td>{{scenario.calculatedData.numberOfSteps}}</td>
         </tr>
     </tbody>

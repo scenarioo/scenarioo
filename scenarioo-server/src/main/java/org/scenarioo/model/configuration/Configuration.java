@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * The configuration for the server and the client.
- * 
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -48,6 +47,8 @@ public class Configuration {
 	private String buildStatusForSuccessfulBuilds = "success";
 
 	private String scenarioPropertiesInOverview;
+
+	private String applicationName;
 
 	private String applicationInformation;
 
@@ -110,6 +111,19 @@ public class Configuration {
 	public void setScenarioPropertiesInOverview(
 			String scenarioPropertiesInOverview) {
 		this.scenarioPropertiesInOverview = scenarioPropertiesInOverview;
+	}
+
+	public String getApplicationName() {
+		return applicationName;
+	}
+
+	/**
+	 * The name of the application that is documented by this Scenarioo
+	 * installation. It's displayed in the browser's title bar and in the
+	 * navigation bar of Scenarioo.
+	 */
+	public void setApplicationName(String applicationName) {
+		this.applicationName = applicationName;
 	}
 
 	public String getApplicationInformation() {

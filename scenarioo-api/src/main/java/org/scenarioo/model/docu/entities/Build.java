@@ -41,7 +41,7 @@ public class Build implements Serializable {
 	private String revision;
 	private Date date;
 	private String status;
-	private final Details details = new Details();
+	private Details details = new Details();
 	
 	public Build() {
 	}
@@ -84,6 +84,10 @@ public class Build implements Serializable {
 	
 	public Details getDetails() {
 		return details;
+	}
+	
+	public void setDetails(Details details) {
+		this.details = details;
 	}
 	
 }

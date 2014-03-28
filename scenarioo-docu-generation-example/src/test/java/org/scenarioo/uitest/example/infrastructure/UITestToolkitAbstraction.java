@@ -38,6 +38,7 @@ import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.StepHtml;
 import org.scenarioo.model.docu.entities.StepMetadata;
 import org.scenarioo.model.docu.entities.generic.Details;
+import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
 import org.scenarioo.uitest.dummy.toolkit.UITestToolkit;
 
@@ -178,9 +179,18 @@ public class UITestToolkitAbstraction {
 		metadata.addDetail("hugeMetadataTree", createHugeMetadataTree());
 		metadata.addDetail("madeBy", "Scenarioo-Team");
 		metadata.setVisibleText("Bla bla bla bla bla ... This is the visible text as generated from dummy test.");
+		metadata.addDetail("list", createMetadataList());
 		return metadata;
 	}
 	
+	private ObjectList<String> createMetadataList() {
+		ObjectList<String> objectList = new ObjectList<String>();
+		for(int i = 0; i < 5; i++) {
+			objectList.add("Listentry " + i);
+		}
+		return objectList;
+	}
+
 	// This is used to make sure the display mechanism can handle large amounts of data
 	private Object createHugeMetadataTree() {
 		return createMetadataWithDepth(5);

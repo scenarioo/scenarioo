@@ -25,15 +25,15 @@ describe('StepCtrl', function () {
 
     var METADATA_TYPE = 'some_type';
     var STEP_INFORMATION_TREE = { childNodes: [
-        { nodeLabel: 'Step Title', nodeValue: 'Search results' },
-        { nodeLabel: 'Page', childNodes: [  ], nodeValue: 'startSearch.jsp' },
+        { nodeLabel: 'Step title', nodeValue: 'Search results' },
+        { nodeLabel: 'Page name', childNodes: [  ], nodeValue: 'startSearch.jsp' },
         { nodeLabel: 'URL', nodeValue: 'http://www.wikipedia.org' },
-        { nodeLabel: 'Build Status', nodeValue: 'success' }
+        { nodeLabel: 'Build status', nodeValue: 'success' }
     ] };
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _Config_, _ScenarioResource_, _PageVariantService_, _StepService_, _HostnameAndPort_, _SelectedBranchAndBuild_, $controller, _$httpBackend_, _TestData_) {
+    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _Config_, _ScenarioResource_, _PageVariantService_, _StepService_, _HostnameAndPort_, _SelectedBranchAndBuild_, $controller, _$httpBackend_, _TestData_, localStorageService) {
         $scope = _$rootScope_.$new();
         $routeParams = _$routeParams_;
         $location = _$location_;
@@ -53,6 +53,8 @@ describe('StepCtrl', function () {
         $routeParams.pageName = 'pn';
         $routeParams.pageIndex = 0;
         $routeParams.stepIndex = 0;
+
+        localStorageService.clearAll();
 
         StepCtrl = $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
             $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource,
@@ -83,10 +85,10 @@ describe('StepCtrl', function () {
     });
 
     function loadPageContent() {
-        $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/configuration').respond(TestData.CONFIG);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/branches/trunk/builds/current/search/pagevariants').respond(TestData.PAGE_VARIANTS);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/branches/trunk/builds/current/usecases/uc/scenarios/sc').respond(TestData.SCENARIO);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/branches/trunk/builds/current/usecases/uc/scenarios/sc/steps/0').respond(TestData.STEP);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches/trunk/builds/current/search/pagevariants').respond(TestData.PAGE_VARIANTS);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches/trunk/builds/current/usecases/uc/scenarios/sc').respond(TestData.SCENARIO);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches/trunk/builds/current/usecases/uc/scenarios/sc/steps/0').respond(TestData.STEP);
 
         Config.load();
         $httpBackend.flush();

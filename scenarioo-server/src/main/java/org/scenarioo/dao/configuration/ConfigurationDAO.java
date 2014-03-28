@@ -30,117 +30,145 @@ import org.scenarioo.model.configuration.Configuration;
  * DAO for accessing USD configuration data from filesysem.
  */
 public class ConfigurationDAO {
-	
-	private static final Logger LOGGER = Logger.getLogger(ConfigurationDAO.class);
-	
+
+	private static final Logger LOGGER = Logger
+			.getLogger(ConfigurationDAO.class);
+
 	private static String EXAMPLE_DOCUMENTATION_DIRECTORY = "documentationExample";
-	
+
 	private static final String USER_HOME_BASE_DIRECTORY = ".scenarioo";
 	private static final String CONFIG_FILE_NAME = "config.xml";
 	private static final String DEFAULT_CONFIG_PATH = CONFIG_FILE_NAME;
-	
+
 	private static Configuration configuration = null;
-	
+
 	private static String configurationDirectory = null;
-	
-	public static void setConfigurationDirectory(final String configurationDirectory) {
+	private static String configurationFilename = null;
+
+	public static void setConfigurationDirectory(
+			final String configurationDirectory) {
 		ConfigurationDAO.configurationDirectory = configurationDirectory;
 	}
-	
+
+	public static void setConfigurationFilename(
+			final String configurationFilename) {
+		ConfigurationDAO.configurationFilename = configurationFilename;
+	}
+
 	/**
 	 * Only for testing
 	 */
 	public static void injectConfiguration(final Configuration configuration) {
 		ConfigurationDAO.configuration = configuration;
 	}
-	
+
 	public static Configuration getConfiguration() {
 		if (configuration == null) {
 			configuration = loadConfiguration();
 		}
 		return configuration;
 	}
-	
+
 	private static Configuration loadConfiguration() {
 		File configFile = getFileSystemConfigFile();
-		
-		LOGGER.info("  loading configuration from file: " + configFile);
-		if (!configFile.exists()) {
-			LOGGER.warn("  file " + configFile + " does not exist --> loading default config.xml from classpath");
+		if (configFile == null || !configFile.exists()) {
+			LOGGER.warn("  file "
+					+ configFile
+					+ " does not exist --> loading default config.xml from classpath");
 			configFile = getClasspathConfigFile();
+		} else {
+			LOGGER.info("  loading configuration from file: " + configFile);
 		}
-		return ScenarioDocuXMLFileUtil.unmarshal(Configuration.class, configFile);
+		return ScenarioDocuXMLFileUtil.unmarshal(Configuration.class,
+				configFile);
 	}
-	
-	public static Configuration updateConfiguration(final Configuration configuration) {
-		File configFile = getFileSystemConfigFile();
-		File configDirectory = configFile.getParentFile();
+
+	public static Configuration updateConfiguration(
+			final Configuration configuration) {
+		final File configFile = getFileSystemConfigFile();
+		final File configDirectory = configFile.getParentFile();
 		configDirectory.mkdirs();
 		ScenarioDocuXMLFileUtil.marshal(configuration, configFile);
 		ConfigurationDAO.configuration = loadConfiguration();
 		return configuration;
 	}
-	
+
 	/**
-	 * Get the place where customized configuration file is or will be stored (as soon as first configuration change has
-	 * been applied).
+	 * Get the place where customized configuration file is or will be stored
+	 * (as soon as first configuration change has been applied).
 	 */
 	private static File getFileSystemConfigFile() {
 		File configurationPath;
 		if (!StringUtils.isBlank(configurationDirectory)) {
 			configurationPath = new File(configurationDirectory);
 		} else {
-			LOGGER.warn("conigured directory (" + configurationDirectory
+			LOGGER.warn("configured directory ("
+					+ configurationDirectory
 					+ ") does not exist or is invalid --> trying fallback directory in user home");
 			configurationPath = getUserHomeConfigurationDirectory();
 		}
-		File configFile = new File(configurationPath, CONFIG_FILE_NAME);
+		if (configurationPath == null) {
+			return null;
+		}
+		File configFile;
+		if (StringUtils.isNotBlank(configurationFilename)) {
+			configFile = new File(configurationPath, configurationFilename);
+		} else {
+			configFile = new File(configurationPath, CONFIG_FILE_NAME);
+		}
 		return configFile;
 	}
-	
+
 	private static File getUserHomeConfigurationDirectory() {
 		File configurationPath;
 		// file constructor handles null or blank user.home
-		configurationPath = new File(System.getProperty("user.home"), USER_HOME_BASE_DIRECTORY);
-		if (!configurationPath.exists()) {
-			throw new IllegalStateException("no valid system configuration directory");
-		}
+		configurationPath = new File(System.getProperty("user.home"),
+				USER_HOME_BASE_DIRECTORY);
+
 		return configurationPath;
 	}
-	
+
 	private static File getClasspathConfigFile() {
-		URL resourceUrl = ConfigurationDAO.class.getClassLoader().getResource(DEFAULT_CONFIG_PATH);
+		final URL resourceUrl = ConfigurationDAO.class.getClassLoader()
+				.getResource(DEFAULT_CONFIG_PATH);
 		File defaultConfigFile = null;
 		try {
 			defaultConfigFile = new File(resourceUrl.toURI());
-		} catch (URISyntaxException e) {
-			throw new IllegalStateException("Default configuration file is not accessable.", e);
+		} catch (final URISyntaxException e) {
+			throw new IllegalStateException(
+					"Default configuration file is not accessable.", e);
 		}
 		if (defaultConfigFile == null || !defaultConfigFile.exists()) {
-			throw new IllegalStateException("Default configuration file is missing.");
+			throw new IllegalStateException(
+					"Default configuration file is missing.");
 		}
 		return defaultConfigFile;
 	}
-	
+
 	public static File getDocuDataDirectoryPath() {
 		if (StringUtils.isBlank(configuration.getTestDocumentationDirPath())) {
-			URL exampleDocuDataPath = Configuration.class.getClassLoader().getResource(EXAMPLE_DOCUMENTATION_DIRECTORY);
+			final URL exampleDocuDataPath = Configuration.class
+					.getClassLoader().getResource(
+							EXAMPLE_DOCUMENTATION_DIRECTORY);
 			File exampleDocuDataDirectoryPath = null;
 			try {
 				if (exampleDocuDataPath != null) {
-					exampleDocuDataDirectoryPath = new File(exampleDocuDataPath.toURI());
+					exampleDocuDataDirectoryPath = new File(
+							exampleDocuDataPath.toURI());
 				}
-			} catch (URISyntaxException e) {
-				LOGGER.error("Example documentation data is not accessible in resources.", e);
+			} catch (final URISyntaxException e) {
+				LOGGER.error(
+						"Example documentation data is not accessible in resources.",
+						e);
 				return null;
 			}
-			if (exampleDocuDataDirectoryPath == null || !exampleDocuDataDirectoryPath.exists()) {
+			if (exampleDocuDataDirectoryPath == null
+					|| !exampleDocuDataDirectoryPath.exists()) {
 				LOGGER.error("Example documentation data is missing in resources.");
 				return null;
 			}
 			return exampleDocuDataDirectoryPath;
-		}
-		else {
+		} else {
 			return new File(configuration.getTestDocumentationDirPath());
 		}
 	}

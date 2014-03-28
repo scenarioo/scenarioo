@@ -21,7 +21,9 @@ public class BuildImportSummary {
 	private String statusMessage;
 
 	private Date importDate = new Date();
-
+	
+	private BuildStatistics buildStatistics = new BuildStatistics();
+	
 	public BuildImportSummary() {
 	}
 
@@ -70,6 +72,14 @@ public class BuildImportSummary {
 		this.importDate = importDate;
 	}
 
+	public void setBuildStatistics(BuildStatistics buildStatistics) {
+		this.buildStatistics = buildStatistics;
+	}
+	
+	public BuildStatistics getBuildStatistics() {
+		return buildStatistics;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

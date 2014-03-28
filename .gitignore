@@ -18,3 +18,4 @@ scenarioo-client/app/scripts/environment_config.js
 /build
 .classpath
 .settings
+*.iml

@@ -17,8 +17,6 @@
 
 'use strict';
 
-angular.module('scenarioo.services').constant('REST_API_URL', '/scenarioo/rest');
-
 angular.module('scenarioo.services').config(function ($httpProvider) {
     $httpProvider.defaults.headers.common.Accept = 'application/json';
 });
@@ -29,7 +27,7 @@ angular.module('scenarioo.services').factory('HostnameAndPort', function (ENV) {
     if (ENV === 'production') {
         hostAndPort = '';
     } else if (ENV === 'development') {
-        hostAndPort = 'http://localhost:8080';
+        hostAndPort = 'http://localhost:8080/scenarioo/';
     }
 
     return {
@@ -47,7 +45,7 @@ angular.module('scenarioo.services').factory('HostnameAndPort', function (ENV) {
 
 angular.module('scenarioo.services').factory('ScenariooResource', function (HostnameAndPort, $resource) {
     return function (url, paramDefaults, actions) {
-        return $resource(HostnameAndPort.forNgResource() + '/scenarioo/rest' + url, paramDefaults, actions);
+        return $resource(HostnameAndPort.forNgResource() + 'rest' + url, paramDefaults, actions);
     };
 });
 
@@ -75,7 +73,7 @@ angular.module('scenarioo.services').factory('BuildImportStatesResource', functi
 angular.module('scenarioo.services').factory('BuildImportLogResource', function (HostnameAndPort, $http) {
     return {
         get: function(branchName, buildName, onSuccess, onError) {
-            var callURL = HostnameAndPort.forLink() + '/scenarioo/rest/builds/importLogs/' + encodeURIComponent(branchName) + '/' + encodeURIComponent(buildName);
+            var callURL = HostnameAndPort.forLink() + 'rest/builds/importLogs/' + encodeURIComponent(branchName) + '/' + encodeURIComponent(buildName);
             $http({method: 'GET', url: callURL}).success(onSuccess).error(onError);
         }
     };

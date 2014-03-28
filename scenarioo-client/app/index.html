@@ -23,11 +23,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <!--[if IE 8]>
 <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js"> <!--<![endif]-->
+<html class="no-js" ng-app="scenarioo"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Scenarioo</title>
+    <title ng-controller="TitleCtrl" ng-bind="title">Scenarioo</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -38,7 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
 </head>
-<body ng-app="scenarioo">
+<body>
 <!--[if lt IE 7]>
 <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser
     today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better
@@ -59,10 +59,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <script src="components/angular/angular.js"></script>
 <script src="components/angular-resource/angular-resource.js"></script>
-<script src="components/angular-cookies/angular-cookies.js"></script>
 <script src="components/angular-sanitize/angular-sanitize.js"></script>
 <script src="components/angular-route/angular-route.js"></script>
 <script src="components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="components/angular-local-storage/angular-local-storage.js"></script>
 
 <!-- build:js scripts/js-beautify.js -->
 <!--<script src="third-party/js-beautify/js/lib/beautify-html.js"></script>-->
@@ -81,6 +81,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="scripts/directives/breadcrumbs.js"></script>
 <script src="scripts/directives/sortableColumn.js"></script>
 <script src="scripts/directives/tree.js"></script>
+<script src="scripts/directives/staticInclude.js"></script>
 <script src="scripts/controllers/navigation.js"></script>
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/controllers/mainUseCasesTab.js"></script>
@@ -89,10 +90,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="scripts/controllers/scenario.js"></script>
 <script src="scripts/controllers/step.js"></script>
 <script src="scripts/controllers/configEditor.js"></script>
+<script src="scripts/controllers/title.js"></script>
 <script src="scripts/filters/humanReadable.js"></script>
 <script src="scripts/filters/filterArray.js"></script>
 <script src="scripts/filters/treeDataCreator.js"></script>
 <script src="scripts/filters/treeDataOptimizer.js"></script>
+<script src="scripts/filters/metadataTreeCreator.js"></script>
+<script src="scripts/filters/metadataTreeListCreator.js"></script>
 <script src="scripts/services/applicationInfoPopup.js"></script>
 <!-- endbuild -->
 

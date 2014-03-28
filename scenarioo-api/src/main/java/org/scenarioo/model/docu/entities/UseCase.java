@@ -39,7 +39,7 @@ public class UseCase implements Serializable {
 	private String name;
 	private String description;
 	private String status;
-	private final Details details = new Details();
+	private Details details = new Details();
 	
 	public UseCase() {
 	}
@@ -71,12 +71,16 @@ public class UseCase implements Serializable {
 		return status;
 	}
 	
+	public void setStatus(final String status) {
+		this.status = status;
+	}
+	
 	public Details getDetails() {
 		return details;
 	}
 	
-	public void setStatus(final String status) {
-		this.status = status;
+	public void setDetails(Details details) {
+		this.details = details;
 	}
 	
 	public void addDetail(final String key, final Object value) {

@@ -32,8 +32,8 @@ describe('Controller :: ConfigEditorCtrl', function () {
         HostnameAndPort = _HostnameAndPort_;
         TestData = _TestData_;
 
-        $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/branches').respond(TestData.BRANCHES);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/configuration').respond(TestData.CONFIG);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches').respond(TestData.BRANCHES);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
 
         $scope = $rootScope.$new();
         ConfigCtrl = $controller('ConfigEditorCtrl', {$scope: $scope, BranchesResource: BranchesResource, Config: Config});
