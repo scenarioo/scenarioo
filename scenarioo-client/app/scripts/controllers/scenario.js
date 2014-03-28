@@ -76,7 +76,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         if(angular.isUndefined(selectedBranchAndBuild)) {
             return;
         }
-        return HostnameAndPort.forLink() + '/scenarioo/rest/branches/' + selectedBranchAndBuild.branch + '/builds/' + selectedBranchAndBuild.build +
+        return HostnameAndPort.forLink() + 'rest/branches/' + selectedBranchAndBuild.branch + '/builds/' + selectedBranchAndBuild.build +
             '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
     };
 
