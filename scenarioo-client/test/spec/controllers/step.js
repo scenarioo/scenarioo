@@ -85,10 +85,10 @@ describe('StepCtrl', function () {
     });
 
     function loadPageContent() {
-        $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/configuration').respond(TestData.CONFIG);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/branches/trunk/builds/current/search/pagevariants').respond(TestData.PAGE_VARIANTS);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/branches/trunk/builds/current/usecases/uc/scenarios/sc').respond(TestData.SCENARIO);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + '/scenarioo/rest/branches/trunk/builds/current/usecases/uc/scenarios/sc/steps/0').respond(TestData.STEP);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches/trunk/builds/current/search/pagevariants').respond(TestData.PAGE_VARIANTS);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches/trunk/builds/current/usecases/uc/scenarios/sc').respond(TestData.SCENARIO);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches/trunk/builds/current/usecases/uc/scenarios/sc/steps/0').respond(TestData.STEP);
 
         Config.load();
         $httpBackend.flush();

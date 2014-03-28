@@ -56,14 +56,14 @@ describe('Controller :: Scenario', function() {
     });
 
     it('creates the correct image link, if selected branch and build is known', function() {
-        $httpBackend.whenGET(HostNameAndPort.forLink() + '/scenarioo/rest/configuration').respond(TestData.CONFIG);
-        $httpBackend.whenGET(HostNameAndPort.forLink() + '/scenarioo/rest/branches/trunk/builds/current/usecases/SearchUseCase/scenarios/NotFoundScenario').respond(TestData.SCENARIO);
+        $httpBackend.whenGET(HostNameAndPort.forLink() + 'rest/configuration').respond(TestData.CONFIG);
+        $httpBackend.whenGET(HostNameAndPort.forLink() + 'rest/branches/trunk/builds/current/usecases/SearchUseCase/scenarios/NotFoundScenario').respond(TestData.SCENARIO);
 
         Config.load();
         $httpBackend.flush();
 
         var imageLink = $scope.getScreenShotUrl('img.jpg');
-        expect(imageLink).toBe(HostNameAndPort.forLink() + '/scenarioo/rest/branches/trunk/builds/current/usecases/SearchUseCase/scenarios/NotFoundScenario/image/img.jpg');
+        expect(imageLink).toBe(HostNameAndPort.forLink() + 'rest/branches/trunk/builds/current/usecases/SearchUseCase/scenarios/NotFoundScenario/image/img.jpg');
     });
 
     it('does not show all steps of a page by default', function() {

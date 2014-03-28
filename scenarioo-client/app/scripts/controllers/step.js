@@ -88,7 +88,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
         $scope.getScreenShotUrl = function (imgName) {
             if (angular.isDefined(imgName)) {
-                return HostnameAndPort.forLink() + '/scenarioo/rest/branches/' + selected.branch + '/builds/' + selected.build + '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
+                return HostnameAndPort.forLink() + 'rest/branches/' + selected.branch + '/builds/' + selected.build + '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
             } else {
                 return '';
             }
