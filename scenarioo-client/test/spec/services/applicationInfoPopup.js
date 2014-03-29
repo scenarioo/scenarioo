@@ -80,7 +80,6 @@ describe('Controller: ApplicationInfoCtrl', function () {
         ApplicationInfoCtrl = $controller('ApplicationInfoCtrl', {
             $scope: $scope,
             Config: ConfigMock,
-            tabValue: null,
             $modalInstance: null
         });
     }));
