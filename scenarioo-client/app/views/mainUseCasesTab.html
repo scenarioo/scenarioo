@@ -14,7 +14,7 @@
    </div>
 
    <!-- use cases table -->
-    <table ng-table="tableParams" class="table table-curved table-hover table-responsive usecase-table" ng-model="sort">
+    <table ng-table="tableParams" class="table table-curved table-hover table-responsive usecase-table" ng-model="sort" sc-navigator-table="filtered"  >
         <thead>
         <tr>
             <th sc-sortable-column="useCase.status">Status</th>
@@ -24,7 +24,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="useCaseScenarios in useCases | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse" ng-click="goToUseCase(useCaseScenarios.useCase.name)" class="link">
+        <tr ng-class="{'selected':$index==selectedRowIndex}" ng-repeat="useCaseScenarios in filtered=(useCases | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)" ng-click="goToUseCase(useCaseScenarios.useCase.name)" class="link">
             <td>
                 <span ng-class="[getStatusStyleClass(useCaseScenarios.useCase.status), 'label']">{{useCaseScenarios.useCase.status}}</span>
             </td>

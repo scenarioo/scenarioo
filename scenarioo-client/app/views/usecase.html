@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 </div>
 
 
-<table class="table table-bordered">
+<table class="table table-bordered scenario-table" sc-navigator-table="filtered"  >
     <thead>
         <tr>
             <th sc-sortable-column="status">Status</th>
@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </tr>
     </thead>
     <tbody>
-        <tr ng-click="goToScenario(useCase.name, scenario.name)" class="link" ng-repeat="scenario in scenarios | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse">
+        <tr ng-class="{'selected':$index==selectedRowIndex}" ng-click="goToScenario(useCase.name, scenario.name)" class="link" ng-repeat="scenario in filtered=(scenarios | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
             <td>
                 <span class="label state" ng-class="getStatusStyleClass(scenario.status)">{{scenario.status}}</span>
             </td>
