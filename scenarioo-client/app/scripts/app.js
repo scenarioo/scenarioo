@@ -18,14 +18,13 @@
 'use strict';
 
 angular.module('scenarioo.filters', []);
-angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute']);
+angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys']);
 angular.module('scenarioo.services', [ 'ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
 
 angular.module('scenarioo', [
     'scenarioo.controllers',
-    'ui.bootstrap' ,
-    'twigs.globalHotkeys'
+    'ui.bootstrap'
 ]).config(function ($routeProvider) {
     $routeProvider
         .when('/', {

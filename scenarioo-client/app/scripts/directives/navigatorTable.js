@@ -17,24 +17,49 @@
 
 'use strict';
 
+
+/**
+ * this directive provides keyboard navigation features for a table.
+ * Up/Down arrows will navigate through the rows. on hitting the enter key, a callback is invoked, and
+ * the currently 'selected' row-item is passed to the callback function.
+ * (note: use the css class 'selected' to visually mark the currently selected table row element)
+ *
+ * use:
+ *
+
+ <table sc-navigator-table="filtered"  >
+     <thead>
+         <tr>
+             <th>Col1</th>
+             <th>Col2</th>
+         </tr>
+     </thead>
+     <tbody>
+        <tr ng-class="{'selected':$index==selectedRowIndex}"  ng-repeat="item in filtered=(data)">
+             <td>{{item.prop1}}</td>
+             <td>{{item.prop2}}</td>
+        </tr>
+     </tbody>
+ </table>
+
+ *
+ * in your controller:
+ *
+
+ $scope.onNavigatorTableHit = function (item) {
+     // do something with item
+ };
+
+ *
+ */
 angular.module('scenarioo.directives').directive('scNavigatorTable', function ($parse, GlobalHotkeysService) {
     return {
         restrict: 'A',
         scope: {
             scNavigatorTable: '@'
         },
-        link: function (scope, element) {
+        link: function (scope) {
 
-//            var callbackFunction;
-//            var evaluatedAttrribute = scope.$eval('onNavigatorTableHit');
-//            callbackFunction = evaluatedAttrribute;
-//            if (typeof(evaluatedAttrribute) !== 'function') {
-//                throw 'Given callback is no function!';
-//            }
-
-//            scope.$watch('scNavigatorTable', function (collection) {
-//               // scope.selectedRowIndex = 0;
-//            });
             var
                 parentScope = scope.$parent,
                 callbackFunction = parentScope.$eval('onNavigatorTableHit'),
