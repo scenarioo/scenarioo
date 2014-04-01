@@ -1,6 +1,6 @@
 allprojects {
 	group = 'org.scenarioo'
-    version = '0.1.20'
+    version = '0.1.21-SNAPSHOT'
 }
 
 configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-example")]) {
