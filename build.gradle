@@ -3,7 +3,7 @@ allprojects {
     version = '0.1.20'
 }
 
-configure([project(":scenarioo-api"), project(":scenarioo-server"), project(":scenarioo-docu-generation-example")]) {
+configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-example")]) {
     apply plugin: 'eclipse'
     apply plugin: 'java'
     
@@ -12,10 +12,14 @@ configure([project(":scenarioo-api"), project(":scenarioo-server"), project(":sc
 	}
 
 	repositories {
+		maven {
+         	url "https://raw.github.com/scenarioo/mvn-repo/master"
+        }
 	    mavenCentral()
 	}
 	
 	dependencies {
+		compile 'org.scenarioo:scenarioo-java:0.+'
 	    compile 'org.apache.commons:commons-lang3:3.0.1'
 	    compile 'commons-io:commons-io:1.3.2'
 	    compile 'commons-codec:commons-codec:1.2'
@@ -35,20 +39,15 @@ configure([project(":scenarioo-api"), project(":scenarioo-server"), project(":sc
 	}
 }
 
-project(':scenarioo-api') {
-}
-
 project(':scenarioo-docu-generation-example') {
     dependencies {
-        compile project(':scenarioo-api')
     }
 }
 
 project(':scenarioo-server') {
     dependencies {
-        compile project(':scenarioo-api')
     }
 }
 
 task wrapper(type: Wrapper) {
-}	
+}
