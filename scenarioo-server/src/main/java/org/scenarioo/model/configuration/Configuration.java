@@ -48,9 +48,9 @@ public class Configuration {
 
 	private String scenarioPropertiesInOverview;
 
-	private String applicationName;
+	private String applicationName = "";
 
-	private String applicationInformation;
+	private String applicationInformation = "";
 
 	private Map<String, String> buildstates = new HashMap<String, String>();
 
