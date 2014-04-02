@@ -173,13 +173,13 @@ public class UITestToolkitAbstraction {
 	
 	private StepMetadata createStepMetadata() {
 		StepMetadata metadata = new StepMetadata();
-		metadata.addDetail("simulationConfiguration", toolkit.getApplicationsState()
+		metadata.addDetail("Simulation Configuration", toolkit.getApplicationsState()
 				.getCurrentSimulationConfiguration());
-		metadata.addDetail("callTree", toolkit.getApplicationsState().getCallTree());
-		metadata.addDetail("hugeMetadataTree", createHugeMetadataTree());
-		metadata.addDetail("madeBy", "Scenarioo-Team");
+		metadata.addDetail("Call Tree", toolkit.getApplicationsState().getCallTree());
+		metadata.addDetail("Huge Metadata Tree", createHugeMetadataTree());
+		metadata.addDetail("Made By", "Scenarioo-Team");
 		metadata.setVisibleText("Bla bla bla bla bla ... This is the visible text as generated from dummy test.");
-		metadata.addDetail("list", createMetadataList());
+		metadata.addDetail("List", createMetadataList());
 		return metadata;
 	}
 	
