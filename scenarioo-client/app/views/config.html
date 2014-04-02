@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <h2>General</h2>
 
-    <div class="row ngusd-space-bottom">
+    <div class="row sc-space-bottom">
         <div class="col-lg-3">Path to documentation data
             &nbsp;<span class="glyphicon glyphicon-info-sign" tooltip="Absolute path to the folder, where your generated
             documentation is located."></span>
@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
 
-    <div class="row ngusd-space-bottom">
+    <div class="row sc-space-bottom">
         <div class="col-lg-3">Application name
             &nbsp;<span class="glyphicon glyphicon-info-sign" tooltip="Shown in the browser title bar and in the scenarioo navigation bar."></span>
         </div>
@@ -46,7 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
 
-    <div class="row ngusd-space-bottom">
+    <div class="row sc-space-bottom">
         <div class="col-lg-3">Application information
             &nbsp;<span class="glyphicon glyphicon-info-sign" tooltip="Shown in the info popup."></span>
         </div>
@@ -58,7 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <h2>Branches and builds</h2>
 
-    <div class="row ngusd-space-bottom">
+    <div class="row sc-space-bottom">
         <div class="col-lg-3">Default branch
             &nbsp;<span class="glyphicon glyphicon-info-sign" tooltip="Selected branch for first-time visitors"></span>
         </div>
@@ -69,7 +69,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
 
-    <div class="row ngusd-space-bottom">
+    <div class="row sc-space-bottom">
         <div class="col-lg-3">Default build
             &nbsp;<span class="glyphicon glyphicon-info-sign" tooltip="Selected build for first-time visitors"></span>
         </div>
@@ -81,19 +81,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 
 
-    <div class="row ngusd-space-bottom ">
+    <div class="row sc-space-bottom ">
         <div class="col-lg-3">Alias most recent build</div>
         <div class="col-lg-9">
             <input type="text" ng-model="configuration.aliasForMostRecentBuild" class="form-control" />
         </div>
     </div>
-    <div class="row ngusd-space-bottom">
+    <div class="row sc-space-bottom">
         <div class="col-lg-3">Alias last successful build</div>
         <div class="col-lg-9">
             <input type="text" ng-model="configuration.aliasForLastSuccessfulBuild" class="form-control" />
         </div>
     </div>
-    <div class="row ngusd-space-bottom">
+    <div class="row sc-space-bottom">
         <div class="col-lg-3">Build status for successful builds</div>
         <div class="col-lg-9">
             <input type="text" ng-model="configuration.buildStatusForSuccessfulBuilds" class="form-control" />
@@ -102,7 +102,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <h2>Additional columns</h2>
 
-    <div class="row ngusd-space-bottom">
+    <div class="row sc-space-bottom">
         <div class="col-lg-3">Additional scenario properties
             &nbsp;<span class="glyphicon glyphicon-info-sign" tooltip="Shown in the scenario list of a use case. Comma separated list.
              Only simple properties (no dot notation) are supported. Root node for properties is the detail element of a scenario."></span>
@@ -115,7 +115,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 	<h2>Build status styling</h2>
 
-    <div class="row ngusd-space-bottom" ng-repeat="(buildStatus, buildStyle) in configuration.buildstates">
+    <div class="row sc-space-bottom" ng-repeat="(buildStatus, buildStyle) in configuration.buildstates">
         <div class="col-lg-3">
             <b>{{ buildStatus }}</b>
         </div>
@@ -129,7 +129,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
 
-    <div class="row ngusd-space-top">
+    <div class="row sc-space-top">
         <div class="col-lg-12" style="text-align: right">
             <input type="button" ng-click="resetConfiguration()" value="Reset" class="btn btn-wide btn-default"/>
             <input type="button" ng-click="updateConfiguration()" value="Save" class="btn btn-wide btn-primary"/>
