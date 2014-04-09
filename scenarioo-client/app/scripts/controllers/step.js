@@ -145,27 +145,27 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
     function bindStepNavigation(pagesAndSteps) {
 
-        GlobalHotkeysService.registerPageHotKeyCode(37, function () {
+        GlobalHotkeysService.registerPageHotkeyCode(37, function () {
             // left arrow
             $scope.goToPreviousStep();
         });
-        GlobalHotkeysService.registerPageHotKeyCode(39, function () {
+        GlobalHotkeysService.registerPageHotkeyCode(39, function () {
             // right arrow
             $scope.goToNextStep();
         });
-        GlobalHotkeysService.registerPageHotKeyCode('shift+37', function () {
+        GlobalHotkeysService.registerPageHotkeyCode('shift+37', function () {
             // left arrow
             $scope.goToPreviousPage();
         });
-        GlobalHotkeysService.registerPageHotKeyCode('shift+39', function () {
+        GlobalHotkeysService.registerPageHotkeyCode('shift+39', function () {
             // right arrow
             $scope.goToNextPage();
         });
-        GlobalHotkeysService.registerPageHotKeyCode(38, function () {
+        GlobalHotkeysService.registerPageHotkeyCode(38, function () {
             // up arrow
             $scope.goToPreviousVariant();
         });
-        GlobalHotkeysService.registerPageHotKeyCode(4, function () {
+        GlobalHotkeysService.registerPageHotkeyCode(4, function () {
             // down arrow
             $scope.goToNextVariant();
         });
