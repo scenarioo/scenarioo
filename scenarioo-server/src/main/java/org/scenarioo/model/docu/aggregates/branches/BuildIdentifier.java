@@ -3,7 +3,6 @@ package org.scenarioo.model.docu.aggregates.branches;
 public class BuildIdentifier {
 
 	private String branchName;
-
 	private String buildName;
 
 	public BuildIdentifier() {
@@ -29,6 +28,11 @@ public class BuildIdentifier {
 
 	public void setBuildName(String buildName) {
 		this.buildName = buildName;
+	}
+	
+	@Override
+	public String toString() {
+		return "[branch: " + branchName + ", build: " + buildName + "]";
 	}
 
 	@Override
