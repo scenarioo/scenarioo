@@ -106,15 +106,15 @@ angular.module('scenarioo.directives').directive('scNavigatorTable', function ($
                 // scope.$apply();
             }
 
-            GlobalHotkeysService.registerPageHotKeyCode(38, function () {
+            GlobalHotkeysService.registerPageHotkeyCode(38, function () {
                 // up arrow
                 selectPreviousRow();
             });
-            GlobalHotkeysService.registerPageHotKeyCode(40, function () {
+            GlobalHotkeysService.registerPageHotkeyCode(40, function () {
                 // down arrow
                 selectNextRow();
             });
-            GlobalHotkeysService.registerPageHotKeyCode(13, function () {
+            GlobalHotkeysService.registerPageHotkeyCode(13, function () {
                 // enter
                 invokeCallback();
             });
