@@ -356,6 +356,7 @@ module.exports = function (grunt) {
                             'scripts/**/*',
                             'images/{,*/}*.{gif,webp}',
                             'styles/fonts/*',
+                            'styles/ie-hacks.css',
                             'template/**/*'
                         ]
                     }
