@@ -65,11 +65,62 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     }
 
     $scope.showAllStepsForPage = function(pageIndex) {
-        return  showAllSteps[pageIndex];
+        return showAllSteps[pageIndex] || false;
     };
 
     $scope.toggleShowAllStepsForPage = function(pageIndex) {
         showAllSteps[pageIndex] = !showAllSteps[pageIndex];
+    };
+
+    $scope.isExpandAllPossible = function() {
+        if(!angular.isDefined($scope.pagesAndSteps)) {
+            return false;
+        }
+
+        for(var i = 0; i < $scope.pagesAndSteps.length; i++) {
+            if(isExpandPossibleForPage($scope.pagesAndSteps[i], i)) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    function isExpandPossibleForPage(page, pageIndex) {
+        return page.steps.length > 1 && $scope.showAllStepsForPage(pageIndex) === false;
+    }
+
+    $scope.isCollapseAllPossible = function() {
+        if(!angular.isDefined($scope.pagesAndSteps)) {
+            return false;
+        }
+
+        for(var i = 0; i < $scope.pagesAndSteps.length; i++) {
+            if(isCollapsePossibleForPage($scope.pagesAndSteps[i], i)) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    function isCollapsePossibleForPage(page, pageIndex) {
+        return page.steps.length > 1 && $scope.showAllStepsForPage(pageIndex) === true;
+    }
+
+    $scope.expandAll = function() {
+        // numberOfPages is 0-indexed, therefore we have to add 1.
+        // TODO: This should be fixed in the future, so that the server returns the right number.
+        var numberOfPages = $scope.scenario.calculatedData.numberOfPages + 1;
+        for(var i = 0; i < numberOfPages; i++) {
+            showAllSteps[i] = true;
+        }
+    };
+
+    $scope.collapseAll = function() {
+        for(var i = 0; i < showAllSteps.length; i++) {
+            showAllSteps[i] = false;
+        }
     };
 
     $scope.getScreenShotUrl = function (imgName) {
