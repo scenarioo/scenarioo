@@ -75,3 +75,5 @@ war.doLast {
         rename('scenarioo-' + version + '.war', 'scenarioo-latest.war')
     }
 }
+
+war.dependsOn createVersionPropertiesFile
