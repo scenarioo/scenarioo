@@ -18,7 +18,6 @@ scenarioo.describeUseCase('Home', function () {
 
     scenarioo.describeScenario('Navigate to the Home Page, do not display popup when cookie set', function () {
         var homePage = new pages.homePage();
-        browser.manage().addCookie("scenariooPreviouslyVisited", "true");
         browser.get('#/');
         scenarioo.docuWriter.saveStep('display the homePage without popup');
         homePage.assertPageIsDisplayed();
@@ -28,7 +27,6 @@ scenarioo.describeUseCase('Home', function () {
 
     scenarioo.describeScenario('Navigate to the Home Page, filter usecases', function () {
         var homePage = new pages.homePage();
-        browser.manage().addCookie("scenariooPreviouslyVisited", "true");
         browser.get('#/');
         scenarioo.docuWriter.saveStep('display the homePage');
         homePage.assertPageIsDisplayed();
@@ -43,4 +41,22 @@ scenarioo.describeUseCase('Home', function () {
         scenarioo.docuWriter.saveStep('one use case found');
     });
 
+});
+
+scenarioo.describeUseCase('Step', function () {
+    scenarioo.describeScenario('Assert previous-button is disabled on first page', function () {
+        browser.get('#/');
+        var homePage = new pages.homePage();
+        homePage.selectUseCase(0);
+
+        var usecasePage = new pages.usecasePage();
+        usecasePage.selectScenario(0);
+
+        var scenarioPage = new pages.scenarioPage();
+        scenarioPage.openStepByName('Step 1: Wikipedia Suche');
+
+        var stepPage = new pages.stepPage();
+        stepPage.assertPreviousStepIsDisabled();
+        stepPage.assertNextStepIsEnabled();
+    });
 });
