@@ -45,13 +45,14 @@ public class ScenariooWebApplication implements ServletContextListener {
 		LOGGER.info("Scenarioo webapplication server is starting up ...  ");
 		LOGGER.info("====================================================");
 
-		ApplicationVersion applicationVersion = readApplicationVersion(servletContextEvent
-				.getServletContext());
+		initializeApplicationVersion(servletContextEvent.getServletContext());
 
-		LOGGER.info("");
-		LOGGER.info("  Version: " + applicationVersion.getVersion());
-		LOGGER.info("  Build date: " + applicationVersion.getBuildDate());
-		LOGGER.info("");
+		LOGGER.info("  Version: "
+				+ ApplicationVersionHolder.INSTANCE.getApplicationVersion()
+						.getVersion());
+		LOGGER.info("  Build date: "
+				+ ApplicationVersionHolder.INSTANCE.getApplicationVersion()
+						.getBuildDate());
 
 		LOGGER.info("  Loading configuration ...");
 
@@ -84,33 +85,27 @@ public class ScenariooWebApplication implements ServletContextListener {
 		LOGGER.info("====================================================");
 	}
 
-	private ApplicationVersion readApplicationVersion(
+	private void initializeApplicationVersion(
 			final ServletContext servletContext) {
 
 		Properties properties = new Properties();
 		InputStream inputStream = servletContext
 				.getResourceAsStream("/WEB-INF/classes/version.properties");
 
-		ApplicationVersion applicationVersion = new ApplicationVersion(
-				"unknown", "unknown");
+		if (inputStream == null) {
+			LOGGER.warn("  version.properties not found, no version information available");
+			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown");
+			return;
+		}
 
 		try {
 			properties.load(inputStream);
-			applicationVersion = getApplicationVersionFromProperties(properties);
+			ApplicationVersionHolder.INSTANCE
+					.initializeFromProperties(properties);
 		} catch (Exception e) {
+			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown");
 			e.printStackTrace();
 		}
-
-		return applicationVersion;
-	}
-
-	private ApplicationVersion getApplicationVersionFromProperties(
-			final Properties versionProperties) {
-		ApplicationVersion applicationVersion;
-		String version = versionProperties.getProperty("version");
-		String buildDate = versionProperties.getProperty("buildDate");
-		applicationVersion = new ApplicationVersion(version, buildDate);
-		return applicationVersion;
 	}
 
 	@Override
