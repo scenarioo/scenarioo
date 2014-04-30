@@ -23,10 +23,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div ng-click="goToPreviousPage()" class="btn btn-default" tooltip="Previous Page" tooltip-placement="bottom">
             <span class="icon-with-padding icon-large icon-fast-backward"></span>
         </div>
-        <div ng-click="goToPreviousStep()" class="btn btn-default" tooltip="Previous Step" tooltip-placement="bottom">
+        <div ng-click="goToPreviousStep()" class="btn btn-default" tooltip="Previous Step" tooltip-placement="bottom" ng-disabled="isFirstStep()">
             <i class="icon-with-padding icon-large icon-step-backward"></i>
         </div>
-        <div ng-click="goToNextStep()" class="btn btn-default" tooltip="Next Step" tooltip-placement="bottom">
+        <div ng-click="goToNextStep()" class="btn btn-default" tooltip="Next Step" tooltip-placement="bottom" ng-disabled="isLastStep()">
             <i class="icon-with-padding icon-large icon-step-forward"></i>
         </div>
         <div ng-click="goToNextPage()" class="btn btn-default" tooltip="Next Page" tooltip-placement="bottom">
