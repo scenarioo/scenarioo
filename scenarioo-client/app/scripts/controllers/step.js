@@ -154,19 +154,19 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             $scope.goToNextStep();
         });
         GlobalHotkeysService.registerPageHotkeyCode('shift+37', function () {
-            // left arrow
+            // shift + left arrow
             $scope.goToPreviousPage();
         });
         GlobalHotkeysService.registerPageHotkeyCode('shift+39', function () {
-            // right arrow
+            // shift + right arrow
             $scope.goToNextPage();
         });
-        GlobalHotkeysService.registerPageHotkeyCode(38, function () {
-            // up arrow
+        GlobalHotkeysService.registerPageHotkeyCode('shift+38', function () {
+            // shift + up arrow
             $scope.goToPreviousVariant();
         });
-        GlobalHotkeysService.registerPageHotkeyCode(4, function () {
-            // down arrow
+        GlobalHotkeysService.registerPageHotkeyCode('shift+40', function () {
+            // shift + down arrow
             $scope.goToNextVariant();
         });
 
