@@ -1,6 +1,20 @@
+/*
+ * Gets the version name from the latest Git tag
+ * From: http://ryanharter.com/blog/2013/07/30/automatic-versioning-with-git-and-gradle/
+ */
+def getVersionName = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'describe', '--tags'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+
 allprojects {
 	group = 'org.scenarioo'
-    version = '0.1.21-SNAPSHOT'
+    version = getVersionName()
 }
 
 configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-example")]) {
