@@ -18,7 +18,7 @@ public enum ApplicationVersionHolder {
 
 	public void initializeFromProperties(final Properties versionProperties) {
 		String version = versionProperties.getProperty("version");
-		String buildDate = versionProperties.getProperty("buildDate");
+		String buildDate = versionProperties.getProperty("build-date");
 		initialize(version, buildDate);
 	}
 
