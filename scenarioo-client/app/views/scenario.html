@@ -55,11 +55,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </h2>
                     <div>
                         <div class="step-title">
-                            <h3 class="sc-truncate"><a ng-href="{{getLinkToStep(pageSteps.page.name, $parent.$index, $index)}}">Step {{step.number}}: {{step.title}}</a></h3>
+                            <h3 class="sc-truncate"><a ng-href="{{getLinkToStep(step.page.name, $parent.$index, $index)}}">Step {{step.number}}: {{step.title}}</a></h3>
                             <span class="sc-truncate">Page: {{step.page.name}} ({{step.page.index}} of {{pagesAndSteps.length}})</span>
                         </div>
                         <div class="sc-screenshot-border sc-screenshot-scenario" >
-                            <a ng-href="{{getLinkToStep(pageSteps.page.name, $parent.$index, $index)}}">
+                            <a ng-href="{{getLinkToStep(step.page.name, $parent.$index, $index)}}">
                                 <img ng-src="{{getScreenShotUrl(step.screenshotFileName)}}" class="sc-screenshot"/>
                             </a>
                         </div>
