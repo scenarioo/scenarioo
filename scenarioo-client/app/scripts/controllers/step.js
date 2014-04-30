@@ -212,6 +212,10 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             return isLastStepOfPage && isLastPageOfScenario;
         };
 
+        $scope.isFirstStep = function() {
+            return $scope.stepIndex === 0 && $scope.pageIndex === 0;
+        };
+
         $scope.goToNextPage = function () {
             var pageIndex = $scope.pageIndex + 1;
             var stepIndex = 0;
