@@ -34,6 +34,7 @@ angular.module('scenarioo', [
         })
         .when('/manage', {
             templateUrl: 'views/manage.html',
+            controller: 'ManageCtrl',
             breadcrumb: '<i class="icon-cogs"></i> Manage'
         })
         .when('/usecase/:useCaseName', {

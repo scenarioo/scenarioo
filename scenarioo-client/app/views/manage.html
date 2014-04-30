@@ -18,14 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <sc-breadcrumb></sc-breadcrumb>
 
 <tabset class="step-panes">
-    <tab heading="Configuration">
-        <ng-include src="'views/config.html'"/>
-    </tab>
-
-    <tab heading="Builds">
-        <div>
-            <ng-include src="'views/mainBuildsTab.html'"/>
-        </div>
+    <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="setSelectedTabInUrl(tab.tabId)">
+        <ng-include src="getLazyTabContentViewUrl(tab)"/>
     </tab>
 </tabset>
 
