@@ -153,20 +153,28 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             // right arrow
             $scope.goToNextStep();
         });
-        GlobalHotkeysService.registerPageHotkeyCode('shift+37', function () {
-            // left arrow
+        GlobalHotkeysService.registerPageHotkeyCode('ctrl+37', function () {
+            // shift + left arrow
             $scope.goToPreviousPage();
         });
-        GlobalHotkeysService.registerPageHotkeyCode('shift+39', function () {
-            // right arrow
+        GlobalHotkeysService.registerPageHotkeyCode('ctrl+39', function () {
+            // shift + right arrow
             $scope.goToNextPage();
         });
-        GlobalHotkeysService.registerPageHotkeyCode(38, function () {
-            // up arrow
+        GlobalHotkeysService.registerPageHotkeyCode('ctrl+36', function () {
+            // shift + Home
+            $scope.goToFirstStep();
+        });
+        GlobalHotkeysService.registerPageHotkeyCode('ctrl+35', function () {
+            // shift + down arrow
+            $scope.goToLastStep();
+        });
+        GlobalHotkeysService.registerPageHotkeyCode('ctrl+38', function () {
+            // shift + up arrow
             $scope.goToPreviousVariant();
         });
-        GlobalHotkeysService.registerPageHotkeyCode(4, function () {
-            // down arrow
+        GlobalHotkeysService.registerPageHotkeyCode('ctrl+40', function () {
+            // shift + down arrow
             $scope.goToNextVariant();
         });
 
@@ -225,16 +233,16 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
         };
 
-        $scope.goToFirstPage = function () {
+        $scope.goToFirstStep = function () {
             var pageIndex = 0;
             var stepIndex = 0;
             $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
         };
 
-        $scope.goToLastPage = function () {
-            var pageIndex = $scope.pagesAndSteps.length - 1;
-            var stepIndex = 0;
-            $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
+        $scope.goToLastStep = function () {
+            var lastPageIndex = $scope.pagesAndSteps.length - 1;
+            var lastStepIndex = pagesAndSteps[lastPageIndex].steps.length - 1;
+            $scope.go(pagesAndSteps[lastPageIndex], lastPageIndex, lastStepIndex);
         };
     }
 
