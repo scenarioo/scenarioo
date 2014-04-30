@@ -32,7 +32,6 @@ package org.scenarioo.uitest.example.builds;
 import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -45,7 +44,7 @@ import org.scenarioo.model.docu.entities.Build;
 public class CreateAdditionalBuildsTest {
 	
 	@BeforeClass
-	public static void createDocuWriter() {
+	public static void initTargetDir() {
 		DOCU_BUILD_DIRECTORY.mkdirs(); // make sure the root directory is precreated
 	}
 	
@@ -59,12 +58,11 @@ public class CreateAdditionalBuildsTest {
 	}
 	
 	private void createOlderBuild(final int daysBefore, final String status) {
-		// Usdklfdjsklfjsdklfj bla
 		String buildName = EXAMPLE_BUILD_NAME + "-old-" + daysBefore;
 		ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, EXAMPLE_BRANCH_NAME, buildName);
 		Build build = new Build();
 		build.setName(buildName);
-		Calendar cal = GregorianCalendar.getInstance();
+		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_MONTH, -daysBefore);
 		build.setDate(cal.getTime());
 		build.setRevision("12" + (3456 - daysBefore));
