@@ -73,10 +73,12 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     };
 
     $scope.isExpandAllPossible = function() {
-        var pagesAndSteps = $scope.pagesAndSteps;
+        if(!angular.isDefined($scope.pagesAndSteps)) {
+            return false;
+        }
 
-        for(var i = 0; i < pagesAndSteps.length; i++) {
-            if(isExpandPossibleForPage(pagesAndSteps[i], i)) {
+        for(var i = 0; i < $scope.pagesAndSteps.length; i++) {
+            if(isExpandPossibleForPage($scope.pagesAndSteps[i], i)) {
                 return true;
             }
         }
@@ -89,10 +91,12 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     }
 
     $scope.isCollapseAllPossible = function() {
-        var pagesAndSteps = $scope.pagesAndSteps;
+        if(!angular.isDefined($scope.pagesAndSteps)) {
+            return false;
+        }
 
-        for(var i = 0; i < pagesAndSteps.length; i++) {
-            if(isCollapsePossibleForPage(pagesAndSteps[i], i)) {
+        for(var i = 0; i < $scope.pagesAndSteps.length; i++) {
+            if(isCollapsePossibleForPage($scope.pagesAndSteps[i], i)) {
                 return true;
             }
         }
