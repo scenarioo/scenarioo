@@ -62,12 +62,18 @@ angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function 
         showApplicationInfoPopup: showApplicationInfoPopup
     };
 
-}).controller('ApplicationInfoCtrl', function ($scope, $modalInstance, Config, $sce) {
+}).controller('ApplicationInfoCtrl', function ($scope, $modalInstance, Config, $sce, VersionResource) {
     $scope.$watch(function () {
         return Config.applicationInformation();
     }, function (applicationInformation) {
         $scope.applicationInformation = $sce.trustAsHtml(applicationInformation);
     });
+
+    VersionResource.get(
+        function onSuccess(result) {
+            $scope.version = result;
+        }
+    );
 
     $scope.closeInfoModal = function () {
         $modalInstance.dismiss('cancel');
