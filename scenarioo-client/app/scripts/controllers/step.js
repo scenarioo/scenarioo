@@ -198,11 +198,22 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         $scope.goToNextStep = function () {
             var pageIndex = $scope.pageIndex;
             var stepIndex = $scope.stepIndex + 1;
+
             if (stepIndex >= pagesAndSteps[$scope.pageIndex].steps.length) {
                 pageIndex = $scope.pageIndex + 1;
                 stepIndex = 0;
             }
             $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
+        };
+
+        $scope.isLastStep = function() {
+            var isLastStepOfPage = $scope.stepIndex + 1 >= pagesAndSteps[$scope.pageIndex].steps.length;
+            var isLastPageOfScenario = $scope.pageIndex + 1 >= $scope.pagesAndSteps.length;
+            return isLastStepOfPage && isLastPageOfScenario;
+        };
+
+        $scope.isFirstStep = function() {
+            return $scope.stepIndex === 0 && $scope.pageIndex === 0;
         };
 
         $scope.goToNextPage = function () {

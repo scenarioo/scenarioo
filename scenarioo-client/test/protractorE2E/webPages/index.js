@@ -6,7 +6,14 @@
  *  see https://code.google.com/p/selenium/wiki/PageObjects  for more info on the pageObjects pattern
  */
 var HomePage = require('./homePage.js');
+var UsecasePage = require('./usecasePage.js');
+var ScenarioPage = require('./scenarioPage.js');
+var StepPage = require('./stepPage.js');
+
 
 module.exports = {
-    homePage: HomePage
+    homePage: HomePage,
+    usecasePage: UsecasePage,
+    scenarioPage: ScenarioPage,
+    stepPage: StepPage
 };
