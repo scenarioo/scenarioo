@@ -54,6 +54,11 @@ task printPathConfigInformationForNodeJSAndGrunt << {
     }
 }
 
+task createVersionPropertiesFile << {
+	File versionFile = new File(sourceSets.main.output.classesDir.getAbsolutePath() + '/version.properties');
+	versionFile.write('version=' + version + '\nbuild-date=' + new Date())
+}
+
 war {
     from '../scenarioo-client/dist'
     from(sourceSets.main.output.classesDir) {
@@ -69,4 +74,4 @@ war.doLast {
         include('scenarioo-' + version + '.war')
         rename('scenarioo-' + version + '.war', 'scenarioo-latest.war')
     }
-} 
+}
