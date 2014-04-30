@@ -35,33 +35,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
     <div class="col-lg-6">
         <div class="pull-right">
-            <div ng-click="goToPreviousVariant()" class="btn btn-default" tooltip="Previous variant" tooltip-placement="bottom">
+            <b>Variants of same page: </b>
+
+            <div ng-click="goToPreviousVariant()" class="btn btn-default" tooltip="Previous variant (potentially in other scenario)" tooltip-placement="bottom">
                 <i class="icon-with-padding icon-large icon-step-backward"></i>
             </div>
             <div style="min-width: 70px; text-align: center;" class="inline-block">
                 {{step.stepDescription.variantIndex}} of {{pageVariantCounts[0][pageName]}}
             </div>
-            <div ng-click="goToNextVariant()" class="btn btn-default" tooltip="Next variant" tooltip-placement="bottom">
+            <div ng-click="goToNextVariant()" class="btn btn-default" tooltip="Next variant (potentially in other scenario)" tooltip-placement="bottom">
                 <i class="icon-with-padding icon-large icon-step-forward"></i>
             </div>
 
-            <div class="inline-block dropdown">
-                <button class="dropdown-toggle btn btn-default">
-                    More Actions
-                    <div class="icon-with-padding"><b class="caret"></b></div>
-                </button>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a ng-click="goToFirstStep()" class="link">Go to the first step</a>
-                    </li>
-                    <li>
-                        <a ng-click="goToLastStep()" class="link">Go to the last step</a>
-                    </li>
-                    <li>
-                        <a ng-click="showApplicationInfoPopup('Shortcuts')" class="link">Key Shortcuts</a>
-                    </li>
-                </ul>
-            </div>
             <span sc-static-include="views/metadataButton.html"></span>
         </div>
     </div>
