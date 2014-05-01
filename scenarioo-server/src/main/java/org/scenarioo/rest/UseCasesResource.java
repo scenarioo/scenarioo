@@ -54,6 +54,9 @@ public class UseCasesResource {
 		return dao.loadUseCaseScenariosList(branchName, resolvedBuildName);
 	}
 
+	/**
+	 * Lightweight call, which does not send all scenario information.
+	 */
 	@GET
 	@Path("v2")
 	@Produces({ "application/xml", "application/json" })
@@ -73,7 +76,7 @@ public class UseCasesResource {
 		return result;
 	}
 
-	private UseCaseSummary mapSummary(UseCaseScenarios useCaseScenarios) {
+	private UseCaseSummary mapSummary(final UseCaseScenarios useCaseScenarios) {
 		UseCaseSummary summary = new UseCaseSummary();
 		UseCase useCase = useCaseScenarios.getUseCase();
 		summary.setName(useCase.getName());
