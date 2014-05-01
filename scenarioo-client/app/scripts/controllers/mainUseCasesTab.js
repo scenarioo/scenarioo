@@ -35,10 +35,6 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
         $location.path('/usecase/' + useCaseName);
     };
 
-    $scope.onNavigatorTableHit = function (useCase) {
-        $scope.goToUseCase(useCase.useCase.name);
-    };
-
     $scope.table = {search: {searchTerm: ''}, sort: {column: 'useCase.name', reverse: false}};
 
     $scope.resetSearchField = function () {
