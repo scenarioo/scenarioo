@@ -42,23 +42,10 @@ public class UseCasesResource {
 	ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
 			ConfigurationDAO.getDocuDataDirectoryPath());
 
-	@GET
-	@Produces({ "application/xml", "application/json" })
-	public List<UseCaseScenarios> loadUseCaseScenariosList(
-			@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName) {
-		LOGGER.info("REQUEST: loadUseCaseScenariosList(" + branchName + ", "
-				+ buildName + ")");
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE
-				.resolveAliasBuildName(branchName, buildName);
-		return dao.loadUseCaseScenariosList(branchName, resolvedBuildName);
-	}
-
 	/**
 	 * Lightweight call, which does not send all scenario information.
 	 */
 	@GET
-	@Path("v2")
 	@Produces({ "application/xml", "application/json" })
 	public List<UseCaseSummary> loadUseCaseSummaries(
 			@PathParam("branchName") final String branchName,
@@ -67,8 +54,11 @@ public class UseCasesResource {
 				+ buildName + ")");
 		List<UseCaseSummary> result = new LinkedList<>();
 
-		List<UseCaseScenarios> useCaseScenariosList = loadUseCaseScenariosList(
-				branchName, buildName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE
+				.resolveAliasBuildName(branchName, buildName);
+		List<UseCaseScenarios> useCaseScenariosList = dao
+				.loadUseCaseScenariosList(branchName, resolvedBuildName);
+
 		for (UseCaseScenarios useCaseScenarios : useCaseScenariosList) {
 			result.add(mapSummary(useCaseScenarios));
 		}
