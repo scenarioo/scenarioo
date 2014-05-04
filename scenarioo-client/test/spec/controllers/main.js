@@ -34,10 +34,6 @@ describe('Controller MainCtrl', function () {
         }
     ));
 
-    it('does return NO src-URL to load for lazy loaded second tab when not yet activated', function () {
-        expect($scope.getLazyTabContentViewUrl($scope.tabs[1])).toBeNull();
-    });
-
     it('does return the expected src-URL to load tab content for first tab', function () {
         expect($scope.getLazyTabContentViewUrl($scope.tabs[0])).toEqual('views/mainUseCasesTab.html');
     });

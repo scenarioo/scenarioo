@@ -17,24 +17,19 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope, $location, SelectedBranchAndBuild, BranchesAndBuilds) {
-
-    function loadBuilds() {
-        BranchesAndBuilds.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
-            $scope.branchesAndBuilds = branchesAndBuilds;
-        }, function onFailure(error) {
-            console.log(error);
-        });
-    }
-
-    SelectedBranchAndBuild.callOnSelectionChange(loadBuilds);
-
+angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scope, $location) {
     $scope.tabs = [
         {
-            tabId: 'usecases',
-            title: 'Use Cases',
-            contentViewUrl: 'views/mainUseCasesTab.html',
+            tabId: 'configuration',
+            title: 'Configuration',
+            contentViewUrl: 'views/config.html',
             active: true
+        },
+        {
+            tabId: 'builds',
+            title: 'Builds',
+            contentViewUrl: 'views/mainBuildsTab.html',
+            active: false
         }
     ];
 
@@ -48,23 +43,9 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
         }
     };
 
-    $scope.genericObjectTabs = [
-        {index: '0', label: 'Object Descriptions', objectTypes: [
-            {index: 0, label: 'Business Operations', objectType: 'businessOperation'},
-            {index: 1, label: 'Services', objectType: 'service', columns: [
-                {key: 'realName', label: 'Real Name'},
-                {key: 'eaiName', label: 'Integration Name (EAI)'}
-            ]},
-            {index: 2, label: 'UI Actions', objectType: 'action'} ,
-            {index: 3, label: 'HTTP Requests', objectType: 'httpAction'}
-        ]}
-        //,{index: '1', label:'Simulation Configs', objectType: 'httpAction'}
-    ];
-
     $scope.setSelectedTabInUrl = function (tabId) {
         $location.search('tab', tabId);
     };
-
 
     $scope.selectTabFromUrl = function () {
         var params = $location.search();
@@ -80,6 +61,4 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
     };
 
     $scope.selectTabFromUrl();
-
-
 });

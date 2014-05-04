@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <sc-breadcrumb></sc-breadcrumb>
 
 <!-- Navigation toolbar -->
-<div class="row sc-space-top sc-space-bottom">
+<div class="step-navigation row sc-space-top sc-space-bottom">
 
     <!-- Step & Page Navigation -->
     <div class="col-lg-6">
@@ -28,11 +28,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
            <!-- Pages navigation -->
            <div class="col-md-4">
                 <div class="btn-group">
-                    <div ng-click="goToPreviousPage()" class="btn btn-default" tooltip="Previous Page [Ctrl+Left]" tooltip-placement="bottom" ng-disabled="isFirstPage()">
+                    <div ng-click="goToPreviousPage()" class="btn btn-default" tooltip="Previous Page [Ctrl+Left]" tooltip-placement="bottom" ng-disabled="isFirstPage()" id="prevPageBtn">
                         <span class="icon-with-padding icon-large icon-double-angle-left"></span>
                     </div>
                     <div class="btn btn-default" tooltip="of all pages in this scenario" tooltip-placement="bottom">Page x / y</div>
-                    <div ng-click="goToNextPage()" class="btn btn-default" tooltip="Next Page [Ctrl+Right]" tooltip-placement="bottom" ng-disabled="isLastPage()">
+                    <div ng-click="goToNextPage()" class="btn btn-default" tooltip="Next Page [Ctrl+Right]" tooltip-placement="bottom" ng-disabled="isLastPage()" id="nextPageBtn">
                         <i class="icon-with-padding icon-large icon-double-angle-right"></i>
                     </div>
                 </div>
@@ -41,16 +41,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <!-- Steps navigation -->
             <div class="col-md-4">
                 <div class="btn-group">
-                    <div id="previousStepId" ng-click="goToPreviousStep()" class="btn btn-default" tooltip="Previous Step [Left]" tooltip-placement="bottom" ng-disabled="isFirstStep()">
+                    <div ng-click="goToPreviousStep()" class="btn btn-default" tooltip="Previous Step [Left]" tooltip-placement="bottom" ng-disabled="isFirstStep()" id="prevStepBtn">
                         <i class="icon-with-padding icon-large icon-angle-left"></i>
                     </div>
                     <div class="btn btn-default" tooltip="of all steps in this scenario" tooltip-placement="bottom">Step x / y</div>
-                    <div id="nextStepId"  ng-click="goToNextStep()" class="btn btn-default" tooltip="Next Step [Right]" tooltip-placement="bottom" ng-disabled="isLastStep()">
+                    <div ng-click="goToNextStep()" class="btn btn-default" tooltip="Next Step [Right]" tooltip-placement="bottom" ng-disabled="isLastStep()" id="nextStepBtn">
                         <i class="icon-with-padding icon-large icon-angle-right"></i>
                     </div>
-                </div>
-                <div class="inline-block">
-
                 </div>
             </div>
 
@@ -66,7 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <!-- Page variants navigation -->
     <div class="col-lg-3 col-lg-offset-1">
         <div class="btn-group">
-            <div ng-click="goToPreviousVariant()" class="btn btn-default" tooltip="Previous variant (potentially in other scenario) [Ctrl+Up]" tooltip-placement="bottom">
+            <div ng-click="goToPreviousVariant()" class="btn btn-default" tooltip="Previous variant (potentially in other scenario) [Ctrl+Up]" tooltip-placement="bottom" id="prevPageVariantBtn">
                 <i class="icon-with-padding icon-large icon-angle-up"></i>
             </div>
             <div class="btn btn-default" tooltip="of this same page in all scenarios" tooltip-placement="bottom">
@@ -77,7 +74,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </div>
                  -->
             </div>
-            <div ng-click="goToNextVariant()" class="btn btn-default" tooltip="Next variant (potentially in other scenario) [Ctrl+Down]" tooltip-placement="bottom">
+            <div ng-click="goToNextVariant()" class="btn btn-default" tooltip="Next variant (potentially in other scenario) [Ctrl+Down]" tooltip-placement="bottom" id="nextPageVariantBtn">
                 <i class="icon-with-padding icon-large icon-angle-down"></i>
             </div>
         </div>

@@ -17,6 +17,10 @@
 
 package org.scenarioo.rest.application;
 
+import java.io.InputStream;
+import java.util.Properties;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -36,20 +40,30 @@ public class ScenariooWebApplication implements ServletContextListener {
 			.getLogger(ScenariooWebApplication.class);
 
 	@Override
-	public void contextInitialized(final ServletContextEvent arg0) {
+	public void contextInitialized(final ServletContextEvent servletContextEvent) {
 		LOGGER.info("====================================================");
 		LOGGER.info("Scenarioo webapplication server is starting up ...  ");
 		LOGGER.info("====================================================");
+
+		initializeApplicationVersion(servletContextEvent.getServletContext());
+
+		LOGGER.info("  Version: "
+				+ ApplicationVersionHolder.INSTANCE.getApplicationVersion()
+						.getVersion());
+		LOGGER.info("  Build date: "
+				+ ApplicationVersionHolder.INSTANCE.getApplicationVersion()
+						.getBuildDate());
+
 		LOGGER.info("  Loading configuration ...");
 
-		final String configurationDirectory = arg0.getServletContext()
-				.getInitParameter("configurationDirectory");
+		final String configurationDirectory = servletContextEvent
+				.getServletContext().getInitParameter("configurationDirectory");
 		LOGGER.info("  configured configuration directory:  "
 				+ configurationDirectory);
 		ConfigurationDAO.setConfigurationDirectory(configurationDirectory);
 
-		final String configurationFilename = arg0.getServletContext()
-				.getInitParameter("configurationFilename");
+		final String configurationFilename = servletContextEvent
+				.getServletContext().getInitParameter("configurationFilename");
 
 		if (StringUtils.isNotBlank(configurationFilename)) {
 			LOGGER.info("  overriding default configuration filename config.xml with:  "
@@ -69,6 +83,29 @@ public class ScenariooWebApplication implements ServletContextListener {
 		LOGGER.info("====================================================");
 		LOGGER.info("Scenarioo webapplication server started succesfully.");
 		LOGGER.info("====================================================");
+	}
+
+	private void initializeApplicationVersion(
+			final ServletContext servletContext) {
+
+		Properties properties = new Properties();
+		InputStream inputStream = servletContext
+				.getResourceAsStream("/WEB-INF/classes/version.properties");
+
+		if (inputStream == null) {
+			LOGGER.warn("  version.properties not found, no version information available");
+			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown");
+			return;
+		}
+
+		try {
+			properties.load(inputStream);
+			ApplicationVersionHolder.INSTANCE
+					.initializeFromProperties(properties);
+		} catch (Exception e) {
+			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown");
+			e.printStackTrace();
+		}
 	}
 
 	@Override

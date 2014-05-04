@@ -17,6 +17,7 @@
 
 package org.scenarioo.rest;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -29,20 +30,49 @@ import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
+import org.scenarioo.model.docu.aggregates.usecases.UseCaseSummary;
+import org.scenarioo.model.docu.entities.UseCase;
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/usecases/")
 public class UseCasesResource {
-	
-	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
-	
-	ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
-	
+
+	private static final Logger LOGGER = Logger
+			.getLogger(UseCasesResource.class);
+
+	ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
+			ConfigurationDAO.getDocuDataDirectoryPath());
+
+	/**
+	 * Lightweight call, which does not send all scenario information.
+	 */
 	@GET
 	@Produces({ "application/xml", "application/json" })
-	public List<UseCaseScenarios> loadUseCaseScenariosList(@PathParam("branchName") final String branchName,
+	public List<UseCaseSummary> loadUseCaseSummaries(
+			@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName) {
-		LOGGER.info("REQUEST: loadUseCaseScenariosList(" + branchName + ", " + buildName + ")");
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
-		return dao.loadUseCaseScenariosList(branchName, resolvedBuildName);
+		LOGGER.info("REQUEST: loadUseCaseSummaryList(" + branchName + ", "
+				+ buildName + ")");
+		List<UseCaseSummary> result = new LinkedList<>();
+
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE
+				.resolveAliasBuildName(branchName, buildName);
+		List<UseCaseScenarios> useCaseScenariosList = dao
+				.loadUseCaseScenariosList(branchName, resolvedBuildName);
+
+		for (UseCaseScenarios useCaseScenarios : useCaseScenariosList) {
+			result.add(mapSummary(useCaseScenarios));
+		}
+
+		return result;
+	}
+
+	private UseCaseSummary mapSummary(final UseCaseScenarios useCaseScenarios) {
+		UseCaseSummary summary = new UseCaseSummary();
+		UseCase useCase = useCaseScenarios.getUseCase();
+		summary.setName(useCase.getName());
+		summary.setDescription(useCase.getDescription());
+		summary.setStatus(useCase.getStatus());
+		summary.setNumberOfScenarios(useCaseScenarios.getScenarios().size());
+		return summary;
 	}
 }

@@ -16,15 +16,27 @@ function StepPage(overridePath) {
 util.inherits(StepPage, BaseWebPage);
 
 StepPage.prototype.assertPreviousStepIsDisabled = function() {
-    this.stepNavigation.findElement(by.id('previousStepId')).then(function(element) {
+    this.stepNavigation.findElement(by.id('prevStepBtn')).then(function(element) {
         expect(element.isDisabled);
     });
 } ;
 
 StepPage.prototype.assertNextStepIsEnabled = function() {
-    this.stepNavigation.findElement(by.id('nextStepId')).then(function(element) {
+    this.stepNavigation.findElement(by.id('nextStepBtn')).then(function(element) {
         expect(element.isEnabled());
     });
 } ;
+
+StepPage.prototype.assertPreviousPageIsDisabled = function() {
+    this.stepNavigation.findElement(by.id('prevPageBtn')).then(function(element) {
+        expect(element.isDisabled);
+    });
+};
+
+StepPage.prototype.assertNextPageIsEnabled = function() {
+    this.stepNavigation.findElement(by.id('nextPageBtn')).then(function(element) {
+        expect(element.isEnabled());
+    });
+};
 
 module.exports = StepPage;

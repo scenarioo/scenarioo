@@ -20,17 +20,17 @@
             <th sc-sortable-column="useCase.status">Status</th>
             <th sc-sortable-column="useCase.name">Name</th>
             <th>Description</th>
-            <th sc-sortable-column="scenarios.length" class="filter-none"># Scenarios</th>
+            <th sc-sortable-column="use.numberOfScenarios" class="filter-none"># Scenarios</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-class="{'selected':$index==selectedRowIndex}" ng-repeat="useCaseScenarios in filtered=(useCases | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)" ng-click="goToUseCase(useCaseScenarios.useCase.name)" class="link">
+        <tr ng-class="{'selected':$index==selectedRowIndex}" ng-repeat="useCase in filtered=(useCases | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)" ng-click="goToUseCase(useCase.name)" class="link">
             <td>
-                <span ng-class="[getStatusStyleClass(useCaseScenarios.useCase.status), 'label']">{{useCaseScenarios.useCase.status}}</span>
+                <span ng-class="[getStatusStyleClass(useCase.status), 'label']">{{useCase.status}}</span>
             </td>
-            <td>{{useCaseScenarios.useCase.name | scHumanReadable }}</td>
-            <td>{{useCaseScenarios.useCase.description}}</td>
-            <td>{{useCaseScenarios.scenarios.length}}</td>
+            <td>{{useCase.name | scHumanReadable }}</td>
+            <td>{{useCase.description}}</td>
+            <td>{{useCase.numberOfScenarios}}</td>
         </tr>
         </tbody>
     </table>
