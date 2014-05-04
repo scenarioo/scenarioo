@@ -215,14 +215,24 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         };
 
         $scope.isLastStep = function() {
+            var isLastPageOfScenario = $scope.isLastPage();
             var isLastStepOfPage = $scope.stepIndex + 1 >= pagesAndSteps[$scope.pageIndex].steps.length;
-            var isLastPageOfScenario = $scope.pageIndex + 1 >= $scope.pagesAndSteps.length;
             return isLastStepOfPage && isLastPageOfScenario;
         };
 
-        $scope.isFirstStep = function() {
-            return $scope.stepIndex === 0 && $scope.pageIndex === 0;
+        $scope.isLastPage = function() {
+            var isLastPageOfScenario = $scope.pageIndex + 1 >= $scope.pagesAndSteps.length;
+            return isLastPageOfScenario;
         };
+
+        $scope.isFirstStep = function() {
+            return $scope.stepIndex === 0 && $scope.isFirstPage();
+        };
+
+        $scope.isFirstPage = function() {
+            return $scope.pageIndex === 0;
+        };
+
 
         $scope.goToNextPage = function () {
             var pageIndex = $scope.pageIndex + 1;
