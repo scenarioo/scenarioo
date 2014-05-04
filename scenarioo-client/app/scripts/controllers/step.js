@@ -68,7 +68,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
 
             $scope.stepsCountOverall = 0;
-            $scope.stepsBeforePage = new Array();
+            $scope.stepsBeforePage = [];
             for (var indexPage = 0; indexPage < $scope.pagesAndSteps.length; indexPage++) {
                 $scope.stepsBeforePage[indexPage] = $scope.stepsCountOverall;
                 $scope.stepsCountOverall = $scope.stepsCountOverall + $scope.pagesAndSteps[indexPage].steps.length;
