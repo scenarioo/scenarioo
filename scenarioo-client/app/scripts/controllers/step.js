@@ -18,6 +18,7 @@
 'use strict';
 
 angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioResource, PageVariantService, StepService, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService) {
+
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
 
@@ -64,17 +65,17 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             $scope.scenario = result.scenario;
             $scope.pagesAndSteps = result.pagesAndSteps;
             $scope.stepDescription = result.pagesAndSteps[$scope.pageIndex].steps[$scope.stepIndex];
+
+
+            $scope.stepsCountOverall = 0;
+            $scope.stepsBeforePage = new Array();
+            for (var indexPage = 0; indexPage < $scope.pagesAndSteps.length; indexPage++) {
+                $scope.stepsBeforePage[indexPage] = $scope.stepsCountOverall;
+                $scope.stepsCountOverall = $scope.stepsCountOverall + $scope.pagesAndSteps[indexPage].steps.length;
+            }
+
+
             bindStepNavigation(result.pagesAndSteps);
-
-            $scope.goToPreviousVariant = function () {
-                var previousVariant = $scope.stepDescription.previousStepVariant;
-                $location.path('/step/' + previousVariant.useCaseName + '/' + previousVariant.scenarioName + '/' + encodeURIComponent(previousVariant.pageName) + '/' + previousVariant.occurence + '/' + previousVariant.relativeIndex);
-            };
-
-            $scope.goToNextVariant = function () {
-                var nextStepVariant = $scope.stepDescription.nextStepVariant;
-                $location.path('/step/' + nextStepVariant.useCaseName + '/' + nextStepVariant.scenarioName + '/' + encodeURIComponent(nextStepVariant.pageName) + '/' + nextStepVariant.occurence + '/' + nextStepVariant.relativeIndex);
-            };
 
             var step = StepService.getStep({'branchName': selected.branch, 'buildName': selected.build, 'usecaseName': useCaseName, 'scenarioName': scenarioName, 'stepIndex': $scope.stepDescription.index});
             step.then(function (result) {
@@ -178,16 +179,6 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             $scope.goToNextVariant();
         });
 
-
-        $scope.goToPreviousPage = function () {
-            var pageIndex = $scope.pageIndex - 1;
-            var stepIndex = 0;
-            if (pageIndex < 0) {
-                pageIndex = 0;
-            }
-            $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
-        };
-
         $scope.goToPreviousStep = function () {
             var pageIndex = $scope.pageIndex;
             var stepIndex = $scope.stepIndex - 1;
@@ -214,25 +205,14 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
         };
 
-        $scope.isLastStep = function() {
-            var isLastPageOfScenario = $scope.isLastPage();
-            var isLastStepOfPage = $scope.stepIndex + 1 >= pagesAndSteps[$scope.pageIndex].steps.length;
-            return isLastStepOfPage && isLastPageOfScenario;
+        $scope.goToPreviousPage = function () {
+            var pageIndex = $scope.pageIndex - 1;
+            var stepIndex = 0;
+            if (pageIndex < 0) {
+                pageIndex = 0;
+            }
+            $scope.go(pagesAndSteps[pageIndex], pageIndex, stepIndex);
         };
-
-        $scope.isLastPage = function() {
-            var isLastPageOfScenario = $scope.pageIndex + 1 >= $scope.pagesAndSteps.length;
-            return isLastPageOfScenario;
-        };
-
-        $scope.isFirstStep = function() {
-            return $scope.stepIndex === 0 && $scope.isFirstPage();
-        };
-
-        $scope.isFirstPage = function() {
-            return $scope.pageIndex === 0;
-        };
-
 
         $scope.goToNextPage = function () {
             var pageIndex = $scope.pageIndex + 1;
@@ -254,6 +234,40 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             var lastStepIndex = pagesAndSteps[lastPageIndex].steps.length - 1;
             $scope.go(pagesAndSteps[lastPageIndex], lastPageIndex, lastStepIndex);
         };
+
+        $scope.goToPreviousVariant = function () {
+            var previousVariant = $scope.stepDescription.previousStepVariant;
+            $location.path('/step/' + previousVariant.useCaseName + '/' + previousVariant.scenarioName + '/' + encodeURIComponent(previousVariant.pageName) + '/' + previousVariant.occurence + '/' + previousVariant.relativeIndex);
+        };
+
+        $scope.goToNextVariant = function () {
+            var nextStepVariant = $scope.stepDescription.nextStepVariant;
+            $location.path('/step/' + nextStepVariant.useCaseName + '/' + nextStepVariant.scenarioName + '/' + encodeURIComponent(nextStepVariant.pageName) + '/' + nextStepVariant.occurence + '/' + nextStepVariant.relativeIndex);
+        };
+
+        $scope.isLastStep = function() {
+            var isLastPageOfScenario = $scope.isLastPage();
+            var isLastStepOfPage = $scope.stepIndex + 1 >= pagesAndSteps[$scope.pageIndex].steps.length;
+            return isLastStepOfPage && isLastPageOfScenario;
+        };
+
+        $scope.isLastPage = function() {
+            var isLastPageOfScenario = $scope.pageIndex + 1 >= $scope.pagesAndSteps.length;
+            return isLastPageOfScenario;
+        };
+
+        $scope.isFirstStep = function() {
+            return $scope.stepIndex === 0 && $scope.isFirstPage();
+        };
+
+        $scope.isFirstPage = function() {
+            return $scope.pageIndex === 0;
+        };
+
+        $scope.getCurrentStepIndex = function() {
+            return $scope.stepsBeforePage[$scope.pageIndex] + $scope.stepIndex;
+        };
+
     }
 
     $scope.go = function (pageSteps, pageIndex, stepIndex) {

@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <div ng-click="goToPreviousPage()" class="btn btn-default" tooltip="Previous Page [Ctrl+Left]" tooltip-placement="bottom" ng-disabled="isFirstPage()" id="prevPageBtn">
                         <span class="icon-with-padding icon-large icon-double-angle-left"></span>
                     </div>
-                    <div class="btn btn-default" tooltip="of all pages in this scenario" tooltip-placement="bottom">Page x / y</div>
+                    <div class="btn btn-default" tooltip="of all pages in this scenario" tooltip-placement="bottom">Page {{pageIndex + 1}} / {{pagesAndSteps.length}}</div>
                     <div ng-click="goToNextPage()" class="btn btn-default" tooltip="Next Page [Ctrl+Right]" tooltip-placement="bottom" ng-disabled="isLastPage()" id="nextPageBtn">
                         <i class="icon-with-padding icon-large icon-double-angle-right"></i>
                     </div>
@@ -44,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <div ng-click="goToPreviousStep()" class="btn btn-default" tooltip="Previous Step [Left]" tooltip-placement="bottom" ng-disabled="isFirstStep()" id="prevStepBtn">
                         <i class="icon-with-padding icon-large icon-angle-left"></i>
                     </div>
-                    <div class="btn btn-default" tooltip="of all steps in this scenario" tooltip-placement="bottom">Step x / y</div>
+                    <div class="btn btn-default" tooltip="of all steps in this scenario" tooltip-placement="bottom">Step {{getCurrentStepIndex() + 1}} / {{stepsCountOverall}}</div>
                     <div ng-click="goToNextStep()" class="btn btn-default" tooltip="Next Step [Right]" tooltip-placement="bottom" ng-disabled="isLastStep()" id="nextStepBtn">
                         <i class="icon-with-padding icon-large icon-angle-right"></i>
                     </div>
@@ -53,7 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <!-- Substep information -->
             <div class="col-md-4">
-                Substep x / y on current page
+                Substep {{stepIndex + 1}} / {{pagesAndSteps[pageIndex].steps.length}} on current page
             </div>
 
         </div>
@@ -67,7 +67,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <i class="icon-with-padding icon-large icon-angle-up"></i>
             </div>
             <div class="btn btn-default" tooltip="of this same page in all scenarios" tooltip-placement="bottom">
-                Page-Variant  x / y
+                Page-Variant  ? / ?
                 <!-- TODO #166 Needs to be fixed (currently not set and/or binded properly!):
                 <div style="min-width: 70px; text-align: center;" class="inline-block">
                     {{step.stepDescription.variantIndex}} of {{pageVariantCounts[0][pageName]}}
