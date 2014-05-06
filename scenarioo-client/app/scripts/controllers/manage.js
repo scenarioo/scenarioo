@@ -20,15 +20,15 @@
 angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scope, $location) {
     $scope.tabs = [
         {
-            tabId: 'configuration',
-            title: 'Configuration',
-            contentViewUrl: 'views/config.html',
-            active: true
-        },
-        {
             tabId: 'builds',
             title: 'Builds',
             contentViewUrl: 'views/mainBuildsTab.html',
+            active: true
+        },
+        {
+            tabId: 'configuration',
+            title: 'Configuration',
+            contentViewUrl: 'views/config.html',
             active: false
         }
     ];
