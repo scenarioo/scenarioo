@@ -22,13 +22,13 @@ angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scop
         {
             tabId: 'builds',
             title: 'Builds',
-            contentViewUrl: 'views/mainBuildsTab.html',
+            contentViewUrl: 'views/manage/buildsList.html',
             active: true
         },
         {
             tabId: 'configuration',
             title: 'Configuration',
-            contentViewUrl: 'views/config.html',
+            contentViewUrl: 'views/manage/config.html',
             active: false
         }
     ];

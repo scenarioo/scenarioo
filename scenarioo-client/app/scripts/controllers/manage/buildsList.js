@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function ($scope, $location, $route, $modal, BuildImportStatesResource, BuildImportService, BuildReimportResource, BuildImportLogResource) {
+angular.module('scenarioo.controllers').controller('BuildsListCtrl', function ($scope, $location, $route, $modal, BuildImportStatesResource, BuildImportService, BuildReimportResource, BuildImportLogResource) {
 
     BuildImportStatesResource.query({}, function(buildImportStates) {
         $scope.buildImportStates = buildImportStates;
@@ -32,8 +32,8 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
     $scope.goToBuild = function (build) {
         BuildImportLogResource.get(build.identifier.branchName, build.identifier.buildName, function onSuccess(log) {
             $modal.open({
-                templateUrl: 'buildImportStatusDialog.html',
-                controller: 'BuildImportStatusDialogCtrl',
+                templateUrl: 'views/manage/buildImportDetails.html',
+                controller: 'BuildImportDetailsCtrl',
                 windowClass: 'modal-wide',
                 resolve: {
                     build: function () { return build; },
@@ -99,24 +99,3 @@ angular.module('scenarioo.controllers').controller('MainBuildsTabCtrl', function
 });
 
 
-/** Sub-Controller for BuildImportStatus-Dialog **/
-angular.module('scenarioo.controllers').controller('BuildImportStatusDialogCtrl', function ($scope, $modalInstance, build, log, getStyleClassForBuildImportStatus) {
-
-    $scope.build = build;
-    $scope.log = log;
-    $scope.getStyleClassForBuildImportStatus = getStyleClassForBuildImportStatus;
-
-    $scope.hasImportMessage = function() {
-        if (angular.isUndefined($scope.build.statusMessage)) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    };
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
-    };
-
-});

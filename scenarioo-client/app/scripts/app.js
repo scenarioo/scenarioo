@@ -33,7 +33,7 @@ angular.module('scenarioo', [
             breadcrumb: '<i class="icon-home"></i> Home'
         })
         .when('/manage', {
-            templateUrl: 'views/manage.html',
+            templateUrl: 'views/manage/manage.html',
             controller: 'ManageCtrl',
             breadcrumb: '<i class="icon-cogs"></i> Manage'
         })

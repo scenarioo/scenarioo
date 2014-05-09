@@ -17,9 +17,9 @@
 
 'use strict';
 
-describe('Controller MainBuildsTabCtrl', function () {
+describe('Controller BuildsListCtrl', function () {
 
-    var $location, $httpBackend, HostnameAndPort, TestData, $scope, MainBuildsTabCtrl, $modal;
+    var $location, $httpBackend, HostnameAndPort, TestData, $scope, BuildsListCtrl;
 
     beforeEach(module('scenarioo.controllers'));
 
@@ -35,7 +35,7 @@ describe('Controller MainBuildsTabCtrl', function () {
 
             $httpBackend.whenGET(BUILD_IMPORT_STATES_URL).respond(TestData.BUILD_IMPORT_STATES);
 
-            MainBuildsTabCtrl = $controller('MainBuildsTabCtrl', {$scope: $scope, $modal: null });
+            BuildsListCtrl = $controller('BuildsListCtrl', {$scope: $scope, $modal: null });
         }
     ));
 
