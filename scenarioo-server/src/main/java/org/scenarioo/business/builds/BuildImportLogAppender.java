@@ -99,6 +99,8 @@ public class BuildImportLogAppender extends AppenderSkeleton {
 	
 	@Override
 	public void close() {
+		// CLosing is managed when unregistering the appender, which is done programmatically
+		// see unregisterAndFlush()
 	}
 	
 	@Override
