@@ -326,6 +326,8 @@ public class ScenarioDocuAggregator {
 		return result;
 	}
 	
+	// TODO #166: refactor those page variant index calculation for page variant navigation
+	@Deprecated
 	private void processStepVariant(final String branchName,
 			final String buildName, final List<PageSteps> pageStepsList,
 			final Step step, final String pageName,
@@ -349,6 +351,7 @@ public class ScenarioDocuAggregator {
 		variant.setPreviousStep(stepIdentification);
 	}
 	
+	@Deprecated
 	private void setNextVariant(final String branchName,
 			final String buildName, final List<PageSteps> pageStepsList,
 			final StepIdentification step,
@@ -370,6 +373,7 @@ public class ScenarioDocuAggregator {
 		}
 	}
 	
+	@Deprecated
 	private void setPreviousVariant(final String branchName,
 			final String buildName, final StepIdentification step,
 			final StepIdentification previousStepVariant) {
