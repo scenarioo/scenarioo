@@ -46,9 +46,12 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     SelectedBranchAndBuild.callOnSelectionChange(loadStep);
 
     function loadStep(selected) {
-        $scope.pageVariantCounts = PageVariantService.getPageVariantCount({'branchName': selected.branch, 'buildName': selected.build});
 
-        //FIXME this is could be improved. Add information to the getStep call. however with caching it could be fixed as well
+        var pageVariantCountsPromise = PageVariantService.getPageVariantCount({'branchName': selected.branch, 'buildName': selected.build});
+        pageVariantCountsPromise.then(function (result) {
+            $scope.pageVariantCounts = result;
+        });
+
         ScenarioResource.get(
             {
                 branchName: selected.branch,
@@ -77,8 +80,8 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
             bindStepNavigation(result.pagesAndSteps);
 
-            var step = StepService.getStep({'branchName': selected.branch, 'buildName': selected.build, 'usecaseName': useCaseName, 'scenarioName': scenarioName, 'stepIndex': $scope.stepDescription.index});
-            step.then(function (result) {
+            var stepPromise = StepService.getStep({'branchName': selected.branch, 'buildName': selected.build, 'usecaseName': useCaseName, 'scenarioName': scenarioName, 'stepIndex': $scope.stepDescription.index});
+            stepPromise.then(function (result) {
                 $scope.step = result;
                 $scope.metadataTree = transformMetadataToTreeArray(result.metadata.details);
                 $scope.stepInformationTree = createStepInformationTree(result);

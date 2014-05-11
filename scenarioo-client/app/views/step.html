@@ -64,10 +64,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
             <div class="btn btn-default btn-no-hover">
                 <span tooltip="of this same page in all scenarios" tooltip-placement="bottom">
-                Page-Variant  ? of ?
-                <!-- TODO #166 Needs to be fixed (currently not set and/or binded properly!):
-                {{step.stepDescription.variantIndex}} of {{pageVariantCounts[0][pageName]}}
-                 -->
+                Page-Variant  {{step.stepDescription.variantIndex}} of {{pageVariantCounts.counters[pageName]}}
                 </span>
             </div>
             <div ng-click="goToNextVariant()" class="btn btn-default" id="nextPageVariantBtn">
