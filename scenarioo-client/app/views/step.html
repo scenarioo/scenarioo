@@ -59,15 +59,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <!-- Page variants navigation -->
     <div class="col-lg-3">
         <div class="btn-group">
-            <div ng-click="goToPreviousVariant()" class="btn btn-default" id="prevPageVariantBtn">
+            <div ng-click="goToPreviousVariant()" class="btn btn-default" id="prevPageVariantBtn" ng-disabled="isFirstPageVariantStep()">
                 <i class="icon-with-padding icon-large icon-angle-up" tooltip="Previous variant (potentially in other scenario) [Ctrl+Up]" tooltip-placement="bottom"></i>
             </div>
             <div class="btn btn-default btn-no-hover">
                 <span tooltip="of this same page in all scenarios" tooltip-placement="bottom">
-                Page-Variant  {{step.stepDescription.variantIndex}} of {{pageVariantCounts.counters[pageName]}}
+                Page-Variant  {{stepNavigation.pageVariantIndex + 1}} of {{stepNavigation.pageVariantsCount}}
                 </span>
             </div>
-            <div ng-click="goToNextVariant()" class="btn btn-default" id="nextPageVariantBtn">
+            <div ng-click="goToNextVariant()" class="btn btn-default" id="nextPageVariantBtn" ng-disabled="isLastPageVariantStep()">
                 <i class="icon-with-padding icon-large icon-angle-down" tooltip="Next variant (potentially in other scenario) [Ctrl+Down]" tooltip-placement="bottom"></i>
             </div>
         </div>
