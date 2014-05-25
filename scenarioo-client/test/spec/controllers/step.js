@@ -19,7 +19,7 @@
 
 describe('StepCtrl', function () {
 
-    var $scope, $routeParams, $location, $q, $window, Config, ScenarioResource, PageVariantService, StepService,
+    var $scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepService,
         HostnameAndPort, SelectedBranchAndBuild, $httpBackend, TestData;
     var StepCtrl;
 
@@ -33,7 +33,7 @@ describe('StepCtrl', function () {
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _Config_, _ScenarioResource_, _PageVariantService_, _StepService_, _HostnameAndPort_, _SelectedBranchAndBuild_, $controller, _$httpBackend_, _TestData_, localStorageService) {
+    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _Config_, _ScenarioResource_, _StepService_, _HostnameAndPort_, _SelectedBranchAndBuild_, $controller, _$httpBackend_, _TestData_, localStorageService) {
         $scope = _$rootScope_.$new();
         $routeParams = _$routeParams_;
         $location = _$location_;
@@ -41,7 +41,6 @@ describe('StepCtrl', function () {
         $window = _$window_;
         Config = _Config_;
         ScenarioResource = _ScenarioResource_;
-        PageVariantService = _PageVariantService_;
         StepService = _StepService_;
         HostnameAndPort = _HostnameAndPort_;
         SelectedBranchAndBuild = _SelectedBranchAndBuild_;
@@ -57,8 +56,7 @@ describe('StepCtrl', function () {
         localStorageService.clearAll();
 
         StepCtrl = $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
-            $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource,
-            PageVariantService: PageVariantService, StepService: StepService, HostnameAndPort: HostnameAndPort,
+            $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepService: StepService, HostnameAndPort: HostnameAndPort,
             SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}});
     }));
 
@@ -76,7 +74,7 @@ describe('StepCtrl', function () {
 
     it('loads the step data', function () {
         loadPageContent();
-        expect($scope.step).toEqualData(TestData.STEP);
+        expect($scope.step).toEqualData(TestData.STEP.step);
     });
 
     it('shows specific step information', function () {
@@ -86,7 +84,6 @@ describe('StepCtrl', function () {
 
     function loadPageContent() {
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches/trunk/builds/current/search/pagevariants').respond(TestData.PAGE_VARIANTS);
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches/trunk/builds/current/usecases/uc/scenarios/sc').respond(TestData.SCENARIO);
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches/trunk/builds/current/usecases/uc/scenarios/sc/steps/0').respond(TestData.STEP);
 

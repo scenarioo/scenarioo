@@ -54,12 +54,12 @@ public class BuildImporter {
 	/**
 	 * Builds that have been scheduled for processing (waiting for import)
 	 */
-	private Set<BuildIdentifier> buildsInProcessingQueue = new HashSet<BuildIdentifier>();
+	private final Set<BuildIdentifier> buildsInProcessingQueue = new HashSet<BuildIdentifier>();
 	
 	/**
 	 * Executor to execute one import task after the other asynchronously.
 	 */
-	private ExecutorService asyncBuildImportExecutor = newAsyncBuildImportExecutor();
+	private final ExecutorService asyncBuildImportExecutor = newAsyncBuildImportExecutor();
 	
 	public Map<BuildIdentifier, BuildImportSummary> getBuildImportSummaries() {
 		return buildImportSummaries;
@@ -75,7 +75,6 @@ public class BuildImporter {
 		Map<BuildIdentifier, BuildImportSummary> result = new HashMap<BuildIdentifier, BuildImportSummary>();
 		for (BranchBuilds branchBuilds : branchBuildsList) {
 			for (BuildLink buildLink : branchBuilds.getBuilds()) {
-				ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator();
 				// Take existent summary or create new one.
 				BuildIdentifier buildIdentifier = new BuildIdentifier(branchBuilds.getBranch().getName(), buildLink
 						.getBuild().getName());
@@ -83,6 +82,7 @@ public class BuildImporter {
 				if (buildSummary == null) {
 					buildSummary = new BuildImportSummary(branchBuilds.getBranch().getName(), buildLink.getBuild());
 				}
+				ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator(buildIdentifier);
 				aggregator.updateBuildSummary(buildSummary, buildLink);
 				if (buildsInProcessingQueue.contains(buildIdentifier)) {
 					buildSummary.setStatus(BuildImportStatus.QUEUED_FOR_PROCESSING);
@@ -125,8 +125,8 @@ public class BuildImporter {
 		
 		availableBuilds.removeBuild(buildIdentifier);
 		summary.setStatus(BuildImportStatus.UNPROCESSED);
-		ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator();
-		aggregator.removeAggregatedDataForBuild(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+		ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator(buildIdentifier);
+		aggregator.removeAggregatedDataForBuild();
 	}
 	
 	/**
@@ -172,11 +172,9 @@ public class BuildImporter {
 			summary = buildImportSummaries.get(summary.getIdentifier());
 			summary.setStatus(BuildImportStatus.PROCESSING);
 			
-			ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator();
-			if (!aggregator.containsAggregatedDataForBuild(summary.getIdentifier().getBranchName(),
-					summary.getIdentifier().getBuildName())) {
-				aggregator.calculateAggregatedDataForBuild(summary.getIdentifier().getBranchName(),
-						summary.getIdentifier().getBuildName());
+			ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator(summary.getIdentifier());
+			if (!aggregator.isAggregatedDataForBuildAlreadyAvailableAndCurrentVersion()) {
+				aggregator.calculateAggregatedDataForBuild();
 				summary.setBuildStatistics(aggregator.getBuildStatistics());
 				addSuccessfullyImportedBuild(availableBuilds, summary);
 				LOGGER.info("  SUCCESS on importing build: " + summary.getIdentifier().getBranchName() + "/"

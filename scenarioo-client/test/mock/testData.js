@@ -46,10 +46,10 @@ angular.module('scenarioo.services').service('TestData', function () {
 
         BUILD_IMPORT_STATES: [
             {
-                "buildDescription": {"details":{},"revision":"123456","status":"success","date":1388879915785,"name":"example-build"},
-                "importDate":1388620336537,
-                "status":"SUCCESS",
-                "identifier":{"branchName":"example-branch","buildName":"example-build"}
+                'buildDescription': {'details':{},'revision':'123456','status':'success','date':1388879915785,'name':'example-build'},
+                'importDate':1388620336537,
+                'status':'SUCCESS',
+                'identifier':{'branchName':'example-branch','buildName':'example-build'}
             }
         ],
 
@@ -73,13 +73,13 @@ angular.module('scenarioo.services').service('TestData', function () {
             },
             'pagesAndSteps': [
                 {'page': {'details': {}, 'name': 'startSearch.jsp'}, 'steps': [
-                    {'details': {'url': 'http://www.wikipedia.org'}, 'status': 'success', 'occurence': 0, 'relativeIndex': 0, 'title': 'Wikipedia Suche', 'screenshotFileName': '000.png', 'variantIndex': 3, 'previousStepVariant': {'occurence': 0, 'relativeIndex': 1, 'useCaseName': 'Find Page', 'scenarioName': 'find_page_no_result', 'pageName': 'startSearch.jsp', 'index': 1}, 'nextStepVariant': {'occurence': 0, 'relativeIndex': 1, 'useCaseName': 'Find Page', 'scenarioName': 'find_page_with_text_on_page_from_multiple_results', 'pageName': 'startSearch.jsp', 'index': 1}, 'index': 0},
-                    {'details': {'url': 'http://www.wikipedia.org'}, 'status': 'success', 'occurence': 0, 'relativeIndex': 1, 'title': 'Wikipedia Suche', 'screenshotFileName': '001.png', 'variantIndex': 4, 'previousStepVariant': {'occurence': 0, 'relativeIndex': 0, 'useCaseName': 'Find Page', 'scenarioName': 'find_page_with_text_on_page_from_multiple_results', 'pageName': 'startSearch.jsp', 'index': 0}, 'nextStepVariant': {'occurence': 0, 'relativeIndex': 0, 'useCaseName': 'Find Page', 'scenarioName': 'find_page_with_title_ambiguous_navigate_to_other_meaning', 'pageName': 'startSearch.jsp', 'index': 0}, 'index': 1}
+                    {'details': {'url': 'http://www.wikipedia.org'}, 'status': 'success', 'title': 'Wikipedia Suche', 'screenshotFileName': '000.png', 'index': 0},
+                    {'details': {'url': 'http://www.wikipedia.org'}, 'status': 'success', 'title': 'Wikipedia Suche', 'screenshotFileName': '001.png',  'index': 1}
                 ]},
                 {'page': {'details': {}, 'name': 'searchResults.jsp'}, 'steps': [
-                    {'details': {'url': 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'}, 'status': 'success', 'occurence': 1, 'relativeIndex': 0, 'title': 'Search results', 'screenshotFileName': '002.png', 'variantIndex': 2, 'previousStepVariant': {'occurence': 1, 'relativeIndex': 0, 'useCaseName': 'Find Page', 'scenarioName': 'find_page_no_result', 'pageName': 'searchResults.jsp', 'index': 2}, 'nextStepVariant': {'occurence': 1, 'relativeIndex': 1, 'useCaseName': 'Find Page', 'scenarioName': 'find_page_with_text_on_page_from_multiple_results', 'pageName': 'searchResults.jsp', 'index': 3}, 'index': 2},
-                    {'details': {'url': 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'}, 'status': 'success', 'occurence': 1, 'relativeIndex': 1, 'title': 'Search results', 'screenshotFileName': '003.png', 'variantIndex': 3, 'previousStepVariant': {'occurence': 1, 'relativeIndex': 0, 'useCaseName': 'Find Page', 'scenarioName': 'find_page_with_text_on_page_from_multiple_results', 'pageName': 'searchResults.jsp', 'index': 2}, 'nextStepVariant': {'occurence': 1, 'relativeIndex': 2, 'useCaseName': 'Find Page', 'scenarioName': 'find_page_with_text_on_page_from_multiple_results', 'pageName': 'searchResults.jsp', 'index': 4}, 'index': 3},
-                    {'details': {'url': 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'}, 'status': 'success', 'occurence': 1, 'relativeIndex': 2, 'title': 'Search results', 'screenshotFileName': '004.png', 'variantIndex': 4, 'previousStepVariant': {'occurence': 1, 'relativeIndex': 1, 'useCaseName': 'Find Page', 'scenarioName': 'find_page_with_text_on_page_from_multiple_results', 'pageName': 'searchResults.jsp', 'index': 3}, 'nextStepVariant': {'occurence': 1, 'relativeIndex': 0, 'useCaseName': 'Find Page', 'scenarioName': 'find_page_no_result', 'pageName': 'searchResults.jsp', 'index': 2}, 'index': 4}
+                    {'details': {'url': 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'}, 'status': 'success', 'title': 'Search results', 'screenshotFileName': '002.png', 'index': 2},
+                    {'details': {'url': 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'}, 'status': 'success', 'title': 'Search results', 'screenshotFileName': '003.png', 'index': 3},
+                    {'details': {'url': 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'}, 'status': 'success', 'title': 'Search results', 'screenshotFileName': '004.png', 'index': 4}
                 ]}
             ],
             'scenario': {
@@ -97,60 +97,62 @@ angular.module('scenarioo.services').service('TestData', function () {
         },
 
         STEP: {
-            'html': {
-                'htmlSource': '<html>\n<head>\n</head>\n<body>\n   <p>just some dummy html code</p>\n</body>\n</html>'
-            },
-            'page': {
-                'details': {
+            'step': {
+                'html': {
+                    'htmlSource': '<html>\n<head>\n</head>\n<body>\n   <p>just some dummy html code</p>\n</body>\n</html>'
                 },
-                'name': 'startSearch.jsp'
-            },
-            'metadata': {
-                'details': {
-                    'simulationConfiguration': {
-                        'details': {
-                            'overridenConfigModules': [
-                            ],
-                            'defaultConfigModules': [
-                            ]
-                        },
-                        'name': 'ambiguoties_config',
-                        'type': 'configuration'
+                'page': {
+                    'details': {
                     },
-                    'callTree': {
-                        'details': {
+                    'name': 'startSearch.jsp'
+                },
+                'metadata': {
+                    'details': {
+                        'simulationConfiguration': {
+                            'details': {
+                                'overridenConfigModules': [
+                                ],
+                                'defaultConfigModules': [
+                                ]
+                            },
+                            'name': 'ambiguoties_config',
+                            'type': 'configuration'
                         },
-                        'item': {
+                        'callTree': {
                             'details': {
                             },
-                            'name': 'http://www.wikipedia.org',
-                            'type': 'httpCall'
+                            'item': {
+                                'details': {
+                                },
+                                'name': 'http://www.wikipedia.org',
+                                'type': 'httpCall'
+                            }
                         }
+                    },
+                    'visibleText': 'Bla bla bla bla bla ... This is the visible text as generated from dummy test.'
+                },
+                'stepDescription': {
+                    'index': 0,
+                    'title': 'Search results',
+                    'screenshotFileName': '000.png',
+                    'status': 'success',
+                    'details': {
+                        'url': 'http://www.wikipedia.org'
                     }
-                },
-                'visibleText': 'Bla bla bla bla bla ... This is the visible text as generated from dummy test.'
+                }
             },
-            'stepDescription': {
-                'details': {
-                    'url': 'http://www.wikipedia.org'
-                },
-                'title': 'Search results',
-                'screenshotFileName': '000.png',
-                'variantIndex': 0,
+            'stepNavigation': {
+                'pageIndex': 0,
+                'pageStepIndex': 0,
+                'pageOccurenceIndex': 0,
+                'pageVariantIndex': 4,
+                'pageVariantScenarioIndex': 1,
+                'pageVariantsCount': 8,
+                'pageVariantScenariosCount': 3,
                 'previousStepVariant': null,
+                'previousStepVariantInOtherScenario': null,
                 'nextStepVariant': null,
-                'status': 'success',
-                'occurence': 0,
-                'relativeIndex': 0,
-                'index': 0
-            }
-        },
-
-        PAGE_VARIANTS: {
-            'counters': {
-                'startSearch.jsp': 8,
-                'searchResults.jsp': 4,
-                'contentPage.jsp': 6
+                'nextStepVariantInOtherScenario': null
             }
         },
 

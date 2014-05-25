@@ -106,17 +106,6 @@ angular.module('scenarioo.services').factory('UseCaseService', function (Scenari
     return useCaseService;
 });
 
-angular.module('scenarioo.services').factory('PageVariantService', function (ScenariooResource, $q) {
-    var pageVariantService = ScenariooResource('/branches/:branchName/builds/:buildName/search/pagevariants/',
-        {   branchName: '@branchName',
-            buildName: '@buildName'}, {});
-
-    pageVariantService.getPageVariantCount = getPromise($q, function (parameters, fnSuccess, fnError) {
-        return pageVariantService.get(parameters, fnSuccess, fnError);
-    });
-    return pageVariantService;
-});
-
 angular.module('scenarioo.services').factory('StepService', function (ScenariooResource, $q) {
     var stepService = ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName/steps/:stepIndex',
         {branchName: '@branchName',
