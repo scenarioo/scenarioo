@@ -42,6 +42,7 @@ import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
+import org.scenarioo.utils.ResourceUtils;
 
 /**
  * DAO for accessing user scenario docu content from filesystem, that is either generated or already precalculated.
@@ -90,14 +91,7 @@ public class ScenarioDocuAggregationDAO {
 				throw new RuntimeException("file not readable: "
 						+ versionFile.getAbsolutePath(), e);
 			} finally {
-				if (reader != null) {
-					try {
-						reader.close();
-					} catch (IOException e) {
-						throw new RuntimeException("could not properly close reader for file "
-								+ versionFile.getAbsolutePath(), e);
-					}
-				}
+				ResourceUtils.close(reader, versionFile.getAbsolutePath());
 			}
 		} else {
 			return "";
@@ -130,10 +124,14 @@ public class ScenarioDocuAggregationDAO {
 	}
 	
 	private void saveProperties(final File file, final Properties properties, final String comment) {
+		FileWriter fileWriter = null;
 		try {
-			properties.store(new FileWriter(file), comment);
+			fileWriter = new FileWriter(file);
+			properties.store(fileWriter, comment);
 		} catch (IOException e) {
 			throw new RuntimeException("could not write " + file.getAbsolutePath(), e);
+		} finally {
+			ResourceUtils.close(fileWriter, file.getAbsolutePath());
 		}
 	}
 	
