@@ -23,8 +23,8 @@ public class StepNavigation {
 	private StepLink previousStepVariantInOtherScenario;
 	private StepLink nextStepVariantInOtherScenario;
 	
-	private int pageVariantCount = 0;
-	private int pageVariantScenarioCount = 0;
+	private int pageVariantsCount = 0;
+	private int pageVariantScenariosCount = 0;
 	
 	/**
 	 * index of step's page in current scenario
@@ -106,12 +106,23 @@ public class StepNavigation {
 	/**
 	 * count of all steps of the same page
 	 */
-	public int getPageVariantCount() {
-		return pageVariantCount;
+	public int getPageVariantsCount() {
+		return pageVariantsCount;
 	}
 	
-	public void setPageVariantCount(final int pageVariantCount) {
-		this.pageVariantCount = pageVariantCount;
+	public void setPageVariantsCount(final int pageVariantCount) {
+		this.pageVariantsCount = pageVariantCount;
+	}
+	
+	/**
+	 * number of scenarios in which this current page occurs.
+	 */
+	public int getPageVariantScenariosCount() {
+		return pageVariantScenariosCount;
+	}
+	
+	public void setPageVariantScenariosCount(final int pageVariantScenarioCount) {
+		this.pageVariantScenariosCount = pageVariantScenarioCount;
 	}
 	
 	/**
@@ -134,17 +145,6 @@ public class StepNavigation {
 	
 	public void setNextStepVariantInOtherScenario(final StepLink nextStepVariantInOtherScenario) {
 		this.nextStepVariantInOtherScenario = nextStepVariantInOtherScenario;
-	}
-	
-	/**
-	 * number of scenarios in which this current page occurs.
-	 */
-	public int getPageVariantScenarioCount() {
-		return pageVariantScenarioCount;
-	}
-	
-	public void setPageVariantScenarioCount(final int pageVariantScenarioCount) {
-		this.pageVariantScenarioCount = pageVariantScenarioCount;
 	}
 	
 }

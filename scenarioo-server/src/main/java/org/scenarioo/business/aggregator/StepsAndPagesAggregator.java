@@ -220,8 +220,8 @@ public class StepsAndPagesAggregator {
 				}
 				
 				StepNavigation stepNavigation = dao.loadStepNavigation(build, lastStep);
-				stepNavigation.setPageVariantCount(pageVariantNavigation.getStepsCount());
-				stepNavigation.setPageVariantScenarioCount(pageVariantNavigation.getScenariosCount());
+				stepNavigation.setPageVariantsCount(pageVariantNavigation.getStepsCount());
+				stepNavigation.setPageVariantScenariosCount(pageVariantNavigation.getScenariosCount());
 				stepNavigation.setNextStepVariant(nextStepVariant);
 				stepNavigation.setNextStepVariantInOtherScenario(nextStepVariantInOtherScenario);
 				dao.saveStepNavigation(build, lastStep, stepNavigation);
