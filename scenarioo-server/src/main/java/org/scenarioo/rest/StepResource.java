@@ -24,25 +24,36 @@ import javax.ws.rs.Produces;
 
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
+import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
+import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
+import org.scenarioo.model.docu.aggregates.steps.StepWithNavigation;
 import org.scenarioo.model.docu.entities.Step;
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/usecases/{usecaseName}/scenarios/{scenarioName}/steps/")
 public class StepResource {
 	
-	private final ScenarioDocuReader filesystem = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
+	private final ScenarioDocuReader docuDAO = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
+	
+	private final ScenarioDocuAggregationDAO aggregationsDAO = new ScenarioDocuAggregationDAO(
+			ConfigurationDAO.getDocuDataDirectoryPath());
 	
 	/**
-	 * Get a step with all its data (meta data, html, ...)
+	 * Get a step with all its data (meta data, html, ...) together with additional calculated navigation data
 	 */
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	@Path("{stepIndex}/")
-	public Step readScenarioWithPagesAndSteps(@PathParam("branchName") final String branchName,
+	public StepWithNavigation loadStepWithNavigationData(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName, @PathParam("stepIndex") final int stepIndex) {
+		
 		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
-		return filesystem.loadStep(branchName, resolvedBuildName, usecaseName, scenarioName, stepIndex);
+		
+		Step step = docuDAO.loadStep(branchName, resolvedBuildName, usecaseName, scenarioName, stepIndex);
+		StepNavigation navigation = aggregationsDAO.loadStepNavigation(new BuildIdentifier(branchName, buildName),
+				usecaseName, scenarioName, stepIndex);
+		return new StepWithNavigation(step, navigation);
 	}
-	
 }

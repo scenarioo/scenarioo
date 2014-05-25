@@ -31,27 +31,27 @@ import org.scenarioo.model.docu.entities.StepDescription;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PageSteps {
-
+	
 	private Page page;
-
+	
 	@XmlElementWrapper(name = "steps")
 	@XmlElement(name = "step")
 	private List<StepDescription> steps;
-
+	
 	public Page getPage() {
 		return page;
 	}
-
-	public void setPage(Page page) {
+	
+	public void setPage(final Page page) {
 		this.page = page;
 	}
-
+	
 	public List<StepDescription> getSteps() {
 		return steps;
 	}
-
-	public void setSteps(List<StepDescription> steps) {
+	
+	public void setSteps(final List<StepDescription> steps) {
 		this.steps = steps;
 	}
-
+	
 }

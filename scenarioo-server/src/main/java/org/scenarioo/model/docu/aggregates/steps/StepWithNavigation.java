@@ -15,36 +15,45 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.model.docu.aggregates.usecases;
-
-import java.util.HashMap;
-import java.util.Map;
+package org.scenarioo.model.docu.aggregates.steps;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.model.docu.entities.Step;
+
 /**
- * Counter for all page variants
+ * Container class to load a step with its navigation data
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PageVariantsCounter {
-
-	private Map<String, Integer> counters;
-
-	public PageVariantsCounter() {
+public class StepWithNavigation {
+	
+	private Step step;
+	
+	private StepNavigation stepNavigation;
+	
+	public StepWithNavigation(final Step step, final StepNavigation stepNavigation) {
+		super();
+		this.step = step;
+		this.stepNavigation = stepNavigation;
 	}
-
-	public PageVariantsCounter(final HashMap<String, Integer> counters) {
-		this.counters = counters;
+	
+	public Step getStep() {
+		return step;
 	}
-
-	public Map<String, Integer> getCounters() {
-		return counters;
+	
+	public void setStep(final Step step) {
+		this.step = step;
 	}
-
-	public void setCounters(Map<String, Integer> counters) {
-		this.counters = counters;
+	
+	public StepNavigation getStepNavigation() {
+		return stepNavigation;
 	}
+	
+	public void setStepNavigation(final StepNavigation stepNavigation) {
+		this.stepNavigation = stepNavigation;
+	}
+	
 }
