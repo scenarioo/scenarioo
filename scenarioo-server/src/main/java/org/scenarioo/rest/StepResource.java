@@ -52,7 +52,8 @@ public class StepResource {
 		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
 		
 		Step step = docuDAO.loadStep(branchName, resolvedBuildName, usecaseName, scenarioName, stepIndex);
-		StepNavigation navigation = aggregationsDAO.loadStepNavigation(new BuildIdentifier(branchName, buildName),
+		StepNavigation navigation = aggregationsDAO.loadStepNavigation(new BuildIdentifier(branchName,
+				resolvedBuildName),
 				usecaseName, scenarioName, stepIndex);
 		return new StepWithNavigation(step, navigation);
 	}
