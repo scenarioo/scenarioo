@@ -78,8 +78,10 @@ public class ScenarioDocuAggregationDAO {
 		File versionFile = files.getVersionFile(branchName, buildName);
 		if (versionFile.exists()) {
 			Properties properties = new Properties();
+			FileReader reader = null;
 			try {
-				properties.load(new FileReader(versionFile));
+				reader = new FileReader(versionFile);
+				properties.load(reader);
 				return properties.getProperty(VERSION_PROPERTY_KEY);
 			} catch (FileNotFoundException e) {
 				throw new RuntimeException("file not found: "
@@ -87,6 +89,15 @@ public class ScenarioDocuAggregationDAO {
 			} catch (IOException e) {
 				throw new RuntimeException("file not readable: "
 						+ versionFile.getAbsolutePath(), e);
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (IOException e) {
+						throw new RuntimeException("could not properly close reader for file "
+								+ versionFile.getAbsolutePath(), e);
+					}
+				}
 			}
 		} else {
 			return "";
