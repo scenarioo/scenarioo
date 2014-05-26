@@ -15,6 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/** Space to use to separate most important building blocks on page (bootstrap default is 20 px, but since we do not want to loose too much screen space, we reduce it) **/
+@vertical-space: 14px;
+
 /** General **/
 .link, .informationModal .nav-tabs {
 }
@@ -63,7 +66,7 @@ h4 {
 
 .controls div {
   display: inline;
-  margin-bottom: 10px;
+  margin-bottom: @vertical-space;
 }
 
 .inline-block {
@@ -278,20 +281,37 @@ div.sc-screenshot-scenario {
 }
 
 .sc-space-top {
-  margin-top: 10px;
+  margin-top: @vertical-space;
 }
 
 .sc-space-bottom {
-  margin-bottom: 10px;
+  margin-bottom: @vertical-space;
+}
+
+.navbar {
+  /* reduced margins for not taking too much vertical space */
+  margin-bottom: @vertical-space;
+}
+
+.well {
+  /* reduced margins for not taking too much vertical space */
+  margin-top: @vertical-space;
+  margin-bottom: @vertical-space;
+}
+
+.tab-content {
+  /* reduced margins for not taking too much vertical space */
+  margin-top: @vertical-space;
+}
+
+.panel {
+  /* reduced margins for not taking too much vertical space */
+  margin-bottom: @vertical-space;
 }
 
 /** Overwrite Bootstrap styles **/
 .table > thead > tr > th {
   vertical-align: top;
-}
-
-.tab-content {
-  margin-top: 20px;
 }
 
 /** Tree **/
