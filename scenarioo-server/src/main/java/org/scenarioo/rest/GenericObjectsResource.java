@@ -31,31 +31,40 @@ import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.rest.base.AbstractBuildContentResource;
 
 /**
- * Resource for getting access to generic objects stored inside the documentation with detail informations about where
- * such objects are referenced (on which steps, pages etc.)
+ * Resource for getting access to generic objects stored inside the
+ * documentation with detail informations about where such objects are
+ * referenced (on which steps, pages etc.)
  */
 @Path("/rest/branches/{branchName}/builds/{buildName}/objects/{type}")
 public class GenericObjectsResource extends AbstractBuildContentResource {
-	
+
 	@GET
 	@Produces({ "application/xml", "application/json" })
-	public List<ObjectDescription> readList(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName, @PathParam("type") final String type) {
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
-		return getDAO(branchName, buildName).loadObjectsList(branchName, resolvedBuildName, type).getItems();
+	public List<ObjectDescription> readList(
+			@PathParam("branchName") final String branchName,
+			@PathParam("buildName") final String buildName,
+			@PathParam("type") final String type) {
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE
+				.resolveAliasBuildName(branchName, buildName);
+		return getDAO(branchName, buildName).loadObjectsList(branchName,
+				resolvedBuildName, type).getItems();
 	}
-	
+
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	@Path("{name}/")
-	public ObjectIndex readObjectIndex(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName, @PathParam("type") final String objectType,
+	public ObjectIndex readObjectIndex(
+			@PathParam("branchName") final String branchName,
+			@PathParam("buildName") final String buildName,
+			@PathParam("type") final String objectType,
 			@PathParam("name") final String objectName) {
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
-		
-		ScenarioDocuAggregationDAO scenarioDocuAggregationDao = getDAO(branchName, buildName);
-		return scenarioDocuAggregationDao.loadObjectIndex(branchName, resolvedBuildName, objectType,
-				objectName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE
+				.resolveAliasBuildName(branchName, buildName);
+
+		ScenarioDocuAggregationDAO scenarioDocuAggregationDao = getDAO(
+				branchName, buildName);
+		return scenarioDocuAggregationDao.loadObjectIndex(branchName,
+				resolvedBuildName, objectType, objectName);
 	}
-	
+
 }

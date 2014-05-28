@@ -17,26 +17,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumb></sc-breadcrumb>
 
-<ng-include src="'views/mainUseCasesTab.html'"/>
+<!-- <ng-include src="'views/mainUseCasesTab.html'"/> -->
 
 <!-- Tabs on the main page -->
-<!--<tabset class="step-panes">-->
+<tabset class="step-panes">
 
     <!-- Tabs are defined dynamically in controller inside main.js -->
-    <!--<tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="setSelectedTabInUrl(tab.tabId)">-->
-        <!--<div>-->
-            <!--<ng-include src="getLazyTabContentViewUrl(tab)"/>-->
-        <!--</div>-->
-    <!--</tab>-->
+    <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="setSelectedTabInUrl(tab.tabId)">
+        <div>
+            <ng-include src="getLazyTabContentViewUrl(tab)"/>
+        </div>
+    </tab>
 
     <!-- Additional tabs for generic objects are defined in genericObjectTabs in main.js -->
     <!-- TODO #64: this is work in progress ... therefore commented it out for now ... -->
     <!-- Following needs to be done:
             * also extract nicely in a sub view
             * also introduce lazy loading
-            * some parts of Controller have already been extracted into mainGenericObjectsTab.js, but this Controller is not yet used and even not imported in index.html !
-    -->
-    <!--
+            * some parts of Controller have already been extracted into mainGenericObjectsTab.js, but this Controller is not yet used and even not imported in index.html ! -->
+
+
     <tab ng-repeat="genericObjectTab in genericObjectTabs" heading="{{genericObjectTab.label}}" select="initObjectsForTab(tab)">
         <div class="row sc-space-top sc-space-bottom">
             <div class="col-lg-3">
@@ -46,8 +46,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
                     </span>
                 </div>
-            </div>
-
             <select ng-show="genericObjectTab.objectTypes" ng-model="genericObjectsTypes.selected" ng-options="objectType.label for objectType in genericObjectTab.objectTypes">
                 <option value="">-- Choose objectType --</option>
             </select>
@@ -71,9 +69,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tr>
             </tbody>
         </table>
-    </tab>  -->
+    </tab>
 
-<!--</tabset>-->
+</tabset>
 
 
 

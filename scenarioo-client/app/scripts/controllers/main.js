@@ -17,7 +17,14 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope, $location, SelectedBranchAndBuild, BranchesAndBuilds) {
+angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope, $location, SelectedBranchAndBuild, Config, BranchesAndBuilds) {
+
+
+    $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
+        var config = Config.getRawConfigDataCopy();
+        $scope.customTabDefinitions = config.customObjectTabs;
+    });
+    Config.load();
 
     function loadBuilds() {
         BranchesAndBuilds.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
@@ -25,7 +32,7 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
         }, function onFailure(error) {
             console.log(error);
         });
-    }
+    };
 
     SelectedBranchAndBuild.callOnSelectionChange(loadBuilds);
 
@@ -58,6 +65,7 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
             {index: 2, label: 'UI Actions', objectType: 'action'} ,
             {index: 3, label: 'HTTP Requests', objectType: 'httpAction'}
         ]}
+
         //,{index: '1', label:'Simulation Configs', objectType: 'httpAction'}
     ];
 

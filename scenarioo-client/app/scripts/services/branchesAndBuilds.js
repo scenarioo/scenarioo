@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.services').service('BranchesAndBuilds', function ($rootScope, Config, BranchesResource, $q, SelectedBranchAndBuild) {
+angular.module('scenarioo.services').factory('BranchesAndBuilds', function ($rootScope, Config, BranchesResource, $q, SelectedBranchAndBuild) {
 
     var branchesAndBuildsData = function () {
         var deferred = $q.defer();

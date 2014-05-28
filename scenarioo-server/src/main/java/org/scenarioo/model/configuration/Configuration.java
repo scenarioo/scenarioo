@@ -17,12 +17,16 @@
 
 package org.scenarioo.model.configuration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+
 
 /**
  * The configuration for the server and the client.
@@ -52,7 +56,9 @@ public class Configuration {
 
 	private String applicationInformation = "";
 
-	private Map<String, String> buildstates = new HashMap<String, String>();
+	private Map<String, String> buildstates = new HashMap<String, String>();	
+	
+	private List<CustomObjectTab> customObjectTabs = new ArrayList<CustomObjectTab>();
 
 	public String getTestDocumentationDirPath() {
 		return testDocumentationDirPath;
@@ -140,6 +146,14 @@ public class Configuration {
 
 	public void setBuildstates(Map<String, String> buildstates) {
 		this.buildstates = buildstates;
+	}
+	
+	public List<CustomObjectTab> getCustomObjectTabs() {
+		return customObjectTabs;
+	}
+
+	public void setCustomObjectTabs(List<CustomObjectTab> customObjectTabs) {
+		this.customObjectTabs = customObjectTabs;
 	}
 
 }

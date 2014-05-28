@@ -25,6 +25,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.model.configuration.Configuration;
+import org.scenarioo.model.configuration.CustomObjectDetailColumn;
+import org.scenarioo.model.configuration.CustomObjectTab;
 
 /**
  * DAO for accessing USD configuration data from filesysem.
