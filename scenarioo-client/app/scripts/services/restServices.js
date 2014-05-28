@@ -132,7 +132,7 @@ angular.module('scenarioo.services')
             }, {});
     })
 
-    .factory('ScenarioResource', function (ScenariooResource) {
+     .factory('ScenarioResource', function (ScenariooResource) {
         return ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName',
             {
                 branchName: '@branchName',
@@ -152,6 +152,15 @@ angular.module('scenarioo.services')
 
     .factory('VersionResource', function (ScenariooResource) {
         return ScenariooResource('/version', {}, {});
+    })
+
+    .factory('CustomTabContentResource', function (ScenariooResource) {
+        return ScenariooResource('/branches/:branchName/builds/:buildName/customTabObjects/:tabId',
+            {
+                branchName: '@branchName',
+                buildName: '@buildName',
+                tabId: '@tabId'
+            }, {});
     })
 
     .factory('ObjectListResource', function (ScenariooResource) {

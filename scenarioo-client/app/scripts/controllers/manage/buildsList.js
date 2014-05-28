@@ -58,22 +58,6 @@ angular.module('scenarioo.controllers').controller('BuildsListCtrl', function ($
             );
     };
 
-    // TODO: move to appropriate place
-    $scope.readObjectIndex = function (build) {
-        var result = ObjectIndexListResource.query({branchName: build.identifier.branchName, buildName: build.identifier.buildName,
-                objectType: build.identifier.objectType, objectName: build.identifier.objectName},
-            { $scope.buil }
-        );
-    };
-
-    // TODO: move to appropriate place
-    $scope.readList = function (build) {
-        var result = ObjectListResource.get({branchName: build.identifier.branchName, buildName: build.identifier.buildName,
-                objectType: build.identifier.objectType},
-            {}
-        );
-    };
-
     $scope.getStyleClassForBuildImportStatus = function(status) {
         var styleClassFromMapping = $scope.styleClassesForBuildImportStatus[status];
         if (angular.isUndefined(styleClassFromMapping)) {

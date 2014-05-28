@@ -17,12 +17,41 @@
 
 'use strict';
 
+/**
+ * The main controller is responsible to control the main tabs (some are static deifned, most are dynamically defined through custom tabs in configuration).
+ *
+ * The content of the tab is managed in different views and controller that are lazyly loaded through this controller and view (using include URL resolution lazyly).
+ */
 angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope, $location, SelectedBranchAndBuild, Config, BranchesAndBuilds) {
 
+    function defineInitialStaticTabs() {
+        $scope.tabs = [
+            {
+                tabId: 'usecases',
+                title: 'Use Cases',
+                contentViewUrl: 'views/mainUseCasesTab.html',
+                active: true
+            }
+        ];
+    }
 
+    function defineCustomTabsFromConfig(config) {
+         angular.forEach(config.customObjectTabs, function (customTab) {
+             $scope.tabs[$scope.tabs.length] = {
+                tabId: customTab.id,
+                title: customTab.tabTitle,
+                contentViewUrl: 'views/mainCustomTab.html',
+                active: false
+            }
+        });
+    }
+
+    // Load configuration and trigger definition of tabs from config.
     $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
         var config = Config.getRawConfigDataCopy();
-        $scope.customTabDefinitions = config.customObjectTabs;
+        defineInitialStaticTabs();
+        defineCustomTabsFromConfig(config);
+        $scope.selectTabFromUrl();
     });
     Config.load();
 
@@ -32,47 +61,24 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
         }, function onFailure(error) {
             console.log(error);
         });
-    };
-
+    }
     SelectedBranchAndBuild.callOnSelectionChange(loadBuilds);
 
-    $scope.tabs = [
-        {
-            tabId: 'usecases',
-            title: 'Use Cases',
-            contentViewUrl: 'views/mainUseCasesTab.html',
-            active: true
-        }
-    ];
-
+    /**
+     * Only return the URL for the tab content view as soon as the is is active, such that the content only gets lazyly loaded.
+     */
     $scope.getLazyTabContentViewUrl = function (tab) {
-        // Only return the tab src as soon as tab is active
         if (tab.active) {
             return tab.contentViewUrl;
         }
         else {
             return null;
         }
-    };
-
-    $scope.genericObjectTabs = [
-        {index: '0', label: 'Object Descriptions', objectTypes: [
-            {index: 0, label: 'Business Operations', objectType: 'businessOperation'},
-            {index: 1, label: 'Services', objectType: 'service', columns: [
-                {key: 'realName', label: 'Real Name'},
-                {key: 'eaiName', label: 'Integration Name (EAI)'}
-            ]},
-            {index: 2, label: 'UI Actions', objectType: 'action'} ,
-            {index: 3, label: 'HTTP Requests', objectType: 'httpAction'}
-        ]}
-
-        //,{index: '1', label:'Simulation Configs', objectType: 'httpAction'}
-    ];
+    }
 
     $scope.setSelectedTabInUrl = function (tabId) {
         $location.search('tab', tabId);
     };
-
 
     $scope.selectTabFromUrl = function () {
         var params = $location.search();
@@ -86,8 +92,6 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
             });
         }
     };
-
-    $scope.selectTabFromUrl();
 
 
 });
