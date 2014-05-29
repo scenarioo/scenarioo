@@ -35,7 +35,7 @@
             ng-click="goToBuild(build)" class="link">
             <td>{{build.identifier.branchName}}</td>
             <td>{{build.identifier.buildName}}</td>
-            <td>{{build.buildDescription.date | date:'longDate'}}, {{build.buildDescription.date | date:'shortTime'}}</td>
+            <td>{{build.buildDescription.date | scDateTime}}</td>
             <td>{{build.buildDescription.revision}}</td>
             <td>
             	{{ build.buildStatistics.numberOfSuccessfulScenarios + build.buildStatistics.numberOfFailedScenarios }}

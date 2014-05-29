@@ -17,4 +17,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <span ng-class="[getStatusStyleClass(build.build.status), 'label']">{{build.build.status}}</span>&nbsp;&nbsp;
 {{getDisplayName(build)}}&nbsp;&nbsp;
-({{build.build.date | date:'longDate'}}, {{build.build.date | date:'shortTime'}})
+({{build.build.date | scDateTime}})

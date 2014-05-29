@@ -13,7 +13,7 @@
                         Revision: {{build.buildDescription.revision}}
                     </div>
                     <div class="col-md-4">
-                        Date: {{build.buildDescription.date | date:'MM/dd/yyyy HH:mm'}}
+                        Date: {{build.buildDescription.date | scDateTime}}
                     </div>
                     <div class="col-md-4">
                         Status: <span ng-class="[getStatusStyleClass(build.buildDescription.status), 'label']">{{build.buildDescription.status}}</span>
@@ -29,7 +29,7 @@
                         Status: <span ng-class="[getStyleClassForBuildImportStatus(build.status), 'label']">{{build.status}}</span>
                     </div>
                     <div class="col-md-4">
-                        Date: {{build.importDate | date:'MM/dd/yyyy HH:mm'}}
+                        Date: {{build.importDate | scDateTime}}
                     </div>
                     <div class="col-md-4">
                         <div ng-show="hasImportMessage()" class="label-warning">
