@@ -65,8 +65,8 @@ angular.module('scenarioo', [
         });
 }).run(function ($rootScope, Config, GlobalHotkeysService, $location) {
 
-    GlobalHotkeysService.registerGlobalHotkey('c', function () {
-        $location.path('/config');
+    GlobalHotkeysService.registerGlobalHotkey('m', function () {
+        $location.path('/manage');
     });
 
     GlobalHotkeysService.registerGlobalHotkey('h', function () {
