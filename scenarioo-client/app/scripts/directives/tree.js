@@ -19,9 +19,19 @@
 
 angular.module('scenarioo.directives').directive('scTree', function ($sce) {
 
+    var ITEM = 'Item';
+    var CHILDREN = 'children';
+
     function createTreeHtml(data) {
-        if (!angular.isObject(data) || (angular.isObject(data) && angular.isArray(data))) {
+        if (!angular.isObject(data)) {
             return 'no data to display';
+        }
+        else if (angular.isObject(data) && angular.isArray(data)) {
+            var html = '';
+            angular.forEach(data, function (rootNode) {
+                html += getRootNodeHtml(rootNode);
+            });
+            return html;
         }
         return getRootNodeHtml(data);
     }
@@ -39,6 +49,19 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
     }
 
     function getNodeHtml(node) {
+        if(angular.isUndefined(node.nodeValue) || node.nodeValue === '') {
+            // Handle special structural nodes with internal scenarioo keywords to not dsiplay those as usual nodes with usual labels.
+            if (angular.isDefined(node.nodeLabel) && node.nodeLabel === ITEM) {
+                return getItemNodeHtml(node);
+            }
+            else if (angular.isDefined(node.nodeLabel) && node.nodeLabel === CHILDREN) {
+                return getChildrenNodeHtml(node);
+            }
+        }
+        return getUsualNodeHtml(node);
+    }
+
+    function getUsualNodeHtml(node) {
         var html = '';
         if (angular.isDefined(node.nodeLabel)) {
             html = getNodeTitleHtml(node);
@@ -46,9 +69,33 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
         if (angular.isDefined(node.childNodes)) {
             html += getChildNodesHtml(node.childNodes);
         }
-
         return html;
     }
+
+    /**
+     * HTML for an item in an ObjectTreeNode
+     */
+    function getItemNodeHtml(node) {
+        var html = '<div class="sc-treeNodeItem">';
+        if (angular.isDefined(node.childNodes)) {
+            html += getChildNodesHtml(node.childNodes);
+        }
+        html += '</div>';
+        return html;
+    }
+
+    /**
+     * HTML for all children-Nodes in an ObjectTreeNode
+     */
+    function getChildrenNodeHtml(node) {
+        var html = '<div class="sc-treeNodeChildren">';
+        if (angular.isDefined(node.childNodes)) {
+            html += getChildNodesHtml(node.childNodes);
+        }
+        html += '</div>';
+        return html;
+    }
+
 
     function getNodeTitleHtml(data) {
         return '<span class="sc-node-label">' + data.nodeLabel + '</span>' + getNodeValueHtml(data.nodeValue);
