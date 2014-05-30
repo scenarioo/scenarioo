@@ -158,27 +158,27 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             $scope.goToNextStep();
         });
         GlobalHotkeysService.registerPageHotkeyCode('ctrl+37', function () {
-            // shift + left arrow
+            // control + left arrow
             $scope.goToPreviousPage();
         });
         GlobalHotkeysService.registerPageHotkeyCode('ctrl+39', function () {
-            // shift + right arrow
+            // control + right arrow
             $scope.goToNextPage();
         });
         GlobalHotkeysService.registerPageHotkeyCode('ctrl+36', function () {
-            // shift + Home
+            // control + Home
             $scope.goToFirstStep();
         });
         GlobalHotkeysService.registerPageHotkeyCode('ctrl+35', function () {
-            // shift + down arrow
+            // control + down arrow
             $scope.goToLastStep();
         });
         GlobalHotkeysService.registerPageHotkeyCode('ctrl+38', function () {
-            // shift + up arrow
+            // control + up arrow
             $scope.goToPreviousVariant();
         });
         GlobalHotkeysService.registerPageHotkeyCode('ctrl+40', function () {
-            // shift + down arrow
+            // control + down arrow
             $scope.goToNextVariant();
         });
 
