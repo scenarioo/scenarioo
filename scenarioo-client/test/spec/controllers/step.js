@@ -24,11 +24,11 @@ describe('StepCtrl', function () {
     var StepCtrl;
 
     var METADATA_TYPE = 'some_type';
-    var STEP_INFORMATION_TREE = { childNodes: [
-        { nodeLabel: 'Step title', nodeValue: 'Search results' },
-        { nodeLabel: 'Page name', childNodes: [  ], nodeValue: 'startSearch.jsp' },
-        { nodeLabel: 'URL', nodeValue: 'http://www.wikipedia.org' },
-        { nodeLabel: 'Build status', nodeValue: 'success' }
+    var STEP_INFORMATION_TREE = { childNodes : [
+        { nodeLabel : 'Step title', nodeValue : 'Search results' },
+        { nodeLabel : 'Page name', childNodes : [  ], nodeValue : 'startSearch.jsp', nodeObjectName : 'startSearch.jsp' },
+        { nodeLabel : 'URL', nodeValue : 'http://www.wikipedia.org' },
+        { nodeLabel : 'Build status', nodeValue : 'success' }
     ] };
 
     beforeEach(module('scenarioo.controllers'));
