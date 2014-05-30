@@ -49,7 +49,7 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
     }
 
     function getNodeHtml(node) {
-        if(angular.isUndefined(node.nodeValue) || node.nodeValue === '') {
+        if (angular.isUndefined(node.nodeValue) || node.nodeValue === '') {
             // Handle special structural nodes with internal scenarioo keywords to not dsiplay those as usual nodes with usual labels.
             if (angular.isDefined(node.nodeLabel) && node.nodeLabel === ITEM) {
                 return getItemNodeHtml(node);
@@ -58,10 +58,19 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
                 return getChildrenNodeHtml(node);
             }
         }
-        return getUsualNodeHtml(node);
+        if (angular.isUndefined(node.nodeObjectType) || angular.isUndefined(node.nodeObjectName)) {
+            return getUsualValueItemNodeHtml(node);
+        }
+        else {
+            return getObjectNodeHtml(node);
+        }
+
     }
 
-    function getUsualNodeHtml(node) {
+    /**
+     * HTML for a simple value item in the three structure (most trivial node).
+     */
+    function getUsualValueItemNodeHtml(node) {
         var html = '';
         if (angular.isDefined(node.nodeLabel)) {
             html = getNodeTitleHtml(node);
@@ -69,6 +78,23 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
         if (angular.isDefined(node.childNodes)) {
             html += getChildNodesHtml(node.childNodes);
         }
+        return html;
+    }
+
+    /**
+     * HTML for a node representing an Object (with a special title from type and name)
+     */
+    function getObjectNodeHtml(node) {
+        var html = '<div class="sc-treeNodeObject">';
+        if (angular.isDefined(node.nodeLabel)) {
+            html += '<div class="sc-treeNodeObjectTitle">';
+            html += getNodeTitleHtml(node);
+            html += '</div>';
+        }
+        if (angular.isDefined(node.childNodes)) {
+            html += getChildNodesHtml(node.childNodes);
+        }
+        html += '</div>';
         return html;
     }
 
@@ -95,7 +121,6 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
         html += '</div>';
         return html;
     }
-
 
     function getNodeTitleHtml(data) {
         return '<span class="sc-node-label">' + data.nodeLabel + '</span>' + getNodeValueHtml(data.nodeValue);
