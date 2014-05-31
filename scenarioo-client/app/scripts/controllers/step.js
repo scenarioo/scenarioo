@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepService, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService) {
+angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepService, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -38,10 +38,6 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     $scope.showApplicationInfoPopup = function(tab) {
         ScApplicationInfoPopup.showApplicationInfoPopup(tab);
     };
-
-    $scope.showingMetaData = $window.innerWidth > 1000;
-    var metadataExpanded = [];
-    metadataExpanded['sc-step-properties'] = true;
 
     SelectedBranchAndBuild.callOnSelectionChange(loadStep);
 
@@ -286,18 +282,57 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) + '/' + pageIndex + '/' + stepIndex);
     };
 
-    $scope.isMetadataCollapsed = function (type) {
-        var collapsed = angular.isUndefined(metadataExpanded[type]) || metadataExpanded[type] === false;
-        return collapsed;
+    var STEP_METADATA_SECTION_EXPANDED = 'scenarioo-stepMetadataSectionExpanded-';
+    var STEP_METADATA_VISIBLE = 'scenarioo-stepMetadataVisible';
+
+    $scope.isMetadataExpanded = function (type) {
+        var metadataExpanded = localStorageService.get(STEP_METADATA_SECTION_EXPANDED + type);
+        if (metadataExpanded === 'true') {
+            return true;
+        } else {
+            return false;
+        }
     };
 
-    $scope.toggleMetadataCollapsed = function (type) {
-        var currentValue = metadataExpanded[type];
-        if (angular.isUndefined(currentValue)) {
-            currentValue = false;
-        }
-        var newValue = !currentValue;
-        metadataExpanded[type] = newValue;
+    $scope.toggleMetadataExpanded = function (type) {
+        var metadataExpanded = !$scope.isMetadataExpanded(type);
+        localStorageService.set(STEP_METADATA_SECTION_EXPANDED + type, '' + metadataExpanded);
     };
+
+    $scope.isMetadataCollapsed = function (type) {
+        return !$scope.isMetadataExpanded(type);
+    };
+
+    $scope.toggleShowingMetadata = function() {
+        $scope.showingMetaData=!$scope.showingMetaData;
+        localStorageService.set(STEP_METADATA_VISIBLE, '' + $scope.showingMetaData);
+    };
+
+    /**
+     * Init metadata visibility and expanded sections from local storage on startup.
+     */
+    function initMetadataVisibilityAndExpandedSections() {
+
+        // Init metadata visibility from local storage
+        var metadataVisible = localStorageService.get(STEP_METADATA_VISIBLE);
+        if (metadataVisible === 'true') {
+            $scope.showingMetaData = true;
+        }
+        else if (metadataVisible === 'false') {
+            $scope.showingMetaData = false;
+        } else {
+            // default
+            $scope.showingMetaData = $window.innerWidth > 800;
+        }
+
+        // Set special step metadata to expanded by default.
+        var majorStepPropertiesExpanded = localStorageService.get(STEP_METADATA_SECTION_EXPANDED + 'sc-step-properties');
+        var isMajorStepPropertiesExpandedSetToFalse = majorStepPropertiesExpanded === 'false';
+        if (!isMajorStepPropertiesExpandedSetToFalse) {
+            localStorageService.set(STEP_METADATA_SECTION_EXPANDED + 'sc-step-properties', 'true');
+        }
+
+    }
+    initMetadataVisibilityAndExpandedSections();
 
 });
