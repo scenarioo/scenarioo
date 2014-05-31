@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, $window, localStorageService, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -143,23 +143,59 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         $scope.searchFieldText = '';
     };
 
-    // TODO make this generic and share it with step.js
-    $scope.showingMetaData = false;
-    var metadataExpanded = [];
-    metadataExpanded['sc-step-properties'] = true;
+    // TODO make the following code generic and share it with step.js
+
+    var SCENARIO_METADATA_SECTION_EXPANDED = 'scenarioo-scenarioMetadataSectionExpanded-';
+    var SCENARIO_METADATA_VISIBLE = 'scenarioo-scenarioMetadataVisible';
+
+    $scope.isMetadataExpanded = function (type) {
+        var metadataExpanded = localStorageService.get(SCENARIO_METADATA_SECTION_EXPANDED + type);
+        if (metadataExpanded === 'true') {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    $scope.toggleMetadataExpanded = function (type) {
+        var metadataExpanded = !$scope.isMetadataExpanded(type);
+        localStorageService.set(SCENARIO_METADATA_SECTION_EXPANDED + type, '' + metadataExpanded);
+    };
 
     $scope.isMetadataCollapsed = function (type) {
-        var collapsed = angular.isUndefined(metadataExpanded[type]) || metadataExpanded[type] === false;
-        return collapsed;
+        return !$scope.isMetadataExpanded(type);
     };
 
-    $scope.toggleMetadataCollapsed = function (type) {
-        var currentValue = metadataExpanded[type];
-        if (angular.isUndefined(currentValue)) {
-            currentValue = false;
-        }
-        var newValue = !currentValue;
-        metadataExpanded[type] = newValue;
+    $scope.toggleShowingMetadata = function() {
+        $scope.showingMetaData=!$scope.showingMetaData;
+        localStorageService.set(SCENARIO_METADATA_VISIBLE, '' + $scope.showingMetaData);
     };
+
+    /**
+     * Init metadata visibility and expanded sections from local storage on startup.
+     */
+    function initMetadataVisibilityAndExpandedSections() {
+
+        // Init metadata visibility from local storage
+        var metadataVisible = localStorageService.get(SCENARIO_METADATA_VISIBLE);
+        if (metadataVisible === 'true') {
+            $scope.showingMetaData = true;
+        }
+        else if (metadataVisible === 'false') {
+            $scope.showingMetaData = false;
+        } else {
+            // default
+            $scope.showingMetaData = $window.innerWidth > 800;
+        }
+
+        // Set special scenario metadata to expanded by default.
+        var majorStepPropertiesExpanded = localStorageService.get(SCENARIO_METADATA_SECTION_EXPANDED + 'sc-scenario-properties');
+        var isMajorStepPropertiesExpandedSetToFalse = majorStepPropertiesExpanded === 'false';
+        if (!isMajorStepPropertiesExpandedSetToFalse) {
+            localStorageService.set(SCENARIO_METADATA_SECTION_EXPANDED + 'sc-scenario-properties', 'true');
+        }
+
+    }
+    initMetadataVisibilityAndExpandedSections();
 
 });
