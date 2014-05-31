@@ -65,10 +65,10 @@ describe('StepCtrl', function () {
     });
 
     it('collapses metadata sections on click', function () {
-        $scope.toggleMetadataCollapsed(METADATA_TYPE);
+        $scope.toggleMetadataExpanded(METADATA_TYPE);
         expect($scope.isMetadataCollapsed(METADATA_TYPE)).toBeFalsy();
 
-        $scope.toggleMetadataCollapsed(METADATA_TYPE);
+        $scope.toggleMetadataExpanded(METADATA_TYPE);
         expect($scope.isMetadataCollapsed(METADATA_TYPE)).toBeTruthy();
     });
 
