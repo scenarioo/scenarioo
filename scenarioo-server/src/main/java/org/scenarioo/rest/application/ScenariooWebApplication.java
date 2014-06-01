@@ -31,73 +31,80 @@ import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.configuration.Configuration;
 
 /**
- * Scenarioo REST Services Web Application context that initializes data on
- * startup of server.
+ * Scenarioo REST Services Web Application context that initializes data on startup of server.
  */
 public class ScenariooWebApplication implements ServletContextListener {
-
+	
 	private static final Logger LOGGER = Logger
 			.getLogger(ScenariooWebApplication.class);
-
+	
 	@Override
 	public void contextInitialized(final ServletContextEvent servletContextEvent) {
 		LOGGER.info("====================================================");
 		LOGGER.info("Scenarioo webapplication server is starting up ...  ");
 		LOGGER.info("====================================================");
-
+		
 		initializeApplicationVersion(servletContextEvent.getServletContext());
-
-		LOGGER.info("  Version: "
-				+ ApplicationVersionHolder.INSTANCE.getApplicationVersion()
-						.getVersion());
-		LOGGER.info("  Build date: "
-				+ ApplicationVersionHolder.INSTANCE.getApplicationVersion()
-						.getBuildDate());
-
-		LOGGER.info("  Loading configuration ...");
-
-		final String configurationDirectory = servletContextEvent
-				.getServletContext().getInitParameter("configurationDirectory");
-		LOGGER.info("  configured configuration directory:  "
-				+ configurationDirectory);
-		ConfigurationDAO.setConfigurationDirectory(configurationDirectory);
-
-		final String configurationFilename = servletContextEvent
-				.getServletContext().getInitParameter("configurationFilename");
-
-		if (StringUtils.isNotBlank(configurationFilename)) {
-			LOGGER.info("  overriding default configuration filename config.xml with:  "
-					+ configurationFilename);
-			ConfigurationDAO.setConfigurationFilename(configurationFilename);
-		}
-
-		final Configuration config = ConfigurationDAO.getConfiguration();
-		LOGGER.info("  Configuration loaded.");
-		LOGGER.info("  Configured documentation content directory: "
-				+ config.getTestDocumentationDirPath());
+		
+		loadConfiguration(servletContextEvent);
+		
 		LOGGER.info("  Updating documentation content directory (will be done asynchronously ...)");
-
 		ScenarioDocuBuildsManager.INSTANCE
 				.updateAllBuildsAndSubmitNewBuildsForImport();
-
+		
 		LOGGER.info("====================================================");
 		LOGGER.info("Scenarioo webapplication server started succesfully.");
 		LOGGER.info("====================================================");
 	}
-
+	
+	private void loadConfiguration(final ServletContextEvent servletContextEvent) {
+		LOGGER.info("  Loading configuration ...");
+		configureConfigurationDirectoryFromServerContext(servletContextEvent);
+		configureConfigurationFilenameFromServerContext(servletContextEvent);
+		final Configuration config = ConfigurationDAO.getConfiguration();
+		LOGGER.info("  Configuration loaded.");
+		LOGGER.info("  Configured documentation content directory: "
+				+ config.getTestDocumentationDirPath());
+	}
+	
+	private void configureConfigurationDirectoryFromServerContext(final ServletContextEvent servletContextEvent) {
+		String configurationDirectory = servletContextEvent.getServletContext().getInitParameter(
+				"scenariooConfigurationDirectory");
+		if (StringUtils.isBlank(configurationDirectory)) {
+			// Fallback to old property name:
+			configurationDirectory = servletContextEvent.getServletContext().getInitParameter("configurationDirectory");
+		}
+		ConfigurationDAO.setConfigurationDirectory(configurationDirectory);
+		LOGGER.info("  configured configuration directory:  " + configurationDirectory);
+	}
+	
+	private void configureConfigurationFilenameFromServerContext(final ServletContextEvent servletContextEvent) {
+		String configurationFilename = servletContextEvent.getServletContext().getInitParameter(
+				"scenariooConfigurationFilename");
+		if (StringUtils.isBlank(configurationFilename)) {
+			// Fallback to old property name:
+			configurationFilename = servletContextEvent.getServletContext().getInitParameter("configurationFilename");
+		}
+		if (StringUtils.isNotBlank(configurationFilename)) {
+			ConfigurationDAO.setConfigurationFilename(configurationFilename);
+			LOGGER.info("  overriding default configuration filename config.xml with:  "
+					+ configurationFilename);
+		}
+	}
+	
 	private void initializeApplicationVersion(
 			final ServletContext servletContext) {
-
+		
 		Properties properties = new Properties();
 		InputStream inputStream = servletContext
 				.getResourceAsStream("/WEB-INF/classes/version.properties");
-
+		
 		if (inputStream == null) {
 			LOGGER.warn("  version.properties not found, no version information available");
 			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown");
 			return;
 		}
-
+		
 		try {
 			properties.load(inputStream);
 			ApplicationVersionHolder.INSTANCE
@@ -106,8 +113,16 @@ public class ScenariooWebApplication implements ServletContextListener {
 			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown");
 			e.printStackTrace();
 		}
+		
+		LOGGER.info("  Version: "
+				+ ApplicationVersionHolder.INSTANCE.getApplicationVersion()
+						.getVersion());
+		LOGGER.info("  Build date: "
+				+ ApplicationVersionHolder.INSTANCE.getApplicationVersion()
+						.getBuildDate());
+		
 	}
-
+	
 	@Override
 	public void contextDestroyed(final ServletContextEvent arg0) {
 		LOGGER.info("===================================================");
