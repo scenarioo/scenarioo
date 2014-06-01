@@ -16,8 +16,7 @@
   limitations under the License.
 --><!-- The contents of this file will be loaded for each web application -->
 
-<Context>
-    <Parameter name="scenariooConfigurationDirectory" value="/home/ngUSD/.ngusd" override="true" description="the directory where your scenarioo configuration is stored to"/>  
+<Context>      
     
     <!-- Default set of monitored resources -->
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
