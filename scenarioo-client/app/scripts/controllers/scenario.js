@@ -26,6 +26,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     var showAllSteps = [];
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
+    var transformMetadataToTree = $filter('scMetadataTreeCreator');
 
     SelectedBranchAndBuild.callOnSelectionChange(loadScenario);
 
@@ -62,6 +63,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         $scope.scenario = pagesAndScenarios.scenario;
         $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
         $scope.metadataTree = transformMetadataToTreeArray(pagesAndScenarios.scenario.details);
+        $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario);
     }
 
     $scope.showAllStepsForPage = function(pageIndex) {
@@ -142,6 +144,15 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     $scope.resetSearchField = function () {
         $scope.searchFieldText = '';
     };
+
+    function createScenarioInformationTree(scenario) {
+        var stepInformation = {};
+        stepInformation.Description = scenario.description;
+        stepInformation['Number of Pages'] = scenario.calculatedData.numberOfPages;
+        stepInformation['Number of Steps'] = scenario.calculatedData.numberOfSteps;
+        stepInformation.Status = scenario.status;
+        return transformMetadataToTree(stepInformation);
+    }
 
     // TODO make the following code generic and share it with step.js
 

@@ -69,6 +69,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
     <div ng-show="showingMetaData" class="col-lg-4 hero-unit meta-data">
+
+        <!-- scenario -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading link" ng-click="toggleMetadataExpanded('sc-scenario-properties')">
+                    <h3 class="panel-title">Scenario</h3>
+                </div>
+                <div class="panel-body" ng-class="{hidden: isMetadataCollapsed('sc-scenario-properties'), metadata: true}">
+                    <sc-tree data='scenarioInformationTree'></sc-tree>
+                </div>
+            </div>
+        </div>
+
         <!-- Metadata -->
         <span sc-static-include="views/metadata.html"></span>
     </div>
