@@ -89,6 +89,10 @@ describe('Filter :: scTreeDataOptimizer', function () {
                 nodeValue: 'Juliet',
                 childNodes: [
                     {
+                        nodeLabel: 'type',
+                        nodeValue: 'Person'
+                    },
+                    {
                         nodeLabel: 'name',
                         nodeValue: 'Romeo\'s love'
                     }
@@ -99,9 +103,15 @@ describe('Filter :: scTreeDataOptimizer', function () {
     var DATA_EMPTY_LABEL_OPTIMIZED = {
         childNodes: [
             {
-                nodeLabel: 'Romeo\'s love',
+                nodeLabel: 'Person',
                 nodeValue: 'Juliet',
-                childNodes: []
+                childNodes: [
+                    {
+                        nodeLabel: 'name',
+                        nodeValue: 'Romeo\'s love'
+                    }
+                ],
+                nodeObjectType: 'Person'
             }
         ]
     };
@@ -126,25 +136,32 @@ describe('Filter :: scTreeDataOptimizer', function () {
             {
                 nodeLabel: 'Juliet',
                 nodeValue: 'Romeo\'s love',
-                childNodes: []
+                childNodes: [],
+                nodeObjectName: 'Romeo\'s love'
             }
         ]
     };
 
     var DATA_TYPE = {
-        nodeLabel: 'something',
-        nodeValue: 'special',
+
         childNodes: [
             {
                 nodeLabel: 'type',
-                nodeValue: 'configModule'
+                nodeValue: 'MyObjectType'
+            },
+            {
+                nodeLabel: 'name',
+                nodeValue: 'MyObjectName'
             }
+
         ]
     };
     var DATA_TYPE_OPTIMIZED = {
-        nodeLabel: 'configModule',
-        nodeValue: 'special',
-        childNodes: []
+        nodeLabel: 'MyObjectType',
+        nodeValue: 'MyObjectName',
+        childNodes: [],
+        nodeObjectType: 'MyObjectType',
+        nodeObjectName: 'MyObjectName'
     };
 
     var CHILDREN = {

@@ -72,8 +72,12 @@ angular.module('scenarioo', [
         });
 }).run(function ($rootScope, Config, GlobalHotkeysService, $location) {
 
+    GlobalHotkeysService.registerGlobalHotkey('m', function () {
+        $location.path('/manage').search('tab=builds');
+    });
+
     GlobalHotkeysService.registerGlobalHotkey('c', function () {
-        $location.path('/config');
+        $location.path('/manage').search('tab=configuration');
     });
 
     GlobalHotkeysService.registerGlobalHotkey('h', function () {

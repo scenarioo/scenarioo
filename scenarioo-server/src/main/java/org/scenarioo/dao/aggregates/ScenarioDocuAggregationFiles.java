@@ -18,15 +18,19 @@
 package org.scenarioo.dao.aggregates;
 
 import java.io.File;
+import java.text.NumberFormat;
 import java.util.List;
 
 import org.scenarioo.api.files.ScenarioDocuFiles;
 import org.scenarioo.api.util.files.FilesUtil;
+import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 
 /**
  * Defines locations of aggregated files containing aggregated (=derived) data from documentation input data.
  */
 public class ScenarioDocuAggregationFiles {
+	
+	private static NumberFormat THREE_DIGIT_NUM_FORMAT = createNumberFormatWithMinimumIntegerDigits(3);
 	
 	private static final String DIRECTORY_NAME_OBJECT_INDEXES = "index";
 	private static final String DIRECTORY_NAME_OBJECTS = "objects.derived";
@@ -34,10 +38,9 @@ public class ScenarioDocuAggregationFiles {
 	private static final String FILENAME_USECASES_XML = "usecases.derived.xml";
 	private static final String FILENAME_SCENARIOS_XML = "scenarios.derived.xml";
 	private static final String FILENAME_SCENARIO_PAGE_STEPS_XML = "scenarioPageSteps.derived.xml";
-	private static final String FILENAME_PAGE_VARIANT_COUNTERS_XML = "pageVariantCounters.derived.xml";
 	private static final String FILENAME_LONG_OBJECT_NAMES_INDEX = "longObjectNamesIndex.derived.xml";
 	
-	private ScenarioDocuFiles docuFiles;
+	private final ScenarioDocuFiles docuFiles;
 	
 	public ScenarioDocuAggregationFiles(final File rootDirectory) {
 		docuFiles = new ScenarioDocuFiles(rootDirectory);
@@ -49,11 +52,6 @@ public class ScenarioDocuAggregationFiles {
 	
 	public File getVersionFile(final String branchName, final String buildName) {
 		return new File(docuFiles.getBuildDirectory(branchName, buildName), FILENAME_VERSION_PROPERTIES);
-	}
-	
-	public File getPageVariantsFile(final String branchName, final String buildName) {
-		File buildDir = docuFiles.getBuildDirectory(branchName, buildName);
-		return new File(buildDir, FILENAME_PAGE_VARIANT_COUNTERS_XML);
 	}
 	
 	public File getUseCasesAndScenariosFile(final String branchName, final String buildName) {
@@ -117,4 +115,29 @@ public class ScenarioDocuAggregationFiles {
 		return new File(docuFiles.getBuildDirectory(branchName, buildName), FILENAME_LONG_OBJECT_NAMES_INDEX);
 	}
 	
+	/**
+	 * Directory to store additional step navigation details inside
+	 */
+	public File getStepNavigationsDirectory(final BuildIdentifier build, final String useCaseName,
+			final String scenarioName) {
+		File stepsDir = docuFiles.getStepsDirectory(build.getBranchName(), build.getBuildName(),
+				useCaseName, scenarioName);
+		return new File(stepsDir, "navigation.derived");
+	}
+	
+	/**
+	 * File to store navigation details of a step.
+	 */
+	public File getStepNavigationFile(final BuildIdentifier build, final String useCaseName, final String scenarioName,
+			final int stepIndex) {
+		File stepNavigationsDir = getStepNavigationsDirectory(build, useCaseName, scenarioName);
+		return new File(stepNavigationsDir, THREE_DIGIT_NUM_FORMAT.format(stepIndex) + ".navigation.xml");
+	}
+	
+	private static NumberFormat createNumberFormatWithMinimumIntegerDigits(
+			final int minimumIntegerDigits) {
+		final NumberFormat numberFormat = NumberFormat.getIntegerInstance();
+		numberFormat.setMinimumIntegerDigits(minimumIntegerDigits);
+		return numberFormat;
+	}
 }

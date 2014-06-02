@@ -19,9 +19,19 @@
 
 angular.module('scenarioo.directives').directive('scTree', function ($sce) {
 
+    var ITEM = 'Item';
+    var CHILDREN = 'children';
+
     function createTreeHtml(data) {
-        if (!angular.isObject(data) || (angular.isObject(data) && angular.isArray(data))) {
+        if (!angular.isObject(data)) {
             return 'no data to display';
+        }
+        else if (angular.isObject(data) && angular.isArray(data)) {
+            var html = '';
+            angular.forEach(data, function (rootNode) {
+                html += getRootNodeHtml(rootNode);
+            });
+            return html;
         }
         return getRootNodeHtml(data);
     }
@@ -39,6 +49,28 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
     }
 
     function getNodeHtml(node) {
+        if (angular.isUndefined(node.nodeValue) || node.nodeValue === '') {
+            // Handle special structural nodes with internal scenarioo keywords to not dsiplay those as usual nodes with usual labels.
+            if (angular.isDefined(node.nodeLabel) && node.nodeLabel === ITEM) {
+                return getItemNodeHtml(node);
+            }
+            else if (angular.isDefined(node.nodeLabel) && node.nodeLabel === CHILDREN) {
+                return getChildrenNodeHtml(node);
+            }
+        }
+        if (angular.isUndefined(node.nodeObjectType) || angular.isUndefined(node.nodeObjectName)) {
+            return getUsualValueItemNodeHtml(node);
+        }
+        else {
+            return getObjectNodeHtml(node);
+        }
+
+    }
+
+    /**
+     * HTML for a simple value item in the three structure (most trivial node).
+     */
+    function getUsualValueItemNodeHtml(node) {
         var html = '';
         if (angular.isDefined(node.nodeLabel)) {
             html = getNodeTitleHtml(node);
@@ -46,7 +78,47 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
         if (angular.isDefined(node.childNodes)) {
             html += getChildNodesHtml(node.childNodes);
         }
+        return html;
+    }
 
+    /**
+     * HTML for a node representing an Object (with a special title from type and name)
+     */
+    function getObjectNodeHtml(node) {
+        var html = '<div class="sc-treeNodeObject">';
+        if (angular.isDefined(node.nodeLabel)) {
+            html += '<div class="sc-treeNodeObjectTitle">';
+            html += getNodeTitleHtml(node);
+            html += '</div>';
+        }
+        if (angular.isDefined(node.childNodes)) {
+            html += getChildNodesHtml(node.childNodes);
+        }
+        html += '</div>';
+        return html;
+    }
+
+    /**
+     * HTML for an item in an ObjectTreeNode
+     */
+    function getItemNodeHtml(node) {
+        var html = '<div class="sc-treeNodeItem">';
+        if (angular.isDefined(node.childNodes)) {
+            html += getChildNodesHtml(node.childNodes);
+        }
+        html += '</div>';
+        return html;
+    }
+
+    /**
+     * HTML for all children-Nodes in an ObjectTreeNode
+     */
+    function getChildrenNodeHtml(node) {
+        var html = '<div class="sc-treeNodeChildren">';
+        if (angular.isDefined(node.childNodes)) {
+            html += getChildNodesHtml(node.childNodes);
+        }
+        html += '</div>';
         return html;
     }
 
