@@ -164,23 +164,6 @@ angular.module('scenarioo.services')
             }, {});
         })
 
-    .factory('BranchesResource', function (ScenariooResource) {
-        return ScenariooResource('/branches', {}, {});
-    })
-
-    .factory('BuildImportStatesResource', function (ScenariooResource) {
-        return ScenariooResource('/builds/buildImportSummaries', {}, {});
-    })
-
-    .factory('BuildImportLogResource', function (HostnameAndPort, $http) {
-        return {
-            get: function(branchName, buildName, onSuccess, onError) {
-                var callURL = HostnameAndPort.forLink() + 'rest/builds/importLogs/' + encodeURIComponent(branchName) + '/' + encodeURIComponent(buildName);
-                $http({method: 'GET', url: callURL}).success(onSuccess).error(onError);
-            }
-        };
-    })
-
     .factory('BuildImportService', function (ScenariooResource, $q) {
         var buildImportService = ScenariooResource('/builds/updateAndImport', {});
         buildImportService.updateData = getPromise($q, function (parameters, fnSuccess, fnError) {
@@ -207,75 +190,18 @@ angular.module('scenarioo.services')
         return useCaseService;
     })
 
-    .factory('PageVariantService', function (ScenariooResource, $q) {
-        var pageVariantService = ScenariooResource('/branches/:branchName/builds/:buildName/search/pagevariants/',
-            {   branchName: '@branchName',
-                buildName: '@buildName'}, {});
-
-        pageVariantService.getPageVariantCount = getPromise($q, function (parameters, fnSuccess, fnError) {
-            return pageVariantService.get(parameters, fnSuccess, fnError);
-        });
-        return pageVariantService;
-    })
-
-    .factory('StepService', function (ScenariooResource, $q) {
-        var stepService = ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName/steps/:stepIndex',
-            {branchName: '@branchName',
-                buildName: '@buildName',
-                usecaseName: '@usecaseName',
-                scenarioName: '@scenarioName',
-                stepIndex: '@stepIndex'}, {});
-
-        stepService.getStep = getPromise($q, function (parameters, fnSuccess, fnError) {
-            return stepService.get(parameters, fnSuccess, fnError);
-        });
-
-        return stepService;
-    })
-
-    .factory('ConfigResource', function (ScenariooResource) {
-        return ScenariooResource('/configuration', {});
-    })
-
-    .factory('UseCasesResource', function (ScenariooResource) {
-        return ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName',
-            {
-                branchName: '@branchName',
-                buildName: '@buildName',
-                usecaseName: '@usecaseName'
-            }, {});
-    })
-
-    .factory('ScenarioResource', function (ScenariooResource) {
-        return ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName',
-            {
-                branchName: '@branchName',
-                buildName: '@buildName',
-                usecaseName: '@usecaseName',
-                scenarioName: '@scenarioName'
-            }, {});
-    })
-
-    .factory('ObjectsForTypeResource', function (ScenariooResource) {
-        return ScenariooResource('/branches/:branchName/builds/:buildName/objects/service',
-            {
-                branchName: '@branchName',
-                buildName: '@buildName'
-            }, {});
-    })
-
     .factory('VersionResource', function (ScenariooResource) {
         return ScenariooResource('/version', {}, {});
-
-        function getPromise($q, fn) {
-            return function (parameters) {
-                var deferred = $q.defer();
-                fn(parameters, function (result) {
-                    deferred.resolve(result);
-                }, function (error) {
-                    deferred.reject(error);
-                });
-                return deferred.promise;
-            };
-        }
     });
+
+    function getPromise($q, fn) {
+        return function (parameters) {
+            var deferred = $q.defer();
+            fn(parameters, function (result) {
+                deferred.resolve(result);
+            }, function (error) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        };
+    }
