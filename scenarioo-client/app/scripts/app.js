@@ -50,6 +50,13 @@ angular.module('scenarioo', [
             scenarioName: '@scenarioName',
             breadcrumb: '<strong>Scenario:</strong> $param'
         })
+        .when('/object/:objectType/:objectName', {
+            templateUrl: 'views/objectOverview.html',
+            controller: 'ObjectOverviewCtrl',
+            objectType: '@objectType',
+            objectName: '@objectName',
+            breadcrumb: '<strong>@objectType:</strong> $param'
+        })
         .when('/step/:useCaseName/:scenarioName/:pageName/:pageIndex/:stepIndex', {
             templateUrl: 'views/step.html',
             controller: 'StepCtrl',
