@@ -37,10 +37,11 @@ build.dependsOn grunt_build
 war.dependsOn grunt_build
 
 bower.dependsOn npmInstall
-
+  
 grunt_build.dependsOn bower
 
 // makes sure on each build that grunt is installed
+grunt_clean.dependsOn 'installGrunt'
 grunt_build.dependsOn 'installGrunt'
 
 // processes your package.json before running grunt build
