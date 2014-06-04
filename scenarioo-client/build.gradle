@@ -18,64 +18,31 @@
 import org.gradle.api.tasks.Exec
 import org.apache.tools.ant.taskdefs.condition.Os
 
-apply plugin: 'base'
-
-task npm(type: Exec) {
-   group = "Build"
-   description = "Installs all Node.js dependencies defined in package.json"
-   commandLine = ["npm", "install"]
-   inputs.file "package.json"
-   outputs.dir "node_modules"
-}
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'node'
+apply plugin: 'grunt'
 
 task bower(type: Exec) {
-	group ="Build"
-	description = "Installs all app components defined in bower.json"
-	commandLine = ["bower", "install"]
-	inputs.file "bower.json"
+  group ="Build"
+  description = "Installs all app components defined in bower.json"
+  commandLine = ["bower", "install"]
+  inputs.file "bower.json"
 }
 
 
-class GruntTask extends Exec {
-   private String gruntExecutable = Os.isFamily(Os.FAMILY_WINDOWS) ? "grunt.cmd" : "grunt"
-   def gruntArgs = ""
-
-   public GruntTask() {
-       super()
-       this.setExecutable(gruntExecutable)
-   }
-
-   public void setGruntArgs(String gruntArgs) {
-       this.args = "$gruntArgs".trim().split(" ") as List
-   }
-}
-
-task test(type: GruntTask) {
-   group = "Verification"
-   description = "Runs the unit tests."
-   gruntArgs = "test:unit"
-}
+clean.dependsOn grunt_clean
+// runs "grunt build" as part of your gradle build
+build.dependsOn grunt_build
+war.dependsOn grunt_build
 
 
-task build(type: GruntTask) {
-   group = "Build"
-   description = "Builds the client web app."
-   gruntArgs = "build"
-}
+bower.dependsOn npmInstall
 
-task cleanApp(type: GruntTask) {
-	group = "Build"
-	description ="Cleans the client web app."
-	gruntArgs = "clean"
-}
+grunt_build.dependsOn bower
 
-clean.dependsOn cleanApp
-cleanApp.dependsOn npm
+// makes sure on each build that grunt is installed
+grunt_build.dependsOn 'installGrunt'
 
-bower.dependsOn npm
-
-build.dependsOn npm
-build.dependsOn bower
-test.dependsOn build
-
-assemble.dependsOn test
+// processes your package.json before running grunt build
+grunt_build.dependsOn 'npmInstall'
