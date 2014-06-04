@@ -19,8 +19,6 @@
 
 angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService, CustomTabContentResource, SelectedBranchAndBuild) {
 
-    var transformMetadataToTree = $filter('scMetadataTreeCreator');
-
     function getSelectedTabFromUrl() {
         var params = $location.search();
         var selectedTabId = 'undefined';
@@ -38,10 +36,10 @@ angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function
     });
 
     function loadContent() {
-        CustomTabContentResource.get(
+         CustomTabContentResource.get(
             {'branchName': $scope.selectedBranchAndBuild.branch, 'buildName': $scope.selectedBranchAndBuild.build, 'tabId': $scope.selectedTab},
             function onSuccess(result) {
-                $scope.tabContentTree = transformMetadataToTree(result.tree);
+                $scope.tabContentTree = result.tree;
             }
         );
     }

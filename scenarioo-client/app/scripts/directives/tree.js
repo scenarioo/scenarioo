@@ -23,6 +23,7 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
     var CHILDREN = 'children';
 
     function createTreeHtml(data) {
+
         if (!angular.isObject(data)) {
             return 'no data to display';
         }
