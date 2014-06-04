@@ -36,7 +36,6 @@ clean.dependsOn grunt_clean
 build.dependsOn grunt_build
 war.dependsOn grunt_build
 
-
 bower.dependsOn npmInstall
 
 grunt_build.dependsOn bower
