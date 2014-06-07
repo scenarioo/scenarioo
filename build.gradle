@@ -11,6 +11,15 @@ def getVersionName = { ->
     return stdout.toString().trim()
 }
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+		classpath 'com.moowork.gradle:gradle-node-plugin:0.4'
+        classpath 'com.moowork.gradle:gradle-grunt-plugin:0.5'
+    }
+}
 
 allprojects {
 	group = 'org.scenarioo'
