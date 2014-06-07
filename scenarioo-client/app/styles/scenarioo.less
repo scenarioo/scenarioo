@@ -367,38 +367,7 @@ div.sc-screenshot-scenario {
   font-weight: bold;
 }
 
-
-/** Modal Support with Bootstrap 3.0 - workaround according to http://stackoverflow.com/questions/18895271/angular-bootstrap-cant-get-modal-to-appear */
-
-.modal {
-  display: block;
-  height: 0;
-  overflow: visible;
-}
-
-.modal-body:before,
-.modal-body:after {
-  display: table;
-  content: " ";
-}
-
-.modal-header:before,
-.modal-header:after {
-  display: table;
-  content: " ";
-}
-
-.btn-no-hover,
-.btn-no-hover:hover,
-.btn-no-hover:focus {
-  cursor: default;
-  background: #fff;
-  border-color: #ccc;
-}
-
 /** Build Import Status Dialog (wider) **/
 .modal-wide .modal-dialog {
   width: 75%;
 }
-
-
