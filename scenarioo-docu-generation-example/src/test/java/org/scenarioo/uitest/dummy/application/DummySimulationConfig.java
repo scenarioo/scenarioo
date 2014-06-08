@@ -49,7 +49,16 @@ public enum DummySimulationConfig {
 	DEFAULT_CONFIG(),
 	DIRECT_SEARCH_CONFIG(SEARCH_RESULTS_DIRECT_PAGE),
 	AMBIGUOTIES_CONFIG(SEARCH_RESULTS_DIRECT_PAGE_WITH_AMBIGUOTIES, PAGE_CONTENTS_WITH_AMBIGUOTIES),
-	SEARCH_NOT_FOUND_CONFIG(SEARCH_RESULTS_NONE);
+	SEARCH_NOT_FOUND_CONFIG(SEARCH_RESULTS_NONE),
+	/**
+	 * A special configuration for technical corner case: only one page with only one page variant (only use in one test
+	 * case with one step!)
+	 */
+	TECHNICAL_ONE_PAGE_CONFIG,
+	/**
+	 * Special configuration to test what happens when there are no page names stored.
+	 */
+	TECHNICAL_NO_PAGE_NAMES_CONFIG;
 	
 	private static final String TYPE = "configuration";
 	
