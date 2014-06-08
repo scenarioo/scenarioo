@@ -254,7 +254,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         };
 
         $scope.isFirstPageVariantStep = function() {
-            return $scope.stepNavigation.previousStepVariant === null;
+            return angular.isUndefined($scope.stepNavigation) || $scope.stepNavigation.previousStepVariant === null;
         };
 
         $scope.goToPreviousVariant = function () {
@@ -263,7 +263,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         };
 
         $scope.isLastPageVariantStep = function() {
-            return $scope.stepNavigation.nextStepVariant === null;
+            return angular.isUndefined($scope.stepNavigation) || $scope.stepNavigation.nextStepVariant === null;
         };
 
         $scope.goToNextVariant = function () {
