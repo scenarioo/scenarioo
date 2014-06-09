@@ -18,24 +18,23 @@
 'use strict';
 
 angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scope, $location) {
+
     $scope.tabs = [
         {
             tabId: 'builds',
             title: 'Builds',
-            contentViewUrl: 'views/manage/buildsList.html',
-            active: true
+            contentViewUrl: 'views/manage/buildsList.html'
         },
         {
             tabId: 'configuration',
             title: 'Configuration',
-            contentViewUrl: 'views/manage/config.html',
-            active: false
+            contentViewUrl: 'views/manage/config.html'
         }
     ];
 
     $scope.getLazyTabContentViewUrl = function (tab) {
         // Only return the tab src as soon as tab is active
-        if (tab.active) {
+        if (tab.active === true) {
             return tab.contentViewUrl;
         }
         else {
@@ -43,8 +42,12 @@ angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scop
         }
     };
 
-    $scope.setSelectedTabInUrl = function (tabId) {
-        $location.search('tab', tabId);
+    $scope.setSelectedTabInUrl = function () {
+        angular.forEach($scope.tabs, function (tab) {
+            if (tab.active === true) {
+                $location.search('tab', tab.tabId);
+            }
+        });
     };
 
     $scope.selectTabFromUrl = function () {
@@ -52,12 +55,15 @@ angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scop
         var selectedTabId = 'undefined';
         if (params !== null && angular.isDefined(params.tab)) {
             selectedTabId = params.tab;
-            angular.forEach($scope.tabs, function (tab) {
-                if (tab.tabId === selectedTabId) {
-                    tab.active = true;
-                }
-            });
         }
+        angular.forEach($scope.tabs, function (tab) {
+            if (tab.tabId === selectedTabId) {
+                tab.active = true;
+            }
+            else {
+                tab.active = false;
+            }
+        });
     };
 
     $scope.selectTabFromUrl();
