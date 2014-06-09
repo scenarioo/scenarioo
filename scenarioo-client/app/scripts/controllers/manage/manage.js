@@ -32,19 +32,20 @@ angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scop
         }
     ];
 
-    $scope.getLazyTabContentViewUrl = function (tab) {
+    $scope.getLazyTabContentViewUrl = function (tabId) {
         // Only return the tab src as soon as tab is active
-        if (tab.active === true) {
-            return tab.contentViewUrl;
-        }
-        else {
-            return null;
-        }
+        var url = null;
+        angular.forEach($scope.tabs, function (tab) {
+            if (tab.tabId === tabId && tab.active === true) {
+                url =  tab.contentViewUrl;
+            }
+        });
+        return url;
     };
 
-    $scope.setSelectedTabInUrl = function () {
+    $scope.setSelectedTabInUrl = function (tabId) {
         angular.forEach($scope.tabs, function (tab) {
-            if (tab.active === true) {
+            if (tab.tabId === tabId && tab.active === true && $location.search().tab !== tab.tabId) {
                 $location.search('tab', tab.tabId);
             }
         });
@@ -55,16 +56,12 @@ angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scop
         var selectedTabId = 'undefined';
         if (params !== null && angular.isDefined(params.tab)) {
             selectedTabId = params.tab;
+            angular.forEach($scope.tabs, function (tab) {
+                if (tab.tabId === selectedTabId) {
+                    tab.active = true;
+                }
+            });
         }
-        angular.forEach($scope.tabs, function (tab) {
-            if (tab.tabId === selectedTabId) {
-                tab.active = true;
-            }
-            else {
-                tab.active = false;
-            }
-        });
     };
-
     $scope.selectTabFromUrl();
 });
