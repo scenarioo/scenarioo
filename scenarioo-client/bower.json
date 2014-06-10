@@ -20,6 +20,6 @@
     "angular-scenario": "~1.2.13"
   },
   "resolutions": {
-    "angular-bootstrap": "~0.10.0"
+    "es5-shim": "2.3.0"
   }
 }

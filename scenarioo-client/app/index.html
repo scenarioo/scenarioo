@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <title ng-controller="TitleCtrl" ng-bind="title">Scenarioo</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
@@ -66,6 +67,61 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div ng-view></div>
 </div>
 
+<script>
+    var toggleElements = function (object) {
+        $('tr[parent-id="' + object + '"]').each(function() {
+            fadeCascade(this.getAttribute("id")); 
+            fade(this);
+        });
+    };
+
+    var fadeCascade = function (object) {
+        $('tr[parent-id="' + object + '"]').each(function() {
+            toggleElements(this.getAttribute("id"));
+            fade(this);
+        });
+    };
+
+    var fade = function (element) {
+
+        if (element.style.display === 'none') {
+            fadeIn(element);
+        }
+        else
+        {
+            fadeOut(element);
+        }
+    };
+
+    var fadeOut = function (element) {
+        var op = 1;
+        var timer = setInterval(function () {
+            if (op <= 0.1) {
+                clearInterval(timer);
+                element.style.display = 'none';
+            }
+
+            element.style.opacity = op;
+            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            op -= op * 0.1;
+        }, 50);
+    }
+
+    var fadeIn = function (element) {
+        var op = -1;
+        var timer = setInterval(function () {
+            if (op >= 0.1) {
+                clearInterval(timer);
+                element.style.display = 'block';
+            }
+
+            element.style.opacity = op;
+            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            op += op * 0.1;
+        }, 50);
+    }
+</script>
+
 <script src="components/angular/angular.js"></script>
 <script src="components/angular-resource/angular-resource.js"></script>
 <script src="components/angular-sanitize/angular-sanitize.js"></script>
@@ -76,8 +132,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="components/angular-i18n/angular-locale_en-us.js"></script>
 <script src="components/angular-i18n/angular-locale_de-de.js"></script>
 <script src="components/angular-i18n/angular-locale_de-ch.js"></script>
-
-<!--<script src="components/angular-bootstrap/ui-bootstrap.js"></script>-->
+<script src="components/jquery/dist/jquery.min.js"></script>
+<script src="components/jquery-treetable/javascripts/src/jquery.treetable.js"></script>
+<script src="components/angular-ui-tree/dist/angular-ui-tree.js"></script>
 
 <!-- build:js scripts/js-beautify.js -->
 <!--<script src="third-party/js-beautify/js/lib/beautify-html.js"></script>-->
@@ -121,5 +178,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="scripts/services/applicationInfoPopup.js"></script>
 <!-- endbuild -->
 
-</body>
+ </body>
 </html>

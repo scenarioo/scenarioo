@@ -19,6 +19,8 @@
 
 angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService, CustomTabContentResource, SelectedBranchAndBuild) {
 
+    $scope.rowId;
+
     function getSelectedTabFromUrl() {
         var params = $location.search();
         var selectedTabId = 'undefined';
@@ -42,6 +44,16 @@ angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function
                 $scope.tabContentTree = result.tree;
             }
         );
+    }
+
+    $scope.selectedTab = {search: {$: ''}, sort: {column: 'name', reverse: false}};
+
+    $scope.resetSearchField = function () {
+        $scope.selectedTab.search = {searchTerm: ''};
+    };
+
+    $scope.myFunctions = function(object) {
+        alert("");
     }
 
 });

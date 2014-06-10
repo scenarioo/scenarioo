@@ -1,5 +1,34 @@
-<div ng-controller="MainCustomTabCtrl">
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
 
-    <sc-filterable-table-tree data="tabContentTree"></sc-filterable-table-tree>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-</div>
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+ <div ng-controller="MainCustomTabCtrl">
+	  <div class="row sc-space-top sc-space-bottom">
+	    <div class="col-lg-3">
+	        <div class="input-group">
+	            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip" title="type words separated by spaces to search for" ng-model="tabContentTree.search.searchTerm" placeholder="Search item"/>
+	            <span class="input-group-btn">
+	                <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
+	            </span>
+	        </div>
+	    </div>
+	    <div class="col-lg-9">
+	    </div>
+	</div>
+
+	<sc-filterable-table-tree data="tabContentTree"></sc-filterable-table-tree>
+
+</div> 
