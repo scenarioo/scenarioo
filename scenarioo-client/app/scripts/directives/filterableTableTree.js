@@ -26,7 +26,8 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 return 'no data to display';
             }
             else if (angular.isObject(data) && angular.isArray(data)) {
-                var tableHtml = '<table id="treeviewtable" ng-table="tableParams" class="table table-curved table-hover table-responsive usecase-table ng-isolate-scope ng-pristine ng-valid"><tr><th>Name</th><th>Type</th><th>Description</th></tr>';
+                var tableHtml = '<table id="treeviewtable" ng-table="tableParams" class="table table-curved table-hover table-responsive usecase-table ng-isolate-scope ng-pristine ng-valid">' +
+                    '<tr><th>Name</th><th>Type</th><th>Description</th></tr>';
                 var indentation = 1;
                 var parentId = 1;
 
@@ -36,7 +37,8 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     tableHtml += getChildNode(value.children, indentation, parentId);
                 });
 
-                return tableHtml += '</table>';
+                return tableHtml += '</div>' +
+                    '</table>';
             }
 
             return tableHtml;
@@ -73,7 +75,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     parentAttribute = ' parent-id="' + parentId + '"';
                 }
 
-                var rowHtml = '<tr onClick="toggleElements(this.getAttribute(&quot;id&quot;))" id="' + $controller.rowId + '"' + parentAttribute + '>';
+                var rowHtml = '<tr isVisible="true" onClick="toggleElements(this)" id="' + $controller.rowId + '"' + parentAttribute + '>';
 
                 if (angular.isDefined(value.item.name)) {
                     rowHtml += '<td>' + getHtmlIndent(value.item.name, indentation) + '</td>';
@@ -87,7 +89,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     rowHtml += '<td>' + value.details.description + '</td>';
                 }
 
-                return rowHtml += '</tr>';
+                return rowHtml += '<div></tr>';
 
             }
         }
@@ -112,16 +114,15 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
         return {
             restrict: 'E',
             scope: {
-                data: '=data',
+                data: '=data'
             },
-            template: '<div ng-bind-html="treeHtml" class="sc-filter-tree"></div>',
+            template: '<div ng-bind-html="treeHtml">{{treeHtml}}</div>',
             replace: true,
 
             link: function (scope, elem, attrs, ctrl) {
                 $controller.rowId = 1;
                 scope.$watch('data', function (newData) {
-                    // there is no 'ng-bind-html-unsafe' anymore. we use Strict Contextual Escaping, see
-                    // http://docs.angularjs.org/api/ng/service/$sce for more information
+
                     scope.treeHtml = $sce.trustAsHtml(createTreeHtml(newData));
                 });
 

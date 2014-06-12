@@ -46,14 +46,13 @@ angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function
         );
     }
 
-    $scope.selectedTab = {search: {$: ''}, sort: {column: 'name', reverse: false}};
+    $scope.searchField;
+
+    $scope.treeHtml = {search: {$: ''}, sort: {column: 'Name', reverse: false}};
 
     $scope.resetSearchField = function () {
-        $scope.selectedTab.search = {searchTerm: ''};
+        $scope.treeHtml.search = {searchTerm: ''};
     };
 
-    $scope.myFunctions = function(object) {
-        alert("");
-    }
 
 });

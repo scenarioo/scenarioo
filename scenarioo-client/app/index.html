@@ -68,58 +68,58 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 </div>
 
 <script>
-    var toggleElements = function (object) {
-        $('tr[parent-id="' + object + '"]').each(function() {
-            fadeCascade(this.getAttribute("id")); 
-            fade(this);
-        });
-    };
+    function toggleElements(element) {
+        var parentId = element.getAttribute("id");
+        var parentIsVisible = element.getAttribute("isVisible");
 
-    var fadeCascade = function (object) {
-        $('tr[parent-id="' + object + '"]').each(function() {
-            toggleElements(this.getAttribute("id"));
-            fade(this);
-        });
-    };
-
-    var fade = function (element) {
-
-        if (element.style.display === 'none') {
-            fadeIn(element);
+        // Invert visibility
+        if (parentIsVisible == "true") {
+            parentIsVisible = "false";
         }
-        else
+        else if(parentIsVisible == 'false')
         {
-            fadeOut(element);
+            parentIsVisible = 'true';
         }
+
+        cascadeElements(parentId, parentIsVisible);
+        element.setAttribute("isVisible", parentIsVisible);
     };
 
-    var fadeOut = function (element) {
+    function cascadeElements(parentId, parentHideShowRow) {
+        $('tr[parent-id="' + parentId + '"]').each(function() {
+
+            if (parentHideShowRow == "true") {
+
+                toggleInElement(this);
+                cascadeElements(this.getAttribute("id"), parentHideShowRow);
+            }
+            else if (parentHideShowRow == "false") {
+                fadeOutElement(this); 
+                cascadeElements(this.getAttribute("id"), parentHideShowRow);   
+            }
+
+            this.setAttribute("isVisible", parentHideShowRow);
+        });
+    }
+
+    function fadeOutElement(element) {
         var op = 1;
         var timer = setInterval(function () {
-            if (op <= 0.1) {
+            if (op <= 0.5) {
                 clearInterval(timer);
                 element.style.display = 'none';
             }
 
             element.style.opacity = op;
-            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            element.style.filter = 'alpha(opacity=' + op * 100 + ')';
             op -= op * 0.1;
         }, 50);
-    }
+    };
 
-    var fadeIn = function (element) {
-        var op = -1;
-        var timer = setInterval(function () {
-            if (op >= 0.1) {
-                clearInterval(timer);
-                element.style.display = 'block';
-            }
-
-            element.style.opacity = op;
-            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
-            op += op * 0.1;
-        }, 50);
-    }
+    function toggleInElement(element) {
+        element.style.display = '';
+        element.style.opacity = '100';
+    };
 </script>
 
 <script src="components/angular/angular.js"></script>
@@ -150,6 +150,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="scripts/services/config.js"></script>
 <script src="scripts/services/restServices.js"></script>
 <script src="scripts/services/selectedBranchAndBuild.js"></script>
+<script src="scripts/services/applicationInfoPopup.js"></script>
 <script src="scripts/directives/breadcrumbs.js"></script>
 <script src="scripts/directives/sortableColumn.js"></script>
 <script src="scripts/directives/tree.js"></script>
@@ -175,7 +176,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="scripts/filters/metadataTreeCreator.js"></script>
 <script src="scripts/filters/metadataTreeListCreator.js"></script>
 <script src="scripts/filters/dateTime.js"></script>
-<script src="scripts/services/applicationInfoPopup.js"></script>
 <!-- endbuild -->
 
  </body>
