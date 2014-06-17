@@ -25,121 +25,116 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * The configuration for the server and the client.
+ * Configuration datastrusture for scenarioo webapplication configuration.
+ * 
+ * The default values are stored in the following file: file src/main/resources/
+ * 
+ * Please make sure that any changes to this class will not brake backward-compatibility with old config files. As well
+ * ensure to provide meaningful default values in above mentioned config.xml for new configuration properties.
+ * 
+ * The defaults provided directly inside this class or only defaults used for testing purpose.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Configuration {
-
+	
 	public static final String DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD = "most recent";
 	public static final String DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD = "last successful";
-
+	
 	private String testDocumentationDirPath;
-
+	
 	private String defaultBranchName = "trunk";
-
+	
 	private String defaultBuildName = DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD;
-
+	
 	private String aliasForMostRecentBuild = DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD;
-
+	
 	private String aliasForLastSuccessfulBuild = DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD;
-
-	private String buildStatusForSuccessfulBuilds = "success";
-
+	
 	private String scenarioPropertiesInOverview;
-
+	
 	private String applicationName = "";
-
+	
 	private String applicationInformation = "";
-
+	
 	private Map<String, String> buildstates = new HashMap<String, String>();
-
+	
 	public String getTestDocumentationDirPath() {
 		return testDocumentationDirPath;
 	}
-
-	public void setTestDocumentationDirPath(String testDocumentationDirPath) {
+	
+	public void setTestDocumentationDirPath(final String testDocumentationDirPath) {
 		this.testDocumentationDirPath = testDocumentationDirPath;
 	}
-
+	
 	public String getDefaultBranchName() {
 		return defaultBranchName;
 	}
-
-	public void setDefaultBranchName(String defaultBranchName) {
+	
+	public void setDefaultBranchName(final String defaultBranchName) {
 		this.defaultBranchName = defaultBranchName;
 	}
-
+	
 	public String getDefaultBuildName() {
 		return defaultBuildName;
 	}
-
-	public void setDefaultBuildName(String defaultBuildName) {
+	
+	public void setDefaultBuildName(final String defaultBuildName) {
 		this.defaultBuildName = defaultBuildName;
 	}
-
+	
 	public String getAliasForMostRecentBuild() {
 		return aliasForMostRecentBuild;
 	}
-
-	public void setAliasForMostRecentBuild(String aliasForMostRecentBuild) {
+	
+	public void setAliasForMostRecentBuild(final String aliasForMostRecentBuild) {
 		this.aliasForMostRecentBuild = aliasForMostRecentBuild;
 	}
-
+	
 	public String getAliasForLastSuccessfulBuild() {
 		return aliasForLastSuccessfulBuild;
 	}
-
+	
 	public void setAliasForLastSuccessfulBuild(
-			String aliasForLastSuccessfulBuild) {
+			final String aliasForLastSuccessfulBuild) {
 		this.aliasForLastSuccessfulBuild = aliasForLastSuccessfulBuild;
 	}
-
-	public String getBuildStatusForSuccessfulBuilds() {
-		return buildStatusForSuccessfulBuilds;
-	}
-
-	public void setBuildStatusForSuccessfulBuilds(
-			String buildStatusForSuccessfulBuilds) {
-		this.buildStatusForSuccessfulBuilds = buildStatusForSuccessfulBuilds;
-	}
-
+	
 	public String getScenarioPropertiesInOverview() {
 		return scenarioPropertiesInOverview;
 	}
-
+	
 	public void setScenarioPropertiesInOverview(
-			String scenarioPropertiesInOverview) {
+			final String scenarioPropertiesInOverview) {
 		this.scenarioPropertiesInOverview = scenarioPropertiesInOverview;
 	}
-
+	
 	public String getApplicationName() {
 		return applicationName;
 	}
-
+	
 	/**
-	 * The name of the application that is documented by this Scenarioo
-	 * installation. It's displayed in the browser's title bar and in the
-	 * navigation bar of Scenarioo.
+	 * The name of the application that is documented by this Scenarioo installation. It's displayed in the browser's
+	 * title bar and in the navigation bar of Scenarioo.
 	 */
-	public void setApplicationName(String applicationName) {
+	public void setApplicationName(final String applicationName) {
 		this.applicationName = applicationName;
 	}
-
+	
 	public String getApplicationInformation() {
 		return applicationInformation;
 	}
-
-	public void setApplicationInformation(String applicationInformation) {
+	
+	public void setApplicationInformation(final String applicationInformation) {
 		this.applicationInformation = applicationInformation;
 	}
-
+	
 	public Map<String, String> getBuildstates() {
 		return buildstates;
 	}
-
-	public void setBuildstates(Map<String, String> buildstates) {
+	
+	public void setBuildstates(final Map<String, String> buildstates) {
 		this.buildstates = buildstates;
 	}
-
+	
 }
