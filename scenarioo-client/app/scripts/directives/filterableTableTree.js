@@ -26,7 +26,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 return 'no data to display';
             }
             else if (angular.isObject(data) && angular.isArray(data)) {
-                var tableHtml = '<table id="treeviewtable" ng-table="tableParams" class="table table-curved table-hover table-responsive usecase-table ng-isolate-scope ng-pristine ng-valid">' +
+                var tableHtml = '<table id="treeviewtable" ng-table="tableParams" class="treeView table table-curved table-hover table-responsive usecase-table ng-isolate-scope ng-pristine ng-valid"">' +
                     '<tr><th>Name</th><th>Type</th><th>Description</th></tr>';
                 var indentation = 1;
                 var parentId = 1;
@@ -99,7 +99,12 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             var indentHtml = '';
 
             for (var i = 0; i < indentation; i++) {
-                indentHtml += '<ul>';
+                if ((i + 1) == indentation) {
+                    indentHtml += '<ul class="collapsibleListOpen">';
+                }
+                else {
+                    indentHtml += '<ul>';
+                }
             }
 
             indentHtml += htmlElementToIndent;

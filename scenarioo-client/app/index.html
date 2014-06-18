@@ -81,39 +81,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             parentIsVisible = 'true';
         }
 
-        cascadeElements(parentId, parentIsVisible);
+        cascadeElements(element, parentId, parentIsVisible);
         element.setAttribute("isVisible", parentIsVisible);
     };
 
-    function cascadeElements(parentId, parentHideShowRow) {
+    function cascadeElements(parentElement, parentId, parentVisibility) {
+        var hasChildren = false;
+
         $('tr[parent-id="' + parentId + '"]').each(function() {
+            hasChildren = true;
 
-            if (parentHideShowRow == "true") {
-
+            if (parentVisibility == "true") {
                 toggleInElement(this);
-                cascadeElements(this.getAttribute("id"), parentHideShowRow);
+                cascadeElements(this, this.getAttribute("id"), parentVisibility);
             }
-            else if (parentHideShowRow == "false") {
-                fadeOutElement(this); 
-                cascadeElements(this.getAttribute("id"), parentHideShowRow);   
+            else if (parentVisibility == "false") {
+                toggleOutElement(this);
+                cascadeElements(this, this.getAttribute("id"), parentVisibility);
             }
 
-            this.setAttribute("isVisible", parentHideShowRow);
+            this.setAttribute("isVisible", parentVisibility);
         });
+
+        if (!hasChildren) {
+            parentElement.lastChild.className = "collapsibleListNone";
+        }
     }
 
-    function fadeOutElement(element) {
-        var op = 1;
-        var timer = setInterval(function () {
-            if (op <= 0.5) {
-                clearInterval(timer);
-                element.style.display = 'none';
-            }
-
-            element.style.opacity = op;
-            element.style.filter = 'alpha(opacity=' + op * 100 + ')';
-            op -= op * 0.1;
-        }, 50);
+    function toggleOutElement(element) {
+        element.style.display = 'none';
+        element.style.opacity = '0';
     };
 
     function toggleInElement(element) {
