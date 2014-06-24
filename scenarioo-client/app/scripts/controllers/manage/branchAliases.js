@@ -23,7 +23,16 @@ angular.module('scenarioo.controllers').controller('BranchAliasesCtrl', function
     loadBranchAliases();
 
     BranchesResource.query({}, function (branches) {
-        $scope.branches = branches;
+        var branchesWithoutAliases = [];
+        var index;
+        for(index = 0; index < branches.length; index++) {
+            var branch = branches[index];
+            if(!branch.alias) {
+                branchesWithoutAliases.push(branch);
+            }
+        }
+
+        $scope.branches = branchesWithoutAliases;
     });
 
     $scope.deleteEntry = function (aliasName) {
