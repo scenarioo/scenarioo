@@ -102,7 +102,7 @@ public class AvailableBuildsList {
 	private synchronized void updateBuilds(final List<BranchBuilds> result) {
 		this.branchBuildsList = result;
 		
-		createBuildsFromAliases();
+		createBranchesFromAliases();
 		
 		branchBuildsByBranchName.clear();
 		for (BranchBuilds branchBuilds : branchBuildsList) {
@@ -110,7 +110,7 @@ public class AvailableBuildsList {
 		}
 	}
 	
-	private void createBuildsFromAliases() {
+	private void createBranchesFromAliases() {
 		Configuration configuration = ConfigurationDAO.getConfiguration();
 		List<BranchAlias> branchAliases = configuration.getBranchAliases();
 		for (BranchAlias branchAlias : branchAliases) {
@@ -119,6 +119,7 @@ public class AvailableBuildsList {
 			branchBuildsAlias.setBuilds(branchWithBuilds.getBuilds());
 			Branch branch = new Branch(branchAlias.getName(), branchWithBuilds.getBranch().getName());
 			branchBuildsAlias.setBranch(branch);
+			branchBuildsAlias.setAlias(true);
 			branchBuildsList.add(branchBuildsAlias);
 		}
 	}
