@@ -155,3 +155,7 @@ angular.module('scenarioo.services').factory('ObjectsForTypeResource', function 
 angular.module('scenarioo.services').factory('VersionResource', function (ScenariooResource) {
     return ScenariooResource('/version', {}, {});
 });
+
+angular.module('scenarioo.services').factory('BranchAliasesResource', function (ScenariooResource) {
+    return ScenariooResource('/branchaliases', {}, {});
+});
