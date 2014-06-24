@@ -81,7 +81,6 @@ BranchAliasesPage.prototype.updateAlias = function(rowIndex, newAlias, reference
 
 BranchAliasesPage.prototype.assertAlias = function(rowIndex, expectedAlias, referencedBuildIndex, expectedDescription) {
     this.branchAliasTable.findElements(by.css('tbody tr')).then(function(elements) {
-        console.log('num rows ' + elements.length);
         var row = elements[rowIndex];
         var aliasNameField = row.findElement(by.css('input[name="aliasName"]'));
         var referencedBranchField = row.findElement(by.css('select[name="referencedBranch"]'));
@@ -92,5 +91,11 @@ BranchAliasesPage.prototype.assertAlias = function(rowIndex, expectedAlias, refe
 
     });
 };
+
+BranchAliasesPage.prototype.assertDuplicateAliasError = function() {
+    expect(element(by.id('duplicateAlisErrorId')).isPresent()).toBe(true);
+};
+
+
 
 module.exports = BranchAliasesPage;

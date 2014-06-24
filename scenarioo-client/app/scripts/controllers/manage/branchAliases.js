@@ -22,33 +22,26 @@ angular.module('scenarioo.controllers').controller('BranchAliasesCtrl', function
 
     loadBranchAliases();
 
-    BranchesResource.query({}, function(branches) {
+    BranchesResource.query({}, function (branches) {
         $scope.branches = branches;
     });
 
-    $scope.$on(Config.CONFIG_LOADED_EVENT, function() {
-        $scope.configuration = Config.getRawConfigDataCopy();
-    });
-
-    Config.load();
-
-    $scope.deleteEntry = function(aliasName) {
-      if(aliasName !== '') {
-          var index;
-          for(index = 0; index < $scope.branchAliases.length; index++) {
-            var branchAlias = $scope.branchAliases[index];
-            if(branchAlias.name === aliasName) {
-                console.log('found entry!');
-                $scope.branchAliases.splice(index, 1);
-                break;
+    $scope.deleteEntry = function (aliasName) {
+        if (aliasName !== '') {
+            var index;
+            for (index = 0; index < $scope.branchAliases.length; index++) {
+                var branchAlias = $scope.branchAliases[index];
+                if (branchAlias.name === aliasName) {
+                    $scope.branchAliases.splice(index, 1);
+                    break;
+                }
             }
-          }
-      }
+        }
     };
 
-    $scope.aliasNameChanged = function() {
-        var aliasName = $scope.branchAliases[$scope.branchAliases.length -1].name;
-        if(aliasName !== '') {
+    $scope.aliasNameChanged = function () {
+        var aliasName = $scope.branchAliases[$scope.branchAliases.length - 1].name;
+        if (aliasName !== '') {
             $scope.branchAliases.push(createEmptyAlias());
         }
     };
@@ -60,38 +53,38 @@ angular.module('scenarioo.controllers').controller('BranchAliasesCtrl', function
         });
     }
 
-    $scope.reset = function() {
+    $scope.reset = function () {
         loadBranchAliases();
     };
 
-    $scope.save = function() {
+    $scope.save = function () {
         $scope.uniqueError = false;
-        $scope.successfullyUpdatedBranchAliases=false;
+        $scope.successfullyUpdatedBranchAliases = false;
 
         var branchAliasesToSave = [];
         var index;
-        for(index = 0; index < $scope.branchAliases.length; index++) {
+        for (index = 0; index < $scope.branchAliases.length; index++) {
             var branchAlias = $scope.branchAliases[index];
-            if(branchAlias.name !== '') {
+            if (branchAlias.name !== '') {
                 branchAliasesToSave.push(branchAlias);
             }
         }
 
-        if(areBuildAliasesUnique(branchAliasesToSave) === false) {
+        if (areBuildAliasesUnique(branchAliasesToSave) === false) {
             $scope.uniqueError = true;
             return;
         }
 
         BranchAliasesResource.save(branchAliasesToSave);
 
-        $scope.successfullyUpdatedBranchAliases=true;
+        $scope.successfullyUpdatedBranchAliases = true;
     };
 
-    var areBuildAliasesUnique = function(buildAliases) {
+    var areBuildAliasesUnique = function (buildAliases) {
         var unique = true;
         var aliasesMap = {};
-        angular.forEach(buildAliases, function(buildAlias) {
-            if(aliasesMap[buildAlias.name] === undefined) {
+        angular.forEach(buildAliases, function (buildAlias) {
+            if (aliasesMap[buildAlias.name] === undefined) {
                 aliasesMap[buildAlias.name] = '';
             } else {
                 unique = false;

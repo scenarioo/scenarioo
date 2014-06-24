@@ -8,8 +8,7 @@ scenarioo.describeUseCase('Manage', function () {
         var homePage = new pages.homePage();
         var branchAliasesPage = new pages.branchAliasesPage();
 
-        browser.get('#/manage?tab=buildAliases');
-        homePage.closeScenariooInfoDialog();
+        browser.get('#/manage?tab=branchAliases');
 
         branchAliasesPage.assertNumberOfAliases(0);
         branchAliasesPage.enterAlias('Test Alias 1', 0, 'my description 1');
@@ -30,10 +29,11 @@ scenarioo.describeUseCase('Manage', function () {
 
         branchAliasesPage.updateAlias(0, 'updated alias', 0, 'updated description');
         branchAliasesPage.save();
-        browser.debugger();
-        browser.get('#/manage?tab=buildAliases');
-        browser.debugger();
+        browser.get('#/manage?tab=branchAliases');
         branchAliasesPage.assertAlias(0, 'updated alias', 0, 'updated description');
 
+        branchAliasesPage.enterAlias('updated alias', 0, 'duplicate alias name');
+        branchAliasesPage.save();
+        branchAliasesPage.assertDuplicateAliasError();
     });
 });
