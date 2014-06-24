@@ -1,0 +1,41 @@
+<div ng-controller="BranchAliasesCtrl">
+
+
+    <table class="table table-curved table-hover table-responsive" >
+        <thead>
+        <tr>
+            <th>Alias name</th>
+            <th>Referenced build</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <input type="text" class="ng-pristine ng-valid  form-control" />
+                </td>
+                <td>
+                    <select ng-model="configuration.defaultBranchName"
+                            ng-options="branch.branch.name as branch.branch.name for branch in branches"
+                            class="form-control"></select>
+                </td>
+                <td>
+                    <input type="text" class="ng-pristine ng-valid  form-control" />
+                </td>
+                <td>
+                    <input type="button" class="btn btn-small btn-danger" value="Delete" />
+                    <input type="button" class="btn btn-small btn-success" value="Add..." />
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="row sc-space-top-large">
+        <div class="col-lg-12" style="text-align: right">
+            <input type="button" value="Reset" class="btn btn-wide btn-default"/>
+            <input type="button" value="Save" class="btn btn-wide btn-primary"/>
+        </div>
+    </div>
+</div>
