@@ -67,58 +67,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div ng-view></div>
 </div>
 
-<script>
-    function toggleElements(element) {
-        var parentId = element.getAttribute("id");
-        var parentIsVisible = element.getAttribute("isVisible");
-
-        // Invert visibility
-        if (parentIsVisible == "true") {
-            parentIsVisible = "false";
-        }
-        else if(parentIsVisible == 'false')
-        {
-            parentIsVisible = 'true';
-        }
-
-        cascadeElements(element, parentId, parentIsVisible);
-        element.setAttribute("isVisible", parentIsVisible);
-    };
-
-    function cascadeElements(parentElement, parentId, parentVisibility) {
-        var hasChildren = false;
-
-        $('tr[parent-id="' + parentId + '"]').each(function() {
-            hasChildren = true;
-
-            if (parentVisibility == "true") {
-                toggleInElement(this);
-                cascadeElements(this, this.getAttribute("id"), parentVisibility);
-            }
-            else if (parentVisibility == "false") {
-                toggleOutElement(this);
-                cascadeElements(this, this.getAttribute("id"), parentVisibility);
-            }
-
-            this.setAttribute("isVisible", parentVisibility);
-        });
-
-        if (!hasChildren) {
-            parentElement.lastChild.className = "collapsibleListNone";
-        }
-    }
-
-    function toggleOutElement(element) {
-        element.style.display = 'none';
-        element.style.opacity = '0';
-    };
-
-    function toggleInElement(element) {
-        element.style.display = '';
-        element.style.opacity = '100';
-    };
-</script>
-
 <script src="components/angular/angular.js"></script>
 <script src="components/angular-resource/angular-resource.js"></script>
 <script src="components/angular-sanitize/angular-sanitize.js"></script>
@@ -130,8 +78,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="components/angular-i18n/angular-locale_de-de.js"></script>
 <script src="components/angular-i18n/angular-locale_de-ch.js"></script>
 <script src="components/jquery/dist/jquery.min.js"></script>
-<script src="components/jquery-treetable/javascripts/src/jquery.treetable.js"></script>
-<script src="components/angular-ui-tree/dist/angular-ui-tree.js"></script>
 
 <!-- build:js scripts/js-beautify.js -->
 <!--<script src="third-party/js-beautify/js/lib/beautify-html.js"></script>-->
@@ -154,6 +100,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="scripts/directives/filterableTableTree.js"></script>
 <script src="scripts/directives/staticInclude.js"></script>
 <script src="scripts/directives/navigatorTable.js"></script>
+<script src="scripts/directives/debounce.js"></script>
 <script src="scripts/controllers/navigation.js"></script>
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/controllers/mainUseCasesTab.js"></script>

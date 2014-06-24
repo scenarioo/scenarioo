@@ -19,8 +19,6 @@
 
 angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService, CustomTabContentResource, SelectedBranchAndBuild) {
 
-    $scope.rowId;
-
     function getSelectedTabFromUrl() {
         var params = $location.search();
         var selectedTabId = 'undefined';

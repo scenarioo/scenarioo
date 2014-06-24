@@ -17,120 +17,97 @@
 
 'use strict';
 
-angular.module('scenarioo.directives').directive('scFilterableTableTree', function ($sce, $controller) {
+angular.module('scenarioo.directives').directive('scFilterableTableTree', function () {
+    return {
+        restrict: 'AE',
+        scope: {
+            treedata: '=',
+            filter: "="
+        },
+        templateUrl: 'template/treeview.html',
+        link: function (scope, elem, attrs) {
+            scope.treemodel = [];
 
-        // Need to be clarified: This part will be called multiple times, why?? (One time without any data, second time with data)
-        function createTreeHtml(data) {
-
-            if (!angular.isObject(data)) {
-                return 'no data to display';
-            }
-            else if (angular.isObject(data) && angular.isArray(data)) {
-                var tableHtml = '<table id="treeviewtable" ng-table="tableParams" class="treeView table table-curved table-hover table-responsive usecase-table ng-isolate-scope ng-pristine ng-valid"">' +
-                    '<tr><th>Name</th><th>Type</th><th>Description</th></tr>';
-                var indentation = 1;
-                var parentId = 1;
+            function buildTreeModel(data, filter){
+                scope.treemodel = [];
+                scope.nodeFilter = filter;
 
                 angular.forEach(data, function (value, index) {
-                    parentId = $controller.rowId;
-                    tableHtml += createTableRowHtml(value, indentation, parentId);
-                    tableHtml += getChildNode(value.children, indentation, parentId);
+                    createNode(value, 0, index);
                 });
-
-                return tableHtml += '</div>' +
-                    '</table>';
             }
 
-            return tableHtml;
-        }
+            function createNode(node, level, id, parent){
+                var newNode = {
+                    'id': id,
+                    'name': node.item.name,
+                    'type': node.item.type,
+                    'description': node.details.description,
+                    'searchFields': [node.item.name, node.item.type, node.details.description],
+                    'level': level,
+                    'children': [],
+                    'isCollapsed': true,
+                    'isVisible': false}
 
-        function getChildNode(childdata, indentation, parentId) {
-            indentation += 1;
-
-            if (!angular.isObject(childdata)) {
-                return 'no data to display';
-            }
-            else if (angular.isObject(childdata) && angular.isArray(childdata)) {
-                var rowHtml = '';
+                if (newNode.level == 0) {
+                    newNode.isCollapsed = true;                    
+                    newNode.isVisible = true;
+                }
                 
-                parentId = $controller.rowId;
-                $controller.rowId += 1;
+                if (angular.isUndefined(scope.nodeFilter) || scope.nodeFilter == "") {
+                    scope.treemodel.push(newNode);
+                }
+                else if (nodeFilter(newNode.searchFields, scope.nodeFilter)){
+                    scope.treemodel.push(newNode);
+                }
 
-                angular.forEach(childdata, function (value, index) {
-                    rowHtml += createTableRowHtml(value, indentation, parentId);
-                    rowHtml += getChildNode(value.children, indentation, parentId);
+                if (parent) {
+                    parent.children.push(newNode.id, newNode.isVisible);
+                }
+                
+                angular.forEach(node.children, function (value, index) {
+                    createNode(value, level + 1, id + "_" + index, newNode);
                 });
+            };
 
-                return rowHtml;
-            }
-        }
+            scope.toggleCollapse = function(index){
+                var rootNode = scope.treemodel[index];
 
-        function createTableRowHtml(value, indentation, parentId) {
+                rootNode.isCollapsed = !rootNode.isCollapsed;
+                setCollapseChildren(rootNode, rootNode.isCollapsed);
+            };
 
-            if (angular.isDefined(value)) {
+            function setCollapseChildren(rootnode, parentIsCollapsed) {
+                angular.forEach(scope.treemodel, function(node, index) {
+                    var isThisNodeChildOfRootNode = rootnode.children.indexOf(node.id) > -1;
 
-                var parentAttribute = '';
-                if ($controller.rowId != parentId)
-                {
-                    parentAttribute = ' parent-id="' + parentId + '"';
-                }
-
-                var rowHtml = '<tr isVisible="true" onClick="toggleElements(this)" id="' + $controller.rowId + '"' + parentAttribute + '>';
-
-                if (angular.isDefined(value.item.name)) {
-                    rowHtml += '<td>' + getHtmlIndent(value.item.name, indentation) + '</td>';
-                }
-
-                if (angular.isDefined(value.item.type)) {
-                    rowHtml += '<td>' + value.item.type + '</td>';
-                }
-
-                if (angular.isDefined(value.details.description)) {
-                    rowHtml += '<td>' + value.details.description + '</td>';
-                }
-
-                return rowHtml += '<div></tr>';
-
-            }
-        }
-
-        function getHtmlIndent(htmlElementToIndent, indentation) {
-
-            var indentHtml = '';
-
-            for (var i = 0; i < indentation; i++) {
-                if ((i + 1) == indentation) {
-                    indentHtml += '<ul class="collapsibleListOpen">';
-                }
-                else {
-                    indentHtml += '<ul>';
-                }
-            }
-
-            indentHtml += htmlElementToIndent;
-
-            for (var i = 0; i < indentation; i++) {
-                indentHtml += '</ul>';
-            }
-
-            return indentHtml;
-        }
-
-        return {
-            restrict: 'E',
-            scope: {
-                data: '=data'
-            },
-            template: '<div ng-bind-html="treeHtml">{{treeHtml}}</div>',
-            replace: true,
-
-            link: function (scope, elem, attrs, ctrl) {
-                $controller.rowId = 1;
-                scope.$watch('data', function (newData) {
-
-                    scope.treeHtml = $sce.trustAsHtml(createTreeHtml(newData));
+                    if (isThisNodeChildOfRootNode) {
+                        node.isVisible = !parentIsCollapsed;
+                        node.isCollapsed = parentIsCollapsed;
+                        setCollapseChildren(node, node.isCollapsed);
+                    }
                 });
-
             }
-    }
+
+            function nodeFilter(searchFields, filter) {
+                var filterPattern = filter.toUpperCase();
+                var match = false;
+                var filters = filterPattern.split(" ");
+                var filterMatches = [];
+
+                for (var filter in filters) {
+                    for (var field in searchFields) {
+                        match = (searchFields[field].toUpperCase().indexOf(filters[filter]) > -1);
+                        return match;
+                    }
+                };
+
+                return match;
+            }
+
+            scope.$watchCollection('[treedata, filter]', function(newValues) {
+                buildTreeModel(newValues[0], newValues[1]);
+            });
+        }
+    };
 });

@@ -19,8 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	  <div class="row sc-space-top sc-space-bottom">
 	    <div class="col-lg-3">
 	        <div class="input-group">
-	            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip" title="Enter words separated by spaces to search for"
-                       ng-model="searchField" placeholder="Search item"/>
+	            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip" title="type words separated by spaces to search for"
+                    ng-model="searchField" placeholder="Search item" data-debounce/>
 	            <span class="input-group-btn">
 	                <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
 	            </span>
@@ -30,6 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	    </div>
 	</div>
 
-	<sc-filterable-table-tree data="tabContentTree">{{treeHtml}}</sc-filterable-table-tree>
+	<div data-sc-filterable-table-tree data-filter="searchField" data-treedata="tabContentTree"></div>
 
 </div> 
