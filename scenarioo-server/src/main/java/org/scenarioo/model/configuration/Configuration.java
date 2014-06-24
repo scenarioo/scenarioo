@@ -18,6 +18,8 @@
 package org.scenarioo.model.configuration;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -53,7 +55,9 @@ public class Configuration {
 	private String applicationInformation = "";
 
 	private Map<String, String> buildstates = new HashMap<String, String>();
-
+	
+	private List<BranchAlias> branchAliases = new LinkedList<>();
+	
 	public String getTestDocumentationDirPath() {
 		return testDocumentationDirPath;
 	}
@@ -140,6 +144,17 @@ public class Configuration {
 
 	public void setBuildstates(Map<String, String> buildstates) {
 		this.buildstates = buildstates;
+	}
+
+	public List<BranchAlias> getBranchAliases() {
+		if(branchAliases == null) {
+			branchAliases = new LinkedList<>();
+		}
+		return branchAliases;
+	}
+
+	public void setBranchAliases(List<BranchAlias> buildAliases) {
+		this.branchAliases = buildAliases;
 	}
 
 }
