@@ -9,11 +9,13 @@ scenarioo.describeUseCase('Manage', function () {
         var branchAliasesPage = new pages.branchAliasesPage();
 
         browser.get('#/manage?tab=branchAliases');
+        scenarioo.docuWriter.saveStep('display the manage branch aliases page');
 
         branchAliasesPage.assertNumberOfAliases(0);
         branchAliasesPage.enterAlias('Test Alias 1', 0, 'my description 1');
         branchAliasesPage.enterAlias('Test Alias 2', 0, 'my description 2');
         branchAliasesPage.save();
+        scenarioo.docuWriter.saveStep('add build aliases');
         branchAliasesPage.reset();
         branchAliasesPage.assertNumberOfAliases(2);
 
@@ -29,11 +31,13 @@ scenarioo.describeUseCase('Manage', function () {
 
         branchAliasesPage.updateAlias(0, 'updated alias', 0, 'updated description');
         branchAliasesPage.save();
+        scenarioo.docuWriter.saveStep('update aliases');
         browser.get('#/manage?tab=branchAliases');
         branchAliasesPage.assertAlias(0, 'updated alias', 0, 'updated description');
 
         branchAliasesPage.enterAlias('updated alias', 0, 'duplicate alias name');
         branchAliasesPage.save();
         branchAliasesPage.assertDuplicateAliasError();
+        scenarioo.docuWriter.saveStep('duplicate aliases are not allowed');
     });
 });
