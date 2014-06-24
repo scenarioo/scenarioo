@@ -24,10 +24,13 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
+import org.scenarioo.model.configuration.BranchAlias;
+import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.derived.BuildLink;
+import org.scenarioo.model.docu.entities.Branch;
 
 /**
  * Manages all the currently available builds and maintains aliases to the most recent builds for each branch.
@@ -98,12 +101,37 @@ public class AvailableBuildsList {
 	
 	private synchronized void updateBuilds(final List<BranchBuilds> result) {
 		this.branchBuildsList = result;
+		
+		createBuildsFromAliases();
+		
 		branchBuildsByBranchName.clear();
 		for (BranchBuilds branchBuilds : branchBuildsList) {
 			branchBuildsByBranchName.put(branchBuilds.getBranch().getName(), branchBuilds);
 		}
 	}
 	
+	private void createBuildsFromAliases() {
+		Configuration configuration = ConfigurationDAO.getConfiguration();
+		List<BranchAlias> branchAliases = configuration.getBranchAliases();
+		for (BranchAlias branchAlias : branchAliases) {
+			BranchBuilds branchWithBuilds = findBranch(branchAlias.getReferencedBranch());
+			BranchBuilds branchBuildsAlias = new BranchBuilds();
+			branchBuildsAlias.setBuilds(branchWithBuilds.getBuilds());
+			Branch branch = new Branch(branchAlias.getName(), branchWithBuilds.getBranch().getName());
+			branchBuildsAlias.setBranch(branch);
+			branchBuildsList.add(branchBuildsAlias);
+		}
+	}
+	
+	private BranchBuilds findBranch(String branchName) {
+		for(BranchBuilds branchBuilds : this.branchBuildsList) {
+			if(!branchBuilds.isAlias() && branchBuilds.getBranch().getName().equals(branchName)) {
+				return branchBuilds;
+			}
+		}
+		throw new RuntimeException("Could not find referenced branch: " + branchName);
+	}
+
 	/**
 	 * Adding a newly imported build.
 	 */

@@ -53,11 +53,12 @@ public class UseCasesResource {
 		LOGGER.info("REQUEST: loadUseCaseSummaryList(" + branchName + ", "
 				+ buildName + ")");
 		List<UseCaseSummary> result = new LinkedList<>();
-
+		
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
 		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE
-				.resolveAliasBuildName(branchName, buildName);
+				.resolveAliasBuildName(resolvedBranchName, buildName);
 		List<UseCaseScenarios> useCaseScenariosList = dao
-				.loadUseCaseScenariosList(branchName, resolvedBuildName);
+				.loadUseCaseScenariosList(resolvedBranchName, resolvedBuildName);
 
 		for (UseCaseScenarios useCaseScenarios : useCaseScenariosList) {
 			result.add(mapSummary(useCaseScenarios));

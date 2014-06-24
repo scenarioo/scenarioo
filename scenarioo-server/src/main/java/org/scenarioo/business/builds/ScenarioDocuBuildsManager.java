@@ -28,6 +28,8 @@ import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
+import org.scenarioo.model.configuration.BranchAlias;
+import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
@@ -109,6 +111,21 @@ public class ScenarioDocuBuildsManager {
 		String resolvedBuildName = resolveAliasBuildNameUnchecked(branchName, buildName);
 		validateBuildIsSuccessfullyImported(branchName, resolvedBuildName);
 		return resolvedBuildName;
+	}
+	
+	/**
+	 * @return the physical name of the branch 
+	 */
+	public String resolveAliasBranchName(final String aliasBranchName) {
+		Configuration configuration = ConfigurationDAO.getConfiguration();
+		List<BranchAlias> branchAliases = configuration.getBranchAliases();
+		for (BranchAlias branchAlias : branchAliases) {
+			if(branchAlias.getName().equals(aliasBranchName)) {
+				return branchAlias.getReferencedBranch();
+			}
+		}
+		
+		return aliasBranchName;
 	}
 	
 	/**

@@ -49,10 +49,11 @@ public class StepResource {
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName, @PathParam("stepIndex") final int stepIndex) {
 		
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName, buildName);
 		
-		Step step = docuDAO.loadStep(branchName, resolvedBuildName, usecaseName, scenarioName, stepIndex);
-		StepNavigation navigation = aggregationsDAO.loadStepNavigation(new BuildIdentifier(branchName,
+		Step step = docuDAO.loadStep(resolvedBranchName, resolvedBuildName, usecaseName, scenarioName, stepIndex);
+		StepNavigation navigation = aggregationsDAO.loadStepNavigation(new BuildIdentifier(resolvedBranchName,
 				resolvedBuildName),
 				usecaseName, scenarioName, stepIndex);
 		return new StepWithNavigation(step, navigation);
