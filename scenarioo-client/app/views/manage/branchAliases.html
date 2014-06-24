@@ -14,7 +14,7 @@
             <tbody>
                 <tr ng-repeat="branchAlias in branchAliases">
                     <td>
-                        <input type="text" class="ng-pristine ng-valid  form-control" ng-model="branchAlias.name" ng-change="aliasNameChanged()" />
+                        <input type="text" class="ng-pristine ng-valid form-control" ng-model="branchAlias.name" ng-change="aliasNameChanged()" name="aliasName"/>
                     </td>
                     <td>
                         <div class="form-group">
@@ -22,11 +22,11 @@
                                 ng-options="branch.branch.name as branch.branch.name for branch in branches"
                                 class="form-control"
                                 ng-required="branchAlias.name !== ''"
-                                name="aliasName"></select>
+                                name="referencedBranch"></select>
                         </div>
                     </td>
                     <td>
-                        <input type="text" class="ng-pristine ng-valid  form-control" ng-model="branchAlias.description"  />
+                        <input type="text" class="ng-pristine ng-valid form-control" ng-model="branchAlias.description" name="aliasDescription"  />
                     </td>
                     <td>
                         <input type="button" class="btn btn-small btn-danger" value="Delete" ng-click="deleteEntry(branchAlias.name)" />
