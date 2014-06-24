@@ -64,6 +64,39 @@ angular.module('scenarioo.controllers').controller('BranchAliasesCtrl', function
         loadBranchAliases();
     };
 
+    $scope.save = function() {
+        $scope.uniqueError = false;
+        var branchAliasesToSave = [];
+        var index;
+        for(index = 0; index < $scope.branchAliases.length; index++) {
+            var branchAlias = $scope.branchAliases[index];
+            if(branchAlias.name !== '') {
+                branchAliasesToSave.push(branchAlias);
+            }
+        }
+
+        if(areBuildAliasesUnique(branchAliasesToSave) === false) {
+            $scope.uniqueError = true;
+            return;
+        }
+
+        BranchAliasesResource.save(branchAliasesToSave);
+    };
+
+    var areBuildAliasesUnique = function(buildAliases) {
+        var unique = true;
+        var aliasesMap = {};
+        angular.forEach(buildAliases, function(buildAlias, key) {
+            if(aliasesMap[buildAlias.name] === undefined) {
+                aliasesMap[buildAlias.name] = '';
+            } else {
+                unique = false;
+            }
+        });
+
+        return unique;
+    };
+
     function createEmptyAlias() {
         return {
             name: '',
