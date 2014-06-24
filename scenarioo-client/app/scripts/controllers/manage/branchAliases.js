@@ -66,6 +66,8 @@ angular.module('scenarioo.controllers').controller('BranchAliasesCtrl', function
 
     $scope.save = function() {
         $scope.uniqueError = false;
+        $scope.successfullyUpdatedBranchAliases=false;
+
         var branchAliasesToSave = [];
         var index;
         for(index = 0; index < $scope.branchAliases.length; index++) {
@@ -81,12 +83,14 @@ angular.module('scenarioo.controllers').controller('BranchAliasesCtrl', function
         }
 
         BranchAliasesResource.save(branchAliasesToSave);
+
+        $scope.successfullyUpdatedBranchAliases=true;
     };
 
     var areBuildAliasesUnique = function(buildAliases) {
         var unique = true;
         var aliasesMap = {};
-        angular.forEach(buildAliases, function(buildAlias, key) {
+        angular.forEach(buildAliases, function(buildAlias) {
             if(aliasesMap[buildAlias.name] === undefined) {
                 aliasesMap[buildAlias.name] = '';
             } else {
