@@ -86,6 +86,10 @@ public class ScenarioDocuBuildsManager {
 		return availableBuilds.getBranchBuildsList();
 	}
 	
+	public void refreshBranchAliases() {
+		availableBuilds.refreshAliases();
+	}
+	
 	/**
 	 * Summaries about current states of all builds.
 	 */

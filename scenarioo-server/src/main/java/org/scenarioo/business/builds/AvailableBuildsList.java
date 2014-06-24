@@ -19,6 +19,7 @@ package org.scenarioo.business.builds;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -102,7 +103,7 @@ public class AvailableBuildsList {
 	private synchronized void updateBuilds(final List<BranchBuilds> result) {
 		this.branchBuildsList = result;
 		
-		createBranchesFromAliases();
+		refreshAliases();
 		
 		branchBuildsByBranchName.clear();
 		for (BranchBuilds branchBuilds : branchBuildsList) {
@@ -110,7 +111,30 @@ public class AvailableBuildsList {
 		}
 	}
 	
-	private void createBranchesFromAliases() {
+	public synchronized void refreshAliases() {
+		List<BranchBuilds> physicalBuilds = getBranchBuildsWithouAliases();
+		List<BranchBuilds> aliasBuilds = createBranchesFromAliases(physicalBuilds);
+		List<BranchBuilds> allBranches = new LinkedList<>();
+		
+		allBranches.addAll(physicalBuilds);
+		allBranches.addAll(aliasBuilds);
+		
+		this.branchBuildsList = allBranches;
+	}
+
+	private List<BranchBuilds> getBranchBuildsWithouAliases() {
+		List<BranchBuilds> result = new LinkedList<>();
+		for(BranchBuilds branchBuilds : this.branchBuildsList) {
+			if(!branchBuilds.isAlias()) {
+				result.add(branchBuilds);
+			}
+		}
+		return result;
+	}
+
+	private List<BranchBuilds> createBranchesFromAliases(List<BranchBuilds> physicalBuilds) {
+		List<BranchBuilds> result = new LinkedList<>();
+		
 		Configuration configuration = ConfigurationDAO.getConfiguration();
 		List<BranchAlias> branchAliases = configuration.getBranchAliases();
 		for (BranchAlias branchAlias : branchAliases) {
@@ -120,8 +144,9 @@ public class AvailableBuildsList {
 			Branch branch = new Branch(branchAlias.getName(), branchWithBuilds.getBranch().getName());
 			branchBuildsAlias.setBranch(branch);
 			branchBuildsAlias.setAlias(true);
-			branchBuildsList.add(branchBuildsAlias);
+			result.add(branchBuildsAlias);
 		}
+		return result;
 	}
 	
 	private BranchBuilds findBranch(String branchName) {

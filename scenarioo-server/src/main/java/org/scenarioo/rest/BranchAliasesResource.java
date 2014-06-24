@@ -25,6 +25,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.configuration.BranchAlias;
 import org.scenarioo.model.configuration.Configuration;
@@ -45,5 +46,6 @@ public class BranchAliasesResource {
 		Configuration configuration = ConfigurationDAO.getConfiguration();
 		configuration.setBranchAliases(branchAliases);
 		ConfigurationDAO.updateConfiguration(configuration);
+		ScenarioDocuBuildsManager.INSTANCE.refreshBranchAliases();
 	}
 }
