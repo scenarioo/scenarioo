@@ -20,11 +20,7 @@
 
 angular.module('scenarioo.controllers').controller('BranchAliasesCtrl', function ($scope, $location, $route, $modal, BranchAliasesResource, Config, BranchesResource) {
 
-    BranchAliasesResource.query({}, function(branchAliases) {
-        branchAliases.push(createEmptyAlias());
-        $scope.branchAliases = branchAliases;
-    });
-
+    loadBranchAliases();
 
     BranchesResource.query({}, function(branches) {
         $scope.branches = branches;
@@ -55,6 +51,17 @@ angular.module('scenarioo.controllers').controller('BranchAliasesCtrl', function
         if(aliasName !== '') {
             $scope.branchAliases.push(createEmptyAlias());
         }
+    };
+
+    function loadBranchAliases() {
+        BranchAliasesResource.query({}, function (branchAliases) {
+            branchAliases.push(createEmptyAlias());
+            $scope.branchAliases = branchAliases;
+        });
+    }
+
+    $scope.reset = function() {
+        loadBranchAliases();
     };
 
     function createEmptyAlias() {
