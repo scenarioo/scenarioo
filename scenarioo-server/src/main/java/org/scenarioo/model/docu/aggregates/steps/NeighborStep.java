@@ -38,7 +38,7 @@ public class NeighborStep {
 	public NeighborStep(final StepLink stepLink) {
 		super();
 		this.pageName = stepLink.getPageName();
-		this.pageOccurrence = stepLink.getPageOccurence();
+		this.pageOccurrence = stepLink.getPageOccurrence();
 		this.stepInPageOccurrence = stepLink.getStepInPageOccurrence();
 	}
 

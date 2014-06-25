@@ -91,6 +91,8 @@ describe('StepCtrl', function () {
 
         expect($scope.getCurrentStepIndexForDisplay()).toBe(3);
         expect($scope.getCurrentPageIndexForDisplay()).toBe(2);
+        expect($scope.getStepIndexInCurrentPageForDisplay()).toBe(1);
+        expect($scope.getNumberOfStepsInCurrentPageForDisplay()).toBe(2);
     });
 
     it('isFirstStep()', function () {
@@ -158,19 +160,25 @@ describe('StepCtrl', function () {
         expect($location.path()).toBe('/step/uc/sc/contentPage.jsp/0/0');
     });
 
-    // TODO
-/*    it('goToFirstStep()', function () {
+    it('goToPreviousVariant()', function () {
         loadPageContent();
 
-        $scope.goToFirstStep();
+        $scope.goToPreviousVariant();
 
-        expect($location.path()).toBe('/step/uc/sc/startSearch.jsp/0/0');
-    });*/
+        expect($location.path()).toBe('/step/Find Page/find_page_no_result/searchResults.jsp/0/0');
+    });
 
+    it('goToNextVariant()', function () {
+        loadPageContent();
+
+        $scope.goToNextVariant();
+
+        expect($location.path()).toBe('/step/Find Page/find_page_with_text_on_page_from_multiple_results/searchResults.jsp/0/1');
+    });
 
     function loadPageContent() {
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches/trunk/builds/current/usecases/uc/scenarios/sc').respond(TestData.SCENARIO);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1').respond(TestData.STEP);
 
         Config.load();

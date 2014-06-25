@@ -39,24 +39,28 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
                 usecaseName: useCaseName,
                 scenarioName: scenarioName
             },
-            function(result) {
+            function (result) {
                 // Add page to the step to allow search for step- as well as page-properties
                 populatePageAndSteps(result);
             });
     }
 
     function populatePageAndSteps(pagesAndScenarios) {
+        var stepIndex = 0;
+
         for (var indexPage = 0; indexPage < pagesAndScenarios.pagesAndSteps.length; indexPage++) {
             var page = pagesAndScenarios.pagesAndSteps[indexPage];
             page.page.index = indexPage + 1;
-            for (var indexStep = 0; indexStep < page.steps.length; indexStep++) {
-                var step = page.steps[indexStep];
+            for (var stepInPageOccurrence = 0; stepInPageOccurrence < page.steps.length; stepInPageOccurrence++) {
+                var step = page.steps[stepInPageOccurrence];
                 step.page = page.page;
-                step.index = indexStep;
-                step.number = (indexStep === 0) ? page.page.index : page.page.index + '.' + indexStep;
+                step.stepInPageOccurrence = stepInPageOccurrence;
+                step.stepIndex = stepIndex;
+                step.number = page.page.index + '.' + (stepInPageOccurrence + 1);
                 if (!step.title) {
                     step.title = 'undefined';
                 }
+                stepIndex = stepIndex + 1;
             }
         }
 
@@ -66,21 +70,21 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario);
     }
 
-    $scope.showAllStepsForPage = function(pageIndex) {
+    $scope.showAllStepsForPage = function (pageIndex) {
         return showAllSteps[pageIndex] || false;
     };
 
-    $scope.toggleShowAllStepsForPage = function(pageIndex) {
+    $scope.toggleShowAllStepsForPage = function (pageIndex) {
         showAllSteps[pageIndex] = !showAllSteps[pageIndex];
     };
 
-    $scope.isExpandAllPossible = function() {
-        if(!angular.isDefined($scope.pagesAndSteps)) {
+    $scope.isExpandAllPossible = function () {
+        if (!angular.isDefined($scope.pagesAndSteps)) {
             return false;
         }
 
-        for(var i = 0; i < $scope.pagesAndSteps.length; i++) {
-            if(isExpandPossibleForPage($scope.pagesAndSteps[i], i)) {
+        for (var i = 0; i < $scope.pagesAndSteps.length; i++) {
+            if (isExpandPossibleForPage($scope.pagesAndSteps[i], i)) {
                 return true;
             }
         }
@@ -92,13 +96,13 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         return page.steps.length > 1 && $scope.showAllStepsForPage(pageIndex) === false;
     }
 
-    $scope.isCollapseAllPossible = function() {
-        if(!angular.isDefined($scope.pagesAndSteps)) {
+    $scope.isCollapseAllPossible = function () {
+        if (!angular.isDefined($scope.pagesAndSteps)) {
             return false;
         }
 
-        for(var i = 0; i < $scope.pagesAndSteps.length; i++) {
-            if(isCollapsePossibleForPage($scope.pagesAndSteps[i], i)) {
+        for (var i = 0; i < $scope.pagesAndSteps.length; i++) {
+            if (isCollapsePossibleForPage($scope.pagesAndSteps[i], i)) {
                 return true;
             }
         }
@@ -110,35 +114,35 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         return page.steps.length > 1 && $scope.showAllStepsForPage(pageIndex) === true;
     }
 
-    $scope.expandAll = function() {
+    $scope.expandAll = function () {
         // numberOfPages is 0-indexed, therefore we have to add 1.
         // TODO: This should be fixed in the future, so that the server returns the right number.
         var numberOfPages = $scope.scenario.calculatedData.numberOfPages + 1;
-        for(var i = 0; i < numberOfPages; i++) {
+        for (var i = 0; i < numberOfPages; i++) {
             showAllSteps[i] = true;
         }
     };
 
-    $scope.collapseAll = function() {
-        for(var i = 0; i < showAllSteps.length; i++) {
+    $scope.collapseAll = function () {
+        for (var i = 0; i < showAllSteps.length; i++) {
             showAllSteps[i] = false;
         }
     };
 
     $scope.getScreenShotUrl = function (imgName) {
-        if(angular.isUndefined(selectedBranchAndBuild)) {
+        if (angular.isUndefined(selectedBranchAndBuild)) {
             return;
         }
-        return HostnameAndPort.forLink() + 'rest/branches/' + selectedBranchAndBuild.branch + '/builds/' + selectedBranchAndBuild.build +
-            '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
+        return HostnameAndPort.forLink() + 'rest/branch/' + selectedBranchAndBuild.branch + '/build/' + selectedBranchAndBuild.build +
+            '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
     };
 
-    $scope.getLinkToStep = function (pageName, pageIndex, stepIndex) {
+    $scope.getLinkToStep = function (pageName, pageOccurrence, stepInPageOccurrence) {
         // '/' will kill our application
         pageName = pageName.replace(/\//g, ' ');
 
         return '#/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) +
-            '/' + pageIndex + '/' + stepIndex;
+            '/' + pageOccurrence + '/' + stepInPageOccurrence;
     };
 
     $scope.resetSearchField = function () {
@@ -177,8 +181,8 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         return !$scope.isMetadataExpanded(type);
     };
 
-    $scope.toggleShowingMetadata = function() {
-        $scope.showingMetaData=!$scope.showingMetaData;
+    $scope.toggleShowingMetadata = function () {
+        $scope.showingMetaData = !$scope.showingMetaData;
         localStorageService.set(SCENARIO_METADATA_VISIBLE, '' + $scope.showingMetaData);
     };
 
@@ -207,6 +211,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         }
 
     }
+
     initMetadataVisibilityAndExpandedSections();
 
 });

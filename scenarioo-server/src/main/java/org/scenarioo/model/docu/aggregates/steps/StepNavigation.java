@@ -15,7 +15,7 @@ public class StepNavigation {
 	private String pageName;
 	private int pageIndex = -1;
 	private int stepIndex = -1;
-	private int pageOccurence = -1;
+	private int pageOccurrence = -1;
 	private int stepInPageOccurrence = -1;
 
 	private int pageVariantIndex = -1;
@@ -65,16 +65,16 @@ public class StepNavigation {
 	 * a sequence of steps that have the same page and it ends as soon as there
 	 * is a step with a different page.
 	 */
-	public int getPageOccurenceIndex() {
-		return pageOccurence;
+	public int getPageOccurrenceIndex() {
+		return pageOccurrence;
 	}
 
-	public int getPageOccurence() {
-		return pageOccurence;
+	public int getPageOccurrence() {
+		return pageOccurrence;
 	}
 
-	public void setPageOccurence(final int pageOccurence) {
-		this.pageOccurence = pageOccurence;
+	public void setPageOccurrence(final int pageOccurrence) {
+		this.pageOccurrence = pageOccurrence;
 	}
 
 	/**

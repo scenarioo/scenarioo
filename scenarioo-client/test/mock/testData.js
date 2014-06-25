@@ -159,7 +159,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                     'pageName': 'searchResults.jsp',
                     'stepInPageOccurrence': 0,
                     'pageIndex': 1,
-                    'pageOccurence': 0
+                    'pageOccurrence': 0
                 },
                 'previousStep': {
                     'pageName': 'startSearch.jsp',
@@ -172,8 +172,8 @@ angular.module('scenarioo.services').service('TestData', function () {
                     'stepInPageOccurrence': 1
                 },
                 'pageIndex': 1,
-                'pageOccurence': 0,
-                'pageOccurenceIndex': 0,
+                'pageOccurrence': 0,
+                'pageOccurrenceIndex': 0,
                 'pageVariantIndex': 1,
                 'pageVariantScenarioIndex': 1,
                 'nextStepVariant': {
@@ -183,7 +183,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                     'pageName': 'searchResults.jsp',
                     'stepInPageOccurrence': 1,
                     'pageIndex': 1,
-                    'pageOccurence': 0
+                    'pageOccurrence': 0
                 },
                 'pageVariantsCount': 3,
                 'pageVariantScenariosCount': 2,
@@ -194,7 +194,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                     'pageName': 'searchResults.jsp',
                     'stepInPageOccurrence': 0,
                     'pageIndex': 1,
-                    'pageOccurence': 0
+                    'pageOccurrence': 0
                 },
                 'nextStepVariantInOtherScenario': null,
                 'previousPage': {

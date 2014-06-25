@@ -129,7 +129,7 @@ angular.module('scenarioo.services').factory('ConfigResource', function (Scenari
 });
 
 angular.module('scenarioo.services').factory('UseCasesResource', function (ScenariooResource) {
-    return ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName',
+    return ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName',
         {
             branchName: '@branchName',
             buildName: '@buildName',
@@ -138,7 +138,7 @@ angular.module('scenarioo.services').factory('UseCasesResource', function (Scena
 });
 
 angular.module('scenarioo.services').factory('ScenarioResource', function (ScenariooResource) {
-    return ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName',
+    return ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName',
         {
             branchName: '@branchName',
             buildName: '@buildName',

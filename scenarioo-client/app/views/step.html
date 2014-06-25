@@ -51,7 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <!-- Substep information -->
         <div class="btn-group">
-            <div class="btn btn-comment">Substep {{stepIndex + 1}} of {{pagesAndSteps[pageIndex].steps.length}} on current page</div>
+            <div class="btn btn-comment">Substep {{getStepIndexInCurrentPageForDisplay()}} of {{getNumberOfStepsInCurrentPageForDisplay()}} on current page</div>
         </div>
 
     </div>

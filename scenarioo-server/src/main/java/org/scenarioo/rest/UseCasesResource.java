@@ -33,7 +33,7 @@ import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseSummary;
 import org.scenarioo.model.docu.entities.UseCase;
 
-@Path("/rest/branches/{branchName}/builds/{buildName}/usecases/")
+@Path("/rest/branch/{branchName}/build/{buildName}/usecase/")
 public class UseCasesResource {
 
 	private static final Logger LOGGER = Logger
@@ -75,4 +75,5 @@ public class UseCasesResource {
 		summary.setNumberOfScenarios(useCaseScenarios.getScenarios().size());
 		return summary;
 	}
+
 }

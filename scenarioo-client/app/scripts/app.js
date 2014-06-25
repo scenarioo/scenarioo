@@ -79,6 +79,3 @@ angular.module('scenarioo', [
 
     Config.load();
 });
-
-
-

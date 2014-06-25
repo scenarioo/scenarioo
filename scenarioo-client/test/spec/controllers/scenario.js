@@ -59,7 +59,7 @@ describe('Controller :: Scenario', function() {
         givenScenarioIsLoaded();
 
         var imageLink = $scope.getScreenShotUrl('img.jpg');
-        expect(imageLink).toBe(HostNameAndPort.forLink() + 'rest/branches/trunk/builds/current/usecases/SearchUseCase/scenarios/NotFoundScenario/image/img.jpg');
+        expect(imageLink).toBe(HostNameAndPort.forLink() + 'rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario/image/img.jpg');
     });
 
     it('does not show all steps of a page by default', function() {
@@ -126,7 +126,7 @@ describe('Controller :: Scenario', function() {
 
     function givenScenarioIsLoaded() {
         $httpBackend.whenGET(HostNameAndPort.forLink() + 'rest/configuration').respond(TestData.CONFIG);
-        $httpBackend.whenGET(HostNameAndPort.forLink() + 'rest/branches/trunk/builds/current/usecases/SearchUseCase/scenarios/NotFoundScenario').respond(TestData.SCENARIO);
+        $httpBackend.whenGET(HostNameAndPort.forLink() + 'rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario').respond(TestData.SCENARIO);
 
         Config.load();
         $httpBackend.flush();

@@ -59,7 +59,7 @@ public class StepsAndPagesAggregator {
 
 		List<PageSteps> pageStepsList = new ArrayList<PageSteps>();
 		List<StepLink> stepLinks = new ArrayList<StepLink>(steps.size());
-		Map<String, Integer> pageOccurences = new HashMap<String, Integer>();
+		Map<String, Integer> pageOccurrences = new HashMap<String, Integer>();
 		Page page = null;
 		PageSteps pageSteps = null;
 		int pageIndex = 0;
@@ -76,7 +76,7 @@ public class StepsAndPagesAggregator {
 				pageSteps.setSteps(new ArrayList<StepDescription>());
 				pageStepsList.add(pageSteps);
 				stepInPageOccurrence = 0;
-				pageOccurrence = increasePageOccurence(pageOccurences, page);
+				pageOccurrence = increasePageOccurrence(pageOccurrences, page);
 				if (index > 0) {
 					pageIndex++;
 				}
@@ -156,20 +156,20 @@ public class StepsAndPagesAggregator {
 
 	/**
 	 * Calculate the number of times this same page has already occurred and
-	 * increase the occurrence in the passed pageOccurences accordingly.
+	 * increase the occurrence in the passed pageOccurrences accordingly.
 	 */
-	private int increasePageOccurence(
-			final Map<String, Integer> pageOccurences, final Page page) {
+	private int increasePageOccurrence(
+			final Map<String, Integer> pageOccurrences, final Page page) {
 		String pageKey = getPageName(page);
-		Integer occurences = pageOccurences.get(pageKey);
-		if (occurences == null) {
-			occurences = new Integer(0);
-			pageOccurences.put(pageKey, occurences);
+		Integer occurrences = pageOccurrences.get(pageKey);
+		if (occurrences == null) {
+			occurrences = new Integer(0);
+			pageOccurrences.put(pageKey, occurrences);
 		} else {
-			occurences = occurences + 1;
-			pageOccurences.put(pageKey, occurences);
+			occurrences = occurrences + 1;
+			pageOccurrences.put(pageKey, occurrences);
 		}
-		return occurences.intValue();
+		return occurrences.intValue();
 	}
 
 	private String getPageName(final Page page) {
@@ -219,7 +219,7 @@ public class StepsAndPagesAggregator {
 		stepNavigation.setPageName(currentStep.getPageName());
 		stepNavigation.setPageIndex(currentStep.getPageIndex());
 		stepNavigation.setStepIndex(currentStep.getStepIndex());
-		stepNavigation.setPageOccurence(currentStep.getPageOccurence());
+		stepNavigation.setPageOccurrence(currentStep.getPageOccurrence());
 		stepNavigation.setStepInPageOccurrence(currentStep
 				.getStepInPageOccurrence());
 		stepNavigation.setPreviousStep(previousStep);

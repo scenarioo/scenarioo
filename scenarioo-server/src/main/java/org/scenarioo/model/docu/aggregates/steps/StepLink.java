@@ -34,14 +34,14 @@ public class StepLink {
 
 	public StepLink(final String useCaseName, final String scenarioName,
 			final int stepIndex, final int pageIndex, final String pageName,
-			final int pageOccurence, final int stepInPageOccurrence) {
+			final int pageOccurrence, final int stepInPageOccurrence) {
 		super();
 		this.useCaseName = useCaseName;
 		this.scenarioName = scenarioName;
 		this.stepIndex = stepIndex;
 		this.pageIndex = pageIndex;
 		this.pageName = pageName;
-		this.pageOccurence = pageOccurence;
+		this.pageOccurrence = pageOccurrence;
 		this.stepInPageOccurrence = stepInPageOccurrence;
 	}
 
@@ -50,7 +50,7 @@ public class StepLink {
 	private int stepIndex;
 	private int pageIndex;
 	private String pageName;
-	private int pageOccurence;
+	private int pageOccurrence;
 	private int stepInPageOccurrence;
 
 	public String getUseCaseName() {
@@ -104,12 +104,12 @@ public class StepLink {
 	 * a sequence of steps that have the same page and it ends as soon as there
 	 * is a step with a different page.
 	 */
-	public int getPageOccurence() {
-		return pageOccurence;
+	public int getPageOccurrence() {
+		return pageOccurrence;
 	}
 
-	public void setPageOccurence(final int pageOccurenceIndex) {
-		this.pageOccurence = pageOccurenceIndex;
+	public void setPageOccurrence(final int pageOccurrenceIndex) {
+		this.pageOccurrence = pageOccurrenceIndex;
 	}
 
 	/**

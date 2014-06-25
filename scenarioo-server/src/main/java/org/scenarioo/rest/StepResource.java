@@ -31,10 +31,10 @@ import org.scenarioo.model.StepIdentifier;
 import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
-import org.scenarioo.model.docu.aggregates.steps.StepDto;
 import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
 import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
 import org.scenarioo.model.docu.entities.Step;
+import org.scenarioo.rest.dto.StepDto;
 import org.scenarioo.rest.exceptions.PageOccurrenceDoesNotExistException;
 import org.scenarioo.rest.exceptions.StepInPageOccurrenceDoesNotExistException;
 

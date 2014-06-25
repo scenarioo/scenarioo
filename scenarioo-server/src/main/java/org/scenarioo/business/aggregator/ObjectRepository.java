@@ -240,7 +240,7 @@ public class ObjectRepository {
 	public void addReferencedStepObjects(List<ObjectReference> referencePath,
 			final Step step) {
 		
-		// Page occurence in scenario
+		// Page occurrence in scenario
 		Page page = step.getPage();
 		if (page != null) {
 			

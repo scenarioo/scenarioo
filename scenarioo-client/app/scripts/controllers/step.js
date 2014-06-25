@@ -29,7 +29,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     $scope.pageOccurrence = parseInt($routeParams.pageOccurrence, 10);
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
 
-    // TODO  [#238] It does not make sense to have the pageOccurence and stepInPageOccurence here,
+    // TODO  [#238] It does not make sense to have the pageOccurrence and stepInPageOccurrence here,
     // so I commented it out. What shall we do with it?
     // $scope.title = ($scope.pageOccurrence + 1) + '.' + $scope.stepInPageOccurrence + ' - ' + $scope.pageName;
     $scope.title = $scope.pageName;
@@ -247,8 +247,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         };
 
         $scope.goToPreviousVariant = function () {
-            var previousVariant = $scope.stepNavigation.previousStepVariant;
-            $location.path('/step/' + previousVariant.useCaseName + '/' + previousVariant.scenarioName + '/' + encodeURIComponent(previousVariant.pageName) + '/' + previousVariant.pageIndex + '/' + previousVariant.pageStepIndex);
+            $scope.go($scope.stepNavigation.previousStepVariant);
         };
 
         $scope.isLastPageVariantStep = function () {
@@ -256,8 +255,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         };
 
         $scope.goToNextVariant = function () {
-            var nextStepVariant = $scope.stepNavigation.nextStepVariant;
-            $location.path('/step/' + nextStepVariant.useCaseName + '/' + nextStepVariant.scenarioName + '/' + encodeURIComponent(nextStepVariant.pageName) + '/' + nextStepVariant.pageIndex + '/' + nextStepVariant.pageStepIndex);
+            $scope.go($scope.stepNavigation.nextStepVariant);
         };
 
         $scope.getCurrentStepIndexForDisplay = function () {
@@ -272,11 +270,25 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 return '?';
             }
             return $scope.stepNavigation.pageIndex + 1;
-        }
+        };
+
+        $scope.getStepIndexInCurrentPageForDisplay = function() {
+            if (angular.isUndefined($scope.stepNavigation)) {
+                return '?';
+            }
+            return $scope.stepNavigation.stepInPageOccurrence + 1;
+        };
+
+        $scope.getNumberOfStepsInCurrentPageForDisplay = function() {
+            if (angular.isUndefined($scope.stepStatistics)) {
+                return '?';
+            }
+            return $scope.stepStatistics.totalNumberOfStepsInPageOccurrence;
+        };
     }
 
     $scope.go = function (step) {
-        $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(step.pageName) + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
+        $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + encodeURIComponent(step.pageName) + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
     };
 
     var STEP_METADATA_SECTION_EXPANDED = 'scenarioo-stepMetadataSectionExpanded-';
