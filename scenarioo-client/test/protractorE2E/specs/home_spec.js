@@ -12,7 +12,7 @@ scenarioo.describeUseCase('Home', function () {
         homePage.assertPageIsDisplayed();
         homePage.assertScenariooInfoDialogShown();
         homePage.closeScenariooInfoDialog();
-        homePage.assertUseCasesShown(1);
+        homePage.assertUseCasesShown(2);
         scenarioo.docuWriter.saveStep('display the homePage');
     });
 
@@ -22,7 +22,7 @@ scenarioo.describeUseCase('Home', function () {
         scenarioo.docuWriter.saveStep('display the homePage without popup');
         homePage.assertPageIsDisplayed();
         homePage.assertScenariooInfoDialogNotShown();
-        homePage.assertUseCasesShown(1);
+        homePage.assertUseCasesShown(2);
     });
 
     scenarioo.describeScenario('Navigate to the Home Page, filter usecases', function () {
