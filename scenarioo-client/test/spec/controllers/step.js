@@ -24,12 +24,14 @@ describe('StepCtrl', function () {
     var StepCtrl;
 
     var METADATA_TYPE = 'some_type';
-    var STEP_INFORMATION_TREE = { childNodes : [
-        { nodeLabel : 'Step title', nodeValue : 'Search results' },
-        { nodeLabel : 'Page name', childNodes : [  ], nodeValue : 'startSearch.jsp', nodeObjectName : 'startSearch.jsp' },
-        { nodeLabel : 'URL', nodeValue : 'http://www.wikipedia.org' },
-        { nodeLabel : 'Build status', nodeValue : 'success' }
-    ] };
+    var STEP_INFORMATION_TREE = {
+        childNodes : [
+            { nodeLabel: 'Step title', nodeValue: 'Search results' },
+            { nodeLabel: 'Page name', childNodes: [  ], nodeValue: 'searchResults.jsp', nodeObjectName: 'searchResults.jsp' },
+            { nodeLabel: 'URL', nodeValue: 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go' },
+            { nodeLabel: 'Build status', nodeValue: 'success' }
+        ]
+    };
 
     beforeEach(module('scenarioo.controllers'));
 
@@ -50,8 +52,8 @@ describe('StepCtrl', function () {
         $routeParams.useCaseName = 'uc';
         $routeParams.scenarioName = 'sc';
         $routeParams.pageName = 'pn';
-        $routeParams.pageIndex = 0;
-        $routeParams.stepIndex = 0;
+        $routeParams.pageOccurrence = 0;
+        $routeParams.stepInPageOccurrence = 1;
 
         localStorageService.clearAll();
 
@@ -82,10 +84,94 @@ describe('StepCtrl', function () {
         expect($scope.stepInformationTree).toEqual(STEP_INFORMATION_TREE);
     });
 
+    it('loads the stepNavigation and the stepStatistics into scope', function () {
+        loadPageContent();
+        expect($scope.stepNavigation).toEqual(TestData.STEP.stepNavigation);
+        expect($scope.stepStatistics).toEqual(TestData.STEP.stepStatistics);
+
+        expect($scope.getCurrentStepIndexForDisplay()).toBe(3);
+        expect($scope.getCurrentPageIndexForDisplay()).toBe(2);
+    });
+
+    it('isFirstStep()', function () {
+        loadPageContent();
+        expect($scope.isFirstStep()).toBeFalsy();
+
+        $scope.stepNavigation.stepIndex = 0;
+        expect($scope.isFirstStep()).toBeTruthy();
+    });
+
+    it('isLastStep()', function () {
+        loadPageContent();
+        expect($scope.isLastStep()).toBeFalsy();
+
+        $scope.stepNavigation.stepIndex = $scope.stepStatistics.totalNumberOfStepsInScenario - 1;
+        expect($scope.isLastStep()).toBeTruthy();
+    });
+
+    it('isFirstPage()', function () {
+        loadPageContent();
+        expect($scope.isFirstPage()).toBeFalsy();
+
+        $scope.stepNavigation.pageIndex = 0;
+        expect($scope.isFirstPage()).toBeTruthy();
+    });
+
+    it('isLastPage()', function () {
+        loadPageContent();
+        expect($scope.isLastPage()).toBeFalsy();
+
+        $scope.stepNavigation.pageIndex = $scope.stepStatistics.totalNumberOfPagesInScenario - 1;
+        expect($scope.isLastPage()).toBeTruthy();
+    });
+
+
+    it('goToPreviousStep()', function () {
+        loadPageContent();
+
+        $scope.goToPreviousStep();
+
+        expect($location.path()).toBe('/step/uc/sc/startSearch.jsp/0/1');
+    });
+
+    it('goToNextStep()', function () {
+        loadPageContent();
+
+        $scope.goToNextStep();
+
+        expect($location.path()).toBe('/step/uc/sc/searchResults.jsp/0/1');
+    });
+
+    it('goToPreviousPage()', function () {
+        loadPageContent();
+
+        $scope.goToPreviousPage();
+
+        expect($location.path()).toBe('/step/uc/sc/startSearch.jsp/0/1');
+    });
+
+    it('goToNextPage()', function () {
+        loadPageContent();
+
+        $scope.goToNextPage();
+
+        expect($location.path()).toBe('/step/uc/sc/contentPage.jsp/0/0');
+    });
+
+    // TODO
+/*    it('goToFirstStep()', function () {
+        loadPageContent();
+
+        $scope.goToFirstStep();
+
+        expect($location.path()).toBe('/step/uc/sc/startSearch.jsp/0/0');
+    });*/
+
+
     function loadPageContent() {
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches/trunk/builds/current/usecases/uc/scenarios/sc').respond(TestData.SCENARIO);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches/trunk/builds/current/usecases/uc/scenarios/sc/steps/0').respond(TestData.STEP);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1').respond(TestData.STEP);
 
         Config.load();
         $httpBackend.flush();

@@ -21,39 +21,49 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.scenarioo.model.docu.entities.Step;
-
 /**
- * Container class to load a step with its navigation data
+ * Link to previous or next step of a scenario.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class StepWithNavigation {
-	
-	private Step step;
-	
-	private StepNavigation stepNavigation;
-	
-	public StepWithNavigation(final Step step, final StepNavigation stepNavigation) {
+public class NeighborStep {
+
+	private String pageName;
+	private int pageOccurrence;
+	private int stepInPageOccurrence;
+
+	public NeighborStep() {
+	}
+
+	public NeighborStep(final StepLink stepLink) {
 		super();
-		this.step = step;
-		this.stepNavigation = stepNavigation;
+		this.pageName = stepLink.getPageName();
+		this.pageOccurrence = stepLink.getPageOccurence();
+		this.stepInPageOccurrence = stepLink.getStepInPageOccurrence();
 	}
-	
-	public Step getStep() {
-		return step;
+
+	public String getPageName() {
+		return pageName;
 	}
-	
-	public void setStep(final Step step) {
-		this.step = step;
+
+	public void setPageName(final String pageName) {
+		this.pageName = pageName;
 	}
-	
-	public StepNavigation getStepNavigation() {
-		return stepNavigation;
+
+	public int getPageOccurrence() {
+		return pageOccurrence;
 	}
-	
-	public void setStepNavigation(final StepNavigation stepNavigation) {
-		this.stepNavigation = stepNavigation;
+
+	public void setPageOccurrence(final int pageOccurrence) {
+		this.pageOccurrence = pageOccurrence;
 	}
-	
+
+	public int getStepInPageOccurrence() {
+		return stepInPageOccurrence;
+	}
+
+	public void setStepInPageOccurrence(final int stepInPageOccurrence) {
+		this.stepInPageOccurrence = stepInPageOccurrence;
+	}
+
 }

@@ -284,13 +284,13 @@ public class ScenarioDocuAggregationDAO {
 	public void saveStepNavigation(final BuildIdentifier build, final StepLink stepLink,
 			final StepNavigation stepNavigation) {
 		File stepNavigationFile = files.getStepNavigationFile(build, stepLink.getUseCaseName(),
-				stepLink.getScenarioName(), stepLink.getIndex());
+				stepLink.getScenarioName(), stepLink.getStepIndex());
 		stepNavigationFile.getParentFile().mkdirs();
 		ScenarioDocuXMLFileUtil.marshal(stepNavigation, stepNavigationFile);
 	}
 	
 	public StepNavigation loadStepNavigation(final BuildIdentifier build, final StepLink step) {
-		return loadStepNavigation(build, step.getUseCaseName(), step.getScenarioName(), step.getIndex());
+		return loadStepNavigation(build, step.getUseCaseName(), step.getScenarioName(), step.getStepIndex());
 	}
 	
 	public StepNavigation loadStepNavigation(final BuildIdentifier build, final String useCaseName,

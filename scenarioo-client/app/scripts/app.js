@@ -50,14 +50,14 @@ angular.module('scenarioo', [
             scenarioName: '@scenarioName',
             breadcrumb: '<strong>Scenario:</strong> $param'
         })
-        .when('/step/:useCaseName/:scenarioName/:pageName/:pageIndex/:stepIndex', {
+        .when('/step/:useCaseName/:scenarioName/:pageName/:pageOccurrence/:stepInPageOccurrence', {
             templateUrl: 'views/step.html',
             controller: 'StepCtrl',
             useCaseName: '@useCaseName',
             scenarioName: '@scenarioName',
             pageName: '@pageName',
-            pageIndex: '@pageIndex',
-            stepIndex: '@stepIndex',
+            pageOccurrence: '@pageOccurrence',
+            stepInPageOccurrence: '@stepInPageOccurrence',
             breadcrumb: '<strong>Step:</strong> $title'
         })
         .otherwise({

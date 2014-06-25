@@ -46,10 +46,10 @@ angular.module('scenarioo.services').service('TestData', function () {
 
         BUILD_IMPORT_STATES: [
             {
-                'buildDescription': {'details':{},'revision':'123456','status':'success','date':1388879915785,'name':'example-build'},
-                'importDate':1388620336537,
-                'status':'SUCCESS',
-                'identifier':{'branchName':'example-branch','buildName':'example-build'}
+                'buildDescription': {'details': {}, 'revision': '123456', 'status': 'success', 'date': 1388879915785, 'name': 'example-build'},
+                'importDate': 1388620336537,
+                'status': 'SUCCESS',
+                'identifier': {'branchName': 'example-branch', 'buildName': 'example-build'}
             }
         ],
 
@@ -74,7 +74,7 @@ angular.module('scenarioo.services').service('TestData', function () {
             'pagesAndSteps': [
                 {'page': {'details': {}, 'name': 'startSearch.jsp'}, 'steps': [
                     {'details': {'url': 'http://www.wikipedia.org'}, 'status': 'success', 'title': 'Wikipedia Suche', 'screenshotFileName': '000.png', 'index': 0},
-                    {'details': {'url': 'http://www.wikipedia.org'}, 'status': 'success', 'title': 'Wikipedia Suche', 'screenshotFileName': '001.png',  'index': 1}
+                    {'details': {'url': 'http://www.wikipedia.org'}, 'status': 'success', 'title': 'Wikipedia Suche', 'screenshotFileName': '001.png', 'index': 1}
                 ]},
                 {'page': {'details': {}, 'name': 'searchResults.jsp'}, 'steps': [
                     {'details': {'url': 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'}, 'status': 'success', 'title': 'Search results', 'screenshotFileName': '002.png', 'index': 2},
@@ -96,15 +96,26 @@ angular.module('scenarioo.services').service('TestData', function () {
             }
         },
 
+        /**
+         * Based on
+         * http://localhost:8080/scenarioo/rest/branch/example-branch/build/example-build/usecase/Find%20Page/scenario/find_page_with_text_on_page_from_multiple_results/pageName/searchResults.jsp/pageOccurrence/0/stepInPageOccurrence/0
+         * with simplified metadata.
+         */
         STEP: {
+            'stepStatistics': {
+                'totalNumberOfStepsInScenario': 5,
+                'totalNumberOfStepsInPageOccurrence': 2,
+                'totalNumberOfPagesInScenario': 3
+            },
             'step': {
-                'html': {
-                    'htmlSource': '<html>\n<head>\n</head>\n<body>\n   <p>just some dummy html code</p>\n</body>\n</html>'
-                },
-                'page': {
+                'stepDescription': {
                     'details': {
+                        'url': 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'
                     },
-                    'name': 'startSearch.jsp'
+                    'status': 'success',
+                    'title': 'Search results',
+                    'screenshotFileName': '002.png',
+                    'index': 2
                 },
                 'metadata': {
                     'details': {
@@ -119,11 +130,9 @@ angular.module('scenarioo.services').service('TestData', function () {
                             'type': 'configuration'
                         },
                         'callTree': {
-                            'details': {
-                            },
+                            'details': {},
                             'item': {
-                                'details': {
-                                },
+                                'details': {},
                                 'name': 'http://www.wikipedia.org',
                                 'type': 'httpCall'
                             }
@@ -131,28 +140,73 @@ angular.module('scenarioo.services').service('TestData', function () {
                     },
                     'visibleText': 'Bla bla bla bla bla ... This is the visible text as generated from dummy test.'
                 },
-                'stepDescription': {
-                    'index': 0,
-                    'title': 'Search results',
-                    'screenshotFileName': '000.png',
-                    'status': 'success',
-                    'details': {
-                        'url': 'http://www.wikipedia.org'
-                    }
+                'html': {
+                    'htmlSource': '<html>\n<head>\n</head>\n<body>\n   <p>just some dummy html code</p>\n</body>\n</html>'
+                },
+                'page': {
+                    'details': {},
+                    'name': 'searchResults.jsp'
                 }
             },
             'stepNavigation': {
-                'pageIndex': 0,
-                'pageStepIndex': 0,
+                'stepIndex': 2,
+                'pageName': 'searchResults.jsp',
+                'stepInPageOccurrence': 0,
+                'previousStepVariant': {
+                    'useCaseName': 'Find Page',
+                    'scenarioName': 'find_page_no_result',
+                    'stepIndex': 2,
+                    'pageName': 'searchResults.jsp',
+                    'stepInPageOccurrence': 0,
+                    'pageIndex': 1,
+                    'pageOccurence': 0
+                },
+                'previousStep': {
+                    'pageName': 'startSearch.jsp',
+                    'pageOccurrence': 0,
+                    'stepInPageOccurrence': 1
+                },
+                'nextStep': {
+                    'pageName': 'searchResults.jsp',
+                    'pageOccurrence': 0,
+                    'stepInPageOccurrence': 1
+                },
+                'pageIndex': 1,
+                'pageOccurence': 0,
                 'pageOccurenceIndex': 0,
-                'pageVariantIndex': 4,
+                'pageVariantIndex': 1,
                 'pageVariantScenarioIndex': 1,
-                'pageVariantsCount': 8,
-                'pageVariantScenariosCount': 3,
-                'previousStepVariant': null,
-                'previousStepVariantInOtherScenario': null,
-                'nextStepVariant': null,
-                'nextStepVariantInOtherScenario': null
+                'nextStepVariant': {
+                    'useCaseName': 'Find Page',
+                    'scenarioName': 'find_page_with_text_on_page_from_multiple_results',
+                    'stepIndex': 3,
+                    'pageName': 'searchResults.jsp',
+                    'stepInPageOccurrence': 1,
+                    'pageIndex': 1,
+                    'pageOccurence': 0
+                },
+                'pageVariantsCount': 3,
+                'pageVariantScenariosCount': 2,
+                'previousStepVariantInOtherScenario': {
+                    'useCaseName': 'Find Page',
+                    'scenarioName': 'find_page_no_result',
+                    'stepIndex': 2,
+                    'pageName': 'searchResults.jsp',
+                    'stepInPageOccurrence': 0,
+                    'pageIndex': 1,
+                    'pageOccurence': 0
+                },
+                'nextStepVariantInOtherScenario': null,
+                'previousPage': {
+                    'pageName': 'startSearch.jsp',
+                    'pageOccurrence': 0,
+                    'stepInPageOccurrence': 1
+                },
+                'nextPage': {
+                    'pageName': 'contentPage.jsp',
+                    'pageOccurrence': 0,
+                    'stepInPageOccurrence': 0
+                }
             }
         },
 

@@ -22,102 +22,105 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Describes a link to a step containing all needed information (in context of a build) to reference a step in all
- * possible address formats.
+ * Describes a link to a step containing all needed information (in context of a
+ * build) to reference a step in all possible address formats.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StepLink {
-	
+
 	public StepLink() {
 	}
-	
-	public StepLink(final String useCaseName, final String scenarioName, final int index, final int pageIndex,
-			final String pageName, final int pageOccurenceIndex, final int pageStepIndex) {
+
+	public StepLink(final String useCaseName, final String scenarioName,
+			final int stepIndex, final int pageIndex, final String pageName,
+			final int pageOccurence, final int stepInPageOccurrence) {
 		super();
 		this.useCaseName = useCaseName;
 		this.scenarioName = scenarioName;
-		this.index = index;
+		this.stepIndex = stepIndex;
 		this.pageIndex = pageIndex;
 		this.pageName = pageName;
-		this.pageOccurenceIndex = pageOccurenceIndex;
-		this.pageStepIndex = pageStepIndex;
+		this.pageOccurence = pageOccurence;
+		this.stepInPageOccurrence = stepInPageOccurrence;
 	}
-	
+
 	private String useCaseName;
 	private String scenarioName;
-	private int index;
+	private int stepIndex;
 	private int pageIndex;
 	private String pageName;
-	private int pageOccurenceIndex;
-	private int pageStepIndex;
-	
+	private int pageOccurence;
+	private int stepInPageOccurrence;
+
 	public String getUseCaseName() {
 		return useCaseName;
 	}
-	
+
 	public void setUseCaseName(final String useCaseName) {
 		this.useCaseName = useCaseName;
 	}
-	
+
 	public String getScenarioName() {
 		return scenarioName;
 	}
-	
+
 	public void setScenarioName(final String scenarioName) {
 		this.scenarioName = scenarioName;
 	}
-	
+
 	public String getPageName() {
 		return pageName;
 	}
-	
+
 	public void setPageName(final String pageName) {
 		this.pageName = pageName;
 	}
-	
+
 	/**
 	 * Overall step index inside the scenario.
 	 */
-	public int getIndex() {
-		return index;
+	public int getStepIndex() {
+		return stepIndex;
 	}
-	
-	public void setIndex(final int index) {
-		this.index = index;
+
+	public void setIndex(final int stepIndex) {
+		this.stepIndex = stepIndex;
 	}
-	
+
 	/**
 	 * the index of the page inside all pages of current scenario
 	 */
 	public int getPageIndex() {
 		return pageIndex;
 	}
-	
+
 	public void setPageIndex(final int pageIndex) {
 		this.pageIndex = pageIndex;
 	}
-	
+
 	/**
-	 * number of occurence of this same page inside the scenario
+	 * Occurrence index of this page in the scenario. An occurrence of a page is
+	 * a sequence of steps that have the same page and it ends as soon as there
+	 * is a step with a different page.
 	 */
-	public int getPageOccurenceIndex() {
-		return pageOccurenceIndex;
+	public int getPageOccurence() {
+		return pageOccurence;
 	}
-	
-	public void setPageOccurenceIndex(final int pageOccurenceIndex) {
-		this.pageOccurenceIndex = pageOccurenceIndex;
+
+	public void setPageOccurence(final int pageOccurenceIndex) {
+		this.pageOccurence = pageOccurenceIndex;
 	}
-	
+
 	/**
-	 * step index inside current page
+	 * Step index inside current page occurrence.
 	 */
-	public int getPageStepIndex() {
-		return pageStepIndex;
+	public int getStepInPageOccurrence() {
+		return stepInPageOccurrence;
 	}
-	
-	public void setPageStepIndex(final int pageStepIndex) {
-		this.pageStepIndex = pageStepIndex;
+
+	public void setStepInPageOccurrence(final int stepInPageOccurrence) {
+		this.stepInPageOccurrence = stepInPageOccurrence;
 	}
-	
+
 }

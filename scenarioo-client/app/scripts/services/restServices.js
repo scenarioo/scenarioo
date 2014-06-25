@@ -107,12 +107,15 @@ angular.module('scenarioo.services').factory('UseCaseService', function (Scenari
 });
 
 angular.module('scenarioo.services').factory('StepService', function (ScenariooResource, $q) {
-    var stepService = ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName/steps/:stepIndex',
+    var stepService = ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName/pageName/:pageName/pageOccurrence/:pageOccurrence/stepInPageOccurrence/:stepInPageOccurrence',
         {branchName: '@branchName',
             buildName: '@buildName',
             usecaseName: '@usecaseName',
             scenarioName: '@scenarioName',
-            stepIndex: '@stepIndex'}, {});
+            pageName: '@pageName',
+            pageOccurrence: '@pageOccurrence',
+            stepInPageOccurrence: '@stepInPageOccurrence'
+        }, {});
 
     stepService.getStep = getPromise($q, function (parameters, fnSuccess, fnError) {
         return stepService.get(parameters, fnSuccess, fnError);
