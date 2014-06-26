@@ -39,6 +39,9 @@ public class StepWithNavigation {
 	private Labels useCaseLabels;
 	private Labels scenarioLabels;
 	
+	public StepWithNavigation() {
+	}
+	
 	public StepWithNavigation(Step step, StepNavigation stepNavigation,
 			Labels useCaseLabels, Labels scenarioLabels) {
 		super();
