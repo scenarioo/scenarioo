@@ -88,6 +88,11 @@ public class UseCaseDocuWritingRule implements TestRule {
 		useCase.setName(name);
 		useCase.setDescription(description);
 		useCase.addDetail("webtestClass", testClass.getName());
+		if(useCase.getName().contains("Corner")) {
+			useCase.getLabels().add("corner-case");
+		} else {
+			useCase.getLabels().add("normal-case");
+		}
 		return useCase;
 	}
 	

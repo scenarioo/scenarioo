@@ -92,6 +92,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 		scenario.setName(name);
 		scenario.setDescription(description);
 		scenario.addDetail("Very long metadata lines", createLongLine());
+		scenario.getLabels().add("scenario-label-1").add("scenario-label-2");
 		return scenario;
 	}
 
