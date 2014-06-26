@@ -18,6 +18,7 @@
 package org.scenarioo.model.configuration;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -62,9 +63,7 @@ public class Configuration {
 	@XmlElement(name = "branchAlias")
 	private List<BranchAlias> branchAliases = new LinkedList<>();
 	
-	@XmlElementWrapper(name = "labelConfigurations")
-	@XmlElement(name = "labelConfiguration")
-	private List<LabelConfiguration> labelConfigurations = new LinkedList<>();
+	private Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<>();
 	
 	public String getTestDocumentationDirPath() {
 		return testDocumentationDirPath;
@@ -165,14 +164,14 @@ public class Configuration {
 		this.branchAliases = buildAliases;
 	}
 
-	public List<LabelConfiguration> getLabelConfigurations() {
+	public Map<String, LabelConfiguration> getLabelConfigurations() {
 		if(labelConfigurations == null) {
-			labelConfigurations = new LinkedList<>();
+			labelConfigurations = new LinkedHashMap<>();
 		}
 		return labelConfigurations;
 	}
 
-	public void setLabelConfigurations(List<LabelConfiguration> labelConfigurations) {
+	public void setLabelConfigurations(Map<String, LabelConfiguration> labelConfigurations) {
 		this.labelConfigurations = labelConfigurations;
 	}
 

@@ -1,11 +1,11 @@
 package org.scenarioo.dao.configuration;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -33,7 +33,7 @@ public class ConfigurationDAOTest {
 	@Test
 	public void writeRead() {
 		Configuration configuration = new Configuration();
-		List<LabelConfiguration> labelConfigurations = createLabelConfigurations();
+		Map<String, LabelConfiguration> labelConfigurations = createLabelConfigurations();
 		configuration.setLabelConfigurations(labelConfigurations);
 		
 		ConfigurationDAO.updateConfiguration(configuration);
@@ -42,18 +42,17 @@ public class ConfigurationDAOTest {
 		assertEquals(labelConfigurations, loadedConfiguration.getLabelConfigurations());
 	}
 
-	private List<LabelConfiguration> createLabelConfigurations() {
-		List<LabelConfiguration> labelConfigurations = new LinkedList<>();
-		labelConfigurations.add(createLabelConfig("test", "#1231231", "#1234231"));
-		labelConfigurations.add(createLabelConfig("test2", "red", "#1234231"));
-		labelConfigurations.add(createLabelConfig("test3", "black", "#1234231"));
+	private Map<String, LabelConfiguration> createLabelConfigurations() {
+		Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<>();
+		labelConfigurations.put("test", createLabelConfig("#1231231", "#1234231"));
+		labelConfigurations.put("test2", createLabelConfig("red", "#1234231"));
+		labelConfigurations.put("test3", createLabelConfig("black", "#1234231"));
 		
 		return labelConfigurations;
 	}
 
-	private LabelConfiguration createLabelConfig(String labelName, String foregroundColor, String backgroundColor) {
+	private LabelConfiguration createLabelConfig(String foregroundColor, String backgroundColor) {
 		LabelConfiguration labelConfig = new LabelConfiguration();
-		labelConfig.setName(labelName);
 		labelConfig.setForegroundColor(foregroundColor);
 		labelConfig.setBackgroundColor(backgroundColor);
 		return labelConfig;

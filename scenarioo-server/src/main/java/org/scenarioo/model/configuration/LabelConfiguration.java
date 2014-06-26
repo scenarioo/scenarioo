@@ -7,17 +7,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LabelConfiguration {
-	private String name;
 	private String backgroundColor;
 	private String foregroundColor;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public String getBackgroundColor() {
 		return backgroundColor;
@@ -31,10 +22,6 @@ public class LabelConfiguration {
 		return foregroundColor;
 	}
 
-	public void setForegroundColor(String foregroundColor) {
-		this.foregroundColor = foregroundColor;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -43,7 +30,6 @@ public class LabelConfiguration {
 				+ ((backgroundColor == null) ? 0 : backgroundColor.hashCode());
 		result = prime * result
 				+ ((foregroundColor == null) ? 0 : foregroundColor.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -66,11 +52,11 @@ public class LabelConfiguration {
 				return false;
 		} else if (!foregroundColor.equals(other.foregroundColor))
 			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
 		return true;
 	}
+
+	public void setForegroundColor(String foregroundColor) {
+		this.foregroundColor = foregroundColor;
+	}
+
 }
