@@ -105,7 +105,10 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         }
 
         if(angular.isDefined(result.page)) {
-            stepInformation['Page name'] = result.page;
+            var pageToRender = angular.copy(result.page);
+            // Will be displayed separately
+            delete pageToRender.labels;
+            stepInformation['Page name'] = pageToRender;
         }
 
         if(angular.isDefined(stepDescription.details.url)) {
