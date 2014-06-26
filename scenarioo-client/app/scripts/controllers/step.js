@@ -82,6 +82,8 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.stepInformationTree = createStepInformationTree(result.step);
                 $scope.pageTree = transformMetadataToTree(result.step.page);
                 $scope.stepNavigation = result.stepNavigation;
+                $scope.useCaseLabels = result.useCaseLabels;
+                $scope.scenarioLabels = result.scenarioLabels;
                 beautify(result.step.html);
             });
         }
