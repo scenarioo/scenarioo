@@ -13,6 +13,8 @@ function BranchAliasesPage(overridePath) {
     this.saveButton = element(by.css('input.btn[value="Save"]'));
     this.resetButton = element(by.css('input.btn[value="Reset"]'));
 
+    this.branchesDropDown = element(by.css('div.navbar ul.nav li.dropdown ul.dropdown-menu'));
+
 }
 
 util.inherits(BranchAliasesPage, BaseWebPage);
@@ -96,6 +98,10 @@ BranchAliasesPage.prototype.assertDuplicateAliasError = function() {
     expect(element(by.id('duplicateAlisErrorId')).isPresent()).toBe(true);
 };
 
-
+BranchAliasesPage.prototype.chooseBranch = function(branchName) {
+    // Open menu first, otherwise we cannot click
+    element(by.partialLinkText('Branch:')).click();
+    element(by.partialLinkText(branchName)).click();
+};
 
 module.exports = BranchAliasesPage;
