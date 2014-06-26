@@ -6,10 +6,11 @@
 			<td ng-class="{matchColor: node.matching}"><span style="padding-left:{{node.level * 30}}px">
 				<img style="cursor:pointer; padding-right:10px"
 					ng-click="toggleCollapse($index)" ng-src="/styles/bitmaps/{{node.icon}}">
-						<span style="cursor:pointer" ng-click="goToReferenceTreeView($index)">{{node.type}}:{{node.name}}</span>
+						<span style="cursor:pointer" ng-click="goToReferenceTree($index)">{{node.type}}:{{node.name}}</span>
 				</span>
 			</td>
-			<td ng-class="{matchColor: node.matching}">{{node.description}}</td>
+			<!--TODO make it depending on configuration-->
+			<td ng-hide="{{angular.isUndefined(node.description)}}" ng-class="{matchColor: node.matching}">{{node.description}}</td>
 		</tr>
 	</table>
 </div>

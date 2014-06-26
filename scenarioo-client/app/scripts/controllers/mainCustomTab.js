@@ -54,8 +54,10 @@ angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function
         });
     }
 
-    $scope.goToReferenceTreeView = function (objectType, objectName) {
-        $location.path('/referenceTree/' + objectType + '/' + objectName);
+    $scope.goToReferenceTree = function (index) {
+        var nodeElement = $scope.treemodel[index];
+
+        $location.path('/referenceTree/' + nodeElement.type + '/' + nodeElement.name);
     };
 
     $scope.resetSearchField = function () {

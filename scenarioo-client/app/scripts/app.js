@@ -67,16 +67,17 @@ angular.module('scenarioo', [
             stepIndex: '@stepIndex',
             breadcrumb: '<strong>Step:</strong> $title'
         })
-        .when('/referenceTree/:objectType/:objectName', {
+       .when('/referenceTree/:objectType/:objectName', {
             templateUrl: 'views/referenceTree.html',
-            controller: 'MainCustomTabCtrl',
-            objectType: '@objecType',
+            controller: 'ReferenceTreeCtrl',
+            objectType: '@objectType',
             objectName: '@objectName',
-            breadcrumb: '<strong>Reference Tree-View:</strong> $title'
-        })
+            breadcrumb: '<strong>Reference Tree-View:</strong> $param'
+        })        
         .otherwise({
             redirectTo: '/'
-        });
+        })
+;
 }).run(function ($rootScope, Config, GlobalHotkeysService, $location) {
 
     GlobalHotkeysService.registerGlobalHotkey('m', function () {

@@ -40,6 +40,12 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             }
 
             function createNode(node, level, id, parent){
+
+                if (angular.isUndefined(node.item))
+                {
+                    return "No item defined on node";
+                }
+
                 var newNode = {
                     'id': id,
                     'name': node.item.name,

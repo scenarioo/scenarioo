@@ -40,7 +40,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($loca
                 }
                 pathOfCurrentBreadcrumb += encodeURIComponent(item);
 
-                var keyOfMatchingRoute = findPath($route.routes, pathOfCurrentBreadcrumb);
+                var keyOfMatchingRoute = findRoutePath($route.routes, pathOfCurrentBreadcrumb);
                 var matchingRoute = $route.routes[keyOfMatchingRoute];
 
                 if (matchingRoute) {
@@ -91,14 +91,14 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($loca
         return text.replace(/<(?:.|\n)*?>/gm, '');
     }
 
-    function findPath(routes, path) {
+    function findRoutePath(routes, path) {
         for (var key in routes) {
             var routePath = key;
 
-            // Replace route parameters
+            // Replace route parameters e.g. /referenceTree/:objectType/:objectName
             routePath = routePath.replace(new RegExp(':[^/]+', 'gm'), '[^/]+');
 
-            // Replace first part of the routepath
+            // Replace first part of the e.g. /referenceTree/Feature/Feature%201
             routePath = routePath.replace(new RegExp('^/[^/]+/', 'gm'), '/[^/]+/');
 
             if (path.match(new RegExp('^' + routePath + '$', '')) !== null) {

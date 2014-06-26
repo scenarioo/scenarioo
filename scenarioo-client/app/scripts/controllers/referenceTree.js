@@ -17,30 +17,27 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($scope, $routeParams, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($scope, $routeParams, ObjectIndexListResource, SelectedBranchAndBuild) {
 
     var objectType = $routeParams.objectType;
     var objectName = $routeParams.objectName;
     var selectedBranchAndBuild;
+    $scope.referenceTree = [];
 
     SelectedBranchAndBuild.callOnSelectionChange(loadReferenceTree);
 
     function loadReferenceTree(selected) {
     selectedBranchAndBuild = selected;
-    ScenarioResource.get(
+    ObjectIndexListResource.get(
         {
             branchName: selected.branch,
             buildName: selected.build,
-            objectType: objectType,
-            objectName: objectName
+            objectType: 'page', // objectType,
+            objectName: 'searchResults.jsp' // objectName
         },
         function(result) {
-            populateReferences(result);
+            $scope.referenceTree = result;
         });
-	}
-
-	function populateReferences() {
-
 	}
 
 });	

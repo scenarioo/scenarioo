@@ -45,18 +45,4 @@ angular.module('scenarioo.controllers').controller('MainGenericObjectsTabCtrl', 
             return true;
         }
     };
-
-    $scope.genericObjectTabs = [
-        {index: '0', label: 'Object Descriptions', objectTypes: [
-            {index: 0, label: 'Business Operations', objectType: 'businessOperation'},
-            {index: 1, label: 'Services', objectType: 'service', columns: [
-                {key: 'realName', label: 'Real Name'},
-                {key: 'eaiName', label: 'Integration Name (EAI)'}
-            ]},
-            {index: 2, label: 'UI Actions', objectType: 'action'} ,
-            {index: 3, label: 'HTTP Requests', objectType: 'httpAction'}
-        ]}
-        //,{index: '1', label:'Simulation Configs', objectType: 'httpAction'}
-    ];
-
 });
