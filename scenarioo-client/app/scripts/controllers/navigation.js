@@ -17,10 +17,14 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, localStorageService, BranchesAndBuilds, SelectedBranchAndBuild, $modal, ScApplicationInfoPopup, Config,GlobalHotkeysService) {
+angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, localStorageService, BranchesAndBuilds, SelectedBranchAndBuild, $modal, ScApplicationInfoPopup, Config, GlobalHotkeysService) {
 
     $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
         $scope.applicationName = Config.applicationName();
+    });
+
+    $scope.$on('branchesUpdated', function () {
+        loadBranchesAndBuilds();
     });
 
     SelectedBranchAndBuild.callOnSelectionChange(loadBranchesAndBuilds);

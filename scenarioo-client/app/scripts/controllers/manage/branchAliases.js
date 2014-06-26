@@ -18,12 +18,21 @@
 'use strict';
 
 
-angular.module('scenarioo.controllers').controller('BranchAliasesCtrl', function ($scope, $location, $route, $modal, BranchAliasesResource, Config, BranchesResource) {
+angular.module('scenarioo.controllers').controller('BranchAliasesCtrl', function ($scope, $rootScope, $location, $route, $modal, BranchAliasesResource, Config, BranchesResource) {
 
     loadBranchAliases();
 
     BranchesResource.query({}, function (branches) {
-        $scope.branches = branches;
+        var branchesWithoutAliases = [];
+        var index;
+        for(index = 0; index < branches.length; index++) {
+            var branch = branches[index];
+            if(!branch.alias) {
+                branchesWithoutAliases.push(branch);
+            }
+        }
+
+        $scope.branches = branchesWithoutAliases;
     });
 
     $scope.deleteEntry = function (aliasName) {
@@ -75,7 +84,9 @@ angular.module('scenarioo.controllers').controller('BranchAliasesCtrl', function
             return;
         }
 
-        BranchAliasesResource.save(branchAliasesToSave);
+        BranchAliasesResource.save(branchAliasesToSave, function() {
+            $rootScope.$broadcast('branchesUpdated');
+        });
 
         $scope.successfullyUpdatedBranchAliases = true;
     };
