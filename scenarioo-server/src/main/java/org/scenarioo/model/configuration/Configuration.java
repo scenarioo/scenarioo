@@ -24,6 +24,8 @@ import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -56,7 +58,13 @@ public class Configuration {
 
 	private Map<String, String> buildstates = new HashMap<String, String>();
 	
+	@XmlElementWrapper(name = "branchAliases")
+	@XmlElement(name = "branchAlias")
 	private List<BranchAlias> branchAliases = new LinkedList<>();
+	
+	@XmlElementWrapper(name = "labelConfigurations")
+	@XmlElement(name = "labelConfiguration")
+	private List<LabelConfiguration> labelConfigurations = new LinkedList<>();
 	
 	public String getTestDocumentationDirPath() {
 		return testDocumentationDirPath;
@@ -155,6 +163,17 @@ public class Configuration {
 
 	public void setBranchAliases(List<BranchAlias> buildAliases) {
 		this.branchAliases = buildAliases;
+	}
+
+	public List<LabelConfiguration> getLabelConfigurations() {
+		if(labelConfigurations == null) {
+			labelConfigurations = new LinkedList<>();
+		}
+		return labelConfigurations;
+	}
+
+	public void setLabelConfigurations(List<LabelConfiguration> labelConfigurations) {
+		this.labelConfigurations = labelConfigurations;
 	}
 
 }
