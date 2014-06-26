@@ -17,7 +17,10 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService, CustomTabContentResource, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function ($scope, $location, $filter, 
+    GlobalHotkeysService, CustomTabContentResource, SelectedBranchAndBuild) {
+    
+    $scope.searchField;
 
     function getSelectedTabFromUrl() {
         var params = $location.search();
@@ -25,6 +28,7 @@ angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function
         if (params !== null && angular.isDefined(params.tab)) {
             selectedTabId = params.tab;
         }
+
         return selectedTabId;
     }
 
@@ -44,12 +48,18 @@ angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function
         );
     }
 
-    $scope.searchField;
+    $scope.expandAll = function() {
+        angular.forEach($scope.treemodel, function(node, index) {
+            toggleCollapse(node.id);
+        });
+    }
 
-    $scope.treeHtml = {search: {$: ''}, sort: {column: 'Name', reverse: false}};
+    $scope.goToReferenceTreeView = function (objectType, objectName) {
+        $location.path('/referenceTree/' + objectType + '/' + objectName);
+    };
 
     $scope.resetSearchField = function () {
-        $scope.treeHtml.search = {searchTerm: ''};
+        $scope.searchField = '';
     };
 
 

@@ -40,6 +40,7 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
              $scope.tabs[$scope.tabs.length] = {
                 tabId: customTab.id,
                 title: customTab.tabTitle,
+                column: customTab.customObjectDetailColumns,
                 contentViewUrl: 'views/mainCustomTab.html',
                 active: false
             }

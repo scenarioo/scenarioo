@@ -27,9 +27,10 @@ public class CustomTabsResource extends AbstractBuildContentResource {
 		// .resolveAliasBuildName(branchName, buildName);
 
 		List<ObjectTreeNode<ObjectReference>> mockedResult = new ArrayList<ObjectTreeNode<ObjectReference>>();
-		mockedResult.add(createSampleMockedFeatureTree("Feature", 1, 2));
-		mockedResult.add(createSampleMockedFeatureTree("Feature", 2, 2));
-		mockedResult.add(createSampleMockedFeatureTree("Feature", 3, 2));
+		mockedResult.add(createSampleMockedFeatureTree("Feature", 1, 3));
+		mockedResult.add(createSampleMockedFeatureTree("Just a feature", 2, 3));
+		mockedResult.add(createSampleMockedFeatureTree("Enables user to...", 3,
+				3));
 
 		return new CustomTabObjectTree(mockedResult);
 	}
@@ -38,13 +39,28 @@ public class CustomTabsResource extends AbstractBuildContentResource {
 			final String type, final int index, final int children) {
 		ObjectTreeNode<ObjectReference> featureNode = new ObjectTreeNode<ObjectReference>(
 				new ObjectReference(type, type + " " + index));
+
 		featureNode.getDetails().addDetail("description",
 				"Bla bla, just a description to test");
 
 		for (int i = 0; i < children; i++) {
+
 			String childType = "Story";
+
 			if (type.equals("Feature")) {
 				childType = "Epic";
+			}
+
+			if (type.equals("Just a feature")) {
+				childType = "Another epic";
+			}
+
+			if (type.equals("Enables user to...")) {
+				childType = "plagiat epic contains a key word";
+			}
+
+			if (type.equals("Story")) {
+				childType = "Another special task of a story";
 			}
 
 			featureNode.addChild(createSampleMockedFeatureTree(childType,
@@ -52,5 +68,4 @@ public class CustomTabsResource extends AbstractBuildContentResource {
 		}
 		return featureNode;
 	}
-
 }

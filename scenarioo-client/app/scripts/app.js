@@ -67,6 +67,13 @@ angular.module('scenarioo', [
             stepIndex: '@stepIndex',
             breadcrumb: '<strong>Step:</strong> $title'
         })
+        .when('/referenceTree/:objectType/:objectName', {
+            templateUrl: 'views/referenceTree.html',
+            controller: 'MainCustomTabCtrl',
+            objectType: '@objecType',
+            objectName: '@objectName',
+            breadcrumb: '<strong>Reference Tree-View:</strong> $title'
+        })
         .otherwise({
             redirectTo: '/'
         });

@@ -1,10 +1,15 @@
-<div>
+<div ng-controller="MainCustomTabCtrl">
+ 	
 	<table id="treeviewtable" class="table table-curved table-hover table-responsive">
-		<tr><th>Name</th><th>Type</th><th>Description</th></tr>
+		<tr><th ng-repeat="column in tab.column">{{column.columnTitle}}</th>
 		<tr ng-repeat="node in treemodel" ng-show="node.isVisible">
-			<td style="cursor:pointer" ng-click="toggleCollapse($index)"><span style="padding-left:{{node.level * 30}}px"><img src="/styles/bitmaps/expand.png" style="padding-right:5px">{{node.name}}</span></td>
-			<td>{{node.type}}</td>
-			<td>{{node.description}}</td>
+			<td ng-class="{matchColor: node.matching}"><span style="padding-left:{{node.level * 30}}px">
+				<img style="cursor:pointer; padding-right:10px"
+					ng-click="toggleCollapse($index)" ng-src="/styles/bitmaps/{{node.icon}}">
+						<span style="cursor:pointer" ng-click="goToReferenceTreeView($index)">{{node.type}}:{{node.name}}</span>
+				</span>
+			</td>
+			<td ng-class="{matchColor: node.matching}">{{node.description}}</td>
 		</tr>
 	</table>
 </div>
