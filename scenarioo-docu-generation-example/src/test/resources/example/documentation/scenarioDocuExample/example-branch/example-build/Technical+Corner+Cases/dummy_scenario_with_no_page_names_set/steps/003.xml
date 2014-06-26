@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <step xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <page>
-        <name>startSearch.jsp</name>
         <details/>
     </page>
     <stepDescription>
-        <index>1</index>
-        <title>Wikipedia Suche</title>
+        <index>3</index>
+        <title>Technical Page 2</title>
         <status>success</status>
-        <screenshotFileName>001.png</screenshotFileName>
+        <screenshotFileName>003.png</screenshotFileName>
         <details>
             <entry>
                 <key>url</key>
-                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">http://www.wikipedia.org</value>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">http://www.wikipedia.org/technical-multiple-pages-scenario</value>
             </entry>
         </details>
     </stepDescription>
@@ -31,30 +30,12 @@
             <entry>
                 <key>Simulation Configuration</key>
                 <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectDescription">
-                    <name>search_not_found_config</name>
+                    <name>technical_no_page_names_config</name>
                     <type>configuration</type>
                     <details>
                         <entry>
                             <key>overridenConfigModules</key>
-                            <value xsi:type="objectList">
-<items xsi:type="objectDescription">
-    <name>search_results_none</name>
-    <type>configModuleValue</type>
-    <details>
-        <entry>
-            <key>module</key>
-            <value xsi:type="objectReference">
-                <name>search_results</name>
-                <type>configModule</type>
-            </value>
-        </entry>
-        <entry>
-            <key>description</key>
-            <value xsi:type="xs:string">no pages found</value>
-        </entry>
-    </details>
-</items>
-                            </value>
+                            <value xsi:type="objectList"/>
                         </entry>
                         <entry>
                             <key>defaultConfigModules</key>

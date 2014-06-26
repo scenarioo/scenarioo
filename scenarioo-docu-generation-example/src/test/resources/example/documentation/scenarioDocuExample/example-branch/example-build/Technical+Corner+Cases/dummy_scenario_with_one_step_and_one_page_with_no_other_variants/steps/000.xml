@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <step xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <page>
-        <name>startSearch.jsp</name>
+        <name>specialPageWithOnlyOneVariant.jsp</name>
         <details/>
     </page>
     <stepDescription>
-        <index>1</index>
+        <index>0</index>
         <title>Wikipedia Suche</title>
         <status>success</status>
-        <screenshotFileName>001.png</screenshotFileName>
+        <screenshotFileName>000.png</screenshotFileName>
         <details>
             <entry>
                 <key>url</key>
-                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">http://www.wikipedia.org</value>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">http://www.wikipedia.org/technical-one-page-scenario</value>
             </entry>
         </details>
     </stepDescription>
@@ -31,30 +31,12 @@
             <entry>
                 <key>Simulation Configuration</key>
                 <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectDescription">
-                    <name>search_not_found_config</name>
+                    <name>technical_one_page_config</name>
                     <type>configuration</type>
                     <details>
                         <entry>
                             <key>overridenConfigModules</key>
-                            <value xsi:type="objectList">
-<items xsi:type="objectDescription">
-    <name>search_results_none</name>
-    <type>configModuleValue</type>
-    <details>
-        <entry>
-            <key>module</key>
-            <value xsi:type="objectReference">
-                <name>search_results</name>
-                <type>configModule</type>
-            </value>
-        </entry>
-        <entry>
-            <key>description</key>
-            <value xsi:type="xs:string">no pages found</value>
-        </entry>
-    </details>
-</items>
-                            </value>
+                            <value xsi:type="objectList"/>
                         </entry>
                         <entry>
                             <key>defaultConfigModules</key>
@@ -134,6 +116,106 @@
             </entry>
             <entry>
                 <key>Call Tree</key>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectTreeNode">
+                    <item xsi:type="objectDescription">
+                        <name>http://www.wikipedia.org/technical-one-page-scenario</name>
+                        <type>httpCall</type>
+                        <details/>
+                    </item>
+                    <details/>
+                    <children>
+                        <item xsi:type="objectDescription">
+                            <name>example.action.StartInitAction</name>
+                            <type>uiAction</type>
+                            <details>
+<entry>
+    <key>description</key>
+    <value xsi:type="xs:string">Initializer for wiki, creates user session and initializes the menu</value>
+</entry>
+                            </details>
+                        </item>
+                        <details/>
+                        <children>
+                            <item xsi:type="objectDescription">
+<name>UserSessionBean.loadUserSessionData</name>
+<type>businessOperation</type>
+<details>
+    <entry>
+        <key>description</key>
+        <value xsi:type="xs:string">Load session data for current user</value>
+    </entry>
+</details>
+                            </item>
+                            <details/>
+                            <children>
+<item xsi:type="objectDescription">
+    <name>AuthenticationService.checkUserAuthenticatedServiceOperationWithAVeryVeryVeryUglyAndLongOperationNameJustToCheckHandlingOfLongNames</name>
+    <type>service</type>
+    <details>
+        <entry>
+            <key>description</key>
+            <value xsi:type="xs:string">Service to check via LDAP the authentication for a user for given operation.</value>
+        </entry>
+        <entry>
+            <key>eaiName</key>
+        </entry>
+        <entry>
+            <key>realName</key>
+            <value xsi:type="xs:string">LDAP:AuthenticationService</value>
+        </entry>
+    </details>
+</item>
+<details/>
+                            </children>
+                        </children>
+                        <children>
+                            <item xsi:type="objectDescription">
+<name>MenuSessionBean.load</name>
+<type>businessOperation</type>
+<details>
+    <entry>
+        <key>description</key>
+        <value xsi:type="xs:string">Load current menu page index</value>
+    </entry>
+</details>
+                            </item>
+                            <details/>
+                            <children>
+<item xsi:type="objectDescription">
+    <name>MenuService.loadMenu</name>
+    <type>service</type>
+    <details>
+        <entry>
+            <key>description</key>
+            <value xsi:type="xs:string">Service to load current wiki menu.</value>
+        </entry>
+        <entry>
+            <key>eaiName</key>
+        </entry>
+        <entry>
+            <key>realName</key>
+            <value xsi:type="xs:string">MENUSYS:LoadMenuService.load</value>
+        </entry>
+    </details>
+</item>
+<details/>
+                            </children>
+                        </children>
+                    </children>
+                    <children>
+                        <item xsi:type="objectDescription">
+                            <name>example.action.SearchInitAction</name>
+                            <type>uiAction</type>
+                            <details>
+<entry>
+    <key>description</key>
+    <value xsi:type="xs:string">Initializer to init the search page</value>
+</entry>
+                            </details>
+                        </item>
+                        <details/>
+                    </children>
+                </value>
             </entry>
             <entry>
                 <key>Huge Metadata Tree</key>

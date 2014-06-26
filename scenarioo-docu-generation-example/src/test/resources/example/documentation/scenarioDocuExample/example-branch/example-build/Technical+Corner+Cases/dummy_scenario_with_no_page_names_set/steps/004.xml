@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <step xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <page>
-        <name>startSearch.jsp</name>
         <details/>
     </page>
     <stepDescription>
-        <index>1</index>
-        <title>Wikipedia Suche</title>
+        <index>4</index>
+        <title>Technical Page 3</title>
         <status>success</status>
-        <screenshotFileName>001.png</screenshotFileName>
+        <screenshotFileName>004.png</screenshotFileName>
         <details>
             <entry>
                 <key>url</key>
-                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">http://www.wikipedia.org</value>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">http://www.wikipedia.org/technical-multiple-pages-scenario</value>
             </entry>
         </details>
     </stepDescription>
@@ -31,30 +30,12 @@
             <entry>
                 <key>Simulation Configuration</key>
                 <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectDescription">
-                    <name>search_not_found_config</name>
+                    <name>technical_no_page_names_config</name>
                     <type>configuration</type>
                     <details>
                         <entry>
                             <key>overridenConfigModules</key>
-                            <value xsi:type="objectList">
-<items xsi:type="objectDescription">
-    <name>search_results_none</name>
-    <type>configModuleValue</type>
-    <details>
-        <entry>
-            <key>module</key>
-            <value xsi:type="objectReference">
-                <name>search_results</name>
-                <type>configModule</type>
-            </value>
-        </entry>
-        <entry>
-            <key>description</key>
-            <value xsi:type="xs:string">no pages found</value>
-        </entry>
-    </details>
-</items>
-                            </value>
+                            <value xsi:type="objectList"/>
                         </entry>
                         <entry>
                             <key>defaultConfigModules</key>
@@ -134,6 +115,163 @@
             </entry>
             <entry>
                 <key>Call Tree</key>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectTreeNode">
+                    <item xsi:type="objectDescription">
+                        <name>http://www.wikipedia.org/technical-multiple-pages-scenario</name>
+                        <type>httpCall</type>
+                        <details/>
+                    </item>
+                    <details/>
+                    <children>
+                        <item xsi:type="objectDescription">
+                            <name>example.action.SearchProcessAction</name>
+                            <type>uiAction</type>
+                            <details>
+<entry>
+    <key>description</key>
+    <value xsi:type="xs:string">Process user input on search page and start searching</value>
+</entry>
+                            </details>
+                        </item>
+                        <details/>
+                        <children>
+                            <item xsi:type="objectDescription">
+<name>SearchSessionBean.searchForText</name>
+<type>businessOperation</type>
+<details>
+    <entry>
+        <key>description</key>
+        <value xsi:type="xs:string">Process search for a text</value>
+    </entry>
+</details>
+                            </item>
+                            <details/>
+                            <children>
+<item xsi:type="objectDescription">
+    <name>SearchService.search</name>
+    <type>service</type>
+    <details>
+        <entry>
+            <key>description</key>
+            <value xsi:type="xs:string">Search for pages using the power grid</value>
+        </entry>
+        <entry>
+            <key>eaiName</key>
+            <value xsi:type="xs:string">TIBCO:FastSearchService.getSearchResults</value>
+        </entry>
+        <entry>
+            <key>realName</key>
+            <value xsi:type="xs:string">PowerGridSearch.search</value>
+        </entry>
+    </details>
+</item>
+<details/>
+                            </children>
+                            <children>
+<item xsi:type="objectDescription">
+    <name>SearchService.loadAmbiguitiesListServiceforSearcheswithMultipleResultsThatHasAVeryVeryVeryLongNameJusttoTestAndDemonstrateWhatHappensWithRealyRealyLongNamesAndThatTheyCanBeProperlyHandledEvenIfMultipleNamesStartWithSameFirst100CharactersNumberOne</name>
+    <type>service</type>
+    <details>
+        <entry>
+            <key>description</key>
+            <value xsi:type="xs:string">Service to load a list of ambiguities to display to the user for a ambiguous search (version 1 to test long names with name clashes).</value>
+        </entry>
+        <entry>
+            <key>eaiName</key>
+            <value xsi:type="xs:string">TIBCO:AmbiguitiesService.getAmbiguitiesList</value>
+        </entry>
+        <entry>
+            <key>realName</key>
+            <value xsi:type="xs:string">ContentDB.loadAmbiguities</value>
+        </entry>
+    </details>
+</item>
+<details/>
+                            </children>
+                            <children>
+<item xsi:type="objectDescription">
+    <name>SearchService.loadAmbiguitiesListServiceforSearcheswithMultipleResultsThatHasAVeryVeryVeryLongNameJusttoTestAndDemonstrateWhatHappensWithRealyRealyLongNamesAndThatTheyCanBeProperlyHandledEvenIfMultipleNamesStartWithSameFirst100CharactersNumberTwo</name>
+    <type>service</type>
+    <details>
+        <entry>
+            <key>description</key>
+            <value xsi:type="xs:string">Service to load a list of ambiguities to display to the user for a ambiguous search (version 1 to test long names with name clashes).</value>
+        </entry>
+        <entry>
+            <key>eaiName</key>
+            <value xsi:type="xs:string">TIBCO:AmbiguitiesService.getAmbiguitiesList</value>
+        </entry>
+        <entry>
+            <key>realName</key>
+            <value xsi:type="xs:string">ContentDB.loadAmbiguities</value>
+        </entry>
+    </details>
+</item>
+<details/>
+                            </children>
+                        </children>
+                    </children>
+                    <children>
+                        <item xsi:type="objectDescription">
+                            <name>example.action.SearchResultsListInitAction</name>
+                            <type>uiAction</type>
+                            <details>
+<entry>
+    <key>description</key>
+    <value xsi:type="xs:string">Initilize the list of search results to display to user</value>
+</entry>
+                            </details>
+                        </item>
+                        <details/>
+                    </children>
+                    <children>
+                        <item xsi:type="objectDescription">
+                            <name>example.action.ShowPageInitAction</name>
+                            <type>uiAction</type>
+                            <details>
+<entry>
+    <key>description</key>
+    <value xsi:type="xs:string">Initialize page content to display</value>
+</entry>
+                            </details>
+                        </item>
+                        <details/>
+                        <children>
+                            <item xsi:type="objectDescription">
+<name>PageSessionBean.loadPageContent</name>
+<type>businessOperation</type>
+<details>
+    <entry>
+        <key>description</key>
+        <value xsi:type="xs:string">Load the page content to present to the user</value>
+    </entry>
+</details>
+                            </item>
+                            <details/>
+                            <children>
+<item xsi:type="objectDescription">
+    <name>ContentService.loadPage</name>
+    <type>service</type>
+    <details>
+        <entry>
+            <key>description</key>
+            <value xsi:type="xs:string">Service to load the whole page content of a page</value>
+        </entry>
+        <entry>
+            <key>eaiName</key>
+            <value xsi:type="xs:string">TIBCO:PageContentService.getPage</value>
+        </entry>
+        <entry>
+            <key>realName</key>
+            <value xsi:type="xs:string">ContentDB.loadPage</value>
+        </entry>
+    </details>
+</item>
+<details/>
+                            </children>
+                        </children>
+                    </children>
+                </value>
             </entry>
             <entry>
                 <key>Huge Metadata Tree</key>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <scenario xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
-    <name>find_page_no_result</name>
-    <description>User enters text that is not found in pages content.</description>
+    <name>dummy_scenario_with_one_step_and_one_page_with_no_other_variants</name>
+    <description>Dummy scenario with one step and no other page variants of this same step in other scenarios.</description>
     <status>success</status>
     <details>
         <entry>

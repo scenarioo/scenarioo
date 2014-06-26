@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <scenario xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
-    <name>find_page_no_result</name>
-    <description>User enters text that is not found in pages content.</description>
+    <name>find_page_with_title_ambiguous_navigate_to_other_meaning</name>
+    <description>User enters page title that is ambiguous but matches directly a page, on the page he sees the list of other meanings, and can navigate to the page he meant.</description>
     <status>success</status>
     <details>
         <entry>
