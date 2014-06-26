@@ -74,6 +74,7 @@ public class UseCasesResource {
 		summary.setDescription(useCase.getDescription());
 		summary.setStatus(useCase.getStatus());
 		summary.setNumberOfScenarios(useCaseScenarios.getScenarios().size());
+		summary.setLabels(useCase.getLabels());
 		return summary;
 	}
 }
