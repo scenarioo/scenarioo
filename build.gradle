@@ -42,7 +42,7 @@ configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-exa
 	}
 	
 	dependencies {
-		compile 'org.scenarioo:scenarioo-java:0.+'
+		compile 'org.scenarioo:scenarioo-java:0.1.29'
 	    compile 'org.apache.commons:commons-lang3:3.0.1'
 	    compile 'commons-io:commons-io:1.3.2'
 	    compile 'commons-codec:commons-codec:1.2'
