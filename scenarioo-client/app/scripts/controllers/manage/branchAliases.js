@@ -18,7 +18,7 @@
 'use strict';
 
 
-angular.module('scenarioo.controllers').controller('BranchAliasesCtrl', function ($scope, $location, $route, $modal, BranchAliasesResource, Config, BranchesResource) {
+angular.module('scenarioo.controllers').controller('BranchAliasesCtrl', function ($scope, $rootScope, $location, $route, $modal, BranchAliasesResource, Config, BranchesResource) {
 
     loadBranchAliases();
 
@@ -84,7 +84,9 @@ angular.module('scenarioo.controllers').controller('BranchAliasesCtrl', function
             return;
         }
 
-        BranchAliasesResource.save(branchAliasesToSave);
+        BranchAliasesResource.save(branchAliasesToSave, function() {
+            $rootScope.$broadcast('branchesUpdated');
+        });
 
         $scope.successfullyUpdatedBranchAliases = true;
     };
