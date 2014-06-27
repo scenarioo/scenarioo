@@ -16,12 +16,12 @@
    <!-- use cases table -->
     <table ng-table="tableParams" class="table table-curved table-hover table-responsive usecase-table" ng-model="sort" sc-navigator-table="filtered"  >
         <thead>
-        <tr>
-            <th sc-sortable-column="useCase.status">Status</th>
-            <th sc-sortable-column="useCase.name">Name</th>
-            <th>Description</th>
-            <th sc-sortable-column="use.numberOfScenarios" class="filter-none"># Scenarios</th>
-        </tr>
+            <tr>
+                <th sc-sortable-column="status">Status</th>
+                <th sc-sortable-column="name">Name</th>
+                <th>Description</th>
+                <th sc-sortable-column="numberOfScenarios"># Scenarios</th>
+            </tr>
         </thead>
         <tbody>
         <tr ng-class="{'selected':$index==selectedRowIndex}" ng-repeat="useCase in filtered=(useCases | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)" ng-click="goToUseCase(useCase.name)" class="link">

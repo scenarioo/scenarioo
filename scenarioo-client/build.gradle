@@ -41,6 +41,7 @@ bower.dependsOn npmInstall
 grunt_build.dependsOn bower
 
 // makes sure on each build that grunt is installed
+installGrunt.dependsOn 'npmInstall'
 grunt_clean.dependsOn 'installGrunt'
 grunt_build.dependsOn 'installGrunt'
 
