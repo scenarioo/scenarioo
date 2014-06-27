@@ -20,10 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>
 <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>
-<html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js" ng-app="scenarioo"> <!--<![endif]-->
+<!--[if gte IE 8]><!-->
+<html id="ng-app" ng-app="scenarioo" xmlns:ng="http://angularjs.org" twg-global-hotkeys xclass="no-js lt-ie9"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -33,10 +31,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/scenarioo.css">
+    <!--[if lt IE 9]>
+        <link rel="stylesheet" href="styles/ie-hacks.css">
+    <![endif]-->
     <!-- endbuild -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-
+    <!--[if lte IE 8]>
+        <script type="text/javascript">
+            document.createElement("sc-breadcrumb");
+            document.createElement("sc-tree");
+            document.createElement("tabset");
+            document.createElement("tab");
+            document.createElement("ng-include");
+        </script>
+    <![endif]-->
 </head>
 <body>
 <!--[if lt IE 7]>
@@ -53,7 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div ng-include="'views/navigation.html'" ng-controller="NavigationCtrl">
 </div>
 
-<div class="ngusd-container">
+<div class="sc-container">
     <div ng-view></div>
 </div>
 
@@ -63,6 +71,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="components/angular-route/angular-route.js"></script>
 <script src="components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script src="components/angular-local-storage/angular-local-storage.js"></script>
+<script src="components/twigs/dist/twigs.js"></script>
+<script src="components/angular-i18n/angular-locale_en-us.js"></script>
+<script src="components/angular-i18n/angular-locale_de-de.js"></script>
+<script src="components/angular-i18n/angular-locale_de-ch.js"></script>
 
 <!-- build:js scripts/js-beautify.js -->
 <!--<script src="third-party/js-beautify/js/lib/beautify-html.js"></script>-->
@@ -82,14 +94,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="scripts/directives/sortableColumn.js"></script>
 <script src="scripts/directives/tree.js"></script>
 <script src="scripts/directives/staticInclude.js"></script>
+<script src="scripts/directives/navigatorTable.js"></script>
 <script src="scripts/controllers/navigation.js"></script>
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/controllers/mainUseCasesTab.js"></script>
-<script src="scripts/controllers/mainBuildsTab.js"></script>
 <script src="scripts/controllers/usecase.js"></script>
 <script src="scripts/controllers/scenario.js"></script>
 <script src="scripts/controllers/step.js"></script>
-<script src="scripts/controllers/configEditor.js"></script>
+<script src="scripts/controllers/manage/manage.js"></script>
+<script src="scripts/controllers/manage/buildsList.js"></script>
+<script src="scripts/controllers/manage/buildImportDetails.js"></script>
+<script src="scripts/controllers/manage/configEditor.js"></script>
 <script src="scripts/controllers/title.js"></script>
 <script src="scripts/filters/humanReadable.js"></script>
 <script src="scripts/filters/filterArray.js"></script>
@@ -97,6 +112,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="scripts/filters/treeDataOptimizer.js"></script>
 <script src="scripts/filters/metadataTreeCreator.js"></script>
 <script src="scripts/filters/metadataTreeListCreator.js"></script>
+<script src="scripts/filters/dateTime.js"></script>
 <script src="scripts/services/applicationInfoPopup.js"></script>
 <!-- endbuild -->
 

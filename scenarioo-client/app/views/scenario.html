@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumb></sc-breadcrumb>
 
-<div class="row ngusd-space-top ngusd-space-bottom">
+<div class="row sc-space-top sc-space-bottom">
     <div class="col-lg-3">
         <div class="input-group">
             <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip" title="type words separated by spaces to search for" ng-model="searchFieldText" placeholder="Search page / step ..."/>
@@ -28,6 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
     <div class="col-lg-9">
         <div class="pull-right">
+            <button type="button" class="btn btn-default" id="expandAllPages" ng-show="isExpandAllPossible()" ng-click="expandAll()">expand all</button>
+            <button type="button" class="btn btn-default" id="collapseAllPages" ng-show="isCollapseAllPossible()" ng-click="collapseAll()">collapse all</button>
             <span sc-static-include="views/metadataButton.html"></span>
         </div>
     </div>
@@ -40,24 +42,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div ng-repeat="page in pagesAndSteps">
                 <div ng-repeat="step in page.steps | scFilterArray:searchFieldText" ng-show="$index == 0 || showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !showingMetaData, 'col-md-6': showingMetaData}">
                     <h2>
-                        <span class="sc-truncate" ng-show="$index == 0">
+                        <span class="sc-truncate" ng-if="$index == 0">
                             <span class="sc-no-truncate">
-                                <span ng-click="toggleShowAllStepsForPage($parent.$parent.$index)" ng-show="page.steps.length > 1 && $index == 0" tooltip="show / hide additional steps of this page" tooltip-placement="top">
-                                        <span ng-hide="showAllStepsForPage($parent.$parent.$index)" class="icon-plus-sign link right"></span>
-                                        <span ng-show="showAllStepsForPage($parent.$parent.$index)" class="icon-minus-sign link right"></span>
+                                <span ng-click="toggleShowAllStepsForPage($parent.$parent.$parent.$index)" ng-show="page.steps.length > 1" tooltip="show / hide additional steps of this page" tooltip-placement="top" class="toggle-show-all-steps-of-page">
+                                    <span ng-hide="showAllStepsForPage($parent.$parent.$parent.$index)" class="icon-plus-sign link right"></span>
+                                    <span ng-show="showAllStepsForPage($parent.$parent.$parent.$index)" class="icon-minus-sign link right"></span>
                                 </span>
                             </span>
                             Page: {{page.page.name}}
                         </span>
-                        <span ng-show="$index != 0">&nbsp;</span>
+                        <span ng-if="$index != 0">&nbsp;</span>
                     </h2>
                     <div>
                         <div class="step-title">
-                            <h3 class="sc-truncate"><a ng-href="{{getLinkToStep(pageSteps.page.name, $parent.$index, $index)}}">Step {{step.number}}: {{step.title}}</a></h3>
+                            <h3 class="sc-truncate"><a ng-href="{{getLinkToStep(step.page.name, $parent.$index, $index)}}">Step {{step.number}}: {{step.title}}</a></h3>
                             <span class="sc-truncate">Page: {{step.page.name}} ({{step.page.index}} of {{pagesAndSteps.length}})</span>
                         </div>
                         <div class="sc-screenshot-border sc-screenshot-scenario" >
-                            <a ng-href="{{getLinkToStep(pageSteps.page.name, $parent.$index, $index)}}">
+                            <a ng-href="{{getLinkToStep(step.page.name, $parent.$index, $index)}}">
                                 <img ng-src="{{getScreenShotUrl(step.screenshotFileName)}}" class="sc-screenshot"/>
                             </a>
                         </div>
@@ -67,6 +69,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
     <div ng-show="showingMetaData" class="col-lg-4 hero-unit meta-data">
+
+        <!-- scenario -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading link" ng-click="toggleMetadataExpanded('sc-scenario-properties')">
+                    <h3 class="panel-title">Scenario</h3>
+                </div>
+                <div class="panel-body" ng-class="{hidden: isMetadataCollapsed('sc-scenario-properties'), metadata: true}">
+                    <sc-tree data='scenarioInformationTree'></sc-tree>
+                </div>
+            </div>
+        </div>
+
         <!-- Metadata -->
         <span sc-static-include="views/metadata.html"></span>
     </div>

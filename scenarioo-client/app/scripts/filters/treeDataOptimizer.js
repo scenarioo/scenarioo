@@ -95,6 +95,7 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function () {
         }
 
         node.nodeLabel = childNode.nodeValue;
+        node.nodeObjectType = childNode.nodeValue;
     }
 
     function moveChildrenChildNodeBehindOthers(node) {
@@ -117,6 +118,7 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function () {
         }
 
         node.nodeLabel = childNode.nodeValue;
+        node.nodeObjectName = childNode.nodeValue;
     }
 
     function pullUpNameToReplaceEmptyNodeValue(node) {
@@ -131,6 +133,7 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function () {
         }
 
         node.nodeValue = childNode.nodeValue;
+        node.nodeObjectName = childNode.nodeValue;
     }
 
     function setFallBackLabelIfLabelIsEmpty(node) {

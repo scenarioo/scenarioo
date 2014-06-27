@@ -1,16 +1,16 @@
 /* scenarioo-client
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -274,8 +274,7 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     '<%= yeoman.dist %>/styles/main.css': [
-                        '.tmp/styles/{,*/}*.css',
-                        '<%= yeoman.app %>/styles/{,*/}*.css'
+                        '.tmp/styles/main*.css'
                     ]
                 }
             }
@@ -297,7 +296,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: '<%= yeoman.app %>',
-                        src: ['*.html', 'views/*.html'],
+                        src: ['*.html', 'views/*.html', 'views/**/*.html'],
                         dest: '<%= yeoman.dist %>'
                     }
                 ]
@@ -356,7 +355,7 @@ module.exports = function (grunt) {
                             'scripts/**/*',
                             'images/{,*/}*.{gif,webp}',
                             'styles/fonts/*',
-                            'styles/scenarioo.css',
+                            'styles/ie-hacks.css',
                             'template/**/*'
                         ]
                     }

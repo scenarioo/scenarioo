@@ -35,11 +35,6 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
             title: 'Use Cases',
             contentViewUrl: 'views/mainUseCasesTab.html',
             active: true
-        },
-        {
-            tabId: 'builds',
-            title: 'Builds',
-            contentViewUrl: 'views/mainBuildsTab.html'
         }
     ];
 

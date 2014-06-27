@@ -17,54 +17,71 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumb></sc-breadcrumb>
 
-<!-- Action buttons -->
-<div class="row step-navigation ngusd-space-top ngusd-space-bottom">
-    <div class="col-lg-6">
-        <div ng-click="goToPreviousPage()" class="btn btn-default" tooltip="Previous Page" tooltip-placement="bottom">
-            <span class="icon-with-padding icon-large icon-fast-backward"></span>
+<!-- Navigation toolbar -->
+<div class="step-navigation row sc-space-top sc-space-bottom">
+
+    <!-- Step & Page Navigation -->
+    <div class="col-lg-5">
+
+        <!-- Pages navigation -->
+        <div class="btn-group">
+            <div ng-click="goToPreviousPage()" class="btn btn-default" ng-disabled="isFirstPage()" id="prevPageBtn">
+                <i class="icon-with-padding icon-large icon-double-angle-left" tooltip="Previous Page [Ctrl+Left]" tooltip-placement="bottom"></i>
+            </div>
+            <div class="btn btn-default btn-no-hover"><span tooltip="of all pages in this scenario" tooltip-placement="bottom">Page {{pageIndex + 1}} of {{pagesAndSteps.length}}</span></div>
+            <div ng-click="goToNextPage()" class="btn btn-default" ng-disabled="isLastPage()" id="nextPageBtn">
+                <i class="icon-with-padding icon-large icon-double-angle-right" tooltip="Next Page [Ctrl+Right]" tooltip-placement="bottom"></i>
+            </div>
         </div>
-        <div ng-click="goToPreviousStep()" class="btn btn-default" tooltip="Previous Step" tooltip-placement="bottom">
-            <i class="icon-with-padding icon-large icon-step-backward"></i>
+
+        &nbsp;
+
+        <!-- Steps navigation -->
+        <div class="btn-group">
+            <div ng-click="goToPreviousStep()" class="btn btn-default" ng-disabled="isFirstStep()" id="prevStepBtn">
+                <i class="icon-with-padding icon-large icon-angle-left" tooltip="Previous Step [Left]" tooltip-placement="bottom"></i>
+            </div>
+            <div class="btn btn-default btn-no-hover"><span tooltip="of all steps in this scenario" tooltip-placement="bottom">Step {{getCurrentStepIndex() + 1}} of {{stepsCountOverall}}</span></div>
+            <div ng-click="goToNextStep()" class="btn btn-default" ng-disabled="isLastStep()" id="nextStepBtn">
+                <i class="icon-with-padding icon-large icon-angle-right" tooltip="Next Step [Right]" tooltip-placement="bottom"></i>
+            </div>
         </div>
-        <div ng-click="goToNextStep()" class="btn btn-default" tooltip="Next Step" tooltip-placement="bottom">
-            <i class="icon-with-padding icon-large icon-step-forward"></i>
+
+        &nbsp;
+
+        <!-- Substep information -->
+        <div class="btn-group">
+            <div class="btn btn-comment">Substep {{stepIndex + 1}} of {{pagesAndSteps[pageIndex].steps.length}} on current page</div>
         </div>
-        <div ng-click="goToNextPage()" class="btn btn-default" tooltip="Next Page" tooltip-placement="bottom">
-            <i class="icon-with-padding icon-large icon-fast-forward"></i>
+
+    </div>
+
+    <!-- Page variants navigation -->
+    <div class="col-lg-3">
+        <div class="btn-group">
+            <div ng-click="goToPreviousVariant()" class="btn btn-default" id="prevPageVariantBtn" ng-disabled="isFirstPageVariantStep()">
+                <i class="icon-with-padding icon-large icon-angle-up" tooltip="Previous variant (potentially in other scenario) [Ctrl+Up]" tooltip-placement="bottom"></i>
+            </div>
+            <div class="btn btn-default btn-no-hover">
+                <span tooltip="of this same page in all scenarios" tooltip-placement="bottom">
+                Page-Variant  {{stepNavigation.pageVariantIndex + 1}} of {{stepNavigation.pageVariantsCount}}
+                </span>
+            </div>
+            <div ng-click="goToNextVariant()" class="btn btn-default" id="nextPageVariantBtn" ng-disabled="isLastPageVariantStep()">
+                <i class="icon-with-padding icon-large icon-angle-down" tooltip="Next variant (potentially in other scenario) [Ctrl+Down]" tooltip-placement="bottom"></i>
+            </div>
         </div>
     </div>
-    <div class="col-lg-6">
-        <div class="pull-right">
-            <div ng-click="goToPreviousVariant()" class="btn btn-default" tooltip="Previous variant" tooltip-placement="bottom">
-                <i class="icon-with-padding icon-large icon-step-backward"></i>
-            </div>
-            <div style="min-width: 70px; text-align: center;" class="inline-block">
-                {{step.stepDescription.variantIndex}} of {{pageVariantCounts[0][pageName]}}
-            </div>
-            <div ng-click="goToNextVariant()" class="btn btn-default" tooltip="Next variant" tooltip-placement="bottom">
-                <i class="icon-with-padding icon-large icon-step-forward"></i>
-            </div>
 
-            <div class="inline-block dropdown">
-                <button class="dropdown-toggle btn btn-default">
-                    More Actions
-                    <div class="icon-with-padding"><b class="caret"></b></div>
-                </button>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a ng-click="goToFirstPage()" class="link">Go to the first page</a>
-                    </li>
-                    <li>
-                        <a ng-click="goToLastPage()" class="link">Go to the last page</a>
-                    </li>
-                    <li>
-                        <a ng-click="showApplicationInfoPopup('Shortcuts')" class="link">Key Shortcuts</a>
-                    </li>
-                </ul>
-            </div>
+
+    <!-- View Metadata toggle button -->
+    <div class="col-lg-offset-2 col-lg-2">
+        <div class="pull-right">
             <span sc-static-include="views/metadataButton.html"></span>
         </div>
     </div>
+
+
 </div>
 
 <!-- screenshot and information -->
@@ -87,7 +104,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- step -->
         <div>
             <div class="panel panel-default">
-                <div class="panel-heading link" ng-click="toggleMetadataCollapsed('sc-step-properties')">
+                <div class="panel-heading link" ng-click="toggleMetadataExpanded('sc-step-properties')">
                     <h3 class="panel-title">Step</h3>
                 </div>
                 <div class="panel-body" ng-class="{hidden: isMetadataCollapsed('sc-step-properties'), metadata: true}">

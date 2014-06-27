@@ -60,14 +60,14 @@ public class UITestToolkitAbstraction {
 		TIME_MEASUREMENTS.addDetail("timeSpan", "1223");
 		TIME_MEASUREMENTS.addDetail("timeOffset", "12332");
 	}
-	private UITestToolkit toolkit;
+	private final UITestToolkit toolkit;
 	
-	private UITest test;
+	private final UITest test;
 	
-	private ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, EXAMPLE_BRANCH_NAME,
+	private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, EXAMPLE_BRANCH_NAME,
 			EXAMPLE_BUILD_NAME);
 	
-	private String lastScreenshot = "";
+	private final String lastScreenshot = "";
 	
 	private int stepIndex = 0;
 	
@@ -161,8 +161,6 @@ public class UITestToolkitAbstraction {
 		stepDescription.setStatus(status);
 		stepDescription.setIndex(stepIndex);
 		stepDescription.addDetails("url", toolkit.getBrowserUrl());
-		stepDescription.setScreenshotFileName(docuWriter.getScreenshotFile(test.getUseCase().getName(),
-				test.getScenario().getName(), stepIndex).getName());
 		return stepDescription;
 	}
 	
@@ -173,24 +171,24 @@ public class UITestToolkitAbstraction {
 	
 	private StepMetadata createStepMetadata() {
 		StepMetadata metadata = new StepMetadata();
-		metadata.addDetail("simulationConfiguration", toolkit.getApplicationsState()
+		metadata.addDetail("Simulation Configuration", toolkit.getApplicationsState()
 				.getCurrentSimulationConfiguration());
-		metadata.addDetail("callTree", toolkit.getApplicationsState().getCallTree());
-		metadata.addDetail("hugeMetadataTree", createHugeMetadataTree());
-		metadata.addDetail("madeBy", "Scenarioo-Team");
+		metadata.addDetail("Call Tree", toolkit.getApplicationsState().getCallTree());
+		metadata.addDetail("Huge Metadata Tree", createHugeMetadataTree());
+		metadata.addDetail("Made By", "Scenarioo-Team");
 		metadata.setVisibleText("Bla bla bla bla bla ... This is the visible text as generated from dummy test.");
-		metadata.addDetail("list", createMetadataList());
+		metadata.addDetail("List", createMetadataList());
 		return metadata;
 	}
 	
 	private ObjectList<String> createMetadataList() {
 		ObjectList<String> objectList = new ObjectList<String>();
-		for(int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; i++) {
 			objectList.add("Listentry " + i);
 		}
 		return objectList;
 	}
-
+	
 	// This is used to make sure the display mechanism can handle large amounts of data
 	private Object createHugeMetadataTree() {
 		return createMetadataWithDepth(5);

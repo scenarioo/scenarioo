@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, localStorageService, BranchesAndBuilds, SelectedBranchAndBuild, $modal, ScApplicationInfoPopup, Config) {
+angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, localStorageService, BranchesAndBuilds, SelectedBranchAndBuild, $modal, ScApplicationInfoPopup, Config,GlobalHotkeysService) {
 
     $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
         $scope.applicationName = Config.applicationName();
@@ -58,6 +58,10 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
             return 'Revision: ' + build.build.revision;
         }
     };
+
+    GlobalHotkeysService.registerGlobalHotkey('i', function () {
+        $scope.showApplicationInfoPopup();
+    });
 
     $scope.showApplicationInfoPopup = function () {
         ScApplicationInfoPopup.showApplicationInfoPopup();

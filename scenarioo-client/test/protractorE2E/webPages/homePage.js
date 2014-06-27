@@ -12,7 +12,7 @@ function HomePage(overridePath) {
     this.useCasesSearchField = element(by.id('useCasesSearchField'));
     this.aboutScenariooPopup = element(by.css('.modal.about-popup'));
     this.popupCloseButton = element(by.css('.modal.about-popup .modal-footer .btn-primary'));
-    this.useCasetable = element(by.css('table.usecase-table'));
+    this.stepView = element(by.css('table.usecase-table'));
 
 }
 
@@ -44,10 +44,15 @@ HomePage.prototype.filterUseCases = function (filterQuery) {
 };
 
 HomePage.prototype.assertUseCasesShown = function (count) {
-    this.useCasetable.findElements(by.css('tbody tr')).then(function (elements) {
+    this.stepView.findElements(by.css('tbody tr')).then(function (elements) {
         expect(elements.length).toBe(count);
     });
 };
 
+HomePage.prototype.selectUseCase = function(useCaseIndex) {
+    this.stepView.findElements(by.css('tbody tr')).then(function(elements) {
+        elements[useCaseIndex].click();
+    });
+} ;
 
 module.exports = HomePage;

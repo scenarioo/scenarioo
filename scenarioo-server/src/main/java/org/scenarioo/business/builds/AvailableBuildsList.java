@@ -28,6 +28,7 @@ import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.derived.BuildLink;
+import org.scenarioo.model.docu.entities.Status;
 
 /**
  * Manages all the currently available builds and maintains aliases to the most recent builds for each branch.
@@ -47,12 +48,12 @@ public class AvailableBuildsList {
 	 * The branch builds grouped by branch name, only containing the available builds that have already been imported
 	 * successfully.
 	 */
-	private Map<String, BranchBuilds> branchBuildsByBranchName = new HashMap<String, BranchBuilds>();
+	private final Map<String, BranchBuilds> branchBuildsByBranchName = new HashMap<String, BranchBuilds>();
 	
 	/**
 	 * Special aliases to resolve when accessing a build.
 	 */
-	private Map<BuildIdentifier, BuildLink> buildAliases = new HashMap<BuildIdentifier, BuildLink>();
+	private final Map<BuildIdentifier, BuildLink> buildAliases = new HashMap<BuildIdentifier, BuildLink>();
 	
 	/**
 	 * Get branch builds list with those builds that are currently available (have been already successfully imported).
@@ -150,7 +151,7 @@ public class AvailableBuildsList {
 	private void updateAliasesForRecentBuilds(final BranchBuilds branchBuilds) {
 		
 		// Search for the builds
-		String buildSuccessState = ConfigurationDAO.getConfiguration().getBuildStatusForSuccessfulBuilds();
+		String buildSuccessState = Status.SUCCESS.getKeyword();
 		String aliasForMostRecentBuild = ConfigurationDAO.getConfiguration().getAliasForMostRecentBuild();
 		String aliasForLastSuccessfulBuild = ConfigurationDAO.getConfiguration().getAliasForLastSuccessfulBuild();
 		BuildLink aliasLinkForLastSuccessfulBuild = null;

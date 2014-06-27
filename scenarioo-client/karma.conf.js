@@ -30,6 +30,7 @@ files = [
   'app/components/angular-mocks/angular-*.js',
   'app/components/angular-bootstrap/*.js',
   'app/components/angular-local-storage/*.js',
+  'app/components/twigs/dist/twigs.js',
   'app/scripts/*.js',
   'app/scripts/**/*.js',
   'test/mock/**/*.js',

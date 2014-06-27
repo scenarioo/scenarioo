@@ -38,8 +38,13 @@ angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($sco
         $scope.propertiesToShow = Config.scenarioPropertiesInOverview();
     }
 
+
     $scope.goToScenario = function (useCaseName, scenarioName) {
         $location.path('/scenario/' + useCaseName + '/' + scenarioName);
+    };
+
+    $scope.onNavigatorTableHit = function (scenario) {
+        $scope.goToScenario($routeParams.useCaseName, scenario.name);
     };
 
     $scope.goToFirstStep = function (useCaseName, scenarioName) {

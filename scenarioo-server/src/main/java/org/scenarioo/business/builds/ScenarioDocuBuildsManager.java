@@ -201,7 +201,7 @@ public class ScenarioDocuBuildsManager {
 		BuildIdentifier buildId = new BuildIdentifier(branchName, buildName);
 		BuildImportSummary buildState = buildImporter.getBuildImportSummaries().get(buildId);
 		if (buildState == null || !buildState.getStatus().isSuccess()) {
-			throw new IllegalArgumentException("Not allowed to access this build " + buildId
+			throw new IllegalArgumentException("Not possible to access this build " + buildId
 					+ ". It is unavailable, or not yet imported or updated successfully.");
 		}
 	}

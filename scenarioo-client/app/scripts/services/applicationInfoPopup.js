@@ -17,9 +17,10 @@
 
 'use strict';
 
-angular.module('scenarioo.services').factory('ScApplicationInfoPopup',function (localStorageService, $modal) {
+angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function (localStorageService, $modal) {
 
     var PREVIOUSLY_VISITED_COOKIE_NAME = 'scenariooPreviouslyVisited';
+    var modalIsCurrentlyOpen = false;
 
     function showApplicationInfoPopupIfRequired() {
         if (userVisitsAppForTheFirstTime() === true) {
@@ -35,17 +36,21 @@ angular.module('scenarioo.services').factory('ScApplicationInfoPopup',function (
         }
     }
 
-    function showApplicationInfoPopup(tabValue) {
-        $modal.open({
+    function showApplicationInfoPopup() {
+        if (modalIsCurrentlyOpen === true) {
+            return;
+        }
+
+        modalIsCurrentlyOpen = true;
+        var modalInstance = $modal.open({
             templateUrl: 'views/applicationInfoPopup.html',
             controller: 'ApplicationInfoCtrl',
             windowClass: 'modal-small about-popup',
-            backdropFade: true,
-            resolve: {
-                tabValue: function () {
-                    return tabValue;
-                }
-            }
+            backdropFade: true
+        });
+
+        modalInstance.result['finally'](function () {
+            modalIsCurrentlyOpen = false;
         });
     }
 
@@ -57,16 +62,20 @@ angular.module('scenarioo.services').factory('ScApplicationInfoPopup',function (
         showApplicationInfoPopup: showApplicationInfoPopup
     };
 
-}).controller('ApplicationInfoCtrl', function ($scope, $modalInstance, Config, tabValue, $sce) {
-        $scope.$watch(function () {
-            return Config.applicationInformation();
-        }, function (applicationInformation) {
-            $scope.applicationInformation = $sce.trustAsHtml(applicationInformation);
-        });
-
-        $scope.tabValue = tabValue;
-
-        $scope.closeInfoModal = function () {
-            $modalInstance.dismiss('cancel');
-        };
+}).controller('ApplicationInfoCtrl', function ($scope, $modalInstance, Config, $sce, VersionResource) {
+    $scope.$watch(function () {
+        return Config.applicationInformation();
+    }, function (applicationInformation) {
+        $scope.applicationInformation = $sce.trustAsHtml(applicationInformation);
     });
+
+    VersionResource.get(
+        function onSuccess(result) {
+            $scope.version = result;
+        }
+    );
+
+    $scope.closeInfoModal = function () {
+        $modalInstance.dismiss('cancel');
+    };
+});

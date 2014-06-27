@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, $window, localStorageService, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -26,6 +26,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     var showAllSteps = [];
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
+    var transformMetadataToTree = $filter('scMetadataTreeCreator');
 
     SelectedBranchAndBuild.callOnSelectionChange(loadScenario);
 
@@ -62,14 +63,66 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         $scope.scenario = pagesAndScenarios.scenario;
         $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
         $scope.metadataTree = transformMetadataToTreeArray(pagesAndScenarios.scenario.details);
+        $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario);
     }
 
     $scope.showAllStepsForPage = function(pageIndex) {
-        return  showAllSteps[pageIndex];
+        return showAllSteps[pageIndex] || false;
     };
 
     $scope.toggleShowAllStepsForPage = function(pageIndex) {
         showAllSteps[pageIndex] = !showAllSteps[pageIndex];
+    };
+
+    $scope.isExpandAllPossible = function() {
+        if(!angular.isDefined($scope.pagesAndSteps)) {
+            return false;
+        }
+
+        for(var i = 0; i < $scope.pagesAndSteps.length; i++) {
+            if(isExpandPossibleForPage($scope.pagesAndSteps[i], i)) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    function isExpandPossibleForPage(page, pageIndex) {
+        return page.steps.length > 1 && $scope.showAllStepsForPage(pageIndex) === false;
+    }
+
+    $scope.isCollapseAllPossible = function() {
+        if(!angular.isDefined($scope.pagesAndSteps)) {
+            return false;
+        }
+
+        for(var i = 0; i < $scope.pagesAndSteps.length; i++) {
+            if(isCollapsePossibleForPage($scope.pagesAndSteps[i], i)) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    function isCollapsePossibleForPage(page, pageIndex) {
+        return page.steps.length > 1 && $scope.showAllStepsForPage(pageIndex) === true;
+    }
+
+    $scope.expandAll = function() {
+        // numberOfPages is 0-indexed, therefore we have to add 1.
+        // TODO: This should be fixed in the future, so that the server returns the right number.
+        var numberOfPages = $scope.scenario.calculatedData.numberOfPages + 1;
+        for(var i = 0; i < numberOfPages; i++) {
+            showAllSteps[i] = true;
+        }
+    };
+
+    $scope.collapseAll = function() {
+        for(var i = 0; i < showAllSteps.length; i++) {
+            showAllSteps[i] = false;
+        }
     };
 
     $scope.getScreenShotUrl = function (imgName) {
@@ -81,6 +134,9 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     };
 
     $scope.getLinkToStep = function (pageName, pageIndex, stepIndex) {
+        // '/' will kill our application
+        pageName = pageName.replace(/\//g, ' ');
+
         return '#/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) +
             '/' + pageIndex + '/' + stepIndex;
     };
@@ -89,23 +145,68 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         $scope.searchFieldText = '';
     };
 
-    // TODO make this generic and share it with step.js
-    $scope.showingMetaData = false;
-    var metadataExpanded = [];
-    metadataExpanded['sc-step-properties'] = true;
+    function createScenarioInformationTree(scenario) {
+        var stepInformation = {};
+        stepInformation.Description = scenario.description;
+        stepInformation['Number of Pages'] = scenario.calculatedData.numberOfPages;
+        stepInformation['Number of Steps'] = scenario.calculatedData.numberOfSteps;
+        stepInformation.Status = scenario.status;
+        return transformMetadataToTree(stepInformation);
+    }
+
+    // TODO make the following code generic and share it with step.js
+
+    var SCENARIO_METADATA_SECTION_EXPANDED = 'scenarioo-scenarioMetadataSectionExpanded-';
+    var SCENARIO_METADATA_VISIBLE = 'scenarioo-scenarioMetadataVisible';
+
+    $scope.isMetadataExpanded = function (type) {
+        var metadataExpanded = localStorageService.get(SCENARIO_METADATA_SECTION_EXPANDED + type);
+        if (metadataExpanded === 'true') {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    $scope.toggleMetadataExpanded = function (type) {
+        var metadataExpanded = !$scope.isMetadataExpanded(type);
+        localStorageService.set(SCENARIO_METADATA_SECTION_EXPANDED + type, '' + metadataExpanded);
+    };
 
     $scope.isMetadataCollapsed = function (type) {
-        var collapsed = angular.isUndefined(metadataExpanded[type]) || metadataExpanded[type] === false;
-        return collapsed;
+        return !$scope.isMetadataExpanded(type);
     };
 
-    $scope.toggleMetadataCollapsed = function (type) {
-        var currentValue = metadataExpanded[type];
-        if (angular.isUndefined(currentValue)) {
-            currentValue = false;
-        }
-        var newValue = !currentValue;
-        metadataExpanded[type] = newValue;
+    $scope.toggleShowingMetadata = function() {
+        $scope.showingMetaData=!$scope.showingMetaData;
+        localStorageService.set(SCENARIO_METADATA_VISIBLE, '' + $scope.showingMetaData);
     };
+
+    /**
+     * Init metadata visibility and expanded sections from local storage on startup.
+     */
+    function initMetadataVisibilityAndExpandedSections() {
+
+        // Init metadata visibility from local storage
+        var metadataVisible = localStorageService.get(SCENARIO_METADATA_VISIBLE);
+        if (metadataVisible === 'true') {
+            $scope.showingMetaData = true;
+        }
+        else if (metadataVisible === 'false') {
+            $scope.showingMetaData = false;
+        } else {
+            // default
+            $scope.showingMetaData = $window.innerWidth > 800;
+        }
+
+        // Set special scenario metadata to expanded by default.
+        var majorStepPropertiesExpanded = localStorageService.get(SCENARIO_METADATA_SECTION_EXPANDED + 'sc-scenario-properties');
+        var isMajorStepPropertiesExpandedSetToFalse = majorStepPropertiesExpanded === 'false';
+        if (!isMajorStepPropertiesExpandedSetToFalse) {
+            localStorageService.set(SCENARIO_METADATA_SECTION_EXPANDED + 'sc-scenario-properties', 'true');
+        }
+
+    }
+    initMetadataVisibilityAndExpandedSections();
 
 });

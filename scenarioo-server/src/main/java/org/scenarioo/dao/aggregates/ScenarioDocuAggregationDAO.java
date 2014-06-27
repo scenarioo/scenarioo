@@ -29,17 +29,20 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
+import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummaries;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
-import org.scenarioo.model.docu.aggregates.usecases.PageVariantsCounter;
+import org.scenarioo.model.docu.aggregates.steps.StepLink;
+import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
+import org.scenarioo.utils.ResourceUtils;
 
 /**
  * DAO for accessing user scenario docu content from filesystem, that is either generated or already precalculated.
@@ -76,8 +79,10 @@ public class ScenarioDocuAggregationDAO {
 		File versionFile = files.getVersionFile(branchName, buildName);
 		if (versionFile.exists()) {
 			Properties properties = new Properties();
+			FileReader reader = null;
 			try {
-				properties.load(new FileReader(versionFile));
+				reader = new FileReader(versionFile);
+				properties.load(reader);
 				return properties.getProperty(VERSION_PROPERTY_KEY);
 			} catch (FileNotFoundException e) {
 				throw new RuntimeException("file not found: "
@@ -85,6 +90,8 @@ public class ScenarioDocuAggregationDAO {
 			} catch (IOException e) {
 				throw new RuntimeException("file not readable: "
 						+ versionFile.getAbsolutePath(), e);
+			} finally {
+				ResourceUtils.close(reader, versionFile.getAbsolutePath());
 			}
 		} else {
 			return "";
@@ -109,11 +116,6 @@ public class ScenarioDocuAggregationDAO {
 		return ScenarioDocuXMLFileUtil.unmarshal(ScenarioPageSteps.class, file);
 	}
 	
-	public PageVariantsCounter loadPageVariantsCounter(final String branchName, final String buildName) {
-		File file = files.getPageVariantsFile(branchName, buildName);
-		return ScenarioDocuXMLFileUtil.unmarshal(PageVariantsCounter.class, file);
-	}
-	
 	public void saveVersion(final String branchName, final String buildName, final String currentFileFormatVersion) {
 		File versionFile = files.getVersionFile(branchName, buildName);
 		Properties versionProperties = new Properties();
@@ -122,17 +124,15 @@ public class ScenarioDocuAggregationDAO {
 	}
 	
 	private void saveProperties(final File file, final Properties properties, final String comment) {
+		FileWriter fileWriter = null;
 		try {
-			properties.store(new FileWriter(file), comment);
+			fileWriter = new FileWriter(file);
+			properties.store(fileWriter, comment);
 		} catch (IOException e) {
 			throw new RuntimeException("could not write " + file.getAbsolutePath(), e);
+		} finally {
+			ResourceUtils.close(fileWriter, file.getAbsolutePath());
 		}
-	}
-	
-	public void savePageVariants(final String branchName, final String buildName,
-			final PageVariantsCounter pageVariantsCounter) {
-		File fileCounter = files.getPageVariantsFile(branchName, buildName);
-		ScenarioDocuXMLFileUtil.marshal(pageVariantsCounter, fileCounter);
 	}
 	
 	public void saveUseCaseScenariosList(final String branchName, final String buildName,
@@ -279,6 +279,24 @@ public class ScenarioDocuAggregationDAO {
 	
 	public File getBuildImportLogFile(final String branchName, final String buildName) {
 		return files.getBuildImportLogFile(branchName, buildName);
+	}
+	
+	public void saveStepNavigation(final BuildIdentifier build, final StepLink stepLink,
+			final StepNavigation stepNavigation) {
+		File stepNavigationFile = files.getStepNavigationFile(build, stepLink.getUseCaseName(),
+				stepLink.getScenarioName(), stepLink.getIndex());
+		stepNavigationFile.getParentFile().mkdirs();
+		ScenarioDocuXMLFileUtil.marshal(stepNavigation, stepNavigationFile);
+	}
+	
+	public StepNavigation loadStepNavigation(final BuildIdentifier build, final StepLink step) {
+		return loadStepNavigation(build, step.getUseCaseName(), step.getScenarioName(), step.getIndex());
+	}
+	
+	public StepNavigation loadStepNavigation(final BuildIdentifier build, final String useCaseName,
+			final String scenarioName, final int stepIndex) {
+		File stepNavigationFile = files.getStepNavigationFile(build, useCaseName, scenarioName, stepIndex);
+		return ScenarioDocuXMLFileUtil.unmarshal(StepNavigation.class, stepNavigationFile);
 	}
 	
 	/**

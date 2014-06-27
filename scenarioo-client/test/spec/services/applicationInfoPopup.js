@@ -30,7 +30,8 @@ describe('Service: ScApplicationInfoPopup', function () {
         $provide.value('ApplicationInfoCtrl', {});
     }));
 
-    var ScApplicationInfoPopup, localStorageService, $modal;
+    var ScApplicationInfoPopup, localStorageService, $modal , dummyPromise = { result: {finally: function () {
+    }}};
     beforeEach(inject(function (_ScApplicationInfoPopup_, _localStorageService_, _$modal_) {
         ScApplicationInfoPopup = _ScApplicationInfoPopup_;
         localStorageService = _localStorageService_;
@@ -39,7 +40,8 @@ describe('Service: ScApplicationInfoPopup', function () {
 
     it('shows the application info popup on first visit of the app', function () {
         localStorageService.clearAll();
-        spyOn($modal, 'open');
+
+        spyOn($modal, 'open').andReturn(dummyPromise);
 
         ScApplicationInfoPopup.showApplicationInfoPopupIfRequired();
 
@@ -49,7 +51,7 @@ describe('Service: ScApplicationInfoPopup', function () {
     it('does not show the application info popup when the user returns to the app', function () {
         localStorageService.set(ScApplicationInfoPopup.PREVIOUSLY_VISITED_COOKIE_NAME, true);
 
-        spyOn($modal, 'open');
+        spyOn($modal, 'open').andReturn(dummyPromise);
 
         ScApplicationInfoPopup.showApplicationInfoPopupIfRequired();
 
@@ -57,7 +59,7 @@ describe('Service: ScApplicationInfoPopup', function () {
     });
 
     it('shows opens a modal dialog', function () {
-        spyOn($modal, 'open');
+        spyOn($modal, 'open').andReturn(dummyPromise);
 
         ScApplicationInfoPopup.showApplicationInfoPopup();
 
@@ -72,20 +74,28 @@ describe('Controller: ApplicationInfoCtrl', function () {
 
     var ApplicationInfoCtrl,
         $scope,
-        Config;
+        Config,
+        $httpBackend,
+        HostnameAndPort,
+        TestData;
 
-    beforeEach(inject(function ($controller, $rootScope, ConfigMock) {
+    beforeEach(inject(function ($controller, $rootScope, ConfigMock, _$httpBackend_, _HostnameAndPort_, _TestData_) {
         Config = ConfigMock;
         $scope = $rootScope.$new();
+        $httpBackend = _$httpBackend_;
+        HostnameAndPort = _HostnameAndPort_;
+        TestData = _TestData_;
         ApplicationInfoCtrl = $controller('ApplicationInfoCtrl', {
             $scope: $scope,
             Config: ConfigMock,
-            tabValue: null,
             $modalInstance: null
         });
     }));
 
     it('should update applicationInformation if it changes in Config', function () {
+        var VERSION_URL = HostnameAndPort.forTest() + 'rest/version';
+        $httpBackend.whenGET(VERSION_URL).respond(TestData.VERSION);
+        $httpBackend.flush();
 
         expect($scope.applicationInformation).toBeUndefined();
 
