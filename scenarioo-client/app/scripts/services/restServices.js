@@ -159,3 +159,7 @@ angular.module('scenarioo.services').factory('VersionResource', function (Scenar
 angular.module('scenarioo.services').factory('BranchAliasesResource', function (ScenariooResource) {
     return ScenariooResource('/branchaliases', {}, {});
 });
+
+angular.module('scenarioo.services').factory('LabelConfigurationsResource', function (ScenariooResource) {
+    return ScenariooResource('/labelconfigurations', {}, { 'query': { isArray:false}});
+});

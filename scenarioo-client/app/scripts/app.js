@@ -24,7 +24,8 @@ angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.direct
 
 angular.module('scenarioo', [
     'scenarioo.controllers',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'colorpicker.module'
 ]).config(function ($routeProvider) {
     $routeProvider
         .when('/', {
