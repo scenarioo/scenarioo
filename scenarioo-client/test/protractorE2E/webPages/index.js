@@ -9,11 +9,13 @@ var HomePage = require('./homePage.js');
 var UsecasePage = require('./usecasePage.js');
 var ScenarioPage = require('./scenarioPage.js');
 var StepPage = require('./stepPage.js');
+var BranchAliasesPage = require('./branchAliasesPage.js');
 
 
 module.exports = {
     homePage: HomePage,
     usecasePage: UsecasePage,
     scenarioPage: ScenarioPage,
-    stepPage: StepPage
+    stepPage: StepPage,
+    branchAliasesPage: BranchAliasesPage
 };

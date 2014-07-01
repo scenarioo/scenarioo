@@ -13,7 +13,7 @@ scenarioo.describeUseCase('Scenario overview', function () {
         browser.get('#/');
         scenarioo.docuWriter.saveStep('select a use case on in the use case list');
         homePage.assertPageIsDisplayed();
-        homePage.assertUseCasesShown(1);
+        homePage.assertUseCasesShown(2);
         homePage.selectUseCase(0);
         scenarioo.docuWriter.saveStep('select a scenario in the scenario list');
         useCasePage.selectScenario(1);

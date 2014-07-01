@@ -18,33 +18,42 @@
 'use strict';
 
 angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scope, $location) {
+
     $scope.tabs = [
         {
             tabId: 'builds',
             title: 'Builds',
-            contentViewUrl: 'views/manage/buildsList.html',
-            active: true
+            contentViewUrl: 'views/manage/buildsList.html'
         },
         {
             tabId: 'configuration',
             title: 'Configuration',
-            contentViewUrl: 'views/manage/config.html',
-            active: false
+            contentViewUrl: 'views/manage/config.html'
+        },
+        {
+            tabId: 'branchAliases',
+            title: 'Branch Aliases',
+            contentViewUrl: 'views/manage/branchAliases.html'
         }
     ];
 
-    $scope.getLazyTabContentViewUrl = function (tab) {
+    $scope.getLazyTabContentViewUrl = function (tabId) {
         // Only return the tab src as soon as tab is active
-        if (tab.active) {
-            return tab.contentViewUrl;
-        }
-        else {
-            return null;
-        }
+        var url = null;
+        angular.forEach($scope.tabs, function (tab) {
+            if (tab.tabId === tabId && tab.active === true) {
+                url =  tab.contentViewUrl;
+            }
+        });
+        return url;
     };
 
     $scope.setSelectedTabInUrl = function (tabId) {
-        $location.search('tab', tabId);
+        angular.forEach($scope.tabs, function (tab) {
+            if (tab.tabId === tabId && tab.active === true && $location.search().tab !== tab.tabId) {
+                $location.search('tab', tab.tabId);
+            }
+        });
     };
 
     $scope.selectTabFromUrl = function () {
@@ -59,6 +68,5 @@ angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scop
             });
         }
     };
-
     $scope.selectTabFromUrl();
 });

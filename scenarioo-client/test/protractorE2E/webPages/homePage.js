@@ -53,7 +53,6 @@ HomePage.prototype.selectUseCase = function(useCaseIndex) {
     this.stepView.findElements(by.css('tbody tr')).then(function(elements) {
         elements[useCaseIndex].click();
     });
-
 } ;
 
 module.exports = HomePage;

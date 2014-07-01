@@ -155,9 +155,17 @@ h4 {
   }
 }
 
-.navbar-nav>li {
-    padding-top: 0px;
-    padding-bottom: 0px;
+.navbar-nav > li > a.navbar-brand {
+  padding-top: 10px;
+}
+
+.navbar-nav > li > a {
+  padding-top: 24px;
+  padding-bottom: 8px;
+}
+
+.sc-nav-logo {
+  vertical-align: baseline;
 }
 
 .header .builds.dropdown .dropdown-menu {
@@ -204,10 +212,11 @@ h4 {
   border-radius: 3px;
 }
 
-.meta-data .label {
-  padding-top: 6px;
-  font-size: 16px;
-}
+// TODO Why was this needed?
+//.meta-data .label {
+//  padding-top: 6px;
+//  font-size: 16px;
+//}
 
 .meta-data div.row-fluid div {
   line-height: 20px;
@@ -263,11 +272,6 @@ div.sc-screenshot-scenario {
 }
 
 /** Information */
-.informationModal .github-link {
-  padding-top: 20px;
-  text-align: center;
-}
-
 .informationModal .github-link a {
   color: #5b5b5b !important;
 }
@@ -275,6 +279,12 @@ div.sc-screenshot-scenario {
 .informationModal .github-link a:hover {
   color: #7b7b7b !important;
 }
+
+.info-popup .tab-content {
+  margin: 20px 15px 0 15px;
+}
+
+/** Generic classes **/
 
 .sc-container {
   margin: 0 15px 15px 15px;
@@ -284,14 +294,24 @@ div.sc-screenshot-scenario {
   margin-top: @vertical-space;
 }
 
+.sc-space-top-large {
+  margin-top: 40px;
+}
+
 .sc-space-bottom {
   margin-bottom: @vertical-space;
+}
+
+.sc-center {
+  text-align: center;
 }
 
 .navbar {
   /* reduced margins for not taking too much vertical space */
   margin-bottom: @vertical-space;
 }
+
+
 
 .well {
   /* reduced margins for not taking too much vertical space */
@@ -359,38 +379,11 @@ div.sc-screenshot-scenario {
   font-weight: bold;
 }
 
-
-/** Modal Support with Bootstrap 3.0 - workaround according to http://stackoverflow.com/questions/18895271/angular-bootstrap-cant-get-modal-to-appear */
-
-.modal {
-  display: block;
-  height: 0;
-  overflow: visible;
-}
-
-.modal-body:before,
-.modal-body:after {
-  display: table;
-  content: " ";
-}
-
-.modal-header:before,
-.modal-header:after {
-  display: table;
-  content: " ";
-}
-
-.btn-no-hover,
-.btn-no-hover:hover,
-.btn-no-hover:focus {
-  cursor: default;
-  background: #fff;
-  border-color: #ccc;
-}
-
 /** Build Import Status Dialog (wider) **/
 .modal-wide .modal-dialog {
   width: 75%;
 }
 
-
+.label {
+  margin-left: 2px;
+}
