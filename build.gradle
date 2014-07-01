@@ -11,6 +11,15 @@ def getVersionName = { ->
     return stdout.toString().trim()
 }
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+		classpath 'com.moowork.gradle:gradle-node-plugin:0.4'
+        classpath 'com.moowork.gradle:gradle-grunt-plugin:0.5'
+    }
+}
 
 allprojects {
 	group = 'org.scenarioo'
@@ -33,7 +42,7 @@ configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-exa
 	}
 	
 	dependencies {
-		compile 'org.scenarioo:scenarioo-java:0.+'
+		compile 'org.scenarioo:scenarioo-java:1.1.0-SNAPSHOT'
 	    compile 'org.apache.commons:commons-lang3:3.0.1'
 	    compile 'commons-io:commons-io:1.3.2'
 	    compile 'commons-codec:commons-codec:1.2'

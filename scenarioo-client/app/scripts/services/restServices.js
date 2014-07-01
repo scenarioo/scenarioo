@@ -205,3 +205,7 @@ angular.module('scenarioo.services')
             return deferred.promise;
         };
     }
+
+angular.module('scenarioo.services').factory('BranchAliasesResource', function (ScenariooResource) {
+    return ScenariooResource('/branchaliases', {}, {});
+});

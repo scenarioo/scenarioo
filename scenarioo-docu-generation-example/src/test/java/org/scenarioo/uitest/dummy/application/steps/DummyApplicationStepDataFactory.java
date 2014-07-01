@@ -52,9 +52,9 @@ import org.scenarioo.uitest.dummy.application.steps.calls.Service;
  */
 public class DummyApplicationStepDataFactory {
 	
-	private List<DummyApplicationStepData> steps = new ArrayList<DummyApplicationStepData>();
+	private final List<DummyApplicationStepData> steps = new ArrayList<DummyApplicationStepData>();
 	
-	private String screenshotPrefix = "screenshot_";
+	private final String screenshotPrefix = "screenshot_";
 	
 	private DummySimulationConfig config;
 	
@@ -66,7 +66,7 @@ public class DummyApplicationStepDataFactory {
 	
 	private String pageName = null;
 	
-	private Map<String, String> elementTexts = new HashMap<String, String>();
+	private final Map<String, String> elementTexts = new HashMap<String, String>();
 	
 	private ObjectTreeNode<ObjectDescription> callTree;
 	
@@ -123,6 +123,21 @@ public class DummyApplicationStepDataFactory {
 		createStep("startPageTypedScenarioo");
 		title("Search results").pageName("searchResults.jsp").url("http://en.wikipedia.org/wiki/42").callTreeFindPage();
 		createStep("searchResultsNone");
+		
+		// create TECHNICAL_NO_PAGE_NAMES_CONFIG:
+		startConfig(TECHNICAL_NO_PAGE_NAMES_CONFIG).startUrl(
+				"http://www.wikipedia.org/technical-multiple-pages-scenario");
+		title("Technical Page 1").pageName(null).callTreeStart();
+		createStep("specialDummyPage1");
+		title("Technical Page 2");
+		createStep("specialDummyPage2");
+		title("Technical Page 3").pageName(null).callTreeFindPage();
+		createStep("specialDummyPage3");
+		
+		// create TECHNICAL_ONE_PAGE_CONFIG step data:
+		startConfig(TECHNICAL_ONE_PAGE_CONFIG).startUrl("http://www.wikipedia.org/technical-one-page-scenario");
+		title("Wikipedia Suche").pageName("specialPageWithOnlyOneVariant.jsp").callTreeStart();
+		createStep("specialDummyPage");
 		
 		return steps;
 		

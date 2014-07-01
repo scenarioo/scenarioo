@@ -168,6 +168,7 @@ module.exports = function (grunt) {
                 configFile: 'node_modules/protractor/referenceConf.js', // Default config file
                 keepAlive: false, // If false, the grunt process stops when the test fails.
                 noColor: false, // If true, protractor will not use colors in its output.
+                debug: false,
                 args: {
                     // Arguments passed to the command
                 }
@@ -274,8 +275,7 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     '<%= yeoman.dist %>/styles/main.css': [
-                        '.tmp/styles/{,*/}*.css',
-                        '<%= yeoman.app %>/styles/{,*/}*.css'
+                        '.tmp/styles/main*.css'
                     ]
                 }
             }

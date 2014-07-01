@@ -82,6 +82,8 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.stepInformationTree = createStepInformationTree(result.step);
                 $scope.pageTree = transformMetadataToTree(result.step.page);
                 $scope.stepNavigation = result.stepNavigation;
+                $scope.useCaseLabels = result.useCaseLabels;
+                $scope.scenarioLabels = result.scenarioLabels;
                 beautify(result.step.html);
             });
         }
@@ -105,7 +107,10 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         }
 
         if(angular.isDefined(result.page)) {
-            stepInformation['Page name'] = result.page;
+            var pageToRender = angular.copy(result.page);
+            // Will be displayed separately
+            delete pageToRender.labels;
+            stepInformation['Page name'] = pageToRender;
         }
 
         if(angular.isDefined(stepDescription.details.url)) {
@@ -254,7 +259,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         };
 
         $scope.isFirstPageVariantStep = function() {
-            return $scope.stepNavigation.previousStepVariant === null;
+            return angular.isUndefined($scope.stepNavigation) || $scope.stepNavigation.previousStepVariant === null;
         };
 
         $scope.goToPreviousVariant = function () {
@@ -263,7 +268,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         };
 
         $scope.isLastPageVariantStep = function() {
-            return $scope.stepNavigation.nextStepVariant === null;
+            return angular.isUndefined($scope.stepNavigation) || $scope.stepNavigation.nextStepVariant === null;
         };
 
         $scope.goToNextVariant = function () {
