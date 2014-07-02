@@ -22,7 +22,9 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
         restrict: 'AE',
         scope: {
             treedata: '=',
-            filter: "="
+            rootiscollapsed: '=',
+            filter: "=",
+            clickAction: "&"
         },
         templateUrl: 'template/treeview.html',
         link: function (scope, elem, attrs) {
@@ -58,11 +60,12 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     'matching': false,
                     'parent': parent,
                     'icon': scope.collapsedIconName,
-                    'isCollapsed': true,
-                    'isVisible': false}
+                    'isCollapsed': scope.rootiscollapsed,
+                    'isVisible': !scope.rootiscollapsed}
 
+                // Root-node
                 if (newNode.level == 0) {
-                    setNodeProperties(newNode, true, true);
+                    setNodeProperties(newNode, scope.rootiscollapsed, true);
                 }
                
                 if (angular.isDefined(parent)) {
@@ -102,24 +105,42 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
 
             // Traverses the tree-view bottom-up
             function nodeFilter(node, filter) {
-                if (angular.isUndefined(node) || angular.isUndefined(filter) || filter == "")
-                {
+                if (angular.isUndefined(node) || angular.isUndefined(filter) || filter == "") {
                     return;
                 }
 
                 var filterPattern = filter.toUpperCase();
                 var filters = filterPattern.split(" ");
+                var searchKeyFound = [];
 
                 for (var filter in filters) {
+
                     for (var searchField in node.searchFields) {
 
-                        if (node.searchFields[searchField].toUpperCase().search(filters[filter]) > -1) {
-                            node.matching = true;
-                            setNodeProperties(node, true, true);
-                            expandUpToRoodNode(node);
+                        if (node.searchFields[searchField] != ""){
+                            if ((node.searchFields[searchField].toUpperCase().search(filters[filter]) > -1)) {
+
+                                searchKeyFound.push(true);
+                                break;
+                            }
                         }
                     }
                 };
+
+                if (searchKeyFound.length == filters.length){
+                    node.matching = true;
+                    setNodeProperties(node, true, true);
+                    expandUpToRoodNode(node);                    
+
+                    return true;
+                }
+                else
+                {
+                    node.matching = false;
+                    setNodeProperties(node, true, false);
+                }
+
+                return false;
             }
 
             function expandUpToRoodNode(childNode) {

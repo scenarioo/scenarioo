@@ -93,11 +93,9 @@ angular.module('scenarioo.services')
                 usecaseName: '@usecaseName',
                 scenarioName: '@scenarioName',
                 stepIndex: '@stepIndex'}, {});
-
         stepService.getStep = getPromise($q, function (parameters, fnSuccess, fnError) {
             return stepService.get(parameters, fnSuccess, fnError);
         });
-
         return stepService;
     })
 
@@ -192,7 +190,11 @@ angular.module('scenarioo.services')
 
     .factory('VersionResource', function (ScenariooResource) {
         return ScenariooResource('/version', {}, {});
-    });
+    })
+
+    .factory('BranchAliasesResource', function (ScenariooResource) {
+        return ScenariooResource('/branchaliases', {}, {});
+    })
 
     function getPromise($q, fn) {
         return function (parameters) {
@@ -206,6 +208,3 @@ angular.module('scenarioo.services')
         };
     }
 
-angular.module('scenarioo.services').factory('BranchAliasesResource', function (ScenariooResource) {
-    return ScenariooResource('/branchaliases', {}, {});
-});

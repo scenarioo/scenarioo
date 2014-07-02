@@ -48,17 +48,15 @@ angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function
         );
     }
 
+    $scope.goToReferenceTree = function (nodeElement) {
+        $location.path('/referenceTree/' + nodeElement.type + '/' + nodeElement.name);
+    };
+
     $scope.expandAll = function() {
         angular.forEach($scope.treemodel, function(node, index) {
             toggleCollapse(node.id);
         });
     }
-
-    $scope.goToReferenceTree = function (index) {
-        var nodeElement = $scope.treemodel[index];
-
-        $location.path('/referenceTree/' + nodeElement.type + '/' + nodeElement.name);
-    };
 
     $scope.resetSearchField = function () {
         $scope.searchField = '';

@@ -17,22 +17,25 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($scope, $routeParams, ObjectIndexListResource, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($rootScope, $scope, $routeParams, ObjectIndexListResource, PagesAndSteps, SelectedBranchAndBuild, ScenarioResource, $location) {
 
-    var objectType = $routeParams.objectType;
-    var objectName = $routeParams.objectName;
+    //var objectType = $routeParams.objectType;
+    //var objectName = $routeParams.objectName;
     var selectedBranchAndBuild;
+
     $scope.referenceTree = [];
+    $scope.locationPath;
 
     SelectedBranchAndBuild.callOnSelectionChange(loadReferenceTree);
 
     function loadReferenceTree(selected) {
     selectedBranchAndBuild = selected;
+    
     ObjectIndexListResource.get(
         {
             branchName: selected.branch,
             buildName: selected.build,
-            objectType: 'page', // objectType,
+            objectType: 'page',             // objectType,
             objectName: 'searchResults.jsp' // objectName
         },
         function(result) {
@@ -40,4 +43,57 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         });
 	}
 
+    $scope.onTreeNodeClick = function(nodeElement) {
+        ScenarioResource.get(
+        {
+            branchName: selectedBranchAndBuild.branch,
+            buildName: selectedBranchAndBuild.build,
+            usecaseName: 'Find Page',
+            scenarioName: 'find_page_no_result'
+        },
+        function(result) {
+            $scope.locationPath = '/' + nodeElement.type + '/*';
+            var pagesAndSteps;
+            var pageStepIndexes;
+
+            switch(nodeElement.type) {
+                case "case":
+                    concatLocationPath(nodeElement);
+                    break;
+                case "scenario":
+                    concatLocationPath(nodeElement);
+                    break;
+                case "page":
+                case "step":
+                    $scope.locationPath = '/step/*';                
+                    concatLocationPath(nodeElement);
+                    pagesAndSteps = $rootScope.populatePageAndSteps(result);
+                    pageStepIndexes = getPageAndStepIndex('searchResults.jsp', pagesAndSteps) ;
+                    $scope.locationPath += '/' + (pageStepIndexes[0].page -1 )+ '/' + pageStepIndexes[0].step
+                    break;
+            }
+
+        $scope.locationPath = $scope.locationPath.replace('/*', '');
+        $location.path($scope.locationPath);
+        })
+    };
+
+    function getPageAndStepIndex(pageName, pagesAndSteps) {
+        var result = [];
+
+        angular.forEach(pagesAndSteps.pagesAndSteps, function (value, index) {
+           if (value.page.name == pageName) {
+                result = [{page: value.page.index, step: value.steps[0].index}];
+            }
+        });
+        
+        return result;
+    }
+
+    function concatLocationPath(nodeElement) {
+        if (angular.isDefined(nodeElement) && nodeElement.level != 0) {
+            $scope.locationPath = $scope.locationPath.replace('*', '*/' + encodeURIComponent(nodeElement.name));
+            concatLocationPath(nodeElement.parent, $scope.locationPath);
+        }
+    };
 });	

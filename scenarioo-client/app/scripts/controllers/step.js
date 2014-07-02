@@ -42,7 +42,6 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     SelectedBranchAndBuild.callOnSelectionChange(loadStep);
 
     function loadStep(selected) {
-
         ScenarioResource.get(
             {
                 branchName: selected.branch,
@@ -60,11 +59,9 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             // TODO #197: client should not have to resolve step index from URL, this must be done on server side.
             // if this is done properly it should even not be necessary to load the whole scenario page steps on the client for current step,
             // instead we should enhance the StepNavigation data structure that is already loaded on loading step's data
-
             $scope.scenario = result.scenario;
             $scope.pagesAndSteps = result.pagesAndSteps;
             $scope.stepDescription = result.pagesAndSteps[$scope.pageIndex].steps[$scope.stepIndex];
-
 
             $scope.stepsCountOverall = 0;
             $scope.stepsBeforePage = [];

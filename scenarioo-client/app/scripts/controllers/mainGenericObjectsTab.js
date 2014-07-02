@@ -28,21 +28,4 @@ angular.module('scenarioo.controllers').controller('MainGenericObjectsTabCtrl', 
             }
         );
     }
-
-    $scope.table = {search: {searchTerm: ''}, sort: {column: 'useCase.name', reverse: false}, filtering: false};
-
-    $scope.resetSearchField = function () {
-        $scope.table.search = {searchTerm: ''};
-    };
-
-    $scope.genericObjectsTypes = {selected: null};
-    $scope.genericObjectsTypeFilter = function (genericObjectTabs) {
-        if ($scope.genericObjectsTypes.selected) {
-            if ($scope.genericObjectsTypes.selected.objectType === genericObjectTabs.type) {
-                return true;
-            }
-        } else {
-            return true;
-        }
-    };
 });

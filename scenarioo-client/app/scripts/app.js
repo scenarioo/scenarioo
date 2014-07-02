@@ -22,10 +22,8 @@ angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.g
 angular.module('scenarioo.services', [ 'ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
 
-angular.module('scenarioo', [
-    'scenarioo.controllers',
-    'ui.bootstrap'
-]).config(function ($routeProvider) {
+angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
+.config(function ($routeProvider) {
     $routeProvider
         .when('/', {
             templateUrl: 'views/main.html',
@@ -36,6 +34,12 @@ angular.module('scenarioo', [
             templateUrl: 'views/manage/manage.html',
             controller: 'ManageCtrl',
             breadcrumb: '<i class="icon-cogs"></i> Manage'
+        })
+        .when('/case/:useCaseName', {
+            templateUrl: 'views/usecase.html',
+            controller: 'UseCaseCtrl',
+            useCaseName: '@useCaseName',
+            breadcrumb: '<strong>Use Case:</strong> $param'
         })
         .when('/usecase/:useCaseName', {
             templateUrl: 'views/usecase.html',
