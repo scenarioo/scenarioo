@@ -19,6 +19,9 @@
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 
+/*
+ * Required for build to run with Java 8
+ */
 test.scanForTestClasses = false
 
 dependencies {
