@@ -291,7 +291,7 @@ public class ObjectRepository {
 				objectsList.add(object);
 			}
 			dao.saveObjectsList(branchName, buildName, type, objectsList);
-			LOGGER.info("    Finished successfully witing object list for type: "
+			LOGGER.info("    Finished successfully writing object list for type: "
 					+ type);
 		}
 	}

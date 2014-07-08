@@ -29,7 +29,9 @@ import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
 import org.scenarioo.model.docu.aggregates.steps.StepWithNavigation;
+import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
+import org.scenarioo.model.docu.entities.UseCase;
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/usecases/{usecaseName}/scenarios/{scenarioName}/steps/")
 public class StepResource {
@@ -49,12 +51,17 @@ public class StepResource {
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName, @PathParam("stepIndex") final int stepIndex) {
 		
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName, buildName);
 		
-		Step step = docuDAO.loadStep(branchName, resolvedBuildName, usecaseName, scenarioName, stepIndex);
-		StepNavigation navigation = aggregationsDAO.loadStepNavigation(new BuildIdentifier(branchName,
+		Step step = docuDAO.loadStep(resolvedBranchName, resolvedBuildName, usecaseName, scenarioName, stepIndex);
+		StepNavigation navigation = aggregationsDAO.loadStepNavigation(new BuildIdentifier(resolvedBranchName,
 				resolvedBuildName),
 				usecaseName, scenarioName, stepIndex);
-		return new StepWithNavigation(step, navigation);
+		
+		Scenario scenario = docuDAO.loadScenario(resolvedBranchName, resolvedBuildName, usecaseName, scenarioName);
+		UseCase usecase = docuDAO.loadUsecase(resolvedBranchName, resolvedBuildName, usecaseName);
+		
+		return new StepWithNavigation(step, navigation, usecase.getLabels(), scenario.getLabels());
 	}
 }

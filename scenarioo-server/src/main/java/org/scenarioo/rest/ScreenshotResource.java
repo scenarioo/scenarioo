@@ -41,8 +41,9 @@ public class ScreenshotResource {
 	public Response getScreenshot(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName, @PathParam("imgName") final String imgName) {
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
-		File img = filesystem.getScreenshotFile(branchName, resolvedBuildName, usecaseName, scenarioName, imgName);
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName, buildName);
+		File img = filesystem.getScreenshotFile(resolvedBranchName, resolvedBuildName, usecaseName, scenarioName, imgName);
 		if (img == null || !img.exists()) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}

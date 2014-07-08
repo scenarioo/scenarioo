@@ -155,7 +155,9 @@ public class ScenarioDocuAggregator {
 					break;
 				}
 			}
-			usecase.setStatus(atLeastOneScenarioFailed ? FAILED_STATE : SUCCESS_STATE);
+			if (usecase.getStatus() == null) {
+				usecase.setStatus(atLeastOneScenarioFailed ? FAILED_STATE : SUCCESS_STATE);
+			}
 			item.setScenarios(scenarios);
 			item.setUseCase(usecase);
 			useCaseScenarios.add(item);

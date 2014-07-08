@@ -27,12 +27,12 @@
         "matchdep": "~0.1.1",
         "grunt-google-cdn": "~0.1.1",
         "grunt-ngmin": "~0.0.2",
-        "scenarioo-js":"~0.1.1" ,
+        "scenarioo-js": "~0.1.1",
         "protractor": "~0.14.0",
         "grunt-protractor-runner": "~0.2.0",
-	"jshint": "~2.5.1",
-	"js2coffee":"~0.3.0",
-	"karma":"~0.12.16"
+        "jshint": "~2.5.1",
+        "js2coffee": "~0.3.0",
+        "karma": "~0.12.16"
     },
     "engines": {
         "node": ">=0.8.0"

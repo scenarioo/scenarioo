@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.model.docu.entities.Labels;
 import org.scenarioo.model.docu.entities.Step;
 
 /**
@@ -28,18 +29,25 @@ import org.scenarioo.model.docu.entities.Step;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+//TODO Rename to something like StepSummary
 public class StepWithNavigation {
 	
 	private Step step;
 	
 	private StepNavigation stepNavigation;
 	
-	public StepWithNavigation(final Step step, final StepNavigation stepNavigation) {
+	private Labels useCaseLabels;
+	private Labels scenarioLabels;
+	
+	public StepWithNavigation(Step step, StepNavigation stepNavigation,
+			Labels useCaseLabels, Labels scenarioLabels) {
 		super();
 		this.step = step;
 		this.stepNavigation = stepNavigation;
+		this.useCaseLabels = useCaseLabels;
+		this.scenarioLabels = scenarioLabels;
 	}
-	
+
 	public Step getStep() {
 		return step;
 	}
@@ -54,6 +62,22 @@ public class StepWithNavigation {
 	
 	public void setStepNavigation(final StepNavigation stepNavigation) {
 		this.stepNavigation = stepNavigation;
+	}
+
+	public Labels getUseCaseLabels() {
+		return useCaseLabels;
+	}
+
+	public void setUseCaseLabels(Labels useCaseLabels) {
+		this.useCaseLabels = useCaseLabels;
+	}
+
+	public Labels getScenarioLabels() {
+		return scenarioLabels;
+	}
+
+	public void setScenarioLabels(Labels scenarioLabels) {
+		this.scenarioLabels = scenarioLabels;
 	}
 	
 }
