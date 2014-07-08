@@ -21,6 +21,13 @@ angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function
     CustomTabContentResource, SelectedBranchAndBuild) {
     
     $scope.searchField;
+    $scope.treemodel;
+
+    // Determines if the tree has expanded / collapsed rootnodes initially
+    $scope.rootIsCollapsed = true;
+    $scope.toggleLabel = 'expand';  
+    $scope.collapsedIconName = 'collapsed.png';
+    $scope.expandedIconName= 'expanded.png';  
 
     function getSelectedTabFromUrl() {
         var params = $location.search();
@@ -51,12 +58,33 @@ angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function
 
     $scope.goToReferenceTree = function (nodeElement) {
         $location.path('/referenceTree/' + nodeElement.type + '/' + nodeElement.name);
-    };
-
-    $scope.expandAll = function() {
-        angular.forEach($scope.treemodel, function(node, index) {
-            toggleCollapse(node.id);
-        });
     }
 
+    $scope.toggleTree = function(treemodel) {
+        angular.forEach(treemodel, function(node, index) {
+            if ($scope.rootIsCollapsed && node.level != 0) {
+                node.isCollapsed = !$scope.rootIsCollapsed;            
+                node.isVisible = $scope.rootIsCollapsed;
+                node.icon = node.isCollapsed ? $scope.expandedIconName : $scope.collapsedIconName;                  
+                $scope.toggleLabel = 'collapse';
+            }
+            else if (node.level != 0) {
+                node.isCollapsed = !$scope.rootIsCollapsed;            
+                node.isVisible = $scope.rootIsCollapsed;
+                node.icon = node.isCollapsed ? $scope.expandedIconName : $scope.collapsedIconName;                  
+                $scope.toggleLabel = 'expand';
+            }
+
+            if (node.level == 0) {
+                node.icon = node.isCollapsed ? $scope.collapsedIconName: $scope.expandedIconName;                  
+                node.isCollapsed = !$scope.rootIsCollapsed;
+            }
+        })
+
+        $scope.rootIsCollapsed = !$scope.rootIsCollapsed;
+    }
+
+    $scope.resetSearchField = function() {
+        $scope.searchField = '';
+    }
 });

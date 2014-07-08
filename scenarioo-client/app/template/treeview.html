@@ -17,16 +17,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <div>
 	<table id="treeviewtable" class="table table-curved table-hover table-responsive">
-		<tr><th ng-repeat="column in columns">{{column.columnTitle}}</th>
+		<tr>
+			<th>Name</th>
+			<th ng-repeat="column in columns">{{column.columnTitle}}</th>
+		</tr>
 		<tr ng-repeat="node in treemodel" ng-show="node.isVisible">
 			<td ng-class="{matchColor: node.matching}"><span style="padding-left:{{node.level * 30}}px">
 				<img style="cursor:pointer; padding-right:10px"
 					ng-click="toggleCollapse($index)" ng-src="/styles/bitmaps/{{node.icon}}">
 						<span style="cursor:pointer" ng-click="clickAction({node:node})">{{node.type}}:{{node.name}}</span>
 				</span>
+			</td>		
+
+			<td ng-repeat="column in columns" ng-class="{matchColor: node.matching}">
+				{{node.columnData[column.propertyKey]}}
 			</td>
-			<!--TODO make it depending on configuration-->
-			<td ng-hide="{{angular.isUndefined(node.description)}}" ng-class="{matchColor: node.matching}">{{node.description}}</td>
 		</tr>
 	</table>
 </div>

@@ -25,10 +25,11 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             rootiscollapsed: '=',
             filter: "=",
             columns: "=",
+            treemodel: "=",
             clickAction: "&"
         },
         templateUrl: 'template/treeview.html',
-        link: function (scope, elem, attrs) {
+        link: function (scope, elem, element, attrs) {
             scope.treemodel = [];
             scope.collapsedIconName = 'collapsed.png';
             scope.expandedIconName= 'expanded.png';
@@ -56,7 +57,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     'id': id,
                     'name': node.item.name,
                     'type': node.item.type,
-                    'description': node.details.description,
+                    'columnData': {},                                        
                     'searchFields': [],
                     'level': level,
                     'children': [],
@@ -66,9 +67,13 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     'isCollapsed': scope.rootiscollapsed,
                     'isVisible': !scope.rootiscollapsed}
 
-                // Fill corresponding search-fields
+                // Fill columnData and search field values that are searchable
+                newNode.searchFields.push(newNode.type);
+                newNode.searchFields.push(newNode.name);
                 angular.forEach(scope.columns, function(value, index) {
-                    newNode.searchFields.push(newNode[value.propertyKey]);
+                    var columnValue = node.details[value.propertyKey];
+                    newNode.columnData[value.propertyKey] = columnValue;
+                    newNode.searchFields.push(columnValue);
                 });
 
                 // Root-node
@@ -150,6 +155,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     setNodeProperties(node, true, false);
                 }
 
+
                 return false;
             }
 
@@ -175,16 +181,12 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 buildTreeModel(newValues[0], newValues[1]);
             });
 
-            scope.resetSearchField = function() {
-                // TODO: function can only be called, when focus from searchfield is gone...
-                scope.filter = '';
-            }
-
             function bindClearFilter() {
                 GlobalHotkeysService.registerPageHotkeyCode(27, function () {
-                    scope.resetSearchField();
+                    scope.filter = '';
                 });
             }
+
         }
     };
 });

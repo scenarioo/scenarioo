@@ -27,6 +27,14 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
     $scope.referenceTree = [];
     $scope.locationPath;
 
+    $scope.treemodel;
+
+    // Determines if the tree has expanded / collapsed rootnodes initially
+    $scope.rootIsCollapsed = false;
+    $scope.toggleLabel = 'collapse';  
+    $scope.collapsedIconName = 'collapsed.png';
+    $scope.expandedIconName= 'expanded.png';  
+
     SelectedBranchAndBuild.callOnSelectionChange(loadReferenceTree);
 
     function loadReferenceTree(selected) {
@@ -106,4 +114,32 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
             concatLocationPath(nodeElement.parent, $scope.locationPath);
         }
     };
+
+    $scope.toggleTree = function(treemodel) {
+        angular.forEach(treemodel, function(node, index) {
+            if ($scope.rootIsCollapsed && node.level != 0) {
+                node.isCollapsed = !$scope.rootIsCollapsed;            
+                node.isVisible = $scope.rootIsCollapsed;
+                node.icon = node.isCollapsed ? $scope.expandedIconName : $scope.collapsedIconName;                  
+                $scope.toggleLabel = 'collapse';
+            }
+            else if (node.level != 0) {
+                node.isCollapsed = !$scope.rootIsCollapsed;            
+                node.isVisible = $scope.rootIsCollapsed;
+                node.icon = node.isCollapsed ? $scope.expandedIconName : $scope.collapsedIconName;                  
+                $scope.toggleLabel = 'expand';
+            }
+
+            if (node.level == 0) {
+                node.icon = node.isCollapsed ? $scope.collapsedIconName: $scope.expandedIconName;                  
+                node.isCollapsed = !$scope.rootIsCollapsed;
+            }
+        })
+
+        $scope.rootIsCollapsed = !$scope.rootIsCollapsed;
+    }
+
+    $scope.resetSearchField = function() {
+        $scope.searchField = '';
+    }
 });

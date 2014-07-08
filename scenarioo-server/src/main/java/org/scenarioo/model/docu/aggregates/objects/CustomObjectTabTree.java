@@ -11,24 +11,24 @@ import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CustomTabObjectTree {
-
+public class CustomObjectTabTree {
+	
 	private List<ObjectTreeNode<ObjectReference>> tree;
 	
-	public CustomTabObjectTree() {	
+	public CustomObjectTabTree() {
 	}
 	
-	public CustomTabObjectTree(List<ObjectTreeNode<ObjectReference>> tree) {
+	public CustomObjectTabTree(final List<ObjectTreeNode<ObjectReference>> tree) {
 		super();
 		this.tree = tree;
 	}
-
+	
 	public List<ObjectTreeNode<ObjectReference>> getTree() {
 		return tree;
 	}
-
-	public void setTree(List<ObjectTreeNode<ObjectReference>> tree) {
+	
+	public void setTree(final List<ObjectTreeNode<ObjectReference>> tree) {
 		this.tree = tree;
 	}
-			
+	
 }

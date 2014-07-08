@@ -18,27 +18,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <sc-breadcrumb></sc-breadcrumb>
 
 <div class="row sc-space-top sc-space-bottom">
-    <div class="col-lg-3">
-        <div class="input-group">
-            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip" title="type words separated by spaces to search for"
-                ng-model="searchField" placeholder="Search item" data-debounce/>
-            <span class="input-group-btn">
-                <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
-            </span>
-           	<span class="input-group-btn">
-            	<button type="button" ng-click="expandAll()" class="btn btn-default">expand all</button>
-        	</span>
+        <div class="col-lg-3">
+            <div class="input-group">
+                <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip" title="type words separated by spaces to search for"
+                    ng-model="searchField" placeholder="Search item" data-debounce/>
+                <span class="input-group-btn">
+                    <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
+                </span>
+                <span class="input-group-btn">
+                    <button type="button" ng-click="toggleTree(treemodel)" class="btn btn-default">{{toggleLabel}} all</button>
+                </span>
+            </div>
         </div>
-    </div>
-    <div class="col-lg-9">
-    </div>
+        <div class="col-lg-9">
+        </div>
 </div>
 
-<div 	
-	data-sc-filterable-table-tree 
-	data-rootiscollapsed="false" 
-	data-filter="searchField" 
-	data-treedata="referenceTree"
-	data-click-action="goToRelatedView(node)"
+<div    
+    data-sc-filterable-table-tree 
+    data-rootiscollapsed="rootIsCollapsed" 
+    data-filter="searchField" 
+    data-treedata="referenceTree"
+    data-treemodel="treemodel"    
+    data-click-action="goToRelatedView(node)"
     data-columns="[{columnTitle: 'Name'}, {propertyKey: 'name'}]">    
 </div>
