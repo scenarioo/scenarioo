@@ -18,7 +18,7 @@
 'use strict';
 
 angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function ($scope, $location, $filter, 
-    GlobalHotkeysService, CustomTabContentResource, SelectedBranchAndBuild) {
+    CustomTabContentResource, SelectedBranchAndBuild) {
     
     $scope.searchField;
 
@@ -41,7 +41,8 @@ angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function
 
     function loadContent() {
          CustomTabContentResource.get(
-            {'branchName': $scope.selectedBranchAndBuild.branch, 'buildName': $scope.selectedBranchAndBuild.build, 'tabId': $scope.selectedTab},
+            {'branchName': $scope.selectedBranchAndBuild.branch, 
+                'buildName': $scope.selectedBranchAndBuild.build, 'tabId': $scope.selectedTab},
             function onSuccess(result) {
                 $scope.tabContentTree = result.tree;
             }
@@ -57,10 +58,5 @@ angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function
             toggleCollapse(node.id);
         });
     }
-
-    $scope.resetSearchField = function () {
-        $scope.searchField = '';
-    };
-
 
 });

@@ -17,13 +17,14 @@
 
 'use strict';
 
-angular.module('scenarioo.directives').directive('scFilterableTableTree', function () {
+angular.module('scenarioo.directives').directive('scFilterableTableTree', function (GlobalHotkeysService) {
     return {
         restrict: 'AE',
         scope: {
             treedata: '=',
             rootiscollapsed: '=',
             filter: "=",
+            columns: "=",
             clickAction: "&"
         },
         templateUrl: 'template/treeview.html',
@@ -31,8 +32,11 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             scope.treemodel = [];
             scope.collapsedIconName = 'collapsed.png';
             scope.expandedIconName= 'expanded.png';
+            
+            // Set's hotkey ESC to reset filter field
+            bindClearFilter();
 
-            function buildTreeModel(data, filter){
+            function buildTreeModel(data, filter) {
                 scope.treemodel = [];
                 scope.nodeFilter = filter;
 
@@ -41,7 +45,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 });
             }
 
-            function createNode(node, level, id, parent){
+            function createNode(node, level, id, parent) {
 
                 if (angular.isUndefined(node.item))
                 {
@@ -53,8 +57,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     'name': node.item.name,
                     'type': node.item.type,
                     'description': node.details.description,
-                    // TODO: fill all columns configured in configuration
-                    'searchFields': [node.item.name, node.item.type, node.details.description],
+                    'searchFields': [],
                     'level': level,
                     'children': [],
                     'matching': false,
@@ -62,6 +65,11 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     'icon': scope.collapsedIconName,
                     'isCollapsed': scope.rootiscollapsed,
                     'isVisible': !scope.rootiscollapsed}
+
+                // Fill corresponding search-fields
+                angular.forEach(scope.columns, function(value, index) {
+                    newNode.searchFields.push(newNode[value.propertyKey]);
+                });
 
                 // Root-node
                 if (newNode.level == 0) {
@@ -81,7 +89,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             };
 
             // Traverses the tree-view top-down
-            scope.toggleCollapse = function(index){
+            scope.toggleCollapse = function(index) {
                 var rootNode = scope.treemodel[index];
 
                 rootNode.isCollapsed = !rootNode.isCollapsed;
@@ -117,8 +125,10 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
 
                     for (var searchField in node.searchFields) {
 
-                        if (node.searchFields[searchField] != ""){
-                            if ((node.searchFields[searchField].toUpperCase().search(filters[filter]) > -1)) {
+                        if (node.searchFields[searchField] != "") {
+
+                            if ((angular.isDefined(node.searchFields[searchField]) && 
+                                    node.searchFields[searchField].toUpperCase().search(filters[filter]) > -1)) {
 
                                 searchKeyFound.push(true);
                                 break;
@@ -127,7 +137,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     }
                 };
 
-                if (searchKeyFound.length == filters.length){
+                if (searchKeyFound.length == filters.length) {
                     node.matching = true;
                     setNodeProperties(node, true, true);
                     expandUpToRoodNode(node);                    
@@ -164,6 +174,17 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             scope.$watchCollection('[treedata, filter]', function(newValues) {
                 buildTreeModel(newValues[0], newValues[1]);
             });
+
+            scope.resetSearchField = function() {
+                // TODO: function can only be called, when focus from searchfield is gone...
+                scope.filter = '';
+            }
+
+            function bindClearFilter() {
+                GlobalHotkeysService.registerPageHotkeyCode(27, function () {
+                    scope.resetSearchField();
+                });
+            }
         }
     };
 });

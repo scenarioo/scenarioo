@@ -17,10 +17,11 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($rootScope, $scope, $routeParams, ObjectIndexListResource, PagesAndSteps, SelectedBranchAndBuild, ScenarioResource, $location) {
+angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($rootScope, $scope, 
+    $routeParams, $location, ObjectIndexListResource, PagesAndSteps, SelectedBranchAndBuild, ScenarioResource) {
 
-    //var objectType = $routeParams.objectType;
-    //var objectName = $routeParams.objectName;
+    var objectType = $routeParams.objectType;
+    var objectName = $routeParams.objectName;
     var selectedBranchAndBuild;
 
     $scope.referenceTree = [];
@@ -30,11 +31,12 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
 
     function loadReferenceTree(selected) {
     selectedBranchAndBuild = selected;
-    
+
     ObjectIndexListResource.get(
         {
             branchName: selected.branch,
             buildName: selected.build,
+            // Mocked until #216 will be implemented
             objectType: 'page',             // objectType,
             objectName: 'searchResults.jsp' // objectName
         },
@@ -43,7 +45,9 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         });
 	}
 
-    $scope.onTreeNodeClick = function(nodeElement) {
+    $scope.goToRelatedView = function(nodeElement) {
+        // TODO: set usecasename and scenarioName dynamically
+
         ScenarioResource.get(
         {
             branchName: selectedBranchAndBuild.branch,
@@ -52,6 +56,9 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
             scenarioName: 'find_page_no_result'
         },
         function(result) {
+            // TODO: type could be also 'Feature' or something else, which
+            // view shall be displayed for that??
+
             $scope.locationPath = '/' + nodeElement.type + '/*';
             var pagesAndSteps;
             var pageStepIndexes;
@@ -68,7 +75,10 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
                     $scope.locationPath = '/step/*';                
                     concatLocationPath(nodeElement);
                     pagesAndSteps = $rootScope.populatePageAndSteps(result);
-                    pageStepIndexes = getPageAndStepIndex('searchResults.jsp', pagesAndSteps) ;
+                    pageStepIndexes = getPageAndStepIndex('searchResults.jsp', pagesAndSteps);
+
+                    // In step.js will pageIndex incremented by 1, therefore we have to subtract 1
+                    // TODO: This should be fixed in the future, so that the server returns the right number.
                     $scope.locationPath += '/' + (pageStepIndexes[0].page -1 )+ '/' + pageStepIndexes[0].step
                     break;
             }
@@ -96,4 +106,4 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
             concatLocationPath(nodeElement.parent, $scope.locationPath);
         }
     };
-});	
+});

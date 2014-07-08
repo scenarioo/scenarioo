@@ -26,6 +26,12 @@ public class CustomTabsResource extends AbstractBuildContentResource {
 		// String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE
 		// .resolveAliasBuildName(branchName, buildName);
 
+		// 1. Retrieve all scenarios from scenario.xml (containing all relations
+		// and hierarchy) ??
+		// 2. Aggregate all items
+		// 3. Generate XML
+		// 4. Shall be generated during import
+
 		List<ObjectTreeNode<ObjectReference>> mockedResult = new ArrayList<ObjectTreeNode<ObjectReference>>();
 		mockedResult.add(createSampleMockedFeatureTree("Feature", 1, 3));
 		mockedResult.add(createSampleMockedFeatureTree("Just a feature", 2, 3));
