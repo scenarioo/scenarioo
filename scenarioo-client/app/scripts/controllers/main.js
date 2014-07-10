@@ -36,14 +36,14 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
     }
 
     function defineCustomTabsFromConfig(config) {
-         angular.forEach(config.customObjectTabs, function (customTab) {
-             $scope.tabs[$scope.tabs.length] = {
+        angular.forEach(config.customObjectTabs, function (customTab) {
+            $scope.tabs[$scope.tabs.length] = {
                 tabId: customTab.id,
                 title: customTab.tabTitle,
                 column: customTab.customObjectDetailColumns,
                 contentViewUrl: 'views/mainCustomTab.html',
                 active: false
-            }
+            };
         });
     }
 
@@ -75,7 +75,7 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
         else {
             return null;
         }
-    }
+    };
 
     $scope.setSelectedTabInUrl = function (tabId) {
         $location.search('tab', tabId);
@@ -83,7 +83,7 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
 
     $scope.selectTabFromUrl = function () {
         var params = $location.search();
-        var selectedTabId = 'undefined';
+        var selectedTabId = '';
         if (params !== null && angular.isDefined(params.tab)) {
             selectedTabId = params.tab;
             angular.forEach($scope.tabs, function (tab) {

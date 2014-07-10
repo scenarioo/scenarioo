@@ -63,7 +63,6 @@ angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($sco
             }
         );
     };
-    
     $scope.table = {search: {$: ''}, sort: {column: 'name', reverse: false}};
 
     $scope.resetSearchField = function () {

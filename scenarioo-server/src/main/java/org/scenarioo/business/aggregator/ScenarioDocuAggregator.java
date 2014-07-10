@@ -63,7 +63,7 @@ public class ScenarioDocuAggregator {
 	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
 	 * otherwise the data has to be recalculated.
 	 */
-	public static final String CURRENT_FILE_FORMAT_VERSION = "0.33";
+	public static final String CURRENT_FILE_FORMAT_VERSION = "0.34";
 	
 	private final static Logger LOGGER = Logger.getLogger(ScenarioDocuAggregator.class);
 	
@@ -160,7 +160,7 @@ public class ScenarioDocuAggregator {
 		LOGGER.info("    calculating aggregated data for use case : " + useCaseScenarios.getUseCase().getName());
 		
 		List<ObjectReference> referencePath = objectRepository.createPath(objectRepository.createObjectReference(
-				"case", useCaseScenarios.getUseCase().getName()));
+				"usecase", useCaseScenarios.getUseCase().getName()));
 		objectRepository.addObjects(referencePath, useCaseScenarios.getUseCase().getDetails());
 		
 		for (Scenario scenario : useCaseScenarios.getScenarios()) {

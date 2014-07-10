@@ -160,7 +160,7 @@ angular.module('scenarioo.services')
                 objectType: '@objectType',
                 objectName: '@objectName'
             }, {});
-        })
+    })
 
     .factory('BuildImportService', function (ScenariooResource, $q) {
         var buildImportService = ScenariooResource('/builds/updateAndImport', {});
@@ -194,17 +194,17 @@ angular.module('scenarioo.services')
 
     .factory('BranchAliasesResource', function (ScenariooResource) {
         return ScenariooResource('/branchaliases', {}, {});
-    })
+    });
 
-    function getPromise($q, fn) {
-        return function (parameters) {
-            var deferred = $q.defer();
-            fn(parameters, function (result) {
-                deferred.resolve(result);
-            }, function (error) {
-                deferred.reject(error);
-            });
-            return deferred.promise;
-        };
-    }
+function getPromise($q, fn) {
+    return function (parameters) {
+        var deferred = $q.defer();
+        fn(parameters, function (result) {
+            deferred.resolve(result);
+        }, function (error) {
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    };
+}
 

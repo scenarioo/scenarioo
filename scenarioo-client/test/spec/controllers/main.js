@@ -35,7 +35,7 @@ describe('Controller MainCtrl', function () {
     ));
 
     it('does return the expected src-URL to load tab content for first tab', function () {
-        expect($scope.getLazyTabContentViewUrl($scope.tabs[0])).toEqual('views/mainUseCasesTab.html');
+        expect($scope.getLazyTabContentViewUrl(TestData.TABS[0]).toEqual(TestData.TABS[0].contentViewUrl));
     });
 
     it('has no builds set in the beginning', function () {
@@ -55,5 +55,4 @@ describe('Controller MainCtrl', function () {
         expect($scope.branchesAndBuilds.selectedBuild).toEqualData(TestData.BRANCHES[1].builds[0]);
 
     });
-
 });

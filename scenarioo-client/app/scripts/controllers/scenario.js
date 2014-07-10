@@ -17,7 +17,9 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($rootScope, $scope, $q, $filter, $routeParams, $location, $window, localStorageService, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, PagesAndSteps) {
+angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($rootScope, $scope, $q, $filter, $routeParams,
+                                                                             $location, $window, localStorageService, ScenarioResource,
+                                                                             HostnameAndPort, SelectedBranchAndBuild, PagesAndSteps) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -41,7 +43,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($ro
             },
             function(result) {
                 // Add page to the step to allow search for step- as well as page-properties
-                $scope.pagesAndScenarios = $rootScope.populatePageAndSteps(result);
+                $scope.pagesAndScenarios = PagesAndSteps.populatePagesAndSteps(result);
                 $scope.scenario = $scope.pagesAndScenarios.scenario;
                 $scope.pagesAndSteps = $scope.pagesAndScenarios.pagesAndSteps;
                 $scope.metadataTree = transformMetadataToTreeArray($scope.pagesAndScenarios.scenario.details);

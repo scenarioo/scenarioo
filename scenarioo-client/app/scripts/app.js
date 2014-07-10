@@ -35,12 +35,6 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
             controller: 'ManageCtrl',
             breadcrumb: '<i class="icon-cogs"></i> Manage'
         })
-        .when('/case/:useCaseName', {
-            templateUrl: 'views/usecase.html',
-            controller: 'UseCaseCtrl',
-            useCaseName: '@useCaseName',
-            breadcrumb: '<strong>Use Case:</strong> $param'
-        })
         .when('/usecase/:useCaseName', {
             templateUrl: 'views/usecase.html',
             controller: 'UseCaseCtrl',
@@ -77,7 +71,7 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
             objectType: '@objectType',
             objectName: '@objectName',
             breadcrumb: '<strong>Reference Tree-View:</strong> $param'
-        })        
+        })
         .otherwise({
             redirectTo: '/'
         })

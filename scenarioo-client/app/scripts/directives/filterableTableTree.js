@@ -23,17 +23,18 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
         scope: {
             treedata: '=',
             rootiscollapsed: '=',
-            filter: "=",
-            columns: "=",
-            treemodel: "=",
-            clickAction: "&"
+            filter: '=',
+            columns: '=',
+            treemodel: '=',
+            clickAction: '&'
         },
         templateUrl: 'template/treeview.html',
-        link: function (scope, elem, element, attrs) {
+        link: function (scope) {
             scope.treemodel = [];
             scope.collapsedIconName = 'collapsed.png';
             scope.expandedIconName= 'expanded.png';
-            
+            scope.noneIconName = '';
+
             // Set's hotkey ESC to reset filter field
             bindClearFilter();
 
@@ -50,14 +51,14 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
 
                 if (angular.isUndefined(node.item))
                 {
-                    return "No item defined on node";
+                    return 'No item defined on node';
                 }
 
                 var newNode = {
                     'id': id,
                     'name': node.item.name,
                     'type': node.item.type,
-                    'columnData': {},                                        
+                    'columnData': {},
                     'searchFields': [],
                     'level': level,
                     'children': [],
@@ -65,45 +66,44 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     'parent': parent,
                     'icon': scope.collapsedIconName,
                     'isCollapsed': scope.rootiscollapsed,
-                    'isVisible': !scope.rootiscollapsed}
+                    'isVisible': !scope.rootiscollapsed
+                };
 
                 // Fill columnData and search field values that are searchable
                 newNode.searchFields.push(newNode.type);
                 newNode.searchFields.push(newNode.name);
-                angular.forEach(scope.columns, function(value, index) {
+                angular.forEach(scope.columns, function(value) {
                     var columnValue = node.details[value.propertyKey];
                     newNode.columnData[value.propertyKey] = columnValue;
                     newNode.searchFields.push(columnValue);
                 });
 
                 // Root-node
-                if (newNode.level == 0) {
+                if (newNode.level === 0) {
                     setNodeProperties(newNode, scope.rootiscollapsed, true);
                 }
-               
+
                 if (angular.isDefined(parent)) {
-                   parent.children.push(newNode.id);
+                    parent.children.push(newNode.id);
                 }
 
                 scope.treemodel.push(newNode);
                 nodeFilter(newNode, scope.nodeFilter);
 
                 angular.forEach(node.children, function (value, index) {
-                    createNode(value, level + 1, id + "_" + index, newNode);
+                    createNode(value, level + 1, id + '_' + index, newNode);
                 });
-            };
+            }
 
-            // Traverses the tree-view top-down
-            scope.toggleCollapse = function(index) {
-                var rootNode = scope.treemodel[index];
-
+            // Traverses the tree-view top-down for all childs
+            scope.toggleAllChilds = function(rootNode) {
                 rootNode.isCollapsed = !rootNode.isCollapsed;
                 rootNode.icon = rootNode.isCollapsed ? scope.expandedIconName : scope.collapsedIconName;
-                collapseChrildren(rootNode, rootNode.isCollapsed);
+                collapseExpandChildren(rootNode, rootNode.isCollapsed);
             };
 
-            function collapseChrildren(rootnode, parentIsCollapsed) {
-                angular.forEach(scope.treemodel, function(node, index) {
+            function collapseExpandChildren(rootnode, parentIsCollapsed) {
+                angular.forEach(scope.treemodel, function(node) {
                     var childNode = rootnode.children.indexOf(node.id) > -1;
 
                     if (childNode) {
@@ -111,41 +111,64 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                         node.isCollapsed = parentIsCollapsed;
                         node.icon = node.isCollapsed ? scope.expandedIconName : scope.collapsedIconName;
 
-                        collapseChrildren(node, node.isCollapsed);
+                        collapseExpandChildren(node, node.isCollapsed);
                     }
                 });
             }
 
+            // Expand collapse only the current node
+            scope.toggleCollapseNode = function(rootNode) {
+
+                // When root expanded, onClick provokes an collapse on all childs
+                if (!rootNode.isCollapsed && rootNode.children.length > 0) {
+                    scope.toggleAllChilds(rootNode);
+                }
+                else {
+                    rootNode.isCollapsed = !rootNode.isCollapsed;
+                    rootNode.icon = rootNode.isCollapsed ? scope.expandedIconName : scope.collapsedIconName;
+
+                    angular.forEach(scope.treemodel, function (node) {
+                        var childNode = rootNode.children.indexOf(node.id) > -1;
+
+                        if (childNode) {
+                            node.isVisible = !node.isVisible;
+                            node.isCollapsed = node.isCollapsed;
+                            node.icon = node.isCollapsed ? scope.expandedIconName : scope.collapsedIconName;
+                        }
+                    });
+                }
+            };
+
             // Traverses the tree-view bottom-up
             function nodeFilter(node, filter) {
-                if (angular.isUndefined(node) || angular.isUndefined(filter) || filter == "") {
+                if (angular.isUndefined(node) || angular.isUndefined(filter) || filter === '') {
                     return;
                 }
 
                 var filterPattern = filter.toUpperCase();
-                var filters = filterPattern.split(" ");
+                var filters = filterPattern.split(' ');
                 var searchKeyFound = [];
 
-                for (var filter in filters) {
+                for (var filterItem in filters) {
 
                     for (var searchField in node.searchFields) {
 
-                        if (node.searchFields[searchField] != "") {
+                        if (node.searchFields[searchField] !== '') {
 
-                            if ((angular.isDefined(node.searchFields[searchField]) && 
-                                    node.searchFields[searchField].toUpperCase().search(filters[filter]) > -1)) {
+                            if ((angular.isDefined(node.searchFields[searchField]) &&
+                                    node.searchFields[searchField].toUpperCase().search(filters[filterItem]) > -1)) {
 
                                 searchKeyFound.push(true);
                                 break;
                             }
                         }
                     }
-                };
+                }
 
-                if (searchKeyFound.length == filters.length) {
+                if (searchKeyFound.length === filters.length) {
                     node.matching = true;
                     setNodeProperties(node, true, true);
-                    expandUpToRoodNode(node);                    
+                    expandUpToRoodNode(node);
 
                     return true;
                 }
@@ -154,15 +177,13 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     node.matching = false;
                     setNodeProperties(node, true, false);
                 }
-
-
                 return false;
             }
 
             function expandUpToRoodNode(childNode) {
                 if (angular.isDefined(childNode)) {
                     var parentNode = scope.treemodel[scope.treemodel.indexOf(childNode.parent)];
-                    
+
                     if (angular.isDefined(parentNode)) {
                         setNodeProperties(parentNode, false, true);
                     }

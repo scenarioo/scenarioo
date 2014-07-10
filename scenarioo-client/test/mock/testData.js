@@ -29,7 +29,18 @@ angular.module('scenarioo.services').service('TestData', function () {
                 BUILD_STATE_SUCCESS: 'label-success',
                 BUILD_STATE_WARNING: 'label-warning'
             },
-            'defaultBranchName': 'trunk'
+            'defaultBranchName': 'trunk',
+            'customObjectTabs': [{
+                'id': 'calls',
+                'tabTitle': 'Calls',
+                'objectTypesToDisplay': 'service',
+                'columnTitle': 'Description',
+                'propertyKey': 'description',
+                'customObjectDetailColumns' : {
+                    'columnTitle' : 'Real Name for Service',
+                    'propertyKey': 'realName'
+                }
+            }]
         },
 
         BRANCHES: [
@@ -163,6 +174,16 @@ angular.module('scenarioo.services').service('TestData', function () {
         VERSION: {
             version: '1.2.3',
             buildDate: '1/7/2015, 05:00'
-        }
+        },
+
+        TABS: [
+            {
+                tabId: 'usecases',
+                title: 'Use Cases',
+                contentViewUrl: 'views/mainUseCasesTab.html',
+                active: true
+            }
+        ]
+
     };
 });

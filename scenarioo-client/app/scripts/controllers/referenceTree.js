@@ -17,36 +17,33 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($rootScope, $scope, 
-    $routeParams, $location, ObjectIndexListResource, PagesAndSteps, SelectedBranchAndBuild, ScenarioResource) {
+angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($rootScope, $scope,
+    $routeParams, $location, ObjectIndexListResource, PagesAndSteps, SelectedBranchAndBuild, ScenarioResource, TreeNode) {
 
     var objectType = $routeParams.objectType;
     var objectName = $routeParams.objectName;
     var selectedBranchAndBuild;
 
     $scope.referenceTree = [];
-    $scope.locationPath;
-
-    $scope.treemodel;
+    $scope.locationPath = '';
+    $scope.treemodel = [];
 
     // Determines if the tree has expanded / collapsed rootnodes initially
     $scope.rootIsCollapsed = false;
-    $scope.toggleLabel = 'collapse';  
+    $scope.toggleLabel = 'collapse';
     $scope.collapsedIconName = 'collapsed.png';
-    $scope.expandedIconName= 'expanded.png';  
+    $scope.expandedIconName= 'expanded.png';
 
     SelectedBranchAndBuild.callOnSelectionChange(loadReferenceTree);
 
     function loadReferenceTree(selected) {
-    selectedBranchAndBuild = selected;
-
-    ObjectIndexListResource.get(
+        selectedBranchAndBuild = selected;
+        ObjectIndexListResource.get(
         {
             branchName: selected.branch,
             buildName: selected.build,
-            // Mocked until #216 will be implemented
-            objectType: 'page',             // objectType,
-            objectName: 'searchResults.jsp' // objectName
+            objectType: objectType,
+            objectName: objectName
         },
         function(result) {
             $scope.referenceTree = result;
@@ -72,74 +69,53 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
             var pageStepIndexes;
 
             switch(nodeElement.type) {
-                case "case":
-                    concatLocationPath(nodeElement);
-                    break;
-                case "scenario":
-                    concatLocationPath(nodeElement);
-                    break;
-                case "page":
-                case "step":
-                    $scope.locationPath = '/step/*';                
-                    concatLocationPath(nodeElement);
-                    pagesAndSteps = $rootScope.populatePageAndSteps(result);
-                    pageStepIndexes = getPageAndStepIndex('searchResults.jsp', pagesAndSteps);
+            case 'usecase':
+                concatLocationPath(nodeElement);
+                break;
+            case 'scenario':
+                concatLocationPath(nodeElement);
+                break;
+            case 'page':
+            case 'step':
+                $scope.locationPath = '/step/*';
+                concatLocationPath(nodeElement);
+                pagesAndSteps = PagesAndSteps.populatePagesAndSteps(result);
+                pageStepIndexes = getPageAndStepIndex('searchResults.jsp', pagesAndSteps);
 
-                    // In step.js will pageIndex incremented by 1, therefore we have to subtract 1
-                    // TODO: This should be fixed in the future, so that the server returns the right number.
-                    $scope.locationPath += '/' + (pageStepIndexes[0].page -1 )+ '/' + pageStepIndexes[0].step
-                    break;
+                // In step.js will pageIndex incremented by 1, therefore we have to subtract 1
+                // TODO: This should be fixed in the future, so that the server returns the right number.
+                $scope.locationPath += '/' + (pageStepIndexes[0].page -1 )+ '/' + pageStepIndexes[0].step;
+                break;
             }
 
-        $scope.locationPath = $scope.locationPath.replace('/*', '');
-        $location.path($scope.locationPath);
-        })
+            $scope.locationPath = $scope.locationPath.replace('/*', '');
+            $location.path($scope.locationPath);
+        });
     };
 
     function getPageAndStepIndex(pageName, pagesAndSteps) {
         var result = [];
 
-        angular.forEach(pagesAndSteps.pagesAndSteps, function (value, index) {
-           if (value.page.name == pageName) {
+        angular.forEach(pagesAndSteps.pagesAndSteps, function (value) {
+            if (value.page.name === pageName) {
                 result = [{page: value.page.index, step: value.steps[0].index}];
             }
         });
-        
         return result;
     }
 
     function concatLocationPath(nodeElement) {
-        if (angular.isDefined(nodeElement) && nodeElement.level != 0) {
+        if (angular.isDefined(nodeElement) && nodeElement.level !== 0) {
             $scope.locationPath = $scope.locationPath.replace('*', '*/' + encodeURIComponent(nodeElement.name));
             concatLocationPath(nodeElement.parent, $scope.locationPath);
         }
-    };
-
-    $scope.toggleTree = function(treemodel) {
-        angular.forEach(treemodel, function(node, index) {
-            if ($scope.rootIsCollapsed && node.level != 0) {
-                node.isCollapsed = !$scope.rootIsCollapsed;            
-                node.isVisible = $scope.rootIsCollapsed;
-                node.icon = node.isCollapsed ? $scope.expandedIconName : $scope.collapsedIconName;                  
-                $scope.toggleLabel = 'collapse';
-            }
-            else if (node.level != 0) {
-                node.isCollapsed = !$scope.rootIsCollapsed;            
-                node.isVisible = $scope.rootIsCollapsed;
-                node.icon = node.isCollapsed ? $scope.expandedIconName : $scope.collapsedIconName;                  
-                $scope.toggleLabel = 'expand';
-            }
-
-            if (node.level == 0) {
-                node.icon = node.isCollapsed ? $scope.collapsedIconName: $scope.expandedIconName;                  
-                node.isCollapsed = !$scope.rootIsCollapsed;
-            }
-        })
-
-        $scope.rootIsCollapsed = !$scope.rootIsCollapsed;
     }
+
+    $scope.expandAndCollapseTree = function(treemodel) {
+        TreeNode.expandAndCollapseTree(treemodel, $scope);
+    };
 
     $scope.resetSearchField = function() {
         $scope.searchField = '';
-    }
+    };
 });
