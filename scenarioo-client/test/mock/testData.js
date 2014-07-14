@@ -30,17 +30,23 @@ angular.module('scenarioo.services').service('TestData', function () {
                 BUILD_STATE_WARNING: 'label-warning'
             },
             'defaultBranchName': 'trunk',
-            'customObjectTabs': [{
-                'id': 'calls',
-                'tabTitle': 'Calls',
-                'objectTypesToDisplay': 'service',
-                'columnTitle': 'Description',
-                'propertyKey': 'description',
-                'customObjectDetailColumns' : {
-                    'columnTitle' : 'Real Name for Service',
-                    'propertyKey': 'realName'
+            'customObjectTabs': [
+                {
+                    'id': 'calls',
+                    'tabTitle': 'Calls',
+                    'objectTypesToDisplay': ['uiAction', 'businessOperation', 'service'],
+                    'customObjectDetailColumns': [
+                        {
+                            'columnTitle': 'Description',
+                            'propertyKey': 'description'
+                        },
+                        {
+                            'columnTitle': 'Real Service Name',
+                            'propertyKey': 'realName'
+                        }
+                    ]
                 }
-            }]
+            ]
         },
 
         BRANCHES: [
