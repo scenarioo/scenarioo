@@ -87,7 +87,7 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
             }
         });
     };
-    
+
     $scope.selectTabFromUrl = function () {
         var params = $location.search();
         var selectedTabId = 'undefined';
