@@ -68,22 +68,29 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
     /**
      * Only return the URL for the tab content view as soon as the is is active, such that the content only gets lazyly loaded.
      */
-    $scope.getLazyTabContentViewUrl = function (tab) {
-        if (tab.active) {
-            return tab.contentViewUrl;
-        }
-        else {
-            return null;
-        }
+    $scope.getLazyTabContentViewUrl = function (tabId) {
+        // Only return the tab src as soon as tab is active
+        var url = null;
+        angular.forEach($scope.tabs, function (tab) {
+            if (tab.tabId === tabId && tab.active === true) {
+                url =  tab.contentViewUrl;
+            }
+        });
+        return url;
     };
 
     $scope.setSelectedTabInUrl = function (tabId) {
-        $location.search('tab', tabId);
+        angular.forEach($scope.tabs, function (tab) {
+            if (tab.tabId === tabId && tab.active === true && $location.search().tab !== tab.tabId) {
+                // this ugly weird expression seems to be needed to ensure that the url is not manipulated too early (before tab is activated) and not to often (if already in url)
+                $location.search('tab', tab.tabId);
+            }
+        });
     };
-
+    
     $scope.selectTabFromUrl = function () {
         var params = $location.search();
-        var selectedTabId = '';
+        var selectedTabId = 'undefined';
         if (params !== null && angular.isDefined(params.tab)) {
             selectedTabId = params.tab;
             angular.forEach($scope.tabs, function (tab) {
@@ -93,6 +100,5 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
             });
         }
     };
-
 
 });

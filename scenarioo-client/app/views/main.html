@@ -26,11 +26,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <tabset class="step-panes">
 
         <!-- Tabs are defined dynamically in controller inside main.js -->
-        <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="setSelectedTabInUrl(tab.tabId)">
-            <div>
-                <ng-include src="getLazyTabContentViewUrl(tab)"/>
-            </div>
-        </tab>
 
+        <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="setSelectedTabInUrl(tab.tabId)">
+            <ng-include src="getLazyTabContentViewUrl(tab.tabId)"/>
+        </tab>
     </tabset>
+
 </div>

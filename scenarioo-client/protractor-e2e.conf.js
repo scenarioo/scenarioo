@@ -6,7 +6,7 @@ exports.config = {
     seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.37.0.jar',
     // find its own unused port.
     seleniumPort: null,
-    chromeDriver: './node_modules/protractor/selenium/chromedriver',
+    chromeDriver: './node_modules/protractor/selenium/chromedriver/chromedriver.exe',
     seleniumArgs: [],
 
     allScriptsTimeout: 11000,
