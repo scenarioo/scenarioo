@@ -16,6 +16,7 @@
  */
 
 'use strict';
+
 angular.module('scenarioo.services').factory('TreeNode', function () {
     return {
         expandAndCollapseTree: function (treemodel, $scope) {
@@ -23,7 +24,6 @@ angular.module('scenarioo.services').factory('TreeNode', function () {
             var isCollapsed = $scope.toggleLabel === 'expand' ? false : true;
 
             angular.forEach(treemodel, function (node) {
-debugger;
                 node.isCollapsed = isCollapsed;
                 node.icon = isCollapsed ? $scope.expandedIconName : $scope.collapsedIconName;
 

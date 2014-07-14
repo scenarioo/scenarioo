@@ -59,7 +59,7 @@ angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function
         $location.path('/referenceTree/' + nodeElement.type + '/' + nodeElement.name);
     };
 
-    $scope.expandAndCollapseTree = function(treemodel, toggleLabel) {
+    $scope.expandAndCollapseTree = function(treemodel) {
         TreeNode.expandAndCollapseTree(treemodel, $scope);
     };
 

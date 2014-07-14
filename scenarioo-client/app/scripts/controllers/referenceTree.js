@@ -18,14 +18,29 @@
 'use strict';
 
 angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($rootScope, $scope,
-    $routeParams, $location, ObjectIndexListResource, PagesAndSteps, SelectedBranchAndBuild, ScenarioResource, TreeNode) {
+    $routeParams, $location, ObjectIndexListResource, PagesAndSteps, SelectedBranchAndBuild, ScenarioResource, TreeNode, StepService) {
 
     var objectType = $routeParams.objectType;
     var objectName = $routeParams.objectName;
     var selectedBranchAndBuild;
+    var navigationElement = {
+        navigationType: '',
+        navigationName: '',
+        useCaseName: '',
+        scenarioName: '',
+        scenarioPageName: '',
+        pageIndex: null,
+        stepIndex: null
+    };
+
+    var objType = {
+        USECASE: 0,
+        SCENARIO: 1,
+        PAGE: 2,
+        STEP:3
+    };
 
     $scope.referenceTree = [];
-    $scope.locationPath = '';
     $scope.treemodel = [];
 
     // Determines if the tree has expanded / collapsed rootnodes initially
@@ -38,6 +53,8 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
 
     function loadReferenceTree(selected) {
         selectedBranchAndBuild = selected;
+
+        // Get all references for given object
         ObjectIndexListResource.get(
         {
             branchName: selected.branch,
@@ -51,63 +68,76 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
 	}
 
     $scope.goToRelatedView = function(nodeElement) {
-        // TODO: set usecasename and scenarioName dynamically
+        buildNavigationElement(nodeElement);
 
-        ScenarioResource.get(
-        {
-            branchName: selectedBranchAndBuild.branch,
-            buildName: selectedBranchAndBuild.build,
-            usecaseName: 'Find Page',
-            scenarioName: 'find_page_no_result'
-        },
-        function(result) {
-            // TODO: type could be also 'Feature' or something else, which
-            // view shall be displayed for that??
+        if (navigationElement.navigationType === 2 || navigationElement.navigationType === 3) {
+            var stepPromise = StepService.getStep({'branchName': selectedBranchAndBuild.branch, 'buildName': selectedBranchAndBuild.build,
+                'usecaseName': navigationElement.useCaseName, 'scenarioName': navigationElement.scenarioName,
+                'stepIndex': navigationElement.stepIndex});
 
-            $scope.locationPath = '/' + nodeElement.type + '/*';
-            var pagesAndSteps;
-            var pageStepIndexes;
+            stepPromise.then(function (result) {
+                $scope.step = result.step;
+                $scope.stepNavigation = result.stepNavigation;
+                $scope.useCaseLabels = result.useCaseLabels;
+                $scope.scenarioLabels = result.scenarioLabels;
+            });
 
-            switch(nodeElement.type) {
-            case 'usecase':
-                concatLocationPath(nodeElement);
-                break;
-            case 'scenario':
-                concatLocationPath(nodeElement);
-                break;
-            case 'page':
-            case 'step':
-                $scope.locationPath = '/step/*';
-                concatLocationPath(nodeElement);
-                pagesAndSteps = PagesAndSteps.populatePagesAndSteps(result);
-                pageStepIndexes = getPageAndStepIndex('searchResults.jsp', pagesAndSteps);
+            navigationElement.pageName = $scope.step.page.name;
+            navigationElement.pageIndex = $scope.stepNavigation.pageIndex;
+        }
 
-                // In step.js will pageIndex incremented by 1, therefore we have to subtract 1
-                // TODO: This should be fixed in the future, so that the server returns the right number.
-                $scope.locationPath += '/' + (pageStepIndexes[0].page -1 )+ '/' + pageStepIndexes[0].step;
-                break;
-            }
-
-            $scope.locationPath = $scope.locationPath.replace('/*', '');
-            $location.path($scope.locationPath);
-        });
+        var locationPath = buildLocationPath(navigationElement);
+        $location.path(locationPath);
     };
 
-    function getPageAndStepIndex(pageName, pagesAndSteps) {
-        var result = [];
+    function buildLocationPath(navElement){
+        var locationPath = '/' + navElement.navigationName + '/' + encodeURIComponent(navElement.useCaseName) +
+            '/' + encodeURIComponent(navElement.scenarioName);
 
-        angular.forEach(pagesAndSteps.pagesAndSteps, function (value) {
-            if (value.page.name === pageName) {
-                result = [{page: value.page.index, step: value.steps[0].index}];
-            }
-        });
-        return result;
+        if (navElement.navigationType === objType.STEP) {
+            locationPath += '/' + encodeURIComponent(navElement.pageName) + '/' + navElement.pageIndex + '/' + navElement.stepIndex;
+        }
+        else if (navElement.navigationType === objType.PAGE) {
+            locationPath += '/' + encodeURIComponent(navElement.pageName) + '/' + navElement.pageIndex + '/' + navElement.stepIndex;
+        }
+        return locationPath;
     }
 
-    function concatLocationPath(nodeElement) {
-        if (angular.isDefined(nodeElement) && nodeElement.level !== 0) {
-            $scope.locationPath = $scope.locationPath.replace('*', '*/' + encodeURIComponent(nodeElement.name));
-            concatLocationPath(nodeElement.parent, $scope.locationPath);
+    // Build navigation path along the reference hierarchy tree
+    // In case that some other objects should be navigated, the last
+    // navigation hierarchy is always 'step'
+    function buildNavigationElement(childNode) {
+        if (angular.isDefined(childNode)) {
+            switch (childNode.type) {
+            case 'usecase':
+                setNavigationType(childNode, objType.USECASE);
+                navigationElement.useCaseName = childNode.name;
+                break;
+            case 'scenario':
+                setNavigationType(childNode, objType.SCENARIO);
+                navigationElement.scenarioName = childNode.name;
+                break;
+            case 'page':
+                setNavigationType(childNode, objType.PAGE);
+                navigationElement.pageIndex = childNode.name;
+                break;
+            case 'step':
+                setNavigationType(childNode, objType.STEP);
+                navigationElement.stepIndex = childNode.name;
+            }
+        }
+
+        var parentNode = $scope.treemodel[$scope.treemodel.indexOf(childNode.parent)];
+
+        if (angular.isDefined(parentNode)) {
+            buildNavigationElement(parentNode);
+        }
+    }
+
+    function setNavigationType(childNode, objType) {
+        if (navigationElement.navigationType === '') {
+            navigationElement.navigationType = objType;
+            navigationElement.navigationName = childNode.type;
         }
     }
 

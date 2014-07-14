@@ -28,8 +28,6 @@ import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
-import org.scenarioo.model.docu.entities.generic.ObjectReference;
-import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
 import org.scenarioo.rest.base.AbstractBuildContentResource;
 
 /**
@@ -56,20 +54,6 @@ public class GenericObjectsResource extends AbstractBuildContentResource {
 		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
 		
 		ScenarioDocuAggregationDAO scenarioDocuAggregationDao = getDAO(branchName, buildName);
-		
-		ObjectIndex aggregatedObjectIndex = scenarioDocuAggregationDao.loadObjectIndex(branchName, resolvedBuildName,
-				objectType, objectName);
-		
-		List<ObjectTreeNode<ObjectReference>> children = aggregatedObjectIndex.getReferenceTree().getChildren();
-		
-		// Remove object to be referenced from reference tree
-		ObjectIndex newObjectIndex = new ObjectIndex();
-		newObjectIndex.setObject(aggregatedObjectIndex.getObject());
-		
-		if (!children.isEmpty()) {
-			newObjectIndex.setReferenceTree(children.get(0));
-		}
-		
-		return newObjectIndex;
+		return scenarioDocuAggregationDao.loadObjectIndex(branchName, resolvedBuildName, objectType, objectName);
 	}
 }
