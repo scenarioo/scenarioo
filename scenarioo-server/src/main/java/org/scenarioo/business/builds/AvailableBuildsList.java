@@ -19,15 +19,19 @@ package org.scenarioo.business.builds;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
+import org.scenarioo.model.configuration.BranchAlias;
+import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.derived.BuildLink;
+import org.scenarioo.model.docu.entities.Branch;
 
 /**
  * Manages all the currently available builds and maintains aliases to the most recent builds for each branch.
@@ -98,12 +102,62 @@ public class AvailableBuildsList {
 	
 	private synchronized void updateBuilds(final List<BranchBuilds> result) {
 		this.branchBuildsList = result;
+		
+		refreshAliases();
+		
 		branchBuildsByBranchName.clear();
 		for (BranchBuilds branchBuilds : branchBuildsList) {
 			branchBuildsByBranchName.put(branchBuilds.getBranch().getName(), branchBuilds);
 		}
 	}
 	
+	public synchronized void refreshAliases() {
+		List<BranchBuilds> physicalBuilds = getBranchBuildsWithouAliases();
+		List<BranchBuilds> aliasBuilds = createBranchesFromAliases(physicalBuilds);
+		List<BranchBuilds> allBranches = new LinkedList<>();
+		
+		allBranches.addAll(physicalBuilds);
+		allBranches.addAll(aliasBuilds);
+		
+		this.branchBuildsList = allBranches;
+	}
+
+	private List<BranchBuilds> getBranchBuildsWithouAliases() {
+		List<BranchBuilds> result = new LinkedList<>();
+		for(BranchBuilds branchBuilds : this.branchBuildsList) {
+			if(!branchBuilds.isAlias()) {
+				result.add(branchBuilds);
+			}
+		}
+		return result;
+	}
+
+	private List<BranchBuilds> createBranchesFromAliases(List<BranchBuilds> physicalBuilds) {
+		List<BranchBuilds> result = new LinkedList<>();
+		
+		Configuration configuration = ConfigurationDAO.getConfiguration();
+		List<BranchAlias> branchAliases = configuration.getBranchAliases();
+		for (BranchAlias branchAlias : branchAliases) {
+			BranchBuilds branchWithBuilds = findBranch(branchAlias.getReferencedBranch());
+			BranchBuilds branchBuildsAlias = new BranchBuilds();
+			branchBuildsAlias.setBuilds(branchWithBuilds.getBuilds());
+			Branch branch = new Branch(branchAlias.getName(), branchWithBuilds.getBranch().getName());
+			branchBuildsAlias.setBranch(branch);
+			branchBuildsAlias.setAlias(true);
+			result.add(branchBuildsAlias);
+		}
+		return result;
+	}
+	
+	private BranchBuilds findBranch(String branchName) {
+		for(BranchBuilds branchBuilds : this.branchBuildsList) {
+			if(!branchBuilds.isAlias() && branchBuilds.getBranch().getName().equals(branchName)) {
+				return branchBuilds;
+			}
+		}
+		throw new RuntimeException("Could not find referenced branch: " + branchName);
+	}
+
 	/**
 	 * Adding a newly imported build.
 	 */

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang3.StringUtils;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
@@ -64,9 +65,14 @@ public class StepsAndPagesAggregator {
 		int pageOccurenceIndex = 0;
 		for (Step step : steps) {
 			
+			// Introduce a special dummy page for all steps not having any page to avoid problems.
+			if (step.getPage() == null || StringUtils.isBlank(step.getPage().getName())) {
+				step.setPage(new Page());
+				step.getPage().setName("unknownPage");
+			}
+			
 			// Check for new page and update indexes and occurence accordingly
-			boolean isNewPage = page == null || step.getPage() == null
-					|| !page.equals(step.getPage());
+			boolean isNewPage = page == null || !page.equals(step.getPage());
 			if (isNewPage) {
 				page = step.getPage();
 				pageSteps = new PageSteps();

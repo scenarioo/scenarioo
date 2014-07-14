@@ -36,7 +36,9 @@ import org.scenarioo.model.docu.entities.Branch;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BranchBuilds {
-
+	
+	private boolean isAlias;
+	
 	private Branch branch;
 
 	@XmlElementWrapper(name = "builds")
@@ -57,6 +59,14 @@ public class BranchBuilds {
 
 	public void setBuilds(List<BuildLink> builds) {
 		this.builds = builds;
+	}
+
+	public boolean isAlias() {
+		return isAlias;
+	}
+
+	public void setAlias(boolean isAlias) {
+		this.isAlias = isAlias;
 	}
 
 }
