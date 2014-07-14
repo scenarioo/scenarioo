@@ -17,7 +17,9 @@
 --><!-- The contents of this file will be loaded for each web application -->
 
 <Context>
-	    <Parameter name="configurationDirectory" value="/home/ngUSD/.ngusd" override="true" description="Test to check this context.xml file is being read."/>  
+	
+	<Parameter name="configurationDirectory" value="/home/ngUSD/.ngusd" override="true" description="Test to check this context.xml file is being read."/>  
+    
     <!-- Default set of monitored resources -->
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
 
