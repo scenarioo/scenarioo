@@ -63,7 +63,7 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
             objectName: objectName
         },
         function(result) {
-            $scope.referenceTree = result;
+            $scope.object = result;
         });
 	}
 
@@ -71,24 +71,33 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         buildNavigationElement(nodeElement);
 
         if (navigationElement.navigationType === 2 || navigationElement.navigationType === 3) {
-            var stepPromise = StepService.getStep({'branchName': selectedBranchAndBuild.branch, 'buildName': selectedBranchAndBuild.build,
-                'usecaseName': navigationElement.useCaseName, 'scenarioName': navigationElement.scenarioName,
-                'stepIndex': navigationElement.stepIndex});
+
+            var stepPromise = StepService.getStep({
+                'branchName': selectedBranchAndBuild.branch,
+                'buildName': selectedBranchAndBuild.build,
+                'usecaseName': navigationElement.useCaseName,
+                'scenarioName': navigationElement.scenarioName,
+                'stepIndex': navigationElement.stepIndex
+            });
 
             stepPromise.then(function (result) {
                 $scope.step = result.step;
                 $scope.stepNavigation = result.stepNavigation;
-                $scope.useCaseLabels = result.useCaseLabels;
-                $scope.scenarioLabels = result.scenarioLabels;
+                if (angular.isDefined($scope.step) && angular.isDefined($scope.stepNavigation)) {
+                    navigationElement.pageName = $scope.step.page.name;
+                    navigationElement.pageIndex = $scope.stepNavigation.pageIndex;
+                    navigationElement.stepIndex = $scope.stepNavigation.pageStepIndex;
+                    var locationPath = buildLocationPath(navigationElement);
+                    $location.path(locationPath);
+                }
             });
-
-            navigationElement.pageName = $scope.step.page.name;
-            navigationElement.pageIndex = $scope.stepNavigation.pageIndex;
         }
-
-        var locationPath = buildLocationPath(navigationElement);
-        $location.path(locationPath);
+        else {
+            var locationPath = buildLocationPath(navigationElement);
+            $location.path(locationPath);
+        }
     };
+
 
     function buildLocationPath(navElement){
         var locationPath = '/' + navElement.navigationName + '/' + encodeURIComponent(navElement.useCaseName) +
