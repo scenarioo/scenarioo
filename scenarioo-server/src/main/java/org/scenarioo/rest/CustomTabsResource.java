@@ -17,14 +17,10 @@ public class CustomTabsResource extends AbstractBuildContentResource {
 	@Produces({ "application/xml", "application/json" })
 	public CustomObjectTabTree readObjectTreeForTab(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("tabId") final String tabId) {
-		
-		// TODO #64: do not forget to check for new branch alias mapping to
-		// integrate in all new services (after merging it properly)
-		
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
-		
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName,
+				buildName);
 		return getDAO(branchName, resolvedBuildName).loadCustomObjectTabTree(
-				new BuildIdentifier(branchName, resolvedBuildName), tabId);
+				new BuildIdentifier(resolvedBranchName, resolvedBuildName), tabId);
 	}
-	
 }
