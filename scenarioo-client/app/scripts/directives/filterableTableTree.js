@@ -18,6 +18,9 @@
 'use strict';
 
 angular.module('scenarioo.directives').directive('scFilterableTableTree', function (GlobalHotkeysService) {
+
+    var textLimit = 400;
+
     return {
         restrict: 'AE',
         scope: {
@@ -74,6 +77,14 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 newNode.searchFields.push(newNode.name);
                 angular.forEach(scope.columns, function(value) {
                     var columnValue = node.details[value.propertyKey];
+                    var matching = columnValue.match(/(<((p|div).*?)(?=<\/(p|div)>))/i);
+
+                    if (matching !== null) {
+                        // Only the first match will be processed
+                        columnValue = convertToPlainText(matching[0]);
+                    }
+
+                    columnValue = getShortenedText(columnValue);
                     newNode.columnData[value.propertyKey] = columnValue;
                     newNode.searchFields.push(columnValue);
                 });
@@ -208,6 +219,17 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 });
             }
 
+            function convertToPlainText(text) {
+                return text.replace(/<\/?[^>]+(>|$)/g, '');
+            }
+
+            function getShortenedText(text) {
+                if (text.length > textLimit) {
+                    var shortenedText = text.substr(0, textLimit);
+                    return shortenedText + '...';
+                }
+                return text;
+            }
         }
     };
 });
