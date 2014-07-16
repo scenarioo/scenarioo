@@ -20,8 +20,7 @@
 angular.module('scenarioo.directives').directive('scBreadcrumb', function ($location, $route, $compile, $filter, $sce) {
     var limit = 50;
 
-    var breadcrumbDescriptionObject = {
-        scope: true,
+    return {
         restrict: 'E',
         priority: 0,
         replace: true,
@@ -127,5 +126,4 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($loca
         return parts.join('/');
     }
 
-    return breadcrumbDescriptionObject;
 });
