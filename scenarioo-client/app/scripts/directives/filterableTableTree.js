@@ -77,16 +77,12 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 newNode.searchFields.push(newNode.name);
                 angular.forEach(scope.columns, function(value) {
                     var columnValue = node.details[value.propertyKey];
-                    var matching = columnValue.match(/(<((p|div).*?)(?=<\/(p|div)>))/i);
+                    columnValue = extractFirstHtmlElementText(columnValue);
 
-                    if (matching !== null) {
-                        // Only the first match will be processed
-                        columnValue = convertToPlainText(matching[0]);
+                    if (angular.isDefined(columnValue)) {
+                        newNode.columnData[value.propertyKey] = columnValue;
+                        newNode.searchFields.push(columnValue);
                     }
-
-                    columnValue = getShortenedText(columnValue);
-                    newNode.columnData[value.propertyKey] = columnValue;
-                    newNode.searchFields.push(columnValue);
                 });
 
                 // Root-node
@@ -229,6 +225,17 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     return shortenedText + '...';
                 }
                 return text;
+            }
+
+            function extractFirstHtmlElementText(columnValue) {
+                var matching = columnValue.match(/(<((p|div).*?)(?=<\/(p|div)>))/i);
+
+                if (matching !== null) {
+                    // Only the first match will be processed
+                    columnValue = convertToPlainText(matching[0]);
+                }
+
+                return getShortenedText(columnValue);
             }
         }
     };
