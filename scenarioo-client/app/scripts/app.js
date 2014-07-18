@@ -35,7 +35,7 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
 
     $routeProvider
         .when('/', {
-            templateUrl: '/views/main.html',
+            templateUrl: 'views/main.html',
             controller: 'MainCtrl'
         })
         .when('/manage', {
