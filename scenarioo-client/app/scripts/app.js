@@ -21,39 +21,42 @@ angular.module('scenarioo.filters', []);
 angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'ui.bootstrap.tpls']);
 angular.module('scenarioo.services', [ 'ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
-
 angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
+
 .config(function ($routeProvider) {
+
+        // TODO
+        // 1. Configure breadcrumb labels delivered by the routeparams in breadcrumb
+        // 2. Configure links on elements
+        // 3. Use shortening and html encoding/decoding
+        // 4. Show only last breadcrumb element with full text
+        // 5. Tool tip for full qualified name
+
     $routeProvider
         .when('/', {
-            templateUrl: 'views/main.html',
-            controller: 'MainCtrl',
-            breadcrumb: '<i class="icon-home"></i> Home'
+            templateUrl: '/views/main.html',
+            controller: 'MainCtrl'
         })
         .when('/manage', {
             templateUrl: 'views/manage/manage.html',
-            controller: 'ManageCtrl',
-            breadcrumb: '<i class="icon-cogs"></i> Manage'
+            controller: 'ManageCtrl'
         })
         .when('/usecase/:useCaseName', {
             templateUrl: 'views/usecase.html',
             controller: 'UseCaseCtrl',
-            useCaseName: '@useCaseName',
-            breadcrumb: '<strong>Use Case:</strong> $param'
+            useCaseName: '@useCaseName'
         })
         .when('/scenario/:useCaseName/:scenarioName', {
             templateUrl: 'views/scenario.html',
             controller: 'ScenarioCtrl',
             useCaseName: '@useCaseName',
-            scenarioName: '@scenarioName',
-            breadcrumb: '<strong>Scenario:</strong> $param'
+            scenarioName: '@scenarioName'
         })
         .when('/object/:objectType/:objectName', {
-            templateUrl: 'views/objectOverview.html',
-            controller: 'ObjectOverviewCtrl',
+            templateUrl: 'views/referenceTree.html',
+            controller: 'ReferenceTreeCtrl',
             objectType: '@objectType',
-            objectName: '@objectName',
-            breadcrumb: '<strong>@objectType:</strong> $param'
+            objectName: '@objectName'
         })
         .when('/step/:useCaseName/:scenarioName/:pageName/:pageIndex/:stepIndex', {
             templateUrl: 'views/step.html',
@@ -62,20 +65,11 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
             scenarioName: '@scenarioName',
             pageName: '@pageName',
             pageIndex: '@pageIndex',
-            stepIndex: '@stepIndex',
-            breadcrumb: '<strong>Step:</strong> $title'
-        })
-       .when('/referenceTree/:objectType/:objectName', {
-            templateUrl: 'views/referenceTree.html',
-            controller: 'ReferenceTreeCtrl',
-            objectType: '@objectType',
-            objectName: '@objectName',
-            breadcrumb: '<strong>Reference Tree-View:</strong> $param'
+            stepIndex: '@stepIndex'
         })
         .otherwise({
             redirectTo: '/'
-        })
-;
+        });
 }).run(function ($rootScope, Config, GlobalHotkeysService, $location) {
 
     GlobalHotkeysService.registerGlobalHotkey('m', function () {

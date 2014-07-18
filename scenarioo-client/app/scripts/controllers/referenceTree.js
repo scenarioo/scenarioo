@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($rootScope, $scope,
+angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($scope,
     $routeParams, $location, ObjectIndexListResource, PagesAndSteps, SelectedBranchAndBuild, ScenarioResource, TreeNode, StepService) {
 
     var objectType = $routeParams.objectType;

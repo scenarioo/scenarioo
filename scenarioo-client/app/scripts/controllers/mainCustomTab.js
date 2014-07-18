@@ -19,6 +19,7 @@
 
 angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function ($scope, $location, $filter,
     CustomTabContentResource, SelectedBranchAndBuild, TreeNode) {
+
     $scope.searchField = '';
     $scope.treemodel = [];
 
@@ -56,7 +57,7 @@ angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function
     }
 
     $scope.goToReferenceTree = function (nodeElement) {
-        $location.path('/referenceTree/' + nodeElement.type + '/' + nodeElement.name);
+        $location.path('/object/' + nodeElement.type + '/' + nodeElement.name);
     };
 
     $scope.expandAndCollapseTree = function(treemodel) {

@@ -17,9 +17,8 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($rootScope, $scope, $q, $filter, $routeParams,
-                                                                             $location, $window, localStorageService, ScenarioResource,
-                                                                             HostnameAndPort, SelectedBranchAndBuild, PagesAndSteps) {
+angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams,
+    $location, $window, localStorageService, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, PagesAndSteps) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;

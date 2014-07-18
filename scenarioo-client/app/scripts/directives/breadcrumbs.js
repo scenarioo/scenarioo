@@ -17,7 +17,9 @@
 
 'use strict';
 
-angular.module('scenarioo.directives').directive('scBreadcrumb', function ($location, $route, $compile, $filter, $sce) {
+angular.module('scenarioo.directives').directive('scBreadcrumb', function ($routeParams, $location,
+    $route, $compile, $filter, $sce, Navigation) {
+
     var limit = 50;
 
     return {
@@ -25,105 +27,66 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($loca
         priority: 0,
         replace: true,
         templateUrl: 'template/breadcrumbs.html',
-        link: function (scope, element) {
-
-            var restParameters = splitPath($location.path());
-            var pathOfCurrentBreadcrumb = '';
+        link: function (scope) {
             scope.breadcrumbs = [];
 
-            angular.forEach(restParameters, function (item, index) {
-                item = item.trim();
-                var isLastBreadcrumb = index === (restParameters.length - 1);
-                if (item === '' || (pathOfCurrentBreadcrumb[pathOfCurrentBreadcrumb.length - 1] !== '/')) {
-                    pathOfCurrentBreadcrumb += '/';
-                }
-                pathOfCurrentBreadcrumb += encodeURIComponent(item);
+            var navParameter = [];
+            var breadCrumbElements = [];
+            var objectType = $location.$$path.split('/')[1] === '' ? 'main' : $location.$$path.split('/')[1];
 
-                var keyOfMatchingRoute = findRoutePath($route.routes, pathOfCurrentBreadcrumb);
-                var matchingRoute = $route.routes[keyOfMatchingRoute];
+            // Fill all relevant scenarioo navigation artifacts
+            navParameter = {
+                main: '',
+                step: '',
+                usecase: $routeParams.useCaseName,
+                scenario: $routeParams.scenarioName,
+                pageName: $routeParams.pageName,
+                pageIndex: parseInt($routeParams.pageIndex, 10) + 1,
+                stepIndex: parseInt($routeParams.stepIndex, 10),
+                objectType: $routeParams.objectType,
+                objectName: $routeParams.objectName
+            };
 
-                if (matchingRoute) {
-                    var text = $filter('scHumanReadable')(decodeURIComponent(item));
+            breadCrumbElements = Navigation.loadNavigationElements(objectType);
+            var navElements = Navigation.getNavigationElements(breadCrumbElements, navParameter);
 
-                    // Override displayed text with breadcrumb configuration in the routes of the app
-                    if (matchingRoute.breadcrumb) {
-                        text = matchingRoute.breadcrumb.replace('$param', text);
+            angular.forEach(navElements, function(breadcrumbItem){
+                breadcrumbItem.text = $filter('scHumanReadable')(decodeURIComponent(breadcrumbItem.text));
+                breadcrumbItem = Navigation.setValuesInLabel(breadcrumbItem, navParameter);
 
-                        if (scope.title && isLastBreadcrumb) {
-                            text = text.replace('$title', scope.title);
-                        }
-                    }
+                // Create breadcrumb object
+                var hasTooltip = (breadcrumbItem.text.length + breadcrumbItem.label.length) > limit && !breadcrumbItem.isLastNavigationElement;
+                var breadcrumbText = breadcrumbItem.label + getToolTip(breadcrumbItem, hasTooltip);
+                var breadcrumb = {
+                    text: breadcrumbText,
+                    tooltip: breadcrumbItem.text,
+                    showTooltip: hasTooltip,
+                    href: '#' + breadcrumbItem.route,
+                    isLast: breadcrumbItem.isLastNavigationElement
+                };
 
-                    // Create breadcrumb object
-                    var hasTooltip = text.length > limit && !isLastBreadcrumb;
-                    var breadcrumb = {
-                        text: hasTooltip ? getShortenedText(text) : text,
-                        tooltip: removeHtmlTags(text),
-                        showTooltip: hasTooltip,
-                        href: '#' + getBreadCrumbPathWithParameters(pathOfCurrentBreadcrumb, keyOfMatchingRoute),
-                        isLast: isLastBreadcrumb
-                    };
-
-                    // make sure we can bind html to view
-                    breadcrumb.text = $sce.trustAsHtml(breadcrumb.text);
-
-                    scope.breadcrumbs.push(breadcrumb);
-                }
+                // make sure we can bind html to view
+                breadcrumb.text = $sce.trustAsHtml(breadcrumb.text);
+                scope.breadcrumbs.push(breadcrumb);
             });
+
             scope.email = {
                 title: encodeURIComponent('Link to the User Scenario Documentation'),
                 link: encodeURIComponent($location.absUrl())
             };
-            element.debuggingHelp = 'test';
         }
     };
+
+    function getToolTip(breadcrumbItem, hasTooltip) {
+        var toolTip = hasTooltip ? getShortenedText(breadcrumbItem.text) : breadcrumbItem.text;
+        return toolTip;
+    }
 
     function getShortenedText(text) {
         if (text.length > limit) {
             var shortenedText = text.substr(0, limit);
-            return shortenedText + '..';
+            return shortenedText + '...';
         }
         return text;
     }
-
-    function removeHtmlTags(text) {
-        return text.replace(/<(?:.|\n)*?>/gm, '');
-    }
-
-    function findRoutePath(routes, path) {
-        for (var key in routes) {
-            var routePath = key;
-
-            // Replace route parameters e.g. /referenceTree/:objectType/:objectName
-            routePath = routePath.replace(new RegExp(':[^/]+', 'gm'), '[^/]+');
-
-            // Replace first part of the e.g. /referenceTree/Feature/Feature%201
-            routePath = routePath.replace(new RegExp('^/[^/]+/', 'gm'), '/[^/]+/');
-
-            if (path.match(new RegExp('^' + routePath + '$', '')) !== null) {
-                return key;
-            }
-        }
-    }
-
-    function splitPath(path) {
-        var parts = path.split('/');
-        // Small fix to avoid problems with path "/"
-        if (parts.length > 1 && parts[0] === '' && parts[1] === '') {
-            parts.splice(0, 1);
-        }
-        return parts;
-    }
-
-    function getBreadCrumbPathWithParameters(path, routeKey) {
-        var parameters = splitPath(path);
-        var parts = splitPath(routeKey);
-        for (var i = 0; i < parts.length; i++) {
-            if (parts[i].match('^:')) {
-                parts[i] = parameters[i];
-            }
-        }
-        return parts.join('/');
-    }
-
 });
