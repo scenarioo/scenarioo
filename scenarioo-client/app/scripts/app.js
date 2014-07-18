@@ -21,6 +21,7 @@ angular.module('scenarioo.filters', []);
 angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'ui.bootstrap.tpls']);
 angular.module('scenarioo.services', [ 'ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
+
 angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
 
 .config(function ($routeProvider) {
