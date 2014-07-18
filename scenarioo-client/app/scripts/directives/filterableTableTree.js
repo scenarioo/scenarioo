@@ -228,6 +228,10 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             }
 
             function extractFirstHtmlElementText(columnValue) {
+                if (angular.isUndefined(columnValue)) {
+                    return;
+                }
+
                 var matching = columnValue.match(/(<((p|div).*?)(?=<\/(p|div)>))/i);
 
                 if (matching !== null) {
