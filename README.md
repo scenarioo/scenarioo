@@ -15,13 +15,13 @@ https://github.com/scenarioo/scenarioo/wiki
 
 Live-Demo 
 
-* stable master-branch: https://forkch.dyndns.org/scenarioo
-* unstable develop-branch: https://forkch.dyndns.org/scenarioo-develop
+* stable master-branch: http://demo.scenarioo.org/scenarioo-master
+* unstable develop-branch: http://demo.scenarioo.org/scenarioo-develop
 
 CI Build Status: 
 
-* master: https://forkch.dyndns.org/jenkins/job/scenarioo-master
-* develop: https://forkch.dyndns.org/jenkins/job/scenarioo-develop
+* master: http://ci.scenarioo.org/job/scenarioo-master
+* develop: http://ci.scenarioo.org/job/scenarioo-develop
 
 License: see https://github.com/scenarioo/scenarioo/blob/master/LICENSE.txt
 
