@@ -59,6 +59,8 @@ public class Configuration {
 	
 	private Map<String, String> buildstates = new HashMap<String, String>();
 	
+	private boolean expandPagesInScenarioOverview = false;
+	
 	public String getTestDocumentationDirPath() {
 		return testDocumentationDirPath;
 	}
@@ -135,6 +137,14 @@ public class Configuration {
 	
 	public void setBuildstates(final Map<String, String> buildstates) {
 		this.buildstates = buildstates;
+	}
+	
+	public boolean isExpandPagesInScenarioOverview() {
+		return expandPagesInScenarioOverview;
+	}
+	
+	public void setExpandPagesInScenarioOverview(final boolean expandPagesInScenarioOverview) {
+		this.expandPagesInScenarioOverview = expandPagesInScenarioOverview;
 	}
 	
 }
