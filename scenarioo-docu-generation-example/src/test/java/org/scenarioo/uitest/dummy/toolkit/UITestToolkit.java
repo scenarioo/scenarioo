@@ -42,7 +42,7 @@ import org.scenarioo.uitest.example.infrastructure.UITestToolkitAbstraction;
  */
 public class UITestToolkit {
 	
-	private DummyApplicationSimulator dummyApplicationSimulator = new DummyApplicationSimulator();
+	private final DummyApplicationSimulator dummyApplicationSimulator = new DummyApplicationSimulator();
 	
 	private String currentUrl = "";
 	
@@ -60,12 +60,12 @@ public class UITestToolkit {
 	/**
 	 * Get current screenshot as base 64 encoded image.
 	 */
-	public String takeScreenshot() {
+	public byte[] takeScreenshot() {
 		// just a dummy implementation
 		if (interactionSinceLastScreenshotOrPageLoad) {
 			index++;
 		}
-		String screenshot = dummyApplicationSimulator.getScreenshot(currentUrl, index);
+		byte[] screenshot = dummyApplicationSimulator.getScreenshot(currentUrl, index);
 		interactionSinceLastScreenshotOrPageLoad = false;
 		return screenshot;
 	}
