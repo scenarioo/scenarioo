@@ -56,6 +56,8 @@ public class Configuration {
 
 	private Map<String, String> buildstates = new HashMap<String, String>();
 	
+	private boolean expandPagesInScenarioOverview = false;
+
 	private List<BranchAlias> branchAliases = new LinkedList<>();
 	
 	public String getTestDocumentationDirPath() {
@@ -144,6 +146,14 @@ public class Configuration {
 
 	public void setBuildstates(Map<String, String> buildstates) {
 		this.buildstates = buildstates;
+	}
+
+	public boolean isExpandPagesInScenarioOverview() {
+		return expandPagesInScenarioOverview;
+	}
+	
+	public void setExpandPagesInScenarioOverview(final boolean expandPagesInScenarioOverview) {
+		this.expandPagesInScenarioOverview = expandPagesInScenarioOverview;
 	}
 
 	public List<BranchAlias> getBranchAliases() {
