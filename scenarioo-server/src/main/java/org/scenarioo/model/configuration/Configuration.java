@@ -58,7 +58,7 @@ public class Configuration {
 	
 	private boolean expandPagesInScenarioOverview = false;
 
-	private List<BranchAlias> branchAliases = new LinkedList<>();
+	private List<BranchAlias> branchAliases = new LinkedList<BranchAlias>();
 	
 	public String getTestDocumentationDirPath() {
 		return testDocumentationDirPath;
@@ -158,7 +158,7 @@ public class Configuration {
 
 	public List<BranchAlias> getBranchAliases() {
 		if(branchAliases == null) {
-			branchAliases = new LinkedList<>();
+			branchAliases = new LinkedList<BranchAlias>();
 		}
 		return branchAliases;
 	}
