@@ -19,12 +19,23 @@
 
 angular.module('scenarioo.services').factory('Navigation', function () {
 
-    // Configure for each routing a navigation element
+    /**
+     *  Configure for each routing a navigation element
+     */
     var homeNavigation =
     {
         label: '<i class="icon-home"></i> Home',
         text: '',
         route: 'views/main.html',
+        objectType: 'main',
+        isLastNavigationElement: false
+    };
+
+    var manageNavigation =
+    {
+        label: '<i class="icon-cogs"></i> Manage',
+        text: '',
+        route: 'views/manage/manage.html',
         objectType: '',
         isLastNavigationElement: false
     };
@@ -49,7 +60,7 @@ angular.module('scenarioo.services').factory('Navigation', function () {
 
     var stepNavigation =
     {
-        label: '<strong>Step :pageIndex/.:stepIndex/ - :pageName/</strong>',
+        label: '<strong>Step: [pageIndex].[stepIndex] - [pageName]</strong>',
         text: '',
         route: '/step/:usecase/:scenario/:pageName/:pageIndex/:stepIndex/',
         objectType: 'step',
@@ -58,14 +69,16 @@ angular.module('scenarioo.services').factory('Navigation', function () {
 
     var objectNavigation =
     {
-        label: '<strong>:objectType/ :objectName/</strong>',
+        label: '<strong>[objectType]: [objectName]</strong>',
         text: '',
         route: '/object/:objectType/:objectName',
         objectType: 'object',
         isLastNavigationElement: false
     };
 
-    // Configure each breadcrumb element
+    /**
+     *  Configure each breadcrumb element with navigationHierarchy
+     */
     var breadcrumbElements = {
         'usecase': {
             label: 'Use Case: ',
@@ -90,6 +103,11 @@ angular.module('scenarioo.services').factory('Navigation', function () {
         'object': {
             label: 'Object',
             navigationHierarchy: [homeNavigation, objectNavigation]
+        },
+
+        'manage': {
+            label: 'Manage',
+            navigationHierarchy: [homeNavigation, manageNavigation]
         }
     };
 
@@ -97,13 +115,15 @@ angular.module('scenarioo.services').factory('Navigation', function () {
         return text.replace(/<\/?[^>]+(>|$)/g, '');
     }
 
-    function setValues(text, navParameter) {
+    function setValuesInRoute(text, navParameter) {
+        debugger;
         var placeholders = text.match(/:.*?[^<](?=\/)/g);
 
         if (placeholders !== null) {
             angular.forEach(placeholders, function (placeholder) {
                 placeholder = placeholder.replace(':', '');
-                text = text.replace(':' + placeholder, navParameter[placeholder]);
+                text = text.replace(':', '');
+                text = text.replace(placeholder, navParameter[placeholder]);
             });
         }
         return text;
@@ -128,7 +148,7 @@ angular.module('scenarioo.services').factory('Navigation', function () {
 
                     if (angular.isDefined(navParameter[navigationElement.objectType])) {
                         navigationElement.text = convertToPlainText(navParameter[navigationElement.objectType]);
-                        navigationElement.route = setValues(navigationElement.route, navParameter);
+                        navigationElement.route = setValuesInRoute(navigationElement.route, navParameter);
                     }
 
                     navElements.push(navigationElement);
@@ -137,10 +157,17 @@ angular.module('scenarioo.services').factory('Navigation', function () {
             return navElements;
         },
 
-        setValuesInLabel: function(navElement, navParameter) {
-            var text = setValues(navElement.label, navParameter);
-            navElement.label = text.replace(/\//g,'');
-            return navElement;
+        setValuesInLabel: function(text, navParameter) {
+            var placeholders = text.match(/\[.*?(?=])./g);
+
+            if (placeholders !== null) {
+                angular.forEach(placeholders, function (placeholder) {
+                    placeholder = placeholder.replace(/[\[\]]/g, '');
+                    text = text.replace(/[\[\]]/g, '');
+                    text = text.replace(placeholder, navParameter[placeholder]);
+                });
+            }
+            return text;
         }
     };
 });

@@ -32,11 +32,11 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($rout
 
             var navParameter = [];
             var breadCrumbElements = [];
-            var objectType = $location.$$path.split('/')[1] === '' ? 'main' : $location.$$path.split('/')[1];
+            var objectType = $location.$$path.split('/')[1];
+            debugger;
 
             // Fill all relevant scenarioo navigation artifacts
             navParameter = {
-                main: '',
                 step: '',
                 usecase: $routeParams.useCaseName,
                 scenario: $routeParams.scenarioName,
@@ -52,7 +52,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($rout
 
             angular.forEach(navElements, function(breadcrumbItem){
                 breadcrumbItem.text = $filter('scHumanReadable')(decodeURIComponent(breadcrumbItem.text));
-                breadcrumbItem = Navigation.setValuesInLabel(breadcrumbItem, navParameter);
+                breadcrumbItem.label = Navigation.setValuesInLabel(breadcrumbItem.label, navParameter);
 
                 // Create breadcrumb object
                 var hasTooltip = (breadcrumbItem.text.length + breadcrumbItem.label.length) > limit && !breadcrumbItem.isLastNavigationElement;

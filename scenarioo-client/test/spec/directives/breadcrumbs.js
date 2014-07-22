@@ -17,7 +17,7 @@
 
 'use strict';
 // TODO: temporary comment out, because of presentation reason
-/*
+
 describe('Directive :: scBreadcrumbs', function () {
     var scope,
         compile,
@@ -142,4 +142,3 @@ describe('Directive :: scBreadcrumbs', function () {
         });
     });
 });
-*/

@@ -26,15 +26,8 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
 
 .config(function ($routeProvider) {
 
-        // TODO
-        // 1. Configure breadcrumb labels delivered by the routeparams in breadcrumb
-        // 2. Configure links on elements
-        // 3. Use shortening and html encoding/decoding
-        // 4. Show only last breadcrumb element with full text
-        // 5. Tool tip for full qualified name
-
     $routeProvider
-        .when('/', {
+        .when('/main', {
             templateUrl: 'views/main.html',
             controller: 'MainCtrl'
         })
@@ -69,7 +62,7 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
             stepIndex: '@stepIndex'
         })
         .otherwise({
-            redirectTo: '/'
+            redirectTo: '/main'
         });
 }).run(function ($rootScope, Config, GlobalHotkeysService, $location) {
 
