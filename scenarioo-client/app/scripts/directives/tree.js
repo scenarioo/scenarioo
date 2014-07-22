@@ -124,7 +124,6 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
     }
 
     function getNodeTitleHtml(data) {
-        // TODO #213: use node.nodeObjectType and node.nodeObjectName to wrap this element as a <a>-link-elemnt to point to the object page
         return '<span class="sc-node-label">' + data.nodeLabel + '</span>' + getNodeValueHtml(data);
     }
 

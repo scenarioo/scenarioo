@@ -205,10 +205,6 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 node.icon = node.isCollapsed ? scope.expandedIconName : scope.collapsedIconName;
             }
 
-            scope.$watchCollection('[treedata, filter]', function(newValues) {
-                buildTreeModel(newValues[0], newValues[1]);
-            });
-
             function bindClearFilter() {
                 GlobalHotkeysService.registerPageHotkeyCode(27, function () {
                     scope.filter = '';
@@ -241,6 +237,10 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
 
                 return getShortenedText(columnValue);
             }
+
+            scope.$watchCollection('[treedata, filter]', function(newValues) {
+                buildTreeModel(newValues[0], newValues[1]);
+            });
         }
     };
 });
