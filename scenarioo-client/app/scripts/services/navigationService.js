@@ -116,14 +116,12 @@ angular.module('scenarioo.services').factory('Navigation', function () {
     }
 
     function setValuesInRoute(text, navParameter) {
-        debugger;
         var placeholders = text.match(/:.*?[^<](?=\/)/g);
 
         if (placeholders !== null) {
             angular.forEach(placeholders, function (placeholder) {
                 placeholder = placeholder.replace(':', '');
-                text = text.replace(':', '');
-                text = text.replace(placeholder, navParameter[placeholder]);
+                text = text.replace(':' + placeholder, navParameter[placeholder]);
             });
         }
         return text;

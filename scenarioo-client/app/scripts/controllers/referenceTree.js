@@ -18,7 +18,8 @@
 'use strict';
 
 angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($scope,
-    $routeParams, $location, ObjectIndexListResource, PagesAndSteps, SelectedBranchAndBuild, ScenarioResource, TreeNode, StepService) {
+    $routeParams, $location, ObjectIndexListResource, PagesAndSteps, SelectedBranchAndBuild, ScenarioResource,
+    TreeNode, StepService, $filter) {
 
     var objectType = $routeParams.objectType;
     var objectName = $routeParams.objectName;
@@ -32,6 +33,7 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         pageIndex: null,
         stepIndex: null
     };
+    var transformMetadataToTree = $filter('scMetadataTreeCreator');
 
     var objType = {
         USECASE: 0,
@@ -42,6 +44,7 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
 
     $scope.referenceTree = [];
     $scope.treemodel = [];
+    $scope.showingMetaData = true;
 
     // Determines if the tree has expanded / collapsed rootnodes initially
     $scope.rootIsCollapsed = false;
@@ -64,13 +67,15 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         },
         function(result) {
             $scope.object = result;
+            var transformedMetaDataTree = transformMetadataToTree(result.object.details);
+            $scope.metadataTree = {'Details': transformedMetaDataTree.childNodes };
         });
 	}
 
     $scope.goToRelatedView = function(nodeElement) {
         buildNavigationElement(nodeElement);
 
-        if (navigationElement.navigationType === 2 || navigationElement.navigationType === 3) {
+        if (navigationElement.navigationType === objType.PAGE || navigationElement.navigationType === objType.STEP) {
 
             var stepPromise = StepService.getStep({
                 'branchName': selectedBranchAndBuild.branch,

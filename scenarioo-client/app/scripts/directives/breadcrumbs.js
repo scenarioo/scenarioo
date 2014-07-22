@@ -33,19 +33,9 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($rout
             var navParameter = [];
             var breadCrumbElements = [];
             var objectType = $location.$$path.split('/')[1];
-            debugger;
 
-            // Fill all relevant scenarioo navigation artifacts
-            navParameter = {
-                step: '',
-                usecase: $routeParams.useCaseName,
-                scenario: $routeParams.scenarioName,
-                pageName: $routeParams.pageName,
-                pageIndex: parseInt($routeParams.pageIndex, 10) + 1,
-                stepIndex: parseInt($routeParams.stepIndex, 10),
-                objectType: $routeParams.objectType,
-                objectName: $routeParams.objectName
-            };
+            // Get all relevant scenarioo navigation artifacts (e.g. scenarioName, usecaseName, pageIndex, ...)
+            navParameter = getNavigationParameter();
 
             breadCrumbElements = Navigation.loadNavigationElements(objectType);
             var navElements = Navigation.getNavigationElements(breadCrumbElements, navParameter);
@@ -80,6 +70,21 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($rout
     function getToolTip(breadcrumbItem, hasTooltip) {
         var toolTip = hasTooltip ? getShortenedText(breadcrumbItem.text) : breadcrumbItem.text;
         return toolTip;
+    }
+
+    function getNavigationParameter() {
+        var navParameter = {
+            step: '',
+            usecase: $routeParams.useCaseName,
+            scenario: $routeParams.scenarioName,
+            pageName: $routeParams.pageName,
+            pageIndex: parseInt($routeParams.pageIndex, 10) + 1,
+            stepIndex: parseInt($routeParams.stepIndex, 10),
+            objectType: $routeParams.objectType,
+            objectName: $routeParams.objectName
+        };
+
+        return navParameter;
     }
 
     function getShortenedText(text) {
