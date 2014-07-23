@@ -29,7 +29,8 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             filter: '=',
             columns: '=',
             treemodel: '=',
-            clickAction: '&'
+            clickAction: '&',
+            firstColumnTitle: '@'
         },
         templateUrl: 'template/treeview.html',
         link: function (scope) {
@@ -44,11 +45,19 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             function buildTreeModel(data, filter) {
                 scope.treemodel = [];
                 scope.nodeFilter = filter;
+                setDefaultTitleForFirstColumnToName();
 
                 angular.forEach(data, function (value, index) {
                     createNode(value, 0, index);
                 });
             }
+
+            function setDefaultTitleForFirstColumnToName() {
+                if (scope.firstColumnTitle === undefined) {
+                    scope.firstColumnTitle = 'Name';
+                }
+            }
+
 
             function createNode(node, level, id, parent) {
 

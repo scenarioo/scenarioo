@@ -68,7 +68,7 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         function(result) {
             $scope.object = result;
             var transformedMetaDataTree = transformMetadataToTree(result.object.details);
-            $scope.metadataTree = {'Details': transformedMetaDataTree.childNodes };
+            $scope.metadataTree = transformedMetaDataTree.childNodes;
         });
 	}
 
