@@ -73,20 +73,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
 
-
-    <!-- View Metadata toggle button -->
-    <div class="col-lg-offset-2 col-lg-2">
-        <div class="pull-right">
-            <span sc-static-include="views/metadataButton.html"></span>
-        </div>
-    </div>
-
-
 </div>
 
 <!-- screenshot and information -->
-<div class="row step-main">
-    <div ng-class="{true: 'step-data-small col-lg-8', false: 'step-data-large col-lg-12'}[showingMetaData]">
+<sc-show-hide-details>
+    <div>
         <tabset class="step-panes">
             <tab heading="Screenshot">
                 <div class="sc-screenshot-border">
@@ -99,7 +90,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tab>
         </tabset>
     </div>
-    <div ng-show="showingMetaData" class="col-lg-4 hero-unit meta-data">
+    <div>
 
         <!-- step -->
         <div>
@@ -117,4 +108,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <span sc-static-include="views/metadata.html"></span>
 
     </div>
-</div>
+</sc-show-hide-details>

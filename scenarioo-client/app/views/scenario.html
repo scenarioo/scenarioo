@@ -30,13 +30,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div class="pull-right">
             <button type="button" class="btn btn-default" id="expandAllPages" ng-show="isExpandAllPossible()" ng-click="expandAll()">expand all</button>
             <button type="button" class="btn btn-default" id="collapseAllPages" ng-show="isCollapseAllPossible()" ng-click="collapseAll()">collapse all</button>
-            <span sc-static-include="views/metadataButton.html"></span>
         </div>
     </div>
 </div>
 
-<div class="row step-main">
-    <div ng-class="{true: 'step-data-small col-lg-8', false: 'step-data-large col-lg-12'}[showingMetaData]">
+<sc-show-hide-details>
+    <div>
         <!-- steps -->
         <div class="row step-view">
             <div ng-repeat="page in pagesAndSteps">
@@ -68,7 +67,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
     </div>
-    <div ng-show="showingMetaData" class="col-lg-4 hero-unit meta-data">
+    <div>
 
         <!-- scenario -->
         <div>
@@ -85,6 +84,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- Metadata -->
         <span sc-static-include="views/metadata.html"></span>
     </div>
-    </div>
-</div>
-
+</sc-show-hide-details>
