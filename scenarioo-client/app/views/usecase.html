@@ -30,31 +30,50 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 </div>
 
+<sc-show-hide-details sc-showHideStorageKey="usecase">
+    <div>
+        <table class="table table-bordered scenario-table" sc-navigator-table="filtered"  >
+            <thead>
+                <tr>
+                    <th sc-sortable-column="status">Status</th>
+                    <th sc-sortable-column="name">Scenario name</th>
+                    <th>Actions</th>
+                    <th>Description</th>
+                    <th ng-repeat="property in propertiesToShow" sc-sortable-column="details.properties.{{property}}">{{property | scHumanReadable}}</th>
+                    <th sc-sortable-column="calculatedData.numberOfSteps"># Steps</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-class="{'selected':$index==selectedRowIndex}" ng-click="goToScenario(useCase.name, scenario.name)" class="link" ng-repeat="scenario in filtered=(scenarios | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
+                    <td>
+                        <span class="label state" ng-class="getStatusStyleClass(scenario.status)">{{scenario.status}}</span>
+                    </td>
+                    <td>{{scenario.name | scHumanReadable }}</td>
+                    <td>
+                        <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview" tooltip-placement="bottom"></i></a>
+                        <a ng-click="goToFirstStep(useCase.name, scenario.name)" tooltip="Go to first step" tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
+                    </td>
+                    <td>{{scenario.description}}</td>
+                    <td ng-repeat="property in propertiesToShow">{{scenario.details[property]}}</td>
+                    <td>{{scenario.calculatedData.numberOfSteps}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <!-- scenario -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading link" ng-click="toggleMetadataExpanded('sc-usecase-properties')">
+                    <h3 class="panel-title">Use Case</h3>
+                </div>
+                <div class="panel-body" ng-class="{hidden: isMetadataCollapsed('sc-usecase-properties'), metadata: true}">
+                    <sc-tree data='usecaseInformationTree'></sc-tree>
+                </div>
+            </div>
+        </div>
 
-<table class="table table-bordered scenario-table" sc-navigator-table="filtered"  >
-    <thead>
-        <tr>
-            <th sc-sortable-column="status">Status</th>
-            <th sc-sortable-column="name">Scenario name</th>
-            <th>Actions</th>
-            <th>Description</th>
-            <th ng-repeat="property in propertiesToShow" sc-sortable-column="details.properties.{{property}}">{{property | scHumanReadable}}</th>
-            <th sc-sortable-column="calculatedData.numberOfSteps"># Steps</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-class="{'selected':$index==selectedRowIndex}" ng-click="goToScenario(useCase.name, scenario.name)" class="link" ng-repeat="scenario in filtered=(scenarios | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
-            <td>
-                <span class="label state" ng-class="getStatusStyleClass(scenario.status)">{{scenario.status}}</span>
-            </td>
-            <td>{{scenario.name | scHumanReadable }}</td>
-            <td>
-                <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview" tooltip-placement="bottom"></i></a>
-                <a ng-click="goToFirstStep(useCase.name, scenario.name)" tooltip="Go to first step" tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
-            </td>
-            <td>{{scenario.description}}</td>
-            <td ng-repeat="property in propertiesToShow">{{scenario.details[property]}}</td>
-            <td>{{scenario.calculatedData.numberOfSteps}}</td>
-        </tr>
-    </tbody>
-</table>
+        <!-- Metadata -->
+        <span sc-static-include="views/metadata.html"></span>
+    </div>
+</sc-show-hide-details>

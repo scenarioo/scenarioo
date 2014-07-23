@@ -19,6 +19,8 @@
 
 angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild) {
 
+    var transformMetadataToTree = $filter('scMetadataTreeCreator')
+    var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     SelectedBranchAndBuild.callOnSelectionChange(loadScenariosAndUseCase);
 
     function loadScenariosAndUseCase(selected) {
@@ -32,10 +34,13 @@ angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($sco
             function onSuccess(result) {
                 $scope.useCase = result.useCase;
                 $scope.scenarios = result.scenarios;
+                $scope.usecaseInformationTree = createUseCaseInformationTree($scope.useCase);
+                $scope.metadataTree = transformMetadataToTreeArray($scope.useCase.details);
             }
         );
 
         $scope.propertiesToShow = Config.scenarioPropertiesInOverview();
+
     }
 
 
@@ -68,5 +73,12 @@ angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($sco
     $scope.resetSearchField = function () {
         $scope.table.search = {searchTerm: ''};
     };
+
+    function createUseCaseInformationTree(usecase) {
+        var usecaseInformation = {};
+        usecaseInformation.Description = usecase.description;
+        usecaseInformation.Status = usecase.status;
+        return transformMetadataToTree(usecaseInformation);
+    }
 
 });
