@@ -105,6 +105,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
 
+        <h2>Display options</h2>
+
+        <div class="row sc-space-bottom">
+            <div class="col-lg-3">Default state of pages in scenario overview</span>
+            </div>
+            <div class="col-lg-9">
+                <label>
+                    <input type="radio" ng-model="configuration.expandPagesInScenarioOverview" ng-value="false"/>
+                    collapsed
+                </label>&nbsp;&nbsp;&nbsp;
+                <label>
+                    <input type="radio" ng-model="configuration.expandPagesInScenarioOverview" ng-value="true"/>
+                    expanded
+                </label>
+            </div>
+        </div>
 
         <h2>Status styling  &nbsp;<span class="glyphicon glyphicon-info-sign" tooltip="This status styles can currently only be changed in the scenario config file on the server directly (see section 'buildstates'). There you could add additional styles for application-specific statuses. Otherwise all such undefined application-specific statuses are styled in warnings-style by default."></span></h2>
 

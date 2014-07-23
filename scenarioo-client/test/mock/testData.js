@@ -49,6 +49,20 @@ angular.module('scenarioo.services').service('TestData', function () {
             ]
         },
 
+        CONFIG_PAGES_EXPANDED: {
+            'testDocumentationDirPath': 'webtestDocuContentExample',
+            'defaultBuildName': 'current',
+            'scenarioPropertiesInOverview': 'userProfile, configuration',
+            'applicationInformation': 'This is my personal copy of Scenarioo :-)',
+            'buildstates': {
+                BUILD_STATE_FAILED: 'label-important',
+                BUILD_STATE_SUCCESS: 'label-success',
+                BUILD_STATE_WARNING: 'label-warning'
+            },
+            'defaultBranchName': 'trunk',
+            'expandPagesInScenarioOverview': true
+        },
+
         BRANCHES: [
             {'branch': {'description': 'Just an example development branch from example docu generation example.', 'name': 'release-branch-2013-11-14'}, 'builds': [
                 {'linkName': 'example-build', 'build': {'details': {}, 'status': 'success', 'revision': '123456', 'date': 1385284268394, 'name': 'example-build'}}

@@ -52,7 +52,7 @@ public class UseCasesResource {
 			@PathParam("buildName") final String buildName) {
 		LOGGER.info("REQUEST: loadUseCaseSummaryList(" + branchName + ", "
 				+ buildName + ")");
-		List<UseCaseSummary> result = new LinkedList<>();
+		List<UseCaseSummary> result = new LinkedList<UseCaseSummary>();
 		
 		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
 		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE
