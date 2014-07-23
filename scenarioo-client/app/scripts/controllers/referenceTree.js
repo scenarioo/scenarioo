@@ -64,7 +64,7 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
             branchName: selected.branch,
             buildName: selected.build,
             objectType: objectType,
-            objectName: objectName.replace(':', '')
+            objectName: objectName
         },
         function(result) {
             $scope.object = result;
