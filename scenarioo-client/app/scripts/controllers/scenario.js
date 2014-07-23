@@ -161,7 +161,6 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     // TODO make the following code generic and share it with step.js
 
     var SCENARIO_METADATA_SECTION_EXPANDED = 'scenarioo-scenarioMetadataSectionExpanded-';
-    var SCENARIO_METADATA_VISIBLE = 'scenarioo-scenarioMetadataVisible';
 
     $scope.isMetadataExpanded = function (type) {
         var metadataExpanded = localStorageService.get(SCENARIO_METADATA_SECTION_EXPANDED + type);
@@ -181,27 +180,10 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         return !$scope.isMetadataExpanded(type);
     };
 
-    $scope.toggleShowingMetadata = function() {
-        $scope.showingMetaData=!$scope.showingMetaData;
-        localStorageService.set(SCENARIO_METADATA_VISIBLE, '' + $scope.showingMetaData);
-    };
-
     /**
      * Init metadata visibility and expanded sections from local storage on startup.
      */
     function initMetadataVisibilityAndExpandedSections() {
-
-        // Init metadata visibility from local storage
-        var metadataVisible = localStorageService.get(SCENARIO_METADATA_VISIBLE);
-        if (metadataVisible === 'true') {
-            $scope.showingMetaData = true;
-        }
-        else if (metadataVisible === 'false') {
-            $scope.showingMetaData = false;
-        } else {
-            // default
-            $scope.showingMetaData = $window.innerWidth > 800;
-        }
 
         // Set special scenario metadata to expanded by default.
         var majorStepPropertiesExpanded = localStorageService.get(SCENARIO_METADATA_SECTION_EXPANDED + 'sc-scenario-properties');

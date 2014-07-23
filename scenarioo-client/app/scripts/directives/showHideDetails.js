@@ -17,51 +17,65 @@
 
 'use strict';
 
-angular.module('scenarioo.directives').directive('scShowHideDetails', function(localStorageService) {
+angular.module('scenarioo.directives').directive('scShowHideDetails', function($window, localStorageService) {
 
-    var STEP_METADATA_VISIBLE = 'scenarioo-stepMetadataVisible';
+    var STEP_METADATA_VISIBLE = 'scenarioo-metadataVisible-';
     function toggleClassesOnPanels(elem, showingMetaData) {
-        console.log(showingMetaData);
         var childs = elem.children();
-        var buttonPanel = childs[0];
-        var hideButton = buttonPanel.querySelector('#sc-showHideDetailsButton-hide');
-        var showButton = buttonPanel.querySelector('#sc-showHideDetailsButton-show');
-        var panel = childs[1];
-        var panelChildren = panel.children;
+        var showHideButtonPanel = childs[0];
+        var hideButton = showHideButtonPanel.querySelector('#sc-showHideDetailsButton-hide');
+        var showButton = showHideButtonPanel.querySelector('#sc-showHideDetailsButton-show');
+        var mainAndDetailPanelRow = childs[1];
+        var panelChildren = mainAndDetailPanelRow.children;
         var mainPanel = panelChildren[0];
         var detailPanel = panelChildren[1];
         if (showingMetaData) {
             mainPanel.setAttribute('class', 'col-lg-8');
             detailPanel.setAttribute('class', 'col-lg-4 hero-unit meta-data');
-            detailPanel.style.display = "block";
-            hideButton.style.display = "block";
-            showButton.style.display = "none";
+            detailPanel.style.display = 'block';
+            hideButton.style.display = 'block';
+            showButton.style.display = 'none';
         } else {
             mainPanel.setAttribute('class', 'col-lg-12');
             detailPanel.setAttribute('class', 'hero-unit meta-data');
-            detailPanel.style.display = "none";
-            hideButton.style.display = "none";
-            showButton.style.display = "block";
+            detailPanel.style.display = 'none';
+            hideButton.style.display = 'none';
+            showButton.style.display = 'block';
         }
     }
+
+    function initMetadataVisibleFromLocalStorage(scope, key) {
+        var metadataVisible = localStorageService.get(STEP_METADATA_VISIBLE + key);
+        if (metadataVisible === 'true') {
+            scope.showingMetaData = true;
+        }
+        else if (metadataVisible === 'false') {
+            scope.showingMetaData = false;
+        } else {
+            // default
+            scope.showingMetaData = $window.innerWidth > 800;
+        }
+    }
+
     return {
         restrict: 'E',
         transclude: true,
         templateUrl: 'views/showHideDetails.html',
         link: function (scope, element, attributes ) {
-            var showingMetaData = localStorageService.get(STEP_METADATA_VISIBLE);
-            toggleClassesOnPanels(element, showingMetaData === 'true');
+            var localStorageKey = attributes.scShowhidestoragekey;
+            if(localStorageKey == undefined) {
+                localStorageKey = 'all';
+            }
+            scope.localStorageKey = localStorageKey;
+            initMetadataVisibleFromLocalStorage(scope, localStorageKey);
+            toggleClassesOnPanels(element, scope.showingMetaData);
         },
         controller: function($scope, $element) {
-
-            $scope.showingMetaData = localStorageService.get(STEP_METADATA_VISIBLE) === 'true';
             $scope.toggleShowingMetadata = function() {
                 $scope.showingMetaData = !$scope.showingMetaData;
-                localStorageService.set(STEP_METADATA_VISIBLE, '' + $scope.showingMetaData);
+                localStorageService.set(STEP_METADATA_VISIBLE + $scope.localStorageKey, '' + $scope.showingMetaData);
                 toggleClassesOnPanels($element, $scope.showingMetaData);
             };
-
-
         }
     };
 
