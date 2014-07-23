@@ -17,8 +17,10 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, GlobalHotkeysService, SelectedBranchAndBuild, UseCasesResource) {
+angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService,BranchesAndBuilds, SelectedBranchAndBuild, UseCasesResource) {
 
+    var transformMetadataToTree = $filter('scMetadataTreeCreator')
+    var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     SelectedBranchAndBuild.callOnSelectionChange(loadUseCases);
 
 
@@ -28,8 +30,16 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
             {'branchName': selected.branch, 'buildName': selected.build},
             function onSuccess(result) {
                 $scope.useCases = result;
+
+                var branch = $scope.branchesAndBuilds.selectedBranch.branch;
+                var build = $scope.branchesAndBuilds.selectedBuild.build;
+                $scope.branchInformationTree = createBranchInformationTree(branch);
+                $scope.buildInformationTree = createBuildInformationTree(build);
+                $scope.metadataTreeBranch = transformMetadataToTreeArray(branch.details);
+                $scope.metadataTreeBuild = transformMetadataToTreeArray(build.details);
             });
     }
+
 
     $scope.goToUseCase = function (useCaseName) {
         $location.path('/usecase/' + useCaseName);
@@ -40,6 +50,21 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
     $scope.resetSearchField = function () {
         $scope.table.search = {searchTerm: ''};
     };
+
+    function createBranchInformationTree(branch) {
+        var branchInformationTree = {};
+        branchInformationTree.Description = branch.description;
+        return transformMetadataToTree(branchInformationTree);
+    }
+
+    function createBuildInformationTree(build) {
+        var buildInformationTree = {};
+        buildInformationTree.Date = build.date;
+        buildInformationTree.Revision = build.revision;
+        buildInformationTree.Status = build.status;
+        return transformMetadataToTree(buildInformationTree);
+
+    }
 
 
 });
