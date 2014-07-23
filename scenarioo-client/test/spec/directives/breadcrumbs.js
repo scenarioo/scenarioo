@@ -26,8 +26,9 @@ describe('Directive :: scBreadcrumbs', function () {
         elem,
         html;
 
-    // load module
+    // load module's
     beforeEach(module('scenarioo.directives'));
+    beforeEach(module('scenarioo.services'));
 
     beforeEach(inject(function ($rootScope, $compile, $location, $route, $httpBackend) {
         // create a scope
@@ -106,6 +107,7 @@ describe('Directive :: scBreadcrumbs', function () {
             isLast: false,
             tooltip: jasmine.any(String)
         });
+
 
         // Usecase breadcrumb with $param
         expectBreadCrumbToEqual(breadcrumbs[1], {
