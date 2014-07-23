@@ -49,8 +49,6 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
     // Determines if the tree has expanded / collapsed rootnodes initially
     $scope.rootIsCollapsed = false;
     $scope.toggleLabel = 'collapse';
-    $scope.collapsedIconName = 'collapsed.png';
-    $scope.expandedIconName= 'expanded.png';
 
     SelectedBranchAndBuild.callOnSelectionChange(loadReferenceTree);
 

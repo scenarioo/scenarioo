@@ -18,14 +18,30 @@
 'use strict';
 
 angular.module('scenarioo.services').factory('TreeNode', function () {
+    var iconType = {
+        COLLAPSED: 'images/collapsed.png',
+        EXPANDED: 'images/expanded.png',
+        NONE: ''
+    };
+
+    function setIconName(node) {
+        if (node.children.length > 0) {
+            node.icon = node.isCollapsed ? iconType.EXPANDED : iconType.COLLAPSED;
+        }
+        else {
+            node.icon = iconType.NONE;
+        }
+    }
+
     return {
+
         expandAndCollapseTree: function (treemodel, $scope) {
             // Invert expand or collapse status
             var isCollapsed = $scope.toggleLabel === 'expand' ? false : true;
 
             angular.forEach(treemodel, function (node) {
                 node.isCollapsed = isCollapsed;
-                node.icon = isCollapsed ? $scope.expandedIconName : $scope.collapsedIconName;
+                setIconName(node);
 
                 if (node.level === 0) {
                     node.isVisible = true;
@@ -35,6 +51,10 @@ angular.module('scenarioo.services').factory('TreeNode', function () {
                 }
             });
             $scope.toggleLabel = isCollapsed ? $scope.toggleLabel = 'expand' : $scope.toggleLabel = 'collapse';
+        },
+
+        setIconNameForChildNodes: function(node) {
+            setIconName(node);
         }
     };
 });

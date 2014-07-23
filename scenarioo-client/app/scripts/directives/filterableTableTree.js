@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.directives').directive('scFilterableTableTree', function (GlobalHotkeysService) {
+angular.module('scenarioo.directives').directive('scFilterableTableTree', function (GlobalHotkeysService, TreeNode) {
 
     var textLimit = 400;
 
@@ -35,9 +35,6 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
         templateUrl: 'template/treeview.html',
         link: function (scope) {
             scope.treemodel = [];
-            scope.collapsedIconName = 'collapsed.png';
-            scope.expandedIconName= 'expanded.png';
-            scope.noneIconName = '';
 
             // Set's hotkey ESC to reset filter field
             bindClearFilter();
@@ -76,7 +73,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     'children': [],
                     'matching': false,
                     'parent': parent,
-                    'icon': scope.collapsedIconName,
+                    'icon': '',
                     'isCollapsed': scope.rootiscollapsed,
                     'isVisible': !scope.rootiscollapsed
                 };
@@ -108,13 +105,14 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
 
                 angular.forEach(node.children, function (value, index) {
                     createNode(value, level + 1, id + '_' + index, newNode);
+                    TreeNode.setIconNameForChildNodes(newNode);
                 });
             }
 
             // Traverses the tree-view top-down for all childs
             scope.toggleAllChilds = function(rootNode) {
                 rootNode.isCollapsed = !rootNode.isCollapsed;
-                rootNode.icon = rootNode.isCollapsed ? scope.expandedIconName : scope.collapsedIconName;
+                TreeNode.setIconNameForChildNodes(rootNode);
                 collapseExpandChildren(rootNode, rootNode.isCollapsed);
             };
 
@@ -125,8 +123,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                     if (childNode) {
                         node.isVisible = !parentIsCollapsed;
                         node.isCollapsed = parentIsCollapsed;
-                        node.icon = node.isCollapsed ? scope.expandedIconName : scope.collapsedIconName;
-
+                        TreeNode.setIconNameForChildNodes(node);
                         collapseExpandChildren(node, node.isCollapsed);
                     }
                 });
@@ -135,13 +132,13 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             // Expand collapse only the current node
             scope.toggleCollapseNode = function(rootNode) {
 
-                // When root expanded, onClick provokes an collapse on all childs
+                // When root is expanded, onClick provokes an collapse on all child's
                 if (!rootNode.isCollapsed && rootNode.children.length > 0) {
                     scope.toggleAllChilds(rootNode);
                 }
                 else {
                     rootNode.isCollapsed = !rootNode.isCollapsed;
-                    rootNode.icon = rootNode.isCollapsed ? scope.expandedIconName : scope.collapsedIconName;
+                    TreeNode.setIconNameForChildNodes(rootNode);
 
                     angular.forEach(scope.treemodel, function (node) {
                         var childNode = rootNode.children.indexOf(node.id) > -1;
@@ -149,7 +146,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                         if (childNode) {
                             node.isVisible = !node.isVisible;
                             node.isCollapsed = node.isCollapsed;
-                            node.icon = node.isCollapsed ? scope.expandedIconName : scope.collapsedIconName;
+                            TreeNode.setIconNameForChildNodes(node);
                         }
                     });
                 }
@@ -211,7 +208,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             function setNodeProperties(node, isCollapsed, isVisible) {
                 node.isCollapsed = isCollapsed;
                 node.isVisible = isVisible;
-                node.icon = node.isCollapsed ? scope.expandedIconName : scope.collapsedIconName;
+                TreeNode.setIconNameForChildNodes(node);
             }
 
             function bindClearFilter() {
