@@ -27,7 +27,7 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
 .config(function ($routeProvider) {
 
     $routeProvider
-        .when('/main', {
+        .when('/', {
             templateUrl: 'views/main.html',
             controller: 'MainCtrl',
             breadcrumbId: 'main'
@@ -68,7 +68,7 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
             breadcrumbId: 'step'
         })
         .otherwise({
-            redirectTo: '/main'
+            redirectTo: '/'
         });
 
 }).run(function ($rootScope, Config, GlobalHotkeysService, $location) {
