@@ -18,7 +18,7 @@
 'use strict';
 
 angular.module('scenarioo.directives').directive('scBreadcrumb', function ($routeParams, $location,
-    $route, $compile, $filter, $sce, Navigation) {
+    $route, $compile, $filter, $sce, BreadcrumbsService) {
 
     var limit = 50;
 
@@ -28,29 +28,27 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($rout
         replace: true,
         templateUrl: 'template/breadcrumbs.html',
         link: function (scope) {
-            scope.breadcrumbs = [];
 
+            scope.breadcrumbs = [];
             var navParameter = [];
             var breadCrumbElements = [];
-            var objectType = $location.$$path.split('/')[1];
+            var breadcrumbId = $route.current.$$route.breadcrumbId;
 
             // Get all relevant scenarioo navigation artifacts (e.g. scenarioName, usecaseName, pageIndex, ...)
             navParameter = getNavigationParameter();
 
-            breadCrumbElements = Navigation.loadNavigationElements(objectType);
-            var navElements = Navigation.getNavigationElements(breadCrumbElements, navParameter);
+            breadCrumbElements = BreadcrumbsService.loadNavigationElements(breadcrumbId);
+            var navElements = BreadcrumbsService.getNavigationElements(breadCrumbElements, navParameter);
 
             angular.forEach(navElements, function(breadcrumbItem){
-                breadcrumbItem.text = $filter('scHumanReadable')(decodeURIComponent(breadcrumbItem.text));
-                breadcrumbItem.label = Navigation.setValuesInLabel(breadcrumbItem.label, navParameter);
 
                 // Create breadcrumb objects
-                var hasTooltip = (breadcrumbItem.text.length + breadcrumbItem.label.length) > limit && !breadcrumbItem.isLastNavigationElement;
-                var breadcrumbText = breadcrumbItem.label + getToolTip(breadcrumbItem, hasTooltip);
+                var isLabelTextShortened= breadcrumbItem.label.length > limit && !breadcrumbItem.isLastNavigationElement;
+                var breadcrumbLabelText = getShortenedLabelText(breadcrumbItem, isLabelTextShortened);
                 var breadcrumb = {
-                    text: breadcrumbText,
-                    tooltip: breadcrumbItem.text,
-                    showTooltip: hasTooltip,
+                    text: breadcrumbLabelText,
+                    tooltip: breadcrumbItem.textForTooltip,
+                    showTooltip: isLabelTextShortened,
                     href: '#' + breadcrumbItem.route,
                     isLast: breadcrumbItem.isLastNavigationElement
                 };
@@ -67,14 +65,12 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($rout
         }
     };
 
-    function getToolTip(breadcrumbItem, hasTooltip) {
-        var toolTip = hasTooltip ? getShortenedText(breadcrumbItem.text) : breadcrumbItem.text;
-        return toolTip;
+    function getShortenedLabelText(breadcrumbItem, isLabelTextShortened) {
+        return isLabelTextShortened ? getShortenedText(breadcrumbItem.label) : breadcrumbItem.label;
     }
 
     function getNavigationParameter() {
         var navParameter = {
-            step: '',
             usecase: $routeParams.useCaseName,
             scenario: $routeParams.scenarioName,
             pageName: $routeParams.pageName,
