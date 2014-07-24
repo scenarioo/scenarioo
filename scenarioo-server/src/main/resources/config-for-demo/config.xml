@@ -10,7 +10,7 @@
     <applicationInformation>&lt;h3&gt;Welcome to Scenarioo!&lt;/h3&gt;
 &lt;br/&gt;
 &lt;p&gt;
-    You can change this welcome message and all other settings of Scenarioo on the configuration page.
+    You can change this welcome message and all other settings of Scenarioo on the configuration page (under 'Manage').
 &lt;/p&gt;
 &lt;p&gt;
     Please put your application specific welcome message to your user's of Scenarioo here. This is the place where you might want to explain the appication specific structure of your Scenarioo documentation, such that new user's of this tool will quickly find their way through your user scenarios of your application.
@@ -40,4 +40,30 @@
             <value>label-warning</value>
         </entry>
     </buildstates>
+    <customObjectTabs>
+        <id>requirements</id>
+        <tabTitle>Requirements</tabTitle>
+        <objectTypesToDisplay>feature</objectTypesToDisplay>
+        <objectTypesToDisplay>epic</objectTypesToDisplay>
+        <objectTypesToDisplay>userStory</objectTypesToDisplay>
+        <customObjectDetailColumns>
+            <columnTitle>Description</columnTitle>
+            <propertyKey>description</propertyKey>
+        </customObjectDetailColumns>
+    </customObjectTabs>
+    <customObjectTabs>
+        <id>calls</id>
+        <tabTitle>Calls</tabTitle>
+        <objectTypesToDisplay>service</objectTypesToDisplay>
+        <objectTypesToDisplay>businessOperation</objectTypesToDisplay>
+        <objectTypesToDisplay>uiAction</objectTypesToDisplay>
+        <customObjectDetailColumns>
+            <columnTitle>Description</columnTitle>
+            <propertyKey>description</propertyKey>
+        </customObjectDetailColumns>
+        <customObjectDetailColumns>
+            <columnTitle>Real Name for Service</columnTitle>
+            <propertyKey>realName</propertyKey>
+        </customObjectDetailColumns>
+    </customObjectTabs>
 </configuration>
