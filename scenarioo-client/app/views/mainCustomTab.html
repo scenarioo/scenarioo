@@ -17,19 +17,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
  <div ng-controller="MainCustomTabCtrl">
 	<div class="row sc-space-top sc-space-bottom">
-	    <div class="col-lg-3">
+	    <div class="col-sm-8">
 	        <div class="input-group">
 	            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip" title="type words separated by spaces to search for"
-                    ng-model="searchField" placeholder="Search item" ng-keyup="$event.keyCode == 27 ? resetSearchField() : null" data-debounce/>
+                    ng-model="searchField" placeholder="Search ..." ng-keyup="$event.keyCode == 27 ? resetSearchField() : null" data-debounce/>
 	            <span class="input-group-btn">
 	                <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
 	            </span>
-	           	<span class="input-group-btn" style="padding-left:20px">
-	            	<button type="button" ng-click="expandAndCollapseTree(treemodel)" class="btn btn-default">{{toggleLabel}} all</button>
-	        	</span>
 	        </div>
 	    </div>
-	    <div class="col-lg-9">
+	    <div class="col-sm-4">
+            <div class="pull-right">
+                <button type="button" ng-click="expandAndCollapseTree(treemodel)" class="btn btn-default">{{toggleLabel}} all</button>
+            </div>
 	    </div>
 	</div>
 

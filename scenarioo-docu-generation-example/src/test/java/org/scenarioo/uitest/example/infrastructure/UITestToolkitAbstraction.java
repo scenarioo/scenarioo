@@ -109,7 +109,7 @@ public class UITestToolkitAbstraction {
 	 * Save current step with screenshot, if the current screen is different than on last screenshot.
 	 */
 	public void saveStepWithScreenshotIfChanged() {
-		String screenshot = toolkit.takeScreenshot();
+		byte[] screenshot = toolkit.takeScreenshot();
 		if (!lastScreenshot.equals(screenshot)) {
 			saveStepWithScreenshot(screenshot, "success");
 		}
@@ -119,7 +119,7 @@ public class UITestToolkitAbstraction {
 	 * Save current step with screenshot, in any case
 	 */
 	public void saveStepWithScreenshot() {
-		String screenshot = toolkit.takeScreenshot();
+		byte[] screenshot = toolkit.takeScreenshot();
 		saveStepWithScreenshot(screenshot, "success");
 	}
 	
@@ -127,11 +127,11 @@ public class UITestToolkitAbstraction {
 	 * Save current step with screenshot on error (status will be "error".
 	 */
 	public void saveStepErrorWithScreenshot() {
-		String screenshot = toolkit.takeScreenshot();
+		byte[] screenshot = toolkit.takeScreenshot();
 		saveStepWithScreenshot(screenshot, "failed");
 	}
 	
-	private void saveStepWithScreenshot(final String screenshot, final String status) {
+	private void saveStepWithScreenshot(final byte[] screenshot, final String status) {
 		
 		// Save step
 		String useCaseName = test.getUseCase().getName();
@@ -140,7 +140,7 @@ public class UITestToolkitAbstraction {
 		docuWriter.saveStep(useCaseName, scenarioName, step);
 		
 		// Save screenshot
-		docuWriter.saveScreenshot(useCaseName, scenarioName, stepIndex, screenshot);
+		docuWriter.savePngScreenshot(useCaseName, scenarioName, stepIndex, screenshot);
 		
 		// increase step index
 		stepIndex++;

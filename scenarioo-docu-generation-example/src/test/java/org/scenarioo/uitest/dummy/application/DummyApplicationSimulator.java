@@ -29,57 +29,51 @@
 
 package org.scenarioo.uitest.dummy.application;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-
-import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
 import org.scenarioo.uitest.dummy.application.steps.DummyApplicationStepData;
 import org.scenarioo.uitest.dummy.application.steps.DummyApplicationStepDataFactory;
 
 /**
  * Just a simple fake application simulator for the example.
  * 
- * In your real application you would not simulate the whole application but
- * maybe some webservices, databases or other resources that your real
- * application needs.
+ * In your real application you would not simulate the whole application but maybe some webservices, databases or other
+ * resources that your real application needs.
  * 
- * Therefore you might even have something similar to this in your tests for
- * setting up the simulation configuration. But of course not simulating all
- * your application and UI screens.
+ * Therefore you might even have something similar to this in your tests for setting up the simulation configuration.
+ * But of course not simulating all your application and UI screens.
  * 
  * Example application screenshots taken from http://www.wikipedia.org/
  */
 public class DummyApplicationSimulator {
-
+	
 	private static final ThreadLocal<DummySimulationConfig> currentConfiguration = new ThreadLocal<DummySimulationConfig>();
-
+	
 	public static void setConfiguration(final DummySimulationConfig config) {
 		currentConfiguration.set(config);
 	}
-
+	
 	public static DummySimulationConfig getConfiguration() {
 		return currentConfiguration.get();
 	}
-
+	
 	public Map<StepKey, DummyApplicationStepData> applicationStepData = createDummyApplicationData();
-
-	public String getScreenshot(final String url, final int index) {
+	
+	public byte[] getScreenshot(final String url, final int index) {
 		String fileName = getApplicationStepData(url, index)
 				.getScreenshotFileName();
 		return loadPngFile(fileName);
 	}
-
+	
 	/**
 	 * Load example screenshot image as a base64 encoded image.
 	 */
-	private String loadPngFile(final String fileName) {
+	private byte[] loadPngFile(final String fileName) {
 		URL url = getClass().getClassLoader().getResource(
 				"example/screenshots/" + fileName);
 		if (url == null) {
@@ -101,33 +95,27 @@ public class DummyApplicationSimulator {
 							+ url, e);
 		}
 		try {
-			BufferedImage image = ImageIO.read(screenshotFile);
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(image, "png", baos);
-			final byte[] encodedScreenshot = Base64.encodeBase64(baos
-					.toByteArray());
-			return new String(encodedScreenshot);
+			return FileUtils.readFileToByteArray(screenshotFile);
 		} catch (Exception e) {
 			throw new RuntimeException("Could not write image: "
 					+ screenshotFile.getAbsolutePath(), e);
 		}
-
 	}
-
+	
 	public String getBrowserUrl(final String url, final int index) {
 		return getApplicationStepData(url, index).getBrowserUrl();
 	}
-
+	
 	public ApplicationsStateData getApplicationsState(final String url,
 			final int index) {
 		return getApplicationStepData(url, index).getApplicationStateData();
 	}
-
+	
 	public String getTextFromElement(final String url, final int index,
 			final String elementId) {
 		return getApplicationStepData(url, index).getTextFromElement(elementId);
 	}
-
+	
 	private DummyApplicationStepData getApplicationStepData(final String url,
 			final int index) {
 		DummyApplicationStepData result = applicationStepData.get(new StepKey(
@@ -143,7 +131,7 @@ public class DummyApplicationSimulator {
 		}
 		return result;
 	}
-
+	
 	private Map<StepKey, DummyApplicationStepData> createDummyApplicationData() {
 		Map<StepKey, DummyApplicationStepData> dummyData = new HashMap<StepKey, DummyApplicationStepData>();
 		for (DummyApplicationStepData stepData : DummyApplicationStepDataFactory
@@ -154,25 +142,25 @@ public class DummyApplicationSimulator {
 		}
 		return dummyData;
 	}
-
+	
 	private static final class StepKey {
 		private final DummySimulationConfig config;
 		private final String url;
 		private final int index;
-
+		
 		public StepKey(final String url, final int index) {
 			this.config = DummyApplicationSimulator.getConfiguration();
 			this.url = url;
 			this.index = index;
 		}
-
+		
 		public StepKey(final DummySimulationConfig config, final String url,
 				final int index) {
 			this.config = config;
 			this.url = url;
 			this.index = index;
 		}
-
+		
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -183,9 +171,9 @@ public class DummyApplicationSimulator {
 			result = prime * result + ((url == null) ? 0 : url.hashCode());
 			return result;
 		}
-
+		
 		@Override
-		public boolean equals(Object obj) {
+		public boolean equals(final Object obj) {
 			if (this == obj) {
 				return true;
 			}
@@ -212,5 +200,5 @@ public class DummyApplicationSimulator {
 			return true;
 		}
 	}
-
+	
 }

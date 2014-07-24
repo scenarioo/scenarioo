@@ -16,7 +16,7 @@
  */
 
 'use strict';
-// TODO: temporary comment out, because of presentation reason
+// TODO #277: refactor unit tests according to #267
 /*
 describe('Directive :: scBreadcrumbs', function () {
     var scope,
@@ -26,8 +26,9 @@ describe('Directive :: scBreadcrumbs', function () {
         elem,
         html;
 
-    // load module
+    // load module's
     beforeEach(module('scenarioo.directives'));
+    beforeEach(module('scenarioo.services'));
 
     beforeEach(inject(function ($rootScope, $compile, $location, $route, $httpBackend) {
         // create a scope
@@ -41,9 +42,9 @@ describe('Directive :: scBreadcrumbs', function () {
 
         // mock routes
         $route.routes = {
-            '/': { breadcrumb: 'Home' },
-            '/usecase/:uid': { breadcrumb: '<strong>Usecase</strong>: $param' },
-            '/scenario/:uid/:sid': { breadcrumb: 'Scenario: $title' }
+            '/main': { },
+            '/usecase/:uid': { },
+            '/scenario/:uid/:sid': { }
         };
 
         // mock title
@@ -68,7 +69,7 @@ describe('Directive :: scBreadcrumbs', function () {
         expect(copiedBC).toEqual(expected);
     }
 
-    it('Should consist only of the root breadcrumb', function () {
+    it('1. Should consist only of the root breadcrumb', function () {
         breadcrumbWithPath('/');
 
         var innerScope = elem.scope();
@@ -90,7 +91,7 @@ describe('Directive :: scBreadcrumbs', function () {
         expect(innerScope.email.link).toBeDefined();
     });
 
-    it('Should consist of multiple breadcrumbs', function () {
+    it('2. Should consist of multiple breadcrumbs', function () {
         breadcrumbWithPath('/scenario/usecaseId/scenarioId');
 
         var innerScope = elem.scope();
@@ -107,9 +108,10 @@ describe('Directive :: scBreadcrumbs', function () {
             tooltip: jasmine.any(String)
         });
 
+
         // Usecase breadcrumb with $param
         expectBreadCrumbToEqual(breadcrumbs[1], {
-            text: '<strong>Usecase</strong>: Usecase Id',
+            text: '<strong>Use Case: </strong>',
             showTooltip: false,
             href: '#/usecase/usecaseId',
             isLast: false,
@@ -126,7 +128,7 @@ describe('Directive :: scBreadcrumbs', function () {
         });
     });
 
-    it('Should consist of multiple breadcrumbs', function () {
+    it('3. Should consist of multiple breadcrumbs', function () {
         breadcrumbWithPath('/scenario/usecaseIdWithAMuchTooLongNameWhichWillBeDisplayedInATooltipAndTheTooltipIsStrippedOfHTML/scenarioId');
 
         var innerScope = elem.scope();

@@ -17,6 +17,10 @@
 
 'use strict';
 
+/*
+    Waits for given milliseconds before entered filter criteria will be applied
+ */
+
 angular.module('scenarioo.directives').directive('debounce', function($timeout) {
     return {
         restrict: 'A',

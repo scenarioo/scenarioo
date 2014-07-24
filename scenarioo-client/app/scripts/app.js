@@ -26,38 +26,36 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
 
 .config(function ($routeProvider) {
 
-        // TODO
-        // 1. Configure breadcrumb labels delivered by the routeparams in breadcrumb
-        // 2. Configure links on elements
-        // 3. Use shortening and html encoding/decoding
-        // 4. Show only last breadcrumb element with full text
-        // 5. Tool tip for full qualified name
-
     $routeProvider
-        .when('/', {
+        .when('/main', {
             templateUrl: 'views/main.html',
-            controller: 'MainCtrl'
+            controller: 'MainCtrl',
+            breadcrumbId: 'main'
         })
         .when('/manage', {
             templateUrl: 'views/manage/manage.html',
-            controller: 'ManageCtrl'
+            controller: 'ManageCtrl',
+            breadcrumbId: 'manage'
         })
         .when('/usecase/:useCaseName', {
             templateUrl: 'views/usecase.html',
             controller: 'UseCaseCtrl',
-            useCaseName: '@useCaseName'
+            useCaseName: '@useCaseName',
+            breadcrumbId: 'usecase'
         })
         .when('/scenario/:useCaseName/:scenarioName', {
             templateUrl: 'views/scenario.html',
             controller: 'ScenarioCtrl',
             useCaseName: '@useCaseName',
-            scenarioName: '@scenarioName'
+            scenarioName: '@scenarioName',
+            breadcrumbId: 'scenario'
         })
         .when('/object/:objectType/:objectName', {
             templateUrl: 'views/referenceTree.html',
             controller: 'ReferenceTreeCtrl',
             objectType: '@objectType',
-            objectName: '@objectName'
+            objectName: '@objectName',
+            breadcrumbId: 'object'
         })
         .when('/step/:useCaseName/:scenarioName/:pageName/:pageIndex/:stepIndex', {
             templateUrl: 'views/step.html',
@@ -66,11 +64,13 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
             scenarioName: '@scenarioName',
             pageName: '@pageName',
             pageIndex: '@pageIndex',
-            stepIndex: '@stepIndex'
+            stepIndex: '@stepIndex',
+            breadcrumbId: 'step'
         })
         .otherwise({
-            redirectTo: '/'
+            redirectTo: '/main'
         });
+
 }).run(function ($rootScope, Config, GlobalHotkeysService, $location) {
 
     GlobalHotkeysService.registerGlobalHotkey('m', function () {

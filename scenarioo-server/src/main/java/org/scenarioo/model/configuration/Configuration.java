@@ -57,7 +57,9 @@ public class Configuration {
 
 	private Map<String, String> buildstates = new HashMap<String, String>();
 	
-	private List<BranchAlias> branchAliases = new LinkedList<>();
+	private boolean expandPagesInScenarioOverview = false;
+
+	private List<BranchAlias> branchAliases = new LinkedList<BranchAlias>();
 		
 	private List<CustomObjectTab> customObjectTabs = new ArrayList<CustomObjectTab>();
 
@@ -149,9 +151,17 @@ public class Configuration {
 		this.buildstates = buildstates;
 	}
 
+	public boolean isExpandPagesInScenarioOverview() {
+		return expandPagesInScenarioOverview;
+	}
+	
+	public void setExpandPagesInScenarioOverview(final boolean expandPagesInScenarioOverview) {
+		this.expandPagesInScenarioOverview = expandPagesInScenarioOverview;
+	}
+
 	public List<BranchAlias> getBranchAliases() {
 		if(branchAliases == null) {
-			branchAliases = new LinkedList<>();
+			branchAliases = new LinkedList<BranchAlias>();
 		}
 		return branchAliases;
 	}

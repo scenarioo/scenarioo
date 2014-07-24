@@ -18,7 +18,8 @@
 'use strict';
 
 angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($scope,
-    $routeParams, $location, ObjectIndexListResource, PagesAndSteps, SelectedBranchAndBuild, ScenarioResource, TreeNode, StepService) {
+    $routeParams, $location, ObjectIndexListResource, PagesAndSteps, SelectedBranchAndBuild, ScenarioResource,
+    TreeNode, StepService, $filter) {
 
     var objectType = $routeParams.objectType;
     var objectName = $routeParams.objectName;
@@ -26,6 +27,7 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
     var navigationElement = {
         navigationType: '',
         navigationName: '',
+        objectType: 0,
         useCaseName: '',
         scenarioName: '',
         scenarioPageName: '',
@@ -33,21 +35,23 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         stepIndex: null
     };
 
+    var transformMetadataToTree = $filter('scMetadataTreeCreator');
+
     var objType = {
-        USECASE: 0,
-        SCENARIO: 1,
-        PAGE: 2,
-        STEP:3
+        usecase: 1,
+        scenario: 2,
+        page: 3,
+        step: 4,
+        object: 5
     };
 
     $scope.referenceTree = [];
     $scope.treemodel = [];
+    $scope.showingMetaData = true;
 
-    // Determines if the tree has expanded / collapsed rootnodes initially
+    // Determines if the tree has expanded / collapsed root-nodes initially
     $scope.rootIsCollapsed = false;
     $scope.toggleLabel = 'collapse';
-    $scope.collapsedIconName = 'collapsed.png';
-    $scope.expandedIconName= 'expanded.png';
 
     SelectedBranchAndBuild.callOnSelectionChange(loadReferenceTree);
 
@@ -64,13 +68,14 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         },
         function(result) {
             $scope.object = result;
+            var transformedMetaDataTree = transformMetadataToTree(result.object.details);
+            $scope.metadataTree = transformedMetaDataTree.childNodes;
         });
 	}
 
     $scope.goToRelatedView = function(nodeElement) {
         buildNavigationElement(nodeElement);
-
-        if (navigationElement.navigationType === 2 || navigationElement.navigationType === 3) {
+        if (navigationElement.objectType === objType.page || navigationElement.objectType === objType.step) {
 
             var stepPromise = StepService.getStep({
                 'branchName': selectedBranchAndBuild.branch,
@@ -98,41 +103,53 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         }
     };
 
-
     function buildLocationPath(navElement){
-        var locationPath = '/' + navElement.navigationName + '/' + encodeURIComponent(navElement.useCaseName) +
-            '/' + encodeURIComponent(navElement.scenarioName);
+        var locationPath = '';
 
-        if (navElement.navigationType === objType.STEP) {
-            locationPath += '/' + encodeURIComponent(navElement.pageName) + '/' + navElement.pageIndex + '/' + navElement.stepIndex;
+        if (navElement.objectType === objType.scenario || navElement.objectType === objType.usecase) {
+            locationPath = navElement.navigationType + '/' + encodeURIComponent(navElement.useCaseName) +
+                '/' + encodeURIComponent(navElement.scenarioName);
         }
-        else if (navElement.navigationType === objType.PAGE) {
-            locationPath += '/' + encodeURIComponent(navElement.pageName) + '/' + navElement.pageIndex + '/' + navElement.stepIndex;
+
+        if (navElement.objectType === objType.step || navElement.objectType === objType.page) {
+            locationPath += 'step/' + encodeURIComponent(navElement.useCaseName) + '/' + encodeURIComponent(navElement.scenarioName) +
+                '/' + encodeURIComponent(navElement.pageName) + '/' +
+                navElement.pageIndex + '/' + navElement.stepIndex;
         }
+
+        if (navElement.objectType === objType.object) {
+            locationPath +=  'object/' + encodeURIComponent(navElement.navigationType) + '/' + encodeURIComponent(navElement.navigationName);
+        }
+
         return locationPath;
     }
 
-    // Build navigation path along the reference hierarchy tree
-    // In case that some other objects should be navigated, the last
-    // navigation hierarchy is always 'step'
+    // Build navigation path along the reference hierarchy tree (e.g. step / scenario / usecase)
+    // In case that some other objects should be navigated, the reference-tree will be called again with
+    // selected object
     function buildNavigationElement(childNode) {
         if (angular.isDefined(childNode)) {
             switch (childNode.type) {
             case 'usecase':
-                setNavigationType(childNode, objType.USECASE);
+                setNavigationElement(childNode, objType.usecase);
                 navigationElement.useCaseName = childNode.name;
                 break;
             case 'scenario':
-                setNavigationType(childNode, objType.SCENARIO);
+                setNavigationElement(childNode, objType.scenario);
                 navigationElement.scenarioName = childNode.name;
                 break;
             case 'page':
-                setNavigationType(childNode, objType.PAGE);
+                setNavigationElement(childNode, objType.page);
                 navigationElement.pageIndex = childNode.name;
                 break;
             case 'step':
-                setNavigationType(childNode, objType.STEP);
+                setNavigationElement(childNode, objType.step);
                 navigationElement.stepIndex = childNode.name;
+                break;
+            default:
+                // Any other object (reference tree will not hierarchically traversed up-to root)
+                setNavigationElement(childNode, objType.object);
+                return;
             }
         }
 
@@ -143,10 +160,12 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         }
     }
 
-    function setNavigationType(childNode, objType) {
-        if (navigationElement.navigationType === '') {
-            navigationElement.navigationType = objType;
-            navigationElement.navigationName = childNode.type;
+    function setNavigationElement(childNode, objectType) {
+
+        if (navigationElement.objectType === 0) {
+            navigationElement.navigationType = childNode.type;
+            navigationElement.navigationName = childNode.name;
+            navigationElement.objectType = objectType;
         }
     }
 

@@ -114,7 +114,7 @@ public class AvailableBuildsList {
 	public synchronized void refreshAliases() {
 		List<BranchBuilds> physicalBuilds = getBranchBuildsWithouAliases();
 		List<BranchBuilds> aliasBuilds = createBranchesFromAliases(physicalBuilds);
-		List<BranchBuilds> allBranches = new LinkedList<>();
+		List<BranchBuilds> allBranches = new LinkedList<BranchBuilds>();
 		
 		allBranches.addAll(physicalBuilds);
 		allBranches.addAll(aliasBuilds);
@@ -123,7 +123,7 @@ public class AvailableBuildsList {
 	}
 
 	private List<BranchBuilds> getBranchBuildsWithouAliases() {
-		List<BranchBuilds> result = new LinkedList<>();
+		List<BranchBuilds> result = new LinkedList<BranchBuilds>();
 		for(BranchBuilds branchBuilds : this.branchBuildsList) {
 			if(!branchBuilds.isAlias()) {
 				result.add(branchBuilds);
@@ -133,7 +133,7 @@ public class AvailableBuildsList {
 	}
 
 	private List<BranchBuilds> createBranchesFromAliases(List<BranchBuilds> physicalBuilds) {
-		List<BranchBuilds> result = new LinkedList<>();
+		List<BranchBuilds> result = new LinkedList<BranchBuilds>();
 		
 		Configuration configuration = ConfigurationDAO.getConfiguration();
 		List<BranchAlias> branchAliases = configuration.getBranchAliases();

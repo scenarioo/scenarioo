@@ -18,7 +18,7 @@
 'use strict';
 
 angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams,
-    $location, $window, localStorageService, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, PagesAndSteps) {
+    $location, $window, localStorageService, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, Config, PagesAndSteps) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -47,6 +47,10 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
                 $scope.pagesAndSteps = $scope.pagesAndScenarios.pagesAndSteps;
                 $scope.metadataTree = transformMetadataToTreeArray($scope.pagesAndScenarios.scenario.details);
                 $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario);
+
+                if (Config.expandPagesInScenarioOverview()) {
+                    $scope.expandAll();
+                }
             });
     }
 
