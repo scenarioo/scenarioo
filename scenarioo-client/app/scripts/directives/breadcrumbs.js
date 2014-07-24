@@ -44,7 +44,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($rout
                 breadcrumbItem.text = $filter('scHumanReadable')(decodeURIComponent(breadcrumbItem.text));
                 breadcrumbItem.label = Navigation.setValuesInLabel(breadcrumbItem.label, navParameter);
 
-                // Create breadcrumb object
+                // Create breadcrumb objects
                 var hasTooltip = (breadcrumbItem.text.length + breadcrumbItem.label.length) > limit && !breadcrumbItem.isLastNavigationElement;
                 var breadcrumbText = breadcrumbItem.label + getToolTip(breadcrumbItem, hasTooltip);
                 var breadcrumb = {
