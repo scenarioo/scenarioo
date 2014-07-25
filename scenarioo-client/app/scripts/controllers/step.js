@@ -82,6 +82,16 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.useCaseLabels = result.useCaseLabels;
                 $scope.scenarioLabels = result.scenarioLabels;
                 beautify(result.step.html);
+
+
+                $scope.hasAnyLabels = function() {
+                    var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
+                    var hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
+                    var hasAnyStepLabels = $scope.step.labels.labels.length > 0;
+                    var hasAnyPageLabels = $scope.step.page.labels.labels.length > 0;
+
+                    return hasAnyUseCaseLabels || hasAnyScenarioLabels || hasAnyStepLabels || hasAnyPageLabels;
+                };
             });
         }
 
@@ -283,4 +293,5 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         var pageName = pageSteps.page.name;
         $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) + '/' + pageIndex + '/' + stepIndex);
     };
+
 });
