@@ -99,21 +99,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <!-- labels -->
         <sc-collapsable-panel title="Labels" key="stepView-labels" initially-expanded="false">
-            <strong>Use case: </strong>
-            <span ng-repeat="label in useCaseLabels.labels" class="label label-info">{{label}}</span>
-            <br/>
+            <div class="sc-tree">
+                <ul>
+                    <li>
+                        <div class="sc-treeNodeObject">
+                            <div class="sc-treeNodeObjectTitle">
+                                <span class="sc-node-label">Use case: </span>
+                                <span ng-repeat="label in useCaseLabels.labels" class="label label-info sc-label">{{label}}</span>
+                            </div>
+                        </div>
+                    </li>
 
-            <strong>Scenario: </strong>
-            <span ng-repeat="label in scenarioLabels.labels" class="label label-info">{{label}}</span>
-            <br/>
+                    <li>
+                        <div class="sc-treeNodeObject">
+                            <div class="sc-treeNodeObjectTitle">
+                                <span class="sc-node-label">Scenario: </span>
+                                <span ng-repeat="label in scenarioLabels.labels" class="label label-info sc-label">{{label}}</span>
+                            </div>
+                        </div>
+                    </li>
 
-            <strong>Step: </strong>
-            <span ng-repeat="label in step.labels.labels" class="label label-info">{{label}}</span>
-            <br/>
+                    <li>
+                        <div class="sc-treeNodeObject">
+                            <div class="sc-treeNodeObjectTitle">
+                                <span class="sc-node-label">Step: </span>
+                                <span ng-repeat="label in step.labels.labels" class="label label-info sc-label">{{label}}</span>
+                            </div>
+                        </div>
+                    </li>
 
-            <strong>Page: </strong>
-            <span ng-repeat="label in step.page.labels.labels" class="label label-info">{{label}}</span>
-            <br/>
+                    <li>
+                        <div class="sc-treeNodeObject">
+                            <div class="sc-treeNodeObjectTitle">
+                                <span class="sc-node-label">Page: </span>
+                                <span ng-repeat="label in step.page.labels.labels" class="label label-info sc-label">{{label}}</span>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+
         </sc-collapsable-panel>
         <!-- meta info -->
         <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
