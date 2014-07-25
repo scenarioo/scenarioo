@@ -45,9 +45,17 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
                 $scope.pagesAndScenarios = PagesAndSteps.populatePagesAndSteps(result);
                 $scope.useCaseDescription = result.useCase.description;
                 $scope.scenario = $scope.pagesAndScenarios.scenario;
+                $scope.useCase = result.useCase;
                 $scope.pagesAndSteps = $scope.pagesAndScenarios.pagesAndSteps;
                 $scope.metadataTree = transformMetadataToTreeArray($scope.pagesAndScenarios.scenario.details);
                 $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario);
+
+                $scope.hasAnyLabels = function() {
+                    var hasAnyUseCaseLabels = $scope.useCase.labels.labels.length > 0;
+                    var hasAnyScenarioLabels = $scope.scenario.labels.labels.length > 0;
+
+                    return hasAnyUseCaseLabels || hasAnyScenarioLabels;
+                };
 
                 if (Config.expandPagesInScenarioOverview()) {
                     $scope.expandAll();

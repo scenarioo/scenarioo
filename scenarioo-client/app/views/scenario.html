@@ -75,6 +75,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <sc-tree data='scenarioInformationTree'></sc-tree>
         </sc-collapsable-panel>
 
+        <!-- labels -->
+        <sc-collapsable-panel title="Labels" key="stepView-labels" initially-expanded="false" ng-show="hasAnyLabels()">
+            <div class="sc-tree">
+                <ul>
+                    <li>
+                        <div class="sc-treeNodeObject">
+                            <div class="sc-treeNodeObjectTitle">
+                                <span class="sc-node-label">Use case: </span>
+                                <span ng-repeat="label in useCase.labels.labels" class="label label-info sc-label">{{label}}</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="sc-treeNodeObject">
+                            <div class="sc-treeNodeObjectTitle">
+                                <span class="sc-node-label">Scenario: </span>
+                                <span ng-repeat="label in scenario.labels.labels" class="label label-info sc-label">{{label}}</span>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+
+        </sc-collapsable-panel>
+
         <!-- Metadata -->
         <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
     </div>
