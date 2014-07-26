@@ -35,8 +35,8 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
                 var build = $scope.branchesAndBuilds.selectedBuild.build;
                 $scope.branchInformationTree = createBranchInformationTree(branch);
                 $scope.buildInformationTree = createBuildInformationTree(build);
-                $scope.metadataTreeBranch = transformMetadataToTreeArray(branch.details);
-                $scope.metadataTreeBuild = transformMetadataToTreeArray(build.details);
+                $scope.metadataTreeBranches = transformMetadataToTreeArray(branch.details);
+                $scope.metadataTreeBuilds = transformMetadataToTreeArray(build.details);
             });
     }
 
@@ -72,6 +72,7 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
     };
 
 
+
     function createBranchInformationTree(branch) {
         var branchInformationTree = {};
         branchInformationTree.Description = branch.description;
@@ -86,6 +87,5 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
         return transformMetadataToTree(buildInformationTree);
 
     }
-
 
 });
