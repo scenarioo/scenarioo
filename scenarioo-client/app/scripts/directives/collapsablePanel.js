@@ -22,10 +22,7 @@ angular.module('scenarioo.directives').directive('scCollapsablePanel', function(
         restrict: 'E',
         transclude: true,
         templateUrl: 'views/collapsablePanel.html',
-        scope: { title: "@", key: "@" },
-        link: function (scope, element, attributes ) {
-
-        },
+        scope: { title: '@', key: '@' },
         controller: function($scope, localStorageService) {
             var MAIN_METADATA_SECTION_EXPANDED = 'scenarioo-panelExpanded-';
 
