@@ -30,13 +30,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div class="pull-right">
             <button type="button" class="btn btn-default" id="expandAllPages" ng-show="isExpandAllPossible()" ng-click="expandAll()">expand all</button>
             <button type="button" class="btn btn-default" id="collapseAllPages" ng-show="isCollapseAllPossible()" ng-click="collapseAll()">collapse all</button>
-            <span sc-static-include="views/metadataButton.html"></span>
         </div>
     </div>
 </div>
 
-<div class="row step-main">
-    <div ng-class="{true: 'step-data-small col-lg-8', false: 'step-data-large col-lg-12'}[showingMetaData]">
+<sc-show-hide-details showHideStorageKey="scenario">
+    <div>
         <!-- steps -->
         <div class="row step-view">
             <div ng-repeat="page in pagesAndSteps">
@@ -68,23 +67,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
     </div>
-    <div ng-show="showingMetaData" class="col-lg-4 hero-unit meta-data">
+    <div>
 
         <!-- scenario -->
-        <div>
-            <div class="panel panel-default">
-                <div class="panel-heading link" ng-click="toggleMetadataExpanded('sc-scenario-properties')">
-                    <h3 class="panel-title">Scenario</h3>
-                </div>
-                <div class="panel-body" ng-class="{hidden: isMetadataCollapsed('sc-scenario-properties'), metadata: true}">
-                    <sc-tree data='scenarioInformationTree'></sc-tree>
-                </div>
-            </div>
-        </div>
+        <sc-collapsable-panel title="Scenario" key="scenarioView-scenario">
+            <sc-tree data='scenarioInformationTree'></sc-tree>
+        </sc-collapsable-panel>
 
         <!-- Metadata -->
-        <span sc-static-include="views/metadata.html"></span>
+        <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
     </div>
-    </div>
-</div>
-
+</sc-show-hide-details>
