@@ -19,7 +19,7 @@
 
 angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService,BranchesAndBuilds, SelectedBranchAndBuild, UseCasesResource, localStorageService) {
 
-    var transformMetadataToTree = $filter('scMetadataTreeCreator')
+    var transformMetadataToTree = $filter('scMetadataTreeCreator');
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     SelectedBranchAndBuild.callOnSelectionChange(loadUseCases);
 
@@ -85,7 +85,6 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
         buildInformationTree.Revision = build.revision;
         buildInformationTree.Status = build.status;
         return transformMetadataToTree(buildInformationTree);
-
     }
 
 });

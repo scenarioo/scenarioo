@@ -19,7 +19,7 @@
 
 angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild, localStorageService) {
 
-    var transformMetadataToTree = $filter('scMetadataTreeCreator')
+    var transformMetadataToTree = $filter('scMetadataTreeCreator');
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     SelectedBranchAndBuild.callOnSelectionChange(loadScenariosAndUseCase);
 
