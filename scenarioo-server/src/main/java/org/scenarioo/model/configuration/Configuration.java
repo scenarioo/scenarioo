@@ -17,6 +17,7 @@
 
 package org.scenarioo.model.configuration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -59,7 +60,9 @@ public class Configuration {
 	private boolean expandPagesInScenarioOverview = false;
 
 	private List<BranchAlias> branchAliases = new LinkedList<BranchAlias>();
-	
+		
+	private List<CustomObjectTab> customObjectTabs = new ArrayList<CustomObjectTab>();
+
 	public String getTestDocumentationDirPath() {
 		return testDocumentationDirPath;
 	}
@@ -165,6 +168,14 @@ public class Configuration {
 
 	public void setBranchAliases(List<BranchAlias> buildAliases) {
 		this.branchAliases = buildAliases;
+	}
+	
+	public List<CustomObjectTab> getCustomObjectTabs() {
+		return customObjectTabs;
+	}
+
+	public void setCustomObjectTabs(List<CustomObjectTab> customObjectTabs) {
+		this.customObjectTabs = customObjectTabs;
 	}
 
 }

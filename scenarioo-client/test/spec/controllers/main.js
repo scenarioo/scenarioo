@@ -29,31 +29,47 @@ describe('Controller MainCtrl', function () {
             HostnameAndPort = _HostnameAndPort_;
             TestData = _TestData_;
 
+            var BRANCHES_URL = HostnameAndPort.forTest() + 'rest/branches';
+            $httpBackend.whenGET(BRANCHES_URL).respond(TestData.BRANCHES);
+
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
+
             $scope = $rootScope.$new();
             MainCtrl = $controller('MainCtrl', {$scope: $scope});
         }
     ));
 
-    it('does return the expected src-URL to load tab content for first tab', function () {
-        expect($scope.getLazyTabContentViewUrl($scope.tabs[0])).toEqual('views/mainUseCasesTab.html');
-    });
-
     it('has no builds set in the beginning', function () {
         expect($scope.branchesAndBuilds).toBeUndefined();
     });
 
+    it('has a first static tab that is initialized with main use cases content', function () {
+        $scope.$apply();
+        $httpBackend.flush();
+        expect($scope.getLazyTabContentViewUrl($scope.tabs[0].tabId)).toEqual('views/mainUseCasesTab.html');
+    });
+
+    it('has additional dynamic custom tabs as configured in configuration, that are lazy loaded', function () {
+        $scope.$apply();
+        $httpBackend.flush();
+        expect($scope.tabs[1].tabId).toEqual('calls');
+        expect($scope.getLazyTabContentViewUrl($scope.tabs[1])).toEqual(null);
+    });
+
+    it('loads custom tab when url parameter for tab points to a custom tab', function () {
+        $location.url('/?tab=calls');
+        $scope.$apply();
+        $httpBackend.flush();
+        expect($scope.tabs[1].tabId).toEqual('calls');
+        expect($scope.getLazyTabContentViewUrl($scope.tabs[1].tabId)).toEqual('views/mainCustomTab.html');
+    });
+
     it('loads builds when branch and build selection changes', function () {
-        var BRANCHES_URL = HostnameAndPort.forTest() + 'rest/branches';
-        $httpBackend.whenGET(BRANCHES_URL).respond(TestData.BRANCHES);
         $location.url('/?branch=release-branch-2014-01-16&build=example-build');
         $scope.$apply();
-
         $httpBackend.flush();
-
         expect($scope.branchesAndBuilds.branches).toEqualData(TestData.BRANCHES);
         expect($scope.branchesAndBuilds.selectedBranch).toEqualData(TestData.BRANCHES[1]);
         expect($scope.branchesAndBuilds.selectedBuild).toEqualData(TestData.BRANCHES[1].builds[0]);
-
     });
-
 });

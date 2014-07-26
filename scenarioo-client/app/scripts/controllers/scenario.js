@@ -17,7 +17,8 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, $window, localStorageService, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, Config) {
+angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams,
+    $location, $window, localStorageService, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, Config, PagesAndSteps) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -41,33 +42,16 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
             },
             function(result) {
                 // Add page to the step to allow search for step- as well as page-properties
-                populatePageAndSteps(result);
-            });
-    }
+                $scope.pagesAndScenarios = PagesAndSteps.populatePagesAndSteps(result);
+                $scope.scenario = $scope.pagesAndScenarios.scenario;
+                $scope.pagesAndSteps = $scope.pagesAndScenarios.pagesAndSteps;
+                $scope.metadataTree = transformMetadataToTreeArray($scope.pagesAndScenarios.scenario.details);
+                $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario);
 
-    function populatePageAndSteps(pagesAndScenarios) {
-        for (var indexPage = 0; indexPage < pagesAndScenarios.pagesAndSteps.length; indexPage++) {
-            var page = pagesAndScenarios.pagesAndSteps[indexPage];
-            page.page.index = indexPage + 1;
-            for (var indexStep = 0; indexStep < page.steps.length; indexStep++) {
-                var step = page.steps[indexStep];
-                step.page = page.page;
-                step.index = indexStep;
-                step.number = (indexStep === 0) ? page.page.index : page.page.index + '.' + indexStep;
-                if (!step.title) {
-                    step.title = 'undefined';
+                if (Config.expandPagesInScenarioOverview()) {
+                    $scope.expandAll();
                 }
-            }
-        }
-
-        $scope.scenario = pagesAndScenarios.scenario;
-        $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
-        $scope.metadataTree = transformMetadataToTreeArray(pagesAndScenarios.scenario.details);
-        $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario);
-
-        if(Config.expandPagesInScenarioOverview()) {
-            $scope.expandAll();
-        }
+            });
     }
 
     $scope.showAllStepsForPage = function(pageIndex) {

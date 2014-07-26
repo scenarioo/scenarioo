@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <title ng-controller="TitleCtrl" ng-bind="title">Scenarioo</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
@@ -40,6 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <script type="text/javascript">
             document.createElement("sc-breadcrumb");
             document.createElement("sc-tree");
+            document.createElement("sc-filterableTableTree");
             document.createElement("tabset");
             document.createElement("tab");
             document.createElement("ng-include");
@@ -90,17 +92,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="scripts/services/config.js"></script>
 <script src="scripts/services/restServices.js"></script>
 <script src="scripts/services/selectedBranchAndBuild.js"></script>
+<script src="scripts/services/applicationInfoPopup.js"></script>
+<script src="scripts/services/pageAndStepService.js"></script>
+<script src="scripts/services/treeNodeService.js"></script>
+<script src="scripts/services/breadcrumbsService.js"></script>
 <script src="scripts/directives/breadcrumbs.js"></script>
 <script src="scripts/directives/sortableColumn.js"></script>
 <script src="scripts/directives/tree.js"></script>
+<script src="scripts/directives/filterableTableTree.js"></script>
 <script src="scripts/directives/staticInclude.js"></script>
 <script src="scripts/directives/navigatorTable.js"></script>
+<script src="scripts/directives/debounce.js"></script>
 <script src="scripts/directives/showHideDetails.js"></script>
 <script src="scripts/directives/metaDataTree.js"></script>
 <script src="scripts/directives/collapsablePanel.js"></script>
 <script src="scripts/controllers/navigation.js"></script>
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/controllers/mainUseCasesTab.js"></script>
+<script src="scripts/controllers/mainCustomTab.js"></script>
 <script src="scripts/controllers/usecase.js"></script>
 <script src="scripts/controllers/scenario.js"></script>
 <script src="scripts/controllers/step.js"></script>
@@ -110,6 +119,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="scripts/controllers/manage/configEditor.js"></script>
 <script src="scripts/controllers/title.js"></script>
 <script src="scripts/controllers/manage/branchAliases.js"></script>
+<script src="scripts/controllers/referenceTree.js"></script>
 <script src="scripts/filters/humanReadable.js"></script>
 <script src="scripts/filters/filterArray.js"></script>
 <script src="scripts/filters/treeDataCreator.js"></script>
