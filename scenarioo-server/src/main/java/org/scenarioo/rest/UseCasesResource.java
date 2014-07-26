@@ -35,13 +35,13 @@ import org.scenarioo.model.docu.entities.UseCase;
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/usecases/")
 public class UseCasesResource {
-
+	
 	private static final Logger LOGGER = Logger
 			.getLogger(UseCasesResource.class);
-
+	
 	ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
 			ConfigurationDAO.getDocuDataDirectoryPath());
-
+	
 	/**
 	 * Lightweight call, which does not send all scenario information.
 	 */
@@ -52,20 +52,20 @@ public class UseCasesResource {
 			@PathParam("buildName") final String buildName) {
 		LOGGER.info("REQUEST: loadUseCaseSummaryList(" + branchName + ", "
 				+ buildName + ")");
-		List<UseCaseSummary> result = new LinkedList<>();
-
+		List<UseCaseSummary> result = new LinkedList<UseCaseSummary>();
+		
 		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE
 				.resolveAliasBuildName(branchName, buildName);
 		List<UseCaseScenarios> useCaseScenariosList = dao
 				.loadUseCaseScenariosList(branchName, resolvedBuildName);
-
+		
 		for (UseCaseScenarios useCaseScenarios : useCaseScenariosList) {
 			result.add(mapSummary(useCaseScenarios));
 		}
-
+		
 		return result;
 	}
-
+	
 	private UseCaseSummary mapSummary(final UseCaseScenarios useCaseScenarios) {
 		UseCaseSummary summary = new UseCaseSummary();
 		UseCase useCase = useCaseScenarios.getUseCase();
