@@ -283,7 +283,6 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     };
 
     var STEP_METADATA_SECTION_EXPANDED = 'scenarioo-stepMetadataSectionExpanded-';
-    var STEP_METADATA_VISIBLE = 'scenarioo-stepMetadataVisible';
 
     $scope.isMetadataExpanded = function (type) {
         var metadataExpanded = localStorageService.get(STEP_METADATA_SECTION_EXPANDED + type);
@@ -303,27 +302,10 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         return !$scope.isMetadataExpanded(type);
     };
 
-    $scope.toggleShowingMetadata = function() {
-        $scope.showingMetaData=!$scope.showingMetaData;
-        localStorageService.set(STEP_METADATA_VISIBLE, '' + $scope.showingMetaData);
-    };
-
     /**
      * Init metadata visibility and expanded sections from local storage on startup.
      */
     function initMetadataVisibilityAndExpandedSections() {
-
-        // Init metadata visibility from local storage
-        var metadataVisible = localStorageService.get(STEP_METADATA_VISIBLE);
-        if (metadataVisible === 'true') {
-            $scope.showingMetaData = true;
-        }
-        else if (metadataVisible === 'false') {
-            $scope.showingMetaData = false;
-        } else {
-            // default
-            $scope.showingMetaData = $window.innerWidth > 800;
-        }
 
         // Set special step metadata to expanded by default.
         var majorStepPropertiesExpanded = localStorageService.get(STEP_METADATA_SECTION_EXPANDED + 'sc-step-properties');
