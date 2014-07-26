@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 </div>
 
-<sc-show-hide-details sc-showHideStorageKey="usecase">
+<sc-show-hide-details showHideStorageKey="usecase">
     <div>
         <table class="table table-bordered scenario-table" sc-navigator-table="filtered"  >
             <thead>
@@ -62,17 +62,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
     <div>
         <!-- usecase -->
-        <div>
-            <div class="panel panel-default">
-                <div class="panel-heading link" ng-click="toggleMetadataExpanded('sc-usecase-properties')">
-                    <h3 class="panel-title">Use Case</h3>
-                </div>
-                <div class="panel-body" ng-class="{hidden: isMetadataCollapsed('sc-usecase-properties'), metadata: true}">
-                    <sc-tree data='usecaseInformationTree'></sc-tree>
-                </div>
-            </div>
-        </div>
-
+        <sc-collapsable-panel title="Use Case" key="useCaseView-useCase">
+            <sc-tree data='usecaseInformationTree'></sc-tree>
+        </sc-collapsable-panel>
         <!-- Metadata -->
         <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
     </div>

@@ -62,7 +62,7 @@ angular.module('scenarioo.directives').directive('scShowHideDetails', function($
         transclude: true,
         templateUrl: 'views/showHideDetails.html',
         link: function (scope, element, attributes ) {
-            var localStorageKey = attributes.scShowhidestoragekey;
+            var localStorageKey = attributes['showhidestoragekey'];
             if(localStorageKey == undefined) {
                 localStorageKey = 'all';
             }

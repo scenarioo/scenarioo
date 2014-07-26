@@ -25,5 +25,4 @@ angular.module('scenarioo.directives').directive('scMetadataTree', function() {
             metadataTree: '='
         }
     };
-
 });

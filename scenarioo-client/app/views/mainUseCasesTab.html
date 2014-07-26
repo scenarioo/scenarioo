@@ -14,7 +14,7 @@
         <div class="col-lg-9">
         </div>
     </div>
-    <sc-show-hide-details sc-showHideStorageKey="main">
+    <sc-show-hide-details showHideStorageKey="main">
         <div>
             <!-- use cases table -->
             <table ng-table="tableParams" class="table table-curved table-hover table-responsive usecase-table"
@@ -43,27 +43,14 @@
         </div>
         <div>
             <!-- branch -->
-            <div>
-                <div class="panel panel-default">
-                    <div class="panel-heading link" ng-click="toggleMetadataExpanded('sc-branch-properties')">
-                        <h3 class="panel-title">Branch</h3>
-                    </div>
-                    <div class="panel-body" ng-class="{hidden: isMetadataCollapsed('sc-branch-properties'), metadata: true}">
-                        <sc-tree data='branchInformationTree'></sc-tree>
-                    </div>
-                </div>
-            </div>
+            <sc-collapsable-panel title="Branch" key="mainView-branch">
+                <sc-tree data='branchInformationTree'></sc-tree>
+            </sc-collapsable-panel>
+
             <!-- build -->
-            <div>
-                <div class="panel panel-default">
-                    <div class="panel-heading link" ng-click="toggleMetadataExpanded('sc-build-properties')">
-                        <h3 class="panel-title">Build</h3>
-                    </div>
-                    <div class="panel-body" ng-class="{hidden: isMetadataCollapsed('sc-build-properties'), metadata: true}">
-                        <sc-tree data='buildInformationTree'></sc-tree>
-                    </div>
-                </div>
-            </div>
+            <sc-collapsable-panel title="Build" key="mainView-build">
+                <sc-tree data='buildInformationTree'></sc-tree>
+            </sc-collapsable-panel>
 
             <sc-metadata-tree metadata-tree="metadataTreeBranches"></sc-metadata-tree>
             <sc-metadata-tree metadata-tree="metadataTreeBuilds"></sc-metadata-tree>
