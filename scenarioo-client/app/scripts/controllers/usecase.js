@@ -70,7 +70,6 @@ angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($sco
 
     function createUseCaseInformationTree(usecase) {
         var usecaseInformation = {};
-        usecaseInformation.Description = usecase.description;
         usecaseInformation.Status = usecase.status;
         return transformMetadataToTree(usecaseInformation);
     }
