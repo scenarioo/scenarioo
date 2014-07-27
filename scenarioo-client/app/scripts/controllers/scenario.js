@@ -43,6 +43,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
             function(result) {
                 // Add page to the step to allow search for step- as well as page-properties
                 $scope.pagesAndScenarios = PagesAndSteps.populatePagesAndSteps(result);
+                $scope.useCaseDescription = result.useCase.description;
                 $scope.scenario = $scope.pagesAndScenarios.scenario;
                 $scope.pagesAndSteps = $scope.pagesAndScenarios.pagesAndSteps;
                 $scope.metadataTree = transformMetadataToTreeArray($scope.pagesAndScenarios.scenario.details);
@@ -135,7 +136,6 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
 
     function createScenarioInformationTree(scenario) {
         var stepInformation = {};
-        stepInformation.Description = scenario.description;
         stepInformation['Number of Pages'] = scenario.calculatedData.numberOfPages;
         stepInformation['Number of Steps'] = scenario.calculatedData.numberOfSteps;
         stepInformation.Status = scenario.status;
