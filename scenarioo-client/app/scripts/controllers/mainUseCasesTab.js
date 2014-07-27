@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService,BranchesAndBuilds, SelectedBranchAndBuild, UseCasesResource, localStorageService) {
+angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService,BranchesAndBuilds, SelectedBranchAndBuild, UseCasesResource) {
 
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
@@ -50,28 +50,6 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
     $scope.resetSearchField = function () {
         $scope.table.search = {searchTerm: ''};
     };
-
-    var MAIN_METADATA_SECTION_EXPANDED = 'scenarioo-mainMetadataSectionExpanded-';
-
-    $scope.isMetadataExpanded = function (type) {
-        var metadataExpanded = localStorageService.get(MAIN_METADATA_SECTION_EXPANDED + type);
-        if (metadataExpanded === 'true') {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
-    $scope.toggleMetadataExpanded = function (type) {
-        var metadataExpanded = !$scope.isMetadataExpanded(type);
-        localStorageService.set(MAIN_METADATA_SECTION_EXPANDED + type, '' + metadataExpanded);
-    };
-
-    $scope.isMetadataCollapsed = function (type) {
-        return !$scope.isMetadataExpanded(type);
-    };
-
-
 
     function createBranchInformationTree(branch) {
         var branchInformationTree = {};

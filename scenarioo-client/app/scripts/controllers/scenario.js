@@ -18,7 +18,7 @@
 'use strict';
 
 angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams,
-    $location, $window, localStorageService, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, Config, PagesAndSteps) {
+    $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, Config, PagesAndSteps) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -141,42 +141,4 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         stepInformation.Status = scenario.status;
         return transformMetadataToTree(stepInformation);
     }
-
-    // TODO make the following code generic and share it with step.js
-
-    var SCENARIO_METADATA_SECTION_EXPANDED = 'scenarioo-scenarioMetadataSectionExpanded-';
-
-    $scope.isMetadataExpanded = function (type) {
-        var metadataExpanded = localStorageService.get(SCENARIO_METADATA_SECTION_EXPANDED + type);
-        if (metadataExpanded === 'true') {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
-    $scope.toggleMetadataExpanded = function (type) {
-        var metadataExpanded = !$scope.isMetadataExpanded(type);
-        localStorageService.set(SCENARIO_METADATA_SECTION_EXPANDED + type, '' + metadataExpanded);
-    };
-
-    $scope.isMetadataCollapsed = function (type) {
-        return !$scope.isMetadataExpanded(type);
-    };
-
-    /**
-     * Init metadata visibility and expanded sections from local storage on startup.
-     */
-    function initMetadataVisibilityAndExpandedSections() {
-
-        // Set special scenario metadata to expanded by default.
-        var majorStepPropertiesExpanded = localStorageService.get(SCENARIO_METADATA_SECTION_EXPANDED + 'sc-scenario-properties');
-        var isMajorStepPropertiesExpandedSetToFalse = majorStepPropertiesExpanded === 'false';
-        if (!isMajorStepPropertiesExpandedSetToFalse) {
-            localStorageService.set(SCENARIO_METADATA_SECTION_EXPANDED + 'sc-scenario-properties', 'true');
-        }
-
-    }
-    initMetadataVisibilityAndExpandedSections();
-
 });
