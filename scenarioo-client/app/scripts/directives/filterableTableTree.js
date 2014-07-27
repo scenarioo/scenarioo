@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.directives').directive('scFilterableTableTree', function (GlobalHotkeysService, TreeNode) {
+angular.module('scenarioo.directives').directive('scFilterableTableTree', function (GlobalHotkeysService, TreeNode, $filter) {
 
     var textLimit = 400;
 
@@ -114,6 +114,15 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 rootNode.isCollapsed = !rootNode.isCollapsed;
                 TreeNode.setIconNameForChildNodes(rootNode);
                 collapseExpandChildren(rootNode, rootNode.isCollapsed);
+            };
+
+            scope.formatNodeName = function(node) {
+                // Only format scenario and usecase as human readable (all other text have to be generated how they should be displayed, by specification)
+                var name = node.name;
+                if ((node.type === 'scenario') || (node.type === 'usecase')) {
+                    name = $filter('scHumanReadable')(name);
+                }
+                return name;
             };
 
             function collapseExpandChildren(rootnode, parentIsCollapsed) {
