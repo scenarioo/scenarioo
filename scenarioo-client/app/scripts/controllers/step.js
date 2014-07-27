@@ -281,40 +281,4 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         var pageName = pageSteps.page.name;
         $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) + '/' + pageIndex + '/' + stepIndex);
     };
-
-    var STEP_METADATA_SECTION_EXPANDED = 'scenarioo-stepMetadataSectionExpanded-';
-
-    $scope.isMetadataExpanded = function (type) {
-        var metadataExpanded = localStorageService.get(STEP_METADATA_SECTION_EXPANDED + type);
-        if (metadataExpanded === 'true') {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
-    $scope.toggleMetadataExpanded = function (type) {
-        var metadataExpanded = !$scope.isMetadataExpanded(type);
-        localStorageService.set(STEP_METADATA_SECTION_EXPANDED + type, '' + metadataExpanded);
-    };
-
-    $scope.isMetadataCollapsed = function (type) {
-        return !$scope.isMetadataExpanded(type);
-    };
-
-    /**
-     * Init metadata visibility and expanded sections from local storage on startup.
-     */
-    function initMetadataVisibilityAndExpandedSections() {
-
-        // Set special step metadata to expanded by default.
-        var majorStepPropertiesExpanded = localStorageService.get(STEP_METADATA_SECTION_EXPANDED + 'sc-step-properties');
-        var isMajorStepPropertiesExpandedSetToFalse = majorStepPropertiesExpanded === 'false';
-        if (!isMajorStepPropertiesExpandedSetToFalse) {
-            localStorageService.set(STEP_METADATA_SECTION_EXPANDED + 'sc-step-properties', 'true');
-        }
-
-    }
-    initMetadataVisibilityAndExpandedSections();
-
 });

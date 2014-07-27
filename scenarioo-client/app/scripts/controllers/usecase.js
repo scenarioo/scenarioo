@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild, localStorageService) {
+angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($scope, $q, $filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild) {
 
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
@@ -40,9 +40,7 @@ angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($sco
         );
 
         $scope.propertiesToShow = Config.scenarioPropertiesInOverview();
-
     }
-
 
     $scope.goToScenario = function (useCaseName, scenarioName) {
         $location.path('/scenario/' + useCaseName + '/' + scenarioName);
@@ -69,31 +67,6 @@ angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($sco
         );
     };
     $scope.table = {search: {$: ''}, sort: {column: 'name', reverse: false}};
-
-    var USECASE_METADATA_SECTION_EXPANDED = 'scenarioo-usecaseMetadataSectionExpanded-';
-
-    $scope.resetSearchField = function () {
-        $scope.table.search = {searchTerm: ''};
-    };
-
-    $scope.isMetadataExpanded = function (type) {
-        var metadataExpanded = localStorageService.get(USECASE_METADATA_SECTION_EXPANDED + type);
-        if (metadataExpanded === 'true') {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
-    $scope.toggleMetadataExpanded = function (type) {
-        var metadataExpanded = !$scope.isMetadataExpanded(type);
-        localStorageService.set(USECASE_METADATA_SECTION_EXPANDED + type, '' + metadataExpanded);
-    };
-
-    $scope.isMetadataCollapsed = function (type) {
-        return !$scope.isMetadataExpanded(type);
-    };
-
 
     function createUseCaseInformationTree(usecase) {
         var usecaseInformation = {};
