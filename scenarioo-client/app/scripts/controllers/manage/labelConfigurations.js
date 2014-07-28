@@ -20,23 +20,35 @@
 
 angular.module('scenarioo.controllers').controller('LabelConfigurationsCtrl', function ($scope, $location, $route, $modal, LabelConfigurationsResource, LabelConfigurationsListResource) {
 
-
-    LabelConfigurationsListResource.query({}, function (labelConfigurations) {
-        labelConfigurations.push(createEmptyLabelConfiguration());
-        $scope.labelConfigurations = labelConfigurations;
-    });
+    loadLabelConfigurations();
 
     function createEmptyLabelConfiguration() {
         return {'name': '', 'backgroundColor': '', 'foregroundColor': ''};
     }
 
-    $scope.labelConfigurations = {};
-
     $scope.deleteEntry = function (labelName) {
+        if (labelName !== '') {
+            var index;
+            for (index = 0; index < $scope.labelConfigurations.length; index++) {
+                var labelConfiguration = $scope.labelConfigurations[index];
+                if (labelConfiguration.name === labelName) {
+                    $scope.labelConfigurations.splice(index, 1);
+                    break;
+                }
+            }
+        }
+    };
+
+    $scope.labelNameChanged = function () {
+        var labelName = $scope.labelConfigurations[$scope.labelConfigurations.length - 1].name;
+        if (labelName !== '') {
+            $scope.labelConfigurations.push(createEmptyLabelConfiguration());
+        }
     };
 
 
     $scope.reset = function () {
+        loadLabelConfigurations();
     };
 
     $scope.save = function () {
@@ -51,6 +63,12 @@ angular.module('scenarioo.controllers').controller('LabelConfigurationsCtrl', fu
         LabelConfigurationsResource.save(labelConfigurationsAsMap);
     };
 
+    function loadLabelConfigurations() {
+        LabelConfigurationsListResource.query({}, function (labelConfigurations) {
+            labelConfigurations.push(createEmptyLabelConfiguration());
+            $scope.labelConfigurations = labelConfigurations;
+        });
+    }
 });
 
 
