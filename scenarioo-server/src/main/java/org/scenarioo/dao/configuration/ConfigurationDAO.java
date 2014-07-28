@@ -69,7 +69,7 @@ public class ConfigurationDAO {
 		return configuration;
 	}
 	
-	private static Configuration loadConfiguration() {
+	static Configuration loadConfiguration() {
 		File configFile = getFileSystemConfigFile();
 		if (configFile == null || !configFile.exists()) {
 			LOGGER.warn("  file "

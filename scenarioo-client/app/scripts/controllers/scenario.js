@@ -18,7 +18,7 @@
 'use strict';
 
 angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams,
-    $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, Config, PagesAndSteps) {
+    $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, Config, PagesAndSteps, LabelConfigurationsResource) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -30,6 +30,11 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
 
     SelectedBranchAndBuild.callOnSelectionChange(loadScenario);
+
+    // FIXME this code is duplicated. How can we extract it into a service?
+    LabelConfigurationsResource.query({}, function(labelConfiguratins) {
+        $scope.labelConfigurations = labelConfiguratins;
+    });
 
     function loadScenario(selected) {
         selectedBranchAndBuild = selected;
@@ -150,4 +155,11 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         return transformMetadataToTree(stepInformation);
     }
 
+    // FIXME this code is duplicated. How can we extract it into a service?
+    $scope.getLabelStyle = function(labelName) {
+        var labelConfig = $scope.labelConfigurations[labelName];
+        if(labelConfig) {
+            return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
+        }
+    };
 });

@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepService, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService) {
+angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepService, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -39,7 +39,12 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         dialogClass: 'modal modal-huge'
     };
 
-    $scope.showApplicationInfoPopup = function (tab) {
+    // FIXME this code is duplicated. How can we extract it into a service?
+    LabelConfigurationsResource.query({}, function(labelConfiguratins) {
+        $scope.labelConfigurations = labelConfiguratins;
+    });
+
+    $scope.showApplicationInfoPopup = function(tab) {
         ScApplicationInfoPopup.showApplicationInfoPopup(tab);
     };
 
@@ -96,6 +101,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.scenarioLabels = result.scenarioLabels;
 
                 beautify(result.step.html);
+
 
                 $scope.hasAnyLabels = function() {
                     var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
@@ -176,7 +182,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         $scope.formattedHtml = source;
     }
 
-    function bindStepNavigation() {
+    function bindStepNavigation(pagesAndSteps) {
 
         GlobalHotkeysService.registerPageHotkeyCode(37, function () {
             // left arrow
