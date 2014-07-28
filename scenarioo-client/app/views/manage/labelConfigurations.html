@@ -17,8 +17,7 @@
             <thead>
             <tr>
                 <th>Label name</th>
-                <th>Background color</th>
-                <th>Foreground color</th>
+                <th>Color</th>
                 <th></th>
             </tr>
             </thead>
@@ -27,11 +26,13 @@
                     <td>
                         <input type="text" class="ng-pristine ng-valid form-control" ng-model="labelConfiguration.name" name="labelName" ng-change="labelNameChanged()"/>
                     </td>
-                    <td>
-                        <input type="text" class="ng-pristine ng-valid form-control" ng-model="labelConfiguration.backgroundColor" name="backgroundColor"  />
-                    </td>
-                    <td>
-                        <input type="text" class="ng-pristine ng-valid form-control" ng-model="labelConfiguration.foregroundColor" name="foregroundColor"  />
+                    <td style="vertical-align: middle;">
+                        <ul class="sc-color-chooser">
+                            <li ng-repeat="color in availableColors">
+                                <span style="background-color: {{color.backgroundColor}};" class="sc-color-field" ng-click="selectColor(labelConfiguration, color)"
+                                        ng-class="{'sc-color-field-selected' : color.backgroundColor === labelConfiguration.backgroundColor}"></span>
+                            </li>
+                        </ul>
                     </td>
                     <td>
                         <input type="button" class="btn btn-small btn-danger" value="Delete" ng-click="deleteEntry(labelConfiguration.name)" />

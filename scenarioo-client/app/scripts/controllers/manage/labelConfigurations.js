@@ -26,6 +26,16 @@ angular.module('scenarioo.controllers').controller('LabelConfigurationsCtrl', fu
         return {'name': '', 'backgroundColor': '', 'foregroundColor': ''};
     }
 
+    $scope.availableColors = [{'backgroundColor': '#e11d21', 'foregroundColor': '#FFFFFF'},
+          {'backgroundColor': '#eb6420', 'foregroundColor': '#FFFFFF'},
+          {'backgroundColor': '#fbca04', 'foregroundColor': '#000000'},
+          {'backgroundColor': '#009800', 'foregroundColor': '#FFFFFF'},
+          {'backgroundColor': '#006b75', 'foregroundColor': '#FFFFFF'},
+          {'backgroundColor': '#207de5', 'foregroundColor': '#FFFFFF'},
+          {'backgroundColor': '#0052cc', 'foregroundColor': '#FFFFFF'},
+          {'backgroundColor': '#5319e7', 'foregroundColor': '#FFFFFF'}];
+
+
     $scope.deleteEntry = function (labelName) {
         if (labelName !== '') {
             var index;
@@ -71,6 +81,11 @@ angular.module('scenarioo.controllers').controller('LabelConfigurationsCtrl', fu
             $scope.labelConfigurations = labelConfigurations;
         });
     }
+
+    $scope.selectColor = function(labelConfiguration, color) {
+        labelConfiguration.backgroundColor = color.backgroundColor;
+        labelConfiguration.foregroundColor = color.foregroundColor;
+    };
 });
 
 
