@@ -17,13 +17,17 @@
 
 package org.scenarioo.rest;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
@@ -40,6 +44,25 @@ public class LabelConfigurationsResource {
 		return configuration.getLabelConfigurations();
 	}
 	
+	/**
+	 * Creates a flat list of the label configurations map. This service exists for easier handling in angular.
+	 * @return map as list
+	 */
+	@Path("list")
+	@GET
+	@Produces({ "application/xml", "application/json" })
+	public List<FlatLabelConfiguration> getLabelConfigurationsAsList() {
+		Configuration configuration = ConfigurationDAO.getConfiguration();
+		Map<String, LabelConfiguration> labelConfigurations = configuration.getLabelConfigurations();
+		
+		List<FlatLabelConfiguration> flatLabelConfigurations = new LinkedList<>();
+		for(Entry<String, LabelConfiguration> labelConfiguration : labelConfigurations.entrySet()) {
+			flatLabelConfigurations.add(new FlatLabelConfiguration(labelConfiguration.getKey(), labelConfiguration.getValue()));
+		}
+		
+		return flatLabelConfigurations;
+	}
+	
 	@POST
 	@Consumes({ "application/json", "application/xml" })
 	public void updateLabelConfigurations(Map<String, LabelConfiguration> labelConfigurations) {
@@ -47,5 +70,28 @@ public class LabelConfigurationsResource {
 		configuration.setLabelConfigurations(labelConfigurations);
 		ConfigurationDAO.updateConfiguration(configuration);
 		ScenarioDocuBuildsManager.INSTANCE.refreshBranchAliases();
+	}
+	
+	@XmlRootElement
+	static class FlatLabelConfiguration extends LabelConfiguration {
+		private String name;
+		
+		public FlatLabelConfiguration() {
+		}
+		
+		public FlatLabelConfiguration(String name, LabelConfiguration configuration) {
+			this.name = name;
+			setForegroundColor(configuration.getForegroundColor());
+			setBackgroundColor(configuration.getBackgroundColor());
+		}
+		
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+		
 	}
 }

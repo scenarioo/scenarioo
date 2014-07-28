@@ -23,18 +23,18 @@
             </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="(key, value) in labelConfigurations">
+                <tr ng-repeat="labelConfiguration in labelConfigurations">
                     <td>
-                        <input type="text" class="ng-pristine ng-valid form-control" ng-model="key" name="labelName"/>
+                        <input type="text" class="ng-pristine ng-valid form-control" ng-model="labelConfiguration.name" name="labelName"/>
                     </td>
                     <td>
-                        <input colorpicker type="text" class="ng-pristine ng-valid form-control" ng-model="value.backgroundColor" name="backgroundColor"  />
+                        <input colorpicker type="text" class="ng-pristine ng-valid form-control" ng-model="labelConfiguration.backgroundColor" name="backgroundColor"  />
                     </td>
                     <td>
-                        <input colorpicker type="text" class="ng-pristine ng-valid form-control" ng-model="value.foregroundColor" name="foregroundColor"  />
+                        <input colorpicker type="text" class="ng-pristine ng-valid form-control" ng-model="labelConfiguration.foregroundColor" name="foregroundColor"  />
                     </td>
                     <td>
-                        <input type="button" class="btn btn-small btn-danger" value="Delete" ng-click="deleteEntry(labelName)" />
+                        <input type="button" class="btn btn-small btn-danger" value="Delete" ng-click="deleteEntry(labelConfiguration.name)" />
                     </td>
                 </tr>
             </tbody>

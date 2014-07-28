@@ -18,14 +18,17 @@
 'use strict';
 
 
-angular.module('scenarioo.controllers').controller('LabelConfigurationsCtrl', function ($scope, $location, $route, $modal, LabelConfigurationsResource, Config) {
+angular.module('scenarioo.controllers').controller('LabelConfigurationsCtrl', function ($scope, $location, $route, $modal, LabelConfigurationsResource, LabelConfigurationsListResource) {
 
 
-
-    LabelConfigurationsResource.query({}, function (labelConfigurations) {
-        labelConfigurations[''] = {'backgroundColor': '', 'foregroundColor': ''};
+    LabelConfigurationsListResource.query({}, function (labelConfigurations) {
+        labelConfigurations.push(createEmptyLabelConfiguration());
         $scope.labelConfigurations = labelConfigurations;
     });
+
+    function createEmptyLabelConfiguration() {
+        return {'name': '', 'backgroundColor': '', 'foregroundColor': ''};
+    }
 
     $scope.labelConfigurations = {};
 
@@ -37,7 +40,15 @@ angular.module('scenarioo.controllers').controller('LabelConfigurationsCtrl', fu
     };
 
     $scope.save = function () {
+        var labelConfigurationsAsMap = {};
 
+        angular.forEach($scope.labelConfigurations, function(value) {
+            if(value.name !== '') {
+                labelConfigurationsAsMap[value.name] = {'backgroundColor': value.backgroundColor, 'foregroundColor': value.foregroundColor};
+            }
+        });
+
+        LabelConfigurationsResource.save(labelConfigurationsAsMap);
     };
 
 });
