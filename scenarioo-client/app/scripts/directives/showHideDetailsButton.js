@@ -41,7 +41,7 @@ angular.module('scenarioo.directives').directive('scShowHideDetailsButton', func
             localStorageKey: '@'
         },
         templateUrl: 'views/showHideDetailsButton.html',
-        controller: function($scope, $element) {
+        controller: function($scope) {
             initMetadataVisibleFromLocalStorage($scope, $scope.localStorageKey);
             $scope.toggleShowingMetadata = function() {
                 $scope.linkingVariable = !$scope.linkingVariable;

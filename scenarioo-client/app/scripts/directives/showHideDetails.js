@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.directives').directive('scShowHideDetails', function($window, localStorageService) {
+angular.module('scenarioo.directives').directive('scShowHideDetails', function() {
 
     function toggleClassesOnPanels(elem, showingMetaData) {
         var childs = elem.children();
