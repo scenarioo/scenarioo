@@ -72,4 +72,8 @@ StepPage.prototype.goToPreviousPage = function () {
     });
 };
 
+StepPage.prototype.assertErrorMessageIsShown = function () {
+    expect(element(by.id('stepNotFoundErrorMessage')).isDisplayed()).toBeTruthy();
+};
+
 module.exports = StepPage;

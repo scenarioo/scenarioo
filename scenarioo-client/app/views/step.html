@@ -17,8 +17,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumb></sc-breadcrumb>
 
+<div ng-show="stepNotFound" id="stepNotFoundErrorMessage">
+    <div class="alert alert-warning" role="alert">
+        <div class="sc-alert-title">The step you are looking for does not exist</div>
+        <p>URL: {{getCurrentUrl()}}</p>
+        <p>REST URL to get step: {{httpResponse.url}}</p>
+        <p>HTTP method: {{httpResponse.method}}</p>
+        <p>HTTP response status: {{httpResponse.status}}</p>
+        <p>Response data: {{httpResponse.data}}</p>
+    </div>
+</div>
+
 <!-- Navigation toolbar -->
-<div class="step-navigation row sc-space-top sc-space-bottom">
+<div class="step-navigation row sc-space-top sc-space-bottom" ng-hide="stepNotFound">
 
     <!-- Step & Page Navigation -->
     <div class="col-lg-5">
@@ -75,7 +86,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 </div>
 
 <!-- screenshot and information -->
-<sc-show-hide-details showHideStorageKey="step">
+<sc-show-hide-details showHideStorageKey="step" ng-hide="stepNotFound">
     <div>
         <tabset class="step-panes">
             <tab heading="Screenshot">

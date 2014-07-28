@@ -5,7 +5,7 @@ var pages = require('./../webPages');
 
 scenarioo.describeUseCase('Step', function () {
 
-    scenarioo.describeScenario('Navigate back and forth through the scenario steps', function () {
+    scenarioo.describeScenario('Navigate back and forth through the scenario steps.', function () {
         var homePage = new pages.homePage();
         var usecasePage = new pages.usecasePage();
         var scenarioPage = new pages.scenarioPage();
@@ -58,6 +58,16 @@ scenarioo.describeUseCase('Step', function () {
         stepPage.assertNextStepIsEnabled();
         stepPage.assertNextPageIsEnabled();
         scenarioo.docuWriter.saveStep('Back on the first step.');
+    });
+
+    scenarioo.describeScenario('If the requested step does not exist, an error message is shown.', function () {
+        var stepPage = new pages.stepPage();
+
+        browser.get('#/step/Find Page/find_page_no_result/startSearch.jsp/0/42');
+
+        stepPage.assertErrorMessageIsShown();
+
+        scenarioo.docuWriter.saveStep('Error message.');
     });
 
 });

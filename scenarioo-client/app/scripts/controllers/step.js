@@ -84,7 +84,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             var stepPromise = StepService.getStep({'branchName': selected.branch, 'buildName': selected.build,
                 'usecaseName': useCaseName, 'scenarioName': scenarioName, 'pageName': $scope.pageName,
                 'pageOccurrence': $scope.pageOccurrence, 'stepInPageOccurrence': $scope.stepInPageOccurrence});
-            stepPromise.then(function (result) {
+            stepPromise.then(function success(result) {
                 $scope.step = result.step;
                 $scope.metadataTree = transformMetadataToTreeArray(result.step.metadata.details);
                 $scope.stepInformationTree = createStepInformationTree(result.step);
@@ -104,6 +104,14 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                     var hasAnyPageLabels = $scope.step.page.labels.labels.length > 0;
 
                     return hasAnyUseCaseLabels || hasAnyScenarioLabels || hasAnyStepLabels || hasAnyPageLabels;
+                };
+            }, function error(result) {
+                $scope.stepNotFound = true;
+                $scope.httpResponse = {
+                    status: result.status,
+                    method: result.config.method,
+                    url: result.config.url,
+                    data: result.data
                 };
             });
         }
@@ -304,6 +312,10 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
     $scope.go = function (step) {
         $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + encodeURIComponent(step.pageName) + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
+    };
+
+    $scope.getCurrentUrl = function() {
+        return $location.absUrl();
     };
 
 });
