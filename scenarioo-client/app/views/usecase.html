@@ -1,3 +1,5 @@
+                <th ng-repeat="property in propertiesToShow" sc-sortable-column="details.properties.{{property}}">
+                    {{property}}
 <!-- scenarioo-client
 Copyright (C) 2014, scenarioo.org Development Team
 
@@ -16,13 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <sc-breadcrumb></sc-breadcrumb>
-<h2 class="sc-pageTitle">{{useCase.description}}</h2>
+
 <div class="row sc-space-top sc-space-bottom">
     <div class="col-lg-3">
         <div class="input-group">
-            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
-                   title="type words separated by spaces to search for" ng-model="table.search.searchTerm"
-                   placeholder="Search scenario..."/>
+            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip" title="type words separated by spaces to search for" ng-model="table.search.searchTerm" placeholder="Search scenario..."/>
             <span class="input-group-btn">
                 <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
             </span>
@@ -32,51 +32,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 </div>
 
-<sc-show-hide-details showHideStorageKey="usecase">
-    <div>
-        <table class="table table-bordered scenario-table" sc-navigator-table="filtered">
-            <thead>
-            <tr>
-                <th sc-sortable-column="status">Status</th>
-                <th sc-sortable-column="name">Scenario name</th>
-                <th>Actions</th>
-                <th>Description</th>
-                <th ng-repeat="property in propertiesToShow" sc-sortable-column="details.properties.{{property}}">
-                    {{property | scHumanReadable}}
-                </th>
-                <th sc-sortable-column="calculatedData.numberOfSteps"># Steps</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-class="{'selected':$index==selectedRowIndex}" ng-click="goToScenario(useCase.name, scenario.name)"
-                class="link"
-                ng-repeat="scenario in filtered=(scenarios | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
-                <td>
-                    <span class="label state" ng-class="getStatusStyleClass(scenario.status)">{{scenario.status}}</span>
-                </td>
-                <td>
-                    {{scenario.name | scHumanReadable }}
-                    <span ng-repeat="label in scenario.labels.labels" class="label label-info sc-label">{{label}}</span>
-                </td>
-                <td>
-                    <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview"
-                          tooltip-placement="bottom"></i></a>
-                    <a ng-click="goToFirstStep(useCase.name, scenario.name)" tooltip="Go to first step"
-                       tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
-                </td>
-                <td>{{scenario.description}}</td>
-                <td ng-repeat="property in propertiesToShow">{{scenario.details[property]}}</td>
-                <td>{{scenario.calculatedData.numberOfSteps}}</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div>
-            <!-- usecase -->
-            <sc-collapsable-panel title="Use Case" key="useCaseView-useCase" initially-expanded="true">
-                <sc-tree data='usecaseInformationTree'></sc-tree>
-            </sc-collapsable-panel>
-            <!-- Metadata -->
-            <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
-    </div>
-</sc-show-hide-details>
+
+<table class="table table-bordered scenario-table" sc-navigator-table="filtered"  >
+    <thead>
+        <tr>
+            <th sc-sortable-column="status">Status</th>
+            <th sc-sortable-column="name">Scenario name</th>
+            <th>Actions</th>
+            <th>Description</th>
+            <th ng-repeat="property in propertiesToShow" sc-sortable-column="details.properties.{{property}}">{{property | scHumanReadable}}</th>
+            <th sc-sortable-column="calculatedData.numberOfSteps"># Steps</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-class="{'selected':$index==selectedRowIndex}" ng-click="goToScenario(useCase.name, scenario.name)" class="link" ng-repeat="scenario in filtered=(scenarios | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
+            <td>
+                <span class="label state" ng-class="getStatusStyleClass(scenario.status)">{{scenario.status}}</span>
+            </td>
+            <td>
+                {{scenario.name | scHumanReadable }}
+                <span ng-repeat="label in scenario.labels.labels" class="label label-info">{{label}}</span>
+            </td>
+            <td>
+                <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview" tooltip-placement="bottom"></i></a>
+                <a ng-click="goToFirstStep(useCase.name, scenario.name)" tooltip="Go to first step" tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
+            </td>
+            <td>{{scenario.description}}</td>
+            <td ng-repeat="property in propertiesToShow">{{scenario.details[property]}}</td>
+            <td>{{scenario.calculatedData.numberOfSteps}}</td>
+        </tr>
+    </tbody>
+</table>

@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <div ng-style="{'padding-left': (node.level * 30) + 'px'}">
 				<img style="cursor:pointer; padding-right:10px"
 					ng-click="toggleCollapseNode(node)" ng-Dblclick="toggleAllChilds(node)" ng-src="{{node.icon}}">
-						<span style="cursor:pointer" ng-click="clickAction({node:node})">{{node.type}}:{{node.name | scHumanReadable}}</span>
+						<span style="cursor:pointer" ng-click="clickAction({node:node})">{{node.type}}: {{formatNodeName(node)}}</span>
 				</div>
 			</td>		
 

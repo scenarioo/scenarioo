@@ -26,6 +26,9 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
 
 .config(function ($routeProvider) {
 
+    /**
+     * breadcrumbId: id of the breadcrumb elements to use for this page as defined in breadcrumbsService.js
+     */
     $routeProvider
         .when('/', {
             templateUrl: 'views/main.html',

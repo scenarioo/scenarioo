@@ -61,7 +61,7 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
     /**
      *  Configure breadcrumb paths that can be assigned to routes (see app.js) to display them as breadcrumbs for according pages.
-     *  Key of the elements is the 'breadcrumbId', use it to link one of this path to a routing in app.js
+     *  Key of the elements is the 'breadcrumbId', use it to link one of this paths to a routing in app.js
      */
     var breadcrumbPaths = {
 
@@ -108,16 +108,24 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
     function setValuesInLabel(text, navParameter) {
         var placeholders = text.match(/\[.*?(?=])./g);
-
         if (placeholders !== null) {
             angular.forEach(placeholders, function (placeholder) {
-                placeholder = placeholder.replace(/[\[\]]/g, '');
-                text = text.replace(/[\[\]]/g, '');
-                text = text.replace(placeholder, navParameter[placeholder]);
+                var placeholderKey = placeholder.replace(/[\[\]]/g, '');
+                var placeholderValue = getNavParamFormatted(navParameter, placeholderKey);
+                text = text.replace(placeholder, placeholderValue);
             });
-            text = $filter('scHumanReadable')(decodeURIComponent(text));
+            text = decodeURIComponent(text);
         }
         return text;
+    }
+
+    function getNavParamFormatted(navParameter, placeholderKey) {
+        var placeholderValue = navParameter[placeholderKey];
+        if ((placeholderKey === 'scenario') || (placeholderKey ==='usecase')) {
+            // by default only usecase and scenario names are formatted as human readable, all other texts have to be generated in the style the client wants to see it.
+            placeholderValue = $filter('scHumanReadable')(placeholderValue);
+        }
+        return placeholderValue;
     }
 
     return {
