@@ -46,6 +46,7 @@ public class LabelConfigurationsResource {
 	
 	/**
 	 * Creates a flat list of the label configurations map. This service exists for easier handling in angular.
+	 * 
 	 * @return map as list
 	 */
 	@Path("list")
@@ -55,9 +56,10 @@ public class LabelConfigurationsResource {
 		Configuration configuration = ConfigurationDAO.getConfiguration();
 		Map<String, LabelConfiguration> labelConfigurations = configuration.getLabelConfigurations();
 		
-		List<FlatLabelConfiguration> flatLabelConfigurations = new LinkedList<>();
-		for(Entry<String, LabelConfiguration> labelConfiguration : labelConfigurations.entrySet()) {
-			flatLabelConfigurations.add(new FlatLabelConfiguration(labelConfiguration.getKey(), labelConfiguration.getValue()));
+		List<FlatLabelConfiguration> flatLabelConfigurations = new LinkedList<FlatLabelConfiguration>();
+		for (Entry<String, LabelConfiguration> labelConfiguration : labelConfigurations.entrySet()) {
+			flatLabelConfigurations.add(new FlatLabelConfiguration(labelConfiguration.getKey(), labelConfiguration
+					.getValue()));
 		}
 		
 		return flatLabelConfigurations;
@@ -65,7 +67,7 @@ public class LabelConfigurationsResource {
 	
 	@POST
 	@Consumes({ "application/json", "application/xml" })
-	public void updateLabelConfigurations(Map<String, LabelConfiguration> labelConfigurations) {
+	public void updateLabelConfigurations(final Map<String, LabelConfiguration> labelConfigurations) {
 		Configuration configuration = ConfigurationDAO.getConfiguration();
 		configuration.setLabelConfigurations(labelConfigurations);
 		ConfigurationDAO.updateConfiguration(configuration);
@@ -79,7 +81,7 @@ public class LabelConfigurationsResource {
 		public FlatLabelConfiguration() {
 		}
 		
-		public FlatLabelConfiguration(String name, LabelConfiguration configuration) {
+		public FlatLabelConfiguration(final String name, final LabelConfiguration configuration) {
 			this.name = name;
 			setForegroundColor(configuration.getForegroundColor());
 			setBackgroundColor(configuration.getBackgroundColor());
@@ -88,8 +90,8 @@ public class LabelConfigurationsResource {
 		public String getName() {
 			return name;
 		}
-
-		public void setName(String name) {
+		
+		public void setName(final String name) {
 			this.name = name;
 		}
 		

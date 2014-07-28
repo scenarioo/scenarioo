@@ -31,9 +31,9 @@ public class ScenarioDtoMapper {
 			return null;
 		}
 		
-		Map<String, Integer> occurrences = new HashMap<>();
+		Map<String, Integer> occurrences = new HashMap<String, Integer>();
 		
-		List<PageWithSteps> pages = new ArrayList<>(pagesAndSteps.size());
+		List<PageWithSteps> pages = new ArrayList<PageWithSteps>(pagesAndSteps.size());
 		for (PageSteps pageStep : pagesAndSteps) {
 			pages.add(mapPage(pageStep, getPageOccurrenceForPageName(occurrences, pageStep.getPage().getName())));
 		}

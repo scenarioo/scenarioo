@@ -1,6 +1,6 @@
 package org.scenarioo.dao.configuration;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,10 +15,9 @@ import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.configuration.LabelConfiguration;
 
 /**
- * Smoke tests for reading and writing a configuration. 
+ * Smoke tests for reading and writing a configuration.
  */
 public class ConfigurationDAOTest {
-	
 	
 	@Before
 	public void init() {
@@ -41,17 +40,17 @@ public class ConfigurationDAOTest {
 		
 		assertEquals(labelConfigurations, loadedConfiguration.getLabelConfigurations());
 	}
-
+	
 	private Map<String, LabelConfiguration> createLabelConfigurations() {
-		Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<>();
+		Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<String, LabelConfiguration>();
 		labelConfigurations.put("test", createLabelConfig("#1231231", "#1234231"));
 		labelConfigurations.put("test2", createLabelConfig("red", "#1234231"));
 		labelConfigurations.put("test3", createLabelConfig("black", "#1234231"));
 		
 		return labelConfigurations;
 	}
-
-	private LabelConfiguration createLabelConfig(String foregroundColor, String backgroundColor) {
+	
+	private LabelConfiguration createLabelConfig(final String foregroundColor, final String backgroundColor) {
 		LabelConfiguration labelConfig = new LabelConfiguration();
 		labelConfig.setForegroundColor(foregroundColor);
 		labelConfig.setBackgroundColor(backgroundColor);
