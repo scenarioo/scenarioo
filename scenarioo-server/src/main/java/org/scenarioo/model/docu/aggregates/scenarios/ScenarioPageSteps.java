@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
 
@@ -47,7 +48,7 @@ public class ScenarioPageSteps {
 		return scenario;
 	}
 
-	public void setScenario(Scenario scenario) {
+	public void setScenario(final Scenario scenario) {
 		this.scenario = scenario;
 	}
 
@@ -55,7 +56,7 @@ public class ScenarioPageSteps {
 		return useCase;
 	}
 
-	public void setUseCase(UseCase useCase) {
+	public void setUseCase(final UseCase useCase) {
 		this.useCase = useCase;
 	}
 
@@ -63,8 +64,64 @@ public class ScenarioPageSteps {
 		return pagesAndSteps;
 	}
 
-	public void setPagesAndSteps(List<PageSteps> pagesAndSteps) {
+	public void setPagesAndSteps(final List<PageSteps> pagesAndSteps) {
 		this.pagesAndSteps = pagesAndSteps;
+	}
+
+	public int getTotalNumberOfStepsInScenario() {
+		if (pagesAndSteps == null) {
+			return 0;
+		}
+
+		int sum = 0;
+
+		for (PageSteps pageWithSteps : pagesAndSteps) {
+			sum += pageWithSteps.getSteps().size();
+		}
+
+		return sum;
+	}
+
+	public StepStatistics getStepStatistics(final String pageName,
+			final int pageOccurrence) {
+		StepStatistics statistics = new StepStatistics();
+		statistics
+				.setTotalNumberOfStepsInScenario(getTotalNumberOfStepsInScenario());
+		statistics
+				.setTotalNumberOfStepsInPageOccurrence(getTotalNumberOfStepsInPageOccurrence(
+						pageName, pageOccurrence));
+		statistics
+				.setTotalNumberOfPagesInScenario(getTotalNumberOfPagesInScenario());
+		return statistics;
+	}
+
+	public int getTotalNumberOfStepsInPageOccurrence(final String pageName,
+			final int pageOccurrence) {
+		PageSteps pageWithSteps = getOccurrence(pageName, pageOccurrence);
+
+		if (pageWithSteps == null) {
+			return 0;
+		}
+
+		return pageWithSteps.getSteps().size();
+	}
+
+	private PageSteps getOccurrence(final String pageName,
+			final int pageOccurrence) {
+		int currentOccurrence = 0;
+		for (PageSteps pageWithSteps : pagesAndSteps) {
+			if (pageWithSteps.getPage().getName().equals(pageName)) {
+				if (currentOccurrence == pageOccurrence) {
+					return pageWithSteps;
+				}
+				currentOccurrence++;
+			}
+		}
+		return null;
+	}
+
+	private int getTotalNumberOfPagesInScenario() {
+		return pagesAndSteps.size();
 	}
 
 }

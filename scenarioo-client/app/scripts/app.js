@@ -57,14 +57,14 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
             objectName: '@objectName',
             breadcrumbId: 'object'
         })
-        .when('/step/:useCaseName/:scenarioName/:pageName/:pageIndex/:stepIndex', {
+        .when('/step/:useCaseName/:scenarioName/:pageName/:pageOccurrence/:stepInPageOccurrence', {
             templateUrl: 'views/step.html',
             controller: 'StepCtrl',
             useCaseName: '@useCaseName',
             scenarioName: '@scenarioName',
             pageName: '@pageName',
-            pageIndex: '@pageIndex',
-            stepIndex: '@stepIndex',
+            pageOccurrence: '@pageOccurrence',
+            stepInPageOccurrence: '@stepInPageOccurrence',
             breadcrumbId: 'step'
         })
         .otherwise({
@@ -87,6 +87,3 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
 
     Config.load();
 });
-
-
-

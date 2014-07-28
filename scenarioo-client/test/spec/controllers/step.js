@@ -20,20 +20,22 @@
 describe('StepCtrl', function () {
 
     var $scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepService,
-        HostnameAndPort, SelectedBranchAndBuild, $httpBackend, TestData;
+        HostnameAndPort, SelectedBranchAndBuild, $controller, $httpBackend, TestData;
     var StepCtrl;
 
     var METADATA_TYPE = 'some_type';
-    var STEP_INFORMATION_TREE = { childNodes : [
-        { nodeLabel : 'Step title', nodeValue : 'Search results' },
-        { nodeLabel : 'Page name', childNodes : [  ], nodeValue : 'startSearch.jsp', nodeObjectName : 'startSearch.jsp' },
-        { nodeLabel : 'URL', nodeValue : 'http://www.wikipedia.org' },
-        { nodeLabel : 'Build status', nodeValue : 'success' }
-    ] };
+    var STEP_INFORMATION_TREE = {
+        childNodes : [
+            { nodeLabel: 'Step title', nodeValue: 'Search results' },
+            { nodeLabel: 'Page name', childNodes: [  ], nodeValue: 'searchResults.jsp', nodeObjectName: 'searchResults.jsp' },
+            { nodeLabel: 'URL', nodeValue: 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go' },
+            { nodeLabel: 'Build status', nodeValue: 'success' }
+        ]
+    };
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _Config_, _ScenarioResource_, _StepService_, _HostnameAndPort_, _SelectedBranchAndBuild_, $controller, _$httpBackend_, _TestData_, localStorageService) {
+    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _Config_, _ScenarioResource_, _StepService_, _HostnameAndPort_, _SelectedBranchAndBuild_, _$controller_, _$httpBackend_, _TestData_, localStorageService) {
         $scope = _$rootScope_.$new();
         $routeParams = _$routeParams_;
         $location = _$location_;
@@ -44,40 +46,172 @@ describe('StepCtrl', function () {
         StepService = _StepService_;
         HostnameAndPort = _HostnameAndPort_;
         SelectedBranchAndBuild = _SelectedBranchAndBuild_;
+        $controller = _$controller_;
         $httpBackend = _$httpBackend_;
         TestData = _TestData_;
 
         $routeParams.useCaseName = 'uc';
         $routeParams.scenarioName = 'sc';
         $routeParams.pageName = 'pn';
-        $routeParams.pageIndex = 0;
-        $routeParams.stepIndex = 0;
+        $routeParams.pageOccurrence = 0;
+        $routeParams.stepInPageOccurrence = 1;
 
         localStorageService.clearAll();
-
-        StepCtrl = $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
-            $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepService: StepService, HostnameAndPort: HostnameAndPort,
-            SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}});
     }));
 
-    it('loads the step data', function () {
-        loadPageContent();
-        expect($scope.step).toEqualData(TestData.STEP.step);
+    describe('scenario is found', function() {
+
+        beforeEach(function() {
+            $routeParams.stepInPageOccurrence = 1;
+            StepCtrl = $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
+                $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepService: StepService, HostnameAndPort: HostnameAndPort,
+                SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}});
+        });
+
+        it('loads the step data', function () {
+            loadPageContent();
+            expect($scope.step).toEqualData(TestData.STEP.step);
+        });
+
+        it('shows specific step information', function () {
+            loadPageContent();
+            expect($scope.stepInformationTree).toEqual(STEP_INFORMATION_TREE);
+        });
+
+        it('loads the stepNavigation and the stepStatistics into scope', function () {
+            loadPageContent();
+            expect($scope.stepNavigation).toEqual(TestData.STEP.stepNavigation);
+            expect($scope.stepStatistics).toEqual(TestData.STEP.stepStatistics);
+
+            expect($scope.getCurrentStepIndexForDisplay()).toBe(3);
+            expect($scope.getCurrentPageIndexForDisplay()).toBe(2);
+            expect($scope.getStepIndexInCurrentPageForDisplay()).toBe(1);
+            expect($scope.getNumberOfStepsInCurrentPageForDisplay()).toBe(2);
+        });
+
+        it('isFirstStep()', function () {
+            loadPageContent();
+            expect($scope.isFirstStep()).toBeFalsy();
+
+            $scope.stepNavigation.stepIndex = 0;
+            expect($scope.isFirstStep()).toBeTruthy();
+        });
+
+        it('isLastStep()', function () {
+            loadPageContent();
+            expect($scope.isLastStep()).toBeFalsy();
+
+            $scope.stepNavigation.stepIndex = $scope.stepStatistics.totalNumberOfStepsInScenario - 1;
+            expect($scope.isLastStep()).toBeTruthy();
+        });
+
+        it('isFirstPage()', function () {
+            loadPageContent();
+            expect($scope.isFirstPage()).toBeFalsy();
+
+            $scope.stepNavigation.pageIndex = 0;
+            expect($scope.isFirstPage()).toBeTruthy();
+        });
+
+        it('isLastPage()', function () {
+            loadPageContent();
+            expect($scope.isLastPage()).toBeFalsy();
+
+            $scope.stepNavigation.pageIndex = $scope.stepStatistics.totalNumberOfPagesInScenario - 1;
+            expect($scope.isLastPage()).toBeTruthy();
+        });
+
+
+        it('goToPreviousStep()', function () {
+            loadPageContent();
+
+            $scope.goToPreviousStep();
+
+            expect($location.path()).toBe('/step/uc/sc/startSearch.jsp/0/1');
+        });
+
+        it('goToNextStep()', function () {
+            loadPageContent();
+
+            $scope.goToNextStep();
+
+            expect($location.path()).toBe('/step/uc/sc/searchResults.jsp/0/1');
+        });
+
+        it('goToPreviousPage()', function () {
+            loadPageContent();
+
+            $scope.goToPreviousPage();
+
+            expect($location.path()).toBe('/step/uc/sc/startSearch.jsp/0/1');
+        });
+
+        it('goToNextPage()', function () {
+            loadPageContent();
+
+            $scope.goToNextPage();
+
+            expect($location.path()).toBe('/step/uc/sc/contentPage.jsp/0/0');
+        });
+
+        it('goToPreviousVariant()', function () {
+            loadPageContent();
+
+            $scope.goToPreviousVariant();
+
+            expect($location.path()).toBe('/step/Find Page/find_page_no_result/searchResults.jsp/0/0');
+        });
+
+        it('goToNextVariant()', function () {
+            loadPageContent();
+
+            $scope.goToNextVariant();
+
+            expect($location.path()).toBe('/step/Find Page/find_page_with_text_on_page_from_multiple_results/searchResults.jsp/0/1');
+        });
+
+        function loadPageContent() {
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1').respond(TestData.STEP);
+
+            Config.load();
+            $httpBackend.flush();
+            expect($scope.stepNotFound).toBeFalsy();
+        }
     });
 
-    it('shows specific step information', function () {
-        loadPageContent();
-        expect($scope.stepInformationTree).toEqual(STEP_INFORMATION_TREE);
+    describe('step is not found', function() {
+
+        beforeEach(function() {
+            $routeParams.stepInPageOccurrence = 42;
+            StepCtrl = $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
+                $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepService: StepService, HostnameAndPort: HostnameAndPort,
+                SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}});
+        });
+
+        it('requested step is not found', function () {
+            tryToLoadNotExistingStep();
+
+            $scope.$apply();
+            expect($scope.stepNotFound).toBeTruthy();
+            expect($scope.httpResponse.status).toEqual(500);
+            expect($scope.httpResponse.method).toEqual('GET');
+            expect($scope.httpResponse.url).toEqual(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42');
+            expect($scope.httpResponse.data).toEqual('');
+            expect($scope.getCurrentUrl()).toEqual('http://server/#?branch=trunk&build=current');
+        });
+
+        function tryToLoadNotExistingStep() {
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42').respond(500, '');
+
+            Config.load();
+            $httpBackend.flush();
+        }
+
     });
-
-    function loadPageContent() {
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches/trunk/builds/current/usecases/uc/scenarios/sc').respond(TestData.SCENARIO);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches/trunk/builds/current/usecases/uc/scenarios/sc/steps/0').respond(TestData.STEP);
-
-        Config.load();
-        $httpBackend.flush();
-    }
 
 });
 

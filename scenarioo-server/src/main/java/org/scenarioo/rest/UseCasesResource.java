@@ -33,48 +33,49 @@ import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseSummary;
 import org.scenarioo.model.docu.entities.UseCase;
 
-@Path("/rest/branches/{branchName}/builds/{buildName}/usecases/")
+@Path("/rest/branch/{branchName}/build/{buildName}/usecase/")
 public class UseCasesResource {
-
-    private static final Logger LOGGER = Logger
-            .getLogger(UseCasesResource.class);
-
-    ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
-            ConfigurationDAO.getDocuDataDirectoryPath());
-
-    /**
-     * Lightweight call, which does not send all scenario information.
-     */
-    @GET
-    @Produces({ "application/xml", "application/json" })
-    public List<UseCaseSummary> loadUseCaseSummaries(
-            @PathParam("branchName") final String branchName,
-            @PathParam("buildName") final String buildName) {
-        LOGGER.info("REQUEST: loadUseCaseSummaryList(" + branchName + ", "
-                + buildName + ")");
-        List<UseCaseSummary> result = new LinkedList<UseCaseSummary>();
-
-        String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
-        String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE
-                .resolveAliasBuildName(resolvedBranchName, buildName);
-        List<UseCaseScenarios> useCaseScenariosList = dao
-                .loadUseCaseScenariosList(resolvedBranchName, resolvedBuildName);
-
-        for (UseCaseScenarios useCaseScenarios : useCaseScenariosList) {
-            result.add(mapSummary(useCaseScenarios));
-        }
-
-        return result;
-    }
-
-    private UseCaseSummary mapSummary(final UseCaseScenarios useCaseScenarios) {
-        UseCaseSummary summary = new UseCaseSummary();
-        UseCase useCase = useCaseScenarios.getUseCase();
-        summary.setName(useCase.getName());
-        summary.setDescription(useCase.getDescription());
-        summary.setStatus(useCase.getStatus());
-        summary.setNumberOfScenarios(useCaseScenarios.getScenarios().size());
-        summary.setLabels(useCase.getLabels());
-        return summary;
-    }
+	
+	private static final Logger LOGGER = Logger
+			.getLogger(UseCasesResource.class);
+	
+	ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
+			ConfigurationDAO.getDocuDataDirectoryPath());
+	
+	/**
+	 * Lightweight call, which does not send all scenario information.
+	 */
+	@GET
+	@Produces({ "application/xml", "application/json" })
+	public List<UseCaseSummary> loadUseCaseSummaries(
+			@PathParam("branchName") final String branchName,
+			@PathParam("buildName") final String buildName) {
+		LOGGER.info("REQUEST: loadUseCaseSummaryList(" + branchName + ", "
+				+ buildName + ")");
+		List<UseCaseSummary> result = new LinkedList<UseCaseSummary>();
+		
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName,
+				buildName);
+		List<UseCaseScenarios> useCaseScenariosList = dao.loadUseCaseScenariosList(resolvedBranchName,
+				resolvedBuildName);
+		
+		for (UseCaseScenarios useCaseScenarios : useCaseScenariosList) {
+			result.add(mapSummary(useCaseScenarios));
+		}
+		
+		return result;
+	}
+	
+	private UseCaseSummary mapSummary(final UseCaseScenarios useCaseScenarios) {
+		UseCaseSummary summary = new UseCaseSummary();
+		UseCase useCase = useCaseScenarios.getUseCase();
+		summary.setName(useCase.getName());
+		summary.setDescription(useCase.getDescription());
+		summary.setStatus(useCase.getStatus());
+		summary.setNumberOfScenarios(useCaseScenarios.getScenarios().size());
+		summary.setLabels(useCase.getLabels());
+		return summary;
+	}
+	
 }

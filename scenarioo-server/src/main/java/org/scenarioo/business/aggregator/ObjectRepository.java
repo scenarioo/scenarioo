@@ -34,6 +34,7 @@ import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
+import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
@@ -231,44 +232,39 @@ public class ObjectRepository {
 		return referencePath;
 	}
 	
-	public void addReferencedStepObjects(List<ObjectReference> referencePath, final Step step) {
-		
-		// Page occurence in scenario
-		Page page = step.getPage();
-		if (page != null) {
-			
-			// add page content
-			addPage(referencePath, page);
-		}
-		
-		// Add referenced objects from step
-		ObjectReference stepReference = createObjectReference("step",
-				Integer.toString(step.getStepDescription().getIndex()));
-		referencePath = extendPath(referencePath, stepReference);
-		addObjects(referencePath, step.getStepDescription().getDetails());
-		addObjects(referencePath, step.getMetadata().getDetails());
+	public void addPageAndStep(final List<ObjectReference> referencePath, final Step step, final StepLink stepLink) {
+		addPage(referencePath, step.getPage());
+		addStep(referencePath, step, stepLink);
 	}
 	
 	/**
 	 * Add description of a page and all referenced objects
 	 */
 	private void addPage(List<ObjectReference> referencePath, final Page page) {
-		
-		if (page != null) {
-			// Page reference
-			ObjectReference pageReference = createObjectReference("page", page.getName());
-			referencePath = extendPath(referencePath, pageReference);
-			addObjectReference(referencePath, pageReference);
-			
-			// Save page description (if not yet)
-			ObjectDescription pageDescription = new ObjectDescription("page", page.getName());
-			pageDescription.setDetails(page.getDetails());
-			saveObject(pageDescription);
-			
-			// Add referenced objects from page
-			addObjects(referencePath, page.getDetails());
+		if (page == null) {
+			return;
 		}
 		
+		// Page reference
+		ObjectReference pageReference = createObjectReference("page", page.getName());
+		referencePath = extendPath(referencePath, pageReference);
+		addObjectReference(referencePath, pageReference);
+		
+		// Save page description (if not yet)
+		ObjectDescription pageDescription = new ObjectDescription("page", page.getName());
+		pageDescription.setDetails(page.getDetails());
+		saveObject(pageDescription);
+		
+		// Add referenced objects from page
+		addObjects(referencePath, page.getDetails());
+	}
+	
+	private void addStep(List<ObjectReference> referencePath, final Step step, final StepLink stepLink) {
+		ObjectReference stepReference = createObjectReference("step",
+				stepLink.getStepIdentifierForObjectRepository());
+		referencePath = extendPath(referencePath, stepReference);
+		addObjects(referencePath, step.getStepDescription().getDetails());
+		addObjects(referencePath, step.getMetadata().getDetails());
 	}
 	
 	public void calculateAndSaveObjectLists() {

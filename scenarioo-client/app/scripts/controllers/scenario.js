@@ -63,21 +63,21 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
             });
     }
 
-    $scope.showAllStepsForPage = function(pageIndex) {
+    $scope.showAllStepsForPage = function (pageIndex) {
         return showAllSteps[pageIndex] || false;
     };
 
-    $scope.toggleShowAllStepsForPage = function(pageIndex) {
+    $scope.toggleShowAllStepsForPage = function (pageIndex) {
         showAllSteps[pageIndex] = !showAllSteps[pageIndex];
     };
 
-    $scope.isExpandAllPossible = function() {
-        if(!angular.isDefined($scope.pagesAndSteps)) {
+    $scope.isExpandAllPossible = function () {
+        if (!angular.isDefined($scope.pagesAndSteps)) {
             return false;
         }
 
-        for(var i = 0; i < $scope.pagesAndSteps.length; i++) {
-            if(isExpandPossibleForPage($scope.pagesAndSteps[i], i)) {
+        for (var i = 0; i < $scope.pagesAndSteps.length; i++) {
+            if (isExpandPossibleForPage($scope.pagesAndSteps[i], i)) {
                 return true;
             }
         }
@@ -89,13 +89,13 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         return page.steps.length > 1 && $scope.showAllStepsForPage(pageIndex) === false;
     }
 
-    $scope.isCollapseAllPossible = function() {
-        if(!angular.isDefined($scope.pagesAndSteps)) {
+    $scope.isCollapseAllPossible = function () {
+        if (!angular.isDefined($scope.pagesAndSteps)) {
             return false;
         }
 
-        for(var i = 0; i < $scope.pagesAndSteps.length; i++) {
-            if(isCollapsePossibleForPage($scope.pagesAndSteps[i], i)) {
+        for (var i = 0; i < $scope.pagesAndSteps.length; i++) {
+            if (isCollapsePossibleForPage($scope.pagesAndSteps[i], i)) {
                 return true;
             }
         }
@@ -107,35 +107,35 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         return page.steps.length > 1 && $scope.showAllStepsForPage(pageIndex) === true;
     }
 
-    $scope.expandAll = function() {
+    $scope.expandAll = function () {
         // numberOfPages is 0-indexed, therefore we have to add 1.
         // TODO: This should be fixed in the future, so that the server returns the right number.
         var numberOfPages = $scope.scenario.calculatedData.numberOfPages + 1;
-        for(var i = 0; i < numberOfPages; i++) {
+        for (var i = 0; i < numberOfPages; i++) {
             showAllSteps[i] = true;
         }
     };
 
-    $scope.collapseAll = function() {
-        for(var i = 0; i < showAllSteps.length; i++) {
+    $scope.collapseAll = function () {
+        for (var i = 0; i < showAllSteps.length; i++) {
             showAllSteps[i] = false;
         }
     };
 
     $scope.getScreenShotUrl = function (imgName) {
-        if(angular.isUndefined(selectedBranchAndBuild)) {
+        if (angular.isUndefined(selectedBranchAndBuild)) {
             return;
         }
-        return HostnameAndPort.forLink() + 'rest/branches/' + selectedBranchAndBuild.branch + '/builds/' + selectedBranchAndBuild.build +
-            '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
+        return HostnameAndPort.forLink() + 'rest/branch/' + selectedBranchAndBuild.branch + '/build/' + selectedBranchAndBuild.build +
+            '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
     };
 
-    $scope.getLinkToStep = function (pageName, pageIndex, stepIndex) {
+    $scope.getLinkToStep = function (pageName, pageOccurrence, stepInPageOccurrence) {
         // '/' will kill our application
         pageName = pageName.replace(/\//g, ' ');
 
         return '#/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) +
-            '/' + pageIndex + '/' + stepIndex;
+            '/' + pageOccurrence + '/' + stepInPageOccurrence;
     };
 
     $scope.resetSearchField = function () {
@@ -149,4 +149,5 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         stepInformation.Status = scenario.status;
         return transformMetadataToTree(stepInformation);
     }
+
 });

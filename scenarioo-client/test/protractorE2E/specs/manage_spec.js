@@ -25,8 +25,10 @@ scenarioo.describeUseCase('Manage', function () {
         branchAliasesPage.reset();
         branchAliasesPage.deleteAlias(0);
         branchAliasesPage.save();
+        console.log('before first');
         branchAliasesPage.assertNumberOfAliases(1);
         branchAliasesPage.reset();
+        console.log('before second');
         branchAliasesPage.assertNumberOfAliases(1);
 
         branchAliasesPage.updateAlias(0, 'updated alias', 0, 'updated description');
