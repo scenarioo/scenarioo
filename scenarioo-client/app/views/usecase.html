@@ -29,10 +29,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
     <div class="col-lg-9">
+        <sc-show-hide-details-button linking-variable="useCaseShowMetadata" local-storage-key="main" ></sc-show-hide-details-button>
     </div>
 </div>
 
-<sc-show-hide-details showHideStorageKey="usecase">
+<sc-show-hide-details linking-variable="useCaseShowMetadata">
     <div>
         <table class="table table-bordered scenario-table" sc-navigator-table="filtered">
             <thead>
@@ -71,11 +72,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </table>
     </div>
     <div>
-            <!-- usecase -->
-            <sc-collapsable-panel title="Use Case" key="useCaseView-useCase" initially-expanded="true">
-                <sc-tree data='usecaseInformationTree'></sc-tree>
-            </sc-collapsable-panel>
-            <!-- Metadata -->
-            <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
+        <!-- usecase -->
+        <sc-collapsable-panel title="Use Case" key="useCaseView-useCase" initially-expanded="true">
+            <sc-tree data='usecaseInformationTree'></sc-tree>
+        </sc-collapsable-panel>
+        <!-- Metadata -->
+        <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
     </div>
 </sc-show-hide-details>

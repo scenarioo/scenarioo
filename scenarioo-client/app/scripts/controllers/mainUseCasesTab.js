@@ -23,7 +23,6 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     SelectedBranchAndBuild.callOnSelectionChange(loadUseCases);
 
-
     function loadUseCases(selected) {
 
         UseCasesResource.query(
@@ -50,7 +49,6 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
     $scope.resetSearchField = function () {
         $scope.table.search = {searchTerm: ''};
     };
-
     function createBranchInformationTree(branch) {
         var branchInformationTree = {};
         branchInformationTree.Description = branch.description;
