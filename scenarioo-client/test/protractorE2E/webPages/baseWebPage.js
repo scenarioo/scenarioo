@@ -11,6 +11,14 @@ BaseWebPage.prototype.assertPageIsDisplayed = function () {
     e2eUtils.assertRoute(this.path);
 };
 
+BaseWebPage.prototype.assertRoute = function (expectedUrl) {
+    e2eUtils.assertRoute(expectedUrl);
+};
+
+
+BaseWebPage.prototype.clickBrowserBackButton = function (rowNumberWithoutHeader) {
+    e2eUtils.clickBrowserBackButton();
+};
 
 BaseWebPage.prototype.assertElementIsEnabled = function(elementId) {
     this.stepNavigation.findElement(by.id(elementId)).then(function(element) {

@@ -10,6 +10,7 @@ var UsecasePage = require('./usecasePage.js');
 var ScenarioPage = require('./scenarioPage.js');
 var StepPage = require('./stepPage.js');
 var BranchAliasesPage = require('./branchAliasesPage.js');
+var ObjectDetailsPage = require('./objectDetailsPage.js');
 
 
 module.exports = {
@@ -17,5 +18,6 @@ module.exports = {
     usecasePage: UsecasePage,
     scenarioPage: ScenarioPage,
     stepPage: StepPage,
-    branchAliasesPage: BranchAliasesPage
+    branchAliasesPage: BranchAliasesPage,
+    objectDetailsPage: ObjectDetailsPage
 };

@@ -35,6 +35,7 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.generic.ObjectReference;
 
 /**
  * Handles calculation of all page steps for each scenario and collection of additional needed information for step
@@ -54,7 +55,8 @@ public class StepsAndPagesAggregator {
 	}
 	
 	public List<PageSteps> calculateScenarioPageSteps(final UseCase usecase,
-			final Scenario scenario, final List<Step> steps) {
+			final Scenario scenario, final List<Step> steps, final List<ObjectReference> referencePath,
+			final ObjectRepository objectRepository) {
 		
 		List<PageSteps> pageStepsList = new ArrayList<PageSteps>();
 		List<StepLink> stepLinks = new ArrayList<StepLink>(steps.size());
@@ -96,6 +98,8 @@ public class StepsAndPagesAggregator {
 					scenario.getName(), index, pageIndex, getPageName(page),
 					pageOccurrence, stepInPageOccurrence);
 			stepLinks.add(stepLink);
+			
+			objectRepository.addPageAndStep(referencePath, step, stepLink);
 			
 			index++;
 			stepInPageOccurrence++;

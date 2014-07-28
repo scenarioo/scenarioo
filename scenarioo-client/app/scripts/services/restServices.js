@@ -171,7 +171,7 @@ angular.module('scenarioo.services')
     })
 
     .factory('ObjectListResource', function (ScenariooResource) {
-        return ScenariooResource('/branches/:branchName/builds/:buildName/objects/:objectType',
+        return ScenariooResource('/branch/:branchName/build/:buildName/object/:objectType',
             {
                 branchName: '@branchName',
                 buildName: '@buildName',
@@ -180,7 +180,7 @@ angular.module('scenarioo.services')
     })
 
     .factory('ObjectIndexListResource', function(ScenariooResource) {
-        return ScenariooResource('/branches/:branchName/builds/:buildName/objects/:objectType/:objectName',
+        return ScenariooResource('/branch/:branchName/build/:buildName/object/:objectType/:objectName',
             {
                 branchName: '@branchName',
                 buildName: '@buildName',

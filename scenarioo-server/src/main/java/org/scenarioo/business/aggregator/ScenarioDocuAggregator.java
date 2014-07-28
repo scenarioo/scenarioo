@@ -207,13 +207,9 @@ public class ScenarioDocuAggregator {
 		result.setScenario(scenario);
 		List<Step> steps = reader.loadSteps(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 				usecase.getName(), scenario.getName());
-		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(usecase, scenario, steps);
+		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(usecase, scenario, steps,
+				referencePath, objectRepository);
 		result.setPagesAndSteps(pageStepsList);
-		
-		// Calculate object repository for steps
-		for (Step step : steps) {
-			objectRepository.addReferencedStepObjects(referencePath, step);
-		}
 		
 		// Set calculated data in scenario from pages and steps
 		ScenarioCalculatedData calculatedData = new ScenarioCalculatedData();

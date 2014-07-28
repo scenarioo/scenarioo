@@ -72,9 +72,4 @@ StepPage.prototype.goToPreviousPage = function () {
     });
 };
 
-StepPage.prototype.assertRoute = function (expectedUrl) {
-    e2eUtils.assertRoute(expectedUrl);
-};
-
-
 module.exports = StepPage;
