@@ -165,5 +165,5 @@ angular.module('scenarioo.services').factory('LabelConfigurationsListResource', 
 });
 
 angular.module('scenarioo.services').factory('LabelConfigurationsResource', function (ScenariooResource) {
-    return ScenariooResource('/labelconfigurations', {}, {});
+    return ScenariooResource('/labelconfigurations', {}, { 'query': { isArray:false}});
 });
