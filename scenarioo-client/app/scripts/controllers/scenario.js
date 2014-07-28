@@ -32,8 +32,8 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     SelectedBranchAndBuild.callOnSelectionChange(loadScenario);
 
     // FIXME this code is duplicated. How can we extract it into a service?
-    LabelConfigurationsResource.query({}, function(labelConfiguratins) {
-        $scope.labelConfigurations = labelConfiguratins;
+    LabelConfigurationsResource.query({}, function(labelConfigurations) {
+        $scope.labelConfigurations = labelConfigurations;
     });
 
     function loadScenario(selected) {

@@ -40,9 +40,19 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     };
 
     // FIXME this code is duplicated. How can we extract it into a service?
-    LabelConfigurationsResource.query({}, function(labelConfiguratins) {
-        $scope.labelConfigurations = labelConfiguratins;
+    LabelConfigurationsResource.query({}, function(labelConfigurations) {
+        $scope.labelConfigurations = labelConfigurations;
     });
+
+    // FIXME this code is duplicated. How can we extract it into a service?
+    $scope.getLabelStyle = function(labelName) {
+        if($scope.labelConfigurations) {
+            var labelConfig = $scope.labelConfigurations[labelName];
+            if(labelConfig) {
+                return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
+            }
+        }
+    };
 
     $scope.showApplicationInfoPopup = function(tab) {
         ScApplicationInfoPopup.showApplicationInfoPopup(tab);
