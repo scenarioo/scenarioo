@@ -16,7 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <sc-breadcrumb></sc-breadcrumb>
-
+<h3 class="sc-pageTitle">Use Case: {{useCaseDescription}}</h3>
+<h2 class="sc-pageTitle">{{scenario.description}}</h2>
 <div class="row sc-space-top sc-space-bottom">
     <div class="col-lg-3">
         <div class="input-group">
@@ -27,14 +28,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
     <div class="col-lg-9">
-        <div class="pull-right">
-            <button type="button" class="btn btn-default" id="expandAllPages" ng-show="isExpandAllPossible()" ng-click="expandAll()">expand all</button>
-            <button type="button" class="btn btn-default" id="collapseAllPages" ng-show="isCollapseAllPossible()" ng-click="collapseAll()">collapse all</button>
+        <div class="row pull-right">
+            <div class="col-lg-6">
+                <button type="button" class="btn btn-default" id="expandAllPages" ng-show="isExpandAllPossible()" ng-click="expandAll()">expand all</button>
+                <button type="button" class="btn btn-default" id="collapseAllPages" ng-show="isCollapseAllPossible()" ng-click="collapseAll()">collapse all</button>
+            </div>
+            <sc-show-hide-details-button class="col-lg-6 " linking-variable="scenarioShowMetadata" local-storage-key="scenario" ></sc-show-hide-details-button>
         </div>
     </div>
 </div>
 
-<sc-show-hide-details showHideStorageKey="scenario">
+<sc-show-hide-details linking-variable="scenarioShowMetadata">
     <div>
         <!-- steps -->
         <div class="row step-view">
@@ -70,7 +74,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div>
 
         <!-- scenario -->
-        <sc-collapsable-panel title="Scenario" key="scenarioView-scenario">
+        <sc-collapsable-panel title="Scenario" key="scenarioView-scenario" initially-expanded="true">
             <sc-tree data='scenarioInformationTree'></sc-tree>
         </sc-collapsable-panel>
 

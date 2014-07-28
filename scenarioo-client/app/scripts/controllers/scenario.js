@@ -59,7 +59,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
                 }
             }
         }
-
+		$scope.useCaseDescription = pagesAndScenarios.useCase.description;
         $scope.scenario = pagesAndScenarios.scenario;
         $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
         $scope.metadataTree = transformMetadataToTreeArray(pagesAndScenarios.scenario.details);
@@ -151,48 +151,9 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
 
     function createScenarioInformationTree(scenario) {
         var stepInformation = {};
-        stepInformation.Description = scenario.description;
         stepInformation['Number of Pages'] = scenario.calculatedData.numberOfPages;
         stepInformation['Number of Steps'] = scenario.calculatedData.numberOfSteps;
         stepInformation.Status = scenario.status;
         return transformMetadataToTree(stepInformation);
     }
-
-    // TODO make the following code generic and share it with step.js
-
-    var SCENARIO_METADATA_SECTION_EXPANDED = 'scenarioo-scenarioMetadataSectionExpanded-';
-
-    $scope.isMetadataExpanded = function (type) {
-        var metadataExpanded = localStorageService.get(SCENARIO_METADATA_SECTION_EXPANDED + type);
-        if (metadataExpanded === 'true') {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
-    $scope.toggleMetadataExpanded = function (type) {
-        var metadataExpanded = !$scope.isMetadataExpanded(type);
-        localStorageService.set(SCENARIO_METADATA_SECTION_EXPANDED + type, '' + metadataExpanded);
-    };
-
-    $scope.isMetadataCollapsed = function (type) {
-        return !$scope.isMetadataExpanded(type);
-    };
-
-    /**
-     * Init metadata visibility and expanded sections from local storage on startup.
-     */
-    function initMetadataVisibilityAndExpandedSections() {
-
-        // Set special scenario metadata to expanded by default.
-        var majorStepPropertiesExpanded = localStorageService.get(SCENARIO_METADATA_SECTION_EXPANDED + 'sc-scenario-properties');
-        var isMajorStepPropertiesExpandedSetToFalse = majorStepPropertiesExpanded === 'false';
-        if (!isMajorStepPropertiesExpandedSetToFalse) {
-            localStorageService.set(SCENARIO_METADATA_SECTION_EXPANDED + 'sc-scenario-properties', 'true');
-        }
-
-    }
-    initMetadataVisibilityAndExpandedSections();
-
 });

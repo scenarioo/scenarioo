@@ -201,6 +201,11 @@ h4 {
   }
 }
 
+.sc-pageTitle {
+  border-bottom: 0px;
+  margin-top: 0.8em
+}
+
 .step-title {
   margin: 0;
   padding: 0;
@@ -212,10 +217,11 @@ h4 {
   border-radius: 3px;
 }
 
-.meta-data .label {
-  padding-top: 6px;
-  font-size: 16px;
-}
+// TODO Why was this needed?
+//.meta-data .label {
+//  padding-top: 6px;
+//  font-size: 16px;
+//}
 
 .meta-data div.row-fluid div {
   line-height: 20px;
@@ -293,6 +299,10 @@ div.sc-screenshot-scenario {
   margin-top: @vertical-space;
 }
 
+.sc-space-top-large {
+  margin-top: 40px;
+}
+
 .sc-space-bottom {
   margin-bottom: @vertical-space;
 }
@@ -341,7 +351,7 @@ label {
 
 .sc-tree ul {
   margin-left: 0;
-  padding-left: 0;
+  padding: 0;
   padding-bottom: 2px;
 }
 
@@ -381,4 +391,18 @@ label {
 /** Build Import Status Dialog (wider) **/
 .modal-wide .modal-dialog {
   width: 75%;
+}
+
+/** Tree-Search View - reference Tree **/
+.matchColor {
+  background-color: #E8E8E8;
+}
+
+.sc-referenceTree {
+  font-size: 1.2em;
+  font-weight: bold;
+  border-bottom: 2px #CCCCCC solid;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  padding-bottom: 0.2em;
 }
