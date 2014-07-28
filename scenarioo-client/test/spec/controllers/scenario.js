@@ -138,6 +138,7 @@ describe('Controller :: Scenario', function () {
 
         $httpBackend.whenGET(HostNameAndPort.forLink() + 'rest/configuration').respond(config);
         $httpBackend.whenGET(HostNameAndPort.forLink() + 'rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario').respond(TestData.SCENARIO);
+        $httpBackend.whenGET(HostNameAndPort.forTest() + 'rest/labelconfigurations').respond({});
 
         Config.load();
         $httpBackend.flush();

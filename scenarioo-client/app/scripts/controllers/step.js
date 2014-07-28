@@ -182,7 +182,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         $scope.formattedHtml = source;
     }
 
-    function bindStepNavigation(pagesAndSteps) {
+    function bindStepNavigation() {
 
         GlobalHotkeysService.registerPageHotkeyCode(37, function () {
             // left arrow

@@ -1,16 +1,16 @@
 /* scenarioo-client
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -23,11 +23,11 @@ describe('Controller :: useCase', function () {
         BUILD = 'build_123',
         USE_CASE = 'LogIn';
 
-    var $scope, routeParams, configMock, controller, ScenarioResource, SelectedBranchAndBuild, $location;
+    var $scope, routeParams, configMock, controller, ScenarioResource, SelectedBranchAndBuild, $location, $httpBackend, HostnameAndPort;
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, ConfigMock, _SelectedBranchAndBuild_, _$location_, localStorageService) {
+    beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, ConfigMock, _SelectedBranchAndBuild_, _$location_, localStorageService, _$httpBackend_, _HostnameAndPort_) {
             $scope = $rootScope.$new();
             routeParams = $routeParams;
             routeParams.useCaseName = USE_CASE;
@@ -35,6 +35,8 @@ describe('Controller :: useCase', function () {
             ScenarioResource = _ScenarioResource_;
             SelectedBranchAndBuild = _SelectedBranchAndBuild_;
             $location = _$location_;
+            $httpBackend = _$httpBackend_;
+            HostnameAndPort = _HostnameAndPort_;
 
             localStorageService.clearAll();
 
@@ -44,6 +46,7 @@ describe('Controller :: useCase', function () {
 
     it('should load all scenarios and and the selected use case', function() {
         spyOn(ScenarioResource, 'get').andCallFake(getFindAllScenariosFake());
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/labelconfigurations').respond({});
 
         expect(SelectedBranchAndBuild.selected().branch).toBeUndefined();
         expect(SelectedBranchAndBuild.selected().build).toBeUndefined();
@@ -52,6 +55,7 @@ describe('Controller :: useCase', function () {
         expect($scope.propertiesToShow).toBeUndefined();
 
         $location.url('/new/path/?branch=' + BRANCH + '&build=' + BUILD);
+        $httpBackend.flush();
         $scope.$apply();
 
         expect(SelectedBranchAndBuild.selected().branch).toBe(BRANCH);
