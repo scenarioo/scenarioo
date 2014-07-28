@@ -61,6 +61,8 @@ angular.module('scenarioo.controllers').controller('LabelConfigurationsCtrl', fu
         });
 
         LabelConfigurationsResource.save(labelConfigurationsAsMap);
+
+        $scope.successfullyUpdatedLabelConfigurations = true;
     };
 
     function loadLabelConfigurations() {
