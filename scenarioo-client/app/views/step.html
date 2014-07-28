@@ -72,10 +72,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
     </div>
+    <div class="col-lg-4 pull-right">
+        <sc-show-hide-details-button linking-variable="stepShowMetadata" local-storage-key="step" ></sc-show-hide-details-button>
+    </div>
 </div>
-
 <!-- screenshot and information -->
-<sc-show-hide-details showHideStorageKey="step">
+<sc-show-hide-details linking-variable="stepShowMetadata">
     <div>
         <tabset class="step-panes">
             <tab heading="Screenshot">
@@ -89,7 +91,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tab>
         </tabset>
     </div>
-    <div ng-show="showingMetaData" class="col-lg-4 hero-unit meta-data">
 
     <div>
         <!-- step -->
