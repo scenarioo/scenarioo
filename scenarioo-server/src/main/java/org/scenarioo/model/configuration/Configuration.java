@@ -19,12 +19,15 @@ package org.scenarioo.model.configuration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -58,9 +61,12 @@ public class Configuration {
 	private Map<String, String> buildstates = new HashMap<String, String>();
 	
 	private boolean expandPagesInScenarioOverview = false;
-
+	@XmlElementWrapper(name = "branchAliases")
+	@XmlElement(name = "branchAlias")
 	private List<BranchAlias> branchAliases = new LinkedList<BranchAlias>();
-		
+	
+	private Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<String, LabelConfiguration>();
+	
 	private List<CustomObjectTab> customObjectTabs = new ArrayList<CustomObjectTab>();
 
 	public String getTestDocumentationDirPath() {
@@ -169,13 +175,15 @@ public class Configuration {
 	public void setBranchAliases(List<BranchAlias> buildAliases) {
 		this.branchAliases = buildAliases;
 	}
-	
-	public List<CustomObjectTab> getCustomObjectTabs() {
-		return customObjectTabs;
+
+	public Map<String, LabelConfiguration> getLabelConfigurations() {
+		if(labelConfigurations == null) {
+			labelConfigurations = new LinkedHashMap<>();
+		}
+		return labelConfigurations;
 	}
 
-	public void setCustomObjectTabs(List<CustomObjectTab> customObjectTabs) {
-		this.customObjectTabs = customObjectTabs;
+	public void setLabelConfigurations(Map<String, LabelConfiguration> labelConfigurations) {
+		this.labelConfigurations = labelConfigurations;
 	}
-
 }

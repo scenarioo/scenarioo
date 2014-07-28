@@ -196,6 +196,14 @@ angular.module('scenarioo.services')
         return ScenariooResource('/branchaliases', {}, {});
     });
 
+angular.module('scenarioo.services').factory('LabelConfigurationsListResource', function (ScenariooResource) {
+    return ScenariooResource('/labelconfigurations/list', {}, {});
+});
+
+angular.module('scenarioo.services').factory('LabelConfigurationsResource', function (ScenariooResource) {
+    return ScenariooResource('/labelconfigurations', {}, { 'query': { isArray:false}});
+});
+
 function getPromise($q, fn) {
     return function (parameters) {
         var deferred = $q.defer();
