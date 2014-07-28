@@ -17,7 +17,10 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepService, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService) {
+angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window,
+                                                                         localStorageService, Config, ScenarioResource, StepService, HostnameAndPort,
+                                                                         SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService,
+                                                                         LabelConfigurationsResource) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -34,6 +37,11 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         backdropFade: true,
         dialogClass: 'modal modal-huge'
     };
+
+    // FIXME this code is duplicated. How can we extract it into a service?
+    LabelConfigurationsResource.query({}, function(labelConfiguratins) {
+        $scope.labelConfigurations = labelConfiguratins;
+    });
 
     $scope.showApplicationInfoPopup = function(tab) {
         ScApplicationInfoPopup.showApplicationInfoPopup(tab);
@@ -340,4 +348,11 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     }
     initMetadataVisibilityAndExpandedSections();
 
+    // FIXME this code is duplicated. How can we extract it into a service?
+    $scope.getLabelStyle = function(labelName) {
+        var labelConfig = $scope.labelConfigurations[labelName];
+        if(labelConfig) {
+            return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
+        }
+    };
 });

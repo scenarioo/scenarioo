@@ -17,7 +17,11 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, $window, localStorageService, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams,
+                                                                             $location, $window, localStorageService,
+                                                                             ScenarioResource, HostnameAndPort,
+                                                                             SelectedBranchAndBuild,
+                                                                             LabelConfigurationsResource) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -29,6 +33,11 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
 
     SelectedBranchAndBuild.callOnSelectionChange(loadScenario);
+
+    // FIXME this code is duplicated. How can we extract it into a service?
+    LabelConfigurationsResource.query({}, function(labelConfiguratins) {
+        $scope.labelConfigurations = labelConfiguratins;
+    });
 
     function loadScenario(selected) {
         selectedBranchAndBuild = selected;
@@ -161,11 +170,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
 
     $scope.isMetadataExpanded = function (type) {
         var metadataExpanded = localStorageService.get(SCENARIO_METADATA_SECTION_EXPANDED + type);
-        if (metadataExpanded === 'true') {
-            return true;
-        } else {
-            return false;
-        }
+        return metadataExpanded === 'true';
     };
 
     $scope.toggleMetadataExpanded = function (type) {
@@ -209,4 +214,11 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     }
     initMetadataVisibilityAndExpandedSections();
 
+    // FIXME this code is duplicated. How can we extract it into a service?
+    $scope.getLabelStyle = function(labelName) {
+        var labelConfig = $scope.labelConfigurations[labelName];
+        if(labelConfig) {
+            return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
+        }
+    };
 });
