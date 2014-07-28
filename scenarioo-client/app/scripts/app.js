@@ -87,6 +87,3 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
 
     Config.load();
 });
-
-
-

@@ -12,7 +12,7 @@ scenarioo.describeUseCase('Step', function () {
         var stepPage = new pages.stepPage();
 
         browser.get('#/');
-        homePage.closeScenariooInfoDialog();
+        homePage.closeScenariooInfoDialogIfOpen();
         scenarioo.docuWriter.saveStep('Display home page with list of use cases');
 
         homePage.selectUseCase(0);

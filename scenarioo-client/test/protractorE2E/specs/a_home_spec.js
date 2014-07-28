@@ -11,7 +11,7 @@ scenarioo.describeUseCase('Home', function () {
         scenarioo.docuWriter.saveStep('display the homePage with popup');
         homePage.assertPageIsDisplayed();
         homePage.assertScenariooInfoDialogShown();
-        homePage.closeScenariooInfoDialog();
+        homePage.closeScenariooInfoDialogIfOpen();
         homePage.assertUseCasesShown(2);
         scenarioo.docuWriter.saveStep('display the homePage');
     });

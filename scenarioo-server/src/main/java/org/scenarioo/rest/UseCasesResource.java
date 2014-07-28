@@ -35,13 +35,13 @@ import org.scenarioo.model.docu.entities.UseCase;
 
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/")
 public class UseCasesResource {
-
+	
 	private static final Logger LOGGER = Logger
 			.getLogger(UseCasesResource.class);
-
+	
 	ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
 			ConfigurationDAO.getDocuDataDirectoryPath());
-
+	
 	/**
 	 * Lightweight call, which does not send all scenario information.
 	 */
@@ -53,20 +53,20 @@ public class UseCasesResource {
 		LOGGER.info("REQUEST: loadUseCaseSummaryList(" + branchName + ", "
 				+ buildName + ")");
 		List<UseCaseSummary> result = new LinkedList<UseCaseSummary>();
-
- String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE
-				.resolveAliasBuildName(branchName, buildName);
-		List<UseCaseScenarios> useCaseScenariosList = dao
-				.loadUseCaseScenariosList(branchName, resolvedBuildName);
-
+		
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName,
+				buildName);
+		List<UseCaseScenarios> useCaseScenariosList = dao.loadUseCaseScenariosList(resolvedBranchName,
+				resolvedBuildName);
+		
 		for (UseCaseScenarios useCaseScenarios : useCaseScenariosList) {
 			result.add(mapSummary(useCaseScenarios));
 		}
-
+		
 		return result;
 	}
-
+	
 	private UseCaseSummary mapSummary(final UseCaseScenarios useCaseScenarios) {
 		UseCaseSummary summary = new UseCaseSummary();
 		UseCase useCase = useCaseScenarios.getUseCase();
@@ -74,8 +74,8 @@ public class UseCasesResource {
 		summary.setDescription(useCase.getDescription());
 		summary.setStatus(useCase.getStatus());
 		summary.setNumberOfScenarios(useCaseScenarios.getScenarios().size());
-        summary.setLabels(useCase.getLabels())
+		summary.setLabels(useCase.getLabels());
 		return summary;
 	}
-
+	
 }

@@ -92,6 +92,9 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.stepNavigation = result.stepNavigation;
                 $scope.stepStatistics = result.stepStatistics;
                 $scope.stepIndex = result.stepNavigation.stepIndex;
+                $scope.useCaseLabels = result.useCaseLabels;
+                $scope.scenarioLabels = result.scenarioLabels;
+
                 beautify(result.step.html);
 
                 $scope.hasAnyLabels = function() {
@@ -107,7 +110,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
         $scope.getScreenShotUrl = function (imgName) {
             if (angular.isDefined(imgName)) {
-                return HostnameAndPort.forLink() + 'rest/branches/' + selected.branch + '/builds/' + selected.build + '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
+                return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
             } else {
                 return '';
             }
@@ -277,6 +280,26 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             return $scope.stepNavigation.stepIndex + 1;
         };
 
+        $scope.getCurrentPageIndexForDisplay = function () {
+            if (angular.isUndefined($scope.stepNavigation)) {
+                return '?';
+            }
+            return $scope.stepNavigation.pageIndex + 1;
+        };
+
+        $scope.getStepIndexInCurrentPageForDisplay = function() {
+            if (angular.isUndefined($scope.stepNavigation)) {
+                return '?';
+            }
+            return $scope.stepNavigation.stepInPageOccurrence + 1;
+        };
+
+        $scope.getNumberOfStepsInCurrentPageForDisplay = function() {
+            if (angular.isUndefined($scope.stepStatistics)) {
+                return '?';
+            }
+            return $scope.stepStatistics.totalNumberOfStepsInPageOccurrence;
+        };
     }
 
     $scope.go = function (step) {

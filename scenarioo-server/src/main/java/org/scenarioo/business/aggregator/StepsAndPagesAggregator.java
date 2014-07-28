@@ -23,9 +23,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang3.StringUtils;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
+import org.scenarioo.model.docu.aggregates.steps.NeighborStep;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
 import org.scenarioo.model.docu.entities.Page;
@@ -63,7 +65,7 @@ public class StepsAndPagesAggregator {
 		int index = 0;
 		int pageOccurrence = 0;
 		int stepInPageOccurrence = 0;
-
+		
 		for (Step step : steps) {
 			
 			// Introduce a special dummy page for all steps not having any page to avoid problems.
@@ -89,22 +91,22 @@ public class StepsAndPagesAggregator {
 			// add step to belonging page steps
 			StepDescription stepDescription = step.getStepDescription();
 			pageSteps.getSteps().add(stepDescription);
-
+			
 			StepLink stepLink = new StepLink(usecase.getName(),
 					scenario.getName(), index, pageIndex, getPageName(page),
 					pageOccurrence, stepInPageOccurrence);
 			stepLinks.add(stepLink);
-
+			
 			index++;
 			stepInPageOccurrence++;
 		}
-
+		
 		calculateNavigationAndPageVariantsData(stepLinks);
-
+		
 		return pageStepsList;
 		
 	}
-
+	
 	private void calculateNavigationAndPageVariantsData(
 			final List<StepLink> stepLinks) {
 		for (int i = 0; i < stepLinks.size(); i++) {
@@ -114,7 +116,7 @@ public class StepsAndPagesAggregator {
 					getNextStep(stepLinks, i), getNextPage(stepLinks, i));
 		}
 	}
-
+	
 	private NeighborStep getPreviousPage(final List<StepLink> stepLinks,
 			final int currentStepIndex) {
 		String currentPageName = stepLinks.get(currentStepIndex).getPageName();
@@ -125,7 +127,7 @@ public class StepsAndPagesAggregator {
 		}
 		return null;
 	}
-
+	
 	private NeighborStep getNextPage(final List<StepLink> stepLinks,
 			final int currentStepIndex) {
 		String currentPageName = stepLinks.get(currentStepIndex).getPageName();
@@ -136,7 +138,7 @@ public class StepsAndPagesAggregator {
 		}
 		return null;
 	}
-
+	
 	private NeighborStep getPreviousStep(final List<StepLink> stepLinks,
 			final int i) {
 		if (i > 0) {
@@ -145,7 +147,7 @@ public class StepsAndPagesAggregator {
 			return null;
 		}
 	}
-
+	
 	private NeighborStep getNextStep(final List<StepLink> stepLinks, final int i) {
 		if (i < stepLinks.size() - 1) {
 			return new NeighborStep(stepLinks.get(i + 1));
@@ -153,15 +155,15 @@ public class StepsAndPagesAggregator {
 			return null;
 		}
 	}
-
+	
 	private boolean isNewPage(final Page page, final Step step) {
 		return page == null || step.getPage() == null
 				|| !page.equals(step.getPage());
 	}
-
+	
 	/**
-	 * Calculate the number of times this same page has already occurred and
-	 * increase the occurrence in the passed pageOccurrences accordingly.
+	 * Calculate the number of times this same page has already occurred and increase the occurrence in the passed
+	 * pageOccurrences accordingly.
 	 */
 	private int increasePageOccurrence(
 			final Map<String, Integer> pageOccurrences, final Page page) {
@@ -176,27 +178,25 @@ public class StepsAndPagesAggregator {
 		}
 		return occurrences.intValue();
 	}
-
+	
 	private String getPageName(final Page page) {
 		return (page == null) ? null : page.getName();
 	}
-
+	
 	/**
-	 * Calculate and save the step and page variant navigation data for current
-	 * step.
+	 * Calculate and save the step and page variant navigation data for current step.
 	 * 
-	 * The written data in this method is not yet complete, because the next
-	 * step for the current page variant will only be processed later. See
-	 * {@link #saveAggregatedPageVariantDataInStepNavigations()} for completing
-	 * this step navigation data.
+	 * The written data in this method is not yet complete, because the next step for the current page variant will only
+	 * be processed later. See {@link #saveAggregatedPageVariantDataInStepNavigations()} for completing this step
+	 * navigation data.
 	 */
 	private void calculateNavigationAndPageVariantData(
 			final NeighborStep previousPage, final NeighborStep previousStep,
 			final StepLink currentStep, final NeighborStep nextStep,
 			final NeighborStep nextPage) {
-
+		
 		PageVariantNavigationData pageVariant = getPageVariantNavigationData(currentStep);
-
+		
 		// Calculate page variant data:
 		StepLink previousPageVariantStep = null;
 		StepLink previousPageVariantStepOtherSceanrio = null;
@@ -216,7 +216,7 @@ public class StepsAndPagesAggregator {
 					.getLastStepFromDifferentScenario();
 			pageVariant.setLastStep(currentStep);
 		}
-
+		
 		// Create step navigation for current step (not yet complete, because
 		// next page variant step is only processed
 		// and added later)
@@ -241,12 +241,12 @@ public class StepsAndPagesAggregator {
 			// next page variant steps will be saved later, when all steps and
 			// scenarios have been processed.
 		}
-
+		
 		// save navigation data
 		dao.saveStepNavigation(build, currentStep, stepNavigation);
-
+		
 	}
-
+	
 	/**
 	 * Get or create a page variant navigation data for current step's page
 	 */
@@ -264,12 +264,12 @@ public class StepsAndPagesAggregator {
 		}
 		return pageVariant;
 	}
-
+	
 	private boolean isSameScenario(final StepLink step1, final StepLink step2) {
 		return step1.getUseCaseName().equals(step2.getUseCaseName())
 				&& step1.getScenarioName().equals(step2.getScenarioName());
 	}
-
+	
 	/**
 	 * Write data that has been collected into all step's navigation files.
 	 * <ul>
@@ -279,13 +279,13 @@ public class StepsAndPagesAggregator {
 	 * </ul>
 	 */
 	public void completeAggregatedPageVariantDataInStepNavigations() {
-
+		
 		for (Entry<String, PageVariantNavigationData> pageVariant : pageVariants
 				.entrySet()) {
-
+			
 			PageVariantNavigationData pageVariantNavigation = pageVariant
 					.getValue();
-
+			
 			// Process all step navigations for this page by passing backwards
 			// through it and complete the navigation
 			// data.
@@ -293,12 +293,12 @@ public class StepsAndPagesAggregator {
 			StepLink nextStepVariant = null;
 			StepLink nextStepVariantInOtherScenario = null;
 			while (lastStep != null) {
-
+				
 				if (nextStepVariant != null
 						&& !isSameScenario(nextStepVariant, lastStep)) {
 					nextStepVariantInOtherScenario = nextStepVariant;
 				}
-
+				
 				StepNavigation stepNavigation = dao.loadStepNavigation(build,
 						lastStep);
 				stepNavigation.setPageVariantsCount(pageVariantNavigation
@@ -310,7 +310,7 @@ public class StepsAndPagesAggregator {
 				stepNavigation
 						.setNextStepVariantInOtherScenario(nextStepVariantInOtherScenario);
 				dao.saveStepNavigation(build, lastStep, stepNavigation);
-
+				
 				nextStepVariant = lastStep;
 				lastStep = stepNavigation.getPreviousStepVariant();
 			}

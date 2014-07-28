@@ -33,25 +33,26 @@ import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
 import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
+import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
+import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.dto.StepDto;
 import org.scenarioo.rest.exceptions.PageOccurrenceDoesNotExistException;
 import org.scenarioo.rest.exceptions.StepInPageOccurrenceDoesNotExistException;
 
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}")
 public class StepResource {
-
+	
 	private static final Logger LOGGER = Logger.getLogger(StepResource.class);
-
+	
 	private final ScenarioDocuReader docuDAO = new ScenarioDocuReader(
 			ConfigurationDAO.getDocuDataDirectoryPath());
-
+	
 	private final ScenarioDocuAggregationDAO aggregationsDAO = new ScenarioDocuAggregationDAO(
 			ConfigurationDAO.getDocuDataDirectoryPath());
-
+	
 	/**
-	 * Get a step with all its data (meta data, html, ...) together with
-	 * additional calculated navigation data
+	 * Get a step with all its data (meta data, html, ...) together with additional calculated navigation data
 	 */
 	@GET
 	@Produces({ "application/xml", "application/json" })
@@ -62,26 +63,23 @@ public class StepResource {
 			@PathParam("pageName") final String pageName,
 			@PathParam("pageOccurrence") final int pageOccurrence,
 			@PathParam("stepInPageOccurrence") final int stepInPageOccurrence) {
-
+		
 		StepIdentifier stepIdentifier = new StepIdentifier(branchName,
 				buildName, usecaseName, scenarioName, pageName, pageOccurrence,
 				stepInPageOccurrence);
-
-		LOGGER.info("loadStep(" + stepIdentifier + ")");
-
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE
-				.resolveAliasBuildName(branchName, buildName);
-
-		ScenarioPageSteps scenarioPagesAndSteps = aggregationsDAO
-				.loadScenarioPageSteps(branchName, resolvedBuildName,
-						usecaseName, scenarioName);
-
-		int stepIndex = resolveStepIndex(scenarioPagesAndSteps, stepIdentifier);
-
-		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName, buildName);
 		
-
+		LOGGER.info("loadStep(" + stepIdentifier + ")");
+		
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName,
+				buildName);
+		
+		ScenarioPageSteps scenarioPagesAndSteps = aggregationsDAO
+				.loadScenarioPageSteps(resolvedBranchName, resolvedBuildName,
+						usecaseName, scenarioName);
+		
+		int stepIndex = resolveStepIndex(scenarioPagesAndSteps, stepIdentifier);
+		
 		Step step = docuDAO.loadStep(branchName, resolvedBuildName,
 				usecaseName, scenarioName, stepIndex);
 		StepNavigation navigation = aggregationsDAO.loadStepNavigation(
@@ -89,18 +87,22 @@ public class StepResource {
 				usecaseName, scenarioName, stepIndex);
 		StepStatistics statistics = scenarioPagesAndSteps.getStepStatistics(
 				pageName, pageOccurrence);
-		return new StepDto(step, navigation, statistics);
+		
+		Scenario scenario = docuDAO.loadScenario(resolvedBranchName, resolvedBuildName, usecaseName, scenarioName);
+		UseCase usecase = docuDAO.loadUsecase(resolvedBranchName, resolvedBuildName, usecaseName);
+		
+		return new StepDto(step, navigation, usecase.getLabels(), scenario.getLabels(), statistics);
 	}
-
+	
 	private int resolveStepIndex(final ScenarioPageSteps scenarioPagesAndSteps,
 			final StepIdentifier stepIdentifier) {
 		if (scenarioPagesAndSteps == null) {
 			throw new RuntimeException(
 					"resolveStepIndex: scenarioPagesAndSteps is null");
 		}
-
+		
 		int occurrence = 0;
-
+		
 		for (PageSteps pageWithSteps : scenarioPagesAndSteps.getPagesAndSteps()) {
 			if (isCorrectPage(pageWithSteps, stepIdentifier.getPageName())) {
 				if (occurrence == stepIdentifier.getPageOccurrence()) {
@@ -110,10 +112,10 @@ public class StepResource {
 				occurrence++;
 			}
 		}
-
+		
 		throw new PageOccurrenceDoesNotExistException(stepIdentifier);
 	}
-
+	
 	private int resolveStepInPageOccurrence(final PageSteps pageWithSteps,
 			final StepIdentifier stepIdentifier) {
 		if (stepIdentifier.getStepInPageOccurrence() < pageWithSteps.getSteps()
@@ -121,13 +123,13 @@ public class StepResource {
 			return pageWithSteps.getSteps()
 					.get(stepIdentifier.getStepInPageOccurrence()).getIndex();
 		}
-
+		
 		throw new StepInPageOccurrenceDoesNotExistException(stepIdentifier);
 	}
-
+	
 	private boolean isCorrectPage(final PageSteps pageWithSteps,
 			final String pageName) {
 		return pageName.equals(pageWithSteps.getPage().getName());
 	}
-
+	
 }

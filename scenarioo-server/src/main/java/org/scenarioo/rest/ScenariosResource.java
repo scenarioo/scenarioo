@@ -41,7 +41,8 @@ public class ScenariosResource {
 	public UseCaseScenarios readUseCaseScenarios(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName) {
 		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName, buildName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName,
+				buildName);
 		return dao.loadUseCaseScenarios(resolvedBranchName, resolvedBuildName, usecaseName);
 	}
 	
@@ -55,8 +56,10 @@ public class ScenariosResource {
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName) {
 		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName, buildName);
-		return dao.loadScenarioPageSteps(resolvedBranchName, resolvedBuildName, usecaseName, scenarioName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName,
+				buildName);
+		ScenarioPageSteps pageSteps = dao.loadScenarioPageSteps(resolvedBranchName, resolvedBuildName, usecaseName,
+				scenarioName);
 		
 		return new ScenarioDtoMapper().map(pageSteps);
 	}
