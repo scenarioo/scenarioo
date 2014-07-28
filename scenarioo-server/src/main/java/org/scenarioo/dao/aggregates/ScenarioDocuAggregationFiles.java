@@ -34,6 +34,7 @@ public class ScenarioDocuAggregationFiles {
 	
 	private static final String DIRECTORY_NAME_OBJECT_INDEXES = "index";
 	private static final String DIRECTORY_NAME_OBJECTS = "objects.derived";
+	private static final String DIRECTORY_NAME_CUSTOM_OBJECT_TAB_TREES = "customObjectTabTrees.derived";
 	private static final String FILENAME_VERSION_PROPERTIES = "version.derived.properties";
 	private static final String FILENAME_USECASES_XML = "usecases.derived.xml";
 	private static final String FILENAME_SCENARIOS_XML = "scenarios.derived.xml";
@@ -74,6 +75,11 @@ public class ScenarioDocuAggregationFiles {
 		return new File(docuFiles.getBuildDirectory(branchName, buildName), DIRECTORY_NAME_OBJECTS);
 	}
 	
+	private File getCustomObjectTabTreesDirectory(final BuildIdentifier buildIdentifier) {
+		File objectDirectory = getObjectsDirectory(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+		return new File(objectDirectory, DIRECTORY_NAME_CUSTOM_OBJECT_TAB_TREES);
+	}
+	
 	public File getObjectsDirectoryForObjectType(final String branchName, final String buildName, final String typeName) {
 		return new File(getObjectsDirectory(branchName, buildName), FilesUtil.encodeName(typeName));
 	}
@@ -100,6 +106,11 @@ public class ScenarioDocuAggregationFiles {
 		return new File(objectsDir, FilesUtil.encodeName(name) + ".index.xml");
 	}
 	
+	public File getCustomObjectTabTreeFile(final BuildIdentifier buildIdentifier, final String tabId) {
+		File customObjectTabTreesDir = getCustomObjectTabTreesDirectory(buildIdentifier);
+		return new File(customObjectTabTreesDir, FilesUtil.encodeName(tabId) + ".objectTree.derived.xml");
+	}
+	
 	public File getBuildImportLogFile(final String branchName, final String buildName) {
 		return new File(docuFiles.getBuildDirectory(branchName, buildName), "import.derived.log");
 	}
@@ -120,8 +131,8 @@ public class ScenarioDocuAggregationFiles {
 	 */
 	public File getStepNavigationsDirectory(final BuildIdentifier build, final String useCaseName,
 			final String scenarioName) {
-		File stepsDir = docuFiles.getStepsDirectory(build.getBranchName(), build.getBuildName(),
-				useCaseName, scenarioName);
+		File stepsDir = docuFiles.getStepsDirectory(build.getBranchName(), build.getBuildName(), useCaseName,
+				scenarioName);
 		return new File(stepsDir, "navigation.derived");
 	}
 	
@@ -134,10 +145,10 @@ public class ScenarioDocuAggregationFiles {
 		return new File(stepNavigationsDir, THREE_DIGIT_NUM_FORMAT.format(stepIndex) + ".navigation.xml");
 	}
 	
-	private static NumberFormat createNumberFormatWithMinimumIntegerDigits(
-			final int minimumIntegerDigits) {
+	private static NumberFormat createNumberFormatWithMinimumIntegerDigits(final int minimumIntegerDigits) {
 		final NumberFormat numberFormat = NumberFormat.getIntegerInstance();
 		numberFormat.setMinimumIntegerDigits(minimumIntegerDigits);
 		return numberFormat;
 	}
+	
 }

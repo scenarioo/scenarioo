@@ -28,12 +28,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				<!-- Branch selection dropdown -->
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<span class="glyphicon glyphicon-hdd"></span> Branch: {{branchesAndBuilds.selectedBranch.branch.name}}
-						<b class="caret"></b>
+						<span class="glyphicon glyphicon-hdd"></span> Branch:
+                        <span class="glyphicon glyphicon-share-alt" ng-show="branchesAndBuilds.selectedBranch.alias"></span>
+                        {{branchesAndBuilds.selectedBranch.branch.name}}
+						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
 						<li ng-repeat="branch in branchesAndBuilds.branches">
-							<a ng-click="setBranch(branch)">{{branch.branch.name}}</a>
+							<a ng-click="setBranch(branch)">
+                                <span class="glyphicon glyphicon-share-alt" ng-show="branch.alias"></span>
+                                {{branch.branch.name}}</a>
 						</li>
 					</ul>
 				</li>

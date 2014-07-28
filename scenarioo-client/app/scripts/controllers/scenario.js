@@ -17,7 +17,8 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, $window, localStorageService, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams,
+    $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, Config, PagesAndSteps) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -39,35 +40,27 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
                 usecaseName: useCaseName,
                 scenarioName: scenarioName
             },
-            function (result) {
+            function(result) {
                 // Add page to the step to allow search for step- as well as page-properties
-                populatePageAndSteps(result);
-            });
-    }
+                $scope.pagesAndScenarios = PagesAndSteps.populatePagesAndSteps(result);
+                $scope.useCaseDescription = result.useCase.description;
+                $scope.scenario = $scope.pagesAndScenarios.scenario;
+                $scope.useCase = result.useCase;
+                $scope.pagesAndSteps = $scope.pagesAndScenarios.pagesAndSteps;
+                $scope.metadataTree = transformMetadataToTreeArray($scope.pagesAndScenarios.scenario.details);
+                $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario);
 
-    function populatePageAndSteps(pagesAndScenarios) {
-        var stepIndex = 0;
+                $scope.hasAnyLabels = function() {
+                    var hasAnyUseCaseLabels = $scope.useCase.labels.labels.length > 0;
+                    var hasAnyScenarioLabels = $scope.scenario.labels.labels.length > 0;
 
-        for (var indexPage = 0; indexPage < pagesAndScenarios.pagesAndSteps.length; indexPage++) {
-            var page = pagesAndScenarios.pagesAndSteps[indexPage];
-            page.page.index = indexPage + 1;
-            for (var stepInPageOccurrence = 0; stepInPageOccurrence < page.steps.length; stepInPageOccurrence++) {
-                var step = page.steps[stepInPageOccurrence];
-                step.page = page.page;
-                step.stepInPageOccurrence = stepInPageOccurrence;
-                step.stepIndex = stepIndex;
-                step.number = page.page.index + '.' + (stepInPageOccurrence + 1);
-                if (!step.title) {
-                    step.title = 'undefined';
+                    return hasAnyUseCaseLabels || hasAnyScenarioLabels;
+                };
+
+                if (Config.expandPagesInScenarioOverview()) {
+                    $scope.expandAll();
                 }
-                stepIndex = stepIndex + 1;
-            }
-        }
-
-        $scope.scenario = pagesAndScenarios.scenario;
-        $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
-        $scope.metadataTree = transformMetadataToTreeArray(pagesAndScenarios.scenario.details);
-        $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario);
+            });
     }
 
     $scope.showAllStepsForPage = function (pageIndex) {
@@ -151,67 +144,10 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
 
     function createScenarioInformationTree(scenario) {
         var stepInformation = {};
-        stepInformation.Description = scenario.description;
         stepInformation['Number of Pages'] = scenario.calculatedData.numberOfPages;
         stepInformation['Number of Steps'] = scenario.calculatedData.numberOfSteps;
         stepInformation.Status = scenario.status;
         return transformMetadataToTree(stepInformation);
     }
-
-    // TODO make the following code generic and share it with step.js
-
-    var SCENARIO_METADATA_SECTION_EXPANDED = 'scenarioo-scenarioMetadataSectionExpanded-';
-    var SCENARIO_METADATA_VISIBLE = 'scenarioo-scenarioMetadataVisible';
-
-    $scope.isMetadataExpanded = function (type) {
-        var metadataExpanded = localStorageService.get(SCENARIO_METADATA_SECTION_EXPANDED + type);
-        if (metadataExpanded === 'true') {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
-    $scope.toggleMetadataExpanded = function (type) {
-        var metadataExpanded = !$scope.isMetadataExpanded(type);
-        localStorageService.set(SCENARIO_METADATA_SECTION_EXPANDED + type, '' + metadataExpanded);
-    };
-
-    $scope.isMetadataCollapsed = function (type) {
-        return !$scope.isMetadataExpanded(type);
-    };
-
-    $scope.toggleShowingMetadata = function () {
-        $scope.showingMetaData = !$scope.showingMetaData;
-        localStorageService.set(SCENARIO_METADATA_VISIBLE, '' + $scope.showingMetaData);
-    };
-
-    /**
-     * Init metadata visibility and expanded sections from local storage on startup.
-     */
-    function initMetadataVisibilityAndExpandedSections() {
-
-        // Init metadata visibility from local storage
-        var metadataVisible = localStorageService.get(SCENARIO_METADATA_VISIBLE);
-        if (metadataVisible === 'true') {
-            $scope.showingMetaData = true;
-        }
-        else if (metadataVisible === 'false') {
-            $scope.showingMetaData = false;
-        } else {
-            // default
-            $scope.showingMetaData = $window.innerWidth > 800;
-        }
-
-        // Set special scenario metadata to expanded by default.
-        var majorStepPropertiesExpanded = localStorageService.get(SCENARIO_METADATA_SECTION_EXPANDED + 'sc-scenario-properties');
-        var isMajorStepPropertiesExpandedSetToFalse = majorStepPropertiesExpanded === 'false';
-        if (!isMajorStepPropertiesExpandedSetToFalse) {
-            localStorageService.set(SCENARIO_METADATA_SECTION_EXPANDED + 'sc-scenario-properties', 'true');
-        }
-
-    }
-
-    initMetadataVisibilityAndExpandedSections();
 
 });

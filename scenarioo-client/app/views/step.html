@@ -72,21 +72,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
     </div>
-
-
-    <!-- View Metadata toggle button -->
-    <div class="col-lg-offset-2 col-lg-2">
-        <div class="pull-right">
-            <span sc-static-include="views/metadataButton.html"></span>
-        </div>
-    </div>
-
-
 </div>
 
 <!-- screenshot and information -->
-<div class="row step-main">
-    <div ng-class="{true: 'step-data-small col-lg-8', false: 'step-data-large col-lg-12'}[showingMetaData]">
+<sc-show-hide-details showHideStorageKey="step">
+    <div>
         <tabset class="step-panes">
             <tab heading="Screenshot">
                 <div class="sc-screenshot-border">
@@ -101,20 +91,57 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
     <div ng-show="showingMetaData" class="col-lg-4 hero-unit meta-data">
 
+    <div>
         <!-- step -->
-        <div>
-            <div class="panel panel-default">
-                <div class="panel-heading link" ng-click="toggleMetadataExpanded('sc-step-properties')">
-                    <h3 class="panel-title">Step</h3>
-                </div>
-                <div class="panel-body" ng-class="{hidden: isMetadataCollapsed('sc-step-properties'), metadata: true}">
-                    <sc-tree data='stepInformationTree'></sc-tree>
-                </div>
+        <sc-collapsable-panel title="Step" key="stepView-step" initially-expanded="false">
+            <sc-tree data='stepInformationTree'></sc-tree>
+        </sc-collapsable-panel>
+
+        <!-- labels -->
+        <sc-collapsable-panel title="Labels" key="stepView-labels" initially-expanded="false" ng-show="hasAnyLabels()">
+            <div class="sc-tree">
+                <ul>
+                    <li>
+                        <div class="sc-treeNodeObject">
+                            <div class="sc-treeNodeObjectTitle">
+                                <span class="sc-node-label">Use case: </span>
+                                <span ng-repeat="label in useCaseLabels.labels" class="label label-info sc-label">{{label}}</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="sc-treeNodeObject">
+                            <div class="sc-treeNodeObjectTitle">
+                                <span class="sc-node-label">Scenario: </span>
+                                <span ng-repeat="label in scenarioLabels.labels" class="label label-info sc-label">{{label}}</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="sc-treeNodeObject">
+                            <div class="sc-treeNodeObjectTitle">
+                                <span class="sc-node-label">Step: </span>
+                                <span ng-repeat="label in step.labels.labels" class="label label-info sc-label">{{label}}</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="sc-treeNodeObject">
+                            <div class="sc-treeNodeObjectTitle">
+                                <span class="sc-node-label">Page: </span>
+                                <span ng-repeat="label in step.page.labels.labels" class="label label-info sc-label">{{label}}</span>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
             </div>
-        </div>
 
+        </sc-collapsable-panel>
         <!-- meta info -->
-        <span sc-static-include="views/metadata.html"></span>
-
+        <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
     </div>
-</div>
+</sc-show-hide-details>

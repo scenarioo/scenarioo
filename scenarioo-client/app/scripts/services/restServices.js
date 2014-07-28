@@ -16,120 +16,161 @@
  */
 
 'use strict';
+angular.module('scenarioo.services')
+    .config(function ($httpProvider) {
+        $httpProvider.defaults.headers.common.Accept = 'application/json';
+        $httpProvider.defaults.stripTrailingSlashes = false;
+    })
 
-angular.module('scenarioo.services').config(function ($httpProvider) {
-    $httpProvider.defaults.headers.common.Accept = 'application/json';
-});
+    .factory('HostnameAndPort', function (ENV) {
+        var hostAndPort;
 
-angular.module('scenarioo.services').factory('HostnameAndPort', function (ENV) {
-    var hostAndPort;
-
-    if (ENV === 'production') {
-        hostAndPort = '';
-    } else if (ENV === 'development') {
-        hostAndPort = 'http://localhost:8080/scenarioo/';
-    }
-
-    return {
-        forNgResource: function () {
-            return hostAndPort.replace(/(:[0-9])/, '\\$1');
-        },
-        forTest: function () {
-            return hostAndPort;
-        },
-        forLink: function () {
-            return hostAndPort;
+        if (ENV === 'production') {
+            hostAndPort = '';
+        } else if (ENV === 'development') {
+            hostAndPort = 'http://localhost:8080/scenarioo/';
         }
-    };
-});
 
-angular.module('scenarioo.services').factory('ScenariooResource', function (HostnameAndPort, $resource) {
-    return function (url, paramDefaults, actions) {
-        return $resource(HostnameAndPort.forNgResource() + 'rest' + url, paramDefaults, actions);
-    };
-});
+        return {
+            forNgResource: function () {
+                return hostAndPort.replace(/(:[0-9])/, '\\$1');
+            },
+            forTest: function () {
+                return hostAndPort;
+            },
+            forLink: function () {
+                return hostAndPort;
+            }
+        };
+    })
 
-function getPromise($q, fn) {
-    return function (parameters) {
-        var deferred = $q.defer();
-        fn(parameters, function (result) {
-            deferred.resolve(result);
-        }, function (error) {
-            deferred.reject(error);
+    .factory('ScenariooResource', function (HostnameAndPort, $resource) {
+        return function (url, paramDefaults, actions) {
+            return $resource(HostnameAndPort.forNgResource() + 'rest' + url, paramDefaults, actions);
+        };
+    })
+
+    .factory('BranchesResource', function (ScenariooResource) {
+        return ScenariooResource('/branches', {}, {});
+    })
+
+    .factory('BuildImportStatesResource', function (ScenariooResource) {
+        return ScenariooResource('/builds/buildImportSummaries', {}, {});
+    })
+
+    .factory('BuildImportLogResource', function (HostnameAndPort, $http) {
+        return {
+            get: function(branchName, buildName, onSuccess, onError) {
+                var callURL = HostnameAndPort.forLink() + 'rest/builds/importLogs/' + encodeURIComponent(branchName) + '/' + encodeURIComponent(buildName);
+                $http({method: 'GET', url: callURL}).success(onSuccess).error(onError);
+            }
+        };
+    })
+
+    .factory('BuildImportService', function (ScenariooResource, $q) {
+        var buildImportService = ScenariooResource('/builds/updateAndImport', {});
+        buildImportService.updateData = getPromise($q, function (parameters, fnSuccess, fnError) {
+            return buildImportService.get(parameters, fnSuccess, fnError);
         });
-        return deferred.promise;
-    };
-}
+        return buildImportService;
+    })
 
+    .factory('PageVariantService', function (ScenariooResource, $q) {
+        var pageVariantService = ScenariooResource('/branches/:branchName/builds/:buildName/search/pagevariants/',
+            {   branchName: '@branchName',
+                buildName: '@buildName'}, {});
 
-angular.module('scenarioo.services').factory('BranchesResource', function (ScenariooResource) {
-    return ScenariooResource('/branches', {}, {});
-});
+        pageVariantService.getPageVariantCount = getPromise($q, function (parameters, fnSuccess, fnError) {
+            return pageVariantService.get(parameters, fnSuccess, fnError);
+        });
+        return pageVariantService;
+    })
 
-angular.module('scenarioo.services').factory('BuildImportStatesResource', function (ScenariooResource) {
-    return ScenariooResource('/builds/buildImportSummaries', {}, {});
-});
+    .factory('UseCaseService', function (ScenariooResource, $q) {
+        var useCaseService = ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName',
+            {   branchName: '@branchName',
+                buildName: '@buildName',
+                usecaseName: '@usecaseName'}, {});
 
-angular.module('scenarioo.services').factory('BuildImportLogResource', function (HostnameAndPort, $http) {
-    return {
-        get: function(branchName, buildName, onSuccess, onError) {
-            var callURL = HostnameAndPort.forLink() + 'rest/builds/importLogs/' + encodeURIComponent(branchName) + '/' + encodeURIComponent(buildName);
-            $http({method: 'GET', url: callURL}).success(onSuccess).error(onError);
-        }
-    };
+        useCaseService.getUseCase = getPromise($q, function (parameters, fnSuccess, fnError) {
+            return useCaseService.get(parameters, fnSuccess, fnError);
+        });
+        return useCaseService;
+    })
 
-});
+	.factory('StepService', function (ScenariooResource, $q) {
+		var stepService = ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName/pageName/:pageName/pageOccurrence/:pageOccurrence/stepInPageOccurrence/:stepInPageOccurrence',
+		    {branchName: '@branchName',
+		        buildName: '@buildName',
+		        usecaseName: '@usecaseName',
+		        scenarioName: '@scenarioName',
+		        pageName: '@pageName',
+		        pageOccurrence: '@pageOccurrence',
+		        stepInPageOccurrence: '@stepInPageOccurrence'
+		    }, {});
 
-angular.module('scenarioo.services').factory('BuildImportService', function (ScenariooResource, $q) {
-    var buildImportService = ScenariooResource('/builds/updateAndImport', {});
-    buildImportService.updateData = getPromise($q, function (parameters, fnSuccess, fnError) {
-        return buildImportService.get(parameters, fnSuccess, fnError);
-    });
-    return buildImportService;
-});
+		stepService.getStep = getPromise($q, function (parameters, fnSuccess, fnError) {
+		    return stepService.get(parameters, fnSuccess, fnError);
+		});
 
-angular.module('scenarioo.services').factory('BuildReimportResource', function (ScenariooResource) {
-    return ScenariooResource('/builds/reimportBuild/:branchName/:buildName',
-        {   branchName: '@branchName',
-            buildName: '@buildName'}, {});
-});
+		return stepService;
+	});
 
-angular.module('scenarioo.services').factory('UseCaseService', function (ScenariooResource, $q) {
-    var useCaseService = ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName',
-        {   branchName: '@branchName',
-            buildName: '@buildName',
-            usecaseName: '@usecaseName'}, {});
+    .factory('ConfigResource', function (ScenariooResource) {
+        return ScenariooResource('/configuration', {});
+    })
 
-    useCaseService.getUseCase = getPromise($q, function (parameters, fnSuccess, fnError) {
-        return useCaseService.get(parameters, fnSuccess, fnError);
-    });
-    return useCaseService;
-});
+    .factory('UseCasesResource', function (ScenariooResource) {
+        return ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName',
+            {
+                branchName: '@branchName',
+                buildName: '@buildName',
+                usecaseName: '@usecaseName'
+            }, {});
+    })
 
-angular.module('scenarioo.services').factory('StepService', function (ScenariooResource, $q) {
-    var stepService = ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName/pageName/:pageName/pageOccurrence/:pageOccurrence/stepInPageOccurrence/:stepInPageOccurrence',
-        {branchName: '@branchName',
-            buildName: '@buildName',
-            usecaseName: '@usecaseName',
-            scenarioName: '@scenarioName',
-            pageName: '@pageName',
-            pageOccurrence: '@pageOccurrence',
-            stepInPageOccurrence: '@stepInPageOccurrence'
-        }, {});
+     .factory('ScenarioResource', function (ScenariooResource) {
+        return ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName',
+            {
+                branchName: '@branchName',
+                buildName: '@buildName',
+                usecaseName: '@usecaseName',
+                scenarioName: '@scenarioName'
+            }, {});
+    })
 
-    stepService.getStep = getPromise($q, function (parameters, fnSuccess, fnError) {
-        return stepService.get(parameters, fnSuccess, fnError);
-    });
+    .factory('ObjectsForTypeResource', function (ScenariooResource) {
+        return ScenariooResource('/branches/:branchName/builds/:buildName/objects/service',
+            {
+                branchName: '@branchName',
+                buildName: '@buildName'
+            }, {});
+    })
 
-    return stepService;
-});
+    .factory('VersionResource', function (ScenariooResource) {
+        return ScenariooResource('/version', {}, {});
+    })
 
-angular.module('scenarioo.services').factory('ConfigResource', function (ScenariooResource) {
-    return ScenariooResource('/configuration', {});
-});
+    .factory('CustomTabContentResource', function (ScenariooResource) {
+        return ScenariooResource('/branches/:branchName/builds/:buildName/customTabObjects/:tabId',
+            {
+                branchName: '@branchName',
+                buildName: '@buildName',
+                tabId: '@tabId'
+            }, {});
+    })
+
+    .factory('ObjectListResource', function (ScenariooResource) {
+        return ScenariooResource('/branches/:branchName/builds/:buildName/objects/:objectType',
+            {
+                branchName: '@branchName',
+                buildName: '@buildName',
+                objectType: '@objectType'
+            }, {});
+    })
 
 angular.module('scenarioo.services').factory('UseCasesResource', function (ScenariooResource) {
-    return ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName',
+    return ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName',
         {
             branchName: '@branchName',
             buildName: '@buildName',
@@ -138,7 +179,7 @@ angular.module('scenarioo.services').factory('UseCasesResource', function (Scena
 });
 
 angular.module('scenarioo.services').factory('ScenarioResource', function (ScenariooResource) {
-    return ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName',
+    return ScenariooResource('/branches/:branchName/builds/:buildName/usecases/:usecaseName/scenarios/:scenarioName',
         {
             branchName: '@branchName',
             buildName: '@buildName',

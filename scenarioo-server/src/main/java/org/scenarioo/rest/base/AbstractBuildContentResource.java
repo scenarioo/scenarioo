@@ -30,9 +30,10 @@ import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 public class AbstractBuildContentResource {
 	
 	public static ScenarioDocuAggregationDAO getDAO(final String branchName, final String buildName) {
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(branchName, buildName);
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
+		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName, buildName);
 		LongObjectNamesResolver longObjectNamesResolver = ScenarioDocuBuildsManager.INSTANCE.getLongObjectNameResolver(
-				branchName, resolvedBuildName);
+				resolvedBranchName, resolvedBuildName);
 		return new ScenarioDocuAggregationDAO(
 				ConfigurationDAO.getDocuDataDirectoryPath(), longObjectNamesResolver);
 	}

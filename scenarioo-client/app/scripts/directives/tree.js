@@ -23,6 +23,7 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
     var CHILDREN = 'children';
 
     function createTreeHtml(data) {
+
         if (!angular.isObject(data)) {
             return 'no data to display';
         }
@@ -123,14 +124,27 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
     }
 
     function getNodeTitleHtml(data) {
-        return '<span class="sc-node-label">' + data.nodeLabel + '</span>' + getNodeValueHtml(data.nodeValue);
+        return '<span class="sc-node-label">' + data.nodeLabel + '</span>' + getNodeValueHtml(data);
     }
 
-    function getNodeValueHtml(nodeValue) {
-        if (angular.isUndefined(nodeValue)) {
+    function getNodeValueHtml(data) {
+        var href = '';
+
+        if (angular.isUndefined(data.nodeValue)) {
             return '';
         }
-        return '<span class="sc-node-label">: </span><span class="sc-node-value">' + nodeValue + '</span>';
+
+        if (angular.isDefined(data.nodeObjectType) && angular.isDefined(data.nodeObjectName)) {
+            var hrefObjectType = encodeURIComponent(data.nodeObjectType);
+            var hrefObjectName = encodeURIComponent(data.nodeObjectName);
+
+            href = '<a href="#/object/' + hrefObjectType + '/' + hrefObjectName + '">' + data.nodeValue + '</a>';
+        }
+        else {
+            href = data.nodeValue;
+        }
+
+        return '<span class="sc-node-label">: </span><span class="sc-node-value">' + href + '</span>';
     }
 
     function getChildNodesHtml(childNodes) {

@@ -32,6 +32,7 @@ import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummaries;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
+import org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
@@ -85,11 +86,9 @@ public class ScenarioDocuAggregationDAO {
 				properties.load(reader);
 				return properties.getProperty(VERSION_PROPERTY_KEY);
 			} catch (FileNotFoundException e) {
-				throw new RuntimeException("file not found: "
-						+ versionFile.getAbsolutePath(), e);
+				throw new RuntimeException("file not found: " + versionFile.getAbsolutePath(), e);
 			} catch (IOException e) {
-				throw new RuntimeException("file not readable: "
-						+ versionFile.getAbsolutePath(), e);
+				throw new RuntimeException("file not readable: " + versionFile.getAbsolutePath(), e);
 			} finally {
 				ResourceUtils.close(reader, versionFile.getAbsolutePath());
 			}
@@ -143,8 +142,8 @@ public class ScenarioDocuAggregationDAO {
 	
 	public void saveUseCaseScenarios(final String branchName, final String buildName,
 			final UseCaseScenarios useCaseScenarios) {
-		File scenariosFile = files.getUseCaseScenariosFile(branchName, buildName, useCaseScenarios
-				.getUseCase().getName());
+		File scenariosFile = files.getUseCaseScenariosFile(branchName, buildName, useCaseScenarios.getUseCase()
+				.getName());
 		ScenarioDocuXMLFileUtil.marshal(useCaseScenarios, scenariosFile);
 	}
 	
@@ -198,8 +197,8 @@ public class ScenarioDocuAggregationDAO {
 	 * @param resolvedObjectName
 	 *            Object name, if too long, shortened using {@link LongObjectNamesResolver}
 	 */
-	public ObjectIndex loadObjectIndex(final String branchName, final String buildName,
-			final String objectType, final String objectName) {
+	public ObjectIndex loadObjectIndex(final String branchName, final String buildName, final String objectType,
+			final String objectName) {
 		String objectFileName = resolveObjectFileName(objectName);
 		File objectFile = files.getObjectIndexFile(branchName, buildName, objectType, objectFileName);
 		return ScenarioDocuXMLFileUtil.unmarshal(ObjectIndex.class, objectFile);
@@ -216,6 +215,18 @@ public class ScenarioDocuAggregationDAO {
 			final ObjectList<ObjectDescription> objectList) {
 		File objectListFile = files.getObjectListFile(branchName, buildName, type);
 		ScenarioDocuXMLFileUtil.marshal(objectList, objectListFile);
+	}
+	
+	public void saveCustomObjectTabTree(final BuildIdentifier buildIdentifier, final String tabId,
+			final CustomObjectTabTree tree) {
+		File customObjectTabTreeFile = files.getCustomObjectTabTreeFile(buildIdentifier, tabId);
+		customObjectTabTreeFile.getParentFile().mkdirs();
+		ScenarioDocuXMLFileUtil.marshal(tree, customObjectTabTreeFile);
+	}
+	
+	public CustomObjectTabTree loadCustomObjectTabTree(final BuildIdentifier buildIdentifier, final String tabId) {
+		File customObjectTabTreeFile = files.getCustomObjectTabTreeFile(buildIdentifier, tabId);
+		return ScenarioDocuXMLFileUtil.unmarshal(CustomObjectTabTree.class, customObjectTabTreeFile);
 	}
 	
 	public ScenarioDocuAggregationFiles getFiles() {
@@ -236,8 +247,7 @@ public class ScenarioDocuAggregationDAO {
 		File objectFile = files.getObjectIndexFile(branchName, buildName, objectType, objectFileName);
 		if (objectFile.exists()) {
 			return loadObjectIndex(branchName, buildName, objectType, objectName);
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
@@ -246,8 +256,7 @@ public class ScenarioDocuAggregationDAO {
 		File buildImportSummariesFile = files.getBuildStatesFile();
 		if (!buildImportSummariesFile.exists()) {
 			return new ArrayList<BuildImportSummary>();
-		}
-		else {
+		} else {
 			try {
 				BuildImportSummaries summaries = ScenarioDocuXMLFileUtil.unmarshal(BuildImportSummaries.class,
 						buildImportSummariesFile);

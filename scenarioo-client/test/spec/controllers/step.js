@@ -62,18 +62,6 @@ describe('StepCtrl', function () {
             SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}});
     }));
 
-    it('shows all metadata sections collapsed first', function () {
-        expect($scope.isMetadataCollapsed(METADATA_TYPE)).toBeTruthy();
-    });
-
-    it('collapses metadata sections on click', function () {
-        $scope.toggleMetadataExpanded(METADATA_TYPE);
-        expect($scope.isMetadataCollapsed(METADATA_TYPE)).toBeFalsy();
-
-        $scope.toggleMetadataExpanded(METADATA_TYPE);
-        expect($scope.isMetadataCollapsed(METADATA_TYPE)).toBeTruthy();
-    });
-
     it('loads the step data', function () {
         loadPageContent();
         expect($scope.step).toEqualData(TestData.STEP.step);

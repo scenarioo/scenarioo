@@ -29,7 +29,38 @@ angular.module('scenarioo.services').service('TestData', function () {
                 BUILD_STATE_SUCCESS: 'label-success',
                 BUILD_STATE_WARNING: 'label-warning'
             },
-            'defaultBranchName': 'trunk'
+            'defaultBranchName': 'trunk',
+            'customObjectTabs': [
+                {
+                    'id': 'calls',
+                    'tabTitle': 'Calls',
+                    'objectTypesToDisplay': ['uiAction', 'businessOperation', 'service'],
+                    'customObjectDetailColumns': [
+                        {
+                            'columnTitle': 'Description',
+                            'propertyKey': 'description'
+                        },
+                        {
+                            'columnTitle': 'Real Service Name',
+                            'propertyKey': 'realName'
+                        }
+                    ]
+                }
+            ]
+        },
+
+        CONFIG_PAGES_EXPANDED: {
+            'testDocumentationDirPath': 'webtestDocuContentExample',
+            'defaultBuildName': 'current',
+            'scenarioPropertiesInOverview': 'userProfile, configuration',
+            'applicationInformation': 'This is my personal copy of Scenarioo :-)',
+            'buildstates': {
+                BUILD_STATE_FAILED: 'label-important',
+                BUILD_STATE_SUCCESS: 'label-success',
+                BUILD_STATE_WARNING: 'label-warning'
+            },
+            'defaultBranchName': 'trunk',
+            'expandPagesInScenarioOverview': true
         },
 
         BRANCHES: [
@@ -217,6 +248,16 @@ angular.module('scenarioo.services').service('TestData', function () {
         VERSION: {
             version: '1.2.3',
             buildDate: '1/7/2015, 05:00'
-        }
+        },
+
+        TABS: [
+            {
+                tabId: 'usecases',
+                title: 'Use Cases',
+                contentViewUrl: 'views/mainUseCasesTab.html',
+                active: true
+            }
+        ]
+
     };
 });

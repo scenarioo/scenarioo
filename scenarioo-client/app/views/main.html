@@ -17,64 +17,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumb></sc-breadcrumb>
 
-<ng-include src="'views/mainUseCasesTab.html'"/>
+<!-- <ng-include src="'views/mainUseCasesTab.html'"/> -->
 
-<!-- Tabs on the main page -->
-<!--<tabset class="step-panes">-->
+<!-- ng-controller is set to MainCtrl through routing in app.js -->
+<div>
 
-    <!-- Tabs are defined dynamically in controller inside main.js -->
-    <!--<tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="setSelectedTabInUrl(tab.tabId)">-->
-        <!--<div>-->
-            <!--<ng-include src="getLazyTabContentViewUrl(tab)"/>-->
-        <!--</div>-->
-    <!--</tab>-->
+    <!-- Tabs on the main page -->
+    <tabset class="step-panes">
 
-    <!-- Additional tabs for generic objects are defined in genericObjectTabs in main.js -->
-    <!-- TODO #64: this is work in progress ... therefore commented it out for now ... -->
-    <!-- Following needs to be done:
-            * also extract nicely in a sub view
-            * also introduce lazy loading
-            * some parts of Controller have already been extracted into mainGenericObjectsTab.js, but this Controller is not yet used and even not imported in index.html !
-    -->
-    <!--
-    <tab ng-repeat="genericObjectTab in genericObjectTabs" heading="{{genericObjectTab.label}}" select="initObjectsForTab(tab)">
-        <div class="row sc-space-top sc-space-bottom">
-            <div class="col-lg-3">
-                <div class="input-group">
-                    <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="genericObjectsSearchField" data-toggle="tooltip" title="filter for use case" ng-model="table.search.searchTerm" placeholder="Search use case..."/>
-                    <span class="input-group-btn">
-                        <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
-                    </span>
-                </div>
-            </div>
+        <!-- Tabs are defined dynamically in controller inside main.js -->
 
-            <select ng-show="genericObjectTab.objectTypes" ng-model="genericObjectsTypes.selected" ng-options="objectType.label for objectType in genericObjectTab.objectTypes">
-                <option value="">-- Choose objectType --</option>
-            </select>
-        </div>
+        <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="setSelectedTabInUrl(tab.tabId)">
+            <ng-include src="getLazyTabContentViewUrl(tab.tabId)"/>
+        </tab>
+    </tabset>
 
-        <table ng-table="tableParams" class="table table-curved table-hover table-responsive " ng-model="sort">
-            <thead>
-            <tr>
-                <th sc-sortable-column="objectDescription.type">Type</th>
-                <th sc-sortable-column="objectDescription.name">Name</th>
-                <th>Details</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="objectDescription in objectDescriptions  | filter:genericObjectsTypeFilter | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse" ng-click="goToUseCase(useCaseScenarios.useCase.name)" class="link">
-                <td>{{objectDescription.type}}</td>
-                <td>{{objectDescription.name}}</td>
-                <td>
-                    <div ng-repeat="detail in objectDescription.details">{{detail}}<br></div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </tab>  -->
-
-<!--</tabset>-->
-
-
-
-
+</div>

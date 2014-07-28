@@ -93,6 +93,15 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.stepStatistics = result.stepStatistics;
                 $scope.stepIndex = result.stepNavigation.stepIndex;
                 beautify(result.step.html);
+
+                $scope.hasAnyLabels = function() {
+                    var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
+                    var hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
+                    var hasAnyStepLabels = $scope.step.labels.labels.length > 0;
+                    var hasAnyPageLabels = $scope.step.page.labels.labels.length > 0;
+
+                    return hasAnyUseCaseLabels || hasAnyScenarioLabels || hasAnyStepLabels || hasAnyPageLabels;
+                };
             });
         }
 
@@ -115,7 +124,10 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         }
 
         if (angular.isDefined(result.page)) {
-            stepInformation['Page name'] = result.page;
+            var pageToRender = angular.copy(result.page);
+            // Will be displayed separately
+            delete pageToRender.labels;
+            stepInformation['Page name'] = pageToRender;
         }
 
         if (angular.isDefined(stepDescription.details.url)) {
@@ -265,84 +277,10 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             return $scope.stepNavigation.stepIndex + 1;
         };
 
-        $scope.getCurrentPageIndexForDisplay = function () {
-            if (angular.isUndefined($scope.stepNavigation)) {
-                return '?';
-            }
-            return $scope.stepNavigation.pageIndex + 1;
-        };
-
-        $scope.getStepIndexInCurrentPageForDisplay = function() {
-            if (angular.isUndefined($scope.stepNavigation)) {
-                return '?';
-            }
-            return $scope.stepNavigation.stepInPageOccurrence + 1;
-        };
-
-        $scope.getNumberOfStepsInCurrentPageForDisplay = function() {
-            if (angular.isUndefined($scope.stepStatistics)) {
-                return '?';
-            }
-            return $scope.stepStatistics.totalNumberOfStepsInPageOccurrence;
-        };
     }
 
     $scope.go = function (step) {
         $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + encodeURIComponent(step.pageName) + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
     };
-
-    var STEP_METADATA_SECTION_EXPANDED = 'scenarioo-stepMetadataSectionExpanded-';
-    var STEP_METADATA_VISIBLE = 'scenarioo-stepMetadataVisible';
-
-    $scope.isMetadataExpanded = function (type) {
-        var metadataExpanded = localStorageService.get(STEP_METADATA_SECTION_EXPANDED + type);
-        if (metadataExpanded === 'true') {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
-    $scope.toggleMetadataExpanded = function (type) {
-        var metadataExpanded = !$scope.isMetadataExpanded(type);
-        localStorageService.set(STEP_METADATA_SECTION_EXPANDED + type, '' + metadataExpanded);
-    };
-
-    $scope.isMetadataCollapsed = function (type) {
-        return !$scope.isMetadataExpanded(type);
-    };
-
-    $scope.toggleShowingMetadata = function () {
-        $scope.showingMetaData = !$scope.showingMetaData;
-        localStorageService.set(STEP_METADATA_VISIBLE, '' + $scope.showingMetaData);
-    };
-
-    /**
-     * Init metadata visibility and expanded sections from local storage on startup.
-     */
-    function initMetadataVisibilityAndExpandedSections() {
-
-        // Init metadata visibility from local storage
-        var metadataVisible = localStorageService.get(STEP_METADATA_VISIBLE);
-        if (metadataVisible === 'true') {
-            $scope.showingMetaData = true;
-        }
-        else if (metadataVisible === 'false') {
-            $scope.showingMetaData = false;
-        } else {
-            // default
-            $scope.showingMetaData = $window.innerWidth > 800;
-        }
-
-        // Set special step metadata to expanded by default.
-        var majorStepPropertiesExpanded = localStorageService.get(STEP_METADATA_SECTION_EXPANDED + 'sc-step-properties');
-        var isMajorStepPropertiesExpandedSetToFalse = majorStepPropertiesExpanded === 'false';
-        if (!isMajorStepPropertiesExpandedSetToFalse) {
-            localStorageService.set(STEP_METADATA_SECTION_EXPANDED + 'sc-step-properties', 'true');
-        }
-
-    }
-
-    initMetadataVisibilityAndExpandedSections();
 
 });

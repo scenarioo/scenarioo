@@ -19,6 +19,11 @@
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 
+/*
+ * Required for build to run with Java 8
+ */
+test.scanForTestClasses = false
+
 dependencies {
     compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.3.Final'
     compile 'org.jboss.resteasy:resteasy-jaxb-provider:2.3.3.Final'
@@ -55,8 +60,14 @@ task printPathConfigInformationForNodeJSAndGrunt << {
 }
 
 task createVersionPropertiesFile << {
+	def aggregatorJavaFile = file('src/main/java/org/scenarioo/business/aggregator/ScenarioDocuAggregator.java').text
+	def aggregatorVersionRegex = /CURRENT_FILE_FORMAT_VERSION = \"(.*)\"\;/
+	def aggregatedDataFormatVersion = ( aggregatorJavaFile =~ aggregatorVersionRegex )[0][1]
+	def apiVersion = project.scenariooApiVersion
+	
 	File versionFile = new File(sourceSets.main.output.classesDir.getAbsolutePath() + '/version.properties');
-	versionFile.write('version=' + version + '\nbuild-date=' + new Date())
+	versionFile.write('version=' + version + '\nbuild-date=' + new Date() +
+		'\napiVersion=' + apiVersion + '\naggregatedDataFormatVersion=' + aggregatedDataFormatVersion)
 }
 
 war {

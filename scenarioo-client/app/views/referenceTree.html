@@ -1,0 +1,90 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<sc-breadcrumb></sc-breadcrumb>
+
+
+<div class="row sc-space-top sc-space-bottom">
+
+    <!-- Object Data -->
+    <div class="col-sm-4 hero-unit meta-data">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{object.object.type}}</h3>
+            </div>
+            <div class="panel-body">
+                <p>Name: {{object.object.name | scHumanReadable}}</p>
+            </div>
+        </div>
+
+        <!-- Details -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Details</h3>
+            </div>
+            <div class="panel-body" ng-class="{hidden: false, metadata: true}">
+                <sc-tree data='metadataTree'></sc-tree>
+            </div>
+        </div>
+    </div>
+
+    <!-- Object reference tree -->
+    <div class="col-sm-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Referenced in...</h3>
+            </div>
+            <div class="panel-body">
+
+                <div class="row sc-space-top sc-space-bottom">
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip" title="type words separated by spaces to search for"
+                                   ng-model="searchField" placeholder="Search..." ng-keyup="$event.keyCode == 27 ? resetSearchField() : null" data-debounce/>
+                            <span class="input-group-btn">
+                                <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="pull-right">
+                            <button type="button" ng-click="expandAndCollapseTree(treemodel)" class="btn btn-default">{{toggleLabel}} all</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="sc-referenceTreeMetaData"
+                     data-sc-filterable-table-tree
+                     data-rootiscollapsed="rootIsCollapsed"
+                     data-filter="searchField"
+                     data-treedata="object.referenceTree.children"
+                     data-treemodel="treemodel"
+                     data-click-action="goToRelatedView(node)"
+                     data-first-column-title="References">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+

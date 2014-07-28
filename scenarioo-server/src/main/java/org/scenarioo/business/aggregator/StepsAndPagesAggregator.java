@@ -26,7 +26,6 @@ import java.util.Map.Entry;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
-import org.scenarioo.model.docu.aggregates.steps.NeighborStep;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
 import org.scenarioo.model.docu.entities.Page;
@@ -36,27 +35,25 @@ import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.UseCase;
 
 /**
- * Handles calculation of all page steps for each scenario and collection of
- * additional needed information for step navigation per step and especially for
- * page variants (all steps of one page over all scenarios).
+ * Handles calculation of all page steps for each scenario and collection of additional needed information for step
+ * navigation per step and especially for page variants (all steps of one page over all scenarios).
  */
 public class StepsAndPagesAggregator {
-
+	
 	private final Map<String, PageVariantNavigationData> pageVariants = new HashMap<String, PageVariantNavigationData>();
-
+	
 	private final BuildIdentifier build;
-
+	
 	private final ScenarioDocuAggregationDAO dao;
-
-	public StepsAndPagesAggregator(final BuildIdentifier build,
-			final ScenarioDocuAggregationDAO dao) {
+	
+	public StepsAndPagesAggregator(final BuildIdentifier build, final ScenarioDocuAggregationDAO dao) {
 		this.build = build;
 		this.dao = dao;
 	}
-
+	
 	public List<PageSteps> calculateScenarioPageSteps(final UseCase usecase,
 			final Scenario scenario, final List<Step> steps) {
-
+		
 		List<PageSteps> pageStepsList = new ArrayList<PageSteps>();
 		List<StepLink> stepLinks = new ArrayList<StepLink>(steps.size());
 		Map<String, Integer> pageOccurrences = new HashMap<String, Integer>();
@@ -68,6 +65,13 @@ public class StepsAndPagesAggregator {
 		int stepInPageOccurrence = 0;
 
 		for (Step step : steps) {
+			
+			// Introduce a special dummy page for all steps not having any page to avoid problems.
+			if (step.getPage() == null || StringUtils.isBlank(step.getPage().getName())) {
+				step.setPage(new Page());
+				step.getPage().setName("unknownPage");
+			}
+			
 			// Check for new page and update indexes and occurrence accordingly
 			if (isNewPage(page, step)) {
 				page = step.getPage();
@@ -81,7 +85,7 @@ public class StepsAndPagesAggregator {
 					pageIndex++;
 				}
 			}
-
+			
 			// add step to belonging page steps
 			StepDescription stepDescription = step.getStepDescription();
 			pageSteps.getSteps().add(stepDescription);
@@ -98,6 +102,7 @@ public class StepsAndPagesAggregator {
 		calculateNavigationAndPageVariantsData(stepLinks);
 
 		return pageStepsList;
+		
 	}
 
 	private void calculateNavigationAndPageVariantsData(
@@ -309,7 +314,9 @@ public class StepsAndPagesAggregator {
 				nextStepVariant = lastStep;
 				lastStep = stepNavigation.getPreviousStepVariant();
 			}
+			
 		}
+		
 	}
-
+	
 }

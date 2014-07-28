@@ -15,12 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.rest.dto;
+package org.scenarioo.model.docu.aggregates.steps;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.model.docu.entities.Labels;
 import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
 import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
 import org.scenarioo.model.docu.entities.Step;
@@ -30,35 +31,43 @@ import org.scenarioo.model.docu.entities.Step;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+//TODO Rename to something like StepSummary
 public class StepDto {
-
+	
 	private Step step;
+	
 	private StepNavigation stepNavigation;
 	private StepStatistics stepStatistics;
+	
+	private Labels useCaseLabels;
+	private Labels scenarioLabels;
+	
 
 	public StepDto() {
 	}
 
-	public StepDto(final Step step, final StepNavigation stepNavigation,
-			final StepStatistics stepStatistics) {
+	public StepWithNavigation(Step step, StepNavigation stepNavigation,
+			Labels useCaseLabels, Labels scenarioLabels, final StepStatistics stepStatistics) {
 		super();
 		this.step = step;
 		this.stepNavigation = stepNavigation;
 		this.stepStatistics = stepStatistics;
+		this.useCaseLabels = useCaseLabels;
+		this.scenarioLabels = scenarioLabels;
 	}
-
+	
 	public Step getStep() {
 		return step;
 	}
-
+	
 	public void setStep(final Step step) {
 		this.step = step;
 	}
-
+	
 	public StepNavigation getStepNavigation() {
 		return stepNavigation;
 	}
-
+	
 	public void setStepNavigation(final StepNavigation stepNavigation) {
 		this.stepNavigation = stepNavigation;
 	}
@@ -71,4 +80,20 @@ public class StepDto {
 		this.stepStatistics = stepStatistics;
 	}
 
+	public Labels getUseCaseLabels() {
+		return useCaseLabels;
+	}
+
+	public void setUseCaseLabels(Labels useCaseLabels) {
+		this.useCaseLabels = useCaseLabels;
+	}
+
+	public Labels getScenarioLabels() {
+		return scenarioLabels;
+	}
+
+	public void setScenarioLabels(Labels scenarioLabels) {
+		this.scenarioLabels = scenarioLabels;
+	}
+	
 }

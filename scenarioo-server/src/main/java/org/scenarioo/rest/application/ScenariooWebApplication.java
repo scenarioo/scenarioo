@@ -101,7 +101,7 @@ public class ScenariooWebApplication implements ServletContextListener {
 		
 		if (inputStream == null) {
 			LOGGER.warn("  version.properties not found, no version information available");
-			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown");
+			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown", "unknown", "unknown");
 			return;
 		}
 		
@@ -110,7 +110,7 @@ public class ScenariooWebApplication implements ServletContextListener {
 			ApplicationVersionHolder.INSTANCE
 					.initializeFromProperties(properties);
 		} catch (Exception e) {
-			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown");
+			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown", "unknown", "unknown");
 			e.printStackTrace();
 		}
 		

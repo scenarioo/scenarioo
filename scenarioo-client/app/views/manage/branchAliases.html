@@ -1,0 +1,71 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div ng-controller="BranchAliasesCtrl">
+
+    <div class="alert alert-success fade-out" ng-show="successfullyUpdatedBranchAliases">
+        The branch aliases have been successfully updated.
+        <a ng-click="successfullyUpdatedBranchAliases=false" class="pull-right link link-no-hover" style="color: #468847"><i
+                class="icon-remove icon"></i></a>
+    </div>
+
+    <div class="alert alert-danger fade-out" ng-show="uniqueError" id="duplicateAlisErrorId">
+        <strong>Your branch aliases are not unique.</strong> Please make sure each name is only used once.
+    </div>
+
+    <form name="branchAliasesForm">
+        <table class="table table-curved table-hover table-responsive" >
+            <thead>
+            <tr>
+                <th>Alias name</th>
+                <th>Referenced build</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="branchAlias in branchAliases">
+                    <td>
+                        <input type="text" class="ng-pristine ng-valid form-control" ng-model="branchAlias.name" ng-change="aliasNameChanged()" name="aliasName"/>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                        <select ng-model="branchAlias.referencedBranch"
+                                ng-options="branch.branch.name as branch.branch.name for branch in branches"
+                                class="form-control"
+                                ng-required="branchAlias.name !== ''"
+                                name="referencedBranch"></select>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="text" class="ng-pristine ng-valid form-control" ng-model="branchAlias.description" name="aliasDescription"  />
+                    </td>
+                    <td>
+                        <input type="button" class="btn btn-small btn-danger" value="Delete" ng-click="deleteEntry(branchAlias.name)" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row sc-space-top-large">
+            <div class="col-lg-12" style="text-align: right">
+                <input type="button" value="Reset" class="btn btn-wide btn-default" ng-click="reset()"/>
+                <input type="button" value="Save" class="btn btn-wide btn-primary" ng-click="save()" ng-disabled="branchAliasesForm.$invalid"/>
+            </div>
+        </div>
+    </form>
+</div>
