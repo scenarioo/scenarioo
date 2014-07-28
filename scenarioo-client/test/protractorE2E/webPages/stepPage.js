@@ -15,61 +15,66 @@ function StepPage(overridePath) {
 util.inherits(StepPage, BaseWebPage);
 
 // DISABLED
-StepPage.prototype.assertPreviousStepIsDisabled = function() {
+StepPage.prototype.assertPreviousStepIsDisabled = function () {
     this.assertElementIsDisabled('prevStepBtn');
 };
 
-StepPage.prototype.assertPreviousPageIsDisabled = function() {
+StepPage.prototype.assertPreviousPageIsDisabled = function () {
     this.assertElementIsDisabled('prevPageBtn');
 };
 
-StepPage.prototype.assertNextStepIsDisabled = function() {
+StepPage.prototype.assertNextStepIsDisabled = function () {
     this.assertElementIsDisabled('nextStepBtn');
 };
 
-StepPage.prototype.assertNextPageIsDisabled = function() {
+StepPage.prototype.assertNextPageIsDisabled = function () {
     this.assertElementIsDisabled('nextPageBtn');
 };
 
 // ENABLED
-StepPage.prototype.assertPreviousStepIsEnabled = function() {
-   this.assertElementIsEnabled('prevStepBtn');
+StepPage.prototype.assertPreviousStepIsEnabled = function () {
+    this.assertElementIsEnabled('prevStepBtn');
 };
 
-StepPage.prototype.assertPreviousPageIsEnabled = function() {
+StepPage.prototype.assertPreviousPageIsEnabled = function () {
     this.assertElementIsEnabled('prevPageBtn');
 };
 
-StepPage.prototype.assertNextStepIsEnabled = function() {
+StepPage.prototype.assertNextStepIsEnabled = function () {
     this.assertElementIsEnabled('nextStepBtn');
 };
 
-StepPage.prototype.assertNextPageIsEnabled = function() {
+StepPage.prototype.assertNextPageIsEnabled = function () {
     this.assertElementIsEnabled('nextPageBtn');
 };
 
-StepPage.prototype.goToNextStep = function() {
-    this.stepNavigation.findElement(by.id('nextStepBtn')).then(function(element) {
+StepPage.prototype.goToNextStep = function () {
+    this.stepNavigation.findElement(by.id('nextStepBtn')).then(function (element) {
         element.click();
     });
-} ;
+};
 
-StepPage.prototype.goToNextPage = function() {
-    this.stepNavigation.findElement(by.id('nextPageBtn')).then(function(element) {
+StepPage.prototype.goToNextPage = function () {
+    this.stepNavigation.findElement(by.id('nextPageBtn')).then(function (element) {
         element.click();
     });
-} ;
+};
 
-StepPage.prototype.goToPreviousStep = function() {
-    this.stepNavigation.findElement(by.id('prevStepBtn')).then(function(element) {
+StepPage.prototype.goToPreviousStep = function () {
+    this.stepNavigation.findElement(by.id('prevStepBtn')).then(function (element) {
         element.click();
     });
-} ;
+};
 
-StepPage.prototype.goToPreviousPage = function() {
-    this.stepNavigation.findElement(by.id('prevPageBtn')).then(function(element) {
+StepPage.prototype.goToPreviousPage = function () {
+    this.stepNavigation.findElement(by.id('prevPageBtn')).then(function (element) {
         element.click();
     });
-} ;
+};
+
+StepPage.prototype.assertRoute = function (expectedUrl) {
+    e2eUtils.assertRoute(expectedUrl);
+};
+
 
 module.exports = StepPage;
