@@ -35,7 +35,6 @@ angular.module('scenarioo.directives').directive('scShowHideDetailsButton', func
 
     return {
         restrict: 'E',
-        transclude: true,
         scope: {
             linkingVariable: '=',
             localStorageKey: '@'
