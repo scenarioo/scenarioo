@@ -21,6 +21,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
@@ -37,8 +39,6 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.dto.StepDto;
-import org.scenarioo.rest.exceptions.PageOccurrenceDoesNotExistException;
-import org.scenarioo.rest.exceptions.StepInPageOccurrenceDoesNotExistException;
 
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}")
 public class StepResource {
@@ -113,7 +113,10 @@ public class StepResource {
 			}
 		}
 		
-		throw new PageOccurrenceDoesNotExistException(stepIdentifier);
+		LOGGER.warn("pageOccurrence " + stepIdentifier.getPageOccurrence()
+				+ " does not exist in " + stepIdentifier.toString());
+		
+		throw new WebApplicationException(Status.NOT_FOUND);
 	}
 	
 	private int resolveStepInPageOccurrence(final PageSteps pageWithSteps,
@@ -124,7 +127,11 @@ public class StepResource {
 					.get(stepIdentifier.getStepInPageOccurrence()).getIndex();
 		}
 		
-		throw new StepInPageOccurrenceDoesNotExistException(stepIdentifier);
+		LOGGER.warn("stepInPageOccurrence "
+				+ stepIdentifier.getStepInPageOccurrence()
+				+ " does not exist in " + stepIdentifier.toString());
+		
+		throw new WebApplicationException(Status.NOT_FOUND);
 	}
 	
 	private boolean isCorrectPage(final PageSteps pageWithSteps,
