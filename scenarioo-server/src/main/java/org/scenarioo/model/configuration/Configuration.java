@@ -186,4 +186,12 @@ public class Configuration {
 	public void setLabelConfigurations(Map<String, LabelConfiguration> labelConfigurations) {
 		this.labelConfigurations = labelConfigurations;
 	}
+
+	public List<CustomObjectTab> getCustomObjectTabs() {
+		return customObjectTabs;
+	}
+
+	public void setCustomObjectTabs(List<CustomObjectTab> customObjectTabs) {
+		this.customObjectTabs = customObjectTabs;
+	}
 }

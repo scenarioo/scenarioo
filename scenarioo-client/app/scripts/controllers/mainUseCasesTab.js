@@ -17,8 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, GlobalHotkeysService,
-                                                                                    SelectedBranchAndBuild, UseCasesResource, LabelConfigurationsResource) {
+angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService,BranchesAndBuilds, SelectedBranchAndBuild, UseCasesResource, LabelConfigurationsResource) {
 
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
@@ -44,6 +43,7 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
                 $scope.metadataTreeBuilds = transformMetadataToTreeArray(build.details);
             });
     }
+
 
     $scope.goToUseCase = function (useCaseName) {
         $location.path('/usecase/' + useCaseName);
