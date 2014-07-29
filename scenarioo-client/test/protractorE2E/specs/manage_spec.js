@@ -4,7 +4,7 @@ var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
 scenarioo.describeUseCase('Manage', function () {
-    scenarioo.describeScenario('Manage build aliases', function () {
+    scenarioo.describeScenario('Manage branch aliases', function () {
         var homePage = new pages.homePage();
         var branchAliasesPage = new pages.branchAliasesPage();
 
