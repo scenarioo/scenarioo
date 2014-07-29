@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- steps -->
         <div class="row step-view">
             <div ng-repeat="page in pagesAndSteps">
-                <div ng-repeat="step in page.steps | scFilterArray:searchFieldText" ng-show="$index == 0 || showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !showingMetaData, 'col-md-6': showingMetaData}">
+                <div ng-repeat="step in page.steps | scFilterArray:searchFieldText" ng-show="$index == 0 || showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !scenarioShowMetadata, 'col-md-6': scenarioShowMetadata}">
                     <h2>
                         <span class="sc-truncate" ng-if="$index == 0">
                             <span class="sc-no-truncate">
