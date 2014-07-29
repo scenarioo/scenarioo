@@ -49,8 +49,8 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
     var stepElement =
     {
-        label: '<strong>Step:</strong> [pageIndex].[stepIndex] - [pageName]',
-        route: '/step/:usecase/:scenario/:pageName/:pageIndex/:stepIndex/'
+        label: '<strong>Step:</strong> [pageName]/[stepInPageOccurrence]/[pageOccurrence]',
+        route: '/step/:usecase/:scenario/:pageName/:pageOccurrence/:stepInPageOccurrence/'
     };
 
     var objectElement =
@@ -100,10 +100,22 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         if (placeholders !== null) {
             angular.forEach(placeholders, function (placeholder) {
                 placeholder = placeholder.replace(':', '');
-                text = text.replace(':' + placeholder, navParameter[placeholder]);
+                if (placeholder === 'usecase' || placeholder === 'scenario') {
+                    text = text.replace(':' + placeholder, navParameter[placeholder]);
+                }
             });
         }
         return text;
+    }
+
+    function getText(navParameter, placeholder) {
+        var value = navParameter[placeholder];
+
+        if(placeholder === 'usecase' || placeholder === 'scenario') {
+            return $filter('scHumanReadable')(value);
+        }
+
+        return value;
     }
 
     function setValuesInLabel(text, navParameter) {
@@ -113,37 +125,42 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
             angular.forEach(placeholders, function (placeholder) {
                 placeholder = placeholder.replace(/[\[\]]/g, '');
                 text = text.replace(/[\[\]]/g, '');
-                text = text.replace(placeholder, navParameter[placeholder]);
+                text = text.replace(placeholder, getText(navParameter, placeholder));
             });
-            text = $filter('scHumanReadable')(decodeURIComponent(text));
+            text = decodeURIComponent(text);
         }
         return text;
     }
 
-    return {
-        loadNavigationElements: function (objectType) {
-            return angular.copy(breadcrumbPaths[objectType]);
-        },
-
-        getNavigationElements: function(navElement, navParameter) {
-            var navElements = [];
-
-            if (angular.isDefined(navElement)) {
-                angular.forEach(navElement.breadcrumbPath, function (navigationElement, index) {
-                    if ((navElement.breadcrumbPath.length - index) === 1) {
-                        navigationElement.isLastNavigationElement = true;
-                    }
-                    else {
-                        navigationElement.isLastNavigationElement = false;
-                    }
-                    navigationElement.route = setValuesInRoute(navigationElement.route, navParameter);
-                    navigationElement.label = setValuesInLabel(navigationElement.label, navParameter);
-                    navigationElement.textForTooltip = convertToPlainText(navigationElement.label);
-                    navElements.push(navigationElement);
-                });
-            }
-            return navElements;
+    function buildNavigationElements (breadcrumbId, navParameters) {
+        if(angular.isUndefined(breadcrumbId) || angular.isUndefined(navParameters)) {
+            return;
         }
 
+        var breadCrumbElements = angular.copy(breadcrumbPaths[breadcrumbId]);
+
+        var navElements = [];
+
+        if (angular.isDefined(breadCrumbElements)) {
+            angular.forEach(breadCrumbElements.breadcrumbPath, function (navigationElement, index) {
+                if ((breadCrumbElements.breadcrumbPath.length - index) === 1) {
+                    navigationElement.isLastNavigationElement = true;
+                }
+                else {
+                    navigationElement.isLastNavigationElement = false;
+                }
+                navigationElement.route = setValuesInRoute(navigationElement.route, navParameters);
+                navigationElement.label = setValuesInLabel(navigationElement.label, navParameters);
+                navigationElement.textForTooltip = convertToPlainText(navigationElement.label);
+                navElements.push(navigationElement);
+            });
+        }
+        return navElements;
+    }
+
+    // Service interface
+    return {
+        getNavigationElements: buildNavigationElements
     };
+
 });
