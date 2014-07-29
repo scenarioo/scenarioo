@@ -35,12 +35,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					<button type="button" class="btn btn-default" id="collapseAllPages" ng-show="isCollapseAllPossible()" ng-click="collapseAll()">collapse all</button>
 				</div>
             </div>
-            <sc-show-hide-details-button class="col-lg-4" linking-variable="scenarioShowMetadata" local-storage-key="scenario" ></sc-show-hide-details-button>
+            <sc-meta-data-button class="col-lg-4" linking-variable="scenarioShowMetadata" local-storage-key="scenario" ></sc-meta-data-button>
         </div>
     </div>
 </div>
 
-<sc-show-hide-details linking-variable="scenarioShowMetadata">
+<sc-meta-data-panel linking-variable="scenarioShowMetadata">
     <div>
         <!-- steps -->
         <div class="row step-view">
@@ -109,4 +109,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- Metadata -->
         <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
     </div>
-</sc-show-hide-details>
+</sc-meta-data-panel>

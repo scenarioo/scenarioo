@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.directives').directive('scShowHideDetails', function() {
+angular.module('scenarioo.directives').directive('scMetaDataPanel', function() {
 
     function toggleClassesOnPanels(elem, showingMetaData) {
         var childs = elem.children();
@@ -42,7 +42,7 @@ angular.module('scenarioo.directives').directive('scShowHideDetails', function()
         scope: {
             linkingVariable: '='
         },
-        templateUrl: 'views/showHideDetails.html',
+        templateUrl: '../../views/metaDataPanel.html',
         controller: function($scope, $element) {
             $scope.$watch('linkingVariable', function() {
                 toggleClassesOnPanels($element, $scope.linkingVariable);

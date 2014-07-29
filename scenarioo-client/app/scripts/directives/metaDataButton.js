@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.directives').directive('scShowHideDetailsButton', function($window, localStorageService, GlobalHotkeysService) {
+angular.module('scenarioo.directives').directive('scMetaDataButton', function($window, localStorageService, GlobalHotkeysService) {
 
     var STEP_METADATA_VISIBLE = 'scenarioo-metadataVisible-';
     function initMetadataVisibleFromLocalStorage(scope, key) {
@@ -39,7 +39,7 @@ angular.module('scenarioo.directives').directive('scShowHideDetailsButton', func
             linkingVariable: '=',
             localStorageKey: '@'
         },
-        templateUrl: 'views/showHideDetailsButton.html',
+        templateUrl: '../../views/metaDataButton.html',
         link: function(scope) {
             GlobalHotkeysService.registerGlobalHotkey('d', function () {
                 scope.toggleShowingMetadata();

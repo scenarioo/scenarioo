@@ -29,11 +29,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
     <div class="col-lg-9">
-        <sc-show-hide-details-button linking-variable="useCaseShowMetadata" local-storage-key="usecase" ></sc-show-hide-details-button>
+        <sc-meta-data-button linking-variable="useCaseShowMetadata" local-storage-key="usecase" ></sc-meta-data-button>
     </div>
 </div>
 
-<sc-show-hide-details linking-variable="useCaseShowMetadata">
+<sc-meta-data-panel linking-variable="useCaseShowMetadata">
     <div>
         <table class="table table-bordered scenario-table" sc-navigator-table="filtered">
             <thead>
@@ -80,4 +80,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <!-- Metadata -->
             <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
     </div>
-</sc-show-hide-details>
+</sc-meta-data-panel>
