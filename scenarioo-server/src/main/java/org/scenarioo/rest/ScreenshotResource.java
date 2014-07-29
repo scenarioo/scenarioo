@@ -31,7 +31,7 @@ import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 
-@Path("/rest/branches/{branchName}/builds/{buildName}/usecases/{usecaseName}/scenarios/{scenarioName}/image/{imgName}")
+@Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/{scenarioName}/image/{imgName}")
 public class ScreenshotResource {
 	
 	private final ScenarioDocuReader filesystem = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());

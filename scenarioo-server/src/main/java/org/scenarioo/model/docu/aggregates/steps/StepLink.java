@@ -32,25 +32,26 @@ public class StepLink {
 	public StepLink() {
 	}
 	
-	public StepLink(final String useCaseName, final String scenarioName, final int index, final int pageIndex,
-			final String pageName, final int pageOccurenceIndex, final int pageStepIndex) {
+	public StepLink(final String useCaseName, final String scenarioName,
+			final int stepIndex, final int pageIndex, final String pageName,
+			final int pageOccurrence, final int stepInPageOccurrence) {
 		super();
 		this.useCaseName = useCaseName;
 		this.scenarioName = scenarioName;
-		this.index = index;
+		this.stepIndex = stepIndex;
 		this.pageIndex = pageIndex;
 		this.pageName = pageName;
-		this.pageOccurenceIndex = pageOccurenceIndex;
-		this.pageStepIndex = pageStepIndex;
+		this.pageOccurrence = pageOccurrence;
+		this.stepInPageOccurrence = stepInPageOccurrence;
 	}
 	
 	private String useCaseName;
 	private String scenarioName;
-	private int index;
+	private int stepIndex;
 	private int pageIndex;
 	private String pageName;
-	private int pageOccurenceIndex;
-	private int pageStepIndex;
+	private int pageOccurrence;
+	private int stepInPageOccurrence;
 	
 	public String getUseCaseName() {
 		return useCaseName;
@@ -79,12 +80,12 @@ public class StepLink {
 	/**
 	 * Overall step index inside the scenario.
 	 */
-	public int getIndex() {
-		return index;
+	public int getStepIndex() {
+		return stepIndex;
 	}
 	
-	public void setIndex(final int index) {
-		this.index = index;
+	public void setIndex(final int stepIndex) {
+		this.stepIndex = stepIndex;
 	}
 	
 	/**
@@ -99,25 +100,30 @@ public class StepLink {
 	}
 	
 	/**
-	 * number of occurence of this same page inside the scenario
+	 * Occurrence index of this page in the scenario. An occurrence of a page is a sequence of steps that have the same
+	 * page and it ends as soon as there is a step with a different page.
 	 */
-	public int getPageOccurenceIndex() {
-		return pageOccurenceIndex;
+	public int getPageOccurrence() {
+		return pageOccurrence;
 	}
 	
-	public void setPageOccurenceIndex(final int pageOccurenceIndex) {
-		this.pageOccurenceIndex = pageOccurenceIndex;
+	public void setPageOccurrence(final int pageOccurrenceIndex) {
+		this.pageOccurrence = pageOccurrenceIndex;
 	}
 	
 	/**
-	 * step index inside current page
+	 * Step index inside current page occurrence.
 	 */
-	public int getPageStepIndex() {
-		return pageStepIndex;
+	public int getStepInPageOccurrence() {
+		return stepInPageOccurrence;
 	}
 	
-	public void setPageStepIndex(final int pageStepIndex) {
-		this.pageStepIndex = pageStepIndex;
+	public void setStepInPageOccurrence(final int stepInPageOccurrence) {
+		this.stepInPageOccurrence = stepInPageOccurrence;
+	}
+	
+	public String getStepIdentifierForObjectRepository() {
+		return pageName + "/" + Integer.toString(pageOccurrence) + "/" + Integer.toString(stepInPageOccurrence);
 	}
 	
 }

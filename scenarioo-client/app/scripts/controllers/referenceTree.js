@@ -24,6 +24,7 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
     var objectType = $routeParams.objectType;
     var objectName = $routeParams.objectName;
     var selectedBranchAndBuild;
+
     var navigationElement = {
         navigationType: '',
         navigationName: '',
@@ -73,31 +74,30 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         });
 	}
 
+    function goToStep(navigationElement) {
+        if(angular.isUndefined(navigationElement.stepIdentifier) || !angular.isString(navigationElement.stepIdentifier)) {
+            return;
+        }
+
+        var stepIdentifierParts = navigationElement.stepIdentifier.split('/');
+        if(stepIdentifierParts.length !== 3) {
+            return;
+        }
+
+        navigationElement.pageName = stepIdentifierParts[0];
+        navigationElement.pageOccurrence = stepIdentifierParts[1];
+        navigationElement.stepInPageOccurrence = stepIdentifierParts[2];
+        var locationPath = buildLocationPath(navigationElement);
+        $location.path(locationPath);
+    }
+
     $scope.goToRelatedView = function(nodeElement) {
         buildNavigationElement(nodeElement);
-        if (navigationElement.objectType === objType.page || navigationElement.objectType === objType.step) {
-
-            var stepPromise = StepService.getStep({
-                'branchName': selectedBranchAndBuild.branch,
-                'buildName': selectedBranchAndBuild.build,
-                'usecaseName': navigationElement.useCaseName,
-                'scenarioName': navigationElement.scenarioName,
-                'stepIndex': navigationElement.stepIndex
-            });
-
-            stepPromise.then(function (result) {
-                $scope.step = result.step;
-                $scope.stepNavigation = result.stepNavigation;
-                if (angular.isDefined($scope.step) && angular.isDefined($scope.stepNavigation)) {
-                    navigationElement.pageName = $scope.step.page.name;
-                    navigationElement.pageIndex = $scope.stepNavigation.pageIndex;
-                    navigationElement.stepIndex = $scope.stepNavigation.pageStepIndex;
-                    var locationPath = buildLocationPath(navigationElement);
-                    $location.path(locationPath);
-                }
-            });
-        }
-        else {
+        if (navigationElement.objectType === objType.step) {
+            goToStep(navigationElement);
+        } else if (navigationElement.objectType === objType.page) {
+            // TODO Is this relevant? Seems that we don't display pages in the tree.
+        } else {
             var locationPath = buildLocationPath(navigationElement);
             $location.path(locationPath);
         }
@@ -114,7 +114,7 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         if (navElement.objectType === objType.step || navElement.objectType === objType.page) {
             locationPath += 'step/' + encodeURIComponent(navElement.useCaseName) + '/' + encodeURIComponent(navElement.scenarioName) +
                 '/' + encodeURIComponent(navElement.pageName) + '/' +
-                navElement.pageIndex + '/' + navElement.stepIndex;
+                navElement.pageOccurrence + '/' + navElement.stepInPageOccurrence;
         }
 
         if (navElement.objectType === objType.object) {
@@ -138,13 +138,15 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
                 setNavigationElement(childNode, objType.scenario);
                 navigationElement.scenarioName = childNode.name;
                 break;
-            case 'page':
-                setNavigationElement(childNode, objType.page);
-                navigationElement.pageIndex = childNode.name;
-                break;
+
+            // Looks like pages are not in the tree. Can we remove this?
+//            case 'page':
+//                setNavigationElement(childNode, objType.page);
+//                navigationElement.pageIndex = childNode.name;
+//                break;
             case 'step':
                 setNavigationElement(childNode, objType.step);
-                navigationElement.stepIndex = childNode.name;
+                navigationElement.stepIdentifier = childNode.name;
                 break;
             default:
                 // Any other object (reference tree will not hierarchically traversed up-to root)

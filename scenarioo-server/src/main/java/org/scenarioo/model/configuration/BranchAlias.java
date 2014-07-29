@@ -10,22 +10,27 @@ public class BranchAlias {
 	private String name;
 	private String referencedBranch;
 	private String description;
-	
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getReferencedBranch() {
 		return referencedBranch;
 	}
+
 	public void setReferencedBranch(String referencedBranch) {
 		this.referencedBranch = referencedBranch;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}

@@ -29,9 +29,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
         <div class="col-lg-9">
+            <sc-show-hide-details-button linking-variable="mainShowMetadata" local-storage-key="main" ></sc-show-hide-details-button>
         </div>
     </div>
-    <sc-show-hide-details showHideStorageKey="main">
+
+    <sc-show-hide-details linking-variable="mainShowMetadata">
         <div>
             <!-- use cases table -->
             <table ng-table="tableParams" class="table table-curved table-hover table-responsive usecase-table" ng-model="sort" sc-navigator-table="filtered"  >
@@ -50,7 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </td>
                     <td>
                         {{useCase.name | scHumanReadable }}
-                        <span ng-repeat="label in useCase.labels.labels" class="label label-info sc-label">{{label}}</span>
+                		<span ng-repeat="label in useCase.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                     </td>
                     <td>{{useCase.description}}</td>
                     <td>{{useCase.numberOfScenarios}}</td>
@@ -60,12 +62,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
         <div>
             <!-- branch -->
-            <sc-collapsable-panel title="Branch" key="mainView-branch">
+            <sc-collapsable-panel title="Branch" key="mainView-branch" initially-expanded="true">
                 <sc-tree data='branchInformationTree'></sc-tree>
             </sc-collapsable-panel>
 
             <!-- build -->
-            <sc-collapsable-panel title="Build" key="mainView-build">
+            <sc-collapsable-panel title="Build" key="mainView-build" initially-expanded="true">
                 <sc-tree data='buildInformationTree'></sc-tree>
             </sc-collapsable-panel>
 

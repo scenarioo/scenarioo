@@ -24,6 +24,10 @@ buildscript {
 allprojects {
 	group = 'org.scenarioo'
     version = getVersionName()
+    tasks.withType(JavaCompile) {
+	    sourceCompatibility = "1.6"
+	    targetCompatibility = "1.6"
+	}
 }
 
 configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-example")]) {

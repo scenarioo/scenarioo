@@ -63,7 +63,7 @@ public class ScenarioDocuAggregator {
 	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
 	 * otherwise the data has to be recalculated.
 	 */
-	public static final String CURRENT_FILE_FORMAT_VERSION = "0.34";
+	public static final String CURRENT_FILE_FORMAT_VERSION = "0.35";
 	
 	private final static Logger LOGGER = Logger.getLogger(ScenarioDocuAggregator.class);
 	
@@ -207,13 +207,9 @@ public class ScenarioDocuAggregator {
 		result.setScenario(scenario);
 		List<Step> steps = reader.loadSteps(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 				usecase.getName(), scenario.getName());
-		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(usecase, scenario, steps);
+		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(usecase, scenario, steps,
+				referencePath, objectRepository);
 		result.setPagesAndSteps(pageStepsList);
-		
-		// Calculate object repository for steps
-		for (Step step : steps) {
-			objectRepository.addReferencedStepObjects(referencePath, step);
-		}
 		
 		// Set calculated data in scenario from pages and steps
 		ScenarioCalculatedData calculatedData = new ScenarioCalculatedData();

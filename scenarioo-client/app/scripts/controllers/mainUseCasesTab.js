@@ -17,12 +17,16 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService,BranchesAndBuilds, SelectedBranchAndBuild, UseCasesResource) {
+angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService,BranchesAndBuilds, SelectedBranchAndBuild, UseCasesResource, LabelConfigurationsResource) {
 
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     SelectedBranchAndBuild.callOnSelectionChange(loadUseCases);
 
+    // FIXME this code is duplicated. How can we extract it into a service?
+    LabelConfigurationsResource.query({}, function(labelConfiguratins) {
+        $scope.labelConfigurations = labelConfiguratins;
+    });
 
     function loadUseCases(selected) {
 
@@ -65,4 +69,11 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
         return transformMetadataToTree(buildInformationTree);
     }
 
+    // FIXME this code is duplicated. How can we extract it into a service?
+    $scope.getLabelStyle = function(labelName) {
+        var labelConfig = $scope.labelConfigurations[labelName];
+        if(labelConfig) {
+            return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
+        }
+    };
 });

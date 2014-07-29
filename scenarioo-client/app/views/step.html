@@ -17,8 +17,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumb></sc-breadcrumb>
 
+<div ng-show="stepNotFound" id="stepNotFoundErrorMessage">
+    <div class="alert alert-warning" role="alert">
+        <div class="sc-alert-title">The step you are looking for does not exist</div>
+        <p>URL: {{getCurrentUrl()}}</p>
+        <p>REST URL to get step: {{httpResponse.url}}</p>
+        <p>HTTP method: {{httpResponse.method}}</p>
+        <p>HTTP response status: {{httpResponse.status}}</p>
+        <p>Response data: {{httpResponse.data}}</p>
+    </div>
+</div>
+
 <!-- Navigation toolbar -->
-<div class="step-navigation row sc-space-top sc-space-bottom">
+<div class="step-navigation row sc-space-top sc-space-bottom" ng-hide="stepNotFound">
 
     <!-- Step & Page Navigation -->
     <div class="col-lg-5">
@@ -28,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div ng-click="goToPreviousPage()" class="btn btn-default" ng-disabled="isFirstPage()" id="prevPageBtn">
                 <i class="icon-with-padding icon-large icon-double-angle-left" tooltip="Previous Page [Ctrl+Left]" tooltip-placement="bottom"></i>
             </div>
-            <div class="btn btn-default btn-no-hover"><span tooltip="of all pages in this scenario" tooltip-placement="bottom">Page {{pageIndex + 1}} of {{pagesAndSteps.length}}</span></div>
+            <div class="btn btn-default btn-no-hover"><span tooltip="of all pages in this scenario" tooltip-placement="bottom">Page {{getCurrentPageIndexForDisplay()}} of {{pagesAndSteps.length}}</span></div>
             <div ng-click="goToNextPage()" class="btn btn-default" ng-disabled="isLastPage()" id="nextPageBtn">
                 <i class="icon-with-padding icon-large icon-double-angle-right" tooltip="Next Page [Ctrl+Right]" tooltip-placement="bottom"></i>
             </div>
@@ -41,7 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div ng-click="goToPreviousStep()" class="btn btn-default" ng-disabled="isFirstStep()" id="prevStepBtn">
                 <i class="icon-with-padding icon-large icon-angle-left" tooltip="Previous Step [Left]" tooltip-placement="bottom"></i>
             </div>
-            <div class="btn btn-default btn-no-hover"><span tooltip="of all steps in this scenario" tooltip-placement="bottom">Step {{getCurrentStepIndex() + 1}} of {{stepsCountOverall}}</span></div>
+            <div class="btn btn-default btn-no-hover"><span tooltip="of all steps in this scenario" tooltip-placement="bottom">Step {{getCurrentStepIndexForDisplay()}} of {{stepsCountOverall}}</span></div>
             <div ng-click="goToNextStep()" class="btn btn-default" ng-disabled="isLastStep()" id="nextStepBtn">
                 <i class="icon-with-padding icon-large icon-angle-right" tooltip="Next Step [Right]" tooltip-placement="bottom"></i>
             </div>
@@ -51,7 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <!-- Substep information -->
         <div class="btn-group">
-            <div class="btn btn-comment">Substep {{stepIndex + 1}} of {{pagesAndSteps[pageIndex].steps.length}} on current page</div>
+            <div class="btn btn-comment">Substep {{getStepIndexInCurrentPageForDisplay()}} of {{getNumberOfStepsInCurrentPageForDisplay()}} on current page</div>
         </div>
 
     </div>
@@ -72,10 +83,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
     </div>
+    <div class="col-lg-4 pull-right">
+        <sc-show-hide-details-button linking-variable="stepShowMetadata" local-storage-key="step" ></sc-show-hide-details-button>
+    </div>
 </div>
 
 <!-- screenshot and information -->
-<sc-show-hide-details showHideStorageKey="step">
+<sc-show-hide-details linking-variable="stepShowMetadata" ng-hide="stepNotFound">
     <div>
         <tabset class="step-panes">
             <tab heading="Screenshot">
@@ -89,7 +103,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tab>
         </tabset>
     </div>
-    <div ng-show="showingMetaData" class="col-lg-4 hero-unit meta-data">
 
     <div>
         <!-- step -->

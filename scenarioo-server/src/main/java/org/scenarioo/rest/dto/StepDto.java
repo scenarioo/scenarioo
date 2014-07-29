@@ -15,12 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.model.docu.aggregates.steps;
+package org.scenarioo.rest.dto;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
+import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
 import org.scenarioo.model.docu.entities.Labels;
 import org.scenarioo.model.docu.entities.Step;
 
@@ -29,25 +31,29 @@ import org.scenarioo.model.docu.entities.Step;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-//TODO Rename to something like StepSummary
-public class StepWithNavigation {
+// TODO Rename to something like StepSummary
+public class StepDto {
 	
 	private Step step;
 	
 	private StepNavigation stepNavigation;
+	private StepStatistics stepStatistics;
 	
 	private Labels useCaseLabels;
 	private Labels scenarioLabels;
 	
-	public StepWithNavigation(Step step, StepNavigation stepNavigation,
-			Labels useCaseLabels, Labels scenarioLabels) {
-		super();
+	public StepDto() {
+	}
+	
+	public StepDto(final Step step, final StepNavigation stepNavigation,
+			final Labels useCaseLabels, final Labels scenarioLabels, final StepStatistics stepStatistics) {
 		this.step = step;
 		this.stepNavigation = stepNavigation;
+		this.stepStatistics = stepStatistics;
 		this.useCaseLabels = useCaseLabels;
 		this.scenarioLabels = scenarioLabels;
 	}
-
+	
 	public Step getStep() {
 		return step;
 	}
@@ -63,20 +69,28 @@ public class StepWithNavigation {
 	public void setStepNavigation(final StepNavigation stepNavigation) {
 		this.stepNavigation = stepNavigation;
 	}
-
+	
+	public StepStatistics getStepStatistics() {
+		return stepStatistics;
+	}
+	
+	public void setStepStatistics(final StepStatistics stepStatistics) {
+		this.stepStatistics = stepStatistics;
+	}
+	
 	public Labels getUseCaseLabels() {
 		return useCaseLabels;
 	}
-
-	public void setUseCaseLabels(Labels useCaseLabels) {
+	
+	public void setUseCaseLabels(final Labels useCaseLabels) {
 		this.useCaseLabels = useCaseLabels;
 	}
-
+	
 	public Labels getScenarioLabels() {
 		return scenarioLabels;
 	}
-
-	public void setScenarioLabels(Labels scenarioLabels) {
+	
+	public void setScenarioLabels(final Labels scenarioLabels) {
 		this.scenarioLabels = scenarioLabels;
 	}
 	

@@ -28,19 +28,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
     <div class="col-lg-9">
-        <div class="pull-right">
-            <button type="button" class="btn btn-default" id="expandAllPages" ng-show="isExpandAllPossible()" ng-click="expandAll()">expand all</button>
-            <button type="button" class="btn btn-default" id="collapseAllPages" ng-show="isCollapseAllPossible()" ng-click="collapseAll()">collapse all</button>
+        <div class="row pull-right">
+            <div class="col-lg-8">
+				<div>
+					<button type="button" class="btn btn-default" id="expandAllPages" ng-show="isExpandAllPossible()" ng-click="expandAll()">expand all</button>
+					<button type="button" class="btn btn-default" id="collapseAllPages" ng-show="isCollapseAllPossible()" ng-click="collapseAll()">collapse all</button>
+				</div>
+            </div>
+            <sc-show-hide-details-button class="col-lg-4" linking-variable="scenarioShowMetadata" local-storage-key="scenario" ></sc-show-hide-details-button>
         </div>
     </div>
 </div>
 
-<sc-show-hide-details showHideStorageKey="scenario">
+<sc-show-hide-details linking-variable="scenarioShowMetadata">
     <div>
         <!-- steps -->
         <div class="row step-view">
             <div ng-repeat="page in pagesAndSteps">
-                <div ng-repeat="step in page.steps | scFilterArray:searchFieldText" ng-show="$index == 0 || showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !showingMetaData, 'col-md-6': showingMetaData}">
+                <div ng-repeat="step in page.steps | scFilterArray:searchFieldText" ng-show="$index == 0 || showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !scenarioShowMetadata, 'col-md-6': scenarioShowMetadata}">
                     <h2>
                         <span class="sc-truncate" ng-if="$index == 0">
                             <span class="sc-no-truncate">
@@ -55,11 +60,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </h2>
                     <div>
                         <div class="step-title">
-                            <h3 class="sc-truncate"><a ng-href="{{getLinkToStep(step.page.name, $parent.$index, $index)}}">Step {{step.number}}: {{step.title}}</a></h3>
-                            <span class="sc-truncate">Page: {{step.page.name}} ({{step.page.index}} of {{pagesAndSteps.length}})</span>
+                            <h3 class="sc-truncate"><a ng-href="{{getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">Step {{step.stepIndex + 1}}: {{step.title}}</a></h3>
                         </div>
                         <div class="sc-screenshot-border sc-screenshot-scenario" >
-                            <a ng-href="{{getLinkToStep(step.page.name, $parent.$index, $index)}}">
+                            <a ng-href="{{getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">
                                 <img ng-src="{{getScreenShotUrl(step.screenshotFileName)}}" class="sc-screenshot"/>
                             </a>
                         </div>
