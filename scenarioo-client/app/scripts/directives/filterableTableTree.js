@@ -138,6 +138,14 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 });
             }
 
+            scope.isNodeIconEmpty = function(node) {
+                if (node.icon === '' || angular.isUndefined(node.icon)) {
+                    return true;
+                }
+
+                return false;
+            };
+
             // Expand collapse only the current node
             scope.toggleCollapseNode = function(rootNode) {
 
