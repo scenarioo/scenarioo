@@ -87,7 +87,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <div class="sc-treeNodeObject">
                             <div class="sc-treeNodeObjectTitle">
                                 <span class="sc-node-label">Use case: </span>
-                                <span ng-repeat="label in useCase.labels.labels" class="label label-info sc-label">{{label}}</span>
+                                <span ng-repeat="label in useCase.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                             </div>
                         </div>
                     </li>
@@ -96,7 +96,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <div class="sc-treeNodeObject">
                             <div class="sc-treeNodeObjectTitle">
                                 <span class="sc-node-label">Scenario: </span>
-                                <span ng-repeat="label in scenario.labels.labels" class="label label-info sc-label">{{label}}</span>
+                                <span ng-repeat="label in scenario.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                             </div>
                         </div>
                     </li>

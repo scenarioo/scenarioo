@@ -1,16 +1,16 @@
 /* scenarioo-client
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -30,15 +30,13 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($rout
         link: function (scope) {
 
             scope.breadcrumbs = [];
-            var navParameter = [];
-            var breadCrumbElements = [];
+            var navParameters = [];
             var breadcrumbId = $route.current.$$route.breadcrumbId;
 
             // Get all relevant scenarioo navigation artifacts (e.g. scenarioName, usecaseName, pageIndex, ...)
-            navParameter = getNavigationParameter();
+            navParameters = getNavigationParameters();
 
-            breadCrumbElements = BreadcrumbsService.loadNavigationElements(breadcrumbId);
-            var navElements = BreadcrumbsService.getNavigationElements(breadCrumbElements, navParameter);
+            var navElements = BreadcrumbsService.getNavigationElements(breadcrumbId, navParameters);
 
             angular.forEach(navElements, function(breadcrumbItem){
 
@@ -69,18 +67,16 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($rout
         return isLabelTextShortened ? getShortenedText(breadcrumbItem.label) : breadcrumbItem.label;
     }
 
-    function getNavigationParameter() {
-        var navParameter = {
+    function getNavigationParameters() {
+        return {
             usecase: $routeParams.useCaseName,
             scenario: $routeParams.scenarioName,
             pageName: $routeParams.pageName,
-            pageIndex: parseInt($routeParams.pageIndex, 10) + 1,
-            stepIndex: parseInt($routeParams.stepIndex, 10),
+            pageOccurrence: parseInt($routeParams.pageOccurrence, 10),
+            stepInPageOccurrence: parseInt($routeParams.stepInPageOccurrence, 10),
             objectType: $routeParams.objectType,
             objectName: $routeParams.objectName
         };
-
-        return navParameter;
     }
 
     function getShortenedText(text) {

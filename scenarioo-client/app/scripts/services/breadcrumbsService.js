@@ -49,8 +49,8 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
     var stepElement =
     {
-        label: '<strong>Step:</strong> [pageIndex].[stepIndex] - [pageName]',
-        route: '/step/:usecase/:scenario/:pageName/:pageIndex/:stepIndex/'
+        label: '<strong>Step:</strong> [pageName]/[stepInPageOccurrence]/[pageOccurrence]',
+        route: '/step/:usecase/:scenario/:pageName/:pageOccurrence/:stepInPageOccurrence/'
     };
 
     var objectElement =
@@ -61,7 +61,7 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
     /**
      *  Configure breadcrumb paths that can be assigned to routes (see app.js) to display them as breadcrumbs for according pages.
-     *  Key of the elements is the 'breadcrumbId', use it to link one of this paths to a routing in app.js
+     *  Key of the elements is the 'breadcrumbId', use it to link one of this path to a routing in app.js
      */
     var breadcrumbPaths = {
 
@@ -100,58 +100,67 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         if (placeholders !== null) {
             angular.forEach(placeholders, function (placeholder) {
                 placeholder = placeholder.replace(':', '');
-                text = text.replace(':' + placeholder, navParameter[placeholder]);
+                if (placeholder === 'usecase' || placeholder === 'scenario') {
+                    text = text.replace(':' + placeholder, navParameter[placeholder]);
+                }
             });
         }
         return text;
     }
 
+    function getText(navParameter, placeholder) {
+        var value = navParameter[placeholder];
+
+        if(placeholder === 'usecase' || placeholder === 'scenario') {
+            return $filter('scHumanReadable')(value);
+        }
+
+        return value;
+    }
+
     function setValuesInLabel(text, navParameter) {
         var placeholders = text.match(/\[.*?(?=])./g);
+
         if (placeholders !== null) {
             angular.forEach(placeholders, function (placeholder) {
-                var placeholderKey = placeholder.replace(/[\[\]]/g, '');
-                var placeholderValue = getNavParamFormatted(navParameter, placeholderKey);
-                text = text.replace(placeholder, placeholderValue);
+                placeholder = placeholder.replace(/[\[\]]/g, '');
+                text = text.replace(/[\[\]]/g, '');
+                text = text.replace(placeholder, getText(navParameter, placeholder));
             });
             text = decodeURIComponent(text);
         }
         return text;
     }
 
-    function getNavParamFormatted(navParameter, placeholderKey) {
-        var placeholderValue = navParameter[placeholderKey];
-        if ((placeholderKey === 'scenario') || (placeholderKey ==='usecase')) {
-            // by default only usecase and scenario names are formatted as human readable, all other texts have to be generated in the style the client wants to see it.
-            placeholderValue = $filter('scHumanReadable')(placeholderValue);
+    function buildNavigationElements (breadcrumbId, navParameters) {
+        if(angular.isUndefined(breadcrumbId) || angular.isUndefined(navParameters)) {
+            return;
         }
-        return placeholderValue;
+
+        var breadCrumbElements = angular.copy(breadcrumbPaths[breadcrumbId]);
+
+        var navElements = [];
+
+        if (angular.isDefined(breadCrumbElements)) {
+            angular.forEach(breadCrumbElements.breadcrumbPath, function (navigationElement, index) {
+                if ((breadCrumbElements.breadcrumbPath.length - index) === 1) {
+                    navigationElement.isLastNavigationElement = true;
+                }
+                else {
+                    navigationElement.isLastNavigationElement = false;
+                }
+                navigationElement.route = setValuesInRoute(navigationElement.route, navParameters);
+                navigationElement.label = setValuesInLabel(navigationElement.label, navParameters);
+                navigationElement.textForTooltip = convertToPlainText(navigationElement.label);
+                navElements.push(navigationElement);
+            });
+        }
+        return navElements;
     }
 
+    // Service interface
     return {
-        loadNavigationElements: function (objectType) {
-            return angular.copy(breadcrumbPaths[objectType]);
-        },
-
-        getNavigationElements: function(navElement, navParameter) {
-            var navElements = [];
-
-            if (angular.isDefined(navElement)) {
-                angular.forEach(navElement.breadcrumbPath, function (navigationElement, index) {
-                    if ((navElement.breadcrumbPath.length - index) === 1) {
-                        navigationElement.isLastNavigationElement = true;
-                    }
-                    else {
-                        navigationElement.isLastNavigationElement = false;
-                    }
-                    navigationElement.route = setValuesInRoute(navigationElement.route, navParameter);
-                    navigationElement.label = setValuesInLabel(navigationElement.label, navParameter);
-                    navigationElement.textForTooltip = convertToPlainText(navigationElement.label);
-                    navElements.push(navigationElement);
-                });
-            }
-            return navElements;
-        }
-
+        getNavigationElements: buildNavigationElements
     };
+
 });

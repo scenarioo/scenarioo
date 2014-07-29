@@ -40,4 +40,13 @@
             <value>label-warning</value>
         </entry>
     </buildstates>
+    <labelConfigurations>
+        <entry>
+            <key>normal-case</key>
+            <value>
+                <backgroundColor>#009800</backgroundColor>
+                <foregroundColor>#FFFFFF</foregroundColor>
+            </value>
+        </entry>
+    </labelConfigurations>    
 </configuration>
