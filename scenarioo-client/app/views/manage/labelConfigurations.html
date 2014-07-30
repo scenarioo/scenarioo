@@ -6,10 +6,6 @@
             <i class="icon-remove icon"></i></a>
     </div>
 
-    <!--<div class="alert alert-danger fade-out" ng-show="uniqueError" id="duplicateAlisErrorId">-->
-        <!--<strong>Your branch aliases are not unique.</strong> Please make sure each name is only used once.-->
-    <!--</div>-->
-
 
 
     <form name="labelConfigurationsForm">
@@ -33,6 +29,8 @@
                                         ng-class="{'sc-color-field-selected' : color.backgroundColor === labelConfiguration.backgroundColor}"></span>
                             </li>
                         </ul>
+
+                        <span ng-show="colorMissing[$index]" class="sc-error-span">Please choose a color</span>
                     </td>
                     <td>
                         <input type="button" class="btn btn-small btn-danger" value="Delete" ng-click="deleteEntry(labelConfiguration.name)" />

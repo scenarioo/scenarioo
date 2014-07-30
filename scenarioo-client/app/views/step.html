@@ -83,13 +83,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
     </div>
-    <div class="col-lg-4 pull-right">
-        <sc-show-hide-details-button linking-variable="stepShowMetadata" local-storage-key="step" ></sc-show-hide-details-button>
+    <div class="col-lg-4">
+        <sc-meta-data-button  class="pull-right" linking-variable="stepShowMetadata" local-storage-key="step" ></sc-meta-data-button>
+
+
+        <button class="btn btn-default" style="float: right;" data-toggle="modal" data-target="#stepLinksDialog">
+            Show Step URL
+        </button>
     </div>
 </div>
 
 <!-- screenshot and information -->
-<sc-show-hide-details linking-variable="stepShowMetadata" ng-hide="stepNotFound">
+<sc-meta-data-panel linking-variable="stepShowMetadata" ng-hide="stepNotFound">
     <div>
         <tabset class="step-panes">
             <tab heading="Screenshot">
@@ -157,4 +162,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- meta info -->
         <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
     </div>
-</sc-show-hide-details>
+</sc-meta-data-panel>
+
+<!-- Modal -->
+<div class="modal fade" id="stepLinksDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h1 class="modal-title" id="myModalLabel">Step links</h1>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="stepLinkField">Step link</label>
+                    <input type="email" class="form-control" id="stepLinkField">
+                </div>
+                <div class="form-group">
+                    <label for="screenshotLinkField">Screenshot link</label>
+                    <input type="email" class="form-control" id="screenshotLinkField">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

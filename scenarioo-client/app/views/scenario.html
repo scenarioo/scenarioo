@@ -28,19 +28,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
     <div class="col-lg-9">
-        <div class="row pull-right">
-            <div class="col-lg-8">
-				<div>
-					<button type="button" class="btn btn-default" id="expandAllPages" ng-show="isExpandAllPossible()" ng-click="expandAll()">expand all</button>
-					<button type="button" class="btn btn-default" id="collapseAllPages" ng-show="isCollapseAllPossible()" ng-click="collapseAll()">collapse all</button>
-				</div>
-            </div>
-            <sc-show-hide-details-button class="col-lg-4" linking-variable="scenarioShowMetadata" local-storage-key="scenario" ></sc-show-hide-details-button>
-        </div>
+		<div class="pull-right">
+			<button type="button" class=" btn btn-default" id="expandAllPages" ng-show="isExpandAllPossible()" ng-click="expandAll()">expand all</button>
+			<button type="button" class=" btn btn-default" id="collapseAllPages" ng-show="isCollapseAllPossible()" ng-click="collapseAll()">collapse all</button>
+			<sc-meta-data-button linking-variable="scenarioShowMetadata" local-storage-key="scenario" ></sc-meta-data-button>
+		</div>
     </div>
 </div>
 
-<sc-show-hide-details linking-variable="scenarioShowMetadata">
+<sc-meta-data-panel linking-variable="scenarioShowMetadata">
     <div>
         <!-- steps -->
         <div class="row step-view">
@@ -109,4 +105,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- Metadata -->
         <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
     </div>
-</sc-show-hide-details>
+</sc-meta-data-panel>

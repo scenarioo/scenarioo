@@ -28,12 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </span>
             </div>
         </div>
-        <div class="col-lg-9">
-            <sc-show-hide-details-button linking-variable="mainShowMetadata" local-storage-key="main" ></sc-show-hide-details-button>
+        <div class="col-lg-9 ">
+            <sc-meta-data-button class="pull-right" linking-variable="mainShowMetadata" local-storage-key="main" ></sc-meta-data-button>
         </div>
     </div>
 
-    <sc-show-hide-details linking-variable="mainShowMetadata">
+    <sc-meta-data-panel linking-variable="mainShowMetadata">
         <div>
             <!-- use cases table -->
             <table ng-table="tableParams" class="table table-curved table-hover table-responsive usecase-table" ng-model="sort" sc-navigator-table="filtered"  >
@@ -76,5 +76,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
         </div>
-    </sc-show-hide-details>
+    </sc-meta-data-panel>
 </div>

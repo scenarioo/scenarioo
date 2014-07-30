@@ -4,6 +4,7 @@ var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
 scenarioo.describeUseCase('Home', function () {
+    browser.driver.manage().window().maximize();
 
     scenarioo.describeScenario('Navigate to the Home Page, display popup without cookie', function () {
         var homePage = new pages.homePage();
@@ -39,6 +40,20 @@ scenarioo.describeUseCase('Home', function () {
         homePage.filterUseCases('user wants find page');
         homePage.assertUseCasesShown(1);
         scenarioo.docuWriter.saveStep('one use case found');
+    });
+
+    scenarioo.describeScenario('Navigate to the Home Page, show and hide metadata', function () {
+        var homePage = new pages.homePage();
+        browser.get('#/');
+        scenarioo.docuWriter.saveStep('display the homePage, metadata shown');
+        homePage.assertPageIsDisplayed();
+        homePage.assertMetaDataShown();
+        homePage.hideMetaData();
+        homePage.assertMetaDataHidden();
+        scenarioo.docuWriter.saveStep('metadata hidden');
+        homePage.showMetaData();
+        homePage.assertMetaDataShown();
+        scenarioo.docuWriter.saveStep('metadata shown');
     });
 
 });

@@ -17,22 +17,24 @@
 
 'use strict';
 
-angular.module('scenarioo.directives').directive('scShowHideDetails', function() {
+angular.module('scenarioo.directives').directive('scMetaDataPanel', function() {
 
     function toggleClassesOnPanels(elem, showingMetaData) {
         var childs = elem.children();
         var mainAndDetailPanelRow = childs[0];
         var panelChildren = mainAndDetailPanelRow.children;
         var mainPanel = panelChildren[0];
-        var detailPanel = panelChildren[1];
+        var metaDataPanel = panelChildren[1];
+        mainPanel.setAttribute('id', 'sc-main-panel');
+        metaDataPanel.setAttribute('id', 'sc-metadata-panel');
         if (showingMetaData) {
             mainPanel.setAttribute('class', 'col-lg-8');
-            detailPanel.setAttribute('class', 'col-lg-4 hero-unit meta-data');
-            detailPanel.style.display = 'block';
+            metaDataPanel.setAttribute('class', 'col-lg-4 hero-unit meta-data');
+            metaDataPanel.style.display = 'block';
         } else {
             mainPanel.setAttribute('class', 'col-lg-12');
-            detailPanel.setAttribute('class', 'hero-unit meta-data');
-            detailPanel.style.display = 'none';
+            metaDataPanel.setAttribute('class', 'hero-unit meta-data');
+            metaDataPanel.style.display = 'none';
         }
     }
 
@@ -42,7 +44,7 @@ angular.module('scenarioo.directives').directive('scShowHideDetails', function()
         scope: {
             linkingVariable: '='
         },
-        templateUrl: 'views/showHideDetails.html',
+        templateUrl: 'views/metaDataPanel.html',
         controller: function($scope, $element) {
             $scope.$watch('linkingVariable', function() {
                 toggleClassesOnPanels($element, $scope.linkingVariable);
