@@ -13,6 +13,9 @@ function HomePage(overridePath) {
     this.aboutScenariooPopup = element(by.css('.modal.about-popup'));
     this.popupCloseButton = element(by.css('.modal-footer button.btn'));
     this.stepView = element(by.css('table.usecase-table'));
+    this.showMetaDataButton = element(by.id('sc-showHideDetailsButton-show'));
+    this.hideMetaDataButton = element(by.id('sc-showHideDetailsButton-hide'));
+    this.metaDataPanel = element(by.id("sc-metadata-panel"));
 
 }
 
@@ -57,6 +60,22 @@ HomePage.prototype.selectUseCase = function(useCaseIndex) {
     this.stepView.findElements(by.css('tbody tr')).then(function(elements) {
         elements[useCaseIndex].click();
     });
-} ;
+};
+
+HomePage.prototype.showMetaData = function() {
+    this.showMetaDataButton.click();
+};
+
+HomePage.prototype.assertMetaDataShown = function() {
+    expect(this.metaDataPanel.isDisplayed()).toBe(true);
+};
+
+HomePage.prototype.assertMetaDataHidden = function() {
+    expect(this.metaDataPanel.isDisplayed()).toBe(false);
+};
+
+HomePage.prototype.hideMetaData = function() {
+    this.hideMetaDataButton.click();
+}
 
 module.exports = HomePage;
