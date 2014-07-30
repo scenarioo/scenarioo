@@ -62,17 +62,23 @@ angular.module('scenarioo.controllers').controller('LabelConfigurationsCtrl', fu
     };
 
     $scope.save = function () {
+        $scope.colorMissing = [];
         var labelConfigurationsAsMap = {};
-
-        angular.forEach($scope.labelConfigurations, function(value) {
+        var everythingIsValid = true;
+        angular.forEach($scope.labelConfigurations, function(value, key) {
             if(value.name !== '') {
+                if(!value.backgroundColor) {
+                    everythingIsValid = false;
+                    $scope.colorMissing[key] = true;
+                }
                 labelConfigurationsAsMap[value.name] = {'backgroundColor': value.backgroundColor, 'foregroundColor': value.foregroundColor};
             }
         });
 
-        LabelConfigurationsResource.save(labelConfigurationsAsMap);
-
-        $scope.successfullyUpdatedLabelConfigurations = true;
+        if(everythingIsValid) {
+            LabelConfigurationsResource.save(labelConfigurationsAsMap);
+            $scope.successfullyUpdatedLabelConfigurations = true;
+        }
     };
 
     function loadLabelConfigurations() {
@@ -86,6 +92,8 @@ angular.module('scenarioo.controllers').controller('LabelConfigurationsCtrl', fu
         labelConfiguration.backgroundColor = color.backgroundColor;
         labelConfiguration.foregroundColor = color.foregroundColor;
     };
+
+    $scope.colorMissing = [];
 });
 
 
