@@ -43,7 +43,7 @@ angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($sco
                 $scope.scenarios = result.scenarios;
                 $scope.usecaseInformationTree = createUseCaseInformationTree($scope.useCase);
                 $scope.metadataTree = transformMetadataToTreeArray($scope.useCase.details);
-                $scope.hasAnyLabels = $scope.useCase.labels.labels.length !== 0;
+                $scope.hasAnyLabels =  $scope.useCase.labels && $scope.useCase.labels.labels.length !== 0;
             }
         );
 
