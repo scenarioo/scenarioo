@@ -4,6 +4,7 @@ var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
 scenarioo.describeUseCase('Home', function () {
+    browser.driver.manage().window().maximize();
 
     scenarioo.describeScenario('Navigate to the Home Page, display popup without cookie', function () {
         var homePage = new pages.homePage();
