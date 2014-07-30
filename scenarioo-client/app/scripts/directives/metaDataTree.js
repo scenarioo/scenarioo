@@ -20,7 +20,7 @@
 angular.module('scenarioo.directives').directive('scMetadataTree', function() {
     return {
         restrict: 'E',
-        templateUrl: '../../views/metaDataTree.html',
+        templateUrl: 'views/metaDataTree.html',
         scope: {
             metadataTree: '='
         }
