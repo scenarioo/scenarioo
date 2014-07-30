@@ -28,7 +28,7 @@ angular.module('scenarioo.services')
         if (ENV === 'production') {
             hostAndPort = '';
         } else if (ENV === 'development') {
-            hostAndPort = 'http://localhost:8181/scenarioo/';
+            hostAndPort = 'http://localhost:8080/scenarioo/';
         }
 
         return {
