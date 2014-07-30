@@ -95,8 +95,6 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         buildNavigationElement(nodeElement);
         if (navigationElement.objectType === objType.step) {
             goToStep(navigationElement);
-        } else if (navigationElement.objectType === objType.page) {
-            // TODO Is this relevant? Seems that we don't display pages in the tree.
         } else {
             var locationPath = buildLocationPath(navigationElement);
             $location.path(locationPath);
