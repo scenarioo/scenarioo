@@ -76,6 +76,6 @@ HomePage.prototype.assertMetaDataHidden = function() {
 
 HomePage.prototype.hideMetaData = function() {
     this.hideMetaDataButton.click();
-}
+};
 
 module.exports = HomePage;

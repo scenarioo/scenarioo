@@ -19,6 +19,6 @@ UsecasePage.prototype.selectScenario = function(scenarioIndex) {
     this.stepView.findElements(by.css('tbody tr')).then(function(elements) {
         elements[scenarioIndex].click();
     });
-} ;
+};
 
 module.exports = UsecasePage;

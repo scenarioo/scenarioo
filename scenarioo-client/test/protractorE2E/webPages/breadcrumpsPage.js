@@ -9,11 +9,25 @@ function BreadcrumpPage(overridePath) {
         BaseWebPage.call(this, '/');
     }
 
-    this.breadcrumb = element(by.css('table.scenario-table'));
-
+    this.breadcrumbs = element(by.css('.breadcrumb'));
 }
 
-util.inherits(ObjectDetailsPage, BaseWebPage);
+util.inherits(BreadcrumpPage, BaseWebPage);
 
+BreadcrumpPage.prototype.clickOnBreadcrump = function (breadcrumpId) {
+    this.breadcrumbs.findElement(by.id(breadcrumpId)).then(function (element) {
+        element.click();
+    });
+};
 
-}
+BreadcrumpPage.prototype.getUsecaseName = function (breadcrumpId) {
+    this.breadcrumbs.findElement(by.id(breadcrumpId)).then(function (element) {
+        return element.linkText;
+    });
+};
+
+BreadcrumpPage.prototype.assertUseCaseName = function (usecaseName) {
+
+};
+
+module.exports = BreadcrumpPage;
