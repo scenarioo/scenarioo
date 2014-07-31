@@ -82,6 +82,10 @@ angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($sco
         return transformMetadataToTree(usecaseInformation);
     }
 
+    $scope.resetSearchField = function () {
+        $scope.table.search = {searchTerm: ''};
+    };
+
     // FIXME this code is duplicated. How can we extract it into a service?
     $scope.getLabelStyle = function(labelName) {
         var labelConfig = $scope.labelConfigurations[labelName];
