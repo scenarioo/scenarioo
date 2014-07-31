@@ -60,6 +60,11 @@ public class Configuration {
 	
 	private Map<String, String> buildstates = new HashMap<String, String>();
 	
+	/**
+	 * Will create a physical build containing the latest successful scenarios of a branch.
+	 */
+	private boolean createLastSuccessfulScenarioBuild = false;
+	
 	private boolean expandPagesInScenarioOverview = false;
 	@XmlElementWrapper(name = "branchAliases")
 	@XmlElement(name = "branchAlias")
@@ -192,5 +197,14 @@ public class Configuration {
 	
 	public void setCustomObjectTabs(final List<CustomObjectTab> customObjectTabs) {
 		this.customObjectTabs = customObjectTabs;
+	}
+
+	public boolean isCreateLastSuccessfulScenarioBuild() {
+		return createLastSuccessfulScenarioBuild;
+	}
+
+	public void setCreateLastSuccessfulScenarioBuild(
+			boolean createLastSuccessfulScenarioBuild) {
+		this.createLastSuccessfulScenarioBuild = createLastSuccessfulScenarioBuild;
 	}
 }
