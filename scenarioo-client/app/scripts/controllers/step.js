@@ -134,7 +134,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
         $scope.getScreenShotUrl = function (imgName) {
             if (angular.isDefined(imgName)) {
-                return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
+                return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName + createLabelUrl('?', getAllLabels());
             } else {
                 return '';
             }
@@ -331,7 +331,30 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     };
 
     $scope.getCurrentUrl = function() {
-        return $location.absUrl();
+        return $location.absUrl() + createLabelUrl('&', getAllLabels());
     };
 
+    var getAllLabels = function() {
+        var labels = [];
+        if($scope.useCaseLabels) {
+            labels.push($scope.useCaseLabels.labels);
+            labels.push($scope.scenarioLabels.labels);
+            labels.push($scope.step.labels.labels);
+            labels.push($scope.step.page.labels.labels);
+        }
+        return labels;
+    };
+
+    var createLabelUrl = function (prefix, labels) {
+        if(labels && labels.length > 0) {
+            var labelPart = 'labels=';
+            var comma = '';
+            angular.forEach(labels, function (value) {
+                labelPart += comma + value;
+                comma = ',';
+            });
+            return prefix + labelPart;
+        }
+        return '';
+    };
 });
