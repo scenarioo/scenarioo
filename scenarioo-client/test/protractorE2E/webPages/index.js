@@ -12,6 +12,7 @@ var StepPage = require('./stepPage.js');
 var BranchAliasesPage = require('./branchAliasesPage.js');
 var ObjectDetailsPage = require('./objectDetailsPage.js');
 var LabelConfigurationsPage = require('./labelConfigurationsPage.js');
+var BreadcrumpsPage = require('./breadcrumpsPage.js');
 
 module.exports = {
     homePage: HomePage,
@@ -20,5 +21,6 @@ module.exports = {
     stepPage: StepPage,
     branchAliasesPage: BranchAliasesPage,
     objectDetailsPage: ObjectDetailsPage,
-    labelConfigurationsPage: LabelConfigurationsPage
+    labelConfigurationsPage: LabelConfigurationsPage,
+    breadcrumpsPage: BreadcrumpsPage
 };
