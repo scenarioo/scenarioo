@@ -24,9 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<tr ng-repeat="node in treemodel" ng-show="node.isVisible">
 			<td ng-class="{matchColor: node.matching}">
 
-				<img ng-style="{'padding-left': (node.level * 30) + 'px'}" ng-hide="isNodeIconEmpty(node)" style="position: absolute; white-space:nowrap; cursor:pointer;"
+				<img ng-style="{'padding-left': (node.level * 30) + 'px'}" ng-hide="isNodeIconEmpty(node)"
+                    style="position: absolute; white-space:nowrap; cursor:pointer;"
 					ng-click="toggleCollapseNode(node)" ng-Dblclick="toggleAllChilds(node)" ng-src="{{node.icon}}">
-				<span ng-style="{'padding-left': (node.level * 30 + 30) + 'px'}" style="display: inline-block;cursor:pointer" ng-click="clickAction({node:node})">{{node.type}}: {{formatNodeName(node)}}</span>
+				<span ng-style="{'padding-left': (node.level * 30 + 30) + 'px'}" style="display: inline-block;cursor:pointer"
+                    ng-click="clickAction({node:node})">{{node.type}}: {{formatNodeName(node)}}</span>
 			</td>
 
 			<td ng-repeat="column in columns" ng-class="{matchColor: node.matching}">
