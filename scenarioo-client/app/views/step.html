@@ -120,44 +120,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div class="sc-tree">
                 <ul>
                     <li>
-                        <div class="sc-treeNodeObject">
-                            <div class="sc-treeNodeObjectTitle">
-                                <span class="sc-node-label">Use case: </span>
-                                <span ng-repeat="label in useCaseLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
-                            </div>
-                        </div>
+                        Use case:
+                        <span ng-repeat="label in useCaseLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
-
                     <li>
-                        <div class="sc-treeNodeObject">
-                            <div class="sc-treeNodeObjectTitle">
-                                <span class="sc-node-label">Scenario: </span>
-                                <span ng-repeat="label in scenarioLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
-                            </div>
-                        </div>
+                        Scenario:
+                        <span ng-repeat="label in scenarioLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
-
                     <li>
-                        <div class="sc-treeNodeObject">
-                            <div class="sc-treeNodeObjectTitle">
-                                <span class="sc-node-label">Step: </span>
-                                <span ng-repeat="label in step.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
-                            </div>
-                        </div>
+                        Step:
+                        <span ng-repeat="label in step.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
-
                     <li>
-                        <div class="sc-treeNodeObject">
-                            <div class="sc-treeNodeObjectTitle">
-                                <span class="sc-node-label">Page: </span>
-                                <span ng-repeat="label in step.page.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
-                            </div>
-                        </div>
+                        Page:
+                        <span ng-repeat="label in step.page.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
-
                 </ul>
             </div>
-
         </sc-collapsable-panel>
         <!-- meta info -->
         <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
