@@ -31,11 +31,11 @@ import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.configuration.BranchAlias;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
-import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.model.docu.entities.Branch;
+import org.scenarioo.rest.request.BuildIdentifier;
 
 /**
  * Manages the list of branches and builds that are currently available in the documentation directory:
@@ -59,17 +59,17 @@ public class ScenarioDocuBuildsManager {
 	 * Cached long object name resolver for most recently loaded builds and branches. Is cleared whenever new builds are
 	 * imported.
 	 */
-	private Map<BuildIdentifier, LongObjectNamesResolver> longObjectNamesResolvers = new HashMap<BuildIdentifier, LongObjectNamesResolver>();
+	private final Map<BuildIdentifier, LongObjectNamesResolver> longObjectNamesResolvers = new HashMap<BuildIdentifier, LongObjectNamesResolver>();
 	
 	/**
 	 * Only the successfully imported builds that are available and can be accessed.
 	 */
-	private AvailableBuildsList availableBuilds = new AvailableBuildsList();
+	private final AvailableBuildsList availableBuilds = new AvailableBuildsList();
 	
 	/**
 	 * Importer to hold current state of all builds and to import those that are not yet imported or are outdated.
 	 */
-	private BuildImporter buildImporter = new BuildImporter();
+	private final BuildImporter buildImporter = new BuildImporter();
 	
 	/**
 	 * Is a singleton. Use {@link #INSTANCE}.
@@ -118,18 +118,29 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	/**
-	 * @return the physical name of the branch 
+	 * @return the physical name of the branch
 	 */
 	public String resolveAliasBranchName(final String aliasBranchName) {
 		Configuration configuration = ConfigurationDAO.getConfiguration();
 		List<BranchAlias> branchAliases = configuration.getBranchAliases();
 		for (BranchAlias branchAlias : branchAliases) {
-			if(branchAlias.getName().equals(aliasBranchName)) {
+			if (branchAlias.getName().equals(aliasBranchName)) {
 				return branchAlias.getReferencedBranch();
 			}
 		}
 		
 		return aliasBranchName;
+	}
+	
+	/**
+	 * Resolves branch and build names that might be aliases to their real names.
+	 */
+	public BuildIdentifier resolveBranchAndBuildAliases(final String branchName, final String buildName) {
+		String resolvedBranchName = resolveAliasBranchName(branchName);
+		String resolvedBuildName = resolveAliasBuildName(resolvedBranchName,
+				buildName);
+		
+		return new BuildIdentifier(resolvedBranchName, resolvedBuildName);
 	}
 	
 	/**

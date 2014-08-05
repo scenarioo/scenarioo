@@ -32,4 +32,8 @@ BaseWebPage.prototype.assertElementIsDisabled = function(elementId) {
     });
 };
 
+BaseWebPage.prototype.type = function(value) {
+    element(by.css('body')).sendKeys(value);
+};
+
 module.exports = BaseWebPage;

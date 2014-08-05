@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.scenarioo.api.files.ScenarioDocuFiles;
 import org.scenarioo.api.util.files.FilesUtil;
-import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
+import org.scenarioo.rest.request.BuildIdentifier;
 
 /**
  * Defines locations of aggregated files containing aggregated (=derived) data from documentation input data.

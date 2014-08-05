@@ -84,11 +84,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
     <div class="col-lg-4">
-        <sc-meta-data-button  class="pull-right" linking-variable="stepShowMetadata" local-storage-key="step" ></sc-meta-data-button>
-
-
-        <button class="btn btn-default" style="float: right;" data-toggle="modal" data-target="#stepLinksDialog">
-            Show step links
+        <sc-meta-data-button class="pull-right" linking-variable="stepShowMetadata" local-storage-key="step" ></sc-meta-data-button>
+        <button class="btn btn-default pull-right" ng-click="showStepLinks()" style="margin-right: 5px;" id="showStepLinksButton">
+            <img src="images/share.png" /> Show step links
         </button>
     </div>
 </div>
@@ -120,75 +118,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div class="sc-tree">
                 <ul>
                     <li>
-                        <div class="sc-treeNodeObject">
-                            <div class="sc-treeNodeObjectTitle">
-                                <span class="sc-node-label">Use case: </span>
-                                <span ng-repeat="label in useCaseLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
-                            </div>
-                        </div>
+                        Use case:
+                        <span ng-repeat="label in useCaseLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
-
                     <li>
-                        <div class="sc-treeNodeObject">
-                            <div class="sc-treeNodeObjectTitle">
-                                <span class="sc-node-label">Scenario: </span>
-                                <span ng-repeat="label in scenarioLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
-                            </div>
-                        </div>
+                        Scenario:
+                        <span ng-repeat="label in scenarioLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
-
                     <li>
-                        <div class="sc-treeNodeObject">
-                            <div class="sc-treeNodeObjectTitle">
-                                <span class="sc-node-label">Step: </span>
-                                <span ng-repeat="label in step.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
-                            </div>
-                        </div>
+                        Step:
+                        <span ng-repeat="label in step.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
-
                     <li>
-                        <div class="sc-treeNodeObject">
-                            <div class="sc-treeNodeObjectTitle">
-                                <span class="sc-node-label">Page: </span>
-                                <span ng-repeat="label in step.page.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
-                            </div>
-                        </div>
+                        Page:
+                        <span ng-repeat="label in step.page.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
-
                 </ul>
             </div>
-
         </sc-collapsable-panel>
         <!-- meta info -->
         <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
     </div>
 </sc-meta-data-panel>
-
-<!-- Modal -->
-<div class="modal fade" id="stepLinksDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h1 class="modal-title" id="myModalLabel">Step links</h1>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="stepLinkField">Step link</label>
-                    <input type="text" class="form-control" id="stepLinkField" ng-value="getCurrentUrl()"
-                           onfocus="this.select();" onmouseup="return false;" />
-                </div>
-                <div class="form-group">
-                    <label for="screenshotLinkField">Screenshot link</label>
-                    <input type="text" class="form-control" id="screenshotLinkField" ng-value="getScreenShotUrl(step.stepDescription.screenshotFileName)"
-                           onfocus="this.select();" onmouseup="return false;"/>
-                </div>
-
-                Click into the field and press ctrl+c to copy or right-click and select copy from the drop down.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>

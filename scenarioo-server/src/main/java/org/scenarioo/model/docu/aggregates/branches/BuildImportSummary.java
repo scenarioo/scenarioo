@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.model.docu.entities.Build;
+import org.scenarioo.rest.request.BuildIdentifier;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

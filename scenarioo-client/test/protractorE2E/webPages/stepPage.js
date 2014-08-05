@@ -76,4 +76,12 @@ StepPage.prototype.assertErrorMessageIsShown = function () {
     expect(element(by.id('stepNotFoundErrorMessage')).isDisplayed()).toBeTruthy();
 };
 
+StepPage.prototype.clickShowStepLinksButton = function() {
+    element(by.id('showStepLinksButton')).click();
+};
+
+StepPage.prototype.assertStepLinksDialogVisible = function() {
+    expect(element(by.id('stepLinksDialog')).isDisplayed()).toBeTruthy();
+}
+
 module.exports = StepPage;
