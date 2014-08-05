@@ -70,4 +70,26 @@ scenarioo.describeUseCase('Step', function () {
         scenarioo.docuWriter.saveStep('Error message.');
     });
 
+    scenarioo.describeScenario('The step link popup shows the link to the step and to the image.', function () {
+        var stepPage = new pages.stepPage();
+
+        browser.get('#/step/Find Page/find_page_no_result/startSearch.jsp/0/0');
+        scenarioo.docuWriter.saveStep('A step.');
+
+        stepPage.clickShowStepLinksButton();
+        stepPage.assertStepLinksDialogVisible();
+        scenarioo.docuWriter.saveStep('Step links dialog.');
+    });
+
+    scenarioo.describeScenario('The step link dialog can also be opened using the "l" shortcut.', function () {
+        var stepPage = new pages.stepPage();
+
+        browser.get('#/step/Find Page/find_page_no_result/startSearch.jsp/0/0');
+        scenarioo.docuWriter.saveStep('A step.');
+
+        stepPage.type('l');
+        stepPage.assertStepLinksDialogVisible();
+        scenarioo.docuWriter.saveStep('Step links dialog.');
+    });
+
 });

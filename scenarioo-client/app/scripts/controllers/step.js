@@ -17,17 +17,17 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepService, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource) {
-
-    var useCaseName = $routeParams.useCaseName;
-    var scenarioName = $routeParams.scenarioName;
+angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepService, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, ScShareStepPopup) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
 
+    var useCaseName = $routeParams.useCaseName;
+    var scenarioName = $routeParams.scenarioName;
     $scope.pageName = decodeURIComponent($routeParams.pageName);
     $scope.pageOccurrence = parseInt($routeParams.pageOccurrence, 10);
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
+
 
     // TODO  [#238] It does not make sense to have the pageOccurrence and stepInPageOccurrence here,
     // so I commented it out. What shall we do with it?
@@ -132,6 +132,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             });
         }
 
+        // This URL is only used internally, not for sharing
         $scope.getScreenShotUrl = function (imgName) {
             if (angular.isDefined(imgName)) {
                 return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName + createLabelUrl('?', getAllLabels());
@@ -332,6 +333,31 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
     $scope.getCurrentUrl = function() {
         return $location.absUrl() + createLabelUrl('&', getAllLabels());
+    };
+
+    $scope.showStepLinks = function() {
+        ScShareStepPopup.showShareStepPopup({
+            stepUrl: $scope.getCurrentUrl(),
+            screenshotUrl: getScreenshotUrlForSharing()
+        });
+    };
+
+    GlobalHotkeysService.registerPageHotkey('l', function () {
+        $scope.showStepLinks();
+    });
+
+    var getScreenshotUrlForSharing = function() {
+        if(SelectedBranchAndBuild.isDefined() !== true) {
+            return undefined;
+        }
+
+        return HostnameAndPort.forLink() + 'rest/branch/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY] +
+            '/build/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BUILD_KEY] +
+            '/usecase/' + useCaseName +
+            '/scenario/' + scenarioName +
+            '/pageName/' + $scope.pageName +
+            '/pageOccurrence/' + $scope.pageOccurrence +
+            '/stepInPageOccurrence/' +  $scope.stepInPageOccurrence + '.png' + createLabelUrl('?', getAllLabels());
     };
 
     var getAllLabels = function() {

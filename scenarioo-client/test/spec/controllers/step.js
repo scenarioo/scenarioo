@@ -65,7 +65,7 @@ describe('StepCtrl', function () {
             $routeParams.stepInPageOccurrence = 1;
             StepCtrl = $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
                 $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepService: StepService, HostnameAndPort: HostNameAndPort,
-                SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}});
+                SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}, ScShareStepPopup: {}});
         });
 
         it('loads the step data', function () {
@@ -188,7 +188,7 @@ describe('StepCtrl', function () {
             $routeParams.stepInPageOccurrence = 42;
             StepCtrl = $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
                 $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepService: StepService, HostnameAndPort: HostNameAndPort,
-                SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}});
+                SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}, ScShareStepPopup: {}});
         });
 
         it('requested step is not found', function () {

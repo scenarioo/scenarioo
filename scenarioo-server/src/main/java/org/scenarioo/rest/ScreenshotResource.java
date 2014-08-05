@@ -25,7 +25,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.scenarioo.api.ScenarioDocuReader;
@@ -114,13 +113,11 @@ public class ScreenshotResource {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		
-		return createScreenshotResponse(imgName, screenshot);
+		return createOkResponse(imgName, screenshot);
 	}
 	
-	private Response createScreenshotResponse(final String imgName, final File screenshot) {
-		ResponseBuilder response = Response.ok(screenshot);
-		response.header("Content-Disposition", "attachment; filename=\"" + imgName + "\"");
-		return response.build();
+	private Response createOkResponse(final String imgName, final File screenshot) {
+		return Response.ok(screenshot).build();
 	}
 	
 }
