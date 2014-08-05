@@ -135,7 +135,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         // This URL is only used internally, not for sharing
         $scope.getScreenShotUrl = function (imgName) {
             if (angular.isDefined(imgName)) {
-                return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName + createLabelUrl('?', getAllLabels());
+                return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
             } else {
                 return '';
             }
