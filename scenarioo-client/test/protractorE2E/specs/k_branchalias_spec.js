@@ -13,6 +13,7 @@ scenarioo.describeUseCase('Branch aliases', function () {
         var stepPage = new pages.stepPage();
 
         browser.get('#/manage?tab=branchAliases');
+        homePage.closeScenariooInfoDialogIfOpen();
 
         branchAliasesPage.enterAlias('Latest dev', 0, 'alias to latest development release');
         branchAliasesPage.save();
