@@ -29,7 +29,6 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
-import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummaries;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree;
@@ -43,6 +42,8 @@ import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
+import org.scenarioo.rest.request.BuildIdentifier;
+import org.scenarioo.rest.request.ScenarioIdentifier;
 import org.scenarioo.utils.ResourceUtils;
 
 /**
@@ -109,9 +110,10 @@ public class ScenarioDocuAggregationDAO {
 		return ScenarioDocuXMLFileUtil.unmarshal(UseCaseScenarios.class, scenariosFile);
 	}
 	
-	public ScenarioPageSteps loadScenarioPageSteps(final String branchName, final String buildName,
-			final String usecaseName, final String scenarioName) {
-		File file = files.getScenarioStepsFile(branchName, buildName, usecaseName, scenarioName);
+	public ScenarioPageSteps loadScenarioPageSteps(final ScenarioIdentifier scenarioIdentifier) {
+		File file = files.getScenarioStepsFile(scenarioIdentifier.getBuildIdentifier().getBranchName(),
+				scenarioIdentifier.getBuildIdentifier().getBuildName(), scenarioIdentifier.getUsecaseName(),
+				scenarioIdentifier.getScenarioName());
 		return ScenarioDocuXMLFileUtil.unmarshal(ScenarioPageSteps.class, file);
 	}
 	

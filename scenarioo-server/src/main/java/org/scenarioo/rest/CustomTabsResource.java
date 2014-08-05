@@ -6,9 +6,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree;
 import org.scenarioo.rest.base.AbstractBuildContentResource;
+import org.scenarioo.rest.request.BuildIdentifier;
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/customTabObjects/{tabId}")
 public class CustomTabsResource extends AbstractBuildContentResource {

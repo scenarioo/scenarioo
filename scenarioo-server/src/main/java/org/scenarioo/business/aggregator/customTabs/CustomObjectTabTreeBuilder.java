@@ -9,11 +9,11 @@ import org.apache.log4j.Logger;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.model.configuration.CustomObjectDetailColumn;
 import org.scenarioo.model.configuration.CustomObjectTab;
-import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
+import org.scenarioo.rest.request.BuildIdentifier;
 
 /**
  * This builder collects all found objects for some configured object types (as configured by the user in configuration
