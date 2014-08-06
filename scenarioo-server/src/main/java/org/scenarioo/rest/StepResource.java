@@ -33,7 +33,7 @@ import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
-import org.scenarioo.rest.dto.StepDto;
+import org.scenarioo.rest.dto.StepDetails;
 import org.scenarioo.rest.request.BuildIdentifier;
 import org.scenarioo.rest.request.StepIdentifier;
 import org.scenarioo.rest.util.StepIndexResolver;
@@ -55,7 +55,7 @@ public class StepResource {
 	 */
 	@GET
 	@Produces({ "application/xml", "application/json" })
-	public StepDto loadStep(@PathParam("branchName") final String branchName,
+	public StepDetails loadStep(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
 			@PathParam("pageOccurrence") final int pageOccurrence,
@@ -85,7 +85,7 @@ public class StepResource {
 		UseCase usecase = docuDAO.loadUsecase(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 				usecaseName);
 		
-		return new StepDto(step, navigation, usecase.getLabels(), scenario.getLabels(), statistics);
+		return new StepDetails(step, navigation, usecase.getLabels(), scenario.getLabels(), statistics);
 	}
 	
 }

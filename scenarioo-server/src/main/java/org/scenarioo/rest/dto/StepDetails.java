@@ -26,13 +26,9 @@ import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
 import org.scenarioo.model.docu.entities.Labels;
 import org.scenarioo.model.docu.entities.Step;
 
-/**
- * Container class to load a step with its navigation data
- */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-// TODO Rename to something like StepSummary
-public class StepDto {
+public class StepDetails {
 	
 	private Step step;
 	
@@ -42,11 +38,11 @@ public class StepDto {
 	private Labels useCaseLabels;
 	private Labels scenarioLabels;
 	
-	public StepDto() {
+	public StepDetails() {
 	}
 	
-	public StepDto(final Step step, final StepNavigation stepNavigation,
-			final Labels useCaseLabels, final Labels scenarioLabels, final StepStatistics stepStatistics) {
+	public StepDetails(final Step step, final StepNavigation stepNavigation, final Labels useCaseLabels,
+			final Labels scenarioLabels, final StepStatistics stepStatistics) {
 		this.step = step;
 		this.stepNavigation = stepNavigation;
 		this.stepStatistics = stepStatistics;

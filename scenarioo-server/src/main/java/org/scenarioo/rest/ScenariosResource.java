@@ -27,8 +27,8 @@ import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
-import org.scenarioo.rest.dto.ScenarioDto;
-import org.scenarioo.rest.mapper.ScenarioDtoMapper;
+import org.scenarioo.rest.dto.ScenarioDetails;
+import org.scenarioo.rest.mapper.ScenarioDetailsMapper;
 import org.scenarioo.rest.request.BuildIdentifier;
 import org.scenarioo.rest.request.ScenarioIdentifier;
 
@@ -38,7 +38,7 @@ public class ScenariosResource {
 	private final ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
 			ConfigurationDAO.getDocuDataDirectoryPath());
 	
-	private final ScenarioDtoMapper scenarioDtoMapper = new ScenarioDtoMapper();
+	private final ScenarioDetailsMapper scenarioDetailsMapper = new ScenarioDetailsMapper();
 	
 	@GET
 	@Produces({ "application/xml", "application/json" })
@@ -54,7 +54,7 @@ public class ScenariosResource {
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	@Path("{scenarioName}/")
-	public ScenarioDto readScenarioWithPagesAndSteps(@PathParam("branchName") final String branchName,
+	public ScenarioDetails readScenarioWithPagesAndSteps(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName) {
 		
@@ -64,7 +64,7 @@ public class ScenariosResource {
 		
 		ScenarioPageSteps pageSteps = dao.loadScenarioPageSteps(scenarioIdentifier);
 		
-		return scenarioDtoMapper.map(pageSteps);
+		return scenarioDetailsMapper.map(pageSteps);
 	}
 	
 }
