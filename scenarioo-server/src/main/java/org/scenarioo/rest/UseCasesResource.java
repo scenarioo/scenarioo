@@ -32,33 +32,29 @@ import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseSummary;
 import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.rest.request.BuildIdentifier;
 
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/")
 public class UseCasesResource {
 	
-	private static final Logger LOGGER = Logger
-			.getLogger(UseCasesResource.class);
+	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
 	
-	ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
-			ConfigurationDAO.getDocuDataDirectoryPath());
+	ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
 	
 	/**
 	 * Lightweight call, which does not send all scenario information.
 	 */
 	@GET
 	@Produces({ "application/xml", "application/json" })
-	public List<UseCaseSummary> loadUseCaseSummaries(
-			@PathParam("branchName") final String branchName,
+	public List<UseCaseSummary> loadUseCaseSummaries(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName) {
-		LOGGER.info("REQUEST: loadUseCaseSummaryList(" + branchName + ", "
-				+ buildName + ")");
+		LOGGER.info("REQUEST: loadUseCaseSummaryList(" + branchName + ", " + buildName + ")");
 		List<UseCaseSummary> result = new LinkedList<UseCaseSummary>();
 		
-		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName,
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
-		List<UseCaseScenarios> useCaseScenariosList = dao.loadUseCaseScenariosList(resolvedBranchName,
-				resolvedBuildName);
+		
+		List<UseCaseScenarios> useCaseScenariosList = dao.loadUseCaseScenariosList(buildIdentifier);
 		
 		for (UseCaseScenarios useCaseScenarios : useCaseScenariosList) {
 			result.add(mapSummary(useCaseScenarios));

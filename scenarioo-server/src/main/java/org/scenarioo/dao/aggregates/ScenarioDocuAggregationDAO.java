@@ -98,8 +98,8 @@ public class ScenarioDocuAggregationDAO {
 		}
 	}
 	
-	public List<UseCaseScenarios> loadUseCaseScenariosList(final String branchName, final String buildName) {
-		File file = files.getUseCasesAndScenariosFile(branchName, buildName);
+	public List<UseCaseScenarios> loadUseCaseScenariosList(final BuildIdentifier buildIdentifier) {
+		File file = files.getUseCasesAndScenariosFile(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		UseCaseScenariosList list = ScenarioDocuXMLFileUtil.unmarshal(UseCaseScenariosList.class, file);
 		return list.getUseCaseScenarios();
 	}
@@ -157,29 +157,27 @@ public class ScenarioDocuAggregationDAO {
 		ScenarioDocuXMLFileUtil.marshal(scenarioPageSteps, file);
 	}
 	
-	public boolean isObjectDescriptionSaved(final String branchName, final String buildName,
+	public boolean isObjectDescriptionSaved(final BuildIdentifier buildIdentifier,
 			final ObjectDescription objectDescription) {
-		return isObjectDescriptionSaved(branchName, buildName, objectDescription.getType(),
+		return isObjectDescriptionSaved(buildIdentifier, objectDescription.getType(),
 				resolveObjectFileName(objectDescription.getName()));
 	}
 	
-	public boolean isObjectDescriptionSaved(final String branchName, final String buildName, final String type,
-			final String name) {
-		File objectFile = files.getObjectFile(branchName, buildName, type, resolveObjectFileName(name));
+	public boolean isObjectDescriptionSaved(final BuildIdentifier buildIdentifier, final String type, final String name) {
+		File objectFile = files.getObjectFile(buildIdentifier, type, resolveObjectFileName(name));
 		return objectFile.exists();
 	}
 	
-	public void saveObjectDescription(final String branchName, final String buildName,
-			final ObjectDescription objectDescription) {
-		File objectFile = files.getObjectFile(branchName, buildName, objectDescription.getType(),
+	public void saveObjectDescription(final BuildIdentifier buildIdentifier, final ObjectDescription objectDescription) {
+		File objectFile = files.getObjectFile(buildIdentifier, objectDescription.getType(),
 				resolveObjectFileName(objectDescription.getName()));
 		objectFile.getParentFile().mkdirs();
 		ScenarioDocuXMLFileUtil.marshal(objectDescription, objectFile);
 	}
 	
-	public ObjectDescription loadObjectDescription(final String branchName, final String buildName,
+	public ObjectDescription loadObjectDescription(final BuildIdentifier buildIdentifier,
 			final ObjectReference objectRef) {
-		File objectFile = files.getObjectFile(branchName, buildName, objectRef.getType(),
+		File objectFile = files.getObjectFile(buildIdentifier, objectRef.getType(),
 				resolveObjectFileName(objectRef.getName()));
 		return loadObjectDescription(objectFile);
 	}
@@ -188,8 +186,8 @@ public class ScenarioDocuAggregationDAO {
 		return ScenarioDocuXMLFileUtil.unmarshal(ObjectDescription.class, file);
 	}
 	
-	public void saveObjectIndex(final String branchName, final String buildName, final ObjectIndex objectIndex) {
-		File objectFile = files.getObjectIndexFile(branchName, buildName, objectIndex.getObject().getType(),
+	public void saveObjectIndex(final BuildIdentifier buildIdentifier, final ObjectIndex objectIndex) {
+		File objectFile = files.getObjectIndexFile(buildIdentifier, objectIndex.getObject().getType(),
 				resolveObjectFileName(objectIndex.getObject().getName()));
 		objectFile.getParentFile().mkdirs();
 		ScenarioDocuXMLFileUtil.marshal(objectIndex, objectFile);
@@ -199,23 +197,22 @@ public class ScenarioDocuAggregationDAO {
 	 * @param resolvedObjectName
 	 *            Object name, if too long, shortened using {@link LongObjectNamesResolver}
 	 */
-	public ObjectIndex loadObjectIndex(final String branchName, final String buildName, final String objectType,
+	public ObjectIndex loadObjectIndex(final BuildIdentifier buildIdentifier, final String objectType,
 			final String objectName) {
 		String objectFileName = resolveObjectFileName(objectName);
-		File objectFile = files.getObjectIndexFile(branchName, buildName, objectType, objectFileName);
+		File objectFile = files.getObjectIndexFile(buildIdentifier, objectType, objectFileName);
 		return ScenarioDocuXMLFileUtil.unmarshal(ObjectIndex.class, objectFile);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public ObjectList<ObjectDescription> loadObjectsList(final String branchName, final String buildName,
-			final String type) {
-		File objectListFile = files.getObjectListFile(branchName, buildName, type);
+	public ObjectList<ObjectDescription> loadObjectsList(final BuildIdentifier buildIdentifier, final String type) {
+		File objectListFile = files.getObjectListFile(buildIdentifier, type);
 		return ScenarioDocuXMLFileUtil.unmarshal(ObjectList.class, objectListFile);
 	}
 	
-	public void saveObjectsList(final String branchName, final String buildName, final String type,
+	public void saveObjectsList(final BuildIdentifier buildIdentifier, final String type,
 			final ObjectList<ObjectDescription> objectList) {
-		File objectListFile = files.getObjectListFile(branchName, buildName, type);
+		File objectListFile = files.getObjectListFile(buildIdentifier, type);
 		ScenarioDocuXMLFileUtil.marshal(objectList, objectListFile);
 	}
 	
@@ -243,12 +240,12 @@ public class ScenarioDocuAggregationDAO {
 		return longObjectNameResolver.resolveObjectFileName(objectName);
 	}
 	
-	public ObjectIndex loadObjectIndexIfExistant(final String branchName, final String buildName,
-			final String objectType, final String objectName) {
+	public ObjectIndex loadObjectIndexIfExistant(final BuildIdentifier buildIdentifier, final String objectType,
+			final String objectName) {
 		String objectFileName = resolveObjectFileName(objectName);
-		File objectFile = files.getObjectIndexFile(branchName, buildName, objectType, objectFileName);
+		File objectFile = files.getObjectIndexFile(buildIdentifier, objectType, objectFileName);
 		if (objectFile.exists()) {
-			return loadObjectIndex(branchName, buildName, objectType, objectName);
+			return loadObjectIndex(buildIdentifier, objectType, objectName);
 		} else {
 			return null;
 		}
