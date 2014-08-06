@@ -59,22 +59,16 @@ describe('Service :: restServices', function () {
         }));
 
         it('returns absolute host based on $location without port', inject(function (HostnameAndPort, $location) {
-            spyOn($location, 'protocol').andReturn('http');
-            spyOn($location, 'host').andReturn('myDomain');
-            spyOn($location, 'port').andReturn(80);
-            spyOn($location, 'path').andReturn('/scenarioo');
+            spyOn($location, 'absUrl').andReturn('http://myDomain/scenarioo/#/step/Find page/...');
 
-            expect(HostnameAndPort.forLinkAbsolute()).toBe('http://myDomain/scenarioo');
+            expect(HostnameAndPort.forLinkAbsolute()).toBe('http://myDomain/scenarioo/');
         }));
 
 
         it('returns absolute host based on $location with port', inject(function (HostnameAndPort, $location) {
-            spyOn($location, 'protocol').andReturn('https');
-            spyOn($location, 'host').andReturn('myDomain');
-            spyOn($location, 'port').andReturn(8080);
-            spyOn($location, 'path').andReturn('');
+            spyOn($location, 'absUrl').andReturn('https://myDomain:8080/#/step/Find page/...');
 
-            expect(HostnameAndPort.forLinkAbsolute()).toBe('https://myDomain:8080');
+            expect(HostnameAndPort.forLinkAbsolute()).toBe('https://myDomain:8080/');
         }));
 
     });

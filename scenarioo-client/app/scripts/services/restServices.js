@@ -26,12 +26,9 @@ angular.module('scenarioo.services')
         var baseUrl;
 
         var getBaseUrl = function() {
-            var port = $location.port();
-            var portInUrl = '';
-            if(angular.isDefined(port) && port !== 80) {
-                portInUrl = ':' + port;
-            }
-            return $location.protocol() + '://' + $location.host() + portInUrl + $location.path();
+            var url = $location.absUrl();
+            var urlParts = url.split('#');
+            return urlParts[0];
         };
 
         if (ENV === 'production') {
