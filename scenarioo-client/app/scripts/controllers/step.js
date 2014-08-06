@@ -351,7 +351,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             return undefined;
         }
 
-        return HostnameAndPort.forLink() + 'rest/branch/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY] +
+        return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY] +
             '/build/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BUILD_KEY] +
             '/usecase/' + useCaseName +
             '/scenario/' + scenarioName +

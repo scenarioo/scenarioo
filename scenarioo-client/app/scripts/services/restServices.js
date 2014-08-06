@@ -22,24 +22,40 @@ angular.module('scenarioo.services')
         $httpProvider.defaults.stripTrailingSlashes = false;
     })
 
-    .factory('HostnameAndPort', function (ENV) {
-        var hostAndPort;
+    .factory('HostnameAndPort', function (ENV, $location) {
+        var baseUrl;
+
+        var getBaseUrl = function() {
+            var port = $location.port();
+            var portInUrl = '';
+            if(angular.isDefined(port) && port !== 80) {
+                portInUrl = ':' + port;
+            }
+            return $location.protocol() + '://' + $location.host() + portInUrl + $location.path();
+        };
 
         if (ENV === 'production') {
-            hostAndPort = '';
+            baseUrl = '';
         } else if (ENV === 'development') {
-            hostAndPort = 'http://localhost:8080/scenarioo/';
+            baseUrl = 'http://localhost:8080/scenarioo/';
         }
 
         return {
             forNgResource: function () {
-                return hostAndPort.replace(/(:[0-9])/, '\\$1');
+                return baseUrl.replace(/(:[0-9])/, '\\$1');
             },
             forTest: function () {
-                return hostAndPort;
+                return baseUrl;
             },
             forLink: function () {
-                return hostAndPort;
+                return baseUrl;
+            },
+            forLinkAbsolute: function() {
+                if (ENV === 'production') {
+                    return getBaseUrl();
+                } else if (ENV === 'development') {
+                    return baseUrl;
+                }
             }
         };
     })
