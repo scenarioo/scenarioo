@@ -54,4 +54,16 @@ public class PageSteps {
 		this.steps = steps;
 	}
 	
+	public StepDescription getLastStep() {
+		return steps.get(steps.size() - 1);
+	}
+	
+	public int getNumberOfSteps() {
+		return steps.size();
+	}
+	
+	public int getIndexOfFirstStep() {
+		return steps.get(0).getIndex();
+	}
+	
 }

@@ -16,6 +16,11 @@ public class ScenarioIdentifier {
 		this.scenarioName = scenarioName;
 	}
 	
+	public static ScenarioIdentifier clone(final ScenarioIdentifier scenarioIdentifier) {
+		return new ScenarioIdentifier(BuildIdentifier.clone(scenarioIdentifier.getBuildIdentifier()),
+				scenarioIdentifier.getUsecaseName(), scenarioIdentifier.getScenarioName());
+	}
+	
 	public BuildIdentifier getBuildIdentifier() {
 		return buildIdentifier;
 	}

@@ -9,6 +9,9 @@ public class BuildIdentifier {
 	private String branchName;
 	private String buildName;
 	
+	/**
+	 * Just for XML processing.
+	 */
 	public BuildIdentifier() {
 	}
 	
@@ -16,6 +19,10 @@ public class BuildIdentifier {
 		super();
 		this.branchName = branchName;
 		this.buildName = buildName;
+	}
+	
+	public static BuildIdentifier clone(final BuildIdentifier buildIdentifier) {
+		return new BuildIdentifier(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 	}
 	
 	public String getBranchName() {

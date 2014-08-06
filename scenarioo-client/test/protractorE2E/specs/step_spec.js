@@ -63,7 +63,7 @@ scenarioo.describeUseCase('Step', function () {
     scenarioo.describeScenario('If the requested step does not exist, an error message is shown.', function () {
         var stepPage = new pages.stepPage();
 
-        browser.get('#/step/Find Page/find_page_no_result/startSearch.jsp/0/42');
+        browser.get('#/step/Find Page/find_page_no_result/inexistent_page.jsp/0/42');
 
         stepPage.assertErrorMessageIsShown();
 

@@ -196,7 +196,7 @@ public class ScenarioDocuAggregator {
 		LOGGER.info("      calculating aggregated data for scenario : " + scenario.getName());
 		ScenarioPageSteps scenarioPageSteps = calculateAggregatedDataForSteps(usecase, scenario, referencePath);
 		
-		dao.saveScenarioPageSteps(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), scenarioPageSteps);
+		dao.saveScenarioPageSteps(buildIdentifier, scenarioPageSteps);
 	}
 	
 	private ScenarioPageSteps calculateAggregatedDataForSteps(final UseCase usecase, final Scenario scenario,

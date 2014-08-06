@@ -36,6 +36,7 @@ import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.dto.StepDetails;
 import org.scenarioo.rest.request.BuildIdentifier;
 import org.scenarioo.rest.request.StepIdentifier;
+import org.scenarioo.rest.util.ResolveStepIndexResult;
 import org.scenarioo.rest.util.StepIndexResolver;
 
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}")
@@ -72,12 +73,14 @@ public class StepResource {
 		ScenarioPageSteps scenarioPagesAndSteps = aggregationsDAO.loadScenarioPageSteps(stepIdentifier
 				.getScenarioIdentifier());
 		
-		int stepIndex = stepIndexResolver.resolveStepIndex(scenarioPagesAndSteps, stepIdentifier);
+		ResolveStepIndexResult resolveStepIndexResult = stepIndexResolver.resolveStepIndex(scenarioPagesAndSteps,
+				stepIdentifier);
 		
+		// TODO [fallback] Add redirect if resolveStepIndexResult.containsValidRedirect() is true.
 		Step step = docuDAO.loadStep(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), usecaseName,
-				scenarioName, stepIndex);
+				scenarioName, resolveStepIndexResult.getIndex());
 		StepNavigation navigation = aggregationsDAO.loadStepNavigation(buildIdentifier, usecaseName, scenarioName,
-				stepIndex);
+				resolveStepIndexResult.getIndex());
 		StepStatistics statistics = scenarioPagesAndSteps.getStepStatistics(pageName, pageOccurrence);
 		
 		Scenario scenario = docuDAO.loadScenario(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),

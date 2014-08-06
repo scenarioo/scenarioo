@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
+import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummaries;
@@ -111,10 +112,13 @@ public class ScenarioDocuAggregationDAO {
 	}
 	
 	public ScenarioPageSteps loadScenarioPageSteps(final ScenarioIdentifier scenarioIdentifier) {
-		File file = files.getScenarioStepsFile(scenarioIdentifier.getBuildIdentifier().getBranchName(),
-				scenarioIdentifier.getBuildIdentifier().getBuildName(), scenarioIdentifier.getUsecaseName(),
-				scenarioIdentifier.getScenarioName());
-		return ScenarioDocuXMLFileUtil.unmarshal(ScenarioPageSteps.class, file);
+		File file = files.getScenarioStepsFile(scenarioIdentifier);
+		try {
+			return ScenarioDocuXMLFileUtil.unmarshal(ScenarioPageSteps.class, file);
+		} catch (ResourceNotFoundException e) {
+			// TODO [fallback] Fallback
+			return null;
+		}
 	}
 	
 	public void saveVersion(final String branchName, final String buildName, final String currentFileFormatVersion) {
@@ -149,11 +153,11 @@ public class ScenarioDocuAggregationDAO {
 		ScenarioDocuXMLFileUtil.marshal(useCaseScenarios, scenariosFile);
 	}
 	
-	public void saveScenarioPageSteps(final String branchName, final String buildName,
-			final ScenarioPageSteps scenarioPageSteps) {
+	public void saveScenarioPageSteps(final BuildIdentifier buildIdentifier, final ScenarioPageSteps scenarioPageSteps) {
 		String usecaseName = scenarioPageSteps.getUseCase().getName();
 		String scenarioName = scenarioPageSteps.getScenario().getName();
-		File file = files.getScenarioStepsFile(branchName, buildName, usecaseName, scenarioName);
+		ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName);
+		File file = files.getScenarioStepsFile(scenarioIdentifier);
 		ScenarioDocuXMLFileUtil.marshal(scenarioPageSteps, file);
 	}
 	

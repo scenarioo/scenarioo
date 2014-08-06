@@ -27,6 +27,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
@@ -34,10 +35,13 @@ import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.rest.request.BuildIdentifier;
 import org.scenarioo.rest.request.StepIdentifier;
+import org.scenarioo.rest.util.ResolveStepIndexResult;
 import org.scenarioo.rest.util.StepIndexResolver;
 
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/{scenarioName}/")
 public class ScreenshotResource {
+	
+	private static final Logger LOGGER = Logger.getLogger(ScreenshotResource.class);
 	
 	private final ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(
 			ConfigurationDAO.getDocuDataDirectoryPath());
@@ -85,14 +89,33 @@ public class ScreenshotResource {
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName, scenarioName, pageName,
 				pageOccurrence, stepInPageOccurrence);
 		
+		// TODO [fallback] Third and fourth level of fallback happen here
+		// The return value also contians
+		// - Is the returned value exactly what was requested, or did a fallback happen?
+		// - Was something found at all?
+		LOGGER.info("Load scenario " + stepIdentifier.getScenarioIdentifier());
 		ScenarioPageSteps scenarioPagesAndSteps = aggregationsDAO.loadScenarioPageSteps(stepIdentifier
 				.getScenarioIdentifier());
 		
-		int stepIndex = stepIndexResolver.resolveStepIndex(scenarioPagesAndSteps, stepIdentifier);
+		// TODO [fallback] First and second level of fallback is done here.
+		// The return value of the resolver is not just the index but also contains this data:
+		// - Does the index belong to the requested image or was a fallback necessary?
+		// - Was something found at all?
+		ResolveStepIndexResult resolveStepIndexResult = stepIndexResolver.resolveStepIndex(scenarioPagesAndSteps,
+				stepIdentifier);
 		
-		String imageFileName = getFileName(stepIndex);
+		if (resolveStepIndexResult.containsValidRedirect()) {
+			// TODO [fallback / aliases] Use alias for branch / build in case one was used
+			return createRedirectResponse(resolveStepIndexResult.getRedirect(), stepIdentifier);
+		}
+		
+		String imageFileName = getFileName(resolveStepIndexResult.getIndex());
 		
 		return createResponse(usecaseName, scenarioName, imageFileName, buildIdentifier);
+	}
+	
+	private Response createRedirectResponse(final StepIdentifier redirect, final StepIdentifier stepIdentifier) {
+		return Response.temporaryRedirect(redirect.getScreenshotUriForRedirect()).build();
 	}
 	
 	private String getFileName(final int stepIndex) {

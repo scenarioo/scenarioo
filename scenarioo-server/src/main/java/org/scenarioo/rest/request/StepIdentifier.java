@@ -1,5 +1,10 @@
 package org.scenarioo.rest.request;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -13,6 +18,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StepIdentifier {
 	
+	private static final String URI_ENCODING = "UTF-8";
 	private final ScenarioIdentifier scenarioIdentifier;
 	final String pageName;
 	final int pageOccurrence;
@@ -20,16 +26,48 @@ public class StepIdentifier {
 	
 	public StepIdentifier(final BuildIdentifier buildIdentifier, final String usecaseName, final String scenarioName,
 			final String pageName, final int pageOccurrence, final int stepInPageOccurrence) {
-		super();
-		
-		this.scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName);
+		this(new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName), pageName, pageOccurrence,
+				stepInPageOccurrence);
+	}
+	
+	public StepIdentifier(final ScenarioIdentifier scenarioIdentifier, final String pageName, final int pageOccurrence,
+			final int stepInPageOccurrence) {
+		this.scenarioIdentifier = scenarioIdentifier;
 		this.pageName = pageName;
 		this.pageOccurrence = pageOccurrence;
 		this.stepInPageOccurrence = stepInPageOccurrence;
 	}
 	
+	public static StepIdentifier withDifferentStepInPageOccurrence(final StepIdentifier stepIdentifier,
+			final int stepInPageOccurrence) {
+		return new StepIdentifier(ScenarioIdentifier.clone(stepIdentifier.getScenarioIdentifier()),
+				stepIdentifier.getPageName(), stepIdentifier.getPageOccurrence(), stepInPageOccurrence);
+	}
+	
+	public static StepIdentifier withDifferentIds(final StepIdentifier stepIdentifier, final int pageOccurrence,
+			final int stepInPageOccurrence) {
+		return new StepIdentifier(ScenarioIdentifier.clone(stepIdentifier.getScenarioIdentifier()),
+				stepIdentifier.getPageName(), pageOccurrence, stepInPageOccurrence);
+	}
+	
 	public ScenarioIdentifier getScenarioIdentifier() {
 		return scenarioIdentifier;
+	}
+	
+	public String getBranchName() {
+		return scenarioIdentifier.getBuildIdentifier().getBranchName();
+	}
+	
+	public String getBuildName() {
+		return scenarioIdentifier.getBuildIdentifier().getBuildName();
+	}
+	
+	public String getUsecaseName() {
+		return scenarioIdentifier.getUsecaseName();
+	}
+	
+	public String getScenarioName() {
+		return scenarioIdentifier.getScenarioName();
 	}
 	
 	public String getPageName() {
@@ -42,6 +80,30 @@ public class StepIdentifier {
 	
 	public int getStepInPageOccurrence() {
 		return stepInPageOccurrence;
+	}
+	
+	public URI getScreenshotUriForRedirect() {
+		try {
+			StringBuilder uriBuilder = new StringBuilder();
+			uriBuilder.append("/rest/branch/").append(encode(getBranchName()));
+			uriBuilder.append("/build/").append(encode(getBuildName()));
+			uriBuilder.append("/usecase/").append(encode(getUsecaseName()));
+			uriBuilder.append("/scenario/").append(encode(getScenarioName()));
+			uriBuilder.append("/pageName/").append(encode(getPageName()));
+			uriBuilder.append("/pageOccurrence/").append(encode(Integer.toString(getPageOccurrence())));
+			uriBuilder.append("/stepInPageOccurrence/").append(encode(Integer.toString(getStepInPageOccurrence())));
+			uriBuilder.append(".png?fallback=true");
+			return new URI(uriBuilder.toString());
+		} catch (URISyntaxException e) {
+			throw new RuntimeException("Redirect failed, can't create URI", e);
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException("Encoding " + URI_ENCODING + " for Uri is not supported", e);
+		}
+	}
+	
+	private String encode(final String urlParameter) throws UnsupportedEncodingException {
+		String encoded = URLEncoder.encode(urlParameter, URI_ENCODING);
+		return encoded.replace("+", "%20");
 	}
 	
 	@Override

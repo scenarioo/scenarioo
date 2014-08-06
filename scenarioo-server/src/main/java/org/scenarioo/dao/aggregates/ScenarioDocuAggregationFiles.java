@@ -24,6 +24,7 @@ import java.util.List;
 import org.scenarioo.api.files.ScenarioDocuFiles;
 import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.rest.request.BuildIdentifier;
+import org.scenarioo.rest.request.ScenarioIdentifier;
 
 /**
  * Defines locations of aggregated files containing aggregated (=derived) data from documentation input data.
@@ -65,9 +66,10 @@ public class ScenarioDocuAggregationFiles {
 		return new File(caseDir, FILENAME_SCENARIOS_XML);
 	}
 	
-	public File getScenarioStepsFile(final String branchName, final String buildName, final String usecaseName,
-			final String scenarioName) {
-		File scenarioDir = docuFiles.getScenarioDirectory(branchName, buildName, usecaseName, scenarioName);
+	public File getScenarioStepsFile(final ScenarioIdentifier scenarioIdentifier) {
+		File scenarioDir = docuFiles.getScenarioDirectory(scenarioIdentifier.getBuildIdentifier().getBranchName(),
+				scenarioIdentifier.getBuildIdentifier().getBuildName(), scenarioIdentifier.getUsecaseName(),
+				scenarioIdentifier.getScenarioName());
 		return new File(scenarioDir, FILENAME_SCENARIO_PAGE_STEPS_XML);
 	}
 	
