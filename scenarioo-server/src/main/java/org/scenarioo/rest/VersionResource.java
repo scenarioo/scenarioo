@@ -5,6 +5,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
+import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.rest.application.ApplicationVersion;
@@ -16,7 +17,7 @@ public class VersionResource {
 	private static final Logger LOGGER = Logger
 			.getLogger(UseCasesResource.class);
 
-	ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
+	AggregatedDataReader dao = new ScenarioDocuAggregationDAO(
 			ConfigurationDAO.getDocuDataDirectoryPath());
 
 	@GET

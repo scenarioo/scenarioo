@@ -25,6 +25,7 @@ import javax.ws.rs.Produces;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
@@ -46,7 +47,7 @@ public class StepResource {
 	
 	private final ScenarioDocuReader docuDAO = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
 	
-	private final ScenarioDocuAggregationDAO aggregationsDAO = new ScenarioDocuAggregationDAO(
+	private final AggregatedDataReader aggregationsDAO = new ScenarioDocuAggregationDAO(
 			ConfigurationDAO.getDocuDataDirectoryPath());
 	
 	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();

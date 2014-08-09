@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
+import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.configuration.BranchAlias;
@@ -176,7 +177,7 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	private static Map<BuildIdentifier, BuildImportSummary> loadBuildImportSummaries() {
-		ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
+		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
 		List<BuildImportSummary> loadedSummaries = dao.loadBuildImportSummaries();
 		Map<BuildIdentifier, BuildImportSummary> result = new HashMap<BuildIdentifier, BuildImportSummary>();
 		for (BuildImportSummary buildImportSummary : loadedSummaries) {
@@ -207,7 +208,7 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	public LongObjectNamesResolver getLongObjectNameResolver(final BuildIdentifier buildIdentifier) {
-		ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
+		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
 		validateBuildIsSuccessfullyImported(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		LongObjectNamesResolver longObjectNamesResolver = longObjectNamesResolvers.get(buildIdentifier);
 		if (longObjectNamesResolver == null) {

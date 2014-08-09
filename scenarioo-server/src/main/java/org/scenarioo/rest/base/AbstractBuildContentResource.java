@@ -18,6 +18,7 @@
 package org.scenarioo.rest.base;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
@@ -33,7 +34,7 @@ public class AbstractBuildContentResource {
 	/**
 	 * Here we expect that the aliases in the buildIdentifier were already resolved before.
 	 */
-	public static ScenarioDocuAggregationDAO getDAO(final BuildIdentifier buildIdentifier) {
+	public static AggregatedDataReader getDAO(final BuildIdentifier buildIdentifier) {
 		
 		LongObjectNamesResolver longObjectNamesResolver = ScenarioDocuBuildsManager.INSTANCE
 				.getLongObjectNameResolver(buildIdentifier);

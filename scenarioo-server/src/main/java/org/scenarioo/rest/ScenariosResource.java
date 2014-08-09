@@ -23,6 +23,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
@@ -35,7 +36,7 @@ import org.scenarioo.rest.request.ScenarioIdentifier;
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/")
 public class ScenariosResource {
 	
-	private final ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
+	private final AggregatedDataReader dao = new ScenarioDocuAggregationDAO(
 			ConfigurationDAO.getDocuDataDirectoryPath());
 	
 	private final ScenarioDetailsMapper scenarioDetailsMapper = new ScenarioDetailsMapper();

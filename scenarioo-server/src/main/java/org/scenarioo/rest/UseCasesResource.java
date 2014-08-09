@@ -27,6 +27,7 @@ import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
@@ -39,7 +40,7 @@ public class UseCasesResource {
 	
 	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
 	
-	ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
+	AggregatedDataReader dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
 	
 	/**
 	 * Lightweight call, which does not send all scenario information.

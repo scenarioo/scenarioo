@@ -40,14 +40,27 @@ public class StepIdentifier {
 	
 	public static StepIdentifier withDifferentStepInPageOccurrence(final StepIdentifier stepIdentifier,
 			final int stepInPageOccurrence) {
-		return new StepIdentifier(ScenarioIdentifier.clone(stepIdentifier.getScenarioIdentifier()),
-				stepIdentifier.getPageName(), stepIdentifier.getPageOccurrence(), stepInPageOccurrence);
+		return new StepIdentifier(stepIdentifier.getScenarioIdentifier(), stepIdentifier.getPageName(),
+				stepIdentifier.getPageOccurrence(), stepInPageOccurrence);
 	}
 	
 	public static StepIdentifier withDifferentIds(final StepIdentifier stepIdentifier, final int pageOccurrence,
 			final int stepInPageOccurrence) {
-		return new StepIdentifier(ScenarioIdentifier.clone(stepIdentifier.getScenarioIdentifier()),
-				stepIdentifier.getPageName(), pageOccurrence, stepInPageOccurrence);
+		return new StepIdentifier(stepIdentifier.getScenarioIdentifier(), stepIdentifier.getPageName(), pageOccurrence,
+				stepInPageOccurrence);
+	}
+	
+	/**
+	 * Returns the same page in a different scenario of the same use case.
+	 */
+	public static StepIdentifier forFallBackScenario(final StepIdentifier originalStepIdentifier,
+			final String fallbackScenarioName) {
+		return new StepIdentifier(originalStepIdentifier.getBuildIdentifier(), originalStepIdentifier.getUsecaseName(),
+				fallbackScenarioName, originalStepIdentifier.getPageName(), 0, 0);
+	}
+	
+	public BuildIdentifier getBuildIdentifier() {
+		return scenarioIdentifier.getBuildIdentifier();
 	}
 	
 	public ScenarioIdentifier getScenarioIdentifier() {

@@ -25,7 +25,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
+import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.rest.base.AbstractBuildContentResource;
@@ -59,8 +59,8 @@ public class GenericObjectsResource extends AbstractBuildContentResource {
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
 		
-		ScenarioDocuAggregationDAO scenarioDocuAggregationDao = getDAO(buildIdentifier);
-		return scenarioDocuAggregationDao.loadObjectIndex(buildIdentifier, objectType, objectName);
+		AggregatedDataReader aggregatedDataReader = getDAO(buildIdentifier);
+		return aggregatedDataReader.loadObjectIndex(buildIdentifier, objectType, objectName);
 	}
 	
 }

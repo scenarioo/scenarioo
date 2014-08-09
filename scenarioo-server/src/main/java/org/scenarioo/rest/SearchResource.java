@@ -19,12 +19,13 @@ package org.scenarioo.rest;
 
 import javax.ws.rs.Path;
 
+import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 
 @Path("/rest/branches/{branchName}/builds/{buildName}/search/")
 public class SearchResource {
 	
-	ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
+	AggregatedDataReader dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
 	
 }

@@ -59,7 +59,7 @@ import org.scenarioo.utils.ResourceUtils;
  * If accessing data for a specific build you have to make sure to use the constructor that initializes the
  * {@link LongObjectNamesResolver} with the object names as available for the specific build you want to access.
  */
-public class ScenarioDocuAggregationDAO {
+public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	
 	private static final Logger LOGGER = Logger.getLogger(ScenarioDocuAggregationDAO.class);
 	
@@ -78,6 +78,10 @@ public class ScenarioDocuAggregationDAO {
 		this.longObjectNameResolver = longObjectNameResolver;
 	}
 	
+	/**
+	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadVersion(java.lang.String, java.lang.String)
+	 */
+	@Override
 	public String loadVersion(final String branchName, final String buildName) {
 		File versionFile = files.getVersionFile(branchName, buildName);
 		if (versionFile.exists()) {
@@ -99,24 +103,36 @@ public class ScenarioDocuAggregationDAO {
 		}
 	}
 	
+	/**
+	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadUseCaseScenariosList(org.scenarioo.rest.request.BuildIdentifier)
+	 */
+	@Override
 	public List<UseCaseScenarios> loadUseCaseScenariosList(final BuildIdentifier buildIdentifier) {
 		File file = files.getUseCasesAndScenariosFile(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		UseCaseScenariosList list = ScenarioDocuXMLFileUtil.unmarshal(UseCaseScenariosList.class, file);
 		return list.getUseCaseScenarios();
 	}
 	
+	/**
+	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadUseCaseScenarios(java.lang.String, java.lang.String,
+	 *      java.lang.String)
+	 */
+	@Override
 	public UseCaseScenarios loadUseCaseScenarios(final String branchName, final String buildName,
 			final String usecaseName) {
 		File scenariosFile = files.getUseCaseScenariosFile(branchName, buildName, usecaseName);
 		return ScenarioDocuXMLFileUtil.unmarshal(UseCaseScenarios.class, scenariosFile);
 	}
 	
+	/**
+	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadScenarioPageSteps(org.scenarioo.rest.request.ScenarioIdentifier)
+	 */
+	@Override
 	public ScenarioPageSteps loadScenarioPageSteps(final ScenarioIdentifier scenarioIdentifier) {
 		File file = files.getScenarioStepsFile(scenarioIdentifier);
 		try {
 			return ScenarioDocuXMLFileUtil.unmarshal(ScenarioPageSteps.class, file);
 		} catch (ResourceNotFoundException e) {
-			// TODO [fallback] Fallback
 			return null;
 		}
 	}
@@ -179,6 +195,11 @@ public class ScenarioDocuAggregationDAO {
 		ScenarioDocuXMLFileUtil.marshal(objectDescription, objectFile);
 	}
 	
+	/**
+	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadObjectDescription(org.scenarioo.rest.request.BuildIdentifier,
+	 *      org.scenarioo.model.docu.entities.generic.ObjectReference)
+	 */
+	@Override
 	public ObjectDescription loadObjectDescription(final BuildIdentifier buildIdentifier,
 			final ObjectReference objectRef) {
 		File objectFile = files.getObjectFile(buildIdentifier, objectRef.getType(),
@@ -186,6 +207,10 @@ public class ScenarioDocuAggregationDAO {
 		return loadObjectDescription(objectFile);
 	}
 	
+	/**
+	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadObjectDescription(java.io.File)
+	 */
+	@Override
 	public ObjectDescription loadObjectDescription(final File file) {
 		return ScenarioDocuXMLFileUtil.unmarshal(ObjectDescription.class, file);
 	}
@@ -198,9 +223,10 @@ public class ScenarioDocuAggregationDAO {
 	}
 	
 	/**
-	 * @param resolvedObjectName
-	 *            Object name, if too long, shortened using {@link LongObjectNamesResolver}
+	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadObjectIndex(org.scenarioo.rest.request.BuildIdentifier,
+	 *      java.lang.String, java.lang.String)
 	 */
+	@Override
 	public ObjectIndex loadObjectIndex(final BuildIdentifier buildIdentifier, final String objectType,
 			final String objectName) {
 		String objectFileName = resolveObjectFileName(objectName);
@@ -208,6 +234,11 @@ public class ScenarioDocuAggregationDAO {
 		return ScenarioDocuXMLFileUtil.unmarshal(ObjectIndex.class, objectFile);
 	}
 	
+	/**
+	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadObjectsList(org.scenarioo.rest.request.BuildIdentifier,
+	 *      java.lang.String)
+	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public ObjectList<ObjectDescription> loadObjectsList(final BuildIdentifier buildIdentifier, final String type) {
 		File objectListFile = files.getObjectListFile(buildIdentifier, type);
@@ -227,6 +258,11 @@ public class ScenarioDocuAggregationDAO {
 		ScenarioDocuXMLFileUtil.marshal(tree, customObjectTabTreeFile);
 	}
 	
+	/**
+	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadCustomObjectTabTree(org.scenarioo.rest.request.BuildIdentifier,
+	 *      java.lang.String)
+	 */
+	@Override
 	public CustomObjectTabTree loadCustomObjectTabTree(final BuildIdentifier buildIdentifier, final String tabId) {
 		File customObjectTabTreeFile = files.getCustomObjectTabTreeFile(buildIdentifier, tabId);
 		return ScenarioDocuXMLFileUtil.unmarshal(CustomObjectTabTree.class, customObjectTabTreeFile);
@@ -244,6 +280,11 @@ public class ScenarioDocuAggregationDAO {
 		return longObjectNameResolver.resolveObjectFileName(objectName);
 	}
 	
+	/**
+	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadObjectIndexIfExistant(org.scenarioo.rest.request.BuildIdentifier,
+	 *      java.lang.String, java.lang.String)
+	 */
+	@Override
 	public ObjectIndex loadObjectIndexIfExistant(final BuildIdentifier buildIdentifier, final String objectType,
 			final String objectName) {
 		String objectFileName = resolveObjectFileName(objectName);
@@ -255,6 +296,10 @@ public class ScenarioDocuAggregationDAO {
 		}
 	}
 	
+	/**
+	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadBuildImportSummaries()
+	 */
+	@Override
 	public List<BuildImportSummary> loadBuildImportSummaries() {
 		File buildImportSummariesFile = files.getBuildStatesFile();
 		if (!buildImportSummariesFile.exists()) {
@@ -284,6 +329,11 @@ public class ScenarioDocuAggregationDAO {
 		ScenarioDocuXMLFileUtil.marshal(longObjectNamesResolver, longObjectNamesFile);
 	}
 	
+	/**
+	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadLongObjectNamesIndex(java.lang.String,
+	 *      java.lang.String)
+	 */
+	@Override
 	public LongObjectNamesResolver loadLongObjectNamesIndex(final String branchName, final String buildName) {
 		File longObjectNamesFile = files.getLongObjectNamesIndexFile(branchName, buildName);
 		return ScenarioDocuXMLFileUtil.unmarshal(LongObjectNamesResolver.class, longObjectNamesFile);
@@ -301,10 +351,20 @@ public class ScenarioDocuAggregationDAO {
 		ScenarioDocuXMLFileUtil.marshal(stepNavigation, stepNavigationFile);
 	}
 	
+	/**
+	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadStepNavigation(org.scenarioo.rest.request.BuildIdentifier,
+	 *      org.scenarioo.model.docu.aggregates.steps.StepLink)
+	 */
+	@Override
 	public StepNavigation loadStepNavigation(final BuildIdentifier build, final StepLink step) {
 		return loadStepNavigation(build, step.getUseCaseName(), step.getScenarioName(), step.getStepIndex());
 	}
 	
+	/**
+	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadStepNavigation(org.scenarioo.rest.request.BuildIdentifier,
+	 *      java.lang.String, java.lang.String, int)
+	 */
+	@Override
 	public StepNavigation loadStepNavigation(final BuildIdentifier build, final String useCaseName,
 			final String scenarioName, final int stepIndex) {
 		File stepNavigationFile = files.getStepNavigationFile(build, useCaseName, scenarioName, stepIndex);

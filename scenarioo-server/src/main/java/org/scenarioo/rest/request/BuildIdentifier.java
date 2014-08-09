@@ -21,10 +21,6 @@ public class BuildIdentifier {
 		this.buildName = buildName;
 	}
 	
-	public static BuildIdentifier clone(final BuildIdentifier buildIdentifier) {
-		return new BuildIdentifier(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
-	}
-	
 	public String getBranchName() {
 		return branchName;
 	}
