@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
@@ -23,12 +24,18 @@ public class StepIndexResolverTest {
 	private final BuildIdentifier BUILD_IDENTIFIER = new BuildIdentifier("branch", "build");
 	private final ScenarioIdentifier USECASE_IDENTIFIER = new ScenarioIdentifier(BUILD_IDENTIFIER, "scenario",
 			"usecase");
-	private final ScenarioPageSteps SCENARIO_PAGES_AND_STEPS = createScenarioPagesAndSteps();
+	private final ScenarioPageSteps SCENARIO_WITH_PAGES_AND_STEPS = createScenarioPagesAndSteps();
 	
 	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
 	
+	private ScenarioPageSteps scenarioPagesAndSteps;
 	private StepIdentifier stepIdentifier;
 	private ResolveStepIndexResult resolveStepIndexResult;
+	
+	@Before
+	public void setupTest() {
+		scenarioPagesAndSteps = SCENARIO_WITH_PAGES_AND_STEPS;
+	}
 	
 	@Test
 	public void resolveIndexSuccessful_noFallback() {
@@ -66,6 +73,21 @@ public class StepIndexResolverTest {
 		expectNoIndexAndNoRedirectIsFound();
 	}
 	
+	@Test(expected = NullPointerException.class)
+	public void stepIdentifierMustNotBeNull() {
+		givenStepIdentifierIsNull();
+		
+		whenResolvingTheStepIndex();
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void scenarioPagesAndStepsMustNotBeNull() {
+		givenStepIdentifierOfAnExistingStep();
+		givenScenarioPagesAndStepsIsNull();
+		
+		whenResolvingTheStepIndex();
+	}
+	
 	private void givenStepIdentifierOfAnExistingStep() {
 		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, PAGE_NAME_1, 1, 2);
 	}
@@ -82,8 +104,16 @@ public class StepIndexResolverTest {
 		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, PAGE_NAME_NON_EXISTENT, 0, 0);
 	}
 	
+	private void givenStepIdentifierIsNull() {
+		stepIdentifier = null;
+	}
+	
+	private void givenScenarioPagesAndStepsIsNull() {
+		scenarioPagesAndSteps = null;
+	}
+	
 	private void whenResolvingTheStepIndex() {
-		resolveStepIndexResult = stepIndexResolver.resolveStepIndex(SCENARIO_PAGES_AND_STEPS, stepIdentifier);
+		resolveStepIndexResult = stepIndexResolver.resolveStepIndex(scenarioPagesAndSteps, stepIdentifier);
 	}
 	
 	private void expectRequestedStepIndexIsFound() {

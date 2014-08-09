@@ -1,5 +1,7 @@
 package org.scenarioo.rest.util;
 
+import static com.google.common.base.Preconditions.*;
+
 import org.apache.log4j.Logger;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
@@ -15,9 +17,8 @@ public class StepIndexResolver {
 	 */
 	public ResolveStepIndexResult resolveStepIndex(final ScenarioPageSteps scenarioPagesAndSteps,
 			final StepIdentifier stepIdentifier) {
-		if (scenarioPagesAndSteps == null) {
-			throw new RuntimeException("resolveStepIndex: scenarioPagesAndSteps is null");
-		}
+		checkNotNull(scenarioPagesAndSteps);
+		checkNotNull(stepIdentifier);
 		
 		int occurrence = 0;
 		PageSteps lastPageOccurrence = null;
