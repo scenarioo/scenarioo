@@ -9,6 +9,10 @@ public class StepIndexResolver {
 	
 	private static final Logger LOGGER = Logger.getLogger(StepIndexResolver.class);
 	
+	/**
+	 * Retrieves the overall index of a step in the scenario given a step identifier. Can do a fallback in case the
+	 * requested step is not found in the scenario.
+	 */
 	public ResolveStepIndexResult resolveStepIndex(final ScenarioPageSteps scenarioPagesAndSteps,
 			final StepIdentifier stepIdentifier) {
 		if (scenarioPagesAndSteps == null) {

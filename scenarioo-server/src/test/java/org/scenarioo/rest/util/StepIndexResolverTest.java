@@ -20,44 +20,86 @@ public class StepIndexResolverTest {
 	private static final String PAGE_NAME_1 = "pageName1";
 	private static final String PAGE_NAME_2 = "pageName2";
 	private static final String PAGE_NAME_NON_EXISTENT = "pageName3";
+	private final BuildIdentifier BUILD_IDENTIFIER = new BuildIdentifier("branch", "build");
+	private final ScenarioIdentifier USECASE_IDENTIFIER = new ScenarioIdentifier(BUILD_IDENTIFIER, "scenario",
+			"usecase");
+	private final ScenarioPageSteps SCENARIO_PAGES_AND_STEPS = createScenarioPagesAndSteps();
 	
 	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
-	private final ScenarioPageSteps scenarioPagesAndSteps = createScenarioPagesAndSteps();
-	private final BuildIdentifier buildIdentifier = new BuildIdentifier("branch", "build");
-	private final ScenarioIdentifier usecaseIdentifier = new ScenarioIdentifier(buildIdentifier, "scenario", "usecase");
+	
+	private StepIdentifier stepIdentifier;
+	private ResolveStepIndexResult resolveStepIndexResult;
 	
 	@Test
-	public void resolveSuccessful() {
-		StepIdentifier stepIdentifier = new StepIdentifier(usecaseIdentifier, PAGE_NAME_1, 1, 2);
+	public void resolveIndexSuccessful_noFallback() {
+		givenStepIdentifierOfAnExistingStep();
 		
-		ResolveStepIndexResult resolveStepIndexResult = stepIndexResolver.resolveStepIndex(scenarioPagesAndSteps,
-				stepIdentifier);
+		whenResolvingTheStepIndex();
 		
+		expectRequestedStepIndexIsFound();
+	}
+	
+	@Test
+	public void stepInPageOccurrenceNotFound_fallbackWithinSamePageOccurrence() {
+		givenStepIdentifierWhereStepInPageOccurrenceDoesNotExist();
+		
+		whenResolvingTheStepIndex();
+		
+		expectFallbackFindsClosestStepInPageOccurrence();
+	}
+	
+	@Test
+	public void pageOccurrenceNotFound_fallbackWithinScenario() {
+		givenStepWherePageOccurrenceDoesNotExist();
+		
+		whenResolvingTheStepIndex();
+		
+		expectFallbackFindsClosestPageOccurrence();
+	}
+	
+	@Test
+	public void pageNotFound_noFallbackPossible() {
+		givenStepWithPageThatDoesNotExistInScenario();
+		
+		whenResolvingTheStepIndex();
+		
+		expectNoIndexAndNoRedirectIsFound();
+	}
+	
+	private void givenStepIdentifierOfAnExistingStep() {
+		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, PAGE_NAME_1, 1, 2);
+	}
+	
+	private void givenStepIdentifierWhereStepInPageOccurrenceDoesNotExist() {
+		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, PAGE_NAME_1, 1, 3);
+	}
+	
+	private void givenStepWherePageOccurrenceDoesNotExist() {
+		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, PAGE_NAME_1, 2, 3);
+	}
+	
+	private void givenStepWithPageThatDoesNotExistInScenario() {
+		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, PAGE_NAME_NON_EXISTENT, 0, 0);
+	}
+	
+	private void whenResolvingTheStepIndex() {
+		resolveStepIndexResult = stepIndexResolver.resolveStepIndex(SCENARIO_PAGES_AND_STEPS, stepIdentifier);
+	}
+	
+	private void expectRequestedStepIndexIsFound() {
 		assertEquals(4, resolveStepIndexResult.getIndex());
 		assertTrue(resolveStepIndexResult.isIndexValid());
 		assertTrue(resolveStepIndexResult.isRequestedStepFound());
 	}
 	
-	@Test
-	public void resolvePageInStepOccurrenceNotFound_fallbackInSamePageOccurrencePossible() {
-		StepIdentifier stepIdentifier = new StepIdentifier(usecaseIdentifier, PAGE_NAME_1, 1, 3);
-		
-		ResolveStepIndexResult resolveStepIndexResult = stepIndexResolver.resolveStepIndex(scenarioPagesAndSteps,
-				stepIdentifier);
-		
+	private void expectFallbackFindsClosestStepInPageOccurrence() {
 		assertEquals(4, resolveStepIndexResult.getIndex());
 		assertTrue(resolveStepIndexResult.isIndexValid());
 		assertFalse(resolveStepIndexResult.isRequestedStepFound());
 		assertEquals(2, resolveStepIndexResult.getRedirect().getStepInPageOccurrence());
 	}
 	
-	@Test
-	public void resolvePageOccurrenceNotFound_fallbackWithinScenarioPossible() {
-		StepIdentifier stepIdentifier = new StepIdentifier(usecaseIdentifier, PAGE_NAME_1, 2, 3);
-		
-		ResolveStepIndexResult resolveStepIndexResult = stepIndexResolver.resolveStepIndex(scenarioPagesAndSteps,
-				stepIdentifier);
-		
+	private void expectFallbackFindsClosestPageOccurrence() {
 		assertEquals(2, resolveStepIndexResult.getIndex());
 		assertTrue(resolveStepIndexResult.isIndexValid());
 		assertFalse(resolveStepIndexResult.isRequestedStepFound());
@@ -65,13 +107,7 @@ public class StepIndexResolverTest {
 		assertEquals(0, resolveStepIndexResult.getRedirect().getStepInPageOccurrence());
 	}
 	
-	@Test
-	public void resolvePageOccurrenceNotFound_pageDoesNotExistInScenario() {
-		StepIdentifier stepIdentifier = new StepIdentifier(usecaseIdentifier, PAGE_NAME_NON_EXISTENT, 0, 0);
-		
-		ResolveStepIndexResult resolveStepIndexResult = stepIndexResolver.resolveStepIndex(scenarioPagesAndSteps,
-				stepIdentifier);
-		
+	private void expectNoIndexAndNoRedirectIsFound() {
 		assertEquals(-1, resolveStepIndexResult.getIndex());
 		assertFalse(resolveStepIndexResult.isIndexValid());
 		assertFalse(resolveStepIndexResult.isRequestedStepFound());
