@@ -19,11 +19,6 @@
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 
-/*
- * Required for build to run with Java 8
- */
-test.scanForTestClasses = false
-
 dependencies {
     compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.3.Final'
     compile 'org.jboss.resteasy:resteasy-jaxb-provider:2.3.3.Final'
