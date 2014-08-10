@@ -20,6 +20,10 @@ public class ScenarioLoader {
 		this.aggregatedDataReader = aggregatedDataReader;
 	}
 	
+	/**
+	 * Tries to load the scenario. If it is not found, a fallback to a different scenario (or even use case) with the
+	 * same page happens.
+	 */
 	public LoadScenarioResult loadScenario(final StepIdentifier stepIdentifier) {
 		ScenarioPageSteps requestedScenario = aggregatedDataReader.loadScenarioPageSteps(stepIdentifier
 				.getScenarioIdentifier());
@@ -27,10 +31,10 @@ public class ScenarioLoader {
 			return LoadScenarioResult.foundRequestedScenario(requestedScenario);
 		}
 		
-		return findFallbackScenario(stepIdentifier);
+		return findPageInRequestedUseCaseAndInAllUseCases(stepIdentifier);
 	}
 	
-	private LoadScenarioResult findFallbackScenario(final StepIdentifier stepIdentifier) {
+	public LoadScenarioResult findPageInRequestedUseCaseAndInAllUseCases(final StepIdentifier stepIdentifier) {
 		ObjectIndex objectIndex = aggregatedDataReader.loadObjectIndex(stepIdentifier.getBuildIdentifier(), "page",
 				stepIdentifier.getPageName());
 		
@@ -48,18 +52,26 @@ public class ScenarioLoader {
 	}
 	
 	private StepIdentifier findPageInAllUseCases(final ObjectIndex objectIndex, final StepIdentifier stepIdentifier) {
-		// TODO Auto-generated method stub
+		List<ObjectTreeNode<ObjectReference>> useCases = getChildren(objectIndex);
+		
+		if (useCases == null) {
+			return null;
+		}
+		
+		for (ObjectTreeNode<ObjectReference> useCaseNode : useCases) {
+			if (TYPE_USECASE.equals(useCaseNode.getItem().getType())) {
+				// TODO [fallback with labels] Find best matching scenario using labels
+				return getFirstScenarioInUseCase(useCaseNode, stepIdentifier);
+			}
+		}
+		
 		return null;
 	}
 	
 	private StepIdentifier findPageInRequestedUseCase(final ObjectIndex objectIndex, final StepIdentifier stepIdentifier) {
 		String useCaseToFind = stepIdentifier.getUsecaseName();
 		
-		if (objectIndex.getReferenceTree() == null) {
-			return null;
-		}
-		
-		List<ObjectTreeNode<ObjectReference>> useCases = objectIndex.getReferenceTree().getChildren();
+		List<ObjectTreeNode<ObjectReference>> useCases = getChildren(objectIndex);
 		
 		if (useCases == null) {
 			return null;
@@ -76,9 +88,19 @@ public class ScenarioLoader {
 		return null;
 	}
 	
+	private List<ObjectTreeNode<ObjectReference>> getChildren(final ObjectIndex objectIndex) {
+		if (objectIndex.getReferenceTree() == null) {
+			return null;
+		}
+		
+		return objectIndex.getReferenceTree().getChildren();
+	}
+	
 	private StepIdentifier getFirstScenarioInUseCase(final ObjectTreeNode<ObjectReference> useCaseNode,
 			final StepIdentifier stepIdentifier) {
 		List<ObjectTreeNode<ObjectReference>> scenarios = useCaseNode.getChildren();
+		
+		String useCaseName = useCaseNode.getItem().getName();
 		
 		if (scenarios == null) {
 			return null;
@@ -86,7 +108,8 @@ public class ScenarioLoader {
 		
 		for (ObjectTreeNode<ObjectReference> scenarioNode : scenarios) {
 			if (TYPE_SCENARIO.equals(scenarioNode.getItem().getType())) {
-				return StepIdentifier.forFallBackScenario(stepIdentifier, scenarioNode.getItem().getName());
+				return StepIdentifier
+						.forFallBackScenario(stepIdentifier, useCaseName, scenarioNode.getItem().getName());
 			}
 		}
 		

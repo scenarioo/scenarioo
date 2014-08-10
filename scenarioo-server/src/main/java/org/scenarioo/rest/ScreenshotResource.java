@@ -34,12 +34,12 @@ import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
-import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.rest.request.BuildIdentifier;
+import org.scenarioo.rest.request.ScenarioIdentifier;
 import org.scenarioo.rest.request.StepIdentifier;
-import org.scenarioo.rest.util.LoadScenarioResult;
-import org.scenarioo.rest.util.ResolveStepIndexResult;
 import org.scenarioo.rest.util.ScenarioLoader;
+import org.scenarioo.rest.util.StepImageInfo;
+import org.scenarioo.rest.util.StepImageInfoLoader;
 import org.scenarioo.rest.util.StepIndexResolver;
 
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/{scenarioName}/")
@@ -52,8 +52,8 @@ public class ScreenshotResource {
 	private final AggregatedDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
 			ConfigurationDAO.getDocuDataDirectoryPath(), longObjectNamesResolver);
 	private final ScenarioLoader scenarioLoader = new ScenarioLoader(aggregatedDataReader);
-	
 	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
+	private final StepImageInfoLoader stepImageInfoLoader = new StepImageInfoLoader(scenarioLoader, stepIndexResolver);
 	
 	private final String PNG_FILE_EXTENSION = ".png";
 	
@@ -70,8 +70,9 @@ public class ScreenshotResource {
 		
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
+		ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName);
 		
-		return createResponse(usecaseName, scenarioName, imageFileName, buildIdentifier);
+		return createFoundImageResponse(scenarioIdentifier, imageFileName);
 	}
 	
 	/**
@@ -93,41 +94,28 @@ public class ScreenshotResource {
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName, scenarioName, pageName,
 				pageOccurrence, stepInPageOccurrence);
 		
-		// TODO [fallback] Third and fourth level of fallback happen here
-		// The return value also contians
-		// - Is the returned value exactly what was requested, or did a fallback happen?
-		// - Was something found at all?
-		LoadScenarioResult loadScenarioResult = scenarioLoader.loadScenario(stepIdentifier);
+		StepImageInfo stepImageInfo = stepImageInfoLoader.loadStepImageInfo(stepIdentifier);
 		
-		if (loadScenarioResult.containsValidRedirect()) {
-			// TODO [fallback / aliases] Use alias for branch / build in case one was used
-			return createRedirectResponse(loadScenarioResult.getRedirect());
+		// TODO [fallback / aliases] Use alias for branch / build in case one was used
+		return createResponse(stepImageInfo);
+	}
+	
+	private Response createResponse(final StepImageInfo stepImage) {
+		if (stepImage.isRequestedStepFound()) {
+			String imageFileName = getFileName(stepImage.getStepIndex());
+			return createFoundImageResponse(stepImage.getStepIdentifier().getScenarioIdentifier(), imageFileName);
+		} else if (stepImage.isRedirect()) {
+			return createRedirectResponse(stepImage.getStepIdentifier());
+		} else {
+			return createImageNotFoundResponse();
 		}
-		
-		if (loadScenarioResult.didNotFindPage()) {
-			return createNotFoundResponse();
-		}
-		
-		ScenarioPageSteps scenarioPagesAndSteps = loadScenarioResult.getPagesAndSteps();
-		
-		ResolveStepIndexResult resolveStepIndexResult = stepIndexResolver.resolveStepIndex(scenarioPagesAndSteps,
-				stepIdentifier);
-		
-		if (resolveStepIndexResult.containsValidRedirect()) {
-			// TODO [fallback / aliases] Use alias for branch / build in case one was used
-			return createRedirectResponse(resolveStepIndexResult.getRedirect());
-		}
-		
-		String imageFileName = getFileName(resolveStepIndexResult.getIndex());
-		
-		return createResponse(usecaseName, scenarioName, imageFileName, buildIdentifier);
 	}
 	
 	private Response createRedirectResponse(final StepIdentifier redirect) {
 		return Response.temporaryRedirect(redirect.getScreenshotUriForRedirect()).build();
 	}
 	
-	private Response createNotFoundResponse() {
+	private Response createImageNotFoundResponse() {
 		return new ResponseBuilderImpl().status(Status.NOT_FOUND).build();
 	}
 	
@@ -136,8 +124,11 @@ public class ScreenshotResource {
 		return decimalFormat.format(stepIndex) + PNG_FILE_EXTENSION;
 	}
 	
-	private Response createResponse(final String usecaseName, final String scenarioName, final String imageFileName,
-			final BuildIdentifier buildIdentifier) {
+	private Response createFoundImageResponse(final ScenarioIdentifier scenarioIdentifier, final String imageFileName) {
+		final BuildIdentifier buildIdentifier = scenarioIdentifier.getBuildIdentifier();
+		final String usecaseName = scenarioIdentifier.getUsecaseName();
+		final String scenarioName = scenarioIdentifier.getScenarioName();
+		
 		File screenshot = scenarioDocuReader.getScreenshotFile(buildIdentifier.getBranchName(),
 				buildIdentifier.getBuildName(), usecaseName, scenarioName, imageFileName);
 		

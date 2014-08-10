@@ -59,4 +59,8 @@ public class ResolveStepIndexResult {
 		return !requestedStepFound && indexValid && redirect != null;
 	}
 	
+	public boolean didNotFindPage() {
+		return !requestedStepFound && redirect == null;
+	}
+	
 }

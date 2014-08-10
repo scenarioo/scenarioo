@@ -54,8 +54,8 @@ public class StepIdentifier {
 	 * Returns the same page in a different scenario of the same use case.
 	 */
 	public static StepIdentifier forFallBackScenario(final StepIdentifier originalStepIdentifier,
-			final String fallbackScenarioName) {
-		return new StepIdentifier(originalStepIdentifier.getBuildIdentifier(), originalStepIdentifier.getUsecaseName(),
+			final String fallbackUsecaseName, final String fallbackScenarioName) {
+		return new StepIdentifier(originalStepIdentifier.getBuildIdentifier(), fallbackUsecaseName,
 				fallbackScenarioName, originalStepIdentifier.getPageName(), 0, 0);
 	}
 	

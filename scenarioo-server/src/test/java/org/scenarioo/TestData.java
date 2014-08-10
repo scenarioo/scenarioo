@@ -30,6 +30,7 @@ public class TestData {
 	
 	// usecase and scenario
 	public static final String USECASE_NAME_VALID = "Find the answer";
+	public static final String USECASE_NAME_INEXISTENT = "Some inexistent usecase";
 	public static final String SCENARIO_NAME_VALID = "Actually find it";
 	public static final String SCENARIO_NAME_VALID_2 = "search for ever and ever";
 	public static final String SCENARIO_NAME_INEXISTENT = "scenarioDoesNotExist";
@@ -39,6 +40,8 @@ public class TestData {
 			USECASE_NAME_VALID, SCENARIO_NAME_VALID_2);
 	public static final ScenarioIdentifier SCENARIO_IDENTIFIER_INEXISTENT_SCENARIO = new ScenarioIdentifier(
 			BUILD_IDENTIFIER_VALID, USECASE_NAME_VALID, SCENARIO_NAME_INEXISTENT);
+	public static final ScenarioIdentifier SCENARIO_IDENTIFIER_INEXISTENT_USECASE = new ScenarioIdentifier(
+			BUILD_IDENTIFIER_VALID, USECASE_NAME_INEXISTENT, SCENARIO_NAME_VALID);
 	
 	// page / pageOccurrence / stepInPageOccurrence
 	public static final String PAGE_NAME_VALID_1 = "pageName1";
@@ -48,6 +51,8 @@ public class TestData {
 			PAGE_NAME_VALID_1, 0, 0);
 	public static final StepIdentifier STEP_IDENTIFIER_INEXISTENT_SCENARIO = new StepIdentifier(
 			SCENARIO_IDENTIFIER_INEXISTENT_SCENARIO, PAGE_NAME_VALID_1, 0, 0);
+	public static final StepIdentifier STEP_IDENTIFIER_INEXISTENT_USECASE = new StepIdentifier(
+			SCENARIO_IDENTIFIER_INEXISTENT_USECASE, PAGE_NAME_VALID_1, 0, 0);
 	
 	// scenario data
 	public static final ScenarioPageSteps SCENARIO = createScenarioPagesAndSteps();
