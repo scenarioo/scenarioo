@@ -59,6 +59,11 @@ public class StepIdentifier {
 				fallbackScenarioName, originalStepIdentifier.getPageName(), 0, 0);
 	}
 	
+	public StepIdentifier withDifferentBuildIdentifier(final BuildIdentifier buildIdentifierBeforeAliasResolution) {
+		return new StepIdentifier(getScenarioIdentifier().withDifferentBuildIdentifier(
+				buildIdentifierBeforeAliasResolution), pageName, pageOccurrence, stepInPageOccurrence);
+	}
+	
 	public BuildIdentifier getBuildIdentifier() {
 		return scenarioIdentifier.getBuildIdentifier();
 	}

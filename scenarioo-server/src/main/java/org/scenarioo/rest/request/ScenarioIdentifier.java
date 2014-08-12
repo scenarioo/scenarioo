@@ -16,6 +16,11 @@ public class ScenarioIdentifier {
 		this.scenarioName = scenarioName;
 	}
 	
+	public ScenarioIdentifier withDifferentBuildIdentifier(
+			final BuildIdentifier buildIdentifierBeforeAliasResolution) {
+		return new ScenarioIdentifier(buildIdentifierBeforeAliasResolution, usecaseName, scenarioName);
+	}
+	
 	public BuildIdentifier getBuildIdentifier() {
 		return buildIdentifier;
 	}
