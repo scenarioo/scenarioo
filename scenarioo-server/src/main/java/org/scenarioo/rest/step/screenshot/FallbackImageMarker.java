@@ -1,4 +1,4 @@
-package org.scenarioo.rest.screenshot;
+package org.scenarioo.rest.step.screenshot;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;

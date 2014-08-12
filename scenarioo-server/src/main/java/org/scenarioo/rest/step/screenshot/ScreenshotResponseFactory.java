@@ -1,4 +1,4 @@
-package org.scenarioo.rest.screenshot;
+package org.scenarioo.rest.step.screenshot;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.rest.request.BuildIdentifier;
 import org.scenarioo.rest.request.ScenarioIdentifier;
 import org.scenarioo.rest.request.StepIdentifier;
-import org.scenarioo.rest.util.StepImageInfo;
+import org.scenarioo.rest.step.StepLoaderResult;
 
 public class ScreenshotResponseFactory {
 	
@@ -22,18 +22,18 @@ public class ScreenshotResponseFactory {
 			ConfigurationDAO.getDocuDataDirectoryPath());
 	private final FallbackImageMarker fallbackImageMarker = new FallbackImageMarker();
 	
-	public Response createResponse(final StepImageInfo stepImage, final boolean showFallbackStamp,
+	public Response createResponse(final StepLoaderResult stepLoaderResult, final boolean showFallbackStamp,
 			final BuildIdentifier buildIdentifierBeforeAliasResolution) {
-		if (stepImage.isRequestedStepFound()) {
-			return foundImageResponse(stepImage, showFallbackStamp);
-		} else if (stepImage.isRedirect()) {
-			return redirectResponse(stepImage, buildIdentifierBeforeAliasResolution);
+		if (stepLoaderResult.isRequestedStepFound()) {
+			return foundImageResponse(stepLoaderResult, showFallbackStamp);
+		} else if (stepLoaderResult.isRedirect()) {
+			return redirectResponse(stepLoaderResult, buildIdentifierBeforeAliasResolution);
 		} else {
 			return notFoundResponse();
 		}
 	}
 	
-	private Response foundImageResponse(final StepImageInfo stepImage, final boolean showFallbackStamp) {
+	private Response foundImageResponse(final StepLoaderResult stepImage, final boolean showFallbackStamp) {
 		String imageFileName = getFileName(stepImage.getStepIndex());
 		return createFoundImageResponse(stepImage.getStepIdentifier().getScenarioIdentifier(), imageFileName,
 				showFallbackStamp);
@@ -78,7 +78,7 @@ public class ScreenshotResponseFactory {
 		return Response.ok(screenshot).build();
 	}
 	
-	private Response redirectResponse(final StepImageInfo stepImage,
+	private Response redirectResponse(final StepLoaderResult stepImage,
 			final BuildIdentifier buildIdentifierBeforeAliasResolution) {
 		StepIdentifier stepIdentifier = stepImage.getStepIdentifier();
 		StepIdentifier stepIdentifierWithPotentialAlias = stepIdentifier

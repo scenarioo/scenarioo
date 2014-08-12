@@ -1,4 +1,4 @@
-package org.scenarioo.rest.util;
+package org.scenarioo.rest.step;
 
 import static com.google.common.base.Preconditions.*;
 

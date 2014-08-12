@@ -343,10 +343,10 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 		return files.getBuildImportLogFile(branchName, buildName);
 	}
 	
-	public void saveStepNavigation(final BuildIdentifier build, final StepLink stepLink,
+	public void saveStepNavigation(final BuildIdentifier buildIdentifier, final StepLink stepLink,
 			final StepNavigation stepNavigation) {
-		File stepNavigationFile = files.getStepNavigationFile(build, stepLink.getUseCaseName(),
-				stepLink.getScenarioName(), stepLink.getStepIndex());
+		File stepNavigationFile = files.getStepNavigationFile(
+				ScenarioIdentifier.fromStepLink(buildIdentifier, stepLink), stepLink.getStepIndex());
 		stepNavigationFile.getParentFile().mkdirs();
 		ScenarioDocuXMLFileUtil.marshal(stepNavigation, stepNavigationFile);
 	}
@@ -357,7 +357,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	 */
 	@Override
 	public StepNavigation loadStepNavigation(final BuildIdentifier build, final StepLink step) {
-		return loadStepNavigation(build, step.getUseCaseName(), step.getScenarioName(), step.getStepIndex());
+		return loadStepNavigation(ScenarioIdentifier.fromStepLink(build, step), step.getStepIndex());
 	}
 	
 	/**
@@ -365,9 +365,8 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	 *      java.lang.String, java.lang.String, int)
 	 */
 	@Override
-	public StepNavigation loadStepNavigation(final BuildIdentifier build, final String useCaseName,
-			final String scenarioName, final int stepIndex) {
-		File stepNavigationFile = files.getStepNavigationFile(build, useCaseName, scenarioName, stepIndex);
+	public StepNavigation loadStepNavigation(final ScenarioIdentifier scenarioIdentifier, final int stepIndex) {
+		File stepNavigationFile = files.getStepNavigationFile(scenarioIdentifier, stepIndex);
 		return ScenarioDocuXMLFileUtil.unmarshal(StepNavigation.class, stepNavigationFile);
 	}
 	

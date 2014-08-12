@@ -15,12 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.rest;
+package org.scenarioo.rest.step;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
@@ -28,68 +29,53 @@ import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
-import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
-import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
-import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
-import org.scenarioo.model.docu.entities.Scenario;
-import org.scenarioo.model.docu.entities.Step;
-import org.scenarioo.model.docu.entities.UseCase;
-import org.scenarioo.rest.dto.StepDetails;
+import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.rest.request.BuildIdentifier;
 import org.scenarioo.rest.request.StepIdentifier;
-import org.scenarioo.rest.util.ResolveStepIndexResult;
-import org.scenarioo.rest.util.StepIndexResolver;
+import org.scenarioo.rest.util.ScenarioLoader;
 
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}")
 public class StepResource {
 	
 	private static final Logger LOGGER = Logger.getLogger(StepResource.class);
 	
-	private final ScenarioDocuReader docuDAO = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
+	private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
+	private final AggregatedDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
+			ConfigurationDAO.getDocuDataDirectoryPath(), longObjectNamesResolver);
 	
-	private final AggregatedDataReader aggregationsDAO = new ScenarioDocuAggregationDAO(
+	private final ScenarioLoader scenarioLoader = new ScenarioLoader(aggregatedDataReader);
+	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
+	private final StepLoader stepLoader = new StepLoader(scenarioLoader, stepIndexResolver);
+	
+	private final ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(
 			ConfigurationDAO.getDocuDataDirectoryPath());
 	
-	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
+	private final StepResponseFactory stepResponseFactory = new StepResponseFactory(aggregatedDataReader,
+			scenarioDocuReader);
 	
 	/**
 	 * Get a step with all its data (meta data, html, ...) together with additional calculated navigation data
 	 */
 	@GET
 	@Produces({ "application/xml", "application/json" })
-	public StepDetails loadStep(@PathParam("branchName") final String branchName,
+	public Response loadStep(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
 			@PathParam("pageOccurrence") final int pageOccurrence,
 			@PathParam("stepInPageOccurrence") final int stepInPageOccurrence) {
 		
+		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, buildName);
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
-		
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName, scenarioName, pageName,
 				pageOccurrence, stepInPageOccurrence);
 		
 		LOGGER.info("loadStep(" + stepIdentifier + ")");
 		
-		ScenarioPageSteps scenarioPagesAndSteps = aggregationsDAO.loadScenarioPageSteps(stepIdentifier
-				.getScenarioIdentifier());
+		StepLoaderResult stepLoaderResult = stepLoader.loadStep(stepIdentifier);
 		
-		ResolveStepIndexResult resolveStepIndexResult = stepIndexResolver.resolveStepIndex(scenarioPagesAndSteps,
-				stepIdentifier);
-		
-		// TODO [fallback] Add redirect if resolveStepIndexResult.containsValidRedirect() is true.
-		Step step = docuDAO.loadStep(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), usecaseName,
-				scenarioName, resolveStepIndexResult.getIndex());
-		StepNavigation navigation = aggregationsDAO.loadStepNavigation(buildIdentifier, usecaseName, scenarioName,
-				resolveStepIndexResult.getIndex());
-		StepStatistics statistics = scenarioPagesAndSteps.getStepStatistics(pageName, pageOccurrence);
-		
-		Scenario scenario = docuDAO.loadScenario(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
-				usecaseName, scenarioName);
-		UseCase usecase = docuDAO.loadUsecase(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
-				usecaseName);
-		
-		return new StepDetails(step, navigation, usecase.getLabels(), scenario.getLabels(), statistics);
+		return stepResponseFactory.createResponse(stepLoaderResult, stepIdentifier,
+				buildIdentifierBeforeAliasResolution);
 	}
 	
 }

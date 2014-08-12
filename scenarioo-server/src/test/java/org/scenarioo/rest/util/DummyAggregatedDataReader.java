@@ -105,8 +105,7 @@ public class DummyAggregatedDataReader implements AggregatedDataReader {
 	}
 	
 	@Override
-	public StepNavigation loadStepNavigation(final BuildIdentifier build, final String useCaseName,
-			final String scenarioName, final int stepIndex) {
+	public StepNavigation loadStepNavigation(final ScenarioIdentifier scenarioIdentifier, final int stepIndex) {
 		return null;
 	}
 	

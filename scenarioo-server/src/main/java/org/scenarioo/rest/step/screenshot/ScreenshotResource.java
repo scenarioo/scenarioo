@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.rest.screenshot;
+package org.scenarioo.rest.step.screenshot;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -32,10 +32,10 @@ import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.rest.request.BuildIdentifier;
 import org.scenarioo.rest.request.ScenarioIdentifier;
 import org.scenarioo.rest.request.StepIdentifier;
+import org.scenarioo.rest.step.StepIndexResolver;
+import org.scenarioo.rest.step.StepLoader;
+import org.scenarioo.rest.step.StepLoaderResult;
 import org.scenarioo.rest.util.ScenarioLoader;
-import org.scenarioo.rest.util.StepImageInfo;
-import org.scenarioo.rest.util.StepImageInfoLoader;
-import org.scenarioo.rest.util.StepIndexResolver;
 
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/{scenarioName}/")
 public class ScreenshotResource {
@@ -45,7 +45,7 @@ public class ScreenshotResource {
 			ConfigurationDAO.getDocuDataDirectoryPath(), longObjectNamesResolver);
 	private final ScenarioLoader scenarioLoader = new ScenarioLoader(aggregatedDataReader);
 	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
-	private final StepImageInfoLoader stepImageInfoLoader = new StepImageInfoLoader(scenarioLoader, stepIndexResolver);
+	private final StepLoader stepImageInfoLoader = new StepLoader(scenarioLoader, stepIndexResolver);
 	private final ScreenshotResponseFactory screenshotResponseFactory = new ScreenshotResponseFactory();
 	
 	private final String PNG_FILE_EXTENSION = ".png";
@@ -89,7 +89,7 @@ public class ScreenshotResource {
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName, scenarioName, pageName,
 				pageOccurrence, stepInPageOccurrence);
 		
-		StepImageInfo stepImageInfo = stepImageInfoLoader.loadStepImageInfo(stepIdentifier);
+		StepLoaderResult stepImageInfo = stepImageInfoLoader.loadStep(stepIdentifier);
 		
 		return screenshotResponseFactory.createResponse(stepImageInfo, showFallbackStamp,
 				buildIdentifierBeforeAliasResolution);

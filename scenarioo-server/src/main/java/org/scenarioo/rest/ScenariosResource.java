@@ -36,7 +36,7 @@ import org.scenarioo.rest.request.ScenarioIdentifier;
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/")
 public class ScenariosResource {
 	
-	private final AggregatedDataReader dao = new ScenarioDocuAggregationDAO(
+	private final AggregatedDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
 			ConfigurationDAO.getDocuDataDirectoryPath());
 	
 	private final ScenarioDetailsMapper scenarioDetailsMapper = new ScenarioDetailsMapper();
@@ -49,7 +49,7 @@ public class ScenariosResource {
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
 		
-		return dao.loadUseCaseScenarios(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), usecaseName);
+		return aggregatedDataReader.loadUseCaseScenarios(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), usecaseName);
 	}
 	
 	@GET
@@ -63,7 +63,7 @@ public class ScenariosResource {
 				buildName);
 		ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName);
 		
-		ScenarioPageSteps pageSteps = dao.loadScenarioPageSteps(scenarioIdentifier);
+		ScenarioPageSteps pageSteps = aggregatedDataReader.loadScenarioPageSteps(scenarioIdentifier);
 		
 		return scenarioDetailsMapper.map(pageSteps);
 	}

@@ -9,6 +9,8 @@ import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.rest.request.BuildIdentifier;
 import org.scenarioo.rest.request.ScenarioIdentifier;
 import org.scenarioo.rest.request.StepIdentifier;
+import org.scenarioo.rest.step.ResolveStepIndexResult;
+import org.scenarioo.rest.step.StepIndexResolver;
 
 public class StepIndexResolverTest {
 	

@@ -26,23 +26,24 @@ import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
 import org.scenarioo.model.docu.entities.Labels;
 import org.scenarioo.model.docu.entities.Step;
 
+/**
+ * All the information needed to display a single step.
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StepDetails {
 	
 	private Step step;
-	
 	private StepNavigation stepNavigation;
 	private StepStatistics stepStatistics;
-	
 	private Labels useCaseLabels;
 	private Labels scenarioLabels;
 	
 	public StepDetails() {
 	}
 	
-	public StepDetails(final Step step, final StepNavigation stepNavigation, final Labels useCaseLabels,
-			final Labels scenarioLabels, final StepStatistics stepStatistics) {
+	public StepDetails(final Step step, final StepNavigation stepNavigation, final StepStatistics stepStatistics,
+			final Labels useCaseLabels, final Labels scenarioLabels) {
 		this.step = step;
 		this.stepNavigation = stepNavigation;
 		this.stepStatistics = stepStatistics;

@@ -3,6 +3,7 @@ package org.scenarioo.rest.request;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.scenarioo.model.docu.aggregates.steps.StepLink;
 
 public class ScenarioIdentifier {
 	
@@ -16,13 +17,24 @@ public class ScenarioIdentifier {
 		this.scenarioName = scenarioName;
 	}
 	
-	public ScenarioIdentifier withDifferentBuildIdentifier(
-			final BuildIdentifier buildIdentifierBeforeAliasResolution) {
+	public ScenarioIdentifier withDifferentBuildIdentifier(final BuildIdentifier buildIdentifierBeforeAliasResolution) {
 		return new ScenarioIdentifier(buildIdentifierBeforeAliasResolution, usecaseName, scenarioName);
+	}
+	
+	public static ScenarioIdentifier fromStepLink(final BuildIdentifier buildIdentifier, final StepLink stepLink) {
+		return new ScenarioIdentifier(buildIdentifier, stepLink.getUseCaseName(), stepLink.getScenarioName());
 	}
 	
 	public BuildIdentifier getBuildIdentifier() {
 		return buildIdentifier;
+	}
+	
+	public String getBranchName() {
+		return buildIdentifier.getBranchName();
+	}
+	
+	public String getBuildName() {
+		return buildIdentifier.getBuildName();
 	}
 	
 	public String getUsecaseName() {

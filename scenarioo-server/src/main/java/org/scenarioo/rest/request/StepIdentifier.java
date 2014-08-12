@@ -24,6 +24,10 @@ public class StepIdentifier {
 	final int pageOccurrence;
 	final int stepInPageOccurrence;
 	
+	private enum RedirectType {
+		STEP, SCREENSHOT
+	}
+	
 	public StepIdentifier(final BuildIdentifier buildIdentifier, final String usecaseName, final String scenarioName,
 			final String pageName, final int pageOccurrence, final int stepInPageOccurrence) {
 		this(new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName), pageName, pageOccurrence,
@@ -101,22 +105,48 @@ public class StepIdentifier {
 	}
 	
 	public URI getScreenshotUriForRedirect() {
+		return createUriForRedirect(RedirectType.SCREENSHOT);
+	}
+	
+	public URI getStepUriForRedirect() {
+		return createUriForRedirect(RedirectType.STEP);
+	}
+	
+	private URI createUriForRedirect(final RedirectType redirectType) {
 		try {
-			StringBuilder uriBuilder = new StringBuilder();
-			uriBuilder.append("/rest/branch/").append(encode(getBranchName()));
-			uriBuilder.append("/build/").append(encode(getBuildName()));
-			uriBuilder.append("/usecase/").append(encode(getUsecaseName()));
-			uriBuilder.append("/scenario/").append(encode(getScenarioName()));
-			uriBuilder.append("/pageName/").append(encode(getPageName()));
-			uriBuilder.append("/pageOccurrence/").append(encode(Integer.toString(getPageOccurrence())));
-			uriBuilder.append("/stepInPageOccurrence/").append(encode(Integer.toString(getStepInPageOccurrence())));
-			uriBuilder.append(".png?fallback=true");
-			return new URI(uriBuilder.toString());
+			if (RedirectType.SCREENSHOT == redirectType) {
+				return createScreenshotUriForRedirect();
+			} else {
+				return createStepUriForRedirect();
+			}
 		} catch (URISyntaxException e) {
 			throw new RuntimeException("Redirect failed, can't create URI", e);
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("Encoding " + URI_ENCODING + " for Uri is not supported", e);
 		}
+	}
+	
+	private URI createScreenshotUriForRedirect() throws UnsupportedEncodingException, URISyntaxException {
+		StringBuilder uriBuilder = getStepUriBuilder();
+		uriBuilder.append(".png?fallback=true");
+		return new URI(uriBuilder.toString());
+	}
+	
+	private StringBuilder getStepUriBuilder() throws UnsupportedEncodingException {
+		StringBuilder uriBuilder = new StringBuilder();
+		uriBuilder.append("/rest/branch/").append(encode(getBranchName()));
+		uriBuilder.append("/build/").append(encode(getBuildName()));
+		uriBuilder.append("/usecase/").append(encode(getUsecaseName()));
+		uriBuilder.append("/scenario/").append(encode(getScenarioName()));
+		uriBuilder.append("/pageName/").append(encode(getPageName()));
+		uriBuilder.append("/pageOccurrence/").append(encode(Integer.toString(getPageOccurrence())));
+		uriBuilder.append("/stepInPageOccurrence/").append(encode(Integer.toString(getStepInPageOccurrence())));
+		return uriBuilder;
+	}
+	
+	private URI createStepUriForRedirect() throws UnsupportedEncodingException, URISyntaxException {
+		StringBuilder uriBuilder = getStepUriBuilder();
+		return new URI(uriBuilder.toString());
 	}
 	
 	private String encode(final String urlParameter) throws UnsupportedEncodingException {

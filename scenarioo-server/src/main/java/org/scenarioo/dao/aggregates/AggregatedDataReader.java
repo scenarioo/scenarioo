@@ -58,7 +58,6 @@ public interface AggregatedDataReader {
 	
 	public abstract StepNavigation loadStepNavigation(final BuildIdentifier build, final StepLink step);
 	
-	public abstract StepNavigation loadStepNavigation(final BuildIdentifier build, final String useCaseName,
-			final String scenarioName, final int stepIndex);
+	public abstract StepNavigation loadStepNavigation(final ScenarioIdentifier scenarioIdentifier, final int stepIndex);
 	
 }

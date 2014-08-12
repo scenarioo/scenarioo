@@ -129,19 +129,18 @@ public class ScenarioDocuAggregationFiles {
 	/**
 	 * Directory to store additional step navigation details inside
 	 */
-	public File getStepNavigationsDirectory(final BuildIdentifier build, final String useCaseName,
-			final String scenarioName) {
-		File stepsDir = docuFiles.getStepsDirectory(build.getBranchName(), build.getBuildName(), useCaseName,
-				scenarioName);
+	public File getStepNavigationsDirectory(final ScenarioIdentifier scenarioIdentifier) {
+		File stepsDir = docuFiles.getStepsDirectory(scenarioIdentifier.getBranchName(),
+				scenarioIdentifier.getBuildName(), scenarioIdentifier.getUsecaseName(),
+				scenarioIdentifier.getScenarioName());
 		return new File(stepsDir, "navigation.derived");
 	}
 	
 	/**
 	 * File to store navigation details of a step.
 	 */
-	public File getStepNavigationFile(final BuildIdentifier build, final String useCaseName, final String scenarioName,
-			final int stepIndex) {
-		File stepNavigationsDir = getStepNavigationsDirectory(build, useCaseName, scenarioName);
+	public File getStepNavigationFile(final ScenarioIdentifier scenarioIdentifier, final int stepIndex) {
+		File stepNavigationsDir = getStepNavigationsDirectory(scenarioIdentifier);
 		return new File(stepNavigationsDir, THREE_DIGIT_NUM_FORMAT.format(stepIndex) + ".navigation.xml");
 	}
 	
