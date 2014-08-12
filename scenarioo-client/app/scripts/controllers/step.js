@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepService, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, ScShareStepPopup) {
+angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, ScShareStepPopup) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -40,21 +40,21 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     };
 
     // FIXME this code is duplicated. How can we extract it into a service?
-    LabelConfigurationsResource.query({}, function(labelConfigurations) {
+    LabelConfigurationsResource.query({}, function (labelConfigurations) {
         $scope.labelConfigurations = labelConfigurations;
     });
 
     // FIXME this code is duplicated. How can we extract it into a service?
-    $scope.getLabelStyle = function(labelName) {
-        if($scope.labelConfigurations) {
+    $scope.getLabelStyle = function (labelName) {
+        if ($scope.labelConfigurations) {
             var labelConfig = $scope.labelConfigurations[labelName];
-            if(labelConfig) {
+            if (labelConfig) {
                 return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
             }
         }
     };
 
-    $scope.showApplicationInfoPopup = function(tab) {
+    $scope.showApplicationInfoPopup = function (tab) {
         ScApplicationInfoPopup.showApplicationInfoPopup(tab);
     };
 
@@ -96,40 +96,51 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
             bindStepNavigation();
 
-            var stepPromise = StepService.getStep({'branchName': selected.branch, 'buildName': selected.build,
-                'usecaseName': useCaseName, 'scenarioName': scenarioName, 'pageName': $scope.pageName,
-                'pageOccurrence': $scope.pageOccurrence, 'stepInPageOccurrence': $scope.stepInPageOccurrence});
-            stepPromise.then(function success(result) {
-                $scope.step = result.step;
-                $scope.metadataTree = transformMetadataToTreeArray(result.step.metadata.details);
-                $scope.stepInformationTree = createStepInformationTree(result.step);
-                $scope.pageTree = transformMetadataToTree(result.step.page);
-                $scope.stepNavigation = result.stepNavigation;
-                $scope.stepStatistics = result.stepStatistics;
-                $scope.stepIndex = result.stepNavigation.stepIndex;
-                $scope.useCaseLabels = result.useCaseLabels;
-                $scope.scenarioLabels = result.scenarioLabels;
+            StepResource.get(
+                {
+                    'branchName': selected.branch,
+                    'buildName': selected.build,
+                    'usecaseName': useCaseName,
+                    'scenarioName': scenarioName,
+                    'pageName': $scope.pageName,
+                    'pageOccurrence': $scope.pageOccurrence,
+                    'stepInPageOccurrence': $scope.stepInPageOccurrence
+                },
+                function success(value) {
 
-                beautify(result.step.html);
+                    $scope.stepIdentifier = value.stepIdentifier;
+                    $scope.fallback = value.fallback;
+                    $scope.step = value.step;
+                    $scope.metadataTree = transformMetadataToTreeArray(value.step.metadata.details);
+                    $scope.stepInformationTree = createStepInformationTree(value.step);
+                    $scope.pageTree = transformMetadataToTree(value.step.page);
+                    $scope.stepNavigation = value.stepNavigation;
+                    $scope.stepStatistics = value.stepStatistics;
+                    $scope.stepIndex = value.stepNavigation.stepIndex;
+                    $scope.useCaseLabels = value.useCaseLabels;
+                    $scope.scenarioLabels = value.scenarioLabels;
 
+                    beautify(value.step.html);
 
-                $scope.hasAnyLabels = function() {
-                    var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
-                    var hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
-                    var hasAnyStepLabels = $scope.step.labels.labels.length > 0;
-                    var hasAnyPageLabels = $scope.step.page.labels.labels.length > 0;
+                    $scope.hasAnyLabels = function () {
+                        var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
+                        var hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
+                        var hasAnyStepLabels = $scope.step.labels.labels.length > 0;
+                        var hasAnyPageLabels = $scope.step.page.labels.labels.length > 0;
 
-                    return hasAnyUseCaseLabels || hasAnyScenarioLabels || hasAnyStepLabels || hasAnyPageLabels;
-                };
-            }, function error(result) {
-                $scope.stepNotFound = true;
-                $scope.httpResponse = {
-                    status: result.status,
-                    method: result.config.method,
-                    url: result.config.url,
-                    data: result.data
-                };
-            });
+                        return hasAnyUseCaseLabels || hasAnyScenarioLabels || hasAnyStepLabels || hasAnyPageLabels;
+                    };
+                },
+                function error(result) {
+                    $scope.stepNotFound = true;
+                    $scope.httpResponse = {
+                        status: result.status,
+                        method: result.config.method,
+                        url: result.config.url,
+                        data: result.data
+                    };
+                }
+            );
         }
 
         // This URL is only used internally, not for sharing
@@ -312,14 +323,14 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             return $scope.stepNavigation.pageIndex + 1;
         };
 
-        $scope.getStepIndexInCurrentPageForDisplay = function() {
+        $scope.getStepIndexInCurrentPageForDisplay = function () {
             if (angular.isUndefined($scope.stepNavigation)) {
                 return '?';
             }
             return $scope.stepNavigation.stepInPageOccurrence + 1;
         };
 
-        $scope.getNumberOfStepsInCurrentPageForDisplay = function() {
+        $scope.getNumberOfStepsInCurrentPageForDisplay = function () {
             if (angular.isUndefined($scope.stepStatistics)) {
                 return '?';
             }
@@ -331,11 +342,11 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + encodeURIComponent(step.pageName) + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
     };
 
-    $scope.getCurrentUrl = function() {
+    $scope.getCurrentUrl = function () {
         return $location.absUrl() + createLabelUrl('&', getAllLabels());
     };
 
-    $scope.showStepLinks = function() {
+    $scope.showStepLinks = function () {
         ScShareStepPopup.showShareStepPopup({
             stepUrl: $scope.getCurrentUrl(),
             screenshotUrl: getScreenshotUrlForSharing()
@@ -346,8 +357,8 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         $scope.showStepLinks();
     });
 
-    var getScreenshotUrlForSharing = function() {
-        if(SelectedBranchAndBuild.isDefined() !== true) {
+    var getScreenshotUrlForSharing = function () {
+        if (SelectedBranchAndBuild.isDefined() !== true) {
             return undefined;
         }
 
@@ -357,12 +368,12 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             '/scenario/' + scenarioName +
             '/pageName/' + $scope.pageName +
             '/pageOccurrence/' + $scope.pageOccurrence +
-            '/stepInPageOccurrence/' +  $scope.stepInPageOccurrence + '.png' + createLabelUrl('?', getAllLabels());
+            '/stepInPageOccurrence/' + $scope.stepInPageOccurrence + '.png' + createLabelUrl('?', getAllLabels());
     };
 
-    var getAllLabels = function() {
+    var getAllLabels = function () {
         var labels = [];
-        if($scope.useCaseLabels) {
+        if ($scope.useCaseLabels) {
             labels.push($scope.useCaseLabels.labels);
             labels.push($scope.scenarioLabels.labels);
             labels.push($scope.step.labels.labels);
@@ -372,7 +383,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     };
 
     var createLabelUrl = function (prefix, labels) {
-        if(labels && labels.length > 0) {
+        if (labels && labels.length > 0) {
             var labelPart = 'labels=';
             var comma = '';
             angular.forEach(labels, function (value) {

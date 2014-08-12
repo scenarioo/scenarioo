@@ -19,7 +19,7 @@
 
 angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($scope,
     $routeParams, $location, ObjectIndexListResource, PagesAndSteps, SelectedBranchAndBuild, ScenarioResource,
-    TreeNode, StepService, $filter) {
+    TreeNode, $filter) {
 
     var objectType = $routeParams.objectType;
     var objectName = $routeParams.objectName;

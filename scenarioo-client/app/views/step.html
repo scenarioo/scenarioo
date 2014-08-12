@@ -28,6 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 </div>
 
+<div ng-show="fallback" id="fallbackMessage">
+    <div class="alert alert-warning" role="alert">
+        <div class="sc-alert-title">This is not the step that you requested, but a fallback instead.</div>
+    </div>
+</div>
+
 <!-- Navigation toolbar -->
 <div class="step-navigation row sc-space-top sc-space-bottom" ng-hide="stepNotFound">
 

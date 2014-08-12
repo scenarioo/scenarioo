@@ -117,9 +117,10 @@ angular.module('scenarioo.services')
         return useCaseService;
     })
 
-    .factory('StepService', function (ScenariooResource, $q) {
-        var stepService = ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName/pageName/:pageName/pageOccurrence/:pageOccurrence/stepInPageOccurrence/:stepInPageOccurrence',
-            {branchName: '@branchName',
+    .factory('StepResource', function(ScenariooResource) {
+        return ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName/pageName/:pageName/pageOccurrence/:pageOccurrence/stepInPageOccurrence/:stepInPageOccurrence',
+            {
+                branchName: '@branchName',
                 buildName: '@buildName',
                 usecaseName: '@usecaseName',
                 scenarioName: '@scenarioName',
@@ -127,12 +128,6 @@ angular.module('scenarioo.services')
                 pageOccurrence: '@pageOccurrence',
                 stepInPageOccurrence: '@stepInPageOccurrence'
             }, {});
-
-        stepService.getStep = getPromise($q, function (parameters, fnSuccess, fnError) {
-            return stepService.get(parameters, fnSuccess, fnError);
-        });
-
-        return stepService;
     })
 
     .factory('ConfigResource', function (ScenariooResource) {
@@ -231,15 +226,15 @@ angular.module('scenarioo.services')
 
     .factory('VersionResource', function (ScenariooResource) {
         return ScenariooResource('/version', {}, {});
+    })
+
+    .factory('LabelConfigurationsListResource', function (ScenariooResource) {
+        return ScenariooResource('/labelconfigurations/list', {}, {});
+    })
+
+    .factory('LabelConfigurationsResource', function (ScenariooResource) {
+        return ScenariooResource('/labelconfigurations', {}, { 'query': { isArray:false}});
     });
-
-angular.module('scenarioo.services').factory('LabelConfigurationsListResource', function (ScenariooResource) {
-    return ScenariooResource('/labelconfigurations/list', {}, {});
-});
-
-angular.module('scenarioo.services').factory('LabelConfigurationsResource', function (ScenariooResource) {
-    return ScenariooResource('/labelconfigurations', {}, { 'query': { isArray:false}});
-});
 
 function getPromise($q, fn) {
     return function (parameters) {
