@@ -74,6 +74,16 @@ StepPage.prototype.goToPreviousPage = function () {
 
 StepPage.prototype.assertErrorMessageIsShown = function () {
     expect(element(by.id('stepNotFoundErrorMessage')).isDisplayed()).toBeTruthy();
+    expect(element(by.id('fallbackMessage')).isDisplayed()).toBeFalsy();
+};
+
+StepPage.prototype.assertFallbackMessageIsShown = function () {
+    expect(element(by.id('fallbackMessage')).isDisplayed()).toBeTruthy();
+    expect(element(by.id('stepNotFoundErrorMessage')).isDisplayed()).toBeFalsy();
+};
+
+StepPage.prototype.assertFallbackMessageContainsText = function(text) {
+    expect(element(by.id('fallbackMessage')).getText()).toContain(text);
 };
 
 StepPage.prototype.clickShowStepLinksButton = function() {

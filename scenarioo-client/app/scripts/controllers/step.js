@@ -70,21 +70,21 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 'pageOccurrence': $scope.pageOccurrence,
                 'stepInPageOccurrence': $scope.stepInPageOccurrence
             },
-            function success(value) {
+            function success(result) {
 
-                $scope.stepIdentifier = value.stepIdentifier;
-                $scope.fallback = value.fallback;
-                $scope.step = value.step;
-                $scope.metadataTree = transformMetadataToTreeArray(value.step.metadata.details);
-                $scope.stepInformationTree = createStepInformationTree(value.step);
-                $scope.pageTree = transformMetadataToTree(value.step.page);
-                $scope.stepNavigation = value.stepNavigation;
-                $scope.stepStatistics = value.stepStatistics;
-                $scope.stepIndex = value.stepNavigation.stepIndex;
-                $scope.useCaseLabels = value.useCaseLabels;
-                $scope.scenarioLabels = value.scenarioLabels;
+                $scope.stepIdentifier = result.stepIdentifier;
+                $scope.fallback = result.fallback;
+                $scope.step = result.step;
+                $scope.metadataTree = transformMetadataToTreeArray(result.step.metadata.details);
+                $scope.stepInformationTree = createStepInformationTree(result.step);
+                $scope.pageTree = transformMetadataToTree(result.step.page);
+                $scope.stepNavigation = result.stepNavigation;
+                $scope.stepStatistics = result.stepStatistics;
+                $scope.stepIndex = result.stepNavigation.stepIndex;
+                $scope.useCaseLabels = result.useCaseLabels;
+                $scope.scenarioLabels = result.scenarioLabels;
 
-                beautify(value.step.html);
+                beautify(result.step.html);
 
                 $scope.hasAnyLabels = function () {
                     var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
@@ -293,13 +293,19 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     }
 
     // This URL is only used internally, not for sharing
-    $scope.getScreenShotUrl = function (imgName) {
-        var selected = SelectedBranchAndBuild.selected();
-        if (angular.isDefined(imgName)) {
-            return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
-        } else {
-            return '';
+    $scope.getScreenShotUrl = function () {
+        if (angular.isUndefined($scope.step)) {
+            return;
         }
+
+        var imageName = $scope.step.stepDescription.screenshotFileName;
+
+        if (angular.isUndefined(imageName)) {
+            return;
+        }
+
+        var selected = SelectedBranchAndBuild.selected();
+        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
     };
 
     $scope.go = function (step) {

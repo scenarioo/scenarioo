@@ -29,7 +29,7 @@ public class StepResponseFactory {
 	public Response createResponse(final StepLoaderResult stepLoaderResult, final StepIdentifier stepIdentifier,
 			final BuildIdentifier buildIdentifierBeforeAliasResolution, final boolean fallback) {
 		if (stepLoaderResult.isRequestedStepFound()) {
-			return foundStepResponse(stepLoaderResult, stepIdentifier, fallback);
+			return foundStepResponse(stepLoaderResult, stepIdentifier, fallback, buildIdentifierBeforeAliasResolution);
 		} else if (stepLoaderResult.isRedirect()) {
 			return redirectResponse(stepLoaderResult, buildIdentifierBeforeAliasResolution);
 		} else {
@@ -38,13 +38,14 @@ public class StepResponseFactory {
 	}
 	
 	private Response foundStepResponse(final StepLoaderResult stepLoaderResult, final StepIdentifier stepIdentifier,
-			final boolean fallback) {
-		StepDetails stepDetails = getStepDetails(stepLoaderResult, stepIdentifier, fallback);
+			final boolean fallback, final BuildIdentifier buildIdentifierBeforeAliasResolution) {
+		StepDetails stepDetails = getStepDetails(stepLoaderResult, stepIdentifier, fallback,
+				buildIdentifierBeforeAliasResolution);
 		return Response.ok(stepDetails).build();
 	}
 	
 	private StepDetails getStepDetails(final StepLoaderResult stepLoaderResult, final StepIdentifier stepIdentifier,
-			final boolean fallback) {
+			final boolean fallback, final BuildIdentifier buildIdentifierBeforeAliasResolution) {
 		Step step = scenarioDocuReader.loadStep(stepIdentifier.getBranchName(), stepIdentifier.getBuildName(),
 				stepIdentifier.getUsecaseName(), stepIdentifier.getScenarioName(), stepLoaderResult.getStepIndex());
 		
@@ -57,8 +58,10 @@ public class StepResponseFactory {
 		UseCase usecase = scenarioDocuReader.loadUsecase(stepIdentifier.getBranchName(), stepIdentifier.getBuildName(),
 				stepIdentifier.getUsecaseName());
 		
-		return new StepDetails(stepIdentifier, fallback, step, navigation, statistics, usecase.getLabels(),
-				scenario.getLabels());
+		StepIdentifier stepIdentifierWithPotentialAlias = stepIdentifier
+				.withDifferentBuildIdentifier(buildIdentifierBeforeAliasResolution);
+		return new StepDetails(stepIdentifierWithPotentialAlias, fallback, step, navigation, statistics,
+				usecase.getLabels(), scenario.getLabels());
 	}
 	
 	private Response redirectResponse(final StepLoaderResult stepImage,

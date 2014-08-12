@@ -70,6 +70,17 @@ scenarioo.describeUseCase('Step', function () {
         scenarioo.docuWriter.saveStep('Error message.');
     });
 
+    scenarioo.describeScenario('A fallback message is shown in case the page does not exist but a fallback is found.', function () {
+        var stepPage = new pages.stepPage();
+
+        browser.get('#/step/Find%20Page/renamed_scenario/searchResults.jsp/0/0');
+
+        stepPage.assertFallbackMessageIsShown();
+        stepPage.assertFallbackMessageContainsText('Scenario: find_page_no_result');
+
+        scenarioo.docuWriter.saveStep('Fallback message.');
+    });
+
     scenarioo.describeScenario('The step link popup shows the link to the step and to the image.', function () {
         var stepPage = new pages.stepPage();
 

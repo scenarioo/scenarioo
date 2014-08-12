@@ -30,7 +30,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <div ng-show="fallback" id="fallbackMessage">
     <div class="alert alert-warning" role="alert">
-        <div class="sc-alert-title">This is not the step that you requested, but a fallback instead.</div>
+        <div class="sc-alert-title">This is a fallback step</div>
+        <p class="sc-bold">The step you were looking for does not exist. Therefore we show you a different step of the same page. Here's what you actually see:</p>
+        <p>Usecase: {{stepIdentifier.usecaseName}}</p>
+        <p>Scenario: {{stepIdentifier.scenarioName}}</p>
+        <p>Page: {{stepIdentifier.pageName}}</p>
+        <p>Page occurrence: {{stepIdentifier.pageOccurrence}}</p>
+        <p>Step in page occurrence: {{stepIdentifier.stepInPageOccurrence}}</p>
     </div>
 </div>
 
@@ -103,7 +109,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <tabset class="step-panes">
             <tab heading="Screenshot">
                 <div class="sc-screenshot-border">
-                    <img ng-src="{{getScreenShotUrl(step.stepDescription.screenshotFileName)}}" class="sc-screenshot"/>
+                    <img ng-src="{{getScreenShotUrl()}}" class="sc-screenshot"/>
                 </div>
             </tab>
             <tab heading="HTML">
