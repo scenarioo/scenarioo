@@ -5,17 +5,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * Contains all the properties needed to identify a step unambiguously.
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class StepIdentifier {
 	
 	private static final String URI_ENCODING = "UTF-8";
@@ -68,10 +63,12 @@ public class StepIdentifier {
 				buildIdentifierBeforeAliasResolution), pageName, pageOccurrence, stepInPageOccurrence);
 	}
 	
+	@JsonIgnore
 	public BuildIdentifier getBuildIdentifier() {
 		return scenarioIdentifier.getBuildIdentifier();
 	}
 	
+	@JsonIgnore
 	public ScenarioIdentifier getScenarioIdentifier() {
 		return scenarioIdentifier;
 	}
@@ -104,21 +101,19 @@ public class StepIdentifier {
 		return stepInPageOccurrence;
 	}
 	
+	@JsonIgnore
 	public URI getScreenshotUriForRedirect() {
 		return createUriForRedirect(RedirectType.SCREENSHOT);
 	}
 	
+	@JsonIgnore
 	public URI getStepUriForRedirect() {
 		return createUriForRedirect(RedirectType.STEP);
 	}
 	
 	private URI createUriForRedirect(final RedirectType redirectType) {
 		try {
-			if (RedirectType.SCREENSHOT == redirectType) {
-				return createScreenshotUriForRedirect();
-			} else {
-				return createStepUriForRedirect();
-			}
+			return getStepUriBuilder(redirectType);
 		} catch (URISyntaxException e) {
 			throw new RuntimeException("Redirect failed, can't create URI", e);
 		} catch (UnsupportedEncodingException e) {
@@ -126,14 +121,10 @@ public class StepIdentifier {
 		}
 	}
 	
-	private URI createScreenshotUriForRedirect() throws UnsupportedEncodingException, URISyntaxException {
-		StringBuilder uriBuilder = getStepUriBuilder();
-		uriBuilder.append(".png?fallback=true");
-		return new URI(uriBuilder.toString());
-	}
-	
-	private StringBuilder getStepUriBuilder() throws UnsupportedEncodingException {
+	private URI getStepUriBuilder(final RedirectType redirectType) throws UnsupportedEncodingException,
+			URISyntaxException {
 		StringBuilder uriBuilder = new StringBuilder();
+		
 		uriBuilder.append("/rest/branch/").append(encode(getBranchName()));
 		uriBuilder.append("/build/").append(encode(getBuildName()));
 		uriBuilder.append("/usecase/").append(encode(getUsecaseName()));
@@ -141,11 +132,13 @@ public class StepIdentifier {
 		uriBuilder.append("/pageName/").append(encode(getPageName()));
 		uriBuilder.append("/pageOccurrence/").append(encode(Integer.toString(getPageOccurrence())));
 		uriBuilder.append("/stepInPageOccurrence/").append(encode(Integer.toString(getStepInPageOccurrence())));
-		return uriBuilder;
-	}
-	
-	private URI createStepUriForRedirect() throws UnsupportedEncodingException, URISyntaxException {
-		StringBuilder uriBuilder = getStepUriBuilder();
+		
+		if (RedirectType.SCREENSHOT.equals(redirectType)) {
+			uriBuilder.append(".png");
+		}
+		
+		uriBuilder.append("?fallback=true");
+		
 		return new URI(uriBuilder.toString());
 	}
 	

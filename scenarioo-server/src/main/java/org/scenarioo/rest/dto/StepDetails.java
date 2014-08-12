@@ -25,6 +25,7 @@ import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
 import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
 import org.scenarioo.model.docu.entities.Labels;
 import org.scenarioo.model.docu.entities.Step;
+import org.scenarioo.rest.request.StepIdentifier;
 
 /**
  * All the information needed to display a single step.
@@ -33,6 +34,8 @@ import org.scenarioo.model.docu.entities.Step;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StepDetails {
 	
+	private StepIdentifier stepIdentifier;
+	private boolean fallback;
 	private Step step;
 	private StepNavigation stepNavigation;
 	private StepStatistics stepStatistics;
@@ -42,13 +45,32 @@ public class StepDetails {
 	public StepDetails() {
 	}
 	
-	public StepDetails(final Step step, final StepNavigation stepNavigation, final StepStatistics stepStatistics,
-			final Labels useCaseLabels, final Labels scenarioLabels) {
+	public StepDetails(final StepIdentifier stepIdentifier, final boolean fallback, final Step step,
+			final StepNavigation stepNavigation, final StepStatistics stepStatistics, final Labels useCaseLabels,
+			final Labels scenarioLabels) {
+		this.stepIdentifier = stepIdentifier;
+		this.fallback = fallback;
 		this.step = step;
 		this.stepNavigation = stepNavigation;
 		this.stepStatistics = stepStatistics;
 		this.useCaseLabels = useCaseLabels;
 		this.scenarioLabels = scenarioLabels;
+	}
+	
+	public StepIdentifier getStepIdentifier() {
+		return stepIdentifier;
+	}
+	
+	public void setStepIdentifier(final StepIdentifier stepIdentifier) {
+		this.stepIdentifier = stepIdentifier;
+	}
+	
+	public boolean isFallback() {
+		return fallback;
+	}
+	
+	public void setFallback(final boolean fallback) {
+		this.fallback = fallback;
 	}
 	
 	public Step getStep() {

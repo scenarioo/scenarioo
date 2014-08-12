@@ -21,6 +21,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
@@ -57,12 +58,13 @@ public class StepResource {
 	 * Get a step with all its data (meta data, html, ...) together with additional calculated navigation data
 	 */
 	@GET
-	@Produces({ "application/xml", "application/json" })
+	@Produces({ "application/json" })
 	public Response loadStep(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
 			@PathParam("pageOccurrence") final int pageOccurrence,
-			@PathParam("stepInPageOccurrence") final int stepInPageOccurrence) {
+			@PathParam("stepInPageOccurrence") final int stepInPageOccurrence,
+			@QueryParam("fallback") final boolean addFallbackInfo) {
 		
 		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, buildName);
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
@@ -75,7 +77,7 @@ public class StepResource {
 		StepLoaderResult stepLoaderResult = stepLoader.loadStep(stepIdentifier);
 		
 		return stepResponseFactory.createResponse(stepLoaderResult, stepIdentifier,
-				buildIdentifierBeforeAliasResolution);
+				buildIdentifierBeforeAliasResolution, addFallbackInfo);
 	}
 	
 }

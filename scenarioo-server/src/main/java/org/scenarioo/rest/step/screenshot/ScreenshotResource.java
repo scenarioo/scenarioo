@@ -81,7 +81,7 @@ public class ScreenshotResource {
 			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
 			@PathParam("pageOccurrence") final int pageOccurrence,
 			@PathParam("stepInPageOccurrence") final int stepInPageOccurrence,
-			@QueryParam("fallback") final boolean showFallbackStamp) {
+			@QueryParam("fallback") final boolean fallback) {
 		
 		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, buildName);
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
@@ -91,8 +91,7 @@ public class ScreenshotResource {
 		
 		StepLoaderResult stepImageInfo = stepImageInfoLoader.loadStep(stepIdentifier);
 		
-		return screenshotResponseFactory.createResponse(stepImageInfo, showFallbackStamp,
-				buildIdentifierBeforeAliasResolution);
+		return screenshotResponseFactory.createResponse(stepImageInfo, fallback, buildIdentifierBeforeAliasResolution);
 	}
 	
 }

@@ -27,9 +27,9 @@ public class StepResponseFactory {
 	}
 	
 	public Response createResponse(final StepLoaderResult stepLoaderResult, final StepIdentifier stepIdentifier,
-			final BuildIdentifier buildIdentifierBeforeAliasResolution) {
+			final BuildIdentifier buildIdentifierBeforeAliasResolution, final boolean fallback) {
 		if (stepLoaderResult.isRequestedStepFound()) {
-			return foundStepResponse(stepLoaderResult, stepIdentifier);
+			return foundStepResponse(stepLoaderResult, stepIdentifier, fallback);
 		} else if (stepLoaderResult.isRedirect()) {
 			return redirectResponse(stepLoaderResult, buildIdentifierBeforeAliasResolution);
 		} else {
@@ -37,12 +37,14 @@ public class StepResponseFactory {
 		}
 	}
 	
-	private Response foundStepResponse(final StepLoaderResult stepLoaderResult, final StepIdentifier stepIdentifier) {
-		StepDetails stepDetails = getStepDetails(stepLoaderResult, stepIdentifier);
+	private Response foundStepResponse(final StepLoaderResult stepLoaderResult, final StepIdentifier stepIdentifier,
+			final boolean fallback) {
+		StepDetails stepDetails = getStepDetails(stepLoaderResult, stepIdentifier, fallback);
 		return Response.ok(stepDetails).build();
 	}
 	
-	private StepDetails getStepDetails(final StepLoaderResult stepLoaderResult, final StepIdentifier stepIdentifier) {
+	private StepDetails getStepDetails(final StepLoaderResult stepLoaderResult, final StepIdentifier stepIdentifier,
+			final boolean fallback) {
 		Step step = scenarioDocuReader.loadStep(stepIdentifier.getBranchName(), stepIdentifier.getBuildName(),
 				stepIdentifier.getUsecaseName(), stepIdentifier.getScenarioName(), stepLoaderResult.getStepIndex());
 		
@@ -55,7 +57,8 @@ public class StepResponseFactory {
 		UseCase usecase = scenarioDocuReader.loadUsecase(stepIdentifier.getBranchName(), stepIdentifier.getBuildName(),
 				stepIdentifier.getUsecaseName());
 		
-		return new StepDetails(step, navigation, statistics, usecase.getLabels(), scenario.getLabels());
+		return new StepDetails(stepIdentifier, fallback, step, navigation, statistics, usecase.getLabels(),
+				scenario.getLabels());
 	}
 	
 	private Response redirectResponse(final StepLoaderResult stepImage,

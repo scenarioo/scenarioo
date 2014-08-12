@@ -46,7 +46,7 @@ public class FallbackImageMarker {
 	
 	private void writeFallbackMessageInCenter(final BufferedImage image, final Graphics2D g) {
 		g.setColor(Color.RED);
-		int fontSize = image.getWidth() / 20;
+		int fontSize = image.getWidth() / 40;
 		g.setFont(new Font("Arial", Font.PLAIN, fontSize));
 		FontMetrics fontMetrics = g.getFontMetrics();
 		
@@ -61,8 +61,9 @@ public class FallbackImageMarker {
 			final String message) {
 		Rectangle2D stringBounds = fontMetrics.getStringBounds(message, g);
 		
-		int x = (image.getWidth() / 2) - (int) stringBounds.getCenterX();
-		int y = ((i + 2) * (int) stringBounds.getHeight());
+		int lineHeight = (int) stringBounds.getHeight();
+		int x = (int) (lineHeight * 1.4);
+		int y = ((i + 2) * lineHeight);
 		
 		addTransparentWhiteBackground(image, g, x, y - fontMetrics.getAscent(), stringBounds);
 		g.drawString(message, x, y);

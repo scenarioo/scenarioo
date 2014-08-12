@@ -23,8 +23,8 @@ public class TestData {
 	public static final String TYPE_SCENARIO = "scenario";
 	
 	// branch and build
-	public static final String BRANCH_NAME_VALID = "branch";
-	public static final String BUILD_NAME_VALID = "build";
+	public static final String BRANCH_NAME_VALID = "bugfix-branch";
+	public static final String BUILD_NAME_VALID = "build-2014-08-12";
 	public static final BuildIdentifier BUILD_IDENTIFIER_VALID = new BuildIdentifier(BRANCH_NAME_VALID,
 			BUILD_NAME_VALID);
 	
