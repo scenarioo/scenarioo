@@ -28,12 +28,6 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     $scope.pageOccurrence = parseInt($routeParams.pageOccurrence, 10);
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
 
-
-    // TODO  [#238] It does not make sense to have the pageOccurrence and stepInPageOccurrence here,
-    // so I commented it out. What shall we do with it?
-    // $scope.title = ($scope.pageOccurrence + 1) + '.' + $scope.stepInPageOccurrence + ' - ' + $scope.pageName;
-    $scope.title = $scope.pageName;
-
     $scope.modalScreenshotOptions = {
         backdropFade: true,
         dialogClass: 'modal modal-huge'
@@ -61,96 +55,56 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     SelectedBranchAndBuild.callOnSelectionChange(loadStep);
 
     function loadStep(selected) {
+        bindStepNavigation();
+        loadStepFromServer(selected);
+    }
 
-        ScenarioResource.get(
+    function loadStepFromServer(selected) {
+        StepResource.get(
             {
-                branchName: selected.branch,
-                buildName: selected.build,
-                usecaseName: useCaseName,
-                scenarioName: scenarioName
+                'branchName': selected.branch,
+                'buildName': selected.build,
+                'usecaseName': useCaseName,
+                'scenarioName': scenarioName,
+                'pageName': $scope.pageName,
+                'pageOccurrence': $scope.pageOccurrence,
+                'stepInPageOccurrence': $scope.stepInPageOccurrence
             },
-            function (result) {
-                processScenarioResult(result);
+            function success(value) {
+
+                $scope.stepIdentifier = value.stepIdentifier;
+                $scope.fallback = value.fallback;
+                $scope.step = value.step;
+                $scope.metadataTree = transformMetadataToTreeArray(value.step.metadata.details);
+                $scope.stepInformationTree = createStepInformationTree(value.step);
+                $scope.pageTree = transformMetadataToTree(value.step.page);
+                $scope.stepNavigation = value.stepNavigation;
+                $scope.stepStatistics = value.stepStatistics;
+                $scope.stepIndex = value.stepNavigation.stepIndex;
+                $scope.useCaseLabels = value.useCaseLabels;
+                $scope.scenarioLabels = value.scenarioLabels;
+
+                beautify(value.step.html);
+
+                $scope.hasAnyLabels = function () {
+                    var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
+                    var hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
+                    var hasAnyStepLabels = $scope.step.labels.labels.length > 0;
+                    var hasAnyPageLabels = $scope.step.page.labels.labels.length > 0;
+
+                    return hasAnyUseCaseLabels || hasAnyScenarioLabels || hasAnyStepLabels || hasAnyPageLabels;
+                };
+            },
+            function error(result) {
+                $scope.stepNotFound = true;
+                $scope.httpResponse = {
+                    status: result.status,
+                    method: result.config.method,
+                    url: result.config.url,
+                    data: result.data
+                };
             }
         );
-
-        function processScenarioResult(result) {
-
-            // TODO #197: client should not have to resolve step index from URL, this must be done on server side.
-            // if this is done properly it should even not be necessary to load the whole scenario page steps on the client for current step,
-            // instead we should enhance the StepNavigation data structure that is already loaded on loading step's data
-
-            $scope.scenario = result.scenario;
-            $scope.pagesAndSteps = result.pagesAndSteps;
-            // TODO loop through the pages and find the correct one
-            // TODO get step description from step resource
-            // $scope.stepDescription = result.pagesAndSteps[$scope.pageIndex].steps[$scope.stepIndex];
-            $scope.stepDescription = 'TODO';
-
-            $scope.stepsCountOverall = 0;
-            $scope.stepsBeforePage = [];
-            for (var indexPage = 0; indexPage < $scope.pagesAndSteps.length; indexPage++) {
-                $scope.stepsBeforePage[indexPage] = $scope.stepsCountOverall;
-                $scope.stepsCountOverall = $scope.stepsCountOverall + $scope.pagesAndSteps[indexPage].steps.length;
-            }
-
-            bindStepNavigation();
-
-            StepResource.get(
-                {
-                    'branchName': selected.branch,
-                    'buildName': selected.build,
-                    'usecaseName': useCaseName,
-                    'scenarioName': scenarioName,
-                    'pageName': $scope.pageName,
-                    'pageOccurrence': $scope.pageOccurrence,
-                    'stepInPageOccurrence': $scope.stepInPageOccurrence
-                },
-                function success(value) {
-
-                    $scope.stepIdentifier = value.stepIdentifier;
-                    $scope.fallback = value.fallback;
-                    $scope.step = value.step;
-                    $scope.metadataTree = transformMetadataToTreeArray(value.step.metadata.details);
-                    $scope.stepInformationTree = createStepInformationTree(value.step);
-                    $scope.pageTree = transformMetadataToTree(value.step.page);
-                    $scope.stepNavigation = value.stepNavigation;
-                    $scope.stepStatistics = value.stepStatistics;
-                    $scope.stepIndex = value.stepNavigation.stepIndex;
-                    $scope.useCaseLabels = value.useCaseLabels;
-                    $scope.scenarioLabels = value.scenarioLabels;
-
-                    beautify(value.step.html);
-
-                    $scope.hasAnyLabels = function () {
-                        var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
-                        var hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
-                        var hasAnyStepLabels = $scope.step.labels.labels.length > 0;
-                        var hasAnyPageLabels = $scope.step.page.labels.labels.length > 0;
-
-                        return hasAnyUseCaseLabels || hasAnyScenarioLabels || hasAnyStepLabels || hasAnyPageLabels;
-                    };
-                },
-                function error(result) {
-                    $scope.stepNotFound = true;
-                    $scope.httpResponse = {
-                        status: result.status,
-                        method: result.config.method,
-                        url: result.config.url,
-                        data: result.data
-                    };
-                }
-            );
-        }
-
-        // This URL is only used internally, not for sharing
-        $scope.getScreenShotUrl = function (imgName) {
-            if (angular.isDefined(imgName)) {
-                return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
-            } else {
-                return '';
-            }
-        };
     }
 
     function createStepInformationTree(result) {
@@ -337,6 +291,16 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             return $scope.stepStatistics.totalNumberOfStepsInPageOccurrence;
         };
     }
+
+    // This URL is only used internally, not for sharing
+    $scope.getScreenShotUrl = function (imgName) {
+        var selected = SelectedBranchAndBuild.selected();
+        if (angular.isDefined(imgName)) {
+            return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
+        } else {
+            return '';
+        }
+    };
 
     $scope.go = function (step) {
         $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + encodeURIComponent(step.pageName) + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
