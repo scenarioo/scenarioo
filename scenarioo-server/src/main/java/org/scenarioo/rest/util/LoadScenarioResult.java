@@ -20,17 +20,15 @@ public class LoadScenarioResult {
 		return new LoadScenarioResult(loadScenarioPageSteps, true, null);
 	}
 	
-	public static LoadScenarioResult foundFallback(final StepIdentifier redirect) {
-		return new LoadScenarioResult(null, false, redirect);
+	public static LoadScenarioResult foundFallback(final ScenarioPageSteps loadScenarioPageSteps,
+			final StepIdentifier redirect) {
+		return new LoadScenarioResult(loadScenarioPageSteps, false, redirect);
 	}
 	
 	public static LoadScenarioResult foundNothing() {
 		return new LoadScenarioResult(null, false, null);
 	}
 	
-	/**
-	 * Only set if there is no redirect.
-	 */
 	public ScenarioPageSteps getPagesAndSteps() {
 		return scenarioPageSteps;
 	}

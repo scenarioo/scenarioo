@@ -31,10 +31,10 @@ public class ScenarioLoader {
 			return LoadScenarioResult.foundRequestedScenario(requestedScenario);
 		}
 		
-		return findPageInRequestedUseCaseAndInAllUseCases(stepIdentifier);
+		return findPageInRequestedUseCaseOrInAllUseCases(stepIdentifier);
 	}
 	
-	public LoadScenarioResult findPageInRequestedUseCaseAndInAllUseCases(final StepIdentifier stepIdentifier) {
+	public LoadScenarioResult findPageInRequestedUseCaseOrInAllUseCases(final StepIdentifier stepIdentifier) {
 		ObjectIndex objectIndex = aggregatedDataReader.loadObjectIndex(stepIdentifier.getBuildIdentifier(), "page",
 				stepIdentifier.getPageName());
 		
@@ -48,7 +48,9 @@ public class ScenarioLoader {
 			return LoadScenarioResult.foundNothing();
 		}
 		
-		return LoadScenarioResult.foundFallback(redirect);
+		ScenarioPageSteps fallbackScenario = aggregatedDataReader.loadScenarioPageSteps(stepIdentifier
+				.getScenarioIdentifier());
+		return LoadScenarioResult.foundFallback(fallbackScenario, redirect);
 	}
 	
 	private StepIdentifier findPageInAllUseCases(final ObjectIndex objectIndex, final StepIdentifier stepIdentifier) {
@@ -60,7 +62,10 @@ public class ScenarioLoader {
 		
 		for (ObjectTreeNode<ObjectReference> useCaseNode : useCases) {
 			if (TYPE_USECASE.equals(useCaseNode.getItem().getType())) {
-				// TODO [fallback with labels] Find best matching scenario using labels
+				// TODO [fallback with labels] Find best matching scenario using labels. The use case, scenario and step
+				// labels have to be considered.
+				// For this we need the usecase labels on the usecase level and the scenario label with all it's step
+				// labels on the scenario level.
 				return getFirstScenarioInUseCase(useCaseNode, stepIdentifier);
 			}
 		}
@@ -80,7 +85,10 @@ public class ScenarioLoader {
 		for (ObjectTreeNode<ObjectReference> useCaseNode : useCases) {
 			if (TYPE_USECASE.equals(useCaseNode.getItem().getType())
 					&& useCaseToFind.equals(useCaseNode.getItem().getName())) {
-				// TODO [fallback with labels] Find best matching scenario using labels
+				// TODO [fallback with labels] Find best matching scenario in this use case using labels. Only the
+				// scenario and the step labels have to be considered (all others are the same for all candidates).
+				// For this we need the union of the scenario and all its step labels on the scenario level in the page
+				// index.
 				return getFirstScenarioInUseCase(useCaseNode, stepIdentifier);
 			}
 		}

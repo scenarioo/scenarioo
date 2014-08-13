@@ -83,7 +83,6 @@ public class ObjectRepository {
 		} else if (object instanceof ObjectTreeNode) {
 			addTreeObjects(referencePath, (ObjectTreeNode<?>) object);
 		}
-		
 	}
 	
 	public void addTreeObjects(final List<ObjectReference> referencePath, final ObjectTreeNode<?> objectTree) {

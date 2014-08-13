@@ -58,6 +58,8 @@ public class StepIndexResolver {
 			LOGGER.warn("stepInPageOccurrence " + stepIdentifier.getStepInPageOccurrence() + " does not exist in "
 					+ stepIdentifier + ". Redirecting to " + redirectStepIdentifier);
 			
+			// TODO [fallback with labels] Use the step with the most matching step-labels (all other labels can be
+			// ignored)
 			return ResolveStepIndexResult.otherStepInPageOccurrenceFound(index, redirectStepIdentifier);
 		}
 	}
@@ -78,6 +80,8 @@ public class StepIndexResolver {
 		LOGGER.warn("pageOccurrence " + stepIdentifier.getPageOccurrence() + " does not exist in "
 				+ stepIdentifier.toString() + ". Redirecting to " + redirectStepIdentifier);
 		
+		// TODO [fallback with labels] Use the step with the most matching step-labels (all other label levels can be
+		// ignored)
 		return ResolveStepIndexResult.otherStepInPageOccurrenceFound(lastPageOccurrence.getIndexOfFirstStep(),
 				redirectStepIdentifier);
 	}

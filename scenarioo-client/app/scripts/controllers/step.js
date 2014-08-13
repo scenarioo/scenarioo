@@ -89,7 +89,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.hasAnyLabels = function () {
                     var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
                     var hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
-                    var hasAnyStepLabels = $scope.step.labels.labels.length > 0;
+                    var hasAnyStepLabels = $scope.step.stepDescription.labels.labels.length > 0;
                     var hasAnyPageLabels = $scope.step.page.labels.labels.length > 0;
 
                     return hasAnyUseCaseLabels || hasAnyScenarioLabels || hasAnyStepLabels || hasAnyPageLabels;
@@ -346,7 +346,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         if ($scope.useCaseLabels) {
             labels.push($scope.useCaseLabels.labels);
             labels.push($scope.scenarioLabels.labels);
-            labels.push($scope.step.labels.labels);
+            labels.push($scope.step.stepDescription.labels.labels);
             labels.push($scope.step.page.labels.labels);
         }
         return labels;

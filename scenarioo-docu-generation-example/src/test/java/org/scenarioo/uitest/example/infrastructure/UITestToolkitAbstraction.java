@@ -152,7 +152,6 @@ public class UITestToolkitAbstraction {
 		step.setPage(createPage());
 		step.setMetadata(createStepMetadata());
 		step.setHtml(new StepHtml(toolkit.getHtmlSource()));
-		step.getLabels().add("step-label-" + stepIndex).add("public");
 		return step;
 	}
 	
@@ -162,6 +161,7 @@ public class UITestToolkitAbstraction {
 		stepDescription.setStatus(status);
 		stepDescription.setIndex(stepIndex);
 		stepDescription.addDetails("url", toolkit.getBrowserUrl());
+		stepDescription.getLabels().add("step-label-" + stepIndex).add("public");
 		return stepDescription;
 	}
 	
