@@ -124,42 +124,42 @@ public class TestData {
 	
 	private static ObjectTreeNode<ObjectReference> createReferenceTreePage1() {
 		ObjectTreeNode<ObjectReference> node = new ObjectTreeNode<ObjectReference>();
-		node.setItem(createObjectReferencePage1());
+		node.setItem(objectReference(PAGE_NAME_VALID_1, TYPE_PAGE));
 		node.addChild(createUseCaseNode());
 		return node;
 	}
 	
-	private static ObjectReference createObjectReferencePage1() {
-		ObjectReference objectReference = new ObjectReference();
-		objectReference.setName(PAGE_NAME_VALID_1);
-		objectReference.setType(TYPE_PAGE);
-		return objectReference;
-	}
-	
 	private static ObjectTreeNode<Object> createUseCaseNode() {
 		ObjectTreeNode<Object> node = new ObjectTreeNode<Object>();
-		node.setItem(createUseCaseObjectReference());
+		node.setItem(objectReference(TYPE_USECASE, USECASE_NAME_VALID));
 		node.addChild(createScenarioNodeWithDifferentScenario());
 		return node;
 	}
 	
-	private static ObjectReference createUseCaseObjectReference() {
-		ObjectReference objectReference = new ObjectReference();
-		objectReference.setType(TYPE_USECASE);
-		objectReference.setName(USECASE_NAME_VALID);
-		return objectReference;
-	}
-	
 	private static ObjectTreeNode<Object> createScenarioNodeWithDifferentScenario() {
 		ObjectTreeNode<Object> node = new ObjectTreeNode<Object>();
-		node.setItem(createScenarioObjectReferenceWithDifferentScenario());
+		node.setItem(objectReference(TYPE_SCENARIO, SCENARIO_NAME_VALID_2));
+		node.addChild(createStepNode());
 		return node;
 	}
 	
-	private static Object createScenarioObjectReferenceWithDifferentScenario() {
+	private static ObjectTreeNode<Object> createStepNode() {
+		ObjectTreeNode<Object> node = new ObjectTreeNode<Object>();
+		node.setItem(objectReference(TYPE_SCENARIO, SCENARIO_NAME_VALID_2));
+		node.addChild(createPageLeafNode());
+		return node;
+	}
+	
+	private static ObjectTreeNode<ObjectReference> createPageLeafNode() {
+		ObjectTreeNode<ObjectReference> node = new ObjectTreeNode<ObjectReference>();
+		node.setItem(objectReference(PAGE_NAME_VALID_1, TYPE_PAGE));
+		return node;
+	}
+	
+	private static ObjectReference objectReference(final String type, final String name) {
 		ObjectReference scenario = new ObjectReference();
-		scenario.setType(TYPE_SCENARIO);
-		scenario.setName(SCENARIO_NAME_VALID_2);
+		scenario.setType(type);
+		scenario.setName(name);
 		return scenario;
 	}
 	

@@ -229,7 +229,6 @@ public class ObjectRepository {
 	}
 	
 	public void addPageAndStep(final List<ObjectReference> referencePath, final Step step, final StepLink stepLink) {
-		addPage(referencePath, step.getPage());
 		addStep(referencePath, step, stepLink);
 	}
 	
@@ -260,6 +259,8 @@ public class ObjectRepository {
 		referencePath = extendPath(referencePath, stepReference);
 		addObjects(referencePath, step.getStepDescription().getDetails());
 		addObjects(referencePath, step.getMetadata().getDetails());
+		
+		addPage(referencePath, step.getPage());
 	}
 	
 	public void calculateAndSaveObjectLists() {
