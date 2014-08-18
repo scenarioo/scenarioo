@@ -23,45 +23,49 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
-import org.scenarioo.rest.dto.ScenarioDto;
-import org.scenarioo.rest.mapper.ScenarioDtoMapper;
+import org.scenarioo.rest.dto.ScenarioDetails;
+import org.scenarioo.rest.mapper.ScenarioDetailsMapper;
+import org.scenarioo.rest.request.BuildIdentifier;
+import org.scenarioo.rest.request.ScenarioIdentifier;
 
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/")
 public class ScenariosResource {
 	
-	private final ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
+	private final AggregatedDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
 			ConfigurationDAO.getDocuDataDirectoryPath());
+	
+	private final ScenarioDetailsMapper scenarioDetailsMapper = new ScenarioDetailsMapper();
 	
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	public UseCaseScenarios readUseCaseScenarios(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName) {
-		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName,
+		
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
-		return dao.loadUseCaseScenarios(resolvedBranchName, resolvedBuildName, usecaseName);
+		
+		return aggregatedDataReader.loadUseCaseScenarios(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), usecaseName);
 	}
 	
-	/**
-	 * Get a scenario with all its pages and steps
-	 */
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	@Path("{scenarioName}/")
-	public ScenarioDto readScenarioWithPagesAndSteps(@PathParam("branchName") final String branchName,
+	public ScenarioDetails readScenarioWithPagesAndSteps(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName) {
-		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName,
-				buildName);
-		ScenarioPageSteps pageSteps = dao.loadScenarioPageSteps(resolvedBranchName, resolvedBuildName, usecaseName,
-				scenarioName);
 		
-		return new ScenarioDtoMapper().map(pageSteps);
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+				buildName);
+		ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName);
+		
+		ScenarioPageSteps pageSteps = aggregatedDataReader.loadScenarioPageSteps(scenarioIdentifier);
+		
+		return scenarioDetailsMapper.map(pageSteps);
 	}
 	
 }

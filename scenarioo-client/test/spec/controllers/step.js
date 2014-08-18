@@ -19,7 +19,7 @@
 
 describe('StepCtrl', function () {
 
-    var $scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepService,
+    var $scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepResource,
         HostNameAndPort, SelectedBranchAndBuild, $controller, $httpBackend, TestData;
     var StepCtrl;
 
@@ -35,7 +35,7 @@ describe('StepCtrl', function () {
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _Config_, _ScenarioResource_, _StepService_, _HostnameAndPort_, _SelectedBranchAndBuild_, _$controller_, _$httpBackend_, _TestData_, localStorageService) {
+    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _Config_, _ScenarioResource_, _StepResource_, _HostnameAndPort_, _SelectedBranchAndBuild_, _$controller_, _$httpBackend_, _TestData_, localStorageService) {
         $scope = _$rootScope_.$new();
         $routeParams = _$routeParams_;
         $location = _$location_;
@@ -43,7 +43,7 @@ describe('StepCtrl', function () {
         $window = _$window_;
         Config = _Config_;
         ScenarioResource = _ScenarioResource_;
-        StepService = _StepService_;
+        StepResource = _StepResource_;
         HostNameAndPort = _HostnameAndPort_;
         SelectedBranchAndBuild = _SelectedBranchAndBuild_;
         $controller = _$controller_;
@@ -64,8 +64,8 @@ describe('StepCtrl', function () {
         beforeEach(function() {
             $routeParams.stepInPageOccurrence = 1;
             StepCtrl = $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
-                $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepService: StepService, HostnameAndPort: HostNameAndPort,
-                SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}});
+                $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostNameAndPort,
+                SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}, ScShareStepPopup: {}});
         });
 
         it('loads the step data', function () {
@@ -187,8 +187,8 @@ describe('StepCtrl', function () {
         beforeEach(function() {
             $routeParams.stepInPageOccurrence = 42;
             StepCtrl = $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
-                $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepService: StepService, HostnameAndPort: HostNameAndPort,
-                SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}});
+                $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostNameAndPort,
+                SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}, ScShareStepPopup: {}});
         });
 
         it('requested step is not found', function () {

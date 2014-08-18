@@ -32,7 +32,6 @@ import org.apache.log4j.Logger;
 import org.scenarioo.business.aggregator.customTabs.CustomObjectTabsAggregator;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
-import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Page;
@@ -43,6 +42,7 @@ import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
+import org.scenarioo.rest.request.BuildIdentifier;
 
 public class ObjectRepository {
 	
@@ -50,9 +50,7 @@ public class ObjectRepository {
 	
 	private final ScenarioDocuAggregationDAO dao;
 	
-	private final String branchName;
-	
-	private final String buildName;
+	private final BuildIdentifier buildIdentifier;
 	
 	private final Map<ObjectReference, ObjectReferenceTreeBuilder> objectReferences = new HashMap<ObjectReference, ObjectReferenceTreeBuilder>();
 	
@@ -64,11 +62,10 @@ public class ObjectRepository {
 	private final CustomObjectTabsAggregator customObjectTabsAggregator;
 	
 	public ObjectRepository(final BuildIdentifier buildIdentifier, final ScenarioDocuAggregationDAO dao) {
-		this.branchName = buildIdentifier.getBranchName();
-		this.buildName = buildIdentifier.getBuildName();
+		this.buildIdentifier = buildIdentifier;
 		this.dao = dao;
 		customObjectTabsAggregator = new CustomObjectTabsAggregator(ConfigurationDAO.getConfiguration()
-				.getCustomObjectTabs(), dao, new BuildIdentifier(branchName, buildName));
+				.getCustomObjectTabs(), dao, buildIdentifier);
 	}
 	
 	/**
@@ -86,7 +83,6 @@ public class ObjectRepository {
 		} else if (object instanceof ObjectTreeNode) {
 			addTreeObjects(referencePath, (ObjectTreeNode<?>) object);
 		}
-		
 	}
 	
 	public void addTreeObjects(final List<ObjectReference> referencePath, final ObjectTreeNode<?> objectTree) {
@@ -194,8 +190,8 @@ public class ObjectRepository {
 	
 	private void saveObject(final ObjectDescription object) {
 		objectTypes.add(object.getType());
-		if (!dao.isObjectDescriptionSaved(branchName, buildName, object)) {
-			dao.saveObjectDescription(branchName, buildName, object);
+		if (!dao.isObjectDescriptionSaved(buildIdentifier, object)) {
+			dao.saveObjectDescription(buildIdentifier, object);
 		}
 	}
 	
@@ -233,7 +229,6 @@ public class ObjectRepository {
 	}
 	
 	public void addPageAndStep(final List<ObjectReference> referencePath, final Step step, final StepLink stepLink) {
-		addPage(referencePath, step.getPage());
 		addStep(referencePath, step, stepLink);
 	}
 	
@@ -260,23 +255,24 @@ public class ObjectRepository {
 	}
 	
 	private void addStep(List<ObjectReference> referencePath, final Step step, final StepLink stepLink) {
-		ObjectReference stepReference = createObjectReference("step",
-				stepLink.getStepIdentifierForObjectRepository());
+		ObjectReference stepReference = createObjectReference("step", stepLink.getStepIdentifierForObjectRepository());
 		referencePath = extendPath(referencePath, stepReference);
 		addObjects(referencePath, step.getStepDescription().getDetails());
 		addObjects(referencePath, step.getMetadata().getDetails());
+		
+		addPage(referencePath, step.getPage());
 	}
 	
 	public void calculateAndSaveObjectLists() {
 		for (String type : objectTypes) {
 			LOGGER.info("    Writing object list for type '" + type + "' ...");
 			ObjectList<ObjectDescription> objectsList = new ObjectList<ObjectDescription>();
-			List<File> objectFiles = dao.getFiles().getObjectFiles(branchName, buildName, type);
+			List<File> objectFiles = dao.getFiles().getObjectFiles(buildIdentifier, type);
 			for (File file : objectFiles) {
 				ObjectDescription object = dao.loadObjectDescription(file);
 				objectsList.add(object);
 			}
-			dao.saveObjectsList(branchName, buildName, type, objectsList);
+			dao.saveObjectsList(buildIdentifier, type, objectsList);
 			LOGGER.info("    Finished successfully witing object list for type: " + type);
 		}
 	}
@@ -290,20 +286,20 @@ public class ObjectRepository {
 		for (Entry<ObjectReference, ObjectReferenceTreeBuilder> objectRefTreeBuilder : objectReferences.entrySet()) {
 			ObjectReference objectRef = objectRefTreeBuilder.getKey();
 			ObjectReferenceTreeBuilder referenceTreeBuilder = objectRefTreeBuilder.getValue();
-			if (dao.isObjectDescriptionSaved(branchName, buildName, objectRef.getType(), objectRef.getName())) {
-				ObjectIndex index = dao.loadObjectIndexIfExistant(branchName, buildName, objectRef.getType(),
+			if (dao.isObjectDescriptionSaved(buildIdentifier, objectRef.getType(), objectRef.getName())) {
+				ObjectIndex index = dao.loadObjectIndexIfExistant(buildIdentifier, objectRef.getType(),
 						objectRef.getName());
 				if (index == null) {
-					ObjectDescription object = dao.loadObjectDescription(branchName, buildName,
-							objectRefTreeBuilder.getKey());
+					ObjectDescription object = dao
+							.loadObjectDescription(buildIdentifier, objectRefTreeBuilder.getKey());
 					ObjectIndex objectIndex = new ObjectIndex();
 					objectIndex.setObject(object);
 					ObjectTreeNode<ObjectReference> referenceTree = referenceTreeBuilder.build();
 					objectIndex.setReferenceTree(referenceTree);
-					dao.saveObjectIndex(branchName, buildName, objectIndex);
+					dao.saveObjectIndex(buildIdentifier, objectIndex);
 				} else {
 					index.getReferenceTree().addChildren(referenceTreeBuilder.build().getChildren());
-					dao.saveObjectIndex(branchName, buildName, index);
+					dao.saveObjectIndex(buildIdentifier, index);
 				}
 			}
 		}
@@ -312,7 +308,7 @@ public class ObjectRepository {
 	}
 	
 	public void removeAnyExistingObjectData() {
-		deleteDirectory(dao.getFiles().getObjectsDirectory(branchName, buildName));
+		deleteDirectory(dao.getFiles().getObjectsDirectory(buildIdentifier));
 	}
 	
 	private static void deleteDirectory(final File directory) {

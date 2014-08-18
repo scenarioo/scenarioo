@@ -26,7 +26,6 @@ import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
-import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.branches.BuildStatistics;
@@ -41,6 +40,7 @@ import org.scenarioo.model.docu.entities.ScenarioCalculatedData;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
+import org.scenarioo.rest.request.BuildIdentifier;
 
 /**
  * The aggregator reads the input docu files of a build and generates the aggregated docu files with additional
@@ -196,7 +196,7 @@ public class ScenarioDocuAggregator {
 		LOGGER.info("      calculating aggregated data for scenario : " + scenario.getName());
 		ScenarioPageSteps scenarioPageSteps = calculateAggregatedDataForSteps(usecase, scenario, referencePath);
 		
-		dao.saveScenarioPageSteps(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), scenarioPageSteps);
+		dao.saveScenarioPageSteps(buildIdentifier, scenarioPageSteps);
 	}
 	
 	private ScenarioPageSteps calculateAggregatedDataForSteps(final UseCase usecase, final Scenario scenario,

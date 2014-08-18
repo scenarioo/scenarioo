@@ -14,7 +14,7 @@ import org.scenarioo.model.docu.entities.UseCase;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ScenarioDto {
+public class ScenarioDetails {
 	
 	private Scenario scenario;
 	private UseCase useCase;

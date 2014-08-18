@@ -63,11 +63,44 @@ scenarioo.describeUseCase('Step', function () {
     scenarioo.describeScenario('If the requested step does not exist, an error message is shown.', function () {
         var stepPage = new pages.stepPage();
 
-        browser.get('#/step/Find Page/find_page_no_result/startSearch.jsp/0/42');
+        browser.get('#/step/Find Page/find_page_no_result/inexistent_page.jsp/0/42');
 
         stepPage.assertErrorMessageIsShown();
 
         scenarioo.docuWriter.saveStep('Error message.');
+    });
+
+    scenarioo.describeScenario('A fallback message is shown in case the page does not exist but a fallback is found.', function () {
+        var stepPage = new pages.stepPage();
+
+        browser.get('#/step/Find%20Page/renamed_scenario/searchResults.jsp/0/0');
+
+        stepPage.assertFallbackMessageIsShown();
+        stepPage.assertFallbackMessageContainsText('Scenario: find_page_no_result');
+
+        scenarioo.docuWriter.saveStep('Fallback message.');
+    });
+
+    scenarioo.describeScenario('The step link popup shows the link to the step and to the image.', function () {
+        var stepPage = new pages.stepPage();
+
+        browser.get('#/step/Find Page/find_page_no_result/startSearch.jsp/0/0');
+        scenarioo.docuWriter.saveStep('A step.');
+
+        stepPage.clickShowStepLinksButton();
+        stepPage.assertStepLinksDialogVisible();
+        scenarioo.docuWriter.saveStep('Step links dialog.');
+    });
+
+    scenarioo.describeScenario('The step link dialog can also be opened using the "l" shortcut.', function () {
+        var stepPage = new pages.stepPage();
+
+        browser.get('#/step/Find Page/find_page_no_result/startSearch.jsp/0/0');
+        scenarioo.docuWriter.saveStep('A step.');
+
+        stepPage.type('l');
+        stepPage.assertStepLinksDialogVisible();
+        scenarioo.docuWriter.saveStep('Step links dialog.');
     });
 
 });

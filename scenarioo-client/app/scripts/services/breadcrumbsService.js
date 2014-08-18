@@ -49,7 +49,7 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
     var stepElement =
     {
-        label: '<strong>Step:</strong> [pageName]/[stepInPageOccurrence]/[pageOccurrence]',
+        label: '<strong>Step:</strong> [pageName]/[pageOccurrence]/[stepInPageOccurrence]',
         route: '/step/:usecase/:scenario/:pageName/:pageOccurrence/:stepInPageOccurrence/'
     };
 

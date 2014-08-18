@@ -33,7 +33,7 @@ describe('BreadcrumbsService', function () {
         { label: '<i class="icon-home"></i> Home', route: 'views/main.html', isLastNavigationElement: false, textForTooltip: ' Home' },
         { label: '<strong>Use Case:</strong> Search book', route: '/usecase/search_book/', isLastNavigationElement: false, textForTooltip: 'Use Case: Search book' },
         { label: '<strong>Scenario:</strong> Search Book That Does Not Exist', route: '/scenario/search_book/SearchBookThatDoesNotExist/', isLastNavigationElement: false, textForTooltip: 'Scenario: Search Book That Does Not Exist' },
-        { label: '<strong>Step:</strong> search_results/1/0', route: '/step/search_book/SearchBookThatDoesNotExist/:pageName/:pageOccurrence/:stepInPageOccurrence/', isLastNavigationElement: true, textForTooltip: 'Step: search_results/1/0' }
+        { label: '<strong>Step:</strong> search_results/0/1', route: '/step/search_book/SearchBookThatDoesNotExist/:pageName/:pageOccurrence/:stepInPageOccurrence/', isLastNavigationElement: true, textForTooltip: 'Step: search_results/0/1' }
     ];
 
     beforeEach(angular.mock.module('scenarioo.services'));
@@ -57,7 +57,7 @@ describe('BreadcrumbsService', function () {
     });
 
     function expectStepIsNotMadeHumanReadable(navigationElements) {
-        expect(navigationElements[3].label).toEqual('<strong>Step:</strong> search_results/1/0');
+        expect(navigationElements[3].label).toEqual('<strong>Step:</strong> search_results/0/1');
     }
 
     function expectUseCaseAndScenarioAreHumanReadable(navigationElements) {

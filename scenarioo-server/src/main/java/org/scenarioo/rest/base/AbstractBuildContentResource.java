@@ -18,9 +18,11 @@
 package org.scenarioo.rest.base;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
+import org.scenarioo.rest.request.BuildIdentifier;
 
 /**
  * Base class for resources accessing a build using the {@link ScenarioDocuAggregationDAO}.
@@ -29,13 +31,14 @@ import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
  */
 public class AbstractBuildContentResource {
 	
-	public static ScenarioDocuAggregationDAO getDAO(final String branchName, final String buildName) {
-		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBranchName(branchName);
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildName(resolvedBranchName, buildName);
-		LongObjectNamesResolver longObjectNamesResolver = ScenarioDocuBuildsManager.INSTANCE.getLongObjectNameResolver(
-				resolvedBranchName, resolvedBuildName);
-		return new ScenarioDocuAggregationDAO(
-				ConfigurationDAO.getDocuDataDirectoryPath(), longObjectNamesResolver);
+	/**
+	 * Here we expect that the aliases in the buildIdentifier were already resolved before.
+	 */
+	public static AggregatedDataReader getDAO(final BuildIdentifier buildIdentifier) {
+		
+		LongObjectNamesResolver longObjectNamesResolver = ScenarioDocuBuildsManager.INSTANCE
+				.getLongObjectNameResolver(buildIdentifier);
+		return new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath(), longObjectNamesResolver);
 	}
 	
 }

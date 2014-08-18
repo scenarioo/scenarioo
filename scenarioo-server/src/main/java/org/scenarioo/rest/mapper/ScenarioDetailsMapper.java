@@ -10,20 +10,20 @@ import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.rest.dto.PageSummary;
 import org.scenarioo.rest.dto.PageWithSteps;
-import org.scenarioo.rest.dto.ScenarioDto;
+import org.scenarioo.rest.dto.ScenarioDetails;
 
-public class ScenarioDtoMapper {
+public class ScenarioDetailsMapper {
 	
-	public ScenarioDto map(final ScenarioPageSteps pageSteps) {
+	public ScenarioDetails map(final ScenarioPageSteps pageSteps) {
 		if (pageSteps == null) {
 			return null;
 		}
 		
-		ScenarioDto dto = new ScenarioDto();
-		dto.setPagesAndSteps(mapPages(pageSteps.getPagesAndSteps()));
-		dto.setScenario(pageSteps.getScenario());
-		dto.setUseCase(pageSteps.getUseCase());
-		return dto;
+		ScenarioDetails scenarioDetails = new ScenarioDetails();
+		scenarioDetails.setPagesAndSteps(mapPages(pageSteps.getPagesAndSteps()));
+		scenarioDetails.setScenario(pageSteps.getScenario());
+		scenarioDetails.setUseCase(pageSteps.getUseCase());
+		return scenarioDetails;
 	}
 	
 	private List<PageWithSteps> mapPages(final List<PageSteps> pagesAndSteps) {

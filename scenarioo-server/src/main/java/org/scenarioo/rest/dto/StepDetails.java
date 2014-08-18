@@ -25,33 +25,52 @@ import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
 import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
 import org.scenarioo.model.docu.entities.Labels;
 import org.scenarioo.model.docu.entities.Step;
+import org.scenarioo.rest.request.StepIdentifier;
 
 /**
- * Container class to load a step with its navigation data
+ * All the information needed to display a single step.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-// TODO Rename to something like StepSummary
-public class StepDto {
+public class StepDetails {
 	
+	private StepIdentifier stepIdentifier;
+	private boolean fallback;
 	private Step step;
-	
 	private StepNavigation stepNavigation;
 	private StepStatistics stepStatistics;
-	
 	private Labels useCaseLabels;
 	private Labels scenarioLabels;
 	
-	public StepDto() {
+	public StepDetails() {
 	}
 	
-	public StepDto(final Step step, final StepNavigation stepNavigation,
-			final Labels useCaseLabels, final Labels scenarioLabels, final StepStatistics stepStatistics) {
+	public StepDetails(final StepIdentifier stepIdentifier, final boolean fallback, final Step step,
+			final StepNavigation stepNavigation, final StepStatistics stepStatistics, final Labels useCaseLabels,
+			final Labels scenarioLabels) {
+		this.stepIdentifier = stepIdentifier;
+		this.fallback = fallback;
 		this.step = step;
 		this.stepNavigation = stepNavigation;
 		this.stepStatistics = stepStatistics;
 		this.useCaseLabels = useCaseLabels;
 		this.scenarioLabels = scenarioLabels;
+	}
+	
+	public StepIdentifier getStepIdentifier() {
+		return stepIdentifier;
+	}
+	
+	public void setStepIdentifier(final StepIdentifier stepIdentifier) {
+		this.stepIdentifier = stepIdentifier;
+	}
+	
+	public boolean isFallback() {
+		return fallback;
+	}
+	
+	public void setFallback(final boolean fallback) {
+		this.fallback = fallback;
 	}
 	
 	public Step getStep() {

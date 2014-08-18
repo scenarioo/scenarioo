@@ -22,24 +22,37 @@ angular.module('scenarioo.services')
         $httpProvider.defaults.stripTrailingSlashes = false;
     })
 
-    .factory('HostnameAndPort', function (ENV) {
-        var hostAndPort;
+    .factory('HostnameAndPort', function (ENV, $location) {
+        var baseUrl;
+
+        var getBaseUrl = function() {
+            var url = $location.absUrl();
+            var urlParts = url.split('#');
+            return urlParts[0];
+        };
 
         if (ENV === 'production') {
-            hostAndPort = '';
+            baseUrl = '';
         } else if (ENV === 'development') {
-            hostAndPort = 'http://localhost:8080/scenarioo/';
+            baseUrl = 'http://localhost:8080/scenarioo/';
         }
 
         return {
             forNgResource: function () {
-                return hostAndPort.replace(/(:[0-9])/, '\\$1');
+                return baseUrl.replace(/(:[0-9])/, '\\$1');
             },
             forTest: function () {
-                return hostAndPort;
+                return baseUrl;
             },
             forLink: function () {
-                return hostAndPort;
+                return baseUrl;
+            },
+            forLinkAbsolute: function() {
+                if (ENV === 'production') {
+                    return getBaseUrl();
+                } else if (ENV === 'development') {
+                    return baseUrl;
+                }
             }
         };
     })
@@ -104,9 +117,10 @@ angular.module('scenarioo.services')
         return useCaseService;
     })
 
-    .factory('StepService', function (ScenariooResource, $q) {
-        var stepService = ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName/pageName/:pageName/pageOccurrence/:pageOccurrence/stepInPageOccurrence/:stepInPageOccurrence',
-            {branchName: '@branchName',
+    .factory('StepResource', function(ScenariooResource) {
+        return ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName/pageName/:pageName/pageOccurrence/:pageOccurrence/stepInPageOccurrence/:stepInPageOccurrence',
+            {
+                branchName: '@branchName',
                 buildName: '@buildName',
                 usecaseName: '@usecaseName',
                 scenarioName: '@scenarioName',
@@ -114,12 +128,6 @@ angular.module('scenarioo.services')
                 pageOccurrence: '@pageOccurrence',
                 stepInPageOccurrence: '@stepInPageOccurrence'
             }, {});
-
-        stepService.getStep = getPromise($q, function (parameters, fnSuccess, fnError) {
-            return stepService.get(parameters, fnSuccess, fnError);
-        });
-
-        return stepService;
     })
 
     .factory('ConfigResource', function (ScenariooResource) {
@@ -218,15 +226,15 @@ angular.module('scenarioo.services')
 
     .factory('VersionResource', function (ScenariooResource) {
         return ScenariooResource('/version', {}, {});
+    })
+
+    .factory('LabelConfigurationsListResource', function (ScenariooResource) {
+        return ScenariooResource('/labelconfigurations/list', {}, {});
+    })
+
+    .factory('LabelConfigurationsResource', function (ScenariooResource) {
+        return ScenariooResource('/labelconfigurations', {}, { 'query': { isArray:false}});
     });
-
-angular.module('scenarioo.services').factory('LabelConfigurationsListResource', function (ScenariooResource) {
-    return ScenariooResource('/labelconfigurations/list', {}, {});
-});
-
-angular.module('scenarioo.services').factory('LabelConfigurationsResource', function (ScenariooResource) {
-    return ScenariooResource('/labelconfigurations', {}, { 'query': { isArray:false}});
-});
 
 function getPromise($q, fn) {
     return function (parameters) {

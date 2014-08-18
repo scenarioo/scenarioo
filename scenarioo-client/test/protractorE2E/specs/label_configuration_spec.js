@@ -13,20 +13,20 @@ scenarioo.describeUseCase('Label configuration', function () {
 
         homePage.closeScenariooInfoDialogIfOpen();
 
-        labelConfigurationsPage.assertNumConfigurations(1);
+        labelConfigurationsPage.assertNumConfigurations(0);
 
         labelConfigurationsPage.addLabelConfiguration('corner-case', 5);
         scenarioo.docuWriter.saveStep('add label configuration');
 
         browser.get('#/manage?tab=labelConfigurations');
-        labelConfigurationsPage.assertNumConfigurations(2);
+        labelConfigurationsPage.assertNumConfigurations(1);
 
-        labelConfigurationsPage.updateLabelConfiguration(1, 'updated', 4);
+        labelConfigurationsPage.updateLabelConfiguration(0, 'updated', 4);
         scenarioo.docuWriter.saveStep('update label configuration');
 
-        labelConfigurationsPage.deleteLabelConfiguration(1);
+        labelConfigurationsPage.deleteLabelConfiguration(0);
 
         browser.get('#/manage?tab=labelConfigurations');
-        labelConfigurationsPage.assertNumConfigurations(1);
+        labelConfigurationsPage.assertNumConfigurations(0);
     });
 });

@@ -29,12 +29,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StepLink {
 	
+	private String useCaseName;
+	private String scenarioName;
+	private String pageName;
+	private int pageOccurrence;
+	private int stepInPageOccurrence;
+	private int pageIndex;
+	private int stepIndex;
+	
 	public StepLink() {
 	}
 	
-	public StepLink(final String useCaseName, final String scenarioName,
-			final int stepIndex, final int pageIndex, final String pageName,
-			final int pageOccurrence, final int stepInPageOccurrence) {
+	public StepLink(final String useCaseName, final String scenarioName, final int stepIndex, final int pageIndex,
+			final String pageName, final int pageOccurrence, final int stepInPageOccurrence) {
 		super();
 		this.useCaseName = useCaseName;
 		this.scenarioName = scenarioName;
@@ -44,14 +51,6 @@ public class StepLink {
 		this.pageOccurrence = pageOccurrence;
 		this.stepInPageOccurrence = stepInPageOccurrence;
 	}
-	
-	private String useCaseName;
-	private String scenarioName;
-	private int stepIndex;
-	private int pageIndex;
-	private String pageName;
-	private int pageOccurrence;
-	private int stepInPageOccurrence;
 	
 	public String getUseCaseName() {
 		return useCaseName;

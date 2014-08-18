@@ -45,7 +45,7 @@ configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-exa
 	    mavenCentral()
 	}
 	
-	ext.scenariooApiVersion = '1.1.0-SNAPSHOT'
+	ext.scenariooApiVersion = '1.1.1-SNAPSHOT'
 	
 	dependencies {
 		compile 'org.scenarioo:scenarioo-java:' + ext.scenariooApiVersion

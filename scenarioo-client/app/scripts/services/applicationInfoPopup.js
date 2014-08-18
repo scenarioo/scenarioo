@@ -20,6 +20,8 @@
 angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function (localStorageService, $modal) {
 
     var PREVIOUSLY_VISITED_COOKIE_NAME = 'scenariooPreviouslyVisited';
+
+    // This is required to avoid multiple popups (they could be opened using keyboard shortcuts)
     var modalIsCurrentlyOpen = false;
 
     function showApplicationInfoPopupIfRequired() {
