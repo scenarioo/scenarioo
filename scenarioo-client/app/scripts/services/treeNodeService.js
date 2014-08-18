@@ -33,27 +33,50 @@ angular.module('scenarioo.services').factory('TreeNode', function () {
         }
     }
 
+    function setNodeProperties(node, isCollapsed, isVisible) {
+        node.isCollapsed = isCollapsed;
+        node.isVisible = isVisible;
+        setIconName(node);
+    }
+
     return {
 
+        /*
+            Invert the expand or collapse status and corresponding value
+         */
         expandAndCollapseTree: function (treemodel, $scope) {
-            // Invert expand or collapse status
             var isCollapsed = $scope.toggleLabel === 'expand' ? false : true;
 
             angular.forEach(treemodel, function (node) {
-                node.isCollapsed = isCollapsed;
-                setIconName(node);
+                setNodeProperties(node, isCollapsed, !isCollapsed);
 
                 if (node.level === 0) {
                     node.isVisible = true;
-                }
-                else {
-                    node.isVisible = !isCollapsed;
                 }
             });
             $scope.toggleLabel = isCollapsed ? $scope.toggleLabel = 'expand' : $scope.toggleLabel = 'collapse';
         },
 
-        setIconNameForChildNodes: function(node) {
+        /*
+            Sets collapsing for root node and first child node
+         */
+        setCollapsingAndVisibility: function (newNode, $scope) {
+            if (newNode.level === 0) {
+                setNodeProperties(newNode, $scope.rootIsCollapsed, true);
+            }
+            else if (newNode.level === 1 && $scope.expandFirstChildUpToRootNode) {
+                setNodeProperties(newNode, true, true);
+            }
+            else {
+                setNodeProperties(newNode, true, false);
+            }
+        },
+
+        setNodeProperties: function (node, isCollapsed, isVisible) {
+            setNodeProperties(node, isCollapsed, isVisible);
+        },
+
+        setIconName: function (node) {
             setIconName(node);
         }
     };
