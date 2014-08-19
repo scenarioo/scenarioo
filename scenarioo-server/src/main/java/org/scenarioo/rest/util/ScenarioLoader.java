@@ -130,8 +130,6 @@ public class ScenarioLoader {
 		StepCandidate stepWithMostMatchingLabels = stepCandidates.get(0);
 		
 		for (StepCandidate candidate : stepCandidates) {
-			System.out.println(candidate.getUsecase() + "-" + candidate.getScenario() + "-"
-					+ candidate.getNumberOfMatchingLabels());
 			if (candidate.getNumberOfMatchingLabels() > stepWithMostMatchingLabels.getNumberOfMatchingLabels()) {
 				stepWithMostMatchingLabels = candidate;
 			}

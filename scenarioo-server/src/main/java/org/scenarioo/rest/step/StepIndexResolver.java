@@ -2,10 +2,15 @@ package org.scenarioo.rest.step;
 
 import static com.google.common.base.Preconditions.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
+import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.rest.request.StepIdentifier;
+import org.scenarioo.rest.util.StepCandidate;
 
 public class StepIndexResolver {
 	
@@ -20,27 +25,24 @@ public class StepIndexResolver {
 		checkNotNull(scenarioPagesAndSteps);
 		checkNotNull(stepIdentifier);
 		
-		int occurrence = 0;
-		PageSteps lastPageOccurrence = null;
-		
+		// Find other step in current page occurrence
+		List<PageSteps> pageOccurrences = new LinkedList<PageSteps>();
 		for (PageSteps pageWithSteps : scenarioPagesAndSteps.getPagesAndSteps()) {
 			if (isCorrectPage(pageWithSteps, stepIdentifier.getPageName())) {
-				if (occurrence == stepIdentifier.getPageOccurrence()) {
+				if (pageOccurrences.size() == stepIdentifier.getPageOccurrence()) {
 					return resolveStepInPageOccurrence(pageWithSteps, stepIdentifier);
 				}
-				lastPageOccurrence = pageWithSteps;
-				occurrence++;
+				pageOccurrences.add(pageWithSteps);
 			}
 		}
 		
-		// Because the loop counted one too many
-		int redirectPageOccurrence = occurrence - 1;
-		
-		if (redirectPageOccurrence < 0) {
+		// No page occurrence exists in this scenario
+		if (pageOccurrences.size() == 0) {
 			return ResolveStepIndexResult.noFallbackFound();
 		}
 		
-		return redirectToHighestExistingPageOccurrence(stepIdentifier, lastPageOccurrence, redirectPageOccurrence);
+		// Find ideal page occurrence and step in page occurrence using labels
+		return findBestStepInEntireScenario(stepIdentifier, pageOccurrences);
 	}
 	
 	private ResolveStepIndexResult resolveStepInPageOccurrence(final PageSteps pageWithSteps,
@@ -49,41 +51,87 @@ public class StepIndexResolver {
 			int index = pageWithSteps.getSteps().get(stepIdentifier.getStepInPageOccurrence()).getIndex();
 			return ResolveStepIndexResult.requestedIndexFound(index);
 		} else {
-			// Return the highest stepInPageOccurrence possible (the requested one was even higher)
-			int index = pageWithSteps.getLastStep().getIndex();
-			int redirectStepInPageOccurrence = pageWithSteps.getNumberOfSteps() - 1;
+			int redirectStepInPageOccurrence = getStepInPageOccurrenceWithMostMatchingLabels(pageWithSteps.getSteps(),
+					stepIdentifier);
+			int index = pageWithSteps.getSteps().get(redirectStepInPageOccurrence).getIndex();
 			StepIdentifier redirectStepIdentifier = StepIdentifier.withDifferentStepInPageOccurrence(stepIdentifier,
 					redirectStepInPageOccurrence);
 			
 			LOGGER.warn("stepInPageOccurrence " + stepIdentifier.getStepInPageOccurrence() + " does not exist in "
 					+ stepIdentifier + ". Redirecting to " + redirectStepIdentifier);
 			
-			// TODO [fallback with labels] Use the step with the most matching step-labels (all other labels can be
-			// ignored)
 			return ResolveStepIndexResult.otherStepInPageOccurrenceFound(index, redirectStepIdentifier);
 		}
+	}
+	
+	private int getStepInPageOccurrenceWithMostMatchingLabels(final List<StepDescription> steps,
+			final StepIdentifier stepIdentifier) {
+		
+		int mostMatchingLabels = 0;
+		int indexOfBestStep = 0;
+		
+		int i = 0;
+		for (StepDescription step : steps) {
+			int matchingLabelsOfStep = StepCandidate.getMatchingLabelsCount(step.getLabels().toSet(),
+					stepIdentifier.getLabels());
+			// We want to get the highest possible step that has the maximum of matching labels.
+			// Therefore >= is used here.
+			if (matchingLabelsOfStep >= mostMatchingLabels) {
+				mostMatchingLabels = matchingLabelsOfStep;
+				indexOfBestStep = i;
+			}
+			i++;
+		}
+		
+		return indexOfBestStep;
 	}
 	
 	private boolean isCorrectPage(final PageSteps pageWithSteps, final String pageName) {
 		return pageName.equals(pageWithSteps.getPage().getName());
 	}
 	
-	private ResolveStepIndexResult redirectToHighestExistingPageOccurrence(final StepIdentifier stepIdentifier,
-			final PageSteps lastPageOccurrence, final int redirectPageOccurrence) {
-		// Here we don't use the highest possible value, because the stepInPageOccurrence
-		// is not related to the original pageOccurrence
-		int redirectStepInPageOccurrence = 0;
-		
-		StepIdentifier redirectStepIdentifier = StepIdentifier.withDifferentIds(stepIdentifier, redirectPageOccurrence,
-				redirectStepInPageOccurrence);
+	private ResolveStepIndexResult findBestStepInEntireScenario(final StepIdentifier stepIdentifier,
+			final List<PageSteps> pageOccurrences) {
+		StepIdentifier redirectStepIdentifier = getRedirectStepIdentifierForStepInAllPageOccurrences(stepIdentifier,
+				pageOccurrences);
+		int redirectStepIndex = pageOccurrences.get(redirectStepIdentifier.getPageOccurrence()).getSteps()
+				.get(redirectStepIdentifier.getStepInPageOccurrence()).getIndex();
 		
 		LOGGER.warn("pageOccurrence " + stepIdentifier.getPageOccurrence() + " does not exist in "
 				+ stepIdentifier.toString() + ". Redirecting to " + redirectStepIdentifier);
 		
-		// TODO [fallback with labels] Use the step with the most matching step-labels (all other label levels can be
-		// ignored)
-		return ResolveStepIndexResult.otherStepInPageOccurrenceFound(lastPageOccurrence.getIndexOfFirstStep(),
-				redirectStepIdentifier);
+		return ResolveStepIndexResult.otherStepInPageOccurrenceFound(redirectStepIndex, redirectStepIdentifier);
+	}
+	
+	private StepIdentifier getRedirectStepIdentifierForStepInAllPageOccurrences(final StepIdentifier stepIdentifier,
+			final List<PageSteps> pageOccurrences) {
+		
+		int mostMatchingLabels = 0;
+		int pageOccurrenceOfBestStep = 0;
+		int stepInPageOccurrenceOfBestStep = 0;
+		
+		int pageOccurrence = 0;
+		for (PageSteps pageOccurrenceWithSteps : pageOccurrences) {
+			int stepInPageOccurrence = 0;
+			for (StepDescription step : pageOccurrenceWithSteps.getSteps()) {
+				int matchingLabelsOfStep = StepCandidate.getMatchingLabelsCount(step.getLabels().toSet(),
+						stepIdentifier.getLabels());
+				// We want the first step in a page occurrence that has the highest number of matching labels.
+				// Of all the page occurrences with the highest number of matching labels, we want the highest page
+				// occurrence, because it is closest to page occurrence requested by the user.
+				if (matchingLabelsOfStep > mostMatchingLabels
+						|| (matchingLabelsOfStep == mostMatchingLabels && pageOccurrence > pageOccurrenceOfBestStep)) {
+					mostMatchingLabels = matchingLabelsOfStep;
+					pageOccurrenceOfBestStep = pageOccurrence;
+					stepInPageOccurrenceOfBestStep = stepInPageOccurrence;
+				}
+				stepInPageOccurrence++;
+			}
+			pageOccurrence++;
+		}
+		
+		return StepIdentifier
+				.withDifferentIds(stepIdentifier, pageOccurrenceOfBestStep, stepInPageOccurrenceOfBestStep);
 	}
 	
 }

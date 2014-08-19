@@ -85,13 +85,12 @@ public class StepCandidate {
 		return stepLabels;
 	}
 	
-	private static int getMatchingLabelsCount(final Set<String> labelsOfStepAndParentObjects,
-			final Set<String> stepIdentifierLabels) {
-		if (labelsOfStepAndParentObjects == null || stepIdentifierLabels == null) {
+	public static int getMatchingLabelsCount(final Set<String> labelsOfCandidate, final Set<String> stepIdentifierLabels) {
+		if (labelsOfCandidate == null || stepIdentifierLabels == null) {
 			return 0;
 		}
 		
-		Set<String> intersection = new HashSet<String>(labelsOfStepAndParentObjects);
+		Set<String> intersection = new HashSet<String>(labelsOfCandidate);
 		intersection.retainAll(stepIdentifierLabels);
 		
 		return intersection.size();
