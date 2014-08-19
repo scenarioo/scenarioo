@@ -9,17 +9,25 @@ function ObjectDetailsPage(overridePath) {
         BaseWebPage.call(this, '/');
     }
 
-    this.branchAliasTable = element(by.id('treeviewtable'));
+    this.objectDetailsPage = element(by.id('treeviewtable'));
 }
 
 util.inherits(ObjectDetailsPage, BaseWebPage);
 
 ObjectDetailsPage.prototype.clickNthTreeTableRow = function (rowNumberWithoutHeader) {
-    this.branchAliasTable.findElements(by.css('tbody tr')).then(function(elements) {
+    this.objectDetailsPage.findElements(by.css('tbody tr')).then(function(elements) {
         var nthRow = elements[rowNumberWithoutHeader + 1]; // + 1 because 0th row is the header
         var link = nthRow.findElement(by.css('span'));
         link.click();
     });
+};
+
+ObjectDetailsPage.prototype.assertElementIsExpanded = function (elementId) {
+    var element = this.objectDetailsPage.findElement(by.id('0'));
+    /*expect(element.isVisible).toBe(true);
+
+    var imgElement = element.getElementsByTagName('img');
+    expect(imgElement.attribute('src')).toBe('images/expanded.png');*/
 };
 
 module.exports = ObjectDetailsPage;
