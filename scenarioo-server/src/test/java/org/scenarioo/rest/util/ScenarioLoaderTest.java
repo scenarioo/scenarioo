@@ -16,7 +16,7 @@ public class ScenarioLoaderTest {
 	private LoadScenarioResult loadScenarioResult;
 	
 	@Test
-	public void scenarioIsFound() {
+	public void whenScenarioIsFound_noFallbackHappens() {
 		givenScenarioIdentifierOfExistingScenario();
 		
 		whenLoadingScenario();
@@ -25,7 +25,7 @@ public class ScenarioLoaderTest {
 	}
 	
 	@Test
-	public void scenarioNotFound_usecaseExists_pageExists_redirect() {
+	public void whenScenarioIsNotFound_butUsecaseExists_andPageExists_thenRedirect() {
 		givenScenarioIdentifierOfNonExistingScenarioButExistingUseCase();
 		
 		whenLoadingScenario();
@@ -34,12 +34,30 @@ public class ScenarioLoaderTest {
 	}
 	
 	@Test
-	public void scenarioNotFound_pageExistsInDifferentUsecase_redirect() {
+	public void whenScenarioIsNotFound_butUsecaseExists_andPageExists_andStepIdentifierHasLabels_thenRedirectUsingLabels() {
+		givenScenarioIdentifierOfNonExistingScenarioButExistingUseCaseAndWithLabels();
+		
+		whenLoadingScenario();
+		
+		expectFallbackToScenarioInSameUseCaseWithMostMatchingLabels();
+	}
+	
+	@Test
+	public void whenScenarioAndUseCaseAreNotFound_butPageExistsInDifferentUsecase_thenRedirect() {
 		givenScenarioIdentifierOfNonExistingUseCase();
 		
 		whenLoadingScenario();
 		
 		expectFallbackToPageInDifferentUsecase();
+	}
+	
+	@Test
+	public void whenScenarioAndUseCaseAreNotFound_butPageExistsInDifferentUsecase_andStepIdentifierHasLabels_thenRedirectUsingLabels() {
+		givenScenarioIdentifierOfNonExistingUseCaseWithLabels();
+		
+		whenLoadingScenario();
+		
+		expectFallbackToPageInDifferentUsecaseWithMostMatchingLabels();
 	}
 	
 	private void givenScenarioIdentifierOfExistingScenario() {
@@ -50,8 +68,16 @@ public class ScenarioLoaderTest {
 		stepIdentifier = TestData.STEP_IDENTIFIER_INEXISTENT_SCENARIO;
 	}
 	
+	private void givenScenarioIdentifierOfNonExistingScenarioButExistingUseCaseAndWithLabels() {
+		stepIdentifier = TestData.STEP_IDENTIFIER_INEXISTENT_SCENARIO_WITH_LABELS;
+	}
+	
 	private void givenScenarioIdentifierOfNonExistingUseCase() {
 		stepIdentifier = TestData.STEP_IDENTIFIER_INEXISTENT_USECASE;
+	}
+	
+	private void givenScenarioIdentifierOfNonExistingUseCaseWithLabels() {
+		stepIdentifier = TestData.STEP_IDENTIFIER_INEXISTENT_USECASE_WITH_LABELS;
 	}
 	
 	private void whenLoadingScenario() {
@@ -65,31 +91,68 @@ public class ScenarioLoaderTest {
 	}
 	
 	private void expectFallbackToPageInDifferentScenarioInSameUsecase() {
-		assertNull(loadScenarioResult.getPagesAndSteps());
-		assertFalse(loadScenarioResult.isRequestedScenarioFound());
-		assertTrue(loadScenarioResult.containsValidRedirect());
+		expectFallback();
+		expectBuildIdentifierDidNotChange();
+		expectUsecaseDidNotChange();
 		
-		assertEquals(stepIdentifier.getBuildIdentifier(), loadScenarioResult.getRedirect().getBuildIdentifier());
-		assertEquals(stepIdentifier.getUsecaseName(), loadScenarioResult.getRedirect().getUsecaseName());
 		assertEquals(TestData.SCENARIO_NAME_VALID_2, loadScenarioResult.getRedirect().getScenarioName());
-		assertEquals(stepIdentifier.getPageName(), loadScenarioResult.getRedirect().getPageName());
+		
+		expectRequestedPageName();
 		assertEquals(stepIdentifier.getPageOccurrence(), loadScenarioResult.getRedirect().getPageOccurrence());
 		assertEquals(stepIdentifier.getStepInPageOccurrence(), loadScenarioResult.getRedirect()
 				.getStepInPageOccurrence());
 	}
 	
+	private void expectFallbackToScenarioInSameUseCaseWithMostMatchingLabels() {
+		expectFallback();
+		expectBuildIdentifierDidNotChange();
+		expectUsecaseDidNotChange();
+		assertEquals(TestData.SCENARIO_NAME_VALID_WITH_MATCHING_LABELS, loadScenarioResult.getRedirect()
+				.getScenarioName());
+		expectRequestedPageName();
+		assertEquals(0, loadScenarioResult.getRedirect().getPageOccurrence());
+		assertEquals(1, loadScenarioResult.getRedirect().getStepInPageOccurrence());
+	}
+	
 	private void expectFallbackToPageInDifferentUsecase() {
-		assertNull(loadScenarioResult.getPagesAndSteps());
-		assertFalse(loadScenarioResult.isRequestedScenarioFound());
-		assertTrue(loadScenarioResult.containsValidRedirect());
-		
-		assertEquals(stepIdentifier.getBuildIdentifier(), loadScenarioResult.getRedirect().getBuildIdentifier());
+		expectFallback();
+		expectBuildIdentifierDidNotChange();
 		assertEquals(TestData.USECASE_NAME_VALID, loadScenarioResult.getRedirect().getUsecaseName());
 		assertEquals(TestData.SCENARIO_NAME_VALID_2, loadScenarioResult.getRedirect().getScenarioName());
-		assertEquals(stepIdentifier.getPageName(), loadScenarioResult.getRedirect().getPageName());
+		expectRequestedPageName();
 		assertEquals(stepIdentifier.getPageOccurrence(), loadScenarioResult.getRedirect().getPageOccurrence());
 		assertEquals(stepIdentifier.getStepInPageOccurrence(), loadScenarioResult.getRedirect()
 				.getStepInPageOccurrence());
+	}
+	
+	private void expectFallbackToPageInDifferentUsecaseWithMostMatchingLabels() {
+		expectFallback();
+		expectBuildIdentifierDidNotChange();
+		assertEquals(TestData.USECASE_NAME_VALID_WITH_MATCHING_LABELS, loadScenarioResult.getRedirect()
+				.getUsecaseName());
+		assertEquals(TestData.SCENARIO_NAME_VALID_WITH_MATCHING_LABELS, loadScenarioResult.getRedirect()
+				.getScenarioName());
+		expectRequestedPageName();
+		assertEquals(0, loadScenarioResult.getRedirect().getPageOccurrence());
+		assertEquals(1, loadScenarioResult.getRedirect().getStepInPageOccurrence());
+	}
+	
+	private void expectFallback() {
+		assertNull(loadScenarioResult.getPagesAndSteps());
+		assertFalse(loadScenarioResult.isRequestedScenarioFound());
+		assertTrue(loadScenarioResult.containsValidRedirect());
+	}
+	
+	private void expectBuildIdentifierDidNotChange() {
+		assertEquals(stepIdentifier.getBuildIdentifier(), loadScenarioResult.getRedirect().getBuildIdentifier());
+	}
+	
+	private void expectUsecaseDidNotChange() {
+		assertEquals(stepIdentifier.getUsecaseName(), loadScenarioResult.getRedirect().getUsecaseName());
+	}
+	
+	private void expectRequestedPageName() {
+		assertEquals(stepIdentifier.getPageName(), loadScenarioResult.getRedirect().getPageName());
 	}
 	
 }

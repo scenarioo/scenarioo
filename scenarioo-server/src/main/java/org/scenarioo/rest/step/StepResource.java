@@ -44,6 +44,7 @@ public class StepResource {
 	private final AggregatedDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
 			ConfigurationDAO.getDocuDataDirectoryPath(), longObjectNamesResolver);
 	
+	private final LabelsQueryParamParser labelsQueryParamParser = new LabelsQueryParamParser();
 	private final ScenarioLoader scenarioLoader = new ScenarioLoader(aggregatedDataReader);
 	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
 	private final StepLoader stepLoader = new StepLoader(scenarioLoader, stepIndexResolver);
@@ -64,13 +65,13 @@ public class StepResource {
 			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
 			@PathParam("pageOccurrence") final int pageOccurrence,
 			@PathParam("stepInPageOccurrence") final int stepInPageOccurrence,
-			@QueryParam("fallback") final boolean addFallbackInfo) {
+			@QueryParam("fallback") final boolean addFallbackInfo, @QueryParam("labels") final String labels) {
 		
 		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, buildName);
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName, scenarioName, pageName,
-				pageOccurrence, stepInPageOccurrence);
+				pageOccurrence, stepInPageOccurrence, labelsQueryParamParser.parseLabels(labels));
 		
 		LOGGER.info("loadStep(" + stepIdentifier + ")");
 		

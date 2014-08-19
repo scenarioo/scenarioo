@@ -2,6 +2,9 @@ package org.scenarioo.rest.util;
 
 import static org.junit.Assert.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.scenarioo.TestData;
@@ -48,12 +51,30 @@ public class StepIndexResolverTest {
 	}
 	
 	@Test
+	public void stepInPageOccurrenceNotFound_fallbackWithinSamePageOccurrence_withLabels() {
+		givenStepIdentifierWhereStepInPageOccurrenceDoesNotExist_withLabels();
+		
+		whenResolvingTheStepIndex();
+		
+		expectFallbackFindsStepInPageOccurrenceWithMostMatchingLabels();
+	}
+	
+	@Test
 	public void pageOccurrenceNotFound_fallbackWithinScenario() {
 		givenStepWherePageOccurrenceDoesNotExist();
 		
 		whenResolvingTheStepIndex();
 		
 		expectFallbackFindsClosestPageOccurrence();
+	}
+	
+	@Test
+	public void pageOccurrenceNotFound_fallbackWithinScenario_withLabels() {
+		givenStepWherePageOccurrenceDoesNotExist_withLabels();
+		
+		whenResolvingTheStepIndex();
+		
+		expectFallbackFindsPageOccurrenceAndStepWithMostMatchingLabels();
 	}
 	
 	@Test
@@ -88,8 +109,24 @@ public class StepIndexResolverTest {
 		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, TestData.PAGE_NAME_VALID_1, 1, 3);
 	}
 	
+	private void givenStepIdentifierWhereStepInPageOccurrenceDoesNotExist_withLabels() {
+		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, TestData.PAGE_NAME_VALID_1, 1, 3,
+				createLabels("step-label-3"));
+	}
+	
+	private Set<String> createLabels(final String label) {
+		Set<String> labels = new HashSet<String>();
+		labels.add(label);
+		return labels;
+	}
+	
 	private void givenStepWherePageOccurrenceDoesNotExist() {
 		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, TestData.PAGE_NAME_VALID_1, 2, 3);
+	}
+	
+	private void givenStepWherePageOccurrenceDoesNotExist_withLabels() {
+		stepIdentifier = new StepIdentifier(USECASE_IDENTIFIER, TestData.PAGE_NAME_VALID_1, 2, 3,
+				createLabels("step-label-3"));
 	}
 	
 	private void givenStepWithPageThatDoesNotExistInScenario() {
@@ -121,12 +158,27 @@ public class StepIndexResolverTest {
 		assertEquals(2, resolveStepIndexResult.getRedirect().getStepInPageOccurrence());
 	}
 	
+	private void expectFallbackFindsStepInPageOccurrenceWithMostMatchingLabels() {
+		assertEquals(3, resolveStepIndexResult.getIndex());
+		assertTrue(resolveStepIndexResult.isIndexValid());
+		assertFalse(resolveStepIndexResult.isRequestedStepFound());
+		assertEquals(1, resolveStepIndexResult.getRedirect().getStepInPageOccurrence());
+	}
+	
 	private void expectFallbackFindsClosestPageOccurrence() {
 		assertEquals(2, resolveStepIndexResult.getIndex());
 		assertTrue(resolveStepIndexResult.isIndexValid());
 		assertFalse(resolveStepIndexResult.isRequestedStepFound());
 		assertEquals(1, resolveStepIndexResult.getRedirect().getPageOccurrence());
 		assertEquals(0, resolveStepIndexResult.getRedirect().getStepInPageOccurrence());
+	}
+	
+	private void expectFallbackFindsPageOccurrenceAndStepWithMostMatchingLabels() {
+		assertEquals(3, resolveStepIndexResult.getIndex());
+		assertTrue(resolveStepIndexResult.isIndexValid());
+		assertFalse(resolveStepIndexResult.isRequestedStepFound());
+		assertEquals(1, resolveStepIndexResult.getRedirect().getPageOccurrence());
+		assertEquals(1, resolveStepIndexResult.getRedirect().getStepInPageOccurrence());
 	}
 	
 	private void expectNoIndexAndNoRedirectIsFound() {

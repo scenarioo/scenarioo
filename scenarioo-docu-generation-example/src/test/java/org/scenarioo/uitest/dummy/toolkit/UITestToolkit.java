@@ -121,4 +121,8 @@ public class UITestToolkit {
 		// dummy implementation: never fails
 	}
 	
+	public void selectLanguage(final String language) {
+		// dummy implementation: never fails
+	}
+	
 }

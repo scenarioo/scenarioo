@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.scenarioo.uitest.dummy.application.DummyApplicationSimulator;
 import org.scenarioo.uitest.dummy.application.DummySimulationConfig;
 import org.scenarioo.uitest.example.infrastructure.DocuDescription;
+import org.scenarioo.uitest.example.infrastructure.Labels;
 import org.scenarioo.uitest.example.infrastructure.UITest;
 
 /**
@@ -26,6 +27,7 @@ public class TechnicalCornerCasesUITest extends UITest {
 	@Test
 	@DocuDescription(
 			description = "Dummy scenario with one step and no other page variants of this same step in other scenarios.")
+	@Labels({ "short" })
 	public void dummy_scenario_with_one_step_and_one_page_with_no_other_variants() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.TECHNICAL_ONE_PAGE_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org/technical-one-page-scenario");
@@ -34,6 +36,7 @@ public class TechnicalCornerCasesUITest extends UITest {
 	@Test
 	@DocuDescription(
 			description = "Dummy scenario with no page names set for all pages, which should be presented in Scenarioo as if the steps are all for different (unknown) pages.")
+	@Labels({ "rare" })
 	public void dummy_scenario_with_no_page_names_set() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.TECHNICAL_NO_PAGE_NAMES_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org/technical-multiple-pages-scenario");

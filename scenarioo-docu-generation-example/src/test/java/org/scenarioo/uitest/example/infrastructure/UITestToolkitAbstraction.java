@@ -219,4 +219,8 @@ public class UITestToolkitAbstraction {
 		toolkit.assertTextPresent(text);
 	}
 	
+	public void selectLanguage(final String language) {
+		toolkit.selectLanguage(language);
+	}
+	
 }

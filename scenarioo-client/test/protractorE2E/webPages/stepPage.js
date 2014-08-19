@@ -86,6 +86,10 @@ StepPage.prototype.assertFallbackMessageContainsText = function(text) {
     expect(element(by.id('fallbackMessage')).getText()).toContain(text);
 };
 
+StepPage.prototype.assertScenarioLabelsContain = function(label) {
+    expect(element(by.id('scenario-labels')).getInnerHtml()).toContain(label);
+}
+
 StepPage.prototype.clickShowStepLinksButton = function() {
     element(by.id('showStepLinksButton')).click();
 };

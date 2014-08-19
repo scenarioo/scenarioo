@@ -31,6 +31,10 @@ package org.scenarioo.uitest.example.infrastructure;
 
 import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.junit.Rule;
@@ -47,30 +51,30 @@ import org.scenarioo.model.docu.entities.generic.Details;
  * running test method as a {@link Scenario} inside the Scenarioo Documentation.
  */
 public class ScenarioDocuWritingRule extends TestWatcher {
-
+	
 	private static final Logger LOGGER = Logger.getLogger(UseCaseDocuWritingRule.class);
-
-	private ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, EXAMPLE_BRANCH_NAME,
+	
+	private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, EXAMPLE_BRANCH_NAME,
 			EXAMPLE_BUILD_NAME);
-
+	
 	private UseCase useCase;
-
+	
 	private Scenario scenario;
-
+	
 	/**
 	 * Get the usecase for current running test (as initialized by this rule)
 	 */
 	public UseCase getUseCase() {
 		return useCase;
 	}
-
+	
 	/**
 	 * Get the scenario for current running test (as initialized by this rule)
 	 */
 	public Scenario getScenario() {
 		return scenario;
 	}
-
+	
 	/**
 	 * Initialize current running usecase and scenario before the test gets executed.
 	 */
@@ -79,23 +83,31 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 		useCase = UseCaseDocuWritingRule.createUseCase(testMethodDescription.getTestClass());
 		scenario = createScenario(testMethodDescription);
 	}
-
+	
 	private Scenario createScenario(final Description testMethodDescription) {
 		Scenario scenario = new Scenario();
 		String description = "";
 		String name = createScenarioName(testMethodDescription);
+		
 		DocuDescription docuDescription = testMethodDescription.getAnnotation(DocuDescription.class);
 		if (docuDescription != null) {
 			description = docuDescription.description();
 			scenario.addDetail("User role", docuDescription.userRole());
 		}
+		
+		Labels labels = testMethodDescription.getAnnotation(Labels.class);
+		if (labels != null) {
+			Set<String> labelsSet = new HashSet<String>();
+			labelsSet.addAll(Arrays.asList(labels.value()));
+			scenario.getLabels().set(labelsSet);
+		}
+		
 		scenario.setName(name);
 		scenario.setDescription(description);
 		scenario.addDetail("Very long metadata lines", createLongLine());
-		scenario.getLabels().add("scenario-label-1").add("scenario-label-2");
 		return scenario;
 	}
-
+	
 	private String createScenarioName(final Description testMethodDescription) {
 		DocuDescription description = testMethodDescription.getAnnotation(DocuDescription.class);
 		if (description != null && !StringUtils.isBlank(description.name())) {
@@ -106,7 +118,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 			return testMethodDescription.getMethodName();
 		}
 	}
-
+	
 	private static Details createLongLine() {
 		Details details = new Details();
 		details.addDetail("Long value with spaces",
@@ -118,7 +130,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 				"Cheers!");
 		return details;
 	}
-
+	
 	/**
 	 * When test succeeded: Save the scenario with status 'success'
 	 */
@@ -126,7 +138,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 	protected void succeeded(final Description description) {
 		writeScenarioDescription(description, "success");
 	}
-
+	
 	/**
 	 * When test failed: Save the scenario with status 'failed'
 	 */
@@ -134,17 +146,17 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 	protected void failed(final Throwable e, final Description description) {
 		writeScenarioDescription(description, "failed");
 	}
-
+	
 	private void writeScenarioDescription(final Description testMethodDescription, final String status) {
-
+		
 		// Write scenario
 		LOGGER.info("Generating Scenarioo Docu for Scenario " + useCase.getName() + "." + scenario.getName() + " ("
 				+ status + ") : " + scenario.getDescription());
 		scenario.setStatus(status);
 		docuWriter.saveScenario(useCase, scenario);
-
+		
 		// Wait until asynch writing has finished.
 		docuWriter.flush();
 	}
-
+	
 }

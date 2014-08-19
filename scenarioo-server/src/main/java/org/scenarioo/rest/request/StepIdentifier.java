@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.util.Set;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -14,10 +15,12 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 public class StepIdentifier {
 	
 	private static final String URI_ENCODING = "UTF-8";
+	
 	private final ScenarioIdentifier scenarioIdentifier;
 	final String pageName;
 	final int pageOccurrence;
 	final int stepInPageOccurrence;
+	private final Set<String> labels;
 	
 	private enum RedirectType {
 		STEP, SCREENSHOT
@@ -29,12 +32,24 @@ public class StepIdentifier {
 				stepInPageOccurrence);
 	}
 	
+	public StepIdentifier(final BuildIdentifier buildIdentifier, final String usecaseName, final String scenarioName,
+			final String pageName, final int pageOccurrence, final int stepInPageOccurrence, final Set<String> labels) {
+		this(new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName), pageName, pageOccurrence,
+				stepInPageOccurrence, labels);
+	}
+	
 	public StepIdentifier(final ScenarioIdentifier scenarioIdentifier, final String pageName, final int pageOccurrence,
 			final int stepInPageOccurrence) {
+		this(scenarioIdentifier, pageName, pageOccurrence, stepInPageOccurrence, null);
+	}
+	
+	public StepIdentifier(final ScenarioIdentifier scenarioIdentifier, final String pageName, final int pageOccurrence,
+			final int stepInPageOccurrence, final Set<String> labels) {
 		this.scenarioIdentifier = scenarioIdentifier;
 		this.pageName = pageName;
 		this.pageOccurrence = pageOccurrence;
 		this.stepInPageOccurrence = stepInPageOccurrence;
+		this.labels = labels;
 	}
 	
 	public static StepIdentifier withDifferentStepInPageOccurrence(final StepIdentifier stepIdentifier,
@@ -53,9 +68,10 @@ public class StepIdentifier {
 	 * Returns the same page in a different scenario of the same use case.
 	 */
 	public static StepIdentifier forFallBackScenario(final StepIdentifier originalStepIdentifier,
-			final String fallbackUsecaseName, final String fallbackScenarioName) {
+			final String fallbackUsecaseName, final String fallbackScenarioName, final int pageOccurrence,
+			final int stepInPageOccurrence) {
 		return new StepIdentifier(originalStepIdentifier.getBuildIdentifier(), fallbackUsecaseName,
-				fallbackScenarioName, originalStepIdentifier.getPageName(), 0, 0);
+				fallbackScenarioName, originalStepIdentifier.getPageName(), pageOccurrence, stepInPageOccurrence);
 	}
 	
 	public StepIdentifier withDifferentBuildIdentifier(final BuildIdentifier buildIdentifierBeforeAliasResolution) {
@@ -99,6 +115,10 @@ public class StepIdentifier {
 	
 	public int getStepInPageOccurrence() {
 		return stepInPageOccurrence;
+	}
+	
+	public Set<String> getLabels() {
+		return labels;
 	}
 	
 	@JsonIgnore
@@ -150,7 +170,7 @@ public class StepIdentifier {
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this).append(scenarioIdentifier).append(pageName).append(pageOccurrence)
-				.append(stepInPageOccurrence).build();
+				.append(stepInPageOccurrence).append(labels).build();
 	}
 	
 }
