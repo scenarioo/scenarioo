@@ -34,6 +34,7 @@ import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
+import org.scenarioo.model.docu.entities.Labels;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
@@ -188,6 +189,21 @@ public class ObjectRepository {
 		}
 	}
 	
+	public ObjectReference createObjectReference(final String type, final String name, final Labels labels) {
+		ObjectReferenceWithLabels newRef = new ObjectReferenceWithLabels(type, name, labels);
+		ObjectReference existingRef = objectReferencePool.get(newRef);
+		if (existingRef != null) {
+			return existingRef;
+		} else {
+			objectReferencePool.put(newRef, newRef);
+			if (objectReferencePool.size() % 1000 == 0) {
+				LOGGER.info("******* Added another 1000 object references, objects in total: "
+						+ objectReferencePool.size());
+			}
+			return newRef;
+		}
+	}
+	
 	private void saveObject(final ObjectDescription object) {
 		objectTypes.add(object.getType());
 		if (!dao.isObjectDescriptionSaved(buildIdentifier, object)) {
@@ -223,7 +239,8 @@ public class ObjectRepository {
 	
 	public List<ObjectReference> addReferencedScenarioObjects(List<ObjectReference> referencePath,
 			final Scenario scenario) {
-		referencePath = extendPath(referencePath, createObjectReference("scenario", scenario.getName()));
+		referencePath = extendPath(referencePath,
+				createObjectReference("scenario", scenario.getName(), scenario.getLabels()));
 		addObjects(referencePath, scenario.getDetails());
 		return referencePath;
 	}
@@ -241,7 +258,7 @@ public class ObjectRepository {
 		}
 		
 		// Page reference
-		ObjectReference pageReference = createObjectReference("page", page.getName());
+		ObjectReference pageReference = createObjectReference("page", page.getName(), page.getLabels());
 		referencePath = extendPath(referencePath, pageReference);
 		addObjectReference(referencePath, pageReference);
 		
@@ -255,7 +272,8 @@ public class ObjectRepository {
 	}
 	
 	private void addStep(List<ObjectReference> referencePath, final Step step, final StepLink stepLink) {
-		ObjectReference stepReference = createObjectReference("step", stepLink.getStepIdentifierForObjectRepository());
+		ObjectReference stepReference = createObjectReference("step", stepLink.getStepIdentifierForObjectRepository(),
+				step.getStepDescription().getLabels());
 		referencePath = extendPath(referencePath, stepReference);
 		addObjects(referencePath, step.getStepDescription().getDetails());
 		addObjects(referencePath, step.getMetadata().getDetails());

@@ -1,5 +1,6 @@
 package org.scenarioo.rest.util;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.scenarioo.dao.aggregates.AggregatedDataReader;
@@ -53,47 +54,38 @@ public class ScenarioLoader {
 		return LoadScenarioResult.foundFallback(fallbackScenario, redirect);
 	}
 	
-	private StepIdentifier findPageInAllUseCases(final ObjectIndex objectIndex, final StepIdentifier stepIdentifier) {
-		List<ObjectTreeNode<ObjectReference>> useCases = getChildren(objectIndex);
-		
-		if (useCases == null) {
-			return null;
-		}
-		
-		for (ObjectTreeNode<ObjectReference> useCaseNode : useCases) {
-			if (TYPE_USECASE.equals(useCaseNode.getItem().getType())) {
-				// TODO [fallback with labels] Find best matching scenario using labels. The use case, scenario and step
-				// labels have to be considered.
-				// For this we need the usecase labels on the usecase level and the scenario label with all it's step
-				// labels on the scenario level.
-				return getFirstScenarioInUseCase(useCaseNode, stepIdentifier);
-			}
-		}
-		
-		return null;
-	}
-	
 	private StepIdentifier findPageInRequestedUseCase(final ObjectIndex objectIndex, final StepIdentifier stepIdentifier) {
 		String useCaseToFind = stepIdentifier.getUsecaseName();
 		
-		List<ObjectTreeNode<ObjectReference>> useCases = getChildren(objectIndex);
+		List<ObjectTreeNode<ObjectReference>> useCaseNodes = getChildren(objectIndex);
 		
-		if (useCases == null) {
+		if (useCaseNodes == null) {
 			return null;
 		}
 		
-		for (ObjectTreeNode<ObjectReference> useCaseNode : useCases) {
-			if (TYPE_USECASE.equals(useCaseNode.getItem().getType())
-					&& useCaseToFind.equals(useCaseNode.getItem().getName())) {
-				// TODO [fallback with labels] Find best matching scenario in this use case using labels. Only the
-				// scenario and the step labels have to be considered (all others are the same for all candidates).
-				// For this we need the union of the scenario and all its step labels on the scenario level in the page
-				// index.
-				return getFirstScenarioInUseCase(useCaseNode, stepIdentifier);
-			}
+		ObjectTreeNode<ObjectReference> requestedUseCaseNode = getNodeOfRequestedUseCase(useCaseNodes, useCaseToFind);
+		
+		if (requestedUseCaseNode == null) {
+			return null;
 		}
 		
+		return getBestMatchingScenarioAndStepInUseCase(requestedUseCaseNode, stepIdentifier);
+	}
+	
+	private ObjectTreeNode<ObjectReference> getNodeOfRequestedUseCase(
+			final List<ObjectTreeNode<ObjectReference>> useCaseNodes, final String useCaseToFind) {
+		for (ObjectTreeNode<ObjectReference> useCaseNode : useCaseNodes) {
+			if (TYPE_USECASE.equals(useCaseNode.getItem().getType())
+					&& useCaseToFind.equals(useCaseNode.getItem().getName())) {
+				return useCaseNode;
+			}
+		}
 		return null;
+	}
+	
+	private StepIdentifier findPageInAllUseCases(final ObjectIndex objectIndex, final StepIdentifier stepIdentifier) {
+		List<ObjectTreeNode<ObjectReference>> useCaseNodes = getChildren(objectIndex);
+		return getBestMatchingScenarioAndStepInAllUseCases(stepIdentifier, useCaseNodes);
 	}
 	
 	private List<ObjectTreeNode<ObjectReference>> getChildren(final ObjectIndex objectIndex) {
@@ -104,23 +96,80 @@ public class ScenarioLoader {
 		return objectIndex.getReferenceTree().getChildren();
 	}
 	
-	private StepIdentifier getFirstScenarioInUseCase(final ObjectTreeNode<ObjectReference> useCaseNode,
+	private StepIdentifier getBestMatchingScenarioAndStepInAllUseCases(final StepIdentifier stepIdentifier,
+			final List<ObjectTreeNode<ObjectReference>> useCaseNodes) {
+		if (useCaseNodes == null) {
+			return null;
+		}
+		
+		List<StepCandidate> stepCandidates = new LinkedList<StepCandidate>();
+		
+		for (ObjectTreeNode<ObjectReference> useCaseNode : useCaseNodes) {
+			stepCandidates.addAll(collectStepCandidates(useCaseNode, stepIdentifier));
+		}
+		
+		return getStepCandidateWithHighestNumberOfMatchingLabels(stepCandidates, stepIdentifier);
+	}
+	
+	private StepIdentifier getBestMatchingScenarioAndStepInUseCase(final ObjectTreeNode<ObjectReference> useCaseNode,
+			final StepIdentifier stepIdentifier) {
+		List<StepCandidate> stepCandidates = collectStepCandidates(useCaseNode, stepIdentifier);
+		return getStepCandidateWithHighestNumberOfMatchingLabels(stepCandidates, stepIdentifier);
+	}
+	
+	private StepIdentifier getStepCandidateWithHighestNumberOfMatchingLabels(final List<StepCandidate> stepCandidates,
+			final StepIdentifier stepIdentifier) {
+		if (stepCandidates == null || stepCandidates.size() == 0) {
+			return null;
+		}
+		
+		if (stepCandidates.size() == 1) {
+			return createStepIdentifierFromCandidate(stepCandidates.get(0), stepIdentifier);
+		}
+		
+		StepCandidate stepWithMostMatchingLabels = stepCandidates.get(0);
+		
+		for (StepCandidate candidate : stepCandidates) {
+			System.out.println(candidate.getUsecase() + "-" + candidate.getScenario() + "-"
+					+ candidate.getNumberOfMatchingLabels());
+			if (candidate.getNumberOfMatchingLabels() > stepWithMostMatchingLabels.getNumberOfMatchingLabels()) {
+				stepWithMostMatchingLabels = candidate;
+			}
+		}
+		
+		return createStepIdentifierFromCandidate(stepWithMostMatchingLabels, stepIdentifier);
+	}
+	
+	private StepIdentifier createStepIdentifierFromCandidate(final StepCandidate stepCandidate,
+			final StepIdentifier stepIdentifier) {
+		
+		return StepIdentifier
+				.forFallBackScenario(stepIdentifier, stepCandidate.getUsecase(), stepCandidate.getScenario(),
+						stepCandidate.getPageOccurrence(), stepCandidate.getStepInPageOccurrence());
+	}
+	
+	private List<StepCandidate> collectStepCandidates(final ObjectTreeNode<ObjectReference> useCaseNode,
 			final StepIdentifier stepIdentifier) {
 		List<ObjectTreeNode<ObjectReference>> scenarios = useCaseNode.getChildren();
-		
-		String useCaseName = useCaseNode.getItem().getName();
-		
 		if (scenarios == null) {
 			return null;
 		}
 		
+		List<StepCandidate> stepCandidates = new LinkedList<StepCandidate>();
+		
 		for (ObjectTreeNode<ObjectReference> scenarioNode : scenarios) {
-			if (TYPE_SCENARIO.equals(scenarioNode.getItem().getType())) {
-				return StepIdentifier
-						.forFallBackScenario(stepIdentifier, useCaseName, scenarioNode.getItem().getName());
+			if (!TYPE_SCENARIO.equals(scenarioNode.getItem().getType())) {
+				continue;
+			}
+			List<ObjectTreeNode<ObjectReference>> steps = scenarioNode.getChildren();
+			for (ObjectTreeNode<ObjectReference> stepNode : steps) {
+				stepCandidates
+						.add(StepCandidate.create(useCaseNode, scenarioNode, stepNode, stepIdentifier.getLabels()));
+				
 			}
 		}
 		
-		return null;
+		return stepCandidates;
 	}
+	
 }
