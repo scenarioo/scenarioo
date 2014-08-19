@@ -27,6 +27,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     $scope.pageName = decodeURIComponent($routeParams.pageName);
     $scope.pageOccurrence = parseInt($routeParams.pageOccurrence, 10);
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
+    var labels = $location.search().labels;
 
     $scope.modalScreenshotOptions = {
         backdropFade: true,
@@ -68,7 +69,8 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 'scenarioName': scenarioName,
                 'pageName': $scope.pageName,
                 'pageOccurrence': $scope.pageOccurrence,
-                'stepInPageOccurrence': $scope.stepInPageOccurrence
+                'stepInPageOccurrence': $scope.stepInPageOccurrence,
+                'labels': labels
             },
             function success(result) {
 

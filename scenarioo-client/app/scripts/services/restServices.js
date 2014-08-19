@@ -126,7 +126,8 @@ angular.module('scenarioo.services')
                 scenarioName: '@scenarioName',
                 pageName: '@pageName',
                 pageOccurrence: '@pageOccurrence',
-                stepInPageOccurrence: '@stepInPageOccurrence'
+                stepInPageOccurrence: '@stepInPageOccurrence',
+                labels: '@labels'
             }, {});
     })
 
