@@ -2,6 +2,7 @@
 
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
+var NUMBER_OF_USE_CASES = 3;
 
 scenarioo.describeUseCase('Scenario overview', function () {
 
@@ -13,7 +14,7 @@ scenarioo.describeUseCase('Scenario overview', function () {
         browser.get('#/');
         scenarioo.docuWriter.saveStep('select a use case from the use case list');
         homePage.assertPageIsDisplayed();
-        homePage.assertUseCasesShown(2);
+        homePage.assertUseCasesShown(NUMBER_OF_USE_CASES);
         homePage.selectUseCase(0);
         scenarioo.docuWriter.saveStep('select a scenario in the scenario list');
         useCasePage.selectScenario(1);

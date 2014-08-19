@@ -3,6 +3,9 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
+
+var NUMBER_OF_USE_CASES = 3;
+
 scenarioo.describeUseCase('Home', function () {
     browser.driver.manage().window().maximize();
 
@@ -13,7 +16,7 @@ scenarioo.describeUseCase('Home', function () {
         homePage.assertPageIsDisplayed();
         homePage.assertScenariooInfoDialogShown();
         homePage.closeScenariooInfoDialogIfOpen();
-        homePage.assertUseCasesShown(2);
+        homePage.assertUseCasesShown(NUMBER_OF_USE_CASES);
         scenarioo.docuWriter.saveStep('display the homePage');
     });
 
@@ -23,7 +26,7 @@ scenarioo.describeUseCase('Home', function () {
         scenarioo.docuWriter.saveStep('display the homePage without popup');
         homePage.assertPageIsDisplayed();
         homePage.assertScenariooInfoDialogNotShown();
-        homePage.assertUseCasesShown(2);
+        homePage.assertUseCasesShown(NUMBER_OF_USE_CASES);
     });
 
     scenarioo.describeScenario('Navigate to the Home Page, filter usecases', function () {
