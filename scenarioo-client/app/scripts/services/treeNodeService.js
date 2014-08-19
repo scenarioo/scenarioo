@@ -24,6 +24,7 @@ angular.module('scenarioo.services').factory('TreeNode', function () {
         NONE: ''
     };
 
+    // Invert icon-name
     function setIconName(node) {
         if (node.children.length > 0) {
             node.icon = node.isCollapsed ? iconType.EXPANDED : iconType.COLLAPSED;

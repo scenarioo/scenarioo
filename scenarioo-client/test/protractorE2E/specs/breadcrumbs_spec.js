@@ -13,18 +13,19 @@ scenarioo.describeUseCase('Breadcrump', function () {
             var breadcrumpsPage = new pages.breadcrumpsPage();
 
             browser.get('#/');
-            scenarioo.docuWriter.saveStep('display the homePage');
+            scenarioo.docuWriter.saveStep('Display the homePage');
             homePage.assertPageIsDisplayed();
             homePage.filterUseCases('User wants');
             homePage.assertUseCasesShown(1);
-            scenarioo.docuWriter.saveStep('one use case found');
-            homePage.selectUseCase(0);
-            scenarioo.docuWriter.saveStep('selected found use case');
-            useCasePage.selectScenario(3);
-            scenarioo.docuWriter.saveStep('selected scenario');
-            breadcrumpsPage.clickOnBreadcrump('breadcrump.1');
+            scenarioo.docuWriter.saveStep('One use case found');
 
-            var usecaseName = breadcrumpsPage.getUsecaseName('breadcrump.1');
+            homePage.selectUseCase(0);
+            scenarioo.docuWriter.saveStep('Selected found use case');
+            /*useCasePage.selectScenario(3);
+            scenarioo.docuWriter.saveStep('Selected scenario');
+            breadcrumpsPage.clickOnBreadcrump('Breadcrump.1');
+
+            var usecaseName = breadcrumpsPage.getUsecaseName('Breadcrump.1');*/
 
             // TODO: check something on usecase view (e.g. name)
     });
