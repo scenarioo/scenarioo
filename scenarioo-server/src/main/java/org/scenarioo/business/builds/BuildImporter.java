@@ -32,7 +32,6 @@ import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
-import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
@@ -183,7 +182,7 @@ public class BuildImporter {
 				aggregator.calculateAggregatedDataForBuild();
 				summary.setBuildStatistics(aggregator.getBuildStatistics());
 				addSuccessfullyImportedBuild(availableBuilds, summary);
-				updateLastSuccessfulScenarioBuildIfEnabled(summary);
+				lastSuccessfulScenarioBuild.updateWithBuild(summary);
 				LOGGER.info("  SUCCESS on importing build: " + summary.getIdentifier().getBranchName() + "/"
 						+ summary.getIdentifier().getBuildName());
 			} else {
@@ -202,11 +201,6 @@ public class BuildImporter {
 				buildImportLog.unregisterAndFlush();
 			}
 		}
-	}
-	
-	private void updateLastSuccessfulScenarioBuildIfEnabled(final BuildImportSummary summary) {
-		Configuration configuration = configurationRepository.getConfiguration();
-		lastSuccessfulScenarioBuild.updateWithBuild(summary, configuration.isCreateLastSuccessfulScenarioBuild());
 	}
 	
 	private synchronized void addSuccessfullyImportedBuild(final AvailableBuildsList availableBuilds,
