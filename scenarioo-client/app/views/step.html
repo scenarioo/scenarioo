@@ -86,14 +86,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <i class="icon-with-padding icon-large icon-angle-up" tooltip="Previous variant (potentially in other scenario) [Ctrl+Up]" tooltip-placement="bottom"></i>
             </div>
             <div class="btn btn-default btn-no-hover">
-                <span tooltip="of this same page in all scenarios" tooltip-placement="bottom">
-                Page-Variant  {{stepNavigation.pageVariantIndex + 1}} of {{stepNavigation.pageVariantsCount}}
+                <span tooltip="of this same page in all scenarios" tooltip-placement="bottom" id="pageVariantIndicator">
+                Page-Variant {{stepNavigation.pageVariantIndex + 1}} of {{stepNavigation.pageVariantsCount}}
                 </span>
             </div>
             <div ng-click="goToNextVariant()" class="btn btn-default" id="nextPageVariantBtn" ng-disabled="isLastPageVariantStep()">
                 <i class="icon-with-padding icon-large icon-angle-down" tooltip="Next variant (potentially in other scenario) [Ctrl+Down]" tooltip-placement="bottom"></i>
             </div>
+            <div class="btn btn-default btn-no-hover">
+                <a ng-href="#/object/page/{{pageName}}" id="allPageVariants">
+                    All page variants
+                </a>
+            </div>
         </div>
+
+
     </div>
     <div class="col-lg-4">
         <sc-meta-data-button class="pull-right" linking-variable="stepShowMetadata" local-storage-key="step" ></sc-meta-data-button>

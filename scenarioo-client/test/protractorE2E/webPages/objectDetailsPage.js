@@ -23,8 +23,8 @@ ObjectDetailsPage.prototype.clickNthTreeTableRow = function (rowNumberWithoutHea
 };
 
 ObjectDetailsPage.prototype.clickToExpand = function (nodeId) {
-    var element = this.objectDetailsPage.findElement(by.id(nodeId));
-    var imageId = 'img.' + nodeId;
+    var element = this.objectDetailsPage.findElement(by.id('node_' + nodeId));
+    var imageId = 'img_' + nodeId;
     expect(element.isDisplayed()).toBe(true);
 
     var imageElement = element.findElement(by.id(imageId));
@@ -32,9 +32,9 @@ ObjectDetailsPage.prototype.clickToExpand = function (nodeId) {
 };
 
 ObjectDetailsPage.prototype.assertTreeNodeStatus = function (nodeId, status) {
-    var element = this.objectDetailsPage.findElement(by.id(nodeId));
+    var element = this.objectDetailsPage.findElement(by.id('node_' + nodeId));
     var ptor = protractor.getInstance();
-    var imageId = 'img.' + nodeId;
+    var imageId = 'img_' + nodeId;
     expect(element.getText()).not.toBe(null);
     expect(element.isDisplayed()).toBe(true);
 
@@ -53,7 +53,7 @@ ObjectDetailsPage.prototype.enterSearchCriteria = function(searchCriteria) {
         searchField.sendKeys(searchCriteria);
     });
 
-    var matchElement = this.objectDetailsPage.findElement(by.id('4'));
+    var matchElement = this.objectDetailsPage.findElement(by.id('node_' + '4'));
     expect(matchElement.getText()).toContain('multiple results');
     expect(matchElement.isDisplayed()).toBeTruthy();
 };
@@ -72,9 +72,9 @@ ObjectDetailsPage.prototype.clickCollapseAll = function() {
 };
 
 ObjectDetailsPage.prototype.doubleClickOnNode = function(nodeId) {
-    var element = this.objectDetailsPage.findElement(by.id(nodeId));
+    var element = this.objectDetailsPage.findElement(by.id('node_' + nodeId));
     var ptor = protractor.getInstance();
-    var imageId = 'img.' + nodeId;
+    var imageId = 'img_' + nodeId;
     var imageElement = element.findElement(by.id(imageId));
 
     imageElement.click();
@@ -83,7 +83,7 @@ ObjectDetailsPage.prototype.doubleClickOnNode = function(nodeId) {
 
 ObjectDetailsPage.prototype.assertTreeNodeIsDisplayed = function(nodeId) {
     var ptor = protractor.getInstance();
-    ptor.findElement(by.id(nodeId)).then(function (element) {
+    ptor.findElement(by.id('node_' + nodeId)).then(function (element) {
         expect(element.isDisplayed()).toBeTruthy();
         expect(element.getText()).not.toBe(null);
     });

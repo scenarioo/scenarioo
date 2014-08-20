@@ -49,28 +49,37 @@ StepPage.prototype.assertNextPageIsEnabled = function () {
 };
 
 StepPage.prototype.goToNextStep = function () {
-    this.stepNavigation.findElement(by.id('nextStepBtn')).then(function (element) {
-        element.click();
-    });
+    this.clickElementById('nextStepBtn');
 };
 
 StepPage.prototype.goToNextPage = function () {
-    this.stepNavigation.findElement(by.id('nextPageBtn')).then(function (element) {
-        element.click();
-    });
+    this.clickElementById('nextPageBtn');
 };
 
 StepPage.prototype.goToPreviousStep = function () {
-    this.stepNavigation.findElement(by.id('prevStepBtn')).then(function (element) {
-        element.click();
-    });
+    this.clickElementById('prevStepBtn');
 };
 
 StepPage.prototype.goToPreviousPage = function () {
-    this.stepNavigation.findElement(by.id('prevPageBtn')).then(function (element) {
-        element.click();
-    });
+    this.clickElementById('prevPageBtn');
 };
+
+StepPage.prototype.goToPreviousPageVariant = function () {
+    this.clickElementById('prevPageVariantBtn');
+};
+
+StepPage.prototype.goToNextPageVariant = function () {
+    this.clickElementById('nextPageVariantBtn');
+};
+
+StepPage.prototype.assertNextPageVariantButtonIsDisabled = function () {
+    this.assertElementIsDisabled('nextPageVariantBtn');
+};
+
+StepPage.prototype.clickAllPageVariantsLink = function () {
+    this.clickElementById('allPageVariants');
+};
+
 
 StepPage.prototype.assertErrorMessageIsShown = function () {
     expect(element(by.id('stepNotFoundErrorMessage')).isDisplayed()).toBeTruthy();
@@ -88,7 +97,7 @@ StepPage.prototype.assertFallbackMessageContainsText = function(text) {
 
 StepPage.prototype.assertScenarioLabelsContain = function(label) {
     expect(element(by.id('scenario-labels')).getInnerHtml()).toContain(label);
-}
+};
 
 StepPage.prototype.clickShowStepLinksButton = function() {
     element(by.id('showStepLinksButton')).click();
@@ -96,6 +105,12 @@ StepPage.prototype.clickShowStepLinksButton = function() {
 
 StepPage.prototype.assertStepLinksDialogVisible = function() {
     expect(element(by.id('stepLinksDialog')).isDisplayed()).toBeTruthy();
-}
+};
+
+StepPage.prototype.assertPageVariantIndicatorValue = function(value) {
+    var pageVariantIndicator = element(by.id('pageVariantIndicator'));
+    expect(pageVariantIndicator.isDisplayed()).toBeTruthy();
+    expect(pageVariantIndicator.getText()).toBe(value);
+};
 
 module.exports = StepPage;

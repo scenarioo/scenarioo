@@ -32,6 +32,10 @@ BaseWebPage.prototype.assertElementIsDisabled = function(elementId) {
     });
 };
 
+BaseWebPage.prototype.clickElementById = function(elementId) {
+    element(by.id(elementId)).click();
+};
+
 BaseWebPage.prototype.type = function(value) {
     element(by.css('body')).sendKeys(value);
 };
