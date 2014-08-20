@@ -114,7 +114,7 @@ public class BuildImportLogAppender extends AppenderSkeleton {
 	
 	public static BuildImportLogAppender createAndRegisterForLogsOfBuild(final BuildIdentifier buildIdentifier) {
 		ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
-				configurationRepository.getDocuDataDirectoryPath());
+				configurationRepository.getDocumentationDataDirectory());
 		File buildImportLogFile = dao.getBuildImportLogFile(buildIdentifier);
 		BuildImportLogAppender buildImportLogAppender = new BuildImportLogAppender(buildIdentifier, buildImportLogFile);
 		buildImportLogAppender.registerForBuildInCurrentThread();

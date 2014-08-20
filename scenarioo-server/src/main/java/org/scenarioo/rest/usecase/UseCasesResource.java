@@ -44,7 +44,7 @@ public class UseCasesResource {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 	
-	AggregatedDataReader dao = new ScenarioDocuAggregationDAO(configurationRepository.getDocuDataDirectoryPath());
+	AggregatedDataReader dao = new ScenarioDocuAggregationDAO(configurationRepository.getDocumentationDataDirectory());
 	
 	/**
 	 * Lightweight call, which does not send all scenario information.

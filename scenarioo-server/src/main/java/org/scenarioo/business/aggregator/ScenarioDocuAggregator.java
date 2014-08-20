@@ -76,12 +76,12 @@ public class ScenarioDocuAggregator {
 	 */
 	private final BuildIdentifier buildIdentifier;
 	
-	private final ScenarioDocuReader reader = new ScenarioDocuReader(configurationRepository.getDocuDataDirectoryPath());
+	private final ScenarioDocuReader reader = new ScenarioDocuReader(configurationRepository.getDocumentationDataDirectory());
 	
 	private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
 	
 	private final ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
-			configurationRepository.getDocuDataDirectoryPath(), longObjectNamesResolver);
+			configurationRepository.getDocumentationDataDirectory(), longObjectNamesResolver);
 	
 	private final BuildStatistics buildStatistics = new BuildStatistics();
 	

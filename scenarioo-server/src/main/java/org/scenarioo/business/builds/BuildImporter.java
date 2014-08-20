@@ -233,7 +233,7 @@ public class BuildImporter {
 	private static void saveBuildImportSummaries(final Map<BuildIdentifier, BuildImportSummary> buildImportSummaries) {
 		List<BuildImportSummary> summariesToSave = new ArrayList<BuildImportSummary>(buildImportSummaries.values());
 		ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
-				configurationRepository.getDocuDataDirectoryPath());
+				configurationRepository.getDocumentationDataDirectory());
 		dao.saveBuildImportSummaries(summariesToSave);
 	}
 	

@@ -16,9 +16,9 @@ import org.scenarioo.model.configuration.LabelConfiguration;
 /**
  * Smoke tests for reading and writing a configuration.
  */
-public class ConfigurationDAOTest {
+public class ConfigurationDaoTest {
 	
-	private final ConfigurationDAO configurationDao = new ConfigurationDAO("tmp", null);
+	private final ConfigurationDao configurationDao = new ConfigurationDaoImpl("tmp", null);
 	
 	@AfterClass
 	public static void removeTemporaryData() throws IOException {

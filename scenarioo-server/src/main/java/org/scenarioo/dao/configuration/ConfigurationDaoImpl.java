@@ -30,9 +30,9 @@ import org.scenarioo.model.configuration.Configuration;
  * Responsible for reading and writing the Scenarioo config file. The file is usually named "config.xml", but it can
  * also have a different name.
  */
-public class ConfigurationDAO {
+public class ConfigurationDaoImpl implements ConfigurationDao {
 	
-	private static final Logger LOGGER = Logger.getLogger(ConfigurationDAO.class);
+	private static final Logger LOGGER = Logger.getLogger(ConfigurationDaoImpl.class);
 	
 	private static final String USER_HOME_BASE_DIRECTORY = ".scenarioo";
 	private static final String CONFIG_FILE_NAME = "config.xml";
@@ -41,11 +41,12 @@ public class ConfigurationDAO {
 	private String configurationDirectory = null;
 	private String configurationFilename = null;
 	
-	public ConfigurationDAO(final String configurationDirectory, final String configurationFilename) {
+	public ConfigurationDaoImpl(final String configurationDirectory, final String configurationFilename) {
 		this.configurationDirectory = configurationDirectory;
 		this.configurationFilename = configurationFilename;
 	}
 	
+	@Override
 	public Configuration loadConfiguration() {
 		File configFile = getFileSystemConfigFile();
 		if (configFile == null || !configFile.exists()) {
@@ -57,6 +58,7 @@ public class ConfigurationDAO {
 		return ScenarioDocuXMLFileUtil.unmarshal(Configuration.class, configFile);
 	}
 	
+	@Override
 	public void updateConfiguration(final Configuration configuration) {
 		final File configFile = getFileSystemConfigFile();
 		final File configDirectory = configFile.getParentFile();
@@ -97,7 +99,7 @@ public class ConfigurationDAO {
 	}
 	
 	private File getClasspathConfigFile() {
-		final URL resourceUrl = ConfigurationDAO.class.getClassLoader().getResource(DEFAULT_CONFIG_PATH);
+		final URL resourceUrl = ConfigurationDaoImpl.class.getClassLoader().getResource(DEFAULT_CONFIG_PATH);
 		File defaultConfigFile = null;
 		try {
 			defaultConfigFile = new File(resourceUrl.toURI());

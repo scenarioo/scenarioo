@@ -154,7 +154,7 @@ public class ScenarioDocuBuildsManager {
 	public void updateAllBuildsAndSubmitNewBuildsForImport() {
 		LOGGER.info("********************* update builds ********************************");
 		LOGGER.info("Updating available builds ...");
-		File docuDirectory = configurationRepository.getDocuDataDirectoryPath();
+		File docuDirectory = configurationRepository.getDocumentationDataDirectory();
 		if (docuDirectory == null) {
 			LOGGER.error("No documentation directory is configured.");
 			LOGGER.error("Please configure valid documentation directory in configuration UI");
@@ -180,7 +180,7 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	private static Map<BuildIdentifier, BuildImportSummary> loadBuildImportSummaries() {
-		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(configurationRepository.getDocuDataDirectoryPath());
+		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(configurationRepository.getDocumentationDataDirectory());
 		List<BuildImportSummary> loadedSummaries = dao.loadBuildImportSummaries();
 		Map<BuildIdentifier, BuildImportSummary> result = new HashMap<BuildIdentifier, BuildImportSummary>();
 		for (BuildImportSummary buildImportSummary : loadedSummaries) {
@@ -190,7 +190,7 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	private List<BranchBuilds> loadBranchBuildsList() {
-		final ScenarioDocuReader reader = new ScenarioDocuReader(configurationRepository.getDocuDataDirectoryPath());
+		final ScenarioDocuReader reader = new ScenarioDocuReader(configurationRepository.getDocumentationDataDirectory());
 		List<BranchBuilds> result = new ArrayList<BranchBuilds>();
 		List<Branch> branches = reader.loadBranches();
 		for (Branch branch : branches) {
@@ -210,7 +210,7 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	public LongObjectNamesResolver getLongObjectNameResolver(final BuildIdentifier buildIdentifier) {
-		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(configurationRepository.getDocuDataDirectoryPath());
+		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(configurationRepository.getDocumentationDataDirectory());
 		validateBuildIsSuccessfullyImported(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		LongObjectNamesResolver longObjectNamesResolver = longObjectNamesResolvers.get(buildIdentifier);
 		if (longObjectNamesResolver == null) {

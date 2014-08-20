@@ -37,8 +37,6 @@ import org.scenarioo.repository.RepositoryLocator;
 public class ScenariooWebApplication implements ServletContextListener {
 	
 	private static final Logger LOGGER = Logger.getLogger(ScenariooWebApplication.class);
-	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
-			.getConfigurationRepository();
 	
 	@Override
 	public void contextInitialized(final ServletContextEvent servletContextEvent) {
@@ -60,25 +58,31 @@ public class ScenariooWebApplication implements ServletContextListener {
 	
 	private void loadConfiguration(final ServletContextEvent servletContextEvent) {
 		LOGGER.info("  Loading configuration ...");
-		configureConfigurationDirectoryFromServerContext(servletContextEvent);
-		configureConfigurationFilenameFromServerContext(servletContextEvent);
-		final Configuration config = configurationRepository.getConfiguration();
+		
+		String configurationDirectory = configureConfigurationDirectoryFromServerContext(servletContextEvent);
+		String configurationFilename = configureConfigurationFilenameFromServerContext(servletContextEvent);
+		
+		RepositoryLocator.INSTANCE.initializeConfigurationRepository(configurationDirectory, configurationFilename);
+		
+		ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
+		final Configuration configuration = configurationRepository.getConfiguration();
+		
 		LOGGER.info("  Configuration loaded.");
-		LOGGER.info("  Configured documentation content directory: " + config.getTestDocumentationDirPath());
+		LOGGER.info("  Configured documentation content directory: " + configuration.getTestDocumentationDirPath());
 	}
 	
-	private void configureConfigurationDirectoryFromServerContext(final ServletContextEvent servletContextEvent) {
+	private String configureConfigurationDirectoryFromServerContext(final ServletContextEvent servletContextEvent) {
 		String configurationDirectory = servletContextEvent.getServletContext().getInitParameter(
 				"scenariooConfigurationDirectory");
 		if (StringUtils.isBlank(configurationDirectory)) {
 			// Fallback to old property name:
 			configurationDirectory = servletContextEvent.getServletContext().getInitParameter("configurationDirectory");
 		}
-		configurationRepository.setConfigurationDirectory(configurationDirectory);
 		LOGGER.info("  configured configuration directory:  " + configurationDirectory);
+		return configurationDirectory;
 	}
 	
-	private void configureConfigurationFilenameFromServerContext(final ServletContextEvent servletContextEvent) {
+	private String configureConfigurationFilenameFromServerContext(final ServletContextEvent servletContextEvent) {
 		String configurationFilename = servletContextEvent.getServletContext().getInitParameter(
 				"scenariooConfigurationFilename");
 		if (StringUtils.isBlank(configurationFilename)) {
@@ -86,9 +90,10 @@ public class ScenariooWebApplication implements ServletContextListener {
 			configurationFilename = servletContextEvent.getServletContext().getInitParameter("configurationFilename");
 		}
 		if (StringUtils.isNotBlank(configurationFilename)) {
-			configurationRepository.setConfigurationFilename(configurationFilename);
 			LOGGER.info("  overriding default configuration filename config.xml with:  " + configurationFilename);
+			return configurationFilename;
 		}
+		return null;
 	}
 	
 	private void initializeApplicationVersion(final ServletContext servletContext) {

@@ -51,7 +51,7 @@ public class StepResource {
 	
 	private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
 	private final AggregatedDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
-			configurationRepository.getDocuDataDirectoryPath(), longObjectNamesResolver);
+			configurationRepository.getDocumentationDataDirectory(), longObjectNamesResolver);
 	
 	private final LabelsQueryParamParser labelsQueryParamParser = new LabelsQueryParamParser();
 	private final ScenarioLoader scenarioLoader = new ScenarioLoader(aggregatedDataReader);
@@ -59,7 +59,7 @@ public class StepResource {
 	private final StepLoader stepLoader = new StepLoader(scenarioLoader, stepIndexResolver);
 	
 	private final ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(
-			configurationRepository.getDocuDataDirectoryPath());
+			configurationRepository.getDocumentationDataDirectory());
 	
 	private final StepResponseFactory stepResponseFactory = new StepResponseFactory(aggregatedDataReader,
 			scenarioDocuReader);

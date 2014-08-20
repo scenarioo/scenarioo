@@ -28,17 +28,13 @@ import org.junit.Test;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.derived.BuildLink;
 import org.scenarioo.model.docu.entities.Build;
-import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 
 public class BuildSorterTest {
 	
-	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
-			.getConfigurationRepository();
-	
 	@Before
 	public void setUp() {
-		configurationRepository.injectConfiguration(new Configuration());
+		RepositoryLocator.INSTANCE.initializeConfigurationRepositoryForUnitTest();
 	}
 	
 	@Test

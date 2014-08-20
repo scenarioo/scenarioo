@@ -21,7 +21,7 @@ public class ScreenshotResponseFactory {
 			.getConfigurationRepository();
 	
 	private final ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(
-			configurationRepository.getDocuDataDirectoryPath());
+			configurationRepository.getDocumentationDataDirectory());
 	private final FallbackImageMarker fallbackImageMarker = new FallbackImageMarker();
 	
 	public Response createResponse(final StepLoaderResult stepLoaderResult, final boolean showFallbackStamp,

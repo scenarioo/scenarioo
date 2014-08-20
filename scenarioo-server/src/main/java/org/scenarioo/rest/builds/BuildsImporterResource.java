@@ -68,7 +68,7 @@ public class BuildsImporterResource {
 		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
 		
 		ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
-				configurationRepository.getDocuDataDirectoryPath());
+				configurationRepository.getDocumentationDataDirectory());
 		File logFile = dao.getBuildImportLogFile(buildIdentifier);
 		if (logFile == null || !logFile.exists()) {
 			return Response.status(Status.BAD_REQUEST).build();

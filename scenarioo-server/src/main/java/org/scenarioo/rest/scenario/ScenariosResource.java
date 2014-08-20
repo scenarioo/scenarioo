@@ -41,7 +41,7 @@ public class ScenariosResource {
 			.getConfigurationRepository();
 	
 	private final AggregatedDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
-			configurationRepository.getDocuDataDirectoryPath());
+			configurationRepository.getDocumentationDataDirectory());
 	
 	private final ScenarioDetailsMapper scenarioDetailsMapper = new ScenarioDetailsMapper();
 	

@@ -48,7 +48,7 @@ public class ScreenshotResource {
 	
 	private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
 	private final AggregatedDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
-			configurationRepository.getDocuDataDirectoryPath(), longObjectNamesResolver);
+			configurationRepository.getDocumentationDataDirectory(), longObjectNamesResolver);
 	private final ScenarioLoader scenarioLoader = new ScenarioLoader(aggregatedDataReader);
 	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
 	private final StepLoader stepImageInfoLoader = new StepLoader(scenarioLoader, stepIndexResolver);
