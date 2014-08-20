@@ -32,6 +32,7 @@ import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.rest.request.BuildIdentifier;
 import org.scenarioo.rest.request.ScenarioIdentifier;
 import org.scenarioo.rest.request.StepIdentifier;
+import org.scenarioo.rest.step.LabelsQueryParamParser;
 import org.scenarioo.rest.step.StepIndexResolver;
 import org.scenarioo.rest.step.StepLoader;
 import org.scenarioo.rest.step.StepLoaderResult;
@@ -47,6 +48,7 @@ public class ScreenshotResource {
 	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
 	private final StepLoader stepImageInfoLoader = new StepLoader(scenarioLoader, stepIndexResolver);
 	private final ScreenshotResponseFactory screenshotResponseFactory = new ScreenshotResponseFactory();
+	private final LabelsQueryParamParser labelsQueryParamParser = new LabelsQueryParamParser();
 	
 	private final String PNG_FILE_EXTENSION = ".png";
 	
@@ -81,13 +83,13 @@ public class ScreenshotResource {
 			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
 			@PathParam("pageOccurrence") final int pageOccurrence,
 			@PathParam("stepInPageOccurrence") final int stepInPageOccurrence,
-			@QueryParam("fallback") final boolean fallback) {
+			@QueryParam("fallback") final boolean fallback, @QueryParam("labels") final String labels) {
 		
 		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, buildName);
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName, scenarioName, pageName,
-				pageOccurrence, stepInPageOccurrence);
+				pageOccurrence, stepInPageOccurrence, labelsQueryParamParser.parseLabels(labels));
 		
 		StepLoaderResult stepImageInfo = stepImageInfoLoader.loadStep(stepIdentifier);
 		

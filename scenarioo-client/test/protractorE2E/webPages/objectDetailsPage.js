@@ -39,7 +39,7 @@ ObjectDetailsPage.prototype.assertTreeNodeStatus = function (nodeId, status) {
     expect(element.isDisplayed()).toBe(true);
 
     ptor.findElement(protractor.By.tagName('tbody')).findElements(protractor.By.tagName('tr')).then(function(rows){
-        expect(rows.length).toBe(14);
+        expect(rows.length).toBe(27);
     });
 
     var imageElement = element.findElement(by.id(imageId));
