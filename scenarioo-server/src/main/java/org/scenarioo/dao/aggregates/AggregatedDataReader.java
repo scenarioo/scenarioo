@@ -22,11 +22,11 @@ import org.scenarioo.rest.base.ScenarioIdentifier;
  */
 public interface AggregatedDataReader {
 	
-	public abstract String loadVersion(final String branchName, final String buildName);
+	public abstract String loadVersion(final BuildIdentifier buildIdentifier);
 	
 	public abstract List<UseCaseScenarios> loadUseCaseScenariosList(final BuildIdentifier buildIdentifier);
 	
-	public abstract UseCaseScenarios loadUseCaseScenarios(final String branchName, final String buildName,
+	public abstract UseCaseScenarios loadUseCaseScenarios(final BuildIdentifier buildIdentifier,
 			final String usecaseName);
 	
 	public abstract ScenarioPageSteps loadScenarioPageSteps(final ScenarioIdentifier scenarioIdentifier);
@@ -54,7 +54,7 @@ public interface AggregatedDataReader {
 	
 	public abstract List<BuildImportSummary> loadBuildImportSummaries();
 	
-	public abstract LongObjectNamesResolver loadLongObjectNamesIndex(final String branchName, final String buildName);
+	public abstract LongObjectNamesResolver loadLongObjectNamesIndex(final BuildIdentifier buildIdentifier);
 	
 	public abstract StepNavigation loadStepNavigation(final BuildIdentifier build, final StepLink step);
 	

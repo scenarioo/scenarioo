@@ -33,6 +33,7 @@ import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 @Path("/rest/builds/")
 public class BuildsImporterResource {
@@ -59,10 +60,11 @@ public class BuildsImporterResource {
 	@Produces({ "application/xml", "application/json" })
 	public Response loadBuildImportLog(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName) {
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildNameUnchecked(branchName,
-				buildName);
+		
+		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
+		
 		ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
-		File logFile = dao.getBuildImportLogFile(branchName, resolvedBuildName);
+		File logFile = dao.getBuildImportLogFile(buildIdentifier);
 		if (logFile == null || !logFile.exists()) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
@@ -76,8 +78,10 @@ public class BuildsImporterResource {
 	@Produces({ "application/xml", "application/json" })
 	public void reimportBuild(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName) {
-		String resolvedBuildName = ScenarioDocuBuildsManager.INSTANCE.resolveAliasBuildNameUnchecked(branchName,
-				buildName);
-		ScenarioDocuBuildsManager.INSTANCE.reimportBuild(branchName, resolvedBuildName);
+		
+		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
+		
+		ScenarioDocuBuildsManager.INSTANCE.reimportBuild(buildIdentifier);
 	}
+	
 }

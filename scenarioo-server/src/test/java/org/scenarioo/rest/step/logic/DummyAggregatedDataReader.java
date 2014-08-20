@@ -21,7 +21,7 @@ import org.scenarioo.rest.base.ScenarioIdentifier;
 public class DummyAggregatedDataReader implements AggregatedDataReader {
 	
 	@Override
-	public String loadVersion(final String branchName, final String buildName) {
+	public String loadVersion(final BuildIdentifier buildIdentifier) {
 		return null;
 	}
 	
@@ -31,8 +31,7 @@ public class DummyAggregatedDataReader implements AggregatedDataReader {
 	}
 	
 	@Override
-	public UseCaseScenarios loadUseCaseScenarios(final String branchName, final String buildName,
-			final String usecaseName) {
+	public UseCaseScenarios loadUseCaseScenarios(final BuildIdentifier buildIdentifier, final String usecaseName) {
 		return null;
 	}
 	
@@ -94,7 +93,7 @@ public class DummyAggregatedDataReader implements AggregatedDataReader {
 	}
 	
 	@Override
-	public LongObjectNamesResolver loadLongObjectNamesIndex(final String branchName, final String buildName) {
+	public LongObjectNamesResolver loadLongObjectNamesIndex(final BuildIdentifier buildIdentifier) {
 		return null;
 	}
 	

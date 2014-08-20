@@ -49,7 +49,7 @@ public class ScenariosResource {
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
 		
-		return aggregatedDataReader.loadUseCaseScenarios(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), usecaseName);
+		return aggregatedDataReader.loadUseCaseScenarios(buildIdentifier, usecaseName);
 	}
 	
 	@GET

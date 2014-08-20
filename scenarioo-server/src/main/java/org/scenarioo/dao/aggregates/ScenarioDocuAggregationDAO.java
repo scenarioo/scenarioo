@@ -82,8 +82,8 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadVersion(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String loadVersion(final String branchName, final String buildName) {
-		File versionFile = files.getVersionFile(branchName, buildName);
+	public String loadVersion(final BuildIdentifier buildIdentifier) {
+		File versionFile = files.getVersionFile(buildIdentifier);
 		if (versionFile.exists()) {
 			Properties properties = new Properties();
 			FileReader reader = null;
@@ -118,9 +118,8 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	 *      java.lang.String)
 	 */
 	@Override
-	public UseCaseScenarios loadUseCaseScenarios(final String branchName, final String buildName,
-			final String usecaseName) {
-		File scenariosFile = files.getUseCaseScenariosFile(branchName, buildName, usecaseName);
+	public UseCaseScenarios loadUseCaseScenarios(final BuildIdentifier buildIdentifier, final String usecaseName) {
+		File scenariosFile = files.getUseCaseScenariosFile(buildIdentifier, usecaseName);
 		return ScenarioDocuXMLFileUtil.unmarshal(UseCaseScenarios.class, scenariosFile);
 	}
 	
@@ -137,8 +136,8 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 		}
 	}
 	
-	public void saveVersion(final String branchName, final String buildName, final String currentFileFormatVersion) {
-		File versionFile = files.getVersionFile(branchName, buildName);
+	public void saveVersion(final BuildIdentifier buildIdentifier, final String currentFileFormatVersion) {
+		File versionFile = files.getVersionFile(buildIdentifier);
 		Properties versionProperties = new Properties();
 		versionProperties.setProperty(VERSION_PROPERTY_KEY, currentFileFormatVersion);
 		saveProperties(versionFile, versionProperties, "Scenarioo derived files format version");
@@ -162,10 +161,8 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 		ScenarioDocuXMLFileUtil.marshal(useCaseScenariosList, file);
 	}
 	
-	public void saveUseCaseScenarios(final String branchName, final String buildName,
-			final UseCaseScenarios useCaseScenarios) {
-		File scenariosFile = files.getUseCaseScenariosFile(branchName, buildName, useCaseScenarios.getUseCase()
-				.getName());
+	public void saveUseCaseScenarios(final BuildIdentifier buildIdentifier, final UseCaseScenarios useCaseScenarios) {
+		File scenariosFile = files.getUseCaseScenariosFile(buildIdentifier, useCaseScenarios.getUseCase().getName());
 		ScenarioDocuXMLFileUtil.marshal(useCaseScenarios, scenariosFile);
 	}
 	
@@ -323,9 +320,9 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 		ScenarioDocuXMLFileUtil.marshal(summaries, files.getBuildStatesFile());
 	}
 	
-	public void saveLongObjectNamesIndex(final String branchName, final String buildName,
+	public void saveLongObjectNamesIndex(final BuildIdentifier buildIdentifier,
 			final LongObjectNamesResolver longObjectNamesResolver) {
-		File longObjectNamesFile = files.getLongObjectNamesIndexFile(branchName, buildName);
+		File longObjectNamesFile = files.getLongObjectNamesIndexFile(buildIdentifier);
 		ScenarioDocuXMLFileUtil.marshal(longObjectNamesResolver, longObjectNamesFile);
 	}
 	
@@ -334,13 +331,13 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	 *      java.lang.String)
 	 */
 	@Override
-	public LongObjectNamesResolver loadLongObjectNamesIndex(final String branchName, final String buildName) {
-		File longObjectNamesFile = files.getLongObjectNamesIndexFile(branchName, buildName);
+	public LongObjectNamesResolver loadLongObjectNamesIndex(final BuildIdentifier buildIdentifier) {
+		File longObjectNamesFile = files.getLongObjectNamesIndexFile(buildIdentifier);
 		return ScenarioDocuXMLFileUtil.unmarshal(LongObjectNamesResolver.class, longObjectNamesFile);
 	}
 	
-	public File getBuildImportLogFile(final String branchName, final String buildName) {
-		return files.getBuildImportLogFile(branchName, buildName);
+	public File getBuildImportLogFile(final BuildIdentifier buildIdentifier) {
+		return files.getBuildImportLogFile(buildIdentifier);
 	}
 	
 	public void saveStepNavigation(final BuildIdentifier buildIdentifier, final StepLink stepLink,
@@ -373,12 +370,12 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	/**
 	 * Delete the most important derived files, such that the build is considered as unprocessed again.
 	 */
-	public void deleteDerivedFiles(final String branchName, final String buildName) {
-		File versionFile = files.getVersionFile(branchName, buildName);
+	public void deleteDerivedFiles(final BuildIdentifier buildIdentifier) {
+		File versionFile = files.getVersionFile(buildIdentifier);
 		versionFile.delete();
-		File logFile = getBuildImportLogFile(branchName, buildName);
+		File logFile = getBuildImportLogFile(buildIdentifier);
 		logFile.delete();
-		File longObjectNamesFile = files.getLongObjectNamesIndexFile(branchName, buildName);
+		File longObjectNamesFile = files.getLongObjectNamesIndexFile(buildIdentifier);
 		longObjectNamesFile.delete();
 	}
 	

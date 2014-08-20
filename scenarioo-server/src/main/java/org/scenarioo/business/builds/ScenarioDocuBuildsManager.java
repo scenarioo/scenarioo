@@ -102,8 +102,7 @@ public class ScenarioDocuBuildsManager {
 	 * Resolves a potential alias build name but does not fail if build name is not recognized or not successful
 	 */
 	public String resolveAliasBuildNameUnchecked(final String branchName, final String buildName) {
-		String resolvedBuildName = availableBuilds.resolveAliasBuildName(branchName, buildName);
-		return resolvedBuildName;
+		return availableBuilds.resolveAliasBuildName(branchName, buildName);
 	}
 	
 	/**
@@ -200,11 +199,10 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	/**
-	 * Schedule a build for reimport, even if the build was already imported once.
+	 * Schedule a build for re-import, even if the build was already imported once.
 	 */
-	public void reimportBuild(final String branchName, final String buildName) {
-		BuildIdentifier buildId = new BuildIdentifier(branchName, buildName);
-		buildImporter.submitBuildForReimport(availableBuilds, buildId);
+	public void reimportBuild(final BuildIdentifier buildIdentifier) {
+		buildImporter.submitBuildForReimport(availableBuilds, buildIdentifier);
 	}
 	
 	public LongObjectNamesResolver getLongObjectNameResolver(final BuildIdentifier buildIdentifier) {
@@ -212,8 +210,7 @@ public class ScenarioDocuBuildsManager {
 		validateBuildIsSuccessfullyImported(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		LongObjectNamesResolver longObjectNamesResolver = longObjectNamesResolvers.get(buildIdentifier);
 		if (longObjectNamesResolver == null) {
-			longObjectNamesResolver = dao.loadLongObjectNamesIndex(buildIdentifier.getBranchName(),
-					buildIdentifier.getBuildName());
+			longObjectNamesResolver = dao.loadLongObjectNamesIndex(buildIdentifier);
 			longObjectNamesResolvers.put(buildIdentifier, longObjectNamesResolver);
 		}
 		return longObjectNamesResolver;

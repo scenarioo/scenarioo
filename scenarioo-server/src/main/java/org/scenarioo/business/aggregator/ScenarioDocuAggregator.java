@@ -90,18 +90,17 @@ public class ScenarioDocuAggregator {
 	}
 	
 	public boolean isAggregatedDataForBuildAlreadyAvailableAndCurrentVersion() {
-		String version = dao.loadVersion(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+		String version = dao.loadVersion(buildIdentifier);
 		return !StringUtils.isBlank(version) && version.equals(CURRENT_FILE_FORMAT_VERSION);
 	}
 	
 	public void removeAggregatedDataForBuild() {
-		dao.deleteDerivedFiles(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+		dao.deleteDerivedFiles(buildIdentifier);
 		objectRepository = new ObjectRepository(buildIdentifier, dao);
 		objectRepository.removeAnyExistingObjectData();
 	}
 	
 	public void calculateAggregatedDataForBuild() {
-		
 		stepsAndPagesAggregator = new StepsAndPagesAggregator(buildIdentifier, dao);
 		
 		objectRepository = new ObjectRepository(buildIdentifier, dao);
@@ -123,11 +122,9 @@ public class ScenarioDocuAggregator {
 		
 		objectRepository.saveCustomObjectTabTrees();
 		
-		dao.saveLongObjectNamesIndex(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
-				longObjectNamesResolver);
+		dao.saveLongObjectNamesIndex(buildIdentifier, longObjectNamesResolver);
 		
-		dao.saveVersion(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), CURRENT_FILE_FORMAT_VERSION);
-		
+		dao.saveVersion(buildIdentifier, CURRENT_FILE_FORMAT_VERSION);
 	}
 	
 	private UseCaseScenariosList calculateUseCaseScenariosList() {
@@ -174,7 +171,7 @@ public class ScenarioDocuAggregator {
 						+ useCaseScenarios.getUseCase().getName());
 			}
 		}
-		dao.saveUseCaseScenarios(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), useCaseScenarios);
+		dao.saveUseCaseScenarios(buildIdentifier, useCaseScenarios);
 		
 		objectRepository.updateAndSaveObjectIndexesForCurrentCase();
 	}
@@ -223,7 +220,7 @@ public class ScenarioDocuAggregator {
 	public void updateBuildSummary(final BuildImportSummary buildSummary, final BuildLink buildLink) {
 		BuildIdentifier buildIdentifier = buildSummary.getIdentifier();
 		buildSummary.setBuildDescription(buildLink.getBuild());
-		String version = dao.loadVersion(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+		String version = dao.loadVersion(buildIdentifier);
 		boolean aggregated = !StringUtils.isBlank(version);
 		boolean outdated = aggregated && !version.equals(CURRENT_FILE_FORMAT_VERSION);
 		boolean error = buildSummary.getStatus().isFailed();

@@ -52,8 +52,9 @@ public class ScenarioDocuAggregationFiles {
 		return new File(docuFiles.getRootDirectory(), "builds.states.derived.xml");
 	}
 	
-	public File getVersionFile(final String branchName, final String buildName) {
-		return new File(docuFiles.getBuildDirectory(branchName, buildName), FILENAME_VERSION_PROPERTIES);
+	public File getVersionFile(final BuildIdentifier buildIdentifier) {
+		return new File(docuFiles.getBuildDirectory(buildIdentifier.getBranchName(), buildIdentifier.getBuildName()),
+				FILENAME_VERSION_PROPERTIES);
 	}
 	
 	public File getUseCasesAndScenariosFile(final String branchName, final String buildName) {
@@ -61,8 +62,9 @@ public class ScenarioDocuAggregationFiles {
 		return new File(buildDir, FILENAME_USECASES_XML);
 	}
 	
-	public File getUseCaseScenariosFile(final String branchName, final String buildName, final String useCaseName) {
-		File caseDir = docuFiles.getUseCaseDirectory(branchName, buildName, useCaseName);
+	public File getUseCaseScenariosFile(final BuildIdentifier buildIdentifier, final String useCaseName) {
+		File caseDir = docuFiles.getUseCaseDirectory(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+				useCaseName);
 		return new File(caseDir, FILENAME_SCENARIOS_XML);
 	}
 	
@@ -111,8 +113,9 @@ public class ScenarioDocuAggregationFiles {
 		return new File(customObjectTabTreesDir, FilesUtil.encodeName(tabId) + ".objectTree.derived.xml");
 	}
 	
-	public File getBuildImportLogFile(final String branchName, final String buildName) {
-		return new File(docuFiles.getBuildDirectory(branchName, buildName), "import.derived.log");
+	public File getBuildImportLogFile(final BuildIdentifier buildIdentifier) {
+		return new File(docuFiles.getBuildDirectory(buildIdentifier.getBranchName(), buildIdentifier.getBuildName()),
+				"import.derived.log");
 	}
 	
 	public List<File> getObjectFiles(final BuildIdentifier buildIdentifier, final String typeName) {
@@ -122,8 +125,9 @@ public class ScenarioDocuAggregationFiles {
 	/**
 	 * File to store short name aliases for file names for long object names.
 	 */
-	public File getLongObjectNamesIndexFile(final String branchName, final String buildName) {
-		return new File(docuFiles.getBuildDirectory(branchName, buildName), FILENAME_LONG_OBJECT_NAMES_INDEX);
+	public File getLongObjectNamesIndexFile(final BuildIdentifier buildIdentifier) {
+		return new File(docuFiles.getBuildDirectory(buildIdentifier.getBranchName(), buildIdentifier.getBuildName()),
+				FILENAME_LONG_OBJECT_NAMES_INDEX);
 	}
 	
 	/**
