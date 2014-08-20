@@ -7,7 +7,7 @@ import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.model.configuration.CustomObjectTab;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
-import org.scenarioo.rest.request.BuildIdentifier;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
  * Manages to aggregate all objects for configured custom object tab trees.

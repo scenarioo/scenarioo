@@ -13,7 +13,7 @@ import org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
-import org.scenarioo.rest.request.BuildIdentifier;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
  * This builder collects all found objects for some configured object types (as configured by the user in configuration

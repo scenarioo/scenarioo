@@ -22,7 +22,6 @@ import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
-import org.scenarioo.rest.request.BuildIdentifier;
 
 /**
  * Base class for resources accessing a build using the {@link ScenarioDocuAggregationDAO}.

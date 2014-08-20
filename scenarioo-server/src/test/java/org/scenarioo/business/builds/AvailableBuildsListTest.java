@@ -40,7 +40,7 @@ import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.derived.BuildLink;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.model.docu.entities.Build;
-import org.scenarioo.rest.request.BuildIdentifier;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 public class AvailableBuildsListTest {
 	

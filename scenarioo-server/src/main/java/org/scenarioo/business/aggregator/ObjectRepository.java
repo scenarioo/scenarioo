@@ -43,7 +43,7 @@ import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
-import org.scenarioo.rest.request.BuildIdentifier;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 public class ObjectRepository {
 	

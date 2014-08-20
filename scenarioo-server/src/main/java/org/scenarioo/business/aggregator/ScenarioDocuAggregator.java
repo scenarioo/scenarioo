@@ -40,7 +40,7 @@ import org.scenarioo.model.docu.entities.ScenarioCalculatedData;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
-import org.scenarioo.rest.request.BuildIdentifier;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
  * The aggregator reads the input docu files of a build and generates the aggregated docu files with additional

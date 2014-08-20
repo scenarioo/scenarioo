@@ -14,8 +14,8 @@ import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
-import org.scenarioo.rest.request.BuildIdentifier;
-import org.scenarioo.rest.request.ScenarioIdentifier;
+import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.rest.base.ScenarioIdentifier;
 
 /**
  * Contains all the read operation that can be done on the aggregated data.

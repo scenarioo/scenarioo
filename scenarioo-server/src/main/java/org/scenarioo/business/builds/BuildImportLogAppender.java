@@ -27,7 +27,7 @@ import org.apache.log4j.MDC;
 import org.apache.log4j.spi.LoggingEvent;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.configuration.ConfigurationDAO;
-import org.scenarioo.rest.request.BuildIdentifier;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
  * A special log appender to track logs only for one thread that currently imports a specific build.
