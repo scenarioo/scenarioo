@@ -31,14 +31,18 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
-import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 @Path("/rest/builds/")
 public class BuildsImporterResource {
 	
 	private static final Logger LOGGER = Logger.getLogger(BuildsImporterResource.class);
+	
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
 	
 	@GET
 	@Path("updateAndImport")
@@ -63,7 +67,8 @@ public class BuildsImporterResource {
 		
 		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
 		
-		ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
+		ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
+				configurationRepository.getDocuDataDirectoryPath());
 		File logFile = dao.getBuildImportLogFile(buildIdentifier);
 		if (logFile == null || !logFile.exists()) {
 			return Response.status(Status.BAD_REQUEST).build();

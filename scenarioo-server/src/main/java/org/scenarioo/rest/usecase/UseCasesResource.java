@@ -29,10 +29,11 @@ import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
-import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseSummary;
 import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/")
@@ -40,7 +41,10 @@ public class UseCasesResource {
 	
 	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
 	
-	AggregatedDataReader dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
+	
+	AggregatedDataReader dao = new ScenarioDocuAggregationDAO(configurationRepository.getDocuDataDirectoryPath());
 	
 	/**
 	 * Lightweight call, which does not send all scenario information.

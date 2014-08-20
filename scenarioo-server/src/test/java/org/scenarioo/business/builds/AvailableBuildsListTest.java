@@ -31,7 +31,6 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
@@ -39,9 +38,14 @@ import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.derived.BuildLink;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.model.docu.entities.Build;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 public class AvailableBuildsListTest {
+	
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
 	
 	private AvailableBuildsList availableBuildsList;
 	
@@ -56,7 +60,7 @@ public class AvailableBuildsListTest {
 	
 	@Before
 	public void setUp() {
-		ConfigurationDAO.injectConfiguration(new Configuration());
+		configurationRepository.injectConfiguration(new Configuration());
 		availableBuildsList = new AvailableBuildsList();
 	}
 	

@@ -8,7 +8,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.scenarioo.api.ScenarioDocuReader;
-import org.scenarioo.dao.configuration.ConfigurationDAO;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
 import org.scenarioo.rest.base.StepIdentifier;
@@ -16,9 +17,11 @@ import org.scenarioo.rest.base.StepIdentifier;
 public class ScreenshotResponseFactory {
 	
 	private final String PNG_FILE_EXTENSION = ".png";
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
 	
 	private final ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(
-			ConfigurationDAO.getDocuDataDirectoryPath());
+			configurationRepository.getDocuDataDirectoryPath());
 	private final FallbackImageMarker fallbackImageMarker = new FallbackImageMarker();
 	
 	public Response createResponse(final StepLoaderResult stepLoaderResult, final boolean showFallbackStamp,

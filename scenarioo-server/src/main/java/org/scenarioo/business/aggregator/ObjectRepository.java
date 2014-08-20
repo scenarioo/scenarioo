@@ -31,7 +31,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.business.aggregator.customTabs.CustomObjectTabsAggregator;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
-import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Labels;
@@ -43,11 +42,16 @@ import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 public class ObjectRepository {
 	
 	private static final Logger LOGGER = Logger.getLogger(ObjectRepository.class);
+	
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
 	
 	private final ScenarioDocuAggregationDAO dao;
 	
@@ -65,7 +69,7 @@ public class ObjectRepository {
 	public ObjectRepository(final BuildIdentifier buildIdentifier, final ScenarioDocuAggregationDAO dao) {
 		this.buildIdentifier = buildIdentifier;
 		this.dao = dao;
-		customObjectTabsAggregator = new CustomObjectTabsAggregator(ConfigurationDAO.getConfiguration()
+		customObjectTabsAggregator = new CustomObjectTabsAggregator(configurationRepository.getConfiguration()
 				.getCustomObjectTabs(), dao, buildIdentifier);
 	}
 	

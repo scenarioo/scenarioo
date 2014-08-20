@@ -23,27 +23,30 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-
 import org.apache.log4j.Logger;
-import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.configuration.Configuration;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 
 @Path("/rest/configuration/")
 public class ConfigurationResource {
 	
 	private static final Logger LOGGER = Logger.getLogger(ConfigurationResource.class);
 	
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
+	
 	@GET
 	@Produces({ "application/json", "application/xml" })
 	public Configuration getConfiguration() {
-		return ConfigurationDAO.getConfiguration();
+		return configurationRepository.getConfiguration();
 	}
 	
 	@POST
 	@Consumes({ "application/json", "application/xml" })
 	public void updateConfiguration(final Configuration configuration) {
 		LOGGER.info("Saving configuration.");
-		ConfigurationDAO.updateConfiguration(configuration);
+		configurationRepository.updateConfiguration(configuration);
 	}
 	
 }

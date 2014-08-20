@@ -26,26 +26,31 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.configuration.BranchAlias;
 import org.scenarioo.model.configuration.Configuration;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 
 @Path("/rest/branchaliases/")
 public class BranchAliasesResource {
 	
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
+	
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	public List<BranchAlias> listBranchAliases() {
-		Configuration configuration = ConfigurationDAO.getConfiguration();
+		Configuration configuration = configurationRepository.getConfiguration();
 		return configuration.getBranchAliases();
 	}
 	
 	@POST
 	@Consumes({ "application/json", "application/xml" })
-	public void updateBranchAliases(List<BranchAlias> branchAliases) {
-		Configuration configuration = ConfigurationDAO.getConfiguration();
+	public void updateBranchAliases(final List<BranchAlias> branchAliases) {
+		Configuration configuration = configurationRepository.getConfiguration();
 		configuration.setBranchAliases(branchAliases);
-		ConfigurationDAO.updateConfiguration(configuration);
+		configurationRepository.updateConfiguration(configuration);
 		ScenarioDocuBuildsManager.INSTANCE.refreshBranchAliases();
 	}
+	
 }

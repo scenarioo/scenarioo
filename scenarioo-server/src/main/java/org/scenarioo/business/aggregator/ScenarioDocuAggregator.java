@@ -25,7 +25,6 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
-import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.branches.BuildStatistics;
@@ -40,6 +39,8 @@ import org.scenarioo.model.docu.entities.ScenarioCalculatedData;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
@@ -67,17 +68,20 @@ public class ScenarioDocuAggregator {
 	
 	private final static Logger LOGGER = Logger.getLogger(ScenarioDocuAggregator.class);
 	
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
+	
 	/**
 	 * The build this aggregator is currently aggregating.
 	 */
 	private final BuildIdentifier buildIdentifier;
 	
-	private final ScenarioDocuReader reader = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
+	private final ScenarioDocuReader reader = new ScenarioDocuReader(configurationRepository.getDocuDataDirectoryPath());
 	
 	private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
 	
 	private final ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
-			ConfigurationDAO.getDocuDataDirectoryPath(), longObjectNamesResolver);
+			configurationRepository.getDocuDataDirectoryPath(), longObjectNamesResolver);
 	
 	private final BuildStatistics buildStatistics = new BuildStatistics();
 	

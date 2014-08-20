@@ -30,17 +30,21 @@ import javax.ws.rs.Produces;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.configuration.LabelConfiguration;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 
 @Path("/rest/labelconfigurations/")
 public class LabelConfigurationsResource {
 	
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
+	
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	public Map<String, LabelConfiguration> listLabelConfigurations() {
-		Configuration configuration = ConfigurationDAO.getConfiguration();
+		Configuration configuration = configurationRepository.getConfiguration();
 		return configuration.getLabelConfigurations();
 	}
 	
@@ -53,7 +57,7 @@ public class LabelConfigurationsResource {
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	public List<FlatLabelConfiguration> getLabelConfigurationsAsList() {
-		Configuration configuration = ConfigurationDAO.getConfiguration();
+		Configuration configuration = configurationRepository.getConfiguration();
 		Map<String, LabelConfiguration> labelConfigurations = configuration.getLabelConfigurations();
 		
 		List<FlatLabelConfiguration> flatLabelConfigurations = new LinkedList<FlatLabelConfiguration>();
@@ -68,9 +72,9 @@ public class LabelConfigurationsResource {
 	@POST
 	@Consumes({ "application/json", "application/xml" })
 	public void updateLabelConfigurations(final Map<String, LabelConfiguration> labelConfigurations) {
-		Configuration configuration = ConfigurationDAO.getConfiguration();
+		Configuration configuration = configurationRepository.getConfiguration();
 		configuration.setLabelConfigurations(labelConfigurations);
-		ConfigurationDAO.updateConfiguration(configuration);
+		configurationRepository.updateConfiguration(configuration);
 		ScenarioDocuBuildsManager.INSTANCE.refreshBranchAliases();
 	}
 	

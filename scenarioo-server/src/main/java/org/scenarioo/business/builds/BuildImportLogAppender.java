@@ -26,7 +26,8 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 import org.apache.log4j.spi.LoggingEvent;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
-import org.scenarioo.dao.configuration.ConfigurationDAO;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
@@ -35,6 +36,9 @@ import org.scenarioo.rest.base.BuildIdentifier;
 public class BuildImportLogAppender extends AppenderSkeleton {
 	
 	public static final String MDC_BUILD_IDENTIFIER_KEY = "scenarioo-build-id";
+	
+	private final static ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
 	
 	private final BuildIdentifier buildIdentifier;
 	
@@ -109,7 +113,8 @@ public class BuildImportLogAppender extends AppenderSkeleton {
 	}
 	
 	public static BuildImportLogAppender createAndRegisterForLogsOfBuild(final BuildIdentifier buildIdentifier) {
-		ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
+		ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
+				configurationRepository.getDocuDataDirectoryPath());
 		File buildImportLogFile = dao.getBuildImportLogFile(buildIdentifier);
 		BuildImportLogAppender buildImportLogAppender = new BuildImportLogAppender(buildIdentifier, buildImportLogFile);
 		buildImportLogAppender.registerForBuildInCurrentThread();

@@ -27,8 +27,9 @@ import javax.ws.rs.core.Response;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
-import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
 import org.scenarioo.rest.base.StepIdentifier;
@@ -42,9 +43,12 @@ import org.scenarioo.rest.step.logic.StepLoaderResult;
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/{scenarioName}/")
 public class ScreenshotResource {
 	
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
+	
 	private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
 	private final AggregatedDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
-			ConfigurationDAO.getDocuDataDirectoryPath(), longObjectNamesResolver);
+			configurationRepository.getDocuDataDirectoryPath(), longObjectNamesResolver);
 	private final ScenarioLoader scenarioLoader = new ScenarioLoader(aggregatedDataReader);
 	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
 	private final StepLoader stepImageInfoLoader = new StepLoader(scenarioLoader, stepIndexResolver);

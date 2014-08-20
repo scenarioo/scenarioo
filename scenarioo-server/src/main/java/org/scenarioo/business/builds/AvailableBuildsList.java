@@ -24,13 +24,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.configuration.BranchAlias;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.derived.BuildLink;
 import org.scenarioo.model.docu.entities.Branch;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
@@ -42,6 +43,9 @@ public class AvailableBuildsList {
 	
 	private static final Logger LOGGER = Logger.getLogger(AvailableBuildsList.class);
 	
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
+	
 	/**
 	 * Only the successfully imported builds that are available and can be accessed.
 	 */
@@ -51,12 +55,12 @@ public class AvailableBuildsList {
 	 * The branch builds grouped by branch name, only containing the available builds that have already been imported
 	 * successfully.
 	 */
-	private Map<String, BranchBuilds> branchBuildsByBranchName = new HashMap<String, BranchBuilds>();
+	private final Map<String, BranchBuilds> branchBuildsByBranchName = new HashMap<String, BranchBuilds>();
 	
 	/**
 	 * Special aliases to resolve when accessing a build.
 	 */
-	private Map<BuildIdentifier, BuildLink> buildAliases = new HashMap<BuildIdentifier, BuildLink>();
+	private final Map<BuildIdentifier, BuildLink> buildAliases = new HashMap<BuildIdentifier, BuildLink>();
 	
 	/**
 	 * Get branch builds list with those builds that are currently available (have been already successfully imported).
@@ -75,8 +79,7 @@ public class AvailableBuildsList {
 	/**
 	 * Update the list of successfully imported builds from passed list of build import summary states of all builds.
 	 */
-	public synchronized void updateBuildsWithSuccessfullyImportedBuilds(
-			final List<BranchBuilds> branchBuildsList,
+	public synchronized void updateBuildsWithSuccessfullyImportedBuilds(final List<BranchBuilds> branchBuildsList,
 			final Map<BuildIdentifier, BuildImportSummary> buildImportSummaries) {
 		List<BranchBuilds> result = new ArrayList<BranchBuilds>();
 		for (BranchBuilds branchBuilds : branchBuildsList) {
@@ -121,21 +124,21 @@ public class AvailableBuildsList {
 		
 		this.branchBuildsList = allBranches;
 	}
-
+	
 	private List<BranchBuilds> getBranchBuildsWithouAliases() {
 		List<BranchBuilds> result = new LinkedList<BranchBuilds>();
-		for(BranchBuilds branchBuilds : this.branchBuildsList) {
-			if(!branchBuilds.isAlias()) {
+		for (BranchBuilds branchBuilds : this.branchBuildsList) {
+			if (!branchBuilds.isAlias()) {
 				result.add(branchBuilds);
 			}
 		}
 		return result;
 	}
-
-	private List<BranchBuilds> createBranchesFromAliases(List<BranchBuilds> physicalBuilds) {
+	
+	private List<BranchBuilds> createBranchesFromAliases(final List<BranchBuilds> physicalBuilds) {
 		List<BranchBuilds> result = new LinkedList<BranchBuilds>();
 		
-		Configuration configuration = ConfigurationDAO.getConfiguration();
+		Configuration configuration = configurationRepository.getConfiguration();
 		List<BranchAlias> branchAliases = configuration.getBranchAliases();
 		for (BranchAlias branchAlias : branchAliases) {
 			BranchBuilds branchWithBuilds = findBranch(branchAlias.getReferencedBranch());
@@ -149,15 +152,15 @@ public class AvailableBuildsList {
 		return result;
 	}
 	
-	private BranchBuilds findBranch(String branchName) {
-		for(BranchBuilds branchBuilds : this.branchBuildsList) {
-			if(!branchBuilds.isAlias() && branchBuilds.getBranch().getName().equals(branchName)) {
+	private BranchBuilds findBranch(final String branchName) {
+		for (BranchBuilds branchBuilds : this.branchBuildsList) {
+			if (!branchBuilds.isAlias() && branchBuilds.getBranch().getName().equals(branchName)) {
 				return branchBuilds;
 			}
 		}
 		throw new RuntimeException("Could not find referenced branch: " + branchName);
 	}
-
+	
 	/**
 	 * Adding a newly imported build.
 	 */
@@ -204,9 +207,10 @@ public class AvailableBuildsList {
 	private void updateAliasesForRecentBuilds(final BranchBuilds branchBuilds) {
 		
 		// Search for the builds
-		String buildSuccessState = ConfigurationDAO.getConfiguration().getBuildStatusForSuccessfulBuilds();
-		String aliasForMostRecentBuild = ConfigurationDAO.getConfiguration().getAliasForMostRecentBuild();
-		String aliasForLastSuccessfulBuild = ConfigurationDAO.getConfiguration().getAliasForLastSuccessfulBuild();
+		String buildSuccessState = configurationRepository.getConfiguration().getBuildStatusForSuccessfulBuilds();
+		String aliasForMostRecentBuild = configurationRepository.getConfiguration().getAliasForMostRecentBuild();
+		String aliasForLastSuccessfulBuild = configurationRepository.getConfiguration()
+				.getAliasForLastSuccessfulBuild();
 		BuildLink aliasLinkForLastSuccessfulBuild = null;
 		BuildLink aliasLinkForMostRecentBuild = null;
 		BuildLink lastSuccessfulBuild = null;
@@ -214,11 +218,9 @@ public class AvailableBuildsList {
 		for (BuildLink build : branchBuilds.getBuilds()) {
 			if (build.getLinkName().equals(aliasForMostRecentBuild)) {
 				aliasLinkForMostRecentBuild = build;
-			}
-			else if (build.getLinkName().equals(aliasForLastSuccessfulBuild)) {
+			} else if (build.getLinkName().equals(aliasForLastSuccessfulBuild)) {
 				aliasLinkForLastSuccessfulBuild = build;
-			}
-			else {
+			} else {
 				if (isMoreRecentThan(build, mostRecentBuild)) {
 					mostRecentBuild = build;
 				}
@@ -240,13 +242,11 @@ public class AvailableBuildsList {
 		if (buildLinkForAlias != null) {
 			if (existingAlias == null) {
 				branchBuilds.getBuilds().add(new BuildLink(buildLinkForAlias.getBuild(), aliasName));
-			}
-			else {
+			} else {
 				existingAlias.setBuild(buildLinkForAlias.getBuild());
 			}
 			buildAliases.put(new BuildIdentifier(branchBuilds.getBranch().getName(), aliasName), buildLinkForAlias);
-		}
-		else {
+		} else {
 			buildAliases.remove(new BuildIdentifier(branchBuilds.getBranch().getName(), aliasName));
 		}
 	}
@@ -264,12 +264,10 @@ public class AvailableBuildsList {
 			// compare name if date is not available (assuming somehow the name of the build to reflect the
 			// age/date/revision)
 			return buildToCompareWith.getBuild().getName().compareTo(build.getBuild().getName()) < 0;
-		}
-		else if (build.getBuild().getDate() == null) {
+		} else if (build.getBuild().getDate() == null) {
 			// build without date is never more recent than one with
 			return false;
-		}
-		else {
+		} else {
 			// compare dates
 			return buildToCompareWith.getBuild().getDate().compareTo(build.getBuild().getDate()) < 0;
 		}
@@ -285,8 +283,7 @@ public class AvailableBuildsList {
 		BuildLink alias = buildAliases.get(id);
 		if (alias != null) {
 			return alias.getLinkName();
-		}
-		else {
+		} else {
 			return buildName;
 		}
 	}
@@ -305,8 +302,7 @@ public class AvailableBuildsList {
 			for (BuildLink link : branchBuilds.getBuilds()) {
 				if (link.getLinkName().equals(link.getBuild().getName())) {
 					numberOfBuilds++;
-				}
-				else {
+				} else {
 					numberOfBuildAliases++;
 				}
 			}

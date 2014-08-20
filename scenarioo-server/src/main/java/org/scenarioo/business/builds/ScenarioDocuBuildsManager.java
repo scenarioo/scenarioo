@@ -28,7 +28,6 @@ import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
-import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.configuration.BranchAlias;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
@@ -36,6 +35,8 @@ import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.model.docu.entities.Branch;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
@@ -51,6 +52,9 @@ import org.scenarioo.rest.base.BuildIdentifier;
  * using {@link #getAvailableBuilds()}.
  */
 public class ScenarioDocuBuildsManager {
+	
+	private final static ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
 	
 	public static ScenarioDocuBuildsManager INSTANCE = new ScenarioDocuBuildsManager();
 	
@@ -128,7 +132,7 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	private String resolveAliasBranchName(final String aliasOrRealBranchName) {
-		Configuration configuration = ConfigurationDAO.getConfiguration();
+		Configuration configuration = configurationRepository.getConfiguration();
 		List<BranchAlias> branchAliases = configuration.getBranchAliases();
 		for (BranchAlias branchAlias : branchAliases) {
 			if (branchAlias.getName().equals(aliasOrRealBranchName)) {
@@ -150,7 +154,7 @@ public class ScenarioDocuBuildsManager {
 	public void updateAllBuildsAndSubmitNewBuildsForImport() {
 		LOGGER.info("********************* update builds ********************************");
 		LOGGER.info("Updating available builds ...");
-		File docuDirectory = ConfigurationDAO.getDocuDataDirectoryPath();
+		File docuDirectory = configurationRepository.getDocuDataDirectoryPath();
 		if (docuDirectory == null) {
 			LOGGER.error("No documentation directory is configured.");
 			LOGGER.error("Please configure valid documentation directory in configuration UI");
@@ -176,7 +180,7 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	private static Map<BuildIdentifier, BuildImportSummary> loadBuildImportSummaries() {
-		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
+		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(configurationRepository.getDocuDataDirectoryPath());
 		List<BuildImportSummary> loadedSummaries = dao.loadBuildImportSummaries();
 		Map<BuildIdentifier, BuildImportSummary> result = new HashMap<BuildIdentifier, BuildImportSummary>();
 		for (BuildImportSummary buildImportSummary : loadedSummaries) {
@@ -186,7 +190,7 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	private List<BranchBuilds> loadBranchBuildsList() {
-		final ScenarioDocuReader reader = new ScenarioDocuReader(ConfigurationDAO.getDocuDataDirectoryPath());
+		final ScenarioDocuReader reader = new ScenarioDocuReader(configurationRepository.getDocuDataDirectoryPath());
 		List<BranchBuilds> result = new ArrayList<BranchBuilds>();
 		List<Branch> branches = reader.loadBranches();
 		for (Branch branch : branches) {
@@ -206,7 +210,7 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	public LongObjectNamesResolver getLongObjectNameResolver(final BuildIdentifier buildIdentifier) {
-		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(ConfigurationDAO.getDocuDataDirectoryPath());
+		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(configurationRepository.getDocuDataDirectoryPath());
 		validateBuildIsSuccessfullyImported(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		LongObjectNamesResolver longObjectNamesResolver = longObjectNamesResolvers.get(buildIdentifier);
 		if (longObjectNamesResolver == null) {

@@ -8,8 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
 import org.junit.Test;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.configuration.LabelConfiguration;
@@ -19,24 +18,21 @@ import org.scenarioo.model.configuration.LabelConfiguration;
  */
 public class ConfigurationDAOTest {
 	
-	@Before
-	public void init() {
-		ConfigurationDAO.setConfigurationDirectory("tmp");
-	}
+	private final ConfigurationDAO configurationDao = new ConfigurationDAO("tmp", null);
 	
-	@After
-	public void reset() throws IOException {
+	@AfterClass
+	public static void removeTemporaryData() throws IOException {
 		FileUtils.deleteDirectory(new File("tmp"));
 	}
 	
 	@Test
-	public void writeRead() {
+	public void writeAndReadConfiguration() {
 		Configuration configuration = new Configuration();
 		Map<String, LabelConfiguration> labelConfigurations = createLabelConfigurations();
 		configuration.setLabelConfigurations(labelConfigurations);
 		
-		ConfigurationDAO.updateConfiguration(configuration);
-		Configuration loadedConfiguration = ConfigurationDAO.loadConfiguration();
+		configurationDao.updateConfiguration(configuration);
+		Configuration loadedConfiguration = configurationDao.loadConfiguration();
 		
 		assertEquals(labelConfigurations, loadedConfiguration.getLabelConfigurations());
 	}
@@ -56,4 +52,5 @@ public class ConfigurationDAOTest {
 		labelConfig.setBackgroundColor(backgroundColor);
 		return labelConfig;
 	}
+	
 }
