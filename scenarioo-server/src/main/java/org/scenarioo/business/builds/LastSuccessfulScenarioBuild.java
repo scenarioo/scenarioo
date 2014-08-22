@@ -1,11 +1,12 @@
 package org.scenarioo.business.builds;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.LastSuccessfulScenarioBuildRepository;
 import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 import com.google.common.base.Preconditions;
 
@@ -18,18 +19,21 @@ import com.google.common.base.Preconditions;
  */
 public class LastSuccessfulScenarioBuild {
 	
-	// private static final String LAST_SUCCESSFUL_SCENARIO_BUILD_NAME = "last_successful_scenario.derived";
+	public static final String LAST_SUCCESSFUL_SCENARIO_BUILD_NAME = "last_successful_scenario.derived";
 	
 	private static final Logger LOGGER = Logger.getLogger(LastSuccessfulScenarioBuild.class);
 	
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
+	private final LastSuccessfulScenarioBuildRepository lastSuccessfulScenarioBuildRepository = RepositoryLocator.INSTANCE
+			.getLastSuccessfulScenarioBuildRepository();
 	
 	// private final ScenarioDocuReader reader = new ScenarioDocuReader(
 	// configurationRepository.getDocumentationDataDirectory());
 	
-	public void updateWithBuild(final BuildImportSummary summary) {
-		Preconditions.checkNotNull(summary);
+	public void updateLastSuccessfulScenarioBuild(final BuildImportSummary summary) {
+		Preconditions.checkNotNull(summary, "summary must not be null");
+		Preconditions.checkNotNull(summary.getIdentifier(), "build identifier must not be null");
 		
 		if (!BuildImportStatus.SUCCESS.equals(summary.getStatus())) {
 			LOGGER.warn("Build "
@@ -38,11 +42,9 @@ public class LastSuccessfulScenarioBuild {
 			return;
 		}
 		
-		Configuration configuration = configurationRepository.getConfiguration();
-		
-		if (!configuration.isCreateLastSuccessfulScenarioBuild()) {
+		if (!configurationRepository.getConfiguration().isCreateLastSuccessfulScenarioBuild()) {
 			LOGGER.info("Config value createLastSuccessfulScenarioBuild = false");
-			deleteLastSuccessfulScenarioBuild();
+			deleteLastSuccessfulScenarioBuild(summary);
 			return;
 		}
 		
@@ -50,6 +52,8 @@ public class LastSuccessfulScenarioBuild {
 	}
 	
 	private void update(final BuildImportSummary summary) {
+		LOGGER.info("Config value createLastSuccessfulScenarioBuild = true, starting update of build \"last successful scenario\".");
+		
 		// BuildIdentifier importedBuildIdentifier = summary.getIdentifier();
 		// BuildIdentifier lSSBuildIdentifier = new BuildIdentifier(importedBuildIdentifier.getBranchName(),
 		// LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
@@ -59,10 +63,13 @@ public class LastSuccessfulScenarioBuild {
 		//
 		// List<UseCase> lSSUseCases = reader.loadUsecases(importedBuildIdentifier.getBranchName(),
 		// importedBuildIdentifier.getBuildName());
+		LOGGER.info("Done updating build \"last successful scenario\".");
 	}
 	
-	private void deleteLastSuccessfulScenarioBuild() {
-		// TODO Auto-generated method stub
+	private void deleteLastSuccessfulScenarioBuild(final BuildImportSummary summary) {
+		BuildIdentifier lSSBuildIdentifier = new BuildIdentifier(summary.getIdentifier().getBranchName(),
+				LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
+		lastSuccessfulScenarioBuildRepository.deleteLastSuccessfulScenarioBuild(lSSBuildIdentifier);
 	}
 	
 }

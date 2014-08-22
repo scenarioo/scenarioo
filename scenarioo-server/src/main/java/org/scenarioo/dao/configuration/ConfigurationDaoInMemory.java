@@ -1,5 +1,7 @@
 package org.scenarioo.dao.configuration;
 
+import java.io.File;
+
 import org.scenarioo.model.configuration.Configuration;
 
 /**
@@ -8,6 +10,13 @@ import org.scenarioo.model.configuration.Configuration;
 public class ConfigurationDaoInMemory implements ConfigurationDao {
 	
 	private Configuration configuration = new Configuration();
+	
+	public ConfigurationDaoInMemory(final File documentationDataDirectory) {
+		if (documentationDataDirectory == null) {
+			return;
+		}
+		configuration.setTestDocumentationDirPath(documentationDataDirectory.getAbsolutePath());
+	}
 	
 	@Override
 	public Configuration loadConfiguration() {

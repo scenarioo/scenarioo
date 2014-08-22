@@ -55,7 +55,7 @@ public class AvailableBuildsListTest {
 	
 	@Before
 	public void setUp() {
-		RepositoryLocator.INSTANCE.initializeConfigurationRepositoryForUnitTest();
+		RepositoryLocator.INSTANCE.initializeConfigurationRepositoryForUnitTest(null);
 		availableBuildsList = new AvailableBuildsList();
 	}
 	

@@ -154,4 +154,8 @@ public class ScenarioDocuAggregationFiles {
 		return numberFormat;
 	}
 	
+	public File getBuildDirectory(final BuildIdentifier buildIdentifier) {
+		return docuFiles.getBuildDirectory(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+	}
+	
 }

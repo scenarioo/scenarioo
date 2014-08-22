@@ -34,7 +34,7 @@ public class BuildSorterTest {
 	
 	@Before
 	public void setUp() {
-		RepositoryLocator.INSTANCE.initializeConfigurationRepositoryForUnitTest();
+		RepositoryLocator.INSTANCE.initializeConfigurationRepositoryForUnitTest(null);
 	}
 	
 	@Test

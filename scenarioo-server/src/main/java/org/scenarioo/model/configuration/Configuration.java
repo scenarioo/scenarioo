@@ -110,8 +110,7 @@ public class Configuration {
 		return aliasForLastSuccessfulBuild;
 	}
 	
-	public void setAliasForLastSuccessfulBuild(
-			final String aliasForLastSuccessfulBuild) {
+	public void setAliasForLastSuccessfulBuild(final String aliasForLastSuccessfulBuild) {
 		this.aliasForLastSuccessfulBuild = aliasForLastSuccessfulBuild;
 	}
 	
@@ -119,8 +118,7 @@ public class Configuration {
 		return buildStatusForSuccessfulBuilds;
 	}
 	
-	public void setBuildStatusForSuccessfulBuilds(
-			final String buildStatusForSuccessfulBuilds) {
+	public void setBuildStatusForSuccessfulBuilds(final String buildStatusForSuccessfulBuilds) {
 		this.buildStatusForSuccessfulBuilds = buildStatusForSuccessfulBuilds;
 	}
 	
@@ -128,8 +126,7 @@ public class Configuration {
 		return scenarioPropertiesInOverview;
 	}
 	
-	public void setScenarioPropertiesInOverview(
-			final String scenarioPropertiesInOverview) {
+	public void setScenarioPropertiesInOverview(final String scenarioPropertiesInOverview) {
 		this.scenarioPropertiesInOverview = scenarioPropertiesInOverview;
 	}
 	
@@ -198,13 +195,12 @@ public class Configuration {
 	public void setCustomObjectTabs(final List<CustomObjectTab> customObjectTabs) {
 		this.customObjectTabs = customObjectTabs;
 	}
-
+	
 	public boolean isCreateLastSuccessfulScenarioBuild() {
 		return createLastSuccessfulScenarioBuild;
 	}
-
-	public void setCreateLastSuccessfulScenarioBuild(
-			boolean createLastSuccessfulScenarioBuild) {
+	
+	public void setCreateLastSuccessfulScenarioBuild(final boolean createLastSuccessfulScenarioBuild) {
 		this.createLastSuccessfulScenarioBuild = createLastSuccessfulScenarioBuild;
 	}
 }
