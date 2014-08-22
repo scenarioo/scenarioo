@@ -1,4 +1,4 @@
-package org.scenarioo.dao.aggregates;
+package org.scenarioo.dao.basic;
 
 import static org.junit.Assert.*;
 
@@ -11,17 +11,17 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.scenarioo.rest.base.BuildIdentifier;
 
-public class ScenarioDocuAggregationDAOTest {
+public class FileSystemOperationsDaoTest {
 	
 	private static final File rootDirectory = new File("tmp");
 	private static final BuildIdentifier buildIdentifier = new BuildIdentifier("branch", "build");
 	
-	private static ScenarioDocuAggregationDAO scenarioDocuAggregationDAO;
+	private static FileSystemOperationsDao fileSystemOperationsDao;
 	
 	@BeforeClass
 	public static void setupClass() {
 		rootDirectory.mkdir();
-		scenarioDocuAggregationDAO = new ScenarioDocuAggregationDAO(rootDirectory);
+		fileSystemOperationsDao = new FileSystemOperationsDao();
 	}
 	
 	@AfterClass
@@ -30,23 +30,22 @@ public class ScenarioDocuAggregationDAOTest {
 	}
 	
 	@Test
-	public void deleteBuildDeletesTheEntireFolderWithAllSubfoldersAndFiles() {
+	public void deleteBuild_deletesTheEntireBuildFolderWithAllSubfoldersAndFiles() {
 		givenBuildFolderContainingSubfoldersAndFiles();
 		
-		scenarioDocuAggregationDAO.deleteBuild(buildIdentifier);
+		fileSystemOperationsDao.deleteBuild(rootDirectory, buildIdentifier);
 		
 		expectBuildFolderIsDeleted();
 		expectBranchFolderStillExists();
 	}
 	
-	private void expectBranchFolderStillExists() {
-		File branchFolder = new File(rootDirectory, "/" + buildIdentifier.getBranchName());
-		assertTrue(branchFolder.exists());
-	}
-	
-	private void expectBuildFolderIsDeleted() {
-		File buildFolder = getBuildFolder();
-		assertFalse(buildFolder.exists());
+	@Test
+	public void createBuildFolderIfItDoesNotExist_createsTheFolderBecauseIfItDoesNotExist() {
+		givenBuildFolderDoesNotExist();
+		
+		fileSystemOperationsDao.createBuildFolderIfItDoesNotExist(rootDirectory, buildIdentifier);
+		
+		expectBuildFolderExists();
 	}
 	
 	private void givenBuildFolderContainingSubfoldersAndFiles() {
@@ -66,6 +65,26 @@ public class ScenarioDocuAggregationDAOTest {
 			fail();
 		}
 		assertTrue(someFile.exists());
+	}
+	
+	private void givenBuildFolderDoesNotExist() {
+		File buildFolder = getBuildFolder();
+		assertFalse(buildFolder.exists());
+	}
+	
+	private void expectBranchFolderStillExists() {
+		File branchFolder = new File(rootDirectory, "/" + buildIdentifier.getBranchName());
+		assertTrue(branchFolder.exists());
+	}
+	
+	private void expectBuildFolderIsDeleted() {
+		File buildFolder = getBuildFolder();
+		assertFalse(buildFolder.exists());
+	}
+	
+	private void expectBuildFolderExists() {
+		File buildFolder = getBuildFolder();
+		assertTrue(buildFolder.exists());
 	}
 	
 	private File getBuildFolder() {

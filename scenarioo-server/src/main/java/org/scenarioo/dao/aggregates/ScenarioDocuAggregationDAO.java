@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
@@ -378,23 +377,6 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 		logFile.delete();
 		File longObjectNamesFile = files.getLongObjectNamesIndexFile(buildIdentifier);
 		longObjectNamesFile.delete();
-	}
-	
-	public void deleteBuild(final BuildIdentifier buildIdentifier) {
-		File buildFolder = files.getBuildDirectory(buildIdentifier);
-		
-		if (!buildFolder.exists()) {
-			LOGGER.info("Build folder " + buildFolder.getAbsolutePath()
-					+ " does not exist, therefore it can't be deleted.");
-			return;
-		}
-		
-		try {
-			FileUtils.deleteDirectory(buildFolder);
-			LOGGER.info("Deleted build folder " + buildFolder.getAbsolutePath());
-		} catch (IOException e) {
-			LOGGER.error("Can't delete build " + buildIdentifier, e);
-		}
 	}
 	
 }

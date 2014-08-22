@@ -10,6 +10,7 @@ import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.LastSuccessfulScenarioBuildRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
@@ -54,11 +55,13 @@ public class LastSuccessfulScenarioBuildTest {
 	
 	@Test
 	public void ifTheImportedBuildDoesNotHaveSuccessfulImportStatusNothingIsDone() {
+		givenLastSuccessfulScenarioBuildIsDisabledInConfiguration();
+		givenLastSuccessfulScenarioBuildFolderExistsInCurrentBranch();
 		givenBuildImportSummaryWithStatusFailed();
 		
 		whenUpdatingLastSuccessfulScenarioBuild();
 		
-		// TODO Assert this somehow...
+		expectLastSuccessfulScenarioBuildDirectoryExists();
 	}
 	
 	@Test
@@ -71,6 +74,17 @@ public class LastSuccessfulScenarioBuildTest {
 		
 		expectLastSuccessfulScenarioBuildDirectoryDoesNotExist();
 		expectBranchDirectoryExists();
+	}
+	
+	@Test
+	public void ifTheLastSuccessfulScenarioFolderDoesNotExistYetItIsCreated() {
+		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
+		givenLastSuccessfulScenarioBuildFolderDoesNotExist();
+		givenBuildImportSummaryWithStatusSuccess();
+		
+		whenUpdatingLastSuccessfulScenarioBuild();
+		
+		expectLastSuccessfulScenarioBuildDirectoryExists();
 	}
 	
 	private void givenBuildImportSummaryIsNull() {
@@ -91,8 +105,16 @@ public class LastSuccessfulScenarioBuildTest {
 	}
 	
 	private void givenLastSuccessfulScenarioBuildIsDisabledInConfiguration() {
+		setConfigValueCreateLastSuccessfulScenarioBuildTo(false);
+	}
+	
+	private void givenLastSuccessfulScenarioBuildIsEnabledInConfiguration() {
+		setConfigValueCreateLastSuccessfulScenarioBuildTo(true);
+	}
+	
+	private void setConfigValueCreateLastSuccessfulScenarioBuildTo(final boolean value) {
 		Configuration configuration = configurationRepository.getConfiguration();
-		configuration.setCreateLastSuccessfulScenarioBuild(false);
+		configuration.setCreateLastSuccessfulScenarioBuild(value);
 		configurationRepository.updateConfiguration(configuration);
 	}
 	
@@ -106,13 +128,18 @@ public class LastSuccessfulScenarioBuildTest {
 		assertTrue(lastSuccessfulScenarioBuildDirectory.exists());
 	}
 	
+	private void givenLastSuccessfulScenarioBuildFolderDoesNotExist() {
+		File lastSuccessfulScenarioBuildDirectory = getLastSuccessfulScenarioBuildDirectory();
+		assertFalse(lastSuccessfulScenarioBuildDirectory.exists());
+	}
+	
 	private File getBranchDirectory() {
 		return new File(rootDirectory, BUILD_IDENTIFIER.getBranchName());
 	}
 	
 	private File getLastSuccessfulScenarioBuildDirectory() {
 		return new File(rootDirectory, BUILD_IDENTIFIER.getBranchName() + "/"
-				+ LastSuccessfulScenarioBuild.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
+				+ LastSuccessfulScenarioBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
 	}
 	
 	private BuildImportSummary getSummaryWith(final BuildImportStatus buildImportStatus) {
@@ -134,6 +161,11 @@ public class LastSuccessfulScenarioBuildTest {
 	private void expectBranchDirectoryExists() {
 		File branchDirectory = getBranchDirectory();
 		assertTrue(branchDirectory.exists());
+	}
+	
+	private void expectLastSuccessfulScenarioBuildDirectoryExists() {
+		File lastSuccessfulScenarioBuildDirectory = getLastSuccessfulScenarioBuildDirectory();
+		assertTrue(lastSuccessfulScenarioBuildDirectory.exists());
 	}
 	
 }

@@ -6,7 +6,6 @@ import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.LastSuccessfulScenarioBuildRepository;
 import org.scenarioo.repository.RepositoryLocator;
-import org.scenarioo.rest.base.BuildIdentifier;
 
 import com.google.common.base.Preconditions;
 
@@ -18,8 +17,6 @@ import com.google.common.base.Preconditions;
  * re-imported.
  */
 public class LastSuccessfulScenarioBuild {
-	
-	public static final String LAST_SUCCESSFUL_SCENARIO_BUILD_NAME = "last_successful_scenario.derived";
 	
 	private static final Logger LOGGER = Logger.getLogger(LastSuccessfulScenarioBuild.class);
 	
@@ -54,6 +51,7 @@ public class LastSuccessfulScenarioBuild {
 	private void update(final BuildImportSummary summary) {
 		LOGGER.info("Config value createLastSuccessfulScenarioBuild = true, starting update of build \"last successful scenario\".");
 		
+		createLastSuccessfulBuildDirectoryIfItDoesNotExist(summary.getIdentifier().getBranchName());
 		// BuildIdentifier importedBuildIdentifier = summary.getIdentifier();
 		// BuildIdentifier lSSBuildIdentifier = new BuildIdentifier(importedBuildIdentifier.getBranchName(),
 		// LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
@@ -66,10 +64,13 @@ public class LastSuccessfulScenarioBuild {
 		LOGGER.info("Done updating build \"last successful scenario\".");
 	}
 	
+	private void createLastSuccessfulBuildDirectoryIfItDoesNotExist(final String branchName) {
+		lastSuccessfulScenarioBuildRepository.createLastSuccessfulBuildDirectoryIfItDoesNotExist(branchName);
+	}
+	
 	private void deleteLastSuccessfulScenarioBuild(final BuildImportSummary summary) {
-		BuildIdentifier lSSBuildIdentifier = new BuildIdentifier(summary.getIdentifier().getBranchName(),
-				LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
-		lastSuccessfulScenarioBuildRepository.deleteLastSuccessfulScenarioBuild(lSSBuildIdentifier);
+		lastSuccessfulScenarioBuildRepository
+				.deleteLastSuccessfulScenarioBuild(summary.getIdentifier().getBranchName());
 	}
 	
 }
