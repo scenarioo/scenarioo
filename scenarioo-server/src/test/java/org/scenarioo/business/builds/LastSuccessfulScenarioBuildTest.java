@@ -130,6 +130,9 @@ public class LastSuccessfulScenarioBuildTest {
 	
 	private void givenLastSuccessfulScenarioBuildFolderDoesNotExist() {
 		File lastSuccessfulScenarioBuildDirectory = getLastSuccessfulScenarioBuildDirectory();
+		if (lastSuccessfulScenarioBuildDirectory.exists()) {
+			lastSuccessfulScenarioBuildDirectory.delete();
+		}
 		assertFalse(lastSuccessfulScenarioBuildDirectory.exists());
 	}
 	
