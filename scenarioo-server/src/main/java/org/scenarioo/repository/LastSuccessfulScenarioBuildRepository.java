@@ -26,6 +26,12 @@ public class LastSuccessfulScenarioBuildRepository {
 				lSSBuildIdentifier);
 	}
 	
+	public void copyAllUseCasesToLastSuccessfulScenarioBuild(final BuildIdentifier buildIdentifier) {
+		BuildIdentifier lSSBuildIdentifier = getLSSBuildIdentifierForBranch(buildIdentifier.getBranchName());
+		fileSystemOperations.copyAllUseCases(configurationRepository.getDocumentationDataDirectory(), buildIdentifier,
+				lSSBuildIdentifier);
+	}
+	
 	private BuildIdentifier getLSSBuildIdentifierForBranch(final String branchName) {
 		return new BuildIdentifier(branchName, LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
 	}

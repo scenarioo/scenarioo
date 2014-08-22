@@ -3,7 +3,9 @@ package org.scenarioo.business.builds;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.scenarioo.model.configuration.Configuration;
@@ -17,6 +19,8 @@ import org.scenarioo.rest.base.BuildIdentifier;
 public class LastSuccessfulScenarioBuildTest {
 	
 	private static final BuildIdentifier BUILD_IDENTIFIER = new BuildIdentifier("branch", "build");
+	private final String[] useCases = new String[] { "Log%20in", "Send%20message", "Sign%20out" };
+	
 	private LastSuccessfulScenarioBuild lastSuccessfulScenarioBuild;
 	private ConfigurationRepository configurationRepository;
 	private final File rootDirectory = new File("tmp");
@@ -56,7 +60,7 @@ public class LastSuccessfulScenarioBuildTest {
 	@Test
 	public void ifTheImportedBuildDoesNotHaveSuccessfulImportStatusNothingIsDone() {
 		givenLastSuccessfulScenarioBuildIsDisabledInConfiguration();
-		givenLastSuccessfulScenarioBuildFolderExistsInCurrentBranch();
+		givenLastSuccessfulScenarioBuildFolderExists();
 		givenBuildImportSummaryWithStatusFailed();
 		
 		whenUpdatingLastSuccessfulScenarioBuild();
@@ -67,7 +71,7 @@ public class LastSuccessfulScenarioBuildTest {
 	@Test
 	public void ifTheLastSuccessfulScenarioBuildIsDisabledInTheConfigAnExistingSuchBuildIsDeleted() {
 		givenLastSuccessfulScenarioBuildIsDisabledInConfiguration();
-		givenLastSuccessfulScenarioBuildFolderExistsInCurrentBranch();
+		givenLastSuccessfulScenarioBuildFolderExists();
 		givenBuildImportSummaryWithStatusSuccess();
 		
 		whenUpdatingLastSuccessfulScenarioBuild();
@@ -85,6 +89,30 @@ public class LastSuccessfulScenarioBuildTest {
 		whenUpdatingLastSuccessfulScenarioBuild();
 		
 		expectLastSuccessfulScenarioBuildDirectoryExists();
+	}
+	
+	@Test
+	public void allUseCasesAreCopied() {
+		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
+		givenLastSuccessfulScenarioBuildFolderExists();
+		givenBuildImportSummaryWithStatusSuccess();
+		givenImportedBuildHasThreeUseCases();
+		
+		whenUpdatingLastSuccessfulScenarioBuild();
+		
+		expectTheThreeUseCasesExistInTheLastSuccessfulScenarioBuild();
+	}
+	
+	@Test
+	public void noDerivedSubfoldersOfTheBuildFolderAreCopied() {
+		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
+		givenLastSuccessfulScenarioBuildFolderExists();
+		givenBuildImportSummaryWithStatusSuccess();
+		givenImportedBuildHasADerivedFolder();
+		
+		whenUpdatingLastSuccessfulScenarioBuild();
+		
+		expectDerivedFolderWasNotCopied();
 	}
 	
 	private void givenBuildImportSummaryIsNull() {
@@ -118,7 +146,7 @@ public class LastSuccessfulScenarioBuildTest {
 		configurationRepository.updateConfiguration(configuration);
 	}
 	
-	private void givenLastSuccessfulScenarioBuildFolderExistsInCurrentBranch() {
+	private void givenLastSuccessfulScenarioBuildFolderExists() {
 		File branchDirectory = getBranchDirectory();
 		branchDirectory.mkdirs();
 		assertTrue(branchDirectory.exists());
@@ -131,9 +159,37 @@ public class LastSuccessfulScenarioBuildTest {
 	private void givenLastSuccessfulScenarioBuildFolderDoesNotExist() {
 		File lastSuccessfulScenarioBuildDirectory = getLastSuccessfulScenarioBuildDirectory();
 		if (lastSuccessfulScenarioBuildDirectory.exists()) {
-			lastSuccessfulScenarioBuildDirectory.delete();
+			try {
+				FileUtils.deleteDirectory(lastSuccessfulScenarioBuildDirectory);
+			} catch (IOException e) {
+				fail("can't delete directory " + lastSuccessfulScenarioBuildDirectory);
+			}
 		}
 		assertFalse(lastSuccessfulScenarioBuildDirectory.exists());
+	}
+	
+	private void givenImportedBuildHasThreeUseCases() {
+		File importedBuildDirectory = getImportedBuildDirectory(buildImportSummary.getIdentifier());
+		for (String useCase : useCases) {
+			createUseCase(importedBuildDirectory, useCase);
+		}
+	}
+	
+	private void givenImportedBuildHasADerivedFolder() {
+		File importedBuildDirectory = getImportedBuildDirectory(buildImportSummary.getIdentifier());
+		File derivedFolder = new File(importedBuildDirectory, "something.derived");
+		derivedFolder.mkdirs();
+		assertTrue(derivedFolder.exists());
+	}
+	
+	private void createUseCase(final File importedBuildDirectory, final String usecaseNameUrlEncoded) {
+		File useCaseDirectory = new File(importedBuildDirectory, usecaseNameUrlEncoded);
+		useCaseDirectory.mkdirs();
+		assertTrue(useCaseDirectory.exists());
+	}
+	
+	private File getImportedBuildDirectory(final BuildIdentifier buildIdentifier) {
+		return new File(rootDirectory, buildIdentifier.getBranchName() + "/" + buildIdentifier.getBuildName());
 	}
 	
 	private File getBranchDirectory() {
@@ -169,6 +225,26 @@ public class LastSuccessfulScenarioBuildTest {
 	private void expectLastSuccessfulScenarioBuildDirectoryExists() {
 		File lastSuccessfulScenarioBuildDirectory = getLastSuccessfulScenarioBuildDirectory();
 		assertTrue(lastSuccessfulScenarioBuildDirectory.exists());
+	}
+	
+	private void expectTheThreeUseCasesExistInTheLastSuccessfulScenarioBuild() {
+		File lastSuccessfulScenarioBuildDirectory = getLastSuccessfulScenarioBuildDirectory();
+		for (String useCase : useCases) {
+			assertUseCaseExists(lastSuccessfulScenarioBuildDirectory, useCase);
+		}
+	}
+	
+	private void assertUseCaseExists(final File lastSuccessfulScenarioBuildDirectory, final String useCase) {
+		File useCaseFile = new File(lastSuccessfulScenarioBuildDirectory, useCase);
+		assertTrue(useCaseFile.exists());
+	}
+	
+	private void expectDerivedFolderWasNotCopied() {
+		File lastSuccessfulScenarioBuildDirectory = getLastSuccessfulScenarioBuildDirectory();
+		String[] folderNames = lastSuccessfulScenarioBuildDirectory.list();
+		for (String folderName : folderNames) {
+			assertFalse(folderName.endsWith(".derived"));
+		}
 	}
 	
 }

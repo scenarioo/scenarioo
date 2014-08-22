@@ -6,6 +6,7 @@ import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.LastSuccessfulScenarioBuildRepository;
 import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 import com.google.common.base.Preconditions;
 
@@ -52,6 +53,8 @@ public class LastSuccessfulScenarioBuild {
 		LOGGER.info("Config value createLastSuccessfulScenarioBuild = true, starting update of build \"last successful scenario\".");
 		
 		createLastSuccessfulBuildDirectoryIfItDoesNotExist(summary.getIdentifier().getBranchName());
+		copyAllUseCases(summary.getIdentifier());
+		
 		// BuildIdentifier importedBuildIdentifier = summary.getIdentifier();
 		// BuildIdentifier lSSBuildIdentifier = new BuildIdentifier(importedBuildIdentifier.getBranchName(),
 		// LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
@@ -64,13 +67,17 @@ public class LastSuccessfulScenarioBuild {
 		LOGGER.info("Done updating build \"last successful scenario\".");
 	}
 	
+	private void deleteLastSuccessfulScenarioBuild(final BuildImportSummary summary) {
+		lastSuccessfulScenarioBuildRepository
+				.deleteLastSuccessfulScenarioBuild(summary.getIdentifier().getBranchName());
+	}
+	
 	private void createLastSuccessfulBuildDirectoryIfItDoesNotExist(final String branchName) {
 		lastSuccessfulScenarioBuildRepository.createLastSuccessfulBuildDirectoryIfItDoesNotExist(branchName);
 	}
 	
-	private void deleteLastSuccessfulScenarioBuild(final BuildImportSummary summary) {
-		lastSuccessfulScenarioBuildRepository
-				.deleteLastSuccessfulScenarioBuild(summary.getIdentifier().getBranchName());
+	private void copyAllUseCases(final BuildIdentifier buildIdentifier) {
+		lastSuccessfulScenarioBuildRepository.copyAllUseCasesToLastSuccessfulScenarioBuild(buildIdentifier);
 	}
 	
 }
