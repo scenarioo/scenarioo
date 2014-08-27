@@ -6,26 +6,35 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 public class FileSystemOperationsDaoTest {
 	
-	private static final File rootDirectory = new File("tmp");
-	private static final BuildIdentifier buildIdentifier = new BuildIdentifier("branch", "build");
+	private final File rootDirectory = new File("tmp");
+	private final BuildIdentifier buildIdentifier = new BuildIdentifier("branch", "build");
 	
 	private static FileSystemOperationsDao fileSystemOperationsDao;
 	
-	@BeforeClass
-	public static void setupClass() {
-		rootDirectory.mkdir();
+	@Before
+	public void setupClass() {
+		if (!rootDirectory.exists()) {
+			rootDirectory.mkdirs();
+		}
+		
+		try {
+			FileUtils.cleanDirectory(rootDirectory);
+		} catch (IOException e) {
+			fail();
+		}
+		
 		fileSystemOperationsDao = new FileSystemOperationsDao();
 	}
 	
-	@AfterClass
-	public static void removeTemporaryData() throws IOException {
+	@After
+	public void removeTemporaryData() throws IOException {
 		FileUtils.deleteDirectory(new File("tmp"));
 	}
 	
