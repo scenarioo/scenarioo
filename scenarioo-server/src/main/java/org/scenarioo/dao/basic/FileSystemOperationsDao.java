@@ -56,26 +56,4 @@ public class FileSystemOperationsDao {
 		return files.getBuildDirectory(buildIdentifier);
 	}
 	
-	public void copyAllUseCases(final File documentationDataDirectory, final BuildIdentifier sourceBuildIdentifier,
-			final BuildIdentifier destinationBuildIdentifier) {
-		File sourceBuildFolder = getBuildFolder(documentationDataDirectory, sourceBuildIdentifier);
-		File destinationBuildFolder = getBuildFolder(documentationDataDirectory, destinationBuildIdentifier);
-		
-		String[] sourceDirectoryContents = sourceBuildFolder.list();
-		
-		for (String sourceDirectoryEntry : sourceDirectoryContents) {
-			if (sourceDirectoryEntry.endsWith(".derived")) {
-				continue;
-			}
-			File sourceFile = new File(sourceBuildFolder, sourceDirectoryEntry);
-			if (sourceFile.isDirectory()) {
-				try {
-					FileUtils.copyDirectoryToDirectory(sourceFile, destinationBuildFolder);
-				} catch (IOException e) {
-					LOGGER.warn("Can't copy use case " + sourceDirectoryEntry, e);
-				}
-			}
-		}
-	}
-	
 }

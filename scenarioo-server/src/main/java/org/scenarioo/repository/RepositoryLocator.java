@@ -14,7 +14,7 @@ public enum RepositoryLocator {
 	INSTANCE;
 	
 	private ConfigurationRepository configurationRepository;
-	private LastSuccessfulScenarioBuildRepository lastSuccessfulScenarioBuildRepository;
+	private LastSuccessfulScenariosBuildRepository lastSuccessfulScenarioBuildRepository;
 	
 	private RepositoryLocator() {
 		
@@ -34,7 +34,7 @@ public enum RepositoryLocator {
 	}
 	
 	private void initializeRepositories() {
-		lastSuccessfulScenarioBuildRepository = new LastSuccessfulScenarioBuildRepository(configurationRepository);
+		lastSuccessfulScenarioBuildRepository = new LastSuccessfulScenariosBuildRepository(configurationRepository);
 	}
 	
 	public ConfigurationRepository getConfigurationRepository() {
@@ -45,7 +45,7 @@ public enum RepositoryLocator {
 		return configurationRepository;
 	}
 	
-	public LastSuccessfulScenarioBuildRepository getLastSuccessfulScenarioBuildRepository() {
+	public LastSuccessfulScenariosBuildRepository getLastSuccessfulScenarioBuildRepository() {
 		return lastSuccessfulScenarioBuildRepository;
 	}
 	

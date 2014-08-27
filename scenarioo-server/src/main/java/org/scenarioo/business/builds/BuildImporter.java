@@ -65,7 +65,7 @@ public class BuildImporter {
 	 */
 	private final ExecutorService asyncBuildImportExecutor = newAsyncBuildImportExecutor();
 	
-	private final LastSuccessfulScenarioBuild lastSuccessfulScenarioBuild = new LastSuccessfulScenarioBuild();
+	private final LastSuccessfulScenariosBuild lastSuccessfulScenarioBuild = new LastSuccessfulScenariosBuild();
 	
 	public Map<BuildIdentifier, BuildImportSummary> getBuildImportSummaries() {
 		return buildImportSummaries;
@@ -182,7 +182,7 @@ public class BuildImporter {
 				aggregator.calculateAggregatedDataForBuild();
 				summary.setBuildStatistics(aggregator.getBuildStatistics());
 				addSuccessfullyImportedBuild(availableBuilds, summary);
-				lastSuccessfulScenarioBuild.updateLastSuccessfulScenarioBuild(summary);
+				lastSuccessfulScenarioBuild.updateLastSuccessfulScenarioBuild(summary, this, availableBuilds);
 				LOGGER.info("  SUCCESS on importing build: " + summary.getIdentifier().getBranchName() + "/"
 						+ summary.getIdentifier().getBuildName());
 			} else {
