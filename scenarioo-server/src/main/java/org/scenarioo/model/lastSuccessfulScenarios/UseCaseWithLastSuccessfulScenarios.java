@@ -24,4 +24,8 @@ public class UseCaseWithLastSuccessfulScenarios {
 		return scenarios.get(scenarioName);
 	}
 	
+	public void removeScenario(final String scenarioName) {
+		scenarios.remove(scenarioName);
+	}
+	
 }

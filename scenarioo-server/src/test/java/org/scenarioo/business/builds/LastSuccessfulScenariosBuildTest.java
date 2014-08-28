@@ -166,11 +166,6 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 	
 	@Test
-	public void ifTheImportedBuildIsTheLatestOneAllUseCasesThatDoNotExistAnymoreAreDeleted() {
-		// TODO
-	}
-	
-	@Test
 	public void onlySuccessfulScenariosAreCopied() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenBuildImportSummaryWithStatusSuccess();
@@ -194,17 +189,38 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 	
 	@Test
-	public void ifTheImportedUseCaseIsTheLatestOneAllScenariosThatDoNotExistAnymoreAreDeleted() {
-		// TODO
+	public void ifTheImportedUseCaseIsTheLatestOneAllUseCasesThatDoNotExistAnymoreAreDeleted() {
+		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
+		givenBuildImportSummaryWithStatusSuccess();
+		givenLatestBuildInLastSuccessfulScenariosBuildIsFromYesterdayAndContainsThreeUseCases();
+		givenImportedBuildIsFromTodayAndFirstUseCaseDoesNotExistAnymore();
+		
+		whenUpdatingLastSuccessfulScenarioBuild();
+		
+		expectFirstUseCaseDoesNotExistAnymoreInLastSuccessfulBuildsFolderAndInTheIndex();
+		expectLatestImportedBuildDateIsNow();
 	}
 	
 	@Test
-	public void theScenarioXmlContainsTheNameOfTheBuildItComesFrom() {
-		// TODO Add name or maybe the date to the scenario.xml
+	public void ifTheImportedUseCaseIsTheLatestOneAllScenariosThatDoNotExistAnymoreAreDeleted() {
+		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
+		givenBuildImportSummaryWithStatusSuccess();
+		givenLatestBuildInLastSuccessfulScenariosBuildIsFromYesterdayAndContainsThreeUseCases();
+		givenImportedBuildIsFromTodayAndFirstScenarioInFirstUseCaseDoesNotExistAnymore();
+		
+		whenUpdatingLastSuccessfulScenarioBuild();
+		
+		expectFirstScenarioInFirstUseCaseDoesNotExistAnymoreInLastSuccessfulBuildsFolderAndInTheIndex();
+		expectLatestImportedBuildDateIsNow();
 	}
 	
 	@Test
 	public void theUseCaseXmlOfTheLatestBuildIsUsed() {
+		// TODO
+	}
+	
+	@Test
+	public void derivedFilesInTheUseCaseFolderAreNotCopied() {
 		// TODO
 	}
 	
@@ -295,14 +311,29 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 	
 	private void givenImportedBuildHasThreeUseCases() {
-		File importedBuildDirectory = getImportedBuildDirectory(buildImportSummary.getIdentifier());
-		createThreeUseCases(importedBuildDirectory);
+		createThreeUseCases();
+	}
+	
+	private void givenImportedBuildIsFromTodayAndFirstUseCaseDoesNotExistAnymore() {
+		buildImportSummary.getBuildDescription().setDate(DATE_NOW);
+		createUseCaseTwoAndThree();
+	}
+	
+	private void givenImportedBuildIsFromTodayAndFirstScenarioInFirstUseCaseDoesNotExistAnymore() {
+		buildImportSummary.getBuildDescription().setDate(DATE_NOW);
+		File useCaseDirectory = getDirectoryOfFirstUseCase();
+		createOnlySecondAndThirdScenario(useCaseDirectory);
 	}
 	
 	private void givenImportedBuildHasThreeScenarios() {
+		File useCaseDirectory = getDirectoryOfFirstUseCase();
+		createThreeScenarios(useCaseDirectory);
+	}
+	
+	private File getDirectoryOfFirstUseCase() {
 		File importedBuildDirectory = getImportedBuildDirectory(buildImportSummary.getIdentifier());
 		File useCaseDirectory = new File(importedBuildDirectory, encode(useCases[0]));
-		createThreeScenarios(useCaseDirectory);
+		return useCaseDirectory;
 	}
 	
 	private void givenImportedBuildHasADerivedFolder() {
@@ -317,14 +348,34 @@ public class LastSuccessfulScenariosBuildTest {
 		LastSuccessfulScenariosIndex index = getLastSuccessfulScenariosIndex();
 		File useCaseDirectory = new File(lastSuccessfulScenariosBuildDirectory, encode(useCases[0]));
 		
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(DATE_NOW);
-		calendar.add(Calendar.DATE, -1);
+		Calendar calendar = getCalendarForNowMinusOneDay();
 		
 		for (String scenarioName : scenarios) {
 			createSuccessfulScenario(useCaseDirectory, scenarioName);
 			index.setScenarioBuildDate(useCases[0], scenarioName, calendar.getTime());
 			calendar.add(Calendar.DATE, 1);
+		}
+		
+		saveLastSuccessfulScenariosIndex(index);
+	}
+	
+	private Calendar getCalendarForNowMinusOneDay() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(DATE_NOW);
+		calendar.add(Calendar.DATE, -1);
+		return calendar;
+	}
+	
+	private void givenLatestBuildInLastSuccessfulScenariosBuildIsFromYesterdayAndContainsThreeUseCases() {
+		Calendar yesterday = getCalendarForNowMinusOneDay();
+		LastSuccessfulScenariosIndex index = getLastSuccessfulScenariosIndex();
+		index.setLatestImportedBuildDate(yesterday.getTime());
+		
+		File lastSuccessfulScenariosBuildDirectory = getLastSuccessfulScenariosBuildDirectory();
+		File useCaseDirectory = new File(lastSuccessfulScenariosBuildDirectory, encode(useCases[0]));
+		for (String scenarioName : scenarios) {
+			createSuccessfulScenario(useCaseDirectory, scenarioName);
+			index.setScenarioBuildDate(useCases[0], scenarioName, yesterday.getTime());
 		}
 		
 		saveLastSuccessfulScenariosIndex(index);
@@ -339,6 +390,11 @@ public class LastSuccessfulScenariosBuildTest {
 		for (String scenario : scenarios) {
 			createSuccessfulScenario(useCaseFolder, scenario, DATE_NOW);
 		}
+	}
+	
+	private void createOnlySecondAndThirdScenario(final File useCaseFolder) {
+		createSuccessfulScenario(useCaseFolder, scenarios[1], DATE_NOW);
+		createSuccessfulScenario(useCaseFolder, scenarios[2], DATE_NOW);
 	}
 	
 	private void createSuccessfulScenario(final File useCaseFolder, final String scenario) {
@@ -361,10 +417,17 @@ public class LastSuccessfulScenariosBuildTest {
 		return new LastSuccessfulScenariosIndex();
 	}
 	
-	private void createThreeUseCases(final File buildFolder) {
+	private void createThreeUseCases() {
+		File buildFolder = getImportedBuildDirectory(buildImportSummary.getIdentifier());
 		for (String useCase : useCases) {
 			createUseCase(buildFolder, useCase);
 		}
+	}
+	
+	private void createUseCaseTwoAndThree() {
+		File buildFolder = getImportedBuildDirectory(buildImportSummary.getIdentifier());
+		createUseCase(buildFolder, useCases[1]);
+		createUseCase(buildFolder, useCases[2]);
 	}
 	
 	private void createUseCase(final File importedBuildDirectory, final String useCaseName) {
@@ -521,6 +584,31 @@ public class LastSuccessfulScenariosBuildTest {
 			fail();
 			return null;
 		}
+	}
+	
+	private void expectFirstUseCaseDoesNotExistAnymoreInLastSuccessfulBuildsFolderAndInTheIndex() {
+		File lastSuccessfulScenariosBuildDirectory = getLastSuccessfulScenariosBuildDirectory();
+		File firstUseCaseDirectory = new File(lastSuccessfulScenariosBuildDirectory, encode(useCases[0]));
+		assertFalse(firstUseCaseDirectory.exists());
+		
+		LastSuccessfulScenariosIndex lastSuccessfulScenariosIndex = getLastSuccessfulScenariosIndex();
+		assertNull(lastSuccessfulScenariosIndex.getUseCase(useCases[0]));
+	}
+	
+	private void expectLatestImportedBuildDateIsNow() {
+		LastSuccessfulScenariosIndex lastSuccessfulScenariosIndex = getLastSuccessfulScenariosIndex();
+		assertEquals(DATE_NOW, lastSuccessfulScenariosIndex.getLatestImportedBuildDate());
+	}
+	
+	private void expectFirstScenarioInFirstUseCaseDoesNotExistAnymoreInLastSuccessfulBuildsFolderAndInTheIndex() {
+		File lastSuccessfulScenariosBuildDirectory = getLastSuccessfulScenariosBuildDirectory();
+		File firstUseCaseDirectory = new File(lastSuccessfulScenariosBuildDirectory, encode(useCases[0]));
+		File firstScenarioDirectory = new File(firstUseCaseDirectory, encode(scenarios[0]));
+		assertFalse(firstScenarioDirectory.exists());
+		
+		LastSuccessfulScenariosIndex lastSuccessfulScenariosIndex = getLastSuccessfulScenariosIndex();
+		assertNotNull(lastSuccessfulScenariosIndex.getUseCase(useCases[0]));
+		assertNull(lastSuccessfulScenariosIndex.getUseCase(useCases[0]).getScenario(scenarios[0]));
 	}
 	
 }

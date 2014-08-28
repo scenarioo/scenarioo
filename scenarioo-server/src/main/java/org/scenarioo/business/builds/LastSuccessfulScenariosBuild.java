@@ -1,5 +1,7 @@
 package org.scenarioo.business.builds;
 
+import java.io.File;
+
 import org.apache.log4j.Logger;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
@@ -23,8 +25,6 @@ public class LastSuccessfulScenariosBuild {
 	
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
-	private final LastSuccessfulScenariosBuildRepository repository = RepositoryLocator.INSTANCE
-			.getLastSuccessfulScenarioBuildRepository();
 	
 	public void updateLastSuccessfulScenarioBuild(final BuildImportSummary summary, final BuildImporter buildImporter,
 			final AvailableBuildsList availableBuilds) {
@@ -46,7 +46,8 @@ public class LastSuccessfulScenariosBuild {
 		
 		if (!configurationRepository.getConfiguration().isCreateLastSuccessfulScenarioBuild()) {
 			LOGGER.info("Config value createLastSuccessfulScenarioBuild = false");
-			repository.deleteLastSuccessfulScenarioBuild(summary.getIdentifier().getBranchName());
+			LastSuccessfulScenariosBuildRepository repository = createLastSuccessfulScenariosBuildRepository(summary);
+			repository.deleteLastSuccessfulScenarioBuild();
 			return;
 		}
 		
@@ -56,15 +57,17 @@ public class LastSuccessfulScenariosBuild {
 				.getBranchName(), LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME));
 	}
 	
-	private void update(final BuildImportSummary summary) {
+	private LastSuccessfulScenariosBuildRepository createLastSuccessfulScenariosBuildRepository(
+			final BuildImportSummary buildImportSummary) {
+		File documentationDataDirectory = configurationRepository.getDocumentationDataDirectory();
+		return new LastSuccessfulScenariosBuildRepository(documentationDataDirectory, buildImportSummary);
+	}
+	
+	private void update(final BuildImportSummary buildImportSummary) {
 		LOGGER.info("Config value createLastSuccessfulScenarioBuild = true, starting update of build \"last successful scenario\".");
 		
-		String branchName = summary.getIdentifier().getBranchName();
-		
-		repository.createLastSuccessfulBuildDirectoryIfItDoesNotExist(branchName);
-		repository.createOrUpdateBuildXmlFile(branchName);
-		repository.copyAllUseCasesToLastSuccessfulScenarioBuild(summary.getIdentifier(), summary.getBuildDescription()
-				.getDate());
+		LastSuccessfulScenariosBuildRepository repository = createLastSuccessfulScenariosBuildRepository(buildImportSummary);
+		repository.enrichLastSuccessfulScenariosWithBuild();
 		
 		LOGGER.info("Done updating build \"last successful scenario\".");
 	}

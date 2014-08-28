@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class LastSuccessfulScenariosIndex {
 	
 	Map<String, UseCaseWithLastSuccessfulScenarios> useCases = new HashMap<String, UseCaseWithLastSuccessfulScenarios>();
+	private Date latestImportedBuildDate;
 	
 	public UseCaseWithLastSuccessfulScenarios getUseCaseCreateIfNotNull(final String useCaseName) {
 		UseCaseWithLastSuccessfulScenarios useCase = useCases.get(useCaseName);
@@ -50,6 +51,25 @@ public class LastSuccessfulScenariosIndex {
 	
 	private LastSuccessfulScenario getScenario(final String useCaseName, final String scenarioName) {
 		return getUseCaseCreateIfNotNull(useCaseName).getScenarioCreateIfNotNull(scenarioName);
+	}
+	
+	public void setLatestImportedBuildDate(final Date latestImportedBuildDate) {
+		this.latestImportedBuildDate = latestImportedBuildDate;
+	}
+	
+	public Date getLatestImportedBuildDate() {
+		return latestImportedBuildDate;
+	}
+	
+	public void removeUseCase(final String useCaseName) {
+		useCases.remove(useCaseName);
+	}
+	
+	public void removeScenario(final String useCaseName, final String scenarioName) {
+		UseCaseWithLastSuccessfulScenarios useCaseWithLastSuccessfulScenarios = useCases.get(useCaseName);
+		if (useCaseWithLastSuccessfulScenarios != null) {
+			useCaseWithLastSuccessfulScenarios.removeScenario(scenarioName);
+		}
 	}
 	
 }
