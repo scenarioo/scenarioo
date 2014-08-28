@@ -14,20 +14,23 @@ function BreadcrumpPage(overridePath) {
 
 util.inherits(BreadcrumpPage, BaseWebPage);
 
-BreadcrumpPage.prototype.clickOnBreadcrump = function (breadcrumpId) {
-    this.breadcrumbs.findElement(by.id(breadcrumpId)).then(function (element) {
-        element.click();
-    });
+BreadcrumpPage.prototype.clickOnBreadcrumb = function(breadcrumpId) {
+    var useCaseElement =  this.breadcrumbs.findElement(by.id(breadcrumpId));
+    var ptor = protractor.getInstance();
+
+    ptor.actions().click(useCaseElement).perform();
 };
 
-BreadcrumpPage.prototype.getUsecaseName = function (breadcrumpId) {
-    this.breadcrumbs.findElement(by.id(breadcrumpId)).then(function (element) {
-        return element.linkText;
-    });
+BreadcrumpPage.prototype.assertUseCaseNameInBreadcrumb = function(breadcrumpId, useCaseName) {
+    var useCaseElement =  this.breadcrumbs.findElement(by.id(breadcrumpId));
+    expect(useCaseElement.getText()).toContain(useCaseName);
 };
 
-BreadcrumpPage.prototype.assertUseCaseName = function (usecaseName) {
+BreadcrumpPage.prototype.assertThatTooltipIsShown = function(toolTipId, toolTipText){
+    var toolTipElement =  this.breadcrumbs.findElement(by.id(toolTipId));
+    var toolTipAttribute = toolTipElement.getAttribute('tooltip');
 
+    expect(toolTipAttribute).toBe(toolTipText);
 };
 
 module.exports = BreadcrumpPage;
