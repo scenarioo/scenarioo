@@ -11,6 +11,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.ScenarioDocuWriter;
+import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationFiles;
 import org.scenarioo.dao.basic.FileSystemOperationsDao;
@@ -31,7 +32,8 @@ public class LastSuccessfulScenariosBuildRepository {
 	
 	private static final Logger LOGGER = Logger.getLogger(LastSuccessfulScenariosBuildRepository.class);
 	
-	public static final String LAST_SUCCESSFUL_SCENARIO_BUILD_NAME = "latest successful scenarios.derived";
+	public static final String LAST_SUCCESSFUL_SCENARIO_BUILD_NAME = "last successful scenarios.derived";
+	public static final String LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME = "lastSuccessfulScenariosIndex.derived";
 	
 	private final FileSystemOperationsDao fileSystemOperations = new FileSystemOperationsDao();
 	
@@ -75,7 +77,7 @@ public class LastSuccessfulScenariosBuildRepository {
 		
 		removeUseCasesAndScenariosThatDoNotExistAnymoreIfThisIsTheLatestBuild();
 		
-		copyAllUseCasesToLastSuccessfulScenarioBuild();
+		copySuccessfulScenariosToSuccessfulScenariosBuild();
 		index.setLatestImportedBuildDate(buildImportSummary.getBuildDescription().getDate());
 		
 		saveLastSuccessfulScenariosIndex(index);
@@ -99,11 +101,6 @@ public class LastSuccessfulScenariosBuildRepository {
 	public void createLastSuccessfulBuildDirectoryIfItDoesNotExist(final String branchName) {
 		BuildIdentifier lSSBuildIdentifier = getLastSuccessfulScenariosBuildIdentifierForBranch(branchName);
 		fileSystemOperations.createBuildFolderIfItDoesNotExist(documentationDataDirectory, lSSBuildIdentifier);
-	}
-	
-	public void copyAllUseCasesToLastSuccessfulScenarioBuild() {
-		
-		copyUseCaseFoldersWithSuccessfulScenarios();
 	}
 	
 	private BuildIdentifier getLastSuccessfulScenariosBuildIdentifierForBranch(final String branchName) {
@@ -186,7 +183,16 @@ public class LastSuccessfulScenariosBuildRepository {
 		});
 	}
 	
-	public void copyUseCaseFoldersWithSuccessfulScenarios() {
+	private String[] getFilesAndDirectoriesThatAreNotDerived(final File parentDirectory) {
+		return parentDirectory.list(new FilenameFilter() {
+			@Override
+			public boolean accept(final File dir, final String name) {
+				return !name.endsWith(".derived");
+			}
+		});
+	}
+	
+	public void copySuccessfulScenariosToSuccessfulScenariosBuild() {
 		File sourceBuildFolder = getBuildFolder(documentationDataDirectory, buildImportSummary.getIdentifier());
 		File destinationBuildFolder = lastSuccessfulScenariosBuildFolder;
 		
@@ -231,13 +237,35 @@ public class LastSuccessfulScenariosBuildRepository {
 			
 			if (isScenarioSuccessful(documentationDataDirectory, scenarioIdentifier)
 					&& isScenarioNewerThanExisting(existingScenarioBuildDate, buildDate)) {
-				try {
-					FileUtils.copyDirectoryToDirectory(scenarioFolder, destinationUsecaseFolder);
-					index.setScenarioBuildDate(useCaseName, scenarioName, buildDate);
-					LOGGER.info("Copied successful scenario: " + scenarioFolder + " to " + destinationUsecaseFolder);
-				} catch (IOException e) {
-					LOGGER.warn("Can't copy scenario " + scenarioFolder + " to " + destinationUsecaseFolder);
+				copyDirectoryWithoutDerivedFilesAndDirectories(scenarioFolder, destinationUsecaseFolder);
+				index.setScenarioBuildDate(useCaseName, scenarioName, buildDate);
+				LOGGER.info("Copied successful scenario: " + scenarioFolder + " to " + destinationUsecaseFolder);
+			}
+		}
+	}
+	
+	private void copyDirectoryWithoutDerivedFilesAndDirectories(final File scenarioFolder,
+			final File destinationUsecaseFolder) {
+		File destinationScenarioFolder = new File(destinationUsecaseFolder, scenarioFolder.getName());
+		destinationScenarioFolder.mkdirs();
+		
+		String[] filesAndDirectories = getFilesAndDirectoriesThatAreNotDerived(scenarioFolder);
+		
+		copyListOfFiles(filesAndDirectories, scenarioFolder, destinationScenarioFolder);
+	}
+	
+	private void copyListOfFiles(final String[] filesAndDirectories, final File sourceDirectory,
+			final File destinationDirectory) {
+		for (String fileOrDirectoryString : filesAndDirectories) {
+			File fileOrDirectory = new File(sourceDirectory, fileOrDirectoryString);
+			try {
+				if (fileOrDirectory.isDirectory()) {
+					FileUtils.copyDirectoryToDirectory(fileOrDirectory, destinationDirectory);
+				} else {
+					FileUtils.copyFileToDirectory(fileOrDirectory, destinationDirectory);
 				}
+			} catch (IOException e) {
+				LOGGER.warn("Copying " + fileOrDirectory + " to " + destinationDirectory + " failed.");
 			}
 		}
 	}
@@ -251,7 +279,7 @@ public class LastSuccessfulScenariosBuildRepository {
 	
 	private String decode(final String string) {
 		try {
-			return URLDecoder.decode(string, "URT-8");
+			return URLDecoder.decode(string, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
@@ -260,8 +288,14 @@ public class LastSuccessfulScenariosBuildRepository {
 	public boolean isScenarioSuccessful(final File documentationDataDirectory,
 			final ScenarioIdentifier scenarioIdentifier) {
 		ScenarioDocuReader reader = new ScenarioDocuReader(documentationDataDirectory);
-		Scenario scenario = reader.loadScenario(scenarioIdentifier.getBranchName(), scenarioIdentifier.getBuildName(),
-				scenarioIdentifier.getUsecaseName(), scenarioIdentifier.getScenarioName());
+		Scenario scenario = null;
+		try {
+			scenario = reader.loadScenario(scenarioIdentifier.getBranchName(), scenarioIdentifier.getBuildName(),
+					scenarioIdentifier.getUsecaseName(), scenarioIdentifier.getScenarioName());
+		} catch (ResourceNotFoundException e) {
+			LOGGER.warn("Can't read scenario.xml file for scenario " + scenarioIdentifier + " in directory "
+					+ documentationDataDirectory);
+		}
 		
 		return scenario != null && Status.SUCCESS.getKeyword().equals(scenario.getStatus());
 	}
@@ -281,7 +315,7 @@ public class LastSuccessfulScenariosBuildRepository {
 	}
 	
 	private File getLastSuccessfulScenariosIndexFile(final File lastSuccessfulScenariosBuildFolder) {
-		return new File(lastSuccessfulScenariosBuildFolder, "lastSuccessfulScenariosIndex.derived");
+		return new File(lastSuccessfulScenariosBuildFolder, LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME);
 	}
 	
 	private void saveLastSuccessfulScenariosIndex(final LastSuccessfulScenariosIndex index) {

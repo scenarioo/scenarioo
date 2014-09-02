@@ -3,8 +3,10 @@ package org.scenarioo.business.builds;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,6 +25,7 @@ import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Status;
+import org.scenarioo.model.lastSuccessfulScenarios.LastSuccessfulScenario;
 import org.scenarioo.model.lastSuccessfulScenarios.LastSuccessfulScenariosIndex;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.LastSuccessfulScenariosBuildRepository;
@@ -142,18 +145,6 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 	
 	@Test
-	public void noDerivedSubfoldersOfTheBuildFolderAreCopied() {
-		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
-		givenLastSuccessfulScenarioBuildFolderExists();
-		givenBuildImportSummaryWithStatusSuccess();
-		givenImportedBuildHasADerivedFolder();
-		
-		whenUpdatingLastSuccessfulScenarioBuild();
-		
-		expectDerivedFolderWasNotCopied();
-	}
-	
-	@Test
 	public void theBuildIsNotUpdatedWithItself() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenLastSuccessfulScenarioBuildFolderExists();
@@ -220,8 +211,27 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 	
 	@Test
-	public void derivedFilesInTheUseCaseFolderAreNotCopied() {
-		// TODO
+	public void derivedFilesAndFoldersAreNotCopied() {
+		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
+		givenLastSuccessfulScenarioBuildFolderExists();
+		givenBuildImportSummaryWithStatusSuccess();
+		givenImportedBuildHasDerivedFilesAndFoldersOnAllLevelsPlusOneScenario();
+		
+		whenUpdatingLastSuccessfulScenarioBuild();
+		
+		expectDerivedFilesAndDirectoriesDoNotExistInLastSuccessfulScenariosBuildAndScenarioWasCopied();
+	}
+	
+	@Test
+	public void scenariosWithoutScenarioXmlFileAreTreatedAsIfTheyDidNotExist() {
+		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
+		givenLastSuccessfulScenarioBuildFolderExists();
+		givenBuildImportSummaryWithStatusSuccess();
+		givenImportedBuildHasAScenarioWihoutScenarioXmlFile();
+		
+		whenUpdatingLastSuccessfulScenarioBuild();
+		
+		expectOnlyTheSecondAndThirdScenarioAreAddedToTheLastSuccessfulBuild();
 	}
 	
 	private void givenBuildImportSummaryIsNull() {
@@ -336,11 +346,39 @@ public class LastSuccessfulScenariosBuildTest {
 		return useCaseDirectory;
 	}
 	
-	private void givenImportedBuildHasADerivedFolder() {
+	private void givenImportedBuildHasDerivedFilesAndFoldersOnAllLevelsPlusOneScenario() {
 		File importedBuildDirectory = getImportedBuildDirectory(buildImportSummary.getIdentifier());
-		File derivedFolder = new File(importedBuildDirectory, "something.derived");
-		derivedFolder.mkdirs();
-		assertTrue(derivedFolder.exists());
+		createDerivedFileAndDirectory(importedBuildDirectory);
+		
+		File useCaseDirectory = new File(importedBuildDirectory, encode(useCases[0]));
+		createDerivedFileAndDirectory(useCaseDirectory);
+		
+		File scenarioDirectory = new File(useCaseDirectory, encode(scenarios[0]));
+		createDerivedFileAndDirectory(scenarioDirectory);
+		
+		createScenario(useCaseDirectory, scenarios[0], Status.SUCCESS, decode(useCaseDirectory.getName()));
+	}
+	
+	private void createDerivedFileAndDirectory(final File directory) {
+		File derivedDirectory = new File(directory, "directory.derived");
+		File derivedFile = new File(directory, "file.derived");
+		
+		derivedDirectory.mkdirs();
+		try {
+			derivedFile.createNewFile();
+		} catch (IOException e) {
+			fail("could not create file " + derivedFile);
+		}
+		
+		assertTrue(derivedDirectory.exists());
+		assertTrue(derivedFile.exists());
+	}
+	
+	private void givenImportedBuildHasAScenarioWihoutScenarioXmlFile() {
+		File useCaseDirectory = getDirectoryOfFirstUseCase();
+		
+		createScenarioWithoutXmlFile(useCaseDirectory, scenarios[0]);
+		createOnlySecondAndThirdScenario(useCaseDirectory);
 	}
 	
 	private void givenLastSuccessfulScenarioBuildWithScenarioFromYesterdayNowAndTomorrow() {
@@ -392,9 +430,9 @@ public class LastSuccessfulScenariosBuildTest {
 		}
 	}
 	
-	private void createOnlySecondAndThirdScenario(final File useCaseFolder) {
-		createSuccessfulScenario(useCaseFolder, scenarios[1], DATE_NOW);
-		createSuccessfulScenario(useCaseFolder, scenarios[2], DATE_NOW);
+	private void createOnlySecondAndThirdScenario(final File useCaseDirectory) {
+		createSuccessfulScenario(useCaseDirectory, scenarios[1], DATE_NOW);
+		createSuccessfulScenario(useCaseDirectory, scenarios[2], DATE_NOW);
 	}
 	
 	private void createSuccessfulScenario(final File useCaseFolder, final String scenario) {
@@ -447,6 +485,15 @@ public class LastSuccessfulScenariosBuildTest {
 		scenario.setStatus(Status.SUCCESS);
 		scenario.addDetail(BUILD_DATE_FOR_TEST_KEY, date);
 		ScenarioDocuXMLFileUtil.marshal(scenario, scenarioFile);
+	}
+	
+	private void createScenarioWithoutXmlFile(final File useCaseDirectory, final String scenarioName) {
+		File scenarioDirectory = new File(useCaseDirectory, encode(scenarioName));
+		scenarioDirectory.mkdirs();
+		assertTrue(scenarioDirectory.exists());
+		
+		File scenarioFile = new File(scenarioDirectory, FILE_NAME_SCENARIO);
+		assertFalse(scenarioFile.exists());
 	}
 	
 	private File getImportedBuildDirectory(final BuildIdentifier buildIdentifier) {
@@ -510,15 +557,32 @@ public class LastSuccessfulScenariosBuildTest {
 		assertTrue(useCaseFile.exists());
 	}
 	
-	private void expectDerivedFolderWasNotCopied() {
+	private void expectDerivedFilesAndDirectoriesDoNotExistInLastSuccessfulScenariosBuildAndScenarioWasCopied() {
 		File lastSuccessfulScenarioBuildDirectory = getLastSuccessfulScenariosBuildDirectory();
-		String[] folderNames = lastSuccessfulScenarioBuildDirectory.list();
-		for (String folderName : folderNames) {
-			File folder = new File(lastSuccessfulScenarioBuildDirectory, folderName);
-			if (folder.isDirectory()) {
-				assertFalse(folderName.endsWith(".derived"));
+		File useCaseDirectory = new File(lastSuccessfulScenarioBuildDirectory, encode(useCases[0]));
+		File scenarioDirectory = new File(useCaseDirectory, encode(scenarios[0]));
+		File scenarioFile = new File(scenarioDirectory, FILE_NAME_SCENARIO);
+		
+		assertFolderDoesNotContainAnyDerivedFilesOrDirectories(lastSuccessfulScenarioBuildDirectory);
+		assertFolderDoesNotContainAnyDerivedFilesOrDirectories(useCaseDirectory);
+		assertFolderDoesNotContainAnyDerivedFilesOrDirectories(scenarioDirectory);
+		
+		assertTrue(scenarioFile.exists());
+	}
+	
+	private void assertFolderDoesNotContainAnyDerivedFilesOrDirectories(final File directory) {
+		String[] derivedFilesAndDirectories = directory.list(new FilenameFilter() {
+			@Override
+			public boolean accept(final File dir, final String name) {
+				File fileOrDirectory = new File(dir, name);
+				return fileOrDirectory.getName().endsWith(".derived")
+						&& !fileOrDirectory
+								.getName()
+								.equals(encode(LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME));
 			}
-		}
+		});
+		
+		assertTrue(derivedFilesAndDirectories == null || derivedFilesAndDirectories.length == 0);
 	}
 	
 	private void expectBuildXmlWithValidContentExists() {
@@ -531,7 +595,7 @@ public class LastSuccessfulScenariosBuildTest {
 				LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
 		
 		assertEquals(Status.SUCCESS.getKeyword(), build.getStatus());
-		assertEquals("latest successful scenarios.derived", build.getName());
+		assertEquals(LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME, build.getName());
 		assertNotNull(build.getDate());
 		assertEquals("various", build.getRevision());
 	}
@@ -577,15 +641,6 @@ public class LastSuccessfulScenariosBuildTest {
 		}
 	}
 	
-	private String encode(final String string) {
-		try {
-			return URLEncoder.encode(string, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			fail();
-			return null;
-		}
-	}
-	
 	private void expectFirstUseCaseDoesNotExistAnymoreInLastSuccessfulBuildsFolderAndInTheIndex() {
 		File lastSuccessfulScenariosBuildDirectory = getLastSuccessfulScenariosBuildDirectory();
 		File firstUseCaseDirectory = new File(lastSuccessfulScenariosBuildDirectory, encode(useCases[0]));
@@ -609,6 +664,54 @@ public class LastSuccessfulScenariosBuildTest {
 		LastSuccessfulScenariosIndex lastSuccessfulScenariosIndex = getLastSuccessfulScenariosIndex();
 		assertNotNull(lastSuccessfulScenariosIndex.getUseCase(useCases[0]));
 		assertNull(lastSuccessfulScenariosIndex.getUseCase(useCases[0]).getScenario(scenarios[0]));
+	}
+	
+	private void expectOnlyTheSecondAndThirdScenarioAreAddedToTheLastSuccessfulBuild() {
+		LastSuccessfulScenariosIndex index = getLastSuccessfulScenariosIndex();
+		File lastSuccessfulScenariosBuildDirectory = getLastSuccessfulScenariosBuildDirectory();
+		File firstUseCaseDirectory = new File(lastSuccessfulScenariosBuildDirectory, encode(useCases[0]));
+		
+		expectScenarioDoesNotExistInLastSuccessfulBuild(firstUseCaseDirectory, index, scenarios[0]);
+		expectScenarioExistsInLastSuccessfulBuild(firstUseCaseDirectory, index, scenarios[1]);
+		expectScenarioExistsInLastSuccessfulBuild(firstUseCaseDirectory, index, scenarios[2]);
+	}
+	
+	private void expectScenarioDoesNotExistInLastSuccessfulBuild(final File useCaseDirectory,
+			final LastSuccessfulScenariosIndex index, final String scenarioName) {
+		File scenarioDirectory = new File(useCaseDirectory, encode(scenarioName));
+		assertFalse(scenarioDirectory.exists());
+		
+		assertNull(getScenarioFromIndex(useCaseDirectory, index, scenarioName));
+	}
+	
+	private void expectScenarioExistsInLastSuccessfulBuild(final File useCaseDirectory,
+			final LastSuccessfulScenariosIndex index, final String scenarioName) {
+		File scenarioFile = new File(useCaseDirectory, encode(scenarioName) + "/" + FILE_NAME_SCENARIO);
+		assertTrue(scenarioFile.exists());
+		
+		assertNotNull(getScenarioFromIndex(useCaseDirectory, index, scenarioName));
+	}
+	
+	private LastSuccessfulScenario getScenarioFromIndex(final File useCaseDirectory,
+			final LastSuccessfulScenariosIndex index, final String scenarioName) {
+		return index.getUseCase(decode(useCaseDirectory.getName())).getScenario(scenarioName);
+	}
+	
+	private String encode(final String string) {
+		try {
+			return URLEncoder.encode(string, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			fail();
+			return null;
+		}
+	}
+	
+	private String decode(final String string) {
+		try {
+			return URLDecoder.decode(string, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 }
