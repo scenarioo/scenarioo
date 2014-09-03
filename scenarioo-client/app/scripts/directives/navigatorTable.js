@@ -100,7 +100,6 @@ angular.module('scenarioo.directives').directive('scNavigatorTable', function ($
                 }
 
                 if (typeof(callbackFunction) === 'function') {
-                    console.log('invoke callback');
                     callbackFunction.call(parentScope, currentCollection[parentScope.selectedRowIndex]);
                 }
                 // scope.$apply();
