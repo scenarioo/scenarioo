@@ -61,7 +61,7 @@ public class Configuration {
 	private Map<String, String> buildstates = new HashMap<String, String>();
 	
 	/**
-	 * Will create a physical build containing the latest successful scenarios of a branch.
+	 * Will create a physical build containing the last successful scenarios of a branch.
 	 */
 	private boolean createLastSuccessfulScenarioBuild = false;
 	

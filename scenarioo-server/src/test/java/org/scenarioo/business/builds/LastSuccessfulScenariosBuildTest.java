@@ -361,17 +361,23 @@ public class LastSuccessfulScenariosBuildTest {
 	
 	private void createDerivedFileAndDirectory(final File directory) {
 		File derivedDirectory = new File(directory, "directory.derived");
+		File derivedDirectory2 = new File(directory, "directory.derived.something");
 		File derivedFile = new File(directory, "file.derived");
+		File derivedFile2 = new File(directory, "file.derived.log");
 		
 		derivedDirectory.mkdirs();
+		derivedDirectory2.mkdirs();
 		try {
 			derivedFile.createNewFile();
+			derivedFile2.createNewFile();
 		} catch (IOException e) {
 			fail("could not create file " + derivedFile);
 		}
 		
 		assertTrue(derivedDirectory.exists());
+		assertTrue(derivedDirectory2.exists());
 		assertTrue(derivedFile.exists());
+		assertTrue(derivedFile2.exists());
 	}
 	
 	private void givenImportedBuildHasAScenarioWihoutScenarioXmlFile() {
@@ -575,7 +581,7 @@ public class LastSuccessfulScenariosBuildTest {
 			@Override
 			public boolean accept(final File dir, final String name) {
 				File fileOrDirectory = new File(dir, name);
-				return fileOrDirectory.getName().endsWith(".derived")
+				return fileOrDirectory.getName().contains(".derived")
 						&& !fileOrDirectory
 								.getName()
 								.equals(encode(LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME));

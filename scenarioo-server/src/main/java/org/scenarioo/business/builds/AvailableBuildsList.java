@@ -31,6 +31,7 @@ import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.derived.BuildLink;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.LastSuccessfulScenariosBuildRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
@@ -215,11 +216,15 @@ public class AvailableBuildsList {
 		BuildLink aliasLinkForMostRecentBuild = null;
 		BuildLink lastSuccessfulBuild = null;
 		BuildLink mostRecentBuild = null;
+		
 		for (BuildLink build : branchBuilds.getBuilds()) {
 			if (build.getLinkName().equals(aliasForMostRecentBuild)) {
 				aliasLinkForMostRecentBuild = build;
 			} else if (build.getLinkName().equals(aliasForLastSuccessfulBuild)) {
 				aliasLinkForLastSuccessfulBuild = build;
+			} else if (build.getLinkName().equals(
+					LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME)) {
+				// Do nothing. This build is not used to find the last successful and most recent build.
 			} else {
 				if (isMoreRecentThan(build, mostRecentBuild)) {
 					mostRecentBuild = build;

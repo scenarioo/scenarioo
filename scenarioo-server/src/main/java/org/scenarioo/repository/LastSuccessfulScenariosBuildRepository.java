@@ -178,7 +178,7 @@ public class LastSuccessfulScenariosBuildRepository {
 			@Override
 			public boolean accept(final File dir, final String name) {
 				File file = new File(dir, name);
-				return file.isDirectory() && !name.endsWith(".derived");
+				return file.isDirectory() && !name.contains(".derived");
 			}
 		});
 	}
@@ -187,7 +187,7 @@ public class LastSuccessfulScenariosBuildRepository {
 		return parentDirectory.list(new FilenameFilter() {
 			@Override
 			public boolean accept(final File dir, final String name) {
-				return !name.endsWith(".derived");
+				return !name.contains(".derived");
 			}
 		});
 	}
@@ -203,15 +203,17 @@ public class LastSuccessfulScenariosBuildRepository {
 		}
 		
 		for (String sourceDirectoryEntry : sourceDirectoryContents) {
-			if (sourceDirectoryEntry.endsWith(".derived")) {
+			if (sourceDirectoryEntry.contains(".derived")) {
 				continue;
 			}
 			File sourceFile = new File(sourceBuildFolder, sourceDirectoryEntry);
 			
 			if (sourceFile.isDirectory()) {
 				File destinationUsecaseFolder = new File(destinationBuildFolder, sourceDirectoryEntry);
-				destinationUsecaseFolder.mkdirs();
-				LOGGER.info("Created " + destinationUsecaseFolder);
+				if (!destinationUsecaseFolder.exists()) {
+					destinationUsecaseFolder.mkdirs();
+					LOGGER.info("Created " + destinationUsecaseFolder);
+				}
 				copySuccessfulNewerScenarios(decode(sourceDirectoryEntry), sourceFile, destinationUsecaseFolder);
 			}
 		}
@@ -224,7 +226,7 @@ public class LastSuccessfulScenariosBuildRepository {
 		File[] scenarioFolders = sourceFile.listFiles();
 		
 		for (File scenarioFolder : scenarioFolders) {
-			if (!scenarioFolder.isDirectory() || scenarioFolder.getPath().endsWith(".derived")) {
+			if (!scenarioFolder.isDirectory() || scenarioFolder.getPath().contains(".derived")) {
 				continue;
 			}
 			
