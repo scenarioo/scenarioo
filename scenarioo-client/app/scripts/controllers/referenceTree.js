@@ -17,24 +17,11 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($scope,
-    $routeParams, $location, ObjectIndexListResource, PagesAndSteps, SelectedBranchAndBuild, ScenarioResource,
-    TreeNode, $filter) {
+angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($scope, $routeParams, $location, ObjectIndexListResource, PagesAndSteps, SelectedBranchAndBuild, ScenarioResource, TreeNode, $filter) {
 
     var objectType = $routeParams.objectType;
     var objectName = $routeParams.objectName;
     var selectedBranchAndBuild;
-
-    var navigationElement = {
-        navigationType: '',
-        navigationName: '',
-        objectType: 0,
-        useCaseName: '',
-        scenarioName: '',
-        scenarioPageName: '',
-        pageIndex: null,
-        stepIndex: null
-    };
 
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
 
@@ -61,26 +48,26 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
 
         // Get all references for given object
         ObjectIndexListResource.get(
-        {
-            branchName: selected.branch,
-            buildName: selected.build,
-            objectType: objectType,
-            objectName: objectName
-        },
-        function(result) {
-            $scope.object = result;
-            var transformedMetaDataTree = transformMetadataToTree(result.object.details);
-            $scope.metadataTree = transformedMetaDataTree.childNodes;
-        });
-	}
+            {
+                branchName: selected.branch,
+                buildName: selected.build,
+                objectType: objectType,
+                objectName: objectName
+            },
+            function (result) {
+                $scope.object = result;
+                var transformedMetaDataTree = transformMetadataToTree(result.object.details);
+                $scope.metadataTree = transformedMetaDataTree.childNodes;
+            });
+    }
 
     function goToStep(navigationElement) {
-        if(angular.isUndefined(navigationElement.stepIdentifier) || !angular.isString(navigationElement.stepIdentifier)) {
+        if (angular.isUndefined(navigationElement.stepIdentifier) || !angular.isString(navigationElement.stepIdentifier)) {
             return;
         }
 
         var stepIdentifierParts = navigationElement.stepIdentifier.split('/');
-        if(stepIdentifierParts.length !== 3) {
+        if (stepIdentifierParts.length !== 3) {
             return;
         }
 
@@ -91,8 +78,9 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         $location.path(locationPath);
     }
 
-    $scope.goToRelatedView = function(nodeElement) {
-        buildNavigationElement(nodeElement);
+    // Entry point when a tree entry is clicked
+    $scope.goToRelatedView = function (nodeElement) {
+        var navigationElement = buildNavigationElement(nodeElement);
         if (navigationElement.objectType === objType.step) {
             goToStep(navigationElement);
         } else {
@@ -101,22 +89,20 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         }
     };
 
-    function buildLocationPath(navElement){
+    function buildLocationPath(navElement) {
         var locationPath = '';
 
         if (navElement.objectType === objType.scenario || navElement.objectType === objType.usecase) {
             locationPath = navElement.navigationType + '/' + encodeURIComponent(navElement.useCaseName) +
                 '/' + encodeURIComponent(navElement.scenarioName);
-        }
-
-        if (navElement.objectType === objType.step || navElement.objectType === objType.page) {
+        } else if (navElement.objectType === objType.page) {
+            locationPath += 'object/page/' + encodeURIComponent(navElement.pageName);
+        } else if (navElement.objectType === objType.step) {
             locationPath += 'step/' + encodeURIComponent(navElement.useCaseName) + '/' + encodeURIComponent(navElement.scenarioName) +
                 '/' + encodeURIComponent(navElement.pageName) + '/' +
                 navElement.pageOccurrence + '/' + navElement.stepInPageOccurrence;
-        }
-
-        if (navElement.objectType === objType.object) {
-            locationPath +=  'object/' + encodeURIComponent(navElement.navigationType) + '/' + encodeURIComponent(navElement.navigationName);
+        } else if (navElement.objectType === objType.object) {
+            locationPath += 'object/' + encodeURIComponent(navElement.navigationType) + '/' + encodeURIComponent(navElement.navigationName);
         }
 
         return locationPath;
@@ -125,55 +111,71 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
     // Build navigation path along the reference hierarchy tree (e.g. step / scenario / usecase)
     // In case that some other objects should be navigated, the reference-tree will be called again with
     // selected object
-    function buildNavigationElement(childNode) {
-        if (angular.isDefined(childNode)) {
-            switch (childNode.type) {
+    function buildNavigationElement(node) {
+        var navigationElement = {
+            navigationType: '',
+            navigationName: '',
+            objectType: 0,
+            useCaseName: '',
+            scenarioName: '',
+            scenarioPageName: '',
+            pageName: null,
+            stepIndex: null
+        };
+
+        populateNavigationElementRecursively(navigationElement, node, true);
+
+        return navigationElement;
+    }
+
+    function populateNavigationElementRecursively(navigationElement, node, isClickedNode) {
+        if (angular.isDefined(node)) {
+            switch (node.type) {
             case 'usecase':
-                setNavigationElement(childNode, objType.usecase);
-                navigationElement.useCaseName = childNode.name;
+                setCommonNavigationElementFields(navigationElement, node, objType.usecase, isClickedNode);
+                navigationElement.useCaseName = node.name;
                 break;
             case 'scenario':
-                setNavigationElement(childNode, objType.scenario);
-                navigationElement.scenarioName = childNode.name;
+                setCommonNavigationElementFields(navigationElement, node, objType.scenario, isClickedNode);
+                navigationElement.scenarioName = node.name;
                 break;
-
-            // Looks like pages are not in the tree. Can we remove this?
-//            case 'page':
-//                setNavigationElement(childNode, objType.page);
-//                navigationElement.pageIndex = childNode.name;
-//                break;
+            case 'page':
+                setCommonNavigationElementFields(navigationElement, node, objType.page, isClickedNode);
+                navigationElement.pageName = node.name;
+                break;
             case 'step':
-                setNavigationElement(childNode, objType.step);
-                navigationElement.stepIdentifier = childNode.name;
+                setCommonNavigationElementFields(navigationElement, node, objType.step, isClickedNode);
+                navigationElement.stepIdentifier = node.name;
                 break;
             default:
                 // Any other object (reference tree will not hierarchically traversed up-to root)
-                setNavigationElement(childNode, objType.object);
+                setCommonNavigationElementFields(navigationElement, node, objType.object, isClickedNode);
                 return;
             }
         }
 
-        var parentNode = $scope.treemodel[$scope.treemodel.indexOf(childNode.parent)];
+        var parentNode = $scope.treemodel[$scope.treemodel.indexOf(node.parent)];
 
         if (angular.isDefined(parentNode)) {
-            buildNavigationElement(parentNode);
+            populateNavigationElementRecursively(navigationElement, parentNode, false);
         }
     }
 
-    function setNavigationElement(childNode, objectType) {
-
-        if (navigationElement.objectType === 0) {
-            navigationElement.navigationType = childNode.type;
-            navigationElement.navigationName = childNode.name;
-            navigationElement.objectType = objectType;
+    function setCommonNavigationElementFields(navigationElement, childNode, objectType, isClickedNode) {
+        if (!isClickedNode) {
+            return;
         }
+        navigationElement.navigationType = childNode.type;
+        navigationElement.navigationName = childNode.name;
+        navigationElement.objectType = objectType;
     }
 
-    $scope.expandAndCollapseTree = function(treemodel) {
+    $scope.expandAndCollapseTree = function (treemodel) {
         TreeNode.expandAndCollapseTree(treemodel, $scope);
     };
 
-    $scope.resetSearchField = function() {
+    $scope.resetSearchField = function () {
         $scope.searchField = '';
     };
+
 });
