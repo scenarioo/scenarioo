@@ -21,6 +21,7 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
 
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
+    var dateTimeFormatter = $filter('scDateTime');
     SelectedBranchAndBuild.callOnSelectionChange(loadUseCases);
 
     // FIXME this code is duplicated. How can we extract it into a service?
@@ -63,7 +64,7 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
 
     function createBuildInformationTree(build) {
         var buildInformationTree = {};
-        buildInformationTree.Date = build.date;
+        buildInformationTree.Date = dateTimeFormatter(build.date);
         buildInformationTree.Revision = build.revision;
         buildInformationTree.Status = build.status;
         return transformMetadataToTree(buildInformationTree);
