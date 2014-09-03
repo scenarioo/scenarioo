@@ -28,7 +28,6 @@ import org.scenarioo.model.configuration.BranchAlias;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
-import org.scenarioo.model.docu.derived.BuildLink;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.LastSuccessfulScenariosBuildRepository;

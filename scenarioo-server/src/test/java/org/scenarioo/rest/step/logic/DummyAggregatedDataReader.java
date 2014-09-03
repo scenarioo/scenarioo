@@ -3,6 +3,7 @@ package org.scenarioo.rest.step.logic;
 import java.io.File;
 import java.util.List;
 
+import org.scenarioo.business.builds.BuildLink;
 import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree;
@@ -104,6 +105,11 @@ public class DummyAggregatedDataReader implements AggregatedDataReader {
 	
 	@Override
 	public StepNavigation loadStepNavigation(final ScenarioIdentifier scenarioIdentifier, final int stepIndex) {
+		return null;
+	}
+	
+	@Override
+	public List<BuildLink> loadBuildLinks(final String branchName) {
 		return null;
 	}
 	

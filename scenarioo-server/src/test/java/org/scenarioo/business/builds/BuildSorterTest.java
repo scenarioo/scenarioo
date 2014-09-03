@@ -26,7 +26,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.scenarioo.model.configuration.Configuration;
-import org.scenarioo.model.docu.derived.BuildLink;
 import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.repository.RepositoryLocator;
 

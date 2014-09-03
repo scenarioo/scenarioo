@@ -180,7 +180,8 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	private static Map<BuildIdentifier, BuildImportSummary> loadBuildImportSummaries() {
-		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(configurationRepository.getDocumentationDataDirectory());
+		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(
+				configurationRepository.getDocumentationDataDirectory());
 		List<BuildImportSummary> loadedSummaries = dao.loadBuildImportSummaries();
 		Map<BuildIdentifier, BuildImportSummary> result = new HashMap<BuildIdentifier, BuildImportSummary>();
 		for (BuildImportSummary buildImportSummary : loadedSummaries) {
@@ -190,15 +191,19 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	private List<BranchBuilds> loadBranchBuildsList() {
-		final ScenarioDocuReader reader = new ScenarioDocuReader(configurationRepository.getDocumentationDataDirectory());
+		File documentationDataDirectory = configurationRepository.getDocumentationDataDirectory();
+		final ScenarioDocuReader reader = new ScenarioDocuReader(documentationDataDirectory);
+		AggregatedDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(documentationDataDirectory);
+		
 		List<BranchBuilds> result = new ArrayList<BranchBuilds>();
 		List<Branch> branches = reader.loadBranches();
 		for (Branch branch : branches) {
 			BranchBuilds branchBuilds = new BranchBuilds();
 			branchBuilds.setBranch(branch);
-			branchBuilds.setBuilds(reader.loadBuilds(branch.getName()));
+			branchBuilds.setBuilds(aggregatedDataReader.loadBuildLinks(branch.getName()));
 			result.add(branchBuilds);
 		}
+		
 		return result;
 	}
 	
@@ -210,7 +215,8 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	public LongObjectNamesResolver getLongObjectNameResolver(final BuildIdentifier buildIdentifier) {
-		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(configurationRepository.getDocumentationDataDirectory());
+		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(
+				configurationRepository.getDocumentationDataDirectory());
 		validateBuildIsSuccessfullyImported(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		LongObjectNamesResolver longObjectNamesResolver = longObjectNamesResolvers.get(buildIdentifier);
 		if (longObjectNamesResolver == null) {

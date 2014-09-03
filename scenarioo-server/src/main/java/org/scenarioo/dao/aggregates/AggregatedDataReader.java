@@ -3,6 +3,7 @@ package org.scenarioo.dao.aggregates;
 import java.io.File;
 import java.util.List;
 
+import org.scenarioo.business.builds.BuildLink;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
@@ -59,5 +60,7 @@ public interface AggregatedDataReader {
 	public abstract StepNavigation loadStepNavigation(final BuildIdentifier build, final StepLink step);
 	
 	public abstract StepNavigation loadStepNavigation(final ScenarioIdentifier scenarioIdentifier, final int stepIndex);
+	
+	public abstract List<BuildLink> loadBuildLinks(final String branchName);
 	
 }

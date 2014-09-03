@@ -27,9 +27,13 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
+import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.exception.ResourceNotFoundException;
+import org.scenarioo.api.files.ObjectFromDirectory;
+import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
+import org.scenarioo.business.builds.BuildLink;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummaries;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree;
@@ -40,6 +44,7 @@ import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
@@ -66,11 +71,13 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	private static final String VERSION_PROPERTY_KEY = "scenarioo.derived.file.format.version";
 	
 	private final ScenarioDocuAggregationFiles files;
+	private final ScenarioDocuReader scenarioDocuReader;
 	
 	private LongObjectNamesResolver longObjectNameResolver = null;
 	
 	public ScenarioDocuAggregationDAO(final File rootDirectory) {
 		files = new ScenarioDocuAggregationFiles(rootDirectory);
+		scenarioDocuReader = new ScenarioDocuReader(rootDirectory);
 	}
 	
 	public ScenarioDocuAggregationDAO(final File rootDirectory, final LongObjectNamesResolver longObjectNameResolver) {
@@ -377,6 +384,19 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 		logFile.delete();
 		File longObjectNamesFile = files.getLongObjectNamesIndexFile(buildIdentifier);
 		longObjectNamesFile.delete();
+	}
+	
+	@Override
+	public List<BuildLink> loadBuildLinks(final String branchName) {
+		List<ObjectFromDirectory<Build>> builds = scenarioDocuReader.loadBuilds(branchName);
+		
+		List<BuildLink> result = new ArrayList<BuildLink>();
+		for (ObjectFromDirectory<Build> build : builds) {
+			BuildLink link = new BuildLink(build.getObject(), FilesUtil.decodeName(build.getDirectoryName()));
+			result.add(link);
+		}
+		
+		return result;
 	}
 	
 }

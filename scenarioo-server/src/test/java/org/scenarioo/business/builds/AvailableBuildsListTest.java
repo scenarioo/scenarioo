@@ -34,7 +34,6 @@ import org.junit.Test;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
-import org.scenarioo.model.docu.derived.BuildLink;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.repository.RepositoryLocator;
