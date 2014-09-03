@@ -25,6 +25,7 @@ import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Status;
+import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.lastSuccessfulScenarios.LastSuccessfulScenario;
 import org.scenarioo.model.lastSuccessfulScenarios.LastSuccessfulScenariosIndex;
 import org.scenarioo.repository.ConfigurationRepository;
@@ -34,6 +35,8 @@ import org.scenarioo.rest.base.BuildIdentifier;
 
 public class LastSuccessfulScenariosBuildTest {
 	
+	private static final String SOURCE_USE_CASE_DESCRIPTION = "use case from imported build";
+	private static final String NOT_MODIFIED_USE_CASE_DESCRIPTION = "use case file was not modified";
 	private static final String BUILD_DATE_FOR_TEST_KEY = "buildDateForTest";
 	private static final String SCENARIO_SUCCESS = "a successful scenario";
 	private static final String SCENARIO_FAILED = "a failed scenario";
@@ -41,7 +44,10 @@ public class LastSuccessfulScenariosBuildTest {
 	private final String[] useCases = new String[] { "Log in", "Send message", "Sign out" };
 	private final String[] scenarios = new String[] { "login successful", "login failed", "password forgotten" };
 	private final Date DATE_NOW = new Date();
+	private final Date DATE_YESTERDAY = getCalendarForNowMinusOneDay().getTime();
+	private final Date DATE_TOMORROW = getCalendarForNowPlusOneDay().getTime();
 	private static final String FILE_NAME_SCENARIO = "scenario.xml";
+	private static final String FILE_NAME_USECASE = "usecase.xml";
 	
 	private LastSuccessfulScenariosBuild lastSuccessfulScenarioBuild;
 	private ConfigurationRepository configurationRepository;
@@ -206,8 +212,28 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 	
 	@Test
+	public void theUseCaseXmlFileIsCopiedIfItDoesNotExistYet() {
+		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
+		givenLastSuccessfulScenarioBuildFolderExists();
+		givenBuildImportSummaryWithStatusSuccess();
+		givenImportedBuildHasOneUseCaseWithAUseCaseXmlFile();
+		
+		whenUpdatingLastSuccessfulScenarioBuild();
+		
+		expectUseCaseXmlFileWasCopied();
+	}
+	
+	@Test
 	public void theUseCaseXmlOfTheLatestBuildIsUsed() {
-		// TODO
+		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
+		givenLastSuccessfulScenarioBuildFolderExists();
+		givenBuildImportSummaryWithStatusSuccess();
+		givenLastSuccessfulScenarioBuildWithUseCaseFromYesterdayNowAndTomorrow();
+		givenImportedBuildHasThreeUseCasesWithOneScenarioEach();
+		
+		whenUpdatingLastSuccessfulScenarioBuild();
+		
+		expectUseCaseXmlFileWasCopiedForTheFirstTwoUseCases();
 	}
 	
 	@Test
@@ -324,6 +350,10 @@ public class LastSuccessfulScenariosBuildTest {
 		createThreeUseCases();
 	}
 	
+	private void givenImportedBuildHasThreeUseCasesWithOneScenarioEach() {
+		createThreeUseCasesWithOneScenario(SOURCE_USE_CASE_DESCRIPTION);
+	}
+	
 	private void givenImportedBuildIsFromTodayAndFirstUseCaseDoesNotExistAnymore() {
 		buildImportSummary.getBuildDescription().setDate(DATE_NOW);
 		createUseCaseTwoAndThree();
@@ -342,8 +372,7 @@ public class LastSuccessfulScenariosBuildTest {
 	
 	private File getDirectoryOfFirstUseCase() {
 		File importedBuildDirectory = getImportedBuildDirectory(buildImportSummary.getIdentifier());
-		File useCaseDirectory = new File(importedBuildDirectory, encode(useCases[0]));
-		return useCaseDirectory;
+		return new File(importedBuildDirectory, encode(useCases[0]));
 	}
 	
 	private void givenImportedBuildHasDerivedFilesAndFoldersOnAllLevelsPlusOneScenario() {
@@ -367,12 +396,8 @@ public class LastSuccessfulScenariosBuildTest {
 		
 		derivedDirectory.mkdirs();
 		derivedDirectory2.mkdirs();
-		try {
-			derivedFile.createNewFile();
-			derivedFile2.createNewFile();
-		} catch (IOException e) {
-			fail("could not create file " + derivedFile);
-		}
+		createNewFile(derivedFile);
+		createNewFile(derivedFile2);
 		
 		assertTrue(derivedDirectory.exists());
 		assertTrue(derivedDirectory2.exists());
@@ -385,6 +410,14 @@ public class LastSuccessfulScenariosBuildTest {
 		
 		createScenarioWithoutXmlFile(useCaseDirectory, scenarios[0]);
 		createOnlySecondAndThirdScenario(useCaseDirectory);
+	}
+	
+	private void givenImportedBuildHasOneUseCaseWithAUseCaseXmlFile() {
+		File importedBuildDirectory = getImportedBuildDirectory(buildImportSummary.getIdentifier());
+		createUseCase(importedBuildDirectory, useCases[0]);
+		
+		File useCaseDirectory = getDirectoryOfFirstUseCase();
+		createScenario(useCaseDirectory, scenarios[0], Status.SUCCESS, useCases[0]);
 	}
 	
 	private void givenLastSuccessfulScenarioBuildWithScenarioFromYesterdayNowAndTomorrow() {
@@ -403,10 +436,49 @@ public class LastSuccessfulScenariosBuildTest {
 		saveLastSuccessfulScenariosIndex(index);
 	}
 	
+	private void givenLastSuccessfulScenarioBuildWithUseCaseFromYesterdayNowAndTomorrow() {
+		File lastSuccessfulScenariosBuildDirectory = getLastSuccessfulScenariosBuildDirectory();
+		LastSuccessfulScenariosIndex index = getLastSuccessfulScenariosIndex();
+		
+		createUseCaseXmlFile(rootDirectory, LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME,
+				useCases[0], NOT_MODIFIED_USE_CASE_DESCRIPTION);
+		createUseCaseXmlFile(rootDirectory, LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME,
+				useCases[1], NOT_MODIFIED_USE_CASE_DESCRIPTION);
+		createUseCaseXmlFile(rootDirectory, LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME,
+				useCases[2], NOT_MODIFIED_USE_CASE_DESCRIPTION);
+		
+		addScenarioToLastSuccessfulBuild(useCases[0], scenarios[0], DATE_YESTERDAY, index,
+				lastSuccessfulScenariosBuildDirectory);
+		addScenarioToLastSuccessfulBuild(useCases[1], scenarios[0], DATE_YESTERDAY, index,
+				lastSuccessfulScenariosBuildDirectory);
+		addScenarioToLastSuccessfulBuild(useCases[1], scenarios[1], DATE_NOW, index,
+				lastSuccessfulScenariosBuildDirectory);
+		addScenarioToLastSuccessfulBuild(useCases[2], scenarios[0], DATE_TOMORROW, index,
+				lastSuccessfulScenariosBuildDirectory);
+		
+		saveLastSuccessfulScenariosIndex(index);
+	}
+	
+	private void addScenarioToLastSuccessfulBuild(final String useCaseName, final String scenarioName,
+			final Date buildDate, final LastSuccessfulScenariosIndex index,
+			final File lastSuccessfulScenariosBuildDirectory) {
+		File useCaseDirectory = new File(lastSuccessfulScenariosBuildDirectory, encode(useCaseName));
+		createSuccessfulScenario(useCaseDirectory, scenarioName);
+		index.setScenarioBuildDate(useCaseName, scenarioName, buildDate);
+	}
+	
 	private Calendar getCalendarForNowMinusOneDay() {
+		return getCalendarNowPlusDays(-1);
+	}
+	
+	private Calendar getCalendarForNowPlusOneDay() {
+		return getCalendarNowPlusDays(1);
+	}
+	
+	private Calendar getCalendarNowPlusDays(final int plusDays) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(DATE_NOW);
-		calendar.add(Calendar.DATE, -1);
+		calendar.add(Calendar.DATE, plusDays);
 		return calendar;
 	}
 	
@@ -468,6 +540,13 @@ public class LastSuccessfulScenariosBuildTest {
 		}
 	}
 	
+	private void createThreeUseCasesWithOneScenario(final String useCaseDescription) {
+		File buildFolder = getImportedBuildDirectory(buildImportSummary.getIdentifier());
+		for (String useCase : useCases) {
+			createUseCaseWithScenario(buildFolder, useCase, useCaseDescription);
+		}
+	}
+	
 	private void createUseCaseTwoAndThree() {
 		File buildFolder = getImportedBuildDirectory(buildImportSummary.getIdentifier());
 		createUseCase(buildFolder, useCases[1]);
@@ -478,6 +557,29 @@ public class LastSuccessfulScenariosBuildTest {
 		File useCaseDirectory = new File(importedBuildDirectory, encode(useCaseName));
 		useCaseDirectory.mkdirs();
 		assertTrue(useCaseDirectory.exists());
+		
+		File useCaseFile = new File(useCaseDirectory, FILE_NAME_USECASE);
+		createNewFile(useCaseFile);
+		assertTrue(useCaseFile.exists());
+	}
+	
+	private void createUseCaseWithScenario(final File importedBuildDirectory, final String useCaseName,
+			final String useCaseDescription) {
+		createUseCaseXmlFile(rootDirectory, BUILD_IDENTIFIER.getBuildName(), useCaseName, useCaseDescription);
+		File useCaseDirectory = new File(importedBuildDirectory, encode(useCaseName));
+		createSuccessfulScenario(useCaseDirectory, scenarios[0], DATE_NOW);
+	}
+	
+	private void createUseCaseXmlFile(final File rootDirectory, final String buildName, final String useCaseName,
+			final String useCaseDescription) {
+		UseCase useCase = new UseCase();
+		useCase.setDescription(useCaseDescription);
+		useCase.setName(useCaseName);
+		
+		ScenarioDocuWriter scenarioDocuWriter = new ScenarioDocuWriter(rootDirectory, BUILD_IDENTIFIER.getBranchName(),
+				buildName);
+		scenarioDocuWriter.saveUseCase(useCase);
+		scenarioDocuWriter.flush();
 	}
 	
 	private void createSuccessfulScenario(final File useCaseFolder, final String scenarioName, final Date date) {
@@ -698,9 +800,42 @@ public class LastSuccessfulScenariosBuildTest {
 		assertNotNull(getScenarioFromIndex(useCaseDirectory, index, scenarioName));
 	}
 	
+	private void expectUseCaseXmlFileWasCopied() {
+		File lastSuccessfulScenariosBuildDirectory = getLastSuccessfulScenariosBuildDirectory();
+		File useCaseFile = new File(lastSuccessfulScenariosBuildDirectory, encode(useCases[0]) + "/"
+				+ FILE_NAME_USECASE);
+		assertTrue(useCaseFile.exists());
+	}
+	
+	private void expectUseCaseXmlFileWasCopiedForTheFirstTwoUseCases() {
+		ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(rootDirectory);
+		
+		assertUseCaseInLastSuccessfulScenariosBuildHasDescription(scenarioDocuReader, useCases[0],
+				SOURCE_USE_CASE_DESCRIPTION);
+		assertUseCaseInLastSuccessfulScenariosBuildHasDescription(scenarioDocuReader, useCases[1],
+				SOURCE_USE_CASE_DESCRIPTION);
+		assertUseCaseInLastSuccessfulScenariosBuildHasDescription(scenarioDocuReader, useCases[2],
+				NOT_MODIFIED_USE_CASE_DESCRIPTION);
+	}
+	
+	private void assertUseCaseInLastSuccessfulScenariosBuildHasDescription(final ScenarioDocuReader scenarioDocuReader,
+			final String useCaseName, final String expectedDescription) {
+		UseCase useCase = scenarioDocuReader.loadUsecase(BUILD_IDENTIFIER.getBranchName(),
+				LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME, useCaseName);
+		assertEquals(expectedDescription, useCase.getDescription());
+	}
+	
 	private LastSuccessfulScenario getScenarioFromIndex(final File useCaseDirectory,
 			final LastSuccessfulScenariosIndex index, final String scenarioName) {
 		return index.getUseCase(decode(useCaseDirectory.getName())).getScenario(scenarioName);
+	}
+	
+	private void createNewFile(final File file) {
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			fail("could not create file " + file);
+		}
 	}
 	
 	private String encode(final String string) {

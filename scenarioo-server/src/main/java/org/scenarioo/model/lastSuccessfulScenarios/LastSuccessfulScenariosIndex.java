@@ -72,4 +72,13 @@ public class LastSuccessfulScenariosIndex {
 		}
 	}
 	
+	public Date getLatestBuildDateOfUseCase(final String useCaseName) {
+		UseCaseWithLastSuccessfulScenarios useCase = getUseCase(useCaseName);
+		if (useCase == null) {
+			return null;
+		}
+		
+		return useCase.getLatestBuildDateOfAllScenarios();
+	}
+	
 }

@@ -1,7 +1,9 @@
 package org.scenarioo.model.lastSuccessfulScenarios;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -26,6 +28,28 @@ public class UseCaseWithLastSuccessfulScenarios {
 	
 	public void removeScenario(final String scenarioName) {
 		scenarios.remove(scenarioName);
+	}
+	
+	public Date getLatestBuildDateOfAllScenarios() {
+		Date latestBuildDate = null;
+		for (Entry<String, LastSuccessfulScenario> scenario : scenarios.entrySet()) {
+			if (isBuildDateNewer(scenario.getValue().getBuildDate(), latestBuildDate)) {
+				latestBuildDate = scenario.getValue().getBuildDate();
+			}
+		}
+		return latestBuildDate;
+	}
+	
+	private boolean isBuildDateNewer(final Date buildDate, final Date latestBuildDate) {
+		if (buildDate == null) {
+			return false;
+		}
+		
+		if (latestBuildDate == null) {
+			return true;
+		}
+		
+		return buildDate.after(latestBuildDate);
 	}
 	
 }

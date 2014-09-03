@@ -56,4 +56,12 @@ public class FileSystemOperationsDao {
 		return files.getBuildDirectory(buildIdentifier);
 	}
 	
+	public void copyFile(final File sourceFile, final File destinationFile) {
+		try {
+			FileUtils.copyFile(sourceFile, destinationFile);
+		} catch (IOException e) {
+			LOGGER.error("Could not copy file from " + sourceFile + " to " + destinationFile, e);
+		}
+	}
+	
 }

@@ -35,6 +35,8 @@ public class LastSuccessfulScenariosBuildRepository {
 	public static final String LAST_SUCCESSFUL_SCENARIO_BUILD_NAME = "last successful scenarios.derived";
 	public static final String LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME = "lastSuccessfulScenariosIndex.derived";
 	
+	private static final String FILE_NAME_USECASE = "usecase.xml";
+	
 	private final FileSystemOperationsDao fileSystemOperations = new FileSystemOperationsDao();
 	
 	private final File documentationDataDirectory;
@@ -78,6 +80,9 @@ public class LastSuccessfulScenariosBuildRepository {
 		removeUseCasesAndScenariosThatDoNotExistAnymoreIfThisIsTheLatestBuild();
 		
 		copySuccessfulScenariosToSuccessfulScenariosBuild();
+		
+		copyUseCaseXmlFilesWhereverNecessary();
+		
 		index.setLatestImportedBuildDate(buildImportSummary.getBuildDescription().getDate());
 		
 		saveLastSuccessfulScenariosIndex(index);
@@ -219,6 +224,43 @@ public class LastSuccessfulScenariosBuildRepository {
 		}
 	}
 	
+	private void copyUseCaseXmlFilesWhereverNecessary() {
+		File sourceBuildFolder = getBuildFolder(documentationDataDirectory, buildImportSummary.getIdentifier());
+		File destinationBuildFolder = lastSuccessfulScenariosBuildFolder;
+		
+		String[] useCaseDirectories = getAllDirectoriesThatAreNotDerived(destinationBuildFolder);
+		
+		for (String useCaseDirectory : useCaseDirectories) {
+			copyUseCaseXmlIfNecessary(sourceBuildFolder, destinationBuildFolder, useCaseDirectory);
+		}
+	}
+	
+	private void copyUseCaseXmlIfNecessary(final File sourceBuildFolder, final File destinationBuildFolder,
+			final String useCaseDirectory) {
+		File destinationUseCaseXmlFile = new File(destinationBuildFolder, useCaseDirectory + "/" + FILE_NAME_USECASE);
+		String useCaseName = decode(useCaseDirectory);
+		if (!destinationUseCaseXmlFile.exists() || destinationUseCaseXmlFileIsNotNewerThanCurrentBuild(useCaseName)) {
+			copyUseCaseXmlFile(destinationUseCaseXmlFile, sourceBuildFolder, useCaseDirectory);
+		}
+	}
+	
+	private boolean destinationUseCaseXmlFileIsNotNewerThanCurrentBuild(final String useCaseName) {
+		Date buildDate = buildImportSummary.getBuildDescription().getDate();
+		Date latestBuildDateOfUseCase = index.getLatestBuildDateOfUseCase(useCaseName);
+		
+		return !latestBuildDateOfUseCase.after(buildDate);
+	}
+	
+	private void copyUseCaseXmlFile(final File destinationUseCaseXmlFile, final File sourceBuildFolder,
+			final String useCaseDirectory) {
+		File sourceUseCaseXmlFile = new File(sourceBuildFolder, useCaseDirectory + "/" + FILE_NAME_USECASE);
+		if (sourceUseCaseXmlFile.exists()) {
+			fileSystemOperations.copyFile(sourceUseCaseXmlFile, destinationUseCaseXmlFile);
+		} else {
+			LOGGER.warn("File " + sourceUseCaseXmlFile + " does not exist.");
+		}
+	}
+	
 	private void copySuccessfulNewerScenarios(final String useCaseName, final File sourceFile,
 			final File destinationUsecaseFolder) {
 		
@@ -233,7 +275,7 @@ public class LastSuccessfulScenariosBuildRepository {
 			String scenarioName = decode(scenarioFolder.getName());
 			
 			ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildImportSummary.getIdentifier(),
-					useCaseName, decode(scenarioFolder.getName()));
+					useCaseName, scenarioName);
 			
 			Date existingScenarioBuildDate = index.getScenarioBuildDate(useCaseName, scenarioName);
 			
