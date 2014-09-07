@@ -37,6 +37,7 @@ import org.scenarioo.model.docu.entities.Labels;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
+import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.docu.entities.generic.Details;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
@@ -76,7 +77,7 @@ public class ObjectRepository {
 	/**
 	 * Add all objects inside the passed generic object to the object repository for later saving.
 	 */
-	public void addObject(final List<ObjectReference> referencePath, final Object object) {
+	private void addObject(final List<ObjectReference> referencePath, final Object object) {
 		if (object instanceof ObjectDescription) {
 			addObject(referencePath, (ObjectDescription) object);
 		} else if (object instanceof ObjectReference) {
@@ -90,7 +91,7 @@ public class ObjectRepository {
 		}
 	}
 	
-	public void addTreeObjects(final List<ObjectReference> referencePath, final ObjectTreeNode<?> objectTree) {
+	private void addTreeObjects(final List<ObjectReference> referencePath, final ObjectTreeNode<?> objectTree) {
 		
 		// Add node
 		Object node = objectTree.getItem();
@@ -125,7 +126,7 @@ public class ObjectRepository {
 	 * @param referencePath
 	 *            the path of objects that referenced these list.
 	 */
-	public void addListObjects(final List<ObjectReference> referencePath, final List<?> objects) {
+	private void addListObjects(final List<ObjectReference> referencePath, final List<?> objects) {
 		for (Object object : objects) {
 			addObject(referencePath, object);
 		}
@@ -139,7 +140,7 @@ public class ObjectRepository {
 	 * @param referencePath
 	 *            the path of objects that referenced these details.
 	 */
-	public void addObjects(final List<ObjectReference> referencePath, final Details details) {
+	private void addObjects(final List<ObjectReference> referencePath, final Details details) {
 		for (Entry<String, Object> entry : details.getProperties().entrySet()) {
 			addObject(referencePath, entry.getValue());
 		}
@@ -154,7 +155,7 @@ public class ObjectRepository {
 	 * @param referencePath
 	 *            the path of objects that referenced these details.
 	 */
-	public void addObject(final List<ObjectReference> referencePath, final ObjectDescription object) {
+	private void addObject(final List<ObjectReference> referencePath, final ObjectDescription object) {
 		
 		customObjectTabsAggregator.aggregateRelevantObjectIntoCustomObjectTabTrees(referencePath, object);
 		
@@ -178,7 +179,7 @@ public class ObjectRepository {
 	 * Create reference or get it from pool if already available. This is done just to avoid out of memory because of a
 	 * lot of same references loaded from xml files.
 	 */
-	public ObjectReference createObjectReference(final String type, final String name) {
+	private ObjectReference createObjectReference(final String type, final String name) {
 		ObjectReference newRef = new ObjectReference(type, name);
 		ObjectReference existingRef = objectReferencePool.get(newRef);
 		if (existingRef != null) {
@@ -193,7 +194,7 @@ public class ObjectRepository {
 		}
 	}
 	
-	public ObjectReference createObjectReference(final String type, final String name, final Labels labels) {
+	private ObjectReference createObjectReference(final String type, final String name, final Labels labels) {
 		ObjectReferenceWithLabels newRef = new ObjectReferenceWithLabels(type, name, labels);
 		ObjectReference existingRef = objectReferencePool.get(newRef);
 		if (existingRef != null) {
@@ -218,7 +219,7 @@ public class ObjectRepository {
 	/**
 	 * Put the object reference to an object into the objectReferences.
 	 */
-	public void addObjectReference(final List<ObjectReference> referencePath, final ObjectReference ref) {
+	private void addObjectReference(final List<ObjectReference> referencePath, final ObjectReference ref) {
 		ObjectReferenceTreeBuilder refTreeBuilder = objectReferences.get(ref);
 		if (refTreeBuilder == null) {
 			refTreeBuilder = new ObjectReferenceTreeBuilder(ref);
@@ -227,13 +228,13 @@ public class ObjectRepository {
 		refTreeBuilder.addPath(referencePath);
 	}
 	
-	public List<ObjectReference> createPath(final ObjectReference objectReference) {
+	private List<ObjectReference> createPath(final ObjectReference objectReference) {
 		List<ObjectReference> result = new ArrayList<ObjectReference>(1);
 		result.add(objectReference);
 		return result;
 	}
 	
-	public List<ObjectReference> extendPath(final List<ObjectReference> referencePath,
+	private List<ObjectReference> extendPath(final List<ObjectReference> referencePath,
 			final ObjectReference objectReference) {
 		List<ObjectReference> result = new ArrayList<ObjectReference>(referencePath.size() + 1);
 		result.addAll(referencePath);
@@ -241,29 +242,48 @@ public class ObjectRepository {
 		return result;
 	}
 	
+	/**
+	 * Add all objects referenced directly by this use case to the object repository.
+	 * 
+	 * @return the reference path for the passed use case to use as base path for belonging scenarios etc.
+	 */
+	public List<ObjectReference> addReferencedUseCaseObjects(final UseCase useCase) {
+		List<ObjectReference> referencePath = createPath(createObjectReference("usecase", useCase.getName(),
+				useCase.getLabels()));
+		addObjects(referencePath, useCase.getDetails());
+		addLabels(referencePath, useCase.getLabels());
+		return referencePath;
+	}
+	
 	public List<ObjectReference> addReferencedScenarioObjects(List<ObjectReference> referencePath,
 			final Scenario scenario) {
 		referencePath = extendPath(referencePath,
 				createObjectReference("scenario", scenario.getName(), scenario.getLabels()));
 		addObjects(referencePath, scenario.getDetails());
+		addLabels(referencePath, scenario.getLabels());
 		return referencePath;
 	}
 	
-	public void addPageAndStep(final List<ObjectReference> referencePath, final Step step, final StepLink stepLink) {
-		addStep(referencePath, step, stepLink);
+	public void addPageAndStep(List<ObjectReference> referencePath, final Step step, final StepLink stepLink) {
+		ObjectReference stepReference = createObjectReference("step", stepLink.getStepIdentifierForObjectRepository(),
+				step.getStepDescription().getLabels());
+		referencePath = extendPath(referencePath, stepReference);
+		addObjects(referencePath, step.getStepDescription().getDetails());
+		addObjects(referencePath, step.getMetadata().getDetails());
+		addPage(referencePath, step.getPage());
+		addLabels(referencePath, step.getStepDescription().getLabels());
 	}
 	
 	/**
 	 * Add description of a page and all referenced objects
 	 */
-	private void addPage(List<ObjectReference> referencePath, final Page page) {
+	private void addPage(final List<ObjectReference> referencePath, final Page page) {
 		if (page == null) {
 			return;
 		}
 		
 		// Page reference
 		ObjectReference pageReference = createObjectReference("page", page.getName(), page.getLabels());
-		referencePath = extendPath(referencePath, pageReference);
 		addObjectReference(referencePath, pageReference);
 		
 		// Save page description (if not yet)
@@ -273,16 +293,21 @@ public class ObjectRepository {
 		
 		// Add referenced objects from page
 		addObjects(referencePath, page.getDetails());
+		addLabels(referencePath, page.getLabels());
 	}
 	
-	private void addStep(List<ObjectReference> referencePath, final Step step, final StepLink stepLink) {
-		ObjectReference stepReference = createObjectReference("step", stepLink.getStepIdentifierForObjectRepository(),
-				step.getStepDescription().getLabels());
-		referencePath = extendPath(referencePath, stepReference);
-		addObjects(referencePath, step.getStepDescription().getDetails());
-		addObjects(referencePath, step.getMetadata().getDetails());
-		
-		addPage(referencePath, step.getPage());
+	/**
+	 * Add labels also as objects to the repository
+	 */
+	private void addLabels(final List<ObjectReference> referencePath, final Labels labels) {
+		for (String label : labels.toSet()) {
+			ObjectReference labelReference = createObjectReference("label", label);
+			addObjectReference(referencePath, labelReference);
+			
+			// Save label description (if not yet)
+			ObjectDescription labelDescription = new ObjectDescription("label", label);
+			saveObject(labelDescription);
+		}
 	}
 	
 	public void calculateAndSaveObjectLists() {
