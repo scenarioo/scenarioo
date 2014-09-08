@@ -4,6 +4,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.business.aggregator.PageNameSanitizer;
 import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
 import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
@@ -48,6 +49,7 @@ public class StepResponseFactory {
 			final boolean fallback, final BuildIdentifier buildIdentifierBeforeAliasResolution) {
 		Step step = scenarioDocuReader.loadStep(stepIdentifier.getBranchName(), stepIdentifier.getBuildName(),
 				stepIdentifier.getUsecaseName(), stepIdentifier.getScenarioName(), stepLoaderResult.getStepIndex());
+		PageNameSanitizer.sanitizePageName(step);
 		
 		StepNavigation navigation = aggregatedDataReader.loadStepNavigation(stepIdentifier.getScenarioIdentifier(),
 				stepLoaderResult.getStepIndex());
