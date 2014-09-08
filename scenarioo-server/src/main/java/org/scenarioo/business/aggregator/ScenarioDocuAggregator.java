@@ -32,7 +32,6 @@ import org.scenarioo.model.docu.aggregates.branches.BuildStatistics;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
-import org.scenarioo.model.docu.aggregates.scenarios.ScenarioStatistics;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Scenario;
@@ -212,16 +211,8 @@ public class ScenarioDocuAggregator {
 		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(usecase, scenario, steps,
 				referencePath, objectRepository);
 		scenarioPageSteps.setPagesAndSteps(pageStepsList);
-		scenarioPageSteps.setScenarioStatistics(createStatistics(steps, pageStepsList));
 		
 		return scenarioPageSteps;
-	}
-	
-	private ScenarioStatistics createStatistics(final List<Step> steps, final List<PageSteps> pageStepsList) {
-		ScenarioStatistics scenarioStatistics = new ScenarioStatistics();
-		scenarioStatistics.setNumberOfPages(pageStepsList.size());
-		scenarioStatistics.setNumberOfSteps(steps.size());
-		return scenarioStatistics;
 	}
 	
 	public void updateBuildSummary(final BuildImportSummary buildSummary, final BuildLink buildLink) {

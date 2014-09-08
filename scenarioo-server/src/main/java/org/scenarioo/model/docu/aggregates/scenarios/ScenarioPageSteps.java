@@ -38,8 +38,6 @@ public class ScenarioPageSteps {
 	
 	private Scenario scenario;
 	
-	private ScenarioStatistics scenarioStatistics;
-	
 	private UseCase useCase;
 	
 	@XmlElementWrapper(name = "pagesAndSteps")
@@ -55,11 +53,10 @@ public class ScenarioPageSteps {
 	}
 	
 	public ScenarioStatistics getScenarioStatistics() {
+		ScenarioStatistics scenarioStatistics = new ScenarioStatistics();
+		scenarioStatistics.setNumberOfPages(getTotalNumberOfPagesInScenario());
+		scenarioStatistics.setNumberOfSteps(getTotalNumberOfStepsInScenario());
 		return scenarioStatistics;
-	}
-	
-	public void setScenarioStatistics(final ScenarioStatistics scenarioStatistics) {
-		this.scenarioStatistics = scenarioStatistics;
 	}
 	
 	public UseCase getUseCase() {
