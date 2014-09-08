@@ -2,6 +2,7 @@ package org.scenarioo.business.aggregator;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.scenarioo.model.docu.entities.Step;
 
 /**
@@ -9,6 +10,8 @@ import org.scenarioo.model.docu.entities.Step;
  * Scenarioo installations that use these characters in page names, they are replaced by underscores.
  */
 public class PageNameSanitizer {
+	
+	private static final Logger LOGGER = Logger.getLogger(PageNameSanitizer.class);
 	
 	public static void sanitizePageNames(final List<Step> steps) {
 		if (steps == null) {
@@ -32,7 +35,11 @@ public class PageNameSanitizer {
 			return null;
 		}
 		
-		return name.replace("/", "_").replace("\\", "_");
+		String sanitizedName = name.replace("/", "_").replace("\\", "_");
+		if (!sanitizedName.equals(name)) {
+			LOGGER.warn("Illegal identifier " + name + " was sanitized to " + sanitizedName);
+		}
+		return sanitizedName;
 	}
 	
 }
