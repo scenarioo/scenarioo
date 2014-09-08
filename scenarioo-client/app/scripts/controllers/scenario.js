@@ -136,9 +136,6 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     };
 
     $scope.getLinkToStep = function (pageName, pageOccurrence, stepInPageOccurrence) {
-        // '/' will kill our application
-        pageName = pageName.replace(/\//g, ' ');
-
         return '#/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) +
             '/' + pageOccurrence + '/' + stepInPageOccurrence;
     };
