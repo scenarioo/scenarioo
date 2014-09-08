@@ -71,7 +71,7 @@ public class StepIndexResolver {
 		
 		int i = 0;
 		for (StepDescription step : steps) {
-			int matchingLabelsOfStep = StepCandidate.getMatchingLabelsCount(step.getLabels().toSet(),
+			int matchingLabelsOfStep = StepCandidate.getMatchingLabelsCount(step.getLabels().getLabels(),
 					stepIdentifier.getLabels());
 			// We want to get the highest possible step that has the maximum of matching labels.
 			// Therefore >= is used here.
@@ -113,7 +113,7 @@ public class StepIndexResolver {
 		for (PageSteps pageOccurrenceWithSteps : pageOccurrences) {
 			int stepInPageOccurrence = 0;
 			for (StepDescription step : pageOccurrenceWithSteps.getSteps()) {
-				int matchingLabelsOfStep = StepCandidate.getMatchingLabelsCount(step.getLabels().toSet(),
+				int matchingLabelsOfStep = StepCandidate.getMatchingLabelsCount(step.getLabels().getLabels(),
 						stepIdentifier.getLabels());
 				// We want the first step in a page occurrence that has the highest number of matching labels.
 				// Of all the page occurrences with the highest number of matching labels, we want the highest page

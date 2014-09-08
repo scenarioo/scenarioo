@@ -22,6 +22,7 @@ public class ScenarioDetailsMapper {
 		ScenarioDetails scenarioDetails = new ScenarioDetails();
 		scenarioDetails.setPagesAndSteps(mapPages(pageSteps.getPagesAndSteps()));
 		scenarioDetails.setScenario(pageSteps.getScenario());
+		scenarioDetails.setScenarioStatistics(pageSteps.getScenarioStatistics());
 		scenarioDetails.setUseCase(pageSteps.getUseCase());
 		return scenarioDetails;
 	}

@@ -161,13 +161,13 @@ public class UITestToolkitAbstraction {
 		stepDescription.setStatus(status);
 		stepDescription.setIndex(stepIndex);
 		stepDescription.addDetails("url", toolkit.getBrowserUrl());
-		stepDescription.getLabels().add("step-label-" + stepIndex).add("public");
+		stepDescription.getLabels().addLabel("step-label-" + stepIndex).addLabel("public");
 		return stepDescription;
 	}
 	
 	private Page createPage() {
 		Page page = new Page(toolkit.getApplicationsState().getPageName());
-		page.getLabels().add("page-label1").add("page-label2");
+		page.getLabels().addLabel("page-label1").addLabel("page-label2");
 		return page;
 	}
 	

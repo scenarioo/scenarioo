@@ -35,79 +35,83 @@ import org.scenarioo.model.docu.entities.UseCase;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ScenarioPageSteps {
-
+	
 	private Scenario scenario;
-
+	
+	private ScenarioStatistics scenarioStatistics;
+	
 	private UseCase useCase;
-
+	
 	@XmlElementWrapper(name = "pagesAndSteps")
 	@XmlElement(name = "pageSteps")
 	private List<PageSteps> pagesAndSteps;
-
+	
 	public Scenario getScenario() {
 		return scenario;
 	}
-
+	
 	public void setScenario(final Scenario scenario) {
 		this.scenario = scenario;
 	}
-
+	
+	public ScenarioStatistics getScenarioStatistics() {
+		return scenarioStatistics;
+	}
+	
+	public void setScenarioStatistics(final ScenarioStatistics scenarioStatistics) {
+		this.scenarioStatistics = scenarioStatistics;
+	}
+	
 	public UseCase getUseCase() {
 		return useCase;
 	}
-
+	
 	public void setUseCase(final UseCase useCase) {
 		this.useCase = useCase;
 	}
-
+	
 	public List<PageSteps> getPagesAndSteps() {
 		return pagesAndSteps;
 	}
-
+	
 	public void setPagesAndSteps(final List<PageSteps> pagesAndSteps) {
 		this.pagesAndSteps = pagesAndSteps;
 	}
-
+	
 	public int getTotalNumberOfStepsInScenario() {
 		if (pagesAndSteps == null) {
 			return 0;
 		}
-
+		
 		int sum = 0;
-
+		
 		for (PageSteps pageWithSteps : pagesAndSteps) {
 			sum += pageWithSteps.getSteps().size();
 		}
-
+		
 		return sum;
 	}
-
-	public StepStatistics getStepStatistics(final String pageName,
-			final int pageOccurrence) {
+	
+	public StepStatistics getStepStatistics(final String pageName, final int pageOccurrence) {
 		StepStatistics statistics = new StepStatistics();
+		statistics.setTotalNumberOfStepsInScenario(getTotalNumberOfStepsInScenario());
 		statistics
-				.setTotalNumberOfStepsInScenario(getTotalNumberOfStepsInScenario());
-		statistics
-				.setTotalNumberOfStepsInPageOccurrence(getTotalNumberOfStepsInPageOccurrence(
-						pageName, pageOccurrence));
-		statistics
-				.setTotalNumberOfPagesInScenario(getTotalNumberOfPagesInScenario());
+				.setTotalNumberOfStepsInPageOccurrence(getTotalNumberOfStepsInPageOccurrence(pageName, pageOccurrence));
+		statistics.setTotalNumberOfPagesInScenario(getTotalNumberOfPagesInScenario());
 		return statistics;
 	}
-
-	public int getTotalNumberOfStepsInPageOccurrence(final String pageName,
-			final int pageOccurrence) {
+	
+	public int getTotalNumberOfStepsInPageOccurrence(final String pageName, final int pageOccurrence) {
 		PageSteps pageWithSteps = getOccurrence(pageName, pageOccurrence);
-
+		
 		if (pageWithSteps == null) {
 			return 0;
 		}
-
+		
 		return pageWithSteps.getSteps().size();
 	}
-
-	private PageSteps getOccurrence(final String pageName,
-			final int pageOccurrence) {
+	
+	private PageSteps getOccurrence(final String pageName, final int pageOccurrence) {
 		int currentOccurrence = 0;
 		for (PageSteps pageWithSteps : pagesAndSteps) {
 			if (pageWithSteps.getPage().getName().equals(pageName)) {
@@ -119,9 +123,9 @@ public class ScenarioPageSteps {
 		}
 		return null;
 	}
-
+	
 	private int getTotalNumberOfPagesInScenario() {
 		return pagesAndSteps.size();
 	}
-
+	
 }

@@ -99,7 +99,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 		if (labels != null) {
 			Set<String> labelsSet = new HashSet<String>();
 			labelsSet.addAll(Arrays.asList(labels.value()));
-			scenario.getLabels().set(labelsSet);
+			scenario.getLabels().setLabels(labelsSet);
 		}
 		
 		scenario.setName(name);

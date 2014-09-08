@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.model.docu.aggregates.scenarios.ScenarioStatistics;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
 
@@ -17,6 +18,7 @@ import org.scenarioo.model.docu.entities.UseCase;
 public class ScenarioDetails {
 	
 	private Scenario scenario;
+	private ScenarioStatistics scenarioStatistics;
 	private UseCase useCase;
 	private List<PageWithSteps> pagesAndSteps;
 	
@@ -26,6 +28,14 @@ public class ScenarioDetails {
 	
 	public void setScenario(final Scenario scenario) {
 		this.scenario = scenario;
+	}
+	
+	public ScenarioStatistics getScenarioStatistics() {
+		return scenarioStatistics;
+	}
+	
+	public void setScenarioStatistics(final ScenarioStatistics scenarioStatistics) {
+		this.scenarioStatistics = scenarioStatistics;
 	}
 	
 	public UseCase getUseCase() {

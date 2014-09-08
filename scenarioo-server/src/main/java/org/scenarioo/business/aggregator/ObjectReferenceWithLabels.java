@@ -27,7 +27,7 @@ public class ObjectReferenceWithLabels extends ObjectReference {
 		// yet. Maybe Labels has to be serializable or added explicitly to the JAXB context.
 		ObjectList<String> labelList = new ObjectList<String>();
 		
-		for (String label : labels.toSet()) {
+		for (String label : labels.getLabels()) {
 			labelList.add(label);
 		}
 		

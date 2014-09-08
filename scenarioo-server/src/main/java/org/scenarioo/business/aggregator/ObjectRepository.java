@@ -300,7 +300,7 @@ public class ObjectRepository {
 	 * Add labels also as objects to the repository
 	 */
 	private void addLabels(final List<ObjectReference> referencePath, final Labels labels) {
-		for (String label : labels.toSet()) {
+		for (String label : labels.getLabels()) {
 			ObjectReference labelReference = createObjectReference("label", label);
 			addObjectReference(referencePath, labelReference);
 			

@@ -54,8 +54,8 @@ public class UseCaseDocuWritingRule implements TestRule {
 		// Statement to write use case description as soon as test class gets executed
 		return new Statement() {
 			
-			private ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, EXAMPLE_BRANCH_NAME,
-					EXAMPLE_BUILD_NAME);
+			private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY,
+					EXAMPLE_BRANCH_NAME, EXAMPLE_BUILD_NAME);
 			
 			@Override
 			public void evaluate() throws Throwable {
@@ -88,10 +88,10 @@ public class UseCaseDocuWritingRule implements TestRule {
 		useCase.setName(name);
 		useCase.setDescription(description);
 		useCase.addDetail("webtestClass", testClass.getName());
-		if(useCase.getName().contains("Corner")) {
-			useCase.getLabels().add("corner-case");
+		if (useCase.getName().contains("Corner")) {
+			useCase.getLabels().addLabel("corner-case");
 		} else {
-			useCase.getLabels().add("normal-case");
+			useCase.getLabels().addLabel("normal-case");
 		}
 		return useCase;
 	}
@@ -100,8 +100,7 @@ public class UseCaseDocuWritingRule implements TestRule {
 		DocuDescription description = testClass.getAnnotation(DocuDescription.class);
 		if (description != null && !StringUtils.isBlank(description.name())) {
 			return description.name();
-		}
-		else {
+		} else {
 			// simply use the test class name as use case name if not set through description annotation.
 			return testClass.getSimpleName();
 		}

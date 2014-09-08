@@ -133,7 +133,7 @@ public class StepTestData {
 	private static StepDescription createStepDescription(final int index) {
 		StepDescription stepDescription = new StepDescription();
 		stepDescription.setIndex(index);
-		stepDescription.getLabels().add("step-label-" + index);
+		stepDescription.getLabels().addLabel("step-label-" + index);
 		return stepDescription;
 	}
 	

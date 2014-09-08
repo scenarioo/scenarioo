@@ -53,7 +53,8 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
                 $scope.useCase = result.useCase;
                 $scope.pagesAndSteps = $scope.pagesAndScenarios.pagesAndSteps;
                 $scope.metadataTree = transformMetadataToTreeArray($scope.pagesAndScenarios.scenario.details);
-                $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario);
+                $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario, result.scenarioStatistics);
+                $scope.scenarioStatistics = result.scenarioStatistics;
 
                 $scope.hasAnyLabels = function() {
                     var hasAnyUseCaseLabels = $scope.useCase.labels.labels.length > 0;
@@ -113,9 +114,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     }
 
     $scope.expandAll = function () {
-        // numberOfPages is 0-indexed, therefore we have to add 1.
-        // TODO: This should be fixed in the future, so that the server returns the right number.
-        var numberOfPages = $scope.scenario.calculatedData.numberOfPages + 1;
+        var numberOfPages = $scope.scenarioStatistics.numberOfPages;
         for (var i = 0; i < numberOfPages; i++) {
             showAllSteps[i] = true;
         }
@@ -144,10 +143,10 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         $scope.searchFieldText = '';
     };
 
-    function createScenarioInformationTree(scenario) {
+    function createScenarioInformationTree(scenario, scenarioStatistics) {
         var stepInformation = {};
-        stepInformation['Number of Pages'] = scenario.calculatedData.numberOfPages;
-        stepInformation['Number of Steps'] = scenario.calculatedData.numberOfSteps;
+        stepInformation['Number of Pages'] = scenarioStatistics.numberOfPages;
+        stepInformation['Number of Steps'] = scenarioStatistics.numberOfSteps;
         stepInformation.Status = scenario.status;
         return transformMetadataToTree(stepInformation);
     }

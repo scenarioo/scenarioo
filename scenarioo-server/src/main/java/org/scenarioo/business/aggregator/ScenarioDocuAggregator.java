@@ -32,10 +32,10 @@ import org.scenarioo.model.docu.aggregates.branches.BuildStatistics;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
+import org.scenarioo.model.docu.aggregates.scenarios.ScenarioStatistics;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Scenario;
-import org.scenarioo.model.docu.entities.ScenarioCalculatedData;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
@@ -203,23 +203,25 @@ public class ScenarioDocuAggregator {
 	private ScenarioPageSteps calculateAggregatedDataForSteps(final UseCase usecase, final Scenario scenario,
 			final List<ObjectReference> referencePath) {
 		
-		ScenarioPageSteps result = new ScenarioPageSteps();
-		result.setUseCase(usecase);
-		result.setScenario(scenario);
+		ScenarioPageSteps scenarioPageSteps = new ScenarioPageSteps();
+		scenarioPageSteps.setUseCase(usecase);
+		scenarioPageSteps.setScenario(scenario);
 		List<Step> steps = reader.loadSteps(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 				usecase.getName(), scenario.getName());
 		PageNameSanitizer.sanitizePageNames(steps);
 		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(usecase, scenario, steps,
 				referencePath, objectRepository);
-		result.setPagesAndSteps(pageStepsList);
+		scenarioPageSteps.setPagesAndSteps(pageStepsList);
+		scenarioPageSteps.setScenarioStatistics(createStatistics(steps, pageStepsList));
 		
-		// Set calculated data in scenario from pages and steps
-		ScenarioCalculatedData calculatedData = new ScenarioCalculatedData();
-		calculatedData.setNumberOfPages(pageStepsList.size());
-		calculatedData.setNumberOfSteps(steps.size());
-		scenario.setCalculatedData(calculatedData);
-		
-		return result;
+		return scenarioPageSteps;
+	}
+	
+	private ScenarioStatistics createStatistics(final List<Step> steps, final List<PageSteps> pageStepsList) {
+		ScenarioStatistics scenarioStatistics = new ScenarioStatistics();
+		scenarioStatistics.setNumberOfPages(pageStepsList.size());
+		scenarioStatistics.setNumberOfSteps(steps.size());
+		return scenarioStatistics;
 	}
 	
 	public void updateBuildSummary(final BuildImportSummary buildSummary, final BuildLink buildLink) {

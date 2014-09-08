@@ -30,10 +30,14 @@ allprojects {
 	}
 }
 
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor 10, 'minutes'
+}
+
 configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-example")]) {
     apply plugin: 'eclipse'
     apply plugin: 'java'
-    
+
 	configurations {
 	  compileOnly
 	}
@@ -44,9 +48,9 @@ configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-exa
         }
 	    mavenCentral()
 	}
-	
+
 	ext.scenariooApiVersion = '2.0.0-SNAPSHOT'
-	
+
 	dependencies {
 		compile 'org.scenarioo:scenarioo-java:' + ext.scenariooApiVersion
 	    compile 'org.apache.commons:commons-lang3:3.0.1'
@@ -58,12 +62,12 @@ configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-exa
 
 	//Include compileOnly for compilation
 	sourceSets.main.compileClasspath += configurations.compileOnly
-	
-	
+
+
 	// optional: if using 'eclipse' plugin
 	eclipse {
 		classpath {
-			plusConfigurations += configurations.compileOnly 
+			plusConfigurations += configurations.compileOnly
 		}
 	}
 }
