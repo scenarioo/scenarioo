@@ -35,10 +35,10 @@ scenarioo.describeUseCase('Step', function () {
         stepPage.assertRoute('/object/page/contentPage.jsp');
         scenarioo.docuWriter.saveStep('Overview of page variants in all use cases.');
 
-        objectDetailsPage.clickToExpand(4);
+        objectDetailsPage.clickToExpand(3);
         scenarioo.docuWriter.saveStep('Expanded scenario with the steps that contain the page.');
 
-        objectDetailsPage.clickNthTreeTableRow(9);
+        objectDetailsPage.clickNthTreeTableRow(6);
         stepPage.assertRoute('/step/Find%2520Page/find_page_with_title_ambiguous_navigate_to_other_meaning/contentPage.jsp/0/2');
         scenarioo.docuWriter.saveStep('A different page variant.');
     });
