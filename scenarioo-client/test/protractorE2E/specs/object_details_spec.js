@@ -35,12 +35,12 @@ scenarioo.describeUseCase('Object details', function () {
         usecasePage.clickBrowserBackButton();
 
         objectDetailsPage.clickNthTreeTableRow(1);
-        objectDetailsPage.assertRoute('/scenario/Find%2520Page/find_page_no_result');
+        objectDetailsPage.assertRoute('/scenario/Find%20Page/find_page_no_result');
         usecasePage.clickBrowserBackButton();
 
         objectDetailsPage.clickToExpand('1');
         objectDetailsPage.clickNthTreeTableRow(2);
-        objectDetailsPage.assertRoute('/step/Find%2520Page/find_page_no_result/startSearch.jsp/0/0');
+        objectDetailsPage.assertRoute('/step/Find%20Page/find_page_no_result/startSearch.jsp/0/0');
         usecasePage.clickBrowserBackButton();
     });
 

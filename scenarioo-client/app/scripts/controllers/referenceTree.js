@@ -93,16 +93,16 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         var locationPath = '';
 
         if (navElement.objectType === objType.scenario || navElement.objectType === objType.usecase) {
-            locationPath = navElement.navigationType + '/' + encodeURIComponent(navElement.useCaseName) +
-                '/' + encodeURIComponent(navElement.scenarioName);
+            locationPath = navElement.navigationType + '/' + navElement.useCaseName +
+                '/' + navElement.scenarioName;
         } else if (navElement.objectType === objType.page) {
-            locationPath += 'object/page/' + encodeURIComponent(navElement.pageName);
+            locationPath += 'object/page/' + navElement.pageName;
         } else if (navElement.objectType === objType.step) {
-            locationPath += 'step/' + encodeURIComponent(navElement.useCaseName) + '/' + encodeURIComponent(navElement.scenarioName) +
-                '/' + encodeURIComponent(navElement.pageName) + '/' +
+            locationPath += 'step/' + navElement.useCaseName + '/' + navElement.scenarioName +
+                '/' + navElement.pageName + '/' +
                 navElement.pageOccurrence + '/' + navElement.stepInPageOccurrence;
         } else if (navElement.objectType === objType.object) {
-            locationPath += 'object/' + encodeURIComponent(navElement.navigationType) + '/' + encodeURIComponent(navElement.navigationName);
+            locationPath += 'object/' + navElement.navigationType + '/' + navElement.navigationName;
         }
 
         return locationPath;

@@ -24,7 +24,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
-    $scope.pageName = decodeURIComponent($routeParams.pageName);
+    $scope.pageName = $routeParams.pageName;
     $scope.pageOccurrence = parseInt($routeParams.pageOccurrence, 10);
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
     var labels = $location.search().labels;

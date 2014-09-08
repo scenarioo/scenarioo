@@ -39,7 +39,7 @@ scenarioo.describeUseCase('Step', function () {
         scenarioo.docuWriter.saveStep('Expanded scenario with the steps that contain the page.');
 
         objectDetailsPage.clickNthTreeTableRow(6);
-        stepPage.assertRoute('/step/Find%2520Page/find_page_with_title_ambiguous_navigate_to_other_meaning/contentPage.jsp/0/2');
+        stepPage.assertRoute('/step/Find%20Page/find_page_with_title_ambiguous_navigate_to_other_meaning/contentPage.jsp/0/2');
         scenarioo.docuWriter.saveStep('A different page variant.');
     });
 
