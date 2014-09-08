@@ -311,7 +311,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     };
 
     $scope.go = function (step) {
-        $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + encodeURIComponent(step.pageName) + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
+        $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + step.pageName + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
     };
 
     $scope.getCurrentUrl = function () {

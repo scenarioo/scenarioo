@@ -136,7 +136,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     };
 
     $scope.getLinkToStep = function (pageName, pageOccurrence, stepInPageOccurrence) {
-        return '#/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) +
+        return '#/step/' + encodeURIComponent(useCaseName) + '/' + encodeURIComponent(scenarioName) + '/' + encodeURIComponent(pageName) +
             '/' + pageOccurrence + '/' + stepInPageOccurrence;
     };
 
