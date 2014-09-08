@@ -163,9 +163,8 @@ public class ScenarioDocuAggregator {
 		
 		LOGGER.info("    calculating aggregated data for use case : " + useCaseScenarios.getUseCase().getName());
 		
-		List<ObjectReference> referencePath = objectRepository.createPath(objectRepository.createObjectReference(
-				"usecase", useCaseScenarios.getUseCase().getName(), useCaseScenarios.getUseCase().getLabels()));
-		objectRepository.addObjects(referencePath, useCaseScenarios.getUseCase().getDetails());
+		List<ObjectReference> referencePath = objectRepository.addReferencedUseCaseObjects(useCaseScenarios
+				.getUseCase());
 		
 		for (Scenario scenario : useCaseScenarios.getScenarios()) {
 			try {

@@ -140,7 +140,7 @@ public class UITestToolkitAbstraction {
 		docuWriter.saveStep(useCaseName, scenarioName, step);
 		
 		// Save screenshot
-		docuWriter.savePngScreenshot(useCaseName, scenarioName, stepIndex, screenshot);
+		docuWriter.saveScreenshotAsPng(useCaseName, scenarioName, stepIndex, screenshot);
 		
 		// increase step index
 		stepIndex++;

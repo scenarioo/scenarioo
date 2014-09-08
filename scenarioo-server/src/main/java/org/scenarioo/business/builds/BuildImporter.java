@@ -60,6 +60,11 @@ public class BuildImporter {
 	private final Set<BuildIdentifier> buildsInProcessingQueue = new HashSet<BuildIdentifier>();
 	
 	/**
+	 * Builds currently beeing imported.
+	 */
+	Set<BuildIdentifier> buildsBeeingImported = new HashSet<BuildIdentifier>();
+	
+	/**
 	 * Executor to execute one import task after the other asynchronously.
 	 */
 	private final ExecutorService asyncBuildImportExecutor = newAsyncBuildImportExecutor();
@@ -88,7 +93,10 @@ public class BuildImporter {
 				}
 				ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator(buildIdentifier);
 				aggregator.updateBuildSummary(buildSummary, buildLink);
-				if (buildsInProcessingQueue.contains(buildIdentifier)) {
+				if (buildsBeeingImported.contains(buildIdentifier)) {
+					buildSummary.setStatus(BuildImportStatus.PROCESSING);
+				}
+				else if (buildsInProcessingQueue.contains(buildIdentifier)) {
 					buildSummary.setStatus(BuildImportStatus.QUEUED_FOR_PROCESSING);
 				}
 				result.put(buildIdentifier, buildSummary);
@@ -167,6 +175,7 @@ public class BuildImporter {
 		
 		try {
 			buildImportLog = BuildImportLogAppender.createAndRegisterForLogsOfBuild(summary.getIdentifier());
+			buildsBeeingImported.add(summary.getIdentifier());
 			
 			LOGGER.info(" ============= START OF BUILD IMPORT ================");
 			LOGGER.info("  Importing build: " + summary.getIdentifier().getBranchName() + "/"
@@ -219,6 +228,7 @@ public class BuildImporter {
 		summary.setStatus(buildStatus);
 		summary.setStatusMessage(statusMessage);
 		summary.setImportDate(new Date());
+		buildsBeeingImported.remove(summary.getIdentifier());
 		buildsInProcessingQueue.remove(summary.getIdentifier());
 		saveBuildImportSummaries(buildImportSummaries);
 	}
