@@ -224,6 +224,18 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 	
 	@Test
+	public void theStatusInTheCopiedUseCaseXmlFileIsAlwaysSetToSuccess() {
+		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
+		givenLastSuccessfulScenarioBuildFolderExists();
+		givenBuildImportSummaryWithStatusSuccess();
+		givenImportedBuildHasOneUseCaseWithAUseCaseXmlFileWithStatusFailed();
+		
+		whenUpdatingLastSuccessfulScenarioBuild();
+		
+		expectCopiedUseCaseXmlFileHasStatusSuccess();
+	}
+	
+	@Test
 	public void theUseCaseXmlOfTheLatestBuildIsUsed() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenLastSuccessfulScenarioBuildFolderExists();
@@ -414,7 +426,15 @@ public class LastSuccessfulScenariosBuildTest {
 	
 	private void givenImportedBuildHasOneUseCaseWithAUseCaseXmlFile() {
 		File importedBuildDirectory = getImportedBuildDirectory(buildImportSummary.getIdentifier());
-		createUseCase(importedBuildDirectory, useCases[0]);
+		createUseCase(importedBuildDirectory, useCases[0], Status.SUCCESS);
+		
+		File useCaseDirectory = getDirectoryOfFirstUseCase();
+		createScenario(useCaseDirectory, scenarios[0], Status.SUCCESS, useCases[0]);
+	}
+	
+	private void givenImportedBuildHasOneUseCaseWithAUseCaseXmlFileWithStatusFailed() {
+		File importedBuildDirectory = getImportedBuildDirectory(buildImportSummary.getIdentifier());
+		createUseCase(importedBuildDirectory, useCases[0], Status.FAILED);
 		
 		File useCaseDirectory = getDirectoryOfFirstUseCase();
 		createScenario(useCaseDirectory, scenarios[0], Status.SUCCESS, useCases[0]);
@@ -536,7 +556,7 @@ public class LastSuccessfulScenariosBuildTest {
 	private void createThreeUseCases() {
 		File buildFolder = getImportedBuildDirectory(buildImportSummary.getIdentifier());
 		for (String useCase : useCases) {
-			createUseCase(buildFolder, useCase);
+			createUseCase(buildFolder, useCase, Status.SUCCESS);
 		}
 	}
 	
@@ -549,17 +569,25 @@ public class LastSuccessfulScenariosBuildTest {
 	
 	private void createUseCaseTwoAndThree() {
 		File buildFolder = getImportedBuildDirectory(buildImportSummary.getIdentifier());
-		createUseCase(buildFolder, useCases[1]);
-		createUseCase(buildFolder, useCases[2]);
+		createUseCase(buildFolder, useCases[1], Status.SUCCESS);
+		createUseCase(buildFolder, useCases[2], Status.SUCCESS);
 	}
 	
-	private void createUseCase(final File importedBuildDirectory, final String useCaseName) {
+	private void createUseCase(final File importedBuildDirectory, final String useCaseName, final Status status) {
 		File useCaseDirectory = new File(importedBuildDirectory, encode(useCaseName));
 		useCaseDirectory.mkdirs();
 		assertTrue(useCaseDirectory.exists());
 		
+		UseCase useCase = new UseCase();
+		useCase.setStatus(status);
+		useCase.setName(useCaseName);
+		
+		ScenarioDocuWriter scenarioDocuWriter = new ScenarioDocuWriter(rootDirectory, BUILD_IDENTIFIER.getBranchName(),
+				BUILD_IDENTIFIER.getBuildName());
+		scenarioDocuWriter.saveUseCase(useCase);
+		scenarioDocuWriter.flush();
+		
 		File useCaseFile = new File(useCaseDirectory, FILE_NAME_USECASE);
-		createNewFile(useCaseFile);
 		assertTrue(useCaseFile.exists());
 	}
 	
@@ -805,6 +833,13 @@ public class LastSuccessfulScenariosBuildTest {
 		File useCaseFile = new File(lastSuccessfulScenariosBuildDirectory, encode(useCases[0]) + "/"
 				+ FILE_NAME_USECASE);
 		assertTrue(useCaseFile.exists());
+	}
+	
+	private void expectCopiedUseCaseXmlFileHasStatusSuccess() {
+		ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(rootDirectory);
+		UseCase useCase = scenarioDocuReader.loadUsecase(BUILD_IDENTIFIER.getBranchName(),
+				LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME, useCases[0]);
+		assertEquals(Status.SUCCESS.getKeyword(), useCase.getStatus());
 	}
 	
 	private void expectUseCaseXmlFileWasCopiedForTheFirstTwoUseCases() {

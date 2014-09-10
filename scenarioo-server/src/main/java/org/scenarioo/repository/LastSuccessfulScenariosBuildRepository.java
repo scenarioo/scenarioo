@@ -19,6 +19,7 @@ import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Status;
+import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.lastSuccessfulScenarios.LastSuccessfulScenariosIndex;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
@@ -267,10 +268,30 @@ public class LastSuccessfulScenariosBuildRepository {
 			final String useCaseDirectory) {
 		File sourceUseCaseXmlFile = new File(sourceBuildFolder, useCaseDirectory + "/" + FILE_NAME_USECASE);
 		if (sourceUseCaseXmlFile.exists()) {
-			fileSystemOperations.copyFile(sourceUseCaseXmlFile, destinationUseCaseXmlFile);
+			copyUseCaseXmlFileAndSetStatusToSuccess(useCaseDirectory);
 		} else {
 			LOGGER.warn("File " + sourceUseCaseXmlFile + " does not exist.");
 		}
+	}
+
+	private void copyUseCaseXmlFileAndSetStatusToSuccess(final String useCaseDirectory) {
+		UseCase useCase = readUseCase(buildImportSummary.getIdentifier(), decode(useCaseDirectory));
+		useCase.setStatus(Status.SUCCESS);
+		saveUseCaseXmlInLastSuccessfulScenariosBuild(decode(useCaseDirectory), useCase);
+	}
+	
+	private void saveUseCaseXmlInLastSuccessfulScenariosBuild(final String useCaseName, final UseCase useCase) {
+		ScenarioDocuWriter scenarioDocuWriter = new ScenarioDocuWriter(documentationDataDirectory, buildImportSummary
+				.getIdentifier().getBranchName(),
+				LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
+		scenarioDocuWriter.saveUseCase(useCase);
+		scenarioDocuWriter.flush();
+	}
+	
+	private UseCase readUseCase(final BuildIdentifier buildIdentifier, final String useCaseName) {
+		ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(documentationDataDirectory);
+		return scenarioDocuReader.loadUsecase(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+				useCaseName);
 	}
 	
 	private void copySuccessfulNewerScenarios(final String useCaseName, final File sourceFile,
