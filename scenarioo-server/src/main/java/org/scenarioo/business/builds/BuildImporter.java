@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
+import org.scenarioo.business.lastSuccessfulScenarios.LastSuccessfulScenariosBuild;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;

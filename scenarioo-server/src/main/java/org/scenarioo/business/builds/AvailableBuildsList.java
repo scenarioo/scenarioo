@@ -24,13 +24,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.scenarioo.business.lastSuccessfulScenarios.LastSuccessfulScenariosBuildUpdater;
 import org.scenarioo.model.configuration.BranchAlias;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.repository.ConfigurationRepository;
-import org.scenarioo.repository.LastSuccessfulScenariosBuildRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
@@ -183,9 +183,9 @@ public class AvailableBuildsList {
 	
 	// TODO [#248] Duplicate method in ScenarioDocuAggregationDAO
 	private void setSpecialDisplayNameForLastSuccessfulScenariosBuild(final BuildLink link) {
-		if (LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME
+		if (LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME
 				.equals(link.getBuild().getName())) {
-			link.setDisplayName(LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_DISPLAY_NAME);
+			link.setDisplayName(LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_DISPLAY_NAME);
 		}
 	}
 	
@@ -231,7 +231,7 @@ public class AvailableBuildsList {
 			} else if (build.getLinkName().equals(aliasForLastSuccessfulBuild)) {
 				aliasLinkForLastSuccessfulBuild = build;
 			} else if (build.getLinkName().equals(
-					LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME)) {
+					LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME)) {
 				// Do nothing. This build is not used to find the last successful and most recent build.
 			} else {
 				if (isMoreRecentThan(build, mostRecentBuild)) {

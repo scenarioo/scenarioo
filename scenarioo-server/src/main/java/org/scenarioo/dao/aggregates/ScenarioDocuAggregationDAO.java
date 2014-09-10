@@ -34,6 +34,7 @@ import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.business.builds.BuildLink;
+import org.scenarioo.business.lastSuccessfulScenarios.LastSuccessfulScenariosBuildUpdater;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummaries;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree;
@@ -48,7 +49,6 @@ import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
-import org.scenarioo.repository.LastSuccessfulScenariosBuildRepository;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
 import org.scenarioo.utils.ResourceUtils;
@@ -402,9 +402,9 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	}
 
 	private void setSpecialDisplayNameForLastSuccessfulScenariosBuild(BuildLink link) {
-		if (LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME.equals(link.getBuild()
+		if (LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME.equals(link.getBuild()
 				.getName())) {
-			link.setDisplayName(LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_DISPLAY_NAME);
+			link.setDisplayName(LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_DISPLAY_NAME);
 		}
 	}
 	

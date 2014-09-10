@@ -1,4 +1,4 @@
-package org.scenarioo.repository;
+package org.scenarioo.business.lastSuccessfulScenarios;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -29,9 +29,9 @@ import com.google.common.base.Preconditions;
 /**
  * This class has to be instantiated once for each build that is added to the "last successful scenarios" build.
  */
-public class LastSuccessfulScenariosBuildRepository {
+public class LastSuccessfulScenariosBuildUpdater {
 	
-	private static final Logger LOGGER = Logger.getLogger(LastSuccessfulScenariosBuildRepository.class);
+	private static final Logger LOGGER = Logger.getLogger(LastSuccessfulScenariosBuildUpdater.class);
 	
 	/**
 	 * Name of the build folder.
@@ -63,7 +63,7 @@ public class LastSuccessfulScenariosBuildRepository {
 	
 	private final File importedBuildFolder;
 	
-	public LastSuccessfulScenariosBuildRepository(final File documentationDataDirectory,
+	public LastSuccessfulScenariosBuildUpdater(final File documentationDataDirectory,
 			final BuildImportSummary buildImportSummary) {
 		Preconditions.checkNotNull(buildImportSummary, "buildImportSummary must not be null");
 		Preconditions.checkNotNull(buildImportSummary.getIdentifier(), "buildIdentifier must not be null");
@@ -283,7 +283,7 @@ public class LastSuccessfulScenariosBuildRepository {
 	private void saveUseCaseXmlInLastSuccessfulScenariosBuild(final String useCaseName, final UseCase useCase) {
 		ScenarioDocuWriter scenarioDocuWriter = new ScenarioDocuWriter(documentationDataDirectory, buildImportSummary
 				.getIdentifier().getBranchName(),
-				LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
+				LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
 		scenarioDocuWriter.saveUseCase(useCase);
 		scenarioDocuWriter.flush();
 	}

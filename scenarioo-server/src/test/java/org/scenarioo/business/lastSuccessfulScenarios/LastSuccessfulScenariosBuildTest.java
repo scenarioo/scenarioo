@@ -1,4 +1,4 @@
-package org.scenarioo.business.builds;
+package org.scenarioo.business.lastSuccessfulScenarios;
 
 import static org.junit.Assert.*;
 
@@ -19,6 +19,8 @@ import org.junit.Test;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
+import org.scenarioo.business.builds.AvailableBuildsList;
+import org.scenarioo.business.builds.BuildImporter;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
@@ -29,7 +31,6 @@ import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.lastSuccessfulScenarios.LastSuccessfulScenario;
 import org.scenarioo.model.lastSuccessfulScenarios.LastSuccessfulScenariosIndex;
 import org.scenarioo.repository.ConfigurationRepository;
-import org.scenarioo.repository.LastSuccessfulScenariosBuildRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
@@ -300,7 +301,7 @@ public class LastSuccessfulScenariosBuildTest {
 	private void givenBuildImportSummaryWithStatusSuccessForLastSuccessfulScenarioBuild() {
 		givenBuildImportSummaryWithStatusSuccess();
 		buildImportSummary.getIdentifier().setBuildName(
-				LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
+				LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
 	}
 	
 	private void givenLastSuccessfulScenarioBuildIsDisabledInConfiguration() {
@@ -460,11 +461,11 @@ public class LastSuccessfulScenariosBuildTest {
 		File lastSuccessfulScenariosBuildDirectory = getLastSuccessfulScenariosBuildDirectory();
 		LastSuccessfulScenariosIndex index = getLastSuccessfulScenariosIndex();
 		
-		createUseCaseXmlFile(rootDirectory, LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME,
+		createUseCaseXmlFile(rootDirectory, LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME,
 				useCases[0], NOT_MODIFIED_USE_CASE_DESCRIPTION);
-		createUseCaseXmlFile(rootDirectory, LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME,
+		createUseCaseXmlFile(rootDirectory, LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME,
 				useCases[1], NOT_MODIFIED_USE_CASE_DESCRIPTION);
-		createUseCaseXmlFile(rootDirectory, LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME,
+		createUseCaseXmlFile(rootDirectory, LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME,
 				useCases[2], NOT_MODIFIED_USE_CASE_DESCRIPTION);
 		
 		addScenarioToLastSuccessfulBuild(useCases[0], scenarios[0], DATE_YESTERDAY, index,
@@ -644,7 +645,7 @@ public class LastSuccessfulScenariosBuildTest {
 		try {
 			return new File(rootDirectory, BUILD_IDENTIFIER.getBranchName()
 					+ "/"
-					+ URLEncoder.encode(LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME,
+					+ URLEncoder.encode(LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME,
 							"UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			fail("url encoding failed");
@@ -712,9 +713,8 @@ public class LastSuccessfulScenariosBuildTest {
 			public boolean accept(final File dir, final String name) {
 				File fileOrDirectory = new File(dir, name);
 				return fileOrDirectory.getName().contains(".derived")
-						&& !fileOrDirectory
-								.getName()
-								.equals(encode(LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME));
+						&& !fileOrDirectory.getName().equals(
+								encode(LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME));
 			}
 		});
 		
@@ -728,10 +728,10 @@ public class LastSuccessfulScenariosBuildTest {
 		
 		ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(rootDirectory);
 		Build build = scenarioDocuReader.loadBuild(BUILD_IDENTIFIER.getBranchName(),
-				LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
+				LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
 		
 		assertEquals(Status.SUCCESS.getKeyword(), build.getStatus());
-		assertEquals(LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME, build.getName());
+		assertEquals(LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME, build.getName());
 		assertNotNull(build.getDate());
 		assertEquals("various", build.getRevision());
 	}
@@ -838,7 +838,7 @@ public class LastSuccessfulScenariosBuildTest {
 	private void expectCopiedUseCaseXmlFileHasStatusSuccess() {
 		ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(rootDirectory);
 		UseCase useCase = scenarioDocuReader.loadUsecase(BUILD_IDENTIFIER.getBranchName(),
-				LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME, useCases[0]);
+				LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME, useCases[0]);
 		assertEquals(Status.SUCCESS.getKeyword(), useCase.getStatus());
 	}
 	
@@ -856,7 +856,7 @@ public class LastSuccessfulScenariosBuildTest {
 	private void assertUseCaseInLastSuccessfulScenariosBuildHasDescription(final ScenarioDocuReader scenarioDocuReader,
 			final String useCaseName, final String expectedDescription) {
 		UseCase useCase = scenarioDocuReader.loadUsecase(BUILD_IDENTIFIER.getBranchName(),
-				LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME, useCaseName);
+				LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME, useCaseName);
 		assertEquals(expectedDescription, useCase.getDescription());
 	}
 	
