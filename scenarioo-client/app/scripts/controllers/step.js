@@ -340,7 +340,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             '/scenario/' + scenarioName +
             '/pageName/' + $scope.pageName +
             '/pageOccurrence/' + $scope.pageOccurrence +
-            '/stepInPageOccurrence/' + $scope.stepInPageOccurrence + '.png' + createLabelUrl('?', getAllLabels());
+            '/stepInPageOccurrence/' + $scope.stepInPageOccurrence + '/image' + createLabelUrl('?', getAllLabels());
     };
 
     var getAllLabels = function () {

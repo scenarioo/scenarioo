@@ -7,25 +7,29 @@ public class ResolveStepIndexResult {
 	private final int index;
 	private final boolean requestedStepFound;
 	private final boolean indexValid;
-	private final StepIdentifier redirect;
+	private StepIdentifier redirect = null;
+	private String screenshotFileName = null;
+	
+	private ResolveStepIndexResult(final int index, final boolean requestedStepFound, final boolean indexValid,
+			final String screenshotFileName) {
+		this(index, requestedStepFound, indexValid);
+		this.screenshotFileName = screenshotFileName;
+	}
+	
+	private ResolveStepIndexResult(final int index, final boolean requestedStepFound, final boolean indexValid,
+			final StepIdentifier redirect) {
+		this(index, requestedStepFound, indexValid);
+		this.redirect = redirect;
+	}
 	
 	private ResolveStepIndexResult(final int index, final boolean requestedStepFound, final boolean indexValid) {
 		this.index = index;
 		this.requestedStepFound = requestedStepFound;
 		this.indexValid = indexValid;
-		this.redirect = null;
 	}
 	
-	private ResolveStepIndexResult(final int index, final boolean requestedStepFound, final boolean indexValid,
-			final StepIdentifier redirect) {
-		this.index = index;
-		this.requestedStepFound = requestedStepFound;
-		this.indexValid = indexValid;
-		this.redirect = redirect;
-	}
-	
-	public static ResolveStepIndexResult requestedIndexFound(final int index) {
-		return new ResolveStepIndexResult(index, true, true);
+	public static ResolveStepIndexResult requestedIndexFound(final int index, final String screenshotFileName) {
+		return new ResolveStepIndexResult(index, true, true, screenshotFileName);
 	}
 	
 	public static ResolveStepIndexResult otherStepInPageOccurrenceFound(final int index, final StepIdentifier redirect) {
@@ -33,7 +37,7 @@ public class ResolveStepIndexResult {
 	}
 	
 	public static ResolveStepIndexResult noFallbackFound() {
-		return new ResolveStepIndexResult(-1, false, false, null);
+		return new ResolveStepIndexResult(-1, false, false);
 	}
 	
 	public int getIndex() {
@@ -53,6 +57,10 @@ public class ResolveStepIndexResult {
 	 */
 	public StepIdentifier getRedirect() {
 		return redirect;
+	}
+	
+	public String getScreenshotFileName() {
+		return screenshotFileName;
 	}
 	
 	public boolean containsValidRedirect() {

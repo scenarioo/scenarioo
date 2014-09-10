@@ -14,6 +14,7 @@ import org.scenarioo.rest.base.StepIdentifier;
 public class StepIndexResolver {
 	
 	private static final Logger LOGGER = Logger.getLogger(StepIndexResolver.class);
+	private String screenshotFileName;
 	
 	/**
 	 * Retrieves the overall index of a step in the scenario given a step identifier. Can do a fallback in case the
@@ -47,8 +48,10 @@ public class StepIndexResolver {
 	private ResolveStepIndexResult resolveStepInPageOccurrence(final PageSteps pageWithSteps,
 			final StepIdentifier stepIdentifier) {
 		if (stepIdentifier.getStepInPageOccurrence() < pageWithSteps.getSteps().size()) {
-			int index = pageWithSteps.getSteps().get(stepIdentifier.getStepInPageOccurrence()).getIndex();
-			return ResolveStepIndexResult.requestedIndexFound(index);
+			StepDescription stepDescription = pageWithSteps.getSteps().get(stepIdentifier.getStepInPageOccurrence());
+			screenshotFileName = stepDescription.getScreenshotFileName();
+			int index = stepDescription.getIndex();
+			return ResolveStepIndexResult.requestedIndexFound(index, screenshotFileName);
 		} else {
 			int redirectStepInPageOccurrence = getStepInPageOccurrenceWithMostMatchingLabels(pageWithSteps.getSteps(),
 					stepIdentifier);

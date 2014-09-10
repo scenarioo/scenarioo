@@ -134,6 +134,7 @@ public class StepTestData {
 		StepDescription stepDescription = new StepDescription();
 		stepDescription.setIndex(index);
 		stepDescription.getLabels().addLabel("step-label-" + index);
+		stepDescription.setScreenshotFileName("screenshot-" + index + ".jpeg");
 		return stepDescription;
 	}
 	

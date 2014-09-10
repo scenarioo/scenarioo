@@ -11,8 +11,6 @@ import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
 import org.scenarioo.rest.base.StepIdentifier;
-import org.scenarioo.rest.step.logic.ResolveStepIndexResult;
-import org.scenarioo.rest.step.logic.StepIndexResolver;
 
 public class StepIndexResolverTest {
 	
@@ -148,6 +146,7 @@ public class StepIndexResolverTest {
 		assertEquals(4, resolveStepIndexResult.getIndex());
 		assertTrue(resolveStepIndexResult.isIndexValid());
 		assertTrue(resolveStepIndexResult.isRequestedStepFound());
+		assertEquals("screenshot-4.jpeg", resolveStepIndexResult.getScreenshotFileName());
 	}
 	
 	private void expectFallbackFindsClosestStepInPageOccurrence() {
@@ -155,6 +154,7 @@ public class StepIndexResolverTest {
 		assertTrue(resolveStepIndexResult.isIndexValid());
 		assertFalse(resolveStepIndexResult.isRequestedStepFound());
 		assertEquals(2, resolveStepIndexResult.getRedirect().getStepInPageOccurrence());
+		assertNull(resolveStepIndexResult.getScreenshotFileName());
 	}
 	
 	private void expectFallbackFindsStepInPageOccurrenceWithMostMatchingLabels() {
@@ -162,6 +162,7 @@ public class StepIndexResolverTest {
 		assertTrue(resolveStepIndexResult.isIndexValid());
 		assertFalse(resolveStepIndexResult.isRequestedStepFound());
 		assertEquals(1, resolveStepIndexResult.getRedirect().getStepInPageOccurrence());
+		assertNull(resolveStepIndexResult.getScreenshotFileName());
 	}
 	
 	private void expectFallbackFindsClosestPageOccurrence() {
@@ -170,6 +171,7 @@ public class StepIndexResolverTest {
 		assertFalse(resolveStepIndexResult.isRequestedStepFound());
 		assertEquals(1, resolveStepIndexResult.getRedirect().getPageOccurrence());
 		assertEquals(0, resolveStepIndexResult.getRedirect().getStepInPageOccurrence());
+		assertNull(resolveStepIndexResult.getScreenshotFileName());
 	}
 	
 	private void expectFallbackFindsPageOccurrenceAndStepWithMostMatchingLabels() {
@@ -178,6 +180,7 @@ public class StepIndexResolverTest {
 		assertFalse(resolveStepIndexResult.isRequestedStepFound());
 		assertEquals(1, resolveStepIndexResult.getRedirect().getPageOccurrence());
 		assertEquals(1, resolveStepIndexResult.getRedirect().getStepInPageOccurrence());
+		assertNull(resolveStepIndexResult.getScreenshotFileName());
 	}
 	
 	private void expectNoIndexAndNoRedirectIsFound() {
@@ -185,6 +188,7 @@ public class StepIndexResolverTest {
 		assertFalse(resolveStepIndexResult.isIndexValid());
 		assertFalse(resolveStepIndexResult.isRequestedStepFound());
 		assertNull(resolveStepIndexResult.getRedirect());
+		assertNull(resolveStepIndexResult.getScreenshotFileName());
 	}
 	
 }

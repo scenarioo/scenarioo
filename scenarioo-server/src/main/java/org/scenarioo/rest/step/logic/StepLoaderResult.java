@@ -19,26 +19,28 @@ public class StepLoaderResult {
 	private final StepIdentifier stepIdentifier;
 	private final boolean requestedStepFound;
 	private final StepStatistics stepStatistics;
+	private final String screenshotFileName;
 	
 	private StepLoaderResult(final int stepIndex, final StepIdentifier stepIdentifier,
-			final boolean requestedStepFound, final StepStatistics stepStatistics) {
+			final boolean requestedStepFound, final StepStatistics stepStatistics, final String screenshotFileName) {
 		this.stepIndex = stepIndex;
 		this.stepIdentifier = stepIdentifier;
 		this.requestedStepFound = requestedStepFound;
 		this.stepStatistics = stepStatistics;
+		this.screenshotFileName = screenshotFileName;
 	}
 	
 	public static StepLoaderResult createFoundRequestedStep(final int stepIndex, final StepIdentifier stepIdentifier,
-			final StepStatistics stepStatistics) {
-		return new StepLoaderResult(stepIndex, stepIdentifier, true, stepStatistics);
+			final StepStatistics stepStatistics, final String screenshotFileName) {
+		return new StepLoaderResult(stepIndex, stepIdentifier, true, stepStatistics, screenshotFileName);
 	}
 	
 	public static StepLoaderResult createRedirect(final StepIdentifier redirect) {
-		return new StepLoaderResult(-1, redirect, false, null);
+		return new StepLoaderResult(-1, redirect, false, null, null);
 	}
 	
 	public static StepLoaderResult createNotFound() {
-		return new StepLoaderResult(-1, null, false, null);
+		return new StepLoaderResult(-1, null, false, null, null);
 	}
 	
 	public int getStepIndex() {
@@ -58,6 +60,10 @@ public class StepLoaderResult {
 	
 	public StepStatistics getStepStatistics() {
 		return stepStatistics;
+	}
+	
+	public String getScreenshotFileName() {
+		return screenshotFileName;
 	}
 	
 	public boolean isRedirect() {

@@ -22,8 +22,7 @@ public class StepLoader {
 		return loadStep(stepIdentifier, loadScenarioResult);
 	}
 	
-	private StepLoaderResult loadStep(final StepIdentifier stepIdentifier,
-			final LoadScenarioResult loadScenarioResult) {
+	private StepLoaderResult loadStep(final StepIdentifier stepIdentifier, final LoadScenarioResult loadScenarioResult) {
 		if (loadScenarioResult.isRequestedScenarioFound()) {
 			return resolveStepIndex(stepIdentifier, loadScenarioResult.getPagesAndSteps());
 		} else if (loadScenarioResult.containsValidRedirect()) {
@@ -40,7 +39,7 @@ public class StepLoader {
 			StepStatistics stepStatistics = pageSteps.getStepStatistics(stepIdentifier.getPageName(),
 					stepIdentifier.getPageOccurrence());
 			return StepLoaderResult.createFoundRequestedStep(resolveStepIndexResult.getIndex(), stepIdentifier,
-					stepStatistics);
+					stepStatistics, resolveStepIndexResult.getScreenshotFileName());
 		} else if (resolveStepIndexResult.containsValidRedirect()) {
 			return StepLoaderResult.createRedirect(resolveStepIndexResult.getRedirect());
 		} else {

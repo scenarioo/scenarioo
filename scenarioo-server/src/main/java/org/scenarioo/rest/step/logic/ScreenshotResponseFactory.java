@@ -2,7 +2,6 @@ package org.scenarioo.rest.step.logic;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -16,7 +15,6 @@ import org.scenarioo.rest.base.StepIdentifier;
 
 public class ScreenshotResponseFactory {
 	
-	private final String PNG_FILE_EXTENSION = ".png";
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 	
@@ -35,10 +33,9 @@ public class ScreenshotResponseFactory {
 		}
 	}
 	
-	private Response foundImageResponse(final StepLoaderResult stepImage, final boolean showFallbackStamp) {
-		String imageFileName = getFileName(stepImage.getStepIndex());
-		return createFoundImageResponse(stepImage.getStepIdentifier().getScenarioIdentifier(), imageFileName,
-				showFallbackStamp);
+	private Response foundImageResponse(final StepLoaderResult steLoaderResult, final boolean showFallbackStamp) {
+		return createFoundImageResponse(steLoaderResult.getStepIdentifier().getScenarioIdentifier(),
+				steLoaderResult.getScreenshotFileName(), showFallbackStamp);
 	}
 	
 	public Response createFoundImageResponse(final ScenarioIdentifier scenarioIdentifier, final String imageFileName,
@@ -90,11 +87,6 @@ public class ScreenshotResponseFactory {
 	
 	private Response notFoundResponse() {
 		return Response.status(Status.NOT_FOUND).build();
-	}
-	
-	private String getFileName(final int stepIndex) {
-		DecimalFormat decimalFormat = new DecimalFormat("000");
-		return decimalFormat.format(stepIndex) + PNG_FILE_EXTENSION;
 	}
 	
 }

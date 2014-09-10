@@ -55,8 +55,6 @@ public class ScreenshotResource {
 	private final ScreenshotResponseFactory screenshotResponseFactory = new ScreenshotResponseFactory();
 	private final LabelsQueryParamParser labelsQueryParamParser = new LabelsQueryParamParser();
 	
-	private final String PNG_FILE_EXTENSION = ".png";
-	
 	/**
 	 * This method is used internally for loading the image of a step. It is the faster method, because it already knows
 	 * the filename of the image.
@@ -81,8 +79,7 @@ public class ScreenshotResource {
 	 */
 	@GET
 	@Produces("image/jpeg")
-	@Path("pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}"
-			+ PNG_FILE_EXTENSION)
+	@Path("pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}/image")
 	public Response getScreenshotStable(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
