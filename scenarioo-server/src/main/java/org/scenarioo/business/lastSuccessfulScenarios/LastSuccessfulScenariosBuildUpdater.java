@@ -3,8 +3,6 @@ package org.scenarioo.business.lastSuccessfulScenarios;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
@@ -12,7 +10,7 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.api.exception.ResourceNotFoundException;
-import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
+import org.scenarioo.dao.aggregates.LastSuccessfulScenariosIndexDAO;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationFiles;
 import org.scenarioo.dao.basic.FileSystemOperationsDao;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
@@ -23,6 +21,7 @@ import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.lastSuccessfulScenarios.LastSuccessfulScenariosIndex;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
+import org.scenarioo.utils.UrlEncoding;
 
 import com.google.common.base.Preconditions;
 
@@ -42,11 +41,6 @@ public class LastSuccessfulScenariosBuildUpdater {
 	 * Name used for display in the UI.
 	 */
 	public static final String LAST_SUCCESSFUL_SCENARIO_BUILD_DISPLAY_NAME = "last successful scenarios";
-	
-	/**
-	 * Name of the index file used to track the last successful scenarios with their build dates.
-	 */
-	public static final String LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME = "lastSuccessfulScenariosIndex.derived";
 	
 	private static final String FILE_NAME_USECASE = "usecase.xml";
 	
@@ -85,7 +79,9 @@ public class LastSuccessfulScenariosBuildUpdater {
 	public void enrichLastSuccessfulScenariosWithBuild() {
 		String branchName = buildImportSummary.getIdentifier().getBranchName();
 		
-		index = getLastSuccessfulScenariosIndex(lastSuccessfulScenariosBuildFolder);
+		LastSuccessfulScenariosIndexDAO dao = new LastSuccessfulScenariosIndexDAO(documentationDataDirectory,
+				branchName);
+		index = dao.loadLastSuccessfulScenariosIndex();
 		
 		createLastSuccessfulBuildDirectoryIfItDoesNotExist(branchName);
 		createOrUpdateBuildXmlFile(branchName);
@@ -98,7 +94,7 @@ public class LastSuccessfulScenariosBuildUpdater {
 		
 		index.setLatestImportedBuildDate(buildImportSummary.getBuildDescription().getDate());
 		
-		saveLastSuccessfulScenariosIndex(index);
+		dao.saveLastSuccessfulScenariosIndex(index);
 	}
 	
 	private void removeUseCasesAndScenariosThatDoNotExistAnymoreIfThisIsTheLatestBuild() {
@@ -175,7 +171,7 @@ public class LastSuccessfulScenariosBuildUpdater {
 			LOGGER.warn("Could not delete use case that does not exist anymore.", e);
 		}
 		
-		index.removeUseCase(decode(useCaseDirectory));
+		index.removeUseCase(UrlEncoding.decode(useCaseDirectory));
 	}
 	
 	private void removeScenarioFromLastSuccessfulScenarios(final File useCaseDirectoryFile,
@@ -188,7 +184,7 @@ public class LastSuccessfulScenariosBuildUpdater {
 			LOGGER.warn("Could not delete scenario that does not exist anymore.", e);
 		}
 		
-		index.removeScenario(decode(useCaseDirectoryFile.getName()), decode(scenarioDirectory));
+		index.removeScenario(UrlEncoding.decode(useCaseDirectoryFile.getName()), UrlEncoding.decode(scenarioDirectory));
 	}
 	
 	private String[] getAllDirectoriesThatAreNotDerived(final File parentDirectory) {
@@ -232,7 +228,8 @@ public class LastSuccessfulScenariosBuildUpdater {
 					destinationUsecaseFolder.mkdirs();
 					LOGGER.info("Created " + destinationUsecaseFolder);
 				}
-				copySuccessfulNewerScenarios(decode(sourceDirectoryEntry), sourceFile, destinationUsecaseFolder);
+				copySuccessfulNewerScenarios(UrlEncoding.decode(sourceDirectoryEntry), sourceFile,
+						destinationUsecaseFolder);
 			}
 		}
 	}
@@ -251,7 +248,7 @@ public class LastSuccessfulScenariosBuildUpdater {
 	private void copyUseCaseXmlIfNecessary(final File sourceBuildFolder, final File destinationBuildFolder,
 			final String useCaseDirectory) {
 		File destinationUseCaseXmlFile = new File(destinationBuildFolder, useCaseDirectory + "/" + FILE_NAME_USECASE);
-		String useCaseName = decode(useCaseDirectory);
+		String useCaseName = UrlEncoding.decode(useCaseDirectory);
 		if (!destinationUseCaseXmlFile.exists() || destinationUseCaseXmlFileIsNotNewerThanCurrentBuild(useCaseName)) {
 			copyUseCaseXmlFile(destinationUseCaseXmlFile, sourceBuildFolder, useCaseDirectory);
 		}
@@ -273,11 +270,11 @@ public class LastSuccessfulScenariosBuildUpdater {
 			LOGGER.warn("File " + sourceUseCaseXmlFile + " does not exist.");
 		}
 	}
-
+	
 	private void copyUseCaseXmlFileAndSetStatusToSuccess(final String useCaseDirectory) {
-		UseCase useCase = readUseCase(buildImportSummary.getIdentifier(), decode(useCaseDirectory));
+		UseCase useCase = readUseCase(buildImportSummary.getIdentifier(), UrlEncoding.decode(useCaseDirectory));
 		useCase.setStatus(Status.SUCCESS);
-		saveUseCaseXmlInLastSuccessfulScenariosBuild(decode(useCaseDirectory), useCase);
+		saveUseCaseXmlInLastSuccessfulScenariosBuild(UrlEncoding.decode(useCaseDirectory), useCase);
 	}
 	
 	private void saveUseCaseXmlInLastSuccessfulScenariosBuild(final String useCaseName, final UseCase useCase) {
@@ -305,7 +302,7 @@ public class LastSuccessfulScenariosBuildUpdater {
 				continue;
 			}
 			
-			String scenarioName = decode(scenarioFolder.getName());
+			String scenarioName = UrlEncoding.decode(scenarioFolder.getName());
 			
 			ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildImportSummary.getIdentifier(),
 					useCaseName, scenarioName);
@@ -354,14 +351,6 @@ public class LastSuccessfulScenariosBuildUpdater {
 		return buildDate.after(existingScenarioBuildDate);
 	}
 	
-	private String decode(final String string) {
-		try {
-			return URLDecoder.decode(string, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
 	public boolean isScenarioSuccessful(final File documentationDataDirectory,
 			final ScenarioIdentifier scenarioIdentifier) {
 		ScenarioDocuReader reader = new ScenarioDocuReader(documentationDataDirectory);
@@ -380,24 +369,6 @@ public class LastSuccessfulScenariosBuildUpdater {
 	public File getBuildFolder(final File documentationDataDirectory, final BuildIdentifier buildIdentifier) {
 		ScenarioDocuAggregationFiles files = new ScenarioDocuAggregationFiles(documentationDataDirectory);
 		return files.getBuildDirectory(buildIdentifier);
-	}
-	
-	public LastSuccessfulScenariosIndex getLastSuccessfulScenariosIndex(final File lastSuccessfulScenariosBuildFolder) {
-		File lastSuccessfulScenariosIndexFile = getLastSuccessfulScenariosIndexFile(lastSuccessfulScenariosBuildFolder);
-		if (lastSuccessfulScenariosIndexFile.exists()) {
-			return ScenarioDocuXMLFileUtil.unmarshal(LastSuccessfulScenariosIndex.class,
-					lastSuccessfulScenariosIndexFile);
-		}
-		return new LastSuccessfulScenariosIndex();
-	}
-	
-	private File getLastSuccessfulScenariosIndexFile(final File lastSuccessfulScenariosBuildFolder) {
-		return new File(lastSuccessfulScenariosBuildFolder, LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME);
-	}
-	
-	private void saveLastSuccessfulScenariosIndex(final LastSuccessfulScenariosIndex index) {
-		File lastSuccessfulScenariosIndexFile = getLastSuccessfulScenariosIndexFile(lastSuccessfulScenariosBuildFolder);
-		ScenarioDocuXMLFileUtil.marshal(index, lastSuccessfulScenariosIndexFile);
 	}
 	
 }

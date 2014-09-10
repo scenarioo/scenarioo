@@ -21,6 +21,7 @@ import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.business.builds.AvailableBuildsList;
 import org.scenarioo.business.builds.BuildImporter;
+import org.scenarioo.dao.aggregates.LastSuccessfulScenariosIndexDAO;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
@@ -714,7 +715,7 @@ public class LastSuccessfulScenariosBuildTest {
 				File fileOrDirectory = new File(dir, name);
 				return fileOrDirectory.getName().contains(".derived")
 						&& !fileOrDirectory.getName().equals(
-								encode(LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME));
+								encode(LastSuccessfulScenariosIndexDAO.LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME));
 			}
 		});
 		

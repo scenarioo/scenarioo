@@ -22,7 +22,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -46,9 +49,11 @@ import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Build;
+import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
+import org.scenarioo.model.lastSuccessfulScenarios.LastSuccessfulScenariosIndex;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
 import org.scenarioo.utils.ResourceUtils;
@@ -75,6 +80,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	private final ScenarioDocuReader scenarioDocuReader;
 	
 	private LongObjectNamesResolver longObjectNameResolver = null;
+	DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	
 	public ScenarioDocuAggregationDAO(final File rootDirectory) {
 		files = new ScenarioDocuAggregationFiles(rootDirectory);
@@ -126,9 +132,33 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	 *      java.lang.String)
 	 */
 	@Override
-	public UseCaseScenarios loadUseCaseScenarios(final BuildIdentifier buildIdentifier, final String usecaseName) {
-		File scenariosFile = files.getUseCaseScenariosFile(buildIdentifier, usecaseName);
-		return ScenarioDocuXMLFileUtil.unmarshal(UseCaseScenarios.class, scenariosFile);
+	public UseCaseScenarios loadUseCaseScenarios(final BuildIdentifier buildIdentifier, final String useCaseName) {
+		File scenariosFile = files.getUseCaseScenariosFile(buildIdentifier, useCaseName);
+		UseCaseScenarios useCaseWithScenarios = ScenarioDocuXMLFileUtil
+				.unmarshal(UseCaseScenarios.class, scenariosFile);
+		enrichWithBuildDatesIfThisIsTheLastSuccessfulScenariosBuild(buildIdentifier, useCaseName, useCaseWithScenarios);
+		return useCaseWithScenarios;
+	}
+	
+	private void enrichWithBuildDatesIfThisIsTheLastSuccessfulScenariosBuild(final BuildIdentifier buildIdentifier,
+			final String useCaseName, final UseCaseScenarios useCaseWithScenarios) {
+		if (!LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME.equals(buildIdentifier
+				.getBuildName())) {
+			return;
+		}
+		LastSuccessfulScenariosIndex index = LastSuccessfulScenariosIndexDAO.loadLastSuccessfulScenariosIndex(
+				files.getRootDirectory(), buildIdentifier.getBranchName());
+		
+		Date latestImportedBuildDate = index.getLatestImportedBuildDate();
+		
+		for (Scenario scenario : useCaseWithScenarios.getScenarios()) {
+			Date buildDate = index.getBuildDateForScenario(useCaseName, scenario.getName());
+			if (buildDate == null || buildDate.equals(latestImportedBuildDate)) {
+				continue;
+			}
+			scenario.setDescription("Scenario is from an old build (" + dateFormatter.format(buildDate) + ")! "
+					+ scenario.getDescription());
+		}
 	}
 	
 	/**
@@ -400,10 +430,9 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 		
 		return result;
 	}
-
-	private void setSpecialDisplayNameForLastSuccessfulScenariosBuild(BuildLink link) {
-		if (LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME.equals(link.getBuild()
-				.getName())) {
+	
+	private void setSpecialDisplayNameForLastSuccessfulScenariosBuild(final BuildLink link) {
+		if (LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME.equals(link.getBuild().getName())) {
 			link.setDisplayName(LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_DISPLAY_NAME);
 		}
 	}

@@ -32,7 +32,7 @@ public class LastSuccessfulScenariosIndex {
 	}
 	
 	public void setScenarioBuildDate(final String useCaseName, final String scenarioName, final Date time) {
-		getScenario(useCaseName, scenarioName).setBuildDate(time);
+		getScenarioCreateIfNotNull(useCaseName, scenarioName).setBuildDate(time);
 	}
 	
 	public Date getScenarioBuildDate(final String useCaseName, final String scenarioName) {
@@ -49,8 +49,16 @@ public class LastSuccessfulScenariosIndex {
 		return scenario.getBuildDate();
 	}
 	
-	private LastSuccessfulScenario getScenario(final String useCaseName, final String scenarioName) {
+	private LastSuccessfulScenario getScenarioCreateIfNotNull(final String useCaseName, final String scenarioName) {
 		return getUseCaseCreateIfNotNull(useCaseName).getScenarioCreateIfNotNull(scenarioName);
+	}
+	
+	private LastSuccessfulScenario getScenario(final String useCaseName, final String scenarioName) {
+		UseCaseWithLastSuccessfulScenarios useCase = getUseCase(useCaseName);
+		if (useCase == null) {
+			return null;
+		}
+		return useCase.getScenario(scenarioName);
 	}
 	
 	public void setLatestImportedBuildDate(final Date latestImportedBuildDate) {
@@ -79,6 +87,14 @@ public class LastSuccessfulScenariosIndex {
 		}
 		
 		return useCase.getLatestBuildDateOfAllScenarios();
+	}
+	
+	public Date getBuildDateForScenario(final String useCaseName, final String scenarioName) {
+		LastSuccessfulScenario scenario = getScenario(useCaseName, scenarioName);
+		if (scenario == null) {
+			return null;
+		}
+		return scenario.getBuildDate();
 	}
 	
 }
