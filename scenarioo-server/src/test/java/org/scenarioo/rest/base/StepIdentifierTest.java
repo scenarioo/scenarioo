@@ -4,9 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.scenarioo.rest.base.BuildIdentifier;
-import org.scenarioo.rest.base.ScenarioIdentifier;
-import org.scenarioo.rest.base.StepIdentifier;
 import org.scenarioo.rest.step.logic.StepTestData;
 
 public class StepIdentifierTest {
@@ -26,7 +23,7 @@ public class StepIdentifierTest {
 	@Test
 	public void redirectUrlForScreenshot() {
 		assertEquals(
-				"/rest/branch/bugfix-branch/build/build-2014-08-12/usecase/Find the answer/scenario/Actually find it/pageName/pageName1/pageOccurrence/0/stepInPageOccurrence/0.png",
+				"/rest/branch/bugfix-branch/build/build-2014-08-12/usecase/Find the answer/scenario/Actually find it/pageName/pageName1/pageOccurrence/0/stepInPageOccurrence/0/image",
 				stepIdentifier.getScreenshotUriForRedirect().getPath());
 		assertEquals("fallback=true", stepIdentifier.getScreenshotUriForRedirect().getQuery());
 	}

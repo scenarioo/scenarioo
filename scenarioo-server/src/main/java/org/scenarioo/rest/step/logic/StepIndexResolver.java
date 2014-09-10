@@ -55,7 +55,8 @@ public class StepIndexResolver {
 		} else {
 			int redirectStepInPageOccurrence = getStepInPageOccurrenceWithMostMatchingLabels(pageWithSteps.getSteps(),
 					stepIdentifier);
-			int index = pageWithSteps.getSteps().get(redirectStepInPageOccurrence).getIndex();
+			StepDescription stepDescription = pageWithSteps.getSteps().get(redirectStepInPageOccurrence);
+			int index = stepDescription.getIndex();
 			StepIdentifier redirectStepIdentifier = StepIdentifier.withDifferentStepInPageOccurrence(stepIdentifier,
 					redirectStepInPageOccurrence);
 			
@@ -96,8 +97,9 @@ public class StepIndexResolver {
 			final List<PageSteps> pageOccurrences) {
 		StepIdentifier redirectStepIdentifier = getRedirectStepIdentifierForStepInAllPageOccurrences(stepIdentifier,
 				pageOccurrences);
-		int redirectStepIndex = pageOccurrences.get(redirectStepIdentifier.getPageOccurrence()).getSteps()
-				.get(redirectStepIdentifier.getStepInPageOccurrence()).getIndex();
+		StepDescription stepDescription = pageOccurrences.get(redirectStepIdentifier.getPageOccurrence()).getSteps()
+				.get(redirectStepIdentifier.getStepInPageOccurrence());
+		int redirectStepIndex = stepDescription.getIndex();
 		
 		LOGGER.warn("pageOccurrence " + stepIdentifier.getPageOccurrence() + " does not exist in "
 				+ stepIdentifier.toString() + ". Redirecting to " + redirectStepIdentifier);

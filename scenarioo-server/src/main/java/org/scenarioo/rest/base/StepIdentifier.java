@@ -154,7 +154,7 @@ public class StepIdentifier {
 		uriBuilder.append("/stepInPageOccurrence/").append(encode(Integer.toString(getStepInPageOccurrence())));
 		
 		if (RedirectType.SCREENSHOT.equals(redirectType)) {
-			uriBuilder.append(".png");
+			uriBuilder.append("/image");
 		}
 		
 		uriBuilder.append("?fallback=true");
