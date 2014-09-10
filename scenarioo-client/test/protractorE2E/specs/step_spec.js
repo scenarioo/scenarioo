@@ -104,4 +104,16 @@ scenarioo.describeUseCase('Step', function () {
         scenarioo.docuWriter.saveStep('Step links dialog.');
     });
 
+    scenarioo.describeScenario('Click on a object link in Call tree and jump to object example.action.StartInitAction', function () {
+        var homePage = new pages.homePage();
+
+        browser.get('#/step/Find%20Page/find_page_no_result/startSearch.jsp/0/0');
+        homePage.closeScenariooInfoDialogIfOpen();
+
+        stepPage.clickOnMetaDataCallTreeTab(0);
+        scenarioo.docuWriter.saveStep('Expand Call tree panel');
+
+        stepPage.clickOnLink('uiAction_example.action.StartInitAction');
+        stepPage.assertToolTipInBreadcrumb('uiAction: example.action.StartInitAction');
+    });
 });

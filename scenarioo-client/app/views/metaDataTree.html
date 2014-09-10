@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <div ng-repeat="(key,value) in metadataTree">
-    <sc-collapsable-panel id="sc-metadata-panel-{{key}}" title="{{key}}" key="{{key}}">
+    <sc-collapsable-panel panel-index="{{$index}}" id="sc-metadata-panel-{{key}}" title="{{key}}" key="{{key}}">
         <sc-tree data='value'></sc-tree>
     </sc-collapsable-panel>
 </div>

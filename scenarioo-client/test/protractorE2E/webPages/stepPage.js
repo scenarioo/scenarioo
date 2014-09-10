@@ -113,4 +113,27 @@ StepPage.prototype.assertPageVariantIndicatorValue = function(value) {
     expect(pageVariantIndicator.getText()).toBe(value);
 };
 
+StepPage.prototype.clickOnMetaDataCallTreeTab = function(index) {
+    var ptor = protractor.getInstance();
+    var collapsablePanelIndex = 'collapsable_panel_' + index;
+
+    expect(element(by.id(collapsablePanelIndex)).isDisplayed()).toBeTruthy();
+    ptor.findElement(by.id(collapsablePanelIndex)).then(function (element) {
+        ptor.actions().click(element).perform();
+    });
+};
+
+StepPage.prototype.clickOnLink= function(linkId) {
+    var ptor = protractor.getInstance();
+    ptor.findElement(by.id(linkId)).then(function (element) {
+        ptor.actions().click(element).perform();
+    });
+};
+
+StepPage.prototype.assertToolTipInBreadcrumb = function(toolTip) {
+    var ptor = protractor.getInstance();
+    var toolTip = ptor.findElement(by.id('tooltip_1')).getAttribute('tooltip');
+    expect(toolTip).toBe(toolTip);
+};
+
 module.exports = StepPage;

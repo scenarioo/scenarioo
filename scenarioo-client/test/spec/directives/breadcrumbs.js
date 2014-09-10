@@ -16,7 +16,7 @@
  */
 
 'use strict';
-// TODO #277: refactor unit tests according to #267
+// TODO #277: refactor unit tests according to #267 and #310
 /*
 describe('Directive :: scBreadcrumbs', function () {
     var scope,

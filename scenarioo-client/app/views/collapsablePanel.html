@@ -1,6 +1,6 @@
 <div>
     <div class="panel panel-default">
-        <div class="panel-heading link" ng-click="toggleMetadataExpanded(key)">
+        <div class="panel-heading link" id="collapsable_panel_{{panelIndex}}" ng-click="toggleMetadataExpanded(key)">
             <h3 class="panel-title">{{title}}</h3>
         </div>
         <div class="panel-body" ng-class="{hidden: isMetadataCollapsed(key), metadata: true}">

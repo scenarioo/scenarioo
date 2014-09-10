@@ -138,7 +138,8 @@ angular.module('scenarioo.directives').directive('scTree', function ($sce) {
             var hrefObjectType = encodeURIComponent(data.nodeObjectType);
             var hrefObjectName = encodeURIComponent(data.nodeObjectName);
 
-            href = '<a href="#/object/' + hrefObjectType + '/' + hrefObjectName + '">' + data.nodeValue + '</a>';
+            href = '<a id="' + hrefObjectType + '_' + hrefObjectName + '" href="#/object/' +
+                hrefObjectType + '/' + hrefObjectName + '">' + data.nodeValue + '</a>';
         }
         else {
             href = data.nodeValue;
