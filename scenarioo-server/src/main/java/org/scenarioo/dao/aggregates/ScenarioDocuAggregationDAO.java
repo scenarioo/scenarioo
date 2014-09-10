@@ -48,6 +48,7 @@ import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
+import org.scenarioo.repository.LastSuccessfulScenariosBuildRepository;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
 import org.scenarioo.utils.ResourceUtils;
@@ -393,10 +394,18 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 		List<BuildLink> result = new ArrayList<BuildLink>();
 		for (ObjectFromDirectory<Build> build : builds) {
 			BuildLink link = new BuildLink(build.getObject(), FilesUtil.decodeName(build.getDirectoryName()));
+			setSpecialDisplayNameForLastSuccessfulScenariosBuild(link);
 			result.add(link);
 		}
 		
 		return result;
+	}
+
+	private void setSpecialDisplayNameForLastSuccessfulScenariosBuild(BuildLink link) {
+		if (LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME.equals(link.getBuild()
+				.getName())) {
+			link.setDisplayName(LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_DISPLAY_NAME);
+		}
 	}
 	
 }

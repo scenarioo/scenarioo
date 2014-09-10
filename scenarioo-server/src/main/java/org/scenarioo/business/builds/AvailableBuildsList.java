@@ -170,6 +170,7 @@ public class AvailableBuildsList {
 				BuildLink buildLink = new BuildLink();
 				buildLink.setLinkName(summary.getIdentifier().getBuildName());
 				buildLink.setBuild(summary.getBuildDescription());
+				setSpecialDisplayNameForLastSuccessfulScenariosBuild(buildLink);
 				branchBuilds.getBuilds().add(buildLink);
 				updateAliasesForRecentBuilds(branchBuilds);
 				BuildSorter.sort(branchBuilds.getBuilds());
@@ -178,6 +179,14 @@ public class AvailableBuildsList {
 		}
 		throw new IllegalStateException("Branch '" + summary.getIdentifier().getBranchName()
 				+ "' was not found in available builds list for newly imported build.");
+	}
+	
+	// TODO [#248] Duplicate method in ScenarioDocuAggregationDAO
+	private void setSpecialDisplayNameForLastSuccessfulScenariosBuild(final BuildLink link) {
+		if (LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME
+				.equals(link.getBuild().getName())) {
+			link.setDisplayName(LastSuccessfulScenariosBuildRepository.LAST_SUCCESSFUL_SCENARIO_BUILD_DISPLAY_NAME);
+		}
 	}
 	
 	/**

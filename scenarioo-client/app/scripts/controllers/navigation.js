@@ -56,6 +56,10 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
             return '';
         }
 
+        if(angular.isDefined(build.displayName) && build.displayName !== null) {
+            return build.displayName;
+        }
+
         if (build.build.name !== build.linkName) {
             return build.linkName;
         } else {

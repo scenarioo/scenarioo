@@ -32,7 +32,19 @@ public class LastSuccessfulScenariosBuildRepository {
 	
 	private static final Logger LOGGER = Logger.getLogger(LastSuccessfulScenariosBuildRepository.class);
 	
+	/**
+	 * Name of the build folder.
+	 */
 	public static final String LAST_SUCCESSFUL_SCENARIO_BUILD_NAME = "last successful scenarios.derived";
+	
+	/**
+	 * Name used for display in the UI.
+	 */
+	public static final String LAST_SUCCESSFUL_SCENARIO_BUILD_DISPLAY_NAME = "last successful scenarios";
+	
+	/**
+	 * Name of the index file used to track the last successful scenarios with their build dates.
+	 */
 	public static final String LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME = "lastSuccessfulScenariosIndex.derived";
 	
 	private static final String FILE_NAME_USECASE = "usecase.xml";

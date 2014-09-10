@@ -28,6 +28,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.scenarioo.model.docu.entities.Build;
 
 /**
@@ -41,7 +44,18 @@ public class BuildLink implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * If this name is set, it is used as the display name of the build. If its not set, the
+	 * <code>linkName<code> is used and if the
+	 * <code>linkName</code> is not set, the build revision is used.
+	 */
+	private String displayName;
+	
+	/**
+	 * This is the name used for all REST calls. It can be either a physical build name or a build alias.
+	 */
 	private String linkName;
+	
 	private Build build;
 	
 	public BuildLink() {
@@ -60,29 +74,33 @@ public class BuildLink implements Serializable {
 		return linkName;
 	}
 	
-	public void setLinkName(String linkName) {
+	public void setLinkName(final String linkName) {
 		this.linkName = linkName;
+	}
+	
+	public String getDisplayName() {
+		return displayName;
+	}
+	
+	public void setDisplayName(final String displayName) {
+		this.displayName = displayName;
 	}
 	
 	public Build getBuild() {
 		return build;
 	}
 	
-	public void setBuild(Build build) {
+	public void setBuild(final Build build) {
 		this.build = build;
 	}
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((build == null) ? 0 : build.hashCode());
-		result = prime * result + ((linkName == null) ? 0 : linkName.hashCode());
-		return result;
+		return new HashCodeBuilder().append(build).append(linkName).append(displayName).toHashCode();
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -93,21 +111,14 @@ public class BuildLink implements Serializable {
 			return false;
 		}
 		BuildLink other = (BuildLink) obj;
-		if (build == null) {
-			if (other.build != null) {
-				return false;
-			}
-		} else if (!build.equals(other.build)) {
-			return false;
-		}
-		if (linkName == null) {
-			if (other.linkName != null) {
-				return false;
-			}
-		} else if (!linkName.equals(other.linkName)) {
-			return false;
-		}
-		return true;
+		
+		return new EqualsBuilder().append(build, other.build).append(linkName, other.linkName)
+				.append(displayName, other.displayName).isEquals();
+	}
+	
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this).append(build).append(linkName).append(displayName).toString();
 	}
 	
 }
