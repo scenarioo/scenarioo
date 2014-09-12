@@ -32,6 +32,7 @@ import org.scenarioo.model.docu.aggregates.branches.BuildStatistics;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
+import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Scenario;
@@ -63,7 +64,7 @@ public class ScenarioDocuAggregator {
 	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
 	 * otherwise the data has to be recalculated.
 	 */
-	public static final String CURRENT_FILE_FORMAT_VERSION = "0.35";
+	public static final String CURRENT_FILE_FORMAT_VERSION = "0.36";
 	
 	private final static Logger LOGGER = Logger.getLogger(ScenarioDocuAggregator.class);
 	
@@ -137,9 +138,10 @@ public class ScenarioDocuAggregator {
 		List<UseCaseScenarios> useCaseScenarios = new ArrayList<UseCaseScenarios>();
 		List<UseCase> usecases = reader.loadUsecases(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		for (UseCase usecase : usecases) {
-			UseCaseScenarios item = new UseCaseScenarios();
+			UseCaseScenarios useCaseWithScenarios = new UseCaseScenarios();
 			List<Scenario> scenarios = reader.loadScenarios(buildIdentifier.getBranchName(),
 					buildIdentifier.getBuildName(), usecase.getName());
+			
 			boolean atLeastOneScenarioFailed = false;
 			for (Scenario scenario : scenarios) {
 				if (StringUtils.equals(scenario.getStatus(), FAILED_STATE)) {
@@ -147,15 +149,30 @@ public class ScenarioDocuAggregator {
 					break;
 				}
 			}
+			
 			if (usecase.getStatus() == null) {
 				usecase.setStatus(atLeastOneScenarioFailed ? FAILED_STATE : SUCCESS_STATE);
 			}
-			item.setScenarios(scenarios);
-			item.setUseCase(usecase);
-			useCaseScenarios.add(item);
+			useCaseWithScenarios.setScenarios(createScenarioSummaries(scenarios));
+			useCaseWithScenarios.setUseCase(usecase);
+			useCaseScenarios.add(useCaseWithScenarios);
 		}
 		result.setUseCaseScenarios(useCaseScenarios);
 		return result;
+	}
+	
+	private List<ScenarioSummary> createScenarioSummaries(final List<Scenario> scenarios) {
+		List<ScenarioSummary> scenarioSummaries = new ArrayList<ScenarioSummary>(scenarios.size());
+		for (Scenario scenario : scenarios) {
+			scenarioSummaries.add(createSummary(scenario));
+		}
+		return scenarioSummaries;
+	}
+	
+	private ScenarioSummary createSummary(final Scenario scenario) {
+		ScenarioSummary summary = new ScenarioSummary();
+		summary.setScenario(scenario);
+		return summary;
 	}
 	
 	private void calulateAggregatedDataForUseCase(final UseCaseScenarios useCaseScenarios) {
@@ -165,12 +182,12 @@ public class ScenarioDocuAggregator {
 		List<ObjectReference> referencePath = objectRepository.addReferencedUseCaseObjects(useCaseScenarios
 				.getUseCase());
 		
-		for (Scenario scenario : useCaseScenarios.getScenarios()) {
+		for (ScenarioSummary scenario : useCaseScenarios.getScenarios()) {
 			try {
 				calculateAggregatedDataForScenario(referencePath, useCaseScenarios.getUseCase(), scenario);
-				addScenarioStatistics(scenario);
+				addScenarioStatistics(scenario.getScenario());
 			} catch (ResourceNotFoundException ex) {
-				LOGGER.warn("could not load scenario " + scenario.getName() + " in use case"
+				LOGGER.warn("could not load scenario " + scenario.getScenario().getName() + " in use case"
 						+ useCaseScenarios.getUseCase().getName());
 			}
 		}
@@ -189,12 +206,15 @@ public class ScenarioDocuAggregator {
 	}
 	
 	private void calculateAggregatedDataForScenario(List<ObjectReference> referencePath, final UseCase usecase,
-			final Scenario scenario) {
+			final ScenarioSummary scenarioSummary) {
+		Scenario scenario = scenarioSummary.getScenario();
 		
 		referencePath = objectRepository.addReferencedScenarioObjects(referencePath, scenario);
 		
 		LOGGER.info("      calculating aggregated data for scenario : " + scenario.getName());
 		ScenarioPageSteps scenarioPageSteps = calculateAggregatedDataForSteps(usecase, scenario, referencePath);
+		
+		scenarioSummary.setNumberOfSteps(scenarioPageSteps.getTotalNumberOfStepsInScenario());
 		
 		dao.saveScenarioPageSteps(buildIdentifier, scenarioPageSteps);
 	}

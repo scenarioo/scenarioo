@@ -46,10 +46,10 @@ import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
+import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Build;
-import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
@@ -151,13 +151,15 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 		
 		Date latestImportedBuildDate = index.getLatestImportedBuildDate();
 		
-		for (Scenario scenario : useCaseWithScenarios.getScenarios()) {
-			Date buildDate = index.getBuildDateForScenario(useCaseName, scenario.getName());
+		for (ScenarioSummary scenario : useCaseWithScenarios.getScenarios()) {
+			// TODO Add the "old build date" to the ScenarioSummary on aggregation time and as a separate field.
+			Date buildDate = index.getBuildDateForScenario(useCaseName, scenario.getScenario().getName());
 			if (buildDate == null || buildDate.equals(latestImportedBuildDate)) {
 				continue;
 			}
-			scenario.setDescription("Scenario is from an old build (" + dateFormatter.format(buildDate) + ")! "
-					+ scenario.getDescription());
+			scenario.getScenario().setDescription(
+					"Scenario is from an old build (" + dateFormatter.format(buildDate) + ")! "
+							+ scenario.getScenario().getDescription());
 		}
 	}
 	

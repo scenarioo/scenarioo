@@ -49,25 +49,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </tr>
             </thead>
             <tbody>
-                <tr ng-class="{'selected':$index==selectedRowIndex}" ng-click="goToScenario(useCase.name, scenario.name)"
+                <tr ng-class="{'selected':$index==selectedRowIndex}" ng-click="goToScenario(useCase.name, scenarioSummary.scenario.name)"
                     class="link"
-                    ng-repeat="scenario in filtered=(scenarios | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
+                    ng-repeat="scenarioSummary in filtered=(scenarios | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
                     <td>
-                        <span class="label state" ng-class="getStatusStyleClass(scenario.status)">{{scenario.status}}</span>
+                        <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{scenarioSummary.scenario.status}}</span>
                     </td>
                     <td>
-                        {{scenario.name | scHumanReadable }}
-                    <span ng-repeat="label in scenario.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                        {{scenarioSummary.scenario.name | scHumanReadable }}
+                    <span ng-repeat="label in scenarioSummary.scenario.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                     </td>
                     <td>
                         <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview"
                               tooltip-placement="bottom"></i></a>
-                        <a ng-click="goToFirstStep(useCase.name, scenario.name)" tooltip="Go to first step"
+                        <a ng-click="goToFirstStep(useCase.name, scenarioSummary.scenario.name)" tooltip="Go to first step"
                            tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
                     </td>
-                    <td>{{scenario.description}}</td>
-                    <td ng-repeat="property in propertiesToShow">{{scenario.details[property]}}</td>
-                    <td>{{scenario.calculatedData.numberOfSteps}}</td>
+                    <td>{{scenarioSummary.scenario.description}}</td>
+                    <td ng-repeat="property in propertiesToShow">{{scenarioSummary.scenario.details[property]}}</td>
+                    <td>{{scenarioSummary.numberOfSteps}}</td>
                 </tr>
             </tbody>
         </table>
