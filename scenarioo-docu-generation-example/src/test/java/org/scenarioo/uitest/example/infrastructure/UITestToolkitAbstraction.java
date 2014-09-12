@@ -29,6 +29,7 @@
 
 package org.scenarioo.uitest.example.infrastructure;
 
+import static org.scenarioo.api.util.IdentifierSanitizer.*;
 import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
 
 import org.scenarioo.api.ScenarioDocuWriter;
@@ -166,7 +167,7 @@ public class UITestToolkitAbstraction {
 	}
 	
 	private Page createPage() {
-		Page page = new Page(toolkit.getApplicationsState().getPageName());
+		Page page = new Page(sanitize(toolkit.getApplicationsState().getPageName()));
 		page.getLabels().addLabel("page-label1").addLabel("page-label2");
 		return page;
 	}

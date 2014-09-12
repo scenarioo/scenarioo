@@ -29,6 +29,7 @@
 
 package org.scenarioo.uitest.dummy.application.steps;
 
+import static org.scenarioo.api.util.IdentifierSanitizer.*;
 import static org.scenarioo.uitest.dummy.application.DummySimulationConfig.*;
 
 import java.util.ArrayList;
@@ -180,7 +181,7 @@ public class DummyApplicationStepDataFactory {
 	
 	private DummyApplicationStepDataFactory callTree() {
 		callTreePathUnderConstruction = new LinkedList<ObjectTreeNode<ObjectDescription>>();
-		ObjectDescription httpRequest = new ObjectDescription("httpCall", browserUrl);
+		ObjectDescription httpRequest = new ObjectDescription("httpCall", sanitize(browserUrl));
 		callTree = addCallTreeNode(httpRequest);
 		return this;
 	}
