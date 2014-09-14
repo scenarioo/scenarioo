@@ -7,6 +7,16 @@ import org.scenarioo.model.docu.entities.generic.ObjectReference;
 
 public class ObjectReferenceWithLabels extends ObjectReference {
 	
+	// TODO [fallback, labels] question to the author by Rolf:
+	// Why not directly wire the labels dependency here??
+	// Or, if you want to allow for other details, the name
+	// "ObjectReferenceWithLabels" is wrong and missleading.
+	// I would even propose to add a details field to the class ObjectReference directly and in general, I think this
+	// would not hurt at all, because somebody might want to link to an object but still put some additonal informations
+	// (kind of annotations) on that link (like you are trying to do here).
+	// It would be the same mechanism as in ObjectTreeNode, where there is already a details object for additional
+	// informations about the object in the item, that does not belong to the object itself (only this one
+	// occurence/node item).
 	private Details details;
 	
 	public ObjectReferenceWithLabels() {
@@ -25,6 +35,9 @@ public class ObjectReferenceWithLabels extends ObjectReference {
 	private void addLabelsToDetails(final Labels labels) {
 		// TODO [fallback, labels] It would make more sense to use the labels object directly. But this does not work
 		// yet. Maybe Labels has to be serializable or added explicitly to the JAXB context.
+		// Message in a bottle from Rolf to the one that wrote this: yes, it needs to be serializable, probably it also
+		// needs the annotations on the clas, like ObjectDescription, and last but not least, you might have to add it
+		// to the constant ScenarioDocuXMLUtil.SUPPORTED_GENERIC_CLASSES
 		ObjectList<String> labelList = new ObjectList<String>();
 		
 		for (String label : labels.getLabels()) {
