@@ -161,8 +161,8 @@ public class UITestToolkitAbstraction {
 		stepDescription.setTitle(toolkit.getTextFromElement(TITLE_ELEMENT_ID));
 		stepDescription.setStatus(status);
 		stepDescription.setIndex(stepIndex);
-		stepDescription.addDetails("url", toolkit.getBrowserUrl());
-		stepDescription.getLabels().addLabel("step-label-" + stepIndex).addLabel("public");
+		stepDescription.addDetail("url", toolkit.getBrowserUrl());
+		stepDescription.addLabel("step-label-" + stepIndex).addLabel("public");
 		return stepDescription;
 	}
 	
