@@ -257,8 +257,7 @@ public class LastSuccessfulScenariosBuildUpdater {
 	private boolean destinationUseCaseXmlFileIsNotNewerThanCurrentBuild(final String useCaseName) {
 		Date buildDate = buildImportSummary.getBuildDescription().getDate();
 		Date latestBuildDateOfUseCase = index.getLatestBuildDateOfUseCase(useCaseName);
-		
-		return !latestBuildDateOfUseCase.after(buildDate);
+		return latestBuildDateOfUseCase == null || !latestBuildDateOfUseCase.after(buildDate);
 	}
 	
 	private void copyUseCaseXmlFile(final File destinationUseCaseXmlFile, final File sourceBuildFolder,
