@@ -2,12 +2,20 @@
 <step xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <page>
         <details/>
+        <labels>
+            <label>page-label1</label>
+            <label>page-label2</label>
+        </labels>
     </page>
     <stepDescription>
         <index>0</index>
         <title>Technical Page 1</title>
         <status>success</status>
         <screenshotFileName>000.png</screenshotFileName>
+        <labels>
+            <label>step-label-0</label>
+            <label>public</label>
+        </labels>
         <details>
             <entry>
                 <key>url</key>
@@ -117,7 +125,7 @@
                 <key>Call Tree</key>
                 <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectTreeNode">
                     <item xsi:type="objectDescription">
-                        <name>http://www.wikipedia.org/technical-multiple-pages-scenario</name>
+                        <name>http:__www.wikipedia.org_technical-multiple-pages-scenario</name>
                         <type>httpCall</type>
                         <details/>
                     </item>
@@ -156,9 +164,6 @@
             <value xsi:type="xs:string">Service to check via LDAP the authentication for a user for given operation.</value>
         </entry>
         <entry>
-            <key>eaiName</key>
-        </entry>
-        <entry>
             <key>realName</key>
             <value xsi:type="xs:string">LDAP:AuthenticationService</value>
         </entry>
@@ -187,9 +192,6 @@
         <entry>
             <key>description</key>
             <value xsi:type="xs:string">Service to load current wiki menu.</value>
-        </entry>
-        <entry>
-            <key>eaiName</key>
         </entry>
         <entry>
             <key>realName</key>

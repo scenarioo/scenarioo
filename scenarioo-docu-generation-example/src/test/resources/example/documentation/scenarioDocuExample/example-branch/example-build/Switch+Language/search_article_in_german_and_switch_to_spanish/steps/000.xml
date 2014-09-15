@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <step xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <page>
+        <name>startSearch.jsp</name>
         <details/>
         <labels>
             <label>page-label1</label>
@@ -8,18 +9,18 @@
         </labels>
     </page>
     <stepDescription>
-        <index>3</index>
-        <title>Technical Page 2</title>
+        <index>0</index>
+        <title>Wikipedia Search</title>
         <status>success</status>
-        <screenshotFileName>003.png</screenshotFileName>
+        <screenshotFileName>000.png</screenshotFileName>
         <labels>
-            <label>step-label-3</label>
+            <label>step-label-0</label>
             <label>public</label>
         </labels>
         <details>
             <entry>
                 <key>url</key>
-                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">http://www.wikipedia.org/technical-multiple-pages-scenario</value>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">http://www.wikipedia.org</value>
             </entry>
         </details>
     </stepDescription>
@@ -38,7 +39,7 @@
             <entry>
                 <key>Simulation Configuration</key>
                 <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectDescription">
-                    <name>technical_no_page_names_config</name>
+                    <name>switch_language_config</name>
                     <type>configuration</type>
                     <details>
                         <entry>
@@ -119,6 +120,103 @@
                             </value>
                         </entry>
                     </details>
+                </value>
+            </entry>
+            <entry>
+                <key>Call Tree</key>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectTreeNode">
+                    <item xsi:type="objectDescription">
+                        <name>http:__www.wikipedia.org</name>
+                        <type>httpCall</type>
+                        <details/>
+                    </item>
+                    <details/>
+                    <children>
+                        <item xsi:type="objectDescription">
+                            <name>example.action.StartInitAction</name>
+                            <type>uiAction</type>
+                            <details>
+<entry>
+    <key>description</key>
+    <value xsi:type="xs:string">Initializer for wiki, creates user session and initializes the menu</value>
+</entry>
+                            </details>
+                        </item>
+                        <details/>
+                        <children>
+                            <item xsi:type="objectDescription">
+<name>UserSessionBean.loadUserSessionData</name>
+<type>businessOperation</type>
+<details>
+    <entry>
+        <key>description</key>
+        <value xsi:type="xs:string">Load session data for current user</value>
+    </entry>
+</details>
+                            </item>
+                            <details/>
+                            <children>
+<item xsi:type="objectDescription">
+    <name>AuthenticationService.checkUserAuthenticatedServiceOperationWithAVeryVeryVeryUglyAndLongOperationNameJustToCheckHandlingOfLongNames</name>
+    <type>service</type>
+    <details>
+        <entry>
+            <key>description</key>
+            <value xsi:type="xs:string">Service to check via LDAP the authentication for a user for given operation.</value>
+        </entry>
+        <entry>
+            <key>realName</key>
+            <value xsi:type="xs:string">LDAP:AuthenticationService</value>
+        </entry>
+    </details>
+</item>
+<details/>
+                            </children>
+                        </children>
+                        <children>
+                            <item xsi:type="objectDescription">
+<name>MenuSessionBean.load</name>
+<type>businessOperation</type>
+<details>
+    <entry>
+        <key>description</key>
+        <value xsi:type="xs:string">Load current menu page index</value>
+    </entry>
+</details>
+                            </item>
+                            <details/>
+                            <children>
+<item xsi:type="objectDescription">
+    <name>MenuService.loadMenu</name>
+    <type>service</type>
+    <details>
+        <entry>
+            <key>description</key>
+            <value xsi:type="xs:string">Service to load current wiki menu.</value>
+        </entry>
+        <entry>
+            <key>realName</key>
+            <value xsi:type="xs:string">MENUSYS:LoadMenuService.load</value>
+        </entry>
+    </details>
+</item>
+<details/>
+                            </children>
+                        </children>
+                    </children>
+                    <children>
+                        <item xsi:type="objectDescription">
+                            <name>example.action.SearchInitAction</name>
+                            <type>uiAction</type>
+                            <details>
+<entry>
+    <key>description</key>
+    <value xsi:type="xs:string">Initializer to init the search page</value>
+</entry>
+                            </details>
+                        </item>
+                        <details/>
+                    </children>
                 </value>
             </entry>
             <entry>

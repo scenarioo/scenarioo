@@ -28,4 +28,7 @@
             </value>
         </entry>
     </details>
+    <labels>
+        <label>exact match</label>
+    </labels>
 </scenario>

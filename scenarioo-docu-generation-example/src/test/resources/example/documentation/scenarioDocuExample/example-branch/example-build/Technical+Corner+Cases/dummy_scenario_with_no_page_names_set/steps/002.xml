@@ -2,12 +2,20 @@
 <step xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <page>
         <details/>
+        <labels>
+            <label>page-label1</label>
+            <label>page-label2</label>
+        </labels>
     </page>
     <stepDescription>
         <index>2</index>
         <title>Technical Page 2</title>
         <status>success</status>
         <screenshotFileName>002.png</screenshotFileName>
+        <labels>
+            <label>step-label-2</label>
+            <label>public</label>
+        </labels>
         <details>
             <entry>
                 <key>url</key>
@@ -112,9 +120,6 @@
                         </entry>
                     </details>
                 </value>
-            </entry>
-            <entry>
-                <key>Call Tree</key>
             </entry>
             <entry>
                 <key>Huge Metadata Tree</key>

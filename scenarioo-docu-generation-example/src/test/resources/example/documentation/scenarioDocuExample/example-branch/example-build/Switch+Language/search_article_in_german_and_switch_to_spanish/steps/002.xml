@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <step xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <page>
+        <name>contentPage.jsp</name>
         <details/>
         <labels>
             <label>page-label1</label>
@@ -8,18 +9,18 @@
         </labels>
     </page>
     <stepDescription>
-        <index>3</index>
-        <title>Technical Page 2</title>
+        <index>2</index>
+        <title>AngularJS German</title>
         <status>success</status>
-        <screenshotFileName>003.png</screenshotFileName>
+        <screenshotFileName>002.png</screenshotFileName>
         <labels>
-            <label>step-label-3</label>
+            <label>step-label-2</label>
             <label>public</label>
         </labels>
         <details>
             <entry>
                 <key>url</key>
-                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">http://www.wikipedia.org/technical-multiple-pages-scenario</value>
+                <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">http://de.wikipedia.org/wiki/AngularJS</value>
             </entry>
         </details>
     </stepDescription>
@@ -38,7 +39,7 @@
             <entry>
                 <key>Simulation Configuration</key>
                 <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectDescription">
-                    <name>technical_no_page_names_config</name>
+                    <name>switch_language_config</name>
                     <type>configuration</type>
                     <details>
                         <entry>
