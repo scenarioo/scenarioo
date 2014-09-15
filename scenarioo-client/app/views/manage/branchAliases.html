@@ -30,12 +30,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <form name="branchAliasesForm">
         <table class="table table-curved table-hover table-responsive" >
             <thead>
-            <tr>
-                <th>Alias Name</th>
-                <th>Referenced Branch</th>
-                <th>Description</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>Alias Name</th>
+                    <th>Referenced Branch</th>
+                    <th>Description</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="branchAlias in branchAliases">
@@ -43,13 +43,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <input type="text" class="ng-pristine ng-valid form-control" ng-model="branchAlias.name" ng-change="aliasNameChanged()" name="aliasName"/>
                     </td>
                     <td>
-                        <div class="form-group">
                         <select ng-model="branchAlias.referencedBranch"
                                 ng-options="branch.branch.name as branch.branch.name for branch in branches"
                                 class="form-control"
                                 ng-required="branchAlias.name !== ''"
                                 name="referencedBranch"></select>
-                        </div>
                     </td>
                     <td>
                         <input type="text" class="ng-pristine ng-valid form-control" ng-model="branchAlias.description" name="aliasDescription"  />
