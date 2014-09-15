@@ -3,6 +3,7 @@ package org.scenarioo.rest.step.logic;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
@@ -36,8 +37,13 @@ public class ScenarioLoader {
 	}
 	
 	public LoadScenarioResult findPageInRequestedUseCaseOrInAllUseCases(final StepIdentifier stepIdentifier) {
-		ObjectIndex objectIndex = aggregatedDataReader.loadObjectIndex(stepIdentifier.getBuildIdentifier(), "page",
-				stepIdentifier.getPageName());
+		ObjectIndex objectIndex = null;
+		try {
+			objectIndex = aggregatedDataReader.loadObjectIndex(stepIdentifier.getBuildIdentifier(), "page",
+					stepIdentifier.getPageName());
+		} catch (ResourceNotFoundException e) {
+			return LoadScenarioResult.foundNothing();
+		}
 		
 		StepIdentifier redirect = findPageInRequestedUseCase(objectIndex, stepIdentifier);
 		
