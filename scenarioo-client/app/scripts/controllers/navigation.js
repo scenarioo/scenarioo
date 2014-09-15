@@ -60,11 +60,19 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
             return build.displayName;
         }
 
-        if (build.build.name !== build.linkName) {
+        if ($scope.isBuildAlias(build)) {
             return build.linkName;
         } else {
             return 'Revision: ' + build.build.revision;
         }
+    };
+
+    $scope.isBuildAlias = function (build) {
+        if (angular.isUndefined(build)) {
+            return false;
+        }
+
+        return build.build.name !== build.linkName;
     };
 
     GlobalHotkeysService.registerGlobalHotkey('i', function () {
