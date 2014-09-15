@@ -27,12 +27,12 @@ angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scop
         },
         {
             tabId: 'configuration',
-            title: 'Configuration',
+            title: 'General Configuration',
             contentViewUrl: 'views/manage/config.html'
         },
         {
             tabId: 'branchAliases',
-            title: 'Branch Aliases',
+            title: 'Branch Alias Configurations',
             contentViewUrl: 'views/manage/branchAliases.html'
         },
         {
