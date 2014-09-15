@@ -35,6 +35,7 @@ import org.scenarioo.uitest.dummy.application.DummySimulationConfig;
 import org.scenarioo.uitest.example.infrastructure.DocuDescription;
 import org.scenarioo.uitest.example.infrastructure.Labels;
 import org.scenarioo.uitest.example.infrastructure.UITest;
+import org.scenarioo.uitest.example.issues.UserStories;
 
 @DocuDescription(name = "Switch Language",
 		description = "Search in a different language and switch language of current article.")
@@ -42,6 +43,7 @@ public class SwitchLanguageUITest extends UITest {
 	
 	@Test
 	@DocuDescription(description = "User enters some text and finds multiple pages that contain this text.")
+	@UserStories({ 122, 123 })
 	@Labels({ "i18n", "exact match" })
 	public void search_article_in_german_and_switch_to_spanish() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.SWITCH_LANGUAGE_CONFIG);
