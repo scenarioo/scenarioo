@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LastSuccessfulScenariosIndex {
 	
-	Map<String, UseCaseWithLastSuccessfulScenarios> useCases = new HashMap<String, UseCaseWithLastSuccessfulScenarios>();
+	private final Map<String, UseCaseWithLastSuccessfulScenarios> useCases = new HashMap<String, UseCaseWithLastSuccessfulScenarios>();
 	private Date latestImportedBuildDate;
 	
 	public UseCaseWithLastSuccessfulScenarios getUseCaseCreateIfNotNull(final String useCaseName) {
