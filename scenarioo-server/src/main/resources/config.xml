@@ -48,5 +48,15 @@
                 <foregroundColor>#FFFFFF</foregroundColor>
             </value>
         </entry>
-    </labelConfigurations>    
+    </labelConfigurations>
+    <customObjectTabs>
+        <id>labels</id>
+        <tabTitle>Labels</tabTitle>
+        <objectTypesToDisplay>label</objectTypesToDisplay>
+    </customObjectTabs>
+    <customObjectTabs>
+        <id>pages</id>
+        <tabTitle>Pages</tabTitle>
+        <objectTypesToDisplay>page</objectTypesToDisplay>
+    </customObjectTabs>        
 </configuration>

@@ -156,6 +156,22 @@ public class ObjectRepository {
 	 *            the path of objects that referenced these details.
 	 */
 	private void addObject(final List<ObjectReference> referencePath, final ObjectDescription object) {
+		addObject(referencePath, object, null);
+	}
+	
+	/**
+	 * Add an object itself and all subobjects inside the internal details map to the object repository for later
+	 * saving.
+	 * 
+	 * Recursively resolves all subobjects, if any.
+	 * 
+	 * @param referencePath
+	 *            the path of objects that referenced these details.
+	 * @param labels
+	 *            labels that were available on the same object, to add too.
+	 */
+	private void addObject(final List<ObjectReference> referencePath, final ObjectDescription object,
+			final Labels labels) {
 		
 		customObjectTabsAggregator.aggregateRelevantObjectIntoCustomObjectTabTrees(referencePath, object);
 		
@@ -164,6 +180,9 @@ public class ObjectRepository {
 		addObjectReference(referencePath, ref);
 		referencePath.add(ref);
 		addObjects(referencePath, object.getDetails());
+		if (labels != null) {
+			addLabels(referencePath, labels);
+		}
 		referencePath.remove(referencePath.size() - 1);
 	}
 	
@@ -282,31 +301,20 @@ public class ObjectRepository {
 			return;
 		}
 		
-		// Page reference
-		ObjectReference pageReference = createObjectReference("page", page.getName(), page.getLabels());
-		addObjectReference(referencePath, pageReference);
-		
-		// Save page description (if not yet)
+		// Add page description as an object too
 		ObjectDescription pageDescription = new ObjectDescription("page", page.getName());
 		pageDescription.setDetails(page.getDetails());
-		saveObject(pageDescription);
-		
-		// Add referenced objects from page
-		addObjects(referencePath, page.getDetails());
-		addLabels(referencePath, page.getLabels());
+		addObject(referencePath, pageDescription, page.getLabels());
 	}
 	
 	/**
 	 * Add labels also as objects to the repository
 	 */
-	private void addLabels(final List<ObjectReference> referencePath, final Labels labels) {
+	private void addLabels(final List<ObjectReference> referencePath, final Labels labels) {		
 		for (String label : labels.getLabels()) {
-			ObjectReference labelReference = createObjectReference("label", label);
-			addObjectReference(referencePath, labelReference);
-			
 			// Save label description (if not yet)
 			ObjectDescription labelDescription = new ObjectDescription("label", label);
-			saveObject(labelDescription);
+			addObject(referencePath, labelDescription);
 		}
 	}
 	
