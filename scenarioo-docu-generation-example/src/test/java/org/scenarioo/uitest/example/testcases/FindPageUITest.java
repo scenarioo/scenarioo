@@ -57,6 +57,7 @@ import org.scenarioo.uitest.example.infrastructure.UseCaseDocuWritingRule;
  * implement these patterns for this simple example.
  */
 @DocuDescription(name = "Find Page", description = "User wants to search for a page and read it.")
+@Labels("normal-case")
 public class FindPageUITest extends UITest {
 	
 	@Test

@@ -12,7 +12,7 @@ exports.config = {
     allScriptsTimeout: 11000,
 
     specs: [
-        'test/protractorE2E/specs/*_spec.js'
+        'test/protractorE2E/specs/step_spec.js'
     ],
 
     capabilities: {
