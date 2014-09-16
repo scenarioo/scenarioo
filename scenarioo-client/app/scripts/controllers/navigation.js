@@ -75,6 +75,14 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
         return build.build.name !== build.linkName;
     };
 
+    $scope.isLastSuccessfulScenariosBuild = function(build) {
+        if (angular.isUndefined(build)) {
+            return false;
+        }
+
+        return 'last successful scenarios' === build.displayName;
+    };
+
     GlobalHotkeysService.registerGlobalHotkey('i', function () {
         $scope.showApplicationInfoPopup();
     });

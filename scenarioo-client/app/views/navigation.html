@@ -47,6 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Build:
                         <span class="glyphicon glyphicon-share-alt" ng-show="isBuildAlias(branchesAndBuilds.selectedBuild)"></span>
+                        <span class="glyphicon glyphicon-ok" ng-show="isLastSuccessfulScenariosBuild(branchesAndBuilds.selectedBuild)"></span>
                         {{getDisplayName(branchesAndBuilds.selectedBuild)}}&nbsp;
 						<span ng-class="[getStatusStyleClass(branchesAndBuilds.selectedBuild.build.status), 'label']">{{branchesAndBuilds.selectedBuild.build.status}}</span>
 						<div class="icon-with-padding"><b class="caret"></b></div>
@@ -55,6 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 						<li ng-repeat="build in branchesAndBuilds.selectedBranch.builds">
                             <a ng-click="setBuild(selectedBranch, build)">
                                 <span class="glyphicon glyphicon-share-alt" ng-show="isBuildAlias(build)"></span>
+                                <span class="glyphicon glyphicon-ok" ng-show="isLastSuccessfulScenariosBuild(build)"></span>
                                 {{getDisplayName(build)}} ({{build.build.date | scDateTime}})&nbsp;
                                 <span ng-class="[getStatusStyleClass(build.build.status), 'label']">{{build.build.status}}</span>
                             </a>
