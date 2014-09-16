@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, ScShareStepPopup) {
+angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -96,6 +96,9 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
                     return hasAnyUseCaseLabels || hasAnyScenarioLabels || hasAnyStepLabels || hasAnyPageLabels;
                 };
+
+                SharePageService.setPageUrl($scope.getCurrentUrl());
+                SharePageService.setImageUrl(getScreenshotUrlForSharing());
             },
             function error(result) {
                 $scope.stepNotFound = true;
@@ -318,17 +321,6 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         return $location.absUrl() + createLabelUrl('&', getAllLabels());
     };
 
-    $scope.showStepLinks = function () {
-        ScShareStepPopup.showShareStepPopup({
-            stepUrl: $scope.getCurrentUrl(),
-            screenshotUrl: getScreenshotUrlForSharing()
-        });
-    };
-
-    GlobalHotkeysService.registerPageHotkey('l', function () {
-        $scope.showStepLinks();
-    });
-
     var getScreenshotUrlForSharing = function () {
         if (SelectedBranchAndBuild.isDefined() !== true) {
             return undefined;
@@ -359,11 +351,16 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             var labelPart = 'labels=';
             var comma = '';
             angular.forEach(labels, function (value) {
-                labelPart += comma + value;
+                labelPart += comma + encodeURIComponent(value);
                 comma = ',';
             });
             return prefix + labelPart;
         }
         return '';
     };
+
+    $scope.$on('$destroy', function() {
+        SharePageService.invalidateUrls();
+    });
+
 });

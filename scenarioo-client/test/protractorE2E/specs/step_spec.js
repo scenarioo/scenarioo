@@ -90,16 +90,7 @@ scenarioo.describeUseCase('Step', function () {
         browser.get('#/step/Find Page/find_page_no_result/startSearch.jsp/0/0');
         scenarioo.docuWriter.saveStep('A step.');
 
-        stepPage.clickShowStepLinksButton();
-        stepPage.assertStepLinksDialogVisible();
-        scenarioo.docuWriter.saveStep('Step links dialog.');
-    });
-
-    scenarioo.describeScenario('The step link dialog can also be opened using the "l" shortcut.', function () {
-        browser.get('#/step/Find Page/find_page_no_result/startSearch.jsp/0/0');
-        scenarioo.docuWriter.saveStep('A step.');
-
-        stepPage.type('l');
+        stepPage.clickShareThisPageLink();
         stepPage.assertStepLinksDialogVisible();
         scenarioo.docuWriter.saveStep('Step links dialog.');
     });
@@ -110,10 +101,11 @@ scenarioo.describeUseCase('Step', function () {
         browser.get('#/step/Find%20Page/find_page_no_result/startSearch.jsp/0/0');
         homePage.closeScenariooInfoDialogIfOpen();
 
-        stepPage.clickOnMetaDataCallTreeTab(0);
+        stepPage.openMetadataTabIfClosed(0);
         scenarioo.docuWriter.saveStep('Expand Call tree panel');
 
         stepPage.clickOnLink('uiAction_example.action.StartInitAction');
         stepPage.assertToolTipInBreadcrumb('uiAction: example.action.StartInitAction');
     });
+
 });

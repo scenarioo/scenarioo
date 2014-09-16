@@ -99,8 +99,8 @@ StepPage.prototype.assertScenarioLabelsContain = function(label) {
     expect(element(by.id('scenario-labels')).getInnerHtml()).toContain(label);
 };
 
-StepPage.prototype.clickShowStepLinksButton = function() {
-    element(by.id('showStepLinksButton')).click();
+StepPage.prototype.clickShareThisPageLink = function() {
+    element(by.id('shareThisPageLink')).click();
 };
 
 StepPage.prototype.assertStepLinksDialogVisible = function() {
@@ -113,13 +113,13 @@ StepPage.prototype.assertPageVariantIndicatorValue = function(value) {
     expect(pageVariantIndicator.getText()).toBe(value);
 };
 
-StepPage.prototype.clickOnMetaDataCallTreeTab = function(index) {
-    var ptor = protractor.getInstance();
-    var collapsablePanelIndex = 'collapsable_panel_' + index;
+StepPage.prototype.openMetadataTabIfClosed = function(index) {
+    var metadataPanelContentCss = '#metadata_panel_' + index + ' .metadata';
 
-    expect(element(by.id(collapsablePanelIndex)).isDisplayed()).toBeTruthy();
-    ptor.findElement(by.id(collapsablePanelIndex)).then(function (element) {
-        ptor.actions().click(element).perform();
+    browser.findElement(by.css(metadataPanelContentCss)).isDisplayed().then(function(displayed){
+        if(!displayed) {
+            element(by.id('collapsable_panel_' + index)).click();
+        }
     });
 };
 

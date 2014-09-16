@@ -17,8 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.directives').directive('scBreadcrumb', function ($routeParams, $location,
-    $route, $compile, $filter, $sce, BreadcrumbsService) {
+angular.module('scenarioo.directives').directive('scBreadcrumb', function ($routeParams, $location, $route, $compile, $filter, $sce, BreadcrumbsService, ScShareStepPopup) {
 
     var limit = 50;
 
@@ -38,10 +37,10 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($rout
 
             var navElements = BreadcrumbsService.getNavigationElements(breadcrumbId, navParameters);
 
-            angular.forEach(navElements, function(breadcrumbItem){
+            angular.forEach(navElements, function (breadcrumbItem) {
 
                 // Create breadcrumb objects
-                var isLabelTextShortened= breadcrumbItem.label.length > limit && !breadcrumbItem.isLastNavigationElement;
+                var isLabelTextShortened = breadcrumbItem.label.length > limit && !breadcrumbItem.isLastNavigationElement;
                 var breadcrumbLabelText = getShortenedLabelText(breadcrumbItem, isLabelTextShortened);
                 var breadcrumb = {
                     text: breadcrumbLabelText,
@@ -59,6 +58,10 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($rout
             scope.email = {
                 title: encodeURIComponent('Link to the User Scenario Documentation'),
                 link: encodeURIComponent($location.absUrl())
+            };
+
+            scope.showStepLinks = function () {
+                ScShareStepPopup.showShareStepPopup();
             };
         }
     };

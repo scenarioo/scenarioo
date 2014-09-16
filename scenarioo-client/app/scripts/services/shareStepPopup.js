@@ -22,7 +22,7 @@ angular.module('scenarioo.services').factory('ScShareStepPopup', function (local
     // This is required to avoid multiple popups (they could be opened using keyboard shortcuts)
     var modalIsCurrentlyOpen = false;
 
-    function showShareStepPopup(URLs) {
+    function showShareStepPopup() {
         if (modalIsCurrentlyOpen === true) {
             return;
         }
@@ -33,12 +33,7 @@ angular.module('scenarioo.services').factory('ScShareStepPopup', function (local
             templateUrl: 'views/shareStepPopup.html',
             controller: 'ScShareStepPopupController',
             windowClass: 'modal-small',
-            backdropFade: true,
-            resolve: {
-                URLs: function() {
-                    return URLs;
-                }
-            }
+            backdropFade: true
         });
 
         modalInstance.result['finally'](function () {
@@ -50,9 +45,24 @@ angular.module('scenarioo.services').factory('ScShareStepPopup', function (local
         showShareStepPopup: showShareStepPopup
     };
 
-}).controller('ScShareStepPopupController', function ($scope, $modalInstance, URLs) {
-    $scope.URLs = URLs;
+}).controller('ScShareStepPopupController', function ($scope, $modalInstance, SharePageService, $location) {
+
+    var currentBrowserLocation = $location.absUrl();
+
+    $scope.pageUrl = (function() {
+        if(angular.isDefined(SharePageService.getPageUrl())) {
+            return SharePageService.getPageUrl();
+        } else {
+            return currentBrowserLocation;
+        }
+    }());
+    $scope.imageUrl = SharePageService.getImageUrl();
+
+    $scope.eMailSubject = encodeURIComponent('Link to Scenarioo');
+    $scope.eMailUrl = encodeURIComponent($scope.pageUrl);
+
     $scope.close = function () {
         $modalInstance.dismiss('cancel');
     };
+
 });
