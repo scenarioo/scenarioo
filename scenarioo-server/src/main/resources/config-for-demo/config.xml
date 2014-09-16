@@ -41,15 +41,15 @@
         </entry>
     </buildstates>
     <customObjectTabs>
+        <id>pages</id>
+        <tabTitle>Pages</tabTitle>
+        <objectTypesToDisplay>page</objectTypesToDisplay>
+    </customObjectTabs>
+    <customObjectTabs>
         <id>labels</id>
         <tabTitle>Labels</tabTitle>
         <objectTypesToDisplay>label</objectTypesToDisplay>
     </customObjectTabs>
-    <customObjectTabs>
-        <id>pages</id>
-        <tabTitle>Pages</tabTitle>
-        <objectTypesToDisplay>page</objectTypesToDisplay>
-    </customObjectTabs> 
     <customObjectTabs>
         <id>requirements</id>
         <tabTitle>Requirements</tabTitle>
