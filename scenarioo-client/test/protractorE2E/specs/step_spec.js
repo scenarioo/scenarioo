@@ -78,7 +78,7 @@ scenarioo.describeUseCase('Step', function () {
     });
 
     scenarioo.describeScenario('If the fallback mechanism finds multiple candidates, the one with the most matching labels is used.', function() {
-        browser.get('#/step/RenamedUseCase/DeletedScenario/contentPage.jsp/111/222?labels=normal-case,exact%20match,i18n,step-label-2,public,page-label1,page-label2');
+        browser.get('#/step/RenamedUseCase/DeletedScenario/contentPage.jsp/111/222?labels=exact%20match,i18n,step-label-2,public,page-label1,page-label2');
         stepPage.assertFallbackMessageIsShown();
         stepPage.assertFallbackMessageContainsText('Usecase: Switch Language');
         stepPage.assertFallbackMessageContainsText('Scenario: search_article_in_german_and_switch_to_spanish');

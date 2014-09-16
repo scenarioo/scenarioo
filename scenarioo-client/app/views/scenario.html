@@ -79,11 +79,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <sc-collapsable-panel title="Labels" key="stepView-labels" initially-expanded="false" ng-show="hasAnyLabels()">
             <div class="sc-tree">
                 <ul>
-                    <li>
+                    <li ng-show="useCase.labels.labels">
                         Use case:
                         <span ng-repeat="label in useCase.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
-                    <li>
+                    <li ng-show="scenario.labels.labels">
                         Scenario:
                         <span ng-repeat="label in scenario.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>

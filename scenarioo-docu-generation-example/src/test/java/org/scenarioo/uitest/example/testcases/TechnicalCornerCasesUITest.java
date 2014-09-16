@@ -16,6 +16,7 @@ import org.scenarioo.uitest.example.infrastructure.UITest;
 @DocuDescription(
 		name = "Technical Corner Cases",
 		description = "Just some meaningless dummy scenarios for testing some corner cases in the Scenarioo web application, like what happens when there are no pages or a page has only one variant in all scenarios etc.")
+@Labels("corner-case")
 public class TechnicalCornerCasesUITest extends UITest {
 	
 	@Test

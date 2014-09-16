@@ -99,7 +99,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 		DocuDescription docuDescription = testMethodDescription.getAnnotation(DocuDescription.class);
 		if (docuDescription != null) {
 			description = docuDescription.description();
-			scenario.addDetail("User role", docuDescription.userRole());
+			scenario.addDetail("User Role", docuDescription.userRole());
 		}
 		scenario.setDescription(description);
 		
@@ -123,7 +123,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 		}
 		
 		// store some dummy metadata to test some very long texts in metadata
-		scenario.addDetail("Very long metadata lines", createLongLine());
+		scenario.addDetail("Very Long Metadata Lines", createLongLine());
 		
 		return scenario;
 	}

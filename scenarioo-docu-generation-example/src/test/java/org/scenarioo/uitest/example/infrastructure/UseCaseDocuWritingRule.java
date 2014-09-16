@@ -31,6 +31,9 @@ package org.scenarioo.uitest.example.infrastructure;
 
 import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.junit.ClassRule;
@@ -87,11 +90,10 @@ public class UseCaseDocuWritingRule implements TestRule {
 		UseCase useCase = new UseCase();
 		useCase.setName(name);
 		useCase.setDescription(description);
-		useCase.addDetail("webtestClass", testClass.getName());
-		if (useCase.getName().contains("Corner")) {
-			useCase.getLabels().addLabel("corner-case");
-		} else {
-			useCase.getLabels().addLabel("normal-case");
+		useCase.addDetail("Webtest Class", testClass.getName());
+		Labels labels = testClass.getAnnotation(Labels.class);
+		if (labels != null) {
+			useCase.getLabels().setLabels(new HashSet<String>(Arrays.asList(labels.value())));
 		}
 		return useCase;
 	}
