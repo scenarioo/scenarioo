@@ -337,26 +337,18 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
     var getAllLabels = function () {
         var labels = [];
-        if ($scope.useCaseLabels) {
-            labels.push($scope.useCaseLabels.labels);
-            labels.push($scope.scenarioLabels.labels);
-            labels.push($scope.step.stepDescription.labels.labels);
-            labels.push($scope.step.page.labels.labels);
+        if ($scope.useCaseLabels && $scope.scenarioLabels && $scope.step) {
+            labels = labels.concat($scope.useCaseLabels.labels).concat($scope.scenarioLabels.labels).concat($scope.step.stepDescription.labels.labels).concat($scope.step.page.labels.labels);
         }
         return labels;
     };
 
     var createLabelUrl = function (prefix, labels) {
-        if (labels && labels.length > 0) {
-            var labelPart = 'labels=';
-            var comma = '';
-            angular.forEach(labels, function (value) {
-                labelPart += comma + encodeURIComponent(value);
-                comma = ',';
-            });
-            return prefix + labelPart;
+        if(angular.isUndefined(labels) || !angular.isArray(labels) || labels.length === 0) {
+            return '';
         }
-        return '';
+
+        return prefix + 'labels=' + labels.map(encodeURIComponent).join();
     };
 
     $scope.$on('$destroy', function() {
