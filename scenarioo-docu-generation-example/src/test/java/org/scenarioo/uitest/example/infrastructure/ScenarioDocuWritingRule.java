@@ -45,6 +45,11 @@ import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.docu.entities.generic.Details;
+import org.scenarioo.model.docu.entities.generic.ObjectDescription;
+import org.scenarioo.model.docu.entities.generic.ObjectList;
+import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
+import org.scenarioo.uitest.example.issues.IssuesTrackingAccessHelper;
+import org.scenarioo.uitest.example.issues.UserStories;
 
 /**
  * A {@link TestRule} to setup as a {@link Rule} on your UI test classes to generate documentation content for each
@@ -88,13 +93,17 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 		Scenario scenario = new Scenario();
 		String description = "";
 		String name = createScenarioName(testMethodDescription);
+		scenario.setName(name);
 		
+		// store description and user role from test method's annotation (if any)
 		DocuDescription docuDescription = testMethodDescription.getAnnotation(DocuDescription.class);
 		if (docuDescription != null) {
 			description = docuDescription.description();
 			scenario.addDetail("User Role", docuDescription.userRole());
 		}
+		scenario.setDescription(description);
 		
+		// store labels from test method's annotation (if any)
 		Labels labels = testMethodDescription.getAnnotation(Labels.class);
 		if (labels != null) {
 			Set<String> labelsSet = new HashSet<String>();
@@ -102,9 +111,20 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 			scenario.getLabels().setLabels(labelsSet);
 		}
 		
-		scenario.setName(name);
-		scenario.setDescription(description);
+		// store requirements (features, epics, user stories) linked through UserStories annotation by story ids,
+		// and loaded from Issue Tracking Management tool (here only a dummy simulation of such a tool is used, of
+		// course)
+		UserStories userStories = testMethodDescription.getAnnotation(UserStories.class);
+		if (userStories != null && userStories.value().length > 0) {
+			long[] storyIds = userStories.value();
+			ObjectList<ObjectTreeNode<ObjectDescription>> featureEpicUserStoriesTrees = IssuesTrackingAccessHelper
+					.loadFeatureTreesForWorkItemIds(storyIds);
+			scenario.addDetail("Requirements", featureEpicUserStoriesTrees);
+		}
+		
+		// store some dummy metadata to test some very long texts in metadata
 		scenario.addDetail("Very Long Metadata Lines", createLongLine());
+		
 		return scenario;
 	}
 	
