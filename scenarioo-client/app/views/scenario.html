@@ -28,19 +28,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
     <div class="col-lg-9">
-        <div class="row pull-right">
-            <div class="col-lg-8">
-				<div>
-					<button type="button" class="btn btn-default" id="expandAllPages" ng-show="isExpandAllPossible()" ng-click="expandAll()">expand all</button>
-					<button type="button" class="btn btn-default" id="collapseAllPages" ng-show="isCollapseAllPossible()" ng-click="collapseAll()">collapse all</button>
-				</div>
-            </div>
-            <sc-show-hide-details-button class="col-lg-4" linking-variable="scenarioShowMetadata" local-storage-key="scenario" ></sc-show-hide-details-button>
-        </div>
+		<div class="pull-right">
+			<button type="button" class=" btn btn-default" id="expandAllPages" ng-show="isExpandAllPossible()" ng-click="expandAll()">expand all</button>
+			<button type="button" class=" btn btn-default" id="collapseAllPages" ng-show="isCollapseAllPossible()" ng-click="collapseAll()">collapse all</button>
+			<sc-meta-data-button linking-variable="scenarioShowMetadata" local-storage-key="scenario" ></sc-meta-data-button>
+		</div>
     </div>
 </div>
 
-<sc-show-hide-details linking-variable="scenarioShowMetadata">
+<sc-meta-data-panel linking-variable="scenarioShowMetadata">
     <div>
         <!-- steps -->
         <div class="row step-view">
@@ -60,11 +56,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </h2>
                     <div>
                         <div class="step-title">
-                            <h3 class="sc-truncate"><a ng-href="{{getLinkToStep(step.page.name, $parent.$index, $index)}}">Step {{step.number}}: {{step.title}}</a></h3>
-                            <span class="sc-truncate">Page: {{step.page.name}} ({{step.page.index}} of {{pagesAndSteps.length}})</span>
+                            <h3 class="sc-truncate"><a ng-href="{{getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">Step {{step.index + 1}}: {{step.title}}</a></h3>
                         </div>
                         <div class="sc-screenshot-border sc-screenshot-scenario" >
-                            <a ng-href="{{getLinkToStep(step.page.name, $parent.$index, $index)}}">
+                            <a ng-href="{{getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">
                                 <img ng-src="{{getScreenShotUrl(step.screenshotFileName)}}" class="sc-screenshot"/>
                             </a>
                         </div>
@@ -80,7 +75,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <sc-tree data='scenarioInformationTree'></sc-tree>
         </sc-collapsable-panel>
 
+        <!-- labels -->
+        <sc-collapsable-panel title="Labels" key="stepView-labels" initially-expanded="false" ng-show="hasAnyLabels()">
+            <div class="sc-tree">
+                <ul>
+                    <li ng-show="useCase.labels.labels">
+                        Use case:
+                        <span ng-repeat="label in useCase.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                    </li>
+                    <li ng-show="scenario.labels.labels">
+                        Scenario:
+                        <span ng-repeat="label in scenario.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                    </li>
+                </ul>
+            </div>
+        </sc-collapsable-panel>
+
         <!-- Metadata -->
         <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
     </div>
-</sc-show-hide-details>
+</sc-meta-data-panel>

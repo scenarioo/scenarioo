@@ -29,6 +29,7 @@
 
 package org.scenarioo.uitest.example.infrastructure;
 
+import static org.scenarioo.api.util.IdentifierSanitizer.*;
 import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
 
 import org.scenarioo.api.ScenarioDocuWriter;
@@ -109,7 +110,7 @@ public class UITestToolkitAbstraction {
 	 * Save current step with screenshot, if the current screen is different than on last screenshot.
 	 */
 	public void saveStepWithScreenshotIfChanged() {
-		String screenshot = toolkit.takeScreenshot();
+		byte[] screenshot = toolkit.takeScreenshot();
 		if (!lastScreenshot.equals(screenshot)) {
 			saveStepWithScreenshot(screenshot, "success");
 		}
@@ -119,7 +120,7 @@ public class UITestToolkitAbstraction {
 	 * Save current step with screenshot, in any case
 	 */
 	public void saveStepWithScreenshot() {
-		String screenshot = toolkit.takeScreenshot();
+		byte[] screenshot = toolkit.takeScreenshot();
 		saveStepWithScreenshot(screenshot, "success");
 	}
 	
@@ -127,11 +128,11 @@ public class UITestToolkitAbstraction {
 	 * Save current step with screenshot on error (status will be "error".
 	 */
 	public void saveStepErrorWithScreenshot() {
-		String screenshot = toolkit.takeScreenshot();
+		byte[] screenshot = toolkit.takeScreenshot();
 		saveStepWithScreenshot(screenshot, "failed");
 	}
 	
-	private void saveStepWithScreenshot(final String screenshot, final String status) {
+	private void saveStepWithScreenshot(final byte[] screenshot, final String status) {
 		
 		// Save step
 		String useCaseName = test.getUseCase().getName();
@@ -140,7 +141,7 @@ public class UITestToolkitAbstraction {
 		docuWriter.saveStep(useCaseName, scenarioName, step);
 		
 		// Save screenshot
-		docuWriter.saveScreenshot(useCaseName, scenarioName, stepIndex, screenshot);
+		docuWriter.saveScreenshotAsPng(useCaseName, scenarioName, stepIndex, screenshot);
 		
 		// increase step index
 		stepIndex++;
@@ -160,12 +161,14 @@ public class UITestToolkitAbstraction {
 		stepDescription.setTitle(toolkit.getTextFromElement(TITLE_ELEMENT_ID));
 		stepDescription.setStatus(status);
 		stepDescription.setIndex(stepIndex);
-		stepDescription.addDetails("url", toolkit.getBrowserUrl());
+		stepDescription.addDetail("url", toolkit.getBrowserUrl());
+		stepDescription.addLabel("step-label-" + stepIndex).addLabel("public");
 		return stepDescription;
 	}
 	
 	private Page createPage() {
-		Page page = new Page(toolkit.getApplicationsState().getPageName());
+		Page page = new Page(sanitize(toolkit.getApplicationsState().getPageName()));
+		page.getLabels().addLabel("page-label1").addLabel("page-label2");
 		return page;
 	}
 	
@@ -215,6 +218,10 @@ public class UITestToolkitAbstraction {
 	
 	public void assertTextPresent(final String text) {
 		toolkit.assertTextPresent(text);
+	}
+	
+	public void selectLanguage(final String language) {
+		toolkit.selectLanguage(language);
 	}
 	
 }

@@ -29,28 +29,34 @@ import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.scenarioo.business.aggregator.customTabs.CustomObjectTabsAggregator;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
-import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
+import org.scenarioo.model.docu.aggregates.steps.StepLink;
+import org.scenarioo.model.docu.entities.Labels;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
+import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.docu.entities.generic.Details;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 public class ObjectRepository {
 	
-	private static final Logger LOGGER = Logger
-			.getLogger(ObjectRepository.class);
+	private static final Logger LOGGER = Logger.getLogger(ObjectRepository.class);
+	
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
 	
 	private final ScenarioDocuAggregationDAO dao;
 	
-	private final String branchName;
-	
-	private final String buildName;
+	private final BuildIdentifier buildIdentifier;
 	
 	private final Map<ObjectReference, ObjectReferenceTreeBuilder> objectReferences = new HashMap<ObjectReference, ObjectReferenceTreeBuilder>();
 	
@@ -59,18 +65,19 @@ public class ObjectRepository {
 	private final Map<ObjectReference, ObjectReference> objectReferencePool = new HashMap<ObjectReference, ObjectReference>(
 			100000);
 	
-	public ObjectRepository(final BuildIdentifier buildIdentifier,
-			final ScenarioDocuAggregationDAO dao) {
-		this.branchName = buildIdentifier.getBranchName();
-		this.buildName = buildIdentifier.getBuildName();
+	private final CustomObjectTabsAggregator customObjectTabsAggregator;
+	
+	public ObjectRepository(final BuildIdentifier buildIdentifier, final ScenarioDocuAggregationDAO dao) {
+		this.buildIdentifier = buildIdentifier;
 		this.dao = dao;
+		customObjectTabsAggregator = new CustomObjectTabsAggregator(configurationRepository.getConfiguration()
+				.getCustomObjectTabs(), dao, buildIdentifier);
 	}
 	
 	/**
 	 * Add all objects inside the passed generic object to the object repository for later saving.
 	 */
-	public void addObject(final List<ObjectReference> referencePath,
-			final Object object) {
+	private void addObject(final List<ObjectReference> referencePath, final Object object) {
 		if (object instanceof ObjectDescription) {
 			addObject(referencePath, (ObjectDescription) object);
 		} else if (object instanceof ObjectReference) {
@@ -82,11 +89,9 @@ public class ObjectRepository {
 		} else if (object instanceof ObjectTreeNode) {
 			addTreeObjects(referencePath, (ObjectTreeNode<?>) object);
 		}
-		
 	}
 	
-	public void addTreeObjects(final List<ObjectReference> referencePath,
-			final ObjectTreeNode<?> objectTree) {
+	private void addTreeObjects(final List<ObjectReference> referencePath, final ObjectTreeNode<?> objectTree) {
 		
 		// Add node
 		Object node = objectTree.getItem();
@@ -96,8 +101,7 @@ public class ObjectRepository {
 		ObjectReference nodeRef = null;
 		if (node instanceof ObjectDescription) {
 			ObjectDescription objectDesc = (ObjectDescription) node;
-			nodeRef = createObjectReference(objectDesc.getType(),
-					objectDesc.getName());
+			nodeRef = createObjectReference(objectDesc.getType(), objectDesc.getName());
 		} else if (node instanceof ObjectReference) {
 			nodeRef = createObjectReference((ObjectReference) node);
 		}
@@ -122,8 +126,7 @@ public class ObjectRepository {
 	 * @param referencePath
 	 *            the path of objects that referenced these list.
 	 */
-	public void addListObjects(final List<ObjectReference> referencePath,
-			final List<?> objects) {
+	private void addListObjects(final List<ObjectReference> referencePath, final List<?> objects) {
 		for (Object object : objects) {
 			addObject(referencePath, object);
 		}
@@ -137,8 +140,7 @@ public class ObjectRepository {
 	 * @param referencePath
 	 *            the path of objects that referenced these details.
 	 */
-	public void addObjects(final List<ObjectReference> referencePath,
-			final Details details) {
+	private void addObjects(final List<ObjectReference> referencePath, final Details details) {
 		for (Entry<String, Object> entry : details.getProperties().entrySet()) {
 			addObject(referencePath, entry.getValue());
 		}
@@ -153,14 +155,34 @@ public class ObjectRepository {
 	 * @param referencePath
 	 *            the path of objects that referenced these details.
 	 */
-	public void addObject(final List<ObjectReference> referencePath,
-			final ObjectDescription object) {
-		ObjectReference ref = createObjectReference(object.getType(),
-				object.getName());
+	private void addObject(final List<ObjectReference> referencePath, final ObjectDescription object) {
+		addObject(referencePath, object, null);
+	}
+	
+	/**
+	 * Add an object itself and all subobjects inside the internal details map to the object repository for later
+	 * saving.
+	 * 
+	 * Recursively resolves all subobjects, if any.
+	 * 
+	 * @param referencePath
+	 *            the path of objects that referenced these details.
+	 * @param labels
+	 *            labels that were available on the same object, to add too.
+	 */
+	private void addObject(final List<ObjectReference> referencePath, final ObjectDescription object,
+			final Labels labels) {
+		
+		customObjectTabsAggregator.aggregateRelevantObjectIntoCustomObjectTabTrees(referencePath, object);
+		
+		ObjectReference ref = createObjectReference(object.getType(), object.getName());
 		saveObject(object);
 		addObjectReference(referencePath, ref);
 		referencePath.add(ref);
 		addObjects(referencePath, object.getDetails());
+		if (labels != null) {
+			addLabels(referencePath, labels);
+		}
 		referencePath.remove(referencePath.size() - 1);
 	}
 	
@@ -176,9 +198,23 @@ public class ObjectRepository {
 	 * Create reference or get it from pool if already available. This is done just to avoid out of memory because of a
 	 * lot of same references loaded from xml files.
 	 */
-	public ObjectReference createObjectReference(final String type,
-			final String name) {
+	private ObjectReference createObjectReference(final String type, final String name) {
 		ObjectReference newRef = new ObjectReference(type, name);
+		ObjectReference existingRef = objectReferencePool.get(newRef);
+		if (existingRef != null) {
+			return existingRef;
+		} else {
+			objectReferencePool.put(newRef, newRef);
+			if (objectReferencePool.size() % 1000 == 0) {
+				LOGGER.info("******* Added another 1000 object references, objects in total: "
+						+ objectReferencePool.size());
+			}
+			return newRef;
+		}
+	}
+	
+	private ObjectReference createObjectReference(final String type, final String name, final Labels labels) {
+		ObjectReferenceWithLabels newRef = new ObjectReferenceWithLabels(type, name, labels);
 		ObjectReference existingRef = objectReferencePool.get(newRef);
 		if (existingRef != null) {
 			return existingRef;
@@ -194,16 +230,15 @@ public class ObjectRepository {
 	
 	private void saveObject(final ObjectDescription object) {
 		objectTypes.add(object.getType());
-		if (!dao.isObjectDescriptionSaved(branchName, buildName, object)) {
-			dao.saveObjectDescription(branchName, buildName, object);
+		if (!dao.isObjectDescriptionSaved(buildIdentifier, object)) {
+			dao.saveObjectDescription(buildIdentifier, object);
 		}
 	}
 	
 	/**
 	 * Put the object reference to an object into the objectReferences.
 	 */
-	public void addObjectReference(final List<ObjectReference> referencePath,
-			final ObjectReference ref) {
+	private void addObjectReference(final List<ObjectReference> referencePath, final ObjectReference ref) {
 		ObjectReferenceTreeBuilder refTreeBuilder = objectReferences.get(ref);
 		if (refTreeBuilder == null) {
 			refTreeBuilder = new ObjectReferenceTreeBuilder(ref);
@@ -212,115 +247,114 @@ public class ObjectRepository {
 		refTreeBuilder.addPath(referencePath);
 	}
 	
-	public List<ObjectReference> createPath(
-			final ObjectReference objectReference) {
+	private List<ObjectReference> createPath(final ObjectReference objectReference) {
 		List<ObjectReference> result = new ArrayList<ObjectReference>(1);
 		result.add(objectReference);
 		return result;
 	}
 	
-	public List<ObjectReference> extendPath(
-			final List<ObjectReference> referencePath,
+	private List<ObjectReference> extendPath(final List<ObjectReference> referencePath,
 			final ObjectReference objectReference) {
-		List<ObjectReference> result = new ArrayList<ObjectReference>(
-				referencePath.size() + 1);
+		List<ObjectReference> result = new ArrayList<ObjectReference>(referencePath.size() + 1);
 		result.addAll(referencePath);
 		result.add(objectReference);
 		return result;
 	}
 	
-	public List<ObjectReference> addReferencedScenarioObjects(
-			List<ObjectReference> referencePath, final Scenario scenario) {
-		referencePath = extendPath(referencePath,
-				createObjectReference("scenario", scenario.getName()));
-		addObjects(referencePath, scenario.getDetails());
+	/**
+	 * Add all objects referenced directly by this use case to the object repository.
+	 * 
+	 * @return the reference path for the passed use case to use as base path for belonging scenarios etc.
+	 */
+	public List<ObjectReference> addReferencedUseCaseObjects(final UseCase useCase) {
+		List<ObjectReference> referencePath = createPath(createObjectReference("usecase", useCase.getName(),
+				useCase.getLabels()));
+		addObjects(referencePath, useCase.getDetails());
+		addLabels(referencePath, useCase.getLabels());
 		return referencePath;
 	}
 	
-	public void addReferencedStepObjects(List<ObjectReference> referencePath,
-			final Step step) {
-		
-		// Page occurence in scenario
-		Page page = step.getPage();
-		if (page != null) {
-			
-			// add page content
-			addPage(referencePath, page);
-		}
-		
-		// Add referenced objects from step
-		ObjectReference stepReference = createObjectReference("step",
-				Integer.toString(step.getStepDescription().getIndex()));
+	public List<ObjectReference> addReferencedScenarioObjects(List<ObjectReference> referencePath,
+			final Scenario scenario) {
+		referencePath = extendPath(referencePath,
+				createObjectReference("scenario", scenario.getName(), scenario.getLabels()));
+		addObjects(referencePath, scenario.getDetails());
+		addLabels(referencePath, scenario.getLabels());
+		return referencePath;
+	}
+	
+	public void addPageAndStep(List<ObjectReference> referencePath, final Step step, final StepLink stepLink) {
+		ObjectReference stepReference = createObjectReference("step", stepLink.getStepIdentifierForObjectRepository(),
+				step.getStepDescription().getLabels());
 		referencePath = extendPath(referencePath, stepReference);
 		addObjects(referencePath, step.getStepDescription().getDetails());
 		addObjects(referencePath, step.getMetadata().getDetails());
+		addPage(referencePath, step.getPage());
+		addLabels(referencePath, step.getStepDescription().getLabels());
 	}
 	
 	/**
 	 * Add description of a page and all referenced objects
 	 */
-	private void addPage(List<ObjectReference> referencePath, final Page page) {
-		
-		if (page != null) {
-			// Page reference
-			ObjectReference pageReference = createObjectReference("page",
-					page.getName());
-			referencePath = extendPath(referencePath, pageReference);
-			addObjectReference(referencePath, pageReference);
-			
-			// Save page description (if not yet)
-			ObjectDescription pageDescription = new ObjectDescription("page",
-					page.getName());
-			pageDescription.setDetails(page.getDetails());
-			saveObject(pageDescription);
-			
-			// Add referenced objects from page
-			addObjects(referencePath, page.getDetails());
+	private void addPage(final List<ObjectReference> referencePath, final Page page) {
+		if (page == null) {
+			return;
 		}
 		
+		// Add page description as an object too
+		ObjectDescription pageDescription = new ObjectDescription("page", page.getName());
+		pageDescription.setDetails(page.getDetails());
+		addObject(referencePath, pageDescription, page.getLabels());
+	}
+	
+	/**
+	 * Add labels also as objects to the repository
+	 */
+	private void addLabels(final List<ObjectReference> referencePath, final Labels labels) {		
+		for (String label : labels.getLabels()) {
+			// Save label description (if not yet)
+			ObjectDescription labelDescription = new ObjectDescription("label", label);
+			addObject(referencePath, labelDescription);
+		}
 	}
 	
 	public void calculateAndSaveObjectLists() {
 		for (String type : objectTypes) {
 			LOGGER.info("    Writing object list for type '" + type + "' ...");
 			ObjectList<ObjectDescription> objectsList = new ObjectList<ObjectDescription>();
-			List<File> objectFiles = dao.getFiles().getObjectFiles(branchName,
-					buildName, type);
+			List<File> objectFiles = dao.getFiles().getObjectFiles(buildIdentifier, type);
 			for (File file : objectFiles) {
 				ObjectDescription object = dao.loadObjectDescription(file);
 				objectsList.add(object);
 			}
-			dao.saveObjectsList(branchName, buildName, type, objectsList);
-			LOGGER.info("    Finished successfully writing object list for type: "
-					+ type);
+			dao.saveObjectsList(buildIdentifier, type, objectsList);
+			LOGGER.info("    Finished successfully witing object list for type: " + type);
 		}
+	}
+	
+	public void saveCustomObjectTabTrees() {
+		customObjectTabsAggregator.saveAggregatedTreeStructures();
 	}
 	
 	public void updateAndSaveObjectIndexesForCurrentCase() {
 		LOGGER.info("      Writing object repository index files for last use case. This might take a while ...");
-		for (Entry<ObjectReference, ObjectReferenceTreeBuilder> objectRefTreeBuilder : objectReferences
-				.entrySet()) {
+		for (Entry<ObjectReference, ObjectReferenceTreeBuilder> objectRefTreeBuilder : objectReferences.entrySet()) {
 			ObjectReference objectRef = objectRefTreeBuilder.getKey();
-			ObjectReferenceTreeBuilder referenceTreeBuilder = objectRefTreeBuilder
-					.getValue();
-			if (dao.isObjectDescriptionSaved(branchName, buildName,
-					objectRef.getType(), objectRef.getName())) {
-				ObjectIndex index = dao.loadObjectIndexIfExistant(branchName,
-						buildName, objectRef.getType(), objectRef.getName());
+			ObjectReferenceTreeBuilder referenceTreeBuilder = objectRefTreeBuilder.getValue();
+			if (dao.isObjectDescriptionSaved(buildIdentifier, objectRef.getType(), objectRef.getName())) {
+				ObjectIndex index = dao.loadObjectIndexIfExistant(buildIdentifier, objectRef.getType(),
+						objectRef.getName());
 				if (index == null) {
-					ObjectDescription object = dao.loadObjectDescription(
-							branchName, buildName,
-							objectRefTreeBuilder.getKey());
+					ObjectDescription object = dao
+							.loadObjectDescription(buildIdentifier, objectRefTreeBuilder.getKey());
 					ObjectIndex objectIndex = new ObjectIndex();
 					objectIndex.setObject(object);
-					ObjectTreeNode<ObjectReference> referenceTree = referenceTreeBuilder
-							.build();
+					ObjectTreeNode<ObjectReference> referenceTree = referenceTreeBuilder.build();
 					objectIndex.setReferenceTree(referenceTree);
-					dao.saveObjectIndex(branchName, buildName, objectIndex);
+					dao.saveObjectIndex(buildIdentifier, objectIndex);
 				} else {
-					index.getReferenceTree().addChildren(
-							referenceTreeBuilder.build().getChildren());
-					dao.saveObjectIndex(branchName, buildName, index);
+					index.getReferenceTree().addChildren(referenceTreeBuilder.build().getChildren());
+					dao.saveObjectIndex(buildIdentifier, index);
 				}
 			}
 		}
@@ -329,8 +363,7 @@ public class ObjectRepository {
 	}
 	
 	public void removeAnyExistingObjectData() {
-		deleteDirectory(dao.getFiles().getObjectsDirectory(branchName,
-				buildName));
+		deleteDirectory(dao.getFiles().getObjectsDirectory(buildIdentifier));
 	}
 	
 	private static void deleteDirectory(final File directory) {
@@ -338,8 +371,7 @@ public class ObjectRepository {
 			try {
 				FileUtils.deleteDirectory(directory);
 			} catch (IOException e) {
-				throw new RuntimeException("Could not delete directory: "
-						+ directory.getAbsolutePath(), e);
+				throw new RuntimeException("Could not delete directory: " + directory.getAbsolutePath(), e);
 			}
 		}
 	}

@@ -17,22 +17,21 @@
 
 package org.scenarioo.model.configuration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Configuration datastrusture for scenarioo webapplication configuration.
- * 
- * The default values are stored in the following file: file src/main/resources/
- * 
- * Please make sure that any changes to this class will not brake backward-compatibility with old config files. As well
- * ensure to provide meaningful default values in above mentioned config.xml for new configuration properties.
- * 
- * The defaults provided directly inside this class or only defaults used for testing purpose.
+ * The configuration for the server and the client.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -51,6 +50,8 @@ public class Configuration {
 	
 	private String aliasForLastSuccessfulBuild = DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD;
 	
+	private String buildStatusForSuccessfulBuilds = "success";
+	
 	private String scenarioPropertiesInOverview;
 	
 	private String applicationName = "";
@@ -59,7 +60,19 @@ public class Configuration {
 	
 	private Map<String, String> buildstates = new HashMap<String, String>();
 	
+	/**
+	 * Will create a physical build containing the last successful scenarios of a branch.
+	 */
+	private boolean createLastSuccessfulScenarioBuild = false;
+	
 	private boolean expandPagesInScenarioOverview = false;
+	@XmlElementWrapper(name = "branchAliases")
+	@XmlElement(name = "branchAlias")
+	private List<BranchAlias> branchAliases = new LinkedList<BranchAlias>();
+	
+	private Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<String, LabelConfiguration>();
+	
+	private List<CustomObjectTab> customObjectTabs = new ArrayList<CustomObjectTab>();
 	
 	public String getTestDocumentationDirPath() {
 		return testDocumentationDirPath;
@@ -97,17 +110,23 @@ public class Configuration {
 		return aliasForLastSuccessfulBuild;
 	}
 	
-	public void setAliasForLastSuccessfulBuild(
-			final String aliasForLastSuccessfulBuild) {
+	public void setAliasForLastSuccessfulBuild(final String aliasForLastSuccessfulBuild) {
 		this.aliasForLastSuccessfulBuild = aliasForLastSuccessfulBuild;
+	}
+	
+	public String getBuildStatusForSuccessfulBuilds() {
+		return buildStatusForSuccessfulBuilds;
+	}
+	
+	public void setBuildStatusForSuccessfulBuilds(final String buildStatusForSuccessfulBuilds) {
+		this.buildStatusForSuccessfulBuilds = buildStatusForSuccessfulBuilds;
 	}
 	
 	public String getScenarioPropertiesInOverview() {
 		return scenarioPropertiesInOverview;
 	}
 	
-	public void setScenarioPropertiesInOverview(
-			final String scenarioPropertiesInOverview) {
+	public void setScenarioPropertiesInOverview(final String scenarioPropertiesInOverview) {
 		this.scenarioPropertiesInOverview = scenarioPropertiesInOverview;
 	}
 	
@@ -147,4 +166,41 @@ public class Configuration {
 		this.expandPagesInScenarioOverview = expandPagesInScenarioOverview;
 	}
 	
+	public List<BranchAlias> getBranchAliases() {
+		if (branchAliases == null) {
+			branchAliases = new LinkedList<BranchAlias>();
+		}
+		return branchAliases;
+	}
+	
+	public void setBranchAliases(final List<BranchAlias> buildAliases) {
+		this.branchAliases = buildAliases;
+	}
+	
+	public Map<String, LabelConfiguration> getLabelConfigurations() {
+		if (labelConfigurations == null) {
+			labelConfigurations = new LinkedHashMap<String, LabelConfiguration>();
+		}
+		return labelConfigurations;
+	}
+	
+	public void setLabelConfigurations(final Map<String, LabelConfiguration> labelConfigurations) {
+		this.labelConfigurations = labelConfigurations;
+	}
+	
+	public List<CustomObjectTab> getCustomObjectTabs() {
+		return customObjectTabs;
+	}
+	
+	public void setCustomObjectTabs(final List<CustomObjectTab> customObjectTabs) {
+		this.customObjectTabs = customObjectTabs;
+	}
+	
+	public boolean isCreateLastSuccessfulScenarioBuild() {
+		return createLastSuccessfulScenarioBuild;
+	}
+	
+	public void setCreateLastSuccessfulScenarioBuild(final boolean createLastSuccessfulScenarioBuild) {
+		this.createLastSuccessfulScenarioBuild = createLastSuccessfulScenarioBuild;
+	}
 }

@@ -7,23 +7,27 @@ import java.util.Properties;
  */
 
 public enum ApplicationVersionHolder {
-
+	
 	INSTANCE;
-
+	
 	private ApplicationVersion applicationVersion;
-
-	public void initialize(final String version, final String buildDate) {
-		applicationVersion = new ApplicationVersion(version, buildDate);
+	
+	public void initialize(final String version, final String buildDate, final String apiVersion,
+			final String aggregatedDataFormatVersion) {
+		applicationVersion = new ApplicationVersion(version, buildDate, apiVersion,
+				aggregatedDataFormatVersion);
 	}
-
+	
 	public void initializeFromProperties(final Properties versionProperties) {
 		String version = versionProperties.getProperty("version");
 		String buildDate = versionProperties.getProperty("build-date");
-		initialize(version, buildDate);
+		String apiVersion = versionProperties.getProperty("apiVersion");
+		String aggregatedDataFormatVersion = versionProperties.getProperty("aggregatedDataFormatVersion");
+		initialize(version, buildDate, apiVersion, aggregatedDataFormatVersion);
 	}
-
+	
 	public ApplicationVersion getApplicationVersion() {
 		return applicationVersion;
 	}
-
+	
 }

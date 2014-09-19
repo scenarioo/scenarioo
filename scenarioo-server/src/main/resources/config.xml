@@ -40,4 +40,23 @@
             <value>label-warning</value>
         </entry>
     </buildstates>
+    <labelConfigurations>
+        <entry>
+            <key>normal-case</key>
+            <value>
+                <backgroundColor>#009800</backgroundColor>
+                <foregroundColor>#FFFFFF</foregroundColor>
+            </value>
+        </entry>
+    </labelConfigurations>
+    <customObjectTabs>
+        <id>pages</id>
+        <tabTitle>Pages</tabTitle>
+        <objectTypesToDisplay>page</objectTypesToDisplay>
+    </customObjectTabs>  
+    <customObjectTabs>
+        <id>labels</id>
+        <tabTitle>Labels</tabTitle>
+        <objectTypesToDisplay>label</objectTypesToDisplay>
+    </customObjectTabs>
 </configuration>

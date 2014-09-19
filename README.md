@@ -1,3 +1,9 @@
+Demo-Smoketest: [![Demo Smoketest Status](http://54.88.202.24:8081/job/smoketest/badge/icon)](http://54.88.202.24:8081/job/smoketest)
+
+CI Master: [![Master CI Status](http://54.88.202.24:8081/job/scenarioo-master/badge/icon)](http://54.88.202.24:8081/job/scenarioo-master)
+
+CI Master: [![Develop CI Status](http://54.88.202.24:8081/job/scenarioo-develop/badge/icon)](http://54.88.202.24:8081/job/scenarioo-develop)
+
 Scenarioo
 ==========
 

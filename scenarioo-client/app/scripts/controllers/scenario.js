@@ -17,7 +17,8 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams, $location, $window, localStorageService, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, Config) {
+angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams,
+    $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, Config, PagesAndSteps, LabelConfigurationsResource) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -30,6 +31,11 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
 
     SelectedBranchAndBuild.callOnSelectionChange(loadScenario);
 
+    // FIXME this code is duplicated. How can we extract it into a service?
+    LabelConfigurationsResource.query({}, function(labelConfigurations) {
+        $scope.labelConfigurations = labelConfigurations;
+    });
+
     function loadScenario(selected) {
         selectedBranchAndBuild = selected;
         ScenarioResource.get(
@@ -41,50 +47,43 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
             },
             function(result) {
                 // Add page to the step to allow search for step- as well as page-properties
-                populatePageAndSteps(result);
+                $scope.pagesAndScenarios = PagesAndSteps.populatePagesAndSteps(result);
+                $scope.useCaseDescription = result.useCase.description;
+                $scope.scenario = $scope.pagesAndScenarios.scenario;
+                $scope.useCase = result.useCase;
+                $scope.pagesAndSteps = $scope.pagesAndScenarios.pagesAndSteps;
+                $scope.metadataTree = transformMetadataToTreeArray($scope.pagesAndScenarios.scenario.details);
+                $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario, result.scenarioStatistics);
+                $scope.scenarioStatistics = result.scenarioStatistics;
+
+                $scope.hasAnyLabels = function() {
+                    var hasAnyUseCaseLabels = $scope.useCase.labels.labels.length > 0;
+                    var hasAnyScenarioLabels = $scope.scenario.labels.labels.length > 0;
+
+                    return hasAnyUseCaseLabels || hasAnyScenarioLabels;
+                };
+
+                if (Config.expandPagesInScenarioOverview()) {
+                    $scope.expandAll();
+                }
             });
     }
 
-    function populatePageAndSteps(pagesAndScenarios) {
-        for (var indexPage = 0; indexPage < pagesAndScenarios.pagesAndSteps.length; indexPage++) {
-            var page = pagesAndScenarios.pagesAndSteps[indexPage];
-            page.page.index = indexPage + 1;
-            for (var indexStep = 0; indexStep < page.steps.length; indexStep++) {
-                var step = page.steps[indexStep];
-                step.page = page.page;
-                step.index = indexStep;
-                step.number = (indexStep === 0) ? page.page.index : page.page.index + '.' + indexStep;
-                if (!step.title) {
-                    step.title = 'undefined';
-                }
-            }
-        }
-		$scope.useCaseDescription = pagesAndScenarios.useCase.description;
-        $scope.scenario = pagesAndScenarios.scenario;
-        $scope.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
-        $scope.metadataTree = transformMetadataToTreeArray(pagesAndScenarios.scenario.details);
-        $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario);
-
-        if(Config.expandPagesInScenarioOverview()) {
-            $scope.expandAll();
-        }
-    }
-
-    $scope.showAllStepsForPage = function(pageIndex) {
+    $scope.showAllStepsForPage = function (pageIndex) {
         return showAllSteps[pageIndex] || false;
     };
 
-    $scope.toggleShowAllStepsForPage = function(pageIndex) {
+    $scope.toggleShowAllStepsForPage = function (pageIndex) {
         showAllSteps[pageIndex] = !showAllSteps[pageIndex];
     };
 
-    $scope.isExpandAllPossible = function() {
-        if(!angular.isDefined($scope.pagesAndSteps)) {
+    $scope.isExpandAllPossible = function () {
+        if (!angular.isDefined($scope.pagesAndSteps)) {
             return false;
         }
 
-        for(var i = 0; i < $scope.pagesAndSteps.length; i++) {
-            if(isExpandPossibleForPage($scope.pagesAndSteps[i], i)) {
+        for (var i = 0; i < $scope.pagesAndSteps.length; i++) {
+            if (isExpandPossibleForPage($scope.pagesAndSteps[i], i)) {
                 return true;
             }
         }
@@ -96,13 +95,13 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         return page.steps.length > 1 && $scope.showAllStepsForPage(pageIndex) === false;
     }
 
-    $scope.isCollapseAllPossible = function() {
-        if(!angular.isDefined($scope.pagesAndSteps)) {
+    $scope.isCollapseAllPossible = function () {
+        if (!angular.isDefined($scope.pagesAndSteps)) {
             return false;
         }
 
-        for(var i = 0; i < $scope.pagesAndSteps.length; i++) {
-            if(isCollapsePossibleForPage($scope.pagesAndSteps[i], i)) {
+        for (var i = 0; i < $scope.pagesAndSteps.length; i++) {
+            if (isCollapsePossibleForPage($scope.pagesAndSteps[i], i)) {
                 return true;
             }
         }
@@ -114,46 +113,49 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         return page.steps.length > 1 && $scope.showAllStepsForPage(pageIndex) === true;
     }
 
-    $scope.expandAll = function() {
-        // numberOfPages is 0-indexed, therefore we have to add 1.
-        // TODO: This should be fixed in the future, so that the server returns the right number.
-        var numberOfPages = $scope.scenario.calculatedData.numberOfPages + 1;
-        for(var i = 0; i < numberOfPages; i++) {
+    $scope.expandAll = function () {
+        var numberOfPages = $scope.scenarioStatistics.numberOfPages;
+        for (var i = 0; i < numberOfPages; i++) {
             showAllSteps[i] = true;
         }
     };
 
-    $scope.collapseAll = function() {
-        for(var i = 0; i < showAllSteps.length; i++) {
+    $scope.collapseAll = function () {
+        for (var i = 0; i < showAllSteps.length; i++) {
             showAllSteps[i] = false;
         }
     };
 
     $scope.getScreenShotUrl = function (imgName) {
-        if(angular.isUndefined(selectedBranchAndBuild)) {
+        if (angular.isUndefined(selectedBranchAndBuild)) {
             return;
         }
-        return HostnameAndPort.forLink() + 'rest/branches/' + selectedBranchAndBuild.branch + '/builds/' + selectedBranchAndBuild.build +
-            '/usecases/' + useCaseName + '/scenarios/' + scenarioName + '/image/' + imgName;
+        return HostnameAndPort.forLink() + 'rest/branch/' + selectedBranchAndBuild.branch + '/build/' + selectedBranchAndBuild.build +
+            '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
     };
 
-    $scope.getLinkToStep = function (pageName, pageIndex, stepIndex) {
-        // '/' will kill our application
-        pageName = pageName.replace(/\//g, ' ');
-
-        return '#/step/' + useCaseName + '/' + scenarioName + '/' + encodeURIComponent(pageName) +
-            '/' + pageIndex + '/' + stepIndex;
+    $scope.getLinkToStep = function (pageName, pageOccurrence, stepInPageOccurrence) {
+        return '#/step/' + encodeURIComponent(useCaseName) + '/' + encodeURIComponent(scenarioName) + '/' + encodeURIComponent(pageName) +
+            '/' + pageOccurrence + '/' + stepInPageOccurrence;
     };
 
     $scope.resetSearchField = function () {
         $scope.searchFieldText = '';
     };
 
-    function createScenarioInformationTree(scenario) {
+    function createScenarioInformationTree(scenario, scenarioStatistics) {
         var stepInformation = {};
-        stepInformation['Number of Pages'] = scenario.calculatedData.numberOfPages;
-        stepInformation['Number of Steps'] = scenario.calculatedData.numberOfSteps;
+        stepInformation['Number of Pages'] = scenarioStatistics.numberOfPages;
+        stepInformation['Number of Steps'] = scenarioStatistics.numberOfSteps;
         stepInformation.Status = scenario.status;
         return transformMetadataToTree(stepInformation);
     }
+
+    // FIXME this code is duplicated. How can we extract it into a service?
+    $scope.getLabelStyle = function(labelName) {
+        var labelConfig = $scope.labelConfigurations[labelName];
+        if(labelConfig) {
+            return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
+        }
+    };
 });

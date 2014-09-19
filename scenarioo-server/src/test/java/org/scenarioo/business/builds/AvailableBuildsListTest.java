@@ -17,7 +17,6 @@
 package org.scenarioo.business.builds;
 
 import static org.junit.Assert.*;
-
 import static org.scenarioo.model.configuration.Configuration.*;
 
 import java.util.ArrayList;
@@ -32,32 +31,30 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.scenarioo.dao.configuration.ConfigurationDAO;
-import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
-import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
-import org.scenarioo.model.docu.derived.BuildLink;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.model.docu.entities.Build;
+import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 public class AvailableBuildsListTest {
 	
 	private AvailableBuildsList availableBuildsList;
 	
 	// Some builds for testing
-	private BuildLink build1 = createBuildSuccess("build1", 1);
-	private BuildLink build2 = createBuildSuccess("build2", 2);
-	private BuildLink build3 = createBuildSuccess("build3", 3);
-	private BuildLink build4 = createBuildFailed("build4", 4);
-	private BuildLink build5 = createBuildFailed("build5", 5);
-	private BuildLink build6 = createBuildFailed("build6", 6);
-	private BuildLink build7 = createBuildSuccess("build7", 7);
+	private final BuildLink build1 = createBuildSuccess("build1", 1);
+	private final BuildLink build2 = createBuildSuccess("build2", 2);
+	private final BuildLink build3 = createBuildSuccess("build3", 3);
+	private final BuildLink build4 = createBuildFailed("build4", 4);
+	private final BuildLink build5 = createBuildFailed("build5", 5);
+	private final BuildLink build6 = createBuildFailed("build6", 6);
+	private final BuildLink build7 = createBuildSuccess("build7", 7);
 	
 	@Before
 	public void setUp() {
-		ConfigurationDAO.injectConfiguration(new Configuration());
+		RepositoryLocator.INSTANCE.initializeConfigurationRepositoryForUnitTest(null);
 		availableBuildsList = new AvailableBuildsList();
 	}
 	
@@ -108,7 +105,6 @@ public class AvailableBuildsListTest {
 		assertAliasContainedAtPosition("branch", DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD, 1, build4.getBuild());
 		assertBuildContainedAtPosition("branch", 2, build4);
 		assertBuildContainedAtPosition("branch", 3, build2);
-		
 	}
 	
 	@Test
@@ -139,7 +135,6 @@ public class AvailableBuildsListTest {
 		assertEquals("build1", trunkBuild1BuildName);
 		assertEquals("build2", branchCurrentBuildName);
 		assertEquals("build4", branchRecentBuildName);
-		
 	}
 	
 	@Test
@@ -169,7 +164,6 @@ public class AvailableBuildsListTest {
 		assertAliasContainedAtPosition("branch", DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD, 0, build6.getBuild());
 		assertBuildContainedAtPosition("branch", 1, build6);
 		assertBuildContainedAtPosition("branch", 2, build4);
-		
 	}
 	
 	private BuildImportSummary getImportedBuildSummary(
@@ -211,8 +205,7 @@ public class AvailableBuildsListTest {
 	}
 	
 	private Map<BuildIdentifier, BuildImportSummary> createBuildImportSummaries(
-			final List<BranchBuilds> branchBuildsList,
-			final String... successfulBuildNames) {
+			final List<BranchBuilds> branchBuildsList, final String... successfulBuildNames) {
 		Map<BuildIdentifier, BuildImportSummary> buildSummaries = new HashMap<BuildIdentifier, BuildImportSummary>();
 		Set<String> successfulBuildNamesSet = new HashSet<String>(Arrays.asList(successfulBuildNames));
 		for (BranchBuilds branchBuilds : branchBuildsList) {

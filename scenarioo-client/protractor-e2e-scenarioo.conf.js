@@ -27,7 +27,7 @@ var exportsConfig = {
 
     onPrepare: function () {
         var timeStamp = Math.round((new Date()).getTime() / 1000);
-        var scenariooReporter = new scenarioo.reporter('./scenariodocu', 'master', 'the master branch', 'build_' + timeStamp, '1.0.0');
+        var scenariooReporter = new scenarioo.reporter('./scenariodocu', 'develop', 'the master branch', 'build_' + timeStamp, '1.0.0');
         jasmine.getEnv().addReporter(scenariooReporter);
     },
 

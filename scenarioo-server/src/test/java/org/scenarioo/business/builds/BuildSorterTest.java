@@ -25,16 +25,15 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.scenarioo.dao.configuration.ConfigurationDAO;
 import org.scenarioo.model.configuration.Configuration;
-import org.scenarioo.model.docu.derived.BuildLink;
 import org.scenarioo.model.docu.entities.Build;
+import org.scenarioo.repository.RepositoryLocator;
 
 public class BuildSorterTest {
 	
 	@Before
 	public void setUp() {
-		ConfigurationDAO.injectConfiguration(new Configuration());
+		RepositoryLocator.INSTANCE.initializeConfigurationRepositoryForUnitTest(null);
 	}
 	
 	@Test
@@ -44,7 +43,8 @@ public class BuildSorterTest {
 		BuildLink build1 = createBuildSuccess("build1", 1);
 		BuildLink build2 = createBuildSuccess("build2", 2);
 		BuildLink build3 = createBuildFailed("build3", 3);
-		BuildLink aliasCurrent = createBuildAlias(Configuration.DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD, build2.getBuild());
+		BuildLink aliasCurrent = createBuildAlias(Configuration.DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD,
+				build2.getBuild());
 		BuildLink aliasLast = createBuildAlias(Configuration.DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD, build3.getBuild());
 		List<BuildLink> buildsList = Arrays.asList(build1, build2, build3, aliasCurrent, aliasLast);
 		

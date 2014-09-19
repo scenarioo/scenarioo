@@ -33,10 +33,12 @@ import org.junit.Test;
 import org.scenarioo.uitest.dummy.application.DummyApplicationSimulator;
 import org.scenarioo.uitest.dummy.application.DummySimulationConfig;
 import org.scenarioo.uitest.example.infrastructure.DocuDescription;
+import org.scenarioo.uitest.example.infrastructure.Labels;
 import org.scenarioo.uitest.example.infrastructure.ScenarioDocuWritingRule;
 import org.scenarioo.uitest.example.infrastructure.UITest;
 import org.scenarioo.uitest.example.infrastructure.UITestToolkitAbstraction;
 import org.scenarioo.uitest.example.infrastructure.UseCaseDocuWritingRule;
+import org.scenarioo.uitest.example.issues.UserStories;
 
 /**
  * An example of how to use the Scenarioo API to generate User Scenario Documentation from your UI tests.
@@ -56,10 +58,13 @@ import org.scenarioo.uitest.example.infrastructure.UseCaseDocuWritingRule;
  * implement these patterns for this simple example.
  */
 @DocuDescription(name = "Find Page", description = "User wants to search for a page and read it.")
+@Labels("normal-case")
 public class FindPageUITest extends UITest {
 	
 	@Test
 	@DocuDescription(description = "User enters some text and finds multiple pages that contain this text.")
+	@UserStories({ 115 })
+	@Labels({ "search results" })
 	public void find_page_with_text_on_page_from_multiple_results() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.DEFAULT_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org");
@@ -72,6 +77,8 @@ public class FindPageUITest extends UITest {
 	
 	@Test
 	@DocuDescription(description = "User enters exact page title and finds it directly.")
+	@UserStories({ 116 })
+	@Labels({ "exact match" })
 	public void find_page_with_title_direct() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.DIRECT_SEARCH_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org");
@@ -83,6 +90,8 @@ public class FindPageUITest extends UITest {
 	@Test
 	@DocuDescription(
 			description = "User enters page title that is ambiguous but matches directly a page, on the page he sees the list of other meanings, and can navigate to the page he meant.")
+	@UserStories({ 116, 119 })
+	@Labels({ "search results" })
 	public void find_page_with_title_ambiguous_navigate_to_other_meaning() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.AMBIGUOTIES_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org");
@@ -92,9 +101,10 @@ public class FindPageUITest extends UITest {
 		toolkit.clickLink("42 - The answer to everything");
 	}
 	
-	@DocuDescription(
-			description = "User enters text that is not found in pages content.")
 	@Test
+	@DocuDescription(description = "User enters text that is not found in pages content.")
+	@UserStories({ 117 })
+	@Labels({ "no results" })
 	public void find_page_no_result() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.SEARCH_NOT_FOUND_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org");

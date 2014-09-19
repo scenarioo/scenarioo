@@ -3,12 +3,20 @@
     <page>
         <name>searchResults.jsp</name>
         <details/>
+        <labels>
+            <label>page-label1</label>
+            <label>page-label2</label>
+        </labels>
     </page>
     <stepDescription>
         <index>3</index>
         <title>Search results</title>
         <status>success</status>
         <screenshotFileName>003.png</screenshotFileName>
+        <labels>
+            <label>step-label-3</label>
+            <label>public</label>
+        </labels>
         <details>
             <entry>
                 <key>url</key>
@@ -118,7 +126,7 @@
                 <key>Call Tree</key>
                 <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectTreeNode">
                     <item xsi:type="objectDescription">
-                        <name>http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&amp;go=Go</name>
+                        <name>http:__en.wikipedia.org_wiki_Special:Search?search=yourSearchText&amp;go=Go</name>
                         <type>httpCall</type>
                         <details/>
                     </item>

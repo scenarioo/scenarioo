@@ -30,9 +30,9 @@ import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
  */
 public class ObjectReferenceTreeBuilder {
 	
-	private ObjectReference node;
+	private final ObjectReference node;
 	
-	private Map<ObjectReference, ObjectReferenceTreeBuilder> children = new LinkedHashMap<ObjectReference, ObjectReferenceTreeBuilder>();
+	private final Map<ObjectReference, ObjectReferenceTreeBuilder> children = new LinkedHashMap<ObjectReference, ObjectReferenceTreeBuilder>();
 	
 	ObjectReferenceTreeBuilder(final ObjectReference node) {
 		this.node = node;
@@ -60,9 +60,13 @@ public class ObjectReferenceTreeBuilder {
 	public ObjectTreeNode<ObjectReference> build() {
 		ObjectTreeNode<ObjectReference> result = new ObjectTreeNode<ObjectReference>();
 		result.setItem(node);
+		if (node instanceof ObjectReferenceWithLabels) {
+			result.getDetails().putAll(((ObjectReferenceWithLabels) node).getDetails());
+		}
 		for (ObjectReferenceTreeBuilder childTreeBuilder : children.values()) {
 			result.addChild(childTreeBuilder.build());
 		}
 		return result;
 	}
+	
 }

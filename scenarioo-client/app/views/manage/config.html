@@ -93,6 +93,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
 
+        <div class="row sc-space-bottom">
+            <div class="col-lg-3">Create last successful scenario build
+                <span class="glyphicon glyphicon-info-sign" tooltip="Creates a virtual build containing the latest successful scenarios aggregated over all builds of a branch "></span>
+            </div>
+            <div class="col-lg-9">
+                <label>
+                    <input type="radio" ng-model="configuration.createLastSuccessfulScenarioBuild" ng-value="true"/>
+                    yes
+                </label>&nbsp;&nbsp;&nbsp;
+                <label>
+                    <input type="radio" ng-model="configuration.createLastSuccessfulScenarioBuild" ng-value="false"/>
+                    no
+                </label>
+            </div>
+        </div>
+
         <h2>Additional columns</h2>
 
         <div class="row sc-space-bottom">

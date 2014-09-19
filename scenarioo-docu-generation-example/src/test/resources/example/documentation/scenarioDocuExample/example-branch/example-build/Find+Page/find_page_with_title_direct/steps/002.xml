@@ -3,12 +3,20 @@
     <page>
         <name>contentPage.jsp</name>
         <details/>
+        <labels>
+            <label>page-label1</label>
+            <label>page-label2</label>
+        </labels>
     </page>
     <stepDescription>
         <index>2</index>
         <title>FC Basel</title>
         <status>success</status>
         <screenshotFileName>002.png</screenshotFileName>
+        <labels>
+            <label>step-label-2</label>
+            <label>public</label>
+        </labels>
         <details>
             <entry>
                 <key>url</key>
@@ -136,7 +144,7 @@
                 <key>Call Tree</key>
                 <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectTreeNode">
                     <item xsi:type="objectDescription">
-                        <name>http://en.wikipedia.org/wiki/FC_Basel</name>
+                        <name>http:__en.wikipedia.org_wiki_FC_Basel</name>
                         <type>httpCall</type>
                         <details/>
                     </item>

@@ -17,8 +17,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumb></sc-breadcrumb>
 
+<div ng-show="stepNotFound" id="stepNotFoundErrorMessage">
+    <div class="alert alert-warning" role="alert">
+        <div class="sc-alert-title">The step you are looking for does not exist</div>
+        <p>URL: {{getCurrentUrl()}}</p>
+        <p>REST URL to get step: {{httpResponse.url}}</p>
+        <p>HTTP method: {{httpResponse.method}}</p>
+        <p>HTTP response status: {{httpResponse.status}}</p>
+        <p>Response data: {{httpResponse.data}}</p>
+    </div>
+</div>
+
+<div ng-show="fallback" id="fallbackMessage">
+    <div class="alert alert-warning" role="alert">
+        <div class="sc-alert-title">This is a fallback step</div>
+        <p class="sc-bold">The step you were looking for does not exist. Therefore we show you a different step of the same page. Here's what you actually see:</p>
+        <p>Usecase: {{stepIdentifier.usecaseName}}</p>
+        <p>Scenario: {{stepIdentifier.scenarioName}}</p>
+        <p>Page: {{stepIdentifier.pageName}}</p>
+        <p>Page occurrence: {{stepIdentifier.pageOccurrence}}</p>
+        <p>Step in page occurrence: {{stepIdentifier.stepInPageOccurrence}}</p>
+    </div>
+</div>
+
 <!-- Navigation toolbar -->
-<div class="step-navigation row sc-space-top sc-space-bottom">
+<div class="step-navigation row sc-space-top sc-space-bottom" ng-hide="stepNotFound">
 
     <!-- Step & Page Navigation -->
     <div class="col-lg-5">
@@ -28,7 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div ng-click="goToPreviousPage()" class="btn btn-default" ng-disabled="isFirstPage()" id="prevPageBtn">
                 <i class="icon-with-padding icon-large icon-double-angle-left" tooltip="Previous Page [Ctrl+Left]" tooltip-placement="bottom"></i>
             </div>
-            <div class="btn btn-default btn-no-hover"><span tooltip="of all pages in this scenario" tooltip-placement="bottom">Page {{pageIndex + 1}} of {{pagesAndSteps.length}}</span></div>
+            <div class="btn btn-default btn-no-hover"><span tooltip="of all pages in this scenario" tooltip-placement="bottom">Page {{getCurrentPageIndexForDisplay()}} of {{stepStatistics.totalNumberOfPagesInScenario}}</span></div>
             <div ng-click="goToNextPage()" class="btn btn-default" ng-disabled="isLastPage()" id="nextPageBtn">
                 <i class="icon-with-padding icon-large icon-double-angle-right" tooltip="Next Page [Ctrl+Right]" tooltip-placement="bottom"></i>
             </div>
@@ -41,7 +64,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div ng-click="goToPreviousStep()" class="btn btn-default" ng-disabled="isFirstStep()" id="prevStepBtn">
                 <i class="icon-with-padding icon-large icon-angle-left" tooltip="Previous Step [Left]" tooltip-placement="bottom"></i>
             </div>
-            <div class="btn btn-default btn-no-hover"><span tooltip="of all steps in this scenario" tooltip-placement="bottom">Step {{getCurrentStepIndex() + 1}} of {{stepsCountOverall}}</span></div>
+            <div class="btn btn-default btn-no-hover"><span tooltip="of all steps in this scenario" tooltip-placement="bottom">Step {{getCurrentStepIndexForDisplay()}} of {{stepStatistics.totalNumberOfStepsInScenario}}</span></div>
             <div ng-click="goToNextStep()" class="btn btn-default" ng-disabled="isLastStep()" id="nextStepBtn">
                 <i class="icon-with-padding icon-large icon-angle-right" tooltip="Next Step [Right]" tooltip-placement="bottom"></i>
             </div>
@@ -51,7 +74,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <!-- Substep information -->
         <div class="btn-group">
-            <div class="btn btn-comment">Substep {{stepIndex + 1}} of {{pagesAndSteps[pageIndex].steps.length}} on current page</div>
+            <div class="btn btn-comment">Substep {{getStepIndexInCurrentPageForDisplay()}} of {{getNumberOfStepsInCurrentPageForDisplay()}} on current page</div>
         </div>
 
     </div>
@@ -63,8 +86,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <i class="icon-with-padding icon-large icon-angle-up" tooltip="Previous variant (potentially in other scenario) [Ctrl+Up]" tooltip-placement="bottom"></i>
             </div>
             <div class="btn btn-default btn-no-hover">
-                <span tooltip="of this same page in all scenarios" tooltip-placement="bottom">
-                Page-Variant  {{stepNavigation.pageVariantIndex + 1}} of {{stepNavigation.pageVariantsCount}}
+                <span tooltip="click here to see all page variants" tooltip-placement="bottom" id="pageVariantIndicator">
+                    <a ng-href="#/object/page/{{pageName}}" id="allPageVariants">
+                        Page-Variant {{stepNavigation.pageVariantIndex + 1}} of {{stepNavigation.pageVariantsCount}}
+                    </a>
                 </span>
             </div>
             <div ng-click="goToNextVariant()" class="btn btn-default" id="nextPageVariantBtn" ng-disabled="isLastPageVariantStep()">
@@ -72,17 +97,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
     </div>
-    <div class="col-lg-4 pull-right">
-        <sc-show-hide-details-button linking-variable="stepShowMetadata" local-storage-key="step" ></sc-show-hide-details-button>
+
+    <div class="col-lg-4">
+        <sc-meta-data-button class="pull-right" linking-variable="stepShowMetadata" local-storage-key="step" ></sc-meta-data-button>
     </div>
 </div>
+
 <!-- screenshot and information -->
-<sc-show-hide-details linking-variable="stepShowMetadata">
+<sc-meta-data-panel linking-variable="stepShowMetadata" ng-hide="stepNotFound">
     <div>
         <tabset class="step-panes">
             <tab heading="Screenshot">
                 <div class="sc-screenshot-border">
-                    <img ng-src="{{getScreenShotUrl(step.stepDescription.screenshotFileName)}}" class="sc-screenshot"/>
+                    <img ng-src="{{getScreenShotUrl()}}" class="sc-screenshot"/>
                 </div>
             </tab>
             <tab heading="HTML">
@@ -98,7 +125,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <sc-tree data='stepInformationTree'></sc-tree>
         </sc-collapsable-panel>
 
+        <!-- labels -->
+        <sc-collapsable-panel title="Labels" key="stepView-labels" initially-expanded="false" ng-show="hasAnyLabels()">
+            <div class="sc-tree">
+                <ul>
+                    <li id="usecase-labels" ng-show="useCaseLabels.labels">
+                        Use case:
+                        <span ng-repeat="label in useCaseLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                    </li>
+                    <li id="scenario-labels" ng-show="scenarioLabels.labels">
+                        Scenario:
+                        <span ng-repeat="label in scenarioLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                    </li>
+                    <li id="step-labels" ng-show="step.stepDescription.labels.labels">
+                        Step:
+                        <span ng-repeat="label in step.stepDescription.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                    </li>
+                    <li id="page-labels" ng-show="step.page.labels.labels">
+                        Page:
+                        <span ng-repeat="label in step.page.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                    </li>
+                </ul>
+            </div>
+        </sc-collapsable-panel>
         <!-- meta info -->
         <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
     </div>
-</sc-show-hide-details>
+</sc-meta-data-panel>

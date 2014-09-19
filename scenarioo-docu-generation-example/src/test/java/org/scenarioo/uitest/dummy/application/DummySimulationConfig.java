@@ -50,6 +50,7 @@ public enum DummySimulationConfig {
 	DIRECT_SEARCH_CONFIG(SEARCH_RESULTS_DIRECT_PAGE),
 	AMBIGUOTIES_CONFIG(SEARCH_RESULTS_DIRECT_PAGE_WITH_AMBIGUOTIES, PAGE_CONTENTS_WITH_AMBIGUOTIES),
 	SEARCH_NOT_FOUND_CONFIG(SEARCH_RESULTS_NONE),
+	SWITCH_LANGUAGE_CONFIG(),
 	/**
 	 * A special configuration for technical corner case: only one page with only one page variant (only use in one test
 	 * case with one step!)

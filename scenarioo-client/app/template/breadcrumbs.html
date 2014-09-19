@@ -2,13 +2,15 @@
     <span>
         <ol class="breadcrumb">
             <li ng-class="{'active': breadcrumb.isLast}" ng-repeat="breadcrumb in breadcrumbs">
-                <a ng-show="!breadcrumb.showTooltip && !breadcrumb.isLast" href="{{breadcrumb.href}}" ng-bind-html="breadcrumb.text"></a>
-                <a ng-show="breadcrumb.showTooltip && !breadcrumb.isLast" tooltip="{{breadcrumb.tooltip}}" tooltip-placement="top" href="{{breadcrumb.href}}" ng-bind-html="breadcrumb.text"></a>
+                <a id="breadcrumb_{{$index}}" ng-show="!breadcrumb.showTooltip && !breadcrumb.isLast" href="{{breadcrumb.href}}" ng-bind-html="breadcrumb.text"></a>
+                <a id="tooltip_{{$index}}" ng-show="breadcrumb.showTooltip && !breadcrumb.isLast" tooltip="{{breadcrumb.tooltip}}" tooltip-placement="top" href="{{breadcrumb.href}}" ng-bind-html="breadcrumb.text"></a>
                 <span ng-show="breadcrumb.isLast" ng-bind-html="breadcrumb.text"></span>
             </li>
         </ol>
     </span>
     <span class="pull-right">
-        <a href="mailto:?subject=Scenarioo:%20{{email.title}}&body={{email.link}}"><i class="icon-envelope icon-with-padding"></i>Email this page</a>
+        <a href="" ng-click="showStepLinks()" style="margin-right: 5px;" id="shareThisPageLink" >
+            <i class="glyphicon glyphicon-share"></i> Share this page
+        </a>
     </span>
 </div>

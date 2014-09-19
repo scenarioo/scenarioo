@@ -22,8 +22,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.scenarioo.dao.configuration.ConfigurationDAO;
-import org.scenarioo.model.docu.derived.BuildLink;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 
 /**
  * Implementation of special sorting order for builds:
@@ -36,9 +36,12 @@ import org.scenarioo.model.docu.derived.BuildLink;
  */
 public class BuildSorter implements Comparator<BuildLink> {
 	
-	private String defaultBuildName = ConfigurationDAO.getConfiguration().getDefaultBuildName();
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
 	
-	private Collator collator = Collator.getInstance();
+	private final String defaultBuildName = configurationRepository.getConfiguration().getDefaultBuildName();
+	
+	private final Collator collator = Collator.getInstance();
 	
 	/**
 	 * Sort the passed list of builds

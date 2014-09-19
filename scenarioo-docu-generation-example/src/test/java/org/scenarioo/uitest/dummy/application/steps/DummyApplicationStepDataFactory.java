@@ -29,6 +29,7 @@
 
 package org.scenarioo.uitest.dummy.application.steps;
 
+import static org.scenarioo.api.util.IdentifierSanitizer.*;
 import static org.scenarioo.uitest.dummy.application.DummySimulationConfig.*;
 
 import java.util.ArrayList;
@@ -96,8 +97,7 @@ public class DummyApplicationStepDataFactory {
 		title("Search results").pageName("searchResults.jsp")
 				.url("http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go").callTreeFindPage();
 		createStep("searchResultsMultiple");
-		title("U2").pageName("contentPage.jsp").url("http://en.wikipedia.org/wiki/42_%28number%29")
-				.callTreeLoadPage();
+		title("U2").pageName("contentPage.jsp").url("http://en.wikipedia.org/wiki/42_%28number%29").callTreeLoadPage();
 		createStep("pageU2");
 		
 		// create AMBIGUOTIES_CONFIG step data:
@@ -124,6 +124,15 @@ public class DummyApplicationStepDataFactory {
 		title("Search results").pageName("searchResults.jsp").url("http://en.wikipedia.org/wiki/42").callTreeFindPage();
 		createStep("searchResultsNone");
 		
+		startConfig(SWITCH_LANGUAGE_CONFIG).startUrl("http://www.wikipedia.org");
+		title("Wikipedia Search").pageName("startSearch.jsp").callTreeStart();
+		createStep("startPage");
+		createStep("startPageSelectedGermanTypedAngularJS");
+		title("AngularJS German").pageName("contentPage.jsp").url("http://de.wikipedia.org/wiki/AngularJS");
+		createStep("pageAngularJSGerman");
+		title("AngularJS Spanish").pageName("contentPage.jsp").url("http://es.wikipedia.org/wiki/AngularJS");
+		createStep("pageAngularJSSpanish");
+		
 		// create TECHNICAL_NO_PAGE_NAMES_CONFIG:
 		startConfig(TECHNICAL_NO_PAGE_NAMES_CONFIG).startUrl(
 				"http://www.wikipedia.org/technical-multiple-pages-scenario");
@@ -145,8 +154,8 @@ public class DummyApplicationStepDataFactory {
 	
 	private void callTreeStart() {
 		callTree();
-		call(Action.START_INIT).call(Business.SESSION_INIT).call(Service.AUTHENTICATION_CHECK)
-				.call(Business.MENU_LOAD).call(Service.MENU);
+		call(Action.START_INIT).call(Business.SESSION_INIT).call(Service.AUTHENTICATION_CHECK).call(Business.MENU_LOAD)
+				.call(Service.MENU);
 		call(Action.SEARCH_INIT);
 	}
 	
@@ -172,7 +181,7 @@ public class DummyApplicationStepDataFactory {
 	
 	private DummyApplicationStepDataFactory callTree() {
 		callTreePathUnderConstruction = new LinkedList<ObjectTreeNode<ObjectDescription>>();
-		ObjectDescription httpRequest = new ObjectDescription("httpCall", browserUrl);
+		ObjectDescription httpRequest = new ObjectDescription("httpCall", sanitize(browserUrl));
 		callTree = addCallTreeNode(httpRequest);
 		return this;
 	}
@@ -200,8 +209,7 @@ public class DummyApplicationStepDataFactory {
 			if (node.getItem().getType().equals(object.getType())) {
 				callTreePathUnderConstruction = callTreePathUnderConstruction.subList(0, index);
 				break;
-			}
-			else {
+			} else {
 				parent = node;
 				index++;
 			}

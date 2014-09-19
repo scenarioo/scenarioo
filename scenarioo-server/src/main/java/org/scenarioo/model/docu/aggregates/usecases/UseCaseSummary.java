@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.model.docu.entities.Labels;
+
 /**
  * Represents a use case and some important aggregated data to display in use
  * cases list.
@@ -15,7 +17,8 @@ public class UseCaseSummary {
 	private String name;
 	private String description;
 	private int numberOfScenarios;
-
+	private Labels labels;
+	
 	public String getStatus() {
 		return status;
 	}
@@ -46,6 +49,14 @@ public class UseCaseSummary {
 
 	public void setNumberOfScenarios(final int numberOfScenarios) {
 		this.numberOfScenarios = numberOfScenarios;
+	}
+
+	public Labels getLabels() {
+		return labels;
+	}
+
+	public void setLabels(Labels labels) {
+		this.labels = labels;
 	}
 
 }

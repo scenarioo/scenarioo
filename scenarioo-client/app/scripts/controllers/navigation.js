@@ -17,10 +17,14 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, localStorageService, BranchesAndBuilds, SelectedBranchAndBuild, $modal, ScApplicationInfoPopup, Config,GlobalHotkeysService) {
+angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, localStorageService, BranchesAndBuilds, SelectedBranchAndBuild, $modal, ScApplicationInfoPopup, Config, GlobalHotkeysService) {
 
     $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
         $scope.applicationName = Config.applicationName();
+    });
+
+    $scope.$on('branchesUpdated', function () {
+        loadBranchesAndBuilds();
     });
 
     SelectedBranchAndBuild.callOnSelectionChange(loadBranchesAndBuilds);
@@ -52,11 +56,31 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
             return '';
         }
 
-        if (build.build.name !== build.linkName) {
+        if(angular.isDefined(build.displayName) && build.displayName !== null) {
+            return build.displayName;
+        }
+
+        if ($scope.isBuildAlias(build)) {
             return build.linkName;
         } else {
             return 'Revision: ' + build.build.revision;
         }
+    };
+
+    $scope.isBuildAlias = function (build) {
+        if (angular.isUndefined(build)) {
+            return false;
+        }
+
+        return build.build.name !== build.linkName;
+    };
+
+    $scope.isLastSuccessfulScenariosBuild = function(build) {
+        if (angular.isUndefined(build)) {
+            return false;
+        }
+
+        return 'last successful scenarios' === build.displayName;
     };
 
     GlobalHotkeysService.registerGlobalHotkey('i', function () {

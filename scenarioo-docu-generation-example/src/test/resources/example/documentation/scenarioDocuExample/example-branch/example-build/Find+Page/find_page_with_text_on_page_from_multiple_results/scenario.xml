@@ -28,4 +28,7 @@
             </value>
         </entry>
     </details>
+    <labels>
+        <label>search results</label>
+    </labels>
 </scenario>

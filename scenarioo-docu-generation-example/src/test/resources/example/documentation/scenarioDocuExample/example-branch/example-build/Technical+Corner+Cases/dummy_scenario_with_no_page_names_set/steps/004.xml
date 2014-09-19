@@ -2,12 +2,20 @@
 <step xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <page>
         <details/>
+        <labels>
+            <label>page-label1</label>
+            <label>page-label2</label>
+        </labels>
     </page>
     <stepDescription>
         <index>4</index>
         <title>Technical Page 3</title>
         <status>success</status>
         <screenshotFileName>004.png</screenshotFileName>
+        <labels>
+            <label>step-label-4</label>
+            <label>public</label>
+        </labels>
         <details>
             <entry>
                 <key>url</key>
@@ -117,7 +125,7 @@
                 <key>Call Tree</key>
                 <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectTreeNode">
                     <item xsi:type="objectDescription">
-                        <name>http://www.wikipedia.org/technical-multiple-pages-scenario</name>
+                        <name>http:__www.wikipedia.org_technical-multiple-pages-scenario</name>
                         <type>httpCall</type>
                         <details/>
                     </item>

@@ -2,7 +2,7 @@
 <build xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <name>example-build-old-5</name>
     <revision>123451</revision>
-    <date>2014-06-22T01:30:00.198+02:00</date>
+    <date>2014-09-10T03:02:26.564+02:00</date>
     <status>success</status>
     <details/>
 </build>

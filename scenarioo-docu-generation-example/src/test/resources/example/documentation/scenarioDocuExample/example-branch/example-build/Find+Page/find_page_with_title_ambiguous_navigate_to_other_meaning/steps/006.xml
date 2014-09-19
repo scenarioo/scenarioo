@@ -3,12 +3,20 @@
     <page>
         <name>contentPage.jsp</name>
         <details/>
+        <labels>
+            <label>page-label1</label>
+            <label>page-label2</label>
+        </labels>
     </page>
     <stepDescription>
         <index>6</index>
         <title>Phrases from The Hitchhiker's Guide to the Galaxy</title>
         <status>success</status>
         <screenshotFileName>006.png</screenshotFileName>
+        <labels>
+            <label>step-label-6</label>
+            <label>public</label>
+        </labels>
         <details>
             <entry>
                 <key>url</key>
@@ -153,7 +161,7 @@
                 <key>Call Tree</key>
                 <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectTreeNode">
                     <item xsi:type="objectDescription">
-                        <name>http://en.wikipedia.org/wiki/Phrases_from_The_Hitchhiker%27s_Guide_to_the_Galaxy#Answer_to_the_Ultimate_Question_of_Life.2C_the_Universe.2C_and_Everything_.2842.29</name>
+                        <name>http:__en.wikipedia.org_wiki_Phrases_from_The_Hitchhiker%27s_Guide_to_the_Galaxy#Answer_to_the_Ultimate_Question_of_Life.2C_the_Universe.2C_and_Everything_.2842.29</name>
                         <type>httpCall</type>
                         <details/>
                     </item>

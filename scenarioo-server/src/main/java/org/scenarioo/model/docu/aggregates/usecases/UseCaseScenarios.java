@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
 
 /**
@@ -35,27 +34,27 @@ import org.scenarioo.model.docu.entities.UseCase;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UseCaseScenarios {
-
+	
 	private UseCase useCase;
-
+	
 	@XmlElementWrapper(name = "scenarios")
-	@XmlElement(name = "scenario")
-	private List<Scenario> scenarios = new ArrayList<Scenario>();
-
+	@XmlElement(name = "scenarioSummary")
+	private List<ScenarioSummary> scenarios = new ArrayList<ScenarioSummary>();
+	
 	public UseCase getUseCase() {
 		return useCase;
 	}
-
-	public void setUseCase(UseCase useCase) {
+	
+	public void setUseCase(final UseCase useCase) {
 		this.useCase = useCase;
 	}
-
-	public List<Scenario> getScenarios() {
+	
+	public List<ScenarioSummary> getScenarios() {
 		return scenarios;
 	}
-
-	public void setScenarios(List<Scenario> scenarios) {
+	
+	public void setScenarios(final List<ScenarioSummary> scenarios) {
 		this.scenarios = scenarios;
 	}
-
+	
 }

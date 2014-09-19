@@ -25,8 +25,8 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
-import org.scenarioo.model.docu.aggregates.branches.BuildIdentifier;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
+import org.scenarioo.model.docu.aggregates.steps.NeighborStep;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
 import org.scenarioo.model.docu.entities.Page;
@@ -34,6 +34,8 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.generic.ObjectReference;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
  * Handles calculation of all page steps for each scenario and collection of additional needed information for step
@@ -53,16 +55,19 @@ public class StepsAndPagesAggregator {
 	}
 	
 	public List<PageSteps> calculateScenarioPageSteps(final UseCase usecase,
-			final Scenario scenario, final List<Step> steps) {
+			final Scenario scenario, final List<Step> steps, final List<ObjectReference> referencePath,
+			final ObjectRepository objectRepository) {
 		
 		List<PageSteps> pageStepsList = new ArrayList<PageSteps>();
-		Map<String, Integer> pageOccurences = new HashMap<String, Integer>();
+		List<StepLink> stepLinks = new ArrayList<StepLink>(steps.size());
+		Map<String, Integer> pageOccurrences = new HashMap<String, Integer>();
 		Page page = null;
 		PageSteps pageSteps = null;
 		int pageIndex = 0;
-		int pageStepIndex = 0;
 		int index = 0;
-		int pageOccurenceIndex = 0;
+		int pageOccurrence = 0;
+		int stepInPageOccurrence = 0;
+		
 		for (Step step : steps) {
 			
 			// Introduce a special dummy page for all steps not having any page to avoid problems.
@@ -71,16 +76,15 @@ public class StepsAndPagesAggregator {
 				step.getPage().setName("unknownPage");
 			}
 			
-			// Check for new page and update indexes and occurence accordingly
-			boolean isNewPage = page == null || !page.equals(step.getPage());
-			if (isNewPage) {
+			// Check for new page and update indexes and occurrence accordingly
+			if (isNewPage(page, step)) {
 				page = step.getPage();
 				pageSteps = new PageSteps();
 				pageSteps.setPage(page);
 				pageSteps.setSteps(new ArrayList<StepDescription>());
 				pageStepsList.add(pageSteps);
-				pageStepIndex = 0;
-				pageOccurenceIndex = increasePageOccurence(pageOccurences, page);
+				stepInPageOccurrence = 0;
+				pageOccurrence = increasePageOccurrence(pageOccurrences, page);
 				if (index > 0) {
 					pageIndex++;
 				}
@@ -90,36 +94,93 @@ public class StepsAndPagesAggregator {
 			StepDescription stepDescription = step.getStepDescription();
 			pageSteps.getSteps().add(stepDescription);
 			
-			// Calculate page navigation data for this step (including page variant navigation)
+			StepLink stepLink = new StepLink(usecase.getName(),
+					scenario.getName(), index, pageIndex, getPageName(page),
+					pageOccurrence, stepInPageOccurrence);
+			stepLinks.add(stepLink);
 			
-			StepLink stepLink = new StepLink(usecase.getName(), scenario.getName(), index,
-					pageIndex, getPageName(page), pageOccurenceIndex, pageStepIndex);
-			calculateNavigationAndPageVariantData(stepLink);
+			objectRepository.addPageAndStep(referencePath, step, stepLink);
 			
 			index++;
-			pageStepIndex++;
-			
+			stepInPageOccurrence++;
 		}
+		
+		calculateNavigationAndPageVariantsData(stepLinks);
+		
 		return pageStepsList;
 		
 	}
 	
+	private void calculateNavigationAndPageVariantsData(
+			final List<StepLink> stepLinks) {
+		for (int i = 0; i < stepLinks.size(); i++) {
+			calculateNavigationAndPageVariantData(
+					getPreviousPage(stepLinks, i),
+					getPreviousStep(stepLinks, i), stepLinks.get(i),
+					getNextStep(stepLinks, i), getNextPage(stepLinks, i));
+		}
+	}
+	
+	private NeighborStep getPreviousPage(final List<StepLink> stepLinks,
+			final int currentStepIndex) {
+		String currentPageName = stepLinks.get(currentStepIndex).getPageName();
+		for (int i = currentStepIndex - 1; i >= 0; i--) {
+			if (!stepLinks.get(i).getPageName().equals(currentPageName)) {
+				return new NeighborStep(stepLinks.get(i));
+			}
+		}
+		return null;
+	}
+	
+	private NeighborStep getNextPage(final List<StepLink> stepLinks,
+			final int currentStepIndex) {
+		String currentPageName = stepLinks.get(currentStepIndex).getPageName();
+		for (int i = currentStepIndex + 1; i < stepLinks.size(); i++) {
+			if (!stepLinks.get(i).getPageName().equals(currentPageName)) {
+				return new NeighborStep(stepLinks.get(i));
+			}
+		}
+		return null;
+	}
+	
+	private NeighborStep getPreviousStep(final List<StepLink> stepLinks,
+			final int i) {
+		if (i > 0) {
+			return new NeighborStep(stepLinks.get(i - 1));
+		} else {
+			return null;
+		}
+	}
+	
+	private NeighborStep getNextStep(final List<StepLink> stepLinks, final int i) {
+		if (i < stepLinks.size() - 1) {
+			return new NeighborStep(stepLinks.get(i + 1));
+		} else {
+			return null;
+		}
+	}
+	
+	private boolean isNewPage(final Page page, final Step step) {
+		return page == null || step.getPage() == null
+				|| !page.equals(step.getPage());
+	}
+	
 	/**
-	 * Calculate the number of times this same page has already occured and increase the occurence in the passed
-	 * pageOccurences accordingly.
+	 * Calculate the number of times this same page has already occurred and increase the occurrence in the passed
+	 * pageOccurrences accordingly.
 	 */
-	private int increasePageOccurence(final Map<String, Integer> pageOccurences, final Page page) {
+	private int increasePageOccurrence(
+			final Map<String, Integer> pageOccurrences, final Page page) {
 		String pageKey = getPageName(page);
-		Integer occurences = pageOccurences.get(pageKey);
-		if (occurences == null) {
-			occurences = new Integer(0);
-			pageOccurences.put(pageKey, occurences);
+		Integer occurrences = pageOccurrences.get(pageKey);
+		if (occurrences == null) {
+			occurrences = new Integer(0);
+			pageOccurrences.put(pageKey, occurrences);
+		} else {
+			occurrences = occurrences + 1;
+			pageOccurrences.put(pageKey, occurrences);
 		}
-		else {
-			occurences = occurences + 1;
-			pageOccurences.put(pageKey, occurences);
-		}
-		return occurences.intValue();
+		return occurrences.intValue();
 	}
 	
 	private String getPageName(final Page page) {
@@ -133,9 +194,12 @@ public class StepsAndPagesAggregator {
 	 * be processed later. See {@link #saveAggregatedPageVariantDataInStepNavigations()} for completing this step
 	 * navigation data.
 	 */
-	private void calculateNavigationAndPageVariantData(final StepLink stepLink) {
+	private void calculateNavigationAndPageVariantData(
+			final NeighborStep previousPage, final NeighborStep previousStep,
+			final StepLink currentStep, final NeighborStep nextStep,
+			final NeighborStep nextPage) {
 		
-		PageVariantNavigationData pageVariant = getPageVariantNavigationData(stepLink);
+		PageVariantNavigationData pageVariant = getPageVariantNavigationData(currentStep);
 		
 		// Calculate page variant data:
 		StepLink previousPageVariantStep = null;
@@ -146,44 +210,58 @@ public class StepsAndPagesAggregator {
 			if (previousPageVariantStep == null) {
 				// first scenario, count it:
 				pageVariant.increaseScenariosCount();
-			}
-			else if (!isSameScenario(stepLink, previousPageVariantStep)) {
+			} else if (!isSameScenario(currentStep, previousPageVariantStep)) {
 				// different scenario than the last page variant:
 				pageVariant.increaseScenariosCount();
-				pageVariant.setLastStepFromDifferentScenario(previousPageVariantStep);
+				pageVariant
+						.setLastStepFromDifferentScenario(previousPageVariantStep);
 			}
-			previousPageVariantStepOtherSceanrio = pageVariant.getLastStepFromDifferentScenario();
-			pageVariant.setLastStep(stepLink);
+			previousPageVariantStepOtherSceanrio = pageVariant
+					.getLastStepFromDifferentScenario();
+			pageVariant.setLastStep(currentStep);
 		}
 		
-		// Create step navigation for current step (not yet complete, because next page variant step is only processed
+		// Create step navigation for current step (not yet complete, because
+		// next page variant step is only processed
 		// and added later)
 		StepNavigation stepNavigation = new StepNavigation();
-		stepNavigation.setPageIndex(stepLink.getPageIndex());
-		stepNavigation.setPageOccurenceIndex(stepLink.getPageOccurenceIndex());
-		stepNavigation.setPageStepIndex(stepLink.getPageStepIndex());
+		stepNavigation.setPageName(currentStep.getPageName());
+		stepNavigation.setPageIndex(currentStep.getPageIndex());
+		stepNavigation.setStepIndex(currentStep.getStepIndex());
+		stepNavigation.setPageOccurrence(currentStep.getPageOccurrence());
+		stepNavigation.setStepInPageOccurrence(currentStep
+				.getStepInPageOccurrence());
+		stepNavigation.setPreviousStep(previousStep);
+		stepNavigation.setNextStep(nextStep);
+		stepNavigation.setPreviousPage(previousPage);
+		stepNavigation.setNextPage(nextPage);
 		if (pageVariant != null) {
 			stepNavigation.setPreviousStepVariant(previousPageVariantStep);
-			stepNavigation.setPreviousStepVariantInOtherScenario(previousPageVariantStepOtherSceanrio);
+			stepNavigation
+					.setPreviousStepVariantInOtherScenario(previousPageVariantStepOtherSceanrio);
 			stepNavigation.setPageVariantIndex(pageVariant.getStepsCount() - 1);
-			stepNavigation.setPageVariantScenarioIndex(pageVariant.getScenariosCount() - 1);
-			// next page variant steps will be saved later, when all steps and scenarios have been processed.
+			stepNavigation.setPageVariantScenarioIndex(pageVariant
+					.getScenariosCount() - 1);
+			// next page variant steps will be saved later, when all steps and
+			// scenarios have been processed.
 		}
 		
 		// save navigation data
-		dao.saveStepNavigation(build, stepLink, stepNavigation);
+		dao.saveStepNavigation(build, currentStep, stepNavigation);
 		
 	}
 	
 	/**
 	 * Get or create a page variant navigation data for current step's page
 	 */
-	private PageVariantNavigationData getPageVariantNavigationData(final StepLink stepLink) {
+	private PageVariantNavigationData getPageVariantNavigationData(
+			final StepLink stepLink) {
 		String pageName = stepLink.getPageName();
 		if (pageName == null) {
 			return null;
 		}
-		PageVariantNavigationData pageVariant = pageVariants.get(stepLink.getPageName());
+		PageVariantNavigationData pageVariant = pageVariants.get(stepLink
+				.getPageName());
 		if (pageVariant == null) {
 			pageVariant = new PageVariantNavigationData();
 			pageVariants.put(pageName, pageVariant);
@@ -191,12 +269,9 @@ public class StepsAndPagesAggregator {
 		return pageVariant;
 	}
 	
-	private boolean isSameScenario(final StepLink step1,
-			final StepLink step2) {
-		return step1.getUseCaseName().equals(
-				step2.getUseCaseName())
-				&& step1.getScenarioName().equals(
-						step2.getScenarioName());
+	private boolean isSameScenario(final StepLink step1, final StepLink step2) {
+		return step1.getUseCaseName().equals(step2.getUseCaseName())
+				&& step1.getScenarioName().equals(step2.getScenarioName());
 	}
 	
 	/**
@@ -212,24 +287,32 @@ public class StepsAndPagesAggregator {
 		for (Entry<String, PageVariantNavigationData> pageVariant : pageVariants
 				.entrySet()) {
 			
-			PageVariantNavigationData pageVariantNavigation = pageVariant.getValue();
+			PageVariantNavigationData pageVariantNavigation = pageVariant
+					.getValue();
 			
-			// Process all step navigations for this page by passing backwards through it and complete the navigation
+			// Process all step navigations for this page by passing backwards
+			// through it and complete the navigation
 			// data.
 			StepLink lastStep = pageVariantNavigation.getLastStep();
 			StepLink nextStepVariant = null;
 			StepLink nextStepVariantInOtherScenario = null;
 			while (lastStep != null) {
 				
-				if (nextStepVariant != null && !isSameScenario(nextStepVariant, lastStep)) {
+				if (nextStepVariant != null
+						&& !isSameScenario(nextStepVariant, lastStep)) {
 					nextStepVariantInOtherScenario = nextStepVariant;
 				}
 				
-				StepNavigation stepNavigation = dao.loadStepNavigation(build, lastStep);
-				stepNavigation.setPageVariantsCount(pageVariantNavigation.getStepsCount());
-				stepNavigation.setPageVariantScenariosCount(pageVariantNavigation.getScenariosCount());
+				StepNavigation stepNavigation = dao.loadStepNavigation(build,
+						lastStep);
+				stepNavigation.setPageVariantsCount(pageVariantNavigation
+						.getStepsCount());
+				stepNavigation
+						.setPageVariantScenariosCount(pageVariantNavigation
+								.getScenariosCount());
 				stepNavigation.setNextStepVariant(nextStepVariant);
-				stepNavigation.setNextStepVariantInOtherScenario(nextStepVariantInOtherScenario);
+				stepNavigation
+						.setNextStepVariantInOtherScenario(nextStepVariantInOtherScenario);
 				dao.saveStepNavigation(build, lastStep, stepNavigation);
 				
 				nextStepVariant = lastStep;

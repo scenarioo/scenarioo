@@ -8,24 +8,24 @@
     <scenarioPropertiesInOverview></scenarioPropertiesInOverview>
     <applicationName></applicationName>
     <applicationInformation>&lt;h3&gt;Welcome to Scenarioo!&lt;/h3&gt;
-&lt;br/&gt;
-&lt;p&gt;
-    You can change this welcome message and all other settings of Scenarioo on the configuration page.
-&lt;/p&gt;
-&lt;p&gt;
-    Please put your application specific welcome message to your user's of Scenarioo here. This is the place where you might want to explain the appication specific structure of your Scenarioo documentation, such that new user's of this tool will quickly find their way through your user scenarios of your application.
-&lt;/p&gt;
-&lt;p&gt;
-    To start exploring the features of Scenarioo, simply choose one of the example use cases and then one of its secenarios to browse step by step through the pages and screenshots of one tested user scenario. 
-&lt;/p&gt;
-&lt;p&gt;
-   We also recommend you to put an email address for your stakeholders here, in case they have questions or feedback about the documentation:&lt;/br&gt;
-   &lt;a href=&quot;mailto:your.email@yourcompany.com&quot;&gt;your.email@yourcompany.com&lt;/a&gt;
-&lt;/p&gt;
-&lt;p&gt;
-   In case you want to contact the Scenarioo Development Team, please refer to the info popup tab 'Contacts'. We are looking forward to get your feedback. Thank you!
-&lt;/p&gt;
-&lt;p&gt;&lt;b&gt;Have fun!&lt;/b&gt;&lt;/p&gt;</applicationInformation>
+        &lt;br/&gt;
+        &lt;p&gt;
+        You can change this welcome message and all other settings of Scenarioo on the configuration page (under 'Manage').
+        &lt;/p&gt;
+        &lt;p&gt;
+        Please put your application specific welcome message to your user's of Scenarioo here. This is the place where you might want to explain the appication specific structure of your Scenarioo documentation, such that new user's of this tool will quickly find their way through your user scenarios of your application.
+        &lt;/p&gt;
+        &lt;p&gt;
+        To start exploring the features of Scenarioo, simply choose one of the example use cases and then one of its secenarios to browse step by step through the pages and screenshots of one tested user scenario.
+        &lt;/p&gt;
+        &lt;p&gt;
+        We also recommend you to put an email address for your stakeholders here, in case they have questions or feedback about the documentation:&lt;/br&gt;
+        &lt;a href=&quot;mailto:your.email@yourcompany.com&quot;&gt;your.email@yourcompany.com&lt;/a&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+        In case you want to contact the Scenarioo Development Team, please refer to the info popup tab 'Contacts'. We are looking forward to get your feedback. Thank you!
+        &lt;/p&gt;
+        &lt;p&gt;&lt;b&gt;Have fun!&lt;/b&gt;&lt;/p&gt;</applicationInformation>
     <buildstates>
         <entry>
             <key>failed</key>
@@ -40,4 +40,40 @@
             <value>label-warning</value>
         </entry>
     </buildstates>
+    <customObjectTabs>
+        <id>pages</id>
+        <tabTitle>Pages</tabTitle>
+        <objectTypesToDisplay>page</objectTypesToDisplay>
+    </customObjectTabs>
+    <customObjectTabs>
+        <id>labels</id>
+        <tabTitle>Labels</tabTitle>
+        <objectTypesToDisplay>label</objectTypesToDisplay>
+    </customObjectTabs>
+    <customObjectTabs>
+        <id>requirements</id>
+        <tabTitle>Requirements</tabTitle>
+        <objectTypesToDisplay>feature</objectTypesToDisplay>
+        <objectTypesToDisplay>epic</objectTypesToDisplay>
+        <objectTypesToDisplay>userStory</objectTypesToDisplay>
+        <customObjectDetailColumns>
+            <columnTitle>Description</columnTitle>
+            <propertyKey>description</propertyKey>
+        </customObjectDetailColumns>
+    </customObjectTabs>
+    <customObjectTabs>
+        <id>calls</id>
+        <tabTitle>Calls</tabTitle>
+        <objectTypesToDisplay>service</objectTypesToDisplay>
+        <objectTypesToDisplay>businessOperation</objectTypesToDisplay>
+        <objectTypesToDisplay>uiAction</objectTypesToDisplay>
+        <customObjectDetailColumns>
+            <columnTitle>Description</columnTitle>
+            <propertyKey>description</propertyKey>
+        </customObjectDetailColumns>
+        <customObjectDetailColumns>
+            <columnTitle>Real Name for Service</columnTitle>
+            <propertyKey>realName</propertyKey>
+        </customObjectDetailColumns>
+    </customObjectTabs>
 </configuration>

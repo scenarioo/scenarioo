@@ -3,12 +3,20 @@
     <page>
         <name>startSearch.jsp</name>
         <details/>
+        <labels>
+            <label>page-label1</label>
+            <label>page-label2</label>
+        </labels>
     </page>
     <stepDescription>
         <index>1</index>
         <title>Wikipedia Suche</title>
         <status>success</status>
         <screenshotFileName>001.png</screenshotFileName>
+        <labels>
+            <label>step-label-1</label>
+            <label>public</label>
+        </labels>
         <details>
             <entry>
                 <key>url</key>
@@ -113,9 +121,6 @@
                         </entry>
                     </details>
                 </value>
-            </entry>
-            <entry>
-                <key>Call Tree</key>
             </entry>
             <entry>
                 <key>Huge Metadata Tree</key>
