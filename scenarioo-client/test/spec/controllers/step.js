@@ -20,7 +20,7 @@
 describe('StepCtrl', function () {
 
     var $scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepResource,
-        HostNameAndPort, SelectedBranchAndBuild, $controller, $httpBackend, TestData;
+        HostnameAndPort, SelectedBranchAndBuild, $controller, $httpBackend, TestData;
     var StepCtrl;
 
     var METADATA_TYPE = 'some_type';
@@ -44,7 +44,7 @@ describe('StepCtrl', function () {
         Config = _Config_;
         ScenarioResource = _ScenarioResource_;
         StepResource = _StepResource_;
-        HostNameAndPort = _HostnameAndPort_;
+        HostnameAndPort = _HostnameAndPort_;
         SelectedBranchAndBuild = _SelectedBranchAndBuild_;
         $controller = _$controller_;
         $httpBackend = _$httpBackend_;
@@ -64,7 +64,7 @@ describe('StepCtrl', function () {
         beforeEach(function() {
             $routeParams.stepInPageOccurrence = 1;
             StepCtrl = $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
-                $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostNameAndPort,
+                $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostnameAndPort,
                 SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}, ScShareStepPopup: {}});
         });
 
@@ -183,14 +183,14 @@ describe('StepCtrl', function () {
 
             var url = $scope.getScreenshotUrlForSharing();
 
-            expect(url).toBe(HostNameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1/image.png?labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
+            expect(url).toBe(HostnameAndPort.forLinkAbsolute() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1/image.png?labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
         });
 
         function loadPageContent() {
-            $httpBackend.whenGET(HostNameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
-            $httpBackend.whenGET(HostNameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
-            $httpBackend.whenGET(HostNameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1').respond(TestData.STEP);
-            $httpBackend.whenGET(HostNameAndPort.forTest() + 'rest/labelconfigurations').respond({});
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1').respond(TestData.STEP);
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/labelconfigurations').respond({});
 
             Config.load();
             $httpBackend.flush();
@@ -203,7 +203,7 @@ describe('StepCtrl', function () {
         beforeEach(function() {
             $routeParams.stepInPageOccurrence = 42;
             StepCtrl = $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
-                $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostNameAndPort,
+                $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostnameAndPort,
                 SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}, ScShareStepPopup: {}});
         });
 
@@ -214,16 +214,16 @@ describe('StepCtrl', function () {
             expect($scope.stepNotFound).toBeTruthy();
             expect($scope.httpResponse.status).toEqual(500);
             expect($scope.httpResponse.method).toEqual('GET');
-            expect($scope.httpResponse.url).toEqual(HostNameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42');
+            expect($scope.httpResponse.url).toEqual(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42');
             expect($scope.httpResponse.data).toEqual('');
             expect($scope.getCurrentUrl()).toEqual('http://server/#?branch=trunk&build=current');
         });
 
         function tryToLoadNotExistingStep() {
-            $httpBackend.whenGET(HostNameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
-            $httpBackend.whenGET(HostNameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
-            $httpBackend.whenGET(HostNameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42').respond(500, '');
-            $httpBackend.whenGET(HostNameAndPort.forTest() + 'rest/labelconfigurations').respond({});
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42').respond(500, '');
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/labelconfigurations').respond({});
 
             Config.load();
             $httpBackend.flush();
