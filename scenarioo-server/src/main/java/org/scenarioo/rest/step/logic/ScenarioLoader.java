@@ -55,7 +55,7 @@ public class ScenarioLoader {
 			return LoadScenarioResult.foundNothing();
 		}
 		
-		ScenarioPageSteps fallbackScenario = aggregatedDataReader.loadScenarioPageSteps(stepIdentifier
+		ScenarioPageSteps fallbackScenario = aggregatedDataReader.loadScenarioPageSteps(redirect
 				.getScenarioIdentifier());
 		return LoadScenarioResult.foundFallback(fallbackScenario, redirect);
 	}

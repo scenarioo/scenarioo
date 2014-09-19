@@ -63,7 +63,8 @@ public class StepIndexResolver {
 			LOGGER.warn("stepInPageOccurrence " + stepIdentifier.getStepInPageOccurrence() + " does not exist in "
 					+ stepIdentifier + ". Redirecting to " + redirectStepIdentifier);
 			
-			return ResolveStepIndexResult.otherStepInPageOccurrenceFound(index, redirectStepIdentifier);
+			return ResolveStepIndexResult.otherStepInPageOccurrenceFound(index, redirectStepIdentifier,
+					stepDescription.getScreenshotFileName());
 		}
 	}
 	
@@ -104,7 +105,8 @@ public class StepIndexResolver {
 		LOGGER.warn("pageOccurrence " + stepIdentifier.getPageOccurrence() + " does not exist in "
 				+ stepIdentifier.toString() + ". Redirecting to " + redirectStepIdentifier);
 		
-		return ResolveStepIndexResult.otherStepInPageOccurrenceFound(redirectStepIndex, redirectStepIdentifier);
+		return ResolveStepIndexResult.otherStepInPageOccurrenceFound(redirectStepIndex, redirectStepIdentifier,
+				stepDescription.getScreenshotFileName());
 	}
 	
 	private StepIdentifier getRedirectStepIdentifierForStepInAllPageOccurrences(final StepIdentifier stepIdentifier,

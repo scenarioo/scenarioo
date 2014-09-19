@@ -1,5 +1,6 @@
 package org.scenarioo.rest.step.logic;
 
+import org.apache.commons.lang3.StringUtils;
 import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
 import org.scenarioo.rest.base.StepIdentifier;
 
@@ -35,8 +36,8 @@ public class StepLoaderResult {
 		return new StepLoaderResult(stepIndex, stepIdentifier, true, stepStatistics, screenshotFileName);
 	}
 	
-	public static StepLoaderResult createRedirect(final StepIdentifier redirect) {
-		return new StepLoaderResult(-1, redirect, false, null, null);
+	public static StepLoaderResult createRedirect(final StepIdentifier redirect, final String screenshotFileName) {
+		return new StepLoaderResult(-1, redirect, false, null, screenshotFileName);
 	}
 	
 	public static StepLoaderResult createNotFound() {
@@ -64,6 +65,15 @@ public class StepLoaderResult {
 	
 	public String getScreenshotFileName() {
 		return screenshotFileName;
+	}
+	
+	public String getScreenshotFileNameExtension() {
+		if (StringUtils.isBlank(screenshotFileName)) {
+			return "unknown-filetype";
+		} else {
+			String[] fileNameParts = screenshotFileName.split("\\.");
+			return fileNameParts[fileNameParts.length - 1];
+		}
 	}
 	
 	public boolean isRedirect() {

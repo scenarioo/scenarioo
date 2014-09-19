@@ -42,6 +42,10 @@ public class DummyAggregatedDataReader implements AggregatedDataReader {
 			return StepTestData.SCENARIO;
 		} else if (StepTestData.SCENARIO_IDENTIFIER_VALID_2.equals(scenarioIdentifier)) {
 			return StepTestData.SCENARIO_FALLBACK_IN_SAME_USECASE;
+		} else if (StepTestData.SCENARIO_IDENTIFIER_LOGIN_WITH_MATCHING_LABELS.equals(scenarioIdentifier)) {
+			return StepTestData.SCENARIO_WITH_MATCHING_LABELS;
+		} else if (StepTestData.SCENARIO_IDENTIFIER_FALLBACK_WITH_LABELS_IN_SAME_USECASE.equals(scenarioIdentifier)) {
+			return StepTestData.SCENARIO_WITH_MATCHING_LABELS;
 		} else {
 			return null;
 		}

@@ -5,8 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.scenarioo.dao.aggregates.AggregatedDataReader;
 import org.scenarioo.rest.base.StepIdentifier;
-import org.scenarioo.rest.step.logic.LoadScenarioResult;
-import org.scenarioo.rest.step.logic.ScenarioLoader;
 
 public class ScenarioLoaderTest {
 	
@@ -139,7 +137,7 @@ public class ScenarioLoaderTest {
 	}
 	
 	private void expectFallback() {
-		assertNull(loadScenarioResult.getPagesAndSteps());
+		assertNotNull(loadScenarioResult.getPagesAndSteps());
 		assertFalse(loadScenarioResult.isRequestedScenarioFound());
 		assertTrue(loadScenarioResult.containsValidRedirect());
 	}

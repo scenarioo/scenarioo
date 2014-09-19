@@ -23,9 +23,9 @@ public class StepIdentifierTest {
 	@Test
 	public void redirectUrlForScreenshot() {
 		assertEquals(
-				"/rest/branch/bugfix-branch/build/build-2014-08-12/usecase/Find the answer/scenario/Actually find it/pageName/pageName1/pageOccurrence/0/stepInPageOccurrence/0/image",
-				stepIdentifier.getScreenshotUriForRedirect().getPath());
-		assertEquals("fallback=true", stepIdentifier.getScreenshotUriForRedirect().getQuery());
+				"/rest/branch/bugfix-branch/build/build-2014-08-12/usecase/Find the answer/scenario/Actually find it/pageName/pageName1/pageOccurrence/0/stepInPageOccurrence/0/image.jpeg",
+				stepIdentifier.getScreenshotUriForRedirect("jpeg").getPath());
+		assertEquals("fallback=true", stepIdentifier.getScreenshotUriForRedirect(".jpeg").getQuery());
 	}
 	
 	@Test

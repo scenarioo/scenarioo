@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
 import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.UseCase;
 
 /**
@@ -123,6 +124,11 @@ public class ScenarioPageSteps {
 	
 	private int getTotalNumberOfPagesInScenario() {
 		return pagesAndSteps.size();
+	}
+	
+	public StepDescription getStepDescription(final String pageName, final int pageOccurrence, final int stepInPageOccurrence) {
+		PageSteps pageWithSteps = getOccurrence(pageName, pageOccurrence);
+		return pageWithSteps.getSteps().get(stepInPageOccurrence);
 	}
 	
 }

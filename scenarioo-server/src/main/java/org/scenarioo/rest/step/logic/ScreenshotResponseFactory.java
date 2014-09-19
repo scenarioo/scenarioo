@@ -82,7 +82,9 @@ public class ScreenshotResponseFactory {
 		StepIdentifier stepIdentifier = stepImage.getStepIdentifier();
 		StepIdentifier stepIdentifierWithPotentialAlias = stepIdentifier
 				.withDifferentBuildIdentifier(buildIdentifierBeforeAliasResolution);
-		return Response.temporaryRedirect(stepIdentifierWithPotentialAlias.getScreenshotUriForRedirect()).build();
+		String screenshotFileNameExtension = stepImage.getScreenshotFileNameExtension();
+		return Response.temporaryRedirect(
+				stepIdentifierWithPotentialAlias.getScreenshotUriForRedirect(screenshotFileNameExtension)).build();
 	}
 	
 	private Response notFoundResponse() {

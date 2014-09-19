@@ -154,7 +154,7 @@ public class StepIndexResolverTest {
 		assertTrue(resolveStepIndexResult.isIndexValid());
 		assertFalse(resolveStepIndexResult.isRequestedStepFound());
 		assertEquals(2, resolveStepIndexResult.getRedirect().getStepInPageOccurrence());
-		assertNull(resolveStepIndexResult.getScreenshotFileName());
+		assertEquals("screenshot-4.jpeg", resolveStepIndexResult.getScreenshotFileName());
 	}
 	
 	private void expectFallbackFindsStepInPageOccurrenceWithMostMatchingLabels() {
@@ -162,7 +162,7 @@ public class StepIndexResolverTest {
 		assertTrue(resolveStepIndexResult.isIndexValid());
 		assertFalse(resolveStepIndexResult.isRequestedStepFound());
 		assertEquals(1, resolveStepIndexResult.getRedirect().getStepInPageOccurrence());
-		assertNull(resolveStepIndexResult.getScreenshotFileName());
+		assertEquals("screenshot-3.jpeg", resolveStepIndexResult.getScreenshotFileName());
 	}
 	
 	private void expectFallbackFindsClosestPageOccurrence() {
@@ -171,7 +171,7 @@ public class StepIndexResolverTest {
 		assertFalse(resolveStepIndexResult.isRequestedStepFound());
 		assertEquals(1, resolveStepIndexResult.getRedirect().getPageOccurrence());
 		assertEquals(0, resolveStepIndexResult.getRedirect().getStepInPageOccurrence());
-		assertNull(resolveStepIndexResult.getScreenshotFileName());
+		assertEquals("screenshot-2.jpeg", resolveStepIndexResult.getScreenshotFileName());
 	}
 	
 	private void expectFallbackFindsPageOccurrenceAndStepWithMostMatchingLabels() {
@@ -180,7 +180,7 @@ public class StepIndexResolverTest {
 		assertFalse(resolveStepIndexResult.isRequestedStepFound());
 		assertEquals(1, resolveStepIndexResult.getRedirect().getPageOccurrence());
 		assertEquals(1, resolveStepIndexResult.getRedirect().getStepInPageOccurrence());
-		assertNull(resolveStepIndexResult.getScreenshotFileName());
+		assertEquals("screenshot-3.jpeg", resolveStepIndexResult.getScreenshotFileName());
 	}
 	
 	private void expectNoIndexAndNoRedirectIsFound() {

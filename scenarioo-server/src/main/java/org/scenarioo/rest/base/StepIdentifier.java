@@ -121,19 +121,22 @@ public class StepIdentifier {
 		return labels;
 	}
 	
+	/**
+	 * File name extension, e.g. "png" or "jpeg". Always without a dot.
+	 */
 	@JsonIgnore
-	public URI getScreenshotUriForRedirect() {
-		return createUriForRedirect(RedirectType.SCREENSHOT);
+	public URI getScreenshotUriForRedirect(final String screenshotFileNameExtension) {
+		return createUriForRedirect(RedirectType.SCREENSHOT, screenshotFileNameExtension);
 	}
 	
 	@JsonIgnore
 	public URI getStepUriForRedirect() {
-		return createUriForRedirect(RedirectType.STEP);
+		return createUriForRedirect(RedirectType.STEP, null);
 	}
 	
-	private URI createUriForRedirect(final RedirectType redirectType) {
+	private URI createUriForRedirect(final RedirectType redirectType, final String screenshotFileNameExtension) {
 		try {
-			return getStepUriBuilder(redirectType);
+			return getStepUri(redirectType, screenshotFileNameExtension);
 		} catch (URISyntaxException e) {
 			throw new RuntimeException("Redirect failed, can't create URI", e);
 		} catch (UnsupportedEncodingException e) {
@@ -141,8 +144,8 @@ public class StepIdentifier {
 		}
 	}
 	
-	private URI getStepUriBuilder(final RedirectType redirectType) throws UnsupportedEncodingException,
-			URISyntaxException {
+	private URI getStepUri(final RedirectType redirectType, final String screenshotFileNameExtension)
+			throws UnsupportedEncodingException, URISyntaxException {
 		StringBuilder uriBuilder = new StringBuilder();
 		
 		uriBuilder.append("/rest/branch/").append(encode(getBranchName()));
@@ -154,7 +157,7 @@ public class StepIdentifier {
 		uriBuilder.append("/stepInPageOccurrence/").append(encode(Integer.toString(getStepInPageOccurrence())));
 		
 		if (RedirectType.SCREENSHOT.equals(redirectType)) {
-			uriBuilder.append("/image");
+			uriBuilder.append("/image." + screenshotFileNameExtension);
 		}
 		
 		uriBuilder.append("?fallback=true");

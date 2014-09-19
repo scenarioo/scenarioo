@@ -17,9 +17,10 @@ public class ResolveStepIndexResult {
 	}
 	
 	private ResolveStepIndexResult(final int index, final boolean requestedStepFound, final boolean indexValid,
-			final StepIdentifier redirect) {
+			final StepIdentifier redirect, final String screenshotFileName) {
 		this(index, requestedStepFound, indexValid);
 		this.redirect = redirect;
+		this.screenshotFileName = screenshotFileName;
 	}
 	
 	private ResolveStepIndexResult(final int index, final boolean requestedStepFound, final boolean indexValid) {
@@ -32,8 +33,9 @@ public class ResolveStepIndexResult {
 		return new ResolveStepIndexResult(index, true, true, screenshotFileName);
 	}
 	
-	public static ResolveStepIndexResult otherStepInPageOccurrenceFound(final int index, final StepIdentifier redirect) {
-		return new ResolveStepIndexResult(index, false, true, redirect);
+	public static ResolveStepIndexResult otherStepInPageOccurrenceFound(final int index, final StepIdentifier redirect,
+			final String screenshotFileName) {
+		return new ResolveStepIndexResult(index, false, true, redirect, screenshotFileName);
 	}
 	
 	public static ResolveStepIndexResult noFallbackFound() {

@@ -52,6 +52,10 @@ public class StepTestData {
 			USECASE_NAME_VALID, SCENARIO_NAME_VALID);
 	public static final ScenarioIdentifier SCENARIO_IDENTIFIER_VALID_2 = new ScenarioIdentifier(BUILD_IDENTIFIER_VALID,
 			USECASE_NAME_VALID, SCENARIO_NAME_VALID_2);
+	public static final ScenarioIdentifier SCENARIO_IDENTIFIER_LOGIN_WITH_MATCHING_LABELS = new ScenarioIdentifier(
+			BUILD_IDENTIFIER_VALID, USECASE_NAME_VALID_WITH_MATCHING_LABELS, SCENARIO_NAME_VALID_WITH_MATCHING_LABELS);
+	public static final ScenarioIdentifier SCENARIO_IDENTIFIER_FALLBACK_WITH_LABELS_IN_SAME_USECASE = new ScenarioIdentifier(
+			BUILD_IDENTIFIER_VALID, USECASE_NAME_VALID, SCENARIO_NAME_VALID_WITH_MATCHING_LABELS);
 	public static final ScenarioIdentifier SCENARIO_IDENTIFIER_INEXISTENT_SCENARIO = new ScenarioIdentifier(
 			BUILD_IDENTIFIER_VALID, USECASE_NAME_VALID, SCENARIO_NAME_INEXISTENT);
 	public static final ScenarioIdentifier SCENARIO_IDENTIFIER_INEXISTENT_USECASE = new ScenarioIdentifier(
@@ -76,6 +80,7 @@ public class StepTestData {
 	// scenario data
 	public static final ScenarioPageSteps SCENARIO = createScenarioPagesAndSteps();
 	public static final ScenarioPageSteps SCENARIO_FALLBACK_IN_SAME_USECASE = createFallbackScenarioPagesAndSteps();
+	public static final ScenarioPageSteps SCENARIO_WITH_MATCHING_LABELS = createFallbackScenarioPagesAndStepsWithMatchingLabels();
 	
 	// objects
 	public static final ObjectIndex OBJECT_INDEX_FOR_PAGE_1 = createObjectIndexForPage1();
@@ -101,11 +106,23 @@ public class StepTestData {
 		return scenarioPageSteps;
 	}
 	
+	private static ScenarioPageSteps createFallbackScenarioPagesAndStepsWithMatchingLabels() {
+		ScenarioPageSteps scenarioPageSteps = new ScenarioPageSteps();
+		scenarioPageSteps.setPagesAndSteps(createPageStepsForFallbackWithMatchingLabels());
+		return scenarioPageSteps;
+	}
+	
 	private static List<PageSteps> createPageSteps() {
 		List<PageSteps> pageSteps = new LinkedList<PageSteps>();
 		pageSteps.add(createPageSteps(PAGE_NAME_VALID_1, 1, 0));
 		pageSteps.add(createPageSteps(PAGE_NAME_VALID_2, 1, 1));
 		pageSteps.add(createPageSteps(PAGE_NAME_VALID_1, 3, 2));
+		return pageSteps;
+	}
+	
+	private static List<PageSteps> createPageStepsForFallbackWithMatchingLabels() {
+		List<PageSteps> pageSteps = new LinkedList<PageSteps>();
+		pageSteps.add(createPageSteps(PAGE_NAME_VALID_1, 2, 0));
 		return pageSteps;
 	}
 	

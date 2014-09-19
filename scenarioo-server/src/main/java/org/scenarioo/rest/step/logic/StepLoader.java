@@ -26,7 +26,8 @@ public class StepLoader {
 		if (loadScenarioResult.isRequestedScenarioFound()) {
 			return resolveStepIndex(stepIdentifier, loadScenarioResult.getPagesAndSteps());
 		} else if (loadScenarioResult.containsValidRedirect()) {
-			return StepLoaderResult.createRedirect(loadScenarioResult.getRedirect());
+			return StepLoaderResult.createRedirect(loadScenarioResult.getRedirect(),
+					loadScenarioResult.getScreenshotFileName());
 		} else {
 			return StepLoaderResult.createNotFound();
 		}
@@ -41,7 +42,8 @@ public class StepLoader {
 			return StepLoaderResult.createFoundRequestedStep(resolveStepIndexResult.getIndex(), stepIdentifier,
 					stepStatistics, resolveStepIndexResult.getScreenshotFileName());
 		} else if (resolveStepIndexResult.containsValidRedirect()) {
-			return StepLoaderResult.createRedirect(resolveStepIndexResult.getRedirect());
+			return StepLoaderResult.createRedirect(resolveStepIndexResult.getRedirect(),
+					resolveStepIndexResult.getScreenshotFileName());
 		} else {
 			return findPageInAllUseCases(stepIdentifier);
 		}
@@ -52,7 +54,8 @@ public class StepLoader {
 				.findPageInRequestedUseCaseOrInAllUseCases(stepIdentifier);
 		
 		if (loadScenarioResult.containsValidRedirect()) {
-			return StepLoaderResult.createRedirect(loadScenarioResult.getRedirect());
+			return StepLoaderResult.createRedirect(loadScenarioResult.getRedirect(),
+					loadScenarioResult.getScreenshotFileName());
 		} else {
 			return StepLoaderResult.createNotFound();
 		}
