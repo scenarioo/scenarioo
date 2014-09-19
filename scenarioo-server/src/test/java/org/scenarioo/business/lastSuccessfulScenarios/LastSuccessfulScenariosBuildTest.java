@@ -226,6 +226,19 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 	
 	@Test
+	public void theUseCaseXmlFileIsAlsoCopiedIfThereAreNoSuccessfulTestInTheUseCase() {
+		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
+		givenLastSuccessfulScenarioBuildFolderExists();
+		givenBuildImportSummaryWithStatusSuccess();
+		givenLastSuccessfulBuildHasOneUseCaseWithOneFailedScenarioAndAUseCaseXmlFile();
+		givenImportedBuildHasOneUseCaseWithOneFailedScenarioAndAUseCaseXmlFile();
+		
+		whenUpdatingLastSuccessfulScenarioBuild();
+		
+		expectUseCaseXmlFileWasCopied();
+	}
+	
+	@Test
 	public void theStatusInTheCopiedUseCaseXmlFileIsAlwaysSetToSuccess() {
 		givenLastSuccessfulScenarioBuildIsEnabledInConfiguration();
 		givenLastSuccessfulScenarioBuildFolderExists();
@@ -427,11 +440,19 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 	
 	private void givenImportedBuildHasOneUseCaseWithAUseCaseXmlFile() {
+		createUseCaseWithOneScenario(Status.SUCCESS);
+	}
+	
+	private void givenImportedBuildHasOneUseCaseWithOneFailedScenarioAndAUseCaseXmlFile() {
+		createUseCaseWithOneScenario(Status.FAILED);
+	}
+	
+	private void createUseCaseWithOneScenario(final Status scenarioStatus) {
 		File importedBuildDirectory = getImportedBuildDirectory(buildImportSummary.getIdentifier());
 		createUseCase(importedBuildDirectory, useCases[0], Status.SUCCESS);
 		
 		File useCaseDirectory = getDirectoryOfFirstUseCase();
-		createScenario(useCaseDirectory, scenarios[0], Status.SUCCESS, useCases[0]);
+		createScenario(useCaseDirectory, scenarios[0], scenarioStatus, useCases[0]);
 	}
 	
 	private void givenImportedBuildHasOneUseCaseWithAUseCaseXmlFileWithStatusFailed() {
@@ -470,23 +491,38 @@ public class LastSuccessfulScenariosBuildTest {
 				useCases[2], NOT_MODIFIED_USE_CASE_DESCRIPTION);
 		
 		addScenarioToLastSuccessfulBuild(useCases[0], scenarios[0], DATE_YESTERDAY, index,
-				lastSuccessfulScenariosBuildDirectory);
+				lastSuccessfulScenariosBuildDirectory, Status.SUCCESS);
 		addScenarioToLastSuccessfulBuild(useCases[1], scenarios[0], DATE_YESTERDAY, index,
-				lastSuccessfulScenariosBuildDirectory);
+				lastSuccessfulScenariosBuildDirectory, Status.SUCCESS);
 		addScenarioToLastSuccessfulBuild(useCases[1], scenarios[1], DATE_NOW, index,
-				lastSuccessfulScenariosBuildDirectory);
+				lastSuccessfulScenariosBuildDirectory, Status.SUCCESS);
 		addScenarioToLastSuccessfulBuild(useCases[2], scenarios[0], DATE_TOMORROW, index,
-				lastSuccessfulScenariosBuildDirectory);
+				lastSuccessfulScenariosBuildDirectory, Status.SUCCESS);
+		
+		saveLastSuccessfulScenariosIndex(index);
+	}
+	
+	private void givenLastSuccessfulBuildHasOneUseCaseWithOneFailedScenarioAndAUseCaseXmlFile() {
+		File lastSuccessfulScenariosBuildDirectory = getLastSuccessfulScenariosBuildDirectory();
+		LastSuccessfulScenariosIndex index = getLastSuccessfulScenariosIndex();
+		
+		createUseCaseXmlFile(rootDirectory, LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME,
+				useCases[0], NOT_MODIFIED_USE_CASE_DESCRIPTION);
+		
+		addScenarioToLastSuccessfulBuild(useCases[0], scenarios[0], DATE_YESTERDAY, index,
+				lastSuccessfulScenariosBuildDirectory, Status.FAILED);
 		
 		saveLastSuccessfulScenariosIndex(index);
 	}
 	
 	private void addScenarioToLastSuccessfulBuild(final String useCaseName, final String scenarioName,
 			final Date buildDate, final LastSuccessfulScenariosIndex index,
-			final File lastSuccessfulScenariosBuildDirectory) {
+			final File lastSuccessfulScenariosBuildDirectory, final Status status) {
 		File useCaseDirectory = new File(lastSuccessfulScenariosBuildDirectory, encode(useCaseName));
-		createSuccessfulScenario(useCaseDirectory, scenarioName);
-		index.setScenarioBuildDate(useCaseName, scenarioName, buildDate);
+		createScenario(useCaseDirectory, scenarioName, null, status);
+		if (Status.SUCCESS.equals(status)) {
+			index.setScenarioBuildDate(useCaseName, scenarioName, buildDate);
+		}
 	}
 	
 	private Calendar getCalendarForNowMinusOneDay() {
@@ -613,6 +649,11 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 	
 	private void createSuccessfulScenario(final File useCaseFolder, final String scenarioName, final Date date) {
+		createScenario(useCaseFolder, scenarioName, date, Status.SUCCESS);
+	}
+	
+	private void createScenario(final File useCaseFolder, final String scenarioName, final Date date,
+			final Status status) {
 		File scenarioDirectory = new File(useCaseFolder, encode(scenarioName));
 		scenarioDirectory.mkdirs();
 		assertTrue(scenarioDirectory.exists());
@@ -620,7 +661,7 @@ public class LastSuccessfulScenariosBuildTest {
 		File scenarioFile = new File(scenarioDirectory, FILE_NAME_SCENARIO);
 		Scenario scenario = new Scenario();
 		scenario.setName(scenarioName);
-		scenario.setStatus(Status.SUCCESS);
+		scenario.setStatus(status);
 		scenario.addDetail(BUILD_DATE_FOR_TEST_KEY, date);
 		ScenarioDocuXMLFileUtil.marshal(scenario, scenarioFile);
 	}
