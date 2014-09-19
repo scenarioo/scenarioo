@@ -170,6 +170,22 @@ describe('StepCtrl', function () {
             expect($location.path()).toBe('/step/Find Page/find_page_with_text_on_page_from_multiple_results/searchResults.jsp/0/1');
         });
 
+        it('getCurrentUrlForSharing returns the current URL plus the step labels.', function() {
+            loadPageContent();
+
+            var url = $scope.getCurrentUrlForSharing();
+
+            expect(url).toBe('http://server/#?branch=trunk&build=current&labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
+        });
+
+        it('getScreenshotUrlForSharing returns the correct URL for sharing, including the image file extension.', function() {
+            loadPageContent();
+
+            var url = $scope.getScreenshotUrlForSharing();
+
+            expect(url).toBe(HostNameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1/image.png?labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
+        });
+
         function loadPageContent() {
             $httpBackend.whenGET(HostNameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
             $httpBackend.whenGET(HostNameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);

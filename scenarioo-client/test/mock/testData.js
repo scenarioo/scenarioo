@@ -138,6 +138,14 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'totalNumberOfStepsInPageOccurrence': 2,
                 'totalNumberOfPagesInScenario': 3
             },
+            'useCaseLabels' : {
+                'labels' : ['normal-case'],
+                'empty' : false
+            },
+            'scenarioLabels' : {
+                'labels' : ['no results'],
+                'empty' : false
+            },
             'step': {
                 'stepDescription': {
                     'details': {
@@ -146,7 +154,11 @@ angular.module('scenarioo.services').service('TestData', function () {
                     'status': 'success',
                     'title': 'Search results',
                     'screenshotFileName': '002.png',
-                    'index': 2
+                    'index': 2,
+                    'labels' : {
+                        'labels' : ['step-label-0', 'public'],
+                        'empty' : false
+                    }
                 },
                 'metadata': {
                     'details': {
@@ -176,7 +188,11 @@ angular.module('scenarioo.services').service('TestData', function () {
                 },
                 'page': {
                     'details': {},
-                    'name': 'searchResults.jsp'
+                    'name': 'searchResults.jsp',
+                    'labels' : {
+                        'labels' : ['page-label1', 'page-label2'],
+                        'empty' : false
+                    }
                 }
             },
             'stepNavigation': {

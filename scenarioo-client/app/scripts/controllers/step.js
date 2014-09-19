@@ -97,8 +97,8 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                     return hasAnyUseCaseLabels || hasAnyScenarioLabels || hasAnyStepLabels || hasAnyPageLabels;
                 };
 
-                SharePageService.setPageUrl($scope.getCurrentUrl());
-                SharePageService.setImageUrl(getScreenshotUrlForSharing());
+                SharePageService.setPageUrl($scope.getCurrentUrlForSharing());
+                SharePageService.setImageUrl($scope.getScreenshotUrlForSharing());
             },
             function error(result) {
                 $scope.stepNotFound = true;
@@ -317,11 +317,15 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + step.pageName + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
     };
 
-    $scope.getCurrentUrl = function () {
+    $scope.getCurrentUrlForSharing = function () {
         return $location.absUrl() + createLabelUrl('&', getAllLabels());
     };
 
-    var getScreenshotUrlForSharing = function () {
+    $scope.getCurrentUrl = function() {
+        return $location.absUrl();
+    };
+
+    $scope.getScreenshotUrlForSharing = function () {
         if (SelectedBranchAndBuild.isDefined() !== true) {
             return undefined;
         }
@@ -332,7 +336,22 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             '/scenario/' + scenarioName +
             '/pageName/' + $scope.pageName +
             '/pageOccurrence/' + $scope.pageOccurrence +
-            '/stepInPageOccurrence/' + $scope.stepInPageOccurrence + '/image' + createLabelUrl('?', getAllLabels());
+            '/stepInPageOccurrence/' + $scope.stepInPageOccurrence + '/image.' + getImageFileExtension() + createLabelUrl('?', getAllLabels());
+    };
+
+    var getImageFileExtension = function () {
+        if(angular.isUndefined($scope.step)) {
+            return '';
+        }
+
+        var imageFileName = $scope.step.stepDescription.screenshotFileName;
+
+        if(!angular.isString(imageFileName)) {
+            return '';
+        }
+
+        var fileNameParts = imageFileName.split('.');
+        return fileNameParts[fileNameParts.length - 1];
     };
 
     var getAllLabels = function () {

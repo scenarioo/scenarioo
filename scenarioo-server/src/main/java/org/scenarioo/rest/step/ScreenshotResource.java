@@ -79,7 +79,7 @@ public class ScreenshotResource {
 	 */
 	@GET
 	@Produces("image/jpeg")
-	@Path("pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}/image")
+	@Path("pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}/image.{extension}")
 	public Response getScreenshotStable(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
