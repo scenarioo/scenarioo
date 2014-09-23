@@ -72,12 +72,27 @@
                 <!-- Carousel with Features Overview -->
 		<section id="screenshots" class="clearfix" style="padding:1em;">
 			<script>
+			
 				jssor_slider1_starter = function (containerId) {
-		
+					
+					
+					var _CaptionTransitions = [];
+				            _CaptionTransitions["L"] = { $Duration: 800, $FlyDirection: 1, $Easing: $JssorEasing$.$EaseInCubic };
+				            _CaptionTransitions["R"] = { $Duration: 800, $FlyDirection: 2, $Easing: $JssorEasing$.$EaseInCubic };
+				            _CaptionTransitions["T"] = { $Duration: 800, $FlyDirection: 4, $Easing: $JssorEasing$.$EaseInCubic };
+				            _CaptionTransitions["B"] = { $Duration: 800, $FlyDirection: 8, $Easing: $JssorEasing$.$EaseInCubic };
+				            _CaptionTransitions["TL"] = { $Duration: 800, $FlyDirection: 5, $Easing: $JssorEasing$.$EaseInCubic };
+				            _CaptionTransitions["TR"] = { $Duration: 800, $FlyDirection: 6, $Easing: $JssorEasing$.$EaseInCubic };
+				            _CaptionTransitions["BL"] = { $Duration: 800, $FlyDirection: 9, $Easing: $JssorEasing$.$EaseInCubic };
+				            _CaptionTransitions["BR"] = { $Duration: 800, $FlyDirection: 10, $Easing: $JssorEasing$.$EaseInCubic };
+				
+				            _CaptionTransitions["WAVE|L"] = { $Duration: 1500, $FlyDirection: 5, $Easing: { $Left: $JssorEasing$.$EaseLinear, $Top: $JssorEasing$.$EaseOutWave }, $ScaleVertical: 0.4, $Round: { $Top: 2.5} };
+				            _CaptionTransitions["MCLIP|B"] = { $Duration: 600, $Clip: 8, $Move: true, $Easing: $JssorEasing$.$EaseOutExpo };
+
 					var options = {
 						$AutoPlay: true,                                   //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
 						$SlideDuration: 1500,                                //[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
-		
+						$DragOrientation: 1,                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0)
 						$BulletNavigatorOptions: {                                //[Optional] Options to specify and enable navigator or not
 							$Class: $JssorBulletNavigator$,                       //[Required] Class to create navigator instance
 							$ChanceToShow: 1,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
@@ -91,7 +106,13 @@
 						$ArrowNavigatorOptions: {
 							$Class: $JssorArrowNavigator$,
 							$ChanceToShow: 1
-						}
+						},
+				                $CaptionSliderOptions: {                            //[Optional] Options which specifies how to animate caption
+				                    $Class: $JssorCaptionSlider$,                   //[Required] Class to create instance to animate caption
+				                    $CaptionTransitions: _CaptionTransitions,       //[Required] An array of caption transitions to play caption, see caption transition section at jssor slideshow transition builder
+				                    $PlayInMode: 1,                                 //[Optional] 0 None (no play), 1 Chain (goes after main slide), 3 Chain Flatten (goes after main slide and flatten all caption animations), default value is 1
+				                    $PlayOutMode: 3                                 //[Optional] 0 None (no play), 1 Chain (goes before main slide), 3 Chain Flatten (goes before main slide and flatten all caption animations), default value is 1
+				                }
 					};
 		
 					var jssor_slider1 = new $JssorSlider$(containerId, options);
