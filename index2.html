@@ -22,7 +22,7 @@
 		<script type="text/javascript" src="javascripts/jssor/jssor.utils.js"></script>
 		<script type="text/javascript" src="javascripts/jssor/jssor.slider.js"></script>-->
 
-		<script type="text/javascript" src="javascripts/jssor/jssor.sliders.mini.js"></script>
+		<script type="text/javascript" src="javascripts/jssor/jssor.slider.mini.js"></script>
 
         <title>Scenarioo - Automated documentation of applications through UI tests</title>
     </head>
@@ -56,12 +56,26 @@
 
                 <hr>
                 
+                <section id="introduction">
+                    <h3>
+                        <a name="welcome-to-scenarioo" class="anchor" href="#welcome-to-scenarioo"><span
+                                class="octicon octicon-link"></span></a>Welcome to Scenarioo
+                    </h3>
+
+                    <p>Scenarioo helps you visualizing and documenting the functionalities of your software in a guidebook,
+                        that contains the important user interaction flows of your software, generated out of your UI tests.
+                        Each so called "User Scenario" is presented as step by step page flow with screenshots and any
+                        additional useful information that you want to provide.</p>
+                        
+                </section>
+
+                <!-- Carousel with Features Overview -->
 		<section id="screenshots" class="clearfix" style="padding:1em;">
 			<script>
 				jssor_slider1_starter = function (containerId) {
 		
 					var options = {
-						$AutoPlay: false,                                   //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
+						$AutoPlay: true,                                   //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
 						$SlideDuration: 800,                                //[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
 		
 						$BulletNavigatorOptions: {                                //[Optional] Options to specify and enable navigator or not
@@ -166,9 +180,7 @@
 			<!-- Jssor Slider End -->
 		
 		</section>
-
-                
-
+		
                 <section id="main_content">
                     <h3>
                         <a name="welcome-to-scenarioo" class="anchor" href="#welcome-to-scenarioo"><span
