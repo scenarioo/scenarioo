@@ -108,7 +108,7 @@
 				                    $Class: $JssorCaptionSlider$,                   //[Required] Class to create instance to animate caption
 				                    $CaptionTransitions: _CaptionTransitions,       //[Required] An array of caption transitions to play caption, see caption transition section at jssor slideshow transition builder
 				                    $PlayInMode: 1,                                 //[Optional] 0 None (no play), 1 Chain (goes after main slide), 3 Chain Flatten (goes after main slide and flatten all caption animations), default value is 1
-				                    $PlayOutMode: 3                                 //[Optional] 0 None (no play), 1 Chain (goes before main slide), 3 Chain Flatten (goes before main slide and flatten all caption animations), default value is 1
+				                    $PlayOutMode: 0                                 //[Optional] 0 None (no play), 1 Chain (goes before main slide), 3 Chain Flatten (goes before main slide and flatten all caption animations), default value is 1
 				                }
 					};
 		
@@ -128,7 +128,7 @@
 		            		<!-- Feature Slide No 1: Browsing Use Cases and User Scenarios -->
 					<div>
 						<img u="image" src="img/screenshots/welcome_800.png" />
-						<div u="caption" t="NO" style="position: absolute; top: 0px; left: 0px; width: 600px; height: 50px;">
+						<div u="caption" t="FADE" style="position: absolute; top: 0px; left: 0px; width: 600px; height: 50px;">
 				                    <div style="position: absolute; top: 0px; left: 0px; width: 800px; height: 50px;
 				                        background-color: Black; opacity: 0.5; filter: alpha(opacity=50);">
 				                    </div>
@@ -142,7 +142,7 @@
 					<!-- Feature Slide No 2: Navigate Step by Step through the Screens of a Scenario -->
 					<div>
 						<img u="image" src="img/screenshots/usecases_800.png" />
-						<div u="caption" t="NO" style="position: absolute; top: 0px; left: 0px; width: 600px; height: 50px;">
+						<div u="caption" t="FADE" style="position: absolute; top: 0px; left: 0px; width: 600px; height: 50px;">
 				                    <div style="position: absolute; top: 0px; left: 0px; width: 600px; height: 50px;
 				                        background-color: Black; opacity: 0.5; filter: alpha(opacity=50);">
 				                    </div>
