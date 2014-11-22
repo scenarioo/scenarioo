@@ -55,7 +55,7 @@ angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($sco
     };
 
     $scope.onNavigatorTableHit = function (scenario) {
-        $scope.goToScenario($routeParams.useCaseName, scenario.name);
+        $scope.goToScenario($routeParams.useCaseName, scenario.scenario.name);
     };
 
     $scope.goToFirstStep = function (useCaseName, scenarioName) {
