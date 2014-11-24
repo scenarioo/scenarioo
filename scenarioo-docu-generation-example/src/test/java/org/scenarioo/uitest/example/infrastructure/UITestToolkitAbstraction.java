@@ -66,7 +66,7 @@ public class UITestToolkitAbstraction {
 	private final UITest test;
 	
 	private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, EXAMPLE_BRANCH_NAME,
-			EXAMPLE_BUILD_NAME);
+			MultipleBuildsRule.getCurrentBuildName());
 	
 	private final String lastScreenshot = "";
 	

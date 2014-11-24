@@ -60,7 +60,7 @@ import org.scenarioo.uitest.example.issues.UserStories;
 @DocuDescription(name = "Find Page", description = "User wants to search for a page and read it.")
 @Labels("normal-case")
 public class FindPageUITest extends UITest {
-	
+
 	@Test
 	@DocuDescription(description = "User enters some text and finds multiple pages that contain this text.")
 	@UserStories({ 115 })

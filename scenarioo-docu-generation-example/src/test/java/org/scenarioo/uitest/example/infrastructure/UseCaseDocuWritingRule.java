@@ -58,7 +58,7 @@ public class UseCaseDocuWritingRule implements TestRule {
 		return new Statement() {
 			
 			private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY,
-					EXAMPLE_BRANCH_NAME, EXAMPLE_BUILD_NAME);
+					EXAMPLE_BRANCH_NAME, MultipleBuildsRule.getCurrentBuildName());
 			
 			@Override
 			public void evaluate() throws Throwable {

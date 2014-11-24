@@ -5,8 +5,8 @@ import java.util.Map;
 
 /**
  * This is just a fake of your project's issue tracking system to get the requirements that are linked to your test
- * cases somehow. It could be helpful (if you wish to have this) to implement an integration of your workitems with your
- * Scenarioo documentation to also link your test cases with additional informations from the issue tracking system
+ * cases somehow. It could be helpful (if you wish to have this) to implement an integration of your work items with your
+ * Scenarioo documentation to also link your test cases with additional information from the issue tracking system
  * (e.g. Feature and User Story descriptions, like in this example).
  */
 public class DummyApplicationsIssueTrackingSystem {
@@ -64,4 +64,5 @@ public class DummyApplicationsIssueTrackingSystem {
 					+ item.getDescription() + "[parent=" + item.getParentId() + "]");
 		}
 	}
+	
 }

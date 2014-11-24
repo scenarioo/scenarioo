@@ -59,11 +59,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 	
 	private static final Logger LOGGER = Logger.getLogger(UseCaseDocuWritingRule.class);
 	
-	private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, EXAMPLE_BRANCH_NAME,
-			EXAMPLE_BUILD_NAME);
-	
 	private UseCase useCase;
-	
 	private Scenario scenario;
 	
 	/**
@@ -85,6 +81,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 	 */
 	@Override
 	protected void starting(final Description testMethodDescription) {
+		LOGGER.info("Writing scenario " + testMethodDescription.getMethodName());
 		useCase = UseCaseDocuWritingRule.createUseCase(testMethodDescription.getTestClass());
 		scenario = createScenario(testMethodDescription);
 	}
@@ -168,6 +165,9 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 	}
 	
 	private void writeScenarioDescription(final Description testMethodDescription, final String status) {
+		
+		ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, EXAMPLE_BRANCH_NAME,
+				MultipleBuildsRule.getCurrentBuildName());
 		
 		// Write scenario
 		LOGGER.info("Generating Scenarioo Docu for Scenario " + useCase.getName() + "." + scenario.getName() + " ("

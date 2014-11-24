@@ -53,6 +53,7 @@ public class UITest {
 	 */
 	@Rule
 	public ScenarioDocuWritingRule scenarioWritingRule = new ScenarioDocuWritingRule();
+
 	
 	/**
 	 * This is the application dependent UI abstraction layer, to use for writing your UI tests against.

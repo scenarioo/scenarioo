@@ -44,12 +44,6 @@ public class ExampleUITestDocuGenerationConfig {
 	 */
 	public static final String EXAMPLE_BRANCH_NAME = "example-branch";
 	
-	/**
-	 * An example name for the build in the example. Usually you would use something like current datw, time and
-	 * revision of current build. It is important that this name is unique.
-	 */
-	public static final String EXAMPLE_BUILD_NAME = "example-build";
-	
 	static {
 		// Ensure that the build directory gets precreated, this is not handled by the Scenarioo Docu writer, if
 		// directory does not exist docu generation will fail.
