@@ -40,5 +40,5 @@ test {
     minHeapSize = "128m"
   	maxHeapSize = "512m"
   	scanForTestClasses = false
-  	include 'src/test/java/org/scenarioo/uitest/example/testcases/AllTests.java'
+  	include '**/AllTests.java'
 }
