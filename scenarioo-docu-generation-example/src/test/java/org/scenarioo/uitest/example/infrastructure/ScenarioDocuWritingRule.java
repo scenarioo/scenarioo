@@ -29,7 +29,8 @@
 
 package org.scenarioo.uitest.example.infrastructure;
 
-import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
+import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.DOCU_BUILD_DIRECTORY;
+import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.EXAMPLE_BRANCH_NAME;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -43,6 +44,7 @@ import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.Status;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.docu.entities.generic.Details;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
@@ -149,29 +151,30 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 	}
 	
 	/**
-	 * When test succeeded: Save the scenario with status 'success'
+	 * In real life failing test would actually fail. Here this is not practical. That's why we simulate failing tests.
 	 */
 	@Override
 	protected void succeeded(final Description description) {
-		writeScenarioDescription(description, "success");
+		String methodName = description.getMethodName();
+		String className = description.getTestClass().getSimpleName();
+		
+		Status status = Status.SUCCESS;
+		if(BuildRunConfiguration.isScenarioFailing(className, methodName)) {
+			status = Status.FAILED;
+			LOGGER.info("Failing scenario " + className + "." + "methodName");
+		}
+		
+		writeScenarioDescription(description, status);
 	}
 	
-	/**
-	 * When test failed: Save the scenario with status 'failed'
-	 */
-	@Override
-	protected void failed(final Throwable e, final Description description) {
-		writeScenarioDescription(description, "failed");
-	}
-	
-	private void writeScenarioDescription(final Description testMethodDescription, final String status) {
+	private void writeScenarioDescription(final Description testMethodDescription, Status status) {
 		
 		ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, EXAMPLE_BRANCH_NAME,
 				MultipleBuildsRule.getCurrentBuildName());
 		
 		// Write scenario
 		LOGGER.info("Generating Scenarioo Docu for Scenario " + useCase.getName() + "." + scenario.getName() + " ("
-				+ status + ") : " + scenario.getDescription());
+				+ status.getKeyword() + ") : " + scenario.getDescription());
 		scenario.setStatus(status);
 		docuWriter.saveScenario(useCase, scenario);
 		
