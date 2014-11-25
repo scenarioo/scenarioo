@@ -48,6 +48,9 @@ public class UITest {
 	@ClassRule
 	public static UseCaseDocuWritingRule useCaseWritingRule = new UseCaseDocuWritingRule();
 	
+	@Rule
+	public ScenarioCustomisationRule scenarioCustomisationRule = new ScenarioCustomisationRule();
+	
 	/**
 	 * Rule to write the scenario information for each test
 	 */
