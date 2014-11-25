@@ -72,11 +72,17 @@ public class DummyApplicationStepData {
 	public void setIndex(int index) {
 		this.index = index;
 	}
-
+	
+	/**
+	 * Screenshot filename without ".png" extension.
+	 */
 	public String getScreenshotFileName() {
 		return screenshotFileName;
 	}
 
+	/**
+	 * Screenshot filename without ".png" extension.
+	 */
 	public void setScreenshotFileName(String screenshotFileName) {
 		this.screenshotFileName = screenshotFileName;
 	}

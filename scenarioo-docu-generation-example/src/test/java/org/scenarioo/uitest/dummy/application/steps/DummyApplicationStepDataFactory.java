@@ -256,7 +256,7 @@ public class DummyApplicationStepDataFactory {
 		step.setBrowserUrl(browserUrl);
 		step.setElementTexts(new HashMap<String, String>(elementTexts));
 		step.setIndex(index);
-		step.setScreenshotFileName(screenshotPrefix + stepName + ".png");
+		step.setScreenshotFileName(screenshotPrefix + stepName);
 		step.setSimulationConfig(config);
 		step.setStartBrowserUrl(startBrowserUrl);
 		step.setApplicationStateData(createApplicationsStateData());
