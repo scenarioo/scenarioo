@@ -10,7 +10,7 @@ Please find the complete license text below.
 
 Some parts of the Scenarioo project are even licensed under more relaxed licenses:
 
-The scenarioo-API library part is licensed under GPL license with classpath linking exception, 
+The scenarioo-API libraries are licensed under GPL license with classpath linking exception, 
 such that everybody is allowed to link the scenarioo-api library in their commercial products 
 without having to apply the same license to these products.
 
