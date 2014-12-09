@@ -1,6 +1,7 @@
 package org.scenarioo.model.docu.aggregates.branches;
 
 public class BuildStatistics {
+
 	private int numberOfFailedScenarios;
 	private int numberOfSuccessfulScenarios;
 	private int numberOfUseCases;
@@ -9,7 +10,7 @@ public class BuildStatistics {
 		return numberOfFailedScenarios;
 	}
 
-	public void setNumberOfFailedScenarios(int numberOfFailedScenarios) {
+	public void setNumberOfFailedScenarios(final int numberOfFailedScenarios) {
 		this.numberOfFailedScenarios = numberOfFailedScenarios;
 	}
 
@@ -17,15 +18,17 @@ public class BuildStatistics {
 		return numberOfSuccessfulScenarios;
 	}
 
-	public void setNumberOfSuccessfulScenarios(int numberOfSuccessfulScenarios) {
+	public void setNumberOfSuccessfulScenarios(final int numberOfSuccessfulScenarios) {
 		this.numberOfSuccessfulScenarios = numberOfSuccessfulScenarios;
 	}
+
 
 	public int getNumberOfUseCases() {
 		return numberOfUseCases;
 	}
 
-	public void setNumberOfUseCases(int numberOfUseCases) {
+
+	public void setNumberOfUseCases(final int numberOfUseCases) {
 		this.numberOfUseCases = numberOfUseCases;
 	}
 
