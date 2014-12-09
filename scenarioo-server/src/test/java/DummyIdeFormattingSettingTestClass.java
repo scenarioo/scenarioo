@@ -28,7 +28,7 @@ public class DummyIdeFormattingSettingTestClass {
 	
 	public void test_method_that_can_be_used_to_check_formatting_on_auto_save_inside() {
 		// put your code to format here
-		// bla
+
 		// then check that no other line of this class gets formatted unexpectedly
 	}
 	
@@ -37,22 +37,22 @@ public class DummyIdeFormattingSettingTestClass {
 	 * when having line breaks in between
 	 * like in this comment
 	 */
-	public void below_this_method_is_a_indented_empty_line(String str) {
+	public void below_this_method_is_a_indented_empty_line() {
 		/*
 		 * 
 		 * comments should never be joined
-	     * when having line breaks in between
-	     * like in this comment
+		 * when having line breaks in between
+		 * like in this comment
 		 */
 	}
 	
-	public void below_this_method_is_no_indented_empty_line(String str) {
+	public void below_this_method_is_no_indented_empty_line() {
 		// just an empty code block
 	}
 
-	public void below_this_method_is_another_indented_empty_line(String str) {
-		// just a dummy empty code block with automatic line wrapping due to formatitng correctly bal bla bla bla bla
-		// bla bla bla bla bla bla bla
+	public void below_this_method_is_another_indented_empty_line() {
+		// just a dummy empty code block with automatic line wrapping due to formatting correctly bla bla bla bla bla
+		// bla bla bla bla bla bla bla bla bla bla
 	}
 	
 }
