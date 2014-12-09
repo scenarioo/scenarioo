@@ -9,6 +9,7 @@ scenarioo.describeUseCase('Manage', function () {
         var branchAliasesPage = new pages.branchAliasesPage();
 
         browser.get('#/manage?tab=branchAliases');
+        homePage.closeScenariooInfoDialogIfOpen();
         scenarioo.docuWriter.saveStep('display the manage branch aliases page');
 
         branchAliasesPage.assertNumberOfAliases(0);
@@ -39,5 +40,8 @@ scenarioo.describeUseCase('Manage', function () {
         branchAliasesPage.save();
         branchAliasesPage.assertDuplicateAliasError();
         scenarioo.docuWriter.saveStep('duplicate aliases are not allowed');
+        branchAliasesPage.deleteAlias(0);
+        branchAliasesPage.deleteAlias(0);
+        branchAliasesPage.save();
     });
 });

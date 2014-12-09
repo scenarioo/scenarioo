@@ -24,7 +24,7 @@ scenarioo.describeUseCase('Branch aliases', function () {
 
         browser.get('#');
 
-        homePage.selectUseCase(0);
+        homePage.selectUseCase(1);
         usecasePage.selectScenario(0);
         scenarioPage.openStepByName('Step 1: Wikipedia Suche');
         stepPage.assertPreviousStepIsDisabled();

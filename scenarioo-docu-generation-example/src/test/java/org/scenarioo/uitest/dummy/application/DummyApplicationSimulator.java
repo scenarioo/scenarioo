@@ -29,17 +29,12 @@
 
 package org.scenarioo.uitest.dummy.application;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 import org.scenarioo.uitest.dummy.application.steps.DummyApplicationStepData;
 import org.scenarioo.uitest.dummy.application.steps.DummyApplicationStepDataFactory;
-import org.scenarioo.uitest.example.infrastructure.MultipleBuildsRule;
+import org.scenarioo.uitest.example.infrastructure.PngLoader;
 
 /**
  * Just a simple fake application simulator for the example.
@@ -53,8 +48,6 @@ import org.scenarioo.uitest.example.infrastructure.MultipleBuildsRule;
  * Example application screenshots taken from http://www.wikipedia.org/
  */
 public class DummyApplicationSimulator {
-	
-	private static final Logger LOGGER = Logger.getLogger(DummyApplicationSimulator.class);
 	
 	private static final ThreadLocal<DummySimulationConfig> currentConfiguration = new ThreadLocal<DummySimulationConfig>();
 	
@@ -71,53 +64,7 @@ public class DummyApplicationSimulator {
 	public byte[] getScreenshot(final String url, final int index) {
 		String fileName = getApplicationStepData(url, index)
 				.getScreenshotFileName();
-		return loadPngFile(fileName);
-	}
-	
-	/**
-	 * Load example screenshot image as a base64 encoded image.
-	 */
-	private byte[] loadPngFile(final String fileName) {
-		URL url = getImageUrl(fileName);
-		
-		if (url == null) {
-			throw new IllegalArgumentException(
-					"Simulated application does not provide screenshot for current application state, example screenshot not found:"
-							+ "example/screenshots/" + fileName + ".png");
-		}
-		
-		File screenshotFile;
-		try {
-			screenshotFile = new File(url.toURI());
-			if (!screenshotFile.exists()) {
-				throw new IllegalArgumentException(
-						"Simulated application does not provide screenshot for current application state, file not found:"
-								+ screenshotFile.getAbsolutePath());
-			}
-		} catch (URISyntaxException e) {
-			throw new IllegalArgumentException(
-					"Simulated application does not provide screenshot for current application state, file not found:"
-							+ url, e);
-		}
-		try {
-			return FileUtils.readFileToByteArray(screenshotFile);
-		} catch (Exception e) {
-			throw new RuntimeException("Could not write image: "
-					+ screenshotFile.getAbsolutePath(), e);
-		}
-	}
-
-	/**
-	 * It is possible to define a special image for each build run. If no special image is defined, the default is used.
-	 */
-	private URL getImageUrl(final String fileName) {
-		URL url = getClass().getClassLoader().getResource("example/screenshots/" + fileName + "." + MultipleBuildsRule.getCurrentBuildName() + ".png");
-		if(url == null) {
-			url = getClass().getClassLoader().getResource("example/screenshots/" + fileName + ".png");
-		} else {
-			LOGGER.info("Specific image for build run " + MultipleBuildsRule.getCurrentBuildName() + " found.");
-		}
-		return url;
+		return PngLoader.loadPngFile(fileName);
 	}
 	
 	public String getBrowserUrl(final String url, final int index) {

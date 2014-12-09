@@ -19,7 +19,7 @@ scenarioo.describeUseCase('Step', function () {
         homePage.closeScenariooInfoDialogIfOpen();
         scenarioo.docuWriter.saveStep('Display home page with list of use cases');
 
-        homePage.selectUseCase(0);
+        homePage.selectUseCase(1);
         scenarioo.docuWriter.saveStep('Display list of scenarios');
 
         usecasePage.selectScenario(0);
