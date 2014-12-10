@@ -35,7 +35,9 @@ import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.Status;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
@@ -56,9 +58,9 @@ import org.scenarioo.rest.base.BuildIdentifier;
  */
 public class ScenarioDocuAggregator {
 	
-	private static final String SUCCESS_STATE = "success";
+	private static final String SUCCESS_STATE = Status.SUCCESS.getKeyword();
 	
-	private static final String FAILED_STATE = "failed";
+	private static final String FAILED_STATE = Status.FAILED.getKeyword();
 	
 	/**
 	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
@@ -72,10 +74,13 @@ public class ScenarioDocuAggregator {
 			.getConfigurationRepository();
 	
 	/**
-	 * The build this aggregator is currently aggregating.
+	 * Import summary of the build currently being aggregated. Contains all info
+	 * about the build and can be used to store summary information (like
+	 * warnings, status, etc.) about the import process and aggregation beeing
+	 * executed on it.
 	 */
-	private final BuildIdentifier buildIdentifier;
-	
+	private final BuildImportSummary buildSummary;
+
 	private final ScenarioDocuReader reader = new ScenarioDocuReader(
 			configurationRepository.getDocumentationDataDirectory());
 	
@@ -89,58 +94,80 @@ public class ScenarioDocuAggregator {
 	private StepsAndPagesAggregator stepsAndPagesAggregator;
 	
 	private ObjectRepository objectRepository;
-	
-	public ScenarioDocuAggregator(final BuildIdentifier buildIdentifier) {
-		this.buildIdentifier = buildIdentifier;
+
+	public ScenarioDocuAggregator(final BuildImportSummary buildSummary) {
+		this.buildSummary = buildSummary;
+	}
+
+	private BuildIdentifier getBuildIdentifier() {
+		return buildSummary.getIdentifier();
 	}
 	
 	public boolean isAggregatedDataForBuildAlreadyAvailableAndCurrentVersion() {
-		String version = dao.loadVersion(buildIdentifier);
+		String version = dao.loadVersion(getBuildIdentifier());
 		return !StringUtils.isBlank(version) && version.equals(CURRENT_FILE_FORMAT_VERSION);
 	}
-	
+
 	public void removeAggregatedDataForBuild() {
-		dao.deleteDerivedFiles(buildIdentifier);
-		objectRepository = new ObjectRepository(buildIdentifier, dao);
+		dao.deleteDerivedFiles(getBuildIdentifier());
+		objectRepository = new ObjectRepository(getBuildIdentifier(), dao);
 		objectRepository.removeAnyExistingObjectData();
 	}
-	
+
 	public void calculateAggregatedDataForBuild() {
-		stepsAndPagesAggregator = new StepsAndPagesAggregator(buildIdentifier, dao);
-		
-		objectRepository = new ObjectRepository(buildIdentifier, dao);
+		stepsAndPagesAggregator = new StepsAndPagesAggregator(getBuildIdentifier(), dao);
+
+		objectRepository = new ObjectRepository(getBuildIdentifier(), dao);
 		objectRepository.removeAnyExistingObjectData();
 		
-		LOGGER.info("  calculating aggregated data for build " + buildIdentifier + " ... ");
+		LOGGER.info("  calculating aggregated data for build " + getBuildIdentifier() + " ... ");
 		UseCaseScenariosList useCaseScenariosList = calculateUseCaseScenariosList();
 		for (UseCaseScenarios scenarios : useCaseScenariosList.getUseCaseScenarios()) {
 			calulateAggregatedDataForUseCase(scenarios);
-			buildStatistics.incrementUseCase();
+			addUsecaseToBuildStatistics(scenarios.getUseCase());
 		}
-		
 		stepsAndPagesAggregator.completeAggregatedPageVariantDataInStepNavigations();
-		
-		dao.saveUseCaseScenariosList(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
-				useCaseScenariosList);
-		
+
+		saveAggregatedBuildStatusInBuildDescriptionIfEmpty();
+
+		dao.saveUseCaseScenariosList(getBuildIdentifier(), useCaseScenariosList);
+
 		objectRepository.calculateAndSaveObjectLists();
-		
+
 		objectRepository.saveCustomObjectTabTrees();
-		
-		dao.saveLongObjectNamesIndex(buildIdentifier, longObjectNamesResolver);
-		
-		dao.saveVersion(buildIdentifier, CURRENT_FILE_FORMAT_VERSION);
+
+		dao.saveLongObjectNamesIndex(getBuildIdentifier(), longObjectNamesResolver);
+
+		dao.saveVersion(getBuildIdentifier(), CURRENT_FILE_FORMAT_VERSION);
+
+		buildSummary.setBuildStatistics(buildStatistics);
 	}
-	
+
+	private void saveAggregatedBuildStatusInBuildDescriptionIfEmpty() {
+		Build build = buildSummary.getBuildDescription();
+		if (StringUtils.isEmpty(build.getStatus())) {
+			build.setStatus(getBuildStatus(buildStatistics));
+			dao.saveBuild(getBuildIdentifier().getBranchName(), build);
+		}
+	}
+
+	private Status getBuildStatus(final BuildStatistics buildStatistics) {
+		if (buildStatistics.getNumberOfFailedScenarios() > 0 || buildStatistics.getNumberOfFailedUsecases() > 0) {
+			return Status.FAILED;
+		} else {
+			return Status.SUCCESS;
+		}
+	}
+
 	private UseCaseScenariosList calculateUseCaseScenariosList() {
-		
+
 		UseCaseScenariosList result = new UseCaseScenariosList();
 		List<UseCaseScenarios> useCaseScenarios = new ArrayList<UseCaseScenarios>();
-		List<UseCase> usecases = reader.loadUsecases(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+		List<UseCase> usecases = reader.loadUsecases(getBuildIdentifier().getBranchName(), getBuildIdentifier().getBuildName());
 		for (UseCase usecase : usecases) {
 			UseCaseScenarios useCaseWithScenarios = new UseCaseScenarios();
-			List<Scenario> scenarios = reader.loadScenarios(buildIdentifier.getBranchName(),
-					buildIdentifier.getBuildName(), usecase.getName());
+			List<Scenario> scenarios = reader.loadScenarios(getBuildIdentifier().getBranchName(),
+					getBuildIdentifier().getBuildName(), usecase.getName());
 			
 			boolean atLeastOneScenarioFailed = false;
 			for (Scenario scenario : scenarios) {
@@ -181,22 +208,32 @@ public class ScenarioDocuAggregator {
 		
 		List<ObjectReference> referencePath = objectRepository.addReferencedUseCaseObjects(useCaseScenarios
 				.getUseCase());
-		
+
 		for (ScenarioSummary scenario : useCaseScenarios.getScenarios()) {
 			try {
 				calculateAggregatedDataForScenario(referencePath, useCaseScenarios.getUseCase(), scenario);
-				addScenarioStatistics(scenario.getScenario());
+				addScenarioToBuildStatistics(scenario.getScenario());
 			} catch (ResourceNotFoundException ex) {
 				LOGGER.warn("could not load scenario " + scenario.getScenario().getName() + " in use case"
 						+ useCaseScenarios.getUseCase().getName());
 			}
 		}
-		dao.saveUseCaseScenarios(buildIdentifier, useCaseScenarios);
+
+		dao.saveUseCaseScenarios(getBuildIdentifier(), useCaseScenarios);
 		
 		objectRepository.updateAndSaveObjectIndexesForCurrentCase();
 	}
+
+	private void addUsecaseToBuildStatistics(final UseCase usecase) {
+		String status = usecase.getStatus();
+		if (SUCCESS_STATE.equals(status)) {
+			buildStatistics.incrementSuccessfulUseCase();
+		} else if (FAILED_STATE.equals(status)) {
+			buildStatistics.incrementFailedUseCase();
+		}
+	}
 	
-	private void addScenarioStatistics(final Scenario scenario) {
+	private void addScenarioToBuildStatistics(final Scenario scenario) {
 		String status = scenario.getStatus();
 		if (SUCCESS_STATE.equals(status)) {
 			buildStatistics.incrementSuccessfulScenario();
@@ -216,7 +253,7 @@ public class ScenarioDocuAggregator {
 		
 		scenarioSummary.setNumberOfSteps(scenarioPageSteps.getTotalNumberOfStepsInScenario());
 		
-		dao.saveScenarioPageSteps(buildIdentifier, scenarioPageSteps);
+		dao.saveScenarioPageSteps(getBuildIdentifier(), scenarioPageSteps);
 	}
 	
 	private ScenarioPageSteps calculateAggregatedDataForSteps(final UseCase usecase, final Scenario scenario,
@@ -225,17 +262,15 @@ public class ScenarioDocuAggregator {
 		ScenarioPageSteps scenarioPageSteps = new ScenarioPageSteps();
 		scenarioPageSteps.setUseCase(usecase);
 		scenarioPageSteps.setScenario(scenario);
-		List<Step> steps = reader.loadSteps(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
-				usecase.getName(), scenario.getName());
+		List<Step> steps = reader.loadSteps(getBuildIdentifier().getBranchName(), getBuildIdentifier().getBuildName(), usecase.getName(), scenario.getName());
 		PageNameSanitizer.sanitizePageNames(steps);
-		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(usecase, scenario, steps,
-				referencePath, objectRepository);
+		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(usecase, scenario, steps, referencePath, objectRepository);
 		scenarioPageSteps.setPagesAndSteps(pageStepsList);
 		
 		return scenarioPageSteps;
 	}
-	
-	public void updateBuildSummary(final BuildImportSummary buildSummary, final BuildLink buildLink) {
+
+	public void updateBuildSummary(final BuildLink buildLink) {
 		BuildIdentifier buildIdentifier = buildSummary.getIdentifier();
 		buildSummary.setBuildDescription(buildLink.getBuild());
 		String version = dao.loadVersion(buildIdentifier);

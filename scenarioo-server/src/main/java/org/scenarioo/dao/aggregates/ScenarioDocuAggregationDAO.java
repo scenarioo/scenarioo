@@ -31,6 +31,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.api.files.ObjectFromDirectory;
 import org.scenarioo.api.util.files.FilesUtil;
@@ -76,6 +77,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	
 	private static final String VERSION_PROPERTY_KEY = "scenarioo.derived.file.format.version";
 	
+	final File rootDirectory;
 	private final ScenarioDocuAggregationFiles files;
 	private final ScenarioDocuReader scenarioDocuReader;
 	
@@ -83,6 +85,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	
 	public ScenarioDocuAggregationDAO(final File rootDirectory) {
+		this.rootDirectory = rootDirectory;
 		files = new ScenarioDocuAggregationFiles(rootDirectory);
 		scenarioDocuReader = new ScenarioDocuReader(rootDirectory);
 	}
@@ -122,7 +125,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	 */
 	@Override
 	public List<UseCaseScenarios> loadUseCaseScenariosList(final BuildIdentifier buildIdentifier) {
-		File file = files.getUseCasesAndScenariosFile(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+		File file = files.getUseCasesAndScenariosFile(buildIdentifier);
 		UseCaseScenariosList list = ScenarioDocuXMLFileUtil.unmarshal(UseCaseScenariosList.class, file);
 		return list.getUseCaseScenarios();
 	}
@@ -194,10 +197,10 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 			ResourceUtils.close(fileWriter, file.getAbsolutePath());
 		}
 	}
-	
-	public void saveUseCaseScenariosList(final String branchName, final String buildName,
+
+	public void saveUseCaseScenariosList(final BuildIdentifier buildIdentifier,
 			final UseCaseScenariosList useCaseScenariosList) {
-		File file = files.getUseCasesAndScenariosFile(branchName, buildName);
+		File file = files.getUseCasesAndScenariosFile(buildIdentifier);
 		ScenarioDocuXMLFileUtil.marshal(useCaseScenariosList, file);
 	}
 	
@@ -438,5 +441,15 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 			link.setDisplayName(LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_DISPLAY_NAME);
 		}
 	}
-	
+
+	public Build loadBuild(final BuildIdentifier buildIdentifier) {
+		return scenarioDocuReader.loadBuild(buildIdentifier.getBranchName(),
+				buildIdentifier.getBuildName());
+	}
+
+	public void saveBuild(final String branchName, final Build build) {
+		ScenarioDocuWriter writer = new ScenarioDocuWriter(this.rootDirectory,
+				branchName, build.getName());
+		writer.saveBuildDescription(build);
+	}
 }

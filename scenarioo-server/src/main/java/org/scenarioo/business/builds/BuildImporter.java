@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -44,7 +44,7 @@ import org.scenarioo.rest.base.BuildIdentifier;
  * Takes care of importing builds.
  */
 public class BuildImporter {
-	
+
 	private static final Logger LOGGER = Logger.getLogger(BuildImporter.class);
 	
 	private static final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
@@ -54,7 +54,7 @@ public class BuildImporter {
 	 * Current state for all builds whether imported and aggregated correctly.
 	 */
 	private Map<BuildIdentifier, BuildImportSummary> buildImportSummaries = new HashMap<BuildIdentifier, BuildImportSummary>();
-	
+
 	/**
 	 * Builds that have been scheduled for processing (waiting for import)
 	 */
@@ -92,12 +92,11 @@ public class BuildImporter {
 				if (buildSummary == null) {
 					buildSummary = new BuildImportSummary(branchBuilds.getBranch().getName(), buildLink.getBuild());
 				}
-				ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator(buildIdentifier);
-				aggregator.updateBuildSummary(buildSummary, buildLink);
+				ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator(buildSummary);
+				aggregator.updateBuildSummary(buildLink);
 				if (buildsBeeingImported.contains(buildIdentifier)) {
 					buildSummary.setStatus(BuildImportStatus.PROCESSING);
-				}
-				else if (buildsInProcessingQueue.contains(buildIdentifier)) {
+				} else if (buildsInProcessingQueue.contains(buildIdentifier)) {
 					buildSummary.setStatus(BuildImportStatus.QUEUED_FOR_PROCESSING);
 				}
 				result.put(buildIdentifier, buildSummary);
@@ -138,7 +137,7 @@ public class BuildImporter {
 		
 		availableBuilds.removeBuild(buildIdentifier);
 		summary.setStatus(BuildImportStatus.UNPROCESSED);
-		ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator(buildIdentifier);
+		ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator(summary);
 		aggregator.removeAggregatedDataForBuild();
 	}
 	
@@ -186,10 +185,9 @@ public class BuildImporter {
 			summary = buildImportSummaries.get(summary.getIdentifier());
 			summary.setStatus(BuildImportStatus.PROCESSING);
 			
-			ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator(summary.getIdentifier());
+			ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator(summary);
 			if (!aggregator.isAggregatedDataForBuildAlreadyAvailableAndCurrentVersion()) {
 				aggregator.calculateAggregatedDataForBuild();
-				summary.setBuildStatistics(aggregator.getBuildStatistics());
 				addSuccessfullyImportedBuild(availableBuilds, summary);
 				lastSuccessfulScenarioBuild.updateLastSuccessfulScenarioBuild(summary, this, availableBuilds);
 				LOGGER.info("  SUCCESS on importing build: " + summary.getIdentifier().getBranchName() + "/"

@@ -60,9 +60,9 @@ public class ScenarioDocuAggregationFiles {
 		return new File(docuFiles.getBuildDirectory(buildIdentifier.getBranchName(), buildIdentifier.getBuildName()),
 				FILENAME_VERSION_PROPERTIES);
 	}
-	
-	public File getUseCasesAndScenariosFile(final String branchName, final String buildName) {
-		File buildDir = docuFiles.getBuildDirectory(branchName, buildName);
+
+	public File getUseCasesAndScenariosFile(final BuildIdentifier buildIdentifier) {
+		File buildDir = docuFiles.getBuildDirectory(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		return new File(buildDir, FILENAME_USECASES_XML);
 	}
 	

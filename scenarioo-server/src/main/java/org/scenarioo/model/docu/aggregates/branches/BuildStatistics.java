@@ -4,7 +4,8 @@ public class BuildStatistics {
 
 	private int numberOfFailedScenarios;
 	private int numberOfSuccessfulScenarios;
-	private int numberOfUseCases;
+	private int numberOfSuccessfulUseCases;
+	private int numberOfFailedUseCases;
 
 	public int getNumberOfFailedScenarios() {
 		return numberOfFailedScenarios;
@@ -23,13 +24,21 @@ public class BuildStatistics {
 	}
 
 
-	public int getNumberOfUseCases() {
-		return numberOfUseCases;
+	public int getNumberOfSuccessfulUseCases() {
+		return numberOfSuccessfulUseCases;
 	}
 
 
-	public void setNumberOfUseCases(final int numberOfUseCases) {
-		this.numberOfUseCases = numberOfUseCases;
+	public void setNumberOfSuccessfulUseCases(final int numberOfUseCases) {
+		this.numberOfSuccessfulUseCases = numberOfUseCases;
+	}
+
+	public int getNumberOfFailedUsecases() {
+		return numberOfFailedUseCases;
+	}
+
+	public void setNumberOfFailedUseCases(final int numberOfFailedUseCases) {
+		this.numberOfFailedUseCases = numberOfFailedUseCases;
 	}
 
 	public void incrementSuccessfulScenario() {
@@ -40,7 +49,13 @@ public class BuildStatistics {
 		numberOfFailedScenarios++;
 	}
 
-	public void incrementUseCase() {
-		numberOfUseCases++;
+	public void incrementSuccessfulUseCase() {
+		numberOfSuccessfulUseCases++;
 	}
+
+	public void incrementFailedUseCase() {
+		numberOfFailedUseCases++;
+	}
+
+
 }
