@@ -8,7 +8,7 @@ import org.scenarioo.uitest.example.builds.SaveBranchAndBuildDescriptionExampleT
 import org.scenarioo.uitest.example.infrastructure.MultipleBuildsRule;
 
 @RunWith(Suite.class)
-@SuiteClasses({FindPageUITest.class, SwitchLanguageUITest.class, TechnicalCornerCasesUITest.class, SaveBranchAndBuildDescriptionExampleTest.class})
+@SuiteClasses({FindPageUITest.class, SwitchLanguageUITest.class, TechnicalCornerCasesUITest.class, DonateTest.class, SaveBranchAndBuildDescriptionExampleTest.class})
 public class AllTests {
 	
 	@ClassRule

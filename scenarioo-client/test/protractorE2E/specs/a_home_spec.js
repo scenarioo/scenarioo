@@ -4,7 +4,7 @@ var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
 
-var NUMBER_OF_USE_CASES = 3;
+var NUMBER_OF_USE_CASES = 4;
 
 scenarioo.describeUseCase('Home', function () {
     browser.driver.manage().window().maximize();
