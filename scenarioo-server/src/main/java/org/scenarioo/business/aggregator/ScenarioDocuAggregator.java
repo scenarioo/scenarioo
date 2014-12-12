@@ -66,7 +66,7 @@ public class ScenarioDocuAggregator {
 	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
 	 * otherwise the data has to be recalculated.
 	 */
-	public static final String CURRENT_FILE_FORMAT_VERSION = "2.0.0";
+	public static final String CURRENT_FILE_FORMAT_VERSION = "2.0.1.dev1";
 	
 	private final static Logger LOGGER = Logger.getLogger(ScenarioDocuAggregator.class);
 	
@@ -152,7 +152,7 @@ public class ScenarioDocuAggregator {
 	}
 
 	private Status getBuildStatus(final BuildStatistics buildStatistics) {
-		if (buildStatistics.getNumberOfFailedScenarios() > 0 || buildStatistics.getNumberOfFailedUsecases() > 0) {
+		if (buildStatistics.getNumberOfFailedScenarios() > 0 || buildStatistics.getNumberOfFailedUseCases() > 0) {
 			return Status.FAILED;
 		} else {
 			return Status.SUCCESS;
