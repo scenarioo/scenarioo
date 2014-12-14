@@ -69,15 +69,15 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
 
     $scope.getBranchDisplayName = function(wrappedBranch) {
 
-      if (wrappedBranch === undefined) {
-        return;
-      }
+        if (wrappedBranch === undefined) {
+            return null;
+        }
 
-      var displayName = wrappedBranch.branch.name;
-      if (wrappedBranch.alias) {
-        displayName = displayName + ' (' + wrappedBranch.branch.description + ')';
-      }
-      return displayName;
+        var displayName = wrappedBranch.branch.name;
+        if (wrappedBranch.alias) {
+            displayName = displayName + ' (' + wrappedBranch.branch.description + ')';
+        }
+        return displayName;
     };
 
     $scope.isBuildAlias = function (build) {
