@@ -31,14 +31,11 @@ package org.scenarioo.uitest.example.builds;
 
 import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
 
-import java.util.Date;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.model.docu.entities.Branch;
-import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.uitest.example.infrastructure.MultipleBuildsRule;
 
 /**
