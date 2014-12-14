@@ -67,6 +67,19 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
         }
     };
 
+    $scope.getBranchDisplayName = function(wrappedBranch) {
+
+      if (wrappedBranch === undefined) {
+        return;
+      }
+
+      var displayName = wrappedBranch.branch.name;
+      if (wrappedBranch.alias) {
+        displayName = displayName + ' (' + wrappedBranch.branch.description + ')';
+      }
+      return displayName;
+    };
+
     $scope.isBuildAlias = function (build) {
         if (angular.isUndefined(build)) {
             return false;

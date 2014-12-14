@@ -32,8 +32,8 @@ scenarioo.describeUseCase('Branch aliases', function () {
 
         // Restore initial state for other tests
         browser.get('#/manage?tab=branchAliases');
-        branchAliasesPage.chooseBranch('example-branch');
         branchAliasesPage.deleteAlias(0);
         branchAliasesPage.save();
+        branchAliasesPage.chooseBranch('example-branch');
     });
 });
