@@ -58,10 +58,6 @@ import org.scenarioo.rest.base.BuildIdentifier;
  */
 public class ScenarioDocuAggregator {
 	
-	private static final String SUCCESS_STATE = Status.SUCCESS.getKeyword();
-	
-	private static final String FAILED_STATE = Status.FAILED.getKeyword();
-	
 	/**
 	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
 	 * otherwise the data has to be recalculated.
@@ -70,6 +66,10 @@ public class ScenarioDocuAggregator {
 	
 	private final static Logger LOGGER = Logger.getLogger(ScenarioDocuAggregator.class);
 	
+	private static final String SUCCESS_STATE = Status.SUCCESS.getKeyword();
+
+	private static final String FAILED_STATE = Status.FAILED.getKeyword();
+
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 	
