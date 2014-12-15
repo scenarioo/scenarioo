@@ -237,7 +237,7 @@ public class AvailableBuildsList {
 				if (isMoreRecentThan(build, mostRecentBuild)) {
 					mostRecentBuild = build;
 				}
-				if (build.getBuild().getStatus().equals(buildSuccessState)
+				if (buildSuccessState.equals(build.getBuild().getStatus())
 						&& isMoreRecentThan(build, lastSuccessfulBuild)) {
 					lastSuccessfulBuild = build;
 				}
