@@ -6,7 +6,7 @@ var pages = require('./../webPages');
 
 var NUMBER_OF_USE_CASES = 4;
 
-scenarioo.describeUseCase('Home', function () {
+scenarioo.describeUseCase('List use cases', function () {
     browser.driver.manage().window().maximize();
 
     scenarioo.describeScenario('Navigate to the Home Page, display popup without cookie', function () {
