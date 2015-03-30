@@ -3,7 +3,7 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-scenarioo.describeUseCase('Object details', function () {
+scenarioo.describeUseCase('Browse object details', function () {
 
     scenarioo.describeScenario('Only the first child from root-node is expanded initially. All further nodes are collapsed', function () {
         var homePage = new pages.homePage();
