@@ -3,7 +3,7 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-scenarioo.describeUseCase('Step', function () {
+scenarioo.describeUseCase('Browse page variants', function () {
 
     var homePage = new pages.homePage();
     var stepPage = new pages.stepPage();

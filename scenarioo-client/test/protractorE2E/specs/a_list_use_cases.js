@@ -1,12 +1,16 @@
 'use strict';
 
+// TODO [#389] This file is prefixed with a_ so that the test method that tests the "first time popup" is always executed first.
+// This should not be required anymore, see linked issue.
+
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
 
 var NUMBER_OF_USE_CASES = 4;
 
-scenarioo.describeUseCase('Home', function () {
+
+scenarioo.describeUseCase('List use cases', function () {
     browser.driver.manage().window().maximize();
 
     scenarioo.describeScenario('Navigate to the Home Page, display popup without cookie', function () {

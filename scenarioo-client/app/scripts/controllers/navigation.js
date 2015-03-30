@@ -51,21 +51,29 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
 
     $scope.updating = false;
 
-    $scope.getDisplayName = function (build) {
+    $scope.getDisplayNameForBuild = function(build, returnShortText) {
         if (angular.isUndefined(build)) {
             return '';
         }
 
-        if(angular.isDefined(build.displayName) && build.displayName !== null) {
-            return build.displayName;
+        if(angular.isDefined(build.getDisplayNameForBuild) && build.getDisplayNameForBuild !== null) {
+            return build.getDisplayNameForBuild;
         }
 
         if ($scope.isBuildAlias(build)) {
-            return build.linkName;
+            return getDisplayNameForAliasBuild(build, returnShortText);
         } else {
-            return 'Revision: ' + build.build.revision;
+            return 'Revision ' + build.build.revision;
         }
     };
+
+    function getDisplayNameForAliasBuild(build, returnShortText) {
+        if(returnShortText){
+            return build.linkName;
+        } else {
+            return build.linkName + ': ' + build.build.revision;
+        }
+    }
 
     $scope.getBranchDisplayName = function(wrappedBranch) {
 
@@ -93,7 +101,7 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
             return false;
         }
 
-        return 'last successful scenarios' === build.displayName;
+        return 'last successful scenarios' === build.getDisplayNameForBuild;
     };
 
     GlobalHotkeysService.registerGlobalHotkey('i', function () {

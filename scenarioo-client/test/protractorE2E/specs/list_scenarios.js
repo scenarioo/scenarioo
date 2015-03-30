@@ -4,7 +4,7 @@ var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 var NUMBER_OF_USE_CASES = 4;
 
-scenarioo.describeUseCase('Scenario overview', function () {
+scenarioo.describeUseCase('list_scenarios', function () {
 
     scenarioo.describeScenario('Expand all, collapse all on scenario page', function () {
         var homePage = new pages.homePage();

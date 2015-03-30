@@ -3,7 +3,8 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-scenarioo.describeUseCase('Manage', function () {
+scenarioo.describeUseCase('Manage branch aliases', function () {
+
     scenarioo.describeScenario('Manage branch aliases', function () {
         var homePage = new pages.homePage();
         var branchAliasesPage = new pages.branchAliasesPage();
@@ -44,4 +45,5 @@ scenarioo.describeUseCase('Manage', function () {
         branchAliasesPage.deleteAlias(0);
         branchAliasesPage.save();
     });
+
 });

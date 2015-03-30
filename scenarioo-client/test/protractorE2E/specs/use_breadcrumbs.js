@@ -4,7 +4,7 @@ var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
 
-scenarioo.describeUseCase('Breadcrumbs', function () {
+scenarioo.describeUseCase('Use breadcrumbs', function () {
 
     scenarioo.describeScenario('Navigate to the Home Page, filter for one usecase select scenario click on breadcrumb',
         function () {
@@ -34,7 +34,8 @@ scenarioo.describeUseCase('Breadcrumbs', function () {
 
             breadcrumpsPage.clickOnBreadcrumb('breadcrumb_0');
             scenarioo.docuWriter.saveStep('Clicked on home breadcrumb');
-        });
+        }
+    );
 
     scenarioo.describeScenario('Navigate to scenario and test for tooltip',
         function () {
@@ -47,5 +48,7 @@ scenarioo.describeUseCase('Breadcrumbs', function () {
                 'text on page from multiple results');
             scenarioo.docuWriter.saveStep('Test that tooltip explicit exists');
 
-        });
+        }
+    );
+
 });
