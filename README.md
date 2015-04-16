@@ -1,4 +1,4 @@
-Demo-Smoketest: [![Demo Smoketest Status](http://54.88.202.24:8081/job/smoketest/badge/icon)](http://54.88.202.24:8081/job/smoketest) CI Scenarioo Sketcher Fork: [![CI Status Master Branch](http://54.88.202.24:8081/job/scenarioo-fork-mockups/badge/icon)](http://54.88.202.24:8081/job/scenarioo-fork-mockups/r)
+Demo-Smoketest: [![Demo Smoketest Status](http://54.88.202.24:8081/job/smoketest/badge/icon)](http://54.88.202.24:8081/job/smoketest) CI Scenarioo Sketcher Fork: [![CI Status Master Branch](http://54.88.202.24:8081/job/scenarioo-fork-mockups/badge/icon)](http://54.88.202.24:8081/job/scenarioo-fork-mockups)
 
 Scenarioo
 ==========
