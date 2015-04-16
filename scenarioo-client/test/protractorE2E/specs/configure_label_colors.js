@@ -3,7 +3,8 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-scenarioo.describeUseCase('Label configuration', function () {
+scenarioo.describeUseCase('Configure label colors', function () {
+
     scenarioo.describeScenario('Create, edit and delete label configurations', function () {
         var labelConfigurationsPage = new pages.labelConfigurationsPage();
         var homePage = new pages.homePage();
@@ -29,4 +30,5 @@ scenarioo.describeUseCase('Label configuration', function () {
         browser.get('#/manage?tab=labelConfigurations');
         labelConfigurationsPage.assertNumConfigurations(0);
     });
+
 });

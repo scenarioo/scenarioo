@@ -9,7 +9,7 @@ Scenarioo helps you visualizing and documenting the functionalities of your soft
 
 Scenarioo consists of a file format for such documentations, a webapplication that can browse and navigate such documentations (useful for all your stakeholders) and some APIs for use in your UI tests to produce such documentations (currently in Java, C# and JavaScript or you could develop such APIs on your own).
 
-For more informations about Scenarioo, consider the following resources:
+For more information about Scenarioo, consider the following resources:
 
 http://www.scenarioo.org
 

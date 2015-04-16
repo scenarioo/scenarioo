@@ -12,7 +12,7 @@ exports.config = {
     allScriptsTimeout: 11000,
 
     specs: [
-        'test/protractorE2E/specs/*_spec.js'
+        'test/protractorE2E/specs/*.js'
     ],
 
     capabilities: {
@@ -44,6 +44,6 @@ exports.config = {
         // If true, include stack traces in failures.
         includeStackTrace: true,
         // Default time to wait in ms before a test fails.
-        defaultTimeoutInterval: 30000
+        defaultTimeoutInterval: 60000
     }
 };
