@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
-    <testDocumentationDirPath>/home/ngUSD/Code/scenarioo/scenarioo-docu-generation-example/build/scenarioDocuExample</testDocumentationDirPath>
+    <testDocumentationDirPath>/home/scenarioo/scenarioo/scenarioo-docu-generation-example/build/scenarioDocuExample</testDocumentationDirPath>
     <defaultBranchName>example-branch</defaultBranchName>
     <defaultBuildName>last successful</defaultBuildName>
     <aliasForMostRecentBuild>most recent</aliasForMostRecentBuild>
@@ -42,7 +42,7 @@
     </buildstates>
     <customObjectTabs>
         <id>pages</id>
-        <tabTitle>Pages</tabTitle>
+        <tabTitle>Pages Config-For-Demo</tabTitle>
         <objectTypesToDisplay>page</objectTypesToDisplay>
     </customObjectTabs>
     <customObjectTabs>
