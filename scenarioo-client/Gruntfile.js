@@ -44,14 +44,6 @@ module.exports = function (grunt) {
     grunt.initConfig({
         yeoman: yeomanConfig,
         watch: {
-            coffee: {
-                files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
-                tasks: ['coffee:dist']
-            },
-            coffeeTest: {
-                files: ['test/spec/{,*/}*.coffee'],
-                tasks: ['coffee:test']
-            },
             less: {
                 files: ['<%= yeoman.app %>/styles/{,*/}*.less'],
                 tasks: ['less']
@@ -182,30 +174,6 @@ module.exports = function (grunt) {
             },
             scenariooe2e: {
                 configFile: 'protractor-e2e-scenarioo.conf.js'
-            }
-        },
-        coffee: {
-            dist: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= yeoman.app %>/scripts',
-                        src: '{,*/}*.coffee',
-                        dest: '.tmp/scripts',
-                        ext: '.js'
-                    }
-                ]
-            },
-            test: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'test/spec',
-                        src: '{,*/}*.coffee',
-                        dest: '.tmp/spec',
-                        ext: '.js'
-                    }
-                ]
             }
         },
         less: {
