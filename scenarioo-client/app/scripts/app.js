@@ -70,6 +70,12 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
             stepInPageOccurrence: '@stepInPageOccurrence',
             breadcrumbId: 'step'
         })
+        .when('/issue/:issueName', {
+            templateUrl: 'views/issue.html',
+            controller: 'IssueCtrl',
+            issueName: '@issueName',
+            breadcrumbId: 'issue'
+        })
         .otherwise({
             redirectTo: '/'
         });
