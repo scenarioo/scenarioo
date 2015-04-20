@@ -1,0 +1,102 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<sc-breadcrumb></sc-breadcrumb>
+<h1 class="sc-pageTitle">{{issueName}}</h1>
+<h2 class="sc-pageTitle">{{issue.description}}</h2>
+<div class="row sc-space-top sc-space-bottom">
+    <div class="col-lg-3">
+        <!--<div class="input-group">
+            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
+                   title="type words separated by spaces to search for" ng-model="table.search.searchTerm"
+                   placeholder="Search scenario..."/>
+            <span class="input-group-btn">
+                <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
+            </span>
+        </div>-->
+    </div>
+    <div class="col-lg-9">
+        <!--<sc-meta-data-button class="pull-right" linking-variable="issueShowMetadata" local-storage-key="issue" ></sc-meta-data-button>-->
+    </div>
+</div>
+
+<!--<sc-meta-data-panel linking-variable="issueShowMetadata">-->
+<sc-meta-data-panel>
+    <div>
+        table
+        <!--<table class="table table-bordered scenario-table" sc-navigator-table="filtered">
+            <thead>
+                <tr>
+                    <th sc-sortable-column="status">Status</th>
+                    <th sc-sortable-column="name">Scenario name</th>
+                    <th>Actions</th>
+                    <th>Description</th>
+                    <th ng-repeat="property in propertiesToShow" sc-sortable-column="details.properties.{{property}}">
+                        {{property | scHumanReadable}}
+                    </th>
+                    <th sc-sortable-column="calculatedData.numberOfSteps"># Steps</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-class="{'selected':$index==selectedRowIndex}" ng-click="goToScenario(issue.name, scenarioSummary.scenario.name)"
+                    class="link"
+                    ng-repeat="scenarioSummary in filtered=(scenarios | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
+                    <td>
+                        <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{scenarioSummary.scenario.status}}</span>
+                    </td>
+                    <td>
+                        {{scenarioSummary.scenario.name | scHumanReadable }}
+                    <span ng-repeat="label in scenarioSummary.scenario.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                    </td>
+                    <td>
+                        <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview"
+                              tooltip-placement="bottom"></i></a>
+                        <a ng-click="goToFirstStep(issue.name, scenarioSummary.scenario.name)" tooltip="Go to first step"
+                           tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
+                    </td>
+                    <td>{{scenarioSummary.scenario.description}}</td>
+                    <td ng-repeat="property in propertiesToShow">{{scenarioSummary.scenario.details[property]}}</td>
+                    <td>{{scenarioSummary.numberOfSteps}}</td>
+                </tr>
+            </tbody>
+        </table>-->
+    </div>
+
+    <div>
+        meta data
+        <!-- issue -->
+        <!--<sc-collapsable-panel title="Use Case" key="issueView-issue" initially-expanded="true">
+            <sc-tree data='issueInformationTree'></sc-tree>
+        </sc-collapsable-panel>-->
+
+        <!-- labels -->
+        <!--<sc-collapsable-panel title="Labels" key="stepView-labels" initially-expanded="false" ng-show="hasAnyLabels">
+            <div class="sc-tree">
+                <ul>
+                    <li>
+                        Use case:
+                        <span ng-repeat="label in issue.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                    </li>
+                </ul>
+            </div>
+        </sc-collapsable-panel>-->
+
+        <!-- Metadata -->
+        <!--<sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>-->
+    </div>
+
+</sc-meta-data-panel>
