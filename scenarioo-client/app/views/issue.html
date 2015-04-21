@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>-->
     </div>
     <div class="col-lg-9">
+        &nbsp;
         <!--<sc-meta-data-button class="pull-right" linking-variable="issueShowMetadata" local-storage-key="issue" ></sc-meta-data-button>-->
     </div>
 </div>
@@ -37,49 +38,50 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <!--<sc-meta-data-panel linking-variable="issueShowMetadata">-->
 <sc-meta-data-panel>
     <div>
-        table
-        <!--<table class="table table-bordered scenario-table" sc-navigator-table="filtered">
+        <table class="table table-bordered proposal-table" sc-navigator-table="filtered">
             <thead>
                 <tr>
                     <th sc-sortable-column="status">Status</th>
-                    <th sc-sortable-column="name">Scenario name</th>
-                    <th>Actions</th>
+                    <th sc-sortable-column="name">Proposal name</th>
                     <th>Description</th>
-                    <th ng-repeat="property in propertiesToShow" sc-sortable-column="details.properties.{{property}}">
+                    <th>Author</th>
+                    <!--<th ng-repeat="property in propertiesToShow" sc-sortable-column="details.properties.{{property}}">
                         {{property | scHumanReadable}}
-                    </th>
-                    <th sc-sortable-column="calculatedData.numberOfSteps"># Steps</th>
+                    </th>-->
+                    <!--<th sc-sortable-column="calculatedData.numberOfSteps"># Steps</th>-->
+                    <th># Steps</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-class="{'selected':$index==selectedRowIndex}" ng-click="goToScenario(issue.name, scenarioSummary.scenario.name)"
+                <tr ng-class="{'selected':$index==selectedRowIndex}" ng-click="goToProposal(issue.name, proposalSummary.proposal.name)"
                     class="link"
-                    ng-repeat="scenarioSummary in filtered=(scenarios | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
+                    ng-repeat="proposalSummary in filtered=(proposals | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
                     <td>
-                        <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{scenarioSummary.scenario.status}}</span>
+                        <!--<span class="label state" ng-class="getStatusStyleClass(proposalSummary.proposal.status)">{{proposalSummary.proposal.status}}</span>-->
+                        {{proposalSummary.proposal.status}}
                     </td>
                     <td>
-                        {{scenarioSummary.scenario.name | scHumanReadable }}
-                    <span ng-repeat="label in scenarioSummary.scenario.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                        {{proposalSummary.proposal.name | scHumanReadable }}
+                    <span ng-repeat="label in proposalSummary.proposal.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                     </td>
+                    <td>{{proposalSummary.proposal.description}}</td>
                     <td>
-                        <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview"
+                        {{proposalSummary.proposal.author}}
+                        <!--<a><i class="icon-list-ul icon-with-padding" tooltip="Go to proposal overview"
                               tooltip-placement="bottom"></i></a>
-                        <a ng-click="goToFirstStep(issue.name, scenarioSummary.scenario.name)" tooltip="Go to first step"
-                           tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
+                        <a ng-click="goToFirstStep(issue.name, proposalSummary.proposal.name)" tooltip="Go to first step"
+                           tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>-->
                     </td>
-                    <td>{{scenarioSummary.scenario.description}}</td>
-                    <td ng-repeat="property in propertiesToShow">{{scenarioSummary.scenario.details[property]}}</td>
-                    <td>{{scenarioSummary.numberOfSteps}}</td>
+                    <!--<td ng-repeat="property in propertiesToShow">{{scenarioSummary.scenario.details[property]}}</td>-->
+                    <td>{{proposalSummary.proposal.stepCount}}</td>
                 </tr>
             </tbody>
-        </table>-->
+        </table>
     </div>
 
     <div>
-        meta data
         <!-- issue -->
-        <!--<sc-collapsable-panel title="Use Case" key="issueView-issue" initially-expanded="true">
+        <!--<sc-collapsable-panel title="Issue" key="issueView-issue" initially-expanded="true">
             <sc-tree data='issueInformationTree'></sc-tree>
         </sc-collapsable-panel>-->
 
