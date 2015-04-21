@@ -30,9 +30,9 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
     SelectedBranchAndBuild.callOnSelectionChange(loadIssue);
 
     // FIXME this code is duplicated. How can we extract it into a service?
-    /*LabelConfigurationsResource.query({}, function(labelConfiguratins) {
+    LabelConfigurationsResource.query({}, function(labelConfiguratins) {
         $scope.labelConfigurations = labelConfiguratins;
-    });*/
+    });
 
     function loadIssue(selected) {
         var issueName = $routeParams.issueName;
@@ -53,7 +53,7 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
         // test mw
         $scope.issueName = $routeParams.issueName;
         $scope.issue = {description:'Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte.', id:52, status:'open'};
-        
+
         //$scope.propertiesToShow = Config.scenarioPropertiesInOverview();
     }
 
