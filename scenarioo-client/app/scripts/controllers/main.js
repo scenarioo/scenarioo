@@ -47,11 +47,22 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
         });
     }
 
+    function defineLastStaticTabs() {
+        $scope.tabs[$scope.tabs.length] =
+            {
+                tabId: 'issues',
+                title: 'Issues (custom tab)',
+                contentViewUrl: 'views/mainIssuesTab.html',
+                active: false
+            };
+    }
+
     // Load configuration and trigger definition of tabs from config.
     $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
         var config = Config.getRawConfigDataCopy();
         defineInitialStaticTabs();
         defineCustomTabsFromConfig(config);
+        defineLastStaticTabs();
         $scope.selectTabFromUrl();
     });
     Config.load();

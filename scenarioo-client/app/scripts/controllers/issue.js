@@ -149,14 +149,14 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
         var issueInformation = {};
         issueInformation.Status = issue.status;
         return transformMetadataToTree(issueInformation);
-    }
+    }*/
 
     $scope.resetSearchField = function () {
         $scope.table.search = {searchTerm: ''};
     };
 
     // FIXME this code is duplicated. How can we extract it into a service?
-    $scope.getLabelStyle = function(labelName) {
+    /*$scope.getLabelStyle = function(labelName) {
         var labelConfig = $scope.labelConfigurations[labelName];
         if(labelConfig) {
             return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
