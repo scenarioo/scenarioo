@@ -18,7 +18,7 @@
 'use strict';
 
 angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope, $q, $filter, $routeParams,
-                                                                            $location, ScenarioResource, Config, SelectedBranchAndBuild,
+                                                                            $location, IssueResource, Config, SelectedBranchAndBuild,
                                                                             LabelConfigurationsResource) {
 
     // test mw
@@ -36,7 +36,7 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
 
     function loadIssue(selected) {
         var issueName = $routeParams.issueName;
-        ScenarioResource.get(
+        IssueResource.get(
             {
                 branchName: selected.branch,
                 issueName: issueName
@@ -47,13 +47,14 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
                 //$scope.issueInformationTree = createissueInformationTree($scope.issue);
                 //$scope.metadataTree = transformMetadataToTreeArray($scope.issue.details);
                 //$scope.hasAnyLabels =  $scope.issue.labels && $scope.issue.labels.labels.length !== 0;
+            },
+            function onError(){
+                // test mw
+                $scope.issue = {description:'Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte.', id:52, status:'open'};
             }
         );
 
-        // test mw
         $scope.issueName = $routeParams.issueName;
-        $scope.issue = {description:'Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte.', id:52, status:'open'};
-
         //$scope.propertiesToShow = Config.scenarioPropertiesInOverview();
     }
 

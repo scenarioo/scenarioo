@@ -154,6 +154,14 @@ angular.module('scenarioo.services')
             }, {});
     })
 
+    .factory('IssueResource', function (ScenariooResource) {
+        return ScenariooResource('/branch/:branchName/issue/:issueName',
+            {
+                branchName: '@branchName',
+                issueName: '@issueName'
+            }, {});
+    })
+
     .factory('ObjectsForTypeResource', function (ScenariooResource) {
         return ScenariooResource('/branches/:branchName/builds/:buildName/objects/service',
             {
