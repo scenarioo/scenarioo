@@ -75,7 +75,7 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
                         stepCount:1,
                         status:'open'
                     }}
-                ]
+                ];
 
                 $scope.issue = {
                     author: 'mwit',
@@ -115,8 +115,8 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
 
     // todo
     $scope.goToProposal = function (issueName, proposalName) {
-        //$location.path('/scenario/' + issueName + '/' + scenarioName);
-        $location.path('#');
+        $location.path('/proposal/' + issueName + '/' + proposalName);
+        //$location.path('#');
     };
 
     /*$scope.goToScenario = function (issueName, scenarioName) {
