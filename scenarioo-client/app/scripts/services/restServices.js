@@ -154,14 +154,6 @@ angular.module('scenarioo.services')
             }, {});
     })
 
-    .factory('IssueResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issue/:issueName',
-            {
-                branchName: '@branchName',
-                issueName: '@issueName'
-            }, {});
-    })
-
     .factory('ObjectsForTypeResource', function (ScenariooResource) {
         return ScenariooResource('/branches/:branchName/builds/:buildName/objects/service',
             {
@@ -243,6 +235,21 @@ angular.module('scenarioo.services')
 
     .factory('LabelConfigurationsResource', function (ScenariooResource) {
         return ScenariooResource('/labelconfigurations', {}, { 'query': { isArray:false}});
+    })
+
+    .factory('IssuesResource', function (ScenariooResource) {
+        return ScenariooResource('/branch/:branchName/issues',
+            {
+                branchName: '@branchName'
+            }, {});
+    })
+
+    .factory('IssueResource', function (ScenariooResource) {
+        return ScenariooResource('/branch/:branchName/issue/:issueName',
+            {
+                branchName: '@branchName',
+                issueName: '@issueName'
+            }, {});
     });
 
 function getPromise($q, fn) {

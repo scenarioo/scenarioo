@@ -63,9 +63,9 @@
             <propertyKey>realName</propertyKey>
         </customObjectDetailColumns>
     </customObjectTabs>
-    <customObjectTabs>
+    <!--<customObjectTabs>
         <id>issues</id>
         <tabTitle>Issues</tabTitle>
         <objectTypesToDisplay>issue</objectTypesToDisplay>
-    </customObjectTabs>
+    </customObjectTabs>-->
 </configuration>
