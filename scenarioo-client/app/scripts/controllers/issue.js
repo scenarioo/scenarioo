@@ -21,9 +21,13 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
                                                                             $location, ScenarioResource, Config, SelectedBranchAndBuild,
                                                                             LabelConfigurationsResource) {
 
-    var transformMetadataToTree = $filter('scMetadataTreeCreator');
-    var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
-    SelectedBranchAndBuild.callOnSelectionChange(loadScenariosAndissue);
+    // test mw
+    //$scope.issueName = $routeParams.issueName;
+    //$scope.issue = {description:'Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte.', id:52, status:'open'};
+
+    //var transformMetadataToTree = $filter('scMetadataTreeCreator');
+    //var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
+    SelectedBranchAndBuild.callOnSelectionChange(loadIssue);
 
     // FIXME this code is duplicated. How can we extract it into a service?
     /*LabelConfigurationsResource.query({}, function(labelConfiguratins) {
@@ -35,7 +39,6 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
         ScenarioResource.get(
             {
                 branchName: selected.branch,
-                buildName: selected.build,
                 issueName: issueName
             },
             function onSuccess(result) {
@@ -47,6 +50,10 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
             }
         );
 
+        // test mw
+        $scope.issueName = $routeParams.issueName;
+        $scope.issue = {description:'Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte.', id:52, status:'open'};
+        
         //$scope.propertiesToShow = Config.scenarioPropertiesInOverview();
     }
 
