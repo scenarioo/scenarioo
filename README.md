@@ -1,5 +1,7 @@
 Demo-Smoketest: [![Demo Smoketest Status](http://54.88.202.24:8081/job/smoketest/badge/icon)](http://54.88.202.24:8081/job/smoketest) CI Scenarioo Sketcher Fork: [![CI Status Master Branch](http://54.88.202.24:8081/job/scenarioo-fork-mockups/badge/icon)](http://54.88.202.24:8081/job/scenarioo-fork-mockups)
 
+Issue Sketcher Demo: http://54.88.202.24:8080/scenarioo-fork-mockups/
+
 Scenarioo
 ==========
 
