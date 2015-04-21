@@ -21,17 +21,13 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
                                                                             $location, IssueResource, Config, SelectedBranchAndBuild,
                                                                             LabelConfigurationsResource) {
 
-    // test mw
-    //$scope.issueName = $routeParams.issueName;
-    //$scope.issue = {description:'Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte.', id:52, status:'open'};
-
     //var transformMetadataToTree = $filter('scMetadataTreeCreator');
     //var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     SelectedBranchAndBuild.callOnSelectionChange(loadIssue);
 
     // FIXME this code is duplicated. How can we extract it into a service?
-    LabelConfigurationsResource.query({}, function(labelConfiguratins) {
-        $scope.labelConfigurations = labelConfiguratins;
+    LabelConfigurationsResource.query({}, function(labelConfigurations) {
+        $scope.labelConfigurations = labelConfigurations;
     });
 
     function loadIssue(selected) {
@@ -43,14 +39,53 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
             },
             function onSuccess(result) {
                 $scope.issue = result.issue;
+                $scope.proposals = null;
                 //$scope.scenarios = result.scenarios;
                 //$scope.issueInformationTree = createissueInformationTree($scope.issue);
                 //$scope.metadataTree = transformMetadataToTreeArray($scope.issue.details);
                 //$scope.hasAnyLabels =  $scope.issue.labels && $scope.issue.labels.labels.length !== 0;
             },
             function onError(){
-                // test mw
-                $scope.issue = {description:'Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte.', id:52, status:'open'};
+
+                var proposals = [
+                    {proposal: {
+                        author:'mzem',
+                        name:'first sketch',
+                        description:'Die Domänen Design und Docu sind in diesem Sketch stark getrennt. Im Header werden Tabs eingesetzt.',
+                        id:53,
+                        dateModiefied:'2015-04-21T09:26:48+00:00',
+                        stepCount:3,
+                        status:'open'
+                    }},
+                    {proposal: {
+                        author:'aher',
+                        name:'second sketch',
+                        description:'Die Design Domäne wird hier nahtlos in die Docu-Domäne integriert. Die Issues sind über ein Issue Tab aufrufbar.',
+                        id:54,
+                        dateModiefied:'2015-04-21T09:26:48+00:00',
+                        stepCount:2,
+                        status:'open'
+                    }},
+                    {proposal: {
+                        author:'rbru',
+                        name:'third sketch',
+                        description:'Die Issues können hier als Button oben rechts aufgerufen werden.',
+                        id:55,
+                        dateModiefied:'2015-04-21T09:26:48+00:00',
+                        stepCount:1,
+                        status:'open'
+                    }}
+                ]
+
+                $scope.issue = {
+                    author: 'mwit',
+                    description:'Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte.',
+                    id:52,
+                    status:'open',
+                    finalProposal:'',
+                    proposals:proposals
+                };
+                $scope.proposals = $scope.issue.proposals;
             }
         );
 
@@ -78,6 +113,12 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
         $scope.propertiesToShow = Config.scenarioPropertiesInOverview();
     }*/
 
+    // todo
+    $scope.goToProposal = function (issueName, proposalName) {
+        //$location.path('/scenario/' + issueName + '/' + scenarioName);
+        $location.path('#');
+    };
+
     /*$scope.goToScenario = function (issueName, scenarioName) {
         $location.path('/scenario/' + issueName + '/' + scenarioName);
     };
@@ -102,9 +143,9 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
             }
         );
     };*/
-    //$scope.table = {search: {$: ''}, sort: {column: 'name', reverse: false}};
+    $scope.table = {search: {$: ''}, sort: {column: 'name', reverse: false}};
 
-    /*function createissueInformationTree(issue) {
+    /*function createIssueInformationTree(issue) {
         var issueInformation = {};
         issueInformation.Status = issue.status;
         return transformMetadataToTree(issueInformation);
