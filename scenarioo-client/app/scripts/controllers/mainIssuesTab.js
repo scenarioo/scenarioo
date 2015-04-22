@@ -49,7 +49,7 @@ angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function
                         name:'first issue',
                         description:'Wie werden die Doku und Design Domäne im Front-end auseinandergehalten?',
                         id:51,
-                        dateModiefied:'2015-04-21T09:26:48+00:00',
+                        dateModified:'2015-04-21T09:26:48+00:00',
                         proposalCount:3,
                         status:'open'
                     },
@@ -58,7 +58,7 @@ angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function
                         name:'second issue',
                         description:'Lorem ipsum dolor.',
                         id:44,
-                        dateModiefied:'2015-04-21T09:26:48+00:00',
+                        dateModified:'2015-04-21T09:26:48+00:00',
                         proposalCount:2,
                         status:'resolved'
                     },
@@ -67,7 +67,7 @@ angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function
                         name:'third issue',
                         description:'Lorem ipsum dolor.',
                         id:45,
-                        dateModiefied:'2015-04-21T09:26:48+00:00',
+                        dateModified:'2015-04-21T09:26:48+00:00',
                         proposalCount:1,
                         status:'open'
                     }

@@ -53,7 +53,7 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
                         name:'first sketch',
                         description:'Die Domänen Design und Docu sind in diesem Sketch stark getrennt. Im Header werden Tabs eingesetzt.',
                         id:53,
-                        dateModiefied:'2015-04-21T09:26:48+00:00',
+                        dateModified:'2015-04-21T09:26:48+00:00',
                         stepCount:3,
                         status:'open'
                     }},
@@ -62,7 +62,7 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
                         name:'second sketch',
                         description:'Die Design Domäne wird hier nahtlos in die Docu-Domäne integriert. Die Issues sind über ein Issue Tab aufrufbar.',
                         id:54,
-                        dateModiefied:'2015-04-21T09:26:48+00:00',
+                        dateModified:'2015-04-21T09:26:48+00:00',
                         stepCount:2,
                         status:'open'
                     }},
@@ -71,7 +71,7 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
                         name:'third sketch',
                         description:'Die Issues können hier als Button oben rechts aufgerufen werden.',
                         id:55,
-                        dateModiefied:'2015-04-21T09:26:48+00:00',
+                        dateModified:'2015-04-21T09:26:48+00:00',
                         stepCount:1,
                         status:'open'
                     }}
