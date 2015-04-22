@@ -1,20 +1,3 @@
-/* scenarioo-server
- * Copyright (C) 2015, scenarioo.org Development Team
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package org.scenarioo.model.design.entities;
 
 import java.io.Serializable;
@@ -30,25 +13,31 @@ import org.scenarioo.model.docu.entities.Labels;
 import org.scenarioo.model.docu.entities.Status;
 import org.scenarioo.model.docu.entities.generic.Details;
 
+/**
+ * Information to store and display for one design proposal.
+ *
+ * It is important that each proposal gets a unique 'name' inside the issue it belongs to.
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Issue implements Serializable, Labelable, Detailable {
+public class Proposal implements Serializable, Labelable, Detailable {
 
 	private String name;
 	private String description;
-	private String status;
+	private String status = "";
+	private final String author = "";
 
 	private Details details = new Details();
 	private Labels labels = new Labels();
 
-	public Issue() {
+	public Proposal() {
+		this("", "");
 	}
 
-	public Issue(final String name, final String description) {
-		this();
+	public Proposal(final String name, final String description) {
+		super();
 		this.name = name;
 		this.description = description;
-		this.status = "";
 	}
 
 	public String getName() {
@@ -56,10 +45,9 @@ public class Issue implements Serializable, Labelable, Detailable {
 	}
 
 	/**
-	 * A unique name for this usecase.
+	 * A unique name for this proposal inside the {@link Issue} it belongs to.
 	 *
-	 * Make sure to use descriptive names that stay stable as much as possible between multiple builds, such that you
-	 * can compare usecases and its scenarios between different builds.
+	 * Make sure to use descriptive names that stay stable as much as possible.
 	 */
 	public void setName(final String name) {
 		this.name = name;
@@ -70,7 +58,8 @@ public class Issue implements Serializable, Labelable, Detailable {
 	}
 
 	/**
-	 * (optional but recommended) More detailed description for current scenario (additionally to descriptive name).
+	 * (optional but recommended) More detailed description for the current proposal (in addition to the descriptive
+	 * name).
 	 */
 	public void setDescription(final String description) {
 		this.description = description;
@@ -81,7 +70,7 @@ public class Issue implements Serializable, Labelable, Detailable {
 	}
 
 	/**
-	 * Set status of current step.
+	 * Set status of this proposal.
 	 *
 	 * See also {@link #setStatus(String)} for setting additional application-specific states.
 	 */
@@ -89,6 +78,12 @@ public class Issue implements Serializable, Labelable, Detailable {
 		setStatus(Status.toKeywordNullSafe(status));
 	}
 
+	/**
+	 * Status of the proposal (draft, published). <br/>
+	 * Usual values are "draft" or "published".<br/>
+	 * But you can use workflow-specific additional values, like "proposed-to-commitee", "archived" etc. where it makes
+	 * sense.
+	 */
 	public void setStatus(final String status) {
 		this.status = status;
 	}
