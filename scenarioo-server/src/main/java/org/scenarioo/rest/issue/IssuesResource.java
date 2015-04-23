@@ -26,15 +26,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.aggregates.AggregatedDataReader;
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
+import org.scenarioo.dao.aggregates.IssueAggregationDAO;
 import org.scenarioo.model.design.aggregates.IssueProposals;
 import org.scenarioo.model.design.aggregates.IssueSummary;
 import org.scenarioo.model.design.entities.Issue;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
-import org.scenarioo.rest.base.BuildIdentifier;
 
 @Path("/rest/branch/{branchName}/issues")
 public class IssuesResource {
@@ -44,22 +41,18 @@ public class IssuesResource {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
-	AggregatedDataReader dao = new ScenarioDocuAggregationDAO(configurationRepository.getDocumentationDataDirectory());
+	IssueAggregationDAO dao = new IssueAggregationDAO(configurationRepository.getDocumentationDataDirectory());
 
 	/**
 	 * Lightweight call, which does not send all proposal information.
 	 */
 	@GET
 	@Produces({ "application/xml", "application/json" })
-	public List<IssueSummary> loadIssueSummaries(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName) {
-		LOGGER.info("REQUEST: loadIssueSummaryList(" + branchName + ", " + buildName + ")");
+	public List<IssueSummary> loadIssueSummaries(@PathParam("branchName") final String branchName) {
+		LOGGER.info("REQUEST: loadIssueSummaryList(" + branchName + ")");
 		List<IssueSummary> result = new LinkedList<IssueSummary>();
 
-		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
-				buildName);
-
-		List<IssueProposals> issueProposalsList = dao.loadIssueProposalsList(buildIdentifier);
+		List<IssueProposals> issueProposalsList = dao.loadIssueProposalsList();
 
 		for (IssueProposals issueProposals : issueProposalsList) {
 			result.add(mapSummary(issueProposals));
@@ -70,6 +63,7 @@ public class IssuesResource {
 
 	@GET
 	@Produces({ "application/xml", "application/json" })
+	@Path("/{issueName}")
 	public List<Issue> loadIssues(@PathParam("branchName") final String branchName) {
 		List<Issue> result = new LinkedList<Issue>();
 		result.add(new Issue("TestIssue", "This is a Test!"));
