@@ -26,12 +26,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.dao.aggregates.IssueAggregationDAO;
+import org.scenarioo.dao.design.aggregates.IssueAggregationDAO;
 import org.scenarioo.model.design.aggregates.IssueProposals;
 import org.scenarioo.model.design.aggregates.IssueSummary;
 import org.scenarioo.model.design.entities.Issue;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 @Path("/rest/branch/{branchName}/issues")
 public class IssuesResource {
@@ -52,7 +53,7 @@ public class IssuesResource {
 		LOGGER.info("REQUEST: loadIssueSummaryList(" + branchName + ")");
 		List<IssueSummary> result = new LinkedList<IssueSummary>();
 
-		List<IssueProposals> issueProposalsList = dao.loadIssueProposalsList();
+		List<IssueProposals> issueProposalsList = dao.loadIssueProposalsList(new BuildIdentifier(branchName, ""));
 
 		for (IssueProposals issueProposals : issueProposalsList) {
 			result.add(mapSummary(issueProposals));

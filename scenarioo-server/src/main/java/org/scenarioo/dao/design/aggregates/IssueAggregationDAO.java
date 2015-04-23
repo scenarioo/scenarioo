@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.scenarioo.dao.aggregates;
+package org.scenarioo.dao.design.aggregates;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,17 +22,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.business.builds.BuildLink;
+import org.scenarioo.dao.design.aggregates.issues.IssueProposalsList;
 import org.scenarioo.model.design.aggregates.IssueProposals;
-import org.scenarioo.model.design.aggregates.ProposalSummary;
-import org.scenarioo.model.design.entities.Issue;
-import org.scenarioo.model.design.entities.Proposal;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
@@ -45,6 +42,7 @@ import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
 import org.scenarioo.utils.ResourceUtils;
+import org.scenarioo.utils.design.readers.DesignReader;
 
 public class IssueAggregationDAO {
 
@@ -53,16 +51,16 @@ public class IssueAggregationDAO {
 	private static final String VERSION_PROPERTY_KEY = "scenarioo.derived.file.format.version";
 
 	final File rootDirectory;
-	private final ScenarioDocuAggregationFiles files;
-	private final ScenarioDocuReader scenarioDocuReader;
+	private final DesignAggregateFiles files;
+	private final DesignReader designReader;
 
 	private LongObjectNamesResolver longObjectNameResolver = null;
 	DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 	public IssueAggregationDAO(final File rootDirectory) {
 		this.rootDirectory = rootDirectory;
-		files = new ScenarioDocuAggregationFiles(rootDirectory);
-		scenarioDocuReader = new ScenarioDocuReader(rootDirectory);
+		files = new DesignAggregateFiles(rootDirectory);
+		designReader = new DesignReader(rootDirectory);
 	}
 
 	public IssueAggregationDAO(final File rootDirectory, final LongObjectNamesResolver longObjectNameResolver) {
@@ -71,7 +69,7 @@ public class IssueAggregationDAO {
 	}
 
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadVersion(java.lang.String, java.lang.String)
+	 * @see org.scenarioo.dao.design.aggregates.AggregatedDataReader#loadVersion(java.lang.String, java.lang.String)
 	 */
 	public String loadVersion(final BuildIdentifier buildIdentifier) {
 		File versionFile = files.getVersionFile(buildIdentifier);
@@ -95,18 +93,10 @@ public class IssueAggregationDAO {
 	}
 
 
-	public List<IssueProposals> loadIssueProposalsList() {
-		List<IssueProposals> result = new ArrayList<IssueProposals>();
-		IssueProposals ip_one = new IssueProposals();
-		ip_one.setIssue(new Issue("Issue One", "The first Issue"));
-		List<ProposalSummary> props_one = new ArrayList<ProposalSummary>();
-		ProposalSummary prop_summ = new ProposalSummary();
-		prop_summ.setProposal(new Proposal("Proposal One", "The first Proposal"));
-		props_one.add(new ProposalSummary());
-		ip_one.setProposals(props_one);
-		result.add(ip_one);
-
-		return result;
+	public List<IssueProposals> loadIssueProposalsList(final BuildIdentifier buildIdentifier) {
+		File file = files.getIssuesAndProposalsFile(buildIdentifier);
+		IssueProposalsList list = ScenarioDocuXMLFileUtil.unmarshal(IssueProposalsList.class, file);
+		return list.getIssueProposals();
 	}
 
 
