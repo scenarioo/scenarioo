@@ -51,24 +51,21 @@ public class IssuesResource {
 	@Produces({ "application/xml", "application/json" })
 	public List<IssueSummary> loadIssueSummaries(@PathParam("branchName") final String branchName) {
 		LOGGER.info("REQUEST: loadIssueSummaryList(" + branchName + ")");
+		BuildIdentifier ident = new BuildIdentifier(branchName, "");
 		List<IssueSummary> result = new LinkedList<IssueSummary>();
 
-		List<IssueProposals> issueProposalsList = dao.loadIssueProposalsList(new BuildIdentifier(branchName, ""));
-
-		for (IssueProposals issueProposals : issueProposalsList) {
-			result.add(mapSummary(issueProposals));
+		for (IssueProposals ip : dao.loadIssueProposalsList(ident)) {
+			result.add(mapSummary(ip));
 		}
-
 		return result;
 	}
 
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	@Path("/{issueName}")
-	public List<Issue> loadIssues(@PathParam("branchName") final String branchName) {
-		List<Issue> result = new LinkedList<Issue>();
-		result.add(new Issue("TestIssue", "This is a Test!"));
-		return result;
+	public IssueProposals loadIssueProposals(@PathParam("branchName") final String branchName,
+			@PathParam("issueName") final String issueName) {
+		return dao.loadIssueProposals(new BuildIdentifier(branchName, ""), issueName);
 	}
 
 	private IssueSummary mapSummary(final IssueProposals issueProposals) {

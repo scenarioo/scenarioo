@@ -101,8 +101,9 @@ public class IssueAggregationDAO {
 
 
 	public IssueProposals loadIssueProposals(final BuildIdentifier buildIdentifier, final String issueName) {
-		// TODO Auto-generated method stub
-		return null;
+		File file = files.getIssueProposalsFile(buildIdentifier, issueName);
+		IssueProposals issueProposals = ScenarioDocuXMLFileUtil.unmarshal(IssueProposals.class, file);
+		return issueProposals;
 	}
 
 
