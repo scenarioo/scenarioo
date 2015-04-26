@@ -34,7 +34,7 @@ public class IssueProposalsList {
 			return issueProposal;
 		}
 
-		public void setUseCaseScenarios(final List<IssueProposals> issueProposals) {
+		public void setIssueProposals(final List<IssueProposals> issueProposals) {
 			this.issueProposal = issueProposals;
 		}
 

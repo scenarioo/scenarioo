@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
     <testDocumentationDirPath>/home/scenarioo/scenarioo/scenarioo-docu-generation-example/build/scenarioDocuExample</testDocumentationDirPath>
+	<testDesignDirPath>/home/scenarioo/scenarioo/scenarioo-docu-generation-example/build/scenarioDocuExample</testDesignDirPath>
     <defaultBranchName>example-branch</defaultBranchName>
     <defaultBuildName>last successful</defaultBuildName>
     <aliasForMostRecentBuild>most recent</aliasForMostRecentBuild>
