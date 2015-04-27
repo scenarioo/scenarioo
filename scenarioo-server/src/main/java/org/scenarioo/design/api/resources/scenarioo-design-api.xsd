@@ -109,8 +109,8 @@
     <xs:sequence>
       <xs:element ref="page" minOccurs="0" xmlns=""/>
       <xs:element ref="sketchStepDescription" minOccurs="0" xmlns=""/>
-      <xs:element ref="sketch" minOccurs="0" xmlns=""/>							  <!-- obsolote due to convention? // tbd // maybe just the filename of the svg file? -->
-      <xs:element name="nextSketchStepRef" minOccurs="0" xmlns=""/>				  <!-- obsolote due to convention? // filename of xml or id? -->
+      <xs:element ref="sketch" minOccurs="0" xmlns=""/>							  <!-- tbd // maybe just the filename of the svg file? -->
+      <xs:element name="nextSketchStepRef" minOccurs="0" xmlns=""/>				  <!-- filename of xml or index? -->
       <xs:element name="html" type="sketchStepHtml" minOccurs="0" xmlns=""/>
       <xs:element name="metadata" type="sketchStepMetadata" minOccurs="0" xmlns=""/>
       <xs:element name="contextInDocu" type="xs:string" minOccurs="0"/>
@@ -123,8 +123,8 @@
     <xs:sequence>
       <xs:element name="index" type="xs:int"/>
       <xs:element name="title" type="xs:string" minOccurs="0"/>
-      <xs:element name="originalScreenshotFileName" type="xs:string" minOccurs="0"/> 	<!-- obsolote due to convention? -->
-      <xs:element name="renderedSketchFileName" type="xs:string" minOccurs="0"/> 		<!-- obsolote due to convention? -->
+      <xs:element name="originalScreenshotFileName" type="xs:string" minOccurs="0"/> 
+      <xs:element name="renderedSketchFileName" type="xs:string" minOccurs="0"/> 
       <xs:element ref="labels" minOccurs="0" xmlns=""/>
       <xs:element name="details">
         <xs:complexType>
