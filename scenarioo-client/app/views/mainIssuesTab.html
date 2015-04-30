@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
         <div class="col-lg-9 ">
             &nbsp;
-            <!--<sc-meta-data-button class="pull-right" linking-variable="mainShowMetadata" local-storage-key="main" ></sc-meta-data-button>-->
+            <sc-meta-data-button class="pull-right" linking-variable="mainShowMetadata" local-storage-key="main" ></sc-meta-data-button>
         </div>
     </div>
 
@@ -64,7 +64,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </table>
         </div>
         <div>
-        &nbsp;
+            <!-- new issue -->
+            <sc-collapsable-panel title="Add New Issue" key="addNewIssueView-issue" initially-expanded="true">
+                <div ng-controller="AddIssueCtrl">
+                    <form>
+                        <label>Name</label>
+                        <input type="text" ng-model="issueName" />
+                        <button ng-click="addIssue()">Add</button>
+                    </form>
+                </div>
+            </sc-collapsable-panel>
+
             <!-- branch -->
             <!--<sc-collapsable-panel title="Branch" key="mainView-branch" initially-expanded="true">
                 <sc-tree data='branchInformationTree'></sc-tree>
