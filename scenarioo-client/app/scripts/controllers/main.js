@@ -51,7 +51,7 @@ angular.module('scenarioo.controllers').controller('MainCtrl', function ($scope,
         $scope.tabs[$scope.tabs.length] =
             {
                 tabId: 'issues',
-                title: 'Issues (custom tab)',
+                title: 'Issues',
                 contentViewUrl: 'views/mainIssuesTab.html',
                 active: false
             };
