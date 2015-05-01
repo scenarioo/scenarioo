@@ -13,7 +13,7 @@ import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.model.docu.entities.Step;
 
 /**
- * Gives access to the design domain files in the filesystem.
+ * Gives access to the design domain files in the file system.
  */
 public class DesignReader {
 

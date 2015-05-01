@@ -27,7 +27,6 @@ import org.scenarioo.api.rules.Preconditions;
 import org.scenarioo.model.docu.entities.Detailable;
 import org.scenarioo.model.docu.entities.Labelable;
 import org.scenarioo.model.docu.entities.Labels;
-import org.scenarioo.model.docu.entities.Status;
 import org.scenarioo.model.docu.entities.generic.Details;
 
 @XmlRootElement
@@ -48,7 +47,7 @@ public class Issue implements Serializable, Labelable, Detailable {
 		this();
 		this.name = name;
 		this.description = description;
-		this.status = "";
+		this.status = "Open";
 	}
 
 	public String getName() {
@@ -56,10 +55,7 @@ public class Issue implements Serializable, Labelable, Detailable {
 	}
 
 	/**
-	 * A unique name for this usecase.
-	 *
-	 * Make sure to use descriptive names that stay stable as much as possible between multiple builds, such that you
-	 * can compare usecases and its scenarios between different builds.
+	 * A unique name for this issue.
 	 */
 	public void setName(final String name) {
 		this.name = name;
@@ -76,17 +72,17 @@ public class Issue implements Serializable, Labelable, Detailable {
 		this.description = description;
 	}
 
-	public String getStatus() {
+	public String getIssueStatus() {
 		return status;
 	}
 
 	/**
-	 * Set status of current step.
+	 * Set status of current issue. Scenarioo supports open and closed by default.
 	 *
 	 * See also {@link #setStatus(String)} for setting additional application-specific states.
 	 */
-	public void setStatus(final Status status) {
-		setStatus(Status.toKeywordNullSafe(status));
+	public void setStatus(final IssueStatus status) {
+		setStatus(IssueStatus.toKeywordNullSafe(status));
 	}
 
 	public void setStatus(final String status) {
