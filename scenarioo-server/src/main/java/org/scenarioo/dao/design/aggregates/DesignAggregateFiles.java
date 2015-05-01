@@ -25,7 +25,7 @@ import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.design.ProposalIdentifier;
 
 /**
- * Defines locations of aggregated files containing aggregated (=derived) data from documentation input data.
+ * Defines locations of aggregated files containing aggregated (=derived) data from design data.
  */
 public class DesignAggregateFiles {
 
@@ -45,10 +45,6 @@ public class DesignAggregateFiles {
 
 	public File getRootDirectory() {
 		return designFiles.getRootDirectory();
-	}
-
-	public File getBuildStatesFile() {
-		return new File(designFiles.getRootDirectory(), "builds.states.derived.xml");
 	}
 
 	public File getVersionFile(final BuildIdentifier buildIdentifier) {
@@ -104,7 +100,7 @@ public class DesignAggregateFiles {
 		return numberFormat;
 	}
 
-	public File getBuildDirectory(final BuildIdentifier buildIdentifier) {
+	public File getBranchDirectory(final BuildIdentifier buildIdentifier) {
 		return designFiles.getBranchDirectory(buildIdentifier.getBranchName());
 	}
 

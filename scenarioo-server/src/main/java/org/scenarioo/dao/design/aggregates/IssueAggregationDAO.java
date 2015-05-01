@@ -30,6 +30,7 @@ import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.business.builds.BuildLink;
 import org.scenarioo.dao.design.aggregates.issues.IssueProposalsList;
 import org.scenarioo.model.design.aggregates.IssueProposals;
+import org.scenarioo.model.design.aggregates.ProposalSteps;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
@@ -41,6 +42,7 @@ import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
+import org.scenarioo.rest.base.design.ProposalIdentifier;
 import org.scenarioo.utils.ResourceUtils;
 import org.scenarioo.utils.design.readers.DesignReader;
 
@@ -107,10 +109,11 @@ public class IssueAggregationDAO {
 	}
 
 
-	// public ProposalSteps loadProposalSteps(final ScenarioIdentifier proposalIdentifier) {
-	// // TODO Auto-generated method stub
-	// return null;
-	// }
+	public ProposalSteps loadProposalSteps(final ProposalIdentifier proposalIdentifier) {
+		File file = files.getProposalStepsFile(proposalIdentifier);
+		ProposalSteps proposalSteps = ScenarioDocuXMLFileUtil.unmarshal(ProposalSteps.class, file);
+		return proposalSteps;
+	}
 
 
 	public ObjectDescription loadObjectDescription(final BuildIdentifier buildIdentifier, final ObjectReference objectRef) {

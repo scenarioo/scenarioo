@@ -42,7 +42,7 @@ public class IssuesResource {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
-	IssueAggregationDAO dao = new IssueAggregationDAO(configurationRepository.getDocumentationDataDirectory());
+	IssueAggregationDAO dao = new IssueAggregationDAO(configurationRepository.getDesignDataDirectory());
 
 	/**
 	 * Lightweight call, which does not send all proposal information.
@@ -73,7 +73,7 @@ public class IssuesResource {
 		Issue issue = issueProposals.getIssue();
 		summary.setName(issue.getName());
 		summary.setDescription(issue.getDescription());
-		summary.setStatus(issue.getStatus());
+		summary.setStatus(issue.getIssueStatus());
 		summary.setNumberOfProposals(issueProposals.getProposals().size());
 		summary.setLabels(issue.getLabels());
 		return summary;
