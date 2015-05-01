@@ -30,7 +30,7 @@
     <labelConfigurations/>
     <customObjectTabs>
         <id>pages</id>
-        <tabTitle>Pages Config-For-Demo</tabTitle>
+        <tabTitle>Pages</tabTitle>
         <objectTypesToDisplay>page</objectTypesToDisplay>
     </customObjectTabs>
     <customObjectTabs>
@@ -64,9 +64,4 @@
             <propertyKey>realName</propertyKey>
         </customObjectDetailColumns>
     </customObjectTabs>
-    <!--<customObjectTabs>
-        <id>issues</id>
-        <tabTitle>Issues</tabTitle>
-        <objectTypesToDisplay>issue</objectTypesToDisplay>
-    </customObjectTabs>-->
 </configuration>
