@@ -117,6 +117,17 @@ angular.module('scenarioo.services')
         return useCaseService;
     })
 
+    .factory('IssueService', function (ScenariooResource, $q) {
+        var issueService = ScenariooResource('/branch/:branchName/issue/:issueName',
+            {   branchName: '@branchName',
+                issueName: '@issueName'}, {});
+
+        issueService.getIssue = getPromise($q, function (parameters, fnSuccess, fnError) {
+            return issueService.get(parameters, fnSuccess, fnError);
+        });
+        return issueService;
+    })
+
     .factory('StepResource', function(ScenariooResource) {
         return ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName/pageName/:pageName/pageOccurrence/:pageOccurrence/stepInPageOccurrence/:stepInPageOccurrence',
             {
