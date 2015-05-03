@@ -27,10 +27,9 @@ angular.module('scenarioo.controllers').controller('AddIssueCtrl', function ($sc
             description: $scope.issueDescription
         });
 
-        //newIssue.branchName = $scope.selectedBranch;
         //newIssue.$save();
 
-        console.log($routeParams.branch);
+        console.log(newIssue);
 
         newIssue.$save(function(savedIssue, putResponseHeaders) {
             console(savedIssue);
