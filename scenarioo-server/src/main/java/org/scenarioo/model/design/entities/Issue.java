@@ -22,6 +22,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.scenarioo.api.rules.Preconditions;
 import org.scenarioo.model.docu.entities.Detailable;
@@ -36,6 +37,8 @@ public class Issue implements Serializable, Labelable, Detailable {
 	private String name;
 	private String description;
 	private String status;
+	@XmlTransient
+	private String branchName;
 
 	private Details details = new Details();
 	private Labels labels = new Labels();
@@ -119,6 +122,14 @@ public class Issue implements Serializable, Labelable, Detailable {
 	public void setLabels(final Labels labels) {
 		Preconditions.checkNotNull(labels, "Labels not allowed to set to null");
 		this.labels = labels;
+	}
+
+	public void setBranchName(final String branchName){
+		this.branchName = branchName;
+	}
+
+	public String getBranchName() {
+		return branchName;
 	}
 
 }

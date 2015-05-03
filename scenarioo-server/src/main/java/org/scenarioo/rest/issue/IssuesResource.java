@@ -116,13 +116,10 @@ public class IssuesResource {
 
 	@POST
 	@Consumes({ "application/x-www-form-urlencoded", "application/xml", "application/json" })
-	// @Path("/{issueName}")
 	public void storeIssue(@PathParam("branchName") final String branchName,
 			final Issue newIssue) {
-//		Issue newIssue = new Issue();
-//		newIssue.setName(name);
-//		newIssue.setDescription(description);
 
+		newIssue.setStatus("Open");
 		String name = newIssue.getName();
 
 		files.createIssueDirectory(branchName, name);
