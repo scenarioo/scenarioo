@@ -42,7 +42,6 @@ public class ConfigurationRepository {
 	public File getDocumentationDataDirectory() {
 		loadConfigurationIfNotLoadedYet();
 		String documentationDataDirectoryFromConfig = configuration.getTestDocumentationDirPath();
-
 		if (StringUtils.isBlank(documentationDataDirectoryFromConfig)) {
 			return getExampleDocumentationDirectoryAsFallback();
 		} else {
@@ -53,7 +52,6 @@ public class ConfigurationRepository {
 	public File getDesignDataDirectory() {
 		loadConfigurationIfNotLoadedYet();
 		String designDataDirectoryFromConfig = configuration.getDesignDocumentationDirPath();
-
 		if (StringUtils.isBlank(designDataDirectoryFromConfig)) {
 			return getExampleDesignDirectoryAsFallback();
 		} else {

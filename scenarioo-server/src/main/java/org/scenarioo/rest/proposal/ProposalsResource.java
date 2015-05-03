@@ -13,6 +13,7 @@ import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.design.ProposalIdentifier;
 import org.scenarioo.rest.scenario.mapper.ScenarioDetailsMapper;
+import org.scenarioo.utils.design.readers.DesignReader;
 
 @Path("/rest/branch/{branchName}/issues/{issueName}/proposals/{proposalName}")
 public class ProposalsResource {
@@ -23,6 +24,8 @@ public class ProposalsResource {
 
 	private final IssueAggregationDAO dao = new IssueAggregationDAO(
 			configurationRepository.getDocumentationDataDirectory());
+
+	private final DesignReader reader = new DesignReader(configurationRepository.getDesignDataDirectory());
 
 	private final ScenarioDetailsMapper scenarioDetailsMapper = new ScenarioDetailsMapper();
 

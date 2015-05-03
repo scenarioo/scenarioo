@@ -17,17 +17,22 @@
 
 package org.scenarioo.rest.issue;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
+import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.dao.design.aggregates.IssueAggregationDAO;
+import org.scenarioo.dao.design.entities.DesignFiles;
 import org.scenarioo.model.design.aggregates.IssueProposals;
 import org.scenarioo.model.design.aggregates.IssueSummary;
 import org.scenarioo.model.design.aggregates.ProposalSummary;
@@ -47,7 +52,10 @@ public class IssuesResource {
 			.getConfigurationRepository();
 
 	private final IssueAggregationDAO dao = new IssueAggregationDAO(configurationRepository.getDesignDataDirectory());
+
+	// TODO: Extract the functionality these provide into separate classes
 	private final DesignReader reader = new DesignReader(configurationRepository.getDesignDataDirectory());
+	private final DesignFiles files = new DesignFiles(configurationRepository.getDesignDataDirectory());
 
 	/**
 	 * Lightweight call, which does not send all proposal information.
@@ -103,6 +111,19 @@ public class IssuesResource {
 		result.setIssue(issue);
 		result.setProposals(summaries);
 		return result;
+
+	}
+
+	@POST
+	@Consumes({ "application/x-www-form-urlencoded", "application/xml", "application/json" })
+	@Path("/{issueName}")
+	public void storeIssue(@PathParam("branchName") final String branchName,
+			@PathParam("issueName") final String issueName) {
+		Issue newIssue = new Issue();
+		newIssue.setName(issueName);
+		files.createIssueDirectory(branchName, issueName);
+		File destinationFile = files.createIssueFile(branchName, issueName);
+		ScenarioDocuXMLFileUtil.marshal(newIssue, destinationFile);
 
 	}
 

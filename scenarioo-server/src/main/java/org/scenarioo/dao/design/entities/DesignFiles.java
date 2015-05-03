@@ -23,6 +23,7 @@
 package org.scenarioo.dao.design.entities;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
 
@@ -137,6 +138,22 @@ public class DesignFiles {
 		final NumberFormat numberFormat = NumberFormat.getIntegerInstance();
 		numberFormat.setMinimumIntegerDigits(minimumIntegerDigits);
 		return numberFormat;
+	}
+
+	public boolean createIssueDirectory(final String branchName, final String issueName) {
+		File issueDirectory = new File(getBranchDirectory(branchName), FilesUtil.encodeName(issueName));
+		return issueDirectory.mkdir();
+	}
+
+	public File createIssueFile(final String branchName, final String issueName) {
+		File issueFile = new File(getIssueDirectory(branchName, issueName), FILE_NAME_ISSUE);
+		try {
+			issueFile.createNewFile();
+			return issueFile;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return issueFile;
 	}
 
 }
