@@ -43,7 +43,7 @@ import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.design.readers.DesignReader;
 
-@Path("/rest/branch/{branchName}/issues")
+@Path("/rest/branch/{branchName}/issue")
 public class IssuesResource {
 
 	private static final Logger LOGGER = Logger.getLogger(IssuesResource.class);
@@ -116,13 +116,17 @@ public class IssuesResource {
 
 	@POST
 	@Consumes({ "application/x-www-form-urlencoded", "application/xml", "application/json" })
-	@Path("/{issueName}")
+	// @Path("/{issueName}")
 	public void storeIssue(@PathParam("branchName") final String branchName,
-			@PathParam("issueName") final String issueName) {
-		Issue newIssue = new Issue();
-		newIssue.setName(issueName);
-		files.createIssueDirectory(branchName, issueName);
-		File destinationFile = files.createIssueFile(branchName, issueName);
+			final Issue newIssue) {
+//		Issue newIssue = new Issue();
+//		newIssue.setName(name);
+//		newIssue.setDescription(description);
+
+		String name = newIssue.getName();
+
+		files.createIssueDirectory(branchName, name);
+		File destinationFile = files.createIssueFile(branchName, name);
 		ScenarioDocuXMLFileUtil.marshal(newIssue, destinationFile);
 
 	}
