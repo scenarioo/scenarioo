@@ -29,12 +29,14 @@ angular.module('scenarioo.controllers').controller('AddIssueCtrl', function ($sc
 
         //newIssue.$save();
 
-        console.log(newIssue);
+        //console.log(newIssue);
 
-        newIssue.$save(function(savedIssue, putResponseHeaders) {
-            console(savedIssue);
-            console(putResponseHeaders);
-
+        newIssue.$save(function(savedIssue) {
+            $scope.issues.push(savedIssue);
+            $scope.issueName = '';
+            $scope.issueDescription = '';
+        },function(error){
+            console.log(error);
         });
     };
 
