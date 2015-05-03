@@ -249,7 +249,7 @@ angular.module('scenarioo.services')
     })
 
     .factory('IssuesResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issues',
+        return ScenariooResource('/branch/:branchName/issue',
             {
                 branchName: '@branchName'
             }, {});
