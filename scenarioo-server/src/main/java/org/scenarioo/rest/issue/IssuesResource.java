@@ -17,6 +17,7 @@
 
 package org.scenarioo.rest.issue;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,10 +30,13 @@ import org.apache.log4j.Logger;
 import org.scenarioo.dao.design.aggregates.IssueAggregationDAO;
 import org.scenarioo.model.design.aggregates.IssueProposals;
 import org.scenarioo.model.design.aggregates.IssueSummary;
+import org.scenarioo.model.design.aggregates.ProposalSummary;
 import org.scenarioo.model.design.entities.Issue;
+import org.scenarioo.model.design.entities.Proposal;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.utils.design.readers.DesignReader;
 
 @Path("/rest/branch/{branchName}/issues")
 public class IssuesResource {
@@ -42,7 +46,8 @@ public class IssuesResource {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
-	IssueAggregationDAO dao = new IssueAggregationDAO(configurationRepository.getDesignDataDirectory());
+	private final IssueAggregationDAO dao = new IssueAggregationDAO(configurationRepository.getDesignDataDirectory());
+	private final DesignReader reader = new DesignReader(configurationRepository.getDesignDataDirectory());
 
 	/**
 	 * Lightweight call, which does not send all proposal information.
@@ -54,9 +59,25 @@ public class IssuesResource {
 		BuildIdentifier ident = new BuildIdentifier(branchName, "");
 		List<IssueSummary> result = new LinkedList<IssueSummary>();
 
-		for (IssueProposals ip : dao.loadIssueProposalsList(ident)) {
-			result.add(mapSummary(ip));
+		// for (IssueProposals ip : dao.loadIssueProposalsList(ident)) {
+		// result.add(mapSummary(ip));
+		// }
+		// return result;
+
+		// This does not use pre-aggregated data
+		// Temporary Solution, probably does not scale
+		List<Issue> issues = reader.loadIssues(branchName);
+		for (Issue i : issues) {
+			List<Proposal> proposals = reader.loadProposals(branchName, i.getName());
+			IssueSummary summary = new IssueSummary();
+			summary.setName(i.getName());
+			summary.setDescription(i.getDescription());
+			summary.setStatus(i.getIssueStatus());
+			summary.setNumberOfProposals(proposals.size());
+			summary.setLabels(i.getLabels());
+			result.add(summary);
 		}
+
 		return result;
 	}
 
@@ -65,7 +86,24 @@ public class IssuesResource {
 	@Path("/{issueName}")
 	public IssueProposals loadIssueProposals(@PathParam("branchName") final String branchName,
 			@PathParam("issueName") final String issueName) {
-		return dao.loadIssueProposals(new BuildIdentifier(branchName, ""), issueName);
+		// return dao.loadIssueProposals(new BuildIdentifier(branchName, ""), issueName);
+
+		// This does not use pre-aggregated data
+		// Temporary Solution, probably does not scale
+		Issue issue = reader.loadIssue(branchName, issueName);
+		List<Proposal> proposals = reader.loadProposals(branchName, issueName);
+		List<ProposalSummary> summaries = new ArrayList<ProposalSummary>();
+		for (Proposal p : proposals) {
+			ProposalSummary summary = new ProposalSummary();
+			summary.setProposal(p);
+			summary.setNumberOfSteps(0); // Wrong, but works until pre-calculating data is done
+			summaries.add(summary);
+		}
+		IssueProposals result = new IssueProposals();
+		result.setIssue(issue);
+		result.setProposals(summaries);
+		return result;
+
 	}
 
 	private IssueSummary mapSummary(final IssueProposals issueProposals) {
