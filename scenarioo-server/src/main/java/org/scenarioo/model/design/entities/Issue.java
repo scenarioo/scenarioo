@@ -81,9 +81,9 @@ public class Issue implements Serializable, Labelable, Detailable {
 	 *
 	 * See also {@link #setStatus(String)} for setting additional application-specific states.
 	 */
-	public void setStatus(final IssueStatus status) {
-		setStatus(IssueStatus.toKeywordNullSafe(status));
-	}
+	// public void setStatus(final IssueStatus status) {
+	// setStatus(IssueStatus.toKeywordNullSafe(status));
+	// }
 
 	public void setStatus(final String status) {
 		this.status = status;
