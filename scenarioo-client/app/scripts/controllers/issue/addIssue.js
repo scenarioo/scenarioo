@@ -17,11 +17,20 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('AddIssueCtrl', function ($scope, IssuesResource) {
+angular.module('scenarioo.controllers').controller('AddIssueCtrl', function ($scope, $routeParams, IssueResource, SelectedBranchAndBuild) {
 
     $scope.addIssue = function() {
-        var newIssue = new IssuesResource({name:$scope.issueName});
+
+        var newIssue = new IssueResource({
+            branchName: $routeParams.branch,
+            name:$scope.issueName,
+            description: $scope.issueDescription
+        });
+
+        //newIssue.branchName = $scope.selectedBranch;
         //newIssue.$save();
+
+        console.log($routeParams.branch);
 
         newIssue.$save(function(savedIssue, putResponseHeaders) {
             console(savedIssue);
