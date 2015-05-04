@@ -18,6 +18,7 @@
 package org.scenarioo.model.design.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -36,7 +37,13 @@ public class Issue implements Serializable, Labelable, Detailable {
 
 	private String name;
 	private String description;
-	private String status;
+	private String issueStatus;
+	private String trackingURL;
+	private String author;
+	private String contextInDocu;
+	private Date dateCreated;
+	private Date dateModified;
+
 	@XmlTransient
 	private String branchName;
 
@@ -50,7 +57,7 @@ public class Issue implements Serializable, Labelable, Detailable {
 		this();
 		this.name = name;
 		this.description = description;
-		this.status = "Open";
+		this.issueStatus = "Open";
 	}
 
 	public String getName() {
@@ -76,7 +83,7 @@ public class Issue implements Serializable, Labelable, Detailable {
 	}
 
 	public String getIssueStatus() {
-		return status;
+		return issueStatus;
 	}
 
 	/**
@@ -84,12 +91,52 @@ public class Issue implements Serializable, Labelable, Detailable {
 	 *
 	 * See also {@link #setStatus(String)} for setting additional application-specific states.
 	 */
-	// public void setStatus(final IssueStatus status) {
-	// setStatus(IssueStatus.toKeywordNullSafe(status));
-	// }
+	public void setStatus(final IssueStatus status) {
+		setIssueStatus(IssueStatus.toKeywordNullSafe(status));
+	}
 
-	public void setStatus(final String status) {
-		this.status = status;
+	public void setIssueStatus(final String status) {
+		this.issueStatus = status;
+	}
+
+	public String getTrackingURL() {
+		return trackingURL;
+	}
+
+	public void setTrackingURL(final String trackingURL) {
+		this.trackingURL = trackingURL;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(final String author) {
+		this.author = author;
+	}
+
+	public String getContextInDocu() {
+		return contextInDocu;
+	}
+
+	public void setContextInDocu(final String contextInDocu) {
+		this.contextInDocu = contextInDocu;
+	}
+
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(final Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public Date getDateModified() {
+		return dateModified;
+	}
+
+	public void setDateModified(final Date dateModified) {
+		this.dateModified = dateModified;
 	}
 
 	@Override
