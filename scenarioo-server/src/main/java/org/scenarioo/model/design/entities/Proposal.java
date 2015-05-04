@@ -10,7 +10,6 @@ import org.scenarioo.api.rules.Preconditions;
 import org.scenarioo.model.docu.entities.Detailable;
 import org.scenarioo.model.docu.entities.Labelable;
 import org.scenarioo.model.docu.entities.Labels;
-import org.scenarioo.model.docu.entities.Status;
 import org.scenarioo.model.docu.entities.generic.Details;
 
 /**
@@ -74,9 +73,9 @@ public class Proposal implements Serializable, Labelable, Detailable {
 	 *
 	 * See also {@link #setStatus(String)} for setting additional application-specific states.
 	 */
-	public void setStatus(final Status status) {
-		setStatus(Status.toKeywordNullSafe(status));
-	}
+	// public void setStatus(final Status status) {
+	// setStatus(Status.toKeywordNullSafe(status));
+	// }
 
 	/**
 	 * Status of the proposal (draft, published). <br/>

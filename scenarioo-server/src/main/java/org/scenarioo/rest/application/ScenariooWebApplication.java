@@ -72,14 +72,7 @@ public class ScenariooWebApplication implements ServletContextListener {
 
 		LOGGER.info("  Configuration loaded.");
 		LOGGER.info("  Configured documentation content directory: " + configuration.getTestDocumentationDirPath());
-		/*
-		 * if (configuration.getTestDesignDirPath() == null){
-		 * configuration
-		 * .setTestDesignDirPath("/home/scenarioo/scenarioo/scenarioo-docu-generation-example/build/scenarioDesignExample"
-		 * );
-		 * }
-		 */
-		LOGGER.info("  Configured design content directory: " + configuration.getTestDesignDirPath());
+		LOGGER.info("  Configured design content directory: " + configuration.getDesignDocumentationDirPath());
 	}
 
 	private String configureConfigurationDirectoryFromServerContext(final ServletContextEvent servletContextEvent) {

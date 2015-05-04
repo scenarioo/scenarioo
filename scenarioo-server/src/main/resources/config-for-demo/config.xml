@@ -3,7 +3,7 @@
     <!--<testDocumentationDirPath>E:\PROJECTS\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample</testDocumentationDirPath>
 	<testDesignDirPath>E:\PROJECTS\scenarioo\scenarioo-docu-generation-example\build\scenarioDesignExample</testDesignDirPath>-->
 	<testDocumentationDirPath>/home/scenarioo/scenarioo/scenarioo-docu-generation-example/build/scenarioDocuExample</testDocumentationDirPath>
-	<testDesignDirPath>/home/scenarioo/scenarioo/scenarioo-docu-generation-example/build/scenarioDesignExample</testDesignDirPath>
+	<designDocumentationDirPath>/home/scenarioo/scenarioo/scenarioo-docu-generation-example/build/scenarioDesignExample</designDocumentationDirPath>
     
     <defaultBranchName>example-branch</defaultBranchName>
     <defaultBuildName>last successful</defaultBuildName>
