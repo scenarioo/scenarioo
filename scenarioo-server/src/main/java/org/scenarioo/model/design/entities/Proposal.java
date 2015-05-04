@@ -1,6 +1,7 @@
 package org.scenarioo.model.design.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -10,6 +11,7 @@ import org.scenarioo.api.rules.Preconditions;
 import org.scenarioo.model.docu.entities.Detailable;
 import org.scenarioo.model.docu.entities.Labelable;
 import org.scenarioo.model.docu.entities.Labels;
+import org.scenarioo.model.docu.entities.Status;
 import org.scenarioo.model.docu.entities.generic.Details;
 
 /**
@@ -23,8 +25,11 @@ public class Proposal implements Serializable, Labelable, Detailable {
 
 	private String name;
 	private String description;
-	private String status = "";
-	private final String author = "";
+	private String proposalStatus = "";
+	private String author = "";
+	private String contextInDocu;
+	private Date dateCreated;
+	private Date dateModified;
 
 	private Details details = new Details();
 	private Labels labels = new Labels();
@@ -64,8 +69,8 @@ public class Proposal implements Serializable, Labelable, Detailable {
 		this.description = description;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getProposalStatus() {
+		return proposalStatus;
 	}
 
 	/**
@@ -73,9 +78,9 @@ public class Proposal implements Serializable, Labelable, Detailable {
 	 *
 	 * See also {@link #setStatus(String)} for setting additional application-specific states.
 	 */
-	// public void setStatus(final Status status) {
-	// setStatus(Status.toKeywordNullSafe(status));
-	// }
+	public void setStatus(final Status status) {
+		// setProposalStatus(Status.toKeywordNullSafe(status));
+	}
 
 	/**
 	 * Status of the proposal (draft, published). <br/>
@@ -83,8 +88,40 @@ public class Proposal implements Serializable, Labelable, Detailable {
 	 * But you can use workflow-specific additional values, like "proposed-to-commitee", "archived" etc. where it makes
 	 * sense.
 	 */
-	public void setStatus(final String status) {
-		this.status = status;
+	public void setProposalStatus(final String proposalStatus) {
+		this.proposalStatus = proposalStatus;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(final String author) {
+		this.author = author;
+	}
+
+	public String getContextInDocu() {
+		return contextInDocu;
+	}
+
+	public void setContextInDocu(final String contextInDocu) {
+		this.contextInDocu = contextInDocu;
+	}
+
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(final Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public Date getDateModified() {
+		return dateModified;
+	}
+
+	public void setDateModified(final Date dateModified) {
+		this.dateModified = dateModified;
 	}
 
 	@Override
