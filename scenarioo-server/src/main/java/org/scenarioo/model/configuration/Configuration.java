@@ -41,7 +41,7 @@ public class Configuration {
 	public static final String DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD = "last successful";
 
 	private String testDocumentationDirPath;
-	private String designDocumentationDirPath;
+	private String testDesignDirPath;
 
 	private String defaultBranchName = "trunk";
 
@@ -83,12 +83,12 @@ public class Configuration {
 		this.testDocumentationDirPath = testDocumentationDirPath;
 	}
 
-	public String getDesignDocumentationDirPath() {
-		return designDocumentationDirPath;
+	public String getTestDesignDirPath() {
+		return testDesignDirPath;
 	}
 
-	public void setDesignDocumentationDirPath(final String designDocumentationDirPath) {
-		this.designDocumentationDirPath = designDocumentationDirPath;
+	public void setTestDesignDirPath(final String testDesignDirPath) {
+		this.testDesignDirPath = testDesignDirPath;
 	}
 
 	public String getDefaultBranchName() {
