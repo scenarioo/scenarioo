@@ -16,6 +16,7 @@ function HomePage(overridePath) {
     this.showMetaDataButton = element(by.id('sc-showHideDetailsButton-show'));
     this.hideMetaDataButton = element(by.id('sc-showHideDetailsButton-hide'));
     this.metaDataPanel = element(by.id("sc-metadata-panel"));
+    this.issuesTab = element(by.repeater("tab in tabs").row(3));
 
 }
 
@@ -76,6 +77,11 @@ HomePage.prototype.assertMetaDataHidden = function() {
 
 HomePage.prototype.hideMetaData = function() {
     this.hideMetaDataButton.click();
+};
+
+HomePage.prototype.selectIssuesTab = function() {
+    //var issuesTab = document.querySelector('heading=Issues');
+    this.issuesTab.click();
 };
 
 module.exports = HomePage;
