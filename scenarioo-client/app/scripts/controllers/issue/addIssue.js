@@ -17,9 +17,10 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('AddIssueCtrl', function ($scope, $routeParams, IssueResource, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('AddIssueCtrl', function ($scope, $routeParams, IssueResource, Issues) {
 
     $scope.addIssue = function() {
+        $scope.successfullyUpdatedIssues = false;
 
         var newIssue = new IssueResource({
             branchName: $routeParams.branch,
@@ -27,15 +28,10 @@ angular.module('scenarioo.controllers').controller('AddIssueCtrl', function ($sc
             description: $scope.issueDescription
         });
 
-        //newIssue.branchName = $scope.selectedBranch;
-        //newIssue.$save();
-
-        console.log($routeParams.branch);
-
-        newIssue.$save(function(savedIssue, putResponseHeaders) {
-            console(savedIssue);
-            console(putResponseHeaders);
-
+        Issues.saveIssue(newIssue, function () {
+            $scope.successfullyUpdatedIssues = true;
+            $scope.issueName = '';
+            $scope.issueDescription = '';
         });
     };
 
