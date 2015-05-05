@@ -27,16 +27,20 @@ import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.scenarioo.api.util.files.FilesUtil;
+import org.scenarioo.dao.design.aggregates.IssueAggregationDAO;
 
 /**
  * Represents the file structure of the design domain.
  */
 public class DesignFiles {
 
-	private static final String DIRECTORY_NAME_PROPOSAL_SCREENSHOTS = "screenshots";
+	private static final Logger LOGGER = Logger.getLogger(IssueAggregationDAO.class);
 
-	private static final String DIRECTORY_NAME_PROPOSAL_STEPS = "steps";
+	private static final String DIRECTORY_NAME_PROPOSAL_ORIGINALSCREENSHOTS = "screenshots";
+
+	private static final String DIRECTORY_NAME_PROPOSAL_SKETCHSTEPS = "steps";
 
 	private static final String FILE_NAME_PROPOSAL = "proposal.xml";
 
@@ -102,35 +106,35 @@ public class DesignFiles {
 		return FilesUtil.getListOfFilesFromSubdirs(getIssueDirectory(branchName, issueName), FILE_NAME_PROPOSAL);
 	}
 
-	public File getStepsDirectory(final String branchName, final String issueName, final String proposalName) {
+	public File getSketchStepsDirectory(final String branchName, final String issueName, final String proposalName) {
 		File branchDirectory = new File(getProposalDirectory(branchName, issueName, proposalName),
-				DIRECTORY_NAME_PROPOSAL_STEPS);
+				DIRECTORY_NAME_PROPOSAL_SKETCHSTEPS);
 		return branchDirectory;
 	}
 
-	public File getStepFile(final String branchName, final String issueName, final String proposalName,
-			final int stepIndex) {
-		return new File(getStepsDirectory(branchName, issueName, proposalName),
-				THREE_DIGIT_NUM_FORMAT.format(stepIndex) + ".xml");
+	public File getSketchStepFile(final String branchName, final String issueName, final String proposalName,
+			final int sketchStepIndex) {
+		return new File(getSketchStepsDirectory(branchName, issueName, proposalName),
+				THREE_DIGIT_NUM_FORMAT.format(sketchStepIndex) + ".xml");
 	}
 
-	public List<File> getStepFiles(final String branchName, final String issueName, final String proposalName) {
-		return FilesUtil.getListOfFiles(getStepsDirectory(branchName, issueName, proposalName));
+	public List<File> getSketchStepFiles(final String branchName, final String issueName, final String proposalName) {
+		return FilesUtil.getListOfFiles(getSketchStepsDirectory(branchName, issueName, proposalName));
 	}
 
-	public File getScreenshotsDirectory(final String branchName, final String issueName,
+	public File getOriginalScreenshotsDirectory(final String branchName, final String issueName,
 			final String proposalName) {
-		return new File(getProposalDirectory(branchName, issueName, proposalName), DIRECTORY_NAME_PROPOSAL_SCREENSHOTS);
+		return new File(getProposalDirectory(branchName, issueName, proposalName), DIRECTORY_NAME_PROPOSAL_ORIGINALSCREENSHOTS);
 	}
 
 	/**
 	 * @return A {@link File} object pointing to the PNG file of the step screenshot. The method does not care whether
 	 *         the file actually exists.
 	 */
-	public File getScreenshotFile(final String branchName, final String issueName,
-			final String proposalName, final int stepIndex) {
-		return new File(getScreenshotsDirectory(branchName, issueName, proposalName),
-				THREE_DIGIT_NUM_FORMAT.format(stepIndex) + ".png");
+	public File getOriginalScreenshotFile(final String branchName, final String issueName,
+			final String proposalName, final int sketchStepIndex) {
+		return new File(getOriginalScreenshotsDirectory(branchName, issueName, proposalName),
+				THREE_DIGIT_NUM_FORMAT.format(sketchStepIndex) + ".png");
 	}
 
 	private static NumberFormat createNumberFormatWithMinimumIntegerDigits(
@@ -140,9 +144,15 @@ public class DesignFiles {
 		return numberFormat;
 	}
 
+	// TODO: Check if branch folder exists in documentation folder
 	public boolean createIssueDirectory(final String branchName, final String issueName) {
 		File issueDirectory = new File(getBranchDirectory(branchName), FilesUtil.encodeName(issueName));
-		return issueDirectory.mkdir();
+		// mkdirs() guarantees that the branch directory is created too
+		boolean isCreated = issueDirectory.mkdirs();
+		if (!isCreated) {
+			LOGGER.error("Issue directory not created.");
+		}
+		return isCreated;
 	}
 
 	public File createIssueFile(final String branchName, final String issueName) {
@@ -151,7 +161,7 @@ public class DesignFiles {
 			issueFile.createNewFile();
 			return issueFile;
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Issue file not created.");
 		}
 		return issueFile;
 	}

@@ -56,14 +56,14 @@ public class DesignReader {
 	}
 
 	public List<Step> loadSteps(final String branchName, final String issueName, final String proposalName) {
-		List<File> files = designFiles.getStepFiles(checkIdentifier(branchName), checkIdentifier(issueName),
+		List<File> files = designFiles.getSketchStepFiles(checkIdentifier(branchName), checkIdentifier(issueName),
 				checkIdentifier(proposalName));
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(Step.class, files);
 	}
 
 	public Step loadStep(final String branchName, final String issueName,
 			final String proposalName, final int stepIndex) {
-		File file = designFiles.getStepFile(checkIdentifier(branchName), checkIdentifier(issueName),
+		File file = designFiles.getSketchStepFile(checkIdentifier(branchName), checkIdentifier(issueName),
 				checkIdentifier(proposalName), stepIndex);
 		return ScenarioDocuXMLFileUtil.unmarshal(Step.class, file);
 	}
@@ -73,7 +73,7 @@ public class DesignReader {
 	 */
 	public File getScreenshotFile(final String branchName, final String issueName, final String proposalName,
 			final String imageName) {
-		return new File(designFiles.getScreenshotsDirectory(checkIdentifier(branchName),
+		return new File(designFiles.getOriginalScreenshotsDirectory(checkIdentifier(branchName),
 				checkIdentifier(issueName), checkIdentifier(proposalName)), imageName);
 	}
 
