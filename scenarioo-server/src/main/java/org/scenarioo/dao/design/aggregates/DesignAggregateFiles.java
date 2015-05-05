@@ -81,7 +81,7 @@ public class DesignAggregateFiles {
 	 * Directory to store additional step navigation details inside
 	 */
 	public File getStepNavigationsDirectory(final ProposalIdentifier proposalIdentifier) {
-		File stepsDir = designFiles.getStepsDirectory(proposalIdentifier.getBranchName(),
+		File stepsDir = designFiles.getSketchStepsDirectory(proposalIdentifier.getBranchName(),
 				proposalIdentifier.getIssueName(), proposalIdentifier.getProposalName());
 		return new File(stepsDir, "navigation.derived");
 	}

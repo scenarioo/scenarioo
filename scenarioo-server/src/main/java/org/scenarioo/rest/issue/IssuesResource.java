@@ -119,7 +119,7 @@ public class IssuesResource {
 	public void storeIssue(@PathParam("branchName") final String branchName,
 			final Issue newIssue) {
 
-		newIssue.setStatus("Open");
+		newIssue.setIssueStatus("Open");
 		String name = newIssue.getName();
 
 		files.createIssueDirectory(branchName, name);

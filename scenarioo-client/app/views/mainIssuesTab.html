@@ -67,12 +67,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <!-- new issue -->
             <sc-collapsable-panel title="Add New Issue" key="addNewIssueView-issue" initially-expanded="true">
                 <div ng-controller="AddIssueCtrl">
+
+                    <div class="alert alert-success fade-out" ng-show="successfullyUpdatedIssues">
+                        The issue has been successfully added.
+                        <a ng-click="successfullyUpdatedIssues=false" class="pull-right link link-no-hover" style="color: #468847"><i
+                                class="icon-remove icon"></i></a>
+                    </div>
+
                     <form>
-                        <label>Name</label>
-                        <input type="text" ng-model="issueName" />
-                        <label>Description</label>
-                        <textarea ng-model="issueDescription"></textarea>
-                        <button ng-click="addIssue()">Add</button>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" ng-model="issueName" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea ng-model="issueDescription" class="form-control" rows="3"></textarea>
+                        </div>
+                        <button ng-click="addIssue()" class="btn btn-default">Add</button>
                     </form>
                 </div>
             </sc-collapsable-panel>
