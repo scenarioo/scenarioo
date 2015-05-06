@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-angular.module('scenarioo.sketcher.controllers').controller('EditorCtrl', function ($scope, $location, $filter, GlobalHotkeysService, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scope, $location, $filter, GlobalHotkeysService, SelectedBranchAndBuild) {
 
   var drawingPad = SVG('drawingPad').size('100%', '100%').fixSubPixelOffset();
 
@@ -33,14 +33,17 @@ angular.module('scenarioo.sketcher.controllers').controller('EditorCtrl', functi
     that.icon = null;
     that.tooltip = 'This will be the tool tip.';
     that.cursor = null;
+    that.buttonDisabled = false;
     that.onmousedown = function(event){
 
     };
 
     that.onmouseup = function(event){
-      console.log(event.target.id);
-      var element = SVG.get(event.target.id);
-      element.fill('#f06');
+        //if(currentTool == that){
+          //console.log(event.target.id);
+          var element = SVG.get(event.target.id);
+          element.fill('#f06');
+        //}
     };
 
     that.onmousedrag = function(event){
@@ -51,22 +54,31 @@ angular.module('scenarioo.sketcher.controllers').controller('EditorCtrl', functi
   }
 
   $scope.activateTool = function (tool){
+    /*if(currentTool){
+        toolDeactivated();
+    }*/
     currentTool = tool;
-    console.log("Activated tool: " + currentTool.name);
+    console.log('Activated tool: ' + currentTool.name);
+    //currentTool.buttonDisabled = true;
     drawingPad.on('mousedown', currentTool.onmousedown);
     drawingPad.on('mouseup', currentTool.onmouseup);
     drawingPad.on('mousemove', currentTool.onmousedrag);
   }
 
   function toolDeactivated(){
-    console.log("Tool deactivated");
-      drawingPad.off('mousedown', currentTool.onmousedown);
-      drawingPad.off('mouseup', currentTool.onmouseup);
-      drawingPad.off('mousemove', currentTool.onmousedrag);
+    console.log('Tool deactivated: ' + currentTool.name);
+    //currentTool.buttonDisabled = false;
+    drawingPad.off('mousedown', currentTool.onmousedown);
+    drawingPad.off('mouseup', currentTool.onmouseup);
+    drawingPad.off('mousemove', currentTool.onmousedrag);
     $scope.activateTool($scope.selectTool);
   }
 
   $scope.activateTool($scope.selectTool);
+
+  $scope.getButtonDisabled = function (tool){
+      return tool.buttonDisabled;
+  }
 
   function RectTool(){
     var that = {};
@@ -74,6 +86,7 @@ angular.module('scenarioo.sketcher.controllers').controller('EditorCtrl', functi
     that.icon = null;
     that.tooltip = 'This tool is used to draw rectangles.';
     that.cursor = null;
+    that.buttonDisabled = false;
 
     var newRect = null;
     var mousePosX1 = 0;
@@ -91,8 +104,7 @@ angular.module('scenarioo.sketcher.controllers').controller('EditorCtrl', functi
       newRect.attr({
         x: mousePosX1,
         y: mousePosY1,
-        fill: '#f60',
-        ngMouseMove: 'paperMousemove'
+        fill: '#f60'
       });
 
       mousePosLastX = mousePosX1;
@@ -102,7 +114,7 @@ angular.module('scenarioo.sketcher.controllers').controller('EditorCtrl', functi
     that.onmouseup = function(event){
       mousedown = false;
 
-      newRect.attr("fill", "#0f3");
+      newRect.attr('fill', '#0f3');
       mousePosX1 = 0;
       mousePosY1 = 0;
       mousePosLastX = 0;
