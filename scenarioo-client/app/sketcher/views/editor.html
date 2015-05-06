@@ -1,0 +1,26 @@
+<!-- scenarioo-client
+Copyright (C) 2015, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div ng-controller="EditorCtrl" style="background:#eee; padding:50px; margin-top:50px;">
+  <div id="toolbar" style="width:100%; height:30px; background-color:#eee;">
+    <button ng-click="activateTool(rectTool)">Rectangles!</button>
+  </div>
+  <div id="workspace" style="width:100%; height:600px; position: relative;">
+    <svg id="drawingPad" style="background-color:#fff; border:2px solid #ddd;"></svg>
+  </div>
+
+</div>
