@@ -81,9 +81,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </div>
                         <div class="form-group">
                             <label>Description</label>
-                            <textarea ng-model="issueDescription" class="form-control" rows="3"></textarea>
+                            <textarea id="issueDescription" ng-model="issueDescription" class="form-control" rows="3"></textarea>
                         </div>
-                        <button ng-click="addIssue()" class="btn btn-default">Add</button>
+                        <button ng-click="addIssue()" class="btn btn-default" id="addBtn">Add</button>
                     </form>
                 </div>
             </sc-collapsable-panel>
