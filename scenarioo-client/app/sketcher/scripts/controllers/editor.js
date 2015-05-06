@@ -60,10 +60,13 @@ angular.module('scenarioo.sketcher.controllers').controller('EditorCtrl', functi
 
   function toolDeactivated(){
     console.log("Tool deactivated");
-    $scope.activateTool(SelectTool);
+      drawingPad.off('mousedown', currentTool.onmousedown);
+      drawingPad.off('mouseup', currentTool.onmouseup);
+      drawingPad.off('mousemove', currentTool.onmousedrag);
+    $scope.activateTool($scope.selectTool);
   }
 
-  $scope.activateTool(SelectTool());
+  $scope.activateTool($scope.selectTool);
 
   function RectTool(){
     var that = {};
@@ -80,7 +83,7 @@ angular.module('scenarioo.sketcher.controllers').controller('EditorCtrl', functi
     var mousedown = false;
     that.onmousedown = function(event){
       mousedown = true;
-      newRect = drawingPad.rect(0,0,0,0).draggable();
+      newRect = drawingPad.rect(0,0,0,0);
 
       mousePosX1 = event.offsetX;
       mousePosY1 = event.offsetY;
