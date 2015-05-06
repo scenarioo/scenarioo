@@ -21,9 +21,8 @@ angular.module('scenarioo.filters', []);
 angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'ui.bootstrap.tpls']);
 angular.module('scenarioo.services', [ 'ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
-angular.module('scenarioo.sketcher.controllers', []);
 
-angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap', 'scenarioo.sketcher.controllers'])
+angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
 
 .config(function ($routeProvider) {
 
@@ -83,7 +82,7 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap', 'scenarioo.
             breadcrumbId: 'issue'
         })
         .when('/editor', {
-            templateUrl: 'sketcher/views/editor.html',
+            templateUrl: 'views/sketcher/editor.html',
             controller: 'EditorCtrl',
             breadcrumbId: 'editor'
         })
