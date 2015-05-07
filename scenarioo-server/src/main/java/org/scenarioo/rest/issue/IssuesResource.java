@@ -92,6 +92,7 @@ public class IssuesResource {
 	@Path("/{issueName}")
 	public IssueProposals loadIssueProposals(@PathParam("branchName") final String branchName,
 			@PathParam("issueName") final String issueName) {
+		LOGGER.info("REQUEST: loadIssueProposals(" + issueName + ")");
 		// return dao.loadIssueProposals(new BuildIdentifier(branchName, ""), issueName);
 
 		// This does not use pre-aggregated data

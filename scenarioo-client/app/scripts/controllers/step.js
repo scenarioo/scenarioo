@@ -374,4 +374,8 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         SharePageService.invalidateUrls();
     });
 
+  $scope.sketchThis = function(){
+    $location.path('/editor').search('screenshotURL', $scope.getScreenShotUrl());
+  };
+
 });
