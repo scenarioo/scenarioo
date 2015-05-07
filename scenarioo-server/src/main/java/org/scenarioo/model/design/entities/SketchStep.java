@@ -22,6 +22,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Information to store and display for one design sketchStep.
@@ -31,7 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class SketchStep implements Serializable {
 
 	// private Page page;
-	private String sketch; // todo
+	private int sketchStepName;
+	private String sketchFileName; // todo
 	private int nextSketchStepRef; // (index) todo
 	private SketchStepDescription sketchStepDescription;
 	private SketchStepHtml html;
@@ -39,6 +41,13 @@ public class SketchStep implements Serializable {
 	private String contextInDocu; // todo
 	private String dateCreated; // todo
 	private String dateModified; // todo
+
+	@XmlTransient
+	private String branchName;
+	@XmlTransient
+	private String issueName;
+	@XmlTransient
+	private String proposalName;
 
 	/*
 	 * public Page getPage() {
@@ -49,7 +58,7 @@ public class SketchStep implements Serializable {
 	/**
 	 * Information about the page this sketchStep belongs to (usually there are several sketchSteps that show the same
 	 * UI page).
-	 * 
+	 *
 	 * This information is optional in case you do not have a page concept in your application.
 	 */
 	/*
@@ -59,11 +68,11 @@ public class SketchStep implements Serializable {
 	 */
 
 	public String getSketch() {
-		return sketch;
+		return sketchFileName;
 	}
 
 	public void setSketch(final String sketch) {
-		this.sketch = sketch;
+		this.sketchFileName = sketch;
 	}
 
 	public int getNextSketchStepRef() {
@@ -132,6 +141,38 @@ public class SketchStep implements Serializable {
 	 */
 	public void setMetadata(final SketchStepMetadata metadata) {
 		this.metadata = metadata;
+	}
+
+	public int getSketchStepName() {
+		return sketchStepName;
+	}
+
+	public void setSketchStepName(final int sketchStepName) {
+		this.sketchStepName = sketchStepName;
+	}
+
+	private String getBranchName() {
+		return branchName;
+	}
+
+	private void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
+
+	private String getIssueName() {
+		return issueName;
+	}
+
+	private void setIssueName(String issueName) {
+		this.issueName = issueName;
+	}
+
+	private String getProposalName() {
+		return proposalName;
+	}
+
+	private void setProposalName(String proposalName) {
+		this.proposalName = proposalName;
 	}
 
 }

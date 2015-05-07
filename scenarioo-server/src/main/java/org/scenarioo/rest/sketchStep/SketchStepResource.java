@@ -1,23 +1,25 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.scenarioo.rest.sketchStep;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -28,6 +30,8 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.design.aggregates.ProposalAggregationDAO;
+import org.scenarioo.dao.design.entities.DesignFiles;
+import org.scenarioo.model.design.entities.SketchStep;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -41,7 +45,6 @@ import org.scenarioo.rest.sketchStep.logic.SketchStepResponseFactory;
 import org.scenarioo.rest.step.StepResource;
 import org.scenarioo.rest.step.logic.LabelsQueryParamParser;
 
-//@Path("/rest/branch/{branchName}/issue/{issueName}/proposal/{proposalName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/sketchStepInPageOccurrence/{sketchStepInPageOccurrence}")
 @Path("/rest/branch/{branchName}/issue/{issueName}/proposal/{proposalName}/sketchStep/{sketchStepName}")
 public class SketchStepResource {
 
@@ -67,7 +70,9 @@ public class SketchStepResource {
 			aggregatedDataReader,
 			scenarioDocuReader);
 
-	
+	private final DesignFiles files = new DesignFiles(configurationRepository.getDesignDataDirectory());
+
+
 
 	/**
 	 * Get a step with all its data (meta data, html, ...) together with additional calculated navigation data
@@ -94,5 +99,18 @@ public class SketchStepResource {
 		return sketchStepResponseFactory.createResponse(sketchStepLoaderResult, sketchStepIdentifier,
 				buildIdentifierBeforeAliasResolution, addFallbackInfo);
 	}
+
+	@POST
+	@Consumes({ "application/json" })
+	@Produces({ "application/json", "application/xml" })
+	public void storeSketchStep(@PathParam("branchName") final String branchName,
+			@PathParam("issueName") final String issueName,
+			@PathParam("proposalName") final String proposalName, final SketchStep sketchStep) {
+
+		files.writeSketchStepToFile(branchName, issueName, proposalName, sketchStep);
+		files.writeSVGToFile(branchName, issueName, proposalName, sketchStep);
+
+	}
+
 
 }

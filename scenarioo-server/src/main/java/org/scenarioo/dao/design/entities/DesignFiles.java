@@ -23,13 +23,18 @@
 package org.scenarioo.dao.design.entities;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.api.util.files.FilesUtil;
+import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.dao.design.aggregates.IssueAggregationDAO;
+import org.scenarioo.model.design.entities.Issue;
+import org.scenarioo.model.design.entities.SketchStep;
 
 /**
  * Represents the file structure of the design domain.
@@ -40,7 +45,9 @@ public class DesignFiles {
 
 	private static final String DIRECTORY_NAME_PROPOSAL_ORIGINALSCREENSHOTS = "screenshots";
 
-	private static final String DIRECTORY_NAME_PROPOSAL_SKETCHSTEPS = "steps";
+	private static final String DIRECTORY_NAME_PROPOSAL_SKETCHSTEPS = "sketchSteps";
+
+	private static final String DIRECTORY_NAME_SKETCHSTEP_SVG = "svg";
 
 	private static final String FILE_NAME_PROPOSAL = "proposal.xml";
 
@@ -107,9 +114,9 @@ public class DesignFiles {
 	}
 
 	public File getSketchStepsDirectory(final String branchName, final String issueName, final String proposalName) {
-		File branchDirectory = new File(getProposalDirectory(branchName, issueName, proposalName),
+		File sketchStepsDirectory = new File(getProposalDirectory(branchName, issueName, proposalName),
 				DIRECTORY_NAME_PROPOSAL_SKETCHSTEPS);
-		return branchDirectory;
+		return sketchStepsDirectory;
 	}
 
 	public File getSketchStepFile(final String branchName, final String issueName, final String proposalName,
@@ -164,6 +171,77 @@ public class DesignFiles {
 			LOGGER.error("Issue file not created.");
 		}
 		return issueFile;
+	}
+
+	public void writeIssueToFile(final String branchName, final Issue issue) {
+		createIssueDirectory(branchName, issue.getName());
+		File destinationFile = createIssueFile(branchName, issue.getName());
+		issue.setIssueStatus("Open");
+		ScenarioDocuXMLFileUtil.marshal(issue, destinationFile);
+	}
+
+	public boolean createSketchStepDirectory(final String branchName, final String issueName,
+			final String proposalName) {
+		File sketchStepDir = getSketchStepsDirectory(branchName, issueName, proposalName);
+		boolean isCreated = sketchStepDir.mkdirs();
+		if (!isCreated) {
+			LOGGER.error("SketchStep directory not created.");
+		}
+		return isCreated;
+	}
+
+	public File createSketchStepFile(final String branchName, final String issueName,
+			final String proposalName, final int sketchStepIndex, final SketchStep sketchStep) {
+		File sketchStepFile = new File(getSketchStepsDirectory(branchName, issueName, proposalName),
+				THREE_DIGIT_NUM_FORMAT.format(sketchStepIndex) + ".xml");
+		try {
+			sketchStepFile.createNewFile();
+			return sketchStepFile;
+		} catch (IOException e) {
+			LOGGER.error("SketchStep file not created.");
+		}
+		return sketchStepFile;
+	}
+
+	public void writeSketchStepToFile(final String branchName, final String issueName,
+			final String proposalName, final SketchStep sketchStep) {
+		createSketchStepDirectory(branchName, issueName, proposalName);
+		File destinationFile = createSketchStepFile(branchName, issueName, proposalName,
+				sketchStep.getSketchStepName(), sketchStep);
+		ScenarioDocuXMLFileUtil.marshal(sketchStep, destinationFile);
+	}
+
+	public boolean createSketchStepSVGDirectory(final String branchName, final String issueName,
+			final String proposalName) {
+		File sketchStepSVGDir = new File(getSketchStepsDirectory(branchName, issueName, proposalName),
+				DIRECTORY_NAME_SKETCHSTEP_SVG);
+		boolean isCreated = sketchStepSVGDir.mkdirs();
+		if (!isCreated) {
+			LOGGER.error("SketchStep SVG directory not created.");
+		}
+		return isCreated;
+	}
+
+	public File getSketchStepsSVGDirectory(final String branchName, final String issueName,
+			final String proposalName) {
+		return new File(getSketchStepsDirectory(branchName, issueName, proposalName), DIRECTORY_NAME_SKETCHSTEP_SVG);
+	}
+
+	public void writeSVGToFile(final String branchName, final String issueName,
+			final String proposalName, final SketchStep sketchStep) {
+		createSketchStepSVGDirectory(branchName, issueName, proposalName);
+		File sketchStepSVGFile = new File(getSketchStepsSVGDirectory(branchName, issueName, proposalName),
+				(new Date()).getTime() + ".svg");
+		try {
+			sketchStepSVGFile.createNewFile();
+			FileWriter writer = new FileWriter(sketchStepSVGFile);
+			writer.write(sketchStep.getSketch());
+			writer.close();
+		} catch (IOException e) {
+			LOGGER.error("Could not write SVG file.");
+		}
+
+
 	}
 
 }
