@@ -18,7 +18,15 @@
 angular.module('scenarioo.services').factory('DrawingPadService', function(){
   var drawingPad = SVG('drawingPad').size('100%', '100%').fixSubPixelOffset();
 
+  function exportDrawing() {
+      return drawingPad.exportSvg();
+  }
+
   return {
-    get: drawingPad
+    get: drawingPad,
+
+      exportDrawing: function(){
+        return exportDrawing();
+    }
   };
 });

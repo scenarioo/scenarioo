@@ -20,7 +20,7 @@
 angular.module('scenarioo.controllers').controller('AddIssueCtrl', function ($scope, $routeParams, IssueResource, Issues) {
 
     $scope.addIssue = function() {
-        $scope.successfullyUpdatedIssues = false;
+        $scope.successfullyUpdatedSketchStep = false;
 
         var newIssue = new IssueResource({
             branchName: $routeParams.branch,
@@ -29,7 +29,7 @@ angular.module('scenarioo.controllers').controller('AddIssueCtrl', function ($sc
         });
 
         Issues.saveIssue(newIssue, function () {
-            $scope.successfullyUpdatedIssues = true;
+            $scope.successfullyUpdatedSketchStep = true;
             $scope.issueName = '';
             $scope.issueDescription = '';
         });

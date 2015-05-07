@@ -261,6 +261,16 @@ angular.module('scenarioo.services')
                 branchName: '@branchName',
                 issueName: '@issueName'
             }, {});
+    })
+
+    .factory('SketchStepResource', function (ScenariooResource) {
+        return ScenariooResource('/branch/:branchName/issue/:issueName/proposal/:proposalName/sketchstep/:sketchStepName',
+            {
+                branchName: '@branchName',
+                issueName: '@issueName',
+                proposalName: '@proposalName',
+                sketchStepName: '@sketchStepName'
+            }, {});
     });
 
 function getPromise($q, fn) {

@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scope, $location, $filter, GlobalHotkeysService, SelectedBranchAndBuild, CircleTool, DrawingPadService) {
+angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scope, $location, $filter, $routeParams, GlobalHotkeysService, SelectedBranchAndBuild, CircleTool, DrawingPadService, SketchStep, SketchStepResource) {
 
   var drawingPad = DrawingPadService.get;
 
@@ -151,5 +151,24 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scop
     return that;
   }
 
+    // exporting svg drawing
+    $scope.updateDrawing = function(){
+        var exportedSVG = DrawingPadService.exportDrawing();
+        console.log(exportedSVG);
+
+        $scope.successfullyUpdatedSketchStep = false;
+
+        var changedSketchStep = new SketchStepResource({
+            branchName: $routeParams.branch,
+            issueName:'test issue',
+            proposalName: 'test proposal',
+            sketchStepName: 1,
+            sketch : exportedSVG
+        });
+
+        SketchStep.updateSketchStep(changedSketchStep, function () {
+           $scope.successfullyUpdatedSketchStep = true;
+        });
+    };
 
 });
