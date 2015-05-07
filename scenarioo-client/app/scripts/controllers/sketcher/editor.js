@@ -20,7 +20,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scope, $location, $filter, $routeParams, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, CircleTool, DrawingPadService, SketchStep, SketchStepResource) {
 
   var drawingPad = DrawingPadService.get;
-
+  if ($routeParams.screenshotURL) {
+    console.log($routeParams.screenshotURL);
+    drawingPad.image($routeParams.screenshotURL);
+  }
   var currentTool = null;
   var listOfTools = null; // TODO: Service which loads tools from an extension directory?
 
