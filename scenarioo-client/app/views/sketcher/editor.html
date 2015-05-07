@@ -17,7 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <div ng-controller="EditorCtrl" style="background:#eee; padding:50px; margin-top:50px;">
     <h1>Sketcher</h1>
-    <p>Click button to draw one rectangle (only). Click on a rectangle to select it (color change).</p>
   <div id="toolbar" style="width:100%; height:30px; background-color:#eee;">
     <button ng-click="activateTool(selectTool)"  ng-disabled="isButtonDisabled(selectTool)">Select Tool</button>
     <button ng-click="activateTool(rectTool)" ng-disabled="isButtonDisabled(rectTool)">Rectangle Tool</button>
