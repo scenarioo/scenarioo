@@ -23,7 +23,7 @@
 
   <xs:element name="sketchStep" type="sketchStep" xmlns=""/>
 
-  <xs:element name="sketch" type="sketch" xmlns=""/> <!-- to be seen if eventually needed -->
+  <xs:element name="sketch" type="xs:string" xmlns=""/> <!-- to be seen if eventually needed -->
 
   <xs:element name="sketchStepDescription" type="sketchStepDescription" xmlns=""/>
 
@@ -109,7 +109,7 @@
     <xs:sequence>
       <xs:element ref="page" minOccurs="0" xmlns=""/>
       <xs:element ref="sketchStepDescription" minOccurs="0" xmlns=""/>
-      <xs:element ref="sketch" minOccurs="0" xmlns=""/>							  <!-- tbd // maybe just the filename of the svg file? -->
+      <xs:element name="sketchFileName" type="xs:string" minOccurs="0"/>
       <xs:element name="nextSketchStepRef" minOccurs="0" xmlns=""/>				  <!-- filename of xml or index? -->
       <xs:element name="html" type="sketchStepHtml" minOccurs="0" xmlns=""/>
       <xs:element name="metadata" type="sketchStepMetadata" minOccurs="0" xmlns=""/>
@@ -166,14 +166,6 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="sketch">
-    <xs:sequence>
-      <xs:element name="components" type="xs:string" minOccurs="0"/> <!-- tbd -->
-      <xs:element name="dateCreated" type="xs:string" minOccurs="0"/>
-      <xs:element name="dateModified" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
