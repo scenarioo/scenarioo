@@ -17,7 +17,6 @@
 
 package org.scenarioo.rest.issue;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +29,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.dao.design.aggregates.IssueAggregationDAO;
 import org.scenarioo.dao.design.entities.DesignFiles;
 import org.scenarioo.model.design.aggregates.IssueProposals;
@@ -118,13 +116,10 @@ public class IssuesResource {
 	@Consumes({ "application/xml", "application/json" })
 	public void storeIssue(@PathParam("branchName") final String branchName,
 			final Issue newIssue) {
-
-		newIssue.setIssueStatus("Open");
-		String name = newIssue.getName();
-
-		files.createIssueDirectory(branchName, name);
-		File destinationFile = files.createIssueFile(branchName, name);
-		ScenarioDocuXMLFileUtil.marshal(newIssue, destinationFile);
+		LOGGER.info("Now storing a new issue.");
+		LOGGER.info(newIssue);
+		LOGGER.info("-----------------------");
+		files.writeIssueToFile(branchName, newIssue);
 
 	}
 
