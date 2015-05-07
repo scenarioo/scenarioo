@@ -1,6 +1,5 @@
 'use strict';
 
-var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
 scenarioo.describeUseCase('Create a new Issue', function () {
@@ -10,8 +9,10 @@ scenarioo.describeUseCase('Create a new Issue', function () {
 
     browser.get('#/');
     homePage.closeScenariooInfoDialogIfOpen();
+    scenarioo.docuWriter.saveStep('display the homepage');
 
     homePage.selectIssuesTab();
+    scenarioo.docuWriter.saveStep('display the list of existing issues');
 
     var numberOfIssues = 0;
     var issuesList = element(by.css('table')).findElements(by.css('tbody tr')).then(function (elements) {
@@ -25,6 +26,7 @@ scenarioo.describeUseCase('Create a new Issue', function () {
     newIssueName.sendKeys("This is my Test issue name" + Date.now());
     newIssueDesc.sendKeys("And this is the description");
 
+    scenarioo.docuWriter.saveStep('enter information');
     var saveButton = element(by.id('addBtn'));
 
     saveButton.click();
@@ -33,6 +35,9 @@ scenarioo.describeUseCase('Create a new Issue', function () {
       expect(elements.length).toBe(this.numberOfIssues + 1);
     });
 
+
+    scenarioo.docuWriter.saveStep('Issue was saved');
+
   });
 
   scenarioo.describeScenario('Create a new issue with a too long name', function () {
@@ -40,8 +45,10 @@ scenarioo.describeUseCase('Create a new Issue', function () {
 
     browser.get('#/');
     homePage.closeScenariooInfoDialogIfOpen();
+    scenarioo.docuWriter.saveStep('display the homepage');
 
     homePage.selectIssuesTab();
+    scenarioo.docuWriter.saveStep('display the list of existing issues');
 
     var numberOfIssues = 0;
     var issuesList = element(by.css('table')).findElements(by.css('tbody tr')).then(function (elements){
@@ -61,11 +68,14 @@ scenarioo.describeUseCase('Create a new Issue', function () {
 
     var saveButton = element(by.id('addBtn'));
 
+    scenarioo.docuWriter.saveStep('enter information which is too long');
     saveButton.click();
 
     issuesList = element(by.css('table')).findElements(by.css('tbody tr')).then(function (elements){
       expect(elements.length).toBe(this.numberOfIssues);
     });
+
+    scenarioo.docuWriter.saveStep('IssueList did not grow');
 
   });
 

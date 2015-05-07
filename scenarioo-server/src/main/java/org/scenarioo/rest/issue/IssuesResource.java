@@ -116,6 +116,9 @@ public class IssuesResource {
 	@Consumes({ "application/xml", "application/json" })
 	public void storeIssue(@PathParam("branchName") final String branchName,
 			final Issue newIssue) {
+		LOGGER.info("Now storing a new issue.");
+		LOGGER.info(newIssue);
+		LOGGER.info("-----------------------");
 		files.writeIssueToFile(branchName, newIssue);
 
 	}
