@@ -17,15 +17,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scope, $location, $filter, GlobalHotkeysService, SelectedBranchAndBuild) {
+angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scope, $location, $filter, GlobalHotkeysService, SelectedBranchAndBuild, CircleTool, DrawingPadService) {
 
-  var drawingPad = SVG('drawingPad').size('100%', '100%').fixSubPixelOffset();
+  var drawingPad = DrawingPadService.get;
 
   var currentTool = null;
   var listOfTools = null; // TODO: Service which loads tools from an extension directory?
 
   $scope.rectTool = RectTool();
   $scope.selectTool = SelectTool();
+  $scope.circleTool = CircleTool;
 
   function SelectTool(){
     var that = {};
