@@ -17,139 +17,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scope, $location, $filter, $routeParams, GlobalHotkeysService, SelectedBranchAndBuild, CircleTool, DrawingPadService, SketchStep, SketchStepResource) {
+angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scope, $location, $filter, $routeParams, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, CircleTool, DrawingPadService, SketchStep, SketchStepResource) {
 
   var drawingPad = DrawingPadService.get;
 
   var currentTool = null;
   var listOfTools = null; // TODO: Service which loads tools from an extension directory?
 
-  $scope.rectTool = RectTool();
-  $scope.selectTool = SelectTool();
+  $scope.rectTool = RectTool;
+  $scope.selectTool = SelectTool;
   $scope.circleTool = CircleTool;
 
-  function SelectTool(){
-    var that = {};
-    that.name = 'Select Tool';
-    that.icon = null;
-    that.tooltip = 'This will be the tool tip.';
-    that.cursor = null;
-    that.buttonDisabled = false;
-    that.onmousedown = function(event){
-
-    };
-
-    that.onmouseup = function(event){
-        //if(currentTool == that){
-          //console.log(event.target.id);
-          var element = SVG.get(event.target.id);
-          element.fill('#f06');
-        //}
-    };
-
-    that.onmousedrag = function(event){
-
-    };
-
-    return that;
-  }
-
   $scope.activateTool = function (tool){
-    /*if(currentTool){
-        toolDeactivated();
-    }*/
-    currentTool = tool;
-    console.log('Activated tool: ' + currentTool.name);
-    //currentTool.buttonDisabled = true;
-    drawingPad.on('mousedown', currentTool.onmousedown);
-    drawingPad.on('mouseup', currentTool.onmouseup);
-    drawingPad.on('mousemove', currentTool.onmousedrag);
-  }
-
-  function toolDeactivated(){
-    console.log('Tool deactivated: ' + currentTool.name);
-    //currentTool.buttonDisabled = false;
-    drawingPad.off('mousedown', currentTool.onmousedown);
-    drawingPad.off('mouseup', currentTool.onmouseup);
-    drawingPad.off('mousemove', currentTool.onmousedrag);
-    $scope.activateTool($scope.selectTool);
-  }
+    if(this.currentTool) {
+        Tool.deactivate(this.currentTool);
+    }
+    this.currentTool = tool;
+    Tool.activate(tool);
+  };
 
   $scope.activateTool($scope.selectTool);
 
-  $scope.getButtonDisabled = function (tool){
-      return tool.buttonDisabled;
-  }
-
-  function RectTool(){
-    var that = {};
-    that.name = 'Rectangle Tool';
-    that.icon = null;
-    that.tooltip = 'This tool is used to draw rectangles.';
-    that.cursor = null;
-    that.buttonDisabled = false;
-
-    var newRect = null;
-    var mousePosX1 = 0;
-    var mousePosY1 = 0;
-    var mousePosLastX = 0;
-    var mousePosLastY = 0;
-    var mousedown = false;
-    that.onmousedown = function(event){
-      mousedown = true;
-      newRect = drawingPad.rect(0,0,0,0);
-
-      mousePosX1 = event.offsetX;
-      mousePosY1 = event.offsetY;
-
-      newRect.attr({
-        x: mousePosX1,
-        y: mousePosY1,
-        fill: '#f60'
-      });
-
-      mousePosLastX = mousePosX1;
-      mousePosLastY = mousePosY1;
-    };
-
-    that.onmouseup = function(event){
-      mousedown = false;
-
-      newRect.attr('fill', '#0f3');
-      mousePosX1 = 0;
-      mousePosY1 = 0;
-      mousePosLastX = 0;
-      mousePosLastY = 0;
-
-      toolDeactivated();
-    };
-
-    that.onmousedrag = function(event){
-      if (!mousedown) {
-        return;
+  $scope.isButtonDisabled = function(tool){
+      if(tool) {
+          return Tool.isButtonDisabled(tool);
       }
-
-      var dx = event.offsetX - mousePosLastX;
-      var dy = event.offsetY - mousePosLastY;
-
-      var originX = Math.min(mousePosX1, event.offsetX);
-      var originY = Math.min(mousePosY1, event.offsetY);
-
-      newRect.attr({
-        width: newRect.attr('width') + Math.abs(dx),
-        height: newRect.attr('height') + Math.abs(dy),
-        x: originX,
-        y: originY
-      });
-
-      //console.log(newRect.attr('width'), newRect.attr('height'), dx, dy);
-
-      mousePosLastX = event.offsetX;
-      mousePosLastY = event.offsetY;
-    };
-
-    return that;
-  }
+  };
 
     // exporting svg drawing
     $scope.updateDrawing = function(){

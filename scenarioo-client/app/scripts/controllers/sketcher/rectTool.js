@@ -17,14 +17,15 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').factory('CircleTool', function(Tool) {
+angular.module('scenarioo.controllers').factory('RectTool', function(Tool) {
+    //var tool = Object.create(Tool);
     var tool = Tool.get;
 
-    tool.name = 'Circle Tool';
+    tool.name = 'Rectangle Tool';
     tool.icon = null;
-    tool.tooltip = 'This tool is used to draw circles.';
+    tool.tooltip = 'This tool is used to draw rectangles.';
     tool.cursor = 'crosshair';
-    var newCircle = null;
+    var newRect = null;
     var mousePosX1 = 0;
     var mousePosY1 = 0;
     var mousePosLastX = 0;
@@ -35,77 +36,54 @@ angular.module('scenarioo.controllers').factory('CircleTool', function(Tool) {
 
     tool.onmousedown = function(event) {
         mousedown = true;
-        newCircle = tool.drawingPad.circle(0);
-
+        newRect = tool.drawingPad.rect(0,0,0,0);
 
         mousePosX1 = event.offsetX;
         mousePosY1 = event.offsetY;
 
-        newCircle.attr({
-          cx: mousePosX1,
-          cy: mousePosY1,
+        newRect.attr({
+            x: mousePosX1,
+            y: mousePosY1,
           fill: '#f60'
         });
 
         mousePosLastX = mousePosX1;
         mousePosLastY = mousePosY1;
-      };
+      }
 
     tool.onmouseup = function(event) {
         mousedown = false;
 
-        newCircle.attr('fill', '#0f3');
+        newRect.attr('fill', '#0f3');
         mousePosX1 = 0;
         mousePosY1 = 0;
         mousePosLastX = 0;
         mousePosLastY = 0;
-      };
+      }
 
     tool.onmousedrag = function(event) {
         if (!mousedown) {
-          return;
+            return;
         }
 
-        var delta = 0;
-        var offsetToOriginX = event.offsetX - mousePosX1;
-        var offsetToOriginY = event.offsetY - mousePosY1;
-        var dx = 0;
-        var dy = 0;
+        var dx = event.offsetX - mousePosLastX;
+        var dy = event.offsetY - mousePosLastY;
 
-        if (offsetToOriginX > 0 && offsetToOriginY > 0){
-          dx = event.offsetX - mousePosLastX;
-          dy = event.offsetY - mousePosLastY;
-        } else if (offsetToOriginX > 0 && offsetToOriginY < 0){
-          dx = event.offsetX - mousePosLastX;
-          dy = mousePosLastY - event.offsetY;
-        } else if (offsetToOriginX < 0 && offsetToOriginY < 0){
-          dx = mousePosLastX - event.offsetX;
-          dy = mousePosLastY - event.offsetY;
-        } else {
-          dx = mousePosLastX - event.offsetX;
-          dy = event.offsetY - mousePosLastY;
-        }
+        var originX = Math.min(mousePosX1, event.offsetX);
+        var originY = Math.min(mousePosY1, event.offsetY);
 
-        delta = ((dx + dy) / 2);
-        if (delta > 10){
-          delta = 10;
-        } else if (delta < -20){
-          delta = -20;
-        }
-
-        var rx = newCircle.attr('rx');
-        if (delta < (rx * -1)){
-          delta = rx * -1;
-        }
-
-        newCircle.attr({
-          rx: newCircle.attr('rx') + delta,
-          ry: newCircle.attr('ry') + delta
+        newRect.attr({
+            width: newRect.attr('width') + Math.abs(dx),
+            height: newRect.attr('height') + Math.abs(dy),
+            x: originX,
+            y: originY
         });
+
+        //console.log(newRect.attr('width'), newRect.attr('height'), dx, dy);
 
         mousePosLastX = event.offsetX;
         mousePosLastY = event.offsetY;
-      };
+      }
 
     return {
 
@@ -117,6 +95,7 @@ angular.module('scenarioo.controllers').factory('CircleTool', function(Tool) {
       onmouseup: tool.onmouseup,
       onmousedown: tool.onmousedown,
       onmousedrag: tool.onmousedrag
+
 
     };
 
