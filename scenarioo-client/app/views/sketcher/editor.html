@@ -22,9 +22,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <!--<button ng-click="activateTool(selectTool)"  ng-disabled="getButtonDisabled(selectTool)">Select Tool</button>-->
     <button ng-click="activateTool(rectTool)" ng-disabled="getButtonDisabled(rectTool)">Rectangle Tool</button>
     <button ng-click="activateTool(circleTool)">Circle Tool</button>
+    <button ng-click="updateDrawing()" id="save" style="float:right;">Save</button>
+      <div style="float:right;">Save Status: {{successfullyUpdatedSketchStep}}</div>
   </div>
   <div id="workspace" style="width:100%; height:600px; position: relative;">
     <svg id="drawingPad" style="background-color:#fff; border:2px solid #ddd;"></svg>
   </div>
+
+    <!--<div ng-bind-html="exportedSVG"></div>-->
 
 </div>
