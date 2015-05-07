@@ -45,7 +45,7 @@ import org.scenarioo.rest.sketchStep.logic.SketchStepResponseFactory;
 import org.scenarioo.rest.step.StepResource;
 import org.scenarioo.rest.step.logic.LabelsQueryParamParser;
 
-@Path("/rest/branch/{branchName}/issue/{issueName}/proposal/{proposalName}/sketchStep/{sketchStepName}")
+@Path("/rest/branch/{branchName}/issue/{issueName}/proposal/{proposalName}/sketchstep/{sketchStepName}")
 public class SketchStepResource {
 
 	private static final Logger LOGGER = Logger.getLogger(StepResource.class);
@@ -106,7 +106,9 @@ public class SketchStepResource {
 	public void storeSketchStep(@PathParam("branchName") final String branchName,
 			@PathParam("issueName") final String issueName,
 			@PathParam("proposalName") final String proposalName, final SketchStep sketchStep) {
-
+		LOGGER.info("SAVING SKETCH STEP");
+		LOGGER.info(sketchStep);
+		LOGGER.info("-----------------------------------");
 		files.writeSketchStepToFile(branchName, issueName, proposalName, sketchStep);
 		files.writeSVGToFile(branchName, issueName, proposalName, sketchStep);
 

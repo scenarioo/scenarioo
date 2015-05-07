@@ -26,6 +26,11 @@ exports.config = {
     rootElement: 'body',
 
     onPrepare: function () {
+      require('jasmine-reporters');
+      var scenarioo = require('scenarioo-js');
+      // enable scenarioo userDocumentation (see more on http://www.scenarioo.org)
+      var scenariooReporter = new scenarioo.reporter('../scenarioo-docu-generation-example/build/scenarioDocuExample', 'master', 'the master branch', 'build_' + new Date(), '1.0.0');
+      jasmine.getEnv().addReporter(scenariooReporter);
     },
 
     params: {
