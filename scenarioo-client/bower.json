@@ -14,7 +14,9 @@
     "es5-shim": "~2.0.8",
     "font-awesome": "~3.2.1",
     "twigs": "0.1.3.1",
-	"svg.js": "1.0.1"
+    "svg.js": "1.0.1",
+    "svg.draggable.js": "~0.1.0",
+    "svg.export.js": "~0.1.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.23",
