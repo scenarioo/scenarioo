@@ -75,6 +75,14 @@ public class SketchStep implements Serializable {
 		this.sketchFileName = sketch;
 	}
 
+	public String getSketchFileName() {
+		return sketchFileName;
+	}
+
+	public void setSketchFileName(final String sketchFileName) {
+		this.sketchFileName = sketchFileName;
+	}
+
 	public int getNextSketchStepRef() {
 		return nextSketchStepRef;
 	}
@@ -155,7 +163,7 @@ public class SketchStep implements Serializable {
 		return branchName;
 	}
 
-	private void setBranchName(String branchName) {
+	private void setBranchName(final String branchName) {
 		this.branchName = branchName;
 	}
 
@@ -163,7 +171,7 @@ public class SketchStep implements Serializable {
 		return issueName;
 	}
 
-	private void setIssueName(String issueName) {
+	private void setIssueName(final String issueName) {
 		this.issueName = issueName;
 	}
 
@@ -171,7 +179,7 @@ public class SketchStep implements Serializable {
 		return proposalName;
 	}
 
-	private void setProposalName(String proposalName) {
+	private void setProposalName(final String proposalName) {
 		this.proposalName = proposalName;
 	}
 
