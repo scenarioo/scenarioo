@@ -111,8 +111,6 @@ public class SketchStepResource {
 		LOGGER.info("-----------------------------------");
 		files.writeSketchStepToFile(branchName, issueName, proposalName, sketchStep);
 		files.writeSVGToFile(branchName, issueName, proposalName, sketchStep);
-
 	}
-
 
 }

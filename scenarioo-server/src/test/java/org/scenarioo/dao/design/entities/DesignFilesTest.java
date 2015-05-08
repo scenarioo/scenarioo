@@ -9,6 +9,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.scenarioo.model.design.entities.SketchStep;
 
 public class DesignFilesTest {
 
@@ -16,6 +17,9 @@ public class DesignFilesTest {
 	private static DesignFiles designFiles;
 	private final String branchName = "Test Branch";
 	private final String issueName = "This is our first Test Issue";
+	private final String proposalName = "This is our first Test Proposal";
+
+	private static SketchStep sketchStep = new SketchStep();
 
 	@BeforeClass
 	public static void setupClass() {
@@ -30,6 +34,20 @@ public class DesignFilesTest {
 		}
 
 		designFiles = new DesignFiles(rootDirectory);
+
+		sketchStep.setSketchStepName(1);
+		sketchStep
+				.setSketch("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+						+ "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" height=\"100%\" "
+						+ "width=\"100%\" version=\"1.1\" "
+						+ "xmlns=\"http://www.w3.org/2000/svg\" style=\"background-color:#fff; "
+						+ "border:2px solid #ddd;\" id=\"drawingPad\">"
+						+ "<desc>Created with svg.js [http://svgjs.com]</desc>"
+						+ "<defs id=\"SvgjsDefs1000\"></defs>"
+						+ "<rect fill=\"#00ff33\" y=\"23\" x=\"29\" height=\"106\" width=\"306\" "
+						+ "id=\"SvgjsRect1005\"></rect>"
+						+ "<ellipse fill=\"#ff0066\" cy=\"50\" cx=\"109\" ry=\"45\" rx=\"45\" "
+						+ "id=\"SvgjsEllipse1006\"></ellipse></svg>");
 	}
 
 	@AfterClass
@@ -78,6 +96,42 @@ public class DesignFilesTest {
 		designFiles.createIssueFile(branchName, issueName);
 		File issueFile = designFiles.getIssueFile(branchName, issueName);
 		assertTrue(issueFile.exists());
+	}
+
+	@Test
+	public void createSketchStepDirectory() {
+		designFiles.createSketchStepDirectory(branchName, issueName, proposalName);
+		File sketchStepDir = designFiles.getSketchStepsDirectory(branchName, issueName, proposalName);
+		assertTrue(sketchStepDir.exists());
+		assertEquals(sketchStepDir.getPath(),
+				"tmp/Test+Branch/This+is+our+first+Test+Issue/This+is+our+first+Test+Proposal/sketchSteps");
+	}
+
+	@Test
+	public void writeSketchStepToFile() {
+		designFiles.writeSketchStepToFile(branchName, issueName, proposalName, sketchStep);
+		File sketchStepFile = designFiles.getSketchStepFile(branchName, issueName, proposalName,
+				sketchStep.getSketchStepName());
+		assertTrue(sketchStepFile.exists());
+		assertEquals(sketchStepFile.getName(), "001.xml");
+	}
+
+	@Test
+	public void createSVGDirectory() {
+		designFiles.createSketchStepSVGDirectory(branchName, issueName, proposalName);
+		File svgDir = designFiles.getSVGDirectory(branchName, issueName, proposalName);
+		assertTrue(svgDir.exists());
+		assertEquals(svgDir.getPath(),
+				"tmp/Test+Branch/This+is+our+first+Test+Issue/This+is+our+first+Test+Proposal/sketchSteps/svg");
+	}
+
+	@Test
+	public void writeSVGToFile() {
+		designFiles.writeSVGToFile(branchName, issueName, proposalName, sketchStep);
+		File svgFile = designFiles.getSVGFile(branchName, issueName, proposalName,
+				sketchStep.getSketchFileName());
+		assertTrue(svgFile.exists());
+		assertEquals(svgFile.getName(), sketchStep.getSketchFileName());
 	}
 
 	private File createAndGetIssueDirectory(final String issueName) {

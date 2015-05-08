@@ -125,6 +125,17 @@ public class DesignFiles {
 				THREE_DIGIT_NUM_FORMAT.format(sketchStepIndex) + ".xml");
 	}
 
+	public File getSVGDirectory(final String branchName, final String issueName, final String proposalName) {
+		File svgDirectory = new File(getSketchStepsDirectory(branchName, issueName, proposalName),
+				DIRECTORY_NAME_SKETCHSTEP_SVG);
+		return svgDirectory;
+	}
+
+	public File getSVGFile(final String branchName, final String issueName, final String proposalName,
+			final String svgFilename) {
+		return new File(getSVGDirectory(branchName, issueName, proposalName), svgFilename);
+	}
+
 	public List<File> getSketchStepFiles(final String branchName, final String issueName, final String proposalName) {
 		return FilesUtil.getListOfFiles(getSketchStepsDirectory(branchName, issueName, proposalName));
 	}
@@ -230,13 +241,19 @@ public class DesignFiles {
 	public void writeSVGToFile(final String branchName, final String issueName,
 			final String proposalName, final SketchStep sketchStep) {
 		createSketchStepSVGDirectory(branchName, issueName, proposalName);
+		String svgFilename = (new Date()).getTime() + ".svg";
 		File sketchStepSVGFile = new File(getSketchStepsSVGDirectory(branchName, issueName, proposalName),
-				(new Date()).getTime() + ".svg");
+				svgFilename);
 		try {
 			sketchStepSVGFile.createNewFile();
 			FileWriter writer = new FileWriter(sketchStepSVGFile);
 			writer.write(sketchStep.getSketch());
 			writer.close();
+
+			sketchStep.setSketchFileName(svgFilename);
+			File destinationFile = getSketchStepFile(branchName, issueName, proposalName,
+					sketchStep.getSketchStepName());
+			ScenarioDocuXMLFileUtil.marshal(sketchStep, destinationFile);
 		} catch (IOException e) {
 			LOGGER.error("Could not write SVG file.");
 		}
