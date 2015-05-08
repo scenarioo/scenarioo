@@ -23,10 +23,11 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scop
   var image = null;
   if ($routeParams.screenshotURL) {
     image = drawingPad.image($routeParams.screenshotURL).loaded(function (loader) {
-      console.log(drawingPad.width());
       image.attr({
-        width: drawingPad.width(),
-        height: drawingPad.height()
+        width: drawingPad.width()
+      });
+      drawingPad.attr({
+        height: image.height()
       });
     });
   }
