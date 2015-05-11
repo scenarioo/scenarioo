@@ -321,7 +321,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         return $location.absUrl() + createLabelUrl('&', getAllLabels());
     };
 
-    $scope.getCurrentUrl = function() {
+    $scope.getCurrentUrl = function () {
         return $location.absUrl();
     };
 
@@ -340,13 +340,13 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     };
 
     var getImageFileExtension = function () {
-        if(angular.isUndefined($scope.step)) {
+        if (angular.isUndefined($scope.step)) {
             return '';
         }
 
         var imageFileName = $scope.step.stepDescription.screenshotFileName;
 
-        if(!angular.isString(imageFileName)) {
+        if (!angular.isString(imageFileName)) {
             return '';
         }
 
@@ -363,19 +363,19 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     };
 
     var createLabelUrl = function (prefix, labels) {
-        if(angular.isUndefined(labels) || !angular.isArray(labels) || labels.length === 0) {
+        if (angular.isUndefined(labels) || !angular.isArray(labels) || labels.length === 0) {
             return '';
         }
 
         return prefix + 'labels=' + labels.map(encodeURIComponent).join();
     };
 
-    $scope.$on('$destroy', function() {
+    $scope.$on('$destroy', function () {
         SharePageService.invalidateUrls();
     });
 
-  $scope.sketchThis = function(){
-    $location.path('/editor').search('screenshotURL', $scope.getScreenShotUrl());
-  };
+    $scope.sketchThis = function () {
+        $location.path('/editor').search('screenshotURL', $scope.getScreenShotUrl());
+    };
 
 });
