@@ -15,18 +15,18 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('DrawingPadService', function(){
-  var drawingPad = SVG('drawingPad').size('100%', '100%').fixSubPixelOffset();
+angular.module('scenarioo.services').factory('DrawingPadService', function () {
+    var drawingPad = SVG('drawingPad').size('100%', '100%').fixSubPixelOffset();
 
-  function exportDrawing() {
-      return drawingPad.exportSvg();
-  }
-
-  return {
-    get: drawingPad,
-
-      exportDrawing: function(){
-        return exportDrawing();
+    function exportDrawing() {
+        return drawingPad.exportSvg();
     }
-  };
+
+    return {
+        get: drawingPad,
+
+        exportDrawing: function () {
+            return exportDrawing();
+        }
+    };
 });

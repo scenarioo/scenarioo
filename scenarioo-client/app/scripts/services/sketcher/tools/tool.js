@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').factory('Tool', function(DrawingPadService) {
+angular.module('scenarioo.controllers').factory('Tool', function (DrawingPadService) {
 
     var tool = {};
 
@@ -29,7 +29,7 @@ angular.module('scenarioo.controllers').factory('Tool', function(DrawingPadServi
     tool.drawingPad = DrawingPadService.get;
 
 
-    tool.activate = function(newTool) {
+    tool.activate = function (newTool) {
         console.log('Activated tool: ' + newTool.name);
         newTool.buttonDisabled = true;
 
@@ -38,7 +38,7 @@ angular.module('scenarioo.controllers').factory('Tool', function(DrawingPadServi
         tool.drawingPad.on('mousemove', newTool.onmousedrag);
     };
 
-    tool.deactivate = function(currentTool) {
+    tool.deactivate = function (currentTool) {
         console.log('Deactivated tool: ' + currentTool.name);
         currentTool.buttonDisabled = false;
 
@@ -47,14 +47,20 @@ angular.module('scenarioo.controllers').factory('Tool', function(DrawingPadServi
         tool.drawingPad.off('mousemove', currentTool.onmousedrag);
     };
 
-    tool.isButtonDisabled = function(someTool) {
+    tool.isButtonDisabled = function (someTool) {
         return someTool.buttonDisabled;
     };
 
 
-    tool.onmousedown = function(event) { console.log('onmousedown: not implemented in generic tool'); };
-    tool.onmouseup = function(event) { console.log('onmouseup: not implemented in generic tool'); };
-    tool.onmousedrag = function(event) { console.log('onmousedrag: not implemented in generic tool'); };
+    tool.onmousedown = function (event) {
+        console.log('onmousedown: not implemented in generic tool');
+    };
+    tool.onmouseup = function (event) {
+        console.log('onmouseup: not implemented in generic tool');
+    };
+    tool.onmousedrag = function (event) {
+        console.log('onmousedrag: not implemented in generic tool');
+    };
 
 
     return {

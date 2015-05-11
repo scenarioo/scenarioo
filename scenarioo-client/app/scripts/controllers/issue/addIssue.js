@@ -19,12 +19,12 @@
 
 angular.module('scenarioo.controllers').controller('AddIssueCtrl', function ($scope, $routeParams, IssueResource, Issues) {
 
-    $scope.addIssue = function() {
+    $scope.addIssue = function () {
         $scope.successfullyUpdatedIssues = false;
 
         var newIssue = new IssueResource({
             branchName: $routeParams.branch,
-            name:$scope.issueName,
+            name: $scope.issueName,
             description: $scope.issueDescription
         });
 

@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService,BranchesAndBuilds, SelectedBranchAndBuild, IssuesResource, LabelConfigurationsResource, Issues) {
+angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService, BranchesAndBuilds, SelectedBranchAndBuild, IssuesResource, LabelConfigurationsResource, Issues) {
 
     //var transformMetadataToTree = $filter('scMetadataTreeCreator');
     //var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
@@ -26,12 +26,12 @@ angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function
 
     Issues.load();
 
-    $scope.$on(Issues.ISSUES_LOADED_EVENT, function() {
+    $scope.$on(Issues.ISSUES_LOADED_EVENT, function () {
         $scope.issues = Issues.getRawIssuesDataCopy();
     });
 
     // FIXME this code is duplicated. How can we extract it into a service?
-    LabelConfigurationsResource.query({}, function(labelConfiguratins) {
+    LabelConfigurationsResource.query({}, function (labelConfiguratins) {
         $scope.labelConfigurations = labelConfiguratins;
     });
 
@@ -39,7 +39,7 @@ angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function
         $location.path('/issue/' + issueName);
     };
 
-    $scope.onNavigatorTableHit = function(issue) {
+    $scope.onNavigatorTableHit = function (issue) {
         $scope.goToIssue(issue.name);
     };
 
@@ -50,26 +50,26 @@ angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function
     };
 
     /*function createBranchInformationTree(branch) {
-        var branchInformationTree = {};
-        branchInformationTree.Description = branch.description;
-        return transformMetadataToTree(branchInformationTree);
-    }
+     var branchInformationTree = {};
+     branchInformationTree.Description = branch.description;
+     return transformMetadataToTree(branchInformationTree);
+     }
 
-    function createBuildInformationTree(build) {
-        var buildInformationTree = {};
-        buildInformationTree.Date = dateTimeFormatter(build.date);
-        buildInformationTree.Revision = build.revision;
-        buildInformationTree.Status = build.status;
-        return transformMetadataToTree(buildInformationTree);
-    }
+     function createBuildInformationTree(build) {
+     var buildInformationTree = {};
+     buildInformationTree.Date = dateTimeFormatter(build.date);
+     buildInformationTree.Revision = build.revision;
+     buildInformationTree.Status = build.status;
+     return transformMetadataToTree(buildInformationTree);
+     }
 
-    // FIXME this code is duplicated. How can we extract it into a service?
-    $scope.getLabelStyle = function(labelName) {
-        if($scope.labelConfigurations) {
-            var labelConfig = $scope.labelConfigurations[labelName];
-            if(labelConfig) {
-                return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
-            }
-        }
-    };*/
+     // FIXME this code is duplicated. How can we extract it into a service?
+     $scope.getLabelStyle = function(labelName) {
+     if($scope.labelConfigurations) {
+     var labelConfig = $scope.labelConfigurations[labelName];
+     if(labelConfig) {
+     return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
+     }
+     }
+     };*/
 });
