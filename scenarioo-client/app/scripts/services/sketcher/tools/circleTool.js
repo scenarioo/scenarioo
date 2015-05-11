@@ -38,8 +38,8 @@ angular.module('scenarioo.controllers').factory('CircleTool', function(Tool) {
         newCircle = tool.drawingPad.circle(0);
 
 
-        mousePosX1 = event.offsetX;
-        mousePosY1 = event.offsetY;
+        mousePosX1 = event.layerX;
+        mousePosY1 = event.layerY;
 
         newCircle.attr({
           cx: mousePosX1,
@@ -67,23 +67,23 @@ angular.module('scenarioo.controllers').factory('CircleTool', function(Tool) {
         }
 
         var delta = 0;
-        var offsetToOriginX = event.offsetX - mousePosX1;
-        var offsetToOriginY = event.offsetY - mousePosY1;
+        var offsetToOriginX = event.layerX - mousePosX1;
+        var offsetToOriginY = event.layerY - mousePosY1;
         var dx = 0;
         var dy = 0;
 
         if (offsetToOriginX > 0 && offsetToOriginY > 0){
-          dx = event.offsetX - mousePosLastX;
-          dy = event.offsetY - mousePosLastY;
+          dx = event.layerX - mousePosLastX;
+          dy = event.layerY - mousePosLastY;
         } else if (offsetToOriginX > 0 && offsetToOriginY < 0){
-          dx = event.offsetX - mousePosLastX;
-          dy = mousePosLastY - event.offsetY;
+          dx = event.layerX - mousePosLastX;
+          dy = mousePosLastY - event.layerY;
         } else if (offsetToOriginX < 0 && offsetToOriginY < 0){
-          dx = mousePosLastX - event.offsetX;
-          dy = mousePosLastY - event.offsetY;
+          dx = mousePosLastX - event.layerX;
+          dy = mousePosLastY - event.layerY;
         } else {
-          dx = mousePosLastX - event.offsetX;
-          dy = event.offsetY - mousePosLastY;
+          dx = mousePosLastX - event.layerX;
+          dy = event.layerY - mousePosLastY;
         }
 
         delta = ((dx + dy) / 2);
@@ -103,8 +103,8 @@ angular.module('scenarioo.controllers').factory('CircleTool', function(Tool) {
           ry: newCircle.attr('ry') + delta
         });
 
-        mousePosLastX = event.offsetX;
-        mousePosLastY = event.offsetY;
+        mousePosLastX = event.layerX;
+        mousePosLastY = event.layerY;
       };
 
     return {
