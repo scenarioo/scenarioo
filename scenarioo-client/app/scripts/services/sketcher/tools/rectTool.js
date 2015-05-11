@@ -19,7 +19,6 @@
 
 angular.module('scenarioo.controllers').factory('RectTool', function(Tool) {
     //var tool = Object.create(Tool);
-    var tool = Tool.get;
 
     tool.name = 'Rectangle Tool';
     tool.icon = null;
@@ -38,8 +37,8 @@ angular.module('scenarioo.controllers').factory('RectTool', function(Tool) {
         mousedown = true;
         newRect = tool.drawingPad.rect(0,0,0,0);
 
-        mousePosX1 = event.offsetX;
-        mousePosY1 = event.offsetY;
+        mousePosX1 = event.layerX;
+        mousePosY1 = event.layerY;
 
         newRect.attr({
             x: mousePosX1,
@@ -66,11 +65,11 @@ angular.module('scenarioo.controllers').factory('RectTool', function(Tool) {
             return;
         }
 
-        var dx = event.offsetX - mousePosLastX;
-        var dy = event.offsetY - mousePosLastY;
+        var dx = event.layerX - mousePosLastX;
+        var dy = event.layerY - mousePosLastY;
 
-        var originX = Math.min(mousePosX1, event.offsetX);
-        var originY = Math.min(mousePosY1, event.offsetY);
+        var originX = Math.min(mousePosX1, event.layerX);
+        var originY = Math.min(mousePosY1, event.layerY);
 
         newRect.attr({
             width: newRect.attr('width') + Math.abs(dx),
@@ -81,8 +80,8 @@ angular.module('scenarioo.controllers').factory('RectTool', function(Tool) {
 
         //console.log(newRect.attr('width'), newRect.attr('height'), dx, dy);
 
-        mousePosLastX = event.offsetX;
-        mousePosLastY = event.offsetY;
+        mousePosLastX = event.layerX;
+        mousePosLastY = event.layerY;
       }
 
     return {
