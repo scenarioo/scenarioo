@@ -25,48 +25,48 @@ angular.module('scenarioo.services').factory('SketchStep', function ($rootScope,
 
     /*function doLoad() {
 
-        IssuesResource.query(
-            // why does "selected" call not work?
-            //{'branchName': selected.branch},
-            {'branchName': $routeParams.branch},
-            function onSuccess(result) {
-                sketchStepData = result;
-                $rootScope.$broadcast(ISSUES_LOADED_EVENT);
+     IssuesResource.query(
+     // why does "selected" call not work?
+     //{'branchName': selected.branch},
+     {'branchName': $routeParams.branch},
+     function onSuccess(result) {
+     sketchStepData = result;
+     $rootScope.$broadcast(ISSUES_LOADED_EVENT);
 
-            },
-            function onError(){
-                sketchStepData = [
-                    {
-                        author:'mzem',
-                        name:'first issue (client side dummy data)',
-                        description:'Wie werden die Doku und Design Domäne im Front-end auseinandergehalten?',
-                        id:51,
-                        dateModified:'2015-04-21T09:26:48+00:00',
-                        proposalCount:3,
-                        status:'open'
-                    },
-                    {
-                        author:'aher',
-                        name:'second issue',
-                        description:'Lorem ipsum dolor.',
-                        id:44,
-                        dateModified:'2015-04-21T09:26:48+00:00',
-                        proposalCount:2,
-                        status:'resolved'
-                    },
-                    {
-                        author:'rbru',
-                        name:'third issue',
-                        description:'Lorem ipsum dolor.',
-                        id:45,
-                        dateModified:'2015-04-21T09:26:48+00:00',
-                        proposalCount:1,
-                        status:'open'
-                    }
-                ];
+     },
+     function onError(){
+     sketchStepData = [
+     {
+     author:'mzem',
+     name:'first issue (client side dummy data)',
+     description:'Wie werden die Doku und Design Domäne im Front-end auseinandergehalten?',
+     id:51,
+     dateModified:'2015-04-21T09:26:48+00:00',
+     proposalCount:3,
+     status:'open'
+     },
+     {
+     author:'aher',
+     name:'second issue',
+     description:'Lorem ipsum dolor.',
+     id:44,
+     dateModified:'2015-04-21T09:26:48+00:00',
+     proposalCount:2,
+     status:'resolved'
+     },
+     {
+     author:'rbru',
+     name:'third issue',
+     description:'Lorem ipsum dolor.',
+     id:45,
+     dateModified:'2015-04-21T09:26:48+00:00',
+     proposalCount:1,
+     status:'open'
+     }
+     ];
 
-            });
-    }*/
+     });
+     }*/
 
 
     var serviceInstance = {
@@ -80,12 +80,12 @@ angular.module('scenarioo.services').factory('SketchStep', function ($rootScope,
          * Will fire event 'issuesLoaded'
          */
         /*load: function () {
-            doLoad();
-        },*/
+         doLoad();
+         },*/
 
         /*isLoaded: function () {
-            //return angular.isDefined(configData.defaultBuildName);
-        },*/
+         //return angular.isDefined(configData.defaultBuildName);
+         },*/
 
         updateSketchStep: function (changedSketchStep, successCallback) {
             changedSketchStep.$save(function () {

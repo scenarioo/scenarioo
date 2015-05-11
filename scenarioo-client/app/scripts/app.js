@@ -76,7 +76,7 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
             breadcrumbId: 'issues'
         })*/
         .when('/issue/:issueName', {
-            templateUrl: 'views/issue.html',
+            templateUrl: '../views/issue/issue.html',
             controller: 'IssueCtrl',
             issueName: '@issueName',
             breadcrumbId: 'issue'

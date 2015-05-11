@@ -17,8 +17,8 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').factory('RectTool', function(Tool) {
-    //var tool = Object.create(Tool);
+angular.module('scenarioo.controllers').factory('RectTool', function (Tool) {
+    var tool = Tool.get;
 
     tool.name = 'Rectangle Tool';
     tool.icon = null;
@@ -32,10 +32,9 @@ angular.module('scenarioo.controllers').factory('RectTool', function(Tool) {
     var mousedown = false;
 
 
-
-    tool.onmousedown = function(event) {
+    tool.onmousedown = function (event) {
         mousedown = true;
-        newRect = tool.drawingPad.rect(0,0,0,0);
+        newRect = tool.drawingPad.rect(0, 0, 0, 0);
 
         mousePosX1 = event.layerX;
         mousePosY1 = event.layerY;
@@ -43,14 +42,14 @@ angular.module('scenarioo.controllers').factory('RectTool', function(Tool) {
         newRect.attr({
             x: mousePosX1,
             y: mousePosY1,
-          fill: '#f60'
+            fill: '#f60'
         });
 
         mousePosLastX = mousePosX1;
         mousePosLastY = mousePosY1;
-      }
+    };
 
-    tool.onmouseup = function(event) {
+    tool.onmouseup = function (event) {
         mousedown = false;
 
         newRect.attr('fill', '#0f3');
@@ -58,9 +57,9 @@ angular.module('scenarioo.controllers').factory('RectTool', function(Tool) {
         mousePosY1 = 0;
         mousePosLastX = 0;
         mousePosLastY = 0;
-      }
+    };
 
-    tool.onmousedrag = function(event) {
+    tool.onmousedrag = function (event) {
         if (!mousedown) {
             return;
         }
@@ -82,18 +81,18 @@ angular.module('scenarioo.controllers').factory('RectTool', function(Tool) {
 
         mousePosLastX = event.layerX;
         mousePosLastY = event.layerY;
-      }
+    };
 
     return {
 
-      name: tool.name,
-      icon: tool.icon,
-      tooltip: tool.tooltip,
-      cursor: tool.cursor,
+        name: tool.name,
+        icon: tool.icon,
+        tooltip: tool.tooltip,
+        cursor: tool.cursor,
 
-      onmouseup: tool.onmouseup,
-      onmousedown: tool.onmousedown,
-      onmousedrag: tool.onmousedrag
+        onmouseup: tool.onmouseup,
+        onmousedown: tool.onmousedown,
+        onmousedrag: tool.onmousedrag
 
 
     };
