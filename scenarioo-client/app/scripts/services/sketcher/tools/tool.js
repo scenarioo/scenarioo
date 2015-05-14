@@ -25,7 +25,7 @@ angular.module('scenarioo.controllers').factory('Tool', function (DrawingPadServ
     tool.icon = null;
     tool.tooltip = '';
     tool.cursor = 'default';
-    tool.isButtonDisabled = false;
+    tool.buttonDisabled = false;
     tool.drawingPad = DrawingPadService.get;
 
 
