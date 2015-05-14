@@ -8,7 +8,7 @@ import java.util.List;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.dao.design.entities.DesignFiles;
 import org.scenarioo.model.design.entities.Issue;
-import org.scenarioo.model.design.entities.Proposal;
+import org.scenarioo.model.design.entities.ScenarioSketch;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.model.docu.entities.Step;
 
@@ -43,16 +43,16 @@ public class DesignReader {
 		return ScenarioDocuXMLFileUtil.unmarshal(Issue.class, file);
 	}
 
-	public List<Proposal> loadProposals(final String branchName, final String issueName) {
-		List<File> files = designFiles.getProposalFiles(checkIdentifier(branchName), checkIdentifier(issueName));
-		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(Proposal.class, files);
+	public List<ScenarioSketch> loadProposals(final String branchName, final String issueName) {
+		List<File> files = designFiles.getScenarioSketchFiles(checkIdentifier(branchName), checkIdentifier(issueName));
+		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(ScenarioSketch.class, files);
 	}
 
-	public Proposal loadProposal(final String branchName, final String issueName,
+	public ScenarioSketch loadProposal(final String branchName, final String issueName,
 			final String proposalName) {
-		File file = designFiles.getProposalFile(checkIdentifier(branchName), checkIdentifier(issueName),
+		File file = designFiles.getScenarioSketchFile(checkIdentifier(branchName), checkIdentifier(issueName),
 				checkIdentifier(proposalName));
-		return ScenarioDocuXMLFileUtil.unmarshal(Proposal.class, file);
+		return ScenarioDocuXMLFileUtil.unmarshal(ScenarioSketch.class, file);
 	}
 
 	public List<Step> loadSteps(final String branchName, final String issueName, final String proposalName) {

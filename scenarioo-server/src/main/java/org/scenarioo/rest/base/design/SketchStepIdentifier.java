@@ -17,7 +17,7 @@ public class SketchStepIdentifier {
 	
 	private static final String URI_ENCODING = "UTF-8";
 	
-	private final ProposalIdentifier proposalIdentifier;
+	private final ScenarioSketchIdentifier proposalIdentifier;
 	final String pageName;
 	final int pageOccurrence;
 	final int sketchStepInPageOccurrence;
@@ -30,24 +30,24 @@ public class SketchStepIdentifier {
 	public SketchStepIdentifier(final BuildIdentifier buildIdentifier, final String issueName,
 			final String proposalName,
 			final String pageName, final int pageOccurrence, final int sketchStepInPageOccurrence) {
-		this(new ProposalIdentifier(buildIdentifier, issueName, proposalName), pageName, pageOccurrence,
+		this(new ScenarioSketchIdentifier(buildIdentifier, issueName, proposalName), pageName, pageOccurrence,
 				sketchStepInPageOccurrence);
 	}
 	
 	public SketchStepIdentifier(final BuildIdentifier buildIdentifier, final String issueName,
 			final String proposalName,
 			final String pageName, final int pageOccurrence, final int stepInPageOccurrence, final Set<String> labels) {
-		this(new ProposalIdentifier(buildIdentifier, issueName, proposalName), pageName, pageOccurrence,
+		this(new ScenarioSketchIdentifier(buildIdentifier, issueName, proposalName), pageName, pageOccurrence,
 				stepInPageOccurrence, labels);
 	}
 	
-	public SketchStepIdentifier(final ProposalIdentifier proposalIdentifier, final String pageName,
+	public SketchStepIdentifier(final ScenarioSketchIdentifier proposalIdentifier, final String pageName,
 			final int pageOccurrence,
 			final int sketchStepInPageOccurrence) {
 		this(proposalIdentifier, pageName, pageOccurrence, sketchStepInPageOccurrence, null);
 	}
 	
-	public SketchStepIdentifier(final ProposalIdentifier proposalIdentifier, final String pageName,
+	public SketchStepIdentifier(final ScenarioSketchIdentifier proposalIdentifier, final String pageName,
 			final int pageOccurrence,
 			final int sketchStepInPageOccurrence, final Set<String> labels) {
 		this.proposalIdentifier = proposalIdentifier;
@@ -95,7 +95,7 @@ public class SketchStepIdentifier {
 	}
 	
 	@JsonIgnore
-	public ProposalIdentifier getProposalIdentifier() {
+	public ScenarioSketchIdentifier getProposalIdentifier() {
 		return proposalIdentifier;
 	}
 	

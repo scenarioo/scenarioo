@@ -15,17 +15,24 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div ng-controller="EditorCtrl" style="background:#eee; padding:30px 50px;">
+<div ng-controller="EditorCtrl" class="sc-sketcher-container sc-sketcher-bg-color-light">
     <h1>Sketcher</h1>
-  <div id="toolbar" style="width:100%; height:30px; background-color:#eee;">
-    <button id="selectTool" ng-click="activateTool(selectTool)"  ng-disabled="isButtonDisabled(selectTool)">Select Tool</button>
-    <button id="rectTool" ng-click="activateTool(rectTool)" ng-disabled="isButtonDisabled(rectTool)">Rectangle Tool</button>
-    <button id="circleTool" ng-click="activateTool(circleTool)" ng-disabled="isButtonDisabled(circleTool)">Circle Tool</button>
-    <button ng-click="updateDrawing()" id="save" style="float:right;">Save</button>
-      <div style="float:right; display: block; margin:3px 20px 0 0;" ng-init="successfullyUpdatedSketchStep=false">Save Status: {{successfullyUpdatedSketchStep}} </div>
-  </div>
-  <div id="workspace" style="width:100%; min-height:600px;">
-    <svg id="drawingPad" style="background-color:#fff; border:2px solid #ddd;"></svg>
-  </div>
+
+    <div id="sc-sketcher-toolbar">
+        <div class="btn-group btn-group-sm" role="group">
+            <button id="selectTool" ng-click="activateTool(selectTool)" ng-disabled="isButtonDisabled(selectTool)" type="button" class="btn btn-default">Select Tool</button>
+            <button id="rectTool" ng-click="activateTool(rectTool)" ng-disabled="isButtonDisabled(rectTool)" type="button" class="btn btn-default">Rectangle Tool</button>
+            <button id="circleTool" ng-click="activateTool(circleTool)" ng-disabled="isButtonDisabled(circleTool)" type="button" class="btn btn-default">Circle Tool</button>
+        </div>
+        <div class="sc-sketcher-toolbar-right">
+            <button ng-click="updateDrawing()" id="save" type="button" class="btn btn-default" style="float:right;">Save</button>
+                <div style="float:right; display: block; margin:3px 20px 0 0;" ng-init="successfullyUpdatedSketchStep=false">
+                Save Status: {{successfullyUpdatedSketchStep}}
+            </div>
+        </div>
+    </div>
+    <div id="sc-sketcher-workspace">
+        <svg id="drawingPad"></svg>
+    </div>
 
 </div>

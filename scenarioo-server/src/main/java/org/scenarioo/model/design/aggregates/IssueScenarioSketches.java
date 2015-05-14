@@ -33,13 +33,13 @@ import org.scenarioo.model.design.entities.Issue;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class IssueProposals {
+public class IssueScenarioSketches {
 
 	private Issue issue;
 
-	@XmlElementWrapper(name = "proposals")
-	@XmlElement(name = "proposalSummary")
-	private List<ProposalSummary> proposals = new ArrayList<ProposalSummary>();
+	@XmlElementWrapper(name = "scenarioSketches")
+	@XmlElement(name = "scenarioSketchSummary")
+	private List<ScenarioSketchSummary> scenarioSketches = new ArrayList<ScenarioSketchSummary>();
 
 	public Issue getIssue() {
 		return issue;
@@ -49,12 +49,12 @@ public class IssueProposals {
 		this.issue = issue;
 	}
 
-	public List<ProposalSummary> getProposals() {
-		return proposals;
+	public List<ScenarioSketchSummary> getScenarioSketches() {
+		return scenarioSketches;
 	}
 
-	public void setProposals(final List<ProposalSummary> proposals) {
-		this.proposals = proposals;
+	public void setScenarioSketches(final List<ScenarioSketchSummary> proposals) {
+		this.scenarioSketches = proposals;
 	}
 
 

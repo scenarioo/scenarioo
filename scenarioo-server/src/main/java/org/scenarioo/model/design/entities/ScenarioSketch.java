@@ -15,17 +15,17 @@ import org.scenarioo.model.docu.entities.Status;
 import org.scenarioo.model.docu.entities.generic.Details;
 
 /**
- * Information to store and display for one design proposal.
+ * Information to store and display for one scenario sketch.
  *
- * It is important that each proposal gets a unique 'name' inside the issue it belongs to.
+ * It is important that each scenario sketch gets a unique 'name' inside the issue it belongs to.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Proposal implements Serializable, Labelable, Detailable {
+public class ScenarioSketch implements Serializable, Labelable, Detailable {
 
 	private String name;
 	private String description;
-	private String proposalStatus = "";
+	private String scenarioSketchStatus = "";
 	private String author = "";
 	private String contextInDocu;
 	private Date dateCreated;
@@ -34,11 +34,11 @@ public class Proposal implements Serializable, Labelable, Detailable {
 	private Details details = new Details();
 	private Labels labels = new Labels();
 
-	public Proposal() {
+	public ScenarioSketch() {
 		this("", "");
 	}
 
-	public Proposal(final String name, final String description) {
+	public ScenarioSketch(final String name, final String description) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -49,7 +49,7 @@ public class Proposal implements Serializable, Labelable, Detailable {
 	}
 
 	/**
-	 * A unique name for this proposal inside the {@link Issue} it belongs to.
+	 * A unique name for this scenario sketch inside the {@link Issue} it belongs to.
 	 *
 	 * Make sure to use descriptive names that stay stable as much as possible.
 	 */
@@ -62,19 +62,20 @@ public class Proposal implements Serializable, Labelable, Detailable {
 	}
 
 	/**
-	 * (optional but recommended) More detailed description for the current proposal (in addition to the descriptive
+	 * (optional but recommended) More detailed description for the current scenario sketch (in addition to the
+	 * descriptive
 	 * name).
 	 */
 	public void setDescription(final String description) {
 		this.description = description;
 	}
 
-	public String getProposalStatus() {
-		return proposalStatus;
+	public String getScenarioSketchStatus() {
+		return scenarioSketchStatus;
 	}
 
 	/**
-	 * Set status of this proposal.
+	 * Set status of this scenario sketch.
 	 *
 	 * See also {@link #setStatus(String)} for setting additional application-specific states.
 	 */
@@ -83,13 +84,13 @@ public class Proposal implements Serializable, Labelable, Detailable {
 	}
 
 	/**
-	 * Status of the proposal (draft, published). <br/>
+	 * Status of the scenario sketch (draft, published). <br/>
 	 * Usual values are "draft" or "published".<br/>
 	 * But you can use workflow-specific additional values, like "proposed-to-commitee", "archived" etc. where it makes
 	 * sense.
 	 */
-	public void setProposalStatus(final String proposalStatus) {
-		this.proposalStatus = proposalStatus;
+	public void setScenarioSketchStatus(final String scenarioSketchStatus) {
+		this.scenarioSketchStatus = scenarioSketchStatus;
 	}
 
 	public String getAuthor() {
