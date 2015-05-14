@@ -22,6 +22,14 @@ angular.module('scenarioo.services').factory('DrawingPadService', function () {
         return drawingPad.exportSvg();
     }
 
+    drawingPad.getOffsetX = function(x) {
+        return Math.max(x - drawingPad.parent.offsetLeft, 0);
+    };
+
+    drawingPad.getOffsetY = function(y) {
+        return Math.max(y - drawingPad.parent.offsetTop, 0);
+    };
+
     return {
         get: drawingPad,
 
