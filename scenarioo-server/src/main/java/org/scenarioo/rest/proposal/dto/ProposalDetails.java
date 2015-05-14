@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.model.design.entities.Issue;
-import org.scenarioo.model.design.entities.Proposal;
+import org.scenarioo.model.design.entities.ScenarioSketch;
 
 /**
  * Information used for displaying the overview page of a scenario.
@@ -14,17 +14,17 @@ import org.scenarioo.model.design.entities.Proposal;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProposalDetails {
 
-	private Proposal proposal;
+	private ScenarioSketch proposal;
 	// private ScenarioStatistics scenarioStatistics;
 	private Issue issue;
 
 	// private List<PageWithSteps> pagesAndSteps;
 
-	public Proposal getProposal() {
+	public ScenarioSketch getProposal() {
 		return proposal;
 	}
 
-	public void setProposal(final Proposal scenario) {
+	public void setProposal(final ScenarioSketch scenario) {
 		this.proposal = scenario;
 	}
 

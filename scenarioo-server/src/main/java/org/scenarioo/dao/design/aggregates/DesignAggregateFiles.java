@@ -22,7 +22,7 @@ import java.text.NumberFormat;
 
 import org.scenarioo.dao.design.entities.DesignFiles;
 import org.scenarioo.rest.base.BuildIdentifier;
-import org.scenarioo.rest.base.design.ProposalIdentifier;
+import org.scenarioo.rest.base.design.ScenarioSketchIdentifier;
 
 /**
  * Defines locations of aggregated files containing aggregated (=derived) data from design data.
@@ -33,8 +33,8 @@ public class DesignAggregateFiles {
 
 	private static final String FILENAME_VERSION_PROPERTIES = "version.derived.properties";
 	private static final String FILENAME_ISSUES_XML = "issues.derived.xml";
-	private static final String FILENAME_PROPOSALS_XML = "proposals.derived.xml";
-	private static final String FILENAME_PROPOSAL_STEPS_XML = "proposalSteps.derived.xml";
+	private static final String FILENAME_SCENARIOSKETCHES_XML = "scenarioSketches.derived.xml";
+	private static final String FILENAME_SCENARIOSKETCH_STEPS_XML = "scenarioSketchSteps.derived.xml";
 	private static final String FILENAME_LONG_OBJECT_NAMES_INDEX = "longObjectNamesIndex.derived.xml";
 
 	private final DesignFiles designFiles;
@@ -52,21 +52,21 @@ public class DesignAggregateFiles {
 				FILENAME_VERSION_PROPERTIES);
 	}
 
-	public File getIssuesAndProposalsFile(final BuildIdentifier buildIdentifier) {
+	public File getIssuesAndScenarioSketchesFile(final BuildIdentifier buildIdentifier) {
 		File branchDir = designFiles.getBranchDirectory(buildIdentifier.getBranchName());
 		return new File(branchDir, FILENAME_ISSUES_XML);
 	}
 
-	public File getIssueProposalsFile(final BuildIdentifier buildIdentifier, final String issueName) {
+	public File getIssueScenarioSketchesFile(final BuildIdentifier buildIdentifier, final String issueName) {
 		File issueDir = designFiles.getIssueDirectory(buildIdentifier.getBranchName(), issueName);
-		return new File(issueDir, FILENAME_PROPOSALS_XML);
+		return new File(issueDir, FILENAME_SCENARIOSKETCHES_XML);
 	}
 
-	public File getProposalStepsFile(final ProposalIdentifier proposalIdentifier) {
-		File scenarioDir = designFiles.getProposalDirectory(proposalIdentifier.getBuildIdentifier().getBranchName(),
-				proposalIdentifier.getIssueName(),
-				proposalIdentifier.getProposalName());
-		return new File(scenarioDir, FILENAME_PROPOSAL_STEPS_XML);
+	public File getScenarioSketchStepsFile(final ScenarioSketchIdentifier scenarioSketchIdentifier) {
+		File scenarioDir = designFiles.getScenarioSketchDirectory(scenarioSketchIdentifier.getBuildIdentifier().getBranchName(),
+				scenarioSketchIdentifier.getIssueName(),
+				scenarioSketchIdentifier.getScenarioSketchName());
+		return new File(scenarioDir, FILENAME_SCENARIOSKETCH_STEPS_XML);
 	}
 
 	/**
@@ -80,17 +80,17 @@ public class DesignAggregateFiles {
 	/**
 	 * Directory to store additional step navigation details inside
 	 */
-	public File getStepNavigationsDirectory(final ProposalIdentifier proposalIdentifier) {
-		File stepsDir = designFiles.getSketchStepsDirectory(proposalIdentifier.getBranchName(),
-				proposalIdentifier.getIssueName(), proposalIdentifier.getProposalName());
+	public File getStepNavigationsDirectory(final ScenarioSketchIdentifier scenarioSketchIdentifier) {
+		File stepsDir = designFiles.getSketchStepsDirectory(scenarioSketchIdentifier.getBranchName(),
+				scenarioSketchIdentifier.getIssueName(), scenarioSketchIdentifier.getScenarioSketchName());
 		return new File(stepsDir, "navigation.derived");
 	}
 
 	/**
 	 * File to store navigation details of a step.
 	 */
-	public File getStepNavigationFile(final ProposalIdentifier proposalIdentifier, final int stepIndex) {
-		File stepNavigationsDir = getStepNavigationsDirectory(proposalIdentifier);
+	public File getStepNavigationFile(final ScenarioSketchIdentifier scenarioSketchIdentifier, final int stepIndex) {
+		File stepNavigationsDir = getStepNavigationsDirectory(scenarioSketchIdentifier);
 		return new File(stepNavigationsDir, THREE_DIGIT_NUM_FORMAT.format(stepIndex) + ".navigation.xml");
 	}
 

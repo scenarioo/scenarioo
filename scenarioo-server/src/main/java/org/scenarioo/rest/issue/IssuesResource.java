@@ -31,11 +31,11 @@ import javax.ws.rs.Produces;
 import org.apache.log4j.Logger;
 import org.scenarioo.dao.design.aggregates.IssueAggregationDAO;
 import org.scenarioo.dao.design.entities.DesignFiles;
-import org.scenarioo.model.design.aggregates.IssueProposals;
+import org.scenarioo.model.design.aggregates.IssueScenarioSketches;
 import org.scenarioo.model.design.aggregates.IssueSummary;
-import org.scenarioo.model.design.aggregates.ProposalSummary;
+import org.scenarioo.model.design.aggregates.ScenarioSketchSummary;
 import org.scenarioo.model.design.entities.Issue;
-import org.scenarioo.model.design.entities.Proposal;
+import org.scenarioo.model.design.entities.ScenarioSketch;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -74,12 +74,12 @@ public class IssuesResource {
 		// Temporary Solution, probably does not scale
 		List<Issue> issues = reader.loadIssues(branchName);
 		for (Issue i : issues) {
-			List<Proposal> proposals = reader.loadProposals(branchName, i.getName());
+			List<ScenarioSketch> proposals = reader.loadProposals(branchName, i.getName());
 			IssueSummary summary = new IssueSummary();
 			summary.setName(i.getName());
 			summary.setDescription(i.getDescription());
 			summary.setStatus(i.getIssueStatus());
-			summary.setNumberOfProposals(proposals.size());
+			summary.setNumberOfScenarioSketches(proposals.size());
 			summary.setLabels(i.getLabels());
 			result.add(summary);
 		}
@@ -90,7 +90,7 @@ public class IssuesResource {
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	@Path("/{issueName}")
-	public IssueProposals loadIssueProposals(@PathParam("branchName") final String branchName,
+	public IssueScenarioSketches loadIssueProposals(@PathParam("branchName") final String branchName,
 			@PathParam("issueName") final String issueName) {
 		LOGGER.info("REQUEST: loadIssueProposals(" + issueName + ")");
 		// return dao.loadIssueProposals(new BuildIdentifier(branchName, ""), issueName);
@@ -98,17 +98,17 @@ public class IssuesResource {
 		// This does not use pre-aggregated data
 		// Temporary Solution, probably does not scale
 		Issue issue = reader.loadIssue(branchName, issueName);
-		List<Proposal> proposals = reader.loadProposals(branchName, issueName);
-		List<ProposalSummary> summaries = new ArrayList<ProposalSummary>();
-		for (Proposal p : proposals) {
-			ProposalSummary summary = new ProposalSummary();
-			summary.setProposal(p);
+		List<ScenarioSketch> proposals = reader.loadProposals(branchName, issueName);
+		List<ScenarioSketchSummary> summaries = new ArrayList<ScenarioSketchSummary>();
+		for (ScenarioSketch p : proposals) {
+			ScenarioSketchSummary summary = new ScenarioSketchSummary();
+			summary.setScenarioSketch(p);
 			summary.setNumberOfSteps(0); // Wrong, but works until pre-calculating data is done
 			summaries.add(summary);
 		}
-		IssueProposals result = new IssueProposals();
+		IssueScenarioSketches result = new IssueScenarioSketches();
 		result.setIssue(issue);
-		result.setProposals(summaries);
+		result.setScenarioSketches(summaries);
 		return result;
 
 	}
@@ -124,13 +124,13 @@ public class IssuesResource {
 
 	}
 
-	private IssueSummary mapSummary(final IssueProposals issueProposals) {
+	private IssueSummary mapSummary(final IssueScenarioSketches issueProposals) {
 		IssueSummary summary = new IssueSummary();
 		Issue issue = issueProposals.getIssue();
 		summary.setName(issue.getName());
 		summary.setDescription(issue.getDescription());
 		summary.setStatus(issue.getIssueStatus());
-		summary.setNumberOfProposals(issueProposals.getProposals().size());
+		summary.setNumberOfScenarioSketches(issueProposals.getScenarioSketches().size());
 		summary.setLabels(issue.getLabels());
 		return summary;
 	}

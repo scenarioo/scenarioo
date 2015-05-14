@@ -17,19 +17,19 @@
 
 package org.scenarioo.model.design.aggregates;
 
-import org.scenarioo.model.design.entities.Proposal;
+import org.scenarioo.model.design.entities.ScenarioSketch;
 
-public class ProposalSummary {
+public class ScenarioSketchSummary {
 
-	private Proposal proposal;
+	private ScenarioSketch scenarioSketch;
 	private int numberOfSteps;
 
-	public Proposal getProposal() {
-		return proposal;
+	public ScenarioSketch getScenarioSketch() {
+		return scenarioSketch;
 	}
 
-	public void setProposal(final Proposal proposal) {
-		this.proposal = proposal;
+	public void setScenarioSketch(final ScenarioSketch scenarioSketch) {
+		this.scenarioSketch = scenarioSketch;
 	}
 
 	public int getNumberOfSteps() {

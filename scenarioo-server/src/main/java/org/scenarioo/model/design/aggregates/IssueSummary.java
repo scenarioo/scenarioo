@@ -12,7 +12,7 @@ public class IssueSummary {
 		private String status;
 		private String name;
 		private String description;
-		private int numberOfProposals;
+		private int numberOfScenarioSketches;
 		private Labels labels;
 
 		public String getStatus() {
@@ -39,12 +39,12 @@ public class IssueSummary {
 			this.description = description;
 		}
 
-		public int getNumberOfProposals() {
-			return numberOfProposals;
+		public int getNumberOfScenarioSketches() {
+			return numberOfScenarioSketches;
 		}
 
-		public void setNumberOfProposals(final int numberOfProposals) {
-			this.numberOfProposals = numberOfProposals;
+		public void setNumberOfScenarioSketches(final int numberOfScenarioSketches) {
+			this.numberOfScenarioSketches = numberOfScenarioSketches;
 		}
 
 		public Labels getLabels() {

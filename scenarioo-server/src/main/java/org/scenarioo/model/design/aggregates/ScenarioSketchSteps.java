@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.model.design.entities.Issue;
-import org.scenarioo.model.design.entities.Proposal;
+import org.scenarioo.model.design.entities.ScenarioSketch;
 import org.scenarioo.model.docu.entities.Step;
 
 /**
@@ -35,9 +35,9 @@ import org.scenarioo.model.docu.entities.Step;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProposalSteps {
+public class ScenarioSketchSteps {
 
-	private Proposal proposal;
+	private ScenarioSketch scenarioSketch;
 
 	private Issue issue;
 
@@ -45,12 +45,12 @@ public class ProposalSteps {
 	@XmlElement(name = "Steps")
 	private List<Step> steps;
 
-	public Proposal getProposal() {
-		return proposal;
+	public ScenarioSketch getScenarioSketch() {
+		return scenarioSketch;
 	}
 
-	public void setScenario(final Proposal proposal) {
-		this.proposal = proposal;
+	public void setScenarioSketch(final ScenarioSketch scenarioSketch) {
+		this.scenarioSketch = scenarioSketch;
 	}
 
 	// public ScenarioStatistics getScenarioStatistics() {
