@@ -17,6 +17,8 @@
 
 package org.scenarioo.rest.issue;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,10 +26,12 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.log4j.Logger;
 import org.scenarioo.dao.design.aggregates.IssueAggregationDAO;
 import org.scenarioo.dao.design.entities.DesignFiles;
@@ -72,32 +76,32 @@ public class IssuesResource {
 			List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, i.getName());
 			IssueSummary summary = new IssueSummary();
 			summary.setName(i.getName());
+			summary.setId(i.getId());
 			summary.setDescription(i.getDescription());
 			summary.setStatus(i.getIssueStatus());
 			summary.setNumberOfScenarioSketches(scenarioSketches.size());
 			summary.setLabels(i.getLabels());
 			result.add(summary);
 		}
-
 		return result;
 	}
 
 	@GET
 	@Produces({ "application/xml", "application/json" })
-	@Path("/{issueName}")
+	@Path("/{issueId}")
 	public IssueScenarioSketches loadIssueScenarioSketches(@PathParam("branchName") final String branchName,
-			@PathParam("issueName") final String issueName) {
-		LOGGER.info("REQUEST: loadIssueScenarioSketches(" + issueName + ")");
-		// return dao.loadIssueProposals(new BuildIdentifier(branchName, ""), issueName);
+			@PathParam("issueId") final String issueId) {
+		LOGGER.info("REQUEST: loadIssueScenarioSketches(" + issueId + ")");
+		// return dao.loadIssueProposals(new BuildIdentifier(branchName, ""), issueId);
 
 		// This does not use pre-aggregated data
 		// Temporary Solution, probably does not scale
-		Issue issue = reader.loadIssue(branchName, issueName);
-		List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, issueName);
+		Issue issue = reader.loadIssue(branchName, issueId);
+		List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, issueId);
 		List<ScenarioSketchSummary> summaries = new ArrayList<ScenarioSketchSummary>();
-		for (ScenarioSketch p : scenarioSketches) {
+		for (ScenarioSketch sketch : scenarioSketches) {
 			ScenarioSketchSummary summary = new ScenarioSketchSummary();
-			summary.setScenarioSketch(p);
+			summary.setScenarioSketch(sketch);
 			summary.setNumberOfSteps(0); // Wrong, but works until pre-calculating data is done
 			summaries.add(summary);
 		}
@@ -110,11 +114,36 @@ public class IssuesResource {
 
 	@POST
 	@Consumes({ "application/xml", "application/json" })
-	public void storeIssue(@PathParam("branchName") final String branchName,
+	public void storeNewIssue(@PathParam("branchName") final String branchName,
 			final Issue newIssue) {
+		// TODO: Make sure we do not overwrite an existing issue without confirmation! If we do, do not overwrite the
+		// hash. Maybe have a different URL, using the id for accessing/updating existing issues
 		LOGGER.info("Now storing a new issue.");
 		LOGGER.info(newIssue);
 		LOGGER.info("-----------------------");
+		MessageDigest converter;
+		try {
+			converter = MessageDigest.getInstance("SHA1");
+			String id = new String(Hex.encodeHex(converter.digest(newIssue.toString().getBytes())));
+			id = id.substring(0, 7); // limit to first 7 characters, like in git, to keep URLs short
+			newIssue.setId(id.toString());
+		} catch (NoSuchAlgorithmException e) {
+			LOGGER.info("Couldn't generate SHA1 message digest.");
+		}
+		files.writeIssueToFile(branchName, newIssue);
+
+	}
+
+	@PUT
+	@Consumes({ "application/xml", "application/json" })
+	@Path("/{issueId}")
+	public void updateIssue(@PathParam("branchName") final String branchName,
+			@PathParam("issueIdName") final String issueId,
+			final Issue newIssue) {
+		LOGGER.info("Now updating an existing issue.");
+		LOGGER.info(newIssue.getId());
+		LOGGER.info("-----------------------");
+		files.getIssueFile(branchName, issueId);
 		files.writeIssueToFile(branchName, newIssue);
 
 	}
