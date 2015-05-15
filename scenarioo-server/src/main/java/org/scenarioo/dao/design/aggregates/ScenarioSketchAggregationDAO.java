@@ -73,9 +73,9 @@ import org.scenarioo.utils.ResourceUtils;
  * If accessing data for a specific build you have to make sure to use the constructor that initializes the
  * {@link LongObjectNamesResolver} with the object names as available for the specific build you want to access.
  */
-public class ProposalAggregationDAO {
+public class ScenarioSketchAggregationDAO {
 	
-	private static final Logger LOGGER = Logger.getLogger(ProposalAggregationDAO.class);
+	private static final Logger LOGGER = Logger.getLogger(ScenarioSketchAggregationDAO.class);
 	
 	private static final String VERSION_PROPERTY_KEY = "scenarioo.derived.file.format.version";
 	
@@ -86,13 +86,13 @@ public class ProposalAggregationDAO {
 	private LongObjectNamesResolver longObjectNameResolver = null;
 	DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	
-	public ProposalAggregationDAO(final File rootDirectory) {
+	public ScenarioSketchAggregationDAO(final File rootDirectory) {
 		this.rootDirectory = rootDirectory;
 		files = new ScenarioDocuAggregationFiles(rootDirectory);
 		scenarioDocuReader = new ScenarioDocuReader(rootDirectory);
 	}
 	
-	public ProposalAggregationDAO(final File rootDirectory, final LongObjectNamesResolver longObjectNameResolver) {
+	public ScenarioSketchAggregationDAO(final File rootDirectory, final LongObjectNamesResolver longObjectNameResolver) {
 		this(rootDirectory);
 		this.longObjectNameResolver = longObjectNameResolver;
 	}

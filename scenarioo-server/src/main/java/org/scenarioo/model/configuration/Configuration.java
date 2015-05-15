@@ -17,6 +17,7 @@
 
 package org.scenarioo.model.configuration;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -84,6 +85,10 @@ public class Configuration {
 	}
 
 	public String getDesignDocumentationDirPath() {
+		if (this.designDocumentationDirPath == null) {
+			String path = (new File(testDocumentationDirPath, "scenarioo-design-data")).getAbsolutePath();
+			setDesignDocumentationDirPath(path);
+		}
 		return designDocumentationDirPath;
 	}
 

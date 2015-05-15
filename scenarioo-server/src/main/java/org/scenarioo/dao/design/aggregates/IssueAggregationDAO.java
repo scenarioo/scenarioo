@@ -95,24 +95,24 @@ public class IssueAggregationDAO {
 	}
 
 
-	public List<IssueScenarioSketches> loadIssueProposalsList(final BuildIdentifier buildIdentifier) {
+	public List<IssueScenarioSketches> loadIssueScenarioSketchesList(final BuildIdentifier buildIdentifier) {
 		File file = files.getIssuesAndScenarioSketchesFile(buildIdentifier);
 		IssueScenarioSketchesList list = ScenarioDocuXMLFileUtil.unmarshal(IssueScenarioSketchesList.class, file);
 		return list.getIssueScenarioSketches();
 	}
 
 
-	public IssueScenarioSketches loadIssueProposals(final BuildIdentifier buildIdentifier, final String issueName) {
+	public IssueScenarioSketches loadIssueScenarioSketches(final BuildIdentifier buildIdentifier, final String issueName) {
 		File file = files.getIssueScenarioSketchesFile(buildIdentifier, issueName);
-		IssueScenarioSketches issueProposals = ScenarioDocuXMLFileUtil.unmarshal(IssueScenarioSketches.class, file);
-		return issueProposals;
+		IssueScenarioSketches issueScenariosketches = ScenarioDocuXMLFileUtil.unmarshal(IssueScenarioSketches.class, file);
+		return issueScenariosketches;
 	}
 
 
-	public ScenarioSketchSteps loadProposalSteps(final ScenarioSketchIdentifier proposalIdentifier) {
-		File file = files.getScenarioSketchStepsFile(proposalIdentifier);
-		ScenarioSketchSteps proposalSteps = ScenarioDocuXMLFileUtil.unmarshal(ScenarioSketchSteps.class, file);
-		return proposalSteps;
+	public ScenarioSketchSteps loadScenarioSketchSteps(final ScenarioSketchIdentifier scenarioSketchIdentifier) {
+		File file = files.getScenarioSketchStepsFile(scenarioSketchIdentifier);
+		ScenarioSketchSteps scenarioSketchSteps = ScenarioDocuXMLFileUtil.unmarshal(ScenarioSketchSteps.class, file);
+		return scenarioSketchSteps;
 	}
 
 

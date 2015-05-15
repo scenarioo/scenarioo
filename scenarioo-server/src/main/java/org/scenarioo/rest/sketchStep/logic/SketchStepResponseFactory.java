@@ -5,7 +5,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.aggregator.PageNameSanitizer;
-import org.scenarioo.dao.design.aggregates.ProposalAggregationDAO;
+import org.scenarioo.dao.design.aggregates.ScenarioSketchAggregationDAO;
 import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
 import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
 import org.scenarioo.model.docu.entities.Scenario;
@@ -17,11 +17,11 @@ import org.scenarioo.rest.step.dto.StepDetails;
 
 public class SketchStepResponseFactory {
 	
-	private final ProposalAggregationDAO aggregatedDataReader;
+	private final ScenarioSketchAggregationDAO aggregatedDataReader;
 	
 	private final ScenarioDocuReader scenarioDocuReader;
 	
-	public SketchStepResponseFactory(final ProposalAggregationDAO aggregatedDataReader,
+	public SketchStepResponseFactory(final ScenarioSketchAggregationDAO aggregatedDataReader,
 			final ScenarioDocuReader scenarioDocuReader) {
 		this.aggregatedDataReader = aggregatedDataReader;
 		this.scenarioDocuReader = scenarioDocuReader;
