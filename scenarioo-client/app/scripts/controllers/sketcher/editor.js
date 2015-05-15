@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scope, $location, $filter, $routeParams, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, CircleTool, DrawingPadService, SketchStep, SketchStepResource) {
+angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scope, $location, $filter, $routeParams, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, CircleTool, EllipseTool, DrawingPadService, SketchStep, SketchStepResource) {
 
     var drawingPad = DrawingPadService.get;
     var image = null;
@@ -31,22 +31,26 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scop
             });
         });
     }
-    var currentTool = null;
-    var listOfTools = null; // TODO: Service which loads tools from an extension directory?
 
-    $scope.rectTool = RectTool;
-    $scope.selectTool = SelectTool;
-    $scope.circleTool = CircleTool;
+    $scope.currentTool = null;
+
+    $scope.tools = new Array();
+    $scope.tools[0] = SelectTool;
+    $scope.tools[1] = RectTool;
+    $scope.tools[2] = CircleTool;
+    $scope.tools[3] = EllipseTool;
 
     $scope.activateTool = function (tool) {
-        if (this.currentTool) {
-            Tool.deactivate(this.currentTool);
+        if ($scope.currentTool) {
+            Tool.deactivate($scope.currentTool);
         }
-        this.currentTool = tool;
+        console.log($scope.currentTool);
+        $scope.currentTool = tool;
+        console.log($scope.currentTool);
         Tool.activate(tool);
     };
 
-    $scope.activateTool($scope.selectTool);
+    $scope.activateTool($scope.tools[0]);
 
     $scope.isButtonDisabled = function (tool) {
         if (tool) {

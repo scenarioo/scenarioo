@@ -20,9 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <div id="sc-sketcher-toolbar">
         <div class="btn-group btn-group-sm" role="group">
-            <button id="selectTool" ng-click="activateTool(selectTool)" ng-disabled="isButtonDisabled(selectTool)" type="button" class="btn btn-default">Select Tool</button>
-            <button id="rectTool" ng-click="activateTool(rectTool)" ng-disabled="isButtonDisabled(rectTool)" type="button" class="btn btn-default">Rectangle Tool</button>
-            <button id="circleTool" ng-click="activateTool(circleTool)" ng-disabled="isButtonDisabled(circleTool)" type="button" class="btn btn-default">Circle Tool</button>
+            <button ng-repeat="tool in tools" id="{{tool.name}}" ng-click="activateTool(tool)" ng-disabled="isButtonDisabled(tool)" type="button" class="btn btn-default">{{tool.name}}</button>
         </div>
         <div class="sc-sketcher-toolbar-right">
             <button ng-click="updateDrawing()" id="save" type="button" class="btn btn-default" style="float:right;">Save</button>

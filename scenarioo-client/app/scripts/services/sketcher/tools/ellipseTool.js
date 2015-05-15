@@ -17,21 +17,21 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').factory('RectTool', function (AbstractShapeTool) {
+angular.module('scenarioo.controllers').factory('EllipseTool', function (AbstractShapeTool) {
     var tool = AbstractShapeTool.get;
 
-    tool.name = 'Rectangle Tool';
+    tool.name = 'Ellipse Tool';
     tool.icon = null;
-    tool.tooltip = 'This tool is used to draw rectangles.';
+    tool.tooltip = 'This tool is used to draw ellipsis.';
 
 
     tool.onmousedown = function (event) {
         tool.onmousedownTemplate(event);
-        tool.component = tool.drawingPad.rect(0, 0, 0, 0);
+        tool.component = tool.drawingPad.ellipse(0, 0, 0, 0);
 
         tool.component.attr({
-            x: tool.originalX,
-            y: tool.originalY,
+            cx: tool.originalX,
+            cy: tool.originalY,
             fill: '#f60'
         });
     };
@@ -47,10 +47,10 @@ angular.module('scenarioo.controllers').factory('RectTool', function (AbstractSh
         tool.onmousedragTemplate(event);
 
         tool.component.attr({
-            width: tool.cornerX - tool.anchorX,
-            height: tool.cornerY - tool.anchorY,
-            x: tool.anchorX,
-            y: tool.anchorY
+            rx: (tool.cornerX - tool.anchorX)/2,
+            ry: (tool.cornerY - tool.anchorY)/2,
+            cx: tool.anchorX + tool.component.attr('rx'),
+            cy: tool.anchorY + tool.component.attr('ry')
         });
     };
 
