@@ -29,7 +29,7 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.design.aggregates.ProposalAggregationDAO;
+import org.scenarioo.dao.design.aggregates.ScenarioSketchAggregationDAO;
 import org.scenarioo.dao.design.entities.DesignFiles;
 import org.scenarioo.model.design.entities.SketchStep;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
@@ -45,7 +45,7 @@ import org.scenarioo.rest.sketchStep.logic.SketchStepResponseFactory;
 import org.scenarioo.rest.step.StepResource;
 import org.scenarioo.rest.step.logic.LabelsQueryParamParser;
 
-@Path("/rest/branch/{branchName}/issue/{issueName}/proposal/{proposalName}/sketchstep/{sketchStepName}")
+@Path("/rest/branch/{branchName}/issue/{issueName}/scenariosketch/{scenarioSketchName}/sketchstep/{sketchStepName}")
 public class SketchStepResource {
 
 	private static final Logger LOGGER = Logger.getLogger(StepResource.class);
@@ -54,8 +54,8 @@ public class SketchStepResource {
 			.getConfigurationRepository();
 
 	private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
-	private final ProposalAggregationDAO aggregatedDataReader = new ProposalAggregationDAO(
-			configurationRepository.getDocumentationDataDirectory(), longObjectNamesResolver);
+	private final ScenarioSketchAggregationDAO aggregatedDataReader = new ScenarioSketchAggregationDAO(
+			configurationRepository.getDesignDataDirectory(), longObjectNamesResolver);
 
 	private final LabelsQueryParamParser labelsQueryParamParser = new LabelsQueryParamParser();
 	private final ProposalLoader proposalLoader = new ProposalLoader(aggregatedDataReader);
@@ -64,7 +64,7 @@ public class SketchStepResource {
 
 	// todo: ProposalReader (?)
 	private final ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(
-			configurationRepository.getDocumentationDataDirectory());
+			configurationRepository.getDesignDataDirectory());
 
 	private final SketchStepResponseFactory sketchStepResponseFactory = new SketchStepResponseFactory(
 			aggregatedDataReader,
@@ -81,7 +81,7 @@ public class SketchStepResource {
 	@Produces({ "application/json" })
 	public Response loadSketchStep(@PathParam("branchName") final String branchName,
 			@PathParam("issueName") final String issueName,
-			@PathParam("proposalName") final String proposalName,
+			@PathParam("scenarioSketchName") final String scenarioSketchName,
 			@PathParam("sketchStepName") final int sketchStepName,
 			@QueryParam("fallback") final boolean addFallbackInfo, @QueryParam("labels") final String labels) {
 
@@ -89,7 +89,7 @@ public class SketchStepResource {
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				"");
 
-		StepIdentifier sketchStepIdentifier = new StepIdentifier(buildIdentifier, issueName, proposalName, "",
+		StepIdentifier sketchStepIdentifier = new StepIdentifier(buildIdentifier, issueName, scenarioSketchName, "",
 				0, sketchStepName, labelsQueryParamParser.parseLabels(labels));
 
 		LOGGER.info("loadSketchStep(" + sketchStepIdentifier + ")");
@@ -105,12 +105,12 @@ public class SketchStepResource {
 	@Produces({ "application/json", "application/xml" })
 	public void storeSketchStep(@PathParam("branchName") final String branchName,
 			@PathParam("issueName") final String issueName,
-			@PathParam("proposalName") final String proposalName, final SketchStep sketchStep) {
+			@PathParam("scenarioSketchName") final String scenarioSketchName, final SketchStep sketchStep) {
 		LOGGER.info("SAVING SKETCH STEP");
 		LOGGER.info(sketchStep);
 		LOGGER.info("-----------------------------------");
-		files.writeSketchStepToFile(branchName, issueName, proposalName, sketchStep);
-		files.writeSVGToFile(branchName, issueName, proposalName, sketchStep);
+		files.writeSketchStepToFile(branchName, issueName, scenarioSketchName, sketchStep);
+		files.writeSVGToFile(branchName, issueName, scenarioSketchName, sketchStep);
 	}
 
 }

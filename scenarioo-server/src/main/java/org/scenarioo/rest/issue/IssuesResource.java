@@ -56,7 +56,7 @@ public class IssuesResource {
 	private final DesignFiles files = new DesignFiles(configurationRepository.getDesignDataDirectory());
 
 	/**
-	 * Lightweight call, which does not send all proposal information.
+	 * Lightweight call, which does not send all scenario sketch information.
 	 */
 	@GET
 	@Produces({ "application/xml", "application/json" })
@@ -65,21 +65,16 @@ public class IssuesResource {
 		BuildIdentifier ident = new BuildIdentifier(branchName, "");
 		List<IssueSummary> result = new LinkedList<IssueSummary>();
 
-		// for (IssueProposals ip : dao.loadIssueProposalsList(ident)) {
-		// result.add(mapSummary(ip));
-		// }
-		// return result;
-
 		// This does not use pre-aggregated data
 		// Temporary Solution, probably does not scale
 		List<Issue> issues = reader.loadIssues(branchName);
 		for (Issue i : issues) {
-			List<ScenarioSketch> proposals = reader.loadProposals(branchName, i.getName());
+			List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, i.getName());
 			IssueSummary summary = new IssueSummary();
 			summary.setName(i.getName());
 			summary.setDescription(i.getDescription());
 			summary.setStatus(i.getIssueStatus());
-			summary.setNumberOfScenarioSketches(proposals.size());
+			summary.setNumberOfScenarioSketches(scenarioSketches.size());
 			summary.setLabels(i.getLabels());
 			result.add(summary);
 		}
@@ -90,17 +85,17 @@ public class IssuesResource {
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	@Path("/{issueName}")
-	public IssueScenarioSketches loadIssueProposals(@PathParam("branchName") final String branchName,
+	public IssueScenarioSketches loadIssueScenarioSketches(@PathParam("branchName") final String branchName,
 			@PathParam("issueName") final String issueName) {
-		LOGGER.info("REQUEST: loadIssueProposals(" + issueName + ")");
+		LOGGER.info("REQUEST: loadIssueScenarioSketches(" + issueName + ")");
 		// return dao.loadIssueProposals(new BuildIdentifier(branchName, ""), issueName);
 
 		// This does not use pre-aggregated data
 		// Temporary Solution, probably does not scale
 		Issue issue = reader.loadIssue(branchName, issueName);
-		List<ScenarioSketch> proposals = reader.loadProposals(branchName, issueName);
+		List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, issueName);
 		List<ScenarioSketchSummary> summaries = new ArrayList<ScenarioSketchSummary>();
-		for (ScenarioSketch p : proposals) {
+		for (ScenarioSketch p : scenarioSketches) {
 			ScenarioSketchSummary summary = new ScenarioSketchSummary();
 			summary.setScenarioSketch(p);
 			summary.setNumberOfSteps(0); // Wrong, but works until pre-calculating data is done

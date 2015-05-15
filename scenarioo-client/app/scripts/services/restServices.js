@@ -264,11 +264,11 @@ angular.module('scenarioo.services')
     })
 
     .factory('SketchStepResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issue/:issueName/proposal/:proposalName/sketchstep/:sketchStepName',
+        return ScenariooResource('/branch/:branchName/issue/:issueName/scenariosketch/:scenarioSketchName/sketchstep/:sketchStepName',
             {
                 branchName: '@branchName',
                 issueName: '@issueName',
-                proposalName: '@proposalName',
+                scenarioSketchName: '@scenarioSketchName',
                 sketchStepName: '@sketchStepName'
             }, {});
     });

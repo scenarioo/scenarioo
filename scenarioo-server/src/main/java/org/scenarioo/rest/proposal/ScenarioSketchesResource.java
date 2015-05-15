@@ -15,15 +15,15 @@ import org.scenarioo.rest.base.design.ScenarioSketchIdentifier;
 import org.scenarioo.rest.scenario.mapper.ScenarioDetailsMapper;
 import org.scenarioo.utils.design.readers.DesignReader;
 
-@Path("/rest/branch/{branchName}/issues/{issueName}/proposals/{proposalName}")
-public class ProposalsResource {
+@Path("/rest/branch/{branchName}/issue/{issueName}/scenariosketch/{scenarioSketchName}")
+public class ScenarioSketchesResource {
 
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
 	private final IssueAggregationDAO dao = new IssueAggregationDAO(
-			configurationRepository.getDocumentationDataDirectory());
+			configurationRepository.getDesignDataDirectory());
 
 	private final DesignReader reader = new DesignReader(configurationRepository.getDesignDataDirectory());
 
@@ -39,10 +39,10 @@ public class ProposalsResource {
 				"");
 		ScenarioSketchIdentifier proposalIdentifier = new ScenarioSketchIdentifier(buildIdentifier, issueName, proposalName);
 
-		ScenarioSketchSteps proposalSteps = dao.loadProposalSteps(proposalIdentifier);
+		ScenarioSketchSteps scenarioSketchSteps = dao.loadScenarioSketchSteps(proposalIdentifier);
 
 		// TODO: Investigate whether ProposalDetails and ProposalMapper are necessary
-		return proposalSteps;
+		return scenarioSketchSteps;
 	}
 
 }
