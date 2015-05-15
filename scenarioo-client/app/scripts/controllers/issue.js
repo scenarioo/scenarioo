@@ -31,15 +31,16 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
     });
 
     function loadIssue(selected) {
-        var issueName = $routeParams.issueName;
+        var issueId = $routeParams.issueName;
         IssueResource.get(
             {
                 branchName: selected.branch,
-                issueName: issueName
+                issueId: issueId
             },
             function onSuccess(result) {
                 $scope.issue = result.issue;
-                $scope.proposals = null;
+                $scope.scenarioSketches = null;
+                $scope.issueName = result.issue.name;
                 //$scope.scenarios = result.scenarios;
                 //$scope.issueInformationTree = createissueInformationTree($scope.issue);
                 //$scope.metadataTree = transformMetadataToTreeArray($scope.issue.details);
@@ -47,8 +48,8 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
             },
             function onError(){
 
-                var proposals = [
-                    {proposal: {
+                var scenarioSketches = [
+                    {scenarioSketch: {
                         author:'mzem',
                         name:'first sketch',
                         description:'Die Domänen Design und Docu sind in diesem Sketch stark getrennt. Im Header werden Tabs eingesetzt.',
@@ -57,7 +58,7 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
                         stepCount:3,
                         status:'open'
                     }},
-                    {proposal: {
+                    {scenarioSketch: {
                         author:'aher',
                         name:'second sketch',
                         description:'Die Design Domäne wird hier nahtlos in die Docu-Domäne integriert. Die Issues sind über ein Issue Tab aufrufbar.',
@@ -66,7 +67,7 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
                         stepCount:2,
                         status:'open'
                     }},
-                    {proposal: {
+                    {scenarioSketch: {
                         author:'rbru',
                         name:'third sketch',
                         description:'Die Issues können hier als Button oben rechts aufgerufen werden.',
@@ -83,13 +84,11 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
                     id:52,
                     status:'open',
                     finalProposal:'',
-                    proposals:proposals
+                    scenarioSketches:scenarioSketches
                 };
-                $scope.proposals = $scope.issue.proposals;
+                $scope.scenarioSketches = $scope.issue.scenarioSketches;
             }
         );
-
-        $scope.issueName = $routeParams.issueName;
         //$scope.propertiesToShow = Config.scenarioPropertiesInOverview();
     }
 
@@ -114,8 +113,8 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
     }*/
 
     // todo
-    $scope.goToProposal = function (issueName, proposalName) {
-        $location.path('/proposal/' + issueName + '/' + proposalName);
+    $scope.goToScenarioSketch = function (issueId, scenarioSketchName) {
+        $location.path('/' + issueId + '/scenariosketch/' + scenarioSketchName);
         //$location.path('#');
     };
 

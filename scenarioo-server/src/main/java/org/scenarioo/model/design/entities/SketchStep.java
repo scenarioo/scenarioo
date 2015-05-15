@@ -47,6 +47,8 @@ public class SketchStep implements Serializable {
 	@XmlTransient
 	private String issueName;
 	@XmlTransient
+	private String issueId;
+	@XmlTransient
 	private String scenarioSketchName;
 
 	/*
@@ -173,6 +175,14 @@ public class SketchStep implements Serializable {
 
 	public void setIssueName(final String issueName) {
 		this.issueName = issueName;
+	}
+
+	public String getIssueId() {
+		return issueId;
+	}
+
+	public void setIssueId(final String issueId) {
+		this.issueId = issueId;
 	}
 
 	public String getScenarioSketchName() {

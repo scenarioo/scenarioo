@@ -42,7 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <thead>
                 <tr>
                     <th sc-sortable-column="status">Status</th>
-                    <th sc-sortable-column="name">Proposal name</th>
+                    <th sc-sortable-column="name">Scenario sketch name</th>
                     <th>Description</th>
                     <th>Author</th>
                     <!--<th ng-repeat="property in propertiesToShow" sc-sortable-column="details.properties.{{property}}">
@@ -53,12 +53,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </tr>
             </thead>
             <tbody>
-                <tr ng-class="{'selected':$index==selectedRowIndex}" ng-click="goToProposal(issue.name, proposalSummary.proposal.name)"
+                <tr ng-class="{'selected':$index==selectedRowIndex}" ng-click="goToScenarioSketch(issue.name, proposalSummary.proposal.name)"
                     class="link"
-                    ng-repeat="proposalSummary in filtered=(proposals | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
+                    ng-repeat="proposalSummary in filtered=(scenarioSketches | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
                     <td>
-                        <!--<span class="label state" ng-class="getStatusStyleClass(proposalSummary.proposal.status)">{{proposalSummary.proposal.status}}</span>-->
-                        {{proposalSummary.proposal.status}}
                     </td>
                     <td>
                         {{proposalSummary.proposal.name | scHumanReadable }}

@@ -45,7 +45,7 @@ import org.scenarioo.rest.sketchStep.logic.SketchStepResponseFactory;
 import org.scenarioo.rest.step.StepResource;
 import org.scenarioo.rest.step.logic.LabelsQueryParamParser;
 
-@Path("/rest/branch/{branchName}/issue/{issueName}/scenariosketch/{scenarioSketchName}/sketchstep/{sketchStepName}")
+@Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchName}/sketchstep/{sketchStepName}")
 public class SketchStepResource {
 
 	private static final Logger LOGGER = Logger.getLogger(StepResource.class);
@@ -80,7 +80,7 @@ public class SketchStepResource {
 	@GET
 	@Produces({ "application/json" })
 	public Response loadSketchStep(@PathParam("branchName") final String branchName,
-			@PathParam("issueName") final String issueName,
+			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchName") final String scenarioSketchName,
 			@PathParam("sketchStepName") final int sketchStepName,
 			@QueryParam("fallback") final boolean addFallbackInfo, @QueryParam("labels") final String labels) {
@@ -89,7 +89,7 @@ public class SketchStepResource {
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				"");
 
-		StepIdentifier sketchStepIdentifier = new StepIdentifier(buildIdentifier, issueName, scenarioSketchName, "",
+		StepIdentifier sketchStepIdentifier = new StepIdentifier(buildIdentifier, issueId, scenarioSketchName, "",
 				0, sketchStepName, labelsQueryParamParser.parseLabels(labels));
 
 		LOGGER.info("loadSketchStep(" + sketchStepIdentifier + ")");
@@ -104,13 +104,13 @@ public class SketchStepResource {
 	@Consumes({ "application/json" })
 	@Produces({ "application/json", "application/xml" })
 	public void storeSketchStep(@PathParam("branchName") final String branchName,
-			@PathParam("issueName") final String issueName,
+			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchName") final String scenarioSketchName, final SketchStep sketchStep) {
 		LOGGER.info("SAVING SKETCH STEP");
 		LOGGER.info(sketchStep);
 		LOGGER.info("-----------------------------------");
-		files.writeSketchStepToFile(branchName, issueName, scenarioSketchName, sketchStep);
-		files.writeSVGToFile(branchName, issueName, scenarioSketchName, sketchStep);
+		files.writeSketchStepToFile(branchName, issueId, scenarioSketchName, sketchStep);
+		files.writeSVGToFile(branchName, issueId, scenarioSketchName, sketchStep);
 	}
 
 }
