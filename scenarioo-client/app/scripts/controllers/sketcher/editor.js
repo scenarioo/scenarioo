@@ -17,14 +17,14 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scope, $location, $filter, $routeParams, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, CircleTool, EllipseTool, DrawingPadService, SketchStep, SketchStepResource) {
+angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scope, $location, $filter, $routeParams, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, CircleTool, EllipseTool, DrawingPadService, SketchStep, SketchStepResource, IssuesResource, IssueResource, Issues, Issue) {
 
     var drawingPad = DrawingPadService.get;
     var image = null;
-    if ($routeParams.screenshotURL) {
+    if ($routeParams.screenshotURL && !image) {
         image = drawingPad.image($routeParams.screenshotURL).loaded(function (loader) {
-            image.attr({
-                width: drawingPad.width()
+            drawingPad.attr({
+                width: image.width()
             });
             drawingPad.attr({
                 height: image.height()
@@ -57,23 +57,57 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scop
     };
 
     // exporting svg drawing
-    $scope.updateDrawing = function () {
+    $scope.updateSketchStep = function () {
         var exportedSVG = DrawingPadService.exportDrawing();
-        console.log(exportedSVG);
+        //console.log(exportedSVG);
 
         $scope.successfullyUpdatedSketchStep = false;
 
-        var changedSketchStep = new SketchStepResource({
+        var newIssue = new IssuesResource({
             branchName: $routeParams.branch,
-            issueId: 'a62bc9a',
+            name: $scope.issueName,
+            description: $scope.issueDescription
+        });
+
+        var issue = new IssueResource({
+            branchName: $routeParams.branch,
+            id: $scope.issueId
+        });
+
+        var sketchStep = new SketchStepResource({
+            branchName: $routeParams.branch,
             scenarioSketchName: 'test scenario sketch',
             sketchStepName: 1,
             sketch: exportedSVG
         }, {});
 
-        SketchStep.updateSketchStep(changedSketchStep, function () {
-            $scope.successfullyUpdatedSketchStep = true;
-        });
+        if (issue.id) {
+            Issue.updateIssue({
+                    name: $scope.issueName,
+                    description: $scope.issueDescription
+                },
+                issue,
+                function (updatedIssue) {
+
+                    console.log('UPDATE', updatedIssue);
+
+                    SketchStep.updateSketchStep(sketchStep, function (updatedSketchStep) {
+                        console.log(updatedSketchStep);
+                        $scope.successfullyUpdatedSketchStep = true;
+                    });
+                });
+        } else {
+            Issues.saveIssue(newIssue, function (savedIssue) {
+                console.log('SAVE', savedIssue);
+                sketchStep.issueId = savedIssue.id;
+
+                SketchStep.updateSketchStep(sketchStep, function (savedSketchStep) {
+                    console.log(savedSketchStep);
+                    $scope.successfullyUpdatedSketchStep = true;
+                    $scope.sketcherButtonName = 'Update';
+                });
+            });
+        }
     };
 
 });
