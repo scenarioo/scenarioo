@@ -65,11 +65,11 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scop
 
         var changedSketchStep = new SketchStepResource({
             branchName: $routeParams.branch,
-            issueName: 'test issue',
-            proposalName: 'test proposal',
+            issueId: 'a62bc9a',
+            scenarioSketchName: 'test scenario sketch',
             sketchStepName: 1,
             sketch: exportedSVG
-        });
+        }, {});
 
         SketchStep.updateSketchStep(changedSketchStep, function () {
             $scope.successfullyUpdatedSketchStep = true;

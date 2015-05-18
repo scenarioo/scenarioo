@@ -48,7 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-class="{'selected':$index==selectedRowIndex}" ng-repeat="issue in filtered=(issues | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)" ng-click="goToIssue(issue.name)" class="link">
+                    <tr ng-class="{'selected':$index==selectedRowIndex}" ng-repeat="issue in filtered=(issues | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)" ng-click="goToIssue(issue.id)" class="link">
                         <td>
                             <!--<span ng-class="[getStatusStyleClass(issue.status), 'label']">{{issue.status}}</span>-->
                             {{issue.status}}

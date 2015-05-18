@@ -47,7 +47,9 @@ public class SketchStep implements Serializable {
 	@XmlTransient
 	private String issueName;
 	@XmlTransient
-	private String proposalName;
+	private String issueId;
+	@XmlTransient
+	private String scenarioSketchName;
 
 	/*
 	 * public Page getPage() {
@@ -159,28 +161,36 @@ public class SketchStep implements Serializable {
 		this.sketchStepName = sketchStepName;
 	}
 
-	private String getBranchName() {
+	public String getBranchName() {
 		return branchName;
 	}
 
-	private void setBranchName(final String branchName) {
+	public void setBranchName(final String branchName) {
 		this.branchName = branchName;
 	}
 
-	private String getIssueName() {
+	public String getIssueName() {
 		return issueName;
 	}
 
-	private void setIssueName(final String issueName) {
+	public void setIssueName(final String issueName) {
 		this.issueName = issueName;
 	}
 
-	private String getProposalName() {
-		return proposalName;
+	public String getIssueId() {
+		return issueId;
 	}
 
-	private void setProposalName(final String proposalName) {
-		this.proposalName = proposalName;
+	public void setIssueId(final String issueId) {
+		this.issueId = issueId;
+	}
+
+	public String getScenarioSketchName() {
+		return scenarioSketchName;
+	}
+
+	public void setScenarioSketchName(final String scenarioSketchName) {
+		this.scenarioSketchName = scenarioSketchName;
 	}
 
 }
