@@ -18,19 +18,56 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div ng-controller="EditorCtrl" class="sc-sketcher-container sc-sketcher-bg-color-light">
     <h1>Sketcher</h1>
 
-    <div id="sc-sketcher-toolbar">
+    <div id="sc-sketcher-toolbar" class="col-lg-9">
         <div class="btn-group btn-group-sm" role="group">
-            <button ng-repeat="tool in tools" id="{{tool.name}}" ng-click="activateTool(tool)" ng-disabled="isButtonDisabled(tool)" type="button" class="btn btn-default">{{tool.name}}</button>
+            <button ng-repeat="tool in tools" id="{{tool.name}}" ng-click="activateTool(tool)"
+                    ng-disabled="isButtonDisabled(tool)" type="button" class="btn btn-default">{{tool.name}}
+            </button>
         </div>
-        <div class="sc-sketcher-toolbar-right">
-            <button ng-click="updateDrawing()" id="save" type="button" class="btn btn-default" style="float:right;">Save</button>
-                <div style="float:right; display: block; margin:3px 20px 0 0;" ng-init="successfullyUpdatedSketchStep=false">
+        <!--<div class="sc-sketcher-toolbar-right">
+            <button ng-click="updateSketchStep()" id="save" type="button" class="btn btn-default" style="float:right;">
+                Save
+            </button>
+            <div style="float:right; display: block; margin:3px 20px 0 0;"
+                 ng-init="successfullyUpdatedSketchStep=false">
                 Save Status: {{successfullyUpdatedSketchStep}}
             </div>
-        </div>
+        </div>-->
     </div>
-    <div id="sc-sketcher-workspace">
-        <svg id="drawingPad"></svg>
+
+    <div id="sc-sketcher-workspace" class="col-lg-9">
+
+        <svg id="sc-sketcher-viewport" width="100%" height="600">
+            <svg id="drawingPad"></svg>
+        </svg>
+
+    </div>
+
+    <div id="sc-sketcher-sidebar" class="col-lg-3">
+
+        <div class="alert alert-success fade-out" ng-show="successfullyUpdatedSketchStep">
+            The sketch has been successfully saved / updated.
+            <a ng-click="successfullyUpdatedSketchStep=false" class="pull-right link link-no-hover"
+               style="color: #468847"><i
+                    class="icon-remove icon"></i></a>
+        </div>
+
+        <form>
+            <div class="form-group">
+                <label>Issue Name</label>
+                <input type="text" ng-model="issueName" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label>Issue Description</label>
+                <textarea id="issueDescription" ng-model="issueDescription" class="form-control" rows="3"></textarea>
+            </div>
+            <!--<button ng-click="addIssue()" class="btn btn-default" id="addBtn">Add</button>-->
+
+            <button ng-click="updateSketchStep()" id="save" type="button" class="btn btn-default" style="float:right;" ng-init="sketcherButtonName='Save'">
+                {{sketcherButtonName}}
+            </button>
+        </form>
+
     </div>
 
 </div>

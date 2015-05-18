@@ -17,7 +17,7 @@
 
 'use strict';
 
-angular.module('scenarioo.services').factory('Issues', function ($rootScope, $routeParams, SelectedBranchAndBuild, IssuesResource) {
+angular.module('scenarioo.services').factory('Issues', function ($rootScope, $routeParams, SelectedBranchAndBuild, IssuesResource, IssueResource) {
 
     var ISSUES_LOADED_EVENT = 'issuesLoaded';
 
@@ -93,10 +93,10 @@ angular.module('scenarioo.services').factory('Issues', function ($rootScope, $ro
         },
 
         saveIssue: function (newIssue, successCallback) {
-            newIssue.$save(function () {
+            newIssue.$save(function (savedIssue) {
                 if (successCallback) {
-                    doLoad();
-                    successCallback();
+                    //doLoad();
+                    successCallback(savedIssue);
                 }
             });
         }

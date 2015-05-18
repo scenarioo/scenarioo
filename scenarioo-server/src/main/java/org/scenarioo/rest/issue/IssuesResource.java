@@ -114,7 +114,7 @@ public class IssuesResource {
 
 	@POST
 	@Consumes({ "application/xml", "application/json" })
-	public void storeNewIssue(@PathParam("branchName") final String branchName,
+	public Issue storeNewIssue(@PathParam("branchName") final String branchName,
 			final Issue newIssue) {
 		// TODO: Make sure we do not overwrite an existing issue without confirmation! If we do, do not overwrite the
 		// hash. Maybe have a different URL, using the id for accessing/updating existing issues
@@ -132,12 +132,13 @@ public class IssuesResource {
 		}
 		files.writeIssueToFile(branchName, newIssue);
 
+		return newIssue;
 	}
 
 	@PUT
 	@Consumes({ "application/xml", "application/json" })
 	@Path("/{issueId}")
-	public void updateIssue(@PathParam("branchName") final String branchName,
+	public Issue updateIssue(@PathParam("branchName") final String branchName,
 			@PathParam("issueIdName") final String issueId,
 			final Issue newIssue) {
 		LOGGER.info("Now updating an existing issue.");
@@ -146,6 +147,7 @@ public class IssuesResource {
 		files.getIssueFile(branchName, issueId);
 		files.writeIssueToFile(branchName, newIssue);
 
+		return newIssue;
 	}
 
 	private IssueSummary mapSummary(final IssueScenarioSketches issueProposals) {
