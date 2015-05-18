@@ -52,8 +52,9 @@ angular.module('scenarioo.controllers').factory('CircleTool', function (Abstract
             return;
         }
 
-        var mouseX = tool.drawingPad.getOffsetX(event.x);
-        var mouseY = tool.drawingPad.getOffsetY(event.y);
+        var mousePoint = tool.drawingPad.getOffset(event);
+        var mouseX = mousePoint.x;
+        var mouseY = mousePoint.y;
 
         var delta = 0;
         var offsetToOriginX = mouseX - tool.originalX;

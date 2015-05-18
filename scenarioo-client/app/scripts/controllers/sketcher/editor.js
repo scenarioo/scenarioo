@@ -44,9 +44,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scop
         if ($scope.currentTool) {
             Tool.deactivate($scope.currentTool);
         }
-        console.log($scope.currentTool);
         $scope.currentTool = tool;
-        console.log($scope.currentTool);
         Tool.activate(tool);
     };
 
