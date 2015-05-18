@@ -22,12 +22,14 @@ angular.module('scenarioo.services').factory('DrawingPadService', function () {
         return drawingPad.exportSvg();
     }
 
-    drawingPad.getOffsetX = function(x) {
-        return Math.max(x - drawingPad.parent.offsetLeft, 0);
-    };
+    drawingPad.getOffset = function(event) {
+        var offset = jQuery(drawingPad.parent).offset();
+        var point = { x:0, y:0 };
 
-    drawingPad.getOffsetY = function(y) {
-        return Math.max(y - drawingPad.parent.offsetTop, 0);
+        point.x = Math.max(event.pageX - offset.left, 0);
+        point.y = Math.max(event.pageY - offset.top, 0);
+
+        return point;
     };
 
     return {

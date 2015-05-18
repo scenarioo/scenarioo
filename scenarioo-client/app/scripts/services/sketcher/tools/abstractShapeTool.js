@@ -30,8 +30,10 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function (T
 
     tool.onmousedownTemplate = function (event) {
         tool.mousedown = true;
-        tool.originalX = tool.drawingPad.getOffsetX(event.x);
-        tool.originalY = tool.drawingPad.getOffsetY(event.y);
+
+        var mousePoint = tool.drawingPad.getOffset(event);
+        tool.originalX = mousePoint.x;
+        tool.originalY = mousePoint.y;
     };
 
     tool.onmouseupTemplate = function (event) {
@@ -42,8 +44,9 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function (T
     };
 
     tool.onmousedragTemplate = function (event) {
-        tool.mouseX = tool.drawingPad.getOffsetX(event.x);
-        tool.mouseY = tool.drawingPad.getOffsetY(event.y);
+        var mousePoint = tool.drawingPad.getOffset(event);
+        tool.mouseX = mousePoint.x;
+        tool.mouseY = mousePoint.y;
 
         tool.anchorX = Math.min(tool.originalX, tool.mouseX);
         tool.anchorY = Math.min(tool.originalY, tool.mouseY);
