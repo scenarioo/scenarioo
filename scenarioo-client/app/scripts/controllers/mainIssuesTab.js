@@ -31,16 +31,19 @@ angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function
     });
 
     // FIXME this code is duplicated. How can we extract it into a service?
-    LabelConfigurationsResource.query({}, function (labelConfiguratins) {
-        $scope.labelConfigurations = labelConfiguratins;
+    LabelConfigurationsResource.query({}, function (labelConfigurations) {
+        $scope.labelConfigurations = labelConfigurations;
     });
 
-    $scope.goToIssue = function (issueName) {
-        $location.path('/issue/' + issueName);
+    $scope.goToIssue = function (issueId) {
+        $location.path('/issue/' + issueId);
     };
 
+    /*
+      This never seems to get used...
+     */
     $scope.onNavigatorTableHit = function (issue) {
-        $scope.goToIssue(issue.name);
+        $scope.goToIssue(issue.id);
     };
 
     $scope.table = {search: {searchTerm: ''}, sort: {column: 'name', reverse: false}};

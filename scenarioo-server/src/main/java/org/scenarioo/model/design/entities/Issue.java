@@ -36,6 +36,7 @@ import org.scenarioo.model.docu.entities.generic.Details;
 public class Issue implements Serializable, Labelable, Detailable {
 
 	private String name;
+	private String id;
 	private String description;
 	private String issueStatus;
 	private String trackingURL;
@@ -69,6 +70,14 @@ public class Issue implements Serializable, Labelable, Detailable {
 	 */
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getDescription() {
