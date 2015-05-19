@@ -32,6 +32,7 @@ angular.module('scenarioo.services').factory('DrawingPadService', function () {
         return point;
     };
 
+
     return {
         get: drawingPad,
 

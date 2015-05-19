@@ -17,21 +17,10 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scope, $location, $filter, $routeParams, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, CircleTool, EllipseTool, DrawingPadService, SketchStep, SketchStepResource, IssuesResource, IssueResource, Issues, Issue) {
+angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scope, $location, $filter, $routeParams, $route, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, CircleTool, EllipseTool, DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue, ScenarioSketchResource, ScenarioSketch) {
 
-    var drawingPad = DrawingPadService.get;
-    var image = null;
-    if ($routeParams.screenshotURL && !image) {
-        image = drawingPad.image($routeParams.screenshotURL).loaded(function (loader) {
-            drawingPad.attr({
-                width: image.width()
-            });
-            drawingPad.attr({
-                height: image.height()
-            });
-        });
-    }
-
+    //var drawingPad = DrawingPadService.get;
+    var drawingPad = SVG('drawingPad').size('100%', '100%').fixSubPixelOffset();
     $scope.currentTool = null;
 
     $scope.tools = new Array();
@@ -59,55 +48,78 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scop
     // exporting svg drawing
     $scope.updateSketchStep = function () {
         var exportedSVG = DrawingPadService.exportDrawing();
-        //console.log(exportedSVG);
 
         $scope.successfullyUpdatedSketchStep = false;
 
-        var newIssue = new IssuesResource({
-            branchName: $routeParams.branch,
-            name: $scope.issueName,
-            description: $scope.issueDescription
-        });
-
         var issue = new IssueResource({
             branchName: $routeParams.branch,
-            id: $scope.issueId
+            name: $scope.issueName,
+            description: $scope.issueDescription,
+            author: $scope.issueAuthor
         });
+
+        var scenarioSketch = new ScenarioSketchResource({
+            branchName: $routeParams.branch,
+            scenarioSketchName: $scope.scenarioSketchName
+        }, {});
 
         var sketchStep = new SketchStepResource({
             branchName: $routeParams.branch,
-            scenarioSketchName: 'test scenario sketch',
+            scenarioSketchName: $scope.scenarioSketchName,
             sketchStepName: 1,
             sketch: exportedSVG
         }, {});
 
-        if (issue.id) {
-            Issue.updateIssue({
-                    name: $scope.issueName,
-                    description: $scope.issueDescription
-                },
-                issue,
-                function (updatedIssue) {
+        if ($scope.issueId) {
+            issue.issueId = $scope.issueId;
 
-                    console.log('UPDATE', updatedIssue);
+            Issue.updateIssue(issue, function (updatedIssue) {
+                console.log('UPDATE', updatedIssue);
+
+                ScenarioSketch.updateScenarioSketch(scenarioSketch, function (updatedScenarioSketch) {
+                    console.log(updatedScenarioSketch);
 
                     SketchStep.updateSketchStep(sketchStep, function (updatedSketchStep) {
                         console.log(updatedSketchStep);
                         $scope.successfullyUpdatedSketchStep = true;
                     });
                 });
+            });
         } else {
-            Issues.saveIssue(newIssue, function (savedIssue) {
+            Issue.saveIssue(issue, function (savedIssue) {
                 console.log('SAVE', savedIssue);
                 sketchStep.issueId = savedIssue.id;
+                scenarioSketch.issueId = savedIssue.id;
+                $scope.issueId = savedIssue.id;
 
-                SketchStep.updateSketchStep(sketchStep, function (savedSketchStep) {
-                    console.log(savedSketchStep);
-                    $scope.successfullyUpdatedSketchStep = true;
-                    $scope.sketcherButtonName = 'Update';
+                ScenarioSketch.updateScenarioSketch(scenarioSketch, function (savedScenarioSketch) {
+                    console.log(savedScenarioSketch);
+
+                    SketchStep.updateSketchStep(sketchStep, function (savedSketchStep) {
+                        console.log(savedSketchStep);
+                        $scope.successfullyUpdatedSketchStep = true;
+                        $scope.sketcherButtonName = 'Update';
+                    });
                 });
             });
         }
     };
+
+    $scope.initSVGBackgroundImage = function () {
+        var image = null;
+
+        if ($routeParams.screenshotURL) {
+            image = drawingPad.image($routeParams.screenshotURL).loaded(function (loader) {
+                drawingPad.attr({
+                    width: image.width()
+                });
+                drawingPad.attr({
+                    height: image.height()
+                });
+            });
+        }
+    };
+    $scope.initSVGBackgroundImage();
+
 
 });

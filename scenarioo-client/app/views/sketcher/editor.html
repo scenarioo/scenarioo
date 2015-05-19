@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div ng-controller="EditorCtrl" class="sc-sketcher-container sc-sketcher-bg-color-light">
+<div class="sc-sketcher-container sc-sketcher-bg-color-light">
     <h1>Sketcher</h1>
 
     <div id="sc-sketcher-toolbar" class="col-lg-9">
@@ -24,15 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     ng-disabled="isButtonDisabled(tool)" type="button" class="btn btn-default">{{tool.name}}
             </button>
         </div>
-        <!--<div class="sc-sketcher-toolbar-right">
-            <button ng-click="updateSketchStep()" id="save" type="button" class="btn btn-default" style="float:right;">
-                Save
-            </button>
-            <div style="float:right; display: block; margin:3px 20px 0 0;"
-                 ng-init="successfullyUpdatedSketchStep=false">
-                Save Status: {{successfullyUpdatedSketchStep}}
-            </div>
-        </div>-->
     </div>
 
     <div id="sc-sketcher-workspace" class="col-lg-9">
@@ -55,13 +46,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <form>
             <div class="form-group">
                 <label>Issue Name</label>
-                <input type="text" ng-model="issueName" class="form-control"/>
+                <input type="text" id="issueName" ng-model="issueName" class="form-control"/>
             </div>
             <div class="form-group">
                 <label>Issue Description</label>
                 <textarea id="issueDescription" ng-model="issueDescription" class="form-control" rows="3"></textarea>
             </div>
-            <!--<button ng-click="addIssue()" class="btn btn-default" id="addBtn">Add</button>-->
+            <div class="form-group">
+                <label>Author</label>
+                <input type="text" id="issueAuthor" ng-model="issueAuthor" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label>Sketch Name</label>
+                <input type="text" id="scenarioSketchName" ng-model="scenarioSketchName" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label>Sketch Description</label>
+                <textarea id="scenarioSketchDescription" ng-model="scenarioSketchDescription" class="form-control" rows="3"></textarea>
+            </div>
 
             <button ng-click="updateSketchStep()" id="save" type="button" class="btn btn-default" style="float:right;" ng-init="sketcherButtonName='Save'">
                 {{sketcherButtonName}}

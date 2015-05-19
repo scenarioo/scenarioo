@@ -270,7 +270,7 @@ angular.module('scenarioo.services')
                 issueId: '@issueId'
             },
             {
-                'update': {method: 'PUT'}
+                'update': {method: 'PUT', params: {issueId: '@issueId'}}
             });
     })
 
@@ -289,6 +289,15 @@ angular.module('scenarioo.services')
                 issueId: '@issueId',
                 scenarioSketchName: '@scenarioSketchName',
                 sketchStepName: '@sketchStepName'
+            }, {});
+    })
+
+    .factory('ScenarioSketchResource', function (ScenariooResource) {
+        return ScenariooResource('/branch/:branchName/issue/:issueId/scenariosketch/:scenarioSketchName',
+            {
+                branchName: '@branchName',
+                issueId: '@issueId',
+                scenarioSketchName: '@scenarioSketchName'
             }, {});
     });
 
