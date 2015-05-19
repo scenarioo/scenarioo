@@ -86,6 +86,12 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
             controller: 'EditorCtrl',
             breadcrumbId: 'editor'
         })
+        .when('/editor/:screenshotURL/', {
+            templateUrl: 'views/sketcher/editor.html',
+            controller: 'EditorCtrl',
+            breadcrumbId: 'editor',
+            screenshotURL: '@screenshotURL'
+        })
         .otherwise({
             redirectTo: '/'
         });

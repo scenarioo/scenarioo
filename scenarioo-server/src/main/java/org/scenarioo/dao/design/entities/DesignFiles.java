@@ -34,6 +34,7 @@ import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.dao.design.aggregates.IssueAggregationDAO;
 import org.scenarioo.model.design.entities.Issue;
+import org.scenarioo.model.design.entities.ScenarioSketch;
 import org.scenarioo.model.design.entities.SketchStep;
 
 /**
@@ -189,6 +190,35 @@ public class DesignFiles {
 		File destinationFile = createIssueFile(branchName, issue.getId());
 		issue.setIssueStatus("Open");
 		ScenarioDocuXMLFileUtil.marshal(issue, destinationFile);
+	}
+
+	public File createScenarioSketchFile(final String branchName, final String issueId, final String scenarioSketchName) {
+		File scenarioSketchFile = new File(getScenarioSketchDirectory(branchName, issueId, scenarioSketchName),
+				FILE_NAME_ISSUE);
+		try {
+			scenarioSketchFile.createNewFile();
+			return scenarioSketchFile;
+		} catch (IOException e) {
+			LOGGER.error("Issue file not created.");
+		}
+		return scenarioSketchFile;
+	}
+
+	public boolean createScenarioSketchDirectory(final String branchName, final String issueId,
+			final String scenarioSketchName) {
+		File scenarioSketchDir = getScenarioSketchDirectory(branchName, issueId, scenarioSketchName);
+		boolean isCreated = scenarioSketchDir.mkdirs();
+		if (!isCreated) {
+			LOGGER.error("ScenarioSketch directory not created.");
+		}
+		return isCreated;
+	}
+
+	public void writeScenarioSketchToFile(final String branchName, final String issueId,
+			final ScenarioSketch scenarioSketch) {
+		createScenarioSketchDirectory(branchName, issueId, scenarioSketch.getName());
+		File destinationFile = createScenarioSketchFile(branchName, issueId, scenarioSketch.getName());
+		ScenarioDocuXMLFileUtil.marshal(scenarioSketch, destinationFile);
 	}
 
 	public boolean createSketchStepDirectory(final String branchName, final String issueName,
