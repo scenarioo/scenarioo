@@ -21,6 +21,27 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scop
 
     //var drawingPad = DrawingPadService.get;
     var drawingPad = SVG('drawingPad').size('100%', '100%').fixSubPixelOffset();
+
+    var i = 0;
+    var loadBackgroundImage = function () {
+        if ($routeParams.screenshotURL) {
+            drawingPad.image(decodeURIComponent($routeParams.screenshotURL)).loaded(function (loader) {
+                drawingPad.attr({
+                    width: loader.width
+                });
+                drawingPad.attr({
+                    height: loader.height
+                });
+            });
+        }
+    };
+
+    loadBackgroundImage();
+
+    console.log($document[0].getElementById('drawingPad'));
+    console.log(drawingPad.parent);
+
+
     $scope.currentTool = null;
 
     $scope.tools = new Array();
@@ -104,22 +125,5 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scop
             });
         }
     };
-
-    $scope.initSVGBackgroundImage = function () {
-        var image = null;
-
-        if ($routeParams.screenshotURL) {
-            image = drawingPad.image($routeParams.screenshotURL).loaded(function (loader) {
-                drawingPad.attr({
-                    width: image.width()
-                });
-                drawingPad.attr({
-                    height: image.height()
-                });
-            });
-        }
-    };
-    $scope.initSVGBackgroundImage();
-
 
 });
