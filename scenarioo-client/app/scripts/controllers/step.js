@@ -376,7 +376,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     });
 
     $scope.sketchThis = function () {
-        $location.path('/editor').search('screenshotURL', $scope.getScreenShotUrl());
+        $location.path('/editor/' + encodeURIComponent($scope.getScreenShotUrl()));
     };
 
 });

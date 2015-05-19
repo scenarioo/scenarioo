@@ -17,97 +17,105 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scope, $location, $filter, $routeParams, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, CircleTool, EllipseTool, DrawingPadService, SketchStep, SketchStepResource, IssuesResource, IssueResource, Issues, Issue) {
+angular.module('scenarioo.controllers').controller('EditorCtrl', function ($scope, $location, $filter, $routeParams, $document, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, CircleTool, EllipseTool, DrawingPadService, SketchStep, SketchStepResource, IssuesResource, IssueResource, Issues, Issue) {
 
-    var drawingPad = DrawingPadService.get;
-    var image = null;
-    if ($routeParams.screenshotURL && !image) {
-        image = drawingPad.image($routeParams.screenshotURL).loaded(function (loader) {
-            drawingPad.attr({
-                width: image.width()
-            });
-            drawingPad.attr({
-                height: image.height()
-            });
+  var drawingPad = SVG('drawingPad').size('100%', '100%').fixSubPixelOffset();
+  var i = 0;
+  var loadBackgroundImage = function() {
+    if ($routeParams.screenshotURL) {
+      drawingPad.image(decodeURIComponent($routeParams.screenshotURL)).loaded(function (loader) {
+        drawingPad.attr({
+          width: loader.width
         });
+        drawingPad.attr({
+          height: loader.height
+        });
+      });
     }
+  };
 
-    $scope.currentTool = null;
+  loadBackgroundImage();
 
-    $scope.tools = new Array();
-    $scope.tools[0] = SelectTool;
-    $scope.tools[1] = RectTool;
-    $scope.tools[2] = CircleTool;
-    $scope.tools[3] = EllipseTool;
+  console.log($document[0].getElementById('drawingPad'));
+  console.log(drawingPad.parent);
 
-    $scope.activateTool = function (tool) {
-        if ($scope.currentTool) {
-            Tool.deactivate($scope.currentTool);
-        }
-        $scope.currentTool = tool;
-        Tool.activate(tool);
-    };
 
-    $scope.activateTool($scope.tools[0]);
+  $scope.currentTool = null;
 
-    $scope.isButtonDisabled = function (tool) {
-        if (tool) {
-            return Tool.isButtonDisabled(tool);
-        }
-    };
+  $scope.tools = new Array();
+  $scope.tools[0] = SelectTool;
+  $scope.tools[1] = RectTool;
+  $scope.tools[2] = CircleTool;
+  $scope.tools[3] = EllipseTool;
 
-    // exporting svg drawing
-    $scope.updateSketchStep = function () {
-        var exportedSVG = DrawingPadService.exportDrawing();
-        //console.log(exportedSVG);
+  $scope.activateTool = function (tool) {
+    if ($scope.currentTool) {
+      Tool.deactivate($scope.currentTool);
+    }
+    $scope.currentTool = tool;
+    Tool.activate(tool);
+  };
 
-        $scope.successfullyUpdatedSketchStep = false;
+  $scope.activateTool($scope.tools[0]);
 
-        var newIssue = new IssuesResource({
-            branchName: $routeParams.branch,
-            name: $scope.issueName,
-            description: $scope.issueDescription
+  $scope.isButtonDisabled = function (tool) {
+    if (tool) {
+      return Tool.isButtonDisabled(tool);
+    }
+  };
+
+  // exporting svg drawing
+  $scope.updateSketchStep = function () {
+    var exportedSVG = DrawingPadService.exportDrawing();
+    //console.log(exportedSVG);
+
+    $scope.successfullyUpdatedSketchStep = false;
+
+    var newIssue = new IssuesResource({
+      branchName: $routeParams.branch,
+      name: $scope.issueName,
+      description: $scope.issueDescription
+    });
+
+    var issue = new IssueResource({
+      branchName: $routeParams.branch,
+      id: $scope.issueId
+    });
+
+    var sketchStep = new SketchStepResource({
+      branchName: $routeParams.branch,
+      scenarioSketchName: 'test scenario sketch',
+      sketchStepName: 1,
+      sketch: exportedSVG
+    }, {});
+
+    if (issue.id) {
+      Issue.updateIssue({
+          name: $scope.issueName,
+          description: $scope.issueDescription
+        },
+        issue,
+        function (updatedIssue) {
+
+          console.log('UPDATE', updatedIssue);
+
+          SketchStep.updateSketchStep(sketchStep, function (updatedSketchStep) {
+            console.log(updatedSketchStep);
+            $scope.successfullyUpdatedSketchStep = true;
+          });
         });
+    } else {
+      Issues.saveIssue(newIssue, function (savedIssue) {
+        console.log('SAVE', savedIssue);
+        sketchStep.issueId = savedIssue.id;
 
-        var issue = new IssueResource({
-            branchName: $routeParams.branch,
-            id: $scope.issueId
+        SketchStep.updateSketchStep(sketchStep, function (savedSketchStep) {
+          console.log(savedSketchStep);
+          $scope.successfullyUpdatedSketchStep = true;
+          $scope.sketcherButtonName = 'Update';
         });
-
-        var sketchStep = new SketchStepResource({
-            branchName: $routeParams.branch,
-            scenarioSketchName: 'test scenario sketch',
-            sketchStepName: 1,
-            sketch: exportedSVG
-        }, {});
-
-        if (issue.id) {
-            Issue.updateIssue({
-                    name: $scope.issueName,
-                    description: $scope.issueDescription
-                },
-                issue,
-                function (updatedIssue) {
-
-                    console.log('UPDATE', updatedIssue);
-
-                    SketchStep.updateSketchStep(sketchStep, function (updatedSketchStep) {
-                        console.log(updatedSketchStep);
-                        $scope.successfullyUpdatedSketchStep = true;
-                    });
-                });
-        } else {
-            Issues.saveIssue(newIssue, function (savedIssue) {
-                console.log('SAVE', savedIssue);
-                sketchStep.issueId = savedIssue.id;
-
-                SketchStep.updateSketchStep(sketchStep, function (savedSketchStep) {
-                    console.log(savedSketchStep);
-                    $scope.successfullyUpdatedSketchStep = true;
-                    $scope.sketcherButtonName = 'Update';
-                });
-            });
-        }
-    };
+      });
+    }
+  };
 
 });
