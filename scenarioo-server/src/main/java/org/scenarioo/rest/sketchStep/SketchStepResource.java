@@ -103,7 +103,7 @@ public class SketchStepResource {
 	@POST
 	@Consumes({ "application/json" })
 	@Produces({ "application/json", "application/xml" })
-	public void storeSketchStep(@PathParam("branchName") final String branchName,
+	public Response storeSketchStep(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchName") final String scenarioSketchName, final SketchStep sketchStep) {
 		LOGGER.info("SAVING SKETCH STEP");
@@ -111,6 +111,7 @@ public class SketchStepResource {
 		LOGGER.info("-----------------------------------");
 		files.writeSketchStepToFile(branchName, issueId, scenarioSketchName, sketchStep);
 		files.writeSVGToFile(branchName, issueId, scenarioSketchName, sketchStep);
+		return Response.ok().build();
 	}
 
 }

@@ -30,6 +30,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.log4j.Logger;
@@ -73,7 +75,7 @@ public class IssuesResource {
 		// Temporary Solution, probably does not scale
 		List<Issue> issues = reader.loadIssues(branchName);
 		for (Issue i : issues) {
-			List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, i.getName());
+			List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, i.getId());
 			IssueSummary summary = new IssueSummary();
 			summary.setName(i.getName());
 			summary.setId(i.getId());
@@ -113,8 +115,8 @@ public class IssuesResource {
 	}
 
 	@POST
-	@Consumes({ "application/xml", "application/json" })
-	public Issue storeNewIssue(@PathParam("branchName") final String branchName,
+	@Consumes("application/json")
+	public Response storeNewIssue(@PathParam("branchName") final String branchName,
 			final Issue newIssue) {
 		// TODO: Make sure we do not overwrite an existing issue without confirmation! If we do, do not overwrite the
 		// hash. Maybe have a different URL, using the id for accessing/updating existing issues
@@ -129,25 +131,25 @@ public class IssuesResource {
 			newIssue.setId(id.toString());
 		} catch (NoSuchAlgorithmException e) {
 			LOGGER.info("Couldn't generate SHA1 message digest.");
+			return Response.serverError().build();
 		}
 		files.writeIssueToFile(branchName, newIssue);
-
-		return newIssue;
+		return Response.ok(newIssue, MediaType.APPLICATION_JSON).build();
 	}
 
 	@PUT
-	@Consumes({ "application/xml", "application/json" })
+	@Consumes("application/json")
 	@Path("/{issueId}")
-	public Issue updateIssue(@PathParam("branchName") final String branchName,
+	public Response updateIssue(@PathParam("branchName") final String branchName,
 			@PathParam("issueIdName") final String issueId,
-			final Issue newIssue) {
+			final Issue updatedIssue) {
 		LOGGER.info("Now updating an existing issue.");
-		LOGGER.info(newIssue.getId());
+		LOGGER.info(updatedIssue.getId());
 		LOGGER.info("-----------------------");
 		files.getIssueFile(branchName, issueId);
-		files.writeIssueToFile(branchName, newIssue);
+		files.writeIssueToFile(branchName, updatedIssue);
 
-		return newIssue;
+		return Response.ok(updatedIssue, MediaType.APPLICATION_JSON).build();
 	}
 
 	private IssueSummary mapSummary(final IssueScenarioSketches issueProposals) {
