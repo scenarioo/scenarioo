@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.model.design.entities.Issue;
 import org.scenarioo.model.design.entities.ScenarioSketch;
-import org.scenarioo.model.docu.entities.Step;
+import org.scenarioo.model.design.entities.SketchStep;
 
 /**
  * Represents a proposal of an issue with all its steps.
@@ -41,9 +41,9 @@ public class ScenarioSketchSteps {
 
 	private Issue issue;
 
-	@XmlElementWrapper(name = "Steps")
-	@XmlElement(name = "Steps")
-	private List<Step> steps;
+	@XmlElementWrapper(name = "SketchSteps")
+	@XmlElement(name = "SketchSteps")
+	private List<SketchStep> sketchSteps;
 
 	public ScenarioSketch getScenarioSketch() {
 		return scenarioSketch;
@@ -68,20 +68,20 @@ public class ScenarioSketchSteps {
 		this.issue = issue;
 	}
 
-	public List<Step> getSteps() {
-		return steps;
+	public List<SketchStep> getSketchSteps() {
+		return sketchSteps;
 	}
 
-	public void setSteps(final List<Step> steps) {
-		this.steps = steps;
+	public void setSketchSteps(final List<SketchStep> steps) {
+		this.sketchSteps = steps;
 	}
 
 	public int getTotalNumberOfStepsInScenario() {
-		if (steps == null) {
+		if (sketchSteps == null) {
 			return 0;
 		}
 
-		return steps.size();
+		return sketchSteps.size();
 	}
 
 	// public StepStatistics getStepStatistics(final String pageName, final int pageOccurrence) {

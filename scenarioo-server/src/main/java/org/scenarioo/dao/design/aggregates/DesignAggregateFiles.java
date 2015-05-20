@@ -63,7 +63,7 @@ public class DesignAggregateFiles {
 	}
 
 	public File getScenarioSketchStepsFile(final ScenarioSketchIdentifier scenarioSketchIdentifier) {
-		File scenarioDir = designFiles.getScenarioSketchDirectory(scenarioSketchIdentifier.getBuildIdentifier().getBranchName(),
+		File scenarioDir = designFiles.getScenarioSketchDirectory(scenarioSketchIdentifier.getBranchName(),
 				scenarioSketchIdentifier.getIssueName(),
 				scenarioSketchIdentifier.getScenarioSketchName());
 		return new File(scenarioDir, FILENAME_SCENARIOSKETCH_STEPS_XML);

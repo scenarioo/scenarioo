@@ -55,23 +55,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <tbody>
                 <tr ng-class="{'selected':$index==selectedRowIndex}" ng-click="goToScenarioSketch(issue.name, proposalSummary.proposal.name)"
                     class="link"
-                    ng-repeat="proposalSummary in filtered=(scenarioSketches | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
+                    ng-repeat="scenarioSketchSummary in filtered=(scenarioSketches | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
                     <td>
                     </td>
                     <td>
-                        {{proposalSummary.proposal.name | scHumanReadable }}
-                    <span ng-repeat="label in proposalSummary.proposal.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                        {{scenarioSketchSummary.scenarioSketch.scenarioSketchName | scHumanReadable }}
+                    <span ng-repeat="label in scenarioSketchSummary.scenarioSketch.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                     </td>
-                    <td>{{proposalSummary.proposal.description}}</td>
+                    <td>{{scenarioSketchSummary.scenarioSketch.description}}</td>
                     <td>
-                        {{proposalSummary.proposal.author}}
+                        {{scenarioSketchSummary.scenarioSketch.author}}
                         <!--<a><i class="icon-list-ul icon-with-padding" tooltip="Go to proposal overview"
                               tooltip-placement="bottom"></i></a>
                         <a ng-click="goToFirstStep(issue.name, proposalSummary.proposal.name)" tooltip="Go to first step"
                            tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>-->
                     </td>
                     <!--<td ng-repeat="property in propertiesToShow">{{scenarioSummary.scenario.details[property]}}</td>-->
-                    <td>{{proposalSummary.proposal.stepCount}}</td>
+                    <td>{{scenarioSketchSummary.numberOfSteps}}</td>
                 </tr>
             </tbody>
         </table>

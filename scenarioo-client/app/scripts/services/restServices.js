@@ -288,7 +288,8 @@ angular.module('scenarioo.services')
                 branchName: '@branchName',
                 issueId: '@issueId',
                 scenarioSketchName: '@scenarioSketchName',
-                sketchStepName: '@sketchStepName'
+                sketchStepName: '@sketchStepName',
+                sketch:''
             }, {});
     })
 
