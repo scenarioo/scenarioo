@@ -186,20 +186,25 @@ public class DesignFiles {
 	}
 
 	public void writeIssueToFile(final String branchName, final Issue issue) {
-		createIssueDirectory(branchName, issue.getId());
-		File destinationFile = createIssueFile(branchName, issue.getId());
+		createIssueDirectory(branchName, issue.getIssueId());
+		File destinationFile = createIssueFile(branchName, issue.getIssueId());
 		issue.setIssueStatus("Open");
+		ScenarioDocuXMLFileUtil.marshal(issue, destinationFile);
+	}
+
+	public void updateIssue(final String branchName, final Issue issue) {
+		File destinationFile = getIssueFile(branchName, issue.getIssueId());
 		ScenarioDocuXMLFileUtil.marshal(issue, destinationFile);
 	}
 
 	public File createScenarioSketchFile(final String branchName, final String issueId, final String scenarioSketchName) {
 		File scenarioSketchFile = new File(getScenarioSketchDirectory(branchName, issueId, scenarioSketchName),
-				FILE_NAME_ISSUE);
+				FILE_NAME_SCENARIOSKETCH);
 		try {
 			scenarioSketchFile.createNewFile();
 			return scenarioSketchFile;
 		} catch (IOException e) {
-			LOGGER.error("Issue file not created.");
+			LOGGER.error("ScenarioSketch file not created.");
 		}
 		return scenarioSketchFile;
 	}
@@ -216,8 +221,8 @@ public class DesignFiles {
 
 	public void writeScenarioSketchToFile(final String branchName, final String issueId,
 			final ScenarioSketch scenarioSketch) {
-		createScenarioSketchDirectory(branchName, issueId, scenarioSketch.getName());
-		File destinationFile = createScenarioSketchFile(branchName, issueId, scenarioSketch.getName());
+		createScenarioSketchDirectory(branchName, issueId, scenarioSketch.getScenarioSketchName());
+		File destinationFile = createScenarioSketchFile(branchName, issueId, scenarioSketch.getScenarioSketchName());
 		ScenarioDocuXMLFileUtil.marshal(scenarioSketch, destinationFile);
 	}
 

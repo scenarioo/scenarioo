@@ -8,129 +8,122 @@ import java.util.Set;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
  * Contains all the properties needed to identify a step unambiguously.
  */
 public class SketchStepIdentifier {
-	
+
 	private static final String URI_ENCODING = "UTF-8";
-	
-	private final ScenarioSketchIdentifier proposalIdentifier;
+
+	private final ScenarioSketchIdentifier scenarioSketchIdentifier;
 	final String pageName;
 	final int pageOccurrence;
 	final int sketchStepInPageOccurrence;
 	private final Set<String> labels;
-	
+
 	private enum RedirectType {
 		STEP, SCREENSHOT
 	}
-	
-	public SketchStepIdentifier(final BuildIdentifier buildIdentifier, final String issueName,
-			final String proposalName,
+
+	public SketchStepIdentifier(final String branchName, final String issueName,
+			final String scenarioName,
 			final String pageName, final int pageOccurrence, final int sketchStepInPageOccurrence) {
-		this(new ScenarioSketchIdentifier(buildIdentifier, issueName, proposalName), pageName, pageOccurrence,
+		this(new ScenarioSketchIdentifier(branchName, issueName, scenarioName), pageName, pageOccurrence,
 				sketchStepInPageOccurrence);
 	}
-	
-	public SketchStepIdentifier(final BuildIdentifier buildIdentifier, final String issueName,
+
+	public SketchStepIdentifier(final String branchName, final String issueName,
 			final String proposalName,
 			final String pageName, final int pageOccurrence, final int stepInPageOccurrence, final Set<String> labels) {
-		this(new ScenarioSketchIdentifier(buildIdentifier, issueName, proposalName), pageName, pageOccurrence,
+		this(new ScenarioSketchIdentifier(branchName, issueName, proposalName), pageName, pageOccurrence,
 				stepInPageOccurrence, labels);
 	}
-	
-	public SketchStepIdentifier(final ScenarioSketchIdentifier proposalIdentifier, final String pageName,
+
+	public SketchStepIdentifier(final ScenarioSketchIdentifier scenarioSketchIdentifier, final String pageName,
 			final int pageOccurrence,
 			final int sketchStepInPageOccurrence) {
-		this(proposalIdentifier, pageName, pageOccurrence, sketchStepInPageOccurrence, null);
+		this(scenarioSketchIdentifier, pageName, pageOccurrence, sketchStepInPageOccurrence, null);
 	}
-	
+
 	public SketchStepIdentifier(final ScenarioSketchIdentifier proposalIdentifier, final String pageName,
 			final int pageOccurrence,
 			final int sketchStepInPageOccurrence, final Set<String> labels) {
-		this.proposalIdentifier = proposalIdentifier;
+		this.scenarioSketchIdentifier = proposalIdentifier;
 		this.pageName = pageName;
 		this.pageOccurrence = pageOccurrence;
 		this.sketchStepInPageOccurrence = sketchStepInPageOccurrence;
 		this.labels = labels;
 	}
-	
+
 	public static SketchStepIdentifier withDifferentSketchStepInPageOccurrence(
 			final SketchStepIdentifier sketchStepIdentifier,
 			final int sketchStepInPageOccurrence) {
-		return new SketchStepIdentifier(sketchStepIdentifier.getProposalIdentifier(),
+		return new SketchStepIdentifier(sketchStepIdentifier.getScenarioSketchIdentifier(),
 				sketchStepIdentifier.getPageName(),
 				sketchStepIdentifier.getPageOccurrence(), sketchStepInPageOccurrence);
 	}
-	
+
 	public static SketchStepIdentifier withDifferentIds(final SketchStepIdentifier sketchStepIdentifier,
 			final int pageOccurrence,
 			final int sketchStepInPageOccurrence) {
-		return new SketchStepIdentifier(sketchStepIdentifier.getProposalIdentifier(),
+		return new SketchStepIdentifier(sketchStepIdentifier.getScenarioSketchIdentifier(),
 				sketchStepIdentifier.getPageName(), pageOccurrence,
 				sketchStepInPageOccurrence);
 	}
-	
+
 	/**
 	 * Returns the same page in a different scenario of the same use case.
 	 */
 	public static SketchStepIdentifier forFallBackScenario(final SketchStepIdentifier originalSketchStepIdentifier,
 			final String fallbackIssueName, final String fallbackProposalName, final int pageOccurrence,
 			final int sketchStepInPageOccurrence) {
-		return new SketchStepIdentifier(originalSketchStepIdentifier.getBuildIdentifier(), fallbackIssueName,
+		return new SketchStepIdentifier(originalSketchStepIdentifier.getBranchName(), fallbackIssueName,
 				fallbackProposalName, originalSketchStepIdentifier.getPageName(), pageOccurrence,
 				sketchStepInPageOccurrence);
 	}
-	
-	public SketchStepIdentifier withDifferentBuildIdentifier(final BuildIdentifier buildIdentifierBeforeAliasResolution) {
-		return new SketchStepIdentifier(getProposalIdentifier().withDifferentBuildIdentifier(
-				buildIdentifierBeforeAliasResolution), pageName, pageOccurrence, sketchStepInPageOccurrence);
-	}
-	
+
+	/*
+	 * public SketchStepIdentifier withDifferentBuildIdentifier(final BuildIdentifier
+	 * buildIdentifierBeforeAliasResolution) {
+	 * return new SketchStepIdentifier(getScenarioSketchIdentifier().withDifferentBuildIdentifier(
+	 * buildIdentifierBeforeAliasResolution), pageName, pageOccurrence, sketchStepInPageOccurrence);
+	 * }
+	 */
+
 	@JsonIgnore
-	public BuildIdentifier getBuildIdentifier() {
-		return proposalIdentifier.getBuildIdentifier();
+	public ScenarioSketchIdentifier getScenarioSketchIdentifier() {
+		return scenarioSketchIdentifier;
 	}
-	
-	@JsonIgnore
-	public ScenarioSketchIdentifier getProposalIdentifier() {
-		return proposalIdentifier;
-	}
-	
+
 	public String getBranchName() {
-		return proposalIdentifier.getBuildIdentifier().getBranchName();
+		return scenarioSketchIdentifier.getBranchName();
 	}
-	
-	public String getBuildName() {
-		return proposalIdentifier.getBuildIdentifier().getBuildName();
-	}
-	
+
 	public String getIssueName() {
-		return proposalIdentifier.getIssueName();
+		return scenarioSketchIdentifier.getIssueName();
 	}
-	
-	public String getProposalName() {
-		return proposalIdentifier.getIssueName();
+
+	public String getScenarioSketchName() {
+		return scenarioSketchIdentifier.getScenarioSketchName();
 	}
-	
+
 	public String getPageName() {
 		return pageName;
 	}
-	
+
 	public int getPageOccurrence() {
 		return pageOccurrence;
 	}
-	
+
 	public int getSketchStepInPageOccurrence() {
 		return sketchStepInPageOccurrence;
 	}
-	
+
 	public Set<String> getLabels() {
 		return labels;
 	}
-	
+
 	/**
 	 * File name extension, e.g. "png" or "jpeg". Always without a dot.
 	 */
@@ -138,12 +131,12 @@ public class SketchStepIdentifier {
 	public URI getScreenshotUriForRedirect(final String screenshotFileNameExtension) {
 		return createUriForRedirect(RedirectType.SCREENSHOT, screenshotFileNameExtension);
 	}
-	
+
 	@JsonIgnore
 	public URI getSketchStepUriForRedirect() {
 		return createUriForRedirect(RedirectType.STEP, null);
 	}
-	
+
 	private URI createUriForRedirect(final RedirectType redirectType, final String screenshotFileNameExtension) {
 		try {
 			return getSketchStepUri(redirectType, screenshotFileNameExtension);
@@ -153,38 +146,37 @@ public class SketchStepIdentifier {
 			throw new RuntimeException("Encoding " + URI_ENCODING + " for Uri is not supported", e);
 		}
 	}
-	
+
 	private URI getSketchStepUri(final RedirectType redirectType, final String screenshotFileNameExtension)
 			throws UnsupportedEncodingException, URISyntaxException {
 		StringBuilder uriBuilder = new StringBuilder();
-		
+
 		uriBuilder.append("/rest/branch/").append(encode(getBranchName()));
-		uriBuilder.append("/build/").append(encode(getBuildName()));
 		uriBuilder.append("/issue/").append(encode(getIssueName()));
-		uriBuilder.append("/proposal/").append(encode(getProposalName()));
+		uriBuilder.append("/proposal/").append(encode(getScenarioSketchName()));
 		uriBuilder.append("/pageName/").append(encode(getPageName()));
 		uriBuilder.append("/pageOccurrence/").append(encode(Integer.toString(getPageOccurrence())));
 		uriBuilder.append("/sketchStepInPageOccurrence/").append(
 				encode(Integer.toString(getSketchStepInPageOccurrence())));
-		
+
 		if (RedirectType.SCREENSHOT.equals(redirectType)) {
 			uriBuilder.append("/image." + screenshotFileNameExtension);
 		}
-		
+
 		uriBuilder.append("?fallback=true");
-		
+
 		return new URI(uriBuilder.toString());
 	}
-	
+
 	private String encode(final String urlParameter) throws UnsupportedEncodingException {
 		String encoded = URLEncoder.encode(urlParameter, URI_ENCODING);
 		return encoded.replace("+", "%20");
 	}
-	
+
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(proposalIdentifier).append(pageName).append(pageOccurrence)
+		return new ToStringBuilder(this).append(scenarioSketchIdentifier).append(pageName).append(pageOccurrence)
 				.append(sketchStepInPageOccurrence).append(labels).build();
 	}
-	
+
 }

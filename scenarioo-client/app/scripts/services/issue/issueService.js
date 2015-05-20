@@ -64,7 +64,7 @@ angular.module('scenarioo.services').factory('Issue', function ($rootScope, $rou
         },
 
         updateIssue: function (issue, successCallback) {
-            issue.$update(function (updatedIssue) {
+            issue.$save(function (updatedIssue) {
                 if (successCallback) {
                     successCallback(updatedIssue);
                 }

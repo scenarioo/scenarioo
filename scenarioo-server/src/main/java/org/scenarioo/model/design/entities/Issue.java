@@ -36,7 +36,7 @@ import org.scenarioo.model.docu.entities.generic.Details;
 public class Issue implements Serializable, Labelable, Detailable {
 
 	private String name;
-	private String id;
+	private String issueId;
 	private String description;
 	private String issueStatus;
 	private String trackingURL;
@@ -61,6 +61,21 @@ public class Issue implements Serializable, Labelable, Detailable {
 		this.issueStatus = "Open";
 	}
 
+	public void update(final Issue update) {
+		this.name = update.getName() != null ? update.getName() : this.name;
+		this.issueId = update.getIssueId() != null ? update.getIssueId() : this.issueId;
+		this.description = update.getDescription() != null ? update.getDescription() : this.description;
+		this.issueStatus = update.getIssueStatus() != null ? update.getIssueStatus() : this.issueStatus;
+		this.trackingURL = update.getTrackingURL() != null ? update.getTrackingURL() : this.trackingURL;
+		this.author = update.getAuthor() != null ? update.getAuthor() : this.author;
+		this.contextInDocu = update.getContextInDocu() != null ? update.getContextInDocu() : this.contextInDocu;
+		this.dateCreated = update.getDateCreated() != null ? update.getDateCreated() : this.dateCreated;
+		this.dateModified = update.getDateModified() != null ? update.getDateModified() : this.dateModified;
+
+		this.details = update.getDetails() != null ? update.getDetails() : this.details;
+		this.labels = update.getLabels() != null ? update.getLabels() : this.labels;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -72,12 +87,12 @@ public class Issue implements Serializable, Labelable, Detailable {
 		this.name = name;
 	}
 
-	public String getId() {
-		return id;
+	public String getIssueId() {
+		return issueId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setIssueId(final String id) {
+		this.issueId = id;
 	}
 
 	public String getDescription() {

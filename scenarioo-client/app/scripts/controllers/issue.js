@@ -40,7 +40,7 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
             },
             function onSuccess(result) {
                 $scope.issue = result.issue;
-                $scope.scenarioSketches = null;
+                $scope.scenarioSketches = result.scenarioSketches;
                 $scope.issueName = result.issue.name;
                 //$scope.scenarios = result.scenarios;
                 //$scope.issueInformationTree = createissueInformationTree($scope.issue);

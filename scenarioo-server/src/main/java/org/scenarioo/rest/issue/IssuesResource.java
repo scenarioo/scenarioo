@@ -26,7 +26,6 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -75,10 +74,10 @@ public class IssuesResource {
 		// Temporary Solution, probably does not scale
 		List<Issue> issues = reader.loadIssues(branchName);
 		for (Issue i : issues) {
-			List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, i.getId());
+			List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, i.getIssueId());
 			IssueSummary summary = new IssueSummary();
 			summary.setName(i.getName());
-			summary.setId(i.getId());
+			summary.setId(i.getIssueId());
 			summary.setDescription(i.getDescription());
 			summary.setStatus(i.getIssueStatus());
 			summary.setNumberOfScenarioSketches(scenarioSketches.size());
@@ -104,7 +103,7 @@ public class IssuesResource {
 		for (ScenarioSketch sketch : scenarioSketches) {
 			ScenarioSketchSummary summary = new ScenarioSketchSummary();
 			summary.setScenarioSketch(sketch);
-			summary.setNumberOfSteps(0); // Wrong, but works until pre-calculating data is done
+			summary.setNumberOfSteps(reader.loadSketchSteps(branchName, issueId, sketch.getScenarioSketchName()).size());
 			summaries.add(summary);
 		}
 		IssueScenarioSketches result = new IssueScenarioSketches();
@@ -128,7 +127,7 @@ public class IssuesResource {
 			converter = MessageDigest.getInstance("SHA1");
 			String id = new String(Hex.encodeHex(converter.digest(newIssue.toString().getBytes())));
 			id = id.substring(0, 7); // limit to first 7 characters, like in git, to keep URLs short
-			newIssue.setId(id.toString());
+			newIssue.setIssueId(id.toString());
 		} catch (NoSuchAlgorithmException e) {
 			LOGGER.info("Couldn't generate SHA1 message digest.");
 			return Response.serverError().build();
@@ -137,19 +136,25 @@ public class IssuesResource {
 		return Response.ok(newIssue, MediaType.APPLICATION_JSON).build();
 	}
 
-	@PUT
+	@POST
 	@Consumes("application/json")
+	@Produces("application/json")
 	@Path("/{issueId}")
 	public Response updateIssue(@PathParam("branchName") final String branchName,
-			@PathParam("issueIdName") final String issueId,
+			@PathParam("issueId") final String issueId,
 			final Issue updatedIssue) {
 		LOGGER.info("Now updating an existing issue.");
-		LOGGER.info(updatedIssue.getId());
+		LOGGER.info(updatedIssue.getIssueId());
 		LOGGER.info("-----------------------");
-		files.getIssueFile(branchName, issueId);
-		files.writeIssueToFile(branchName, updatedIssue);
+		if (updatedIssue.getIssueId() == null) {
+			LOGGER.error("There was no IssueID set on the issue object!");
+			updatedIssue.setIssueId(issueId);
+		}
+		Issue existingIssue = reader.loadIssue(branchName, issueId);
+		existingIssue.update(updatedIssue);
+		files.updateIssue(branchName, existingIssue);
 
-		return Response.ok(updatedIssue, MediaType.APPLICATION_JSON).build();
+		return Response.ok(existingIssue, MediaType.APPLICATION_JSON).build();
 	}
 
 	private IssueSummary mapSummary(final IssueScenarioSketches issueProposals) {

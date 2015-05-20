@@ -106,7 +106,7 @@ public class SketchStepResource {
 	public Response storeSketchStep(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchName") final String scenarioSketchName, final SketchStep sketchStep) {
-		LOGGER.info("SAVING SKETCH STEP");
+		LOGGER.info("Now storing a sketchStep.");
 		LOGGER.info(sketchStep);
 		LOGGER.info("-----------------------------------");
 		files.writeSketchStepToFile(branchName, issueId, scenarioSketchName, sketchStep);

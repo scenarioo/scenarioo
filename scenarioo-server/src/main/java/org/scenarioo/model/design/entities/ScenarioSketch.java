@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.scenarioo.api.rules.Preconditions;
 import org.scenarioo.model.docu.entities.Detailable;
@@ -23,13 +24,17 @@ import org.scenarioo.model.docu.entities.generic.Details;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ScenarioSketch implements Serializable, Labelable, Detailable {
 
-	private String name;
+	private String scenarioSketchName;
 	private String description;
+	private String issueId;
 	private String scenarioSketchStatus = "";
 	private String author = "";
 	private String contextInDocu;
 	private Date dateCreated;
 	private Date dateModified;
+
+	@XmlTransient
+	private String branchName;
 
 	private Details details = new Details();
 	private Labels labels = new Labels();
@@ -40,12 +45,12 @@ public class ScenarioSketch implements Serializable, Labelable, Detailable {
 
 	public ScenarioSketch(final String name, final String description) {
 		super();
-		this.name = name;
+		this.scenarioSketchName = name;
 		this.description = description;
 	}
 
-	public String getName() {
-		return name;
+	public String getScenarioSketchName() {
+		return scenarioSketchName;
 	}
 
 	/**
@@ -53,8 +58,8 @@ public class ScenarioSketch implements Serializable, Labelable, Detailable {
 	 *
 	 * Make sure to use descriptive names that stay stable as much as possible.
 	 */
-	public void setName(final String name) {
-		this.name = name;
+	public void setScenarioSketchName(final String name) {
+		this.scenarioSketchName = name;
 	}
 
 	public String getDescription() {
@@ -155,6 +160,22 @@ public class ScenarioSketch implements Serializable, Labelable, Detailable {
 	public void setLabels(final Labels labels) {
 		Preconditions.checkNotNull(labels, "Labels not allowed to set to null");
 		this.labels = labels;
+	}
+
+	private String getBranchName() {
+		return branchName;
+	}
+
+	private void setBranchName(final String branchName) {
+		this.branchName = branchName;
+	}
+
+	public String getIssueId() {
+		return issueId;
+	}
+
+	public void setIssueId(final String issueId) {
+		this.issueId = issueId;
 	}
 
 }
