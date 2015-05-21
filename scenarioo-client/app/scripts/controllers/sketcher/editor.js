@@ -137,10 +137,6 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             issueId: args.issueId
         }, {});
 
-        SketchStep.updateSketchStep(sketchStep, function (savedSketchStep) {
-            console.log('saved SketchStep');
-        });
-
         if ($scope.sketchStepId) {
             sketchStep.sketchStepId = $scope.sketchStepId;
 

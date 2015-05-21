@@ -297,8 +297,7 @@ angular.module('scenarioo.services')
                 branchName: '@branchName',
                 issueId: '@issueId',
                 scenarioSketchId: '@scenarioSketchId',
-                sketchStepId: '@sketchStepId',
-                sketch:''
+                sketchStepId: '@sketchStepId'
             }, {});
     });
 
