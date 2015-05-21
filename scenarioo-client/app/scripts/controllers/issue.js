@@ -24,7 +24,6 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
     //var transformMetadataToTree = $filter('scMetadataTreeCreator');
     //var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     SelectedBranchAndBuild.callOnSelectionChange(loadIssue);
-    console.log("test");
 
     // FIXME this code is duplicated. How can we extract it into a service?
     LabelConfigurationsResource.query({}, function(labelConfigurations) {
