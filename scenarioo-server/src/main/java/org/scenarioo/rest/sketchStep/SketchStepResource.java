@@ -24,6 +24,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
@@ -111,7 +112,8 @@ public class SketchStepResource {
 		LOGGER.info("-----------------------------------");
 		files.writeSketchStepToFile(branchName, issueId, scenarioSketchId, sketchStep);
 		files.writeSVGToFile(branchName, issueId, scenarioSketchId, sketchStep);
-		return Response.ok().build();
+
+		return Response.ok(sketchStep, MediaType.APPLICATION_JSON).build();
 	}
 
 }

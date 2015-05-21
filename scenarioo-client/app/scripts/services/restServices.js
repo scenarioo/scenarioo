@@ -282,23 +282,23 @@ angular.module('scenarioo.services')
             }, {});
     })
 
-    .factory('SketchStepResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issue/:issueId/scenariosketch/:scenarioSketchName/sketchstep/:sketchStepName',
+    .factory('ScenarioSketchResource', function (ScenariooResource) {
+        return ScenariooResource('/branch/:branchName/issue/:issueId/scenariosketch/:scenarioSketchId',
             {
                 branchName: '@branchName',
                 issueId: '@issueId',
-                scenarioSketchName: '@scenarioSketchName',
-                sketchStepName: '@sketchStepName',
-                sketch:''
+                scenarioSketchId: '@scenarioSketchId'
             }, {});
     })
 
-    .factory('ScenarioSketchResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issue/:issueId/scenariosketch/:scenarioSketchName',
+    .factory('SketchStepResource', function (ScenariooResource) {
+        return ScenariooResource('/branch/:branchName/issue/:issueId/scenariosketch/:scenarioSketchId/sketchstep/:sketchStepId',
             {
                 branchName: '@branchName',
                 issueId: '@issueId',
-                scenarioSketchName: '@scenarioSketchName'
+                scenarioSketchId: '@scenarioSketchId',
+                sketchStepId: '@sketchStepId',
+                sketch:''
             }, {});
     });
 
