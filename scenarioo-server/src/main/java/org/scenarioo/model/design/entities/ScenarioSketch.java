@@ -25,6 +25,7 @@ import org.scenarioo.model.docu.entities.generic.Details;
 public class ScenarioSketch implements Serializable, Labelable, Detailable {
 
 	private String scenarioSketchName;
+	private String scenarioSketchId;
 	private String description;
 	private String issueId;
 	private String scenarioSketchStatus = "";
@@ -49,6 +50,22 @@ public class ScenarioSketch implements Serializable, Labelable, Detailable {
 		this.description = description;
 	}
 
+	public void update(final ScenarioSketch update) {
+		this.scenarioSketchName = update.getScenarioSketchName() != null ? update.getScenarioSketchName()
+				: this.scenarioSketchName;
+		this.issueId = update.getIssueId() != null ? update.getIssueId() : this.issueId;
+		this.scenarioSketchId = update.getScenarioSketchId() != null ? update.getScenarioSketchId()
+				: this.scenarioSketchId;
+		this.description = update.getDescription() != null ? update.getDescription() : this.description;
+		this.author = update.getAuthor() != null ? update.getAuthor() : this.author;
+		this.contextInDocu = update.getContextInDocu() != null ? update.getContextInDocu() : this.contextInDocu;
+		this.dateCreated = update.getDateCreated() != null ? update.getDateCreated() : this.dateCreated;
+		this.dateModified = update.getDateModified() != null ? update.getDateModified() : this.dateModified;
+
+		this.details = update.getDetails() != null ? update.getDetails() : this.details;
+		this.labels = update.getLabels() != null ? update.getLabels() : this.labels;
+	}
+
 	public String getScenarioSketchName() {
 		return scenarioSketchName;
 	}
@@ -60,6 +77,14 @@ public class ScenarioSketch implements Serializable, Labelable, Detailable {
 	 */
 	public void setScenarioSketchName(final String name) {
 		this.scenarioSketchName = name;
+	}
+
+	public String getScenarioSketchId() {
+		return scenarioSketchId;
+	}
+
+	public void setScenarioSketchId(final String scenarioSketchId) {
+		this.scenarioSketchId = scenarioSketchId;
 	}
 
 	public String getDescription() {
