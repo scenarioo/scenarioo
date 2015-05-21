@@ -21,8 +21,9 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
     //var drawingPad = DrawingPadService.get;
     var drawingPad;
+    var image;
     $timeout(function(){
-      return SVG('drawingPad').size('100%', '100%').fixSubPixelOffset();
+      return DrawingPadService.get;
     }, 1000).then(function(result){
       drawingPad = result;
       loadBackgroundImage();
@@ -31,13 +32,14 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
     var loadBackgroundImage = function () {
         if ($routeParams.screenshotURL) {
-            drawingPad.image(decodeURIComponent($routeParams.screenshotURL)).loaded(function (loader) {
+            image = drawingPad.image(decodeURIComponent($routeParams.screenshotURL)).loaded(function (loader) {
                 drawingPad.attr({
                     width: loader.width
                 });
                 drawingPad.attr({
                     height: loader.height
                 });
+
             });
         }
     };
