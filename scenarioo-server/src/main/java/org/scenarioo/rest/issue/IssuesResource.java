@@ -103,7 +103,7 @@ public class IssuesResource {
 		for (ScenarioSketch sketch : scenarioSketches) {
 			ScenarioSketchSummary summary = new ScenarioSketchSummary();
 			summary.setScenarioSketch(sketch);
-			summary.setNumberOfSteps(reader.loadSketchSteps(branchName, issueId, sketch.getScenarioSketchName()).size());
+			summary.setNumberOfSteps(reader.loadSketchSteps(branchName, issueId, sketch.getScenarioSketchId()).size());
 			summaries.add(summary);
 		}
 		IssueScenarioSketches result = new IssueScenarioSketches();
