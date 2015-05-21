@@ -32,7 +32,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
-import org.scenarioo.dao.design.aggregates.IssueAggregationDAO;
 import org.scenarioo.model.design.entities.Issue;
 import org.scenarioo.model.design.entities.ScenarioSketch;
 import org.scenarioo.model.design.entities.SketchStep;
@@ -42,7 +41,7 @@ import org.scenarioo.model.design.entities.SketchStep;
  */
 public class DesignFiles {
 
-	private static final Logger LOGGER = Logger.getLogger(IssueAggregationDAO.class);
+	private static final Logger LOGGER = Logger.getLogger(DesignFiles.class);
 
 	private static final String DIRECTORY_NAME_SCENARIOSKETCH_ORIGINALSCREENSHOTS = "screenshots";
 
@@ -238,6 +237,7 @@ public class DesignFiles {
 		boolean isCreated = sketchStepDir.mkdirs();
 		if (!isCreated) {
 			LOGGER.error("SketchStep directory not created.");
+			LOGGER.error(sketchStepDir.getAbsolutePath());
 		}
 		return isCreated;
 	}

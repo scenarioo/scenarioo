@@ -49,7 +49,7 @@ public class SketchStep implements Serializable {
 	@XmlTransient
 	private String issueId;
 	@XmlTransient
-	private String scenarioSketchName;
+	private String scenarioSketchId;
 
 	/*
 	 * public Page getPage() {
@@ -185,12 +185,12 @@ public class SketchStep implements Serializable {
 		this.issueId = issueId;
 	}
 
-	public String getScenarioSketchName() {
-		return scenarioSketchName;
+	public String getScenarioSketchId() {
+		return scenarioSketchId;
 	}
 
-	public void setScenarioSketchName(final String scenarioSketchName) {
-		this.scenarioSketchName = scenarioSketchName;
+	public void setScenarioSketchId(final String scenarioSketchId) {
+		this.scenarioSketchId = scenarioSketchId;
 	}
 
 }

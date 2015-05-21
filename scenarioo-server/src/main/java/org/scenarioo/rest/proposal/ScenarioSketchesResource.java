@@ -72,6 +72,8 @@ public class ScenarioSketchesResource {
 	public Response storeScenarioSketch(@PathParam("branchName") final String branchName,
 			final ScenarioSketch scenarioSketch) {
 		LOGGER.info("Now storing a new scenario sketch.");
+		LOGGER.info(scenarioSketch);
+		LOGGER.info("-----------------------");
 		MessageDigest converter;
 		try {
 			converter = MessageDigest.getInstance("SHA1");

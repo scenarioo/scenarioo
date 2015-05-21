@@ -46,7 +46,7 @@ import org.scenarioo.rest.sketchStep.logic.SketchStepResponseFactory;
 import org.scenarioo.rest.step.StepResource;
 import org.scenarioo.rest.step.logic.LabelsQueryParamParser;
 
-@Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/sketchstep/{sketchStepName}")
+@Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/sketchstep")
 public class SketchStepResource {
 
 	private static final Logger LOGGER = Logger.getLogger(StepResource.class);
@@ -80,6 +80,7 @@ public class SketchStepResource {
 	 */
 	@GET
 	@Produces({ "application/json" })
+	@Path("/{sketchStepName}")
 	public Response loadSketchStep(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId,
