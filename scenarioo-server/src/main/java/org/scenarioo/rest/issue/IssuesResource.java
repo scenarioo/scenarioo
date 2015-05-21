@@ -144,7 +144,7 @@ public class IssuesResource {
 			@PathParam("issueId") final String issueId,
 			final Issue updatedIssue) {
 		LOGGER.info("Now updating an existing issue.");
-		LOGGER.info(updatedIssue.getIssueId());
+		LOGGER.info(issueId);
 		LOGGER.info("-----------------------");
 		if (updatedIssue.getIssueId() == null) {
 			LOGGER.error("There was no IssueID set on the issue object!");

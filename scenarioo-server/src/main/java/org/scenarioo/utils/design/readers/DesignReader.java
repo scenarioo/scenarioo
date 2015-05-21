@@ -49,23 +49,23 @@ public class DesignReader {
 	}
 
 	public ScenarioSketch loadScenarioSketch(final String branchName, final String issueId,
-			final String scenarioSketchName) {
+			final String scenarioSketchId) {
 		File file = designFiles.getScenarioSketchFile(checkIdentifier(branchName), checkIdentifier(issueId),
-				checkIdentifier(scenarioSketchName));
+				checkIdentifier(scenarioSketchId));
 		return ScenarioDocuXMLFileUtil.unmarshal(ScenarioSketch.class, file);
 	}
 
 	public List<SketchStep> loadSketchSteps(final String branchName, final String issueId,
-			final String scenarioSketchName) {
+			final String scenarioSketchId) {
 		List<File> files = designFiles.getSketchStepFiles(checkIdentifier(branchName), checkIdentifier(issueId),
-				checkIdentifier(scenarioSketchName));
+				checkIdentifier(scenarioSketchId));
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(SketchStep.class, files);
 	}
 
 	public SketchStep loadSketchStep(final String branchName, final String issueId,
-			final String scenarioSketchName, final int stepIndex) {
+			final String scenarioSketchId, final int stepIndex) {
 		File file = designFiles.getSketchStepFile(checkIdentifier(branchName), checkIdentifier(issueId),
-				checkIdentifier(scenarioSketchName), stepIndex);
+				checkIdentifier(scenarioSketchId), stepIndex);
 		return ScenarioDocuXMLFileUtil.unmarshal(SketchStep.class, file);
 	}
 
