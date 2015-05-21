@@ -10,6 +10,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.binary.Hex;
@@ -69,7 +70,6 @@ public class ScenarioSketchesResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response storeScenarioSketch(@PathParam("branchName") final String branchName,
-			@PathParam("issueId") final String issueId,
 			final ScenarioSketch scenarioSketch) {
 		LOGGER.info("Now storing a new scenario sketch.");
 		MessageDigest converter;
@@ -82,8 +82,8 @@ public class ScenarioSketchesResource {
 			LOGGER.info("Couldn't generate SHA1 message digest.");
 			return Response.serverError().build();
 		}
-		files.writeScenarioSketchToFile(branchName, issueId, scenarioSketch);
-		return Response.ok().build();
+		files.writeScenarioSketchToFile(branchName, scenarioSketch.getIssueId(), scenarioSketch);
+		return Response.ok(scenarioSketch, MediaType.APPLICATION_JSON).build();
 	}
 
 	@POST
@@ -103,8 +103,8 @@ public class ScenarioSketchesResource {
 		ScenarioSketch existingScenarioSketch = reader.loadScenarioSketch(branchName, issueId, scenarioSketchId);
 		existingScenarioSketch.update(updatedScenarioSketch);
 		files.updateScenarioSketch(branchName, updatedScenarioSketch);
-		
-		return Response.ok().build();
+
+		return Response.ok(updatedScenarioSketch, MediaType.APPLICATION_JSON).build();
 	}
 
 }
