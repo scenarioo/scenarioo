@@ -1,4 +1,4 @@
-Demo-Smoketest: [![Demo Smoketest Status](http://54.88.202.24:8081/job/smoketest/badge/icon)](http://54.88.202.24:8081/job/smoketest) CI Master: [![CI Status Master Branch](http://54.88.202.24:8081/job/scenarioo-master/badge/icon)](http://54.88.202.24:8081/job/scenarioo-master) CI Develop: [![CI Status Develop Branch](http://54.88.202.24:8081/job/scenarioo-develop/badge/icon)](http://54.88.202.24:8081/job/scenarioo-develop)
+Demo-Smoketest: [![Demo Smoketest Status](http://ci.scenarioo.org/job/smoketest/badge/icon)](http://ci.scenarioo.org/job/smoketest) CI Master: [![CI Status Master Branch](http://54.88.202.24:8081/job/scenarioo-master/badge/icon)](http://ci.scenarioo.org/job/scenarioo-master) CI Develop: [![CI Status Develop Branch](http://ci.scenarioo.org/job/scenarioo-develop/badge/icon)](http://ci.scenarioo.org/job/scenarioo-develop)
 
 Scenarioo
 ==========
