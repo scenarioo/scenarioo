@@ -17,8 +17,8 @@ https://github.com/scenarioo/scenarioo/wiki
 
 Live-Demo 
 
-* stable master-branch: http://demo.scenarioo.org/scenarioo-master
-* unstable develop-branch: http://demo.scenarioo.org/scenarioo-develop
+* stable master-branch: http://demo.scenarioo.org
+* unstable develop-branch: http://54.88.202.24/scenarioo-develop/
 
 CI Build Status: 
 
