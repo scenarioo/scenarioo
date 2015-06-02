@@ -19,8 +19,7 @@
 
 angular.module('scenarioo.controllers').controller('UseCaseCtrl', UseCaseCtrl);
 
-function UseCaseCtrl($filter, $routeParams,
-                     $location, ScenarioResource, Config, SelectedBranchAndBuild,
+function UseCaseCtrl($filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild,
                      LabelConfigurationsResource) {
 
     var vm = this;
@@ -34,16 +33,18 @@ function UseCaseCtrl($filter, $routeParams,
     };
     vm.propertiesToShow = [];
     vm.labelConfigurations = {};
-    vm.resetSearchField = resetSearchField;
-    vm.goToFirstStep = goToFirstStep;
-    vm.goToScenario = goToScenario;
-    vm.onNavigatorTableHit = onNavigatorTableHit;
-    vm.getLabelStyle = getLabelStyle;
     vm.useCase = {};
     vm.scenarios = [];
     vm.usecaseInformationTree = {};
     vm.metadataTree = {};
     vm.hasAnyLabels = false;
+
+    vm.resetSearchField = resetSearchField;
+    vm.goToFirstStep = goToFirstStep;
+    vm.goToScenario = goToScenario;
+    vm.onNavigatorTableHit = onNavigatorTableHit;
+    vm.getLabelStyle = getLabelStyle;
+
 
     activate();
 
@@ -123,6 +124,5 @@ function UseCaseCtrl($filter, $routeParams,
         usecaseInformation.Status = usecase.status;
         return $filter('scMetadataTreeCreator')(usecaseInformation);
     }
-
 
 }
