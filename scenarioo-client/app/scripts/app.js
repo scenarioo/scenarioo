@@ -43,6 +43,7 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
         .when('/usecase/:useCaseName', {
             templateUrl: 'views/usecase.html',
             controller: 'UseCaseCtrl',
+            controllerAs:'useCase',
             useCaseName: '@useCaseName',
             breadcrumbId: 'usecase'
         })

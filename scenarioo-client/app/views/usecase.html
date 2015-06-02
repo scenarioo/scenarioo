@@ -21,54 +21,57 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div class="col-lg-3">
         <div class="input-group">
             <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
-                   title="type words separated by spaces to search for" ng-model="table.search.searchTerm"
+                   title="type words separated by spaces to search for" ng-model="useCase.table.search.searchTerm"
                    placeholder="Search scenario..."/>
             <span class="input-group-btn">
-                <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
+                <button type="button" ng-click="useCase.resetSearchField()" class="btn btn-default">reset</button>
             </span>
         </div>
     </div>
     <div class="col-lg-9">
-        <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata" local-storage-key="usecase" ></sc-meta-data-button>
+        <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata"
+                             local-storage-key="usecase"></sc-meta-data-button>
     </div>
 </div>
 
 <sc-meta-data-panel linking-variable="useCaseShowMetadata">
     <div>
-        <table class="table table-bordered scenario-table" sc-navigator-table="filtered">
+        <table class="table table-bordered scenario-table" sc-navigator-table="filtered" sc-navigator-table-hit="useCase.onNavigatorTableHit">
             <thead>
-                <tr>
-                    <th sc-sortable-column="status">Status</th>
-                    <th sc-sortable-column="name">Scenario name</th>
-                    <th>Actions</th>
-                    <th>Description</th>
-                    <th ng-repeat="property in propertiesToShow" sc-sortable-column="details.properties.{{property}}">
-                        {{property | scHumanReadable}}
-                    </th>
-                    <th sc-sortable-column="calculatedData.numberOfSteps"># Steps</th>
-                </tr>
+            <tr>
+                <th sc-sortable-column="status">Status</th>
+                <th sc-sortable-column="name">Scenario name</th>
+                <th>Actions</th>
+                <th>Description</th>
+                <th ng-repeat="property in propertiesToShow" sc-sortable-column="details.properties.{{property}}">
+                    {{property | scHumanReadable}}
+                </th>
+                <th sc-sortable-column="calculatedData.numberOfSteps"># Steps</th>
+            </tr>
             </thead>
             <tbody>
-                <tr ng-class="{'selected':$index==selectedRowIndex}" ng-click="goToScenario(useCase.name, scenarioSummary.scenario.name)"
-                    class="link"
-                    ng-repeat="scenarioSummary in filtered=(scenarios | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
-                    <td>
-                        <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{scenarioSummary.scenario.status}}</span>
-                    </td>
-                    <td>
-                        {{scenarioSummary.scenario.name | scHumanReadable }}
-                    <span ng-repeat="label in scenarioSummary.scenario.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
-                    </td>
-                    <td>
-                        <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview"
-                              tooltip-placement="bottom"></i></a>
-                        <a ng-click="goToFirstStep(useCase.name, scenarioSummary.scenario.name)" tooltip="Go to first step"
-                           tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
-                    </td>
-                    <td>{{scenarioSummary.scenario.description}}</td>
-                    <td ng-repeat="property in propertiesToShow">{{scenarioSummary.scenario.details[property]}}</td>
-                    <td>{{scenarioSummary.numberOfSteps}}</td>
-                </tr>
+            <tr ng-class="{'selected':$index==selectedRowIndex}"
+                ng-click="useCase.goToScenario(useCase.useCase.name, scenarioSummary.scenario.name)"
+                class="link"
+                ng-repeat="scenarioSummary in filtered=(useCase.scenarios | scFilterArray: useCase.table.search.searchTerm | orderBy: useCase.table.sort.column: useCase.table.sort.reverse)">
+                <td>
+                    <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{scenarioSummary.scenario.status}}</span>
+                </td>
+                <td>
+                    {{scenarioSummary.scenario.name | scHumanReadable }}
+                    <span ng-repeat="label in scenarioSummary.scenario.labels.labels" class="label label-info sc-label"
+                          ng-style="useCase.getLabelStyle(label)">{{label}}</span>
+                </td>
+                <td>
+                    <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview"
+                          tooltip-placement="bottom"></i></a>
+                    <a ng-click="useCase.goToFirstStep(useCase.useCase.name, scenarioSummary.scenario.name)" tooltip="Go to first step"
+                       tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
+                </td>
+                <td>{{scenarioSummary.scenario.description}}</td>
+                <td ng-repeat="property in useCase.propertiesToShow">{{scenarioSummary.scenario.details[property]}}</td>
+                <td>{{scenarioSummary.numberOfSteps}}</td>
+            </tr>
             </tbody>
         </table>
     </div>
@@ -85,7 +88,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ul>
                     <li>
                         Use case:
-                        <span ng-repeat="label in useCase.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                        <span ng-repeat="label in useCase.labels.labels" class="label label-info sc-label"
+                              ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
                 </ul>
             </div>
