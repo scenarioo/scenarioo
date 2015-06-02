@@ -27,7 +27,8 @@ describe('Controller :: useCase', function () {
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, ConfigMock, _SelectedBranchAndBuild_, _$location_, localStorageService, _$httpBackend_, _HostnameAndPort_) {
+    beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_,
+                                ConfigMock, _SelectedBranchAndBuild_, _$location_, localStorageService, _$httpBackend_, _HostnameAndPort_) {
             $scope = $rootScope.$new();
             routeParams = $routeParams;
             routeParams.useCaseName = USE_CASE;
@@ -40,19 +41,21 @@ describe('Controller :: useCase', function () {
 
             localStorageService.clearAll();
 
-            controller = $controller('UseCaseCtrl', {$scope: $scope, $routeParams: routeParams, Config: ConfigMock, ScenarioResource: ScenarioResource, SelectedBranchAndBuild: SelectedBranchAndBuild});
+            controller = $controller('UseCaseCtrl', {
+                $routeParams: routeParams,
+                Config: ConfigMock,
+                ScenarioResource: ScenarioResource,
+                SelectedBranchAndBuild: SelectedBranchAndBuild
+            });
         }
     ));
 
-    it('should load all scenarios and and the selected use case', function() {
+    it('should load all scenarios and and the selected use case', function () {
         spyOn(ScenarioResource, 'get').andCallFake(getFindAllScenariosFake());
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/labelconfigurations').respond({});
 
         expect(SelectedBranchAndBuild.selected().branch).toBeUndefined();
         expect(SelectedBranchAndBuild.selected().build).toBeUndefined();
-        expect($scope.useCase).toBeUndefined();
-        expect($scope.scenarios).toBeUndefined();
-        expect($scope.propertiesToShow).toBeUndefined();
 
         $location.url('/new/path/?branch=' + BRANCH + '&build=' + BUILD);
         $httpBackend.flush();
@@ -63,10 +66,14 @@ describe('Controller :: useCase', function () {
 
         $scope.$apply();
 
-        expect(ScenarioResource.get).toHaveBeenCalledWith({'branchName': BRANCH, 'buildName': BUILD, 'usecaseName': USE_CASE}, jasmine.any(Function));
-        expect($scope.useCase).toBeDefined();
-        expect($scope.scenarios).toBeDefined();
-        expect($scope.propertiesToShow).toBeDefined();
+        expect(ScenarioResource.get).toHaveBeenCalledWith({
+            'branchName': BRANCH,
+            'buildName': BUILD,
+            'usecaseName': USE_CASE
+        }, jasmine.any(Function));
+        expect(controller.useCase).toBeDefined();
+        expect(controller.scenarios).toBeDefined();
+        expect(controller.propertiesToShow).toBeDefined();
     });
 
     function getFindAllScenariosFake() {
@@ -75,7 +82,7 @@ describe('Controller :: useCase', function () {
             scenarios: 'scenarios'
         };
 
-        return function(params, onSuccess) {
+        return function (params, onSuccess) {
             onSuccess(DATA);
         };
     }
