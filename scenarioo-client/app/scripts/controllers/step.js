@@ -86,8 +86,6 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.useCaseLabels = result.useCaseLabels;
                 $scope.scenarioLabels = result.scenarioLabels;
 
-                beautify(result.step.html);
-
                 $scope.hasAnyLabels = function () {
                     var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
                     var hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
@@ -137,30 +135,6 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         }
 
         return transformMetadataToTree(stepInformation);
-    }
-
-    function beautify(html) {
-        var source = html.htmlSource;
-        var opts = {};
-
-        opts.indent_size = 1;
-        opts.indent_char = '\t';
-        opts.max_preserve_newlines = 0;
-        opts.preserve_newlines = opts.max_preserve_newlines !== -1;
-        opts.keep_array_indentation = true;
-        opts.break_chained_methods = true;
-        opts.indent_scripts = 'normal';
-        opts.brace_style = 'collapse';
-        opts.space_before_conditional = true;
-        opts.unescape_strings = true;
-        opts.wrap_line_length = 0;
-        opts.space_after_anon_function = true;
-
-        // TODO: fix html_beautify, issue #66
-        // var output = $window.html_beautify(source, opts);
-        // $scope.formattedHtml = output;
-
-        $scope.formattedHtml = source;
     }
 
     function bindStepNavigation() {
