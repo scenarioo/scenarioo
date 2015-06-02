@@ -119,6 +119,7 @@ function UseCaseCtrl($filter, $routeParams, $location, ScenarioResource, Config,
         vm.hasAnyLabels = vm.useCase.labels && vm.useCase.labels.labels.length !== 0;
     }
 
+    $scope.label='abc';
     function createUseCaseInformationTree(usecase) {
         var usecaseInformation = {};
         usecaseInformation.Status = usecase.status;
