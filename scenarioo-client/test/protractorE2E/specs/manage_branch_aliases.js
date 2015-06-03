@@ -14,8 +14,8 @@ scenarioo.describeUseCase('Manage branch aliases', function () {
         scenarioo.docuWriter.saveStep('display the manage branch aliases page');
 
         branchAliasesPage.assertNumberOfAliases(0);
-        branchAliasesPage.enterAlias('Test Alias 1', 0, 'my description 1');
-        branchAliasesPage.enterAlias('Test Alias 2', 0, 'my description 2');
+        branchAliasesPage.enterAlias('Test Alias 1', 'example-branch', 'my description 1');
+        branchAliasesPage.enterAlias('Test Alias 2', 'example-branch', 'my description 2');
         branchAliasesPage.save();
         scenarioo.docuWriter.saveStep('add build aliases');
         branchAliasesPage.reset();
@@ -31,13 +31,13 @@ scenarioo.describeUseCase('Manage branch aliases', function () {
         branchAliasesPage.reset();
         branchAliasesPage.assertNumberOfAliases(1);
 
-        branchAliasesPage.updateAlias(0, 'updated alias', 0, 'updated description');
+        branchAliasesPage.updateAlias(0, 'updated alias', 'example-branch', 'updated description');
         branchAliasesPage.save();
         scenarioo.docuWriter.saveStep('update aliases');
         browser.get('#/manage?tab=branchAliases');
-        branchAliasesPage.assertAlias(0, 'updated alias', 0, 'updated description');
+        branchAliasesPage.assertAlias(0, 'updated alias', 'example-branch', 'updated description');
 
-        branchAliasesPage.enterAlias('updated alias', 0, 'duplicate alias name');
+        branchAliasesPage.enterAlias('updated alias', 'example-branch', 'duplicate alias name');
         branchAliasesPage.save();
         branchAliasesPage.assertDuplicateAliasError();
         scenarioo.docuWriter.saveStep('duplicate aliases are not allowed');
