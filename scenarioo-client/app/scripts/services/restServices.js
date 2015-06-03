@@ -22,20 +22,14 @@ angular.module('scenarioo.services')
         $httpProvider.defaults.stripTrailingSlashes = false;
     })
 
-    .factory('HostnameAndPort', function (ENV, $location) {
-        var baseUrl;
+    .factory('HostnameAndPort', function (ENV, BASE_URL, $location) {
+        var baseUrl = BASE_URL;
 
-        var getBaseUrl = function() {
+        var getBaseUrl = function () {
             var url = $location.absUrl();
             var urlParts = url.split('#');
             return urlParts[0];
         };
-
-        if (ENV === 'production') {
-            baseUrl = '';
-        } else if (ENV === 'development') {
-            baseUrl = 'http://localhost:8080/scenarioo/';
-        }
 
         return {
             forNgResource: function () {
@@ -47,7 +41,7 @@ angular.module('scenarioo.services')
             forLink: function () {
                 return baseUrl;
             },
-            forLinkAbsolute: function() {
+            forLinkAbsolute: function () {
                 if (ENV === 'production') {
                     return getBaseUrl();
                 } else if (ENV === 'development') {
@@ -82,8 +76,10 @@ angular.module('scenarioo.services')
 
     .factory('BuildReimportResource', function (ScenariooResource) {
         return ScenariooResource('/builds/reimportBuild/:branchName/:buildName',
-            {   branchName: '@branchName',
-                buildName: '@buildName'}, {});
+            {
+                branchName: '@branchName',
+                buildName: '@buildName'
+            }, {});
     })
 
     .factory('BuildImportService', function (ScenariooResource, $q) {
@@ -96,8 +92,10 @@ angular.module('scenarioo.services')
 
     .factory('PageVariantService', function (ScenariooResource, $q) {
         var pageVariantService = ScenariooResource('/branch/:branchName/build/:buildName/search/pagevariants/',
-            {   branchName: '@branchName',
-                buildName: '@buildName'}, {});
+            {
+                branchName: '@branchName',
+                buildName: '@buildName'
+            }, {});
 
         pageVariantService.getPageVariantCount = getPromise($q, function (parameters, fnSuccess, fnError) {
             return pageVariantService.get(parameters, fnSuccess, fnError);
@@ -107,9 +105,11 @@ angular.module('scenarioo.services')
 
     .factory('UseCaseService', function (ScenariooResource, $q) {
         var useCaseService = ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName',
-            {   branchName: '@branchName',
+            {
+                branchName: '@branchName',
                 buildName: '@buildName',
-                usecaseName: '@usecaseName'}, {});
+                usecaseName: '@usecaseName'
+            }, {});
 
         useCaseService.getUseCase = getPromise($q, function (parameters, fnSuccess, fnError) {
             return useCaseService.get(parameters, fnSuccess, fnError);
@@ -117,7 +117,7 @@ angular.module('scenarioo.services')
         return useCaseService;
     })
 
-    .factory('StepResource', function(ScenariooResource) {
+    .factory('StepResource', function (ScenariooResource) {
         return ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName/pageName/:pageName/pageOccurrence/:pageOccurrence/stepInPageOccurrence/:stepInPageOccurrence',
             {
                 branchName: '@branchName',
@@ -188,7 +188,7 @@ angular.module('scenarioo.services')
             }, {});
     })
 
-    .factory('ObjectIndexListResource', function(ScenariooResource) {
+    .factory('ObjectIndexListResource', function (ScenariooResource) {
         return ScenariooResource('/branch/:branchName/build/:buildName/object/:objectType/:objectName',
             {
                 branchName: '@branchName',
@@ -234,7 +234,7 @@ angular.module('scenarioo.services')
     })
 
     .factory('LabelConfigurationsResource', function (ScenariooResource) {
-        return ScenariooResource('/labelconfigurations', {}, { 'query': { isArray:false}});
+        return ScenariooResource('/labelconfigurations', {}, {'query': {isArray: false}});
     });
 
 function getPromise($q, fn) {

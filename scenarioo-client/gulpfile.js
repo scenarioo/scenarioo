@@ -1,6 +1,9 @@
 'use strict';
 
 var gulp = require('gulp'),
+    fs = require('fs'),
+    _ = require('lodash'),
+    gulpUtil = require('gulp-util'),
     connect = require('gulp-connect'),
     less = require('gulp-less'),
     karma = require('karma').server,
@@ -12,7 +15,7 @@ var files = {
     less: ['./app/styles/*.less']
 };
 
-gulp.task('serve', ['watch'], function () {
+gulp.task('serve', ['environmentConstants', 'watch'], function () {
     connect.server({
         root: 'app',
         livereload: true,
@@ -60,4 +63,34 @@ gulp.task('test-e2e', function () {
         .on('error', function (e) {
             throw e;
         });
+});
+
+/**
+ * read constants from environments.json and write angular config file "environment_config.js"
+ * specify environment like so:
+ *
+ * gulp serve --production
+ * gulp build --production
+ *
+ * default is "development" and does not need to be specified
+ */
+gulp.task('environmentConstants', function (done) {
+
+    var environments = require('./environments.json');
+    var selectedEnvironment = gulpUtil.env.production ? 'production' : 'development';
+
+    var angularConfigFileContent = '\'use strict\';\n';
+
+    angularConfigFileContent += '// this file is written by a gulp task. configuration is done in environments.json\n';
+    angularConfigFileContent += 'angular.module(\'scenarioo.config\', [])\n';
+
+
+    _.forEach(environments[selectedEnvironment], function (value, key) {
+        angularConfigFileContent += '.constant(\'' + key + '\', \'' + value + '\')\n';
+    });
+    angularConfigFileContent += '.constant(\'ENV\', \'' + selectedEnvironment + '\');\n';
+
+
+    fs.writeFile('./app/scripts/environment_config.js', angularConfigFileContent, done);
+
 });
