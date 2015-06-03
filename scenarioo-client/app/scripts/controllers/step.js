@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
@@ -274,13 +272,13 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     // This URL is only used internally, not for sharing
     $scope.getScreenShotUrl = function () {
         if (angular.isUndefined($scope.step)) {
-            return;
+            return undefined;
         }
 
         var imageName = $scope.step.stepDescription.screenshotFileName;
 
         if (angular.isUndefined(imageName)) {
-            return;
+            return undefined;
         }
 
         var selected = SelectedBranchAndBuild.selected();
@@ -295,7 +293,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         return $location.absUrl() + createLabelUrl('&', getAllLabels());
     };
 
-    $scope.getCurrentUrl = function() {
+    $scope.getCurrentUrl = function () {
         return $location.absUrl();
     };
 
@@ -314,13 +312,13 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     };
 
     var getImageFileExtension = function () {
-        if(angular.isUndefined($scope.step)) {
+        if (angular.isUndefined($scope.step)) {
             return '';
         }
 
         var imageFileName = $scope.step.stepDescription.screenshotFileName;
 
-        if(!angular.isString(imageFileName)) {
+        if (!angular.isString(imageFileName)) {
             return '';
         }
 
@@ -329,22 +327,22 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     };
 
     var getAllLabels = function () {
-        var labels = [];
+        var allLabels = [];
         if ($scope.useCaseLabels && $scope.scenarioLabels && $scope.step) {
-            labels = labels.concat($scope.useCaseLabels.labels).concat($scope.scenarioLabels.labels).concat($scope.step.stepDescription.labels.labels).concat($scope.step.page.labels.labels);
+            allLabels = allLabels.concat($scope.useCaseLabels.labels).concat($scope.scenarioLabels.labels).concat($scope.step.stepDescription.labels.labels).concat($scope.step.page.labels.labels);
         }
-        return labels;
+        return allLabels;
     };
 
-    var createLabelUrl = function (prefix, labels) {
-        if(angular.isUndefined(labels) || !angular.isArray(labels) || labels.length === 0) {
+    var createLabelUrl = function (prefix, labelsForUrl) {
+        if (angular.isUndefined(labelsForUrl) || !angular.isArray(labelsForUrl) || labelsForUrl.length === 0) {
             return '';
         }
 
-        return prefix + 'labels=' + labels.map(encodeURIComponent).join();
+        return prefix + 'labels=' + labelsForUrl.map(encodeURIComponent).join();
     };
 
-    $scope.$on('$destroy', function() {
+    $scope.$on('$destroy', function () {
         SharePageService.invalidateUrls();
     });
 

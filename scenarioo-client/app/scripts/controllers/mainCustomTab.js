@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function ($scope, BranchesAndBuilds, $location, $filter,
                                                                                   CustomTabContentResource, SelectedBranchAndBuild, TreeNode) {
 

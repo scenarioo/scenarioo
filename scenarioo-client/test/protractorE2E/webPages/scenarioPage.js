@@ -1,8 +1,7 @@
 'use strict';
 
-var e2eUtils = require('../util/util.js');
-var BaseWebPage = require('./baseWebPage.js');
-var util = require('util');
+var BaseWebPage = require('./baseWebPage.js'),
+    util = require('util');
 
 function ScenarioPage(overridePath) {
     if (overridePath && overridePath.length > 0) {
@@ -26,13 +25,11 @@ function collapseAllButton() {
 util.inherits(ScenarioPage, BaseWebPage);
 
 ScenarioPage.prototype.openStepByName = function (stepName) {
-    this.stepView.findElement(by.linkText(stepName)).then(function (element) {
-        element.click();
-    });
+    this.stepView.element(by.linkText(stepName)).click();
 };
 
 ScenarioPage.prototype.toggleShowAllStepsOfPage = function (pageIndex) {
-    this.stepView.findElements(by.css('.toggle-show-all-steps-of-page')).then(function(elements) {
+    this.stepView.all(by.css('.toggle-show-all-steps-of-page')).then(function(elements) {
         elements[pageIndex].click();
     });
 };

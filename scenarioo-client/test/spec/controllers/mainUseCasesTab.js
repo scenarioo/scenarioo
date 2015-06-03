@@ -1,16 +1,16 @@
 /* scenarioo-client
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,18 +19,15 @@
 
 describe('Controller MainUseCasesTabCtrl', function () {
 
-    var $location, $httpBackend, HostnameAndPort, TestData, $scope, MainUseCasesTabCtrl;
+    var $location, $scope;
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($controller, $rootScope, _$location_, _$httpBackend_, _HostnameAndPort_, _TestData_) {
+    beforeEach(inject(function ($controller, $rootScope, _$location_) {
             $location = _$location_;
-            $httpBackend = _$httpBackend_;
-            HostnameAndPort = _HostnameAndPort_;
-            TestData = _TestData_;
 
             $scope = $rootScope.$new();
-            MainUseCasesTabCtrl = $controller('MainUseCasesTabCtrl', {$scope: $scope});
+            $controller('MainUseCasesTabCtrl', {$scope: $scope});
         }
     ));
 

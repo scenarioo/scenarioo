@@ -21,33 +21,42 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <!--[if IE 7]>
 <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if gte IE 8]><!-->
-<html id="ng-app" ng-app="scenarioo" xmlns:ng="http://angularjs.org" twg-global-hotkeys xclass="no-js lt-ie9"> <!--<![endif]-->
+<html id="ng-app" ng-app="scenarioo" xmlns:ng="http://angularjs.org" twg-global-hotkeys xclass="no-js lt-ie9">
+<!--<![endif]-->
 <head ng-cloak>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title ng-controller="TitleCtrl as title" ng-bind="title.text">Scenarioo</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <!--[if lt IE 9]>
-        <link rel="stylesheet" href="styles/ie-hacks.css">
-    <![endif]-->
+
+    <!-- build:vendorcss styles/vendor.css -->
+    <link rel="stylesheet" href="components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.min.css">
     <!-- endbuild -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <!--[if lte IE 8]>
-        <script type="text/javascript">
-            document.createElement("sc-breadcrumb");
-            document.createElement("sc-tree");
-            document.createElement("sc-filterableTableTree");
-            document.createElement("tabset");
-            document.createElement("tab");
-            document.createElement("ng-include");
-        </script>
+
+    <link rel="stylesheet" href="styles/scenarioo.css">
+
+    <!--[if lt IE 9]>
+    <link rel="stylesheet" href="styles/ie-hacks.css">
     <![endif]-->
+
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!--[if lte IE 8]>
+    <script type="text/javascript">
+        document.createElement("sc-breadcrumb");
+        document.createElement("sc-tree");
+        document.createElement("sc-filterableTableTree");
+        document.createElement("tabset");
+        document.createElement("tab");
+        document.createElement("ng-include");
+    </script>
+    <![endif]-->
+
 </head>
 <body>
+
 <!--[if lt IE 7]>
 <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser
     today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better
@@ -65,6 +74,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div ng-view></div>
 </div>
 
+
+<!-- build:vendor vendor.js -->
 <script src="components/angular/angular.js"></script>
 <script src="components/angular-resource/angular-resource.js"></script>
 <script src="components/angular-sanitize/angular-sanitize.js"></script>
@@ -76,18 +87,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="components/angular-i18n/angular-locale_de-de.js"></script>
 <script src="components/angular-i18n/angular-locale_de-ch.js"></script>
 <script src="components/jquery/dist/jquery.min.js"></script>
-
-
-<!-- build:js scripts/js-beautify.js -->
-<!--<script src="third-party/js-beautify/js/lib/beautify-html.js"></script>-->
 <!-- endbuild -->
 
-<!-- build:js scripts/environment_config.js -->
-<script src="scripts/environment_config.js"></script>
-<!-- endbuild -->
 
-<!-- build:js scripts/scripts.js -->
+<!-- build:sources sources.js -->
 <script src="scripts/app.js"></script>
+<script src="scripts/environment_config.js"></script>
 <script src="scripts/services/branchesAndBuilds.js"></script>
 <script src="scripts/services/config.js"></script>
 <script src="scripts/services/restServices.js"></script>
