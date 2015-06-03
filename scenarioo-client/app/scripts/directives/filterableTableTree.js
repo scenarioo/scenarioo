@@ -160,7 +160,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             // Traverses the tree-view bottom-up
             function nodeFilter(node, filter) {
                 if (angular.isUndefined(node) || angular.isUndefined(filter) || filter === '') {
-                    return;
+                    return false;
                 }
 
                 var filterPattern = filter.toUpperCase();
@@ -226,7 +226,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
 
             function extractFirstHtmlElementText(columnValue) {
                 if (angular.isUndefined(columnValue)) {
-                    return;
+                    return undefined;
                 }
 
                 var matching = columnValue.match(/(<((p|div).*?)(?=<\/(p|div)>))/i);

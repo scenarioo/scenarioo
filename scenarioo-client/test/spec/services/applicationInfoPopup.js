@@ -30,8 +30,12 @@ describe('Service: ScApplicationInfoPopup', function () {
         $provide.value('ApplicationInfoCtrl', {});
     }));
 
-    var ScApplicationInfoPopup, localStorageService, $modal , dummyPromise = { result: {finally: function () {
-    }}};
+    var ScApplicationInfoPopup, localStorageService, $modal, dummyPromise = {
+        result: {
+            finally: function () {
+            }
+        }
+    };
     beforeEach(inject(function (_ScApplicationInfoPopup_, _localStorageService_, _$modal_) {
         ScApplicationInfoPopup = _ScApplicationInfoPopup_;
         localStorageService = _localStorageService_;
@@ -72,8 +76,7 @@ describe('Controller: ApplicationInfoCtrl', function () {
 
     beforeEach(module('scenarioo.controllers'));
 
-    var ApplicationInfoCtrl,
-        $scope,
+    var $scope,
         Config,
         $httpBackend,
         HostnameAndPort,
@@ -85,7 +88,7 @@ describe('Controller: ApplicationInfoCtrl', function () {
         $httpBackend = _$httpBackend_;
         HostnameAndPort = _HostnameAndPort_;
         TestData = _TestData_;
-        ApplicationInfoCtrl = $controller('ApplicationInfoCtrl', {
+        $controller('ApplicationInfoCtrl', {
             $scope: $scope,
             Config: ConfigMock,
             $modalInstance: null

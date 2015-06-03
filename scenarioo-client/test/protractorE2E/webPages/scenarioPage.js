@@ -1,8 +1,7 @@
 'use strict';
 
-var e2eUtils = require('../util/util.js');
-var BaseWebPage = require('./baseWebPage.js');
-var util = require('util');
+var BaseWebPage = require('./baseWebPage.js'),
+    util = require('util');
 
 function ScenarioPage(overridePath) {
     if (overridePath && overridePath.length > 0) {

@@ -1,0 +1,17 @@
+{
+    "env": {
+        "browser": true
+    },
+    "rules": {
+        "quotes": [
+            2,
+            "single"
+        ],
+        "no-use-before-define": 0,
+        "strict": 0,
+        "new-cap": 0
+    },
+    "globals": {
+        "angular": false
+    }
+}

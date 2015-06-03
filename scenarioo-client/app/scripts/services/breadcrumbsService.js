@@ -109,7 +109,7 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
     function getText(navParameter, placeholder) {
         var value = navParameter[placeholder];
 
-        if(placeholder === 'usecase' || placeholder === 'scenario') {
+        if (placeholder === 'usecase' || placeholder === 'scenario') {
             return $filter('scHumanReadable')(value);
         }
 
@@ -130,9 +130,9 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         return text;
     }
 
-    function buildNavigationElements (breadcrumbId, navParameters) {
-        if(angular.isUndefined(breadcrumbId) || angular.isUndefined(navParameters)) {
-            return;
+    function buildNavigationElements(breadcrumbId, navParameters) {
+        if (angular.isUndefined(breadcrumbId) || angular.isUndefined(navParameters)) {
+            return undefined;
         }
 
         var breadCrumbElements = angular.copy(breadcrumbPaths[breadcrumbId]);

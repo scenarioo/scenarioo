@@ -6,12 +6,12 @@ var e2eUtils = {
     assertRoute: function (route) {
         browser.getCurrentUrl().then(function (url) {
             var currentUrlWithoutSearch = url.split('?')[0];
-            expect(currentUrlWithoutSearch).toBe(browser.params.baseUrl + "/#" + route);
+            expect(currentUrlWithoutSearch).toBe(browser.params.baseUrl + '/#' + route);
         });
     },
 
     assertRouteNot: function (route) {
-        expect(browser.getCurrentUrl()).not.toBe(browser.params.baseUrl + "/#" + route);
+        expect(browser.getCurrentUrl()).not.toBe(browser.params.baseUrl + '/#' + route);
     },
 
     assertTextPresentInElement: function (element, expectedText) {

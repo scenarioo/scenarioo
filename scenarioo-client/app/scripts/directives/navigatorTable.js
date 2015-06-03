@@ -96,10 +96,9 @@ angular.module('scenarioo.directives').directive('scNavigatorTable', function ($
                     return;
                 }
 
-                if (typeof(callbackFunction) === 'function') {
+                if (typeof callbackFunction === 'function') {
                     scope.scNavigatorTableHit.call(parentScope, currentCollection[parentScope.selectedRowIndex]);
                 }
-                // scope.$apply();
             }
 
             GlobalHotkeysService.registerPageHotkeyCode(38, function () {

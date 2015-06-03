@@ -22,7 +22,7 @@ angular.module('scenarioo.controllers').controller('BuildImportDetailsCtrl', fun
     $scope.log = log;
     $scope.getStyleClassForBuildImportStatus = getStyleClassForBuildImportStatus;
 
-    $scope.hasImportMessage = function() {
+    $scope.hasImportMessage = function () {
         if (angular.isUndefined($scope.build.statusMessage)) {
             return false;
         }

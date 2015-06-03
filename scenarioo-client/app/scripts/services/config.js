@@ -29,7 +29,7 @@ angular.module('scenarioo.services').service('Config', function (ConfigResource,
         ConfigResource.get({}, function (response) {
             configData = response;
             $rootScope.buildStateToClassMapping = configData.buildstates;
-            $rootScope.getStatusStyleClass = function(buildStatus) {
+            $rootScope.getStatusStyleClass = function (buildStatus) {
                 var styleClassFromMapping = $rootScope.buildStateToClassMapping[buildStatus];
                 if (angular.isUndefined(styleClassFromMapping)) {
                     return 'label-warning';
@@ -48,10 +48,10 @@ angular.module('scenarioo.services').service('Config', function (ConfigResource,
     }
 
     function getScenarioPropertiesInOverview() {
-        var stringValue =  getValue('scenarioPropertiesInOverview');
+        var stringValue = getValue('scenarioPropertiesInOverview');
 
         var propertiesStringArray = [];
-        if(angular.isString(stringValue) && stringValue.length > 0) {
+        if (angular.isString(stringValue) && stringValue.length > 0) {
             propertiesStringArray = stringValue.split(',');
         }
 
@@ -91,7 +91,7 @@ angular.module('scenarioo.services').service('Config', function (ConfigResource,
             });
         },
 
-        defaultBranchAndBuild: function() {
+        defaultBranchAndBuild: function () {
             return {
                 branch: getValue('defaultBranchName'),
                 build: getValue('defaultBuildName')
@@ -114,7 +114,7 @@ angular.module('scenarioo.services').service('Config', function (ConfigResource,
             return getBuildStateToClassMapping();
         },
 
-        expandPagesInScenarioOverview: function() {
+        expandPagesInScenarioOverview: function () {
             return getValue('expandPagesInScenarioOverview');
         }
     };

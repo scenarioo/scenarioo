@@ -21,9 +21,7 @@ describe('StepCtrl', function () {
 
     var $scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepResource,
         HostnameAndPort, SelectedBranchAndBuild, $controller, $httpBackend, TestData;
-    var StepCtrl;
 
-    var METADATA_TYPE = 'some_type';
     var STEP_INFORMATION_TREE = {
         childNodes : [
             { nodeLabel: 'Step title', nodeValue: 'Search results' },
@@ -63,7 +61,7 @@ describe('StepCtrl', function () {
 
         beforeEach(function() {
             $routeParams.stepInPageOccurrence = 1;
-            StepCtrl = $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
+            $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
                 $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostnameAndPort,
                 SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}, ScShareStepPopup: {}});
         });
@@ -202,7 +200,7 @@ describe('StepCtrl', function () {
 
         beforeEach(function() {
             $routeParams.stepInPageOccurrence = 42;
-            StepCtrl = $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
+            $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
                 $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostnameAndPort,
                 SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}, ScShareStepPopup: {}});
         });

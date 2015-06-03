@@ -1,6 +1,7 @@
 'use strict';
 
-var e2eUtils = require('../util/util.js'), BaseWebPage = require('./baseWebPage.js'), util = require('util');
+var BaseWebPage = require('./baseWebPage.js'),
+    util = require('util');
 
 function StepPage(overridePath) {
     if (overridePath && overridePath.length > 0) {
@@ -91,47 +92,47 @@ StepPage.prototype.assertFallbackMessageIsShown = function () {
     expect(element(by.id('stepNotFoundErrorMessage')).isDisplayed()).toBeFalsy();
 };
 
-StepPage.prototype.assertFallbackMessageContainsText = function(text) {
+StepPage.prototype.assertFallbackMessageContainsText = function (text) {
     expect(element(by.id('fallbackMessage')).getText()).toContain(text);
 };
 
-StepPage.prototype.assertScenarioLabelsContain = function(label) {
+StepPage.prototype.assertScenarioLabelsContain = function (label) {
     expect(element(by.id('scenario-labels')).getInnerHtml()).toContain(label);
 };
 
-StepPage.prototype.clickShareThisPageLink = function() {
+StepPage.prototype.clickShareThisPageLink = function () {
     element(by.id('shareThisPageLink')).click();
 };
 
-StepPage.prototype.assertStepLinksDialogVisible = function() {
-    browser.wait(function() {
-        return  element(by.id('stepLinksDialog')).isDisplayed();
+StepPage.prototype.assertStepLinksDialogVisible = function () {
+    browser.wait(function () {
+        return element(by.id('stepLinksDialog')).isDisplayed();
     }, 10000);
 };
 
-StepPage.prototype.assertPageVariantIndicatorValue = function(value) {
+StepPage.prototype.assertPageVariantIndicatorValue = function (value) {
     var pageVariantIndicator = element(by.id('pageVariantIndicator'));
     expect(pageVariantIndicator.isDisplayed()).toBeTruthy();
     expect(pageVariantIndicator.getText()).toBe(value);
 };
 
-StepPage.prototype.openMetadataTabIfClosed = function(index) {
+StepPage.prototype.openMetadataTabIfClosed = function (index) {
     var metadataPanelContentCss = '#metadata_panel_' + index + ' .metadata';
 
-    browser.findElement(by.css(metadataPanelContentCss)).isDisplayed().then(function(displayed){
-        if(!displayed) {
+    browser.findElement(by.css(metadataPanelContentCss)).isDisplayed().then(function (displayed) {
+        if (!displayed) {
             element(by.id('collapsable_panel_' + index)).click();
         }
     });
 };
 
-StepPage.prototype.clickOnLink= function(linkId) {
+StepPage.prototype.clickOnLink = function (linkId) {
     element(by.id(linkId)).click();
 };
 
-StepPage.prototype.assertToolTipInBreadcrumb = function(toolTip) {
+StepPage.prototype.assertToolTipInBreadcrumb = function (expectedTooltip) {
     var toolTip = element(by.id('tooltip_1')).getAttribute('tooltip');
-    expect(toolTip).toBe(toolTip);
+    expect(toolTip).toBe(expectedTooltip);
 };
 
 module.exports = StepPage;

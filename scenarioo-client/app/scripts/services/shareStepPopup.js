@@ -34,7 +34,7 @@ angular.module('scenarioo.services').factory('ScShareStepPopup', function (local
             backdropFade: true
         });
 
-        modalInstance.result['finally'](function () {
+        modalInstance.result.finally(function () {
             modalIsCurrentlyOpen = false;
         });
     }
@@ -47,8 +47,8 @@ angular.module('scenarioo.services').factory('ScShareStepPopup', function (local
 
     var currentBrowserLocation = $location.absUrl();
 
-    $scope.pageUrl = (function() {
-        if(angular.isDefined(SharePageService.getPageUrl())) {
+    $scope.pageUrl = (function () {
+        if (angular.isDefined(SharePageService.getPageUrl())) {
             return SharePageService.getPageUrl();
         } else {
             return currentBrowserLocation;

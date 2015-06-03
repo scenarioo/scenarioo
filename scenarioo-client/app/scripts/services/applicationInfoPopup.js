@@ -49,7 +49,7 @@ angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function 
             backdropFade: true
         });
 
-        modalInstance.result['finally'](function () {
+        modalInstance.result.finally(function () {
             modalIsCurrentlyOpen = false;
         });
     }
