@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 /** Controller for Build-Details showing Import-Status **/
 angular.module('scenarioo.controllers').controller('BuildImportDetailsCtrl', function ($scope, $modalInstance, build, log, getStyleClassForBuildImportStatus) {
 
@@ -24,7 +22,7 @@ angular.module('scenarioo.controllers').controller('BuildImportDetailsCtrl', fun
     $scope.log = log;
     $scope.getStyleClassForBuildImportStatus = getStyleClassForBuildImportStatus;
 
-    $scope.hasImportMessage = function() {
+    $scope.hasImportMessage = function () {
         if (angular.isUndefined($scope.build.statusMessage)) {
             return false;
         }

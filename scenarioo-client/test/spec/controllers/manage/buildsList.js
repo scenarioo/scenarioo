@@ -19,7 +19,7 @@
 
 describe('Controller BuildsListCtrl', function () {
 
-    var $location, $httpBackend, HostnameAndPort, TestData, $scope, BuildsListCtrl;
+    var $location, $httpBackend, HostnameAndPort, TestData, $scope;
 
     beforeEach(module('scenarioo.controllers'));
 
@@ -35,7 +35,7 @@ describe('Controller BuildsListCtrl', function () {
 
             $httpBackend.whenGET(BUILD_IMPORT_STATES_URL).respond(TestData.BUILD_IMPORT_STATES);
 
-            BuildsListCtrl = $controller('BuildsListCtrl', {$scope: $scope, $modal: null });
+            $controller('BuildsListCtrl', {$scope: $scope, $modal: null });
         }
     ));
 

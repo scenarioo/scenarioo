@@ -17,10 +17,22 @@
 
 'use strict';
 
-beforeEach(function() {
-    this.addMatchers({
-        toEqualData: function(expect) {
-            return angular.equals(expect, this.actual);
+beforeEach(function () {
+
+
+    jasmine.addMatchers({
+        toEqualData: function () {
+            return {
+                compare: function (actual, expected) {
+
+                    var result = {
+                        pass: angular.equals(expected, actual)
+                    };
+
+                    result.message = result.pass ? 'something' : 'else';
+                    return result;
+                }
+            };
         }
     });
 });

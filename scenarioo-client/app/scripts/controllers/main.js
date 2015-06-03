@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 /**
  * The main controller is responsible to control the main tabs (some are static deifned, most are dynamically defined through custom tabs in configuration).
  *

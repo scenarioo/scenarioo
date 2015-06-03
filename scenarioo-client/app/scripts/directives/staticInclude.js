@@ -15,18 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 /**
  * Includes a template without creating a new scope like ng-include does.
  *
  * Code from Stackoverflow answer http://stackoverflow.com/a/17340138/581553
  */
-angular.module('scenarioo.directives').directive('scStaticInclude',  function($http, $templateCache, $compile) {
-    return function(scope, element, attributes) {
+angular.module('scenarioo.directives').directive('scStaticInclude', function ($http, $templateCache, $compile) {
+    return function (scope, element, attributes) {
         var templatePath = attributes.scStaticInclude;
 
-        $http.get(templatePath, {cache: $templateCache}).success(function(response) {
+        $http.get(templatePath, {cache: $templateCache}).success(function (response) {
             element.html(response);
             $compile(element.contents())(scope);
         });

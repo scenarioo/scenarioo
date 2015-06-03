@@ -30,8 +30,12 @@ describe('Service: ScApplicationInfoPopup', function () {
         $provide.value('ApplicationInfoCtrl', {});
     }));
 
-    var ScApplicationInfoPopup, localStorageService, $modal , dummyPromise = { result: {finally: function () {
-    }}};
+    var ScApplicationInfoPopup, localStorageService, $modal, dummyPromise = {
+        result: {
+            finally: function () {
+            }
+        }
+    };
     beforeEach(inject(function (_ScApplicationInfoPopup_, _localStorageService_, _$modal_) {
         ScApplicationInfoPopup = _ScApplicationInfoPopup_;
         localStorageService = _localStorageService_;
@@ -41,7 +45,7 @@ describe('Service: ScApplicationInfoPopup', function () {
     it('shows the application info popup on first visit of the app', function () {
         localStorageService.clearAll();
 
-        spyOn($modal, 'open').andReturn(dummyPromise);
+        spyOn($modal, 'open').and.returnValue(dummyPromise);
 
         ScApplicationInfoPopup.showApplicationInfoPopupIfRequired();
 
@@ -51,7 +55,7 @@ describe('Service: ScApplicationInfoPopup', function () {
     it('does not show the application info popup when the user returns to the app', function () {
         localStorageService.set(ScApplicationInfoPopup.PREVIOUSLY_VISITED_COOKIE_NAME, true);
 
-        spyOn($modal, 'open').andReturn(dummyPromise);
+        spyOn($modal, 'open').and.returnValue(dummyPromise);
 
         ScApplicationInfoPopup.showApplicationInfoPopupIfRequired();
 
@@ -59,7 +63,7 @@ describe('Service: ScApplicationInfoPopup', function () {
     });
 
     it('shows opens a modal dialog', function () {
-        spyOn($modal, 'open').andReturn(dummyPromise);
+        spyOn($modal, 'open').and.returnValue(dummyPromise);
 
         ScApplicationInfoPopup.showApplicationInfoPopup();
 
@@ -72,8 +76,7 @@ describe('Controller: ApplicationInfoCtrl', function () {
 
     beforeEach(module('scenarioo.controllers'));
 
-    var ApplicationInfoCtrl,
-        $scope,
+    var $scope,
         Config,
         $httpBackend,
         HostnameAndPort,
@@ -85,7 +88,7 @@ describe('Controller: ApplicationInfoCtrl', function () {
         $httpBackend = _$httpBackend_;
         HostnameAndPort = _HostnameAndPort_;
         TestData = _TestData_;
-        ApplicationInfoCtrl = $controller('ApplicationInfoCtrl', {
+        $controller('ApplicationInfoCtrl', {
             $scope: $scope,
             Config: ConfigMock,
             $modalInstance: null

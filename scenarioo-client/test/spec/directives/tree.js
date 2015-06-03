@@ -19,7 +19,7 @@
 
 describe('Directive :: scTree', function () {
 
-    var $scope, $compile, $httpBackend;
+    var $scope, $compile;
     var element;
 
     var TREE_DATA = {
@@ -38,12 +38,11 @@ describe('Directive :: scTree', function () {
 
     beforeEach(module('scenarioo.directives'));
 
-    beforeEach(inject(function ($rootScope, _$compile_, _$httpBackend_) {
+    beforeEach(inject(function ($rootScope, _$compile_) {
         $scope = $rootScope.$new();
         $rootScope.$apply();
 
         $compile = _$compile_;
-        $httpBackend = _$httpBackend_;
     }));
 
     it('knows the behaviour of isArray and isObject', function() {

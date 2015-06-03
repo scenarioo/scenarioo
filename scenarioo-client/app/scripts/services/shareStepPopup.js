@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.services').factory('ScShareStepPopup', function (localStorageService, $modal) {
 
     // This is required to avoid multiple popups (they could be opened using keyboard shortcuts)
@@ -36,7 +34,7 @@ angular.module('scenarioo.services').factory('ScShareStepPopup', function (local
             backdropFade: true
         });
 
-        modalInstance.result['finally'](function () {
+        modalInstance.result.finally(function () {
             modalIsCurrentlyOpen = false;
         });
     }
@@ -49,8 +47,8 @@ angular.module('scenarioo.services').factory('ScShareStepPopup', function (local
 
     var currentBrowserLocation = $location.absUrl();
 
-    $scope.pageUrl = (function() {
-        if(angular.isDefined(SharePageService.getPageUrl())) {
+    $scope.pageUrl = (function () {
+        if (angular.isDefined(SharePageService.getPageUrl())) {
             return SharePageService.getPageUrl();
         } else {
             return currentBrowserLocation;
