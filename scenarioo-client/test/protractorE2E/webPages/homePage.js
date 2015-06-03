@@ -15,7 +15,7 @@ function HomePage(overridePath) {
     this.stepView = element(by.css('table.usecase-table'));
     this.showMetaDataButton = element(by.id('sc-showHideDetailsButton-show'));
     this.hideMetaDataButton = element(by.id('sc-showHideDetailsButton-hide'));
-    this.metaDataPanel = element(by.id("sc-metadata-panel"));
+    this.metaDataPanel = element(by.id('sc-metadata-panel'));
 
 }
 
@@ -42,7 +42,7 @@ HomePage.prototype.closeScenariooInfoDialogIfOpen = function () {
         if(present) {
             element(by.css('.modal-footer button.btn')).click();
         }
-    })
+    });
 };
 
 HomePage.prototype.filterUseCases = function (filterQuery) {

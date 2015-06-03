@@ -19,7 +19,6 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
 
     var objectType = $routeParams.objectType;
     var objectName = $routeParams.objectName;
-    var selectedBranchAndBuild;
 
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
 
@@ -42,7 +41,6 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
     SelectedBranchAndBuild.callOnSelectionChange(loadReferenceTree);
 
     function loadReferenceTree(selected) {
-        selectedBranchAndBuild = selected;
 
         // Get all references for given object
         ObjectIndexListResource.get(
@@ -92,13 +90,13 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
 
         if (navElement.objectType === objType.scenario || navElement.objectType === objType.usecase) {
             locationPath = navElement.navigationType + '/' + navElement.useCaseName +
-                '/' + navElement.scenarioName;
+            '/' + navElement.scenarioName;
         } else if (navElement.objectType === objType.page) {
             locationPath += 'object/page/' + navElement.pageName;
         } else if (navElement.objectType === objType.step) {
             locationPath += 'step/' + navElement.useCaseName + '/' + navElement.scenarioName +
-                '/' + navElement.pageName + '/' +
-                navElement.pageOccurrence + '/' + navElement.stepInPageOccurrence;
+            '/' + navElement.pageName + '/' +
+            navElement.pageOccurrence + '/' + navElement.stepInPageOccurrence;
         } else if (navElement.objectType === objType.object) {
             locationPath += 'object/' + navElement.navigationType + '/' + navElement.navigationName;
         }
@@ -129,26 +127,26 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
     function populateNavigationElementRecursively(navigationElement, node, isClickedNode) {
         if (angular.isDefined(node)) {
             switch (node.type) {
-            case 'usecase':
-                setCommonNavigationElementFields(navigationElement, node, objType.usecase, isClickedNode);
-                navigationElement.useCaseName = node.name;
-                break;
-            case 'scenario':
-                setCommonNavigationElementFields(navigationElement, node, objType.scenario, isClickedNode);
-                navigationElement.scenarioName = node.name;
-                break;
-            case 'page':
-                setCommonNavigationElementFields(navigationElement, node, objType.page, isClickedNode);
-                navigationElement.pageName = node.name;
-                break;
-            case 'step':
-                setCommonNavigationElementFields(navigationElement, node, objType.step, isClickedNode);
-                navigationElement.stepIdentifier = node.name;
-                break;
-            default:
-                // Any other object (reference tree will not hierarchically traversed up-to root)
-                setCommonNavigationElementFields(navigationElement, node, objType.object, isClickedNode);
-                return;
+                case 'usecase':
+                    setCommonNavigationElementFields(navigationElement, node, objType.usecase, isClickedNode);
+                    navigationElement.useCaseName = node.name;
+                    break;
+                case 'scenario':
+                    setCommonNavigationElementFields(navigationElement, node, objType.scenario, isClickedNode);
+                    navigationElement.scenarioName = node.name;
+                    break;
+                case 'page':
+                    setCommonNavigationElementFields(navigationElement, node, objType.page, isClickedNode);
+                    navigationElement.pageName = node.name;
+                    break;
+                case 'step':
+                    setCommonNavigationElementFields(navigationElement, node, objType.step, isClickedNode);
+                    navigationElement.stepIdentifier = node.name;
+                    break;
+                default:
+                    // Any other object (reference tree will not hierarchically traversed up-to root)
+                    setCommonNavigationElementFields(navigationElement, node, objType.object, isClickedNode);
+                    return;
             }
         }
 
@@ -159,13 +157,13 @@ angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function
         }
     }
 
-    function setCommonNavigationElementFields(navigationElement, childNode, objectType, isClickedNode) {
+    function setCommonNavigationElementFields(navigationElement, childNode, navElementObjectType, isClickedNode) {
         if (!isClickedNode) {
             return;
         }
         navigationElement.navigationType = childNode.type;
         navigationElement.navigationName = childNode.name;
-        navigationElement.objectType = objectType;
+        navigationElement.objectType = navElementObjectType;
     }
 
     $scope.expandAndCollapseTree = function (treemodel) {

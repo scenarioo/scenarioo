@@ -23,7 +23,7 @@ describe('Controller :: useCase', function () {
         BUILD = 'build_123',
         USE_CASE = 'LogIn';
 
-    var $scope, routeParams, configMock, controller, ScenarioResource, SelectedBranchAndBuild, $location, $httpBackend, HostnameAndPort;
+    var $scope, routeParams, controller, ScenarioResource, SelectedBranchAndBuild, $location, $httpBackend, HostnameAndPort;
 
     beforeEach(module('scenarioo.controllers'));
 
@@ -32,7 +32,6 @@ describe('Controller :: useCase', function () {
             $scope = $rootScope.$new();
             routeParams = $routeParams;
             routeParams.useCaseName = USE_CASE;
-            configMock = ConfigMock;
             ScenarioResource = _ScenarioResource_;
             SelectedBranchAndBuild = _SelectedBranchAndBuild_;
             $location = _$location_;

@@ -16,7 +16,7 @@ BaseWebPage.prototype.assertRoute = function (expectedUrl) {
 };
 
 
-BaseWebPage.prototype.clickBrowserBackButton = function (rowNumberWithoutHeader) {
+BaseWebPage.prototype.clickBrowserBackButton = function () {
     e2eUtils.clickBrowserBackButton();
 };
 

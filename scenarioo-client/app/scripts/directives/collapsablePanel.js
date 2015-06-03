@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scCollapsablePanel', function(localStorageService) {
+angular.module('scenarioo.directives').directive('scCollapsablePanel', function (localStorageService) {
 
     var MAIN_METADATA_SECTION_EXPANDED = 'scenarioo-panelExpanded-';
+
     function initMetadataVisibilityAndExpandedSections(key) {
 
         // Set special metadata to expanded by default.
@@ -38,12 +39,12 @@ angular.module('scenarioo.directives').directive('scCollapsablePanel', function(
             initiallyExpanded: '@',
             panelIndex: '@'
         },
-        link: function(scope) {
+        link: function (scope) {
             if (scope.initiallyExpanded === 'true') {
                 initMetadataVisibilityAndExpandedSections(scope.key);
             }
         },
-        controller: function($scope, localStorageService) {
+        controller: function ($scope) {
             $scope.isMetadataExpanded = function (type) {
                 var metadataExpanded = localStorageService.get(MAIN_METADATA_SECTION_EXPANDED + type);
                 if (metadataExpanded === 'true') {

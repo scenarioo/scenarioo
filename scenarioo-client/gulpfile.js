@@ -1,8 +1,9 @@
-'use strict';
+/*eslint-env node */
 
 var gulp = require('gulp'),
     del = require('del'),
     fs = require('fs'),
+    eslint = require('gulp-eslint'),
     usemin = require('gulp-usemin'),
     _ = require('lodash'),
     gulpUtil = require('gulp-util'),
@@ -21,6 +22,7 @@ var files = {
     images: ['./app/images/**/*'],
     css: ['./app/styles/**/*.css'],
     sources: ['./app/scripts/**/*.js'],
+    tests: ['./test/**/*.js'],
     less: ['./app/styles/*.less']
 };
 
@@ -34,6 +36,18 @@ gulp.task('serve', ['environmentConstants', 'watch'], function () {
         port: 9000
     });
 });
+
+
+/**
+ * lint our sources with ESLint (http://eslint.org/)
+ */
+gulp.task('lint', function () {
+    return gulp.src(_.flatten([files.sources, files.tests, 'gulpfile.js']))
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
+});
+
 
 /**
  * will serve the dist folder on port 9000.
@@ -160,6 +174,6 @@ gulp.task('copyAssets', ['environmentConstants', 'cleanDist', 'usemin', 'less'],
     gulp.src(['./app/components/bootstrap/dist/fonts/*']).pipe(gulp.dest('./dist/fonts'));
 });
 
-gulp.task('build', ['test', 'cleanDist', 'copyAssets']);
+gulp.task('build', ['lint', 'test', 'cleanDist', 'copyAssets']);
 
 gulp.task('default', ['build']);

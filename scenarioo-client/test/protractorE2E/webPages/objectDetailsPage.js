@@ -1,6 +1,7 @@
 'use strict';
 
-var e2eUtils = require('../util/util.js'), BaseWebPage = require('./baseWebPage.js'), util = require('util');
+var BaseWebPage = require('./baseWebPage.js'),
+    util = require('util');
 
 function ObjectDetailsPage(overridePath) {
     if (overridePath && overridePath.length > 0) {

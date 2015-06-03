@@ -1,6 +1,7 @@
 'use strict';
 
-var e2eUtils = require('../util/util.js'), BaseWebPage = require('./baseWebPage.js'), util = require('util');
+var BaseWebPage = require('./baseWebPage.js'),
+    util = require('util');
 
 function LabelConfigurationsPage(overridePath) {
     if (overridePath && overridePath.length > 0) {
@@ -20,13 +21,13 @@ util.inherits(LabelConfigurationsPage, BaseWebPage);
 LabelConfigurationsPage.prototype.assertNumConfigurations = function(expectedCount) {
     this.labelConfigurationsTable.all(by.css('tbody tr')).then(function (elements) {
         // -1 due to empty row
-        expect(elements.length -1).toBe(expectedCount);
+        expect(elements.length - 1).toBe(expectedCount);
     });
 };
 
 LabelConfigurationsPage.prototype.addLabelConfiguration = function(labelName, colorIndex) {
     this.labelConfigurationsTable.all(by.css('tbody tr')).then(function(elements) {
-        var lastRow = elements[elements.length-1];
+        var lastRow = elements[elements.length - 1];
         var labelNameField = lastRow.element(by.css('input[name="labelName"]'));
         lastRow.all(by.css('ul li span')).then(function(colors) {
             colors[colorIndex].click();
