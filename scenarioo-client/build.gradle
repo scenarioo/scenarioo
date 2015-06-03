@@ -31,7 +31,7 @@ task bower(type: Exec) {
 
 
 task gulp(type: Exec) {
-  commandLine = ["gulp", "build"]
+  commandLine = ["gulp", "build", "--production"]
   inputs.file "gulpfile.js"
 }
 
