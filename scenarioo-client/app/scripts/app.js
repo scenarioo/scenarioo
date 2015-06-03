@@ -33,6 +33,7 @@ angular.module('scenarioo', ['scenarioo.controllers','ui.bootstrap'])
         .when('/', {
             templateUrl: 'views/main.html',
             controller: 'MainCtrl',
+            controllerAs:'main',
             breadcrumbId: 'main'
         })
         .when('/manage', {
