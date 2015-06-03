@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 /** Controller for Build-Details showing Import-Status **/
 angular.module('scenarioo.controllers').controller('BuildImportDetailsCtrl', function ($scope, $modalInstance, build, log, getStyleClassForBuildImportStatus) {
 

@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function (localStorageService, $modal) {
 
     var PREVIOUSLY_VISITED_COOKIE_NAME = 'scenariooPreviouslyVisited';

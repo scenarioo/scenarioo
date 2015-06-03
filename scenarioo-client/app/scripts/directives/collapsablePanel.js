@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.directives').directive('scCollapsablePanel', function(localStorageService) {
 
     var MAIN_METADATA_SECTION_EXPANDED = 'scenarioo-panelExpanded-';

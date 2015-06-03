@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 /*
     Waits for given milliseconds before entered filter criteria will be applied
  */

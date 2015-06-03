@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.filters').filter('scDateOnly', function ($filter) {
 
     var DATE_FILTER = $filter('date');

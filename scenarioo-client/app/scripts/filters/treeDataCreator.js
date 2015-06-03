@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 /**
  * Transforms any nested object and array structure into a tree structure that can be used by our tree directive.
  */
