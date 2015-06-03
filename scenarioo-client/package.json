@@ -10,6 +10,7 @@
     "gulp-connect": "^2.2.0",
     "gulp-less": "^3.0.3",
     "gulp-protractor": "^1.0.0",
+    "gulp-util": "^3.0.5",
     "jasmine-core": "^2.3.4",
     "js2coffee": "~0.3.0",
     "jshint": "~2.5.1",
@@ -17,6 +18,7 @@
     "karma-jasmine": "^0.3.5",
     "karma-junit-reporter": "^0.2.2",
     "karma-phantomjs-launcher": "^0.2.0",
+    "lodash": "^3.9.3",
     "matchdep": "~0.1.1",
     "phantomjs": "^1.9.17",
     "scenarioo-js": "0.1.6"
