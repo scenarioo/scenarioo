@@ -79,7 +79,7 @@ gulp.task('less', function () {
         .pipe(gulp.dest('./app/styles/'));
 });
 
-gulp.task('test', function (done) {
+gulp.task('test', ['environmentConstants'], function (done) {
     karma.start({
         configFile: path.join(__dirname, 'karma.conf.js'),
         singleRun: true

@@ -31,6 +31,7 @@ describe('Service :: restServices', function () {
         beforeEach(function () {
             module(function ($provide) {
                 $provide.constant('ENV', 'development');
+                $provide.constant('BASE_URL', 'http://localhost:8080/scenarioo/');
             });
         });
 
