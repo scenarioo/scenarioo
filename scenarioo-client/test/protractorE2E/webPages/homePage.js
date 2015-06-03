@@ -51,13 +51,13 @@ HomePage.prototype.filterUseCases = function (filterQuery) {
 };
 
 HomePage.prototype.assertUseCasesShown = function (count) {
-    this.stepView.findElements(by.css('tbody tr')).then(function (elements) {
+    this.stepView.all(by.css('tbody tr')).then(function (elements) {
         expect(elements.length).toBe(count);
     });
 };
 
 HomePage.prototype.selectUseCase = function(useCaseIndex) {
-    this.stepView.findElements(by.css('tbody tr')).then(function(elements) {
+    this.stepView.all(by.css('tbody tr')).then(function(elements) {
         elements[useCaseIndex].click();
     });
 };

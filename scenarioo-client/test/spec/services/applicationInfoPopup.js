@@ -41,7 +41,7 @@ describe('Service: ScApplicationInfoPopup', function () {
     it('shows the application info popup on first visit of the app', function () {
         localStorageService.clearAll();
 
-        spyOn($modal, 'open').andReturn(dummyPromise);
+        spyOn($modal, 'open').and.returnValue(dummyPromise);
 
         ScApplicationInfoPopup.showApplicationInfoPopupIfRequired();
 
@@ -51,7 +51,7 @@ describe('Service: ScApplicationInfoPopup', function () {
     it('does not show the application info popup when the user returns to the app', function () {
         localStorageService.set(ScApplicationInfoPopup.PREVIOUSLY_VISITED_COOKIE_NAME, true);
 
-        spyOn($modal, 'open').andReturn(dummyPromise);
+        spyOn($modal, 'open').and.returnValue(dummyPromise);
 
         ScApplicationInfoPopup.showApplicationInfoPopupIfRequired();
 
@@ -59,7 +59,7 @@ describe('Service: ScApplicationInfoPopup', function () {
     });
 
     it('shows opens a modal dialog', function () {
-        spyOn($modal, 'open').andReturn(dummyPromise);
+        spyOn($modal, 'open').and.returnValue(dummyPromise);
 
         ScApplicationInfoPopup.showApplicationInfoPopup();
 

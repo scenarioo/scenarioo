@@ -16,7 +16,7 @@ function UsecasePage(overridePath) {
 util.inherits(UsecasePage, BaseWebPage);
 
 UsecasePage.prototype.selectScenario = function(scenarioIndex) {
-    this.stepView.findElements(by.css('tbody tr')).then(function(elements) {
+    this.stepView.all(by.css('tbody tr')).then(function(elements) {
         elements[scenarioIndex].click();
     });
 };

@@ -51,7 +51,7 @@ describe('Controller :: useCase', function () {
     ));
 
     it('should load all scenarios and and the selected use case', function () {
-        spyOn(ScenarioResource, 'get').andCallFake(getFindAllScenariosFake());
+        spyOn(ScenarioResource, 'get').and.callFake(getFindAllScenariosFake());
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/labelconfigurations').respond({});
 
         expect(SelectedBranchAndBuild.selected().branch).toBeUndefined();

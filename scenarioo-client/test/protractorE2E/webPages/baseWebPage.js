@@ -21,15 +21,12 @@ BaseWebPage.prototype.clickBrowserBackButton = function (rowNumberWithoutHeader)
 };
 
 BaseWebPage.prototype.assertElementIsEnabled = function(elementId) {
-    this.stepNavigation.findElement(by.id(elementId)).then(function(element) {
-        expect(element.isEnabled());
-    });
+    var htmlElement = this.stepNavigation.element(by.id(elementId));
+    expect(htmlElement.isEnabled());
 };
 
 BaseWebPage.prototype.assertElementIsDisabled = function(elementId) {
-    this.stepNavigation.findElement(by.id(elementId)).then(function(element) {
-        expect(element.isDisabled);
-    });
+    expect(this.stepNavigation.element(by.id(elementId)).isEnabled()).toBeFalsy();
 };
 
 BaseWebPage.prototype.clickElementById = function(elementId) {

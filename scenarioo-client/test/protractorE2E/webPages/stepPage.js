@@ -104,7 +104,9 @@ StepPage.prototype.clickShareThisPageLink = function() {
 };
 
 StepPage.prototype.assertStepLinksDialogVisible = function() {
-    expect(element(by.id('stepLinksDialog')).isDisplayed()).toBeTruthy();
+    browser.wait(function() {
+        return  element(by.id('stepLinksDialog')).isDisplayed();
+    }, 10000);
 };
 
 StepPage.prototype.assertPageVariantIndicatorValue = function(value) {
@@ -124,15 +126,11 @@ StepPage.prototype.openMetadataTabIfClosed = function(index) {
 };
 
 StepPage.prototype.clickOnLink= function(linkId) {
-    var ptor = protractor.getInstance();
-    ptor.findElement(by.id(linkId)).then(function (element) {
-        ptor.actions().click(element).perform();
-    });
+    element(by.id(linkId)).click();
 };
 
 StepPage.prototype.assertToolTipInBreadcrumb = function(toolTip) {
-    var ptor = protractor.getInstance();
-    var toolTip = ptor.findElement(by.id('tooltip_1')).getAttribute('tooltip');
+    var toolTip = element(by.id('tooltip_1')).getAttribute('tooltip');
     expect(toolTip).toBe(toolTip);
 };
 

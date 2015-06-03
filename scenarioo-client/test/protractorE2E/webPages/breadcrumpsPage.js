@@ -15,19 +15,16 @@ function BreadcrumpPage(overridePath) {
 util.inherits(BreadcrumpPage, BaseWebPage);
 
 BreadcrumpPage.prototype.clickOnBreadcrumb = function(breadcrumpId) {
-    var useCaseElement =  this.breadcrumbs.findElement(by.id(breadcrumpId));
-    var ptor = protractor.getInstance();
-
-    ptor.actions().click(useCaseElement).perform();
+    this.breadcrumbs.element(by.id(breadcrumpId)).click();
 };
 
 BreadcrumpPage.prototype.assertUseCaseNameInBreadcrumb = function(breadcrumpId, useCaseName) {
-    var useCaseElement =  this.breadcrumbs.findElement(by.id(breadcrumpId));
+    var useCaseElement =  this.breadcrumbs.element(by.id(breadcrumpId));
     expect(useCaseElement.getText()).toContain(useCaseName);
 };
 
 BreadcrumpPage.prototype.assertThatTooltipIsShown = function(toolTipId, toolTipText){
-    var toolTipElement =  this.breadcrumbs.findElement(by.id(toolTipId));
+    var toolTipElement =  this.breadcrumbs.element(by.id(toolTipId));
     var toolTipAttribute = toolTipElement.getAttribute('tooltip');
 
     expect(toolTipAttribute).toBe(toolTipText);
