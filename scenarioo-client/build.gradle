@@ -1,27 +1,26 @@
 /* scenarioo-client
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 import org.gradle.api.tasks.Exec
 import org.apache.tools.ant.taskdefs.condition.Os
 
 apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'node'
-apply plugin: 'grunt'
 
 task bower(type: Exec) {
   group ="Build"
@@ -31,19 +30,13 @@ task bower(type: Exec) {
 }
 
 
-clean.dependsOn grunt_clean
-// runs "grunt build" as part of your gradle build
-build.dependsOn grunt_build
-war.dependsOn grunt_build
+task gulp(type: Exec) {
+  commandLine = ["gulp", "build"]
+  inputs.file "gulpfile.js"
+}
 
+build.dependsOn gulp
+war.dependsOn gulp
+gulp.dependsOn bower
 bower.dependsOn npmInstall
-  
-grunt_build.dependsOn bower
-
-// makes sure on each build that grunt is installed
-installGrunt.dependsOn 'npmInstall'
-grunt_clean.dependsOn 'installGrunt'
-grunt_build.dependsOn 'installGrunt'
-
-// processes your package.json before running grunt build
-grunt_build.dependsOn 'npmInstall'
+gulp.dependsOn npmInstall
