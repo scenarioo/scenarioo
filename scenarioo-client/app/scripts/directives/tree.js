@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.directives').directive('scTree', function ($sce) {
 
     var ITEM = 'Item';

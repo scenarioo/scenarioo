@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams,
     $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, Config, PagesAndSteps, LabelConfigurationsResource) {
 

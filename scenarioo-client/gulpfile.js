@@ -1,9 +1,11 @@
 'use strict';
 
 var gulp = require('gulp'),
+    del = require('del'),
     fs = require('fs'),
     _ = require('lodash'),
     gulpUtil = require('gulp-util'),
+    wrap = require('gulp-wrap'),
     connect = require('gulp-connect'),
     less = require('gulp-less'),
     karma = require('karma').server,
@@ -79,7 +81,7 @@ gulp.task('environmentConstants', function (done) {
     var environments = require('./environments.json');
     var selectedEnvironment = gulpUtil.env.production ? 'production' : 'development';
 
-    var angularConfigFileContent = '\'use strict\';\n';
+    var angularConfigFileContent = '';
 
     angularConfigFileContent += '// this file is written by a gulp task. configuration is done in environments.json\n';
     angularConfigFileContent += 'angular.module(\'scenarioo.config\', [])\n';
@@ -93,4 +95,24 @@ gulp.task('environmentConstants', function (done) {
 
     fs.writeFile('./app/scripts/environment_config.js', angularConfigFileContent, done);
 
+});
+
+
+gulp.task('cleanDist', function (done) {
+    del('./dist/*', done);
+});
+
+gulp.task('cleanTemp', function (done) {
+    del('./.tmp/*', done);
+});
+
+/**
+ * Wraps all js sources with IIFE and adds 'use strict';
+ *
+ * Writes wrapped files into .tmp dir
+ */
+gulp.task('IIFE', ['cleanTemp'], function () {
+    return gulp.src('app/scripts/**/*.js')
+        .pipe(wrap('(function(){\n\'use strict\';\n <%= contents %> }());\n'))
+        .pipe(gulp.dest('.tmp/wrappedScripts'));
 });

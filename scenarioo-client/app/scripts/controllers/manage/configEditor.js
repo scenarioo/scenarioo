@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.controllers').controller('ConfigEditorCtrl', function ($scope, BranchesResource, Config) {
 
     BranchesResource.query({}, function(branches) {
