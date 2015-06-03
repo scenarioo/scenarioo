@@ -48,10 +48,11 @@ describe('Service :: restServices', function () {
         beforeEach(function () {
             module(function ($provide) {
                 $provide.constant('ENV', 'production');
+                $provide.constant('BASE_URL', '');
             });
         });
 
-        it('should resolve the host name to relative host', inject(function (HostnameAndPort, $location) {
+        it('should resolve the host name to relative host', inject(function (HostnameAndPort) {
             expect(HostnameAndPort.forNgResource()).toBe('');
             expect(HostnameAndPort.forTest()).toBe('');
             expect(HostnameAndPort.forLink()).toBe('');
