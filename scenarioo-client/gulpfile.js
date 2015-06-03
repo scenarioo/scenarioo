@@ -3,6 +3,7 @@
 var gulp = require('gulp'),
     del = require('del'),
     fs = require('fs'),
+    usemin = require('gulp-usemin'),
     _ = require('lodash'),
     gulpUtil = require('gulp-util'),
     wrap = require('gulp-wrap'),
@@ -10,13 +11,22 @@ var gulp = require('gulp'),
     less = require('gulp-less'),
     karma = require('karma').server,
     path = require('path'),
+    ngAnnotate = require('gulp-ng-annotate'),
+    uglify = require('gulp-uglify'),
     protractor = require('gulp-protractor').protractor;
 
 var files = {
-    served: ['./app/index.html', './app/template/**/*.html', './app/views/**/*.html', './app/scripts.js', './app/*.css'],
+    templates: ['./app/template/**/*.html'],
+    views: ['./app/views/**/*.html'],
+    images: ['./app/images/**/*'],
+    css: ['./app/styles/**/*.css'],
+    sources: ['./app/scripts/**/*.js'],
     less: ['./app/styles/*.less']
 };
 
+/**
+ *
+ */
 gulp.task('serve', ['environmentConstants', 'watch'], function () {
     connect.server({
         root: 'app',
@@ -25,13 +35,25 @@ gulp.task('serve', ['environmentConstants', 'watch'], function () {
     });
 });
 
+/**
+ * will serve the dist folder on port 9000.
+ * Use this to test your built jetpack client.
+ */
+gulp.task('serveDist', ['build'], function () {
+    connect.server({
+        root: 'dist',
+        livereload: true,
+        port: 9000
+    });
+});
+
 gulp.task('watch', function () {
-    gulp.watch(files.served, ['file-reload']);
+    gulp.watch(files.css, files.templates, files.views, files.sources, ['file-reload']);
     gulp.watch(files.less, ['less', 'file-reload']);
 });
 
 gulp.task('file-reload', function () {
-    gulp.src(files.served, files.less)
+    gulp.src(files.css, files.templates, files.views, files.sources, files.less)
         .pipe(connect.reload());
 });
 
@@ -99,20 +121,45 @@ gulp.task('environmentConstants', function (done) {
 
 
 gulp.task('cleanDist', function (done) {
-    del('./dist/*', done);
+    del('./dist', done);
 });
 
-gulp.task('cleanTemp', function (done) {
-    del('./.tmp/*', done);
+
+/**
+ *  Wraps given files (pipe) with IIFE and adds 'use strict';
+ */
+function wrapWithIIFE() {
+    return wrap('(function(){\n\'use strict\';\n <%= contents %> }());\n');
+}
+
+gulp.task('usemin', ['cleanDist'], function () {
+    return gulp.src('./app/index.html')
+        .pipe(usemin({
+            sources: [wrapWithIIFE(), 'concat', ngAnnotate(), uglify()],
+            vendor: [uglify({
+                mangle: false
+            }), 'concat'],
+            vendorcss: []
+        }))
+        .pipe(gulp.dest('./dist/'));
 });
 
 /**
- * Wraps all js sources with IIFE and adds 'use strict';
- *
- * Writes wrapped files into .tmp dir
+ * Copies all required files from the 'app' folder to the 'dist' folder.
  */
-gulp.task('IIFE', ['cleanTemp'], function () {
-    return gulp.src('app/scripts/**/*.js')
-        .pipe(wrap('(function(){\n\'use strict\';\n <%= contents %> }());\n'))
-        .pipe(gulp.dest('.tmp/wrappedScripts'));
+gulp.task('copyAssets', ['environmentConstants', 'cleanDist', 'usemin', 'less'], function () {
+    /* copy own images, styles, and templates */
+    gulp.src(files.images).pipe(gulp.dest('./dist/images'));
+    gulp.src(files.css).pipe(gulp.dest('./dist/styles'));
+    gulp.src(files.templates).pipe(gulp.dest('./dist/template'));
+    gulp.src(files.views).pipe(gulp.dest('./dist/views'));
+    gulp.src('./app/favicon.ico').pipe(gulp.dest('./dist/'));
+
+    /* copy third party files */
+    gulp.src(['./app/components/font-awesome/font/*']).pipe(gulp.dest('./dist/font'));
+    gulp.src(['./app/components/bootstrap/dist/fonts/*']).pipe(gulp.dest('./dist/fonts'));
 });
+
+gulp.task('build', ['test', 'cleanDist', 'copyAssets']);
+
+gulp.task('default', ['build']);
