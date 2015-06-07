@@ -18,17 +18,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div ng-controller="MainUseCasesTabCtrl">
 
     <div class="row sc-space-top sc-space-bottom">
-        <div class="col-lg-3">
+        <div class="col-sm-8">
             <div class="input-group">
                 <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="useCasesSearchField"
                        data-toggle="tooltip" title="type words separated by spaces to search for"
-                       ng-model="table.search.searchTerm" placeholder="Search use case ..."/>
+                       ng-model="table.search.searchTerm" placeholder="Search in use cases..."/>
                     <span class="input-group-btn">
                         <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
                     </span>
             </div>
         </div>
-        <div class="col-lg-9 ">
+        <div class="col-sm-4">
             <sc-meta-data-button class="pull-right" linking-variable="mainShowMetadata" local-storage-key="main" ></sc-meta-data-button>
         </div>
     </div>
@@ -36,7 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <sc-meta-data-panel linking-variable="mainShowMetadata">
         <div>
             <!-- use cases table -->
-            <table class="table table-curved table-hover table-responsive usecase-table" sc-navigator-table="filtered"  >
+            <table class="table table-curved table-hover table-responsive usecase-table" sc-navigator-table="filtered" sc-navigator-table-hit="onNavigatorTableHit" >
                 <thead>
                     <tr>
                         <th sc-sortable-column="status">Status</th>

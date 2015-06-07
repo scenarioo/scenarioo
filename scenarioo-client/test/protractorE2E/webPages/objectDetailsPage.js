@@ -1,6 +1,7 @@
 'use strict';
 
-var e2eUtils = require('../util/util.js'), BaseWebPage = require('./baseWebPage.js'), util = require('util');
+var BaseWebPage = require('./baseWebPage.js'),
+    util = require('util');
 
 function ObjectDetailsPage(overridePath) {
     if (overridePath && overridePath.length > 0) {
@@ -15,78 +16,70 @@ function ObjectDetailsPage(overridePath) {
 util.inherits(ObjectDetailsPage, BaseWebPage);
 
 ObjectDetailsPage.prototype.clickNthTreeTableRow = function (rowNumberWithoutHeader) {
-    this.objectDetailsPage.findElements(by.css('tbody tr')).then(function(elements) {
+    this.objectDetailsPage.all(by.css('tbody tr')).then(function(elements) {
         var nthRow = elements[rowNumberWithoutHeader + 1]; // + 1 because 0th row is the header
-        var link = nthRow.findElement(by.css('span'));
+        var link = nthRow.element(by.css('span'));
         link.click();
     });
 };
 
 ObjectDetailsPage.prototype.clickToExpand = function (nodeId) {
-    var element = this.objectDetailsPage.findElement(by.id('node_' + nodeId));
+    var node = this.objectDetailsPage.element(by.id('node_' + nodeId));
     var imageId = 'img_' + nodeId;
-    expect(element.isDisplayed()).toBe(true);
+    expect(node.isDisplayed()).toBe(true);
 
-    var imageElement = element.findElement(by.id(imageId));
+    var imageElement = node.element(by.id(imageId));
     imageElement.click();
 };
 
 ObjectDetailsPage.prototype.assertTreeNodeStatus = function (nodeId, status) {
-    var element = this.objectDetailsPage.findElement(by.id('node_' + nodeId));
-    var ptor = protractor.getInstance();
+    var node = this.objectDetailsPage.element(by.id('node_' + nodeId));
     var imageId = 'img_' + nodeId;
-    expect(element.getText()).not.toBe(null);
-    expect(element.isDisplayed()).toBe(true);
+    expect(node.getText()).not.toBe(null);
+    expect(node.isDisplayed()).toBe(true);
 
-    ptor.findElement(protractor.By.tagName('tbody')).findElements(protractor.By.tagName('tr')).then(function(rows){
+    element(protractor.By.tagName('tbody')).all(protractor.By.tagName('tr')).then(function(rows){
         expect(rows.length).toBe(27);
     });
 
-    var imageElement = element.findElement(by.id(imageId));
+    var imageElement = node.element(by.id(imageId));
     var imgAttribute = imageElement.getAttribute('src');
     expect(imgAttribute).toBe(browser.params.baseUrl + '/images/' + status + '.png');
 };
 
 ObjectDetailsPage.prototype.enterSearchCriteria = function(searchCriteria) {
-    var ptor = protractor.getInstance();
-    ptor.findElement(by.name('searchCriteria')).then(function(searchField) {
-        searchField.sendKeys(searchCriteria);
-    });
+    var searchField = element(by.name('searchCriteria'));
+    searchField.sendKeys(searchCriteria);
 
-    var matchElement = this.objectDetailsPage.findElement(by.id('node_' + '4'));
+    var matchElement = this.objectDetailsPage.element(by.id('node_' + '4'));
     expect(matchElement.getText()).toContain('multiple results');
     expect(matchElement.isDisplayed()).toBeTruthy();
 };
 
 ObjectDetailsPage.prototype.resetSearchCriteriaWithEsc = function() {
-    var ptor = protractor.getInstance();
-    ptor.actions().sendKeys(protractor.Key.ESCAPE).perform();
+    var searchField = element(by.name('searchCriteria'));
+    searchField.sendKeys(protractor.Key.ESCAPE);
 };
 
 ObjectDetailsPage.prototype.clickCollapseAll = function() {
-    var ptor = protractor.getInstance();
-    ptor.findElement(by.id('toggleButton')).then(function (element) {
-        element.click();
-        expect(element.getText()).toContain('expand all');
-    });
+    var toggleButton = element(by.id('toggleButton'));
+    toggleButton.click();
+    expect(toggleButton.getText()).toContain('expand all');
 };
 
 ObjectDetailsPage.prototype.doubleClickOnNode = function(nodeId) {
-    var element = this.objectDetailsPage.findElement(by.id('node_' + nodeId));
-    var ptor = protractor.getInstance();
+    var node = this.objectDetailsPage.element(by.id('node_' + nodeId));
     var imageId = 'img_' + nodeId;
-    var imageElement = element.findElement(by.id(imageId));
+    var imageElement = node.element(by.id(imageId));
 
     imageElement.click();
-    ptor.actions().doubleClick(imageElement).perform();
+    browser.actions().doubleClick(imageElement).perform();
 };
 
 ObjectDetailsPage.prototype.assertTreeNodeIsDisplayed = function(nodeId) {
-    var ptor = protractor.getInstance();
-    ptor.findElement(by.id('node_' + nodeId)).then(function (element) {
-        expect(element.isDisplayed()).toBeTruthy();
-        expect(element.getText()).not.toBe(null);
-    });
+    var node = element(by.id('node_' + nodeId));
+    expect(node.isDisplayed()).toBeTruthy();
+    expect(node.getText()).not.toBe(null);
 };
 
 module.exports = ObjectDetailsPage;

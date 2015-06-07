@@ -15,26 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function () {
 
     var ITEM = 'Item';
 
     function optimizeChildNodes(node, operation) {
-        if(angular.isUndefined(node.childNodes)) {
+        if (angular.isUndefined(node.childNodes)) {
             return;
         }
 
         var modifiedChildNodes = [];
 
-        angular.forEach(node.childNodes, function(childNode) {
+        angular.forEach(node.childNodes, function (childNode) {
             operation(childNode, modifiedChildNodes);
         });
 
         node.childNodes = modifiedChildNodes;
 
-        angular.forEach(node.childNodes, function(childNode) {
+        angular.forEach(node.childNodes, function (childNode) {
             optimizeChildNodes(childNode, operation);
         });
     }
@@ -62,8 +60,8 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function () {
 //    }
 
     function pullUpChildrenOfDetailsNodes(childNode, modifiedChildNodes) {
-        if(isDetailsNode(childNode)) {
-            angular.forEach(childNode.childNodes, function(grandChildNode) {
+        if (isDetailsNode(childNode)) {
+            angular.forEach(childNode.childNodes, function (grandChildNode) {
                 modifiedChildNodes.push(grandChildNode);
             });
         } else {
@@ -78,11 +76,11 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function () {
     function optimizeNodes(node, operation) {
         operation(node);
 
-        if(angular.isUndefined(node.childNodes)) {
+        if (angular.isUndefined(node.childNodes)) {
             return;
         }
 
-        angular.forEach(node.childNodes, function(childNode) {
+        angular.forEach(node.childNodes, function (childNode) {
             optimizeNodes(childNode, operation);
         });
     }
@@ -90,7 +88,7 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function () {
     function pullUpTypeToReplaceNodeLabel(node) {
         var childNode = getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'type');
 
-        if(angular.isUndefined(childNode)) {
+        if (angular.isUndefined(childNode)) {
             return;
         }
 
@@ -101,19 +99,19 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function () {
     function moveChildrenChildNodeBehindOthers(node) {
         var childrenNode = getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'children');
 
-        if(angular.isDefined(childrenNode)) {
+        if (angular.isDefined(childrenNode)) {
             addNodeToChildNodesAfterAllOthers(node, childrenNode);
         }
     }
 
     function pullUpNameToReplaceEmptyNodeLabel(node) {
-        if(angular.isString(node.nodeLabel) && node.nodeLabel !== '') {
+        if (angular.isString(node.nodeLabel) && node.nodeLabel !== '') {
             return;
         }
 
         var childNode = getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'name');
 
-        if(angular.isUndefined(childNode)) {
+        if (angular.isUndefined(childNode)) {
             return;
         }
 
@@ -122,13 +120,13 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function () {
     }
 
     function pullUpNameToReplaceEmptyNodeValue(node) {
-        if(angular.isString(node.nodeValue) && node.nodeValue !== '') {
+        if (angular.isString(node.nodeValue) && node.nodeValue !== '') {
             return;
         }
 
         var childNode = getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, 'name');
 
-        if(angular.isUndefined(childNode)) {
+        if (angular.isUndefined(childNode)) {
             return;
         }
 
@@ -137,22 +135,22 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function () {
     }
 
     function setFallBackLabelIfLabelIsEmpty(node) {
-        if(!angular.isString(node.nodeLabel) || node.nodeLabel.length === 0) {
+        if (!angular.isString(node.nodeLabel) || node.nodeLabel.length === 0) {
             node.nodeLabel = 'Item';
         }
     }
 
     function getChildNodeWithSpecifiedNodeLabelAndRemoveIt(node, type) {
-        if(!angular.isArray(node.childNodes)) {
-            return;
+        if (!angular.isArray(node.childNodes)) {
+            return undefined;
         }
 
         var modifiedChildNodes = [];
         var nameChildNode;
 
-        for(var i in node.childNodes) {
+        for (var i in node.childNodes) {
             var childNode = node.childNodes[i];
-            if(childNode.nodeLabel.toLowerCase() === type) {
+            if (childNode.nodeLabel.toLowerCase() === type) {
                 nameChildNode = childNode;
             } else {
                 modifiedChildNodes.push(childNode);
@@ -165,14 +163,14 @@ angular.module('scenarioo.filters').filter('scTreeDataOptimizer', function () {
     }
 
     function addNodeToChildNodesAfterAllOthers(node, childNodeToAdd) {
-        if(!angular.isArray(node.childNodes)) {
+        if (!angular.isArray(node.childNodes)) {
             node.childNodes = [];
         }
         node.childNodes.push(childNodeToAdd);
     }
 
     function removeRootNodeLabelIfItIsItemAndHasNoValue(rootNode) {
-        if(angular.isDefined(rootNode.nodeLabel) && rootNode.nodeLabel === ITEM && (angular.isUndefined(rootNode.nodeValue) || rootNode.nodeValue === '')) {
+        if (angular.isDefined(rootNode.nodeLabel) && rootNode.nodeLabel === ITEM && (angular.isUndefined(rootNode.nodeValue) || rootNode.nodeValue === '')) {
             delete rootNode.nodeLabel;
         }
     }

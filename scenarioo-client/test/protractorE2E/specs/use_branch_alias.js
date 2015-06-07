@@ -15,7 +15,7 @@ scenarioo.describeUseCase('Branch aliases', function () {
         browser.get('#/manage?tab=branchAliases');
         homePage.closeScenariooInfoDialogIfOpen();
 
-        branchAliasesPage.enterAlias('Latest dev', 0, 'alias to latest development release');
+        branchAliasesPage.enterAlias('Latest dev', 'example-branch', 'alias to latest development release');
         branchAliasesPage.save();
         scenarioo.docuWriter.saveStep('Create new branch alias');
 

@@ -15,10 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams,
-    $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, Config, PagesAndSteps, LabelConfigurationsResource) {
+                                                                             $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, Config, PagesAndSteps, LabelConfigurationsResource) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -32,7 +30,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     SelectedBranchAndBuild.callOnSelectionChange(loadScenario);
 
     // FIXME this code is duplicated. How can we extract it into a service?
-    LabelConfigurationsResource.query({}, function(labelConfigurations) {
+    LabelConfigurationsResource.query({}, function (labelConfigurations) {
         $scope.labelConfigurations = labelConfigurations;
     });
 
@@ -45,7 +43,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
                 usecaseName: useCaseName,
                 scenarioName: scenarioName
             },
-            function(result) {
+            function (result) {
                 // Add page to the step to allow search for step- as well as page-properties
                 $scope.pagesAndScenarios = PagesAndSteps.populatePagesAndSteps(result);
                 $scope.useCaseDescription = result.useCase.description;
@@ -56,7 +54,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
                 $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario, result.scenarioStatistics);
                 $scope.scenarioStatistics = result.scenarioStatistics;
 
-                $scope.hasAnyLabels = function() {
+                $scope.hasAnyLabels = function () {
                     var hasAnyUseCaseLabels = $scope.useCase.labels.labels.length > 0;
                     var hasAnyScenarioLabels = $scope.scenario.labels.labels.length > 0;
 
@@ -128,7 +126,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
 
     $scope.getScreenShotUrl = function (imgName) {
         if (angular.isUndefined(selectedBranchAndBuild)) {
-            return;
+            return undefined;
         }
         return HostnameAndPort.forLink() + 'rest/branch/' + selectedBranchAndBuild.branch + '/build/' + selectedBranchAndBuild.build +
             '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
@@ -152,9 +150,9 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     }
 
     // FIXME this code is duplicated. How can we extract it into a service?
-    $scope.getLabelStyle = function(labelName) {
+    $scope.getLabelStyle = function (labelName) {
         var labelConfig = $scope.labelConfigurations[labelName];
-        if(labelConfig) {
+        if (labelConfig) {
             return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
         }
     };

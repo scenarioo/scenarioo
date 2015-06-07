@@ -15,27 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
 angular.module('scenarioo.services')
     .config(function ($httpProvider) {
         $httpProvider.defaults.headers.common.Accept = 'application/json';
         $httpProvider.defaults.stripTrailingSlashes = false;
     })
 
-    .factory('HostnameAndPort', function (ENV, $location) {
-        var baseUrl;
+    .factory('HostnameAndPort', function (ENV, BASE_URL, $location) {
+        var baseUrl = BASE_URL;
 
         var getBaseUrl = function () {
             var url = $location.absUrl();
             var urlParts = url.split('#');
             return urlParts[0];
         };
-
-        if (ENV === 'production') {
-            baseUrl = '';
-        } else if (ENV === 'development') {
-            baseUrl = 'http://localhost:8080/scenarioo/';
-        }
 
         return {
             forNgResource: function () {

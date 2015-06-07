@@ -48,7 +48,7 @@ describe('Service :: Config', function () {
     }));
 
     it('should be able to load config from server', inject(function (Config, $rootScope, $httpBackend) {
-        spyOn($rootScope, '$broadcast').andCallThrough();
+        spyOn($rootScope, '$broadcast').and.callThrough();
 
         loadConfigFromService(Config, $httpBackend);
 

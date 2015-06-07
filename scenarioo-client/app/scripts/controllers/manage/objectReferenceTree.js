@@ -15,23 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.controllers').controller('objectReferenceTreeCtrl', function ($scope, $location, $route, $modal, ObjectIndexListResource, ObjectListResource) {
 
     $scope.readObjectIndex = function (build) {
-        var result = ObjectIndexListResource.query({branchName: build.identifier.branchName, buildName: build.identifier.buildName,
-                objectType: build.identifier.objectType, objectName: build.identifier.objectName},
-            { }
-        );
-    },
+        ObjectIndexListResource.query({
+            branchName: build.identifier.branchName, buildName: build.identifier.buildName,
+            objectType: build.identifier.objectType, objectName: build.identifier.objectName
+        }, {});
+    };
 
-        $scope.readList = function (build) {
-            var result = ObjectListResource.get({branchName: build.identifier.branchName, buildName: build.identifier.buildName,
-                    objectType: build.identifier.objectType},
-                {}
-            )
-        };
-})
-
-
+    $scope.readList = function (build) {
+        ObjectListResource.get({
+            branchName: build.identifier.branchName, buildName: build.identifier.buildName,
+            objectType: build.identifier.objectType
+        }, {});
+    };
+});

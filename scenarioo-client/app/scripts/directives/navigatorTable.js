@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 
 /**
  * this directive provides keyboard navigation features for a table.
@@ -27,26 +25,26 @@
  * use:
  *
 
- <table sc-navigator-table="filtered"  >
-     <thead>
-         <tr>
-             <th>Col1</th>
-             <th>Col2</th>
-         </tr>
-     </thead>
-     <tbody>
-        <tr ng-class="{'selected':$index==selectedRowIndex}"  ng-repeat="item in filtered=(data)">
-             <td>{{item.prop1}}</td>
-             <td>{{item.prop2}}</td>
-        </tr>
-     </tbody>
+ <table sc-navigator-table="filtered" sc-navigator-table-hit="myVM.myCallback" >
+ <thead>
+ <tr>
+ <th>Col1</th>
+ <th>Col2</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr ng-class="{'selected':$index==selectedRowIndex}"  ng-repeat="item in filtered=(data)">
+ <td>{{item.prop1}}</td>
+ <td>{{item.prop2}}</td>
+ </tr>
+ </tbody>
  </table>
 
  *
- * in your controller:
+ * define the hit-callback in your controller:
  *
 
- $scope.onNavigatorTableHit = function (item) {
+ vm.myCallback = function (item) {
      // do something with item
  };
 
@@ -56,13 +54,12 @@ angular.module('scenarioo.directives').directive('scNavigatorTable', function ($
     return {
         restrict: 'A',
         scope: {
-            scNavigatorTable: '@'
+            scNavigatorTable: '@',
+            scNavigatorTableHit: '='
         },
         link: function (scope) {
-
             var
                 parentScope = scope.$parent,
-                callbackFunction = parentScope.$eval('onNavigatorTableHit'),
                 currentCollection,
                 currentCollectionLength;
 
@@ -70,7 +67,7 @@ angular.module('scenarioo.directives').directive('scNavigatorTable', function ($
 
 
             scope.$watchCollection(function () {
-                return  parentScope[scope.scNavigatorTable];
+                return parentScope[scope.scNavigatorTable];
             }, function (collection) {
                 parentScope.selectedRowIndex = 0;
                 currentCollection = collection;
@@ -99,10 +96,9 @@ angular.module('scenarioo.directives').directive('scNavigatorTable', function ($
                     return;
                 }
 
-                if (typeof(callbackFunction) === 'function') {
-                    callbackFunction.call(parentScope, currentCollection[parentScope.selectedRowIndex]);
+                if (typeof callbackFunction === 'function') {
+                    scope.scNavigatorTableHit.call(parentScope, currentCollection[parentScope.selectedRowIndex]);
                 }
-                // scope.$apply();
             }
 
             GlobalHotkeysService.registerPageHotkeyCode(38, function () {

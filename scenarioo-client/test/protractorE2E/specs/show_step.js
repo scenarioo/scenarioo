@@ -96,8 +96,6 @@ scenarioo.describeUseCase('Show step', function () {
     });
 
     scenarioo.describeScenario('Click on a object link in Call tree and jump to object example.action.StartInitAction', function () {
-        var homePage = new pages.homePage();
-
         browser.get('#/step/Find%20Page/find_page_no_result/startSearch.jsp/0/0');
         homePage.closeScenariooInfoDialogIfOpen();
 
