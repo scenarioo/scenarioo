@@ -86,7 +86,8 @@ public class Configuration {
 
 	public String getDesignDocumentationDirPath() {
 		if (this.designDocumentationDirPath == null) {
-			String path = (new File(testDocumentationDirPath, "scenarioo-design-data")).getAbsolutePath();
+			File parent = (new File(testDocumentationDirPath, "scenarioo-application-data"));
+			String path = (new File(parent, "design")).getAbsolutePath();
 			setDesignDocumentationDirPath(path);
 		}
 		return designDocumentationDirPath;
