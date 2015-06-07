@@ -17,41 +17,11 @@
 
 'use strict';
 
-angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $timeout, $routeParams, $route, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, CircleTool, EllipseTool, DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue, ScenarioSketchResource, ScenarioSketch) {
+angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $timeout, $routeParams, $route, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, EllipseTool, DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue, ScenarioSketchResource, ScenarioSketch) {
 
-    //var drawingPad = DrawingPadService.get;
     var drawingPad;
-    var image;
-    $timeout(function () {
-        return DrawingPadService.get;
-    }, 1000).then(function (result) {
-        drawingPad = result;
-        loadBackgroundImage();
-    });
-
-
-    var loadBackgroundImage = function () {
-        if ($routeParams.screenshotURL) {
-            image = drawingPad.image(decodeURIComponent($routeParams.screenshotURL)).loaded(function (loader) {
-                drawingPad.attr({
-                    width: loader.width
-                });
-                drawingPad.attr({
-                    height: loader.height
-                });
-
-            });
-        }
-    };
-
-
     $scope.currentTool = null;
 
-    $scope.tools = new Array();
-    $scope.tools[0] = SelectTool;
-    $scope.tools[1] = RectTool;
-    $scope.tools[2] = CircleTool;
-    $scope.tools[3] = EllipseTool;
 
     $scope.activateTool = function (tool) {
         if ($scope.currentTool) {
@@ -60,8 +30,6 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.currentTool = tool;
         Tool.activate(tool);
     };
-
-    $scope.activateTool($scope.tools[0]);
 
     $scope.isButtonDisabled = function (tool) {
         if (tool) {
@@ -155,5 +123,33 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             });
         }
     });
+
+    var loadBackgroundImage = function () {
+        if ($routeParams.screenshotURL) {
+            drawingPad.image(decodeURIComponent($routeParams.screenshotURL)).loaded(function (loader) {
+                drawingPad.attr({
+                    width: loader.width
+                });
+                drawingPad.attr({
+                    height: loader.height
+                });
+            });
+        }
+    };
+
+
+    $scope.init = function() {
+
+        $timeout(function () {
+            return DrawingPadService.get;
+        }, 1000).then(function (result) {
+            drawingPad = result;
+            loadBackgroundImage();
+        });
+
+        $scope.tools = [SelectTool, RectTool, EllipseTool];
+        $scope.activateTool($scope.tools[0]);
+    };
+    $scope.init();
 
 });
