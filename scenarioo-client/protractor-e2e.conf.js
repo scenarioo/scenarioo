@@ -1,6 +1,6 @@
 'use strict';
 
-exports.config = {
+var exportsConfig = {
 
     // The location of the selenium standalone server .jar file.
     seleniumServerJar: './node_modules/gulp-protractor/node_modules/protractor/selenium/selenium-server-standalone-2.45.0.jar',
@@ -17,8 +17,6 @@ exports.config = {
         'browserName': 'chrome'
     },
 
-    // use this to run webtests against our cloud deployment
-    // baseUrl: 'http://www.hatch-showcase.ch/webclient',
     baseUrl: 'http://localhost:9000',
 
     rootElement: 'body',
@@ -27,8 +25,6 @@ exports.config = {
     },
 
     params: {
-        // use this to run webtests against our cloud deployment
-        // baseUrl: 'http://www.hatch-showcase.ch/webclient',
         baseUrl: 'http://localhost:9000'
     },
 
@@ -42,6 +38,8 @@ exports.config = {
         // If true, include stack traces in failures.
         includeStackTrace: true,
         // Default time to wait in ms before a test fails.
-        defaultTimeoutInterval: 60000
+        defaultTimeoutInterval: 30000
     }
 };
+
+exports.config = exportsConfig;
