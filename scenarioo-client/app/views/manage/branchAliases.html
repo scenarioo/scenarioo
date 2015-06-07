@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 class="icon-remove icon"></i></a>
     </div>
 
-    <div class="alert alert-danger fade-out" ng-show="uniqueError" id="duplicateAlisErrorId">
+    <div class="alert alert-danger fade-out" ng-show="uniqueError" id="duplicateAliasErrorId">
         <strong>Your branch aliases are not unique.</strong> Please make sure each name is only used once.
     </div>
 
@@ -43,11 +43,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <input type="text" class="ng-pristine ng-valid form-control" ng-model="branchAlias.name" ng-change="aliasNameChanged()" name="aliasName"/>
                     </td>
                     <td>
+
                         <select ng-model="branchAlias.referencedBranch"
-                                ng-options="branch.branch.name as branch.branch.name for branch in branches"
                                 class="form-control"
                                 ng-required="branchAlias.name !== ''"
-                                name="referencedBranch"></select>
+                                name="referencedBranch">
+                            <option value=""></option>
+                            <option ng-repeat="branch in branches"  >{{branch.branch.name}}</option>
+                        </select>
                     </td>
                     <td>
                         <input type="text" class="ng-pristine ng-valid form-control" ng-model="branchAlias.description" name="aliasDescription"  />

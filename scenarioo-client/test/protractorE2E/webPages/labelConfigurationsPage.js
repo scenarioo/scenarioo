@@ -1,6 +1,7 @@
 'use strict';
 
-var e2eUtils = require('../util/util.js'), BaseWebPage = require('./baseWebPage.js'), util = require('util');
+var BaseWebPage = require('./baseWebPage.js'),
+    util = require('util');
 
 function LabelConfigurationsPage(overridePath) {
     if (overridePath && overridePath.length > 0) {
@@ -18,17 +19,17 @@ function LabelConfigurationsPage(overridePath) {
 util.inherits(LabelConfigurationsPage, BaseWebPage);
 
 LabelConfigurationsPage.prototype.assertNumConfigurations = function(expectedCount) {
-    this.labelConfigurationsTable.findElements(by.css('tbody tr')).then(function (elements) {
+    this.labelConfigurationsTable.all(by.css('tbody tr')).then(function (elements) {
         // -1 due to empty row
-        expect(elements.length -1).toBe(expectedCount);
+        expect(elements.length - 1).toBe(expectedCount);
     });
 };
 
 LabelConfigurationsPage.prototype.addLabelConfiguration = function(labelName, colorIndex) {
-    this.labelConfigurationsTable.findElements(by.css('tbody tr')).then(function(elements) {
-        var lastRow = elements[elements.length-1];
-        var labelNameField = lastRow.findElement(by.css('input[name="labelName"]'));
-        lastRow.findElements(by.css('ul li span')).then(function(colors) {
+    this.labelConfigurationsTable.all(by.css('tbody tr')).then(function(elements) {
+        var lastRow = elements[elements.length - 1];
+        var labelNameField = lastRow.element(by.css('input[name="labelName"]'));
+        lastRow.all(by.css('ul li span')).then(function(colors) {
             colors[colorIndex].click();
         });
 
@@ -40,10 +41,10 @@ LabelConfigurationsPage.prototype.addLabelConfiguration = function(labelName, co
 };
 
 LabelConfigurationsPage.prototype.updateLabelConfiguration = function(rowIndex, labelName, colorIndex) {
-    this.labelConfigurationsTable.findElements(by.css('tbody tr')).then(function(elements) {
+    this.labelConfigurationsTable.all(by.css('tbody tr')).then(function(elements) {
         var row = elements[rowIndex];
-        var labelNameField = row.findElement(by.css('input[name="labelName"]'));
-        row.findElements(by.css('ul li span')).then(function(colors) {
+        var labelNameField = row.element(by.css('input[name="labelName"]'));
+        row.all(by.css('ul li span')).then(function(colors) {
             colors[colorIndex].click();
         });
 
@@ -56,9 +57,9 @@ LabelConfigurationsPage.prototype.updateLabelConfiguration = function(rowIndex, 
 };
 
 LabelConfigurationsPage.prototype.deleteLabelConfiguration = function(rowIndex) {
-    this.labelConfigurationsTable.findElements(by.css('tbody tr')).then(function(elements) {
+    this.labelConfigurationsTable.all(by.css('tbody tr')).then(function(elements) {
         var row = elements[rowIndex];
-        var deleteButton = row.findElement(by.css('input[value="Delete"]'));
+        var deleteButton = row.element(by.css('input[value="Delete"]'));
         deleteButton.click();
     });
 

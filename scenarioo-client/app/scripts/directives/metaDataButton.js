@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.directives').directive('scMetaDataButton', function($window, localStorageService, GlobalHotkeysService) {
 
     var STEP_METADATA_VISIBLE = 'scenarioo-metadataVisible-';

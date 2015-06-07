@@ -15,11 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 describe('BreadcrumbsService', function () {
 
-    var $filter, BreadcrumbsService;
+    var BreadcrumbsService;
 
     var NAV_PARAMETERS_FOR_STEP = {
         usecase: 'search_book',
@@ -39,8 +37,7 @@ describe('BreadcrumbsService', function () {
     beforeEach(angular.mock.module('scenarioo.services'));
     beforeEach(angular.mock.module('scenarioo.filters'));
 
-    beforeEach(inject(function (_$filter_, _BreadcrumbsService_) {
-        $filter = _$filter_;
+    beforeEach(inject(function (_BreadcrumbsService_) {
         BreadcrumbsService = _BreadcrumbsService_;
     }));
 

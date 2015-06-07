@@ -1,16 +1,16 @@
 /* scenarioo-client
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -57,11 +57,11 @@ describe('Service :: SelectedBranchAndBuild', function () {
     });
 
     describe('when the config is not yet loaded', function () {
-        it('has undefined values if no cookies or url parameters are set', inject(function (SelectedBranchAndBuild) {
+        it('has undefined values if no cookies or url parameters are set', function () {
             localStorageService.clearAll();
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY]).toBeUndefined();
             expect(SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BUILD_KEY]).toBeUndefined();
-        }));
+        });
 
         it('has the cookie values if cookies are set', function () {
             setBranchAndBuildInCookie();

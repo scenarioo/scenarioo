@@ -46,30 +46,21 @@ describe('Controller MainCtrl', function () {
     it('has a first static tab that is initialized with main use cases content', function () {
         $scope.$apply();
         $httpBackend.flush();
-        expect($scope.getLazyTabContentViewUrl($scope.tabs[0].tabId)).toEqual('views/mainUseCasesTab.html');
+        expect(MainCtrl.getLazyTabContentViewUrl(MainCtrl.tabs[0].tabId)).toEqual('views/mainUseCasesTab.html');
     });
 
     it('has additional dynamic custom tabs as configured in configuration, that are lazy loaded', function () {
         $scope.$apply();
         $httpBackend.flush();
-        expect($scope.tabs[1].tabId).toEqual('calls');
-        expect($scope.getLazyTabContentViewUrl($scope.tabs[1])).toEqual(null);
+        expect(MainCtrl.tabs[1].tabId).toEqual('calls');
+        expect(MainCtrl.getLazyTabContentViewUrl(MainCtrl.tabs[1])).toEqual(null);
     });
 
     it('loads custom tab when url parameter for tab points to a custom tab', function () {
         $location.url('/?tab=calls');
         $scope.$apply();
         $httpBackend.flush();
-        expect($scope.tabs[1].tabId).toEqual('calls');
-        expect($scope.getLazyTabContentViewUrl($scope.tabs[1].tabId)).toEqual('views/mainCustomTab.html');
-    });
-
-    it('loads builds when branch and build selection changes', function () {
-        $location.url('/?branch=release-branch-2014-01-16&build=example-build');
-        $scope.$apply();
-        $httpBackend.flush();
-        expect($scope.branchesAndBuilds.branches).toEqualData(TestData.BRANCHES);
-        expect($scope.branchesAndBuilds.selectedBranch).toEqualData(TestData.BRANCHES[1]);
-        expect($scope.branchesAndBuilds.selectedBuild).toEqualData(TestData.BRANCHES[1].builds[0]);
+        expect(MainCtrl.tabs[1].tabId).toEqual('calls');
+        expect(MainCtrl.getLazyTabContentViewUrl(MainCtrl.tabs[1].tabId)).toEqual('views/mainCustomTab.html');
     });
 });
