@@ -16,19 +16,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <sc-breadcrumb></sc-breadcrumb>
-<h2 class="sc-pageTitle">{{useCase.description}}</h2>
+<h2 class="sc-pageTitle">{{useCase.useCase.description}}</h2>
 <div class="row sc-space-top sc-space-bottom">
-    <div class="col-lg-3">
+    <div class="col-sm-8">
         <div class="input-group">
             <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
                    title="type words separated by spaces to search for" ng-model="useCase.table.search.searchTerm"
-                   placeholder="Search scenario..."/>
+                   placeholder="Search in use case '{{useCase.useCase.description}}'..."/>
             <span class="input-group-btn">
                 <button type="button" ng-click="useCase.resetSearchField()" class="btn btn-default">reset</button>
             </span>
         </div>
     </div>
-    <div class="col-lg-9">
+    <div class="col-sm-4">
         <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata"
                              local-storage-key="usecase"></sc-meta-data-button>
     </div>
@@ -36,7 +36,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-meta-data-panel linking-variable="useCaseShowMetadata">
     <div>
-        <table class="table table-bordered scenario-table" sc-navigator-table="filtered" sc-navigator-table-hit="useCase.onNavigatorTableHit">
+        <table class="table table-bordered scenario-table" sc-navigator-table="filtered"
+               sc-navigator-table-hit="useCase.onNavigatorTableHit">
             <thead>
             <tr>
                 <th sc-sortable-column="status">Status</th>
@@ -65,7 +66,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <td>
                     <a><i class="icon-list-ul icon-with-padding" tooltip="Go to scenario overview"
                           tooltip-placement="bottom"></i></a>
-                    <a ng-click="useCase.goToFirstStep(useCase.useCase.name, scenarioSummary.scenario.name)" tooltip="Go to first step"
+                    <a ng-click="useCase.goToFirstStep(useCase.useCase.name, scenarioSummary.scenario.name)"
+                       tooltip="Go to first step"
                        tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
                 </td>
                 <td>{{scenarioSummary.scenario.description}}</td>
@@ -83,7 +85,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </sc-collapsable-panel>
 
         <!-- labels -->
-        <sc-collapsable-panel title="Labels" key="stepView-labels" initially-expanded="false" ng-show="useCase.hasAnyLabels">
+        <sc-collapsable-panel title="Labels" key="stepView-labels" initially-expanded="false"
+                              ng-show="useCase.hasAnyLabels">
             <div class="sc-tree">
                 <ul>
                     <li>
