@@ -15,53 +15,66 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
+angular.module('scenarioo.controllers').controller('UseCaseCtrl', UseCaseCtrl);
 
-angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($scope, $q, $filter, $routeParams,
-                                                                            $location, ScenarioResource, Config, SelectedBranchAndBuild,
-                                                                            LabelConfigurationsResource) {
+function UseCaseCtrl($filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild,
+                     LabelConfigurationsResource) {
 
-    var transformMetadataToTree = $filter('scMetadataTreeCreator');
-    var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
-    SelectedBranchAndBuild.callOnSelectionChange(loadScenariosAndUseCase);
+    var vm = this;
 
-    // FIXME this code is duplicated. How can we extract it into a service?
-    LabelConfigurationsResource.query({}, function(labelConfiguratins) {
-        $scope.labelConfigurations = labelConfiguratins;
-    });
+    vm.table = {
+        search: {$: ''},
+        sort: {
+            column: 'name',
+            reverse: false
+        }
+    };
+    vm.propertiesToShow = [];
+    vm.labelConfigurations = {};
+    vm.useCase = {};
+    vm.scenarios = [];
+    vm.usecaseInformationTree = {};
+    vm.metadataTree = {};
+    vm.hasAnyLabels = false;
 
-    function loadScenariosAndUseCase(selected) {
-        var useCaseName = $routeParams.useCaseName;
-        ScenarioResource.get(
-            {
-                branchName: selected.branch,
-                buildName: selected.build,
-                usecaseName: useCaseName
-            },
-            function onSuccess(result) {
-                $scope.useCase = result.useCase;
-                $scope.scenarios = result.scenarios;
-                $scope.usecaseInformationTree = createUseCaseInformationTree($scope.useCase);
-                $scope.metadataTree = transformMetadataToTreeArray($scope.useCase.details);
-                $scope.hasAnyLabels =  $scope.useCase.labels && $scope.useCase.labels.labels.length !== 0;
-            }
-        );
+    vm.resetSearchField = resetSearchField;
+    vm.goToFirstStep = goToFirstStep;
+    vm.goToScenario = goToScenario;
+    vm.onNavigatorTableHit = onNavigatorTableHit;
+    vm.getLabelStyle = getLabelStyle;
 
-        $scope.propertiesToShow = Config.scenarioPropertiesInOverview();
+
+    activate();
+
+
+    function resetSearchField() {
+        vm.table.search = {searchTerm: ''};
     }
 
-    $scope.goToScenario = function (useCaseName, scenarioName) {
+    function goToScenario(useCaseName, scenarioName) {
         $location.path('/scenario/' + useCaseName + '/' + scenarioName);
-    };
+    }
 
-    $scope.onNavigatorTableHit = function (scenario) {
-        $scope.goToScenario($routeParams.useCaseName, scenario.scenario.name);
-    };
+    function onNavigatorTableHit(scenario) {
+        goToScenario($routeParams.useCaseName, scenario.scenario.name);
+    }
 
-    $scope.goToFirstStep = function (useCaseName, scenarioName) {
+    // FIXME this code is duplicated. How can we extract it into a service?
+    function getLabelStyle(labelName) {
+        var labelConfig = vm.labelConfigurations[labelName];
+        if (labelConfig) {
+            return {
+                'background-color': labelConfig.backgroundColor,
+                'color': labelConfig.foregroundColor
+            };
+        }
+    }
+
+    function goToFirstStep(useCaseName, scenarioName) {
         var selected = SelectedBranchAndBuild.selected();
 
-        //FIXME This could be improved, if the scenario service for finding all scenarios would also retrieve the name of the first page
+        //FIXME This could be improved, if the scenario service
+        // for finding all scenarios would also retrieve the name of the first page
         ScenarioResource.get(
             {
                 branchName: selected.branch,
@@ -73,24 +86,41 @@ angular.module('scenarioo.controllers').controller('UseCaseCtrl', function ($sco
                 $location.path('/step/' + encodeURIComponent(useCaseName) + '/' + encodeURIComponent(scenarioName) + '/' + encodeURIComponent(scenarioResult.pagesAndSteps[0].page.name) + '/0/0');
             }
         );
-    };
-    $scope.table = {search: {$: ''}, sort: {column: 'name', reverse: false}};
+    }
+
+    function activate() {
+
+        SelectedBranchAndBuild.callOnSelectionChange(loadScenariosAndUseCase);
+
+        LabelConfigurationsResource.query({}, function (labelConfigurations) {
+            vm.labelConfigurations = labelConfigurations;
+        });
+    }
+
+    function loadScenariosAndUseCase(selected) {
+        var useCaseName = $routeParams.useCaseName;
+
+        ScenarioResource.get({
+            branchName: selected.branch,
+            buildName: selected.build,
+            usecaseName: useCaseName
+        }, onUseCaseLoaded);
+        vm.propertiesToShow = Config.scenarioPropertiesInOverview();
+
+    }
+
+    function onUseCaseLoaded(result) {
+        vm.useCase = result.useCase;
+        vm.scenarios = result.scenarios;
+        vm.usecaseInformationTree = createUseCaseInformationTree(vm.useCase);
+        vm.metadataTree = $filter('scMetadataTreeListCreator')(vm.useCase.details);
+        vm.hasAnyLabels = vm.useCase.labels && vm.useCase.labels.labels.length !== 0;
+    }
 
     function createUseCaseInformationTree(usecase) {
         var usecaseInformation = {};
         usecaseInformation.Status = usecase.status;
-        return transformMetadataToTree(usecaseInformation);
+        return $filter('scMetadataTreeCreator')(usecaseInformation);
     }
 
-    $scope.resetSearchField = function () {
-        $scope.table.search = {searchTerm: ''};
-    };
-
-    // FIXME this code is duplicated. How can we extract it into a service?
-    $scope.getLabelStyle = function(labelName) {
-        var labelConfig = $scope.labelConfigurations[labelName];
-        if(labelConfig) {
-            return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
-        }
-    };
-});
+}

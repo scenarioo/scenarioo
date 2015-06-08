@@ -1,0 +1,13 @@
+{
+    "env": {
+        "node": "true"
+    },
+    "rules": {
+    },
+    "globals": {
+        "by": false,
+        "element": false,
+        "browser": false,
+        "protractor": false
+    }
+}

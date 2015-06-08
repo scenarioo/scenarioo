@@ -19,7 +19,7 @@
 
 describe('Controller :: Scenario', function () {
 
-    var $scope, configFake, scenarioController, $httpBackend, $routeParams, Config, TestData, HostNameAndPort;
+    var $scope, $httpBackend, $routeParams, Config, TestData, HostNameAndPort;
 
     beforeEach(module('scenarioo.controllers'));
 
@@ -36,7 +36,7 @@ describe('Controller :: Scenario', function () {
 
         localStorageService.clearAll();
 
-        scenarioController = $controller('ScenarioCtrl', {$scope: $scope, Config: Config});
+        $controller('ScenarioCtrl', {$scope: $scope, Config: Config});
     }));
 
     it('clears search field when resetSearchField() is called', function () {

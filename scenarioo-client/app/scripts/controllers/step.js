@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
@@ -87,8 +85,6 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.useCaseLabels = result.useCaseLabels;
                 $scope.scenarioLabels = result.scenarioLabels;
 
-                beautify(result.step.html);
-
                 $scope.hasAnyLabels = function () {
                     var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
                     var hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
@@ -138,30 +134,6 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         }
 
         return transformMetadataToTree(stepInformation);
-    }
-
-    function beautify(html) {
-        var source = html.htmlSource;
-        var opts = {};
-
-        opts.indent_size = 1;
-        opts.indent_char = '\t';
-        opts.max_preserve_newlines = 0;
-        opts.preserve_newlines = opts.max_preserve_newlines !== -1;
-        opts.keep_array_indentation = true;
-        opts.break_chained_methods = true;
-        opts.indent_scripts = 'normal';
-        opts.brace_style = 'collapse';
-        opts.space_before_conditional = true;
-        opts.unescape_strings = true;
-        opts.wrap_line_length = 0;
-        opts.space_after_anon_function = true;
-
-        // TODO: fix html_beautify, issue #66
-        // var output = $window.html_beautify(source, opts);
-        // $scope.formattedHtml = output;
-
-        $scope.formattedHtml = source;
     }
 
     function bindStepNavigation() {
@@ -301,13 +273,13 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     // This URL is only used internally, not for sharing
     $scope.getScreenShotUrl = function () {
         if (angular.isUndefined($scope.step)) {
-            return;
+            return undefined;
         }
 
         var imageName = $scope.step.stepDescription.screenshotFileName;
 
         if (angular.isUndefined(imageName)) {
-            return;
+            return undefined;
         }
 
         var selected = SelectedBranchAndBuild.selected();
@@ -356,19 +328,19 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     };
 
     var getAllLabels = function () {
-        var labels = [];
+        var allLabels = [];
         if ($scope.useCaseLabels && $scope.scenarioLabels && $scope.step) {
-            labels = labels.concat($scope.useCaseLabels.labels).concat($scope.scenarioLabels.labels).concat($scope.step.stepDescription.labels.labels).concat($scope.step.page.labels.labels);
+            allLabels = allLabels.concat($scope.useCaseLabels.labels).concat($scope.scenarioLabels.labels).concat($scope.step.stepDescription.labels.labels).concat($scope.step.page.labels.labels);
         }
-        return labels;
+        return allLabels;
     };
 
-    var createLabelUrl = function (prefix, labels) {
-        if (angular.isUndefined(labels) || !angular.isArray(labels) || labels.length === 0) {
+    var createLabelUrl = function (prefix, labelsForUrl) {
+        if (angular.isUndefined(labelsForUrl) || !angular.isArray(labelsForUrl) || labelsForUrl.length === 0) {
             return '';
         }
 
-        return prefix + 'labels=' + labels.map(encodeURIComponent).join();
+        return prefix + 'labels=' + labelsForUrl.map(encodeURIComponent).join();
     };
 
     $scope.$on('$destroy', function () {

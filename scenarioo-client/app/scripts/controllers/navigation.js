@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, localStorageService, BranchesAndBuilds, SelectedBranchAndBuild, $modal, ScApplicationInfoPopup, Config, GlobalHotkeysService) {
 
     $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
@@ -31,11 +29,8 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
 
     function loadBranchesAndBuilds() {
         BranchesAndBuilds.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
-                $scope.branchesAndBuilds = branchesAndBuilds;
-            }, function onFailure(error) {
-                console.log(error);
-            }
-        );
+            $scope.branchesAndBuilds = branchesAndBuilds;
+        });
     }
 
     $scope.setBranch = function (branch) {
@@ -51,12 +46,12 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
 
     $scope.updating = false;
 
-    $scope.getDisplayNameForBuild = function(build, returnShortText) {
+    $scope.getDisplayNameForBuild = function (build, returnShortText) {
         if (angular.isUndefined(build)) {
             return '';
         }
 
-        if(angular.isDefined(build.getDisplayNameForBuild) && build.getDisplayNameForBuild !== null) {
+        if (angular.isDefined(build.getDisplayNameForBuild) && build.getDisplayNameForBuild !== null) {
             return build.getDisplayNameForBuild;
         }
 
@@ -68,14 +63,14 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
     };
 
     function getDisplayNameForAliasBuild(build, returnShortText) {
-        if(returnShortText){
+        if (returnShortText) {
             return build.linkName;
         } else {
             return build.linkName + ': ' + build.build.revision;
         }
     }
 
-    $scope.getBranchDisplayName = function(wrappedBranch) {
+    $scope.getBranchDisplayName = function (wrappedBranch) {
 
         if (wrappedBranch === undefined) {
             return null;
@@ -96,12 +91,12 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
         return build.build.name !== build.linkName;
     };
 
-    $scope.isLastSuccessfulScenariosBuild = function(build) {
+    $scope.isLastSuccessfulScenariosBuild = function (build) {
         if (angular.isUndefined(build)) {
             return false;
         }
 
-        return 'last successful scenarios' === build.getDisplayNameForBuild;
+        return build.getDisplayNameForBuild === 'last successful scenarios';
     };
 
     GlobalHotkeysService.registerGlobalHotkey('i', function () {

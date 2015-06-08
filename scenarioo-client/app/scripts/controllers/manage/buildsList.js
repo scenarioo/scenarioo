@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.controllers').controller('BuildsListCtrl', function ($scope, $location, $route, $modal, BuildImportStatesResource, BuildImportService, BuildReimportResource, BuildImportLogResource) {
 
     BuildImportStatesResource.query({}, function(buildImportStates) {
