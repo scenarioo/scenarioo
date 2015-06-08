@@ -67,25 +67,17 @@ function MainCtrl($scope, $location, Config) {
             };
     }
 
+    function activate() {
         // Load configuration and trigger definition of tabs from config.
         $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
             var config = Config.getRawConfigDataCopy();
             defineInitialStaticTabs();
             defineCustomTabsFromConfig(config);
-            defineLastStaticTabs();
+            selectTabFromUrl();
         });
         Config.load();
-        $scope.selectTabFromUrl();
-    });
-    Config.load();
-
-    function loadBuilds() {
-        BranchesAndBuilds.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
-            $scope.branchesAndBuilds = branchesAndBuilds;
-        }, function onFailure(error) {
-            console.log(error);
-        });
     }
+    
 
     /**
      * Only return the URL for the tab content view as soon as the is is active, such that the content only gets lazyly loaded.
