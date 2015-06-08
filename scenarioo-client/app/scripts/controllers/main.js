@@ -58,13 +58,13 @@ function MainCtrl($scope, $location, Config) {
     }
 
     function defineLastStaticTabs() {
-        $scope.tabs[$scope.tabs.length] =
-            {
+        vm.tabs.push({
                 tabId: 'issues',
                 title: 'Issues',
                 contentViewUrl: 'views/mainIssuesTab.html',
                 active: false
-            };
+            });
+        vm.tabIndices.issues = vm.tabs.length - 1;
     }
 
     function activate() {
@@ -73,11 +73,11 @@ function MainCtrl($scope, $location, Config) {
             var config = Config.getRawConfigDataCopy();
             defineInitialStaticTabs();
             defineCustomTabsFromConfig(config);
+            defineLastStaticTabs();
             selectTabFromUrl();
         });
         Config.load();
     }
-    
 
     /**
      * Only return the URL for the tab content view as soon as the is is active, such that the content only gets lazyly loaded.
