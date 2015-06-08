@@ -15,33 +15,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 /*
-    Waits for given milliseconds before entered filter criteria will be applied
+ Waits for given milliseconds before entered filter criteria will be applied
  */
 
-angular.module('scenarioo.directives').directive('debounce', function($timeout) {
+angular.module('scenarioo.directives').directive('debounce', function ($timeout) {
     return {
         restrict: 'A',
         require: 'ngModel',
         priority: 99,
-        link: function(scope, elm, attr, ngModelCtrl) {
-            if (attr.type === 'radio' || attr.type === 'checkbox') {return;}
+        link: function (scope, elm, attr, ngModelCtrl) {
+            if (attr.type === 'radio' || attr.type === 'checkbox') {
+                return;
+            }
 
             elm.unbind('input');
 
             var debounce;
-            elm.bind('input', function() {
+            elm.bind('input', function () {
                 $timeout.cancel(debounce);
-                debounce = $timeout(function() {
-                    scope.$apply(function() {
+                debounce = $timeout(function () {
+                    scope.$apply(function () {
                         ngModelCtrl.$setViewValue(elm.val());
                     });
                 }, attr.ngDebounce || 400);
             });
-            elm.bind('blur', function() {
-                scope.$apply(function() {
+            elm.bind('blur', function () {
+                scope.$apply(function () {
                     ngModelCtrl.$setViewValue(elm.val());
                 });
             });

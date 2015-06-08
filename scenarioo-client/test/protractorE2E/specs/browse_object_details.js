@@ -22,8 +22,6 @@ scenarioo.describeUseCase('Browse object details', function () {
     scenarioo.describeScenario('Nodes in the object reference tree are linked to their respective Scenarioo pages', function () {
         var homePage = new pages.homePage();
         var usecasePage = new pages.usecasePage();
-        var scenarioPage = new pages.scenarioPage();
-        var stepPage = new pages.stepPage();
         var objectDetailsPage = new pages.objectDetailsPage();
 
         browser.get('#/object/uiAction/example.action.StartInitAction');

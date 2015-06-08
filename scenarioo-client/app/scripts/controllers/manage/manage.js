@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
-
 angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scope, $location) {
 
     $scope.tabs = [
@@ -47,7 +45,7 @@ angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scop
         var url = null;
         angular.forEach($scope.tabs, function (tab) {
             if (tab.tabId === tabId && tab.active === true) {
-                url =  tab.contentViewUrl;
+                url = tab.contentViewUrl;
             }
         });
         return url;

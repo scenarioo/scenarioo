@@ -31,6 +31,7 @@ describe('Service :: restServices', function () {
         beforeEach(function () {
             module(function ($provide) {
                 $provide.constant('ENV', 'development');
+                $provide.constant('BASE_URL', 'http://localhost:8080/scenarioo/');
             });
         });
 
@@ -48,10 +49,11 @@ describe('Service :: restServices', function () {
         beforeEach(function () {
             module(function ($provide) {
                 $provide.constant('ENV', 'production');
+                $provide.constant('BASE_URL', '');
             });
         });
 
-        it('should resolve the host name to relative host', inject(function (HostnameAndPort, $location) {
+        it('should resolve the host name to relative host', inject(function (HostnameAndPort) {
             expect(HostnameAndPort.forNgResource()).toBe('');
             expect(HostnameAndPort.forTest()).toBe('');
             expect(HostnameAndPort.forLink()).toBe('');
@@ -59,14 +61,14 @@ describe('Service :: restServices', function () {
         }));
 
         it('returns absolute host based on $location without port', inject(function (HostnameAndPort, $location) {
-            spyOn($location, 'absUrl').andReturn('http://myDomain/scenarioo/#/step/Find page/...');
+            spyOn($location, 'absUrl').and.returnValue('http://myDomain/scenarioo/#/step/Find page/...');
 
             expect(HostnameAndPort.forLinkAbsolute()).toBe('http://myDomain/scenarioo/');
         }));
 
 
         it('returns absolute host based on $location with port', inject(function (HostnameAndPort, $location) {
-            spyOn($location, 'absUrl').andReturn('https://myDomain:8080/#/step/Find page/...');
+            spyOn($location, 'absUrl').and.returnValue('https://myDomain:8080/#/step/Find page/...');
 
             expect(HostnameAndPort.forLinkAbsolute()).toBe('https://myDomain:8080/');
         }));
