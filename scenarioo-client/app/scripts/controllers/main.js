@@ -58,13 +58,14 @@ function MainCtrl($scope, $location, Config) {
     }
 
     function defineLastStaticTabs() {
+        var i = vm.tabs.length;
         vm.tabs.push({
-                tabId: 'issues',
-                title: 'Issues',
-                contentViewUrl: 'views/mainIssuesTab.html',
-                active: false
-            });
-        vm.tabIndices.issues = vm.tabs.length - 1;
+            tabId: 'issues',
+            title: 'Issues',
+            contentViewUrl: 'views/mainIssuesTab.html',
+            active: false
+        });
+        vm.tabIndices.issues = i;
     }
 
     function activate() {
