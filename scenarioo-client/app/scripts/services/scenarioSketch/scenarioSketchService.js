@@ -17,10 +17,10 @@
 
 'use strict';
 
-angular.module('scenarioo.services').factory('ScenarioSketch', function ($rootScope, $routeParams, SelectedBranchAndBuild, ScenarioSketchResource) {
+angular.module('scenarioo.services').factory('ScenarioSketch', function () {
 
 
-    var serviceInstance = {
+    return {
 
         updateScenarioSketch: function (scenarioSketch, successCallback) {
             scenarioSketch.$save(function (updatedScenarioSketch) {
@@ -30,7 +30,5 @@ angular.module('scenarioo.services').factory('ScenarioSketch', function ($rootSc
             });
         }
     };
-
-    return serviceInstance;
 
 });

@@ -45,7 +45,7 @@ angular.module('scenarioo.services').factory('Issue', function ($rootScope, $rou
     }
 
 
-    var serviceInstance = {
+    return {
         ISSUE_LOADED_EVENT: ISSUE_LOADED_EVENT,
 
         getRawIssuesDataCopy: function () {
@@ -80,7 +80,4 @@ angular.module('scenarioo.services').factory('Issue', function ($rootScope, $rou
             });
         }
     };
-
-    return serviceInstance;
-
 });
