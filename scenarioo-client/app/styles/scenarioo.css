@@ -364,3 +364,36 @@ label {
 .sc-bold {
   font-weight: bold;
 }
+/* sketcher */
+.sc-sketcher-bg-color {
+  background-color: #1abc9c;
+}
+.sc-sketcher-bg-color-light {
+  background-color: #d1f2eb;
+}
+.sc-sketcher-color {
+  color: #1abc9c;
+}
+.sc-sketcher-color-light {
+  color: #d1f2eb;
+}
+.sc-sketcher-container {
+  padding: 20px;
+  width: 100%;
+  float: left;
+}
+#sc-sketcher-toolbar {
+  height: 30px;
+  margin-bottom: 20px;
+}
+.sc-sketcher-toolbar-right {
+  float: right;
+}
+#sc-sketcher-workspace {
+  min-height: 600px;
+}
+#sc-sketcher-workspace #sc-sketcher-viewport {
+  background-color: #fff;
+  -webkit-box-shadow: 0 0 5px 0 #eee;
+  box-shadow: 0 0 5px 0 #eee;
+}
