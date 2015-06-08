@@ -40,7 +40,7 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function (T
         tool.mousedown = false;
         tool.originalX = 0;
         tool.originalY = 0;
-        tool.component.attr('fill', '#0f3');
+        //tool.component.attr('fill', '#0f3');
     };
 
     tool.onmousedragTemplate = function (event) {
