@@ -24,7 +24,7 @@ angular.module('scenarioo.services').factory('DrawingPadService', function () {
 
     drawingPad.getOffset = function(event) {
         var offset = jQuery(drawingPad.parent).offset();
-        var point = { x:0, y:0 };
+        var point = { x: 0, y: 0 };
 
         point.x = Math.max(event.pageX - offset.left, 0);
         point.y = Math.max(event.pageY - offset.top, 0);

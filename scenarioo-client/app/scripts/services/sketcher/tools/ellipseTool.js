@@ -47,8 +47,8 @@ angular.module('scenarioo.controllers').factory('EllipseTool', function (Abstrac
         tool.onmousedragTemplate(event);
 
         tool.component.attr({
-            rx: (tool.cornerX - tool.anchorX)/2,
-            ry: (tool.cornerY - tool.anchorY)/2,
+            rx: (tool.cornerX - tool.anchorX) / 2,
+            ry: (tool.cornerY - tool.anchorY) / 2,
             cx: tool.anchorX + tool.component.attr('rx'),
             cy: tool.anchorY + tool.component.attr('ry')
         });
