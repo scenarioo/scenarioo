@@ -397,3 +397,19 @@ label {
   -webkit-box-shadow: 0 0 5px 0 #eee;
   box-shadow: 0 0 5px 0 #eee;
 }
+#sc-sketcher-workspace .noteToolText * {
+  width: 90%;
+  height: 90%;
+  margin: 5%;
+  overflow: auto;
+  padding: 2px 7px;
+  float: left;
+}
+#sc-sketcher-workspace .noteToolText textarea {
+  border: 1px solid #ccc;
+}
+#sc-sketcher-workspace #sketcher-original-screenshot {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
