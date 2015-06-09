@@ -1,5 +1,21 @@
 'use strict';
 
+/**
+ * This protractor configuration can be configured using environment variables.
+ *
+ * If no environment variables are specified, default values are used. These default variables are meant
+ * for running the tests locally on a developer machine.
+ *
+ * Parameters:
+ *
+ * PROTRACTOR_BASE_URL
+ *   host of the application, i.e.: http://myhost:9345/myScenarioo
+ *   default value: 'http://localhost:9000'
+ */
+
+var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:9000';
+
+
 var exportsConfig = {
 
     // The location of the selenium standalone server .jar file.
@@ -17,7 +33,7 @@ var exportsConfig = {
         'browserName': 'chrome'
     },
 
-    baseUrl: 'http://localhost:9000',
+    baseUrl: PROTRACTOR_BASE_URL,
 
     rootElement: 'body',
 
@@ -25,7 +41,7 @@ var exportsConfig = {
     },
 
     params: {
-        baseUrl: 'http://localhost:9000'
+        baseUrl: PROTRACTOR_BASE_URL
     },
 
     jasmineNodeOpts: {
