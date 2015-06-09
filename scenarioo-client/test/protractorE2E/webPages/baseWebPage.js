@@ -20,20 +20,20 @@ BaseWebPage.prototype.clickBrowserBackButton = function () {
     e2eUtils.clickBrowserBackButton();
 };
 
-BaseWebPage.prototype.assertElementIsEnabled = function(elementId) {
+BaseWebPage.prototype.assertElementIsEnabled = function (elementId) {
     var htmlElement = this.stepNavigation.element(by.id(elementId));
     expect(htmlElement.isEnabled());
 };
 
-BaseWebPage.prototype.assertElementIsDisabled = function(elementId) {
+BaseWebPage.prototype.assertElementIsDisabled = function (elementId) {
     expect(this.stepNavigation.element(by.id(elementId)).isEnabled()).toBeFalsy();
 };
 
-BaseWebPage.prototype.clickElementById = function(elementId) {
+BaseWebPage.prototype.clickElementById = function (elementId) {
     element(by.id(elementId)).click();
 };
 
-BaseWebPage.prototype.type = function(value) {
+BaseWebPage.prototype.type = function (value) {
     element(by.css('body')).sendKeys(value);
 };
 
@@ -45,13 +45,17 @@ BaseWebPage.prototype.type = function(value) {
 BaseWebPage.prototype.goToPage = function (path) {
     var targetPath;
 
-    if(arguments.length === 1) {
+    if (arguments.length === 1) {
         targetPath = path;
     } else {
         targetPath = this.path;
     }
 
     e2eUtils.getRoute(targetPath);
+};
+
+BaseWebPage.prototype.initLocalStorage = function () {
+    e2eUtils.initLocalStorage();
 };
 
 module.exports = BaseWebPage;

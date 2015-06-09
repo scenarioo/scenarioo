@@ -5,12 +5,15 @@ var pages = require('./../webPages');
 
 scenarioo.describeUseCase('Browse object details', function () {
 
-    scenarioo.describeScenario('Only the first child from root-node is expanded initially. All further nodes are collapsed', function () {
-        var homePage = new pages.homePage();
-        var objectDetailsPage = new pages.objectDetailsPage();
+    var objectDetailsPage = new pages.objectDetailsPage();
+    var usecasePage = new pages.usecasePage();
 
-        browser.get('#/object/uiAction/example.action.StartInitAction');
-        homePage.closeScenariooInfoDialogIfOpen();
+    beforeEach(function () {
+        new pages.homePage().initLocalStorage();
+    });
+
+    scenarioo.describeScenario('Only the first child from root-node is expanded initially. All further nodes are collapsed', function () {
+        objectDetailsPage.goToPage('/object/uiAction/example.action.StartInitAction');
         scenarioo.docuWriter.saveStep('Display object details page');
         objectDetailsPage.assertTreeNodeStatus('0', 'collapsed');
         objectDetailsPage.assertTreeNodeStatus('1', 'expanded');
@@ -20,12 +23,7 @@ scenarioo.describeUseCase('Browse object details', function () {
     });
 
     scenarioo.describeScenario('Nodes in the object reference tree are linked to their respective Scenarioo pages', function () {
-        var homePage = new pages.homePage();
-        var usecasePage = new pages.usecasePage();
-        var objectDetailsPage = new pages.objectDetailsPage();
-
         objectDetailsPage.goToPage('/object/uiAction/example.action.StartInitAction');
-        homePage.closeScenariooInfoDialogIfOpen();
         scenarioo.docuWriter.saveStep('Display object details page');
 
         objectDetailsPage.clickNthTreeTableRow(0);
@@ -43,10 +41,6 @@ scenarioo.describeUseCase('Browse object details', function () {
     });
 
     scenarioo.describeScenario('Collapse all, one match will be found with entered search criteria', function () {
-        var homePage = new pages.homePage();
-        var objectDetailsPage = new pages.objectDetailsPage();
-        homePage.closeScenariooInfoDialogIfOpen();
-
         objectDetailsPage.goToPage('/object/uiAction/example.action.StartInitAction');
         scenarioo.docuWriter.saveStep('Display object details page');
         objectDetailsPage.clickCollapseAll();
@@ -59,10 +53,6 @@ scenarioo.describeUseCase('Browse object details', function () {
     });
 
     scenarioo.describeScenario('Double click on root node expands all child nodes', function () {
-        var homePage = new pages.homePage();
-        var objectDetailsPage = new pages.objectDetailsPage();
-        homePage.closeScenariooInfoDialogIfOpen();
-
         objectDetailsPage.goToPage('/object/uiAction/example.action.StartInitAction');
         scenarioo.docuWriter.saveStep('Display object details page');
         objectDetailsPage.clickCollapseAll();
