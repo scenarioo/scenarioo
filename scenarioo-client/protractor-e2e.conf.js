@@ -30,7 +30,7 @@ var exportsConfig = {
     seleniumArgs: [],
 
     // Timeouts: https://angular.github.io/protractor/#/timeouts
-    allScriptsTimeout: 11000,
+    allScriptsTimeout: 20000,
     getPageTimeout: 20000,
 
     specs: [ /* See gulpfile.js for specified tests */ ],
