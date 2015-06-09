@@ -9,7 +9,7 @@ scenarioo.describeUseCase('Configure label colors', function () {
         var labelConfigurationsPage = new pages.labelConfigurationsPage();
         var homePage = new pages.homePage();
 
-        browser.get('#/manage?tab=labelConfigurations');
+        labelConfigurationsPage.goToPage();
         scenarioo.docuWriter.saveStep('show label configurations');
 
         homePage.closeScenariooInfoDialogIfOpen();
@@ -19,7 +19,7 @@ scenarioo.describeUseCase('Configure label colors', function () {
         labelConfigurationsPage.addLabelConfiguration('corner-case', 5);
         scenarioo.docuWriter.saveStep('add label configuration');
 
-        browser.get('#/manage?tab=labelConfigurations');
+        labelConfigurationsPage.goToPage();
         labelConfigurationsPage.assertNumConfigurations(1);
 
         labelConfigurationsPage.updateLabelConfiguration(0, 'updated', 4);
@@ -27,7 +27,7 @@ scenarioo.describeUseCase('Configure label colors', function () {
 
         labelConfigurationsPage.deleteLabelConfiguration(0);
 
-        browser.get('#/manage?tab=labelConfigurations');
+        labelConfigurationsPage.goToPage();
         labelConfigurationsPage.assertNumConfigurations(0);
     });
 

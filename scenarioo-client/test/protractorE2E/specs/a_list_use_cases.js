@@ -15,7 +15,7 @@ scenarioo.describeUseCase('List use cases', function () {
 
     scenarioo.describeScenario('Navigate to the Home Page, display popup without cookie', function () {
         var homePage = new pages.homePage();
-        browser.get('#/');
+        homePage.goToPage();
         scenarioo.docuWriter.saveStep('display the homePage with popup');
         homePage.assertPageIsDisplayed();
         homePage.assertScenariooInfoDialogShown();
@@ -26,7 +26,7 @@ scenarioo.describeUseCase('List use cases', function () {
 
     scenarioo.describeScenario('Navigate to the Home Page, do not display popup when cookie set', function () {
         var homePage = new pages.homePage();
-        browser.get('#/');
+        homePage.goToPage();
         scenarioo.docuWriter.saveStep('display the homePage without popup');
         homePage.assertPageIsDisplayed();
         homePage.assertScenariooInfoDialogNotShown();
@@ -35,7 +35,7 @@ scenarioo.describeUseCase('List use cases', function () {
 
     scenarioo.describeScenario('Navigate to the Home Page, filter usecases', function () {
         var homePage = new pages.homePage();
-        browser.get('#/');
+        homePage.goToPage();
         scenarioo.docuWriter.saveStep('display the homePage');
         homePage.assertPageIsDisplayed();
         homePage.filterUseCases('notinlist');
@@ -51,7 +51,7 @@ scenarioo.describeUseCase('List use cases', function () {
 
     scenarioo.describeScenario('Navigate to the Home Page, show and hide metadata', function () {
         var homePage = new pages.homePage();
-        browser.get('#/');
+        homePage.goToPage();
         scenarioo.docuWriter.saveStep('display the homePage, metadata shown');
         homePage.assertPageIsDisplayed();
         homePage.assertMetaDataShown();

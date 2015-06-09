@@ -9,7 +9,7 @@ scenarioo.describeUseCase('Manage branch aliases', function () {
         var homePage = new pages.homePage();
         var branchAliasesPage = new pages.branchAliasesPage();
 
-        browser.get('#/manage?tab=branchAliases');
+        branchAliasesPage.goToPage();
         homePage.closeScenariooInfoDialogIfOpen();
         scenarioo.docuWriter.saveStep('display the manage branch aliases page');
 
@@ -34,7 +34,7 @@ scenarioo.describeUseCase('Manage branch aliases', function () {
         branchAliasesPage.updateAlias(0, 'updated alias', 'example-branch', 'updated description');
         branchAliasesPage.save();
         scenarioo.docuWriter.saveStep('update aliases');
-        browser.get('#/manage?tab=branchAliases');
+        branchAliasesPage.goToPage();
         branchAliasesPage.assertAlias(0, 'updated alias', 'example-branch', 'updated description');
 
         branchAliasesPage.enterAlias('updated alias', 'example-branch', 'duplicate alias name');

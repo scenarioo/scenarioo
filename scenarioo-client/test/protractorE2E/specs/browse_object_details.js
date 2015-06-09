@@ -24,7 +24,7 @@ scenarioo.describeUseCase('Browse object details', function () {
         var usecasePage = new pages.usecasePage();
         var objectDetailsPage = new pages.objectDetailsPage();
 
-        browser.get('#/object/uiAction/example.action.StartInitAction');
+        objectDetailsPage.goToPage('/object/uiAction/example.action.StartInitAction');
         homePage.closeScenariooInfoDialogIfOpen();
         scenarioo.docuWriter.saveStep('Display object details page');
 
@@ -47,7 +47,7 @@ scenarioo.describeUseCase('Browse object details', function () {
         var objectDetailsPage = new pages.objectDetailsPage();
         homePage.closeScenariooInfoDialogIfOpen();
 
-        browser.get('#/object/uiAction/example.action.StartInitAction');
+        objectDetailsPage.goToPage('/object/uiAction/example.action.StartInitAction');
         scenarioo.docuWriter.saveStep('Display object details page');
         objectDetailsPage.clickCollapseAll();
         scenarioo.docuWriter.saveStep('Click to collapse all');
@@ -63,7 +63,7 @@ scenarioo.describeUseCase('Browse object details', function () {
         var objectDetailsPage = new pages.objectDetailsPage();
         homePage.closeScenariooInfoDialogIfOpen();
 
-        browser.get('#/object/uiAction/example.action.StartInitAction');
+        objectDetailsPage.goToPage('/object/uiAction/example.action.StartInitAction');
         scenarioo.docuWriter.saveStep('Display object details page');
         objectDetailsPage.clickCollapseAll();
         scenarioo.docuWriter.saveStep('Click collapse all');

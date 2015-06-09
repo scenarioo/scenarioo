@@ -7,7 +7,7 @@ function LabelConfigurationsPage(overridePath) {
     if (overridePath && overridePath.length > 0) {
         BaseWebPage.call(this, overridePath);
     } else {
-        BaseWebPage.call(this, '/');
+        BaseWebPage.call(this, '/manage?tab=labelConfigurations');
     }
 
     this.labelConfigurationsTable = element(by.css('table.table-responsive'));
