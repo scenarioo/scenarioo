@@ -34,6 +34,8 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function (T
         var mousePoint = tool.drawingPad.getOffset(event);
         tool.originalX = mousePoint.x;
         tool.originalY = mousePoint.y;
+
+        //tool.pauseEvent(event);
     };
 
     tool.onmouseupTemplate = function (event) {
@@ -53,6 +55,24 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function (T
 
         tool.cornerX = Math.max(tool.originalX, tool.mouseX);
         tool.cornerY = Math.max(tool.originalY, tool.mouseY);
+
+        tool.pauseEvent(event);
+    };
+
+    /*
+     * Prevents elements/text to be selected on mouse drag
+     * http://stackoverflow.com/questions/5429827/how-can-i-prevent-text-element-selection-with-cursor-drag
+     */
+    tool.pauseEvent = function (event) {
+        if (event.stopPropagation) {
+            event.stopPropagation();
+        }
+        if (event.preventDefault) {
+            event.preventDefault();
+        }
+        event.cancelBubble = true;
+        event.returnValue = false;
+        return false;
     };
 
     return {
