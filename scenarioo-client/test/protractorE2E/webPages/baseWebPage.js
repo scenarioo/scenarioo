@@ -46,7 +46,7 @@ BaseWebPage.prototype.goToPage = function (path) {
     var targetPath;
 
     if(arguments.length === 1) {
-        targetPath = arguments[0];
+        targetPath = path;
     } else {
         targetPath = this.path;
     }
