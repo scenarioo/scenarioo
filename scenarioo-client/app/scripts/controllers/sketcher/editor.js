@@ -122,11 +122,13 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
                 $scope.sketchStepId = args.sketchStepId;
             });
         }
+
+        console.log(exportedSVG);
     });
 
     var loadBackgroundImage = function () {
         if ($routeParams.screenshotURL) {
-            drawingPad.image(decodeURIComponent($routeParams.screenshotURL)).loaded(function (loader) {
+            var img = drawingPad.image(decodeURIComponent($routeParams.screenshotURL)).loaded(function (loader) {
                 drawingPad.attr({
                     width: loader.width
                 });
@@ -134,6 +136,12 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
                     height: loader.height
                 });
             });
+            img.attr({
+                id: 'sketcher-original-screenshot',
+                draggable: false
+            });
+
+            document.getElementById('sketcher-original-screenshot').ondragstart = function() { return false; };
         }
     };
 

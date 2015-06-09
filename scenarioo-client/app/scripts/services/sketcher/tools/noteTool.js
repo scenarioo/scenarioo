@@ -24,6 +24,7 @@ angular.module('scenarioo.controllers').factory('NoteTool', function (AbstractSh
     tool.icon = null;
     tool.tooltip = 'This tool is used to add a note to the sketch.';
     var rect = null;
+    var fobj = null;
 
 
     tool.onmousedown = function (event) {
@@ -32,6 +33,8 @@ angular.module('scenarioo.controllers').factory('NoteTool', function (AbstractSh
         tool.component = tool.drawingPad.group();
         rect = tool.drawingPad.rect(0, 0, 0, 0);
         tool.component.add(rect);
+
+        fobj = tool.component.foreignObject(0, 0).attr({class: 'noteToolText'}).front();
 
         tool.component.attr({
             transform: 'translate(' + tool.originalX + ',' + tool.originalY + ')'
@@ -43,6 +46,12 @@ angular.module('scenarioo.controllers').factory('NoteTool', function (AbstractSh
 
     tool.onmouseup = function (event) {
         tool.onmouseupTemplate(event);
+
+        /*var txt = 'some text that is quite long. and it goes on and on. and its pointless really.  and the grammar is terrible.  blah. blah. blah';
+        fobj.appendChild('div', {id: 'noteText', innerText: txt});*/
+
+        var txt = '';
+        fobj.appendChild('textarea', {id: 'noteTextArea', innerText: txt});
     };
 
     tool.onmousedrag = function (event) {
@@ -58,6 +67,11 @@ angular.module('scenarioo.controllers').factory('NoteTool', function (AbstractSh
         });
 
         rect.attr({
+            width: tool.cornerX - tool.anchorX,
+            height: tool.cornerY - tool.anchorY
+        });
+
+        fobj.attr({
             width: tool.cornerX - tool.anchorX,
             height: tool.cornerY - tool.anchorY
         });
