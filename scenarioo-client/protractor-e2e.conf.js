@@ -29,7 +29,9 @@ var exportsConfig = {
     chromeDriver: './node_modules/gulp-protractor/node_modules/protractor/selenium/chromedriver',
     seleniumArgs: [],
 
+    // Timeouts: https://angular.github.io/protractor/#/timeouts
     allScriptsTimeout: 11000,
+    getPageTimeout: 20000,
 
     specs: [ /* See gulpfile.js for specified tests */ ],
 
@@ -53,10 +55,8 @@ var exportsConfig = {
     },
 
     jasmineNodeOpts: {
-        // onComplete will be called just before the driver quits.
-        onComplete: null,
         // If true, display spec names.
-        isVerbose: false,
+        isVerbose: true,
         // If true, print colors to the terminal.
         showColors: true,
         // If true, include stack traces in failures.

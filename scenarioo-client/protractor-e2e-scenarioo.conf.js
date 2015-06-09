@@ -23,7 +23,7 @@ var exportsConfig = {
 
     baseUrl: 'http://localhost:9000',
 
-    rootElement: 'body',
+    rootElement: 'html',
 
     onPrepare: function () {
         require('jasmine-reporters');
