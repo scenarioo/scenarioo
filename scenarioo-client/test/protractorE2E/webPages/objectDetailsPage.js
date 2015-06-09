@@ -9,14 +9,12 @@ function ObjectDetailsPage(overridePath) {
     } else {
         BaseWebPage.call(this, '/');
     }
-
-    this.objectDetailsPage = element(by.id('treeviewtable'));
 }
 
 util.inherits(ObjectDetailsPage, BaseWebPage);
 
 ObjectDetailsPage.prototype.clickNthTreeTableRow = function (rowNumberWithoutHeader) {
-    this.objectDetailsPage.all(by.css('tbody tr')).then(function(elements) {
+    element.all(by.css('#treeviewtable tbody tr')).then(function(elements) {
         var nthRow = elements[rowNumberWithoutHeader + 1]; // + 1 because 0th row is the header
         var link = nthRow.element(by.css('span'));
         link.click();
@@ -24,7 +22,7 @@ ObjectDetailsPage.prototype.clickNthTreeTableRow = function (rowNumberWithoutHea
 };
 
 ObjectDetailsPage.prototype.clickToExpand = function (nodeId) {
-    var node = this.objectDetailsPage.element(by.id('node_' + nodeId));
+    var node = element(by.id('node_' + nodeId));
     var imageId = 'img_' + nodeId;
     expect(node.isDisplayed()).toBe(true);
 
@@ -33,7 +31,7 @@ ObjectDetailsPage.prototype.clickToExpand = function (nodeId) {
 };
 
 ObjectDetailsPage.prototype.assertTreeNodeStatus = function (nodeId, status) {
-    var node = this.objectDetailsPage.element(by.id('node_' + nodeId));
+    var node = element(by.id('node_' + nodeId));
     var imageId = 'img_' + nodeId;
     expect(node.getText()).not.toBe(null);
     expect(node.isDisplayed()).toBe(true);
@@ -51,7 +49,7 @@ ObjectDetailsPage.prototype.enterSearchCriteria = function(searchCriteria) {
     var searchField = element(by.name('searchCriteria'));
     searchField.sendKeys(searchCriteria);
 
-    var matchElement = this.objectDetailsPage.element(by.id('node_' + '4'));
+    var matchElement = element(by.id('node_' + '4'));
     expect(matchElement.getText()).toContain('multiple results');
     expect(matchElement.isDisplayed()).toBeTruthy();
 };
@@ -68,7 +66,7 @@ ObjectDetailsPage.prototype.clickCollapseAll = function() {
 };
 
 ObjectDetailsPage.prototype.doubleClickOnNode = function(nodeId) {
-    var node = this.objectDetailsPage.element(by.id('node_' + nodeId));
+    var node = element(by.id('node_' + nodeId));
     var imageId = 'img_' + nodeId;
     var imageElement = node.element(by.id(imageId));
 
