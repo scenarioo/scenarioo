@@ -3,7 +3,7 @@
 var BaseWebPage = require('./baseWebPage.js'),
     util = require('util');
 
-function BreadcrumpPage(overridePath) {
+function BreadcrumbPage(overridePath) {
     if (overridePath && overridePath.length > 0) {
         BaseWebPage.call(this, overridePath);
     } else {
@@ -13,22 +13,22 @@ function BreadcrumpPage(overridePath) {
     this.breadcrumbs = element(by.css('.breadcrumb'));
 }
 
-util.inherits(BreadcrumpPage, BaseWebPage);
+util.inherits(BreadcrumbPage, BaseWebPage);
 
-BreadcrumpPage.prototype.clickOnBreadcrumb = function(breadcrumpId) {
-    this.breadcrumbs.element(by.id(breadcrumpId)).click();
+BreadcrumbPage.prototype.clickOnBreadcrumb = function(breadcrumbId) {
+    this.breadcrumbs.element(by.id(breadcrumbId)).click();
 };
 
-BreadcrumpPage.prototype.assertUseCaseNameInBreadcrumb = function(breadcrumpId, useCaseName) {
-    var useCaseElement =  this.breadcrumbs.element(by.id(breadcrumpId));
+BreadcrumbPage.prototype.assertUseCaseNameInBreadcrumb = function(breadcrumbId, useCaseName) {
+    var useCaseElement =  this.breadcrumbs.element(by.id(breadcrumbId));
     expect(useCaseElement.getText()).toContain(useCaseName);
 };
 
-BreadcrumpPage.prototype.assertThatTooltipIsShown = function(toolTipId, toolTipText){
+BreadcrumbPage.prototype.assertThatTooltipIsShown = function(toolTipId, toolTipText){
     var toolTipElement =  this.breadcrumbs.element(by.id(toolTipId));
     var toolTipAttribute = toolTipElement.getAttribute('tooltip');
 
     expect(toolTipAttribute).toBe(toolTipText);
 };
 
-module.exports = BreadcrumpPage;
+module.exports = BreadcrumbPage;

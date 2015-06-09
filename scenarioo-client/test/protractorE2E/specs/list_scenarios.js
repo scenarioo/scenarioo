@@ -11,7 +11,7 @@ scenarioo.describeUseCase('list_scenarios', function () {
         var useCasePage = new pages.usecasePage();
         var scenarioPage = new pages.scenarioPage();
 
-        browser.get('#/');
+        homePage.goToPage();
         homePage.closeScenariooInfoDialogIfOpen();
         scenarioo.docuWriter.saveStep('select a use case from the use case list');
         homePage.assertPageIsDisplayed();

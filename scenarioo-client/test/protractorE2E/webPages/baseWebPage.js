@@ -37,4 +37,21 @@ BaseWebPage.prototype.type = function(value) {
     element(by.css('body')).sendKeys(value);
 };
 
+/**
+ * Navigate browser to a speficied path. By default (if not parameter is speficied) the path of the Page Object isused.
+ *
+ * @param path Overrides the default path of the page object. Specify only the part behind the # character.
+ */
+BaseWebPage.prototype.goToPage = function (path) {
+    var targetPath;
+
+    if(arguments.length === 1) {
+        targetPath = arguments[0];
+    } else {
+        targetPath = this.path;
+    }
+
+    e2eUtils.getRoute(targetPath);
+};
+
 module.exports = BaseWebPage;

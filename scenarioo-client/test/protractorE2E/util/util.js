@@ -3,6 +3,11 @@
 
 var e2eUtils = {
 
+    getRoute: function (route) {
+        browser.get(browser.params.baseUrl + '/#' + route);
+        browser.waitForAngular();
+    },
+
     assertRoute: function (route) {
         browser.getCurrentUrl().then(function (url) {
             var currentUrlWithoutSearch = url.split('?')[0];
@@ -25,7 +30,7 @@ var e2eUtils = {
     },
 
     generateRandomString: function (length) {
-        return  Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, length);
+        return Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, length);
     },
 
     selectOption: function (selector, item) {
