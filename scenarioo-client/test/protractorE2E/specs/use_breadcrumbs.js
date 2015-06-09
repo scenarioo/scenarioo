@@ -6,14 +6,17 @@ var pages = require('./../webPages');
 
 scenarioo.describeUseCase('Use breadcrumbs', function () {
 
-    scenarioo.describeScenario('Navigate to the Home Page, filter for one usecase select scenario click on breadcrumb',
-        function () {
-            var homePage = new pages.homePage();
-            var useCasePage = new pages.usecasePage();
-            var breadcrumbsPage = new pages.breadcrumbsPage();
+    var homePage = new pages.homePage();
+    var useCasePage = new pages.usecasePage();
+    var breadcrumbsPage = new pages.breadcrumbsPage();
+    var stepPage = new pages.stepPage();
 
+    beforeEach(function () {
+        new pages.homePage().initLocalStorage();
+    });
+
+    scenarioo.describeScenario('Navigate to the Home Page, filter for one usecase select scenario click on breadcrumb', function () {
             homePage.goToPage();
-            homePage.closeScenariooInfoDialogIfOpen();
             scenarioo.docuWriter.saveStep('Display the homePage');
 
             homePage.assertPageIsDisplayed();
@@ -37,16 +40,12 @@ scenarioo.describeUseCase('Use breadcrumbs', function () {
         }
     );
 
-    scenarioo.describeScenario('Navigate to scenario and test for tooltip',
-        function () {
-            var breadcrumbsPage = new pages.breadcrumbsPage();
-            var stepPage = new pages.stepPage();
-
+    scenarioo.describeScenario('Navigate to scenario and test for tooltip', function () {
             stepPage.goToPage('/step/Find%20Page/find_page_with_text_on_page_from_multiple_results/searchResults.jsp/0/0');
             scenarioo.docuWriter.saveStep('Display steps and pages');
 
             breadcrumbsPage.assertThatTooltipIsShown('tooltip_2', 'Scenario: Find page with ' +
-                'text on page from multiple results');
+            'text on page from multiple results');
             scenarioo.docuWriter.saveStep('Test that tooltip explicit exists');
         }
     );

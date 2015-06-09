@@ -5,14 +5,15 @@ var pages = require('./../webPages');
 
 scenarioo.describeUseCase('Configure label colors', function () {
 
-    scenarioo.describeScenario('Create, edit and delete label configurations', function () {
-        var labelConfigurationsPage = new pages.labelConfigurationsPage();
-        var homePage = new pages.homePage();
+    var labelConfigurationsPage = new pages.labelConfigurationsPage();
 
+    beforeEach(function(){
+        new pages.homePage().initLocalStorage();
+    });
+
+    scenarioo.describeScenario('Create, edit and delete label configurations', function () {
         labelConfigurationsPage.goToPage();
         scenarioo.docuWriter.saveStep('show label configurations');
-
-        homePage.closeScenariooInfoDialogIfOpen();
 
         labelConfigurationsPage.assertNumConfigurations(0);
 

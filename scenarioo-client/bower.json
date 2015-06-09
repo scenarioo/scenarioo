@@ -7,7 +7,7 @@
     "angular-sanitize": "~1.2.23",
     "angular-route": "~1.2.23",
     "angular-i18n": "~1.2.23",
-    "angular-local-storage": "~0.0.1",
+    "angular-local-storage": "~0.2.1",
     "bootstrap": "~3.3.2",
     "angular-bootstrap": "~0.12.1",
     "json3": "~3.2.4",

@@ -5,13 +5,15 @@ var pages = require('./../webPages');
 
 scenarioo.describeUseCase('Browse page variants', function () {
 
-    var homePage = new pages.homePage();
     var stepPage = new pages.stepPage();
     var objectDetailsPage = new pages.objectDetailsPage();
 
+    beforeEach(function(){
+        new pages.homePage().initLocalStorage();
+    });
+
     scenarioo.describeScenario('Navigate to previous / next page variants.', function () {
         stepPage.goToPage('/step/Switch%20Language/search_article_in_german_and_switch_to_spanish/contentPage.jsp/0/0');
-        homePage.closeScenariooInfoDialogIfOpen();
         stepPage.assertPageVariantIndicatorValue('Page-Variant 8 of 10');
         scenarioo.docuWriter.saveStep('A step of the contentPage.jsp page.');
 

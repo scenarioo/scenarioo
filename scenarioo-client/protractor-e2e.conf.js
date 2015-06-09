@@ -20,6 +20,7 @@ console.log('PROTRACTOR_BASE_URL: ' + PROTRACTOR_BASE_URL);
 
 
 var exportsConfig = {
+    framework: 'jasmine',
 
     // The location of the selenium standalone server .jar file.
     seleniumServerJar: './node_modules/gulp-protractor/node_modules/protractor/selenium/selenium-server-standalone-2.45.0.jar',
@@ -38,12 +39,16 @@ var exportsConfig = {
 
     baseUrl: PROTRACTOR_BASE_URL,
 
-    rootElement: 'body',
+    // CSS Selector for the element housing the angular app - this defaults to
+    // body, but is necessary if ng-app is on a descendant of <body>.
+    rootElement: 'html',
 
     onPrepare: function () {
+        browser.driver.manage().window().maximize();
     },
 
     params: {
+        // Used in our tests
         baseUrl: PROTRACTOR_BASE_URL
     },
 

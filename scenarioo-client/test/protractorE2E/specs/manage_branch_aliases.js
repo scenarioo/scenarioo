@@ -5,12 +5,14 @@ var pages = require('./../webPages');
 
 scenarioo.describeUseCase('Manage branch aliases', function () {
 
-    scenarioo.describeScenario('Manage branch aliases', function () {
-        var homePage = new pages.homePage();
-        var branchAliasesPage = new pages.branchAliasesPage();
+    var branchAliasesPage = new pages.branchAliasesPage();
 
+    beforeEach(function(){
+        new pages.homePage().initLocalStorage();
+    });
+
+    scenarioo.describeScenario('Manage branch aliases', function () {
         branchAliasesPage.goToPage();
-        homePage.closeScenariooInfoDialogIfOpen();
         scenarioo.docuWriter.saveStep('display the manage branch aliases page');
 
         branchAliasesPage.assertNumberOfAliases(0);

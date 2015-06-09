@@ -1,12 +1,36 @@
 'use strict';
 
 
+var initialized = false;
+
+function getRoute(route) {
+    browser.get(browser.params.baseUrl + '/#' + route);
+    browser.waitForAngular();
+}
+
+function initLocalStorage() {
+    console.log('Initializing local storage');
+    getRoute('/');
+    var clearLocalStorage = browser.executeScript('localStorage.setItem("ls.scenariooPreviouslyVisited", "true");');
+    clearLocalStorage.then(function () {
+        var visited = browser.executeScript('return localStorage.getItem("ls.scenariooPreviouslyVisited");');
+        expect(visited).toEqual('true');
+    });
+}
+
+function initLocalStorageIfRequired() {
+    if (!initialized) {
+        initLocalStorage();
+        initialized = true;
+    }
+}
+
+
 var e2eUtils = {
 
-    getRoute: function (route) {
-        browser.get(browser.params.baseUrl + '/#' + route);
-        browser.waitForAngular();
-    },
+    initLocalStorage: initLocalStorageIfRequired,
+
+    getRoute: getRoute,
 
     assertRoute: function (route) {
         browser.getCurrentUrl().then(function (url) {

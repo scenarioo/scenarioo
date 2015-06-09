@@ -6,13 +6,18 @@ var NUMBER_OF_USE_CASES = 4;
 
 scenarioo.describeUseCase('list_scenarios', function () {
 
+    var homePage = new pages.homePage();
+    var useCasePage = new pages.usecasePage();
+    var scenarioPage = new pages.scenarioPage();
+
+    beforeEach(function(){
+        new pages.homePage().initLocalStorage();
+    });
+
     scenarioo.describeScenario('Expand all, collapse all on scenario page', function () {
-        var homePage = new pages.homePage();
-        var useCasePage = new pages.usecasePage();
-        var scenarioPage = new pages.scenarioPage();
+
 
         homePage.goToPage();
-        homePage.closeScenariooInfoDialogIfOpen();
         scenarioo.docuWriter.saveStep('select a use case from the use case list');
         homePage.assertPageIsDisplayed();
         homePage.assertUseCasesShown(NUMBER_OF_USE_CASES);

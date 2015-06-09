@@ -5,15 +5,18 @@ var pages = require('./../webPages');
 
 scenarioo.describeUseCase('Branch aliases', function () {
 
-    scenarioo.describeScenario('Create an alias and assert browsing through steps works', function () {
-        var homePage = new pages.homePage();
-        var branchAliasesPage = new pages.branchAliasesPage();
-        var usecasePage = new pages.usecasePage();
-        var scenarioPage = new pages.scenarioPage();
-        var stepPage = new pages.stepPage();
+    var homePage = new pages.homePage();
+    var branchAliasesPage = new pages.branchAliasesPage();
+    var usecasePage = new pages.usecasePage();
+    var scenarioPage = new pages.scenarioPage();
+    var stepPage = new pages.stepPage();
 
+    beforeEach(function(){
+        new pages.homePage().initLocalStorage();
+    });
+
+    scenarioo.describeScenario('Create an alias and assert browsing through steps works', function () {
         branchAliasesPage.goToPage();
-        homePage.closeScenariooInfoDialogIfOpen();
         branchAliasesPage.enterAlias('Latest dev', 'example-branch', 'alias to latest development release');
         branchAliasesPage.save();
         scenarioo.docuWriter.saveStep('Create new branch alias');

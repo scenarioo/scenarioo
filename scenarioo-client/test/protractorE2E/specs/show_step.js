@@ -10,13 +10,16 @@ scenarioo.describeUseCase('Show step', function () {
     var scenarioPage = new pages.scenarioPage();
     var stepPage = new pages.stepPage();
 
+    beforeEach(function(){
+        new pages.homePage().initLocalStorage();
+    });
+
     scenarioo.describeScenario('Navigate back and forth through the scenario steps.', function () {
         var ROUTE_OF_FIRST_STEP = '/step/Find%20Page/find_page_no_result/startSearch.jsp/0/0';
         var ROUTE_OF_SECOND_STEP = '/step/Find%20Page/find_page_no_result/startSearch.jsp/0/1';
         var ROUTE_OF_THIRD_STEP = '/step/Find%20Page/find_page_no_result/searchResults.jsp/0/0';
 
         homePage.goToPage();
-        homePage.closeScenariooInfoDialogIfOpen();
         scenarioo.docuWriter.saveStep('Display home page with list of use cases');
 
         homePage.selectUseCase(1);
@@ -98,8 +101,6 @@ scenarioo.describeUseCase('Show step', function () {
 
     scenarioo.describeScenario('Click on a object link in Call tree and jump to object example.action.StartInitAction', function () {
         stepPage.goToPage('/step/Find%20Page/find_page_no_result/startSearch.jsp/0/0');
-
-        homePage.closeScenariooInfoDialogIfOpen();
 
         stepPage.openMetadataTabIfClosed(0);
         scenarioo.docuWriter.saveStep('Expand Call tree panel');
