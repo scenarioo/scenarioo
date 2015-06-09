@@ -17,7 +17,7 @@
     "svg.js": "1.0.1",
     "svg.draggable.js": "~0.1.0",
     "svg.export.js": "~0.1.1",
-    "svg.foreignobject.js": "*"
+    "https://github.com/memloom-development/svg.foreignobject.js.git": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.23",
