@@ -16,6 +16,9 @@
 var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:9000';
 
 
+console.log('PROTRACTOR_BASE_URL: ' + PROTRACTOR_BASE_URL);
+
+
 var exportsConfig = {
 
     // The location of the selenium standalone server .jar file.
