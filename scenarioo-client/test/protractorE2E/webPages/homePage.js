@@ -16,7 +16,7 @@ function HomePage(overridePath) {
     this.showMetaDataButton = element(by.id('sc-showHideDetailsButton-show'));
     this.hideMetaDataButton = element(by.id('sc-showHideDetailsButton-hide'));
     this.metaDataPanel = element(by.id('sc-metadata-panel'));
-    this.issuesTab = element(by.repeater("tab in tabs").row(3));
+    this.issuesTab = element(by.repeater('tab in tabs').row(3));
 
 }
 
