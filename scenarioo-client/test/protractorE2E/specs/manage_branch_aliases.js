@@ -40,7 +40,7 @@ scenarioo.describeUseCase('Manage branch aliases', function () {
         branchAliasesPage.save();
     });
 
-    scenarioo.describeScenario('Saving ist not possible if referenced branch is not selected', function() {
+    scenarioo.describeScenario('Saving is not possible if referenced branch is not selected', function() {
         branchAliasesPage.goToPage();
         branchAliasesPage.assertNumberOfAliases(0);
         branchAliasesPage.enterAlias('Test', '', 'my description');
