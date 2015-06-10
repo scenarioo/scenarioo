@@ -11,7 +11,7 @@ scenarioo.describeUseCase('Manage branch aliases', function () {
         new pages.homePage().initLocalStorage();
     });
 
-    scenarioo.describeScenario('Manage branch aliases', function () {
+    scenarioo.describeScenario('Branch aliases can be added and removed', function () {
         branchAliasesPage.goToPage();
         scenarioo.docuWriter.saveStep('display the manage branch aliases page');
 
@@ -22,11 +22,9 @@ scenarioo.describeUseCase('Manage branch aliases', function () {
         scenarioo.docuWriter.saveStep('add build aliases');
         branchAliasesPage.reset();
         branchAliasesPage.assertNumberOfAliases(2);
+        branchAliasesPage.openBranchSelectionMenu();
+        branchAliasesPage.assertAliasesAreShownFirstInTheNavigationMenu();
 
-        branchAliasesPage.enterAlias('Test', '', 'my description');
-        branchAliasesPage.assertSaveNotPossible();
-
-        branchAliasesPage.reset();
         branchAliasesPage.deleteAlias(0);
         branchAliasesPage.save();
         branchAliasesPage.assertNumberOfAliases(1);
@@ -36,14 +34,32 @@ scenarioo.describeUseCase('Manage branch aliases', function () {
         branchAliasesPage.updateAlias(0, 'updated alias', 'example-branch', 'updated description');
         branchAliasesPage.save();
         scenarioo.docuWriter.saveStep('update aliases');
-        branchAliasesPage.goToPage();
-        branchAliasesPage.assertAlias(0, 'updated alias', 'example-branch', 'updated description');
 
-        branchAliasesPage.enterAlias('updated alias', 'example-branch', 'duplicate alias name');
+        branchAliasesPage.deleteAlias(0);
+        branchAliasesPage.deleteAlias(0);
+        branchAliasesPage.save();
+    });
+
+    scenarioo.describeScenario('Saving ist not possible if referenced branch is not selected', function() {
+        branchAliasesPage.goToPage();
+        branchAliasesPage.assertNumberOfAliases(0);
+        branchAliasesPage.enterAlias('Test', '', 'my description');
+        branchAliasesPage.assertSaveNotPossible();
+        scenarioo.docuWriter.saveStep('saving not possible because referenced branch is not selected');
+    });
+
+    scenarioo.describeScenario('Alias names have to be unique', function() {
+        branchAliasesPage.goToPage();
+        branchAliasesPage.assertNumberOfAliases(0);
+        branchAliasesPage.enterAlias('duplicate', 'example-branch', 'duplicate alias name');
+        branchAliasesPage.save();
+        branchAliasesPage.assertNumberOfAliases(1);
+        branchAliasesPage.enterAlias('duplicate', 'example-branch', 'duplicate alias name');
         branchAliasesPage.save();
         branchAliasesPage.assertDuplicateAliasError();
         scenarioo.docuWriter.saveStep('duplicate aliases are not allowed');
-        branchAliasesPage.deleteAlias(0);
+
+        branchAliasesPage.reset();
         branchAliasesPage.deleteAlias(0);
         branchAliasesPage.save();
     });

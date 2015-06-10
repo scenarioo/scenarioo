@@ -26,6 +26,18 @@ BranchAliasesPage.prototype.assertNumberOfAliases = function (expectedCount) {
     expect(rows.count()).toBe(expectedCount + 1);
 };
 
+BranchAliasesPage.prototype.openBranchSelectionMenu = function () {
+    element(by.id('branchSelectionDropdown')).click();
+};
+
+BranchAliasesPage.prototype.assertAliasesAreShownFirstInTheNavigationMenu = function () {
+    var branchOptions = element.all(by.css('#branchSelectionDropdown .branchOption'));
+    expect(branchOptions.count()).toBe(3);
+    expect(branchOptions.get(0).getText()).toBe('Test Alias 1 (example-branch)');
+    expect(branchOptions.get(1).getText()).toBe('Test Alias 2 (example-branch)');
+    expect(branchOptions.get(2).getText()).toBe('example-branch');
+};
+
 BranchAliasesPage.prototype.enterAlias = function (name, referencedBranchName, description) {
     var rows = this.branchAliasTable.all(by.css('tbody tr'));
     rows.count().then(function (count) {
