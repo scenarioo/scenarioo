@@ -15,7 +15,6 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
 
 angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $timeout, $routeParams, $route, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, EllipseTool, NoteTool, DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue, ScenarioSketchResource, ScenarioSketch) {
 
