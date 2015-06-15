@@ -126,7 +126,6 @@ gulp.task('test-e2e', function () {
 
 /**
  * Run protractor ui tests and generate Scenarioo documentation from them.
- * TODO Fix this, see https://github.com/scenarioo/scenarioo/issues/410
  */
 gulp.task('test-e2e-scenarioo', function () {
     gulp.src(['./test/protractorE2E/specs/**/*.js'])
