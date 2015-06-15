@@ -14,9 +14,10 @@
  */
 
 var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:9000';
+var BRANCH = process.env.BRANCH || 'unknown_branch';
 
 console.log('PROTRACTOR_BASE_URL: ' + PROTRACTOR_BASE_URL);
-
+console.log('BRANCH: ' + BRANCH);
 
 var exportsConfig = {
     framework: 'jasmine',
@@ -52,7 +53,7 @@ var exportsConfig = {
         var git = require('git-rev-sync');
 
         // function ScenariooJasmineReporter(targetDirectory, branchName, branchDescription, buildName, revision) {
-        var scenariooReporter = new scenarioo.reporter('./scenariooDocumentation', git.branch(), '', 'build_' + timeStamp, git.short());
+        var scenariooReporter = new scenarioo.reporter('./scenariooDocumentation', BRANCH, '', 'build_' + timeStamp, git.short());
         jasmine.getEnv().addReporter(scenariooReporter);
         browser.driver.manage().window().maximize();
     },
