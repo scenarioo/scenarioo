@@ -15,7 +15,7 @@ var exportsConfig = {
 
     allScriptsTimeout: 11000,
 
-    specs: [ /* See gulpfile.js for specified tests */ ],
+    specs: [/* See gulpfile.js for specified tests */],
 
     capabilities: {
         'browserName': 'chrome'
