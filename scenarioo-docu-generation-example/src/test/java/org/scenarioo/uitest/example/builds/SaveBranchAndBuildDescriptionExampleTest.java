@@ -66,7 +66,7 @@ public class SaveBranchAndBuildDescriptionExampleTest {
 	public void write_branch_description() {
 		Branch branch = new Branch();
 		branch.setName(EXAMPLE_BRANCH_NAME);
-		branch.setDescription("Just an example development branch from example docu generation example.");
+		branch.setDescription("Example documentation of the Wikipedia Web Application as an example. The content is generated from dummy data in the 'scenarioo-docu-generation-example' for testing and demonstration purposes.");
 		docuWriter.saveBranchDescription(branch);
 	}
 	
