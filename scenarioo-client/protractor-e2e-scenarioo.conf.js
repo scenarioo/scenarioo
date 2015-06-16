@@ -53,7 +53,8 @@ var exportsConfig = {
         var git = require('git-rev-sync');
 
         // function ScenariooJasmineReporter(targetDirectory, branchName, branchDescription, buildName, revision) {
-        var scenariooReporter = new scenarioo.reporter('./scenariooDocumentation', BRANCH, '', 'build_' + timeStamp, git.short());
+        // hint: branch='scenarioo-self-docu' because we have one scenarioo docu viewer webapp instance per branch and on each branch we generate many documentations (examples and self-docu) to view inside this same scenarioo webapp.
+        var scenariooReporter = new scenarioo.reporter('./scenariooDocumentation', 'scenarioo-self-docu', '', 'build_' + timeStamp, git.short());
         jasmine.getEnv().addReporter(scenariooReporter);
         browser.driver.manage().window().maximize();
     },
