@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<build xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
-    <name>example-build-old-4</name>
-    <revision>123452</revision>
-    <date>2014-09-11T03:02:26.563+02:00</date>
-    <status>success</status>
-    <details/>
-</build>

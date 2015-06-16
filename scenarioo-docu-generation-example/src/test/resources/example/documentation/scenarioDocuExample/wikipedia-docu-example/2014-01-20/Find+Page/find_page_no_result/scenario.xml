@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<scenario>
+    <name>find_page_no_result</name>
+    <description>User enters text that is not found in pages content.</description>
+    <status>success</status>
+    <details>
+        <entry>
+            <key>User Role</key>
+            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">unauthenticated</value>
+        </entry>
+        <entry>
+            <key>Requirements</key>
+            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectList">
+                <items xsi:type="objectTreeNode">
+                    <item xsi:type="objectDescription">
+                        <name>113 - Search Pages</name>
+                        <type>feature</type>
+                        <details>
+                            <entry>
+<key>description</key>
+<value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">User want to search for pages</value>
+                            </entry>
+                        </details>
+                    </item>
+                    <details/>
+                    <children>
+                        <item xsi:type="objectDescription">
+                            <name>114 - Search Content</name>
+                            <type>epic</type>
+                            <details>
+<entry>
+    <key>description</key>
+    <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">User wants to find search results with content he searched for.</value>
+</entry>
+                            </details>
+                        </item>
+                        <details/>
+                        <children>
+                            <item xsi:type="objectDescription">
+<name>117 - Search Content - Display No Results Message</name>
+<type>userStory</type>
+<details>
+    <entry>
+        <key>description</key>
+        <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">As a user I want to see special message with user guidance in case no result is found.</value>
+    </entry>
+</details>
+                            </item>
+                            <details/>
+                        </children>
+                    </children>
+                </items>
+            </value>
+        </entry>
+        <entry>
+            <key>Very Long Metadata Lines</key>
+            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="details">
+                <properties>
+                    <entry>
+                        <key>Long value with spaces</key>
+                        <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Whenever you find yourself on the side of the majority, it is time to pause and reflect. -- Mark Twain</value>
+                    </entry>
+                    <entry>
+                        <key>Long value without spaces</key>
+                        <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">A_man_who_carries_a_cat_by_the_tail_learns_something_he_can_learn_in_no_other_way._--_Mark_Twain</value>
+                    </entry>
+                    <entry>
+                        <key>A_very_long_metadata_label_without_any_spaces_just_to_test_whether_this_is_displayed_nicely.</key>
+                        <value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Cheers!</value>
+                    </entry>
+                </properties>
+            </value>
+        </entry>
+    </details>
+    <labels>
+        <label>no results</label>
+    </labels>
+</scenario>
