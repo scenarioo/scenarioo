@@ -17,7 +17,7 @@ scenarioo.describeUseCase('Branch aliases', function () {
 
     scenarioo.describeScenario('Create an alias and assert browsing through steps works', function () {
         branchAliasesPage.goToPage();
-        branchAliasesPage.enterAlias('Latest dev', 'example-branch', 'alias to latest development release');
+        branchAliasesPage.enterAlias('Latest dev', 'wikipedia-docu-example', 'alias to latest development release');
         branchAliasesPage.save();
         scenarioo.docuWriter.saveStep('Create new branch alias');
 
@@ -35,7 +35,7 @@ scenarioo.describeUseCase('Branch aliases', function () {
         branchAliasesPage.goToPage();
         branchAliasesPage.deleteAlias(0);
         branchAliasesPage.save();
-        branchAliasesPage.chooseBranch('example-branch');
+        branchAliasesPage.chooseBranch('wikipedia-docu-example');
     });
 
 });
