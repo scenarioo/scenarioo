@@ -1,5 +1,8 @@
-Demo-Smoketest: [![Demo Smoketest Status](http://ci.scenarioo.org/job/smoketest/badge/icon)](http://ci.scenarioo.org/job/smoketest) CI Master: [![CI Status Master Branch](http://ci.scenarioo.org/job/scenarioo-master/badge/icon)](http://ci.scenarioo.org/job/scenarioo-master) CI Develop: [![CI Status Develop Branch](http://ci.scenarioo.org/job/scenarioo-develop/badge/icon)](http://ci.scenarioo.org/job/scenarioo-develop)
-E2E Tests: [![E2E Tests (of last changed/deployed branch)](http://ci.scenarioo.org/job/deploy-demo-and-run-e2e-tests/badge/icon)](http://ci.scenarioo.org/job/deploy-demo-and-run-e2e-tests)
+Demo-Smoketest: [![Demo Smoketest Status](http://ci.scenarioo.org/job/smoketest/badge/icon)](http://ci.scenarioo.org/job/smoketest)
+E2E Tests: [![E2E Tests (of last changed/deployed branch)](http://ci.scenarioo.org/job/deploy-demo-and-run-e2e-tests/badge/icon)](http://ci.scenarioo.org/job/deploy-demo-and-run-e2e-tests)  
+
+CI Master: [![CI Status Master Branch](http://ci.scenarioo.org/job/scenarioo-master/badge/icon)](http://ci.scenarioo.org/job/scenarioo-master)
+CI Develop: [![CI Status Develop Branch](http://ci.scenarioo.org/job/scenarioo-develop/badge/icon)](http://ci.scenarioo.org/job/scenarioo-develop)
 
 Scenarioo
 ==========
