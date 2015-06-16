@@ -16,8 +16,8 @@ scenarioo.describeUseCase('Manage branch aliases', function () {
         scenarioo.docuWriter.saveStep('display the manage branch aliases page');
 
         branchAliasesPage.assertNumberOfAliases(0);
-        branchAliasesPage.enterAlias('Test Alias 1', 'example-branch', 'my description 1');
-        branchAliasesPage.enterAlias('Test Alias 2', 'example-branch', 'my description 2');
+        branchAliasesPage.enterAlias('Test Alias 1', 'wikipedia-docu-example', 'my description 1');
+        branchAliasesPage.enterAlias('Test Alias 2', 'wikipedia-docu-example', 'my description 2');
         branchAliasesPage.save();
         scenarioo.docuWriter.saveStep('add build aliases');
         branchAliasesPage.reset();
@@ -31,7 +31,7 @@ scenarioo.describeUseCase('Manage branch aliases', function () {
         branchAliasesPage.reset();
         branchAliasesPage.assertNumberOfAliases(1);
 
-        branchAliasesPage.updateAlias(0, 'updated alias', 'example-branch', 'updated description');
+        branchAliasesPage.updateAlias(0, 'updated alias', 'wikipedia-docu-example', 'updated description');
         branchAliasesPage.save();
         scenarioo.docuWriter.saveStep('update aliases');
 
@@ -51,10 +51,10 @@ scenarioo.describeUseCase('Manage branch aliases', function () {
     scenarioo.describeScenario('Alias names have to be unique', function() {
         branchAliasesPage.goToPage();
         branchAliasesPage.assertNumberOfAliases(0);
-        branchAliasesPage.enterAlias('duplicate', 'example-branch', 'duplicate alias name');
+        branchAliasesPage.enterAlias('duplicate', 'wikipedia-docu-example', 'duplicate alias name');
         branchAliasesPage.save();
         branchAliasesPage.assertNumberOfAliases(1);
-        branchAliasesPage.enterAlias('duplicate', 'example-branch', 'duplicate alias name');
+        branchAliasesPage.enterAlias('duplicate', 'wikipedia-docu-example', 'duplicate alias name');
         branchAliasesPage.save();
         branchAliasesPage.assertDuplicateAliasError();
         scenarioo.docuWriter.saveStep('duplicate aliases are not allowed');
