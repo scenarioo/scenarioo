@@ -23,8 +23,10 @@ Live-Demo
 
 CI Build Status: 
 
-* master: http://ci.scenarioo.org/job/scenarioo-master
-* develop: http://ci.scenarioo.org/job/scenarioo-develop
+* master branch: [![CI Status Master Branch](http://ci.scenarioo.org/job/scenarioo-master/badge/icon)](http://ci.scenarioo.org/job/scenarioo-master)
+* develop branch: [![CI Status Develop Branch](http://ci.scenarioo.org/job/scenarioo-develop/badge/icon)](http://ci.scenarioo.org/job/scenarioo-develop)
+* Continuous Deployment and E2E Tests (for all branches): [![E2E Tests (of last changed/deployed branch)](http://ci.scenarioo.org/job/deploy-demo-and-run-e2e-tests/badge/icon)](http://ci.scenarioo.org/job/deploy-demo-and-run-e2e-tests)
+* Demo Smoketest: [![Demo Smoketest Status](http://ci.scenarioo.org/job/smoketest/badge/icon)](http://ci.scenarioo.org/job/smoketest)
 
 License: see https://github.com/scenarioo/scenarioo/blob/master/LICENSE.txt
 
