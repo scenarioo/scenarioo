@@ -32,11 +32,10 @@ BranchAliasesPage.prototype.openBranchSelectionMenu = function () {
 
 BranchAliasesPage.prototype.assertAliasesAreShownFirstInTheNavigationMenu = function () {
     var branchOptions = element.all(by.css('#branchSelectionDropdown .branchOption'));
-    var count = branchOptions.count();
-    expect(count).toBeGreaterThan(2); // test data branches: 2 aliases + at least one branch
+    expect(branchOptions.count()).toBe(3);
     expect(branchOptions.get(0).getText()).toBe('Test Alias 1 (wikipedia-docu-example)');
     expect(branchOptions.get(1).getText()).toBe('Test Alias 2 (wikipedia-docu-example)');
-    expect(branchOptions.get(count - 1).getText()).toBe('wikipedia-docu-example'); // currently assuming that it has to be the last one when starting with "w"
+    expect(branchOptions.get(2).getText()).toBe('wikipedia-docu-example');
 };
 
 BranchAliasesPage.prototype.enterAlias = function (name, referencedBranchName, description) {
