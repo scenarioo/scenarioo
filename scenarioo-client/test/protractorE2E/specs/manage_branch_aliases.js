@@ -19,7 +19,9 @@ scenarioo.describeUseCase('Manage branch aliases', function () {
         branchAliasesPage.enterAlias('Test Alias 1', 'wikipedia-docu-example', 'my description 1');
         branchAliasesPage.enterAlias('Test Alias 2', 'wikipedia-docu-example', 'my description 2');
         branchAliasesPage.save();
+        // TODO: we should better wait and check for the success message of the save here (which does not yet appear immediately)! In general our tests do not assert much
         scenarioo.docuWriter.saveStep('saved build aliases');
+
         branchAliasesPage.reset();
         branchAliasesPage.assertNumberOfAliases(2);
         branchAliasesPage.openBranchSelectionMenu();
