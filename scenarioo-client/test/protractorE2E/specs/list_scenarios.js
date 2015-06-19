@@ -23,7 +23,7 @@ scenarioo.describeUseCase('list_scenarios', function () {
         homePage.assertUseCasesShown(NUMBER_OF_USE_CASES);
         homePage.selectUseCase(1);
         scenarioo.docuWriter.saveStep('select a scenario in the scenario list');
-        useCasePage.selectScenario(1);
+        useCasePage.selectScenario(0);
         scenarioo.docuWriter.saveStep('all pages are collapsed by default, "expand all" button is visible');
         scenarioPage.expectOnlyExpandAllButtonIsDisplayed();
         scenarioPage.toggleShowAllStepsOfPage(0);
