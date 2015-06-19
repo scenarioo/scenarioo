@@ -22,7 +22,7 @@ scenarioo.describeUseCase('Browse object details', function () {
         objectDetailsPage.assertTreeNodeStatus('10', 'expanded');
     });
 
-    scenarioo.describeScenario('Nodes in the object reference tree are linked to their respective Scenarioo pages', function () {
+    scenarioo.describeScenario('Nodes in the object reference tree are linked to their respective Scenario pages', function () {
         objectDetailsPage.goToPage('/object/uiAction/example.action.StartInitAction');
         scenarioo.docuWriter.saveStep('Display object details page');
 
@@ -31,12 +31,12 @@ scenarioo.describeUseCase('Browse object details', function () {
         usecasePage.clickBrowserBackButton();
 
         objectDetailsPage.clickNthTreeTableRow(1);
-        objectDetailsPage.assertRoute('/scenario/Find%20Page/find_no_results');
+        objectDetailsPage.assertRoute('/scenario/Find%20Page/find_multiple_results');
         usecasePage.clickBrowserBackButton();
 
         objectDetailsPage.clickToExpand('1');
         objectDetailsPage.clickNthTreeTableRow(2);
-        objectDetailsPage.assertRoute('/step/Find%20Page/find_no_results/startSearch.jsp/0/0');
+        objectDetailsPage.assertRoute('/step/Find%20Page/find_multiple_results/startSearch.jsp/0/0');
         usecasePage.clickBrowserBackButton();
     });
 
@@ -46,8 +46,9 @@ scenarioo.describeUseCase('Browse object details', function () {
         objectDetailsPage.clickCollapseAll();
         scenarioo.docuWriter.saveStep('Click to collapse all');
         objectDetailsPage.enterSearchCriteria('multiple results');
-        scenarioo.docuWriter.saveStep('Entered search criteria leads to one match');
-        objectDetailsPage.assertTreeNodeStatus('4', 'expanded');
+        objectDetailsPage.assertRowToContainTextAndBeDisplayed('2', 'multiple results');
+        objectDetailsPage.assertTreeNodeStatus('1', 'expanded');
+        scenarioo.docuWriter.saveStep('Entered search criteria leads to one match that is expanded');
         objectDetailsPage.resetSearchCriteriaWithEsc();
         scenarioo.docuWriter.saveStep('Reset search criteria with ESC');
     });
