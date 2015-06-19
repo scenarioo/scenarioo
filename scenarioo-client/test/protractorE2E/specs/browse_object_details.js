@@ -46,7 +46,7 @@ scenarioo.describeUseCase('Browse object details', function () {
         objectDetailsPage.clickCollapseAll();
         scenarioo.docuWriter.saveStep('Click to collapse all');
         objectDetailsPage.enterSearchCriteria('multiple results');
-        objectDetailsPage.assertRowToContainTextAndBeDisplayed('2', 'multiple results');
+        objectDetailsPage.assertRowToContainTextAndBeDisplayed('1', 'multiple results');
         objectDetailsPage.assertTreeNodeStatus('1', 'expanded');
         scenarioo.docuWriter.saveStep('Entered search criteria leads to one match that is expanded');
         objectDetailsPage.resetSearchCriteriaWithEsc();
