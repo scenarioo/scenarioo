@@ -74,7 +74,7 @@ scenarioo.describeUseCase('Show step', function () {
         stepPage.goToPage('/step/Find%20Page/renamed_scenario/searchResults.jsp/0/0');
 
         stepPage.assertFallbackMessageIsShown();
-        stepPage.assertFallbackMessageContainsText('Scenario: find_no_results');
+        stepPage.assertFallbackMessageContainsText('Scenario: find_multiple_results');
 
         scenarioo.docuWriter.saveStep('Fallback message.');
     });
