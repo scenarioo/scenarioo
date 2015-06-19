@@ -64,7 +64,7 @@ public class FindPageUITest extends UITest {
 	@Test
 	@DocuDescription(description = "User enters some text and finds multiple pages that contain this text.")
 	@UserStories({ 115 })
-	@Labels({ "happy", "multiple results" })
+	@Labels({ "happy" })
 	public void find_multiple_results() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.DEFAULT_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org");
@@ -78,7 +78,6 @@ public class FindPageUITest extends UITest {
 	@Test
 	@DocuDescription(description = "User enters exact unique page title and is navigated to the page directly.")
 	@UserStories({ 116 })
-	@Labels({ "exact match" })
 	public void find_page_title_unique_directly() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.DIRECT_SEARCH_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org");
@@ -91,7 +90,6 @@ public class FindPageUITest extends UITest {
 	@DocuDescription(
 			description = "User enters exact page title that has ambiguities, he is navigated to the most relevant page directly and sees the ambiguities on top of the page.")
 	@UserStories({ 116, 119 })
-	@Labels({ "exact match", "ambiguity" })
 	public void find_page_title_ambiguous_directly() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.AMBIGUOTIES_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org");
@@ -104,7 +102,6 @@ public class FindPageUITest extends UITest {
 	@Test
 	@DocuDescription(description = "User enters text that is not found in pages content.")
 	@UserStories({ 117 })
-	@Labels({ "no results" })
 	public void find_no_results() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.SEARCH_NOT_FOUND_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org");
