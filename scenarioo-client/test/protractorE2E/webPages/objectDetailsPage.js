@@ -54,7 +54,7 @@ ObjectDetailsPage.prototype.assertRowToContainTextAndBeDisplayed = function(row,
     var matchElement = element(by.id('node_' + row));
     expect(matchElement.getText()).toContain(text);
     expect(matchElement.isDisplayed()).toBeTruthy();
-}
+};
 
 ObjectDetailsPage.prototype.resetSearchCriteriaWithEsc = function() {
     var searchField = element(by.name('searchCriteria'));
