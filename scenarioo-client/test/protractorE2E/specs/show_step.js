@@ -25,7 +25,7 @@ scenarioo.describeUseCase('Show step', function () {
         homePage.selectUseCase(1);
         scenarioo.docuWriter.saveStep('Display list of scenarios');
 
-        usecasePage.selectScenario(0);
+        usecasePage.selectScenario(1);
         scenarioo.docuWriter.saveStep('Display one scenario');
 
         scenarioPage.openStepByName('Step 1: Wikipedia Suche');
