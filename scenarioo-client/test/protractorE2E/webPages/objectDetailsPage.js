@@ -48,11 +48,13 @@ ObjectDetailsPage.prototype.assertTreeNodeStatus = function (nodeId, status) {
 ObjectDetailsPage.prototype.enterSearchCriteria = function(searchCriteria) {
     var searchField = element(by.name('searchCriteria'));
     searchField.sendKeys(searchCriteria);
-
-    var matchElement = element(by.id('node_' + '4'));
-    expect(matchElement.getText()).toContain('multiple results');
-    expect(matchElement.isDisplayed()).toBeTruthy();
 };
+
+ObjectDetailsPage.prototype.assertRowToContainTextAndBeDisplayed = function(row, text) {
+    var matchElement = element(by.id('node_' + row));
+    expect(matchElement.getText()).toContain(text);
+    expect(matchElement.isDisplayed()).toBeTruthy();
+}
 
 ObjectDetailsPage.prototype.resetSearchCriteriaWithEsc = function() {
     var searchField = element(by.name('searchCriteria'));
