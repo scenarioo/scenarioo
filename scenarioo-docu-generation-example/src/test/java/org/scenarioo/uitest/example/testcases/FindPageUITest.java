@@ -64,8 +64,8 @@ public class FindPageUITest extends UITest {
 	@Test
 	@DocuDescription(description = "User enters some text and finds multiple pages that contain this text.")
 	@UserStories({ 115 })
-	@Labels({ "search results" })
-	public void find_page_with_text_on_page_from_multiple_results() {
+	@Labels({ "happy", "multiple results" })
+	public void find_multiple_results() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.DEFAULT_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org");
 		toolkit.enterText("searchField", "best band in the world");
@@ -76,10 +76,10 @@ public class FindPageUITest extends UITest {
 	}
 	
 	@Test
-	@DocuDescription(description = "User enters exact page title and finds it directly.")
+	@DocuDescription(description = "User enters exact unique page title and is navigated to the page directly.")
 	@UserStories({ 116 })
 	@Labels({ "exact match" })
-	public void find_page_with_title_direct() {
+	public void find_page_title_unique_directly() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.DIRECT_SEARCH_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org");
 		toolkit.enterText("searchField", "FC Basel");
@@ -89,10 +89,10 @@ public class FindPageUITest extends UITest {
 	
 	@Test
 	@DocuDescription(
-			description = "User enters page title that is ambiguous but matches directly a page, on the page he sees the list of other meanings, and can navigate to the page he meant.")
+			description = "User enters exact page title that has ambiguities, he is navigated to the most relevant page directly and sees the ambiguities on top of the page.")
 	@UserStories({ 116, 119 })
-	@Labels({ "search results" })
-	public void find_page_with_title_ambiguous_navigate_to_other_meaning() {
+	@Labels({ "exact match", "ambiguity" })
+	public void find_page_title_ambiguous_directly() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.AMBIGUOTIES_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org");
 		toolkit.enterText("searchField", "42");
@@ -105,7 +105,7 @@ public class FindPageUITest extends UITest {
 	@DocuDescription(description = "User enters text that is not found in pages content.")
 	@UserStories({ 117 })
 	@Labels({ "no results" })
-	public void find_page_no_result() {
+	public void find_no_results() {
 		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.SEARCH_NOT_FOUND_CONFIG);
 		toolkit.loadUrl("http://www.wikipedia.org");
 		toolkit.enterText("searchField", "Scenarioo");
