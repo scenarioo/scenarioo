@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<step>
+    <page>
+        <name>donate.jsp</name>
+        <details/>
+        <labels/>
+    </page>
+    <stepDescription>
+        <index>6</index>
+        <title></title>
+        <status>success</status>
+        <screenshotFileName>006.png</screenshotFileName>
+        <labels/>
+        <details/>
+    </stepDescription>
+    <metadata>
+        <details/>
+    </metadata>
+</step>

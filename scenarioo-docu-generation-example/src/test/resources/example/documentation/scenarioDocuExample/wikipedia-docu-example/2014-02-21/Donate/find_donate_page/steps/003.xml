@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<step>
+    <page>
+        <name>startSearch.jsp</name>
+        <details/>
+        <labels/>
+    </page>
+    <stepDescription>
+        <index>3</index>
+        <title></title>
+        <status>success</status>
+        <screenshotFileName>003.png</screenshotFileName>
+        <labels/>
+        <details/>
+    </stepDescription>
+    <metadata>
+        <details/>
+    </metadata>
+</step>

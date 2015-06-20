@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<step>
+    <page>
+        <name>portal.jsp</name>
+        <details/>
+        <labels/>
+    </page>
+    <stepDescription>
+        <index>2</index>
+        <title></title>
+        <status>success</status>
+        <screenshotFileName>002.png</screenshotFileName>
+        <labels/>
+        <details/>
+    </stepDescription>
+    <metadata>
+        <details/>
+    </metadata>
+</step>

@@ -42,7 +42,7 @@ public class ExampleUITestDocuGenerationConfig {
 	 * An example name for the branch in the example. Usually you would use the name of your real development branch
 	 * (e.g. "trunk" or "bugfix-branch-2013-11")
 	 */
-	public static final String EXAMPLE_BRANCH_NAME = "example-branch";
+	public static final String EXAMPLE_BRANCH_NAME = "wikipedia-docu-example";
 	
 	static {
 		// Ensure that the build directory gets precreated, this is not handled by the Scenarioo Docu writer, if

@@ -6,14 +6,17 @@ var pages = require('./../webPages');
 
 scenarioo.describeUseCase('Use breadcrumbs', function () {
 
-    scenarioo.describeScenario('Navigate to the Home Page, filter for one usecase select scenario click on breadcrumb',
-        function () {
-            var homePage = new pages.homePage();
-            var useCasePage = new pages.usecasePage();
-            var breadcrumpsPage = new pages.breadcrumpsPage();
+    var homePage = new pages.homePage();
+    var useCasePage = new pages.usecasePage();
+    var breadcrumbsPage = new pages.breadcrumbsPage();
+    var stepPage = new pages.stepPage();
 
-            browser.get('#/');
-            homePage.closeScenariooInfoDialogIfOpen();
+    beforeEach(function () {
+        new pages.homePage().initLocalStorage();
+    });
+
+    scenarioo.describeScenario('Navigate to the Home Page, filter for one usecase select scenario click on breadcrumb', function () {
+            homePage.goToPage();
             scenarioo.docuWriter.saveStep('Display the homePage');
 
             homePage.assertPageIsDisplayed();
@@ -28,26 +31,22 @@ scenarioo.describeUseCase('Use breadcrumbs', function () {
             useCasePage.selectScenario(3);
             scenarioo.docuWriter.saveStep('Selected scenario');
 
-            breadcrumpsPage.assertUseCaseNameInBreadcrumb('breadcrumb_1', 'Find Page');
-            breadcrumpsPage.clickOnBreadcrumb('breadcrumb_1');
+            breadcrumbsPage.assertUseCaseNameInBreadcrumb('breadcrumb_1', 'Find Page');
+            breadcrumbsPage.clickOnBreadcrumb('breadcrumb_1');
             scenarioo.docuWriter.saveStep('Clicked on use case in breadcrumb');
 
-            breadcrumpsPage.clickOnBreadcrumb('breadcrumb_0');
+            breadcrumbsPage.clickOnBreadcrumb('breadcrumb_0');
             scenarioo.docuWriter.saveStep('Clicked on home breadcrumb');
         }
     );
 
-    scenarioo.describeScenario('Navigate to scenario and test for tooltip',
-        function () {
-            var breadcrumpsPage = new pages.breadcrumpsPage();
-
-            browser.get('#/step/Find%20Page/find_page_with_text_on_page_from_multiple_results/searchResults.jsp/0/0');
+    scenarioo.describeScenario('Navigate to scenario and test for tooltip', function () {
+            stepPage.goToPage('/step/Find%20Page/find_page_with_text_on_page_from_multiple_results/searchResults.jsp/0/0');
             scenarioo.docuWriter.saveStep('Display steps and pages');
 
-            breadcrumpsPage.assertThatTooltipIsShown('tooltip_2', 'Scenario: Find page with ' +
-                'text on page from multiple results');
+            breadcrumbsPage.assertThatTooltipIsShown('tooltip_2', 'Scenario: Find page with ' +
+            'text on page from multiple results');
             scenarioo.docuWriter.saveStep('Test that tooltip explicit exists');
-
         }
     );
 
