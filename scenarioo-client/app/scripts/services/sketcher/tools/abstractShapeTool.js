@@ -37,7 +37,7 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function (T
         //tool.pauseEvent(event);
     };
 
-    tool.onmouseupTemplate = function (event) {
+    tool.onmouseupTemplate = function () {
         tool.mousedown = false;
         tool.originalX = 0;
         tool.originalY = 0;

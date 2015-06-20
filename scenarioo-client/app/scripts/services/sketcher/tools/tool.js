@@ -14,6 +14,7 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+/* eslint no-console:0 */
 
 
 angular.module('scenarioo.controllers').factory('Tool', function (DrawingPadService) {
@@ -51,13 +52,13 @@ angular.module('scenarioo.controllers').factory('Tool', function (DrawingPadServ
     };
 
 
-    tool.onmousedown = function (event) {
+    tool.onmousedown = function () {
         console.log('onmousedown: not implemented in generic tool');
     };
-    tool.onmouseup = function (event) {
+    tool.onmouseup = function () {
         console.log('onmouseup: not implemented in generic tool');
     };
-    tool.onmousedrag = function (event) {
+    tool.onmousedrag = function () {
         console.log('onmousedrag: not implemented in generic tool');
     };
 
