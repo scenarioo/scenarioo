@@ -14,7 +14,8 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+/* global SVG:false*/
+/* eslint no-console:0 */
 
 angular.module('scenarioo.controllers').factory('SelectTool', function(Tool) {
     var tool = Tool.get;
@@ -33,8 +34,8 @@ angular.module('scenarioo.controllers').factory('SelectTool', function(Tool) {
 
     };
 
-    tool.onmousedown = function(event) {};
-    tool.onmousedrag = function(event) {};
+    tool.onmousedown = function() {};
+    tool.onmousedrag = function() {};
 
     return {
 

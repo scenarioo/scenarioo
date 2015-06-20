@@ -14,6 +14,8 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+/* global SVG:false, jQuery:false*/
+/* eslint no-console:0*/
 
 angular.module('scenarioo.services').factory('DrawingPadService', function () {
     var drawingPad = SVG('drawingPad').size('100%', '100%').fixSubPixelOffset();
