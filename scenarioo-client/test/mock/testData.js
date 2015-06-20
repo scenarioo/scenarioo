@@ -80,7 +80,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'buildDescription': {'details': {}, 'revision': '123456', 'status': 'success', 'date': 1388879915785, 'name': 'example-build'},
                 'importDate': 1388620336537,
                 'status': 'SUCCESS',
-                'identifier': {'branchName': 'example-branch', 'buildName': 'example-build'}
+                'identifier': {'branchName': 'wikipedia-docu-example', 'buildName': 'example-build'}
             }
         ],
 
@@ -129,7 +129,7 @@ angular.module('scenarioo.services').service('TestData', function () {
 
         /**
          * Based on
-         * http://localhost:8080/scenarioo/rest/branch/example-branch/build/example-build/usecase/Find%20Page/scenario/find_page_with_text_on_page_from_multiple_results/pageName/searchResults.jsp/pageOccurrence/0/stepInPageOccurrence/0
+         * http://localhost:8080/scenarioo/rest/branch/wikipedia-docu-example/build/example-build/usecase/Find%20Page/scenario/find_page_with_text_on_page_from_multiple_results/pageName/searchResults.jsp/pageOccurrence/0/stepInPageOccurrence/0
          * with simplified metadata.
          */
         STEP: {

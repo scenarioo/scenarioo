@@ -1,29 +1,29 @@
 {
-  "name": "scenariooClient",
-  "version": "0.0.0",
-  "dependencies": {
-    "angular": "~1.2.23",
-    "angular-resource": "~1.2.23",
-    "angular-sanitize": "~1.2.23",
-    "angular-route": "~1.2.23",
-    "angular-i18n": "~1.2.23",
-    "angular-local-storage": "~0.0.1",
-    "bootstrap": "~3.3.2",
-    "angular-bootstrap": "~0.12.1",
-    "json3": "~3.2.4",
-    "es5-shim": "~2.0.8",
-    "font-awesome": "~3.2.1",
-    "twigs": "0.1.3.1",
-    "svg.js": "1.0.1",
-    "svg.draggable.js": "~0.1.0",
-    "svg.export.js": "~0.1.1",
-    "svg.foreignobject.js": "*"
-  },
-  "devDependencies": {
-    "angular-mocks": "~1.2.23",
-    "angular-scenario": "~1.2.23"
-  },
-  "resolutions": {
-    "angular": "1.2.23"
-  }
+    "name": "scenariooClient",
+    "version": "0.0.0",
+    "dependencies": {
+        "angular": "~1.2.23",
+        "angular-resource": "~1.2.23",
+        "angular-sanitize": "~1.2.23",
+        "angular-route": "~1.2.23",
+        "angular-i18n": "~1.2.23",
+        "angular-local-storage": "~0.2.1",
+        "bootstrap": "~3.3.2",
+        "angular-bootstrap": "~0.12.1",
+        "json3": "~3.2.4",
+        "es5-shim": "~2.0.8",
+        "font-awesome": "~3.2.1",
+        "twigs": "0.1.3.1"
+        "svg.js": "1.0.1",
+        "svg.draggable.js": "~0.1.0",
+        "svg.export.js": "~0.1.1",
+        "svg.foreignobject.js": "*"
+    },
+    "devDependencies": {
+        "angular-mocks": "~1.2.23",
+        "angular-scenario": "~1.2.23"
+    },
+    "resolutions": {
+        "angular": "1.2.23"
+    }
 }

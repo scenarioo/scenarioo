@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div class="input-group">
             <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
                    title="type words separated by spaces to search for" ng-model="useCase.table.search.searchTerm"
-                   placeholder="Search in use case '{{useCase.useCase.description}}'..."/>
+                   placeholder="Search in use case &quot;{{useCase.useCase.name | scHumanReadable}}&quot;..."/>
             <span class="input-group-btn">
                 <button type="button" ng-click="useCase.resetSearchField()" class="btn btn-default">reset</button>
             </span>

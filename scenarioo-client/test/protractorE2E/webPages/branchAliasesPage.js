@@ -7,7 +7,7 @@ function BranchAliasesPage(overridePath) {
     if (overridePath && overridePath.length > 0) {
         BaseWebPage.call(this, overridePath);
     } else {
-        BaseWebPage.call(this, '/');
+        BaseWebPage.call(this, '/manage?tab=branchAliases');
     }
 
     this.branchAliasTable = element(by.css('table.table-responsive'));
@@ -24,6 +24,18 @@ BranchAliasesPage.prototype.assertNumberOfAliases = function (expectedCount) {
     var rows = this.branchAliasTable.all(by.css('tbody tr'));
     // + 1 due to empty row
     expect(rows.count()).toBe(expectedCount + 1);
+};
+
+BranchAliasesPage.prototype.openBranchSelectionMenu = function () {
+    element(by.id('branchSelectionDropdown')).click();
+};
+
+BranchAliasesPage.prototype.assertAliasesAreShownFirstInTheNavigationMenu = function () {
+    var branchOptions = element.all(by.css('#branchSelectionDropdown .branchOption'));
+    expect(branchOptions.count()).toBe(3);
+    expect(branchOptions.get(0).getText()).toBe('Test Alias 1 (wikipedia-docu-example)');
+    expect(branchOptions.get(1).getText()).toBe('Test Alias 2 (wikipedia-docu-example)');
+    expect(branchOptions.get(2).getText()).toBe('wikipedia-docu-example');
 };
 
 BranchAliasesPage.prototype.enterAlias = function (name, referencedBranchName, description) {

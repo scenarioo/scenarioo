@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </li>
 
         <!-- Branch selection dropdown -->
-        <li class="dropdown" dropdown is-open="status.isBranchSelectionOpen">
+        <li class="dropdown" dropdown is-open="status.isBranchSelectionOpen" id="branchSelectionDropdown">
             <a href="#" class="dropdown-toggle" dropdown-toggle>
                 <span class="glyphicon glyphicon-hdd"></span> Branch:
                 <span class="glyphicon glyphicon-share-alt" ng-show="branchesAndBuilds.selectedBranch.alias"></span>
@@ -34,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </a>
             <ul class="dropdown-menu">
                 <li ng-repeat="branch in branchesAndBuilds.branches | branchOrderBy">
-                    <a ng-click="setBranch(branch)">
+                    <a ng-click="setBranch(branch)" class="branchOption">
                         <span class="glyphicon glyphicon-share-alt" ng-show="branch.alias"></span>
                         {{getBranchDisplayName(branch)}}</a>
                 </li>

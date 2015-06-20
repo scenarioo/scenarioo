@@ -1,39 +1,41 @@
 {
-  "name": "scenarioo-client",
-  "description": "Automated Documentation with UI Tests",
-  "repository": "https://github.com/scenarioo/scenarioo.git",
-  "version": "0.0.0",
-  "scripts": {
-    "test": "gulp"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "del": "^1.2.0",
-    "gaze": "~0.3.1",
-    "gulp": "^3.9.0",
-    "gulp-connect": "^2.2.0",
-    "gulp-eslint": "^0.12.0",
-    "gulp-less": "^3.0.3",
-    "gulp-ng-annotate": "^1.0.0",
-    "gulp-protractor": "^1.0.0",
-    "gulp-uglify": "^1.2.0",
-    "gulp-usemin": "^0.3.11",
-    "gulp-util": "^3.0.5",
-    "gulp-wrap": "^0.11.0",
-    "jasmine-core": "^2.3.4",
-    "jasmine-reporters": "^2.0.6",
-    "js2coffee": "~0.3.0",
-    "jshint": "~2.5.1",
-    "karma": "^0.12.35",
-    "karma-jasmine": "^0.3.5",
-    "karma-junit-reporter": "^0.2.2",
-    "karma-phantomjs-launcher": "^0.2.0",
-    "lodash": "^3.9.3",
-    "matchdep": "~0.1.1",
-    "phantomjs": "^1.9.17",
-    "scenarioo-js": "0.1.6"
-  },
-  "engines": {
-    "node": ">=0.8.0"
-  }
+    "name": "scenarioo-client",
+    "description": "Automated Documentation with UI Tests",
+    "repository": "https://github.com/scenarioo/scenarioo.git",
+    "version": "0.0.0",
+    "scripts": {
+        "test": "gulp"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "del": "^1.2.0",
+        "gaze": "~0.3.1",
+        "git-rev-sync": "^1.1.0",
+        "gulp": "^3.9.0",
+        "gulp-connect": "^2.2.0",
+        "gulp-eslint": "^0.12.0",
+        "gulp-less": "^3.0.3",
+        "gulp-ng-annotate": "^1.0.0",
+        "gulp-protractor": "^1.0.0",
+        "gulp-uglify": "^1.2.0",
+        "gulp-usemin": "^0.3.11",
+        "gulp-util": "^3.0.5",
+        "gulp-wrap": "^0.11.0",
+        "jasmine-core": "^2.3.4",
+        "jasmine-reporters": "^2.0.6",
+        "js2coffee": "~0.3.0",
+        "jshint": "~2.5.1",
+        "karma": "^0.12.35",
+        "karma-jasmine": "^0.3.5",
+        "karma-junit-reporter": "^0.2.2",
+        "karma-phantomjs-launcher": "^0.2.0",
+        "lodash": "^3.9.3",
+        "matchdep": "~0.1.1",
+        "moment": "^2.10.3",
+        "phantomjs": "^1.9.17",
+        "scenarioo-js": "^0.1.7"
+    },
+    "engines": {
+        "node": ">=0.8.0"
+    }
 }

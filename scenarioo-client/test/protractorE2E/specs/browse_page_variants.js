@@ -5,13 +5,15 @@ var pages = require('./../webPages');
 
 scenarioo.describeUseCase('Browse page variants', function () {
 
-    var homePage = new pages.homePage();
     var stepPage = new pages.stepPage();
     var objectDetailsPage = new pages.objectDetailsPage();
 
+    beforeEach(function(){
+        new pages.homePage().initLocalStorage();
+    });
+
     scenarioo.describeScenario('Navigate to previous / next page variants.', function () {
-        browser.get('#/step/Switch%20Language/search_article_in_german_and_switch_to_spanish/contentPage.jsp/0/0');
-        homePage.closeScenariooInfoDialogIfOpen();
+        stepPage.goToPage('/step/Switch%20Language/search_article_in_german_and_switch_to_spanish/contentPage.jsp/0/0');
         stepPage.assertPageVariantIndicatorValue('Page-Variant 8 of 10');
         scenarioo.docuWriter.saveStep('A step of the contentPage.jsp page.');
 
@@ -28,7 +30,7 @@ scenarioo.describeUseCase('Browse page variants', function () {
     });
 
     scenarioo.describeScenario('Go to page variants overview page to select a different page variant.', function () {
-        browser.get('#/step/Switch%20Language/search_article_in_german_and_switch_to_spanish/contentPage.jsp/0/0');
+        stepPage.goToPage('/step/Switch%20Language/search_article_in_german_and_switch_to_spanish/contentPage.jsp/0/0');
         scenarioo.docuWriter.saveStep('A step of the contentPage.jsp page.');
 
         stepPage.clickAllPageVariantsLink();
@@ -39,7 +41,7 @@ scenarioo.describeUseCase('Browse page variants', function () {
         scenarioo.docuWriter.saveStep('Expanded scenario with the steps that contain the page.');
 
         objectDetailsPage.clickNthTreeTableRow(6);
-        stepPage.assertRoute('/step/Find%20Page/find_page_with_title_ambiguous_navigate_to_other_meaning/contentPage.jsp/0/2');
+        stepPage.assertRoute('/step/Find%20Page/find_page_title_ambiguous_directly/contentPage.jsp/0/2');
         scenarioo.docuWriter.saveStep('A different page variant.');
     });
 

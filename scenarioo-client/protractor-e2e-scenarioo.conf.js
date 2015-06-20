@@ -1,7 +1,23 @@
 'use strict';
 
-var scenarioo = require('scenarioo-js');
-var moment = require('moment');
+/**
+ * This protractor configuration can be configured using environment variables.
+ *
+ * If no environment variables are specified, default values are used. These default variables are meant
+ * for running the tests locally on a developer machine.
+ *
+ * Parameters:
+ *
+ * PROTRACTOR_BASE_URL
+ *   host of the application, i.e.: http://myhost:9345/myScenarioo
+ *   default value: 'http://localhost:9000'
+ */
+
+var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:9000';
+var BRANCH = process.env.BRANCH || 'unknown_branch';
+
+console.log('PROTRACTOR_BASE_URL: ' + PROTRACTOR_BASE_URL);
+console.log('BRANCH: ' + BRANCH);
 
 var exportsConfig = {
     framework: 'jasmine',
@@ -13,35 +29,42 @@ var exportsConfig = {
     chromeDriver: './node_modules/gulp-protractor/node_modules/protractor/selenium/chromedriver',
     seleniumArgs: [],
 
-    allScriptsTimeout: 11000,
+    // Timeouts: https://angular.github.io/protractor/#/timeouts
+    allScriptsTimeout: 20000,
+    getPageTimeout: 20000,
 
-    specs: [ /* See gulpfile.js for specified tests */ ],
+    specs: [/* See gulpfile.js for specified tests */],
 
     capabilities: {
         'browserName': 'chrome'
     },
 
-    baseUrl: 'http://localhost:9000',
+    baseUrl: PROTRACTOR_BASE_URL,
 
-    rootElement: 'body',
+    // CSS Selector for the element housing the angular app - this defaults to
+    // body, but is necessary if ng-app is on a descendant of <body>.
+    rootElement: 'html',
 
     onPrepare: function () {
         require('jasmine-reporters');
-        // enable scenarioo userDocumentation (see more on http://www.scenarioo.org)
+        var scenarioo = require('scenarioo-js');
+        var moment = require('moment');
         var timeStamp = moment().format('YYYY.MM.DD_HH.mm.ss');
-        var scenariooReporter = new scenarioo.reporter('./scenariodocu', 'develop', 'the develop branch', 'build_' + timeStamp, '1.0.0');
-        jasmine.getEnv().addReporter(scenariooReporter);
+        var git = require('git-rev-sync');
 
+        // function ScenariooJasmineReporter(targetDirectory, branchName, branchDescription, buildName, revision) {
+        // hint: branch='scenarioo-self-docu' because we have one scenarioo docu viewer webapp instance per branch and on each branch we generate many documentations (examples and self-docu) to view inside this same scenarioo webapp.
+        var scenariooReporter = new scenarioo.reporter('./scenariooDocumentation', 'scenarioo-self-docu', '', 'build_' + timeStamp, git.short());
+        jasmine.getEnv().addReporter(scenariooReporter);
         browser.driver.manage().window().maximize();
     },
 
     params: {
-        baseUrl: 'http://localhost:9000'
+        // Used in our tests
+        baseUrl: PROTRACTOR_BASE_URL
     },
 
     jasmineNodeOpts: {
-        // onComplete will be called just before the driver quits.
-        onComplete: null,
         // If true, display spec names.
         isVerbose: false,
         // If true, print colors to the terminal.
