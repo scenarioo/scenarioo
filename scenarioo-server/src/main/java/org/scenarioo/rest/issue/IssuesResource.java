@@ -67,15 +67,15 @@ public class IssuesResource {
 	@Produces({ "application/xml", "application/json" })
 	public List<IssueSummary> loadIssueSummaries(@PathParam("branchName") final String branchName) {
 		LOGGER.info("REQUEST: loadIssueSummaryList(" + branchName + ")");
-		BuildIdentifier ident = new BuildIdentifier(branchName, "");
-		List<IssueSummary> result = new LinkedList<IssueSummary>();
+		final BuildIdentifier ident = new BuildIdentifier(branchName, "");
+		final List<IssueSummary> result = new LinkedList<IssueSummary>();
 
 		// This does not use pre-aggregated data
 		// Temporary Solution, probably does not scale
-		List<Issue> issues = reader.loadIssues(branchName);
-		for (Issue i : issues) {
-			List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, i.getIssueId());
-			IssueSummary summary = new IssueSummary();
+		final List<Issue> issues = reader.loadIssues(branchName);
+		for (final Issue i : issues) {
+			final List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, i.getIssueId());
+			final IssueSummary summary = new IssueSummary();
 			summary.setName(i.getName());
 			summary.setId(i.getIssueId());
 			summary.setDescription(i.getDescription());
@@ -97,16 +97,16 @@ public class IssuesResource {
 
 		// This does not use pre-aggregated data
 		// Temporary Solution, probably does not scale
-		Issue issue = reader.loadIssue(branchName, issueId);
-		List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, issueId);
-		List<ScenarioSketchSummary> summaries = new ArrayList<ScenarioSketchSummary>();
-		for (ScenarioSketch sketch : scenarioSketches) {
-			ScenarioSketchSummary summary = new ScenarioSketchSummary();
+		final Issue issue = reader.loadIssue(branchName, issueId);
+		final List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, issueId);
+		final List<ScenarioSketchSummary> summaries = new ArrayList<ScenarioSketchSummary>();
+		for (final ScenarioSketch sketch : scenarioSketches) {
+			final ScenarioSketchSummary summary = new ScenarioSketchSummary();
 			summary.setScenarioSketch(sketch);
 			summary.setNumberOfSteps(reader.loadSketchSteps(branchName, issueId, sketch.getScenarioSketchId()).size());
 			summaries.add(summary);
 		}
-		IssueScenarioSketches result = new IssueScenarioSketches();
+		final IssueScenarioSketches result = new IssueScenarioSketches();
 		result.setIssue(issue);
 		result.setScenarioSketches(summaries);
 		return result;
@@ -126,9 +126,9 @@ public class IssuesResource {
 		try {
 			converter = MessageDigest.getInstance("SHA1");
 			String id = new String(Hex.encodeHex(converter.digest(newIssue.toString().getBytes())));
-			id = id.substring(0, 7); // limit to first 7 characters, like in git, to keep URLs short
+			id = id.substring(0, 8); // limit to first 8 characters, to keep URLs short and collision likelihood small
 			newIssue.setIssueId(id.toString());
-		} catch (NoSuchAlgorithmException e) {
+		} catch (final NoSuchAlgorithmException e) {
 			LOGGER.info("Couldn't generate SHA1 message digest.");
 			return Response.serverError().build();
 		}
@@ -150,7 +150,7 @@ public class IssuesResource {
 			LOGGER.error("There was no IssueID set on the issue object!");
 			updatedIssue.setIssueId(issueId);
 		}
-		Issue existingIssue = reader.loadIssue(branchName, issueId);
+		final Issue existingIssue = reader.loadIssue(branchName, issueId);
 		existingIssue.update(updatedIssue);
 		files.updateIssue(branchName, existingIssue);
 
@@ -158,8 +158,8 @@ public class IssuesResource {
 	}
 
 	private IssueSummary mapSummary(final IssueScenarioSketches issueProposals) {
-		IssueSummary summary = new IssueSummary();
-		Issue issue = issueProposals.getIssue();
+		final IssueSummary summary = new IssueSummary();
+		final Issue issue = issueProposals.getIssue();
 		summary.setName(issue.getName());
 		summary.setDescription(issue.getDescription());
 		summary.setStatus(issue.getIssueStatus());
