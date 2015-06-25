@@ -21,8 +21,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div id="sc-sketcher-toolbar" class="col-lg-9">
         <div class="btn-group btn-group-sm" role="group">
             <button ng-repeat="tool in tools" id="{{tool.name}}" ng-click="activateTool(tool)"
-                    ng-disabled="isButtonDisabled(tool)" type="button" class="btn btn-default">{{tool.name}}
+                    ng-disabled="tool.buttonDisabled" type="button" class="btn btn-default">{{tool.name}}
             </button>
+            <!--
+            <button ng-repeat="tool in tools" id="{{tool.name}}" ng-click="activateTool(tool)"
+                    ng-disabled="isButtonDisabled(tool)" type="button" class="btn btn-default">{{tool.name}}
+            </button>-->
         </div>
     </div>
 

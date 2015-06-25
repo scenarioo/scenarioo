@@ -16,12 +16,12 @@
  */
 
 
-angular.module('scenarioo.controllers').factory('AbstractShapeTool', function (Tool) {
+angular.module('scenarioo.controllers').factory('AbstractShapeTool', function ($rootScope, Tool) {
     var tool = Tool.get;
 
     tool.cursor = 'crosshair';
 
-    tool.component = null;
+    tool.shape = null;
     tool.originalX = 0;
     tool.originalY = 0;
     tool.mousedown = false;
@@ -41,7 +41,13 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function (T
         tool.mousedown = false;
         tool.originalX = 0;
         tool.originalY = 0;
-        //tool.component.attr('fill', '#0f3');
+        //tool.shape.attr('fill', '#0f3');
+
+        if(tool.shape != null) {
+            tool.shape.on('mouseup', componentOnMouseUp, false);
+        }
+
+        $rootScope.$broadcast(tool.DRAWING_ENDED_EVENT);
     };
 
     tool.onmousedragTemplate = function (event) {
@@ -72,6 +78,11 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function (T
         event.cancelBubble = true;
         event.returnValue = false;
         return false;
+    };
+
+    var componentOnMouseUp = function () {
+        console.log('clicked on shape ' + this.id());
+        this.select();
     };
 
     return {

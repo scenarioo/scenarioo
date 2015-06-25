@@ -18,14 +18,15 @@
 /* eslint no-console:0*/
 
 angular.module('scenarioo.services').factory('DrawingPadService', function () {
-    var drawingPad = SVG('drawingPad').size('100%', '100%').fixSubPixelOffset();
+    var drawingPad = SVG('drawingPad').size('100%', '100%').spof();
 
     function exportDrawing() {
-        return drawingPad.exportSvg();
+        return drawingPad.svg();
     }
 
     drawingPad.getOffset = function(event) {
-        var offset = jQuery(drawingPad.parent).offset();
+        //console.log(drawingPad.parent());
+        var offset = jQuery(drawingPad.parent()).offset();
         var point = { x: 0, y: 0 };
 
         point.x = Math.max(event.pageX - offset.left, 0);
