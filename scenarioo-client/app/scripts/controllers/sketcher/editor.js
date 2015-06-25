@@ -102,7 +102,8 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             scenarioSketchId: args.scenarioSketchId,
             sketchStepName: 1,
             sketch: exportedSVG,
-            issueId: args.issueId
+            issueId: args.issueId,
+            contextInDocu: decodeURIComponent($routeParams.screenshotURL)
         }, {});
 
         if ($scope.sketchStepId) {
