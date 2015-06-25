@@ -29,6 +29,7 @@
 
 package org.scenarioo.uitest.dummy.toolkit;
 
+import org.scenarioo.model.docu.entities.ScreenRegion;
 import org.scenarioo.uitest.dummy.application.ApplicationsStateData;
 import org.scenarioo.uitest.dummy.application.DummyApplicationSimulator;
 import org.scenarioo.uitest.example.infrastructure.UITestToolkitAbstraction;
@@ -123,6 +124,11 @@ public class UITestToolkit {
 	
 	public void selectLanguage(final String language) {
 		// dummy implementation: never fails
+	}
+
+	public ScreenRegion getElementRegion(final String elementId) {
+		// just a dummy implementation
+		return dummyApplicationSimulator.getRegionFromElement(currentUrl, index, elementId);
 	}
 	
 }
