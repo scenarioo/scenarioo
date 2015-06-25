@@ -126,6 +126,11 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         console.log(exportedSVG);
     });
 
+    $rootScope.$on(Tool.DRAWING_ENDED_EVENT, function () {
+        // $scope.$apply is used to make sure that the button disabled directive updates in the view
+        $scope.$apply($scope.activateTool($scope.tools[0]));
+    });
+
     var loadBackgroundImage = function () {
         if ($routeParams.screenshotURL) {
             var img = drawingPad.image(decodeURIComponent($routeParams.screenshotURL)).loaded(function (loader) {
@@ -147,6 +152,15 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
 
     $scope.init = function() {
+
+        /*SVG.extend(SVG.Shape, {
+            paintRed: function() {
+                return this.fill('red');
+            },
+            onmouseup: function() {
+                this.select();
+            }
+        });*/
 
         $timeout(function () {
             return DrawingPadService.get;

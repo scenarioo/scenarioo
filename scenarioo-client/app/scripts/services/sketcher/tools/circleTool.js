@@ -29,9 +29,9 @@ angular.module('scenarioo.controllers').factory('CircleTool', function (Abstract
 
     tool.onmousedown = function (event) {
         tool.onmousedownTemplate(event);
-        tool.component = tool.drawingPad.circle(0);
+        tool.shape = tool.drawingPad.circle(0);
 
-        tool.component.attr({
+        tool.shape.attr({
             cx: tool.originalX,
             cy: tool.originalY,
             fill: '#f60'
@@ -82,14 +82,14 @@ angular.module('scenarioo.controllers').factory('CircleTool', function (Abstract
             delta = -20;
         }
 
-        var rx = tool.component.attr('rx');
+        var rx = tool.shape.attr('rx');
         if (delta < (rx * -1)) {
             delta = rx * -1;
         }
 
-        tool.component.attr({
-            rx: tool.component.attr('rx') + delta,
-            ry: tool.component.attr('ry') + delta
+        tool.shape.attr({
+            rx: tool.shape.attr('rx') + delta,
+            ry: tool.shape.attr('ry') + delta
         });
 
         mousePosLastX = mouseX;
