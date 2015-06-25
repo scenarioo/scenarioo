@@ -17,6 +17,10 @@
 
 package org.scenarioo.rest.sketchStep;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.regex.Pattern;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -29,6 +33,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.api.files.ScenarioDocuFiles;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.design.aggregates.ScenarioSketchAggregationDAO;
 import org.scenarioo.dao.design.entities.DesignFiles;
@@ -73,7 +78,8 @@ public class SketchStepResource {
 
 	private final DesignFiles files = new DesignFiles(configurationRepository.getDesignDataDirectory());
 
-
+	private final ScenarioDocuFiles docuFiles = new ScenarioDocuFiles(
+			configurationRepository.getDocumentationDataDirectory());
 
 	/**
 	 * Get a step with all its data (meta data, html, ...) together with additional calculated navigation data
@@ -87,16 +93,17 @@ public class SketchStepResource {
 			@PathParam("sketchStepName") final int sketchStepName,
 			@QueryParam("fallback") final boolean addFallbackInfo, @QueryParam("labels") final String labels) {
 
-		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, "");
-		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+		final BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, "");
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+				branchName,
 				"");
 
-		StepIdentifier sketchStepIdentifier = new StepIdentifier(buildIdentifier, issueId, scenarioSketchId, "",
+		final StepIdentifier sketchStepIdentifier = new StepIdentifier(buildIdentifier, issueId, scenarioSketchId, "",
 				0, sketchStepName, labelsQueryParamParser.parseLabels(labels));
 
 		LOGGER.info("loadSketchStep(" + sketchStepIdentifier + ")");
 
-		SketchStepLoaderResult sketchStepLoaderResult = sketchStepLoader.loadStep(sketchStepIdentifier);
+		final SketchStepLoaderResult sketchStepLoaderResult = sketchStepLoader.loadStep(sketchStepIdentifier);
 
 		return sketchStepResponseFactory.createResponse(sketchStepLoaderResult, sketchStepIdentifier,
 				buildIdentifierBeforeAliasResolution, addFallbackInfo);
@@ -108,13 +115,37 @@ public class SketchStepResource {
 	public Response storeSketchStep(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId, final SketchStep sketchStep) {
+
+		File originalScreenshot = null;
+		if (sketchStep.getContextInDocu() != null) {
+			final HashMap<String, String> stepInfo = parseContextInDocu(sketchStep.getContextInDocu());
+			final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+					stepInfo.get("branch"),
+					stepInfo.get("build"));
+			originalScreenshot = docuFiles.getScreenshotFile(buildIdentifier.getBranchName(),
+					buildIdentifier.getBuildName(),
+					stepInfo.get("usecase"),
+					stepInfo.get("scenario"), Integer.parseInt(stepInfo.get("stepIndex")));
+		}
 		LOGGER.info("Now storing a sketchStep.");
 		LOGGER.info(sketchStep);
 		LOGGER.info("-----------------------------------");
 		files.writeSketchStepToFile(branchName, issueId, scenarioSketchId, sketchStep);
 		files.writeSVGToFile(branchName, issueId, scenarioSketchId, sketchStep);
-
+		if (originalScreenshot != null) {
+			files.copyOriginalScreenshot(originalScreenshot, branchName, issueId, scenarioSketchId);
+		}
 		return Response.ok(sketchStep, MediaType.APPLICATION_JSON).build();
 	}
 
+	private HashMap<String, String> parseContextInDocu(final String toParse) {
+		final String stripped = toParse.substring(toParse.indexOf("branch"));
+		final String[] data = stripped.split("/");
+		final HashMap<String, String> result = new HashMap<String, String>();
+		for (int i = 0; i < data.length; i = i + 2) {
+			result.put(data[i], data[i + 1]);
+		}
+		result.put("stepIndex", result.get("image").split(Pattern.quote("."))[0]);
+		return result;
+	}
 }
