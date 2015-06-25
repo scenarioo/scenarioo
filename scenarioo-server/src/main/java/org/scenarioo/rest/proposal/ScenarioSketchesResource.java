@@ -28,7 +28,6 @@ import org.scenarioo.utils.design.readers.DesignReader;
 @Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch")
 public class ScenarioSketchesResource {
 
-
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
@@ -55,9 +54,9 @@ public class ScenarioSketchesResource {
 
 		// ScenarioSketchSteps scenarioSketchSteps = dao.loadScenarioSketchSteps(scenarioSketchIdentifier);
 
-		ScenarioSketch scenarioSketch = reader.loadScenarioSketch(branchName, issueId, scenarioSketchId);
-		List<SketchStep> steps = reader.loadSketchSteps(branchName, issueId, scenarioSketchId);
-		ScenarioSketchSteps scenarioSketchSteps = new ScenarioSketchSteps();
+		final ScenarioSketch scenarioSketch = reader.loadScenarioSketch(branchName, issueId, scenarioSketchId);
+		final List<SketchStep> steps = reader.loadSketchSteps(branchName, issueId, scenarioSketchId);
+		final ScenarioSketchSteps scenarioSketchSteps = new ScenarioSketchSteps();
 		scenarioSketchSteps.setIssue(reader.loadIssue(branchName, issueId));
 		scenarioSketchSteps.setScenarioSketch(scenarioSketch);
 		scenarioSketchSteps.setSketchSteps(steps);
@@ -78,9 +77,9 @@ public class ScenarioSketchesResource {
 		try {
 			converter = MessageDigest.getInstance("SHA1");
 			String id = new String(Hex.encodeHex(converter.digest(scenarioSketch.toString().getBytes())));
-			id = id.substring(0, 7); // limit to first 7 characters, like in git, to keep URLs short
+			id = id.substring(0, 8); // limit to first 8 characters, to keep URLs short and collision likelihood small
 			scenarioSketch.setScenarioSketchId(id.toString());
-		} catch (NoSuchAlgorithmException e) {
+		} catch (final NoSuchAlgorithmException e) {
 			LOGGER.info("Couldn't generate SHA1 message digest.");
 			return Response.serverError().build();
 		}
@@ -94,7 +93,7 @@ public class ScenarioSketchesResource {
 	@Path("/{scenarioSketchId}")
 	public Response updateScenarioSketch(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
-			@PathParam("scenarioSketchId") final String scenarioSketchId, final ScenarioSketch updatedScenarioSketch){
+			@PathParam("scenarioSketchId") final String scenarioSketchId, final ScenarioSketch updatedScenarioSketch) {
 		LOGGER.info("Now updating a scenarioSketch.");
 		LOGGER.info(scenarioSketchId);
 		LOGGER.info("-----------------------");
@@ -102,7 +101,7 @@ public class ScenarioSketchesResource {
 			LOGGER.error("There was no scenarioSketchId set on the scenarioSketch object!");
 			updatedScenarioSketch.setScenarioSketchId(scenarioSketchId);
 		}
-		ScenarioSketch existingScenarioSketch = reader.loadScenarioSketch(branchName, issueId, scenarioSketchId);
+		final ScenarioSketch existingScenarioSketch = reader.loadScenarioSketch(branchName, issueId, scenarioSketchId);
 		existingScenarioSketch.update(updatedScenarioSketch);
 		files.updateScenarioSketch(branchName, updatedScenarioSketch);
 
