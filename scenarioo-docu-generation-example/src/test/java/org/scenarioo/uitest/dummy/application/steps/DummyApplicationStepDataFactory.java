@@ -38,6 +38,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.scenarioo.model.docu.entities.ScreenRegion;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
 import org.scenarioo.uitest.dummy.application.ApplicationsStateData;
@@ -68,7 +69,7 @@ public class DummyApplicationStepDataFactory {
 	private String pageName = null;
 	
 	private final Map<String, String> elementTexts = new HashMap<String, String>();
-	
+
 	private ObjectTreeNode<ObjectDescription> callTree;
 	
 	private List<ObjectTreeNode<ObjectDescription>> callTreePathUnderConstruction;
@@ -79,7 +80,7 @@ public class DummyApplicationStepDataFactory {
 	}
 	
 	public List<DummyApplicationStepData> createDummySteps() {
-		
+
 		// create DIRECT_SEARCH_CONFIG step data:
 		startConfig(DIRECT_SEARCH_CONFIG).startUrl("http://www.wikipedia.org");
 		title("Wikipedia Suche").pageName("startSearch.jsp").callTreeStart();
@@ -152,6 +153,22 @@ public class DummyApplicationStepDataFactory {
 		
 	}
 	
+	/**
+	 * Define some elements with screen regions, to place screen annotations on for demonstration purposes.
+	 */
+	private Map<String, ScreenRegion> createElementRegions(final String stepName) {
+		Map<String, ScreenRegion> elementRegions = new HashMap<String, ScreenRegion>();
+
+		// Define some default element positions for most used elements
+		elementRegions.put("searchField", new ScreenRegion(580, 463, 162, 24));
+		elementRegions.put("searchButton", new ScreenRegion(956, 464, 55, 26));
+
+		// Later here: some of this elements might be placed different for some special steps dependent on the passed
+		// step Name
+
+		return elementRegions;
+	}
+
 	private void callTreeStart() {
 		callTree();
 		call(Action.START_INIT).call(Business.SESSION_INIT).call(Service.AUTHENTICATION_CHECK).call(Business.MENU_LOAD)
@@ -240,7 +257,7 @@ public class DummyApplicationStepDataFactory {
 		elementTexts.put("pagetitle", title);
 		return this;
 	}
-	
+
 	private DummyApplicationStepDataFactory url(final String url) {
 		this.browserUrl = url;
 		return this;
@@ -255,6 +272,7 @@ public class DummyApplicationStepDataFactory {
 		DummyApplicationStepData step = new DummyApplicationStepData();
 		step.setBrowserUrl(browserUrl);
 		step.setElementTexts(new HashMap<String, String>(elementTexts));
+		step.setElementRegions(createElementRegions(stepName));
 		step.setIndex(index);
 		step.setScreenshotFileName(screenshotPrefix + stepName);
 		step.setSimulationConfig(config);
