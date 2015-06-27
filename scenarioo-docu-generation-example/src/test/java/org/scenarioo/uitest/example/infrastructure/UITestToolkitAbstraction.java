@@ -35,9 +35,11 @@ import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationCon
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.ScreenAnnotation;
+import org.scenarioo.model.docu.entities.ScreenAnnotationClickAction;
 import org.scenarioo.model.docu.entities.ScreenAnnotationStyle;
 import org.scenarioo.model.docu.entities.ScreenRegion;
 import org.scenarioo.model.docu.entities.Step;
@@ -60,6 +62,8 @@ import org.scenarioo.uitest.dummy.toolkit.UITestToolkit;
  */
 public class UITestToolkitAbstraction {
 	
+	private static final Logger LOGGER = Logger.getLogger(UITestToolkitAbstraction.class);
+
 	private static final String TITLE_ELEMENT_ID = "pagetitle";
 	private static final Details TIME_MEASUREMENTS;
 	
@@ -121,6 +125,10 @@ public class UITestToolkitAbstraction {
 			annotation.setStyle(style);
 			annotation.setText(text);
 			annotation.setDescription(description);
+			if (style == ScreenAnnotationStyle.click) {
+				// Create click events with go to next step (for testing clickActions on annotations)
+				annotation.setClickAction(ScreenAnnotationClickAction.toNextStep);
+			}
 			ObjectDescription elementDescription = new ObjectDescription("uiElement", elementId);
 			elementDescription.addDetail("elementId", elementId);
 			elementDescription
@@ -130,6 +138,11 @@ public class UITestToolkitAbstraction {
 			annotation.addDetail("element", elementDescription);
 			screenAnnotations.add(annotation);
 		}
+		else {
+			LOGGER.warn("event on UI element with id='"
+					+ elementId
+					+ "' with undefined region in dummy data for screen snnotation --> no screen annotation is generated in scenarioo documentation data for this event");
+		}
 	}
 
 	private void addScreenAnnotation(final String elementId, final ScreenAnnotationStyle style, final String text) {
@@ -137,6 +150,8 @@ public class UITestToolkitAbstraction {
 	}
 
 	public void clickLink(final String linkText) {
+		addScreenAnnotation("linkWithText=" + linkText, ScreenAnnotationStyle.click, "click", "Link with Text '"
+				+ linkText + "'"); // this is just dummy data, with no realistic element IDs
 		saveStepWithScreenshotIfChanged();
 		toolkit.clickLinkWithText(linkText);
 		saveStepWithScreenshot();
