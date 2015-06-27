@@ -76,4 +76,9 @@
             <propertyKey>realName</propertyKey>
         </customObjectDetailColumns>
     </customObjectTabs>
+    <customObjectTabs>
+        <id>uiElements</id>
+        <tabTitle>UI Elements</tabTitle>
+        <objectTypesToDisplay>uiElement</objectTypesToDisplay>
+    </customObjectTabs>
 </configuration>
