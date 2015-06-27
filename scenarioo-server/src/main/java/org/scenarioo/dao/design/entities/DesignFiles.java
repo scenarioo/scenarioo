@@ -143,19 +143,13 @@ public class DesignFiles {
 		return FilesUtil.getListOfFiles(getSketchStepsDirectory(branchName, issueName, scenarioSketchId));
 	}
 
-	public File getOriginalScreenshotsDirectory(final String branchName, final String issueId,
-			final String scenarioSketchId) {
-		return new File(getScenarioSketchDirectory(branchName, issueId, scenarioSketchId),
-				DIRECTORY_NAME_SCENARIOSKETCH_ORIGINALSCREENSHOTS);
-	}
-
 	/**
 	 * @return A {@link File} object pointing to the PNG file of the step screenshot. The method does not care whether
 	 *         the file actually exists.
 	 */
 	public File getOriginalScreenshotFile(final String branchName, final String issueId,
 			final String scenarioSketchId, final int sketchStepIndex) {
-		return new File(getOriginalScreenshotsDirectory(branchName, issueId, scenarioSketchId),
+		return new File(getSVGDirectory(branchName, issueId, scenarioSketchId),
 				THREE_DIGIT_NUM_FORMAT.format(sketchStepIndex) + ".png");
 	}
 
@@ -309,7 +303,7 @@ public class DesignFiles {
 			final String scenarioSketchId) {
 		try {
 			FileUtils.copyFileToDirectory(originalScreenshot,
-					getOriginalScreenshotsDirectory(branchName, issueId, scenarioSketchId));
+					getSVGDirectory(branchName, issueId, scenarioSketchId));
 		} catch (final IOException e) {
 			LOGGER.error("Couldn't copy original screenshot to sketchstep!");
 			e.printStackTrace();
