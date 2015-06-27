@@ -134,22 +134,41 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
     var loadBackgroundImage = function () {
         if ($routeParams.screenshotURL) {
-            var img = drawingPad.image(decodeURIComponent($routeParams.screenshotURL)).loaded(function (loader) {
-                drawingPad.attr({
-                    width: loader.width
+            convertImgToBase64URL(decodeURIComponent($routeParams.screenshotURL), function(base64Img){
+                var img = drawingPad.image(base64Img).loaded(function (loader) {
+                    drawingPad.attr({
+                        width: loader.width
+                    });
+                    drawingPad.attr({
+                        height: loader.height
+                    });
                 });
-                drawingPad.attr({
-                    height: loader.height
+                img.attr({
+                    id: 'sketcher-original-screenshot',
+                    draggable: false
                 });
-            });
-            img.attr({
-                id: 'sketcher-original-screenshot',
-                draggable: false
+
+                document.getElementById('sketcher-original-screenshot').ondragstart = function() { return false; };
             });
 
-            document.getElementById('sketcher-original-screenshot').ondragstart = function() { return false; };
         }
     };
+
+    function convertImgToBase64URL(url, callback, outputFormat){
+        var img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function(){
+            var canvas = document.createElement('CANVAS'),
+                ctx = canvas.getContext('2d'), dataURL;
+            canvas.height = this.height;
+            canvas.width = this.width;
+            ctx.drawImage(this, 0, 0);
+            dataURL = canvas.toDataURL(outputFormat);
+            callback(dataURL);
+            canvas = null; //TODO: Does this destroy the canvas element? Does it matter if not?
+        };
+        img.src = url;
+    }
 
 
     $scope.init = function() {
@@ -174,5 +193,6 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.activateTool($scope.tools[0]);
     };
     $scope.init();
+
 
 });
