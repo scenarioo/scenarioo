@@ -162,9 +162,13 @@ public class DummyApplicationStepDataFactory {
 		// Define some default element positions for most used elements
 		elementRegions.put("searchField", new ScreenRegion(580, 463, 162, 24));
 		elementRegions.put("searchButton", new ScreenRegion(956, 464, 55, 26));
+		elementRegions.put("linkWithText=U2", new ScreenRegion(200, 400, 26, 20));
+		elementRegions.put("linkWithText=42 (number)", new ScreenRegion(530, 168, 72, 20));
+		elementRegions.put("linkWithText=42 - The answer to everything", new ScreenRegion(472, 244, 410, 20));
+		elementRegions.put("linkWithText=Espanol", new ScreenRegion(30, 755, 50, 14));
 
 		// Later here: some of this elements might be placed different for some special steps dependent on the passed
-		// step Name
+		// stepName
 
 		return elementRegions;
 	}
