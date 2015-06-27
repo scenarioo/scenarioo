@@ -62,12 +62,12 @@ SVG.Note = function(width, height, options) {
         })
         .move(settings.padding, settings.padding)
         .appendChild('textarea', {
-            innerText: convertLinesToText(textNode)
+            textContent: convertLinesToText(textNode)
             , style: 'font-size:' + settings.fontsizeta
         })
         .appendChild('button', {
             id: 'noteOK'
-            , innerText: 'OK'
+            , textContent: 'OK'
         })
 
     /*document.getElementById('noteOK').on('click', function(){
