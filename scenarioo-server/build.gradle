@@ -56,8 +56,8 @@ task printPathConfigInformationForNodeJSAndGrunt << {
 }
 
 task createVersionPropertiesFile << {
-	def aggregatorJavaFile = file('src/main/java/org/scenarioo/business/aggregator/ScenarioDocuAggregator.java').text
-	def aggregatorVersionRegex = /CURRENT_FILE_FORMAT_VERSION = \"(.*)\"\;/
+	def aggregatorJavaFile = file('src/main/java/org/scenarioo/business/aggregator/ServerVersion.java').text
+	def aggregatorVersionRegex = /DERIVED_FILE_FORMAT_VERSION = \"(.*)\"\;/
 	def aggregatedDataFormatVersion = ( aggregatorJavaFile =~ aggregatorVersionRegex )[0][1]
 	def apiVersion = project.scenariooApiVersion
 	
