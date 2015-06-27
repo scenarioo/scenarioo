@@ -7,7 +7,7 @@ SVG.Note = function(width, height, options) {
         , fontsize:     14
         , fontsizeta:   12
         , fontcolor:    '#000'
-        , font:         'sans-serif'
+        , font:         '"Helvetica Neue",Helvetica,Arial,sans-serif'
         , bgcolor:      '#ddd'
     }
 
@@ -29,15 +29,13 @@ SVG.Note = function(width, height, options) {
 
 
     /* add note text */
-    var notetxt = 'Das ist der Inhalt meiner Notiz. Hier kann einiges stehen. Wieviel genau, muss noch entschieden werden.';
-    var lines = convertTextToLines(notetxt);
-
+    var self = this;
     var textNode = null;
     var fobjNode = null;
+    var textareaId = self.id() + '-noteText';
 
-    textNode = this.notetxt = this.text(function(add) {
-            convertTextToTextNode(add, notetxt)
-        })
+
+    textNode = this.notetxt = this.text('')
         .move(settings.padding, settings.padding)
         .fill(settings.fontcolor)
         .attr('style', 'cursor:pointer;')
@@ -51,10 +49,10 @@ SVG.Note = function(width, height, options) {
             this.hide()
             fobjNode.show()
         })
+        .hide()
 
     fobjNode = this.fobj = this.foreignObject()
         .front()
-        .hide()
         .attr({
             width: width - 2 * settings.padding
             , height: height - 2 * settings.padding
@@ -64,26 +62,27 @@ SVG.Note = function(width, height, options) {
         .appendChild('textarea', {
             textContent: convertLinesToText(textNode)
             , style: 'font-size:' + settings.fontsizeta
+            , id: textareaId
         })
         .appendChild('button', {
             id: 'noteOK'
             , textContent: 'OK'
+            , onclick: function() {
+                var currentNoteText = document.getElementById(textareaId).value
+
+                if(currentNoteText) {
+                    fobjNode.hide()
+                    textNode.text(function(add) {
+                        convertTextToTextNode(add, currentNoteText)
+                    }).show()
+                }
+            }
         })
 
-    /*document.getElementById('noteOK').on('click', function(){
-        console.log('ok button clicked!')
-        fobjNode.hide()
-        console.log(fobjNode.getChild(0).innerText)
-
-        textNode.text(function(add) {
-            convertTextToTextNode(add, fobjNode.getChild(0).innerText)
-        }).show()
-
-    });*/
 
     function convertTextToLines(text) {
         var charsPerLine = Math.floor(width / settings.fontsize * 1.6);
-        console.log(charsPerLine);
+        //console.log(charsPerLine);
         var re = new RegExp('(.|[\r\n]){1,' + charsPerLine + '}', 'g');
 
         return text.match(re);
