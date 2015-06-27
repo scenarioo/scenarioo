@@ -302,8 +302,9 @@ public class DesignFiles {
 	public void copyOriginalScreenshot(final File originalScreenshot, final String branchName, final String issueId,
 			final String scenarioSketchId) {
 		try {
-			FileUtils.copyFileToDirectory(originalScreenshot,
-					getSVGDirectory(branchName, issueId, scenarioSketchId));
+			final File destination = new File(getSVGDirectory(branchName, issueId, scenarioSketchId),
+					"original.png");
+			FileUtils.copyFile(originalScreenshot, destination);
 		} catch (final IOException e) {
 			LOGGER.error("Couldn't copy original screenshot to sketchstep!");
 			e.printStackTrace();
