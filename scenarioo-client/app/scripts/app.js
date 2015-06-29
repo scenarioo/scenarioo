@@ -70,28 +70,43 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap'])
                 stepInPageOccurrence: '@stepInPageOccurrence',
                 breadcrumbId: 'step'
             })
-        /*.when('/issues', {
-            templateUrl: 'views/main.html',
-            controller: 'MainIssuesTabCtrl',
-            breadcrumbId: 'issues'
-        })*/
-        .when('/issue/:issueName', {
-            templateUrl: '../views/issue/issue.html',
-            controller: 'IssueCtrl',
-            issueName: '@issueName',
-            breadcrumbId: 'issue'
-        })
-        .when('/editor', {
-            templateUrl: 'views/sketcher/editor.html',
-            controller: 'EditorCtrl',
-            breadcrumbId: 'editor'
-        })
-        .when('/editor/:screenshotURL/', {
-            templateUrl: 'views/sketcher/editor.html',
-            controller: 'EditorCtrl',
-            breadcrumbId: 'editor',
-            screenshotURL: '@screenshotURL'
-        })
+            /*.when('/issues', {
+                templateUrl: 'views/main.html',
+                controller: 'MainIssuesTabCtrl',
+                breadcrumbId: 'issues'
+            })*/
+            .when('/issue/:issueName', {
+                templateUrl: '../views/issue/issue.html',
+                controller: 'IssueCtrl',
+                issueName: '@issueName',
+                breadcrumbId: 'issue'
+            })
+            .when('/issue/:issueName/scenariosketch/:scenarioSketchId', {
+                templateUrl: '../views/scenarioSketch/scenarioSketch.html',
+                controller: 'ScenarioSketchCtrl',
+                issueName: '@issueName',
+                scenarioSketchId: '@scenarioSketchId',
+                breadcrumbId: 'scenarioSketch'
+            })
+            .when('/issue/:issueName/scenariosketch/:scenarioSketchId/sketchStep/:sketchStepIndex', {
+                templateUrl: '../views/sketchStep/sketchStep.html',
+                controller: 'SketchStepCtrl',
+                issueName: '@issueName',
+                scenarioSketchId: '@scenarioSketchId',
+                sketchStepIndex: '@sketchStepIndex',
+                breadcrumbId: 'sketchStep'
+            })
+            .when('/editor', {
+                templateUrl: 'views/sketcher/editor.html',
+                controller: 'EditorCtrl',
+                breadcrumbId: 'editor'
+            })
+            .when('/editor/:screenshotURL/', {
+                templateUrl: 'views/sketcher/editor.html',
+                controller: 'EditorCtrl',
+                breadcrumbId: 'editor',
+                screenshotURL: '@screenshotURL'
+            })
             .otherwise({
                 redirectTo: '/'
             });

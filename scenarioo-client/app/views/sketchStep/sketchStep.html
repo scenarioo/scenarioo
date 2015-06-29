@@ -1,0 +1,65 @@
+<!-- scenarioo-client
+Copyright (C) 2015, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<!-- screenshot and information -->
+<sc-meta-data-panel linking-variable="stepShowMetadata" ng-hide="stepNotFound">
+    <div>
+        <tabset class="step-panes">
+            <tab heading="Screenshot">
+                <div class="sc-screenshot-border">
+                    <img type="svg+xml" ng-src="{{getScreenShotUrl()}}" class="sc-screenshot"/>
+                </div>
+            </tab>
+            <tab heading="HTML">
+                <pre ng-bind="formattedHtml">
+                </pre>
+            </tab>
+        </tabset>
+    </div>
+
+    <div>
+        <!-- step -->
+        <sc-collapsable-panel title="Step" key="stepView-step" initially-expanded="false">
+            <sc-tree data='stepInformationTree'></sc-tree>
+        </sc-collapsable-panel>
+
+        <!-- labels -->
+        <sc-collapsable-panel title="Labels" key="stepView-labels" initially-expanded="false" ng-show="hasAnyLabels()">
+            <div class="sc-tree">
+                <ul>
+                    <li id="usecase-labels" ng-show="useCaseLabels.labels">
+                        Use case:
+                        <span ng-repeat="label in useCaseLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                    </li>
+                    <li id="scenario-labels" ng-show="scenarioLabels.labels">
+                        Scenario:
+                        <span ng-repeat="label in scenarioLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                    </li>
+                    <li id="step-labels" ng-show="step.stepDescription.labels.labels">
+                        Step:
+                        <span ng-repeat="label in step.stepDescription.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                    </li>
+                    <li id="page-labels" ng-show="step.page.labels.labels">
+                        Page:
+                        <span ng-repeat="label in step.page.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                    </li>
+                </ul>
+            </div>
+        </sc-collapsable-panel>
+        <!-- meta info -->
+        <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
+    </div>
+</sc-meta-data-panel>
