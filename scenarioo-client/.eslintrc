@@ -12,6 +12,7 @@
         "new-cap": 0
     },
     "globals": {
-        "angular": false
+        "angular": false,
+        "$": false
     }
 }

@@ -214,6 +214,7 @@ h4 {
 /** Screenshots */
 div.sc-screenshot-border {
   border: 2px solid #DDDDDD;
+  position: relative;
 }
 img.sc-screenshot {
   max-width: 100%;

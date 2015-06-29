@@ -1,0 +1,8 @@
+<span ng-repeat="screenAnnotation in screenAnnotations"
+    style="position: absolute; display: block;
+    left: {{screenAnnotation.region.x * imageScalingRatio}}px; top: {{screenAnnotation.region.y * imageScalingRatio}}px;
+    width: {{screenAnnotation.region.width * imageScalingRatio}}px; height: {{screenAnnotation.region.height * imageScalingRatio}}px;
+    border: 1px red solid;">
+    {{screenAnnotation.text}}
+</span>
+<img ng-src="{{getScreenShotUrl()}}" class="sc-screenshot"/>
