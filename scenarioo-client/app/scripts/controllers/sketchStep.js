@@ -72,8 +72,6 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
                 'sketchStepId': sketchStepIndex
             },
             function success(result) {
-
-                console.log(result);
                 $scope.sketchStep = result;
 
                 SharePageService.setPageUrl($scope.getCurrentUrlForSharing());
