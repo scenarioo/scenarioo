@@ -24,47 +24,48 @@ public class DesignReader {
 	}
 
 	public Branch loadBranch(final String branchName) {
-		File file = designFiles.getBranchFile(checkIdentifier(branchName));
+		final File file = designFiles.getBranchFile(checkIdentifier(branchName));
 		return ScenarioDocuXMLFileUtil.unmarshal(Branch.class, file);
 	}
 
 	public List<Branch> loadBranches() {
-		List<File> branchFiles = designFiles.getBranchFiles();
+		final List<File> branchFiles = designFiles.getBranchFiles();
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(Branch.class, branchFiles);
 	}
 
 	public List<Issue> loadIssues(final String branchName) {
-		List<File> files = designFiles.getIssueFiles(checkIdentifier(branchName));
+		final List<File> files = designFiles.getIssueFiles(checkIdentifier(branchName));
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(Issue.class, files);
 	}
 
 	public Issue loadIssue(final String branchName, final String issueId) {
-		File file = designFiles.getIssueFile(checkIdentifier(branchName), checkIdentifier(issueId));
+		final File file = designFiles.getIssueFile(checkIdentifier(branchName), checkIdentifier(issueId));
 		return ScenarioDocuXMLFileUtil.unmarshal(Issue.class, file);
 	}
 
 	public List<ScenarioSketch> loadScenarioSketches(final String branchName, final String issueId) {
-		List<File> files = designFiles.getScenarioSketchFiles(checkIdentifier(branchName), checkIdentifier(issueId));
+		final List<File> files = designFiles.getScenarioSketchFiles(checkIdentifier(branchName),
+				checkIdentifier(issueId));
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(ScenarioSketch.class, files);
 	}
 
 	public ScenarioSketch loadScenarioSketch(final String branchName, final String issueId,
 			final String scenarioSketchId) {
-		File file = designFiles.getScenarioSketchFile(checkIdentifier(branchName), checkIdentifier(issueId),
+		final File file = designFiles.getScenarioSketchFile(checkIdentifier(branchName), checkIdentifier(issueId),
 				checkIdentifier(scenarioSketchId));
 		return ScenarioDocuXMLFileUtil.unmarshal(ScenarioSketch.class, file);
 	}
 
 	public List<SketchStep> loadSketchSteps(final String branchName, final String issueId,
 			final String scenarioSketchId) {
-		List<File> files = designFiles.getSketchStepFiles(checkIdentifier(branchName), checkIdentifier(issueId),
+		final List<File> files = designFiles.getSketchStepFiles(checkIdentifier(branchName), checkIdentifier(issueId),
 				checkIdentifier(scenarioSketchId));
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(SketchStep.class, files);
 	}
 
 	public SketchStep loadSketchStep(final String branchName, final String issueId,
 			final String scenarioSketchId, final int stepIndex) {
-		File file = designFiles.getSketchStepFile(checkIdentifier(branchName), checkIdentifier(issueId),
+		final File file = designFiles.getSketchStepFile(checkIdentifier(branchName), checkIdentifier(issueId),
 				checkIdentifier(scenarioSketchId), stepIndex);
 		return ScenarioDocuXMLFileUtil.unmarshal(SketchStep.class, file);
 	}
@@ -72,10 +73,11 @@ public class DesignReader {
 	/**
 	 * Screenshot files are simply provided by path, the REST service will take care of streaming it.
 	 */
-	public File getScreenshotFile(final String branchName, final String issueId, final String proposalName,
+	public File getScreenshotFile(final String branchName, final String issueId, final String scenarioSketchId,
+			final int sketchStepIndex,
 			final String imageName) {
-		return new File(designFiles.getOriginalScreenshotsDirectory(checkIdentifier(branchName),
-				checkIdentifier(issueId), checkIdentifier(proposalName)), imageName);
+		return designFiles.getOriginalScreenshotFile(checkIdentifier(branchName),
+				checkIdentifier(issueId), checkIdentifier(scenarioSketchId), sketchStepIndex);
 	}
 
 }

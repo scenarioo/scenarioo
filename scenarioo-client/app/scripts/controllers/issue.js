@@ -1,5 +1,5 @@
 /* scenarioo-client
- * Copyright (C) 2014, scenarioo.org Development Team
+ * Copyright (C) 2015, scenarioo.org Development Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -112,19 +112,16 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
     }*/
 
     // todo
-    $scope.goToScenarioSketch = function (issueId, scenarioSketchName) {
-        $location.path('/' + issueId + '/scenariosketch/' + scenarioSketchName);
+    $scope.goToScenarioSketch = function (issueId, scenarioSketchId) {
+        $location.path('/issue/' + issueId + '/scenariosketch/' + scenarioSketchId);
         //$location.path('#');
     };
-
-    /*$scope.goToScenario = function (issueName, scenarioName) {
-        $location.path('/scenario/' + issueName + '/' + scenarioName);
+    /*
+    $scope.onNavigatorTableHit = function (scenarioSketch) {
+        $scope.goToScenarioSketch($routeParams.issueName, scenarioSketch.id);
     };
-
-    $scope.onNavigatorTableHit = function (scenario) {
-        $scope.goToScenario($routeParams.issueName, scenario.scenario.name);
-    };
-
+    */
+    /*
     $scope.goToFirstStep = function (issueName, scenarioName) {
         var selected = SelectedBranchAndBuild.selected();
 

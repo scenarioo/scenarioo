@@ -1,5 +1,5 @@
 /* scenarioo-server
- * Copyright (C) 2014, scenarioo.org Development Team
+ * Copyright (C) 2015, scenarioo.org Development Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,19 +42,17 @@ import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
-import org.scenarioo.rest.base.StepIdentifier;
 import org.scenarioo.rest.sketchStep.logic.ProposalLoader;
 import org.scenarioo.rest.sketchStep.logic.SketchStepIndexResolver;
 import org.scenarioo.rest.sketchStep.logic.SketchStepLoader;
-import org.scenarioo.rest.sketchStep.logic.SketchStepLoaderResult;
 import org.scenarioo.rest.sketchStep.logic.SketchStepResponseFactory;
-import org.scenarioo.rest.step.StepResource;
 import org.scenarioo.rest.step.logic.LabelsQueryParamParser;
+import org.scenarioo.utils.design.readers.DesignReader;
 
 @Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/sketchstep")
 public class SketchStepResource {
 
-	private static final Logger LOGGER = Logger.getLogger(StepResource.class);
+	private static final Logger LOGGER = Logger.getLogger(SketchStepResource.class);
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
@@ -77,6 +75,7 @@ public class SketchStepResource {
 			scenarioDocuReader);
 
 	private final DesignFiles files = new DesignFiles(configurationRepository.getDesignDataDirectory());
+	private final DesignReader reader = new DesignReader(configurationRepository.getDesignDataDirectory());
 
 	private final ScenarioDocuFiles docuFiles = new ScenarioDocuFiles(
 			configurationRepository.getDocumentationDataDirectory());
@@ -87,26 +86,31 @@ public class SketchStepResource {
 	@GET
 	@Produces({ "application/json" })
 	@Path("/{sketchStepName}")
-	public Response loadSketchStep(@PathParam("branchName") final String branchName,
+	public SketchStep loadSketchStep(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId,
 			@PathParam("sketchStepName") final int sketchStepName,
 			@QueryParam("fallback") final boolean addFallbackInfo, @QueryParam("labels") final String labels) {
 
-		final BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, "");
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
-				branchName,
-				"");
+		return reader.loadSketchStep(branchName, issueId, scenarioSketchId, sketchStepName);
 
-		final StepIdentifier sketchStepIdentifier = new StepIdentifier(buildIdentifier, issueId, scenarioSketchId, "",
-				0, sketchStepName, labelsQueryParamParser.parseLabels(labels));
-
-		LOGGER.info("loadSketchStep(" + sketchStepIdentifier + ")");
-
-		final SketchStepLoaderResult sketchStepLoaderResult = sketchStepLoader.loadStep(sketchStepIdentifier);
-
-		return sketchStepResponseFactory.createResponse(sketchStepLoaderResult, sketchStepIdentifier,
-				buildIdentifierBeforeAliasResolution, addFallbackInfo);
+		/*
+		 * final BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, "");
+		 * final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+		 * branchName,
+		 * "");
+		 * 
+		 * final StepIdentifier sketchStepIdentifier = new StepIdentifier(buildIdentifier, issueId, scenarioSketchId,
+		 * "",
+		 * 0, sketchStepName, labelsQueryParamParser.parseLabels(labels));
+		 * 
+		 * LOGGER.info("loadSketchStep(" + sketchStepIdentifier + ")");
+		 * 
+		 * final SketchStepLoaderResult sketchStepLoaderResult = sketchStepLoader.loadStep(sketchStepIdentifier);
+		 * 
+		 * return sketchStepResponseFactory.createResponse(sketchStepLoaderResult, sketchStepIdentifier,
+		 * buildIdentifierBeforeAliasResolution, addFallbackInfo);
+		 */
 	}
 
 	@POST
