@@ -30,7 +30,7 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
     });
 
     function loadIssue(selected) {
-        var issueId = $routeParams.issueName;
+        var issueId = $routeParams.issueId;
         IssueResource.get(
             {
                 branchName: selected.branch,
@@ -40,6 +40,7 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
                 $scope.issue = result.issue;
                 $scope.scenarioSketches = result.scenarioSketches;
                 $scope.issueName = result.issue.name;
+                $scope.issueId = result.issue.id;
                 //$scope.scenarios = result.scenarios;
                 //$scope.issueInformationTree = createissueInformationTree($scope.issue);
                 //$scope.metadataTree = transformMetadataToTreeArray($scope.issue.details);
@@ -112,9 +113,8 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
     }*/
 
     // todo
-    $scope.goToScenarioSketch = function (issueId, scenarioSketchName) {
-        $location.path('/' + issueId + '/scenariosketch/' + scenarioSketchName);
-        //$location.path('#');
+    $scope.goToScenarioSketch = function (issueId, scenarioSketchId) {
+        $location.path('/scenariosketch/' + issueId + '/' + scenarioSketchId);
     };
 
     /*$scope.goToScenario = function (issueName, scenarioName) {
