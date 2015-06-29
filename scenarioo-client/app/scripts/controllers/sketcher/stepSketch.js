@@ -18,7 +18,7 @@
 angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioSketchResource, SketchStepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService) {
 
     //var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
-    var transformMetadataToTree = $filter('scMetadataTreeCreator');
+    //var transformMetadataToTree = $filter('scMetadataTreeCreator');
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
