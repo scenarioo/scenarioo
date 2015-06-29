@@ -81,7 +81,7 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function ($
     };
 
     var componentOnMouseUp = function () {
-        console.log('clicked on shape ' + this.id());
+        //console.log('clicked on shape ' + this.id());
         this.select();
     };
 
