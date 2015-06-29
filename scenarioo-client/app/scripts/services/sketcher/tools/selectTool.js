@@ -14,7 +14,6 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/* global SVG:false*/
 /* eslint no-console:0 */
 
 angular.module('scenarioo.controllers').factory('SelectTool', function(Tool) {
@@ -24,16 +23,7 @@ angular.module('scenarioo.controllers').factory('SelectTool', function(Tool) {
     tool.tooltip = 'This tool is used to select elements of the drawing.';
 
 
-    tool.onmouseup = function(event) {
-        /*if(event.target.id !== tool.drawingPad.node.id){
-            var element = SVG.get(event.target.id);
-            //console.log(event.target.id);
-            //element.fill('#f06');
-        }*/
-
-
-    };
-
+    tool.onmouseup = function() {};
     tool.onmousedown = function() {};
     tool.onmousedrag = function() {};
 
