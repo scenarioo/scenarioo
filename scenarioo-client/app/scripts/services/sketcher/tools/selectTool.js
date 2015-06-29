@@ -25,11 +25,11 @@ angular.module('scenarioo.controllers').factory('SelectTool', function(Tool) {
 
 
     tool.onmouseup = function(event) {
-        if(event.target.id !== tool.drawingPad.node.id){
+        /*if(event.target.id !== tool.drawingPad.node.id){
             var element = SVG.get(event.target.id);
             //console.log(event.target.id);
             //element.fill('#f06');
-        }
+        }*/
 
 
     };
