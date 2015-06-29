@@ -23,10 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <button ng-repeat="tool in tools" id="{{tool.name}}" ng-click="activateTool(tool)"
                     ng-disabled="tool.buttonDisabled" type="button" class="btn btn-default">{{tool.name}}
             </button>
-            <!--
-            <button ng-repeat="tool in tools" id="{{tool.name}}" ng-click="activateTool(tool)"
-                    ng-disabled="isButtonDisabled(tool)" type="button" class="btn btn-default">{{tool.name}}
-            </button>-->
         </div>
     </div>
 
@@ -47,18 +43,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     class="icon-remove icon"></i></a>
         </div>
 
-        <form>
-            <div class="form-group">
-                <label>Issue Name</label>
-                <input type="text" id="issueName" ng-model="issueName" class="form-control"/>
+        <form name="sketcherForm" novalidate>
+            <div class="form-group" ng-class="{ 'has-error has-feedback' : sketcherForm.issueName.$dirty && sketcherForm.issueName.$invalid }">
+                <label class="control-label">Issue Name <span class="has-error">*</span></label>
+                <input type="text" id="issueName" name="issueName" ng-model="issueName" class="form-control" required />
+                <span ng-show="sketcherForm.issueName.$dirty && sketcherForm.issueName.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                <span class="sr-only">(error)</span>
             </div>
             <div class="form-group">
                 <label>Issue Description</label>
                 <textarea id="issueDescription" ng-model="issueDescription" class="form-control" rows="3"></textarea>
             </div>
-            <div class="form-group">
-                <label>Author</label>
-                <input type="text" id="issueAuthor" ng-model="issueAuthor" class="form-control"/>
+            <div class="form-group" ng-class="{ 'has-error has-feedback' : sketcherForm.issueAuthor.$dirty && sketcherForm.issueAuthor.$invalid }">
+                <label class="control-label">Author *</label>
+                <input type="text" id="issueAuthor" name="issueAuthor" ng-model="issueAuthor" class="form-control" required />
+                <span ng-show="sketcherForm.issueAuthor.$dirty && sketcherForm.issueAuthor.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                <span class="sr-only">(error)</span>
             </div>
             <div class="form-group">
                 <label>Sketch Name</label>
@@ -69,9 +69,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <textarea id="scenarioSketchDescription" ng-model="scenarioSketchDescription" class="form-control" rows="3"></textarea>
             </div>
 
-            <button ng-click="updateSketchStep()" id="save" type="button" class="btn btn-default" style="float:right;" ng-init="sketcherButtonName='Save'">
+            <button ng-click="updateSketchStep()"
+                    type="submit"
+                    id="save"
+                    class="btn btn-default"
+                    style="float:right;"
+                    ng-init="sketcherButtonName='Save'"
+                    ng-disabled="sketcherForm.issueName.$invalid || sketcherForm.issueAuthor.$invalid">
                 {{sketcherButtonName}}
             </button>
+
+            <script>
+                console.log('test');
+            </script>
         </form>
 
     </div>
