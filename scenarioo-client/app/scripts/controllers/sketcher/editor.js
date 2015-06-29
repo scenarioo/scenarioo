@@ -148,7 +148,9 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
                     draggable: false
                 });
 
-                document.getElementById('sketcher-original-screenshot').ondragstart = function() { return false; };
+                if(document.getElementById('sketcher-original-screenshot')) {
+                    document.getElementById('sketcher-original-screenshot').ondragstart = function() { return false; };
+                }
             });
 
         }
