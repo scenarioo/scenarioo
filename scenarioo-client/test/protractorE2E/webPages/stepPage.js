@@ -139,8 +139,17 @@ StepPage.prototype.assertNoScreenAnnotationsArePresent = function() {
   expect(element(by.className('sc-screenshot-annotation')).isPresent()).toBeFalsy();
 };
 
-StepPage.prototype.assertTwoScreenAnnotationsArePresent = function() {
+StepPage.prototype.assertNoScreenAnnotationsAreVisible = function() {
+    expect(element.all(by.className('sc-screenshot-annotation')).isDisplayed()).toEqual([false, false]);
+};
+
+StepPage.prototype.assertTwoScreenAnnotationsAreVisible = function() {
     expect(element.all(by.className('sc-screenshot-annotation')).count()).toBe(2);
+    expect(element.all(by.className('sc-screenshot-annotation')).isDisplayed()).toEqual([true, true]);
+};
+
+StepPage.prototype.clickShowScreenAnnotationsButton = function() {
+    element(by.id('sc-showHideScreenAnnotationsButton')).click();
 };
 
 module.exports = StepPage;

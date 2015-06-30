@@ -19,7 +19,21 @@ scenarioo.describeUseCase('View screen annotations', function () {
 
     scenarioo.describeScenario('Screen annotations are shown if the step has some', function () {
         stepPage.goToPage('/step/Find Page/find_multiple_results/startSearch.jsp/0/1');
-        stepPage.assertTwoScreenAnnotationsArePresent();
+        stepPage.assertTwoScreenAnnotationsAreVisible();
+        scenarioo.docuWriter.saveStep('Two screen annotations are shown');
+    });
+
+    scenarioo.describeScenario('Screen annotations can be hidden by clicking a button', function () {
+        stepPage.goToPage('/step/Find Page/find_multiple_results/startSearch.jsp/0/1');
+        stepPage.assertTwoScreenAnnotationsAreVisible();
+        scenarioo.docuWriter.saveStep('Two screen annotations are shown');
+
+        stepPage.clickShowScreenAnnotationsButton();
+        stepPage.assertNoScreenAnnotationsAreVisible();
+        scenarioo.docuWriter.saveStep('Screen annotations are hidden');
+
+        stepPage.clickShowScreenAnnotationsButton();
+        stepPage.assertTwoScreenAnnotationsAreVisible();
         scenarioo.docuWriter.saveStep('Two screen annotations are shown');
     });
 
