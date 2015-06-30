@@ -43,11 +43,11 @@ function annotatedScreenshot() {
 
         var imageElement = element.find('img.sc-screenshot');
 
-        $(imageElement).load(function() {
+        $(imageElement).load(function () {
             updateImageScalingRatio();
         });
 
-        $(window).resize(function() {
+        $(window).resize(function () {
             updateImageScalingRatio();
         });
 
@@ -57,6 +57,22 @@ function annotatedScreenshot() {
             scope.imageScalingRatio = imageDisplayWidth / imageNaturalWidth;
             scope.$digest();
         }
+
+        scope.getBoxCssStyle = function getBoxCssStyle(screenAnnotation) {
+            return {
+                left: screenAnnotation.region.x * scope.imageScalingRatio + 'px',
+                top: screenAnnotation.region.y * scope.imageScalingRatio + 'px',
+                width: screenAnnotation.region.width * scope.imageScalingRatio + 'px',
+                height: screenAnnotation.region.height * scope.imageScalingRatio + 'px'
+            };
+        };
+
+        scope.getIconCssStyle = function getIconCssStyle(screenAnnotation) {
+            return {
+                left: (screenAnnotation.region.x + screenAnnotation.region.width ) * scope.imageScalingRatio + 'px',
+                top: screenAnnotation.region.y * scope.imageScalingRatio + 'px'
+            };
+        };
     }
 
 }
