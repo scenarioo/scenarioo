@@ -19,7 +19,7 @@ angular
     .module('scenarioo.directives')
     .directive('scScreenAnnotationsButton', screenAnnotationsButton);
 
-function screenAnnotationsButton($window, localStorageService, GlobalHotkeysService) {
+function screenAnnotationsButton(localStorageService, GlobalHotkeysService) {
 
     var SCREEN_ANNOTATIONS_VISIBLE = 'scenarioo-screenAnnotationsVisible';
 
