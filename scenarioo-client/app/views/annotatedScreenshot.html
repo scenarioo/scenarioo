@@ -5,7 +5,8 @@
             {{screenAnnotation.text}}
         </span>
         <i ng-repeat="screenAnnotation in screenAnnotations"
-           class="icon-{{screenAnnotation.style}} icon-large sc-screnshot-annotation-icon" ng-style="getIconCssStyle(screenAnnotation)"></i>
+           ng-class="[getIconClass(screenAnnotation.style), 'icon-large', 'sc-screnshot-annotation-icon']" ng-style="getIconCssStyle(screenAnnotation)"
+                ng-show="getIconClass(screenAnnotation.style) !== ''"></i>
     </div>
     <img ng-src="{{getScreenShotUrl()}}" class="sc-screenshot"/>
 </div>
