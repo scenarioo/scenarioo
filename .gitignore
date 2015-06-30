@@ -14,6 +14,7 @@ app/bower_components
 third-party
 scenarioo-client/app/scripts/environment_config.js
 scenarioo-client/app/styles/scenarioo.css
+scenarioo-client/scenariooDocumentation
 .project
 /build
 *hs_err*.log
