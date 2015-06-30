@@ -1,13 +1,9 @@
 <div class="sc-screenshot-border sc-annotated-screenshot-container">
-    <span ng-repeat="screenAnnotation in screenAnnotations"
-          class="sc-screenshot-annotation"
-          style="left: {{screenAnnotation.region.x * imageScalingRatio}}px; top: {{screenAnnotation.region.y * imageScalingRatio}}px;
-        width: {{screenAnnotation.region.width * imageScalingRatio}}px; height: {{screenAnnotation.region.height * imageScalingRatio}}px;">
+    <span ng-repeat="screenAnnotation in screenAnnotations" class="sc-screenshot-annotation"
+          ng-style="getBoxCssStyle(screenAnnotation)">
         {{screenAnnotation.text}}
-
     </span>
     <i ng-repeat="screenAnnotation in screenAnnotations"
-       class="icon-{{screenAnnotation.style}} icon-large sc-screnshot-annotation-icon" style="display: block; position: absolute;
-       left: {{(screenAnnotation.region.x * imageScalingRatio) + (screenAnnotation.region.width * imageScalingRatio)}}px; top: {{screenAnnotation.region.y * imageScalingRatio}}px;"></i>
+       class="icon-{{screenAnnotation.style}} icon-large sc-screnshot-annotation-icon" ng-style="getIconCssStyle(screenAnnotation)"></i>
     <img ng-src="{{getScreenShotUrl()}}" class="sc-screenshot"/>
 </div>
