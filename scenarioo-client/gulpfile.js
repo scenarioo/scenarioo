@@ -180,7 +180,9 @@ function wrapWithIIFE() {
 gulp.task('usemin', ['clean-dist'], function () {
     return gulp.src('./app/index.html')
         .pipe(usemin({
-            sources: [wrapWithIIFE(), 'concat', ngAnnotate(), uglify()],
+            sources: [wrapWithIIFE(), 'concat', ngAnnotate(), uglify({
+                mangle: false
+            })],
             vendor: [uglify({
                 mangle: false
             }), 'concat'],
