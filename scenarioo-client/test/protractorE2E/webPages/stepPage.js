@@ -135,4 +135,12 @@ StepPage.prototype.assertToolTipInBreadcrumb = function (expectedTooltip) {
     expect(toolTip).toBe(expectedTooltip);
 };
 
+StepPage.prototype.assertNoScreenAnnotationsArePresent = function() {
+  expect(element(by.className('sc-screenshot-annotation')).isPresent()).toBeFalsy();
+};
+
+StepPage.prototype.assertTwoScreenAnnotationsArePresent = function() {
+    expect(element.all(by.className('sc-screenshot-annotation')).count()).toBe(2);
+};
+
 module.exports = StepPage;
