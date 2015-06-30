@@ -30,9 +30,11 @@ function annotatedScreenshot() {
         restrict: 'E',
         templateUrl: 'views/annotatedScreenshot.html',
         link: link,
+        controller: controller,
         scope: {
             screenAnnotations: '=',
-            getScreenShotUrl: '='
+            getScreenShotUrl: '=',
+            visibilityToggle: '='
         }
     };
 
@@ -57,22 +59,23 @@ function annotatedScreenshot() {
             scope.imageScalingRatio = imageDisplayWidth / imageNaturalWidth;
             scope.$digest();
         }
+    }
 
-        scope.getBoxCssStyle = function getBoxCssStyle(screenAnnotation) {
+    function controller($scope) {
+        $scope.getBoxCssStyle = function getBoxCssStyle(screenAnnotation) {
             return {
-                left: screenAnnotation.region.x * scope.imageScalingRatio + 'px',
-                top: screenAnnotation.region.y * scope.imageScalingRatio + 'px',
-                width: screenAnnotation.region.width * scope.imageScalingRatio + 'px',
-                height: screenAnnotation.region.height * scope.imageScalingRatio + 'px'
+                left: screenAnnotation.region.x * $scope.imageScalingRatio + 'px',
+                top: screenAnnotation.region.y * $scope.imageScalingRatio + 'px',
+                width: screenAnnotation.region.width * $scope.imageScalingRatio + 'px',
+                height: screenAnnotation.region.height * $scope.imageScalingRatio + 'px'
             };
         };
 
-        scope.getIconCssStyle = function getIconCssStyle(screenAnnotation) {
+        $scope.getIconCssStyle = function getIconCssStyle(screenAnnotation) {
             return {
-                left: (screenAnnotation.region.x + screenAnnotation.region.width ) * scope.imageScalingRatio + 'px',
-                top: screenAnnotation.region.y * scope.imageScalingRatio + 'px'
+                left: (screenAnnotation.region.x + screenAnnotation.region.width ) * $scope.imageScalingRatio + 'px',
+                top: screenAnnotation.region.y * $scope.imageScalingRatio + 'px'
             };
         };
     }
-
 }
