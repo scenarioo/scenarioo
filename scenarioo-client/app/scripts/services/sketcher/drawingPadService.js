@@ -20,8 +20,13 @@
 angular.module('scenarioo.services').factory('DrawingPadService', function ($rootScope) {
 
     var drawingPadNodeId = 'drawingPad';
-    var backgroundImageId = 'drawingPad';
+    var viewPortGroupId = 'viewPortGroup';
+    var backgroundImageId = 'sketcher-original-screenshot';
     var drawingPad = SVG(drawingPadNodeId).size('100%', '100%').spof();
+    var viewPortGroup = drawingPad.group().attr({
+        class: 'svg-pan-zoom_viewport',
+        id: viewPortGroupId
+    });
 
     var DRAWINGPAD_CLICKED_EVENT = 'drawingPadClicked';
 
@@ -30,7 +35,7 @@ angular.module('scenarioo.services').factory('DrawingPadService', function ($roo
         return drawingPad.svg();
     }
 
-    drawingPad.getOffset = function(event) {
+    viewPortGroup.getOffset = function(event) {
         //console.log(drawingPad.parent());
         var offset = jQuery(drawingPad.parent()).offset();
         var point = { x: 0, y: 0 };
@@ -42,14 +47,16 @@ angular.module('scenarioo.services').factory('DrawingPadService', function ($roo
     };
 
     drawingPad.on('mouseup', function(event) {
-        if(event.target.id === drawingPadNodeId || event.target.id === backgroundImageId) {
+        if(event.target.id === drawingPadNodeId || event.target.id === viewPortGroupId || event.target.id === backgroundImageId) {
             $rootScope.$broadcast(DRAWINGPAD_CLICKED_EVENT);
         }
     });
 
 
     return {
-        get: drawingPad,
+        root: drawingPad,
+        get: viewPortGroup,
+        drawingPadNodeId: drawingPadNodeId,
         backgroundImageId: backgroundImageId,
 
         DRAWINGPAD_CLICKED_EVENT: DRAWINGPAD_CLICKED_EVENT,

@@ -28,9 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <div id="sc-sketcher-workspace" class="col-lg-9">
 
-        <svg id="sc-sketcher-viewport" width="100%" height="600">
+        <div id="sc-sketcher-viewport" class="">
             <svg id="drawingPad"></svg>
-        </svg>
+        </div>
 
     </div>
 
@@ -61,11 +61,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <span class="sr-only">(error)</span>
             </div>
             <div class="form-group">
-                <label>Sketch Name</label>
+                <label>Scenario Sketch Name</label>
                 <input type="text" id="scenarioSketchName" ng-model="scenarioSketchName" class="form-control"/>
             </div>
             <div class="form-group">
-                <label>Sketch Description</label>
+                <label>Scenario Sketch Description</label>
                 <textarea id="scenarioSketchDescription" ng-model="scenarioSketchDescription" class="form-control" rows="3"></textarea>
             </div>
 

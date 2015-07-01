@@ -48,6 +48,7 @@ public class ScenarioSketch implements Serializable, Labelable, Detailable {
 		super();
 		this.scenarioSketchName = name;
 		this.description = description;
+		this.scenarioSketchStatus = "Draft";
 	}
 
 	public void update(final ScenarioSketch update) {

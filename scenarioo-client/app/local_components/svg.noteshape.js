@@ -68,16 +68,20 @@ SVG.Note = function(width, height, options) {
             id: 'noteOK'
             , textContent: 'OK'
             , onclick: function() {
-                var currentNoteText = document.getElementById(textareaId).value
-
-                if(currentNoteText) {
-                    fobjNode.hide()
-                    textNode.text(function(add) {
-                        convertTextToTextNode(add, currentNoteText)
-                    }).show()
-                }
+                showNoteText();
             }
         })
+
+    function showNoteText() {
+        var currentNoteText = document.getElementById(textareaId).value
+
+        if(currentNoteText) {
+            fobjNode.hide()
+            textNode.text(function(add) {
+                convertTextToTextNode(add, currentNoteText)
+            }).show()
+        }
+    }
 
 
     function convertTextToLines(text) {
@@ -113,7 +117,19 @@ SVG.Note.prototype = new SVG.Container
 
 // Add methods
 SVG.extend(SVG.Note, {
+    showText: function(){
+        //return showNoteText();
+        //console.log(this);
 
+        /*var currentNoteText = document.getElementById(this.id() + '-noteText').value
+
+        if(currentNoteText) {
+            this.fobjNode.hide()
+            this.textNode.text(function(add) {
+                this.convertTextToTextNode(add, currentNoteText)
+            }).show()
+        }*/
+    }
 })
 
 // Extend SVG container

@@ -30,7 +30,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.currentTool = tool;
         Tool.activate(tool);
 
-        DrawingPadService.unSelectAllShapes(drawingPad);
+        DrawingPadService.unSelectAllShapes(DrawingPadService.get);
     };
 
     $scope.isButtonDisabled = function (tool) {
@@ -41,6 +41,8 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
     // exporting svg drawing
     $scope.updateSketchStep = function () {
+
+        DrawingPadService.unSelectAllShapes(DrawingPadService.get);
 
         $scope.successfullyUpdatedSketchStep = false;
 
@@ -68,9 +70,16 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
     $rootScope.$on('IssueSaved', function (event, args) {
 
+        if($scope.scenarioSketchName == null) {
+            $scope.scenarioSketchName = 'undefined';
+        }
+
         var scenarioSketch = new ScenarioSketchResource({
             branchName: $routeParams.branch,
             scenarioSketchName: $scope.scenarioSketchName,
+            description: $scope.scenarioSketchDescription,
+            author: $scope.issueAuthor,
+            scenarioSketchStatus: 'Draft',
             issueId: args.issueId
         }, {});
 
@@ -137,13 +146,13 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     });
 
     $rootScope.$on(Tool.SHAPE_SELECTED_EVENT, function (scope, shape) {
-        DrawingPadService.unSelectAllShapes(drawingPad);
+        DrawingPadService.unSelectAllShapes(DrawingPadService.get);
         shape.selectToggle();
     });
 
     $rootScope.$on(DrawingPadService.DRAWINGPAD_CLICKED_EVENT, function () {
         console.log(DrawingPadService.DRAWINGPAD_CLICKED_EVENT);
-        DrawingPadService.unSelectAllShapes(drawingPad);
+        DrawingPadService.unSelectAllShapes(DrawingPadService.get);
     });
 
 
@@ -151,7 +160,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     var loadBackgroundImage = function () {
         if ($routeParams.screenshotURL) {
             convertImgToBase64URL(decodeURIComponent($routeParams.screenshotURL), function(base64Img){
-                var img = drawingPad.image(base64Img).loaded(function (loader) {
+                var img = DrawingPadService.get.image(base64Img).loaded(function (loader) {
                     drawingPad.attr({
                         width: loader.width,
                         height: loader.height
@@ -190,11 +199,13 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     $scope.init = function() {
 
         $timeout(function () {
-            return DrawingPadService.get;
+            return DrawingPadService.root;
         }, 1000).then(function (result) {
             drawingPad = result;
             loadBackgroundImage();
         });
+
+        //var panZoom = svgPanZoom('#' + DrawingPadService.drawingPadNodeId);
 
         $scope.tools = [SelectTool, RectTool, EllipseTool, NoteTool];
         $scope.activateTool($scope.tools[0]);
