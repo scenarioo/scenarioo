@@ -17,8 +17,12 @@
 /* global SVG:false, jQuery:false*/
 /* eslint no-console:0*/
 
-angular.module('scenarioo.services').factory('DrawingPadService', function () {
+angular.module('scenarioo.services').factory('DrawingPadService', function ($rootScope) {
+
     var drawingPad = SVG('drawingPad').size('100%', '100%').spof();
+
+    var DRAWINGPAD_CLICKED_EVENT = 'drawingPadClicked';
+
 
     function exportDrawing() {
         return drawingPad.svg();
@@ -35,9 +39,15 @@ angular.module('scenarioo.services').factory('DrawingPadService', function () {
         return point;
     };
 
+    drawingPad.on('mouseup', function() {
+        $rootScope.$broadcast(DRAWINGPAD_CLICKED_EVENT);
+    });
+
 
     return {
         get: drawingPad,
+
+        DRAWINGPAD_CLICKED_EVENT: DRAWINGPAD_CLICKED_EVENT,
 
         exportDrawing: function () {
             return exportDrawing();

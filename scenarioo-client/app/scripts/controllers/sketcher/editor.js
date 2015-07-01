@@ -129,14 +129,20 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         console.log(exportedSVG);
     });
 
-    $rootScope.$on(Tool.DRAWING_ENDED_EVENT, function () {
+    $rootScope.$on(Tool.DRAWING_ENDED_EVENT, function (scope, shape) {
         // $scope.$apply is used to make sure that the button disabled directive updates in the view
         $scope.$apply($scope.activateTool($scope.tools[0]));
 
-        drawingPad.last().selectToggle();
+        shape.selectToggle();
     });
 
-    $rootScope.$on(Tool.SHAPE_SELECTED_EVENT, function () {
+    $rootScope.$on(Tool.SHAPE_SELECTED_EVENT, function (scope, shape) {
+        DrawingPadService.unSelectAllShapes(drawingPad);
+        shape.selectToggle();
+    });
+
+    $rootScope.$on(DrawingPadService.DRAWINGPAD_CLICKED_EVENT, function () {
+        console.log(DrawingPadService.DRAWINGPAD_CLICKED_EVENT);
         DrawingPadService.unSelectAllShapes(drawingPad);
     });
 
