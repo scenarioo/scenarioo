@@ -77,27 +77,27 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap'])
                 breadcrumbId: 'issue'
             })*/
             .when('/issue/:issueId', {
-                templateUrl: '/views/sketcher/issue.html',
+                templateUrl: 'views/sketcher/issue.html',
                 controller: 'IssueCtrl',
                 issueId: '@issueId',
                 breadcrumbId: 'issue'
             })
             .when('/scenariosketch/:issueId/:scenarioSketchId', {
-                templateUrl: '/views/sketcher/scenarioSketch.html',
+                templateUrl: 'views/sketcher/scenarioSketch.html',
                 controller: 'ScenarioSketchCtrl',
                 scenarioSketchId: '@scenarioSketchId',
                 issueId: '@issueId',
                 breadcrumbId: 'scenariosketch'
             })
             .when('/issue/:issueId/scenariosketch/:scenarioSketchId', {
-                templateUrl: '/views/scenarioSketch/scenarioSketch.html',
+                templateUrl: 'views/scenarioSketch/scenarioSketch.html',
                 controller: 'ScenarioSketchCtrl',
                 issueId: '@issueId',
                 scenarioSketchId: '@scenarioSketchId',
                 breadcrumbId: 'scenariosketch'
             })
             .when('/issue/:issueId/scenariosketch/:scenarioSketchId/sketchStep/:sketchStepIndex', {
-                templateUrl: '/views/sketcher/sketchStep.html',
+                templateUrl: 'views/sketcher/sketchStep.html',
                 controller: 'SketchStepCtrl',
                 issueId: '@issueId',
                 scenarioSketchId: '@scenarioSketchId',
