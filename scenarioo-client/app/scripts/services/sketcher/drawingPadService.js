@@ -19,7 +19,9 @@
 
 angular.module('scenarioo.services').factory('DrawingPadService', function ($rootScope) {
 
-    var drawingPad = SVG('drawingPad').size('100%', '100%').spof();
+    var drawingPadNodeId = 'drawingPad';
+    var backgroundImageId = 'drawingPad';
+    var drawingPad = SVG(drawingPadNodeId).size('100%', '100%').spof();
 
     var DRAWINGPAD_CLICKED_EVENT = 'drawingPadClicked';
 
@@ -39,13 +41,16 @@ angular.module('scenarioo.services').factory('DrawingPadService', function ($roo
         return point;
     };
 
-    drawingPad.on('mouseup', function() {
-        $rootScope.$broadcast(DRAWINGPAD_CLICKED_EVENT);
+    drawingPad.on('mouseup', function(event) {
+        if(event.target.id === drawingPadNodeId || event.target.id === backgroundImageId) {
+            $rootScope.$broadcast(DRAWINGPAD_CLICKED_EVENT);
+        }
     });
 
 
     return {
         get: drawingPad,
+        backgroundImageId: backgroundImageId,
 
         DRAWINGPAD_CLICKED_EVENT: DRAWINGPAD_CLICKED_EVENT,
 

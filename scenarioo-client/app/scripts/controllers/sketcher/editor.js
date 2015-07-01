@@ -153,14 +153,12 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             convertImgToBase64URL(decodeURIComponent($routeParams.screenshotURL), function(base64Img){
                 var img = drawingPad.image(base64Img).loaded(function (loader) {
                     drawingPad.attr({
-                        width: loader.width
-                    });
-                    drawingPad.attr({
+                        width: loader.width,
                         height: loader.height
                     });
                 });
                 img.attr({
-                    id: 'sketcher-original-screenshot',
+                    id: DrawingPadService.backgroundImageId,
                     draggable: false
                 });
 
