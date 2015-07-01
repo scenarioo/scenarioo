@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div class="input-group">
             <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
                    title="type words separated by spaces to search for" ng-model="table.search.searchTerm"
-                   placeholder="Search proposal..."/>
+                   placeholder="Search scenario sketch..."/>
             <span class="input-group-btn">
                 <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
             </span>
@@ -42,14 +42,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <thead>
                 <tr>
                     <th sc-sortable-column="status">Status</th>
-                    <th sc-sortable-column="name">Scenario sketch name</th>
+                    <th sc-sortable-column="name">Scenario Sketch Name</th>
                     <th>Description</th>
                     <th>Author</th>
                     <!--<th ng-repeat="property in propertiesToShow" sc-sortable-column="details.properties.{{property}}">
                         {{property | scHumanReadable}}
                     </th>-->
                     <!--<th sc-sortable-column="calculatedData.numberOfSteps"># Steps</th>-->
-                    <th># Steps</th>
+                    <th># of Sketch Steps</th>
                 </tr>
             </thead>
             <tbody>
