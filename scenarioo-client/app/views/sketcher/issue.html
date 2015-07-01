@@ -53,7 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </tr>
             </thead>
             <tbody>
-                <tr ng-class="{'selected':$index==selectedRowIndex}" ng-click="goToScenarioSketch(issue.issueId, scenarioSketchSummary.scenarioSketch.scenarioSketchId)"
+                <tr ng-class="{'selected':$index==selectedRowIndex}" ng-click="goToScenarioSketch(scenarioSketchSummary.scenarioSketch.scenarioSketchId)"
                     class="link"
                     ng-repeat="scenarioSketchSummary in filtered=(scenarioSketches | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
                     <td>

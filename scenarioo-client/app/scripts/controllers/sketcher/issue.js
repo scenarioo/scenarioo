@@ -113,8 +113,8 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
     }*/
 
 
-    $scope.goToScenarioSketch = function (issueId, scenarioSketchId) {
-        $location.path('/issue/' + issueId + '/scenariosketch/' + scenarioSketchId);
+    $scope.goToScenarioSketch = function (scenarioSketchId) {
+        $location.path('/issue/' + $routeParams.issueId + '/scenariosketch/' + scenarioSketchId);
     };
     /*
     $scope.onNavigatorTableHit = function (scenarioSketch) {
