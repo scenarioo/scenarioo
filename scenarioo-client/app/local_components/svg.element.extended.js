@@ -24,6 +24,8 @@ SVG.extend(SVG.Element, {
         if(this.type !== 'svg') {
             this.draggable(false);
             this.resize('stop');
+        } else {
+            this.showText();
         }
     }
 

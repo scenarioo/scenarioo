@@ -57,6 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     class="link"
                     ng-repeat="scenarioSketchSummary in filtered=(scenarioSketches | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)">
                     <td>
+                        {{scenarioSketchSummary.scenarioSketch.scenarioSketchStatus}}
                     </td>
                     <td>
                         {{scenarioSketchSummary.scenarioSketch.scenarioSketchName | scHumanReadable }}
