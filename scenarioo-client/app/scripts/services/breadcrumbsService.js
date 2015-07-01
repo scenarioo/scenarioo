@@ -57,6 +57,24 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         route: '/object/:objectType/:objectName'
     };
 
+    var issueElement =
+    {
+        label: '<strong>Issue:</strong> [issueId]',
+        route: '/issue/:issueId/'
+    };
+
+    var scenarioSketchElement =
+    {
+        label: '<strong>Scenario Sketch:</strong> [scenarioSketchId]',
+        route: '/scenariosketch/:issueId/:scenarioSketchId'
+    };
+
+    var sketchStepElement =
+    {
+        label: '<strong>Sketchstep:</strong> [sketchStepIndex]',
+        route: '/sketchstep/:issueId/:scenarioSketchId/:sketchStepIndex'
+    };
+
     /**
      *  Configure breadcrumb paths that can be assigned to routes (see app.js) to display them as breadcrumbs for according pages.
      *  Key of the elements is the 'breadcrumbId', use it to link one of this path to a routing in app.js
@@ -85,6 +103,18 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
         'manage': {
             breadcrumbPath: [homeElement, manageElement]
+        },
+
+        'issue': {
+            breadcrumbPath: [homeElement, issueElement]
+        },
+
+        'scenariosketch': {
+            breadcrumbPath: [homeElement, issueElement, scenarioSketchElement]
+        },
+
+        'sketchstep': {
+            breadcrumbPath: [homeElement, issueElement, scenarioSketchElement, sketchStepElement]
         }
     };
 
@@ -98,7 +128,7 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         if (placeholders !== null) {
             angular.forEach(placeholders, function (placeholder) {
                 placeholder = placeholder.replace(':', '');
-                if (placeholder === 'usecase' || placeholder === 'scenario') {
+                if (placeholder === 'usecase' || placeholder === 'scenario' || placeholder === 'issueId' || placeholder === 'scenarioSketchId') {
                     text = text.replace(':' + placeholder, navParameter[placeholder]);
                 }
             });
