@@ -31,7 +31,7 @@ angular.module('scenarioo.controllers').factory('RectTool', function (AbstractSh
         tool.shape.attr({
             x: tool.originalX,
             y: tool.originalY,
-            fill: '#f60'
+            fill: '#e74c3c'
         });
     };
 

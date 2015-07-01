@@ -31,7 +31,7 @@ angular.module('scenarioo.controllers').factory('EllipseTool', function (Abstrac
         tool.shape.attr({
             cx: tool.originalX,
             cy: tool.originalY,
-            fill: '#f60'
+            fill: '#e74c3c'
         });
     };
 
