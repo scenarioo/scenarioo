@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div class="input-group">
             <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
                    title="type words separated by spaces to search for" ng-model="table.search.searchTerm"
-                   placeholder="Search proposal..."/>
+                   placeholder="Search sketch step..."/>
             <span class="input-group-btn">
                 <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
             </span>
@@ -41,9 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <table class="table table-bordered proposal-table" sc-navigator-table="filtered">
             <thead>
             <tr>
-                <th sc-sortable-column="name">Sketch step name</th>
-                <th>Description</th>
-                <th>Author</th>
+                <th sc-sortable-column="name">Sketch Step Index</th>
                 <!--<th ng-repeat="property in propertiesToShow" sc-sortable-column="details.properties.{{property}}">
                     {{property | scHumanReadable}}
                 </th>-->
@@ -57,14 +55,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <td>
                     {{sketchStep.sketchStepName | scHumanReadable }}
                     <span ng-repeat="label in sketchSteplabels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
-                </td>
-                <td>{{sketchStep.description}}</td>
-                <td>
-                    {{sketchStep.scenarioSketch.author}}
-                    <!--<a><i class="icon-list-ul icon-with-padding" tooltip="Go to proposal overview"
-                          tooltip-placement="bottom"></i></a>
-                    <a ng-click="goToFirstStep(issue.name, proposalSummary.proposal.name)" tooltip="Go to first step"
-                       tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>-->
                 </td>
                 <!--<td ng-repeat="property in propertiesToShow">{{scenarioSummary.scenario.details[property]}}</td>-->
             </tr>
