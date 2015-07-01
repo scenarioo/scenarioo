@@ -120,7 +120,7 @@ angular.module('scenarioo.controllers').controller('ScenarioSketchCtrl', functio
 
     // todo
     $scope.goToSketchStep = function (sketchStepIndex) {
-        $location.path('/issue/' + $routeParams.issueId + '/scenariosketch/' + $scope.scenarioSketchId + '/sketchStep/' + sketchStepIndex);
+        $location.path('/sketchstep/' + $routeParams.issueId + '/' + $scope.scenarioSketchId + '/' + sketchStepIndex);
     };
 
     /*$scope.goToScenario = function (issueName, scenarioName) {

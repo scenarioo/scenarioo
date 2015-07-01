@@ -89,14 +89,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap'])
                 scenarioSketchId: '@scenarioSketchId',
                 breadcrumbId: 'scenariosketch'
             })
-            .when('/issue/:issueId/scenariosketch/:scenarioSketchId', {
-                templateUrl: 'views/scenarioSketch/scenarioSketch.html',
-                controller: 'ScenarioSketchCtrl',
-                issueId: '@issueId',
-                scenarioSketchId: '@scenarioSketchId',
-                breadcrumbId: 'scenariosketch'
-            })
-            .when('/issue/:issueId/scenariosketch/:scenarioSketchId/sketchStep/:sketchStepIndex', {
+            .when('/sketchstep/:issueId/:scenarioSketchId/:sketchStepIndex', {
                 templateUrl: 'views/sketcher/sketchStep.html',
                 controller: 'SketchStepCtrl',
                 issueId: '@issueId',
