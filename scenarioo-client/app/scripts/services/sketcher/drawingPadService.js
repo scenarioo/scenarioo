@@ -41,6 +41,14 @@ angular.module('scenarioo.services').factory('DrawingPadService', function () {
 
         exportDrawing: function () {
             return exportDrawing();
+        },
+
+        unSelectAllShapes: function(container) {
+            if(container) {
+                container.each(function() {
+                    this.unSelect();
+                });
+            }
         }
     };
 });
