@@ -34,7 +34,7 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function ($
         tool.originalX = mousePoint.x;
         tool.originalY = mousePoint.y;
 
-        //tool.pauseEvent(event);
+        tool.pauseEvent(event);
     };
 
     tool.onmouseupTemplate = function () {
@@ -43,13 +43,19 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function ($
         tool.originalY = 0;
         //tool.shape.attr('fill', '#0f3');
 
-        //tool.shape.selectToggle();
 
         if(tool.shape != null) {
-            tool.shape.on('mouseup', shapeOnMouseUp, false);
+            tool.shape.on('mouseup', function (event) {
+                $rootScope.$broadcast(tool.SHAPE_SELECTED_EVENT, this);
+
+                // don't broadcast the drawingPad clicks
+                // todo: this prevents the mouseup event to work properly if fired while hovering over another shape
+                tool.pauseEvent(event);
+            }, false);
         }
 
-        $rootScope.$broadcast(tool.DRAWING_ENDED_EVENT);
+        $rootScope.$broadcast(tool.DRAWING_ENDED_EVENT, tool.shape);
+        tool.pauseEvent(event);
     };
 
     tool.onmousedragTemplate = function (event) {
@@ -65,6 +71,9 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function ($
 
         tool.pauseEvent(event);
     };
+
+
+
 
     /*
      * Prevents elements/text to be selected on mouse drag
@@ -82,10 +91,6 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function ($
         return false;
     };
 
-    var shapeOnMouseUp = function () {
-        $rootScope.$broadcast(tool.SHAPE_SELECTED_EVENT);
-        this.selectToggle();
-    };
 
     return {
 
