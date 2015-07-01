@@ -416,6 +416,7 @@ label {
 }
 #sc-sketcher-workspace .noteToolText button {
   float: right;
+  margin-top: 10px;
 }
 #sc-sketcher-workspace #sketcher-original-screenshot {
   -moz-user-select: none;
