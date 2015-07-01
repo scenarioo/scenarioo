@@ -69,9 +69,9 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap'])
                 pageOccurrence: '@pageOccurrence',
                 stepInPageOccurrence: '@stepInPageOccurrence',
                 breadcrumbId: 'step'
-            })
-            /*.when('/issue/:issueName', {
-                templateUrl: '../views/issue/issue.html',
+            })/*
+            .when('/issue/:issueName', {
+                templateUrl: '../views/sketcher/issue.html',
                 controller: 'IssueCtrl',
                 issueName: '@issueName',
                 breadcrumbId: 'issue'
@@ -89,20 +89,20 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap'])
                 issueId: '@issueId',
                 breadcrumbId: 'scenariosketch'
             })
-            .when('/issue/:issueName/scenariosketch/:scenarioSketchId', {
+            .when('/issue/:issueId/scenariosketch/:scenarioSketchId', {
                 templateUrl: '/views/scenarioSketch/scenarioSketch.html',
                 controller: 'ScenarioSketchCtrl',
-                issueName: '@issueName',
+                issueId: '@issueId',
                 scenarioSketchId: '@scenarioSketchId',
-                breadcrumbId: 'scenarioSketch'
+                breadcrumbId: 'scenariosketch'
             })
-            .when('/issue/:issueName/scenariosketch/:scenarioSketchId/sketchStep/:sketchStepIndex', {
+            .when('/issue/:issueId/scenariosketch/:scenarioSketchId/sketchStep/:sketchStepIndex', {
                 templateUrl: '/views/sketcher/sketchStep.html',
                 controller: 'SketchStepCtrl',
-                issueName: '@issueName',
+                issueId: '@issueId',
                 scenarioSketchId: '@scenarioSketchId',
                 sketchStepIndex: '@sketchStepIndex',
-                breadcrumbId: 'sketchStep'
+                breadcrumbId: 'sketchstep'
             })
             .when('/editor', {
                 templateUrl: 'views/sketcher/editor.html',
