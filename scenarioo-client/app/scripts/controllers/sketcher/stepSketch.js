@@ -27,7 +27,7 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
     //var labels = $location.search().labels;
 
-    var issueName = $routeParams.issueName;
+    var issueId = $routeParams.issueId;
     var scenarioSketchId = $routeParams.scenarioSketchId;
     var sketchStepIndex = $routeParams.sketchStepIndex;
     $scope.isStepScope = true;
@@ -67,7 +67,7 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
         SketchStepResource.get(
             {
                 'branchName': selected.branch,
-                'issueId': issueName,
+                'issueId': issueId,
                 'scenarioSketchId': scenarioSketchId,
                 'sketchStepId': sketchStepIndex
             },
@@ -263,7 +263,7 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
         }
 
         var selected = SelectedBranchAndBuild.selected();
-        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueName + '/scenariosketch/' + scenarioSketchId + '/sketchstep/' + sketchStepIndex + '/image/' + imageName;
+        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/sketchstep/' + sketchStepIndex + '/image/' + imageName;
     };
 
     $scope.go = function (step) {
@@ -284,7 +284,7 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
         }
 
         return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY] +
-            '/issue/' + issueName +
+            '/issue/' + issueId +
             '/scenariosketch/' + scenarioSketchId +
             '/image.' + getImageFileExtension() + createLabelUrl('?', getAllLabels());
     };

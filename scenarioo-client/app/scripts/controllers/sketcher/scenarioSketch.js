@@ -30,7 +30,7 @@ angular.module('scenarioo.controllers').controller('ScenarioSketchCtrl', functio
     });
 
     function loadScenarioSketch(selected) {
-        var issueId = $routeParams.issueName;
+        var issueId = $routeParams.issueId;
         var scenarioSketchId = $routeParams.scenarioSketchId;
         ScenarioSketchResource.get(
             {
@@ -120,8 +120,7 @@ angular.module('scenarioo.controllers').controller('ScenarioSketchCtrl', functio
 
     // todo
     $scope.goToSketchStep = function (sketchStepIndex) {
-        $location.path('/issue/' + $scope.issueId + '/scenariosketch/' + $scope.scenarioSketchId + '/sketchStep/' + sketchStepIndex);
-        //$location.path('#');
+        $location.path('/issue/' + $routeParams.issueId + '/scenariosketch/' + $scope.scenarioSketchId + '/sketchStep/' + sketchStepIndex);
     };
 
     /*$scope.goToScenario = function (issueName, scenarioName) {
