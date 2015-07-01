@@ -28,6 +28,7 @@ angular.module('scenarioo.controllers').factory('Tool', function (DrawingPadServ
     tool.buttonDisabled = false;
     tool.drawingPad = DrawingPadService.get;
     tool.DRAWING_ENDED_EVENT = 'drawingEnded';
+    tool.SHAPE_SELECTED_EVENT = 'shapeSelected';
 
 
     tool.activate = function (newTool) {
@@ -66,6 +67,7 @@ angular.module('scenarioo.controllers').factory('Tool', function (DrawingPadServ
 
     return {
         DRAWING_ENDED_EVENT: tool.DRAWING_ENDED_EVENT,
+        SHAPE_SELECTED_EVENT: tool.SHAPE_SELECTED_EVENT,
 
         get: tool,
         name: tool.name,

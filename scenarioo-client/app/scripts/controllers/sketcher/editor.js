@@ -29,6 +29,8 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         }
         $scope.currentTool = tool;
         Tool.activate(tool);
+
+        DrawingPadService.unSelectAllShapes(drawingPad);
     };
 
     $scope.isButtonDisabled = function (tool) {
@@ -130,7 +132,15 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     $rootScope.$on(Tool.DRAWING_ENDED_EVENT, function () {
         // $scope.$apply is used to make sure that the button disabled directive updates in the view
         $scope.$apply($scope.activateTool($scope.tools[0]));
+
+        drawingPad.last().selectToggle();
     });
+
+    $rootScope.$on(Tool.SHAPE_SELECTED_EVENT, function () {
+        DrawingPadService.unSelectAllShapes(drawingPad);
+    });
+
+
 
     var loadBackgroundImage = function () {
         if ($routeParams.screenshotURL) {
@@ -174,15 +184,6 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
 
     $scope.init = function() {
-
-        /*SVG.extend(SVG.Shape, {
-            paintRed: function() {
-                return this.fill('red');
-            },
-            onmouseup: function() {
-                this.select();
-            }
-        });*/
 
         $timeout(function () {
             return DrawingPadService.get;

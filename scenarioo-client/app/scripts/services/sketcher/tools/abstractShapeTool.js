@@ -43,8 +43,10 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function ($
         tool.originalY = 0;
         //tool.shape.attr('fill', '#0f3');
 
+        //tool.shape.selectToggle();
+
         if(tool.shape != null) {
-            tool.shape.on('mouseup', componentOnMouseUp, false);
+            tool.shape.on('mouseup', shapeOnMouseUp, false);
         }
 
         $rootScope.$broadcast(tool.DRAWING_ENDED_EVENT);
@@ -80,9 +82,9 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function ($
         return false;
     };
 
-    var componentOnMouseUp = function () {
-        //console.log('clicked on shape ' + this.id());
-        this.select();
+    var shapeOnMouseUp = function () {
+        $rootScope.$broadcast(tool.SHAPE_SELECTED_EVENT);
+        this.selectToggle();
     };
 
     return {
