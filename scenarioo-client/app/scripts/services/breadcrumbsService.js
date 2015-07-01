@@ -66,13 +66,13 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
     var scenarioSketchElement =
     {
         label: '<strong>Scenario Sketch:</strong> [scenarioSketchId]',
-        route: '/scenariosketch/:issueId/:scenarioSketchId'
+        route: '/scenariosketch/:issueId/:scenarioSketchId/'
     };
 
     var sketchStepElement =
     {
         label: '<strong>Sketchstep:</strong> [sketchStepIndex]',
-        route: '/sketchstep/:issueId/:scenarioSketchId/:sketchStepIndex'
+        route: '/sketchstep/:issueId/:scenarioSketchId/:sketchStepIndex/'
     };
 
     /**
