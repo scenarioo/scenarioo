@@ -112,7 +112,7 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
         $scope.propertiesToShow = Config.scenarioPropertiesInOverview();
     }*/
 
-    // todo
+
     $scope.goToScenarioSketch = function (issueId, scenarioSketchId) {
         $location.path('/issue/' + issueId + '/scenariosketch/' + scenarioSketchId);
     };
