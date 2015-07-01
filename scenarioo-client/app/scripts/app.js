@@ -89,14 +89,6 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap'])
                 issueId: '@issueId',
                 breadcrumbId: 'scenariosketch'
             })
-            .when('/stepsketch/:issueId/:scenarioSketchId/:stepSketchId', {
-                templateUrl: '../views/sketcher/stepSketch.html',
-                controller: 'StepSketchCtrl',
-                stepSketchId: '@stepSketchId',
-                scenarioSketchId: '@scenarioSketchId',
-                issueId: '@issueId',
-                breadcrumbId: 'stepsketch'
-            })
             .when('/issue/:issueName/scenariosketch/:scenarioSketchId', {
                 templateUrl: '../views/scenarioSketch/scenarioSketch.html',
                 controller: 'ScenarioSketchCtrl',
@@ -105,7 +97,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap'])
                 breadcrumbId: 'scenarioSketch'
             })
             .when('/issue/:issueName/scenariosketch/:scenarioSketchId/sketchStep/:sketchStepIndex', {
-                templateUrl: '../views/sketchStep/sketchStep.html',
+                templateUrl: '../views/sketcher/sketchStep.html',
                 controller: 'SketchStepCtrl',
                 issueName: '@issueName',
                 scenarioSketchId: '@scenarioSketchId',
