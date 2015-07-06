@@ -16,17 +16,17 @@
  */
 
 
-angular.module('scenarioo.controllers').factory('BasicShapeTool', function (AbstractShapeTool) {
+angular.module('scenarioo.controllers').factory('BorderShapeTool', function (AbstractShapeTool) {
     var tool = AbstractShapeTool.get;
 
-    tool.name = 'Basic Shape Tool';
+    tool.name = 'Border Shape Tool';
     tool.icon = null;
-    tool.tooltip = 'This tool is used to draw basic shapes.';
+    tool.tooltip = 'This tool is used to draw border shapes.';
 
 
     tool.onmousedown = function (event) {
         tool.onmousedownTemplate(event);
-        tool.shape = tool.drawingPad.basicShape(0, 0, 0, 0);
+        tool.shape = tool.drawingPad.borderShape(0, 0, 0, 0);
 
         tool.shape.attr({
             x: tool.originalX,

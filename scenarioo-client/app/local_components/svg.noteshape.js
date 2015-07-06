@@ -37,11 +37,11 @@ SVG.Note = function(width, height, options) {
 
     textNode = this.notetxt = this.text('')
         .move(settings.padding, settings.padding)
-        .fill(settings.fontcolor)
+        .fill(settings.fontColor)
         .attr('style', 'cursor:pointer;')
         .font({
             anchor: 'left'
-            , size:   settings.fontsize
+            , size:   settings.fontSize
             , family: settings.font
             , weight: '300'
         })
@@ -85,7 +85,7 @@ SVG.Note = function(width, height, options) {
 
 
     function convertTextToLines(text) {
-        var charsPerLine = Math.floor(width / settings.fontsize * 1.6);
+        var charsPerLine = Math.floor(width / settings.fontSize * 1.6);
         //console.log(charsPerLine);
         var re = new RegExp('(.|[\r\n]){1,' + charsPerLine + '}', 'g');
 
