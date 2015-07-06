@@ -32,6 +32,7 @@ package org.scenarioo.uitest.dummy.application;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.scenarioo.model.docu.entities.ScreenRegion;
 import org.scenarioo.uitest.dummy.application.steps.DummyApplicationStepData;
 import org.scenarioo.uitest.dummy.application.steps.DummyApplicationStepDataFactory;
 import org.scenarioo.uitest.example.infrastructure.PngLoader;
@@ -164,6 +165,10 @@ public class DummyApplicationSimulator {
 			}
 			return true;
 		}
+	}
+
+	public ScreenRegion getRegionFromElement(final String currentUrl, final int index, final String elementId) {
+		return getApplicationStepData(currentUrl, index).getRegionFromElement(elementId);
 	}
 	
 }
