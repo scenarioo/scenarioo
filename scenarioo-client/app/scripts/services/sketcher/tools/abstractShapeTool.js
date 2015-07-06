@@ -70,7 +70,7 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function ($
 
 
     /*
-     * Prevents elements/text to be selected on mouse drag
+     * Prevents event propagation
      * http://stackoverflow.com/questions/5429827/how-can-i-prevent-text-element-selection-with-cursor-drag
      */
     tool.pauseEvent = function (event) {
