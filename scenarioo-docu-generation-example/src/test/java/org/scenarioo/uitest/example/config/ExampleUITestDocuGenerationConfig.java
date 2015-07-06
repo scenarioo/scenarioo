@@ -30,6 +30,9 @@
 package org.scenarioo.uitest.example.config;
 
 import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
 
 /**
  * Just some constants for the example UI test documentation generation.
@@ -45,9 +48,20 @@ public class ExampleUITestDocuGenerationConfig {
 	public static final String EXAMPLE_BRANCH_NAME = "wikipedia-docu-example";
 	
 	static {
+		// Ensure that on start of test all old test results are removed.
+		deleteDirectory(DOCU_BUILD_DIRECTORY);
+
 		// Ensure that the build directory gets precreated, this is not handled by the Scenarioo Docu writer, if
 		// directory does not exist docu generation will fail.
 		DOCU_BUILD_DIRECTORY.mkdirs();
 	}
 	
+	private static void deleteDirectory(final File docuBranchDir) {
+		try {
+			FileUtils.deleteDirectory(docuBranchDir);
+		} catch (IOException e) {
+			throw new RuntimeException("Could not delete test data directory", e);
+		}
+	}
+
 }

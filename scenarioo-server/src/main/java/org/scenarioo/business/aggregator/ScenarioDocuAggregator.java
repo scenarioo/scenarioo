@@ -58,12 +58,6 @@ import org.scenarioo.rest.base.BuildIdentifier;
  */
 public class ScenarioDocuAggregator {
 	
-	/**
-	 * Version of the file format in filesystem. The data aggregator checks whether the file format is the same,
-	 * otherwise the data has to be recalculated.
-	 */
-	public static final String CURRENT_FILE_FORMAT_VERSION = "2.0.1.dev1";
-	
 	private final static Logger LOGGER = Logger.getLogger(ScenarioDocuAggregator.class);
 	
 	private static final String SUCCESS_STATE = Status.SUCCESS.getKeyword();
@@ -105,7 +99,7 @@ public class ScenarioDocuAggregator {
 	
 	public boolean isAggregatedDataForBuildAlreadyAvailableAndCurrentVersion() {
 		String version = dao.loadVersion(getBuildIdentifier());
-		return !StringUtils.isBlank(version) && version.equals(CURRENT_FILE_FORMAT_VERSION);
+		return !StringUtils.isBlank(version) && version.equals(ServerVersion.DERIVED_FILE_FORMAT_VERSION);
 	}
 
 	public void removeAggregatedDataForBuild() {
@@ -138,7 +132,7 @@ public class ScenarioDocuAggregator {
 
 		dao.saveLongObjectNamesIndex(getBuildIdentifier(), longObjectNamesResolver);
 
-		dao.saveVersion(getBuildIdentifier(), CURRENT_FILE_FORMAT_VERSION);
+		dao.saveVersion(getBuildIdentifier(), ServerVersion.DERIVED_FILE_FORMAT_VERSION);
 
 		buildSummary.setBuildStatistics(buildStatistics);
 	}
@@ -275,7 +269,7 @@ public class ScenarioDocuAggregator {
 		buildSummary.setBuildDescription(buildLink.getBuild());
 		String version = dao.loadVersion(buildIdentifier);
 		boolean aggregated = !StringUtils.isBlank(version);
-		boolean outdated = aggregated && !version.equals(CURRENT_FILE_FORMAT_VERSION);
+		boolean outdated = aggregated && !version.equals(ServerVersion.DERIVED_FILE_FORMAT_VERSION);
 		boolean error = buildSummary.getStatus().isFailed();
 		if (error) {
 			buildSummary.setStatus(BuildImportStatus.FAILED);

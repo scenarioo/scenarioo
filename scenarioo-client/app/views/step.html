@@ -99,7 +99,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 
     <div class="col-lg-4">
-        <sc-meta-data-button class="pull-right" linking-variable="stepShowMetadata" local-storage-key="step" ></sc-meta-data-button>
+        <div class="pull-right">
+            <sc-screen-annotations-button linking-variable="showScreenAnnotations"></sc-screen-annotations-button>
+            <sc-meta-data-button linking-variable="stepShowMetadata" local-storage-key="step" ></sc-meta-data-button>
+        </div>
     </div>
 </div>
 
@@ -108,9 +111,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div>
         <tabset class="step-panes">
             <tab heading="Screenshot">
-            <div class="sc-screenshot-border">
-                    <img ng-src="{{getScreenShotUrl()}}" class="sc-screenshot"/>
-                </div>
+                <sc-annotated-screenshot screen-annotations="step.screenAnnotations" get-screen-shot-url="getScreenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
             </tab>
             <tab heading="HTML">
                 <pre ng-bind="formattedHtml">

@@ -31,6 +31,7 @@ package org.scenarioo.uitest.dummy.application.steps;
 
 import java.util.Map;
 
+import org.scenarioo.model.docu.entities.ScreenRegion;
 import org.scenarioo.uitest.dummy.application.ApplicationsStateData;
 import org.scenarioo.uitest.dummy.application.DummySimulationConfig;
 
@@ -47,13 +48,14 @@ public class DummyApplicationStepData {
 	private String screenshotFileName;
 	private String browserUrl;
 	private Map<String, String> elementTexts;
+	private Map<String, ScreenRegion> elementRegions;
 	private ApplicationsStateData applicationStateData;
 
 	public DummySimulationConfig getSimulationConfig() {
 		return simulationConfig;
 	}
 
-	public void setSimulationConfig(DummySimulationConfig simulationConfig) {
+	public void setSimulationConfig(final DummySimulationConfig simulationConfig) {
 		this.simulationConfig = simulationConfig;
 	}
 
@@ -61,7 +63,7 @@ public class DummyApplicationStepData {
 		return startBrowserUrl;
 	}
 
-	public void setStartBrowserUrl(String startBrowserUrl) {
+	public void setStartBrowserUrl(final String startBrowserUrl) {
 		this.startBrowserUrl = startBrowserUrl;
 	}
 
@@ -69,7 +71,7 @@ public class DummyApplicationStepData {
 		return index;
 	}
 
-	public void setIndex(int index) {
+	public void setIndex(final int index) {
 		this.index = index;
 	}
 	
@@ -83,7 +85,7 @@ public class DummyApplicationStepData {
 	/**
 	 * Screenshot filename without ".png" extension.
 	 */
-	public void setScreenshotFileName(String screenshotFileName) {
+	public void setScreenshotFileName(final String screenshotFileName) {
 		this.screenshotFileName = screenshotFileName;
 	}
 
@@ -91,7 +93,7 @@ public class DummyApplicationStepData {
 		return browserUrl;
 	}
 
-	public void setBrowserUrl(String browserUrl) {
+	public void setBrowserUrl(final String browserUrl) {
 		this.browserUrl = browserUrl;
 	}
 
@@ -99,7 +101,7 @@ public class DummyApplicationStepData {
 		return elementTexts;
 	}
 
-	public void setElementTexts(Map<String, String> elementTexts) {
+	public void setElementTexts(final Map<String, String> elementTexts) {
 		this.elementTexts = elementTexts;
 	}
 
@@ -108,7 +110,7 @@ public class DummyApplicationStepData {
 	}
 
 	public void setApplicationStateData(
-			ApplicationsStateData applicationStateData) {
+			final ApplicationsStateData applicationStateData) {
 		this.applicationStateData = applicationStateData;
 	}
 
@@ -119,6 +121,14 @@ public class DummyApplicationStepData {
 					+ elementId);
 		}
 		return text;
+	}
+
+	public void setElementRegions(final Map<String, ScreenRegion> elementRegions) {
+		this.elementRegions = elementRegions;
+	}
+
+	public ScreenRegion getRegionFromElement(final String elementId) {
+		return elementRegions.get(elementId);
 	}
 
 }
