@@ -215,6 +215,10 @@ h4 {
 div.sc-screenshot-border {
   border: 2px solid #DDDDDD;
 }
+div.sc-annotated-screenshot-container {
+  /** This is important for the correct positioning of the annotations on the screen */
+  position: relative;
+}
 img.sc-screenshot {
   max-width: 100%;
   width: auto;
@@ -223,6 +227,22 @@ div.sc-screenshot-scenario {
   height: 320px;
   overflow: hidden;
   margin: 10px 0 10px 0;
+}
+/** Annotations on screenshots */
+span.sc-screenshot-annotation {
+  position: absolute;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 3px #ffd633 solid;
+  background-color: rgba(255, 214, 51, 0.5);
+}
+.sc-screnshot-annotation-icon {
+  position: absolute;
+  display: block;
+  border: 3px #ffd633 solid;
+  background-color: #ffd633;
 }
 /** Configuration */
 .configuration textarea {

@@ -7,26 +7,23 @@ SVG.extend(SVG.Element, {
         this.isSelected = !this.isSelected;
         this.select(this.isSelected, this.selectOptions);
 
-        if(this.type !== 'svg') {
-            this.draggable(this.isSelected);
-            if (!this.isSelected) {
-                this.resize('stop');
-            } else {
-                this.resize();
-            }
+        this.draggable(this.isSelected);
+        if (!this.isSelected) {
+            this.resize('stop');
+        } else {
+            this.resize();
         }
+
+        return this;
     },
 
     unSelect: function() {
         this.isSelected = false;
         this.select(false);
 
-        if(this.type !== 'svg') {
-            this.draggable(false);
-            this.resize('stop');
-        } else {
-            this.showText();
-        }
+        this.draggable(false);
+        this.resize('stop');
+        // this.showText();
     }
 
 });
