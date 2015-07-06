@@ -142,12 +142,16 @@ public class AvailableBuildsList {
 		List<BranchAlias> branchAliases = configuration.getBranchAliases();
 		for (BranchAlias branchAlias : branchAliases) {
 			BranchBuilds branchWithBuilds = findBranch(branchAlias.getReferencedBranch());
-			BranchBuilds branchBuildsAlias = new BranchBuilds();
-			branchBuildsAlias.setBuilds(branchWithBuilds.getBuilds());
-			Branch branch = new Branch(branchAlias.getName(), branchWithBuilds.getBranch().getName());
-			branchBuildsAlias.setBranch(branch);
-			branchBuildsAlias.setAlias(true);
-			result.add(branchBuildsAlias);
+			if (branchWithBuilds != null) {
+				// ignore aliases who's referenced branch can not be found, this should not let the server crash on
+				// startup or on updationg builds, could be an old branch not available anymore.
+				BranchBuilds branchBuildsAlias = new BranchBuilds();
+				branchBuildsAlias.setBuilds(branchWithBuilds.getBuilds());
+				Branch branch = new Branch(branchAlias.getName(), branchWithBuilds.getBranch().getName());
+				branchBuildsAlias.setBranch(branch);
+				branchBuildsAlias.setAlias(true);
+				result.add(branchBuildsAlias);
+			}
 		}
 		return result;
 	}
@@ -158,7 +162,7 @@ public class AvailableBuildsList {
 				return branchBuilds;
 			}
 		}
-		throw new RuntimeException("Could not find referenced branch: " + branchName);
+		return null;
 	}
 	
 	/**
