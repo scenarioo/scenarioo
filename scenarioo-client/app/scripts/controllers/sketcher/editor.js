@@ -17,7 +17,7 @@
 /* eslint no-console:0*/
 
 
-angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $timeout, $routeParams, $route, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, EllipseTool, NoteTool, BasicShapeTool, DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue, ScenarioSketchResource, ScenarioSketch) {
+angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $timeout, $routeParams, $route, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, EllipseTool, NoteTool, BasicShapeTool, BorderShapeTool, DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue, ScenarioSketchResource, ScenarioSketch) {
 
     var drawingPad;
     $scope.currentTool = null;
@@ -207,7 +207,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
         //var panZoom = svgPanZoom('#' + DrawingPadService.drawingPadNodeId);
 
-        $scope.tools = [SelectTool, RectTool, EllipseTool, NoteTool, BasicShapeTool];
+        $scope.tools = [SelectTool, RectTool, EllipseTool, NoteTool, BasicShapeTool, BorderShapeTool];
         $scope.activateTool($scope.tools[0]);
     };
     $scope.init();
