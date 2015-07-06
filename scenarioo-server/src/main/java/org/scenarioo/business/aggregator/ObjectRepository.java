@@ -36,6 +36,7 @@ import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Labels;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.ScreenAnnotation;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.docu.entities.generic.Details;
@@ -289,10 +290,18 @@ public class ObjectRepository {
 		referencePath = extendPath(referencePath, stepReference);
 		addObjects(referencePath, step.getStepDescription().getDetails());
 		addObjects(referencePath, step.getMetadata().getDetails());
+		addScreenAnnotationObjects(referencePath, step.getScreenAnnotations());
 		addPage(referencePath, step.getPage());
 		addLabels(referencePath, step.getStepDescription().getLabels());
 	}
 	
+	private void addScreenAnnotationObjects(final List<ObjectReference> referencePath,
+			final List<ScreenAnnotation> screenAnnotations) {
+		for (ScreenAnnotation screenAnnotation : screenAnnotations) {
+			addObjects(referencePath, screenAnnotation.getDetails());
+		}
+	}
+
 	/**
 	 * Add description of a page and all referenced objects
 	 */
@@ -310,7 +319,7 @@ public class ObjectRepository {
 	/**
 	 * Add labels also as objects to the repository
 	 */
-	private void addLabels(final List<ObjectReference> referencePath, final Labels labels) {		
+	private void addLabels(final List<ObjectReference> referencePath, final Labels labels) {
 		for (String label : labels.getLabels()) {
 			// Save label description (if not yet)
 			ObjectDescription labelDescription = new ObjectDescription("label", label);

@@ -135,4 +135,26 @@ StepPage.prototype.assertToolTipInBreadcrumb = function (expectedTooltip) {
     expect(toolTip).toBe(expectedTooltip);
 };
 
+StepPage.prototype.assertScreenshotIsShown = function() {
+    expect(element.all(by.className('sc-screenshot')).count()).toBe(1);
+    expect(element(by.className('sc-screenshot')).isDisplayed()).toBeTruthy();
+};
+
+StepPage.prototype.assertNoScreenAnnotationsArePresent = function() {
+  expect(element(by.className('sc-screenshot-annotation')).isPresent()).toBeFalsy();
+};
+
+StepPage.prototype.assertNoScreenAnnotationsAreVisible = function() {
+    expect(element.all(by.className('sc-screenshot-annotation')).isDisplayed()).toEqual([false, false]);
+};
+
+StepPage.prototype.assertTwoScreenAnnotationsAreVisible = function() {
+    expect(element.all(by.className('sc-screenshot-annotation')).count()).toBe(2);
+    expect(element.all(by.className('sc-screenshot-annotation')).isDisplayed()).toEqual([true, true]);
+};
+
+StepPage.prototype.clickShowScreenAnnotationsButton = function() {
+    element(by.id('sc-showHideScreenAnnotationsButton')).click();
+};
+
 module.exports = StepPage;
