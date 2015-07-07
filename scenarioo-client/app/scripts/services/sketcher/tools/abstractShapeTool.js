@@ -37,11 +37,10 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function ($
         tool.pauseEvent(event);
     };
 
-    tool.onmouseupTemplate = function () {
+    tool.onmouseupTemplate = function (event) {
         tool.mousedown = false;
         tool.originalX = 0;
         tool.originalY = 0;
-        //tool.shape.attr('fill', '#0f3');
 
 
         if(tool.shape != null) {
@@ -70,7 +69,7 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function ($
 
 
     /*
-     * Prevents event propagation
+     * Prevents event propagation (mainly for FF)
      * http://stackoverflow.com/questions/5429827/how-can-i-prevent-text-element-selection-with-cursor-drag
      */
     tool.pauseEvent = function (event) {
