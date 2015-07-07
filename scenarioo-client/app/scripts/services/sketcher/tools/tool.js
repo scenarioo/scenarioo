@@ -35,18 +35,18 @@ angular.module('scenarioo.controllers').factory('Tool', function (DrawingPadServ
         console.log('Activated tool: ' + newTool.name);
         newTool.buttonDisabled = true;
 
-        tool.drawingPad.on('mousedown', newTool.onmousedown);
-        tool.drawingPad.on('mouseup', newTool.onmouseup);
-        tool.drawingPad.on('mousemove', newTool.onmousedrag);
+        tool.drawingPad.on('mousedown.tool', newTool.onmousedown);
+        tool.drawingPad.on('mouseup.tool', newTool.onmouseup);
+        tool.drawingPad.on('mousemove.tool', newTool.onmousedrag);
     };
 
     tool.deactivate = function (currentTool) {
         console.log('Deactivated tool: ' + currentTool.name);
         currentTool.buttonDisabled = false;
 
-        tool.drawingPad.off('mousedown', currentTool.onmousedown);
-        tool.drawingPad.off('mouseup', currentTool.onmouseup);
-        tool.drawingPad.off('mousemove', currentTool.onmousedrag);
+        tool.drawingPad.off('mousedown.tool', currentTool.onmousedown);
+        tool.drawingPad.off('mouseup.tool', currentTool.onmouseup);
+        tool.drawingPad.off('mousemove.tool', currentTool.onmousedrag);
     };
 
     tool.isButtonDisabled = function (someTool) {

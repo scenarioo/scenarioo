@@ -44,7 +44,7 @@ angular.module('scenarioo.controllers').factory('AbstractShapeTool', function ($
 
 
         if(tool.shape != null) {
-            tool.shape.on('mouseup', function () {
+            tool.shape.on('mouseup.shape', function () {
                 $rootScope.$broadcast(tool.SHAPE_SELECTED_EVENT, this);
             }, false);
         }
