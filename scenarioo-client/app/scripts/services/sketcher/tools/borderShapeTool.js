@@ -38,7 +38,7 @@ angular.module('scenarioo.controllers').factory('BorderShapeTool', function (Abs
     tool.onmouseup = function (event) {
         tool.onmouseupTemplate(event);
 
-        tool.shape.on('resizing', function () {
+        tool.shape.on('resizing.shape', function () {
             this.update();
         }, false);
     };
