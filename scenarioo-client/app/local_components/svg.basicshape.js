@@ -46,39 +46,10 @@ SVG.extend(SVG.BasicShape, {
         });
     },
 
-    // http://stackoverflow.com/questions/4561845/firing-event-on-dom-attribute-change
-    registerAttrChangeEvent: function() {
-
-        var self = this;
-
-        window.MutationObserver = window.MutationObserver
-        || window.WebKitMutationObserver
-        || window.MozMutationObserver;
-        // Find the element that you want to "watch"
-        var target = document.querySelector('#' + self.id()),
-        // create an observer instance
-        observer = new MutationObserver(function(mutation) {
-            /** this is the callback where you
-             do what you need to do.
-             The argument is an array of MutationRecords where the affected attribute is
-             named "attributeName". There is a few other properties in a record
-             but I'll let you work it out yourself.
-             **/
-            //console.log(mutation);
-            var width = self.width();
-            var height = self.height();
-            self.updateChildren(width, height);
-        }),
-        // configuration of the observer:
-        config = {
-            attributes: true // this is to watch for attribute changes.
-        };
-
-        // pass in the element you wanna watch as well as the options
-        observer.observe(target, config);
-
-        // later, you can stop observing
-        // observer.disconnect();
+    update: function() {
+        var width = this.width();
+        var height = this.height();
+        this.updateChildren(width, height);
     }
 });
 
@@ -92,6 +63,7 @@ SVG.extend(SVG.Container, {
         return this.put(new SVG.BasicShape(width, height, x, y, {
             opacity: 0
             , stroke: '#e74c3c'
+            , strokeWidth:  '5'
         }));
     }
 
