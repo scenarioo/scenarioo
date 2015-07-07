@@ -1,4 +1,4 @@
-SVG.extend(SVG.Element, {
+SVG.extend(SVG.Nested, SVG.Shape, {
 
     isSelected: false,
     selectOptions: {rotationPoint: false},

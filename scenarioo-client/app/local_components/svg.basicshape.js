@@ -31,7 +31,7 @@ SVG.BasicShape = function(width, height, x, y, options) {
         .stroke({ color: settings.stroke, width: settings.strokeWidth });
 };
 
-SVG.BasicShape.prototype = new SVG.Container();
+SVG.BasicShape.prototype = new SVG.Nested();
 
 
 // Add methods
@@ -91,7 +91,7 @@ SVG.extend(SVG.Container, {
     borderShape: function(width, height, x, y) {
         return this.put(new SVG.BasicShape(width, height, x, y, {
             opacity: 0
-            , stroke: '#f00'
+            , stroke: '#e74c3c'
         }));
     }
 
