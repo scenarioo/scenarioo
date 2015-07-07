@@ -27,7 +27,7 @@ angular.module('scenarioo.controllers').factory('BasicShapeTool', function (Abst
     tool.onmousedown = function (event) {
         tool.onmousedownTemplate(event);
         tool.shape = tool.drawingPad.basicShape(0, 0, 0, 0);
-        tool.shape.registerAttrChangeEvent();
+        tool.shape.update();
 
         tool.shape.attr({
             x: tool.originalX,
@@ -37,6 +37,10 @@ angular.module('scenarioo.controllers').factory('BasicShapeTool', function (Abst
 
     tool.onmouseup = function (event) {
         tool.onmouseupTemplate(event);
+
+        tool.shape.on('resizing', function () {
+            this.update();
+        }, false);
     };
 
     tool.onmousedrag = function (event) {
@@ -51,6 +55,7 @@ angular.module('scenarioo.controllers').factory('BasicShapeTool', function (Abst
             x: tool.anchorX,
             y: tool.anchorY
         });
+        tool.shape.update();
     };
 
     return {
