@@ -27,7 +27,7 @@ angular.module('scenarioo.controllers').factory('BorderShapeTool', function (Abs
     tool.onmousedown = function (event) {
         tool.onmousedownTemplate(event);
         tool.shape = tool.drawingPad.borderShape(0, 0, 0, 0);
-        tool.shape.update();
+        tool.shape.registerAttrChangeEvent();
 
         tool.shape.attr({
             x: tool.originalX,
@@ -37,10 +37,6 @@ angular.module('scenarioo.controllers').factory('BorderShapeTool', function (Abs
 
     tool.onmouseup = function (event) {
         tool.onmouseupTemplate(event);
-
-        tool.shape.on('resizing.shape', function () {
-            this.update();
-        }, false);
     };
 
     tool.onmousedrag = function (event) {
@@ -55,7 +51,6 @@ angular.module('scenarioo.controllers').factory('BorderShapeTool', function (Abs
             x: tool.anchorX,
             y: tool.anchorY
         });
-        tool.shape.update();
     };
 
     return {
