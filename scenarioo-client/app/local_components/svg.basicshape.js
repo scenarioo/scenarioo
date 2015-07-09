@@ -60,10 +60,11 @@ SVG.extend(SVG.BasicShape, {
         var self = this;
 
         window.MutationObserver = window.MutationObserver
-        || window.WebKitMutationObserver
-        || window.MozMutationObserver;
+            || window.WebKitMutationObserver
+            || window.MozMutationObserver;
+
         // Find the element that you want to "watch"
-        var target = document.querySelector('#' + self.id()),
+        var target = self.node,
         // create an observer instance
         observer = new MutationObserver(function (mutation) {
             /** this is the callback where you
