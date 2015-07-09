@@ -17,7 +17,7 @@
 /* eslint no-console:0*/
 
 
-angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $timeout, $routeParams, $route, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, EllipseTool, NoteTool, BasicShapeTool, BorderShapeTool, DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue, ScenarioSketchResource, ScenarioSketch) {
+angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $http, $location, $filter, $timeout, $routeParams, $route, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, EllipseTool, NoteTool, BasicShapeTool, BorderShapeTool, DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue, ScenarioSketchResource, ScenarioSketch, ContextService) {
 
     var drawingPad;
     $scope.currentTool = null;
@@ -158,7 +158,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
 
     var loadBackgroundImage = function () {
-        if ($routeParams.screenshotURL) {
+        if ($routeParams.screenshotURL && ContextService.sketchStepIndex == null) {
             convertImgToBase64URL(decodeURIComponent($routeParams.screenshotURL), function(base64Img){
                 var img = DrawingPadService.get.image(base64Img).loaded(function (loader) {
                     drawingPad.attr({
@@ -176,6 +176,22 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
                 }
             });
 
+        }
+        else if ($routeParams.screenshotURL && ContextService.sketchStepIndex !== null){
+            $http.get(decodeURIComponent($routeParams.screenshotURL), {headers: {accept: 'image/svg+xml'}}).
+                success(function(data) {
+                    // This should strip out the redundant parts: <svg> tags, <defs>, the viewport group...
+                    // However, it breaks import of one of the elements, and doesn't fix anything.
+                    // Preserved in case truncation will be important.
+                    /*var truncated = data.substring(data.search('<image '), data.search('</g>'));
+                    console.log(truncated);*/
+                    drawingPad.svg(data);
+                }).
+                error(function(data, status, headers) {
+                    console.log(data);
+                    console.log(status);
+                    console.log(headers);
+                });
         }
     };
 
