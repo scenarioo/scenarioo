@@ -207,7 +207,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
         //var panZoom = svgPanZoom('#' + DrawingPadService.drawingPadNodeId);
 
-        $scope.tools = [SelectTool, RectTool, EllipseTool, NoteTool, BasicShapeTool, BorderShapeTool];
+        $scope.tools = [SelectTool, RectTool, EllipseTool, BasicShapeTool, BorderShapeTool];
         $scope.activateTool($scope.tools[0]);
     };
     $scope.init();
