@@ -69,6 +69,7 @@ public class SketchImageResource {
 			@PathParam("scenarioSketchId") final String scenarioSketchId,
 			@PathParam("sketchStepIndex") final int sketchStepIndex) {
 
+		LOGGER.info("Loading a sketch image");
 		return files.getSVGFile(branchName, issueId, scenarioSketchId, "sketch.svg");
 
 	}

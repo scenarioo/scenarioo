@@ -17,7 +17,7 @@
 /* global SVG:false, jQuery:false*/
 /* eslint no-console:0*/
 
-angular.module('scenarioo.services').factory('DrawingPadService', function ($rootScope, $routeParams) {
+angular.module('scenarioo.services').factory('DrawingPadService', function ($rootScope, $routeParams, $http, ContextService) {
 
     var drawingPadNodeId = 'drawingPad';
     var viewPortGroupId = 'viewPortGroup';
@@ -77,8 +77,8 @@ angular.module('scenarioo.services').factory('DrawingPadService', function ($roo
     function loadBackgroundImage (dp) {
         var bgImg = SVG.get(backgroundImageId);
 
-        if (bgImg !== undefined && $routeParams.screenshotURL) {
-            convertImgToBase64URL(decodeURIComponent($routeParams.screenshotURL), function (base64Img) {
+        if (bgImg !== undefined && $routeParams.screenshotURL && ContextService.sketchStepIndex == null) {
+            convertImgToBase64URL(decodeURIComponent($routeParams.screenshotURL), function(base64Img){
                 bgImg.load(base64Img).loaded(function (loader) {
                     dp.attr({
                         width: loader.width,
@@ -90,6 +90,23 @@ angular.module('scenarioo.services').factory('DrawingPadService', function ($roo
                     });
                 });
             });
+
+        }
+        else if (bgImg !== undefined && $routeParams.screenshotURL && ContextService.sketchStepIndex !== null){
+            $http.get(decodeURIComponent($routeParams.screenshotURL), {headers: {accept: 'image/svg+xml'}}).
+                success(function(data) {
+                    // This should strip out the redundant parts: <svg> tags, <defs>, the viewport group...
+                    // However, it breaks import of one of the elements, and doesn't fix anything.
+                    // Preserved in case truncation will be important.
+                    /*var truncated = data.substring(data.search('<image '), data.search('</g>'));
+                     drawingPad.svg(truncated);*/
+                    dp.svg(data);
+                }).
+                error(function(data, status, headers) {
+                    console.log(data);
+                    console.log(status);
+                    console.log(headers);
+                });
         }
     }
 
