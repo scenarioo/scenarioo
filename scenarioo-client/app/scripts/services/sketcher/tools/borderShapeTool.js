@@ -26,7 +26,7 @@ angular.module('scenarioo.controllers').factory('BorderShapeTool', function (Abs
 
     tool.onmousedown = function (event) {
         tool.onmousedownTemplate(event);
-        tool.shape = tool.drawingPad.borderShape(0, 0, 0, 0);
+        tool.shape = tool.getDrawingPad().borderShape(0, 0, 0, 0);
         tool.shape.registerAttrChangeEvent();
 
         tool.shape.attr({

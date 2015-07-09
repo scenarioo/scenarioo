@@ -18,6 +18,7 @@
         if(this.el instanceof SVG.Nested) {
             box = this.el.rbox();
         }
+        console.log(box.x, box.y);
         this.options = {};
 
         // Merging the defaults and the options-object together
@@ -66,6 +67,7 @@
         if(this.el instanceof SVG.Nested) {
             box = this.el.rbox();
         }
+        console.log(box.x, box.y);
 
         return this.el.array().valueOf().map(function (el) {
             return [el[0] - box.x, el[1] - box.y];
@@ -119,6 +121,7 @@
         if(this.el instanceof SVG.Nested) {
             box = this.el.rbox();
         }
+        console.log(box.x, box.y);
 
         this.rectSelection.set.get(0).attr({
             width: box.width,
@@ -148,6 +151,7 @@
         if(this.el instanceof SVG.Nested) {
             box = this.el.rbox();
         }
+        console.log(box.x, box.y);
 
         this.rectSelection.isSelected = value;
 
@@ -205,6 +209,8 @@
         if(this.el instanceof SVG.Nested) {
             box = this.el.rbox();
         }
+        console.log(box.x, box.y);
+
         this.nested.size(box.width || 1, box.height || 1).transform(this.el.ctm()).move(box.x, box.y);
 
         if (this.rectSelection.isSelected) {
@@ -224,7 +230,7 @@
                 || window.WebKitMutationObserver
                 || window.MozMutationObserver;
 
-        if (window.MutationObserver || MutationObserver || MutationObserver !== undefined) {
+        if (window.MutationObserver || MutationObserver !== undefined) {
             if (this.rectSelection.isSelected || this.pointSelection.isSelected) {
                 this.observerInst = this.observerInst || new MutationObserver(function () {
                     _this.handler();

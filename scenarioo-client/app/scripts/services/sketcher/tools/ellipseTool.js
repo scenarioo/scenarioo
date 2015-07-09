@@ -26,7 +26,7 @@ angular.module('scenarioo.controllers').factory('EllipseTool', function (Abstrac
 
     tool.onmousedown = function (event) {
         tool.onmousedownTemplate(event);
-        tool.shape = tool.drawingPad.ellipse(0, 0, 0, 0);
+        tool.shape = tool.getDrawingPad().ellipse(0, 0, 0, 0);
 
         tool.shape.attr({
             cx: tool.originalX,

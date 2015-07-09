@@ -17,7 +17,7 @@
 /* eslint no-console:0 */
 
 
-angular.module('scenarioo.controllers').factory('Tool', function (DrawingPadService) {
+angular.module('scenarioo.controllers').factory('Tool', function ($rootScope) {
 
     var tool = {};
 
@@ -26,7 +26,6 @@ angular.module('scenarioo.controllers').factory('Tool', function (DrawingPadServ
     tool.tooltip = '';
     tool.cursor = 'default';
     tool.buttonDisabled = false;
-    tool.drawingPad = DrawingPadService.get;
     tool.DRAWING_ENDED_EVENT = 'drawingEnded';
     tool.SHAPE_SELECTED_EVENT = 'shapeSelected';
 
@@ -35,18 +34,24 @@ angular.module('scenarioo.controllers').factory('Tool', function (DrawingPadServ
         console.log('Activated tool: ' + newTool.name);
         newTool.buttonDisabled = true;
 
-        tool.drawingPad.on('mousedown.drawingpad', newTool.onmousedown);
-        tool.drawingPad.on('mouseup.drawingpad', newTool.onmouseup);
-        tool.drawingPad.on('mousemove.drawingpad', newTool.onmousedrag);
+        var dp = tool.getDrawingPad();
+        if(dp){
+            dp.on('mousedown.drawingpad', newTool.onmousedown);
+            dp.on('mouseup.drawingpad', newTool.onmouseup);
+            dp.on('mousemove.drawingpad', newTool.onmousedrag);
+        }
     };
 
     tool.deactivate = function (currentTool) {
         console.log('Deactivated tool: ' + currentTool.name);
         currentTool.buttonDisabled = false;
 
-        tool.drawingPad.off('mousedown.drawingpad', currentTool.onmousedown);
-        tool.drawingPad.off('mouseup.drawingpad', currentTool.onmouseup);
-        tool.drawingPad.off('mousemove.drawingpad', currentTool.onmousedrag);
+        var dp = tool.getDrawingPad();
+        if(dp) {
+            dp.off('mousedown.drawingpad', currentTool.onmousedown);
+            dp.off('mouseup.drawingpad', currentTool.onmouseup);
+            dp.off('mousemove.drawingpad', currentTool.onmousedrag);
+        }
     };
 
     tool.isButtonDisabled = function (someTool) {
@@ -62,6 +67,10 @@ angular.module('scenarioo.controllers').factory('Tool', function (DrawingPadServ
     };
     tool.onmousedrag = function () {
         console.log('onmousedrag: not implemented in generic tool');
+    };
+
+    tool.getDrawingPad = function() {
+        return $rootScope.drawingPad.viewPortGroup;
     };
 
 
