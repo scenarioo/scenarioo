@@ -224,7 +224,7 @@
                 || window.WebKitMutationObserver
                 || window.MozMutationObserver;
 
-        if (window.MutationObserver && window.MutationObserver !== undefined) {
+        if (window.MutationObserver || window.MutationObserver !== undefined) {
             if (this.rectSelection.isSelected || this.pointSelection.isSelected) {
                 this.observerInst = this.observerInst || new MutationObserver(function () {
                     _this.handler();
