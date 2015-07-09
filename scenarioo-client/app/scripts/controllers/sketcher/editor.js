@@ -178,13 +178,14 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
         }
         else if ($routeParams.screenshotURL && ContextService.sketchStepIndex !== null){
+            drawingPad = DrawingPadService.get;
             $http.get(decodeURIComponent($routeParams.screenshotURL), {headers: {accept: 'image/svg+xml'}}).
                 success(function(data) {
                     // This should strip out the redundant parts: <svg> tags, <defs>, the viewport group...
                     // However, it breaks import of one of the elements, and doesn't fix anything.
                     // Preserved in case truncation will be important.
                     /*var truncated = data.substring(data.search('<image '), data.search('</g>'));
-                    console.log(truncated);*/
+                    drawingPad.svg(truncated);*/
                     drawingPad.svg(data);
                 }).
                 error(function(data, status, headers) {
