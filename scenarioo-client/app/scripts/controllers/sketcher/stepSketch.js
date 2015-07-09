@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioSketchResource, SketchStepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService) {
+angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioSketchResource, SketchStepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService) {
 
     //var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     //var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -325,6 +325,10 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
     });
 
     $scope.sketchThis = function () {
+        ContextService.initialize();
+        ContextService.issueId = issueId;
+        ContextService.scenarioSketchId = scenarioSketchId;
+        ContextService.sketchStepIndex = sketchStepIndex;
         $location.path('/editor/' + encodeURIComponent($scope.getScreenShotUrl()));
     };
 
