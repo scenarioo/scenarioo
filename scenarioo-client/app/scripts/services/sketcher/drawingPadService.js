@@ -17,60 +17,120 @@
 /* global SVG:false, jQuery:false*/
 /* eslint no-console:0*/
 
-angular.module('scenarioo.services').factory('DrawingPadService', function ($rootScope) {
+angular.module('scenarioo.services').factory('DrawingPadService', function ($rootScope, $routeParams) {
 
     var drawingPadNodeId = 'drawingPad';
     var viewPortGroupId = 'viewPortGroup';
     var backgroundImageId = 'sketcher-original-screenshot';
-    var drawingPad = SVG(drawingPadNodeId).size('100%', '100%').spof();
-    var viewPortGroup = drawingPad.group().attr({
-        class: 'svg-pan-zoom_viewport',
-        id: viewPortGroupId
-    });
 
     var DRAWINGPAD_CLICKED_EVENT = 'drawingPadClicked';
 
+    var drawingPad;
+
+
+    function init() {
+
+        drawingPad = SVG(drawingPadNodeId).size('100%', '100%').spof();
+
+        drawingPad.viewPortGroup = drawingPad.group().attr({
+            class: 'svg-pan-zoom_viewport',
+            id: viewPortGroupId
+        });
+
+        drawingPad.on('mouseup', function (event) {
+            if (event.target.id === drawingPadNodeId || event.target.id === viewPortGroupId || event.target.id === backgroundImageId) {
+                $rootScope.$broadcast(DRAWINGPAD_CLICKED_EVENT);
+            }
+        });
+
+        drawingPad.viewPortGroup.getOffset = function(event) {
+            var offset = jQuery(drawingPad.parent()).offset();
+            var point = {x: 0, y: 0};
+
+            point.x = Math.max(event.pageX - offset.left, 0);
+            point.y = Math.max(event.pageY - offset.top, 0);
+
+            return point;
+        };
+
+        drawingPad.viewPortGroup.image('')
+            .attr({
+                id: backgroundImageId,
+                draggable: false,
+                width: '100%',
+                height: '100%'
+            })
+            .ondragstart = function () {
+            return false;
+        };
+
+        loadBackgroundImage(drawingPad);
+
+        return drawingPad;
+    }
 
     function exportDrawing() {
         return drawingPad.svg();
     }
 
-    viewPortGroup.getOffset = function(event) {
-        //console.log(drawingPad.parent());
-        var offset = jQuery(drawingPad.parent()).offset();
-        var point = { x: 0, y: 0 };
 
-        point.x = Math.max(event.pageX - offset.left, 0);
-        point.y = Math.max(event.pageY - offset.top, 0);
+    function loadBackgroundImage (dp) {
+        var bgImg = SVG.get(backgroundImageId);
 
-        return point;
-    };
-
-    drawingPad.on('mouseup', function(event) {
-        if(event.target.id === drawingPadNodeId || event.target.id === viewPortGroupId || event.target.id === backgroundImageId) {
-            $rootScope.$broadcast(DRAWINGPAD_CLICKED_EVENT);
+        if (bgImg !== undefined && $routeParams.screenshotURL) {
+            convertImgToBase64URL(decodeURIComponent($routeParams.screenshotURL), function (base64Img) {
+                bgImg.load(base64Img).loaded(function (loader) {
+                    dp.attr({
+                        width: loader.width,
+                        height: loader.height
+                    });
+                    bgImg.attr({
+                        width: loader.width,
+                        height: loader.height
+                    });
+                });
+            });
         }
-    });
+    }
+
+    function convertImgToBase64URL(url, callback, outputFormat) {
+        var img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function () {
+            var canvas = document.createElement('CANVAS'),
+                ctx = canvas.getContext('2d'), dataURL;
+            canvas.height = this.height;
+            canvas.width = this.width;
+            ctx.drawImage(this, 0, 0);
+            dataURL = canvas.toDataURL(outputFormat);
+            callback(dataURL);
+            canvas = null; //TODO: Does this destroy the canvas element? Does it matter if not?
+        };
+        img.src = url;
+    }
+
+    function unSelectAllShapes(container) {
+        if (container) {
+            container.each(function () {
+                this.unSelect();
+            });
+        }
+    }
 
 
     return {
-        root: drawingPad,
-        get: viewPortGroup,
-        drawingPadNodeId: drawingPadNodeId,
-        backgroundImageId: backgroundImageId,
-
         DRAWINGPAD_CLICKED_EVENT: DRAWINGPAD_CLICKED_EVENT,
+
+        init: function () {
+         return init();
+         },
 
         exportDrawing: function () {
             return exportDrawing();
         },
 
-        unSelectAllShapes: function(container) {
-            if(container) {
-                container.each(function() {
-                    this.unSelect();
-                });
-            }
+        unSelectAllShapes: function (container) {
+            return unSelectAllShapes(container);
         }
     };
 });

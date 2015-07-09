@@ -19,7 +19,6 @@
 
 angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $timeout, $routeParams, $route, GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool, EllipseTool, NoteTool, BasicShapeTool, BorderShapeTool, DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue, ScenarioSketchResource, ScenarioSketch) {
 
-    var drawingPad;
     $scope.currentTool = null;
 
 
@@ -30,7 +29,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.currentTool = tool;
         Tool.activate(tool);
 
-        DrawingPadService.unSelectAllShapes(DrawingPadService.get);
+        DrawingPadService.unSelectAllShapes($rootScope.drawingPad.viewPortGroup);
     };
 
     $scope.isButtonDisabled = function (tool) {
@@ -42,7 +41,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     // exporting svg drawing
     $scope.updateSketchStep = function () {
 
-        DrawingPadService.unSelectAllShapes(DrawingPadService.get);
+        DrawingPadService.unSelectAllShapes($rootScope.drawingPad.viewPortGroup);
 
         $scope.successfullyUpdatedSketchStep = false;
 
@@ -146,71 +145,22 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     });
 
     $rootScope.$on(Tool.SHAPE_SELECTED_EVENT, function (scope, shape) {
-        DrawingPadService.unSelectAllShapes(DrawingPadService.get);
+        DrawingPadService.unSelectAllShapes($rootScope.drawingPad.viewPortGroup);
         shape.selectToggle();
     });
 
     $rootScope.$on(DrawingPadService.DRAWINGPAD_CLICKED_EVENT, function () {
         console.log(DrawingPadService.DRAWINGPAD_CLICKED_EVENT);
-        DrawingPadService.unSelectAllShapes(DrawingPadService.get);
+        DrawingPadService.unSelectAllShapes($rootScope.drawingPad.viewPortGroup);
     });
 
 
-
-    var loadBackgroundImage = function () {
-        if ($routeParams.screenshotURL) {
-            convertImgToBase64URL(decodeURIComponent($routeParams.screenshotURL), function(base64Img){
-                var img = DrawingPadService.get.image(base64Img).loaded(function (loader) {
-                    drawingPad.attr({
-                        width: loader.width,
-                        height: loader.height
-                    });
-                });
-                img.attr({
-                    id: DrawingPadService.backgroundImageId,
-                    draggable: false
-                });
-
-                if(document.getElementById('sketcher-original-screenshot')) {
-                    document.getElementById('sketcher-original-screenshot').ondragstart = function() { return false; };
-                }
-            });
-
-        }
-    };
-
-    function convertImgToBase64URL(url, callback, outputFormat){
-        var img = new Image();
-        img.crossOrigin = 'Anonymous';
-        img.onload = function(){
-            var canvas = document.createElement('CANVAS'),
-                ctx = canvas.getContext('2d'), dataURL;
-            canvas.height = this.height;
-            canvas.width = this.width;
-            ctx.drawImage(this, 0, 0);
-            dataURL = canvas.toDataURL(outputFormat);
-            callback(dataURL);
-            canvas = null; //TODO: Does this destroy the canvas element? Does it matter if not?
-        };
-        img.src = url;
-    }
-
-
     $scope.init = function() {
-
-        $timeout(function () {
-            return DrawingPadService.root;
-        }, 1000).then(function (result) {
-            drawingPad = result;
-            loadBackgroundImage();
-        });
-
-        //var panZoom = svgPanZoom('#' + DrawingPadService.drawingPadNodeId);
+        $rootScope.drawingPad = DrawingPadService.init();
 
         $scope.tools = [SelectTool, RectTool, EllipseTool, BasicShapeTool, BorderShapeTool];
         $scope.activateTool($scope.tools[0]);
     };
     $scope.init();
-
 
 });

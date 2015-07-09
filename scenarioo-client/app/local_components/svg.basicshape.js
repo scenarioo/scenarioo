@@ -63,29 +63,35 @@ SVG.extend(SVG.BasicShape, {
             || window.WebKitMutationObserver
             || window.MozMutationObserver;
 
-        // Find the element that you want to "watch"
-        var target = self.node,
-        // create an observer instance
-        observer = new MutationObserver(function (mutation) {
-            /** this is the callback where you
-             do what you need to do.
-             The argument is an array of MutationRecords where the affected attribute is
-             named "attributeName". There is a few other properties in a record
-             but I'll let you work it out yourself.
-             **/
-            //console.log(mutation);
-            self.update();
-        }),
+        if(window.MutationObserver || window.MutationObserver !== undefined) {
+            // Find the element that you want to "watch"
+            var target = self.node,
+            // create an observer instance
+            observer = new MutationObserver(function (mutation) {
+                /** this is the callback where you
+                 do what you need to do.
+                 The argument is an array of MutationRecords where the affected attribute is
+                 named "attributeName". There is a few other properties in a record
+                 but I'll let you work it out yourself.
+                 **/
+                //console.log(mutation);
+                self.update();
+            }),
             // configuration of the observer:
             config = {
                 attributes: true // this is to watch for attribute changes.
             };
 
-        // pass in the element you wanna watch as well as the options
-        observer.observe(target, config);
+            // pass in the element you wanna watch as well as the options
+            observer.observe(target, config);
 
-        // later, you can stop observing
-        // observer.disconnect();
+            // later, you can stop observing
+            // observer.disconnect();
+        } else {
+            self.on('DOMAttrModified.shape', function () {
+                self.update();
+            });
+        }
     }
 });
 
