@@ -40,16 +40,20 @@ import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
+ * <p>
  * Manages the list of branches and builds that are currently available in the documentation directory:
- * 
+ * </p>
+ * <ul>
+ * <li>
  * 1. Using {@link #updateAll()} all branches and builds are read and processed from the file system, this will
- * calculate any aggregated data using {@link ScenarioDocuAggregator}.
- * 
+ * calculate any aggregated data using {@link ScenarioDocuAggregator}.</li>
+ * <li>
  * 2. The manager knows all available builds and their states of import, that can be accessed using
- * {@link #getBuildImportSummaries()}.
- * 
+ * {@link #getBuildImportSummaries()}.</li>
+ * <li>
  * 3. The current (last processed) list of all successfully imported branches and builds is cached and can be accessed
- * using {@link #getAvailableBuilds()}.
+ * using {@link #getAvailableBuilds()}.</li>
+ * </ul>
  */
 public class ScenarioDocuBuildsManager {
 	
