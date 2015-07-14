@@ -65,18 +65,16 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
                 $rootScope.$broadcast('IssueSaved', {issueId: savedIssue.issueId});
             });
         }
+        console.log(issue);
     };
 
     $rootScope.$on('IssueSaved', function (event, args) {
 
-        if($scope.scenarioSketchName == null) {
-            $scope.scenarioSketchName = 'undefined';
-        }
+        var scenarioSketchName = 'undefined';
 
         var scenarioSketch = new ScenarioSketchResource({
             branchName: $routeParams.branch,
-            scenarioSketchName: $scope.scenarioSketchName,
-            description: $scope.scenarioSketchDescription,
+            scenarioSketchName: scenarioSketchName,
             author: $scope.issueAuthor,
             scenarioSketchStatus: 'Draft',
             issueId: args.issueId

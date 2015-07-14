@@ -79,10 +79,14 @@ public class IssuesResource {
 			summary.setName(i.getName());
 			summary.setId(i.getIssueId());
 			summary.setDescription(i.getDescription());
+			summary.setAuthor(i.getAuthor());
 			summary.setStatus(i.getIssueStatus());
 			summary.setNumberOfScenarioSketches(scenarioSketches.size());
+			ScenarioSketch firstScenarioSketch = scenarioSketches.get(0);
+			summary.setFirstScenarioSketchId(firstScenarioSketch.getScenarioSketchId());
 			summary.setLabels(i.getLabels());
 			result.add(summary);
+			LOGGER.info(summary.toString());
 		}
 		return result;
 	}
@@ -162,6 +166,7 @@ public class IssuesResource {
 		final Issue issue = issueProposals.getIssue();
 		summary.setName(issue.getName());
 		summary.setDescription(issue.getDescription());
+		summary.setAuthor(issue.getAuthor());
 		summary.setStatus(issue.getIssueStatus());
 		summary.setNumberOfScenarioSketches(issueProposals.getScenarioSketches().size());
 		summary.setLabels(issue.getLabels());
