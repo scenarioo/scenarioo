@@ -26,7 +26,9 @@ angular.module('scenarioo.controllers').factory('NoteShapeTool', function (Abstr
 
     tool.onmousedown = function (event) {
         tool.onmousedownTemplate(event);
+
         tool.shape = tool.getDrawingPad().noteShape(0, 0, 0, 0);
+        console.log(tool.shape);
         tool.shape.registerAttrChangeEvent();
 
         tool.shape.attr({
