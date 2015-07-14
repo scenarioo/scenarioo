@@ -422,17 +422,17 @@ label {
   max-height: 600px;
 }
 #sc-sketcher-workspace .noteToolText textarea {
-  border: 1px solid #ccc;
+  border: 0px solid #ccc;
+  background: none;
   float: left;
   width: 100%;
-  height: 80%;
-  /*margin: 5%;*/
-  padding: 2px 7px;
-  overflow: auto;
+  height: 100%;
+  padding: 10px;
+  overflow: hidden;
 }
 #sc-sketcher-workspace .noteToolText button {
   float: right;
-  margin-top: 10px;
+  margin: 5px;
 }
 #sc-sketcher-workspace #sketcher-original-screenshot {
   -moz-user-select: none;
