@@ -4,7 +4,7 @@ SVG.BasicShape = function (width, height, x, y, options) {
     var i, settings;
 
     settings = {
-        text: 'Enter your text here.'
+        text: 'Double-click to enter text.'
         , hasText: false
         , fontSize: 14
         , fontColor: '#000'
@@ -34,6 +34,7 @@ SVG.BasicShape = function (width, height, x, y, options) {
     if(settings.hasText) {
 
         var self = this;
+        console.log(self);
 
         /* add note text */
         this.textareaId = this.id() + '-noteText';
@@ -51,8 +52,7 @@ SVG.BasicShape = function (width, height, x, y, options) {
             })
             .dblclick(function() {
                 self.showTextWriteMode();
-            })
-            .show();
+            });
 
         this.fobjNode = this.foreignObject()
             .front()
@@ -98,10 +98,12 @@ SVG.extend(SVG.BasicShape, {
             width: atts.width
             , height: atts.height
         });
-        this.fobjNode.attr({
-            width: atts.width
-            , height: atts.height
-        });
+        if(this.fobjNode) {
+            this.fobjNode.attr({
+                width: atts.width
+                , height: atts.height
+            });
+        }
     },
 
     showTextReadMode: function() {
