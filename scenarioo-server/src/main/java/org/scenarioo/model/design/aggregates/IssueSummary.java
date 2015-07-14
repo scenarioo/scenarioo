@@ -13,7 +13,9 @@ public class IssueSummary {
 	private String name;
 	private String id;
 	private String description;
+	private String author;
 	private int numberOfScenarioSketches;
+	private String firstScenarioSketchId;
 	private Labels labels;
 
 	public String getStatus() {
@@ -40,12 +42,28 @@ public class IssueSummary {
 		this.description = description;
 	}
 
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(final String author) {
+		this.author = author;
+	}
+
 	public int getNumberOfScenarioSketches() {
 		return numberOfScenarioSketches;
 	}
 
 	public void setNumberOfScenarioSketches(final int numberOfScenarioSketches) {
 		this.numberOfScenarioSketches = numberOfScenarioSketches;
+	}
+
+	public String getFirstScenarioSketchId() {
+		return firstScenarioSketchId;
+	}
+
+	public void setFirstScenarioSketchId(final String firstScenarioSketchId) {
+		this.firstScenarioSketchId = firstScenarioSketchId;
 	}
 
 	public Labels getLabels() {

@@ -16,10 +16,9 @@
  */
 
 
-angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService, BranchesAndBuilds, SelectedBranchAndBuild, IssuesResource, LabelConfigurationsResource, Issues) {
+angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService, BranchesAndBuilds,
+                                                                                  SelectedBranchAndBuild, IssuesResource, LabelConfigurationsResource, Issues) {
 
-    //var transformMetadataToTree = $filter('scMetadataTreeCreator');
-    //var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     //var dateTimeFormatter = $filter('scDateTime');
     SelectedBranchAndBuild.callOnSelectionChange(Issues.load);
 
@@ -38,11 +37,16 @@ angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function
         $location.path('/issue/' + issueId);
     };
 
+    $scope.goToSketchStep = function (issue, sketchStepId) {
+        sketchStepId = sketchStepId || 1;
+        $location.path('/sketchstep/' + issue.id + '/' + issue.firstScenarioSketchId + '/' + sketchStepId);
+    };
+
     /*
       This never seems to get used...
      */
     $scope.onNavigatorTableHit = function (issue) {
-        $scope.goToIssue(issue.id);
+        $scope.goToSketchStep(issue);
     };
 
     $scope.table = {search: {searchTerm: ''}, sort: {column: 'name', reverse: false}};
@@ -51,27 +55,4 @@ angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function
         $scope.table.search = {searchTerm: ''};
     };
 
-    /*function createBranchInformationTree(branch) {
-     var branchInformationTree = {};
-     branchInformationTree.Description = branch.description;
-     return transformMetadataToTree(branchInformationTree);
-     }
-
-     function createBuildInformationTree(build) {
-     var buildInformationTree = {};
-     buildInformationTree.Date = dateTimeFormatter(build.date);
-     buildInformationTree.Revision = build.revision;
-     buildInformationTree.Status = build.status;
-     return transformMetadataToTree(buildInformationTree);
-     }
-
-     // FIXME this code is duplicated. How can we extract it into a service?
-     $scope.getLabelStyle = function(labelName) {
-     if($scope.labelConfigurations) {
-     var labelConfig = $scope.labelConfigurations[labelName];
-     if(labelConfig) {
-     return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
-     }
-     }
-     };*/
 });

@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
         <div class="col-lg-9 ">
             &nbsp;
-            <sc-meta-data-button class="pull-right" linking-variable="mainShowMetadata" local-storage-key="main" ></sc-meta-data-button>
         </div>
     </div>
 
@@ -40,66 +39,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <table class="table table-curved table-hover table-responsive issue-table" sc-navigator-table="filtered"  >
                 <thead>
                     <tr>
-                        <th sc-sortable-column="status">Status</th>
                         <th sc-sortable-column="name">Name</th>
                         <th>Description</th>
-                        <!--<th sc-sortable-column="numberOfScenarios"># Proposals</th>-->
-                        <th># of Scenario Sketches</th>
+                        <th>Author</th>
+                        <!--<th>Created</th>
+                        <th>Updated</th>-->
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-class="{'selected':$index==selectedRowIndex}" ng-repeat="issue in filtered=(issues | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)" ng-click="goToIssue(issue.id)" class="link">
-                        <td>
-                            <!--<span ng-class="[getStatusStyleClass(issue.status), 'label']">{{issue.status}}</span>-->
-                            {{issue.status}}
-                        </td>
+                    <tr ng-class="{'selected':$index==selectedRowIndex}" ng-repeat="issue in filtered=(issues | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)" ng-click="goToSketchStep(issue)" class="link">
                         <td>
                             {{issue.name | scHumanReadable }}
-                            <!--<span ng-repeat="label in issue.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>-->
                         </td>
                         <td>{{issue.description}}</td>
-                        <td>{{issue.proposalCount}}</td>
+                        <td>{{issue.author}}</td>
+                        <!--<td>{{issue.created}}</td>
+                        <td>{{issue.updated}}</td>-->
                     </tr>
                 </tbody>
             </table>
         </div>
         <div>
             <!-- new issue -->
-            <sc-collapsable-panel title="Add New Issue" key="addNewIssueView-issue" initially-expanded="true">
-                <div ng-controller="AddIssueCtrl">
-
-                    <div class="alert alert-success fade-out" ng-show="successfullyUpdatedIssues">
-                        The issue has been successfully added.
-                        <a ng-click="successfullyUpdatedIssues=false" class="pull-right link link-no-hover" style="color: #468847"><i
-                                class="icon-remove icon"></i></a>
-                    </div>
-
-                    <form>
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" ng-model="issueName" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea id="issueDescription" ng-model="issueDescription" class="form-control" rows="3"></textarea>
-                        </div>
-                        <button ng-click="addIssue()" class="btn btn-default" id="addBtn">Add</button>
-                    </form>
-                </div>
+            <sc-collapsable-panel title="Meta Data" initially-expanded="false">
             </sc-collapsable-panel>
 
-            <!-- branch -->
-            <!--<sc-collapsable-panel title="Branch" key="mainView-branch" initially-expanded="true">
-                <sc-tree data='branchInformationTree'></sc-tree>
-            </sc-collapsable-panel>-->
-
-            <!-- build -->
-            <!--<sc-collapsable-panel title="Build" key="mainView-build" initially-expanded="true">
-                <sc-tree data='buildInformationTree'></sc-tree>
-            </sc-collapsable-panel>
-
-            <sc-metadata-tree metadata-tree="metadataTreeBranches"></sc-metadata-tree>
-            <sc-metadata-tree metadata-tree="metadataTreeBuilds"></sc-metadata-tree>-->
         </div>
     </sc-meta-data-panel>
 </div>

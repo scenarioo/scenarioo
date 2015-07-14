@@ -44,29 +44,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
 
         <form name="sketcherForm" novalidate>
+
             <div class="form-group" ng-class="{ 'has-error has-feedback' : sketcherForm.issueName.$dirty && sketcherForm.issueName.$invalid }">
                 <label class="control-label">Issue Name <span class="has-error">*</span></label>
                 <input type="text" id="issueName" name="issueName" ng-model="issueName" class="form-control" required />
                 <span ng-show="sketcherForm.issueName.$dirty && sketcherForm.issueName.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                 <span class="sr-only">(error)</span>
             </div>
-            <div class="form-group">
-                <label>Issue Description</label>
-                <textarea id="issueDescription" ng-model="issueDescription" class="form-control" rows="3"></textarea>
-            </div>
+
             <div class="form-group" ng-class="{ 'has-error has-feedback' : sketcherForm.issueAuthor.$dirty && sketcherForm.issueAuthor.$invalid }">
                 <label class="control-label">Author *</label>
                 <input type="text" id="issueAuthor" name="issueAuthor" ng-model="issueAuthor" class="form-control" required />
                 <span ng-show="sketcherForm.issueAuthor.$dirty && sketcherForm.issueAuthor.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                 <span class="sr-only">(error)</span>
             </div>
+
             <div class="form-group">
-                <label>Scenario Sketch Name</label>
-                <input type="text" id="scenarioSketchName" ng-model="scenarioSketchName" class="form-control"/>
-            </div>
-            <div class="form-group">
-                <label>Scenario Sketch Description</label>
-                <textarea id="scenarioSketchDescription" ng-model="scenarioSketchDescription" class="form-control" rows="3"></textarea>
+                <label>Description</label>
+                <textarea id="issueDescription" ng-model="issueDescription" class="form-control" rows="3"></textarea>
             </div>
 
             <button ng-click="updateSketchStep()"
@@ -79,9 +74,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 {{sketcherButtonName}}
             </button>
 
-            <script>
-                console.log('test');
-            </script>
         </form>
 
     </div>
