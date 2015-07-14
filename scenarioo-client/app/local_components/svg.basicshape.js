@@ -4,7 +4,7 @@ SVG.BasicShape = function (width, height, x, y, options) {
     var i, settings;
 
     settings = {
-        text: 'this is some text'
+        text: 'Enter your text here.'
         , hasText: false
         , fontSize: 14
         , fontColor: '#000'
@@ -13,6 +13,7 @@ SVG.BasicShape = function (width, height, x, y, options) {
         , opacity: 1
         , stroke: '#000'
         , strokeWidth: '3'
+        , padding: 10
     };
 
     options = options || {}
@@ -29,6 +30,53 @@ SVG.BasicShape = function (width, height, x, y, options) {
     this.rect = this.rect(width, height, 0, 0);
     this.rect.fill({color: settings.fill, opacity: settings.opacity})
         .stroke({color: settings.stroke, width: settings.strokeWidth});
+
+    if(settings.hasText) {
+
+        var self = this;
+
+        /* add note text */
+        this.textareaId = this.id() + '-noteText';
+
+
+        this.textNode = this.text(settings.text)
+            .move(settings.padding, settings.padding)
+            .fill(settings.fontColor)
+            .attr('style', 'cursor:pointer;')
+            .font({
+                anchor: 'left'
+                , size: settings.fontSize
+                , family: settings.fontFamily
+                , weight: '300'
+            })
+            .dblclick(function() {
+                self.showTextWriteMode();
+            })
+            .show();
+
+        this.fobjNode = this.foreignObject()
+            .front()
+            .attr({
+                width: width
+                , height: height
+                , class: 'noteToolText'
+            })
+            .appendChild('textarea', {
+                textContent: settings.text
+                , style: 'font-size:' + settings.fontSize
+                , id: this.textareaId
+                , onblur: function() {
+                    self.showTextReadMode();
+                }
+                , onmouseup: function(event) {
+                    self.unSelect();
+                }
+                , onclick: function(event) {
+                    self.unSelect();
+                }
+            })
+            .hide();
+    }
 };
 
 SVG.BasicShape.prototype = new SVG.Nested();
@@ -46,12 +94,30 @@ SVG.extend(SVG.BasicShape, {
     },
 
     updateChildren: function (atts) {
-        this.each(function () {
-            this.attr({
-                width: atts.width
-                , height: atts.height
-            });
+        this.rect.attr({
+            width: atts.width
+            , height: atts.height
         });
+        this.fobjNode.attr({
+            width: atts.width
+            , height: atts.height
+        });
+    },
+
+    showTextReadMode: function() {
+        var currentText = document.getElementById(this.textareaId).value;
+
+        if(currentText) {
+            this.fobjNode.hide();
+            this.textNode.text(currentText).show();
+        }
+    },
+
+    showTextWriteMode: function() {
+        this.fobjNode.show();
+        this.textNode.hide();
+
+        this.unSelect();
     },
 
     // http://stackoverflow.com/questions/4561845/firing-event-on-dom-attribute-change
@@ -106,6 +172,14 @@ SVG.extend(SVG.Container, {
             opacity: 0
             , stroke: '#e74c3c'
             , strokeWidth: '5'
+        }));
+    },
+    noteShape: function (width, height, x, y) {
+        return this.put(new SVG.BasicShape(width, height, x, y, {
+            opacity: 0.8
+            , fill: '#f1c40f'
+            , strokeWidth: '0'
+            , hasText: true
         }));
     }
 
