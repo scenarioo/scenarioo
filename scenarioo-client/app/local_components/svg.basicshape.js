@@ -237,6 +237,23 @@ SVG.extend(SVG.Container, {
             , halign: 'center'
             , valign: 'middle'
         }));
+    },
+    textShape: function (width, height, x, y) {
+        return this.put(new SVG.BasicShape(width, height, x, y, {
+            opacity: 0
+            , fill: '#fff'
+            , strokeWidth: '0'
+            , hasText: true
+        }));
+    },
+    buttonShape: function (width, height, x, y) {
+        return this.put(new SVG.BasicShape(width, height, x, y, {
+            fill: '#3498db'
+            , strokeWidth: '0'
+            , hasText: true
+            , halign: 'center'
+            , valign: 'middle'
+        }));
     }
 
 });
