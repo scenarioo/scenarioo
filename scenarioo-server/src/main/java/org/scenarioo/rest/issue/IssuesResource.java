@@ -82,9 +82,13 @@ public class IssuesResource {
 			summary.setAuthor(i.getAuthor());
 			summary.setStatus(i.getIssueStatus());
 			summary.setNumberOfScenarioSketches(scenarioSketches.size());
-			ScenarioSketch firstScenarioSketch = scenarioSketches.get(0);
-			summary.setFirstScenarioSketchId(firstScenarioSketch.getScenarioSketchId());
 			summary.setLabels(i.getLabels());
+
+			if (scenarioSketches.size() > 0) {
+				ScenarioSketch firstScenarioSketch = scenarioSketches.get(0);
+				summary.setFirstScenarioSketchId(firstScenarioSketch.getScenarioSketchId());
+			}
+
 			result.add(summary);
 			LOGGER.info(summary.toString());
 		}
