@@ -39,7 +39,10 @@ SVG.BasicShape = function (width, height, x, y, options) {
         var self = this;
         console.log(self);
 
-        self.createNotePolygon();
+        if(settings.isNote) {
+            this.isNote = true;
+            self.createNotePolygon();
+        }
 
         /* add note text */
         this.textareaId = this.id() + '-noteText';
@@ -109,6 +112,8 @@ SVG.extend(SVG.BasicShape, {
                 width: atts.width
                 , height: atts.height
             });
+        }
+        if(this.isNote) {
             this.updateNotePolygon();
         }
     },
