@@ -6,6 +6,7 @@ SVG.BasicShape = function (width, height, x, y, options) {
     settings = {
         text: 'Double-click to enter text.'
         , hasText: false
+        , isNote: false
         , fontSize: 14
         , fontColor: '#000'
         , fontFamily: '"Helvetica Neue",Helvetica,Arial,sans-serif'
@@ -14,6 +15,8 @@ SVG.BasicShape = function (width, height, x, y, options) {
         , stroke: '#000'
         , strokeWidth: '3'
         , padding: 10
+        , halign: 'left'
+        , valign: 'top'
     };
 
     options = options || {}
@@ -35,6 +38,8 @@ SVG.BasicShape = function (width, height, x, y, options) {
 
         var self = this;
         console.log(self);
+
+        self.createNotePolygon();
 
         /* add note text */
         this.textareaId = this.id() + '-noteText';
@@ -77,6 +82,7 @@ SVG.BasicShape = function (width, height, x, y, options) {
             })
             .hide();
     }
+
 };
 
 SVG.BasicShape.prototype = new SVG.Nested();
@@ -103,6 +109,7 @@ SVG.extend(SVG.BasicShape, {
                 width: atts.width
                 , height: atts.height
             });
+            this.updateNotePolygon();
         }
     },
 
@@ -120,6 +127,28 @@ SVG.extend(SVG.BasicShape, {
         this.textNode.hide();
 
         this.unSelect();
+    },
+
+    createNotePolygon: function () {
+        this.polygon = this.polygon('0,0').fill('#f1c40f').opacity(0.6);
+        this.polyline = this.polyline('0,0').fill('none').stroke({ width: 1 }).opacity(0.2);
+        this.g = this.group().add(this.polygon).add(this.polyline);
+    },
+
+    updateNotePolygon: function() {
+        this.polygon.plot(''
+            + this.rect.width() - 15 + ',0 '
+            + this.rect.width() + ',15 '
+            + this.rect.width() + ',' + this.rect.height() + ' '
+            + '0,' + this.rect.height() + ' '
+            + '0,0'
+        );
+
+        this.polyline.plot([
+                [this.rect.width() - 15, 0],
+                [this.rect.width() - 15, 15],
+                [this.rect.width(), 15]]
+        );
     },
 
     // http://stackoverflow.com/questions/4561845/firing-event-on-dom-attribute-change
@@ -178,10 +207,35 @@ SVG.extend(SVG.Container, {
     },
     noteShape: function (width, height, x, y) {
         return this.put(new SVG.BasicShape(width, height, x, y, {
-            opacity: 0.8
-            , fill: '#f1c40f'
+            opacity: 0
             , strokeWidth: '0'
             , hasText: true
+            , isNote: true
+        }));
+        /*
+         return this.put(new SVG.BasicShape(width, height, x, y, {
+         opacity: 0.8
+         , fill: '#f1c40f'
+         , strokeWidth: '0'
+         , hasText: true
+         , isNote: true
+         }));*/
+    },
+    textShape: function (width, height, x, y) {
+        return this.put(new SVG.BasicShape(width, height, x, y, {
+            opacity: 0
+            , fill: '#fff'
+            , strokeWidth: '0'
+            , hasText: true
+        }));
+    },
+    buttonShape: function (width, height, x, y) {
+        return this.put(new SVG.BasicShape(width, height, x, y, {
+            fill: '#3498db'
+            , strokeWidth: '0'
+            , hasText: true
+            , halign: 'center'
+            , valign: 'middle'
         }));
     }
 
