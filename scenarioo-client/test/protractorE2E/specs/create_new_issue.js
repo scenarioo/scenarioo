@@ -92,7 +92,7 @@ scenarioo.describeUseCase('Create a new Issue', function () {
         editorPage.assertPageIsDisplayed();
         scenarioo.docuWriter.saveStep('Do not enter information about the step before saving');
 
-        element(by.id('save')).click();
+        //element(by.id('save')).click();
 
         editorPage.assertIssueNotSaved();
         scenarioo.docuWriter.saveStep('Fail to save issue');
