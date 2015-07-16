@@ -28,7 +28,7 @@ scenarioo.describeUseCase('Create a new Issue', function () {
         var sketchThis = element(by.id('sketchThis'));
         sketchThis.click();
 
-        var drawingPad = element(by.id('drawingPad'));
+        //var drawingPad = element(by.id('drawingPad'));
         /*var drawingPadLocation;
         drawingPad.getLocation().then(function (location){
             drawingPadLocation = location;
