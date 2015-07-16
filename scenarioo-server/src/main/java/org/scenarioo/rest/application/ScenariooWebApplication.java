@@ -41,18 +41,17 @@ public class ScenariooWebApplication implements ServletContextListener {
 	@Override
 	public void contextInitialized(final ServletContextEvent servletContextEvent) {
 		LOGGER.info("====================================================");
-		LOGGER.info("Scenarioo webapplication server is starting up ...  ");
+		LOGGER.info("Scenarioo Viewer is starting up ...");
 		LOGGER.info("====================================================");
 		
 		initializeApplicationVersion(servletContextEvent.getServletContext());
-		
 		loadConfiguration(servletContextEvent);
 		
 		LOGGER.info("  Updating documentation content directory (will be done asynchronously ...)");
 		ScenarioDocuBuildsManager.INSTANCE.updateAllBuildsAndSubmitNewBuildsForImport();
 		
 		LOGGER.info("====================================================");
-		LOGGER.info("Scenarioo webapplication server started succesfully.");
+		LOGGER.info("Scenarioo Viewer started succesfully.");
 		LOGGER.info("====================================================");
 	}
 	
@@ -97,7 +96,6 @@ public class ScenariooWebApplication implements ServletContextListener {
 	}
 	
 	private void initializeApplicationVersion(final ServletContext servletContext) {
-		
 		Properties properties = new Properties();
 		InputStream inputStream = servletContext.getResourceAsStream("/WEB-INF/classes/version.properties");
 		
@@ -117,13 +115,13 @@ public class ScenariooWebApplication implements ServletContextListener {
 		
 		LOGGER.info("  Version: " + ApplicationVersionHolder.INSTANCE.getApplicationVersion().getVersion());
 		LOGGER.info("  Build date: " + ApplicationVersionHolder.INSTANCE.getApplicationVersion().getBuildDate());
-		
 	}
 	
 	@Override
 	public void contextDestroyed(final ServletContextEvent arg0) {
 		LOGGER.info("===================================================");
-		LOGGER.info("Scenarioo webapplication stopped.");
+		LOGGER.info("Scenarioo Viewer stopped.");
 		LOGGER.info("===================================================");
 	}
+
 }

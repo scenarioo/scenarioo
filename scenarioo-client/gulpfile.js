@@ -67,7 +67,7 @@ gulp.task('lint', function () {
  * Also compiles the less files to css whenever changes are made.
  */
 gulp.task('watch', function () {
-    gulp.watch(files.css, files.templates, files.views, files.sources, ['reload-files']);
+    gulp.watch(_.flatten([files.css, files.templates, files.views, files.sources]), ['reload-files']);
     gulp.watch(files.less, ['less', 'reload-files']);
 });
 
@@ -75,7 +75,7 @@ gulp.task('watch', function () {
  * Reloads the page in the 'gulp serve' browser. Called when source files are changed.
  */
 gulp.task('reload-files', function () {
-    gulp.src(files.css, files.templates, files.views, files.sources, files.less)
+    gulp.src(_.flatten([files.css, files.templates, files.views, files.sources, files.less]))
         .pipe(connect.reload());
 });
 
@@ -180,7 +180,9 @@ function wrapWithIIFE() {
 gulp.task('usemin', ['clean-dist'], function () {
     return gulp.src('./app/index.html')
         .pipe(usemin({
-            sources: [wrapWithIIFE(), 'concat', ngAnnotate(), uglify()],
+            sources: [wrapWithIIFE(), 'concat', ngAnnotate(), uglify({
+                mangle: false
+            })],
             vendor: [uglify({
                 mangle: false
             }), 'concat'],
