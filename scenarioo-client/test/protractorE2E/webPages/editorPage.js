@@ -1,8 +1,8 @@
 'use strict';
 
 var BaseWebPage = require('./baseWebPage.js'),
-    util = require('util'),
-    e2eUtils = require('../util/util.js');
+    util = require('util');
+    //e2eUtils = require('../util/util.js');
 
 function EditorPage(overridePath) {
     if (overridePath && overridePath.length > 0) {
