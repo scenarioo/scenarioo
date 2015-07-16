@@ -107,10 +107,12 @@ public class BuildImporter {
 	}
 	
 	public synchronized void submitUnprocessedBuildsForImport(final AvailableBuildsList availableBuilds) {
-		for (BuildIdentifier buildIdentifier : buildImportSummaries.keySet()) {
-			final BuildImportSummary summary = buildImportSummaries.get(buildIdentifier);
-			if (summary != null && summary.getStatus().isImportNeeded()) {
-				submitBuildForImport(availableBuilds, buildIdentifier);
+		List<BuildImportSummary> buildsSortedByDateDescending = BuildByDateSorter
+				.sortBuildsByDateDescending(buildImportSummaries.values());
+
+		for (BuildImportSummary buildImportSummary : buildsSortedByDateDescending) {
+			if (buildImportSummary != null && buildImportSummary.getStatus().isImportNeeded()) {
+				submitBuildForImport(availableBuilds, buildImportSummary.getIdentifier());
 			}
 		}
 	}
