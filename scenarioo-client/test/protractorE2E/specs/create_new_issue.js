@@ -35,6 +35,7 @@ scenarioo.describeUseCase('Create a new Issue', function () {
         });*/
 
         //Try to draw
+        /*
         element(by.id('Note Tool')).click();
         browser.actions()
             .mouseMove(drawingPad, {x: 100, y: 100}) // 100px from left, 100 px from top of drawingPad
@@ -42,6 +43,7 @@ scenarioo.describeUseCase('Create a new Issue', function () {
             .mouseMove({x: 200, y: 200})// 200px to the right of current location, 200px down
             .perform();
         scenarioo.docuWriter.saveStep('Draw on the sketch');
+        */
 
         var issueName = 'e2e generated issue';
         var author = 'protractor e2e';
