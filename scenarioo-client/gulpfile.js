@@ -31,7 +31,7 @@ var files = {
  * Serve the 'app' folder as a web application. The page is automatically reloaded whenever a file changes.
  * Use 'gulp serve' to view the app during development.
  */
-gulp.task('serve', ['environmentConstants', 'watch'], function () {
+gulp.task('serve', ['environmentConstants', 'watch', 'less'], function () {
     connect.server({
         root: 'app',
         livereload: true,
