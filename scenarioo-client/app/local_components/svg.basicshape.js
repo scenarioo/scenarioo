@@ -4,7 +4,7 @@ SVG.BasicShape = function (width, height, x, y, options) {
     var i, settings;
 
     settings = {
-        text: 'Double-click to enter text.'
+        text: 'Double-click to enter text'
         , hasText: false
         , isNote: false
         , fontSize: 14
@@ -34,12 +34,12 @@ SVG.BasicShape = function (width, height, x, y, options) {
     this.rect.fill({color: settings.fill, opacity: settings.opacity})
         .stroke({color: settings.stroke, width: settings.strokeWidth});
 
-    if(settings.hasText) {
+    if (settings.hasText) {
 
         var self = this;
         console.log(self);
 
-        if(settings.isNote) {
+        if (settings.isNote) {
             this.isNote = true;
             self.createNotePolygon();
         }
@@ -58,7 +58,7 @@ SVG.BasicShape = function (width, height, x, y, options) {
                 , family: settings.fontFamily
                 , weight: '300'
             })
-            .dblclick(function() {
+            .dblclick(function () {
                 self.showTextWriteMode();
             });
 
@@ -73,13 +73,13 @@ SVG.BasicShape = function (width, height, x, y, options) {
                 textContent: settings.text
                 , style: 'font-size:' + settings.fontSize
                 , id: this.textareaId
-                , onblur: function() {
+                , onblur: function () {
                     self.showTextReadMode();
                 }
-                , onmouseup: function(event) {
+                , onmouseup: function () {
                     self.unSelect();
                 }
-                , onclick: function(event) {
+                , onclick: function () {
                     self.unSelect();
                 }
             })
@@ -107,27 +107,27 @@ SVG.extend(SVG.BasicShape, {
             width: atts.width
             , height: atts.height
         });
-        if(this.fobjNode) {
+        if (this.fobjNode) {
             this.fobjNode.attr({
                 width: atts.width
                 , height: atts.height
             });
         }
-        if(this.isNote) {
+        if (this.isNote) {
             this.updateNotePolygon();
         }
     },
 
-    showTextReadMode: function() {
+    showTextReadMode: function () {
         var currentText = document.getElementById(this.textareaId).value;
 
-        if(currentText) {
+        if (currentText) {
             this.fobjNode.hide();
             this.textNode.text(currentText).show();
         }
     },
 
-    showTextWriteMode: function() {
+    showTextWriteMode: function () {
         this.fobjNode.show();
         this.textNode.hide();
 
@@ -135,12 +135,12 @@ SVG.extend(SVG.BasicShape, {
     },
 
     createNotePolygon: function () {
-        this.polygon = this.polygon('0,0').fill('#f1c40f').opacity(0.6);
-        this.polyline = this.polyline('0,0').fill('none').stroke({ width: 1 }).opacity(0.2);
+        this.polygon = this.polygon('0,0').fill('#f1c40f').opacity(0.8);
+        this.polyline = this.polyline('0,0').fill('none').stroke({width: 1}).opacity(0.2);
         this.g = this.group().add(this.polygon).add(this.polyline);
     },
 
-    updateNotePolygon: function() {
+    updateNotePolygon: function () {
         this.polygon.plot(''
             + this.rect.width() - 15 + ',0 '
             + this.rect.width() + ',15 '
@@ -162,27 +162,27 @@ SVG.extend(SVG.BasicShape, {
         var self = this;
 
         window.MutationObserver = window.MutationObserver
-            || window.WebKitMutationObserver
-            || window.MozMutationObserver;
+        || window.WebKitMutationObserver
+        || window.MozMutationObserver;
 
-        if(window.MutationObserver || window.MutationObserver !== undefined) {
+        if (window.MutationObserver || window.MutationObserver !== undefined) {
             // Find the element that you want to "watch"
             var target = self.node,
             // create an observer instance
-            observer = new MutationObserver(function (mutation) {
-                /** this is the callback where you
-                 do what you need to do.
-                 The argument is an array of MutationRecords where the affected attribute is
-                 named "attributeName". There is a few other properties in a record
-                 but I'll let you work it out yourself.
-                 **/
-                //console.log(mutation);
-                self.update();
-            }),
+                observer = new MutationObserver(function (mutation) {
+                    /** this is the callback where you
+                     do what you need to do.
+                     The argument is an array of MutationRecords where the affected attribute is
+                     named "attributeName". There is a few other properties in a record
+                     but I'll let you work it out yourself.
+                     **/
+                        //console.log(mutation);
+                    self.update();
+                }),
             // configuration of the observer:
-            config = {
-                attributes: true // this is to watch for attribute changes.
-            };
+                config = {
+                    attributes: true // this is to watch for attribute changes.
+                };
 
             // pass in the element you wanna watch as well as the options
             observer.observe(target, config);
@@ -217,14 +217,6 @@ SVG.extend(SVG.Container, {
             , hasText: true
             , isNote: true
         }));
-        /*
-         return this.put(new SVG.BasicShape(width, height, x, y, {
-         opacity: 0.8
-         , fill: '#f1c40f'
-         , strokeWidth: '0'
-         , hasText: true
-         , isNote: true
-         }));*/
     },
     textShape: function (width, height, x, y) {
         return this.put(new SVG.BasicShape(width, height, x, y, {

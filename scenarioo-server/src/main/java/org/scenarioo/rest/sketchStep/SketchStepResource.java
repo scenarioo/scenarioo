@@ -122,6 +122,7 @@ public class SketchStepResource {
 
 		File originalScreenshot = null;
 		if (sketchStep.getContextInDocu() != null) {
+			// TODO: Extract method "find original screenshot"
 			final HashMap<String, String> stepInfo = parseContextInDocu(sketchStep.getContextInDocu());
 			final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 					stepInfo.get("branch"),
