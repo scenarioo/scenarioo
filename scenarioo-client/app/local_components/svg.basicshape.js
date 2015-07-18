@@ -5,7 +5,6 @@ SVG.BasicShape = function (width, height, x, y, options) {
 
     settings = {
         text: ''
-        , initialMode: 'VIEW'
         , fontSize: 14
         , fontColor: '#000'
         , fontFamily: '"Helvetica Neue",Helvetica,Arial,sans-serif'
@@ -13,7 +12,7 @@ SVG.BasicShape = function (width, height, x, y, options) {
         , opacity: 1
         , stroke: '#000'
         , strokeWidth: '3'
-        , padding: 8
+        , padding: 10
         , halign: 'left'
         , valign: 'top'
     };
@@ -49,12 +48,8 @@ SVG.BasicShape = function (width, height, x, y, options) {
             , weight: '300'
         });
 
-    if(settings.initialMode === 'EDIT') {
-        this.hideText();
-    }
-
-    this.on('dblclick', function(event) {
-        this.edit(event.target);
+    this.on('dblclick', function () {
+        this.edit();
     });
 
     this.registerAttrChangeEvent();
@@ -93,26 +88,26 @@ SVG.extend(SVG.BasicShape, {
         this.textNode.text(text);
     },
 
-    edit: function (target) {
+    edit: function () {
         var self = this,
             shapeEditNodeId = self.id() + '-edit',
-            workspaceNode = $(target).closest('div');
+            workspaceNode = $(self.node).closest('div');
 
         self.hideText();
         self.unSelect();
 
-        $(workspaceNode).prepend('<div id="' + shapeEditNodeId + '" class="shapeTextWrapper"><textarea class="shapeText">' + self.getText() + '</textarea></div>');
+        $(workspaceNode).prepend('<div id="' + shapeEditNodeId + '" class="shapeTextWrapper"><textarea class="shapeText"></textarea></div>');
 
         $('#' + shapeEditNodeId).width(self.width())
             .height(self.height())
-            .css( 'left', self.x() )
-            .css( 'top', self.y() );
+            .css('left', self.x())
+            .css('top', self.y());
 
         $('#' + shapeEditNodeId + ' textarea').on('blur', function () {
             self.setText($(this).val());
             self.showText();
             $(this).parent().remove();
-        }).focus();
+        }).focus().val(self.getText());
     },
 
     createNotePolygon: function () {
@@ -194,7 +189,6 @@ SVG.extend(SVG.Container, {
             opacity: 0
             , strokeWidth: '0'
             , isNote: true
-            , mode: 'EDIT'
         }));
     },
     textShape: function (width, height, x, y) {
@@ -202,7 +196,6 @@ SVG.extend(SVG.Container, {
             opacity: 0
             , fill: '#fff'
             , strokeWidth: '0'
-            , initialMode: 'EDIT'
         }));
     },
     buttonShape: function (width, height, x, y) {

@@ -27,7 +27,6 @@ angular.module('scenarioo.controllers').factory('BasicShapeTool', function (Abst
     tool.onmousedown = function (event) {
         tool.onmousedownTemplate(event);
         tool.shape = tool.getDrawingPad().basicShape(0, 0, 0, 0);
-        tool.shape.registerAttrChangeEvent();
 
         tool.shape.attr({
             x: tool.originalX,
