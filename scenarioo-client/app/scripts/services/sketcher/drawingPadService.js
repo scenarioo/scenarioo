@@ -142,6 +142,10 @@ angular.module('scenarioo.services').factory('DrawingPadService', function ($roo
          return init();
          },
 
+        parentNode: function () {
+            return document.getElementById(drawingPadNodeId);
+        },
+
         exportDrawing: function () {
             return exportDrawing();
         },

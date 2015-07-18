@@ -4,9 +4,8 @@ SVG.BasicShape = function (width, height, x, y, options) {
     var i, settings;
 
     settings = {
-        text: 'Double-click to enter text'
-        , hasText: false
-        , isNote: false
+        text: ''
+        , initialMode: 'VIEW'
         , fontSize: 14
         , fontColor: '#000'
         , fontFamily: '"Helvetica Neue",Helvetica,Arial,sans-serif'
@@ -14,7 +13,7 @@ SVG.BasicShape = function (width, height, x, y, options) {
         , opacity: 1
         , stroke: '#000'
         , strokeWidth: '3'
-        , padding: 10
+        , padding: 8
         , halign: 'left'
         , valign: 'top'
     };
@@ -34,58 +33,31 @@ SVG.BasicShape = function (width, height, x, y, options) {
     this.rect.fill({color: settings.fill, opacity: settings.opacity})
         .stroke({color: settings.stroke, width: settings.strokeWidth});
 
-    if (settings.hasText) {
-
-        var self = this;
-        console.log(self);
-
-        if (settings.isNote) {
-            this.isNote = true;
-            self.createNotePolygon();
-        }
-
-        /* add note text */
-        this.textareaId = this.id() + '-noteText';
-
-
-        this.textNode = this.text(settings.text)
-            .move(settings.padding, settings.padding)
-            .fill(settings.fontColor)
-            .attr('style', 'cursor:pointer;')
-            .font({
-                anchor: 'left'
-                , size: settings.fontSize
-                , family: settings.fontFamily
-                , weight: '300'
-            })
-            .dblclick(function () {
-                self.showTextWriteMode();
-            });
-
-        this.fobjNode = this.foreignObject()
-            .front()
-            .attr({
-                width: width
-                , height: height
-                , class: 'noteToolText'
-            })
-            .appendChild('textarea', {
-                textContent: settings.text
-                , style: 'font-size:' + settings.fontSize
-                , id: this.textareaId
-                , onblur: function () {
-                    self.showTextReadMode();
-                }
-                , onmouseup: function () {
-                    self.unSelect();
-                }
-                , onclick: function () {
-                    self.unSelect();
-                }
-            })
-            .hide();
+    if (settings.isNote) {
+        this.isNote = true;
+        this.createNotePolygon();
     }
 
+    this.textNode = this.text(settings.text)
+        .move(settings.padding, settings.padding)
+        .fill(settings.fontColor)
+        .attr('style', 'cursor:pointer;')
+        .font({
+            anchor: 'left'
+            , size: settings.fontSize
+            , family: settings.fontFamily
+            , weight: '300'
+        });
+
+    if(settings.initialMode === 'EDIT') {
+        this.hideText();
+    }
+
+    this.on('dblclick', function(event) {
+        this.edit(event.target);
+    });
+
+    this.registerAttrChangeEvent();
 };
 
 SVG.BasicShape.prototype = new SVG.Nested();
@@ -95,65 +67,73 @@ SVG.BasicShape.prototype = new SVG.Nested();
 SVG.extend(SVG.BasicShape, {
 
     update: function () {
-        var atts = {
+        this.rect.attr({
             width: this.width()
             , height: this.height()
-        };
-        this.updateChildren(atts);
-    },
-
-    updateChildren: function (atts) {
-        this.rect.attr({
-            width: atts.width
-            , height: atts.height
         });
-        if (this.fobjNode) {
-            this.fobjNode.attr({
-                width: atts.width
-                , height: atts.height
-            });
-        }
+
         if (this.isNote) {
             this.updateNotePolygon();
         }
     },
 
-    showTextReadMode: function () {
-        var currentText = document.getElementById(this.textareaId).value;
-
-        if (currentText) {
-            this.fobjNode.hide();
-            this.textNode.text(currentText).show();
-        }
+    showText: function () {
+        this.textNode.show();
     },
 
-    showTextWriteMode: function () {
-        this.fobjNode.show();
+    hideText: function () {
         this.textNode.hide();
+    },
 
-        this.unSelect();
+    getText: function () {
+        return this.textNode.text();
+    },
+
+    setText: function (text) {
+        this.textNode.text(text);
+    },
+
+    edit: function (target) {
+        var self = this,
+            shapeEditNodeId = self.id() + '-edit',
+            workspaceNode = $(target).closest('div');
+
+        self.hideText();
+        self.unSelect();
+
+        $(workspaceNode).prepend('<div id="' + shapeEditNodeId + '" class="shapeTextWrapper"><textarea class="shapeText">' + self.getText() + '</textarea></div>');
+
+        $('#' + shapeEditNodeId).width(self.width())
+            .height(self.height())
+            .css( 'left', self.x() )
+            .css( 'top', self.y() );
+
+        $('#' + shapeEditNodeId + ' textarea').on('blur', function () {
+            self.setText($(this).val());
+            self.showText();
+            $(this).parent().remove();
+        }).focus();
     },
 
     createNotePolygon: function () {
         this.polygon = this.polygon('0,0').fill('#f1c40f').opacity(0.8);
         this.polyline = this.polyline('0,0').fill('none').stroke({width: 1}).opacity(0.2);
-        this.g = this.group().add(this.polygon).add(this.polyline);
     },
 
     updateNotePolygon: function () {
-        this.polygon.plot(''
-            + this.rect.width() - 15 + ',0 '
-            + this.rect.width() + ',15 '
-            + this.rect.width() + ',' + this.rect.height() + ' '
-            + '0,' + this.rect.height() + ' '
-            + '0,0'
-        );
+        this.polygon.plot([
+            [this.rect.width() - 15, 0],
+            [this.rect.width(), 15],
+            [this.rect.width(), this.rect.height()],
+            [0, this.rect.height()],
+            [0, 0]
+        ]);
 
         this.polyline.plot([
-                [this.rect.width() - 15, 0],
-                [this.rect.width() - 15, 15],
-                [this.rect.width(), 15]]
-        );
+            [this.rect.width() - 15, 0],
+            [this.rect.width() - 15, 15],
+            [this.rect.width(), 15]
+        ]);
     },
 
     // http://stackoverflow.com/questions/4561845/firing-event-on-dom-attribute-change
@@ -169,14 +149,13 @@ SVG.extend(SVG.BasicShape, {
             // Find the element that you want to "watch"
             var target = self.node,
             // create an observer instance
-                observer = new MutationObserver(function (mutation) {
+                observer = new MutationObserver(function () {
                     /** this is the callback where you
                      do what you need to do.
                      The argument is an array of MutationRecords where the affected attribute is
                      named "attributeName". There is a few other properties in a record
                      but I'll let you work it out yourself.
                      **/
-                        //console.log(mutation);
                     self.update();
                 }),
             // configuration of the observer:
@@ -214,8 +193,8 @@ SVG.extend(SVG.Container, {
         return this.put(new SVG.BasicShape(width, height, x, y, {
             opacity: 0
             , strokeWidth: '0'
-            , hasText: true
             , isNote: true
+            , mode: 'EDIT'
         }));
     },
     textShape: function (width, height, x, y) {
@@ -223,33 +202,16 @@ SVG.extend(SVG.Container, {
             opacity: 0
             , fill: '#fff'
             , strokeWidth: '0'
-            , hasText: true
+            , initialMode: 'EDIT'
         }));
     },
     buttonShape: function (width, height, x, y) {
         return this.put(new SVG.BasicShape(width, height, x, y, {
             fill: '#3498db'
             , strokeWidth: '0'
-            , hasText: true
             , halign: 'center'
             , valign: 'middle'
-        }));
-    },
-    textShape: function (width, height, x, y) {
-        return this.put(new SVG.BasicShape(width, height, x, y, {
-            opacity: 0
-            , fill: '#fff'
-            , strokeWidth: '0'
-            , hasText: true
-        }));
-    },
-    buttonShape: function (width, height, x, y) {
-        return this.put(new SVG.BasicShape(width, height, x, y, {
-            fill: '#3498db'
-            , strokeWidth: '0'
-            , hasText: true
-            , halign: 'center'
-            , valign: 'middle'
+            , text: 'abc'
         }));
     }
 
