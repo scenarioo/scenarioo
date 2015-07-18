@@ -59,19 +59,19 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
     var issueElement =
     {
-        label: '<strong>Issue:</strong> [issueId]',
+        label: '<strong>Issue</strong>',
         route: '/issue/:issueId/'
     };
 
     var scenarioSketchElement =
     {
-        label: '<strong>Scenario Sketch:</strong> [scenarioSketchId]',
+        label: '<strong>Scenario Sketch</strong>',
         route: '/scenariosketch/:issueId/:scenarioSketchId/'
     };
 
     var sketchStepElement =
     {
-        label: '<strong>Sketchstep:</strong> [sketchStepIndex]',
+        label: '<strong>Sketchstep</strong>',
         route: '/sketchstep/:issueId/:scenarioSketchId/:sketchStepIndex/'
     };
 
@@ -114,7 +114,7 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         },
 
         'sketchstep': {
-            breadcrumbPath: [homeElement, issueElement, scenarioSketchElement, sketchStepElement]
+            breadcrumbPath: [homeElement, sketchStepElement]
         }
     };
 
