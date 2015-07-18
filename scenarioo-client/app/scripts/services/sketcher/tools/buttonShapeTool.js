@@ -29,8 +29,6 @@ angular.module('scenarioo.controllers').factory('ButtonShapeTool', function (Abs
         tool.onmousedownTemplate(event);
 
         tool.shape = tool.getDrawingPad().buttonShape(0, 0, 0, 0);
-        console.log(tool.shape);
-        tool.shape.registerAttrChangeEvent();
 
         tool.shape.attr({
             x: tool.originalX,

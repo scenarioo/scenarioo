@@ -29,9 +29,6 @@ angular.module('scenarioo.controllers').factory('TextShapeTool', function (Abstr
         tool.onmousedownTemplate(event);
 
         tool.shape = tool.getDrawingPad().textShape(0, 0, 0, 0);
-        console.log(tool.shape);
-        tool.shape.registerAttrChangeEvent();
-
         tool.shape.attr({
             x: tool.originalX,
             y: tool.originalY
@@ -40,6 +37,7 @@ angular.module('scenarioo.controllers').factory('TextShapeTool', function (Abstr
 
     tool.onmouseup = function (event) {
         tool.onmouseupTemplate(event);
+        tool.shape.edit();
     };
 
     tool.onmousedrag = function (event) {

@@ -446,7 +446,7 @@ label {
   position: absolute;
 }
 #sc-sketcher-workspace .shapeTextWrapper textarea.shapeText {
-  border: 0px solid #ccc;
+  border: 0px solid #f00;
   background: none;
   float: left;
   width: 100%;
