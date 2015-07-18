@@ -16,7 +16,7 @@
  */
 
 
-angular.module('scenarioo.controllers').factory('NoteShapeTool', function (AbstractShapeTool) {
+angular.module('scenarioo.controllers').factory('NoteShapeTool', function (AbstractShapeTool, DrawingPadService) {
     var tool = AbstractShapeTool.get;
 
     tool.name = 'Note Shape Tool';
@@ -28,7 +28,7 @@ angular.module('scenarioo.controllers').factory('NoteShapeTool', function (Abstr
         tool.onmousedownTemplate(event);
 
         tool.shape = tool.getDrawingPad().noteShape(0, 0, 0, 0);
-        tool.shape.registerAttrChangeEvent();
+        //tool.shape.registerAttrChangeEvent();
 
         tool.shape.attr({
             x: tool.originalX,
@@ -38,6 +38,7 @@ angular.module('scenarioo.controllers').factory('NoteShapeTool', function (Abstr
 
     tool.onmouseup = function (event) {
         tool.onmouseupTemplate(event);
+        tool.shape.edit(event.target);
     };
 
     tool.onmousedrag = function (event) {
@@ -53,6 +54,7 @@ angular.module('scenarioo.controllers').factory('NoteShapeTool', function (Abstr
             y: tool.anchorY
         });
     };
+
 
     return {
 

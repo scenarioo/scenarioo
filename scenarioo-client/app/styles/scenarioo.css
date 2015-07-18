@@ -439,3 +439,19 @@ label {
   -webkit-user-select: none;
   user-select: none;
 }
+#sc-sketcher-workspace #drawingPad {
+  position: relative;
+}
+#sc-sketcher-workspace .shapeTextWrapper {
+  position: absolute;
+}
+#sc-sketcher-workspace .shapeTextWrapper textarea.shapeText {
+  border: 0px solid #ccc;
+  background: none;
+  float: left;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  overflow: hidden;
+  outline: 0;
+}
