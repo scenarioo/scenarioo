@@ -74,19 +74,27 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap'])
                 redirectTo: '/'
             });
 
-    }).run(function ($rootScope, Config, GlobalHotkeysService, $location) {
+    }).run(function ($rootScope, Config, GlobalHotkeysService, $location, $modalStack) {
 
+
+        // Initialze modals to close when the location changes
+        $rootScope.$on('$locationChangeSuccess', function() {
+                $modalStack.dismissAll();
+            });
+
+        // Register global hotkeys
         GlobalHotkeysService.registerGlobalHotkey('m', function () {
             $location.path('/manage').search('tab=builds');
         });
-
         GlobalHotkeysService.registerGlobalHotkey('c', function () {
             $location.path('/manage').search('tab=configuration');
         });
-
         GlobalHotkeysService.registerGlobalHotkey('h', function () {
             $location.path('/');
         });
 
+        // Load config
         Config.load();
     });
+
+

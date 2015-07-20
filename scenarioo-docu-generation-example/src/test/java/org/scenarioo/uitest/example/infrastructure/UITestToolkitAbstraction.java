@@ -106,24 +106,28 @@ public class UITestToolkitAbstraction {
 	}
 	
 	public void enterText(final String textFieldId, final String text) {
-		addScreenAnnotation(textFieldId, ScreenAnnotationStyle.KEYBOARD, text, "text '" + text + "' entered");
+		addScreenAnnotation(textFieldId, ScreenAnnotationStyle.KEYBOARD, text, "Typed '" + text + "'",
+				"User entered text '" + text + "'.");
 		toolkit.type(textFieldId, text);
 	}
 	
 	public void clickButton(final String buttonId) {
-		addScreenAnnotation(buttonId, ScreenAnnotationStyle.CLICK, "click");
+		addScreenAnnotation(buttonId, ScreenAnnotationStyle.CLICK, "", "Clicked Button",
+				"User clicked on button.");
 		saveStepWithScreenshotIfChanged();
 		toolkit.click(buttonId);
 		saveStepWithScreenshot();
 	}
 	
 	private void addScreenAnnotation(final String elementId, final ScreenAnnotationStyle style, final String text,
+			final String title,
 			final String description) {
 		ScreenRegion region = toolkit.getElementRegion(elementId);
 		if (region != null) {
 			ScreenAnnotation annotation = new ScreenAnnotation(region.getX(), region.getY(), region.getWidth(), region.getHeight());
 			annotation.setStyle(style);
-			annotation.setText(text);
+			annotation.setScreenText(text);
+			annotation.setTitle(title);
 			annotation.setDescription(description);
 			if (style == ScreenAnnotationStyle.CLICK) {
 				// Create click events with go to next step (for testing clickActions on annotations)
@@ -145,13 +149,10 @@ public class UITestToolkitAbstraction {
 		}
 	}
 
-	private void addScreenAnnotation(final String elementId, final ScreenAnnotationStyle style, final String text) {
-		addScreenAnnotation(elementId, style, text, "on element with id='" + elementId + "'");
-	}
-
 	public void clickLink(final String linkText) {
-		addScreenAnnotation("linkWithText=" + linkText, ScreenAnnotationStyle.CLICK, "Click", "Link with Text '"
-				+ linkText + "'"); // this is just dummy data, with no realistic element IDs
+		addScreenAnnotation("linkWithText=" + linkText /* just a dummy element id (not realistic) */,
+				ScreenAnnotationStyle.CLICK, "", "Clicked Link '" + linkText + "'", "User clicked on link with text '"
+						+ linkText + "'.");
 		saveStepWithScreenshotIfChanged();
 		toolkit.clickLinkWithText(linkText);
 		saveStepWithScreenshot();

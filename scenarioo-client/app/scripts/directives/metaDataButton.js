@@ -37,7 +37,7 @@ angular.module('scenarioo.directives').directive('scMetaDataButton', function($w
             linkingVariable: '=',
             localStorageKey: '@'
         },
-        templateUrl: 'views/metaDataButton.html',
+        templateUrl: 'template/metaDataButton.html',
         link: function(scope) {
             GlobalHotkeysService.registerGlobalHotkey('d', function () {
                 scope.toggleShowingMetadata();

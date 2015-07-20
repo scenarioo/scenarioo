@@ -41,7 +41,7 @@ function screenAnnotationsButton(localStorageService, GlobalHotkeysService) {
         scope: {
             linkingVariable: '='
         },
-        templateUrl: 'views/screenAnnotationsButton.html',
+        templateUrl: 'template/screenAnnotationsButton.html',
         link: function(scope) {
             GlobalHotkeysService.registerGlobalHotkey('a', function () {
                 scope.toggleShowingMetadata();

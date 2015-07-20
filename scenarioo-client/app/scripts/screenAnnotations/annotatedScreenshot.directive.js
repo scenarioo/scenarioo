@@ -28,7 +28,7 @@ function annotatedScreenshot() {
 
     var directive = {
         restrict: 'E',
-        templateUrl: 'views/annotatedScreenshot.html',
+        templateUrl: 'template/annotatedScreenshot.html',
         link: link,
         controller: controller,
         scope: {
@@ -41,6 +41,7 @@ function annotatedScreenshot() {
     return directive;
 
     function link(scope, element) {
+
         scope.imageScalingRatio = 1;
 
         var imageElement = element.find('img.sc-screenshot');
@@ -49,7 +50,7 @@ function annotatedScreenshot() {
             updateImageScalingRatio();
         });
 
-        $(window).resize(function () {
+        $(imageElement).resize(function () {
             updateImageScalingRatio();
         });
 
@@ -60,24 +61,31 @@ function annotatedScreenshot() {
             scope.imageScalingRatio = imageDisplayWidth / imageNaturalWidth;
             scope.$digest();
         }
+
     }
 
-    function controller($scope) {
-        // Icons from http://fortawesome.github.io/Font-Awesome/3.2.1/icons/
-        var styleToIconClassMap = {
-            click: 'icon-hand-up',
-            keyboard: 'icon-keyboard',
-            // TODO #149 Rename to something else if Rolf agrees
-            validate: 'icon-check',
-            // TODO #149 Remove if Rolf agrees
-            navigateToUrl: 'icon-globe',
-            error: 'icon-exclamation-sign',
-            warn: 'icon-warning-sign',
-            info: 'icon-info-sign',
-            highlight: 'icon-quote-right'
-        };
+    function controller($scope, $modal, ScreenAnnotationsService) {
 
-        $scope.getBoxCssStyle = function getBoxCssStyle(screenAnnotation) {
+
+        $scope.getBoxCssStyle = getBoxCssStyle;
+        $scope.getBoxText = getBoxText;
+        $scope.getIconCssStyle = getIconCssStyle;
+        $scope.getIconClass = getIconClass;
+        $scope.openInfoPopup = openInfoPopup;
+
+        /**
+         * get the text to display inside the annotation box (depending if text box is big enough to display text)
+         */
+        function getBoxText(screenAnnotation) {
+            var isTextVisible = screenAnnotation.region.width * $scope.imageScalingRatio > 32 && screenAnnotation.region.height * $scope.imageScalingRatio > 18;
+            if (isTextVisible) {
+                return screenAnnotation.screenText;
+            } else {
+                return '';
+            }
+        }
+
+        function getBoxCssStyle(screenAnnotation) {
             return {
                 // The border is 3 px wide. Therefore we add these three pixels here.
                 left: (screenAnnotation.region.x * $scope.imageScalingRatio - 3) + 'px',
@@ -85,27 +93,35 @@ function annotatedScreenshot() {
                 width: (screenAnnotation.region.width * $scope.imageScalingRatio + 6) + 'px',
                 height: (screenAnnotation.region.height * $scope.imageScalingRatio + 6) + 'px'
             };
-        };
+        }
 
-        $scope.getIconCssStyle = function getIconCssStyle(screenAnnotation) {
+        function getIconCssStyle(screenAnnotation) {
             return {
                 left: (screenAnnotation.region.x + screenAnnotation.region.width ) * $scope.imageScalingRatio + 'px',
                 bottom: ($scope.imageNaturalHeight - screenAnnotation.region.y) * $scope.imageScalingRatio + 'px'
             };
-        };
+        }
 
-        $scope.getIconClass = function getIconClass(screenAnnotationStyle) {
-            if(angular.isUndefined(screenAnnotationStyle)) {
-                return '';
-            }
+        function getIconClass(screenAnnotation) {
+            return ScreenAnnotationsService.getIconClass(screenAnnotation);
+        }
 
-            var styleClass = styleToIconClassMap[screenAnnotationStyle];
+        function openInfoPopup(annotation) {
 
-            if(angular.isUndefined(styleClass)) {
-                return '';
-            }
+            infoPopup = $modal.open({
+                templateUrl: 'template/screenAnnotationInfoPopup.html',
+                controller: 'ScreenAnnotationInfoPopupController',
+                controllerAs: 'annotationPopup',
+                resolve: {
+                    annotation: function () {
+                        return annotation;
+                    }
+                },
+                windowClass: 'modal-small'
+            });
 
-            return styleClass;
-        };
+        }
+
     }
+
 }
