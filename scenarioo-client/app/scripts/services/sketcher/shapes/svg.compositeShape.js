@@ -1,4 +1,6 @@
 /* global SVG:false */
+/* eslint no-undefined:0*/
+
 SVG.BasicShape = function (width, height, x, y, options) {
     var i, settings;
 
