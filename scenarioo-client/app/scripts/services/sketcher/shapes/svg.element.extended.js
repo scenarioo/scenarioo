@@ -1,3 +1,5 @@
+/* global SVG:false */
+
 SVG.extend(SVG.Nested, SVG.Shape, {
 
     isSelected: false,

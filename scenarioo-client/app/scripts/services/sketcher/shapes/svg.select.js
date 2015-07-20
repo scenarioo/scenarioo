@@ -1,5 +1,13 @@
 /*jshint -W030*/
 /*jshint -W083*/
+/* global SVG:false */
+/* eslint no-extra-semi:0*/
+/* eslint no-shadow-restricted-names:0*/
+/* eslint no-underscore-dangle:0*/
+/* eslint no-loop-func:0*/
+/* eslint no-unused-expressions:0*/
+/* eslint no-empty:0*/
+
 ;(function (undefined) {
 
     function SelectHandler(el) {
