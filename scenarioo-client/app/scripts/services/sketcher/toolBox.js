@@ -14,18 +14,19 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/* eslint no-console:0 */
 
-angular.module('scenarioo.services').factory('SelectTool', function(Tool) {
+angular.module('scenarioo.services').factory('ToolBox', function (SelectTool, RectCompositeDrawTool, BorderCompositeDrawTool, RectDrawTool, EllipseDrawTool,
+                                                                  TextCompositeDrawTool, NoteCompositeDrawTool, ButtonCompositeDrawTool) {
 
-    var tool = Tool();
-
-
-    tool.name = 'Select Tool';
-    //tool.icon = null,
-    tool.tooltip = 'This tool is used to select elements of the drawing.';
-
-
-    return tool;
+    return [
+        SelectTool,
+        //RectDrawTool,
+        //EllipseDrawTool,
+        RectCompositeDrawTool,
+        BorderCompositeDrawTool,
+        NoteCompositeDrawTool,
+        TextCompositeDrawTool,
+        ButtonCompositeDrawTool
+    ];
 
 });

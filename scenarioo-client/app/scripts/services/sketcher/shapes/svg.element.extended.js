@@ -23,7 +23,6 @@ SVG.extend(SVG.Nested, SVG.Shape, {
 
         this.draggable(false);
         this.resize('stop');
-        // this.showText();
     }
 
 });
