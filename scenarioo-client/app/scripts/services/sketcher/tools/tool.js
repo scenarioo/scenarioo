@@ -17,7 +17,7 @@
 /* eslint no-console:0 */
 
 
-angular.module('scenarioo.services').factory('Tool', function ($rootScope) {
+angular.module('scenarioo.services').factory('Tool', function (DrawingPadService) {
 
         return function() {
 
@@ -34,7 +34,7 @@ angular.module('scenarioo.services').factory('Tool', function ($rootScope) {
 
 
                 getDrawingPad: function() {
-                    return $rootScope.drawingPad.viewPortGroup;
+                    return DrawingPadService.getDrawingPad().viewPortGroup;
                 },
 
                 activate: function () {

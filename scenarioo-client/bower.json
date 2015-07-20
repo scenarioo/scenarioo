@@ -16,7 +16,6 @@
     "twigs": "0.1.3.1",
     "svg.js": "~2.0.4",
     "svg.draggable.js": "~2.0.0",
-    "svg.foreignobject.js": "*",
     "svg.select.js": "https://github.com/parabolika66/svg.select.js.git#~1.0.7",
     "svg.resize.js": "https://github.com/parabolika66/svg.resize.js.git#~1.1.2",
     "svg-pan-zoom": "~3.2.0"
