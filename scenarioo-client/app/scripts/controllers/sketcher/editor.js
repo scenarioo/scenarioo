@@ -32,13 +32,13 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.currentTool = tool;
         tool.activate();
 
-        DrawingPadService.unSelectAllShapes($rootScope.drawingPad.viewPortGroup);
+        DrawingPadService.unSelectAllShapes();
     };
 
     // exporting svg drawing
     $scope.updateSketchStep = function () {
 
-        DrawingPadService.unSelectAllShapes($rootScope.drawingPad.viewPortGroup);
+        DrawingPadService.unSelectAllShapes();
 
         $scope.successfullyUpdatedSketchStep = false;
 
@@ -141,15 +141,31 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     });
 
     $rootScope.$on('shapeSelected', function (scope, shape) {
-        DrawingPadService.unSelectAllShapes($rootScope.drawingPad.viewPortGroup);
+        DrawingPadService.unSelectAllShapes();
         shape.selectToggle();
         DrawingPadService.setSelectedShape(shape);
     });
 
     $rootScope.$on(DrawingPadService.DRAWINGPAD_CLICKED_EVENT, function () {
         console.log(DrawingPadService.DRAWINGPAD_CLICKED_EVENT);
-        DrawingPadService.unSelectAllShapes($rootScope.drawingPad.viewPortGroup);
+        DrawingPadService.unSelectAllShapes();
     });
+
+    $scope.sendSelectedShapeToBack = function () {
+        DrawingPadService.sendSelectedShapeToBack();
+    };
+
+    $scope.sendSelectedShapeToFront = function () {
+        DrawingPadService.sendSelectedShapeToFront();
+    };
+
+    $scope.sendSelectedShapeBackward = function () {
+        DrawingPadService.sendSelectedShapeBackward();
+    };
+
+    $scope.sendSelectedShapeForward = function () {
+        DrawingPadService.sendSelectedShapeForward();
+    };
 
 
     $scope.init = function() {

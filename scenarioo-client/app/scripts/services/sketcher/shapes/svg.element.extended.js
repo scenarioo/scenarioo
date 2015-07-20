@@ -10,6 +10,7 @@ SVG.extend(SVG.Nested, SVG.Shape, {
         this.select(this.isSelected, this.selectOptions);
 
         this.draggable(this.isSelected);
+
         if (!this.isSelected) {
             this.resize('stop');
         } else {
