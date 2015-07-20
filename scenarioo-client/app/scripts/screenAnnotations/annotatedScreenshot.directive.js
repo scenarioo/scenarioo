@@ -104,7 +104,7 @@ function annotatedScreenshot() {
 
         function openInfoPopup(annotation) {
 
-            var infoPopup = $modal.open({
+            $modal.open({
                 templateUrl: 'template/screenAnnotationInfoPopup.html',
                 controller: 'ScreenAnnotationInfoPopupController',
                 controllerAs: 'annotationPopup',
