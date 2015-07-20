@@ -1,5 +1,4 @@
 /* global SVG:false */
-
 SVG.BasicShape = function (width, height, x, y, options) {
     var i, settings;
 
