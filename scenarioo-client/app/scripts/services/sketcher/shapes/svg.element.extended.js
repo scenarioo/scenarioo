@@ -1,31 +1,35 @@
 /* global SVG:false */
+/* eslint no-extra-semi:0*/
 
-SVG.extend(SVG.Nested, SVG.Shape, {
 
-    isSelected: false,
-    selectOptions: {rotationPoint: false},
+;(function () {
+    SVG.extend(SVG.Nested, SVG.Shape, {
 
-    selectToggle: function() {
-        this.isSelected = !this.isSelected;
-        this.select(this.isSelected, this.selectOptions);
+        isSelected: false,
+        selectOptions: {rotationPoint: false},
 
-        this.draggable(this.isSelected);
+        selectToggle: function() {
+            this.isSelected = !this.isSelected;
+            this.select(this.isSelected, this.selectOptions);
 
-        if (!this.isSelected) {
+            this.draggable(this.isSelected);
+
+            if (!this.isSelected) {
+                this.resize('stop');
+            } else {
+                this.resize();
+            }
+
+            return this;
+        },
+
+        unSelect: function() {
+            this.isSelected = false;
+            this.select(false);
+
+            this.draggable(false);
             this.resize('stop');
-        } else {
-            this.resize();
         }
 
-        return this;
-    },
-
-    unSelect: function() {
-        this.isSelected = false;
-        this.select(false);
-
-        this.draggable(false);
-        this.resize('stop');
-    }
-
-});
+    });
+}).call(this);
