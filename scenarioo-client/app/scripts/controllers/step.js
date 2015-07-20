@@ -124,8 +124,10 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             stepInformation['Page name'] = pageToRender;
         }
 
-        if (angular.isDefined(stepDescription.details.url)) {
-            stepInformation.URL = stepDescription.details.url;
+        if (angular.isDefined(stepDescription.details)) {
+            angular.forEach(stepDescription.details, function (value, key) {
+                stepInformation[key] = value;
+            });
         }
 
         if (angular.isDefined(stepDescription.status)) {
