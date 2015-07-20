@@ -155,6 +155,31 @@ angular.module('scenarioo.services').factory('DrawingPadService', function ($roo
         }
     }
 
+    function sendSelectedShapeToBack() {
+        if(selectedShape) {
+            selectedShape.back();
+            selectedShape.forward();
+        }
+    }
+
+    function sendSelectedShapeToFront() {
+        if(selectedShape) {
+            selectedShape.front();
+        }
+    }
+
+    function sendSelectedShapeBackward() {
+        if(selectedShape && drawingPad.viewPortGroup.get(0) !== selectedShape && drawingPad.viewPortGroup.get(1) !== selectedShape) {
+            selectedShape.backward();
+        }
+    }
+
+    function sendSelectedShapeForward() {
+        if(selectedShape) {
+            selectedShape.forward();
+        }
+    }
+
 
     return {
         DRAWINGPAD_CLICKED_EVENT: DRAWINGPAD_CLICKED_EVENT,
@@ -171,8 +196,10 @@ angular.module('scenarioo.services').factory('DrawingPadService', function ($roo
             return exportDrawing();
         },
 
-        unSelectAllShapes: function (container) {
-            return unSelectAllShapes(container);
+        unSelectAllShapes: function () {
+            if(drawingPad.viewPortGroup) {
+                return unSelectAllShapes(drawingPad.viewPortGroup);
+            }
         },
 
         setSelectedShape: function (shape) {
@@ -185,6 +212,22 @@ angular.module('scenarioo.services').factory('DrawingPadService', function ($roo
 
         removeSelectedShape: function() {
             return removeSelectedShape();
+        },
+
+        sendSelectedShapeToBack: function() {
+            return sendSelectedShapeToBack();
+        },
+
+        sendSelectedShapeToFront: function() {
+            return sendSelectedShapeToFront();
+        },
+
+        sendSelectedShapeBackward: function() {
+            return sendSelectedShapeBackward();
+        },
+
+        sendSelectedShapeForward: function() {
+            return sendSelectedShapeForward();
         }
     };
 });
