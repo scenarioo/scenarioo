@@ -16,21 +16,23 @@
  */
 
 
-angular.module('scenarioo.controllers').factory('BasicShapeTool', function (AbstractShapeTool) {
-    var tool = AbstractShapeTool.get;
+angular.module('scenarioo.controllers').factory('RectDrawTool', function (DrawTool) {
 
-    tool.name = 'Basic Shape Tool';
+    var tool = DrawTool();
+
+    tool.name = 'Rectangle Tool';
     tool.icon = null;
-    tool.tooltip = 'This tool is used to draw basic shapes.';
+    tool.tooltip = 'This tool is used to draw rectangles.';
 
 
     tool.onmousedown = function (event) {
         tool.onmousedownTemplate(event);
-        tool.shape = tool.getDrawingPad().basicShape(0, 0, 0, 0);
+        tool.shape = tool.getDrawingPad().rect(0, 0, 0, 0);
 
         tool.shape.attr({
             x: tool.originalX,
-            y: tool.originalY
+            y: tool.originalY,
+            fill: '#e74c3c'
         });
     };
 
@@ -52,17 +54,6 @@ angular.module('scenarioo.controllers').factory('BasicShapeTool', function (Abst
         });
     };
 
-    return {
-
-        name: tool.name,
-        icon: tool.icon,
-        tooltip: tool.tooltip,
-        cursor: tool.cursor,
-
-        onmouseup: tool.onmouseup,
-        onmousedown: tool.onmousedown,
-        onmousedrag: tool.onmousedrag
-
-    };
+    return tool;
 
 });

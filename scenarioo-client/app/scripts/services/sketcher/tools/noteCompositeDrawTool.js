@@ -14,16 +14,21 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/* eslint no-console:0 */
-
-angular.module('scenarioo.services').factory('SelectTool', function(Tool) {
-
-    var tool = Tool();
 
 
-    tool.name = 'Select Tool';
-    //tool.icon = null,
-    tool.tooltip = 'This tool is used to select elements of the drawing.';
+angular.module('scenarioo.controllers').factory('NoteCompositeDrawTool', function (CompositeDrawTool) {
+
+    var tool = CompositeDrawTool();
+
+
+    tool.name = 'Note Tool';
+    //this.icon = null;
+    tool.tooltip = 'This tool is used to add notes to the sketch.';
+    tool.startInEditMode = true;
+
+    tool.getShape = function () {
+        return tool.getDrawingPad().noteShape(0, 0, 0, 0);
+    };
 
 
     return tool;

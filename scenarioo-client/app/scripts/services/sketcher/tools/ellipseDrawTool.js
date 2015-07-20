@@ -14,30 +14,30 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/* eslint no-console:0*/
 
 
-angular.module('scenarioo.controllers').factory('TextShapeTool', function (AbstractShapeTool) {
-    var tool = AbstractShapeTool.get;
+angular.module('scenarioo.controllers').factory('EllipseDrawTool', function (DrawTool) {
 
-    tool.name = 'Text Shape Tool';
+    var tool = DrawTool();
+
+    tool.name = 'Ellipse Tool';
     tool.icon = null;
-    tool.tooltip = 'This tool is used to add text to the sketch.';
+    tool.tooltip = 'This tool is used to draw ellipsis.';
 
 
     tool.onmousedown = function (event) {
         tool.onmousedownTemplate(event);
+        tool.shape = tool.getDrawingPad().ellipse(0, 0, 0, 0);
 
-        tool.shape = tool.getDrawingPad().textShape(0, 0, 0, 0);
         tool.shape.attr({
-            x: tool.originalX,
-            y: tool.originalY
+            cx: tool.originalX,
+            cy: tool.originalY,
+            fill: '#e74c3c'
         });
     };
 
     tool.onmouseup = function (event) {
         tool.onmouseupTemplate(event);
-        tool.shape.edit();
     };
 
     tool.onmousedrag = function (event) {
@@ -47,24 +47,13 @@ angular.module('scenarioo.controllers').factory('TextShapeTool', function (Abstr
         tool.onmousedragTemplate(event);
 
         tool.shape.attr({
-            width: tool.cornerX - tool.anchorX,
-            height: tool.cornerY - tool.anchorY,
-            x: tool.anchorX,
-            y: tool.anchorY
+            rx: (tool.cornerX - tool.anchorX) / 2,
+            ry: (tool.cornerY - tool.anchorY) / 2,
+            cx: tool.anchorX + tool.shape.attr('rx'),
+            cy: tool.anchorY + tool.shape.attr('ry')
         });
     };
 
-    return {
-
-        name: tool.name,
-        icon: tool.icon,
-        tooltip: tool.tooltip,
-        cursor: tool.cursor,
-
-        onmouseup: tool.onmouseup,
-        onmousedown: tool.onmousedown,
-        onmousedrag: tool.onmousedrag
-
-    };
+    return tool;
 
 });

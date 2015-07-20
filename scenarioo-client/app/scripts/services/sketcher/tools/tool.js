@@ -17,81 +17,53 @@
 /* eslint no-console:0 */
 
 
-angular.module('scenarioo.controllers').factory('Tool', function ($rootScope) {
+angular.module('scenarioo.services').factory('Tool', function ($rootScope) {
 
-    var tool = {};
+        return function() {
 
-    tool.name = 'Tool Name';
-    tool.icon = null;
-    tool.tooltip = '';
-    tool.cursor = 'default';
-    tool.buttonDisabled = false;
-    tool.DRAWING_ENDED_EVENT = 'drawingEnded';
-    tool.SHAPE_SELECTED_EVENT = 'shapeSelected';
+            return {
 
+                name: 'Tool name required',
+                icon: 'default.png',
+                tooltip: 'Tooltip text required',
+                cursor: 'default',
+                buttonDisabled: false,
 
-    tool.activate = function (newTool) {
-        console.log('Activated tool: ' + newTool.name);
-        newTool.buttonDisabled = true;
-
-        var dp = tool.getDrawingPad();
-        if(dp){
-            dp.on('mousedown.drawingpad', newTool.onmousedown);
-            dp.on('mouseup.drawingpad', newTool.onmouseup);
-            dp.on('mousemove.drawingpad', newTool.onmousedrag);
-        }
-    };
-
-    tool.deactivate = function (currentTool) {
-        console.log('Deactivated tool: ' + currentTool.name);
-        currentTool.buttonDisabled = false;
-
-        var dp = tool.getDrawingPad();
-        if(dp) {
-            dp.off('mousedown.drawingpad', currentTool.onmousedown);
-            dp.off('mouseup.drawingpad', currentTool.onmouseup);
-            dp.off('mousemove.drawingpad', currentTool.onmousedrag);
-        }
-    };
-
-    tool.isButtonDisabled = function (someTool) {
-        return someTool.buttonDisabled;
-    };
+                DRAWING_ENDED_EVENT: 'drawingEnded',
+                SHAPE_SELECTED_EVENT: 'shapeSelected',
 
 
-    tool.onmousedown = function () {
-        console.log('onmousedown: not implemented in generic tool');
-    };
-    tool.onmouseup = function () {
-        console.log('onmouseup: not implemented in generic tool');
-    };
-    tool.onmousedrag = function () {
-        console.log('onmousedrag: not implemented in generic tool');
-    };
+                getDrawingPad: function() {
+                    return $rootScope.drawingPad.viewPortGroup;
+                },
 
-    tool.getDrawingPad = function() {
-        return $rootScope.drawingPad.viewPortGroup;
-    };
+                activate: function () {
+                    console.log('Activated tool: ' + this.name);
 
+                    this.buttonDisabled = true;
+                    var dp = this.getDrawingPad();
+                    if(dp){
+                        dp.on('mousedown.drawingpad', this.onmousedown);
+                        dp.on('mouseup.drawingpad', this.onmouseup);
+                        dp.on('mousemove.drawingpad', this.onmousedrag);
+                    }
+                },
 
-    return {
-        DRAWING_ENDED_EVENT: tool.DRAWING_ENDED_EVENT,
-        SHAPE_SELECTED_EVENT: tool.SHAPE_SELECTED_EVENT,
+                deactivate: function () {
+                    console.log('Deactivated tool: ' + this.name);
+                    this.buttonDisabled = false;
 
-        get: tool,
-        name: tool.name,
-        icon: tool.icon,
-        tooltip: tool.tooltip,
-        cursor: tool.cursor,
-        buttonDisabled: tool.buttonDisabled,
-        isButtonDisabled: tool.isButtonDisabled,
+                    var dp = this.getDrawingPad();
+                    if(dp) {
+                        dp.off('mousedown.drawingpad', this.onmousedown);
+                        dp.off('mouseup.drawingpad', this.onmouseup);
+                        dp.off('mousemove.drawingpad', this.onmousedrag);
+                    }
+                },
 
-        activate: tool.activate,
-        deactivate: tool.deactivate,
-
-        onmouseup: tool.onmouseup,
-        onmousedown: tool.onmousedown,
-        onmousedrag: tool.onmousedrag
-    };
-
+                onmousedown: function () {},
+                onmouseup: function () {},
+                onmousedrag: function () {}
+            };
+        };
 });

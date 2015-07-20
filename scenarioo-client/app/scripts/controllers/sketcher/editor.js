@@ -18,28 +18,21 @@
 
 
 angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $timeout, $routeParams, $route,
-                                                                           GlobalHotkeysService, SelectedBranchAndBuild, Tool, SelectTool, RectTool,
-                                                                           EllipseTool, NoteTool, BasicShapeTool, BorderShapeTool, NoteShapeTool,
+                                                                           GlobalHotkeysService, SelectedBranchAndBuild, ToolBox,
                                                                            DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue,
-                                                                           ScenarioSketchResource, ScenarioSketch, TextShapeTool, ButtonShapeTool) {
+                                                                           ScenarioSketchResource, ScenarioSketch) {
 
     $scope.currentTool = null;
 
 
     $scope.activateTool = function (tool) {
         if ($scope.currentTool) {
-            Tool.deactivate($scope.currentTool);
+            $scope.currentTool.deactivate();
         }
         $scope.currentTool = tool;
-        Tool.activate(tool);
+        tool.activate();
 
         DrawingPadService.unSelectAllShapes($rootScope.drawingPad.viewPortGroup);
-    };
-
-    $scope.isButtonDisabled = function (tool) {
-        if (tool) {
-            return Tool.isButtonDisabled(tool);
-        }
     };
 
     // exporting svg drawing
@@ -139,14 +132,14 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         console.log(exportedSVG);
     });
 
-    $rootScope.$on(Tool.DRAWING_ENDED_EVENT, function (scope, shape) {
+    $rootScope.$on('drawingEnded', function (scope, shape) {
         // $scope.$apply is used to make sure that the button disabled directive updates in the view
         $scope.$apply($scope.activateTool($scope.tools[0]));
 
         shape.selectToggle();
     });
 
-    $rootScope.$on(Tool.SHAPE_SELECTED_EVENT, function (scope, shape) {
+    $rootScope.$on('shapeSelected', function (scope, shape) {
         DrawingPadService.unSelectAllShapes($rootScope.drawingPad.viewPortGroup);
         shape.selectToggle();
     });
@@ -160,16 +153,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     $scope.init = function() {
         $rootScope.drawingPad = DrawingPadService.init();
 
-        $scope.tools = [
-            SelectTool,
-            RectTool,
-            EllipseTool,
-            BasicShapeTool,
-            BorderShapeTool,
-            NoteShapeTool,
-            TextShapeTool,
-            ButtonShapeTool
-        ];
+        $scope.tools = ToolBox;
         $scope.activateTool($scope.tools[0]);
     };
     $scope.init();
