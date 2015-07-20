@@ -27,6 +27,8 @@ angular.module('scenarioo.services').factory('DrawingPadService', function ($roo
 
     var drawingPad;
 
+    var selectedShape;
+
 
     function init() {
 
@@ -131,6 +133,25 @@ angular.module('scenarioo.services').factory('DrawingPadService', function ($roo
             container.each(function () {
                 this.unSelect();
             });
+            selectedShape = null;
+        }
+    }
+
+    window.onkeydown = onKeyDownHandler;
+
+    function onKeyDownHandler(event) {
+        switch (event.keyCode) {
+            case 46: // delete
+                removeSelectedShape();
+                return;
+        }
+    }
+
+    function removeSelectedShape() {
+        if(selectedShape) {
+            selectedShape.unSelect();
+            selectedShape.remove();
+            selectedShape = null;
         }
     }
 
@@ -152,6 +173,18 @@ angular.module('scenarioo.services').factory('DrawingPadService', function ($roo
 
         unSelectAllShapes: function (container) {
             return unSelectAllShapes(container);
+        },
+
+        setSelectedShape: function (shape) {
+            selectedShape = shape;
+        },
+
+        getSelectedShape: function() {
+            return selectedShape;
+        },
+
+        removeSelectedShape: function() {
+            return removeSelectedShape();
         }
     };
 });
