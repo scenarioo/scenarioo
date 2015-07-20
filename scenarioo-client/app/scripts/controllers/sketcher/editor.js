@@ -137,11 +137,13 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.$apply($scope.activateTool($scope.tools[0]));
 
         shape.selectToggle();
+        DrawingPadService.setSelectedShape(shape);
     });
 
     $rootScope.$on('shapeSelected', function (scope, shape) {
         DrawingPadService.unSelectAllShapes($rootScope.drawingPad.viewPortGroup);
         shape.selectToggle();
+        DrawingPadService.setSelectedShape(shape);
     });
 
     $rootScope.$on(DrawingPadService.DRAWINGPAD_CLICKED_EVENT, function () {

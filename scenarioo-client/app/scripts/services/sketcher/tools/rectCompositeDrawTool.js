@@ -26,7 +26,7 @@ angular.module('scenarioo.services').factory('RectCompositeDrawTool', function (
     tool.tooltip = 'This tool is used to draw rectangles.';
 
     tool.getShape = function () {
-        return tool.getDrawingPad().basicShape(0, 0, 0, 0);
+        return tool.getDrawingPad().rectShape(0, 0, 0, 0);
     };
 
 

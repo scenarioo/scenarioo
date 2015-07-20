@@ -1,7 +1,6 @@
 /* global SVG:false */
-/* eslint no-undefined:0*/
 
-SVG.BasicShape = function (width, height, x, y, options) {
+SVG.CompositeShape = function (width, height, x, y, options) {
     var i, settings;
 
     settings = {
@@ -56,11 +55,11 @@ SVG.BasicShape = function (width, height, x, y, options) {
     this.registerAttrChangeEvent();
 };
 
-SVG.BasicShape.prototype = new SVG.Nested();
+SVG.CompositeShape.prototype = new SVG.Nested();
 
 
 // Add methods
-SVG.extend(SVG.BasicShape, {
+SVG.extend(SVG.CompositeShape, {
 
     update: function () {
         this.rect.attr({
@@ -174,33 +173,32 @@ SVG.extend(SVG.BasicShape, {
 
 // Extend SVG container
 SVG.extend(SVG.Container, {
-    // Add note method
-    basicShape: function (width, height, x, y) {
-        return this.put(new SVG.BasicShape(width, height, x, y));
+    rectShape: function (width, height, x, y) {
+        return this.put(new SVG.CompositeShape(width, height, x, y));
     },
     borderShape: function (width, height, x, y) {
-        return this.put(new SVG.BasicShape(width, height, x, y, {
+        return this.put(new SVG.CompositeShape(width, height, x, y, {
             opacity: 0
             , stroke: '#e74c3c'
             , strokeWidth: '5'
         }));
     },
     noteShape: function (width, height, x, y) {
-        return this.put(new SVG.BasicShape(width, height, x, y, {
+        return this.put(new SVG.CompositeShape(width, height, x, y, {
             opacity: 0
             , strokeWidth: '0'
             , isNote: true
         }));
     },
     textShape: function (width, height, x, y) {
-        return this.put(new SVG.BasicShape(width, height, x, y, {
+        return this.put(new SVG.CompositeShape(width, height, x, y, {
             opacity: 0
             , fill: '#fff'
             , strokeWidth: '0'
         }));
     },
     buttonShape: function (width, height, x, y) {
-        return this.put(new SVG.BasicShape(width, height, x, y, {
+        return this.put(new SVG.CompositeShape(width, height, x, y, {
             fill: '#3498db'
             , strokeWidth: '0'
             , halign: 'center'
