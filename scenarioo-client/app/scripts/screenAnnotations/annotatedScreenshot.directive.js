@@ -46,13 +46,9 @@ function annotatedScreenshot() {
 
         var imageElement = element.find('img.sc-screenshot');
 
-        $(imageElement).load(function () {
-            updateImageScalingRatio();
-        });
+        $(imageElement).load(updateImageScalingRatio);
 
-        $(imageElement).resize(function () {
-            updateImageScalingRatio();
-        });
+        $(window).resize(updateImageScalingRatio);
 
         function updateImageScalingRatio() {
             var imageNaturalWidth = imageElement.get(0).naturalWidth;
@@ -108,7 +104,7 @@ function annotatedScreenshot() {
 
         function openInfoPopup(annotation) {
 
-            infoPopup = $modal.open({
+            var infoPopup = $modal.open({
                 templateUrl: 'template/screenAnnotationInfoPopup.html',
                 controller: 'ScreenAnnotationInfoPopupController',
                 controllerAs: 'annotationPopup',
