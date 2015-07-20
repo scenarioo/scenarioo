@@ -17,7 +17,7 @@ SVG.BasicShape = function (width, height, x, y, options) {
         , valign: 'top'
     };
 
-    options = options || {}
+    options = options || {};
     for (i in options)
         settings[i] = options[i];
 
