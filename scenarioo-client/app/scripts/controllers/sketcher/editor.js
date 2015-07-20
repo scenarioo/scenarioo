@@ -169,8 +169,6 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
 
     $scope.init = function() {
-        $rootScope.drawingPad = DrawingPadService.init();
-
         $scope.tools = ToolBox;
         $scope.activateTool($scope.tools[0]);
     };
