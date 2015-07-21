@@ -41,6 +41,8 @@ angular.module('scenarioo.controllers').controller('IssueCtrl', function ($scope
                 $scope.scenarioSketches = result.scenarioSketches;
                 $scope.issueName = result.issue.name;
                 $scope.issueId = result.issue.id;
+                $scope.author = result.issue.author;
+                $scope.usecaseContext = result.issue.usecaseContext;
                 //$scope.scenarios = result.scenarios;
                 //$scope.issueInformationTree = createissueInformationTree($scope.issue);
                 //$scope.metadataTree = transformMetadataToTreeArray($scope.issue.details);

@@ -15,10 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').service('ContextService', function () {
+angular.module('scenarioo.services').service('ContextService', function (HostnameAndPort, SelectedBranchAndBuild) {
 
     var issueName, issueId, scenarioSketchName, scenarioSketchId, sketchStepIndex;
-    var usecase, scenario, step;
+    var usecaseLink, scenarioLink, stepLink;
+    var usecaseName, scenarioName, stepName;
 
     function initializeContext(){
         issueId = null;
@@ -27,9 +28,23 @@ angular.module('scenarioo.services').service('ContextService', function () {
         scenarioSketchId = null;
         sketchStepIndex = null;
 
-        usecase = null;
-        scenario = null;
-        step = null;
+        usecaseName = null;
+        scenarioName = null;
+        stepName = null;
+
+        usecaseLink = null;
+        scenarioLink = null;
+        stepLink = null;
+    }
+
+    function setUseCase(originalUsecaseName){
+        this.usecaseName = prettifyName(originalUsecaseName);
+        this.usecaseLink = createLink(originalUsecaseName);
+    }
+
+    function setScenario(originalUsecaseName, originalScenarioName){
+        this.scenarioName = prettifyName(originalScenarioName);
+        this.scenarioLink = createLink(originalUsecaseName, originalScenarioName);
     }
 
     return {
@@ -38,11 +53,37 @@ angular.module('scenarioo.services').service('ContextService', function () {
         scenarioSketchId: scenarioSketchId,
         scenarioSketchName: scenarioSketchName,
         sketchStepIndex: sketchStepIndex,
-        usecase: usecase,
-        scenario: scenario,
-        step: step,
+        usecaseName: usecaseName,
+        scenarioName: scenarioName,
+        stepName: stepName,
+        usecaseLink: usecaseLink,
+        scenarioLink: scenarioLink,
+        stepLink: stepLink,
 
-        initialize: initializeContext
+        initialize: initializeContext,
+        setUseCase: setUseCase,
+        setScenario: setScenario
     };
+
+    function prettifyName(name){
+        var wordsInName = name.split('_');
+        wordsInName[0] = wordsInName[0].charAt(0).toUpperCase() + wordsInName[0].slice(1);
+        return wordsInName.join(' ');
+    }
+
+    //Name has been called ID here to avoid naming conflicts in this file
+    function createLink(usecaseId, scenarioId) {
+        if (!scenarioId){
+            return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY] +
+                '/build/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BUILD_KEY] +
+                '/usecase/' + usecaseId;
+        }
+        else {
+            return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY] +
+                '/build/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BUILD_KEY] +
+                '/usecase/' + usecaseId +
+                '/scenario/' + scenarioId;
+        }
+    }
 
 });

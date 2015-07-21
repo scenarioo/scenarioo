@@ -20,7 +20,7 @@
 angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $timeout, $routeParams, $route,
                                                                            GlobalHotkeysService, SelectedBranchAndBuild, ToolBox,
                                                                            DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue,
-                                                                           ScenarioSketchResource, ScenarioSketch) {
+                                                                           ScenarioSketchResource, ScenarioSketch, ContextService) {
 
     $scope.currentTool = null;
 
@@ -46,8 +46,14 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             branchName: $routeParams.branch,
             name: $scope.issueName,
             description: $scope.issueDescription,
-            author: $scope.issueAuthor
+            author: $scope.issueAuthor,
+            usecaseContextName: ContextService.usecaseName,
+            usecaseContextLink: ContextService.usecaseLink,
+            scenarioContextName: ContextService.scenarioName,
+            scenarioContextLink: ContextService.scenarioLink,
+            stepContextLink: ContextService.stepLink
         });
+        console.log(issue);
 
         if ($scope.issueId) {
             issue.issueId = $scope.issueId;

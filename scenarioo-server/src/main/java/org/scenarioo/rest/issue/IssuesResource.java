@@ -80,17 +80,20 @@ public class IssuesResource {
 			summary.setId(i.getIssueId());
 			summary.setDescription(i.getDescription());
 			summary.setAuthor(i.getAuthor());
+			summary.setUsecaseContextName(i.getUsecaseContextName());
+			summary.setUsecaseContextLink(i.getUsecaseContextLink());
+			summary.setScenarioContextName(i.getScenarioContextName());
+			summary.setScenarioContextLink(i.getScenarioContextLink());
 			summary.setStatus(i.getIssueStatus());
 			summary.setNumberOfScenarioSketches(scenarioSketches.size());
 			summary.setLabels(i.getLabels());
 
 			if (scenarioSketches.size() > 0) {
-				ScenarioSketch firstScenarioSketch = scenarioSketches.get(0);
+				final ScenarioSketch firstScenarioSketch = scenarioSketches.get(0);
 				summary.setFirstScenarioSketchId(firstScenarioSketch.getScenarioSketchId());
 			}
 
 			result.add(summary);
-			LOGGER.info(summary.toString());
 		}
 		return result;
 	}
@@ -165,15 +168,18 @@ public class IssuesResource {
 		return Response.ok(existingIssue, MediaType.APPLICATION_JSON).build();
 	}
 
-	private IssueSummary mapSummary(final IssueScenarioSketches issueProposals) {
-		final IssueSummary summary = new IssueSummary();
-		final Issue issue = issueProposals.getIssue();
-		summary.setName(issue.getName());
-		summary.setDescription(issue.getDescription());
-		summary.setAuthor(issue.getAuthor());
-		summary.setStatus(issue.getIssueStatus());
-		summary.setNumberOfScenarioSketches(issueProposals.getScenarioSketches().size());
-		summary.setLabels(issue.getLabels());
-		return summary;
-	}
+	/*
+	 * private IssueSummary mapSummary(final IssueScenarioSketches issueProposals) {
+	 * final IssueSummary summary = new IssueSummary();
+	 * final Issue issue = issueProposals.getIssue();
+	 * summary.setName(issue.getName());
+	 * summary.setDescription(issue.getDescription());
+	 * summary.setAuthor(issue.getAuthor());
+	 * summary.setUsecaseContext(issue.getUsecaseContextLink());
+	 * summary.setStatus(issue.getIssueStatus());
+	 * summary.setNumberOfScenarioSketches(issueProposals.getScenarioSketches().size());
+	 * summary.setLabels(issue.getLabels());
+	 * return summary;
+	 * }
+	 */
 }
