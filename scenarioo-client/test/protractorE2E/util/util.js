@@ -8,16 +8,22 @@ function getRoute(route) {
     browser.waitForAngular();
 }
 
+/**
+ * Initialize local storage to previously visited for web tests to run without about dialog open.
+ */
 function initLocalStorage() {
-    console.log('Initializing local storage');
+    console.log('Initializing local storage for user revisiting scenarioo again');
     getRoute('/');
-    var clearLocalStorage = browser.executeScript('localStorage.setItem("ls.scenariooPreviouslyVisited", "true");');
-    clearLocalStorage.then(function () {
+    var setPreviouslyVisitedInLocalStorage = browser.executeScript('localStorage.setItem("ls.scenariooPreviouslyVisited", "true");');
+    setPreviouslyVisitedInLocalStorage.then(function () {
         var visited = browser.executeScript('return localStorage.getItem("ls.scenariooPreviouslyVisited");');
         expect(visited).toEqual('true');
     });
 }
 
+/**
+ * Initialize local storage to previously visited for web tests to run without about dialog open (only if not previously intialized allready).
+ */
 function initLocalStorageIfRequired() {
     if (!initialized) {
         initLocalStorage();
@@ -25,10 +31,26 @@ function initLocalStorageIfRequired() {
     }
 }
 
+/**
+ * Clear local storage to not previously visited for web tests to run with about dialog open.
+ *
+ * To realy see the dialog, a restart of the application is needed after (e.g. by page refresh!), this method only clears the storage.
+ */
+function clearLocalStorage() {
+    console.log('Clear local storage for user visiting for the first time');
+    getRoute('/');
+    var clearLocalStorageScript = browser.executeScript('localStorage.clear();');
+    clearLocalStorageScript.then(function() {
+        var visited = browser.executeScript('return window.localStorage.getItem("ls.scenariooPreviouslyVisited");');
+        expect(visited).toBe(null);
+    });
+}
 
 var e2eUtils = {
 
     initLocalStorage: initLocalStorageIfRequired,
+
+    clearLocalStorage: clearLocalStorage,
 
     getRoute: getRoute,
 
@@ -83,6 +105,10 @@ var e2eUtils = {
 
     clickBrowserBackButton: function () {
         browser.navigate().back();
+    },
+
+    refreshBrowser: function() {
+        browser.navigate().refresh();
     }
 
 };
