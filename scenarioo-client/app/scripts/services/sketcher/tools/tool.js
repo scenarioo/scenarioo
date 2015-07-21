@@ -19,51 +19,56 @@
 
 angular.module('scenarioo.services').factory('Tool', function (DrawingPadService) {
 
-        return function() {
+    return function () {
 
-            return {
+        return {
 
-                name: 'Tool name required',
-                icon: 'default.png',
-                tooltip: 'Tooltip text required',
-                cursor: 'default',
-                buttonDisabled: false,
+            name: 'Tool name required',
+            icon: 'default.png',
+            tooltip: 'Tooltip text required',
+            cursor: 'default',
+            buttonDisabled: false,
 
-                DRAWING_ENDED_EVENT: 'drawingEnded',
-                SHAPE_SELECTED_EVENT: 'shapeSelected',
+            DRAWING_ENDED_EVENT: 'drawingEnded',
+            SHAPE_SELECTED_EVENT: 'shapeSelected',
 
 
-                getDrawingPad: function() {
+            getDrawingPad: function () {
+                if (DrawingPadService.getDrawingPad().viewPortGroup) {
                     return DrawingPadService.getDrawingPad().viewPortGroup;
-                },
+                }
+            },
 
-                activate: function () {
-                    console.log('Activated tool: ' + this.name);
+            activate: function () {
+                console.log('Activated tool: ' + this.name);
 
-                    this.buttonDisabled = true;
-                    var dp = this.getDrawingPad();
-                    if(dp){
-                        dp.on('mousedown.drawingpad', this.onmousedown);
-                        dp.on('mouseup.drawingpad', this.onmouseup);
-                        dp.on('mousemove.drawingpad', this.onmousedrag);
-                    }
-                },
+                this.buttonDisabled = true;
+                var dp = this.getDrawingPad();
+                if (dp) {
+                    dp.on('mousedown.drawingpad', this.onmousedown);
+                    dp.on('mouseup.drawingpad', this.onmouseup);
+                    dp.on('mousemove.drawingpad', this.onmousedrag);
+                }
+            },
 
-                deactivate: function () {
-                    console.log('Deactivated tool: ' + this.name);
-                    this.buttonDisabled = false;
+            deactivate: function () {
+                console.log('Deactivated tool: ' + this.name);
+                this.buttonDisabled = false;
 
-                    var dp = this.getDrawingPad();
-                    if(dp) {
-                        dp.off('mousedown.drawingpad', this.onmousedown);
-                        dp.off('mouseup.drawingpad', this.onmouseup);
-                        dp.off('mousemove.drawingpad', this.onmousedrag);
-                    }
-                },
+                var dp = this.getDrawingPad();
+                if (dp) {
+                    dp.off('mousedown.drawingpad', this.onmousedown);
+                    dp.off('mouseup.drawingpad', this.onmouseup);
+                    dp.off('mousemove.drawingpad', this.onmousedrag);
+                }
+            },
 
-                onmousedown: function () {},
-                onmouseup: function () {},
-                onmousedrag: function () {}
-            };
+            onmousedown: function () {
+            },
+            onmouseup: function () {
+            },
+            onmousedrag: function () {
+            }
         };
+    };
 });

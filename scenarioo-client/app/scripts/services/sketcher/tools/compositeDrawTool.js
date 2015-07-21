@@ -16,7 +16,7 @@
  */
 
 
-angular.module('scenarioo.services').factory('CompositeDrawTool', function (DrawTool) {
+angular.module('scenarioo.services').factory('CompositeDrawTool', function (DrawTool, DrawingPadService) {
 
     return function () {
 
@@ -37,8 +37,13 @@ angular.module('scenarioo.services').factory('CompositeDrawTool', function (Draw
 
         tool.onmouseup = function (event) {
             tool.onmouseupTemplate(event);
-            if(tool.startInEditMode) {
-                tool.shape.edit();
+            if (tool.startInEditMode) {
+
+                tool.shape.edit(DrawingPadService.getZoomFactor(), DrawingPadService.getPanPosition());
+
+                tool.shape.on('dblclick', function () {
+                    this.edit(DrawingPadService.getZoomFactor(), DrawingPadService.getPanPosition());
+                });
             }
         };
 
