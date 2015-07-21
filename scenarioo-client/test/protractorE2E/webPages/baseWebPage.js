@@ -74,6 +74,6 @@ BaseWebPage.prototype.startScenariooFirstTimeVisit = function () {
  */
 BaseWebPage.prototype.startScenariooRevisited = function() {
     e2eUtils.initLocalStorage();
-}
+};
 
 module.exports = BaseWebPage;
