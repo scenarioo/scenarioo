@@ -111,7 +111,9 @@
 
         var box = this.el.bbox();
         if (this.el instanceof SVG.Nested) {
-            box = this.el.rbox();
+            //box = this.el.rbox();
+            box = this.el.tbox();
+
             if (!(box.x && box.y)) {
                 box.x = this.el.x();
                 box.y = this.el.y();
@@ -278,13 +280,23 @@
         }
 
         // When resizing started, we have to register events for...
+        SVG.on(window, 'mousedown.resize', function () {
+            _this.start();
+        });
         SVG.on(window, 'mousemove.resize', function (e) {
             _this.update(e || window.event);
+
         });    // mousemove to keep track of the changes and...
         SVG.on(window, 'mouseup.resize', function () {
             _this.done();
         });        // mouseup to know when resizing stops
 
+    };
+
+    // Is called on mousedown.
+    // Fires an event
+    ResizeHandler.prototype.start = function () {
+        this.el.fire('resizestart');
     };
 
     // The update-function redraws the element every time the mouse is moving
@@ -313,6 +325,7 @@
     // Removes the update-function from the mousemove event
     ResizeHandler.prototype.done = function () {
         this.lastUpdateCall = null;
+        SVG.off(window, 'mousedown.resize');
         SVG.off(window, 'mousemove.resize');
         SVG.off(window, 'mouseup.resize');
         this.el.fire('resizedone');

@@ -23,15 +23,6 @@
     SelectHandler.prototype.init = function (value, options) {
 
         var box = this.getBox();
-        /*var box = this.el.bbox();
-        if(this.el instanceof SVG.Nested) {
-            box = this.el.rbox();
-            if (!(box.x && box.y)) {
-                box.x = this.el.x();
-                box.y = this.el.y();
-            }
-        }*/
-        //console.log('init', box, box.x, box.y);
         this.options = {};
 
         // Merging the defaults and the options-object together
@@ -58,9 +49,11 @@
 
     SelectHandler.prototype.getBox = function() {
         var box = this.el.bbox();
+        //var box = this.el.tbox();
 
         if(this.el instanceof SVG.Nested) {
-            box = this.el.rbox();
+            //box = this.el.rbox();
+            box = this.el.tbox();
 
             if (!(box.x && box.y)) {
                 box.x = this.el.x();
@@ -152,15 +145,6 @@
 
     SelectHandler.prototype.updateRectSelection = function () {
         var box = this.getBox();
-        /*var box = this.el.bbox();
-        if(this.el instanceof SVG.Nested) {
-            box = this.el.rbox();
-            if (!(box.x && box.y)) {
-                box.x = this.el.x();
-                box.y = this.el.y();
-            }
-        }*/
-        //console.log('updateRectSelection', box.x, box.y);
 
         this.rectSelection.set.get(0).attr({
             width: box.width,
@@ -187,16 +171,6 @@
     SelectHandler.prototype.selectRect = function (value) {
 
         var _this = this, box = this.getBox();
-        /*var _this = this, box = this.el.bbox();
-        if(this.el instanceof SVG.Nested) {
-            box = this.el.rbox();
-            if (!(box.x && box.y)) {
-                box.x = this.el.x();
-                box.y = this.el.y();
-                box.width = this.el.width();
-                box.height = this.el.height();
-            }
-        }*/
 
         this.rectSelection.isSelected = value;
 
@@ -251,15 +225,6 @@
     SelectHandler.prototype.handler = function () {
 
         var box = this.getBox();
-        /*var box = this.el.bbox();
-        if(this.el instanceof SVG.Nested) {
-            box = this.el.rbox();
-            if (!(box.x && box.y)) {
-                box.x = this.el.x();
-                box.y = this.el.y();
-            }
-        }*/
-        //console.log('handler', box.x, box.y);
 
         this.nested.size(box.width || 1, box.height || 1).transform(this.el.ctm()).move(box.x, box.y);
 

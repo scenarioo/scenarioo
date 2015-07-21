@@ -20,8 +20,8 @@ angular.module('scenarioo.services').factory('ToolBox', function (SelectTool, Re
 
     return [
         SelectTool,
-        //RectDrawTool,
-        //EllipseDrawTool,
+        RectDrawTool,
+        EllipseDrawTool,
         RectCompositeDrawTool,
         BorderCompositeDrawTool,
         NoteCompositeDrawTool,
