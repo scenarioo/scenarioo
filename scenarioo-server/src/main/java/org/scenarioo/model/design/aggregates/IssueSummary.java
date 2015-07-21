@@ -14,6 +14,10 @@ public class IssueSummary {
 	private String id;
 	private String description;
 	private String author;
+	private String usecaseContextName;
+	private String usecaseContextLink;
+	private String scenarioContextName;
+	private String scenarioContextLink;
 	private int numberOfScenarioSketches;
 	private String firstScenarioSketchId;
 	private Labels labels;
@@ -80,6 +84,38 @@ public class IssueSummary {
 
 	public void setId(final String id) {
 		this.id = id;
+	}
+
+	public String getUsecaseContextName() {
+		return usecaseContextName;
+	}
+
+	public void setUsecaseContextName(final String usecaseContextName) {
+		this.usecaseContextName = usecaseContextName;
+	}
+
+	public String getUsecaseContextLink() {
+		return usecaseContextLink;
+	}
+
+	public void setUsecaseContextLink(final String usecaseContextLink) {
+		this.usecaseContextLink = usecaseContextLink;
+	}
+
+	public String getScenarioContextName() {
+		return scenarioContextName;
+	}
+
+	public void setScenarioContextName(final String scenarioContextName) {
+		this.scenarioContextName = scenarioContextName;
+	}
+
+	public String getScenarioContextLink() {
+		return scenarioContextLink;
+	}
+
+	public void setScenarioContextLink(final String scenarioContextLink) {
+		this.scenarioContextLink = scenarioContextLink;
 	}
 
 }

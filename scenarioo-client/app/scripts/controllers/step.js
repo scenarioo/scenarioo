@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService) {
+angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -348,6 +348,9 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     });
 
     $scope.sketchThis = function () {
+        ContextService.setScenario(useCaseName, scenarioName);
+        ContextService.setUseCase(useCaseName);
+        ContextService.stepLink = $scope.getCurrentUrlForSharing();
         $location.path('/editor/' + encodeURIComponent($scope.getScreenShotUrl()));
     };
 

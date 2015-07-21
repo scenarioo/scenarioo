@@ -41,7 +41,11 @@ public class Issue implements Serializable, Labelable, Detailable {
 	private String issueStatus;
 	private String trackingURL;
 	private String author;
-	private String contextInDocu;
+	private String usecaseContextName;
+	private String usecaseContextLink;
+	private String scenarioContextName;
+	private String scenarioContextLink;
+	private String stepContextLink;
 	private Date dateCreated;
 	private Date dateModified;
 
@@ -68,7 +72,8 @@ public class Issue implements Serializable, Labelable, Detailable {
 		this.issueStatus = update.getIssueStatus() != null ? update.getIssueStatus() : this.issueStatus;
 		this.trackingURL = update.getTrackingURL() != null ? update.getTrackingURL() : this.trackingURL;
 		this.author = update.getAuthor() != null ? update.getAuthor() : this.author;
-		this.contextInDocu = update.getContextInDocu() != null ? update.getContextInDocu() : this.contextInDocu;
+		this.usecaseContextLink = update.getUsecaseContextLink() != null ? update.getUsecaseContextLink()
+				: this.usecaseContextLink;
 		this.dateCreated = update.getDateCreated() != null ? update.getDateCreated() : this.dateCreated;
 		this.dateModified = update.getDateModified() != null ? update.getDateModified() : this.dateModified;
 
@@ -139,12 +144,12 @@ public class Issue implements Serializable, Labelable, Detailable {
 		this.author = author;
 	}
 
-	public String getContextInDocu() {
-		return contextInDocu;
+	public String getUsecaseContextLink() {
+		return usecaseContextLink;
 	}
 
-	public void setContextInDocu(final String contextInDocu) {
-		this.contextInDocu = contextInDocu;
+	public void setUsecaseContextLink(final String usecaseContextLink) {
+		this.usecaseContextLink = usecaseContextLink;
 	}
 
 	public Date getDateCreated() {
@@ -195,12 +200,44 @@ public class Issue implements Serializable, Labelable, Detailable {
 		this.labels = labels;
 	}
 
-	public void setBranchName(final String branchName){
+	public void setBranchName(final String branchName) {
 		this.branchName = branchName;
 	}
 
 	public String getBranchName() {
 		return branchName;
+	}
+
+	public String getScenarioContextLink() {
+		return scenarioContextLink;
+	}
+
+	public void setScenarioContextLink(final String scenarioContextLink) {
+		this.scenarioContextLink = scenarioContextLink;
+	}
+
+	public String getStepContextLink() {
+		return stepContextLink;
+	}
+
+	public void setStepContextLink(final String stepContextLink) {
+		this.stepContextLink = stepContextLink;
+	}
+
+	public String getUsecaseContextName() {
+		return usecaseContextName;
+	}
+
+	public void setUsecaseContextName(final String usecaseContextName) {
+		this.usecaseContextName = usecaseContextName;
+	}
+
+	public String getScenarioContextName() {
+		return scenarioContextName;
+	}
+
+	public void setScenarioContextName(String scenarioContextName) {
+		this.scenarioContextName = scenarioContextName;
 	}
 
 }

@@ -76,6 +76,8 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
 
                 SharePageService.setPageUrl($scope.getCurrentUrlForSharing());
                 SharePageService.setImageUrl($scope.getScreenshotUrlForSharing());
+
+                $scope.metadataTree = transformMetadataToTreeArray(result.step.metadata.details);
             },
             function error(result) {
                 $scope.stepNotFound = true;
