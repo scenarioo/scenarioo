@@ -16,7 +16,7 @@
  */
 
 
-angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, Tool) {
+angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, Tool, DrawingPadService) {
 
     return function () {
 
@@ -31,42 +31,71 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
 
 
         tool.onmousedownTemplate = function (event) {
+            tool.pauseEvent(event);
             tool.mousedown = true;
 
             var mousePoint = tool.getDrawingPad().getOffset(event);
-            tool.originalX = mousePoint.x;
-            tool.originalY = mousePoint.y;
+            tool.originalX = tool.toZoomedPoint(mousePoint.x);
+            tool.originalY = tool.toZoomedPoint(mousePoint.y);
 
-            tool.pauseEvent(event);
+            DrawingPadService.disableZoomPan();
         };
 
         tool.onmouseupTemplate = function (event) {
+            tool.pauseEvent(event);
             tool.mousedown = false;
             tool.originalX = 0;
             tool.originalY = 0;
 
             if (tool.shape != null) {
+                tool.shape.addClass('shape');
                 tool.shape.on('mouseup.shape', function () {
                     $rootScope.$broadcast(tool.SHAPE_SELECTED_EVENT, this);
                 }, false);
+
+
+                /*tool.shape.on('dragstart', function () {
+                    DrawingPadService.disableZoomPan();
+                });*/
+
+                tool.shape.on('dragend', function () {
+                    //DrawingPadService.enableZoomPan();
+                    DrawingPadService.updateZoomPan();
+                });
+
+                /*tool.shape.on('resizestart', function () {
+                    DrawingPadService.disableZoomPan();
+                });
+                tool.shape.on('resizedone', function () {
+                    DrawingPadService.enableZoomPan();
+                    DrawingPadService.updateZoomPan();
+                });*/
+
+                 tool.shape.on('selected', function () {
+                    DrawingPadService.disableZoomPan();
+                });
+                tool.shape.on('unselected', function () {
+                    DrawingPadService.enableZoomPan();
+                    DrawingPadService.updateZoomPan();
+                });
             }
 
+            DrawingPadService.enableZoomPan();
             $rootScope.$broadcast(tool.DRAWING_ENDED_EVENT, tool.shape);
-            tool.pauseEvent(event);
         };
 
         tool.onmousedragTemplate = function (event) {
+            tool.pauseEvent(event);
+
             var mousePoint = tool.getDrawingPad().getOffset(event);
-            tool.mouseX = mousePoint.x;
-            tool.mouseY = mousePoint.y;
+            tool.mouseX = tool.toZoomedPoint(mousePoint.x);
+            tool.mouseY = tool.toZoomedPoint(mousePoint.y);
 
             tool.anchorX = Math.min(tool.originalX, tool.mouseX);
             tool.anchorY = Math.min(tool.originalY, tool.mouseY);
 
             tool.cornerX = Math.max(tool.originalX, tool.mouseX);
             tool.cornerY = Math.max(tool.originalY, tool.mouseY);
-
-            tool.pauseEvent(event);
         };
 
         tool.pauseEvent = function (event) {
@@ -79,6 +108,10 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
             event.cancelBubble = true;
             event.returnValue = false;
             return false;
+        };
+
+        tool.toZoomedPoint = function (n) {
+            return n / DrawingPadService.getZoomFactor();
         };
 
         return tool;

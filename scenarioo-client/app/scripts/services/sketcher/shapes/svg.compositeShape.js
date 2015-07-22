@@ -1,7 +1,8 @@
 /* global SVG:false */
 /* eslint no-extra-semi:0*/
 
-;(function () {
+;
+(function () {
     SVG.CompositeShape = function (width, height, x, y, options) {
         var i, settings;
 
@@ -50,9 +51,9 @@
                 , weight: '300'
             });
 
-        this.on('dblclick', function () {
-            this.edit();
-        });
+        /*this.on('dblclick', function () {
+         this.edit();
+         });*/
 
         this.registerAttrChangeEvent();
     };
@@ -90,7 +91,10 @@
             this.textNode.text(text);
         },
 
-        edit: function () {
+        edit: function (zoomFactor, offset) {
+            zoomFactor = zoomFactor || 1;
+            offset = offset || {x: 0, y: 0};
+
             var self = this,
                 shapeEditNodeId = self.id() + '-edit',
                 workspaceNode = $(self.node).closest('div');
@@ -100,16 +104,24 @@
 
             $(workspaceNode).prepend('<div id="' + shapeEditNodeId + '" class="shapeTextWrapper"><textarea class="shapeText"></textarea></div>');
 
-            $('#' + shapeEditNodeId).width(self.width())
-                .height(self.height())
-                .css('left', self.x())
-                .css('top', self.y());
+            $('#' + shapeEditNodeId).width(self.width() * zoomFactor)
+                .height(self.height() * zoomFactor)
+                .css('left', self.x() * zoomFactor + offset.x)
+                .css('top', self.y() * zoomFactor + offset.y);
+
 
             $('#' + shapeEditNodeId + ' textarea').on('blur', function () {
                 self.setText($(this).val());
                 self.showText();
                 $(this).parent().remove();
             }).focus().val(self.getText());
+        },
+
+        view: function () {
+            var shapeEditNodeId = this.id() + '-edit';
+            this.setText($('#' + shapeEditNodeId + ' textarea').val());
+            this.showText();
+            $('#' + shapeEditNodeId).remove();
         },
 
         createNotePolygon: function () {

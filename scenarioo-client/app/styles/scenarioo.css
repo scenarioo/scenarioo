@@ -441,6 +441,18 @@ label {
 }
 #sc-sketcher-workspace #drawingPad {
   position: relative;
+  /*display: inline;*/
+  width: inherit;
+  height: inherit;
+  min-width: inherit;
+  min-height: inherit;
+  max-width: inherit;
+  max-height: inherit;
+  overflow: hidden;
+}
+#sc-sketcher-workspace #drawingPad > svg {
+  max-width: inherit;
+  max-height: inherit;
 }
 #sc-sketcher-workspace .shapeTextWrapper {
   position: absolute;
