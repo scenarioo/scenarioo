@@ -28,6 +28,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <pre ng-bind="formattedHtml">
                 </pre>
             </tab>
+            <tab heading="Context in Documentation">
+                <ul>
+                    <li id="usecase-context">
+                        Related Usecase: <a ng-href="{{sketchStep.usecaseContextLink}}">{{sketchStep.usecaseContextName}}</a>
+                    </li>
+                    <li id="scenario-context">
+                        Related Scenario: <a ng-href="{{sketchStep.scenarioContextLink}}">{{sketchStep.scenarioContextName}}</a>
+                    </li>
+                </ul>
+            </tab>
         </tabset>
     </div>
 
@@ -36,7 +46,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <sc-collapsable-panel title="Sketch Step" key="stepView-step" initially-expanded="false">
             <sc-tree data='stepInformationTree'></sc-tree>
         </sc-collapsable-panel>
-
         <!-- labels -->
         <sc-collapsable-panel title="Labels" key="stepView-labels" initially-expanded="false" ng-show="hasAnyLabels()">
             <div class="sc-tree">
@@ -60,7 +69,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </ul>
             </div>
         </sc-collapsable-panel>
-        <!-- meta info -->
-        <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
+
     </div>
 </sc-meta-data-panel>

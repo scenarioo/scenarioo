@@ -37,7 +37,11 @@ public class SketchStep implements Serializable {
 	private int nextSketchStepRef; // (index) todo
 	private SketchStepDescription sketchStepDescription;
 	private SketchStepHtml html;
-	private SketchStepMetadata metadata = new SketchStepMetadata();
+	private String usecaseContextName;
+	private String usecaseContextLink;
+	private String scenarioContextName;
+	private String scenarioContextLink;
+	private String stepContextLink;
 	private String contextInDocu; // todo
 	private String dateCreated; // todo
 	private String dateModified; // todo
@@ -141,18 +145,6 @@ public class SketchStep implements Serializable {
 		this.html = html;
 	}
 
-	public SketchStepMetadata getMetadata() {
-		return metadata;
-	}
-
-	/**
-	 * (optional) Additional metadata that will only be displayed on the sketchStep details page. Especially put huge
-	 * additional detail data about a sketchStep into this object.
-	 */
-	public void setMetadata(final SketchStepMetadata metadata) {
-		this.metadata = metadata;
-	}
-
 	public int getSketchStepName() {
 		return sketchStepName;
 	}
@@ -191,6 +183,46 @@ public class SketchStep implements Serializable {
 
 	public void setScenarioSketchId(final String scenarioSketchId) {
 		this.scenarioSketchId = scenarioSketchId;
+	}
+
+	public String getUsecaseContextName() {
+		return usecaseContextName;
+	}
+
+	public void setUsecaseContextName(final String usecaseContextName) {
+		this.usecaseContextName = usecaseContextName;
+	}
+
+	public String getUsecaseContextLink() {
+		return usecaseContextLink;
+	}
+
+	public void setUsecaseContextLink(final String usecaseContextLink) {
+		this.usecaseContextLink = usecaseContextLink;
+	}
+
+	public String getScenarioContextName() {
+		return scenarioContextName;
+	}
+
+	public void setScenarioContextName(final String scenarioContextName) {
+		this.scenarioContextName = scenarioContextName;
+	}
+
+	public String getScenarioContextLink() {
+		return scenarioContextLink;
+	}
+
+	public void setScenarioContextLink(final String scenarioContextLink) {
+		this.scenarioContextLink = scenarioContextLink;
+	}
+
+	public String getStepContextLink() {
+		return stepContextLink;
+	}
+
+	public void setStepContextLink(final String stepContextLink) {
+		this.stepContextLink = stepContextLink;
 	}
 
 }

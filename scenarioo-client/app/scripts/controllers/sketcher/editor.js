@@ -114,6 +114,10 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             sketchStepName: 1,
             sketch: exportedSVG,
             issueId: args.issueId,
+            usecaseContextName: ContextService.usecaseName,
+            usecaseContextLink: ContextService.usecaseLink,
+            scenarioContextName: ContextService.scenarioName,
+            scenarioContextLink: ContextService.scenarioLink,
             contextInDocu: decodeURIComponent($routeParams.screenshotURL)
         }, {});
 
