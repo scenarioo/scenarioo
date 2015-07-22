@@ -14,6 +14,7 @@
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+/* global SVG:false */
 /* eslint no-console:0*/
 
 
@@ -68,7 +69,6 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
                 $rootScope.$broadcast('IssueSaved', {issueId: savedIssue.issueId});
             });
         }
-        console.log(issue);
     };
 
     $rootScope.$on('IssueSaved', function (event, args) {
@@ -134,8 +134,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
                 $scope.sketchStepId = args.sketchStepId;
             });
         }
-
-        console.log(exportedSVG);
+        //console.log(exportedSVG);
     });
 
     $rootScope.$on('drawingEnded', function (scope, shape) {
@@ -174,10 +173,21 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     };
 
 
-    $scope.init = function() {
+    $scope.init = function () {
+        //DrawingPadService.init();
+        var drawingPad = SVG('drawingPad').spof();
+        DrawingPadService.setDrawingPad(drawingPad);
+
         $scope.tools = ToolBox;
         $scope.activateTool($scope.tools[0]);
     };
     $scope.init();
+
+
+    $scope.$on('$destroy', function () {
+        console.log(DrawingPadService.getDrawingPad());
+        DrawingPadService.destroy();
+        console.log('destroyed');
+    });
 
 });
