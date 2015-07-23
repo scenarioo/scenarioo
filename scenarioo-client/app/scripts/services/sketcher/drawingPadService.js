@@ -60,23 +60,11 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
              * in order to get svgPanZoom to work we need a group
              * with all the elements that should be zoomed and panned
              */
-            console.log(drawingPad);
             drawingPad.group = drawingPad.group().attr({
                 class: 'svg-pan-zoom_viewport'
             });
 
             drawingPad.group.add(drawingPad.viewPortGroup);
-
-
-            drawingPad.viewPortGroup.getOffset = function (event) {
-                var offset = $(drawingPad.viewPortGroup.node).offset();
-                var point = {x: 0, y: 0};
-
-                point.x = Math.max(event.pageX - offset.left, 0);
-                point.y = Math.max(event.pageY - offset.top, 0);
-
-                return point;
-            };
 
             drawingPad.viewPortGroup.image('')
                 .attr({
@@ -87,6 +75,16 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
                 })
                 .ondragstart = function () {
                 return false;
+            };
+
+            drawingPad.viewPortGroup.getOffset = function (event) {
+                var offset = $(drawingPad.viewPortGroup.node).offset();
+                var point = {x: 0, y: 0};
+
+                point.x = Math.max(event.pageX - offset.left, 0);
+                point.y = Math.max(event.pageY - offset.top, 0);
+
+                return point;
             };
 
             loadBackgroundImage();
@@ -127,20 +125,21 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
     function loadBackgroundImage() {
         var bgImg = SVG.get(backgroundImageId);
 
-        if (bgImg !== undefined && $routeParams.screenshotURL && ContextService.sketchStepIndex == null) {
-            convertImgToBase64URL(decodeURIComponent($routeParams.screenshotURL), function (base64Img) {
-                bgImg.load(base64Img).loaded(function (loader) {
-                    bgImg.attr({
-                        width: loader.width,
-                        height: loader.height
-                    });
+        if (bgImg && $routeParams.screenshotURL && ContextService.sketchStepIndex == null) {
 
-                    resetZoomPan();
+                convertImgToBase64URL(decodeURIComponent($routeParams.screenshotURL), function (base64Img) {
+                    bgImg.load(base64Img).loaded(function (loader) {
+                        bgImg.attr({
+                            width: loader.width,
+                            height: loader.height
+                        });
+
+                        resetZoomPan();
+                    });
                 });
-            });
 
         }
-        else if (bgImg !== undefined && $routeParams.screenshotURL && ContextService.sketchStepIndex !== null) {
+        else if (bgImg && $routeParams.screenshotURL && ContextService.sketchStepIndex !== null) {
             $http.get(decodeURIComponent($routeParams.screenshotURL), {headers: {accept: 'image/svg+xml'}}).
                 success(function (data) {
                     // This should strip out the redundant parts: <svg> tags, <defs>, the viewport group...
@@ -148,7 +147,17 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
                     // Preserved in case truncation will be important.
                     //var truncated = data.substring(data.search('<image '), data.search('</g>'));
                     //drawingPad.svg(truncated);
-                    drawingPad.svg(data);
+                    var dp = bgImg.doc(SVG.Doc);
+                    var tempContainer = dp.nested();
+                    tempContainer.svg(data);
+                    var tempSVG = tempContainer.first();
+                    tempSVG.each(function() {
+                        drawingPad.viewPortGroup.add(this);
+                    });
+                    tempContainer.remove();
+                    bgImg.remove();
+
+                    resetZoomPan();
                 }).
                 error(function (data, status, headers) {
                     console.log(data);
