@@ -39,12 +39,12 @@ angular.module('scenarioo.services').service('ContextService', function (Hostnam
 
     function setUseCase(originalUsecaseName){
         this.usecaseName = prettifyName(originalUsecaseName);
-        this.usecaseLink = createLink(originalUsecaseName);
+        this.usecaseLink = originalUsecaseName;
     }
 
-    function setScenario(originalUsecaseName, originalScenarioName){
+    function setScenario(originalScenarioName){
         this.scenarioName = prettifyName(originalScenarioName);
-        this.scenarioLink = createLink(originalUsecaseName, originalScenarioName);
+        this.scenarioLink = originalScenarioName;
     }
 
     return {
@@ -69,21 +69,6 @@ angular.module('scenarioo.services').service('ContextService', function (Hostnam
         var wordsInName = name.split('_');
         wordsInName[0] = wordsInName[0].charAt(0).toUpperCase() + wordsInName[0].slice(1);
         return wordsInName.join(' ');
-    }
-
-    //Name has been called ID here to avoid naming conflicts in this file
-    function createLink(usecaseId, scenarioId) {
-        if (!scenarioId){
-            return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY] +
-                '/build/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BUILD_KEY] +
-                '/usecase/' + usecaseId;
-        }
-        else {
-            return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY] +
-                '/build/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BUILD_KEY] +
-                '/usecase/' + usecaseId +
-                '/scenario/' + scenarioId;
-        }
     }
 
 });

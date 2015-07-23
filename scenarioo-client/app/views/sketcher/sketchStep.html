@@ -30,11 +30,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tab>
             <tab heading="Context in Documentation">
                 <ul>
-                    <li id="usecase-context">
-                        Related Usecase: <a ng-href="{{sketchStep.usecaseContextLink}}">{{sketchStep.usecaseContextName}}</a>
+                    <li id="usecase-context" ng-click="goToUsecase()">
+                        <a>Related Usecase: {{sketchStep.usecaseContextName}}</a>
                     </li>
-                    <li id="scenario-context">
-                        Related Scenario: <a ng-href="{{sketchStep.scenarioContextLink}}">{{sketchStep.scenarioContextName}}</a>
+                    <li id="scenario-context" ng-click="goToScenario()">
+                        <a>Related Scenario: {{sketchStep.scenarioContextName}}</a>
                     </li>
                 </ul>
             </tab>
