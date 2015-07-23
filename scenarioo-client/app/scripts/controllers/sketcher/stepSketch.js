@@ -336,4 +336,12 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
         $location.path('/editor/' + encodeURIComponent($scope.getScreenShotUrl()));
     };
 
+    $scope.goToUsecase = function(){
+        $location.path('/usecase/' + $scope.sketchStep.usecaseContextLink);
+    };
+
+    $scope.goToScenario = function(){
+        $location.path('/scenario/' + $scope.sketchStep.usecaseContextLink + '/' + $scope.sketchStep.scenarioContextLink);
+    };
+
 });

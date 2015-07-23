@@ -348,7 +348,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     });
 
     $scope.sketchThis = function () {
-        ContextService.setScenario(useCaseName, scenarioName);
+        ContextService.setScenario(scenarioName);
         ContextService.setUseCase(useCaseName);
         ContextService.stepLink = $scope.getCurrentUrlForSharing();
         $location.path('/editor/' + encodeURIComponent($scope.getScreenShotUrl()));
