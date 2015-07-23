@@ -19,7 +19,7 @@
 
 
 angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $timeout, $routeParams, $route,
-                                                                           GlobalHotkeysService, SelectedBranchAndBuild, ToolBox,
+                                                                           GlobalHotkeysService, SelectedBranchAndBuild, ToolBox, DrawShapeService,
                                                                            DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue,
                                                                            ScenarioSketchResource, ScenarioSketch, ContextService) {
 
@@ -149,7 +149,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         DrawingPadService.setSelectedShape(shape);
     });
 
-    $rootScope.$on('shapeSelected', function (scope, shape) {
+    $rootScope.$on(DrawShapeService.SHAPE_SELECTED_EVENT, function (scope, shape) {
         DrawingPadService.unSelectAllShapes();
         shape.selectToggle();
         DrawingPadService.setSelectedShape(shape);

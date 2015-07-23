@@ -16,14 +16,12 @@
  */
 
 
-angular.module('scenarioo.services').factory('CompositeDrawTool', function (DrawTool, DrawingPadService) {
+angular.module('scenarioo.services').factory('CompositeDrawTool', function (DrawTool, ZoomPanService) {
 
     return function () {
 
         var tool = DrawTool();
 
-
-        tool.startInEditMode = false;
 
         tool.onmousedown = function (event) {
             tool.onmousedownTemplate(event);
@@ -37,13 +35,9 @@ angular.module('scenarioo.services').factory('CompositeDrawTool', function (Draw
 
         tool.onmouseup = function (event) {
             tool.onmouseupTemplate(event);
-            if (tool.startInEditMode) {
 
-                tool.shape.edit(DrawingPadService.getZoomFactor(), DrawingPadService.getPanPosition());
-
-                tool.shape.on('dblclick', function () {
-                    this.edit(DrawingPadService.getZoomFactor(), DrawingPadService.getPanPosition());
-                });
+            if (tool.getShapeStartMode() === 'EDIT') {
+                tool.shape.edit(ZoomPanService.getZoomFactor(), ZoomPanService.getPanPosition());
             }
         };
 
@@ -59,6 +53,10 @@ angular.module('scenarioo.services').factory('CompositeDrawTool', function (Draw
                 x: tool.anchorX,
                 y: tool.anchorY
             });
+        };
+
+        tool.isShapeEditable = function () {
+            return 'true';
         };
 
         return tool;
