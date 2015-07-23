@@ -139,7 +139,7 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
                         } else {
                             newShape = this;
                         }
-                        console.log(newShape);
+                       // console.log(newShape);
                         drawingPad.viewPortGroup.add(newShape);
                     });
                     tempContainer.remove();

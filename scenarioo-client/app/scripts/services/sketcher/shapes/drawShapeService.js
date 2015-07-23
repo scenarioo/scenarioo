@@ -50,8 +50,6 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
                 shape.on('dblclick', function () {
                     this.edit(ZoomPanService.getZoomFactor(), ZoomPanService.getPanPosition());
                 });
-
-                //shape.registerAttrChangeEvent();
             }
         },
 
@@ -60,8 +58,6 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
             var typeClass = classes.split(' ').filter(function(value) {
                 return value.indexOf('-shape') > -1;
             });
-
-            //console.log(shape.width(), shape.height(), shape.x(), shape.y());
 
             var newShape;
 
@@ -83,11 +79,11 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
                     break;
             }
 
-            console.log(newShape.width(), newShape.height(), newShape.x(), newShape.y());
-
-            //newShape.update();
-
-            //newShape.setText(shape.get)
+            shape.each(function() {
+                if(this instanceof SVG.Text) {
+                    newShape.setText(this.node.textContent);
+                }
+            });
 
             return newShape;
 
