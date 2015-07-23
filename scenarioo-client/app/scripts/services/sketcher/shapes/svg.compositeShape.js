@@ -28,13 +28,19 @@
 
         this.constructor.call(this, SVG.create('svg'));
 
-        this.attr.width = width;
+        /*this.attr.width = width;
         this.attr.height = height;
         this.attr.x = x;
-        this.attr.y = y;
+        this.attr.y = y;*/
         this.addClass(settings.class);
 
+        this.width(width);
+        this.height(height);
+        this.move(x,y);
+
         console.log(width, height, x, y);
+
+        console.log(this.attr.width, this.attr.height, this.attr.x, this.attr.y);
 
         this.rect = this.rect(width, height, 0, 0);
         this.rect.fill({color: settings.fill, opacity: settings.opacity})
@@ -56,7 +62,7 @@
                 , weight: '300'
             });
 
-        //this.registerAttrChangeEvent();
+        this.registerAttrChangeEvent();
     };
 
     SVG.CompositeShape.prototype = new SVG.Nested();

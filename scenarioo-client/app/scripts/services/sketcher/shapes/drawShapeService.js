@@ -51,7 +51,7 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
                     this.edit(ZoomPanService.getZoomFactor(), ZoomPanService.getPanPosition());
                 });
 
-                shape.registerAttrChangeEvent();
+                //shape.registerAttrChangeEvent();
             }
         },
 
@@ -61,7 +61,7 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
                 return value.indexOf('-shape') > -1;
             });
 
-            console.log(shape.width(), shape.height(), shape.x(), shape.y());
+            //console.log(shape.width(), shape.height(), shape.x(), shape.y());
 
             var newShape;
 
@@ -83,7 +83,9 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
                     break;
             }
 
-            newShape.update();
+            console.log(newShape.width(), newShape.height(), newShape.x(), newShape.y());
+
+            //newShape.update();
 
             //newShape.setText(shape.get)
 
