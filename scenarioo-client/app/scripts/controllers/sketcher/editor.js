@@ -138,7 +138,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
                 $scope.sketchStepId = args.sketchStepId;
             });
         }
-        //console.log(exportedSVG);
+        console.log(exportedSVG);
     });
 
     $rootScope.$on('drawingEnded', function (scope, shape) {
