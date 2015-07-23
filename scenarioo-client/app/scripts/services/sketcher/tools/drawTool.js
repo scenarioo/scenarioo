@@ -16,7 +16,7 @@
  */
 
 
-angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, Tool, DrawingPadService) {
+angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, Tool, DrawShapeService, ZoomPanService) {
 
     return function () {
 
@@ -38,7 +38,7 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
             tool.originalX = tool.toZoomedPoint(mousePoint.x);
             tool.originalY = tool.toZoomedPoint(mousePoint.y);
 
-            DrawingPadService.disableZoomPan();
+            ZoomPanService.disableZoomPan();
         };
 
         tool.onmouseupTemplate = function (event) {
@@ -47,40 +47,9 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
             tool.originalX = 0;
             tool.originalY = 0;
 
-            if (tool.shape != null) {
-                tool.shape.addClass('shape');
-                tool.shape.on('mouseup.shape', function () {
-                    $rootScope.$broadcast(tool.SHAPE_SELECTED_EVENT, this);
-                }, false);
+            DrawShapeService.registerShapeEvents(tool.shape, tool.isShapeEditable());
 
-
-                /*tool.shape.on('dragstart', function () {
-                    DrawingPadService.disableZoomPan();
-                });*/
-
-                tool.shape.on('dragend', function () {
-                    //DrawingPadService.enableZoomPan();
-                    DrawingPadService.updateZoomPan();
-                });
-
-                /*tool.shape.on('resizestart', function () {
-                    DrawingPadService.disableZoomPan();
-                });
-                tool.shape.on('resizedone', function () {
-                    DrawingPadService.enableZoomPan();
-                    DrawingPadService.updateZoomPan();
-                });*/
-
-                 tool.shape.on('selected', function () {
-                    DrawingPadService.disableZoomPan();
-                });
-                tool.shape.on('unselected', function () {
-                    DrawingPadService.enableZoomPan();
-                    DrawingPadService.updateZoomPan();
-                });
-            }
-
-            DrawingPadService.enableZoomPan();
+            ZoomPanService.enableZoomPan();
             $rootScope.$broadcast(tool.DRAWING_ENDED_EVENT, tool.shape);
         };
 
@@ -111,7 +80,15 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
         };
 
         tool.toZoomedPoint = function (n) {
-            return n / DrawingPadService.getZoomFactor();
+            return n / ZoomPanService.getZoomFactor();
+        };
+
+        tool.getShapeStartMode = function () {
+            return 'VIEW';
+        };
+
+        tool.isShapeEditable = function () {
+            return 'false';
         };
 
         return tool;

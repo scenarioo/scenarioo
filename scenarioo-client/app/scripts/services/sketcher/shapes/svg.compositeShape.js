@@ -18,6 +18,8 @@
             , padding: 10
             , halign: 'left'
             , valign: 'top'
+            , startMode: 'VIEW'
+            , class: 'composite-shape'
         };
 
         options = options || {};
@@ -30,6 +32,9 @@
         this.attr.height = height;
         this.attr.x = x;
         this.attr.y = y;
+        this.addClass(settings.class);
+
+        console.log(width, height, x, y);
 
         this.rect = this.rect(width, height, 0, 0);
         this.rect.fill({color: settings.fill, opacity: settings.opacity})
@@ -51,11 +56,7 @@
                 , weight: '300'
             });
 
-        /*this.on('dblclick', function () {
-         this.edit();
-         });*/
-
-        this.registerAttrChangeEvent();
+        //this.registerAttrChangeEvent();
     };
 
     SVG.CompositeShape.prototype = new SVG.Nested();
@@ -188,13 +189,16 @@
     // Extend SVG container
     SVG.extend(SVG.Container, {
         rectShape: function (width, height, x, y) {
-            return this.put(new SVG.CompositeShape(width, height, x, y));
+            return this.put(new SVG.CompositeShape(width, height, x, y, {
+                class: 'rect-shape'
+            }));
         },
         borderShape: function (width, height, x, y) {
             return this.put(new SVG.CompositeShape(width, height, x, y, {
                 opacity: 0
                 , stroke: '#e74c3c'
                 , strokeWidth: '5'
+                , class: 'border-shape'
             }));
         },
         noteShape: function (width, height, x, y) {
@@ -202,6 +206,8 @@
                 opacity: 0
                 , strokeWidth: '0'
                 , isNote: true
+                , startMode: 'EDIT'
+                , class: 'note-shape'
             }));
         },
         textShape: function (width, height, x, y) {
@@ -209,6 +215,8 @@
                 opacity: 0
                 , fill: '#fff'
                 , strokeWidth: '0'
+                , startMode: 'EDIT'
+                , class: 'text-shape'
             }));
         },
         buttonShape: function (width, height, x, y) {
@@ -218,6 +226,7 @@
                 , halign: 'center'
                 , valign: 'middle'
                 , text: 'abc'
+                , class: 'button-shape'
             }));
         }
 

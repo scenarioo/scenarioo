@@ -24,10 +24,13 @@ angular.module('scenarioo.controllers').factory('NoteCompositeDrawTool', functio
     tool.name = 'Note Tool';
     //this.icon = null;
     tool.tooltip = 'This tool is used to add notes to the sketch.';
-    tool.startInEditMode = true;
 
     tool.getShape = function () {
         return tool.getDrawingPad().noteShape(0, 0, 0, 0);
+    };
+
+    tool.getShapeStartMode = function () {
+        return 'EDIT';
     };
 
 

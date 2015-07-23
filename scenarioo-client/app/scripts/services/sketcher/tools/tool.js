@@ -30,7 +30,7 @@ angular.module('scenarioo.services').factory('Tool', function (DrawingPadService
             buttonDisabled: false,
 
             DRAWING_ENDED_EVENT: 'drawingEnded',
-            SHAPE_SELECTED_EVENT: 'shapeSelected',
+            //SHAPE_SELECTED_EVENT: 'shapeSelected',
 
 
             getDrawingPad: function () {

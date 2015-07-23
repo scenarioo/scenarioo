@@ -18,7 +18,7 @@
 /* global svgPanZoom:false */
 /* eslint no-console:0*/
 
-angular.module('scenarioo.services').service('DrawingPadService', function ($rootScope, $routeParams, $http, ContextService) {
+angular.module('scenarioo.services').service('DrawingPadService', function ($rootScope, $routeParams, $http, ContextService, DrawShapeService, ZoomPanService) {
 
     var drawingPadNodeId = 'drawingPad',
         viewPortGroupId = 'viewPortGroup',
@@ -26,8 +26,6 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
         drawingPad,
         selectedShape,
         isSetup = false,
-        panZoom,
-        zoomFactor = 1,
         DRAWINGPAD_CLICKED_EVENT = 'drawingPadClicked';
 
 
@@ -95,35 +93,16 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
                 }
             });
 
-            initZoomPan();
+            ZoomPanService.initZoomPan(drawingPad.id());
 
             isSetup = true;
         }
     }
 
-    function initZoomPan() {
-
-        panZoom = svgPanZoom('#' + drawingPad.id(), {
-            controlIconsEnabled: true
-        });
-        panZoom.disableDblClickZoom();
-        panZoom.setOnZoom(function () {
-            zoomFactor = this.getZoom();
-        });
-        resetZoomPan();
-    }
-
-    function resetZoomPan() {
-        panZoom.updateBBox();
-        panZoom.resize();
-        panZoom.fit();
-        panZoom.center();
-        panZoom.pan({x: panZoom.getPan().x, y: 0});
-        panZoom.enableControlIcons();
-    }
-
     function loadBackgroundImage() {
         var bgImg = SVG.get(backgroundImageId);
+
+        console.log(ContextService);
 
         if (bgImg && $routeParams.screenshotURL && ContextService.sketchStepIndex == null) {
 
@@ -134,7 +113,7 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
                             height: loader.height
                         });
 
-                        resetZoomPan();
+                        ZoomPanService.resetZoomPan();
                     });
                 });
 
@@ -152,12 +131,21 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
                     tempContainer.svg(data);
                     var tempSVG = tempContainer.first();
                     tempSVG.each(function() {
-                        drawingPad.viewPortGroup.add(this);
+                        var newShape;
+
+                        if(this.hasClass('shape')) {
+                            newShape = DrawShapeService.createNewShapeByClassName(drawingPad.viewPortGroup, this);
+                            DrawShapeService.registerShapeEvents(newShape, newShape instanceof SVG.Nested);
+                        } else {
+                            newShape = this;
+                        }
+                        console.log(newShape);
+                        drawingPad.viewPortGroup.add(newShape);
                     });
                     tempContainer.remove();
                     bgImg.remove();
 
-                    resetZoomPan();
+                    ZoomPanService.resetZoomPan();
                 }).
                 error(function (data, status, headers) {
                     console.log(data);
@@ -295,36 +283,6 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
             if (selectedShape && drawingPad.viewPortGroup.get(indexLast - 1) !== selectedShape) {
                 selectedShape.forward();
             }
-        },
-
-        getZoomFactor: function () {
-            return zoomFactor;
-        },
-
-        enableZoomPan: function () {
-            panZoom.enablePan();
-            panZoom.enableZoom();
-        },
-
-        disableZoomPan: function () {
-            panZoom.disablePan();
-            panZoom.disableZoom();
-        },
-
-        updateZoomPan: function () {
-            //panZoom.updateBBox();
-            var z = panZoom.getZoom();
-            var p = panZoom.getPan();
-
-            p.x = p.x - 0.000001;
-            p.y = p.y - 0.000001;
-
-            panZoom.zoom(z - 0.000001);
-            panZoom.pan(p);
-        },
-
-        getPanPosition: function () {
-            return panZoom.getPan();
         },
 
         destroy: function () {
