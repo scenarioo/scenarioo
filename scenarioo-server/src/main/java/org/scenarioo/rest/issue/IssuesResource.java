@@ -34,6 +34,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.log4j.Logger;
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.design.aggregates.IssueAggregationDAO;
 import org.scenarioo.dao.design.entities.DesignFiles;
 import org.scenarioo.model.design.aggregates.IssueScenarioSketches;
@@ -166,6 +167,44 @@ public class IssuesResource {
 		files.updateIssue(branchName, existingIssue);
 
 		return Response.ok(existingIssue, MediaType.APPLICATION_JSON).build();
+	}
+
+	@GET
+	@Produces("application/json")
+	@Path("/related/{usecaseName}")
+	public List<IssueSummary> relatedIssues(@PathParam("branchName") final String branchName,
+			@PathParam("usecaseName") final String usecaseName) {
+		LOGGER.info("Returning issues related to " + usecaseName);
+		final List<Issue> issues = reader.loadIssues(branchName);
+		final List<IssueSummary> result = new ArrayList<IssueSummary>();
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+				branchName, "last successful");
+		LOGGER.info(buildIdentifier);
+		for (final Issue i : issues) {
+			if (i.getUsecaseContextName() != null && i.getUsecaseContextName().equals(usecaseName)) {
+				final List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, i.getIssueId());
+				final IssueSummary summary = new IssueSummary();
+				summary.setName(i.getName());
+				summary.setId(i.getIssueId());
+				summary.setDescription(i.getDescription());
+				summary.setAuthor(i.getAuthor());
+				summary.setUsecaseContextName(i.getUsecaseContextName());
+				summary.setUsecaseContextLink(i.getUsecaseContextLink());
+				summary.setScenarioContextName(i.getScenarioContextName());
+				summary.setScenarioContextLink(i.getScenarioContextLink());
+				summary.setStatus(i.getIssueStatus());
+				summary.setNumberOfScenarioSketches(scenarioSketches.size());
+				summary.setLabels(i.getLabels());
+
+				if (scenarioSketches.size() > 0) {
+					final ScenarioSketch firstScenarioSketch = scenarioSketches.get(0);
+					summary.setFirstScenarioSketchId(firstScenarioSketch.getScenarioSketchId());
+				}
+				result.add(summary);
+			}
+		}
+
+		return result;
 	}
 
 	/*

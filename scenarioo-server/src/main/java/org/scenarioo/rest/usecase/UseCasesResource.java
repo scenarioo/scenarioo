@@ -38,14 +38,14 @@ import org.scenarioo.rest.base.BuildIdentifier;
 
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/")
 public class UseCasesResource {
-	
+
 	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
-	
+
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
-	
+
 	AggregatedDataReader dao = new ScenarioDocuAggregationDAO(configurationRepository.getDocumentationDataDirectory());
-	
+
 	/**
 	 * Lightweight call, which does not send all scenario information.
 	 */
@@ -54,23 +54,24 @@ public class UseCasesResource {
 	public List<UseCaseSummary> loadUseCaseSummaries(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName) {
 		LOGGER.info("REQUEST: loadUseCaseSummaryList(" + branchName + ", " + buildName + ")");
-		List<UseCaseSummary> result = new LinkedList<UseCaseSummary>();
-		
-		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+		final List<UseCaseSummary> result = new LinkedList<UseCaseSummary>();
+
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+				branchName,
 				buildName);
-		
-		List<UseCaseScenarios> useCaseScenariosList = dao.loadUseCaseScenariosList(buildIdentifier);
-		
-		for (UseCaseScenarios useCaseScenarios : useCaseScenariosList) {
+
+		final List<UseCaseScenarios> useCaseScenariosList = dao.loadUseCaseScenariosList(buildIdentifier);
+
+		for (final UseCaseScenarios useCaseScenarios : useCaseScenariosList) {
 			result.add(mapSummary(useCaseScenarios));
 		}
-		
+
 		return result;
 	}
-	
+
 	private UseCaseSummary mapSummary(final UseCaseScenarios useCaseScenarios) {
-		UseCaseSummary summary = new UseCaseSummary();
-		UseCase useCase = useCaseScenarios.getUseCase();
+		final UseCaseSummary summary = new UseCaseSummary();
+		final UseCase useCase = useCaseScenarios.getUseCase();
 		summary.setName(useCase.getName());
 		summary.setDescription(useCase.getDescription());
 		summary.setStatus(useCase.getStatus());
@@ -78,5 +79,5 @@ public class UseCasesResource {
 		summary.setLabels(useCase.getLabels());
 		return summary;
 	}
-	
+
 }
