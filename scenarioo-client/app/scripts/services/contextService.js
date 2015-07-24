@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').service('ContextService', function (HostnameAndPort, SelectedBranchAndBuild) {
+angular.module('scenarioo.services').service('ContextService', function () {
 
     var issueName, issueId, scenarioSketchName, scenarioSketchId, sketchStepIndex;
     var usecaseLink, scenarioLink, stepLink;

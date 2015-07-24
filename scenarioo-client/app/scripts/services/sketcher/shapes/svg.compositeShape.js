@@ -30,7 +30,7 @@
 
         this.width(width);
         this.height(height);
-        this.move(x,y);
+        this.move(x, y);
         this.addClass(settings.class);
 
         this.rect = this.rect(width, height, 0, 0);
