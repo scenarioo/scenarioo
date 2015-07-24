@@ -18,7 +18,7 @@
 angular.module('scenarioo.controllers').controller('UseCaseCtrl', UseCaseCtrl);
 
 function UseCaseCtrl($filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild,
-                     LabelConfigurationsResource) {
+                     LabelConfigurationsResource, UsecaseIssueResource, $scope) {
 
     var vm = this;
 
@@ -35,6 +35,7 @@ function UseCaseCtrl($filter, $routeParams, $location, ScenarioResource, Config,
     vm.scenarios = [];
     vm.usecaseInformationTree = {};
     vm.metadataTree = {};
+    vm.relatedIssues = {};
     vm.hasAnyLabels = false;
 
     vm.resetSearchField = resetSearchField;
@@ -115,6 +116,17 @@ function UseCaseCtrl($filter, $routeParams, $location, ScenarioResource, Config,
         vm.usecaseInformationTree = createUseCaseInformationTree(vm.useCase);
         vm.metadataTree = $filter('scMetadataTreeListCreator')(vm.useCase.details);
         vm.hasAnyLabels = vm.useCase.labels && vm.useCase.labels.labels.length !== 0;
+        loadRelatedIssues();
+    }
+
+    function loadRelatedIssues(){
+        UsecaseIssueResource.query({
+            branchName: SelectedBranchAndBuild.selected().branch,
+            usecaseName: $routeParams.useCaseName
+        }, function(result){
+            $scope.relatedIssues = result;
+            $scope.goToIssue = goToIssue;
+        });
     }
 
     function createUseCaseInformationTree(usecase) {
@@ -123,4 +135,8 @@ function UseCaseCtrl($filter, $routeParams, $location, ScenarioResource, Config,
         return $filter('scMetadataTreeCreator')(usecaseInformation);
     }
 
+    function goToIssue(issue){
+        var sketchStepId = sketchStepId || 1;
+        $location.path('/sketchstep/' + issue.id + '/' + issue.firstScenarioSketchId + '/' + sketchStepId);
+    }
 }

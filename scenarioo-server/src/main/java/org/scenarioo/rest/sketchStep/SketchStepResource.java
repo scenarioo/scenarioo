@@ -92,6 +92,9 @@ public class SketchStepResource {
 			@PathParam("sketchStepName") final int sketchStepName,
 			@QueryParam("fallback") final boolean addFallbackInfo, @QueryParam("labels") final String labels) {
 
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+				branchName, "last successful");
+		LOGGER.info(buildIdentifier.getBranchName());
 		return reader.loadSketchStep(branchName, issueId, scenarioSketchId, sketchStepName);
 
 		/*

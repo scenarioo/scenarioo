@@ -267,6 +267,17 @@ angular.module('scenarioo.services')
             });
     })
 
+    .factory('UsecaseIssueResource', function(ScenariooResource) {
+        return ScenariooResource('/branch/:branchName/issue/related/:usecaseName',
+            {
+                branchName: '@branchName',
+                usecaseName: '@usecaseName'
+            },
+            {
+                'query': {method: 'GET', isArray: true}
+            });
+    })
+
     .factory('NewIssueResource', function (ScenariooResource) {
         return ScenariooResource('/branch/:branchName/issue/:issueName',
             {
