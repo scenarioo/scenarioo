@@ -118,7 +118,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             usecaseContextLink: ContextService.usecaseLink,
             scenarioContextName: ContextService.scenarioName,
             scenarioContextLink: ContextService.scenarioLink,
-            contextInDocu: decodeURIComponent($routeParams.screenshotURL)
+            contextInDocu: decodeURIComponent($location.search().url)
         }, {});
 
         if ($scope.sketchStepId) {
