@@ -98,11 +98,11 @@ describe('Controller :: useCase', function () {
                     name: 'fakeTestingIssue',
                     firstScenarioSketchId: '1'
                 }
-        }
+        };
 
         return function(params, onSuccess) {
             onSuccess(DATA);
-        }
+        };
     }
 
 });
