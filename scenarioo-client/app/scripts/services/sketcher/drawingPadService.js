@@ -15,7 +15,6 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* global SVG:false */
-/* global svgPanZoom:false */
 /* eslint no-console:0*/
 
 angular.module('scenarioo.services').service('DrawingPadService', function ($rootScope, $routeParams, $http, ContextService, DrawShapeService, ZoomPanService) {
