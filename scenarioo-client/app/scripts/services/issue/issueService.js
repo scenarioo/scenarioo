@@ -25,18 +25,10 @@ angular.module('scenarioo.services').factory('Issue', function ($rootScope, $rou
     function doLoad() {
 
         IssueResource.query(
-            // why does "selected" call not work?
-            //{'branchName': selected.branch},
             {'branchName': $routeParams.branch},
             function onSuccess(result) {
                 issueData = result;
                 $rootScope.$broadcast(ISSUE_LOADED_EVENT);
-
-                //var branch = $scope.branchesAndBuilds.selectedBranch.branch;
-                /*$scope.branchInformationTree = createBranchInformationTree(branch);
-                 $scope.buildInformationTree = createBuildInformationTree(build);
-                 $scope.metadataTreeBranches = transformMetadataToTreeArray(branch.details);
-                 $scope.metadataTreeBuilds = transformMetadataToTreeArray(build.details);*/
             },
             function onError() {
 
@@ -58,23 +50,10 @@ angular.module('scenarioo.services').factory('Issue', function ($rootScope, $rou
             doLoad();
         },
 
-        isLoaded: function () {
-            //return angular.isDefined(configData.defaultBuildName);
-        },
-
         updateIssue: function (issue, successCallback) {
             issue.$save(function (updatedIssue) {
                 if (successCallback) {
                     successCallback(updatedIssue);
-                }
-            });
-        },
-
-        saveIssue: function (newIssue, successCallback) {
-            newIssue.$save(function (savedIssue) {
-                if (successCallback) {
-                    //doLoad();
-                    successCallback(savedIssue);
                 }
             });
         }

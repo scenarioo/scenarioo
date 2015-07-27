@@ -296,12 +296,12 @@ angular.module('scenarioo.services')
     })
 
     .factory('SketchStepResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issue/:issueId/scenariosketch/:scenarioSketchId/sketchstep/:sketchStepId',
+        return ScenariooResource('/branch/:branchName/issue/:issueId/scenariosketch/:scenarioSketchId/sketchstep/:sketchStepName',
             {
                 branchName: '@branchName',
                 issueId: '@issueId',
                 scenarioSketchId: '@scenarioSketchId',
-                sketchStepId: '@sketchStepId'
+                sketchStepName: '@sketchStepName'
             }, {});
     });
 

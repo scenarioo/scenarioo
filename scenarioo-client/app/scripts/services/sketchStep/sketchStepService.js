@@ -30,21 +30,10 @@ angular.module('scenarioo.services').factory('SketchStep', function () {
             return angular.copy(sketchStepData);
         },
 
-        /**
-         * Will fire event 'issuesLoaded'
-         */
-        /*load: function () {
-         doLoad();
-         },*/
-
-        /*isLoaded: function () {
-         //return angular.isDefined(configData.defaultBuildName);
-         },*/
-
         updateSketchStep: function (changedSketchStep, successCallback) {
+
             changedSketchStep.$save(function (updatedSketchStep) {
                 if (successCallback) {
-                    //doLoad();
                     successCallback(updatedSketchStep);
                 }
             });
