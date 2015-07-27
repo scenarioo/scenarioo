@@ -22,16 +22,15 @@ angular.module('scenarioo.services').factory('Issue', function ($rootScope, $rou
 
     var issueData = {};
 
-    function doLoad() {
+    function doLoad(issueId) {
 
         IssueResource.query(
-            {'branchName': $routeParams.branch},
-            function onSuccess(result) {
-                issueData = result;
-                $rootScope.$broadcast(ISSUE_LOADED_EVENT);
+            {
+                'branchName': $routeParams.branch,
+                'issueId': issueId
             },
-            function onError() {
-
+            function onSuccess(result) {
+                $rootScope.$broadcast(ISSUE_LOADED_EVENT, result);
             });
     }
 
@@ -43,11 +42,8 @@ angular.module('scenarioo.services').factory('Issue', function ($rootScope, $rou
             return angular.copy(issueData);
         },
 
-        /**
-         * Will fire event 'issuesLoaded'
-         */
-        load: function () {
-            doLoad();
+        load: function (issueId) {
+            doLoad(issueId);
         },
 
         updateIssue: function (issue, successCallback) {

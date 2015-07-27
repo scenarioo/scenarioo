@@ -23,15 +23,24 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
                                                                            DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue,
                                                                            ScenarioSketchResource, ScenarioSketch, ContextService) {
 
+    function initEditMode() {
 
-    var mode = $location.search().mode;
-    $scope.currentTool = null;
+        $scope.issueId = ContextService.issueId;
+        $scope.scenarioSketchId = ContextService.scenarioSketchId;
+        $scope.sketchStepName = parseInt(ContextService.sketchStepName);
 
-    console.log(mode);
+        if(ContextService.issueId) {
+            Issue.load(ContextService.issueId);
+        }
+    }
 
-    $scope.issueSaved = 0;
-    $scope.scenarioSketchSaved = 0;
-    $scope.sketchStepSaved = 0;
+    $rootScope.$on(Issue.ISSUE_LOADED_EVENT, function (event, result) {
+        var currentIssue = result.issue;
+        $scope.issueName = currentIssue.name;
+        $scope.issueDescription = currentIssue.description;
+        $scope.issueAuthor = currentIssue.author;
+        $scope.sketcherButtonName = 'Update';
+    });
 
 
     $scope.activateTool = function (tool) {
@@ -49,14 +58,9 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
         DrawingPadService.unSelectAllShapes();
 
+        $scope.issueSaved = 0;
+        $scope.scenarioSketchSaved = 0;
         $scope.successfullyUpdatedSketchStep = false;
-
-        if (mode === 'edit') {
-            $scope.issueId = ContextService.issueId;
-            $scope.scenarioSketchId = ContextService.scenarioSketchId;
-            $scope.sketchStepName = parseInt(ContextService.sketchStepName);
-            $scope.sketcherButtonName = 'Update';
-        }
 
         var issue = new IssueResource({
             branchName: $routeParams.branch,
@@ -65,7 +69,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             author: $scope.issueAuthor
         });
 
-        if (mode === 'create') {
+        if ($scope.mode === 'create') {
             issue.usecaseContextName = ContextService.usecaseName;
             issue.usecaseContextLink = ContextService.usecaseLink;
             issue.scenarioContextName = ContextService.scenarioName;
@@ -73,7 +77,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             issue.stepContextLink = ContextService.stepLink;
         }
 
-        if($scope.issueSaved === 0) {
+        if ($scope.issueSaved === 0) {
             $scope.issueSaved++;
 
             if ($scope.issueId && $scope.issueId !== undefined) {
@@ -105,7 +109,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         }, {});
 
 
-        if($scope.issueSaved === 1) {
+        if ($scope.issueSaved === 1) {
             $scope.scenarioSketchSaved++;
 
             if ($scope.scenarioSketchId && $scope.scenarioSketchId !== undefined) {
@@ -141,7 +145,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             scenarioSketchId: args.scenarioSketchId
         }, {});
 
-        if (mode === 'create') {
+        if ($scope.mode === 'create') {
             sketchStep.usecaseContextName = ContextService.usecaseName;
             sketchStep.usecaseContextLink = ContextService.usecaseLink;
             sketchStep.scenarioContextName = ContextService.scenarioName;
@@ -150,7 +154,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         }
 
 
-        if($scope.scenarioSketchSaved === 1) {
+        if ($scope.scenarioSketchSaved === 1) {
 
             if ($scope.sketchStepName && $scope.sketchStepName !== undefined) {
                 sketchStep.sketchStepName = $scope.sketchStepName;
@@ -171,7 +175,6 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
                 });
             }
         }
-        //console.log(exportedSVG);
     });
 
     function sketchSuccessfullyUpdated() {
@@ -222,8 +225,14 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         var drawingPad = SVG('drawingPad').spof();
         DrawingPadService.setDrawingPad(drawingPad);
 
+        $scope.mode = $location.search().mode;
+        $scope.currentTool = null;
         $scope.tools = ToolBox;
         $scope.activateTool($scope.tools[0]);
+
+        if($scope.mode === 'edit') {
+            initEditMode();
+        }
     };
     $scope.init();
 

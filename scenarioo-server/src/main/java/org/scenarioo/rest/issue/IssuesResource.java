@@ -102,7 +102,7 @@ public class IssuesResource {
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	@Path("/{issueId}")
-	public IssueScenarioSketches loadIssueScenarioSketches(@PathParam("branchName") final String branchName,
+	public Response loadIssueScenarioSketches(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId) {
 		LOGGER.info("REQUEST: loadIssueScenarioSketches(" + issueId + ")");
 		// return dao.loadIssueProposals(new BuildIdentifier(branchName, ""), issueId);
@@ -121,7 +121,9 @@ public class IssuesResource {
 		final IssueScenarioSketches result = new IssueScenarioSketches();
 		result.setIssue(issue);
 		result.setScenarioSketches(summaries);
-		return result;
+		LOGGER.info(result);
+		// return result;
+		return Response.ok(result, MediaType.APPLICATION_JSON).build();
 
 	}
 
