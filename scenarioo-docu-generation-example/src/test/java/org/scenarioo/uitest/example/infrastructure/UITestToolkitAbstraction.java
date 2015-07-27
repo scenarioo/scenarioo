@@ -106,12 +106,12 @@ public class UITestToolkitAbstraction {
 	}
 	
 	public void enterText(final String textFieldId, final String text) {
-		addScreenAnnotation(textFieldId, ScreenAnnotationStyle.keyboard, text, "text '" + text + "' entered");
+		addScreenAnnotation(textFieldId, ScreenAnnotationStyle.KEYBOARD, text, "text '" + text + "' entered");
 		toolkit.type(textFieldId, text);
 	}
 	
 	public void clickButton(final String buttonId) {
-		addScreenAnnotation(buttonId, ScreenAnnotationStyle.click, "click");
+		addScreenAnnotation(buttonId, ScreenAnnotationStyle.CLICK, "click");
 		saveStepWithScreenshotIfChanged();
 		toolkit.click(buttonId);
 		saveStepWithScreenshot();
@@ -123,11 +123,11 @@ public class UITestToolkitAbstraction {
 		if (region != null) {
 			ScreenAnnotation annotation = new ScreenAnnotation(region.getX(), region.getY(), region.getWidth(), region.getHeight());
 			annotation.setStyle(style);
-			annotation.setText(text);
+			annotation.setScreenText(text);
 			annotation.setDescription(description);
-			if (style == ScreenAnnotationStyle.click) {
+			if (style == ScreenAnnotationStyle.CLICK) {
 				// Create click events with go to next step (for testing clickActions on annotations)
-				annotation.setClickAction(ScreenAnnotationClickAction.toNextStep);
+				annotation.setClickAction(ScreenAnnotationClickAction.TO_NEXT_STEP);
 			}
 			ObjectDescription elementDescription = new ObjectDescription("uiElement", elementId);
 			elementDescription.addDetail("elementId", elementId);
@@ -150,7 +150,7 @@ public class UITestToolkitAbstraction {
 	}
 
 	public void clickLink(final String linkText) {
-		addScreenAnnotation("linkWithText=" + linkText, ScreenAnnotationStyle.click, "click", "Link with Text '"
+		addScreenAnnotation("linkWithText=" + linkText, ScreenAnnotationStyle.CLICK, "click", "Link with Text '"
 				+ linkText + "'"); // this is just dummy data, with no realistic element IDs
 		saveStepWithScreenshotIfChanged();
 		toolkit.clickLinkWithText(linkText);
