@@ -29,7 +29,7 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
 
     var issueId = $routeParams.issueId;
     var scenarioSketchId = $routeParams.scenarioSketchId;
-    var sketchStepIndex = $routeParams.sketchStepIndex;
+    var sketchStepName = $routeParams.sketchStepName;
     $scope.isStepScope = true;
 
     $scope.modalScreenshotOptions = {
@@ -69,7 +69,7 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
                 'branchName': selected.branch,
                 'issueId': issueId,
                 'scenarioSketchId': scenarioSketchId,
-                'sketchStepId': sketchStepIndex
+                'sketchStepName': sketchStepName
             },
             function success(result) {
                 $scope.sketchStep = result;
@@ -267,7 +267,7 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
         }
 
         var selected = SelectedBranchAndBuild.selected();
-        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/sketchstep/' + sketchStepIndex + '/image/' + imageName;
+        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/sketchstep/' + sketchStepName + '/image/' + imageName;
     };
 
     $scope.go = function (step) {
@@ -332,7 +332,7 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
         ContextService.initialize();
         ContextService.issueId = issueId;
         ContextService.scenarioSketchId = scenarioSketchId;
-        ContextService.sketchStepIndex = sketchStepIndex;
+        ContextService.sketchStepName = sketchStepName;
         $location.path('/editor/').search('url', encodeURIComponent($scope.getScreenShotUrl())).search('mode', 'edit');
     };
 

@@ -138,12 +138,39 @@ public class SketchStepResource {
 		LOGGER.info("Now storing a sketchStep.");
 		LOGGER.info(sketchStep);
 		LOGGER.info("-----------------------------------");
+		sketchStep.setSketchStepName(1);
 		files.writeSketchStepToFile(branchName, issueId, scenarioSketchId, sketchStep);
 		files.writeSVGToFile(branchName, issueId, scenarioSketchId, sketchStep);
 		if (originalScreenshot != null) {
 			files.copyOriginalScreenshot(originalScreenshot, branchName, issueId, scenarioSketchId);
 		}
 		return Response.ok(sketchStep, MediaType.APPLICATION_JSON).build();
+	}
+
+	@POST
+	@Consumes({ "application/json" })
+	@Produces({ "application/json", "application/xml" })
+	@Path("/{sketchStepName}")
+	public Response updateSketchStep(@PathParam("branchName") final String branchName,
+			@PathParam("issueId") final String issueId,
+			@PathParam("scenarioSketchId") final String scenarioSketchId,
+			@PathParam("sketchStepName") final int sketchStepName, final SketchStep updatedSketchStep) {
+
+		LOGGER.info("Now updating a sketchStep.");
+		LOGGER.info(sketchStepName);
+		LOGGER.info("-----------------------");
+		if (updatedSketchStep.getSketchStepName() == 0) {
+			LOGGER.error("There was no sketchStepName set on the sketchStep object!");
+			updatedSketchStep.setSketchStepName(sketchStepName);
+		}
+		final SketchStep existingSketchStep = reader.loadSketchStep(branchName, issueId, scenarioSketchId,
+				sketchStepName);
+		existingSketchStep.update(updatedSketchStep);
+		files.updateSketchStep(branchName, updatedSketchStep);
+
+		files.writeSVGToFile(branchName, issueId, scenarioSketchId, updatedSketchStep);
+
+		return Response.ok(updatedSketchStep, MediaType.APPLICATION_JSON).build();
 	}
 
 	private HashMap<String, String> parseContextInDocu(final String toParse) {

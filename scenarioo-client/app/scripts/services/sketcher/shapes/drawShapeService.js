@@ -35,7 +35,6 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
             }, false);
 
             shape.on('dragend', function () {
-                //DrawingPadService.enableZoomPan();
                 ZoomPanService.updateZoomPan();
             });
 
@@ -56,7 +55,7 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
 
         createNewShapeByClassName: function (drawingPad, shape) {
             var classes = shape.attr('class');
-            var typeClass = classes.split(' ').filter(function(value) {
+            var typeClass = classes.split(' ').filter(function (value) {
                 return value.indexOf('-shape') > -1;
             });
 
@@ -80,15 +79,11 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
                     break;
             }
 
-            console.log($(shape).children().length);
-
-            //if($(shape).children().length > 0) {
-                shape.each(function () {
-                    if (this instanceof SVG.Text) {
-                        newShape.setText(this.node.textContent);
-                    }
-                });
-            //}
+            shape.each(function () {
+                if (this instanceof SVG.Text) {
+                    newShape.setText(this.node.textContent);
+                }
+            });
 
             return newShape;
 

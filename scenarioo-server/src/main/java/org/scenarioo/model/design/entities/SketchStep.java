@@ -225,4 +225,15 @@ public class SketchStep implements Serializable {
 		this.stepContextLink = stepContextLink;
 	}
 
+	public void update(final SketchStep update) {
+		this.sketchStepName = update.getSketchStepName() != 0 ? update.getSketchStepName() : this.sketchStepName;
+		this.sketchFileName = update.getSketchFileName() != null ? update.getSketchFileName() : this.sketchFileName;
+		this.nextSketchStepRef = update.getNextSketchStepRef() != 0 ? update.getNextSketchStepRef()
+				: this.nextSketchStepRef;
+		this.sketchStepDescription = update.getSketchStepDescription() != null ? update.getSketchStepDescription()
+				: this.sketchStepDescription;
+		this.html = update.getHtml() != null ? update.getHtml() : this.html;
+		this.dateModified = update.getDateModified() != null ? update.getDateModified() : this.dateModified;
+	}
+
 }

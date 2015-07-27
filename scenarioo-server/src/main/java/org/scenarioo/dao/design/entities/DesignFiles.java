@@ -261,6 +261,12 @@ public class DesignFiles {
 		ScenarioDocuXMLFileUtil.marshal(sketchStep, destinationFile);
 	}
 
+	public void updateSketchStep(final String branchName, final SketchStep sketchStep) {
+		final File destinationFile = getSketchStepFile(branchName, sketchStep.getIssueId(),
+				sketchStep.getScenarioSketchId(), sketchStep.getSketchStepName());
+		ScenarioDocuXMLFileUtil.marshal(sketchStep, destinationFile);
+	}
+
 	public boolean createSketchStepSVGDirectory(final String branchName, final String issueID,
 			final String scenarioSketchId) {
 		final File sketchStepSVGDir = new File(getSketchStepsDirectory(branchName, issueID, scenarioSketchId),

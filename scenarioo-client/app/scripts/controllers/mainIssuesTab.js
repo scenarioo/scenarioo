@@ -37,9 +37,9 @@ angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function
         $location.path('/issue/' + issueId);
     };
 
-    $scope.goToSketchStep = function (issue, sketchStepId) {
-        sketchStepId = sketchStepId || 1;
-        $location.path('/sketchstep/' + issue.id + '/' + issue.firstScenarioSketchId + '/' + sketchStepId);
+    $scope.goToSketchStep = function (issue, sketchStepName) {
+        sketchStepName = sketchStepName || 1;
+        $location.path('/sketchstep/' + issue.id + '/' + issue.firstScenarioSketchId + '/' + sketchStepName);
     };
 
     /*
