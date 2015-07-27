@@ -263,6 +263,7 @@ angular.module('scenarioo.services')
                 issueId: '@issueId'
             },
             {
+                'query': {method: 'GET', isArray: false, params: {issueId: '@issueId'}},
                 'update': {method: 'PUT', params: {issueId: '@issueId'}}
             });
     })
