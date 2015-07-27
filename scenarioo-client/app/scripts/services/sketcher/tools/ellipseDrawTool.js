@@ -27,7 +27,6 @@ angular.module('scenarioo.controllers').factory('EllipseDrawTool', function (Dra
 
     tool.onmousedown = function (event) {
         tool.onmousedownTemplate(event);
-        tool.shape = tool.getDrawingPad().ellipse(0, 0, 0, 0);
 
         tool.shape.attr({
             cx: tool.originalX,
@@ -52,6 +51,10 @@ angular.module('scenarioo.controllers').factory('EllipseDrawTool', function (Dra
             cx: tool.anchorX + tool.shape.attr('rx'),
             cy: tool.anchorY + tool.shape.attr('ry')
         });
+    };
+
+    tool.getShape = function () {
+        return tool.getDrawingPad().ellipse(0, 0, 0, 0);
     };
 
     return tool;

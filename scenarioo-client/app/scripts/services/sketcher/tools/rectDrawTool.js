@@ -27,7 +27,6 @@ angular.module('scenarioo.controllers').factory('RectDrawTool', function (DrawTo
 
     tool.onmousedown = function (event) {
         tool.onmousedownTemplate(event);
-        tool.shape = tool.getDrawingPad().rect(0, 0, 0, 0);
 
         tool.shape.attr({
             x: tool.originalX,
@@ -52,6 +51,10 @@ angular.module('scenarioo.controllers').factory('RectDrawTool', function (DrawTo
             x: tool.anchorX,
             y: tool.anchorY
         });
+    };
+
+    tool.getShape = function () {
+        return tool.getDrawingPad().rect(0, 0, 0, 0);
     };
 
     return tool;

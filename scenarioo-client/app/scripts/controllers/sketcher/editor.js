@@ -178,7 +178,6 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
 
     $scope.init = function () {
-        //DrawingPadService.init();
         var drawingPad = SVG('drawingPad').spof();
         DrawingPadService.setDrawingPad(drawingPad);
 
@@ -189,9 +188,8 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
 
     $scope.$on('$destroy', function () {
-        console.log(DrawingPadService.getDrawingPad());
         DrawingPadService.destroy();
-        console.log('destroyed');
+        console.log('editor scope destroyed');
     });
 
 });
