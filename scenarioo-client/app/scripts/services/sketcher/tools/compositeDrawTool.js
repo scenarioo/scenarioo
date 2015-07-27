@@ -25,7 +25,6 @@ angular.module('scenarioo.services').factory('CompositeDrawTool', function (Draw
 
         tool.onmousedown = function (event) {
             tool.onmousedownTemplate(event);
-            tool.shape = tool.getShape();
 
             tool.shape.attr({
                 x: tool.originalX,

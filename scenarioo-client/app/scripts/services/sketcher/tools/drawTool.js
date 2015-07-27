@@ -38,6 +38,8 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
             tool.originalX = tool.toZoomedPoint(mousePoint.x);
             tool.originalY = tool.toZoomedPoint(mousePoint.y);
 
+            tool.shape = tool.getShape();
+
             ZoomPanService.disableZoomPan();
         };
 
@@ -89,6 +91,10 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
 
         tool.isShapeEditable = function () {
             return 'false';
+        };
+
+        tool.getShape = function () {
+            return tool.shape;
         };
 
         return tool;

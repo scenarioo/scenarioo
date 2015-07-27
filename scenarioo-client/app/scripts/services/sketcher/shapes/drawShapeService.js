@@ -80,11 +80,15 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
                     break;
             }
 
-            shape.each(function() {
-                if(this instanceof SVG.Text) {
-                    newShape.setText(this.node.textContent);
-                }
-            });
+            console.log($(shape).children().length);
+
+            //if($(shape).children().length > 0) {
+                shape.each(function () {
+                    if (this instanceof SVG.Text) {
+                        newShape.setText(this.node.textContent);
+                    }
+                });
+            //}
 
             return newShape;
 

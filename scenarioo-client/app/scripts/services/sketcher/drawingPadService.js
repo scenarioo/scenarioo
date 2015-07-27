@@ -123,11 +123,6 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
         else if (bgImg && screenshotURL && mode === 'edit') {
             $http.get(decodeURIComponent(screenshotURL), {headers: {accept: 'image/svg+xml'}}).
                 success(function (data) {
-                    // This should strip out the redundant parts: <svg> tags, <defs>, the viewport group...
-                    // However, it breaks import of one of the elements, and doesn't fix anything.
-                    // Preserved in case truncation will be important.
-                    //var truncated = data.substring(data.search('<image '), data.search('</g>'));
-                    //drawingPad.svg(truncated);
                     var dp = bgImg.doc(SVG.Doc);
                     var tempContainer = dp.nested();
                     tempContainer.svg(data);
@@ -141,11 +136,11 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
                         } else {
                             newShape = this;
                         }
-                       // console.log(newShape);
                         drawingPad.viewPortGroup.add(newShape);
                     });
                     tempContainer.remove();
                     bgImg.remove();
+                    dp.viewPortGroup.first().id(backgroundImageId);
 
                     ZoomPanService.resetZoomPan();
                 }).
@@ -216,7 +211,7 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
         },
 
         exportDrawing: function () {
-            var group = drawingPad.group.clone();
+            var group = drawingPad.group.clone().hide();
             var svg = group.first();
             svg.attr({
                 xmlns: 'http://www.w3.org/2000/svg',
@@ -291,7 +286,6 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
             drawingPad.clear();
             drawingPad = null;
             isSetup = false;
-            console.log(drawingPad);
         }
 
     };
