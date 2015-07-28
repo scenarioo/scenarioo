@@ -79,9 +79,7 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
                     $scope.svg = data;
                 });
 
-                ContextService.sketchButton.text = 'Edit Sketch';
-
-
+                ContextService.sketchButton.innerHTML = ContextService.sketchButton.innerHTML.replace('Create', 'Edit');
 
                 SharePageService.setPageUrl($scope.getCurrentUrlForSharing());
                 SharePageService.setImageUrl($scope.getScreenshotUrlForSharing());
