@@ -69,7 +69,13 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap'])
                 pageOccurrence: '@pageOccurrence',
                 stepInPageOccurrence: '@stepInPageOccurrence',
                 breadcrumbId: 'step'
-            })
+            })/*
+            .when('/issue/:issueName', {
+                templateUrl: '../views/sketcher/issue.html',
+                controller: 'IssueCtrl',
+                issueName: '@issueName',
+                breadcrumbId: 'issue'
+            })*/
             .when('/issue/:issueId', {
                 templateUrl: 'views/sketcher/issue.html',
                 controller: 'IssueCtrl',
