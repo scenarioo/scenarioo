@@ -24,6 +24,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <img type="svg+xml" ng-src="{{getScreenShotUrl()}}" class="sc-screenshot"/>
                 </div>
             </tab>
+            <tab heading="HTML">
+                <pre ng-bind="formattedHtml">
+                </pre>
+            </tab>
             <tab heading="Context in Documentation">
                 <ul>
                     <li id="usecase-context" ng-click="goToUsecase()">
@@ -31,9 +35,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </li>
                     <li id="scenario-context" ng-click="goToScenario()">
                         <a>Related Scenario: {{sketchStep.scenarioContextName}}</a>
-                    </li>
-                    <li id="step-context" ng-click="goToOriginalStep()">
-                        <a>Related Step</a>
                     </li>
                 </ul>
             </tab>
