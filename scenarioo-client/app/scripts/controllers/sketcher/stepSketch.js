@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioSketchResource, SketchStepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService) {
+angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($http, $scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioSketchResource, SketchStepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService) {
 
     //var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     //var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -73,6 +73,15 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
             },
             function success(result) {
                 $scope.sketchStep = result;
+                $http.get($scope.getScreenShotUrl(), {headers: {
+                    'Accept': 'image/svg+xml'
+                }}).success(function(data) {
+                    $scope.svg = data;
+                });
+
+                ContextService.sketchButton.text = 'Edit Sketch';
+
+
 
                 SharePageService.setPageUrl($scope.getCurrentUrlForSharing());
                 SharePageService.setImageUrl($scope.getScreenshotUrlForSharing());
