@@ -216,10 +216,10 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
             svg.attr({
                 /*xmlns: 'http://www.w3.org/2000/svg',
                 version: '1.1',
-                'xmlns:xlink': 'http://www.w3.org/1999/xlink',
+                'xmlns:xlink': 'http://www.w3.org/1999/xlink',*/
                 'xmlns:NS1': 'http://www.w3.org/2000/svg',
                 version: '1.1',
-                'NS1:xmlns:xlink': 'http://www.w3.org/1999/xlink',*/
+                'NS1:xmlns:xlink': 'http://www.w3.org/1999/xlink',
                 width: svg.first().width(),
                 height: svg.first().height()
             });
