@@ -21,12 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <tabset class="step-panes">
             <tab heading="Screenshot">
                 <div class="sc-screenshot-border">
-                    <img type="svg+xml" ng-src="{{getScreenShotUrl()}}" class="sc-screenshot"/>
+                    <div ng-html="sketchStepSVG"></div>
                 </div>
-            </tab>
-            <tab heading="HTML">
-                <pre ng-bind="formattedHtml">
-                </pre>
             </tab>
             <tab heading="Context in Documentation">
                 <ul>
