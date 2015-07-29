@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService) {
+angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService, UsecaseIssueResource) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -84,6 +84,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.stepIndex = result.stepNavigation.stepIndex;
                 $scope.useCaseLabels = result.useCaseLabels;
                 $scope.scenarioLabels = result.scenarioLabels;
+                loadRelatedIssues();
 
                 $scope.hasAnyLabels = function () {
                     var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
@@ -350,8 +351,23 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     $scope.sketchThis = function () {
         ContextService.setScenario(scenarioName);
         ContextService.setUseCase(useCaseName);
-        ContextService.stepLink = $scope.getCurrentUrlForSharing();
+        ContextService.stepLink = '/step/' + useCaseName + '/' + scenarioName + '/' + $scope.pageName + '/' + $scope.pageOccurrence + '/' + $scope.stepInPageOccurrence;
         $location.path('/editor/').search('url', encodeURIComponent($scope.getScreenShotUrl())).search('mode', 'create');
     };
+
+    function loadRelatedIssues(){
+        UsecaseIssueResource.query({
+            branchName: SelectedBranchAndBuild.selected().branch,
+            usecaseName: $routeParams.useCaseName
+        }, function(result){
+            $scope.relatedIssues = result;
+            $scope.goToIssue = goToIssue;
+        });
+    }
+
+    function goToIssue(issue){
+        var sketchStepId = sketchStepId || 1;
+        $location.path('/sketchstep/' + issue.id + '/' + issue.firstScenarioSketchId + '/' + sketchStepId);
+    }
 
 });

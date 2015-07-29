@@ -150,6 +150,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             sketchStep.usecaseContextLink = ContextService.usecaseLink;
             sketchStep.scenarioContextName = ContextService.scenarioName;
             sketchStep.scenarioContextLink = ContextService.scenarioLink;
+            sketchStep.stepContextLink = ContextService.stepLink;
             sketchStep.contextInDocu = decodeURIComponent($location.search().url);
         }
 
