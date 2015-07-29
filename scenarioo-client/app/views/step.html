@@ -126,6 +126,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <sc-tree data='stepInformationTree'></sc-tree>
         </sc-collapsable-panel>
 
+        <sc-collapsable-panel title="Related Issues" initially-expanded="true">
+            <ul>
+                <li ng-repeat="issue in relatedIssues"><a ng-click="goToIssue(issue)">{{issue.name}}</a></li>
+            </ul>
+
+        </sc-collapsable-panel>
+
         <!-- labels -->
         <sc-collapsable-panel title="Labels" key="stepView-labels" initially-expanded="false" ng-show="hasAnyLabels()">
             <div class="sc-tree">

@@ -353,6 +353,10 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
         $location.path('/scenario/' + $scope.sketchStep.usecaseContextLink + '/' + $scope.sketchStep.scenarioContextLink);
     };
 
+    $scope.goToStep = function(){
+        $location.path($scope.sketchStep.stepContextLink);
+    };
+
 });
 
 angular.module('scenarioo.directives').directive('ngHtml', ['$compile', function($compile) {

@@ -129,14 +129,15 @@ function UseCaseCtrl($filter, $routeParams, $location, ScenarioResource, Config,
         });
     }
 
+    function goToIssue(issue){
+        var sketchStepId = sketchStepId || 1;
+        $location.path('/sketchstep/' + issue.id + '/' + issue.firstScenarioSketchId + '/' + sketchStepId);
+    }
+
     function createUseCaseInformationTree(usecase) {
         var usecaseInformation = {};
         usecaseInformation.Status = usecase.status;
         return $filter('scMetadataTreeCreator')(usecaseInformation);
     }
 
-    function goToIssue(issue){
-        var sketchStepId = sketchStepId || 1;
-        $location.path('/sketchstep/' + issue.id + '/' + issue.firstScenarioSketchId + '/' + sketchStepId);
-    }
 }
