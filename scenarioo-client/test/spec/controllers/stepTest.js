@@ -19,7 +19,7 @@
 
 describe('StepCtrl', function () {
 
-    var $scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepResource,
+    var $scope, $routeParams, $location, $q, $window, Config, ScenarioResource, UsecaseIssueResource, StepResource,
         HostnameAndPort, SelectedBranchAndBuild, $controller, $httpBackend, TestData;
 
     var STEP_INFORMATION_TREE = {
@@ -33,7 +33,7 @@ describe('StepCtrl', function () {
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _Config_, _ScenarioResource_, _StepResource_, _HostnameAndPort_, _SelectedBranchAndBuild_, _$controller_, _$httpBackend_, _TestData_, localStorageService) {
+    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _Config_, _ScenarioResource_, _UsecaseIssueResource_, _StepResource_, _HostnameAndPort_, _SelectedBranchAndBuild_, _$controller_, _$httpBackend_, _TestData_, localStorageService) {
         $scope = _$rootScope_.$new();
         $routeParams = _$routeParams_;
         $location = _$location_;
@@ -41,6 +41,7 @@ describe('StepCtrl', function () {
         $window = _$window_;
         Config = _Config_;
         ScenarioResource = _ScenarioResource_;
+        UsecaseIssueResource = _UsecaseIssueResource_;
         StepResource = _StepResource_;
         HostnameAndPort = _HostnameAndPort_;
         SelectedBranchAndBuild = _SelectedBranchAndBuild_;
@@ -60,6 +61,7 @@ describe('StepCtrl', function () {
     describe('scenario is found', function() {
 
         beforeEach(function() {
+            spyOn(UsecaseIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
             $routeParams.stepInPageOccurrence = 1;
             $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
                 $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostnameAndPort,
@@ -193,6 +195,21 @@ describe('StepCtrl', function () {
             Config.load();
             $httpBackend.flush();
             expect($scope.stepNotFound).toBeFalsy();
+        }
+
+        function queryRelatedIssuesFake() {
+            var DATA = {
+                0:
+                {
+                    id: '1',
+                    name: 'fakeTestingIssue',
+                    firstScenarioSketchId: '1'
+                }
+            };
+
+            return function(params, onSuccess) {
+                onSuccess(DATA);
+            };
         }
     });
 
