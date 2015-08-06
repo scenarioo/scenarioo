@@ -34,7 +34,6 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.log4j.Logger;
-import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.design.aggregates.IssueAggregationDAO;
 import org.scenarioo.dao.design.entities.DesignFiles;
 import org.scenarioo.model.design.aggregates.IssueScenarioSketches;
@@ -179,9 +178,6 @@ public class IssuesResource {
 		LOGGER.info("Returning issues related to " + usecaseName);
 		final List<Issue> issues = reader.loadIssues(branchName);
 		final List<IssueSummary> result = new ArrayList<IssueSummary>();
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
-				branchName, "last successful");
-		LOGGER.info(buildIdentifier);
 		for (final Issue i : issues) {
 			if (i.getUsecaseContextName() != null && i.getUsecaseContextName().equals(usecaseName)) {
 				final List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, i.getIssueId());
