@@ -110,7 +110,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
 
         if ($scope.issueSaved === 1) {
-            $scope.scenarioSketchSaved++;
+            ++$scope.scenarioSketchSaved;
 
             if ($scope.scenarioSketchId && $scope.scenarioSketchId !== undefined) {
                 scenarioSketch.scenarioSketchId = $scope.scenarioSketchId;
