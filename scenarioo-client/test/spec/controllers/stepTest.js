@@ -19,7 +19,7 @@
 
 describe('StepCtrl', function () {
 
-    var $scope, $routeParams, $location, $q, $window, Config, ScenarioResource, UsecaseIssueResource, StepResource,
+    var $scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepResource,
         HostnameAndPort, SelectedBranchAndBuild, $controller, $httpBackend, TestData, RelatedIssueResource;
 
     var STEP_INFORMATION_TREE = {
@@ -245,21 +245,6 @@ describe('StepCtrl', function () {
         }
 
     });
-
-    function queryRelatedIssuesFake() {
-        var DATA = {
-            0:
-            {
-                id: '1',
-                name: 'fakeTestingIssue',
-                firstScenarioSketchId: '1'
-            }
-        };
-
-        return function(params, onSuccess) {
-            onSuccess(DATA);
-        };
-    }
 
 });
 
