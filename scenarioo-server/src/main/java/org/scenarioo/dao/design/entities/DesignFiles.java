@@ -100,6 +100,15 @@ public class DesignFiles {
 		return FilesUtil.getListOfFilesFromSubdirs(getBranchDirectory(branchName), FILE_NAME_ISSUE);
 	}
 
+	public Boolean deleteIssue(final String branchName, final String issueId) {
+		try {
+			FileUtils.forceDelete(getIssueDirectory(branchName, issueId));
+		} catch (final IOException e) {
+			return false;
+		}
+		return true;
+	}
+
 	public File getScenarioSketchDirectory(final String branchName, final String issueName,
 			final String scenarioSketchName) {
 		final File scenarioSketchDirectory = new File(getIssueDirectory(branchName, issueName),
