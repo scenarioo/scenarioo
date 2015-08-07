@@ -104,6 +104,7 @@ public class DesignFiles {
 		try {
 			FileUtils.forceDelete(getIssueDirectory(branchName, issueId));
 		} catch (final IOException e) {
+			LOGGER.error(e.getMessage());
 			return false;
 		}
 		return true;
