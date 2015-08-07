@@ -185,11 +185,9 @@ public class IssuesResource {
 	}
 
 	private Boolean nameMatches(final Issue issue, final String objectName, final String type) {
-		switch (type) {
-		case "scenario":
-			// The frontend uses the version with underscores internally, which is used to represent the link here
+		if (type == "scenario") {
 			return issue.getScenarioContextLink() != null && issue.getScenarioContextLink().equals(objectName);
-		default:
+		} else {
 			return issue.getUsecaseContextName() != null && issue.getUsecaseContextName().equals(objectName);
 		}
 
