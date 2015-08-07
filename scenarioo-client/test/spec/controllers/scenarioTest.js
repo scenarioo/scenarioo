@@ -19,17 +19,18 @@
 
 describe('Controller :: Scenario', function () {
 
-    var $scope, $httpBackend, $routeParams, Config, TestData, HostNameAndPort;
+    var $scope, $httpBackend, $routeParams, Config, TestData, HostNameAndPort, RelatedIssueResource;
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($rootScope, $controller, _$httpBackend_, _$routeParams_, _Config_, _TestData_, _HostnameAndPort_, localStorageService) {
+    beforeEach(inject(function ($rootScope, $controller, _$httpBackend_, _$routeParams_, _Config_, _TestData_, _HostnameAndPort_, localStorageService, _RelatedIssueResource_) {
         $scope = $rootScope.$new();
         $httpBackend = _$httpBackend_;
         $routeParams = _$routeParams_;
         Config = _Config_;
         TestData = _TestData_;
         HostNameAndPort = _HostnameAndPort_;
+        RelatedIssueResource = _RelatedIssueResource_;
 
         $routeParams.useCaseName = 'SearchUseCase';
         $routeParams.scenarioName = 'NotFoundScenario';
@@ -37,6 +38,8 @@ describe('Controller :: Scenario', function () {
         localStorageService.clearAll();
 
         $controller('ScenarioCtrl', {$scope: $scope, Config: Config});
+
+        spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
     }));
 
     it('clears search field when resetSearchField() is called', function () {
@@ -148,6 +151,21 @@ describe('Controller :: Scenario', function () {
         expect($scope.showAllStepsForPage(0)).toBeTruthy();
         expect($scope.showAllStepsForPage(1)).toBeTruthy();
         expect($scope.showAllStepsForPage(2)).toBeFalsy(); // Scenario has only 2 pages
+    }
+
+    function queryRelatedIssuesFake() {
+        var DATA = {
+            0:
+            {
+                id: '1',
+                name: 'fakeTestingIssue',
+                firstScenarioSketchId: '1'
+            }
+        };
+
+        return function(params, onSuccess) {
+            onSuccess(DATA);
+        };
     }
 
 });

@@ -268,14 +268,14 @@ angular.module('scenarioo.services')
             });
     })
 
-    .factory('UsecaseIssueResource', function(ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issue/related/:usecaseName',
+    .factory('RelatedIssueResource', function(ScenariooResource) {
+        return ScenariooResource('/branch/:branchName/issue/related/',
             {
                 branchName: '@branchName',
-                usecaseName: '@usecaseName'
+                objectName: '@objectName'
             },
             {
-                'query': {method: 'GET', isArray: true}
+                'query': {method: 'GET', isArray: true, params: {objectName: 'null', type: 'usecase'}}
             });
     })
 

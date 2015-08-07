@@ -29,12 +29,12 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.log4j.Logger;
-import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.design.aggregates.IssueAggregationDAO;
 import org.scenarioo.dao.design.entities.DesignFiles;
 import org.scenarioo.model.design.aggregates.IssueScenarioSketches;
@@ -44,7 +44,6 @@ import org.scenarioo.model.design.entities.Issue;
 import org.scenarioo.model.design.entities.ScenarioSketch;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
-import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.design.readers.DesignReader;
 
 @Path("/rest/branch/{branchName}/issue")
@@ -68,31 +67,13 @@ public class IssuesResource {
 	@Produces({ "application/xml", "application/json" })
 	public List<IssueSummary> loadIssueSummaries(@PathParam("branchName") final String branchName) {
 		LOGGER.info("REQUEST: loadIssueSummaryList(" + branchName + ")");
-		final BuildIdentifier ident = new BuildIdentifier(branchName, "");
 		final List<IssueSummary> result = new LinkedList<IssueSummary>();
 
 		// This does not use pre-aggregated data
 		// Temporary Solution, probably does not scale
 		final List<Issue> issues = reader.loadIssues(branchName);
 		for (final Issue i : issues) {
-			final List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, i.getIssueId());
-			final IssueSummary summary = new IssueSummary();
-			summary.setName(i.getName());
-			summary.setId(i.getIssueId());
-			summary.setDescription(i.getDescription());
-			summary.setAuthor(i.getAuthor());
-			summary.setUsecaseContextName(i.getUsecaseContextName());
-			summary.setUsecaseContextLink(i.getUsecaseContextLink());
-			summary.setScenarioContextName(i.getScenarioContextName());
-			summary.setScenarioContextLink(i.getScenarioContextLink());
-			summary.setStatus(i.getIssueStatus());
-			summary.setNumberOfScenarioSketches(scenarioSketches.size());
-			summary.setLabels(i.getLabels());
-
-			if (scenarioSketches.size() > 0) {
-				final ScenarioSketch firstScenarioSketch = scenarioSketches.get(0);
-				summary.setFirstScenarioSketchId(firstScenarioSketch.getScenarioSketchId());
-			}
+			final IssueSummary summary = summarizeIssue(branchName, i);
 
 			result.add(summary);
 		}
@@ -173,40 +154,53 @@ public class IssuesResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/related/{usecaseName}")
+	@Path("/related")
 	public List<IssueSummary> relatedIssues(@PathParam("branchName") final String branchName,
-			@PathParam("usecaseName") final String usecaseName) {
-		LOGGER.info("Returning issues related to " + usecaseName);
+			@QueryParam("objectName") final String objectName, @QueryParam("type") final String type) {
+		LOGGER.info("Returning issues related to " + objectName);
 		final List<Issue> issues = reader.loadIssues(branchName);
 		final List<IssueSummary> result = new ArrayList<IssueSummary>();
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
-				branchName, "last successful");
-		LOGGER.info(buildIdentifier);
 		for (final Issue i : issues) {
-			if (i.getUsecaseContextName() != null && i.getUsecaseContextName().equals(usecaseName)) {
-				final List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, i.getIssueId());
-				final IssueSummary summary = new IssueSummary();
-				summary.setName(i.getName());
-				summary.setId(i.getIssueId());
-				summary.setDescription(i.getDescription());
-				summary.setAuthor(i.getAuthor());
-				summary.setUsecaseContextName(i.getUsecaseContextName());
-				summary.setUsecaseContextLink(i.getUsecaseContextLink());
-				summary.setScenarioContextName(i.getScenarioContextName());
-				summary.setScenarioContextLink(i.getScenarioContextLink());
-				summary.setStatus(i.getIssueStatus());
-				summary.setNumberOfScenarioSketches(scenarioSketches.size());
-				summary.setLabels(i.getLabels());
-
-				if (scenarioSketches.size() > 0) {
-					final ScenarioSketch firstScenarioSketch = scenarioSketches.get(0);
-					summary.setFirstScenarioSketchId(firstScenarioSketch.getScenarioSketchId());
-				}
+			if (nameMatches(i, objectName, type)) {
+				final IssueSummary summary = summarizeIssue(branchName, i);
 				result.add(summary);
 			}
 		}
 
 		return result;
+	}
+
+	private Boolean nameMatches(final Issue issue, final String objectName, final String type) {
+		switch (type) {
+		case "scenario":
+			// The frontend uses the version with underscores internally, which is used to represent the link here
+			return issue.getScenarioContextLink() != null && issue.getScenarioContextLink().equals(objectName);
+		default:
+			return issue.getUsecaseContextName() != null && issue.getUsecaseContextName().equals(objectName);
+		}
+
+	}
+
+	private IssueSummary summarizeIssue(final String branchName, final Issue issue) {
+		final List<ScenarioSketch> scenarioSketches = reader.loadScenarioSketches(branchName, issue.getIssueId());
+		final IssueSummary summary = new IssueSummary();
+		summary.setName(issue.getName());
+		summary.setId(issue.getIssueId());
+		summary.setDescription(issue.getDescription());
+		summary.setAuthor(issue.getAuthor());
+		summary.setUsecaseContextName(issue.getUsecaseContextName());
+		summary.setUsecaseContextLink(issue.getUsecaseContextLink());
+		summary.setScenarioContextName(issue.getScenarioContextName());
+		summary.setScenarioContextLink(issue.getScenarioContextLink());
+		summary.setStatus(issue.getIssueStatus());
+		summary.setNumberOfScenarioSketches(scenarioSketches.size());
+		summary.setLabels(issue.getLabels());
+
+		if (scenarioSketches.size() > 0) {
+			final ScenarioSketch firstScenarioSketch = scenarioSketches.get(0);
+			summary.setFirstScenarioSketchId(firstScenarioSketch.getScenarioSketchId());
+		}
+		return summary;
 	}
 
 	/*
