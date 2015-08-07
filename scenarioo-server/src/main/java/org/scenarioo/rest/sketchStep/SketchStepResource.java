@@ -92,6 +92,7 @@ public class SketchStepResource {
 			@PathParam("sketchStepName") final int sketchStepName,
 			@QueryParam("fallback") final boolean addFallbackInfo, @QueryParam("labels") final String labels) {
 
+		LOGGER.info("Now loading a SketchStep");
 		return reader.loadSketchStep(branchName, issueId, scenarioSketchId, sketchStepName);
 
 		/*
@@ -154,7 +155,7 @@ public class SketchStepResource {
 			@PathParam("sketchStepName") final int sketchStepName, final SketchStep updatedSketchStep) {
 
 		LOGGER.info("Now updating a sketchStep.");
-		LOGGER.info(sketchStepName);
+		LOGGER.info(updatedSketchStep);
 		LOGGER.info("-----------------------");
 		if (updatedSketchStep.getSketchStepName() == 0) {
 			LOGGER.error("There was no sketchStepName set on the sketchStep object!");
@@ -165,7 +166,7 @@ public class SketchStepResource {
 		existingSketchStep.update(updatedSketchStep);
 		// files.updateSketchStep(branchName, existingSketchStep);
 
-		files.writeSVGToFile(branchName, issueId, scenarioSketchId, updatedSketchStep);
+		files.writeSVGToFile(branchName, issueId, scenarioSketchId, existingSketchStep);
 
 		return Response.ok(updatedSketchStep, MediaType.APPLICATION_JSON).build();
 	}
