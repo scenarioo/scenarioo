@@ -85,6 +85,7 @@ public class IssuesResource {
 	@Path("/{issueId}")
 	public Response deleteIssue(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId) {
+		LOGGER.warn("Now deleting issue " + issueId);
 		if (files.deleteIssue(branchName, issueId)) {
 			return Response.ok().build();
 		} else {
