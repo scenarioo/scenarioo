@@ -61,7 +61,6 @@ describe('StepCtrl', function () {
     describe('scenario is found', function() {
 
         beforeEach(function() {
-            spyOn(UsecaseIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
             $routeParams.stepInPageOccurrence = 1;
             $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
                 $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostnameAndPort,
