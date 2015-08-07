@@ -19,7 +19,7 @@
 
 describe('StepCtrl', function () {
 
-    var $scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepResource,
+    var $scope, $routeParams, $location, $q, $window, Config, ScenarioResource, UsecaseIssueResource, StepResource,
         HostnameAndPort, SelectedBranchAndBuild, $controller, $httpBackend, TestData, RelatedIssueResource;
 
     var STEP_INFORMATION_TREE = {
@@ -61,6 +61,7 @@ describe('StepCtrl', function () {
     describe('scenario is found', function() {
 
         beforeEach(function() {
+            spyOn(UsecaseIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
             $routeParams.stepInPageOccurrence = 1;
             $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
                 $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostnameAndPort,
@@ -195,6 +196,21 @@ describe('StepCtrl', function () {
             Config.load();
             $httpBackend.flush();
             expect($scope.stepNotFound).toBeFalsy();
+        }
+
+        function queryRelatedIssuesFake() {
+            var DATA = {
+                0:
+                {
+                    id: '1',
+                    name: 'fakeTestingIssue',
+                    firstScenarioSketchId: '1'
+                }
+            };
+
+            return function(params, onSuccess) {
+                onSuccess(DATA);
+            };
         }
     });
 
