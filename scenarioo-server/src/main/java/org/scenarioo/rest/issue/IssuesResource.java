@@ -24,6 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -78,6 +79,18 @@ public class IssuesResource {
 			result.add(summary);
 		}
 		return result;
+	}
+
+	@DELETE
+	@Path("/{issueId}")
+	public Response deleteIssue(@PathParam("branchName") final String branchName,
+			@PathParam("issueId") final String issueId) {
+		if (files.deleteIssue(branchName, issueId)) {
+			return Response.ok().build();
+		} else {
+			return Response.serverError().build();
+		}
+
 	}
 
 	@GET
