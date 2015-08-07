@@ -15,7 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService, UsecaseIssueResource) {
+angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepResource, HostnameAndPort,
+                                                                         SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService,
+                                                                         ContextService, RelatedIssueResource) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -356,9 +358,10 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     };
 
     function loadRelatedIssues(){
-        UsecaseIssueResource.query({
+        RelatedIssueResource.query({
             branchName: SelectedBranchAndBuild.selected().branch,
-            usecaseName: $routeParams.useCaseName
+            objectName: $routeParams.scenarioName,
+            type: 'scenario'
         }, function(result){
             $scope.relatedIssues = result;
             $scope.goToIssue = goToIssue;

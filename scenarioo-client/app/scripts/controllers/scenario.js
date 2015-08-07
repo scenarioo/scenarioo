@@ -16,7 +16,8 @@
  */
 
 angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams,
-                                                                             $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, Config, PagesAndSteps, LabelConfigurationsResource) {
+                                                                             $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild,
+                                                                             Config, PagesAndSteps, LabelConfigurationsResource, RelatedIssueResource) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -53,6 +54,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
                 $scope.metadataTree = transformMetadataToTreeArray($scope.pagesAndScenarios.scenario.details);
                 $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario, result.scenarioStatistics);
                 $scope.scenarioStatistics = result.scenarioStatistics;
+                loadRelatedIssues();
 
                 $scope.hasAnyLabels = function () {
                     var hasAnyUseCaseLabels = $scope.useCase.labels.labels.length > 0;
@@ -147,6 +149,22 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         stepInformation['Number of Steps'] = scenarioStatistics.numberOfSteps;
         stepInformation.Status = scenario.status;
         return transformMetadataToTree(stepInformation);
+    }
+
+    function loadRelatedIssues(){
+        RelatedIssueResource.query({
+            branchName: SelectedBranchAndBuild.selected().branch,
+            objectName: $routeParams.scenarioName,
+            type: 'scenario'
+        }, function(result){
+            $scope.relatedIssues = result;
+            $scope.goToIssue = goToIssue;
+        });
+    }
+
+    function goToIssue(issue){
+        var sketchStepId = sketchStepId || 1;
+        $location.path('/sketchstep/' + issue.id + '/' + issue.firstScenarioSketchId + '/' + sketchStepId);
     }
 
     // FIXME this code is duplicated. How can we extract it into a service?

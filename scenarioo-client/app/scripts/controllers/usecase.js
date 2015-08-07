@@ -18,7 +18,7 @@
 angular.module('scenarioo.controllers').controller('UseCaseCtrl', UseCaseCtrl);
 
 function UseCaseCtrl($filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild,
-                     LabelConfigurationsResource, UsecaseIssueResource, $scope) {
+                     LabelConfigurationsResource, RelatedIssueResource, $scope) {
 
     var vm = this;
 
@@ -120,9 +120,10 @@ function UseCaseCtrl($filter, $routeParams, $location, ScenarioResource, Config,
     }
 
     function loadRelatedIssues(){
-        UsecaseIssueResource.query({
+        RelatedIssueResource.query({
             branchName: SelectedBranchAndBuild.selected().branch,
-            usecaseName: $routeParams.useCaseName
+            objectName: $routeParams.useCaseName,
+            type: 'usecase'
         }, function(result){
             $scope.relatedIssues = result;
             $scope.goToIssue = goToIssue;
