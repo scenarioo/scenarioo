@@ -163,7 +163,7 @@ public class SketchStepResource {
 		final SketchStep existingSketchStep = reader.loadSketchStep(branchName, issueId, scenarioSketchId,
 				sketchStepName);
 		existingSketchStep.update(updatedSketchStep);
-		files.updateSketchStep(branchName, updatedSketchStep);
+		// files.updateSketchStep(branchName, existingSketchStep);
 
 		files.writeSVGToFile(branchName, issueId, scenarioSketchId, updatedSketchStep);
 
