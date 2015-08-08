@@ -126,6 +126,9 @@ function UseCaseCtrl($filter, $routeParams, $location, ScenarioResource, Config,
             type: 'usecase'
         }, function(result){
             $scope.relatedIssues = result;
+            $scope.hasAnyRelatedIssues = function(){
+                return $scope.relatedIssues.length > 0;
+            };
             $scope.goToIssue = goToIssue;
         });
     }

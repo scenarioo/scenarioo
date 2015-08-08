@@ -158,6 +158,9 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
             type: 'scenario'
         }, function(result){
             $scope.relatedIssues = result;
+            $scope.hasAnyRelatedIssues = function(){
+                return $scope.relatedIssues.length > 0;
+            };
             $scope.goToIssue = goToIssue;
         });
     }

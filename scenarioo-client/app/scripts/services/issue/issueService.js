@@ -62,6 +62,7 @@ angular.module('scenarioo.services').factory('Issue', function ($rootScope, $rou
         deleteSketcherData: function (issueId) {
             IssueResource.delete(
             {
+                'branchName': $routeParams.branch,
                 'issueId': issueId
             },
             function onSuccess() {
