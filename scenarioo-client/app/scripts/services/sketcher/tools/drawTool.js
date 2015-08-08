@@ -51,7 +51,7 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
             tool.mousedown = false;
             tool.originalX = 0;
             tool.originalY = 0;
-            
+
             tempDrawBorder.remove();
 
             DrawShapeService.registerShapeEvents(tool.shape, tool.isShapeEditable());

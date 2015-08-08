@@ -20,6 +20,8 @@
             , valign: 'top'
             , startMode: 'VIEW'
             , class: 'composite-shape'
+            , minWidth: 70
+            , minHeight: 45
         };
 
         options = options || {};
@@ -32,6 +34,10 @@
         this.height(height);
         this.move(x, y);
         this.addClass(settings.class);
+
+        this.minWidth = settings.minWidth;
+        this.minHeight = settings.minHeight;
+        this.fontSize = settings.fontSize;
 
         this.rect = this.rect(width, height, 0, 0);
         this.rect.fill({color: settings.fill, opacity: settings.opacity})
@@ -81,6 +87,15 @@
             this.textNode.hide();
         },
 
+        setMinSizeIfSmaller: function () {
+            if(this.width() < this.minWidth) {
+                this.width(this.minWidth);
+            }
+            if(this.height() < this.minHeight) {
+                this.height(this.minHeight);
+            }
+        },
+
         getText: function () {
             return this.textNode.text();
         },
@@ -100,7 +115,11 @@
             self.hideText();
             self.unSelect();
 
-            $(workspaceNode).prepend('<div id="' + shapeEditNodeId + '" class="shapeTextWrapper"><textarea class="shapeText"></textarea></div>');
+            var fontSize = this.fontSize * zoomFactor;
+
+            $(workspaceNode).prepend('<div id="' + shapeEditNodeId + '" class="shapeTextWrapper">' +
+                                        '<textarea class="shapeText" style="font-size:' + fontSize + 'px"></textarea>' +
+                                    '</div>');
 
             $('#' + shapeEditNodeId).width(self.width() * zoomFactor)
                 .height(self.height() * zoomFactor)
@@ -111,7 +130,7 @@
             $('#' + shapeEditNodeId + ' textarea').on('blur', function () {
                 self.setText($(this).val());
                 self.showText();
-                $(this).parent().remove();
+                //$(this).parent().remove();
             }).focus().val(self.getText());
         },
 
@@ -205,6 +224,8 @@
                 , isNote: true
                 , startMode: 'EDIT'
                 , class: 'note-shape'
+                , minWidth: 120
+                , minHeight: 120
             }));
         },
         textShape: function (width, height, x, y) {
@@ -214,6 +235,7 @@
                 , strokeWidth: '0'
                 , startMode: 'EDIT'
                 , class: 'text-shape'
+                , minWidth: 120
             }));
         },
         buttonShape: function (width, height, x, y) {
