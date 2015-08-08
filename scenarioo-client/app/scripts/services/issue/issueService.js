@@ -14,9 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/* eslint no-console:0*/
 
-angular.module('scenarioo.services').factory('Issue', function ($rootScope, $routeParams, SelectedBranchAndBuild, IssueResource) {
+angular.module('scenarioo.services').factory('Issue', function ($rootScope, $routeParams, SelectedBranchAndBuild, IssueResource, $log) {
 
     var ISSUE_LOADED_EVENT = 'issueLoaded';
 
@@ -53,7 +52,7 @@ angular.module('scenarioo.services').factory('Issue', function ($rootScope, $rou
                 }
             },
             function (error) {
-                console.log(error);
+                $log.error(error);
                 if (errorCallback) {
                     errorCallback('Issue could not be saved');
                 }
@@ -66,11 +65,11 @@ angular.module('scenarioo.services').factory('Issue', function ($rootScope, $rou
                 'issueId': issueId
             },
             function onSuccess() {
-                console.log('sketcher data rolled back');
+                $log.log('sketcher data rolled back');
             },
             function onError(error) {
-                console.log('sketcher data NOT rolled back');
-                console.log(error);
+                $log.warn('sketcher data NOT rolled back');
+                $log.error(error);
             });
         }
     };

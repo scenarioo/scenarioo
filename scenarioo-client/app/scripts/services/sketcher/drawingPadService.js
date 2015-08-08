@@ -15,9 +15,8 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* global SVG:false */
-/* eslint no-console:0*/
 
-angular.module('scenarioo.services').service('DrawingPadService', function ($rootScope, $routeParams, $http, ContextService, DrawShapeService, ZoomPanService, $location) {
+angular.module('scenarioo.services').service('DrawingPadService', function ($rootScope, $routeParams, $http, ContextService, DrawShapeService, ZoomPanService, $location, $log) {
 
     var drawingPadNodeId = 'drawingPad',
         viewPortGroupId = 'viewPortGroup',
@@ -105,49 +104,47 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
         var mode = $location.search().mode;
 
         if (bgImg && screenshotURL && mode === 'create') {
-
-                convertImgToBase64URL(decodeURIComponent(screenshotURL), function (base64Img) {
-                    bgImg.load(base64Img).loaded(function (loader) {
-                        bgImg.attr({
-                            width: loader.width,
-                            height: loader.height
-                        });
-
-                        ZoomPanService.resetZoomPan();
+            convertImgToBase64URL(decodeURIComponent(screenshotURL), function (base64Img) {
+                bgImg.load(base64Img).loaded(function (loader) {
+                    bgImg.attr({
+                        width: loader.width,
+                        height: loader.height
                     });
+                    ZoomPanService.resetZoomPan();
                 });
-
+            });
         }
         else if (bgImg && screenshotURL && mode === 'edit') {
             $http.get(decodeURIComponent(screenshotURL), {headers: {accept: 'image/svg+xml'}}).
                 success(function (data) {
-                    var dp = bgImg.doc(SVG.Doc);
-                    var tempContainer = dp.nested();
-                    tempContainer.svg(data);
-                    var tempSVG = tempContainer.first();
-                    tempSVG.each(function() {
-                        var newShape;
-
-                        if(this.hasClass('shape')) {
-                            newShape = DrawShapeService.createNewShapeByClassName(drawingPad.viewPortGroup, this);
-                            DrawShapeService.registerShapeEvents(newShape, newShape instanceof SVG.Nested);
-                        } else {
-                            newShape = this;
-                        }
-                        drawingPad.viewPortGroup.add(newShape);
-                    });
-                    tempContainer.remove();
-                    bgImg.remove();
-                    dp.viewPortGroup.first().id(backgroundImageId);
-
+                    importDrawing(bgImg, data);
                     ZoomPanService.resetZoomPan();
                 }).
                 error(function (data, status, headers) {
-                    console.log(data);
-                    console.log(status);
-                    console.log(headers);
+                    $log.error(data, status, headers);
                 });
         }
+    }
+
+    function importDrawing(bgImg, svgData) {
+        var dp = bgImg.doc(SVG.Doc);
+        var tempContainer = dp.nested();
+        tempContainer.svg(svgData);
+        var tempSVG = tempContainer.first();
+        tempSVG.each(function () {
+            var newShape;
+
+            if (this.hasClass('shape')) {
+                newShape = DrawShapeService.createNewShapeByClassName(drawingPad.viewPortGroup, this);
+                DrawShapeService.registerShapeEvents(newShape, newShape instanceof SVG.Nested);
+            } else {
+                newShape = this;
+            }
+            drawingPad.viewPortGroup.add(newShape);
+        });
+        tempContainer.remove();
+        bgImg.remove();
+        dp.viewPortGroup.first().id(backgroundImageId);
     }
 
     function convertImgToBase64URL(url, callback, outputFormat) {
@@ -212,6 +209,7 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
             var group = drawingPad.group.clone().hide();
             var svg = group.first();
             svg.attr({
+                encoding: 'utf-8',
                 xmlns: 'http://www.w3.org/2000/svg',
                 version: '1.1',
                 'xmlns:xlink': 'http://www.w3.org/1999/xlink',
