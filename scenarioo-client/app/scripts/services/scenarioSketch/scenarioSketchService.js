@@ -14,11 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/* eslint no-console:0*/
 
 
-angular.module('scenarioo.services').factory('ScenarioSketch', function () {
-
+angular.module('scenarioo.services').factory('ScenarioSketch', function ($log) {
 
     return {
 
@@ -29,7 +27,7 @@ angular.module('scenarioo.services').factory('ScenarioSketch', function () {
                 }
             },
             function (error) {
-                console.log(error);
+                $log.error(error);
                 if (errorCallback) {
                     errorCallback('ScenarioSketch could not be saved');
                 }

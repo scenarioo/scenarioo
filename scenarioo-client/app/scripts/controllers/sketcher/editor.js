@@ -15,13 +15,12 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* global SVG:false */
-/* eslint no-console:0*/
 
 
 angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $timeout, $routeParams, $route,
                                                                            GlobalHotkeysService, SelectedBranchAndBuild, ToolBox, DrawShapeService,
                                                                            DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue,
-                                                                           ScenarioSketchResource, ScenarioSketch, ContextService) {
+                                                                           ScenarioSketchResource, ScenarioSketch, ContextService, $log) {
 
     function initEditMode() {
 
@@ -82,14 +81,14 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
                 issue.issueId = $scope.issueId;
 
                 Issue.saveIssue(issue, function (updatedIssue) {
-                    console.log('UPDATE Issue', updatedIssue.issueId);
+                    $log.log('UPDATE Issue', updatedIssue.issueId);
                     $rootScope.$broadcast('IssueSaved', {issueId: updatedIssue.issueId});
                 }, function (error) {
                     sketchSavedWithError(error);
                 });
             } else {
                 Issue.saveIssue(issue, function (savedIssue) {
-                    console.log('SAVE Issue', savedIssue.issueId);
+                    $log.log('SAVE Issue', savedIssue.issueId);
                     $rootScope.$broadcast('IssueSaved', {issueId: savedIssue.issueId});
                 }, function (error) {
                     sketchSavedWithError(error);
@@ -118,7 +117,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
                 scenarioSketch.scenarioSketchId = $scope.scenarioSketchId;
 
                 ScenarioSketch.saveScenarioSketch(scenarioSketch, function (updatedScenarioSketch) {
-                    console.log('UPDATE ScenarioSketch', updatedScenarioSketch.scenarioSketchId);
+                    $log.log('UPDATE ScenarioSketch', updatedScenarioSketch.scenarioSketchId);
                     $rootScope.$broadcast('ScenarioSketchSaved', {
                         issueId: updatedScenarioSketch.issueId,
                         scenarioSketchId: updatedScenarioSketch.scenarioSketchId
@@ -128,7 +127,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
                 });
             } else {
                 ScenarioSketch.saveScenarioSketch(scenarioSketch, function (savedScenarioSketch) {
-                    console.log('SAVE ScenarioSketch', savedScenarioSketch.scenarioSketchId);
+                    $log.log('SAVE ScenarioSketch', savedScenarioSketch.scenarioSketchId);
                     $rootScope.$broadcast('ScenarioSketchSaved', {
                         issueId: savedScenarioSketch.issueId,
                         scenarioSketchId: savedScenarioSketch.scenarioSketchId
@@ -167,14 +166,14 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
                 sketchStep.sketchStepName = $scope.sketchStepName;
 
                 SketchStep.saveSketchStep(sketchStep, function (updatedSketchStep) {
-                    console.log('UPDATE SketchStep', updatedSketchStep.sketchStepName);
+                    $log.log('UPDATE SketchStep', updatedSketchStep.sketchStepName);
                     sketchSuccessfullySaved();
                 }, function (error) {
                     sketchSavedWithError(error);
                 });
             } else {
                 SketchStep.saveSketchStep(sketchStep, function (savedSketchStep) {
-                    console.log('SAVE SketchStep', savedSketchStep.sketchStepName);
+                    $log.log('SAVE SketchStep', savedSketchStep.sketchStepName);
 
                     $scope.issueId = args.issueId;
                     $scope.scenarioSketchId = args.scenarioSketchId;
@@ -196,7 +195,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
         $timeout(function() {
             $scope.successfullyUpdatedSketchStep = false;
-        }, 3000);
+        }, 5000);
     }
 
     function sketchSavedWithError(error) {
@@ -218,7 +217,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
         $timeout(function() {
             $scope.notSuccessfullyUpdatedSketch = false;
-        }, 3000);
+        }, 5000);
     }
 
     $rootScope.$on('drawingEnded', function (scope, shape) {
@@ -236,7 +235,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     });
 
     $rootScope.$on(DrawingPadService.DRAWINGPAD_CLICKED_EVENT, function () {
-        console.log(DrawingPadService.DRAWINGPAD_CLICKED_EVENT);
+        $log.log(DrawingPadService.DRAWINGPAD_CLICKED_EVENT);
         DrawingPadService.unSelectAllShapes();
     });
 
