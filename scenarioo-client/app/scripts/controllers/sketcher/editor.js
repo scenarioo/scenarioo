@@ -53,7 +53,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
     $scope.exitSketcher = function() {
         $window.history.back();
-    }
+    };
 
     $scope.saveSketcherData = function () {
 
