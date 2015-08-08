@@ -29,6 +29,7 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
         tool.originalY = 0;
         tool.mousedown = false;
 
+        var tempDrawBorder = null;
 
         tool.onmousedownTemplate = function (event) {
             tool.pauseEvent(event);
@@ -37,6 +38,8 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
             var mousePoint = tool.getDrawingPad().getOffset(event);
             tool.originalX = tool.toZoomedPoint(mousePoint.x);
             tool.originalY = tool.toZoomedPoint(mousePoint.y);
+
+            tempDrawBorder = tool.getDrawingPad().drawBorder(0, 0, tool.originalX, tool.originalY);
 
             tool.shape = tool.getShape();
 
@@ -48,6 +51,8 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
             tool.mousedown = false;
             tool.originalX = 0;
             tool.originalY = 0;
+            
+            tempDrawBorder.remove();
 
             DrawShapeService.registerShapeEvents(tool.shape, tool.isShapeEditable());
 
@@ -68,6 +73,13 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
 
             tool.cornerX = Math.max(tool.originalX, tool.mouseX);
             tool.cornerY = Math.max(tool.originalY, tool.mouseY);
+
+            tempDrawBorder.attr({
+                width: tool.cornerX - tool.anchorX,
+                height: tool.cornerY - tool.anchorY,
+                x: tool.anchorX,
+                y: tool.anchorY
+            });
         };
 
         tool.pauseEvent = function (event) {
