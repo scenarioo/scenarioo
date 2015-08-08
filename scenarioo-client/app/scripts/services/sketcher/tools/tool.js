@@ -17,7 +17,7 @@
 /* eslint no-console:0 */
 
 
-angular.module('scenarioo.services').factory('Tool', function (DrawingPadService) {
+angular.module('scenarioo.services').factory('Tool', function (DrawingPadService, $log) {
 
     return function () {
 
@@ -30,7 +30,6 @@ angular.module('scenarioo.services').factory('Tool', function (DrawingPadService
             buttonDisabled: false,
 
             DRAWING_ENDED_EVENT: 'drawingEnded',
-            //SHAPE_SELECTED_EVENT: 'shapeSelected',
 
 
             getDrawingPad: function () {
@@ -40,7 +39,7 @@ angular.module('scenarioo.services').factory('Tool', function (DrawingPadService
             },
 
             activate: function () {
-                console.log('Activated tool: ' + this.name);
+                $log.log('Activated tool: ' + this.name);
 
                 this.buttonDisabled = true;
                 var dp = this.getDrawingPad();
@@ -49,10 +48,11 @@ angular.module('scenarioo.services').factory('Tool', function (DrawingPadService
                     dp.on('mouseup.drawingpad', this.onmouseup);
                     dp.on('mousemove.drawingpad', this.onmousedrag);
                 }
+
+                $('body').css('cursor', this.getCursor());
             },
 
             deactivate: function () {
-                console.log('Deactivated tool: ' + this.name);
                 this.buttonDisabled = false;
 
                 var dp = this.getDrawingPad();
@@ -61,6 +61,8 @@ angular.module('scenarioo.services').factory('Tool', function (DrawingPadService
                     dp.off('mouseup.drawingpad', this.onmouseup);
                     dp.off('mousemove.drawingpad', this.onmousedrag);
                 }
+
+                $('body').css('cursor', this.cursor);
             },
 
             onmousedown: function () {
@@ -68,6 +70,10 @@ angular.module('scenarioo.services').factory('Tool', function (DrawingPadService
             onmouseup: function () {
             },
             onmousedrag: function () {
+            },
+
+            getCursor: function () {
+                return this.cursor;
             }
         };
     };

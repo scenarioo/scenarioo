@@ -52,6 +52,7 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
             DrawShapeService.registerShapeEvents(tool.shape, tool.isShapeEditable());
 
             ZoomPanService.enableZoomPan();
+
             $rootScope.$broadcast(tool.DRAWING_ENDED_EVENT, tool.shape);
         };
 
@@ -95,6 +96,10 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
 
         tool.getShape = function () {
             return tool.shape;
+        };
+
+        tool.getCursor = function () {
+            return tool.cursor;
         };
 
         return tool;
