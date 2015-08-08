@@ -1,7 +1,6 @@
 package org.scenarioo.model.design.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -31,8 +30,8 @@ public class ScenarioSketch implements Serializable, Labelable, Detailable {
 	private String scenarioSketchStatus = "";
 	private String author = "";
 	private String contextInDocu;
-	private Date dateCreated;
-	private Date dateModified;
+	private long dateCreated;
+	private long dateModified;
 
 	@XmlTransient
 	private String branchName;
@@ -60,8 +59,8 @@ public class ScenarioSketch implements Serializable, Labelable, Detailable {
 		this.description = update.getDescription() != null ? update.getDescription() : this.description;
 		this.author = update.getAuthor() != null ? update.getAuthor() : this.author;
 		this.contextInDocu = update.getContextInDocu() != null ? update.getContextInDocu() : this.contextInDocu;
-		this.dateCreated = update.getDateCreated() != null ? update.getDateCreated() : this.dateCreated;
-		this.dateModified = update.getDateModified() != null ? update.getDateModified() : this.dateModified;
+		this.dateCreated = update.getDateCreated() != 0 ? update.getDateCreated() : this.dateCreated;
+		this.dateModified = update.getDateModified() != 0 ? update.getDateModified() : this.dateModified;
 
 		this.details = update.getDetails() != null ? update.getDetails() : this.details;
 		this.labels = update.getLabels() != null ? update.getLabels() : this.labels;
@@ -140,19 +139,19 @@ public class ScenarioSketch implements Serializable, Labelable, Detailable {
 		this.contextInDocu = contextInDocu;
 	}
 
-	public Date getDateCreated() {
+	public long getDateCreated() {
 		return dateCreated;
 	}
 
-	public void setDateCreated(final Date dateCreated) {
+	public void setDateCreated(final long dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 
-	public Date getDateModified() {
+	public long getDateModified() {
 		return dateModified;
 	}
 
-	public void setDateModified(final Date dateModified) {
+	public void setDateModified(final long dateModified) {
 		this.dateModified = dateModified;
 	}
 

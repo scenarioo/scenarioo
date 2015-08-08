@@ -137,6 +137,8 @@ public class SketchStepResource {
 		LOGGER.info(sketchStep);
 		LOGGER.info("-----------------------------------");
 		sketchStep.setSketchStepName(1);
+		sketchStep.setDateCreated(System.currentTimeMillis());
+		sketchStep.setDateModified(System.currentTimeMillis());
 		files.writeSketchStepToFile(branchName, issueId, scenarioSketchId, sketchStep);
 		files.writeSVGToFile(branchName, issueId, scenarioSketchId, sketchStep);
 		if (originalScreenshot != null) {
@@ -164,6 +166,7 @@ public class SketchStepResource {
 		final SketchStep existingSketchStep = reader.loadSketchStep(branchName, issueId, scenarioSketchId,
 				sketchStepName);
 		existingSketchStep.update(updatedSketchStep);
+		existingSketchStep.setDateModified(System.currentTimeMillis());
 		// files.updateSketchStep(branchName, existingSketchStep);
 
 		files.writeSVGToFile(branchName, issueId, scenarioSketchId, existingSketchStep);

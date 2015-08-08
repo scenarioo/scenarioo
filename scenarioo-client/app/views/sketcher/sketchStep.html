@@ -15,8 +15,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <sc-breadcrumb></sc-breadcrumb>
+<div class="step-navigation row sc-space-top sc-space-bottom" ng-hide="stepNotFound">
+    <div class="col-lg-4">
+        <div class="pull-right">
+            <sc-meta-data-button linking-variable="sketchStepShowMetadata" local-storage-key="sketchStep" ></sc-meta-data-button>
+        </div>
+    </div>
+</div>
 <!-- screenshot and information -->
-<sc-meta-data-panel linking-variable="stepShowMetadata" ng-hide="stepNotFound">
+<sc-meta-data-panel linking-variable="sketchStepShowMetadata">
     <div>
         <tabset class="step-panes">
             <tab heading="Screenshot">
@@ -42,11 +49,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <div>
         <!-- step -->
-        <sc-collapsable-panel title="Sketch Step" key="stepView-step" initially-expanded="false">
-            <sc-tree data='stepInformationTree'></sc-tree>
+        <sc-collapsable-panel title="Sketch Step" key="sketchStep" initially-expanded="false">
+            <ul>
+                <li id="dateCreated">
+                    Created: {{sketchStep.dateCreated | scDateTime}}
+                </li>
+                <li id="dateModified">
+                    Last modified: {{sketchStep.dateModified | scDateTime}}
+                </li>
+            </ul>
         </sc-collapsable-panel>
         <!-- labels -->
-        <sc-collapsable-panel title="Labels" key="stepView-labels" initially-expanded="false" ng-show="hasAnyLabels()">
+        <sc-collapsable-panel title="Labels" key="sketchStepView-labels" initially-expanded="false" ng-show="hasAnyLabels()">
             <div class="sc-tree">
                 <ul>
                     <li id="usecase-labels" ng-show="useCaseLabels.labels">

@@ -141,6 +141,8 @@ public class IssuesResource {
 			LOGGER.info("Couldn't generate SHA1 message digest.");
 			return Response.serverError().build();
 		}
+		newIssue.setDateCreated(System.currentTimeMillis());
+		newIssue.setDateModified(System.currentTimeMillis());
 		files.writeIssueToFile(branchName, newIssue);
 		return Response.ok(newIssue, MediaType.APPLICATION_JSON).build();
 	}
@@ -161,6 +163,7 @@ public class IssuesResource {
 		}
 		final Issue existingIssue = reader.loadIssue(branchName, issueId);
 		existingIssue.update(updatedIssue);
+		existingIssue.setDateModified(System.currentTimeMillis());
 		files.updateIssue(branchName, existingIssue);
 
 		return Response.ok(existingIssue, MediaType.APPLICATION_JSON).build();
@@ -207,6 +210,8 @@ public class IssuesResource {
 		summary.setStatus(issue.getIssueStatus());
 		summary.setNumberOfScenarioSketches(scenarioSketches.size());
 		summary.setLabels(issue.getLabels());
+		summary.setDateCreated(issue.getDateCreated());
+		summary.setDateModified(issue.getDateModified());
 
 		if (scenarioSketches.size() > 0) {
 			final ScenarioSketch firstScenarioSketch = scenarioSketches.get(0);

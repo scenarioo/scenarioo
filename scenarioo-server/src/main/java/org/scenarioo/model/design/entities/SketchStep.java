@@ -43,8 +43,8 @@ public class SketchStep implements Serializable {
 	private String scenarioContextLink;
 	private String stepContextLink;
 	private String contextInDocu; // todo
-	private String dateCreated; // todo
-	private String dateModified; // todo
+	private long dateCreated; // todo
+	private long dateModified; // todo
 
 	@XmlTransient
 	private String branchName;
@@ -105,19 +105,19 @@ public class SketchStep implements Serializable {
 		this.contextInDocu = contextInDocu;
 	}
 
-	public String getDateCreated() {
+	public long getDateCreated() {
 		return dateCreated;
 	}
 
-	public void setDateCreated(final String dateCreated) {
+	public void setDateCreated(final long dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 
-	public String getDateModified() {
+	public long getDateModified() {
 		return dateModified;
 	}
 
-	public void setDateModified(final String dateModified) {
+	public void setDateModified(final long dateModified) {
 		this.dateModified = dateModified;
 	}
 
@@ -233,7 +233,7 @@ public class SketchStep implements Serializable {
 		this.sketchStepDescription = update.getSketchStepDescription() != null ? update.getSketchStepDescription()
 				: this.sketchStepDescription;
 		this.html = update.getHtml() != null ? update.getHtml() : this.html;
-		this.dateModified = update.getDateModified() != null ? update.getDateModified() : this.dateModified;
+		this.dateModified = update.getDateModified() != 0 ? update.getDateModified() : this.dateModified;
 		this.stepContextLink = update.getStepContextLink() != null ? update.getStepContextLink() : this.stepContextLink;
 		this.scenarioContextLink = update.getScenarioContextLink() != null ? update.getScenarioContextLink()
 				: this.scenarioContextLink;
