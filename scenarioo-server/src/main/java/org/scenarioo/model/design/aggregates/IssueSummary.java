@@ -19,6 +19,7 @@ public class IssueSummary {
 	private String scenarioContextName;
 	private String scenarioContextLink;
 	private int numberOfScenarioSketches;
+	private long dateCreated, dateModified;
 	private String firstScenarioSketchId;
 	private Labels labels;
 
@@ -60,6 +61,22 @@ public class IssueSummary {
 
 	public void setNumberOfScenarioSketches(final int numberOfScenarioSketches) {
 		this.numberOfScenarioSketches = numberOfScenarioSketches;
+	}
+
+	public long getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(final long dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public long getDateModified() {
+		return dateModified;
+	}
+
+	public void setDateModified(final long dateModified) {
+		this.dateModified = dateModified;
 	}
 
 	public String getFirstScenarioSketchId() {
