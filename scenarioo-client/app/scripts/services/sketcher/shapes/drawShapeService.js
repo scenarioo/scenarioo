@@ -54,6 +54,7 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
         },
 
         createNewShapeByClassName: function (drawingPad, shape) {
+            var self = this;
             var classes = shape.attr('class');
             var typeClass = classes.split(' ').filter(function (value) {
                 return value.indexOf('-shape') > -1;
@@ -80,25 +81,32 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
 
             shape.each(function () {
                 if (this instanceof SVG.Text) {
-                    var text = '';
-
-                    $(this.node).children().each(function () {
-                        if(this.textContent.length > 0) {
-                            text += this.textContent + '\n';
-                        }
-                    });
-
-                    // remove last break
-                    if(text.length >= 2) {
-                        text = text.substring(0, text.length - 1);
-                    }
-
-                    newShape.setText(text);
+                    newShape.setText(self.getSVGText(this));
                 }
             });
 
             return newShape;
 
+        },
+
+        getSVGText: function(SVGText) {
+            var text = '';
+
+            var i = 0,
+                total = SVGText.lines().length();
+
+            SVGText.lines().each(function () {
+                i++;
+                if(this.node.textContent.length > 0) {
+                    text += this.node.textContent;
+
+                    if(i < total) {
+                        text += '\n';
+                    }
+                }
+            });
+
+            return text;
         }
     };
 });
