@@ -20,7 +20,7 @@
 angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $timeout, $routeParams, $route,
                                                                            GlobalHotkeysService, SelectedBranchAndBuild, ToolBox, DrawShapeService,
                                                                            DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue,
-                                                                           ScenarioSketchResource, ScenarioSketch, ContextService, $log) {
+                                                                           ScenarioSketchResource, ScenarioSketch, ContextService, $log, $window) {
 
     function initEditMode() {
 
@@ -50,6 +50,10 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
         DrawingPadService.unSelectAllShapes();
     };
+
+    $scope.exitSketcher = function() {
+        $window.history.back();
+    }
 
     $scope.saveSketcherData = function () {
 
