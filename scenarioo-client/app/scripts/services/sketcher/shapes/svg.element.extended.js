@@ -13,12 +13,12 @@
 
             this.draggable(this.isSelected);
 
-            if (!this.isSelected) {
-                this.resize('stop');
-                this.fire('unselected');
-            } else {
+            if (this.isSelected) {
                 this.resize();
                 this.fire('selected');
+            } else {
+                this.resize('stop');
+                this.fire('unselected');
             }
 
             return this;
