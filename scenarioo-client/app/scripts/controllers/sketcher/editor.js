@@ -82,6 +82,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
                 Issue.saveIssue(issue, function (updatedIssue) {
                     $log.log('UPDATE Issue', updatedIssue.issueId);
+                    $scope.issueId = updatedIssue.issueId;
                     $rootScope.$broadcast('IssueSaved', {issueId: updatedIssue.issueId});
                 }, function (error) {
                     sketchSavedWithError(error);
@@ -89,6 +90,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             } else {
                 Issue.saveIssue(issue, function (savedIssue) {
                     $log.log('SAVE Issue', savedIssue.issueId);
+                    $scope.issueId = savedIssue.issueId;
                     $rootScope.$broadcast('IssueSaved', {issueId: savedIssue.issueId});
                 }, function (error) {
                     sketchSavedWithError(error);
@@ -175,7 +177,6 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
                 SketchStep.saveSketchStep(sketchStep, function (savedSketchStep) {
                     $log.log('SAVE SketchStep', savedSketchStep.sketchStepName);
 
-                    $scope.issueId = args.issueId;
                     $scope.scenarioSketchId = args.scenarioSketchId;
                     $scope.sketchStepName = savedSketchStep.sketchStepName;
 
@@ -206,7 +207,9 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.scenarioSketchSaved = 0;
 
         if ($scope.mode === 'create') {
+            $log.info('about to send the delete request');
             if($scope.issueId) {
+                $log.info('NOW!');
                 Issue.deleteSketcherData($scope.issueId);
             }
 
