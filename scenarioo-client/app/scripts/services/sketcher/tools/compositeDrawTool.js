@@ -35,6 +35,8 @@ angular.module('scenarioo.services').factory('CompositeDrawTool', function (Draw
         tool.onmouseup = function (event) {
             tool.onmouseupTemplate(event);
 
+            tool.shape.setMinSizeIfSmaller();
+
             if (tool.getShapeStartMode() === 'EDIT') {
                 tool.shape.edit(ZoomPanService.getZoomFactor(), ZoomPanService.getPanPosition());
             }
