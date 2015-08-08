@@ -4,59 +4,58 @@
 ;
 (function () {
     SVG.CompositeShape = function (width, height, x, y, options) {
-        var i, settings;
+        var i;
 
-        settings = {
+        this.settings = {
             text: ''
             , fontSize: 14
             , fontColor: '#000'
             , fontFamily: '"Helvetica Neue",Helvetica,Arial,sans-serif'
+            , fontWeight: 'normal'
             , fill: '#fff'
             , opacity: 1
             , stroke: '#000'
             , strokeWidth: '3'
             , padding: 10
-            , halign: 'left'
+            , halign: 'start'
             , valign: 'top'
             , startMode: 'VIEW'
             , class: 'composite-shape'
             , minWidth: 70
-            , minHeight: 45
+            , minHeight: 48
+            , cornerRadius: 0
         };
 
         options = options || {};
         for (i in options)
-            settings[i] = options[i];
+            this.settings[i] = options[i];
 
         this.constructor.call(this, SVG.create('svg'));
 
         this.width(width);
         this.height(height);
         this.move(x, y);
-        this.addClass(settings.class);
-
-        this.minWidth = settings.minWidth;
-        this.minHeight = settings.minHeight;
-        this.fontSize = settings.fontSize;
+        this.addClass(this.settings.class);
 
         this.rect = this.rect(width, height, 0, 0);
-        this.rect.fill({color: settings.fill, opacity: settings.opacity})
-            .stroke({color: settings.stroke, width: settings.strokeWidth});
+        this.rect.fill({color: this.settings.fill, opacity: this.settings.opacity})
+            .stroke({color: this.settings.stroke, width: this.settings.strokeWidth})
+            .radius(this.settings.cornerRadius);
 
-        if (settings.isNote) {
+        if (this.settings.isNote) {
             this.isNote = true;
             this.createNotePolygon();
         }
 
-        this.textNode = this.text(settings.text)
-            .move(settings.padding, settings.padding)
-            .fill(settings.fontColor)
+        this.textNode = this.text(this.settings.text)
+            .move(this.settings.padding, this.settings.padding)
+            .fill(this.settings.fontColor)
             .attr('style', 'cursor:pointer;')
             .font({
-                anchor: 'left'
-                , size: settings.fontSize
-                , family: settings.fontFamily
-                , weight: '300'
+                anchor: this.settings.halign
+                , size: this.settings.fontSize
+                , family: this.settings.fontFamily
+                , weight: this.settings.fontWeight
             });
 
         this.registerAttrChangeEvent();
@@ -77,6 +76,9 @@
             if (this.isNote) {
                 this.updateNotePolygon();
             }
+
+            this.updateHalign();
+            this.updateValign();
         },
 
         showText: function () {
@@ -88,11 +90,61 @@
         },
 
         setMinSizeIfSmaller: function () {
-            if(this.width() < this.minWidth) {
-                this.width(this.minWidth);
+            if (this.width() < this.settings.minWidth) {
+                this.width(this.settings.minWidth);
             }
-            if(this.height() < this.minHeight) {
-                this.height(this.minHeight);
+            if (this.height() < this.settings.minHeight) {
+                this.height(this.settings.minHeight);
+            }
+        },
+
+        updateSizeIfTextisLarger: function () {
+            var textWidth = this.textNode.node.clientWidth;
+            var textHeight = this.textNode.node.clientHeight;
+
+            var newWidth = textWidth + 2 * this.settings.padding;
+            var newHeight = textHeight + 2 * this.settings.padding;
+
+            if (this.width() < newWidth) {
+                this.width(newWidth);
+            }
+            if (this.height() < newHeight) {
+                this.height(newHeight);
+            }
+        },
+
+        updateHalign: function () {
+            switch (this.settings.halign) {
+                case 'middle':
+                    this.textNode.x(this.width() / 2);
+                    break;
+                case 'end':
+                    this.textNode.x(this.width() - this.settings.padding);
+                    break;
+                default:
+                    this.textNode.x(this.settings.padding);
+            }
+        },
+
+        updateValign: function () {
+            var textHeight = 0;
+
+            this.textNode.lines().each(function () {
+                textHeight += this.dy();
+            });
+
+
+            switch (this.settings.valign) {
+                case 'middle':
+                    if(textHeight > 0) {
+                        this.textNode.y((this.height() - textHeight) / 2);
+                    }
+                    break;
+                case 'bottom':
+                    this.textNode.y(this.height() - textHeight - this.settings.padding);
+                    break;
+                default:
+                    this.textNode.y(this.settings.padding);
             }
         },
 
@@ -115,11 +167,11 @@
             self.hideText();
             self.unSelect();
 
-            var fontSize = this.fontSize * zoomFactor;
+            var fontSize = this.settings.fontSize * zoomFactor;
 
             $(workspaceNode).prepend('<div id="' + shapeEditNodeId + '" class="shapeTextWrapper">' +
-                                        '<textarea class="shapeText" style="font-size:' + fontSize + 'px"></textarea>' +
-                                    '</div>');
+            '<textarea class="shapeText" style="font-size:' + fontSize + 'px; font-weight:' + this.settings.fontWeight + '"></textarea>' +
+            '</div>');
 
             $('#' + shapeEditNodeId).width(self.width() * zoomFactor)
                 .height(self.height() * zoomFactor)
@@ -130,7 +182,7 @@
             $('#' + shapeEditNodeId + ' textarea').on('blur', function () {
                 self.setText($(this).val());
                 self.showText();
-                //$(this).parent().remove();
+                $(this).parent().remove();
             }).focus().val(self.getText());
         },
 
@@ -139,6 +191,8 @@
             this.setText($('#' + shapeEditNodeId + ' textarea').val());
             this.showText();
             $('#' + shapeEditNodeId).remove();
+            this.update();
+            this.updateSizeIfTextisLarger();
         },
 
         createNotePolygon: function () {
@@ -164,36 +218,20 @@
 
         // http://stackoverflow.com/questions/4561845/firing-event-on-dom-attribute-change
         registerAttrChangeEvent: function () {
-
             var self = this;
-
             window.MutationObserver = window.MutationObserver
             || window.WebKitMutationObserver
             || window.MozMutationObserver;
 
             if (window.MutationObserver || window.MutationObserver !== undefined) {
-                // Find the element that you want to "watch"
                 var target = self.node,
-                // create an observer instance
                     observer = new MutationObserver(function () {
-                        /** this is the callback where you
-                         do what you need to do.
-                         The argument is an array of MutationRecords where the affected attribute is
-                         named "attributeName". There is a few other properties in a record
-                         but I'll let you work it out yourself.
-                         **/
                         self.update();
                     }),
-                // configuration of the observer:
                     config = {
                         attributes: true // this is to watch for attribute changes.
                     };
-
-                // pass in the element you wanna watch as well as the options
                 observer.observe(target, config);
-
-                // later, you can stop observing
-                // observer.disconnect();
             } else {
                 self.on('DOMAttrModified.shape', function () {
                     self.update();
@@ -215,6 +253,8 @@
                 , stroke: '#e74c3c'
                 , strokeWidth: '5'
                 , class: 'border-shape'
+                , halign: 'end'
+                , valign: 'bottom'
             }));
         },
         noteShape: function (width, height, x, y) {
@@ -242,10 +282,13 @@
             return this.put(new SVG.CompositeShape(width, height, x, y, {
                 fill: '#3498db'
                 , strokeWidth: '0'
-                , halign: 'center'
+                , halign: 'middle'
                 , valign: 'middle'
-                , text: 'abc'
+                , text: 'button text'
+                , cornerRadius: 10
+                , fontWeight: 'bold'
                 , class: 'button-shape'
+                , minWidth: 100
             }));
         }
 
