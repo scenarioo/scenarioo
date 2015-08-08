@@ -185,7 +185,7 @@ public class IssuesResource {
 	}
 
 	private Boolean nameMatches(final Issue issue, final String objectName, final String type) {
-		if (type == "scenario") {
+		if (type.equals("scenario")) {
 			return issue.getScenarioContextLink() != null && issue.getScenarioContextLink().equals(objectName);
 		} else {
 			return issue.getUsecaseContextName() != null && issue.getUsecaseContextName().equals(objectName);
@@ -214,19 +214,4 @@ public class IssuesResource {
 		}
 		return summary;
 	}
-
-	/*
-	 * private IssueSummary mapSummary(final IssueScenarioSketches issueProposals) {
-	 * final IssueSummary summary = new IssueSummary();
-	 * final Issue issue = issueProposals.getIssue();
-	 * summary.setName(issue.getName());
-	 * summary.setDescription(issue.getDescription());
-	 * summary.setAuthor(issue.getAuthor());
-	 * summary.setUsecaseContext(issue.getUsecaseContextLink());
-	 * summary.setStatus(issue.getIssueStatus());
-	 * summary.setNumberOfScenarioSketches(issueProposals.getScenarioSketches().size());
-	 * summary.setLabels(issue.getLabels());
-	 * return summary;
-	 * }
-	 */
 }
