@@ -62,9 +62,6 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
             var newShape;
 
             switch (typeClass[0]) {
-                case 'rect-shape':
-                    newShape = drawingPad.rectShape(shape.width(), shape.height(), shape.x(), shape.y());
-                    break;
                 case 'border-shape':
                     newShape = drawingPad.borderShape(shape.width(), shape.height(), shape.x(), shape.y());
                     break;
@@ -77,6 +74,8 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
                 case 'button-shape':
                     newShape = drawingPad.buttonShape(shape.width(), shape.height(), shape.x(), shape.y());
                     break;
+                default:
+                    newShape = drawingPad.rectShape(shape.width(), shape.height(), shape.x(), shape.y());
             }
 
             shape.each(function () {
