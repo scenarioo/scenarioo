@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+/* eslint no-console:0*/
 
 angular.module('scenarioo.services').factory('SketchStep', function () {
 
@@ -30,11 +30,17 @@ angular.module('scenarioo.services').factory('SketchStep', function () {
             return angular.copy(sketchStepData);
         },
 
-        updateSketchStep: function (changedSketchStep, successCallback) {
+        saveSketchStep: function (changedSketchStep, successCallback, errorCallback) {
 
             changedSketchStep.$save(function (updatedSketchStep) {
                 if (successCallback) {
                     successCallback(updatedSketchStep);
+                }
+            },
+            function (error) {
+                console.log(error);
+                if (errorCallback) {
+                    errorCallback('SketchStep could not be saved');
                 }
             });
         }

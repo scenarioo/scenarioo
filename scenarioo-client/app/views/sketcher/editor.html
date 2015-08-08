@@ -52,6 +52,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <div id="sc-sketcher-sidebar" class="col-lg-3">
 
+        <div class="alert alert-danger fade-out" ng-show="notSuccessfullyUpdatedSketch">
+            The sketch has not been saved. Reason: {{sketchErrorMsg}}
+            <a ng-click="notSuccessfullyUpdatedSketch=false" class="pull-right link link-no-hover"
+               style="color: #468847"><i
+                    class="icon-remove icon"></i></a>
+        </div>
+
         <div class="alert alert-success fade-out" ng-show="successfullyUpdatedSketchStep">
             The sketch has been successfully saved.
             <a ng-click="successfullyUpdatedSketchStep=false" class="pull-right link link-no-hover"
@@ -63,14 +70,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <div class="form-group" ng-class="{ 'has-error has-feedback' : sketcherForm.issueName.$dirty && sketcherForm.issueName.$invalid }">
                 <label class="control-label">Issue Name <span class="has-error">*</span></label>
-                <input type="text" id="issueName" name="issueName" ng-model="issueName" class="form-control" ng-readonly="mode==='edit'" required />
+                <input type="text" id="issueName" name="issueName" ng-model="issueName" class="form-control" required />
                 <span ng-show="sketcherForm.issueName.$dirty && sketcherForm.issueName.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                 <span class="sr-only">(error)</span>
             </div>
 
             <div class="form-group" ng-class="{ 'has-error has-feedback' : sketcherForm.issueAuthor.$dirty && sketcherForm.issueAuthor.$invalid }">
                 <label class="control-label">Author *</label>
-                <input type="text" id="issueAuthor" name="issueAuthor" ng-model="issueAuthor" class="form-control" ng-readonly="mode==='edit'" required />
+                <input type="text" id="issueAuthor" name="issueAuthor" ng-model="issueAuthor" class="form-control" required />
                 <span ng-show="sketcherForm.issueAuthor.$dirty && sketcherForm.issueAuthor.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                 <span class="sr-only">(error)</span>
             </div>
@@ -80,7 +87,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <textarea id="issueDescription" ng-model="issueDescription" class="form-control" rows="3"></textarea>
             </div>
 
-            <button ng-click="updateSketchStep()"
+            <button ng-click="saveSketcherData()"
                     type="submit"
                     id="save"
                     class="btn btn-default"

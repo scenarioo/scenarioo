@@ -39,7 +39,6 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.issueName = currentIssue.name;
         $scope.issueDescription = currentIssue.description;
         $scope.issueAuthor = currentIssue.author;
-        $scope.sketcherButtonName = 'Update';
     });
 
 
@@ -53,8 +52,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         DrawingPadService.unSelectAllShapes();
     };
 
-    // exporting svg drawing
-    $scope.updateSketchStep = function () {
+    $scope.saveSketcherData = function () {
 
         DrawingPadService.unSelectAllShapes();
 
@@ -78,19 +76,23 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         }
 
         if ($scope.issueSaved === 0) {
-            $scope.issueSaved++;
+            ++$scope.issueSaved;
 
             if ($scope.issueId && $scope.issueId !== undefined) {
                 issue.issueId = $scope.issueId;
 
-                Issue.updateIssue(issue, function (updatedIssue) {
+                Issue.saveIssue(issue, function (updatedIssue) {
                     console.log('UPDATE Issue', updatedIssue.issueId);
                     $rootScope.$broadcast('IssueSaved', {issueId: updatedIssue.issueId});
+                }, function (error) {
+                    sketchSavedWithError(error);
                 });
             } else {
-                Issue.updateIssue(issue, function (savedIssue) {
+                Issue.saveIssue(issue, function (savedIssue) {
                     console.log('SAVE Issue', savedIssue.issueId);
                     $rootScope.$broadcast('IssueSaved', {issueId: savedIssue.issueId});
+                }, function (error) {
+                    sketchSavedWithError(error);
                 });
             }
         }
@@ -115,20 +117,24 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             if ($scope.scenarioSketchId && $scope.scenarioSketchId !== undefined) {
                 scenarioSketch.scenarioSketchId = $scope.scenarioSketchId;
 
-                ScenarioSketch.updateScenarioSketch(scenarioSketch, function (updatedScenarioSketch) {
+                ScenarioSketch.saveScenarioSketch(scenarioSketch, function (updatedScenarioSketch) {
                     console.log('UPDATE ScenarioSketch', updatedScenarioSketch.scenarioSketchId);
                     $rootScope.$broadcast('ScenarioSketchSaved', {
                         issueId: updatedScenarioSketch.issueId,
                         scenarioSketchId: updatedScenarioSketch.scenarioSketchId
                     });
+                }, function (error) {
+                    sketchSavedWithError(error);
                 });
             } else {
-                ScenarioSketch.updateScenarioSketch(scenarioSketch, function (savedScenarioSketch) {
+                ScenarioSketch.saveScenarioSketch(scenarioSketch, function (savedScenarioSketch) {
                     console.log('SAVE ScenarioSketch', savedScenarioSketch.scenarioSketchId);
                     $rootScope.$broadcast('ScenarioSketchSaved', {
                         issueId: savedScenarioSketch.issueId,
                         scenarioSketchId: savedScenarioSketch.scenarioSketchId
                     });
+                }, function (error) {
+                    sketchSavedWithError(error);
                 });
             }
         }
@@ -160,30 +166,59 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             if ($scope.sketchStepName && $scope.sketchStepName !== undefined) {
                 sketchStep.sketchStepName = $scope.sketchStepName;
 
-                SketchStep.updateSketchStep(sketchStep, function (updatedSketchStep) {
+                SketchStep.saveSketchStep(sketchStep, function (updatedSketchStep) {
                     console.log('UPDATE SketchStep', updatedSketchStep.sketchStepName);
-                    sketchSuccessfullyUpdated();
+                    sketchSuccessfullySaved();
+                }, function (error) {
+                    sketchSavedWithError(error);
                 });
             } else {
-                SketchStep.updateSketchStep(sketchStep, function (savedSketchStep) {
+                SketchStep.saveSketchStep(sketchStep, function (savedSketchStep) {
                     console.log('SAVE SketchStep', savedSketchStep.sketchStepName);
 
                     $scope.issueId = args.issueId;
                     $scope.scenarioSketchId = args.scenarioSketchId;
                     $scope.sketchStepName = savedSketchStep.sketchStepName;
 
-                    sketchSuccessfullyUpdated();
+                    sketchSuccessfullySaved();
+                }, function (error) {
+                    sketchSavedWithError(error);
                 });
             }
         }
     });
 
-    function sketchSuccessfullyUpdated() {
+    function sketchSuccessfullySaved() {
         $scope.successfullyUpdatedSketchStep = true;
-        $scope.sketcherButtonName = 'Update';
 
         $scope.issueSaved = 0;
         $scope.scenarioSketchSaved = 0;
+
+        $timeout(function() {
+            $scope.successfullyUpdatedSketchStep = false;
+        }, 3000);
+    }
+
+    function sketchSavedWithError(error) {
+        $scope.notSuccessfullyUpdatedSketch = true;
+        $scope.sketchErrorMsg = error;
+
+        $scope.issueSaved = 0;
+        $scope.scenarioSketchSaved = 0;
+
+        if ($scope.mode === 'create') {
+            if($scope.issueId) {
+                Issue.deleteSketcherData($scope.issueId);
+            }
+
+            $scope.issueId = null;
+            $scope.scenarioSketchId = null;
+            $scope.sketchStepName = null;
+        }
+
+        $timeout(function() {
+            $scope.notSuccessfullyUpdatedSketch = false;
+        }, 3000);
     }
 
     $rootScope.$on('drawingEnded', function (scope, shape) {
@@ -243,7 +278,6 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.issueId = null;
         $scope.scenarioSketchId = null;
         $scope.sketchStepName = null;
-        console.log('editor scope destroyed');
     });
 
 });

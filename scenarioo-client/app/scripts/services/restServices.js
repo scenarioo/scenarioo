@@ -264,7 +264,8 @@ angular.module('scenarioo.services')
             },
             {
                 'query': {method: 'GET', isArray: false, params: {issueId: '@issueId'}},
-                'update': {method: 'PUT', params: {issueId: '@issueId'}}
+                'update': {method: 'PUT', params: {issueId: '@issueId'}},
+                'delete': {method: 'DELETE', params: {issueId: '@issueId'}}
             });
     })
 

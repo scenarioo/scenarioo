@@ -50,14 +50,14 @@ angular.module('scenarioo.services').factory('Issues', function ($rootScope, $ro
          */
         load: function () {
             doLoad();
-        },
+        }
 
-        saveIssue: function (newIssue, successCallback) {
+        /*saveIssue: function (newIssue, successCallback) {
             newIssue.$save(function (savedIssue) {
                 if (successCallback) {
                     successCallback(savedIssue);
                 }
             });
-        }
+        }*/
     };
 });

@@ -101,8 +101,6 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
     function loadBackgroundImage() {
         var bgImg = SVG.get(backgroundImageId);
 
-        console.log(ContextService);
-
         var screenshotURL = $location.search().url;
         var mode = $location.search().mode;
 
