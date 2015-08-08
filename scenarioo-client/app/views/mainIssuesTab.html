@@ -44,8 +44,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <th>Author</th>
                         <th>Related Usecase</th>
                         <th>Related Scenario</th>
-                        <!--<th>Created</th>
-                        <th>Updated</th>-->
+                        <th>Created</th>
+                        <th>Last modified</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,8 +57,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <td>{{issue.author}}</td>
                         <td>{{issue.usecaseContextName}}</td>
                         <td>{{issue.scenarioContextName}}</td>
-                        <!--<td>{{issue.created}}</td>
-                        <td>{{issue.updated}}</td>-->
+                        <td>{{issue.dateCreated  | scDateTime}}</td>
+                        <td>{{issue.dateModified | scDateTime}}</td>
                     </tr>
                 </tbody>
             </table>

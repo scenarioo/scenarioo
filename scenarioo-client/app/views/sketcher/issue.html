@@ -50,6 +50,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </th>-->
                     <!--<th sc-sortable-column="calculatedData.numberOfSteps"># Steps</th>-->
                     <th># of Sketch Steps</th>
+                    <th>Created</th>
+                    <th>Last modified</th>
                 </tr>
             </thead>
             <tbody>
@@ -73,6 +75,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </td>
                     <!--<td ng-repeat="property in propertiesToShow">{{scenarioSummary.scenario.details[property]}}</td>-->
                     <td>{{scenarioSketchSummary.numberOfSteps}}</td>
+                    <td>{{scenarioSketchSummary.dateCreated  | scDateTime}}</td>
+                    <td>{{scenarioSketchSummary.dateModified | scDateTime}}</td>
                 </tr>
             </tbody>
         </table>

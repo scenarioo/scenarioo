@@ -83,6 +83,8 @@ public class ScenarioSketchesResource {
 			LOGGER.info("Couldn't generate SHA1 message digest.");
 			return Response.serverError().build();
 		}
+		scenarioSketch.setDateCreated(System.currentTimeMillis());
+		scenarioSketch.setDateModified(System.currentTimeMillis());
 		files.writeScenarioSketchToFile(branchName, scenarioSketch.getIssueId(), scenarioSketch);
 		return Response.ok(scenarioSketch, MediaType.APPLICATION_JSON).build();
 	}
@@ -103,7 +105,8 @@ public class ScenarioSketchesResource {
 		}
 		final ScenarioSketch existingScenarioSketch = reader.loadScenarioSketch(branchName, issueId, scenarioSketchId);
 		existingScenarioSketch.update(updatedScenarioSketch);
-		files.updateScenarioSketch(branchName, updatedScenarioSketch);
+		existingScenarioSketch.setDateModified(System.currentTimeMillis());
+		files.updateScenarioSketch(branchName, existingScenarioSketch);
 
 		return Response.ok(updatedScenarioSketch, MediaType.APPLICATION_JSON).build();
 	}
