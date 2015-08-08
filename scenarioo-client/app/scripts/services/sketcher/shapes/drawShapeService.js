@@ -83,7 +83,9 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
                     var text = '';
 
                     $(this.node).children().each(function () {
-                        text += this.textContent + '\n';
+                        if(this.textContent.length > 0) {
+                            text += this.textContent + '\n';
+                        }
                     });
 
                     // remove last break
