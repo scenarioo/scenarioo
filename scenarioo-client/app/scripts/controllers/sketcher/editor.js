@@ -34,10 +34,10 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     }
 
     $rootScope.$on(Issue.ISSUE_LOADED_EVENT, function (event, result) {
-        var currentIssue = result.issue;
-        $scope.issueName = currentIssue.name;
-        $scope.issueDescription = currentIssue.description;
-        $scope.issueAuthor = currentIssue.author;
+        $scope.currentIssue = result.issue;
+        $scope.issueName = $scope.currentIssue.name;
+        $scope.issueDescription = $scope.currentIssue.description;
+        $scope.issueAuthor = $scope.currentIssue.author;
     });
 
 
@@ -211,9 +211,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.scenarioSketchSaved = 0;
 
         if ($scope.mode === 'create') {
-            $log.info('about to send the delete request');
             if($scope.issueId) {
-                $log.info('NOW!');
                 Issue.deleteSketcherData($scope.issueId);
             }
 
@@ -262,6 +260,25 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         DrawingPadService.sendSelectedShapeForward();
     };
 
+    $scope.contextBreadcrumbs = function () {
+        var uc, sc;
+
+        if(ContextService && ContextService.usecaseName) {
+            uc = ContextService.usecaseName;
+            sc = ContextService.scenarioName;
+        } else if($scope.currentIssue && $scope.currentIssue.usecaseContextName) {
+            uc = $scope.currentIssue.usecaseContextName;
+            sc = $scope.currentIssue.scenarioContextName;
+        }
+
+        if(uc) {
+            return 'Use Case: ' + uc +
+                ' > Scenario: ' + sc +
+                ' > Step';
+        } else {
+            return '';
+        }
+    };
 
     $scope.init = function () {
         var drawingPad = SVG('drawingPad').spof();
@@ -275,6 +292,8 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         if($scope.mode === 'edit') {
             initEditMode();
         }
+
+        $('body').addClass('sc-sketcher-bg-color-light');
     };
     $scope.init();
 
@@ -284,6 +303,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.issueId = null;
         $scope.scenarioSketchId = null;
         $scope.sketchStepName = null;
+        $('body').removeClass('sc-sketcher-bg-color-light');
     });
 
 });

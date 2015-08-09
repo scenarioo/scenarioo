@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <div class="sc-sketcher-container sc-sketcher-bg-color-light">
-    <h1>Sketcher</h1>
+    <!--<h1>Sketcher</h1>-->
 
     <div id="sc-sketcher-toolbar" class="col-lg-9">
         <div class="btn-group btn-group-sm" role="group">
@@ -52,6 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div id="sc-sketcher-viewport" class="">
             <div id="drawingPad"></div>
         </div>
+        <div id="sc-context-breadcrumbs">{{contextBreadcrumbs()}}</div>
 
     </div>
 
@@ -60,7 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div class="alert alert-danger fade-out" ng-show="notSuccessfullySavedSketch">
             The sketch has not been saved. Reason: {{sketchErrorMsg}}
             <a ng-click="notSuccessfullyUpdatedSketch=false" class="pull-right link link-no-hover"
-               style="color: #468847"><i
+               style="color: #a94442"><i
                     class="icon-remove icon"></i></a>
         </div>
 
