@@ -475,13 +475,6 @@ label {
   font-size: 80%;
   color: #555;
 }
-.tool-button,
-.tool-button:hover,
-.property-button,
-.property-button:hover {
-  margin-left: -1px;
-  margin-right: -1px;
-}
 .tool-icon,
 .property-icon {
   background-image: url('../images/sketcher-icons-sprite.png');

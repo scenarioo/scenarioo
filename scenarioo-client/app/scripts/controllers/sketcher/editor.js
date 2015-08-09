@@ -49,6 +49,8 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         tool.activate();
 
         DrawingPadService.unSelectAllShapes();
+
+        $('.tooltip').hide().delay( 100 );
     };
 
     $scope.exitSketcher = function() {

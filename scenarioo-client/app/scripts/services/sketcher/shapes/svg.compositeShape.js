@@ -177,9 +177,11 @@
             self.unSelect();
 
             var fontSize = this.settings.fontSize * zoomFactor;
+            var padding = this.settings.padding * zoomFactor;
 
             $(workspaceNode).prepend('<div id="' + shapeEditNodeId + '" class="shapeTextWrapper">' +
-            '<textarea class="shapeText" style="font-size:' + fontSize + 'px; font-weight:' + this.settings.fontWeight + '"></textarea>' +
+            '<textarea class="shapeText" style="font-size:' + fontSize + 'px; font-weight:' + this.settings.fontWeight + '; padding:' +
+                padding + 'px; text-align: ' + this.settings.halign + ';"></textarea>' +
             '</div>');
 
             $('#' + shapeEditNodeId).width(self.width() * zoomFactor)
