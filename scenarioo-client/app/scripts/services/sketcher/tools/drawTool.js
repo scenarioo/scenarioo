@@ -31,13 +31,14 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
 
         var tempDrawBorder = null;
 
+
         tool.onmousedownTemplate = function (event) {
             tool.pauseEvent(event);
             tool.mousedown = true;
 
             var mousePoint = tool.getDrawingPad().getOffset(event);
-            tool.originalX = tool.toZoomedPoint(mousePoint.x);
-            tool.originalY = tool.toZoomedPoint(mousePoint.y);
+            tool.originalX = ZoomPanService.convertToZoomedPoint(mousePoint.x);
+            tool.originalY = ZoomPanService.convertToZoomedPoint(mousePoint.y);
 
             tempDrawBorder = tool.getDrawingPad().drawBorder(0, 0, tool.originalX, tool.originalY);
 
@@ -65,8 +66,8 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
             tool.pauseEvent(event);
 
             var mousePoint = tool.getDrawingPad().getOffset(event);
-            tool.mouseX = tool.toZoomedPoint(mousePoint.x);
-            tool.mouseY = tool.toZoomedPoint(mousePoint.y);
+            tool.mouseX = ZoomPanService.convertToZoomedPoint(mousePoint.x);
+            tool.mouseY = ZoomPanService.convertToZoomedPoint(mousePoint.y);
 
             tool.anchorX = Math.min(tool.originalX, tool.mouseX);
             tool.anchorY = Math.min(tool.originalY, tool.mouseY);
@@ -92,10 +93,6 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
             event.cancelBubble = true;
             event.returnValue = false;
             return false;
-        };
-
-        tool.toZoomedPoint = function (n) {
-            return n / ZoomPanService.getZoomFactor();
         };
 
         tool.getShapeStartMode = function () {

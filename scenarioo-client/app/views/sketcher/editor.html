@@ -52,14 +52,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <div id="sc-sketcher-sidebar" class="col-lg-3">
 
-        <div class="alert alert-danger fade-out" ng-show="notSuccessfullyUpdatedSketch">
+        <div class="alert alert-danger fade-out" ng-show="notSuccessfullySavedSketch">
             The sketch has not been saved. Reason: {{sketchErrorMsg}}
             <a ng-click="notSuccessfullyUpdatedSketch=false" class="pull-right link link-no-hover"
                style="color: #468847"><i
                     class="icon-remove icon"></i></a>
         </div>
 
-        <div class="alert alert-success fade-out" ng-show="successfullyUpdatedSketchStep">
+        <div class="alert alert-success fade-out" ng-show="successfullySavedSketchStep">
             Sketch successfully saved
             <a ng-click="successfullyUpdatedSketchStep=false" class="pull-right link link-no-hover"
                style="color: #468847"><i

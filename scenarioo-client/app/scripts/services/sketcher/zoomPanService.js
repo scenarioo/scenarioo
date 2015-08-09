@@ -72,6 +72,10 @@ angular.module('scenarioo.services').service('ZoomPanService', function () {
 
         getPanPosition: function () {
             return panZoom.getPan();
+        },
+
+        convertToZoomedPoint: function (n) {
+            return n / zoomFactor;
         }
     };
 });

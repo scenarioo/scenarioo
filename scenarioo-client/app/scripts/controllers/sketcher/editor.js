@@ -61,7 +61,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
         $scope.issueSaved = 0;
         $scope.scenarioSketchSaved = 0;
-        $scope.successfullyUpdatedSketchStep = false;
+        $scope.successfullySavedSketchStep = false;
 
         var issue = new IssueResource({
             branchName: $routeParams.branch,
@@ -193,18 +193,18 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     });
 
     function sketchSuccessfullySaved() {
-        $scope.successfullyUpdatedSketchStep = true;
+        $scope.successfullySavedSketchStep = true;
 
         $scope.issueSaved = 0;
         $scope.scenarioSketchSaved = 0;
 
         $timeout(function() {
-            $scope.successfullyUpdatedSketchStep = false;
+            $scope.successfullySavedSketchStep = false;
         }, 5000);
     }
 
     function sketchSavedWithError(error) {
-        $scope.notSuccessfullyUpdatedSketch = true;
+        $scope.notSuccessfullySavedSketch = true;
         $scope.sketchErrorMsg = error;
 
         $scope.issueSaved = 0;
@@ -223,7 +223,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         }
 
         $timeout(function() {
-            $scope.notSuccessfullyUpdatedSketch = false;
+            $scope.notSuccessfullySavedSketch = false;
         }, 5000);
     }
 
