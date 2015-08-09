@@ -468,3 +468,51 @@ label {
   overflow: hidden;
   outline: 0;
 }
+.tool-button,
+.tool-button:hover,
+.property-button,
+.property-button:hover {
+  margin-left: -1px;
+  margin-right: -1px;
+}
+.tool-icon,
+.property-icon {
+  background-image: url('../images/sketcher-icons-sprite.png');
+  background-repeat: no-repeat;
+  width: 50px;
+  height: 33px;
+  display: block;
+}
+.tool-icon-default {
+  background-position: 50px center;
+}
+.tool-icon-select {
+  background-position: -450px center;
+}
+.tool-icon-border {
+  background-position: 0px center;
+}
+.tool-icon-rect {
+  background-position: -50px center;
+}
+.tool-icon-note {
+  background-position: -100px center;
+}
+.tool-icon-text {
+  background-position: -150px center;
+}
+.tool-icon-button {
+  background-position: -200px center;
+}
+.property-icon-front {
+  background-position: -250px center;
+}
+.property-icon-forward {
+  background-position: -300px center;
+}
+.property-icon-backward {
+  background-position: -350px center;
+}
+.property-icon-back {
+  background-position: -400px center;
+}

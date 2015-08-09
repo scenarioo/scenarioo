@@ -22,8 +22,8 @@ angular.module('scenarioo.services').factory('SelectTool', function(Tool) {
 
 
     tool.name = 'Select Tool';
-    //tool.icon = null,
-    tool.tooltip = 'This tool is used to select elements of the drawing.';
+    tool.icon = 'select';
+    tool.tooltip = 'Select and transform';
 
 
     return tool;
