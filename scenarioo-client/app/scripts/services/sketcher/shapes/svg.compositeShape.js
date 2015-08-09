@@ -15,15 +15,15 @@
             , fill: '#fff'
             , opacity: 1
             , stroke: '#000'
-            , strokeWidth: '3'
+            , strokeWidth: 3
+            , cornerRadius: 0
             , padding: 10
-            , halign: 'start'
+            , halign: 'left'
             , valign: 'top'
-            , startMode: 'VIEW'
-            , class: 'composite-shape'
+            , class: 'rect-shape'
             , minWidth: 70
             , minHeight: 48
-            , cornerRadius: 0
+            , isNote: false
         };
 
         options = options || {};
@@ -47,12 +47,21 @@
             this.createNotePolygon();
         }
 
+        var halign = '';
+        if(this.settings.halign === 'center') {
+            halign = 'middle';
+        } else if (this.settings.halign === 'right') {
+            halign = 'end';
+        } else {
+            halign = 'start';
+        }
+
         this.textNode = this.text(this.settings.text)
             .move(this.settings.padding, this.settings.padding)
             .fill(this.settings.fontColor)
             .attr('style', 'cursor:pointer;')
             .font({
-                anchor: this.settings.halign
+                anchor: halign
                 , size: this.settings.fontSize
                 , family: this.settings.fontFamily
                 , weight: this.settings.fontWeight
@@ -115,10 +124,10 @@
 
         updateHalign: function () {
             switch (this.settings.halign) {
-                case 'middle':
+                case 'center':
                     this.textNode.x(this.width() / 2);
                     break;
-                case 'end':
+                case 'right':
                     this.textNode.x(this.width() - this.settings.padding);
                     break;
                 default:
@@ -243,26 +252,21 @@
     // Extend SVG container
     SVG.extend(SVG.Container, {
         rectShape: function (width, height, x, y) {
-            return this.put(new SVG.CompositeShape(width, height, x, y, {
-                class: 'rect-shape'
-            }));
+            return this.put(new SVG.CompositeShape(width, height, x, y));
         },
         borderShape: function (width, height, x, y) {
             return this.put(new SVG.CompositeShape(width, height, x, y, {
                 opacity: 0
                 , stroke: '#e74c3c'
-                , strokeWidth: '5'
+                , strokeWidth: 5
                 , class: 'border-shape'
-                , halign: 'end'
-                , valign: 'bottom'
             }));
         },
         noteShape: function (width, height, x, y) {
             return this.put(new SVG.CompositeShape(width, height, x, y, {
                 opacity: 0
-                , strokeWidth: '0'
+                , strokeWidth: 0
                 , isNote: true
-                , startMode: 'EDIT'
                 , class: 'note-shape'
                 , minWidth: 120
                 , minHeight: 120
@@ -272,8 +276,7 @@
             return this.put(new SVG.CompositeShape(width, height, x, y, {
                 opacity: 0
                 , fill: '#fff'
-                , strokeWidth: '0'
-                , startMode: 'EDIT'
+                , strokeWidth: 0
                 , class: 'text-shape'
                 , minWidth: 120
             }));
@@ -281,8 +284,8 @@
         buttonShape: function (width, height, x, y) {
             return this.put(new SVG.CompositeShape(width, height, x, y, {
                 fill: '#3498db'
-                , strokeWidth: '0'
-                , halign: 'middle'
+                , strokeWidth: 0
+                , halign: 'center'
                 , valign: 'middle'
                 , text: 'button text'
                 , cornerRadius: 10
