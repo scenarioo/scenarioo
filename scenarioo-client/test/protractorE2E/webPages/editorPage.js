@@ -12,7 +12,7 @@ function EditorPage(overridePath) {
     }
 
     this.saveButton = element(by.id('save'));
-    this.issueSaved = element(by.css('.alert'));
+    this.issueSaved = element(by.css('.alert-success'));
 
 }
 
