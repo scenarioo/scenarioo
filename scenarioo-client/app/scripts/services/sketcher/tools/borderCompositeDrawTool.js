@@ -22,8 +22,8 @@ angular.module('scenarioo.services').factory('BorderCompositeDrawTool', function
 
 
     tool.name = 'Border Tool';
-    //tool.icon = null,
-    tool.tooltip = 'This tool is used to draw border shapes.';
+    tool.icon = 'border';
+    tool.tooltip = 'Draw a red border';
 
     tool.getShape = function () {
         return tool.getDrawingPad().borderShape(0, 0, 0, 0);

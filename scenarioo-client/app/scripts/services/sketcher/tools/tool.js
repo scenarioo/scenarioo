@@ -24,7 +24,7 @@ angular.module('scenarioo.services').factory('Tool', function (DrawingPadService
         return {
 
             name: 'Tool name required',
-            icon: 'default.png',
+            icon: 'default',
             tooltip: 'Tooltip text required',
             cursor: 'default',
             buttonDisabled: false,

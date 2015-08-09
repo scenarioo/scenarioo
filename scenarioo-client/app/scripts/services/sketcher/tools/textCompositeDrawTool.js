@@ -23,8 +23,8 @@ angular.module('scenarioo.controllers').factory('TextCompositeDrawTool', functio
 
 
     tool.name = 'Text Tool';
-    //this.icon = null;
-    tool.tooltip = 'This tool is used to add text to the sketch.';
+    tool.icon = 'text';
+    tool.tooltip = 'Write a text';
 
     tool.getShape = function () {
         return tool.getDrawingPad().textShape(0, 0, 0, 0);

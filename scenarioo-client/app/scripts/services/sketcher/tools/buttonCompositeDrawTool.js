@@ -23,8 +23,8 @@ angular.module('scenarioo.controllers').factory('ButtonCompositeDrawTool', funct
 
 
     tool.name = 'Button Tool';
-    //this.icon = null;
-    tool.tooltip = 'This tool is used to add buttons to the sketch.';
+    tool.icon = 'button';
+    tool.tooltip = 'Add a button';
 
     tool.getShape = function () {
         return tool.getDrawingPad().buttonShape(0, 0, 0, 0);
