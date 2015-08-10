@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.services').service('ContextService', function () {
 
-    var issueName, issueId, scenarioSketchName, scenarioSketchId, sketchStepIndex;
+    var issueName, issueId, issueDescription, scenarioSketchName, scenarioSketchId, sketchStepIndex;
     var usecaseLink, scenarioLink, stepLink;
     var usecaseName, scenarioName, stepName;
     var sketchBtn;
@@ -25,6 +25,7 @@ angular.module('scenarioo.services').service('ContextService', function () {
     function initializeContext(){
         issueId = null;
         issueName = null;
+        issueDescription = null;
         scenarioSketchName = null;
         scenarioSketchId = null;
         sketchStepIndex = null;
@@ -53,6 +54,7 @@ angular.module('scenarioo.services').service('ContextService', function () {
     return {
         issueId: issueId,
         issueName: issueName,
+        issueDescription: issueDescription,
         scenarioSketchId: scenarioSketchId,
         scenarioSketchName: scenarioSketchName,
         sketchStepIndex: sketchStepIndex,

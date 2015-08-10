@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($http, $scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioSketchResource, SketchStepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService) {
+angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($http, $scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioSketchResource, SketchStepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService, Issue, $rootScope) {
 
     //var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     //var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -26,11 +26,18 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
     $scope.pageOccurrence = parseInt($routeParams.pageOccurrence, 10);
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
     //var labels = $location.search().labels;
-
     var issueId = $routeParams.issueId;
     var scenarioSketchId = $routeParams.scenarioSketchId;
     var sketchStepName = $routeParams.sketchStepName;
     $scope.isStepScope = true;
+
+    Issue.load($routeParams.issueId);
+    $rootScope.$on(Issue.ISSUE_LOADED_EVENT, function (event, result) {
+        $scope.currentIssue = result.issue;
+        $scope.issueName = $scope.currentIssue.name;
+        $scope.issueDescription = $scope.currentIssue.description;
+        $scope.issueAuthor = $scope.currentIssue.author;
+    });
 
     $scope.modalScreenshotOptions = {
         backdropFade: true,
@@ -292,17 +299,22 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
     };
 
     $scope.getScreenshotUrlForSharing = function () {
-        if (SelectedBranchAndBuild.isDefined() !== true) {
+        if (angular.isUndefined($scope.sketchStep)) {
             return undefined;
         }
 
-        return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY] +
-            '/issue/' + issueId +
-            '/scenariosketch/' + scenarioSketchId +
-            '/image.' + getImageFileExtension() + createLabelUrl('?', getAllLabels());
+        var imageName = $scope.sketchStep.sketchFileName;
+
+        if (angular.isUndefined(imageName)) {
+            return undefined;
+        }
+
+        var selected = SelectedBranchAndBuild.selected();
+
+        return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/sketchstep/' + sketchStepName + '/image/' + imageName;
     };
 
-    var getImageFileExtension = function () {
+    /*var getImageFileExtension = function () {
         if (angular.isUndefined($scope.step)) {
             return '';
         }
@@ -315,7 +327,7 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
 
         var fileNameParts = imageFileName.split('.');
         return fileNameParts[fileNameParts.length - 1];
-    };
+    };*/
 
     var getAllLabels = function () {
         var allLabels = [];
