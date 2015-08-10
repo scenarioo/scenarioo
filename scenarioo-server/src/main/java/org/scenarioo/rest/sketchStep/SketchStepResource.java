@@ -94,24 +94,6 @@ public class SketchStepResource {
 
 		LOGGER.info("Now loading a SketchStep");
 		return reader.loadSketchStep(branchName, issueId, scenarioSketchId, sketchStepName);
-
-		/*
-		 * final BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, "");
-		 * final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
-		 * branchName,
-		 * "");
-		 * 
-		 * final StepIdentifier sketchStepIdentifier = new StepIdentifier(buildIdentifier, issueId, scenarioSketchId,
-		 * "",
-		 * 0, sketchStepName, labelsQueryParamParser.parseLabels(labels));
-		 * 
-		 * LOGGER.info("loadSketchStep(" + sketchStepIdentifier + ")");
-		 * 
-		 * final SketchStepLoaderResult sketchStepLoaderResult = sketchStepLoader.loadStep(sketchStepIdentifier);
-		 * 
-		 * return sketchStepResponseFactory.createResponse(sketchStepLoaderResult, sketchStepIdentifier,
-		 * buildIdentifierBeforeAliasResolution, addFallbackInfo);
-		 */
 	}
 
 	@POST
