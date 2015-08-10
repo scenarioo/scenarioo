@@ -471,9 +471,10 @@ label {
 #sc-context-breadcrumbs {
   background-color: #eee;
   width: 100%;
-  padding: 3px;
-  font-size: 80%;
+  padding: 5px;
+  font-size: 90%;
   color: #555;
+  border-top: 1px solid #ccc;
 }
 textarea#issueDescription {
   height: 165px;
