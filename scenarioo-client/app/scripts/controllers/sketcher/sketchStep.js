@@ -91,7 +91,7 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
 
 
                 SharePageService.setPageUrl($scope.getCurrentUrlForSharing());
-                SharePageService.setImageUrl($scope.getScreenShotUrl());
+                SharePageService.setImageUrl($scope.getScreenshotUrlForSharing());
 
                 $scope.hasContext = function () {
                     return $scope.sketchStep.usecaseContextName.length > 0 || $scope.sketchStep.usecaseContextLink.length > 0 || $scope.sketchStep.scenarioContextName.length > 0 || $scope.sketchStep.scenarioContextLink.length > 0;
