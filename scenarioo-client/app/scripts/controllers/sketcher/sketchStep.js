@@ -299,14 +299,22 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
     };
 
     $scope.getScreenshotUrlForSharing = function () {
-        if (SelectedBranchAndBuild.isDefined() !== true) {
+        if (angular.isUndefined($scope.sketchStep)) {
             return undefined;
         }
+
+        var imageName = $scope.sketchStep.sketchFileName;
+
+        if (angular.isUndefined(imageName)) {
+            return undefined;
+        }
+
+        var selected = SelectedBranchAndBuild.selected();
 
         return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/sketchstep/' + sketchStepName + '/image/' + imageName;
     };
 
-    var getImageFileExtension = function () {
+    /*var getImageFileExtension = function () {
         if (angular.isUndefined($scope.step)) {
             return '';
         }
@@ -319,7 +327,7 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
 
         var fileNameParts = imageFileName.split('.');
         return fileNameParts[fileNameParts.length - 1];
-    };
+    };*/
 
     var getAllLabels = function () {
         var allLabels = [];
