@@ -15,13 +15,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <sc-breadcrumb></sc-breadcrumb>
-<div class="step-navigation row sc-space-top sc-space-bottom" ng-hide="stepNotFound">
+
+<!--<div class="step-navigation row sc-space-top sc-space-bottom" ng-hide="stepNotFound">
     <div class="col-lg-4">
         <div class="pull-right">
             <sc-meta-data-button linking-variable="sketchStepShowMetadata" local-storage-key="sketchStep" ></sc-meta-data-button>
         </div>
     </div>
-</div>
+</div>-->
+
 <!-- screenshot and information -->
 <sc-meta-data-panel linking-variable="sketchStepShowMetadata">
     <div>
@@ -31,7 +33,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <div ng-html="sketchStepSVG"></div>
                 </div>
             </tab>
-            <tab heading="Context in Documentation">
+            <tab heading="Metadata">
+                <p><strong>Details</strong></p>
+                <ul>
+                    <li id="issue-name">
+                        Issue name: {{issueName}}
+                    </li>
+                    <li id="issue-description">
+                        Description: {{issueDescription}}
+                    </li>
+                    <li id="author">
+                        Author: {{issueAuthor}}
+                    </li>
+                    <li id="dateCreated">
+                        Created: {{sketchStep.dateCreated | scDateTime}}
+                    </li>
+                    <li id="dateModified">
+                        Last modified: {{sketchStep.dateModified | scDateTime}}
+                    </li>
+                </ul>
+                <p><strong>Context in Documentation</strong></p>
                 <ul>
                     <li id="usecase-context" ng-click="goToUsecase()">
                         <a>Related Usecase: {{sketchStep.usecaseContextName}}</a>
@@ -48,17 +69,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 
     <div>
-        <!-- step -->
-        <sc-collapsable-panel title="Sketch Step" key="sketchStep" initially-expanded="false">
-            <ul>
-                <li id="dateCreated">
-                    Created: {{sketchStep.dateCreated | scDateTime}}
-                </li>
-                <li id="dateModified">
-                    Last modified: {{sketchStep.dateModified | scDateTime}}
-                </li>
-            </ul>
-        </sc-collapsable-panel>
         <!-- labels -->
         <sc-collapsable-panel title="Labels" key="sketchStepView-labels" initially-expanded="false" ng-show="hasAnyLabels()">
             <div class="sc-tree">
