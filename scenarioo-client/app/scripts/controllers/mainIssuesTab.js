@@ -17,7 +17,7 @@
 
 
 angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService, BranchesAndBuilds,
-                                                                                  SelectedBranchAndBuild, IssuesResource, LabelConfigurationsResource, Issues) {
+                                                                                  SelectedBranchAndBuild, IssuesResource, LabelConfigurationsResource, Issues, ContextService) {
 
     //var dateTimeFormatter = $filter('scDateTime');
     SelectedBranchAndBuild.callOnSelectionChange(Issues.load);
@@ -33,12 +33,16 @@ angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function
         $scope.labelConfigurations = labelConfigurations;
     });
 
-    $scope.goToIssue = function (issueId) {
-        $location.path('/issue/' + issueId);
+    $scope.goToIssue = function (issue) {
+        ContextService.issueName = issue.name;
+        ContextService.issueDescription = issue.description;
+        $location.path('/issue/' + issue.id);
     };
 
     $scope.goToSketchStep = function (issue, sketchStepName) {
         sketchStepName = sketchStepName || 1;
+        ContextService.issueName = issue.name;
+        ContextService.issueDescription = issue.description;
         $location.path('/sketchstep/' + issue.id + '/' + issue.firstScenarioSketchId + '/' + sketchStepName);
     };
 
