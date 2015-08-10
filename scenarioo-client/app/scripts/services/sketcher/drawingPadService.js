@@ -19,7 +19,7 @@
 angular.module('scenarioo.services').service('DrawingPadService', function ($rootScope, $routeParams, $http, ContextService, DrawShapeService, ZoomPanService, $location, $log) {
 
     var drawingPadNodeId = 'drawingPad',
-        viewPortGroupId = 'viewPortGroup',
+        drawingContainerId = 'drawingContainer',
         backgroundImageId = 'sketcher-original-screenshot',
         drawingPad,
         selectedShape,
@@ -48,8 +48,8 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
              * we need an additional svg element because the
              * select border attaches to the parent svg element
              */
-            drawingPad.viewPortGroup = drawingPad.nested().attr({
-                id: viewPortGroupId
+            drawingPad.drawingContainer = drawingPad.nested().attr({
+                id: drawingContainerId
             });
 
             /*
@@ -60,9 +60,9 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
                 class: 'svg-pan-zoom_viewport'
             });
 
-            drawingPad.group.add(drawingPad.viewPortGroup);
+            drawingPad.group.add(drawingPad.drawingContainer);
 
-            drawingPad.viewPortGroup.image('')
+            drawingPad.drawingContainer.image('')
                 .attr({
                     id: backgroundImageId,
                     draggable: false,
@@ -73,8 +73,8 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
                 return false;
             };
 
-            drawingPad.viewPortGroup.getOffset = function (event) {
-                var offset = $(drawingPad.viewPortGroup.node).offset();
+            drawingPad.drawingContainer.getOffset = function (event) {
+                var offset = $(drawingPad.drawingContainer.node).offset();
                 var point = {x: 0, y: 0};
 
                 point.x = Math.max(event.pageX - offset.left, 0);
@@ -86,7 +86,7 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
             loadBackgroundImage();
 
             drawingPad.on('mouseup', function (event) {
-                if (event.target.id === drawingPadNodeId || event.target.id === viewPortGroupId || event.target.id === backgroundImageId || event.target.id === bg.id()) {
+                if (event.target.id === drawingPadNodeId || event.target.id === drawingContainerId || event.target.id === backgroundImageId || event.target.id === bg.id()) {
                     $rootScope.$broadcast(DRAWINGPAD_CLICKED_EVENT);
                 }
             });
@@ -135,16 +135,16 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
             var newShape;
 
             if (this.hasClass('shape')) {
-                newShape = DrawShapeService.createNewShapeByClassName(drawingPad.viewPortGroup, this);
+                newShape = DrawShapeService.createNewShapeByClassName(drawingPad.drawingContainer, this);
                 DrawShapeService.registerShapeEvents(newShape, newShape instanceof SVG.Nested);
             } else {
                 newShape = this;
             }
-            drawingPad.viewPortGroup.add(newShape);
+            drawingPad.drawingContainer.add(newShape);
         });
         tempContainer.remove();
         bgImg.remove();
-        dp.viewPortGroup.first().id(backgroundImageId);
+        dp.drawingContainer.first().id(backgroundImageId);
     }
 
     function convertImgToBase64URL(url, callback, outputFormat) {
@@ -173,7 +173,7 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
     }
 
     function removeSelectedShape() {
-        if (selectedShape) {
+        if (selectedShape && selectedShape.isSelected) {
             selectedShape.unSelect();
             selectedShape.remove();
             selectedShape = null;
@@ -225,8 +225,8 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
         },
 
         unSelectAllShapes: function () {
-            if (drawingPad.viewPortGroup) {
-                drawingPad.viewPortGroup.each(function () {
+            if (drawingPad.drawingContainer) {
+                drawingPad.drawingContainer.each(function () {
                     if (this.hasClass('shape')) {
                         if (this instanceof SVG.Nested) {
                             this.view();
@@ -265,20 +265,20 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
              * the first element is the background image. so backward can only be called if the
              * selected shape is at least at 3rd position in the stack
              */
-            if (selectedShape && drawingPad.viewPortGroup.get(1) !== selectedShape) {
+            if (selectedShape && drawingPad.drawingContainer.get(1) !== selectedShape) {
                 selectedShape.backward();
             }
         },
 
         sendSelectedShapeForward: function () {
-            var indexLast = drawingPad.viewPortGroup.index(drawingPad.viewPortGroup.last());
+            var indexLast = drawingPad.drawingContainer.index(drawingPad.drawingContainer.last());
 
             /*
              * the last element is the select border. so forward can only be called if the
              * selected shape is at least at 3rd last position in the stack
              */
 
-            if (selectedShape && drawingPad.viewPortGroup.get(indexLast - 1) !== selectedShape) {
+            if (selectedShape && drawingPad.drawingContainer.get(indexLast - 1) !== selectedShape) {
                 selectedShape.forward();
             }
         },

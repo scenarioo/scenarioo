@@ -33,8 +33,8 @@ angular.module('scenarioo.services').factory('Tool', function (DrawingPadService
 
 
             getDrawingPad: function () {
-                if (DrawingPadService.getDrawingPad().viewPortGroup) {
-                    return DrawingPadService.getDrawingPad().viewPortGroup;
+                if (DrawingPadService.getDrawingPad().drawingContainer) {
+                    return DrawingPadService.getDrawingPad().drawingContainer;
                 }
             },
 

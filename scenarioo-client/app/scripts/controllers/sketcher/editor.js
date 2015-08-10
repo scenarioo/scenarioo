@@ -185,6 +185,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
                     $scope.scenarioSketchId = args.scenarioSketchId;
                     $scope.sketchStepName = savedSketchStep.sketchStepName;
+                    $scope.mode = 'edit';
 
                     sketchSuccessfullySaved();
                 }, function (error) {
