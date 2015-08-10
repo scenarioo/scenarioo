@@ -201,6 +201,8 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.issueSaved = 0;
         $scope.scenarioSketchSaved = 0;
 
+        $scope.e2eSuccess = true;
+
         $timeout(function() {
             $scope.successfullySavedSketchStep = false;
         }, 5000);
@@ -212,6 +214,8 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
         $scope.issueSaved = 0;
         $scope.scenarioSketchSaved = 0;
+
+        $scope.e2eSuccess = false;
 
         if ($scope.mode === 'create') {
             if($scope.issueId) {

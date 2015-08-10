@@ -475,6 +475,7 @@ label {
   font-size: 90%;
   color: #555;
   border-top: 1px solid #ccc;
+  margin-bottom: 30px;
 }
 textarea#issueDescription {
   height: 165px;
