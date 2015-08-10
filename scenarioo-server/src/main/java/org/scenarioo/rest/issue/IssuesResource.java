@@ -189,9 +189,11 @@ public class IssuesResource {
 
 	private Boolean nameMatches(final Issue issue, final String objectName, final String type) {
 		if (type.equals("scenario")) {
-			return issue.getScenarioContextLink() != null && issue.getScenarioContextLink().equals(objectName);
+			return (issue.getScenarioContextName() != null && issue.getScenarioContextName().equals(objectName)) ||
+					(issue.getScenarioContextLink() != null && issue.getScenarioContextLink().equals(objectName));
 		} else {
-			return issue.getUsecaseContextName() != null && issue.getUsecaseContextName().equals(objectName);
+			return (issue.getUsecaseContextName() != null && issue.getUsecaseContextName().equals(objectName)) ||
+					(issue.getUsecaseContextLink() != null && issue.getUsecaseContextLink().equals(objectName));
 		}
 
 	}
