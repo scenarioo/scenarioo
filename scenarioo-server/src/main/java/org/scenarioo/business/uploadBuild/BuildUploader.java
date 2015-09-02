@@ -3,22 +3,15 @@ package org.scenarioo.business.uploadBuild;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Date;
-import java.util.Enumeration;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -27,6 +20,8 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.utils.ZipFileExtractor;
+import org.scenarioo.utils.ZipFileExtractor.ZipFileExtractionException;
 
 import com.google.common.base.Preconditions;
 
@@ -94,44 +89,21 @@ public class BuildUploader {
 			throw new RuntimeException("Failed to write file.", e);
 		}
 
-		extractFile(targetFileForUploadedData, targetDir);
+		extractBuildAndStartImport(documentationDataDirectory, targetDir, targetFileForUploadedData);
+	}
+
+	private void extractBuildAndStartImport(final File documentationDataDirectory, final File targetDir,
+			final File targetFileForUploadedData) {
+		try {
+			ZipFileExtractor.extractFile(targetFileForUploadedData, targetDir);
+		} catch (ZipFileExtractionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		moveDateIntoCorrectDirectory(documentationDataDirectory, targetDir);
 
 		ScenarioDocuBuildsManager.INSTANCE.updateAllBuildsAndSubmitNewBuildsForImport();
-	}
-
-	private void extractFile(final File file, final File targetDir) {
-		// From http://stackoverflow.com/a/13912353
-		ZipFile zipFile = null;
-		try {
-			zipFile = new ZipFile(file);
-			Enumeration<? extends ZipEntry> entries = zipFile.entries();
-			while (entries.hasMoreElements()) {
-				ZipEntry entry = entries.nextElement();
-				File entryDestination = new File(targetDir, entry.getName());
-				if (entry.isDirectory()) {
-					entryDestination.mkdirs();
-				} else {
-					entryDestination.getParentFile().mkdirs();
-					InputStream in = zipFile.getInputStream(entry);
-					OutputStream out = new FileOutputStream(entryDestination);
-					IOUtils.copy(in, out);
-					IOUtils.closeQuietly(in);
-					out.close();
-				}
-			}
-		} catch (ZipException e) {
-			throw new RuntimeException("Error while trying to read ZIP file.", e);
-		} catch (IOException e) {
-			throw new RuntimeException("Error while trying to read ZIP file.", e);
-		} finally {
-			try {
-				zipFile.close();
-			} catch (IOException e) {
-				throw new RuntimeException("Error while closing ZIP file.", e);
-			}
-		}
 	}
 
 	private void moveDateIntoCorrectDirectory(final File documentationDataDirectory, final File unzippedDir) {
