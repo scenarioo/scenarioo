@@ -74,6 +74,8 @@ public class Configuration {
 	
 	private List<CustomObjectTab> customObjectTabs = new ArrayList<CustomObjectTab>();
 	
+	private SecretConfig secretConfig = new SecretConfig();
+
 	public String getTestDocumentationDirPath() {
 		return testDocumentationDirPath;
 	}
@@ -203,4 +205,13 @@ public class Configuration {
 	public void setCreateLastSuccessfulScenarioBuild(final boolean createLastSuccessfulScenarioBuild) {
 		this.createLastSuccessfulScenarioBuild = createLastSuccessfulScenarioBuild;
 	}
+
+	public SecretConfig getSecretConfig() {
+		return secretConfig;
+	}
+
+	public void setSecretConfig(final SecretConfig secretConfig) {
+		this.secretConfig = secretConfig;
+	}
+
 }
