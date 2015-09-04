@@ -34,7 +34,7 @@
         "matchdep": "~0.1.1",
         "moment": "^2.10.3",
         "phantomjs": "^1.9.17",
-        "scenarioo-js": "^0.1.8"
+        "scenarioo-js": "^0.1.9"
     },
     "engines": {
         "node": ">=0.8.0"
