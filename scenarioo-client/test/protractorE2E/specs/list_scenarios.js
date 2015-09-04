@@ -4,7 +4,7 @@ var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 var NUMBER_OF_USE_CASES = 4;
 
-scenarioo.describeUseCase('list_scenarios', function () {
+scenarioo.describeUseCase('List scenarios', 'After clicking on a use case, the user is presented with a list of all scenarios in this use case.', function () {
 
     var homePage = new pages.homePage();
     var useCasePage = new pages.usecasePage();
@@ -15,8 +15,6 @@ scenarioo.describeUseCase('list_scenarios', function () {
     });
 
     scenarioo.describeScenario('Expand all, collapse all on scenario page', function () {
-
-
         homePage.goToPage();
         scenarioo.docuWriter.saveStep('select a use case from the use case list');
         homePage.assertPageIsDisplayed();

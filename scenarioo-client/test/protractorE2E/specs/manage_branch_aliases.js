@@ -3,7 +3,7 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-scenarioo.describeUseCase('Manage branch aliases', function () {
+scenarioo.describeUseCase('Manage branch aliases', 'Define new branch aliases, edit existing ones and delete them.', function () {
 
     var branchAliasesPage = new pages.branchAliasesPage();
 
@@ -11,7 +11,7 @@ scenarioo.describeUseCase('Manage branch aliases', function () {
         new pages.homePage().initLocalStorage();
     });
 
-    scenarioo.describeScenario('Branch aliases can be added and removed', function () {
+    scenarioo.describeScenario('Add and remove', 'Branch aliases can be added and removed', function () {
         branchAliasesPage.goToPage();
         scenarioo.docuWriter.saveStep('display the manage branch aliases page');
 
@@ -46,7 +46,7 @@ scenarioo.describeUseCase('Manage branch aliases', function () {
 
     });
 
-    scenarioo.describeScenario('Saving is not possible if referenced branch is not selected', function() {
+    scenarioo.describeScenario('Validation', 'Saving is not possible if referenced branch is not selected', function() {
         branchAliasesPage.goToPage();
         branchAliasesPage.assertNumberOfAliases(0);
         branchAliasesPage.enterAlias('Test', '', 'my description');
@@ -54,7 +54,7 @@ scenarioo.describeUseCase('Manage branch aliases', function () {
         scenarioo.docuWriter.saveStep('saving not possible because referenced branch is not selected');
     });
 
-    scenarioo.describeScenario('Alias names have to be unique', function() {
+    scenarioo.describeScenario('Unique aliases', 'Alias names have to be unique', function() {
         branchAliasesPage.goToPage();
         branchAliasesPage.assertNumberOfAliases(0);
         branchAliasesPage.enterAlias('duplicate', 'wikipedia-docu-example', 'duplicate alias name');
