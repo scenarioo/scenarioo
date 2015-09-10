@@ -3,6 +3,7 @@
     "description": "Automated Documentation with UI Tests",
     "repository": "https://github.com/scenarioo/scenarioo.git",
     "version": "0.0.0",
+    "license": "GPL-3.0",
     "scripts": {
         "test": "gulp"
     },
@@ -33,7 +34,7 @@
         "matchdep": "~0.1.1",
         "moment": "^2.10.3",
         "phantomjs": "^1.9.17",
-        "scenarioo-js": "^0.1.7"
+        "scenarioo-js": "^0.1.9"
     },
     "engines": {
         "node": ">=0.8.0"

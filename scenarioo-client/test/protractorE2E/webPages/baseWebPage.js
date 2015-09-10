@@ -54,7 +54,25 @@ BaseWebPage.prototype.goToPage = function (path) {
     e2eUtils.getRoute(targetPath);
 };
 
+/**
+ * Deprecated: same effect as startScenariooRevisited()
+ */
 BaseWebPage.prototype.initLocalStorage = function () {
+    e2eUtils.initLocalStorage();
+};
+
+/**
+ * Start scenarioo as a user that has never visited it before (visited cookie will not be set).
+ */
+BaseWebPage.prototype.startScenariooFirstTimeVisit = function () {
+    e2eUtils.clearLocalStorage();
+    e2eUtils.refreshBrowser(); // reload needed to restart without cookies.
+};
+
+/**
+ * Start scenarioo as a user that has allready visited it before (visited cookie will be set).
+ */
+BaseWebPage.prototype.startScenariooRevisited = function() {
     e2eUtils.initLocalStorage();
 };
 

@@ -26,7 +26,7 @@ describe('StepCtrl', function () {
         childNodes : [
             { nodeLabel: 'Step title', nodeValue: 'Search results' },
             { nodeLabel: 'Page name', childNodes: [  ], nodeValue: 'searchResults.jsp', nodeObjectName: 'searchResults.jsp' },
-            { nodeLabel: 'URL', nodeValue: 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go' },
+            { nodeLabel: 'url', nodeValue: 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go' },
             { nodeLabel: 'Build status', nodeValue: 'success' }
         ]
     };
