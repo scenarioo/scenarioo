@@ -42,8 +42,6 @@ import org.scenarioo.model.docu.entities.Build;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BuildLink implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * If this name is set, it is used as the display name of the build. If its not set, the
 	 * <code>linkName<code> is used and if the
