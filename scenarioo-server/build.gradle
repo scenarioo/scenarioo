@@ -19,6 +19,9 @@
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 
+sourceCompatibility=1.6
+targetCompatibility=1.6
+
 dependencies {
     compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.3.Final'
     compile 'org.jboss.resteasy:resteasy-jaxb-provider:2.3.3.Final'
