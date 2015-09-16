@@ -15,16 +15,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div ng-controller="MainIssuesTabCtrl">
+<div ng-controller="MainIssuesTabCtrl as vm">
 
     <div class="row sc-space-top sc-space-bottom">
         <div class="col-lg-3">
             <div class="input-group">
                 <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="issuesSearchField"
                        data-toggle="tooltip" title="type words separated by spaces to search for"
-                       ng-model="table.search.searchTerm" placeholder="Search issue ..."/>
+                       ng-model="vm.table.search.searchTerm" placeholder="Search issue ..."/>
                     <span class="input-group-btn">
-                        <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
+                        <button type="button" ng-click="vm.resetSearchField()" class="btn btn-default">reset</button>
                     </span>
             </div>
         </div>
@@ -49,7 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-class="{'selected':$index==selectedRowIndex}" ng-repeat="issue in filtered=(issues | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)" ng-click="goToSketchStep(issue)" class="link">
+                    <tr ng-class="{'selected':$index==selectedRowIndex}" ng-repeat="issue in filtered=(issues | scFilterArray: vm.table.search.searchTerm | orderBy: vm.table.sort.column: vm.table.sort.reverse)" ng-click="vm.goToSketchStep(issue)" class="link">
                         <td>
                             {{issue.name | scHumanReadable }}
                         </td>
