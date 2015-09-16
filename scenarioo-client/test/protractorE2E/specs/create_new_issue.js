@@ -15,19 +15,19 @@ scenarioo.describeUseCase('Create a new Issue', function () {
         new pages.homePage().initLocalStorage();
     });
 
-    scenarioo.ddescribeScenario('New issue success', 'Create a new issue successfully', function () {
+    scenarioo.describeScenario('New issue success', 'Create a new issue successfully', function () {
         homePage.goToPage();
 
-        scenarioo.docuWriter.saveStep('select a use case from the list');
+        scenarioo.docuWriter.saveStep('Select a use case from the list');
         homePage.selectUseCase(1);
 
-        scenarioo.docuWriter.saveStep('select a scenario from the list');
+        scenarioo.docuWriter.saveStep('Select a scenario from the list');
         usecasePage.selectScenario(1);
 
-        scenarioo.docuWriter.saveStep('select a step from the scenario');
+        scenarioo.docuWriter.saveStep('Select a step from the scenario');
         scenarioPage.openStepByName('Step 1: Wikipedia Suche');
 
-        scenarioo.docuWriter.saveStep('click "Create Sketch" button');
+        scenarioo.docuWriter.saveStep('Click "Create Sketch" button');
         stepPage.clickCreateSketchButton();
 
         // TODO #181 Try to draw something if this is easily possible
@@ -64,11 +64,8 @@ scenarioo.describeUseCase('Create a new Issue', function () {
         */
     });
 
-    scenarioo.ddescribeScenario('New issue fail', 'Fail to create an issue because insufficient information was entered', function () {
-        homePage.goToPage();
-        homePage.selectUseCase(1);
-        usecasePage.selectScenario(1);
-        scenarioPage.openStepByName('Step 1: Wikipedia Suche');
+    scenarioo.describeScenario('New issue fail', 'Fail to create an issue because insufficient information was entered', function () {
+        stepPage.goToPage('/step/Find%20Page/find_no_results/startSearch.jsp/0/0');
 
         scenarioo.docuWriter.saveStep('click "Create Sketch" button');
         stepPage.clickCreateSketchButton();
@@ -76,6 +73,28 @@ scenarioo.describeUseCase('Create a new Issue', function () {
 
         scenarioo.docuWriter.saveStep('Sketch can not be saved. Save button is inactive because not all required fields are filled in.');
         editorPage.assertSaveButtonIsDisabled();
+    });
+
+    scenarioo.describeScenario('Remember author', 'The author is remembered and automatically filled in for future issues', function() {
+        stepPage.goToPage('/step/Donate/find_donate_page/donate.jsp/0/0');
+
+        scenarioo.docuWriter.saveStep('Click "Create Sketch" button');
+        stepPage.clickCreateSketchButton();
+
+        scenarioo.docuWriter.saveStep('Enter information about the step');
+        editorPage.assertAuthorFieldIsEmpty();
+        editorPage.enterSketchInformation();
+
+        scenarioo.docuWriter.saveStep('Save issue');
+        editorPage.clickSaveButton();
+
+        stepPage.goToPage('/step/Switch%20Language/search_article_in_german_and_switch_to_spanish/contentPage.jsp/0/0');
+
+        scenarioo.docuWriter.saveStep('Go to a different step and create a sketch');
+        stepPage.clickCreateSketchButton();
+
+        scenarioo.docuWriter.saveStep('Author information is now already filled in');
+        editorPage.assertAuthorFieldIsFilledAlready();
     });
 
 });

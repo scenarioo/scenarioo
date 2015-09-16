@@ -20,10 +20,32 @@
 angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $interval, $routeParams, $route,
                                                                            GlobalHotkeysService, SelectedBranchAndBuild, ToolBox, DrawShapeService,
                                                                            DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue,
-                                                                           ScenarioSketchResource, ScenarioSketch, ContextService, $log, $window) {
+                                                                           ScenarioSketchResource, ScenarioSketch, ContextService, $log, $window, localStorageService) {
+
+    var AUTHOR_LOCAL_STORAGE_KEY = 'issue_author',
+        MODE_CREATE = 'create',
+        MODE_EDIT = 'edit';
+
+    // Controller initialisation method, according to John Papa style guide
+    function activate() {
+        var drawingPad = SVG('drawingPad').spof();
+        DrawingPadService.setDrawingPad(drawingPad);
+
+        $scope.mode = $location.search().mode;
+        $scope.currentTool = null;
+        $scope.tools = ToolBox;
+        $scope.activateTool($scope.tools[0]);
+
+        if($scope.mode === MODE_EDIT) {
+            initEditMode();
+        }
+
+        $('body').addClass('sc-sketcher-bg-color-light');
+
+        setAuthorFromLocalStorageIfAvailable();
+    }
 
     function initEditMode() {
-
         $scope.issueId = ContextService.issueId;
         $scope.scenarioSketchId = ContextService.scenarioSketchId;
         $scope.sketchStepName = parseInt(ContextService.sketchStepName);
@@ -31,6 +53,24 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         if(ContextService.issueId) {
             Issue.load(ContextService.issueId);
         }
+    }
+
+    function setAuthorFromLocalStorageIfAvailable() {
+        if($scope.mode !== MODE_CREATE) {
+            return;
+        }
+
+        var author = localStorageService.get(AUTHOR_LOCAL_STORAGE_KEY);
+
+        if(!angular.isString(author) || author.length === 0) {
+            return;
+        }
+
+        $scope.issueAuthor = author;
+    }
+
+    function storeAuthorInLocalStorage() {
+        localStorageService.set(AUTHOR_LOCAL_STORAGE_KEY, $scope.issueAuthor);
     }
 
     $rootScope.$on(Issue.ISSUE_LOADED_EVENT, function (event, result) {
@@ -57,6 +97,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $window.history.back();
     };
 
+    // TODO extract all saving related methods into a service
     $scope.saveSketcherData = function () {
 
         DrawingPadService.unSelectAllShapes();
@@ -71,7 +112,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             author: $scope.issueAuthor
         });
 
-        if ($scope.mode === 'create') {
+        if ($scope.mode === MODE_CREATE) {
             issue.usecaseContextName = ContextService.usecaseName;
             issue.usecaseContextLink = ContextService.usecaseLink;
             issue.scenarioContextName = ContextService.scenarioName;
@@ -79,6 +120,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             issue.stepContextLink = ContextService.stepLink;
         }
 
+        // TODO why this check? looks like this is always 0
         if ($scope.issueSaved === 0) {
             ++$scope.issueSaved;
 
@@ -157,7 +199,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             scenarioSketchId: args.scenarioSketchId
         }, {});
 
-        if ($scope.mode === 'create') {
+        if ($scope.mode === MODE_CREATE) {
             sketchStep.usecaseContextName = ContextService.usecaseName;
             sketchStep.usecaseContextLink = ContextService.usecaseLink;
             sketchStep.scenarioContextName = ContextService.scenarioName;
@@ -184,7 +226,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
                     $scope.scenarioSketchId = args.scenarioSketchId;
                     $scope.sketchStepName = savedSketchStep.sketchStepName;
-                    $scope.mode = 'edit';
+                    $scope.mode = MODE_EDIT;
 
                     sketchSuccessfullySaved();
                 }, function (error) {
@@ -197,6 +239,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     function sketchSuccessfullySaved() {
         $scope.addAlert('success', 'saveSketchSuccessfulMessage', 'Sketch successfully saved');
 
+        storeAuthorInLocalStorage();
         $scope.issueSaved = 0;
         $scope.scenarioSketchSaved = 0;
     }
@@ -207,7 +250,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.issueSaved = 0;
         $scope.scenarioSketchSaved = 0;
 
-        if ($scope.mode === 'create') {
+        if ($scope.mode === MODE_CREATE) {
             if($scope.issueId) {
                 Issue.deleteSketcherData($scope.issueId);
             }
@@ -273,24 +316,6 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         }
     };
 
-    $scope.init = function () {
-        var drawingPad = SVG('drawingPad').spof();
-        DrawingPadService.setDrawingPad(drawingPad);
-
-        $scope.mode = $location.search().mode;
-        $scope.currentTool = null;
-        $scope.tools = ToolBox;
-        $scope.activateTool($scope.tools[0]);
-
-        if($scope.mode === 'edit') {
-            initEditMode();
-        }
-
-        $('body').addClass('sc-sketcher-bg-color-light');
-    };
-    $scope.init();
-
-
     $scope.$on('$destroy', function () {
         DrawingPadService.destroy();
         $scope.issueId = null;
@@ -319,5 +344,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         var index = $scope.alerts.indexOf(alertEntry);
         $scope.alerts.splice(index, 1);
     };
+
+    activate();
 
 });
