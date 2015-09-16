@@ -17,7 +17,7 @@
 /* global SVG:false */
 
 
-angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $timeout, $routeParams, $route,
+angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $interval, $routeParams, $route,
                                                                            GlobalHotkeysService, SelectedBranchAndBuild, ToolBox, DrawShapeService,
                                                                            DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue,
                                                                            ScenarioSketchResource, ScenarioSketch, ContextService, $log, $window) {
@@ -63,7 +63,6 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
         $scope.issueSaved = 0;
         $scope.scenarioSketchSaved = 0;
-        $scope.successfullySavedSketchStep = false;
 
         var issue = new IssueResource({
             branchName: $routeParams.branch,
@@ -196,26 +195,17 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     });
 
     function sketchSuccessfullySaved() {
-        $scope.successfullySavedSketchStep = true;
+        $scope.addAlert('success', 'saveSketchSuccessfulMessage', 'Sketch successfully saved');
 
         $scope.issueSaved = 0;
         $scope.scenarioSketchSaved = 0;
-
-        $scope.e2eSuccess = true;
-
-        $timeout(function() {
-            $scope.successfullySavedSketchStep = false;
-        }, 5000);
     }
 
     function sketchSavedWithError(error) {
-        $scope.notSuccessfullySavedSketch = true;
-        $scope.sketchErrorMsg = error;
+        $scope.addAlert('danger', 'saveSketchFailedMessage', 'The sketch has not been saved. Reason: ' + error);
 
         $scope.issueSaved = 0;
         $scope.scenarioSketchSaved = 0;
-
-        $scope.e2eSuccess = false;
 
         if ($scope.mode === 'create') {
             if($scope.issueId) {
@@ -226,10 +216,6 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             $scope.scenarioSketchId = null;
             $scope.sketchStepName = null;
         }
-
-        $timeout(function() {
-            $scope.notSuccessfullySavedSketch = false;
-        }, 5000);
     }
 
     $rootScope.$on('drawingEnded', function (scope, shape) {
@@ -312,5 +298,26 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.sketchStepName = null;
         $('body').removeClass('sc-sketcher-bg-color-light');
     });
+
+    // Alerts to give feedback whether saving the sketch was successful or not
+
+    $scope.alerts = [];
+
+    $scope.addAlert = function(type, id, message) {
+        var alertEntry = {type: type, id: id, message: message};
+        $scope.alerts.push(alertEntry);
+        // We have to set our own timeout using the $interval service because using $timeout provokes issues
+        // with protractor. See:
+        // - https://github.com/angular-ui/bootstrap/pull/3982
+        // - https://github.com/angular/protractor/issues/169
+        $interval(function() {
+            $scope.closeAlert(alertEntry);
+        }, 5000, 1);
+    };
+
+    $scope.closeAlert = function(alertEntry) {
+        var index = $scope.alerts.indexOf(alertEntry);
+        $scope.alerts.splice(index, 1);
+    };
 
 });

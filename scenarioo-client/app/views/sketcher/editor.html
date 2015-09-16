@@ -69,20 +69,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <div id="sc-sketcher-sidebar" class="col-lg-3">
 
-        <div class="alert alert-danger fade-out" ng-show="notSuccessfullySavedSketch">
-            The sketch has not been saved. Reason: {{sketchErrorMsg}}
-            <a ng-click="notSuccessfullyUpdatedSketch=false" class="pull-right link link-no-hover"
-               style="color: #a94442"><i
-                    class="icon-remove icon"></i></a>
-        </div>
+        <!-- Alerts to show whether saving the sketch was successful or not -->
+        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" id="{{alert.id}}">{{alert.message}}</alert>
 
-        <div class="alert alert-success fade-out" ng-show="successfullySavedSketchStep">
-            Sketch successfully saved
-            <a ng-click="successfullyUpdatedSketchStep=false" class="pull-right link link-no-hover"
-               style="color: #468847"><i
-                    class="icon-remove icon"></i></a>
-        </div>
-
+        <!-- Sketch metadata form -->
         <form name="sketcherForm" novalidate>
 
             <div class="form-group" ng-class="{ 'has-error has-feedback' : sketcherForm.issueName.$dirty && sketcherForm.issueName.$invalid }">
@@ -113,7 +103,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     ng-disabled="sketcherForm.issueName.$invalid || sketcherForm.issueAuthor.$invalid">
                 {{sketcherButtonName}}
             </button>
-            <span class="e2e-success" ng-show="e2eSuccess"></span>
 
         </form>
 
