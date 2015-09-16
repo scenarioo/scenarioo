@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.scenarioo.api.exception.ResourceNotFoundException;
-import org.scenarioo.dao.aggregates.AggregatedDataReader;
+import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
@@ -16,9 +16,9 @@ public class ScenarioLoader {
 	private static final String TYPE_USECASE = "usecase";
 	private static final String TYPE_SCENARIO = "scenario";
 	
-	private final AggregatedDataReader aggregatedDataReader;
+	private final AggregatedDocuDataReader aggregatedDataReader;
 	
-	public ScenarioLoader(final AggregatedDataReader aggregatedDataReader) {
+	public ScenarioLoader(final AggregatedDocuDataReader aggregatedDataReader) {
 		this.aggregatedDataReader = aggregatedDataReader;
 	}
 	

@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import org.scenarioo.business.builds.BuildLink;
-import org.scenarioo.dao.aggregates.AggregatedDataReader;
+import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
@@ -19,7 +19,7 @@ import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
 
-public class DummyAggregatedDataReader implements AggregatedDataReader {
+public class DummyAggregatedDataReader implements AggregatedDocuDataReader {
 	
 	@Override
 	public String loadVersion(final BuildIdentifier buildIdentifier) {

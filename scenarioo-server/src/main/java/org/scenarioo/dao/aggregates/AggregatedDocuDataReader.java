@@ -19,9 +19,9 @@ import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
 
 /**
- * Contains all the read operation that can be done on the aggregated data.
+ * Contains all the read operation that can be done on the aggregated documentation data.
  */
-public interface AggregatedDataReader {
+public interface AggregatedDocuDataReader {
 	
 	public abstract String loadVersion(final BuildIdentifier buildIdentifier);
 	

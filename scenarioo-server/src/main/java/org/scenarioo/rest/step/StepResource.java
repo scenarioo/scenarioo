@@ -27,7 +27,7 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.aggregates.AggregatedDataReader;
+import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.repository.ConfigurationRepository;
@@ -50,7 +50,7 @@ public class StepResource {
 			.getConfigurationRepository();
 	
 	private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
-	private final AggregatedDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
+	private final AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
 			configurationRepository.getDocumentationDataDirectory(), longObjectNamesResolver);
 	
 	private final LabelsQueryParamParser labelsQueryParamParser = new LabelsQueryParamParser();
