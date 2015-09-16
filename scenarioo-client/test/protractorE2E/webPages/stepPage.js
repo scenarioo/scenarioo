@@ -157,4 +157,9 @@ StepPage.prototype.clickShowScreenAnnotationsButton = function() {
     element(by.id('sc-showHideScreenAnnotationsButton')).click();
 };
 
+StepPage.prototype.clickCreateSketchButton = function() {
+    element(by.id('sketchThis')).click();
+};
+
+
 module.exports = StepPage;

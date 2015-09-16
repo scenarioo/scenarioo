@@ -5,29 +5,32 @@ var pages = require('./../webPages');
 
 scenarioo.describeUseCase('Create a new Issue', function () {
 
-    scenarioo.describeScenario('Create a new issue successfully', function () {
-        var homePage = new pages.homePage();
-        var usecasePage = new pages.usecasePage();
-        var scenarioPage = new pages.scenarioPage();
-        var editorPage = new pages.editorPage();
+    var homePage = new pages.homePage();
+    var usecasePage = new pages.usecasePage();
+    var scenarioPage = new pages.scenarioPage();
+    var stepPage = new pages.stepPage();
+    var editorPage = new pages.editorPage();
 
-        browser.get('#/');
-        homePage.closeScenariooInfoDialogIfOpen();
+    beforeEach(function(){
+        new pages.homePage().initLocalStorage();
+    });
+
+    scenarioo.ddescribeScenario('New issue success', 'Create a new issue successfully', function () {
         homePage.goToPage();
-        scenarioo.docuWriter.saveStep('display the homepage');
 
+        scenarioo.docuWriter.saveStep('select a use case from the list');
         homePage.selectUseCase(1);
-        scenarioo.docuWriter.saveStep('navigate to a usecase');
 
+        scenarioo.docuWriter.saveStep('select a scenario from the list');
         usecasePage.selectScenario(1);
-        scenarioo.docuWriter.saveStep('navigate to a scenario');
 
+        scenarioo.docuWriter.saveStep('select a step from the scenario');
         scenarioPage.openStepByName('Step 1: Wikipedia Suche');
-        scenarioo.docuWriter.saveStep('navigate to a step');
 
-        var sketchThis = element(by.id('sketchThis'));
-        sketchThis.click();
+        scenarioo.docuWriter.saveStep('click "Create Sketch" button');
+        stepPage.clickCreateSketchButton();
 
+        // TODO: Try to draw something if this is easily possible
         //var drawingPad = element(by.id('drawingPad'));
         /*var drawingPadLocation;
         drawingPad.getLocation().then(function (location){
@@ -45,14 +48,15 @@ scenarioo.describeUseCase('Create a new Issue', function () {
         scenarioo.docuWriter.saveStep('Draw on the sketch');
         */
 
+        scenarioo.docuWriter.saveStep('Enter information about the step');
         editorPage.enterSketchInformation();
         editorPage.assertSaveSketchSuccessfulMessageIsNotPresent();
-        scenarioo.docuWriter.saveStep('Enter information about the step before saving');
 
+        scenarioo.docuWriter.saveStep('Save issue');
         editorPage.clickSaveButton();
         editorPage.assertSaveSketchSuccessfulMessageIsDisplayed();
-        scenarioo.docuWriter.saveStep('Save issue');
 
+        // TODO: Assert that there's one new sketch in the list of sketches
         /*
         element(by.css('table')).findElements(by.css('tbody tr')).then(function (elements) {
             expect(elements.length).toBe(this.numberOfIssues + 1);
@@ -60,34 +64,18 @@ scenarioo.describeUseCase('Create a new Issue', function () {
         */
     });
 
-    scenarioo.describeScenario('Fail to create an issue because insufficient information was entered', function () {
-        var homePage = new pages.homePage();
-        var usecasePage = new pages.usecasePage();
-        var scenarioPage = new pages.scenarioPage();
-        var editorPage = new pages.editorPage();
-
-        browser.get('#/');
-        homePage.closeScenariooInfoDialogIfOpen();
+    scenarioo.ddescribeScenario('New issue fail', 'Fail to create an issue because insufficient information was entered', function () {
         homePage.goToPage();
-        scenarioo.docuWriter.saveStep('display the homepage');
-
         homePage.selectUseCase(1);
-        scenarioo.docuWriter.saveStep('navigate to a usecase');
-
         usecasePage.selectScenario(1);
-        scenarioo.docuWriter.saveStep('navigate to a scenario');
-
         scenarioPage.openStepByName('Step 1: Wikipedia Suche');
-        scenarioo.docuWriter.saveStep('navigate to a step');
 
-        var sketchThis = element(by.id('sketchThis'));
-        sketchThis.click();
-
+        scenarioo.docuWriter.saveStep('click "Create Sketch" button');
+        stepPage.clickCreateSketchButton();
         editorPage.assertPageIsDisplayed();
-        scenarioo.docuWriter.saveStep('Do not enter information about the step before saving');
 
-        editorPage.assertSaveButtonIsDisabled();
         scenarioo.docuWriter.saveStep('Sketch can not be saved. Save button is inactive because not all required fields are filled in.');
+        editorPage.assertSaveButtonIsDisabled();
     });
 
 });
