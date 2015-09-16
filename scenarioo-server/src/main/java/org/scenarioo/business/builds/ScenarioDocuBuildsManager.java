@@ -26,7 +26,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
-import org.scenarioo.dao.aggregates.AggregatedDataReader;
+import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.model.configuration.BranchAlias;
 import org.scenarioo.model.configuration.Configuration;
@@ -184,7 +184,7 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	private static Map<BuildIdentifier, BuildImportSummary> loadBuildImportSummaries() {
-		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(
+		AggregatedDocuDataReader dao = new ScenarioDocuAggregationDAO(
 				configurationRepository.getDocumentationDataDirectory());
 		List<BuildImportSummary> loadedSummaries = dao.loadBuildImportSummaries();
 		Map<BuildIdentifier, BuildImportSummary> result = new HashMap<BuildIdentifier, BuildImportSummary>();
@@ -197,7 +197,7 @@ public class ScenarioDocuBuildsManager {
 	private List<BranchBuilds> loadBranchBuildsList() {
 		File documentationDataDirectory = configurationRepository.getDocumentationDataDirectory();
 		final ScenarioDocuReader reader = new ScenarioDocuReader(documentationDataDirectory);
-		AggregatedDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(documentationDataDirectory);
+		AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(documentationDataDirectory);
 		
 		List<BranchBuilds> result = new ArrayList<BranchBuilds>();
 		List<Branch> branches = reader.loadBranches();
@@ -219,7 +219,7 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	public LongObjectNamesResolver getLongObjectNameResolver(final BuildIdentifier buildIdentifier) {
-		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(
+		AggregatedDocuDataReader dao = new ScenarioDocuAggregationDAO(
 				configurationRepository.getDocumentationDataDirectory());
 		validateBuildIsSuccessfullyImported(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		LongObjectNamesResolver longObjectNamesResolver = longObjectNamesResolvers.get(buildIdentifier);

@@ -5,7 +5,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.aggregator.PageNameSanitizer;
-import org.scenarioo.dao.aggregates.AggregatedDataReader;
+import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
 import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
 import org.scenarioo.model.docu.entities.Scenario;
@@ -17,11 +17,11 @@ import org.scenarioo.rest.step.dto.StepDetails;
 
 public class StepResponseFactory {
 	
-	private final AggregatedDataReader aggregatedDataReader;
+	private final AggregatedDocuDataReader aggregatedDataReader;
 	
 	private final ScenarioDocuReader scenarioDocuReader;
 	
-	public StepResponseFactory(final AggregatedDataReader aggregatedDataReader,
+	public StepResponseFactory(final AggregatedDocuDataReader aggregatedDataReader,
 			final ScenarioDocuReader scenarioDocuReader) {
 		this.aggregatedDataReader = aggregatedDataReader;
 		this.scenarioDocuReader = scenarioDocuReader;

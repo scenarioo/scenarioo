@@ -71,7 +71,7 @@ public class IssueAggregationDAO {
 	}
 
 	/**
-	 * @see org.scenarioo.dao.design.aggregates.AggregatedDataReader#loadVersion(java.lang.String, java.lang.String)
+	 * @see org.scenarioo.dao.design.aggregates.AggregatedDocuDataReader#loadVersion(java.lang.String, java.lang.String)
 	 */
 	public String loadVersion(final BuildIdentifier buildIdentifier) {
 		File versionFile = files.getVersionFile(buildIdentifier);
