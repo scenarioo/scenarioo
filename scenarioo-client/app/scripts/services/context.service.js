@@ -15,6 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * This service knows where the user is currently on the page (which use cse, scenario, step, etc.). This was
+ * introduced for the issue sketcher but we could (and should) probably also use it for other features (like
+ * e.g. the breadcrumbs).
+ */
 angular.module('scenarioo.services').service('ContextService', function () {
 
     var issueName, issueId, issueDescription, scenarioSketchName, scenarioSketchId, sketchStepIndex;
