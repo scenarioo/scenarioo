@@ -30,7 +30,7 @@ scenarioo.describeUseCase('Create a new Issue', function () {
         scenarioo.docuWriter.saveStep('click "Create Sketch" button');
         stepPage.clickCreateSketchButton();
 
-        // TODO: Try to draw something if this is easily possible
+        // TODO #181 Try to draw something if this is easily possible
         //var drawingPad = element(by.id('drawingPad'));
         /*var drawingPadLocation;
         drawingPad.getLocation().then(function (location){
@@ -56,7 +56,7 @@ scenarioo.describeUseCase('Create a new Issue', function () {
         editorPage.clickSaveButton();
         editorPage.assertSaveSketchSuccessfulMessageIsDisplayed();
 
-        // TODO: Assert that there's one new sketch in the list of sketches
+        // TODO #181 Assert that there's one new sketch in the list of sketches
         /*
         element(by.css('table')).findElements(by.css('tbody tr')).then(function (elements) {
             expect(elements.length).toBe(this.numberOfIssues + 1);
