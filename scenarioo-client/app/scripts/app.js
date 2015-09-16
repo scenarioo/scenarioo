@@ -70,28 +70,22 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 pageOccurrence: '@pageOccurrence',
                 stepInPageOccurrence: '@stepInPageOccurrence',
                 breadcrumbId: 'step'
-            })/*
-            .when('/issue/:issueName', {
-                templateUrl: '../views/sketcher/issue.html',
-                controller: 'IssueCtrl',
-                issueName: '@issueName',
-                breadcrumbId: 'issue'
-            })*/
+            })
             .when('/issue/:issueId', {
-                templateUrl: 'views/sketcher/issue.html',
+                templateUrl: 'views/issueSketcher/issue.html',
                 controller: 'IssueCtrl',
                 issueId: '@issueId',
                 breadcrumbId: 'issue'
             })
             .when('/scenariosketch/:issueId/:scenarioSketchId', {
-                templateUrl: 'views/sketcher/scenarioSketch.html',
+                templateUrl: 'views/issueSketcher/scenarioSketch.html',
                 controller: 'ScenarioSketchCtrl',
                 issueId: '@issueId',
                 scenarioSketchId: '@scenarioSketchId',
                 breadcrumbId: 'scenariosketch'
             })
             .when('/sketchstep/:issueId/:scenarioSketchId/:sketchStepName', {
-                templateUrl: 'views/sketcher/sketchStep.html',
+                templateUrl: 'views/issueSketcher/sketchStep.html',
                 controller: 'SketchStepCtrl',
                 issueId: '@issueId',
                 scenarioSketchId: '@scenarioSketchId',
@@ -99,12 +93,12 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 breadcrumbId: 'sketchstep'
             })
             .when('/editor', {
-                templateUrl: 'views/sketcher/editor.html',
+                templateUrl: 'views/issueSketcher/editor.html',
                 controller: 'EditorCtrl',
                 breadcrumbId: 'editor'
             })
             .when('/editor/:screenshotURL/', {
-                templateUrl: 'views/sketcher/editor.html',
+                templateUrl: 'views/issueSketcher/editor.html',
                 controller: 'EditorCtrl',
                 breadcrumbId: 'editor',
                 screenshotURL: '@screenshotURL'
