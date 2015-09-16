@@ -13,7 +13,6 @@ public class ConfigurationRepository {
 
 	private static final Logger LOGGER = Logger.getLogger(ConfigurationRepository.class);
 	private static String EXAMPLE_DOCUMENTATION_DIRECTORY = "documentationExample";
-	private static String EXAMPLE_DESIGN_DIRECTORY = "designExample";
 
 	private final ConfigurationDao configurationDAO;
 	private Configuration configuration;
@@ -50,13 +49,8 @@ public class ConfigurationRepository {
 	}
 
 	public File getDesignDataDirectory() {
-		loadConfigurationIfNotLoadedYet();
-		String designDataDirectoryFromConfig = configuration.getDesignDocumentationDirPath();
-		if (StringUtils.isBlank(designDataDirectoryFromConfig)) {
-			return getExampleDesignDirectoryAsFallback();
-		} else {
-			return new File(designDataDirectoryFromConfig);
-		}
+		File rootFolder = getDocumentationDataDirectory();
+		return new File(rootFolder, "scenarioo-application-data/design");
 	}
 
 	private File getExampleDocumentationDirectoryAsFallback() {
@@ -76,25 +70,6 @@ public class ConfigurationRepository {
 			return null;
 		}
 		return exampleDocuDataDirectoryPath;
-	}
-
-	private File getExampleDesignDirectoryAsFallback() {
-		final URL exampleDesignDataPath = Configuration.class.getClassLoader().getResource(
-				EXAMPLE_DESIGN_DIRECTORY);
-		File exampleDesignDataDirectoryPath = null;
-		try {
-			if (exampleDesignDataPath != null) {
-				exampleDesignDataDirectoryPath = new File(exampleDesignDataPath.toURI());
-			}
-		} catch (final URISyntaxException e) {
-			LOGGER.error("Example design data is not accessible in resources.", e);
-			return null;
-		}
-		if (exampleDesignDataDirectoryPath == null || !exampleDesignDataDirectoryPath.exists()) {
-			LOGGER.error("Example design data is missing in resources.");
-			return null;
-		}
-		return exampleDesignDataDirectoryPath;
 	}
 
 }

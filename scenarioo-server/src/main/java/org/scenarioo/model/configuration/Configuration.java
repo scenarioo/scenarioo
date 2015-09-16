@@ -17,7 +17,6 @@
 
 package org.scenarioo.model.configuration;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -42,7 +41,6 @@ public class Configuration {
 	public static final String DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD = "last successful";
 
 	private String testDocumentationDirPath;
-	private String designDocumentationDirPath;
 
 	private String defaultBranchName = "trunk";
 
@@ -82,19 +80,6 @@ public class Configuration {
 
 	public void setTestDocumentationDirPath(final String testDocumentationDirPath) {
 		this.testDocumentationDirPath = testDocumentationDirPath;
-	}
-
-	public String getDesignDocumentationDirPath() {
-		if (this.designDocumentationDirPath == null) {
-			File parent = (new File(testDocumentationDirPath, "scenarioo-application-data"));
-			String path = (new File(parent, "design")).getAbsolutePath();
-			setDesignDocumentationDirPath(path);
-		}
-		return designDocumentationDirPath;
-	}
-
-	public void setDesignDocumentationDirPath(final String designDocumentationDirPath) {
-		this.designDocumentationDirPath = designDocumentationDirPath;
 	}
 
 	public String getDefaultBranchName() {
