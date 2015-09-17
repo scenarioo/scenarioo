@@ -26,7 +26,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -42,6 +41,10 @@ import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
+/**
+ * This path has a security constraint for POST requests (see web.xml).
+ * Only authenticated users with the required role can post new builds.
+ */
 @Path("/rest/builds/")
 public class BuildsImporterResource {
 	
@@ -98,9 +101,8 @@ public class BuildsImporterResource {
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces("application/json")
-	public Response uploadBuildAsZipFile(final MultipartFormDataInput formData,
-			@QueryParam("apiKey") final String apiKey) {
-		return new BuildUploader().uploadBuild(formData, apiKey);
+	public Response uploadBuildAsZipFile(final MultipartFormDataInput formData) {
+		return new BuildUploader().uploadBuild(formData);
 	}
 
 }

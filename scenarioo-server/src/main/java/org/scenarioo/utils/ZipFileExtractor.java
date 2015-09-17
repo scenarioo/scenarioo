@@ -10,6 +10,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 public class ZipFileExtractor {
@@ -21,16 +22,24 @@ public class ZipFileExtractor {
 	}
 
 	/**
-	 * Extracts the content of a ZIP file into a target directory. The ZIP file is deleted afterwards.
+	 * Extracts the content of a ZIP file into a target directory. The target directory will be deleted first, if it
+	 * already exists. The ZIP file is not deleted.
 	 * 
 	 * @throws ZipFileExtractionException
 	 *             in case something goes wrong
 	 */
 	public static void extractFile(final File zipFileToExtract, final File targetDir) throws ZipFileExtractionException {
-		// From http://stackoverflow.com/a/13912353
-		ZipFile zipFile = null;
+		ZipFile zipFile = getZipFile(zipFileToExtract);
+
+		if (targetDir.exists()) {
+			try {
+				FileUtils.deleteDirectory(targetDir);
+			} catch (IOException e) {
+				throw new ZipFileExtractionException("Could not delete target directory.", e);
+			}
+		}
+
 		try {
-			zipFile = new ZipFile(zipFileToExtract);
 			Enumeration<? extends ZipEntry> entries = zipFile.entries();
 			while (entries.hasMoreElements()) {
 				ZipEntry entry = entries.nextElement();
@@ -46,17 +55,21 @@ public class ZipFileExtractor {
 					out.close();
 				}
 			}
+		} catch (IOException e) {
+			throw new ZipFileExtractionException("IO Error while extracting ZIP file.", e);
+		}
+	}
+
+	private static ZipFile getZipFile(final File zipFileToExtract) throws ZipFileExtractionException {
+		ZipFile zipFile;
+		try {
+			zipFile = new ZipFile(zipFileToExtract);
 		} catch (ZipException e) {
 			throw new ZipFileExtractionException("Error while reading ZIP file.", e);
 		} catch (IOException e) {
 			throw new ZipFileExtractionException("IO Error while reading ZIP file.", e);
-		} finally {
-			try {
-				zipFile.close();
-			} catch (IOException e) {
-				throw new ZipFileExtractionException("Error while closing ZIP file.", e);
-			}
 		}
+		return zipFile;
 	}
 
 }
