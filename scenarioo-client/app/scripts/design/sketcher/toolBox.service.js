@@ -15,13 +15,11 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('ToolBox', function (SelectTool, RectCompositeDrawTool, BorderCompositeDrawTool, RectDrawTool, EllipseDrawTool,
+angular.module('scenarioo.services').factory('ToolBox', function (SelectTool, RectCompositeDrawTool, BorderCompositeDrawTool,
                                                                   TextCompositeDrawTool, NoteCompositeDrawTool, ButtonCompositeDrawTool) {
 
     return [
         SelectTool,
-        //RectDrawTool,
-        //EllipseDrawTool,
         RectCompositeDrawTool,
         BorderCompositeDrawTool,
         NoteCompositeDrawTool,

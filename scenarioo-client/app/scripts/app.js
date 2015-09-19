@@ -71,21 +71,8 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 stepInPageOccurrence: '@stepInPageOccurrence',
                 breadcrumbId: 'step'
             })
-            .when('/issue/:issueId', {
-                templateUrl: 'views/issueSketcher/issue.html',
-                controller: 'IssueCtrl',
-                issueId: '@issueId',
-                breadcrumbId: 'issue'
-            })
-            .when('/scenariosketch/:issueId/:scenarioSketchId', {
-                templateUrl: 'views/issueSketcher/scenarioSketch.html',
-                controller: 'ScenarioSketchCtrl',
-                issueId: '@issueId',
-                scenarioSketchId: '@scenarioSketchId',
-                breadcrumbId: 'scenariosketch'
-            })
             .when('/sketchstep/:issueId/:scenarioSketchId/:sketchStepName', {
-                templateUrl: 'views/issueSketcher/sketchStep.html',
+                templateUrl: '../views/design/stepSketch.html',
                 controller: 'SketchStepCtrl',
                 issueId: '@issueId',
                 scenarioSketchId: '@scenarioSketchId',
@@ -93,12 +80,12 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 breadcrumbId: 'sketchstep'
             })
             .when('/editor', {
-                templateUrl: 'views/issueSketcher/editor.html',
+                templateUrl: '../views/design/editor.html',
                 controller: 'EditorCtrl',
                 breadcrumbId: 'editor'
             })
             .when('/editor/:screenshotURL/', {
-                templateUrl: 'views/issueSketcher/editor.html',
+                templateUrl: '../views/design/editor.html',
                 controller: 'EditorCtrl',
                 breadcrumbId: 'editor',
                 screenshotURL: '@screenshotURL'
