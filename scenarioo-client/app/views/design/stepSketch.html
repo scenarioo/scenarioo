@@ -1,0 +1,57 @@
+<!-- scenarioo-client
+Copyright (C) 2015, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<sc-breadcrumb></sc-breadcrumb>
+
+<tabset class="step-panes">
+    <tab heading="Screenshot">
+        <div class="sc-screenshot-border">
+            <div ng-html="sketchStepSVG"></div>
+        </div>
+    </tab>
+    <tab heading="Metadata">
+        <p><strong>Details</strong></p>
+        <ul>
+            <li id="issue-name">
+                Issue name: {{issueName}}
+            </li>
+            <li id="issue-description">
+                Description: {{issueDescription}}
+            </li>
+            <li id="author">
+                Author: {{issueAuthor}}
+            </li>
+            <li id="dateCreated">
+                Created: {{sketchStep.dateCreated | scDateTime}}
+            </li>
+            <li id="dateModified">
+                Last modified: {{sketchStep.dateModified | scDateTime}}
+            </li>
+        </ul>
+        <p><strong>Context in Documentation</strong></p>
+        <ul>
+            <li id="usecase-context" ng-click="goToUsecase()">
+                <a href="">Related Usecase: {{sketchStep.usecaseContextName}}</a>
+            </li>
+            <li id="scenario-context" ng-click="goToScenario()">
+                <a href="">Related Scenario: {{sketchStep.scenarioContextName}}</a>
+            </li>
+            <li id="step-context" ng-click="goToStep()">
+                <a href="">Related Step</a>
+            </li>
+        </ul>
+    </tab>
+</tabset>
