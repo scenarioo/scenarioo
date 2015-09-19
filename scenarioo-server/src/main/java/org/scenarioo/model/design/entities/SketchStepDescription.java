@@ -35,7 +35,6 @@ public class SketchStepDescription implements Serializable, Labelable, Detailabl
 
 	private int index = 0;
 	private String title = "";
-	private final String status = "";
 	private String originalScreenshotFileName;
 	private String renderedSketchFileName;
 

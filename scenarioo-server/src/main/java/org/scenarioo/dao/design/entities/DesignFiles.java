@@ -43,8 +43,6 @@ public class DesignFiles {
 
 	private static final Logger LOGGER = Logger.getLogger(DesignFiles.class);
 
-	private static final String DIRECTORY_NAME_SCENARIOSKETCH_ORIGINALSCREENSHOTS = "screenshots";
-
 	private static final String DIRECTORY_NAME_SCENARIOSKETCH_SKETCHSTEPS = "sketchSteps";
 
 	private static final String DIRECTORY_NAME_SKETCHSTEP_SVG = "svg";

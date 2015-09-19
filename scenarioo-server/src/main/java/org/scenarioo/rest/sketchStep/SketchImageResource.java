@@ -23,17 +23,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.api.ScenarioDocuReader;
-import org.scenarioo.dao.design.aggregates.ScenarioSketchAggregationDAO;
 import org.scenarioo.dao.design.entities.DesignFiles;
-import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
-import org.scenarioo.rest.sketchStep.logic.ProposalLoader;
-import org.scenarioo.rest.sketchStep.logic.SketchStepIndexResolver;
-import org.scenarioo.rest.sketchStep.logic.SketchStepLoader;
-import org.scenarioo.rest.step.logic.LabelsQueryParamParser;
-import org.scenarioo.utils.design.readers.DesignReader;
 
 @Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/sketchstep/{sketchStepIndex}/image/{sketchFileName}")
 public class SketchImageResource {
@@ -43,21 +35,11 @@ public class SketchImageResource {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
-	private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
-	private final ScenarioSketchAggregationDAO aggregatedDataReader = new ScenarioSketchAggregationDAO(
-			configurationRepository.getDesignDataDirectory(), longObjectNamesResolver);
-
-	private final LabelsQueryParamParser labelsQueryParamParser = new LabelsQueryParamParser();
-	private final ProposalLoader proposalLoader = new ProposalLoader(aggregatedDataReader);
-	private final SketchStepIndexResolver sketchStepIndexResolver = new SketchStepIndexResolver();
-	private final SketchStepLoader sketchStepLoader = new SketchStepLoader(proposalLoader, sketchStepIndexResolver);
-
 	// todo: ProposalReader (?)
-	private final ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(
-			configurationRepository.getDesignDataDirectory());
+	// private final ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(
+	// configurationRepository.getDesignDataDirectory());
 
 	private final DesignFiles files = new DesignFiles(configurationRepository.getDesignDataDirectory());
-	private final DesignReader reader = new DesignReader(configurationRepository.getDesignDataDirectory());
 
 	/**
 	 * Get a step with all its data (meta data, html, ...) together with additional calculated navigation data
@@ -73,4 +55,5 @@ public class SketchImageResource {
 		return files.getSVGFile(branchName, issueId, scenarioSketchId, "sketch.svg");
 
 	}
+
 }

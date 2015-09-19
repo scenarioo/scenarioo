@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- *
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,21 +31,21 @@ import org.scenarioo.model.configuration.Configuration;
  * also have a different name.
  */
 public class ConfigurationDaoImpl implements ConfigurationDao {
-
+	
 	private static final Logger LOGGER = Logger.getLogger(ConfigurationDaoImpl.class);
-
+	
 	private static final String USER_HOME_BASE_DIRECTORY = ".scenarioo";
 	private static final String CONFIG_FILE_NAME = "config.xml";
 	private static final String DEFAULT_CONFIG_PATH = CONFIG_FILE_NAME;
-
+	
 	private String configurationDirectory = null;
 	private String configurationFilename = null;
-
+	
 	public ConfigurationDaoImpl(final String configurationDirectory, final String configurationFilename) {
 		this.configurationDirectory = configurationDirectory;
 		this.configurationFilename = configurationFilename;
 	}
-
+	
 	@Override
 	public Configuration loadConfiguration() {
 		File configFile = getFileSystemConfigFile();
@@ -57,7 +57,7 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
 		}
 		return ScenarioDocuXMLFileUtil.unmarshal(Configuration.class, configFile);
 	}
-
+	
 	@Override
 	public void updateConfiguration(final Configuration configuration) {
 		final File configFile = getFileSystemConfigFile();
@@ -65,7 +65,7 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
 		configDirectory.mkdirs();
 		ScenarioDocuXMLFileUtil.marshal(configuration, configFile);
 	}
-
+	
 	/**
 	 * Get the place where customized configuration file is or will be stored (as soon as first configuration change has
 	 * been applied).
@@ -89,15 +89,15 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
 		}
 		return configFile;
 	}
-
+	
 	private File getUserHomeConfigurationDirectory() {
 		File configurationPath;
 		// file constructor handles null or blank user.home
 		configurationPath = new File(System.getProperty("user.home"), USER_HOME_BASE_DIRECTORY);
-
+		
 		return configurationPath;
 	}
-
+	
 	private File getClasspathConfigFile() {
 		final URL resourceUrl = ConfigurationDaoImpl.class.getClassLoader().getResource(DEFAULT_CONFIG_PATH);
 		File defaultConfigFile = null;
@@ -111,5 +111,5 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
 		}
 		return defaultConfigFile;
 	}
-
+	
 }

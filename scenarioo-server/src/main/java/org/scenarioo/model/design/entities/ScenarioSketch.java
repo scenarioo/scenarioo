@@ -187,10 +187,12 @@ public class ScenarioSketch implements Serializable, Labelable, Detailable {
 		this.labels = labels;
 	}
 
+	@SuppressWarnings("unused")
 	private String getBranchName() {
 		return branchName;
 	}
 
+	@SuppressWarnings("unused")
 	private void setBranchName(final String branchName) {
 		this.branchName = branchName;
 	}
