@@ -32,21 +32,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.files.ScenarioDocuFiles;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.design.aggregates.ScenarioSketchAggregationDAO;
 import org.scenarioo.dao.design.entities.DesignFiles;
 import org.scenarioo.model.design.entities.SketchStep;
-import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
-import org.scenarioo.rest.sketchStep.logic.ProposalLoader;
-import org.scenarioo.rest.sketchStep.logic.SketchStepIndexResolver;
-import org.scenarioo.rest.sketchStep.logic.SketchStepLoader;
-import org.scenarioo.rest.sketchStep.logic.SketchStepResponseFactory;
-import org.scenarioo.rest.step.logic.LabelsQueryParamParser;
 import org.scenarioo.utils.design.readers.DesignReader;
 
 @Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/sketchstep")
@@ -56,23 +48,6 @@ public class SketchStepResource {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
-
-	private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
-	private final ScenarioSketchAggregationDAO aggregatedDataReader = new ScenarioSketchAggregationDAO(
-			configurationRepository.getDesignDataDirectory(), longObjectNamesResolver);
-
-	private final LabelsQueryParamParser labelsQueryParamParser = new LabelsQueryParamParser();
-	private final ProposalLoader proposalLoader = new ProposalLoader(aggregatedDataReader);
-	private final SketchStepIndexResolver sketchStepIndexResolver = new SketchStepIndexResolver();
-	private final SketchStepLoader sketchStepLoader = new SketchStepLoader(proposalLoader, sketchStepIndexResolver);
-
-	// todo: ProposalReader (?)
-	private final ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(
-			configurationRepository.getDesignDataDirectory());
-
-	private final SketchStepResponseFactory sketchStepResponseFactory = new SketchStepResponseFactory(
-			aggregatedDataReader,
-			scenarioDocuReader);
 
 	private final DesignFiles files = new DesignFiles(configurationRepository.getDesignDataDirectory());
 	private final DesignReader reader = new DesignReader(configurationRepository.getDesignDataDirectory());
@@ -166,4 +141,5 @@ public class SketchStepResource {
 		result.put("stepIndex", result.get("image").split(Pattern.quote("."))[0]);
 		return result;
 	}
+
 }

@@ -25,49 +25,26 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
-import org.scenarioo.business.builds.BuildLink;
 import org.scenarioo.dao.design.aggregates.issues.IssueScenarioSketchesList;
 import org.scenarioo.model.design.aggregates.IssueScenarioSketches;
 import org.scenarioo.model.design.aggregates.ScenarioSketchSteps;
-import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
-import org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree;
-import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
-import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
-import org.scenarioo.model.docu.aggregates.steps.StepLink;
-import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
-import org.scenarioo.model.docu.entities.generic.ObjectDescription;
-import org.scenarioo.model.docu.entities.generic.ObjectList;
-import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.rest.base.BuildIdentifier;
-import org.scenarioo.rest.base.ScenarioIdentifier;
 import org.scenarioo.rest.base.design.ScenarioSketchIdentifier;
 import org.scenarioo.utils.ResourceUtils;
-import org.scenarioo.utils.design.readers.DesignReader;
 
 public class IssueAggregationDAO {
-
-	private static final Logger LOGGER = Logger.getLogger(IssueAggregationDAO.class);
 
 	private static final String VERSION_PROPERTY_KEY = "scenarioo.derived.file.format.version";
 
 	final File rootDirectory;
 	private final DesignAggregateFiles files;
-	private final DesignReader designReader;
 
-	private LongObjectNamesResolver longObjectNameResolver = null;
 	DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 	public IssueAggregationDAO(final File rootDirectory) {
 		this.rootDirectory = rootDirectory;
 		files = new DesignAggregateFiles(rootDirectory);
-		designReader = new DesignReader(rootDirectory);
-	}
-
-	public IssueAggregationDAO(final File rootDirectory, final LongObjectNamesResolver longObjectNameResolver) {
-		this(rootDirectory);
-		this.longObjectNameResolver = longObjectNameResolver;
 	}
 
 	/**
@@ -94,13 +71,11 @@ public class IssueAggregationDAO {
 		}
 	}
 
-
 	public List<IssueScenarioSketches> loadIssueScenarioSketchesList(final BuildIdentifier buildIdentifier) {
 		File file = files.getIssuesAndScenarioSketchesFile(buildIdentifier);
 		IssueScenarioSketchesList list = ScenarioDocuXMLFileUtil.unmarshal(IssueScenarioSketchesList.class, file);
 		return list.getIssueScenarioSketches();
 	}
-
 
 	public IssueScenarioSketches loadIssueScenarioSketches(final BuildIdentifier buildIdentifier, final String issueName) {
 		File file = files.getIssueScenarioSketchesFile(buildIdentifier, issueName);
@@ -108,77 +83,10 @@ public class IssueAggregationDAO {
 		return issueScenariosketches;
 	}
 
-
 	public ScenarioSketchSteps loadScenarioSketchSteps(final ScenarioSketchIdentifier scenarioSketchIdentifier) {
 		File file = files.getScenarioSketchStepsFile(scenarioSketchIdentifier);
 		ScenarioSketchSteps scenarioSketchSteps = ScenarioDocuXMLFileUtil.unmarshal(ScenarioSketchSteps.class, file);
 		return scenarioSketchSteps;
-	}
-
-
-	public ObjectDescription loadObjectDescription(final BuildIdentifier buildIdentifier, final ObjectReference objectRef) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public ObjectDescription loadObjectDescription(final File file) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public ObjectIndex loadObjectIndex(final BuildIdentifier buildIdentifier, final String objectType, final String objectName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public ObjectList<ObjectDescription> loadObjectsList(final BuildIdentifier buildIdentifier, final String type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public CustomObjectTabTree loadCustomObjectTabTree(final BuildIdentifier buildIdentifier, final String tabId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public ObjectIndex loadObjectIndexIfExistant(final BuildIdentifier buildIdentifier, final String objectType, final String objectName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public List<BuildImportSummary> loadBuildImportSummaries() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public LongObjectNamesResolver loadLongObjectNamesIndex(final BuildIdentifier buildIdentifier) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public StepNavigation loadStepNavigation(final BuildIdentifier build, final StepLink step) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public StepNavigation loadStepNavigation(final ScenarioIdentifier scenarioIdentifier, final int stepIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public List<BuildLink> loadBuildLinks(final String branchName) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

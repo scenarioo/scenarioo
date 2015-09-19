@@ -36,7 +36,6 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.log4j.Logger;
-import org.scenarioo.dao.design.aggregates.IssueAggregationDAO;
 import org.scenarioo.dao.design.entities.DesignFiles;
 import org.scenarioo.model.design.aggregates.IssueScenarioSketches;
 import org.scenarioo.model.design.aggregates.IssueSummary;
@@ -54,8 +53,6 @@ public class IssuesResource {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
-
-	private final IssueAggregationDAO dao = new IssueAggregationDAO(configurationRepository.getDesignDataDirectory());
 
 	// TODO: Extract the functionality these provide into separate classes
 	private final DesignReader reader = new DesignReader(configurationRepository.getDesignDataDirectory());

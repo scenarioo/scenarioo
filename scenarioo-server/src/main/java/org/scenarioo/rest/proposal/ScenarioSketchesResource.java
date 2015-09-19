@@ -15,14 +15,12 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.log4j.Logger;
-import org.scenarioo.dao.design.aggregates.IssueAggregationDAO;
 import org.scenarioo.dao.design.entities.DesignFiles;
 import org.scenarioo.model.design.aggregates.ScenarioSketchSteps;
 import org.scenarioo.model.design.entities.ScenarioSketch;
 import org.scenarioo.model.design.entities.SketchStep;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
-import org.scenarioo.rest.scenario.mapper.ScenarioDetailsMapper;
 import org.scenarioo.utils.design.readers.DesignReader;
 
 @Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch")
@@ -33,13 +31,8 @@ public class ScenarioSketchesResource {
 
 	private static final Logger LOGGER = Logger.getLogger(ScenarioSketchesResource.class);
 
-	private final IssueAggregationDAO dao = new IssueAggregationDAO(
-			configurationRepository.getDesignDataDirectory());
-
 	private final DesignReader reader = new DesignReader(configurationRepository.getDesignDataDirectory());
 	private final DesignFiles files = new DesignFiles(configurationRepository.getDesignDataDirectory());
-
-	private final ScenarioDetailsMapper scenarioDetailsMapper = new ScenarioDetailsMapper();
 
 	@GET
 	@Produces({ "application/xml", "application/json" })
@@ -48,11 +41,6 @@ public class ScenarioSketchesResource {
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId) {
 		LOGGER.info("REQUEST: Loading scenarioSketch " + scenarioSketchId);
-
-		// ScenarioSketchIdentifier scenarioSketchIdentifier = new ScenarioSketchIdentifier(branchName, issueId,
-		// scenarioSketchName);
-
-		// ScenarioSketchSteps scenarioSketchSteps = dao.loadScenarioSketchSteps(scenarioSketchIdentifier);
 
 		final ScenarioSketch scenarioSketch = reader.loadScenarioSketch(branchName, issueId, scenarioSketchId);
 		final List<SketchStep> steps = reader.loadSketchSteps(branchName, issueId, scenarioSketchId);
