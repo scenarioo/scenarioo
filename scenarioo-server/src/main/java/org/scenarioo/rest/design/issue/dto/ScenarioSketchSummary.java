@@ -15,30 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.model.design.entities;
+package org.scenarioo.rest.design.issue.dto;
 
-import java.io.Serializable;
+import org.scenarioo.model.design.entities.ScenarioSketch;
 
-/**
- * HTML source code of a step for webapplications.
- */
-public class SketchStepHtml implements Serializable {
+public class ScenarioSketchSummary {
 
-	private String htmlSource = "";
+	private ScenarioSketch scenarioSketch;
+	private int numberOfSteps;
 
-	public SketchStepHtml() {
+	public ScenarioSketch getScenarioSketch() {
+		return scenarioSketch;
 	}
 
-	public SketchStepHtml(final String htmlSource) {
-		this.htmlSource = htmlSource;
+	public void setScenarioSketch(final ScenarioSketch scenarioSketch) {
+		this.scenarioSketch = scenarioSketch;
 	}
 
-	public String getHtmlSource() {
-		return htmlSource;
+	public int getNumberOfSteps() {
+		return numberOfSteps;
 	}
 
-	public void setHtmlSource(final String htmlSource) {
-		this.htmlSource = htmlSource;
+	public void setNumberOfSteps(final int numberOfSteps) {
+		this.numberOfSteps = numberOfSteps;
 	}
 
 }

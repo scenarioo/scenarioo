@@ -29,14 +29,12 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SketchStep implements Serializable {
+public class StepSketch implements Serializable {
 
 	// private Page page;
 	private int sketchStepName;
 	private String sketchFileName; // todo
 	private int nextSketchStepRef; // (index) todo
-	private SketchStepDescription sketchStepDescription;
-	private SketchStepHtml html;
 	private String usecaseContextName;
 	private String usecaseContextLink;
 	private String scenarioContextName;
@@ -121,30 +119,6 @@ public class SketchStep implements Serializable {
 		this.dateModified = dateModified;
 	}
 
-	public SketchStepDescription getSketchStepDescription() {
-		return sketchStepDescription;
-	}
-
-	/**
-	 * Most important description information about this sketchStep. Only put the most important values and informations
-	 * about
-	 * a sketchStep into this object.
-	 */
-	public void setSketchStepDescription(final SketchStepDescription sketchStepDescription) {
-		this.sketchStepDescription = sketchStepDescription;
-	}
-
-	public SketchStepHtml getHtml() {
-		return html;
-	}
-
-	/**
-	 * Optional information for webapplications about the html output of current sketchStep.
-	 */
-	public void setHtml(final SketchStepHtml html) {
-		this.html = html;
-	}
-
 	public int getSketchStepName() {
 		return sketchStepName;
 	}
@@ -225,14 +199,11 @@ public class SketchStep implements Serializable {
 		this.stepContextLink = stepContextLink;
 	}
 
-	public void update(final SketchStep update) {
+	public void update(final StepSketch update) {
 		this.sketchStepName = update.getSketchStepName() != 0 ? update.getSketchStepName() : this.sketchStepName;
 		this.sketchFileName = update.getSketchFileName() != null ? update.getSketchFileName() : this.sketchFileName;
 		this.nextSketchStepRef = update.getNextSketchStepRef() != 0 ? update.getNextSketchStepRef()
 				: this.nextSketchStepRef;
-		this.sketchStepDescription = update.getSketchStepDescription() != null ? update.getSketchStepDescription()
-				: this.sketchStepDescription;
-		this.html = update.getHtml() != null ? update.getHtml() : this.html;
 		this.dateModified = update.getDateModified() != 0 ? update.getDateModified() : this.dateModified;
 		this.stepContextLink = update.getStepContextLink() != null ? update.getStepContextLink() : this.stepContextLink;
 		this.scenarioContextLink = update.getScenarioContextLink() != null ? update.getScenarioContextLink()

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.rest.sketchStep;
+package org.scenarioo.rest.design.stepSketch;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -23,7 +23,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.dao.design.entities.DesignFiles;
+import org.scenarioo.dao.design.DesignFiles;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 
@@ -34,10 +34,6 @@ public class SketchImageResource {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
-
-	// todo: ProposalReader (?)
-	// private final ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(
-	// configurationRepository.getDesignDataDirectory());
 
 	private final DesignFiles files = new DesignFiles(configurationRepository.getDesignDataDirectory());
 
@@ -53,7 +49,6 @@ public class SketchImageResource {
 
 		LOGGER.info("Loading a sketch image");
 		return files.getSVGFile(branchName, issueId, scenarioSketchId, "sketch.svg");
-
 	}
 
 }

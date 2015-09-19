@@ -15,9 +15,9 @@ import org.scenarioo.model.docu.entities.Status;
 import org.scenarioo.model.docu.entities.generic.Details;
 
 /**
- * Information to store and display for one scenario sketch.
- *
- * It is important that each scenario sketch gets a unique 'name' inside the issue it belongs to.
+ * A {@link ScenarioSketch} is a sketch of an entire scenario. It always belongs to an {@link Issue}.
+ * It currently always contains one {@link StepSketch}. In the future it might also support several {@link StepSketch}es
+ * so that it is actually a scenario sketch.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

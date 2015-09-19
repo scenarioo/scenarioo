@@ -30,6 +30,10 @@ import org.scenarioo.model.docu.entities.Labelable;
 import org.scenarioo.model.docu.entities.Labels;
 import org.scenarioo.model.docu.entities.generic.Details;
 
+/**
+ * An issue is the top level element of the design domain. It can be referenced by
+ * zero, one or several ScenarioSketches.
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Issue implements Serializable, Labelable, Detailable {
@@ -37,14 +41,20 @@ public class Issue implements Serializable, Labelable, Detailable {
 	private String name;
 	private String issueId;
 	private String description;
+
+	// TODO #185 Can this be removed? Seems we don't use it
 	private String issueStatus;
+
 	private String trackingURL;
 	private String author;
+
+	// TODO #185 Create component with all context information
 	private String usecaseContextName;
 	private String usecaseContextLink;
 	private String scenarioContextName;
 	private String scenarioContextLink;
 	private String stepContextLink;
+
 	private long dateCreated;
 	private long dateModified;
 
