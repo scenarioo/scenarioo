@@ -9,7 +9,8 @@ import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.scenarioo.model.design.entities.SketchStep;
+import org.scenarioo.dao.design.DesignFiles;
+import org.scenarioo.model.design.entities.StepSketch;
 
 public class DesignFilesTest {
 
@@ -19,7 +20,7 @@ public class DesignFilesTest {
 	private final String issueName = "This is our first Test Issue";
 	private final String proposalName = "This is our first Test Proposal";
 
-	private static SketchStep sketchStep = new SketchStep();
+	private static StepSketch sketchStep = new StepSketch();
 
 	@BeforeClass
 	public static void setupClass() {

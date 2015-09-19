@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.rest.sketchStep;
+package org.scenarioo.rest.design.stepSketch;
 
 import java.io.File;
 import java.util.HashMap;
@@ -34,17 +34,17 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.files.ScenarioDocuFiles;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.design.entities.DesignFiles;
-import org.scenarioo.model.design.entities.SketchStep;
+import org.scenarioo.dao.design.DesignFiles;
+import org.scenarioo.dao.design.DesignReader;
+import org.scenarioo.model.design.entities.StepSketch;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
-import org.scenarioo.utils.design.readers.DesignReader;
 
 @Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/sketchstep")
-public class SketchStepResource {
+public class StepSketchResource {
 
-	private static final Logger LOGGER = Logger.getLogger(SketchStepResource.class);
+	private static final Logger LOGGER = Logger.getLogger(StepSketchResource.class);
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
@@ -61,7 +61,7 @@ public class SketchStepResource {
 	@GET
 	@Produces({ "application/json" })
 	@Path("/{sketchStepName}")
-	public SketchStep loadSketchStep(@PathParam("branchName") final String branchName,
+	public StepSketch loadSketchStep(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId,
 			@PathParam("sketchStepName") final int sketchStepName,
@@ -76,7 +76,7 @@ public class SketchStepResource {
 	@Produces({ "application/json", "application/xml" })
 	public Response storeSketchStep(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
-			@PathParam("scenarioSketchId") final String scenarioSketchId, final SketchStep sketchStep) {
+			@PathParam("scenarioSketchId") final String scenarioSketchId, final StepSketch sketchStep) {
 
 		File originalScreenshot = null;
 		if (sketchStep.getContextInDocu() != null) {
@@ -111,7 +111,7 @@ public class SketchStepResource {
 	public Response updateSketchStep(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId,
-			@PathParam("sketchStepName") final int sketchStepName, final SketchStep updatedSketchStep) {
+			@PathParam("sketchStepName") final int sketchStepName, final StepSketch updatedSketchStep) {
 
 		LOGGER.info("Now updating a sketchStep.");
 		LOGGER.info(updatedSketchStep);
@@ -120,7 +120,7 @@ public class SketchStepResource {
 			LOGGER.error("There was no sketchStepName set on the sketchStep object!");
 			updatedSketchStep.setSketchStepName(sketchStepName);
 		}
-		final SketchStep existingSketchStep = reader.loadSketchStep(branchName, issueId, scenarioSketchId,
+		final StepSketch existingSketchStep = reader.loadSketchStep(branchName, issueId, scenarioSketchId,
 				sketchStepName);
 		existingSketchStep.update(updatedSketchStep);
 		existingSketchStep.setDateModified(System.currentTimeMillis());
