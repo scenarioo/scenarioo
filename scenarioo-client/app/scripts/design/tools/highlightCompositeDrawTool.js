@@ -23,7 +23,7 @@ angular.module('scenarioo.services').factory('HighlightCompositeDrawTool', funct
 
     tool.name = 'Highlight Tool';
     tool.icon = 'highlight';
-    tool.tooltip = 'Highlight aspects of the drawing';
+    tool.tooltip = 'Highlight an area';
 
     tool.getShape = function () {
         return tool.getDrawingPad().highlightShape(0, 0, 0, 0);
