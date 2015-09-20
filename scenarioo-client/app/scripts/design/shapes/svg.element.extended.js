@@ -5,11 +5,12 @@
     SVG.extend(SVG.Nested, SVG.Shape, {
 
         isSelected: false,
-        selectOptions: {rotationPoint: false},
+        selectOptions: {rotationPoint: false, deepSelect: true},
 
         selectToggle: function () {
             this.isSelected = !this.isSelected;
-            this.select(this.isSelected, this.selectOptions);
+
+            this.select(this.selectOptions);
 
             this.draggable(this.isSelected);
 
@@ -26,7 +27,8 @@
 
         unSelect: function () {
             this.isSelected = false;
-            this.select(false);
+
+            this.select(false, this.selectOptions);
 
             this.draggable(false);
             this.resize('stop');
