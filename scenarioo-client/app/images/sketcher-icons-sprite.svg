@@ -351,23 +351,21 @@ NIJxMroP43088mFlHPXQreW9AAMAJqxqh4Y78OUAAAAASUVORK5CYII=" transform="matrix(1 0 
 </g>
 <g id="send_to_back">
 	<g>
+		<rect x="268.5" y="9.75" fill="#FFFFFF" width="14" height="14"/>
 		<g>
-			<rect x="262.5" y="3.75" fill="#FFFFFF" width="12" height="12"/>
-			<g>
-				<path fill="#7B7B7B" d="M274,4.25v11h-11v-11H274 M275,3.25h-13v13h13V3.25L275,3.25z"/>
-			</g>
+			<path d="M282,10.25v13h-13v-13H282 M283,9.25h-15v15h15V9.25L283,9.25z"/>
 		</g>
+	</g>
+	<g>
+		<rect x="262.5" y="3.75" fill="#FFFFFF" width="12" height="12"/>
 		<g>
-			<rect x="276.5" y="17.75" fill="#FFFFFF" width="12" height="12"/>
-			<g>
-				<path fill="#7B7B7B" d="M288,18.25v11h-11v-11H288 M289,17.25h-13v13h13V17.25L289,17.25z"/>
-			</g>
+			<path fill="#7B7B7B" d="M274,4.25v11h-11v-11H274 M275,3.25h-13v13h13V3.25L275,3.25z"/>
 		</g>
+	</g>
+	<g>
+		<rect x="276.5" y="17.75" fill="#FFFFFF" width="12" height="12"/>
 		<g>
-			<rect x="268.5" y="9.75" fill="#FFFFFF" width="14" height="14"/>
-			<g>
-				<path d="M282,10.25v13h-13v-13H282 M283,9.25h-15v15h15V9.25L283,9.25z"/>
-			</g>
+			<path fill="#7B7B7B" d="M288,18.25v11h-11v-11H288 M289,17.25h-13v13h13V17.25L289,17.25z"/>
 		</g>
 	</g>
 </g>
