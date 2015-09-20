@@ -75,6 +75,9 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
                 case 'button-shape':
                     newShape = drawingPad.buttonShape(shape.width(), shape.height(), shape.x(), shape.y());
                     break;
+                case 'highlight-shape':
+                    newShape = drawingPad.highlightShape(shape.width(), shape.height(), shape.x(), shape.y());
+                    break;
                 default:
                     newShape = drawingPad.rectShape(shape.width(), shape.height(), shape.x(), shape.y());
             }
