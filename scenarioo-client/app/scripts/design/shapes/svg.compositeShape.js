@@ -295,6 +295,16 @@
                 , class: 'button-shape'
                 , minWidth: 100
             }));
+        },
+        highlightShape: function (width, height, x, y) {
+            return this.put(new SVG.CompositeShape(width, height, x, y, {
+                fill: '#f1c40f'
+                , opacity: 0.5
+                , strokeWidth: 0
+                , class: 'highlight-shape'
+                , minWidth: 120
+                , minHeight: 30
+            }));
         }
 
     });

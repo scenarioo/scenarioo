@@ -15,18 +15,21 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('ToolBox', function (SelectTool, RectCompositeDrawTool, BorderCompositeDrawTool,
-                                                                  TextCompositeDrawTool, NoteCompositeDrawTool, ButtonCompositeDrawTool,
-                                                                  HighlightCompositeDrawTool) {
 
-    return [
-        SelectTool,
-        RectCompositeDrawTool,
-        BorderCompositeDrawTool,
-        NoteCompositeDrawTool,
-        TextCompositeDrawTool,
-        ButtonCompositeDrawTool,
-        HighlightCompositeDrawTool
-    ];
+angular.module('scenarioo.services').factory('HighlightCompositeDrawTool', function (CompositeDrawTool) {
+
+    var tool = CompositeDrawTool();
+
+
+    tool.name = 'Highlight Tool';
+    tool.icon = 'highlight';
+    tool.tooltip = 'Highlight aspects of the drawing';
+
+    tool.getShape = function () {
+        return tool.getDrawingPad().highlightShape(0, 0, 0, 0);
+    };
+
+
+    return tool;
 
 });
