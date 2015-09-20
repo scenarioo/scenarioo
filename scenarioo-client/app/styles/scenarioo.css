@@ -482,7 +482,7 @@ textarea#issueDescription {
 }
 .tool-icon,
 .property-icon {
-  background-image: url('../images/sketcher-icons-sprite.png');
+  background-image: url('../images/sketcher-icons-sprite.svg');
   background-repeat: no-repeat;
   width: 50px;
   height: 33px;
@@ -508,6 +508,12 @@ textarea#issueDescription {
 }
 .tool-icon-button {
   background-position: -200px center;
+}
+.tool-icon-highlight {
+  background-position: -500px center;
+}
+.tool-icon-line {
+  background-position: -550px center;
 }
 .property-icon-front {
   background-position: -250px center;
