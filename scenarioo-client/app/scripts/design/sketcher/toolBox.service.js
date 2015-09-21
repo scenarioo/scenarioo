@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.services').factory('ToolBox', function (SelectTool, RectCompositeDrawTool, BorderCompositeDrawTool,
                                                                   TextCompositeDrawTool, NoteCompositeDrawTool, ButtonCompositeDrawTool,
-                                                                  HighlightCompositeDrawTool, LineDrawTool, ArrowDrawTool) {
+                                                                  HighlightCompositeDrawTool, LineDrawTool) {
 
     return [
         SelectTool,
