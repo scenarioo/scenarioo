@@ -97,6 +97,20 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $window.history.back();
     };
 
+    $scope.$on('$locationChangeStart', function(event) {
+        if ( $route.current.originalPath === '/editor'){
+            if (!confirm('Unsaved data will be lost!')) {
+                event.preventDefault();
+            }
+        }
+    });
+
+    angular.element($window).on('beforeunload', function(event){
+        if( $route.current.originalPath === '/editor'){
+            return 'Unsaved data will be lost!';
+        }
+    });
+
     // TODO extract all saving related methods into a service
     $scope.saveSketcherData = function () {
 
@@ -307,7 +321,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             sc = $scope.currentIssue.scenarioContextName;
         }
         if (ContextService && ContextService.stepName){
-            stepName  = ContextService.stepName;
+            stepName = ContextService.stepName;
         } else if (ContextService && ContextService.sketchStepName){
             stepName = ContextService.sketchStepName;
         }
