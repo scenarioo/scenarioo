@@ -357,6 +357,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         ContextService.setUseCase(useCaseName);
         ContextService.stepLink = '/step/' + useCaseName + '/' + scenarioName + '/' + $scope.pageName + '/' + $scope.pageOccurrence + '/' + $scope.stepInPageOccurrence;
         ContextService.screenshotURL = $scope.getScreenShotUrl();
+        ContextService.stepName = $scope.stepNavigation.stepIndex + 1;
         $location.path('/editor/').search('mode', 'create');
     };
 
