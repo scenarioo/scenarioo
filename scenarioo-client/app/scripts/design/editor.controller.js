@@ -205,7 +205,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             sketchStep.scenarioContextName = ContextService.scenarioName;
             sketchStep.scenarioContextLink = ContextService.scenarioLink;
             sketchStep.stepContextLink = ContextService.stepLink;
-            sketchStep.contextInDocu = decodeURIComponent($location.search().url);
+            sketchStep.contextInDocu = ContextService.screenshotURL;
         }
 
 
