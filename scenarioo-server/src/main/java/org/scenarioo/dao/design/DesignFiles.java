@@ -80,8 +80,7 @@ public class DesignFiles {
 	}
 
 	public File getBranchDirectory(final String branchName) {
-		final File branchDirectory = new File(rootDirectory, FilesUtil.encodeName(branchName));
-		return branchDirectory;
+		return new File(rootDirectory, FilesUtil.encodeName(branchName));
 	}
 
 	public File getBranchFile(final String branchName) {
@@ -175,11 +174,9 @@ public class DesignFiles {
 		return numberFormat;
 	}
 
-	// TODO: Check if branch folder exists in documentation folder
 	public boolean createIssueDirectory(final String branchName, final String issueName) {
 		final File issueDirectory = new File(getBranchDirectory(branchName), FilesUtil.encodeName(issueName));
-		// mkdirs() guarantees that the branch directory is created too
-		final boolean isCreated = issueDirectory.mkdirs();
+		final boolean isCreated = issueDirectory.mkdir();
 		if (!isCreated) {
 			LOGGER.error("Issue directory not created.");
 		}
@@ -198,10 +195,17 @@ public class DesignFiles {
 	}
 
 	public void writeIssueToFile(final String branchName, final Issue issue) {
+		createBranchDirectoryIfNecessary(branchName);
 		createIssueDirectory(branchName, issue.getIssueId());
 		final File destinationFile = createIssueFile(branchName, issue.getIssueId());
 		issue.setIssueStatus("Open");
 		ScenarioDocuXMLFileUtil.marshal(issue, destinationFile);
+	}
+
+	private void createBranchDirectoryIfNecessary(final String branchName) {
+		File branchFolder = new File(rootDirectory, FilesUtil.encodeName(branchName));
+		// Make sure design root folder exists and change to mkdir() here.
+		branchFolder.mkdirs();
 	}
 
 	public void updateIssue(final String branchName, final Issue issue) {
