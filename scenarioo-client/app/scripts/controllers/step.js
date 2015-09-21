@@ -362,8 +362,8 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     function loadRelatedIssues(){
         RelatedIssueResource.query({
             branchName: SelectedBranchAndBuild.selected().branch,
-            objectName: $routeParams.scenarioName,
-            type: 'scenario'
+            objectName: '/step/' + useCaseName + '/' + scenarioName + '/' + $scope.pageName + '/' + $scope.pageOccurrence + '/' + $scope.stepInPageOccurrence,
+            type: 'step'
         }, function(result){
             $scope.relatedIssues = result;
             $scope.hasAnyRelatedIssues = function(){
