@@ -27,6 +27,7 @@ import javax.servlet.ServletContextListener;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.design.DesignFiles;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -58,16 +59,20 @@ public class ScenariooWebApplication implements ServletContextListener {
 	private void loadConfiguration(final ServletContextEvent servletContextEvent) {
 		LOGGER.info("  Loading configuration ...");
 		
-		String configurationDirectory = configureConfigurationDirectoryFromServerContext(servletContextEvent);
-		String configurationFilename = configureConfigurationFilenameFromServerContext(servletContextEvent);
+		final String configurationDirectory = configureConfigurationDirectoryFromServerContext(servletContextEvent);
+		final String configurationFilename = configureConfigurationFilenameFromServerContext(servletContextEvent);
 		
 		RepositoryLocator.INSTANCE.initializeConfigurationRepository(configurationDirectory, configurationFilename);
 		
-		ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
+		final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
 		final Configuration configuration = configurationRepository.getConfiguration();
 		
+		final DesignFiles designFiles = new DesignFiles(configurationRepository.getDesignDataDirectory());
+		designFiles.createRootIfNecessary();
+
 		LOGGER.info("  Configuration loaded.");
 		LOGGER.info("  Configured documentation content directory: " + configuration.getTestDocumentationDirPath());
+		LOGGER.info("  Configured design content directory: " + designFiles.getRootDirectory());
 	}
 	
 	private String configureConfigurationDirectoryFromServerContext(final ServletContextEvent servletContextEvent) {
@@ -96,8 +101,8 @@ public class ScenariooWebApplication implements ServletContextListener {
 	}
 	
 	private void initializeApplicationVersion(final ServletContext servletContext) {
-		Properties properties = new Properties();
-		InputStream inputStream = servletContext.getResourceAsStream("/WEB-INF/classes/version.properties");
+		final Properties properties = new Properties();
+		final InputStream inputStream = servletContext.getResourceAsStream("/WEB-INF/classes/version.properties");
 		
 		if (inputStream == null) {
 			LOGGER.warn("  version.properties not found, no version information available");
@@ -108,7 +113,7 @@ public class ScenariooWebApplication implements ServletContextListener {
 		try {
 			properties.load(inputStream);
 			ApplicationVersionHolder.INSTANCE.initializeFromProperties(properties);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown", "unknown", "unknown");
 			e.printStackTrace();
 		}

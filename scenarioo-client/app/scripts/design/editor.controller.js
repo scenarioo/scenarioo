@@ -99,6 +99,20 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $window.history.back();
     };
 
+    $scope.$on('$locationChangeStart', function(event) {
+        if ( $route.current.originalPath === '/editor'){
+            if (!confirm('Unsaved data will be lost!')) {
+                event.preventDefault();
+            }
+        }
+    });
+
+    angular.element($window).on('beforeunload', function(event){
+        if( $route.current.originalPath === '/editor'){
+            return 'Unsaved data will be lost!';
+        }
+    });
+
     // TODO extract all saving related methods into a service
     $scope.saveSketcherData = function () {
 
@@ -207,7 +221,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             sketchStep.scenarioContextName = ContextService.scenarioName;
             sketchStep.scenarioContextLink = ContextService.scenarioLink;
             sketchStep.stepContextLink = ContextService.stepLink;
-            sketchStep.contextInDocu = decodeURIComponent($location.search().url);
+            sketchStep.contextInDocu = ContextService.screenshotURL;
         }
 
 
@@ -299,7 +313,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     };
 
     $scope.contextBreadcrumbs = function () {
-        var uc, sc;
+        var uc, sc, stepName;
 
         if(ContextService && ContextService.usecaseName) {
             uc = ContextService.usecaseName;
@@ -308,11 +322,16 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             uc = $scope.currentIssue.usecaseContextName;
             sc = $scope.currentIssue.scenarioContextName;
         }
+        if (ContextService && ContextService.stepName){
+            stepName = ContextService.stepName;
+        } else if (ContextService && ContextService.sketchStepName){
+            stepName = ContextService.sketchStepName;
+        }
 
         if(uc) {
             return 'Use Case: ' + uc +
                 ' > Scenario: ' + sc +
-                ' > Step';
+                ' > Step: ' + stepName;
         } else {
             return '';
         }

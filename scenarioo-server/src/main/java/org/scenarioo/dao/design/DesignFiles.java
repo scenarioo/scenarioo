@@ -61,6 +61,12 @@ public class DesignFiles {
 		this.rootDirectory = rootDirectory;
 	}
 
+	public void createRootIfNecessary() {
+		if (this.rootDirectory.exists() == false) {
+			this.rootDirectory.mkdirs();
+		}
+	}
+
 	public void assertRootDirectoryExists() {
 		if (!rootDirectory.exists()) {
 			throw new IllegalArgumentException("Directory for design storage does not exist: "
@@ -69,6 +75,7 @@ public class DesignFiles {
 	}
 
 	public File getRootDirectory() {
+		assertRootDirectoryExists();
 		return rootDirectory;
 	}
 
