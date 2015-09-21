@@ -139,7 +139,8 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
         ContextService.issueId = issueId;
         ContextService.scenarioSketchId = scenarioSketchId;
         ContextService.sketchStepName = sketchStepName;
-        $location.path('/editor/').search('url', encodeURIComponent($scope.getScreenShotUrl())).search('mode', 'edit');
+        ContextService.screenshotURL = $scope.getScreenShotUrl();
+        $location.path('/editor/').search('mode', 'edit');
     };
 
     $scope.goToUsecase = function(){

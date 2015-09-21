@@ -26,6 +26,7 @@ angular.module('scenarioo.services').service('ContextService', function () {
     var usecaseLink, scenarioLink, stepLink;
     var usecaseName, scenarioName, stepName;
     var sketchBtn;
+    var screenshotURL;
 
     function initializeContext(){
         issueId = null;
@@ -44,6 +45,8 @@ angular.module('scenarioo.services').service('ContextService', function () {
         stepLink = null;
 
         sketchBtn = null;
+
+        screenshotURL = null;
     }
 
     function setUseCase(originalUsecaseName){
@@ -70,6 +73,7 @@ angular.module('scenarioo.services').service('ContextService', function () {
         scenarioLink: scenarioLink,
         stepLink: stepLink,
         sketchButton: sketchBtn,
+        screenshotURL: screenshotURL,
 
         initialize: initializeContext,
         setUseCase: setUseCase,
