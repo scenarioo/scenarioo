@@ -297,7 +297,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     };
 
     $scope.contextBreadcrumbs = function () {
-        var uc, sc;
+        var uc, sc, stepName;
 
         if(ContextService && ContextService.usecaseName) {
             uc = ContextService.usecaseName;
@@ -306,11 +306,16 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             uc = $scope.currentIssue.usecaseContextName;
             sc = $scope.currentIssue.scenarioContextName;
         }
+        if (ContextService && ContextService.stepName){
+            stepName  = ContextService.stepName;
+        } else if (ContextService && ContextService.sketchStepName){
+            stepName = ContextService.sketchStepName;
+        }
 
         if(uc) {
             return 'Use Case: ' + uc +
                 ' > Scenario: ' + sc +
-                ' > Step';
+                ' > Step: ' + stepName;
         } else {
             return '';
         }
