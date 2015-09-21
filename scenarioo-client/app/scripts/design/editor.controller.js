@@ -110,11 +110,14 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     });
     */
 
+    // TODO This seems to break the web tests
+    /*
     angular.element($window).on('beforeunload', function () {
         if ($route.current.originalPath === '/editor') {
             return 'Unsaved data will be lost!';
         }
     });
+    */
 
     // TODO extract all saving related methods into a service
     $scope.saveSketcherData = function () {
