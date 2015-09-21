@@ -28,6 +28,8 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
     // Controller initialisation method, according to John Papa style guide
     function activate() {
+        // The drawingPad is initialized here because we had issues
+        // when initializing it in DrawingPadService.
         var drawingPad = SVG('drawingPad').spof();
         DrawingPadService.setDrawingPad(drawingPad);
 
