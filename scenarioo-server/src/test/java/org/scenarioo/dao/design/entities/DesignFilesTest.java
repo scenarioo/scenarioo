@@ -59,7 +59,7 @@ public class DesignFilesTest {
 
 	@AfterClass
 	public static void removeTemporaryData() throws IOException {
-		FileUtils.deleteDirectory(new File("tmp"));
+		FileUtils.deleteDirectory(rootDirectory);
 	}
 
 	@Test
@@ -73,6 +73,8 @@ public class DesignFilesTest {
 
 	@Test
 	public void createIssueFile() {
+		givenIssueDirectoryExists();
+
 		designFiles.createIssueFile(BRANCH_NAME, ISSUE_NAME);
 		File issueFile = designFiles.getIssueFile(BRANCH_NAME, ISSUE_NAME);
 		assertTrue(issueFile.exists());
@@ -80,15 +82,18 @@ public class DesignFilesTest {
 
 	@Test
 	public void createSketchStepDirectory() {
+		givenScenarioSketchDirectoryExists();
+
 		designFiles.createSketchStepDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
 		File sketchStepDir = designFiles.getSketchStepsDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
 		assertTrue(sketchStepDir.exists());
 		assertEquals(sketchStepDir.getPath(),
-				"tmp/Test+Branch/This+is+our+first+Test+Issue/This+is+our+first+Test+Proposal/sketchSteps");
+				"tmp/Test+Branch/This+is+our+first+Test+Issue/This+is+our+first+Test+Scenario+Sketch/sketchSteps");
 	}
 
 	@Test
 	public void writeSketchStepToFile() {
+		givenScenarioSketchDirectoryExists();
 		designFiles.writeSketchStepToFile(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH, SKETCH_STEP);
 		File sketchStepFile = designFiles.getSketchStepFile(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH,
 				SKETCH_STEP.getSketchStepName());
@@ -102,7 +107,7 @@ public class DesignFilesTest {
 		File svgDir = designFiles.getSVGDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
 		assertTrue(svgDir.exists());
 		assertEquals(svgDir.getPath(),
-				"tmp/Test+Branch/This+is+our+first+Test+Issue/This+is+our+first+Test+Proposal/sketchSteps/svg");
+				"tmp/Test+Branch/This+is+our+first+Test+Issue/This+is+our+first+Test+Scenario+Sketch/sketchSteps/svg");
 	}
 
 	@Test
@@ -114,7 +119,7 @@ public class DesignFilesTest {
 		assertEquals(svgFile.getName(), SKETCH_STEP.getSketchFileName());
 	}
 
-
+	// TODO #174 Fix or remove
 	/*
 	 * @Test
 	 * public void createIssueDirectoryWithVeryLongName() {
@@ -159,10 +164,27 @@ public class DesignFilesTest {
 		Assert.assertFalse(issueDirectory.exists());
 	}
 
+	private void givenIssueDirectoryExists() {
+		File issueDirectory = getIssueDirectory(FilesUtil.encodeName(ISSUE_NAME));
+		issueDirectory.mkdirs();
+		Assert.assertTrue(issueDirectory.exists());
+	}
+
+	private void givenScenarioSketchDirectoryExists() {
+		File scenarioSketchDirectory = getScenarioSketchDirectory(FilesUtil.encodeName(ISSUE_NAME));
+		scenarioSketchDirectory.mkdirs();
+		Assert.assertTrue(scenarioSketchDirectory.exists());
+	}
+
 	private File getIssueDirectory(final String issueDirectoryName) {
 		File branchDirectory = getBranchDirectory();
 		File issueDirectory = new File(branchDirectory, issueDirectoryName);
 		return issueDirectory;
+	}
+
+	private File getScenarioSketchDirectory(final String scenarioSketchDirectory) {
+		File issueDirectory = getIssueDirectory(FilesUtil.encodeName(ISSUE_NAME));
+		return new File(issueDirectory, scenarioSketchDirectory);
 	}
 
 	private File getBranchDirectory() {
