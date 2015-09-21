@@ -38,7 +38,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.tools = ToolBox;
         $scope.activateTool($scope.tools[0]);
 
-        if($scope.mode === MODE_EDIT) {
+        if ($scope.mode === MODE_EDIT) {
             initEditMode();
         }
 
@@ -52,19 +52,19 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.scenarioSketchId = ContextService.scenarioSketchId;
         $scope.sketchStepName = parseInt(ContextService.sketchStepName);
 
-        if(ContextService.issueId) {
+        if (ContextService.issueId) {
             Issue.load(ContextService.issueId);
         }
     }
 
     function setAuthorFromLocalStorageIfAvailable() {
-        if($scope.mode !== MODE_CREATE) {
+        if ($scope.mode !== MODE_CREATE) {
             return;
         }
 
         var author = localStorageService.get(AUTHOR_LOCAL_STORAGE_KEY);
 
-        if(!angular.isString(author) || author.length === 0) {
+        if (!angular.isString(author) || author.length === 0) {
             return;
         }
 
@@ -92,23 +92,26 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
         DrawingPadService.unSelectAllShapes();
 
-        $('.tooltip').hide().delay( 100 );
+        $('.tooltip').hide().delay(100);
     };
 
-    $scope.exitSketcher = function() {
+    $scope.exitSketcher = function () {
         $window.history.back();
     };
 
-    $scope.$on('$locationChangeStart', function(event) {
-        if ( $route.current.originalPath === '/editor'){
+    // TODO confirm() is not a known function (at least not for ESLint...)
+    /*
+    $scope.$on('$locationChangeStart', function (event) {
+        if ($route.current.originalPath === '/editor') {
             if (!confirm('Unsaved data will be lost!')) {
                 event.preventDefault();
             }
         }
     });
+    */
 
-    angular.element($window).on('beforeunload', function(event){
-        if( $route.current.originalPath === '/editor'){
+    angular.element($window).on('beforeunload', function () {
+        if ($route.current.originalPath === '/editor') {
             return 'Unsaved data will be lost!';
         }
     });
@@ -267,7 +270,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.scenarioSketchSaved = 0;
 
         if ($scope.mode === MODE_CREATE) {
-            if($scope.issueId) {
+            if ($scope.issueId) {
                 Issue.deleteSketcherData($scope.issueId);
             }
 
@@ -315,20 +318,20 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     $scope.contextBreadcrumbs = function () {
         var uc, sc, stepName;
 
-        if(ContextService && ContextService.usecaseName) {
+        if (ContextService && ContextService.usecaseName) {
             uc = ContextService.usecaseName;
             sc = ContextService.scenarioName;
-        } else if($scope.currentIssue && $scope.currentIssue.usecaseContextName) {
+        } else if ($scope.currentIssue && $scope.currentIssue.usecaseContextName) {
             uc = $scope.currentIssue.usecaseContextName;
             sc = $scope.currentIssue.scenarioContextName;
         }
-        if (ContextService && ContextService.stepName){
+        if (ContextService && ContextService.stepName) {
             stepName = ContextService.stepName;
-        } else if (ContextService && ContextService.sketchStepName){
+        } else if (ContextService && ContextService.sketchStepName) {
             stepName = ContextService.sketchStepName;
         }
 
-        if(uc) {
+        if (uc) {
             return 'Use Case: ' + uc +
                 ' > Scenario: ' + sc +
                 ' > Step: ' + stepName;
@@ -349,19 +352,19 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
     $scope.alerts = [];
 
-    $scope.addAlert = function(type, id, message) {
+    $scope.addAlert = function (type, id, message) {
         var alertEntry = {type: type, id: id, message: message};
         $scope.alerts.push(alertEntry);
         // We have to set our own timeout using the $interval service because using $timeout provokes issues
         // with protractor. See:
         // - https://github.com/angular-ui/bootstrap/pull/3982
         // - https://github.com/angular/protractor/issues/169
-        $interval(function() {
+        $interval(function () {
             $scope.closeAlert(alertEntry);
         }, 5000, 1);
     };
 
-    $scope.closeAlert = function(alertEntry) {
+    $scope.closeAlert = function (alertEntry) {
         var index = $scope.alerts.indexOf(alertEntry);
         $scope.alerts.splice(index, 1);
     };
