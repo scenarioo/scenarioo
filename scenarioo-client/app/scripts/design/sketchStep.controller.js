@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($http, $scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioSketchResource, SketchStepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService, Issue, $rootScope) {
+angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($http, $scope, $routeParams, $location, $q, $window, localStorageService, Config, SketchStepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService, Issue, $rootScope) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -61,7 +61,7 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
             function success(result) {
                 $scope.sketchStep = result;
                 $http.get($scope.getScreenShotUrl(), {headers: {
-                    'Accept': 'image/svg+xml'
+                    'Accept': 'image/png'
                 }}).success(function(data) {
                     $scope.sketchStepSVG = data;
                 });
@@ -92,15 +92,18 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
             return undefined;
         }
 
-        var imageName = $scope.sketchStep.sketchFileName;
+        var selected = SelectedBranchAndBuild.selected();
+        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/sketchstep/' + sketchStepName + '/image/sketch.png';
+    };
 
-        if (angular.isUndefined(imageName)) {
+    function getSVGUrl () {
+        if (angular.isUndefined($scope.sketchStep)) {
             return undefined;
         }
 
         var selected = SelectedBranchAndBuild.selected();
-        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/sketchstep/' + sketchStepName + '/image/' + imageName;
-    };
+        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/sketchstep/' + sketchStepName + '/svg/1';
+    }
 
     $scope.go = function (step) {
         $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + step.pageName + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
@@ -139,7 +142,8 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
         ContextService.issueId = issueId;
         ContextService.scenarioSketchId = scenarioSketchId;
         ContextService.sketchStepName = sketchStepName;
-        $location.path('/editor/').search('url', encodeURIComponent($scope.getScreenShotUrl())).search('mode', 'edit');
+        ContextService.screenshotURL = getSVGUrl();
+        $location.path('/editor/').search('mode', 'edit');
     };
 
     $scope.goToUsecase = function(){

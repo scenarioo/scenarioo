@@ -356,14 +356,16 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         ContextService.setScenario(scenarioName);
         ContextService.setUseCase(useCaseName);
         ContextService.stepLink = '/step/' + useCaseName + '/' + scenarioName + '/' + $scope.pageName + '/' + $scope.pageOccurrence + '/' + $scope.stepInPageOccurrence;
-        $location.path('/editor/').search('url', encodeURIComponent($scope.getScreenShotUrl())).search('mode', 'create');
+        ContextService.screenshotURL = $scope.getScreenShotUrl();
+        ContextService.stepName = $scope.stepNavigation.stepIndex + 1;
+        $location.path('/editor/').search('mode', 'create');
     };
 
     function loadRelatedIssues(){
         RelatedIssueResource.query({
             branchName: SelectedBranchAndBuild.selected().branch,
-            objectName: $routeParams.scenarioName,
-            type: 'scenario'
+            objectName: '/step/' + useCaseName + '/' + scenarioName + '/' + $scope.pageName + '/' + $scope.pageOccurrence + '/' + $scope.stepInPageOccurrence,
+            type: 'step'
         }, function(result){
             $scope.relatedIssues = result;
             $scope.hasAnyRelatedIssues = function(){
