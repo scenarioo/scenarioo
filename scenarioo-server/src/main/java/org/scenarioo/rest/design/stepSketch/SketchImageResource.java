@@ -27,7 +27,7 @@ import org.scenarioo.dao.design.DesignFiles;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 
-@Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/sketchstep/{sketchStepIndex}/image/{sketchFileName}")
+@Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/sketchstep/{sketchStepIndex}/")
 public class SketchImageResource {
 
 	private static final Logger LOGGER = Logger.getLogger(SketchImageResource.class);
@@ -41,6 +41,7 @@ public class SketchImageResource {
 	 * Get a step with all its data (meta data, html, ...) together with additional calculated navigation data
 	 */
 	@GET
+	@Path("svg/{sketchStepIndex}")
 	@Produces({ "image/svg+xml" })
 	public Object loadSketch(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
@@ -51,4 +52,14 @@ public class SketchImageResource {
 		return files.getSVGFile(branchName, issueId, scenarioSketchId, "sketch.svg");
 	}
 
+	@GET
+	@Path("image/{sketchFile}")
+	@Produces({ "image/png" })
+	public Object loadConvertedSketch(@PathParam("branchName") final String branchName,
+			@PathParam("issueId") final String issueId,
+			@PathParam("scenarioSketchId") final String scenarioSketchId,
+			@PathParam("sketchFile") final String sketchFileName) {
+		LOGGER.info("Loading PNG version of a sketch");
+		return files.getPNGFile(branchName, issueId, scenarioSketchId, "sketch.png");
+	}
 }

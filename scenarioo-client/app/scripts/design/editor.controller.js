@@ -28,6 +28,8 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
     // Controller initialisation method, according to John Papa style guide
     function activate() {
+        // The drawingPad is initialized here because we had issues
+        // when initializing it in DrawingPadService.
         var drawingPad = SVG('drawingPad').spof();
         DrawingPadService.setDrawingPad(drawingPad);
 
@@ -36,7 +38,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.tools = ToolBox;
         $scope.activateTool($scope.tools[0]);
 
-        if($scope.mode === MODE_EDIT) {
+        if ($scope.mode === MODE_EDIT) {
             initEditMode();
         }
 
@@ -50,19 +52,19 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.scenarioSketchId = ContextService.scenarioSketchId;
         $scope.sketchStepName = parseInt(ContextService.sketchStepName);
 
-        if(ContextService.issueId) {
+        if (ContextService.issueId) {
             Issue.load(ContextService.issueId);
         }
     }
 
     function setAuthorFromLocalStorageIfAvailable() {
-        if($scope.mode !== MODE_CREATE) {
+        if ($scope.mode !== MODE_CREATE) {
             return;
         }
 
         var author = localStorageService.get(AUTHOR_LOCAL_STORAGE_KEY);
 
-        if(!angular.isString(author) || author.length === 0) {
+        if (!angular.isString(author) || author.length === 0) {
             return;
         }
 
@@ -90,12 +92,32 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
         DrawingPadService.unSelectAllShapes();
 
-        $('.tooltip').hide().delay( 100 );
+        $('.tooltip').hide().delay(100);
     };
 
-    $scope.exitSketcher = function() {
+    $scope.exitSketcher = function () {
         $window.history.back();
     };
+
+    // TODO confirm() is not a known function (at least not for ESLint...)
+    /*
+    $scope.$on('$locationChangeStart', function (event) {
+        if ($route.current.originalPath === '/editor') {
+            if (!confirm('Unsaved data will be lost!')) {
+                event.preventDefault();
+            }
+        }
+    });
+    */
+
+    // TODO This seems to break the web tests
+    /*
+    angular.element($window).on('beforeunload', function () {
+        if ($route.current.originalPath === '/editor') {
+            return 'Unsaved data will be lost!';
+        }
+    });
+    */
 
     // TODO extract all saving related methods into a service
     $scope.saveSketcherData = function () {
@@ -205,7 +227,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             sketchStep.scenarioContextName = ContextService.scenarioName;
             sketchStep.scenarioContextLink = ContextService.scenarioLink;
             sketchStep.stepContextLink = ContextService.stepLink;
-            sketchStep.contextInDocu = decodeURIComponent($location.search().url);
+            sketchStep.contextInDocu = ContextService.screenshotURL;
         }
 
 
@@ -251,7 +273,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.scenarioSketchSaved = 0;
 
         if ($scope.mode === MODE_CREATE) {
-            if($scope.issueId) {
+            if ($scope.issueId) {
                 Issue.deleteSketcherData($scope.issueId);
             }
 
@@ -297,20 +319,25 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     };
 
     $scope.contextBreadcrumbs = function () {
-        var uc, sc;
+        var uc, sc, stepName;
 
-        if(ContextService && ContextService.usecaseName) {
+        if (ContextService && ContextService.usecaseName) {
             uc = ContextService.usecaseName;
             sc = ContextService.scenarioName;
-        } else if($scope.currentIssue && $scope.currentIssue.usecaseContextName) {
+        } else if ($scope.currentIssue && $scope.currentIssue.usecaseContextName) {
             uc = $scope.currentIssue.usecaseContextName;
             sc = $scope.currentIssue.scenarioContextName;
         }
+        if (ContextService && ContextService.stepName) {
+            stepName = ContextService.stepName;
+        } else if (ContextService && ContextService.sketchStepName) {
+            stepName = ContextService.sketchStepName;
+        }
 
-        if(uc) {
+        if (uc) {
             return 'Use Case: ' + uc +
                 ' > Scenario: ' + sc +
-                ' > Step';
+                ' > Step: ' + stepName;
         } else {
             return '';
         }
@@ -328,19 +355,19 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
     $scope.alerts = [];
 
-    $scope.addAlert = function(type, id, message) {
+    $scope.addAlert = function (type, id, message) {
         var alertEntry = {type: type, id: id, message: message};
         $scope.alerts.push(alertEntry);
         // We have to set our own timeout using the $interval service because using $timeout provokes issues
         // with protractor. See:
         // - https://github.com/angular-ui/bootstrap/pull/3982
         // - https://github.com/angular/protractor/issues/169
-        $interval(function() {
+        $interval(function () {
             $scope.closeAlert(alertEntry);
         }, 5000, 1);
     };
 
-    $scope.closeAlert = function(alertEntry) {
+    $scope.closeAlert = function (alertEntry) {
         var index = $scope.alerts.indexOf(alertEntry);
         $scope.alerts.splice(index, 1);
     };

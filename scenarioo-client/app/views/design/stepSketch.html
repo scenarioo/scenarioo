@@ -18,9 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <tabset class="step-panes">
     <tab heading="Screenshot">
-        <div class="sc-screenshot-border">
+        <!--<div class="sc-screenshot-border">
             <div ng-html="sketchStepSVG"></div>
-        </div>
+        </div>-->
+        <img ng-src={{getScreenShotUrl()}} />
     </tab>
     <tab heading="Metadata">
         <p><strong>Details</strong></p>

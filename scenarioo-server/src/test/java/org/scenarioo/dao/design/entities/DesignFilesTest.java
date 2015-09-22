@@ -7,8 +7,10 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.dao.design.DesignFiles;
 import org.scenarioo.model.design.entities.StepSketch;
 
@@ -16,28 +18,17 @@ public class DesignFilesTest {
 
 	private static final File rootDirectory = new File("tmp");
 	private static DesignFiles designFiles;
-	private final String branchName = "Test Branch";
-	private final String issueName = "This is our first Test Issue";
-	private final String proposalName = "This is our first Test Proposal";
 
-	private static StepSketch sketchStep = new StepSketch();
+	private static final String BRANCH_NAME = "Test Branch";
+	private static final String ISSUE_NAME = "This is our first Test Issue";
+	private static final String ISSUE_NAME_WITH_UNSAFE_CHARACTERS = "This \\is our /first/ Test Issue";
+	private static final String SCENARIO_SKETCH = "This is our first Test Scenario Sketch";
+	private static final StepSketch SKETCH_STEP;
 
-	@BeforeClass
-	public static void setupClass() {
-		if (!rootDirectory.exists()) {
-			rootDirectory.mkdirs();
-		}
-
-		try {
-			FileUtils.cleanDirectory(rootDirectory);
-		} catch (IOException e) {
-			fail();
-		}
-
-		designFiles = new DesignFiles(rootDirectory);
-
-		sketchStep.setSketchStepName(1);
-		sketchStep
+	static {
+		SKETCH_STEP = new StepSketch();
+		SKETCH_STEP.setSketchStepName(1);
+		SKETCH_STEP
 				.setSketch("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 						+ "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" height=\"100%\" "
 						+ "width=\"100%\" version=\"1.1\" "
@@ -51,34 +42,84 @@ public class DesignFilesTest {
 						+ "id=\"SvgjsEllipse1006\"></ellipse></svg>");
 	}
 
+	@Before
+	public void setupClass() {
+		if (!rootDirectory.exists()) {
+			rootDirectory.mkdirs();
+		}
+
+		try {
+			FileUtils.cleanDirectory(rootDirectory);
+		} catch (IOException e) {
+			fail();
+		}
+
+		designFiles = new DesignFiles(rootDirectory);
+	}
+
 	@AfterClass
 	public static void removeTemporaryData() throws IOException {
-		FileUtils.deleteDirectory(new File("tmp"));
+		FileUtils.deleteDirectory(rootDirectory);
 	}
 
 	@Test
 	public void createBranchDirectory() {
-		File branchDirectory = designFiles.getBranchDirectory(branchName);
+		File branchDirectory = designFiles.getBranchDirectory(BRANCH_NAME);
 		branchDirectory.mkdir();
 		assertTrue(branchDirectory.exists());
 		assertEquals(branchDirectory.getName(), "Test+Branch");
 	}
 
+
 	@Test
-	public void createIssueDirectory() {
-		File issueDir = createAndGetIssueDirectory(issueName);
-		assertTrue(issueDir.exists());
-		assertEquals(issueDir.getName(), "This+is+our+first+Test+Issue");
+	public void createIssueFile() {
+		givenIssueDirectoryExists();
+
+		designFiles.createIssueFile(BRANCH_NAME, ISSUE_NAME);
+		File issueFile = designFiles.getIssueFile(BRANCH_NAME, ISSUE_NAME);
+		assertTrue(issueFile.exists());
 	}
 
 	@Test
-	public void createIssueDirectoryWithUnsafeChars() {
-		String issueNameWithUnsafeChars = "This \\is our /first/ Test Issue";
-		File issueDir = createAndGetIssueDirectory(issueNameWithUnsafeChars);
-		assertTrue(issueDir.exists());
-		assertEquals(issueDir.getName(), "This+%5Cis+our+%2Ffirst%2F+Test+Issue");
+	public void createSketchStepDirectory() {
+		givenScenarioSketchDirectoryExists();
+
+		designFiles.createSketchStepDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
+		File sketchStepDir = designFiles.getSketchStepsDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
+		assertTrue(sketchStepDir.exists());
+		assertEquals(sketchStepDir.getPath(),
+				"tmp/Test+Branch/This+is+our+first+Test+Issue/This+is+our+first+Test+Scenario+Sketch/sketchSteps");
 	}
 
+	@Test
+	public void writeSketchStepToFile() {
+		givenScenarioSketchDirectoryExists();
+		designFiles.writeSketchStepToFile(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH, SKETCH_STEP);
+		File sketchStepFile = designFiles.getSketchStepFile(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH,
+				SKETCH_STEP.getSketchStepName());
+		assertTrue(sketchStepFile.exists());
+		assertEquals(sketchStepFile.getName(), "001.xml");
+	}
+
+	@Test
+	public void createSVGDirectory() {
+		designFiles.createSketchStepSVGDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
+		File svgDir = designFiles.getSVGDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
+		assertTrue(svgDir.exists());
+		assertEquals(svgDir.getPath(),
+				"tmp/Test+Branch/This+is+our+first+Test+Issue/This+is+our+first+Test+Scenario+Sketch/sketchSteps/svg");
+	}
+
+	@Test
+	public void writeSVGToFile() {
+		designFiles.writeSVGToFile(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH, SKETCH_STEP);
+		File svgFile = designFiles.getSVGFile(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH,
+				SKETCH_STEP.getSketchFileName());
+		assertTrue(svgFile.exists());
+		assertEquals(svgFile.getName(), SKETCH_STEP.getSketchFileName());
+	}
+
+	// TODO #174 Fix or remove
 	/*
 	 * @Test
 	 * public void createIssueDirectoryWithVeryLongName() {
@@ -93,52 +134,84 @@ public class DesignFilesTest {
 	 */
 
 	@Test
-	public void createIssueFile() {
-		designFiles.createIssueFile(branchName, issueName);
-		File issueFile = designFiles.getIssueFile(branchName, issueName);
-		assertTrue(issueFile.exists());
+	public void createIssueDirectory_withExistingBranchDirectoryAndNewIssueName_createsIssueDirectory() {
+		givenBranchDirectoryExists();
+		givenIssueDirectoryDoesNotExist();
+
+		whenCreatingIssueDirectory();
+
+		expectIssueDirectoryExists();
 	}
 
 	@Test
-	public void createSketchStepDirectory() {
-		designFiles.createSketchStepDirectory(branchName, issueName, proposalName);
-		File sketchStepDir = designFiles.getSketchStepsDirectory(branchName, issueName, proposalName);
-		assertTrue(sketchStepDir.exists());
-		assertEquals(sketchStepDir.getPath(),
-				"tmp/Test+Branch/This+is+our+first+Test+Issue/This+is+our+first+Test+Proposal/sketchSteps");
+	public void createIssueDirectory_withBranchNameThatHasSpecialCharacters_createsIssueDirectory() {
+		givenBranchDirectoryExists();
+		givenIssueDirectoryDoesNotExist();
+
+		whenCreatingIssueDirectoryForIssueNameWithSpecialCharacters();
+
+		expectIssueDirectoryExistsWithEncodedUnsafeCharacters();
 	}
 
-	@Test
-	public void writeSketchStepToFile() {
-		designFiles.writeSketchStepToFile(branchName, issueName, proposalName, sketchStep);
-		File sketchStepFile = designFiles.getSketchStepFile(branchName, issueName, proposalName,
-				sketchStep.getSketchStepName());
-		assertTrue(sketchStepFile.exists());
-		assertEquals(sketchStepFile.getName(), "001.xml");
+	private void givenBranchDirectoryExists() {
+		File branchDirectory = getBranchDirectory();
+		branchDirectory.mkdirs();
+		Assert.assertTrue(branchDirectory.exists());
 	}
 
-	@Test
-	public void createSVGDirectory() {
-		designFiles.createSketchStepSVGDirectory(branchName, issueName, proposalName);
-		File svgDir = designFiles.getSVGDirectory(branchName, issueName, proposalName);
-		assertTrue(svgDir.exists());
-		assertEquals(svgDir.getPath(),
-				"tmp/Test+Branch/This+is+our+first+Test+Issue/This+is+our+first+Test+Proposal/sketchSteps/svg");
+	private void givenIssueDirectoryDoesNotExist() {
+		File issueDirectory = getIssueDirectory(FilesUtil.encodeName(ISSUE_NAME));
+		Assert.assertFalse(issueDirectory.exists());
 	}
 
-	@Test
-	public void writeSVGToFile() {
-		designFiles.writeSVGToFile(branchName, issueName, proposalName, sketchStep);
-		File svgFile = designFiles.getSVGFile(branchName, issueName, proposalName,
-				sketchStep.getSketchFileName());
-		assertTrue(svgFile.exists());
-		assertEquals(svgFile.getName(), sketchStep.getSketchFileName());
+	private void givenIssueDirectoryExists() {
+		File issueDirectory = getIssueDirectory(FilesUtil.encodeName(ISSUE_NAME));
+		issueDirectory.mkdirs();
+		Assert.assertTrue(issueDirectory.exists());
 	}
 
-	private File createAndGetIssueDirectory(final String issueName) {
-		designFiles.createIssueDirectory(branchName, issueName);
-		File issueDir = designFiles.getIssueDirectory(branchName, issueName);
-		return issueDir;
+	private void givenScenarioSketchDirectoryExists() {
+		File scenarioSketchDirectory = getScenarioSketchDirectory(FilesUtil.encodeName(ISSUE_NAME));
+		scenarioSketchDirectory.mkdirs();
+		Assert.assertTrue(scenarioSketchDirectory.exists());
+	}
+
+	private File getIssueDirectory(final String issueDirectoryName) {
+		File branchDirectory = getBranchDirectory();
+		File issueDirectory = new File(branchDirectory, issueDirectoryName);
+		return issueDirectory;
+	}
+
+	private File getScenarioSketchDirectory(final String scenarioSketchDirectory) {
+		File issueDirectory = getIssueDirectory(FilesUtil.encodeName(ISSUE_NAME));
+		return new File(issueDirectory, scenarioSketchDirectory);
+	}
+
+	private File getBranchDirectory() {
+		File branchDirectory = new File(rootDirectory, FilesUtil.encodeName(BRANCH_NAME));
+		return branchDirectory;
+	}
+
+	private void whenCreatingIssueDirectory() {
+		createIssueDirectory(ISSUE_NAME);
+	}
+
+	private void whenCreatingIssueDirectoryForIssueNameWithSpecialCharacters() {
+		createIssueDirectory(ISSUE_NAME_WITH_UNSAFE_CHARACTERS);
+	}
+
+	private void createIssueDirectory(final String issueName) {
+		designFiles.createIssueDirectory(BRANCH_NAME, issueName);
+	}
+
+	private void expectIssueDirectoryExists() {
+		File issueDirectory = getIssueDirectory(FilesUtil.encodeName(ISSUE_NAME));
+		Assert.assertTrue(issueDirectory.exists());
+	}
+
+	private void expectIssueDirectoryExistsWithEncodedUnsafeCharacters() {
+		File issueDirectory = getIssueDirectory(FilesUtil.encodeName(ISSUE_NAME_WITH_UNSAFE_CHARACTERS));
+		Assert.assertTrue(issueDirectory.exists());
 	}
 
 }
