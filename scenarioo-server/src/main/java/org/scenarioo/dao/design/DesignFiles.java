@@ -23,11 +23,20 @@
 package org.scenarioo.dao.design;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
 
+import org.apache.batik.ext.awt.image.codec.png.PNGRegistryEntry;
+import org.apache.batik.ext.awt.image.spi.ImageTagRegistry;
+import org.apache.batik.transcoder.TranscoderException;
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.image.PNGTranscoder;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.util.files.FilesUtil;
@@ -56,6 +65,8 @@ public class DesignFiles {
 	private static NumberFormat THREE_DIGIT_NUM_FORMAT = createNumberFormatWithMinimumIntegerDigits(3);
 
 	private final File rootDirectory;
+
+	private final PNGTranscoder transcoder = new PNGTranscoder();
 
 	public DesignFiles(final File rootDirectory) {
 		this.rootDirectory = rootDirectory;
@@ -148,9 +159,13 @@ public class DesignFiles {
 		return svgDirectory;
 	}
 
-	public File getSVGFile(final String branchName, final String issueName, final String scenarioSketchId,
+	public File getSVGFile(final String branchName, final String issueId, final String scenarioSketchId,
 			final String svgFilename) {
-		return new File(getSVGDirectory(branchName, issueName, scenarioSketchId), svgFilename);
+		return new File(getSVGDirectory(branchName, issueId, scenarioSketchId), svgFilename);
+	}
+
+	public File getPNGFile(String branchName, String issueId, String scenarioSketchId, String pngFilename) {
+		return new File(getSVGDirectory(branchName, issueId, scenarioSketchId), pngFilename);
 	}
 
 	public List<File> getSketchStepFiles(final String branchName, final String issueName, final String scenarioSketchId) {
@@ -203,7 +218,7 @@ public class DesignFiles {
 	}
 
 	private void createBranchDirectoryIfNecessary(final String branchName) {
-		File branchFolder = new File(rootDirectory, FilesUtil.encodeName(branchName));
+		final File branchFolder = new File(rootDirectory, FilesUtil.encodeName(branchName));
 		// Make sure design root folder exists and change to mkdir() here.
 		branchFolder.mkdirs();
 	}
@@ -321,6 +336,35 @@ public class DesignFiles {
 			LOGGER.error("Could not write SVG file.");
 			LOGGER.error(e.toString());
 		}
+
+		try {
+			// String parser = XMLResourceDescriptor.getXMLParserClassName();
+			// SAXSVGDocumentFactory f = new SAXSVGDocumentFactory(parser);
+			final FileInputStream istream = new FileInputStream(sketchStepSVGFile);
+			// SVGDocument doc = f.createSVGDocument(arg0, istream);
+			final ImageTagRegistry registry = ImageTagRegistry.getRegistry();
+			registry.register(new PNGRegistryEntry());
+			final TranscoderInput input = new TranscoderInput(istream);
+
+			final File pngfile = new File(getSketchStepsSVGDirectory(branchName, issueId, scenarioSketchId),
+					"sketch.png");
+			final FileOutputStream ostream = new FileOutputStream(pngfile);
+			final TranscoderOutput output = new TranscoderOutput(ostream);
+			transcoder.transcode(input, output);
+			ostream.flush();
+			ostream.close();
+
+		} catch (final FileNotFoundException e) {
+			LOGGER.error("Could not write PNG file.");
+			LOGGER.error(e.toString());
+		} catch (final IOException e) {
+			LOGGER.error("The FileOutputStream could not be closed properly.");
+			LOGGER.error(e.toString());
+		} catch (final TranscoderException e) {
+			LOGGER.error("Could not transcode SVG to PNG.");
+			LOGGER.error(e.toString());
+		}
+
 	}
 
 	public void copyOriginalScreenshot(final File originalScreenshot, final String branchName, final String issueId,
@@ -334,5 +378,6 @@ public class DesignFiles {
 			e.printStackTrace();
 		}
 	}
+
 
 }

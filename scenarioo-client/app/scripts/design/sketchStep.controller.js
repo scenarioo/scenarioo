@@ -61,7 +61,7 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
             function success(result) {
                 $scope.sketchStep = result;
                 $http.get($scope.getScreenShotUrl(), {headers: {
-                    'Accept': 'image/svg+xml'
+                    'Accept': 'image/png'
                 }}).success(function(data) {
                     $scope.sketchStepSVG = data;
                 });
@@ -92,14 +92,8 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
             return undefined;
         }
 
-        var imageName = $scope.sketchStep.sketchFileName;
-
-        if (angular.isUndefined(imageName)) {
-            return undefined;
-        }
-
         var selected = SelectedBranchAndBuild.selected();
-        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/sketchstep/' + sketchStepName + '/image/' + imageName;
+        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/sketchstep/' + sketchStepName + '/image/sketch.png';
     };
 
     $scope.go = function (step) {
