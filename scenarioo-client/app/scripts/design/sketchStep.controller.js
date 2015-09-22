@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($http, $scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioSketchResource, SketchStepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService, Issue, $rootScope) {
+angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($http, $scope, $routeParams, $location, $q, $window, localStorageService, Config, SketchStepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService, Issue, $rootScope) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
