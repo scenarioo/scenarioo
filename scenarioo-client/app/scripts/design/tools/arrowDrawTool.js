@@ -23,24 +23,18 @@ angular.module('scenarioo.controllers').factory('ArrowDrawTool', function (DrawT
     tool.name = 'Arrow Tool';
     tool.icon = 'arrow';
     tool.tooltip = 'Draw an arrow';
-    tool.startpoint = null;
-    tool.endpoint = null;
 
 
     tool.onmousedown = function (event) {
         tool.onmousedownTemplate(event);
 
-        tool.startpoint = tool.endpoint = [tool.originalX, tool.originalY];
-
-        tool.shape.stroke({
-            width: 3
-        });
-
-        tool.update();
+        tool.shape.drawStart(tool.originalX, tool.originalY);
     };
 
     tool.onmouseup = function (event) {
         tool.onmouseupTemplate(event);
+
+        tool.shape.drawEnd();
     };
 
     tool.onmousedrag = function (event) {
@@ -49,16 +43,16 @@ angular.module('scenarioo.controllers').factory('ArrowDrawTool', function (DrawT
         }
         tool.onmousedragTemplate(event);
 
-        tool.endpoint = [tool.cornerX, tool.cornerY];
-        tool.update();
-    };
-
-    tool.update = function() {
-        tool.shape.plot([tool.startpoint, tool.endpoint, [tool.endpoint[0] + 5, tool.endpoint[1] - 5], [tool.endpoint[0] - 5, tool.endpoint[1] - 5], tool.endpoint]);
+        tool.shape.drawing(
+            tool.cornerX - tool.anchorX,
+            tool.cornerY - tool.anchorY,
+            tool.anchorX,
+            tool.anchorY
+        );
     };
 
     tool.getShape = function () {
-        return tool.getDrawingPad().polyline(0, 0, 0, 0);
+        return tool.getDrawingPad().arrowShape(0, 0, 0, 0);
     };
 
     return tool;

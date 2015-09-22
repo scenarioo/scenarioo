@@ -228,7 +228,7 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
             if (drawingPad.drawingContainer) {
                 drawingPad.drawingContainer.each(function () {
                     if (this.hasClass('shape')) {
-                        if (this instanceof SVG.Nested) {
+                        if (this instanceof SVG.CompositeShape) {
                             this.view();
                         }
                         this.unSelect();

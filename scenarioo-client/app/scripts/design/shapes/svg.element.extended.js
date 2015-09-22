@@ -10,7 +10,11 @@
         selectToggle: function () {
             this.isSelected = !this.isSelected;
 
-            this.select(this.selectOptions);
+            if(this instanceof SVG.ArrowShape) {
+                this.line.select(this.selectOptions);
+            } else {
+                this.select(this.selectOptions);
+            }
 
             this.draggable(this.isSelected);
 
@@ -28,7 +32,11 @@
         unSelect: function () {
             this.isSelected = false;
 
-            this.select(false, this.selectOptions);
+            if(this instanceof SVG.ArrowShape) {
+                this.line.select(false, this.selectOptions);
+            } else {
+                this.select(false, this.selectOptions);
+            }
 
             this.draggable(false);
             this.resize('stop');
