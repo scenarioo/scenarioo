@@ -96,6 +96,15 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
         return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/sketchstep/' + sketchStepName + '/image/sketch.png';
     };
 
+    function getSVGUrl () {
+        if (angular.isUndefined($scope.sketchStep)) {
+            return undefined;
+        }
+
+        var selected = SelectedBranchAndBuild.selected();
+        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/sketchstep/' + sketchStepName + '/svg/1';
+    }
+
     $scope.go = function (step) {
         $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + step.pageName + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
     };
@@ -133,7 +142,7 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
         ContextService.issueId = issueId;
         ContextService.scenarioSketchId = scenarioSketchId;
         ContextService.sketchStepName = sketchStepName;
-        ContextService.screenshotURL = $scope.getScreenShotUrl();
+        ContextService.screenshotURL = getSVGUrl();
         $location.path('/editor/').search('mode', 'edit');
     };
 
