@@ -99,13 +99,13 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
     $scope.$on('$locationChangeStart', function(event) {
         if ( $route.current.originalPath === '/editor'){
-            if (!confirm('Unsaved data will be lost!')) {
+            if (!confirm('Unsaved data will be lost!')) { // eslint-disable-line
                 event.preventDefault();
             }
         }
     });
 
-    angular.element($window).on('beforeunload', function(event){
+    angular.element($window).on('beforeunload', function(){
         if( $route.current.originalPath === '/editor'){
             return 'Unsaved data will be lost!';
         }
