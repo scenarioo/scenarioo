@@ -17,14 +17,14 @@
 
 angular.module('scenarioo.services').factory('ToolBox', function (SelectTool, RectCompositeDrawTool, BorderCompositeDrawTool,
                                                                   TextCompositeDrawTool, NoteCompositeDrawTool, ButtonCompositeDrawTool,
-                                                                  HighlightCompositeDrawTool, LineDrawTool) {
+                                                                  HighlightCompositeDrawTool, LineDrawTool, ArrowDrawTool) {
 
     return [
         SelectTool,
         RectCompositeDrawTool,
         BorderCompositeDrawTool,
         LineDrawTool,
-        //ArrowDrawTool,
+        ArrowDrawTool,
         NoteCompositeDrawTool,
         TextCompositeDrawTool,
         ButtonCompositeDrawTool,

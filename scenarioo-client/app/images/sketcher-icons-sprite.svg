@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="600px"
-	 height="33px" viewBox="0 0 600 33" enable-background="new 0 0 600 33" xml:space="preserve">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="650px"
+	 height="33px" viewBox="0 0 650 33" enable-background="new 0 0 650 33" xml:space="preserve">
 <g id="Layer_1" display="none">
 	
 		<image display="inline" overflow="visible" width="500" height="33" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAAAhCAMAAAAYjKmQAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
@@ -433,5 +433,15 @@ NIJxMroP43088mFlHPXQreW9AAMAJqxqh4Y78OUAAAAASUVORK5CYII=" transform="matrix(1 0 
 </g>
 <g id="Layer_19">
 	<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="557.667" y1="24.75" x2="592.333" y2="8.75"/>
+</g>
+<g id="Layer_19_copy">
+	<g>
+		<g>
+			<line fill="none" stroke="#D55B4B" stroke-miterlimit="10" x1="607.667" y1="24.75" x2="635.817" y2="11.757"/>
+			<g>
+				<polygon fill="#D55B4B" points="636.57,16.87 642.321,8.726 632.392,7.816 				"/>
+			</g>
+		</g>
+	</g>
 </g>
 </svg>

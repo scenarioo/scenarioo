@@ -62,6 +62,7 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
 
             var newShape;
 
+            // TODO: externalize to specific tools or svg.compositeShape.js
             switch (typeClass[0]) {
                 case 'border-shape':
                     newShape = drawingPad.borderShape(shape.width(), shape.height(), shape.x(), shape.y());
