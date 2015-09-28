@@ -72,7 +72,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 breadcrumbId: 'step'
             })
             .when('/sketchstep/:issueId/:scenarioSketchId/:sketchStepName', {
-                templateUrl: '../views/design/stepSketch.html',
+                templateUrl: 'views/design/stepSketch.html',
                 controller: 'SketchStepCtrl',
                 issueId: '@issueId',
                 scenarioSketchId: '@scenarioSketchId',
@@ -80,12 +80,12 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 breadcrumbId: 'sketchstep'
             })
             .when('/editor', {
-                templateUrl: '../views/design/editor.html',
+                templateUrl: 'views/design/editor.html',
                 controller: 'EditorCtrl',
                 breadcrumbId: 'editor'
             })
             .when('/editor/:screenshotURL/', {
-                templateUrl: '../views/design/editor.html',
+                templateUrl: 'views/design/editor.html',
                 controller: 'EditorCtrl',
                 breadcrumbId: 'editor',
                 screenshotURL: '@screenshotURL'
