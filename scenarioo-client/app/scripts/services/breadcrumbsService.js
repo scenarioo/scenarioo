@@ -71,7 +71,7 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
     var sketchStepElement =
     {
-        label: '<strong>Sketchstep</strong>',
+        label: '<strong>Sketch</strong>',
         route: '/sketchstep/:issueId/:scenarioSketchId/:sketchStepIndex/'
     };
 

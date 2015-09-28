@@ -99,6 +99,8 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
                 SharePageService.setPageUrl($scope.getCurrentUrlForSharing());
                 SharePageService.setImageUrl($scope.getScreenshotUrlForSharing());
+
+                updateContextService();
             },
             function error(result) {
                 $scope.stepNotFound = true;
@@ -110,6 +112,15 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 };
             }
         );
+    }
+
+    function updateContextService() {
+        ContextService.initialize();
+        ContextService.setScenario(scenarioName);
+        ContextService.setUseCase(useCaseName);
+        ContextService.stepLink = '/step/' + useCaseName + '/' + scenarioName + '/' + $scope.pageName + '/' + $scope.pageOccurrence + '/' + $scope.stepInPageOccurrence;
+        ContextService.screenshotURL = $scope.getScreenShotUrl();
+        ContextService.stepName = $scope.stepNavigation.stepIndex + 1;
     }
 
     function createStepInformationTree(result) {
@@ -352,12 +363,11 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         SharePageService.invalidateUrls();
     });
 
+    $scope.getSketchButtonTitle = function () {
+        return 'Create Sketch';
+    };
+
     $scope.sketchThis = function () {
-        ContextService.setScenario(scenarioName);
-        ContextService.setUseCase(useCaseName);
-        ContextService.stepLink = '/step/' + useCaseName + '/' + scenarioName + '/' + $scope.pageName + '/' + $scope.pageOccurrence + '/' + $scope.stepInPageOccurrence;
-        ContextService.screenshotURL = $scope.getScreenShotUrl();
-        ContextService.stepName = $scope.stepNavigation.stepIndex + 1;
         $location.path('/editor/').search('mode', 'create');
     };
 

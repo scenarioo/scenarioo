@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scBreadcrumb', function ($routeParams, $location, $route, $compile, $filter, $sce, BreadcrumbsService, ScShareStepPopup, ContextService) {
+angular.module('scenarioo.directives').directive('scBreadcrumb', function ($routeParams, $location, $route, $compile, $filter, $sce, BreadcrumbsService, ScShareStepPopup) {
 
     var limit = 50;
 
@@ -61,9 +61,6 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($rout
             scope.showStepLinks = function () {
                 ScShareStepPopup.showShareStepPopup();
             };
-            if(document.getElementById('sketchThis') !== null){
-                ContextService.sketchButton = document.getElementById('sketchThis');
-            }
         }
     };
 
