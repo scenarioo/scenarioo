@@ -34,7 +34,8 @@ function annotatedScreenshot() {
         scope: {
             screenAnnotations: '=',
             getScreenShotUrl: '=',
-            visibilityToggle: '='
+            visibilityToggle: '=',
+            toNextStepAction: '&'
         }
     };
 
@@ -60,7 +61,7 @@ function annotatedScreenshot() {
 
     }
 
-    function controller($scope, $modal, ScreenAnnotationsService) {
+    function controller($scope, $modal, ScreenAnnotationsService, $window) {
 
 
         $scope.getBoxCssStyle = getBoxCssStyle;
@@ -68,6 +69,8 @@ function annotatedScreenshot() {
         $scope.getIconCssStyle = getIconCssStyle;
         $scope.getIconClass = getIconClass;
         $scope.openInfoPopup = openInfoPopup;
+        $scope.doClickAction = doClickAction;
+        $scope.hasClickAction = hasClickAction;
 
         /**
          * get the text to display inside the annotation box (depending if text box is big enough to display text)
@@ -87,14 +90,16 @@ function annotatedScreenshot() {
                 left: (screenAnnotation.region.x * $scope.imageScalingRatio - 3) + 'px',
                 top: (screenAnnotation.region.y * $scope.imageScalingRatio - 3) + 'px',
                 width: (screenAnnotation.region.width * $scope.imageScalingRatio + 6) + 'px',
-                height: (screenAnnotation.region.height * $scope.imageScalingRatio + 6) + 'px'
+                height: (screenAnnotation.region.height * $scope.imageScalingRatio + 6) + 'px',
+                cursor: 'pointer'
             };
         }
 
         function getIconCssStyle(screenAnnotation) {
             return {
                 left: (screenAnnotation.region.x + screenAnnotation.region.width ) * $scope.imageScalingRatio + 'px',
-                bottom: ($scope.imageNaturalHeight - screenAnnotation.region.y) * $scope.imageScalingRatio + 'px'
+                bottom: ($scope.imageNaturalHeight - screenAnnotation.region.y) * $scope.imageScalingRatio + 'px',
+                cursor: 'pointer'
             };
         }
 
@@ -116,6 +121,27 @@ function annotatedScreenshot() {
                 windowClass: 'modal-small'
             });
 
+        }
+
+        function doClickAction(annotation) {
+
+            var clickAction = annotation.clickAction || 'DEFAULT';
+            var clickActions = {
+                TO_URL: function () {
+                    $window.open(annotation.clickActionUrl);
+                },
+                TO_NEXT_STEP: $scope.toNextStepAction,
+                DEFAULT: function () {
+                    openInfoPopup(annotation);
+                }
+            };
+            clickActions[clickAction]();
+
+
+        }
+
+        function hasClickAction(annotation) {
+            return annotation.clickAction;
         }
 
     }
