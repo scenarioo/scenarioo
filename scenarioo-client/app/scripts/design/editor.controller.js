@@ -191,8 +191,8 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             saveNewScenarioSketch(scenarioSketch);
         }
 
-        function saveNewScenarioSketch(scenarioSketch) {
-            saveScenarioSketch(scenarioSketch, function (savedScenarioSketch) {
+        function saveNewScenarioSketch(newScenarioSketch) {
+            saveScenarioSketch(newScenarioSketch, function (savedScenarioSketch) {
                 $log.log('SAVE ScenarioSketch', savedScenarioSketch.scenarioSketchId);
                 $rootScope.$broadcast('ScenarioSketchSaved', {
                     issueId: savedScenarioSketch.issueId,
@@ -203,8 +203,8 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             });
         }
 
-        function updateExistingScenarioSketch(scenarioSketch) {
-            saveScenarioSketch(scenarioSketch, function (updatedScenarioSketch) {
+        function updateExistingScenarioSketch(newVersionOfScenarioSketch) {
+            saveScenarioSketch(newVersionOfScenarioSketch, function (updatedScenarioSketch) {
                 $log.log('UPDATE ScenarioSketch', updatedScenarioSketch.scenarioSketchId);
                 $rootScope.$broadcast('ScenarioSketchSaved', {
                     issueId: updatedScenarioSketch.issueId,
@@ -215,8 +215,8 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             });
         }
 
-        function saveScenarioSketch(scenarioSketch, successCallback, errorCallback) {
-            ScenarioSketchResource.save(scenarioSketch,
+        function saveScenarioSketch(scenarioSketchToSend, successCallback, errorCallback) {
+            ScenarioSketchResource.save(scenarioSketchToSend,
                 function (updatedScenarioSketch) {
                     if (successCallback) {
                         successCallback(updatedScenarioSketch);
