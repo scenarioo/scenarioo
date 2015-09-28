@@ -40,7 +40,7 @@ public class ScenarioSketchesResource {
 	public ScenarioSketchSteps loadScenarioSketch(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId) {
-		LOGGER.info("REQUEST: Loading scenarioSketch " + scenarioSketchId);
+		LOGGER.info("Loading scenario sketch (" + branchName + "/" + issueId + "/" + scenarioSketchId + ")");
 
 		final ScenarioSketch scenarioSketch = reader.loadScenarioSketch(branchName, issueId, scenarioSketchId);
 		final List<StepSketch> steps = reader.loadSketchSteps(branchName, issueId, scenarioSketchId);
@@ -58,9 +58,8 @@ public class ScenarioSketchesResource {
 	@Produces("application/json")
 	public Response storeScenarioSketch(@PathParam("branchName") final String branchName,
 			final ScenarioSketch scenarioSketch) {
-		LOGGER.info("Now storing a new scenario sketch.");
-		LOGGER.info(scenarioSketch);
-		LOGGER.info("-----------------------");
+		LOGGER.info("Storing new scenario sketch (branch " + branchName + ")");
+
 		MessageDigest converter;
 		try {
 			converter = MessageDigest.getInstance("SHA1");
@@ -84,9 +83,8 @@ public class ScenarioSketchesResource {
 	public Response updateScenarioSketch(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId, final ScenarioSketch updatedScenarioSketch) {
-		LOGGER.info("Now updating a scenarioSketch.");
-		LOGGER.info(scenarioSketchId);
-		LOGGER.info("-----------------------");
+		LOGGER.info("Updating scenario sketch (" + branchName + "/" + issueId + "/" + scenarioSketchId + ")");
+
 		if (updatedScenarioSketch.getScenarioSketchId() == null) {
 			LOGGER.error("There was no scenarioSketchId set on the scenarioSketch object!");
 			updatedScenarioSketch.setScenarioSketchId(scenarioSketchId);

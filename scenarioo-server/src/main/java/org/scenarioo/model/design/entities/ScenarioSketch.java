@@ -5,8 +5,8 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.scenarioo.api.rules.Preconditions;
 import org.scenarioo.model.docu.entities.Detailable;
 import org.scenarioo.model.docu.entities.Labelable;
@@ -21,6 +21,7 @@ import org.scenarioo.model.docu.entities.generic.Details;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ScenarioSketch implements Serializable, Labelable, Detailable {
 
 	private String scenarioSketchName;
@@ -32,9 +33,6 @@ public class ScenarioSketch implements Serializable, Labelable, Detailable {
 	private String contextInDocu;
 	private long dateCreated;
 	private long dateModified;
-
-	@XmlTransient
-	private String branchName;
 
 	private Details details = new Details();
 	private Labels labels = new Labels();
@@ -185,16 +183,6 @@ public class ScenarioSketch implements Serializable, Labelable, Detailable {
 	public void setLabels(final Labels labels) {
 		Preconditions.checkNotNull(labels, "Labels not allowed to set to null");
 		this.labels = labels;
-	}
-
-	@SuppressWarnings("unused")
-	private String getBranchName() {
-		return branchName;
-	}
-
-	@SuppressWarnings("unused")
-	private void setBranchName(final String branchName) {
-		this.branchName = branchName;
 	}
 
 	public String getIssueId() {

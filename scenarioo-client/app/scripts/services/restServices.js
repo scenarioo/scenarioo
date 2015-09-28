@@ -50,11 +50,16 @@ angular.module('scenarioo.services')
         };
     })
 
+
+    /**
+     * All resources in Scenarioo must be based on this ScenariooResource.
+     */
     .factory('ScenariooResource', function (HostnameAndPort, $resource) {
         return function (url, paramDefaults, actions) {
             return $resource(HostnameAndPort.forNgResource() + 'rest' + url, paramDefaults, actions);
         };
     })
+
 
     .factory('BranchesResource', function (ScenariooResource) {
         return ScenariooResource('/branches', {}, {});
@@ -115,19 +120,6 @@ angular.module('scenarioo.services')
         });
         return useCaseService;
     })
-
-    /*.factory('IssueService', function (ScenariooResource, $q) {
-     var issueService = ScenariooResource('/branch/:branchName/issue/:issueId',
-     {
-     branchName: '@branchName',
-     issueId: '@issueId'
-     }, {});
-
-     issueService.getIssue = getPromise($q, function (parameters, fnSuccess, fnError) {
-     return issueService.get(parameters, fnSuccess, fnError);
-     });
-     return issueService;
-     })*/
 
     .factory('StepResource', function (ScenariooResource) {
         return ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName/pageName/:pageName/pageOccurrence/:pageOccurrence/stepInPageOccurrence/:stepInPageOccurrence',
@@ -247,64 +239,6 @@ angular.module('scenarioo.services')
 
     .factory('LabelConfigurationsResource', function (ScenariooResource) {
         return ScenariooResource('/labelconfigurations', {}, {'query': {isArray: false}});
-    })
-
-    .factory('IssuesResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issue',
-            {
-                branchName: '@branchName'
-            }, {});
-    })
-
-    .factory('IssueResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issue/:issueId',
-            {
-                branchName: '@branchName',
-                issueId: '@issueId'
-            },
-            {
-                'query': {method: 'GET', isArray: false, params: {issueId: '@issueId'}},
-                'update': {method: 'PUT', params: {issueId: '@issueId'}},
-                'delete': {method: 'DELETE', params: {issueId: '@issueId'}}
-            });
-    })
-
-    .factory('RelatedIssueResource', function(ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issue/related/',
-            {
-                branchName: '@branchName',
-                objectName: '@objectName'
-            },
-            {
-                'query': {method: 'GET', isArray: true, params: {objectName: 'null', type: 'usecase'}}
-            });
-    })
-
-    .factory('NewIssueResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issue/:issueName',
-            {
-                branchName: '@branchName',
-                issueId: '@issueName'
-            }, {});
-    })
-
-    .factory('ScenarioSketchResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issue/:issueId/scenariosketch/:scenarioSketchId',
-            {
-                branchName: '@branchName',
-                issueId: '@issueId',
-                scenarioSketchId: '@scenarioSketchId'
-            }, {});
-    })
-
-    .factory('SketchStepResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issue/:issueId/scenariosketch/:scenarioSketchId/sketchstep/:sketchStepName',
-            {
-                branchName: '@branchName',
-                issueId: '@issueId',
-                scenarioSketchId: '@scenarioSketchId',
-                sketchStepName: '@sketchStepName'
-            }, {});
     });
 
 function getPromise($q, fn) {
