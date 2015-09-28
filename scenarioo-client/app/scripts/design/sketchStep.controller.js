@@ -33,7 +33,16 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
         $scope.issueName = $scope.currentIssue.name;
         $scope.issueDescription = $scope.currentIssue.description;
         $scope.issueAuthor = $scope.currentIssue.author;
+        updateContext();
     });
+
+    function updateContext() {
+        ContextService.initialize();
+        ContextService.issueId = issueId;
+        ContextService.scenarioSketchId = scenarioSketchId;
+        ContextService.sketchStepName = sketchStepName;
+        ContextService.screenshotURL = getSVGUrl();
+    }
 
     $scope.modalScreenshotOptions = {
         backdropFade: true,
@@ -66,8 +75,6 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
                     $scope.sketchStepSVG = data;
                 });
 
-                ContextService.sketchButton.innerHTML = ContextService.sketchButton.innerHTML.replace('Create', 'Edit');
-
                 SharePageService.setPageUrl($scope.getCurrentUrlForSharing());
 
                 $scope.hasContext = function () {
@@ -94,6 +101,15 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
 
         var selected = SelectedBranchAndBuild.selected();
         return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/sketchstep/' + sketchStepName + '/image/sketch.png';
+    };
+
+    $scope.getOriginalScreenshotUrl = function() {
+        if (angular.isUndefined($scope.sketchStep)) {
+            return undefined;
+        }
+
+        var selected = SelectedBranchAndBuild.selected();
+        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/sketchstep/' + sketchStepName + '/image/original.png';
     };
 
     function getSVGUrl () {
@@ -137,12 +153,11 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
         SharePageService.invalidateUrls();
     });
 
+    $scope.getSketchButtonTitle = function () {
+        return 'Edit Sketch';
+    };
+
     $scope.sketchThis = function () {
-        ContextService.initialize();
-        ContextService.issueId = issueId;
-        ContextService.scenarioSketchId = scenarioSketchId;
-        ContextService.sketchStepName = sketchStepName;
-        ContextService.screenshotURL = getSVGUrl();
         $location.path('/editor/').search('mode', 'edit');
     };
 

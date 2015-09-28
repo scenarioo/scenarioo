@@ -61,7 +61,7 @@ function MainCtrl($scope, $location, Config) {
         var i = vm.tabs.length;
         vm.tabs.push({
             tabId: 'issues',
-            title: 'Issues',
+            title: 'Sketches',
             contentViewUrl: 'views/mainIssuesTab.html',
             active: false
         });

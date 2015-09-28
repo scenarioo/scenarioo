@@ -17,42 +17,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <sc-breadcrumb></sc-breadcrumb>
 
 <tabset class="step-panes">
-    <tab heading="Screenshot">
-        <!--<div class="sc-screenshot-border">
-            <div ng-html="sketchStepSVG"></div>
-        </div>-->
-        <img ng-src={{getScreenShotUrl()}} />
+    <tab heading="Sketch">
+        <img ng-src={{getScreenShotUrl()}}/>
+    </tab>
+    <tab heading="Original Screenshot">
+        <img ng-src="{{getOriginalScreenshotUrl()}}"/>
     </tab>
     <tab heading="Metadata">
-        <p><strong>Details</strong></p>
-        <ul>
-            <li id="issue-name">
-                Issue name: {{issueName}}
-            </li>
-            <li id="issue-description">
-                Description: {{issueDescription}}
-            </li>
-            <li id="author">
-                Author: {{issueAuthor}}
-            </li>
-            <li id="dateCreated">
-                Created: {{sketchStep.dateCreated | scDateTime}}
-            </li>
-            <li id="dateModified">
-                Last modified: {{sketchStep.dateModified | scDateTime}}
-            </li>
-        </ul>
-        <p><strong>Context in Documentation</strong></p>
-        <ul>
-            <li id="usecase-context" ng-click="goToUsecase()">
-                <a href="">Related Usecase: {{sketchStep.usecaseContextName}}</a>
-            </li>
-            <li id="scenario-context" ng-click="goToScenario()">
-                <a href="">Related Scenario: {{sketchStep.scenarioContextName}}</a>
-            </li>
-            <li id="step-context" ng-click="goToStep()">
-                <a href="">Related Step</a>
-            </li>
-        </ul>
+        <h2>Details</h2>
+
+        <p id="issue-name">
+            Sketch name: {{issueName}}
+        </p>
+
+        <p id="issue-description">
+            Description: {{issueDescription}}
+        </p>
+
+        <p id="author">
+            Author: {{issueAuthor}}
+        </p>
+
+        <p id="dateCreated">
+            Created: {{sketchStep.dateCreated | scDateTime}}
+        </p>
+
+        <p id="dateModified">
+            Last modified: {{sketchStep.dateModified | scDateTime}}
+        </p>
+
+        <h2>Context in Documentation</h2>
+
+        <p id="usecase-context" ng-click="goToUsecase()">
+            <a href="">Related Use Case: {{sketchStep.usecaseContextName}}</a>
+        </p>
+
+        <p id="scenario-context" ng-click="goToScenario()">
+            <a href="">Related Scenario: {{sketchStep.scenarioContextName}}</a>
+        </p>
+
+        <p id="step-context" ng-click="goToStep()">
+            <a href="">Related Step</a>
+        </p>
     </tab>
 </tabset>
