@@ -20,7 +20,7 @@
 angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $interval, $routeParams, $route,
                                                                            GlobalHotkeysService, SelectedBranchAndBuild, ToolBox, DrawShapeService,
                                                                            DrawingPadService, SketchStep, SketchStepResource, IssueResource, Issue,
-                                                                           ScenarioSketchResource, ScenarioSketch, ContextService, $log, $window, localStorageService) {
+                                                                           ScenarioSketchResource, ContextService, $log, $window, localStorageService) {
 
     var AUTHOR_LOCAL_STORAGE_KEY = 'issue_author',
         MODE_CREATE = 'create',
@@ -101,23 +101,23 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
     // TODO confirm() is not a known function (at least not for ESLint...)
     /*
-    $scope.$on('$locationChangeStart', function (event) {
-        if ($route.current.originalPath === '/editor') {
-            if (!confirm('Unsaved data will be lost!')) {
-                event.preventDefault();
-            }
-        }
-    });
-    */
+     $scope.$on('$locationChangeStart', function (event) {
+     if ($route.current.originalPath === '/editor') {
+     if (!confirm('Unsaved data will be lost!')) {
+     event.preventDefault();
+     }
+     }
+     });
+     */
 
     // TODO This seems to break the web tests
     /*
-    angular.element($window).on('beforeunload', function () {
-        if ($route.current.originalPath === '/editor') {
-            return 'Unsaved data will be lost!';
-        }
-    });
-    */
+     angular.element($window).on('beforeunload', function () {
+     if ($route.current.originalPath === '/editor') {
+     return 'Unsaved data will be lost!';
+     }
+     });
+     */
 
     // TODO extract all saving related methods into a service
     $scope.saveSketcherData = function () {
@@ -170,44 +170,66 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
     $rootScope.$on('IssueSaved', function (event, args) {
 
-        var scenarioSketchName = 'undefined';
+        if ($scope.issueSaved !== 1) {
+            return;
+        }
 
-        var scenarioSketch = new ScenarioSketchResource({
+        var scenarioSketch = {
             branchName: $routeParams.branch,
-            scenarioSketchName: scenarioSketchName,
+            scenarioSketchName: 'undefined',
             author: $scope.issueAuthor,
             scenarioSketchStatus: 'Draft',
             issueId: args.issueId
-        }, {});
+        };
 
+        ++$scope.scenarioSketchSaved;
 
-        if ($scope.issueSaved === 1) {
-            ++$scope.scenarioSketchSaved;
-
-            if ($scope.scenarioSketchId && $scope.scenarioSketchId !== undefined) {
-                scenarioSketch.scenarioSketchId = $scope.scenarioSketchId;
-
-                ScenarioSketch.saveScenarioSketch(scenarioSketch, function (updatedScenarioSketch) {
-                    $log.log('UPDATE ScenarioSketch', updatedScenarioSketch.scenarioSketchId);
-                    $rootScope.$broadcast('ScenarioSketchSaved', {
-                        issueId: updatedScenarioSketch.issueId,
-                        scenarioSketchId: updatedScenarioSketch.scenarioSketchId
-                    });
-                }, function (error) {
-                    sketchSavedWithError(error);
-                });
-            } else {
-                ScenarioSketch.saveScenarioSketch(scenarioSketch, function (savedScenarioSketch) {
-                    $log.log('SAVE ScenarioSketch', savedScenarioSketch.scenarioSketchId);
-                    $rootScope.$broadcast('ScenarioSketchSaved', {
-                        issueId: savedScenarioSketch.issueId,
-                        scenarioSketchId: savedScenarioSketch.scenarioSketchId
-                    });
-                }, function (error) {
-                    sketchSavedWithError(error);
-                });
-            }
+        if ($scope.scenarioSketchId && $scope.scenarioSketchId !== undefined) {
+            scenarioSketch.scenarioSketchId = $scope.scenarioSketchId;
+            updateExistingScenarioSketch(scenarioSketch);
+        } else {
+            saveNewScenarioSketch(scenarioSketch);
         }
+
+        function saveNewScenarioSketch(scenarioSketch) {
+            saveScenarioSketch(scenarioSketch, function (savedScenarioSketch) {
+                $log.log('SAVE ScenarioSketch', savedScenarioSketch.scenarioSketchId);
+                $rootScope.$broadcast('ScenarioSketchSaved', {
+                    issueId: savedScenarioSketch.issueId,
+                    scenarioSketchId: savedScenarioSketch.scenarioSketchId
+                });
+            }, function (error) {
+                sketchSavedWithError(error);
+            });
+        }
+
+        function updateExistingScenarioSketch(scenarioSketch) {
+            saveScenarioSketch(scenarioSketch, function (updatedScenarioSketch) {
+                $log.log('UPDATE ScenarioSketch', updatedScenarioSketch.scenarioSketchId);
+                $rootScope.$broadcast('ScenarioSketchSaved', {
+                    issueId: updatedScenarioSketch.issueId,
+                    scenarioSketchId: updatedScenarioSketch.scenarioSketchId
+                });
+            }, function (error) {
+                sketchSavedWithError(error);
+            });
+        }
+
+        function saveScenarioSketch(scenarioSketch, successCallback, errorCallback) {
+            ScenarioSketchResource.save(scenarioSketch,
+                function (updatedScenarioSketch) {
+                    if (successCallback) {
+                        successCallback(updatedScenarioSketch);
+                    }
+                },
+                function (error) {
+                    $log.error(error);
+                    if (errorCallback) {
+                        errorCallback('ScenarioSketch could not be saved');
+                    }
+                });
+        }
+
     });
 
     $rootScope.$on('ScenarioSketchSaved', function (event, args) {
