@@ -133,6 +133,16 @@ angular.module('scenarioo.services').service('TestData', function () {
          * with simplified metadata.
          */
         STEP: {
+            'stepIdentifier' : {
+                'branchName' : 'wikipedia-docu-example',
+                'buildName' : '2014-03-19',
+                'usecaseName' : 'Donate',
+                'scenarioName' : 'find_donate_page',
+                'labels' : null,
+                'pageName' : 'startSearch.jsp',
+                'pageOccurrence' : 0,
+                'stepInPageOccurrence' : 0
+            },
             'stepStatistics': {
                 'totalNumberOfStepsInScenario': 5,
                 'totalNumberOfStepsInPageOccurrence': 2,

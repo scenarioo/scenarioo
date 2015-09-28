@@ -53,13 +53,14 @@ public class SketchImageResource {
 	}
 
 	@GET
-	@Path("image/{sketchFile}")
+	@Path("image/{pngFile}")
 	@Produces({ "image/png" })
 	public Object loadConvertedSketch(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId,
-			@PathParam("sketchFile") final String sketchFileName) {
-		LOGGER.info("Loading PNG version of a sketch");
-		return files.getPNGFile(branchName, issueId, scenarioSketchId, "sketch.png");
+			@PathParam("pngFile") final String pngFileName) {
+		LOGGER.info("Loading PNG file for sketch (" + pngFileName + ")");
+		return files.getPNGFile(branchName, issueId, scenarioSketchId, pngFileName);
 	}
+
 }
