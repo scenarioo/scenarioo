@@ -71,6 +71,7 @@ function annotatedScreenshot() {
         $scope.openInfoPopup = openInfoPopup;
         $scope.doClickAction = doClickAction;
         $scope.hasClickAction = hasClickAction;
+        $scope.getTooltipText = getTooltipText;
 
         /**
          * get the text to display inside the annotation box (depending if text box is big enough to display text)
@@ -87,10 +88,10 @@ function annotatedScreenshot() {
         function getBoxCssStyle(screenAnnotation) {
             return {
                 // The border is 3 px wide. Therefore we add these three pixels here.
-                left: (screenAnnotation.region.x * $scope.imageScalingRatio - 3) + 'px',
-                top: (screenAnnotation.region.y * $scope.imageScalingRatio - 3) + 'px',
-                width: (screenAnnotation.region.width * $scope.imageScalingRatio + 6) + 'px',
-                height: (screenAnnotation.region.height * $scope.imageScalingRatio + 6) + 'px',
+                left: (screenAnnotation.region.x * $scope.imageScalingRatio - 2) + 'px',
+                top: (screenAnnotation.region.y * $scope.imageScalingRatio - 2) + 'px',
+                width: (screenAnnotation.region.width * $scope.imageScalingRatio + 4) + 'px',
+                height: (screenAnnotation.region.height * $scope.imageScalingRatio + 4) + 'px',
                 cursor: 'pointer'
             };
         }
@@ -136,8 +137,22 @@ function annotatedScreenshot() {
                 }
             };
             clickActions[clickAction]();
+        }
 
+        function getTooltipText(annotation) {
 
+            if (annotation.clickActionText) {
+                return annotation.clickActionText;
+            }
+            else if (annotation.clickAction === 'TO_NEXT_STEP') {
+                return 'Go to next step';
+            }
+            else if (annotation.clickAction === 'TO_URL') {
+                return 'Open ' + annotation.clickActionUrl;
+            }
+            else {
+                return null; // no tooltip for missing click action (user can open popup for more info)
+            }
         }
 
         function hasClickAction(annotation) {
