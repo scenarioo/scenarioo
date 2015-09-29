@@ -1,6 +1,8 @@
 package org.scenarioo.uitest.example.testcases;
 
 import org.junit.Test;
+import org.scenarioo.model.docu.entities.ScreenAnnotationStyle;
+import org.scenarioo.model.docu.entities.ScreenRegion;
 import org.scenarioo.uitest.dummy.application.DummyApplicationSimulator;
 import org.scenarioo.uitest.dummy.application.DummySimulationConfig;
 import org.scenarioo.uitest.example.infrastructure.DocuDescription;
@@ -45,4 +47,43 @@ public class TechnicalCornerCasesUITest extends UITest {
 		toolkit.clickButton("go to page 3");
 	}
 	
+	@Test
+	@DocuDescription(
+			description = "Dummy scenario with three steps on one page and all special variants of screen annotations")
+	@Labels({ "short", "annotations" })
+	public void dummy_scenario_with_screen_annotations_of_all_types_on_one_page() {
+		DummyApplicationSimulator.setConfiguration(DummySimulationConfig.TECHNICAL_ONE_PAGE_CONFIG);
+		toolkit.loadUrl("http://www.wikipedia.org/technical-one-page-scenario");
+
+		// Just produce all kind of possible screen annotations for testing
+		toolkit.addScreenAnnotationOnSameStep("Life Is Beautiful", ScreenAnnotationStyle.DEFAULT, region(0, 0, 1, 1));
+		toolkit.addScreenAnnotationOnSameStep("The Intouchables", ScreenAnnotationStyle.HIGHLIGHT, region(0, 1, 1, 1));
+		toolkit.addScreenAnnotationOnSameStep("The Lord of The Rings", ScreenAnnotationStyle.INFO, region(0, 2, 1, 1));
+		toolkit.addScreenAnnotationOnSameStep("The Matrix", ScreenAnnotationStyle.WARN, region(0, 3, 1, 1));
+		toolkit.addScreenAnnotationOnSameStep("Titanic", ScreenAnnotationStyle.ERROR, region(0, 4, 1, 1));
+		
+		toolkit.addScreenAnnotationOnSameStep("High Fidelity", ScreenAnnotationStyle.EXPECTED, region(1, 0, 1, 1));
+		toolkit.addScreenAnnotationOnSameStep("Good Will Hunting", ScreenAnnotationStyle.CLICK, region(1, 1, 1, 1));
+		toolkit.addScreenAnnotationOnSameStep("Star Wars", ScreenAnnotationStyle.KEYBOARD, region(1, 2, 1, 1));
+		toolkit.addScreenAnnotationOnSameStep("One Flew Over the Cuckoo's Nest", ScreenAnnotationStyle.NAVIGATE_TO_URL, region(1, 3, 1, 1));
+
+		toolkit.addScreenAnnotationOnSameStep(
+				"just a default annotation with very long information text that will wrap on multiple lines and still overflow the width of the box and therefore be cut off",
+				null, region(0, 5, 2, 2));
+
+		// link to next, produces the new steps (one before clicking, one after clicking)
+		toolkit.clickLink("dummy-next-link-not-visible-on-screenshot");
+	}
+
+	private ScreenRegion region(final int colIndex, final int rowIndex, final int spanCols, final int spanRows) {
+		int colWidth = 250;
+		int rowHeight = 32;
+		int margin = 64;
+		return new ScreenRegion(
+				colIndex * (colWidth + margin) + margin,
+				rowIndex * (rowHeight + margin) + margin,
+				spanCols * (colWidth + margin) - margin,
+				spanRows * rowHeight);
+	}
+
 }

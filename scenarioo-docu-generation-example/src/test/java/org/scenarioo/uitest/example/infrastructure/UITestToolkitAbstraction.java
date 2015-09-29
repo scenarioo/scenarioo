@@ -119,34 +119,81 @@ public class UITestToolkitAbstraction {
 		saveStepWithScreenshot();
 	}
 	
-	private void addScreenAnnotation(final String elementId, final ScreenAnnotationStyle style, final String text,
-			final String title,
-			final String description) {
+	private void addScreenAnnotation(final String elementId, final ScreenAnnotationStyle style,
+			final String screenText,
+			final String title, final String description) {
+		addScreenAnnotation(elementId, style, screenText, title, description, null);
+	}
+
+	private void addScreenAnnotation(final String elementId, final ScreenAnnotationStyle style,
+			final String screenText, final String title, final String description, final String clickActionUrl) {
 		ScreenRegion region = toolkit.getElementRegion(elementId);
 		if (region != null) {
-			ScreenAnnotation annotation = new ScreenAnnotation(region.getX(), region.getY(), region.getWidth(), region.getHeight());
-			annotation.setStyle(style);
-			annotation.setScreenText(text);
-			annotation.setTitle(title);
-			annotation.setDescription(description);
-			if (style == ScreenAnnotationStyle.CLICK) {
-				// Create click events with go to next step (for testing clickActions on annotations)
-				annotation.setClickAction(ScreenAnnotationClickAction.TO_NEXT_STEP);
-			}
-			ObjectDescription elementDescription = new ObjectDescription("uiElement", elementId);
-			elementDescription.addDetail("elementId", elementId);
-			elementDescription
-					.addDetail(
-							"info",
-							"this is just an example to demonstrate that also screen annotations can have objects as detail data attached, e.g. the description of a ui element that was interacted with");
-			annotation.addDetail("element", elementDescription);
-			screenAnnotations.add(annotation);
+			addScreenAnnotation(elementId, style, screenText, title, description, clickActionUrl, region);
 		}
 		else {
 			LOGGER.warn("event on UI element with id='"
 					+ elementId
 					+ "' with undefined region in dummy data for screen snnotation --> no screen annotation is generated in scenarioo documentation data for this event");
 		}
+	}
+
+	private void addScreenAnnotation(final String elementId, final ScreenAnnotationStyle style,
+			final String screenText, final String title,
+			final String description, final String clickActionUrl, final ScreenRegion region) {
+		ScreenAnnotation annotation = new ScreenAnnotation(region.getX(), region.getY(), region.getWidth(),
+				region.getHeight());
+		annotation.setStyle(style);
+		annotation.setScreenText(screenText);
+		annotation.setTitle(title);
+		annotation.setDescription(description);
+		if (clickActionUrl != null) {
+			annotation.setClickAction(ScreenAnnotationClickAction.TO_URL);
+			annotation.setClickActionUrl(clickActionUrl);
+			annotation.setClickActionText("Open external documentation for this element");
+		}
+		else if (style == ScreenAnnotationStyle.CLICK) {
+			// Create click events with go to next step (for testing clickActions on annotations)
+			annotation.setClickAction(ScreenAnnotationClickAction.TO_NEXT_STEP);
+			// no clickActionText here for testing generic text for click actions
+		}
+		ObjectDescription elementDescription = new ObjectDescription("uiElement", elementId);
+		elementDescription.addDetail("elementId", elementId);
+		elementDescription
+				.addDetail(
+						"info",
+						"this is just an example to demonstrate that also screen annotations can have objects as detail data attached, e.g. the description of a ui element that was interacted with");
+		annotation.addDetail("element", elementDescription);
+		screenAnnotations.add(annotation);
+	}
+
+	public void addScreenAnnotationOnSameStep(final String annotationText, final ScreenAnnotationStyle annotationStyle,
+			final ScreenRegion region) {
+		if (annotationStyle != null) {
+		addScreenAnnotation(
+				"elementWithText=" + annotationText /* just a dummy element id (not realistic) */,
+				annotationStyle,
+				annotationText,
+				annotationStyle.name() + "-Annotation '" + annotationText + "'",
+				"Just an annotation to demonstarte annotation of type '"
+						+ annotationStyle
+						+ "' with text '"
+						+ annotationText
+							+ "' and a link to an external documentation as clickAction.\nAll annotations are produced on same step here, just for demo purposes.",
+					"https://en.wikipedia.org/wiki/" + annotationText, region);
+		}
+		else {
+			addScreenAnnotation(
+					"elementWithText=" + annotationText /* just a dummy element id (not realistic) */,
+					annotationStyle,
+					annotationText,
+					"Annotation '" + annotationText + "'",
+					"Just a default annotation with text '"
+							+ annotationText
+							+ "' and no special click action (styled slightly different, because of missing click action --> popup opens also when clicking annotation (not only on icon).\nAll annotations are produced on same step here, just for demo purposes.",
+					null, region);
+		}
+		toolkit.clickLinkWithText(annotationText);
 	}
 
 	public void clickLink(final String linkText) {
