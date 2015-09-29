@@ -63,7 +63,6 @@ function annotatedScreenshot() {
 
     function controller($scope, $modal, ScreenAnnotationsService, $window) {
 
-
         $scope.getBoxCssStyle = getBoxCssStyle;
         $scope.getBoxText = getBoxText;
         $scope.getIconCssStyle = getIconCssStyle;
@@ -117,6 +116,9 @@ function annotatedScreenshot() {
                 resolve: {
                     annotation: function () {
                         return annotation;
+                    },
+                    goToNextStep: function() {
+                        return $scope.toNextStepAction;
                     }
                 },
                 windowClass: 'modal-small'
@@ -131,7 +133,9 @@ function annotatedScreenshot() {
                 TO_URL: function () {
                     $window.open(annotation.clickActionUrl);
                 },
-                TO_NEXT_STEP: $scope.toNextStepAction,
+                TO_NEXT_STEP: function() {
+                    $scope.toNextStepAction();
+                },
                 DEFAULT: function () {
                     openInfoPopup(annotation);
                 }
@@ -140,19 +144,7 @@ function annotatedScreenshot() {
         }
 
         function getTooltipText(annotation) {
-
-            if (annotation.clickActionText) {
-                return annotation.clickActionText;
-            }
-            else if (annotation.clickAction === 'TO_NEXT_STEP') {
-                return 'Go to next step';
-            }
-            else if (annotation.clickAction === 'TO_URL') {
-                return 'Open ' + annotation.clickActionUrl;
-            }
-            else {
-                return null; // no tooltip for missing click action (user can open popup for more info)
-            }
+            return ScreenAnnotationsService.getClickActionText(annotation);
         }
 
         function hasClickAction(annotation) {
