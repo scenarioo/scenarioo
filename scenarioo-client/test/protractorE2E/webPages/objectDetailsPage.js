@@ -35,14 +35,15 @@ ObjectDetailsPage.prototype.assertTreeNodeStatus = function (nodeId, status) {
     var imageId = 'img_' + nodeId;
     expect(node.getText()).not.toBe(null);
     expect(node.isDisplayed()).toBe(true);
-
-    element(protractor.By.tagName('tbody')).all(protractor.By.tagName('tr')).then(function(rows){
-        expect(rows.length).toBe(27);
-    });
-
     var imageElement = node.element(by.id(imageId));
     var imgAttribute = imageElement.getAttribute('src');
     expect(imgAttribute).toBe(browser.params.baseUrl + '/images/' + status + '.png');
+};
+
+ObjectDetailsPage.prototype.assertNumberOfRows = function(expectedRowCount) {
+    element(protractor.By.tagName('tbody')).all(protractor.By.tagName('tr')).then(function(rows){
+        expect(rows.length).toBe(expectedRowCount);
+    });
 };
 
 ObjectDetailsPage.prototype.enterSearchCriteria = function(searchCriteria) {
