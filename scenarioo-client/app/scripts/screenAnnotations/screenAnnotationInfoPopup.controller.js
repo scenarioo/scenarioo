@@ -14,16 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('scenarioo.controllers').controller('ScreenAnnotationInfoPopupController', function ($scope, $modalInstance, $filter, ScreenAnnotationsService, annotation) {
+angular.module('scenarioo.controllers').controller('ScreenAnnotationInfoPopupController', function ($scope, $modalInstance, $window, $filter, ScreenAnnotationsService, annotation, goToNextStep) {
 
     var vm = this;
     vm.annotation = annotation;
+    vm.goToNextStep = goToNextStep;
     vm.detailsTrees = {};
 
     vm.getIconClass = getIconClass;
     vm.getTitleText = getTitleText;
     vm.getDescriptionSection = getDescriptionSection;
+    vm.getClickActionText = getClickActionText;
     vm.hasDetails = hasDetails;
+    vm.doClickAction = doClickAction;
+    vm.getClickActionIconStyle = getClickActionIconStyle;
 
     activate();
 
@@ -43,6 +47,31 @@ angular.module('scenarioo.controllers').controller('ScreenAnnotationInfoPopupCon
 
     function getDescriptionSection() {
         return ScreenAnnotationsService.getDescriptionSection(vm.annotation);
+    }
+
+    function getClickActionText() {
+        return ScreenAnnotationsService.getClickActionText(vm.annotation);
+    }
+
+    function getClickActionIconStyle() {
+        if (vm.annotation.clickAction === 'TO_NEXT_STEP') {
+            return 'icon-chevron-right';
+        }
+        else {
+            return 'icon-external-link';
+        }
+    }
+
+    function doClickAction() {
+        if (vm.annotation.clickAction) {
+            var clickActions = {
+                TO_URL: function () {
+                    $window.open(vm.annotation.clickActionUrl);
+                },
+                TO_NEXT_STEP: goToNextStep
+            };
+            clickActions[vm.annotation.clickAction]();
+        }
     }
 
     function hasDetails() {
