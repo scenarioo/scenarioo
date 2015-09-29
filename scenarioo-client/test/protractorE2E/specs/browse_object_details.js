@@ -17,6 +17,7 @@ scenarioo.describeUseCase('Browse object details', 'The object details view incl
         scenarioo.describeScenario('Default expand and collapse', 'Only the first child from root-node is expanded initially. All further nodes are collapsed.', function () {
             objectDetailsPage.goToPage('/object/uiAction/example.action.StartInitAction');
             scenarioo.docuWriter.saveStep('Display object details page');
+            objectDetailsPage.assertNumberOfRows(30);
             objectDetailsPage.assertTreeNodeStatus('0', 'collapsed');
             objectDetailsPage.assertTreeNodeStatus('1', 'expanded');
             objectDetailsPage.assertTreeNodeStatus('4', 'expanded');
