@@ -167,7 +167,7 @@ public class DummyApplicationStepDataFactory {
 		elementRegions.put("linkWithText=42 - The answer to everything", new ScreenRegion(472, 244, 410, 20));
 		elementRegions.put("linkWithText=Espanol", new ScreenRegion(30, 755, 50, 14));
 		elementRegions.put("linkWithText=dummy-next-link-not-visible-on-screenshot",
-				new ScreenRegion(750, 544, 120, 28));
+				new ScreenRegion(1050, 844, 120, 28));
 
 		// Later here: some of this elements might be placed different for some special steps dependent on the passed
 		// stepName

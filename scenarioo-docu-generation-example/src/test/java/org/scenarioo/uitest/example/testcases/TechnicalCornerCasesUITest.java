@@ -80,8 +80,8 @@ public class TechnicalCornerCasesUITest extends UITest {
 		int rowHeight = 32;
 		int margin = 64;
 		return new ScreenRegion(
-				colIndex * (colWidth + margin) + margin,
-				rowIndex * (rowHeight + margin) + margin,
+				colIndex * (colWidth + margin) + margin + 300,
+				rowIndex * (rowHeight + margin) + margin + 300,
 				spanCols * (colWidth + margin) - margin,
 				spanRows * rowHeight);
 	}
