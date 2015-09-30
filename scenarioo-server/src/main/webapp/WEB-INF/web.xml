@@ -46,7 +46,7 @@
 			<http-method>POST</http-method>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>scenarioo-post-build</role-name>
+			<role-name>scenarioo-build-publisher</role-name>
 		</auth-constraint>
 		<user-data-constraint>
 			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
