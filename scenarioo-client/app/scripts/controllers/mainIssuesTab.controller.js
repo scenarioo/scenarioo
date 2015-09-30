@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function ($scope, $location, SelectedBranchAndBuild, IssuesResource, ContextService) {
 
     var vm = this;
