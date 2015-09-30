@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 angular.module('scenarioo.controllers').controller('ScreenAnnotationInfoPopupController', function ($scope, $modalInstance, $filter, ScreenAnnotationsService, annotation) {
 
     var vm = this;

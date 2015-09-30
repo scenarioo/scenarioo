@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 angular.module('scenarioo.controllers').controller('AddIssueCtrl', function ($scope, $routeParams, IssueResource, Issues) {
 
     $scope.addIssue = function () {

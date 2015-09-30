@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 /**
  * this directive provides keyboard navigation features for a table.
  * Up/Down arrows will navigate through the rows. on hitting the enter key, a callback is invoked, and
