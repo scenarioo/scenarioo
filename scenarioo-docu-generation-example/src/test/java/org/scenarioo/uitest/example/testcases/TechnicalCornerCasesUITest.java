@@ -1,8 +1,8 @@
 package org.scenarioo.uitest.example.testcases;
 
 import org.junit.Test;
-import org.scenarioo.model.docu.entities.ScreenAnnotationStyle;
-import org.scenarioo.model.docu.entities.ScreenRegion;
+import org.scenarioo.model.docu.entities.screenAnnotations.ScreenAnnotationStyle;
+import org.scenarioo.model.docu.entities.screenAnnotations.ScreenRegion;
 import org.scenarioo.uitest.dummy.application.DummyApplicationSimulator;
 import org.scenarioo.uitest.dummy.application.DummySimulationConfig;
 import org.scenarioo.uitest.example.infrastructure.DocuDescription;
