@@ -44,6 +44,7 @@ function annotatedScreenshot() {
     function link(scope, element) {
 
         scope.imageScalingRatio = 1;
+        scope.imageNaturalHeight = 0;
 
         var imageElement = element.find('img.sc-screenshot');
 
@@ -86,12 +87,13 @@ function annotatedScreenshot() {
 
         function getBoxCssStyle(screenAnnotation) {
             return {
-                // The border is 3 px wide. Therefore we add these three pixels here.
+                // The border is 2 px wide. Therefore we add these three pixels here.
                 left: (screenAnnotation.region.x * $scope.imageScalingRatio - 2) + 'px',
                 top: (screenAnnotation.region.y * $scope.imageScalingRatio - 2) + 'px',
                 width: (screenAnnotation.region.width * $scope.imageScalingRatio + 4) + 'px',
                 height: (screenAnnotation.region.height * $scope.imageScalingRatio + 4) + 'px',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                'z-index': 100
             };
         }
 
@@ -99,7 +101,8 @@ function annotatedScreenshot() {
             return {
                 left: (screenAnnotation.region.x + screenAnnotation.region.width ) * $scope.imageScalingRatio + 'px',
                 bottom: ($scope.imageNaturalHeight - screenAnnotation.region.y) * $scope.imageScalingRatio + 'px',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                'z-index': 90
             };
         }
 
