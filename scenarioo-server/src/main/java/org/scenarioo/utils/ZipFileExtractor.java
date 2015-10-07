@@ -65,9 +65,9 @@ public class ZipFileExtractor {
 		try {
 			zipFile = new ZipFile(zipFileToExtract);
 		} catch (ZipException e) {
-			throw new ZipFileExtractionException("Error while reading ZIP file.", e);
+			throw new ZipFileExtractionException("Error while reading ZIP file " + zipFileToExtract, e);
 		} catch (IOException e) {
-			throw new ZipFileExtractionException("IO Error while reading ZIP file.", e);
+			throw new ZipFileExtractionException("IO Error while reading ZIP file " + zipFileToExtract, e);
 		}
 		return zipFile;
 	}
