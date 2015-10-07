@@ -26,6 +26,7 @@ dependencies {
     compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.3.Final'
     compile 'org.jboss.resteasy:resteasy-jaxb-provider:2.3.3.Final'
     compile 'org.jboss.resteasy:resteasy-jackson-provider:2.3.3.Final'
+    compile 'org.jboss.resteasy:resteasy-multipart-provider:2.3.3.Final'
     compile 'com.google.guava:guava-base:r03'
 	runtime 'com.thetransactioncompany:cors-filter:1.7.1'
     providedCompile 'javax.servlet:servlet-api:2.5'

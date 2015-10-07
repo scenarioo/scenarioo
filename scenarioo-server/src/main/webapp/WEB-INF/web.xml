@@ -3,32 +3,59 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
+
 	<display-name>Scenarioo</display-name>
+
 	<filter>
 		<filter-name>CORS</filter-name>
 		<filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
 	</filter>
+
 	<filter-mapping>
 		<filter-name>CORS</filter-name>
 		<url-pattern>/rest/*</url-pattern>
 	</filter-mapping>
+
 	<listener>
 		<listener-class>org.scenarioo.rest.application.ScenariooWebApplication</listener-class>
 	</listener>
+
 	<listener>
 		<listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
 	</listener>
+
 	<context-param>
 		<param-name>resteasy.scan</param-name>
 		<param-value>true</param-value>
 	</context-param>
+
 	<servlet>
 		<servlet-name>ResteasyServlet</servlet-name>
 		<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
 	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>ResteasyServlet</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
-	
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Adding new builds requires authentication</web-resource-name>
+			<url-pattern>/rest/builds</url-pattern>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>scenarioo-build-publisher</role-name>
+		</auth-constraint>
+		<user-data-constraint>
+			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+	</login-config>
+
 </web-app>
