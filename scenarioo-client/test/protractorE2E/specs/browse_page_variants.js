@@ -3,7 +3,7 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-scenarioo.describeUseCase('Browse page variants', function () {
+scenarioo.describeUseCase('Browse page variants', 'On the step page the user can flip through all existing variants of the page.', function () {
 
     var stepPage = new pages.stepPage();
     var objectDetailsPage = new pages.objectDetailsPage();

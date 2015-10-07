@@ -6961,4 +6961,38 @@
             </entry>
         </details>
     </metadata>
+    <screenAnnotations>
+        <screenAnnotation>
+            <region>
+                <x>30</x>
+                <y>755</y>
+                <width>50</width>
+                <height>14</height>
+            </region>
+            <style>CLICK</style>
+            <screenText></screenText>
+            <title>Clicked Link 'Espanol'</title>
+            <description>User clicked on link with text 'Espanol'.</description>
+            <details>
+                <entry>
+                    <key>element</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectDescription">
+                        <name>linkWithText=Espanol</name>
+                        <type>uiElement</type>
+                        <details>
+                            <entry>
+<key>elementId</key>
+<value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">linkWithText=Espanol</value>
+                            </entry>
+                            <entry>
+<key>info</key>
+<value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">this is just an example to demonstrate that also screen annotations can have objects as detail data attached, e.g. the description of a ui element that was interacted with</value>
+                            </entry>
+                        </details>
+                    </value>
+                </entry>
+            </details>
+            <clickAction>TO_NEXT_STEP</clickAction>
+        </screenAnnotation>
+    </screenAnnotations>
 </step>

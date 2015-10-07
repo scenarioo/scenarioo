@@ -3,7 +3,7 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-scenarioo.describeUseCase('Branch aliases', function () {
+scenarioo.describeUseCase('Use branch aliases', 'Select a branch by using an alias', function () {
 
     var homePage = new pages.homePage();
     var branchAliasesPage = new pages.branchAliasesPage();
@@ -15,7 +15,7 @@ scenarioo.describeUseCase('Branch aliases', function () {
         new pages.homePage().initLocalStorage();
     });
 
-    scenarioo.describeScenario('Create an alias and assert browsing through steps works', function () {
+    scenarioo.describeScenario('Select branch by alias', 'Create an alias and assert browsing through steps works', function () {
         branchAliasesPage.goToPage();
         branchAliasesPage.enterAlias('Latest dev', 'wikipedia-docu-example', 'alias to latest development release');
         branchAliasesPage.save();

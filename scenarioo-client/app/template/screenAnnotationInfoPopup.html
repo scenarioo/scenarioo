@@ -17,12 +17,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 <div class="modal-header">
-    <h3> <i ng-class="[annotationPopup.getIconClass(), 'icon-large']"/> &nbsp; {{annotationPopup.getTitleText()}}</h3>
+    <h3> <i ng-class="[annotationPopup.getIconClass(), 'icon-large']"></i> &nbsp; {{annotationPopup.getTitleText()}}</h3>
 </div>
 
 <div class="modal-body info-popup">
     <p>
         {{annotationPopup.getDescriptionSection()}}
+    </p>
+
+    <p ng-if="annotationPopup.annotation.clickAction">
+        <a ng-click="annotationPopup.doClickAction()" class="link-no-hover"><i class="{{annotationPopup.getClickActionIconStyle()}} icon-with-padding"></i> {{annotationPopup.getClickActionText()}}</a>
     </p>
 
     <p ng-show="annotationPopup.hasDetails()">

@@ -34,7 +34,8 @@ function annotatedScreenshot() {
         scope: {
             screenAnnotations: '=',
             getScreenShotUrl: '=',
-            visibilityToggle: '='
+            visibilityToggle: '=',
+            toNextStepAction: '&'
         }
     };
 
@@ -43,6 +44,7 @@ function annotatedScreenshot() {
     function link(scope, element) {
 
         scope.imageScalingRatio = 1;
+        scope.imageNaturalHeight = 0;
 
         var imageElement = element.find('img.sc-screenshot');
 
@@ -60,14 +62,16 @@ function annotatedScreenshot() {
 
     }
 
-    function controller($scope, $modal, ScreenAnnotationsService) {
-
+    function controller($scope, $modal, ScreenAnnotationsService, $window) {
 
         $scope.getBoxCssStyle = getBoxCssStyle;
         $scope.getBoxText = getBoxText;
         $scope.getIconCssStyle = getIconCssStyle;
         $scope.getIconClass = getIconClass;
         $scope.openInfoPopup = openInfoPopup;
+        $scope.doClickAction = doClickAction;
+        $scope.hasClickAction = hasClickAction;
+        $scope.getTooltipText = getTooltipText;
 
         /**
          * get the text to display inside the annotation box (depending if text box is big enough to display text)
@@ -83,18 +87,22 @@ function annotatedScreenshot() {
 
         function getBoxCssStyle(screenAnnotation) {
             return {
-                // The border is 3 px wide. Therefore we add these three pixels here.
-                left: (screenAnnotation.region.x * $scope.imageScalingRatio - 3) + 'px',
-                top: (screenAnnotation.region.y * $scope.imageScalingRatio - 3) + 'px',
-                width: (screenAnnotation.region.width * $scope.imageScalingRatio + 6) + 'px',
-                height: (screenAnnotation.region.height * $scope.imageScalingRatio + 6) + 'px'
+                // The border is 2 px wide. Therefore we add these three pixels here.
+                left: (screenAnnotation.region.x * $scope.imageScalingRatio - 2) + 'px',
+                top: (screenAnnotation.region.y * $scope.imageScalingRatio - 2) + 'px',
+                width: (screenAnnotation.region.width * $scope.imageScalingRatio + 4) + 'px',
+                height: (screenAnnotation.region.height * $scope.imageScalingRatio + 4) + 'px',
+                cursor: 'pointer',
+                'z-index': 100
             };
         }
 
         function getIconCssStyle(screenAnnotation) {
             return {
                 left: (screenAnnotation.region.x + screenAnnotation.region.width ) * $scope.imageScalingRatio + 'px',
-                bottom: ($scope.imageNaturalHeight - screenAnnotation.region.y) * $scope.imageScalingRatio + 'px'
+                bottom: ($scope.imageNaturalHeight - screenAnnotation.region.y) * $scope.imageScalingRatio + 'px',
+                cursor: 'pointer',
+                'z-index': 90
             };
         }
 
@@ -111,11 +119,39 @@ function annotatedScreenshot() {
                 resolve: {
                     annotation: function () {
                         return annotation;
+                    },
+                    goToNextStep: function() {
+                        return $scope.toNextStepAction;
                     }
                 },
                 windowClass: 'modal-small'
             });
 
+        }
+
+        function doClickAction(annotation) {
+
+            var clickAction = annotation.clickAction || 'DEFAULT';
+            var clickActions = {
+                TO_URL: function () {
+                    $window.open(annotation.clickActionUrl);
+                },
+                TO_NEXT_STEP: function() {
+                    $scope.toNextStepAction();
+                },
+                DEFAULT: function () {
+                    openInfoPopup(annotation);
+                }
+            };
+            clickActions[clickAction]();
+        }
+
+        function getTooltipText(annotation) {
+            return ScreenAnnotationsService.getClickActionText(annotation);
+        }
+
+        function hasClickAction(annotation) {
+            return annotation.clickAction;
         }
 
     }

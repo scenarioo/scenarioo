@@ -32,7 +32,7 @@ package org.scenarioo.uitest.dummy.application;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.scenarioo.model.docu.entities.ScreenRegion;
+import org.scenarioo.model.docu.entities.screenAnnotations.ScreenRegion;
 import org.scenarioo.uitest.dummy.application.steps.DummyApplicationStepData;
 import org.scenarioo.uitest.dummy.application.steps.DummyApplicationStepDataFactory;
 import org.scenarioo.uitest.example.infrastructure.PngLoader;
