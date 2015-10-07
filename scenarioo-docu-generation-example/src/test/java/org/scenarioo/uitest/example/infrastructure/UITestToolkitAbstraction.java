@@ -38,10 +38,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.model.docu.entities.Page;
-import org.scenarioo.model.docu.entities.ScreenAnnotation;
-import org.scenarioo.model.docu.entities.ScreenAnnotationClickAction;
-import org.scenarioo.model.docu.entities.ScreenAnnotationStyle;
-import org.scenarioo.model.docu.entities.ScreenRegion;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.StepHtml;
@@ -50,6 +46,10 @@ import org.scenarioo.model.docu.entities.generic.Details;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
+import org.scenarioo.model.docu.entities.screenAnnotations.ScreenAnnotation;
+import org.scenarioo.model.docu.entities.screenAnnotations.ScreenAnnotationClickAction;
+import org.scenarioo.model.docu.entities.screenAnnotations.ScreenAnnotationStyle;
+import org.scenarioo.model.docu.entities.screenAnnotations.ScreenRegion;
 import org.scenarioo.uitest.dummy.toolkit.UITestToolkit;
 
 /**

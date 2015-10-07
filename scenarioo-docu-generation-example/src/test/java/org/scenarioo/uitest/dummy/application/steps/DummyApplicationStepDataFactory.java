@@ -38,9 +38,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.scenarioo.model.docu.entities.ScreenRegion;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
+import org.scenarioo.model.docu.entities.screenAnnotations.ScreenRegion;
 import org.scenarioo.uitest.dummy.application.ApplicationsStateData;
 import org.scenarioo.uitest.dummy.application.DummySimulationConfig;
 import org.scenarioo.uitest.dummy.application.steps.calls.Action;
