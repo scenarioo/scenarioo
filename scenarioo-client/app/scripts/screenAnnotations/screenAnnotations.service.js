@@ -22,6 +22,7 @@ angular.module('scenarioo.services').factory('ScreenAnnotationsService', functio
     service.getIconClass = getIconClass;
     service.getTitleText = getTitleText;
     service.getDescriptionSection = getDescriptionSection;
+    service.getClickActionText = getClickActionText;
     return service;
 
     function hasPopup(annotation) {
@@ -50,6 +51,21 @@ angular.module('scenarioo.services').factory('ScreenAnnotationsService', functio
         }
         else {
             return annotation.description;
+        }
+    }
+
+    function getClickActionText(annotation) {
+        if (annotation.clickActionText) {
+            return annotation.clickActionText;
+        }
+        else if (annotation.clickAction === 'TO_NEXT_STEP') {
+            return 'Go to next step';
+        }
+        else if (annotation.clickAction === 'TO_URL') {
+            return 'Open ' + annotation.clickActionUrl;
+        }
+        else {
+            return null; // no tooltip for missing click action (user can open popup for more info)
         }
     }
 

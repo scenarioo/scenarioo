@@ -5,7 +5,7 @@ var pages = require('./../webPages');
 
 var NUMBER_OF_USE_CASES = 4;
 
-scenarioo.describeUseCase('List use cases', function () {
+scenarioo.describeUseCase('List use cases', 'As soon as a branch and a build are selected, a list of use cases is shown.', function () {
 
     var homePage = new pages.homePage();
 
@@ -13,7 +13,7 @@ scenarioo.describeUseCase('List use cases', function () {
         homePage.initLocalStorage();
     });
 
-    scenarioo.describeScenario('display and filter usecases', function () {
+    scenarioo.describeScenario('Display and filter usecases', function () {
         homePage.goToPage();
         homePage.assertUseCasesShown(NUMBER_OF_USE_CASES);
         scenarioo.docuWriter.saveStep('display usecases on homepage');
@@ -29,7 +29,7 @@ scenarioo.describeUseCase('List use cases', function () {
         scenarioo.docuWriter.saveStep('other filter applied: one use case found');
     });
 
-    scenarioo.describeScenario('show and hide metadata', function () {
+    scenarioo.describeScenario('Show and hide metadata', function () {
         homePage.goToPage();
         scenarioo.docuWriter.saveStep('display the homePage, metadata shown');
         homePage.assertPageIsDisplayed();

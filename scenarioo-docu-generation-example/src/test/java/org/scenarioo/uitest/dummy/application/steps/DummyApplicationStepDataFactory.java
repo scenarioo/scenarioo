@@ -38,9 +38,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.scenarioo.model.docu.entities.ScreenRegion;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
+import org.scenarioo.model.docu.entities.screenAnnotations.ScreenRegion;
 import org.scenarioo.uitest.dummy.application.ApplicationsStateData;
 import org.scenarioo.uitest.dummy.application.DummySimulationConfig;
 import org.scenarioo.uitest.dummy.application.steps.calls.Action;
@@ -147,7 +147,7 @@ public class DummyApplicationStepDataFactory {
 		// create TECHNICAL_ONE_PAGE_CONFIG step data:
 		startConfig(TECHNICAL_ONE_PAGE_CONFIG).startUrl("http://www.wikipedia.org/technical-one-page-scenario");
 		title("Wikipedia Suche").pageName("specialPageWithOnlyOneVariant.jsp").callTreeStart();
-		createStep("specialDummyPage");
+		createSteps(4, "specialDummyPage");
 		
 		return steps;
 		
@@ -166,6 +166,8 @@ public class DummyApplicationStepDataFactory {
 		elementRegions.put("linkWithText=42 (number)", new ScreenRegion(530, 168, 72, 20));
 		elementRegions.put("linkWithText=42 - The answer to everything", new ScreenRegion(472, 244, 410, 20));
 		elementRegions.put("linkWithText=Espanol", new ScreenRegion(30, 755, 50, 14));
+		elementRegions.put("linkWithText=dummy-next-link-not-visible-on-screenshot",
+				new ScreenRegion(1050, 844, 120, 28));
 
 		// Later here: some of this elements might be placed different for some special steps dependent on the passed
 		// stepName
@@ -272,6 +274,15 @@ public class DummyApplicationStepDataFactory {
 		return this;
 	}
 	
+	/**
+	 * Helper method for producing dummy application data for multiple steps with same screenshot and metadata
+	 */
+	private void createSteps(final int numberOfSteps, final String stepNameForScreenshot) {
+		for (int i = 0; i < numberOfSteps; i++) {
+			createStep(stepNameForScreenshot);
+		}
+	}
+
 	private void createStep(final String stepName) {
 		DummyApplicationStepData step = new DummyApplicationStepData();
 		step.setBrowserUrl(browserUrl);

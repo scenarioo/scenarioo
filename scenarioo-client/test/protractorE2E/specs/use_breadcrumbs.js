@@ -4,7 +4,7 @@ var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
 
-scenarioo.describeUseCase('Use breadcrumbs', function () {
+scenarioo.describeUseCase('Use breadcrumbs', 'Breadcrumbs help navigating Scenarioo. They are used to navigate back to a use case or a scenario from a more detailed page.', function () {
 
     var homePage = new pages.homePage();
     var useCasePage = new pages.usecasePage();
@@ -15,7 +15,7 @@ scenarioo.describeUseCase('Use breadcrumbs', function () {
         new pages.homePage().initLocalStorage();
     });
 
-    scenarioo.describeScenario('Navigate to the Home Page, filter for one usecase select scenario click on breadcrumb', function () {
+    scenarioo.describeScenario('Navigate upwards', 'Navigate to the Home Page, filter for one use case, select scenario, click on breadcrumb', function () {
             homePage.goToPage();
             scenarioo.docuWriter.saveStep('Display the homePage');
 
@@ -40,7 +40,7 @@ scenarioo.describeUseCase('Use breadcrumbs', function () {
         }
     );
 
-    scenarioo.describeScenario('Navigate to scenario and test for tooltip', function () {
+    scenarioo.describeScenario('Tooltip in breadcrumbs', 'Navigate to scenario and test for tooltip', function () {
             stepPage.goToPage('/step/Find%20Page/find_page_with_text_on_page_from_multiple_results/searchResults.jsp/0/0');
             scenarioo.docuWriter.saveStep('Display steps and pages');
 
