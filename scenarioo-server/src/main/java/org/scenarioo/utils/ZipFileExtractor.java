@@ -19,6 +19,10 @@ public class ZipFileExtractor {
 		public ZipFileExtractionException(final String message, final Exception e) {
 			super(message, e);
 		}
+
+		public ZipFileExtractionException(final String message) {
+			super(message);
+		}
 	}
 
 	/**
@@ -61,6 +65,9 @@ public class ZipFileExtractor {
 	}
 
 	private static ZipFile getZipFile(final File zipFileToExtract) throws ZipFileExtractionException {
+		if (!zipFileToExtract.exists()) {
+			throw new ZipFileExtractionException("Zip file does not exist " + zipFileToExtract);
+		}
 		ZipFile zipFile;
 		try {
 			zipFile = new ZipFile(zipFileToExtract);

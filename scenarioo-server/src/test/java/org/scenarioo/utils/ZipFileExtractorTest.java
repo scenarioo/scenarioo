@@ -5,20 +5,24 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
-import org.junit.Ignore;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.scenarioo.utils.ZipFileExtractor.ZipFileExtractionException;
 
-// TODO #424 Fix unit tests
-@Ignore
 public class ZipFileExtractorTest {
 
-	private final File currentFolder = new File(this.getClass().getResource(".").getPath());
-	private final File targetFolder = new File(currentFolder, "extractedZipFile");
+	private static File currentFolder = new File(ZipFileExtractorTest.class.getResource(".").getPath());
+	private static File targetFolder = new File(currentFolder, "extractedZipFile");
+	private static File zipFile;
+
+	@BeforeClass
+	public static void setupClass() {
+		zipFile = TestResourceFile.getResourceFile("org/scenarioo/utils/ZipFileExtractorTestData.zip");
+		Assert.assertTrue(zipFile.exists());
+	}
 
 	@Test
 	public void extractFile_withFileThatExists_successful() throws IOException, ZipFileExtractionException {
-		File zipFile = new File(currentFolder, "ZipFileExtractorTestData.zip");
 		File extractedFolder = new File(targetFolder, "aFolder");
 		FileUtils.deleteDirectory(extractedFolder);
 		Assert.assertTrue(!extractedFolder.exists());
@@ -36,14 +40,13 @@ public class ZipFileExtractorTest {
 			ZipFileExtractor.extractFile(zipFile, targetFolder);
 			Assert.fail();
 		} catch (ZipFileExtractionException e) {
-			Assert.assertEquals("Error while reading ZIP file.", e.getMessage());
+			Assert.assertTrue(e.getMessage().startsWith("Zip file does not exist "));
 		}
 	}
 
 	@Test
 	public void extractFile_andTargetFolderExistsWithExistingFile_successfulAndExistingFilesAreRemoved()
 			throws IOException, ZipFileExtractionException {
-		File zipFile = new File(currentFolder, "ZipFileExtractorTestData.zip");
 		File extractedFolder = new File(targetFolder, "aFolder");
 		File existingFileInTargetFolder = new File(extractedFolder, "existingFile.txt");
 		givenTargetFolderWithExistingFile(extractedFolder, existingFileInTargetFolder);
