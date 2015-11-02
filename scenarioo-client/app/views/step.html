@@ -85,13 +85,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <button ng-click="goToPreviousVariant()" class="btn btn-default" id="prevPageVariantBtn" ng-disabled="isFirstPageVariantStep()">
                 <i class="icon-with-padding icon-large icon-angle-up" tooltip="Previous variant (potentially in other scenario) [Ctrl+Up]" tooltip-placement="bottom"></i>
             </button>
-            <button class="btn btn-default btn-no-hover">
+            <span class="btn btn-default btn-no-hover">
                 <span tooltip="click here to see all page variants" tooltip-placement="bottom" id="pageVariantIndicator">
                     <a ng-href="#/object/page/{{pageName}}" id="allPageVariants">
                         Page-Variant {{stepNavigation.pageVariantIndex + 1}} of {{stepNavigation.pageVariantsCount}}
                     </a>
                 </span>
-            </button>
+            </span>
             <button ng-click="goToNextVariant()" class="btn btn-default" id="nextPageVariantBtn" ng-disabled="isLastPageVariantStep()">
                 <i class="icon-with-padding icon-large icon-angle-down" tooltip="Next variant (potentially in other scenario) [Ctrl+Down]" tooltip-placement="bottom"></i>
             </button>
