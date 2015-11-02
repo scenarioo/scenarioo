@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('UseCaseCtrl', UseCaseCtrl);
 
-function UseCaseCtrl($filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild,
+function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild,
                      LabelConfigurationsResource) {
 
     var vm = this;
@@ -29,6 +29,7 @@ function UseCaseCtrl($filter, $routeParams, $location, ScenarioResource, Config,
             reverse: false
         }
     };
+    $scope.table = vm.table; // expose "table" onto controller scope. is used at the moment by "sortableColumn" directive.
     vm.propertiesToShow = [];
     vm.labelConfigurations = {};
     vm.useCase = {};
