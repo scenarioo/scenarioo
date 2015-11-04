@@ -84,7 +84,7 @@ function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource,
                 scenarioName: scenarioName
             },
             function onSuccess(scenarioResult) {
-                $location.path('/step/' + encodeURIComponent(useCaseName) + '/' + encodeURIComponent(scenarioName) + '/' + encodeURIComponent(scenarioResult.pagesAndSteps[0].page.name) + '/0/0');
+                $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
             }
         );
     }
