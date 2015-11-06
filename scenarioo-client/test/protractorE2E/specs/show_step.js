@@ -22,7 +22,7 @@ scenarioo.describeUseCase('Show step', 'Show a single step of a scenario. Includ
         homePage.goToPage();
         scenarioo.docuWriter.saveStep('Display home page with list of use cases');
 
-        homePage.selectUseCase(2);
+        homePage.selectUseCase(1);
         scenarioo.docuWriter.saveStep('Display list of scenarios');
 
         usecasePage.selectScenario(1);
