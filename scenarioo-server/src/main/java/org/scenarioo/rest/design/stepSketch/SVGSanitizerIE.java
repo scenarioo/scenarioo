@@ -57,7 +57,8 @@ public class SVGSanitizerIE {
 	 * Removes the NS1 declarations that IE introduces.
 	 */
 	private static String removeNS1(String svg){
-		svg = svg.replaceAll("[^ ]*NS1[^ ]* ", "");
+		svg = svg.replaceAll("NS1:xmlns:xlink[^ ]* ", "");
+		svg = svg.replaceAll("xmlns:NS1=[^ ]* ", "");
 		return svg;
 	}
 }

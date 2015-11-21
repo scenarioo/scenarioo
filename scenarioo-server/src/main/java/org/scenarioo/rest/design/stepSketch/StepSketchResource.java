@@ -123,6 +123,7 @@ public class StepSketchResource {
 		}
 		final StepSketch existingSketchStep = reader.loadSketchStep(branchName, issueId, scenarioSketchId,
 				sketchStepName);
+		existingSketchStep.setSketch(SVGSanitizerIE.sanitize(existingSketchStep.getSketch()));
 		existingSketchStep.update(updatedSketchStep);
 		existingSketchStep.setDateModified(System.currentTimeMillis());
 		// files.updateSketchStep(branchName, existingSketchStep);
