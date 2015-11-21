@@ -17,9 +17,10 @@
 --><!-- The contents of this file will be loaded for each web application -->
 
 <Context>
-	
-	<Parameter name="configurationDirectory" value="/home/ngUSD/.scenarioo" override="true" description="Test to check this context.xml file is being read."/>  
-    
+
+    <!-- Uncomment this if you want to configure a config file directory other than ~/.scenarioo -->
+	<!-- <Parameter name="configurationDirectory" value="/home/scenarioo/.scenarioo" override="true" description="Directory where Scenarioo looks for the config.xml file"/> -->
+
     <!-- Default set of monitored resources -->
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
 
