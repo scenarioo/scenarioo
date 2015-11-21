@@ -28,10 +28,12 @@ public class StepNavigation {
 	private int pageVariantsCount = -1;
 	private int pageVariantScenariosCount = -1;
 
+	private NeighborStep firstStep;
+	private NeighborStep previousPage;
 	private NeighborStep previousStep;
 	private NeighborStep nextStep;
-	private NeighborStep previousPage;
 	private NeighborStep nextPage;
+	private NeighborStep lastStep;
 
 	public String getPageName() {
 		return pageName;
@@ -210,6 +212,22 @@ public class StepNavigation {
 
 	public void setNextPage(final NeighborStep nextPage) {
 		this.nextPage = nextPage;
+	}
+
+	public NeighborStep getFirstStep() {
+		return firstStep;
+	}
+
+	public void setFirstStep(final NeighborStep firstStep) {
+		this.firstStep = firstStep;
+	}
+
+	public NeighborStep getLastStep() {
+		return lastStep;
+	}
+
+	public void setLastStep(final NeighborStep lastStep) {
+		this.lastStep = lastStep;
 	}
 
 }
