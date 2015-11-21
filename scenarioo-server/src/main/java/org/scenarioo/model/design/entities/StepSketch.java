@@ -34,6 +34,7 @@ public class StepSketch implements Serializable {
 	// private Page page;
 	private int sketchStepName;
 	private String sketchFileName; // todo
+	private String sketch;
 	private int nextSketchStepRef; // (index) todo
 	private String usecaseContextName;
 	private String usecaseContextLink;
@@ -59,12 +60,6 @@ public class StepSketch implements Serializable {
 	 * }
 	 */
 
-	/**
-	 * Information about the page this sketchStep belongs to (usually there are several sketchSteps that show the same
-	 * UI page).
-	 *
-	 * This information is optional in case you do not have a page concept in your application.
-	 */
 	/*
 	 * public void setPage(final Page page) {
 	 * this.page = page;
@@ -72,11 +67,11 @@ public class StepSketch implements Serializable {
 	 */
 
 	public String getSketch() {
-		return sketchFileName;
+		return sketch;
 	}
 
 	public void setSketch(final String sketch) {
-		this.sketchFileName = sketch;
+		this.sketch = sketch;
 	}
 
 	public String getSketchFileName() {
