@@ -22,10 +22,10 @@ var exportsConfig = {
     framework: 'jasmine',
 
     // The location of the selenium standalone server .jar file.
-    seleniumServerJar: './node_modules/gulp-protractor/node_modules/protractor/selenium/selenium-server-standalone-2.45.0.jar',
+    seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.47.1.jar',
     // find its own unused port.
     seleniumPort: null,
-    chromeDriver: './node_modules/gulp-protractor/node_modules/protractor/selenium/chromedriver',
+    chromeDriver: './node_modules/protractor/selenium/chromedriver',
     seleniumArgs: [],
 
     // Timeouts: https://angular.github.io/protractor/#/timeouts
