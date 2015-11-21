@@ -18,7 +18,7 @@
             </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="labelConfiguration in labelConfigurations">
+                <tr ng-repeat="labelConfiguration in labelConfigurations" id="label-configuration-{{$index}}">
                     <td>
                         <input type="text" class="ng-pristine ng-valid form-control" ng-model="labelConfiguration.name" name="labelName" ng-change="labelNameChanged()"/>
                     </td>
