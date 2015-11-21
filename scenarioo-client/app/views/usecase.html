@@ -41,20 +41,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <thead>
             <tr>
                 <th sc-sortable-column="status">Status</th>
-                <th sc-sortable-column="name">Scenario name</th>
+                <th sc-sortable-column="scenario.name">Scenario name</th>
                 <th>Actions</th>
                 <th>Description</th>
                 <th ng-repeat="property in propertiesToShow" sc-sortable-column="details.properties.{{property}}">
                     {{property | scHumanReadable}}
                 </th>
-                <th sc-sortable-column="calculatedData.numberOfSteps"># Steps</th>
+                <th sc-sortable-column="numberOfSteps"># Steps</th>
             </tr>
             </thead>
             <tbody>
             <tr ng-class="{'selected':$index==selectedRowIndex}"
                 ng-click="useCase.goToScenario(useCase.useCase.name, scenarioSummary.scenario.name)"
                 class="link"
-                ng-repeat="scenarioSummary in filtered=(useCase.scenarios | scFilterArray: useCase.table.search.searchTerm | orderBy: useCase.table.sort.column: useCase.table.sort.reverse)">
+                ng-repeat="scenarioSummary in filtered=(useCase.scenarios | scFilterArray: useCase.table.search.searchTerm | orderBy:useCase.table.sort.column:useCase.table.sort.reverse)">
                 <td>
                     <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{scenarioSummary.scenario.status}}</span>
                 </td>

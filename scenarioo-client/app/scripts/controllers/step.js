@@ -171,11 +171,11 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             $scope.goToNextPage();
         });
         GlobalHotkeysService.registerPageHotkeyCode('ctrl+36', function () {
-            // control + Home
+            // control + HOME
             $scope.goToFirstStep();
         });
         GlobalHotkeysService.registerPageHotkeyCode('ctrl+35', function () {
-            // control + down arrow
+            // control + END
             $scope.goToLastStep();
         });
         GlobalHotkeysService.registerPageHotkeyCode('ctrl+38', function () {
@@ -232,13 +232,17 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         };
 
         $scope.goToFirstStep = function () {
-            // TODO
-            $scope.go('firstStep', 0, 0);
+            if (!$scope.stepNavigation || !$scope.stepNavigation.firstStep) {
+                return;
+            }
+            $scope.go($scope.stepNavigation.firstStep);
         };
 
         $scope.goToLastStep = function () {
-            // TODO
-            $scope.go('lastStep', 1, 1);
+            if (!$scope.stepNavigation || !$scope.stepNavigation.lastStep) {
+                return;
+            }
+            $scope.go($scope.stepNavigation.lastStep);
         };
 
         $scope.isFirstPageVariantStep = function () {
@@ -246,6 +250,9 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         };
 
         $scope.goToPreviousVariant = function () {
+            if($scope.isFirstPageVariantStep()) {
+                return;
+            }
             $scope.go($scope.stepNavigation.previousStepVariant);
         };
 
@@ -254,6 +261,9 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         };
 
         $scope.goToNextVariant = function () {
+            if($scope.isLastPageVariantStep()) {
+                return;
+            }
             $scope.go($scope.stepNavigation.nextStepVariant);
         };
 

@@ -50,12 +50,12 @@ configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-exa
 	    mavenLocal()
 	}
 
-	ext.scenariooApiVersion = '2.0.2-SNAPSHOT'
+	ext.scenariooApiVersion = '2.1.0'
 
 	dependencies {
 		compile 'org.scenarioo:scenarioo-java:' + ext.scenariooApiVersion
 	    compile 'org.apache.commons:commons-lang3:3.0.1'
-	    compile 'commons-io:commons-io:1.3.2'
+	    compile 'commons-io:commons-io:2.4'
 	    compile 'commons-codec:commons-codec:1.2'
 	    compile 'log4j:log4j:1.2.17'
 	    testCompile 'junit:junit:4.11'

@@ -111,13 +111,19 @@ public class StepsAndPagesAggregator {
 		
 	}
 	
-	private void calculateNavigationAndPageVariantsData(
-			final List<StepLink> stepLinks) {
+	private void calculateNavigationAndPageVariantsData(final List<StepLink> stepLinks) {
+		if (stepLinks.size() == 0) {
+			return;
+		}
+
+		NeighborStep firstStep = new NeighborStep(stepLinks.get(0));
+		NeighborStep lastStep = new NeighborStep(stepLinks.get(stepLinks.size() - 1));
+
 		for (int i = 0; i < stepLinks.size(); i++) {
 			calculateNavigationAndPageVariantData(
-					getPreviousPage(stepLinks, i),
+					firstStep, getPreviousPage(stepLinks, i),
 					getPreviousStep(stepLinks, i), stepLinks.get(i),
-					getNextStep(stepLinks, i), getNextPage(stepLinks, i));
+					getNextStep(stepLinks, i), getNextPage(stepLinks, i), lastStep);
 		}
 	}
 	
@@ -195,9 +201,10 @@ public class StepsAndPagesAggregator {
 	 * navigation data.
 	 */
 	private void calculateNavigationAndPageVariantData(
+			final NeighborStep firstStep,
 			final NeighborStep previousPage, final NeighborStep previousStep,
 			final StepLink currentStep, final NeighborStep nextStep,
-			final NeighborStep nextPage) {
+			final NeighborStep nextPage, final NeighborStep lastStep) {
 		
 		PageVariantNavigationData pageVariant = getPageVariantNavigationData(currentStep);
 		
@@ -229,12 +236,13 @@ public class StepsAndPagesAggregator {
 		stepNavigation.setPageIndex(currentStep.getPageIndex());
 		stepNavigation.setStepIndex(currentStep.getStepIndex());
 		stepNavigation.setPageOccurrence(currentStep.getPageOccurrence());
-		stepNavigation.setStepInPageOccurrence(currentStep
-				.getStepInPageOccurrence());
+		stepNavigation.setStepInPageOccurrence(currentStep.getStepInPageOccurrence());
+		stepNavigation.setFirstStep(firstStep);
+		stepNavigation.setPreviousPage(previousPage);
 		stepNavigation.setPreviousStep(previousStep);
 		stepNavigation.setNextStep(nextStep);
-		stepNavigation.setPreviousPage(previousPage);
 		stepNavigation.setNextPage(nextPage);
+		stepNavigation.setLastStep(lastStep);
 		if (pageVariant != null) {
 			stepNavigation.setPreviousStepVariant(previousPageVariantStep);
 			stepNavigation

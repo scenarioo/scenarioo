@@ -52,7 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     <span ng-show="showAllStepsForPage($parent.$parent.$index)" class="icon-minus-sign link right"></span>
                                 </span>
                             </span>
-                            Page: {{page.page.name}}
+                            Page {{$parent.$index + 1}}: {{page.page.name}} ({{page.steps.length}} Steps)
                         </span>
                         <span ng-if="$index != 0">&nbsp;</span>
                     </h2>

@@ -18,6 +18,7 @@
         "gulp-less": "^3.0.3",
         "gulp-ng-annotate": "^1.0.0",
         "gulp-protractor": "^1.0.0",
+        "protractor": "^2.0.0",
         "gulp-uglify": "^1.2.0",
         "gulp-usemin": "^0.3.11",
         "gulp-util": "^3.0.5",
