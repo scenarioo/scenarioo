@@ -97,6 +97,7 @@ public class StepSketchResource {
 		sketchStep.setDateCreated(System.currentTimeMillis());
 		sketchStep.setDateModified(System.currentTimeMillis());
 		files.writeSketchStepToFile(branchName, issueId, scenarioSketchId, sketchStep);
+		sketchStep.setSketch(SVGSanitizerIE.sanitize(sketchStep.getSketch()));
 		files.writeSVGToFile(branchName, issueId, scenarioSketchId, sketchStep);
 		if (originalScreenshot != null) {
 			files.copyOriginalScreenshot(originalScreenshot, branchName, issueId, scenarioSketchId);
