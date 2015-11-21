@@ -95,7 +95,7 @@ angular.module('scenarioo.directives').directive('scNavigatorTable', function ($
                     return;
                 }
 
-                if (typeof callbackFunction === 'function') {
+                if (typeof scope.scNavigatorTableHit === 'function') {
                     scope.scNavigatorTableHit.call(parentScope, currentCollection[parentScope.selectedRowIndex]);
                 }
             }

@@ -24,6 +24,7 @@
 
 .link-no-hover:hover {
   text-decoration: none;
+  cursor: pointer;
 }
 
 h1, h2, h3, h4 {
@@ -288,11 +289,20 @@ div.sc-screenshot-scenario {
 span.sc-screenshot-annotation {
   position: absolute;
   display: block;
-  white-space: nowrap;
+  white-space: nowrap; /** currently ellipsis for overflow only works for single line texts, see following hack for making it work for multilines: http://www.mobify.com/blog/multiline-ellipsis-in-pure-css/ **/
   overflow: hidden;
   text-overflow: ellipsis;
-  border: 3px rgb(255, 214, 51) solid;
-  background-color: rgba(255, 214, 51,0.5);
+  border: 2px rgb(255, 214, 51) solid;
+  background-color: rgba(255, 214, 51, 0.6);
+}
+
+span.sc-screenshot-annotation-text {
+  margin: 0px 1px 0px 1px;
+  color: #421313;
+}
+
+span.sc-screenshot-annotation-with-action {
+  border: 2px rgb(64, 64, 255) solid;
 }
 
 .sc-screnshot-annotation-icon {
@@ -301,7 +311,6 @@ span.sc-screenshot-annotation {
   border: 3px rgb(255, 214, 51) solid;
   background-color: rgba(255, 214, 51, 1);
 }
-
 
 /** Configuration */
 .configuration textarea {

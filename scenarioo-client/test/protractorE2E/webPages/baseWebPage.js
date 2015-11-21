@@ -21,12 +21,11 @@ BaseWebPage.prototype.clickBrowserBackButton = function () {
 };
 
 BaseWebPage.prototype.assertElementIsEnabled = function (elementId) {
-    var htmlElement = this.stepNavigation.element(by.id(elementId));
-    expect(htmlElement.isEnabled());
+    expect(element(by.id(elementId)).getAttribute('disabled')).toBeFalsy();
 };
 
 BaseWebPage.prototype.assertElementIsDisabled = function (elementId) {
-    expect(this.stepNavigation.element(by.id(elementId)).isEnabled()).toBeFalsy();
+    expect(element(by.id(elementId)).getAttribute('disabled')).toBeTruthy();
 };
 
 BaseWebPage.prototype.clickElementById = function (elementId) {

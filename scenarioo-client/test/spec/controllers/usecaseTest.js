@@ -42,12 +42,12 @@ describe('Controller :: useCase', function () {
             localStorageService.clearAll();
 
             controller = $controller('UseCaseCtrl', {
+                $scope: $scope,
                 $routeParams: routeParams,
                 Config: ConfigMock,
                 ScenarioResource: ScenarioResource,
                 RelatedIssueResource: RelatedIssueResource,
-                SelectedBranchAndBuild: SelectedBranchAndBuild,
-                $scope: $scope
+                SelectedBranchAndBuild: SelectedBranchAndBuild
             });
         }
     ));

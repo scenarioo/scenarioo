@@ -31,7 +31,7 @@ package org.scenarioo.uitest.dummy.application.steps;
 
 import java.util.Map;
 
-import org.scenarioo.model.docu.entities.ScreenRegion;
+import org.scenarioo.model.docu.entities.screenAnnotations.ScreenRegion;
 import org.scenarioo.uitest.dummy.application.ApplicationsStateData;
 import org.scenarioo.uitest.dummy.application.DummySimulationConfig;
 

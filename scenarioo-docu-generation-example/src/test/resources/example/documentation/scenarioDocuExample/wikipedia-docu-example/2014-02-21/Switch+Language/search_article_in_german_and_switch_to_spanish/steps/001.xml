@@ -6961,4 +6961,69 @@
             </entry>
         </details>
     </metadata>
+    <screenAnnotations>
+        <screenAnnotation>
+            <region>
+                <x>382</x>
+                <y>462</y>
+                <width>164</width>
+                <height>26</height>
+            </region>
+            <style>KEYBOARD</style>
+            <screenText>AngularJS</screenText>
+            <title>Typed 'AngularJS'</title>
+            <description>User entered text 'AngularJS'.</description>
+            <details>
+                <entry>
+                    <key>element</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectDescription">
+                        <name>searchField</name>
+                        <type>uiElement</type>
+                        <details>
+                            <entry>
+<key>elementId</key>
+<value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">searchField</value>
+                            </entry>
+                            <entry>
+<key>info</key>
+<value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">this is just an example to demonstrate that also screen annotations can have objects as detail data attached, e.g. the description of a ui element that was interacted with</value>
+                            </entry>
+                        </details>
+                    </value>
+                </entry>
+            </details>
+        </screenAnnotation>
+        <screenAnnotation>
+            <region>
+                <x>758</x>
+                <y>462</y>
+                <width>55</width>
+                <height>28</height>
+            </region>
+            <style>CLICK</style>
+            <screenText></screenText>
+            <title>Clicked Button</title>
+            <description>User clicked on button.</description>
+            <details>
+                <entry>
+                    <key>element</key>
+                    <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="objectDescription">
+                        <name>searchButton</name>
+                        <type>uiElement</type>
+                        <details>
+                            <entry>
+<key>elementId</key>
+<value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">searchButton</value>
+                            </entry>
+                            <entry>
+<key>info</key>
+<value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">this is just an example to demonstrate that also screen annotations can have objects as detail data attached, e.g. the description of a ui element that was interacted with</value>
+                            </entry>
+                        </details>
+                    </value>
+                </entry>
+            </details>
+            <clickAction>TO_NEXT_STEP</clickAction>
+        </screenAnnotation>
+    </screenAnnotations>
 </step>

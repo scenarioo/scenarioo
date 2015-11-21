@@ -21,39 +21,52 @@ angular
 
 function screenAnnotationsButton(localStorageService, GlobalHotkeysService) {
 
-    var SCREEN_ANNOTATIONS_VISIBLE = 'scenarioo-screenAnnotationsVisible';
-
-    function initMetadataVisibleFromLocalStorage(scope) {
-        var metadataVisible = localStorageService.get(SCREEN_ANNOTATIONS_VISIBLE);
-        if (metadataVisible === 'true') {
-            scope.linkingVariable = true;
-        }
-        else if (metadataVisible === 'false') {
-            scope.linkingVariable = false;
-        } else {
-            // default
-            scope.linkingVariable = true;
-        }
-    }
+    var SCREEN_ANNOTATIONS_VISIBLE_KEY = 'scenarioo-screenAnnotationsVisible';
 
     return {
         restrict: 'E',
         scope: {
-            linkingVariable: '='
+            screenAnnotations: '=',
+            visibilityToggle: '='
         },
         templateUrl: 'template/screenAnnotationsButton.html',
-        link: function(scope) {
-            GlobalHotkeysService.registerGlobalHotkey('a', function () {
-                scope.toggleShowingMetadata();
-            });
-        },
-        controller: function($scope) {
-            initMetadataVisibleFromLocalStorage($scope, $scope.localStorageKey);
-            $scope.toggleShowingMetadata = function() {
-                $scope.linkingVariable = !$scope.linkingVariable;
-                localStorageService.set(SCREEN_ANNOTATIONS_VISIBLE, '' + $scope.linkingVariable);
-            };
-        }
+        controller: ScreenAnnotationsButtonController,
+        controllerAs: 'screenAnnotationsButton'
     };
+
+    function ScreenAnnotationsButtonController($scope) {
+
+        // we should use 'bindToController' here, as soon we upgrade to angular 1.3 or upwards (instead of $scope)
+
+        var vm = this;
+        vm.toggleAnnotationsVisible = toggleAnnotationsVisible;
+
+        activate();
+
+        function activate() {
+            initAnnotationsVisibleFromLocalStorage();
+            GlobalHotkeysService.registerGlobalHotkey('a', vm.toggleAnnotationsVisible);
+        }
+
+        function initAnnotationsVisibleFromLocalStorage() {
+            var annotationsVisible = localStorageService.get(SCREEN_ANNOTATIONS_VISIBLE_KEY);
+            if (annotationsVisible === 'true') {
+                $scope.visibilityToggle = true;
+            }
+            else if (annotationsVisible === 'false') {
+                $scope.visibilityToggle = false;
+            } else {
+                // default
+                $scope.visibilityToggle = true;
+            }
+        }
+
+        function toggleAnnotationsVisible() {
+            $scope.visibilityToggle = !$scope.visibilityToggle;
+            localStorageService.set(SCREEN_ANNOTATIONS_VISIBLE_KEY, '' + $scope.visibilityToggle);
+        }
+
+    }
+
 
 }

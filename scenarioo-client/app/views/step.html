@@ -48,26 +48,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <!-- Pages navigation -->
         <div class="btn-group">
-            <button ng-click="goToPreviousPage()" class="btn btn-default" ng-disabled="isFirstPage()" id="prevPageBtn">
+            <span ng-click="goToPreviousPage()" class="btn btn-default" ng-disabled="isFirstPage()" id="prevPageBtn">
                 <i class="icon-with-padding icon-large icon-double-angle-left" tooltip="Previous Page [Ctrl+Left]" tooltip-placement="bottom"></i>
-            </button>
-            <button class="btn btn-default btn-no-hover"><span tooltip="of all pages in this scenario" tooltip-placement="bottom">Page {{getCurrentPageIndexForDisplay()}} of {{stepStatistics.totalNumberOfPagesInScenario}}</span></button>
-            <button ng-click="goToNextPage()" class="btn btn-default" ng-disabled="isLastPage()" id="nextPageBtn">
+            </span>
+            <span class="btn btn-default btn-no-hover"><span tooltip="of all pages in this scenario" tooltip-placement="bottom">Page {{getCurrentPageIndexForDisplay()}} of {{stepStatistics.totalNumberOfPagesInScenario}}</span></span>
+            <span ng-click="goToNextPage()" class="btn btn-default" ng-disabled="isLastPage()" id="nextPageBtn">
                 <i class="icon-with-padding icon-large icon-double-angle-right" tooltip="Next Page [Ctrl+Right]" tooltip-placement="bottom"></i>
-            </button>
+            </span>
         </div>
 
         &nbsp;
 
         <!-- Steps navigation -->
         <div class="btn-group">
-            <button ng-click="goToPreviousStep()" class="btn btn-default" ng-disabled="isFirstStep()" id="prevStepBtn">
+            <span ng-click="goToPreviousStep()" class="btn btn-default" ng-disabled="isFirstStep()" id="prevStepBtn">
                 <i class="icon-with-padding icon-large icon-angle-left" tooltip="Previous Step [Left]" tooltip-placement="bottom"></i>
-            </button>
-            <button class="btn btn-default btn-no-hover"><span tooltip="of all steps in this scenario" tooltip-placement="bottom">Step {{getCurrentStepIndexForDisplay()}} of {{stepStatistics.totalNumberOfStepsInScenario}}</span></button>
-            <button ng-click="goToNextStep()" class="btn btn-default" ng-disabled="isLastStep()" id="nextStepBtn">
+            </span>
+            <span class="btn btn-default btn-no-hover"><span tooltip="of all steps in this scenario" tooltip-placement="bottom">Step {{getCurrentStepIndexForDisplay()}} of {{stepStatistics.totalNumberOfStepsInScenario}}</span></span>
+            <span ng-click="goToNextStep()" class="btn btn-default" ng-disabled="isLastStep()" id="nextStepBtn">
                 <i class="icon-with-padding icon-large icon-angle-right" tooltip="Next Step [Right]" tooltip-placement="bottom"></i>
-            </button>
+            </span>
         </div>
 
         &nbsp;
@@ -82,25 +82,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <!-- Page variants navigation -->
     <div class="col-lg-3">
         <div class="btn-group">
-            <button ng-click="goToPreviousVariant()" class="btn btn-default" id="prevPageVariantBtn" ng-disabled="isFirstPageVariantStep()">
+            <span ng-click="goToPreviousVariant()" class="btn btn-default" id="prevPageVariantBtn" ng-disabled="isFirstPageVariantStep()">
                 <i class="icon-with-padding icon-large icon-angle-up" tooltip="Previous variant (potentially in other scenario) [Ctrl+Up]" tooltip-placement="bottom"></i>
-            </button>
-            <button class="btn btn-default btn-no-hover">
+            </span>
+            <span class="btn btn-default btn-no-hover">
                 <span tooltip="click here to see all page variants" tooltip-placement="bottom" id="pageVariantIndicator">
                     <a ng-href="#/object/page/{{pageName}}" id="allPageVariants">
                         Page-Variant {{stepNavigation.pageVariantIndex + 1}} of {{stepNavigation.pageVariantsCount}}
                     </a>
                 </span>
-            </button>
-            <button ng-click="goToNextVariant()" class="btn btn-default" id="nextPageVariantBtn" ng-disabled="isLastPageVariantStep()">
+            </span>
+            <span ng-click="goToNextVariant()" class="btn btn-default" id="nextPageVariantBtn" ng-disabled="isLastPageVariantStep()">
                 <i class="icon-with-padding icon-large icon-angle-down" tooltip="Next variant (potentially in other scenario) [Ctrl+Down]" tooltip-placement="bottom"></i>
-            </button>
+            </span>
         </div>
     </div>
 
     <div class="col-lg-4">
         <div class="pull-right">
-            <sc-screen-annotations-button linking-variable="showScreenAnnotations"></sc-screen-annotations-button>
+            <sc-screen-annotations-button visibility-toggle="showScreenAnnotations" screen-annotations="step.screenAnnotations"></sc-screen-annotations-button>
             <sc-meta-data-button linking-variable="stepShowMetadata" local-storage-key="step" ></sc-meta-data-button>
         </div>
     </div>
@@ -111,7 +111,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div>
         <tabset class="step-panes">
             <tab heading="Screenshot">
-                <sc-annotated-screenshot screen-annotations="step.screenAnnotations" get-screen-shot-url="getScreenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
+                <sc-annotated-screenshot screen-annotations="step.screenAnnotations" get-screen-shot-url="getScreenShotUrl" visibility-toggle="showScreenAnnotations" to-next-step-action="goToNextStep()"></sc-annotated-screenshot>
             </tab>
             <tab heading="HTML">
                 <pre ng-bind="formattedHtml">
