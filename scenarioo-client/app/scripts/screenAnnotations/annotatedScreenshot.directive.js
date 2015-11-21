@@ -124,7 +124,7 @@ function annotatedScreenshot() {
                         return $scope.toNextStepAction;
                     }
                 },
-                windowClass: 'modal-small'
+                windowClass: 'modal-small screen-annotation-popup'
             });
 
         }

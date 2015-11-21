@@ -19,10 +19,9 @@ function LabelConfigurationsPage(overridePath) {
 util.inherits(LabelConfigurationsPage, BaseWebPage);
 
 LabelConfigurationsPage.prototype.assertNumConfigurations = function(expectedCount) {
-    this.labelConfigurationsTable.all(by.css('tbody tr')).then(function (elements) {
-        // -1 due to empty row
-        expect(elements.length - 1).toBe(expectedCount);
-    });
+    // There is always one row more than the expectedCount, because there's always an empty row
+    expect(element(by.id('label-configuration-' + expectedCount)).isDisplayed()).toBeTruthy();
+    expect(element(by.id('label-configuration-' + (expectedCount + 1))).isPresent()).toBeFalsy();
 };
 
 LabelConfigurationsPage.prototype.addLabelConfiguration = function(labelName, colorIndex) {

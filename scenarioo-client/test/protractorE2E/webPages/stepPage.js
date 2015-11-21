@@ -148,13 +148,30 @@ StepPage.prototype.assertNoScreenAnnotationsAreVisible = function() {
     expect(element.all(by.className('sc-screenshot-annotation')).isDisplayed()).toEqual([false, false]);
 };
 
-StepPage.prototype.assertTwoScreenAnnotationsAreVisible = function() {
-    expect(element.all(by.className('sc-screenshot-annotation')).count()).toBe(2);
-    expect(element.all(by.className('sc-screenshot-annotation')).isDisplayed()).toEqual([true, true]);
+StepPage.prototype.assertNumberOfVisibleScreenAnnotationsIs = function(expectedNumberOfScreenAnnotations) {
+    expect(element.all(by.className('sc-screenshot-annotation')).count()).toBe(expectedNumberOfScreenAnnotations);
+    element.all(by.className('sc-screenshot-annotation')).each(function(element) {
+        expect(element.isDisplayed()).toBe(true);
+    });
 };
 
 StepPage.prototype.clickShowScreenAnnotationsButton = function() {
     element(by.id('sc-showHideScreenAnnotationsButton')).click();
 };
+
+StepPage.prototype.clickNthScreenAnnotationIcon = function(indexOfIcon) {
+    element.all(by.className('sc-screnshot-annotation-icon')).get(indexOfIcon).click();
+};
+
+StepPage.prototype.assertScreenAnnotationPopupIsDisplayed = function() {
+    expect(element(by.css('.modal.screen-annotation-popup')).isDisplayed()).toBe(true);
+};
+
+StepPage.prototype.assertTitleOfAnnotationPopupIs = function(expectedTitle) {
+    element(by.className('modal-header')).getText().then(function(text) {
+        expect(text.trim()).toBe(expectedTitle);
+    });
+};
+
 
 module.exports = StepPage;
