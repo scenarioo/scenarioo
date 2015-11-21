@@ -22,7 +22,9 @@ var exportsConfig = {
     framework: 'jasmine',
 
     // The location of the selenium standalone server .jar file.
-    seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.47.1.jar',
+    // seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.47.1.jar',
+    // Do not use selenium server but instead connect directly to chrome
+    directConnect: true,
     // find its own unused port.
     seleniumPort: null,
     chromeDriver: './node_modules/protractor/selenium/chromedriver',
