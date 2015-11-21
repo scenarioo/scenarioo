@@ -24,11 +24,20 @@ public class SVGSanitizerIE {
 	private static final Logger LOGGER = Logger.getLogger(StepSketchResource.class);
 	
 	/**
-	 * Sanitize the SVG, removing the extraneous XMLNS declarations that IE introduces.
+	 * Sanitize the SVG, removing browser-specific crap.
 	 * @param svg The SVG to be sanitized as a string.
 	 * @return The sanitized SVG string.
 	 */
 	public static String sanitize(String svg){
+		svg = removeXMLNS(svg);
+		svg = removeNS1(svg);
+		return svg;
+	}
+	
+	/**
+	 * Removes the extraneous XMLNS declarations that IE introduces.
+	 */
+	private static String removeXMLNS(String svg){
 		String xmlns = "xmlns=\"http://www.w3.org/2000/svg\"";
 		int count = 0, lastIndex = 0;
 		while ((lastIndex = svg.indexOf(xmlns, lastIndex)) != -1) {
@@ -41,6 +50,14 @@ public class SVGSanitizerIE {
 		if (count > 2 || count < 1){
 			LOGGER.error("Unexpected number of xmlns declarations");
 		}
+		return svg;
+	}
+	
+	/**
+	 * Removes the NS1 declarations that IE introduces.
+	 */
+	private static String removeNS1(String svg){
+		svg = svg.replaceAll("[^ ]*NS1[^ ]* ", "");
 		return svg;
 	}
 }
