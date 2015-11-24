@@ -85,7 +85,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </sc-collapsable-panel>
 
         <sc-collapsable-panel title="Related Sketches" initially-expanded="true" ng-show="hasAnyRelatedIssues()">
-            <ul>
+            <ul  id="relatedSketches">
                 <li ng-repeat="issue in relatedIssues"><a href="" ng-click="goToIssue(issue)">{{issue.name}}</a></li>
             </ul>
 
