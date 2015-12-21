@@ -80,7 +80,6 @@ angular.module('scenarioo.controllers').controller('SketchStepCtrl', function ($
 
                 var stepParts = result.stepContextLink.split('/');
                 $scope.stepNr = parseInt(stepParts[stepParts.length - 1]);
-                console.log($scope.stepNr);
                 $scope.hasContext = function () {
                     return $scope.sketchStep.usecaseContextName.length > 0 || $scope.sketchStep.usecaseContextLink.length > 0 || $scope.sketchStep.scenarioContextName.length > 0 || $scope.sketchStep.scenarioContextLink.length > 0;
                 };
