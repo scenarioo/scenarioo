@@ -15,15 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.rest.design.issue.dto;
+package org.scenarioo.rest.sketcher.issue.dto;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.scenarioo.model.design.entities.Issue;
-import org.scenarioo.model.design.entities.ScenarioSketch;
-import org.scenarioo.model.design.entities.StepSketch;
+import org.scenarioo.model.sketcher.Issue;
+import org.scenarioo.model.sketcher.ScenarioSketch;
+import org.scenarioo.model.sketcher.StepSketch;
 
 /**
  * An issue with its scenario sketch and the issue sketch. Later we might change this so that an issue

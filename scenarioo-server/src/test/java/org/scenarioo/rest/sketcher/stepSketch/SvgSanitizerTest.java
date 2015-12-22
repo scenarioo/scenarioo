@@ -1,8 +1,9 @@
-package org.scenarioo.rest.design.stepSketch;
+package org.scenarioo.rest.sketcher.stepSketch;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.scenarioo.rest.sketcher.stepSketch.SvgSanitizer;
 
 public class SvgSanitizerTest {
 	

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.rest.design.stepSketch;
+package org.scenarioo.rest.sketcher.stepSketch;
 
 import java.io.File;
 import java.util.Date;
@@ -36,7 +36,7 @@ import org.scenarioo.api.files.ScenarioDocuFiles;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.sketcher.SketcherFiles;
 import org.scenarioo.dao.sketcher.SketcherReader;
-import org.scenarioo.model.design.entities.StepSketch;
+import org.scenarioo.model.sketcher.StepSketch;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;

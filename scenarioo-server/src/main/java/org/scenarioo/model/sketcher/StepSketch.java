@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.model.design.entities;
+package org.scenarioo.model.sketcher;
 
 import java.io.Serializable;
 import java.util.Date;

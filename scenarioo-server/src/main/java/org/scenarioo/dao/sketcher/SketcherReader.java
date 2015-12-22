@@ -23,9 +23,9 @@ import java.io.File;
 import java.util.List;
 
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
-import org.scenarioo.model.design.entities.Issue;
-import org.scenarioo.model.design.entities.ScenarioSketch;
-import org.scenarioo.model.design.entities.StepSketch;
+import org.scenarioo.model.sketcher.Issue;
+import org.scenarioo.model.sketcher.ScenarioSketch;
+import org.scenarioo.model.sketcher.StepSketch;
 
 /**
  * Gives access to the design domain files in the file system.

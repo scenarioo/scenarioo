@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.rest.design.stepSketch;
+package org.scenarioo.rest.sketcher.stepSketch;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

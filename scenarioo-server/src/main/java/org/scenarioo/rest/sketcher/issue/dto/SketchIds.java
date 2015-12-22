@@ -1,4 +1,4 @@
-package org.scenarioo.rest.design.issue.dto;
+package org.scenarioo.rest.sketcher.issue.dto;
 
 public class SketchIds {
 

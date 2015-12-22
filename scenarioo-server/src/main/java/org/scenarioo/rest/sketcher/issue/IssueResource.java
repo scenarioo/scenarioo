@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.rest.design.issue;
+package org.scenarioo.rest.sketcher.issue;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,12 +36,12 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.dao.sketcher.SketcherFiles;
 import org.scenarioo.dao.sketcher.SketcherReader;
-import org.scenarioo.model.design.entities.Issue;
+import org.scenarioo.model.sketcher.Issue;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
-import org.scenarioo.rest.design.issue.dto.IssueSummary;
-import org.scenarioo.rest.design.issue.dto.IssueWithSketch;
-import org.scenarioo.rest.design.issue.dto.SketchIds;
+import org.scenarioo.rest.sketcher.issue.dto.IssueSummary;
+import org.scenarioo.rest.sketcher.issue.dto.IssueWithSketch;
+import org.scenarioo.rest.sketcher.issue.dto.SketchIds;
 import org.scenarioo.utils.IdGenerator;
 
 @Path("/rest/branch/{branchName}/issue")

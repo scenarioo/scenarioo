@@ -1,4 +1,4 @@
-package org.scenarioo.dao.design.entities;
+package org.scenarioo.dao.sketcher;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.dao.sketcher.SketcherFiles;
-import org.scenarioo.model.design.entities.StepSketch;
+import org.scenarioo.model.sketcher.StepSketch;
 
 public class DesignFilesTest {
 
