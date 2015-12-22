@@ -17,11 +17,14 @@
 
 package org.scenarioo.rest.design.stepSketch;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.log4j.Logger;
 
-public class SVGSanitizerIE {
+public class SvgSanitizer {
 	
-	private static final Logger LOGGER = Logger.getLogger(StepSketchResource.class);
+	private static final Logger LOGGER = Logger.getLogger(SvgSanitizer.class);
 	
 	/**
 	 * Sanitize the SVG, removing browser-specific crap.
@@ -30,10 +33,11 @@ public class SVGSanitizerIE {
 	 */
 	public static String sanitize(String svg){
 		svg = removeXMLNS(svg);
+		svg = removeDuplicateXmlnsXlink(svg);
 		svg = removeNS1(svg);
 		return svg;
 	}
-	
+
 	/**
 	 * Removes the extraneous XMLNS declarations that IE introduces.
 	 */
@@ -47,12 +51,37 @@ public class SVGSanitizerIE {
 		if (count == 2){
 			svg = svg.replaceFirst("xmlns=.*?\".*?\" ", "");
 		}
-		if (count > 2 || count < 1){
+		if (count > 2) {
 			LOGGER.error("Unexpected number of xmlns declarations");
 		}
 		return svg;
 	}
 	
+	/**
+	 * Remove duplicate xmlns:xlink in the image tag (introduced by chrome)
+	 */
+	private static String removeDuplicateXmlnsXlink(final String svg) {
+		String split = "<image";
+		String[] svgParts = svg.split(split);
+		String secondPart = svgParts[1];
+		
+		Pattern pattern = Pattern.compile("xmlns:xlink=\"[^\"]*\"");
+		Matcher matcher = pattern.matcher(secondPart);
+		
+		int count = 0;
+		while (matcher.find()) {
+			count++;
+		}
+
+		if (count == 2) {
+			secondPart = secondPart.replaceFirst("xmlns:xlink=\"[^\"]*\" ", "");
+		}
+		if (count > 2) {
+			LOGGER.error("Unexpected number of xmlns:xlink declarations");
+		}
+		return svgParts[0] + split + secondPart;
+	}
+
 	/**
 	 * Removes the NS1 declarations that IE introduces.
 	 */

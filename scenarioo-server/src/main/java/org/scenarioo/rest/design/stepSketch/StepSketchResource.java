@@ -18,6 +18,7 @@
 package org.scenarioo.rest.design.stepSketch;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -27,7 +28,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -41,7 +41,7 @@ import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
-@Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/sketchstep")
+@Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/stepsketch")
 public class StepSketchResource {
 
 	private static final Logger LOGGER = Logger.getLogger(StepSketchResource.class);
@@ -55,82 +55,67 @@ public class StepSketchResource {
 	private final ScenarioDocuFiles docuFiles = new ScenarioDocuFiles(
 			configurationRepository.getDocumentationDataDirectory());
 
-	/**
-	 * Get a step with all its data (meta data, html, ...) together with additional calculated navigation data
-	 */
 	@GET
 	@Produces({ "application/json" })
 	@Path("/{sketchStepName}")
 	public StepSketch loadSketchStep(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId,
-			@PathParam("sketchStepName") final int sketchStepName,
-			@QueryParam("fallback") final boolean addFallbackInfo, @QueryParam("labels") final String labels) {
+			@PathParam("sketchStepName") final String stepSketchId) {
 
-		LOGGER.info("Now loading a SketchStep");
-		return reader.loadSketchStep(branchName, issueId, scenarioSketchId, sketchStepName);
+		LOGGER.info("REQUEST: loadSketchStep(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
+				+ stepSketchId + ")");
+
+		return reader.loadStepSketch(branchName, issueId, scenarioSketchId, stepSketchId);
 	}
 
 	@POST
 	@Consumes({ "application/json" })
-	@Produces({ "application/json", "application/xml" })
-	public Response storeSketchStep(@PathParam("branchName") final String branchName,
+	@Produces({ "application/json" })
+	public Response storeStepSketch(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
-			@PathParam("scenarioSketchId") final String scenarioSketchId, final StepSketch sketchStep) {
+			@PathParam("scenarioSketchId") final String scenarioSketchId, final StepSketch stepSketch) {
 
+		LOGGER.info("REQUEST: storeStepSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
+				+ stepSketch + ")");
+
+		stepSketch.setStepSketchName("1");
+		Date now = new Date();
+		stepSketch.setDateCreated(now);
+		stepSketch.setDateModified(now);
+
+		files.writeSketchStepToFile(branchName, issueId, scenarioSketchId, stepSketch);
+
+		stepSketch.setSvgXmlString(SvgSanitizer.sanitize(stepSketch.getSvgXmlString()));
+		files.writeSVGToFile(branchName, issueId, scenarioSketchId, stepSketch);
+
+		copyOriginalScreenshot(branchName, issueId, scenarioSketchId, stepSketch);
+
+		return Response.ok(stepSketch, MediaType.APPLICATION_JSON).build();
+	}
+
+	private void copyOriginalScreenshot(final String branchName, final String issueId, final String scenarioSketchId,
+			final StepSketch stepSketch) {
 		File originalScreenshot = null;
-		if (sketchStep.getContextInDocu() != null) {
-			// TODO: Extract method "find original screenshot"
-			final HashMap<String, String> stepInfo = parseContextInDocu(sketchStep.getContextInDocu());
-			final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
-					stepInfo.get("branch"),
-					stepInfo.get("build"));
-			originalScreenshot = docuFiles.getScreenshotFile(buildIdentifier.getBranchName(),
-					buildIdentifier.getBuildName(),
-					stepInfo.get("usecase"),
-					stepInfo.get("scenario"), Integer.parseInt(stepInfo.get("stepIndex")));
+		if (stepSketch.getContextInDocu() == null) {
+			return;
 		}
-		LOGGER.info("Now storing a sketchStep.");
-		LOGGER.info(sketchStep);
-		LOGGER.info("-----------------------------------");
-		sketchStep.setSketchStepName(1);
-		sketchStep.setDateCreated(System.currentTimeMillis());
-		sketchStep.setDateModified(System.currentTimeMillis());
-		files.writeSketchStepToFile(branchName, issueId, scenarioSketchId, sketchStep);
-		sketchStep.setSketch(SVGSanitizerIE.sanitize(sketchStep.getSketch()));
-		files.writeSVGToFile(branchName, issueId, scenarioSketchId, sketchStep);
-		if (originalScreenshot != null) {
-			files.copyOriginalScreenshot(originalScreenshot, branchName, issueId, scenarioSketchId);
+
+		// TODO: contextInDocu should not be transfered as string but as an object
+		final HashMap<String, String> stepInfo = parseContextInDocu(stepSketch.getContextInDocu());
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+				stepInfo.get("branch"),
+				stepInfo.get("build"));
+		originalScreenshot = docuFiles.getScreenshotFile(buildIdentifier.getBranchName(),
+				buildIdentifier.getBuildName(),
+				stepInfo.get("usecase"),
+				stepInfo.get("scenario"), Integer.parseInt(stepInfo.get("stepIndex")));
+
+		if (originalScreenshot == null) {
+			return;
 		}
-		return Response.ok(sketchStep, MediaType.APPLICATION_JSON).build();
-	}
 
-	@POST
-	@Consumes({ "application/json" })
-	@Produces({ "application/json", "application/xml" })
-	@Path("/{sketchStepName}")
-	public Response updateSketchStep(@PathParam("branchName") final String branchName,
-			@PathParam("issueId") final String issueId,
-			@PathParam("scenarioSketchId") final String scenarioSketchId,
-			@PathParam("sketchStepName") final int sketchStepName, final StepSketch updatedSketchStep) {
-
-		LOGGER.info("Now updating a sketchStep.");
-		LOGGER.info(updatedSketchStep);
-		LOGGER.info("-----------------------");
-		if (updatedSketchStep.getSketchStepName() == 0) {
-			LOGGER.error("There was no sketchStepName set on the sketchStep object!");
-			updatedSketchStep.setSketchStepName(sketchStepName);
-		}
-		final StepSketch existingSketchStep = reader.loadSketchStep(branchName, issueId, scenarioSketchId,
-				sketchStepName);
-		existingSketchStep.setSketch(SVGSanitizerIE.sanitize(existingSketchStep.getSketch()));
-		existingSketchStep.update(updatedSketchStep);
-		existingSketchStep.setDateModified(System.currentTimeMillis());
-		// files.updateSketchStep(branchName, existingSketchStep);
-
-		files.writeSVGToFile(branchName, issueId, scenarioSketchId, existingSketchStep);
-
-		return Response.ok(updatedSketchStep, MediaType.APPLICATION_JSON).build();
+		files.copyOriginalScreenshot(originalScreenshot, branchName, issueId, scenarioSketchId);
 	}
 
 	private HashMap<String, String> parseContextInDocu(final String toParse) {
@@ -142,6 +127,34 @@ public class StepSketchResource {
 		}
 		result.put("stepIndex", result.get("image").split(Pattern.quote("."))[0]);
 		return result;
+	}
+
+	@POST
+	@Consumes({ "application/json" })
+	@Produces({ "application/json" })
+	@Path("/{sketchStepName}")
+	public Response updateSketchStep(@PathParam("branchName") final String branchName,
+			@PathParam("issueId") final String issueId,
+			@PathParam("scenarioSketchId") final String scenarioSketchId,
+			@PathParam("sketchStepName") final String stepSketchId, final StepSketch updatedSketchStep) {
+
+		LOGGER.info("REQUEST: updateSketchStep(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
+				+ stepSketchId + ")");
+
+		if (updatedSketchStep.getStepSketchName() == "0") {
+			LOGGER.error("There was no sketchStepName set on the sketchStep object!");
+			return Response.status(javax.ws.rs.core.Response.Status.BAD_REQUEST).build();
+		}
+
+		final StepSketch stepSketch = reader.loadStepSketch(branchName, issueId, scenarioSketchId,
+				stepSketchId);
+		
+		stepSketch.setSvgXmlString(SvgSanitizer.sanitize(updatedSketchStep.getSvgXmlString()));
+		stepSketch.setDateModified(new Date());
+
+		files.writeSVGToFile(branchName, issueId, scenarioSketchId, stepSketch);
+
+		return Response.ok(stepSketch, MediaType.APPLICATION_JSON).build();
 	}
 
 }

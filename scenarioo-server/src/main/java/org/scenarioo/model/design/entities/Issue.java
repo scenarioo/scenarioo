@@ -18,17 +18,12 @@
 package org.scenarioo.model.design.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-
-import org.scenarioo.api.rules.Preconditions;
-import org.scenarioo.model.docu.entities.Detailable;
-import org.scenarioo.model.docu.entities.Labelable;
-import org.scenarioo.model.docu.entities.Labels;
-import org.scenarioo.model.docu.entities.generic.Details;
 
 /**
  * An issue is the top level element of the design domain. It can be referenced by
@@ -36,14 +31,11 @@ import org.scenarioo.model.docu.entities.generic.Details;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Issue implements Serializable, Labelable, Detailable {
+public class Issue implements Serializable {
 
 	private String name;
 	private String issueId;
 	private String description;
-
-	// TODO #185 Can this be removed? Seems we don't use it
-	private String issueStatus;
 
 	private String trackingURL;
 	private String author;
@@ -55,14 +47,11 @@ public class Issue implements Serializable, Labelable, Detailable {
 	private String scenarioContextLink;
 	private String stepContextLink;
 
-	private long dateCreated;
-	private long dateModified;
+	private Date dateCreated;
+	private Date dateModified;
 
 	@XmlTransient
 	private String branchName;
-
-	private Details details = new Details();
-	private Labels labels = new Labels();
 
 	public Issue() {
 	}
@@ -71,23 +60,6 @@ public class Issue implements Serializable, Labelable, Detailable {
 		this();
 		this.name = name;
 		this.description = description;
-		this.issueStatus = "Open";
-	}
-
-	public void update(final Issue update) {
-		this.name = update.getName() != null ? update.getName() : this.name;
-		this.issueId = update.getIssueId() != null ? update.getIssueId() : this.issueId;
-		this.description = update.getDescription() != null ? update.getDescription() : this.description;
-		this.issueStatus = update.getIssueStatus() != null ? update.getIssueStatus() : this.issueStatus;
-		this.trackingURL = update.getTrackingURL() != null ? update.getTrackingURL() : this.trackingURL;
-		this.author = update.getAuthor() != null ? update.getAuthor() : this.author;
-		this.usecaseContextLink = update.getUsecaseContextLink() != null ? update.getUsecaseContextLink()
-				: this.usecaseContextLink;
-		this.dateCreated = update.getDateCreated() != 0 ? update.getDateCreated() : this.dateCreated;
-		this.dateModified = update.getDateModified() != 0 ? update.getDateModified() : this.dateModified;
-
-		this.details = update.getDetails() != null ? update.getDetails() : this.details;
-		this.labels = update.getLabels() != null ? update.getLabels() : this.labels;
 	}
 
 	public String getName() {
@@ -120,23 +92,6 @@ public class Issue implements Serializable, Labelable, Detailable {
 		this.description = description;
 	}
 
-	public String getIssueStatus() {
-		return issueStatus;
-	}
-
-	/**
-	 * Set status of current issue. Scenarioo supports open and closed by default.
-	 *
-	 * See also {@link #setStatus(String)} for setting additional application-specific states.
-	 */
-	public void setStatus(final IssueStatus status) {
-		setIssueStatus(IssueStatus.toKeywordNullSafe(status));
-	}
-
-	public void setIssueStatus(final String status) {
-		this.issueStatus = status;
-	}
-
 	public String getTrackingURL() {
 		return trackingURL;
 	}
@@ -161,52 +116,20 @@ public class Issue implements Serializable, Labelable, Detailable {
 		this.usecaseContextLink = usecaseContextLink;
 	}
 
-	public long getDateCreated() {
+	public Date getDateCreated() {
 		return dateCreated;
 	}
 
-	public void setDateCreated(final long dateCreated) {
+	public void setDateCreated(final Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 
-	public long getDateModified() {
+	public Date getDateModified() {
 		return dateModified;
 	}
 
-	public void setDateModified(final long dateModified) {
+	public void setDateModified(final Date dateModified) {
 		this.dateModified = dateModified;
-	}
-
-	@Override
-	public Details getDetails() {
-		return details;
-	}
-
-	@Override
-	public Details addDetail(final String key, final Object value) {
-		return details.addDetail(key, value);
-	}
-
-	@Override
-	public void setDetails(final Details details) {
-		Preconditions.checkNotNull(details, "Details not allowed to set to null");
-		this.details = details;
-	}
-
-	@Override
-	public Labels getLabels() {
-		return labels;
-	}
-
-	@Override
-	public Labels addLabel(final String label) {
-		return labels.addLabel(label);
-	}
-
-	@Override
-	public void setLabels(final Labels labels) {
-		Preconditions.checkNotNull(labels, "Labels not allowed to set to null");
-		this.labels = labels;
 	}
 
 	public void setBranchName(final String branchName) {

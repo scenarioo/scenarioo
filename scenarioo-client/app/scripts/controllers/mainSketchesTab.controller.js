@@ -15,22 +15,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function ($scope, $location, SelectedBranchAndBuild, IssuesResource, ContextService) {
+angular.module('scenarioo.controllers').controller('MainSketchesTabCtrl', function ($scope, $location, SelectedBranchAndBuild, IssuesResource, SketchIdsResource, ContextService) {
 
     var vm = this;
 
-    vm.table = {search: {searchTerm: ''}, sort: {column: 'name', reverse: false}};
+    vm.table = { search: {searchTerm: ''} };
+    vm.loading = true;
+    vm.noIssuesExist = false;
 
     vm.resetSearchField = function () {
         vm.table.search = {searchTerm: ''};
     };
 
-    vm.goToSketchStep = function (issue, sketchStepName) {
-        sketchStepName = sketchStepName || 1;
-        ContextService.issueName = issue.name;
-        ContextService.issueDescription = issue.description;
-        $location.path('/sketchstep/' + issue.id + '/' + issue.firstScenarioSketchId + '/' + sketchStepName);
+    vm.goToSketchStep = function (issue, stepSketchName) {
+        var selectedBranch = SelectedBranchAndBuild.selected().branch;
+
+        SketchIdsResource.get(
+            {'branchName': selectedBranch, 'issueId': issue.id },
+            function onSuccess(result) {
+                $location.path('/sketchstep/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+            }, function onError(reulst) {
+                // not handled
+            });
+
+        // TODO can this be removed?
+        // ContextService.issueName = issue.name;
+        // ContextService.issueDescription = issue.description;
     };
+
 
     activate();
 
@@ -45,8 +57,13 @@ angular.module('scenarioo.controllers').controller('MainIssuesTabCtrl', function
             {'branchName': selectedBranch},
             function onSuccess(result) {
                 $scope.issues = result;
+                if (result.length === 0) {
+                    vm.noIssuesExist = true;
+                }
+                vm.loading = false;
             },
             function onError() {
+                vm.loading = false;
                 // Error case not handled
             });
     }

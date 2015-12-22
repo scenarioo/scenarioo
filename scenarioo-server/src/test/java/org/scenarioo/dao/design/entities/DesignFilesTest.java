@@ -27,9 +27,9 @@ public class DesignFilesTest {
 
 	static {
 		SKETCH_STEP = new StepSketch();
-		SKETCH_STEP.setSketchStepName(1);
+		SKETCH_STEP.setStepSketchName("1");
 		SKETCH_STEP
-				.setSketch("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+				.setSvgXmlString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 						+ "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" height=\"100%\" "
 						+ "width=\"100%\" version=\"1.1\" "
 						+ "xmlns=\"http://www.w3.org/2000/svg\" style=\"background-color:#fff; "
@@ -96,9 +96,9 @@ public class DesignFilesTest {
 		givenScenarioSketchDirectoryExists();
 		designFiles.writeSketchStepToFile(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH, SKETCH_STEP);
 		File sketchStepFile = designFiles.getSketchStepFile(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH,
-				SKETCH_STEP.getSketchStepName());
+				SKETCH_STEP.getStepSketchName());
 		assertTrue(sketchStepFile.exists());
-		assertEquals(sketchStepFile.getName(), "001.xml");
+		assertEquals(sketchStepFile.getName(), "1.xml");
 	}
 
 	@Test
