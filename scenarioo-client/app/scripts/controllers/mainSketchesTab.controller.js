@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('MainSketchesTabCtrl', function ($scope, $location, SelectedBranchAndBuild, IssuesResource, SketchIdsResource, ContextService) {
+angular.module('scenarioo.controllers').controller('MainSketchesTabCtrl', function ($scope, $location, SelectedBranchAndBuild, IssuesResource, SketchIdsResource) {
 
     var vm = this;
 
@@ -27,22 +27,15 @@ angular.module('scenarioo.controllers').controller('MainSketchesTabCtrl', functi
         vm.table.search = {searchTerm: ''};
     };
 
-    vm.goToSketchStep = function (issue, stepSketchName) {
+    vm.goToSketchStep = function (issue) {
         var selectedBranch = SelectedBranchAndBuild.selected().branch;
 
         SketchIdsResource.get(
             {'branchName': selectedBranch, 'issueId': issue.id },
             function onSuccess(result) {
                 $location.path('/sketchstep/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
-            }, function onError(reulst) {
-                // not handled
             });
-
-        // TODO can this be removed?
-        // ContextService.issueName = issue.name;
-        // ContextService.issueDescription = issue.description;
     };
-
 
     activate();
 

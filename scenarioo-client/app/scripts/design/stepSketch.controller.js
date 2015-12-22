@@ -26,7 +26,7 @@ angular.module('scenarioo.controllers').controller('StepSketchCtrl', function ($
 
     SelectedBranchAndBuild.callOnSelectionChange(loadIssueAndSketch);
 
-    function loadIssueAndSketch(selected) {
+    function loadIssueAndSketch() {
         IssueResource.get(
             {
                 'branchName': $routeParams.branch,
@@ -53,7 +53,6 @@ angular.module('scenarioo.controllers').controller('StepSketchCtrl', function ($
             SharePageService.setImageUrl($scope.getScreenShotUrl());
         }
     }
-
 
 
     $scope.getScreenShotUrl = function () {
