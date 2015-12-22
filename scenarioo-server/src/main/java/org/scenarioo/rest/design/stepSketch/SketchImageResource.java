@@ -27,7 +27,7 @@ import org.scenarioo.dao.design.DesignFiles;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 
-@Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/stepsketch/{sketchStepIndex}/")
+@Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/stepsketch/{stepSketchId}/")
 public class SketchImageResource {
 
 	private static final Logger LOGGER = Logger.getLogger(SketchImageResource.class);
@@ -37,16 +37,13 @@ public class SketchImageResource {
 
 	private final DesignFiles files = new DesignFiles(configurationRepository.getDesignDataDirectory());
 
-	/**
-	 * Get a step with all its data (meta data, html, ...) together with additional calculated navigation data
-	 */
 	@GET
-	@Path("svg/{sketchStepIndex}")
+	@Path("svg/{stepSketchId}")
 	@Produces({ "image/svg+xml" })
 	public Object loadSketch(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId,
-			@PathParam("sketchStepIndex") final int sketchStepIndex) {
+			@PathParam("stepSketchId") final int stepSketchId) {
 
 		LOGGER.info("Loading a sketch image");
 		return files.getSVGFile(branchName, issueId, scenarioSketchId, "sketch.svg");

@@ -19,7 +19,7 @@
 
 angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $interval, $routeParams, $route,
                                                                            GlobalHotkeysService, SelectedBranchAndBuild, ToolBox, DrawShapeService,
-                                                                           DrawingPadService, SketchStep, StepSketchResource, IssueResource, Issue,
+                                                                           DrawingPadService, StepSketch, StepSketchResource, IssueResource, Issue,
                                                                            ScenarioSketchResource, ContextService, $log, $window, localStorageService) {
 
     var AUTHOR_LOCAL_STORAGE_KEY = 'issue_author',
@@ -47,10 +47,10 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     }
 
     function initEditMode() {
-        // TODO Move three fields into a sketchStepIdentifier
+        // TODO Move three fields into a stepSketchIdentifier
         $scope.issueId = ContextService.issueId;
         $scope.scenarioSketchId = ContextService.scenarioSketchId;
-        $scope.stepSketchName = parseInt(ContextService.stepSketchName);
+        $scope.stepSketchId = parseInt(ContextService.stepSketchId);
 
         if (ContextService.issueId) {
             Issue.load(ContextService.issueId);
@@ -234,7 +234,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
         var exportedSVG = DrawingPadService.exportDrawing();
 
-        var sketchStep = new StepSketchResource({
+        var stepSketch = new StepSketchResource({
             branchName: $routeParams.branch,
             svgXmlString: exportedSVG,
             issueId: args.issueId,
@@ -242,31 +242,31 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         }, {});
 
         if ($scope.mode === MODE_CREATE) {
-            sketchStep.usecaseContextName = ContextService.usecaseName;
-            sketchStep.usecaseContextLink = ContextService.usecaseLink;
-            sketchStep.scenarioContextName = ContextService.scenarioName;
-            sketchStep.scenarioContextLink = ContextService.scenarioLink;
-            sketchStep.stepContextLink = ContextService.stepLink;
-            sketchStep.contextInDocu = ContextService.screenshotURL;
-            sketchStep.stepIndex = ContextService.stepIndex;
+            stepSketch.usecaseContextName = ContextService.usecaseName;
+            stepSketch.usecaseContextLink = ContextService.usecaseLink;
+            stepSketch.scenarioContextName = ContextService.scenarioName;
+            stepSketch.scenarioContextLink = ContextService.scenarioLink;
+            stepSketch.stepContextLink = ContextService.stepLink;
+            stepSketch.contextInDocu = ContextService.screenshotURL;
+            stepSketch.stepIndex = ContextService.stepIndex;
         }
 
         if ($scope.scenarioSketchSaved === 1) {
-            if ($scope.stepSketchName && $scope.stepSketchName !== undefined) {
-                sketchStep.stepSketchName = $scope.stepSketchName;
+            if ($scope.stepSketchId && $scope.stepSketchId !== undefined) {
+                stepSketch.stepSketchId = $scope.stepSketchId;
 
-                SketchStep.saveSketchStep(sketchStep, function (updatedSketchStep) {
-                    $log.log('UPDATE SketchStep', updatedSketchStep.stepSketchName);
+                StepSketch.saveStepSketch(stepSketch, function (updatedStepSketch) {
+                    $log.log('UPDATE StepSketch', updatedStepSketch.stepSketchId);
                     sketchSuccessfullySaved();
                 }, function (error) {
                     sketchSavedWithError(error);
                 });
             } else {
-                SketchStep.saveSketchStep(sketchStep, function (savedSketchStep) {
-                    $log.log('SAVE SketchStep', savedSketchStep.stepSketchName);
+                StepSketch.saveStepSketch(stepSketch, function (savedStepSketch) {
+                    $log.log('SAVE StepSketch', savedStepSketch.stepSketchId);
 
                     $scope.scenarioSketchId = args.scenarioSketchId;
-                    $scope.stepSketchName = savedSketchStep.stepSketchName;
+                    $scope.stepSketchId = savedStepSketch.stepSketchId;
                     $scope.mode = MODE_EDIT;
 
                     sketchSuccessfullySaved();
@@ -298,7 +298,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
             $scope.issueId = null;
             $scope.scenarioSketchId = null;
-            $scope.stepSketchName = null;
+            $scope.stepSketchId = null;
         }
     }
 
@@ -349,8 +349,8 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         }
         if (ContextService && ContextService.stepName) {
             stepName = ContextService.stepName;
-        } else if (ContextService && ContextService.stepSketchName) {
-            stepName = ContextService.stepSketchName;
+        } else if (ContextService && ContextService.stepSketchId) {
+            stepName = ContextService.stepSketchId;
         }
 
         if (uc) {
@@ -366,7 +366,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         DrawingPadService.destroy();
         $scope.issueId = null;
         $scope.scenarioSketchId = null;
-        $scope.stepSketchName = null;
+        $scope.stepSketchId = null;
         $('body').removeClass('sc-sketcher-bg-color-light');
     });
 

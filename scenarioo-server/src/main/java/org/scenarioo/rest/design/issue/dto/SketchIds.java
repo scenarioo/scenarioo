@@ -24,7 +24,7 @@ public class SketchIds {
 	public static SketchIds fromIssueWithSketch(final IssueWithSketch issueWitchSketch) {
 		SketchIds sketchIds = new SketchIds();
 		sketchIds.setScenarioSketchId(issueWitchSketch.getScenarioSketch().getScenarioSketchId());
-		sketchIds.setStepSketchId(issueWitchSketch.getStepSketch().getStepSketchName());
+		sketchIds.setStepSketchId(issueWitchSketch.getStepSketch().getStepSketchId());
 		return sketchIds;
 	}
 

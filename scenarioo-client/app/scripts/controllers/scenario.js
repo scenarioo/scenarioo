@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams,
                                                                              $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild,
-                                                                             Config, PagesAndSteps, LabelConfigurationsResource, RelatedIssueResource) {
+                                                                             Config, PagesAndSteps, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -165,9 +165,13 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         });
     }
 
-    function goToIssue(issue){
-        var sketchStepId = sketchStepId || 1;
-        $location.path('/sketchstep/' + issue.id + '/' + issue.firstScenarioSketchId + '/' + sketchStepId);
+    function goToIssue(issue) {
+        var selectedBranch = SelectedBranchAndBuild.selected().branch;
+        SketchIdsResource.get(
+            {'branchName': selectedBranch, 'issueId': issue.id },
+            function onSuccess(result) {
+                $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+            });
     }
 
     // FIXME this code is duplicated. How can we extract it into a service?

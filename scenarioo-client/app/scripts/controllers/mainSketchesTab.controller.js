@@ -27,13 +27,13 @@ angular.module('scenarioo.controllers').controller('MainSketchesTabCtrl', functi
         vm.table.search = {searchTerm: ''};
     };
 
-    vm.goToSketchStep = function (issue) {
+    vm.goToStepSketch = function (issue) {
         var selectedBranch = SelectedBranchAndBuild.selected().branch;
 
         SketchIdsResource.get(
             {'branchName': selectedBranch, 'issueId': issue.id },
             function onSuccess(result) {
-                $location.path('/sketchstep/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+                $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });
     };
 

@@ -196,7 +196,7 @@ public class IssueResource {
 		final IssueWithSketch result = new IssueWithSketch();
 		result.setIssue(reader.loadIssue(branchName, issueId));
 		result.setScenarioSketch(reader.loadScenarioSketches(branchName, issueId).get(0));
-		result.setStepSketch(reader.loadSketchSteps(branchName, issueId, result.getScenarioSketch()
+		result.setStepSketch(reader.loadStepSketches(branchName, issueId, result.getScenarioSketch()
 				.getScenarioSketchId()).get(0));
 		return result;
 	}

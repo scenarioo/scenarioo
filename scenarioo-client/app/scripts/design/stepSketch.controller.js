@@ -22,7 +22,9 @@ angular.module('scenarioo.controllers').controller('StepSketchCtrl', function ($
 
     var issueId = $routeParams.issueId,
         scenarioSketchId = $routeParams.scenarioSketchId,
-        stepSketchName = $routeParams.stepSketchName;
+        stepSketchId = $routeParams.stepSketchId;
+
+    $scope.showCreateOrEditSketchLink = true;
 
     SelectedBranchAndBuild.callOnSelectionChange(loadIssueAndSketch);
 
@@ -44,7 +46,7 @@ angular.module('scenarioo.controllers').controller('StepSketchCtrl', function ($
             ContextService.initialize();
             ContextService.issueId = issueId;
             ContextService.scenarioSketchId = scenarioSketchId;
-            ContextService.stepSketchName = stepSketchName;
+            ContextService.stepSketchId = stepSketchId;
             ContextService.screenshotURL = getSVGUrl();
         }
 
@@ -61,7 +63,7 @@ angular.module('scenarioo.controllers').controller('StepSketchCtrl', function ($
         }
 
         var selected = SelectedBranchAndBuild.selected();
-        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchName + '/image/sketch.png';
+        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
     };
 
     $scope.getOriginalScreenshotUrl = function() {
@@ -70,7 +72,7 @@ angular.module('scenarioo.controllers').controller('StepSketchCtrl', function ($
         }
 
         var selected = SelectedBranchAndBuild.selected();
-        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchName + '/image/original.png';
+        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/original.png';
     };
 
     function getSVGUrl () {
@@ -79,7 +81,7 @@ angular.module('scenarioo.controllers').controller('StepSketchCtrl', function ($
         }
 
         var selected = SelectedBranchAndBuild.selected();
-        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchName + '/svg/1';
+        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/svg/1';
     }
 
     $scope.getCurrentUrlForSharing = function () {
@@ -103,12 +105,15 @@ angular.module('scenarioo.controllers').controller('StepSketchCtrl', function ($
 
         var selected = SelectedBranchAndBuild.selected();
 
-        return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchName + '/image/' + imageName;
+        return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/' + imageName;
     };
 
     $scope.$on('$destroy', function () {
         SharePageService.invalidateUrls();
     });
+
+    // Used in breadcrumbs.html
+    $scope.showCreateOrEditSketchLink = true;
 
     // Called from breadcrumbs.html
     $scope.getSketchButtonTitle = function () {

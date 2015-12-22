@@ -15,31 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('SketchStep', function ($log) {
-
-    var SKETCHSTEP_LOADED_EVENT = 'sketchStepLoaded';
-
-    var sketchStepData = {};
-
+angular.module('scenarioo.services').factory('StepSketch', function ($log) {
 
     return {
-        SKETCHSTEP_LOADED_EVENT: SKETCHSTEP_LOADED_EVENT,
+        saveStepSketch: function (changedStepSketch, successCallback, errorCallback) {
 
-        getRawSketchStepDataCopy: function () {
-            return angular.copy(sketchStepData);
-        },
-
-        saveSketchStep: function (changedSketchStep, successCallback, errorCallback) {
-
-            changedSketchStep.$save(function (updatedSketchStep) {
+            changedStepSketch.$save(function (updatedStepSketch) {
                 if (successCallback) {
-                    successCallback(updatedSketchStep);
+                    successCallback(updatedStepSketch);
                 }
             },
             function (error) {
                 $log.error(error);
                 if (errorCallback) {
-                    errorCallback('SketchStep could not be saved');
+                    errorCallback('StepSketch could not be saved');
                 }
             });
         }

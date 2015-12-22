@@ -25,17 +25,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- * Information to store and display for one design sketchStep.
- */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StepSketch implements Serializable {
 
-	// private Page page;
-
 	private String sketchFileName; // todo
-	private int nextSketchStepRef; // (index) todo
 	private String usecaseContextName;
 	private String usecaseContextLink;
 	private String scenarioContextName;
@@ -59,18 +53,6 @@ public class StepSketch implements Serializable {
 	@XmlTransient
 	private String scenarioSketchId;
 
-	/*
-	 * public Page getPage() {
-	 * return page;
-	 * }
-	 */
-
-	/*
-	 * public void setPage(final Page page) {
-	 * this.page = page;
-	 * }
-	 */
-
 
 	public String getSketchFileName() {
 		return sketchFileName;
@@ -78,14 +60,6 @@ public class StepSketch implements Serializable {
 
 	public void setSketchFileName(final String sketchFileName) {
 		this.sketchFileName = sketchFileName;
-	}
-
-	public int getNextSketchStepRef() {
-		return nextSketchStepRef;
-	}
-
-	public void setNextSketchStepRef(final int nextSketchStepRef) {
-		this.nextSketchStepRef = nextSketchStepRef;
 	}
 
 	public String getContextInDocu() {
@@ -171,12 +145,11 @@ public class StepSketch implements Serializable {
 
 	// below: ok
 
-	// TODO: Rename methods
-	public String getStepSketchName() {
+	public String getStepSketchId() {
 		return stepSketchId;
 	}
 
-	public void setStepSketchName(final String stepSketchName) {
+	public void setStepSketchId(final String stepSketchName) {
 		this.stepSketchId = stepSketchName;
 	}
 

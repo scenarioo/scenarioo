@@ -28,7 +28,6 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     $scope.pageOccurrence = parseInt($routeParams.pageOccurrence, 10);
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
     var labels = $location.search().labels;
-    $scope.isStepScope = true;
 
     $scope.modalScreenshotOptions = {
         backdropFade: true,
@@ -374,6 +373,9 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         SharePageService.invalidateUrls();
     });
 
+    // Used in breadcrumbs.html
+    $scope.showCreateOrEditSketchLink = true;
+
     // Called from breadcrumbs.html
     $scope.getSketchButtonTitle = function () {
         return 'Create Sketch';
@@ -403,7 +405,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         SketchIdsResource.get(
             {'branchName': selectedBranch, 'issueId': issue.id },
             function onSuccess(result) {
-                $location.path('/sketchstep/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+                $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });
     }
 

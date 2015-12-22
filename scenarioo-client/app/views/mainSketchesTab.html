@@ -54,7 +54,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </tr>
             </thead>
             <tbody>
-                <tr ng-class="{'selected':$index==selectedRowIndex}" ng-repeat="issue in filtered=(issues | scFilterArray: vm.table.search.searchTerm)" ng-click="vm.goToSketchStep(issue)" class="link">
+                <tr ng-class="{'selected':$index==selectedRowIndex}" ng-repeat="issue in filtered=(issues | scFilterArray: vm.table.search.searchTerm)" ng-click="vm.goToStepSketch(issue)" class="link">
                     <td>{{issue.name }}</td>
                     <td>{{issue.description}}</td>
                     <td>{{issue.author}}</td>

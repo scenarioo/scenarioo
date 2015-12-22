@@ -79,7 +79,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($rout
             objectName: $routeParams.objectName,
             issueId: $routeParams.issueId,
             scenarioSketchId: $routeParams.scenarioSketchId,
-            sketchStepIndex: $routeParams.sketchStepIndex
+            stepSketchId: $routeParams.stepSketchId
         };
     }
 
