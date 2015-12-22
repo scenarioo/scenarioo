@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.rest.design.stepSketch;
+package org.scenarioo.rest.sketcher.stepSketch;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

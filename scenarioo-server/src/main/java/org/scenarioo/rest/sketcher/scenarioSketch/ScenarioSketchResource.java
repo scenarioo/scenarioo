@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.rest.design.scenarioSketch;
+package org.scenarioo.rest.sketcher.scenarioSketch;
 
 import java.util.Date;
 
@@ -30,7 +30,7 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.scenarioo.dao.sketcher.SketcherFiles;
 import org.scenarioo.dao.sketcher.SketcherReader;
-import org.scenarioo.model.design.entities.ScenarioSketch;
+import org.scenarioo.model.sketcher.ScenarioSketch;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.utils.IdGenerator;

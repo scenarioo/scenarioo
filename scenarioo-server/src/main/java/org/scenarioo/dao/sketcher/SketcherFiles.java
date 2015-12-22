@@ -35,9 +35,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
-import org.scenarioo.model.design.entities.Issue;
-import org.scenarioo.model.design.entities.ScenarioSketch;
-import org.scenarioo.model.design.entities.StepSketch;
+import org.scenarioo.model.sketcher.Issue;
+import org.scenarioo.model.sketcher.ScenarioSketch;
+import org.scenarioo.model.sketcher.StepSketch;
 
 public class SketcherFiles {
 
