@@ -28,37 +28,39 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <h2>Details</h2>
 
         <p id="issue-name">
-            Sketch name: {{issueName}}
+            Sketch name: {{issue.name}}
         </p>
 
         <p id="issue-description">
-            Description: {{issueDescription}}
+            Description: {{issue.description}}
         </p>
 
         <p id="author">
-            Author: {{issueAuthor}}
+            Author: {{issue.author}}
         </p>
 
         <p id="dateCreated">
-            Created: {{sketchStep.dateCreated | scDateTime}}
+            Created: {{stepSketch.dateCreated | scDateTime}}
         </p>
 
         <p id="dateModified">
-            Last modified: {{sketchStep.dateModified | scDateTime}}
+            Last modified: {{stepSketch.dateModified | scDateTime}}
         </p>
 
-        <h2>Context in Documentation</h2>
+        <h2>Original Step in Documentation</h2>
 
-        <p id="usecase-context" ng-click="goToUsecase()">
-            <a href="">Related Use Case: {{sketchStep.usecaseContextName}}</a>
+        <p>The sketch is based on this step from the documentation.</p>
+
+        <p id="usecase-context">
+            <a ng-href="{{getUseCaseUrl()}}">Use Case: {{stepSketch.usecaseContextName}}</a>
         </p>
 
-        <p id="scenario-context" ng-click="goToScenario()">
-            <a href="">Related Scenario: {{sketchStep.scenarioContextName}}</a>
+        <p id="scenario-context">
+            <a ng-href="{{getScenarioUrl()}}">Scenario: {{stepSketch.scenarioContextName}}</a>
         </p>
 
-        <p id="step-context" ng-click="goToStep()">
-            <a href="">Related Step: {{stepNr + 1}}</a>
+        <p id="step-context">
+            <a ng-href="{{getStepUrl()}}">Step: {{stepSketch.stepIndex + 1}}</a>
         </p>
     </tab>
 </tabset>

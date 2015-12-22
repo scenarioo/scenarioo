@@ -38,6 +38,9 @@ public class DesignReader {
 		this.designFiles = new DesignFiles(rootDirectory);
 	}
 
+	/**
+	 * Reads all issues for a branch from the file system.
+	 */
 	public List<Issue> loadIssues(final String branchName) {
 		final List<File> files = designFiles.getIssueFiles(checkIdentifier(branchName));
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(Issue.class, files);
@@ -68,10 +71,10 @@ public class DesignReader {
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(StepSketch.class, files);
 	}
 
-	public StepSketch loadSketchStep(final String branchName, final String issueId,
-			final String scenarioSketchId, final int stepIndex) {
+	public StepSketch loadStepSketch(final String branchName, final String issueId,
+			final String scenarioSketchId, final String stepSketchId) {
 		final File file = designFiles.getSketchStepFile(checkIdentifier(branchName), checkIdentifier(issueId),
-				checkIdentifier(scenarioSketchId), stepIndex);
+				checkIdentifier(scenarioSketchId), stepSketchId);
 		return ScenarioDocuXMLFileUtil.unmarshal(StepSketch.class, file);
 	}
 

@@ -27,7 +27,7 @@ import org.scenarioo.dao.design.DesignFiles;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 
-@Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/sketchstep/{sketchStepIndex}/")
+@Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/stepsketch/{sketchStepIndex}/")
 public class SketchImageResource {
 
 	private static final Logger LOGGER = Logger.getLogger(SketchImageResource.class);

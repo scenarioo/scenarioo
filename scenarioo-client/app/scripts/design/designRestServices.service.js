@@ -37,6 +37,14 @@ angular.module('scenarioo.services')
             });
     })
 
+    .factory('SketchIdsResource', function (ScenariooResource) {
+        return ScenariooResource('/branch/:branchName/issue/:issueId/ids',
+            {
+                branchName: '@branchName',
+                issueId: '@issueId'
+            }, {});
+    })
+
     .factory('RelatedIssueResource', function (ScenariooResource) {
         return ScenariooResource('/branch/:branchName/issue/related/',
             {
@@ -65,12 +73,12 @@ angular.module('scenarioo.services')
             }, {});
     })
 
-    .factory('SketchStepResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issue/:issueId/scenariosketch/:scenarioSketchId/sketchstep/:sketchStepName',
+    .factory('StepSketchResource', function (ScenariooResource) {
+        return ScenariooResource('/branch/:branchName/issue/:issueId/scenariosketch/:scenarioSketchId/stepsketch/:stepSketchName',
             {
                 branchName: '@branchName',
                 issueId: '@issueId',
                 scenarioSketchId: '@scenarioSketchId',
-                sketchStepName: '@sketchStepName'
+                stepSketchName: '@stepSketchName'
             }, {});
     });

@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepResource, HostnameAndPort,
                                                                          SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService,
-                                                                         ContextService, RelatedIssueResource) {
+                                                                         ContextService, RelatedIssueResource, SketchIdsResource) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -121,6 +121,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         ContextService.stepLink = '/step/' + useCaseName + '/' + scenarioName + '/' + $scope.pageName + '/' + $scope.pageOccurrence + '/' + $scope.stepInPageOccurrence;
         ContextService.screenshotURL = $scope.getScreenShotUrl();
         ContextService.stepName = $scope.stepNavigation.stepIndex + 1;
+        ContextService.stepIndex = $scope.stepNavigation.stepIndex;
     }
 
     function createStepInformationTree(result) {
@@ -373,15 +374,17 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         SharePageService.invalidateUrls();
     });
 
+    // Called from breadcrumbs.html
     $scope.getSketchButtonTitle = function () {
         return 'Create Sketch';
     };
 
-    $scope.sketchThis = function () {
+    // Called from breadcrumbs.html
+    $scope.createOrEditSketch = function () {
         $location.path('/editor/').search('mode', 'create');
     };
 
-    function loadRelatedIssues(){
+    function loadRelatedIssues() {
         RelatedIssueResource.query({
             branchName: SelectedBranchAndBuild.selected().branch,
             objectName: '/step/' + useCaseName + '/' + scenarioName + '/' + $scope.pageName + '/' + $scope.pageOccurrence + '/' + $scope.stepInPageOccurrence,
@@ -395,9 +398,13 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         });
     }
 
-    function goToIssue(issue){
-        var sketchStepId = sketchStepId || 1;
-        $location.path('/sketchstep/' + issue.id + '/' + issue.firstScenarioSketchId + '/' + sketchStepId);
+    function goToIssue(issue) {
+        var selectedBranch = SelectedBranchAndBuild.selected().branch;
+        SketchIdsResource.get(
+            {'branchName': selectedBranch, 'issueId': issue.id },
+            function onSuccess(result) {
+                $location.path('/sketchstep/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+            });
     }
 
 });

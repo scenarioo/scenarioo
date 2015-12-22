@@ -50,7 +50,7 @@ public class ConfigurationRepository {
 
 	public File getDesignDataDirectory() {
 		File rootFolder = getDocumentationDataDirectory();
-		return new File(rootFolder, "scenarioo-application-data/design");
+		return new File(rootFolder, "scenarioo-application-data/sketcher");
 	}
 
 	private File getExampleDocumentationDirectoryAsFallback() {

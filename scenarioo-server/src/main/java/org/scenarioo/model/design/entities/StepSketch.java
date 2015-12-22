@@ -18,6 +18,7 @@
 package org.scenarioo.model.design.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -32,9 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class StepSketch implements Serializable {
 
 	// private Page page;
-	private int sketchStepName;
+
 	private String sketchFileName; // todo
-	private String sketch;
 	private int nextSketchStepRef; // (index) todo
 	private String usecaseContextName;
 	private String usecaseContextLink;
@@ -42,8 +42,13 @@ public class StepSketch implements Serializable {
 	private String scenarioContextLink;
 	private String stepContextLink;
 	private String contextInDocu; // todo
-	private long dateCreated; // todo
-	private long dateModified; // todo
+	private int stepIndex;
+
+	// below: ok
+	private String stepSketchId;
+	private Date dateCreated;
+	private Date dateModified;
+	private String svgXmlString;
 
 	@XmlTransient
 	private String branchName;
@@ -66,13 +71,6 @@ public class StepSketch implements Serializable {
 	 * }
 	 */
 
-	public String getSketch() {
-		return sketch;
-	}
-
-	public void setSketch(final String sketch) {
-		this.sketch = sketch;
-	}
 
 	public String getSketchFileName() {
 		return sketchFileName;
@@ -98,29 +96,6 @@ public class StepSketch implements Serializable {
 		this.contextInDocu = contextInDocu;
 	}
 
-	public long getDateCreated() {
-		return dateCreated;
-	}
-
-	public void setDateCreated(final long dateCreated) {
-		this.dateCreated = dateCreated;
-	}
-
-	public long getDateModified() {
-		return dateModified;
-	}
-
-	public void setDateModified(final long dateModified) {
-		this.dateModified = dateModified;
-	}
-
-	public int getSketchStepName() {
-		return sketchStepName;
-	}
-
-	public void setSketchStepName(final int sketchStepName) {
-		this.sketchStepName = sketchStepName;
-	}
 
 	public String getBranchName() {
 		return branchName;
@@ -194,24 +169,47 @@ public class StepSketch implements Serializable {
 		this.stepContextLink = stepContextLink;
 	}
 
-	public void update(final StepSketch update) {
-		this.sketchStepName = update.getSketchStepName() != 0 ? update.getSketchStepName() : this.sketchStepName;
-		this.sketchFileName = update.getSketchFileName() != null ? update.getSketchFileName() : this.sketchFileName;
-		this.nextSketchStepRef = update.getNextSketchStepRef() != 0 ? update.getNextSketchStepRef()
-				: this.nextSketchStepRef;
-		this.dateModified = update.getDateModified() != 0 ? update.getDateModified() : this.dateModified;
-		this.stepContextLink = update.getStepContextLink() != null ? update.getStepContextLink() : this.stepContextLink;
-		this.scenarioContextLink = update.getScenarioContextLink() != null ? update.getScenarioContextLink()
-				: this.scenarioContextLink;
-		this.scenarioContextName = update.getScenarioContextName() != null ? update.getScenarioContextName()
-				: this.scenarioContextName;
-		this.usecaseContextLink = update.getUsecaseContextLink() != null ? update.getUsecaseContextLink()
-				: this.usecaseContextLink;
-		this.usecaseContextName = update.getUsecaseContextName() != null ? update.getUsecaseContextName()
-				: this.usecaseContextName;
-		this.issueId = update.getIssueId() != null ? update.getIssueId() : this.issueId;
-		this.scenarioSketchId = update.getScenarioSketchId() != null ? update.getScenarioSketchId()
-				: this.scenarioSketchId;
+	// below: ok
+
+	// TODO: Rename methods
+	public String getStepSketchName() {
+		return stepSketchId;
+	}
+
+	public void setStepSketchName(final String stepSketchName) {
+		this.stepSketchId = stepSketchName;
+	}
+
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(final Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public Date getDateModified() {
+		return dateModified;
+	}
+
+	public void setDateModified(final Date dateModified) {
+		this.dateModified = dateModified;
+	}
+
+	public String getSvgXmlString() {
+		return svgXmlString;
+	}
+
+	public void setSvgXmlString(final String svgXmlString) {
+		this.svgXmlString = svgXmlString;
+	}
+
+	public int getStepIndex() {
+		return stepIndex;
+	}
+
+	public void setStepIndex(final int stepIndex) {
+		this.stepIndex = stepIndex;
 	}
 
 }

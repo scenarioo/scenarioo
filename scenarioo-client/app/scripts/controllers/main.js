@@ -60,12 +60,12 @@ function MainCtrl($scope, $location, Config) {
     function defineLastStaticTabs() {
         var i = vm.tabs.length;
         vm.tabs.push({
-            tabId: 'issues',
+            tabId: 'sketches',
             title: 'Sketches',
-            contentViewUrl: 'views/mainIssuesTab.html',
+            contentViewUrl: 'views/mainSketchesTab.html',
             active: false
         });
-        vm.tabIndices.issues = i;
+        vm.tabIndices.sketches = i;
     }
 
     function activate() {
