@@ -23,7 +23,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.dao.design.DesignFiles;
+import org.scenarioo.dao.sketcher.SketcherFiles;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 
@@ -34,8 +34,7 @@ public class SketchImageResource {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
-
-	private final DesignFiles files = new DesignFiles(configurationRepository.getDesignDataDirectory());
+	private final SketcherFiles files = new SketcherFiles(configurationRepository.getDesignDataDirectory());
 
 	@GET
 	@Path("svg/{stepSketchId}")
@@ -43,21 +42,23 @@ public class SketchImageResource {
 	public Object loadSketch(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId,
-			@PathParam("stepSketchId") final int stepSketchId) {
-
-		LOGGER.info("Loading a sketch image");
-		return files.getSVGFile(branchName, issueId, scenarioSketchId, "sketch.svg");
+			@PathParam("stepSketchId") final String stepSketchId) {
+		LOGGER.info("REQUEST: loadSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
+				+ stepSketchId + ")");
+		return files.getStepSketchSvgFile(branchName, issueId, scenarioSketchId, stepSketchId);
 	}
 
 	@GET
 	@Path("image/{pngFile}")
 	@Produces({ "image/png" })
-	public Object loadConvertedSketch(@PathParam("branchName") final String branchName,
+	public Object loadPngFile(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId,
+			@PathParam("stepSketchId") final String stepSketchId,
 			@PathParam("pngFile") final String pngFileName) {
-		LOGGER.info("Loading PNG file for sketch (" + pngFileName + ")");
-		return files.getPNGFile(branchName, issueId, scenarioSketchId, pngFileName);
+		LOGGER.info("REQUEST: loadPngFile(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
+				+ stepSketchId + ", " + pngFileName + ")");
+		return files.getStepSketchPngFile(branchName, issueId, scenarioSketchId, stepSketchId, pngFileName);
 	}
 
 }

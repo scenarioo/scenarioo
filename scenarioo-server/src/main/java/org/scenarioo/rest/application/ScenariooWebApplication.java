@@ -27,7 +27,7 @@ import javax.servlet.ServletContextListener;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.design.DesignFiles;
+import org.scenarioo.dao.sketcher.SketcherFiles;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -67,12 +67,12 @@ public class ScenariooWebApplication implements ServletContextListener {
 		final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
 		final Configuration configuration = configurationRepository.getConfiguration();
 		
-		final DesignFiles designFiles = new DesignFiles(configurationRepository.getDesignDataDirectory());
-		designFiles.createRootIfNecessary();
+		final SketcherFiles sketcherFiles = new SketcherFiles(configurationRepository.getDesignDataDirectory());
+		sketcherFiles.createRootDirectoryIfNecessary();
 
 		LOGGER.info("  Configuration loaded.");
 		LOGGER.info("  Configured documentation content directory: " + configuration.getTestDocumentationDirPath());
-		LOGGER.info("  Configured design content directory: " + designFiles.getRootDirectory());
+		LOGGER.info("  Configured design content directory: " + sketcherFiles.getRootDirectory());
 	}
 	
 	private String configureConfigurationDirectoryFromServerContext(final ServletContextEvent servletContextEvent) {

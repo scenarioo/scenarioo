@@ -11,18 +11,17 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.scenarioo.api.util.files.FilesUtil;
-import org.scenarioo.dao.design.DesignFiles;
+import org.scenarioo.dao.sketcher.SketcherFiles;
 import org.scenarioo.model.design.entities.StepSketch;
 
 public class DesignFilesTest {
 
 	private static final File rootDirectory = new File("tmp");
-	private static DesignFiles designFiles;
+	private static SketcherFiles designFiles;
 
 	private static final String BRANCH_NAME = "Test Branch";
-	private static final String ISSUE_NAME = "This is our first Test Issue";
-	private static final String ISSUE_NAME_WITH_UNSAFE_CHARACTERS = "This \\is our /first/ Test Issue";
-	private static final String SCENARIO_SKETCH = "This is our first Test Scenario Sketch";
+	private static final String ISSUE_ID = "ABCD1234";
+	private static final String SCENARIO_SKETCH_ID = "1111AAAA";
 	private static final StepSketch SKETCH_STEP;
 
 	static {
@@ -54,7 +53,7 @@ public class DesignFilesTest {
 			fail();
 		}
 
-		designFiles = new DesignFiles(rootDirectory);
+		designFiles = new SketcherFiles(rootDirectory);
 	}
 
 	@AfterClass
@@ -70,68 +69,39 @@ public class DesignFilesTest {
 		assertEquals(branchDirectory.getName(), "Test+Branch");
 	}
 
-
-	@Test
-	public void createIssueFile() {
-		givenIssueDirectoryExists();
-
-		designFiles.createIssueFile(BRANCH_NAME, ISSUE_NAME);
-		File issueFile = designFiles.getIssueFile(BRANCH_NAME, ISSUE_NAME);
-		assertTrue(issueFile.exists());
-	}
-
 	@Test
 	public void createStepSketchDirectory() {
 		givenScenarioSketchDirectoryExists();
 
-		designFiles.createStepSketchDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
-		File stepSketchDir = designFiles.getStepSketchesDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
+		String stepSketchId = "1";
+		designFiles.createStepSketchDirectory(BRANCH_NAME, ISSUE_ID, SCENARIO_SKETCH_ID, stepSketchId);
+		File stepSketchDir = designFiles.getStepSketchDirectory(BRANCH_NAME, ISSUE_ID, SCENARIO_SKETCH_ID,
+				stepSketchId);
 		assertTrue(stepSketchDir.exists());
 		assertEquals(stepSketchDir.getPath(),
-				"tmp/Test+Branch/This+is+our+first+Test+Issue/This+is+our+first+Test+Scenario+Sketch/stepSketches");
+				"tmp/Test+Branch/ABCD1234/1111AAAA/1");
 	}
 
 	@Test
 	public void writeStepSketchToFile() {
 		givenScenarioSketchDirectoryExists();
-		designFiles.writeStepSketchToFile(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH, SKETCH_STEP);
-		File stepSketchFile = designFiles.getStepSketchFile(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH,
+		givenStepSketchDirectoryExists();
+		designFiles.persistStepSketch(BRANCH_NAME, ISSUE_ID, SCENARIO_SKETCH_ID, SKETCH_STEP);
+		File stepSketchXmlFile = designFiles.getStepSketchXmlFile(BRANCH_NAME, ISSUE_ID, SCENARIO_SKETCH_ID,
 				SKETCH_STEP.getStepSketchId());
-		assertTrue(stepSketchFile.exists());
-		assertEquals(stepSketchFile.getName(), "1.xml");
+		assertTrue(stepSketchXmlFile.exists());
+		assertEquals("stepSketch.xml", stepSketchXmlFile.getName());
 	}
 
 	@Test
-	public void createSVGDirectory() {
-		designFiles.createStepSketchSVGDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
-		File svgDir = designFiles.getSVGDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
-		assertTrue(svgDir.exists());
-		assertEquals(svgDir.getPath(),
-				"tmp/Test+Branch/This+is+our+first+Test+Issue/This+is+our+first+Test+Scenario+Sketch/stepSketches/svg");
-	}
-
-	@Test
-	public void writeSVGToFile() {
-		designFiles.writeSVGToFile(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH, SKETCH_STEP);
-		File svgFile = designFiles.getSVGFile(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH,
-				SKETCH_STEP.getSketchFileName());
+	public void writeSvgToFile() {
+		givenStepSketchDirectoryExists();
+		designFiles.persistSketchAsSvgAndPng(BRANCH_NAME, ISSUE_ID, SCENARIO_SKETCH_ID, SKETCH_STEP);
+		File svgFile = designFiles.getStepSketchSvgFile(BRANCH_NAME, ISSUE_ID, SCENARIO_SKETCH_ID,
+				SKETCH_STEP.getStepSketchId());
 		assertTrue(svgFile.exists());
 		assertEquals(svgFile.getName(), SKETCH_STEP.getSketchFileName());
 	}
-
-	// TODO #174 Fix or remove
-	/*
-	 * @Test
-	 * public void createIssueDirectoryWithVeryLongName() {
-	 * String tooLongIssueName = "Limits on the Length of File Names and Paths. "
-	 * + "There are also restrictions on the length of a file name and the "
-	 * + "length of the path. Conflicting numbers are to be found on the Internet "
-	 * + "because certain subtleties are often overlooked. I will try to make the "
-	 * + "various length restrictions clear.";
-	 * File issueDir = createAndGetIssueDirectory(tooLongIssueName);
-	 * assertTrue(issueDir.exists());
-	 * }
-	 */
 
 	@Test
 	public void createIssueDirectory_withExistingBranchDirectoryAndNewIssueName_createsIssueDirectory() {
@@ -143,16 +113,6 @@ public class DesignFilesTest {
 		expectIssueDirectoryExists();
 	}
 
-	@Test
-	public void createIssueDirectory_withBranchNameThatHasSpecialCharacters_createsIssueDirectory() {
-		givenBranchDirectoryExists();
-		givenIssueDirectoryDoesNotExist();
-
-		whenCreatingIssueDirectoryForIssueNameWithSpecialCharacters();
-
-		expectIssueDirectoryExistsWithEncodedUnsafeCharacters();
-	}
-
 	private void givenBranchDirectoryExists() {
 		File branchDirectory = getBranchDirectory();
 		branchDirectory.mkdirs();
@@ -160,20 +120,18 @@ public class DesignFilesTest {
 	}
 
 	private void givenIssueDirectoryDoesNotExist() {
-		File issueDirectory = getIssueDirectory(FilesUtil.encodeName(ISSUE_NAME));
+		File issueDirectory = getIssueDirectory(FilesUtil.encodeName(ISSUE_ID));
 		Assert.assertFalse(issueDirectory.exists());
 	}
 
-	private void givenIssueDirectoryExists() {
-		File issueDirectory = getIssueDirectory(FilesUtil.encodeName(ISSUE_NAME));
-		issueDirectory.mkdirs();
-		Assert.assertTrue(issueDirectory.exists());
-	}
-
 	private void givenScenarioSketchDirectoryExists() {
-		File scenarioSketchDirectory = getScenarioSketchDirectory(FilesUtil.encodeName(ISSUE_NAME));
+		File scenarioSketchDirectory = getScenarioSketchDirectory(ISSUE_ID);
 		scenarioSketchDirectory.mkdirs();
 		Assert.assertTrue(scenarioSketchDirectory.exists());
+	}
+
+	private void givenStepSketchDirectoryExists() {
+		designFiles.createStepSketchDirectory(BRANCH_NAME, ISSUE_ID, SCENARIO_SKETCH_ID, "1");
 	}
 
 	private File getIssueDirectory(final String issueDirectoryName) {
@@ -183,7 +141,7 @@ public class DesignFilesTest {
 	}
 
 	private File getScenarioSketchDirectory(final String scenarioSketchDirectory) {
-		File issueDirectory = getIssueDirectory(FilesUtil.encodeName(ISSUE_NAME));
+		File issueDirectory = getIssueDirectory(FilesUtil.encodeName(ISSUE_ID));
 		return new File(issueDirectory, scenarioSketchDirectory);
 	}
 
@@ -193,24 +151,15 @@ public class DesignFilesTest {
 	}
 
 	private void whenCreatingIssueDirectory() {
-		createIssueDirectory(ISSUE_NAME);
-	}
-
-	private void whenCreatingIssueDirectoryForIssueNameWithSpecialCharacters() {
-		createIssueDirectory(ISSUE_NAME_WITH_UNSAFE_CHARACTERS);
+		createIssueDirectory(ISSUE_ID);
 	}
 
 	private void createIssueDirectory(final String issueName) {
-		designFiles.createIssueDirectory(BRANCH_NAME, issueName);
+		designFiles.createIssueDirectoryIfNotNecessary(BRANCH_NAME, issueName);
 	}
 
 	private void expectIssueDirectoryExists() {
-		File issueDirectory = getIssueDirectory(FilesUtil.encodeName(ISSUE_NAME));
-		Assert.assertTrue(issueDirectory.exists());
-	}
-
-	private void expectIssueDirectoryExistsWithEncodedUnsafeCharacters() {
-		File issueDirectory = getIssueDirectory(FilesUtil.encodeName(ISSUE_NAME_WITH_UNSAFE_CHARACTERS));
+		File issueDirectory = getIssueDirectory(ISSUE_ID);
 		Assert.assertTrue(issueDirectory.exists());
 	}
 

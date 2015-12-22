@@ -50,11 +50,19 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         // TODO Move three fields into a stepSketchIdentifier
         $scope.issueId = ContextService.issueId;
         $scope.scenarioSketchId = ContextService.scenarioSketchId;
-        $scope.stepSketchId = parseInt(ContextService.stepSketchId);
+        $scope.stepSketchId = ContextService.stepSketchId;
 
-        if (ContextService.issueId) {
-            Issue.load(ContextService.issueId);
-        }
+        IssueResource.get(
+            {
+                'branchName': $routeParams.branch,
+                'issueId': $scope.issueId
+            },
+            function onSuccess(result) {
+                $scope.currentIssue = result.issue;
+                $scope.issueName = $scope.currentIssue.name;
+                $scope.issueDescription = $scope.currentIssue.description;
+                $scope.issueAuthor = $scope.currentIssue.author;
+            });
     }
 
     function setAuthorFromLocalStorageIfAvailable() {
@@ -74,14 +82,6 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
     function storeAuthorInLocalStorage() {
         localStorageService.set(AUTHOR_LOCAL_STORAGE_KEY, $scope.issueAuthor);
     }
-
-    $rootScope.$on(Issue.ISSUE_LOADED_EVENT, function (event, result) {
-        $scope.currentIssue = result.issue;
-        $scope.issueName = $scope.currentIssue.name;
-        $scope.issueDescription = $scope.currentIssue.description;
-        $scope.issueAuthor = $scope.currentIssue.author;
-    });
-
 
     $scope.activateTool = function (tool) {
         if ($scope.currentTool) {
@@ -292,9 +292,9 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
         $scope.scenarioSketchSaved = 0;
 
         if ($scope.mode === MODE_CREATE) {
-            if ($scope.issueId) {
-                Issue.deleteSketcherData($scope.issueId);
-            }
+            //if ($scope.issueId) {
+            //    Issue.deleteSketcherData($scope.issueId);
+            //}
 
             $scope.issueId = null;
             $scope.scenarioSketchId = null;
