@@ -57,13 +57,13 @@ public class StepSketchResource {
 
 	@GET
 	@Produces({ "application/json" })
-	@Path("/{sketchStepName}")
-	public StepSketch loadSketchStep(@PathParam("branchName") final String branchName,
+	@Path("/{stepSketchId}")
+	public StepSketch loadStepSketch(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId,
-			@PathParam("sketchStepName") final String stepSketchId) {
+			@PathParam("stepSketchId") final String stepSketchId) {
 
-		LOGGER.info("REQUEST: loadSketchStep(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
+		LOGGER.info("REQUEST: loadStepSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
 				+ stepSketchId + ")");
 
 		return reader.loadStepSketch(branchName, issueId, scenarioSketchId, stepSketchId);
@@ -79,12 +79,12 @@ public class StepSketchResource {
 		LOGGER.info("REQUEST: storeStepSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
 				+ stepSketch + ")");
 
-		stepSketch.setStepSketchName("1");
+		stepSketch.setStepSketchId("1");
 		Date now = new Date();
 		stepSketch.setDateCreated(now);
 		stepSketch.setDateModified(now);
 
-		files.writeSketchStepToFile(branchName, issueId, scenarioSketchId, stepSketch);
+		files.writeStepSketchToFile(branchName, issueId, scenarioSketchId, stepSketch);
 
 		stepSketch.setSvgXmlString(SvgSanitizer.sanitize(stepSketch.getSvgXmlString()));
 		files.writeSVGToFile(branchName, issueId, scenarioSketchId, stepSketch);
@@ -132,24 +132,19 @@ public class StepSketchResource {
 	@POST
 	@Consumes({ "application/json" })
 	@Produces({ "application/json" })
-	@Path("/{sketchStepName}")
-	public Response updateSketchStep(@PathParam("branchName") final String branchName,
+	@Path("/{stepSketchId}")
+	public Response updateStepSketch(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId,
-			@PathParam("sketchStepName") final String stepSketchId, final StepSketch updatedSketchStep) {
+			@PathParam("stepSketchId") final String stepSketchId, final StepSketch updatedStepSketch) {
 
-		LOGGER.info("REQUEST: updateSketchStep(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
+		LOGGER.info("REQUEST: updateStepSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
 				+ stepSketchId + ")");
-
-		if (updatedSketchStep.getStepSketchName() == "0") {
-			LOGGER.error("There was no sketchStepName set on the sketchStep object!");
-			return Response.status(javax.ws.rs.core.Response.Status.BAD_REQUEST).build();
-		}
 
 		final StepSketch stepSketch = reader.loadStepSketch(branchName, issueId, scenarioSketchId,
 				stepSketchId);
 		
-		stepSketch.setSvgXmlString(SvgSanitizer.sanitize(updatedSketchStep.getSvgXmlString()));
+		stepSketch.setSvgXmlString(SvgSanitizer.sanitize(updatedStepSketch.getSvgXmlString()));
 		stepSketch.setDateModified(new Date());
 
 		files.writeSVGToFile(branchName, issueId, scenarioSketchId, stepSketch);

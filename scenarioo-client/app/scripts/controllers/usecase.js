@@ -18,7 +18,7 @@
 angular.module('scenarioo.controllers').controller('UseCaseCtrl', UseCaseCtrl);
 
 function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild,
-                     LabelConfigurationsResource, RelatedIssueResource) {
+                     LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource) {
 
     var vm = this;
 
@@ -134,9 +134,13 @@ function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource,
         });
     }
 
-    function goToIssue(issue){
-        var sketchStepId = sketchStepId || 1;
-        $location.path('/sketchstep/' + issue.id + '/' + issue.firstScenarioSketchId + '/' + sketchStepId);
+    function goToIssue(issue) {
+        var selectedBranch = SelectedBranchAndBuild.selected().branch;
+        SketchIdsResource.get(
+            {'branchName': selectedBranch, 'issueId': issue.id },
+            function onSuccess(result) {
+                $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+            });
     }
 
     function createUseCaseInformationTree(usecase) {

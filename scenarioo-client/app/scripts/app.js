@@ -71,13 +71,13 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 stepInPageOccurrence: '@stepInPageOccurrence',
                 breadcrumbId: 'step'
             })
-            .when('/sketchstep/:issueId/:scenarioSketchId/:stepSketchName', {
+            .when('/stepsketch/:issueId/:scenarioSketchId/:stepSketchId', {
                 templateUrl: 'views/design/stepSketch.html',
                 controller: 'StepSketchCtrl',
                 issueId: '@issueId',
                 scenarioSketchId: '@scenarioSketchId',
-                stepSketchName: '@stepSketchName',
-                breadcrumbId: 'sketchstep'
+                stepSketchId: '@stepSketchId',
+                breadcrumbId: 'stepsketch'
             })
             .when('/editor', {
                 templateUrl: 'views/design/editor.html',

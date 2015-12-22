@@ -27,7 +27,7 @@ public class DesignFilesTest {
 
 	static {
 		SKETCH_STEP = new StepSketch();
-		SKETCH_STEP.setStepSketchName("1");
+		SKETCH_STEP.setStepSketchId("1");
 		SKETCH_STEP
 				.setSvgXmlString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 						+ "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" height=\"100%\" "
@@ -81,33 +81,33 @@ public class DesignFilesTest {
 	}
 
 	@Test
-	public void createSketchStepDirectory() {
+	public void createStepSketchDirectory() {
 		givenScenarioSketchDirectoryExists();
 
-		designFiles.createSketchStepDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
-		File sketchStepDir = designFiles.getSketchStepsDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
-		assertTrue(sketchStepDir.exists());
-		assertEquals(sketchStepDir.getPath(),
-				"tmp/Test+Branch/This+is+our+first+Test+Issue/This+is+our+first+Test+Scenario+Sketch/sketchSteps");
+		designFiles.createStepSketchDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
+		File stepSketchDir = designFiles.getStepSketchesDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
+		assertTrue(stepSketchDir.exists());
+		assertEquals(stepSketchDir.getPath(),
+				"tmp/Test+Branch/This+is+our+first+Test+Issue/This+is+our+first+Test+Scenario+Sketch/stepSketches");
 	}
 
 	@Test
-	public void writeSketchStepToFile() {
+	public void writeStepSketchToFile() {
 		givenScenarioSketchDirectoryExists();
-		designFiles.writeSketchStepToFile(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH, SKETCH_STEP);
-		File sketchStepFile = designFiles.getSketchStepFile(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH,
-				SKETCH_STEP.getStepSketchName());
-		assertTrue(sketchStepFile.exists());
-		assertEquals(sketchStepFile.getName(), "1.xml");
+		designFiles.writeStepSketchToFile(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH, SKETCH_STEP);
+		File stepSketchFile = designFiles.getStepSketchFile(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH,
+				SKETCH_STEP.getStepSketchId());
+		assertTrue(stepSketchFile.exists());
+		assertEquals(stepSketchFile.getName(), "1.xml");
 	}
 
 	@Test
 	public void createSVGDirectory() {
-		designFiles.createSketchStepSVGDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
+		designFiles.createStepSketchSVGDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
 		File svgDir = designFiles.getSVGDirectory(BRANCH_NAME, ISSUE_NAME, SCENARIO_SKETCH);
 		assertTrue(svgDir.exists());
 		assertEquals(svgDir.getPath(),
-				"tmp/Test+Branch/This+is+our+first+Test+Issue/This+is+our+first+Test+Scenario+Sketch/sketchSteps/svg");
+				"tmp/Test+Branch/This+is+our+first+Test+Issue/This+is+our+first+Test+Scenario+Sketch/stepSketches/svg");
 	}
 
 	@Test

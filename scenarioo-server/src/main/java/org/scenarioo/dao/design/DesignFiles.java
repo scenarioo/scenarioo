@@ -23,7 +23,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.NumberFormat;
 import java.util.List;
 
 import org.apache.batik.ext.awt.image.codec.png.PNGRegistryEntry;
@@ -47,17 +46,15 @@ public class DesignFiles {
 
 	private static final Logger LOGGER = Logger.getLogger(DesignFiles.class);
 
-	private static final String DIRECTORY_NAME_SCENARIOSKETCH_SKETCHSTEPS = "sketchSteps";
+	private static final String DIRECTORY_NAME_SCENARIOSKETCH_STEPSKETCHES = "stepSketches";
 
-	private static final String DIRECTORY_NAME_SKETCHSTEP_SVG = "svg";
+	private static final String DIRECTORY_NAME_STEPSKETCH_SVG = "svg";
 
 	private static final String FILE_NAME_SCENARIOSKETCH = "scenarioSketch.xml";
 
 	private static final String FILE_NAME_ISSUE = "issue.xml";
 
 	private static final String FILE_NAME_BRANCH = "branch.xml";
-
-	private static NumberFormat THREE_DIGIT_NUM_FORMAT = createNumberFormatWithMinimumIntegerDigits(3);
 
 	private final File rootDirectory;
 
@@ -135,22 +132,22 @@ public class DesignFiles {
 		return FilesUtil.getListOfFilesFromSubdirs(getIssueDirectory(branchName, issueName), FILE_NAME_SCENARIOSKETCH);
 	}
 
-	public File getSketchStepsDirectory(final String branchName, final String issueName, final String scenarioSketchName) {
-		final File sketchStepsDirectory = new File(
+	public File getStepSketchesDirectory(final String branchName, final String issueName, final String scenarioSketchName) {
+		final File stepSketchesDirectory = new File(
 				getScenarioSketchDirectory(branchName, issueName, scenarioSketchName),
-				DIRECTORY_NAME_SCENARIOSKETCH_SKETCHSTEPS);
-		return sketchStepsDirectory;
+				DIRECTORY_NAME_SCENARIOSKETCH_STEPSKETCHES);
+		return stepSketchesDirectory;
 	}
 
-	public File getSketchStepFile(final String branchName, final String issueName, final String scenarioSketchId,
+	public File getStepSketchFile(final String branchName, final String issueName, final String scenarioSketchId,
 			final String stepSketchId) {
-		return new File(getSketchStepsDirectory(branchName, issueName, scenarioSketchId),
+		return new File(getStepSketchesDirectory(branchName, issueName, scenarioSketchId),
 				stepSketchId + ".xml");
 	}
 
 	public File getSVGDirectory(final String branchName, final String issueName, final String scenarioSketchId) {
-		final File svgDirectory = new File(getSketchStepsDirectory(branchName, issueName, scenarioSketchId),
-				DIRECTORY_NAME_SKETCHSTEP_SVG);
+		final File svgDirectory = new File(getStepSketchesDirectory(branchName, issueName, scenarioSketchId),
+				DIRECTORY_NAME_STEPSKETCH_SVG);
 		return svgDirectory;
 	}
 
@@ -164,8 +161,8 @@ public class DesignFiles {
 		return new File(getSVGDirectory(branchName, issueId, scenarioSketchId), pngFilename);
 	}
 
-	public List<File> getSketchStepFiles(final String branchName, final String issueName, final String scenarioSketchId) {
-		return FilesUtil.getListOfFiles(getSketchStepsDirectory(branchName, issueName, scenarioSketchId));
+	public List<File> getStepSketchFiles(final String branchName, final String issueName, final String scenarioSketchId) {
+		return FilesUtil.getListOfFiles(getStepSketchesDirectory(branchName, issueName, scenarioSketchId));
 	}
 
 	/**
@@ -173,16 +170,9 @@ public class DesignFiles {
 	 *         the file actually exists.
 	 */
 	public File getOriginalScreenshotFile(final String branchName, final String issueId,
-			final String scenarioSketchId, final int sketchStepIndex) {
+			final String scenarioSketchId, final int stepSketchId) {
 		return new File(getSVGDirectory(branchName, issueId, scenarioSketchId),
-				THREE_DIGIT_NUM_FORMAT.format(sketchStepIndex) + ".png");
-	}
-
-	private static NumberFormat createNumberFormatWithMinimumIntegerDigits(
-			final int minimumIntegerDigits) {
-		final NumberFormat numberFormat = NumberFormat.getIntegerInstance();
-		numberFormat.setMinimumIntegerDigits(minimumIntegerDigits);
-		return numberFormat;
+				stepSketchId + ".png");
 	}
 
 	public boolean createIssueDirectory(final String branchName, final String issueName) {
@@ -258,79 +248,79 @@ public class DesignFiles {
 		ScenarioDocuXMLFileUtil.marshal(scenarioSketch, destinationFile);
 	}
 
-	public boolean createSketchStepDirectory(final String branchName, final String issueName,
+	public boolean createStepSketchDirectory(final String branchName, final String issueName,
 			final String scenarioSketchId) {
-		final File sketchStepDir = getSketchStepsDirectory(branchName, issueName, scenarioSketchId);
-		final boolean isCreated = sketchStepDir.mkdirs();
+		final File stepSketchDir = getStepSketchesDirectory(branchName, issueName, scenarioSketchId);
+		final boolean isCreated = stepSketchDir.mkdirs();
 		if (!isCreated) {
-			LOGGER.error("SketchStep directory not created.");
-			LOGGER.error(sketchStepDir.getAbsolutePath());
+			LOGGER.error("StepSketch directory not created.");
+			LOGGER.error(stepSketchDir.getAbsolutePath());
 		}
 		return isCreated;
 	}
 
-	public File createSketchStepFile(final String branchName, final String issueName,
-			final String scenarioSketchId, final String stepSketchId, final StepSketch sketchStep) {
-		final File sketchStepFile = new File(getSketchStepsDirectory(branchName, issueName, scenarioSketchId),
+	public File createStepSketchFile(final String branchName, final String issueName,
+			final String scenarioSketchId, final String stepSketchId, final StepSketch stepSketch) {
+		final File stepSketchFile = new File(getStepSketchesDirectory(branchName, issueName, scenarioSketchId),
 				stepSketchId + ".xml");
 		try {
-			sketchStepFile.createNewFile();
-			return sketchStepFile;
+			stepSketchFile.createNewFile();
+			return stepSketchFile;
 		} catch (final IOException e) {
-			LOGGER.error("SketchStep file not created.");
+			LOGGER.error("StepSketch file not created.");
 		}
-		return sketchStepFile;
+		return stepSketchFile;
 	}
 
-	public void writeSketchStepToFile(final String branchName, final String issueId,
-			final String scenarioSketchId, final StepSketch sketchStep) {
-		createSketchStepDirectory(branchName, issueId, scenarioSketchId);
-		final File destinationFile = createSketchStepFile(branchName, issueId, scenarioSketchId,
-				sketchStep.getStepSketchName(), sketchStep);
-		ScenarioDocuXMLFileUtil.marshal(sketchStep, destinationFile);
+	public void writeStepSketchToFile(final String branchName, final String issueId,
+			final String scenarioSketchId, final StepSketch stepSketch) {
+		createStepSketchDirectory(branchName, issueId, scenarioSketchId);
+		final File destinationFile = createStepSketchFile(branchName, issueId, scenarioSketchId,
+				stepSketch.getStepSketchId(), stepSketch);
+		ScenarioDocuXMLFileUtil.marshal(stepSketch, destinationFile);
 	}
 
-	public void updateSketchStep(final String branchName, final StepSketch sketchStep) {
-		final File destinationFile = getSketchStepFile(branchName, sketchStep.getIssueId(),
-				sketchStep.getScenarioSketchId(), sketchStep.getStepSketchName());
-		ScenarioDocuXMLFileUtil.marshal(sketchStep, destinationFile);
+	public void updateStepSketch(final String branchName, final StepSketch stepSketch) {
+		final File destinationFile = getStepSketchFile(branchName, stepSketch.getIssueId(),
+				stepSketch.getScenarioSketchId(), stepSketch.getStepSketchId());
+		ScenarioDocuXMLFileUtil.marshal(stepSketch, destinationFile);
 	}
 
-	public boolean createSketchStepSVGDirectory(final String branchName, final String issueID,
+	public boolean createStepSketchSVGDirectory(final String branchName, final String issueID,
 			final String scenarioSketchId) {
-		final File sketchStepSVGDir = new File(getSketchStepsDirectory(branchName, issueID, scenarioSketchId),
-				DIRECTORY_NAME_SKETCHSTEP_SVG);
-		final boolean isCreated = sketchStepSVGDir.mkdirs();
-		if (!isCreated && !sketchStepSVGDir.exists()) {
-			LOGGER.error("SketchStep SVG directory not created: " + sketchStepSVGDir);
+		final File stepSketchSVGDir = new File(getStepSketchesDirectory(branchName, issueID, scenarioSketchId),
+				DIRECTORY_NAME_STEPSKETCH_SVG);
+		final boolean isCreated = stepSketchSVGDir.mkdirs();
+		if (!isCreated && !stepSketchSVGDir.exists()) {
+			LOGGER.error("StepSketch SVG directory not created: " + stepSketchSVGDir);
 		}
 		return isCreated;
 	}
 
-	public File getSketchStepsSVGDirectory(final String branchName, final String issueId,
+	public File getStepSketchSVGDirectory(final String branchName, final String issueId,
 			final String scenarioSketchId) {
-		return new File(getSketchStepsDirectory(branchName, issueId, scenarioSketchId), DIRECTORY_NAME_SKETCHSTEP_SVG);
+		return new File(getStepSketchesDirectory(branchName, issueId, scenarioSketchId), DIRECTORY_NAME_STEPSKETCH_SVG);
 	}
 
 	public void writeSVGToFile(final String branchName, final String issueId,
-			final String scenarioSketchId, final StepSketch sketchStep) {
-		createSketchStepSVGDirectory(branchName, issueId, scenarioSketchId);
+			final String scenarioSketchId, final StepSketch stepSketch) {
+		createStepSketchSVGDirectory(branchName, issueId, scenarioSketchId);
 		final String svgFilename = "sketch.svg";
-		final File sketchStepSVGFile = new File(getSketchStepsSVGDirectory(branchName, issueId, scenarioSketchId),
+		final File stepSketchSVGFile = new File(getStepSketchSVGDirectory(branchName, issueId, scenarioSketchId),
 				svgFilename);
-		storeSvgFile(branchName, issueId, scenarioSketchId, sketchStep, svgFilename, sketchStepSVGFile);
-		storePngFile(branchName, issueId, scenarioSketchId, sketchStepSVGFile);
+		storeSvgFile(branchName, issueId, scenarioSketchId, stepSketch, svgFilename, stepSketchSVGFile);
+		storePngFile(branchName, issueId, scenarioSketchId, stepSketchSVGFile);
 	}
 
 	private void storePngFile(final String branchName, final String issueId, final String scenarioSketchId,
-			final File sketchStepSVGFile) {
+			final File stepSketchSVGFile) {
 		try {
-			final FileInputStream istream = new FileInputStream(sketchStepSVGFile);
+			final FileInputStream istream = new FileInputStream(stepSketchSVGFile);
 			final ImageTagRegistry registry = ImageTagRegistry.getRegistry();
 			registry.register(new PNGRegistryEntry());
 			final TranscoderInput input = new TranscoderInput(istream);
 
-			final File pngfile = new File(getSketchStepsSVGDirectory(branchName, issueId, scenarioSketchId),
+			final File pngfile = new File(getStepSketchSVGDirectory(branchName, issueId, scenarioSketchId),
 					"sketch.png");
 			final FileOutputStream ostream = new FileOutputStream(pngfile);
 			final TranscoderOutput output = new TranscoderOutput(ostream);
@@ -351,16 +341,16 @@ public class DesignFiles {
 	}
 
 	private void storeSvgFile(final String branchName, final String issueId, final String scenarioSketchId,
-			final StepSketch sketchStep, final String svgFilename, final File sketchStepSVGFile) {
+			final StepSketch stepSketch, final String svgFilename, final File stepSketchSVGFile) {
 		try {
-			final FileWriter writer = new FileWriter(sketchStepSVGFile);
-			writer.write(sketchStep.getSvgXmlString());
+			final FileWriter writer = new FileWriter(stepSketchSVGFile);
+			writer.write(stepSketch.getSvgXmlString());
 			writer.close();
 
-			sketchStep.setSketchFileName(svgFilename);
-			final File destinationFile = getSketchStepFile(branchName, issueId, scenarioSketchId,
-					sketchStep.getStepSketchName());
-			ScenarioDocuXMLFileUtil.marshal(sketchStep, destinationFile);
+			stepSketch.setSketchFileName(svgFilename);
+			final File destinationFile = getStepSketchFile(branchName, issueId, scenarioSketchId,
+					stepSketch.getStepSketchId());
+			ScenarioDocuXMLFileUtil.marshal(stepSketch, destinationFile);
 		} catch (final IOException e) {
 			LOGGER.error("Could not write SVG file.");
 			LOGGER.error(e.toString());
@@ -374,7 +364,7 @@ public class DesignFiles {
 					"original.png");
 			FileUtils.copyFile(originalScreenshot, destination);
 		} catch (final IOException e) {
-			LOGGER.error("Couldn't copy original screenshot to sketchstep!");
+			LOGGER.error("Couldn't copy original screenshot to stepsketch!");
 			e.printStackTrace();
 		}
 	}
