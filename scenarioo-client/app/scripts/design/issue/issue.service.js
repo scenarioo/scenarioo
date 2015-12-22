@@ -17,34 +17,7 @@
 
 angular.module('scenarioo.services').factory('Issue', function ($rootScope, $routeParams, SelectedBranchAndBuild, IssueResource, $log) {
 
-    var ISSUE_LOADED_EVENT = 'issueLoaded';
-
-    var issueData = {};
-
-    function doLoad(issueId) {
-
-        IssueResource.query(
-            {
-                'branchName': $routeParams.branch,
-                'issueId': issueId
-            },
-            function onSuccess(result) {
-                $rootScope.$broadcast(ISSUE_LOADED_EVENT, result);
-            });
-    }
-
-
     return {
-        ISSUE_LOADED_EVENT: ISSUE_LOADED_EVENT,
-
-        getRawIssuesDataCopy: function () {
-            return angular.copy(issueData);
-        },
-
-        load: function (issueId) {
-            doLoad(issueId);
-        },
-
         saveIssue: function (issue, successCallback, errorCallback) {
             issue.$save(function (updatedIssue) {
                 if (successCallback) {
@@ -56,21 +29,6 @@ angular.module('scenarioo.services').factory('Issue', function ($rootScope, $rou
                 if (errorCallback) {
                     errorCallback('Issue could not be saved');
                 }
-            });
-        },
-
-        deleteSketcherData: function (issueId) {
-            IssueResource.delete(
-            {
-                'branchName': $routeParams.branch,
-                'issueId': issueId
-            },
-            function onSuccess() {
-                $log.log('sketcher data rolled back');
-            },
-            function onError(error) {
-                $log.warn('sketcher data NOT rolled back');
-                $log.error(error);
             });
         }
     };

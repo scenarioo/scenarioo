@@ -34,8 +34,8 @@ import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
-import org.scenarioo.dao.design.DesignFiles;
-import org.scenarioo.dao.design.DesignReader;
+import org.scenarioo.dao.sketcher.SketcherFiles;
+import org.scenarioo.dao.sketcher.SketcherReader;
 import org.scenarioo.model.design.entities.Issue;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -52,8 +52,8 @@ public class IssueResource {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
-	private final DesignReader reader = new DesignReader(configurationRepository.getDesignDataDirectory());
-	private final DesignFiles files = new DesignFiles(configurationRepository.getDesignDataDirectory());
+	private final SketcherReader reader = new SketcherReader(configurationRepository.getDesignDataDirectory());
+	private final SketcherFiles files = new SketcherFiles(configurationRepository.getDesignDataDirectory());
 
 	/**
 	 * Lists all issues for the given branch. Used to display the branches in the "Sketches" tab on branch level.
@@ -113,7 +113,7 @@ public class IssueResource {
 		newIssue.setDateCreated(now);
 		newIssue.setDateModified(now);
 
-		files.writeIssueToFile(branchName, newIssue);
+		files.persistIssue(branchName, newIssue);
 
 		return Response.ok(newIssue, MediaType.APPLICATION_JSON).build();
 	}
@@ -133,7 +133,7 @@ public class IssueResource {
 		existingIssue.setDescription(updatedIssue.getDescription());
 		existingIssue.setAuthor(updatedIssue.getAuthor());
 
-		files.updateIssue(branchName, existingIssue);
+		files.persistIssue(branchName, existingIssue);
 
 		return Response.ok(existingIssue, MediaType.APPLICATION_JSON).build();
 	}

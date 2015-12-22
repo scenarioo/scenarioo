@@ -34,8 +34,8 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.files.ScenarioDocuFiles;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.design.DesignFiles;
-import org.scenarioo.dao.design.DesignReader;
+import org.scenarioo.dao.sketcher.SketcherFiles;
+import org.scenarioo.dao.sketcher.SketcherReader;
 import org.scenarioo.model.design.entities.StepSketch;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -49,8 +49,8 @@ public class StepSketchResource {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
-	private final DesignFiles files = new DesignFiles(configurationRepository.getDesignDataDirectory());
-	private final DesignReader reader = new DesignReader(configurationRepository.getDesignDataDirectory());
+	private final SketcherFiles files = new SketcherFiles(configurationRepository.getDesignDataDirectory());
+	private final SketcherReader reader = new SketcherReader(configurationRepository.getDesignDataDirectory());
 
 	private final ScenarioDocuFiles docuFiles = new ScenarioDocuFiles(
 			configurationRepository.getDocumentationDataDirectory());
@@ -84,10 +84,11 @@ public class StepSketchResource {
 		stepSketch.setDateCreated(now);
 		stepSketch.setDateModified(now);
 
-		files.writeStepSketchToFile(branchName, issueId, scenarioSketchId, stepSketch);
+		files.createStepSketchDirectory(branchName, issueId, scenarioSketchId, stepSketch.getStepSketchId());
+		files.persistStepSketch(branchName, issueId, scenarioSketchId, stepSketch);
 
 		stepSketch.setSvgXmlString(SvgSanitizer.sanitize(stepSketch.getSvgXmlString()));
-		files.writeSVGToFile(branchName, issueId, scenarioSketchId, stepSketch);
+		files.persistSketchAsSvgAndPng(branchName, issueId, scenarioSketchId, stepSketch);
 
 		copyOriginalScreenshot(branchName, issueId, scenarioSketchId, stepSketch);
 
@@ -115,7 +116,8 @@ public class StepSketchResource {
 			return;
 		}
 
-		files.copyOriginalScreenshot(originalScreenshot, branchName, issueId, scenarioSketchId);
+		files.copyOriginalScreenshot(originalScreenshot, branchName, issueId, scenarioSketchId,
+				stepSketch.getStepSketchId());
 	}
 
 	private HashMap<String, String> parseContextInDocu(final String toParse) {
@@ -147,7 +149,7 @@ public class StepSketchResource {
 		stepSketch.setSvgXmlString(SvgSanitizer.sanitize(updatedStepSketch.getSvgXmlString()));
 		stepSketch.setDateModified(new Date());
 
-		files.writeSVGToFile(branchName, issueId, scenarioSketchId, stepSketch);
+		files.persistSketchAsSvgAndPng(branchName, issueId, scenarioSketchId, stepSketch);
 
 		return Response.ok(stepSketch, MediaType.APPLICATION_JSON).build();
 	}

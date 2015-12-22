@@ -28,8 +28,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.dao.design.DesignFiles;
-import org.scenarioo.dao.design.DesignReader;
+import org.scenarioo.dao.sketcher.SketcherFiles;
+import org.scenarioo.dao.sketcher.SketcherReader;
 import org.scenarioo.model.design.entities.ScenarioSketch;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -43,8 +43,8 @@ public class ScenarioSketchResource {
 
 	private static final Logger LOGGER = Logger.getLogger(ScenarioSketchResource.class);
 
-	private final DesignReader reader = new DesignReader(configurationRepository.getDesignDataDirectory());
-	private final DesignFiles files = new DesignFiles(configurationRepository.getDesignDataDirectory());
+	private final SketcherReader reader = new SketcherReader(configurationRepository.getDesignDataDirectory());
+	private final SketcherFiles files = new SketcherFiles(configurationRepository.getDesignDataDirectory());
 
 	@POST
 	@Consumes("application/json")
@@ -58,7 +58,7 @@ public class ScenarioSketchResource {
 		scenarioSketch.setDateCreated(now);
 		scenarioSketch.setDateModified(now);
 
-		files.writeScenarioSketchToFile(branchName, scenarioSketch.getIssueId(), scenarioSketch);
+		files.persistScenarioSketch(branchName, scenarioSketch.getIssueId(), scenarioSketch);
 
 		return Response.ok(scenarioSketch, MediaType.APPLICATION_JSON).build();
 	}
@@ -76,7 +76,7 @@ public class ScenarioSketchResource {
 		scenarioSketch.setDateModified(new Date());
 		scenarioSketch.setAuthor(updatedScenarioSketch.getAuthor());
 
-		files.updateScenarioSketch(branchName, scenarioSketch);
+		files.persistScenarioSketch(branchName, scenarioSketchId, scenarioSketch);
 
 		return Response.ok(updatedScenarioSketch, MediaType.APPLICATION_JSON).build();
 	}
