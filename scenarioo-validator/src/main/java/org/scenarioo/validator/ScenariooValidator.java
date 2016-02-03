@@ -1,4 +1,4 @@
-package org.scenarioo.tools.validator;
+package org.scenarioo.validator;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
@@ -14,9 +14,7 @@ import java.util.Map;
 
 /**
  * Validates a given docu directory by trying to import it.
- * If import (parsing + aggregation) was successful, the produced folder structure and xml files within the given directory are valid.
- * <p/>
- * This can also be used as command line tool in order to validate any scenarioo documentation folder (e.g. produced by another writer API like scenarioo-js)
+ * If import (parsing + aggregation) was successful, the folder structure and xml files within the given directory are valid.
  */
 public class ScenariooValidator {
 
@@ -46,6 +44,7 @@ public class ScenariooValidator {
             return;
         }
 
+        // Note: it would be sufficient to delete "version.derived.properties". But we like to start with a clean slate.
         Collection<File> derivedFiles = FileUtils.listFiles(this.docuDirectory, new RegexFileFilter("(.*derived\\.(xml|log))|(.*derived\\.properties)"), TrueFileFilter.INSTANCE);
         LOGGER.info("Cleaning " + derivedFiles.size() + " derived files from docu directory " + this.docuDirectory);
 
@@ -72,33 +71,6 @@ public class ScenariooValidator {
         }
 
         return allImportsSuccessful;
-    }
-
-
-    /**
-     * ---- Main method to make this class available as command line tool ----
-     **/
-
-    public static void main(String[] args) throws InterruptedException {
-
-        boolean successful = new ScenariooValidator(getDocuDirectory(args), shouldCleanBefore(args)).validate();
-
-        if (!successful) {
-            throw new RuntimeException("Validation failed. See log output for more information!");
-        } else {
-            LOGGER.info("Validation successful!");
-        }
-    }
-
-    private static File getDocuDirectory(String[] args) {
-        if (args.length < 1) {
-            throw new IllegalArgumentException("Please specify the path to the docu directory to validate!");
-        }
-        return new File(args[0]);
-    }
-
-    private static boolean shouldCleanBefore(String[] args) {
-        return args.length >= 2 && Boolean.parseBoolean(args[1]);
     }
 
 }
