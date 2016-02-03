@@ -15,6 +15,6 @@ public class ServerVersion {
 	 * internal aggregation format. the second part should be increased whenever something important is changed in the
 	 * internal format or the way that the aggregator is caluclating internal data on builds.
 	 */
-	public static final String DERIVED_FILE_FORMAT_VERSION = "2.0.1.dev3";
+	public static final String DERIVED_FILE_FORMAT_VERSION = "2.1.0";
 
 }
