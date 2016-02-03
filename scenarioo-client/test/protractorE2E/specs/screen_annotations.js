@@ -21,14 +21,14 @@ scenarioo.describeUseCase('View screen annotations', 'Screens can have visual an
     scenarioo.describeScenario('Screen with annotations', 'Screen annotations are shown if the step has some', function () {
         stepPage.goToPage('/step/Find Page/find_multiple_results/startSearch.jsp/0/1');
         stepPage.assertScreenshotIsShown();
-        stepPage.assertTwoScreenAnnotationsAreVisible();
+        stepPage.assertNumberOfVisibleScreenAnnotationsIs(2);
         scenarioo.docuWriter.saveStep('Two screen annotations are shown');
     });
 
     scenarioo.describeScenario('Show and hide annotations', 'Screen annotations can be hidden by clicking a button', function () {
         stepPage.goToPage('/step/Find Page/find_multiple_results/startSearch.jsp/0/1');
         stepPage.assertScreenshotIsShown();
-        stepPage.assertTwoScreenAnnotationsAreVisible();
+        stepPage.assertNumberOfVisibleScreenAnnotationsIs(2);
         scenarioo.docuWriter.saveStep('Two screen annotations are shown');
 
         stepPage.clickShowScreenAnnotationsButton();
@@ -36,8 +36,20 @@ scenarioo.describeUseCase('View screen annotations', 'Screens can have visual an
         scenarioo.docuWriter.saveStep('Screen annotations are hidden');
 
         stepPage.clickShowScreenAnnotationsButton();
-        stepPage.assertTwoScreenAnnotationsAreVisible();
+        stepPage.assertNumberOfVisibleScreenAnnotationsIs(2);
         scenarioo.docuWriter.saveStep('Two screen annotations are shown');
+    });
+
+    scenarioo.describeScenario('Popup', 'Further information about the annotation is displayed in a popup', function() {
+        stepPage.goToPage('/step/Technical%20Corner%20Cases/dummy_scenario_with_screen_annotations_of_all_types_on_one_page/specialPageWithOnlyOneVariant.jsp/0/1');
+        stepPage.assertScreenshotIsShown();
+        stepPage.assertNumberOfVisibleScreenAnnotationsIs(11);
+        scenarioo.docuWriter.saveStep('Eleven screen annotations are shown');
+
+        stepPage.clickNthScreenAnnotationIcon(0);
+        stepPage.assertScreenAnnotationPopupIsDisplayed();
+        stepPage.assertTitleOfAnnotationPopupIs('DEFAULT-Annotation \'Life Is Beautiful\'');
+        scenarioo.docuWriter.saveStep('Popup is shown');
     });
 
 });
