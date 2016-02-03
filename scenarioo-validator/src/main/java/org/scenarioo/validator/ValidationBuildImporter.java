@@ -1,4 +1,4 @@
-package org.scenarioo.tools.validator;
+package org.scenarioo.validator;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.AvailableBuildsList;
@@ -49,7 +49,7 @@ public class ValidationBuildImporter {
         }
 
         if (numberOfBuildsToImport == 0) {
-            LOGGER.warn("No builds get validated. You can clear'derived' files from your docu directory before.");
+            LOGGER.warn("No builds get validated. You can clear 'derived' files from your docu directory before. Use -c (--clean-derived) command line option.");
             return new HashMap<BuildIdentifier, BuildImportSummary>();
         }
 
