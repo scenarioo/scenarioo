@@ -29,4 +29,5 @@ mainClassName = 'org.scenarioo.validator.ScenariooValidatorRunner'
 dependencies {
     compile project(':scenarioo-server')
     compile 'commons-cli:commons-cli:1.3.1'
+    compile 'org.apache.commons:commons-collections4:4.1'
 }
