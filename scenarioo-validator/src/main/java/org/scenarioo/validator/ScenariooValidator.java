@@ -1,15 +1,11 @@
 package org.scenarioo.validator;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.RegexFileFilter;
-import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.log4j.Logger;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 import java.io.File;
-import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -35,23 +31,9 @@ public class ScenariooValidator {
         return evaluateSummaries(buildImportSummaries);
     }
 
-    /**
-     * will remove all derived files in given docuDirectory (if requested).
-     * removes "*.derived.xml"  and "*.derived.log"  files.
-     */
     private void cleanDerivedFilesIfRequested() {
-        if (!this.doCleanDerivedFiles) {
-            return;
-        }
-
-        // Note: it would be sufficient to delete "version.derived.properties". But we like to start with a clean slate.
-        Collection<File> derivedFiles = FileUtils.listFiles(this.docuDirectory, new RegexFileFilter("(.*derived\\.(xml|log))|(.*derived\\.properties)"), TrueFileFilter.INSTANCE);
-        LOGGER.info("Cleaning " + derivedFiles.size() + " derived files from docu directory " + this.docuDirectory);
-
-        for (final File file : derivedFiles) {
-            if (!file.delete()) {
-                LOGGER.error("Can't remove " + file.getAbsolutePath());
-            }
+        if (this.doCleanDerivedFiles) {
+            DerivedFileCleaner.cleanDerivedFiles(this.docuDirectory);
         }
     }
 
