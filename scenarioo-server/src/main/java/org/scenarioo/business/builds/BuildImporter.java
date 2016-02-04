@@ -80,6 +80,10 @@ public class BuildImporter {
 		return new ArrayList<BuildImportSummary>(buildImportSummaries.values());
 	}
 	
+    public ExecutorService getAsyncBuildImportExecutor() {
+        return asyncBuildImportExecutor;
+    }
+
 	public synchronized void updateBuildImportStates(final List<BranchBuilds> branchBuildsList,
 			final Map<BuildIdentifier, BuildImportSummary> loadedBuildSummaries) {
 		Map<BuildIdentifier, BuildImportSummary> result = new HashMap<BuildIdentifier, BuildImportSummary>();
@@ -106,15 +110,23 @@ public class BuildImporter {
 		buildImportSummaries = result;
 	}
 	
-	public synchronized void submitUnprocessedBuildsForImport(final AvailableBuildsList availableBuilds) {
+    /**
+     * Loops over given builds and submits all builds that are not yet imported.
+     *
+     * @return Returns the number of builds that were submitted (that need to be imported)
+     */
+    public synchronized int submitUnprocessedBuildsForImport(final AvailableBuildsList availableBuilds) {
 		List<BuildImportSummary> buildsSortedByDateDescending = BuildByDateSorter
 				.sortBuildsByDateDescending(buildImportSummaries.values());
 
+        int importNeededBuildCounter = 0;
 		for (BuildImportSummary buildImportSummary : buildsSortedByDateDescending) {
 			if (buildImportSummary != null && buildImportSummary.getStatus().isImportNeeded()) {
+                importNeededBuildCounter++;
 				submitBuildForImport(availableBuilds, buildImportSummary.getIdentifier());
 			}
 		}
+        return importNeededBuildCounter;
 	}
 	
 	public synchronized void submitBuildForReimport(final AvailableBuildsList availableBuilds,

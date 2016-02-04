@@ -34,7 +34,7 @@ configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor 10, 'minutes'
 }
 
-configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-example")]) {
+configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-example"), project(":scenarioo-validator")]) {
     apply plugin: 'eclipse'
     apply plugin: 'java'
 
@@ -74,6 +74,11 @@ configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-exa
 }
 
 project(':scenarioo-docu-generation-example') {
+    dependencies {
+    }
+}
+
+project(':scenarioo-validator') {
     dependencies {
     }
 }
