@@ -21,8 +21,8 @@
 // see https://docs.gradle.org/current/userguide/application_plugin.html
 apply plugin: 'application'
 
-sourceCompatibility=1.6
-targetCompatibility=1.6
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
 
 mainClassName = 'org.scenarioo.validator.ScenariooValidatorRunner'
 
@@ -30,4 +30,15 @@ dependencies {
     compile project(':scenarioo-server')
     compile 'commons-cli:commons-cli:1.3.1'
     compile 'org.apache.commons:commons-collections4:4.1'
+}
+
+
+distZip.doLast {
+    copy {
+        String originalZipName = 'scenarioo-validator-' + version + '.zip';
+        from('build/distributions/')
+        into('build/distributions/')
+        include(originalZipName)
+        rename(originalZipName, 'scenarioo-validator-latest.zip')
+    }
 }
