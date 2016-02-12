@@ -130,18 +130,19 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
 
     // Load existing sketch
     function importDrawing(bgImg, svgData) {
-        var dp = bgImg.doc(SVG.Doc);
-        var tempContainer = dp.nested();
-        tempContainer.svg(svgData);
-        var tempSVG = tempContainer.first();
+        var dp = bgImg.doc(SVG.Doc); // Gets the SVG image root (svg.js)
+        var tempContainer = dp.nested(); // Creates a nested SVG document inside the parent SVG document (svg.js)
+        tempContainer.svg(svgData); // Import the loaded SVG file into the nested SVG document (svg.js)
+        var tempSVG = tempContainer.first(); // Get the first SVG element which is the root node of the imported document (svg.js)
+
         tempSVG.each(function () {
             var newShape;
 
             if (this.hasClass('shape')) {
                 newShape = DrawShapeService.createNewShapeByClassName(drawingPad.drawingContainer, this);
                 DrawShapeService.registerShapeEvents(newShape, newShape instanceof SVG.Nested);
-            } else {
-                newShape = this;
+            } else if(this.type === 'image') {
+                newShape = this; // This is the background image node
             }
             drawingPad.drawingContainer.add(newShape);
         });

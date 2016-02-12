@@ -19,15 +19,13 @@ angular.module('scenarioo.services').factory('RectCompositeDrawTool', function (
 
     var tool = CompositeDrawTool();
 
-
-    tool.name = 'Rectangle Tool';
+    tool.id = 'sc-sketcher-tool-rectangle';
     tool.icon = 'rect';
     tool.tooltip = 'Draw a rectangle';
 
     tool.getShape = function () {
         return tool.getDrawingPad().rectShape(0, 0, 0, 0);
     };
-
 
     return tool;
 

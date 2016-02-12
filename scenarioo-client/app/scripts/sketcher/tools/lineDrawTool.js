@@ -19,9 +19,10 @@ angular.module('scenarioo.controllers').factory('LineDrawTool', function (DrawTo
 
     var tool = DrawTool();
 
-    tool.name = 'Line Tool';
+    tool.id = 'sc-sketcher-tool-line';
     tool.icon = 'line';
     tool.tooltip = 'Draw a line';
+
     tool.startpoint = null;
     tool.endpoint = null;
 
@@ -30,11 +31,6 @@ angular.module('scenarioo.controllers').factory('LineDrawTool', function (DrawTo
         tool.onmousedownTemplate(event);
 
         tool.startpoint = tool.endpoint = [tool.originalX, tool.originalY];
-
-        tool.shape.stroke({
-            width: 3,
-            fill: '#f00'
-        });
 
         tool.update();
     };
@@ -49,7 +45,7 @@ angular.module('scenarioo.controllers').factory('LineDrawTool', function (DrawTo
         }
         tool.onmousedragTemplate(event);
 
-        tool.endpoint = [tool.cornerX, tool.cornerY];
+        tool.endpoint = [tool.mouseX, tool.mouseY];
         tool.update();
     };
 
@@ -58,7 +54,7 @@ angular.module('scenarioo.controllers').factory('LineDrawTool', function (DrawTo
     };
 
     tool.getShape = function () {
-        return tool.getDrawingPad().line(0, 0, 0, 0);
+        return tool.getDrawingPad().lineShape(0, 0, 0, 0);
     };
 
     return tool;

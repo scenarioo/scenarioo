@@ -23,11 +23,15 @@ angular.module('scenarioo.services').factory('Tool', function (DrawingPadService
 
         return {
 
-            name: 'Tool name required',
+            // Every tool needs to set those fields to an adequate value
+            id: 'HTML id required',
             icon: 'default',
             tooltip: 'Tooltip text required',
             cursor: 'default',
+
+            // Button is disabled when tool is already active
             buttonDisabled: false,
+
 
             DRAWING_ENDED_EVENT: 'drawingEnded',
 
@@ -39,17 +43,18 @@ angular.module('scenarioo.services').factory('Tool', function (DrawingPadService
             },
 
             activate: function () {
-                $log.log('Activated tool: ' + this.name);
+                $log.log('Activated tool: ' + this.id);
 
                 this.buttonDisabled = true;
                 var dp = this.getDrawingPad();
+                // Instead of registering the three events, why not just set the tool on the drawing pad?
                 if (dp) {
                     dp.on('mousedown.drawingpad', this.onmousedown);
                     dp.on('mouseup.drawingpad', this.onmouseup);
                     dp.on('mousemove.drawingpad', this.onmousedrag);
                 }
 
-                $('body').css('cursor', this.getCursor());
+                $('#drawingPad').css('cursor', this.cursor);
             },
 
             deactivate: function () {
@@ -62,7 +67,7 @@ angular.module('scenarioo.services').factory('Tool', function (DrawingPadService
                     dp.off('mousemove.drawingpad', this.onmousedrag);
                 }
 
-                $('body').css('cursor', this.cursor);
+                $('#drawingPad').css('cursor', 'default');
             },
 
             onmousedown: function () {
@@ -70,10 +75,6 @@ angular.module('scenarioo.services').factory('Tool', function (DrawingPadService
             onmouseup: function () {
             },
             onmousedrag: function () {
-            },
-
-            getCursor: function () {
-                return this.cursor;
             }
         };
     };

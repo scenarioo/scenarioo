@@ -21,8 +21,7 @@ angular.module('scenarioo.controllers').factory('TextCompositeDrawTool', functio
 
     var tool = CompositeDrawTool();
 
-
-    tool.name = 'Text Tool';
+    tool.id = 'sc-sketcher-tool-text';
     tool.icon = 'text';
     tool.tooltip = 'Write a text';
 
@@ -33,7 +32,6 @@ angular.module('scenarioo.controllers').factory('TextCompositeDrawTool', functio
     tool.getShapeStartMode = function () {
         return 'EDIT';
     };
-
 
     return tool;
 

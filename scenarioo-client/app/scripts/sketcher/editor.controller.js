@@ -20,7 +20,8 @@
 angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $interval, $routeParams, $route,
                                                                            GlobalHotkeysService, SelectedBranchAndBuild, ToolBox, DrawShapeService,
                                                                            DrawingPadService, StepSketch, StepSketchResource, IssueResource, Issue,
-                                                                           ScenarioSketchResource, ContextService, $log, $window, localStorageService) {
+                                                                           ScenarioSketchResource, ContextService, $log, $window, localStorageService,
+                                                                           ZoomPanService, $timeout) {
 
     var AUTHOR_LOCAL_STORAGE_KEY = 'issue_author',
         MODE_CREATE = 'create',
@@ -34,8 +35,8 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
         $scope.mode = $location.search().mode;
         $scope.currentTool = null;
-        $scope.tools = ToolBox;
-        $scope.activateTool($scope.tools[0]);
+        $scope.toolBox = ToolBox;
+        $scope.activateTool($scope.toolBox[0]);
 
         if ($scope.mode === MODE_EDIT) {
             initEditMode();
@@ -304,7 +305,7 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
 
     $rootScope.$on('drawingEnded', function (scope, shape) {
         // $scope.$apply is used to make sure that the button disabled directive updates in the view
-        $scope.$apply($scope.activateTool($scope.tools[0]));
+        $scope.$apply($scope.activateTool($scope.toolBox[0]));
 
         shape.selectToggle();
         DrawingPadService.setSelectedShape(shape);
@@ -361,6 +362,15 @@ angular.module('scenarioo.controllers').controller('EditorCtrl', function ($root
             return '';
         }
     };
+
+    $scope.zoomFactor = ZoomPanService.getZoomFactor();
+
+    $rootScope.$on(ZoomPanService.ZOOM_FACTOR_CHANGED, function() {
+        $scope.zoomFactor = ZoomPanService.getZoomFactor();
+        $timeout(function() {
+            $scope.$apply();
+        });
+    });
 
     $scope.$on('$destroy', function () {
         DrawingPadService.destroy();
