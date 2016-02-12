@@ -15,10 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('StepSketchCtrl', function ($http, $scope, $routeParams, $location, $q, $window, localStorageService,
-                                                                               Config, StepSketchResource, HostnameAndPort, SelectedBranchAndBuild, $filter,
-                                                                               ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource,
-                                                                               SharePageService, ContextService, IssueResource) {
+angular
+    .module('scenarioo.controllers')
+    .controller('StepSketchCtrl', function ($http, $scope, $routeParams, $location, $q, $window, localStorageService,
+        Config, StepSketchResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup,
+        GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService, IssueResource) {
 
     var issueId = $routeParams.issueId,
         scenarioSketchId = $routeParams.scenarioSketchId,
@@ -52,7 +53,7 @@ angular.module('scenarioo.controllers').controller('StepSketchCtrl', function ($
 
         function updateUrlsForSharing() {
             SharePageService.setPageUrl($scope.getCurrentUrlForSharing());
-            SharePageService.setImageUrl($scope.getScreenShotUrl());
+            SharePageService.setImageUrl($scope.getScreenshotUrlForSharing());
         }
     }
 
@@ -105,7 +106,7 @@ angular.module('scenarioo.controllers').controller('StepSketchCtrl', function ($
 
         var selected = SelectedBranchAndBuild.selected();
 
-        return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/' + imageName;
+        return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
     };
 
     $scope.$on('$destroy', function () {
