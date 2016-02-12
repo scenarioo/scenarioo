@@ -17,7 +17,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumb></sc-breadcrumb>
 
-<tabset class="step-panes">
+<div ng-show="!loading && issueNotFound" id="issueDoesNotExistMessage">
+    <div class="alert alert-info" role="alert">
+        <p>The sketch you are looking for could not be found. Sketches are always assigned to a branch,
+            so maybe you just have to select the correct branch in order to find it.</p>
+    </div>
+</div>
+
+<tabset class="step-panes" ng-hide="loading || issueNotFound">
     <tab heading="Sketch">
         <img ng-src={{getScreenShotUrl()}}/>
     </tab>

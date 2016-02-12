@@ -57,22 +57,9 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         route: '/object/:objectType/:objectName'
     };
 
-    var issueElement =
-    {
-        label: '<strong>Issue</strong>',
-        route: '/issue/:issueId/'
-    };
-
-    var scenarioSketchElement =
-    {
-        label: '<strong>Scenario Sketch</strong>',
-        route: '/scenariosketch/:issueId/:scenarioSketchId/'
-    };
-
     var stepSketchElement =
     {
-        label: '<strong>Sketch</strong>',
-        route: '/stepsketch/:issueId/:scenarioSketchId/:stepSketchId/'
+        label: '<strong>Sketch</strong>'
     };
 
     /**
@@ -103,14 +90,6 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
         'manage': {
             breadcrumbPath: [homeElement, manageElement]
-        },
-
-        'issue': {
-            breadcrumbPath: [homeElement, issueElement]
-        },
-
-        'scenariosketch': {
-            breadcrumbPath: [homeElement, issueElement, scenarioSketchElement]
         },
 
         'stepsketch': {
@@ -177,7 +156,9 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
                 else {
                     navigationElement.isLastNavigationElement = false;
                 }
-                navigationElement.route = setValuesInRoute(navigationElement.route, navParameters);
+                if(navigationElement.route) {
+                    navigationElement.route = setValuesInRoute(navigationElement.route, navParameters);
+                }
                 navigationElement.label = setValuesInLabel(navigationElement.label, navParameters);
                 navigationElement.textForTooltip = convertToPlainText(navigationElement.label);
                 navElements.push(navigationElement);
