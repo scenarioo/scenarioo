@@ -19,15 +19,13 @@ angular.module('scenarioo.services').factory('BorderCompositeDrawTool', function
 
     var tool = CompositeDrawTool();
 
-
-    tool.name = 'Border Tool';
+    tool.id = 'sc-sketcher-tool-border';
     tool.icon = 'border';
     tool.tooltip = 'Draw a red border';
 
     tool.getShape = function () {
         return tool.getDrawingPad().borderShape(0, 0, 0, 0);
     };
-
 
     return tool;
 

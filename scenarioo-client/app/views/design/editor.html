@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <div id="sc-sketcher-toolbar" class="col-lg-9">
         <div class="btn-group btn-group-sm" role="group">
-            <button ng-repeat="tool in tools" id="{{tool.name}}" ng-click="activateTool(tool)"
+            <button ng-repeat="tool in toolBox" id="{{tool.id}}" ng-click="activateTool(tool)"
                     ng-disabled="tool.buttonDisabled" type="button" class="btn btn-default" tooltip="{{tool.tooltip}}" tooltip-placement="bottom" tooltip-append-to-body="true">
                 <span class="tool-icon tool-icon-{{tool.icon}}"></span>
             </button>
@@ -62,7 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div id="sc-sketcher-viewport" class="">
             <div id="drawingPad"></div>
         </div>
-        <div id="sc-context-breadcrumbs">{{contextBreadcrumbs()}}</div>
+        <div id="sc-context-breadcrumbs">{{contextBreadcrumbs()}}<div class="pull-right">Zoom: {{zoomFactor * 100 | number:0}}%</div></div>
 
     </div>
 

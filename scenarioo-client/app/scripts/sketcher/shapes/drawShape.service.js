@@ -22,9 +22,7 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
     var SHAPE_SELECTED_EVENT = 'shapeSelected';
 
     return {
-
         SHAPE_SELECTED_EVENT: SHAPE_SELECTED_EVENT,
-
 
         registerShapeEvents: function (shape, isEditable) {
 
@@ -62,7 +60,6 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
 
             var newShape;
 
-            // TODO: externalize to specific tools or svg.compositeShape.js
             switch (typeClass[0]) {
                 case 'border-shape':
                     newShape = drawingPad.borderShape(shape.width(), shape.height(), shape.x(), shape.y());
@@ -79,18 +76,22 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
                 case 'highlight-shape':
                     newShape = drawingPad.highlightShape(shape.width(), shape.height(), shape.x(), shape.y());
                     break;
+                case 'line-shape':
+                    newShape = drawingPad.lineShape(shape.attr('x1'), shape.attr('y1'), shape.attr('x2'), shape.attr('y2'));
+                    break;
                 default:
                     newShape = drawingPad.rectShape(shape.width(), shape.height(), shape.x(), shape.y());
             }
 
-            shape.each(function () {
-                if (this instanceof SVG.Text) {
-                    newShape.setText(self.getSVGText(this));
-                }
-            });
+            if(shape.type !== 'line') {
+                shape.each(function () {
+                    if (this instanceof SVG.Text) {
+                        newShape.setText(self.getSVGText(this));
+                    }
+                });
+            }
 
             return newShape;
-
         },
 
         getSVGText: function(SVGText) {

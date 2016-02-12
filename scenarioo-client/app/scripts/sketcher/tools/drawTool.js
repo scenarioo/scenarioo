@@ -21,11 +21,13 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
 
         var tool = Tool();
 
-
         tool.cursor = 'crosshair';
+
         tool.shape = null;
         tool.originalX = 0;
         tool.originalY = 0;
+
+        // Issue: mouseup does not always happen inside the drawing pad!
         tool.mousedown = false;
 
         var tempDrawBorder = null;
@@ -104,10 +106,6 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
 
         tool.getShape = function () {
             return tool.shape;
-        };
-
-        tool.getCursor = function () {
-            return tool.cursor;
         };
 
         return tool;

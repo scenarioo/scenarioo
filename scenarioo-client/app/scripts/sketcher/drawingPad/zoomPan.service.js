@@ -17,21 +17,23 @@
 
 /* global svgPanZoom:false */
 
-angular.module('scenarioo.services').service('ZoomPanService', function () {
+angular.module('scenarioo.services').service('ZoomPanService', function ($rootScope) {
 
     var panZoom,
-        zoomFactor = 1;
+        zoomFactor = 1,
+        ZOOM_FACTOR_CHANGED = 'zoom_factor_changed';
 
     return {
+        ZOOM_FACTOR_CHANGED: ZOOM_FACTOR_CHANGED,
 
         initZoomPan: function (drawingPadId) {
-
             panZoom = svgPanZoom('#' + drawingPadId, {
                 controlIconsEnabled: true
             });
             panZoom.disableDblClickZoom();
             panZoom.setOnZoom(function () {
                 zoomFactor = this.getZoom();
+                $rootScope.$emit(ZOOM_FACTOR_CHANGED);
             });
             this.resetZoomPan();
         },
@@ -59,6 +61,7 @@ angular.module('scenarioo.services').service('ZoomPanService', function () {
             panZoom.disableZoom();
         },
 
+        // Hack??
         updateZoomPan: function () {
             var z = panZoom.getZoom();
             var p = panZoom.getPan();

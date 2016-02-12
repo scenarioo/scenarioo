@@ -21,15 +21,13 @@ angular.module('scenarioo.controllers').factory('ButtonCompositeDrawTool', funct
 
     var tool = CompositeDrawTool();
 
-
-    tool.name = 'Button Tool';
+    tool.id = 'sc-sketcher-tool-button';
     tool.icon = 'button';
     tool.tooltip = 'Add a button';
 
     tool.getShape = function () {
         return tool.getDrawingPad().buttonShape(0, 0, 0, 0);
     };
-
 
     return tool;
 

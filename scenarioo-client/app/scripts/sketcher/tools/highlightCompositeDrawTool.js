@@ -19,15 +19,13 @@ angular.module('scenarioo.services').factory('HighlightCompositeDrawTool', funct
 
     var tool = CompositeDrawTool();
 
-
-    tool.name = 'Highlight Tool';
+    tool.id = 'sc-sketcher-tool-highlight';
     tool.icon = 'highlight';
     tool.tooltip = 'Highlight an area';
 
     tool.getShape = function () {
         return tool.getDrawingPad().highlightShape(0, 0, 0, 0);
     };
-
 
     return tool;
 

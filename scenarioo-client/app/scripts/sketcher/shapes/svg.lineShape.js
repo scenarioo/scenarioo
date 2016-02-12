@@ -15,22 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').factory('NoteCompositeDrawTool', function (CompositeDrawTool) {
+/* global SVG:false */
 
-    var tool = CompositeDrawTool();
+SVG.LineShape = function (x1, y1, x2, y2) {
+    this.constructor.call(this, SVG.create('line'));
 
-    tool.id = 'sc-sketcher-tool-note';
-    tool.icon = 'note';
-    tool.tooltip = 'Write a note';
+    this.plot(x1, y1, x2, y2)
+        .stroke({ color: '#e74c3c', width: 3 })
+        .addClass('line-shape');
+};
 
-    tool.getShape = function () {
-        return tool.getDrawingPad().noteShape(0, 0, 0, 0);
-    };
+SVG.LineShape.prototype = new SVG.Line();
 
-    tool.getShapeStartMode = function () {
-        return 'EDIT';
-    };
-
-    return tool;
-
+SVG.extend(SVG.Container, {
+    lineShape: function (x1, y1, x2, y2) {
+        return this.put(new SVG.LineShape(x1, y1, x2, y2));
+    }
 });

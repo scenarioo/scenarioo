@@ -15,17 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* eslint no-console:0 */
-
 angular.module('scenarioo.services').factory('SelectTool', function(Tool) {
 
     var tool = Tool();
 
-
-    tool.name = 'Select Tool';
+    tool.id = 'sc-sketcher-tool-select';
     tool.icon = 'select';
     tool.tooltip = 'Select and transform';
-
+    tool.cursor = 'pointer';
 
     return tool;
 
