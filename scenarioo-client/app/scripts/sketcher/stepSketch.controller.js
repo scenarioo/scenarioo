@@ -26,6 +26,8 @@ angular
         stepSketchId = $routeParams.stepSketchId;
 
     $scope.showCreateOrEditSketchLink = true;
+    $scope.loading = true;
+    $scope.issueNotFound = false;
 
     SelectedBranchAndBuild.callOnSelectionChange(loadIssueAndSketch);
 
@@ -41,6 +43,10 @@ angular
                 $scope.stepSketch = result.stepSketch;
                 updateContext();
                 updateUrlsForSharing();
+                $scope.loading = false;
+            }, function onFailure() {
+                $scope.issueNotFound = true;
+                $scope.loading = false;
             });
 
         function updateContext() {

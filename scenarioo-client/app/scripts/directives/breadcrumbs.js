@@ -76,10 +76,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($rout
             pageOccurrence: parseInt($routeParams.pageOccurrence, 10),
             stepInPageOccurrence: parseInt($routeParams.stepInPageOccurrence, 10),
             objectType: $routeParams.objectType,
-            objectName: $routeParams.objectName,
-            issueId: $routeParams.issueId,
-            scenarioSketchId: $routeParams.scenarioSketchId,
-            stepSketchId: $routeParams.stepSketchId
+            objectName: $routeParams.objectName
         };
     }
 

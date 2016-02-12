@@ -31,6 +31,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
@@ -92,7 +93,13 @@ public class IssueResource {
 			@PathParam("issueId") final String issueId) {
 		LOGGER.info("REQUEST: loadIssueWithSketch(" + branchName + ", " + issueId + ")");
 
-		final IssueWithSketch result = loadIssueAndSketch(branchName, issueId);
+		IssueWithSketch result = null;
+
+		try {
+			result = loadIssueAndSketch(branchName, issueId);
+		} catch (ResourceNotFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
 
 		result.getStepSketch().setSvgXmlString(null); // we don't need it here, so we can save some data
 
