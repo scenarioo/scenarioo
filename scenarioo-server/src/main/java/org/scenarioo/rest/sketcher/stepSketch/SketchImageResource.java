@@ -24,6 +24,7 @@ import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
 import org.jboss.resteasy.annotations.cache.NoCache;
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.sketcher.SketcherFiles;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -46,7 +47,10 @@ public class SketchImageResource {
 			@PathParam("stepSketchId") final String stepSketchId) {
 		LOGGER.info("REQUEST: loadSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
 				+ stepSketchId + ")");
-		return files.getStepSketchSvgFile(branchName, issueId, scenarioSketchId, stepSketchId);
+
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+
+		return files.getStepSketchSvgFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId);
 	}
 
 	@GET
@@ -60,7 +64,10 @@ public class SketchImageResource {
 			@PathParam("pngFile") final String pngFileName) {
 		LOGGER.info("REQUEST: loadPngFile(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
 				+ stepSketchId + ", " + pngFileName + ")");
-		return files.getStepSketchPngFile(branchName, issueId, scenarioSketchId, stepSketchId, pngFileName);
+
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+
+		return files.getStepSketchPngFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId, pngFileName);
 	}
 
 }

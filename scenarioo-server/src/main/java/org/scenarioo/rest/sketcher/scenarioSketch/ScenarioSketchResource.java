@@ -28,6 +28,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.sketcher.SketcherFiles;
 import org.scenarioo.dao.sketcher.SketcherReader;
 import org.scenarioo.model.sketcher.ScenarioSketch;
@@ -53,12 +54,14 @@ public class ScenarioSketchResource {
 			final ScenarioSketch scenarioSketch) {
 		LOGGER.info("REQUEST: storeScenarioSketch(" + branchName + ", " + scenarioSketch + ")");
 
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+
 		Date now = new Date();
 		scenarioSketch.setScenarioSketchId(IdGenerator.generateRandomId());
 		scenarioSketch.setDateCreated(now);
 		scenarioSketch.setDateModified(now);
 
-		files.persistScenarioSketch(branchName, scenarioSketch.getIssueId(), scenarioSketch);
+		files.persistScenarioSketch(resolvedBranchName, scenarioSketch.getIssueId(), scenarioSketch);
 
 		return Response.ok(scenarioSketch, MediaType.APPLICATION_JSON).build();
 	}
@@ -72,11 +75,13 @@ public class ScenarioSketchResource {
 			@PathParam("scenarioSketchId") final String scenarioSketchId, final ScenarioSketch updatedScenarioSketch) {
 		LOGGER.info("REQUEST: updateScenarioSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ")");
 
-		final ScenarioSketch scenarioSketch = reader.loadScenarioSketch(branchName, issueId, scenarioSketchId);
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+
+		final ScenarioSketch scenarioSketch = reader.loadScenarioSketch(resolvedBranchName, issueId, scenarioSketchId);
 		scenarioSketch.setDateModified(new Date());
 		scenarioSketch.setAuthor(updatedScenarioSketch.getAuthor());
 
-		files.persistScenarioSketch(branchName, scenarioSketchId, scenarioSketch);
+		files.persistScenarioSketch(resolvedBranchName, scenarioSketchId, scenarioSketch);
 
 		return Response.ok(updatedScenarioSketch, MediaType.APPLICATION_JSON).build();
 	}
