@@ -67,6 +67,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <div id="sc-sketcher-sidebar" class="col-lg-3">
 
+        <!-- Shown when saving is in progress -->
+        <p ng-show="savingSketch">
+            <i class="icon-spin icon-refresh"></i> Saving sketch...
+        </p>
+
         <!-- Alerts to show whether saving the sketch was successful or not -->
         <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" id="{{alert.id}}">{{alert.message}}</alert>
 

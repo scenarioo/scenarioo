@@ -28,6 +28,8 @@ angular
         MODE_CREATE = 'create',
         MODE_EDIT = 'edit';
 
+    $scope.savingSketch = false;
+
     function activate() {
         // The drawingPad is initialized here because we had issues
         // when initializing it in DrawingPadService.
@@ -128,6 +130,7 @@ angular
 
         $scope.issueSaved = 0;
         $scope.scenarioSketchSaved = 0;
+        $scope.savingSketch = true;
 
         var issue = new IssueResource({
             branchName: $routeParams.branch,
@@ -285,6 +288,7 @@ angular
         storeAuthorInLocalStorage();
         $scope.issueSaved = 0;
         $scope.scenarioSketchSaved = 0;
+        $scope.savingSketch = false;
     }
 
     function sketchSavedWithError(error) {
@@ -302,6 +306,7 @@ angular
             $scope.scenarioSketchId = null;
             $scope.stepSketchId = null;
         }
+        $scope.savingSketch = false;
     }
 
     $rootScope.$on('drawingEnded', function (scope, shape) {
