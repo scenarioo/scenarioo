@@ -19,7 +19,6 @@ angular.module('scenarioo.services').factory('StepSketch', function ($log) {
 
     return {
         saveStepSketch: function (changedStepSketch, successCallback, errorCallback) {
-
             changedStepSketch.$save(function (updatedStepSketch) {
                 if (successCallback) {
                     successCallback(updatedStepSketch);

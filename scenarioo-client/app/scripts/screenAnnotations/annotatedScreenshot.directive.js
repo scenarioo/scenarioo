@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 /**
  * Shows a screenshot plus annotations, if available. The annotations are shown as a separate layer on top of the
  * screenshot.

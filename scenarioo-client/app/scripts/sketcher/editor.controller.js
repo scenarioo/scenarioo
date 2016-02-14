@@ -17,11 +17,12 @@
 
 /* global SVG:false */
 
-angular.module('scenarioo.controllers').controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $interval, $routeParams, $route,
-                                                                           GlobalHotkeysService, SelectedBranchAndBuild, ToolBox, DrawShapeService,
-                                                                           DrawingPadService, StepSketch, StepSketchResource, IssueResource, Issue,
-                                                                           ScenarioSketchResource, ContextService, $log, $window, localStorageService,
-                                                                           ZoomPanService, $timeout) {
+angular
+    .module('scenarioo.controllers')
+    .controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $interval, $routeParams, $route,
+        GlobalHotkeysService, SelectedBranchAndBuild, ToolBox, DrawShapeService, DrawingPadService, StepSketch,
+        StepSketchResource, IssueResource, Issue, ScenarioSketchResource, ContextService, $log, $window,
+        localStorageService, ZoomPanService, $timeout) {
 
     var AUTHOR_LOCAL_STORAGE_KEY = 'issue_author',
         MODE_CREATE = 'create',
