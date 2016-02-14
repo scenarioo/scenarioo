@@ -23,6 +23,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
+import org.jboss.resteasy.annotations.cache.NoCache;
 import org.scenarioo.dao.sketcher.SketcherFiles;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -51,6 +52,7 @@ public class SketchImageResource {
 	@GET
 	@Path("image/{pngFile}")
 	@Produces({ "image/png" })
+	@NoCache
 	public Object loadPngFile(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId,

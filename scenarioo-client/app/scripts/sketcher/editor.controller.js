@@ -97,8 +97,8 @@ angular
         $('.tooltip').hide().delay(100);
     };
 
-    $scope.exitSketcher = function () {
-        $window.history.back();
+    $scope.getExitSketcherPath = function () {
+        return '#/stepsketch/' + $scope.issueId + '/' + $scope.scenarioSketchId + '/' + $scope.stepSketchId;
     };
 
     // TODO confirm() is not a known function (at least not for ESLint...)
