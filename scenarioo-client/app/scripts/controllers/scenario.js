@@ -154,8 +154,9 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
     function loadRelatedIssues(){
         RelatedIssueResource.query({
             branchName: SelectedBranchAndBuild.selected().branch,
-            objectName: $routeParams.scenarioName,
-            type: 'scenario'
+            buildName: SelectedBranchAndBuild.selected().build,
+            useCaseName: $routeParams.useCaseName,
+            scenarioName: $routeParams.scenarioName
         }, function(result){
             $scope.relatedIssues = result;
             $scope.hasAnyRelatedIssues = function(){

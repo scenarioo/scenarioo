@@ -22,7 +22,7 @@ angular
     .controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $interval, $routeParams, $route,
         GlobalHotkeysService, SelectedBranchAndBuild, ToolBox, DrawShapeService, DrawingPadService, StepSketch,
         StepSketchResource, IssueResource, Issue, ScenarioSketchResource, ContextService, $log, $window,
-        localStorageService, ZoomPanService, $timeout) {
+        localStorageService, ZoomPanService, $timeout, HostnameAndPort) {
 
     var AUTHOR_LOCAL_STORAGE_KEY = 'issue_author',
         MODE_CREATE = 'create',
@@ -31,30 +31,19 @@ angular
     $scope.savingSketch = false;
 
     function activate() {
-        // The drawingPad is initialized here because we had issues
-        // when initializing it in DrawingPadService.
-        var drawingPad = SVG('drawingPad').spof();
-        DrawingPadService.setDrawingPad(drawingPad);
-
         $scope.mode = $location.search().mode;
-        $scope.currentTool = null;
-        $scope.toolBox = ToolBox;
-        $scope.activateTool($scope.toolBox[0]);
-
         if ($scope.mode === MODE_EDIT) {
             initEditMode();
+        } else {
+            setAuthorFromLocalStorageIfAvailable();
+            initializeDrawingPad();
         }
-
-        $('body').addClass('sc-sketcher-bg-color-light');
-
-        setAuthorFromLocalStorageIfAvailable();
     }
 
     function initEditMode() {
-        // TODO Move three fields into a stepSketchIdentifier
-        $scope.issueId = ContextService.issueId;
-        $scope.scenarioSketchId = ContextService.scenarioSketchId;
-        $scope.stepSketchId = ContextService.stepSketchId;
+        $scope.issueId = $routeParams.issueId;
+        $scope.scenarioSketchId = $routeParams.scenarioSketchId;
+        $scope.stepSketchId = $routeParams.stepSketchId;
 
         IssueResource.get(
             {
@@ -66,7 +55,32 @@ angular
                 $scope.issueName = $scope.currentIssue.name;
                 $scope.issueDescription = $scope.currentIssue.description;
                 $scope.issueAuthor = $scope.currentIssue.author;
+                DrawingPadService.setSvgUrl(getSVGUrl());
+                initializeDrawingPad();
             });
+    }
+
+    function initializeDrawingPad() {
+        // The drawingPad is initialized here because we had issues
+        // when initializing it in DrawingPadService.
+        var drawingPad = SVG('drawingPad').spof();
+        DrawingPadService.setDrawingPad(drawingPad);
+
+        $scope.currentTool = null;
+        $scope.toolBox = ToolBox;
+        $scope.activateTool($scope.toolBox[0]);
+
+        $('body').addClass('sc-sketcher-bg-color-light');
+    }
+
+    function getSVGUrl () {
+        if (angular.isUndefined($scope.currentIssue)) {
+            return undefined;
+        }
+
+        var selected = SelectedBranchAndBuild.selected();
+        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + $scope.currentIssue.issueId
+            + '/scenariosketch/' + $scope.scenarioSketchId + '/stepsketch/' + $scope.stepSketchId + '/svg/1';
     }
 
     function setAuthorFromLocalStorageIfAvailable() {
@@ -140,11 +154,7 @@ angular
         });
 
         if ($scope.mode === MODE_CREATE) {
-            issue.usecaseContextName = ContextService.usecaseName;
-            issue.usecaseContextLink = ContextService.usecaseLink;
-            issue.scenarioContextName = ContextService.scenarioName;
-            issue.scenarioContextLink = ContextService.scenarioLink;
-            issue.stepContextLink = ContextService.stepLink;
+            issue.relatedStep = ContextService.stepIdentifier;
         }
 
         // TODO why this check? looks like this is always 0
@@ -247,13 +257,7 @@ angular
         }, {});
 
         if ($scope.mode === MODE_CREATE) {
-            stepSketch.usecaseContextName = ContextService.usecaseName;
-            stepSketch.usecaseContextLink = ContextService.usecaseLink;
-            stepSketch.scenarioContextName = ContextService.scenarioName;
-            stepSketch.scenarioContextLink = ContextService.scenarioLink;
-            stepSketch.stepContextLink = ContextService.stepLink;
-            stepSketch.contextInDocu = ContextService.screenshotURL;
-            stepSketch.stepIndex = ContextService.stepIndex;
+            stepSketch.relatedStep = ContextService.stepIdentifier;
         }
 
         if ($scope.scenarioSketchSaved === 1) {
@@ -345,28 +349,17 @@ angular
     };
 
     $scope.contextBreadcrumbs = function () {
-        var uc, sc, stepName;
+        var relatedStep;
 
-        if (ContextService && ContextService.usecaseName) {
-            uc = ContextService.usecaseName;
-            sc = ContextService.scenarioName;
-        } else if ($scope.currentIssue && $scope.currentIssue.usecaseContextName) {
-            uc = $scope.currentIssue.usecaseContextName;
-            sc = $scope.currentIssue.scenarioContextName;
-        }
-        if (ContextService && ContextService.stepName) {
-            stepName = ContextService.stepName;
-        } else if (ContextService && ContextService.stepSketchId) {
-            stepName = ContextService.stepSketchId;
-        }
-
-        if (uc) {
-            return 'Use Case: ' + uc +
-                ' > Scenario: ' + sc +
-                ' > Step: ' + stepName;
+        if ($scope.mode === MODE_EDIT && $scope.currentIssue) {
+            relatedStep = $scope.currentIssue.relatedStep;
+        } else if($scope.mode === MODE_CREATE && ContextService.stepIdentifier) {
+            relatedStep = ContextService.stepIdentifier;
         } else {
             return '';
         }
+
+        return 'Use Case: ' + relatedStep.usecaseName + ' / Scenario: ' + relatedStep.scenarioName;
     };
 
     $scope.zoomFactor = ZoomPanService.getZoomFactor();

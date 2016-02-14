@@ -25,7 +25,8 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
         drawingPad,
         selectedShape,
         isSetup = false,
-        DRAWINGPAD_CLICKED_EVENT = 'drawingPadClicked';
+        DRAWINGPAD_CLICKED_EVENT = 'drawingPadClicked',
+        svgUrl;
 
 
     function setup() {
@@ -116,8 +117,8 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
                 });
             });
         }
-        else if (bgImg && screenshotURL && mode === 'edit') {
-            $http.get(decodeURIComponent(screenshotURL), {headers: {accept: 'image/svg+xml'}}).
+        else if (bgImg && svgUrl && mode === 'edit') {
+            $http.get(decodeURIComponent(svgUrl), {headers: {accept: 'image/svg+xml'}}).
                 success(function (data) {
                     importDrawing(bgImg, data);
                     ZoomPanService.resetZoomPan();
@@ -187,6 +188,10 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
 
     return {
         DRAWINGPAD_CLICKED_EVENT: DRAWINGPAD_CLICKED_EVENT,
+
+        setSvgUrl: function(newSvgUrl) {
+            svgUrl = newSvgUrl;
+        },
 
         setDrawingPad: function (dp) {
             drawingPad = dp;

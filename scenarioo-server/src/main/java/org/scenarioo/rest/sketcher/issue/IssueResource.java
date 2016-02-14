@@ -28,18 +28,21 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.sketcher.SketcherFiles;
 import org.scenarioo.dao.sketcher.SketcherReader;
 import org.scenarioo.model.sketcher.Issue;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.rest.base.StepIdentifier;
 import org.scenarioo.rest.sketcher.issue.dto.IssueSummary;
 import org.scenarioo.rest.sketcher.issue.dto.IssueWithSketch;
 import org.scenarioo.rest.sketcher.issue.dto.SketchIds;
@@ -64,9 +67,11 @@ public class IssueResource {
 	public Response loadIssueSummaries(@PathParam("branchName") final String branchName) {
 		LOGGER.info("REQUEST: loadIssueSummaries(" + branchName + ")");
 
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+
 		try {
-			final List<Issue> issues = reader.loadIssues(branchName);
-			return Response.ok(createIssueSummaries(branchName, issues), MediaType.APPLICATION_JSON).build();
+			final List<Issue> issues = reader.loadIssues(resolvedBranchName);
+			return Response.ok(createIssueSummaries(resolvedBranchName, issues), MediaType.APPLICATION_JSON).build();
 		} catch (ResourceNotFoundException e) {
 			return Response.noContent().build();
 		}
@@ -79,7 +84,9 @@ public class IssueResource {
 			@PathParam("issueId") final String issueId) {
 		LOGGER.info("REQUEST: loadSketchIds(" + branchName + ", " + issueId + ")");
 
-		final IssueWithSketch issueWitchSketch = loadIssueAndSketch(branchName, issueId);
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+
+		final IssueWithSketch issueWitchSketch = loadIssueAndSketch(resolvedBranchName, issueId);
 
 		SketchIds sketchIds = SketchIds.fromIssueWithSketch(issueWitchSketch);
 
@@ -93,10 +100,12 @@ public class IssueResource {
 			@PathParam("issueId") final String issueId) {
 		LOGGER.info("REQUEST: loadIssueWithSketch(" + branchName + ", " + issueId + ")");
 
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+
 		IssueWithSketch result = null;
 
 		try {
-			result = loadIssueAndSketch(branchName, issueId);
+			result = loadIssueAndSketch(resolvedBranchName, issueId);
 		} catch (ResourceNotFoundException e) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
@@ -106,13 +115,15 @@ public class IssueResource {
 		return Response.ok(result, MediaType.APPLICATION_JSON).build();
 	}
 
-
-
 	@POST
 	@Consumes("application/json")
-	public Response storeNewIssue(@PathParam("branchName") final String branchName,
-			final Issue newIssue) {
-		LOGGER.info("REQUEST: storeNewIssue(" + branchName + ")");
+	public Response storeNewIssue(final Issue newIssue) {
+		LOGGER.info("REQUEST: storeNewIssue(" + newIssue.getRelatedStep().getBranchName() + ")");
+
+		BuildIdentifier resolvedBranchAndBuildAlias = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+				newIssue.getRelatedStep().getBranchName(), newIssue.getRelatedStep().getBuildName());
+		newIssue.getRelatedStep().setBranchName(resolvedBranchAndBuildAlias.getBranchName());
+		newIssue.getRelatedStep().setBuildName(resolvedBranchAndBuildAlias.getBuildName());
 
 		Date now = new Date();
 
@@ -120,7 +131,7 @@ public class IssueResource {
 		newIssue.setDateCreated(now);
 		newIssue.setDateModified(now);
 
-		files.persistIssue(branchName, newIssue);
+		files.persistIssue(resolvedBranchAndBuildAlias.getBranchName(), newIssue);
 
 		return Response.ok(newIssue, MediaType.APPLICATION_JSON).build();
 	}
@@ -134,27 +145,74 @@ public class IssueResource {
 			final Issue updatedIssue) {
 		LOGGER.info("REQUEST: updateIssue(" + branchName + ", " + issueId + ", " + updatedIssue + ")");
 
-		final Issue existingIssue = reader.loadIssue(branchName, issueId);
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+
+		final Issue existingIssue = reader.loadIssue(resolvedBranchName, issueId);
 		existingIssue.setDateModified(new Date());
 		existingIssue.setName(updatedIssue.getName());
 		existingIssue.setDescription(updatedIssue.getDescription());
 		existingIssue.setAuthor(updatedIssue.getAuthor());
 
-		files.persistIssue(branchName, existingIssue);
+		files.persistIssue(resolvedBranchName, existingIssue);
 
 		return Response.ok(existingIssue, MediaType.APPLICATION_JSON).build();
 	}
 
 	@GET
 	@Produces("application/json")
-	@Path("/related")
-	public Response relatedIssues(@PathParam("branchName") final String branchName,
-			@QueryParam("objectName") final String objectName, @QueryParam("type") final String type) {
-		LOGGER.info("REQUEST: relatedIssues(" + branchName + ", " + objectName + ", " + type + ")");
+	@Path("/related/{buildName}/{usecaseName}")
+	public Response relatedIssuesForUsecase(@PathParam("branchName") final String branchName,
+			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName) {
+		LOGGER.info("REQUEST: relatedIssuesUsecase(" + branchName + ", " + buildName + ", " + usecaseName + ")");
 
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+				buildName);
+		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName,
+				"", "", 0, 0);
+
+		return loadRelatedIssues(stepIdentifier);
+	}
+
+	@GET
+	@Produces("application/json")
+	@Path("/related/{buildName}/{usecaseName}/{scenarioName}")
+	public Response relatedIssuesScenario(@PathParam("branchName") final String branchName,
+			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
+			@PathParam("scenarioName") final String scenarioName) {
+		LOGGER.info("REQUEST: relatedIssuesScenario(" + branchName + ", " + buildName + ", " + usecaseName + ", "
+				+ scenarioName + ")");
+
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+				buildName);
+		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName,
+				scenarioName, "", 0, 0);
+
+		return loadRelatedIssues(stepIdentifier);
+	}
+
+	@GET
+	@Produces("application/json")
+	@Path("/related/{buildName}/{usecaseName}/{scenarioName}/{pageName}/{pageOccurrence}/{stepInPageOccurrence}")
+	public Response relatedIssuesStep(@PathParam("branchName") final String branchName,
+			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
+			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
+			@PathParam("pageOccurrence") final int pageOccurrence,
+			@PathParam("stepInPageOccurrence") final int stepInPageOccurrence) {
+		LOGGER.info("REQUEST: relatedIssuesStep(" + branchName + ", " + buildName + ", " + usecaseName + ", "
+				+ scenarioName + ", " + pageName + ", " + pageOccurrence + ", " + stepInPageOccurrence + ")");
+
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+				buildName);
+		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName,
+				scenarioName, pageName, pageOccurrence, stepInPageOccurrence);
+
+		return loadRelatedIssues(stepIdentifier);
+	}
+
+	private Response loadRelatedIssues(final StepIdentifier stepIdentifier) {
 		try {
-			final List<Issue> issues = reader.loadIssues(branchName);
-			List<IssueSummary> relatedIssues = selectOnlyRelatedIssues(objectName, type, issues);
+			final List<Issue> issues = reader.loadIssues(stepIdentifier.getBranchName());
+			List<IssueSummary> relatedIssues = selectOnlyRelatedIssues(stepIdentifier, issues);
 			return Response.ok(relatedIssues, MediaType.APPLICATION_JSON).build();
 		}
 		catch (ResourceNotFoundException e) {
@@ -162,11 +220,11 @@ public class IssueResource {
 		}
 	}
 
-	private List<IssueSummary> selectOnlyRelatedIssues(final String objectName, final String type,
+	private List<IssueSummary> selectOnlyRelatedIssues(final StepIdentifier stepIdentifier,
 			final List<Issue> issues) {
 		final List<IssueSummary> result = new ArrayList<IssueSummary>();
 		for (final Issue issue : issues) {
-			if (isRelatedIssue(issue, objectName, type)) {
+			if (isRelatedIssue(issue, stepIdentifier)) {
 				result.add(IssueSummary.createFromIssue(issue));
 			}
 		}
@@ -174,21 +232,32 @@ public class IssueResource {
 		return result;
 	}
 
-	private Boolean isRelatedIssue(final Issue issue, final String objectName, final String type) {
-		if (type.equals("step")) {
-			// Example:
-			// /rest/branch/wikipedia-docu-example/issue/related?objectName=%2Fstep%2FDonate%2Ffind_donate_page%2FsearchResults.jsp%2F0%2F0&type=step
-			return (issue.getStepContextLink() != null && issue.getStepContextLink().equals(objectName));
-		} else if (type.equals("scenario")) {
-			// Example: /rest/branch/wikipedia-docu-example/issue/related?objectName=find_donate_page&type=scenario
-			// TODO: also match Use Case, not only the scenario name
-			return (issue.getScenarioContextName() != null && issue.getScenarioContextName().equals(objectName)) ||
-					(issue.getScenarioContextLink() != null && issue.getScenarioContextLink().equals(objectName));
-		} else {
-			// Example: /rest/branch/wikipedia-docu-example/issue/related?objectName=Donate&type=usecase
-			return (issue.getUsecaseContextName() != null && issue.getUsecaseContextName().equals(objectName)) ||
-					(issue.getUsecaseContextLink() != null && issue.getUsecaseContextLink().equals(objectName));
+	private Boolean isRelatedIssue(final Issue issue, final StepIdentifier stepIdentifier) {
+		if (issue.getRelatedStep() == null) {
+			return false;
 		}
+
+		StepIdentifier relatedStep = issue.getRelatedStep();
+
+		return (useCaseIsEqual(stepIdentifier, relatedStep)
+				&& scenarioNameNotSetOrEqual(stepIdentifier, relatedStep)
+				&& pageAndStepIndexNotSetOrEqual(stepIdentifier, relatedStep));
+	}
+
+	private boolean useCaseIsEqual(final StepIdentifier stepIdentifier, final StepIdentifier relatedStep) {
+		return relatedStep.getUsecaseName().equals(stepIdentifier.getUsecaseName());
+	}
+
+	private boolean scenarioNameNotSetOrEqual(final StepIdentifier stepIdentifier, final StepIdentifier relatedStep) {
+		return StringUtils.isBlank(stepIdentifier.getScenarioName()) || stepIdentifier.getScenarioName().equals(
+				relatedStep.getScenarioName());
+	}
+
+	private boolean pageAndStepIndexNotSetOrEqual(final StepIdentifier stepIdentifier, final StepIdentifier relatedStep) {
+		return StringUtils.isBlank(stepIdentifier.getPageName()) || (stepIdentifier.getPageName().equals(
+				relatedStep.getPageName())
+				&& stepIdentifier.getPageOccurrence() == relatedStep.getPageOccurrence()
+				&& stepIdentifier.getStepInPageOccurrence() == relatedStep.getStepInPageOccurrence());
 	}
 
 	private List<IssueSummary> createIssueSummaries(final String branchName, final List<Issue> issues) {

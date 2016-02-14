@@ -7,10 +7,17 @@ import org.scenarioo.model.docu.aggregates.steps.StepLink;
 
 public class ScenarioIdentifier {
 	
-	private final BuildIdentifier buildIdentifier;
-	private final String usecaseName;
-	private final String scenarioName;
+	private BuildIdentifier buildIdentifier;
+	private String usecaseName;
+	private String scenarioName;
 	
+	/**
+	 * Just for XML processing.
+	 */
+	public ScenarioIdentifier() {
+		buildIdentifier = new BuildIdentifier();
+	}
+
 	public ScenarioIdentifier(final BuildIdentifier buildIdentifier, final String usecaseName, final String scenarioName) {
 		this.buildIdentifier = buildIdentifier;
 		this.usecaseName = usecaseName;
@@ -29,22 +36,42 @@ public class ScenarioIdentifier {
 		return buildIdentifier;
 	}
 	
+	public void setBuildIdentifier(final BuildIdentifier buildIdentifier) {
+		this.buildIdentifier = buildIdentifier;
+	}
+
 	public String getBranchName() {
 		return buildIdentifier.getBranchName();
 	}
 	
+	public void setBranchName(final String branchName) {
+		buildIdentifier.setBranchName(branchName);
+	}
+
 	public String getBuildName() {
 		return buildIdentifier.getBuildName();
 	}
 	
+	public void setBuildName(final String buildName) {
+		buildIdentifier.setBuildName(buildName);
+	}
+
 	public String getUsecaseName() {
 		return usecaseName;
 	}
 	
+	public void setUsecaseName(final String usecaseName) {
+		this.usecaseName = usecaseName;
+	}
+
 	public String getScenarioName() {
 		return scenarioName;
 	}
 	
+	public void setScenarioName(final String scenarioName) {
+		this.scenarioName = scenarioName;
+	}
+
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this).append(buildIdentifier).append(usecaseName).append(scenarioName).toString();

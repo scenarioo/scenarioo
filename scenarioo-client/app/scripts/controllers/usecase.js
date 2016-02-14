@@ -123,8 +123,8 @@ function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource,
     function loadRelatedIssues(){
         RelatedIssueResource.query({
             branchName: SelectedBranchAndBuild.selected().branch,
-            objectName: $routeParams.useCaseName,
-            type: 'usecase'
+            buildName: SelectedBranchAndBuild.selected().build,
+            useCaseName: $routeParams.useCaseName
         }, function(result){
             $scope.relatedIssues = result;
             $scope.hasAnyRelatedIssues = function(){

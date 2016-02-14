@@ -41,7 +41,6 @@ angular
                 $scope.issue = result.issue;
                 $scope.scenarioSketch = result.scenarioSketch;
                 $scope.stepSketch = result.stepSketch;
-                updateContext();
                 updateUrlsForSharing();
                 $scope.loading = false;
             }, function onFailure() {
@@ -49,20 +48,11 @@ angular
                 $scope.loading = false;
             });
 
-        function updateContext() {
-            ContextService.initialize();
-            ContextService.issueId = issueId;
-            ContextService.scenarioSketchId = scenarioSketchId;
-            ContextService.stepSketchId = stepSketchId;
-            ContextService.screenshotURL = getSVGUrl();
-        }
-
         function updateUrlsForSharing() {
             SharePageService.setPageUrl($scope.getCurrentUrlForSharing());
             SharePageService.setImageUrl($scope.getScreenshotUrlForSharing());
         }
     }
-
 
     $scope.getScreenShotUrl = function () {
         if (angular.isUndefined($scope.stepSketch)) {
@@ -81,15 +71,6 @@ angular
         var selected = SelectedBranchAndBuild.selected();
         return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/original.png';
     };
-
-    function getSVGUrl () {
-        if (angular.isUndefined($scope.stepSketch)) {
-            return undefined;
-        }
-
-        var selected = SelectedBranchAndBuild.selected();
-        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/svg/1';
-    }
 
     $scope.getCurrentUrlForSharing = function () {
         return $location.absUrl();
@@ -129,28 +110,30 @@ angular
 
     // Called from breadcrumbs.html
     $scope.createOrEditSketch = function () {
-        $location.path('/editor/').search('mode', 'edit');
+        $location.path('/editor/' + issueId + '/' + scenarioSketchId + '/' + stepSketchId).search('mode', 'edit');
     };
 
     $scope.getUseCaseUrl = function() {
         if($scope.stepSketch == null) {
             return undefined;
         }
-        return '#/usecase/' + $scope.stepSketch.usecaseContextLink;
+        return '#/usecase/' + $scope.stepSketch.relatedStep.usecaseName;
     };
 
     $scope.getScenarioUrl = function() {
         if($scope.stepSketch == null) {
             return undefined;
         }
-        return '#/scenario/' + $scope.stepSketch.usecaseContextLink + '/' + $scope.stepSketch.scenarioContextLink;
+        var step = $scope.stepSketch.relatedStep;
+        return '#/scenario/' + step.usecaseName + '/' + step.scenarioName;
     };
 
     $scope.getStepUrl = function(){
         if($scope.stepSketch == null) {
             return undefined;
         }
-        return '#' + $scope.stepSketch.stepContextLink;
+        var step = $scope.stepSketch.relatedStep;
+        return '#/step/' + step.usecaseName + '/' + step.scenarioName + '/' + step.pageName + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence;
     };
 });
 

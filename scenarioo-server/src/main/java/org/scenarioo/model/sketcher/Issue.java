@@ -25,6 +25,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.scenarioo.rest.base.StepIdentifier;
+
 /**
  * An issue is the top level element of the design domain. It can be referenced by
  * zero, one or several ScenarioSketches.
@@ -40,12 +42,7 @@ public class Issue implements Serializable {
 	private String trackingURL;
 	private String author;
 
-	// TODO #185 Create component with all context information
-	private String usecaseContextName;
-	private String usecaseContextLink;
-	private String scenarioContextName;
-	private String scenarioContextLink;
-	private String stepContextLink;
+	private StepIdentifier relatedStep;
 
 	private Date dateCreated;
 	private Date dateModified;
@@ -108,14 +105,6 @@ public class Issue implements Serializable {
 		this.author = author;
 	}
 
-	public String getUsecaseContextLink() {
-		return usecaseContextLink;
-	}
-
-	public void setUsecaseContextLink(final String usecaseContextLink) {
-		this.usecaseContextLink = usecaseContextLink;
-	}
-
 	public Date getDateCreated() {
 		return dateCreated;
 	}
@@ -140,36 +129,12 @@ public class Issue implements Serializable {
 		return branchName;
 	}
 
-	public String getScenarioContextLink() {
-		return scenarioContextLink;
+	public StepIdentifier getRelatedStep() {
+		return relatedStep;
 	}
 
-	public void setScenarioContextLink(final String scenarioContextLink) {
-		this.scenarioContextLink = scenarioContextLink;
-	}
-
-	public String getStepContextLink() {
-		return stepContextLink;
-	}
-
-	public void setStepContextLink(final String stepContextLink) {
-		this.stepContextLink = stepContextLink;
-	}
-
-	public String getUsecaseContextName() {
-		return usecaseContextName;
-	}
-
-	public void setUsecaseContextName(final String usecaseContextName) {
-		this.usecaseContextName = usecaseContextName;
-	}
-
-	public String getScenarioContextName() {
-		return scenarioContextName;
-	}
-
-	public void setScenarioContextName(final String scenarioContextName) {
-		this.scenarioContextName = scenarioContextName;
+	public void setRelatedStep(final StepIdentifier relatedStep) {
+		this.relatedStep = relatedStep;
 	}
 
 }
