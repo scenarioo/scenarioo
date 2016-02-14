@@ -117,8 +117,8 @@ public class ScenarioDocuBuildsManager {
 	 * Resolves branch and build names that might be aliases to their real names.
 	 */
 	public BuildIdentifier resolveBranchAndBuildAliases(final String branchName, final String buildName) {
-		String resolvedBranchName = resolveAliasBranchName(branchName);
-		String resolvedBuildName = resolveAliasBuildName(resolvedBranchName, buildName);
+		String resolvedBranchName = resolveBranchAlias(branchName);
+		String resolvedBuildName = resolveBuildAlias(resolvedBranchName, buildName);
 		
 		return new BuildIdentifier(resolvedBranchName, resolvedBuildName);
 	}
@@ -129,13 +129,13 @@ public class ScenarioDocuBuildsManager {
 	 * 
 	 * @return the name to use as build name for referencing this build.
 	 */
-	private String resolveAliasBuildName(final String branchName, final String buildName) {
+	private String resolveBuildAlias(final String branchName, final String buildName) {
 		String resolvedBuildName = resolveAliasBuildNameUnchecked(branchName, buildName);
 		validateBuildIsSuccessfullyImported(branchName, resolvedBuildName);
 		return resolvedBuildName;
 	}
 	
-	private String resolveAliasBranchName(final String aliasOrRealBranchName) {
+	public String resolveBranchAlias(final String aliasOrRealBranchName) {
 		Configuration configuration = configurationRepository.getConfiguration();
 		List<BranchAlias> branchAliases = configuration.getBranchAliases();
 		for (BranchAlias branchAlias : branchAliases) {
