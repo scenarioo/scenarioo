@@ -80,6 +80,13 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 templateUrl: 'views/sketcher/editor.html',
                 controller: 'EditorCtrl'
             })
+            .when('/editor/:issueId/:scenarioSketchId/:stepSketchId', {
+                templateUrl: 'views/sketcher/editor.html',
+                controller: 'EditorCtrl',
+                issueId: '@issueId',
+                scenarioSketchId: '@scenarioSketchId',
+                stepSketchId: '@stepSketchId'
+            })
             .otherwise({
                 redirectTo: '/'
             });

@@ -22,62 +22,9 @@
  */
 angular.module('scenarioo.services').service('ContextService', function () {
 
-    var issueName, issueId, issueDescription, scenarioSketchId, stepSketchId;
-    var usecaseLink, scenarioLink, stepLink;
-    var usecaseName, scenarioName, stepName;
-    var screenshotURL;
-
-    function initializeContext(){
-        issueId = null;
-        issueName = null;
-        issueDescription = null;
-        scenarioSketchId = null;
-        stepSketchId = null;
-
-        usecaseName = null;
-        scenarioName = null;
-        stepName = null;
-
-        usecaseLink = null;
-        scenarioLink = null;
-        stepLink = null;
-
-        screenshotURL = null;
-    }
-
-    function setUseCase(originalUsecaseName){
-        this.usecaseName = prettifyName(originalUsecaseName);
-        this.usecaseLink = originalUsecaseName;
-    }
-
-    function setScenario(originalScenarioName){
-        this.scenarioName = prettifyName(originalScenarioName);
-        this.scenarioLink = originalScenarioName;
-    }
-
     return {
-        issueId: issueId,
-        issueName: issueName,
-        issueDescription: issueDescription,
-        scenarioSketchId: scenarioSketchId,
-        stepSketchId: stepSketchId,
-        usecaseName: usecaseName,
-        scenarioName: scenarioName,
-        stepName: stepName,
-        usecaseLink: usecaseLink,
-        scenarioLink: scenarioLink,
-        stepLink: stepLink,
-        screenshotURL: screenshotURL,
-
-        initialize: initializeContext,
-        setUseCase: setUseCase,
-        setScenario: setScenario
+        stepIdentifier: {},
+        screenshotURL: ''
     };
-
-    function prettifyName(name){
-        var wordsInName = name.split('_');
-        wordsInName[0] = wordsInName[0].charAt(0).toUpperCase() + wordsInName[0].slice(1);
-        return wordsInName.join(' ');
-    }
 
 });

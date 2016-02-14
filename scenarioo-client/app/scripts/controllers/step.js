@@ -22,6 +22,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
 
+    var selectedBranchAndBuild = {};
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
     $scope.pageName = $routeParams.pageName;
@@ -56,6 +57,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     SelectedBranchAndBuild.callOnSelectionChange(loadStep);
 
     function loadStep(selected) {
+        selectedBranchAndBuild = selected;
         bindStepNavigation();
         loadStepFromServer(selected);
     }
@@ -114,13 +116,17 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     }
 
     function updateContextService() {
-        ContextService.initialize();
-        ContextService.setScenario(scenarioName);
-        ContextService.setUseCase(useCaseName);
-        ContextService.stepLink = '/step/' + useCaseName + '/' + scenarioName + '/' + $scope.pageName + '/' + $scope.pageOccurrence + '/' + $scope.stepInPageOccurrence;
+        ContextService.stepIdentifier = {
+            branchName: selectedBranchAndBuild.branch,
+            buildName: selectedBranchAndBuild.build,
+            usecaseName: useCaseName,
+            scenarioName: scenarioName,
+            pageName: $scope.pageName,
+            pageOccurrence: $scope.pageOccurrence,
+            stepInPageOccurrence: $scope.stepInPageOccurrence
+        };
+
         ContextService.screenshotURL = $scope.getScreenShotUrl();
-        ContextService.stepName = $scope.stepNavigation.stepIndex + 1;
-        ContextService.stepIndex = $scope.stepNavigation.stepIndex;
     }
 
     function createStepInformationTree(result) {
@@ -389,8 +395,12 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     function loadRelatedIssues() {
         RelatedIssueResource.query({
             branchName: SelectedBranchAndBuild.selected().branch,
-            objectName: '/step/' + useCaseName + '/' + scenarioName + '/' + $scope.pageName + '/' + $scope.pageOccurrence + '/' + $scope.stepInPageOccurrence,
-            type: 'step'
+            buildName: SelectedBranchAndBuild.selected().build,
+            useCaseName: useCaseName,
+            scenarioName: scenarioName,
+            pageName: $scope.pageName,
+            pageOccurence: $scope.pageOccurrence,
+            stepInPageOccurrence: $scope.stepInPageOccurrence
         }, function(result){
             $scope.relatedIssues = result;
             $scope.hasAnyRelatedIssues = function(){

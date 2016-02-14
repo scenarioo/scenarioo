@@ -25,17 +25,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.scenarioo.rest.base.StepIdentifier;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StepSketch implements Serializable {
 
 	private String sketchFileName; // todo
-	private String usecaseContextName;
-	private String usecaseContextLink;
-	private String scenarioContextName;
-	private String scenarioContextLink;
-	private String stepContextLink;
-	private String contextInDocu; // todo
 	private int stepIndex;
 
 	// below: ok
@@ -43,6 +39,8 @@ public class StepSketch implements Serializable {
 	private Date dateCreated;
 	private Date dateModified;
 	private String svgXmlString;
+
+	private StepIdentifier relatedStep;
 
 	@XmlTransient
 	private String branchName;
@@ -60,14 +58,6 @@ public class StepSketch implements Serializable {
 
 	public void setSketchFileName(final String sketchFileName) {
 		this.sketchFileName = sketchFileName;
-	}
-
-	public String getContextInDocu() {
-		return contextInDocu;
-	}
-
-	public void setContextInDocu(final String contextInDocu) {
-		this.contextInDocu = contextInDocu;
 	}
 
 
@@ -103,46 +93,7 @@ public class StepSketch implements Serializable {
 		this.scenarioSketchId = scenarioSketchId;
 	}
 
-	public String getUsecaseContextName() {
-		return usecaseContextName;
-	}
-
-	public void setUsecaseContextName(final String usecaseContextName) {
-		this.usecaseContextName = usecaseContextName;
-	}
-
-	public String getUsecaseContextLink() {
-		return usecaseContextLink;
-	}
-
-	public void setUsecaseContextLink(final String usecaseContextLink) {
-		this.usecaseContextLink = usecaseContextLink;
-	}
-
-	public String getScenarioContextName() {
-		return scenarioContextName;
-	}
-
-	public void setScenarioContextName(final String scenarioContextName) {
-		this.scenarioContextName = scenarioContextName;
-	}
-
-	public String getScenarioContextLink() {
-		return scenarioContextLink;
-	}
-
-	public void setScenarioContextLink(final String scenarioContextLink) {
-		this.scenarioContextLink = scenarioContextLink;
-	}
-
-	public String getStepContextLink() {
-		return stepContextLink;
-	}
-
-	public void setStepContextLink(final String stepContextLink) {
-		this.stepContextLink = stepContextLink;
-	}
-
+	// TODO
 	// below: ok
 
 	public String getStepSketchId() {
@@ -175,6 +126,14 @@ public class StepSketch implements Serializable {
 
 	public void setSvgXmlString(final String svgXmlString) {
 		this.svgXmlString = svgXmlString;
+	}
+
+	public StepIdentifier getRelatedStep() {
+		return relatedStep;
+	}
+
+	public void setRelatedStep(final StepIdentifier relatedStep) {
+		this.relatedStep = relatedStep;
 	}
 
 	public int getStepIndex() {

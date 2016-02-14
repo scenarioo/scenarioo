@@ -59,15 +59,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <p>The sketch is based on this step from the documentation.</p>
 
         <p id="usecase-context">
-            <a ng-href="{{getUseCaseUrl()}}">Use Case: {{stepSketch.usecaseContextName}}</a>
+            <a ng-href="{{getUseCaseUrl()}}">Use Case: {{stepSketch.relatedStep.usecaseName | scHumanReadable}}</a>
         </p>
 
         <p id="scenario-context">
-            <a ng-href="{{getScenarioUrl()}}">Scenario: {{stepSketch.scenarioContextName}}</a>
+            <a ng-href="{{getScenarioUrl()}}">Scenario: {{stepSketch.relatedStep.scenarioName | scHumanReadable}}</a>
         </p>
 
         <p id="step-context">
-            <a ng-href="{{getStepUrl()}}">Step: {{stepSketch.stepIndex + 1}}</a>
+            <a ng-href="{{getStepUrl()}}">Step: {{stepSketch.relatedStep.pageName}}/{{stepSketch.relatedStep.pageOccurrence}}/{{stepSketch.relatedStep.stepInPageOccurrence}}</a>
         </p>
     </tab>
 </tabset>

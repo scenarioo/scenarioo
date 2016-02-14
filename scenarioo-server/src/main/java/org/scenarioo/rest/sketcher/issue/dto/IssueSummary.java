@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.model.sketcher.Issue;
+import org.scenarioo.rest.base.StepIdentifier;
 
 /**
  * Used for the listing of all issues (currently equal to sketches) related to
@@ -39,6 +40,7 @@ public class IssueSummary {
 	private String author;
 	private String relatedUseCaseName;
 	private String relatedScenarioName;
+	private StepIdentifier relatedStep;
 	private Date dateCreated;
 	private Date dateModified;
 
@@ -48,8 +50,7 @@ public class IssueSummary {
 		summary.setId(issue.getIssueId());
 		summary.setDescription(issue.getDescription());
 		summary.setAuthor(issue.getAuthor());
-		summary.setRelatedUseCaseName(issue.getUsecaseContextLink());
-		summary.setRelatedScenarioName(issue.getScenarioContextLink());
+		summary.setRelatedStep(issue.getRelatedStep());
 		summary.setDateCreated(issue.getDateCreated());
 		summary.setDateModified(issue.getDateModified());
 		return summary;
@@ -101,6 +102,14 @@ public class IssueSummary {
 
 	public void setRelatedScenarioName(final String relatedScenarioName) {
 		this.relatedScenarioName = relatedScenarioName;
+	}
+
+	public StepIdentifier getRelatedStep() {
+		return relatedStep;
+	}
+
+	public void setRelatedStep(final StepIdentifier relatedStep) {
+		this.relatedStep = relatedStep;
 	}
 
 	public Date getDateCreated() {

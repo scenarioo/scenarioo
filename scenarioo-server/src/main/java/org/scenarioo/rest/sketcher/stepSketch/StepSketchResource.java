@@ -19,8 +19,6 @@ package org.scenarioo.rest.sketcher.stepSketch;
 
 import java.io.File;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.regex.Pattern;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -34,12 +32,19 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.files.ScenarioDocuFiles;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.dao.sketcher.SketcherFiles;
 import org.scenarioo.dao.sketcher.SketcherReader;
+import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
+import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.sketcher.StepSketch;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.rest.base.StepIdentifier;
+import org.scenarioo.rest.step.logic.ResolveStepIndexResult;
+import org.scenarioo.rest.step.logic.StepIndexResolver;
 
 @Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/stepsketch")
 public class StepSketchResource {
@@ -54,6 +59,10 @@ public class StepSketchResource {
 
 	private final ScenarioDocuFiles docuFiles = new ScenarioDocuFiles(
 			configurationRepository.getDocumentationDataDirectory());
+	private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
+	private final AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
+			configurationRepository.getDocumentationDataDirectory(), longObjectNamesResolver);
+	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
 
 	@GET
 	@Produces({ "application/json" })
@@ -66,7 +75,9 @@ public class StepSketchResource {
 		LOGGER.info("REQUEST: loadStepSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
 				+ stepSketchId + ")");
 
-		return reader.loadStepSketch(branchName, issueId, scenarioSketchId, stepSketchId);
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+
+		return reader.loadStepSketch(resolvedBranchName, issueId, scenarioSketchId, stepSketchId);
 	}
 
 	@POST
@@ -79,18 +90,24 @@ public class StepSketchResource {
 		LOGGER.info("REQUEST: storeStepSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
 				+ stepSketch + ")");
 
+		BuildIdentifier resolvedBranchAndBuildAlias = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+				stepSketch.getRelatedStep().getBranchName(), stepSketch.getRelatedStep().getBuildName());
+		stepSketch.getRelatedStep().setBranchName(resolvedBranchAndBuildAlias.getBranchName());
+		stepSketch.getRelatedStep().setBuildName(resolvedBranchAndBuildAlias.getBuildName());
+		String resolvedBranchName = resolvedBranchAndBuildAlias.getBranchName();
+
 		stepSketch.setStepSketchId("1");
 		Date now = new Date();
 		stepSketch.setDateCreated(now);
 		stepSketch.setDateModified(now);
 
-		files.createStepSketchDirectory(branchName, issueId, scenarioSketchId, stepSketch.getStepSketchId());
-		files.persistStepSketch(branchName, issueId, scenarioSketchId, stepSketch);
+		files.createStepSketchDirectory(resolvedBranchName, issueId, scenarioSketchId, stepSketch.getStepSketchId());
+		files.persistStepSketch(resolvedBranchName, issueId, scenarioSketchId, stepSketch);
 
 		stepSketch.setSvgXmlString(SvgSanitizer.sanitize(stepSketch.getSvgXmlString()));
-		files.persistSketchAsSvgAndPng(branchName, issueId, scenarioSketchId, stepSketch);
+		files.persistSketchAsSvgAndPng(resolvedBranchName, issueId, scenarioSketchId, stepSketch);
 
-		copyOriginalScreenshot(branchName, issueId, scenarioSketchId, stepSketch);
+		copyOriginalScreenshot(resolvedBranchName, issueId, scenarioSketchId, stepSketch);
 
 		return Response.ok(stepSketch, MediaType.APPLICATION_JSON).build();
 	}
@@ -98,37 +115,24 @@ public class StepSketchResource {
 	private void copyOriginalScreenshot(final String branchName, final String issueId, final String scenarioSketchId,
 			final StepSketch stepSketch) {
 		File originalScreenshot = null;
-		if (stepSketch.getContextInDocu() == null) {
+		if (stepSketch.getRelatedStep() == null) {
 			return;
 		}
-
-		// TODO: contextInDocu should not be transfered as string but as an object
-		final HashMap<String, String> stepInfo = parseContextInDocu(stepSketch.getContextInDocu());
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
-				stepInfo.get("branch"),
-				stepInfo.get("build"));
-		originalScreenshot = docuFiles.getScreenshotFile(buildIdentifier.getBranchName(),
-				buildIdentifier.getBuildName(),
-				stepInfo.get("usecase"),
-				stepInfo.get("scenario"), Integer.parseInt(stepInfo.get("stepIndex")));
-
-		if (originalScreenshot == null) {
-			return;
-		}
+		
+		StepIdentifier relatedStep = stepSketch.getRelatedStep();
+		ResolveStepIndexResult stepIndex = resolveStepIndex(relatedStep);
+		File screenshotsDirectory = docuFiles.getScreenshotsDirectory(relatedStep.getBranchName(),
+				relatedStep.getBuildName(), relatedStep.getUsecaseName(), relatedStep.getScenarioName());
+		originalScreenshot = new File(screenshotsDirectory, stepIndex.getScreenshotFileName());
 
 		files.copyOriginalScreenshot(originalScreenshot, branchName, issueId, scenarioSketchId,
 				stepSketch.getStepSketchId());
 	}
 
-	private HashMap<String, String> parseContextInDocu(final String toParse) {
-		final String stripped = toParse.substring(toParse.indexOf("branch"));
-		final String[] data = stripped.split("/");
-		final HashMap<String, String> result = new HashMap<String, String>();
-		for (int i = 0; i < data.length; i = i + 2) {
-			result.put(data[i], data[i + 1]);
-		}
-		result.put("stepIndex", result.get("image").split(Pattern.quote("."))[0]);
-		return result;
+	private ResolveStepIndexResult resolveStepIndex(final StepIdentifier relatedStep) {
+		ScenarioPageSteps scenario = aggregatedDataReader.loadScenarioPageSteps(relatedStep.getScenarioIdentifier());
+		ResolveStepIndexResult stepIndex = stepIndexResolver.resolveStepIndex(scenario, relatedStep);
+		return stepIndex;
 	}
 
 	@POST
@@ -143,13 +147,15 @@ public class StepSketchResource {
 		LOGGER.info("REQUEST: updateStepSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
 				+ stepSketchId + ")");
 
-		final StepSketch stepSketch = reader.loadStepSketch(branchName, issueId, scenarioSketchId,
+		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+
+		final StepSketch stepSketch = reader.loadStepSketch(resolvedBranchName, issueId, scenarioSketchId,
 				stepSketchId);
 		
 		stepSketch.setSvgXmlString(SvgSanitizer.sanitize(updatedStepSketch.getSvgXmlString()));
 		stepSketch.setDateModified(new Date());
 
-		files.persistSketchAsSvgAndPng(branchName, issueId, scenarioSketchId, stepSketch);
+		files.persistSketchAsSvgAndPng(resolvedBranchName, issueId, scenarioSketchId, stepSketch);
 
 		return Response.ok(stepSketch, MediaType.APPLICATION_JSON).build();
 	}
