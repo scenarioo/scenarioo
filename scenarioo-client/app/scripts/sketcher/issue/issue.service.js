@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('Issue', function ($rootScope, $routeParams, SelectedBranchAndBuild, IssueResource, $log) {
+angular.module('scenarioo.services').factory('Issue', function ($log) {
 
     return {
         saveIssue: function (issue, successCallback, errorCallback) {

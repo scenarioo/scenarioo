@@ -185,17 +185,12 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
         }
     }
 
-
     return {
         DRAWINGPAD_CLICKED_EVENT: DRAWINGPAD_CLICKED_EVENT,
 
-
         setDrawingPad: function (dp) {
-            // TODO remove if
-            if (dp) {
-                drawingPad = dp;
-                setup();
-            }
+            drawingPad = dp;
+            setup();
         },
 
         getDrawingPad: function () {
