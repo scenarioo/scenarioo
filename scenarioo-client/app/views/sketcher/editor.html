@@ -48,7 +48,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
     <div class="col-lg-3">
-        <a href="" ng-href="{{getExitSketcherPath()}}"
+        <a href=""
+                ng-show="getExitSketcherPath()"
+                ng-href="{{getExitSketcherPath()}}"
                 id="exit"
                 style="float:right;">
             <i class="glyphicon glyphicon-log-out"></i>
@@ -76,7 +78,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" id="{{alert.id}}">{{alert.message}}</alert>
 
         <!-- Sketch metadata form -->
-        <form name="sketcherForm" novalidate>
+        <form name="sketcherForm" novalidate unsaved-warning-form>
 
             <div class="form-group" ng-class="{ 'has-error has-feedback' : sketcherForm.issueName.$dirty && sketcherForm.issueName.$invalid }">
                 <label class="control-label">Sketch Name <span class="has-error">*</span></label>
@@ -96,6 +98,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <label>Description</label>
                 <textarea id="issueDescription" ng-model="issueDescription" class="form-control" rows="3"></textarea>
             </div>
+
+            <!-- Here we track unsaved drawing changes in order to warn the user if they want to leave without saving -->
+            <input type="hidden" name="unsavedDrawingChanges" ng-model="unsavedDrawingChanges" />
 
             <button ng-click="saveSketcherData()"
                     type="submit"

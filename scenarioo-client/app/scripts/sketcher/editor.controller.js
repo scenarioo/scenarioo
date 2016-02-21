@@ -114,28 +114,12 @@ angular
     };
 
     $scope.getExitSketcherPath = function () {
-        return '#/stepsketch/' + $scope.issueId + '/' + $scope.scenarioSketchId + '/' + $scope.stepSketchId;
+        if($scope.issueId && $scope.scenarioSketchId && $scope.stepSketchId) {
+            return '#/stepsketch/' + $scope.issueId + '/' + $scope.scenarioSketchId + '/' + $scope.stepSketchId;
+        } else {
+            return undefined;
+        }
     };
-
-    // TODO confirm() is not a known function (at least not for ESLint...)
-    /*
-     $scope.$on('$locationChangeStart', function (event) {
-     if ($route.current.originalPath === '/editor') {
-     if (!confirm('Unsaved data will be lost!')) {
-     event.preventDefault();
-     }
-     }
-     });
-     */
-
-    // TODO This seems to break the web tests
-    /*
-     angular.element($window).on('beforeunload', function () {
-     if ($route.current.originalPath === '/editor') {
-     return 'Unsaved data will be lost!';
-     }
-     });
-     */
 
     // TODO extract all saving related methods into a service
     $scope.saveSketcherData = function () {
@@ -319,6 +303,14 @@ angular
 
         shape.selectToggle();
         DrawingPadService.setSelectedShape(shape);
+        $log.log('drawing ended');
+    });
+
+    // Mark form as dirty if the drawing is changed
+    $rootScope.$on('edit_drawing_event', function() {
+        if($scope.sketcherForm.unsavedDrawingChanges) {
+            $scope.sketcherForm.unsavedDrawingChanges.$setViewValue($scope.sketcherForm.unsavedDrawingChanges.$viewValue);
+        }
     });
 
     $rootScope.$on(DrawShapeService.SHAPE_SELECTED_EVENT, function (scope, shape) {
