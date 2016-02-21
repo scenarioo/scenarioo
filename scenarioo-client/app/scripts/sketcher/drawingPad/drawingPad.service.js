@@ -183,6 +183,7 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
             selectedShape.unSelect();
             selectedShape.remove();
             selectedShape = null;
+            $rootScope.$broadcast('edit_drawing_event');
         }
     }
 
@@ -257,6 +258,7 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
             if (selectedShape) {
                 selectedShape.back();
                 selectedShape.forward();
+                $rootScope.$broadcast('edit_drawing_event');
             }
         },
 
@@ -264,6 +266,7 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
             if (selectedShape) {
                 selectedShape.front();
                 selectedShape.backward();
+                $rootScope.$broadcast('edit_drawing_event');
             }
         },
 
@@ -274,6 +277,7 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
              */
             if (selectedShape && drawingPad.drawingContainer.get(1) !== selectedShape) {
                 selectedShape.backward();
+                $rootScope.$broadcast('edit_drawing_event');
             }
         },
 
@@ -287,6 +291,7 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
 
             if (selectedShape && drawingPad.drawingContainer.get(indexLast - 1) !== selectedShape) {
                 selectedShape.forward();
+                $rootScope.$broadcast('edit_drawing_event');
             }
         },
 

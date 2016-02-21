@@ -46,6 +46,8 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
             tool.shape = tool.getShape();
 
             ZoomPanService.disableZoomPan();
+
+            $rootScope.$broadcast('edit_drawing_event');
         };
 
         tool.onmouseupTemplate = function (event) {
@@ -61,6 +63,7 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
             ZoomPanService.enableZoomPan();
 
             $rootScope.$broadcast(tool.DRAWING_ENDED_EVENT, tool.shape);
+            $rootScope.$broadcast('edit_drawing_event');
         };
 
         tool.onmousedragTemplate = function (event) {
@@ -82,6 +85,7 @@ angular.module('scenarioo.services').factory('DrawTool', function ($rootScope, T
                 x: tool.anchorX,
                 y: tool.anchorY
             });
+            $rootScope.$broadcast('edit_drawing_event');
         };
 
         tool.pauseEvent = function (event) {

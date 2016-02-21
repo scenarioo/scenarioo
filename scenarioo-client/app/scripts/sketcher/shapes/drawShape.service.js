@@ -34,6 +34,7 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
 
             shape.on('dragend', function () {
                 ZoomPanService.updateZoomPan();
+                $rootScope.$broadcast('edit_drawing_event');
             });
 
             shape.on('selected', function () {
@@ -47,6 +48,7 @@ angular.module('scenarioo.services').service('DrawShapeService', function ($root
             if (isEditable) {
                 shape.on('dblclick', function () {
                     this.edit(ZoomPanService.getZoomFactor(), ZoomPanService.getPanPosition());
+                    $rootScope.$broadcast('edit_drawing_event');
                 });
             }
         },
