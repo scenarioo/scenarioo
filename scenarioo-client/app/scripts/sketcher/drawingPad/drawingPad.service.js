@@ -247,12 +247,7 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
                 width: svg.first().width(),
                 height: svg.first().height()
             });
-            svg.first().attr({
-                'xmlns:xlink': 'http://www.w3.org/1999/xlink'
-            });
-            var exportedSVG = svg.svg();
-            exportedSVG = exportedSVG.replace('NS1:href', 'xlink:href');
-            return exportedSVG;
+            return svg.svg(); // return the exported XML SVG string
         },
 
         unSelectAllShapes: function () {
