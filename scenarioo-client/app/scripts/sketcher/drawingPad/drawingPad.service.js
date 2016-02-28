@@ -73,8 +73,8 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
                     height: '100%'
                 })
                 .ondragstart = function () {
-                return false;
-            };
+                    return false;
+                };
 
             drawingPad.drawingContainer.getOffset = function (event) {
                 var offset = $(drawingPad.drawingContainer.node).offset();
@@ -86,7 +86,7 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
                 return point;
             };
 
-            loadBackgroundImage();
+            loadBackgroundImageOrExistingSketch();
 
             drawingPad.on('mouseup', function (event) {
                 if (event.target.id === drawingPadNodeId || event.target.id === drawingContainerId || event.target.id === backgroundImageId || event.target.id === bg.id()) {
@@ -100,38 +100,61 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
         }
     }
 
-    function loadBackgroundImage() {
-        var bgImg = SVG.get(backgroundImageId);
+    function loadBackgroundImageOrExistingSketch() {
+        var backgroundImageHtmlElement = SVG.get(backgroundImageId);
 
-        var screenshotURL = ContextService.screenshotURL;
+        if(!backgroundImageHtmlElement) {
+            $log.error('can\'t get background image node');
+            return;
+        }
+
         var mode = $location.search().mode;
 
-        if (bgImg && screenshotURL && mode === 'create') {
-            convertImgToBase64URL(decodeURIComponent(screenshotURL), function (base64Img) {
-                bgImg.load(base64Img).loaded(function (loader) {
-                    bgImg.attr({
-                        width: loader.width,
-                        height: loader.height
-                    });
-                    ZoomPanService.resetZoomPan();
-                });
-            });
+        if (mode === 'create') {
+            loadBackgroundImageForNewSketch(backgroundImageHtmlElement);
         }
-        else if (bgImg && svgUrl && mode === 'edit') {
-            $http.get(decodeURIComponent(svgUrl), {headers: {accept: 'image/svg+xml'}}).
-                success(function (data) {
-                    importDrawing(bgImg, data);
-                    ZoomPanService.resetZoomPan();
-                }).
-                error(function (data, status, headers) {
-                    $log.error(data, status, headers);
-                });
+        else if (mode === 'edit') {
+            loadExistingSketch(backgroundImageHtmlElement);
         }
     }
 
-    // Load existing sketch
-    function importDrawing(bgImg, svgData) {
-        var dp = bgImg.doc(SVG.Doc); // Gets the SVG image root (svg.js)
+    function loadBackgroundImageForNewSketch(backgroundImageHtmlElement) {
+        var screenshotURL = ContextService.screenshotURL;
+
+        if(!screenshotURL) {
+            $log.error('screenshot url not set in context service');
+            return;
+        }
+
+        convertImgToBase64URL(decodeURIComponent(screenshotURL), function (base64Img) {
+            backgroundImageHtmlElement.load(base64Img).loaded(function (loader) {
+                backgroundImageHtmlElement.attr({
+                    width: loader.width,
+                    height: loader.height
+                });
+                ZoomPanService.resetZoomPan();
+            });
+        });
+    }
+
+    function loadExistingSketch(backgroundImageHtmlElement) {
+        if(!svgUrl) {
+            $log.log('svgUrl is not set');
+            return;
+        }
+
+        $http.get(decodeURIComponent(svgUrl), {headers: {accept: 'image/svg+xml'}}).
+            success(function (data) {
+                importExistingSketch(backgroundImageHtmlElement, data);
+                ZoomPanService.resetZoomPan();
+            }).
+            error(function (data, status, headers) {
+                $log.error(data, status, headers);
+            });
+    }
+
+    function importExistingSketch(backgroundImageHtmlElement, svgData) {
+        var dp = backgroundImageHtmlElement.doc(SVG.Doc); // Gets the SVG image root (svg.js)
         var tempContainer = dp.nested(); // Creates a nested SVG document inside the parent SVG document (svg.js)
         tempContainer.svg(svgData); // Import the loaded SVG file into the nested SVG document (svg.js)
         var tempSVG = tempContainer.first(); // Get the first SVG element which is the root node of the imported document (svg.js)
@@ -148,22 +171,22 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
             drawingPad.drawingContainer.add(newShape);
         });
         tempContainer.remove();
-        bgImg.remove();
+        backgroundImageHtmlElement.remove();
         dp.drawingContainer.first().id(backgroundImageId);
     }
 
-    function convertImgToBase64URL(url, callback, outputFormat) {
+    function convertImgToBase64URL(url, callback) {
         var img = new Image();
         img.crossOrigin = 'Anonymous';
         img.onload = function () {
             var canvas = document.createElement('CANVAS'),
-                ctx = canvas.getContext('2d'), dataURL;
+                ctx = canvas.getContext('2d'),
+                dataURL;
             canvas.height = this.height;
             canvas.width = this.width;
             ctx.drawImage(this, 0, 0);
-            dataURL = canvas.toDataURL(outputFormat);
+            dataURL = canvas.toDataURL();
             callback(dataURL);
-            canvas = null; //TODO: Does this destroy the canvas element? Does it matter if not?
         };
         img.src = url;
     }
