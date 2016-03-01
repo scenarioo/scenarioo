@@ -110,11 +110,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <sc-meta-data-panel linking-variable="stepShowMetadata" ng-hide="stepNotFound">
     <div>
         <tabset class="step-panes">
-            <tab heading="Screenshot">
+            <tab heading="Screenshot" id="screenshot-tab">
                 <sc-annotated-screenshot screen-annotations="step.screenAnnotations" get-screen-shot-url="getScreenShotUrl" visibility-toggle="showScreenAnnotations" to-next-step-action="goToNextStep()"></sc-annotated-screenshot>
             </tab>
-            <tab heading="HTML">
-                <pre ng-bind="step.html.htmlSource">
+            <tab heading="HTML" id="html-tab">
+                <pre ng-bind="step.html.htmlSource" id="html-source">
                 </pre>
             </tab>
         </tabset>
