@@ -116,7 +116,6 @@ scenarioo.describeUseCase('Show step', 'Show a single step of a scenario. Includ
         stepPage.clickHtmlTabButton();
         scenarioo.docuWriter.saveStep('Switch to HTML tab');
 
-        // TODO Maybe we can make the data in testData.js available for the e2e tests to avoid duplication.
         stepPage.assertHtmlSourceEquals('<html>\n<head>\n</head>\n<body>\n   <p>just some dummy html code</p>\n</body>\n</html>');
 
         stepPage.clickScreenshotTabButton();
