@@ -122,4 +122,10 @@ scenarioo.describeUseCase('Show step', 'Show a single step of a scenario. Includ
         scenarioo.docuWriter.saveStep('Switch back to Screenshot tab');
     });
 
+    scenarioo.describeScenario('Step without HTML source attached', 'If the step data contains no html source data, the HTML tab should not be displayed at all', function () {
+        stepPage.goToPage('/step/Donate/find_donate_page/startSearch.jsp/0/0');
+        stepPage.assertHtmlTabIsHidden();
+        scenarioo.docuWriter.saveStep('A step with no HTML source attached');
+    });
+
 });
