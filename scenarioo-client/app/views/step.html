@@ -114,7 +114,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <sc-annotated-screenshot screen-annotations="step.screenAnnotations" get-screen-shot-url="getScreenShotUrl" visibility-toggle="showScreenAnnotations" to-next-step-action="goToNextStep()"></sc-annotated-screenshot>
             </tab>
             <tab heading="HTML">
-                <pre ng-bind="formattedHtml">
+                <pre ng-bind="step.html.htmlSource">
                 </pre>
             </tab>
         </tabset>
