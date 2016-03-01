@@ -112,6 +112,10 @@ StepPage.prototype.clickScreenshotTabButton = function () {
     element(by.id('screenshot-tab')).click();
 };
 
+StepPage.prototype.assertHtmlTabIsHidden = function () {
+    expect(element(by.id('html-tab')).isDisplayed()).toBe(false);
+};
+
 StepPage.prototype.assertHtmlSourceEquals = function (expected) {
     expect(element(by.id('html-source')).getText()).toBe(expected);
 };
