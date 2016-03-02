@@ -34,30 +34,35 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
 	
 	private static final Logger LOGGER = Logger.getLogger(ConfigurationDaoImpl.class);
 	
-	private static final String USER_HOME_BASE_DIRECTORY = ".scenarioo";
-	private static final String CONFIG_FILE_NAME = "config.xml";
-	private static final String DEFAULT_CONFIG_PATH = CONFIG_FILE_NAME;
+	private static final String DEFAULT_CONFIG_FILE_NAME = "config.xml";
+	private static final String DEFAULT_CONFIG_PATH = DEFAULT_CONFIG_FILE_NAME;
 	
-	private String configurationDirectory = null;
-	private String configurationFilename = null;
+	private final String configurationDirectory;
+	private final String configurationFilename;
 	
 	public ConfigurationDaoImpl(final String configurationDirectory, final String configurationFilename) {
 		this.configurationDirectory = configurationDirectory;
-		this.configurationFilename = configurationFilename;
+		this.configurationFilename = StringUtils.defaultString(configurationFilename, DEFAULT_CONFIG_FILE_NAME);
 	}
 	
 	@Override
 	public Configuration loadConfiguration() {
 		File configFile = getFileSystemConfigFile();
-		if (configFile == null || !configFile.exists()) {
+		if (!configFile.exists()) {
 			LOGGER.warn("  file " + configFile + " does not exist --> loading default config.xml from classpath");
-			configFile = getClasspathConfigFile();
-		} else {
-			LOGGER.info("  loading configuration from file: " + configFile);
+			return ScenarioDocuXMLFileUtil.unmarshal(Configuration.class,
+					loadDefaultConfigFile());
 		}
+
+		LOGGER.info("  loading configuration from file: " + configFile);
 		return ScenarioDocuXMLFileUtil.unmarshal(Configuration.class, configFile);
 	}
-	
+
+	@Override
+	public File getConfigurationDirectory() {
+		return new File(configurationDirectory);
+	}
+
 	@Override
 	public void updateConfiguration(final Configuration configuration) {
 		final File configFile = getFileSystemConfigFile();
@@ -66,39 +71,12 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
 		ScenarioDocuXMLFileUtil.marshal(configuration, configFile);
 	}
 	
-	/**
-	 * Get the place where customized configuration file is or will be stored (as soon as first configuration change has
-	 * been applied).
-	 */
 	private File getFileSystemConfigFile() {
-		File configurationPath;
-		if (!StringUtils.isBlank(configurationDirectory)) {
-			configurationPath = new File(configurationDirectory);
-		} else {
-			LOGGER.warn("no configuration directory is configuresd in server context, therefore trying to use fallback directory in user home.");
-			configurationPath = getUserHomeConfigurationDirectory();
-		}
-		if (configurationPath == null) {
-			return null;
-		}
-		File configFile;
-		if (StringUtils.isNotBlank(configurationFilename)) {
-			configFile = new File(configurationPath, configurationFilename);
-		} else {
-			configFile = new File(configurationPath, CONFIG_FILE_NAME);
-		}
-		return configFile;
+		File configurationPath = new File(configurationDirectory);
+		return new File(configurationPath, configurationFilename);
 	}
-	
-	private File getUserHomeConfigurationDirectory() {
-		File configurationPath;
-		// file constructor handles null or blank user.home
-		configurationPath = new File(System.getProperty("user.home"), USER_HOME_BASE_DIRECTORY);
-		
-		return configurationPath;
-	}
-	
-	private File getClasspathConfigFile() {
+
+	private File loadDefaultConfigFile() {
 		final URL resourceUrl = ConfigurationDaoImpl.class.getClassLoader().getResource(DEFAULT_CONFIG_PATH);
 		File defaultConfigFile = null;
 		try {
