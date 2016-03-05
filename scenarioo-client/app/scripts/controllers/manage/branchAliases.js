@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('BranchAliasesCtrl', function ($scope, $rootScope, $location, $route, $modal, BranchAliasesResource, Config, BranchesResource) {
+angular.module('scenarioo.controllers').controller('BranchAliasesCtrl', function ($scope, $rootScope, $location, $route, $uibModal, BranchAliasesResource, Config, BranchesResource) {
 
     loadBranchAliases();
 
