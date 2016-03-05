@@ -30,7 +30,7 @@ describe('Service: ScApplicationInfoPopup', function () {
         $provide.value('ApplicationInfoCtrl', {});
     }));
 
-    var ScApplicationInfoPopup, localStorageService, $modal, dummyPromise = {
+    var ScApplicationInfoPopup, localStorageService, $uibModal, dummyPromise = {
         result: {
             finally: function () {
             }
@@ -39,7 +39,7 @@ describe('Service: ScApplicationInfoPopup', function () {
     beforeEach(inject(function (_ScApplicationInfoPopup_, _localStorageService_, _$modal_) {
         ScApplicationInfoPopup = _ScApplicationInfoPopup_;
         localStorageService = _localStorageService_;
-        $modal = _$modal_;
+        $uibModal = _$modal_;
     }));
 
     it('shows the application info popup on first visit of the app', function () {

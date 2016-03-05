@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function (localStorageService, $modal) {
+angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function (localStorageService, $uibModal) {
 
     var PREVIOUSLY_VISITED_COOKIE_NAME = 'scenariooPreviouslyVisited';
 
@@ -42,7 +42,7 @@ angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function 
         }
 
         modalIsCurrentlyOpen = true;
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             templateUrl: 'views/applicationInfoPopup.html',
             controller: 'ApplicationInfoCtrl',
             windowClass: 'modal-small about-popup',
