@@ -351,7 +351,8 @@ angular
             return '';
         }
 
-        return 'Use Case: ' + relatedStep.usecaseName + ' / Scenario: ' + relatedStep.scenarioName;
+        return 'Use Case: ' + relatedStep.usecaseName + ' / Scenario: ' + relatedStep.scenarioName
+            + ' / Step: ' + relatedStep.pageName + '/' + relatedStep.pageOccurrence + '/' + relatedStep.stepInPageOccurrence;
     };
 
     $scope.zoomFactor = ZoomPanService.getZoomFactor();
