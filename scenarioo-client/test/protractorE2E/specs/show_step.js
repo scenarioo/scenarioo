@@ -109,4 +109,23 @@ scenarioo.describeUseCase('Show step', 'Show a single step of a scenario. Includ
         stepPage.assertToolTipInBreadcrumb('uiAction: example.action.StartInitAction');
     });
 
+    scenarioo.describeScenario('HTML view of current step', 'If the step data contains html source data, it should be displayed in the HTML tab', function () {
+        stepPage.goToPage('/step/Find%20Page/find_no_results/startSearch.jsp/0/0');
+        scenarioo.docuWriter.saveStep('A step');
+
+        stepPage.clickHtmlTabButton();
+        scenarioo.docuWriter.saveStep('Switch to HTML tab');
+
+        stepPage.assertHtmlSourceEquals('<html>\n<head>\n</head>\n<body>\n   <p>just some dummy html code</p>\n</body>\n</html>');
+
+        stepPage.clickScreenshotTabButton();
+        scenarioo.docuWriter.saveStep('Switch back to Screenshot tab');
+    });
+
+    scenarioo.describeScenario('Step without HTML source attached', 'If the step data contains no html source data, the HTML tab should not be displayed at all', function () {
+        stepPage.goToPage('/step/Donate/find_donate_page/startSearch.jsp/0/0');
+        stepPage.assertHtmlTabIsHidden();
+        scenarioo.docuWriter.saveStep('A step with no HTML source attached');
+    });
+
 });

@@ -183,7 +183,7 @@ public class ScenarioDocuBuildsManager {
 				buildImporter.getBuildImportSummaries());
 	}
 	
-	private static Map<BuildIdentifier, BuildImportSummary> loadBuildImportSummaries() {
+	public static Map<BuildIdentifier, BuildImportSummary> loadBuildImportSummaries() {
 		AggregatedDocuDataReader dao = new ScenarioDocuAggregationDAO(
 				configurationRepository.getDocumentationDataDirectory());
 		List<BuildImportSummary> loadedSummaries = dao.loadBuildImportSummaries();
@@ -194,7 +194,7 @@ public class ScenarioDocuBuildsManager {
 		return result;
 	}
 	
-	private List<BranchBuilds> loadBranchBuildsList() {
+	 public static List<BranchBuilds> loadBranchBuildsList() {
 		File documentationDataDirectory = configurationRepository.getDocumentationDataDirectory();
 		final ScenarioDocuReader reader = new ScenarioDocuReader(documentationDataDirectory);
 		AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(documentationDataDirectory);
