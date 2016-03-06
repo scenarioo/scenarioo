@@ -13,7 +13,7 @@
     "gaze": "~1.0.0",
     "git-rev-sync": "^1.1.0",
     "gulp": "^3.9.0",
-    "gulp-connect": "^3.1.0",
+    "gulp-connect": "^2.3.1",
     "gulp-eslint": "^0.12.0",
     "gulp-less": "^3.0.3",
     "gulp-ng-annotate": "^2.0.0",

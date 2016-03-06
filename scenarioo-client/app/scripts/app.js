@@ -16,10 +16,10 @@
  */
 
 angular.module('scenarioo.filters', []);
-angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute', 'ui.bootstrap.tpls', 'ui.bootstrap']);
-angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'ui.bootstrap.tpls', 'ui.bootstrap', 'unsavedChanges']);
-angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule', 'ui.bootstrap']);
-angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives', 'ui.bootstrap']);
+angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute']);
+angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'unsavedChanges']);
+angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule']);
+angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
 
 angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations'])
 
