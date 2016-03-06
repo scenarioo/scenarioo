@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<testsuite name="PhantomJS 2.1.1 (Windows 8 0.0.0)" package="" timestamp="2016-03-20T21:20:20" id="0" hostname="DESKTOP-8SAC68A" tests="111" errors="0" failures="0" time="0.422">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1"/>
+  </properties>
+  <testcase name="Controller MainCtrl has no builds set in the beginning" time="0.033" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller MainCtrl"/>
+  <testcase name="Controller MainCtrl has a first static tab that is initialized with main use cases content" time="0.01" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller MainCtrl"/>
+  <testcase name="Controller MainCtrl has additional dynamic custom tabs as configured in configuration, that are lazy loaded" time="0.004" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller MainCtrl"/>
+  <testcase name="Controller MainCtrl loads custom tab when url parameter for tab points to a custom tab" time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller MainCtrl"/>
+  <testcase name="Controller MainUseCasesTabCtrl has no usecases and builds set in the beginning" time="0.007" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller MainUseCasesTabCtrl"/>
+  <testcase name="Controller MainUseCasesTabCtrl navigates to use case when link is clicked" time="0.004" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller MainUseCasesTabCtrl"/>
+  <testcase name="Controller BuildsListCtrl loads builds in the beginning" time="0.006" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller BuildsListCtrl"/>
+  <testcase name="Controller :: ConfigEditorCtrl when page is loaded loads and displays the config from the server" time="0.004" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: ConfigEditorCtrl"/>
+  <testcase name="Controller :: ConfigEditorCtrl when page is loaded loads all branches and builds" time="0.003" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: ConfigEditorCtrl"/>
+  <testcase name="Controller :: ConfigEditorCtrl when reset button is clicked resets the config to the loaded values" time="0.004" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: ConfigEditorCtrl"/>
+  <testcase name="Controller :: ConfigEditorCtrl when the save button is clicked saves the edited config" time="0.004" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: ConfigEditorCtrl"/>
+  <testcase name="Controller :: Scenario clears search field when resetSearchField() is called" time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: Scenario"/>
+  <testcase name="Controller :: Scenario creates the correct link to a step" time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: Scenario"/>
+  <testcase name="Controller :: Scenario creates empty image link, if branch and build selection is unknown" time="0.004" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: Scenario"/>
+  <testcase name="Controller :: Scenario creates the correct image link, if selected branch and build is known" time="0.008" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: Scenario"/>
+  <testcase name="Controller :: Scenario does not show all steps of a page by default" time="0.004" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: Scenario"/>
+  <testcase name="Controller :: Scenario can toggle the showPageForAllSteps property" time="0.003" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: Scenario"/>
+  <testcase name="Controller :: Scenario hides the &quot;expand all&quot; button, if all expandable pages are already expanded" time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: Scenario"/>
+  <testcase name="Controller :: Scenario shows the &quot;expand all&quot; button, if at least one expandable page is collapsed" time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: Scenario"/>
+  <testcase name="Controller :: Scenario hides the &quot;collapse all&quot; button, if all pages are collapsed already" time="0.004" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: Scenario"/>
+  <testcase name="Controller :: Scenario shows the &quot;collapse all&quot; button, if at least one collapsable page is expanded" time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: Scenario"/>
+  <testcase name="Controller :: Scenario collapses all pages if the user clicks &quot;collapse all&quot;" time="0.003" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: Scenario"/>
+  <testcase name="Controller :: Scenario expands all pages if the user clicks &quot;expand all&quot;" time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: Scenario"/>
+  <testcase name="Controller :: Scenario expands all pages, if this is the default set in the config" time="0.004" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: Scenario"/>
+  <testcase name="StepCtrl scenario is found loads the step data" time="0.01" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).StepCtrl"/>
+  <testcase name="StepCtrl scenario is found shows specific step information" time="0.006" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).StepCtrl"/>
+  <testcase name="StepCtrl scenario is found loads the stepNavigation and the stepStatistics into scope" time="0.006" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).StepCtrl"/>
+  <testcase name="StepCtrl scenario is found isFirstStep()" time="0.006" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).StepCtrl"/>
+  <testcase name="StepCtrl scenario is found isLastStep()" time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).StepCtrl"/>
+  <testcase name="StepCtrl scenario is found isFirstPage()" time="0.006" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).StepCtrl"/>
+  <testcase name="StepCtrl scenario is found isLastPage()" time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).StepCtrl"/>
+  <testcase name="StepCtrl scenario is found goToPreviousStep()" time="0.01" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).StepCtrl"/>
+  <testcase name="StepCtrl scenario is found goToNextStep()" time="0.008" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).StepCtrl"/>
+  <testcase name="StepCtrl scenario is found goToPreviousPage()" time="0.007" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).StepCtrl"/>
+  <testcase name="StepCtrl scenario is found goToNextPage()" time="0.006" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).StepCtrl"/>
+  <testcase name="StepCtrl scenario is found goToPreviousVariant()" time="0.006" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).StepCtrl"/>
+  <testcase name="StepCtrl scenario is found goToNextVariant()" time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).StepCtrl"/>
+  <testcase name="StepCtrl scenario is found getCurrentUrlForSharing returns the current URL plus the step labels." time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).StepCtrl"/>
+  <testcase name="StepCtrl scenario is found getScreenshotUrlForSharing returns the correct URL for sharing, including the image file extension." time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).StepCtrl"/>
+  <testcase name="StepCtrl step is not found requested step is not found" time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).StepCtrl"/>
+  <testcase name="Controller :: useCase should load all scenarios and and the selected use case" time="0.006" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller :: useCase"/>
+  <testcase name="Directive :: scTree knows the behaviour of isArray and isObject" time="0.006" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Directive :: scTree"/>
+  <testcase name="Directive :: scTree displays empty tree if data is undefined" time="0.016" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Directive :: scTree"/>
+  <testcase name="Directive :: scTree displays empty tree if data is not of type object (but a string)" time="0.004" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Directive :: scTree"/>
+  <testcase name="Directive :: scTree displays a tree if tree data is provided" time="0.004" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Directive :: scTree"/>
+  <testcase name="BranchOrderByFilter should handle invalid input gracefully: string" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).BranchOrderByFilter"/>
+  <testcase name="BranchOrderByFilter should handle invalid input gracefully: object" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).BranchOrderByFilter"/>
+  <testcase name="BranchOrderByFilter should handle invalid input gracefully: number" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).BranchOrderByFilter"/>
+  <testcase name="BranchOrderByFilter should order given branch resource objects: alias branches first" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).BranchOrderByFilter"/>
+  <testcase name="BranchOrderByFilter should order given branch resource objects: then alphabetically (not case sensitive!)" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).BranchOrderByFilter"/>
+  <testcase name="Filter: scDateTime when a timestamp is filtered returns the formatted date and time string" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter: scDateTime"/>
+  <testcase name="Filter: scDateTime when undefined is filtered returns an empty string" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter: scDateTime"/>
+  <testcase name="Filter: scDateTime when an empty string is filtered returns an empty string" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter: scDateTime"/>
+  <testcase name="Filter: scenarioFilter, when there is search text is empty, should return the original model" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter: scenarioFilter,"/>
+  <testcase name="Filter: scenarioFilter,  search is not case sensitive, should filter the model" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter: scenarioFilter,"/>
+  <testcase name="Filter: scenarioFilter, when search text is a simple string, should filter the model" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter: scenarioFilter,"/>
+  <testcase name="Filter: scenarioFilter, when search text consists of multiple words, keeps all objects in the model, that contain both words" time="0.004" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter: scenarioFilter,"/>
+  <testcase name="Filter: scenarioFilter, when search text consists of multiple words, filters out all objects that miss one or more words," time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter: scenarioFilter,"/>
+  <testcase name="Filter: scenarioFilter, when search text consists of multiple words, keeps the object if the search words were found internally on different levels," time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter: scenarioFilter,"/>
+  <testcase name="Filter Should create a human readable string" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter"/>
+  <testcase name="Filter Should start with a capital letter" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter"/>
+  <testcase name="Filter Should accept special characters" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter"/>
+  <testcase name="Filter Should replace underline with blanks" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter"/>
+  <testcase name="Filter :: scMetadataTreeCreator transforms javascript object into an optimized tree" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scMetadataTreeCreator"/>
+  <testcase name="Filter :: scMetadataTreeListCreator transforms javascript object into a list of optimized trees" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scMetadataTreeListCreator"/>
+  <testcase name="Filter :: scTreeDataCreator creates empty tree from undefined input" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataCreator"/>
+  <testcase name="Filter :: scTreeDataCreator transforms DATA_STRING" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataCreator"/>
+  <testcase name="Filter :: scTreeDataCreator transforms DATA_1" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataCreator"/>
+  <testcase name="Filter :: scTreeDataCreator transforms DATA_2" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataCreator"/>
+  <testcase name="Filter :: scTreeDataCreator transforms DATA_3" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataCreator"/>
+  <testcase name="Filter :: scTreeDataCreator transforms DATA_4" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataCreator"/>
+  <testcase name="Filter :: scTreeDataCreator transforms DATA_5" time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataCreator"/>
+  <testcase name="Filter :: scTreeDataOptimizer removes empty nodes&quot;" time="0" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataOptimizer">
+    <skipped/>
+  </testcase>
+  <testcase name="Filter :: scTreeDataOptimizer pulls children of details nodes one level up" time="0.003" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataOptimizer"/>
+  <testcase name="Filter :: scTreeDataOptimizer makes node labels human readable but does not touch node values" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataOptimizer"/>
+  <testcase name="Filter :: scTreeDataOptimizer uses the name child node to replace empty node label" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataOptimizer"/>
+  <testcase name="Filter :: scTreeDataOptimizer uses the name child node to replace empty node values" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataOptimizer"/>
+  <testcase name="Filter :: scTreeDataOptimizer always uses the type child node to replace the parent node label" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataOptimizer"/>
+  <testcase name="Filter :: scTreeDataOptimizer moves nodes with label &quot;children&quot; behind all other childNodes" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataOptimizer"/>
+  <testcase name="Filter :: scTreeDataOptimizer sets nodeLabel of nodes with empty label to &quot;Item&quot;" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataOptimizer"/>
+  <testcase name="Filter :: scTreeDataOptimizer sets nodeLabel of root node to empty, if it is &quot;Item&quot;" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataOptimizer"/>
+  <testcase name="Filter :: scTreeDataOptimizer does not change nodeLabel of root node to empty, if it is &quot;Item&quot; and also has a nodeValue" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Filter :: scTreeDataOptimizer"/>
+  <testcase name="Service: ScApplicationInfoPopup shows the application info popup on first visit of the app" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service: ScApplicationInfoPopup"/>
+  <testcase name="Service: ScApplicationInfoPopup does not show the application info popup when the user returns to the app" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service: ScApplicationInfoPopup"/>
+  <testcase name="Service: ScApplicationInfoPopup shows opens a modal dialog" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service: ScApplicationInfoPopup"/>
+  <testcase name="Controller: ApplicationInfoCtrl should update applicationInformation if it changes in Config" time="0.004" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Controller: ApplicationInfoCtrl"/>
+  <testcase name="BreadcrumbsService getNavigationElements with undefined parameters returns undefined" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).BreadcrumbsService"/>
+  <testcase name="BreadcrumbsService loadNavigationElements returns a path with four elements for a step" time="0.003" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).BreadcrumbsService"/>
+  <testcase name="Service :: Config should inject Config" time="0.003" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: Config"/>
+  <testcase name="Service :: Config should be able to load config from server" time="0.003" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: Config"/>
+  <testcase name="Service :: Config contains build state to css class mapping as a map" time="0.003" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: Config"/>
+  <testcase name="Service :: Config contains additional columns for scenario overview" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: Config"/>
+  <testcase name="Service :: restServices should inject ConfigResource" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: restServices"/>
+  <testcase name="Service :: restServices HostnameAndPort :: development should resolve the host name to local host" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: restServices"/>
+  <testcase name="Service :: restServices HostnameAndPort :: production should resolve the host name to relative host" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: restServices"/>
+  <testcase name="Service :: restServices HostnameAndPort :: production returns absolute host based on $location without port" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: restServices"/>
+  <testcase name="Service :: restServices HostnameAndPort :: production returns absolute host based on $location with port" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: restServices"/>
+  <testcase name="Service :: SelectedBranchAndBuild has undefined branch and build cookies by default" time="0.003" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: SelectedBranchAndBuild"/>
+  <testcase name="Service :: SelectedBranchAndBuild when the config is not yet loaded has undefined values if no cookies or url parameters are set" time="0.003" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: SelectedBranchAndBuild"/>
+  <testcase name="Service :: SelectedBranchAndBuild when the config is not yet loaded has the cookie values if cookies are set" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: SelectedBranchAndBuild"/>
+  <testcase name="Service :: SelectedBranchAndBuild when the config is not yet loaded has the url parameter values, if cookies and url parameters are set" time="0.004" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: SelectedBranchAndBuild"/>
+  <testcase name="Service :: SelectedBranchAndBuild when the config is loaded uses the default values from the configuration, if no cookies or url parameters are set" time="0.004" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: SelectedBranchAndBuild"/>
+  <testcase name="Service :: SelectedBranchAndBuild when the config is loaded uses the cookie values if they were already set, but only because there are no url parameters set" time="0.007" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: SelectedBranchAndBuild"/>
+  <testcase name="Service :: SelectedBranchAndBuild when the config is loaded uses the url parameter values if they are set, with priority over the cookie values" time="0.005" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: SelectedBranchAndBuild"/>
+  <testcase name="Service :: SelectedBranchAndBuild when url parameter changes updates the selection" time="0.003" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: SelectedBranchAndBuild"/>
+  <testcase name="Service :: SelectedBranchAndBuild when branch and build selection changes to a new valid state all registered callbacks are called" time="0.003" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: SelectedBranchAndBuild"/>
+  <testcase name="Service :: SelectedBranchAndBuild when a callback is registered and valid data is already available calls the callback immediately" time="0.003" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).Service :: SelectedBranchAndBuild"/>
+  <testcase name="SharePageService is initialized with undefined values by default" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).SharePageService"/>
+  <testcase name="SharePageService stores the page Url" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).SharePageService"/>
+  <testcase name="SharePageService stores the image Url" time="0.002" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).SharePageService"/>
+  <testcase name="SharePageService sets both URLs to undefined when the invalidateUrl method is called" time="0.001" classname="PhantomJS_2_1_1_(Windows_8_0_0_0).SharePageService"/>
+  <system-out>
+    <![CDATA[
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>
