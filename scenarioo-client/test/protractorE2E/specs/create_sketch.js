@@ -16,6 +16,8 @@ scenarioo.describeUseCase('Create sketch', 'Create a sketch based on the screens
     });
 
     scenarioo.describeScenario('New issue success', 'Create a new issue successfully', function () {
+        var sketchName = 'Created by automated test';
+
         homePage.goToPage();
 
         scenarioo.docuWriter.saveStep('Select a use case from the list');
@@ -49,19 +51,16 @@ scenarioo.describeUseCase('Create sketch', 'Create a sketch based on the screens
         */
 
         scenarioo.docuWriter.saveStep('Enter information about the step');
-        editorPage.enterSketchInformation();
+        editorPage.enterSketchInformation(sketchName);
         editorPage.assertSaveSketchSuccessfulMessageIsNotPresent();
 
         scenarioo.docuWriter.saveStep('Save issue');
         editorPage.clickSaveButton();
         editorPage.assertSaveSketchSuccessfulMessageIsDisplayed();
 
-        // TODO #181 Assert that there's one new sketch in the list of sketches
-        /*
-        element(by.css('table')).findElements(by.css('tbody tr')).then(function (elements) {
-            expect(elements.length).toBe(this.numberOfIssues + 1);
-        });
-        */
+        homePage.goToPage();
+        homePage.selectSketchesTab();
+        homePage.assertSketchesListContainsEntryWithSketchName(sketchName);
     });
 
     scenarioo.describeScenario('New issue fail', 'Fail to create an issue because insufficient information was entered', function () {
@@ -83,7 +82,7 @@ scenarioo.describeUseCase('Create sketch', 'Create a sketch based on the screens
 
         scenarioo.docuWriter.saveStep('Enter information about the step');
         editorPage.assertAuthorFieldIsEmpty();
-        editorPage.enterSketchInformation();
+        editorPage.enterSketchInformation('Also created by automated test');
 
         scenarioo.docuWriter.saveStep('Save issue');
         editorPage.clickSaveButton();
