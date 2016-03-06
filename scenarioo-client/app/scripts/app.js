@@ -15,11 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// FIXME danielsuter Check if ui.bootstrap dependency is really needed everywhere
 angular.module('scenarioo.filters', []);
-angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute', 'ui.bootstrap.tpls']);
-angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'ui.bootstrap.tpls', 'unsavedChanges']);
-angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule']);
-angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
+angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute', 'ui.bootstrap.tpls', 'ui.bootstrap']);
+angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'ui.bootstrap.tpls', 'ui.bootstrap', 'unsavedChanges']);
+angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule', 'ui.bootstrap']);
+angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives', 'ui.bootstrap']);
 
 angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations'])
 
@@ -91,12 +92,12 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 redirectTo: '/'
             });
 
-    }).run(function ($rootScope, Config, GlobalHotkeysService, $location, $modalStack) {
+    }).run(function ($rootScope, Config, GlobalHotkeysService, $location, $uibModalStack) {
 
 
         // Initialze modals to close when the location changes
         $rootScope.$on('$locationChangeSuccess', function() {
-                $modalStack.dismissAll();
+                $uibModalStack.dismissAll();
             });
 
         // Register global hotkeys
