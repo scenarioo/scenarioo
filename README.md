@@ -4,8 +4,6 @@ E2E Tests: [![E2E Tests (of last changed/deployed branch)](http://ci.scenarioo.o
 CI Master: [![CI Status Master Branch](http://ci.scenarioo.org/job/scenarioo-master/badge/icon)](http://ci.scenarioo.org/job/scenarioo-master)
 CI Develop: [![CI Status Develop Branch](http://ci.scenarioo.org/job/scenarioo-develop/badge/icon)](http://ci.scenarioo.org/job/scenarioo-develop)
 
-Issue Sketcher Demo: http://54.88.202.24/scenarioo-fork-mockups/
-
 Scenarioo
 ==========
 
@@ -23,8 +21,8 @@ https://github.com/scenarioo/scenarioo/wiki
 
 Live-Demo 
 
-* stable master-branch: http://demo.scenarioo.org/scenarioo-master
-* unstable develop-branch: http://demo.scenarioo.org/scenarioo-develop
+* stable master-branch: http://demo.scenarioo.org
+* unstable develop-branch: http://54.88.202.24/scenarioo-develop/
 
 CI Build Status: 
 
