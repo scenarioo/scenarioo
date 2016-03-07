@@ -351,7 +351,9 @@ angular
             return '';
         }
 
-        return 'Use Case: ' + relatedStep.usecaseName + ' / Scenario: ' + relatedStep.scenarioName
+        var humanReadableFilter = $filter('scHumanReadable');
+
+        return 'Use Case: ' + humanReadableFilter(relatedStep.usecaseName) + ' / Scenario: ' + humanReadableFilter(relatedStep.scenarioName)
             + ' / Step: ' + relatedStep.pageName + '/' + relatedStep.pageOccurrence + '/' + relatedStep.stepInPageOccurrence;
     };
 

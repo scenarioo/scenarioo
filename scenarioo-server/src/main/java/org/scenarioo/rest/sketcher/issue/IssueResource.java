@@ -176,7 +176,7 @@ public class IssueResource {
 	@GET
 	@Produces("application/json")
 	@Path("/related/{buildName}/{usecaseName}/{scenarioName}")
-	public Response relatedIssuesScenario(@PathParam("branchName") final String branchName,
+	public Response relatedIssuesForScenario(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName) {
 		LOGGER.info("REQUEST: relatedIssuesScenario(" + branchName + ", " + buildName + ", " + usecaseName + ", "
@@ -193,7 +193,7 @@ public class IssueResource {
 	@GET
 	@Produces("application/json")
 	@Path("/related/{buildName}/{usecaseName}/{scenarioName}/{pageName}/{pageOccurrence}/{stepInPageOccurrence}")
-	public Response relatedIssuesStep(@PathParam("branchName") final String branchName,
+	public Response relatedIssuesForStep(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
 			@PathParam("pageOccurrence") final int pageOccurrence,
