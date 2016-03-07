@@ -31,10 +31,7 @@ import org.scenarioo.rest.base.StepIdentifier;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StepSketch implements Serializable {
 
-	private String sketchFileName; // todo
-	private int stepIndex;
-
-	// below: ok
+	private String sketchFileName;
 	private String stepSketchId;
 	private Date dateCreated;
 	private Date dateModified;
@@ -59,7 +56,6 @@ public class StepSketch implements Serializable {
 	public void setSketchFileName(final String sketchFileName) {
 		this.sketchFileName = sketchFileName;
 	}
-
 
 	public String getBranchName() {
 		return branchName;
@@ -92,9 +88,6 @@ public class StepSketch implements Serializable {
 	public void setScenarioSketchId(final String scenarioSketchId) {
 		this.scenarioSketchId = scenarioSketchId;
 	}
-
-	// TODO
-	// below: ok
 
 	public String getStepSketchId() {
 		return stepSketchId;
@@ -134,14 +127,6 @@ public class StepSketch implements Serializable {
 
 	public void setRelatedStep(final StepIdentifier relatedStep) {
 		this.relatedStep = relatedStep;
-	}
-
-	public int getStepIndex() {
-		return stepIndex;
-	}
-
-	public void setStepIndex(final int stepIndex) {
-		this.stepIndex = stepIndex;
 	}
 
 }

@@ -32,23 +32,8 @@ scenarioo.describeUseCase('Create sketch', 'Create a sketch based on the screens
         scenarioo.docuWriter.saveStep('Click "Create Sketch" button');
         stepPage.clickCreateSketchButton();
 
-        // TODO #181 Try to draw something if this is easily possible
-        //var drawingPad = element(by.id('drawingPad'));
-        /*var drawingPadLocation;
-        drawingPad.getLocation().then(function (location){
-            drawingPadLocation = location;
-        });*/
-
-        //Try to draw
-        /*
-        element(by.id('Note Tool')).click();
-        browser.actions()
-            .mouseMove(drawingPad, {x: 100, y: 100}) // 100px from left, 100 px from top of drawingPad
-            .mouseDown()
-            .mouseMove({x: 200, y: 200})// 200px to the right of current location, 200px down
-            .perform();
-        scenarioo.docuWriter.saveStep('Draw on the sketch');
-        */
+        // Drawing in the sketching editor is omitted here.
+        // If somebody wants to try to implement this, go ahead please :-)
 
         scenarioo.docuWriter.saveStep('Enter information about the step');
         editorPage.enterSketchInformation(sketchName);

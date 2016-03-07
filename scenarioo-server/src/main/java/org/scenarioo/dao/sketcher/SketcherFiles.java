@@ -19,7 +19,6 @@ package org.scenarioo.dao.sketcher;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,7 +26,6 @@ import java.util.List;
 
 import org.apache.batik.ext.awt.image.codec.png.PNGRegistryEntry;
 import org.apache.batik.ext.awt.image.spi.ImageTagRegistry;
-import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
@@ -205,21 +203,14 @@ public class SketcherFiles {
 			final ImageTagRegistry registry = ImageTagRegistry.getRegistry();
 			registry.register(new PNGRegistryEntry());
 			final TranscoderInput input = new TranscoderInput(istream);
-
-			final FileOutputStream ostream = new FileOutputStream(pngFile);
-			final TranscoderOutput output = new TranscoderOutput(ostream);
+			final FileOutputStream outputStream = new FileOutputStream(pngFile);
+			final TranscoderOutput output = new TranscoderOutput(outputStream);
 			transcoder.transcode(input, output);
-			ostream.flush();
-			ostream.close();
-		} catch (final FileNotFoundException e) {
-			LOGGER.error("Could not write PNG file.");
-			LOGGER.error(e.toString());
-		} catch (final IOException e) {
-			LOGGER.error("The FileOutputStream could not be closed properly.");
-			LOGGER.error(e.toString());
-		} catch (final TranscoderException e) {
-			LOGGER.error("Could not transcode SVG to PNG.");
-			LOGGER.error(e.toString());
+			outputStream.flush();
+			outputStream.close();
+		} catch (final Exception e) {
+			LOGGER.error("Could not save PNG version of sketch.", e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -237,8 +228,8 @@ public class SketcherFiles {
 					stepSketch.getStepSketchId());
 			ScenarioDocuXMLFileUtil.marshal(stepSketch, destinationFile);
 		} catch (final IOException e) {
-			LOGGER.error("Could not write SVG file.");
-			LOGGER.error(e.toString());
+			LOGGER.error("Could not write SVG file.", e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -249,8 +240,8 @@ public class SketcherFiles {
 					stepSketchId), "original.png");
 			FileUtils.copyFile(originalScreenshot, destination);
 		} catch (final IOException e) {
-			LOGGER.error("Couldn't copy original screenshot to stepsketch!");
-			e.printStackTrace();
+			LOGGER.error("Couldn't copy original screenshot to stepsketch!", e);
+			throw new RuntimeException(e);
 		}
 	}
 

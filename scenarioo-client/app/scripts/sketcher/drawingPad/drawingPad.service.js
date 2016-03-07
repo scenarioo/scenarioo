@@ -58,12 +58,11 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
              * in order to get svgPanZoom to work we need a group
              * with all the elements that should be zoomed and panned
              */
-            // TODO Rename group to something else
-            drawingPad.group = drawingPad.group().attr({
+            drawingPad.zoomPanGroup = drawingPad.group().attr({
                 class: 'svg-pan-zoom_viewport'
             });
 
-            drawingPad.group.add(drawingPad.drawingContainer);
+            drawingPad.zoomPanGroup.add(drawingPad.drawingContainer);
 
             drawingPad.drawingContainer.image('')
                 .attr({
@@ -122,7 +121,7 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
         var screenshotURL = ContextService.screenshotURL;
 
         if(!screenshotURL) {
-            $log.error('screenshot url not set in context service');
+            $log.warn('screenshot url not set in context service');
             return;
         }
 
@@ -191,7 +190,6 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
         img.src = url;
     }
 
-    // TODO Maybe use the existing hotkey service
     window.onkeydown = onKeyDownHandler;
     function onKeyDownHandler(event) {
         switch (event.keyCode) {
@@ -237,8 +235,8 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
 
         // For saving the SVG image
         exportDrawing: function () {
-            var group = drawingPad.group.clone().hide();
-            var svg = group.first();
+            var zoomPanGroup = drawingPad.zoomPanGroup.clone().hide();
+            var svg = zoomPanGroup.first();
             svg.attr({
                 encoding: 'utf-8',
                 xmlns: 'http://www.w3.org/2000/svg',
