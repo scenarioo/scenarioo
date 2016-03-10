@@ -62,7 +62,7 @@ angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function 
         showApplicationInfoPopup: showApplicationInfoPopup
     };
 
-}).controller('ApplicationInfoCtrl', function ($scope, $modalInstance, Config, $sce, VersionResource) {
+}).controller('ApplicationInfoCtrl', function ($scope, $uibModalInstance, Config, $sce, VersionResource) {
     $scope.$watch(function () {
         return Config.applicationInformation();
     }, function (applicationInformation) {
@@ -76,6 +76,6 @@ angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function 
     );
 
     $scope.closeInfoModal = function () {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 });
