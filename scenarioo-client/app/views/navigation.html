@@ -25,8 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </li>
 
         <!-- Branch selection dropdown -->
-        <li class="dropdown" dropdown is-open="status.isBranchSelectionOpen" id="branchSelectionDropdown">
-            <a href="#" class="dropdown-toggle" dropdown-toggle>
+        <li class="dropdown" uib-dropdown is-open="status.isBranchSelectionOpen" id="branchSelectionDropdown">
+            <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
                 <span class="glyphicon glyphicon-hdd"></span> Branch:
                 <span class="glyphicon glyphicon-share-alt" ng-show="branchesAndBuilds.selectedBranch.alias"></span>
                 {{getBranchDisplayName(branchesAndBuilds.selectedBranch)}}
@@ -42,8 +42,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </li>
 
         <!-- Build selection dropdown -->
-        <li class="dropdown" dropdown is-open="status.isBuildSelectionOpen">
-            <a href="#" class="dropdown-toggle" dropdown-toggle>
+        <li class="dropdown" uib-dropdown is-open="status.isBuildSelectionOpen">
+            <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
                 <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Build:
                 <span class="glyphicon glyphicon-share-alt" ng-show="isBuildAlias(branchesAndBuilds.selectedBuild)"></span>
                 <span class="glyphicon glyphicon-ok" ng-show="isLastSuccessfulScenariosBuild(branchesAndBuilds.selectedBuild)"></span>
