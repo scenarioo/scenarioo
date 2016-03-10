@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// FIXME danielsuter Check if ui.bootstrap dependency is really needed everywhere
 angular.module('scenarioo.filters', []);
 angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute']);
 angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'unsavedChanges']);

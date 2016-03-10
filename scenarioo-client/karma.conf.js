@@ -30,6 +30,8 @@ module.exports = function (config) {
             'app/components/angular-route/angular-route.js',
             'app/components/angular-mocks/angular-*.js',
             'app/components/angular-local-storage/dist/angular-local-storage.min.js',
+            'node_modules/requirejs/*.js',
+            'node_modules/requirejs/**/*.js',
             'app/components/twigs/dist/twigs.js',
             'app/components/svg.js/dist/svg.js',
             'app/components/svg.draggable.js/dist/svg.draggable.js',
@@ -41,7 +43,7 @@ module.exports = function (config) {
             'test/spec/**/*.js'
         ],
 
-        frameworks: ['jasmine'],
+        frameworks: ['jasmine', 'requirejs'],
 
         // list of files to exclude
         exclude: [],
