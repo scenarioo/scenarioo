@@ -41,7 +41,7 @@ module.exports = function (config) {
             'test/spec/**/*.js'
         ],
 
-        frameworks: ['jasmine', 'requirejs'],
+        frameworks: ['jasmine'],
 
         // list of files to exclude
         exclude: [],
