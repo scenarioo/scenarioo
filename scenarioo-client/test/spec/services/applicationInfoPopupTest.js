@@ -22,7 +22,7 @@ describe('Service: ScApplicationInfoPopup', function () {
     beforeEach(module('scenarioo.services'));
 
     beforeEach(module(function ($provide) {
-        $provide.value('$modal', {
+        $provide.value('$uibModal', {
                 open: function () {
                 }
             }
@@ -36,38 +36,38 @@ describe('Service: ScApplicationInfoPopup', function () {
             }
         }
     };
-    beforeEach(inject(function (_ScApplicationInfoPopup_, _localStorageService_, _$modal_) {
+    beforeEach(inject(function (_ScApplicationInfoPopup_, _localStorageService_, _$uibModal_) {
         ScApplicationInfoPopup = _ScApplicationInfoPopup_;
         localStorageService = _localStorageService_;
-        $uibModal = _$modal_;
+        $uibModal = _$uibModal_;
     }));
 
     it('shows the application info popup on first visit of the app', function () {
         localStorageService.clearAll();
 
-        spyOn($modal, 'open').and.returnValue(dummyPromise);
+        spyOn($uibModal, 'open').and.returnValue(dummyPromise);
 
         ScApplicationInfoPopup.showApplicationInfoPopupIfRequired();
 
-        expect($modal.open).toHaveBeenCalled();
+        expect($uibModal.open).toHaveBeenCalled();
     });
 
     it('does not show the application info popup when the user returns to the app', function () {
         localStorageService.set(ScApplicationInfoPopup.PREVIOUSLY_VISITED_COOKIE_NAME, true);
 
-        spyOn($modal, 'open').and.returnValue(dummyPromise);
+        spyOn($uibModal, 'open').and.returnValue(dummyPromise);
 
         ScApplicationInfoPopup.showApplicationInfoPopupIfRequired();
 
-        expect($modal.open).not.toHaveBeenCalled();
+        expect($uibModal.open).not.toHaveBeenCalled();
     });
 
     it('shows opens a modal dialog', function () {
-        spyOn($modal, 'open').and.returnValue(dummyPromise);
+        spyOn($uibModal, 'open').and.returnValue(dummyPromise);
 
         ScApplicationInfoPopup.showApplicationInfoPopup();
 
-        expect($modal.open).toHaveBeenCalled();
+        expect($uibModal.open).toHaveBeenCalled();
     });
 
 });
@@ -91,7 +91,7 @@ describe('Controller: ApplicationInfoCtrl', function () {
         $controller('ApplicationInfoCtrl', {
             $scope: $scope,
             Config: ConfigMock,
-            $modalInstance: null
+            $uibModalInstance: null
         });
     }));
 
