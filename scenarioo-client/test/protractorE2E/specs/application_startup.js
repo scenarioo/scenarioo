@@ -3,23 +3,28 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-scenarioo.describeUseCase('Application startup', 'The user is presented with the about dialog on his first Scenarioo visit.', function () {
-
+describeUseCaseE('Application startup', {
+    description: 'The user is presented with the about dialog on his first Scenarioo visit.'
+    }, function() {
     var homePage = new pages.homePage();
 
-    scenarioo.describeScenario('First visit', 'About dialog open on first access to Scenarioo to welcome new user.', function () {
+    describeScenarioE('First visit', {
+        description: 'About dialog open on first access to Scenarioo to welcome new user.'
+    }, function() {
         homePage.startScenariooFirstTimeVisit();
-        scenarioo.docuWriter.saveStep('About dialog is displayed on first access of Scenarioo');
+        scenarioo.saveStep('About dialog is displayed on first access of Scenarioo');
         homePage.assertPageIsDisplayed();
         homePage.assertScenariooInfoDialogShown();
         homePage.closeScenariooInfoDialogIfOpen();
         homePage.assertScenariooInfoDialogNotShown();
-        scenarioo.docuWriter.saveStep('About dialog is closed');
+        scenarioo.saveStep('About dialog is closed');
     });
 
-    scenarioo.describeScenario('Later visits', 'About dialog not open when previously visited.', function () {
+    describeScenarioE('Later visits', {
+        description: 'About dialog not open when previously visited.'
+    }, function() {
         homePage.startScenariooRevisited();
-        scenarioo.docuWriter.saveStep('About dialog not visible for previous visitors');
+        scenarioo.saveStep('About dialog not visible for previous visitors');
         homePage.assertPageIsDisplayed();
         homePage.assertScenariooInfoDialogNotShown();
     });
