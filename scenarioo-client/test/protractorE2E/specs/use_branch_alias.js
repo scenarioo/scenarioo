@@ -3,7 +3,9 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-scenarioo.describeUseCase('Use branch aliases', 'Select a branch by using an alias', function () {
+describeUseCaseE('Use branch aliases', {
+    description: 'Select a branch by using an alias'
+}, function () {
 
     var homePage = new pages.homePage();
     var branchAliasesPage = new pages.branchAliasesPage();
@@ -15,21 +17,23 @@ scenarioo.describeUseCase('Use branch aliases', 'Select a branch by using an ali
         new pages.homePage().initLocalStorage();
     });
 
-    scenarioo.describeScenario('Select branch by alias', 'Create an alias and assert browsing through steps works', function () {
+    describeScenarioE('Select branch by alias', {
+        description: 'Create an alias and assert browsing through steps works'
+    }, function () {
         branchAliasesPage.goToPage();
         branchAliasesPage.enterAlias('Latest dev', 'wikipedia-docu-example', 'alias to latest development release');
         branchAliasesPage.save();
-        scenarioo.docuWriter.saveStep('Create new branch alias');
+        scenarioo.saveStep('Create new branch alias');
 
         branchAliasesPage.chooseBranch('Latest dev');
-        scenarioo.docuWriter.saveStep('choose branch alias');
+        scenarioo.saveStep('choose branch alias');
 
         homePage.goToPage();
         homePage.selectUseCase(1);
         usecasePage.selectScenario(0);
         scenarioPage.openStepByName('Step 1: Wikipedia Suche');
         stepPage.assertPreviousStepIsDisabled();
-        scenarioo.docuWriter.saveStep('browse step using branch alias');
+        scenarioo.saveStep('browse step using branch alias');
 
         // Restore initial state for other tests
         branchAliasesPage.goToPage();
