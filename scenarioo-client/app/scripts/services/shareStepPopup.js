@@ -43,7 +43,7 @@ angular.module('scenarioo.services').factory('ScShareStepPopup', function (local
         showShareStepPopup: showShareStepPopup
     };
 
-}).controller('ScShareStepPopupController', function ($scope, $modalInstance, SharePageService, $location) {
+}).controller('ScShareStepPopupController', function ($scope, $uibModalInstance, SharePageService, $location) {
 
     var currentBrowserLocation = $location.absUrl();
 
@@ -60,7 +60,7 @@ angular.module('scenarioo.services').factory('ScShareStepPopup', function (local
     $scope.eMailUrl = encodeURIComponent($scope.pageUrl);
 
     $scope.close = function () {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 
 });
