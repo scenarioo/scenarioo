@@ -116,7 +116,7 @@ describeUseCaseE('Show step', {
     }, function () {
         stepPage.goToPage('/step/Find%20Page/find_no_results/startSearch.jsp/0/0');
 
-        stepPage.openMetadataTabIfClosed(0);
+        stepPage.openMetadataTabIfClosed(1);
         scenarioo.saveStep('Expand Call tree panel');
 
         stepPage.clickOnLink('uiAction_example.action.StartInitAction');
