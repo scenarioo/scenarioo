@@ -14,7 +14,9 @@ describeUseCaseE('Browse page variants', {
         new pages.homePage().initLocalStorage();
     });
 
-    describeScenarioE('Navigate to previous / next page variants.', function () {
+    describeScenarioE('Browse variants', {
+        description: 'Navigate to previous / next page variants.'
+    }, function () {
         stepPage.goToPage('/step/Switch%20Language/search_article_in_german_and_switch_to_spanish/contentPage.jsp/0/0');
         stepPage.assertPageVariantIndicatorValue('Page-Variant 8 of 10');
         scenarioo.saveStep('A step of the contentPage.jsp page.');
@@ -31,7 +33,9 @@ describeUseCaseE('Browse page variants', {
         scenarioo.saveStep('The last page variant. Button for next page variant is disabled.');
     });
 
-    describeScenarioE('Go to page variants overview page to select a different page variant.', function () {
+    describeScenarioE('Variant Overview', {
+        description: 'Go to page variants overview page to select a different page variant.'
+    }, function () {
         stepPage.goToPage('/step/Switch%20Language/search_article_in_german_and_switch_to_spanish/contentPage.jsp/0/0');
         scenarioo.saveStep('A step of the contentPage.jsp page.');
 
