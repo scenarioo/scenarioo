@@ -27,6 +27,8 @@ import javax.servlet.ServletContextListener;
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.sketcher.SketcherFiles;
+import org.scenarioo.model.configuration.Configuration;
+import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 
 /**
@@ -63,8 +65,6 @@ public class ScenariooWebApplication implements ServletContextListener {
 				.getConfigFilenameFromServletContext(servletContextEvent);
 		
 		RepositoryLocator.INSTANCE.initializeConfigurationRepository(configurationDirectory, configurationFilename);
-		RepositoryLocator.INSTANCE.getConfigurationRepository().getConfiguration();
-
 		
 		final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
 		final Configuration configuration = configurationRepository.getConfiguration();
