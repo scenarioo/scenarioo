@@ -16,7 +16,8 @@
  */
 
 angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams,
-                                                                             $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, Config, PagesAndSteps, LabelConfigurationsResource) {
+                                                                             $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild,
+                                                                             Config, PagesAndSteps, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -53,6 +54,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
                 $scope.metadataTree = transformMetadataToTreeArray($scope.pagesAndScenarios.scenario.details);
                 $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario, result.scenarioStatistics);
                 $scope.scenarioStatistics = result.scenarioStatistics;
+                loadRelatedIssues();
 
                 $scope.hasAnyLabels = function () {
                     var hasAnyUseCaseLabels = $scope.useCase.labels.labels.length > 0;
@@ -147,6 +149,30 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         stepInformation['Number of Steps'] = scenarioStatistics.numberOfSteps;
         stepInformation.Status = scenario.status;
         return transformMetadataToTree(stepInformation);
+    }
+
+    function loadRelatedIssues(){
+        RelatedIssueResource.query({
+            branchName: SelectedBranchAndBuild.selected().branch,
+            buildName: SelectedBranchAndBuild.selected().build,
+            useCaseName: $routeParams.useCaseName,
+            scenarioName: $routeParams.scenarioName
+        }, function(result){
+            $scope.relatedIssues = result;
+            $scope.hasAnyRelatedIssues = function(){
+                return $scope.relatedIssues.length > 0;
+            };
+            $scope.goToIssue = goToIssue;
+        });
+    }
+
+    function goToIssue(issue) {
+        var selectedBranch = SelectedBranchAndBuild.selected().branch;
+        SketchIdsResource.get(
+            {'branchName': selectedBranch, 'issueId': issue.id },
+            function onSuccess(result) {
+                $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+            });
     }
 
     // FIXME this code is duplicated. How can we extract it into a service?

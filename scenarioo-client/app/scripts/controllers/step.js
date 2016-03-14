@@ -15,11 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, localStorageService, Config, ScenarioResource, StepResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService) {
+angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepResource, HostnameAndPort,
+                                                                         SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService,
+                                                                         ContextService, RelatedIssueResource, SketchIdsResource) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
 
+    var selectedBranchAndBuild = {};
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
     $scope.pageName = $routeParams.pageName;
@@ -54,6 +57,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     SelectedBranchAndBuild.callOnSelectionChange(loadStep);
 
     function loadStep(selected) {
+        selectedBranchAndBuild = selected;
         bindStepNavigation();
         loadStepFromServer(selected);
     }
@@ -83,6 +87,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.stepIndex = result.stepNavigation.stepIndex;
                 $scope.useCaseLabels = result.useCaseLabels;
                 $scope.scenarioLabels = result.scenarioLabels;
+                loadRelatedIssues();
 
                 $scope.hasAnyLabels = function () {
                     var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
@@ -95,6 +100,8 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
                 SharePageService.setPageUrl($scope.getCurrentUrlForSharing());
                 SharePageService.setImageUrl($scope.getScreenshotUrlForSharing());
+
+                updateContextService();
             },
             function error(result) {
                 $scope.stepNotFound = true;
@@ -106,6 +113,20 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 };
             }
         );
+    }
+
+    function updateContextService() {
+        ContextService.stepIdentifier = {
+            branchName: selectedBranchAndBuild.branch,
+            buildName: selectedBranchAndBuild.build,
+            usecaseName: useCaseName,
+            scenarioName: scenarioName,
+            pageName: $scope.pageName,
+            pageOccurrence: $scope.pageOccurrence,
+            stepInPageOccurrence: $scope.stepInPageOccurrence
+        };
+
+        ContextService.screenshotURL = $scope.getScreenShotUrl();
     }
 
     function createStepInformationTree(result) {
@@ -357,5 +378,45 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     $scope.$on('$destroy', function () {
         SharePageService.invalidateUrls();
     });
+
+    // Used in breadcrumbs.html
+    $scope.showCreateOrEditSketchLink = true;
+
+    // Called from breadcrumbs.html
+    $scope.getSketchButtonTitle = function () {
+        return 'Create Sketch';
+    };
+
+    // Called from breadcrumbs.html
+    $scope.createOrEditSketch = function () {
+        $location.path('/editor/').search('mode', 'create');
+    };
+
+    function loadRelatedIssues() {
+        RelatedIssueResource.query({
+            branchName: SelectedBranchAndBuild.selected().branch,
+            buildName: SelectedBranchAndBuild.selected().build,
+            useCaseName: useCaseName,
+            scenarioName: scenarioName,
+            pageName: $scope.pageName,
+            pageOccurence: $scope.pageOccurrence,
+            stepInPageOccurrence: $scope.stepInPageOccurrence
+        }, function(result){
+            $scope.relatedIssues = result;
+            $scope.hasAnyRelatedIssues = function(){
+                return $scope.relatedIssues.length > 0;
+            };
+            $scope.goToIssue = goToIssue;
+        });
+    }
+
+    function goToIssue(issue) {
+        var selectedBranch = SelectedBranchAndBuild.selected().branch;
+        SketchIdsResource.get(
+            {'branchName': selectedBranch, 'issueId': issue.id },
+            function onSuccess(result) {
+                $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+            });
+    }
 
 });

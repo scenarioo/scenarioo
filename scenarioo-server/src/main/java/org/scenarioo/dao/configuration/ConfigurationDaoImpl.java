@@ -72,8 +72,36 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
 	}
 	
 	private File getFileSystemConfigFile() {
+<<<<<<< HEAD
 		File configurationPath = new File(configurationDirectory);
 		return new File(configurationPath, configurationFilename);
+=======
+		File configurationPath;
+		if (!StringUtils.isBlank(configurationDirectory)) {
+			configurationPath = new File(configurationDirectory);
+		} else {
+			LOGGER.warn("no configuration directory is configured in server context, therefore trying to use fallback directory in user home.");
+			configurationPath = getUserHomeConfigurationDirectory();
+		}
+		if (configurationPath == null) {
+			return null;
+		}
+		File configFile;
+		if (StringUtils.isNotBlank(configurationFilename)) {
+			configFile = new File(configurationPath, configurationFilename);
+		} else {
+			configFile = new File(configurationPath, CONFIG_FILE_NAME);
+		}
+		return configFile;
+	}
+	
+	private File getUserHomeConfigurationDirectory() {
+		File configurationPath;
+		// file constructor handles null or blank user.home
+		configurationPath = new File(System.getProperty("user.home"), USER_HOME_BASE_DIRECTORY);
+		
+		return configurationPath;
+>>>>>>> develop
 	}
 
 	private File loadDefaultConfigFile() {

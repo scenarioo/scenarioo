@@ -1,0 +1,73 @@
+<!-- scenarioo-client
+Copyright (C) 2015, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<sc-breadcrumb></sc-breadcrumb>
+
+<div ng-show="!loading && issueNotFound" id="issueDoesNotExistMessage">
+    <div class="alert alert-info" role="alert">
+        <p>The sketch you are looking for could not be found. Sketches are always assigned to a branch,
+            so maybe you just have to select the correct branch in order to find it.</p>
+    </div>
+</div>
+
+<tabset class="step-panes" ng-hide="loading || issueNotFound">
+    <tab heading="Sketch: {{issue.name}}">
+        <img ng-src={{getScreenShotUrl()}}/>
+    </tab>
+    <tab heading="Original Screenshot">
+        <img ng-src="{{getOriginalScreenshotUrl()}}"/>
+    </tab>
+    <tab heading="Metadata">
+        <h2>Details</h2>
+
+        <p id="issue-name">
+            Sketch name: {{issue.name}}
+        </p>
+
+        <p id="issue-description">
+            Description: {{issue.description}}
+        </p>
+
+        <p id="author">
+            Author: {{issue.author}}
+        </p>
+
+        <p id="dateCreated">
+            Created: {{stepSketch.dateCreated | scDateTime}}
+        </p>
+
+        <p id="dateModified">
+            Last modified: {{stepSketch.dateModified | scDateTime}}
+        </p>
+
+        <h2>Original Step in Documentation</h2>
+
+        <p>The sketch is based on this step from the documentation.</p>
+
+        <p id="usecase-context">
+            <a ng-href="{{getUseCaseUrl()}}">Use Case: {{stepSketch.relatedStep.usecaseName | scHumanReadable}}</a>
+        </p>
+
+        <p id="scenario-context">
+            <a ng-href="{{getScenarioUrl()}}">Scenario: {{stepSketch.relatedStep.scenarioName | scHumanReadable}}</a>
+        </p>
+
+        <p id="step-context">
+            <a ng-href="{{getStepUrl()}}">Step: {{stepSketch.relatedStep.pageName}}/{{stepSketch.relatedStep.pageOccurrence}}/{{stepSketch.relatedStep.stepInPageOccurrence}}</a>
+        </p>
+    </tab>
+</tabset>

@@ -18,7 +18,7 @@
 angular.module('scenarioo.controllers').controller('UseCaseCtrl', UseCaseCtrl);
 
 function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild,
-                     LabelConfigurationsResource) {
+                     LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource) {
 
     var vm = this;
 
@@ -36,6 +36,7 @@ function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource,
     vm.scenarios = [];
     vm.usecaseInformationTree = {};
     vm.metadataTree = {};
+    vm.relatedIssues = {};
     vm.hasAnyLabels = false;
 
     vm.resetSearchField = resetSearchField;
@@ -116,6 +117,30 @@ function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource,
         vm.usecaseInformationTree = createUseCaseInformationTree(vm.useCase);
         vm.metadataTree = $filter('scMetadataTreeListCreator')(vm.useCase.details);
         vm.hasAnyLabels = vm.useCase.labels && vm.useCase.labels.labels.length !== 0;
+        loadRelatedIssues();
+    }
+
+    function loadRelatedIssues(){
+        RelatedIssueResource.query({
+            branchName: SelectedBranchAndBuild.selected().branch,
+            buildName: SelectedBranchAndBuild.selected().build,
+            useCaseName: $routeParams.useCaseName
+        }, function(result){
+            $scope.relatedIssues = result;
+            $scope.hasAnyRelatedIssues = function(){
+                return $scope.relatedIssues.length > 0;
+            };
+            $scope.goToIssue = goToIssue;
+        });
+    }
+
+    function goToIssue(issue) {
+        var selectedBranch = SelectedBranchAndBuild.selected().branch;
+        SketchIdsResource.get(
+            {'branchName': selectedBranch, 'issueId': issue.id },
+            function onSuccess(result) {
+                $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+            });
     }
 
     function createUseCaseInformationTree(usecase) {

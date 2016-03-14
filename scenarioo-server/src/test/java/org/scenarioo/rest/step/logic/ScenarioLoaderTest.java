@@ -3,12 +3,12 @@ package org.scenarioo.rest.step.logic;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.scenarioo.dao.aggregates.AggregatedDataReader;
+import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.rest.base.StepIdentifier;
 
 public class ScenarioLoaderTest {
 	
-	private final AggregatedDataReader aggregatedDataReader = new DummyAggregatedDataReader();
+	private final AggregatedDocuDataReader aggregatedDataReader = new DummyAggregatedDataReader();
 	private final ScenarioLoader scenarioLoader = new ScenarioLoader(aggregatedDataReader);
 	
 	private StepIdentifier stepIdentifier;

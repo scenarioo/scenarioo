@@ -57,12 +57,24 @@ function MainCtrl($scope, $location, Config) {
         });
     }
 
+    function defineLastStaticTabs() {
+        var i = vm.tabs.length;
+        vm.tabs.push({
+            tabId: 'sketches',
+            title: 'Sketches',
+            contentViewUrl: 'views/mainSketchesTab.html',
+            active: false
+        });
+        vm.tabIndices.sketches = i;
+    }
+
     function activate() {
         // Load configuration and trigger definition of tabs from config.
         $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
             var config = Config.getRawConfigDataCopy();
             defineInitialStaticTabs();
             defineCustomTabsFromConfig(config);
+            defineLastStaticTabs();
             selectTabFromUrl();
         });
         Config.load();

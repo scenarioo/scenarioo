@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
-    <testDocumentationDirPath>/home/ngUSD/Code/scenarioo/scenarioo-docu-generation-example/build/scenarioDocuExample</testDocumentationDirPath>
+	<testDocumentationDirPath>/home/scenarioo/scenarioo/scenarioo-docu-generation-example/build/scenarioDocuExample</testDocumentationDirPath>
     <defaultBranchName>wikipedia-docu-example</defaultBranchName>
     <defaultBuildName>last successful</defaultBuildName>
     <aliasForMostRecentBuild>most recent</aliasForMostRecentBuild>
     <aliasForLastSuccessfulBuild>last successful</aliasForLastSuccessfulBuild>
+    <buildStatusForSuccessfulBuilds>success</buildStatusForSuccessfulBuilds>
     <scenarioPropertiesInOverview></scenarioPropertiesInOverview>
     <applicationName></applicationName>
     <applicationInformation>&lt;h3&gt;Welcome to Scenarioo!&lt;/h3&gt;
@@ -40,6 +41,10 @@
             <value>label-warning</value>
         </entry>
     </buildstates>
+    <createLastSuccessfulScenarioBuild>false</createLastSuccessfulScenarioBuild>
+    <expandPagesInScenarioOverview>false</expandPagesInScenarioOverview>
+    <branchAliases/>
+    <labelConfigurations/>
     <customObjectTabs>
         <id>pages</id>
         <tabTitle>Pages</tabTitle>

@@ -71,7 +71,7 @@ import org.scenarioo.utils.ResourceUtils;
  * If accessing data for a specific build you have to make sure to use the constructor that initializes the
  * {@link LongObjectNamesResolver} with the object names as available for the specific build you want to access.
  */
-public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
+public class ScenarioDocuAggregationDAO implements AggregatedDocuDataReader {
 	
 	private static final Logger LOGGER = Logger.getLogger(ScenarioDocuAggregationDAO.class);
 	
@@ -96,7 +96,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	}
 	
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadVersion(java.lang.String, java.lang.String)
+	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadVersion(java.lang.String, java.lang.String)
 	 */
 	@Override
 	public String loadVersion(final BuildIdentifier buildIdentifier) {
@@ -121,7 +121,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	}
 	
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadUseCaseScenariosList(org.scenarioo.rest.base.BuildIdentifier)
+	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadUseCaseScenariosList(org.scenarioo.rest.base.BuildIdentifier)
 	 */
 	@Override
 	public List<UseCaseScenarios> loadUseCaseScenariosList(final BuildIdentifier buildIdentifier) {
@@ -131,7 +131,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	}
 	
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadUseCaseScenarios(java.lang.String, java.lang.String,
+	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadUseCaseScenarios(java.lang.String, java.lang.String,
 	 *      java.lang.String)
 	 */
 	@Override
@@ -167,7 +167,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	}
 	
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadScenarioPageSteps(org.scenarioo.rest.base.ScenarioIdentifier)
+	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadScenarioPageSteps(org.scenarioo.rest.base.ScenarioIdentifier)
 	 */
 	@Override
 	public ScenarioPageSteps loadScenarioPageSteps(final ScenarioIdentifier scenarioIdentifier) {
@@ -236,7 +236,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	}
 	
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadObjectDescription(org.scenarioo.rest.base.BuildIdentifier,
+	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadObjectDescription(org.scenarioo.rest.base.BuildIdentifier,
 	 *      org.scenarioo.model.docu.entities.generic.ObjectReference)
 	 */
 	@Override
@@ -248,7 +248,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	}
 	
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadObjectDescription(java.io.File)
+	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadObjectDescription(java.io.File)
 	 */
 	@Override
 	public ObjectDescription loadObjectDescription(final File file) {
@@ -263,7 +263,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	}
 	
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadObjectIndex(org.scenarioo.rest.base.BuildIdentifier,
+	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadObjectIndex(org.scenarioo.rest.base.BuildIdentifier,
 	 *      java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -275,7 +275,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	}
 	
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadObjectsList(org.scenarioo.rest.base.BuildIdentifier,
+	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadObjectsList(org.scenarioo.rest.base.BuildIdentifier,
 	 *      java.lang.String)
 	 */
 	@Override
@@ -299,7 +299,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	}
 	
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadCustomObjectTabTree(org.scenarioo.rest.base.BuildIdentifier,
+	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadCustomObjectTabTree(org.scenarioo.rest.base.BuildIdentifier,
 	 *      java.lang.String)
 	 */
 	@Override
@@ -321,7 +321,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	}
 	
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadObjectIndexIfExistant(org.scenarioo.rest.base.BuildIdentifier,
+	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadObjectIndexIfExistant(org.scenarioo.rest.base.BuildIdentifier,
 	 *      java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -337,7 +337,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	}
 	
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadBuildImportSummaries()
+	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadBuildImportSummaries()
 	 */
 	@Override
 	public List<BuildImportSummary> loadBuildImportSummaries() {
@@ -370,7 +370,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	}
 	
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadLongObjectNamesIndex(java.lang.String,
+	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadLongObjectNamesIndex(java.lang.String,
 	 *      java.lang.String)
 	 */
 	@Override
@@ -392,7 +392,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	}
 	
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadStepNavigation(org.scenarioo.rest.base.BuildIdentifier,
+	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadStepNavigation(org.scenarioo.rest.base.BuildIdentifier,
 	 *      org.scenarioo.model.docu.aggregates.steps.StepLink)
 	 */
 	@Override
@@ -401,7 +401,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDataReader {
 	}
 	
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDataReader#loadStepNavigation(org.scenarioo.rest.base.BuildIdentifier,
+	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadStepNavigation(org.scenarioo.rest.base.BuildIdentifier,
 	 *      java.lang.String, java.lang.String, int)
 	 */
 	@Override

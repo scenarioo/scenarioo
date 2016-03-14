@@ -84,6 +84,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <sc-tree data='useCase.usecaseInformationTree'></sc-tree>
         </sc-collapsable-panel>
 
+        <sc-collapsable-panel title="Related Sketches" initially-expanded="true" ng-show="hasAnyRelatedIssues()">
+            <ul  id="relatedSketches">
+                <li ng-repeat="issue in relatedIssues"><a href="" ng-click="goToIssue(issue)">{{issue.name}}</a></li>
+            </ul>
+
+        </sc-collapsable-panel>
+
         <!-- labels -->
         <sc-collapsable-panel title="Labels" key="stepView-labels" initially-expanded="false"
                               ng-show="useCase.hasAnyLabels">

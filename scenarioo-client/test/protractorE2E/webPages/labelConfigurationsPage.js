@@ -13,7 +13,7 @@ function LabelConfigurationsPage(overridePath) {
     this.labelConfigurationsTable = element(by.css('table.table-responsive'));
     this.saveButton = element(by.css('input.btn[value="Save"]'));
     this.resetButton = element(by.css('input.btn[value="Reset"]'));
-
+    this.savedSuccessfullyText = element(by.id('changed-label-config-successfully'));
 }
 
 util.inherits(LabelConfigurationsPage, BaseWebPage);
@@ -41,6 +41,7 @@ LabelConfigurationsPage.prototype.addLabelConfiguration = function(labelName, co
     });
 
     this.saveButton.click();
+    expect(this.savedSuccessfullyText.isDisplayed()).toBe(true);
 };
 
 LabelConfigurationsPage.prototype.updateLabelConfiguration = function(rowIndex, labelName, colorIndex) {

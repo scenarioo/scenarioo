@@ -57,6 +57,11 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         route: '/object/:objectType/:objectName'
     };
 
+    var stepSketchElement =
+    {
+        label: '<strong>Sketch</strong>'
+    };
+
     /**
      *  Configure breadcrumb paths that can be assigned to routes (see app.js) to display them as breadcrumbs for according pages.
      *  Key of the elements is the 'breadcrumbId', use it to link one of this path to a routing in app.js
@@ -85,6 +90,10 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
         'manage': {
             breadcrumbPath: [homeElement, manageElement]
+        },
+
+        'stepsketch': {
+            breadcrumbPath: [homeElement, stepSketchElement]
         }
     };
 
@@ -98,7 +107,7 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         if (placeholders !== null) {
             angular.forEach(placeholders, function (placeholder) {
                 placeholder = placeholder.replace(':', '');
-                if (placeholder === 'usecase' || placeholder === 'scenario') {
+                if (placeholder === 'usecase' || placeholder === 'scenario' || placeholder === 'issueId' || placeholder === 'scenarioSketchId') {
                     text = text.replace(':' + placeholder, navParameter[placeholder]);
                 }
             });
@@ -147,7 +156,9 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
                 else {
                     navigationElement.isLastNavigationElement = false;
                 }
-                navigationElement.route = setValuesInRoute(navigationElement.route, navParameters);
+                if(navigationElement.route) {
+                    navigationElement.route = setValuesInRoute(navigationElement.route, navParameters);
+                }
                 navigationElement.label = setValuesInLabel(navigationElement.label, navParameters);
                 navigationElement.textForTooltip = convertToPlainText(navigationElement.label);
                 navElements.push(navigationElement);

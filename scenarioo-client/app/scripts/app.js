@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.filters', []);
 angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute', 'ui.bootstrap.tpls']);
-angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'ui.bootstrap.tpls']);
+angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'ui.bootstrap.tpls', 'unsavedChanges']);
 angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
 
@@ -70,6 +70,22 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 pageOccurrence: '@pageOccurrence',
                 stepInPageOccurrence: '@stepInPageOccurrence',
                 breadcrumbId: 'step'
+            })
+            .when('/stepsketch/:issueId/:scenarioSketchId/:stepSketchId', {
+                templateUrl: 'views/sketcher/stepSketch.html',
+                controller: 'StepSketchCtrl',
+                breadcrumbId: 'stepsketch'
+            })
+            .when('/editor', {
+                templateUrl: 'views/sketcher/editor.html',
+                controller: 'EditorCtrl'
+            })
+            .when('/editor/:issueId/:scenarioSketchId/:stepSketchId', {
+                templateUrl: 'views/sketcher/editor.html',
+                controller: 'EditorCtrl',
+                issueId: '@issueId',
+                scenarioSketchId: '@scenarioSketchId',
+                stepSketchId: '@stepSketchId'
             })
             .otherwise({
                 redirectTo: '/'

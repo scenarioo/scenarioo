@@ -403,6 +403,18 @@ label {
   list-style-type: none;
 }
 
+#relatedSketches li {
+  margin: 2px 0 6px 0;
+  padding-left: 4px;
+  list-style-type: none;
+}
+
+#relatedSketches {
+    margin-left: 0;
+    padding: 0;
+    padding-bottom: 2px;
+}
+
 /* tree view nodes: real child nodes */
 .sc-tree .sc-treeNodeChildren > ul > li {
   margin: 2px 0 6px 0;
@@ -488,4 +500,177 @@ label {
 
 .sc-bold {
   font-weight: bold;
+}
+
+/* sketcher */
+
+.sc-sketcher-bg-color {
+  background-color: #1abc9c;
+}
+.sc-sketcher-bg-color-light {
+  background-color: #d1f2eb;
+}
+.sc-sketcher-color {
+  color: #1abc9c;
+}
+.sc-sketcher-color-light {
+  color: #d1f2eb;
+}
+
+.sc-sketcher-container {
+  padding:20px;
+  width:100%;
+  float: left;
+}
+
+#sc-sketcher-toolbar {
+  height:30px;
+  margin-bottom: 20px;
+}
+
+.sc-sketcher-toolbar-right {
+  float:right;
+}
+
+#sc-sketcher-workspace {
+  min-height:600px;
+}
+
+#sc-sketcher-workspace #sc-sketcher-viewport {
+  background-color:#fff;
+  -webkit-box-shadow: 0 0 5px 0 #eee;
+  box-shadow: 0 0 5px 0 #eee;
+  overflow: hidden;
+  width: 100%;
+  height: 600px;
+  max-height: 600px;
+}
+
+
+#sc-sketcher-workspace .noteToolText textarea {
+  border: 0px solid #ccc;
+  background: none;
+  float: left;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  overflow: hidden;
+}
+#sc-sketcher-workspace .noteToolText button {
+  float: right;
+  margin: 5px;
+}
+
+#sc-sketcher-workspace #sketcher-original-screenshot {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#sc-sketcher-workspace #drawingPad {
+  position: relative;
+  width: inherit;
+  height: inherit;
+  min-width: inherit;
+  min-height: inherit;
+  max-width: inherit;
+  max-height: inherit;
+  overflow: hidden;
+}
+
+#sc-sketcher-workspace #drawingPad > svg {
+  max-width: inherit;
+  max-height: inherit;
+}
+
+#sc-sketcher-workspace .shapeTextWrapper {
+  position: absolute;
+}
+
+#sc-sketcher-workspace .shapeTextWrapper textarea.shapeText {
+  border: 0px solid #f00;
+  background: rgba(153,153,153,0.1);
+  float: left;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  resize: none;
+  overflow: hidden;
+  outline: 0;
+}
+
+#sc-context-breadcrumbs {
+  background-color: #eee;
+  width: 100%;
+  padding: 5px;
+  font-size: 90%;
+  color: #555;
+  border-top: 1px solid #ccc;
+  margin-bottom: 30px;
+}
+
+textarea#issueDescription {
+  height: 165px;
+}
+
+.tool-icon,
+.property-icon {
+  background-image: url('../images/sketcher-icons-sprite.svg');
+  background-repeat: no-repeat;
+  width: 50px;
+  height: 33px;
+  display: block;
+}
+
+.tool-icon-default {
+  background-position: 50px center;
+}
+
+.tool-icon-select {
+  background-position: -450px center;
+}
+.tool-icon-border {
+  background-position: 0px center;
+}
+.tool-icon-rect {
+  background-position: -50px center;
+}
+.tool-icon-note {
+  background-position: -100px center;
+}
+.tool-icon-text {
+  background-position: -150px center;
+}
+.tool-icon-button {
+  background-position: -200px center;
+}
+.tool-icon-highlight {
+  background-position: -500px center;
+}
+.tool-icon-line {
+  background-position: -550px center;
+}
+.tool-icon-arrow {
+  background-position: -600px center;
+}
+
+
+.property-icon-front {
+  background-position: -400px center;
+}
+.property-icon-forward {
+  background-position: -350px center;
+}
+.property-icon-backward {
+  background-position: -300px center;
+}
+.property-icon-back {
+  background-position: -250px center;
+}
+
+#sc-sketcher-save-and-close-button:after {
+  content: '';
+  display: block;
+  clear: both;
+  margin-bottom: 10px;
 }

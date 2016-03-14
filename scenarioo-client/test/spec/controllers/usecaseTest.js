@@ -23,16 +23,17 @@ describe('Controller :: useCase', function () {
         BUILD = 'build_123',
         USE_CASE = 'LogIn';
 
-    var $scope, routeParams, controller, ScenarioResource, SelectedBranchAndBuild, $location, $httpBackend, HostnameAndPort;
+    var $scope, routeParams, controller, ScenarioResource, RelatedIssueResource, SelectedBranchAndBuild, $location, $httpBackend, HostnameAndPort;
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_,
+    beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, _RelatedIssueResource_,
                                 ConfigMock, _SelectedBranchAndBuild_, _$location_, localStorageService, _$httpBackend_, _HostnameAndPort_) {
             $scope = $rootScope.$new();
             routeParams = $routeParams;
             routeParams.useCaseName = USE_CASE;
             ScenarioResource = _ScenarioResource_;
+            RelatedIssueResource = _RelatedIssueResource_;
             SelectedBranchAndBuild = _SelectedBranchAndBuild_;
             $location = _$location_;
             $httpBackend = _$httpBackend_;
@@ -45,6 +46,7 @@ describe('Controller :: useCase', function () {
                 $routeParams: routeParams,
                 Config: ConfigMock,
                 ScenarioResource: ScenarioResource,
+                RelatedIssueResource: RelatedIssueResource,
                 SelectedBranchAndBuild: SelectedBranchAndBuild
             });
         }
@@ -52,6 +54,7 @@ describe('Controller :: useCase', function () {
 
     it('should load all scenarios and and the selected use case', function () {
         spyOn(ScenarioResource, 'get').and.callFake(getFindAllScenariosFake());
+        spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/labelconfigurations').respond({});
 
         expect(SelectedBranchAndBuild.selected().branch).toBeUndefined();
@@ -83,6 +86,21 @@ describe('Controller :: useCase', function () {
         };
 
         return function (params, onSuccess) {
+            onSuccess(DATA);
+        };
+    }
+
+    function queryRelatedIssuesFake() {
+        var DATA = {
+            0:
+                {
+                    id: '1',
+                    name: 'fakeTestingIssue',
+                    firstScenarioSketchId: '1'
+                }
+        };
+
+        return function(params, onSuccess) {
             onSuccess(DATA);
         };
     }

@@ -26,6 +26,7 @@ import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.sketcher.SketcherFiles;
 import org.scenarioo.repository.RepositoryLocator;
 
 /**
@@ -56,20 +57,28 @@ public class ScenariooWebApplication implements ServletContextListener {
 	private void loadConfiguration(final ServletContextEvent servletContextEvent) {
 		LOGGER.info("  Loading configuration ...");
 		
-		String configurationDirectory = documentationPathLogic
+		final String configurationDirectory = documentationPathLogic
 				.getDocumentationPath(servletContextEvent);
-		String configurationFilename = documentationPathLogic
+		final String configurationFilename = documentationPathLogic
 				.getConfigFilenameFromServletContext(servletContextEvent);
 		
 		RepositoryLocator.INSTANCE.initializeConfigurationRepository(configurationDirectory, configurationFilename);
 		RepositoryLocator.INSTANCE.getConfigurationRepository().getConfiguration();
 
+		
+		final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
+		final Configuration configuration = configurationRepository.getConfiguration();
+		
+		final SketcherFiles sketcherFiles = new SketcherFiles(configurationRepository.getDesignDataDirectory());
+		sketcherFiles.createRootDirectoryIfNecessary();
+
 		LOGGER.info("  Configuration loaded.");
+		LOGGER.info("  Configured design content directory: " + sketcherFiles.getRootDirectory());
 	}
 	
 	private void initializeApplicationVersion(final ServletContext servletContext) {
-		Properties properties = new Properties();
-		InputStream inputStream = servletContext.getResourceAsStream("/WEB-INF/classes/version.properties");
+		final Properties properties = new Properties();
+		final InputStream inputStream = servletContext.getResourceAsStream("/WEB-INF/classes/version.properties");
 		
 		if (inputStream == null) {
 			LOGGER.warn("  version.properties not found, no version information available");
@@ -80,7 +89,7 @@ public class ScenariooWebApplication implements ServletContextListener {
 		try {
 			properties.load(inputStream);
 			ApplicationVersionHolder.INSTANCE.initializeFromProperties(properties);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown", "unknown", "unknown");
 			e.printStackTrace();
 		}

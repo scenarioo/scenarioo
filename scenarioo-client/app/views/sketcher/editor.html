@@ -1,0 +1,119 @@
+<!-- scenarioo-client
+Copyright (C) 2015, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div class="sc-sketcher-container sc-sketcher-bg-color-light">
+
+    <div class="col-lg-9">
+        <div id="sc-sketcher-toolbar">
+            <div class="btn-group btn-group-sm" role="group">
+                <button ng-repeat="tool in toolBox" id="{{tool.id}}" ng-click="activateTool(tool)"
+                        ng-disabled="tool.buttonDisabled" type="button" class="btn btn-default" tooltip="{{tool.tooltip}}" tooltip-placement="bottom" tooltip-append-to-body="true">
+                    <span class="tool-icon tool-icon-{{tool.icon}}"></span>
+                </button>
+            </div>
+
+            <div class="btn-group btn-group-sm" role="group" style="float:right;">
+                <button id="sendFrontButton" ng-click="sendSelectedShapeToFront()"
+                        ng-disabled="" type="button" class="btn btn-default" tooltip="Bring to front" tooltip-placement="bottom" tooltip-append-to-body="true">
+                    <span class="property-icon property-icon-front"></span>
+                </button>
+                <button id="sendForwardButton" ng-click="sendSelectedShapeForward()"
+                        ng-disabled="" type="button" class="btn btn-default" tooltip="Bring forward" tooltip-placement="bottom" tooltip-append-to-body="true">
+                    <span class="property-icon property-icon-forward"></span>
+                </button>
+                <button id="sendBackwardButton" ng-click="sendSelectedShapeBackward()"
+                        ng-disabled="" type="button" class="btn btn-default" tooltip="Send backward" tooltip-placement="bottom" tooltip-append-to-body="true">
+                    <span class="property-icon property-icon-backward"></span>
+                </button>
+                <button id="sendBackButton" ng-click="sendSelectedShapeToBack()"
+                        ng-disabled="" type="button" class="btn btn-default" tooltip="Send to back" tooltip-placement="bottom" tooltip-append-to-body="true">
+                    <span class="property-icon property-icon-back"></span>
+                </button>
+            </div>
+        </div>
+
+        <div id="sc-sketcher-workspace">
+            <div id="sc-sketcher-viewport" class="">
+                <div id="drawingPad"></div>
+            </div>
+            <div id="sc-context-breadcrumbs">{{contextBreadcrumbs()}}<div class="pull-right">Zoom: {{zoomFactor * 100 | number:0}}%</div></div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-3">
+        <form name="sketcherForm" novalidate unsaved-warning-form>
+
+            <div id="sc-sketcher-save-and-close-button">
+                <div class="pull-right">
+                    <a href=""
+                            ng-show="getExitSketcherPath()"
+                            ng-href="{{getExitSketcherPath()}}"
+                            id="exit"
+                            class="btn btn-default">
+                        <i class="glyphicon glyphicon-log-out"></i>
+                        Close
+                    </a>
+                    <button ng-click="saveSketcherData()"
+                            type="submit"
+                            id="save"
+                            class="btn btn-default"
+                            ng-init="sketcherButtonName='Save'"
+                            ng-disabled="sketcherForm.issueName.$invalid || sketcherForm.issueAuthor.$invalid">
+                        <i class="glyphicon glyphicon-floppy-disk"></i>
+                        {{sketcherButtonName}}
+                    </button>
+                </div>
+            </div>
+
+            <div id="sc-sketcher-sidebar">
+
+                <!-- Shown when saving is in progress -->
+                <p ng-show="savingSketch">
+                    <i class="icon-spin icon-refresh"></i> Saving sketch...
+                </p>
+
+                <!-- Alerts to show whether saving the sketch was successful or not -->
+                <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" id="{{alert.id}}">{{alert.message}}</alert>
+
+                <!-- Sketch metadata form -->
+                <div class="form-group" ng-class="{ 'has-error has-feedback' : sketcherForm.issueName.$dirty && sketcherForm.issueName.$invalid }">
+                    <label class="control-label">Sketch Name <span class="has-error">*</span></label>
+                    <input type="text" id="issueName" name="issueName" ng-model="issueName" class="form-control" required />
+                    <span ng-show="sketcherForm.issueName.$dirty && sketcherForm.issueName.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                    <span class="sr-only">(error)</span>
+                </div>
+
+                <div class="form-group" ng-class="{ 'has-error has-feedback' : sketcherForm.issueAuthor.$dirty && sketcherForm.issueAuthor.$invalid }">
+                    <label class="control-label">Author *</label>
+                    <input type="text" id="issueAuthor" name="issueAuthor" ng-model="issueAuthor" class="form-control" required />
+                    <span ng-show="sketcherForm.issueAuthor.$dirty && sketcherForm.issueAuthor.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                    <span class="sr-only">(error)</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="issueDescription" ng-model="issueDescription" class="form-control" rows="3"></textarea>
+                </div>
+
+                <!-- Here we track unsaved drawing changes in order to warn the user if they want to leave without saving -->
+                <input type="hidden" name="unsavedDrawingChanges" ng-model="unsavedDrawingChanges" />
+
+            </div>
+        </form>
+    </div>
+</div>

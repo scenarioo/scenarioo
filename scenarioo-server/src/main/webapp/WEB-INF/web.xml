@@ -9,6 +9,10 @@
 	<filter>
 		<filter-name>CORS</filter-name>
 		<filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+        <init-param>
+                <param-name>cors.allowOrigin</param-name>
+                <param-value>http://localhost:9000</param-value>
+        </init-param>
 	</filter>
 
 	<filter-mapping>

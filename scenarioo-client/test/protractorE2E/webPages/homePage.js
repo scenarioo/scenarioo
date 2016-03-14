@@ -18,7 +18,7 @@ function HomePage(overridePath) {
     this.showMetaDataButton = element(by.id('sc-showHideDetailsButton-show'));
     this.hideMetaDataButton = element(by.id('sc-showHideDetailsButton-hide'));
     this.metaDataPanel = element(by.id('sc-metadata-panel'));
-
+    this.sketchesTab = element(by.id('sc-main-tab-sketches'));
 }
 
 util.inherits(HomePage, BaseWebPage);
@@ -79,5 +79,14 @@ HomePage.prototype.assertMetaDataHidden = function() {
 HomePage.prototype.hideMetaData = function() {
     this.hideMetaDataButton.click();
 };
+
+HomePage.prototype.selectSketchesTab = function() {
+    this.sketchesTab.click();
+};
+
+HomePage.prototype.assertSketchesListContainsEntryWithSketchName = function(sketchName) {
+    e2eUtils.assertTextPresentInElement(element(by.id('sc-sketches-list')), sketchName);
+};
+
 
 module.exports = HomePage;

@@ -50,11 +50,16 @@ angular.module('scenarioo.services')
         };
     })
 
+
+    /**
+     * All resources in Scenarioo must be based on this ScenariooResource.
+     */
     .factory('ScenariooResource', function (HostnameAndPort, $resource) {
         return function (url, paramDefaults, actions) {
             return $resource(HostnameAndPort.forNgResource() + 'rest' + url, paramDefaults, actions);
         };
     })
+
 
     .factory('BranchesResource', function (ScenariooResource) {
         return ScenariooResource('/branches', {}, {});

@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- Tabs are defined dynamically in controller inside main.js -->
 
         <tab ng-repeat="tab in main.tabs" heading="{{tab.title}}" active="tab.active"
-             select="main.setSelectedTabInUrl(tab.tabId)">
+             select="main.setSelectedTabInUrl(tab.tabId)" id="sc-main-tab-{{tab.tabId}}">
             <ng-include src="main.getLazyTabContentViewUrl(tab.tabId)"/>
         </tab>
     </tabset>

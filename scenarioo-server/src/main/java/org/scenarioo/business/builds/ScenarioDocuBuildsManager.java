@@ -26,7 +26,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
-import org.scenarioo.dao.aggregates.AggregatedDataReader;
+import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.model.configuration.BranchAlias;
 import org.scenarioo.model.configuration.Configuration;
@@ -117,8 +117,8 @@ public class ScenarioDocuBuildsManager {
 	 * Resolves branch and build names that might be aliases to their real names.
 	 */
 	public BuildIdentifier resolveBranchAndBuildAliases(final String branchName, final String buildName) {
-		String resolvedBranchName = resolveAliasBranchName(branchName);
-		String resolvedBuildName = resolveAliasBuildName(resolvedBranchName, buildName);
+		String resolvedBranchName = resolveBranchAlias(branchName);
+		String resolvedBuildName = resolveBuildAlias(resolvedBranchName, buildName);
 		
 		return new BuildIdentifier(resolvedBranchName, resolvedBuildName);
 	}
@@ -129,13 +129,13 @@ public class ScenarioDocuBuildsManager {
 	 * 
 	 * @return the name to use as build name for referencing this build.
 	 */
-	private String resolveAliasBuildName(final String branchName, final String buildName) {
+	private String resolveBuildAlias(final String branchName, final String buildName) {
 		String resolvedBuildName = resolveAliasBuildNameUnchecked(branchName, buildName);
 		validateBuildIsSuccessfullyImported(branchName, resolvedBuildName);
 		return resolvedBuildName;
 	}
 	
-	private String resolveAliasBranchName(final String aliasOrRealBranchName) {
+	public String resolveBranchAlias(final String aliasOrRealBranchName) {
 		Configuration configuration = configurationRepository.getConfiguration();
 		List<BranchAlias> branchAliases = configuration.getBranchAliases();
 		for (BranchAlias branchAlias : branchAliases) {
@@ -184,7 +184,7 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	public static Map<BuildIdentifier, BuildImportSummary> loadBuildImportSummaries() {
-		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(
+		AggregatedDocuDataReader dao = new ScenarioDocuAggregationDAO(
 				configurationRepository.getDocumentationDataDirectory());
 		List<BuildImportSummary> loadedSummaries = dao.loadBuildImportSummaries();
 		Map<BuildIdentifier, BuildImportSummary> result = new HashMap<BuildIdentifier, BuildImportSummary>();
@@ -197,7 +197,7 @@ public class ScenarioDocuBuildsManager {
 	 public static List<BranchBuilds> loadBranchBuildsList() {
 		File documentationDataDirectory = configurationRepository.getDocumentationDataDirectory();
 		final ScenarioDocuReader reader = new ScenarioDocuReader(documentationDataDirectory);
-		AggregatedDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(documentationDataDirectory);
+		AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(documentationDataDirectory);
 		
 		List<BranchBuilds> result = new ArrayList<BranchBuilds>();
 		List<Branch> branches = reader.loadBranches();
@@ -219,7 +219,7 @@ public class ScenarioDocuBuildsManager {
 	}
 	
 	public LongObjectNamesResolver getLongObjectNameResolver(final BuildIdentifier buildIdentifier) {
-		AggregatedDataReader dao = new ScenarioDocuAggregationDAO(
+		AggregatedDocuDataReader dao = new ScenarioDocuAggregationDAO(
 				configurationRepository.getDocumentationDataDirectory());
 		validateBuildIsSuccessfullyImported(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		LongObjectNamesResolver longObjectNamesResolver = longObjectNamesResolvers.get(buildIdentifier);

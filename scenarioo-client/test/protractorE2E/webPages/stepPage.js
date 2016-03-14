@@ -104,6 +104,22 @@ StepPage.prototype.clickShareThisPageLink = function () {
     element(by.id('shareThisPageLink')).click();
 };
 
+StepPage.prototype.clickHtmlTabButton = function () {
+   element(by.id('html-tab')).click();
+};
+
+StepPage.prototype.clickScreenshotTabButton = function () {
+    element(by.id('screenshot-tab')).click();
+};
+
+StepPage.prototype.assertHtmlTabIsHidden = function () {
+    expect(element(by.id('html-tab')).isDisplayed()).toBe(false);
+};
+
+StepPage.prototype.assertHtmlSourceEquals = function (expected) {
+    expect(element(by.id('html-source')).getText()).toBe(expected);
+};
+
 StepPage.prototype.assertStepLinksDialogVisible = function () {
     browser.wait(function () {
         return element(by.id('stepLinksDialog')).isDisplayed();
@@ -177,5 +193,8 @@ StepPage.prototype.assertTitleOfAnnotationPopupIs = function(expectedTitle) {
     });
 };
 
+StepPage.prototype.clickCreateSketchButton = function() {
+    element(by.id('sketchThis')).click();
+};
 
 module.exports = StepPage;
