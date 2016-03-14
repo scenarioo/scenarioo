@@ -40,8 +40,6 @@ public class Configuration {
 	public static final String DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD = "most recent";
 	public static final String DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD = "last successful";
 
-	private String testDocumentationDirPath;
-
 	private String defaultBranchName = "trunk";
 
 	private String defaultBuildName = DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD;
@@ -73,14 +71,6 @@ public class Configuration {
 	private Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<String, LabelConfiguration>();
 
 	private List<CustomObjectTab> customObjectTabs = new ArrayList<CustomObjectTab>();
-
-	public String getTestDocumentationDirPath() {
-		return testDocumentationDirPath;
-	}
-
-	public void setTestDocumentationDirPath(final String testDocumentationDirPath) {
-		this.testDocumentationDirPath = testDocumentationDirPath;
-	}
 
 	public String getDefaultBranchName() {
 		return defaultBranchName;
