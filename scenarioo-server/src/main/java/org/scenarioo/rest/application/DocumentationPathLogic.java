@@ -66,18 +66,4 @@ class DocumentationPathLogic {
 		LOGGER.info("   Taking documentation data path from " + configSource);
 		return configurationDirectory;
 	}
-
-	String getConfigFilenameFromServletContext(final ServletContextEvent servletContextEvent) {
-		String configurationFilename = servletContextEvent.getServletContext().getInitParameter(
-				"scenariooConfigurationFilename");
-		if (StringUtils.isBlank(configurationFilename)) {
-			// Fallback to old property name:
-			configurationFilename = servletContextEvent.getServletContext().getInitParameter("configurationFilename");
-		}
-		if (StringUtils.isNotBlank(configurationFilename)) {
-			LOGGER.info("   Overriding default configuration filename config.xml with:  " + configurationFilename);
-			return configurationFilename;
-		}
-		return null;
-	}
 }

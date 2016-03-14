@@ -56,14 +56,9 @@ public class ScenariooWebApplication implements ServletContextListener {
 	}
 	
 	private void loadConfiguration(final ServletContextEvent servletContextEvent) {
-		LOGGER.info("  Loading configuration ...");
+		final String configurationDirectoryPath = documentationPathLogic.getDocumentationPath(servletContextEvent);
 		
-		final String configurationDirectoryPath = documentationPathLogic
-				.getDocumentationPath(servletContextEvent);
-		final String configurationFilename = documentationPathLogic
-				.getConfigFilenameFromServletContext(servletContextEvent);
-		
-		RepositoryLocator.INSTANCE.initializeConfigurationRepository(configurationDirectoryPath, configurationFilename);
+		RepositoryLocator.INSTANCE.initializeConfigurationRepository(configurationDirectoryPath);
 		
 		final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
 		final SketcherFiles sketcherFiles = new SketcherFiles(configurationRepository.getDesignDataDirectory());

@@ -21,7 +21,6 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.model.configuration.Configuration;
@@ -34,15 +33,12 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
 	
 	private static final Logger LOGGER = Logger.getLogger(ConfigurationDaoImpl.class);
 	
-	private static final String DEFAULT_CONFIG_FILE_NAME = "config.xml";
-	private static final String DEFAULT_CONFIG_PATH = DEFAULT_CONFIG_FILE_NAME;
-	
+	private static final String CONFIG_FILE_NAME = "config.xml";
+
 	private final String configurationDirectory;
-	private final String configurationFilename;
 	
-	public ConfigurationDaoImpl(final String configurationDirectory, final String configurationFilename) {
+	public ConfigurationDaoImpl(final String configurationDirectory) {
 		this.configurationDirectory = configurationDirectory;
-		this.configurationFilename = StringUtils.defaultString(configurationFilename, DEFAULT_CONFIG_FILE_NAME);
 	}
 	
 	@Override
@@ -50,8 +46,7 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
 		File configFile = getFileSystemConfigFile();
 		if (!configFile.exists()) {
 			LOGGER.warn("  file " + configFile + " does not exist --> loading default config.xml from classpath");
-			return ScenarioDocuXMLFileUtil.unmarshal(Configuration.class,
-					loadDefaultConfigFile());
+			return ScenarioDocuXMLFileUtil.unmarshal(Configuration.class, getDefaultConfigFile());
 		}
 
 		LOGGER.info("  loading configuration from file: " + configFile);
@@ -73,11 +68,11 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
 	
 	private File getFileSystemConfigFile() {
 		final File configurationPath = new File(configurationDirectory);
-		return new File(configurationPath, configurationFilename);
+		return new File(configurationPath, CONFIG_FILE_NAME);
 	}
 
-	private File loadDefaultConfigFile() {
-		final URL resourceUrl = ConfigurationDaoImpl.class.getClassLoader().getResource(DEFAULT_CONFIG_PATH);
+	private File getDefaultConfigFile() {
+		final URL resourceUrl = ConfigurationDaoImpl.class.getClassLoader().getResource(CONFIG_FILE_NAME);
 		File defaultConfigFile = null;
 		try {
 			defaultConfigFile = new File(resourceUrl.toURI());

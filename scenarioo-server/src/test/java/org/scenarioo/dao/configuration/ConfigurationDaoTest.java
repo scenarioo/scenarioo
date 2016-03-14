@@ -18,7 +18,7 @@ import org.scenarioo.model.configuration.LabelConfiguration;
  */
 public class ConfigurationDaoTest {
 	
-	private final ConfigurationDao configurationDao = new ConfigurationDaoImpl("tmp", null);
+	private final ConfigurationDao configurationDao = new ConfigurationDaoImpl("tmp");
 	
 	@AfterClass
 	public static void removeTemporaryData() throws IOException {
