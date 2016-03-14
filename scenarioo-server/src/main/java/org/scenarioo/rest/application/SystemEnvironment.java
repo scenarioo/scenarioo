@@ -20,10 +20,10 @@ package org.scenarioo.rest.application;
 /**
  * 
  */
-class SystemWrapper {
+class SystemEnvironment {
 
-	String getEnv(final String name) {
-		return System.getenv(name);
+	String getScenariooHome() {
+		return System.getenv("SCENARIOO_HOME");
 	}
 
 	String getUserHome() {

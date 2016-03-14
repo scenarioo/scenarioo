@@ -27,7 +27,6 @@ import javax.servlet.ServletContextListener;
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.sketcher.SketcherFiles;
-import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 
@@ -37,7 +36,7 @@ import org.scenarioo.repository.RepositoryLocator;
 public class ScenariooWebApplication implements ServletContextListener {
 	
 	private static final Logger LOGGER = Logger.getLogger(ScenariooWebApplication.class);
-	private final DocumentationPathLogic documentationPathLogic = new DocumentationPathLogic(new SystemWrapper());
+	private final DocumentationPathLogic documentationPathLogic = new DocumentationPathLogic();
 
 	@Override
 	public void contextInitialized(final ServletContextEvent servletContextEvent) {
@@ -59,20 +58,18 @@ public class ScenariooWebApplication implements ServletContextListener {
 	private void loadConfiguration(final ServletContextEvent servletContextEvent) {
 		LOGGER.info("  Loading configuration ...");
 		
-		final String configurationDirectory = documentationPathLogic
+		final String configurationDirectoryPath = documentationPathLogic
 				.getDocumentationPath(servletContextEvent);
 		final String configurationFilename = documentationPathLogic
 				.getConfigFilenameFromServletContext(servletContextEvent);
 		
-		RepositoryLocator.INSTANCE.initializeConfigurationRepository(configurationDirectory, configurationFilename);
+		RepositoryLocator.INSTANCE.initializeConfigurationRepository(configurationDirectoryPath, configurationFilename);
 		
 		final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
-		final Configuration configuration = configurationRepository.getConfiguration();
-		
 		final SketcherFiles sketcherFiles = new SketcherFiles(configurationRepository.getDesignDataDirectory());
 		sketcherFiles.createRootDirectoryIfNecessary();
 
-		LOGGER.info("  Configuration loaded.");
+		LOGGER.info("  Configured documentation data directory: " + configurationDirectoryPath);
 		LOGGER.info("  Configured design content directory: " + sketcherFiles.getRootDirectory());
 	}
 	

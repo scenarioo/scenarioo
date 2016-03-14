@@ -32,10 +32,15 @@ class DocumentationPathLogic {
 	private static final Logger LOGGER = Logger.getLogger(DocumentationPathLogic.class);
 	private static final String USER_HOME_BASE_DIRECTORY = ".scenarioo";
 
-	private final SystemWrapper systemWrapper;
+	private final SystemEnvironment systemEnvironment;
 
-	public DocumentationPathLogic(final SystemWrapper systemWrapper) {
-		this.systemWrapper = systemWrapper;
+	DocumentationPathLogic() {
+		this(new SystemEnvironment());
+	}
+
+	// For injection of SystemEnvironment in unit test
+	DocumentationPathLogic(final SystemEnvironment systemEnvironment) {
+		this.systemEnvironment = systemEnvironment;
 	}
 
 	String getDocumentationPath(final ServletContextEvent servletContextEvent) {
@@ -50,15 +55,15 @@ class DocumentationPathLogic {
 
 		if (StringUtils.isBlank(configurationDirectory)) {
 			configSource = "SCENARIOO_HOME environment variable";
-			configurationDirectory = systemWrapper.getEnv("SCENARIOO_HOME");
+			configurationDirectory = systemEnvironment.getScenariooHome();
 		}
 
 		if (StringUtils.isBlank(configurationDirectory)) {
 			configSource = "default scenarioo home directory";
-			configurationDirectory = new File(systemWrapper.getUserHome(), USER_HOME_BASE_DIRECTORY).getAbsolutePath();
+			configurationDirectory = new File(systemEnvironment.getUserHome(), USER_HOME_BASE_DIRECTORY).getAbsolutePath();
 		}
 
-		LOGGER.info("   Configured documentation directory:  " + configurationDirectory + " from " + configSource);
+		LOGGER.info("   Taking documentation data path from " + configSource);
 		return configurationDirectory;
 	}
 

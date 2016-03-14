@@ -12,14 +12,19 @@ import org.junit.Test;
 public class DocumentationPathLogicTest {
 
 	private final ServletContext servletContext = mock(ServletContext.class);
-	private final SystemWrapper systemWrapper = mock(SystemWrapper.class);
+	private final SystemEnvironment systemEnvironment = mock(SystemEnvironment.class);
 
 	private DocumentationPathLogic logic;
+
+	@Before
+	public void setUp() {
+		logic = new DocumentationPathLogic(systemEnvironment);
+	}
 
 	@Test
 	public void getDocumentationPath_GivenServletConfigAndEnvVariable_ChosesServletContextFirst() {
 		when(servletContext.getInitParameter("scenariooConfigurationDirectory")).thenReturn("tmp/test");
-		when(systemWrapper.getEnv("SCENARIOO_HOME")).thenReturn("tmp/itShouldNotBeMe");
+		when(systemEnvironment.getScenariooHome()).thenReturn("tmp/itShouldNotBeMe");
 
 		String actual = logic.getDocumentationPath(new ServletContextEvent(servletContext));
 
@@ -50,7 +55,7 @@ public class DocumentationPathLogicTest {
 	public void getDocumentationPath_WhenServletContextParamIsNotPresent_ChosesEnvironmentVariable() {
 		when(servletContext.getInitParameter("scenariooConfigurationDirectory")).thenReturn(null);
 		when(servletContext.getInitParameter("configurationDirectory")).thenReturn(null);
-		when(systemWrapper.getEnv("SCENARIOO_HOME")).thenReturn("tmp/test");
+		when(systemEnvironment.getScenariooHome()).thenReturn("tmp/test");
 
 		String actual = logic.getDocumentationPath(new ServletContextEvent(servletContext));
 
@@ -61,16 +66,12 @@ public class DocumentationPathLogicTest {
 	public void getDocumentationPath_WhenNoExternalConfigurationIsGiven_DefaultsToScenariooHomeFolder() {
 		when(servletContext.getInitParameter("scenariooConfigurationDirectory")).thenReturn(null);
 		when(servletContext.getInitParameter("configurationDirectory")).thenReturn(null);
-		when(systemWrapper.getEnv("SCENARIOO_HOME")).thenReturn(null);
-		when(systemWrapper.getUserHome()).thenReturn("/home/someuser");
+		when(systemEnvironment.getScenariooHome()).thenReturn(null);
+		when(systemEnvironment.getUserHome()).thenReturn("/home/someuser");
 
 		String actual = logic.getDocumentationPath(new ServletContextEvent(servletContext));
 
 		assertEquals("/home/someuser/.scenarioo", actual);
 	}
 
-	@Before
-	public void setUp() {
-		logic = new DocumentationPathLogic(systemWrapper);
-	}
 }
