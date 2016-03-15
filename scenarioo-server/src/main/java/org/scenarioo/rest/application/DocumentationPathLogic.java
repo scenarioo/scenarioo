@@ -49,11 +49,6 @@ class DocumentationPathLogic {
 				"scenariooConfigurationDirectory");
 
 		if (StringUtils.isBlank(configurationDirectory)) {
-			configSource = "servlet context (old property name)";
-			configurationDirectory = servletContextEvent.getServletContext().getInitParameter("configurationDirectory");
-		}
-
-		if (StringUtils.isBlank(configurationDirectory)) {
 			configSource = "SCENARIOO_HOME environment variable";
 			configurationDirectory = systemEnvironment.getScenariooHome();
 		}
