@@ -46,15 +46,15 @@ class DocumentationPathLogic {
 	String getDocumentationPath(final ServletContextEvent servletContextEvent) {
 		String configSource = "servlet context";
 		String configurationDirectory = servletContextEvent.getServletContext().getInitParameter(
-				"scenariooConfigurationDirectory");
+				"scenariooDataDirectory");
 
 		if (StringUtils.isBlank(configurationDirectory)) {
-			configSource = "SCENARIOO_HOME environment variable";
+			configSource = "SCENARIOO_DATA_DIR environment variable";
 			configurationDirectory = systemEnvironment.getScenariooHome();
 		}
 
 		if (StringUtils.isBlank(configurationDirectory)) {
-			configSource = "default scenarioo home directory";
+			configSource = "default scenarioo data directory";
 			configurationDirectory = new File(systemEnvironment.getUserHome(), USER_HOME_BASE_DIRECTORY).getAbsolutePath();
 		}
 

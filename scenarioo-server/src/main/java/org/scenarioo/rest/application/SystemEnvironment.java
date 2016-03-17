@@ -23,7 +23,7 @@ package org.scenarioo.rest.application;
 class SystemEnvironment {
 
 	String getScenariooHome() {
-		return System.getenv("SCENARIOO_HOME");
+		return System.getenv("SCENARIOO_DATA_DIR");
 	}
 
 	String getUserHome() {
