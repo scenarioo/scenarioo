@@ -91,7 +91,7 @@ describe('Controller :: ConfigEditorCtrl', function () {
         $scope.configuration.defaultBranchName = 'new branch';
         $scope.configuration.scenarioPropertiesInOverview = 'abc';
         $scope.configuration.applicationInformation = 'new information';
-        $scope.configuration.testDocumentationDirPath = 'new path';
+        $scope.configuration.dataDirectory = 'new path';
     }
 
 });

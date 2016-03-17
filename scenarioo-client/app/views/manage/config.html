@@ -27,12 +27,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <h2>General</h2>
 
-        <div class="row sc-space-bottom">
+        <div class="row">
             <div class="col-lg-3">Documentation Data Directory Path
                 &nbsp;<span class="glyphicon glyphicon-info-sign" tooltip="Absolute path to the root directory where generated documentation builds for scenarioo are stored (web server needs read & write access to this folder)"></span>
             </div>
             <div class="col-lg-9">
-                <span>{{ configuration.testDocumentationDirPath }}</span>
+                <span>{{ configuration.dataDirectory }}</span>
+            </div>
+        </div>
+
+        <div class="row sc-space-bottom">
+            <div class="col-lg-3">
+            </div>
+            <div class="col-lg-9">
+                <span class="glyphicon glyphicon-question-sign"></span>
+                <a href="https://github.com/scenarioo/scenarioo/wiki/Scenarioo-Viewer-Web-Application-Setup#installation-and-setup" target="_blank" class="link-no-hover">How can I set this?</a>
             </div>
         </div>
 

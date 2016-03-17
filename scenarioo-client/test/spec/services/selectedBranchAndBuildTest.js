@@ -30,7 +30,7 @@ describe('Service :: SelectedBranchAndBuild', function () {
     var DUMMY_CONFIG_RESPONSE = {
         'defaultBuildName': BUILD_CONFIG,
         'defaultBranchName': BRANCH_CONFIG,
-        'testDocumentationDirPath': 'webtestDocuContentExample',
+        'dataDirectory': 'webtestDocuContentExample',
         'scenarioPropertiesInOverview': 'userProfile, configuration',
         'applicationInformation': 'This is my personal copy of Scenarioo :-)',
         'buildstates': {

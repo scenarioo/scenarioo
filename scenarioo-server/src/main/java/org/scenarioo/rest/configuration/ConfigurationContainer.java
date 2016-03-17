@@ -22,24 +22,25 @@ import org.scenarioo.model.configuration.Configuration;
 
 /**
  * Defines the representation of the configuration data against the frontend.
+ * Contains other data that is not included in the config file itself.
  */
-public class ConfigurationRepresentation {
+public class ConfigurationContainer {
 
 	@JsonUnwrapped
 	private final Configuration configuration;
-	private final String testDocumentationDirPath;
+	private final String dataDirectory;
 
-	public ConfigurationRepresentation(final Configuration configuration, final String documentationPath) {
+	public ConfigurationContainer(final Configuration configuration, final String dataDirectory) {
 		this.configuration = configuration;
-		this.testDocumentationDirPath = documentationPath;
+		this.dataDirectory = dataDirectory;
 	}
 
 	public Configuration getConfiguration() {
 		return configuration;
 	}
 
-	public String getTestDocumentationDirPath() {
-		return testDocumentationDirPath;
+	public String getDataDirectory() {
+		return dataDirectory;
 	}
 
 }

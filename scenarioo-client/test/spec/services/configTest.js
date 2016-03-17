@@ -25,7 +25,7 @@ describe('Service :: Config', function () {
         BUILD_STATE_SUCCESS = 'success',
         BUILD_STATE_WARNING = 'warning',
         DUMMY_CONFIG_RESPONSE = {
-            'testDocumentationDirPath': 'webtestDocuContentExample',
+            'dataDirectory': 'webtestDocuContentExample',
             'defaultBuildName': 'current',
             'scenarioPropertiesInOverview': 'userProfile, configuration',
             'applicationInformation': 'This is my personal copy of Scenarioo :-)',
