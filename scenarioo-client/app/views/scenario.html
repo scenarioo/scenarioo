@@ -45,14 +45,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div ng-repeat="page in pagesAndSteps">
                 <div ng-repeat="step in page.steps | scFilterArray:searchFieldText" ng-show="$index == 0 || showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !scenarioShowMetadata, 'col-md-6': scenarioShowMetadata}">
                     <h2>
-                        <span class="sc-truncate" ng-if="$index == 0">
+                        <span class="sc-truncate" ng-if="$index == 0" ng-init="pageIndex = $parent.$parent.$index">
                             <span class="sc-no-truncate">
-                                <span ng-click="toggleShowAllStepsForPage($parent.$parent.$index)" ng-show="page.steps.length > 1" tooltip="show / hide additional steps of this page" tooltip-placement="top" class="toggle-show-all-steps-of-page">
-                                    <span ng-hide="showAllStepsForPage($parent.$parent.$index)" class="icon-plus-sign link right"></span>
-                                    <span ng-show="showAllStepsForPage($parent.$parent.$index)" class="icon-minus-sign link right"></span>
+                                <span ng-click="toggleShowAllStepsForPage(pageIndex)" ng-show="page.steps.length > 1" tooltip="show / hide additional steps of this page" tooltip-placement="top" class="toggle-show-all-steps-of-page">
+                                    <span ng-hide="showAllStepsForPage(pageIndex)" class="icon-plus-sign link right"></span>
+                                    <span ng-show="showAllStepsForPage(pageIndex)" class="icon-minus-sign link right"></span>
                                 </span>
                             </span>
-                            Page {{$parent.$index + 1}}: {{page.page.name}} ({{page.steps.length}} Steps)
+                            Page {{pageIndex + 1}}: {{page.page.name}} ({{page.steps.length}} Steps)
                         </span>
                         <span ng-if="$index != 0">&nbsp;</span>
                     </h2>
