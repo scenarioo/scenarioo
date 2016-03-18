@@ -46,7 +46,7 @@ describe('Controller :: ConfigEditorCtrl', function () {
 
             $httpBackend.flush();
 
-            expect($scope.configuration).toEqualData(TestData.CONFIG);
+            expect($scope.configuration).toEqualData(TestData.CONFIG.configuration);
         });
 
         it('loads all branches and builds', function () {
@@ -68,7 +68,7 @@ describe('Controller :: ConfigEditorCtrl', function () {
 
             $scope.resetConfiguration();
 
-            expect($scope.configuration).toEqualData(TestData.CONFIG);
+            expect($scope.configuration).toEqualData(TestData.CONFIG.configuration);
         });
     });
 
@@ -91,7 +91,6 @@ describe('Controller :: ConfigEditorCtrl', function () {
         $scope.configuration.defaultBranchName = 'new branch';
         $scope.configuration.scenarioPropertiesInOverview = 'abc';
         $scope.configuration.applicationInformation = 'new information';
-        $scope.configuration.dataDirectory = 'new path';
     }
 
 });

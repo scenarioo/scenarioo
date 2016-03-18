@@ -17,7 +17,6 @@
 
 package org.scenarioo.rest.configuration;
 
-import org.codehaus.jackson.annotate.JsonUnwrapped;
 import org.scenarioo.model.configuration.Configuration;
 
 /**
@@ -26,7 +25,6 @@ import org.scenarioo.model.configuration.Configuration;
  */
 public class ConfigurationContainer {
 
-	@JsonUnwrapped
 	private final Configuration configuration;
 	private final String dataDirectory;
 

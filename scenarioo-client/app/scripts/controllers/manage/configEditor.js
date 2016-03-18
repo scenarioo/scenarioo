@@ -24,6 +24,7 @@ angular.module('scenarioo.controllers').controller('ConfigEditorCtrl', function 
 
     $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
         $scope.configuration = Config.getRawConfigDataCopy();
+        $scope.dataDirectoryPath = Config.dataDirectoryPath();
         calculateConfiguredBranch();
     });
 
