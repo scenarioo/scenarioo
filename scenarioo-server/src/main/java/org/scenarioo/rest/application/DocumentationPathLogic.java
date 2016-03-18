@@ -49,8 +49,8 @@ class DocumentationPathLogic {
 				"scenariooDataDirectory");
 
 		if (StringUtils.isBlank(configurationDirectory)) {
-			configSource = "SCENARIOO_DATA_DIR environment variable";
-			configurationDirectory = systemEnvironment.getScenariooHome();
+			configSource = "SCENARIOO_DATA environment variable";
+			configurationDirectory = systemEnvironment.getScenariooDataDirectory();
 		}
 
 		if (StringUtils.isBlank(configurationDirectory)) {

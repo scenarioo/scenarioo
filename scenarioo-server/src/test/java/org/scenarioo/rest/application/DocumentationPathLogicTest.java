@@ -24,7 +24,7 @@ public class DocumentationPathLogicTest {
 	@Test
 	public void getDocumentationPath_GivenServletConfigAndEnvVariable_ChosesServletContextFirst() {
 		when(servletContext.getInitParameter("scenariooDataDirectory")).thenReturn("tmp/test");
-		when(systemEnvironment.getScenariooHome()).thenReturn("tmp/itShouldNotBeMe");
+		when(systemEnvironment.getScenariooDataDirectory()).thenReturn("tmp/itShouldNotBeMe");
 
 		String actual = logic.getDocumentationPath(new ServletContextEvent(servletContext));
 
@@ -34,7 +34,7 @@ public class DocumentationPathLogicTest {
 	@Test
 	public void getDocumentationPath_WhenServletContextParamIsNotPresent_ChosesEnvironmentVariable() {
 		when(servletContext.getInitParameter("scenariooDataDirectory")).thenReturn(null);
-		when(systemEnvironment.getScenariooHome()).thenReturn("tmp/test");
+		when(systemEnvironment.getScenariooDataDirectory()).thenReturn("tmp/test");
 
 		String actual = logic.getDocumentationPath(new ServletContextEvent(servletContext));
 
@@ -44,7 +44,7 @@ public class DocumentationPathLogicTest {
 	@Test
 	public void getDocumentationPath_WhenNoExternalConfigurationIsGiven_DefaultsToScenariooHomeFolder() {
 		when(servletContext.getInitParameter("scenariooDataDirectory")).thenReturn(null);
-		when(systemEnvironment.getScenariooHome()).thenReturn(null);
+		when(systemEnvironment.getScenariooDataDirectory()).thenReturn(null);
 		when(systemEnvironment.getUserHome()).thenReturn("/home/someuser");
 
 		String actual = logic.getDocumentationPath(new ServletContextEvent(servletContext));

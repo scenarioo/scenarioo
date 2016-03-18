@@ -22,8 +22,8 @@ package org.scenarioo.rest.application;
  */
 class SystemEnvironment {
 
-	String getScenariooHome() {
-		return System.getenv("SCENARIOO_DATA_DIR");
+	String getScenariooDataDirectory() {
+		return System.getenv("SCENARIOO_DATA");
 	}
 
 	String getUserHome() {
