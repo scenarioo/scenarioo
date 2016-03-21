@@ -38,8 +38,8 @@ public class ConfigurationResource {
 	
 	@GET
 	@Produces({ "application/json", "application/xml" })
-	public ConfigurationContainer getConfiguration() {
-		return new ConfigurationContainer(configurationRepository.getConfiguration(), configurationRepository
+	public GetConfigurationResponse getConfiguration() {
+		return new GetConfigurationResponse(configurationRepository.getConfiguration(), configurationRepository
 				.getDocumentationDataDirectory().getAbsolutePath());
 	}
 	

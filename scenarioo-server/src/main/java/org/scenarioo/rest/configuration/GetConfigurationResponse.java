@@ -23,12 +23,12 @@ import org.scenarioo.model.configuration.Configuration;
  * Defines the representation of the configuration data against the frontend.
  * Contains other data that is not included in the config file itself.
  */
-public class ConfigurationContainer {
+public class GetConfigurationResponse {
 
 	private final Configuration configuration;
 	private final String dataDirectory;
 
-	public ConfigurationContainer(final Configuration configuration, final String dataDirectory) {
+	public GetConfigurationResponse(final Configuration configuration, final String dataDirectory) {
 		this.configuration = configuration;
 		this.dataDirectory = dataDirectory;
 	}
