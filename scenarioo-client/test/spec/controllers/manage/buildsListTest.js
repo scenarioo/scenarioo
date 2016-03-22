@@ -35,7 +35,7 @@ describe('Controller BuildsListCtrl', function () {
 
             $httpBackend.whenGET(BUILD_IMPORT_STATES_URL).respond(TestData.BUILD_IMPORT_STATES);
 
-            $controller('BuildsListCtrl', {$scope: $scope, $modal: null });
+            $controller('BuildsListCtrl', {$scope: $scope, $uibModal: null });
         }
     ));
 

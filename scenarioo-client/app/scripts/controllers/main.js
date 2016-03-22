@@ -29,44 +29,22 @@ function MainCtrl($scope, $location, Config) {
     vm.getLazyTabContentViewUrl = getLazyTabContentViewUrl;
     vm.setSelectedTabInUrl = setSelectedTabInUrl;
     vm.tabIndices = {}; // store tabId to index hashMap. our tab-ng-repeat will not work correctly with a object and order it, thus vm.tabs must remain an array
+    vm.activeIndex = 0;
 
     activate();
 
     function defineInitialStaticTabs() {
         vm.tabs = [
             {
+                index: 0,
                 tabId: 'usecases',
                 title: 'Use Cases',
-                contentViewUrl: 'views/mainUseCasesTab.html',
-                active: true
+                contentViewUrl: 'views/mainUseCasesTab.html'
             }
         ];
         vm.tabIndices.usecases = 0;
     }
 
-    function defineCustomTabsFromConfig(config) {
-        angular.forEach(config.customObjectTabs, function (customTab, index) {
-            vm.tabs.push({
-                tabId: customTab.id,
-                title: customTab.tabTitle,
-                column: customTab.customObjectDetailColumns,
-                contentViewUrl: 'views/mainCustomTab.html',
-                active: false
-            });
-            vm.tabIndices[customTab.id] = index + 1;
-        });
-    }
-
-    function defineLastStaticTabs() {
-        var i = vm.tabs.length;
-        vm.tabs.push({
-            tabId: 'sketches',
-            title: 'Sketches',
-            contentViewUrl: 'views/mainSketchesTab.html',
-            active: false
-        });
-        vm.tabIndices.sketches = i;
-    }
 
     function activate() {
         // Load configuration and trigger definition of tabs from config.
@@ -78,22 +56,46 @@ function MainCtrl($scope, $location, Config) {
             selectTabFromUrl();
         });
         Config.load();
+
+        selectTabFromUrl();
+    }
+
+    function defineCustomTabsFromConfig(config) {
+        angular.forEach(config.customObjectTabs, function (customTab, index) {
+            vm.tabs.push({
+                index: index + 1,
+                tabId: customTab.id,
+                title: customTab.tabTitle,
+                column: customTab.customObjectDetailColumns,
+                contentViewUrl: 'views/mainCustomTab.html'
+            });
+            vm.tabIndices[customTab.id] = index + 1;
+        });
+    }
+
+    function defineLastStaticTabs() {
+        var i = vm.tabs.length;
+        vm.tabs.push({
+            index: i,
+            tabId: 'sketches',
+            title: 'Sketches',
+            contentViewUrl: 'views/mainSketchesTab.html'
+        });
+        vm.tabIndices.sketches = i;
     }
 
     /**
      * Only return the URL for the tab content view as soon as the is is active, such that the content only gets lazyly loaded.
      */
-    function getLazyTabContentViewUrl(tabId) {
+    function getLazyTabContentViewUrl(tabIndex) {
         // Only return the tab src when tab is active
-        var tab = getTabById(tabId);
-        return ( tab && tab.active === true) ? tab.contentViewUrl : null;
+        return vm.activeIndex === tabIndex ? vm.tabs[tabIndex].contentViewUrl : null;
     }
 
-    function setSelectedTabInUrl(tabId) {
-        var tab = getTabById(tabId);
-        if (tab && tab.active === true && $location.search().tab !== tab.tabId) {
-            // this ugly weird expression seems to be needed to ensure that the url is not manipulated too early (before tab is activated) and not to often (if already in url)
-            $location.search('tab', tab.tabId);
+    function setSelectedTabInUrl(tabIndex) {
+        var tabId = vm.tabs[tabIndex].tabId;
+        if ($location.search().tab !== tabId) {
+            $location.search('tab', tabId);
         }
     }
 
@@ -102,7 +104,7 @@ function MainCtrl($scope, $location, Config) {
         if (params && angular.isDefined(params.tab)) {
             var tab = getTabById(params.tab);
             if (tab) {
-                tab.active = true;
+                vm.activeIndex = tab.index;
             }
         }
     }

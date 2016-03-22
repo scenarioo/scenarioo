@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('ScShareStepPopup', function (localStorageService, $modal) {
+angular.module('scenarioo.services').factory('ScShareStepPopup', function (localStorageService, $uibModal) {
 
     // This is required to avoid multiple popups (they could be opened using keyboard shortcuts)
     var modalIsCurrentlyOpen = false;
@@ -27,7 +27,7 @@ angular.module('scenarioo.services').factory('ScShareStepPopup', function (local
 
         modalIsCurrentlyOpen = true;
 
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             templateUrl: 'views/shareStepPopup.html',
             controller: 'ScShareStepPopupController',
             windowClass: 'modal-small',
@@ -43,7 +43,7 @@ angular.module('scenarioo.services').factory('ScShareStepPopup', function (local
         showShareStepPopup: showShareStepPopup
     };
 
-}).controller('ScShareStepPopupController', function ($scope, $modalInstance, SharePageService, $location) {
+}).controller('ScShareStepPopupController', function ($scope, $uibModalInstance, SharePageService, $location) {
 
     var currentBrowserLocation = $location.absUrl();
 
@@ -60,7 +60,7 @@ angular.module('scenarioo.services').factory('ScShareStepPopup', function (local
     $scope.eMailUrl = encodeURIComponent($scope.pageUrl);
 
     $scope.close = function () {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 
 });

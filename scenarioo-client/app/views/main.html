@@ -23,14 +23,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div>
 
     <!-- Tabs on the main page -->
-    <tabset class="step-panes">
+    <uib-tabset class="step-panes" active="main.activeIndex">
 
         <!-- Tabs are defined dynamically in controller inside main.js -->
-
-        <tab ng-repeat="tab in main.tabs" heading="{{tab.title}}" active="tab.active"
-             select="main.setSelectedTabInUrl(tab.tabId)" id="sc-main-tab-{{tab.tabId}}">
-            <ng-include src="main.getLazyTabContentViewUrl(tab.tabId)"/>
-        </tab>
-    </tabset>
+        <uib-tab ng-repeat="tab in main.tabs" heading="{{tab.title}}" select="main.setSelectedTabInUrl(tab.index)" id="sc-main-tab-{{tab.tabId}}">
+            <ng-include src="main.getLazyTabContentViewUrl(tab.index)"/>
+        </uib-tab>
+    </uib-tabset>
 
 </div>

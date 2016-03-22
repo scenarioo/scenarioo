@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('objectReferenceTreeCtrl', function ($scope, $location, $route, $modal, ObjectIndexListResource, ObjectListResource) {
+angular.module('scenarioo.controllers').controller('objectReferenceTreeCtrl', function ($scope, $location, $route, $uibModal, ObjectIndexListResource, ObjectListResource) {
 
     $scope.readObjectIndex = function (build) {
         ObjectIndexListResource.query({

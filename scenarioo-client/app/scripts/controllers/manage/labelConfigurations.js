@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('LabelConfigurationsCtrl', function ($scope, $location, $route, $modal, LabelConfigurationsResource, LabelConfigurationsListResource) {
+angular.module('scenarioo.controllers').controller('LabelConfigurationsCtrl', function ($scope, $location, $route, $uibModal, LabelConfigurationsResource, LabelConfigurationsListResource) {
 
     loadLabelConfigurations();
 
