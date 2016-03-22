@@ -22,6 +22,8 @@ buildscript {
 }
 
 allprojects {
+	apply plugin: 'idea'
+
 	group = 'org.scenarioo'
     version = getVersionName()
     tasks.withType(JavaCompile) {

@@ -18,11 +18,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <sc-breadcrumb></sc-breadcrumb>
 
 
-<tabset class="step-panes">
-    <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" select="setSelectedTabInUrl(tab.tabId)">
-        <ng-include src="getLazyTabContentViewUrl(tab.tabId)"/>
-    </tab>
-</tabset>
+<uib-tabset class="step-panes" active="activeIndex">
+    <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" select="setSelectedTabInUrl(tab.index)">
+        <ng-include src="getLazyTabContentViewUrl(tab.index)"/>
+    </uib-tab>
+</uib-tabset>
 
 
 

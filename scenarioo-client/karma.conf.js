@@ -29,7 +29,6 @@ module.exports = function (config) {
             'app/components/angular-resource/angular-resource.js',
             'app/components/angular-route/angular-route.js',
             'app/components/angular-mocks/angular-*.js',
-            'app/components/angular-bootstrap/*.js',
             'app/components/angular-local-storage/dist/angular-local-storage.min.js',
             'app/components/twigs/dist/twigs.js',
             'app/components/svg.js/dist/svg.js',
