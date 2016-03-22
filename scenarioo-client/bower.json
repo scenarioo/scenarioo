@@ -1,32 +1,32 @@
 {
-    "name": "scenariooClient",
-    "version": "0.0.0",
-    "dependencies": {
-        "angular": "~1.5.0",
-        "angular-resource": "~1.5.0",
-        "angular-sanitize": "~1.5.0",
-        "angular-route": "~1.5.0",
-        "angular-i18n": "~1.5.0",
-        "angular-local-storage": "~0.2.5",
-        "bootstrap": "~3.3.2",
-        "angular-bootstrap": "~1.2.2",
-        "json3": "~3.2.4",
-        "es5-shim": "~2.0.8",
-        "font-awesome": "~3.2.1",
-        "twigs": "0.1.3.1",
-        "svg.js": "~2.0.4",
-        "svg.draggable.js": "~2.0.0",
-        "svg.select.js": "https://github.com/parabolika66/svg.select.js.git#~1.0.8",
-        "svg.resize.js": "https://github.com/parabolika66/svg.resize.js.git#~1.1.3",
-        "svg-pan-zoom": "~3.2.0",
-        "angular-unsavedChanges": "~0.1.1"
-    },
-    "devDependencies": {
-        "angular-mocks": "~1.5.0",
-        "angular-scenario": "~1.5.0"
-    },
-    "resolutions": {
-        "angular": "1.5.0",
-        "svg.js": "2.0.4"
-    }
+  "name": "scenariooClient",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular": "1.5.2",
+    "angular-resource": "1.5.2",
+    "angular-sanitize": "1.5.2",
+    "angular-route": "1.5.2",
+    "angular-i18n": "1.5.2",
+    "angular-local-storage": "~0.2.5",
+    "bootstrap": "~3.3.2",
+    "angular-bootstrap": "~1.2.2",
+    "json3": "~3.2.4",
+    "es5-shim": "~2.0.8",
+    "font-awesome": "~3.2.1",
+    "twigs": "0.1.3.1",
+    "svg.js": "~2.0.4",
+    "svg.draggable.js": "~2.0.0",
+    "svg.select.js": "https://github.com/parabolika66/svg.select.js.git#~1.0.8",
+    "svg.resize.js": "https://github.com/parabolika66/svg.resize.js.git#~1.1.3",
+    "svg-pan-zoom": "~3.2.0",
+    "angular-unsavedChanges": "~0.1.1"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.5.2",
+    "angular-scenario": "1.5.2"
+  },
+  "resolutions": {
+    "svg.js": "2.0.4",
+    "angular": "1.5.2"
+  }
 }
