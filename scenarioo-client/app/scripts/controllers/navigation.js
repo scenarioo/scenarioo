@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, localStorageService, BranchesAndBuilds, SelectedBranchAndBuild, $modal, ScApplicationInfoPopup, Config, GlobalHotkeysService) {
+angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, localStorageService, BranchesAndBuilds, SelectedBranchAndBuild, $uibModal, ScApplicationInfoPopup, Config, GlobalHotkeysService) {
 
     $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
         $scope.applicationName = Config.applicationName();

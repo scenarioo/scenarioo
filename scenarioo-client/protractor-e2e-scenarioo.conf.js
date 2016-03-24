@@ -48,16 +48,26 @@ var exportsConfig = {
     rootElement: 'html',
 
     onPrepare: function () {
-        require('jasmine-reporters');
-        var scenarioo = require('scenarioo-js');
+        // enable scenarioo userDocumentation (see more on http://www.scenarioo.org)
+        // pass in the current branch of your VCS you are testing, an arbitrary build name and the current revision you are testing.
         var moment = require('moment');
         var timeStamp = moment().format('YYYY.MM.DD_HH.mm.ss');
         var git = require('git-rev-sync');
 
-        // function ScenariooJasmineReporter(targetDirectory, branchName, branchDescription, buildName, revision) {
-        // hint: branch='scenarioo-self-docu' because we have one scenarioo docu viewer webapp instance per branch and on each branch we generate many documentations (examples and self-docu) to view inside this same scenarioo webapp.
-        var scenariooReporter = new scenarioo.reporter('./scenariooDocumentation', 'scenarioo-self-docu', '', 'build_' + timeStamp, git.short());
+        var scenarioo = require('scenarioo-js');
+        var scenariooReporter = scenarioo.reporter({
+            targetDirectory: './scenariooDocumentation',
+            branchName: 'scenarioo-self-docu',
+            branchDescription: 'Scenarioo documenting itself.',
+            buildName: 'build_' + timeStamp,
+            revision: git.short(),
+            pageNameExtractor: function (url) {
+                return url.pathname.substring(1);
+            }
+        });
         jasmine.getEnv().addReporter(scenariooReporter);
+        require('./test/protractorE2E/dsl/customExtendedDsl');
+
         browser.driver.manage().window().maximize();
     },
 

@@ -62,7 +62,7 @@ function annotatedScreenshot() {
 
     }
 
-    function controller($scope, $modal, ScreenAnnotationsService, $window) {
+    function controller($scope, $uibModal, ScreenAnnotationsService, $window) {
 
         $scope.getBoxCssStyle = getBoxCssStyle;
         $scope.getBoxText = getBoxText;
@@ -112,7 +112,7 @@ function annotatedScreenshot() {
 
         function openInfoPopup(annotation) {
 
-            $modal.open({
+            $uibModal.open({
                 templateUrl: 'template/screenAnnotationInfoPopup.html',
                 controller: 'ScreenAnnotationInfoPopupController',
                 controllerAs: 'annotationPopup',

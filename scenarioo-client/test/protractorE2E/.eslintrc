@@ -3,6 +3,9 @@
         "node": "true"
     },
     "rules": {
+        // Imports are not recognized. Can we fix this?
+        "no-unused-vars": 0,
+        "no-undef": 0
     },
     "globals": {
         "by": false,

@@ -48,6 +48,8 @@ var exportsConfig = {
 
     onPrepare: function () {
         browser.driver.manage().window().maximize();
+
+        require('./test/protractorE2E/dsl/noWrappingDsl');
     },
 
     params: {

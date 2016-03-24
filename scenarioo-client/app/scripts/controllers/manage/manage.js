@@ -19,57 +19,56 @@ angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scop
 
     $scope.tabs = [
         {
+            index: 0,
             tabId: 'builds',
             title: 'Builds',
             contentViewUrl: 'views/manage/buildsList.html'
         },
         {
+            index: 1,
             tabId: 'configuration',
             title: 'General Settings',
             contentViewUrl: 'views/manage/config.html'
         },
         {
+            index: 2,
             tabId: 'branchAliases',
             title: 'Branch Aliases',
             contentViewUrl: 'views/manage/branchAliases.html'
         },
         {
+            index: 3,
             tabId: 'labelConfigurations',
             title: 'Label Colors',
             contentViewUrl: 'views/manage/labelConfigurations.html'
         }
     ];
+    $scope.activeIndex = 0;
+    selectTabFromUrl();
 
-    $scope.getLazyTabContentViewUrl = function (tabId) {
+    $scope.getLazyTabContentViewUrl = function (tabIndex) {
         // Only return the tab src as soon as tab is active
-        var url = null;
-        angular.forEach($scope.tabs, function (tab) {
-            if (tab.tabId === tabId && tab.active === true) {
-                url = tab.contentViewUrl;
-            }
-        });
-        return url;
+        return $scope.activeIndex === tabIndex ? $scope.tabs[tabIndex].contentViewUrl : null;
     };
 
-    $scope.setSelectedTabInUrl = function (tabId) {
-        angular.forEach($scope.tabs, function (tab) {
-            if (tab.tabId === tabId && tab.active === true && $location.search().tab !== tab.tabId) {
-                $location.search('tab', tab.tabId);
-            }
-        });
+    $scope.setSelectedTabInUrl = function (tabIndex) {
+        var tabId = $scope.tabs[tabIndex].tabId;
+        if ($location.search().tab !== tabId) {
+           $location.search('tab', tabId);
+        }
     };
 
-    $scope.selectTabFromUrl = function () {
+    function selectTabFromUrl() {
         var params = $location.search();
         var selectedTabId = 'undefined';
         if (params !== null && angular.isDefined(params.tab)) {
             selectedTabId = params.tab;
-            angular.forEach($scope.tabs, function (tab) {
+            angular.forEach($scope.tabs, function (tab, index) {
                 if (tab.tabId === selectedTabId) {
-                    tab.active = true;
+                    $scope.activeIndex = index;
                 }
-            });
+           });
         }
-    };
-    $scope.selectTabFromUrl();
+    }
+
 });
