@@ -157,14 +157,16 @@ gulp.task('environmentConstants', function (done) {
     });
     angularConfigFileContent += '.constant(\'ENV\', \'' + selectedEnvironment + '\');\n';
 
-    fs.writeFile('./app/scripts/environment_config.js', angularConfigFileContent, done);
+    fs.writeFile('./app/scripts/environment_config.js', angularConfigFileContent);
+    done();
 });
 
 /**
  * Delete the 'dist' folder.
  */
 gulp.task('clean-dist', function (done) {
-    del('./dist', done);
+    del('./dist');
+    done();
 });
 
 /**
