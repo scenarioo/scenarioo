@@ -15,6 +15,7 @@ Contact the core development team if you want to use the same virtual machine to
 ## Prerequisites
 
  * Java JDK 1.7: we still try to be backward compatible, for some projects that can not yet use 1.8
+ * Tomcat 7 needs to be installed: http://tomcat.apache.org
 
 ## Setup and Use of GIT 
 
@@ -28,7 +29,6 @@ Contact the core development team if you want to use the same virtual machine to
       $ git config --global user.name "John Doe"             
       $ git config --global user.email johndoe@example.com
      ```
-     
      see also here: https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
 
  * In case you are a GIT newbie please ask your developer colleagues to help you or refer to the very good (and free) book at: http://git-scm.com/book to get started
@@ -81,23 +81,27 @@ But this two repositories should be sufficient for most usual developers.
      * NodeJs (if not included ??)
      * Markdown Plugins
      * .gitignore plugin
+     * Karme plugin (IntelliJ recommends this!)
      * maybe more ... this is not yet well defined ...
           
  * Import the projects by using "New project from existing sources":
     * scenarioo-java: Import "from external model: Gradle" and use the gradle wrapper (default settings)
     * scenarioo: Import "From external model: Gradle" and use the gradle wrapper (default settings)
+ 
+ * From "Gradle"-tab in intelliJ simply run the following gradle tasks, to build everything cleanly:
+    * scenarioo-java: clean build test install
+    * scenarioo: clean build test (if you get some python errors in npm install part on windows, you can probably ignore this optional npm dependency problems and just try to tun it once again)
+
+ * Configure a run configuration to run the installed [Tomcat 7](http://tomcat.apache.org) from IntelliJ
+     * running on port 8080
+     * ... choose to deploy the scenarioo webapp to it ...
 
 ## Open points from old setup to be integrated in this development setup instructions here
 
  * check your JavaScript code against our `.eslintrc` file!
  * See also [WebStorm IDE Settings](WebStorm-IDE-Settings).
-
-  * All developers have to use same formatting and other java settings in eclipse, as explained here: https://github.com/scenarioo/scenarioo/wiki/Eclipse-IDE-Settings
-  * **[Tomcat 7](http://tomcat.apache.org)** (running on port 8080)
-        * Add the server to the _Servers_ view in Eclipse and publish the _scenarioo-server_ under the path _/scenarioo_ (should be correct by default).
- 
-  * See [Eclipse IDE Settings](Eclipse-IDE-Settings)
-
+ * All developers have to use same formatting and other java settings in eclipse, as explained here: https://github.com/scenarioo/scenarioo/wiki/Eclipse-IDE-Settings
+ * See [Eclipse IDE Settings](Eclipse-IDE-Settings)
 
 # Developer Guide
 
