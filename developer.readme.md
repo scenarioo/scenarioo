@@ -138,6 +138,7 @@ But this two repositories should be sufficient for most usual developers.
 
 # Developer Guide
 
-For more informations on how to develop, build and test scenarioo properly, please read the following carefully: 
-[Developer Guide](https://github.com/scenarioo/scenarioo/wiki/Developer-Guide)
+For more informations on how to develop, build and test scenarioo properly, please read the following carefully:  
+ 
+**[Developer Guide](https://github.com/scenarioo/scenarioo/wiki/Developer-Guide)**
 
