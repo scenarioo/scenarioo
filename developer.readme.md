@@ -95,7 +95,9 @@ But this two repositories should be sufficient for most usual developers.
  * Configure a run configuration to run the installed [Tomcat 7](http://tomcat.apache.org) from IntelliJ
      * set the tomcat path to tomcat 7 installation
      * set it running on port 8080     
-     * on "Deployment" tab: choose to deploy the artifact "gradle....scenarioo-server...war" (not exploded) on startup
+     * on "Deployment" tab: 
+        * choose to deploy the artifact "gradle....scenarioo-server...war" (not exploded) on startup
+        * Application context (!important!): /scenarioo   
      * on "Startup/Connection" tab: set environment variable "SCENARIOO_DATA" to following path: <your-project-source-path>\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
      
  * Run all tests of the sub-project "scenarioodocu-generation-example" (right click on folder and choose "Run 'All Tests'") 
@@ -126,9 +128,21 @@ But this two repositories should be sufficient for most usual developers.
 
 === end of TODO for issue #427 ===
  
- * Start the tomcat server by using the run configuration, you should see in the log output that it is importing the example documentation data properly.
-
-     
+ * Start the tomcat server by using the run configuration:
+   you should see in the log output that it is importing the example documentation data properly.
+  
+ * To start the web server for serving the Angular JS frontend (scenarioo-client)
+   proceed as following (or as described in the Developer Guide, see below):
+   ```
+   cd scenarioo-client
+   npm install
+   bower install
+   gulp serve
+   # then open the browser to browse the application 
+   # on given URL, usually http://localhost:9000
+   # if you change files in the client the browser will refresh automatically
+   ```
+    
 ## Open points from old setup to be integrated in this development setup instructions here
 
  * check your JavaScript code against our `.eslintrc` file!
@@ -136,7 +150,14 @@ But this two repositories should be sufficient for most usual developers.
  * All developers have to use same formatting and other java settings in eclipse, as explained here: https://github.com/scenarioo/scenarioo/wiki/Eclipse-IDE-Settings
  * See [Eclipse IDE Settings](https://github.com/scenarioo/scenarioo/wiki/Eclipse-IDE-Settings)
 
-# Developer Guide
+## Open points to be tested for this setup
+
+ * debuging
+ * run e2e-tests
+ * run karma tests
+ * ...
+
+## Developer Guide
 
 For more informations on how to develop, build and test scenarioo properly, please read the following carefully:  
  
