@@ -1,6 +1,8 @@
-# Important Scenarioo Developer How To
+# Scenarioo Developer How To
 
 This readme contains important developer information for developers on how to develop the open source project Scenarioo.
+
+**New developers have to read all this information (including linked resources) carefully before starting!**
 
 ## Setup Development Environment
 
@@ -37,7 +39,7 @@ Contact the core development team if you want to use the same virtual machine to
 
  * (optional) For working with github, github desktop might be helpful: https://desktop.github.com/
 
- * Please refer to our [branching strategy](Branching-strategy) about how we use branches and create releases.
+ * Please refer to our **[branching strategy](Branching-strategy) about how we use branches and create releases**.
 
  * (optional) some useful git settings for git bash (unsure whether this works for all platforms ...):
    see https://github.com/forkch/dotfiles/blob/develop/git-settings.sh 
@@ -77,11 +79,11 @@ But this two repositories should be sufficient for most usual developers.
      * License: either use one of our scenarioo open source licenses or even better get yourself a commercial personal license (especially if you also need it for commercial work!)
  
  * Install IntelliJ Plugins (this list is not yet consolidated):
-     * Gradle (if not included ??)
-     * NodeJs (if not included ??)
+     * Gradle (probably allready included, but not sure)
+     * NodeJs (if not included ?? not sure about that)
      * Markdown Plugins
      * .gitignore plugin
-     * Karme plugin (IntelliJ recommends this!)
+     * Karma plugin (IntelliJ recommends this!)
      * maybe more ... this is not yet well defined ...
           
  * Import the projects by using "New project from existing sources":
@@ -98,7 +100,7 @@ But this two repositories should be sufficient for most usual developers.
      * on "Deployment" tab: 
         * choose to deploy the artifact "gradle....scenarioo-server...war" (not exploded) on startup
         * Application context (!important!): /scenarioo   
-     * on "Startup/Connection" tab: set environment variable "SCENARIOO_DATA" to following path: <your-project-source-path>\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
+     * on "Startup/Connection" tab: set environment variable "SCENARIOO_DATA" to following path: &lt;your-project-source-path&gt;\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
      
  * Run all tests of the sub-project "scenarioodocu-generation-example" (right click on folder and choose "Run 'All Tests'") 
    to generate example documentation data in Folder build/scenarioDocuExample
@@ -118,7 +120,7 @@ But this two repositories should be sufficient for most usual developers.
         * Copy the file `scenarioo-server\src\main\resources\config-for-demo\config.xml` to the location where your server tries to load the configuration by default from (see server output).
                     [TODO: this will change with the new directory configuration by @mi-we soon anyway, see issue # )
                 * change the configured documentation path configured inside this copied file to point to the following location instead:
-                    * <your-project-source-path>\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
+                    * &lt;your-project-source-path&gt;\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
    
         * Stop the server again            
                     
