@@ -132,11 +132,12 @@ But this two repositories should be sufficient for most usual developers.
 ## Open points from old setup to be integrated in this development setup instructions here
 
  * check your JavaScript code against our `.eslintrc` file!
- * See also [WebStorm IDE Settings](WebStorm-IDE-Settings).
+ * See also [WebStorm IDE Settings](/scenarioo/scenarioo/wiki/WebStorm-IDE-Settings).
  * All developers have to use same formatting and other java settings in eclipse, as explained here: https://github.com/scenarioo/scenarioo/wiki/Eclipse-IDE-Settings
- * See [Eclipse IDE Settings](Eclipse-IDE-Settings)
+ * See [Eclipse IDE Settings](/scenarioo/scenarioo/wiki/Eclipse-IDE-Settings)
 
 # Developer Guide
 
-How to build, test, start, configure and browse the Scenarioo Viewer Web app locally:
-please refer to the [Developer Guide](Developer Guide)
+For more informations on how to develop, build and test scenarioo properly, please read the following carefully: 
+[Developer Guide](/scenarioo/scenarioo/wiki/Developer-Guide)
+
