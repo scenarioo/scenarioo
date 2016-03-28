@@ -86,10 +86,14 @@ But this two repositories should be sufficient for most usual developers.
      * Karma plugin (IntelliJ recommends this!)
      * maybe more ... this is not yet well defined ...
           
- * Import the projects by using "New project from existing sources":
-    * scenarioo-java: Import "from external model: Gradle" and use the gradle wrapper (default settings)
-    * scenarioo: Import "From external model: Gradle" and use the gradle wrapper (default settings)
- 
+ * Import scenarioo web app by using "New project from existing sources":
+     * choose 'scenarioo' folder
+     * Import "From external model: Gradle" and use the gradle wrapper (default settings)
+ * By using **"File/New module"** you can add additional repositories to be part of the same project setup in one IntelliJ window:
+     * Import 'scenarioo-java' by using "New module from existing sources":
+     * choose 'scenarioo-java' folder
+     * Import "from external model: Gradle" and use the gradle wrapper (default settings)
+     
  * From "Gradle"-tab in intelliJ simply run the following gradle tasks, to build everything cleanly:
     * scenarioo-java: clean build test install
     * (TODO following does not work yet out of intelliJ somehow ... but you can work in IntelliJ anyway .... ignore it for now) scenarioo: clean build test (if you get some python errors in npm install part on windows, you can probably ignore this optional npm dependency problems and just try to tun it once again)
