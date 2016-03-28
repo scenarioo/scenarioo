@@ -90,12 +90,45 @@ But this two repositories should be sufficient for most usual developers.
  
  * From "Gradle"-tab in intelliJ simply run the following gradle tasks, to build everything cleanly:
     * scenarioo-java: clean build test install
-    * scenarioo: clean build test (if you get some python errors in npm install part on windows, you can probably ignore this optional npm dependency problems and just try to tun it once again)
+    * (TODO following does not work yet out of intelliJ somehow ... but you can work in IntelliJ anyway .... ignore it for now) scenarioo: clean build test (if you get some python errors in npm install part on windows, you can probably ignore this optional npm dependency problems and just try to tun it once again)
 
  * Configure a run configuration to run the installed [Tomcat 7](http://tomcat.apache.org) from IntelliJ
-     * running on port 8080
-     * ... choose to deploy the scenarioo webapp to it ...
+     * set the tomcat path to tomcat 7 installation
+     * set it running on port 8080     
+     * on "Deployment" tab: choose to deploy the artifact "gradle....scenarioo-server...war" (not exploded) on startup
+     * on "Startup/Connection" tab: set environment variable "SCENARIOO_DATA" to following path: <your-project-source-path>\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
+     
+ * Run all tests of the sub-project "scenarioodocu-generation-example" (right click on folder and choose "Run 'All Tests'") 
+   to generate example documentation data in Folder build/scenarioDocuExample
 
+===== TODO issue #427 === 
+
+     * when the issue #427 has been resolved, the following is obsolete: 
+     
+     ==== obsolete after #427 has been merged ====
+         
+     
+        * Start the server using the run configuration, you should see something like following in the server log on first startup:
+ 
+            WARN  org.scenarioo.dao.configuration.ConfigurationDaoImpl: no configuration directory is configured in server context, therefore trying to use fallback directory in user home.
+            WARN  org.scenarioo.dao.configuration.ConfigurationDaoImpl:   file C:\Users\rbr\.scenarioo\config.xml does not exist --> loading default config.xml from classpath
+ 
+        * Copy the file `scenarioo-server\src\main\resources\config-for-demo\config.xml` to the location where your server tries to load the configuration by default from (see server output).
+                    [TODO: this will change with the new directory configuration by @mi-we soon anyway, see issue # )
+                * change the configured documentation path configured inside this copied file to point to the following location instead:
+                    * <your-project-source-path>\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
+   
+        * Stop the server again            
+                    
+    ==== end of obsolete part after #427 has been merged ===
+    
+    * then we have to test, that the above allready mentioned configuration of the variable "SCENARIOO_DATA" in tomcat run configuration works as expected.
+
+=== end of TODO for issue #427 ===
+ 
+ * Start the tomcat server by using the run configuration, you should see in the log output that it is importing the example documentation data properly.
+
+     
 ## Open points from old setup to be integrated in this development setup instructions here
 
  * check your JavaScript code against our `.eslintrc` file!
@@ -105,4 +138,5 @@ But this two repositories should be sufficient for most usual developers.
 
 # Developer Guide
 
-How to build, test, start, configure and browse the Scenarioo Viewer Web app locally, please refer to the [Developer Guide](Developer Guide)
+How to build, test, start, configure and browse the Scenarioo Viewer Web app locally:
+please refer to the [Developer Guide](Developer Guide)
