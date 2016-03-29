@@ -53,7 +53,7 @@ Contact the core development team if you want to use the same virtual machine to
        * giggle : more of a git viewer to review changes in the files graphically
       
 
-# Install NodeJS and NodeJS development tools
+## Install NodeJS and NodeJS development tools
 
  * NodeJS: http://nodejs.org/download (newest version should be okay)
    _Use the latest versions of nodejs / npm / bower and you should be fine. If you discover that something does not work with the latest version and you have to fix it, please inform the community about it so that they have a chance to upgrade their tools._
@@ -148,24 +148,28 @@ But this two repositories should be sufficient for most usual developers.
    # on given URL, usually http://localhost:9000
    # if you change files in the client the browser will refresh automatically
    ```
-    
-## Open points from old setup to be integrated in this development setup instructions here
-
- * check your JavaScript code against our `.eslintrc` file!
- * See also [WebStorm IDE Settings](https://github.com/scenarioo/scenarioo/wiki/WebStorm-IDE-Settings).
- * All developers have to use same formatting and other java settings in eclipse, as explained here: https://github.com/scenarioo/scenarioo/wiki/Eclipse-IDE-Settings
- * See [Eclipse IDE Settings](https://github.com/scenarioo/scenarioo/wiki/Eclipse-IDE-Settings)
-
-## Open points to be tested for this setup
-
- * debuging
- * run e2e-tests
- * run karma tests
- * ...
 
 ## Developer Guide
 
 For more informations on how to develop, build and test scenarioo properly, please read the following carefully:  
  
 **[Developer Guide](https://github.com/scenarioo/scenarioo/wiki/Developer-Guide)**
+    
+## Open points 
+
+### from old setup to be integrated in this development setup instructions here
+
+ * check your JavaScript code against our `.eslintrc` file!
+ * See also [WebStorm IDE Settings](https://github.com/scenarioo/scenarioo/wiki/WebStorm-IDE-Settings).
+ * All developers have to use same formatting and other java settings in eclipse, as explained here: https://github.com/scenarioo/scenarioo/wiki/Eclipse-IDE-Settings
+ * See [Eclipse IDE Settings](https://github.com/scenarioo/scenarioo/wiki/Eclipse-IDE-Settings)
+
+### to be tested if it works ...
+
+ [x] debugging the server (yes, check!)
+ [ ] change something in the writer library and link to it
+ [ ] run e2e-tests
+ [ ] run karma tests
+ [ ] release new writer library
+ [ ] release new web app (currently not working becuase of problems with gradle build)
 
