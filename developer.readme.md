@@ -41,10 +41,6 @@ Contact the core development team if you want to use the same virtual machine to
 
  * Please refer to our **[branching strategy](Branching-strategy) about how we use branches and create releases**.
 
- * (optional) some useful git settings for git bash (unsure whether this works for all platforms ...):
-   see https://github.com/forkch/dotfiles/blob/develop/git-settings.sh 
-   (make sure to download the files 'git-prompt.sh' and 'git-completion.sh' as well)
-
  * (optional) you can use whatever other GIT tools you need
     * (optional) on the linux developer VM we had once following recommended tools installed:
        * gitk : Very rich functionality
