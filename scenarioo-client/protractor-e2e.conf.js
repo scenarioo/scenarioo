@@ -37,6 +37,8 @@ var exportsConfig = {
     rootElement: 'html',
 
     onPrepare: function () {
+
+        // TODO #474: set a fixed window size to be used on every system when running e2e-tests
         browser.driver.manage().window().maximize();
 
         require('./test/protractorE2E/dsl/noWrappingDsl');
