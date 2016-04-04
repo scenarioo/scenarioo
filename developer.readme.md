@@ -16,7 +16,7 @@ Contact the core development team if you want to use the same virtual machine to
 
 ## Prerequisites
 
- * Java JDK 1.7: we still try to be backward compatible, for some projects that can not yet use 1.8
+ * Java JDK 1.6 (you can probably use 1.8 JDK, but you have to set the language level to 1.6 in IntelliJ, because we still try to be backward compatible, for some projects that can not yet use 1.8).
  * Tomcat 7 needs to be installed: http://tomcat.apache.org
 
 ## Setup and Use of GIT 
