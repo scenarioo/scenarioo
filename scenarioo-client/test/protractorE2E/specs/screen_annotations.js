@@ -46,7 +46,7 @@ scenarioo.describeUseCase('View screen annotations', 'Screens can have visual an
         stepPage.assertNumberOfVisibleScreenAnnotationsIs(11);
         scenarioo.docuWriter.saveStep('Eleven screen annotations are shown');
 
-        stepPage.clickNthScreenAnnotationIcon(0);
+        stepPage.clickFirstScreenAnnotation();
         stepPage.assertScreenAnnotationPopupIsDisplayed();
         stepPage.assertTitleOfAnnotationPopupIs('DEFAULT-Annotation \'Life Is Beautiful\'');
         scenarioo.docuWriter.saveStep('Popup is shown');
