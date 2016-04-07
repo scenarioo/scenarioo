@@ -48,7 +48,7 @@ scenarioo.describeUseCase('View screen annotations', 'Screens can have visual an
 
         stepPage.clickFirstScreenAnnotation();
         stepPage.assertScreenAnnotationPopupIsDisplayed();
-        stepPage.assertTitleOfAnnotationPopupIs('DEFAULT-Annotation \'Life Is Beautiful\'');
+        stepPage.assertTitleOfAnnotationPopupIs('  DEFAULT-Annotation \'Life Is Beautiful\'');
         scenarioo.docuWriter.saveStep('Popup is shown');
     });
 
