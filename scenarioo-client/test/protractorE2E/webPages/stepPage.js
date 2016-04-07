@@ -180,11 +180,7 @@ StepPage.prototype.clickNthScreenAnnotationIcon = function(indexOfIcon) {
 };
 
 StepPage.prototype.assertScreenAnnotationPopupIsDisplayed = function() {
-    var popup = element(by.css('.modal.screen-annotation-popup'));
-    browser.wait(function() {
-        return browser.isElementPresent(popup);
-    }, 5000);
-    expect(popup.isDisplayed()).toBe(true);
+    expect(element(by.css('.modal.screen-annotation-popup')).isDisplayed()).toBe(true);
 };
 
 StepPage.prototype.assertTitleOfAnnotationPopupIs = function(expectedTitle) {
