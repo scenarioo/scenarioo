@@ -20,12 +20,8 @@ util.inherits(LabelConfigurationsPage, BaseWebPage);
 
 LabelConfigurationsPage.prototype.assertNumConfigurations = function(expectedCount) {
     // There is always one row more than the expectedCount, because there's always an empty row
-    var lastVisibleRow = element(by.id('label-configuration-' + expectedCount));
-    browser.wait(function() {
-        return browser.isElementPresent(lastVisibleRow);
-    }, 5000);
-    expect(lastVisibleRow.isDisplayed()).toBeTruthy();
-    expect(element(by.id('label-configuration-' + (expectedCount + 1))).isPresent()).toBeFalsy();
+    expect(element(by.id('label-configuration-' + expectedCount)).isDisplayed()).toBe(true);
+    expect(element(by.id('label-configuration-' + (expectedCount + 1))).isPresent()).toBe(false);
 };
 
 LabelConfigurationsPage.prototype.addLabelConfiguration = function(labelName, colorIndex) {
