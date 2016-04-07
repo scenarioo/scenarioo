@@ -175,8 +175,8 @@ StepPage.prototype.clickShowScreenAnnotationsButton = function() {
     element(by.id('sc-showHideScreenAnnotationsButton')).click();
 };
 
-StepPage.prototype.clickNthScreenAnnotationIcon = function(indexOfIcon) {
-    element.all(by.className('sc-screnshot-annotation-icon')).get(indexOfIcon).click();
+StepPage.prototype.clickFirstScreenAnnotation = function() {
+    element.all(by.className('sc-screnshot-annotation-icon')).first().click();
 };
 
 StepPage.prototype.assertScreenAnnotationPopupIsDisplayed = function() {
