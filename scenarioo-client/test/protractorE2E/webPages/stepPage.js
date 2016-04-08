@@ -175,22 +175,16 @@ StepPage.prototype.clickShowScreenAnnotationsButton = function() {
     element(by.id('sc-showHideScreenAnnotationsButton')).click();
 };
 
-StepPage.prototype.clickNthScreenAnnotationIcon = function(indexOfIcon) {
-    element.all(by.className('sc-screnshot-annotation-icon')).get(indexOfIcon).click();
+StepPage.prototype.clickFirstScreenAnnotation = function() {
+    element.all(by.className('sc-screnshot-annotation-icon')).first().click();
 };
 
 StepPage.prototype.assertScreenAnnotationPopupIsDisplayed = function() {
-    var popup = element(by.css('.modal.screen-annotation-popup'));
-    browser.wait(function() {
-        return browser.isElementPresent(popup);
-    }, 5000);
-    expect(popup.isDisplayed()).toBe(true);
+    expect(element(by.className('modal-content')).isDisplayed()).toBe(true);
 };
 
 StepPage.prototype.assertTitleOfAnnotationPopupIs = function(expectedTitle) {
-    element(by.className('modal-header')).getText().then(function(text) {
-        expect(text.trim()).toBe(expectedTitle);
-    });
+    expect(element(by.className('modal-header')).getText()).toEqual(expectedTitle);
 };
 
 StepPage.prototype.clickCreateSketchButton = function() {

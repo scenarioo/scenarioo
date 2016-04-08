@@ -5,8 +5,7 @@
   "version": "0.0.0",
   "license": "GPL-3.0",
   "scripts": {
-    "test": "gulp",
-    "postinstall": "./node_modules/gulp-protractor/node_modules/protractor/bin/webdriver-manager update"
+    "test": "gulp"
   },
   "dependencies": {},
   "devDependencies": {
