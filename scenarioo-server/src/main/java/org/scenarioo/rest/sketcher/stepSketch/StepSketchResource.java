@@ -101,7 +101,6 @@ public class StepSketchResource {
 		stepSketch.setDateCreated(now);
 		stepSketch.setDateModified(now);
 
-		files.createStepSketchDirectory(resolvedBranchName, issueId, scenarioSketchId, stepSketch.getStepSketchId());
 		files.persistStepSketch(resolvedBranchName, issueId, scenarioSketchId, stepSketch);
 
 		stepSketch.setSvgXmlString(SvgSanitizer.sanitize(stepSketch.getSvgXmlString()));
