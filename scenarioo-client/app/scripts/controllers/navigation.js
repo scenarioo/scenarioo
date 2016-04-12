@@ -51,8 +51,9 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
             return '';
         }
 
-        if (angular.isDefined(build.getDisplayNameForBuild) && build.getDisplayNameForBuild !== null) {
-            return build.getDisplayNameForBuild;
+        // The displayName is required for the special "last successful scenarios" build
+        if (angular.isDefined(build.displayName) && build.displayName !== null) {
+            return build.displayName;
         }
 
         if ($scope.isBuildAlias(build)) {
