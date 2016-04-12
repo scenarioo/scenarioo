@@ -87,7 +87,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </span>
             <span class="btn btn-default btn-no-hover">
                 <span tooltip="click here to see all page variants" tooltip-placement="bottom" id="pageVariantIndicator">
-                    <a ng-href="#/object/page/{{pageName}}" id="allPageVariants">
+                    <a ng-href="#/object/page/{{getPageNameUrlEncoded()}}" id="allPageVariants">
                         Page-Variant {{stepNavigation.pageVariantIndex + 1}} of {{stepNavigation.pageVariantsCount}}
                     </a>
                 </span>
