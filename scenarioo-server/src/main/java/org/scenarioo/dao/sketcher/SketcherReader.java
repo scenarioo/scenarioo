@@ -29,6 +29,10 @@ import org.scenarioo.model.sketcher.StepSketch;
 
 /**
  * Gives access to the design domain files in the file system.
+ *
+ * TODO #478 rename to DesignReader ? And why isnt this a DAO that also provides write access (write access is now in the SketcherFiles, but read access isnt, which is somehow inconsistent).
+ * Proposal for simplcity: Merge SketcherFiles and SketcherReader into one DesignDataDao and provide file paths, read and write methods form this one class,
+ * this would reduce some complexity.
  */
 public class SketcherReader {
 

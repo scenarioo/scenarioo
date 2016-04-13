@@ -67,12 +67,9 @@ public class ScenariooWebApplication implements ServletContextListener {
 		final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
 		final Configuration configuration = configurationRepository.getConfiguration();
 		
-		final SketcherFiles sketcherFiles = new SketcherFiles(configurationRepository.getDesignDataDirectory());
-		sketcherFiles.createRootDirectoryIfNecessary();
-
 		LOGGER.info("  Configuration loaded.");
 		LOGGER.info("  Configured documentation content directory: " + configuration.getTestDocumentationDirPath());
-		LOGGER.info("  Configured design content directory: " + sketcherFiles.getRootDirectory());
+		LOGGER.info("  Configured design content directory: " + configurationRepository.getDesignDataDirectory());
 	}
 	
 	private String configureConfigurationDirectoryFromServerContext(final ServletContextEvent servletContextEvent) {
