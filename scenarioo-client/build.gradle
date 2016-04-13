@@ -25,13 +25,13 @@ apply plugin: 'node'
 task bower(type: Exec) {
   group ="Build"
   description = "Installs all app components defined in bower.json"
-  commandLine = ["bower", "install"]
+  commandLine = ["node", "node_modules/bower/bin/bower", "install"]
   inputs.file "bower.json"
 }
 
 
 task gulp(type: Exec) {
-  commandLine = ["gulp", "build", "--production"]
+  commandLine = ["node", "node_modules/gulp/bin/gulp", "build", "--production"]
   inputs.file "gulpfile.js"
 }
 
