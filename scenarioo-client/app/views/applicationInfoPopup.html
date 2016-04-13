@@ -21,13 +21,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 </div>
 
 <div class="modal-body info-popup">
-    <tabset>
+    <uib-tabset>
 
-        <tab heading="Application">
+        <uib-tab heading="Application">
             <div ng-bind-html="applicationInformation"></div>
-        </tab>
+        </uib-tab>
 
-        <tab heading="Scenarioo">
+        <uib-tab heading="Scenarioo">
             <div>
                 <h3>Automated Documentation through UI Tests</h3>
                 <br/>
@@ -57,9 +57,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     For more information see <a href="http://www.scenarioo.org">http://www.scenarioo.org</a>
                 </p>
             </div>
-        </tab>
+        </uib-tab>
 
-        <tab heading="Shortcuts">
+        <uib-tab heading="Shortcuts">
             <div>
                 <h3>Shortcuts for navigating by keys in Scenarioo</h3>
                 <br/>
@@ -97,10 +97,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <dd>This Information Dialog</dd>
                 </dl>
             </div>
-        </tab>
+        </uib-tab>
 
 
-        <tab heading="Contacts">
+        <uib-tab heading="Contacts">
             <div>
                 <h3>Contact the Scenarioo development team and community:</h3>
                 <br/>
@@ -116,16 +116,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             class="icon-envelope icon-with-padding"></i> contact us by e-mail: admin@scenarioo.org</a>
                 </h3>
             </div>
-        </tab>
+        </uib-tab>
 
-        <tab heading="Version">
+        <uib-tab heading="Version">
             <h3>Version: {{version.version}}</h3>
             <h3>Build date: {{version.buildDate}}</h3>
             <h3>API version: {{version.apiVersion}}</h3>
             <h3>Internal format version: {{version.aggregatedDataFormatVersion}}</h3>
-        </tab>
+        </uib-tab>
 
-    </tabset>
+    </uib-tabset>
 
 </div>
 
