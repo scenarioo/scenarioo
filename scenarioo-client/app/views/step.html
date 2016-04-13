@@ -109,15 +109,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <!-- screenshot and information -->
 <sc-meta-data-panel linking-variable="stepShowMetadata" ng-hide="stepNotFound">
     <div>
-        <tabset class="step-panes">
-            <tab heading="Screenshot" id="screenshot-tab">
+        <uib-tabset class="step-panes">
+            <uib-tab heading="Screenshot" id="screenshot-tab">
                 <sc-annotated-screenshot screen-annotations="step.screenAnnotations" get-screen-shot-url="getScreenShotUrl" visibility-toggle="showScreenAnnotations" to-next-step-action="goToNextStep()"></sc-annotated-screenshot>
-            </tab>
-            <tab heading="HTML" id="html-tab" ng-hide="!step.html.htmlSource">
+            </uib-tab>
+            <uib-tab heading="HTML" id="html-tab" ng-hide="!step.html.htmlSource">
                 <pre ng-bind="step.html.htmlSource" id="html-source">
                 </pre>
-            </tab>
-        </tabset>
+            </uib-tab>
+        </uib-tabset>
     </div>
 
     <div>
