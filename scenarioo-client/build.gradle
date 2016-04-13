@@ -35,6 +35,10 @@ task gulp(type: Exec) {
   inputs.file "gulpfile.js"
 }
 
+clean {
+    delete "dist"
+}
+
 build.dependsOn gulp
 war.dependsOn gulp
 gulp.dependsOn bower
