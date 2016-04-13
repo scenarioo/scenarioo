@@ -79,7 +79,8 @@ public class DesignFilesTest {
 				stepSketchId);
 		assertTrue(stepSketchDir.exists());
 		assertEquals(stepSketchDir.getPath(),
-				"tmp/Test+Branch/ABCD1234/1111AAAA/1");
+				"tmp" + File.separator + "Test+Branch" + File.separator + "ABCD1234" + File.separator +
+						"1111AAAA" + File.separator + "1");
 	}
 
 	@Test
