@@ -37,6 +37,14 @@ import org.scenarioo.model.sketcher.Issue;
 import org.scenarioo.model.sketcher.ScenarioSketch;
 import org.scenarioo.model.sketcher.StepSketch;
 
+/**
+ * TODO #478 remove inconsistencies and improve design:
+ * 1. rename to DesignFiles ? Or better 'DesignDataFiles'.
+ * 2. Also rename the package.
+ * 3. Merge with SketcherReader and name it DesignDataDao (because it also contains write functionality not just file path getters)
+ * 4. Document the responsibility of this class here
+ * 5. consider my review comment for internal method #savePng
+ */
 public class SketcherFiles {
 
 	private static final Logger LOGGER = Logger.getLogger(SketcherFiles.class);
@@ -55,19 +63,7 @@ public class SketcherFiles {
 		this.rootDirectory = rootDirectory;
 	}
 
-	public void createRootDirectoryIfNecessary() {
-		createDirectoryIfItDoesNotExist(rootDirectory);
-	}
-
-	public void assertRootDirectoryExists() {
-		if (!rootDirectory.exists()) {
-			throw new IllegalArgumentException("Directory for design storage does not exist: "
-					+ rootDirectory.getAbsolutePath());
-		}
-	}
-
 	public File getRootDirectory() {
-		assertRootDirectoryExists();
 		return rootDirectory;
 	}
 
@@ -124,6 +120,11 @@ public class SketcherFiles {
 				SKETCH_SVG_FILENAME);
 	}
 
+	// TODO #478: another inconcistency, about png filename:
+	// strange that we have to pass the png filename here as a parameter.
+	// Looks like a placebo parameter (also in the REST service)
+	// because in the store method (see below) this name is allways put to a constant value.
+	// Shouldnt this be the same as for svg, where this class knows best about the filename.
 	public File getStepSketchPngFile(final String branchName, final String issueId, final String scenarioSketchId,
 			final String stepSketchId, final String pngFilename) {
 		return new File(getStepSketchDirectory(branchName, issueId, scenarioSketchId, stepSketchId), pngFilename);
@@ -135,54 +136,36 @@ public class SketcherFiles {
 				STEP_SKETCH_XML_FILENAME);
 	}
 
-	public void createIssueDirectoryIfNotNecessary(final String branchName, final String issueId) {
-		final File issueDirectory = getIssueDirectory(branchName, issueId);
-		createDirectoryIfItDoesNotExist(issueDirectory);
-	}
 
 	public void persistIssue(final String branchName, final Issue issue) {
-		createBranchDirectoryIfNecessary(branchName);
-		createIssueDirectoryIfNotNecessary(branchName, issue.getIssueId());
 		final File destinationFile = getIssueFile(branchName, issue.getIssueId());
+		createParentDirectoryIfNeeded(destinationFile);
 		ScenarioDocuXMLFileUtil.marshal(issue, destinationFile);
-	}
-
-	private void createBranchDirectoryIfNecessary(final String branchName) {
-		final File branchFolder = getBranchDirectory(branchName);
-		createDirectoryIfItDoesNotExist(branchFolder);
-	}
-
-	public void createScenarioSketchDirectoryIfNecessary(final String branchName, final String issueId,
-			final String scenarioSketchId) {
-		final File scenarioSketchDir = getScenarioSketchDirectory(branchName, issueId, scenarioSketchId);
-		createDirectoryIfItDoesNotExist(scenarioSketchDir);
 	}
 
 	public void persistScenarioSketch(final String branchName, final String issueId,
 			final ScenarioSketch scenarioSketch) {
-		createScenarioSketchDirectoryIfNecessary(branchName, issueId, scenarioSketch.getScenarioSketchId());
 		final File scenarioSketchFile = getScenarioSketchFile(branchName, issueId, scenarioSketch.getScenarioSketchId());
+		createParentDirectoryIfNeeded(scenarioSketchFile);
 		ScenarioDocuXMLFileUtil.marshal(scenarioSketch, scenarioSketchFile);
 	}
 
-	public void createStepSketchDirectory(final String branchName, final String issueId,
-			final String scenarioSketchId, final String stepSketchId) {
-		final File stepSketchDirectory = getStepSketchDirectory(branchName, issueId, scenarioSketchId, stepSketchId);
-		createDirectoryIfItDoesNotExist(stepSketchDirectory);
-	}
-
-	private void createDirectoryIfItDoesNotExist(final File directory) {
+	/**
+	 * Ensures that a file's parent directory is created if it does not exist yet.
+	 * Will throw an exception, if the directory was not created properly.
+     */
+	private void createParentDirectoryIfNeeded(final File file) {
+		File directory = file.getParentFile();
+		directory.mkdirs();
 		if (!directory.exists()) {
-			directory.mkdirs();
-		}
-		if (!directory.exists()) {
-			throw new RuntimeException("Directory not created: " + directory);
+			throw new RuntimeException("Directory was not able to be created (check user rights for the directory and available disk space): " + directory.getAbsolutePath());
 		}
 	}
 
 	public void persistStepSketch(final String branchName, final String issueId,
 			final String scenarioSketchId, final StepSketch stepSketch) {
 		final File stepSketchXmlFile = getStepSketchXmlFile(branchName, issueId, scenarioSketchId, stepSketch);
+		createParentDirectoryIfNeeded(stepSketchXmlFile);
 		ScenarioDocuXMLFileUtil.marshal(stepSketch, stepSketchXmlFile);
 	}
 
@@ -192,6 +175,13 @@ public class SketcherFiles {
 		storePngFile(branchName, issueId, scenarioSketchId, stepSketch.getStepSketchId());
 	}
 
+	/**
+	 * Create Png file from Svg file.
+	 *
+	 * Precondition: SVG file allready has to exist!
+	 *
+	 * Review comment by rolf: isnt that a performance issue? Why do we read the SVG from file system, if we allready have it in the memory as a string?
+     */
 	private void storePngFile(final String branchName, final String issueId, final String scenarioSketchId,
 			final String stepSketchId) {
 		File svgFile = getStepSketchSvgFile(branchName, issueId, scenarioSketchId, stepSketchId);
@@ -217,7 +207,7 @@ public class SketcherFiles {
 	private void storeSvgFile(final String branchName, final String issueId, final String scenarioSketchId,
 			final StepSketch stepSketch) {
 		File svgFile = getStepSketchSvgFile(branchName, issueId, scenarioSketchId, stepSketch.getStepSketchId());
-
+		createParentDirectoryIfNeeded(svgFile);
 		try {
 			final FileWriter writer = new FileWriter(svgFile);
 			writer.write(stepSketch.getSvgXmlString());

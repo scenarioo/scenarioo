@@ -180,13 +180,11 @@ StepPage.prototype.clickFirstScreenAnnotation = function() {
 };
 
 StepPage.prototype.assertScreenAnnotationPopupIsDisplayed = function() {
-    expect(element(by.css('.modal.screen-annotation-popup')).isDisplayed()).toBe(true);
+    expect(element(by.className('modal-content')).isDisplayed()).toBe(true);
 };
 
 StepPage.prototype.assertTitleOfAnnotationPopupIs = function(expectedTitle) {
-    element(by.className('modal-header')).getText().then(function(text) {
-        expect(text.trim()).toBe(expectedTitle);
-    });
+    expect(element(by.className('modal-header')).getText()).toEqual(expectedTitle);
 };
 
 StepPage.prototype.clickCreateSketchButton = function() {
