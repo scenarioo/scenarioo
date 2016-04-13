@@ -1,28 +1,21 @@
+ext.scenariooApiVersion = '2.1.0'
+
 /*
  * Gets the version name from the latest Git tag
  * From: http://ryanharter.com/blog/2013/07/30/automatic-versioning-with-git-and-gradle/
  */
 def getVersionName = { ->
-    def stdout = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'describe', '--tags'
-        standardOutput = stdout
-    }
-    return stdout.toString().trim()
-}
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-		classpath 'com.moowork.gradle:gradle-node-plugin:0.4'
-        classpath 'com.moowork.gradle:gradle-grunt-plugin:0.5'
-    }
+	def stdout = new ByteArrayOutputStream()
+	exec {
+		commandLine 'git', 'describe', '--tags'
+		standardOutput = stdout
+	}
+	return stdout.toString().trim()
 }
 
 allprojects {
 	apply plugin: 'idea'
+	apply plugin: 'eclipse'
 
 	group = 'org.scenarioo'
     version = getVersionName()
@@ -32,17 +25,9 @@ allprojects {
 	}
 }
 
-configurations.all {
-    resolutionStrategy.cacheDynamicVersionsFor 10, 'minutes'
-}
-
+// TODO danielsuter extract to separate file
 configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-example"), project(":scenarioo-validator")]) {
-    apply plugin: 'eclipse'
     apply plugin: 'java'
-
-	configurations {
-	  compileOnly
-	}
 
 	repositories {
 		maven {
@@ -52,43 +37,16 @@ configure([project(":scenarioo-server"), project(":scenarioo-docu-generation-exa
 	    mavenLocal()
 	}
 
-	ext.scenariooApiVersion = '2.1.0'
-
 	dependencies {
-		compile 'org.scenarioo:scenarioo-java:' + ext.scenariooApiVersion
-	    compile 'org.apache.commons:commons-lang3:3.0.1'
-	    compile 'commons-io:commons-io:2.4'
-	    compile 'commons-codec:commons-codec:1.2'
-	    compile 'log4j:log4j:1.2.17'
-	    testCompile 'junit:junit:4.11'
+		compile 'org.scenarioo:scenarioo-java:' + scenariooApiVersion
+		compile 'org.apache.commons:commons-lang3:3.0.1'
+		compile 'commons-io:commons-io:2.4'
+		compile 'commons-codec:commons-codec:1.2'
+		compile 'log4j:log4j:1.2.17'
+		testCompile 'junit:junit:4.11'
 	}
-
-	//Include compileOnly for compilation
-	sourceSets.main.compileClasspath += configurations.compileOnly
-
-
-	// optional: if using 'eclipse' plugin
-	eclipse {
-		classpath {
-			plusConfigurations += configurations.compileOnly
-		}
-	}
-}
-
-project(':scenarioo-docu-generation-example') {
-    dependencies {
-    }
-}
-
-project(':scenarioo-validator') {
-    dependencies {
-    }
-}
-
-project(':scenarioo-server') {
-    dependencies {
-    }
 }
 
 task wrapper(type: Wrapper) {
+	gradleVersion = '2.12'
 }
