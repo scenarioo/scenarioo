@@ -71,9 +71,9 @@ import org.scenarioo.utils.ResourceUtils;
  * If accessing data for a specific build you have to make sure to use the constructor that initializes the
  * {@link LongObjectNamesResolver} with the object names as available for the specific build you want to access.
  */
-public class ScenarioDocuAggregationDAO implements AggregatedDocuDataReader {
+public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 	
-	private static final Logger LOGGER = Logger.getLogger(ScenarioDocuAggregationDAO.class);
+	private static final Logger LOGGER = Logger.getLogger(ScenarioDocuAggregationDao.class);
 	
 	private static final String VERSION_PROPERTY_KEY = "scenarioo.derived.file.format.version";
 	
@@ -84,13 +84,13 @@ public class ScenarioDocuAggregationDAO implements AggregatedDocuDataReader {
 	private LongObjectNamesResolver longObjectNameResolver = null;
 	DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	
-	public ScenarioDocuAggregationDAO(final File rootDirectory) {
+	public ScenarioDocuAggregationDao(final File rootDirectory) {
 		this.rootDirectory = rootDirectory;
 		files = new ScenarioDocuAggregationFiles(rootDirectory);
 		scenarioDocuReader = new ScenarioDocuReader(rootDirectory);
 	}
 	
-	public ScenarioDocuAggregationDAO(final File rootDirectory, final LongObjectNamesResolver longObjectNameResolver) {
+	public ScenarioDocuAggregationDao(final File rootDirectory, final LongObjectNamesResolver longObjectNameResolver) {
 		this(rootDirectory);
 		this.longObjectNameResolver = longObjectNameResolver;
 	}
@@ -149,7 +149,7 @@ public class ScenarioDocuAggregationDAO implements AggregatedDocuDataReader {
 				.getBuildName())) {
 			return;
 		}
-		LastSuccessfulScenariosIndex index = LastSuccessfulScenariosIndexDAO.loadLastSuccessfulScenariosIndex(
+		LastSuccessfulScenariosIndex index = LastSuccessfulScenariosIndexDao.loadLastSuccessfulScenariosIndex(
 				files.getRootDirectory(), buildIdentifier.getBranchName());
 		
 		Date latestImportedBuildDate = index.getLatestImportedBuildDate();

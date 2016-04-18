@@ -7,7 +7,7 @@ import org.scenarioo.business.lastSuccessfulScenarios.LastSuccessfulScenariosBui
 import org.scenarioo.model.lastSuccessfulScenarios.LastSuccessfulScenariosIndex;
 import org.scenarioo.utils.UrlEncoding;
 
-public class LastSuccessfulScenariosIndexDAO {
+public class LastSuccessfulScenariosIndexDao {
 	
 	/**
 	 * Name of the index file used to track the last successful scenarios with their build dates.
@@ -16,7 +16,7 @@ public class LastSuccessfulScenariosIndexDAO {
 	
 	private final File lastSuccessfulScenariosBuildIndexFile;
 	
-	public LastSuccessfulScenariosIndexDAO(final File dataDirectory, final String branchName) {
+	public LastSuccessfulScenariosIndexDao(final File dataDirectory, final String branchName) {
 		lastSuccessfulScenariosBuildIndexFile = new File(dataDirectory, UrlEncoding.encode(branchName) + "/"
 				+ UrlEncoding.encode(LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME) + "/"
 				+ UrlEncoding.encode(LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME));
@@ -27,7 +27,7 @@ public class LastSuccessfulScenariosIndexDAO {
 	 */
 	public static LastSuccessfulScenariosIndex loadLastSuccessfulScenariosIndex(final File dataDirectory,
 			final String branchName) {
-		LastSuccessfulScenariosIndexDAO dao = new LastSuccessfulScenariosIndexDAO(dataDirectory, branchName);
+		LastSuccessfulScenariosIndexDao dao = new LastSuccessfulScenariosIndexDao(dataDirectory, branchName);
 		return dao.loadLastSuccessfulScenariosIndex();
 	}
 	

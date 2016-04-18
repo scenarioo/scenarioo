@@ -21,7 +21,7 @@ import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.business.builds.AvailableBuildsList;
 import org.scenarioo.business.builds.BuildImporter;
-import org.scenarioo.dao.aggregates.LastSuccessfulScenariosIndexDAO;
+import org.scenarioo.dao.aggregates.LastSuccessfulScenariosIndexDao;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
@@ -34,6 +34,7 @@ import org.scenarioo.model.lastSuccessfulScenarios.LastSuccessfulScenariosIndex;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.utils.TestFileUtils;
 
 public class LastSuccessfulScenariosBuildTest {
 	
@@ -58,15 +59,7 @@ public class LastSuccessfulScenariosBuildTest {
 	
 	@Before
 	public void setupTest() {
-		if (!rootDirectory.exists()) {
-			rootDirectory.mkdirs();
-		}
-		try {
-			FileUtils.cleanDirectory(rootDirectory);
-		} catch (IOException e) {
-			fail();
-		}
-		RepositoryLocator.INSTANCE.initializeConfigurationRepositoryForUnitTest(rootDirectory);
+		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(rootDirectory);
 		configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
 		lastSuccessfulScenarioBuild = new LastSuccessfulScenariosBuild();
 	}
@@ -756,7 +749,7 @@ public class LastSuccessfulScenariosBuildTest {
 				File fileOrDirectory = new File(dir, name);
 				return fileOrDirectory.getName().contains(".derived")
 						&& !fileOrDirectory.getName().equals(
-								encode(LastSuccessfulScenariosIndexDAO.LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME));
+								encode(LastSuccessfulScenariosIndexDao.LAST_SUCCESSFUL_SCENARIOS_INDEX_FILENAME));
 			}
 		});
 		

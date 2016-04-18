@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.business.uploadBuild.BuildUploader;
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -76,7 +76,7 @@ public class BuildsImporterResource {
 		
 		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
 		
-		ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
+		ScenarioDocuAggregationDao dao = new ScenarioDocuAggregationDao(
 				configurationRepository.getDocumentationDataDirectory());
 		File logFile = dao.getBuildImportLogFile(buildIdentifier);
 		if (logFile == null || !logFile.exists()) {
