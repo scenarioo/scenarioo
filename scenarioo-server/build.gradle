@@ -91,3 +91,4 @@ war.doLast {
 }
 
 war.dependsOn createVersionPropertiesFile
+war.dependsOn ":scenarioo-client:gulp"

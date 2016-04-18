@@ -117,7 +117,7 @@ angular
         if($scope.stepSketch == null) {
             return undefined;
         }
-        return '#/usecase/' + $scope.stepSketch.relatedStep.usecaseName;
+        return '#/usecase/' + encodeURIComponent($scope.stepSketch.relatedStep.usecaseName);
     };
 
     $scope.getScenarioUrl = function() {
@@ -125,7 +125,7 @@ angular
             return undefined;
         }
         var step = $scope.stepSketch.relatedStep;
-        return '#/scenario/' + step.usecaseName + '/' + step.scenarioName;
+        return '#/scenario/' + encodeURIComponent(step.usecaseName) + '/' + encodeURIComponent(step.scenarioName);
     };
 
     $scope.getStepUrl = function(){
@@ -133,7 +133,7 @@ angular
             return undefined;
         }
         var step = $scope.stepSketch.relatedStep;
-        return '#/step/' + step.usecaseName + '/' + step.scenarioName + '/' + step.pageName + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence;
+        return '#/step/' + encodeURIComponent(step.usecaseName) + '/' + encodeURIComponent(step.scenarioName) + '/' + encodeURIComponent(step.pageName) + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence;
     };
 });
 

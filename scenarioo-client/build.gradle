@@ -19,24 +19,30 @@ import org.gradle.api.tasks.Exec
 import org.apache.tools.ant.taskdefs.condition.Os
 
 apply plugin: 'java'
-apply plugin: 'war'
-apply plugin: 'node'
+apply plugin: 'com.moowork.node'
 
-task bower(type: Exec) {
-  group ="Build"
-  description = "Installs all app components defined in bower.json"
-  commandLine = ["bower", "install"]
-  inputs.file "bower.json"
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath "com.moowork.gradle:gradle-node-plugin:0.12"
+    }
 }
 
-
 task gulp(type: Exec) {
-  commandLine = ["gulp", "build", "--production"]
+  commandLine = ["node", "node_modules/gulp/bin/gulp", "build", "--production"]
   inputs.file "gulpfile.js"
 }
 
+clean {
+    delete "dist"
+}
+
 build.dependsOn gulp
-war.dependsOn gulp
-gulp.dependsOn bower
-bower.dependsOn npmInstall
 gulp.dependsOn npmInstall
+// Make sure we always get the latest dependencies
+tasks.npmInstall.outputs.upToDateWhen { return false }
