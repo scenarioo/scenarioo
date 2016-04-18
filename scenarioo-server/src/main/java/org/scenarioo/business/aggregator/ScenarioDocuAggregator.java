@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.builds.BuildLink;
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.branches.BuildStatistics;
@@ -80,7 +80,7 @@ public class ScenarioDocuAggregator {
 	
 	private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
 	
-	private final ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
+	private final ScenarioDocuAggregationDao dao = new ScenarioDocuAggregationDao(
 			configurationRepository.getDocumentationDataDirectory(), longObjectNamesResolver);
 	
 	private final BuildStatistics buildStatistics = new BuildStatistics();

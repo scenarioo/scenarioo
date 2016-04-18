@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.model.configuration.CustomObjectDetailColumn;
 import org.scenarioo.model.configuration.CustomObjectTab;
 import org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree;
@@ -28,14 +28,14 @@ public class CustomObjectTabTreeBuilder {
 	
 	private final Set<String> objectTypesToAggregate;
 	
-	private final ScenarioDocuAggregationDAO dao;
+	private final ScenarioDocuAggregationDao dao;
 	
 	private final BuildIdentifier buildIdentifier;
 	
 	private final ObjectReferenceTreeBuilder treeToBuild = new ObjectReferenceTreeBuilder(
 			new ObjectTreeNode<ObjectReference>());
 	
-	public CustomObjectTabTreeBuilder(final CustomObjectTab tabConfig, final ScenarioDocuAggregationDAO dao,
+	public CustomObjectTabTreeBuilder(final CustomObjectTab tabConfig, final ScenarioDocuAggregationDao dao,
 			final BuildIdentifier buildIdentifier) {
 		this.tabConfig = tabConfig;
 		this.dao = dao;
