@@ -35,6 +35,10 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         dialogClass: 'modal modal-huge'
     };
 
+    $scope.getPageNameUrlEncoded = function() {
+        return encodeURIComponent($scope.pageName);
+    };
+
     // FIXME this code is duplicated. How can we extract it into a service?
     LabelConfigurationsResource.query({}, function (labelConfigurations) {
         $scope.labelConfigurations = labelConfigurations;
@@ -337,9 +341,9 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
         return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BRANCH_KEY] +
             '/build/' + SelectedBranchAndBuild.selected()[SelectedBranchAndBuild.BUILD_KEY] +
-            '/usecase/' + useCaseName +
-            '/scenario/' + scenarioName +
-            '/pageName/' + $scope.pageName +
+            '/usecase/' + encodeURIComponent(useCaseName) +
+            '/scenario/' + encodeURIComponent(scenarioName) +
+            '/pageName/' + encodeURIComponent($scope.pageName) +
             '/pageOccurrence/' + $scope.pageOccurrence +
             '/stepInPageOccurrence/' + $scope.stepInPageOccurrence + '/image.' + getImageFileExtension() + createLabelUrl('?', getAllLabels());
     };

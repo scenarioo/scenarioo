@@ -30,9 +30,9 @@ public class TestResourceFile {
 	public static File getResourceFile(final String filePackageAndFilename) {
 		System.out.println("Base path: " + basePath);
 
-		if (basePath.getAbsolutePath().contains("build/classes/test")) {
+		if (basePath.getAbsolutePath().matches(".*build.classes.test.*")) {
 			// Gradle build
-			File correctedBasePath = new File(basePath.getAbsolutePath().replace("build/classes/test",
+			File correctedBasePath = new File(basePath.getAbsolutePath().replaceAll("build.classes.test",
 					"build/resources/test"));
 			return new File(correctedBasePath, filePackageAndFilename);
 		} else {
