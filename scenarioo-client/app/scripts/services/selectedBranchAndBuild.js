@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('SelectedBranchAndBuild', function ($location, $rootScope, localStorageService, Config) {
+angular.module('scenarioo.services').factory('SelectedBranchAndBuild', function ($location, $rootScope, scLocalStorage, Config) {
 
     var BRANCH_KEY = 'branch';
     var BUILD_KEY = 'build';
@@ -56,12 +56,12 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuild', function 
         var params = $location.search();
         if (params !== null && angular.isDefined(params[key])) {
             value = params[key];
-            localStorageService.set(key, value);
+            scLocalStorage.set(key, value);
             return value;
         }
 
         // check cookie if value was not found in URL
-        value = localStorageService.get(key);
+        value = scLocalStorage.get(key);
         if (angular.isDefined(value) && value !== null) {
             $location.search(key, value);
             return value;
@@ -70,7 +70,7 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuild', function 
         // If URL and cookie do not specify a value, we use the default from the config
         value = Config.defaultBranchAndBuild()[key];
         if (angular.isDefined(value)) {
-            localStorageService.set(key, value);
+            scLocalStorage.set(key, value);
             $location.search(key, value);
         }
         return value;
