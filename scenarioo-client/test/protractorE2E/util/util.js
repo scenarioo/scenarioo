@@ -14,11 +14,38 @@ function getRoute(route) {
 function initLocalStorage() {
     console.log('Initializing local storage for user revisiting scenarioo again');
     getRoute('/');
-    var setPreviouslyVisitedInLocalStorage = browser.executeScript('localStorage.setItem("ls.scenariooPreviouslyVisited", "true");');
+    var previouslyVisitedLocalStorageKey = 'ls.' + getScenariooContextPathAwareKey('scenariooPreviouslyVisited');
+    var setPreviouslyVisitedInLocalStorage = browser.executeScript('localStorage.setItem("' + previouslyVisitedLocalStorageKey + '", "true");');
     setPreviouslyVisitedInLocalStorage.then(function () {
-        var visited = browser.executeScript('return localStorage.getItem("ls.scenariooPreviouslyVisited");');
+        var visited = browser.executeScript('return localStorage.getItem("' + previouslyVisitedLocalStorageKey + '");');
         expect(visited).toEqual('true');
     });
+}
+
+function getScenariooContextPathAwareKey(url, key) {
+    var contextPath = after(after(before(url, '#'), '//'), '/', '');
+    contextPath = contextPath.replace(/(^\/)|(\/$)/g, '');
+    return '/' + contextPath + '/' + key;
+}
+
+function before(string, separator, notFoundText) {
+    var index = string.indexOf(separator);
+    if (index >= 0) {
+        return string.substring(0, index);
+    }
+    else {
+        return notFoundText ? notFoundText : string;
+    }
+}
+
+function after(string, separator, notFoundText) {
+    var index = string.indexOf(separator);
+    if (index >= 0) {
+        return string.substring(index + separator.length, string.length);
+    }
+    else {
+        return notFoundText ? notFoundText : string;
+    }
 }
 
 /**

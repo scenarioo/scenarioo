@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scMetaDataButton', function($window, localStorageService, GlobalHotkeysService) {
+angular.module('scenarioo.directives').directive('scMetaDataButton', function($window, scLocalStorage, GlobalHotkeysService) {
 
     var STEP_METADATA_VISIBLE = 'scenarioo-metadataVisible-';
     function initMetadataVisibleFromLocalStorage(scope, key) {
-        var metadataVisible = localStorageService.get(STEP_METADATA_VISIBLE + key);
+        var metadataVisible = scLocalStorage.get(STEP_METADATA_VISIBLE + key);
         if (metadataVisible === 'true') {
             scope.linkingVariable = true;
         }
@@ -47,7 +47,7 @@ angular.module('scenarioo.directives').directive('scMetaDataButton', function($w
             initMetadataVisibleFromLocalStorage($scope, $scope.localStorageKey);
             $scope.toggleShowingMetadata = function() {
                 $scope.linkingVariable = !$scope.linkingVariable;
-                localStorageService.set(STEP_METADATA_VISIBLE + $scope.localStorageKey, '' + $scope.linkingVariable);
+                scLocalStorage.set(STEP_METADATA_VISIBLE + $scope.localStorageKey, '' + $scope.linkingVariable);
             };
         }
     };
