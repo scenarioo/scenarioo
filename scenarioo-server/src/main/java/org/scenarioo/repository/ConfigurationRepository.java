@@ -57,6 +57,11 @@ public class ConfigurationRepository {
 		return new File(rootFolder, "scenarioo-application-data/sketcher");
 	}
 
+	public File getDiffViewerDirectory() {
+		File rootFolder = getDocumentationDataDirectory();
+		return new File(rootFolder, "scenarioo-application-data/diffViewer");
+	}
+
 	private File getExampleDocumentationDirectoryAsFallback() {
 		final URL exampleDocuDataPath = Configuration.class.getClassLoader().getResource(
 				EXAMPLE_DOCUMENTATION_DIRECTORY);
