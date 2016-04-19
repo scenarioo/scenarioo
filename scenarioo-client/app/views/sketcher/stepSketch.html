@@ -24,50 +24,80 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 </div>
 
-<tabset class="step-panes" ng-hide="loading || issueNotFound">
-    <tab heading="Sketch: {{issue.name}}">
-        <img ng-src={{getScreenShotUrl()}}/>
-    </tab>
-    <tab heading="Original Screenshot">
-        <img ng-src="{{getOriginalScreenshotUrl()}}"/>
-    </tab>
-    <tab heading="Metadata">
-        <h2>Details</h2>
+<div class="row sc-space-top sc-space-bottom" ng-hide="loading || issueNotFound">
+    <div class="col-sm-8">
+        <h2 class="sc-pageTitle">Sketch for Issue '{{issue.name}}'</h2>
+    </div>
+    <div class="col-sm-4">
+        <sc-meta-data-button class="pull-right" linking-variable="sketchShowMetadata"
+                             local-storage-key="stepSketch"></sc-meta-data-button>
+    </div>
+</div>
 
-        <p id="issue-name">
-            Sketch name: {{issue.name}}
-        </p>
+<sc-meta-data-panel linking-variable="sketchShowMetadata" ng-hide="loading || issueNotFound">
 
-        <p id="issue-description">
-            Description: {{issue.description}}
-        </p>
+    <div>
 
-        <p id="author">
-            Author: {{issue.author}}
-        </p>
+        <tabset class="step-panes">
+            <tab heading="Sketch">
+                <img ng-src={{getScreenShotUrl()}} class="sc-screenshot"/>
+            </tab>
+            <tab heading="Original Screenshot">
+                <img ng-src="{{getOriginalScreenshotUrl()}}" class="sc-screenshot"/>
+            </tab>
+        </tabset>
 
-        <p id="dateCreated">
-            Created: {{stepSketch.dateCreated | scDateTime}}
-        </p>
+    </div>
+    <div>
 
-        <p id="dateModified">
-            Last modified: {{stepSketch.dateModified | scDateTime}}
-        </p>
+        <!-- Sketch Details Info -->
+        <sc-collapsable-panel title="Sketch Details" key="stepSketchView-details" initially-expanded="true">
 
-        <h2>Original Step in Documentation</h2>
+            <p id="issue-name">
+                Name: {{issue.name}}
+            </p>
 
-        <p>The sketch is based on this step from the documentation.</p>
+            <p id="issue-description">
+                Description: {{issue.description}}
+            </p>
 
-        <p id="usecase-context">
-            <a ng-href="{{getUseCaseUrl()}}">Use Case: {{stepSketch.relatedStep.usecaseName | scHumanReadable}}</a>
-        </p>
+            <p id="author">
+                Author: {{issue.author}}
+            </p>
 
-        <p id="scenario-context">
-            <a ng-href="{{getScenarioUrl()}}">Scenario: {{stepSketch.relatedStep.scenarioName | scHumanReadable}}</a>
-        </p>
+            <p id="dateCreated">
+                Created: {{stepSketch.dateCreated | scDateTime}}
+            </p>
 
-        <p id="step-context">
-            <a ng-href="{{getStepUrl()}}">Step: {{stepSketch.relatedStep.pageName}}/{{stepSketch.relatedStep.pageOccurrence}}/{{stepSketch.relatedStep.stepInPageOccurrence}}</a>
-        </p>
-    </tab>
-</tabset>
+            <p id="dateModified">
+                Last modified: {{stepSketch.dateModified | scDateTime}}
+            </p>
+
+        </sc-collapsable-panel>
+
+        <!-- Sketch Context Info -->
+        <sc-collapsable-panel title="Sketch Context" key="stepSketchView-context" initially-expanded="true">
+
+            <p>The sketch is based on this step from the documentation.</p>
+            <!-- what is missing: what branch and build ?? -->
+
+            <p id="usecase-context">
+                <a ng-href="{{getUseCaseUrl()}}">Use Case: {{stepSketch.relatedStep.usecaseName | scHumanReadable}}</a>
+            </p>
+
+            <p id="scenario-context">
+                <a ng-href="{{getScenarioUrl()}}">Scenario: {{stepSketch.relatedStep.scenarioName | scHumanReadable}}</a>
+            </p>
+
+            <p id="step-context">
+                <a ng-href="{{getStepUrl()}}">Step: {{stepSketch.relatedStep.pageName}}/{{stepSketch.relatedStep.pageOccurrence}}/{{stepSketch.relatedStep.stepInPageOccurrence}}</a>
+            </p>
+
+        </sc-collapsable-panel>
+
+    </div>
+
+</sc-meta-data-panel>
+
+
+
