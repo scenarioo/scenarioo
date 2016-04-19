@@ -36,7 +36,7 @@ angular.module('scenarioo.services')
                 return string.substring(0, index);
             }
             else {
-                return (notFoundText != undefined) ? notFoundText : string;
+                return (notFoundText !== undefined) ? notFoundText : string;
             }
         }
 
@@ -46,7 +46,7 @@ angular.module('scenarioo.services')
                 return string.substring(index + separator.length, string.length);
             }
             else {
-                return (notFoundText != undefined) ? notFoundText : string;
+                return (notFoundText !== undefined) ? notFoundText : string;
             }
         }
 
