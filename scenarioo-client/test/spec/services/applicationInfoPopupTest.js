@@ -30,20 +30,21 @@ describe('Service: ScApplicationInfoPopup', function () {
         $provide.value('ApplicationInfoCtrl', {});
     }));
 
-    var ScApplicationInfoPopup, localStorageService, $modal, dummyPromise = {
+    var ScApplicationInfoPopup, scLocalStorage, $modal, dummyPromise = {
         result: {
             finally: function () {
             }
         }
     };
-    beforeEach(inject(function (_ScApplicationInfoPopup_, _localStorageService_, _$modal_) {
+
+    beforeEach(inject(function (_ScApplicationInfoPopup_, _scLocalStorage_, _$modal_) {
         ScApplicationInfoPopup = _ScApplicationInfoPopup_;
-        localStorageService = _localStorageService_;
+        scLocalStorage = _scLocalStorage_;
         $modal = _$modal_;
     }));
 
     it('shows the application info popup on first visit of the app', function () {
-        localStorageService.clearAll();
+        scLocalStorage.clearAll();
 
         spyOn($modal, 'open').and.returnValue(dummyPromise);
 
@@ -53,7 +54,8 @@ describe('Service: ScApplicationInfoPopup', function () {
     });
 
     it('does not show the application info popup when the user returns to the app', function () {
-        localStorageService.set(ScApplicationInfoPopup.PREVIOUSLY_VISITED_COOKIE_NAME, true);
+        scLocalStorage.clearAll();
+        scLocalStorage.set(ScApplicationInfoPopup.PREVIOUSLY_VISITED_COOKIE_NAME, true);
 
         spyOn($modal, 'open').and.returnValue(dummyPromise);
 

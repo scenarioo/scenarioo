@@ -21,15 +21,52 @@ angular.module('scenarioo.services')
         return {
             get: get,
             set: set,
-            clearAll: localStorageService.clearAll
+            clearAll: localStorageService.clearAll,
+            remove: remove
         };
 
         function get(key) {
-            return localStorageService.get($location.path() + '/' + key);
+            return localStorageService.get(getScenariooContextPathAwareKey(key));
         }
 
         function set(key, value) {
-            return localStorageService.set($location.path() + '/' + key, value);
+            return localStorageService.set(getScenariooContextPathAwareKey(key), value);
+        }
+
+        function remove(key) {
+            return localStorageService.remove(getScenariooContextPathAwareKey(key));
+        }
+
+        /**
+         * This code is currently duplicated with test/protractorE2E/util/util.js and needs to be kept in synch for stable e2e tests!
+         * TODO: refactor to reusable code
+         * @param key the key to make scenarioo context aware
+         * @returns {string} key with scenarioo context form location url inside.
+         */
+        function getScenariooContextPathAwareKey(key) {
+            var contextPath = after(after(before($location.absUrl(), '#'), '//'), '/', '');
+            contextPath = contextPath.replace(/(^\/)|(\/$)/g, '');
+            return '/' + contextPath + '/' + key;
+        }
+
+        function before(string, separator, notFoundText) {
+            var index = string.indexOf(separator);
+            if (index >= 0) {
+                return string.substring(0, index);
+            }
+            else {
+                return notFoundText ? notFoundText : string;
+            }
+        }
+
+        function after(string, separator, notFoundText) {
+            var index = string.indexOf(separator);
+            if (index >= 0) {
+                return string.substring(index + separator.length, string.length);
+            }
+            else {
+                return notFoundText ? notFoundText : string;
+            }
         }
 
     });

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('ScShareStepPopup', function (localStorageService, $modal) {
+angular.module('scenarioo.services').factory('ScShareStepPopup', function (scLocalStorage, $modal) {
 
     // This is required to avoid multiple popups (they could be opened using keyboard shortcuts)
     var modalIsCurrentlyOpen = false;

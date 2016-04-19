@@ -19,7 +19,7 @@ angular
     .module('scenarioo.directives')
     .directive('scScreenAnnotationsButton', screenAnnotationsButton);
 
-function screenAnnotationsButton(localStorageService, GlobalHotkeysService) {
+function screenAnnotationsButton(scLocalStorage, GlobalHotkeysService) {
 
     var SCREEN_ANNOTATIONS_VISIBLE_KEY = 'scenarioo-screenAnnotationsVisible';
 
@@ -49,7 +49,7 @@ function screenAnnotationsButton(localStorageService, GlobalHotkeysService) {
         }
 
         function initAnnotationsVisibleFromLocalStorage() {
-            var annotationsVisible = localStorageService.get(SCREEN_ANNOTATIONS_VISIBLE_KEY);
+            var annotationsVisible = scLocalStorage.get(SCREEN_ANNOTATIONS_VISIBLE_KEY);
             if (annotationsVisible === 'true') {
                 $scope.visibilityToggle = true;
             }
@@ -63,7 +63,7 @@ function screenAnnotationsButton(localStorageService, GlobalHotkeysService) {
 
         function toggleAnnotationsVisible() {
             $scope.visibilityToggle = !$scope.visibilityToggle;
-            localStorageService.set(SCREEN_ANNOTATIONS_VISIBLE_KEY, '' + $scope.visibilityToggle);
+            scLocalStorage.set(SCREEN_ANNOTATIONS_VISIBLE_KEY, '' + $scope.visibilityToggle);
         }
 
     }
