@@ -40,10 +40,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <tabset class="step-panes">
             <tab heading="Sketch">
-                <img ng-src={{getScreenShotUrl()}} class="sc-screenshot"/>
+                <div class="sc-screenshot-border">
+                    <img ng-src={{getScreenShotUrl()}} class="sc-screenshot"/>
+                </div>
             </tab>
             <tab heading="Original Screenshot">
-                <img ng-src="{{getOriginalScreenshotUrl()}}" class="sc-screenshot"/>
+                <div class="sc-screenshot-border">
+                    <img ng-src="{{getOriginalScreenshotUrl()}}" class="sc-screenshot"/>
+                </div>
             </tab>
         </tabset>
 
