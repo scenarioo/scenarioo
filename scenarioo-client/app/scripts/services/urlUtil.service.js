@@ -23,30 +23,32 @@ angular.module('scenarioo.services')
         };
 
         /**
+         * Extract the context path where the app is running form any URL (without domain name, protocol, port or any hash or parameters behind)
          * @param url the current value of $location.absUrl()
          */
         function getContextPathFromUrl(url) {
-            var contextPath = after(after(before(url, '#'), '//'), '/', '');
-            return contextPath.replace(/(^\/)|(\/$)/g, '');
+            var urlWithoutParamsOrHash = before(before(url, '?'), '#');
+            var contextPath = after(after(urlWithoutParamsOrHash, '//'), '/', '');
+            return contextPath.replace(/(^\/)|(\/$)/g, '');  // trim leading or trailing slashes
         }
 
-        function before(string, separator, notFoundText) {
+        function before(string, separator, optionalNotFoundResult) {
             var index = string.indexOf(separator);
             if (index >= 0) {
                 return string.substring(0, index);
             }
             else {
-                return (notFoundText !== undefined) ? notFoundText : string;
+                return (optionalNotFoundResult !== undefined) ? optionalNotFoundResult : string;
             }
         }
 
-        function after(string, separator, notFoundText) {
+        function after(string, separator, optionalNotFoundResult) {
             var index = string.indexOf(separator);
             if (index >= 0) {
                 return string.substring(index + separator.length, string.length);
             }
             else {
-                return (notFoundText !== undefined) ? notFoundText : string;
+                return (optionalNotFoundResult !== undefined) ? optionalNotFoundResult : string;
             }
         }
 
