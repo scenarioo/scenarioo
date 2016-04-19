@@ -1,48 +1,43 @@
-/* scenarioo-client
+/* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- *
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.gradle.api.tasks.Exec
-import org.apache.tools.ant.taskdefs.condition.Os
+package org.scenarioo.model.diffViewer;
 
-apply plugin: 'java'
-apply plugin: 'com.moowork.node'
+/**
+ * Contains common values and functionality for all diff informations.
+ */
+public abstract class AbstractDiffInfo {
 
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
+	private double changeRate;
 
-    dependencies {
-        classpath "com.moowork.gradle:gradle-node-plugin:0.12"
-    }
+	/**
+	 * Checks if the diff information has any changes.
+	 * 
+	 * @return
+	 *         true if there are any changes
+	 */
+	public abstract boolean hasChanges();
+
+	public double getChangeRate() {
+		return changeRate;
+	}
+
+	public void setChangeRate(final double changeRate) {
+		this.changeRate = changeRate;
+	}
+
 }
-
-task gulp(type: Exec) {
-  commandLine = ["node", "node_modules/gulp/bin/gulp", "build", "--production"]
-  inputs.file "gulpfile.js"
-}
-
-clean {
-    delete "dist"
-}
-
-build.dependsOn gulp
-gulp.dependsOn npmInstall
-// Make sure we always get the latest dependencies
-tasks.npmInstall.outputs.upToDateWhen { return false }
