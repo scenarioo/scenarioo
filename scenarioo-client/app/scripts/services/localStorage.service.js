@@ -16,7 +16,7 @@
  */
 
 angular.module('scenarioo.services')
-    .factory('scLocalStorage', function ($location, localStorageService) {
+    .factory('scLocalStorage', function ($location, scUrlUtil, localStorageService) {
 
         return {
             get: get,
@@ -38,35 +38,11 @@ angular.module('scenarioo.services')
         }
 
         /**
-         * This code is currently duplicated with test/protractorE2E/util/util.js and needs to be kept in synch for stable e2e tests!
-         * TODO: refactor to reusable code
          * @param key the key to make scenarioo context aware
-         * @returns {string} key with scenarioo context form location url inside.
+         * @returns {string} key with scenarioo context path from location url inside.
          */
         function getScenariooContextPathAwareKey(key) {
-            var contextPath = after(after(before($location.absUrl(), '#'), '//'), '/', '');
-            contextPath = contextPath.replace(/(^\/)|(\/$)/g, '');
-            return '/' + contextPath + '/' + key;
-        }
-
-        function before(string, separator, notFoundText) {
-            var index = string.indexOf(separator);
-            if (index >= 0) {
-                return string.substring(0, index);
-            }
-            else {
-                return notFoundText ? notFoundText : string;
-            }
-        }
-
-        function after(string, separator, notFoundText) {
-            var index = string.indexOf(separator);
-            if (index >= 0) {
-                return string.substring(index + separator.length, string.length);
-            }
-            else {
-                return notFoundText ? notFoundText : string;
-            }
+            return '/' + scUrlUtil.getContextPathFromUrl($location.absUrl()) + '/' + key;
         }
 
     });

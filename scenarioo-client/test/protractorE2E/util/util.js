@@ -14,38 +14,19 @@ function getRoute(route) {
 function initLocalStorage() {
     console.log('Initializing local storage for user revisiting scenarioo again');
     getRoute('/');
-    var previouslyVisitedLocalStorageKey = 'ls.' + getScenariooContextPathAwareKey('scenariooPreviouslyVisited');
-    var setPreviouslyVisitedInLocalStorage = browser.executeScript('localStorage.setItem("' + previouslyVisitedLocalStorageKey + '", "true");');
+    var setPreviouslyVisitedInLocalStorage = browser.executeScript(function() {
+        var injector = angular.element(document.body).injector();
+        var scLocalStorage = injector.get('scLocalStorage');
+        scLocalStorage.set('scenariooPreviouslyVisited', 'true');
+    });
     setPreviouslyVisitedInLocalStorage.then(function () {
-        var visited = browser.executeScript('return localStorage.getItem("' + previouslyVisitedLocalStorageKey + '");');
+        var visited = browser.executeScript(function() {
+            var injector = angular.element(document.body).injector();
+            var scLocalStorage = injector.get('scLocalStorage');
+            return scLocalStorage.get('scenariooPreviouslyVisited');
+        });
         expect(visited).toEqual('true');
     });
-}
-
-function getScenariooContextPathAwareKey(url, key) {
-    var contextPath = after(after(before(url, '#'), '//'), '/', '');
-    contextPath = contextPath.replace(/(^\/)|(\/$)/g, '');
-    return '/' + contextPath + '/' + key;
-}
-
-function before(string, separator, notFoundText) {
-    var index = string.indexOf(separator);
-    if (index >= 0) {
-        return string.substring(0, index);
-    }
-    else {
-        return notFoundText ? notFoundText : string;
-    }
-}
-
-function after(string, separator, notFoundText) {
-    var index = string.indexOf(separator);
-    if (index >= 0) {
-        return string.substring(index + separator.length, string.length);
-    }
-    else {
-        return notFoundText ? notFoundText : string;
-    }
 }
 
 /**
