@@ -19,13 +19,13 @@ package org.scenarioo.rest.base;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 
 /**
- * Base class for resources accessing a build using the {@link ScenarioDocuAggregationDAO}.
+ * Base class for resources accessing a build using the {@link ScenarioDocuAggregationDao}.
  * 
  * This base class makes sure to initialize the DAO for proper object names resolving in case of generic objects access.
  */
@@ -41,7 +41,7 @@ public class AbstractBuildContentResource {
 		
 		LongObjectNamesResolver longObjectNamesResolver = ScenarioDocuBuildsManager.INSTANCE
 				.getLongObjectNameResolver(buildIdentifier);
-		return new ScenarioDocuAggregationDAO(configurationRepository.getDocumentationDataDirectory(),
+		return new ScenarioDocuAggregationDao(configurationRepository.getDocumentationDataDirectory(),
 				longObjectNamesResolver);
 	}
 	

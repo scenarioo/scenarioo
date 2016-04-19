@@ -3,7 +3,7 @@ package org.scenarioo.business.aggregator.customTabs;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.model.configuration.CustomObjectTab;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
@@ -18,7 +18,7 @@ public class CustomObjectTabsAggregator {
 
 	public CustomObjectTabsAggregator(
 			final List<CustomObjectTab> configuredTabs,
-			final ScenarioDocuAggregationDAO dao,
+			final ScenarioDocuAggregationDao dao,
 			final BuildIdentifier buildIdentifier) {
 		for (CustomObjectTab tab : configuredTabs) {
 			customObjectTabTreeBuilders.add(new CustomObjectTabTreeBuilder(tab,
