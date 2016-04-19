@@ -59,7 +59,7 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
         if ($scope.isBuildAlias(build)) {
             return getDisplayNameForAliasBuild(build, returnShortText);
         } else {
-            return 'Revision ' + build.build.revision;
+            return build.build.name;
         }
     };
 
@@ -67,7 +67,7 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
         if (returnShortText) {
             return build.linkName;
         } else {
-            return build.linkName + ': ' + build.build.revision;
+            return build.linkName + ': ' + build.build.name;
         }
     }
 
