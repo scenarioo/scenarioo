@@ -15,6 +15,7 @@ var gulp = require('gulp'),
     ngAnnotate = require('gulp-ng-annotate'),
     uglify = require('gulp-uglify'),
     protractor = require('gulp-protractor').protractor;
+    // webdriver_update = require('gulp-protractor').webdriver_update;
 
 var files = {
     templates: ['./app/template/**/*.html'],
@@ -123,6 +124,8 @@ gulp.task('test-e2e', function () {
             throw e;
         });
 });
+
+// gulp.task('webdriver_update', webdriver_update);
 
 /**
  * Run protractor ui tests and generate Scenarioo documentation from them.

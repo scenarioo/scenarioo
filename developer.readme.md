@@ -149,8 +149,42 @@ But this two repositories should be sufficient for most usual developers.
 For more informations on how to develop, build and test scenarioo properly, please read the following carefully:  
  
 **[Developer Guide](https://github.com/scenarioo/scenarioo/wiki/Developer-Guide)**
+   
+## Testing the setup
     
-## Open points 
+### What has been tested and works with this setup
+
+ [x] build and install scenarioo-java library (using gradle)
+ [x] debugging the server (yes, check!)
+ [x] run karma tests
+ [x] gulp serve
+ [x] run e2e-tests (runs very fast and very stable!)
+ [x] develop ScenariooJS library
+ [x] build ScenariooJS library
+ [x] test ScenariooJS library (including e2e test example)
+ 
+## Not yet tested 
+ 
+ * change something in the writer library and link to it in server during development
+ * release new writer library
+ * release new web app (currently not working becuase of problems with gradle build)
+ * release scenariooJS Library
+ 
+ 
+## Open points - To be considered / improved / solved
+
+### Problems to solve
+
+#### On Windows
+
+ * Gradle build fails 
+     * probably only because npm install fails because of protractor optional dependencies having errors on windows (known issue)
+
+ * When protractor is allready installed globaly (as on Rolf's machine, because that is what works better for windows, and that's how he uses it in his project):
+     * webriver-manager update can not be run for local node_modules (./ does not work, can only run it for global protractor)
+     * gulp uses local protractor --> needs local webdriver updated/installed
+     * there is a gulp task webdriver_update, but somehow eslint, does not like this property name
+     * see comments in gulp.js with workaround that I can currently not commit because of eslint
 
 ### from old setup to be integrated in this development setup instructions here
 
@@ -159,12 +193,8 @@ For more informations on how to develop, build and test scenarioo properly, plea
  * All developers have to use same formatting and other java settings in eclipse, as explained here: https://github.com/scenarioo/scenarioo/wiki/Eclipse-IDE-Settings
  * See [Eclipse IDE Settings](https://github.com/scenarioo/scenarioo/wiki/Eclipse-IDE-Settings)
 
-### to be tested if it works ...
+### should be improved
 
- [x] debugging the server (yes, check!)
- [ ] change something in the writer library and link to it
- [ ] run e2e-tests
- [ ] run karma tests
- [ ] release new writer library
- [ ] release new web app (currently not working becuase of problems with gradle build)
-
+ * automation (skript or run config) to reset config before running e2e tests.
+ * in general some run configs, maybe also some templates etc. that we can share for working more fast in IntelliJ.
+ 
