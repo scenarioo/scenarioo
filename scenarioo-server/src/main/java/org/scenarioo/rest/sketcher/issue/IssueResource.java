@@ -36,11 +36,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.sketcher.SketcherFiles;
-import org.scenarioo.dao.sketcher.SketcherReader;
+import org.scenarioo.dao.sketcher.SketcherDao;
 import org.scenarioo.model.sketcher.Issue;
-import org.scenarioo.repository.ConfigurationRepository;
-import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.StepIdentifier;
 import org.scenarioo.rest.sketcher.issue.dto.IssueSummary;
@@ -53,11 +50,7 @@ public class IssueResource {
 
 	private static final Logger LOGGER = Logger.getLogger(IssueResource.class);
 
-	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
-			.getConfigurationRepository();
-
-	private final SketcherReader reader = new SketcherReader(configurationRepository.getDesignDataDirectory());
-	private final SketcherFiles files = new SketcherFiles(configurationRepository.getDesignDataDirectory());
+	private final SketcherDao sketcherDao = new SketcherDao();
 
 	/**
 	 * Lists all issues for the given branch. Used to display the branches in the "Sketches" tab on branch level.
@@ -70,7 +63,7 @@ public class IssueResource {
 		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
 
 		try {
-			final List<Issue> issues = reader.loadIssues(resolvedBranchName);
+			final List<Issue> issues = sketcherDao.loadIssues(resolvedBranchName);
 			return Response.ok(createIssueSummaries(resolvedBranchName, issues), MediaType.APPLICATION_JSON).build();
 		} catch (ResourceNotFoundException e) {
 			return Response.noContent().build();
@@ -131,7 +124,7 @@ public class IssueResource {
 		newIssue.setDateCreated(now);
 		newIssue.setDateModified(now);
 
-		files.persistIssue(resolvedBranchAndBuildAlias.getBranchName(), newIssue);
+		sketcherDao.persistIssue(resolvedBranchAndBuildAlias.getBranchName(), newIssue);
 
 		return Response.ok(newIssue, MediaType.APPLICATION_JSON).build();
 	}
@@ -147,13 +140,13 @@ public class IssueResource {
 
 		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
 
-		final Issue existingIssue = reader.loadIssue(resolvedBranchName, issueId);
+		final Issue existingIssue = sketcherDao.loadIssue(resolvedBranchName, issueId);
 		existingIssue.setDateModified(new Date());
 		existingIssue.setName(updatedIssue.getName());
 		existingIssue.setDescription(updatedIssue.getDescription());
 		existingIssue.setAuthor(updatedIssue.getAuthor());
 
-		files.persistIssue(resolvedBranchName, existingIssue);
+		sketcherDao.persistIssue(resolvedBranchName, existingIssue);
 
 		return Response.ok(existingIssue, MediaType.APPLICATION_JSON).build();
 	}
@@ -211,7 +204,7 @@ public class IssueResource {
 
 	private Response loadRelatedIssues(final StepIdentifier stepIdentifier) {
 		try {
-			final List<Issue> issues = reader.loadIssues(stepIdentifier.getBranchName());
+			final List<Issue> issues = sketcherDao.loadIssues(stepIdentifier.getBranchName());
 			List<IssueSummary> relatedIssues = selectOnlyRelatedIssues(stepIdentifier, issues);
 			return Response.ok(relatedIssues, MediaType.APPLICATION_JSON).build();
 		}
@@ -270,9 +263,9 @@ public class IssueResource {
 
 	private IssueWithSketch loadIssueAndSketch(final String branchName, final String issueId) {
 		final IssueWithSketch result = new IssueWithSketch();
-		result.setIssue(reader.loadIssue(branchName, issueId));
-		result.setScenarioSketch(reader.loadScenarioSketches(branchName, issueId).get(0));
-		result.setStepSketch(reader.loadStepSketches(branchName, issueId, result.getScenarioSketch()
+		result.setIssue(sketcherDao.loadIssue(branchName, issueId));
+		result.setScenarioSketch(sketcherDao.loadScenarioSketches(branchName, issueId).get(0));
+		result.setStepSketch(sketcherDao.loadStepSketches(branchName, issueId, result.getScenarioSketch()
 				.getScenarioSketchId()).get(0));
 		return result;
 	}

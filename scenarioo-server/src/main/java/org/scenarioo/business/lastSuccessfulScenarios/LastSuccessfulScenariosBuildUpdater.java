@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.api.exception.ResourceNotFoundException;
-import org.scenarioo.dao.aggregates.LastSuccessfulScenariosIndexDAO;
+import org.scenarioo.dao.aggregates.LastSuccessfulScenariosIndexDao;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationFiles;
 import org.scenarioo.dao.basic.FileSystemOperationsDao;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
@@ -79,7 +79,7 @@ public class LastSuccessfulScenariosBuildUpdater {
 	public void enrichLastSuccessfulScenariosWithBuild() {
 		String branchName = buildImportSummary.getIdentifier().getBranchName();
 		
-		LastSuccessfulScenariosIndexDAO dao = new LastSuccessfulScenariosIndexDAO(documentationDataDirectory,
+		LastSuccessfulScenariosIndexDao dao = new LastSuccessfulScenariosIndexDao(documentationDataDirectory,
 				branchName);
 		index = dao.loadLastSuccessfulScenariosIndex();
 		

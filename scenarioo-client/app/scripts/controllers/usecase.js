@@ -25,7 +25,7 @@ function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource,
     vm.table = {
         search: {$: ''},
         sort: {
-            column: 'name',
+            column: 'scenario.name',
             reverse: false
         }
     };

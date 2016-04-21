@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function (localStorageService, $uibModal) {
+angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function (scLocalStorage, $uibModal) {
 
     var PREVIOUSLY_VISITED_COOKIE_NAME = 'scenariooPreviouslyVisited';
 
@@ -28,10 +28,10 @@ angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function 
         }
 
         function userVisitsAppForTheFirstTime() {
-            if (localStorageService.get(PREVIOUSLY_VISITED_COOKIE_NAME)) {
+            if (scLocalStorage.get(PREVIOUSLY_VISITED_COOKIE_NAME)) {
                 return false;
             }
-            localStorageService.set(PREVIOUSLY_VISITED_COOKIE_NAME, true);
+            scLocalStorage.set(PREVIOUSLY_VISITED_COOKIE_NAME, true);
             return true;
         }
     }

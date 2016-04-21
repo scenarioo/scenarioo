@@ -15,17 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scCollapsablePanel', function (localStorageService) {
+angular.module('scenarioo.directives').directive('scCollapsablePanel', function (scLocalStorage) {
 
     var MAIN_METADATA_SECTION_EXPANDED = 'scenarioo-panelExpanded-';
 
     function initMetadataVisibilityAndExpandedSections(key) {
 
         // Set special metadata to expanded by default.
-        var majorStepPropertiesExpanded = localStorageService.get(MAIN_METADATA_SECTION_EXPANDED + key);
+        var majorStepPropertiesExpanded = scLocalStorage.get(MAIN_METADATA_SECTION_EXPANDED + key);
         var isMajorStepPropertiesExpandedSetToFalse = majorStepPropertiesExpanded === 'false';
         if (!isMajorStepPropertiesExpandedSetToFalse) {
-            localStorageService.set(MAIN_METADATA_SECTION_EXPANDED + key, 'true');
+            scLocalStorage.set(MAIN_METADATA_SECTION_EXPANDED + key, 'true');
         }
     }
 
@@ -46,7 +46,7 @@ angular.module('scenarioo.directives').directive('scCollapsablePanel', function 
         },
         controller: function ($scope) {
             $scope.isMetadataExpanded = function (type) {
-                var metadataExpanded = localStorageService.get(MAIN_METADATA_SECTION_EXPANDED + type);
+                var metadataExpanded = scLocalStorage.get(MAIN_METADATA_SECTION_EXPANDED + type);
                 if (metadataExpanded === 'true') {
                     return true;
                 } else {
@@ -56,7 +56,7 @@ angular.module('scenarioo.directives').directive('scCollapsablePanel', function 
 
             $scope.toggleMetadataExpanded = function (type) {
                 var metadataExpanded = !$scope.isMetadataExpanded(type);
-                localStorageService.set(MAIN_METADATA_SECTION_EXPANDED + type, '' + metadataExpanded);
+                scLocalStorage.set(MAIN_METADATA_SECTION_EXPANDED + type, '' + metadataExpanded);
             };
 
             $scope.isMetadataCollapsed = function (type) {

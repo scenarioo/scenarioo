@@ -17,7 +17,7 @@
 
 angular
     .module('scenarioo.controllers')
-    .controller('StepSketchCtrl', function ($http, $scope, $routeParams, $location, $q, $window, localStorageService,
+    .controller('StepSketchCtrl', function ($http, $scope, $routeParams, $location, $q, $window, scLocalStorage,
         Config, StepSketchResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup,
         GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService, IssueResource) {
 

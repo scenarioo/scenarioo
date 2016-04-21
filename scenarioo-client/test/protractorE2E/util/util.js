@@ -14,9 +14,17 @@ function getRoute(route) {
 function initLocalStorage() {
     console.log('Initializing local storage for user revisiting scenarioo again');
     getRoute('/');
-    var setPreviouslyVisitedInLocalStorage = browser.executeScript('localStorage.setItem("ls.scenariooPreviouslyVisited", "true");');
+    var setPreviouslyVisitedInLocalStorage = browser.executeScript(function() {
+        var injector = angular.element(document.body).injector();
+        var scLocalStorage = injector.get('scLocalStorage');
+        scLocalStorage.set('scenariooPreviouslyVisited', 'true');
+    });
     setPreviouslyVisitedInLocalStorage.then(function () {
-        var visited = browser.executeScript('return localStorage.getItem("ls.scenariooPreviouslyVisited");');
+        var visited = browser.executeScript(function() {
+            var injector = angular.element(document.body).injector();
+            var scLocalStorage = injector.get('scLocalStorage');
+            return scLocalStorage.get('scenariooPreviouslyVisited');
+        });
         expect(visited).toEqual('true');
     });
 }
@@ -39,9 +47,17 @@ function initLocalStorageIfRequired() {
 function clearLocalStorage() {
     console.log('Clear local storage for user visiting for the first time');
     getRoute('/');
-    var clearLocalStorageScript = browser.executeScript('localStorage.clear();');
+    var clearLocalStorageScript = browser.executeScript(function() {
+        var injector = angular.element(document.body).injector();
+        var scLocalStorage = injector.get('scLocalStorage');
+        return scLocalStorage.clearAll();
+    });
     clearLocalStorageScript.then(function() {
-        var visited = browser.executeScript('return window.localStorage.getItem("ls.scenariooPreviouslyVisited");');
+        var visited = browser.executeScript(function() {
+            var injector = angular.element(document.body).injector();
+            var scLocalStorage = injector.get('scLocalStorage');
+            return scLocalStorage.get('scenariooPreviouslyVisited');
+        });
         expect(visited).toBe(null);
     });
 }

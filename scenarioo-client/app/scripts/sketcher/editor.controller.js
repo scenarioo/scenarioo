@@ -22,7 +22,7 @@ angular
     .controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $interval, $routeParams, $route,
         GlobalHotkeysService, SelectedBranchAndBuild, ToolBox, DrawShapeService, DrawingPadService, StepSketch,
         StepSketchResource, IssueResource, Issue, ScenarioSketchResource, ContextService, $log, $window,
-        localStorageService, ZoomPanService, $timeout, HostnameAndPort) {
+        scLocalStorage, ZoomPanService, $timeout, HostnameAndPort) {
 
     var AUTHOR_LOCAL_STORAGE_KEY = 'issue_author',
         MODE_CREATE = 'create',
@@ -88,7 +88,7 @@ angular
             return;
         }
 
-        var author = localStorageService.get(AUTHOR_LOCAL_STORAGE_KEY);
+        var author = scLocalStorage.get(AUTHOR_LOCAL_STORAGE_KEY);
 
         if (!angular.isString(author) || author.length === 0) {
             return;
@@ -98,7 +98,7 @@ angular
     }
 
     function storeAuthorInLocalStorage() {
-        localStorageService.set(AUTHOR_LOCAL_STORAGE_KEY, $scope.issueAuthor);
+        scLocalStorage.set(AUTHOR_LOCAL_STORAGE_KEY, $scope.issueAuthor);
     }
 
     $scope.activateTool = function (tool) {

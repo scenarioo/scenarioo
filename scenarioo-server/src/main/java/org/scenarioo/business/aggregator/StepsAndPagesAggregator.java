@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.steps.NeighborStep;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
@@ -47,9 +47,9 @@ public class StepsAndPagesAggregator {
 	
 	private final BuildIdentifier build;
 	
-	private final ScenarioDocuAggregationDAO dao;
+	private final ScenarioDocuAggregationDao dao;
 	
-	public StepsAndPagesAggregator(final BuildIdentifier build, final ScenarioDocuAggregationDAO dao) {
+	public StepsAndPagesAggregator(final BuildIdentifier build, final ScenarioDocuAggregationDao dao) {
 		this.build = build;
 		this.dao = dao;
 	}

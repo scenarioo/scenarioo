@@ -17,11 +17,13 @@
 
 package org.scenarioo.dao.sketcher;
 
+import static org.scenarioo.api.rules.CharacterChecker.*;
+
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.List;
 
 import org.apache.batik.ext.awt.image.codec.png.PNGRegistryEntry;
@@ -36,39 +38,45 @@ import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.model.sketcher.Issue;
 import org.scenarioo.model.sketcher.ScenarioSketch;
 import org.scenarioo.model.sketcher.StepSketch;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 
 /**
- * TODO #478 remove inconsistencies and improve design:
- * 1. rename to DesignFiles ? Or better 'DesignDataFiles'.
- * 2. Also rename the package.
- * 3. Merge with SketcherReader and name it DesignDataDao (because it also contains write functionality not just file path getters)
- * 4. Document the responsibility of this class here
- * 5. consider my review comment for internal method #savePng
+ * All file access for the issue sketcher feature.
  */
-public class SketcherFiles {
+public class SketcherDao {
 
-	private static final Logger LOGGER = Logger.getLogger(SketcherFiles.class);
+	public static final String SKETCHER_DIRECTORY = "scenarioo-application-data/sketcher";
 
+	private static final Logger LOGGER = Logger.getLogger(SketcherDao.class);
+
+	private static final String ORIGINAL_PNG_FILENAME = "original.png";
 	private static final String SKETCH_PNG_FILENAME = "sketch.png";
 	private static final String SKETCH_SVG_FILENAME = "sketch.svg";
 	private static final String STEP_SKETCH_XML_FILENAME = "stepSketch.xml";
 	private static final String SCENARIO_SKETCH_XML_FILENAME = "scenarioSketch.xml";
 	private static final String ISSUE_XML_FILENAME = "issue.xml";
 
-	private final File rootDirectory;
+	private final File sketcherDirectory;
 
 	private final PNGTranscoder transcoder = new PNGTranscoder();
 
-	public SketcherFiles(final File rootDirectory) {
-		this.rootDirectory = rootDirectory;
+
+	/**
+	 * The {@link ConfigurationRepository} has to be initialized before you create an instance of this DAO.
+	 */
+	public SketcherDao() {
+		final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
+		File documentationDataDirectory = configurationRepository.getDocumentationDataDirectory();
+		this.sketcherDirectory = new File(documentationDataDirectory, SketcherDao.SKETCHER_DIRECTORY);
 	}
 
 	public File getRootDirectory() {
-		return rootDirectory;
+		return sketcherDirectory;
 	}
 
 	public File getBranchDirectory(final String branchName) {
-		return new File(rootDirectory, FilesUtil.encodeName(branchName));
+		return new File(sketcherDirectory, FilesUtil.encodeName(branchName));
 	}
 
 	public File getIssueDirectory(final String branchName, final String issueId) {
@@ -120,11 +128,10 @@ public class SketcherFiles {
 				SKETCH_SVG_FILENAME);
 	}
 
-	// TODO #478: another inconcistency, about png filename:
-	// strange that we have to pass the png filename here as a parameter.
-	// Looks like a placebo parameter (also in the REST service)
-	// because in the store method (see below) this name is allways put to a constant value.
-	// Shouldnt this be the same as for svg, where this class knows best about the filename.
+	/**
+	 * @param pngFilename
+	 *            Specify whether you want to load the original PNG file or the sketch PNG file.
+	 */
 	public File getStepSketchPngFile(final String branchName, final String issueId, final String scenarioSketchId,
 			final String stepSketchId, final String pngFilename) {
 		return new File(getStepSketchDirectory(branchName, issueId, scenarioSketchId, stepSketchId), pngFilename);
@@ -172,27 +179,21 @@ public class SketcherFiles {
 	public void persistSketchAsSvgAndPng(final String branchName, final String issueId,
 			final String scenarioSketchId, final StepSketch stepSketch) {
 		storeSvgFile(branchName, issueId, scenarioSketchId, stepSketch);
-		storePngFile(branchName, issueId, scenarioSketchId, stepSketch.getStepSketchId());
+		storePngFile(branchName, issueId, scenarioSketchId, stepSketch.getStepSketchId(), stepSketch.getSvgXmlString());
 	}
 
 	/**
-	 * Create Png file from Svg file.
-	 *
-	 * Precondition: SVG file allready has to exist!
-	 *
-	 * Review comment by rolf: isnt that a performance issue? Why do we read the SVG from file system, if we allready have it in the memory as a string?
-     */
+	 * Create PNG file from SVG file.
+	 */
 	private void storePngFile(final String branchName, final String issueId, final String scenarioSketchId,
-			final String stepSketchId) {
-		File svgFile = getStepSketchSvgFile(branchName, issueId, scenarioSketchId, stepSketchId);
+			final String stepSketchId, final String svgString) {
 		File pngFile = getStepSketchPngFile(branchName, issueId, scenarioSketchId, stepSketchId,
 				SKETCH_PNG_FILENAME);
 
 		try {
-			final FileInputStream istream = new FileInputStream(svgFile);
 			final ImageTagRegistry registry = ImageTagRegistry.getRegistry();
 			registry.register(new PNGRegistryEntry());
-			final TranscoderInput input = new TranscoderInput(istream);
+			final TranscoderInput input = new TranscoderInput(new StringReader(svgString));
 			final FileOutputStream outputStream = new FileOutputStream(pngFile);
 			final TranscoderOutput output = new TranscoderOutput(outputStream);
 			transcoder.transcode(input, output);
@@ -227,12 +228,48 @@ public class SketcherFiles {
 			final String scenarioSketchId, final String stepSketchId) {
 		try {
 			final File destination = new File(getStepSketchDirectory(branchName, issueId, scenarioSketchId,
-					stepSketchId), "original.png");
+					stepSketchId), ORIGINAL_PNG_FILENAME);
 			FileUtils.copyFile(originalScreenshot, destination);
 		} catch (final IOException e) {
 			LOGGER.error("Couldn't copy original screenshot to stepsketch!", e);
 			throw new RuntimeException(e);
 		}
+	}
+
+	public List<Issue> loadIssues(final String branchName) {
+		final List<File> files = this.getIssueFiles(checkIdentifier(branchName));
+		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(Issue.class, files);
+	}
+
+	public Issue loadIssue(final String branchName, final String issueId) {
+		final File file = this.getIssueFile(checkIdentifier(branchName), checkIdentifier(issueId));
+		return ScenarioDocuXMLFileUtil.unmarshal(Issue.class, file);
+	}
+
+	public List<ScenarioSketch> loadScenarioSketches(final String branchName, final String issueId) {
+		final List<File> files = this.getScenarioSketchFiles(checkIdentifier(branchName),
+				checkIdentifier(issueId));
+		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(ScenarioSketch.class, files);
+	}
+
+	public ScenarioSketch loadScenarioSketch(final String branchName, final String issueId,
+			final String scenarioSketchId) {
+		final File file = this.getScenarioSketchFile(checkIdentifier(branchName), checkIdentifier(issueId),
+				checkIdentifier(scenarioSketchId));
+		return ScenarioDocuXMLFileUtil.unmarshal(ScenarioSketch.class, file);
+	}
+
+	public List<StepSketch> loadStepSketches(final String branchName, final String issueId,
+			final String scenarioSketchId) {
+		final List<File> files = this.getStepSketchFiles(checkIdentifier(branchName), issueId, scenarioSketchId);
+		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(StepSketch.class, files);
+	}
+
+	public StepSketch loadStepSketch(final String branchName, final String issueId,
+			final String scenarioSketchId, final String stepSketchId) {
+		final File file = this.getStepSketchXmlFile(checkIdentifier(branchName), checkIdentifier(issueId),
+				checkIdentifier(scenarioSketchId), stepSketchId);
+		return ScenarioDocuXMLFileUtil.unmarshal(StepSketch.class, file);
 	}
 
 }
