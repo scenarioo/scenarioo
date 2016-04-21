@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, localStorageService, BranchesAndBuilds, SelectedBranchAndBuild, $uibModal, ScApplicationInfoPopup, Config, GlobalHotkeysService) {
+angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, scLocalStorage, BranchesAndBuilds, SelectedBranchAndBuild, $uibModal, ScApplicationInfoPopup, Config, GlobalHotkeysService) {
 
     $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
         $scope.applicationName = Config.applicationName();
@@ -35,7 +35,7 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
 
     $scope.setBranch = function (branch) {
         $scope.branchesAndBuilds.selectedBranch = branch;
-        localStorageService.remove(SelectedBranchAndBuild.BUILD_KEY);
+        scLocalStorage.remove(SelectedBranchAndBuild.BUILD_KEY);
         $location.search(SelectedBranchAndBuild.BRANCH_KEY, branch.branch.name);
     };
 
@@ -59,7 +59,7 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
         if ($scope.isBuildAlias(build)) {
             return getDisplayNameForAliasBuild(build, returnShortText);
         } else {
-            return 'Revision ' + build.build.revision;
+            return build.build.name;
         }
     };
 
@@ -67,7 +67,7 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
         if (returnShortText) {
             return build.linkName;
         } else {
-            return build.linkName + ': ' + build.build.revision;
+            return build.linkName + ': ' + build.build.name;
         }
     }
 

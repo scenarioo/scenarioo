@@ -29,23 +29,16 @@ import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.sketcher.SketcherFiles;
-import org.scenarioo.dao.sketcher.SketcherReader;
+import org.scenarioo.dao.sketcher.SketcherDao;
 import org.scenarioo.model.sketcher.ScenarioSketch;
-import org.scenarioo.repository.ConfigurationRepository;
-import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.utils.IdGenerator;
 
 @Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch")
 public class ScenarioSketchResource {
 
-	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
-			.getConfigurationRepository();
-
 	private static final Logger LOGGER = Logger.getLogger(ScenarioSketchResource.class);
 
-	private final SketcherReader reader = new SketcherReader(configurationRepository.getDesignDataDirectory());
-	private final SketcherFiles files = new SketcherFiles(configurationRepository.getDesignDataDirectory());
+	private final SketcherDao sketcherDao = new SketcherDao();
 
 	@POST
 	@Consumes("application/json")
@@ -61,7 +54,7 @@ public class ScenarioSketchResource {
 		scenarioSketch.setDateCreated(now);
 		scenarioSketch.setDateModified(now);
 
-		files.persistScenarioSketch(resolvedBranchName, scenarioSketch.getIssueId(), scenarioSketch);
+		sketcherDao.persistScenarioSketch(resolvedBranchName, scenarioSketch.getIssueId(), scenarioSketch);
 
 		return Response.ok(scenarioSketch, MediaType.APPLICATION_JSON).build();
 	}
@@ -77,11 +70,11 @@ public class ScenarioSketchResource {
 
 		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
 
-		final ScenarioSketch scenarioSketch = reader.loadScenarioSketch(resolvedBranchName, issueId, scenarioSketchId);
+		final ScenarioSketch scenarioSketch = sketcherDao.loadScenarioSketch(resolvedBranchName, issueId, scenarioSketchId);
 		scenarioSketch.setDateModified(new Date());
 		scenarioSketch.setAuthor(updatedScenarioSketch.getAuthor());
 
-		files.persistScenarioSketch(resolvedBranchName, scenarioSketchId, scenarioSketch);
+		sketcherDao.persistScenarioSketch(resolvedBranchName, scenarioSketchId, scenarioSketch);
 
 		return Response.ok(updatedScenarioSketch, MediaType.APPLICATION_JSON).build();
 	}

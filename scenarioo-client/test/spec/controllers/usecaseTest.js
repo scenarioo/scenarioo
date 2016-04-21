@@ -28,7 +28,7 @@ describe('Controller :: useCase', function () {
     beforeEach(module('scenarioo.controllers'));
 
     beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, _RelatedIssueResource_,
-                                ConfigMock, _SelectedBranchAndBuild_, _$location_, localStorageService, _$httpBackend_, _HostnameAndPort_) {
+                                ConfigMock, _SelectedBranchAndBuild_, _$location_, scLocalStorage, _$httpBackend_, _HostnameAndPort_) {
             $scope = $rootScope.$new();
             routeParams = $routeParams;
             routeParams.useCaseName = USE_CASE;
@@ -39,7 +39,7 @@ describe('Controller :: useCase', function () {
             $httpBackend = _$httpBackend_;
             HostnameAndPort = _HostnameAndPort_;
 
-            localStorageService.clearAll();
+            scLocalStorage.clearAll();
 
             controller = $controller('UseCaseCtrl', {
                 $scope: $scope,

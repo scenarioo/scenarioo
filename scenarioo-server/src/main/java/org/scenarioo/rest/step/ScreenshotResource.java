@@ -26,7 +26,7 @@ import javax.ws.rs.core.Response;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -47,7 +47,7 @@ public class ScreenshotResource {
 			.getConfigurationRepository();
 	
 	private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
-	private final AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
+	private final AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDao(
 			configurationRepository.getDocumentationDataDirectory(), longObjectNamesResolver);
 	private final ScenarioLoader scenarioLoader = new ScenarioLoader(aggregatedDataReader);
 	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
