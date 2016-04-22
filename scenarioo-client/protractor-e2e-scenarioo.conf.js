@@ -45,7 +45,11 @@ var exportsConfig = {
         var git = require('git-rev-sync');
 
         var scenarioo = require('scenarioo-js');
-        var scenariooReporter = scenarioo.reporter({
+
+
+        // Setup and configure the ScenariooJS jasmine reporter
+        scenarioo.setupJasmineReporter(jasmine, {
+
             targetDirectory: './scenariooDocumentation',
             branchName: 'scenarioo-self-docu',
             branchDescription: 'Scenarioo documenting itself.',
@@ -53,10 +57,17 @@ var exportsConfig = {
             revision: git.short(),
             pageNameExtractor: function (url) {
                 return url.pathname.substring(1);
+            },
+            reportStepOnExpectationFailed: true,
+            recordLastStepForStatus: {
+                failed: true,
+                success: true
             }
+
         });
-        jasmine.getEnv().addReporter(scenariooReporter);
-        require('./test/protractorE2E/dsl/customExtendedDsl');
+
+        // we use the new Scenarioo Fluent DSL in our e2e-tests
+        scenarioo.setupFluentDsl();
 
         browser.driver.manage().window().maximize();
     },
