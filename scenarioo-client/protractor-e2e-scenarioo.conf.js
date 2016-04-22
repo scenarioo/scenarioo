@@ -14,10 +14,12 @@
  */
 
 var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:9000';
-var BRANCH = process.env.BRANCH || 'unknown_branch';
+var BRANCH = process.env.BRANCH || 'local_dev';
 
 console.log('PROTRACTOR_BASE_URL: ' + PROTRACTOR_BASE_URL);
 console.log('BRANCH: ' + BRANCH);
+
+var prepareProtractor = require('./prepareProtractor');
 
 var exportsConfig = {
     framework: 'jasmine',
@@ -46,7 +48,6 @@ var exportsConfig = {
 
         var scenarioo = require('scenarioo-js');
 
-
         // Setup and configure the ScenariooJS jasmine reporter
         scenarioo.setupJasmineReporter(jasmine, {
 
@@ -66,11 +67,8 @@ var exportsConfig = {
 
         });
 
-        // we use the new Scenarioo Fluent DSL in our e2e-tests
-        scenarioo.setupFluentDsl();
-        require('./test/protractorE2E/labelDefinitions');
+        prepareProtractor();
 
-        browser.driver.manage().window().maximize();
     },
 
     params: {
