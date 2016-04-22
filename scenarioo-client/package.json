@@ -41,7 +41,7 @@
     "phantomjs-prebuilt": "^2.1.7",
     "protractor": "^3.1.1",
     "requirejs": "^2.1.22",
-    "scenarioo-js": "scenarioo/scenarioo-js#develop"
+    "scenarioo-js": "scenarioo/scenarioo-js#release-2.2"
   },
   "engines": {
     "node": ">=0.8.0"
