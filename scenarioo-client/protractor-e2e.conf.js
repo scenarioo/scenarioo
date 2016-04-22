@@ -38,6 +38,9 @@ var exportsConfig = {
 
     onPrepare: function () {
 
+        // we use the new Scenarioo Fluent DSL in our e2e-tests
+        scenarioo.setupFluentDsl();
+
         // TODO #474: set a fixed window size to be used on every system when running e2e-tests
         browser.driver.manage().window().maximize();
 
