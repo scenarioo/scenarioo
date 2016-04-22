@@ -40,11 +40,11 @@ var exportsConfig = {
 
         // we use the new Scenarioo Fluent DSL in our e2e-tests
         scenarioo.setupFluentDsl();
+        require('./test/protractorE2E/labelDefinitions');
 
         // TODO #474: set a fixed window size to be used on every system when running e2e-tests
         browser.driver.manage().window().maximize();
 
-        require('./test/protractorE2E/dsl/noWrappingDsl');
     },
 
     params: {

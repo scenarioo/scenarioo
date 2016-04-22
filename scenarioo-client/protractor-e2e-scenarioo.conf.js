@@ -68,6 +68,7 @@ var exportsConfig = {
 
         // we use the new Scenarioo Fluent DSL in our e2e-tests
         scenarioo.setupFluentDsl();
+        require('./test/protractorE2E/labelDefinitions');
 
         browser.driver.manage().window().maximize();
     },
@@ -85,7 +86,7 @@ var exportsConfig = {
         // If true, include stack traces in failures.
         includeStackTrace: true,
         // Default time to wait in ms before a test fails.
-        defaultTimeoutInterval: 30000
+        defaultTimeoutInterval: 40000
     }
 };
 
