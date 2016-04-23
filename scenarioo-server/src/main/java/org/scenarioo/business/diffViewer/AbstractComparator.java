@@ -43,7 +43,7 @@ public abstract class AbstractComparator {
 
 	public AbstractComparator(final String baseBranchName, final String baseBuildName, final String comparisonName) {
 		this.docuReader = new ScenarioDocuReader(
-				configurationRepository.getDiffViewerDirectory());
+				configurationRepository.getDocumentationDataDirectory());
 		this.diffWriter = new DiffWriter(configurationRepository.getDiffViewerDirectory(), baseBranchName,
 				baseBuildName,
 				comparisonName);
