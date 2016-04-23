@@ -44,6 +44,6 @@ public class ScreenshotComparator extends AbstractComparator {
 	 * @return {@link StepDiffInfo} with the summarized diff information.
 	 */
 	public StepDiffInfo compare(final String baseUseCaseName, final String baseScenarioName, final StepLink baseStepLink) {
-		return null;
+		return new StepDiffInfo();
 	}
 }
