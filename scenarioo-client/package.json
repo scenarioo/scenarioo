@@ -26,7 +26,7 @@
     "gulp-util": "^3.0.5",
     "gulp-wrap": "^0.11.0",
     "jasmine-core": "^2.3.4",
-    "jasmine-reporters": "^2.0.6",
+    "jasmine-reporters": "2.1.1",
     "js2coffee": "~0.3.0",
     "jshint": "~2.5.1",
     "karma": "^0.13.22",
