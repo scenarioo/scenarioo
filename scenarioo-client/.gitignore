@@ -10,3 +10,5 @@ build
 .classpath
 .settings
 scenariodocu
+test-reports
+
