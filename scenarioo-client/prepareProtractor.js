@@ -1,10 +1,25 @@
+var jasmineReporters = require('jasmine-reporters');
+
 /**
  * Shared setup code for all protractor e2e tets configurations
  */
 function prepareProtractorForE2ETests() {
 
+    setupJasmineXmlReporters();
     setupScenariooFluentDsl();
     configureBrowserWindowSize();
+
+    /**
+     * Jasmine XML Reporters are needed to see test failures in nice report on jenkins.
+     */
+    /* global jasmine:true */
+    function setupJasmineReportersForJenkins() {
+        jasmine.getEnv().addReporter(new jasmineReporters.JUnitXmlReporter({
+            consolidateAll: true,
+            savePath: './test-reports',
+            filePrefix: 'xmloutput'
+        }));
+    }
 
     /**
      * Setup Scenarioo Fluent DSL for our protractor tests
