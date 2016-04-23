@@ -13,7 +13,7 @@ function prepareProtractorForE2ETests() {
      * Jasmine XML Reporters are needed to see test failures in nice report on jenkins.
      */
     /* global jasmine:true */
-    function setupJasmineReportersForJenkins() {
+    function setupJasmineXmlReporters() {
         jasmine.getEnv().addReporter(new jasmineReporters.JUnitXmlReporter({
             consolidateAll: true,
             savePath: './test-reports',
