@@ -17,7 +17,7 @@
 
 package org.scenarioo.dao.diffViewer;
 
-import static org.scenarioo.api.rules.CharacterChecker.checkIdentifier;
+import static org.scenarioo.api.rules.CharacterChecker.*;
 
 import java.io.File;
 import java.util.List;
@@ -136,9 +136,13 @@ public class DiffReader {
 	public File getScreenshotFile(final String baseBranchName, final String baseBuildName, final String comparisonName,
 			final String useCaseName,
 			final String scenarioName, final String imageName) {
-		return new File(diffFiles.getScreenshotsDirectory(checkIdentifier(baseBranchName),
-				checkIdentifier(baseBuildName), checkIdentifier(comparisonName), checkIdentifier(useCaseName),
-				checkIdentifier(scenarioName)), imageName);
+		// TODO: mscheube: why getScreenshotDirectory? Because it returns a FilePath.
+		return new File(
+				"/home/scenarioo/scenarioo/scenarioo-server/src/test/resources/org/scenarioo/business/diffViewer/comparisonScreenshot.png");
+		// TODO: mscheube: remove Testfile
+		// return new File(diffFiles.getScreenshotsDirectory(checkIdentifier(baseBranchName),
+		// checkIdentifier(baseBuildName), checkIdentifier(comparisonName), checkIdentifier(useCaseName),
+		// checkIdentifier(scenarioName)), imageName);
 	}
 
 }
