@@ -39,7 +39,8 @@ describe('Controller MainUseCasesTabCtrl', function () {
     it('navigates to use case when link is clicked', function () {
         expect($location.path()).toBe('');
 
-        $scope.goToUseCase('DisplayWeather');
+        var dummyUseCase = { name: 'DisplayWeather', diffInfo: {isRemoved: false} };
+        $scope.handleClick(dummyUseCase);
 
         expect($location.path()).toBe('/usecase/DisplayWeather');
     });
