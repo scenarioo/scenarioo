@@ -22,6 +22,7 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import org.scenarioo.api.util.files.FilesUtil;
+import org.scenarioo.utils.NumberFormatCreator;
 
 /**
  * Represents the diff file structure.
@@ -33,7 +34,8 @@ public class DiffFiles {
 	private static final String FILE_NAME_BUILD = "build.xml";
 	private static final String FILE_NAME_USECASE = "usecase.xml";
 	private static final String FILE_NAME_SCENARIO = "scenario.xml";
-	private static final NumberFormat THREE_DIGIT_NUM_FORMAT = createNumberFormatWithMinimumIntegerDigits(3);
+	private static final NumberFormat THREE_DIGIT_NUM_FORMAT = NumberFormatCreator
+			.createNumberFormatWithMinimumIntegerDigits(3);
 
 	private final File rootDirectory;
 
@@ -153,12 +155,5 @@ public class DiffFiles {
 			throw new IllegalArgumentException("Directory for diff content does not exist: "
 					+ rootDirectory.getAbsolutePath());
 		}
-	}
-
-	private static NumberFormat createNumberFormatWithMinimumIntegerDigits(
-			final int minimumIntegerDigits) {
-		final NumberFormat numberFormat = NumberFormat.getIntegerInstance();
-		numberFormat.setMinimumIntegerDigits(minimumIntegerDigits);
-		return numberFormat;
 	}
 }
