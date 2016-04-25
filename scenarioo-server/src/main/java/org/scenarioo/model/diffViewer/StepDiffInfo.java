@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Contains the diff information for a structure object.
+ * Contains the diff information for a step.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
