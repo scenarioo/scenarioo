@@ -239,6 +239,22 @@ angular.module('scenarioo.services')
 
     .factory('LabelConfigurationsResource', function (ScenariooResource) {
         return ScenariooResource('/labelconfigurations', {}, {'query': {isArray: false}});
+    })
+
+    .factory('BuildDiffInfoResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/buildDiffInfo', {
+            baseBranchName: '@baseBranchName',
+            baseBuildName: '@baseBuildName',
+            comparisonName: '@comparisonName'
+        });
+    })
+
+    .factory('UseCaseDiffInfosResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/useCaseDiffInfos', {
+            baseBranchName: '@baseBranchName',
+            baseBuildName: '@baseBuildName',
+            comparisonName: '@comparisonName'
+        });
     });
 
 function getPromise($q, fn) {
