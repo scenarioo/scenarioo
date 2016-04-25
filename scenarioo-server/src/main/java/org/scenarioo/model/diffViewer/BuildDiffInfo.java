@@ -30,12 +30,12 @@ import org.scenarioo.model.docu.entities.UseCase;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlSeeAlso(UseCase.class)
-public class BuildDiffInfo extends StructureDiffInfo<UseCase> {
+public class BuildDiffInfo extends StructureDiffInfo<String, UseCase> {
 
 	public BuildDiffInfo() {
 		super();
 	}
-	
+
 	public BuildDiffInfo(String buildName) {
 		super(buildName);
 	}

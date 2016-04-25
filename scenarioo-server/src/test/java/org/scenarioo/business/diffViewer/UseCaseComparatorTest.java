@@ -122,7 +122,7 @@ public class UseCaseComparatorTest {
 		assertEquals(1, buildDiffInfo.getAdded());
 		assertEquals(0, buildDiffInfo.getChanged());
 		assertEquals(0, buildDiffInfo.getRemoved());
-		assertEquals(baseUseCases.get(2), buildDiffInfo.getAddedElements().get(0));
+		assertEquals(USE_CASE_NAME_3, buildDiffInfo.getAddedElements().get(0));
 		assertTrue(buildDiffInfo.getRemovedElements().isEmpty());
 	}
 
@@ -141,8 +141,8 @@ public class UseCaseComparatorTest {
 		assertEquals(2, buildDiffInfo.getAdded());
 		assertEquals(0, buildDiffInfo.getChanged());
 		assertEquals(0, buildDiffInfo.getRemoved());
-		assertEquals(baseUseCases.get(0), buildDiffInfo.getAddedElements().get(0));
-		assertEquals(baseUseCases.get(2), buildDiffInfo.getAddedElements().get(1));
+		assertEquals(USE_CASE_NAME_1, buildDiffInfo.getAddedElements().get(0));
+		assertEquals(USE_CASE_NAME_3, buildDiffInfo.getAddedElements().get(1));
 		assertTrue(buildDiffInfo.getRemovedElements().isEmpty());
 	}
 

@@ -123,7 +123,7 @@ public class ScenarioComparatorTest {
 		assertEquals(1, useCaseDiffInfo.getAdded());
 		assertEquals(0, useCaseDiffInfo.getChanged());
 		assertEquals(0, useCaseDiffInfo.getRemoved());
-		assertEquals(baseScenarios.get(2), useCaseDiffInfo.getAddedElements().get(0));
+		assertEquals(SCENARIO_NAME_3, useCaseDiffInfo.getAddedElements().get(0));
 		assertTrue(useCaseDiffInfo.getRemovedElements().isEmpty());
 	}
 
@@ -142,8 +142,8 @@ public class ScenarioComparatorTest {
 		assertEquals(2, useCaseDiffInfo.getAdded());
 		assertEquals(0, useCaseDiffInfo.getChanged());
 		assertEquals(0, useCaseDiffInfo.getRemoved());
-		assertEquals(baseScenarios.get(0), useCaseDiffInfo.getAddedElements().get(0));
-		assertEquals(baseScenarios.get(2), useCaseDiffInfo.getAddedElements().get(1));
+		assertEquals(SCENARIO_NAME_1, useCaseDiffInfo.getAddedElements().get(0));
+		assertEquals(SCENARIO_NAME_3, useCaseDiffInfo.getAddedElements().get(1));
 		assertTrue(useCaseDiffInfo.getRemovedElements().isEmpty());
 	}
 

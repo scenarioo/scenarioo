@@ -75,7 +75,7 @@ public class StepComparator extends AbstractComparator {
 						+ baseBranchName + "] and base build [" + baseBuildName + "] and base use case ["
 						+ baseUseCaseName + "] and base scenario [" + baseScenarioName + "]");
 				scenarioDiffInfo.setAdded(scenarioDiffInfo.getAdded() + 1);
-				scenarioDiffInfo.getAddedElements().add(baseStepLink);
+				scenarioDiffInfo.getAddedElements().add(baseStepLink.getStepIndex());
 			} else {
 				comparisonStepLinks.remove(comparisonStepLink);
 

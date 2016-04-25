@@ -22,15 +22,20 @@ import java.util.List;
 
 /**
  * Contains the diff information for a structure object.
+ * 
+ * @param <ADDED_TYPE>
+ *            Type for added elements
+ * @param <REMOVED_TYPE>
+ *            Type for removed elements
  */
-public class StructureDiffInfo<T> extends AbstractDiffInfo {
+public class StructureDiffInfo<ADDED_TYPE, REMOVED_TYPE> extends AbstractDiffInfo {
 
 	private String name;
 	private int added;
 	private int changed;
 	private int removed;
-	private List<T> addedElements = new LinkedList<T>();
-	private List<T> removedElements = new LinkedList<T>();
+	private List<ADDED_TYPE> addedElements = new LinkedList<ADDED_TYPE>();
+	private List<REMOVED_TYPE> removedElements = new LinkedList<REMOVED_TYPE>();
 
 	public StructureDiffInfo() {
 		// Used for JAXB
@@ -111,7 +116,7 @@ public class StructureDiffInfo<T> extends AbstractDiffInfo {
 	/**
 	 * @return the addedElements
 	 */
-	public List<T> getAddedElements() {
+	public List<ADDED_TYPE> getAddedElements() {
 		return addedElements;
 	}
 
@@ -119,14 +124,14 @@ public class StructureDiffInfo<T> extends AbstractDiffInfo {
 	 * @param addedElements
 	 *            the addedElements to set
 	 */
-	public void setAddedElements(List<T> addedElements) {
+	public void setAddedElements(List<ADDED_TYPE> addedElements) {
 		this.addedElements = addedElements;
 	}
 
 	/**
 	 * @return the removedElements
 	 */
-	public List<T> getRemovedElements() {
+	public List<REMOVED_TYPE> getRemovedElements() {
 		return removedElements;
 	}
 
@@ -134,8 +139,7 @@ public class StructureDiffInfo<T> extends AbstractDiffInfo {
 	 * @param removedElements
 	 *            the removedElements to set
 	 */
-	public void setRemovedElements(List<T> removedElements) {
+	public void setRemovedElements(List<REMOVED_TYPE> removedElements) {
 		this.removedElements = removedElements;
 	}
-
 }

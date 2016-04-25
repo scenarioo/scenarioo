@@ -30,7 +30,7 @@ import org.scenarioo.model.docu.aggregates.steps.StepLink;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlSeeAlso(StepLink.class)
-public class ScenarioDiffInfo extends StructureDiffInfo<StepLink> {
+public class ScenarioDiffInfo extends StructureDiffInfo<Integer, StepLink> {
 
 	public ScenarioDiffInfo() {
 		super();

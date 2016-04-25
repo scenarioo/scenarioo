@@ -124,7 +124,7 @@ public class StepComparatorTest {
 		assertEquals(1, scenarioDiffInfo.getAdded());
 		assertEquals(0, scenarioDiffInfo.getChanged());
 		assertEquals(0, scenarioDiffInfo.getRemoved());
-		assertEquals(PAGE_NAME_2, scenarioDiffInfo.getAddedElements().get(0).getPageName());
+		assertEquals(new Integer(2), scenarioDiffInfo.getAddedElements().get(0));
 		assertTrue(scenarioDiffInfo.getRemovedElements().isEmpty());
 	}
 
@@ -143,8 +143,8 @@ public class StepComparatorTest {
 		assertEquals(2, scenarioDiffInfo.getAdded());
 		assertEquals(0, scenarioDiffInfo.getChanged());
 		assertEquals(0, scenarioDiffInfo.getRemoved());
-		assertEquals(PAGE_NAME_1, scenarioDiffInfo.getAddedElements().get(0).getPageName());
-		assertEquals(PAGE_NAME_2, scenarioDiffInfo.getAddedElements().get(1).getPageName());
+		assertEquals(new Integer(1), scenarioDiffInfo.getAddedElements().get(0));
+		assertEquals(new Integer(2), scenarioDiffInfo.getAddedElements().get(1));
 		assertTrue(scenarioDiffInfo.getRemovedElements().isEmpty());
 	}
 
