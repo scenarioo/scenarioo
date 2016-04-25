@@ -17,6 +17,7 @@
 
 package org.scenarioo.business.diffViewer;
 
+import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
 
 /**
@@ -33,8 +34,8 @@ public class BuildComparator extends AbstractComparator {
 	 * 
 	 * @return {@link StructureDiffInfo} with the summarized diff information.
 	 */
-	public StructureDiffInfo compare() {
-		StructureDiffInfo buildDiffInfo = new UseCaseComparator(baseBranchName, baseBuildName, comparisonName)
+	public BuildDiffInfo compare() {
+		BuildDiffInfo buildDiffInfo = new UseCaseComparator(baseBranchName, baseBuildName, comparisonName)
 				.compare();
 
 		diffWriter.saveBuildDiffInfo(buildDiffInfo);

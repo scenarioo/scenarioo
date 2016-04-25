@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.model.configuration.ComparisonAlias;
+import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
@@ -54,7 +55,7 @@ public class StepComparator extends AbstractComparator {
 	 *            the scenario to compare the steps.
 	 * @return {@link StructureDiffInfo} with the summarized diff information.
 	 */
-	public StructureDiffInfo compare(final String baseUseCaseName, final String baseScenarioName) {
+	public ScenarioDiffInfo compare(final String baseUseCaseName, final String baseScenarioName) {
 		ComparisonAlias comparisonAlias = resolveComparisonName(comparisonName);
 
 		List<Step> baseSteps = docuReader.loadSteps(baseBranchName, baseBuildName, baseUseCaseName, baseScenarioName);
@@ -64,7 +65,7 @@ public class StepComparator extends AbstractComparator {
 		List<StepLink> baseStepLinks = getStepLinks(baseSteps, baseUseCaseName, baseScenarioName);
 		List<StepLink> comparisonStepLinks = getStepLinks(comparisonSteps, baseUseCaseName, baseScenarioName);
 
-		StructureDiffInfo scenarioDiffInfo = new StructureDiffInfo(baseScenarioName);
+		ScenarioDiffInfo scenarioDiffInfo = new ScenarioDiffInfo(baseScenarioName);
 		double stepChangeRateSum = 0;
 
 		for (StepLink baseStepLink : baseStepLinks) {
@@ -74,6 +75,7 @@ public class StepComparator extends AbstractComparator {
 						+ baseBranchName + "] and base build [" + baseBuildName + "] and base use case ["
 						+ baseUseCaseName + "] and base scenario [" + baseScenarioName + "]");
 				scenarioDiffInfo.setAdded(scenarioDiffInfo.getAdded() + 1);
+				scenarioDiffInfo.getAddedElements().add(baseStepLink.getStepIndex());
 			} else {
 				comparisonStepLinks.remove(comparisonStepLink);
 
@@ -100,6 +102,7 @@ public class StepComparator extends AbstractComparator {
 				+ baseBranchName + "] and base build [" + baseBuildName + "] and base use case ["
 				+ baseUseCaseName + "] and base scenario [" + baseScenarioName + "]");
 		scenarioDiffInfo.setRemoved(comparisonStepLinks.size());
+		scenarioDiffInfo.getRemovedElements().addAll(comparisonStepLinks);
 		scenarioDiffInfo.setChangeRate(calculateChangeRate(baseSteps.size(), scenarioDiffInfo.getAdded(),
 				scenarioDiffInfo.getRemoved(), stepChangeRateSum));
 
