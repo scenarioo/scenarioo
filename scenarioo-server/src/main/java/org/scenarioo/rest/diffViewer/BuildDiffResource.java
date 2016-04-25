@@ -52,7 +52,7 @@ public class BuildDiffResource {
 	public Response getBuildDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName) {
-		LOGGER.info("REQUEST: getUseCaseDiffInfos(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
+		LOGGER.info("REQUEST: getBuildDiffInfo(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
 				+ ")");
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(

@@ -17,7 +17,9 @@
 
 package org.scenarioo.rest.diffViewer;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -66,7 +68,7 @@ public class UseCaseDiffResource {
 			List<UseCaseDiffInfo> useCaseDiffInfos = diffReader.loadUseCaseDiffInfos(buildIdentifier.getBranchName(),
 					buildIdentifier.getBuildName(),
 					comparisonName);
-			return Response.ok(useCaseDiffInfos, MediaType.APPLICATION_JSON).build();
+			return Response.ok(getUseCaseDiffInfoMap(useCaseDiffInfos), MediaType.APPLICATION_JSON).build();
 		} catch (ResourceNotFoundException e) {
 			LOGGER.warn("Unable to get use case diff infos", e);
 			return Response.noContent().build();
@@ -76,4 +78,11 @@ public class UseCaseDiffResource {
 		}
 	}
 
+	private Map<String, UseCaseDiffInfo> getUseCaseDiffInfoMap(List<UseCaseDiffInfo> useCaseDiffInfos) {
+		Map<String, UseCaseDiffInfo> useCaseDiffInfoMap = new HashMap<String, UseCaseDiffInfo>();
+		for(UseCaseDiffInfo useCaseDiffInfo : useCaseDiffInfos) {
+			useCaseDiffInfoMap.put(useCaseDiffInfo.getName(), useCaseDiffInfo);
+		}
+		return useCaseDiffInfoMap;
+	}
 }
