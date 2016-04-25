@@ -196,7 +196,8 @@ public class DiffWriterAndReaderTest {
 		}
 	}
 
-	private <T> void assertStructueDiffInfo(final StructureDiffInfo<T> actualStructureDiffInfo, final String expectedName) {
+	private <A, R> void assertStructueDiffInfo(final StructureDiffInfo<A, R> actualStructureDiffInfo,
+			final String expectedName) {
 		assertEquals(expectedName, actualStructureDiffInfo.getName());
 		assertEquals(CHANGE_RATE, actualStructureDiffInfo.getChangeRate(), 0.0);
 		assertEquals(ADDED_VALUE, actualStructureDiffInfo.getAdded());
@@ -206,27 +207,29 @@ public class DiffWriterAndReaderTest {
 		assertFalse(actualStructureDiffInfo.getRemovedElements().isEmpty());
 	}
 
-	private BuildDiffInfo getBuildDiffInfo(final String name){
-		return (BuildDiffInfo) initStructureDiffInfo(new BuildDiffInfo(), name, new UseCase(USE_CASE_NAME, null));
+	private BuildDiffInfo getBuildDiffInfo(final String name) {
+		return (BuildDiffInfo) initStructureDiffInfo(new BuildDiffInfo(), name, USE_CASE_NAME, new UseCase(USE_CASE_NAME, null));
 	}
 
 	private UseCaseDiffInfo getUseCaseDiffInfo(final String name) {
-		return (UseCaseDiffInfo) initStructureDiffInfo(new UseCaseDiffInfo(), name, new Scenario(SCENARIO_NAME, null));
+		return (UseCaseDiffInfo) initStructureDiffInfo(new UseCaseDiffInfo(), name, SCENARIO_NAME, new Scenario(SCENARIO_NAME, null));
 	}
 
 	private ScenarioDiffInfo getScenarioDiffInfo(final String name) {
-		return (ScenarioDiffInfo) initStructureDiffInfo(new ScenarioDiffInfo(), name, new StepLink());
+		return (ScenarioDiffInfo) initStructureDiffInfo(new ScenarioDiffInfo(), name, 0, new StepLink());
 	}
 
-	private <T> StructureDiffInfo<T> initStructureDiffInfo(final StructureDiffInfo<T> diffInfo, final String name,
-			final T element) {
+	private <A, R> StructureDiffInfo<A, R> initStructureDiffInfo(final StructureDiffInfo<A, R> diffInfo,
+			final String name,
+			final A addedElement,
+			final R removedElement) {
 		diffInfo.setName(name);
 		diffInfo.setChangeRate(CHANGE_RATE);
 		diffInfo.setAdded(ADDED_VALUE);
 		diffInfo.setChanged(CHANGED_VALUE);
 		diffInfo.setRemoved(REMOVED_VALUE);
-		diffInfo.getAddedElements().add(element);
-		diffInfo.getRemovedElements().add(element);
+		diffInfo.getAddedElements().add(addedElement);
+		diffInfo.getRemovedElements().add(removedElement);
 		return diffInfo;
 	}
 

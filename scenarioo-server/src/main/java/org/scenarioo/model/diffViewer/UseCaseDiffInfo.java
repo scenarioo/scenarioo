@@ -30,7 +30,7 @@ import org.scenarioo.model.docu.entities.Scenario;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlSeeAlso(Scenario.class)
-public class UseCaseDiffInfo extends StructureDiffInfo<Scenario> {
+public class UseCaseDiffInfo extends StructureDiffInfo<String, Scenario> {
 
 	public UseCaseDiffInfo() {
 		super();

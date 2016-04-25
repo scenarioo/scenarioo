@@ -66,7 +66,7 @@ public class UseCaseComparator extends AbstractComparator {
 				LOGGER.debug("Found new use case called [" + baseUseCase.getName() + "] in base branch ["
 						+ baseBranchName + "] and base build [" + baseBuildName + "]");
 				buildDiffInfo.setAdded(buildDiffInfo.getAdded() + 1);
-				buildDiffInfo.getAddedElements().add(baseUseCase);
+				buildDiffInfo.getAddedElements().add(baseUseCase.getName());
 			} else {
 				comparisonUseCases.remove(comparisonUseCase);
 

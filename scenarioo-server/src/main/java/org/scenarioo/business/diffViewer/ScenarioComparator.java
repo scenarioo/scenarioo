@@ -68,7 +68,7 @@ public class ScenarioComparator extends AbstractComparator {
 						+ baseBranchName + "] and base build [" + baseBuildName + "] and base use case ["
 						+ baseUseCaseName + "]");
 				useCaseDiffInfo.setAdded(useCaseDiffInfo.getAdded() + 1);
-				useCaseDiffInfo.getAddedElements().add(baseScenario);
+				useCaseDiffInfo.getAddedElements().add(baseScenario.getName());
 			} else {
 				comparisonScenarios.remove(comparisonScenario);
 
