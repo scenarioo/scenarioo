@@ -30,7 +30,7 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffReader;
-import org.scenarioo.model.diffViewer.StructureDiffInfo;
+import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -63,7 +63,7 @@ public class UseCaseDiffResource {
 				baseBuildName);
 
 		try {
-			List<StructureDiffInfo> useCaseDiffInfos = diffReader.loadUseCaseDiffInfos(buildIdentifier.getBranchName(),
+			List<UseCaseDiffInfo> useCaseDiffInfos = diffReader.loadUseCaseDiffInfos(buildIdentifier.getBranchName(),
 					buildIdentifier.getBuildName(),
 					comparisonName);
 			return Response.ok(useCaseDiffInfos, MediaType.APPLICATION_JSON).build();

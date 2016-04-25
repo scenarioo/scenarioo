@@ -22,7 +22,9 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.model.configuration.ComparisonAlias;
+import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
+import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.entities.UseCase;
 
 /**
@@ -44,14 +46,14 @@ public class UseCaseComparator extends AbstractComparator {
 	 * 
 	 * @return {@link StructureDiffInfo} with the summarized diff information.
 	 */
-	public StructureDiffInfo compare() {
+	public BuildDiffInfo compare() {
 		ComparisonAlias comparisonAlias = resolveComparisonName(comparisonName);
 
 		List<UseCase> baseUseCases = docuReader.loadUsecases(baseBranchName, baseBuildName);
 		List<UseCase> comparisonUseCases = docuReader.loadUsecases(comparisonAlias.getComparisonBranchName(),
 				comparisonAlias.getComparisonBuildName());
 
-		StructureDiffInfo buildDiffInfo = new StructureDiffInfo(comparisonName);
+		BuildDiffInfo buildDiffInfo = new BuildDiffInfo(comparisonName);
 		double useCaseChangeRateSum = 0;
 
 		for (UseCase baseUseCase : baseUseCases) {
@@ -64,10 +66,11 @@ public class UseCaseComparator extends AbstractComparator {
 				LOGGER.debug("Found new use case called [" + baseUseCase.getName() + "] in base branch ["
 						+ baseBranchName + "] and base build [" + baseBuildName + "]");
 				buildDiffInfo.setAdded(buildDiffInfo.getAdded() + 1);
+				buildDiffInfo.getAddedElements().add(baseUseCase);
 			} else {
 				comparisonUseCases.remove(comparisonUseCase);
 
-				StructureDiffInfo useCaseDiffInfo = scenarioComparator.compare(baseUseCase.getName());
+				UseCaseDiffInfo useCaseDiffInfo = scenarioComparator.compare(baseUseCase.getName());
 
 				diffWriter.saveUseCaseDiffInfo(useCaseDiffInfo);
 
@@ -80,6 +83,7 @@ public class UseCaseComparator extends AbstractComparator {
 		LOGGER.debug(comparisonUseCases.size() + " use cases were removed in base branch ["
 				+ baseBranchName + "] and base build [" + baseBuildName + "]");
 		buildDiffInfo.setRemoved(comparisonUseCases.size());
+		buildDiffInfo.getRemovedElements().addAll(comparisonUseCases);
 		buildDiffInfo.setChangeRate(calculateChangeRate(baseUseCases.size(), buildDiffInfo.getAdded(),
 				buildDiffInfo.getRemoved(), useCaseChangeRateSum));
 
