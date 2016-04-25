@@ -40,7 +40,7 @@ import org.scenarioo.rest.usecase.UseCasesResource;
  * Handles requests for use case diff information.
  */
 @Path("/rest/diffViewer/{baseBranchName}/{baseBuildName}/{comparisonName}")
-public class UseCaseResource {
+public class UseCaseDiffResource {
 
 	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
 
@@ -51,7 +51,7 @@ public class UseCaseResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/diffInfos")
+	@Path("/useCaseDiffInfos")
 	public Response getUseCaseDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName) {
