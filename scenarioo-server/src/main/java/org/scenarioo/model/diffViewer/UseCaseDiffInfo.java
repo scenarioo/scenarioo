@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import org.scenarioo.model.docu.entities.Scenario;
 
 /**
- * 
+ * Contains the diff information for a UseCase.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

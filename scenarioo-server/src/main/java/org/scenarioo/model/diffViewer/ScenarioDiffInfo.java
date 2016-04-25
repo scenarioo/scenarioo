@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 
 /**
- * 
+ * Contains the diff information for a Scenario.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
