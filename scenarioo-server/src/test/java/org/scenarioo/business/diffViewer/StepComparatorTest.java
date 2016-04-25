@@ -38,8 +38,8 @@ import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.dao.diffViewer.DiffWriter;
 import org.scenarioo.model.configuration.ComparisonAlias;
 import org.scenarioo.model.configuration.Configuration;
+import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
-import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Step;
@@ -99,12 +99,14 @@ public class StepComparatorTest {
 
 		initMocks(baseSteps, comparisonSteps, stepDiffInfo);
 
-		StructureDiffInfo actualDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
+		ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
-		assertEquals(0, actualDiffInfo.getChangeRate(), 0.0);
-		assertEquals(0, actualDiffInfo.getAdded());
-		assertEquals(0, actualDiffInfo.getChanged());
-		assertEquals(0, actualDiffInfo.getRemoved());
+		assertEquals(0, scenarioDiffInfo.getChangeRate(), 0.0);
+		assertEquals(0, scenarioDiffInfo.getAdded());
+		assertEquals(0, scenarioDiffInfo.getChanged());
+		assertEquals(0, scenarioDiffInfo.getRemoved());
+		assertTrue(scenarioDiffInfo.getAddedElements().isEmpty());
+		assertTrue(scenarioDiffInfo.getRemovedElements().isEmpty());
 	}
 
 	@Test
@@ -115,13 +117,15 @@ public class StepComparatorTest {
 
 		initMocks(baseSteps, comparisonSteps, stepDiffInfo);
 
-		StructureDiffInfo actualDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
+		ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
 		double expectedChangeRate = 100.0 / 3.0;
-		assertEquals(expectedChangeRate, actualDiffInfo.getChangeRate(), 0.0);
-		assertEquals(1, actualDiffInfo.getAdded());
-		assertEquals(0, actualDiffInfo.getChanged());
-		assertEquals(0, actualDiffInfo.getRemoved());
+		assertEquals(expectedChangeRate, scenarioDiffInfo.getChangeRate(), 0.0);
+		assertEquals(1, scenarioDiffInfo.getAdded());
+		assertEquals(0, scenarioDiffInfo.getChanged());
+		assertEquals(0, scenarioDiffInfo.getRemoved());
+		assertEquals(PAGE_NAME_2, scenarioDiffInfo.getAddedElements().get(0).getPageName());
+		assertTrue(scenarioDiffInfo.getRemovedElements().isEmpty());
 	}
 
 	@Test
@@ -132,13 +136,16 @@ public class StepComparatorTest {
 
 		initMocks(baseSteps, comparisonSteps, stepDiffInfo);
 
-		StructureDiffInfo actualDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
+		ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
 		double expectedChangeRate = 200.0 / 3.0;
-		assertEquals(expectedChangeRate, actualDiffInfo.getChangeRate(), 0.0);
-		assertEquals(2, actualDiffInfo.getAdded());
-		assertEquals(0, actualDiffInfo.getChanged());
-		assertEquals(0, actualDiffInfo.getRemoved());
+		assertEquals(expectedChangeRate, scenarioDiffInfo.getChangeRate(), 0.0);
+		assertEquals(2, scenarioDiffInfo.getAdded());
+		assertEquals(0, scenarioDiffInfo.getChanged());
+		assertEquals(0, scenarioDiffInfo.getRemoved());
+		assertEquals(PAGE_NAME_1, scenarioDiffInfo.getAddedElements().get(0).getPageName());
+		assertEquals(PAGE_NAME_2, scenarioDiffInfo.getAddedElements().get(1).getPageName());
+		assertTrue(scenarioDiffInfo.getRemovedElements().isEmpty());
 	}
 
 	@Test
@@ -150,13 +157,15 @@ public class StepComparatorTest {
 
 		initMocks(baseSteps, comparisonSteps, stepDiffInfo);
 
-		StructureDiffInfo actualDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
+		ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
 		double expectedChangeRate = changeRatePerStep;
-		assertEquals(expectedChangeRate, actualDiffInfo.getChangeRate(), 0.0);
-		assertEquals(0, actualDiffInfo.getAdded());
-		assertEquals(3, actualDiffInfo.getChanged());
-		assertEquals(0, actualDiffInfo.getRemoved());
+		assertEquals(expectedChangeRate, scenarioDiffInfo.getChangeRate(), 0.0);
+		assertEquals(0, scenarioDiffInfo.getAdded());
+		assertEquals(3, scenarioDiffInfo.getChanged());
+		assertEquals(0, scenarioDiffInfo.getRemoved());
+		assertTrue(scenarioDiffInfo.getAddedElements().isEmpty());
+		assertTrue(scenarioDiffInfo.getRemovedElements().isEmpty());
 	}
 
 	@Test
@@ -167,13 +176,15 @@ public class StepComparatorTest {
 
 		initMocks(baseSteps, comparisonSteps, stepDiffInfo);
 
-		StructureDiffInfo actualDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
+		ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
 		double expectedChangeRate = 100.0 / 2.0;
-		assertEquals(expectedChangeRate, actualDiffInfo.getChangeRate(), 0.0);
-		assertEquals(0, actualDiffInfo.getAdded());
-		assertEquals(0, actualDiffInfo.getChanged());
-		assertEquals(1, actualDiffInfo.getRemoved());
+		assertEquals(expectedChangeRate, scenarioDiffInfo.getChangeRate(), 0.0);
+		assertEquals(0, scenarioDiffInfo.getAdded());
+		assertEquals(0, scenarioDiffInfo.getChanged());
+		assertEquals(1, scenarioDiffInfo.getRemoved());
+		assertTrue(scenarioDiffInfo.getAddedElements().isEmpty());
+		assertEquals(PAGE_NAME_1, scenarioDiffInfo.getRemovedElements().get(0).getPageName());
 	}
 
 	@Test
@@ -184,13 +195,16 @@ public class StepComparatorTest {
 
 		initMocks(baseSteps, comparisonSteps, stepDiffInfo);
 
-		StructureDiffInfo actualDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
+		ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
 		double expectedChangeRate = 200.0 / 3.0;
-		assertEquals(expectedChangeRate, actualDiffInfo.getChangeRate(), 0.0);
-		assertEquals(0, actualDiffInfo.getAdded());
-		assertEquals(0, actualDiffInfo.getChanged());
-		assertEquals(2, actualDiffInfo.getRemoved());
+		assertEquals(expectedChangeRate, scenarioDiffInfo.getChangeRate(), 0.0);
+		assertEquals(0, scenarioDiffInfo.getAdded());
+		assertEquals(0, scenarioDiffInfo.getChanged());
+		assertEquals(2, scenarioDiffInfo.getRemoved());
+		assertTrue(scenarioDiffInfo.getAddedElements().isEmpty());
+		assertEquals(PAGE_NAME_1, scenarioDiffInfo.getRemovedElements().get(0).getPageName());
+		assertEquals(PAGE_NAME_2, scenarioDiffInfo.getRemovedElements().get(1).getPageName());
 	}
 
 	private void initMocks(List<Step> baseSteps, List<Step> comparisonSteps,

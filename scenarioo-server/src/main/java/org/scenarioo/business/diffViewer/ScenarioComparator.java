@@ -22,7 +22,9 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.model.configuration.ComparisonAlias;
+import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
+import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.entities.Scenario;
 
 /**
@@ -45,14 +47,14 @@ public class ScenarioComparator extends AbstractComparator {
 	 *            the use case to compare the scenarios.
 	 * @return {@link StructureDiffInfo} with the summarized diff information.
 	 */
-	public StructureDiffInfo compare(final String baseUseCaseName) {
+	public UseCaseDiffInfo compare(final String baseUseCaseName) {
 		ComparisonAlias comparisonAlias = resolveComparisonName(comparisonName);
 
 		List<Scenario> baseScenarios = docuReader.loadScenarios(baseBranchName, baseBuildName, baseUseCaseName);
 		List<Scenario> comparisonScenarios = docuReader.loadScenarios(comparisonAlias.getComparisonBranchName(),
 				comparisonAlias.getComparisonBuildName(), baseUseCaseName);
 
-		StructureDiffInfo useCaseDiffInfo = new StructureDiffInfo(baseUseCaseName);
+		UseCaseDiffInfo useCaseDiffInfo = new UseCaseDiffInfo(baseUseCaseName);
 		double scenarioChangeRateSum = 0;
 
 		for (Scenario baseScenario : baseScenarios) {
@@ -66,10 +68,11 @@ public class ScenarioComparator extends AbstractComparator {
 						+ baseBranchName + "] and base build [" + baseBuildName + "] and base use case ["
 						+ baseUseCaseName + "]");
 				useCaseDiffInfo.setAdded(useCaseDiffInfo.getAdded() + 1);
+				useCaseDiffInfo.getAddedElements().add(baseScenario);
 			} else {
 				comparisonScenarios.remove(comparisonScenario);
 
-				StructureDiffInfo scenarioDiffInfo = stepComparator.compare(baseUseCaseName, baseScenario.getName());
+				ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(baseUseCaseName, baseScenario.getName());
 
 				diffWriter.saveScenarioDiffInfo(scenarioDiffInfo, baseUseCaseName);
 
@@ -83,6 +86,7 @@ public class ScenarioComparator extends AbstractComparator {
 				+ baseBranchName + "] and base build [" + baseBuildName + "] and base use case ["
 				+ baseUseCaseName + "]");
 		useCaseDiffInfo.setRemoved(comparisonScenarios.size());
+		useCaseDiffInfo.getRemovedElements().addAll(comparisonScenarios);
 		useCaseDiffInfo.setChangeRate(calculateChangeRate(baseScenarios.size(), useCaseDiffInfo.getAdded(),
 				useCaseDiffInfo.getRemoved(), scenarioChangeRateSum));
 

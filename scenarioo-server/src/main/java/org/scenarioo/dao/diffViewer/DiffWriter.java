@@ -34,8 +34,10 @@ import org.scenarioo.api.exception.ScenarioDocuSaveException;
 import org.scenarioo.api.exception.ScenarioDocuTimeoutException;
 import org.scenarioo.api.rules.CharacterChecker;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
+import org.scenarioo.model.diffViewer.BuildDiffInfo;
+import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
-import org.scenarioo.model.diffViewer.StructureDiffInfo;
+import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 
 public class DiffWriter {
 
@@ -77,7 +79,7 @@ public class DiffWriter {
 		createComparisonDirectoryIfNotYetExists();
 	}
 
-	public void saveBuildDiffInfo(final StructureDiffInfo buildDiffInfo) {
+	public void saveBuildDiffInfo(final BuildDiffInfo buildDiffInfo) {
 		checkIdentifier(buildDiffInfo.getName());
 		executeAsyncWrite(new Runnable() {
 			@Override
@@ -88,7 +90,7 @@ public class DiffWriter {
 		});
 	}
 
-	public void saveUseCaseDiffInfo(final StructureDiffInfo useCaseDiffInfo) {
+	public void saveUseCaseDiffInfo(final UseCaseDiffInfo useCaseDiffInfo) {
 		checkIdentifier(useCaseDiffInfo.getName());
 		executeAsyncWrite(new Runnable() {
 			@Override
@@ -103,7 +105,7 @@ public class DiffWriter {
 		});
 	}
 
-	public void saveScenarioDiffInfo(final StructureDiffInfo scenarioDiffInfo, final String useCaseName) {
+	public void saveScenarioDiffInfo(final ScenarioDiffInfo scenarioDiffInfo, final String useCaseName) {
 		checkIdentifier(useCaseName);
 		checkIdentifier(scenarioDiffInfo.getName());
 		executeAsyncWrite(new Runnable() {

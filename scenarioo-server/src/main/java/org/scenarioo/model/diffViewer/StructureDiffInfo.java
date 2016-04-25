@@ -17,26 +17,25 @@
 
 package org.scenarioo.model.diffViewer;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Contains the diff information for a structure object.
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-public class StructureDiffInfo extends AbstractDiffInfo {
+public class StructureDiffInfo<T> extends AbstractDiffInfo {
 
 	private String name;
 	private int added;
 	private int changed;
 	private int removed;
+	private List<T> addedElements = new LinkedList<T>();
+	private List<T> removedElements = new LinkedList<T>();
 
 	public StructureDiffInfo() {
 		// Used for JAXB
 	}
-	
+
 	public StructureDiffInfo(final String name) {
 		this.name = name;
 	}
@@ -107,6 +106,36 @@ public class StructureDiffInfo extends AbstractDiffInfo {
 	 */
 	public void setRemoved(final int removed) {
 		this.removed = removed;
+	}
+
+	/**
+	 * @return the addedElements
+	 */
+	public List<T> getAddedElements() {
+		return addedElements;
+	}
+
+	/**
+	 * @param addedElements
+	 *            the addedElements to set
+	 */
+	public void setAddedElements(List<T> addedElements) {
+		this.addedElements = addedElements;
+	}
+
+	/**
+	 * @return the removedElements
+	 */
+	public List<T> getRemovedElements() {
+		return removedElements;
+	}
+
+	/**
+	 * @param removedElements
+	 *            the removedElements to set
+	 */
+	public void setRemovedElements(List<T> removedElements) {
+		this.removedElements = removedElements;
 	}
 
 }
