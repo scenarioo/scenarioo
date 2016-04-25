@@ -20,7 +20,6 @@ package org.scenarioo.dao.diffViewer;
 import static org.scenarioo.api.rules.CharacterChecker.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -28,7 +27,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.io.FileUtils;
 import org.scenarioo.api.configuration.ScenarioDocuGeneratorConfiguration;
 import org.scenarioo.api.exception.ScenarioDocuSaveException;
 import org.scenarioo.api.exception.ScenarioDocuTimeoutException;
@@ -137,24 +135,6 @@ public class DiffWriter {
 		});
 	}
 
-	public void saveDiffScreenshot(final String useCaseName, final String scenarioName, final int stepIndex,
-			final byte[] pngScreenshot) {
-		checkIdentifier(useCaseName);
-		checkIdentifier(scenarioName);
-
-		executeAsyncWrite(new Runnable() {
-			@Override
-			public void run() {
-				final File screenshotFile = diffFiles.getScreenshotFile(baseBranchName, baseBuildName, comparisonName,
-						useCaseName, scenarioName, stepIndex);
-				try {
-					FileUtils.writeByteArrayToFile(screenshotFile, pngScreenshot);
-				} catch (IOException e) {
-					throw new RuntimeException("Could not write image: " + screenshotFile.getAbsolutePath(), e);
-				}
-			}
-		});
-	}
 
 	/**
 	 * Finish asynchronous writing of all saved files. This has to be called in the end, to ensure all data saved in

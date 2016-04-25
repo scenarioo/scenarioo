@@ -17,9 +17,21 @@
 
 package org.scenarioo.business.diffViewer;
 
+import java.io.File;
+import java.text.NumberFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.log4j.Logger;
+import org.im4java.core.CompareCmd;
+import org.im4java.core.IMOperation;
+import org.im4java.process.ArrayListErrorConsumer;
+import org.im4java.process.ArrayListOutputConsumer;
+import org.scenarioo.dao.diffViewer.DiffReader;
+import org.scenarioo.model.configuration.ComparisonAlias;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
+import org.scenarioo.utils.NumberFormatCreator;
 
 /**
  * Comparator to compare screenshots of two steps. Results are persisted in a xml file.
@@ -27,9 +39,23 @@ import org.scenarioo.model.docu.aggregates.steps.StepLink;
 public class ScreenshotComparator extends AbstractComparator {
 
 	private static final Logger LOGGER = Logger.getLogger(ScreenshotComparator.class);
+	private static final int CHANGERATE_SCREENSHOT_DEFAULT = 0;
+	private static final String SCREENSHOT_FILE_EXTENSION = ".png";
+	private static NumberFormat THREE_DIGIT_NUM_FORMAT = NumberFormatCreator
+			.createNumberFormatWithMinimumIntegerDigits(3);
+	private final DiffReader diffReader;
+	private final ArrayListErrorConsumer gmConsoleErrorConsumer;
+	private ArrayListOutputConsumer gmConsoleOutputConsumer;
+	private CompareCmd gmConsole;
 
-	public ScreenshotComparator(String baseBranchName, String baseBuildName, String comparisonName) {
+	public ScreenshotComparator(final String baseBranchName, final String baseBuildName, final String comparisonName) {
 		super(baseBranchName, baseBuildName, comparisonName);
+		gmConsole = new CompareCmd(true);
+		gmConsoleErrorConsumer = new ArrayListErrorConsumer();
+		gmConsoleOutputConsumer = new ArrayListOutputConsumer();
+		gmConsole.setErrorConsumer(gmConsoleErrorConsumer);
+		gmConsole.setOutputConsumer(gmConsoleOutputConsumer);
+		diffReader = new DiffReader(configurationRepository.getDiffViewerDirectory());
 	}
 
 	/**
@@ -39,11 +65,88 @@ public class ScreenshotComparator extends AbstractComparator {
 	 *            the use case of the screenshots.
 	 * @param baseScenarioName
 	 *            the scenario of the screenshots.
+	 * @param comparisonAlias
 	 * @param baseStepLink
 	 *            the step to compare the screenshots.
 	 * @return {@link StepDiffInfo} with the summarized diff information.
 	 */
-	public StepDiffInfo compare(final String baseUseCaseName, final String baseScenarioName, final StepLink baseStepLink) {
-		return new StepDiffInfo();
+	public double compare(final String baseUseCaseName, final String baseScenarioName,
+			final ComparisonAlias comparisonAlias, final StepLink baseStepLink, final StepLink comparisonStepLink) {
+		String baseScreenshotName = THREE_DIGIT_NUM_FORMAT.format(baseStepLink.getStepIndex())
+				+ SCREENSHOT_FILE_EXTENSION;
+		String comparisonScreenshotName = THREE_DIGIT_NUM_FORMAT.format(comparisonStepLink.getStepIndex())
+				+ SCREENSHOT_FILE_EXTENSION;
+		String diffScreenshotName = baseScreenshotName;
+
+		File baseScreenshot = docuReader.getScreenshotFile(baseBranchName,
+				baseBuildName, baseUseCaseName, baseScenarioName, baseScreenshotName);
+
+		File comparisonScreenshot = docuReader.getScreenshotFile(comparisonAlias.getComparisonBranchName(),
+				comparisonAlias.getComparisonBuildName(), baseUseCaseName, baseScenarioName, comparisonScreenshotName);
+
+		File diffScreenshot = diffReader.getScreenshotFile(baseBranchName, baseBuildName, comparisonName,
+				baseUseCaseName, baseScenarioName, diffScreenshotName);
+
+		return compareScreenshots(baseScreenshot, comparisonScreenshot, diffScreenshot);
 	}
+
+	public double compareScreenshots(final File baseScreenshot, final File comparisonScreenshot,
+			final File diffScreenshot) {
+		IMOperation gmOperation = new IMOperation();
+		gmOperation.metric("RMSE");
+		gmOperation.addImage(baseScreenshot.getPath());
+		gmOperation.addImage(comparisonScreenshot.getPath());
+		gmOperation.addRawArgs("-highlight-style", "Tint");
+		gmOperation.addRawArgs("-file", diffScreenshot.getPath());
+		double difference = runGraphicsMagickOperation(gmOperation);
+		if (difference == 0.0) {
+			diffScreenshot.delete();
+		}
+		return difference;
+	}
+
+	private double runGraphicsMagickOperation(final IMOperation gmOperation) {
+		try {
+			gmConsole.run(gmOperation);
+			return getRmseValueFromOutput();
+		} catch (Exception e) {
+			LOGGER.warn("Graphics Magick operation failed. Default screenshot changerate '"
+					+ CHANGERATE_SCREENSHOT_DEFAULT + "' gets returned.");
+			if (gmConsoleErrorConsumer.getOutput().size() > 0) {
+				String errorMessage = gmConsoleErrorConsumer.getOutput().get(0);
+				LOGGER.warn(errorMessage);
+			}
+			return CHANGERATE_SCREENSHOT_DEFAULT;
+
+		}
+	}
+
+	double getRmseValueFromOutput() {
+		if (gmConsoleOutputConsumer.getOutput().size() == 8) {
+			String cmdOutput = gmConsoleOutputConsumer.getOutput().get(7);
+			Pattern p = Pattern.compile("\\d+\\.\\d+");
+			Matcher m = p.matcher(cmdOutput);
+			if (m.find()) {
+				return Double.parseDouble(m.group(0)) * 100;
+			}
+		}
+		throw new RuntimeException("Cannot parse Graphics Magick console output");
+	}
+
+	public ArrayListOutputConsumer getCmdOutputConsumer() {
+		return gmConsoleOutputConsumer;
+	}
+
+	public void setCmdOutputConsumer(final ArrayListOutputConsumer cmdOutputConsumer) {
+		this.gmConsoleOutputConsumer = cmdOutputConsumer;
+	}
+
+	public CompareCmd getCmd() {
+		return gmConsole;
+	}
+
+	public void setCmd(final CompareCmd cmd) {
+		this.gmConsole = cmd;
+	}
+
 }

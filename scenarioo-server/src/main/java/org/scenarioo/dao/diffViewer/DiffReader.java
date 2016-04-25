@@ -136,11 +136,10 @@ public class DiffReader {
 	public File getScreenshotFile(final String baseBranchName, final String baseBuildName, final String comparisonName,
 			final String useCaseName,
 			final String scenarioName, final String imageName) {
-		// TODO: mscheube: why getScreenshotDirectory? Because it returns a FilePath.
 		return new File(
 				"/home/scenarioo/scenarioo/scenarioo-server/src/test/resources/org/scenarioo/business/diffViewer/comparisonScreenshot.png");
 		// TODO: mscheube: remove Testfile
-		// return new File(diffFiles.getScreenshotsDirectory(checkIdentifier(baseBranchName),
+		// return new File(diffFiles.getScreenshotsFile(checkIdentifier(baseBranchName),
 		// checkIdentifier(baseBuildName), checkIdentifier(comparisonName), checkIdentifier(useCaseName),
 		// checkIdentifier(scenarioName)), imageName);
 	}

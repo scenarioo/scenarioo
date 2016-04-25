@@ -38,7 +38,6 @@ import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.dao.diffViewer.DiffWriter;
 import org.scenarioo.model.configuration.ComparisonAlias;
 import org.scenarioo.model.configuration.Configuration;
-import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Page;
@@ -72,7 +71,7 @@ public class StepComparatorTest {
 	private ScreenshotComparator screenshotComparator;
 
 	@InjectMocks
-	private StepComparator stepComparator = new StepComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
+	private final StepComparator stepComparator = new StepComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
 
 	@BeforeClass
 	public static void setUpClass() {
@@ -95,9 +94,8 @@ public class StepComparatorTest {
 	public void testCompareBuildsEqual() {
 		List<Step> baseSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
 		List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
-		StepDiffInfo stepDiffInfo = getStepDiffInfo(0);
 
-		initMocks(baseSteps, comparisonSteps, stepDiffInfo);
+		initMocks(baseSteps, comparisonSteps, 0.0);
 
 		StructureDiffInfo actualDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
@@ -111,9 +109,8 @@ public class StepComparatorTest {
 	public void testCompareOneStepAdded() {
 		List<Step> baseSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
 		List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1);
-		StepDiffInfo stepDiffInfo = getStepDiffInfo(0);
 
-		initMocks(baseSteps, comparisonSteps, stepDiffInfo);
+		initMocks(baseSteps, comparisonSteps, 0.0);
 
 		StructureDiffInfo actualDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
@@ -128,9 +125,8 @@ public class StepComparatorTest {
 	public void testCompareMultipleStepsAdded() {
 		List<Step> baseSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
 		List<Step> comparisonSteps = getSteps(PAGE_NAME_1);
-		StepDiffInfo stepDiffInfo = getStepDiffInfo(0);
 
-		initMocks(baseSteps, comparisonSteps, stepDiffInfo);
+		initMocks(baseSteps, comparisonSteps, 0.0);
 
 		StructureDiffInfo actualDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
@@ -146,9 +142,8 @@ public class StepComparatorTest {
 		double changeRatePerStep = 50.0;
 		List<Step> baseSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
 		List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
-		StepDiffInfo stepDiffInfo = getStepDiffInfo(changeRatePerStep);
 
-		initMocks(baseSteps, comparisonSteps, stepDiffInfo);
+		initMocks(baseSteps, comparisonSteps, changeRatePerStep);
 
 		StructureDiffInfo actualDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
@@ -163,9 +158,8 @@ public class StepComparatorTest {
 	public void testCompareOneStepRemoved() {
 		List<Step> baseSteps = getSteps(PAGE_NAME_1);
 		List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1);
-		StepDiffInfo stepDiffInfo = getStepDiffInfo(0);
 
-		initMocks(baseSteps, comparisonSteps, stepDiffInfo);
+		initMocks(baseSteps, comparisonSteps, 0.0);
 
 		StructureDiffInfo actualDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
@@ -180,9 +174,8 @@ public class StepComparatorTest {
 	public void testCompareMultipleStepsRemoved() {
 		List<Step> baseSteps = getSteps(PAGE_NAME_1);
 		List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
-		StepDiffInfo stepDiffInfo = getStepDiffInfo(0);
 
-		initMocks(baseSteps, comparisonSteps, stepDiffInfo);
+		initMocks(baseSteps, comparisonSteps, 0.0);
 
 		StructureDiffInfo actualDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
@@ -193,17 +186,18 @@ public class StepComparatorTest {
 		assertEquals(2, actualDiffInfo.getRemoved());
 	}
 
-	private void initMocks(List<Step> baseSteps, List<Step> comparisonSteps,
-			StepDiffInfo stepDiffInfo) {
+	private void initMocks(final List<Step> baseSteps, final List<Step> comparisonSteps,
+			final double changeRate) {
 		when(scenarioDocuReader.loadSteps(BASE_BRANCH_NAME, BASE_BUILD_NAME, USE_CASE_NAME, SCENARIO_NAME)).thenReturn(
 				baseSteps);
 		when(scenarioDocuReader.loadSteps(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME, USE_CASE_NAME, SCENARIO_NAME))
 				.thenReturn(comparisonSteps);
-		when(screenshotComparator.compare(anyString(), anyString(), any(StepLink.class)))
-				.thenReturn(stepDiffInfo);
+		when(screenshotComparator.compare(anyString(), anyString(), any(ComparisonAlias.class), any(StepLink.class),
+				any(StepLink.class)))
+				.thenReturn(changeRate);
 	}
 
-	public List<Step> getSteps(String... names) {
+	public List<Step> getSteps(final String... names) {
 		List<Step> steps = new LinkedList<Step>();
 		for (String name : names) {
 			Step step = new Step();
@@ -211,12 +205,6 @@ public class StepComparatorTest {
 			steps.add(step);
 		}
 		return steps;
-	}
-
-	private StepDiffInfo getStepDiffInfo(double changeRate) {
-		StepDiffInfo stepDiffInfo = new StepDiffInfo();
-		stepDiffInfo.setChangeRate(changeRate);
-		return stepDiffInfo;
 	}
 
 	private static Configuration getTestConfiguration() {

@@ -41,7 +41,7 @@ public class StepComparator extends AbstractComparator {
 	private ScreenshotComparator screenshotComparator = new ScreenshotComparator(baseBranchName, baseBuildName,
 			comparisonName);
 
-	public StepComparator(String baseBranchName, String baseBuildName, String comparisonName) {
+	public StepComparator(final String baseBranchName, final String baseBuildName, final String comparisonName) {
 		super(baseBranchName, baseBuildName, comparisonName);
 	}
 
@@ -77,8 +77,16 @@ public class StepComparator extends AbstractComparator {
 			} else {
 				comparisonStepLinks.remove(comparisonStepLink);
 
-				StepDiffInfo stepDiffInfo = screenshotComparator.compare(baseUseCaseName, baseScenarioName,
-						baseStepLink);
+				double changeRate = screenshotComparator.compare(baseUseCaseName, baseScenarioName,
+						comparisonAlias,
+						baseStepLink, comparisonStepLink);
+
+				StepDiffInfo stepDiffInfo = new StepDiffInfo();
+				stepDiffInfo.setChangeRate(changeRate);
+				stepDiffInfo.setIndex(baseStepLink.getPageIndex());
+				stepDiffInfo.setPageName(baseStepLink.getPageName());
+				stepDiffInfo.setPageOccurrence(baseStepLink.getPageOccurrence());
+				stepDiffInfo.setStepInPageOccurrence(baseStepLink.getStepInPageOccurrence());
 
 				diffWriter.saveStepDiffInfo(baseUseCaseName, baseScenarioName, stepDiffInfo);
 
@@ -98,7 +106,7 @@ public class StepComparator extends AbstractComparator {
 		return scenarioDiffInfo;
 	}
 
-	private List<StepLink> getStepLinks(final List<Step> steps, String useCaseName, String scenarioName) {
+	private List<StepLink> getStepLinks(final List<Step> steps, final String useCaseName, final String scenarioName) {
 		// TODO pforster: refactor this method in a new class. also used in StepsAndPagesAggregator. Oder Wert einfach
 		// abspeichern beim aggregieren.
 		List<StepLink> stepLinks = new ArrayList<StepLink>(steps.size());
