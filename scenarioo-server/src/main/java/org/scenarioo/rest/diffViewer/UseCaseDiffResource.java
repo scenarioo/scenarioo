@@ -36,7 +36,6 @@ import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
-import org.scenarioo.rest.usecase.UseCasesResource;
 
 /**
  * Handles requests for use case diff information.
@@ -44,7 +43,7 @@ import org.scenarioo.rest.usecase.UseCasesResource;
 @Path("/rest/diffViewer/{baseBranchName}/{baseBuildName}/{comparisonName}")
 public class UseCaseDiffResource {
 
-	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
+	private static final Logger LOGGER = Logger.getLogger(UseCaseDiffResource.class);
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
@@ -85,4 +84,5 @@ public class UseCaseDiffResource {
 		}
 		return useCaseDiffInfoMap;
 	}
+
 }

@@ -22,15 +22,22 @@ import static org.scenarioo.api.rules.CharacterChecker.*;
 import java.io.File;
 import java.util.List;
 
+import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
+import org.scenarioo.model.configuration.ComparisonAlias;
+import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 
 public class DiffReader {
 
 	private final DiffFiles diffFiles;
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
 
 	public DiffReader(final File rootDirectory) {
 		this.diffFiles = new DiffFiles(rootDirectory);
@@ -130,6 +137,17 @@ public class DiffReader {
 				stepIndex);
 
 		return ScenarioDocuXMLFileUtil.unmarshal(StepDiffInfo.class, file);
+	}
+
+	public ComparisonAlias getComparisonAlias(String comparisonName) {
+		Configuration configuration = configurationRepository.getConfiguration();
+		List<ComparisonAlias> comparisonAliases = configuration.getComparisonAliases();
+		for (ComparisonAlias comparisonAlias : comparisonAliases) {
+			if (comparisonAlias.getComparisonName().equals(comparisonName)) {
+				return comparisonAlias;
+			}
+		}
+		throw new ResourceNotFoundException("No ComparisonAlias found for comparisonName '" + comparisonName + "'.");
 	}
 
 	/**
