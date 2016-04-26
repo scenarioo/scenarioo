@@ -36,9 +36,7 @@ angular.module('scenarioo.services').factory('DiffViewerService', function ($loc
             return undefined;
         }
 
-        //TODO: mscheube: comparisonName
-        //return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
-        return HostnameAndPort.forLink() + 'rest/diffViewer/baseBranch/' + selected.branch + '/baseBuild/'+ selected.build +'/comparison/'+ comparisonName +'/usecase/'+ usecaseName  +'/scenario/'+ scenarioName + '/image/' + imageName;
+        return HostnameAndPort.forLink() + 'rest/diffViewer/' + selected.branch + '/'+ selected.build +'/'+ comparisonName +'/'+ usecaseName  +'/'+ scenarioName + '/' + imageName;
 
     }
 

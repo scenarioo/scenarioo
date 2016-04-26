@@ -20,16 +20,16 @@ public class DiffScreenshotResponseFactory {
 	public Response createFoundImageResponse(final String baseBranchName, final String baseBuildName,
 			final String comparisonName,
 			final String useCaseName,
-			final String scenarioName, final String imageName,
-			final boolean showFallbackStamp) {
+			final String scenarioName, final String imageName
+			) {
 		File screenshot = diffReader.getScreenshotFile(baseBranchName, baseBuildName, comparisonName, useCaseName,
 				scenarioName, imageName);
 
-		return createFoundImageResponse(imageName, screenshot, showFallbackStamp);
+		return createFoundImageResponse(imageName, screenshot);
 	}
 
-	private Response createFoundImageResponse(final String imgName, final File screenshot,
-			final boolean showFallbackStamp) {
+	private Response createFoundImageResponse(final String imgName, final File screenshot
+			) {
 		if (screenshot == null || !screenshot.exists()) {
 			return notFoundResponse();
 		} else {

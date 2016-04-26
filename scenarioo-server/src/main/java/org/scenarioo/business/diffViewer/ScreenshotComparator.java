@@ -90,6 +90,17 @@ public class ScreenshotComparator extends AbstractComparator {
 		return compareScreenshots(baseScreenshot, comparisonScreenshot, diffScreenshot);
 	}
 
+	/**
+	 * Compares the given screenshots
+	 * 
+	 * @param baseScreenshot
+	 *            The original screenshot
+	 * @param comparisonScreenshot
+	 *            The comparison screenshot
+	 * @param diffScreenshot
+	 *            The generated screenshot that shows differences
+	 * @return
+	 */
 	public double compareScreenshots(final File baseScreenshot, final File comparisonScreenshot,
 			final File diffScreenshot) {
 		IMOperation gmOperation = new IMOperation();
@@ -147,6 +158,10 @@ public class ScreenshotComparator extends AbstractComparator {
 
 	public void setCmd(final CompareCmd cmd) {
 		this.gmConsole = cmd;
+	}
+
+	public Logger getLogger() {
+		return LOGGER;
 	}
 
 }

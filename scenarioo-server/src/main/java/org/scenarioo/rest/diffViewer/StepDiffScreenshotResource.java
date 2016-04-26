@@ -24,7 +24,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import org.scenarioo.rest.diffViewer.logic.DiffScreenshotResponseFactory;
-@Path("/rest/diffViewer/baseBranch/{baseBranchName}/baseBuild/{baseBuildName}/comparison/{comparisonName}/usecase/{usecaseName}/scenario/{scenarioName}/")
+
+@Path("/rest/diffViewer/{baseBranchName}/{baseBuildName}/{comparisonName}/{usecaseName}/{scenarioName}/")
 public class StepDiffScreenshotResource {
 
 	private final DiffScreenshotResponseFactory diffScreenshotResponseFactory = new DiffScreenshotResponseFactory();
@@ -36,8 +37,7 @@ public class StepDiffScreenshotResource {
 	 */
 	@GET
 	@Produces("image/jpeg")
-	// TODO: mscheube: Why not @Path("diffScreenshot/{diffScreenshotFileName}")
-	@Path("image/{imageFileName}")
+	@Path("{imageFileName}")
 	public Response getDiffScreenshot(
 			@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
@@ -47,9 +47,8 @@ public class StepDiffScreenshotResource {
 			@PathParam("imageFileName") final String imageFileName
 			) {
 
-		// TODO: mscheube: Identifier instead of all these Parameters. Compare to ScreenshotResource
 		return diffScreenshotResponseFactory.createFoundImageResponse(baseBranchName, baseBuildName, comparisonName,
-				usecaseName, scenarioName, imageFileName, false);
+				usecaseName, scenarioName, imageFileName);
 	}
 
 }
