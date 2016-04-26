@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService, BranchesAndBuilds, SelectedBranchAndBuild, UseCasesResource, LabelConfigurationsResource, BuildDiffInfoResource, UseCaseDiffInfosResource) {
+angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService, BranchesAndBuilds, SelectedBranchAndBuild, DiffInfoService, UseCasesResource, LabelConfigurationsResource, BuildDiffInfoResource, UseCaseDiffInfosResource) {
 
   var transformMetadataToTree = $filter('scMetadataTreeCreator');
   var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
@@ -62,38 +62,11 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
           UseCaseDiffInfosResource.get(
               {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
               function onSuccess(useCaseDiffInfos) {
-                $scope.useCases = getUseCasesWithDiffInfo(useCases, useCaseDiffInfos, buildDiffInfo);
+                $scope.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos);
               }
           );
         }
     );
-  }
-
-  function getUseCasesWithDiffInfo(useCases, useCaseDiffInfos, buildDiffInfo){
-    var useCasesWithDiffInfo = [];
-
-    angular.forEach(useCases, function(useCase){
-      var useCaseDiffInfo = useCaseDiffInfos[useCase.name];
-      if(useCaseDiffInfo) {
-        useCase.diffInfo = useCaseDiffInfo;
-        useCase.diffInfo.isAdded = false;
-        useCase.diffInfo.isRemoved = false;
-      } else {
-        useCase.diffInfo = {};
-        useCase.diffInfo.isAdded = true;
-        useCase.diffInfo.isRemoved = false;
-      }
-      useCasesWithDiffInfo.push(useCase);
-    });
-
-    angular.forEach(buildDiffInfo.removedElements, function(removedUseCase){
-      useCase.diffInfo = {};
-      useCase.diffInfo.isAdded = false;
-      useCase.diffInfo.isRemoved = true;
-      useCasesWithDiffInfo.push(removedUseCase);
-    });
-
-    return useCasesWithDiffInfo;
   }
 
   function goToUseCase(useCaseName) {
