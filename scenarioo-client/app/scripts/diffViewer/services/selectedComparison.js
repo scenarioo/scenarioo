@@ -15,37 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-/**
- *  TODO: mscheube: comment
- */
-angular.module('scenarioo.services').factory('DiffViewerService', function ($location, $rootScope, localStorageService, Config, HostnameAndPort) {
-
-
-    function getDiffScreenShotUrl(step, selected, comparisonName, usecaseName, scenarioName) {
-
-        if (angular.isUndefined(step)) {
-            return undefined;
-        }
-
-        //TODO: mscheube: diffScreenshotFileName
-        //var imageName = $scope.step.stepDescription.screenshotFileName;
-        var imageName = "temp.png";
-
-        if (angular.isUndefined(imageName)) {
-            return undefined;
-        }
-
-        return HostnameAndPort.forLink() + 'rest/diffViewer/' + selected.branch + '/'+ selected.build +'/'+ comparisonName +'/'+ usecaseName  +'/'+ scenarioName + '/' + imageName;
-
-    }
-
-    //TODO: mscheube: why does a service need a return value?
-    //return{
-    //
-    // };
-
-    //TODO: copied from selectedBranchAndBuild. Why not integrate in selectedBranchAndBuild service?
+angular.module('scenarioo.services').factory('SelectedComparison', function ($location, $rootScope, localStorageService, Config) {
     var COMPARISON_KEY = 'comparison';
     var selectedComparison;
     var initialValuesFromUrlAndCookieLoaded = false;
@@ -130,13 +100,7 @@ angular.module('scenarioo.services').factory('DiffViewerService', function ($loc
     return {
         COMPARISON_KEY: COMPARISON_KEY,
 
-
-        /**
-         * Returns the Diff Screenshot URL
-         */
-        getDiffScreenShotUrl: getDiffScreenShotUrl,
-
-        /**
+          /**
          * Returns the currently selected comparison.
          */
         selected: getSelectedComparison,
@@ -158,6 +122,5 @@ angular.module('scenarioo.services').factory('DiffViewerService', function ($loc
          */
         callOnSelectionChange: registerSelectionChangeCallback
     };
-
 
 });

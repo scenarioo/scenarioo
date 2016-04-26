@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepResource, HostnameAndPort,
                                                                          SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService,
-                                                                         ContextService, RelatedIssueResource, SketchIdsResource, DiffViewerService) {
+                                                                         ContextService, RelatedIssueResource, SketchIdsResource, DiffViewerService, SelectedComparison) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -60,7 +60,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     };
 
     SelectedBranchAndBuild.callOnSelectionChange(loadStep);
-    //DiffViewerService.callOnSelectionChange(loadStep);
+    //SelectedComparison.callOnSelectionChange(loadStep);
 
 
     function loadStep(selected) {
@@ -328,11 +328,43 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
     //TODO: mscheube: Refactor
 
+    $scope.getComparisonScreenShotUrl = function () {
+        if (angular.isUndefined($scope.step)) {
+            return undefined;
+        }
+
+        var comparisonName = SelectedComparison.selected();
+        //DiffViewerService.loadSelectedComparison(comparisonName);
+
+
+        if (angular.isUndefined($scope.comparisonBranchName)) {
+            return undefined;
+        }
+
+
+        if (angular.isUndefined($scope.comparisonBuildName)) {
+            return undefined;
+        }
+
+        var imageName = $scope.step.stepDescription.screenshotFileName;
+
+        if (angular.isUndefined(imageName)) {
+            return undefined;
+        }
+
+        var selected = SelectedBranchAndBuild.selected();
+        return HostnameAndPort.forLink() + 'rest/branch/' + $scope.comparisonBranchName + '/build/' +  $scope.comparisonBuildName + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
+    };
+
+
+
+
     // This URL is only used internally, not for sharing
     $scope.getDiffScreenShotUrl = function () {
         var selectedBranchAndBuild = SelectedBranchAndBuild.selected();
-        var selectedComparison = DiffViewerService.selected();
-        return DiffViewerService.getDiffScreenShotUrl($scope.step, selectedBranchAndBuild , selectedComparison, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName);
+        var comparisonName = SelectedComparison.selected();
+        comparisonName = "exampleComparison";
+        return DiffViewerService.getDiffScreenShotUrl($scope.step, selectedBranchAndBuild , comparisonName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.stepIndex );
      };
 
     $scope.showDiffScreenshot = true;
@@ -348,7 +380,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     };
 
 
-    $scope.comparisonName = DiffViewerService.selected;
+    $scope.comparisonName = SelectedComparison.selected;
     // END OF TODO:
 
 
