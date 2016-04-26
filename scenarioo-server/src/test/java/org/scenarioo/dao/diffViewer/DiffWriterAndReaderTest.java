@@ -33,6 +33,7 @@ import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
+import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
 
@@ -212,7 +213,9 @@ public class DiffWriterAndReaderTest {
 	}
 
 	private UseCaseDiffInfo getUseCaseDiffInfo(final String name) {
-		return (UseCaseDiffInfo) initStructureDiffInfo(new UseCaseDiffInfo(), name, SCENARIO_NAME, new Scenario(SCENARIO_NAME, null));
+		ScenarioSummary scenarioSummary = new ScenarioSummary();
+		scenarioSummary.setScenario(new Scenario(SCENARIO_NAME, null));
+		return (UseCaseDiffInfo) initStructureDiffInfo(new UseCaseDiffInfo(), name, SCENARIO_NAME, scenarioSummary);
 	}
 
 	private ScenarioDiffInfo getScenarioDiffInfo(final String name) {

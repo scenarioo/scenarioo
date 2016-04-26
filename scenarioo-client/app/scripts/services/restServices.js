@@ -249,11 +249,29 @@ angular.module('scenarioo.services')
         });
     })
 
+    .factory('UseCaseDiffInfoResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/:useCaseName/useCaseDiffInfo', {
+            baseBranchName: '@baseBranchName',
+            baseBuildName: '@baseBuildName',
+            comparisonName: '@comparisonName',
+            useCaseName: '@useCaseName'
+        });
+    })
+
     .factory('UseCaseDiffInfosResource', function (ScenariooResource) {
         return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/useCaseDiffInfos', {
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName'
+        });
+    })
+
+    .factory('ScenarioDiffInfosResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/:useCaseName/scenarioDiffInfos', {
+            baseBranchName: '@baseBranchName',
+            baseBuildName: '@baseBuildName',
+            comparisonName: '@comparisonName',
+            useCaseName: '@useCaseName'
         });
     });
 

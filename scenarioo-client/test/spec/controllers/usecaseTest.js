@@ -23,17 +23,19 @@ describe('Controller :: useCase', function () {
         BUILD = 'build_123',
         USE_CASE = 'LogIn';
 
-    var $scope, routeParams, controller, ScenarioResource, RelatedIssueResource, SelectedBranchAndBuild, $location, $httpBackend, HostnameAndPort;
+    var $scope, routeParams, controller, ScenarioResource, RelatedIssueResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource, SelectedBranchAndBuild, $location, $httpBackend, HostnameAndPort;
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, _RelatedIssueResource_,
+    beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, _RelatedIssueResource_, _UseCaseDiffInfoResource_, _ScenarioDiffInfosResource_,
                                 ConfigMock, _SelectedBranchAndBuild_, _$location_, localStorageService, _$httpBackend_, _HostnameAndPort_) {
             $scope = $rootScope.$new();
             routeParams = $routeParams;
             routeParams.useCaseName = USE_CASE;
             ScenarioResource = _ScenarioResource_;
             RelatedIssueResource = _RelatedIssueResource_;
+            UseCaseDiffInfoResource = _UseCaseDiffInfoResource_;
+            ScenarioDiffInfosResource = _ScenarioDiffInfosResource_;
             SelectedBranchAndBuild = _SelectedBranchAndBuild_;
             $location = _$location_;
             $httpBackend = _$httpBackend_;
@@ -47,6 +49,8 @@ describe('Controller :: useCase', function () {
                 Config: ConfigMock,
                 ScenarioResource: ScenarioResource,
                 RelatedIssueResource: RelatedIssueResource,
+                UseCaseDiffInfoResource: UseCaseDiffInfoResource,
+                ScenarioDiffInfosResource: ScenarioDiffInfosResource,
                 SelectedBranchAndBuild: SelectedBranchAndBuild
             });
         }
@@ -55,6 +59,8 @@ describe('Controller :: useCase', function () {
     it('should load all scenarios and and the selected use case', function () {
         spyOn(ScenarioResource, 'get').and.callFake(getFindAllScenariosFake());
         spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
+        spyOn(UseCaseDiffInfoResource, 'get').and.callFake(getEmptyData());
+        spyOn(ScenarioDiffInfosResource, 'get').and.callFake(getEmptyData());
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/labelconfigurations').respond({});
 
         expect(SelectedBranchAndBuild.selected().branch).toBeUndefined();
@@ -82,7 +88,7 @@ describe('Controller :: useCase', function () {
     function getFindAllScenariosFake() {
         var DATA = {
             useCase: 'useCase',
-            scenarios: 'scenarios'
+            scenarios: getFakeScenarios()
         };
 
         return function (params, onSuccess) {
@@ -98,6 +104,24 @@ describe('Controller :: useCase', function () {
                     name: 'fakeTestingIssue',
                     firstScenarioSketchId: '1'
                 }
+        };
+
+        return function(params, onSuccess) {
+            onSuccess(DATA);
+        };
+    }
+
+    function getFakeScenarios() {
+        var scenarios = [];
+        scenarios.push({
+            name : "scenario"
+        });
+        return scenarios;
+    }
+
+    function getEmptyData() {
+        var DATA = {
+
         };
 
         return function(params, onSuccess) {

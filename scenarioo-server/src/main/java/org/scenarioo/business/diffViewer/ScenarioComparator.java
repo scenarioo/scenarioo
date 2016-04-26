@@ -17,15 +17,21 @@
 
 package org.scenarioo.business.diffViewer;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.model.configuration.ComparisonAlias;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
+import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
+import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
  * Comparator to compare scenarios of two use cases. Results are persisted in a xml file.
@@ -35,6 +41,9 @@ public class ScenarioComparator extends AbstractComparator {
 	private static final Logger LOGGER = Logger.getLogger(ScenarioComparator.class);
 
 	private StepComparator stepComparator = new StepComparator(baseBranchName, baseBuildName, comparisonName);
+
+	private AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
+			configurationRepository.getDocumentationDataDirectory());
 
 	public ScenarioComparator(String baseBranchName, String baseBuildName, String comparisonName) {
 		super(baseBranchName, baseBuildName, comparisonName);
@@ -86,11 +95,35 @@ public class ScenarioComparator extends AbstractComparator {
 				+ baseBranchName + "] and base build [" + baseBuildName + "] and base use case ["
 				+ baseUseCaseName + "]");
 		useCaseDiffInfo.setRemoved(comparisonScenarios.size());
-		useCaseDiffInfo.getRemovedElements().addAll(comparisonScenarios);
+		useCaseDiffInfo.setRemovedElements(getScenarioSummaries(comparisonScenarios, comparisonAlias, baseUseCaseName));
 		useCaseDiffInfo.setChangeRate(calculateChangeRate(baseScenarios.size(), useCaseDiffInfo.getAdded(),
 				useCaseDiffInfo.getRemoved(), scenarioChangeRateSum));
 
 		return useCaseDiffInfo;
+	}
+
+	private List<ScenarioSummary> getScenarioSummaries(final List<Scenario> scenarios,
+			final ComparisonAlias comparisonAlias, final String useCaseName) {
+		List<ScenarioSummary> scenarioSummaries = new LinkedList<ScenarioSummary>();
+
+		if (scenarios.isEmpty()) {
+			return scenarioSummaries;
+		}
+
+		final BuildIdentifier buildIdentifier = new BuildIdentifier(comparisonAlias.getComparisonBranchName(),
+				comparisonAlias.getComparisonBuildName());
+
+		UseCaseScenarios useCaseScenarios = aggregatedDataReader.loadUseCaseScenarios(buildIdentifier, useCaseName);
+
+		for (Scenario scenario : scenarios) {
+			for (ScenarioSummary scenarioSummary : useCaseScenarios.getScenarios()) {
+				if (scenario.getName().equals(scenarioSummary.getScenario().getName())) {
+					scenarioSummaries.add(scenarioSummary);
+				}
+			}
+		}
+
+		return scenarioSummaries;
 	}
 
 	private Scenario getScenarioByName(final List<Scenario> scenarios, final String scenarioName) {

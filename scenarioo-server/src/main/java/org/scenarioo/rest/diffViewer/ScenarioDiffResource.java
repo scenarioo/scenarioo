@@ -32,17 +32,17 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffReader;
-import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
+import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.usecase.UseCasesResource;
 
 /**
- * Handles requests for use case diff information.
+ * Handles requests for scenario diff information.
  */
-@Path("/rest/diffViewer/{baseBranchName}/{baseBuildName}/{comparisonName}")
-public class UseCaseDiffResource {
+@Path("/rest/diffViewer/{baseBranchName}/{baseBuildName}/{comparisonName}/{useCaseName}")
+public class ScenarioDiffResource {
 
 	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
 
@@ -53,11 +53,11 @@ public class UseCaseDiffResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/{useCaseName}/useCaseDiffInfo")
-	public Response getUseCaseDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
+	@Path("/scenarioDiffInfos")
+	public Response getScenarioDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName, @PathParam("useCaseName") final String useCaseName) {
-		LOGGER.info("REQUEST: getUseCaseDiffInfo(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
+		LOGGER.info("REQUEST: getScenarioDiffInfos(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
 				+ ", " + useCaseName + ")");
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
@@ -65,50 +65,24 @@ public class UseCaseDiffResource {
 				baseBuildName);
 
 		try {
-			UseCaseDiffInfo useCaseDiffInfo = diffReader.loadUseCaseDiffInfo(buildIdentifier.getBranchName(),
+			List<ScenarioDiffInfo> scenarioDiffInfos = diffReader.loadScenarioDiffInfos(
+					buildIdentifier.getBranchName(),
 					buildIdentifier.getBuildName(), comparisonName, useCaseName);
-			return Response.ok(useCaseDiffInfo, MediaType.APPLICATION_JSON).build();
+			return Response.ok(getScenarioDiffInfoMap(scenarioDiffInfos), MediaType.APPLICATION_JSON).build();
 		} catch (ResourceNotFoundException e) {
-			LOGGER.warn("Unable to get use case diff info", e);
+			LOGGER.warn("Unable to get scenario diff infos", e);
 			return Response.noContent().build();
 		} catch (Throwable e) {
-			LOGGER.warn("Unable to get use case diff info", e);
+			LOGGER.warn("Unable to get scenario diff infos", e);
 			return Response.serverError().build();
 		}
 	}
 
-	@GET
-	@Produces("application/json")
-	@Path("/useCaseDiffInfos")
-	public Response getUseCaseDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
-			@PathParam("baseBuildName") final String baseBuildName,
-			@PathParam("comparisonName") final String comparisonName) {
-		LOGGER.info("REQUEST: getUseCaseDiffInfos(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
-				+ ")");
-
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
-				baseBranchName,
-				baseBuildName);
-
-		try {
-			List<UseCaseDiffInfo> useCaseDiffInfos = diffReader.loadUseCaseDiffInfos(buildIdentifier.getBranchName(),
-					buildIdentifier.getBuildName(),
-					comparisonName);
-			return Response.ok(getUseCaseDiffInfoMap(useCaseDiffInfos), MediaType.APPLICATION_JSON).build();
-		} catch (ResourceNotFoundException e) {
-			LOGGER.warn("Unable to get use case diff infos", e);
-			return Response.noContent().build();
-		} catch (Throwable e) {
-			LOGGER.warn("Unable to get use case diff infos", e);
-			return Response.serverError().build();
+	private Map<String, ScenarioDiffInfo> getScenarioDiffInfoMap(List<ScenarioDiffInfo> scenarioDiffInfos) {
+		Map<String, ScenarioDiffInfo> scenarioDiffInfoMap = new HashMap<String, ScenarioDiffInfo>();
+		for (ScenarioDiffInfo scenarioDiffInfo : scenarioDiffInfos) {
+			scenarioDiffInfoMap.put(scenarioDiffInfo.getName(), scenarioDiffInfo);
 		}
-	}
-
-	private Map<String, UseCaseDiffInfo> getUseCaseDiffInfoMap(List<UseCaseDiffInfo> useCaseDiffInfos) {
-		Map<String, UseCaseDiffInfo> useCaseDiffInfoMap = new HashMap<String, UseCaseDiffInfo>();
-		for (UseCaseDiffInfo useCaseDiffInfo : useCaseDiffInfos) {
-			useCaseDiffInfoMap.put(useCaseDiffInfo.getName(), useCaseDiffInfo);
-		}
-		return useCaseDiffInfoMap;
+		return scenarioDiffInfoMap;
 	}
 }

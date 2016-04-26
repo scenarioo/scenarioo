@@ -18,7 +18,7 @@
 angular.module('scenarioo.controllers').controller('UseCaseCtrl', UseCaseCtrl);
 
 function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild,
-                     LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource) {
+                     LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource) {
 
     var vm = this;
 
@@ -40,6 +40,7 @@ function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource,
     vm.hasAnyLabels = false;
 
     vm.resetSearchField = resetSearchField;
+    vm.handleClick = handleClick;
     vm.goToFirstStep = goToFirstStep;
     vm.goToScenario = goToScenario;
     vm.onNavigatorTableHit = onNavigatorTableHit;
@@ -51,6 +52,12 @@ function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource,
 
     function resetSearchField() {
         vm.table.search = {searchTerm: ''};
+    }
+
+    function handleClick(useCaseName, scenarioSummary) {
+        if(scenarioSummary.diffInfo && !scenarioSummary.diffInfo.isRemoved){
+            goToScenario(useCaseName, scenarioSummary.scenario.name);
+        }
     }
 
     function goToScenario(useCaseName, scenarioName) {
@@ -113,11 +120,64 @@ function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource,
 
     function onUseCaseLoaded(result) {
         vm.useCase = result.useCase;
-        vm.scenarios = result.scenarios;
         vm.usecaseInformationTree = createUseCaseInformationTree(vm.useCase);
         vm.metadataTree = $filter('scMetadataTreeListCreator')(vm.useCase.details);
         vm.hasAnyLabels = vm.useCase.labels && vm.useCase.labels.labels.length !== 0;
+
+        // TODO pforster: get from dropdown menu
+        var comparisonName = 'exampleComparison';
+
+        if(comparisonName) {
+            var selected = SelectedBranchAndBuild.selected();
+            loadDiffInfoData(result.scenarios, selected.branch, selected.build, comparisonName, result.useCase.name);
+        } else {
+            vm.scenarios = result.scenarios;
+        }
+
         loadRelatedIssues();
+    }
+
+    function loadDiffInfoData(scenarios, baseBranchName, baseBuildName, comparisonName, useCaseName){
+        UseCaseDiffInfoResource.get(
+            {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName},
+            function onSuccess(useCaseDiffInfo) {
+                ScenarioDiffInfosResource.get(
+                    {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName},
+                    function onSuccess(scenarioDiffInfos) {
+                        vm.scenarios = getScenariosWithDiffInfo(scenarios, scenarioDiffInfos, useCaseDiffInfo);
+                    }
+                );
+            }
+        );
+    }
+
+    function getScenariosWithDiffInfo(scenarios, scenarioDiffInfos, useCaseDiffInfo){
+        var scenariosWithDiffInfo = [];
+
+        angular.forEach(scenarios, function(scenario){
+            var scenarioDiffInfo = scenarioDiffInfos[scenario.name];
+            if(scenarioDiffInfo) {
+                scenario.diffInfo = scenarioDiffInfo;
+                scenario.diffInfo.isAdded = false;
+                scenario.diffInfo.isRemoved = false;
+            } else {
+                console.info(scenario);
+                scenario.diffInfo = {};
+                console.info(scenario.diffInfo);
+                scenario.diffInfo.isAdded = true;
+                scenario.diffInfo.isRemoved = false;
+            }
+            scenariosWithDiffInfo.push(scenario);
+        });
+
+        angular.forEach(useCaseDiffInfo.removedElements, function(removedScenario){
+            removedScenario.diffInfo = {};
+            removedScenario.diffInfo.isAdded = false;
+            removedScenario.diffInfo.isRemoved = true;
+            scenariosWithDiffInfo.push(removedScenario);
+        });
+
+        return scenariosWithDiffInfo;
     }
 
     function loadRelatedIssues(){
