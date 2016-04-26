@@ -81,7 +81,7 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
       } else {
         useCase.diffInfo = {};
         useCase.diffInfo.isAdded = true;
-        useCase.diffInfo.isRemoved = true;
+        useCase.diffInfo.isRemoved = false;
       }
       useCasesWithDiffInfo.push(useCase);
     });

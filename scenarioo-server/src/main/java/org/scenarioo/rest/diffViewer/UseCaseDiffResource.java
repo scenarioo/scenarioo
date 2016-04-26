@@ -52,6 +52,32 @@ public class UseCaseDiffResource {
 
 	@GET
 	@Produces("application/json")
+	@Path("/{useCaseName}/useCaseDiffInfo")
+	public Response getUseCaseDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
+			@PathParam("baseBuildName") final String baseBuildName,
+			@PathParam("comparisonName") final String comparisonName, @PathParam("useCaseName") final String useCaseName) {
+		LOGGER.info("REQUEST: getUseCaseDiffInfo(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
+				+ ", " + useCaseName + ")");
+
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+				baseBranchName,
+				baseBuildName);
+
+		try {
+			UseCaseDiffInfo useCaseDiffInfo = diffReader.loadUseCaseDiffInfo(buildIdentifier.getBranchName(),
+					buildIdentifier.getBuildName(), comparisonName, useCaseName);
+			return Response.ok(useCaseDiffInfo, MediaType.APPLICATION_JSON).build();
+		} catch (ResourceNotFoundException e) {
+			LOGGER.warn("Unable to get use case diff info", e);
+			return Response.noContent().build();
+		} catch (Throwable e) {
+			LOGGER.warn("Unable to get use case diff info", e);
+			return Response.serverError().build();
+		}
+	}
+
+	@GET
+	@Produces("application/json")
 	@Path("/useCaseDiffInfos")
 	public Response getUseCaseDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
@@ -79,7 +105,7 @@ public class UseCaseDiffResource {
 
 	private Map<String, UseCaseDiffInfo> getUseCaseDiffInfoMap(List<UseCaseDiffInfo> useCaseDiffInfos) {
 		Map<String, UseCaseDiffInfo> useCaseDiffInfoMap = new HashMap<String, UseCaseDiffInfo>();
-		for(UseCaseDiffInfo useCaseDiffInfo : useCaseDiffInfos) {
+		for (UseCaseDiffInfo useCaseDiffInfo : useCaseDiffInfos) {
 			useCaseDiffInfoMap.put(useCaseDiffInfo.getName(), useCaseDiffInfo);
 		}
 		return useCaseDiffInfoMap;
