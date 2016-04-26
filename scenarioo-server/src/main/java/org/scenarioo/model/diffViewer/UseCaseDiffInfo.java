@@ -22,15 +22,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
-import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 
 /**
  * Contains the diff information for a UseCase.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlSeeAlso(Scenario.class)
-public class UseCaseDiffInfo extends StructureDiffInfo<String, Scenario> {
+@XmlSeeAlso(ScenarioSummary.class)
+public class UseCaseDiffInfo extends StructureDiffInfo<String, ScenarioSummary> {
 
 	public UseCaseDiffInfo() {
 		super();

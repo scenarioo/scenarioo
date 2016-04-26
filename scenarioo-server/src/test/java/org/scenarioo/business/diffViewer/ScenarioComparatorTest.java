@@ -35,13 +35,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.diffViewer.DiffWriter;
 import org.scenarioo.model.configuration.ComparisonAlias;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
+import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
+import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
  * Test cases for the scenario comparator with mocked docu data.
@@ -65,6 +69,9 @@ public class ScenarioComparatorTest {
 
 	@Mock
 	private DiffWriter diffWriter;
+
+	@Mock
+	private AggregatedDocuDataReader aggregatedDataReader;
 
 	@Mock
 	private StepComparator stepComparator;
@@ -184,7 +191,7 @@ public class ScenarioComparatorTest {
 		assertEquals(0, useCaseDiffInfo.getChanged());
 		assertEquals(1, useCaseDiffInfo.getRemoved());
 		assertTrue(useCaseDiffInfo.getAddedElements().isEmpty());
-		assertEquals(removedScenario, useCaseDiffInfo.getRemovedElements().get(0));
+		assertEquals(removedScenario.getName(), useCaseDiffInfo.getRemovedElements().get(0).getScenario().getName());
 	}
 
 	@Test
@@ -205,8 +212,8 @@ public class ScenarioComparatorTest {
 		assertEquals(0, useCaseDiffInfo.getChanged());
 		assertEquals(2, useCaseDiffInfo.getRemoved());
 		assertTrue(useCaseDiffInfo.getAddedElements().isEmpty());
-		assertEquals(removedScenario1, useCaseDiffInfo.getRemovedElements().get(0));
-		assertEquals(removedScenario2, useCaseDiffInfo.getRemovedElements().get(1));
+		assertEquals(removedScenario1.getName(), useCaseDiffInfo.getRemovedElements().get(0).getScenario().getName());
+		assertEquals(removedScenario2.getName(), useCaseDiffInfo.getRemovedElements().get(1).getScenario().getName());
 	}
 
 	@Test(expected = RuntimeException.class)
@@ -227,9 +234,13 @@ public class ScenarioComparatorTest {
 		when(scenarioDocuReader.loadScenarios(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME, USE_CASE_NAME))
 				.thenReturn(comparisonScenarios);
 		when(stepComparator.compare(anyString(), anyString())).thenReturn(scenarioDiffInfo);
+
+		UseCaseScenarios useCaseScenarios = getUseCaseScenarios(SCENARIO_NAME_1, SCENARIO_NAME_2, SCENARIO_NAME_3);
+		when(aggregatedDataReader.loadUseCaseScenarios(any(BuildIdentifier.class), anyString())).thenReturn(
+				useCaseScenarios);
 	}
 
-	public List<Scenario> getScenarios(String... names) {
+	private List<Scenario> getScenarios(String... names) {
 		List<Scenario> scenarios = new LinkedList<Scenario>();
 		for (String name : names) {
 			Scenario scenario = new Scenario();
@@ -237,6 +248,22 @@ public class ScenarioComparatorTest {
 			scenarios.add(scenario);
 		}
 		return scenarios;
+	}
+
+	private UseCaseScenarios getUseCaseScenarios(String... names) {
+		List<ScenarioSummary> scenarioSummaries = new LinkedList<ScenarioSummary>();
+		for (String name : names) {
+			Scenario scenario = new Scenario();
+			scenario.setName(name);
+			ScenarioSummary scenarioSummary = new ScenarioSummary();
+			scenarioSummary.setScenario(scenario);
+			scenarioSummaries.add(scenarioSummary);
+		}
+
+		UseCaseScenarios useCaseScenarios = new UseCaseScenarios();
+		useCaseScenarios.setScenarios(scenarioSummaries);
+
+		return useCaseScenarios;
 	}
 
 	private ScenarioDiffInfo getScenarioDiffInfo(double changeRate, int added, int changed, int removed) {
