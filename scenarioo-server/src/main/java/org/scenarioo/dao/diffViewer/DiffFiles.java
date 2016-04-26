@@ -144,10 +144,10 @@ public class DiffFiles {
 	 */
 	public File getScreenshotFile(final String baseBranchName, final String baseBuildName,
 			final String comparisonName,
-			final String useCaseName, final String scenarioName, final int stepIndex) {
+			final String useCaseName, final String scenarioName, final String imageName) {
 		return new File(getScreenshotsDirectory(baseBranchName, baseBuildName, comparisonName, useCaseName,
 				scenarioName),
-				THREE_DIGIT_NUM_FORMAT.format(stepIndex) + ".png");
+				imageName);
 	}
 
 	public void assertRootDirectoryExists() {

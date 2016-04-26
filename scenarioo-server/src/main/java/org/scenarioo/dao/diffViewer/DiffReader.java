@@ -87,9 +87,7 @@ public class DiffReader {
 		checkIdentifier(useCaseName);
 
 		List<File> files = diffFiles.getScenarioFiles(baseBranchName, baseBuildName, comparisonName, useCaseName);
-		
-	
-		
+
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(ScenarioDiffInfo.class, files);
 	}
 
@@ -140,11 +138,8 @@ public class DiffReader {
 	public File getScreenshotFile(final String baseBranchName, final String baseBuildName, final String comparisonName,
 			final String useCaseName,
 			final String scenarioName, final String imageName) {
-		return new File(
-				"/home/scenarioo/scenarioo/scenarioo-server/src/test/resources/org/scenarioo/business/diffViewer/comparisonScreenshot.png");
-		// TODO: mscheube: remove Testfile
-		// return new File(diffFiles.getScreenshotsFile(checkIdentifier(baseBranchName),
-		// checkIdentifier(baseBuildName), checkIdentifier(comparisonName), checkIdentifier(useCaseName),
-		// checkIdentifier(scenarioName)), imageName);
+		return diffFiles.getScreenshotFile(checkIdentifier(baseBranchName),
+				checkIdentifier(baseBuildName), checkIdentifier(comparisonName), checkIdentifier(useCaseName),
+				checkIdentifier(scenarioName), imageName);
 	}
 }
