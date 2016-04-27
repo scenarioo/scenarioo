@@ -49,8 +49,6 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
     }
 
     function resolvePathValue(obj, path) {
-        console.info(obj);
-        console.info(path);
         var current = obj;
         if(path) {
             var paths = path.split('.');
