@@ -15,6 +15,7 @@ third-party
 scenarioo-client/app/scripts/environment_config.js
 scenarioo-client/app/styles/scenarioo.css
 scenarioo-client/scenariooDocumentation
+scenarioo-validator/build
 .project
 /build
 *hs_err*.log
