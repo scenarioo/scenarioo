@@ -32,7 +32,7 @@ describe('Service :: DiffInfoService', function () {
         var removedElements = getDummyElements([REMOVED_NAME]);
         var diffInfos = getDummyDiffInfos([CHANGED_NAME, UNCHANGED_NAME]);
 
-        var elementsWithDiffInfo = DiffInfoService.getElementsWithDiffInfos(elements, removedElements, diffInfos);
+        var elementsWithDiffInfo = DiffInfoService.getElementsWithDiffInfos(elements, removedElements, diffInfos, 'name');
 
         expect(elementsWithDiffInfo.length).toBe(4);
         assertElement(elementsWithDiffInfo[0], ADDED_NAME, true, false);
@@ -64,7 +64,7 @@ describe('Service :: DiffInfoService', function () {
             added: 10,
             changed: 10,
             removed: 10
-        }
+        };
     }
 
     function getDummyElements(elemNames){
@@ -80,6 +80,6 @@ describe('Service :: DiffInfoService', function () {
     function getDummyElement(name){
         return {
             name: name
-        }
+        };
     }
 });
