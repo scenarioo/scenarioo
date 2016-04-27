@@ -49,7 +49,7 @@ import java.util.regex.Pattern;
 /**
  * Resource for getting the URLs for screenshots for a certain object
  */
-@Path("/rest/branch/{branchName}/build/{buildName}/screens/{type}")
+@Path("/rest/branch/{branchName}/build/{buildName}/object/{type}/{objectName}/screenshots")
 public class ObjectScreenshotsResource extends AbstractBuildContentResource {
 
     private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
@@ -66,11 +66,10 @@ public class ObjectScreenshotsResource extends AbstractBuildContentResource {
 
     @GET
     @Produces({"application/json" })
-    @Path("{name}/")
     public List<String> readStepDetails(@PathParam("branchName") final String branchName,
                                              @PathParam("buildName") final String buildName,
                                              @PathParam("type") final String objectType,
-                                             @PathParam("name") final String objectName) throws IOException {
+                                             @PathParam("objectName") final String objectName) throws IOException {
 
         BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
                 buildName);
