@@ -62,7 +62,7 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
           UseCaseDiffInfosResource.get(
               {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
               function onSuccess(useCaseDiffInfos) {
-                $scope.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos);
+                $scope.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
               }
           );
         }

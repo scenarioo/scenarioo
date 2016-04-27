@@ -144,7 +144,7 @@ function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource,
                 ScenarioDiffInfosResource.get(
                     {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName},
                     function onSuccess(scenarioDiffInfos) {
-                        vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos);
+                        vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
                     }
                 );
             }

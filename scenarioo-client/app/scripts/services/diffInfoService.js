@@ -21,11 +21,11 @@
  */
 angular.module('scenarioo.services').factory('DiffInfoService', function () {
 
-    function getElementsWithDiffInfos(elements, removedElements, diffInfos) {
+    function getElementsWithDiffInfos(elements, removedElements, diffInfos, pathToName) {
         var elementsWithDiffInfo = [];
 
         angular.forEach(elements, function(element){
-            var scenarioDiffInfo = diffInfos[element.name];
+            var scenarioDiffInfo = diffInfos[resolvePathValue(element, pathToName)];
             if(scenarioDiffInfo) {
                 element.diffInfo = scenarioDiffInfo;
                 element.diffInfo.isAdded = false;
@@ -46,6 +46,23 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
         });
 
         return elementsWithDiffInfo;
+    }
+
+    function resolvePathValue(obj, path) {
+        console.info(obj);
+        console.info(path);
+        var current = obj;
+        if(path) {
+            var paths = path.split('.');
+            for(var i = 0; i < paths.length; i++) {
+                if(current[paths[i]] === undefined){
+                    return undefined;
+                }else {
+                    current = current[paths[i]];
+                }
+            }
+        }
+        return current;
     }
 
     return {
