@@ -96,16 +96,22 @@ $(document).ready(function(){
       <td>John</td>
       <td>Doe</td>    
       <td>
+          
+       <!-- progress bar panel for changeRatio      
        <div class="progress scen" data-toggle="tooltip" data-placement="right" data-html="true"  data-original-title="Added: 129<br/>Removed: 114<br/>Total: 243">
+
+          <!-- progress bar for changeRatio -->
           <div class="progress-bar progress-bar-warning scen" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%">
-            <!-- <span class="sr-only">70% Complete</span> -->
+
+              <!-- the changeRatio text -->
               <div style="font-size: 14px; position:absolute; left:0; right:0; margin-left:auto; margin-right:auto; bottom:-19px;">
-               <!--  <span class="text-success">+129</span>
-                <span class="text-danger">-114</span> -->
                 <span style="color:orange; font-weight: bold;">50%</span>
               </div>
           </div>   
+
+          <!-- additional progress bar for additions: if changes and additions are more than 100% together the bars need to be scaled accordingly to 100% in total -->
           <div class="progress-bar  progress-bar-success scen-second" role="progressbar" style="width:23%"></div>       
+        
         </div>
       </td>
     </tr>
