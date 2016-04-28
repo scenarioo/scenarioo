@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+  <style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+
+}
+
+.progress.scen{
+    position: relative;
+    height: 25px;
+    margin-bottom: 0;
+    overflow: hidden;
+    max-width:155px;
+    /*background-color: #f5f5f5;*/
+    border-radius: 5px 5px 5px 5px;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+    background-color: white;
+    border: solid 1px #EAEAEA;
+}
+
+.progress-bar.scen {
+    float: left;
+    width: 0;
+    height: 5px;
+    font-size: 12px;
+    line-height: 55px;
+    color: #000000;
+    text-align: center;
+    /*background-color: green;*/
+    -webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+    -webkit-transition: width .6s ease;
+    -o-transition: width .6s ease;
+    transition: width .6s ease;
+}
+
+.progress-bar.scen-second{
+      height: 5px;
+      /*background-color: #FF0000;*/
+}
+
+.tooltip-inner {
+    text-align:left;
+}
+
+
+table, th, td {
+    border: 1px solid #C3C3C3;
+    border-collapse: collapse;
+}
+
+</style>
+
+<script>
+$(document).ready(function(){
+    $('div[data-toggle="tooltip"]').tooltip();   
+});
+</script>
+
+</head>
+<body>
+
+
+<div class="container">
+  <table style="width:100%">
+    <tr>
+      <th>Status</th>
+      <th>Scenario name</th>   
+      <th>Changes</th>
+    </tr>
+    <tr>
+      <td>Jill</td>
+      <td>Smith</td>    
+      <td>50</td>
+    </tr>
+    <tr>
+      <td>Eve</td>
+      <td>Jackson</td>    
+      <td>94</td>
+    </tr>
+    <tr>
+      <td>John</td>
+      <td>Doe</td>    
+      <td>
+       <div class="progress scen" data-toggle="tooltip" data-placement="right" data-html="true"  data-original-title="Added: 129<br/>Removed: 114<br/>Total: 243">
+          <div class="progress-bar progress-bar-warning scen" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%">
+            <!-- <span class="sr-only">70% Complete</span> -->
+              <div style="font-size: 14px; position:absolute; left:0; right:0; margin-left:auto; margin-right:auto; bottom:-19px;">
+               <!--  <span class="text-success">+129</span>
+                <span class="text-danger">-114</span> -->
+                <span style="color:orange; font-weight: bold;">50%</span>
+              </div>
+          </div>   
+          <div class="progress-bar  progress-bar-success scen-second" role="progressbar" style="width:23%"></div>       
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+</body>
+</html>
