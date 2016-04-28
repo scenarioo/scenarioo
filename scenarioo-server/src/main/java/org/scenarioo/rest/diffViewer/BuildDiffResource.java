@@ -27,6 +27,7 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.business.diffViewer.BuildComparator;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.repository.ConfigurationRepository;
@@ -59,14 +60,16 @@ public class BuildDiffResource {
 				baseBranchName,
 				baseBuildName);
 
+		new BuildComparator(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), comparisonName).compare();
+
 		try {
-			BuildDiffInfo buildDiffInfo = diffReader.loadBuildDiffInfo(buildIdentifier.getBranchName(),
+			final BuildDiffInfo buildDiffInfo = diffReader.loadBuildDiffInfo(buildIdentifier.getBranchName(),
 					buildIdentifier.getBuildName(), comparisonName);
 			return Response.ok(buildDiffInfo, MediaType.APPLICATION_JSON).build();
-		} catch (ResourceNotFoundException e) {
+		} catch (final ResourceNotFoundException e) {
 			LOGGER.warn("Unable to get build diff info", e);
 			return Response.noContent().build();
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			LOGGER.warn("Unable to get build diff info", e);
 			return Response.serverError().build();
 		}
