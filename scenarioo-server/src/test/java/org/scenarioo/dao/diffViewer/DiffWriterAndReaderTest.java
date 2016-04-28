@@ -72,19 +72,19 @@ public class DiffWriterAndReaderTest {
 	public void tearDown() {
 		try {
 			FileUtils.deleteDirectory(ROOT_DIRECTORY);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new RuntimeException("Could not delete test data directory", e);
 		}
 	}
 
 	@Test
 	public void testWriteAndReadBuildDiffInfo() {
-		BuildDiffInfo buildDiffInfo = getBuildDiffInfo(COMPARISON_NAME);
+		final BuildDiffInfo buildDiffInfo = getBuildDiffInfo(COMPARISON_NAME);
 
 		writer.saveBuildDiffInfo(buildDiffInfo);
 		writer.flush();
 
-		BuildDiffInfo actualBuildDiffInfo = reader.loadBuildDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
+		final BuildDiffInfo actualBuildDiffInfo = reader.loadBuildDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
 				COMPARISON_NAME);
 
 		assertStructueDiffInfo(actualBuildDiffInfo, COMPARISON_NAME);
@@ -92,12 +92,12 @@ public class DiffWriterAndReaderTest {
 
 	@Test
 	public void testWriteAndReadUseCaseDiffInfo() {
-		UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(USE_CASE_NAME);
+		final UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(USE_CASE_NAME);
 
 		writer.saveUseCaseDiffInfo(useCaseDiffInfo);
 		writer.flush();
 
-		UseCaseDiffInfo actualUseCaseDiffInfo = reader.loadUseCaseDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
+		final UseCaseDiffInfo actualUseCaseDiffInfo = reader.loadUseCaseDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
 				COMPARISON_NAME, USE_CASE_NAME);
 
 		assertStructueDiffInfo(actualUseCaseDiffInfo, USE_CASE_NAME);
@@ -105,12 +105,12 @@ public class DiffWriterAndReaderTest {
 
 	@Test
 	public void testWriteAndReadScenarioDiffInfo() {
-		ScenarioDiffInfo scenarioDiffInfo = getScenarioDiffInfo(SCENARIO_NAME);
+		final ScenarioDiffInfo scenarioDiffInfo = getScenarioDiffInfo(SCENARIO_NAME);
 
 		writer.saveScenarioDiffInfo(scenarioDiffInfo, USE_CASE_NAME);
 		writer.flush();
 
-		ScenarioDiffInfo actualScenarioDiffInfo = reader.loadScenarioDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
+		final ScenarioDiffInfo actualScenarioDiffInfo = reader.loadScenarioDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
 				COMPARISON_NAME, USE_CASE_NAME, SCENARIO_NAME);
 
 		assertStructueDiffInfo(actualScenarioDiffInfo, SCENARIO_NAME);
@@ -118,12 +118,12 @@ public class DiffWriterAndReaderTest {
 
 	@Test
 	public void testWriteAndReadStepDiffInfo() {
-		StepDiffInfo stepDiffInfo = getStepDiffInfo(STEP_INDEX);
+		final StepDiffInfo stepDiffInfo = getStepDiffInfo(STEP_INDEX);
 
 		writer.saveStepDiffInfo(USE_CASE_NAME, SCENARIO_NAME, stepDiffInfo);
 		writer.flush();
 
-		StepDiffInfo actualStepDiffInfo = reader.loadStepDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
+		final StepDiffInfo actualStepDiffInfo = reader.loadStepDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
 				COMPARISON_NAME, USE_CASE_NAME, SCENARIO_NAME, STEP_INDEX);
 
 		assertStepDiffInfo(actualStepDiffInfo, STEP_INDEX);
@@ -133,12 +133,12 @@ public class DiffWriterAndReaderTest {
 	public void testWriteAndReadBuildDiffInfos() {
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
 			writer = new DiffWriter(ROOT_DIRECTORY, BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME + i);
-			BuildDiffInfo buildDiffInfo = getBuildDiffInfo(COMPARISON_NAME + i);
+			final BuildDiffInfo buildDiffInfo = getBuildDiffInfo(COMPARISON_NAME + i);
 			writer.saveBuildDiffInfo(buildDiffInfo);
 			writer.flush();
 		}
 
-		List<BuildDiffInfo> actualBuildDiffInfos = reader.loadBuildDiffInfos(BASE_BRANCH_NAME, BASE_BUILD_NAME);
+		final List<BuildDiffInfo> actualBuildDiffInfos = reader.loadBuildDiffInfos(BASE_BRANCH_NAME, BASE_BUILD_NAME);
 
 		assertEquals(2, actualBuildDiffInfos.size());
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
@@ -149,12 +149,12 @@ public class DiffWriterAndReaderTest {
 	@Test
 	public void testWriteAndReadUseCaseDiffInfos() {
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
-			UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(USE_CASE_NAME + i);
+			final UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(USE_CASE_NAME + i);
 			writer.saveUseCaseDiffInfo(useCaseDiffInfo);
 		}
 		writer.flush();
 
-		List<UseCaseDiffInfo> actualUseCaseDiffInfos = reader.loadUseCaseDiffInfos(BASE_BRANCH_NAME, BASE_BUILD_NAME,
+		final List<UseCaseDiffInfo> actualUseCaseDiffInfos = reader.loadUseCaseDiffInfos(BASE_BRANCH_NAME, BASE_BUILD_NAME,
 				COMPARISON_NAME);
 
 		assertEquals(2, actualUseCaseDiffInfos.size());
@@ -166,12 +166,12 @@ public class DiffWriterAndReaderTest {
 	@Test
 	public void testWriteAndReadScenarioDiffInfos() {
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
-			ScenarioDiffInfo scenarioDiffInfo = getScenarioDiffInfo(SCENARIO_NAME + i);
+			final ScenarioDiffInfo scenarioDiffInfo = getScenarioDiffInfo(SCENARIO_NAME + i);
 			writer.saveScenarioDiffInfo(scenarioDiffInfo, USE_CASE_NAME);
 		}
 		writer.flush();
 
-		List<ScenarioDiffInfo> actualScenarioDiffInfos = reader.loadScenarioDiffInfos(BASE_BRANCH_NAME,
+		final List<ScenarioDiffInfo> actualScenarioDiffInfos = reader.loadScenarioDiffInfos(BASE_BRANCH_NAME,
 				BASE_BUILD_NAME, COMPARISON_NAME, USE_CASE_NAME);
 
 		assertEquals(2, actualScenarioDiffInfos.size());
@@ -183,12 +183,12 @@ public class DiffWriterAndReaderTest {
 	@Test
 	public void testWriteAndReadStepDiffInfos() {
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
-			StepDiffInfo stepDiffInfo = getStepDiffInfo(STEP_INDEX + i);
+			final StepDiffInfo stepDiffInfo = getStepDiffInfo(STEP_INDEX + i);
 			writer.saveStepDiffInfo(USE_CASE_NAME, SCENARIO_NAME, stepDiffInfo);
 		}
 		writer.flush();
 
-		List<StepDiffInfo> actualStepDiffInfos = reader.loadStepDiffInfos(BASE_BRANCH_NAME, BASE_BUILD_NAME,
+		final List<StepDiffInfo> actualStepDiffInfos = reader.loadStepDiffInfos(BASE_BRANCH_NAME, BASE_BUILD_NAME,
 				COMPARISON_NAME, USE_CASE_NAME, SCENARIO_NAME);
 
 		assertEquals(2, actualStepDiffInfos.size());
@@ -209,11 +209,12 @@ public class DiffWriterAndReaderTest {
 	}
 
 	private BuildDiffInfo getBuildDiffInfo(final String name) {
-		return (BuildDiffInfo) initStructureDiffInfo(new BuildDiffInfo(), name, USE_CASE_NAME, new UseCase(USE_CASE_NAME, null));
+		return (BuildDiffInfo) initStructureDiffInfo(new BuildDiffInfo(), name, USE_CASE_NAME,
+				new UseCase(USE_CASE_NAME, null));
 	}
 
 	private UseCaseDiffInfo getUseCaseDiffInfo(final String name) {
-		ScenarioSummary scenarioSummary = new ScenarioSummary();
+		final ScenarioSummary scenarioSummary = new ScenarioSummary();
 		scenarioSummary.setScenario(new Scenario(SCENARIO_NAME, null));
 		return (UseCaseDiffInfo) initStructureDiffInfo(new UseCaseDiffInfo(), name, SCENARIO_NAME, scenarioSummary);
 	}
@@ -245,7 +246,7 @@ public class DiffWriterAndReaderTest {
 	}
 
 	private StepDiffInfo getStepDiffInfo(final int index) {
-		StepDiffInfo stepDiffInfo = new StepDiffInfo();
+		final StepDiffInfo stepDiffInfo = new StepDiffInfo();
 		stepDiffInfo.setChangeRate(CHANGE_RATE);
 		stepDiffInfo.setIndex(index);
 		stepDiffInfo.setPageName(PAGE_NAME);
