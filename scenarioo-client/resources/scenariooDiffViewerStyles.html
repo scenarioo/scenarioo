@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
 
   <style>
 
@@ -20,7 +22,7 @@ th, td {
 
 }
 
-.progress.scen{
+.progress.sc-diff-changes {
     position: relative;
     height: 25px;
     margin-bottom: 0;
@@ -34,7 +36,7 @@ th, td {
     border: solid 1px #EAEAEA;
 }
 
-.progress-bar.scen {
+.progress.sc-diff-changes .progress-bar {
     float: left;
     width: 0;
     height: 5px;
@@ -50,10 +52,29 @@ th, td {
     transition: width .6s ease;
 }
 
-.progress-bar.scen-second{
-      height: 5px;
-      /*background-color: #FF0000;*/
+.sc-diff-added {
+    color: #02c000;
+    font-size: 14px;
+    position:absolute;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+    bottom:-19px;
 }
+
+.sc-diff-removed {
+    color: #ff0600;
+    font-size: 14px;
+    position:absolute;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+    bottom:-19px;
+
+}
+
 
 .tooltip-inner {
     text-align:left;
@@ -90,11 +111,11 @@ $(document).ready(function(){
       <td>
 
           <!-- progress bar panel for changeRatio -->
-          <div class="progress scen" data-toggle="tooltip" data-placement="right" data-html="true" data-original-title="8 scenarios changed<br/>3 scenarios removed<br/>4 scenarios added">
+          <div class="progress sc-diff-changes" data-toggle="tooltip" data-placement="right" data-html="true" data-original-title="8 scenarios changed<br/>3 scenarios removed<br/>4 scenarios added">
 
               <!-- progress bar for changeRatio -->
               <!-- 3 scenarios removed of 33 (=1 scenario is about 3 %) + 8 Scenarios with a change rate of 50% (=1.5% per changed scenario) = 3 * 3% + 8 * 1.5% = 21% -->
-              <div class="progress-bar progress-bar-warning scen" role="progressbar" aria-valuenow="21" aria-valuemin="0" aria-valuemax="100" style="width:21%">
+              <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="21" aria-valuemin="0" aria-valuemax="100" style="width:21%">
 
                   <!-- the changeRatio text -->
                   <div style="font-size: 14px; position:absolute; left:0; right:0; margin-left:auto; margin-right:auto; bottom:-19px;">
@@ -107,17 +128,40 @@ $(document).ready(function(){
 
               <!-- additional progress bar for additions: if changes and additions are more than 100% together the bars need to be scaled accordingly to 100% in total -->
               <!-- 4 scenarios added = 4 * 3 % = 12 % -->
-              <div class="progress-bar  progress-bar-success scen-second" role="progressbar" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100" style="width:12%"></div>
+              <div class="progress-bar  progress-bar-success" role="progressbar" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100" style="width:12%"></div>
 
           </div>
 
       </td>
     </tr>
     <tr>
+          <td>Usecase with only small Changes</td>
+          <td>33</td>
+          <td>
+
+              <!-- progress bar panel for changeRatio -->
+              <div class="progress sc-diff-changes" data-toggle="tooltip" data-placement="right" data-html="true" data-original-title="1 scenario changed">
+
+                  <!-- progress bar for changeRatio -->
+                  <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="100" style="width:3%">
+
+                      <!-- the changeRatio text -->
+                      <div style="font-size: 14px; position:absolute; left:0; right:0; margin-left:auto; margin-right:auto; bottom:-19px;">
+                          <span style="color:orange; font-weight: bold;">3%</span>
+                      </div>
+
+                  </div>
+
+             </div>
+
+          </td>
+      </tr>
+
+    <tr>
       <td>Use Case Unchanged</td>
       <td>8</td>
       <td>
-          <div class="progress scen" data-toggle="tooltip" data-placement="right" data-html="true" data-original-title="no changes in this use case">
+          <div class="progress sc-diff-changes" data-toggle="tooltip" data-placement="right" data-html="true" data-original-title="no changes in this use case">
               <!-- nothing for no changes -->
           </div>
       </td>
@@ -126,8 +170,17 @@ $(document).ready(function(){
         <td>Use Case Added</td>
         <td>3</td>
         <td>
-            <div class="progress scen" data-toggle="tooltip" data-placement="right" data-html="true" data-original-title="newly added use case">
-                <!-- icon for additions -->
+            <div class="progress sc-diff-changes" data-toggle="tooltip" data-placement="right" data-html="true" data-original-title="newly added use case">
+
+                <!-- the added icon -->
+                <div class="progress-bar" role="progressbar" style="width:0%">
+
+                    <div class="sc-diff-added">
+                        <i class="icon-plus"></i>
+                    </div>
+
+                </div>
+
             </div>
         </td>
     </tr>
@@ -135,8 +188,17 @@ $(document).ready(function(){
           <td>Use Case Removed</td>
           <td>3</td>
           <td>
-              <div class="progress scen" data-toggle="tooltip" data-placement="right" data-html="true" data-original-title="use case has been removed">
-                  <!-- icon for changes -->
+              <div class="progress sc-diff-changes" data-toggle="tooltip" data-placement="right" data-html="true" data-original-title="removed use case">
+
+                  <!-- the added icon -->
+                  <div class="progress-bar" role="progressbar" style="width:0%">
+
+                      <div class="sc-diff-removed">
+                          <i class="icon-minus"></i>
+                      </div>
+
+                  </div>
+
               </div>
           </td>
       </tr>
