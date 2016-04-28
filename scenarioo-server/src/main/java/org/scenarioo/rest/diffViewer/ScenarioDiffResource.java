@@ -56,7 +56,8 @@ public class ScenarioDiffResource {
 	@Path("/scenarioDiffInfos")
 	public Response getScenarioDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
-			@PathParam("comparisonName") final String comparisonName, @PathParam("useCaseName") final String useCaseName) {
+			@PathParam("comparisonName") final String comparisonName,
+			@PathParam("useCaseName") final String useCaseName) {
 		LOGGER.info("REQUEST: getScenarioDiffInfos(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
 				+ ", " + useCaseName + ")");
 
@@ -65,22 +66,22 @@ public class ScenarioDiffResource {
 				baseBuildName);
 
 		try {
-			List<ScenarioDiffInfo> scenarioDiffInfos = diffReader.loadScenarioDiffInfos(
+			final List<ScenarioDiffInfo> scenarioDiffInfos = diffReader.loadScenarioDiffInfos(
 					buildIdentifier.getBranchName(),
 					buildIdentifier.getBuildName(), comparisonName, useCaseName);
 			return Response.ok(getScenarioDiffInfoMap(scenarioDiffInfos), MediaType.APPLICATION_JSON).build();
-		} catch (ResourceNotFoundException e) {
+		} catch (final ResourceNotFoundException e) {
 			LOGGER.warn("Unable to get scenario diff infos", e);
 			return Response.noContent().build();
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			LOGGER.warn("Unable to get scenario diff infos", e);
 			return Response.serverError().build();
 		}
 	}
 
 	private Map<String, ScenarioDiffInfo> getScenarioDiffInfoMap(List<ScenarioDiffInfo> scenarioDiffInfos) {
-		Map<String, ScenarioDiffInfo> scenarioDiffInfoMap = new HashMap<String, ScenarioDiffInfo>();
-		for (ScenarioDiffInfo scenarioDiffInfo : scenarioDiffInfos) {
+		final Map<String, ScenarioDiffInfo> scenarioDiffInfoMap = new HashMap<String, ScenarioDiffInfo>();
+		for (final ScenarioDiffInfo scenarioDiffInfo : scenarioDiffInfos) {
 			scenarioDiffInfoMap.put(scenarioDiffInfo.getName(), scenarioDiffInfo);
 		}
 		return scenarioDiffInfoMap;

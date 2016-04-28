@@ -35,7 +35,7 @@ public class ScenarioDiffInfo extends StructureDiffInfo<Integer, StepLink> {
 	public ScenarioDiffInfo() {
 		super();
 	}
-	
+
 	public ScenarioDiffInfo(String scenarioName) {
 		super(scenarioName);
 	}

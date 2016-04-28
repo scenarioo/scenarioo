@@ -35,7 +35,7 @@ public class UseCaseDiffInfo extends StructureDiffInfo<String, ScenarioSummary> 
 	public UseCaseDiffInfo() {
 		super();
 	}
-	
+
 	public UseCaseDiffInfo(String useCaseName) {
 		super(useCaseName);
 	}

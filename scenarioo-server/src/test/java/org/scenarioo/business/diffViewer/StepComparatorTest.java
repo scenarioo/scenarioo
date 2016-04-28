@@ -71,7 +71,8 @@ public class StepComparatorTest {
 	private ScreenshotComparator screenshotComparator;
 
 	@InjectMocks
-	private final StepComparator stepComparator = new StepComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
+	private final StepComparator stepComparator = new StepComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME,
+			COMPARISON_NAME);
 
 	@BeforeClass
 	public static void setUpClass() {
@@ -85,19 +86,19 @@ public class StepComparatorTest {
 	public static void tearDownClass() {
 		try {
 			FileUtils.deleteDirectory(ROOT_DIRECTORY);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new RuntimeException("Could not delete test data directory", e);
 		}
 	}
 
 	@Test
 	public void testCompareBuildsEqual() {
-		List<Step> baseSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
-		List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
+		final List<Step> baseSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
+		final List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
 
 		initMocks(baseSteps, comparisonSteps, 0.0);
 
-		ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
+		final ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
 		assertEquals(0, scenarioDiffInfo.getChangeRate(), 0.0);
 		assertEquals(0, scenarioDiffInfo.getAdded());
@@ -109,14 +110,14 @@ public class StepComparatorTest {
 
 	@Test
 	public void testCompareOneStepAdded() {
-		List<Step> baseSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
-		List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1);
+		final List<Step> baseSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
+		final List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1);
 
 		initMocks(baseSteps, comparisonSteps, 0.0);
 
-		ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
+		final ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
-		double expectedChangeRate = 100.0 / 3.0;
+		final double expectedChangeRate = 100.0 / 3.0;
 		assertEquals(expectedChangeRate, scenarioDiffInfo.getChangeRate(), 0.0);
 		assertEquals(1, scenarioDiffInfo.getAdded());
 		assertEquals(0, scenarioDiffInfo.getChanged());
@@ -127,14 +128,14 @@ public class StepComparatorTest {
 
 	@Test
 	public void testCompareMultipleStepsAdded() {
-		List<Step> baseSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
-		List<Step> comparisonSteps = getSteps(PAGE_NAME_1);
+		final List<Step> baseSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
+		final List<Step> comparisonSteps = getSteps(PAGE_NAME_1);
 
 		initMocks(baseSteps, comparisonSteps, 0.0);
 
-		ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
+		final ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
-		double expectedChangeRate = 200.0 / 3.0;
+		final double expectedChangeRate = 200.0 / 3.0;
 		assertEquals(expectedChangeRate, scenarioDiffInfo.getChangeRate(), 0.0);
 		assertEquals(2, scenarioDiffInfo.getAdded());
 		assertEquals(0, scenarioDiffInfo.getChanged());
@@ -146,15 +147,15 @@ public class StepComparatorTest {
 
 	@Test
 	public void testCompareStepChangedTo50Percentage() {
-		double changeRatePerStep = 50.0;
-		List<Step> baseSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
-		List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
+		final double changeRatePerStep = 50.0;
+		final List<Step> baseSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
+		final List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
 
 		initMocks(baseSteps, comparisonSteps, changeRatePerStep);
 
-		ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
+		final ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
-		double expectedChangeRate = changeRatePerStep;
+		final double expectedChangeRate = changeRatePerStep;
 		assertEquals(expectedChangeRate, scenarioDiffInfo.getChangeRate(), 0.0);
 		assertEquals(0, scenarioDiffInfo.getAdded());
 		assertEquals(3, scenarioDiffInfo.getChanged());
@@ -165,14 +166,14 @@ public class StepComparatorTest {
 
 	@Test
 	public void testCompareOneStepRemoved() {
-		List<Step> baseSteps = getSteps(PAGE_NAME_1);
-		List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1);
+		final List<Step> baseSteps = getSteps(PAGE_NAME_1);
+		final List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1);
 
 		initMocks(baseSteps, comparisonSteps, 0.0);
 
-		ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
+		final ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
-		double expectedChangeRate = 100.0 / 2.0;
+		final double expectedChangeRate = 100.0 / 2.0;
 		assertEquals(expectedChangeRate, scenarioDiffInfo.getChangeRate(), 0.0);
 		assertEquals(0, scenarioDiffInfo.getAdded());
 		assertEquals(0, scenarioDiffInfo.getChanged());
@@ -183,14 +184,14 @@ public class StepComparatorTest {
 
 	@Test
 	public void testCompareMultipleStepsRemoved() {
-		List<Step> baseSteps = getSteps(PAGE_NAME_1);
-		List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
+		final List<Step> baseSteps = getSteps(PAGE_NAME_1);
+		final List<Step> comparisonSteps = getSteps(PAGE_NAME_1, PAGE_NAME_1, PAGE_NAME_2);
 
 		initMocks(baseSteps, comparisonSteps, 0.0);
 
-		ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
+		final ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(USE_CASE_NAME, SCENARIO_NAME);
 
-		double expectedChangeRate = 200.0 / 3.0;
+		final double expectedChangeRate = 200.0 / 3.0;
 		assertEquals(expectedChangeRate, scenarioDiffInfo.getChangeRate(), 0.0);
 		assertEquals(0, scenarioDiffInfo.getAdded());
 		assertEquals(0, scenarioDiffInfo.getChanged());
@@ -208,13 +209,13 @@ public class StepComparatorTest {
 				.thenReturn(comparisonSteps);
 		when(screenshotComparator.compare(anyString(), anyString(), any(ComparisonAlias.class), any(StepLink.class),
 				any(StepLink.class)))
-				.thenReturn(changeRate);
+						.thenReturn(changeRate);
 	}
 
 	public List<Step> getSteps(final String... names) {
-		List<Step> steps = new LinkedList<Step>();
-		for (String name : names) {
-			Step step = new Step();
+		final List<Step> steps = new LinkedList<Step>();
+		for (final String name : names) {
+			final Step step = new Step();
 			step.setPage(new Page(name));
 			steps.add(step);
 		}
@@ -223,16 +224,16 @@ public class StepComparatorTest {
 
 	private static Configuration getTestConfiguration() {
 
-		ComparisonAlias comparisonAlias = new ComparisonAlias();
+		final ComparisonAlias comparisonAlias = new ComparisonAlias();
 		comparisonAlias.setBaseBranchName(BASE_BRANCH_NAME);
 		comparisonAlias.setComparisonBranchName(COMPARISON_BRANCH_NAME);
 		comparisonAlias.setComparisonBuildName(COMPARISON_BUILD_NAME);
 		comparisonAlias.setComparisonName(COMPARISON_NAME);
 
-		List<ComparisonAlias> comparisonAliases = new LinkedList<ComparisonAlias>();
+		final List<ComparisonAlias> comparisonAliases = new LinkedList<ComparisonAlias>();
 		comparisonAliases.add(comparisonAlias);
 
-		Configuration configuration = RepositoryLocator.INSTANCE.getConfigurationRepository().getConfiguration();
+		final Configuration configuration = RepositoryLocator.INSTANCE.getConfigurationRepository().getConfiguration();
 		configuration.setComparisonAliases(comparisonAliases);
 
 		return configuration;
