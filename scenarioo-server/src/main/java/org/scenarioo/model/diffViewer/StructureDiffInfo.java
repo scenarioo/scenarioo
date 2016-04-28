@@ -20,6 +20,11 @@ package org.scenarioo.model.diffViewer;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+
 /**
  * Contains the diff information for a structure object.
  * 
@@ -28,13 +33,20 @@ import java.util.List;
  * @param <REMOVED_TYPE>
  *            Type for removed elements
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class StructureDiffInfo<ADDED_TYPE, REMOVED_TYPE> extends AbstractDiffInfo {
 
 	private String name;
 	private int added;
 	private int changed;
 	private int removed;
+
+	@XmlElementWrapper(name = "addedElements")
+	@XmlElement(name = "addedElement")
 	private List<ADDED_TYPE> addedElements = new LinkedList<ADDED_TYPE>();
+
+	@XmlElementWrapper(name = "removedElements")
+	@XmlElement(name = "removedElemet")
 	private List<REMOVED_TYPE> removedElements = new LinkedList<REMOVED_TYPE>();
 
 	public StructureDiffInfo() {
