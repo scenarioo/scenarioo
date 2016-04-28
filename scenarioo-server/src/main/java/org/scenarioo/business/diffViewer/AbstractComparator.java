@@ -19,6 +19,7 @@ package org.scenarioo.business.diffViewer;
 
 import org.apache.commons.lang3.StringUtils;
 import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.dao.diffViewer.DiffWriter;
 import org.scenarioo.model.configuration.ComparisonAlias;
 import org.scenarioo.model.configuration.Configuration;
@@ -69,9 +70,19 @@ public abstract class AbstractComparator {
 			throw new IllegalArgumentException("Unable to resolve empty comparison name.");
 		}
 
-		Configuration configuration = configurationRepository.getConfiguration();
-		for (ComparisonAlias comparisonAlias : configuration.getComparisonAliases()) {
+		final Configuration configuration = configurationRepository.getConfiguration();
+		for (final ComparisonAlias comparisonAlias : configuration.getComparisonAliases()) {
 			if (comparisonName.equals(comparisonAlias.getComparisonName())) {
+				try {
+					docuReader.loadBuild(comparisonAlias.getComparisonBranchName(),
+							comparisonAlias.getComparisonBuildName());
+				} catch (final ResourceNotFoundException e) {
+					throw new RuntimeException(
+							"Resolved comparison alias successful but comparison build ["
+									+ comparisonAlias.getBaseBranchName()
+									+ "/" + comparisonAlias.getComparisonBuildName() + "] does not exist.",
+							e);
+				}
 				return comparisonAlias;
 			}
 		}
