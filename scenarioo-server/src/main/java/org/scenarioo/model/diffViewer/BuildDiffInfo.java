@@ -17,8 +17,6 @@
 
 package org.scenarioo.model.diffViewer;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
@@ -28,7 +26,6 @@ import org.scenarioo.model.docu.entities.UseCase;
  * Contains the diff information for a Build.
  */
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 @XmlSeeAlso(UseCase.class)
 public class BuildDiffInfo extends StructureDiffInfo<String, UseCase> {
 
