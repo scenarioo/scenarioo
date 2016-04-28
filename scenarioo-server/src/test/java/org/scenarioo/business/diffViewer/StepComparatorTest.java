@@ -35,6 +35,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffWriter;
 import org.scenarioo.model.configuration.ComparisonAlias;
 import org.scenarioo.model.configuration.Configuration;
@@ -43,6 +44,7 @@ import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
  * Test cases for the step comparator with mocked docu data.
@@ -62,7 +64,10 @@ public class StepComparatorTest {
 	private static final String PAGE_NAME_2 = "page2";
 
 	@Mock
-	private ScenarioDocuReader scenarioDocuReader;
+	private ScenarioDocuBuildsManager docuBuildsManager;
+
+	@Mock
+	private ScenarioDocuReader docuReader;
 
 	@Mock
 	private DiffWriter diffWriter;
@@ -203,11 +208,13 @@ public class StepComparatorTest {
 
 	private void initMocks(final List<Step> baseSteps, final List<Step> comparisonSteps,
 			final double changeRate) {
-		when(scenarioDocuReader.loadSteps(BASE_BRANCH_NAME, BASE_BUILD_NAME, USE_CASE_NAME, SCENARIO_NAME)).thenReturn(
+		when(docuBuildsManager.resolveBranchAndBuildAliases(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME))
+				.thenReturn(new BuildIdentifier(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME));
+		when(docuReader.loadSteps(BASE_BRANCH_NAME, BASE_BUILD_NAME, USE_CASE_NAME, SCENARIO_NAME)).thenReturn(
 				baseSteps);
-		when(scenarioDocuReader.loadSteps(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME, USE_CASE_NAME, SCENARIO_NAME))
+		when(docuReader.loadSteps(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME, USE_CASE_NAME, SCENARIO_NAME))
 				.thenReturn(comparisonSteps);
-		when(screenshotComparator.compare(anyString(), anyString(), any(ComparisonAlias.class), any(StepLink.class),
+		when(screenshotComparator.compare(anyString(), anyString(), any(StepLink.class),
 				any(StepLink.class)))
 						.thenReturn(changeRate);
 	}

@@ -35,6 +35,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffWriter;
 import org.scenarioo.model.configuration.ComparisonAlias;
 import org.scenarioo.model.configuration.Configuration;
@@ -42,6 +43,7 @@ import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
  * Test cases for the use case comparator with mocked docu data.
@@ -60,7 +62,10 @@ public class UseCaseComparatorTest {
 	private static final String USE_CASE_NAME_3 = "useCase_3";
 
 	@Mock
-	private ScenarioDocuReader scenarioDocuReader;
+	private ScenarioDocuBuildsManager docuBuildsManager;
+
+	@Mock
+	private ScenarioDocuReader docuReader;
 
 	@Mock
 	private DiffWriter diffWriter;
@@ -84,20 +89,20 @@ public class UseCaseComparatorTest {
 	public static void tearDownClass() {
 		try {
 			FileUtils.deleteDirectory(ROOT_DIRECTORY);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new RuntimeException("Could not delete test data directory", e);
 		}
 	}
 
 	@Test
 	public void testCompareBuildsEqual() {
-		List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
-		List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
-		UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(0, 0, 0, 0);
+		final List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
+		final List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
+		final UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(0, 0, 0, 0);
 
 		initMocks(baseUseCases, comparisonUseCases, useCaseDiffInfo);
 
-		BuildDiffInfo buildDiffInfo = useCaseComparator.compare();
+		final BuildDiffInfo buildDiffInfo = useCaseComparator.compare();
 
 		assertEquals(0, buildDiffInfo.getChangeRate(), 0.0);
 		assertEquals(0, buildDiffInfo.getAdded());
@@ -109,15 +114,15 @@ public class UseCaseComparatorTest {
 
 	@Test
 	public void testCompareOneUseCaseAdded() {
-		List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
-		List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2);
-		UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(0, 0, 0, 0);
+		final List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
+		final List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2);
+		final UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(0, 0, 0, 0);
 
 		initMocks(baseUseCases, comparisonUseCases, useCaseDiffInfo);
 
-		BuildDiffInfo buildDiffInfo = useCaseComparator.compare();
+		final BuildDiffInfo buildDiffInfo = useCaseComparator.compare();
 
-		double expectedChangeRate = 100.0 / 3.0;
+		final double expectedChangeRate = 100.0 / 3.0;
 		assertEquals(expectedChangeRate, buildDiffInfo.getChangeRate(), 0.0);
 		assertEquals(1, buildDiffInfo.getAdded());
 		assertEquals(0, buildDiffInfo.getChanged());
@@ -128,15 +133,15 @@ public class UseCaseComparatorTest {
 
 	@Test
 	public void testCompareMultipleUseCasesAdded() {
-		List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
-		List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_2);
-		UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(0, 0, 0, 0);
+		final List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
+		final List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_2);
+		final UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(0, 0, 0, 0);
 
 		initMocks(baseUseCases, comparisonUseCases, useCaseDiffInfo);
 
-		BuildDiffInfo buildDiffInfo = useCaseComparator.compare();
+		final BuildDiffInfo buildDiffInfo = useCaseComparator.compare();
 
-		double expectedChangeRate = 200.0 / 3.0;
+		final double expectedChangeRate = 200.0 / 3.0;
 		assertEquals(expectedChangeRate, buildDiffInfo.getChangeRate(), 0.0);
 		assertEquals(2, buildDiffInfo.getAdded());
 		assertEquals(0, buildDiffInfo.getChanged());
@@ -148,16 +153,16 @@ public class UseCaseComparatorTest {
 
 	@Test
 	public void testCompareUseCaseChangedTo50Percentage() {
-		double changeRatePerUseCase = 50.0;
-		List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
-		List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
-		UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(changeRatePerUseCase, 1, 1, 1);
+		final double changeRatePerUseCase = 50.0;
+		final List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
+		final List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
+		final UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(changeRatePerUseCase, 1, 1, 1);
 
 		initMocks(baseUseCases, comparisonUseCases, useCaseDiffInfo);
 
-		BuildDiffInfo buildDiffInfo = useCaseComparator.compare();
+		final BuildDiffInfo buildDiffInfo = useCaseComparator.compare();
 
-		double expectedChangeRate = changeRatePerUseCase;
+		final double expectedChangeRate = changeRatePerUseCase;
 		assertEquals(expectedChangeRate, buildDiffInfo.getChangeRate(), 0.0);
 		assertEquals(0, buildDiffInfo.getAdded());
 		assertEquals(3, buildDiffInfo.getChanged());
@@ -168,16 +173,16 @@ public class UseCaseComparatorTest {
 
 	@Test
 	public void testCompareOneUseCaseRemoved() {
-		List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1);
-		List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2);
-		UseCase removedUseCase = comparisonUseCases.get(1);
-		UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(0, 0, 0, 0);
+		final List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1);
+		final List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2);
+		final UseCase removedUseCase = comparisonUseCases.get(1);
+		final UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(0, 0, 0, 0);
 
 		initMocks(baseUseCases, comparisonUseCases, useCaseDiffInfo);
 
-		BuildDiffInfo buildDiffInfo = useCaseComparator.compare();
+		final BuildDiffInfo buildDiffInfo = useCaseComparator.compare();
 
-		double expectedChangeRate = 100.0 / 2.0;
+		final double expectedChangeRate = 100.0 / 2.0;
 		assertEquals(expectedChangeRate, buildDiffInfo.getChangeRate(), 0.0);
 		assertEquals(0, buildDiffInfo.getAdded());
 		assertEquals(0, buildDiffInfo.getChanged());
@@ -188,17 +193,17 @@ public class UseCaseComparatorTest {
 
 	@Test
 	public void testCompareMultipleUseCasesRemoved() {
-		List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_2);
-		List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
-		UseCase removedUseCase1 = comparisonUseCases.get(0);
-		UseCase removedUseCase2 = comparisonUseCases.get(2);
-		UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(0, 0, 0, 0);
+		final List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_2);
+		final List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
+		final UseCase removedUseCase1 = comparisonUseCases.get(0);
+		final UseCase removedUseCase2 = comparisonUseCases.get(2);
+		final UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(0, 0, 0, 0);
 
 		initMocks(baseUseCases, comparisonUseCases, useCaseDiffInfo);
 
-		BuildDiffInfo buildDiffInfo = useCaseComparator.compare();
+		final BuildDiffInfo buildDiffInfo = useCaseComparator.compare();
 
-		double expectedChangeRate = 200.0 / 3.0;
+		final double expectedChangeRate = 200.0 / 3.0;
 		assertEquals(expectedChangeRate, buildDiffInfo.getChangeRate(), 0.0);
 		assertEquals(0, buildDiffInfo.getAdded());
 		assertEquals(0, buildDiffInfo.getChanged());
@@ -210,9 +215,9 @@ public class UseCaseComparatorTest {
 
 	@Test(expected = RuntimeException.class)
 	public void testCompareEmptyBaseUseCaseName() {
-		List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1, null);
-		List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
-		UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(0, 0, 0, 0);
+		final List<UseCase> baseUseCases = getUseCases(USE_CASE_NAME_1, null);
+		final List<UseCase> comparisonUseCases = getUseCases(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
+		final UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(0, 0, 0, 0);
 
 		initMocks(baseUseCases, comparisonUseCases, useCaseDiffInfo);
 
@@ -221,17 +226,19 @@ public class UseCaseComparatorTest {
 
 	private void initMocks(List<UseCase> baseUseCases, List<UseCase> comparisonUseCases,
 			UseCaseDiffInfo useCaseDiffInfo) {
-		when(scenarioDocuReader.loadUsecases(BASE_BRANCH_NAME, BASE_BUILD_NAME)).thenReturn(
+		when(docuBuildsManager.resolveBranchAndBuildAliases(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME))
+				.thenReturn(new BuildIdentifier(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME));
+		when(docuReader.loadUsecases(BASE_BRANCH_NAME, BASE_BUILD_NAME)).thenReturn(
 				baseUseCases);
-		when(scenarioDocuReader.loadUsecases(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME)).thenReturn(
+		when(docuReader.loadUsecases(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME)).thenReturn(
 				comparisonUseCases);
 		when(scenarioComparator.compare(anyString())).thenReturn(useCaseDiffInfo);
 	}
 
 	public List<UseCase> getUseCases(String... names) {
-		List<UseCase> useCases = new LinkedList<UseCase>();
-		for (String name : names) {
-			UseCase useCase = new UseCase();
+		final List<UseCase> useCases = new LinkedList<UseCase>();
+		for (final String name : names) {
+			final UseCase useCase = new UseCase();
 			useCase.setName(name);
 			useCases.add(useCase);
 		}
@@ -239,7 +246,7 @@ public class UseCaseComparatorTest {
 	}
 
 	private UseCaseDiffInfo getUseCaseDiffInfo(double changeRate, int added, int changed, int removed) {
-		UseCaseDiffInfo useCaseDiffInfo = new UseCaseDiffInfo();
+		final UseCaseDiffInfo useCaseDiffInfo = new UseCaseDiffInfo();
 		useCaseDiffInfo.setChangeRate(changeRate);
 		useCaseDiffInfo.setAdded(added);
 		useCaseDiffInfo.setChanged(changed);
@@ -249,16 +256,16 @@ public class UseCaseComparatorTest {
 
 	private static Configuration getTestConfiguration() {
 
-		ComparisonAlias comparisonAlias = new ComparisonAlias();
+		final ComparisonAlias comparisonAlias = new ComparisonAlias();
 		comparisonAlias.setBaseBranchName(BASE_BRANCH_NAME);
 		comparisonAlias.setComparisonBranchName(COMPARISON_BRANCH_NAME);
 		comparisonAlias.setComparisonBuildName(COMPARISON_BUILD_NAME);
 		comparisonAlias.setComparisonName(COMPARISON_NAME);
 
-		List<ComparisonAlias> comparisonAliases = new LinkedList<ComparisonAlias>();
+		final List<ComparisonAlias> comparisonAliases = new LinkedList<ComparisonAlias>();
 		comparisonAliases.add(comparisonAlias);
 
-		Configuration configuration = RepositoryLocator.INSTANCE.getConfigurationRepository().getConfiguration();
+		final Configuration configuration = RepositoryLocator.INSTANCE.getConfigurationRepository().getConfiguration();
 		configuration.setComparisonAliases(comparisonAliases);
 
 		return configuration;
