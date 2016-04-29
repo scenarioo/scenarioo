@@ -7,6 +7,7 @@ function prepareProtractorForE2ETests() {
 
     setupJasmineXmlReporters();
     setupScenariooFluentDsl();
+    setupFailOnConsoleError();
     configureBrowserWindowSize();
     disableAnimations();
 
@@ -71,6 +72,32 @@ function prepareProtractorForE2ETests() {
         browser.addMockModule('disableNgAnimate', disableNgAnimate);
         browser.addMockModule('disableCssAnimate', disableCssAnimate);
 
+    }
+
+    /**
+     * Configure to fail if there is unexpected log output in the browser's console log
+     */
+    function setupFailOnConsoleError() {
+
+        afterEach(failOnConsoleError);
+
+        function failOnConsoleError() {
+            browser.manage().logs().get('browser').then(function(browserLogEntries) {
+                var errorLogs = '';
+                var errorCount = 0;
+                browserLogEntries.forEach(function(logEntry) {
+                    if (logEntry.level.value >= 900) {
+                        // level 900 is WARNING, above is ERROR/SEVERE
+                        errorCount++;
+                        errorLogs += '     [' + errorCount + '] ' + logEntry.message + '\n';
+                    }
+                });
+                if (errorCount > 0) {
+                    var pluralS = (errorCount > 1) ? 's' : '';
+                    fail('Console errors in browser during test execution detected (' + errorCount + ' error' + pluralS + '):\n' + errorLogs);
+                }
+            });
+        }
     }
 
 }
