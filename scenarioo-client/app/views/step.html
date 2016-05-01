@@ -118,23 +118,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </pre>
             </uib-tab>
             <uib-tab heading="Comparison" id="comparison-tab">
-                <!-- TODO: Seperate Controller like this: <div ng-controller="TitleCtrl"></div> -->
                 <div class="col-lg-6">
-                    <p>TODO: Get real data: {{comparisonName}} / comparisonBranch / comparisonBuild </p>
+                    <div>
+                    <h3 class="step-comparison-title" >{{comparisonName}} </h3>
 
-                    <button ng-click="toggleDiffScreenshot()" ng-bind="toggleText"></button>
-
-                    <div ng-show="showDiffScreenshot">
+                    <sc-diff-screenshot-button linking-variable="stepShowDiffScreenshot" class="step-comparison-button" ></sc-diff-screenshot-button>
+                    </div>
+                    <div ng-show="stepShowDiffScreenshot" class="step-comparison-image">
                         <sc-annotated-screenshot get-screen-shot-url="getDiffScreenShotUrl"></sc-annotated-screenshot>
                     </div>
 
-                    <div ng-show="!showDiffScreenshot">
+                    <div ng-show="!stepShowDiffScreenshot" class="step-comparison-image">
                         <sc-annotated-screenshot screen-annotations="comparisonStep.screenAnnotations" get-screen-shot-url="getComparisonScreenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
                     </div>
 
                 </div>
                 <div class="col-lg-6">
-                    <p>{{stepIdentifier.branchName}} / {{stepIdentifier.buildName}}</p>
+                    <h3>{{stepIdentifier.buildName}} </h3>
                     <sc-annotated-screenshot screen-annotations="step.screenAnnotations" get-screen-shot-url="getScreenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
                 </div>
             </uib-tab>
