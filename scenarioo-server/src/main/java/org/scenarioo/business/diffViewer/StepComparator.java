@@ -24,13 +24,13 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.scenarioo.model.configuration.ComparisonAlias;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Step;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
  * Comparator to compare steps of two scenarios. Results are persisted in a xml file.
@@ -56,20 +56,22 @@ public class StepComparator extends AbstractComparator {
 	 * @return {@link StructureDiffInfo} with the summarized diff information.
 	 */
 	public ScenarioDiffInfo compare(final String baseUseCaseName, final String baseScenarioName) {
-		ComparisonAlias comparisonAlias = resolveComparisonName(comparisonName);
+		final BuildIdentifier comparisonBuildIdentifier = getComparisonBuildIdentifier(comparisonName);
 
-		List<Step> baseSteps = docuReader.loadSteps(baseBranchName, baseBuildName, baseUseCaseName, baseScenarioName);
-		List<Step> comparisonSteps = docuReader.loadSteps(comparisonAlias.getComparisonBranchName(),
-				comparisonAlias.getComparisonBuildName(), baseUseCaseName, baseScenarioName);
+		final List<Step> baseSteps = docuReader.loadSteps(baseBranchName, baseBuildName, baseUseCaseName,
+				baseScenarioName);
+		final List<Step> comparisonSteps = docuReader.loadSteps(comparisonBuildIdentifier.getBranchName(),
+				comparisonBuildIdentifier.getBuildName(), baseUseCaseName, baseScenarioName);
 
-		List<StepLink> baseStepLinks = getStepLinks(baseSteps, baseUseCaseName, baseScenarioName);
-		List<StepLink> comparisonStepLinks = getStepLinks(comparisonSteps, baseUseCaseName, baseScenarioName);
+		final List<StepLink> baseStepLinks = getStepLinks(baseSteps, baseUseCaseName, baseScenarioName);
+		final List<StepLink> comparisonStepLinks = getStepLinks(comparisonSteps, baseUseCaseName, baseScenarioName);
 
-		ScenarioDiffInfo scenarioDiffInfo = new ScenarioDiffInfo(baseScenarioName);
+		final ScenarioDiffInfo scenarioDiffInfo = new ScenarioDiffInfo(baseScenarioName);
 		double stepChangeRateSum = 0;
 
-		for (StepLink baseStepLink : baseStepLinks) {
-			StepLink comparisonStepLink = getStepLinkByIdentifier(comparisonStepLinks, getStepIdentifier(baseStepLink));
+		for (final StepLink baseStepLink : baseStepLinks) {
+			final StepLink comparisonStepLink = getStepLinkByIdentifier(comparisonStepLinks,
+					getStepIdentifier(baseStepLink));
 			if (comparisonStepLink == null) {
 				LOGGER.debug("Found new step called [" + getStepIdentifier(baseStepLink) + "] in base branch ["
 						+ baseBranchName + "] and base build [" + baseBuildName + "] and base use case ["
@@ -79,11 +81,10 @@ public class StepComparator extends AbstractComparator {
 			} else {
 				comparisonStepLinks.remove(comparisonStepLink);
 
-				double changeRate = screenshotComparator.compare(baseUseCaseName, baseScenarioName,
-						comparisonAlias,
+				final double changeRate = screenshotComparator.compare(baseUseCaseName, baseScenarioName,
 						baseStepLink, comparisonStepLink);
 
-				StepDiffInfo stepDiffInfo = new StepDiffInfo();
+				final StepDiffInfo stepDiffInfo = new StepDiffInfo();
 				stepDiffInfo.setChangeRate(changeRate);
 				stepDiffInfo.setIndex(baseStepLink.getPageIndex());
 				stepDiffInfo.setPageName(baseStepLink.getPageName());
@@ -112,15 +113,15 @@ public class StepComparator extends AbstractComparator {
 	private List<StepLink> getStepLinks(final List<Step> steps, final String useCaseName, final String scenarioName) {
 		// TODO pforster: refactor this method in a new class. also used in StepsAndPagesAggregator. Oder Wert einfach
 		// abspeichern beim aggregieren.
-		List<StepLink> stepLinks = new ArrayList<StepLink>(steps.size());
-		Map<String, Integer> pageOccurrences = new HashMap<String, Integer>();
+		final List<StepLink> stepLinks = new ArrayList<StepLink>(steps.size());
+		final Map<String, Integer> pageOccurrences = new HashMap<String, Integer>();
 		Page page = null;
 		int pageIndex = 0;
 		int index = 0;
 		int pageOccurrence = 0;
 		int stepInPageOccurrence = 0;
 
-		for (Step step : steps) {
+		for (final Step step : steps) {
 
 			// Introduce a special dummy page for all steps not having any page to avoid problems.
 			if (step.getPage() == null || StringUtils.isBlank(step.getPage().getName())) {
@@ -138,7 +139,7 @@ public class StepComparator extends AbstractComparator {
 				}
 			}
 
-			StepLink stepLink = new StepLink(useCaseName,
+			final StepLink stepLink = new StepLink(useCaseName,
 					scenarioName, index, pageIndex, getPageName(page),
 					pageOccurrence, stepInPageOccurrence);
 			stepLinks.add(stepLink);
@@ -164,7 +165,7 @@ public class StepComparator extends AbstractComparator {
 			final Map<String, Integer> pageOccurrences, final Page page) {
 		// TODO pforster: refactor this method in a new class. also used in StepsAndPagesAggregator. Oder Wert einfach
 		// abspeichern beim aggregieren.
-		String pageKey = getPageName(page);
+		final String pageKey = getPageName(page);
 		Integer occurrences = pageOccurrences.get(pageKey);
 		if (occurrences == null) {
 			occurrences = new Integer(0);
@@ -181,7 +182,7 @@ public class StepComparator extends AbstractComparator {
 	}
 
 	private String getStepIdentifier(final StepLink stepLink) {
-		StringBuilder stepIdentifier = new StringBuilder();
+		final StringBuilder stepIdentifier = new StringBuilder();
 		stepIdentifier.append(stepLink.getPageName() == null ? "" : stepLink.getPageName());
 		stepIdentifier.append("_");
 		stepIdentifier.append(stepLink.getPageOccurrence());
@@ -192,7 +193,7 @@ public class StepComparator extends AbstractComparator {
 	}
 
 	private StepLink getStepLinkByIdentifier(final List<StepLink> stepLinks, final String stepIdentifier) {
-		for (StepLink stepLink : stepLinks) {
+		for (final StepLink stepLink : stepLinks) {
 			if (stepIdentifier.equals(getStepIdentifier(stepLink))) {
 				return stepLink;
 			}

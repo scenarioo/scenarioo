@@ -15,31 +15,56 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scDiffInfoIcon', function() {
+angular.module('scenarioo.directives').directive('scDiffInfoIcon', function($sce, $filter) {
 
-    function initCssClass(scope, diffInfo) {
-        if(diffInfo) {
-            if(diffInfo.isAdded) {
+    function initValues(scope) {
+        if(scope.diffInfo) {
+            if(scope.diffInfo.isAdded) {
                 scope.cssClass = 'icon-plus';
-            } else if(diffInfo.isRemoved){
+                scope.infoText = $sce.trustAsHtml('This ' + scope.elementType + ' has been added');
+            } else if(scope.diffInfo.isRemoved){
                 scope.cssClass = 'icon-minus';
-            } else if(diffInfo.changeRate === 0) {
+                scope.infoText = $sce.trustAsHtml('This ' + scope.elementType + ' has been removed');
+            } else if(scope.diffInfo.changeRate === 0) {
                 scope.cssClass = 'icon-ok';
+                scope.infoText = $sce.trustAsHtml('This ' + scope.elementType + ' has no changes');
             } else {
                 scope.cssClass = 'icon-exclamation';
+                var changedInfoText = buildChangedInfoText(scope.diffInfo, scope.elementType, scope.childElementType);
+                scope.infoText = $sce.trustAsHtml(changedInfoText);
             }
         }
+    }
+
+    function buildChangedInfoText(diffInfo, elementType, childElementType) {
+        var changedInfoText = $filter('number')(diffInfo.changeRate, 0) + '% of this ' + elementType + ' has changed:';
+        if(diffInfo.changed > 0) {
+            changedInfoText += '<br />';
+            changedInfoText += diffInfo.changed + ' ' + childElementType + (diffInfo.changed == 1 ? '' : 's') + ' affected';
+        }
+        if(diffInfo.added > 0) {
+            changedInfoText += '<br />';
+            changedInfoText += diffInfo.added + ' ' + childElementType + (diffInfo.added == 1 ? '' : 's') + ' added';
+        }
+        if(diffInfo.removed > 0) {
+            changedInfoText += '<br />';
+            changedInfoText += diffInfo.removed + ' ' + childElementType + (diffInfo.removed == 1 ? '' : 's') + ' removed';
+        }
+        return changedInfoText;
     }
 
     return {
         restrict: 'E',
         scope: {
-            diffInfo: '='
+            diffInfo: '=',
+            elementType: '@',
+            childElementType: '@'
         },
         templateUrl: 'views/diffInfoIcon.html',
         controller: function($scope) {
+
             $scope.$watch('diffInfo', function(value){
-                initCssClass($scope, value);
+                initValues($scope);
             });
         }
     };

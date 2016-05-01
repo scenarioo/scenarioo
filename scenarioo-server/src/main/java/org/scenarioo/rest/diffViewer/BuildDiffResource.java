@@ -60,13 +60,13 @@ public class BuildDiffResource {
 				baseBuildName);
 
 		try {
-			BuildDiffInfo buildDiffInfo = diffReader.loadBuildDiffInfo(buildIdentifier.getBranchName(),
+			final BuildDiffInfo buildDiffInfo = diffReader.loadBuildDiffInfo(buildIdentifier.getBranchName(),
 					buildIdentifier.getBuildName(), comparisonName);
 			return Response.ok(buildDiffInfo, MediaType.APPLICATION_JSON).build();
-		} catch (ResourceNotFoundException e) {
+		} catch (final ResourceNotFoundException e) {
 			LOGGER.warn("Unable to get build diff info", e);
 			return Response.noContent().build();
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			LOGGER.warn("Unable to get build diff info", e);
 			return Response.serverError().build();
 		}

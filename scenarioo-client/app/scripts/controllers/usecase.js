@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('UseCaseCtrl', UseCaseCtrl);
 
-function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild,
+function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild, DiffInfoService,
                      LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource) {
 
     var vm = this;
@@ -144,40 +144,11 @@ function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource,
                 ScenarioDiffInfosResource.get(
                     {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName},
                     function onSuccess(scenarioDiffInfos) {
-                        vm.scenarios = getScenariosWithDiffInfo(scenarios, scenarioDiffInfos, useCaseDiffInfo);
+                        vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
                     }
                 );
             }
         );
-    }
-
-    function getScenariosWithDiffInfo(scenarios, scenarioDiffInfos, useCaseDiffInfo){
-        var scenariosWithDiffInfo = [];
-
-        angular.forEach(scenarios, function(scenario){
-            var scenarioDiffInfo = scenarioDiffInfos[scenario.name];
-            if(scenarioDiffInfo) {
-                scenario.diffInfo = scenarioDiffInfo;
-                scenario.diffInfo.isAdded = false;
-                scenario.diffInfo.isRemoved = false;
-            } else {
-                console.info(scenario);
-                scenario.diffInfo = {};
-                console.info(scenario.diffInfo);
-                scenario.diffInfo.isAdded = true;
-                scenario.diffInfo.isRemoved = false;
-            }
-            scenariosWithDiffInfo.push(scenario);
-        });
-
-        angular.forEach(useCaseDiffInfo.removedElements, function(removedScenario){
-            removedScenario.diffInfo = {};
-            removedScenario.diffInfo.isAdded = false;
-            removedScenario.diffInfo.isRemoved = true;
-            scenariosWithDiffInfo.push(removedScenario);
-        });
-
-        return scenariosWithDiffInfo;
     }
 
     function loadRelatedIssues(){

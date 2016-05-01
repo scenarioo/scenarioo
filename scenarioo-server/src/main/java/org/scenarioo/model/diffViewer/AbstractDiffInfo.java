@@ -28,7 +28,7 @@ public abstract class AbstractDiffInfo {
 	 * Checks if the diff information has any changes.
 	 * 
 	 * @return
-	 *         true if there are any changes
+	 * 		true if there are any changes
 	 */
 	public abstract boolean hasChanges();
 

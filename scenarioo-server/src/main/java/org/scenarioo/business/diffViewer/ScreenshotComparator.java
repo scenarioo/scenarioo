@@ -28,9 +28,9 @@ import org.im4java.core.IMOperation;
 import org.im4java.process.ArrayListErrorConsumer;
 import org.im4java.process.ArrayListOutputConsumer;
 import org.scenarioo.dao.diffViewer.DiffReader;
-import org.scenarioo.model.configuration.ComparisonAlias;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
+import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.NumberFormatCreator;
 
 /**
@@ -65,26 +65,27 @@ public class ScreenshotComparator extends AbstractComparator {
 	 *            the use case of the screenshots.
 	 * @param baseScenarioName
 	 *            the scenario of the screenshots.
-	 * @param comparisonAlias
 	 * @param baseStepLink
 	 *            the step to compare the screenshots.
 	 * @return {@link StepDiffInfo} with the summarized diff information.
 	 */
-	public double compare(final String baseUseCaseName, final String baseScenarioName,
-			final ComparisonAlias comparisonAlias, final StepLink baseStepLink, final StepLink comparisonStepLink) {
-		String baseScreenshotName = THREE_DIGIT_NUM_FORMAT.format(baseStepLink.getStepIndex())
-				+ SCREENSHOT_FILE_EXTENSION;
-		String comparisonScreenshotName = THREE_DIGIT_NUM_FORMAT.format(comparisonStepLink.getStepIndex())
-				+ SCREENSHOT_FILE_EXTENSION;
-		String diffScreenshotName = baseScreenshotName;
+	public double compare(final String baseUseCaseName, final String baseScenarioName, final StepLink baseStepLink,
+			final StepLink comparisonStepLink) {
+		final BuildIdentifier comparisonBuildIdentifier = getComparisonBuildIdentifier(comparisonName);
 
-		File baseScreenshot = docuReader.getScreenshotFile(baseBranchName,
+		final String baseScreenshotName = THREE_DIGIT_NUM_FORMAT.format(baseStepLink.getStepIndex())
+				+ SCREENSHOT_FILE_EXTENSION;
+		final String comparisonScreenshotName = THREE_DIGIT_NUM_FORMAT.format(comparisonStepLink.getStepIndex())
+				+ SCREENSHOT_FILE_EXTENSION;
+		final String diffScreenshotName = baseScreenshotName;
+
+		final File baseScreenshot = docuReader.getScreenshotFile(baseBranchName,
 				baseBuildName, baseUseCaseName, baseScenarioName, baseScreenshotName);
 
-		File comparisonScreenshot = docuReader.getScreenshotFile(comparisonAlias.getComparisonBranchName(),
-				comparisonAlias.getComparisonBuildName(), baseUseCaseName, baseScenarioName, comparisonScreenshotName);
+		final File comparisonScreenshot = docuReader.getScreenshotFile(comparisonBuildIdentifier.getBranchName(),
+				comparisonBuildIdentifier.getBuildName(), baseUseCaseName, baseScenarioName, comparisonScreenshotName);
 
-		File diffScreenshot = diffReader.getScreenshotFile(baseBranchName, baseBuildName, comparisonName,
+		final File diffScreenshot = diffReader.getScreenshotFile(baseBranchName, baseBuildName, comparisonName,
 				baseUseCaseName, baseScenarioName, diffScreenshotName);
 
 		return compareScreenshots(baseScreenshot, comparisonScreenshot, diffScreenshot);
@@ -103,13 +104,13 @@ public class ScreenshotComparator extends AbstractComparator {
 	 */
 	public double compareScreenshots(final File baseScreenshot, final File comparisonScreenshot,
 			final File diffScreenshot) {
-		IMOperation gmOperation = new IMOperation();
+		final IMOperation gmOperation = new IMOperation();
 		gmOperation.metric("RMSE");
 		gmOperation.addImage(baseScreenshot.getPath());
 		gmOperation.addImage(comparisonScreenshot.getPath());
 		gmOperation.addRawArgs("-highlight-style", "Tint");
 		gmOperation.addRawArgs("-file", diffScreenshot.getPath());
-		double difference = runGraphicsMagickOperation(gmOperation);
+		final double difference = runGraphicsMagickOperation(gmOperation);
 		if (difference == 0.0) {
 			diffScreenshot.delete();
 		}
@@ -120,11 +121,11 @@ public class ScreenshotComparator extends AbstractComparator {
 		try {
 			gmConsole.run(gmOperation);
 			return getRmseValueFromOutput();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			LOGGER.warn("Graphics Magick operation failed. Default screenshot changerate '"
 					+ CHANGERATE_SCREENSHOT_DEFAULT + "' gets returned.");
 			if (gmConsoleErrorConsumer.getOutput().size() > 0) {
-				String errorMessage = gmConsoleErrorConsumer.getOutput().get(0);
+				final String errorMessage = gmConsoleErrorConsumer.getOutput().get(0);
 				LOGGER.warn(errorMessage);
 			}
 			return CHANGERATE_SCREENSHOT_DEFAULT;
@@ -134,9 +135,9 @@ public class ScreenshotComparator extends AbstractComparator {
 
 	double getRmseValueFromOutput() {
 		if (gmConsoleOutputConsumer.getOutput().size() == 8) {
-			String cmdOutput = gmConsoleOutputConsumer.getOutput().get(7);
-			Pattern p = Pattern.compile("\\d+\\.\\d+");
-			Matcher m = p.matcher(cmdOutput);
+			final String cmdOutput = gmConsoleOutputConsumer.getOutput().get(7);
+			final Pattern p = Pattern.compile("\\d+\\.\\d+");
+			final Matcher m = p.matcher(cmdOutput);
 			if (m.find()) {
 				return Double.parseDouble(m.group(0)) * 100;
 			}
