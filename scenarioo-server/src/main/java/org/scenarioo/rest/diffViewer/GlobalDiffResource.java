@@ -33,7 +33,7 @@ import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 
 /**
- * Handles requests for global diff information.
+ * Handles requests for global diff informations.
  */
 @Path("/rest/diffViewer")
 public class GlobalDiffResource {
@@ -45,6 +45,7 @@ public class GlobalDiffResource {
 			.getConfigurationRepository();
 
 	private DiffReader diffReader = new DiffReader(configurationRepository.getDiffViewerDirectory());
+
 	@GET
 	@Produces("application/json")
 	@Path("/comparisonAlias/{comparisonName}")

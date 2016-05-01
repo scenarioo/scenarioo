@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('DiffViewerService', function ($location, $rootScope, HostnameAndPort, comparisonAliasResource) {
+angular.module('scenarioo.services').factory('DiffViewerService', function ($location, $rootScope, HostnameAndPort) {
 
 
     function getDiffScreenShotUrl(step, selected, comparisonName, usecaseName, scenarioName, stepIndex ) {
@@ -36,28 +36,12 @@ angular.module('scenarioo.services').factory('DiffViewerService', function ($loc
 
     }
 
-    function loadSelectedComparison(comparisonName) {
-        comparisonAliasResource.get(
-            {
-                'comparisonName': comparisonName
-            },
-            function onSuccess(result) {
-                $scope.comparisonBranchName = result.comparisonBranchName;
-                $scope.comparisonBuildName = result.comparisonBuildName;
-            }, function onFailure() {
-                $scope.comparisonBranchName = "";
-                $scope.comparisonBuildName = "";
-            });
-    }
+
+
 
 
      return {
-         /**
-         * Returns the Diff Screenshot URL
-         */
-        loadSelectedComparison: loadSelectedComparison,
-
-        /**
+              /**
          * Returns the Diff Screenshot URL
          */
         getDiffScreenShotUrl: getDiffScreenShotUrl
