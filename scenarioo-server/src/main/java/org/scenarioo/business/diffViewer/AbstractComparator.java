@@ -19,11 +19,13 @@ package org.scenarioo.business.diffViewer;
 
 import org.apache.commons.lang3.StringUtils;
 import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffWriter;
 import org.scenarioo.model.configuration.ComparisonAlias;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
  * Abstract comparator class. Contains common comparison functionality.
@@ -35,6 +37,7 @@ public abstract class AbstractComparator {
 	protected final static ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
+	protected ScenarioDocuBuildsManager docuBuildsManager = ScenarioDocuBuildsManager.INSTANCE;
 	protected ScenarioDocuReader docuReader;
 	protected DiffWriter diffWriter;
 	protected String baseBranchName;
@@ -64,13 +67,22 @@ public abstract class AbstractComparator {
 		return changeRateSum / (numberOfBaseElements + numberOfRemovedElements);
 	}
 
-	protected ComparisonAlias resolveComparisonName(final String comparisonName) {
+	protected BuildIdentifier getComparisonBuildIdentifier(final String comparisonName) {
+		final ComparisonAlias comparisonAlias = resolveComparisonName(comparisonName);
+		final BuildIdentifier comparisonBuildIdentifier = docuBuildsManager
+				.resolveBranchAndBuildAliases(
+						comparisonAlias.getComparisonBranchName(),
+						comparisonAlias.getComparisonBuildName());
+		return comparisonBuildIdentifier;
+	}
+
+	private ComparisonAlias resolveComparisonName(final String comparisonName) {
 		if (StringUtils.isEmpty(comparisonName)) {
 			throw new IllegalArgumentException("Unable to resolve empty comparison name.");
 		}
 
-		Configuration configuration = configurationRepository.getConfiguration();
-		for (ComparisonAlias comparisonAlias : configuration.getComparisonAliases()) {
+		final Configuration configuration = configurationRepository.getConfiguration();
+		for (final ComparisonAlias comparisonAlias : configuration.getComparisonAliases()) {
 			if (comparisonName.equals(comparisonAlias.getComparisonName())) {
 				return comparisonAlias;
 			}

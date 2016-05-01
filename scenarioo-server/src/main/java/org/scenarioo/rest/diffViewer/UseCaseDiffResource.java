@@ -55,7 +55,8 @@ public class UseCaseDiffResource {
 	@Path("/{useCaseName}/useCaseDiffInfo")
 	public Response getUseCaseDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
-			@PathParam("comparisonName") final String comparisonName, @PathParam("useCaseName") final String useCaseName) {
+			@PathParam("comparisonName") final String comparisonName,
+			@PathParam("useCaseName") final String useCaseName) {
 		LOGGER.info("REQUEST: getUseCaseDiffInfo(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
 				+ ", " + useCaseName + ")");
 
@@ -64,13 +65,13 @@ public class UseCaseDiffResource {
 				baseBuildName);
 
 		try {
-			UseCaseDiffInfo useCaseDiffInfo = diffReader.loadUseCaseDiffInfo(buildIdentifier.getBranchName(),
+			final UseCaseDiffInfo useCaseDiffInfo = diffReader.loadUseCaseDiffInfo(buildIdentifier.getBranchName(),
 					buildIdentifier.getBuildName(), comparisonName, useCaseName);
 			return Response.ok(useCaseDiffInfo, MediaType.APPLICATION_JSON).build();
-		} catch (ResourceNotFoundException e) {
+		} catch (final ResourceNotFoundException e) {
 			LOGGER.warn("Unable to get use case diff info", e);
 			return Response.noContent().build();
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			LOGGER.warn("Unable to get use case diff info", e);
 			return Response.serverError().build();
 		}
@@ -90,22 +91,22 @@ public class UseCaseDiffResource {
 				baseBuildName);
 
 		try {
-			List<UseCaseDiffInfo> useCaseDiffInfos = diffReader.loadUseCaseDiffInfos(buildIdentifier.getBranchName(),
+			final List<UseCaseDiffInfo> useCaseDiffInfos = diffReader.loadUseCaseDiffInfos(buildIdentifier.getBranchName(),
 					buildIdentifier.getBuildName(),
 					comparisonName);
 			return Response.ok(getUseCaseDiffInfoMap(useCaseDiffInfos), MediaType.APPLICATION_JSON).build();
-		} catch (ResourceNotFoundException e) {
+		} catch (final ResourceNotFoundException e) {
 			LOGGER.warn("Unable to get use case diff infos", e);
 			return Response.noContent().build();
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			LOGGER.warn("Unable to get use case diff infos", e);
 			return Response.serverError().build();
 		}
 	}
 
 	private Map<String, UseCaseDiffInfo> getUseCaseDiffInfoMap(List<UseCaseDiffInfo> useCaseDiffInfos) {
-		Map<String, UseCaseDiffInfo> useCaseDiffInfoMap = new HashMap<String, UseCaseDiffInfo>();
-		for (UseCaseDiffInfo useCaseDiffInfo : useCaseDiffInfos) {
+		final Map<String, UseCaseDiffInfo> useCaseDiffInfoMap = new HashMap<String, UseCaseDiffInfo>();
+		for (final UseCaseDiffInfo useCaseDiffInfo : useCaseDiffInfos) {
 			useCaseDiffInfoMap.put(useCaseDiffInfo.getName(), useCaseDiffInfo);
 		}
 		return useCaseDiffInfoMap;
