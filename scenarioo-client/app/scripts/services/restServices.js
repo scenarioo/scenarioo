@@ -245,6 +245,8 @@ angular.module('scenarioo.services')
         return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/buildDiffInfos', {
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName'
+        }, {
+            cache: true
         });
     })
 
@@ -253,6 +255,8 @@ angular.module('scenarioo.services')
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName'
+        }, {
+            cache: true
         });
     })
 
@@ -262,6 +266,8 @@ angular.module('scenarioo.services')
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName',
             useCaseName: '@useCaseName'
+        }, {
+            cache: true
         });
     })
 
@@ -270,6 +276,8 @@ angular.module('scenarioo.services')
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName'
+        }, {
+            cache: true
         });
     })
 
@@ -279,6 +287,8 @@ angular.module('scenarioo.services')
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName',
             useCaseName: '@useCaseName'
+        }, {
+            cache: true
         });
     });
 

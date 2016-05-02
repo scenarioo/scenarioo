@@ -99,10 +99,22 @@ angular.module('scenarioo.services').factory('SelectedBranchAndBuild', function 
     }
 
     function registerSelectionChangeCallback(callback) {
-        selectionChangeCallbacks.push(callback);
+        addCallback(selectionChangeCallbacks, callback);
         var selected = getSelectedBranchAndBuild();
         if (isBranchAndBuildDefined()) {
             callback(selected);
+        }
+    }
+
+    function addCallback(callbackList, newCallback) {
+        var callbackListContainsNewCallback = false;
+        angular.forEach(callbackList, function(callback){
+            if(callback.toString() === newCallback.toString()) {
+                callbackListContainsNewCallback = true;
+            }
+        });
+        if(!callbackListContainsNewCallback) {
+            callbackList.push(newCallback);
         }
     }
 
