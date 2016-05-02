@@ -26,6 +26,7 @@ import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.builds.BuildLink;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
+import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.branches.BuildStatistics;
@@ -116,6 +117,9 @@ public class ScenarioDocuAggregator {
 		
 		LOGGER.info("  calculating aggregated data for build " + getBuildIdentifier() + " ... ");
 		UseCaseScenariosList useCaseScenariosList = calculateUseCaseScenariosList();
+		FullTextSearch fullTextSearch = new FullTextSearch();
+		fullTextSearch.indexUseCases(useCaseScenariosList);
+
 		for (UseCaseScenarios scenarios : useCaseScenariosList.getUseCaseScenarios()) {
 			calulateAggregatedDataForUseCase(scenarios);
 			addUsecaseToBuildStatistics(scenarios.getUseCase());

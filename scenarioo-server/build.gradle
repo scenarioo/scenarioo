@@ -19,8 +19,8 @@
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 
-sourceCompatibility=1.6
-targetCompatibility=1.6
+sourceCompatibility=1.7
+targetCompatibility=1.7
 
 dependencies {
     compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.3.Final'
@@ -32,6 +32,7 @@ dependencies {
     compile 'org.apache.xmlgraphics:batik-codec:1.8'
     compile 'org.apache.xmlgraphics:xmlgraphics-commons:1.5'
     compile 'com.thetransactioncompany:cors-filter:2.5'
+    compile 'org.elasticsearch:elasticsearch:2.3.1'
     providedCompile 'javax.servlet:servlet-api:2.5'
 }
 

@@ -121,6 +121,18 @@ angular.module('scenarioo.services')
         return useCaseService;
     })
 
+    .factory('FullTextSearchService', function (ScenariooResource, $q) {
+        var searchService = ScenariooResource('/search/:q',
+            {
+                q: '@q'
+            }, {});
+
+        searchService.search = getPromise($q, function (parameters, fnSuccess, fnError) {
+            return searchService.query(parameters, fnSuccess, fnError);
+        });
+        return searchService;
+    })
+
     .factory('StepResource', function (ScenariooResource) {
         return ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName/pageName/:pageName/pageOccurrence/:pageOccurrence/stepInPageOccurrence/:stepInPageOccurrence',
             {

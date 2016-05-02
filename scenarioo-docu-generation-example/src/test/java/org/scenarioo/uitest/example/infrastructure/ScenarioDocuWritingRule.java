@@ -29,8 +29,7 @@
 
 package org.scenarioo.uitest.example.infrastructure;
 
-import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.DOCU_BUILD_DIRECTORY;
-import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.EXAMPLE_BRANCH_NAME;
+import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -145,7 +144,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 		details.addDetail("Long value without spaces",
 				"A_man_who_carries_a_cat_by_the_tail_learns_something_he_can_learn_in_no_other_way._--_Mark_Twain");
 		details.addDetail(
-				"A_very_long_metadata_label_without_any_spaces_just_to_test_whether_this_is_displayed_nicely.",
+				"A_very_long_metadata_label_without_any_spaces_just_to_test_whether_this_is_displayed_nicely",
 				"Cheers!");
 		return details;
 	}
@@ -167,7 +166,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 		writeScenarioDescription(description, status);
 	}
 	
-	private void writeScenarioDescription(final Description testMethodDescription, Status status) {
+	private void writeScenarioDescription(final Description testMethodDescription, final Status status) {
 		
 		ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, EXAMPLE_BRANCH_NAME,
 				MultipleBuildsRule.getCurrentBuildName());

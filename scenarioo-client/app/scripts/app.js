@@ -54,6 +54,10 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 scenarioName: '@scenarioName',
                 breadcrumbId: 'scenario'
             })
+            .when('/search', {
+                templateUrl: 'views/search.html',
+                controller: 'SearchCtrl'
+            })
             .when('/object/:objectType/:objectName', {
                 templateUrl: 'views/referenceTree.html',
                 controller: 'ReferenceTreeCtrl',
