@@ -25,7 +25,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.model.configuration.ComparisonAlias;
@@ -39,7 +38,6 @@ import org.scenarioo.repository.RepositoryLocator;
 public class GlobalDiffResource {
 
 	private static final Logger LOGGER = Logger.getLogger(GlobalDiffResource.class);
-	private static final ObjectMapper mapper = new ObjectMapper();
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
@@ -54,7 +52,7 @@ public class GlobalDiffResource {
 
 		try {
 			ComparisonAlias comparisonAlias = diffReader.getComparisonAlias(comparisonName);
-			return Response.ok(mapper.writeValueAsString(comparisonAlias), MediaType.APPLICATION_JSON).build();
+			return Response.ok(comparisonAlias, MediaType.APPLICATION_JSON).build();
 		} catch (ResourceNotFoundException e) {
 			LOGGER.warn("Unable to get comparison alias", e);
 			return Response.noContent().build();

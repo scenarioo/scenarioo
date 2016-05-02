@@ -39,7 +39,7 @@ import org.scenarioo.rest.base.BuildIdentifier;
 @Path("/rest/diffViewer/{baseBranchName}/{baseBuildName}/{comparisonName}/{useCaseName}/{scenarioName}/")
 public class StepDiffResource {
 	
-	private static final Logger LOGGER = Logger.getLogger(UseCaseDiffResource.class);
+	private static final Logger LOGGER = Logger.getLogger(StepDiffResource.class);
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
@@ -49,7 +49,7 @@ public class StepDiffResource {
 	@GET
 	@Produces("application/json")
 	@Path("/{stepIndex}/stepDiffInfo")
-	public Response getUseCaseDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
+	public Response getStepDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
 			@PathParam("useCaseName") final String useCaseName,
@@ -70,8 +70,6 @@ public class StepDiffResource {
 			final StepDiffInfo stepDiffInfo = diffReader.loadStepDiffInfo(buildIdentifier.getBranchName(),
 					buildIdentifier.getBuildName(),
 					comparisonName, useCaseName, scenarioName, Integer.parseInt(stepIndex));
-			// StepDiffInfo stepDiffInfo = new StepDiffInfo();
-			// stepDiffInfo.setChangeRate(24.0);
 			return Response.ok(stepDiffInfo, MediaType.APPLICATION_JSON).build();
 		} catch (final ResourceNotFoundException e) {
 			LOGGER.warn("Unable to get step diff info", e);
