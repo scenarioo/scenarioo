@@ -62,6 +62,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </li>
             </ul>
         </li>
+
+        <!-- Comparison selection dropdown -->
+        <li class="dropdown" uib-dropdown is-open="status.isComparisonSelectionOpen" id="comparisonSelectionDropdown">
+            <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                <i class="icon-asterisk"></i> Comparison:
+                {{selectedComparison}}
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li ng-repeat="comparisonBuild in comparisonBuilds">
+                    <a ng-click="setComparisonBuild(comparisonBuild)">{{comparisonBuild.name}}</a>
+                </li>
+            </ul>
+        </li>
     </ul>
 
     <ul class="nav navbar-nav pull-right">

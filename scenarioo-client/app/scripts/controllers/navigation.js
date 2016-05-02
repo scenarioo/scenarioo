@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, localStorageService, BranchesAndBuilds, SelectedBranchAndBuild, $uibModal, ScApplicationInfoPopup, Config, GlobalHotkeysService) {
+angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, localStorageService, BranchesAndBuilds, SelectedBranchAndBuild, SelectedComparison, $uibModal, ScApplicationInfoPopup, Config, GlobalHotkeysService, BuildDiffInfosResource) {
 
     $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
         $scope.applicationName = Config.applicationName();
@@ -26,22 +26,54 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
     });
 
     SelectedBranchAndBuild.callOnSelectionChange(loadBranchesAndBuilds);
+    SelectedComparison.callOnSelectionChange(loadComparisonBuilds);
 
     function loadBranchesAndBuilds() {
         BranchesAndBuilds.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
             $scope.branchesAndBuilds = branchesAndBuilds;
+            loadComparisonBuilds();
         });
+    }
+
+    function loadComparisonBuilds() {
+        if($scope.branchesAndBuilds && $scope.branchesAndBuilds.selectedBranch && $scope.branchesAndBuilds.selectedBuild) {
+            var baseBranchName = $scope.branchesAndBuilds.selectedBranch.branch.name;
+            var baseBuildName = $scope.branchesAndBuilds.selectedBuild.linkName;
+            BuildDiffInfosResource.query(
+                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName},
+                function onSuccess(buildDiffInfos) {
+                    $scope.comparisonBuilds = buildDiffInfos;
+                    var preSelectedComparison = SelectedComparison.selected();
+                    var selectedComparison = SelectedComparison.DEFAULT_COMPARISON;
+                    angular.forEach($scope.comparisonBuilds, function(comparisonBuild) {
+                        if(comparisonBuild.name === preSelectedComparison) {
+                            selectedComparison = comparisonBuild.name;
+                        }
+                    });
+                    SelectedComparison.setSelected(selectedComparison);
+                    $scope.selectedComparison = selectedComparison;
+                }
+            );
+        }
     }
 
     $scope.setBranch = function (branch) {
         $scope.branchesAndBuilds.selectedBranch = branch;
         localStorageService.remove(SelectedBranchAndBuild.BUILD_KEY);
+        localStorageService.remove(SelectedComparison.COMPARISON_KEY);
         $location.search(SelectedBranchAndBuild.BRANCH_KEY, branch.branch.name);
     };
 
     $scope.setBuild = function (selectedBranch, build) {
         $scope.branchesAndBuilds.selectedBuild = build;
+        localStorageService.remove(SelectedComparison.COMPARISON_KEY);
         $location.search(SelectedBranchAndBuild.BUILD_KEY, build.linkName);
+        loadComparisonBuilds($scope.branchesAndBuilds.selectedBranch.branch.name, $scope.branchesAndBuilds.selectedBuild.linkName);
+    };
+
+    $scope.setComparisonBuild = function(comparisonBuild) {
+        $location.search(SelectedComparison.COMPARISON_KEY, comparisonBuild.name);
+        $scope.selectedComparison = comparisonBuild.name;
     };
 
     $scope.updating = false;

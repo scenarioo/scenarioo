@@ -95,7 +95,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.useCaseLabels = result.useCaseLabels;
                 $scope.scenarioLabels = result.scenarioLabels;
                 loadRelatedIssues();
-                var selectedComparison = SelectedComparison.loadComparison();
+                selectedComparison = SelectedComparison.selected();
                 loadComparisonFromServer(selectedComparison);
 
                 $scope.hasAnyLabels = function () {
@@ -327,13 +327,6 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
     };
 
-
-
-    function loadComparison(selected) {
-        selectedComparison = selected;
-        loadComparisonFromServer(selected);
-    }
-
     function loadComparisonFromServer(selectedComparison) {
         comparisonAliasResource.get(
             {
@@ -346,39 +339,37 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.isComparisonDefined = SelectedComparison.isDefined();
                 loadChangeRate();
             }, function onFailure() {
-                $scope.comparisonBranchName = "";
-                $scope.comparisonBuildName = "";
+                $scope.comparisonBranchName = '';
+                $scope.comparisonBuildName = '';
             });
     }
 
 
-    function loadChangeRate()  {
-
+    function loadChangeRate() {
         stepDiffInfoResource.get({
             baseBranchName: SelectedBranchAndBuild.selected().branch,
             baseBuildName: SelectedBranchAndBuild.selected().build,
             comparisonName: $scope.comparisonName,
             useCaseName: useCaseName,
             scenarioName: scenarioName,
-            stepIndex: $scope.stepIndex,
+            stepIndex: $scope.stepIndex
         }, function onSuccess(result){
             $scope.changeRate = result.changeRate;
             colorizeComparisonTab(result.changeRate);
         });
-    };
+    }
 
     function colorizeComparisonTab(changeRate){
         if (changeRate <= 20){
-            $scope.comparisonTabClasses = "green";
+            $scope.comparisonTabClasses = 'green';
         } else if (changeRate <= 40){
-            $scope.comparisonTabClasses = "orange";
+            $scope.comparisonTabClasses = 'orange';
         } else if (changeRate <= 60){
 
         } else if (changeRate <= 80){
 
-        } else {
         }
-    };
+    }
 
 
     $scope.getComparisonScreenShotUrl = function () {

@@ -17,15 +17,12 @@
 
 angular.module('scenarioo.services').factory('SelectedComparison', function ($location, $rootScope, localStorageService, Config) {
     var COMPARISON_KEY = 'comparison';
+    var DEFAULT_COMPARISON = 'none';
     var selectedComparison;
     var initialValuesFromUrlAndCookieLoaded = false;
     var selectionChangeCallbacks = [];
 
     function getSelectedComparison() {
-        return selectedComparison;
-    }
-
-    function loadSelectedComparison() {
         if (!initialValuesFromUrlAndCookieLoaded) {
             // Here we calculate the selected comparison because
             // it may not yet be calculated because there was no CONFIG_LOADED_EVENT yet.
@@ -36,12 +33,12 @@ angular.module('scenarioo.services').factory('SelectedComparison', function ($lo
         return selectedComparison;
     }
 
-    $rootScope.$on(Config.CONFIG_LOADED_EVENT, function () {
-        setSelectedComparison();
-    });
-
-    function setSelectedComparison() {
-        selectedComparison = getFromLocalStorageOrUrl(COMPARISON_KEY);
+    function setSelectedComparison(value) {
+        if(value) {
+            selectedComparison = value;
+        }else {
+            selectedComparison = getFromLocalStorageOrUrl(COMPARISON_KEY);
+        }
     }
 
     function getFromLocalStorageOrUrl(key) {
@@ -63,58 +60,60 @@ angular.module('scenarioo.services').factory('SelectedComparison', function ($lo
         }
 
         // If URL and cookie do not specify a value, we use the default from the config
-        value = Config.defaultBranchAndBuild()[key];
-        if (angular.isDefined(value)) {
-            localStorageService.set(key, value);
-            $location.search(key, value);
-        }
+        value = DEFAULT_COMPARISON;
+        localStorageService.set(key, value);
+        $location.search(key, value);
+
         return value;
     }
 
-    // TODO: mscheube: ask Daniel why needed
     $rootScope.$watch(function () {
-        return $location.search();
+        return $location.search()[COMPARISON_KEY];
     }, function () {
         setSelectedComparison();
     }, true);
-    //
-    //$rootScope.$watch(getSelectedComparison,
-    //    function (selected) {
-    //        if (isComparisonDefined()) {
-    //            for (var i = 0; i < selectionChangeCallbacks.length; i++) {
-    //                selectionChangeCallbacks[i](selected);
-    //            }
-    //        }
-    //    }, true);
+
+    $rootScope.$watch(getSelectedComparison,
+       function (selected) {
+           if (angular.isDefined(selectedComparison)) {
+               for (var i = 0; i < selectionChangeCallbacks.length; i++) {
+                   selectionChangeCallbacks[i](selected);
+               }
+           }
+       }, true);
 
     /**
      * @returns true if comparison is specified (i.e. not 'undefined').
      */
     function isComparisonDefined() {
         if (angular.isDefined(selectedComparison)){
-                return selectedComparison !== "none";
-        } else {
-            return false;
+                return selectedComparison !== DEFAULT_COMPARISON;
         }
+        return false;
     }
 
-    // TODO: mscheube: ask Daniel why needed
-    //function registerSelectionChangeCallback(callback) {
-    //    selectionChangeCallbacks.push(callback);
-    //    var selected = getSelectedComparison();
-    //    if (angular.isDefined(selectedComparison)) {
-    //        callback(selected);
-    //    }
-    //}
+    function registerSelectionChangeCallback(callback) {
+       selectionChangeCallbacks.push(callback);
+       var selected = getSelectedComparison();
+       if (angular.isDefined(selectedComparison)) {
+           callback(selected);
+       }
+    }
 
 
     return {
         COMPARISON_KEY: COMPARISON_KEY,
+        DEFAULT_COMPARISON: DEFAULT_COMPARISON,
 
-          /**
+        /**
          * Returns the currently selected comparison.
          */
         selected: getSelectedComparison,
+
+        /**
+         * Setter for selected comparison.
+         */
+        setSelected: setSelectedComparison,
 
         /**
          * Returns true only if comparison value is defined.
@@ -131,7 +130,7 @@ angular.module('scenarioo.services').factory('SelectedComparison', function ($lo
          * - If the selection changes to an invalid selection (e.g. branch is defined, but build is undefined),
          *   the callback is not called.
          */
-        loadComparison: loadSelectedComparison,
+        callOnSelectionChange: registerSelectionChangeCallback
     };
 
 });
