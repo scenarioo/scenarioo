@@ -130,13 +130,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </div>
 
                     <div ng-show="!stepShowDiffScreenshot" class="step-comparison-image">
-                        <sc-annotated-screenshot screen-annotations="comparisonStep.screenAnnotations" get-screen-shot-url="getComparisonScreenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
+                        <sc-annotated-screenshot get-screen-shot-url="getComparisonScreenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
                     </div>
 
                 </div>
                 <div class="col-lg-6">
                     <h3>{{stepIdentifier.buildName}} </h3>
-                    <sc-annotated-screenshot screen-annotations="step.screenAnnotations" get-screen-shot-url="getScreenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
+                    <sc-annotated-screenshot get-screen-shot-url="getScreenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
                 </div>
             </uib-tab>
         </uib-tabset>

@@ -20,7 +20,7 @@ angular.module('scenarioo.services')
     .factory('comparisonAliasResource', function (ScenariooResource) {
         return ScenariooResource('/diffViewer/comparisonAlias/:comparisonName',
             {
-                comparisonName: '@comparisonName',
+                comparisonName: '@comparisonName'
             }, {});
     })
 
