@@ -22,4 +22,16 @@ angular.module('scenarioo.services')
             {
                 comparisonName: '@comparisonName',
             }, {});
+    })
+
+    .factory('stepDiffInfoResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/:useCaseName/:scenarioName/:stepIndex/stepDiffInfo',
+            {
+                baseBranchName: '@baseBranchName',
+                baseBuildName: '@baseBuildName',
+                comparisonName: '@comparisonName',
+                useCaseName: '@useCaseName',
+                scenarioName: '@scenarioName',
+                stepIndex: '@stepIndex'
+            }, {});
     });

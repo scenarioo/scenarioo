@@ -17,9 +17,70 @@
 
 package org.scenarioo.rest.diffViewer;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-@Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}")
+import org.apache.log4j.Logger;
+import org.scenarioo.api.exception.ResourceNotFoundException;
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.diffViewer.DiffReader;
+import org.scenarioo.model.diffViewer.StepDiffInfo;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.rest.base.BuildIdentifier;
+
+/**
+ * Handles requests for step diff information.
+ */
+@Path("/rest/diffViewer/{baseBranchName}/{baseBuildName}/{comparisonName}/{useCaseName}/{scenarioName}/")
 public class StepDiffResource {
-	// TODO: mscheube
+	
+	private static final Logger LOGGER = Logger.getLogger(UseCaseDiffResource.class);
+
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+			.getConfigurationRepository();
+
+	private DiffReader diffReader = new DiffReader(configurationRepository.getDiffViewerDirectory());
+	
+	@GET
+	@Produces("application/json")
+	@Path("/{stepIndex}/stepDiffInfo")
+	public Response getUseCaseDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
+			@PathParam("baseBuildName") final String baseBuildName,
+			@PathParam("comparisonName") final String comparisonName,
+			@PathParam("useCaseName") final String useCaseName,
+			@PathParam("scenarioName") final String scenarioName,
+			@PathParam("stepIndex") final String stepIndex){
+
+		LOGGER.info("REQUEST: getStepDiffInfo(" + baseBranchName + ", " + comparisonName
+				+ ", " + useCaseName + ", " + scenarioName + ", " + stepIndex + ")");
+
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+				baseBranchName,
+				baseBuildName);
+
+		try {
+			// BuildComparator testComparator = new BuildComparator(buildIdentifier.getBranchName(),
+			// buildIdentifier.getBuildName(), comparisonName);
+			// testComparator.compare();
+			final StepDiffInfo stepDiffInfo = diffReader.loadStepDiffInfo(buildIdentifier.getBranchName(),
+					buildIdentifier.getBuildName(),
+					comparisonName, useCaseName, scenarioName, Integer.parseInt(stepIndex));
+			// StepDiffInfo stepDiffInfo = new StepDiffInfo();
+			// stepDiffInfo.setChangeRate(24.0);
+			return Response.ok(stepDiffInfo, MediaType.APPLICATION_JSON).build();
+		} catch (final ResourceNotFoundException e) {
+			LOGGER.warn("Unable to get step diff info", e);
+			return Response.noContent().build();
+		} catch (final Throwable e) {
+			LOGGER.warn("Unable to get step diff info", e);
+			return Response.serverError().build();
+		}
+	}
+
+	
 }
