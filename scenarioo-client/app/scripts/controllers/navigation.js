@@ -26,7 +26,6 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
     });
 
     SelectedBranchAndBuild.callOnSelectionChange(loadBranchesAndBuilds);
-    SelectedComparison.callOnSelectionChange(loadComparisonBuilds);
 
     function loadBranchesAndBuilds() {
         BranchesAndBuilds.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
@@ -51,6 +50,9 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
                         }
                     });
                     SelectedComparison.setSelected(selectedComparison);
+                    if(selectedComparison === SelectedComparison.DEFAULT_COMPARISON) {
+                        $location.search(SelectedComparison.COMPARISON_KEY, selectedComparison);
+                    }
                     $scope.selectedComparison = selectedComparison;
                 }
             );

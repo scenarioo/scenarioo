@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService, BranchesAndBuilds, SelectedBranchAndBuild, DiffInfoService, UseCasesResource, LabelConfigurationsResource, BuildDiffInfoResource, UseCaseDiffInfosResource) {
+angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService, BranchesAndBuilds, SelectedBranchAndBuild, SelectedComparison, DiffInfoService, UseCasesResource, LabelConfigurationsResource, BuildDiffInfoResource, UseCaseDiffInfosResource) {
 
   var transformMetadataToTree = $filter('scMetadataTreeCreator');
   var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
@@ -35,13 +35,10 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
         UseCasesResource.query(
           {'branchName': selected.branch, 'buildName': selected.build},
           function onSuccess(useCases) {
-            // TODO pforster: get from dropdown menu
-            var comparisonName = 'exampleComparison';
-
-            if(comparisonName) {
-              loadDiffInfoData(useCases, selected.branch, selected.build, comparisonName);
+            if(SelectedComparison.isDefined()) {
+                loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
             } else {
-              $scope.useCases = useCases;
+                $scope.useCases = useCases;
             }
 
             var branch = $scope.branchesAndBuilds.selectedBranch.branch;
@@ -52,21 +49,22 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
             $scope.metadataTreeBuilds = transformMetadataToTreeArray(build.details);
           });
       });
-
   }
 
-  function loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName){
-    BuildDiffInfoResource.get(
-        {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
-        function onSuccess(buildDiffInfo) {
-          UseCaseDiffInfosResource.get(
+  function loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName) {
+      if(SelectedComparison.isDefined() && useCases && baseBranchName && baseBuildName) {
+          BuildDiffInfoResource.get(
               {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
-              function onSuccess(useCaseDiffInfos) {
-                $scope.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
+              function onSuccess(buildDiffInfo) {
+                  UseCaseDiffInfosResource.get(
+                      {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
+                      function onSuccess(useCaseDiffInfos) {
+                          $scope.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
+                      }
+                  );
               }
           );
-        }
-    );
+      }
   }
 
   function goToUseCase(useCaseName) {

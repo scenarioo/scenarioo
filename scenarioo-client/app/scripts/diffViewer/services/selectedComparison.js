@@ -15,12 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('SelectedComparison', function ($location, $rootScope, localStorageService, Config) {
+angular.module('scenarioo.services').factory('SelectedComparison', function ($location, $rootScope, localStorageService) {
     var COMPARISON_KEY = 'comparison';
     var DEFAULT_COMPARISON = 'none';
     var selectedComparison;
     var initialValuesFromUrlAndCookieLoaded = false;
-    var selectionChangeCallbacks = [];
 
     function getSelectedComparison() {
         if (!initialValuesFromUrlAndCookieLoaded) {
@@ -73,15 +72,6 @@ angular.module('scenarioo.services').factory('SelectedComparison', function ($lo
         setSelectedComparison();
     }, true);
 
-    $rootScope.$watch(getSelectedComparison,
-       function (selected) {
-           if (angular.isDefined(selectedComparison)) {
-               for (var i = 0; i < selectionChangeCallbacks.length; i++) {
-                   selectionChangeCallbacks[i](selected);
-               }
-           }
-       }, true);
-
     /**
      * @returns true if comparison is specified (i.e. not 'undefined').
      */
@@ -91,15 +81,6 @@ angular.module('scenarioo.services').factory('SelectedComparison', function ($lo
         }
         return false;
     }
-
-    function registerSelectionChangeCallback(callback) {
-       selectionChangeCallbacks.push(callback);
-       var selected = getSelectedComparison();
-       if (angular.isDefined(selectedComparison)) {
-           callback(selected);
-       }
-    }
-
 
     return {
         COMPARISON_KEY: COMPARISON_KEY,
@@ -118,19 +99,7 @@ angular.module('scenarioo.services').factory('SelectedComparison', function ($lo
         /**
          * Returns true only if comparison value is defined.
          */
-        isDefined: isComparisonDefined,
-
-        /**
-         * This method lets you register callbacks that get called, as soon as a new and also valid comparison
-         * selection is available. The callback is called with the new selection as a parameter.
-         *
-         * Note these special cases:
-         * - If there is already a valid selection available (i.e. branch and build are both defined), the callback
-         *   is called immediately when it is registered.
-         * - If the selection changes to an invalid selection (e.g. branch is defined, but build is undefined),
-         *   the callback is not called.
-         */
-        callOnSelectionChange: registerSelectionChangeCallback
+        isDefined: isComparisonDefined
     };
 
 });
