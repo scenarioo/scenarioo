@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, scLocalStorage, BranchesAndBuilds, SelectedBranchAndBuild, $uibModal, ScApplicationInfoPopup, Config, GlobalHotkeysService) {
+angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, scLocalStorage, FullTextSearchService, BranchesAndBuilds, SelectedBranchAndBuild, $uibModal, ScApplicationInfoPopup, Config, GlobalHotkeysService) {
 
     $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
         $scope.applicationName = Config.applicationName();
@@ -24,6 +24,14 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
     $scope.$on('branchesUpdated', function () {
         loadBranchesAndBuilds();
     });
+
+    $scope.globalSearch = {
+        queryString: ''
+    };
+
+    $scope.search = function () {
+        $location.path('/search').search('q=' + $scope.globalSearch.queryString);
+    };
 
     SelectedBranchAndBuild.callOnSelectionChange(loadBranchesAndBuilds);
 
