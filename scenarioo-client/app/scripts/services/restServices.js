@@ -241,6 +241,13 @@ angular.module('scenarioo.services')
         return ScenariooResource('/labelconfigurations', {}, {'query': {isArray: false}});
     })
 
+    .factory('BuildDiffInfosResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/buildDiffInfos', {
+            baseBranchName: '@baseBranchName',
+            baseBuildName: '@baseBuildName'
+        });
+    })
+
     .factory('BuildDiffInfoResource', function (ScenariooResource) {
         return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/buildDiffInfo', {
             baseBranchName: '@baseBranchName',
