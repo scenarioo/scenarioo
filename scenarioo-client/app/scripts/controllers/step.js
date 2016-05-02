@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepResource, HostnameAndPort,
                                                                          SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService,
-                                                                         ContextService, RelatedIssueResource, SketchIdsResource, DiffViewerService, SelectedComparison, comparisonAliasResource) {
+                                                                         ContextService, RelatedIssueResource, SketchIdsResource, DiffViewerService, SelectedComparison, comparisonAliasResource, stepDiffInfoResource) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -95,6 +95,8 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.useCaseLabels = result.useCaseLabels;
                 $scope.scenarioLabels = result.scenarioLabels;
                 loadRelatedIssues();
+                var selectedComparison = SelectedComparison.loadComparison();
+                loadComparisonFromServer(selectedComparison);
 
                 $scope.hasAnyLabels = function () {
                     var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
@@ -325,27 +327,58 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
     };
 
-     SelectedComparison.callOnSelectionChange(loadComparison);
+
 
     function loadComparison(selected) {
         selectedComparison = selected;
         loadComparisonFromServer(selected);
     }
 
-    function loadComparisonFromServer(selected) {
+    function loadComparisonFromServer(selectedComparison) {
         comparisonAliasResource.get(
             {
-                'comparisonName': selected
+                'comparisonName': selectedComparison
             },
             function onSuccess(result) {
-                $scope.comparisonName = selected;
+                $scope.comparisonName = selectedComparison;
                 $scope.comparisonBranchName = result.comparisonBranchName;
                 $scope.comparisonBuildName = result.comparisonBuildName;
+                $scope.isComparisonDefined = SelectedComparison.isDefined();
+                loadChangeRate();
             }, function onFailure() {
                 $scope.comparisonBranchName = "";
                 $scope.comparisonBuildName = "";
             });
     }
+
+
+    function loadChangeRate()  {
+
+        stepDiffInfoResource.get({
+            baseBranchName: SelectedBranchAndBuild.selected().branch,
+            baseBuildName: SelectedBranchAndBuild.selected().build,
+            comparisonName: $scope.comparisonName,
+            useCaseName: useCaseName,
+            scenarioName: scenarioName,
+            stepIndex: $scope.stepIndex,
+        }, function onSuccess(result){
+            $scope.changeRate = result.changeRate;
+            colorizeComparisonTab(result.changeRate);
+        });
+    };
+
+    function colorizeComparisonTab(changeRate){
+        if (changeRate <= 20){
+            $scope.comparisonTabClasses = "green";
+        } else if (changeRate <= 40){
+            $scope.comparisonTabClasses = "orange";
+        } else if (changeRate <= 60){
+
+        } else if (changeRate <= 80){
+
+        } else {
+        }
+    };
 
 
     $scope.getComparisonScreenShotUrl = function () {
@@ -380,6 +413,9 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
     // This URL is only used internally, not for sharing
     $scope.getDiffScreenShotUrl = function () {
+        if ($scope.changeRate === 0.0){
+            return $scope.getComparisonScreenShotUrl();
+        }
         if (angular.isUndefined($scope.stepIdentifier.usecaseName)) {
             return undefined;
         }
@@ -388,6 +424,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         var comparisonName = SelectedComparison.selected();
         return DiffViewerService.getDiffScreenShotUrl($scope.step, selectedBranchAndBuild , comparisonName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.stepIndex );
      };
+
 
     $scope.go = function (step) {
         $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + step.pageName + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);

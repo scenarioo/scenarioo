@@ -22,10 +22,14 @@ angular.module('scenarioo.services').factory('SelectedComparison', function ($lo
     var selectionChangeCallbacks = [];
 
     function getSelectedComparison() {
+        return selectedComparison;
+    }
+
+    function loadSelectedComparison() {
         if (!initialValuesFromUrlAndCookieLoaded) {
             // Here we calculate the selected comparison because
             // it may not yet be calculated because there was no CONFIG_LOADED_EVENT yet.
-            calculateSelectedComparison();
+            setSelectedComparison();
             initialValuesFromUrlAndCookieLoaded = true;
         }
 
@@ -33,10 +37,10 @@ angular.module('scenarioo.services').factory('SelectedComparison', function ($lo
     }
 
     $rootScope.$on(Config.CONFIG_LOADED_EVENT, function () {
-        calculateSelectedComparison();
+        setSelectedComparison();
     });
 
-    function calculateSelectedComparison() {
+    function setSelectedComparison() {
         selectedComparison = getFromLocalStorageOrUrl(COMPARISON_KEY);
     }
 
@@ -67,35 +71,42 @@ angular.module('scenarioo.services').factory('SelectedComparison', function ($lo
         return value;
     }
 
+    // TODO: mscheube: ask Daniel why needed
     $rootScope.$watch(function () {
         return $location.search();
     }, function () {
-        calculateSelectedComparison();
+        setSelectedComparison();
     }, true);
-
-    $rootScope.$watch(getSelectedComparison,
-        function (selected) {
-            if (isComparisonDefined()) {
-                for (var i = 0; i < selectionChangeCallbacks.length; i++) {
-                    selectionChangeCallbacks[i](selected);
-                }
-            }
-        }, true);
+    //
+    //$rootScope.$watch(getSelectedComparison,
+    //    function (selected) {
+    //        if (isComparisonDefined()) {
+    //            for (var i = 0; i < selectionChangeCallbacks.length; i++) {
+    //                selectionChangeCallbacks[i](selected);
+    //            }
+    //        }
+    //    }, true);
 
     /**
      * @returns true if comparison is specified (i.e. not 'undefined').
      */
     function isComparisonDefined() {
-        return angular.isDefined(selectedComparison);
-    }
-
-    function registerSelectionChangeCallback(callback) {
-        selectionChangeCallbacks.push(callback);
-        var selected = getSelectedComparison();
-        if (isComparisonDefined()) {
-            callback(selected);
+        if (angular.isDefined(selectedComparison)){
+                return selectedComparison !== "none";
+        } else {
+            return false;
         }
     }
+
+    // TODO: mscheube: ask Daniel why needed
+    //function registerSelectionChangeCallback(callback) {
+    //    selectionChangeCallbacks.push(callback);
+    //    var selected = getSelectedComparison();
+    //    if (angular.isDefined(selectedComparison)) {
+    //        callback(selected);
+    //    }
+    //}
+
 
     return {
         COMPARISON_KEY: COMPARISON_KEY,
@@ -120,7 +131,7 @@ angular.module('scenarioo.services').factory('SelectedComparison', function ($lo
          * - If the selection changes to an invalid selection (e.g. branch is defined, but build is undefined),
          *   the callback is not called.
          */
-        callOnSelectionChange: registerSelectionChangeCallback
+        loadComparison: loadSelectedComparison,
     };
 
 });

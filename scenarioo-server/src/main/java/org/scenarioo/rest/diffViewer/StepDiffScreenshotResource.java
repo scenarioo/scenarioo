@@ -28,7 +28,7 @@ import javax.ws.rs.core.Response;
 import org.scenarioo.rest.diffViewer.logic.DiffScreenshotResponseFactory;
 import org.scenarioo.utils.NumberFormatCreator;
 
-@Path("/rest/diffViewer/{baseBranchName}/{baseBuildName}/{comparisonName}/{usecaseName}/{scenarioName}/")
+@Path("/rest/diffViewer/{baseBranchName}/{baseBuildName}/{comparisonName}/{usecaseName}/{scenarioName}/{stepIndex}")
 public class StepDiffScreenshotResource {
 
 	private final DiffScreenshotResponseFactory diffScreenshotResponseFactory = new DiffScreenshotResponseFactory();
@@ -43,7 +43,7 @@ public class StepDiffScreenshotResource {
 	 */
 	@GET
 	@Produces("image/jpeg")
-	@Path("{stepIndex}")
+	@Path("/stepDiffScreenshot")
 	public Response getDiffScreenshot(
 			@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
