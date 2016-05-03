@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.business.diffViewer;
+package org.scenarioo.business.diffViewer.comparator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.scenarioo.api.ScenarioDocuReader;

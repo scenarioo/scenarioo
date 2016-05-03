@@ -15,10 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.business.diffViewer;
+package org.scenarioo.business.diffViewer.comparator;
 
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
-import org.scenarioo.model.diffViewer.StructureDiffInfo;
 
 /**
  * Comparator to compare one build. Results are persisted in a xml file.
@@ -32,10 +31,10 @@ public class BuildComparator extends AbstractComparator {
 	/**
 	 * Compares base and comparison build.
 	 * 
-	 * @return {@link StructureDiffInfo} with the summarized diff information.
+	 * @return {@link BuildDiffInfo} with the summarized diff information.
 	 */
 	public BuildDiffInfo compare() {
-		BuildDiffInfo buildDiffInfo = new UseCaseComparator(baseBranchName, baseBuildName, comparisonName)
+		final BuildDiffInfo buildDiffInfo = new UseCaseComparator(baseBranchName, baseBuildName, comparisonName)
 				.compare();
 
 		diffWriter.saveBuildDiffInfo(buildDiffInfo);
