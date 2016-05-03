@@ -43,17 +43,18 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
                 function onSuccess(buildDiffInfos) {
                     $scope.comparisonBuilds = buildDiffInfos;
                     var preSelectedComparison = SelectedComparison.selected();
-                    var selectedComparison = SelectedComparison.DEFAULT_COMPARISON;
+                    var selectedComparison = { name: SelectedComparison.DEFAULT_COMPARISON, changeRate: 0 };
                     angular.forEach($scope.comparisonBuilds, function(comparisonBuild) {
                         if(comparisonBuild.name === preSelectedComparison) {
-                            selectedComparison = comparisonBuild.name;
+                            selectedComparison = comparisonBuild;
                         }
                     });
-                    SelectedComparison.setSelected(selectedComparison);
-                    if(selectedComparison === SelectedComparison.DEFAULT_COMPARISON) {
-                        $location.search(SelectedComparison.COMPARISON_KEY, selectedComparison);
+                    SelectedComparison.setSelected(selectedComparison.name);
+                    if(selectedComparison.name === SelectedComparison.DEFAULT_COMPARISON) {
+                        $location.search(SelectedComparison.COMPARISON_KEY, selectedComparison.name);
                     }
-                    $scope.selectedComparison = selectedComparison;
+                    $scope.selectedComparison = selectedComparison.name;
+                    $scope.selectedChangeRate = selectedComparison.changeRate;
                 }
             );
         }
@@ -76,6 +77,7 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
     $scope.setComparisonBuild = function(comparisonBuild) {
         $location.search(SelectedComparison.COMPARISON_KEY, comparisonBuild.name);
         $scope.selectedComparison = comparisonBuild.name;
+        $scope.selectedChangeRate = comparisonBuild.changeRate;
     };
 
     $scope.updating = false;
