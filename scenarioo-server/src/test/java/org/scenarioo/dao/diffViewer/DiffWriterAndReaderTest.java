@@ -27,6 +27,8 @@ import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
+import org.scenarioo.dao.diffViewer.impl.DiffWriterXmlImpl;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.dao.diffViewer;
+package org.scenarioo.dao.diffViewer.impl;
 
 import java.io.File;
 import java.text.NumberFormat;

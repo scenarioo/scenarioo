@@ -32,7 +32,7 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffReader;
-import org.scenarioo.dao.diffViewer.DiffReaderXmlImpl;
+import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;

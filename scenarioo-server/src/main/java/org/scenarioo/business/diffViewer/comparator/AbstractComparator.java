@@ -21,7 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffWriter;
-import org.scenarioo.dao.diffViewer.DiffWriterXmlImpl;
+import org.scenarioo.dao.diffViewer.impl.DiffWriterXmlImpl;
 import org.scenarioo.model.configuration.ComparisonAlias;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;

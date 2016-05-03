@@ -6,7 +6,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.scenarioo.dao.diffViewer.DiffReader;
-import org.scenarioo.dao.diffViewer.DiffReaderXmlImpl;
+import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 
