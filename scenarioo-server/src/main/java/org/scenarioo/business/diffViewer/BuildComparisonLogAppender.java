@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 import org.apache.log4j.spi.LoggingEvent;
 import org.scenarioo.dao.diffViewer.DiffReader;
-import org.scenarioo.dao.diffViewer.DiffReaderXmlImpl;
+import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 

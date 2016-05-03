@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.dao.diffViewer;
+package org.scenarioo.dao.diffViewer.impl;
 
 import static org.scenarioo.api.rules.CharacterChecker.*;
 
@@ -32,6 +32,7 @@ import org.scenarioo.api.exception.ScenarioDocuSaveException;
 import org.scenarioo.api.exception.ScenarioDocuTimeoutException;
 import org.scenarioo.api.rules.CharacterChecker;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
+import org.scenarioo.dao.diffViewer.DiffWriter;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
