@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.business.diffViewer;
+package org.scenarioo.business.diffViewer.comparator;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;

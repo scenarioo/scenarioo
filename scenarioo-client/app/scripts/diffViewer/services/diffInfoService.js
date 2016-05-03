@@ -32,6 +32,7 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
                 element.diffInfo.isRemoved = false;
             } else {
                 element.diffInfo = {};
+                element.diffInfo.changeRate = 100;
                 element.diffInfo.isAdded = true;
                 element.diffInfo.isRemoved = false;
             }
@@ -40,6 +41,7 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
 
         angular.forEach(removedElements, function(removedElement){
             removedElement.diffInfo = {};
+            removedElement.diffInfo.changeRate = 100;
             removedElement.diffInfo.isAdded = false;
             removedElement.diffInfo.isRemoved = true;
             elementsWithDiffInfo.push(removedElement);

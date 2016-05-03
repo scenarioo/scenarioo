@@ -6,6 +6,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.scenarioo.dao.diffViewer.DiffReader;
+import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 
@@ -14,22 +15,20 @@ public class DiffScreenshotResponseFactory {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
-	private final DiffReader diffReader = new DiffReader(
+	private final DiffReader diffReader = new DiffReaderXmlImpl(
 			configurationRepository.getDiffViewerDirectory());
 
 	public Response createFoundImageResponse(final String baseBranchName, final String baseBuildName,
 			final String comparisonName,
 			final String useCaseName,
-			final String scenarioName, final String imageName
-			) {
-		File screenshot = diffReader.getScreenshotFile(baseBranchName, baseBuildName, comparisonName, useCaseName,
+			final String scenarioName, final String imageName) {
+		final File screenshot = diffReader.getScreenshotFile(baseBranchName, baseBuildName, comparisonName, useCaseName,
 				scenarioName, imageName);
 
 		return createFoundImageResponse(imageName, screenshot);
 	}
 
-	private Response createFoundImageResponse(final String imgName, final File screenshot
-			) {
+	private Response createFoundImageResponse(final String imgName, final File screenshot) {
 		if (screenshot == null || !screenshot.exists()) {
 			return notFoundResponse();
 		} else {

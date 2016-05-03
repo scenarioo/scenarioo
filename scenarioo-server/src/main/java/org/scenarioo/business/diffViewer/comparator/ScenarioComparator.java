@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.business.diffViewer;
+package org.scenarioo.business.diffViewer.comparator;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +25,6 @@ import org.apache.log4j.Logger;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
-import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
@@ -53,7 +52,7 @@ public class ScenarioComparator extends AbstractComparator {
 	 * 
 	 * @param baseUseCaseName
 	 *            the use case to compare the scenarios.
-	 * @return {@link StructureDiffInfo} with the summarized diff information.
+	 * @return {@link UseCaseDiffInfo} with the summarized diff information.
 	 */
 	public UseCaseDiffInfo compare(final String baseUseCaseName) {
 		final BuildIdentifier comparisonBuildIdentifier = getComparisonBuildIdentifier(comparisonName);

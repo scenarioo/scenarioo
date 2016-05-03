@@ -27,6 +27,8 @@ import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
+import org.scenarioo.dao.diffViewer.impl.DiffWriterXmlImpl;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
@@ -38,7 +40,7 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
 
 /**
- * Test the write and read functionality of the {@link DiffWriter} and {@link DiffReader}.
+ * Test the write and read functionality of the {@link DiffWriterXmlImpl} and {@link DiffReaderXmlImpl}.
  */
 public class DiffWriterAndReaderTest {
 
@@ -64,8 +66,8 @@ public class DiffWriterAndReaderTest {
 	@Before
 	public void setUp() {
 		ROOT_DIRECTORY.mkdirs();
-		writer = new DiffWriter(ROOT_DIRECTORY, BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
-		reader = new DiffReader(ROOT_DIRECTORY);
+		writer = new DiffWriterXmlImpl(ROOT_DIRECTORY, BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
+		reader = new DiffReaderXmlImpl(ROOT_DIRECTORY);
 	}
 
 	@After
@@ -132,7 +134,7 @@ public class DiffWriterAndReaderTest {
 	@Test
 	public void testWriteAndReadBuildDiffInfos() {
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
-			writer = new DiffWriter(ROOT_DIRECTORY, BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME + i);
+			writer = new DiffWriterXmlImpl(ROOT_DIRECTORY, BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME + i);
 			final BuildDiffInfo buildDiffInfo = getBuildDiffInfo(COMPARISON_NAME + i);
 			writer.saveBuildDiffInfo(buildDiffInfo);
 			writer.flush();
@@ -154,7 +156,8 @@ public class DiffWriterAndReaderTest {
 		}
 		writer.flush();
 
-		final List<UseCaseDiffInfo> actualUseCaseDiffInfos = reader.loadUseCaseDiffInfos(BASE_BRANCH_NAME, BASE_BUILD_NAME,
+		final List<UseCaseDiffInfo> actualUseCaseDiffInfos = reader.loadUseCaseDiffInfos(BASE_BRANCH_NAME,
+				BASE_BUILD_NAME,
 				COMPARISON_NAME);
 
 		assertEquals(2, actualUseCaseDiffInfos.size());

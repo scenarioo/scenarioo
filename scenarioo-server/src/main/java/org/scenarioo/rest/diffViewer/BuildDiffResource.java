@@ -17,6 +17,8 @@
 
 package org.scenarioo.rest.diffViewer;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -28,6 +30,7 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffReader;
+import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -44,7 +47,7 @@ public class BuildDiffResource {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
-	private DiffReader diffReader = new DiffReader(configurationRepository.getDiffViewerDirectory());
+	private DiffReader diffReader = new DiffReaderXmlImpl(configurationRepository.getDiffViewerDirectory());
 
 	@GET
 	@Produces("application/json")
@@ -68,6 +71,30 @@ public class BuildDiffResource {
 			return Response.noContent().build();
 		} catch (final Throwable e) {
 			LOGGER.warn("Unable to get build diff info", e);
+			return Response.serverError().build();
+		}
+	}
+
+	@GET
+	@Produces("application/json")
+	@Path("/buildDiffInfos")
+	public Response getBuildDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
+			@PathParam("baseBuildName") final String baseBuildName) {
+		LOGGER.info("REQUEST: getBuildDiffInfos(" + baseBranchName + ", " + baseBranchName + ")");
+
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+				baseBranchName,
+				baseBuildName);
+
+		try {
+			final List<BuildDiffInfo> buildDiffInfos = diffReader.loadBuildDiffInfos(buildIdentifier.getBranchName(),
+					buildIdentifier.getBuildName());
+			return Response.ok(buildDiffInfos, MediaType.APPLICATION_JSON).build();
+		} catch (final ResourceNotFoundException e) {
+			LOGGER.warn("Unable to get build diff infos", e);
+			return Response.noContent().build();
+		} catch (final Throwable e) {
+			LOGGER.warn("Unable to get build diff infos", e);
 			return Response.serverError().build();
 		}
 	}

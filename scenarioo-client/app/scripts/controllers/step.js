@@ -96,7 +96,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.scenarioLabels = result.scenarioLabels;
                 $scope.selectedBuild = selected.buildName;
                 loadRelatedIssues();
-                var selectedComparison = SelectedComparison.loadComparison();
+                selectedComparison = SelectedComparison.selected();
                 loadComparisonFromServer(selectedComparison);
 
                 $scope.hasAnyLabels = function () {
@@ -328,13 +328,6 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
     };
 
-
-
-    function loadComparison(selected) {
-        selectedComparison = selected;
-        loadComparisonFromServer(selected);
-    }
-
     function loadComparisonFromServer(selectedComparison) {
         comparisonAliasResource.get(
             {
@@ -348,8 +341,8 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 getDisplayNameForBuildName();
                 loadChangeRate();
             }, function onFailure() {
-                $scope.comparisonBranchName = "";
-                $scope.comparisonBuildName = "";
+                $scope.comparisonBranchName = '';
+                $scope.comparisonBuildName = '';
             });
     }
 
@@ -360,8 +353,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     };
 
 
-    function loadChangeRate()  {
-
+    function loadChangeRate() {
         stepDiffInfoResource.get({
             baseBranchName: SelectedBranchAndBuild.selected().branch,
             baseBuildName: SelectedBranchAndBuild.selected().build,
@@ -377,14 +369,13 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
     function colorizeComparisonTab(changeRate){
         if (changeRate <= 20){
-            $scope.comparisonTabClasses = "green";
+            $scope.comparisonTabClasses = 'green';
         } else if (changeRate <= 40){
-            $scope.comparisonTabClasses = "orange";
+            $scope.comparisonTabClasses = 'orange';
         } else if (changeRate <= 60){
 
         } else if (changeRate <= 80){
 
-        } else {
         }
     }
 
