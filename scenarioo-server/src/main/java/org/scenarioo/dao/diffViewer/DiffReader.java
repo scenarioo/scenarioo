@@ -47,7 +47,7 @@ public class DiffReader {
 		checkIdentifier(baseBranchName);
 		checkIdentifier(baseBuildName);
 
-		List<File> files = diffFiles.getBuildFiles(baseBranchName, baseBuildName);
+		final List<File> files = diffFiles.getBuildFiles(baseBranchName, baseBuildName);
 
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(BuildDiffInfo.class, files);
 	}
@@ -58,7 +58,7 @@ public class DiffReader {
 		checkIdentifier(baseBuildName);
 		checkIdentifier(comparisonName);
 
-		File file = diffFiles.getBuildFile(baseBranchName, baseBuildName, comparisonName);
+		final File file = diffFiles.getBuildFile(baseBranchName, baseBuildName, comparisonName);
 
 		return ScenarioDocuXMLFileUtil.unmarshal(BuildDiffInfo.class, file);
 	}
@@ -69,7 +69,7 @@ public class DiffReader {
 		checkIdentifier(baseBuildName);
 		checkIdentifier(comparisonName);
 
-		List<File> files = diffFiles.getUseCaseFiles(baseBranchName, baseBuildName, comparisonName);
+		final List<File> files = diffFiles.getUseCaseFiles(baseBranchName, baseBuildName, comparisonName);
 
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(UseCaseDiffInfo.class, files);
 	}
@@ -81,7 +81,7 @@ public class DiffReader {
 		checkIdentifier(comparisonName);
 		checkIdentifier(useCaseName);
 
-		File file = diffFiles.getUseCaseFile(baseBranchName, baseBuildName, comparisonName, useCaseName);
+		final File file = diffFiles.getUseCaseFile(baseBranchName, baseBuildName, comparisonName, useCaseName);
 
 		return ScenarioDocuXMLFileUtil.unmarshal(UseCaseDiffInfo.class, file);
 	}
@@ -93,7 +93,7 @@ public class DiffReader {
 		checkIdentifier(comparisonName);
 		checkIdentifier(useCaseName);
 
-		List<File> files = diffFiles.getScenarioFiles(baseBranchName, baseBuildName, comparisonName, useCaseName);
+		final List<File> files = diffFiles.getScenarioFiles(baseBranchName, baseBuildName, comparisonName, useCaseName);
 
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(ScenarioDiffInfo.class, files);
 	}
@@ -106,7 +106,7 @@ public class DiffReader {
 		checkIdentifier(useCaseName);
 		checkIdentifier(scenarioName);
 
-		File file = diffFiles.getScenarioFile(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName);
+		final File file = diffFiles.getScenarioFile(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName);
 
 		return ScenarioDocuXMLFileUtil.unmarshal(ScenarioDiffInfo.class, file);
 	}
@@ -119,7 +119,7 @@ public class DiffReader {
 		checkIdentifier(useCaseName);
 		checkIdentifier(scenarioName);
 
-		List<File> files = diffFiles.getStepFiles(baseBranchName, baseBuildName, comparisonName, useCaseName,
+		final List<File> files = diffFiles.getStepFiles(baseBranchName, baseBuildName, comparisonName, useCaseName,
 				scenarioName);
 
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(StepDiffInfo.class, files);
@@ -133,16 +133,16 @@ public class DiffReader {
 		checkIdentifier(useCaseName);
 		checkIdentifier(scenarioName);
 
-		File file = diffFiles.getStepFile(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName,
+		final File file = diffFiles.getStepFile(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName,
 				stepIndex);
 
 		return ScenarioDocuXMLFileUtil.unmarshal(StepDiffInfo.class, file);
 	}
 
-	public ComparisonAlias getComparisonAlias(String comparisonName) {
-		Configuration configuration = configurationRepository.getConfiguration();
-		List<ComparisonAlias> comparisonAliases = configuration.getComparisonAliases();
-		for (ComparisonAlias comparisonAlias : comparisonAliases) {
+	public ComparisonAlias getComparisonAlias(final String comparisonName) {
+		final Configuration configuration = configurationRepository.getConfiguration();
+		final List<ComparisonAlias> comparisonAliases = configuration.getComparisonAliases();
+		for (final ComparisonAlias comparisonAlias : comparisonAliases) {
 			if (comparisonAlias.getComparisonName().equals(comparisonName)) {
 				return comparisonAlias;
 			}
@@ -159,5 +159,10 @@ public class DiffReader {
 		return diffFiles.getScreenshotFile(checkIdentifier(baseBranchName),
 				checkIdentifier(baseBuildName), checkIdentifier(comparisonName), checkIdentifier(useCaseName),
 				checkIdentifier(scenarioName), imageName);
+	}
+
+	public File getBuildComparisonLogFile(final String baseBranchName, final String baseBuildName,
+			final String comparisonName) {
+		return diffFiles.getBuildComparisonLogFile(baseBranchName, baseBuildName, comparisonName);
 	}
 }

@@ -29,6 +29,7 @@ import org.scenarioo.utils.NumberFormatCreator;
  */
 public class DiffFiles {
 
+	private static final String COMPARISON_LOGFILE_NAME = "comparison.derived.log";
 	private static final String DIRECTORY_NAME_SCENARIO_SCREENSHOTS = "screenshots";
 	private static final String DIRECTORY_NAME_SCENARIO_STEPS = "steps";
 	private static final String FILE_NAME_BUILD = "build.xml";
@@ -155,5 +156,14 @@ public class DiffFiles {
 			throw new IllegalArgumentException("Directory for diff content does not exist: "
 					+ rootDirectory.getAbsolutePath());
 		}
+	}
+
+	public File getBuildComparisonLogFile(final String baseBranchName, final String baseBuildName,
+			final String comparisonName) {
+		final File comparisonDirectory = getComparisonDirectory(baseBranchName, baseBuildName, comparisonName);
+		if (!comparisonDirectory.exists()) {
+			comparisonDirectory.mkdirs();
+		}
+		return new File(comparisonDirectory, COMPARISON_LOGFILE_NAME);
 	}
 }
