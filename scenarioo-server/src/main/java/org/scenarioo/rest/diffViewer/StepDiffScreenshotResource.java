@@ -25,22 +25,25 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
 import org.scenarioo.rest.diffViewer.logic.DiffScreenshotResponseFactory;
 import org.scenarioo.utils.NumberFormatCreator;
 
+/**
+ * Handles requests for diff screenshots.
+ */
 @Path("/rest/diffViewer/{baseBranchName}/{baseBuildName}/{comparisonName}/{usecaseName}/{scenarioName}/{stepIndex}")
 public class StepDiffScreenshotResource {
 
+	private static final Logger LOGGER = Logger.getLogger(StepDiffScreenshotResource.class);
+
 	private final DiffScreenshotResponseFactory diffScreenshotResponseFactory = new DiffScreenshotResponseFactory();
+
 	private static NumberFormat THREE_DIGIT_NUM_FORMAT = NumberFormatCreator
 			.createNumberFormatWithMinimumIntegerDigits(3);
+
 	private static final String SCREENSHOT_FILE_EXTENSION = ".png";
 
-	/**
-	 * This method is used internally for loading the diff screenshot of a step. It is the faster method, because it
-	 * already knows
-	 * the filename of the image.
-	 */
 	@GET
 	@Produces("image/jpeg")
 	@Path("/stepDiffScreenshot")
@@ -52,6 +55,8 @@ public class StepDiffScreenshotResource {
 			@PathParam("scenarioName") final String scenarioName,
 			@PathParam("stepIndex") final int stepIndex
 			) {
+		LOGGER.info("REQUEST: getDiffScreenshot(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
+				+ ", " + usecaseName + ", " + scenarioName + ", " + stepIndex + ")");
 
 		String imageFileName = THREE_DIGIT_NUM_FORMAT.format(stepIndex) + SCREENSHOT_FILE_EXTENSION;
 
