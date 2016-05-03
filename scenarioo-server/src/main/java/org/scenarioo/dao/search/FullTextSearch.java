@@ -21,11 +21,11 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.DeserializationConfig.Feature;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectReader;
@@ -46,31 +46,49 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.base.BuildIdentifier;
 
-/**
- * 
- */
+// TODO Indexing and searching should not really be in the same class.
 public class FullTextSearch {
 
 	private final static Logger LOGGER = Logger.getLogger(FullTextSearch.class);
 
 	private TransportClient client;
+	private ObjectReader useCaseReader;
+	private ObjectReader scenarioReader;
 
 	public FullTextSearch() {
 		try {
 			client = TransportClient.builder().build()
 					.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
+
+			useCaseReader = generateObjectReader(UseCase.class, UseCaseSearchDao.class);
+			scenarioReader = generateObjectReader(Scenario.class, ScenarioSearchDao.class);
+
 		} catch (UnknownHostException e) {
 			LOGGER.info("no elasticsearch cluster running.");
 		}
 	}
 
+	public List<String> search(final BuildIdentifier buildIdentifier, final String q) {
+		String indexName = getIndexName(buildIdentifier);
+
+		List<String> searchResults = searchData(indexName, q);
+
+		if (searchResults.isEmpty()) {
+			return Collections.singletonList("No result found.");
+		}
+
+		return searchResults;
+	}
+
 	public void indexUseCases(final UseCaseScenariosList useCaseScenariosList, final BuildIdentifier buildIdentifier) {
+		// if we don't have a client, elasticsearch is most likely not running so just ignore it.
 		if (client == null) {
 			return;
 		}
 
 		String indexName = getIndexName(buildIdentifier);
 
+		// TODO refactor this out into the index setup code once it exists.
 		addMetaDataMappingForType(indexName, "scenario");
 
 		try {
@@ -82,14 +100,18 @@ public class FullTextSearch {
 				}
 			}
 		} catch (NoNodeAvailableException e) {
-			System.out.println("No node available. Elasticsearch not running.");
+			LOGGER.info("No node available. Elasticsearch not running.");
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error("Could not create search data.", e);
+
 		} finally {
 			client.close();
 		}
+	}
+
+	private String getIndexName(final BuildIdentifier buildIdentifier) {
+		return buildIdentifier.getBranchName() + "-" + buildIdentifier.getBuildName();
 	}
 
 	private void addMetaDataMappingForType(final String indexName, final String type) {
@@ -126,10 +148,6 @@ public class FullTextSearch {
 		LOGGER.debug("Indexed use case " + useCase.getName() + " for index " + indexName);
 	}
 
-	private String getIndexName(final BuildIdentifier buildIdentifier) {
-		return buildIdentifier.getBranchName() + "-" + buildIdentifier.getBuildName();
-	}
-
 	private void indexScenario(final Client client, final String indexName, final String usecaseName,
 			final Scenario scenario) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -142,93 +160,70 @@ public class FullTextSearch {
 		LOGGER.debug("Indexed scenario " + scenario.getName() + " for index " + indexName);
 	}
 
-	public List<String> search(final BuildIdentifier buildIdentifier, final String q) {
-		String indexName = getIndexName(buildIdentifier);
+	private List<String> searchData(final String indexName, final String q) {
+		SearchResponse searchResponse = executeSearch(indexName, q);
 
-		List<String> searchResults = new ArrayList<>();
-		searchResults.addAll(searchUsecases(indexName, q));
-		searchResults.addAll(searchScenarios(indexName, q));
-		
-		if (searchResults.isEmpty()) {
-			return Collections.singletonList("No result found.");
+		if (searchResponse.getHits().getHits().length == 0) {
+			// no results found
+			return Collections.emptyList();
 		}
-		
-		return searchResults;
+
+		SearchHit[] hits = searchResponse.getHits().getHits();
+
+		List<String> useCases = new ArrayList<String>();
+		for (SearchHit searchHit : hits) {
+			try {
+				switch (searchHit.getType()) {
+				case "usecase":
+					useCases.add(parseUseCase(searchHit));
+					break;
+				case "scenario":
+					useCases.add(parseScenario(searchHit));
+					break;
+				default:
+					throw new IllegalStateException("No type mapping for " + searchHit.getType() + " known.");
+				}
+			} catch (IOException e) {
+				LOGGER.error("Could not parse result for query " + q);
+				throw new RuntimeException("I give up.", e);
+			}
+		}
+
+		return useCases;
 	}
 
-	private List<String> searchUsecases(final String indexName, final String q) {
+	private SearchResponse executeSearch(final String indexName, final String q) {
+		LOGGER.debug("Search in index " + indexName + " for " + q);
 		SearchRequestBuilder setQuery = client.prepareSearch()
 				.setIndices(indexName)
-				.setTypes("usecase")
 				.setSearchType(SearchType.QUERY_AND_FETCH)
 				.setQuery(QueryBuilders.queryStringQuery("\"" + q + "\""));
 
 		SearchResponse searchResponse = setQuery
 				.execute().actionGet();
-
-		SearchHit[] hits = searchResponse.getHits().getHits();
-		if (hits.length > 0) {
-
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.getDeserializationConfig().addMixInAnnotations(UseCase.class,
-					IgnoreUseCaseSetStatusMixIn.class);
-			objectMapper.configure(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-			ObjectReader useCaseReader = objectMapper.reader(UseCaseSearchDao.class);
-
-			List<String> useCases = new ArrayList<String>();
-			for (SearchHit searchHit : hits) {
-				try {
-					LOGGER.debug(searchHit.getSourceAsString());
-					UseCaseSearchDao useCaseResult = useCaseReader.readValue(searchHit.getSourceRef().streamInput());
-
-					useCases.add(useCaseResult.getUseCase().getName());
-				} catch (IOException e) {
-					LOGGER.error("Could not parse result for query " + q);
-					throw new RuntimeException("I give up.", e);
-				}
-			}
-
-			return useCases;
-		} else {
-			return Collections.emptyList();
-		}
+		return searchResponse;
 	}
 
-	private Collection<? extends String> searchScenarios(final String indexName, final String q) {
-		SearchRequestBuilder setQuery = client.prepareSearch()
-				.setIndices(indexName)
-				.setTypes("scenario")
-				.setSearchType(SearchType.QUERY_AND_FETCH)
-				.setQuery(QueryBuilders.queryStringQuery("\"" + q + "\""));
+	private String parseUseCase(final SearchHit searchHit) throws JsonProcessingException, IOException {
+		UseCaseSearchDao useCaseResult = useCaseReader.readValue(searchHit.getSourceRef().streamInput());
 
-		SearchResponse searchResponse = setQuery.execute().actionGet();
+		return useCaseResult.getUseCase().getName();
+	}
 
-		SearchHit[] hits = searchResponse.getHits().getHits();
-		if (hits.length > 0) {
+	private String parseScenario(final SearchHit searchHit) throws JsonProcessingException, IOException {
+		ScenarioSearchDao scenarioSearchDao = scenarioReader.readValue(searchHit.getSourceRef()
+				.streamInput());
 
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.getDeserializationConfig().addMixInAnnotations(Scenario.class,
-					IgnoreUseCaseSetStatusMixIn.class);
-			objectMapper.configure(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-			ObjectReader useCaseReader = objectMapper.reader(ScenarioSearchDao.class);
+		return scenarioSearchDao.getScenario().getName();
 
-			List<String> scenarios = new ArrayList<String>();
-			for (SearchHit searchHit : hits) {
-				try {
-					LOGGER.debug(searchHit.getSourceAsString());
-					ScenarioSearchDao scenarioSearchDao = useCaseReader.readValue(searchHit.getSourceRef()
-							.streamInput());
+	}
 
-					scenarios.add(scenarioSearchDao.getScenario().getName());
-				} catch (IOException e) {
-					LOGGER.error("Could not parse result for query " + q);
-					throw new RuntimeException("I give up.", e);
-				}
-			}
-
-			return scenarios;
-		} else {
-			return Collections.emptyList();
-		}
+	private ObjectReader generateObjectReader(final Class baseClass, final Class searchDao) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.getDeserializationConfig().addMixInAnnotations(baseClass,
+				IgnoreUseCaseSetStatusMixIn.class);
+		objectMapper.configure(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	
+		return objectMapper.reader(searchDao);
 	}
 }
