@@ -117,6 +117,7 @@ public class ScenarioDocuAggregator {
 		
 		LOGGER.info("  calculating aggregated data for build " + getBuildIdentifier() + " ... ");
 		UseCaseScenariosList useCaseScenariosList = calculateUseCaseScenariosList();
+
 		FullTextSearch fullTextSearch = new FullTextSearch();
 		fullTextSearch.indexUseCases(useCaseScenariosList, getBuildIdentifier());
 
