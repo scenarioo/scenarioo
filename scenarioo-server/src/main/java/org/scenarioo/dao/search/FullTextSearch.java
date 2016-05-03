@@ -37,8 +37,6 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.NoNodeAvailableException;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
@@ -94,28 +92,24 @@ public class FullTextSearch {
 	}
 
 	private void addMetaDataMappingToType(final String type) {
-		try {
-			XContentBuilder endObject = XContentFactory.jsonBuilder().prettyPrint()
-					.startObject()
-					.startObject(type)
-					.startArray("dynamic_templates")
-					.startObject()
-					.startObject("ignore_meta_data")
-					.field("path_match", "_meta.*")
-					.startObject("mapping")
-					.field("index", "no")
-					.endObject()
-					.endObject()
-					.endObject()
-					.endArray()
-					.endObject()
-					.endObject();
-			endObject.string();
+			String mapping =
+					"{" +
+					"	\"" + type + "\":	{" +
+					"		\"dynamic_templates\": [" +
+					"			{" +
+					"				\"ignore_meta_data\": {" +
+					"					\"path_match\": \"_meta.*\"," +
+					"					\"mapping\": {" +
+					"						\"index\": \"no\"" +
+					"					}" +
+					"				}" +
+					"			}" +
+					"		]" +
+					"	}" +
+					"}";
+
 			client.admin().indices().prepareCreate("branch-build")
-					.addMapping(type, endObject).get();
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to add _meta data mapping", e);
-		}
+					.addMapping(type, mapping).get();
 	}
 
 	private void indexUsecase(final Client client, final UseCase useCase) throws IOException {
