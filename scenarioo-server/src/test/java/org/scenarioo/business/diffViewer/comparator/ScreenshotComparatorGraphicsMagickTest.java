@@ -1,4 +1,4 @@
-package org.scenarioo.business.diffViewer;
+package org.scenarioo.business.diffViewer.comparator;
 
 import static org.junit.Assert.*;
 

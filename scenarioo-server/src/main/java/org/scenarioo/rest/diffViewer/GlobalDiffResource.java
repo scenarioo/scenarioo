@@ -17,6 +17,8 @@
 
 package org.scenarioo.rest.diffViewer;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -26,8 +28,8 @@ import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
-import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.model.configuration.ComparisonAlias;
+import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 
@@ -42,8 +44,6 @@ public class GlobalDiffResource {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
-	private DiffReader diffReader = new DiffReader(configurationRepository.getDiffViewerDirectory());
-
 	@GET
 	@Produces("application/json")
 	@Path("/comparisonAlias/{comparisonName}")
@@ -51,15 +51,26 @@ public class GlobalDiffResource {
 		LOGGER.info("REQUEST: getComparisonAlias(" + comparisonName + ")");
 
 		try {
-			ComparisonAlias comparisonAlias = diffReader.getComparisonAlias(comparisonName);
+			final ComparisonAlias comparisonAlias = getComparisonAliasByName(comparisonName);
 			return Response.ok(comparisonAlias, MediaType.APPLICATION_JSON).build();
-		} catch (ResourceNotFoundException e) {
+		} catch (final ResourceNotFoundException e) {
 			LOGGER.warn("Unable to get comparison alias", e);
 			return Response.noContent().build();
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			LOGGER.warn("Unable to get comparison alias", e);
 			return Response.serverError().build();
 		}
+	}
+
+	private ComparisonAlias getComparisonAliasByName(final String comparisonName) {
+		final Configuration configuration = configurationRepository.getConfiguration();
+		final List<ComparisonAlias> comparisonAliases = configuration.getComparisonAliases();
+		for (final ComparisonAlias comparisonAlias : comparisonAliases) {
+			if (comparisonAlias.getComparisonName().equals(comparisonName)) {
+				return comparisonAlias;
+			}
+		}
+		throw new ResourceNotFoundException("No ComparisonAlias found for comparisonName '" + comparisonName + "'.");
 	}
 
 }

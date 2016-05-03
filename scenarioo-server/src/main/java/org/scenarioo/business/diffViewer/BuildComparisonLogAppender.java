@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 import org.apache.log4j.spi.LoggingEvent;
 import org.scenarioo.dao.diffViewer.DiffReader;
+import org.scenarioo.dao.diffViewer.DiffReaderXmlImpl;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 
@@ -113,7 +114,7 @@ public class BuildComparisonLogAppender extends AppenderSkeleton {
 
 	public static BuildComparisonLogAppender createAndRegisterForLogsOfBuild(final String baseBranchName,
 			final String baseBuildName, final String comparisonName) {
-		final DiffReader diffReader = new DiffReader(configurationRepository.getDiffViewerDirectory());
+		final DiffReader diffReader = new DiffReaderXmlImpl(configurationRepository.getDiffViewerDirectory());
 		final File buildComparisonLogFile = diffReader.getBuildComparisonLogFile(baseBranchName, baseBuildName,
 				comparisonName);
 		final String comparisonIdentifier = baseBranchName + "/" + baseBuildName + "/" + comparisonName;

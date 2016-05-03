@@ -17,152 +17,182 @@
 
 package org.scenarioo.dao.diffViewer;
 
-import static org.scenarioo.api.rules.CharacterChecker.*;
-
 import java.io.File;
 import java.util.List;
 
-import org.scenarioo.api.exception.ResourceNotFoundException;
-import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
-import org.scenarioo.model.configuration.ComparisonAlias;
-import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
-import org.scenarioo.repository.ConfigurationRepository;
-import org.scenarioo.repository.RepositoryLocator;
 
-public class DiffReader {
+/**
+ * Interface to read diff information.
+ */
+public interface DiffReader {
 
-	private final DiffFiles diffFiles;
-	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
-			.getConfigurationRepository();
+	/**
+	 * Loads a list with build diff information.
+	 * 
+	 * @param baseBranchName
+	 *            the name of the base branch
+	 * @param baseBuildName
+	 *            the name of the base build
+	 * @return list with build diff infos
+	 */
+	List<BuildDiffInfo> loadBuildDiffInfos(final String baseBranchName, final String baseBuildName);
 
-	public DiffReader(final File rootDirectory) {
-		this.diffFiles = new DiffFiles(rootDirectory);
-	}
+	/**
+	 * Loads the build diff information.
+	 * 
+	 * @param baseBranchName
+	 *            the name of the base branch name
+	 * @param baseBuildName
+	 *            the name of the base build name
+	 * @param comparisonName
+	 *            the name of the comparison alias
+	 * @return the build diff info
+	 */
+	BuildDiffInfo loadBuildDiffInfo(final String baseBranchName, final String baseBuildName,
+			final String comparisonName);
 
-	public List<BuildDiffInfo> loadBuildDiffInfos(final String baseBranchName, final String baseBuildName) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
+	/**
+	 * Loads a list with use case diff information.
+	 * 
+	 * @param baseBranchName
+	 *            the name of the base branch name
+	 * @param baseBuildName
+	 *            the name of the base build name
+	 * @param comparisonName
+	 *            the name of the comparison alias
+	 * @return the use case diff infos
+	 */
+	List<UseCaseDiffInfo> loadUseCaseDiffInfos(final String baseBranchName, final String baseBuildName,
+			final String comparisonName);
 
-		final List<File> files = diffFiles.getBuildFiles(baseBranchName, baseBuildName);
+	/**
+	 * Loads the use case diff information.
+	 * 
+	 * @param baseBranchName
+	 *            the name of the base branch name
+	 * @param baseBuildName
+	 *            the name of the base build name
+	 * @param comparisonName
+	 *            the name of the comparison alias
+	 * @param useCaseName
+	 *            the name of the use case
+	 * @param scenarioName
+	 *            the name of the scenario
+	 * @param stepIndex
+	 *            the index of the step in the scenario
+	 * @return the use case diff info
+	 */
+	UseCaseDiffInfo loadUseCaseDiffInfo(final String baseBranchName, final String baseBuildName,
+			final String comparisonName, final String useCaseName);
 
-		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(BuildDiffInfo.class, files);
-	}
+	/**
+	 * Loads a list with scenario diff information.
+	 * 
+	 * @param baseBranchName
+	 *            the name of the base branch name
+	 * @param baseBuildName
+	 *            the name of the base build name
+	 * @param comparisonName
+	 *            the name of the comparison alias
+	 * @param useCaseName
+	 *            the name of the use case
+	 * @return the scenario diff infos
+	 */
+	List<ScenarioDiffInfo> loadScenarioDiffInfos(final String baseBranchName, final String baseBuildName,
+			final String comparisonName, final String useCaseName);
 
-	public BuildDiffInfo loadBuildDiffInfo(final String baseBranchName, final String baseBuildName,
-			final String comparisonName) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-		checkIdentifier(comparisonName);
+	/**
+	 * Loads the scenario diff information.
+	 * 
+	 * @param baseBranchName
+	 *            the name of the base branch name
+	 * @param baseBuildName
+	 *            the name of the base build name
+	 * @param comparisonName
+	 *            the name of the comparison alias
+	 * @param useCaseName
+	 *            the name of the use case
+	 * @param scenarioName
+	 *            the name of the scenario
+	 * @return the scenario diff info
+	 */
+	ScenarioDiffInfo loadScenarioDiffInfo(final String baseBranchName, final String baseBuildName,
+			final String comparisonName, final String useCaseName, final String scenarioName);
 
-		final File file = diffFiles.getBuildFile(baseBranchName, baseBuildName, comparisonName);
+	/**
+	 * Loads a list with step diff information.
+	 * 
+	 * @param baseBranchName
+	 *            the name of the base branch name
+	 * @param baseBuildName
+	 *            the name of the base build name
+	 * @param comparisonName
+	 *            the name of the comparison alias
+	 * @param useCaseName
+	 *            the name of the use case
+	 * @param scenarioName
+	 *            the name of the scenario
+	 * @return the step diff infos
+	 */
+	List<StepDiffInfo> loadStepDiffInfos(final String baseBranchName, final String baseBuildName,
+			final String comparisonName, final String useCaseName, final String scenarioName);
 
-		return ScenarioDocuXMLFileUtil.unmarshal(BuildDiffInfo.class, file);
-	}
-
-	public List<UseCaseDiffInfo> loadUseCaseDiffInfos(final String baseBranchName, final String baseBuildName,
-			final String comparisonName) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-		checkIdentifier(comparisonName);
-
-		final List<File> files = diffFiles.getUseCaseFiles(baseBranchName, baseBuildName, comparisonName);
-
-		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(UseCaseDiffInfo.class, files);
-	}
-
-	public UseCaseDiffInfo loadUseCaseDiffInfo(final String baseBranchName, final String baseBuildName,
-			final String comparisonName, final String useCaseName) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-		checkIdentifier(comparisonName);
-		checkIdentifier(useCaseName);
-
-		final File file = diffFiles.getUseCaseFile(baseBranchName, baseBuildName, comparisonName, useCaseName);
-
-		return ScenarioDocuXMLFileUtil.unmarshal(UseCaseDiffInfo.class, file);
-	}
-
-	public List<ScenarioDiffInfo> loadScenarioDiffInfos(final String baseBranchName, final String baseBuildName,
-			final String comparisonName, final String useCaseName) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-		checkIdentifier(comparisonName);
-		checkIdentifier(useCaseName);
-
-		final List<File> files = diffFiles.getScenarioFiles(baseBranchName, baseBuildName, comparisonName, useCaseName);
-
-		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(ScenarioDiffInfo.class, files);
-	}
-
-	public ScenarioDiffInfo loadScenarioDiffInfo(final String baseBranchName, final String baseBuildName,
-			final String comparisonName, final String useCaseName, final String scenarioName) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-		checkIdentifier(comparisonName);
-		checkIdentifier(useCaseName);
-		checkIdentifier(scenarioName);
-
-		final File file = diffFiles.getScenarioFile(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName);
-
-		return ScenarioDocuXMLFileUtil.unmarshal(ScenarioDiffInfo.class, file);
-	}
-
-	public List<StepDiffInfo> loadStepDiffInfos(final String baseBranchName, final String baseBuildName,
-			final String comparisonName, final String useCaseName, final String scenarioName) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-		checkIdentifier(comparisonName);
-		checkIdentifier(useCaseName);
-		checkIdentifier(scenarioName);
-
-		final List<File> files = diffFiles.getStepFiles(baseBranchName, baseBuildName, comparisonName, useCaseName,
-				scenarioName);
-
-		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(StepDiffInfo.class, files);
-	}
-
-	public StepDiffInfo loadStepDiffInfo(final String baseBranchName, final String baseBuildName,
-			final String comparisonName, final String useCaseName, final String scenarioName, final int stepIndex) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-		checkIdentifier(comparisonName);
-		checkIdentifier(useCaseName);
-		checkIdentifier(scenarioName);
-
-		final File file = diffFiles.getStepFile(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName,
-				stepIndex);
-
-		return ScenarioDocuXMLFileUtil.unmarshal(StepDiffInfo.class, file);
-	}
-
-	public ComparisonAlias getComparisonAlias(final String comparisonName) {
-		final Configuration configuration = configurationRepository.getConfiguration();
-		final List<ComparisonAlias> comparisonAliases = configuration.getComparisonAliases();
-		for (final ComparisonAlias comparisonAlias : comparisonAliases) {
-			if (comparisonAlias.getComparisonName().equals(comparisonName)) {
-				return comparisonAlias;
-			}
-		}
-		throw new ResourceNotFoundException("No ComparisonAlias found for comparisonName '" + comparisonName + "'.");
-	}
+	/**
+	 * Loads the step diff information.
+	 * 
+	 * @param baseBranchName
+	 *            the name of the base branch name
+	 * @param baseBuildName
+	 *            the name of the base build name
+	 * @param comparisonName
+	 *            the name of the comparison alias
+	 * @param useCaseName
+	 *            the name of the use case
+	 * @param scenarioName
+	 *            the name of the scenario
+	 * @param stepIndex
+	 *            the index of the step in the scenario
+	 * @return the step diff info
+	 */
+	StepDiffInfo loadStepDiffInfo(final String baseBranchName, final String baseBuildName,
+			final String comparisonName, final String useCaseName, final String scenarioName, final int stepIndex);
 
 	/**
 	 * Screenshot files are simply provided by path, the REST service will take care of streaming it.
+	 * 
+	 * @param baseBranchName
+	 *            the name of the base branch name
+	 * @param baseBuildName
+	 *            the name of the base build name
+	 * @param comparisonName
+	 *            the name of the comparison alias
+	 * @param useCaseName
+	 *            the name of the use case
+	 * @param scenarioName
+	 *            the name of the scenario
+	 * @param imageName
+	 *            the name of the image
+	 * @return the screenshot file
 	 */
-	public File getScreenshotFile(final String baseBranchName, final String baseBuildName, final String comparisonName,
+	File getScreenshotFile(final String baseBranchName, final String baseBuildName, final String comparisonName,
 			final String useCaseName,
-			final String scenarioName, final String imageName) {
-		return diffFiles.getScreenshotFile(checkIdentifier(baseBranchName),
-				checkIdentifier(baseBuildName), checkIdentifier(comparisonName), checkIdentifier(useCaseName),
-				checkIdentifier(scenarioName), imageName);
-	}
+			final String scenarioName, final String imageName);
 
-	public File getBuildComparisonLogFile(final String baseBranchName, final String baseBuildName,
-			final String comparisonName) {
-		return diffFiles.getBuildComparisonLogFile(baseBranchName, baseBuildName, comparisonName);
-	}
+	/**
+	 * Gets the log file for a comparison.
+	 * 
+	 * @param baseBranchName
+	 *            the name of the base branch name
+	 * @param baseBuildName
+	 *            the name of the base build name
+	 * @param comparisonName
+	 *            the name of the comparison alias
+	 * @return the log file
+	 */
+	File getBuildComparisonLogFile(final String baseBranchName, final String baseBuildName,
+			final String comparisonName);
 }
