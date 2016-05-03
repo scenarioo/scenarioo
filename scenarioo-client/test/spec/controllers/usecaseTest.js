@@ -114,7 +114,7 @@ describe('Controller :: useCase', function () {
     function getFakeScenarios() {
         var scenarios = [];
         scenarios.push({
-            name : "scenario"
+            name : 'scenario'
         });
         return scenarios;
     }

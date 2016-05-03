@@ -16,7 +16,7 @@
  */
 
 angular.module('scenarioo.services').factory('BranchesAndBuilds', function ($rootScope, Config, BranchesResource, $q, SelectedBranchAndBuild) {
-    var branchesAndBuildsData;
+
     var getBranchesAndBuildsData = function () {
         var deferred = $q.defer();
 
@@ -47,7 +47,6 @@ angular.module('scenarioo.services').factory('BranchesAndBuilds', function ($roo
     };
 
     function getSelectedBranch(loadedData, branchName) {
-        console.log(loadedData);
         var index;
         for (index = 0; index < loadedData.branches.length; index++) {
             if (loadedData.branches[index].branch.name === branchName) {

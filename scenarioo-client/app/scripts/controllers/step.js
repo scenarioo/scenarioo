@@ -328,13 +328,13 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
     };
 
-    function loadComparisonFromServer(selectedComparison) {
+    function loadComparisonFromServer(comparisonName) {
         comparisonAliasResource.get(
             {
-                'comparisonName': selectedComparison
+                'comparisonName': comparisonName
             },
             function onSuccess(result) {
-                $scope.comparisonName = selectedComparison;
+                $scope.comparisonName = comparisonName;
                 $scope.comparisonBranchName = result.comparisonBranchName;
                 $scope.comparisonBuildName = result.comparisonBuildName;
                 $scope.isComparisonDefined = SelectedComparison.isDefined();
@@ -350,8 +350,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         BranchesAndBuilds.getDisplayNameForBuildName(SelectedBranchAndBuild.selected().branch, SelectedBranchAndBuild.selected().build, false).then(function(result){
             $scope.baseBuildName = result;
         });
-    };
-
+    }
 
     function loadChangeRate() {
         stepDiffInfoResource.get({
@@ -372,11 +371,13 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             $scope.comparisonTabClasses = 'green';
         } else if (changeRate <= 40){
             $scope.comparisonTabClasses = 'orange';
-        } else if (changeRate <= 60){
+        }
+        /* TODO mscheube: is this still necessary?
+        else if (changeRate <= 60){
 
         } else if (changeRate <= 80){
 
-        }
+        }*/
     }
 
 
@@ -404,7 +405,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         var comparisonBuildName = $scope.comparisonBuildName;
         var imageName = $scope.step.stepDescription.screenshotFileName;
 
-        return HostnameAndPort.forLink() + 'rest/branch/' + comparisonBranchName + '/build/' +  comparisonBuildName + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
+        return HostnameAndPort.forLink() + 'rest/branch/' + comparisonBranchName + '/build/' + comparisonBuildName + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
     };
 
 
@@ -419,9 +420,9 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             return undefined;
         }
 
-        var selectedBranchAndBuild = SelectedBranchAndBuild.selected();
+        var branchAndBuild = SelectedBranchAndBuild.selected();
         var comparisonName = SelectedComparison.selected();
-        return DiffViewerService.getDiffScreenShotUrl($scope.step, selectedBranchAndBuild , comparisonName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.stepIndex );
+        return DiffViewerService.getDiffScreenShotUrl($scope.step, branchAndBuild, comparisonName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.stepIndex );
      };
 
 

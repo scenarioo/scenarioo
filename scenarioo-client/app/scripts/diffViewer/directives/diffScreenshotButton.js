@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scDiffScreenshotButton', function($window, localStorageService, GlobalHotkeysService) {
+angular.module('scenarioo.directives').directive('scDiffScreenshotButton', function($window, localStorageService) {
 
     var STEP_DIFF_SCREENSHOT_VISIBLE = 'scenarioo-diffScreenshotVisible-';
     function initDiffScreenshotVisibleFromLocalStorage(scope, key) {
@@ -34,8 +34,7 @@ angular.module('scenarioo.directives').directive('scDiffScreenshotButton', funct
             localStorageKey: '@'
         },
         templateUrl: 'scripts/diffViewer/template/diffScreenshotButton.html',
-        link: function(scope) {
-                },
+
         controller: function($scope) {
             initDiffScreenshotVisibleFromLocalStorage($scope, $scope.localStorageKey);
             $scope.toggleShowingDiffScreenshot = function() {

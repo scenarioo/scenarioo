@@ -32,7 +32,7 @@ angular.module('scenarioo.services').factory('DiffViewerService', function ($loc
             return undefined;
         }
 
-        return HostnameAndPort.forLink() + 'rest/diffViewer/' + selected.branch + '/'+ selected.build +'/'+ comparisonName +'/'+ usecaseName  +'/'+ scenarioName + '/' + stepIndex+ '/stepDiffScreenshot';
+        return HostnameAndPort.forLink() + 'rest/diffViewer/' + selected.branch + '/' + selected.build + '/' + comparisonName + '/' + usecaseName + '/' + scenarioName + '/' + stepIndex + '/stepDiffScreenshot';
 
     }
 
