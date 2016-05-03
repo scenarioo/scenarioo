@@ -26,6 +26,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.diffViewer.logic.DiffScreenshotResponseFactory;
 import org.scenarioo.utils.NumberFormatCreator;
 
@@ -58,9 +60,14 @@ public class StepDiffScreenshotResource {
 		LOGGER.info("REQUEST: getDiffScreenshot(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
 				+ ", " + usecaseName + ", " + scenarioName + ", " + stepIndex + ")");
 
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+				baseBranchName,
+				baseBuildName);
+
 		String imageFileName = THREE_DIGIT_NUM_FORMAT.format(stepIndex) + SCREENSHOT_FILE_EXTENSION;
 
-		return diffScreenshotResponseFactory.createFoundImageResponse(baseBranchName, baseBuildName, comparisonName,
+		return diffScreenshotResponseFactory.createFoundImageResponse(buildIdentifier.getBranchName(),
+				buildIdentifier.getBuildName(), comparisonName,
 				usecaseName, scenarioName, imageFileName);
 	}
 }
