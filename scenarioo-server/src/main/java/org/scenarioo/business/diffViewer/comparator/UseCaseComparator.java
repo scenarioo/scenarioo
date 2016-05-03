@@ -15,14 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.business.diffViewer;
+package org.scenarioo.business.diffViewer.comparator;
 
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
-import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -44,7 +43,7 @@ public class UseCaseComparator extends AbstractComparator {
 	/**
 	 * Compares the uses cases of the build.
 	 * 
-	 * @return {@link StructureDiffInfo} with the summarized diff information.
+	 * @return {@link BuildDiffInfo} with the summarized diff information.
 	 */
 	public BuildDiffInfo compare() {
 		final BuildIdentifier comparisonBuildIdentifier = getComparisonBuildIdentifier(comparisonName);

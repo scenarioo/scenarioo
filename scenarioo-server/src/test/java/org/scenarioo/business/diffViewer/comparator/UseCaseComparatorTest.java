@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.business.diffViewer;
+package org.scenarioo.business.diffViewer.comparator;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
@@ -224,8 +224,8 @@ public class UseCaseComparatorTest {
 		useCaseComparator.compare();
 	}
 
-	private void initMocks(List<UseCase> baseUseCases, List<UseCase> comparisonUseCases,
-			UseCaseDiffInfo useCaseDiffInfo) {
+	private void initMocks(final List<UseCase> baseUseCases, final List<UseCase> comparisonUseCases,
+			final UseCaseDiffInfo useCaseDiffInfo) {
 		when(docuBuildsManager.resolveBranchAndBuildAliases(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME))
 				.thenReturn(new BuildIdentifier(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME));
 		when(docuReader.loadUsecases(BASE_BRANCH_NAME, BASE_BUILD_NAME)).thenReturn(
@@ -235,7 +235,7 @@ public class UseCaseComparatorTest {
 		when(scenarioComparator.compare(anyString())).thenReturn(useCaseDiffInfo);
 	}
 
-	public List<UseCase> getUseCases(String... names) {
+	public List<UseCase> getUseCases(final String... names) {
 		final List<UseCase> useCases = new LinkedList<UseCase>();
 		for (final String name : names) {
 			final UseCase useCase = new UseCase();
@@ -245,7 +245,7 @@ public class UseCaseComparatorTest {
 		return useCases;
 	}
 
-	private UseCaseDiffInfo getUseCaseDiffInfo(double changeRate, int added, int changed, int removed) {
+	private UseCaseDiffInfo getUseCaseDiffInfo(final double changeRate, final int added, final int changed, final int removed) {
 		final UseCaseDiffInfo useCaseDiffInfo = new UseCaseDiffInfo();
 		useCaseDiffInfo.setChangeRate(changeRate);
 		useCaseDiffInfo.setAdded(added);

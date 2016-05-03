@@ -32,6 +32,7 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffReader;
+import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -48,7 +49,7 @@ public class UseCaseDiffResource {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
-	private DiffReader diffReader = new DiffReader(configurationRepository.getDiffViewerDirectory());
+	private DiffReader diffReader = new DiffReaderXmlImpl(configurationRepository.getDiffViewerDirectory());
 
 	@GET
 	@Produces("application/json")
@@ -57,7 +58,7 @@ public class UseCaseDiffResource {
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
 			@PathParam("useCaseName") final String useCaseName) {
-		LOGGER.info("REQUEST: getUseCaseDiffInfo(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
+		LOGGER.info("REQUEST: getUseCaseDiffInfo(" + baseBranchName + ", " + baseBuildName + ", " + comparisonName
 				+ ", " + useCaseName + ")");
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
@@ -83,7 +84,7 @@ public class UseCaseDiffResource {
 	public Response getUseCaseDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName) {
-		LOGGER.info("REQUEST: getUseCaseDiffInfos(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
+		LOGGER.info("REQUEST: getUseCaseDiffInfos(" + baseBranchName + ", " + baseBuildName + ", " + comparisonName
 				+ ")");
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
@@ -91,7 +92,8 @@ public class UseCaseDiffResource {
 				baseBuildName);
 
 		try {
-			final List<UseCaseDiffInfo> useCaseDiffInfos = diffReader.loadUseCaseDiffInfos(buildIdentifier.getBranchName(),
+			final List<UseCaseDiffInfo> useCaseDiffInfos = diffReader.loadUseCaseDiffInfos(
+					buildIdentifier.getBranchName(),
 					buildIdentifier.getBuildName(),
 					comparisonName);
 			return Response.ok(getUseCaseDiffInfoMap(useCaseDiffInfos), MediaType.APPLICATION_JSON).build();
@@ -104,7 +106,7 @@ public class UseCaseDiffResource {
 		}
 	}
 
-	private Map<String, UseCaseDiffInfo> getUseCaseDiffInfoMap(List<UseCaseDiffInfo> useCaseDiffInfos) {
+	private Map<String, UseCaseDiffInfo> getUseCaseDiffInfoMap(final List<UseCaseDiffInfo> useCaseDiffInfos) {
 		final Map<String, UseCaseDiffInfo> useCaseDiffInfoMap = new HashMap<String, UseCaseDiffInfo>();
 		for (final UseCaseDiffInfo useCaseDiffInfo : useCaseDiffInfos) {
 			useCaseDiffInfoMap.put(useCaseDiffInfo.getName(), useCaseDiffInfo);

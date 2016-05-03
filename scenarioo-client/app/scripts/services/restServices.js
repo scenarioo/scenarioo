@@ -241,11 +241,22 @@ angular.module('scenarioo.services')
         return ScenariooResource('/labelconfigurations', {}, {'query': {isArray: false}});
     })
 
+    .factory('BuildDiffInfosResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/buildDiffInfos', {
+            baseBranchName: '@baseBranchName',
+            baseBuildName: '@baseBuildName'
+        }, {
+            cache: true
+        });
+    })
+
     .factory('BuildDiffInfoResource', function (ScenariooResource) {
         return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/buildDiffInfo', {
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName'
+        }, {
+            cache: true
         });
     })
 
@@ -255,6 +266,8 @@ angular.module('scenarioo.services')
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName',
             useCaseName: '@useCaseName'
+        }, {
+            cache: true
         });
     })
 
@@ -263,6 +276,8 @@ angular.module('scenarioo.services')
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName'
+        }, {
+            cache: true
         });
     })
 
@@ -272,6 +287,8 @@ angular.module('scenarioo.services')
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName',
             useCaseName: '@useCaseName'
+        }, {
+            cache: true
         });
     });
 

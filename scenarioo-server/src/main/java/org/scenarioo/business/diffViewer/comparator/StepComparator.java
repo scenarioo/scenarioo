@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.business.diffViewer;
+package org.scenarioo.business.diffViewer.comparator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +26,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
-import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Step;
@@ -53,7 +52,7 @@ public class StepComparator extends AbstractComparator {
 	 *            the use case of the steps.
 	 * @param baseScenarioName
 	 *            the scenario to compare the steps.
-	 * @return {@link StructureDiffInfo} with the summarized diff information.
+	 * @return {@link ScenarioDiffInfo} with the summarized diff information.
 	 */
 	public ScenarioDiffInfo compare(final String baseUseCaseName, final String baseScenarioName) {
 		final BuildIdentifier comparisonBuildIdentifier = getComparisonBuildIdentifier(comparisonName);

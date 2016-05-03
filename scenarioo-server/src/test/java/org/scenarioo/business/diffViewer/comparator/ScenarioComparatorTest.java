@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.business.diffViewer;
+package org.scenarioo.business.diffViewer.comparator;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
@@ -231,8 +231,8 @@ public class ScenarioComparatorTest {
 		scenarioComparator.compare(USE_CASE_NAME);
 	}
 
-	private void initMocks(List<Scenario> baseScenarios, List<Scenario> comparisonScenarios,
-			ScenarioDiffInfo scenarioDiffInfo) {
+	private void initMocks(final List<Scenario> baseScenarios, final List<Scenario> comparisonScenarios,
+			final ScenarioDiffInfo scenarioDiffInfo) {
 		when(docuBuildsManager.resolveBranchAndBuildAliases(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME))
 				.thenReturn(new BuildIdentifier(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME));
 		when(docuReader.loadScenarios(BASE_BRANCH_NAME, BASE_BUILD_NAME, USE_CASE_NAME)).thenReturn(
@@ -246,7 +246,7 @@ public class ScenarioComparatorTest {
 				useCaseScenarios);
 	}
 
-	private List<Scenario> getScenarios(String... names) {
+	private List<Scenario> getScenarios(final String... names) {
 		final List<Scenario> scenarios = new LinkedList<Scenario>();
 		for (final String name : names) {
 			final Scenario scenario = new Scenario();
@@ -256,7 +256,7 @@ public class ScenarioComparatorTest {
 		return scenarios;
 	}
 
-	private UseCaseScenarios getUseCaseScenarios(String... names) {
+	private UseCaseScenarios getUseCaseScenarios(final String... names) {
 		final List<ScenarioSummary> scenarioSummaries = new LinkedList<ScenarioSummary>();
 		for (final String name : names) {
 			final Scenario scenario = new Scenario();
@@ -272,7 +272,7 @@ public class ScenarioComparatorTest {
 		return useCaseScenarios;
 	}
 
-	private ScenarioDiffInfo getScenarioDiffInfo(double changeRate, int added, int changed, int removed) {
+	private ScenarioDiffInfo getScenarioDiffInfo(final double changeRate, final int added, final int changed, final int removed) {
 		final ScenarioDiffInfo scenarioDiffInfo = new ScenarioDiffInfo();
 		scenarioDiffInfo.setChangeRate(changeRate);
 		scenarioDiffInfo.setAdded(added);

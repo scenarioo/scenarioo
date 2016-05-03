@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('UseCaseCtrl', UseCaseCtrl);
 
-function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild, DiffInfoService,
+function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild, SelectedComparison, DiffInfoService,
                      LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource) {
 
     var vm = this;
@@ -124,12 +124,9 @@ function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource,
         vm.metadataTree = $filter('scMetadataTreeListCreator')(vm.useCase.details);
         vm.hasAnyLabels = vm.useCase.labels && vm.useCase.labels.labels.length !== 0;
 
-        // TODO pforster: get from dropdown menu
-        var comparisonName = 'exampleComparison';
-
-        if(comparisonName) {
+        if(SelectedComparison.isDefined()) {
             var selected = SelectedBranchAndBuild.selected();
-            loadDiffInfoData(result.scenarios, selected.branch, selected.build, comparisonName, result.useCase.name);
+            loadDiffInfoData(result.scenarios, selected.branch, selected.build, SelectedComparison.selected(), result.useCase.name);
         } else {
             vm.scenarios = result.scenarios;
         }
@@ -137,18 +134,20 @@ function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource,
         loadRelatedIssues();
     }
 
-    function loadDiffInfoData(scenarios, baseBranchName, baseBuildName, comparisonName, useCaseName){
-        UseCaseDiffInfoResource.get(
-            {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName},
-            function onSuccess(useCaseDiffInfo) {
-                ScenarioDiffInfosResource.get(
-                    {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName},
-                    function onSuccess(scenarioDiffInfos) {
-                        vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
-                    }
-                );
-            }
-        );
+    function loadDiffInfoData(scenarios, baseBranchName, baseBuildName, comparisonName, useCaseName) {
+        if (scenarios && baseBranchName && baseBuildName && useCaseName){
+            UseCaseDiffInfoResource.get(
+                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName},
+                function onSuccess(useCaseDiffInfo) {
+                    ScenarioDiffInfosResource.get(
+                        {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName},
+                        function onSuccess(scenarioDiffInfos) {
+                            vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
+                        }
+                    );
+                }
+            );
+        }
     }
 
     function loadRelatedIssues(){

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.business.diffViewer;
+package org.scenarioo.business.diffViewer.comparator;
 
 import java.io.File;
 import java.text.NumberFormat;
@@ -28,6 +28,7 @@ import org.im4java.core.IMOperation;
 import org.im4java.process.ArrayListErrorConsumer;
 import org.im4java.process.ArrayListOutputConsumer;
 import org.scenarioo.dao.diffViewer.DiffReader;
+import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -55,7 +56,7 @@ public class ScreenshotComparator extends AbstractComparator {
 		gmConsoleOutputConsumer = new ArrayListOutputConsumer();
 		gmConsole.setErrorConsumer(gmConsoleErrorConsumer);
 		gmConsole.setOutputConsumer(gmConsoleOutputConsumer);
-		diffReader = new DiffReader(configurationRepository.getDiffViewerDirectory());
+		diffReader = new DiffReaderXmlImpl(configurationRepository.getDiffViewerDirectory());
 	}
 
 	/**
