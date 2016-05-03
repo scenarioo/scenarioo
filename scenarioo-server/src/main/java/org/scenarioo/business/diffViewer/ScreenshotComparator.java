@@ -104,7 +104,9 @@ public class ScreenshotComparator extends AbstractComparator {
 	 */
 	public double compareScreenshots(final File baseScreenshot, final File comparisonScreenshot,
 			final File diffScreenshot) {
-		diffScreenshot.getParentFile().mkdir();
+		if (diffScreenshot.getParentFile() != null && diffScreenshot.getParentFile().canWrite()) {
+			diffScreenshot.getParentFile().mkdir();
+		}
 		final IMOperation gmOperation = new IMOperation();
 		gmOperation.metric("RMSE");
 		gmOperation.addImage(baseScreenshot.getPath());
