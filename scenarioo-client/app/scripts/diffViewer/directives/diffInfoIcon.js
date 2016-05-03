@@ -40,15 +40,15 @@ angular.module('scenarioo.directives').directive('scDiffInfoIcon', function($sce
         var changedInfoText = $filter('number')(diffInfo.changeRate, 0) + '% of this ' + elementType + ' has changed:';
         if(diffInfo.changed > 0) {
             changedInfoText += '<br />';
-            changedInfoText += diffInfo.changed + ' ' + childElementType + (diffInfo.changed == 1 ? '' : 's') + ' affected';
+            changedInfoText += diffInfo.changed + ' ' + childElementType + (diffInfo.changed === 1 ? '' : 's') + ' affected';
         }
         if(diffInfo.added > 0) {
             changedInfoText += '<br />';
-            changedInfoText += diffInfo.added + ' ' + childElementType + (diffInfo.added == 1 ? '' : 's') + ' added';
+            changedInfoText += diffInfo.added + ' ' + childElementType + (diffInfo.added === 1 ? '' : 's') + ' added';
         }
         if(diffInfo.removed > 0) {
             changedInfoText += '<br />';
-            changedInfoText += diffInfo.removed + ' ' + childElementType + (diffInfo.removed == 1 ? '' : 's') + ' removed';
+            changedInfoText += diffInfo.removed + ' ' + childElementType + (diffInfo.removed === 1 ? '' : 's') + ' removed';
         }
         return changedInfoText;
     }
@@ -60,10 +60,10 @@ angular.module('scenarioo.directives').directive('scDiffInfoIcon', function($sce
             elementType: '@',
             childElementType: '@'
         },
-        templateUrl: 'views/diffInfoIcon.html',
+        templateUrl: 'scripts/diffViewer/template/diffInfoIcon.html',
         controller: function($scope) {
 
-            $scope.$watch('diffInfo', function(value){
+            $scope.$watch('diffInfo', function(){
                 initValues($scope);
             });
         }
