@@ -47,57 +47,19 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
     $scope.updating = false;
 
     $scope.getDisplayNameForBuild = function (build, returnShortText) {
-        if (angular.isUndefined(build)) {
-            return '';
-        }
-
-        // The displayName is required for the special "last successful scenarios" build
-        if (angular.isDefined(build.displayName) && build.displayName !== null) {
-            return build.displayName;
-        }
-
-        if ($scope.isBuildAlias(build)) {
-            return getDisplayNameForAliasBuild(build, returnShortText);
-        } else {
-            return 'Revision ' + build.build.revision;
-        }
+        return BranchesAndBuilds.getDisplayNameForBuild(build, returnShortText);
     };
 
-    function getDisplayNameForAliasBuild(build, returnShortText) {
-        if (returnShortText) {
-            return build.linkName;
-        } else {
-            return build.linkName + ': ' + build.build.revision;
-        }
-    }
-
     $scope.getBranchDisplayName = function (wrappedBranch) {
-
-        if (wrappedBranch === undefined) {
-            return null;
-        }
-
-        var displayName = wrappedBranch.branch.name;
-        if (wrappedBranch.alias) {
-            displayName = displayName + ' (' + wrappedBranch.branch.description + ')';
-        }
-        return displayName;
+        return BranchesAndBuilds.getBranchDisplayName(wrappedBranch);
     };
 
     $scope.isBuildAlias = function (build) {
-        if (angular.isUndefined(build)) {
-            return false;
-        }
-
-        return build.build.name !== build.linkName;
+        return BranchesAndBuilds.isBuildAlias(build);
     };
 
     $scope.isLastSuccessfulScenariosBuild = function (build) {
-        if (angular.isUndefined(build)) {
-            return false;
-        }
-
-        return build.getDisplayNameForBuild === 'last successful scenarios';
+        return BranchesAndBuilds.isLastSuccessfulScenariosBuild(build);
     };
 
     GlobalHotkeysService.registerGlobalHotkey('i', function () {

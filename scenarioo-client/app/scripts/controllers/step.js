@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepResource, HostnameAndPort,
                                                                          SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService,
-                                                                         ContextService, RelatedIssueResource, SketchIdsResource, DiffViewerService, SelectedComparison, comparisonAliasResource, stepDiffInfoResource) {
+                                                                         ContextService, RelatedIssueResource, SketchIdsResource, BranchesAndBuilds, DiffViewerService, SelectedComparison, comparisonAliasResource, stepDiffInfoResource) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -94,6 +94,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.stepIndex = result.stepNavigation.stepIndex;
                 $scope.useCaseLabels = result.useCaseLabels;
                 $scope.scenarioLabels = result.scenarioLabels;
+                $scope.selectedBuild = selected.buildName;
                 loadRelatedIssues();
                 var selectedComparison = SelectedComparison.loadComparison();
                 loadComparisonFromServer(selectedComparison);
@@ -344,12 +345,19 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.comparisonBranchName = result.comparisonBranchName;
                 $scope.comparisonBuildName = result.comparisonBuildName;
                 $scope.isComparisonDefined = SelectedComparison.isDefined();
+                getDisplayNameForBuildName();
                 loadChangeRate();
             }, function onFailure() {
                 $scope.comparisonBranchName = "";
                 $scope.comparisonBuildName = "";
             });
     }
+
+    function getDisplayNameForBuildName() {
+        BranchesAndBuilds.getDisplayNameForBuildName(SelectedBranchAndBuild.selected().branch, SelectedBranchAndBuild.selected().build, false).then(function(result){
+            $scope.baseBuildName = result;
+        });
+    };
 
 
     function loadChangeRate()  {
@@ -360,12 +368,12 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             comparisonName: $scope.comparisonName,
             useCaseName: useCaseName,
             scenarioName: scenarioName,
-            stepIndex: $scope.stepIndex,
+            stepIndex: $scope.stepIndex
         }, function onSuccess(result){
             $scope.changeRate = result.changeRate;
             colorizeComparisonTab(result.changeRate);
         });
-    };
+    }
 
     function colorizeComparisonTab(changeRate){
         if (changeRate <= 20){
@@ -378,7 +386,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
         } else {
         }
-    };
+    }
 
 
     $scope.getComparisonScreenShotUrl = function () {
@@ -482,6 +490,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
         return prefix + 'labels=' + labelsForUrl.map(encodeURIComponent).join();
     };
+
 
     $scope.$on('$destroy', function () {
         SharePageService.invalidateUrls();
