@@ -17,125 +17,55 @@
 
 package org.scenarioo.dao.diffViewer;
 
-import static org.scenarioo.api.rules.CharacterChecker.*;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
-import org.scenarioo.api.configuration.ScenarioDocuGeneratorConfiguration;
 import org.scenarioo.api.exception.ScenarioDocuSaveException;
 import org.scenarioo.api.exception.ScenarioDocuTimeoutException;
-import org.scenarioo.api.rules.CharacterChecker;
-import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 
-public class DiffWriter {
-
-	private final DiffFiles diffFiles;
-
-	private final String baseBranchName;
-
-	private final String baseBuildName;
-
-	private final String comparisonName;
-
-	private final ExecutorService asyncWriteExecutor = newAsyncWriteExecutor();
-
-	private final List<RuntimeException> caughtExceptions = new ArrayList<RuntimeException>();
+/**
+ * Interface to write diff information.
+ */
+public interface DiffWriter {
 
 	/**
-	 * Initialize with directory inside which to generate the documentation contents.
+	 * Saves the build diff information.
 	 * 
-	 * @param destinationDirectory
-	 *            the directory where the content should be generated (this directory must be precreated by you!).
-	 * @param baseBranchName
-	 *            name of the branch we are generating content for
-	 * @param baseBuildName
-	 *            name of the build (concrete identifier like revision and date) for which we are generating content.
-	 * @param comparisonName
-	 *            name of the comparison build
+	 * @param buildDiffInfo
+	 *            the build diff info to save
 	 */
-	public DiffWriter(final File destinationRootDirectory, final String baseBranchName, final String baseBuildName,
-			final String comparisonName) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-		checkIdentifier(comparisonName);
+	public void saveBuildDiffInfo(final BuildDiffInfo buildDiffInfo);
 
-		this.diffFiles = new DiffFiles(destinationRootDirectory);
-		this.baseBranchName = baseBranchName;
-		this.baseBuildName = baseBuildName;
-		this.comparisonName = comparisonName;
+	/**
+	 * Saves the use case diff information.
+	 * 
+	 * @param useCaseDiffInfo
+	 *            the use case diff info to save
+	 */
+	public void saveUseCaseDiffInfo(final UseCaseDiffInfo useCaseDiffInfo);
 
-		createComparisonDirectoryIfNotYetExists();
-	}
+	/**
+	 * Saves the scenario diff information.
+	 * 
+	 * @param scenarioDiffInfo
+	 *            the scenario diff info to save
+	 * @param useCaseName
+	 *            the name of the use case
+	 */
+	public void saveScenarioDiffInfo(final ScenarioDiffInfo scenarioDiffInfo, final String useCaseName);
 
-	public void saveBuildDiffInfo(final BuildDiffInfo buildDiffInfo) {
-		checkIdentifier(buildDiffInfo.getName());
-		executeAsyncWrite(new Runnable() {
-			@Override
-			public void run() {
-				final File destBuildFile = diffFiles.getBuildFile(baseBranchName, baseBuildName, comparisonName);
-				ScenarioDocuXMLFileUtil.marshal(buildDiffInfo, destBuildFile);
-			}
-		});
-	}
-
-	public void saveUseCaseDiffInfo(final UseCaseDiffInfo useCaseDiffInfo) {
-		checkIdentifier(useCaseDiffInfo.getName());
-		executeAsyncWrite(new Runnable() {
-			@Override
-			public void run() {
-				final File destUseCaseDir = diffFiles.getUseCaseDirectory(baseBranchName, baseBuildName, comparisonName,
-						useCaseDiffInfo.getName());
-				createDirectoryIfNotYetExists(destUseCaseDir);
-				final File destUseCaseFile = diffFiles.getUseCaseFile(baseBranchName, baseBuildName, comparisonName,
-						useCaseDiffInfo.getName());
-				ScenarioDocuXMLFileUtil.marshal(useCaseDiffInfo, destUseCaseFile);
-			}
-		});
-	}
-
-	public void saveScenarioDiffInfo(final ScenarioDiffInfo scenarioDiffInfo, final String useCaseName) {
-		checkIdentifier(useCaseName);
-		checkIdentifier(scenarioDiffInfo.getName());
-		executeAsyncWrite(new Runnable() {
-			@Override
-			public void run() {
-				final File destScenarioDir = diffFiles.getScenarioDirectory(baseBranchName, baseBuildName, comparisonName,
-						useCaseName, scenarioDiffInfo.getName());
-				createDirectoryIfNotYetExists(destScenarioDir);
-				final File destScenarioFile = diffFiles.getScenarioFile(baseBranchName, baseBuildName, comparisonName,
-						useCaseName,
-						scenarioDiffInfo.getName());
-				ScenarioDocuXMLFileUtil.marshal(scenarioDiffInfo, destScenarioFile);
-			}
-		});
-	}
-
-	public void saveStepDiffInfo(final String useCaseName, final String scenarioName, final StepDiffInfo stepDiffInfo) {
-		CharacterChecker.checkIdentifier(useCaseName);
-		CharacterChecker.checkIdentifier(scenarioName);
-		executeAsyncWrite(new Runnable() {
-			@Override
-			public void run() {
-				final File destStepsDir = diffFiles.getStepsDirectory(baseBranchName, baseBuildName, comparisonName,
-						useCaseName, scenarioName);
-				createDirectoryIfNotYetExists(destStepsDir);
-				final File destStepFile = diffFiles.getStepFile(baseBranchName, baseBuildName, comparisonName, useCaseName,
-						scenarioName,
-						stepDiffInfo.getIndex());
-				ScenarioDocuXMLFileUtil.marshal(stepDiffInfo, destStepFile);
-			}
-		});
-	}
+	/**
+	 * Saves the step diff information.
+	 * 
+	 * @param useCaseName
+	 *            the name of the use case
+	 * @param scenarioName
+	 *            the name of the scenario
+	 * @param stepDiffInfo
+	 *            the step diff info to save
+	 */
+	public void saveStepDiffInfo(final String useCaseName, final String scenarioName, final StepDiffInfo stepDiffInfo);
 
 	/**
 	 * Finish asynchronous writing of all saved files. This has to be called in the end, to ensure all data saved in
@@ -148,56 +78,5 @@ public class DiffWriter {
 	 * @throws ScenarioDocuTimeoutException
 	 *             if waiting for the saving beeing finished exceeds the configured timeout
 	 */
-	public void flush() {
-		final int timeoutInSeconds = ScenarioDocuGeneratorConfiguration.INSTANCE
-				.getTimeoutWaitingForWritingFinishedInSeconds();
-		asyncWriteExecutor.shutdown();
-		try {
-			final boolean terminated = asyncWriteExecutor.awaitTermination(timeoutInSeconds, TimeUnit.SECONDS);
-			if (!terminated) {
-				asyncWriteExecutor.shutdownNow();
-				throw new ScenarioDocuTimeoutException(
-						"Timeout occured while waiting for diff files to be written. Writing of files took too long.");
-			}
-		} catch (final InterruptedException e) {
-			throw new RuntimeException("Async writing of scenarioo docu files was interrupted", e);
-		}
-		if (!caughtExceptions.isEmpty()) {
-			throw new ScenarioDocuSaveException(caughtExceptions);
-		}
-	}
-
-	private void createComparisonDirectoryIfNotYetExists() {
-		createDirectoryIfNotYetExists(diffFiles.getComparisonDirectory(baseBranchName, baseBuildName, comparisonName));
-	}
-
-	private void createDirectoryIfNotYetExists(final File directory) {
-		diffFiles.assertRootDirectoryExists();
-		if (!directory.exists()) {
-			directory.mkdirs();
-		}
-	}
-
-	private void executeAsyncWrite(final Runnable writeTask) {
-		asyncWriteExecutor.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					writeTask.run();
-				} catch (final RuntimeException e) {
-					caughtExceptions.add(e);
-				}
-			}
-		});
-	}
-
-	/**
-	 * Creates an executor that queues the passed tasks for execution by one single additional thread. The executor will
-	 * start to block further executions as soon as more than the configured write tasks are waiting for execution.
-	 */
-	private static ExecutorService newAsyncWriteExecutor() {
-		return new ThreadPoolExecutor(1, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(
-				ScenarioDocuGeneratorConfiguration.INSTANCE.getAsyncWriteBufferSize()));
-	}
-
+	public void flush();
 }

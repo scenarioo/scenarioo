@@ -32,6 +32,7 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffReader;
+import org.scenarioo.dao.diffViewer.DiffReaderXmlImpl;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -49,7 +50,7 @@ public class ScenarioDiffResource {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
-	private DiffReader diffReader = new DiffReader(configurationRepository.getDiffViewerDirectory());
+	private DiffReader diffReader = new DiffReaderXmlImpl(configurationRepository.getDiffViewerDirectory());
 
 	@GET
 	@Produces("application/json")
@@ -79,7 +80,7 @@ public class ScenarioDiffResource {
 		}
 	}
 
-	private Map<String, ScenarioDiffInfo> getScenarioDiffInfoMap(List<ScenarioDiffInfo> scenarioDiffInfos) {
+	private Map<String, ScenarioDiffInfo> getScenarioDiffInfoMap(final List<ScenarioDiffInfo> scenarioDiffInfos) {
 		final Map<String, ScenarioDiffInfo> scenarioDiffInfoMap = new HashMap<String, ScenarioDiffInfo>();
 		for (final ScenarioDiffInfo scenarioDiffInfo : scenarioDiffInfos) {
 			scenarioDiffInfoMap.put(scenarioDiffInfo.getName(), scenarioDiffInfo);

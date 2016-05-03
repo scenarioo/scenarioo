@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.business.diffViewer;
+package org.scenarioo.business.diffViewer.comparator;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
@@ -36,8 +36,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.business.diffViewer.comparator.ScreenshotComparator;
-import org.scenarioo.business.diffViewer.comparator.StepComparator;
 import org.scenarioo.dao.diffViewer.DiffWriter;
 import org.scenarioo.model.configuration.ComparisonAlias;
 import org.scenarioo.model.configuration.Configuration;

@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffWriter;
+import org.scenarioo.dao.diffViewer.DiffWriterXmlImpl;
 import org.scenarioo.model.configuration.ComparisonAlias;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
@@ -47,7 +48,7 @@ public abstract class AbstractComparator {
 	public AbstractComparator(final String baseBranchName, final String baseBuildName, final String comparisonName) {
 		this.docuReader = new ScenarioDocuReader(
 				configurationRepository.getDocumentationDataDirectory());
-		this.diffWriter = new DiffWriter(configurationRepository.getDiffViewerDirectory(), baseBranchName,
+		this.diffWriter = new DiffWriterXmlImpl(configurationRepository.getDiffViewerDirectory(), baseBranchName,
 				baseBuildName,
 				comparisonName);
 		this.baseBranchName = baseBranchName;
@@ -55,9 +56,9 @@ public abstract class AbstractComparator {
 		this.comparisonName = comparisonName;
 	}
 
-	protected double calculateChangeRate(double numberOfBaseElements, double numberOfAddedElements,
-			double numberOfRemovedElements,
-			double childChangeRateSum) {
+	protected double calculateChangeRate(final double numberOfBaseElements, final double numberOfAddedElements,
+			final double numberOfRemovedElements,
+			final double childChangeRateSum) {
 
 		double changeRateSum = 0.0;
 		changeRateSum += numberOfAddedElements * ADDED_REMOVED_CHANGE_RATE;
