@@ -122,8 +122,10 @@ angular.module('scenarioo.services')
     })
 
     .factory('FullTextSearchService', function (ScenariooResource, $q) {
-        var searchService = ScenariooResource('/search/:q',
+        var searchService = ScenariooResource('/branch/:branchName/build/:buildName/search/:q',
             {
+                branchName: '@branchName',
+                buildName: '@buildName',
                 q: '@q'
             }, {});
 
