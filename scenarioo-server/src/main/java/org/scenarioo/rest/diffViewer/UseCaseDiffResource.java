@@ -57,7 +57,7 @@ public class UseCaseDiffResource {
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
 			@PathParam("useCaseName") final String useCaseName) {
-		LOGGER.info("REQUEST: getUseCaseDiffInfo(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
+		LOGGER.info("REQUEST: getUseCaseDiffInfo(" + baseBranchName + ", " + baseBuildName + ", " + comparisonName
 				+ ", " + useCaseName + ")");
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
@@ -83,7 +83,7 @@ public class UseCaseDiffResource {
 	public Response getUseCaseDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName) {
-		LOGGER.info("REQUEST: getUseCaseDiffInfos(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
+		LOGGER.info("REQUEST: getUseCaseDiffInfos(" + baseBranchName + ", " + baseBuildName + ", " + comparisonName
 				+ ")");
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
