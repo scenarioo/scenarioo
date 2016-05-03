@@ -25,20 +25,26 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.search.FullTextSearch;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
  * 
  */
-@Path("/rest/search")
+@Path("/rest/branch/{branchName}/build/{buildName}/search")
 public class SearchResource {
 	@GET
 	@Produces("application/json")
 	@Path("/{q}")
-	public Response search(@PathParam("q") final String q) {
+	public Response search(@PathParam("branchName") final String branchName,
+			@PathParam("buildName") final String buildName, @PathParam("q") final String q) {
+
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+				buildName);
 
 		FullTextSearch search = new FullTextSearch();
-		List<String> result = search.search(q);
+		List<String> result = search.search(buildIdentifier, q);
 
 		return Response.ok(result).build();
 	}

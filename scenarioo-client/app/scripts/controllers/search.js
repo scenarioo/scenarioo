@@ -15,14 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('SearchCtrl', function ($scope, $location, localStorageService, FullTextSearchService) {
+angular.module('scenarioo.controllers').controller('SearchCtrl', function ($scope, $location, FullTextSearchService, SelectedBranchAndBuild) {
     $scope.results = {resultSet: []};
 
     var q = $location.search().q;
     doSearch();
 
     function doSearch() {
-        $scope.results.resultSet = FullTextSearchService.search({'q': q}).then(function onSuccess(result) {
+        var selected = SelectedBranchAndBuild.selected();
+
+        $scope.results.resultSet = FullTextSearchService.search({
+	    q: q,
+            buildName: selected.build,
+            branchName: selected.branch}
+        ).then(function onSuccess(result) {
             $scope.results.resultSet = result;
         },
         function onError(error) {
