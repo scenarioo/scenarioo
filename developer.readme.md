@@ -16,9 +16,12 @@ Contact the core development team if you want to use the same virtual machine to
 
 ## Prerequisites
 
- * Java JDK 1.6 (you can probably use 1.8 JDK, but you have to set the language level to 1.6 in IntelliJ, because we still try to be backward compatible, for some projects that can not yet use 1.8).
-      * currently it is recommended to install a JDK 1.7, because as @patrickschweizer told me, he had troubles with a JDK 8 to run the gradle build.
+ * Java JDK 1.7
+    * currently it is recommended to not yet use a JDK 1.8, because as @patrickschweizer told me, he had troubles with a JDK 8 to run the gradle build.
+ * Take care to still set the language level to 1.6 in IntelliJ, because currently we still try to be backward compatible,
+    for some projects that can not yet use Java 1.7 or 1.8 on their tomcat servers (for scenarioo 3.0 we will break that and can update to 1.8)
  * Tomcat 7 needs to be installed: http://tomcat.apache.org
+    * you can also try Tomcat 8, which should also work, but might not yet be tested for this setup here
 
 ## Setup and Use of GIT 
 
