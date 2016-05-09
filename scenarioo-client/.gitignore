@@ -6,9 +6,10 @@ app/components
 .project
 test-results.xml
 coverage
-build
 .classpath
 .settings
 scenariodocu
 test-reports
+build/*
+app/build
 TESTS-*.xml
