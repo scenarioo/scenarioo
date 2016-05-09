@@ -159,7 +159,7 @@ gulp.task('environmentConstants', function (done) {
     });
     angularConfigFileContent += '.constant(\'ENV\', \'' + selectedEnvironment + '\');\n';
 
-    fs.writeFile('./app/scripts/environment_config.js', angularConfigFileContent);
+    fs.writeFile('./app/environment_config.js', angularConfigFileContent);
     done();
 });
 
