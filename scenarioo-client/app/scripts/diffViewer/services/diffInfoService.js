@@ -25,29 +25,76 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
         var elementsWithDiffInfo = [];
 
         angular.forEach(elements, function(element){
-            var scenarioDiffInfo = diffInfos[resolvePathValue(element, pathToName)];
-            if(scenarioDiffInfo) {
-                element.diffInfo = scenarioDiffInfo;
-                element.diffInfo.isAdded = false;
-                element.diffInfo.isRemoved = false;
-            } else {
-                element.diffInfo = {};
-                element.diffInfo.changeRate = 100;
-                element.diffInfo.isAdded = true;
-                element.diffInfo.isRemoved = false;
-            }
+            element.diffInfo = getDiffInfo(diffInfos, resolvePathValue(element, pathToName));
             elementsWithDiffInfo.push(element);
         });
 
         angular.forEach(removedElements, function(removedElement){
-            removedElement.diffInfo = {};
-            removedElement.diffInfo.changeRate = 100;
-            removedElement.diffInfo.isAdded = false;
-            removedElement.diffInfo.isRemoved = true;
+            removedElement.diffInfo = getRemovedDiffInfo();
             elementsWithDiffInfo.push(removedElement);
         });
 
         return elementsWithDiffInfo;
+    }
+
+    function enrichStepsWithDiffInfos(pagesAndSteps, removedSteps, diffInfos) {
+        angular.forEach(pagesAndSteps, function(pageAndStep) {
+            angular.forEach(pageAndStep.steps, function(step) {
+               step.diffInfo = getDiffInfo(diffInfos, step.index);
+            });
+        });
+
+        angular.forEach(removedSteps, function(removedStep) {
+            addRemovedStep(pagesAndSteps, removedStep);
+        });
+    }
+
+    function addRemovedStep(pagesAndSteps, stepInfo) {
+        var targetPageAndStep = null;
+        angular.forEach(pagesAndSteps, function(pageAndStep) {
+            if(stepInfo.stepLink.pageName === pageAndStep.page.name && stepInfo.stepLink.pageOccurrence === pageAndStep.page.pageOccurrence) {
+                pageAndStep = pageAndStep;
+            }
+        });
+
+        if(targetPageAndStep === null) {
+            var removedPage = {
+                name: stepInfo.stepLink.pageName,
+                pageOccurrence: stepInfo.stepLink.pageOccurence
+            };
+            targetPageAndStep = {
+                page: removedPage,
+                steps: []
+            };
+            pagesAndSteps.push(targetPageAndStep);
+        }
+
+        stepInfo.stepDescription.title = stepInfo.stepDescription.title ? stepInfo.stepDescription.title : 'undefined';
+        stepInfo.stepDescription.diffInfo = getRemovedDiffInfo();
+
+        targetPageAndStep.steps.push(stepInfo.stepDescription);
+    }
+
+    function getDiffInfo(diffInfos, key) {
+        var diffInfo = diffInfos[key];
+        if(diffInfo) {
+            diffInfo.isAdded = false;
+            diffInfo.isRemoved = false;
+        } else {
+            diffInfo = {};
+            diffInfo.changeRate = 100;
+            diffInfo.isAdded = true;
+            diffInfo.isRemoved = false;
+        }
+        return diffInfo;
+    }
+
+    function getRemovedDiffInfo() {
+        var diffInfo = {};
+        diffInfo.changeRate = 100;
+        diffInfo.isAdded = false;
+        diffInfo.isRemoved = true;
+        return diffInfo;
     }
 
     function resolvePathValue(obj, path) {
@@ -66,7 +113,8 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
     }
 
     return {
-        getElementsWithDiffInfos: getElementsWithDiffInfos
+        getElementsWithDiffInfos: getElementsWithDiffInfos,
+        enrichStepsWithDiffInfos: enrichStepsWithDiffInfos
     };
 
 

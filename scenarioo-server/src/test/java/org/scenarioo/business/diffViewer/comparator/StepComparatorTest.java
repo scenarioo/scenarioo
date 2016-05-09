@@ -43,6 +43,7 @@ import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Step;
+import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
@@ -184,7 +185,7 @@ public class StepComparatorTest {
 		assertEquals(0, scenarioDiffInfo.getChanged());
 		assertEquals(1, scenarioDiffInfo.getRemoved());
 		assertTrue(scenarioDiffInfo.getAddedElements().isEmpty());
-		assertEquals(PAGE_NAME_1, scenarioDiffInfo.getRemovedElements().get(0).getPageName());
+		assertEquals(PAGE_NAME_1, scenarioDiffInfo.getRemovedElements().get(0).getStepLink().getPageName());
 	}
 
 	@Test
@@ -202,8 +203,8 @@ public class StepComparatorTest {
 		assertEquals(0, scenarioDiffInfo.getChanged());
 		assertEquals(2, scenarioDiffInfo.getRemoved());
 		assertTrue(scenarioDiffInfo.getAddedElements().isEmpty());
-		assertEquals(PAGE_NAME_1, scenarioDiffInfo.getRemovedElements().get(0).getPageName());
-		assertEquals(PAGE_NAME_2, scenarioDiffInfo.getRemovedElements().get(1).getPageName());
+		assertEquals(PAGE_NAME_1, scenarioDiffInfo.getRemovedElements().get(0).getStepLink().getPageName());
+		assertEquals(PAGE_NAME_2, scenarioDiffInfo.getRemovedElements().get(1).getStepLink().getPageName());
 	}
 
 	private void initMocks(final List<Step> baseSteps, final List<Step> comparisonSteps,
@@ -221,9 +222,14 @@ public class StepComparatorTest {
 
 	public List<Step> getSteps(final String... names) {
 		final List<Step> steps = new LinkedList<Step>();
+		int index = 0;
 		for (final String name : names) {
+			final StepDescription stepDescription = new StepDescription();
+			stepDescription.setIndex(index++);
+
 			final Step step = new Step();
 			step.setPage(new Page(name));
+			step.setStepDescription(stepDescription);
 			steps.add(step);
 		}
 		return steps;

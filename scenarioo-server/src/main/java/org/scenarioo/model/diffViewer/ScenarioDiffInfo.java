@@ -20,20 +20,18 @@ package org.scenarioo.model.diffViewer;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
-import org.scenarioo.model.docu.aggregates.steps.StepLink;
-
 /**
  * Contains the diff information for a Scenario.
  */
 @XmlRootElement
-@XmlSeeAlso(StepLink.class)
-public class ScenarioDiffInfo extends StructureDiffInfo<Integer, StepLink> {
+@XmlSeeAlso(StepInfo.class)
+public class ScenarioDiffInfo extends StructureDiffInfo<Integer, StepInfo> {
 
 	public ScenarioDiffInfo() {
 		super();
 	}
 
-	public ScenarioDiffInfo(String scenarioName) {
+	public ScenarioDiffInfo(final String scenarioName) {
 		super(scenarioName);
 	}
 

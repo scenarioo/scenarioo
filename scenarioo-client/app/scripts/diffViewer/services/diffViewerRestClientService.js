@@ -24,6 +24,58 @@ angular.module('scenarioo.services')
             }, {});
     })
 
+
+    .factory('BuildDiffInfosResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/buildDiffInfos', {
+            baseBranchName: '@baseBranchName',
+            baseBuildName: '@baseBuildName'
+        }, {});
+    })
+
+    .factory('BuildDiffInfoResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/buildDiffInfo', {
+            baseBranchName: '@baseBranchName',
+            baseBuildName: '@baseBuildName',
+            comparisonName: '@comparisonName'
+        }, {});
+    })
+
+    .factory('UseCaseDiffInfoResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/:useCaseName/useCaseDiffInfo', {
+            baseBranchName: '@baseBranchName',
+            baseBuildName: '@baseBuildName',
+            comparisonName: '@comparisonName',
+            useCaseName: '@useCaseName'
+        }, {});
+    })
+
+    .factory('UseCaseDiffInfosResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/useCaseDiffInfos', {
+            baseBranchName: '@baseBranchName',
+            baseBuildName: '@baseBuildName',
+            comparisonName: '@comparisonName'
+        }, {});
+    })
+
+    .factory('ScenarioDiffInfoResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/:useCaseName/:scenarioName/scenarioDiffInfo', {
+            baseBranchName: '@baseBranchName',
+            baseBuildName: '@baseBuildName',
+            comparisonName: '@comparisonName',
+            useCaseName: '@useCaseName',
+            scenarioName: '@scenarioName'
+        }, {});
+    })
+
+    .factory('ScenarioDiffInfosResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/:useCaseName/scenarioDiffInfos', {
+            baseBranchName: '@baseBranchName',
+            baseBuildName: '@baseBuildName',
+            comparisonName: '@comparisonName',
+            useCaseName: '@useCaseName'
+        }, {});
+    })
+
     .factory('stepDiffInfoResource', function (ScenariooResource) {
         return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/:useCaseName/:scenarioName/:stepIndex/stepDiffInfo',
             {
@@ -34,4 +86,14 @@ angular.module('scenarioo.services')
                 scenarioName: '@scenarioName',
                 stepIndex: '@stepIndex'
             }, {});
+    })
+
+    .factory('StepDiffInfosResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/:useCaseName/:scenarioName/stepDiffInfos', {
+            baseBranchName: '@baseBranchName',
+            baseBuildName: '@baseBuildName',
+            comparisonName: '@comparisonName',
+            useCaseName: '@useCaseName',
+            scenarioName: '@scenarioName'
+        }, {});
     });

@@ -16,11 +16,13 @@
  */
 
 angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams,
-                                                                             $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild,
-                                                                             Config, PagesAndSteps, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource) {
+                                                                             $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, SelectedComparison,
+                                                                             Config, PagesAndSteps, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, comparisonAliasResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
+    var comparisonBranchName;
+    var comparisonBuildName;
     var selectedBranchAndBuild;
 
     var showAllSteps = [];
@@ -54,6 +56,14 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
                 $scope.metadataTree = transformMetadataToTreeArray($scope.pagesAndScenarios.scenario.details);
                 $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario, result.scenarioStatistics);
                 $scope.scenarioStatistics = result.scenarioStatistics;
+
+                if(SelectedComparison.isDefined()) {
+                    var selectedBrandAndBuild = SelectedBranchAndBuild.selected();
+                    loadDiffInfoData($scope.pagesAndSteps, selectedBrandAndBuild.branch, selectedBrandAndBuild.build, SelectedComparison.selected());
+                } else {
+                    $scope.scenarios = result.scenarios;
+                }
+
                 loadRelatedIssues();
 
                 $scope.hasAnyLabels = function () {
@@ -126,11 +136,19 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         }
     };
 
-    $scope.getScreenShotUrl = function (imgName) {
+    $scope.getScreenShotUrl = function (imgName, stepIsRemoved) {
         if (angular.isUndefined(selectedBranchAndBuild)) {
             return undefined;
         }
-        return HostnameAndPort.forLink() + 'rest/branch/' + selectedBranchAndBuild.branch + '/build/' + selectedBranchAndBuild.build +
+
+        var branch = selectedBranchAndBuild.branch;
+        var build = selectedBranchAndBuild.build;
+        if(SelectedComparison.isDefined() && stepIsRemoved) {
+            branch = comparisonBranchName;
+            build = comparisonBuildName;
+        }
+
+        return HostnameAndPort.forLink() + 'rest/branch/' + branch + '/build/' + build +
             '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
     };
 
@@ -149,6 +167,30 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
         stepInformation['Number of Steps'] = scenarioStatistics.numberOfSteps;
         stepInformation.Status = scenario.status;
         return transformMetadataToTree(stepInformation);
+    }
+
+    function loadDiffInfoData(pagesAndSteps, baseBranchName, baseBuildName, comparisonName) {
+        if (pagesAndSteps && baseBranchName && baseBuildName && useCaseName && scenarioName){
+            comparisonAliasResource.get(
+                {'comparisonName': comparisonName},
+                function onSuccess(result) {
+                    comparisonBranchName = result.comparisonBranchName;
+                    comparisonBuildName = result.comparisonBuildName;
+
+                    ScenarioDiffInfoResource.get(
+                        {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName, 'scenarioName': scenarioName},
+                        function onSuccess(scenarioDiffInfo) {
+                            StepDiffInfosResource.get(
+                                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName, 'scenarioName': scenarioName},
+                                function onSuccess(stepDiffInfos) {
+                                    DiffInfoService.enrichStepsWithDiffInfos($scope.pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
+                                }
+                            );
+                        }
+                    );
+                }
+            );
+        }
     }
 
     function loadRelatedIssues(){

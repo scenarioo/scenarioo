@@ -17,6 +17,10 @@
 
 package org.scenarioo.rest.diffViewer;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -65,9 +69,6 @@ public class StepDiffResource {
 				baseBuildName);
 
 		try {
-			// BuildComparator testComparator = new BuildComparator(buildIdentifier.getBranchName(),
-			// buildIdentifier.getBuildName(), comparisonName);
-			// testComparator.compare();
 			final StepDiffInfo stepDiffInfo = diffReader.loadStepDiffInfo(buildIdentifier.getBranchName(),
 					buildIdentifier.getBuildName(),
 					comparisonName, useCaseName, scenarioName, Integer.parseInt(stepIndex));
@@ -81,4 +82,41 @@ public class StepDiffResource {
 		}
 	}
 
+	@GET
+	@Produces("application/json")
+	@Path("/stepDiffInfos")
+	public Response getStepDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
+			@PathParam("baseBuildName") final String baseBuildName,
+			@PathParam("comparisonName") final String comparisonName,
+			@PathParam("useCaseName") final String useCaseName,
+			@PathParam("scenarioName") final String scenarioName) {
+		LOGGER.info("REQUEST: getStepDiffInfos(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
+				+ ", " + useCaseName + ", " + scenarioName + ")");
+
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+				baseBranchName,
+				baseBuildName);
+
+		try {
+			final List<StepDiffInfo> stepDiffInfos = diffReader.loadStepDiffInfos(buildIdentifier.getBranchName(),
+					buildIdentifier.getBuildName(),
+					comparisonName, useCaseName, scenarioName);
+
+			return Response.ok(getStepDiffInfoMap(stepDiffInfos), MediaType.APPLICATION_JSON).build();
+		} catch (final ResourceNotFoundException e) {
+			LOGGER.warn("Unable to get scenario diff infos", e);
+			return Response.noContent().build();
+		} catch (final Throwable e) {
+			LOGGER.warn("Unable to get scenario diff infos", e);
+			return Response.serverError().build();
+		}
+	}
+
+	private Map<Integer, StepDiffInfo> getStepDiffInfoMap(final List<StepDiffInfo> stepDiffInfos) {
+		final Map<Integer, StepDiffInfo> stepDiffInfoMap = new HashMap<Integer, StepDiffInfo>();
+		for (final StepDiffInfo stepDiffInfo : stepDiffInfos) {
+			stepDiffInfoMap.put(stepDiffInfo.getIndex(), stepDiffInfo);
+		}
+		return stepDiffInfoMap;
+	}
 }
