@@ -13,3 +13,5 @@ test-reports
 build/*
 app/build
 TESTS-*.xml
+app/environment_config.js
+
