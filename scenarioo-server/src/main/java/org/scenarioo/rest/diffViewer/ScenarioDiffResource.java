@@ -54,6 +54,36 @@ public class ScenarioDiffResource {
 
 	@GET
 	@Produces("application/json")
+	@Path("/{scenarioName}/scenarioDiffInfo")
+	public Response getScenarioDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
+			@PathParam("baseBuildName") final String baseBuildName,
+			@PathParam("comparisonName") final String comparisonName,
+			@PathParam("useCaseName") final String useCaseName,
+			@PathParam("scenarioName") final String scenarioName) {
+		LOGGER.info("REQUEST: getScenarioDiffInfo(" + baseBranchName + ", " + baseBuildName + ", " + comparisonName
+				+ ", " + useCaseName + ", " + scenarioName + ")");
+
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
+				baseBranchName,
+				baseBuildName);
+
+		try {
+			final ScenarioDiffInfo scenarioDiffInfo = diffReader.loadScenarioDiffInfo(buildIdentifier.getBranchName(),
+					buildIdentifier.getBuildName(),
+					comparisonName, useCaseName, scenarioName);
+
+			return Response.ok(scenarioDiffInfo, MediaType.APPLICATION_JSON).build();
+		} catch (final ResourceNotFoundException e) {
+			LOGGER.warn("Unable to get scenario diff info", e);
+			return Response.noContent().build();
+		} catch (final Throwable e) {
+			LOGGER.warn("Unable to get scenario diff info", e);
+			return Response.serverError().build();
+		}
+	}
+
+	@GET
+	@Produces("application/json")
 	@Path("/scenarioDiffInfos")
 	public Response getScenarioDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,

@@ -56,14 +56,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </span>
                         <span ng-if="$index != 0">&nbsp;</span>
                     </h2>
-                    <div>
+                    <div ng-class="{'removed' : step.diffInfo.isRemoved}">
                         <div class="step-title">
-                            <h3 class="sc-truncate"><a ng-href="{{getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">Step {{step.index + 1}}: {{step.title}}</a></h3>
+                            <h3 class="sc-truncate">
+                                <div class="diff-info-wrapper">
+                                    <sc-diff-info-icon diff-info="step.diffInfo" element-type="step"></sc-diff-info-icon>
+                                </div>
+                                <a ng-if="!step.diffInfo.isRemoved" ng-href="{{getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">Step {{step.index + 1}}: {{step.title}}</a>
+                                <span ng-if="step.diffInfo.isRemoved">Step {{step.index + 1}}: {{step.title}}</span>
+                            </h3>
                         </div>
                         <div class="sc-screenshot-border sc-screenshot-scenario" >
-                            <a ng-href="{{getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">
-                                <img ng-src="{{getScreenShotUrl(step.screenshotFileName)}}" class="sc-screenshot"/>
+                            <a ng-if="!step.diffInfo.isRemoved" ng-href="{{getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">
+                                <img ng-src="{{getScreenShotUrl(step.screenshotFileName, step.diffInfo.isRemoved)}}" class="sc-screenshot"/>
                             </a>
+                            <img ng-if="step.diffInfo.isRemoved" ng-src="{{getScreenShotUrl(step.screenshotFileName, step.diffInfo.isRemoved)}}" class="sc-screenshot"/>
                         </div>
                     </div>
                 </div>

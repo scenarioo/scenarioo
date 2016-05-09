@@ -32,9 +32,9 @@ import org.scenarioo.dao.diffViewer.impl.DiffWriterXmlImpl;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
+import org.scenarioo.model.diffViewer.StepInfo;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
-import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
@@ -223,7 +223,7 @@ public class DiffWriterAndReaderTest {
 	}
 
 	private ScenarioDiffInfo getScenarioDiffInfo(final String name) {
-		return (ScenarioDiffInfo) initStructureDiffInfo(new ScenarioDiffInfo(), name, 0, new StepLink());
+		return (ScenarioDiffInfo) initStructureDiffInfo(new ScenarioDiffInfo(), name, 0, new StepInfo());
 	}
 
 	private <A, R> StructureDiffInfo<A, R> initStructureDiffInfo(final StructureDiffInfo<A, R> diffInfo,

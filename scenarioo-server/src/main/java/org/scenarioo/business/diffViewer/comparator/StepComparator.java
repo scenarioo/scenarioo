@@ -19,6 +19,7 @@ package org.scenarioo.business.diffViewer.comparator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,9 +27,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
+import org.scenarioo.model.diffViewer.StepInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Step;
+import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
@@ -85,7 +88,7 @@ public class StepComparator extends AbstractComparator {
 
 				final StepDiffInfo stepDiffInfo = new StepDiffInfo();
 				stepDiffInfo.setChangeRate(changeRate);
-				stepDiffInfo.setIndex(baseStepLink.getPageIndex());
+				stepDiffInfo.setIndex(baseStepLink.getStepIndex());
 				stepDiffInfo.setPageName(baseStepLink.getPageName());
 				stepDiffInfo.setPageOccurrence(baseStepLink.getPageOccurrence());
 				stepDiffInfo.setStepInPageOccurrence(baseStepLink.getStepInPageOccurrence());
@@ -102,13 +105,32 @@ public class StepComparator extends AbstractComparator {
 				+ baseBranchName + "] and base build [" + baseBuildName + "] and base use case ["
 				+ baseUseCaseName + "] and base scenario [" + baseScenarioName + "]");
 		scenarioDiffInfo.setRemoved(comparisonStepLinks.size());
-		scenarioDiffInfo.getRemovedElements().addAll(comparisonStepLinks);
+		scenarioDiffInfo.getRemovedElements().addAll(getStepInfos(comparisonStepLinks, comparisonSteps));
 		scenarioDiffInfo.setChangeRate(calculateChangeRate(baseSteps.size(), scenarioDiffInfo.getAdded(),
 				scenarioDiffInfo.getRemoved(), stepChangeRateSum));
 
 		return scenarioDiffInfo;
 	}
 
+	private List<StepInfo> getStepInfos(final List<StepLink> stepLinks, final List<Step> steps) {
+		final List<StepInfo> stepInfos = new LinkedList<StepInfo>();
+		for (final StepLink stepLink : stepLinks) {
+			final StepInfo stepInfo = new StepInfo();
+			stepInfo.setStepLink(stepLink);
+			stepInfo.setStepDescription(getStepDescription(stepLink, steps));
+			stepInfos.add(stepInfo);
+		}
+		return stepInfos;
+	}
+
+	private StepDescription getStepDescription(final StepLink stepLink, final List<Step> steps) {
+		for (final Step step : steps) {
+			if (step.getStepDescription() != null && stepLink.getStepIndex() == step.getStepDescription().getIndex()) {
+				return step.getStepDescription();
+			}
+		}
+		return null;
+	}
 	private List<StepLink> getStepLinks(final List<Step> steps, final String useCaseName, final String scenarioName) {
 		// TODO pforster: refactor this method in a new class. also used in StepsAndPagesAggregator. Oder Wert einfach
 		// abspeichern beim aggregieren.

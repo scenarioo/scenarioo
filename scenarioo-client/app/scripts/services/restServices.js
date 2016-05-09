@@ -239,58 +239,8 @@ angular.module('scenarioo.services')
 
     .factory('LabelConfigurationsResource', function (ScenariooResource) {
         return ScenariooResource('/labelconfigurations', {}, {'query': {isArray: false}});
-    })
-
-    .factory('BuildDiffInfosResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/buildDiffInfos', {
-            baseBranchName: '@baseBranchName',
-            baseBuildName: '@baseBuildName'
-        }, {
-            cache: true
-        });
-    })
-
-    .factory('BuildDiffInfoResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/buildDiffInfo', {
-            baseBranchName: '@baseBranchName',
-            baseBuildName: '@baseBuildName',
-            comparisonName: '@comparisonName'
-        }, {
-            cache: true
-        });
-    })
-
-    .factory('UseCaseDiffInfoResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/:useCaseName/useCaseDiffInfo', {
-            baseBranchName: '@baseBranchName',
-            baseBuildName: '@baseBuildName',
-            comparisonName: '@comparisonName',
-            useCaseName: '@useCaseName'
-        }, {
-            cache: true
-        });
-    })
-
-    .factory('UseCaseDiffInfosResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/useCaseDiffInfos', {
-            baseBranchName: '@baseBranchName',
-            baseBuildName: '@baseBuildName',
-            comparisonName: '@comparisonName'
-        }, {
-            cache: true
-        });
-    })
-
-    .factory('ScenarioDiffInfosResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/:useCaseName/scenarioDiffInfos', {
-            baseBranchName: '@baseBranchName',
-            baseBuildName: '@baseBuildName',
-            comparisonName: '@comparisonName',
-            useCaseName: '@useCaseName'
-        }, {
-            cache: true
-        });
     });
+
 
 function getPromise($q, fn) {
     return function (parameters) {
