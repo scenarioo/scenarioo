@@ -16,7 +16,7 @@
  */
 
 angular.module('scenarioo.services')
-    .factory('scLocalStorage', function ($location, scUrlUtil, localStorageService) {
+    .factory('scLocalStorage', function ($location, scUrlContextExtractor, localStorageService) {
 
         return {
             get: get,
@@ -42,7 +42,7 @@ angular.module('scenarioo.services')
          * @returns {string} key with scenarioo context path from location url inside.
          */
         function getScenariooContextPathAwareKey(key) {
-            return '/' + scUrlUtil.getContextPathFromUrl($location.absUrl()) + '/' + key;
+            return '/' + scUrlContextExtractor.getContextPathFromUrl($location.absUrl()) + '/' + key;
         }
 
     });
