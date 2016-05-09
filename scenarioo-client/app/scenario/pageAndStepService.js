@@ -26,9 +26,6 @@ angular.module('scenarioo.services').factory('PagesAndSteps', function () {
                     step.page = page.page;
                     step.index = indexStep;
                     step.number = (indexStep === 0) ? page.page.index : page.page.index + '.' + indexStep;
-                    if (!step.title) {
-                        step.title = 'undefined';
-                    }
                 }
             }
             return pagesAndScenarios;
