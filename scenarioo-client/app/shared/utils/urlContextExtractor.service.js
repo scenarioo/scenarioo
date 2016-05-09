@@ -16,7 +16,7 @@
  */
 
 angular.module('scenarioo.services')
-    .factory('scUrlUtil', function () {
+    .factory('scUrlContextExtractor', function () {
 
         return {
             getContextPathFromUrl: getContextPathFromUrl

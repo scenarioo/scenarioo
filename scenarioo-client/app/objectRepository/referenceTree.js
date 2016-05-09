@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($scope, $routeParams, $location, ObjectIndexListResource, PagesAndSteps, SelectedBranchAndBuild, ScenarioResource, TreeNode, $filter) {
+angular.module('scenarioo.controllers').controller('ReferenceTreeCtrl', function ($scope, $routeParams, $location, ObjectIndexListResource, SelectedBranchAndBuild, TreeNode, $filter) {
 
     var objectType = $routeParams.objectType;
     var objectName = $routeParams.objectName;
