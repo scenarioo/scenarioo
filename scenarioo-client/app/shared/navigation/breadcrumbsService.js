@@ -24,13 +24,13 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
     var homeElement =
     {
         label: '<i class="icon-home"></i> Home',
-        route: 'views/main.html'   // maybe better rename to linkUrl
+        route: 'build/main.html'   // maybe better rename to linkUrl
     };
 
     var manageElement =
     {
         label: '<i class="icon-cogs"></i> Manage',
-        route: 'views/manage/manage.html'
+        route: 'manage/manage.html'
     };
 
     var useCaseElement =

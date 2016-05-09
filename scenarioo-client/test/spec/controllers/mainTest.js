@@ -46,7 +46,7 @@ describe('Controller MainCtrl', function () {
     it('has a first static tab that is initialized with main use cases content', function () {
         $scope.$apply();
         $httpBackend.flush();
-        expect(MainCtrl.getLazyTabContentViewUrl(MainCtrl.tabs[0].index)).toEqual('views/mainUseCasesTab.html');
+        expect(MainCtrl.getLazyTabContentViewUrl(MainCtrl.tabs[0].index)).toEqual('build/mainUseCasesTab.html');
     });
 
     it('has additional dynamic custom tabs as configured in configuration, that are lazy loaded', function () {

@@ -23,7 +23,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumb', function ($rout
         restrict: 'E',
         priority: 0,
         replace: true,
-        templateUrl: 'template/breadcrumbs.html',
+        templateUrl: 'shared/navigation/breadcrumbs.html',
         link: function (scope) {
 
             scope.breadcrumbs = [];

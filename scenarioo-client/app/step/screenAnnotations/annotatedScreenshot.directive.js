@@ -28,7 +28,7 @@ function annotatedScreenshot() {
 
     var directive = {
         restrict: 'E',
-        templateUrl: 'template/annotatedScreenshot.html',
+        templateUrl: 'step/screenAnnotations/annotatedScreenshot.html',
         link: link,
         controller: controller,
         scope: {
@@ -113,7 +113,7 @@ function annotatedScreenshot() {
         function openInfoPopup(annotation) {
 
             $uibModal.open({
-                templateUrl: 'template/screenAnnotationInfoPopup.html',
+                templateUrl: 'step/screenAnnotations/screenAnnotationInfoPopup.html',
                 controller: 'ScreenAnnotationInfoPopupController',
                 controllerAs: 'annotationPopup',
                 resolve: {

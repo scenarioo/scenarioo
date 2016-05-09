@@ -30,7 +30,7 @@ angular.module('scenarioo.controllers').controller('BuildsListCtrl', function ($
     $scope.goToBuild = function (build) {
         BuildImportLogResource.get(build.identifier.branchName, build.identifier.buildName, function onSuccess(log) {
             $uibModal.open({
-                templateUrl: 'views/manage/buildImportDetails.html',
+                templateUrl: 'manage/buildImport/buildImportDetails.html',
                 controller: 'BuildImportDetailsCtrl',
                 windowClass: 'modal-wide',
                 resolve: {

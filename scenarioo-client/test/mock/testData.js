@@ -280,7 +280,7 @@ angular.module('scenarioo.services').service('TestData', function () {
             {
                 tabId: 'usecases',
                 title: 'Use Cases',
-                contentViewUrl: 'views/mainUseCasesTab.html',
+                contentViewUrl: 'build/mainUseCasesTab.html',
                 active: true
             }
         ]

@@ -43,7 +43,7 @@ angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function 
 
         modalIsCurrentlyOpen = true;
         var modalInstance = $uibModal.open({
-            templateUrl: 'views/applicationInfoPopup.html',
+            templateUrl: 'shared/navigation/applicationInfoPopup.html',
             controller: 'ApplicationInfoCtrl',
             windowClass: 'modal-small about-popup',
             backdropFade: true

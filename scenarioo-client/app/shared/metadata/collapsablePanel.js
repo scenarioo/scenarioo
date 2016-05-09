@@ -32,7 +32,7 @@ angular.module('scenarioo.directives').directive('scCollapsablePanel', function 
     return {
         restrict: 'E',
         transclude: true,
-        templateUrl: 'views/collapsablePanel.html',
+        templateUrl: 'shared/metadata/collapsablePanel.html',
         scope: {
             title: '@',
             key: '@',

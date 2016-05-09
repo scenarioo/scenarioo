@@ -28,7 +28,7 @@ angular.module('scenarioo.services').factory('ScShareStepPopup', function (scLoc
         modalIsCurrentlyOpen = true;
 
         var modalInstance = $uibModal.open({
-            templateUrl: 'views/shareStepPopup.html',
+            templateUrl: 'shared/sharePage/shareStepPopup.html',
             controller: 'ScShareStepPopupController',
             windowClass: 'modal-small',
             backdropFade: true
