@@ -18,11 +18,10 @@ var gulp = require('gulp'),
     webdriver_update = require('gulp-protractor').webdriver_update; // eslint-disable-line camelcase, no-undef
 
 var files = {
-    templates: ['./app/template/**/*.html'],
-    views: ['./app/views/**/*.html'],
+    templates: ['./app/**/*.html', '!./app/components/**/*.html'],
     images: ['./app/images/**/*'],
     css: ['./app/styles/**/*.css'],
-    sources: ['./app/scripts/**/*.js'],
+    sources: ['./app/**/*.js', '!./app/components/**/*.js'],
     tests: ['./test/**/*.js'],
     less: ['./app/styles/*.less']
 };
@@ -68,7 +67,7 @@ gulp.task('lint', function () {
  * Also compiles the less files to css whenever changes are made.
  */
 gulp.task('watch', function () {
-    gulp.watch(_.flatten([files.css, files.templates, files.views, files.sources]), ['reload-files']);
+    gulp.watch(_.flatten([files.css, files.templates, files.sources]), ['reload-files']);
     gulp.watch(files.less, ['less', 'reload-files']);
 });
 
@@ -76,7 +75,7 @@ gulp.task('watch', function () {
  * Reloads the page in the 'gulp serve' browser. Called when source files are changed.
  */
 gulp.task('reload-files', function () {
-    gulp.src(_.flatten([files.css, files.templates, files.views, files.sources, files.less]))
+    gulp.src(_.flatten([files.css, files.templates, files.sources, files.less]))
         .pipe(connect.reload());
 });
 
@@ -160,7 +159,7 @@ gulp.task('environmentConstants', function (done) {
     });
     angularConfigFileContent += '.constant(\'ENV\', \'' + selectedEnvironment + '\');\n';
 
-    fs.writeFile('./app/scripts/environment_config.js', angularConfigFileContent);
+    fs.writeFile('./app/environment_config.js', angularConfigFileContent);
     done();
 });
 
@@ -203,8 +202,7 @@ gulp.task('copy-to-dist', ['environmentConstants', 'clean-dist', 'usemin', 'less
     /* copy own images, styles, and templates */
     gulp.src(files.images).pipe(gulp.dest('./dist/images'));
     gulp.src(files.css).pipe(gulp.dest('./dist/styles'));
-    gulp.src(files.templates).pipe(gulp.dest('./dist/template'));
-    gulp.src(files.views).pipe(gulp.dest('./dist/views'));
+    gulp.src(files.templates).pipe(gulp.dest('./dist/'));
     gulp.src('./app/favicon.ico').pipe(gulp.dest('./dist/'));
 
     /* copy third party files */
