@@ -31,7 +31,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             clickAction: '&',
             firstColumnTitle: '@'
         },
-        templateUrl: 'template/treeview.html',
+        templateUrl: 'shared/filterableTableTree/treeview.html',
         link: function (scope) {
             scope.treemodel = [];
 

@@ -22,25 +22,25 @@ angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scop
             index: 0,
             tabId: 'builds',
             title: 'Builds',
-            contentViewUrl: 'views/manage/buildsList.html'
+            contentViewUrl: 'manage/buildImport/buildsList.html'
         },
         {
             index: 1,
             tabId: 'configuration',
             title: 'General Settings',
-            contentViewUrl: 'views/manage/config.html'
+            contentViewUrl: 'manage/generalSettings/config.html'
         },
         {
             index: 2,
             tabId: 'branchAliases',
             title: 'Branch Aliases',
-            contentViewUrl: 'views/manage/branchAliases.html'
+            contentViewUrl: 'manage/branchAliases/branchAliases.html'
         },
         {
             index: 3,
             tabId: 'labelConfigurations',
             title: 'Label Colors',
-            contentViewUrl: 'views/manage/labelConfigurations.html'
+            contentViewUrl: 'manage/labelColors/labelConfigurations.html'
         }
     ];
     $scope.activeIndex = 0;

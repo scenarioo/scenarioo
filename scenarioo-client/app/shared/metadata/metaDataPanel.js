@@ -42,7 +42,7 @@ angular.module('scenarioo.directives').directive('scMetaDataPanel', function() {
         scope: {
             linkingVariable: '='
         },
-        templateUrl: 'views/metaDataPanel.html',
+        templateUrl: 'shared/metadata/metaDataPanel.html',
         controller: function($scope, $element) {
             $scope.$watch('linkingVariable', function() {
                 toggleClassesOnPanels($element, $scope.linkingVariable);

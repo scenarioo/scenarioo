@@ -30,39 +30,39 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
          */
         $routeProvider
             .when('/', {
-                templateUrl: 'views/main.html',
+                templateUrl: 'build/main.html',
                 controller: 'MainCtrl',
                 controllerAs: 'main',
                 breadcrumbId: 'main'
             })
             .when('/manage', {
-                templateUrl: 'views/manage/manage.html',
+                templateUrl: 'manage/manage.html',
                 controller: 'ManageCtrl',
                 breadcrumbId: 'manage'
             })
             .when('/usecase/:useCaseName', {
-                templateUrl: 'views/usecase.html',
+                templateUrl: 'useCase/usecase.html',
                 controller: 'UseCaseCtrl',
                 controllerAs: 'useCase',
                 useCaseName: '@useCaseName',
                 breadcrumbId: 'usecase'
             })
             .when('/scenario/:useCaseName/:scenarioName', {
-                templateUrl: 'views/scenario.html',
+                templateUrl: 'scenario/scenario.html',
                 controller: 'ScenarioCtrl',
                 useCaseName: '@useCaseName',
                 scenarioName: '@scenarioName',
                 breadcrumbId: 'scenario'
             })
             .when('/object/:objectType/:objectName', {
-                templateUrl: 'views/referenceTree.html',
+                templateUrl: 'objectRepository/referenceTree.html',
                 controller: 'ReferenceTreeCtrl',
                 objectType: '@objectType',
                 objectName: '@objectName',
                 breadcrumbId: 'object'
             })
             .when('/step/:useCaseName/:scenarioName/:pageName/:pageOccurrence/:stepInPageOccurrence', {
-                templateUrl: 'views/step.html',
+                templateUrl: 'step/step.html',
                 controller: 'StepCtrl',
                 useCaseName: '@useCaseName',
                 scenarioName: '@scenarioName',
@@ -72,16 +72,16 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 breadcrumbId: 'step'
             })
             .when('/stepsketch/:issueId/:scenarioSketchId/:stepSketchId', {
-                templateUrl: 'views/sketcher/stepSketch.html',
+                templateUrl: 'sketcher/stepSketch.html',
                 controller: 'StepSketchCtrl',
                 breadcrumbId: 'stepsketch'
             })
             .when('/editor', {
-                templateUrl: 'views/sketcher/editor.html',
+                templateUrl: 'sketcher/editor.html',
                 controller: 'EditorCtrl'
             })
             .when('/editor/:issueId/:scenarioSketchId/:stepSketchId', {
-                templateUrl: 'views/sketcher/editor.html',
+                templateUrl: 'sketcher/editor.html',
                 controller: 'EditorCtrl',
                 issueId: '@issueId',
                 scenarioSketchId: '@scenarioSketchId',
