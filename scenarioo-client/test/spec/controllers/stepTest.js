@@ -20,7 +20,7 @@
 describe('StepCtrl', function () {
 
     var $scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepResource, comparisonAliasResource, stepDiffInfoResource,
-        HostnameAndPort, SelectedBranchAndBuild, $controller, $httpBackend, TestData, RelatedIssueResource;
+        HostnameAndPort, SelectedBranchAndBuild, BranchesResource, $controller, $httpBackend, TestData, RelatedIssueResource;
 
     var STEP_INFORMATION_TREE = {
         childNodes : [
@@ -33,7 +33,7 @@ describe('StepCtrl', function () {
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _Config_, _ScenarioResource_, _StepResource_, _comparisonAliasResource_, _stepDiffInfoResource_, _HostnameAndPort_, _SelectedBranchAndBuild_, _$controller_, _$httpBackend_, _TestData_, localStorageService, _RelatedIssueResource_) {
+    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _Config_, _ScenarioResource_, _StepResource_, _comparisonAliasResource_, _stepDiffInfoResource_, _HostnameAndPort_, _SelectedBranchAndBuild_, _BranchesResource_, _$controller_, _$httpBackend_, _TestData_, localStorageService, _RelatedIssueResource_) {
         $scope = _$rootScope_.$new();
         $routeParams = _$routeParams_;
         $location = _$location_;
@@ -46,6 +46,7 @@ describe('StepCtrl', function () {
         comparisonAliasResource = _comparisonAliasResource_;
         stepDiffInfoResource = _stepDiffInfoResource_;
         HostnameAndPort = _HostnameAndPort_;
+        BranchesResource = _BranchesResource_;
         SelectedBranchAndBuild = _SelectedBranchAndBuild_;
         $controller = _$controller_;
         $httpBackend = _$httpBackend_;
@@ -68,6 +69,7 @@ describe('StepCtrl', function () {
                 $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostnameAndPort,
                 SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}, ScShareStepPopup: {}});
             spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
+            spyOn(BranchesResource, 'query').and.callFake(getEmptyData());
             spyOn(comparisonAliasResource, 'get').and.callFake(getEmptyData());
             spyOn(stepDiffInfoResource, 'get').and.callFake(getEmptyData());
         });
