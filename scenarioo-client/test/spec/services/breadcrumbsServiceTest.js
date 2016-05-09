@@ -28,7 +28,7 @@ describe('BreadcrumbsService', function () {
     };
 
     var NAVIGATION_ELEMENTS_FOR_STEP = [
-        { label: '<i class="icon-home"></i> Home', route: 'views/main.html', isLastNavigationElement: false, textForTooltip: ' Home' },
+        { label: '<i class="icon-home"></i> Home', route: 'build/main.html', isLastNavigationElement: false, textForTooltip: ' Home' },
         { label: '<strong>Use Case:</strong> Search book', route: '/usecase/search_book/', isLastNavigationElement: false, textForTooltip: 'Use Case: Search book' },
         { label: '<strong>Scenario:</strong> Search Book That Does Not Exist', route: '/scenario/search_book/SearchBookThatDoesNotExist/', isLastNavigationElement: false, textForTooltip: 'Scenario: Search Book That Does Not Exist' },
         { label: '<strong>Step:</strong> search_results/0/1', route: '/step/search_book/SearchBookThatDoesNotExist/:pageName/:pageOccurrence/:stepInPageOccurrence/', isLastNavigationElement: true, textForTooltip: 'Step: search_results/0/1' }
