@@ -35,7 +35,8 @@ module.exports = function (config) {
             'app/components/svg.draggable.js/dist/svg.draggable.js',
             'app/components/svg-pan-zoom/dist/svg-pan-zoom.js',
             'app/components/angular-unsavedChanges/dist/unsavedChanges.js',
-            'app/**/*.js',
+            'app/*.js',
+            'app/!(components)/**/*.js',
             'test/mock/**/*.js',
             'test/spec/**/*.js'
         ],

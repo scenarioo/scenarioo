@@ -61,6 +61,6 @@ describe('Controller MainCtrl', function () {
         $scope.$apply();
         $httpBackend.flush();
         expect(MainCtrl.tabs[1].tabId).toEqual('calls');
-        expect(MainCtrl.getLazyTabContentViewUrl(MainCtrl.tabs[1].index)).toEqual('views/mainCustomTab.html');
+        expect(MainCtrl.getLazyTabContentViewUrl(MainCtrl.tabs[1].index)).toEqual('build/mainCustomTab.html');
     });
 });
