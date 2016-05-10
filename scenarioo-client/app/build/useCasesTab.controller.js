@@ -15,12 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('UseCasesTabController', function ($scope, $location, $filter, GlobalHotkeysService, BranchesAndBuilds, SelectedBranchAndBuild, UseCasesResource, LabelConfigurationsResource) {
+angular.module('scenarioo.controllers').controller('UseCasesTabController', function ($scope, $location, $filter, GlobalHotkeysService, BranchesAndBuildsService, SelectedBranchAndBuildService, UseCasesResource, LabelConfigurationsResource) {
 
   var transformMetadataToTree = $filter('scMetadataTreeCreator');
   var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
   var dateTimeFormatter = $filter('scDateTime');
-  SelectedBranchAndBuild.callOnSelectionChange(loadUseCases);
+  SelectedBranchAndBuildService.callOnSelectionChange(loadUseCases);
 
   // FIXME this code is duplicated. How can we extract it into a service?
   LabelConfigurationsResource.query({}, function (labelConfiguratins) {
@@ -29,7 +29,7 @@ angular.module('scenarioo.controllers').controller('UseCasesTabController', func
 
   function loadUseCases(selected) {
 
-    BranchesAndBuilds.getBranchesAndBuilds()
+    BranchesAndBuildsService.getBranchesAndBuildsService()
       .then(function onSuccess(branchesAndBuilds) {
         $scope.branchesAndBuilds = branchesAndBuilds;
       }).then(function () {

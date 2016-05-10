@@ -17,7 +17,7 @@
 
 /* global SVG:false */
 
-angular.module('scenarioo.services').service('DrawingPadService', function ($rootScope, $routeParams, $http, ContextService, DrawShapeService, ZoomPanService, $location, $log) {
+angular.module('scenarioo.services').service('DrawingPadService', function ($rootScope, $routeParams, $http, SketcherContextService, DrawShapeService, ZoomPanService, $location, $log) {
 
     var drawingPadNodeId = 'drawingPad',
         drawingContainerId = 'drawingContainer',
@@ -118,7 +118,7 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
     }
 
     function loadBackgroundImageForNewSketch(backgroundImageHtmlElement) {
-        var screenshotURL = ContextService.screenshotURL;
+        var screenshotURL = SketcherContextService.screenshotURL;
 
         if(!screenshotURL) {
             $log.warn('screenshot url not set in context service');

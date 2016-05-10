@@ -15,21 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('IssueService', function ($log) {
+angular.module('scenarioo.controllers').controller('TitleController', TitleController);
 
-    return {
-        saveIssue: function (issue, successCallback, errorCallback) {
-            issue.$save(function (updatedIssue) {
-                if (successCallback) {
-                    successCallback(updatedIssue);
-                }
-            },
-            function (error) {
-                $log.error(error);
-                if (errorCallback) {
-                    errorCallback('Issue could not be saved');
-                }
-            });
-        }
-    };
-});
+function TitleController($scope, ConfigService) {
+
+  var vm = this;
+  vm.text = '';
+
+  activate();
+
+  function activate() {
+    $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
+      vm.text = 'Scenarioo ' + ConfigService.applicationName();
+    });
+  }
+
+}
