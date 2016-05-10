@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <div class="modal-content">
     <div class="modal-header">
-        <h3>Build {{ build.identifier.buildName }} on Branch {{ build.identifier.branchName }}</h3>
+        <h3>Build {{ vm.build.identifier.buildName }} on Branch {{ vm.build.identifier.branchName }}</h3>
     </div>
     <div class="modal-body">
 
@@ -26,13 +26,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <div class="row">
                 <div class="col-md-4">
-                    Revision: {{build.buildDescription.revision}}
+                    Revision: {{vm.build.buildDescription.revision}}
                 </div>
                 <div class="col-md-4">
-                    Date: {{build.buildDescription.date | scDateTime}}
+                    Date: {{vm.build.buildDescription.date | scDateTime}}
                 </div>
                 <div class="col-md-4">
-                    Status: <span ng-class="[getStatusStyleClass(build.buildDescription.status), 'label']">{{build.buildDescription.status}}</span>
+                    Status: <span ng-class="[getStatusStyleClass(vm.build.buildDescription.status), 'label']">{{vm.build.buildDescription.status}}</span>
                 </div>
             </div>
         </div>
@@ -42,14 +42,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <div class="row">
                 <div class="col-md-4">
-                    Status: <span ng-class="[getStyleClassForBuildImportStatus(build.status), 'label']">{{build.status}}</span>
+                    Status: <span ng-class="[vm.getStyleClassForBuildImportStatus(vm.build.status), 'label']">{{vm.build.status}}</span>
                 </div>
                 <div class="col-md-4">
-                    Date: {{build.importDate | scDateTime}}
+                    Date: {{vm.build.importDate | scDateTime}}
                 </div>
                 <div class="col-md-4">
-                    <div ng-show="hasImportMessage()" class="label-warning">
-                        {{build.statusMessage}}
+                    <div ng-show="vm.hasImportMessage()" class="label-warning">
+                        {{vm.build.statusMessage}}
                     </div>
                 </div>
             </div>
@@ -58,11 +58,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div class="form-group">
             <label for="importLog" class="control-label">Import Log</label>
             <textarea id="importLog" class="form-control" rows="10" wrap="off" readonly="true"
-                      title="the output on the server on importing this build into scenarioo">{{log}}</textarea>
+                      title="the output on the server on importing this build into scenarioo">{{vm.log}}</textarea>
         </div>
 
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="cancel()">Close</button>
+        <button class="btn btn-primary" ng-click="vm.cancel()">Close</button>
     </div>
 </div>
