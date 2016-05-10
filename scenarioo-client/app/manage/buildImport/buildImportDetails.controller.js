@@ -16,23 +16,21 @@
  */
 
 /** Controller for Build-Details showing Import-Status **/
-angular.module('scenarioo.controllers').controller('BuildImportDetailsController', function ($scope, $uibModalInstance, build, log, getStyleClassForBuildImportStatus) {
+angular.module('scenarioo.controllers').controller('BuildImportDetailsController', BuildImportDetailsController);
 
-    $scope.build = build;
-    $scope.log = log;
-    $scope.getStyleClassForBuildImportStatus = getStyleClassForBuildImportStatus;
+function BuildImportDetailsController($uibModalInstance, build, log, getStyleClassForBuildImportStatus) {
+    var vm = this;
+    vm.build = build;
+    vm.log = log;
+    vm.getStyleClassForBuildImportStatus = getStyleClassForBuildImportStatus;
+    vm.hasImportMessage = hasImportMessage;
+    vm.cancel = cancel;
 
-    $scope.hasImportMessage = function () {
-        if (angular.isUndefined($scope.build.statusMessage)) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    };
+    function hasImportMessage() {
+        return !angular.isUndefined(vm.build.statusMessage);
+    }
 
-    $scope.cancel = function () {
+    function cancel() {
         $uibModalInstance.dismiss('cancel');
-    };
-
-});
+    }
+}
