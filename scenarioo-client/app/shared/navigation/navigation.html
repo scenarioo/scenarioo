@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                <li ng-repeat="branch in branchesAndBuilds.branches | branchOrderBy">
+                <li ng-repeat="branch in branchesAndBuilds.branches | scBranchOrderBy">
                     <a ng-click="setBranch(branch)" class="branchOption">
                         <span class="glyphicon glyphicon-share-alt" ng-show="branch.alias"></span>
                         {{getBranchDisplayName(branch)}}</a>

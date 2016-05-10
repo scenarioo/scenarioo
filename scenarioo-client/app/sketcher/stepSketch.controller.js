@@ -17,9 +17,9 @@
 
 angular
     .module('scenarioo.controllers')
-    .controller('StepSketchCtrl', function ($http, $scope, $routeParams, $location, $q, $window, scLocalStorage,
-        ConfigService, StepSketchResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup,
-        GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService, IssueResource) {
+    .controller('StepSketchController', function ($http, $scope, $routeParams, $location, $q, $window, LocalStorageService,
+        ConfigService, StepSketchResource, HostnameAndPort, SelectedBranchAndBuildService, $filter, ApplicationInfoPopupService,
+        GlobalHotkeysService, LabelConfigurationsResource, SharePageService, SketcherContextService, IssueResource) {
 
     var issueId = $routeParams.issueId,
         scenarioSketchId = $routeParams.scenarioSketchId,
@@ -29,7 +29,7 @@ angular
     $scope.loading = true;
     $scope.issueNotFound = false;
 
-    SelectedBranchAndBuild.callOnSelectionChange(loadIssueAndSketch);
+    SelectedBranchAndBuildService.callOnSelectionChange(loadIssueAndSketch);
 
     function loadIssueAndSketch() {
         IssueResource.get(
@@ -59,7 +59,7 @@ angular
             return undefined;
         }
 
-        var selected = SelectedBranchAndBuild.selected();
+        var selected = SelectedBranchAndBuildService.selected();
         return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
     };
 
@@ -68,7 +68,7 @@ angular
             return undefined;
         }
 
-        var selected = SelectedBranchAndBuild.selected();
+        var selected = SelectedBranchAndBuildService.selected();
         return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/original.png';
     };
 
@@ -91,7 +91,7 @@ angular
             return undefined;
         }
 
-        var selected = SelectedBranchAndBuild.selected();
+        var selected = SelectedBranchAndBuildService.selected();
 
         return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
     };
@@ -136,19 +136,3 @@ angular
         return '#/step/' + encodeURIComponent(step.usecaseName) + '/' + encodeURIComponent(step.scenarioName) + '/' + encodeURIComponent(step.pageName) + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence;
     };
 });
-
-angular.module('scenarioo.directives').directive('ngHtml', ['$compile', function($compile) {
-    return function(scope, elem, attrs) {
-        if(attrs.ngHtml){
-            elem.html(scope.$eval(attrs.ngHtml));
-            $compile(elem.contents())(scope);
-        }
-        scope.$watch(attrs.ngHtml, function(newValue, oldValue) {
-            if (newValue && newValue !== oldValue) {
-                elem.html(newValue);
-                $compile(elem.contents())(scope);
-            }
-        });
-    };
-}]);
-

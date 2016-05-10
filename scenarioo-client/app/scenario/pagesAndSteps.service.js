@@ -15,21 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('IssueService', function ($log) {
-
+angular.module('scenarioo.services').factory('PagesAndStepsService', function () {
     return {
-        saveIssue: function (issue, successCallback, errorCallback) {
-            issue.$save(function (updatedIssue) {
-                if (successCallback) {
-                    successCallback(updatedIssue);
+        populatePagesAndStepsService: function (pagesAndScenarios) {
+            for (var indexPage = 0; indexPage < pagesAndScenarios.pagesAndSteps.length; indexPage++) {
+                var page = pagesAndScenarios.pagesAndSteps[indexPage];
+                page.page.index = indexPage + 1;
+                for (var indexStep = 0; indexStep < page.steps.length; indexStep++) {
+                    var step = page.steps[indexStep];
+                    step.page = page.page;
+                    step.index = indexStep;
+                    step.number = (indexStep === 0) ? page.page.index : page.page.index + '.' + indexStep;
                 }
-            },
-            function (error) {
-                $log.error(error);
-                if (errorCallback) {
-                    errorCallback('Issue could not be saved');
-                }
-            });
+            }
+            return pagesAndScenarios;
         }
     };
 });
