@@ -63,7 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </td>
             <td title="{{build.statusMessage}}"><span
                     ng-class="[getStyleClassForBuildImportStatus(build.status), 'label']">{{build.status}}</span> <a
-                    class="link pull-right" ng-click="reimportBuild(build)" tooltip="Reimport and update this build"
+                    class="link pull-right" ng-click="reimportBuild(build)" uib-tooltip="Reimport and update this build"
                     tooltip-placement="bottom"><i class="icon-refresh icon-with-padding"></i></a></td>
         </tr>
         </tbody>
