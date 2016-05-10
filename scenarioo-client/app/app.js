@@ -27,44 +27,44 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     .config(function ($routeProvider) {
 
         /**
-         * breadcrumbId: id of the breadcrumb elements to use for this page as defined in breadcrumbsService.js
+         * breadcrumbId: id of the breadcrumb elements to use for this page as defined in breadcrumbs.service.js
          */
         $routeProvider
             .when('/', {
-                templateUrl: 'build/main.html',
-                controller: 'MainCtrl',
+                templateUrl: 'build/build.html',
+                controller: 'BuildController',
                 controllerAs: 'main',
                 breadcrumbId: 'main'
             })
             .when('/manage', {
                 templateUrl: 'manage/manage.html',
-                controller: 'ManageCtrl',
+                controller: 'ManageController',
                 breadcrumbId: 'manage'
             })
             .when('/usecase/:useCaseName', {
                 templateUrl: 'useCase/usecase.html',
-                controller: 'UseCaseCtrl',
+                controller: 'UseCaseController',
                 controllerAs: 'useCase',
                 useCaseName: '@useCaseName',
                 breadcrumbId: 'usecase'
             })
             .when('/scenario/:useCaseName/:scenarioName', {
                 templateUrl: 'scenario/scenario.html',
-                controller: 'ScenarioCtrl',
+                controller: 'ScenarioController',
                 useCaseName: '@useCaseName',
                 scenarioName: '@scenarioName',
                 breadcrumbId: 'scenario'
             })
             .when('/object/:objectType/:objectName', {
-                templateUrl: 'objectRepository/referenceTree.html',
-                controller: 'ReferenceTreeCtrl',
+                templateUrl: 'objectRepository/objectRepository.html',
+                controller: 'ObjectRepositoryController',
                 objectType: '@objectType',
                 objectName: '@objectName',
                 breadcrumbId: 'object'
             })
             .when('/step/:useCaseName/:scenarioName/:pageName/:pageOccurrence/:stepInPageOccurrence', {
                 templateUrl: 'step/step.html',
-                controller: 'StepCtrl',
+                controller: 'StepController',
                 useCaseName: '@useCaseName',
                 scenarioName: '@scenarioName',
                 pageName: '@pageName',
@@ -74,7 +74,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
             })
             .when('/stepsketch/:issueId/:scenarioSketchId/:stepSketchId', {
                 templateUrl: 'sketcher/stepSketch.html',
-                controller: 'StepSketchCtrl',
+                controller: 'StepSketchController',
                 breadcrumbId: 'stepsketch'
             })
             .when('/editor', {
@@ -92,7 +92,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 redirectTo: '/'
             });
 
-    }).run(function ($rootScope, Config, GlobalHotkeysService, $location, $uibModalStack) {
+    }).run(function ($rootScope, ConfigService, GlobalHotkeysService, $location, $uibModalStack) {
 
 
         // Initialze modals to close when the location changes
@@ -112,7 +112,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
         });
 
         // Load config
-        Config.load();
+        ConfigService.load();
     });
 
 

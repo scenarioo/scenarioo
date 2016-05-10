@@ -1,0 +1,78 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div ng-controller="UseCasesTabController">
+
+    <div class="row sc-space-top sc-space-bottom">
+        <div class="col-sm-8">
+            <div class="input-group">
+                <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="useCasesSearchField"
+                       data-toggle="tooltip" title="type words separated by spaces to search for"
+                       ng-model="table.search.searchTerm" placeholder="Search in use cases..."/>
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
+                    </span>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <sc-meta-data-button class="pull-right" linking-variable="mainShowMetadata" local-storage-key="main" ></sc-meta-data-button>
+        </div>
+    </div>
+
+    <sc-meta-data-panel linking-variable="mainShowMetadata">
+        <div>
+            <!-- use cases table -->
+            <table class="table table-curved table-hover table-responsive usecase-table" sc-keyboard-navigatable-table="filtered" sc-keyboard-navigatable-table-hit="onNavigatorTableHit" >
+                <thead>
+                    <tr>
+                        <th sc-sortable-column="status">Status</th>
+                        <th sc-sortable-column="name">Name</th>
+                        <th>Description</th>
+                        <th sc-sortable-column="numberOfScenarios"># Scenarios</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-class="{'selected':$index==selectedRowIndex}" ng-repeat="useCase in filtered=(useCases | scFilterArray: table.search.searchTerm | orderBy: table.sort.column: table.sort.reverse)" ng-click="goToUseCase(useCase.name)" class="link">
+                        <td>
+                            <span ng-class="[getStatusStyleClass(useCase.status), 'label']">{{useCase.status}}</span>
+                        </td>
+                        <td>
+                            {{useCase.name | scHumanReadable }}
+                            <span ng-repeat="label in useCase.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                        </td>
+                        <td>{{useCase.description}}</td>
+                        <td>{{useCase.numberOfScenarios}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <!-- branch -->
+            <sc-collapsable-panel title="Branch" key="mainView-branch" initially-expanded="true">
+                <sc-tree data='branchInformationTree'></sc-tree>
+            </sc-collapsable-panel>
+
+            <!-- build -->
+            <sc-collapsable-panel title="Build" key="mainView-build" initially-expanded="true">
+                <sc-tree data='buildInformationTree'></sc-tree>
+            </sc-collapsable-panel>
+
+            <sc-metadata-tree metadata-tree="metadataTreeBranches"></sc-metadata-tree>
+            <sc-metadata-tree metadata-tree="metadataTreeBuilds"></sc-metadata-tree>
+        </div>
+    </sc-meta-data-panel>
+</div>

@@ -16,14 +16,14 @@ function initLocalStorage() {
     getRoute('/');
     var setPreviouslyVisitedInLocalStorage = browser.executeScript(function() {
         var injector = angular.element(document.body).injector();
-        var scLocalStorage = injector.get('scLocalStorage');
-        scLocalStorage.set('scenariooPreviouslyVisited', 'true');
+        var LocalStorageService = injector.get('LocalStorageService');
+        LocalStorageService.set('scenariooPreviouslyVisited', 'true');
     });
     setPreviouslyVisitedInLocalStorage.then(function () {
         var visited = browser.executeScript(function() {
             var injector = angular.element(document.body).injector();
-            var scLocalStorage = injector.get('scLocalStorage');
-            return scLocalStorage.get('scenariooPreviouslyVisited');
+            var LocalStorageService = injector.get('LocalStorageService');
+            return LocalStorageService.get('scenariooPreviouslyVisited');
         });
         expect(visited).toEqual('true');
     });
@@ -49,14 +49,14 @@ function clearLocalStorage() {
     getRoute('/');
     var clearLocalStorageScript = browser.executeScript(function() {
         var injector = angular.element(document.body).injector();
-        var scLocalStorage = injector.get('scLocalStorage');
-        return scLocalStorage.clearAll();
+        var LocalStorageService = injector.get('LocalStorageService');
+        return LocalStorageService.clearAll();
     });
     clearLocalStorageScript.then(function() {
         var visited = browser.executeScript(function() {
             var injector = angular.element(document.body).injector();
-            var scLocalStorage = injector.get('scLocalStorage');
-            return scLocalStorage.get('scenariooPreviouslyVisited');
+            var LocalStorageService = injector.get('LocalStorageService');
+            return LocalStorageService.get('scenariooPreviouslyVisited');
         });
         expect(visited).toBe(null);
     });

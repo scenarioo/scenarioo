@@ -15,15 +15,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div ng-controller="BranchAliasesCtrl">
+<div ng-controller="BranchAliasesController as vm">
 
-    <div class="alert alert-success fade-out" ng-show="successfullyUpdatedBranchAliases">
+    <div class="alert alert-success fade-out" ng-show="vm.successfullyUpdatedBranchAliases">
         The branch aliases have been successfully updated.
-        <a ng-click="successfullyUpdatedBranchAliases=false" class="pull-right link link-no-hover" style="color: #468847"><i
+        <a ng-click="vm.successfullyUpdatedBranchAliases=false" class="pull-right link link-no-hover" style="color: #468847"><i
                 class="icon-remove icon"></i></a>
     </div>
 
-    <div class="alert alert-danger fade-out" ng-show="uniqueError" id="duplicateAliasErrorId">
+    <div class="alert alert-danger fade-out" ng-show="vm.uniqueError" id="duplicateAliasErrorId">
         <strong>Your branch aliases are not unique.</strong> Please make sure each name is only used once.
     </div>
 
@@ -38,9 +38,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="branchAlias in branchAliases">
+                <tr ng-repeat="branchAlias in vm.branchAliases">
                     <td>
-                        <input type="text" class="ng-pristine ng-valid form-control" ng-model="branchAlias.name" ng-change="aliasNameChanged()" name="aliasName"/>
+                        <input type="text" class="ng-pristine ng-valid form-control" ng-model="branchAlias.name" ng-change="vm.aliasNameChanged()" name="aliasName"/>
                     </td>
                     <td>
 
@@ -49,14 +49,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 ng-required="branchAlias.name !== ''"
                                 name="referencedBranch">
                             <option value=""></option>
-                            <option ng-repeat="branch in branches"  >{{branch.branch.name}}</option>
+                            <option ng-repeat="branch in vm.branches"  >{{branch.branch.name}}</option>
                         </select>
                     </td>
                     <td>
                         <input type="text" class="ng-pristine ng-valid form-control" ng-model="branchAlias.description" name="aliasDescription"  />
                     </td>
                     <td>
-                        <input type="button" class="btn btn-small btn-danger" value="Delete" ng-click="deleteEntry(branchAlias.name)" />
+                        <input type="button" class="btn btn-small btn-danger" value="Delete" ng-click="vm.deleteEntry(branchAlias.name)" />
                     </td>
                 </tr>
             </tbody>
@@ -64,8 +64,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <div class="row sc-space-top-large">
             <div class="col-lg-12" style="text-align: right">
-                <input type="button" value="Reset" class="btn btn-wide btn-default" ng-click="reset()"/>
-                <input type="button" value="Save" class="btn btn-wide btn-primary" ng-click="save()" ng-disabled="branchAliasesForm.$invalid"/>
+                <input type="button" value="Reset" class="btn btn-wide btn-default" ng-click="vm.reset()"/>
+                <input type="button" value="Save" class="btn btn-wide btn-primary" ng-click="vm.save()" ng-disabled="branchAliasesForm.$invalid"/>
             </div>
         </div>
     </form>
