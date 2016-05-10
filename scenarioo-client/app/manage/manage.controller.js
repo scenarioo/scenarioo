@@ -15,9 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('ManageController', function ($scope, $location) {
+angular.module('scenarioo.controllers').controller('ManageController', ManageController);
 
-    $scope.tabs = [
+function ManageController($location) {
+    var vm = this;
+    vm.tabs = [
         {
             index: 0,
             tabId: 'builds',
@@ -43,32 +45,38 @@ angular.module('scenarioo.controllers').controller('ManageController', function 
             contentViewUrl: 'manage/labelColors/labelColors.html'
         }
     ];
-    $scope.activeIndex = 0;
-    selectTabFromUrl();
+    vm.activeIndex = 0;
+    vm.getLazyTabContentViewUrl = getLazyTabContentViewUrl;
+    vm.setSelectedTabInUrl = setSelectedTabInUrl;
 
-    $scope.getLazyTabContentViewUrl = function (tabIndex) {
+    activate();
+
+    function activate() {
+        selectTabFromUrl();
+    }
+
+    function getLazyTabContentViewUrl(tabIndex) {
         // Only return the tab src as soon as tab is active
-        return $scope.activeIndex === tabIndex ? $scope.tabs[tabIndex].contentViewUrl : null;
-    };
+        return vm.activeIndex === tabIndex ? vm.tabs[tabIndex].contentViewUrl : null;
+    }
 
-    $scope.setSelectedTabInUrl = function (tabIndex) {
-        var tabId = $scope.tabs[tabIndex].tabId;
+    function setSelectedTabInUrl(tabIndex) {
+        var tabId = vm.tabs[tabIndex].tabId;
         if ($location.search().tab !== tabId) {
-           $location.search('tab', tabId);
+            $location.search('tab', tabId);
         }
-    };
+    }
 
     function selectTabFromUrl() {
         var params = $location.search();
         var selectedTabId = 'undefined';
         if (params !== null && angular.isDefined(params.tab)) {
             selectedTabId = params.tab;
-            angular.forEach($scope.tabs, function (tab, index) {
+            angular.forEach(vm.tabs, function (tab, index) {
                 if (tab.tabId === selectedTabId) {
-                    $scope.activeIndex = index;
+                    vm.activeIndex = index;
                 }
-           });
+            });
         }
     }
-
-});
+}

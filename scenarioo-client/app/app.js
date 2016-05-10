@@ -39,6 +39,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
             .when('/manage', {
                 templateUrl: 'manage/manage.html',
                 controller: 'ManageController',
+                controllerAs: 'vm',
                 breadcrumbId: 'manage'
             })
             .when('/usecase/:useCaseName', {
