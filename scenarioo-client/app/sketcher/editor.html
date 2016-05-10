@@ -88,7 +88,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </p>
 
                 <!-- Alerts to show whether saving the sketch was successful or not -->
-                <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" id="{{alert.id}}">{{alert.message}}</alert>
+                <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" id="{{alert.id}}">{{alert.message}}</uib-alert>
 
                 <!-- Sketch metadata form -->
                 <div class="form-group" ng-class="{ 'has-error has-feedback' : sketcherForm.issueName.$dirty && sketcherForm.issueName.$invalid }">
