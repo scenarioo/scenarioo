@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <head ng-cloak>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title ng-controller="TitleCtrl as title" ng-bind="title.text">Scenarioo</title>
+    <title ng-controller="TitleController as title" ng-bind="title.text">Scenarioo</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
@@ -46,7 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <!--[if lte IE 8]>
     <script type="text/javascript">
-        document.createElement("sc-breadcrumb");
+        document.createElement("sc-breadcrumbs");
         document.createElement("sc-tree");
         document.createElement("sc-filterableTableTree");
         document.createElement("tabset");
@@ -69,7 +69,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="components/json3/lib/json3.min.js"></script>
 <![endif]-->
 
-<div ng-include="'shared/navigation/navigation.html'" ng-controller="NavigationCtrl"></div>
+<div ng-include="'shared/navigation/navigation.html'" ng-controller="NavigationController"></div>
 
 <div class="sc-container">
     <div ng-view></div>
@@ -100,53 +100,54 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <!-- build:sources sources.js -->
 <script src="environment_config.js"></script>
 <script src="app.js"></script>
-<script src="build/main.js"></script>
-<script src="build/mainUseCasesTab.js"></script>
-<script src="build/mainSketchesTab.controller.js"></script>
-<script src="build/mainCustomTab.js"></script>
-<script src="manage/config.js"></script>
-<script src="manage/manage.js"></script>
-<script src="manage/buildImport/buildsList.js"></script>
-<script src="manage/buildImport/buildImportDetails.js"></script>
-<script src="manage/generalSettings/configEditor.js"></script>
-<script src="manage/branchAliases/branchAliases.js"></script>
-<script src="manage/labelColors/labelConfigurations.js"></script>
-<script src="objectRepository/referenceTree.js"></script>
-<script src="scenario/scenario.js"></script>
-<script src="scenario/pageAndStepService.js"></script>
-<script src="shared/navigation/branchesAndBuilds.js"></script>
+<script src="build/build.controller.js"></script>
+<script src="build/useCasesTab.controller.js"></script>
+<script src="build/sketchesTab.controller.js"></script>
+<script src="build/customTab.controller.js"></script>
+<script src="manage/config.service.js"></script>
+<script src="manage/manage.controller.js"></script>
+<script src="manage/buildImport/buildsList.controller.js"></script>
+<script src="manage/buildImport/buildImportDetails.controller.js"></script>
+<script src="manage/generalSettings/generalSettings.controller.js"></script>
+<script src="manage/branchAliases/branchAliases.controller.js"></script>
+<script src="manage/labelColors/labelColors.controller.js"></script>
+<script src="objectRepository/objectRepository.controller.js"></script>
+<script src="scenario/scenario.controller.js"></script>
+<script src="scenario/pagesAndSteps.service.js"></script>
+<script src="shared/navigation/branchesAndBuilds.service.js"></script>
 <script src="shared/restServices.js"></script>
 <script src="shared/utils/urlContextExtractor.service.js"></script>
 <script src="shared/localStorage/localStorage.service.js"></script>
-<script src="shared/navigation/selectedBranchAndBuild.js"></script>
-<script src="shared/navigation/applicationInfoPopup.js"></script>
-<script src="shared/filterableTableTree/treeNodeService.js"></script>
-<script src="shared/sharePage/sharePageService.js"></script>
-<script src="shared/navigation/breadcrumbsService.js"></script>
-<script src="shared/navigation/breadcrumbs.js"></script>
-<script src="shared/sortableColumn.js"></script>
-<script src="shared/metadata/tree.js"></script>
-<script src="shared/filterableTableTree/filterableTableTree.js"></script>
-<script src="shared/navigatorTable.js"></script>
-<script src="shared/debounce.js"></script>
-<script src="shared/metadata/metaDataButton.js"></script>
-<script src="shared/metadata/metaDataPanel.js"></script>
-<script src="shared/metadata/metaDataTree.js"></script>
-<script src="shared/metadata/collapsablePanel.js"></script>
-<script src="shared/navigation/navigation.js"></script>
-<script src="shared/navigation/title.js"></script>
-<script src="shared/utils/humanReadable.js"></script>
-<script src="shared/utils/filterArray.js"></script>
-<script src="shared/navigation/branchOrderByFilter.js"></script>
-<script src="shared/metadata/treeDataCreator.js"></script>
-<script src="shared/metadata/treeDataOptimizer.js"></script>
-<script src="shared/metadata/metadataTreeCreator.js"></script>
-<script src="shared/metadata/metadataTreeListCreator.js"></script>
-<script src="shared/utils/dateTime.js"></script>
-<script src="shared/utils/date.js"></script>
-<script src="shared/navigation/applicationInfoPopup.js"></script>
-<script src="shared/sharePage/shareStepPopup.js"></script>
-<script src="sketcher/context.service.js"></script>
+<script src="shared/navigation/selectedBranchAndBuild.service.js"></script>
+<script src="shared/navigation/applicationInfoPopup.service.js"></script>
+<script src="shared/filterableTableTree/treeNode.service.js"></script>
+<script src="shared/sharePage/sharePage.service.js"></script>
+<script src="shared/navigation/breadcrumbs.service.js"></script>
+<script src="shared/navigation/breadcrumbs.directive.js"></script>
+<script src="shared/sortableColumn.directive.js"></script>
+<script src="shared/metadata/tree.directive.js"></script>
+<script src="shared/filterableTableTree/filterableTableTree.directive.js"></script>
+<script src="shared/keyboardNavigatableTable.directive.js"></script>
+<script src="shared/debounce.directive.js"></script>
+<script src="shared/metadata/metaDataButton.directive.js"></script>
+<script src="shared/metadata/metaDataPanel.directive.js"></script>
+<script src="shared/metadata/metaDataTree.directive.js"></script>
+<script src="shared/metadata/collapsablePanel.directive.js"></script>
+<script src="shared/navigation/navigation.controller.js"></script>
+<script src="shared/navigation/title.controller.js"></script>
+<script src="shared/utils/humanReadable.filter.js"></script>
+<script src="shared/utils/filterArray.filter.js"></script>
+<script src="shared/navigation/branchOrderBy.filter.js"></script>
+<script src="shared/metadata/treeDataCreator.filter.js"></script>
+<script src="shared/metadata/treeDataOptimizer.filter.js"></script>
+<script src="shared/metadata/metadataTreeCreator.filter.js"></script>
+<script src="shared/metadata/metadataTreeListCreator.filter.js"></script>
+<script src="shared/utils/dateTime.filter.js"></script>
+<script src="shared/utils/dateOnly.filter.js"></script>
+<script src="shared/navigation/applicationInfoPopup.service.js"></script>
+<script src="shared/sharePage/sharePagePopup.controller.js"></script>
+<script src="shared/sharePage/sharePagePopup.service.js"></script>
+<script src="sketcher/sketcherContext.service.js"></script>
 <script src="sketcher/sketcherRestClient.service.js"></script>
 <script src="sketcher/issue/issue.service.js"></script>
 <script src="sketcher/stepSketch.controller.js"></script>
@@ -157,17 +158,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="sketcher/shapes/svg.lineShape.js"></script>
 <script src="sketcher/drawingPad/drawingPad.service.js"></script>
 <script src="sketcher/drawingPad/zoomPan.service.js"></script>
-<script src="sketcher/tools/tool.js"></script>
-<script src="sketcher/tools/drawTool.js"></script>
-<script src="sketcher/tools/compositeDrawTool.js"></script>
-<script src="sketcher/tools/selectTool.js"></script>
-<script src="sketcher/tools/rectCompositeDrawTool.js"></script>
-<script src="sketcher/tools/borderCompositeDrawTool.js"></script>
-<script src="sketcher/tools/noteCompositeDrawTool.js"></script>
-<script src="sketcher/tools/textCompositeDrawTool.js"></script>
-<script src="sketcher/tools/buttonCompositeDrawTool.js"></script>
-<script src="sketcher/tools/highlightCompositeDrawTool.js"></script>
-<script src="sketcher/tools/lineDrawTool.js"></script>
+<script src="sketcher/tools/tool.service.js"></script>
+<script src="sketcher/tools/drawTool.service.js"></script>
+<script src="sketcher/tools/compositeDrawTool.service.js"></script>
+<script src="sketcher/tools/selectTool.service.js"></script>
+<script src="sketcher/tools/rectCompositeDrawTool.service.js"></script>
+<script src="sketcher/tools/borderCompositeDrawTool.service.js"></script>
+<script src="sketcher/tools/noteCompositeDrawTool.service.js"></script>
+<script src="sketcher/tools/textCompositeDrawTool.service.js"></script>
+<script src="sketcher/tools/buttonCompositeDrawTool.service.js"></script>
+<script src="sketcher/tools/highlightCompositeDrawTool.service.js"></script>
+<script src="sketcher/tools/lineDrawTool.service.js"></script>
 <script src="sketcher/drawingPad/toolBox.service.js"></script>
 <script src="sketcher/stepSketch/stepSketch.service.js"></script>
 <script src="sketcher/editor.controller.js"></script>
@@ -175,8 +176,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <script src="step/screenAnnotations/screenAnnotationsButton.directive.js"></script>
 <script src="step/screenAnnotations/screenAnnotationInfoPopup.controller.js"></script>
 <script src="step/screenAnnotations/screenAnnotations.service.js"></script>
-<script src="step/step.js"></script>
-<script src="useCase/usecase.js"></script>
+<script src="step/step.controller.js"></script>
+<script src="useCase/usecase.controller.js"></script>
 <!-- endbuild -->
 
 <script src="templates.js"></script>

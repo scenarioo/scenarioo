@@ -20,9 +20,9 @@
 angular
     .module('scenarioo.controllers')
     .controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $interval, $routeParams, $route,
-        GlobalHotkeysService, SelectedBranchAndBuild, ToolBox, DrawShapeService, DrawingPadService, StepSketch,
-        StepSketchResource, IssueResource, Issue, ScenarioSketchResource, ContextService, $log, $window,
-        scLocalStorage, ZoomPanService, $timeout, HostnameAndPort) {
+        GlobalHotkeysService, SelectedBranchAndBuildService, ToolBoxService, DrawShapeService, DrawingPadService, StepSketchService,
+        StepSketchResource, IssueResource, IssueService, ScenarioSketchResource, SketcherContextService, $log, $window,
+        LocalStorageService, ZoomPanService, $timeout, HostnameAndPort) {
 
     var AUTHOR_LOCAL_STORAGE_KEY = 'issue_author',
         MODE_CREATE = 'create',
@@ -67,7 +67,7 @@ angular
         DrawingPadService.setDrawingPad(drawingPad);
 
         $scope.currentTool = null;
-        $scope.toolBox = ToolBox;
+        $scope.toolBox = ToolBoxService;
         $scope.activateTool($scope.toolBox[0]);
 
         $('body').addClass('sc-sketcher-bg-color-light');
@@ -78,7 +78,7 @@ angular
             return undefined;
         }
 
-        var selected = SelectedBranchAndBuild.selected();
+        var selected = SelectedBranchAndBuildService.selected();
         return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + $scope.currentIssue.issueId
             + '/scenariosketch/' + $scope.scenarioSketchId + '/stepsketch/' + $scope.stepSketchId + '/svg/1';
     }
@@ -88,7 +88,7 @@ angular
             return;
         }
 
-        var author = scLocalStorage.get(AUTHOR_LOCAL_STORAGE_KEY);
+        var author = LocalStorageService.get(AUTHOR_LOCAL_STORAGE_KEY);
 
         if (!angular.isString(author) || author.length === 0) {
             return;
@@ -98,7 +98,7 @@ angular
     }
 
     function storeAuthorInLocalStorage() {
-        scLocalStorage.set(AUTHOR_LOCAL_STORAGE_KEY, $scope.issueAuthor);
+        LocalStorageService.set(AUTHOR_LOCAL_STORAGE_KEY, $scope.issueAuthor);
     }
 
     $scope.activateTool = function (tool) {
@@ -138,7 +138,7 @@ angular
         });
 
         if ($scope.mode === MODE_CREATE) {
-            issue.relatedStep = ContextService.stepIdentifier;
+            issue.relatedStep = SketcherContextService.stepIdentifier;
         }
 
         // TODO why this check? looks like this is always 0
@@ -148,7 +148,7 @@ angular
             if ($scope.issueId && $scope.issueId !== undefined) {
                 issue.issueId = $scope.issueId;
 
-                Issue.saveIssue(issue, function (updatedIssue) {
+                IssueService.saveIssue(issue, function (updatedIssue) {
                     $log.log('UPDATE Issue', updatedIssue.issueId);
                     $scope.issueId = updatedIssue.issueId;
                     $rootScope.$broadcast('IssueSaved', {issueId: updatedIssue.issueId});
@@ -156,7 +156,7 @@ angular
                     sketchSavedWithError(error);
                 });
             } else {
-                Issue.saveIssue(issue, function (savedIssue) {
+                IssueService.saveIssue(issue, function (savedIssue) {
                     $log.log('SAVE Issue', savedIssue.issueId);
                     $scope.issueId = savedIssue.issueId;
                     $rootScope.$broadcast('IssueSaved', {issueId: savedIssue.issueId});
@@ -241,21 +241,21 @@ angular
         }, {});
 
         if ($scope.mode === MODE_CREATE) {
-            stepSketch.relatedStep = ContextService.stepIdentifier;
+            stepSketch.relatedStep = SketcherContextService.stepIdentifier;
         }
 
         if ($scope.scenarioSketchSaved === 1) {
             if ($scope.stepSketchId && $scope.stepSketchId !== undefined) {
                 stepSketch.stepSketchId = $scope.stepSketchId;
 
-                StepSketch.saveStepSketch(stepSketch, function (updatedStepSketch) {
+                StepSketchService.saveStepSketch(stepSketch, function (updatedStepSketch) {
                     $log.log('UPDATE StepSketch', updatedStepSketch.stepSketchId);
                     sketchSuccessfullySaved();
                 }, function (error) {
                     sketchSavedWithError(error);
                 });
             } else {
-                StepSketch.saveStepSketch(stepSketch, function (savedStepSketch) {
+                StepSketchService.saveStepSketch(stepSketch, function (savedStepSketch) {
                     $log.log('SAVE StepSketch', savedStepSketch.stepSketchId);
 
                     $scope.scenarioSketchId = args.scenarioSketchId;
@@ -287,7 +287,7 @@ angular
 
         if ($scope.mode === MODE_CREATE) {
             //if ($scope.issueId) {
-            //    Issue.deleteSketcherData($scope.issueId);
+            //    IssueService.deleteSketcherData($scope.issueId);
             //}
 
             $scope.issueId = null;
@@ -345,8 +345,8 @@ angular
 
         if ($scope.mode === MODE_EDIT && $scope.currentIssue) {
             relatedStep = $scope.currentIssue.relatedStep;
-        } else if($scope.mode === MODE_CREATE && ContextService.stepIdentifier) {
-            relatedStep = ContextService.stepIdentifier;
+        } else if($scope.mode === MODE_CREATE && SketcherContextService.stepIdentifier) {
+            relatedStep = SketcherContextService.stepIdentifier;
         } else {
             return '';
         }

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('StepSketch', function ($log) {
+angular.module('scenarioo.services').factory('StepSketchService', function ($log) {
 
     return {
         saveStepSketch: function (changedStepSketch, successCallback, errorCallback) {

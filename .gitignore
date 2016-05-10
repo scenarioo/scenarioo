@@ -23,3 +23,5 @@ scenarioo-validator/build
 .classpath
 .settings
 *.iml
+npm-debug.log
+scenarioo-latest.war
