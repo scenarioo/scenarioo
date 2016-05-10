@@ -16,14 +16,13 @@
  */
 
 
-angular.module('scenarioo.templates', []);
 angular.module('scenarioo.filters', []);
 angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute', 'scenarioo.templates']);
 angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'unsavedChanges', 'scenarioo.templates']);
 angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule', 'scenarioo.templates']);
-angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives', 'scenarioo.templates']);
+angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
 
-angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations', 'scenarioo.templates'])
+angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations'])
 
     .config(function ($routeProvider) {
 
@@ -93,27 +92,31 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 redirectTo: '/'
             });
 
-    }).run(function ($rootScope, ConfigService, GlobalHotkeysService, $location, $uibModalStack) {
+    }).run(function ($rootScope, ConfigService, GlobalHotkeysService, $location, $uibModalStack, ApplicationInfoPopupService) {
 
 
-        // Initialze modals to close when the location changes
-        $rootScope.$on('$locationChangeSuccess', function() {
-                $uibModalStack.dismissAll();
-            });
-
-        // Register global hotkeys
-        GlobalHotkeysService.registerGlobalHotkey('m', function () {
-            $location.path('/manage').search('tab=builds');
-        });
-        GlobalHotkeysService.registerGlobalHotkey('c', function () {
-            $location.path('/manage').search('tab=configuration');
-        });
-        GlobalHotkeysService.registerGlobalHotkey('h', function () {
-            $location.path('/');
-        });
-
-        // Load config
-        ConfigService.load();
+    // Initialze modals to close when the location changes
+    $rootScope.$on('$locationChangeSuccess', function () {
+        $uibModalStack.dismissAll();
     });
+
+    $rootScope.$on('$viewContentLoaded', function () {
+        ApplicationInfoPopupService.showApplicationInfoPopupIfRequired();
+    });
+
+    // Register global hotkeys
+    GlobalHotkeysService.registerGlobalHotkey('m', function () {
+        $location.path('/manage').search('tab=builds');
+    });
+    GlobalHotkeysService.registerGlobalHotkey('c', function () {
+        $location.path('/manage').search('tab=configuration');
+    });
+    GlobalHotkeysService.registerGlobalHotkey('h', function () {
+        $location.path('/');
+    });
+
+    // Load config
+    ConfigService.load();
+});
 
 
