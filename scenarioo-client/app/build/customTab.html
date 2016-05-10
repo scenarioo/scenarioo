@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	    <div class="col-sm-8">
 	        <div class="input-group">
 	            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip" title="type words separated by spaces to search for"
-                    ng-model="searchField" placeholder="Search ..." ng-keyup="$event.keyCode == 27 ? resetSearchField() : null" data-debounce/>
+                    ng-model="searchField" placeholder="Search ..." ng-keyup="$event.keyCode == 27 ? resetSearchField() : null" data-scDebounce/>
 	            <span class="input-group-btn">
 	                <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
 	            </span>

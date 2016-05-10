@@ -1,5 +1,5 @@
 /* scenarioo-client
- * Copyright (C) 2014, scenarioo.org Development Team
+ * Copyright (C) 2015, scenarioo.org Development Team
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,21 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('IssueService', function ($log) {
+/**
+ * This service knows where the user is currently on the page (which use cse, scenario, step, etc.).
+ */
+angular.module('scenarioo.services').service('SketcherContextService', function () {
 
     return {
-        saveIssue: function (issue, successCallback, errorCallback) {
-            issue.$save(function (updatedIssue) {
-                if (successCallback) {
-                    successCallback(updatedIssue);
-                }
-            },
-            function (error) {
-                $log.error(error);
-                if (errorCallback) {
-                    errorCallback('Issue could not be saved');
-                }
-            });
-        }
+        stepIdentifier: {},
+        screenshotURL: ''
     };
+
 });

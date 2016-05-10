@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<sc-breadcrumb></sc-breadcrumb>
+<sc-breadcrumbs></sc-breadcrumbs>
 <h2 class="sc-pageTitle">{{useCase.useCase.description}}</h2>
 <div class="row sc-space-top sc-space-bottom">
     <div class="col-sm-8">
@@ -36,8 +36,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-meta-data-panel linking-variable="useCaseShowMetadata">
     <div>
-        <table class="table table-bordered scenario-table" sc-navigator-table="filtered"
-               sc-navigator-table-hit="useCase.onNavigatorTableHit">
+        <table class="table table-bordered scenario-table" sc-keyboard-navigatable-table="filtered"
+               sc-keyboard-navigatable-table-hit="useCase.onNavigatorTableHit">
             <thead>
             <tr>
                 <th sc-sortable-column="status">Status</th>
