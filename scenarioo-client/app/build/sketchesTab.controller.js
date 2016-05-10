@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('SketchesTabController', function ($scope, $location, SelectedBranchAndBuild, IssuesResource, SketchIdsResource) {
+angular.module('scenarioo.controllers').controller('SketchesTabController', function ($scope, $location, SelectedBranchAndBuildService, IssuesResource, SketchIdsResource) {
 
     var vm = this;
 
@@ -28,7 +28,7 @@ angular.module('scenarioo.controllers').controller('SketchesTabController', func
     };
 
     vm.goToStepSketch = function (issue) {
-        var selectedBranch = SelectedBranchAndBuild.selected().branch;
+        var selectedBranch = SelectedBranchAndBuildService.selected().branch;
 
         SketchIdsResource.get(
             {'branchName': selectedBranch, 'issueId': issue.id },
@@ -40,11 +40,11 @@ angular.module('scenarioo.controllers').controller('SketchesTabController', func
     activate();
 
     function activate() {
-        SelectedBranchAndBuild.callOnSelectionChange(loadIssues);
+        SelectedBranchAndBuildService.callOnSelectionChange(loadIssues);
     }
 
     function loadIssues() {
-        var selectedBranch = SelectedBranchAndBuild.selected().branch;
+        var selectedBranch = SelectedBranchAndBuildService.selected().branch;
 
         IssuesResource.query(
             {'branchName': selectedBranch},

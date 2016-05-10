@@ -15,21 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('IssueService', function ($log) {
+angular.module('scenarioo.services').controller('SharePagePopupController', function ($scope, $uibModalInstance, SharePageService, $location) {
 
-    return {
-        saveIssue: function (issue, successCallback, errorCallback) {
-            issue.$save(function (updatedIssue) {
-                if (successCallback) {
-                    successCallback(updatedIssue);
-                }
-            },
-            function (error) {
-                $log.error(error);
-                if (errorCallback) {
-                    errorCallback('Issue could not be saved');
-                }
-            });
+    var currentBrowserLocation = $location.absUrl();
+
+    $scope.pageUrl = (function () {
+        if (angular.isDefined(SharePageService.getPageUrl())) {
+            return SharePageService.getPageUrl();
+        } else {
+            return currentBrowserLocation;
         }
+    }());
+    $scope.imageUrl = SharePageService.getImageUrl();
+
+    $scope.eMailSubject = encodeURIComponent('Link to Scenarioo');
+    $scope.eMailUrl = encodeURIComponent($scope.pageUrl);
+
+    $scope.close = function () {
+        $uibModalInstance.dismiss('cancel');
     };
+
 });

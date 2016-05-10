@@ -15,8 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('CustomTabController', function ($scope, BranchesAndBuilds, $location, $filter,
-                                                                                  CustomTabContentResource, SelectedBranchAndBuild, TreeNode) {
+angular.module('scenarioo.controllers').controller('CustomTabController', function ($scope, BranchesAndBuildsService, $location, $filter,
+                                                                                  CustomTabContentResource, SelectedBranchAndBuildService, TreeNodeService) {
 
   $scope.searchField = '';
   $scope.treemodel = [];
@@ -37,7 +37,7 @@ angular.module('scenarioo.controllers').controller('CustomTabController', functi
     return selectedTabId;
   }
 
-  SelectedBranchAndBuild.callOnSelectionChange(function (selected) {
+  SelectedBranchAndBuildService.callOnSelectionChange(function (selected) {
     // Initialization on registration of this listener and on all changes to the build selection:
     $scope.selectedBranchAndBuild = selected;
     $scope.selectedTab = getSelectedTabFromUrl();
@@ -46,7 +46,7 @@ angular.module('scenarioo.controllers').controller('CustomTabController', functi
 
   function loadContent() {
 
-    BranchesAndBuilds.getBranchesAndBuilds()
+    BranchesAndBuildsService.getBranchesAndBuildsService()
       .then(function onSuccess(branchesAndBuilds) {
         $scope.branchesAndBuilds = branchesAndBuilds;
       })
@@ -67,7 +67,7 @@ angular.module('scenarioo.controllers').controller('CustomTabController', functi
   };
 
   $scope.expandAndCollapseTree = function (treemodel) {
-    TreeNode.expandAndCollapseTree(treemodel, $scope);
+    TreeNodeService.expandAndCollapseTree(treemodel, $scope);
   };
 
   $scope.resetSearchField = function () {
