@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, scLocalStorage, BranchesAndBuilds, SelectedBranchAndBuild, $uibModal, ScApplicationInfoPopup, Config, GlobalHotkeysService) {
+angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($scope, $location, scLocalStorage, BranchesAndBuilds, SelectedBranchAndBuild, $uibModal, ScApplicationInfoPopup, ConfigService, GlobalHotkeysService) {
 
-    $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
-        $scope.applicationName = Config.applicationName();
+    $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
+        $scope.applicationName = ConfigService.applicationName();
     });
 
     $scope.$on('branchesUpdated', function () {

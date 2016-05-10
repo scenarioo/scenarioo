@@ -78,32 +78,32 @@ describe('Controller: ApplicationInfoCtrl', function () {
     beforeEach(module('scenarioo.controllers'));
 
     var $scope,
-        Config,
+        ConfigService,
         $httpBackend,
         HostnameAndPort,
         TestData;
 
     beforeEach(inject(function ($controller, $rootScope, ConfigMock, _$httpBackend_, _HostnameAndPort_, _TestData_) {
-        Config = ConfigMock;
+        ConfigService = ConfigMock;
         $scope = $rootScope.$new();
         $httpBackend = _$httpBackend_;
         HostnameAndPort = _HostnameAndPort_;
         TestData = _TestData_;
         $controller('ApplicationInfoCtrl', {
             $scope: $scope,
-            Config: ConfigMock,
+            ConfigService: ConfigMock,
             $uibModalInstance: null
         });
     }));
 
-    it('should update applicationInformation if it changes in Config', function () {
+    it('should update applicationInformation if it changes in ConfigService', function () {
         var VERSION_URL = HostnameAndPort.forTest() + 'rest/version';
         $httpBackend.whenGET(VERSION_URL).respond(TestData.VERSION);
         $httpBackend.flush();
 
         expect($scope.applicationInformation).toBeUndefined();
 
-        Config.setApplicationInformation('abc');
+        ConfigService.setApplicationInformation('abc');
 
         $scope.$digest();
 

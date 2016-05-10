@@ -15,19 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('ConfigEditorCtrl', function ($scope, BranchesResource, Config) {
+angular.module('scenarioo.controllers').controller('GeneralSettingsController', function ($scope, BranchesResource, ConfigService) {
 
     BranchesResource.query({}, function (branches) {
         $scope.branches = branches;
         calculateConfiguredBranch();
     });
 
-    $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
-        $scope.configuration = Config.getRawConfigDataCopy();
+    $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
+        $scope.configuration = ConfigService.getRawConfigDataCopy();
         calculateConfiguredBranch();
     });
 
-    Config.load();
+    ConfigService.load();
 
     function calculateConfiguredBranch() {
         if (angular.isUndefined($scope.branches) || angular.isUndefined($scope.configuration)) {
@@ -42,14 +42,14 @@ angular.module('scenarioo.controllers').controller('ConfigEditorCtrl', function 
     }
 
     $scope.resetConfiguration = function () {
-        $scope.configuration = Config.getRawConfigDataCopy();
+        $scope.configuration = ConfigService.getRawConfigDataCopy();
         calculateConfiguredBranch();
     };
 
     $scope.updateConfiguration = function () {
         $scope.successfullyUpdatedConfiguration = false;
 
-        Config.updateConfiguration($scope.configuration, function () {
+        ConfigService.updateConfiguration($scope.configuration, function () {
             $scope.successfullyUpdatedConfiguration = true;
         });
     };

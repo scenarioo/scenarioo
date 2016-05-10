@@ -19,15 +19,15 @@
 
 describe('Controller :: Scenario', function () {
 
-    var $scope, $httpBackend, $routeParams, Config, TestData, HostNameAndPort, RelatedIssueResource;
+    var $scope, $httpBackend, $routeParams, ConfigService, TestData, HostNameAndPort, RelatedIssueResource;
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($rootScope, $controller, _$httpBackend_, _$routeParams_, _Config_, _TestData_, _HostnameAndPort_, scLocalStorage, _RelatedIssueResource_) {
+    beforeEach(inject(function ($rootScope, $controller, _$httpBackend_, _$routeParams_, _ConfigService_, _TestData_, _HostnameAndPort_, scLocalStorage, _RelatedIssueResource_) {
         $scope = $rootScope.$new();
         $httpBackend = _$httpBackend_;
         $routeParams = _$routeParams_;
-        Config = _Config_;
+        ConfigService = _ConfigService_;
         TestData = _TestData_;
         HostNameAndPort = _HostnameAndPort_;
         RelatedIssueResource = _RelatedIssueResource_;
@@ -37,7 +37,7 @@ describe('Controller :: Scenario', function () {
 
         scLocalStorage.clearAll();
 
-        $controller('ScenarioCtrl', {$scope: $scope, Config: Config});
+        $controller('ScenarioCtrl', {$scope: $scope, ConfigService: ConfigService});
 
         spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
     }));
@@ -127,7 +127,7 @@ describe('Controller :: Scenario', function () {
     });
 
     it('expands all pages, if this is the default set in the config', function () {
-        Config.getRaw = true;
+        ConfigService.getRaw = true;
 
         givenScenarioIsLoaded(TestData.CONFIG_PAGES_EXPANDED);
 
@@ -143,7 +143,7 @@ describe('Controller :: Scenario', function () {
         $httpBackend.whenGET(HostNameAndPort.forLink() + 'rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario').respond(TestData.SCENARIO);
         $httpBackend.whenGET(HostNameAndPort.forTest() + 'rest/labelconfigurations').respond({});
 
-        Config.load();
+        ConfigService.load();
         $httpBackend.flush();
     }
 

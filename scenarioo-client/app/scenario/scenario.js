@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams,
                                                                              $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild,
-                                                                             Config, PagesAndSteps, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource) {
+                                                                             ConfigService, PagesAndSteps, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -63,7 +63,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
                     return hasAnyUseCaseLabels || hasAnyScenarioLabels;
                 };
 
-                if (Config.expandPagesInScenarioOverview()) {
+                if (ConfigService.expandPagesInScenarioOverview()) {
                     $scope.expandAll();
                 }
             });
