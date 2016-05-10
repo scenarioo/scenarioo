@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('MainCustomTabCtrl', function ($scope, BranchesAndBuilds, $location, $filter,
+angular.module('scenarioo.controllers').controller('CustomTabController', function ($scope, BranchesAndBuilds, $location, $filter,
                                                                                   CustomTabContentResource, SelectedBranchAndBuild, TreeNode) {
 
   $scope.searchField = '';

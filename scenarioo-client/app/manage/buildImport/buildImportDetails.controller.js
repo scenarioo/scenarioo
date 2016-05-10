@@ -16,7 +16,7 @@
  */
 
 /** Controller for Build-Details showing Import-Status **/
-angular.module('scenarioo.controllers').controller('BuildImportDetailsCtrl', function ($scope, $modalInstance, build, log, getStyleClassForBuildImportStatus) {
+angular.module('scenarioo.controllers').controller('BuildImportDetailsController', function ($scope, $modalInstance, build, log, getStyleClassForBuildImportStatus) {
 
     $scope.build = build;
     $scope.log = log;

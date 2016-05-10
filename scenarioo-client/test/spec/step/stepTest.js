@@ -19,7 +19,7 @@
 
 describe('StepCtrl', function () {
 
-    var $scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepResource,
+    var $scope, $routeParams, $location, $q, $window, ConfigService, ScenarioResource, StepResource,
         HostnameAndPort, SelectedBranchAndBuild, $controller, $httpBackend, TestData, RelatedIssueResource;
 
     var STEP_INFORMATION_TREE = {
@@ -33,13 +33,13 @@ describe('StepCtrl', function () {
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _Config_, _ScenarioResource_, _StepResource_, _HostnameAndPort_, _SelectedBranchAndBuild_, _$controller_, _$httpBackend_, _TestData_, scLocalStorage, _RelatedIssueResource_) {
+    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_, _ScenarioResource_, _StepResource_, _HostnameAndPort_, _SelectedBranchAndBuild_, _$controller_, _$httpBackend_, _TestData_, scLocalStorage, _RelatedIssueResource_) {
         $scope = _$rootScope_.$new();
         $routeParams = _$routeParams_;
         $location = _$location_;
         $q = _$q_;
         $window = _$window_;
-        Config = _Config_;
+        ConfigService = _ConfigService_;
         ScenarioResource = _ScenarioResource_;
         RelatedIssueResource = _RelatedIssueResource_;
         StepResource = _StepResource_;
@@ -63,7 +63,7 @@ describe('StepCtrl', function () {
         beforeEach(function() {
             $routeParams.stepInPageOccurrence = 1;
             $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
-                $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostnameAndPort,
+                $q: $q, $window: $window, ConfigService: ConfigService, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostnameAndPort,
                 SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}, ScShareStepPopup: {}});
             spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
         });
@@ -192,7 +192,7 @@ describe('StepCtrl', function () {
             $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1').respond(TestData.STEP);
             $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/labelconfigurations').respond({});
 
-            Config.load();
+            ConfigService.load();
             $httpBackend.flush();
             expect($scope.stepNotFound).toBeFalsy();
         }
@@ -218,7 +218,7 @@ describe('StepCtrl', function () {
         beforeEach(function() {
             $routeParams.stepInPageOccurrence = 42;
             $controller('StepCtrl', {$scope: $scope, $routeParams: $routeParams, $location: $location,
-                $q: $q, $window: $window, Config: Config, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostnameAndPort,
+                $q: $q, $window: $window, ConfigService: ConfigService, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostnameAndPort,
                 SelectedBranchAndBuild: SelectedBranchAndBuild, ScApplicationInfoPopup: {}, ScShareStepPopup: {}});
         });
 
@@ -240,7 +240,7 @@ describe('StepCtrl', function () {
             $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42').respond(500, '');
             $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/labelconfigurations').respond({});
 
-            Config.load();
+            ConfigService.load();
             $httpBackend.flush();
         }
 

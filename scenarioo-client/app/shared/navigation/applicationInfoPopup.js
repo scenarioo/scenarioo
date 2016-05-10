@@ -62,9 +62,9 @@ angular.module('scenarioo.services').factory('ScApplicationInfoPopup', function 
         showApplicationInfoPopup: showApplicationInfoPopup
     };
 
-}).controller('ApplicationInfoCtrl', function ($scope, $uibModalInstance, Config, $sce, VersionResource) {
+}).controller('ApplicationInfoCtrl', function ($scope, $uibModalInstance, ConfigService, $sce, VersionResource) {
     $scope.$watch(function () {
-        return Config.applicationInformation();
+        return ConfigService.applicationInformation();
     }, function (applicationInformation) {
         $scope.applicationInformation = $sce.trustAsHtml(applicationInformation);
     });

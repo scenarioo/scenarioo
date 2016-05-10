@@ -17,7 +17,7 @@
 
 'use strict';
 
-describe('Controller MainUseCasesTabCtrl', function () {
+describe('UseCasesTabController', function () {
 
     var $location, $scope;
 
@@ -27,7 +27,7 @@ describe('Controller MainUseCasesTabCtrl', function () {
             $location = _$location_;
 
             $scope = $rootScope.$new();
-            $controller('MainUseCasesTabCtrl', {$scope: $scope});
+            $controller('UseCasesTabController', {$scope: $scope});
         }
     ));
 
