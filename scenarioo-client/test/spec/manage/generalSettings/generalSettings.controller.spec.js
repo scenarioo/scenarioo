@@ -1,16 +1,16 @@
 /* scenarioo-client
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -42,21 +42,21 @@ describe('GeneralSettingsController', function () {
     describe('when page is loaded', function () {
         it('loads and displays the config from the server', function () {
             expect(ConfigCtrl).toBeDefined();
-            expect($scope.configuration).toBeUndefined();
+            expect(ConfigCtrl.configuration).toEqual({});
 
             $httpBackend.flush();
 
-            expect($scope.configuration).toEqualData(TestData.CONFIG);
+            expect(ConfigCtrl.configuration).toEqualData(TestData.CONFIG);
         });
 
         it('loads all branches and builds', function () {
-            expect($scope.branches).toBeUndefined();
-            expect($scope.configuredBranch).toBeUndefined();
+            expect(ConfigCtrl.branches).toEqual([]);
+            expect(ConfigCtrl.configuredBranch).toEqual({});
 
             $httpBackend.flush();
 
-            expect($scope.branches).toBeDefined();
-            expect($scope.configuredBranch).toBeDefined();
+            expect(ConfigCtrl.branches.length).toEqual(3);
+            expect(ConfigCtrl.configuredBranch.branch.name).toEqual('trunk');
         });
     });
 
@@ -66,9 +66,9 @@ describe('GeneralSettingsController', function () {
 
             changeAllValues();
 
-            $scope.resetConfiguration();
+            ConfigCtrl.resetConfiguration();
 
-            expect($scope.configuration).toEqualData(TestData.CONFIG);
+            expect(ConfigCtrl.configuration).toEqualData(TestData.CONFIG);
         });
     });
 
@@ -80,18 +80,18 @@ describe('GeneralSettingsController', function () {
 
             changeAllValues();
 
-            $scope.updateConfiguration();
+            ConfigCtrl.updateConfiguration();
 
             expect(ConfigService.updateConfiguration).toHaveBeenCalled();
         });
     });
 
     function changeAllValues() {
-        $scope.configuration.defaultBuildName = 'new build';
-        $scope.configuration.defaultBranchName = 'new branch';
-        $scope.configuration.scenarioPropertiesInOverview = 'abc';
-        $scope.configuration.applicationInformation = 'new information';
-        $scope.configuration.testDocumentationDirPath = 'new path';
+        ConfigCtrl.configuration.defaultBuildName = 'new build';
+        ConfigCtrl.configuration.defaultBranchName = 'new branch';
+        ConfigCtrl.configuration.scenarioPropertiesInOverview = 'abc';
+        ConfigCtrl.configuration.applicationInformation = 'new information';
+        ConfigCtrl.configuration.testDocumentationDirPath = 'new path';
     }
 
 });
