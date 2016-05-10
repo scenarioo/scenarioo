@@ -15,12 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.filters', []);
-angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute']);
-angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'unsavedChanges']);
-angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule']);
-angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
+
 angular.module('scenarioo.templates', []);
+angular.module('scenarioo.filters', []);
+angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute', 'scenarioo.templates']);
+angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'unsavedChanges', 'scenarioo.templates']);
+angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule', 'scenarioo.templates']);
+angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives', 'scenarioo.templates']);
 
 angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations', 'scenarioo.templates'])
 
