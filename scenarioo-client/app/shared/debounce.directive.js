@@ -24,7 +24,7 @@ angular.module('scenarioo.directives').directive('scDebounce', function ($timeou
         restrict: 'A',
         require: 'ngModel',
         priority: 99,
-        link: function (scope, elm, attr, ngModelCtrl) {
+        link: function (scope, elm, attr, ngModelController) {
             if (attr.type === 'radio' || attr.type === 'checkbox') {
                 return;
             }
@@ -36,13 +36,13 @@ angular.module('scenarioo.directives').directive('scDebounce', function ($timeou
                 $timeout.cancel(debounce);
                 debounce = $timeout(function () {
                     scope.$apply(function () {
-                        ngModelCtrl.$setViewValue(elm.val());
+                        ngModelController.$setViewValue(elm.val());
                     });
                 }, attr.ngDebounce || 400);
             });
             elm.bind('blur', function () {
                 scope.$apply(function () {
-                    ngModelCtrl.$setViewValue(elm.val());
+                    ngModelController.$setViewValue(elm.val());
                 });
             });
         }

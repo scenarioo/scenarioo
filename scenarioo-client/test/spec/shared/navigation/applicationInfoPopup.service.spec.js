@@ -27,7 +27,7 @@ describe('ApplicationInfoPopupService', function () {
                 }
             }
         );
-        $provide.value('ApplicationInfoCtrl', {});
+        $provide.value('ApplicationInfoController', {});
     }));
 
     var ApplicationInfoPopupService, LocalStorageService, $uibModal, dummyPromise = {
@@ -73,7 +73,7 @@ describe('ApplicationInfoPopupService', function () {
 
 });
 
-describe('Controller: ApplicationInfoCtrl', function () {
+describe('Controller: ApplicationInfoController', function () {
 
     beforeEach(module('scenarioo.controllers'));
 
@@ -89,7 +89,7 @@ describe('Controller: ApplicationInfoCtrl', function () {
         $httpBackend = _$httpBackend_;
         HostnameAndPort = _HostnameAndPort_;
         TestData = _TestData_;
-        $controller('ApplicationInfoCtrl', {
+        $controller('ApplicationInfoController', {
             $scope: $scope,
             ConfigService: ConfigMock,
             $uibModalInstance: null
