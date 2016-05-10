@@ -25,14 +25,15 @@ angular.module('scenarioo.controllers').controller('SearchCtrl', function ($scop
         var selected = SelectedBranchAndBuild.selected();
 
         $scope.results.resultSet = FullTextSearchService.search({
-	    q: q,
-            buildName: selected.build,
-            branchName: selected.branch}
+                q: q,
+                buildName: selected.build,
+                branchName: selected.branch
+            }
         ).then(function onSuccess(result) {
-            $scope.results.resultSet = result;
-        },
-        function onError(error) {
-            throw new Error('Failed to get search results', error);
-        });
+                $scope.results.resultSet = result;
+            },
+            function onError(error) {
+                throw new Error('Failed to get search results', error);
+            });
     }
 });
