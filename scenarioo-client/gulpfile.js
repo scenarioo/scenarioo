@@ -5,6 +5,7 @@ var gulp = require('gulp'),
     fs = require('fs'),
     eslint = require('gulp-eslint'),
     usemin = require('gulp-usemin'),
+    rev = require('gulp-rev'),
     _ = require('lodash'),
     gulpUtil = require('gulp-util'),
     wrap = require('gulp-wrap'),
@@ -167,7 +168,7 @@ gulp.task('environmentConstants', function (done) {
  * Delete the 'dist' folder.
  */
 gulp.task('clean-dist', function (done) {
-    del('./dist');
+    del.sync('./dist');
     done();
 });
 
@@ -186,11 +187,12 @@ gulp.task('usemin', ['clean-dist'], function () {
         .pipe(usemin({
             sources: [wrapWithIIFE(), 'concat', ngAnnotate(), uglify({
                 mangle: false
-            })],
+            }), rev()],
             vendor: [uglify({
                 mangle: false
-            }), 'concat'],
-            vendorcss: []
+            }), 'concat', rev()],
+            vendorcss: ['concat', rev()],
+            scenarioocss: [rev()]
         }))
         .pipe(gulp.dest('./dist/'));
 });
@@ -198,10 +200,9 @@ gulp.task('usemin', ['clean-dist'], function () {
 /**
  * Copies all required files from the 'app' folder to the 'dist' folder.
  */
-gulp.task('copy-to-dist', ['environmentConstants', 'clean-dist', 'usemin', 'less'], function () {
+gulp.task('copy-to-dist', ['environmentConstants', 'usemin', 'less'], function () {
     /* copy own images, styles, and templates */
     gulp.src(files.images).pipe(gulp.dest('./dist/images'));
-    gulp.src(files.css).pipe(gulp.dest('./dist/styles'));
     gulp.src(files.templates).pipe(gulp.dest('./dist/'));
     gulp.src('./app/favicon.ico').pipe(gulp.dest('./dist/'));
 
@@ -213,7 +214,7 @@ gulp.task('copy-to-dist', ['environmentConstants', 'clean-dist', 'usemin', 'less
 /**
  * Build the client.
  */
-gulp.task('build', ['lint', 'test', 'clean-dist', 'copy-to-dist']);
+gulp.task('build', ['lint', 'test', 'copy-to-dist']);
 
 /**
  * If you call gulp without a target, we assume you want to build the client.
