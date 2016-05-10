@@ -23,7 +23,7 @@ var files = {
     templates: ['./app/**/*.html', '!./app/components/**/*.html', '!./app/index.html'],
     images: ['./app/images/**/*'],
     css: ['./app/styles/**/*.css'],
-    sources: ['./app/**/*.js', '!./app/components/**/*.js'],
+    sources: ['./app/**/*.js', '!./app/components/**/*.js', '!./app/templates.js'],
     tests: ['./test/**/*.js'],
     less: ['./app/styles/*.less']
 };
@@ -105,7 +105,7 @@ gulp.task('inline-templates', function () {
         .pipe(uglify({
             mangle: false
         }))
-        .pipe(gulp.dest('./dist/'));
+        .pipe(gulp.dest('./app/'));
 });
 
 /**
@@ -199,7 +199,7 @@ function wrapWithIIFE() {
 /**
  * Concatenate and uglify sources.
  */
-gulp.task('usemin', ['clean-dist'], function () {
+gulp.task('usemin', ['clean-dist', 'inline-templates'], function () {
     return gulp.src('./app/index.html')
         .pipe(usemin({
             sources: [wrapWithIIFE(), 'concat', ngAnnotate(), uglify({
@@ -209,8 +209,8 @@ gulp.task('usemin', ['clean-dist'], function () {
                 mangle: false
             }), 'concat', rev()],
             vendorcss: [rev()],
-			scenarioocss: [rev()]
-			templates: [rev()]
+			scenarioocss: [rev()],
+            templates: [rev()]
         }))
         .pipe(gulp.dest('./dist/'));
 });
@@ -231,7 +231,7 @@ gulp.task('copy-to-dist', ['environmentConstants', 'usemin', 'less'], function (
 /**
  * Build the client.
  */
-gulp.task('build', ['lint', 'test', 'inline-templates', 'copy-to-dist']);
+gulp.task('build', ['lint', 'test', 'copy-to-dist']);
 
 /**
  * If you call gulp without a target, we assume you want to build the client.
