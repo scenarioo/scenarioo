@@ -17,7 +17,7 @@
 
 'use strict';
 
-describe('Service :: Config', function () {
+describe('ConfigService', function () {
 
     var HostnameAndPort;
 
@@ -43,25 +43,25 @@ describe('Service :: Config', function () {
         HostnameAndPort = _HostnameAndPort_;
     }));
 
-    it('should inject Config', inject(function (Config) {
-        expect(Config).not.toBeUndefined();
+    it('should inject ConfigService', inject(function (ConfigService) {
+        expect(ConfigService).not.toBeUndefined();
     }));
 
-    it('should be able to load config from server', inject(function (Config, $rootScope, $httpBackend) {
+    it('should be able to load config from server', inject(function (ConfigService, $rootScope, $httpBackend) {
         spyOn($rootScope, '$broadcast').and.callThrough();
 
-        loadConfigFromService(Config, $httpBackend);
+        loadConfigFromService(ConfigService, $httpBackend);
 
-        expect($rootScope.$broadcast).toHaveBeenCalledWith(Config.CONFIG_LOADED_EVENT);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith(ConfigService.CONFIG_LOADED_EVENT);
 
-        expect(Config.scenarioPropertiesInOverview()).toBeDefined();
-        expect(Config.applicationInformation()).toBe(DUMMY_CONFIG_RESPONSE.applicationInformation);
+        expect(ConfigService.scenarioPropertiesInOverview()).toBeDefined();
+        expect(ConfigService.applicationInformation()).toBe(DUMMY_CONFIG_RESPONSE.applicationInformation);
     }));
 
-    it('contains build state to css class mapping as a map', inject(function (Config, $httpBackend) {
-        loadConfigFromService(Config, $httpBackend);
+    it('contains build state to css class mapping as a map', inject(function (ConfigService, $httpBackend) {
+        loadConfigFromService(ConfigService, $httpBackend);
 
-        var buildStateToClassMapping = Config.buildStateToClassMapping();
+        var buildStateToClassMapping = ConfigService.buildStateToClassMapping();
 
         expect(buildStateToClassMapping).toBeDefined();
         expect(getSize(buildStateToClassMapping)).toBe(3);
@@ -70,10 +70,10 @@ describe('Service :: Config', function () {
         expect(buildStateToClassMapping[BUILD_STATE_SUCCESS]).toBe(DUMMY_CONFIG_RESPONSE.buildstates[BUILD_STATE_SUCCESS]);
     }));
 
-    it('contains additional columns for scenario overview', inject(function (Config, $httpBackend) {
-        loadConfigFromService(Config, $httpBackend);
+    it('contains additional columns for scenario overview', inject(function (ConfigService, $httpBackend) {
+        loadConfigFromService(ConfigService, $httpBackend);
 
-        var columns = Config.scenarioPropertiesInOverview();
+        var columns = ConfigService.scenarioPropertiesInOverview();
 
         expect(columns).toBeDefined();
         expect(getSize(columns)).toBe(2);
@@ -81,9 +81,9 @@ describe('Service :: Config', function () {
         expect(columns[1]).toBe('configuration');
     }));
 
-    function loadConfigFromService(Config, $httpBackend) {
+    function loadConfigFromService(ConfigService, $httpBackend) {
         $httpBackend.when('GET', HostnameAndPort.forTest() + 'rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
-        Config.load();
+        ConfigService.load();
         $httpBackend.flush();
     }
 

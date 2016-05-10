@@ -17,17 +17,17 @@
 
 'use strict';
 
-describe('Controller :: ConfigEditorCtrl', function () {
+describe('GeneralSettingsController', function () {
 
-    var $rootScope, $controller, BranchesResource, Config, $httpBackend, $scope, ConfigCtrl, HostnameAndPort, TestData;
+    var $rootScope, $controller, BranchesResource, ConfigService, $httpBackend, $scope, ConfigCtrl, HostnameAndPort, TestData;
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$controller_, _BranchesResource_, _Config_, _$httpBackend_, _HostnameAndPort_, _TestData_) {
+    beforeEach(inject(function (_$rootScope_, _$controller_, _BranchesResource_, _ConfigService_, _$httpBackend_, _HostnameAndPort_, _TestData_) {
         $rootScope = _$rootScope_;
         $controller = _$controller_;
         BranchesResource = _BranchesResource_;
-        Config = _Config_;
+        ConfigService = _ConfigService_;
         $httpBackend = _$httpBackend_;
         HostnameAndPort = _HostnameAndPort_;
         TestData = _TestData_;
@@ -36,7 +36,7 @@ describe('Controller :: ConfigEditorCtrl', function () {
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
 
         $scope = $rootScope.$new();
-        ConfigCtrl = $controller('ConfigEditorCtrl', {$scope: $scope, BranchesResource: BranchesResource, Config: Config});
+        ConfigCtrl = $controller('GeneralSettingsController', {$scope: $scope, BranchesResource: BranchesResource, ConfigService: ConfigService});
     }));
 
     describe('when page is loaded', function () {
@@ -74,7 +74,7 @@ describe('Controller :: ConfigEditorCtrl', function () {
 
     describe('when the save button is clicked', function () {
         it('saves the edited config', function () {
-            spyOn(Config, 'updateConfiguration');
+            spyOn(ConfigService, 'updateConfiguration');
 
             $httpBackend.flush();
 
@@ -82,7 +82,7 @@ describe('Controller :: ConfigEditorCtrl', function () {
 
             $scope.updateConfiguration();
 
-            expect(Config.updateConfiguration).toHaveBeenCalled();
+            expect(ConfigService.updateConfiguration).toHaveBeenCalled();
         });
     });
 

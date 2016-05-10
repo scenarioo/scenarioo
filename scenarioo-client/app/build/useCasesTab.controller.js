@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', function ($scope, $location, $filter, GlobalHotkeysService, BranchesAndBuilds, SelectedBranchAndBuild, UseCasesResource, LabelConfigurationsResource) {
+angular.module('scenarioo.controllers').controller('UseCasesTabController', function ($scope, $location, $filter, GlobalHotkeysService, BranchesAndBuilds, SelectedBranchAndBuild, UseCasesResource, LabelConfigurationsResource) {
 
   var transformMetadataToTree = $filter('scMetadataTreeCreator');
   var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');

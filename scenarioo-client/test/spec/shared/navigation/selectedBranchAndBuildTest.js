@@ -19,7 +19,7 @@
 
 describe('Service :: SelectedBranchAndBuild', function () {
 
-    var SelectedBranchAndBuild, Config, scLocalStorage, $location, $rootScope, $httpBackend, HostnameAndPort;
+    var SelectedBranchAndBuild, ConfigService, scLocalStorage, $location, $rootScope, $httpBackend, HostnameAndPort;
     var BRANCH_COOKIE = 'branch_cookie';
     var BUILD_COOKIE = 'build_cookie';
     var BRANCH_URL = 'branch_url';
@@ -42,9 +42,9 @@ describe('Service :: SelectedBranchAndBuild', function () {
 
     beforeEach(angular.mock.module('scenarioo.services'));
 
-    beforeEach(inject(function (_SelectedBranchAndBuild_, _Config_, _scLocalStorage_, _$location_, _$rootScope_, _$httpBackend_, _HostnameAndPort_) {
+    beforeEach(inject(function (_SelectedBranchAndBuild_, _ConfigService_, _scLocalStorage_, _$location_, _$rootScope_, _$httpBackend_, _HostnameAndPort_) {
         SelectedBranchAndBuild = _SelectedBranchAndBuild_;
-        Config = _Config_;
+        ConfigService = _ConfigService_;
         scLocalStorage = _scLocalStorage_;
 
         $location = _$location_;
@@ -201,7 +201,7 @@ describe('Service :: SelectedBranchAndBuild', function () {
 
     function loadConfigFromService() {
         $httpBackend.when('GET', HostnameAndPort.forTest() + 'rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
-        Config.load();
+        ConfigService.load();
         $httpBackend.flush();
     }
 
