@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('MainSketchesTabCtrl', function ($scope, $location, SelectedBranchAndBuild, IssuesResource, SketchIdsResource) {
+angular.module('scenarioo.controllers').controller('SketchesTabController', function ($scope, $location, SelectedBranchAndBuild, IssuesResource, SketchIdsResource) {
 
     var vm = this;
 
