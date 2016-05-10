@@ -15,43 +15,57 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('GeneralSettingsController', function ($scope, BranchesResource, ConfigService) {
+angular.module('scenarioo.controllers').controller('GeneralSettingsController', GeneralSettingsController);
 
-    BranchesResource.query({}, function (branches) {
-        $scope.branches = branches;
-        calculateConfiguredBranch();
-    });
+GeneralSettingsController.$inject = ['$scope', 'BranchesResource', 'ConfigService'];
+function GeneralSettingsController($scope, BranchesResource, ConfigService) {
+    var vm = this;
+    vm.branches = [];
+    vm.configuration = {};
+    vm.configuredBranch = {};
+    vm.successfullyUpdatedConfiguration = false;
+    vm.resetConfiguration = resetConfiguration;
+    vm.updateConfiguration = updateConfiguration;
+
+    activate();
+
+    function activate() {
+        BranchesResource.query({}, function (branches) {
+            vm.branches = branches;
+            calculateConfiguredBranch();
+        });
+
+        ConfigService.load();
+    }
 
     $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
-        $scope.configuration = ConfigService.getRawConfigDataCopy();
+        vm.configuration = ConfigService.getRawConfigDataCopy();
         calculateConfiguredBranch();
     });
 
-    ConfigService.load();
-
     function calculateConfiguredBranch() {
-        if (angular.isUndefined($scope.branches) || angular.isUndefined($scope.configuration)) {
+        if (angular.isUndefined(vm.branches) || angular.isUndefined(vm.configuration)) {
             return;
         }
 
-        for (var index = 0; index < $scope.branches.length; index++) {
-            if ($scope.branches[index].branch.name === $scope.configuration.defaultBranchName) {
-                $scope.configuredBranch = $scope.branches[index];
+        for (var index = 0; index < vm.branches.length; index++) {
+            if (vm.branches[index].branch.name === vm.configuration.defaultBranchName) {
+                vm.configuredBranch = vm.branches[index];
             }
         }
     }
 
-    $scope.resetConfiguration = function () {
-        $scope.configuration = ConfigService.getRawConfigDataCopy();
+    function resetConfiguration() {
+        vm.configuration = ConfigService.getRawConfigDataCopy();
         calculateConfiguredBranch();
-    };
+    }
 
-    $scope.updateConfiguration = function () {
-        $scope.successfullyUpdatedConfiguration = false;
+    function updateConfiguration() {
+        vm.successfullyUpdatedConfiguration = false;
 
-        ConfigService.updateConfiguration($scope.configuration, function () {
-            $scope.successfullyUpdatedConfiguration = true;
+        ConfigService.updateConfiguration(vm.configuration, function () {
+            vm.successfullyUpdatedConfiguration = true;
         });
-    };
+    }
 
-});
+}
