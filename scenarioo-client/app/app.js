@@ -30,14 +30,14 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
          */
         $routeProvider
             .when('/', {
-                templateUrl: 'build/main.html',
-                controller: 'MainCtrl',
+                templateUrl: 'build/build.html',
+                controller: 'BuildController',
                 controllerAs: 'main',
                 breadcrumbId: 'main'
             })
             .when('/manage', {
                 templateUrl: 'manage/manage.html',
-                controller: 'ManageCtrl',
+                controller: 'ManageController',
                 breadcrumbId: 'manage'
             })
             .when('/usecase/:useCaseName', {
@@ -91,7 +91,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 redirectTo: '/'
             });
 
-    }).run(function ($rootScope, Config, GlobalHotkeysService, $location, $uibModalStack) {
+    }).run(function ($rootScope, ConfigService, GlobalHotkeysService, $location, $uibModalStack) {
 
 
         // Initialze modals to close when the location changes
@@ -111,7 +111,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
         });
 
         // Load config
-        Config.load();
+        ConfigService.load();
     });
 
 

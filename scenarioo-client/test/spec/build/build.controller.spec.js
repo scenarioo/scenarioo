@@ -17,9 +17,9 @@
 
 'use strict';
 
-describe('Controller MainCtrl', function () {
+describe('BuildController', function () {
 
-    var $location, $httpBackend, HostnameAndPort, TestData, $scope, MainCtrl;
+    var $location, $httpBackend, HostnameAndPort, TestData, $scope, BuildController;
 
     beforeEach(module('scenarioo.controllers'));
 
@@ -35,7 +35,7 @@ describe('Controller MainCtrl', function () {
             $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
 
             $scope = $rootScope.$new();
-            MainCtrl = $controller('MainCtrl', {$scope: $scope});
+            BuildController = $controller('BuildController', {$scope: $scope});
         }
     ));
 
@@ -46,21 +46,21 @@ describe('Controller MainCtrl', function () {
     it('has a first static tab that is initialized with main use cases content', function () {
         $scope.$apply();
         $httpBackend.flush();
-        expect(MainCtrl.getLazyTabContentViewUrl(MainCtrl.tabs[0].index)).toEqual('build/mainUseCasesTab.html');
+        expect(BuildController.getLazyTabContentViewUrl(BuildController.tabs[0].index)).toEqual('build/useCasesTab.html');
     });
 
     it('has additional dynamic custom tabs as configured in configuration, that are lazy loaded', function () {
         $scope.$apply();
         $httpBackend.flush();
-        expect(MainCtrl.tabs[1].tabId).toEqual('calls');
-        expect(MainCtrl.getLazyTabContentViewUrl(MainCtrl.tabs[1])).toEqual(null);
+        expect(BuildController.tabs[1].tabId).toEqual('calls');
+        expect(BuildController.getLazyTabContentViewUrl(BuildController.tabs[1])).toEqual(null);
     });
 
     it('loads custom tab when url parameter for tab points to a custom tab', function () {
         $location.url('/?tab=calls');
         $scope.$apply();
         $httpBackend.flush();
-        expect(MainCtrl.tabs[1].tabId).toEqual('calls');
-        expect(MainCtrl.getLazyTabContentViewUrl(MainCtrl.tabs[1].index)).toEqual('build/mainCustomTab.html');
+        expect(BuildController.tabs[1].tabId).toEqual('calls');
+        expect(BuildController.getLazyTabContentViewUrl(BuildController.tabs[1].index)).toEqual('build/customTab.html');
     });
 });

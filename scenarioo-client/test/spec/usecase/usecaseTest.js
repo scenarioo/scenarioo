@@ -44,7 +44,7 @@ describe('Controller :: useCase', function () {
             controller = $controller('UseCaseCtrl', {
                 $scope: $scope,
                 $routeParams: routeParams,
-                Config: ConfigMock,
+                ConfigService: ConfigMock,
                 ScenarioResource: ScenarioResource,
                 RelatedIssueResource: RelatedIssueResource,
                 SelectedBranchAndBuild: SelectedBranchAndBuild

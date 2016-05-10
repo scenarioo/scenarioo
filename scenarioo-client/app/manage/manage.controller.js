@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scope, $location) {
+angular.module('scenarioo.controllers').controller('ManageController', function ($scope, $location) {
 
     $scope.tabs = [
         {
@@ -28,7 +28,7 @@ angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scop
             index: 1,
             tabId: 'configuration',
             title: 'General Settings',
-            contentViewUrl: 'manage/generalSettings/config.html'
+            contentViewUrl: 'manage/generalSettings/generalSettings.html'
         },
         {
             index: 2,
@@ -40,7 +40,7 @@ angular.module('scenarioo.controllers').controller('ManageCtrl', function ($scop
             index: 3,
             tabId: 'labelConfigurations',
             title: 'Label Colors',
-            contentViewUrl: 'manage/labelColors/labelConfigurations.html'
+            contentViewUrl: 'manage/labelColors/labelColors.html'
         }
     ];
     $scope.activeIndex = 0;

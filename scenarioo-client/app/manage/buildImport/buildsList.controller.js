@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('BuildsListCtrl', function ($scope, $location, $route, $uibModal, BuildImportStatesResource, BuildImportService, BuildReimportResource, BuildImportLogResource) {
+angular.module('scenarioo.controllers').controller('BuildsListController', function ($scope, $location, $route, $uibModal, BuildImportStatesResource, BuildImportService, BuildReimportResource, BuildImportLogResource) {
 
     BuildImportStatesResource.query({}, function(buildImportStates) {
         $scope.buildImportStates = buildImportStates;
@@ -31,7 +31,7 @@ angular.module('scenarioo.controllers').controller('BuildsListCtrl', function ($
         BuildImportLogResource.get(build.identifier.branchName, build.identifier.buildName, function onSuccess(log) {
             $uibModal.open({
                 templateUrl: 'manage/buildImport/buildImportDetails.html',
-                controller: 'BuildImportDetailsCtrl',
+                controller: 'BuildImportDetailsController',
                 windowClass: 'modal-wide',
                 resolve: {
                     build: function () { return build; },

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('BranchesAndBuilds', function ($rootScope, Config, BranchesResource, $q, SelectedBranchAndBuild) {
+angular.module('scenarioo.services').factory('BranchesAndBuilds', function ($rootScope, ConfigService, BranchesResource, $q, SelectedBranchAndBuild) {
 
     var branchesAndBuildsData = function () {
         var deferred = $q.defer();
