@@ -15,19 +15,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('BuildsListController', function ($scope, $location, $route, $uibModal, BuildImportStatesResource, BuildImportService, BuildReimportResource, BuildImportLogResource) {
+angular.module('scenarioo.controllers').controller('BuildsListController', BuildsListController);
+
+
+function BuildsListController($route, $uibModal, BuildImportStatesResource, BuildImportService, BuildReimportResource, BuildImportLogResource) {
+    var vm = this;
+
+    vm.buildImportStates = [];
+    vm.table = {search: {searchTerm: ''}, sort: {column: 'buildDescription.date', reverse: true}, filtering: false};
+    vm.updatingBuildsInProgress = false;
+    var styleClassesForBuildImportStatus = {
+        'SUCCESS': 'label-success',
+        'FAILED': 'label-danger',
+        'UNPROCESSED': 'label-default',
+        'QUEUED_FOR_PROCESSING': 'label-info',
+        'PROCESSING': 'label-primary',
+        'OUTDATED': 'label-warning'
+    };
+    vm.resetSearchField = resetSearchField;
+    vm.goToBuild = goToBuild;
+    vm.reimportBuild = reimportBuild;
+    vm.getStyleClassForBuildImportStatus = getStyleClassForBuildImportStatus;
+    vm.importAndUpdateBuilds = importAndUpdateBuilds;
 
     BuildImportStatesResource.query({}, function(buildImportStates) {
-        $scope.buildImportStates = buildImportStates;
+        vm.buildImportStates = buildImportStates;
     });
 
-    $scope.table = {search: {searchTerm: ''}, sort: {column: 'buildDescription.date', reverse: true}, filtering: false};
+    function resetSearchField() {
+        vm.table.search = {searchTerm: ''};
+    }
 
-    $scope.resetSearchField = function () {
-        $scope.table.search = {searchTerm: ''};
-    };
-
-    $scope.goToBuild = function (build) {
+    function goToBuild(build) {
         BuildImportLogResource.get(build.identifier.branchName, build.identifier.buildName, function onSuccess(log) {
             $uibModal.open({
                 templateUrl: 'manage/buildImport/buildImportDetails.html',
@@ -37,66 +56,49 @@ angular.module('scenarioo.controllers').controller('BuildsListController', funct
                 resolve: {
                     build: function () { return build; },
                     log: function() { return log; },
-                    getStyleClassForBuildImportStatus: function() { return $scope.getStyleClassForBuildImportStatus; }
+                    getStyleClassForBuildImportStatus: function() { return vm.getStyleClassForBuildImportStatus; }
                 }
             });
         }, function(error) {
             throw error;
         });
-    };
+    }
 
-    $scope.reimportBuild = function (build) {
-        $scope.updatingBuildsInProgress = true;
+    function reimportBuild(build) {
+        vm.updatingBuildsInProgress = true;
         BuildReimportResource.get({branchName: build.identifier.branchName, buildName: build.identifier.buildName },
-                function onSuccess() {
-                    $scope.updatingBuildsInProgress = false;
-                    $route.reload();
-                },
-                function onError() {
-                    $scope.updatingBuildsInProgress = false;
-                    $route.reload();
-                }
-            );
-    };
+            function onSuccess() {
+                vm.updatingBuildsInProgress = false;
+                $route.reload();
+            },
+            function onError() {
+                vm.updatingBuildsInProgress = false;
+                $route.reload();
+            }
+        );
+    }
 
-    $scope.getStyleClassForBuildImportStatus = function(status) {
-        var styleClassFromMapping = $scope.styleClassesForBuildImportStatus[status];
+    function getStyleClassForBuildImportStatus(status) {
+        var styleClassFromMapping = styleClassesForBuildImportStatus[status];
         if (angular.isUndefined(styleClassFromMapping)) {
             return 'label-warning';
-        }
-        else {
+        } else {
             return styleClassFromMapping;
         }
-    };
+    }
 
-    $scope.styleClassesForBuildImportStatus = {
-        'SUCCESS': 'label-success',
-        'FAILED': 'label-danger',
-        'UNPROCESSED': 'label-default',
-        'QUEUED_FOR_PROCESSING': 'label-info',
-        'PROCESSING': 'label-primary',
-        'OUTDATED': 'label-warning'
-    };
-
-    /**
-     * Is set to true while call to server for updating available documentation builds is in progress
-     */
-    $scope.updatingBuildsInProgress = false;
-
-    $scope.importAndUpdateBuilds = function () {
-        $scope.updatingBuildsInProgress = true;
+    function importAndUpdateBuilds() {
+        vm.updatingBuildsInProgress = true;
 
         var result = BuildImportService.updateData({});
         result.then(function onSuccess() {
-            $scope.updatingBuildsInProgress = false;
+            vm.updatingBuildsInProgress = false;
             $route.reload();
         }, function onError() {
-            $scope.updatingBuildsInProgress = false;
+            vm.updatingBuildsInProgress = false;
             $route.reload();
         });
-    };
-
-
-});
+    }
+}
 
 
