@@ -15,7 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('BranchAliasesController', function ($scope, $rootScope, BranchAliasesResource, BranchesResource) {
+angular.module('scenarioo.controllers').controller('BranchAliasesController', BranchAlisesController);
+
+BranchAlisesController.$inject = ['$rootScope', 'BranchAliasesResource', 'BranchesResource'];
+function BranchAlisesController($rootScope, BranchAliasesResource, BranchesResource) {
 
     var vm = this;
     vm.branches = [];
@@ -126,6 +129,4 @@ angular.module('scenarioo.controllers').controller('BranchAliasesController', fu
             description: ''
         };
     }
-});
-
-
+}
