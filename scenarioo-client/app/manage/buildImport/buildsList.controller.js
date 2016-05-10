@@ -38,9 +38,13 @@ function BuildsListController($route, $uibModal, BuildImportStatesResource, Buil
     vm.getStyleClassForBuildImportStatus = getStyleClassForBuildImportStatus;
     vm.importAndUpdateBuilds = importAndUpdateBuilds;
 
-    BuildImportStatesResource.query({}, function(buildImportStates) {
-        vm.buildImportStates = buildImportStates;
-    });
+    activate();
+
+    function activate() {
+        BuildImportStatesResource.query({}, function(buildImportStates) {
+            vm.buildImportStates = buildImportStates;
+        });
+    }
 
     function resetSearchField() {
         vm.table.search = {searchTerm: ''};
@@ -67,15 +71,7 @@ function BuildsListController($route, $uibModal, BuildImportStatesResource, Buil
     function reimportBuild(build) {
         vm.updatingBuildsInProgress = true;
         BuildReimportResource.get({branchName: build.identifier.branchName, buildName: build.identifier.buildName },
-            function onSuccess() {
-                vm.updatingBuildsInProgress = false;
-                $route.reload();
-            },
-            function onError() {
-                vm.updatingBuildsInProgress = false;
-                $route.reload();
-            }
-        );
+            buildImportFinished, buildImportFinished);
     }
 
     function getStyleClassForBuildImportStatus(status) {
@@ -89,15 +85,12 @@ function BuildsListController($route, $uibModal, BuildImportStatesResource, Buil
 
     function importAndUpdateBuilds() {
         vm.updatingBuildsInProgress = true;
+        BuildImportService.updateData({}).then(buildImportFinished, buildImportFinished);
+    }
 
-        var result = BuildImportService.updateData({});
-        result.then(function onSuccess() {
-            vm.updatingBuildsInProgress = false;
-            $route.reload();
-        }, function onError() {
-            vm.updatingBuildsInProgress = false;
-            $route.reload();
-        });
+    function buildImportFinished() {
+        vm.updatingBuildsInProgress = false;
+        $route.reload();
     }
 }
 
