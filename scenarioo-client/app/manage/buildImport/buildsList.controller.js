@@ -39,6 +39,8 @@ angular.module('scenarioo.controllers').controller('BuildsListController', funct
                     getStyleClassForBuildImportStatus: function() { return $scope.getStyleClassForBuildImportStatus; }
                 }
             });
+        }, function(error) {
+            throw error;
         });
     };
 
