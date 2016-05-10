@@ -47,7 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <h2>
                         <span class="sc-truncate" ng-if="$index == 0" ng-init="pageIndex = $parent.$parent.$index">
                             <span class="sc-no-truncate">
-                                <span ng-click="toggleShowAllStepsForPage(pageIndex)" ng-show="page.steps.length > 1" tooltip="show / hide additional steps of this page" tooltip-placement="top" class="toggle-show-all-steps-of-page">
+                                <span ng-click="toggleShowAllStepsForPage(pageIndex)" ng-show="page.steps.length > 1" uib-tooltip="show / hide additional steps of this page" tooltip-placement="top" class="toggle-show-all-steps-of-page">
                                     <span ng-hide="showAllStepsForPage(pageIndex)" class="icon-plus-sign link right"></span>
                                     <span ng-show="showAllStepsForPage(pageIndex)" class="icon-minus-sign link right"></span>
                                 </span>
