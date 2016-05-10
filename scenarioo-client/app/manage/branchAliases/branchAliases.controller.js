@@ -27,20 +27,27 @@ angular.module('scenarioo.controllers').controller('BranchAliasesController', fu
     vm.reset = reset;
     vm.save = save;
 
-    loadBranchAliases();
+    activate();
 
-    BranchesResource.query({}, function (branches) {
-        var branchesWithoutAliases = [];
-        var index;
-        for(index = 0; index < branches.length; index++) {
-            var branch = branches[index];
-            if(!branch.alias) {
-                branchesWithoutAliases.push(branch);
+    function activate() {
+        loadBranchAliases();
+        loadBranchesWithoutAliases();
+    }
+
+    function loadBranchesWithoutAliases() {
+        BranchesResource.query({}, function (branches) {
+            var branchesWithoutAliases = [];
+            var index;
+            for(index = 0; index < branches.length; index++) {
+                var branch = branches[index];
+                if(!branch.alias) {
+                    branchesWithoutAliases.push(branch);
+                }
             }
-        }
 
-        vm.branches = branchesWithoutAliases;
-    });
+            vm.branches = branchesWithoutAliases;
+        });
+    }
 
     function deleteEntry(aliasName) {
         if (aliasName !== '') {
