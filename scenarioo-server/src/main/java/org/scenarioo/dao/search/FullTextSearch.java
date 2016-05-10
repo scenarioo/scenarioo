@@ -20,31 +20,35 @@ package org.scenarioo.dao.search;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.DeserializationConfig.Feature;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectReader;
 import org.codehaus.jackson.map.ObjectWriter;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.NoNodeAvailableException;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.cluster.metadata.IndexMetaData;
+import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.base.BuildIdentifier;
+
+import com.carrotsearch.hppc.cursors.ObjectCursor;
 
 // TODO Indexing and searching should not really be in the same class.
 public class FullTextSearch {
@@ -88,10 +92,9 @@ public class FullTextSearch {
 
 		String indexName = getIndexName(buildIdentifier);
 
-		// TODO refactor this out into the index setup code once it exists.
-		addMetaDataMappingForType(indexName, "scenario");
-
 		try {
+			setupIndex(indexName);
+
 			for (UseCaseScenarios useCaseScenarios : useCaseScenariosList.getUseCaseScenarios()) {
 				indexUsecase(client, indexName, useCaseScenarios.getUseCase());
 
@@ -110,29 +113,61 @@ public class FullTextSearch {
 		}
 	}
 
+	public void updateAvailableBuildsInIndex(List<BuildImportSummary> availableBuilds) {
+		try {
+			List<String> existingBuilds = getAvailableBuildNames(availableBuilds);
+			List<String> existingIndices = getAvailableIndices();
+
+			List<String> indicesToRemove = new ArrayList<String>();
+			for(String index : existingIndices) {
+				if (!existingBuilds.contains(index)) {
+					deleteIndex(index);
+				}
+			}
+
+			LOGGER.info("Indices without a corresponding build that are removed: " + indicesToRemove);
+		} catch (NoNodeAvailableException e){
+			LOGGER.info("Elasticsearch cluster not running, indexes won't be updated.");
+		}
+	}
+
 	private String getIndexName(final BuildIdentifier buildIdentifier) {
 		return buildIdentifier.getBranchName() + "-" + buildIdentifier.getBuildName();
 	}
 
-	private void addMetaDataMappingForType(final String indexName, final String type) {
-			String mapping =
-					"{" +
-					"	\"" + type + "\":	{" +
-					"		\"dynamic_templates\": [" +
-					"			{" +
-					"				\"ignore_meta_data\": {" +
-					"					\"path_match\": \"_meta.*\"," +
-					"					\"mapping\": {" +
-					"						\"index\": \"no\"" +
-					"					}" +
-					"				}" +
-					"			}" +
-					"		]" +
-					"	}" +
-					"}";
+	private void setupIndex(final String indexName) {
+		if(indexExists(indexName)) {
+			client.admin().indices().prepareDelete(indexName).get();
+		}
 
 		client.admin().indices().prepareCreate(indexName)
-					.addMapping(type, mapping).get();
+				.addMapping("scenario", createMappingForType("scenario")).get();
+	}
+
+	private boolean indexExists(String indexName) {
+		return client.admin().indices()
+				.prepareExists(indexName)
+				.execute().actionGet().isExists();
+	}
+
+	private String createMappingForType(final String type) {
+		String mapping =
+				"{" +
+						"	\"" + type + "\":	{" +
+						"		\"dynamic_templates\": [" +
+						"			{" +
+						"				\"ignore_meta_data\": {" +
+						"					\"path_match\": \"_meta.*\"," +
+						"					\"mapping\": {" +
+						"						\"index\": \"no\"" +
+						"					}" +
+						"				}" +
+						"			}" +
+						"		]" +
+						"	}" +
+						"}";
+
+		return mapping;
 	}
 
 	private void indexUsecase(final Client client, final String indexName, final UseCase useCase) throws IOException {
@@ -173,14 +208,14 @@ public class FullTextSearch {
 		List<String> useCases = new ArrayList<String>();
 		for (SearchHit searchHit : hits) {
 			try {
-				switch (searchHit.getType()) {
-				case "usecase":
+				String type = searchHit.getType();
+				if (type.equals("usecase")) {
 					useCases.add(parseUseCase(searchHit));
-					break;
-				case "scenario":
+
+				} else if (type.equals("scenario")) {
 					useCases.add(parseScenario(searchHit));
-					break;
-				default:
+
+				} else {
 					throw new IllegalStateException("No type mapping for " + searchHit.getType() + " known.");
 				}
 			} catch (IOException e) {
@@ -204,13 +239,42 @@ public class FullTextSearch {
 		return searchResponse;
 	}
 
-	private String parseUseCase(final SearchHit searchHit) throws JsonProcessingException, IOException {
+	private DeleteIndexResponse deleteIndex(final String indexName) {
+		DeleteIndexResponse response = client.admin().indices().delete(new DeleteIndexRequest(indexName)).actionGet();
+		return response;
+	}
+
+	private List<String> getAvailableBuildNames(List<BuildImportSummary> availableBuilds) {
+		List<String> identifierList = new ArrayList<String>();
+		for(BuildImportSummary buildSummary : availableBuilds) {
+			String identifier = getIndexName(buildSummary.getIdentifier());
+
+			identifierList.add(identifier);
+		}
+
+
+		return identifierList;
+	}
+
+	private List<String> getAvailableIndices() {
+		ImmutableOpenMap<String, IndexMetaData> indices = client.admin().cluster()
+				.prepareState().get().getState()
+				.getMetaData().getIndices();
+
+		List<String> ret = new ArrayList<String>(indices.keys().size());
+		for (ObjectCursor<String> key : indices.keys()) {
+			ret.add(key.value);
+		}
+		return ret;
+	}
+
+	private String parseUseCase(final SearchHit searchHit) throws IOException {
 		UseCaseSearchDao useCaseResult = useCaseReader.readValue(searchHit.getSourceRef().streamInput());
 
 		return useCaseResult.getUseCase().getName();
 	}
 
-	private String parseScenario(final SearchHit searchHit) throws JsonProcessingException, IOException {
+	private String parseScenario(final SearchHit searchHit) throws IOException {
 		ScenarioSearchDao scenarioSearchDao = scenarioReader.readValue(searchHit.getSourceRef()
 				.streamInput());
 
@@ -223,7 +287,7 @@ public class FullTextSearch {
 		objectMapper.getDeserializationConfig().addMixInAnnotations(baseClass,
 				IgnoreUseCaseSetStatusMixIn.class);
 		objectMapper.configure(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-	
+
 		return objectMapper.reader(searchDao);
 	}
 }
