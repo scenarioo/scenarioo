@@ -32,6 +32,7 @@ angular.module('scenarioo.controllers').controller('BuildsListController', funct
             $uibModal.open({
                 templateUrl: 'manage/buildImport/buildImportDetails.html',
                 controller: 'BuildImportDetailsController',
+                controllerAs: 'vm',
                 windowClass: 'modal-wide',
                 resolve: {
                     build: function () { return build; },
