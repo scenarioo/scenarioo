@@ -18,7 +18,7 @@ var gulp = require('gulp'),
     webdriver_update = require('gulp-protractor').webdriver_update; // eslint-disable-line camelcase, no-undef
 
 var files = {
-    templates: ['./app/**/*.html', '!./app/components/**/*.html'],
+    templates: ['./app/**/*.html', '!./app/components/**/*.html', '!./app/index.html'],
     images: ['./app/images/**/*'],
     css: ['./app/styles/**/*.css'],
     sources: ['./app/**/*.js', '!./app/components/**/*.js'],
