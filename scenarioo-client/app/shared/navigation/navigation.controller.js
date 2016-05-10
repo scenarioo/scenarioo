@@ -107,7 +107,5 @@ angular.module('scenarioo.controllers').controller('NavigationController', funct
     $scope.showApplicationInfoPopup = function () {
         ApplicationInfoPopupService.showApplicationInfoPopup();
     };
-
-    ApplicationInfoPopupService.showApplicationInfoPopupIfRequired();
-
+    
 });
