@@ -73,7 +73,9 @@ angular.module('scenarioo.services')
         return {
             get: function (branchName, buildName, onSuccess, onError) {
                 var callURL = HostnameAndPort.forLink() + 'rest/builds/importLogs/' + encodeURIComponent(branchName) + '/' + encodeURIComponent(buildName);
-                $http({method: 'GET', url: callURL}).success(onSuccess).error(onError);
+                $http({method: 'GET', url: callURL, headers: {
+                    'Accept': 'text/plain'
+                }}).success(onSuccess).error(onError);
             }
         };
     })

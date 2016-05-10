@@ -16,7 +16,7 @@
  */
 
 /** Controller for Build-Details showing Import-Status **/
-angular.module('scenarioo.controllers').controller('BuildImportDetailsController', function ($scope, $modalInstance, build, log, getStyleClassForBuildImportStatus) {
+angular.module('scenarioo.controllers').controller('BuildImportDetailsController', function ($scope, $uibModalInstance, build, log, getStyleClassForBuildImportStatus) {
 
     $scope.build = build;
     $scope.log = log;
@@ -32,7 +32,7 @@ angular.module('scenarioo.controllers').controller('BuildImportDetailsController
     };
 
     $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 
 });
