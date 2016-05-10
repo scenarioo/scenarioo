@@ -1,16 +1,16 @@
 /* scenarioo-validator
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,9 +20,8 @@
 // will produce build/install/scenarioo-validator/
 // see https://docs.gradle.org/current/userguide/application_plugin.html
 apply plugin: 'application'
+apply from: "${rootProject.projectDir}/java.gradle"
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
 
 mainClassName = 'org.scenarioo.validator.ScenariooValidatorRunner'
 
@@ -42,3 +41,5 @@ distZip.doLast {
         rename(originalZipName, 'scenarioo-validator-latest.zip')
     }
 }
+
+
