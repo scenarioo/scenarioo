@@ -207,7 +207,8 @@ gulp.task('usemin', ['clean-dist'], function () {
             vendor: [uglify({
                 mangle: false
             }), 'concat'],
-            vendorcss: []
+            vendorcss: [],
+            templates: []
         }))
         .pipe(gulp.dest('./dist/'));
 });
