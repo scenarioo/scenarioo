@@ -20,8 +20,9 @@ angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute']);
 angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'unsavedChanges']);
 angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
+angular.module('scenarioo.templates', []);
 
-angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations'])
+angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations', 'scenarioo.templates'])
 
     .config(function ($routeProvider) {
 
