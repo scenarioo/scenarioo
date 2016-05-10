@@ -14,6 +14,7 @@ var gulp = require('gulp'),
     path = require('path'),
     ngAnnotate = require('gulp-ng-annotate'),
     uglify = require('gulp-uglify'),
+    templateCache = require('gulp-angular-templatecache'),
     protractor = require('gulp-protractor').protractor;
     webdriver_update = require('gulp-protractor').webdriver_update; // eslint-disable-line camelcase, no-undef
 
@@ -56,7 +57,7 @@ gulp.task('serve-dist', ['build'], function () {
  * Lint our sources with ESLint (http://eslint.org/).
  */
 gulp.task('lint', function () {
-    return gulp.src(_.flatten([files.sources, files.tests, 'gulpfile.js']))
+    return gulp.src(_.flatten([files.sources, files.tests, 'gulpfile.js', '!./app/templates.js']))
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
@@ -88,6 +89,22 @@ gulp.task('less', function () {
             console.info('Error in your less-file', e.fileName, e.lineNumber);
         }))
         .pipe(gulp.dest('./app/styles/'));
+});
+
+/**
+ * Inlines all the templates
+ */
+gulp.task('inline-templates', function () {
+    return gulp.src(files.templates)
+        .pipe(templateCache('templates.js', {
+            standalone: true,
+            module: 'scenarioo.templates'
+        }))
+        .pipe(wrapWithIIFE())
+        .pipe(uglify({
+            mangle: false
+        }))
+        .pipe(gulp.dest('./dist/'));
 });
 
 /**
@@ -202,7 +219,6 @@ gulp.task('copy-to-dist', ['environmentConstants', 'clean-dist', 'usemin', 'less
     /* copy own images, styles, and templates */
     gulp.src(files.images).pipe(gulp.dest('./dist/images'));
     gulp.src(files.css).pipe(gulp.dest('./dist/styles'));
-    gulp.src(files.templates).pipe(gulp.dest('./dist/'));
     gulp.src('./app/favicon.ico').pipe(gulp.dest('./dist/'));
 
     /* copy third party files */
@@ -213,7 +229,7 @@ gulp.task('copy-to-dist', ['environmentConstants', 'clean-dist', 'usemin', 'less
 /**
  * Build the client.
  */
-gulp.task('build', ['lint', 'test', 'clean-dist', 'copy-to-dist']);
+gulp.task('build', ['lint', 'test', 'inline-templates', 'clean-dist', 'copy-to-dist' ]);
 
 /**
  * If you call gulp without a target, we assume you want to build the client.
