@@ -17,7 +17,7 @@
 
 'use strict';
 
-describe('Controller BuildsListCtrl', function () {
+describe('BuildsListController', function () {
 
     var $location, $httpBackend, HostnameAndPort, TestData, $scope;
 
@@ -35,7 +35,7 @@ describe('Controller BuildsListCtrl', function () {
 
             $httpBackend.whenGET(BUILD_IMPORT_STATES_URL).respond(TestData.BUILD_IMPORT_STATES);
 
-            $controller('BuildsListCtrl', {$scope: $scope, $uibModal: null });
+            $controller('BuildsListController', {$scope: $scope, $uibModal: null });
         }
     ));
 

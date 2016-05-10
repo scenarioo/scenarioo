@@ -20,9 +20,9 @@
  *
  * The content of the tab is managed in different views and controller that are lazyly loaded through this controller and view (using include URL resolution lazyly).
  */
-angular.module('scenarioo.controllers').controller('MainCtrl', MainCtrl);
+angular.module('scenarioo.controllers').controller('BuildController', BuildController);
 
-function MainCtrl($scope, $location, Config) {
+function BuildController($scope, $location, ConfigService) {
 
     var vm = this;
     vm.tabs = undefined;
@@ -39,7 +39,7 @@ function MainCtrl($scope, $location, Config) {
                 index: 0,
                 tabId: 'usecases',
                 title: 'Use Cases',
-                contentViewUrl: 'build/mainUseCasesTab.html'
+                contentViewUrl: 'build/useCasesTab.html'
             }
         ];
         vm.tabIndices.usecases = 0;
@@ -48,14 +48,14 @@ function MainCtrl($scope, $location, Config) {
 
     function activate() {
         // Load configuration and trigger definition of tabs from config.
-        $scope.$on(Config.CONFIG_LOADED_EVENT, function () {
-            var config = Config.getRawConfigDataCopy();
+        $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
+            var config = ConfigService.getRawConfigDataCopy();
             defineInitialStaticTabs();
             defineCustomTabsFromConfig(config);
             defineLastStaticTabs();
             selectTabFromUrl();
         });
-        Config.load();
+        ConfigService.load();
 
         selectTabFromUrl();
     }
@@ -67,7 +67,7 @@ function MainCtrl($scope, $location, Config) {
                 tabId: customTab.id,
                 title: customTab.tabTitle,
                 column: customTab.customObjectDetailColumns,
-                contentViewUrl: 'build/mainCustomTab.html'
+                contentViewUrl: 'build/customTab.html'
             });
             vm.tabIndices[customTab.id] = index + 1;
         });
@@ -79,7 +79,7 @@ function MainCtrl($scope, $location, Config) {
             index: i,
             tabId: 'sketches',
             title: 'Sketches',
-            contentViewUrl: 'build/mainSketchesTab.html'
+            contentViewUrl: 'build/sketchesTab.html'
         });
         vm.tabIndices.sketches = i;
     }

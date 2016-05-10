@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').service('Config', function (ConfigResource, $rootScope) {
+angular.module('scenarioo.services').service('ConfigService', function (ConfigResource, $rootScope) {
 
     var CONFIG_LOADED_EVENT = 'configLoaded';
 

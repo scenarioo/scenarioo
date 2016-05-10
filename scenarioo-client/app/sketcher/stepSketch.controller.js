@@ -18,7 +18,7 @@
 angular
     .module('scenarioo.controllers')
     .controller('StepSketchCtrl', function ($http, $scope, $routeParams, $location, $q, $window, scLocalStorage,
-        Config, StepSketchResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup,
+        ConfigService, StepSketchResource, HostnameAndPort, SelectedBranchAndBuild, $filter, ScApplicationInfoPopup,
         GlobalHotkeysService, LabelConfigurationsResource, SharePageService, ContextService, IssueResource) {
 
     var issueId = $routeParams.issueId,

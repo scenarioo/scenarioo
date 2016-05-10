@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('UseCaseCtrl', UseCaseCtrl);
 
-function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource, Config, SelectedBranchAndBuild,
+function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource, ConfigService, SelectedBranchAndBuild,
                      LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource) {
 
     var vm = this;
@@ -107,7 +107,7 @@ function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource,
             buildName: selected.build,
             usecaseName: useCaseName
         }, onUseCaseLoaded);
-        vm.propertiesToShow = Config.scenarioPropertiesInOverview();
+        vm.propertiesToShow = ConfigService.scenarioPropertiesInOverview();
 
     }
 
