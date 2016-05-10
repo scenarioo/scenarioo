@@ -15,6 +15,7 @@ var gulp = require('gulp'),
     path = require('path'),
     ngAnnotate = require('gulp-ng-annotate'),
     uglify = require('gulp-uglify'),
+    templateCache = require('gulp-angular-templatecache'),
     protractor = require('gulp-protractor').protractor;
     webdriver_update = require('gulp-protractor').webdriver_update; // eslint-disable-line camelcase, no-undef
 
@@ -22,7 +23,7 @@ var files = {
     templates: ['./app/**/*.html', '!./app/components/**/*.html', '!./app/index.html'],
     images: ['./app/images/**/*'],
     css: ['./app/styles/**/*.css'],
-    sources: ['./app/**/*.js', '!./app/components/**/*.js'],
+    sources: ['./app/**/*.js', '!./app/components/**/*.js', '!./app/templates.js'],
     tests: ['./test/**/*.js'],
     less: ['./app/styles/*.less']
 };
@@ -89,6 +90,22 @@ gulp.task('less', function () {
             console.info('Error in your less-file', e.fileName, e.lineNumber);
         }))
         .pipe(gulp.dest('./app/styles/'));
+});
+
+/**
+ * Inlines all the templates
+ */
+gulp.task('inline-templates', function () {
+    return gulp.src(files.templates)
+        .pipe(templateCache('templates.js', {
+            standalone: true,
+            module: 'scenarioo.templates'
+        }))
+        .pipe(wrapWithIIFE())
+        .pipe(uglify({
+            mangle: false
+        }))
+        .pipe(gulp.dest('./app/'));
 });
 
 /**
@@ -182,7 +199,7 @@ function wrapWithIIFE() {
 /**
  * Concatenate and uglify sources.
  */
-gulp.task('usemin', ['clean-dist'], function () {
+gulp.task('usemin', ['clean-dist', 'inline-templates'], function () {
     return gulp.src('./app/index.html')
         .pipe(usemin({
             sources: [wrapWithIIFE(), 'concat', ngAnnotate(), uglify({
@@ -191,8 +208,9 @@ gulp.task('usemin', ['clean-dist'], function () {
             vendor: [uglify({
                 mangle: false
             }), 'concat', rev()],
-            vendorcss: ['concat', rev()],
-            scenarioocss: [rev()]
+            vendorcss: [rev()],
+			scenarioocss: [rev()],
+            templates: [rev()]
         }))
         .pipe(gulp.dest('./dist/'));
 });
@@ -203,7 +221,6 @@ gulp.task('usemin', ['clean-dist'], function () {
 gulp.task('copy-to-dist', ['environmentConstants', 'usemin', 'less'], function () {
     /* copy own images, styles, and templates */
     gulp.src(files.images).pipe(gulp.dest('./dist/images'));
-    gulp.src(files.templates).pipe(gulp.dest('./dist/'));
     gulp.src('./app/favicon.ico').pipe(gulp.dest('./dist/'));
 
     /* copy third party files */
