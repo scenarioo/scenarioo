@@ -15,7 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('BranchAliasesController', function ($scope, $rootScope, $location, $route, $uibModal, BranchAliasesResource, ConfigService, BranchesResource) {
+angular.module('scenarioo.controllers').controller('BranchAliasesController', function ($scope, $rootScope, BranchAliasesResource, BranchesResource) {
+
+    var vm = this;
+    vm.branches = [];
+    vm.branchAliases = [];
+    vm.uniqueError = false;
+    vm.successfullyUpdatedBranchAliases = false;
+    vm.deleteEntry = deleteEntry;
+    vm.aliasNameChanged = aliasNameChanged;
+    vm.reset = reset;
+    vm.save = save;
 
     loadBranchAliases();
 
@@ -29,55 +39,55 @@ angular.module('scenarioo.controllers').controller('BranchAliasesController', fu
             }
         }
 
-        $scope.branches = branchesWithoutAliases;
+        vm.branches = branchesWithoutAliases;
     });
 
-    $scope.deleteEntry = function (aliasName) {
+    function deleteEntry(aliasName) {
         if (aliasName !== '') {
             var index;
-            for (index = 0; index < $scope.branchAliases.length; index++) {
-                var branchAlias = $scope.branchAliases[index];
+            for (index = 0; index < vm.branchAliases.length; index++) {
+                var branchAlias = vm.branchAliases[index];
                 if (branchAlias.name === aliasName) {
-                    $scope.branchAliases.splice(index, 1);
+                    vm.branchAliases.splice(index, 1);
                     break;
                 }
             }
         }
-    };
+    }
 
-    $scope.aliasNameChanged = function () {
-        var aliasName = $scope.branchAliases[$scope.branchAliases.length - 1].name;
+    function aliasNameChanged() {
+        var aliasName = vm.branchAliases[vm.branchAliases.length - 1].name;
         if (aliasName !== '') {
-            $scope.branchAliases.push(createEmptyAlias());
+            vm.branchAliases.push(createEmptyAlias());
         }
-    };
+    }
 
     function loadBranchAliases() {
         BranchAliasesResource.query({}, function (branchAliases) {
             branchAliases.push(createEmptyAlias());
-            $scope.branchAliases = branchAliases;
+            vm.branchAliases = branchAliases;
         });
     }
 
-    $scope.reset = function () {
+    function reset() {
         loadBranchAliases();
-    };
+    }
 
-    $scope.save = function () {
-        $scope.uniqueError = false;
-        $scope.successfullyUpdatedBranchAliases = false;
+    function save() {
+        vm.uniqueError = false;
+        vm.successfullyUpdatedBranchAliases = false;
 
         var branchAliasesToSave = [];
         var index;
-        for (index = 0; index < $scope.branchAliases.length; index++) {
-            var branchAlias = $scope.branchAliases[index];
+        for (index = 0; index < vm.branchAliases.length; index++) {
+            var branchAlias = vm.branchAliases[index];
             if (branchAlias.name !== '') {
                 branchAliasesToSave.push(branchAlias);
             }
         }
 
         if (areBuildAliasesUnique(branchAliasesToSave) === false) {
-            $scope.uniqueError = true;
+            vm.uniqueError = true;
             return;
         }
 
@@ -85,10 +95,10 @@ angular.module('scenarioo.controllers').controller('BranchAliasesController', fu
             $rootScope.$broadcast('branchesUpdated');
         });
 
-        $scope.successfullyUpdatedBranchAliases = true;
-    };
+        vm.successfullyUpdatedBranchAliases = true;
+    }
 
-    var areBuildAliasesUnique = function (buildAliases) {
+    function areBuildAliasesUnique(buildAliases) {
         var unique = true;
         var aliasesMap = {};
         angular.forEach(buildAliases, function (buildAlias) {
@@ -100,7 +110,7 @@ angular.module('scenarioo.controllers').controller('BranchAliasesController', fu
         });
 
         return unique;
-    };
+    }
 
     function createEmptyAlias() {
         return {
