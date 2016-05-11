@@ -172,7 +172,7 @@ public class ScenarioDocuBuildsManager {
 			longObjectNamesResolvers.clear();
 			buildImporter.submitUnprocessedBuildsForImport(availableBuilds);
 
-			new FullTextSearch().updateAvailableBuildsInIndex(buildImporter.getBuildImportSummariesAsList());
+			new FullTextSearch().updateAvailableBuilds(buildImporter.getBuildImportSummariesAsList());
 
 		}
 		LOGGER.info("******************** update finished *******************************");
