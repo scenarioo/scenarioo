@@ -7,6 +7,8 @@
   "scripts": {
     "postinstall": "bower install",
     "test": "gulp test",
+    "test-e2e": "gulp test-e2e",
+    "build": "gulp build",
     "start": "gulp serve"
   },
   "dependencies": {},
