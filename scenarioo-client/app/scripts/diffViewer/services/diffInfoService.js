@@ -37,15 +37,22 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
         return elementsWithDiffInfo;
     }
 
-    function enrichStepsWithDiffInfos(pagesAndSteps, removedSteps, diffInfos) {
+    function enrichPagesAndStepsWithDiffInfos(pagesAndSteps, removedSteps, diffInfos) {
         angular.forEach(pagesAndSteps, function(pageAndStep) {
             angular.forEach(pageAndStep.steps, function(step) {
                step.diffInfo = getDiffInfo(diffInfos, step.index);
+                if(step.diffInfo.isAdded && pageAndStep.steps.length === 1) {
+                    pageAndStep.page.isAdded = true;
+                }
             });
         });
 
         angular.forEach(removedSteps, function(removedStep) {
             addRemovedStep(pagesAndSteps, removedStep);
+        });
+
+        angular.forEach(pagesAndSteps, function(pageAndStep) {
+            pageAndStep.page.diffInfo = getPageDiffInfo((pageAndStep));
         });
     }
 
@@ -53,7 +60,7 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
         var targetPageAndStep = null;
         angular.forEach(pagesAndSteps, function(pageAndStep) {
             if(stepInfo.stepLink.pageName === pageAndStep.page.name && stepInfo.stepLink.pageOccurrence === pageAndStep.page.pageOccurrence) {
-                pageAndStep = pageAndStep;
+                targetPageAndStep = pageAndStep;
             }
         });
 
@@ -66,13 +73,25 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
                 page: removedPage,
                 steps: []
             };
-            pagesAndSteps.push(targetPageAndStep);
+            var insertIndex = getInsertPosition(pagesAndSteps, stepInfo.stepDescription.index);
+            pagesAndSteps.splice(insertIndex, 0, targetPageAndStep);
         }
 
         stepInfo.stepDescription.title = stepInfo.stepDescription.title ? stepInfo.stepDescription.title : 'undefined';
         stepInfo.stepDescription.diffInfo = getRemovedDiffInfo();
 
         targetPageAndStep.steps.push(stepInfo.stepDescription);
+    }
+
+    function getInsertPosition(pagesAndSteps, stepIndex) {
+        for(var i = 0; i < pagesAndSteps; i++) {
+            var steps = pagesAndSteps[i].steps;
+            var lastStepInPage = steps[steps.length - 1];
+            if(lastStepInPage >= stepIndex) {
+                return i + 1;
+            }
+        }
+        return pagesAndSteps.length;
     }
 
     function getDiffInfo(diffInfos, key) {
@@ -97,6 +116,36 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
         return diffInfo;
     }
 
+    function getPageDiffInfo(pageAndStep) {
+        var diffInfo = {
+            changeRate: 0,
+            added: 0,
+            changed: 0,
+            removed: 0,
+            isAdded: false,
+            isRemoved: false
+        };
+        var stepChangeRateSum = 0;
+        angular.forEach(pageAndStep.steps, function(step) {
+            stepChangeRateSum += step.diffInfo.changeRate;
+            if(step.diffInfo.isAdded){
+                diffInfo.added++;
+            } else if(step.diffInfo.isRemoved){
+                diffInfo.removed++;
+            } else if(step.diffInfo.changeRate > 0) {
+                diffInfo.changed++;
+            }
+        });
+        if(diffInfo.added === 1 && pageAndStep.steps.length === 1) {
+            diffInfo.isAdded = true;
+        }
+        if(diffInfo.removed === 1 && pageAndStep.steps.length === 1) {
+            diffInfo.isRemoved = true;
+        }
+        diffInfo.changeRate = stepChangeRateSum / pageAndStep.steps.length;
+        return diffInfo;
+    }
+
     function resolvePathValue(obj, path) {
         var current = obj;
         if(path) {
@@ -114,8 +163,6 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
 
     return {
         getElementsWithDiffInfos: getElementsWithDiffInfos,
-        enrichStepsWithDiffInfos: enrichStepsWithDiffInfos
+        enrichPagesAndStepsWithDiffInfos: enrichPagesAndStepsWithDiffInfos
     };
-
-
 });
