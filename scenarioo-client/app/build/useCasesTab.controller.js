@@ -17,17 +17,22 @@
 
 angular.module('scenarioo.controllers').controller('UseCasesTabController', UseCasesTabController);
 
-UseCasesTabController.$inject = ['$location', '$filter', 'BranchesAndBuildsService', 'SelectedBranchAndBuildService', 'UseCasesResource', 'LabelConfigurationsResource'];
-function UseCasesTabController($location, $filter, BranchesAndBuildsService, SelectedBranchAndBuildService, UseCasesResource, LabelConfigurationsResource) {
+UseCasesTabController.$inject = ['$scope', '$location', '$filter', 'BranchesAndBuildsService', 'SelectedBranchAndBuildService', 'UseCasesResource', 'LabelConfigurationsResource'];
+function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsService, SelectedBranchAndBuildService, UseCasesResource, LabelConfigurationsResource) {
     var vm = this;
-    var transformMetadataToTree = $filter('scMetadataTreeCreator');
-    var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
-    var dateTimeFormatter = $filter('scDateTime');
-
     vm.table = {
         search: {searchTerm: ''},
         sort: {column: 'name', reverse: false}
     };
+    $scope.table = vm.table;
+    vm.labelConfigurations = undefined;
+    vm.branchesAndBuilds = [];
+    vm.useCases = [];
+    vm.branchInformationTree = {};
+    vm.buildInformationTree = {};
+    vm.metadataTreeBranches = {};
+    vm.metadataTreeBuilds = {};
+
     vm.goToUseCase = goToUseCase;
     vm.onNavigatorTableHit = onNavigatorTableHit;
     vm.resetSearchField = resetSearchField;
@@ -35,8 +40,21 @@ function UseCasesTabController($location, $filter, BranchesAndBuildsService, Sel
     // FIXME this code is duplicated. How can we extract it into a service?
     vm.getLabelStyle = getLabelStyle;
 
+    var transformMetadataToTree = $filter('scMetadataTreeCreator');
+    var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
+    var dateTimeFormatter = $filter('scDateTime');
+
     activate();
 
+    function activate() {
+        SelectedBranchAndBuildService.callOnSelectionChange(loadUseCases);
+
+        // FIXME this code is duplicated. How can we extract it into a service?
+        LabelConfigurationsResource.query({}, function (labelConfiguratins) {
+            vm.labelConfigurations = labelConfiguratins;
+        });
+    }
+    
     function goToUseCase(useCaseName) {
         $location.path('/usecase/' + useCaseName);
     }
@@ -57,16 +75,7 @@ function UseCasesTabController($location, $filter, BranchesAndBuildsService, Sel
             }
         }
     }
-
-    function activate() {
-        SelectedBranchAndBuildService.callOnSelectionChange(loadUseCases);
-
-        // FIXME this code is duplicated. How can we extract it into a service?
-        LabelConfigurationsResource.query({}, function (labelConfiguratins) {
-            vm.labelConfigurations = labelConfiguratins;
-        });
-    }
-
+    
     function loadUseCases(selected) {
 
         BranchesAndBuildsService.getBranchesAndBuildsService()

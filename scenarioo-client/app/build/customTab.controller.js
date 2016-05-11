@@ -7,7 +7,7 @@
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * but WITHOUT ANY WARRANTY; without even the implied warranty ofre
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
@@ -15,62 +15,76 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('CustomTabController', function ($scope, BranchesAndBuildsService, $location, $filter,
-                                                                                  CustomTabContentResource, SelectedBranchAndBuildService, TreeNodeService) {
+angular.module('scenarioo.controllers').controller('CustomTabController', CustomTabController);
 
-  $scope.searchField = '';
-  $scope.treemodel = [];
+CustomTabController.$inject = ['BranchesAndBuildsService', '$location', 'CustomTabContentResource', 'SelectedBranchAndBuildService', 'TreeNodeService'];
+function CustomTabController(BranchesAndBuildsService, $location, CustomTabContentResource, SelectedBranchAndBuildService, TreeNodeService) {
+    var vm = this;
+    vm.searchField = '';
+    vm.treemodel = [];
 
-  // Determines if the tree has expanded / collapsed rootnodes initially
-  $scope.rootIsCollapsed = true;
-  $scope.toggleLabel = 'expand';
-  $scope.collapsedIconName = 'collapsed.png';
-  $scope.expandedIconName = 'expanded.png';
+    // Determines if the tree has expanded / collapsed rootnodes initially
+    vm.rootIsCollapsed = true;
+    vm.toggleLabel = 'expand';
+    vm.tabContentTree = [];
+    vm.branchesAndBuilds = [];
+    vm.selectedBranchAndBuild = {};
+    vm.selectedTab = undefined;
 
-  function getSelectedTabFromUrl() {
-    var params = $location.search();
-    var selectedTabId = 'undefined';
-    if (params !== null && angular.isDefined(params.tab)) {
-      selectedTabId = params.tab;
+    vm.goToReferenceTree = goToReferenceTree;
+    vm.expandAndCollapseTree = expandAndCollapseTree;
+    vm.resetSearchField = resetSearchField;
+
+    activate();
+
+    function activate() {
+        SelectedBranchAndBuildService.callOnSelectionChange(function (selected) {
+        // Initialization on registration of this listener and on all changes to the build selection:
+            vm.selectedBranchAndBuild = selected;
+            vm.selectedTab = getSelectedTabFromUrl();
+            loadContent();
+        });
+    }
+    
+    function goToReferenceTree(nodeElement) {
+        $location.path('/object/' + nodeElement.type + '/' + nodeElement.name);
     }
 
-    return selectedTabId;
-  }
+    function expandAndCollapseTree(treemodel) {
+        TreeNodeService.expandAndCollapseTree(treemodel, this);
+    }
 
-  SelectedBranchAndBuildService.callOnSelectionChange(function (selected) {
-    // Initialization on registration of this listener and on all changes to the build selection:
-    $scope.selectedBranchAndBuild = selected;
-    $scope.selectedTab = getSelectedTabFromUrl();
-    loadContent();
-  });
+    function resetSearchField() {
+        vm.searchField = '';
+    }
 
-  function loadContent() {
 
-    BranchesAndBuildsService.getBranchesAndBuildsService()
-      .then(function onSuccess(branchesAndBuilds) {
-        $scope.branchesAndBuilds = branchesAndBuilds;
-      })
-      .then(function () {
-        CustomTabContentResource.get({
-          'branchName': $scope.selectedBranchAndBuild.branch,
-          'buildName': $scope.selectedBranchAndBuild.build,
-          'tabId': $scope.selectedTab
-        }, function onSuccess(result) {
-          $scope.tabContentTree = result.tree;
-        });
-      });
+    function getSelectedTabFromUrl() {
+        var params = $location.search();
+        var selectedTabId = 'undefined';
+        if (params !== null && angular.isDefined(params.tab)) {
+            selectedTabId = params.tab;
+        }
 
-  }
+        return selectedTabId;
+    }
 
-  $scope.goToReferenceTree = function (nodeElement) {
-    $location.path('/object/' + nodeElement.type + '/' + nodeElement.name);
-  };
+    function loadContent() {
 
-  $scope.expandAndCollapseTree = function (treemodel) {
-    TreeNodeService.expandAndCollapseTree(treemodel, $scope);
-  };
+        BranchesAndBuildsService.getBranchesAndBuildsService()
+            .then(function onSuccess(branchesAndBuilds) {
+                vm.branchesAndBuilds = branchesAndBuilds;
+            })
+            .then(function () {
+                CustomTabContentResource.get({
+                    'branchName': vm.selectedBranchAndBuild.branch,
+                    'buildName': vm.selectedBranchAndBuild.build,
+                    'tabId': vm.selectedTab
+                }, function onSuccess(result) {
+                    vm.tabContentTree = result.tree;
+                });
+            });
 
-  $scope.resetSearchField = function () {
-    $scope.searchField = '';
-  };
-});
+    }
+
+}
