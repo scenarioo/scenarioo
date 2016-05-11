@@ -21,6 +21,7 @@ var gulp = require('gulp'),
 
 var files = {
     templates: ['./app/**/*.html', '!./app/components/**/*.html', '!./app/index.html'],
+    aggregatedTemplates: ['./app/templates.js'],
     images: ['./app/images/**/*'],
     css: ['./app/styles/**/*.css'],
     sources: ['./app/**/*.js', '!./app/components/**/*.js', '!./app/templates.js'],
@@ -33,7 +34,7 @@ var files = {
  * Serve the 'app' folder as a web application. The page is automatically reloaded whenever a file changes.
  * Use 'gulp serve' to view the app during development.
  */
-gulp.task('serve', ['environmentConstants', 'watch', 'less'], function () {
+gulp.task('serve', ['environmentConstants', 'watch', 'inline-templates', 'less'], function () {
     connect.server({
         root: 'app',
         livereload: true,
@@ -69,8 +70,10 @@ gulp.task('lint', function () {
  * Also compiles the less files to css whenever changes are made.
  */
 gulp.task('watch', function () {
-    gulp.watch(_.flatten([files.css, files.templates, files.sources]), ['reload-files']);
-    gulp.watch(files.less, ['less', 'reload-files']);
+    gulp.watch(_.flatten([files.css, files.sources, files.aggregatedTemplates]), ['reload-files']);
+    gulp.watch(files.less, ['less']);
+    gulp.watch(files.templates, ['inline-templates']);
+
 });
 
 /**
