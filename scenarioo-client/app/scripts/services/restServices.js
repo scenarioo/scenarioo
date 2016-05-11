@@ -127,11 +127,20 @@ angular.module('scenarioo.services')
                 branchName: '@branchName',
                 buildName: '@buildName',
                 q: '@q'
-            }, {});
+            }, {}),
+            statusService = ScenariooResource('/branch/:branchName/build/:buildName/search/searchEngine',
+                {
+                    branchName: '@branchName',
+                    buildName: '@buildName'
+                }, {});
 
         searchService.search = getPromise($q, function (parameters, fnSuccess, fnError) {
             return searchService.query(parameters, fnSuccess, fnError);
         });
+        searchService.checkStatus = getPromise($q, function (parameters, fnSuccess, fnError) {
+            return statusService.query(parameters, fnSuccess, fnError);
+        });
+
         return searchService;
     })
 

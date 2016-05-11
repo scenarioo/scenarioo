@@ -29,11 +29,9 @@ import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.rest.base.BuildIdentifier;
 
-/**
- * 
- */
 @Path("/rest/branch/{branchName}/build/{buildName}/search")
 public class SearchResource {
+
 	@GET
 	@Produces("application/json")
 	@Path("/{q}")
@@ -47,5 +45,14 @@ public class SearchResource {
 		List<String> result = search.search(buildIdentifier, q);
 
 		return Response.ok(result).build();
+	}
+
+	@GET
+	@Path("/searchEngine")
+	public Response isEngineRunning() {
+		if(new FullTextSearch().isEngineRunning()){
+			return Response.ok().build();
+		}
+		return Response.status(Response.Status.NOT_FOUND).build();
 	}
 }

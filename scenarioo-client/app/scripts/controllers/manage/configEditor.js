@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('ConfigEditorCtrl', function ($scope, BranchesResource, Config) {
+angular.module('scenarioo.controllers').controller('ConfigEditorCtrl', function ($scope, BranchesResource, Config, SelectedBranchAndBuild, FullTextSearchService) {
 
     BranchesResource.query({}, function (branches) {
         $scope.branches = branches;
@@ -54,4 +54,19 @@ angular.module('scenarioo.controllers').controller('ConfigEditorCtrl', function 
         });
     };
 
+    function getEngineRunning () {
+        var selected = SelectedBranchAndBuild.selected();
+        FullTextSearchService.checkStatus({
+                buildName: selected.build,
+                branchName: selected.branch
+            }
+        ).then(function onSuccess(result) {
+                $scope.isEngineRunning = true;
+            },
+            function onError(error) {
+                $scope.isEngineRunning = false;
+            });
+    }
+
+    $scope.isEngineRunning = getEngineRunning();
 });
