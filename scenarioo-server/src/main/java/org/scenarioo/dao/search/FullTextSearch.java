@@ -41,6 +41,10 @@ public class FullTextSearch {
 		searchAdapter = search;
 	}
 
+	public boolean isEngineRunning() {
+		return searchAdapter.isEngineRunning();
+	}
+
 	public List<String> search(final BuildIdentifier buildIdentifier, final String q) {
 		if(!searchAdapter.isEngineRunning()) {
 			LOGGER.info("No search engine running.");
@@ -55,6 +59,7 @@ public class FullTextSearch {
 
 		return searchResults;
 	}
+
 
 	public void indexUseCases(final UseCaseScenariosList useCaseScenariosList, final BuildIdentifier buildIdentifier) {
 		if(!searchAdapter.isEngineRunning()) {

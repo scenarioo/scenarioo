@@ -54,6 +54,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
 
+        <div class="row sc-space-bottom">
+            <div class="col-lg-3">Search engine
+                &nbsp;<span class="glyphicon glyphicon-info-sign" tooltip="Application specific full text search engine."></span>
+            </div>
+            <div class="col-lg-9" ng-show="!isEngineRunning" ng-cloak>
+                <div class="alert alert-warning">No search engine running</div>
+            </div>
+            <div class="col-lg-9" ng-show="isEngineRunning" ng-cloak>
+                <span>up and running!</span>
+            </div>
+        </div>
 
         <h2>Branches and builds</h2>
 

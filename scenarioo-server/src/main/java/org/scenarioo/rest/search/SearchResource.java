@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -29,14 +29,12 @@ import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.rest.base.BuildIdentifier;
 
-/**
- * 
- */
-@Path("/rest/branch/{branchName}/build/{buildName}/search")
+@Path("/rest/branch/{branchName}/build/{buildName}/")
 public class SearchResource {
+
 	@GET
 	@Produces("application/json")
-	@Path("/{q}")
+	@Path("/search/{q}")
 	public Response search(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("q") final String q) {
 
@@ -47,5 +45,14 @@ public class SearchResource {
 		List<String> result = search.search(buildIdentifier, q);
 
 		return Response.ok(result).build();
+	}
+
+	@GET
+	@Path("/searchEngine")
+	public Response isEngineRunning() {
+		if(new FullTextSearch().isEngineRunning()){
+			return Response.ok().build();
+		}
+		return Response.status(Response.Status.NOT_FOUND).build();
 	}
 }

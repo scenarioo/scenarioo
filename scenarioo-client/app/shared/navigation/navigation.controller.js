@@ -35,6 +35,22 @@ angular.module('scenarioo.controllers').controller('NavigationController', funct
         $location.path('/search').search('q=' + $scope.globalSearch.queryString);
     };
 
+    function getEngineRunning () {
+        var selected = SelectedBranchAndBuildService.selected();
+        FullTextSearchService.checkStatus({
+                buildName: selected.build,
+                branchName: selected.branch
+            }
+        ).then(function onSuccess() {
+                $scope.isEngineRunning = true;
+            },
+            function onError() {
+                $scope.isEngineRunning = false;
+            });
+    }
+
+    $scope.isEngineRunning = getEngineRunning();
+
     function loadBranchesAndBuildsService() {
         BranchesAndBuildsService.getBranchesAndBuildsService().then(function onSuccess(branchesAndBuilds) {
             $scope.branchesAndBuilds = branchesAndBuilds;
