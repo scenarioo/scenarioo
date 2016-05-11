@@ -25,6 +25,9 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
         loadBranchesAndBuilds();
     });
 
+    $scope.COMPARISON_DISABLED = SelectedComparison.COMPARISON_DISABLED;
+    $scope.comparisonInfo = SelectedComparison.info;
+
     SelectedBranchAndBuild.callOnSelectionChange(loadBranchesAndBuilds);
 
     function loadBranchesAndBuilds() {
@@ -43,14 +46,14 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
                 function onSuccess(buildDiffInfos) {
                     $scope.comparisonBuilds = buildDiffInfos;
                     var preSelectedComparison = SelectedComparison.selected();
-                    var selectedComparison = { name: SelectedComparison.DEFAULT_COMPARISON, changeRate: 0 };
+                    var selectedComparison = { name: SelectedComparison.COMPARISON_DISABLED, changeRate: 0 };
                     angular.forEach($scope.comparisonBuilds, function(comparisonBuild) {
                         if(comparisonBuild.name === preSelectedComparison) {
                             selectedComparison = comparisonBuild;
                         }
                     });
                     SelectedComparison.setSelected(selectedComparison.name);
-                    if(selectedComparison.name === SelectedComparison.DEFAULT_COMPARISON) {
+                    if(selectedComparison.name === SelectedComparison.COMPARISON_DISABLED) {
                         $location.search(SelectedComparison.COMPARISON_KEY, selectedComparison.name);
                     }
                     $scope.selectedComparison = selectedComparison.name;
@@ -78,6 +81,11 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
         $location.search(SelectedComparison.COMPARISON_KEY, comparisonBuild.name);
         $scope.selectedComparison = comparisonBuild.name;
         $scope.selectedChangeRate = comparisonBuild.changeRate;
+    };
+
+    $scope.disableComparison = function() {
+        var disabledComparison = { name: SelectedComparison.COMPARISON_DISABLED, changeRate: 0 };
+        $scope.setComparisonBuild(disabledComparison);
     };
 
     $scope.updating = false;
