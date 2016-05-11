@@ -17,7 +17,7 @@
 
 /* eslint no-console:0 */
 
-angular.module('scenarioo.services').factory('Tool', function (DrawingPadService, $log) {
+angular.module('scenarioo.services').factory('Tool', function (DrawingPadService) {
 
     return function () {
 
@@ -43,8 +43,6 @@ angular.module('scenarioo.services').factory('Tool', function (DrawingPadService
             },
 
             activate: function () {
-                $log.log('Activated tool: ' + this.id);
-
                 this.buttonDisabled = true;
                 var dp = this.getDrawingPad();
                 // Instead of registering the three events, why not just set the tool on the drawing pad?
