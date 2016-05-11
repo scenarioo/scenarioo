@@ -61,7 +61,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
     SelectedBranchAndBuild.callOnSelectionChange(loadStep);
 
-
+    $scope.comparisonInfo = SelectedComparison.info;
 
     function loadStep(selected) {
         selectedBranchAndBuild = selected;
@@ -312,6 +312,11 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         };
     }
 
+    $scope.tabs = [
+        {'title': 'Dynamic 1', 'active': true},
+        {'title': 'Dynamic 2', 'active': false},
+        {'title': 'Dynamic 3', 'active': false}];
+
     // This URL is only used internally, not for sharing
     $scope.getScreenShotUrl = function () {
         if (angular.isUndefined($scope.step)) {
@@ -337,7 +342,6 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
                 $scope.comparisonName = comparisonName;
                 $scope.comparisonBranchName = result.comparisonBranchName;
                 $scope.comparisonBuildName = result.comparisonBuildName;
-                $scope.isComparisonDefined = SelectedComparison.isDefined();
                 getDisplayNameForBuildName();
                 loadChangeRate();
             }, function onFailure() {
@@ -413,10 +417,10 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
 
     // This URL is only used internally, not for sharing
     $scope.getDiffScreenShotUrl = function () {
-        if ($scope.changeRate === 0.0){
+        if ($scope.changeRate === 0.0 || angular.isUndefined($scope.changeRate)){
             return $scope.getComparisonScreenShotUrl();
         }
-        if (angular.isUndefined($scope.stepIdentifier.usecaseName)) {
+        if (angular.isUndefined($scope.stepIdentifier)) {
             return undefined;
         }
 

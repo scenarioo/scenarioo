@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <th sc-sortable-column="name">Name</th>
                         <th>Description</th>
                         <th sc-sortable-column="numberOfScenarios"># Scenarios</th>
-                        <th sc-sortable-column="diffInfo.changeRate">Changes</th>
+                        <th sc-sortable-column="diffInfo.changeRate" ng-if="comparisonInfo.isDefined">Changes</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,7 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </td>
                         <td>{{useCase.description}}</td>
                         <td>{{useCase.numberOfScenarios}}</td>
-                        <td><sc-diff-info-icon diff-info="useCase.diffInfo" element-type="use case" child-element-type="scenario"></sc-diff-info-icon></td>
+                        <td ng-if="comparisonInfo.isDefined"><sc-diff-info-icon diff-info="useCase.diffInfo" element-type="use case" child-element-type="scenario"></sc-diff-info-icon></td>
                     </tr>
                 </tbody>
             </table>

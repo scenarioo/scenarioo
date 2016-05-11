@@ -17,9 +17,10 @@
 
 angular.module('scenarioo.services').factory('SelectedComparison', function ($location, $rootScope, localStorageService) {
     var COMPARISON_KEY = 'comparison';
-    var DEFAULT_COMPARISON = 'none';
+    var COMPARISON_DISABLED = 'none';
     var selectedComparison;
     var initialValuesFromUrlAndCookieLoaded = false;
+    var info = {isDefined: false };
 
     function getSelectedComparison() {
         if (!initialValuesFromUrlAndCookieLoaded) {
@@ -38,6 +39,7 @@ angular.module('scenarioo.services').factory('SelectedComparison', function ($lo
         }else {
             selectedComparison = getFromLocalStorageOrUrl(COMPARISON_KEY);
         }
+        info.isDefined = isComparisonDefined();
     }
 
     function getFromLocalStorageOrUrl(key) {
@@ -58,8 +60,8 @@ angular.module('scenarioo.services').factory('SelectedComparison', function ($lo
             return value;
         }
 
-        // If URL and cookie do not specify a value, we use the default from the config
-        value = DEFAULT_COMPARISON;
+        // If URL and cookie do not specify a value, we use the disabled as default
+        value = COMPARISON_DISABLED;
         localStorageService.set(key, value);
         $location.search(key, value);
 
@@ -77,14 +79,14 @@ angular.module('scenarioo.services').factory('SelectedComparison', function ($lo
      */
     function isComparisonDefined() {
         if (angular.isDefined(selectedComparison)){
-                return selectedComparison !== DEFAULT_COMPARISON;
+                return selectedComparison !== COMPARISON_DISABLED;
         }
         return false;
     }
 
     return {
         COMPARISON_KEY: COMPARISON_KEY,
-        DEFAULT_COMPARISON: DEFAULT_COMPARISON,
+        COMPARISON_DISABLED: COMPARISON_DISABLED,
 
         /**
          * Returns the currently selected comparison.
@@ -96,10 +98,16 @@ angular.module('scenarioo.services').factory('SelectedComparison', function ($lo
          */
         setSelected: setSelectedComparison,
 
+
         /**
          * Returns true only if comparison value is defined.
          */
-        isDefined: isComparisonDefined
+        isDefined: isComparisonDefined,
+
+        /**
+         * Returns object including isDefined information
+         */
+        info: info
     };
 
 });
