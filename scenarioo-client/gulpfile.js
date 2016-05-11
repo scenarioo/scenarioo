@@ -21,6 +21,7 @@ var gulp = require('gulp'),
 
 var files = {
     templates: ['./app/**/*.html', '!./app/components/**/*.html', '!./app/index.html'],
+    indexHtml: ['./app/index.html'],
     aggregatedTemplates: ['./app/templates.js'],
     images: ['./app/images/**/*'],
     css: ['./app/styles/**/*.css'],
@@ -70,7 +71,7 @@ gulp.task('lint', function () {
  * Also compiles the less files to css whenever changes are made.
  */
 gulp.task('watch', function () {
-    gulp.watch(_.flatten([files.css, files.sources, files.aggregatedTemplates]), ['reload-files']);
+    gulp.watch(_.flatten([files.css, files.sources, files.indexHtml, files.aggregatedTemplates]), ['reload-files']);
     gulp.watch(files.less, ['less']);
     gulp.watch(files.templates, ['inline-templates']);
 
@@ -80,7 +81,7 @@ gulp.task('watch', function () {
  * Reloads the page in the 'gulp serve' browser. Called when source files are changed.
  */
 gulp.task('reload-files', function () {
-    gulp.src(_.flatten([files.css, files.templates, files.sources, files.less]))
+    gulp.src(_.flatten([files.css, files.sources, files.indexHtml, files.aggregatedTemplates]))
         .pipe(connect.reload());
 });
 

@@ -77,6 +77,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
             .when('/stepsketch/:issueId/:scenarioSketchId/:stepSketchId', {
                 templateUrl: 'sketcher/stepSketch.html',
                 controller: 'StepSketchController',
+                controllerAs: 'vm',
                 breadcrumbId: 'stepsketch'
             })
             .when('/editor', {
