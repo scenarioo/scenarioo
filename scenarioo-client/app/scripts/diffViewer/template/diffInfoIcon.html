@@ -1,1 +1,11 @@
-<i class="diff-icon {{cssClass}}" uib-tooltip-html="infoText" tooltip-placement="right" tooltip-class="diff-icon-tooltip"></i>
+<i class="diff-icon {{cssClass}}" ></i>
+
+<div class="progress sc-diff-changes" uib-tooltip-html="infoText" tooltip-placement="right" tooltip-class="diff-icon-tooltip">
+    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{changedPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width' : changedPercentage }"></div>
+    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{addedPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width' : addedPercentage }"></div>
+    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{removedPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width' : removedPercentage }"></div>
+    <div class="progress-bar progress-bar-default" role="progressbar" aria-valuenow="{{unchangedPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width' : unchangedPercentage }"></div>
+    <div class="change-rate">
+        <span>{{diffInfo.changeRate | number:0}}%</span>
+    </div>
+</div>

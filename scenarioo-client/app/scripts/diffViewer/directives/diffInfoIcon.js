@@ -19,17 +19,32 @@ angular.module('scenarioo.directives').directive('scDiffInfoIcon', function($sce
 
     function initValues(scope) {
         if(scope.diffInfo) {
+            scope.changedPercentage = 0 + '%';
+            scope.addedPercentage = 0 + '%';
+            scope.removedPercentage = 0 + '%';
+            scope.unchangedPercentage = 0 + '%';
+
             if(scope.diffInfo.isAdded) {
-                scope.cssClass = 'icon-plus';
+                scope.addedPercentage = 100 + '%';
                 scope.infoText = $sce.trustAsHtml('This ' + scope.elementType + ' has been added');
             } else if(scope.diffInfo.isRemoved){
-                scope.cssClass = 'icon-minus';
+                scope.removedPercentage = 100 + '%';
                 scope.infoText = $sce.trustAsHtml('This ' + scope.elementType + ' has been removed');
             } else if(scope.diffInfo.changeRate === 0) {
-                scope.cssClass = 'icon-ok';
+                scope.unchangedPercentage = 100 + '%';
                 scope.infoText = $sce.trustAsHtml('This ' + scope.elementType + ' has no changes');
             } else {
-                scope.cssClass = 'icon-exclamation';
+                if(scope.totalChildElements && scope.totalChildElements > 0) {
+                    var changedPercentage = (100 / scope.totalChildElements) * scope.diffInfo.changed;
+                    var addedPercentage = (100 / scope.totalChildElements) * scope.diffInfo.added;
+                    var removedPercentage = (100 / scope.totalChildElements) * scope.diffInfo.removed;
+
+                    scope.changedPercentage = changedPercentage + '%';
+                    scope.addedPercentage = addedPercentage + '%';
+                    scope.removedPercentage = removedPercentage + '%';
+                    scope.unchangedPercentage = 100 - changedPercentage - addedPercentage - removedPercentage + '%';
+                }
+
                 var changedInfoText = buildChangedInfoText(scope.diffInfo, scope.elementType, scope.childElementType);
                 scope.infoText = $sce.trustAsHtml(changedInfoText);
             }
@@ -57,12 +72,12 @@ angular.module('scenarioo.directives').directive('scDiffInfoIcon', function($sce
         restrict: 'E',
         scope: {
             diffInfo: '=',
+            totalChildElements: '@',
             elementType: '@',
             childElementType: '@'
         },
         templateUrl: 'scripts/diffViewer/template/diffInfoIcon.html',
         controller: function($scope) {
-
             $scope.$watch('diffInfo', function(){
                 initValues($scope);
             });
