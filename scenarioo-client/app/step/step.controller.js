@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('StepController', function ($scope, $routeParams, $location, $q, $window, ConfigService, ScenarioResource, StepResource, HostnameAndPort,
                                                                          SelectedBranchAndBuildService, $filter, ApplicationInfoPopupService, GlobalHotkeysService, LabelConfigurationsResource, SharePageService,
-                                                                         SketcherContextService, RelatedIssueResource, SketchIdsResource) {
+                                                                         SketcherContextService, RelatedIssueResource, SketchIdsResource, SketcherLinkService) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -29,6 +29,19 @@ angular.module('scenarioo.controllers').controller('StepController', function ($
     $scope.pageOccurrence = parseInt($routeParams.pageOccurrence, 10);
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
     var labels = $location.search().labels;
+
+
+    activate();
+
+    function activate() {
+        SketcherLinkService.showCreateOrEditSketchLinkInBreadcrumbs('Create Sketch', createSketch);
+    }
+
+
+    function createSketch() {
+        $location.path('/editor/').search('mode', 'create');
+    };
+
 
     $scope.modalScreenshotOptions = {
         backdropFade: true,
@@ -381,20 +394,8 @@ angular.module('scenarioo.controllers').controller('StepController', function ($
 
     $scope.$on('$destroy', function () {
         SharePageService.invalidateUrls();
+        SketcherLinkService.hideCreateOrEditSketchLinkInBreadcrumbs();
     });
-
-    // Used in breadcrumbs.html
-    $scope.showCreateOrEditSketchLink = true;
-
-    // Called from breadcrumbs.html
-    $scope.getSketchButtonTitle = function () {
-        return 'Create Sketch';
-    };
-
-    // Called from breadcrumbs.html
-    $scope.createOrEditSketch = function () {
-        $location.path('/editor/').search('mode', 'create');
-    };
 
     function loadRelatedIssues() {
         RelatedIssueResource.query({

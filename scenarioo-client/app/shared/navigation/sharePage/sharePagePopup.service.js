@@ -28,7 +28,7 @@ angular.module('scenarioo.services').factory('SharePagePopupService', function (
         modalIsCurrentlyOpen = true;
 
         var modalInstance = $uibModal.open({
-            templateUrl: 'shared/sharePage/sharePagePopup.html',
+            templateUrl: 'shared/navigation/sharePage/sharePagePopup.html',
             controller: 'SharePagePopupController',
             windowClass: 'modal-small',
             backdropFade: true
