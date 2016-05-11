@@ -115,7 +115,7 @@ class ElasticSearchSearcher {
         SearchRequestBuilder setQuery = client.prepareSearch()
                 .setIndices(indexName)
                 .setSearchType(SearchType.QUERY_AND_FETCH)
-                .setQuery(QueryBuilders.queryStringQuery("\"" + q + "\""));
+                .setQuery(QueryBuilders.queryStringQuery("*" + q + "*"));
 
         return setQuery.execute().actionGet();
     }
