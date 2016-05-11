@@ -15,21 +15,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular
-    .module('scenarioo.controllers')
-    .controller('StepSketchController', function ($http, $scope, $routeParams, $location, $q, $window, LocalStorageService,
-        ConfigService, StepSketchResource, HostnameAndPort, SelectedBranchAndBuildService, $filter, ApplicationInfoPopupService,
-        GlobalHotkeysService, LabelConfigurationsResource, SharePageService, SketcherContextService, IssueResource) {
+angular.module('scenarioo.controllers').controller('StepSketchController', StepSketchController);
+
+StepSketchController.$inject = ['$scope', '$routeParams', '$location', 'HostnameAndPort',
+    'SelectedBranchAndBuildService', 'SharePageService', 'IssueResource', 'SketcherLinkService'];
+function StepSketchController($scope, $routeParams, $location, HostnameAndPort, SelectedBranchAndBuildService,
+                              SharePageService, IssueResource, SketcherLinkService) {
+
+    var vm = this;
+    vm.loading = true;
+    vm.issueNotFound = false;
+    vm.getSketchScreenshotUrl = getSketchScreenshotUrl;
+    vm.getOriginalScreenshotUrl = getOriginalScreenshotUrl;
+    vm.getUseCaseUrl = getUseCaseUrl;
+    vm.getScenarioUrl = getScenarioUrl;
+    vm.getStepUrl = getStepUrl;
 
     var issueId = $routeParams.issueId,
         scenarioSketchId = $routeParams.scenarioSketchId,
         stepSketchId = $routeParams.stepSketchId;
 
-    $scope.showCreateOrEditSketchLink = true;
-    $scope.loading = true;
-    $scope.issueNotFound = false;
+    activate();
 
-    SelectedBranchAndBuildService.callOnSelectionChange(loadIssueAndSketch);
+    function activate() {
+        SketcherLinkService.showCreateOrEditSketchLinkInBreadcrumbs('Edit Sketch', editSketch);
+        SelectedBranchAndBuildService.callOnSelectionChange(loadIssueAndSketch);
+    }
+
+    $scope.$on('$destroy', function () {
+        SharePageService.invalidateUrls();
+        SketcherLinkService.hideCreateOrEditSketchLinkInBreadcrumbs();
+    });
+
+    function editSketch() {
+        $location.path('/editor/' + issueId + '/' + scenarioSketchId + '/' + stepSketchId).search('mode', 'edit');
+    };
 
     function loadIssueAndSketch() {
         IssueResource.get(
@@ -38,54 +58,32 @@ angular
                 'issueId': issueId
             },
             function onSuccess(result) {
-                $scope.issue = result.issue;
-                $scope.scenarioSketch = result.scenarioSketch;
-                $scope.stepSketch = result.stepSketch;
+                vm.issue = result.issue;
+                vm.scenarioSketch = result.scenarioSketch;
+                vm.stepSketch = result.stepSketch;
                 updateUrlsForSharing();
-                $scope.loading = false;
+                vm.loading = false;
             }, function onFailure() {
-                $scope.issueNotFound = true;
-                $scope.loading = false;
+                vm.issueNotFound = true;
+                vm.loading = false;
             });
 
         function updateUrlsForSharing() {
-            SharePageService.setPageUrl($scope.getCurrentUrlForSharing());
-            SharePageService.setImageUrl($scope.getScreenshotUrlForSharing());
+            SharePageService.setPageUrl(getCurrentUrlForSharing());
+            SharePageService.setImageUrl(getSketchScreenshotUrlForSharing());
         }
     }
 
-    $scope.getScreenShotUrl = function () {
-        if (angular.isUndefined($scope.stepSketch)) {
-            return undefined;
-        }
-
-        var selected = SelectedBranchAndBuildService.selected();
-        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
-    };
-
-    $scope.getOriginalScreenshotUrl = function() {
-        if (angular.isUndefined($scope.stepSketch)) {
-            return undefined;
-        }
-
-        var selected = SelectedBranchAndBuildService.selected();
-        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/original.png';
-    };
-
-    $scope.getCurrentUrlForSharing = function () {
+    function getCurrentUrlForSharing() {
         return $location.absUrl();
     };
 
-    $scope.getCurrentUrl = function () {
-        return $location.absUrl();
-    };
-
-    $scope.getScreenshotUrlForSharing = function () {
-        if (angular.isUndefined($scope.stepSketch)) {
+    function getSketchScreenshotUrlForSharing() {
+        if (angular.isUndefined(vm.stepSketch)) {
             return undefined;
         }
 
-        var imageName = $scope.stepSketch.sketchFileName;
+        var imageName = vm.stepSketch.sketchFileName;
 
         if (angular.isUndefined(imageName)) {
             return undefined;
@@ -96,43 +94,44 @@ angular
         return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
     };
 
-    $scope.$on('$destroy', function () {
-        SharePageService.invalidateUrls();
-    });
-
-    // Used in breadcrumbs.html
-    $scope.showCreateOrEditSketchLink = true;
-
-    // Called from breadcrumbs.html
-    $scope.getSketchButtonTitle = function () {
-        return 'Edit Sketch';
-    };
-
-    // Called from breadcrumbs.html
-    $scope.createOrEditSketch = function () {
-        $location.path('/editor/' + issueId + '/' + scenarioSketchId + '/' + stepSketchId).search('mode', 'edit');
-    };
-
-    $scope.getUseCaseUrl = function() {
-        if($scope.stepSketch == null) {
+    function getSketchScreenshotUrl() {
+        if (angular.isUndefined(vm.stepSketch)) {
             return undefined;
         }
-        return '#/usecase/' + encodeURIComponent($scope.stepSketch.relatedStep.usecaseName);
+
+        var selected = SelectedBranchAndBuildService.selected();
+        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
     };
 
-    $scope.getScenarioUrl = function() {
-        if($scope.stepSketch == null) {
+    function getOriginalScreenshotUrl() {
+        if (angular.isUndefined(vm.stepSketch)) {
             return undefined;
         }
-        var step = $scope.stepSketch.relatedStep;
+
+        var selected = SelectedBranchAndBuildService.selected();
+        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/original.png';
+    };
+
+    function getUseCaseUrl() {
+        if(vm.stepSketch == null) {
+            return undefined;
+        }
+        return '#/usecase/' + encodeURIComponent(vm.stepSketch.relatedStep.usecaseName);
+    };
+
+    function getScenarioUrl() {
+        if(vm.stepSketch == null) {
+            return undefined;
+        }
+        var step = vm.stepSketch.relatedStep;
         return '#/scenario/' + encodeURIComponent(step.usecaseName) + '/' + encodeURIComponent(step.scenarioName);
     };
 
-    $scope.getStepUrl = function(){
-        if($scope.stepSketch == null) {
+    function getStepUrl(){
+        if(vm.stepSketch == null) {
             return undefined;
         }
-        var step = $scope.stepSketch.relatedStep;
+        var step = vm.stepSketch.relatedStep;
         return '#/step/' + encodeURIComponent(step.usecaseName) + '/' + encodeURIComponent(step.scenarioName) + '/' + encodeURIComponent(step.pageName) + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence;
     };
-});
+};
