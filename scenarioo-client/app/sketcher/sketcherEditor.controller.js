@@ -19,7 +19,7 @@
 
 angular
     .module('scenarioo.controllers')
-    .controller('EditorCtrl', function ($rootScope, $scope, $location, $filter, $interval, $routeParams, $route,
+    .controller('SketcherEditorController', function ($rootScope, $scope, $location, $filter, $interval, $routeParams, $route,
         GlobalHotkeysService, SelectedBranchAndBuildService, ToolBoxService, DrawShapeService, DrawingPadService, StepSketchService,
         StepSketchResource, IssueResource, IssueService, ScenarioSketchResource, SketcherContextService, $log, $window,
         LocalStorageService, ZoomPanService, $timeout, HostnameAndPort) {
