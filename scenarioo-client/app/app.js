@@ -59,6 +59,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
             .when('/object/:objectType/:objectName', {
                 templateUrl: 'objectRepository/objectRepository.html',
                 controller: 'ObjectRepositoryController',
+                controllerAs: 'vm',
                 objectType: '@objectType',
                 objectName: '@objectName',
                 breadcrumbId: 'object'
