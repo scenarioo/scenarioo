@@ -43,8 +43,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- steps -->
         <div class="row step-view">
             <div ng-repeat="page in pagesAndSteps">
-                <div ng-repeat="step in page.steps | scFilterArray:searchFieldText" ng-show="$index == 0 || showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !scenarioShowMetadata, 'col-md-6': scenarioShowMetadata}">
+                <div ng-repeat="step in page.steps | scFilterArray:searchFieldText" ng-show="$index == 0 || showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !scenarioShowMetadata, 'col-md-6': scenarioShowMetadata, 'removed' : page.page.diffInfo.isRemoved}">
                     <h2>
+                        <div class="diff-info-wrapper" ng-if="$index == 0">
+                            <sc-diff-info-icon diff-info="page.page.diffInfo" element-type="page" child-element-type="step"></sc-diff-info-icon>
+                        </div>
                         <span class="sc-truncate" ng-if="$index == 0" ng-init="pageIndex = $parent.$parent.$index">
                             <span class="sc-no-truncate">
                                 <span ng-click="toggleShowAllStepsForPage(pageIndex)" ng-show="page.steps.length > 1" tooltip="show / hide additional steps of this page" tooltip-placement="top" class="toggle-show-all-steps-of-page">

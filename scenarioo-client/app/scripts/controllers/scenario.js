@@ -183,7 +183,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
                             StepDiffInfosResource.get(
                                 {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName, 'scenarioName': scenarioName},
                                 function onSuccess(stepDiffInfos) {
-                                    DiffInfoService.enrichStepsWithDiffInfos($scope.pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
+                                    DiffInfoService.enrichPagesAndStepsWithDiffInfos($scope.pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
                                 }
                             );
                         }
