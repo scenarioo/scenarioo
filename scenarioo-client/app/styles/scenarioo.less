@@ -723,11 +723,15 @@ textarea#issueDescription {
   }
 }
 
-.step-title .diff-info-wrapper {
+.step-view .diff-info-wrapper {
   float: right;
 }
 
-.sc-step-in-overview .removed {
+.sc-step-in-overview .removed, .sc-step-in-overview.removed {
   opacity: 0.6;
   cursor: default;
+}
+
+.sc-step-in-overview.removed .removed {
+  opacity: 1.0;
 }
