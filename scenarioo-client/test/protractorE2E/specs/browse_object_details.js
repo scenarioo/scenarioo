@@ -20,7 +20,7 @@ useCase('Browse object details')
             .it(function () {
                 objectDetailsPage.goToPage('/object/uiAction/example.action.StartInitAction');
                 step('Display object details page');
-                objectDetailsPage.assertNumberOfRows(30);
+                objectDetailsPage.assertNumberOfRows(29);
                 objectDetailsPage.assertTreeNodeStatus('0', 'collapsed');
                 objectDetailsPage.assertTreeNodeStatus('1', 'expanded');
                 objectDetailsPage.assertTreeNodeStatus('4', 'expanded');
