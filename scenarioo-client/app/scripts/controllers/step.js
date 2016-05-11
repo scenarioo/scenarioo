@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepResource, HostnameAndPort,
+angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, $route, Config, ScenarioResource, StepResource, HostnameAndPort,
                                                                          SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService,
                                                                          ContextService, RelatedIssueResource, SketchIdsResource, BranchesAndBuilds, DiffViewerService, SelectedComparison, comparisonAliasResource, stepDiffInfoResource) {
 
@@ -312,10 +312,25 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         };
     }
 
-    $scope.tabs = [
-        {'title': 'Dynamic 1', 'active': true},
-        {'title': 'Dynamic 2', 'active': false},
-        {'title': 'Dynamic 3', 'active': false}];
+    $scope.activeTab = getActiveTab();
+
+    $scope.setActiveTab = function (activeTab) {
+        storeActiveTab(activeTab);
+    };
+
+    //  $route.reload necessary because of annotation calculation
+    $scope.setDefaultTab = function() {
+        storeActiveTab(0);
+        $route.reload();
+    };
+
+    function storeActiveTab(activeTab){
+        sessionStorage.setItem('activeTab', activeTab);
+    }
+    function getActiveTab() {
+        var activeTab = sessionStorage.getItem('activeTab');
+        return angular.isDefined(activeTab) ? parseInt(activeTab) : 0;
+    }
 
     // This URL is only used internally, not for sharing
     $scope.getScreenShotUrl = function () {
