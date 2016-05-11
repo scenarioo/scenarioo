@@ -15,32 +15,32 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
- <div ng-controller="CustomTabController">
+ <div ng-controller="CustomTabController as customTab">
 	<div class="row sc-space-top sc-space-bottom">
 	    <div class="col-sm-8">
 	        <div class="input-group">
 	            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip" title="type words separated by spaces to search for"
-                    ng-model="searchField" placeholder="Search ..." ng-keyup="$event.keyCode == 27 ? resetSearchField() : null" data-scDebounce/>
+                    ng-model="customTab.searchField" placeholder="Search ..." ng-keyup="$event.keyCode == 27 ? customTab.resetSearchField() : null" data-scDebounce/>
 	            <span class="input-group-btn">
-	                <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
+	                <button type="button" ng-click="customTab.resetSearchField()" class="btn btn-default">reset</button>
 	            </span>
 	        </div>
 	    </div>
 	    <div class="col-sm-4">
             <div class="pull-right">
-                <button type="button" ng-click="expandAndCollapseTree(treemodel)" class="btn btn-default">{{toggleLabel}} all</button>
+                <button type="button" ng-click="customTab.expandAndCollapseTree(customTab.treemodel)" class="btn btn-default">{{customTab.toggleLabel}} all</button>
             </div>
 	    </div>
 	</div>
 
 	<div
 		data-sc-filterable-table-tree
-        data-root-is-collapsed="rootIsCollapsed"
+        data-root-is-collapsed="customTab.rootIsCollapsed"
         data-expand-first-child-up-to-root-node="false"
-		data-filter="searchField"
-		data-treedata="tabContentTree"
-		data-treemodel="treemodel"
-		data-click-action="goToReferenceTree(node)"
+		data-filter="customTab.searchField"
+		data-treedata="customTab.tabContentTree"
+		data-treemodel="customTab.treemodel"
+		data-click-action="customTab.goToReferenceTree(node)"
 		data-columns="tab.column">
 	</div>
 </div> 
