@@ -68,6 +68,9 @@ public class LastSuccessfulScenariosBuildTest {
 		}
 		RepositoryLocator.INSTANCE.initializeConfigurationRepositoryForUnitTest(rootDirectory);
 		configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
+		String test = configurationRepository.getDocumentationDataDirectory().getAbsolutePath();
+		String test2 = configurationRepository.getConfiguration().getTestDocumentationDirPath();
+		System.out.println("DataDir: " + test + " DocuDir: " + test2);
 		lastSuccessfulScenarioBuild = new LastSuccessfulScenariosBuild();
 	}
 	
