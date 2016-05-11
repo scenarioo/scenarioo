@@ -9,16 +9,20 @@ This readme contains important developer information for developers on how to de
 **Currently we try to migrate to a new developer setup using IntelliJ Ultimate.**
 **The described setup here is still experimental and use at your own risk!**
 
-This chapter tells you exactly what you need to get started with working on Scenarioo in the area of the Scenarioo Viewer WebApp (including AngularJS frontend and Java REST backend) as well as the Java Writer library for writing content. 
+This chapter tells you exactly what you need to get started with working on Scenarioo in the area of the Scenarioo Viewer WebApp 
+(including AngularJS frontend and Java REST backend) as well as the Java Writer library for writing content. 
 
 Some of the core developers use a virtual machine with all the required tools for Scenarioo development.
 Contact the core development team if you want to use the same virtual machine to start more quickly.
 
 ## Prerequisites
 
- * Java JDK 1.6 (you can probably use 1.8 JDK, but you have to set the language level to 1.6 in IntelliJ, because we still try to be backward compatible, for some projects that can not yet use 1.8).
-      * currently it is recommended to install a JDK 1.7, because as @patrickschweizer told me, he had troubles with a JDK 8 to run the gradle build.
+ * Java JDK 1.7
+    * currently it is recommended to not yet use a JDK 1.8, because as @patrickschweizer told me, he had troubles with a JDK 8 to run the gradle build.
+ * Take care to still set the language level to 1.6 in IntelliJ, because currently we still try to be backward compatible,
+    for some projects that can not yet use Java 1.7 or 1.8 on their tomcat servers (for scenarioo 3.0 we will break that and can update to 1.8)
  * Tomcat 7 needs to be installed: http://tomcat.apache.org
+    * you can also try Tomcat 8, which should also work, but might not yet be tested for this setup here
 
 ## Setup and Use of GIT 
 
@@ -92,7 +96,9 @@ But this two repositories should be sufficient for most usual developers.
      
  * From "Gradle"-tab in intelliJ simply run the following gradle tasks, to build everything cleanly:
     * scenarioo-java: clean build test install
-    * (TODO following does not work yet out of intelliJ somehow ... but you can work in IntelliJ anyway .... ignore it for now) scenarioo: clean build test (if you get some python errors in npm install part on windows, you can probably ignore this optional npm dependency problems and just try to tun it once again)
+    * (TODO following does not work yet out of intelliJ somehow ... but you can work in IntelliJ anyway .... ignore it for now)
+       scenarioo: clean build test (if you get some python errors in npm install part on windows, you can probably ignore this optional npm dependency problems 
+       and just try to tun it once again)
 
  * Configure a run configuration to run the installed [Tomcat 7](http://tomcat.apache.org) from IntelliJ
      * set the tomcat path to tomcat 7 installation
@@ -180,13 +186,12 @@ For more informations on how to develop, build and test scenarioo properly, plea
 
  * Gradle build fails 
      * probably only because npm install fails because of protractor optional dependencies having errors on windows (known issue)
+        * maybe try if it works, when protractor is installed explicitly without optional dependencies)
 
- * When protractor is allready installed globaly (as on Rolf's machine, because that is what works better for windows, and that's how he uses it in his project):
-     * webriver-manager update can not be run for local node_modules (./ does not work, can only run it for global protractor)
-     * gulp uses local protractor --> needs local webdriver updated/installed
-     * there is a gulp task webdriver_update, but somehow eslint, does not like this property name
-     * see comments in gulp.js with workaround that I can currently not commit because of eslint
-
+ * For updating the local webdriver you have to use the gulp task in client:
+     * use `gulp webdriver_update`
+     * then also "gulp test-e2e` should work now (without need to install protractor globaly anymore)
+   
 ### from old setup to be integrated in this development setup instructions here
 
  * check your JavaScript code against our `.eslintrc` file!

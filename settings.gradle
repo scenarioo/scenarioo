@@ -1,1 +1,4 @@
-include 'scenarioo-server','scenarioo-docu-generation-example', 'scenarioo-client', 'scenarioo-validator'
+include 'scenarioo-server',
+		'scenarioo-docu-generation-example',
+		'scenarioo-client',
+		'scenarioo-validator'
