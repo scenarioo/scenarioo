@@ -52,6 +52,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
             .when('/scenario/:useCaseName/:scenarioName', {
                 templateUrl: 'scenario/scenario.html',
                 controller: 'ScenarioController',
+                controllerAs: 'vm',
                 useCaseName: '@useCaseName',
                 scenarioName: '@scenarioName',
                 breadcrumbId: 'scenario'
