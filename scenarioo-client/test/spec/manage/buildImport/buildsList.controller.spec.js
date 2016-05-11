@@ -19,7 +19,7 @@
 
 describe('BuildsListController', function () {
 
-    var $location, $httpBackend, HostnameAndPort, TestData, $scope;
+    var $location, $httpBackend, HostnameAndPort, TestData, $scope, BuildsListController;
 
     beforeEach(module('scenarioo.controllers'));
 
@@ -35,7 +35,7 @@ describe('BuildsListController', function () {
 
             $httpBackend.whenGET(BUILD_IMPORT_STATES_URL).respond(TestData.BUILD_IMPORT_STATES);
 
-            $controller('BuildsListController', {$scope: $scope, $uibModal: null });
+            BuildsListController = $controller('BuildsListController', {$scope: $scope, $uibModal: null });
         }
     ));
 
@@ -46,7 +46,7 @@ describe('BuildsListController', function () {
 
         $httpBackend.flush();
 
-        expect($scope.buildImportStates).toEqualData(TestData.BUILD_IMPORT_STATES);
+        expect(BuildsListController.buildImportStates).toEqualData(TestData.BUILD_IMPORT_STATES);
     });
 
 });
