@@ -56,14 +56,10 @@ useCase('View screen annotations')
                 stepPage.assertNumberOfVisibleScreenAnnotationsIs(11);
                 step('Eleven screen annotations are shown');
 
-                // This part of the test always fails on the CI but runns locally
-                // TODO #473 Fix this
-                /*
-                 stepPage.clickFirstScreenAnnotation();
-                 stepPage.assertScreenAnnotationPopupIsDisplayed();
-                 stepPage.assertTitleOfAnnotationPopupIs('DEFAULT-Annotation \'Life Is Beautiful\'');
-                 scenarioo.docuWriter.saveStep('Popup is shown');
-                 */
+                stepPage.clickFirstScreenAnnotation();
+                stepPage.assertScreenAnnotationPopupIsDisplayed();
+                stepPage.assertTitleOfAnnotationPopupIs('  DEFAULT-Annotation \'Life Is Beautiful\'');
+                step('Popup is shown');
             });
 
     });
