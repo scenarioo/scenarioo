@@ -16,23 +16,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <sc-breadcrumbs></sc-breadcrumbs>
-<h3 class="sc-pageTitle">Use Case: {{useCaseDescription}}</h3>
-<h2 class="sc-pageTitle">{{scenario.description}}</h2>
+<h3 class="sc-pageTitle">Use Case: {{vm.useCaseDescription}}</h3>
+<h2 class="sc-pageTitle">{{vm.scenario.description}}</h2>
 <div class="row sc-space-top sc-space-bottom">
     <div class="col-sm-8">
         <div class="input-group">
             <input type="text" class="ng-pristine ng-valid tableSearch form-control"
-                   data-toggle="tooltip" title="type words separated by spaces to search for" ng-model="searchFieldText"
-                   placeholder="Search in scenario &quot;{{scenario.name | scHumanReadable}}&quot;..."/>
+                   data-toggle="tooltip" title="type words separated by spaces to search for" ng-model="vm.searchFieldText"
+                   placeholder="Search in scenario &quot;{{vm.scenario.name | scHumanReadable}}&quot;..."/>
             <span class="input-group-btn">
-                <button type="button" ng-click="resetSearchField()" class="btn btn-default">reset</button>
+                <button type="button" ng-click="vm.resetSearchField()" class="btn btn-default">reset</button>
             </span>
         </div>
     </div>
     <div class="col-sm-4">
 		<div class="pull-right">
-			<button type="button" class=" btn btn-default" id="expandAllPages" ng-show="isExpandAllPossible()" ng-click="expandAll()">expand all</button>
-			<button type="button" class=" btn btn-default" id="collapseAllPages" ng-show="isCollapseAllPossible()" ng-click="collapseAll()">collapse all</button>
+			<button type="button" class=" btn btn-default" id="expandAllPages" ng-show="vm.isExpandAllPossible()" ng-click="vm.expandAll()">expand all</button>
+			<button type="button" class=" btn btn-default" id="collapseAllPages" ng-show="vm.isCollapseAllPossible()" ng-click="vm.collapseAll()">collapse all</button>
 			<sc-meta-data-button linking-variable="scenarioShowMetadata" local-storage-key="scenario" ></sc-meta-data-button>
 		</div>
     </div>
@@ -42,14 +42,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div>
         <!-- steps -->
         <div class="row step-view">
-            <div ng-repeat="page in pagesAndSteps">
-                <div ng-repeat="step in page.steps | scFilterArray:searchFieldText" ng-show="$index == 0 || showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !scenarioShowMetadata, 'col-md-6': scenarioShowMetadata}">
+            <div ng-repeat="page in vm.pagesAndSteps">
+                <div ng-repeat="step in page.steps | scFilterArray:vm.searchFieldText" ng-show="$index == 0 || vm.showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !scenarioShowMetadata, 'col-md-6': scenarioShowMetadata}">
                     <h2>
                         <span class="sc-truncate" ng-if="$index == 0" ng-init="pageIndex = $parent.$parent.$index">
                             <span class="sc-no-truncate">
-                                <span ng-click="toggleShowAllStepsForPage(pageIndex)" ng-show="page.steps.length > 1" uib-tooltip="show / hide additional steps of this page" tooltip-placement="top" class="toggle-show-all-steps-of-page">
-                                    <span ng-hide="showAllStepsForPage(pageIndex)" class="icon-plus-sign link right"></span>
-                                    <span ng-show="showAllStepsForPage(pageIndex)" class="icon-minus-sign link right"></span>
+                                <span ng-click="vm.toggleShowAllStepsForPage(pageIndex)" ng-show="page.steps.length > 1" uib-tooltip="show / hide additional steps of this page" tooltip-placement="top" class="toggle-show-all-steps-of-page">
+                                    <span ng-hide="vm.showAllStepsForPage(pageIndex)" class="icon-plus-sign link right"></span>
+                                    <span ng-show="vm.showAllStepsForPage(pageIndex)" class="icon-minus-sign link right"></span>
                                 </span>
                             </span>
                             Page {{pageIndex + 1}}: {{page.page.name}} ({{page.steps.length}} Steps)
@@ -58,11 +58,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </h2>
                     <div>
                         <div class="step-title">
-                            <h3 class="sc-truncate"><a ng-href="{{getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">Step {{step.index + 1}}{{ step.title ? ': ' + step.title : ''}}</a></h3>
+                            <h3 class="sc-truncate"><a ng-href="{{vm.getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">Step {{step.index + 1}}{{ step.title ? ': ' + step.title : ''}}</a></h3>
                         </div>
                         <div class="sc-screenshot-border sc-screenshot-scenario" >
-                            <a ng-href="{{getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">
-                                <img ng-src="{{getScreenShotUrl(step.screenshotFileName)}}" class="sc-screenshot"/>
+                            <a ng-href="{{vm.getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">
+                                <img ng-src="{{vm.getScreenShotUrl(step.screenshotFileName)}}" class="sc-screenshot"/>
                             </a>
                         </div>
                     </div>
@@ -74,32 +74,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <!-- scenario -->
         <sc-collapsable-panel title="Scenario" key="scenarioView-scenario" initially-expanded="true">
-            <sc-tree data='scenarioInformationTree'></sc-tree>
+            <sc-tree data='vm.scenarioInformationTree'></sc-tree>
         </sc-collapsable-panel>
 
-        <sc-collapsable-panel title="Related Sketches" key="scenarioView-relatedSketches" initially-expanded="true" ng-show="hasAnyRelatedIssues()">
+        <sc-collapsable-panel title="Related Sketches" key="scenarioView-relatedSketches" initially-expanded="true" ng-show="vm.hasAnyRelatedIssues">
             <ul id="relatedSketches">
-                <li ng-repeat="issue in relatedIssues"><a href="" ng-click="goToIssue(issue)">{{issue.name}}</a></li>
+                <li ng-repeat="issue in vm.relatedIssues"><a href="" ng-click="vm.goToIssue(issue)">{{issue.name}}</a></li>
             </ul>
         </sc-collapsable-panel>
 
         <!-- labels -->
-        <sc-collapsable-panel title="Labels" key="scenarioView-labels" initially-expanded="false" ng-show="hasAnyLabels()">
+        <sc-collapsable-panel title="Labels" key="scenarioView-labels" initially-expanded="false" ng-show="vm.hasAnyLabels">
             <div class="sc-tree">
                 <ul>
-                    <li ng-show="useCase.labels.labels">
+                    <li ng-show="vm.useCase.labels.labels">
                         Use case:
-                        <span ng-repeat="label in useCase.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                        <span ng-repeat="label in vm.useCase.labels.labels" class="label label-info sc-label" ng-style="vm.getLabelStyle(label)">{{label}}</span>
                     </li>
-                    <li ng-show="scenario.labels.labels">
+                    <li ng-show="vm.scenario.labels.labels">
                         Scenario:
-                        <span ng-repeat="label in scenario.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                        <span ng-repeat="label in vm.scenario.labels.labels" class="label label-info sc-label" ng-style="vm.getLabelStyle(label)">{{label}}</span>
                     </li>
                 </ul>
             </div>
         </sc-collapsable-panel>
 
         <!-- Metadata -->
-        <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
+        <sc-metadata-tree metadata-tree="vm.metadataTree"></sc-metadata-tree>
     </div>
 </sc-meta-data-panel>

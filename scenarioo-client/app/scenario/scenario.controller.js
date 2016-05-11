@@ -15,25 +15,50 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('ScenarioController', function ($scope, $q, $filter, $routeParams,
-                                                                             $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuildService,
-                                                                             ConfigService, PagesAndStepsService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource) {
+angular.module('scenarioo.controllers').controller('ScenarioController', ScenarioController);
+
+function ScenarioController($filter, $routeParams,
+          $location, ScenarioResource, HostnameAndPort, SelectedBranchAndBuildService,
+          ConfigService, PagesAndStepsService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource) {
+    var vm = this;
+    vm.useCaseDescription = '';
+    vm.scenario = {};
+    vm.useCase = {};
+    vm.pagesAndSteps = {};
+    vm.metadataTree = {};
+    vm.scenarioInformationTree = {};
+    vm.hasAnyLabels = false;
+    vm.searchFieldText = '';
+    vm.relatedIssues = [];
+    vm.hasAnyRelatedIssues = false;
+    vm.expandAll = expandAll;
+    vm.showAllStepsForPage = showAllStepsForPage;
+    vm.toggleShowAllStepsForPage = toggleShowAllStepsForPage;
+    vm.isExpandAllPossible = isExpandAllPossible;
+    vm.isCollapseAllPossible = isCollapseAllPossible;
+    vm.collapseAll = collapseAll;
+    vm.getScreenShotUrl = getScreenShotUrl;
+    vm.getLinkToStep = getLinkToStep;
+    vm.resetSearchField = resetSearchField;
+    vm.goToIssue = goToIssue;
+    vm.getLabelStyle = getLabelStyle;
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
     var selectedBranchAndBuild;
-
+    var labelConfigurations = [];
+    var pagesAndScenarios = [];
+    var scenarioStatistics = {};
     var showAllSteps = [];
-
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
 
     SelectedBranchAndBuildService.callOnSelectionChange(loadScenario);
 
-    // FIXME this code is duplicated. How can we extract it into a service?
-    LabelConfigurationsResource.query({}, function (labelConfigurations) {
-        $scope.labelConfigurations = labelConfigurations;
+    LabelConfigurationsResource.query({}, function (queriedlabelConfigurations) {
+        labelConfigurations = queriedlabelConfigurations;
     });
+
 
     function loadScenario(selected) {
         selectedBranchAndBuild = selected;
@@ -46,102 +71,99 @@ angular.module('scenarioo.controllers').controller('ScenarioController', functio
             },
             function (result) {
                 // Add page to the step to allow search for step- as well as page-properties
-                $scope.pagesAndScenarios = PagesAndStepsService.populatePagesAndStepsService(result);
-                $scope.useCaseDescription = result.useCase.description;
-                $scope.scenario = $scope.pagesAndScenarios.scenario;
-                $scope.useCase = result.useCase;
-                $scope.pagesAndSteps = $scope.pagesAndScenarios.pagesAndSteps;
-                $scope.metadataTree = transformMetadataToTreeArray($scope.pagesAndScenarios.scenario.details);
-                $scope.scenarioInformationTree = createScenarioInformationTree($scope.scenario, result.scenarioStatistics);
-                $scope.scenarioStatistics = result.scenarioStatistics;
+                pagesAndScenarios = PagesAndStepsService.populatePagesAndStepsService(result);
+                vm.useCaseDescription = result.useCase.description;
+                vm.scenario = pagesAndScenarios.scenario;
+                vm.useCase = result.useCase;
+                vm.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
+                vm.metadataTree = transformMetadataToTreeArray(pagesAndScenarios.scenario.details);
+                vm.scenarioInformationTree = createScenarioInformationTree(vm.scenario, result.scenarioStatistics);
+                scenarioStatistics = result.scenarioStatistics;
                 loadRelatedIssues();
 
-                $scope.hasAnyLabels = function () {
-                    var hasAnyUseCaseLabels = $scope.useCase.labels.labels.length > 0;
-                    var hasAnyScenarioLabels = $scope.scenario.labels.labels.length > 0;
-
-                    return hasAnyUseCaseLabels || hasAnyScenarioLabels;
-                };
+                var hasAnyUseCaseLabels = vm.useCase.labels.labels.length > 0;
+                var hasAnyScenarioLabels = vm.scenario.labels.labels.length > 0;
+                vm.hasAnyLabels = hasAnyUseCaseLabels || hasAnyScenarioLabels;
 
                 if (ConfigService.expandPagesInScenarioOverview()) {
-                    $scope.expandAll();
+                    vm.expandAll();
                 }
             });
     }
 
-    $scope.showAllStepsForPage = function (pageIndex) {
+    function showAllStepsForPage(pageIndex) {
         return showAllSteps[pageIndex] || false;
-    };
+    }
 
-    $scope.toggleShowAllStepsForPage = function (pageIndex) {
+    function toggleShowAllStepsForPage(pageIndex) {
         showAllSteps[pageIndex] = !showAllSteps[pageIndex];
-    };
+    }
 
-    $scope.isExpandAllPossible = function () {
-        if (!angular.isDefined($scope.pagesAndSteps)) {
+    function isExpandAllPossible() {
+        if (!angular.isDefined(vm.pagesAndSteps)) {
             return false;
         }
 
-        for (var i = 0; i < $scope.pagesAndSteps.length; i++) {
-            if (isExpandPossibleForPage($scope.pagesAndSteps[i], i)) {
+        for (var i = 0; i < vm.pagesAndSteps.length; i++) {
+            if (isExpandPossibleForPage(vm.pagesAndSteps[i], i)) {
                 return true;
             }
         }
 
         return false;
-    };
+    }
 
     function isExpandPossibleForPage(page, pageIndex) {
-        return page.steps.length > 1 && $scope.showAllStepsForPage(pageIndex) === false;
+        return page.steps.length > 1 && vm.showAllStepsForPage(pageIndex) === false;
     }
 
-    $scope.isCollapseAllPossible = function () {
-        if (!angular.isDefined($scope.pagesAndSteps)) {
+    function isCollapseAllPossible() {
+        if (!angular.isDefined(vm.pagesAndSteps)) {
             return false;
         }
 
-        for (var i = 0; i < $scope.pagesAndSteps.length; i++) {
-            if (isCollapsePossibleForPage($scope.pagesAndSteps[i], i)) {
+        for (var i = 0; i < vm.pagesAndSteps.length; i++) {
+            if (isCollapsePossibleForPage(vm.pagesAndSteps[i], i)) {
                 return true;
             }
         }
 
         return false;
-    };
-
-    function isCollapsePossibleForPage(page, pageIndex) {
-        return page.steps.length > 1 && $scope.showAllStepsForPage(pageIndex) === true;
     }
 
-    $scope.expandAll = function () {
-        var numberOfPages = $scope.scenarioStatistics.numberOfPages;
+    function isCollapsePossibleForPage(page, pageIndex) {
+        return page.steps.length > 1 && vm.showAllStepsForPage(pageIndex) === true;
+    }
+
+    function expandAll() {
+        var numberOfPages = scenarioStatistics.numberOfPages;
         for (var i = 0; i < numberOfPages; i++) {
             showAllSteps[i] = true;
         }
-    };
+    }
 
-    $scope.collapseAll = function () {
+    function collapseAll() {
         for (var i = 0; i < showAllSteps.length; i++) {
             showAllSteps[i] = false;
         }
-    };
+    }
 
-    $scope.getScreenShotUrl = function (imgName) {
+    function getScreenShotUrl(imgName) {
         if (angular.isUndefined(selectedBranchAndBuild)) {
             return undefined;
         }
         return HostnameAndPort.forLink() + 'rest/branch/' + selectedBranchAndBuild.branch + '/build/' + selectedBranchAndBuild.build +
             '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
-    };
+    }
 
-    $scope.getLinkToStep = function (pageName, pageOccurrence, stepInPageOccurrence) {
+    function getLinkToStep(pageName, pageOccurrence, stepInPageOccurrence) {
         return '#/step/' + encodeURIComponent(useCaseName) + '/' + encodeURIComponent(scenarioName) + '/' + encodeURIComponent(pageName) +
             '/' + pageOccurrence + '/' + stepInPageOccurrence;
-    };
+    }
 
-    $scope.resetSearchField = function () {
-        $scope.searchFieldText = '';
-    };
+    function resetSearchField() {
+        vm.searchFieldText = '';
+    }
 
     function createScenarioInformationTree(scenario, scenarioStatistics) {
         var stepInformation = {};
@@ -158,11 +180,8 @@ angular.module('scenarioo.controllers').controller('ScenarioController', functio
             useCaseName: $routeParams.useCaseName,
             scenarioName: $routeParams.scenarioName
         }, function(result){
-            $scope.relatedIssues = result;
-            $scope.hasAnyRelatedIssues = function(){
-                return $scope.relatedIssues.length > 0;
-            };
-            $scope.goToIssue = goToIssue;
+            vm.relatedIssues = result;
+            vm.hasAnyRelatedIssues = vm.relatedIssues.length > 0;
         });
     }
 
@@ -176,10 +195,10 @@ angular.module('scenarioo.controllers').controller('ScenarioController', functio
     }
 
     // FIXME this code is duplicated. How can we extract it into a service?
-    $scope.getLabelStyle = function (labelName) {
-        var labelConfig = $scope.labelConfigurations[labelName];
+    function getLabelStyle(labelName) {
+        var labelConfig = labelConfigurations[labelName];
         if (labelConfig) {
             return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
         }
-    };
-});
+    }
+}
