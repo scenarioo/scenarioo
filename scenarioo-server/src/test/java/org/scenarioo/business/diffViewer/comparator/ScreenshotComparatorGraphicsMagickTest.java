@@ -20,7 +20,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.scenarioo.business.diffViewer.comparator.ScreenshotComparator;
 import org.scenarioo.model.configuration.ComparisonAlias;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.RepositoryLocator;
@@ -42,7 +41,7 @@ public class ScreenshotComparatorGraphicsMagickTest {
 	private static final double DOUBLE_TOLERANCE = 0.01;
 	private static final boolean IS_GRAPHICS_MAGICK_INSTALLED = isGraphicsMagickInstalled();
 
-	private static final File ROOT_DIRECTORY = new File("tmpDiffViewerUnitTestFiles");
+	private static final File ROOT_DIRECTORY = new File("tmp");
 	private static final String BASE_BRANCH_NAME = "baseBranch";
 	private static final String COMPARISON_BRANCH_NAME = "comparisonBranch";
 	private static final String COMPARISON_BUILD_NAME = "comparisonBuild";

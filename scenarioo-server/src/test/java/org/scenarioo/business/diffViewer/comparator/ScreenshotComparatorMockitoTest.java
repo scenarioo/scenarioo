@@ -21,7 +21,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.scenarioo.business.diffViewer.comparator.ScreenshotComparator;
 import org.scenarioo.model.configuration.ComparisonAlias;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.RepositoryLocator;
@@ -46,7 +45,7 @@ public class ScreenshotComparatorMockitoTest {
 	private static final double SCREENSHOT_DIFFERENCE = 12.97;
 	private static final double DOUBLE_TOLERANCE = 0.01;
 	private static final ArrayList<String> OUTPUT_CONSUMER_MOCK;
-	private static final File ROOT_DIRECTORY = new File("tmpDiffViewerUnitTestFiles");
+	private static final File ROOT_DIRECTORY = new File("tmp");
 	private static final String BASE_BRANCH_NAME = "baseBranch";
 	private static final String COMPARISON_BRANCH_NAME = "comparisonBranch";
 	private static final String COMPARISON_BUILD_NAME = "comparisonBuild";

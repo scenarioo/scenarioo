@@ -51,7 +51,7 @@ import org.scenarioo.rest.base.BuildIdentifier;
 @RunWith(MockitoJUnitRunner.class)
 public class UseCaseComparatorTest {
 
-	private static final File ROOT_DIRECTORY = new File("tmpDiffViewerUnitTestFiles");
+	private static final File ROOT_DIRECTORY = new File("tmp");
 	private static final String BASE_BRANCH_NAME = "baseBranch";
 	private static final String BASE_BUILD_NAME = "baseBuild";
 	private static final String COMPARISON_BRANCH_NAME = "comparisonBranch";
