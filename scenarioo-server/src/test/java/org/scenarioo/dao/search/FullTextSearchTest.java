@@ -2,7 +2,10 @@ package org.scenarioo.dao.search;
 
 import org.junit.Test;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
+import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 import java.util.Collections;
@@ -77,6 +80,16 @@ public class FullTextSearchTest {
         public void updateAvailableBuilds(List<BuildIdentifier> existingBuilds) {
             fail("Should not be reachable");
         }
+
+        @Override
+        public void indexPages(List<PageSteps> pageStepsList, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
+            fail("Should not be reachable");
+        }
+
+        @Override
+        public void setupNewBuild(BuildIdentifier buildIdentifier) {
+            fail("Should not be reachable");
+        }
     }
 
     private class RunningEngine implements SearchAdapter {
@@ -98,6 +111,16 @@ public class FullTextSearchTest {
 
         @Override
         public void updateAvailableBuilds(List<BuildIdentifier> existingBuilds) {
+            // nothing to do
+        }
+
+        @Override
+        public void indexPages(List<PageSteps> pageStepsList, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
+            // nothing to do
+        }
+
+        @Override
+        public void setupNewBuild(BuildIdentifier buildIdentifier) {
             // nothing to do
         }
     }

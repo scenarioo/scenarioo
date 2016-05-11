@@ -27,7 +27,10 @@ import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.scenarioo.dao.search.SearchAdapter;
+import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 import java.net.InetAddress;
@@ -76,11 +79,25 @@ public class ElasticSearchAdapter implements SearchAdapter {
     }
 
     @Override
+    public void setupNewBuild(BuildIdentifier buildIdentifier) {
+        String indexName = getIndexName(buildIdentifier);
+        new ElasticSearchIndexer(indexName).setupCleanIndex(indexName);
+    }
+
+    @Override
     public void indexUseCases(UseCaseScenariosList useCaseScenariosList, BuildIdentifier buildIdentifier) {
         String indexName = getIndexName(buildIdentifier);
 
         ElasticSearchIndexer elasticSearchIndexer = new ElasticSearchIndexer(indexName);
         elasticSearchIndexer.indexUseCases(useCaseScenariosList);
+    }
+
+    @Override
+    public void indexPages(List<PageSteps> pageStepsList, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
+        String indexName = getIndexName(buildIdentifier);
+
+        ElasticSearchIndexer elasticSearchIndexer = new ElasticSearchIndexer(indexName);
+        elasticSearchIndexer.indexPages(pageStepsList, scenario, usecase);
     }
 
     @Override

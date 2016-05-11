@@ -17,7 +17,10 @@
 
 package org.scenarioo.dao.search;
 
+import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 import java.util.List;
@@ -29,4 +32,7 @@ public interface SearchAdapter {
     void indexUseCases(UseCaseScenariosList useCaseScenariosList, BuildIdentifier buildIdentifier);
     void updateAvailableBuilds(List<BuildIdentifier> existingBuilds);
 
+    void indexPages(List<PageSteps> pageStepsList, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier);
+
+    void setupNewBuild(BuildIdentifier buildIdentifier);
 }

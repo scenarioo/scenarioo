@@ -22,16 +22,22 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.scenarioo.dao.search.ScenarioSearchDao;
-import org.scenarioo.dao.search.UseCaseSearchDao;
+import org.scenarioo.dao.search.dao.PageSearchDao;
+import org.scenarioo.dao.search.dao.ScenarioSearchDao;
+import org.scenarioo.dao.search.dao.StepSearchDao;
+import org.scenarioo.dao.search.dao.UseCaseSearchDao;
+import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.StepDescription;
+import org.scenarioo.model.docu.entities.UseCase;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 
 class ElasticSearchIndexer {
     private final static Logger LOGGER = Logger.getLogger(ElasticSearchIndexer.class);
@@ -45,12 +51,26 @@ class ElasticSearchIndexer {
                     .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
 
             this.indexName = indexName;
-            setupIndex(indexName);
 
         } catch (UnknownHostException e) {
             LOGGER.info("no elasticsearch cluster running.");
         }
 
+    }
+
+    void setupCleanIndex(String indexName) {
+        if(indexExists(indexName)) {
+            client.admin().indices().prepareDelete(indexName).get();
+
+            LOGGER.debug("Removed existing index " + indexName);
+        }
+
+        client.admin().indices().prepareCreate(indexName)
+                .addMapping("scenario", createMappingForType("scenario"))
+                .addMapping("page", createMappingForType("page"))
+                .addMapping("step", createMappingForType("step"))
+                .get();
+        LOGGER.debug("Added new index " + indexName);
     }
 
     void indexUseCases(UseCaseScenariosList useCaseScenariosList) {
@@ -63,48 +83,50 @@ class ElasticSearchIndexer {
             for (ScenarioSummary scenario : useCaseScenarios.getScenarios()) {
                 ScenarioSearchDao scenarioSearchDao = new ScenarioSearchDao(scenario.getScenario(), useCaseScenarios.getUseCase().getName());
 
-                indexScenario(scenario.getScenario(), scenarioSearchDao);
+                indexScenario(scenarioSearchDao);
+            }
+        }
+    }
+
+    void indexPages(List<PageSteps> pageStepsList, Scenario scenario, UseCase usecase) {
+        for(PageSteps page : pageStepsList) {
+            PageSearchDao pageSearchDao = new PageSearchDao(page.getPage(), scenario, usecase);
+            indexPage(pageSearchDao);
+
+            for(StepDescription step : page.getSteps()) {
+                StepSearchDao stepSearchDao = new StepSearchDao(step, page.getPage(), scenario, usecase);
+                indexStep(stepSearchDao);
             }
         }
     }
 
     private void indexUseCase(UseCaseSearchDao useCaseSearchDao) {
+        indexDocument("usecase", useCaseSearchDao, useCaseSearchDao.getUseCase().getName());
+    }
+
+    private void indexScenario(ScenarioSearchDao scenariosearchDao) {
+        indexDocument("scenario", scenariosearchDao, scenariosearchDao.getScenario().getName());
+    }
+
+    private void indexPage(PageSearchDao page) {
+        indexDocument("page", page, page.getPage().getName());
+    }
+
+    private void indexStep(StepSearchDao step) {
+        indexDocument("step", step, step.getStep().getTitle());
+    }
+
+    private <T> void indexDocument(String type, T document, String documentName) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             ObjectWriter writer = objectMapper.writer();
 
-            client.prepareIndex(indexName, "usecase").setSource(writer.writeValueAsBytes(useCaseSearchDao)).get();
+            client.prepareIndex(indexName, type).setSource(writer.writeValueAsBytes(document)).get();
 
-            LOGGER.debug("Indexed use case " + useCaseSearchDao.getUseCase().getName() + " for index " + indexName);
+            LOGGER.debug("Indexed use case " + documentName + " for index " + indexName);
         } catch (IOException e) {
-            LOGGER.error("Could not index use case " + useCaseSearchDao.getUseCase().getName() + ". Will skip this one.", e);
+            LOGGER.error("Could not index use case " + documentName + ". Will skip this one.", e);
         }
-    }
-
-    private void indexScenario(final Scenario scenario, ScenarioSearchDao scenariosearchDao) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            ObjectWriter writer = objectMapper.writer();
-
-            client.prepareIndex(indexName, "scenario").setSource(writer.writeValueAsBytes(scenariosearchDao)).get();
-
-            LOGGER.debug("Indexed scenario " + scenario.getName() + " for index " + indexName);
-        } catch (IOException e) {
-            LOGGER.error("Could not index use case " + scenario.getName() + ". Will skip this one.", e);
-        }
-    }
-
-    private String setupIndex(String indexName) {
-        if(indexExists(indexName)) {
-            client.admin().indices().prepareDelete(indexName).get();
-
-            LOGGER.debug("Removed existing index " + indexName);
-        }
-
-        client.admin().indices().prepareCreate(indexName)
-                .addMapping("scenario", createMappingForType("scenario")).get();
-        LOGGER.debug("Added new index " + indexName);
-        return indexName;
     }
 
     private boolean indexExists(String indexName) {

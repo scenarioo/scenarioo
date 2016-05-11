@@ -265,6 +265,8 @@ public class ScenarioDocuAggregator {
 		PageNameSanitizer.sanitizePageNames(steps);
 		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(usecase, scenario, steps, referencePath, objectRepository);
 		scenarioPageSteps.setPagesAndSteps(pageStepsList);
+
+		new FullTextSearch().indexPages(pageStepsList, scenario, usecase, getBuildIdentifier());
 		
 		return scenarioPageSteps;
 	}
