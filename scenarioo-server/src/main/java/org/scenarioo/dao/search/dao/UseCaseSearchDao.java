@@ -15,13 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.dao.search;
+package org.scenarioo.dao.search.dao;
 
 import org.scenarioo.model.docu.entities.UseCase;
 
-/**
- * 
- */
 public class UseCaseSearchDao {
 
 	private UseCase useCase;

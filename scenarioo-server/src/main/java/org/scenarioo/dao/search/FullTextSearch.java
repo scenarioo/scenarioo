@@ -22,7 +22,10 @@ import java.util.*;
 import org.apache.log4j.Logger;
 import org.scenarioo.dao.search.elasticsearch.ElasticSearchAdapter;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
+import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 public class FullTextSearch {
@@ -59,9 +62,22 @@ public class FullTextSearch {
 			return;
 		}
 
+		searchAdapter.setupNewBuild(buildIdentifier);
 		searchAdapter.indexUseCases(useCaseScenariosList, buildIdentifier);
 
 		LOGGER.info("Indexed build " + buildIdentifier);
+	}
+
+
+	public void indexPages(final List<PageSteps> pageStepsList, Scenario scenario, UseCase usecase, final BuildIdentifier buildIdentifier) {
+		if(!searchAdapter.isEngineRunning()) {
+			LOGGER.info("No search engine running.");
+			return;
+		}
+
+		searchAdapter.indexPages(pageStepsList, scenario, usecase, buildIdentifier);
+
+		LOGGER.info("Indexed pages " + buildIdentifier);
 	}
 
 
@@ -77,7 +93,6 @@ public class FullTextSearch {
 		LOGGER.info("Updated available builds.");
 	}
 
-
 	private List<BuildIdentifier> getAvailableBuildIdentifiers(List<BuildImportSummary> availableBuilds) {
 		List<BuildIdentifier> identifierList = new ArrayList<BuildIdentifier>();
 		for(BuildImportSummary buildSummary : availableBuilds) {
@@ -88,5 +103,4 @@ public class FullTextSearch {
 
 		return identifierList;
 	}
-
 }

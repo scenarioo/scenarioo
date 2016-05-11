@@ -29,9 +29,13 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.scenarioo.dao.search.IgnoreUseCaseSetStatusMixIn;
-import org.scenarioo.dao.search.ScenarioSearchDao;
-import org.scenarioo.dao.search.UseCaseSearchDao;
+import org.scenarioo.dao.search.dao.PageSearchDao;
+import org.scenarioo.dao.search.dao.ScenarioSearchDao;
+import org.scenarioo.dao.search.dao.StepSearchDao;
+import org.scenarioo.dao.search.dao.UseCaseSearchDao;
+import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.UseCase;
 
 import java.io.IOException;
@@ -49,6 +53,8 @@ class ElasticSearchSearcher {
 
     private ObjectReader useCaseReader;
     private ObjectReader scenarioReader;
+    private ObjectReader pageReader;
+    private ObjectReader stepReader;
 
     ElasticSearchSearcher(String indexName) {
         try {
@@ -59,10 +65,49 @@ class ElasticSearchSearcher {
 
             useCaseReader = generateObjectReader(UseCase.class, UseCaseSearchDao.class);
             scenarioReader = generateObjectReader(Scenario.class, ScenarioSearchDao.class);
+            pageReader = generateObjectReader(Page.class, PageSearchDao.class);
+            stepReader = generateObjectReader(StepDescription.class, StepSearchDao.class);
 
         } catch (UnknownHostException e) {
             LOGGER.info("no elasticsearch cluster running.");
         }
+    }
+
+    List<String> search(String q) {
+        SearchResponse searchResponse = executeSearch(q);
+
+        if (searchResponse.getHits().getHits().length == 0) {
+            LOGGER.debug("No results found for " + q);
+            return Collections.emptyList();
+        }
+
+        SearchHit[] hits = searchResponse.getHits().getHits();
+
+        List<String> results = new ArrayList<String>();
+        for (SearchHit searchHit : hits) {
+            try {
+                String type = searchHit.getType();
+                if (type.equals("usecase")) {
+                    results.add(parseUseCase(searchHit));
+
+                } else if (type.equals("scenario")) {
+                    results.add(parseScenario(searchHit));
+
+                } else if (type.equals("page")) {
+                    results.add(parsePage(searchHit));
+
+                } else if (type.equals("step")) {
+                    results.add(parseStep(searchHit));
+
+                } else {
+                    LOGGER.error("No type mapping for " + searchHit.getType() + " known.");
+                }
+            } catch (IOException e) {
+                LOGGER.error("Could not parse entry " + searchHit.getSourceAsString(), e);
+            }
+        }
+
+        return results;
     }
 
     private SearchResponse executeSearch(final String q) {
@@ -73,37 +118,6 @@ class ElasticSearchSearcher {
                 .setQuery(QueryBuilders.queryStringQuery("\"" + q + "\""));
 
         return setQuery.execute().actionGet();
-    }
-
-    List<String> search(String q) {
-        SearchResponse searchResponse = executeSearch(q);
-
-        if (searchResponse.getHits().getHits().length == 0) {
-            // no results found
-            return Collections.emptyList();
-        }
-
-        SearchHit[] hits = searchResponse.getHits().getHits();
-
-        List<String> useCases = new ArrayList<String>();
-        for (SearchHit searchHit : hits) {
-            try {
-                String type = searchHit.getType();
-                if (type.equals("usecase")) {
-                    useCases.add(parseUseCase(searchHit));
-
-                } else if (type.equals("scenario")) {
-                    useCases.add(parseScenario(searchHit));
-
-                } else {
-                    LOGGER.error("No type mapping for " + searchHit.getType() + " known.");
-                }
-            } catch (IOException e) {
-                LOGGER.error("Could not parse entry " + searchHit);
-            }
-        }
-
-        return useCases;
     }
 
     private String parseUseCase(final SearchHit searchHit) throws IOException {
@@ -117,8 +131,22 @@ class ElasticSearchSearcher {
                 .streamInput());
 
         return scenarioSearchDao.getScenario().getName();
-
     }
+
+    private String parsePage(final SearchHit searchHit) throws IOException {
+        PageSearchDao pageSearchDao = pageReader.readValue(searchHit.getSourceRef()
+                .streamInput());
+
+        return pageSearchDao.getPage().getName();
+    }
+
+    private String parseStep(final SearchHit searchHit) throws IOException {
+        StepSearchDao stepSearchDao = stepReader.readValue(searchHit.getSourceRef()
+                .streamInput());
+
+        return stepSearchDao.getStep().getTitle();
+    }
+
 
     private ObjectReader generateObjectReader(final Class baseClass, final Class searchDao) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -128,4 +156,5 @@ class ElasticSearchSearcher {
 
         return objectMapper.reader(searchDao);
     }
+
 }

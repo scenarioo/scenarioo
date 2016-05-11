@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <h2 class="sc-pageTitle">Search</h2>
 <div>
     <ul>
-        <li ng-repeat="result in results.resultSet">
+        <li ng-repeat="result in results.resultSet track by $index">
             {{result}}
         </li>
     </ul>

@@ -15,17 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.dao.search;
+package org.scenarioo.dao.search.dao;
 
 import org.scenarioo.model.docu.entities.Scenario;
 
-/**
- * 
- */
+@SuppressWarnings("unused")
 public class ScenarioSearchDao {
 
 	private Scenario scenario;
 	private MetaData _meta;
+
 
 	public ScenarioSearchDao() {
 	}
@@ -35,32 +34,18 @@ public class ScenarioSearchDao {
 		this._meta = new MetaData(usecaseName);
 	}
 
-	/**
-	 * @return the scenario
-	 */
 	public Scenario getScenario() {
 		return scenario;
 	}
 
-	/**
-	 * @param scenario
-	 *            the scenario to set
-	 */
 	public void setScenario(final Scenario scenario) {
 		this.scenario = scenario;
 	}
 
-	/**
-	 * @return the _meta
-	 */
 	public MetaData get_meta() {
 		return _meta;
 	}
 
-	/**
-	 * @param _meta
-	 *            the _meta to set
-	 */
 	public void set_meta(final MetaData _meta) {
 		this._meta = _meta;
 	}
@@ -69,29 +54,15 @@ public class ScenarioSearchDao {
 		private String usecase;
 
 		public MetaData() {
-
 		}
 
-		/**
-		 * @param usecaseName2
-		 */
 		public MetaData(final String usecase) {
 			this.usecase = usecase;
 		}
 
-		/**
-		 * @return the usecaseName
-		 */
 		public String getUsecase() {
 			return usecase;
 		}
 
-		/**
-		 * @param usecaseName
-		 *            the usecaseName to set
-		 */
-		public void setUsecase(final String usecase) {
-			this.usecase = usecase;
-		}
 	}
 }
