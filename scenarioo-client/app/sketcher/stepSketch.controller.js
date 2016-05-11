@@ -17,8 +17,6 @@
 
 angular.module('scenarioo.controllers').controller('StepSketchController', StepSketchController);
 
-StepSketchController.$inject = ['$scope', '$routeParams', '$location', 'HostnameAndPort',
-    'SelectedBranchAndBuildService', 'SharePageService', 'IssueResource', 'SketcherLinkService'];
 function StepSketchController($scope, $routeParams, $location, HostnameAndPort, SelectedBranchAndBuildService,
                               SharePageService, IssueResource, SketcherLinkService) {
 
