@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -18,9 +18,7 @@
 
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
-
-sourceCompatibility=1.7
-targetCompatibility=1.7
+apply from: "${rootProject.projectDir}/java.gradle"
 
 dependencies {
     compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.3.Final'
@@ -52,14 +50,14 @@ cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt
 
 task printPathConfigInformationForNodeJSAndGrunt << {
 	if (project.hasProperty('pathToNodeJS')) {
-        println "Path to Node JS was configued as: " + pathToNodeJS  	
+        println "Path to Node JS was configued as: " + pathToNodeJS
     } else {
-    	println "Path to Node JS not specified, set property 'pathToNodeJS' in case the PATH variable is not set properly or not propagated to the client's build script."        
+    	println "Path to Node JS not specified, set property 'pathToNodeJS' in case the PATH variable is not set properly or not propagated to the client's build script."
     }
     if (project.hasProperty('installGrunt')) {
         println "installGrunt is specified, this will trigger installation of grunt in client build: " + installGrunt + " (this value should be 'installGrunt')"
     } else {
-        println "installGrunt: property is undefined, this means grunt is assumed to be installed already."    
+        println "installGrunt: property is undefined, this means grunt is assumed to be installed already."
     }
 }
 
@@ -68,7 +66,7 @@ task createVersionPropertiesFile << {
 	def aggregatorVersionRegex = /DERIVED_FILE_FORMAT_VERSION = \"(.*)\"\;/
 	def aggregatedDataFormatVersion = ( aggregatorJavaFile =~ aggregatorVersionRegex )[0][1]
 	def apiVersion = project.scenariooApiVersion
-	
+
 	File versionFile = new File(sourceSets.main.output.classesDir.getAbsolutePath() + '/version.properties');
 	versionFile.write('version=' + version + '\nbuild-date=' + new Date() +
 		'\napiVersion=' + apiVersion + '\naggregatedDataFormatVersion=' + aggregatedDataFormatVersion)

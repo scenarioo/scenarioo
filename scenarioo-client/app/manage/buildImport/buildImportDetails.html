@@ -1,0 +1,68 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h3>Build {{ vm.build.identifier.buildName }} on Branch {{ vm.build.identifier.branchName }}</h3>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-group">
+            <b>Build</b>
+
+            <div class="row">
+                <div class="col-md-4">
+                    Revision: {{vm.build.buildDescription.revision}}
+                </div>
+                <div class="col-md-4">
+                    Date: {{vm.build.buildDescription.date | scDateTime}}
+                </div>
+                <div class="col-md-4">
+                    Status: <span ng-class="[getStatusStyleClass(vm.build.buildDescription.status), 'label']">{{vm.build.buildDescription.status}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b>Import into Scenarioo</b>
+
+            <div class="row">
+                <div class="col-md-4">
+                    Status: <span ng-class="[vm.getStyleClassForBuildImportStatus(vm.build.status), 'label']">{{vm.build.status}}</span>
+                </div>
+                <div class="col-md-4">
+                    Date: {{vm.build.importDate | scDateTime}}
+                </div>
+                <div class="col-md-4">
+                    <div ng-show="vm.hasImportMessage()" class="label-warning">
+                        {{vm.build.statusMessage}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="importLog" class="control-label">Import Log</label>
+            <textarea id="importLog" class="form-control" rows="10" wrap="off" readonly="true"
+                      title="the output on the server on importing this build into scenarioo">{{vm.log}}</textarea>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="vm.cancel()">Close</button>
+    </div>
+</div>
