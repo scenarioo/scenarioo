@@ -11,7 +11,7 @@ var gulp = require('gulp'),
     wrap = require('gulp-wrap'),
     connect = require('gulp-connect'),
     less = require('gulp-less'),
-    karma = require('karma').server,
+    KarmaServer = require('karma').Server;
     path = require('path'),
     ngAnnotate = require('gulp-ng-annotate'),
     uglify = require('gulp-uglify'),
@@ -116,21 +116,21 @@ gulp.task('inline-templates', function () {
  * Run unit tests once
  */
 gulp.task('test', ['environmentConstants'], function (done) {
-    karma.start({
-        configFile: path.join(__dirname, 'karma.conf.js'),
+    new KarmaServer({
+        configFile: __dirname + '/karma.conf.js',
         singleRun: true
-    }, done);
+    }, done).start();
 });
 
 /**
  * Run unit tests after each file change
  */
-gulp.task('test-watch', function (done) {
-    karma.start({
-        configFile: path.join(__dirname, 'karma.conf.js'),
+gulp.task('test-watch', ['environmentConstants'], function (done) {
+    new KarmaServer({
+        configFile: __dirname + '/karma.conf.js',
         singleRun: false,
         autoWatch: true
-    }, done);
+    }, done).start();
 });
 
 /**
@@ -241,3 +241,8 @@ gulp.task('build', ['lint', 'test', 'copy-to-dist']);
  * If you call gulp without a target, we assume you want to build the client.
  */
 gulp.task('default', ['build']);
+
+/**
+ * Vizualize the gulp task tree (for debugging the build).
+ */
+gulp.task('vizualize', require('gulp-task-graph-visualizer')());
