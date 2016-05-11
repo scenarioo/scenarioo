@@ -15,13 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('ObjectRepositoryController', function ($scope, $routeParams, $location, ObjectIndexListResource, SelectedBranchAndBuildService, TreeNodeService, $filter) {
+angular.module('scenarioo.controllers').controller('ObjectRepositoryController', ObjectRepositoryController);
+
+
+function ObjectRepositoryController($routeParams, $location, ObjectIndexListResource, SelectedBranchAndBuildService, TreeNodeService, $filter) {
+    var vm = this;
+
+    vm.treemodel = [];
+    vm.object = {};
+    vm.searchField = '';
+    vm.metadataTree = [];
+    // Determines if the tree has expanded / collapsed root-nodes initially
+    vm.rootIsCollapsed = false;
+    vm.toggleLabel = 'collapse';
+    vm.goToRelatedView = goToRelatedView;
+    vm.expandAndCollapseTree = expandAndCollapseTree;
+    vm.resetSearchField = resetSearchField;
 
     var objectType = $routeParams.objectType;
     var objectName = $routeParams.objectName;
-
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
-
     var objType = {
         usecase: 1,
         scenario: 2,
@@ -30,15 +43,11 @@ angular.module('scenarioo.controllers').controller('ObjectRepositoryController',
         object: 5
     };
 
-    $scope.referenceTree = [];
-    $scope.treemodel = [];
-    $scope.showingMetaData = true;
+    activate();
 
-    // Determines if the tree has expanded / collapsed root-nodes initially
-    $scope.rootIsCollapsed = false;
-    $scope.toggleLabel = 'collapse';
-
-    SelectedBranchAndBuildService.callOnSelectionChange(loadReferenceTree);
+    function activate() {
+        SelectedBranchAndBuildService.callOnSelectionChange(loadReferenceTree);
+    }
 
     function loadReferenceTree(selected) {
 
@@ -51,9 +60,9 @@ angular.module('scenarioo.controllers').controller('ObjectRepositoryController',
                 objectName: objectName
             },
             function (result) {
-                $scope.object = result;
+                vm.object = result;
                 var transformedMetaDataTree = transformMetadataToTree(result.object.details);
-                $scope.metadataTree = transformedMetaDataTree.childNodes;
+                vm.metadataTree = transformedMetaDataTree.childNodes;
             });
     }
 
@@ -75,7 +84,7 @@ angular.module('scenarioo.controllers').controller('ObjectRepositoryController',
     }
 
     // Entry point when a tree entry is clicked
-    $scope.goToRelatedView = function (nodeElement) {
+    function goToRelatedView(nodeElement) {
         var navigationElement = buildNavigationElement(nodeElement);
         if (navigationElement.objectType === objType.step) {
             goToStep(navigationElement);
@@ -83,20 +92,20 @@ angular.module('scenarioo.controllers').controller('ObjectRepositoryController',
             var locationPath = buildLocationPath(navigationElement);
             $location.path(locationPath);
         }
-    };
+    }
 
     function buildLocationPath(navElement) {
         var locationPath = '';
 
         if (navElement.objectType === objType.scenario || navElement.objectType === objType.usecase) {
             locationPath = navElement.navigationType + '/' + navElement.useCaseName +
-            '/' + navElement.scenarioName;
+                '/' + navElement.scenarioName;
         } else if (navElement.objectType === objType.page) {
             locationPath += 'object/page/' + navElement.pageName;
         } else if (navElement.objectType === objType.step) {
             locationPath += 'step/' + navElement.useCaseName + '/' + navElement.scenarioName +
-            '/' + navElement.pageName + '/' +
-            navElement.pageOccurrence + '/' + navElement.stepInPageOccurrence;
+                '/' + navElement.pageName + '/' +
+                navElement.pageOccurrence + '/' + navElement.stepInPageOccurrence;
         } else if (navElement.objectType === objType.object) {
             locationPath += 'object/' + navElement.navigationType + '/' + navElement.navigationName;
         }
@@ -150,7 +159,7 @@ angular.module('scenarioo.controllers').controller('ObjectRepositoryController',
             }
         }
 
-        var parentNode = $scope.treemodel[$scope.treemodel.indexOf(node.parent)];
+        var parentNode = vm.treemodel[vm.treemodel.indexOf(node.parent)];
 
         if (angular.isDefined(parentNode)) {
             populateNavigationElementRecursively(navigationElement, parentNode, false);
@@ -166,12 +175,11 @@ angular.module('scenarioo.controllers').controller('ObjectRepositoryController',
         navigationElement.objectType = navElementObjectType;
     }
 
-    $scope.expandAndCollapseTree = function (treemodel) {
-        TreeNodeService.expandAndCollapseTree(treemodel, $scope);
-    };
+    function expandAndCollapseTree(treemodel) {
+        TreeNodeService.expandAndCollapseTree(treemodel, vm);
+    }
 
-    $scope.resetSearchField = function () {
-        $scope.searchField = '';
-    };
-
-});
+    function resetSearchField() {
+        vm.searchField = '';
+    }
+}

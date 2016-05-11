@@ -59,6 +59,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
             .when('/object/:objectType/:objectName', {
                 templateUrl: 'objectRepository/objectRepository.html',
                 controller: 'ObjectRepositoryController',
+                controllerAs: 'vm',
                 objectType: '@objectType',
                 objectName: '@objectName',
                 breadcrumbId: 'object'
@@ -79,12 +80,12 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 breadcrumbId: 'stepsketch'
             })
             .when('/editor', {
-                templateUrl: 'sketcher/editor.html',
-                controller: 'EditorCtrl'
+                templateUrl: 'sketcher/sketcherEditor.html',
+                controller: 'SketcherEditorController'
             })
             .when('/editor/:issueId/:scenarioSketchId/:stepSketchId', {
-                templateUrl: 'sketcher/editor.html',
-                controller: 'EditorCtrl',
+                templateUrl: 'sketcher/sketcherEditor.html',
+                controller: 'SketcherEditorController',
                 issueId: '@issueId',
                 scenarioSketchId: '@scenarioSketchId',
                 stepSketchId: '@stepSketchId'

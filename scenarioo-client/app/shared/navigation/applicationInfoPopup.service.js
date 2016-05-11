@@ -44,7 +44,7 @@ angular.module('scenarioo.services').factory('ApplicationInfoPopupService', func
         modalIsCurrentlyOpen = true;
         var modalInstance = $uibModal.open({
             templateUrl: 'shared/navigation/applicationInfoPopup.html',
-            controller: 'ApplicationInfoCtrl',
+            controller: 'ApplicationInfoController',
             windowClass: 'modal-small about-popup',
             backdropFade: true
         });
@@ -62,7 +62,7 @@ angular.module('scenarioo.services').factory('ApplicationInfoPopupService', func
         showApplicationInfoPopup: showApplicationInfoPopup
     };
 
-}).controller('ApplicationInfoCtrl', function ($scope, $uibModalInstance, ConfigService, $sce, VersionResource) {
+}).controller('ApplicationInfoController', function ($scope, $uibModalInstance, ConfigService, $sce, VersionResource) {
     $scope.$watch(function () {
         return ConfigService.applicationInformation();
     }, function (applicationInformation) {
