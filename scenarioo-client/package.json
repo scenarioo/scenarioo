@@ -25,6 +25,7 @@
     "gulp-ng-annotate": "2.0.x",
     "gulp-protractor": "2.3.x",
     "gulp-rev": "^7.0.0",
+    "gulp-task-graph-visualizer": "^1.0.0",
     "gulp-uglify": "1.5.x",
     "gulp-usemin": "0.3.x",
     "gulp-util": "3.0.x",
