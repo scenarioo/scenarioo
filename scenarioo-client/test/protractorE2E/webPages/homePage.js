@@ -19,6 +19,7 @@ function HomePage(overridePath) {
     this.hideMetaDataButton = element(by.id('sc-showHideDetailsButton-hide'));
     this.metaDataPanel = element(by.id('sc-metadata-panel'));
     this.sketchesTab = element(by.id('sc-main-tab-sketches'));
+    this.pagesTab = element(by.id('sc-main-tab-pages'));
 }
 
 util.inherits(HomePage, BaseWebPage);
@@ -88,5 +89,27 @@ HomePage.prototype.assertSketchesListContainsEntryWithSketchName = function(sket
     e2eUtils.assertTextPresentInElement(element(by.id('sc-sketches-list')), sketchName);
 };
 
+HomePage.prototype.selectPagesTab = function() {
+    this.pagesTab.click();
+};
+
+HomePage.prototype.assertPagesTabContainsPage = function(pageName) {
+    e2eUtils.assertTextPresentInElement(element(by.id('treeviewtable')), pageName);
+};
+
+HomePage.prototype.filterPages = function (filterQuery) {
+    var pagesSearchField = element(by.id('pagesSearchField'));
+    pagesSearchField.clear();
+    pagesSearchField.sendKeys(filterQuery);
+};
+
+HomePage.prototype.assertCustomTabEntriesShown = function (count) {
+    element(by.id('treeviewtable')).all(by.css('tr')).filter(function(e) {
+        return e.isDisplayed();
+    }).then(function (elements) {
+        // Not a great workaround, at the moment the filterable table header column is also a normal tr
+        expect(elements.length).toBe(count + 1);
+    });
+};
 
 module.exports = HomePage;

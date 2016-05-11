@@ -20,7 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	    <div class="col-sm-8">
 	        <div class="input-group">
 	            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip" title="type words separated by spaces to search for"
-                    ng-model="customTab.searchField" placeholder="Search ..." ng-keyup="$event.keyCode == 27 ? customTab.resetSearchField() : null" data-scDebounce/>
+                    ng-model="customTab.searchField" placeholder="Search ..." ng-keyup="$event.keyCode == 27 ? customTab.resetSearchField() : null" data-scDebounce
+					id="{{ tab.tabId }}SearchField"/>
 	            <span class="input-group-btn">
 	                <button type="button" ng-click="customTab.resetSearchField()" class="btn btn-default">reset</button>
 	            </span>
@@ -41,6 +42,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		data-treedata="customTab.tabContentTree"
 		data-treemodel="customTab.treemodel"
 		data-click-action="customTab.goToReferenceTree(node)"
-		data-columns="tab.column">
+		data-columns="tab.columns">
 	</div>
 </div> 

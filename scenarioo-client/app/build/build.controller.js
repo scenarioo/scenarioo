@@ -66,7 +66,7 @@ function BuildController($scope, $location, ConfigService) {
                 index: index + 1,
                 tabId: customTab.id,
                 title: customTab.tabTitle,
-                column: customTab.customObjectDetailColumns,
+                columns: customTab.customObjectDetailColumns,
                 contentViewUrl: 'build/customTab.html'
             });
             vm.tabIndices[customTab.id] = index + 1;
