@@ -62,7 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <div ng-class="{'removed' : step.diffInfo.isRemoved}">
                         <div class="step-title">
                             <h3 class="sc-truncate">
-                                <div class="diff-info-wrapper">
+                                <div class="diff-info-wrapper" ng-if="comparisonInfo.isDefined">
                                     <sc-diff-info-icon diff-info="step.diffInfo" element-type="step"></sc-diff-info-icon>
                                 </div>
                                 <a ng-if="!step.diffInfo.isRemoved" ng-href="{{getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">Step {{step.index + 1}}: {{step.title}}</a>

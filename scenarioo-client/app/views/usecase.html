@@ -48,7 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     {{property | scHumanReadable}}
                 </th>
                 <th sc-sortable-column="numberOfSteps"># Steps</th>
-                <th sc-sortable-column="diffInfo.changeRate">Changes</th>
+                <th sc-sortable-column="diffInfo.changeRate" ng-if="comparisonInfo.isDefined">Changes</th>
             </tr>
             </thead>
             <tbody>
@@ -74,7 +74,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <td>{{scenarioSummary.scenario.description}}</td>
                 <td ng-repeat="property in useCase.propertiesToShow">{{scenarioSummary.scenario.details[property]}}</td>
                 <td>{{scenarioSummary.numberOfSteps}}</td>
-                <td><sc-diff-info-icon diff-info="scenarioSummary.diffInfo" element-type="scenario" child-element-type="step"></sc-diff-info-icon></td>
+                <td ng-if="comparisonInfo.isDefined"><sc-diff-info-icon diff-info="scenarioSummary.diffInfo" element-type="scenario" child-element-type="step"></sc-diff-info-icon></td>
             </tr>
             </tbody>
         </table>

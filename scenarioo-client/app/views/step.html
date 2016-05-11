@@ -117,7 +117,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <pre ng-bind="step.html.htmlSource" id="html-source">
                 </pre>
             </uib-tab>
-            <uib-tab heading="Comparison  {{changeRate | number:0}}%" id="comparison-tab" classes="{{comparisonTabClasses}}" ng-if="isComparisonDefined">
+            <uib-tab heading="Comparison  {{changeRate | number:0}}%" id="comparison-tab" classes="{{comparisonTabClasses}}" active="isActive" select="setActiveTab('comparison-tab')"ng-if="comparisonInfo.isDefined">
                 <div class="col-lg-6">
                     <div>
 

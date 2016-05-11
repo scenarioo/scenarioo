@@ -49,13 +49,15 @@ function UseCaseCtrl($scope, $filter, $routeParams, $location, ScenarioResource,
 
     activate();
 
+    $scope.comparisonInfo = SelectedComparison.info;
+
 
     function resetSearchField() {
         vm.table.search = {searchTerm: ''};
     }
 
     function handleClick(useCaseName, scenarioSummary) {
-        if(scenarioSummary.diffInfo && !scenarioSummary.diffInfo.isRemoved){
+        if(!scenarioSummary.diffInfo || !scenarioSummary.diffInfo.isRemoved){
             goToScenario(useCaseName, scenarioSummary.scenario.name);
         }
     }

@@ -21,6 +21,7 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
   var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
   var dateTimeFormatter = $filter('scDateTime');
   SelectedBranchAndBuild.callOnSelectionChange(loadUseCases);
+  $scope.comparisonInfo = SelectedComparison.info;
 
   // FIXME this code is duplicated. How can we extract it into a service?
   LabelConfigurationsResource.query({}, function (labelConfiguratins) {
@@ -72,7 +73,7 @@ angular.module('scenarioo.controllers').controller('MainUseCasesTabCtrl', functi
   }
 
   $scope.handleClick = function(useCase){
-    if(useCase.diffInfo && !useCase.diffInfo.isRemoved){
+    if(!useCase.diffInfo || !useCase.diffInfo.isRemoved){
       goToUseCase(useCase.name);
     }
   };
