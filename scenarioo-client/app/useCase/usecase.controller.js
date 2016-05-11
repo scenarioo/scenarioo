@@ -44,10 +44,17 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     vm.goToScenario = goToScenario;
     vm.onNavigatorTableHit = onNavigatorTableHit;
     vm.getLabelStyle = getLabelStyle;
-
+    vm.goToIssue = goToIssue;
 
     activate();
 
+    function activate() {
+        SelectedBranchAndBuildService.callOnSelectionChange(loadScenariosAndUseCase);
+
+        LabelConfigurationsResource.query({}, function (labelConfigurations) {
+            vm.labelConfigurations = labelConfigurations;
+        });
+    }
 
     function resetSearchField() {
         vm.table.search = {searchTerm: ''};
@@ -75,7 +82,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     function goToFirstStep(useCaseName, scenarioName) {
         var selected = SelectedBranchAndBuildService.selected();
 
-        //FIXME This could be improved, if the scenario service
+        // FIXME This could be improved, if the scenario service
         // for finding all scenarios would also retrieve the name of the first page
         ScenarioResource.get(
             {
@@ -90,14 +97,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         );
     }
 
-    function activate() {
 
-        SelectedBranchAndBuildService.callOnSelectionChange(loadScenariosAndUseCase);
-
-        LabelConfigurationsResource.query({}, function (labelConfigurations) {
-            vm.labelConfigurations = labelConfigurations;
-        });
-    }
 
     function loadScenariosAndUseCase(selected) {
         var useCaseName = $routeParams.useCaseName;
@@ -126,11 +126,8 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
             buildName: SelectedBranchAndBuildService.selected().build,
             useCaseName: $routeParams.useCaseName
         }, function(result){
-            $scope.relatedIssues = result;
-            $scope.hasAnyRelatedIssues = function(){
-                return $scope.relatedIssues.length > 0;
-            };
-            $scope.goToIssue = goToIssue;
+            vm.relatedIssues = result;
+            vm.hasAnyRelatedIssues = vm.relatedIssues.length > 0;
         });
     }
 

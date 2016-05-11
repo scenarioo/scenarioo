@@ -52,6 +52,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
             .when('/scenario/:useCaseName/:scenarioName', {
                 templateUrl: 'scenario/scenario.html',
                 controller: 'ScenarioController',
+                controllerAs: 'vm',
                 useCaseName: '@useCaseName',
                 scenarioName: '@scenarioName',
                 breadcrumbId: 'scenario'
@@ -77,6 +78,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
             .when('/stepsketch/:issueId/:scenarioSketchId/:stepSketchId', {
                 templateUrl: 'sketcher/stepSketch.html',
                 controller: 'StepSketchController',
+                controllerAs: 'vm',
                 breadcrumbId: 'stepsketch'
             })
             .when('/editor', {
