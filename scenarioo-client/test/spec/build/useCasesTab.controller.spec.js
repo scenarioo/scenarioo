@@ -19,27 +19,27 @@
 
 describe('UseCasesTabController', function () {
 
-    var $location, $scope;
+    var $location;
+    var useCasesTabController;
 
     beforeEach(module('scenarioo.controllers'));
 
     beforeEach(inject(function ($controller, $rootScope, _$location_) {
             $location = _$location_;
 
-            $scope = $rootScope.$new();
-            $controller('UseCasesTabController', {$scope: $scope});
+        useCasesTabController = $controller('UseCasesTabController');
         }
     ));
 
     it('has no usecases and builds set in the beginning', function () {
-        expect($scope.useCases).toBeUndefined();
-        expect($scope.branchesAndBuilds).toBeUndefined();
+        expect(useCasesTabController.useCases).toBeUndefined();
+        expect(useCasesTabController.branchesAndBuilds).toBeUndefined();
     });
 
     it('navigates to use case when link is clicked', function () {
         expect($location.path()).toBe('');
 
-        $scope.goToUseCase('DisplayWeather');
+        useCasesTabController.goToUseCase('DisplayWeather');
 
         expect($location.path()).toBe('/usecase/DisplayWeather');
     });
