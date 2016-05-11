@@ -104,11 +104,11 @@ HomePage.prototype.filterPages = function (filterQuery) {
 };
 
 HomePage.prototype.assertCustomTabEntriesShown = function (count) {
-    element(by.id('treeviewtable')).all(by.css('tr')).filter(function(e) {
+    element(by.id('treeviewtable')).all(by.css('tbody tr')).filter(function(e) {
         return e.isDisplayed();
     }).then(function (elements) {
         // Not a great workaround, at the moment the filterable table header column is also a normal tr
-        expect(elements.length).toBe(count + 1);
+        expect(elements.length).toBe(count);
     });
 };
 
