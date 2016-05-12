@@ -33,10 +33,7 @@ import org.scenarioo.dao.search.dao.PageSearchDao;
 import org.scenarioo.dao.search.dao.ScenarioSearchDao;
 import org.scenarioo.dao.search.dao.StepSearchDao;
 import org.scenarioo.dao.search.dao.UseCaseSearchDao;
-import org.scenarioo.model.docu.entities.Page;
-import org.scenarioo.model.docu.entities.Scenario;
-import org.scenarioo.model.docu.entities.StepDescription;
-import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.*;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -63,10 +60,10 @@ class ElasticSearchSearcher {
 
             this.indexName = indexName;
 
-            useCaseReader = generateObjectReader(UseCase.class, UseCaseSearchDao.class);
-            scenarioReader = generateObjectReader(Scenario.class, ScenarioSearchDao.class);
-            pageReader = generateObjectReader(Page.class, PageSearchDao.class);
-            stepReader = generateObjectReader(StepDescription.class, StepSearchDao.class);
+            useCaseReader = generateUseCaseReader();
+            scenarioReader = generateScenarioReader();
+            pageReader = generatePageReader();
+            stepReader = generateStepReader();
 
         } catch (UnknownHostException e) {
             LOGGER.info("no elasticsearch cluster running.");
@@ -88,16 +85,16 @@ class ElasticSearchSearcher {
             try {
                 String type = searchHit.getType();
                 if (type.equals("usecase")) {
-                    results.add(parseUseCase(searchHit));
+                    results.add("UseCase: " + parseUseCase(searchHit));
 
                 } else if (type.equals("scenario")) {
-                    results.add(parseScenario(searchHit));
+                    results.add("Scenario: " + parseScenario(searchHit));
 
                 } else if (type.equals("page")) {
-                    results.add(parsePage(searchHit));
+                    results.add("Page: " + parsePage(searchHit));
 
                 } else if (type.equals("step")) {
-                    results.add(parseStep(searchHit));
+                    results.add("Step: " + parseStep(searchHit));
 
                 } else {
                     LOGGER.error("No type mapping for " + searchHit.getType() + " known.");
@@ -144,17 +141,44 @@ class ElasticSearchSearcher {
         StepSearchDao stepSearchDao = stepReader.readValue(searchHit.getSourceRef()
                 .streamInput());
 
-        return stepSearchDao.getStep().getTitle();
+        return stepSearchDao.getStep().getStepDescription().getTitle();
     }
 
-
-    private ObjectReader generateObjectReader(final Class baseClass, final Class searchDao) {
+    private ObjectReader generateUseCaseReader() {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.getDeserializationConfig().addMixInAnnotations(baseClass,
+        objectMapper.getDeserializationConfig().addMixInAnnotations(UseCase.class,
                 IgnoreUseCaseSetStatusMixIn.class);
         objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        return objectMapper.reader(searchDao);
+
+        return objectMapper.reader(UseCaseSearchDao.class);
     }
 
+	private ObjectReader generateScenarioReader() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.getDeserializationConfig().addMixInAnnotations(Scenario.class,
+			IgnoreUseCaseSetStatusMixIn.class);
+		objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+
+		return objectMapper.reader(ScenarioSearchDao.class);
+	}
+
+	private ObjectReader generatePageReader() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+
+		return objectMapper.reader(PageSearchDao.class);
+	}
+
+	private ObjectReader generateStepReader() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.getDeserializationConfig().addMixInAnnotations(StepDescription.class,
+			IgnoreUseCaseSetStatusMixIn.class);
+		objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+
+		return objectMapper.reader(StepSearchDao.class);
+	}
 }
