@@ -17,30 +17,27 @@
 
 package org.scenarioo.dao.search.dao;
 
-import org.scenarioo.model.docu.entities.Page;
-import org.scenarioo.model.docu.entities.Scenario;
-import org.scenarioo.model.docu.entities.StepDescription;
-import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.*;
 
 @SuppressWarnings("unused")
 public class StepSearchDao {
 
-    private StepDescription step;
+    private Step step;
     private MetaData _meta;
 
     public StepSearchDao() {
     }
 
-    public StepSearchDao(StepDescription step, Page page, Scenario scenario, UseCase usecase) {
+    public StepSearchDao(Step step, Page page, Scenario scenario, UseCase usecase) {
         this.step = step;
         this._meta = new MetaData(page.getName(), scenario.getName(), usecase.getName());
     }
 
-    public StepDescription getStep() {
+    public Step getStep() {
         return step;
     }
 
-    public void setStep(StepDescription step) {
+    public void setStep(Step step) {
         this.step = step;
     }
 

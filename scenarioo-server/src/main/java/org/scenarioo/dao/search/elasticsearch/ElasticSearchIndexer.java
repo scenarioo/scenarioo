@@ -30,8 +30,9 @@ import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
-import org.scenarioo.model.docu.entities.StepDescription;
+import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 
 import java.io.IOException;
@@ -92,13 +93,15 @@ class ElasticSearchIndexer {
         for(PageSteps page : pageStepsList) {
             PageSearchDao pageSearchDao = new PageSearchDao(page.getPage(), scenario, usecase);
             indexPage(pageSearchDao);
-
-            for(StepDescription step : page.getSteps()) {
-                StepSearchDao stepSearchDao = new StepSearchDao(step, page.getPage(), scenario, usecase);
-                indexStep(stepSearchDao);
-            }
         }
     }
+
+	void indexSteps(List<Step> stepsList, Page page, Scenario scenario, UseCase usecase) {
+		for(Step step : stepsList) {
+			StepSearchDao stepSearchDao = new StepSearchDao(step, page, scenario, usecase);
+			indexDocument("step", stepSearchDao, step.getStepDescription().getTitle());
+		}
+	}
 
     private void indexUseCase(UseCaseSearchDao useCaseSearchDao) {
         indexDocument("usecase", useCaseSearchDao, useCaseSearchDao.getUseCase().getName());
@@ -110,10 +113,6 @@ class ElasticSearchIndexer {
 
     private void indexPage(PageSearchDao page) {
         indexDocument("page", page, page.getPage().getName());
-    }
-
-    private void indexStep(StepSearchDao step) {
-        indexDocument("step", step, step.getStep().getTitle());
     }
 
     private <T> void indexDocument(String type, T document, String documentName) {

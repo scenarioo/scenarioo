@@ -29,7 +29,9 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.scenarioo.dao.search.SearchAdapter;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.base.BuildIdentifier;
 
@@ -100,7 +102,15 @@ public class ElasticSearchAdapter implements SearchAdapter {
         elasticSearchIndexer.indexPages(pageStepsList, scenario, usecase);
     }
 
-    @Override
+	@Override
+	public void indexSteps(List<Step> steps, Page page, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
+		String indexName = getIndexName(buildIdentifier);
+
+		ElasticSearchIndexer elasticSearchIndexer = new ElasticSearchIndexer(indexName);
+		elasticSearchIndexer.indexSteps(steps, page, scenario, usecase);
+	}
+
+	@Override
     public void updateAvailableBuilds(List<BuildIdentifier> availableBuilds) {
         List<String> existingIndices = getAvailableIndices();
         List<String> availableBuildNames = getAvailableBuildNames(availableBuilds);

@@ -4,7 +4,9 @@ import org.junit.Test;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.base.BuildIdentifier;
 
@@ -47,82 +49,58 @@ public class FullTextSearchTest {
     }
 
     private void givenNoRunningEngine() {
-        fullTextSearch = new FullTextSearch(new NonRunningEngine());
+        fullTextSearch = new FullTextSearch(null, new SearchEngine(false));
     }
 
     private void givenRunningEngineWithSearchResults() {
-        fullTextSearch = new FullTextSearch(new RunningEngine());
+        fullTextSearch = new FullTextSearch(null, new SearchEngine(true));
     }
 
     private void thenJustReturns() {
     }
 
-    private class NonRunningEngine implements SearchAdapter {
+    private class SearchEngine implements SearchAdapter {
+
+		private boolean isRunning;
+
+		SearchEngine(boolean isRunning) {
+			this.isRunning = isRunning;
+		}
 
         @Override
         public boolean isEngineRunning() {
-            return false;
+            return isRunning;
         }
 
         @Override
         public List<String> searchData(BuildIdentifier buildIdentifier, String q) {
-            fail("Should not be reachable");
+			assertTrue("Should not be reachable", isRunning);
 
-            return null;
-        }
-
-        @Override
-        public void indexUseCases(UseCaseScenariosList useCaseScenariosList, BuildIdentifier buildIdentifier) {
-            fail("Should not be reachable");
-        }
-
-        @Override
-        public void updateAvailableBuilds(List<BuildIdentifier> existingBuilds) {
-            fail("Should not be reachable");
-        }
-
-        @Override
-        public void indexPages(List<PageSteps> pageStepsList, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
-            fail("Should not be reachable");
-        }
-
-        @Override
-        public void setupNewBuild(BuildIdentifier buildIdentifier) {
-            fail("Should not be reachable");
-        }
-    }
-
-    private class RunningEngine implements SearchAdapter {
-
-        @Override
-        public boolean isEngineRunning() {
-            return true;
-        }
-
-        @Override
-        public List<String> searchData(BuildIdentifier buildIdentifier, String q) {
             return Collections.emptyList();
         }
 
         @Override
         public void indexUseCases(UseCaseScenariosList useCaseScenariosList, BuildIdentifier buildIdentifier) {
-            // nothing to do
-        }
+			assertTrue("Should not be reachable", isRunning);        }
 
         @Override
         public void updateAvailableBuilds(List<BuildIdentifier> existingBuilds) {
-            // nothing to do
-        }
+			assertTrue("Should not be reachable", isRunning);
+		}
 
         @Override
         public void indexPages(List<PageSteps> pageStepsList, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
-            // nothing to do
-        }
+			assertTrue("Should not be reachable", isRunning);        }
 
-        @Override
+		@Override
+		public void indexSteps(List<Step> steps, Page page, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
+			assertTrue("Should not be reachable", isRunning);
+		}
+
+		@Override
         public void setupNewBuild(BuildIdentifier buildIdentifier) {
-            // nothing to do
-        }
+			assertTrue("Should not be reachable", isRunning);
+		}
     }
 
 }
