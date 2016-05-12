@@ -17,6 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('SearchController', function ($scope, $location, FullTextSearchService, SelectedBranchAndBuildService) {
     $scope.results = {resultSet: []};
+    $scope.treemodel = [];
 
     var q = $location.search().q;
     doSearch();

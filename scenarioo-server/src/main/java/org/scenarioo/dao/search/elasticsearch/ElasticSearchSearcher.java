@@ -34,6 +34,7 @@ import org.scenarioo.dao.search.dao.ScenarioSearchDao;
 import org.scenarioo.dao.search.dao.StepSearchDao;
 import org.scenarioo.dao.search.dao.UseCaseSearchDao;
 import org.scenarioo.model.docu.entities.*;
+import org.scenarioo.model.docu.entities.generic.ObjectReference;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -70,7 +71,7 @@ class ElasticSearchSearcher {
         }
     }
 
-    List<String> search(String q) {
+    List<ObjectReference> search(String q) {
         SearchResponse searchResponse = executeSearch(q);
 
         if (searchResponse.getHits().getHits().length == 0) {
@@ -80,21 +81,21 @@ class ElasticSearchSearcher {
 
         SearchHit[] hits = searchResponse.getHits().getHits();
 
-        List<String> results = new ArrayList<String>();
+        List<ObjectReference> results = new ArrayList<ObjectReference>();
         for (SearchHit searchHit : hits) {
             try {
                 String type = searchHit.getType();
                 if (type.equals("usecase")) {
-                    results.add("UseCase: " + parseUseCase(searchHit));
+                    results.add(parseUseCase(searchHit));
 
                 } else if (type.equals("scenario")) {
-                    results.add("Scenario: " + parseScenario(searchHit));
+                    results.add(parseScenario(searchHit));
 
                 } else if (type.equals("page")) {
-                    results.add("Page: " + parsePage(searchHit));
+                    results.add(parsePage(searchHit));
 
                 } else if (type.equals("step")) {
-                    results.add("Step: " + parseStep(searchHit));
+                    results.add(parseStep(searchHit));
 
                 } else {
                     LOGGER.error("No type mapping for " + searchHit.getType() + " known.");
@@ -117,31 +118,31 @@ class ElasticSearchSearcher {
         return setQuery.execute().actionGet();
     }
 
-    private String parseUseCase(final SearchHit searchHit) throws IOException {
+    private ObjectReference parseUseCase(final SearchHit searchHit) throws IOException {
         UseCaseSearchDao useCaseResult = useCaseReader.readValue(searchHit.getSourceRef().streamInput());
 
-        return useCaseResult.getUseCase().getName();
+		return new ObjectReference("usecase", useCaseResult.getUseCase().getName());
     }
 
-    private String parseScenario(final SearchHit searchHit) throws IOException {
+    private ObjectReference parseScenario(final SearchHit searchHit) throws IOException {
         ScenarioSearchDao scenarioSearchDao = scenarioReader.readValue(searchHit.getSourceRef()
                 .streamInput());
 
-        return scenarioSearchDao.getScenario().getName();
+		return new ObjectReference("scenario", scenarioSearchDao.getScenario().getName());
     }
 
-    private String parsePage(final SearchHit searchHit) throws IOException {
+    private ObjectReference parsePage(final SearchHit searchHit) throws IOException {
         PageSearchDao pageSearchDao = pageReader.readValue(searchHit.getSourceRef()
                 .streamInput());
 
-        return pageSearchDao.getPage().getName();
+		return new ObjectReference("page", pageSearchDao.getPage().getName());
     }
 
-    private String parseStep(final SearchHit searchHit) throws IOException {
+    private ObjectReference parseStep(final SearchHit searchHit) throws IOException {
         StepSearchDao stepSearchDao = stepReader.readValue(searchHit.getSourceRef()
                 .streamInput());
 
-        return stepSearchDao.getStep().getStepDescription().getTitle();
+		return new ObjectReference("step", stepSearchDao.getStep().getPage().getName());
     }
 
     private ObjectReader generateUseCaseReader() {

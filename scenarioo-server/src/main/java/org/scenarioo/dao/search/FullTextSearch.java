@@ -29,6 +29,7 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
@@ -57,16 +58,16 @@ public class FullTextSearch {
 		return searchAdapter.isEngineRunning();
 	}
 
-	public List<String> search(final BuildIdentifier buildIdentifier, final String q) {
+	public List<ObjectReference> search(final BuildIdentifier buildIdentifier, final String q) {
 		if(!searchAdapter.isEngineRunning()) {
 			LOGGER.info("No search engine running.");
-			return Collections.singletonList("No search engine running.");
+			return Collections.emptyList();
 		}
 
-		List<String> searchResults = searchAdapter.searchData(buildIdentifier, q);
+		List<ObjectReference> searchResults = searchAdapter.searchData(buildIdentifier, q);
 
 		if (searchResults.isEmpty()) {
-			return Collections.singletonList("No result found.");
+			return Collections.emptyList();
 		}
 
 		return searchResults;
