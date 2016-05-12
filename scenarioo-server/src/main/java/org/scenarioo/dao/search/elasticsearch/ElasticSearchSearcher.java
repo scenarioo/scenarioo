@@ -29,12 +29,8 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.scenarioo.dao.search.IgnoreUseCaseSetStatusMixIn;
-import org.scenarioo.dao.search.dao.PageSearchDao;
-import org.scenarioo.dao.search.dao.ScenarioSearchDao;
-import org.scenarioo.dao.search.dao.StepSearchDao;
-import org.scenarioo.dao.search.dao.UseCaseSearchDao;
+import org.scenarioo.dao.search.dao.*;
 import org.scenarioo.model.docu.entities.*;
-import org.scenarioo.model.docu.entities.generic.ObjectReference;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -71,7 +67,7 @@ class ElasticSearchSearcher {
         }
     }
 
-    List<ObjectReference> search(String q) {
+    List<SearchDao> search(String q) {
         SearchResponse searchResponse = executeSearch(q);
 
         if (searchResponse.getHits().getHits().length == 0) {
@@ -81,7 +77,7 @@ class ElasticSearchSearcher {
 
         SearchHit[] hits = searchResponse.getHits().getHits();
 
-        List<ObjectReference> results = new ArrayList<ObjectReference>();
+        List<SearchDao> results = new ArrayList<SearchDao>();
         for (SearchHit searchHit : hits) {
             try {
                 String type = searchHit.getType();
@@ -118,31 +114,31 @@ class ElasticSearchSearcher {
         return setQuery.execute().actionGet();
     }
 
-    private ObjectReference parseUseCase(final SearchHit searchHit) throws IOException {
+    private SearchDao parseUseCase(final SearchHit searchHit) throws IOException {
         UseCaseSearchDao useCaseResult = useCaseReader.readValue(searchHit.getSourceRef().streamInput());
 
-		return new ObjectReference("usecase", useCaseResult.getUseCase().getName());
+		return useCaseResult;
     }
 
-    private ObjectReference parseScenario(final SearchHit searchHit) throws IOException {
+    private SearchDao parseScenario(final SearchHit searchHit) throws IOException {
         ScenarioSearchDao scenarioSearchDao = scenarioReader.readValue(searchHit.getSourceRef()
                 .streamInput());
 
-		return new ObjectReference("scenario", scenarioSearchDao.getScenario().getName());
+		return scenarioSearchDao;
     }
 
-    private ObjectReference parsePage(final SearchHit searchHit) throws IOException {
+    private SearchDao parsePage(final SearchHit searchHit) throws IOException {
         PageSearchDao pageSearchDao = pageReader.readValue(searchHit.getSourceRef()
                 .streamInput());
 
-		return new ObjectReference("page", pageSearchDao.getPage().getName());
+		return pageSearchDao;
     }
 
-    private ObjectReference parseStep(final SearchHit searchHit) throws IOException {
+    private SearchDao parseStep(final SearchHit searchHit) throws IOException {
         StepSearchDao stepSearchDao = stepReader.readValue(searchHit.getSourceRef()
                 .streamInput());
 
-		return new ObjectReference("step", stepSearchDao.getStep().getPage().getName());
+		return stepSearchDao;
     }
 
     private ObjectReader generateUseCaseReader() {

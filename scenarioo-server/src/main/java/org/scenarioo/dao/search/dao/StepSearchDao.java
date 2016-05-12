@@ -20,7 +20,7 @@ package org.scenarioo.dao.search.dao;
 import org.scenarioo.model.docu.entities.*;
 
 @SuppressWarnings("unused")
-public class StepSearchDao {
+public class StepSearchDao implements SearchDao {
 
     private Step step;
     private MetaData _meta;
@@ -49,7 +49,7 @@ public class StepSearchDao {
         return _meta;
     }
 
-    private static class MetaData {
+	public static class MetaData {
         private String page;
         private String usecase;
         private String scenario;
@@ -63,16 +63,28 @@ public class StepSearchDao {
             this.usecase = usecase;
         }
 
-        public String getPage() {
-            return page;
-        }
+		public String getPage() {
+			return page;
+		}
 
-        public String getScenario() {
-            return scenario;
-        }
+		public void setPage(String page) {
+			this.page = page;
+		}
 
-        public String getUsecase() {
-            return usecase;
-        }
-    }
+		public String getUsecase() {
+			return usecase;
+		}
+
+		public void setUsecase(String usecase) {
+			this.usecase = usecase;
+		}
+
+		public String getScenario() {
+			return scenario;
+		}
+
+		public void setScenario(String scenario) {
+			this.scenario = scenario;
+		}
+	}
 }

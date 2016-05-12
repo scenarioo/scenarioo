@@ -17,18 +17,6 @@
 
 package org.scenarioo.dao.search.dao;
 
-import org.scenarioo.model.docu.entities.UseCase;
-
-public class UseCaseSearchDao implements SearchDao {
-
-	private UseCase useCase;
-
-	public UseCase getUseCase() {
-		return useCase;
-	}
-
-	public void setUseCase(final UseCase useCase) {
-		this.useCase = useCase;
-	}
+public interface SearchDao {
 
 }
