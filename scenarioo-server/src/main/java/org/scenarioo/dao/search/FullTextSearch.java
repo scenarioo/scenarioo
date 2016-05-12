@@ -21,6 +21,7 @@ import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.dao.search.dao.*;
 import org.scenarioo.dao.search.elasticsearch.ElasticSearchAdapter;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
@@ -29,7 +30,6 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.UseCase;
-import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
@@ -58,19 +58,15 @@ public class FullTextSearch {
 		return searchAdapter.isEngineRunning();
 	}
 
-	public List<ObjectReference> search(final BuildIdentifier buildIdentifier, final String q) {
+	public SearchTree search(String q, BuildIdentifier buildIdentifier) {
 		if(!searchAdapter.isEngineRunning()) {
 			LOGGER.info("No search engine running.");
-			return Collections.emptyList();
+			return SearchTree.empty();
 		}
 
-		List<ObjectReference> searchResults = searchAdapter.searchData(buildIdentifier, q);
+		List<SearchDao> searchResults = searchAdapter.searchData(buildIdentifier, q);
 
-		if (searchResults.isEmpty()) {
-			return Collections.emptyList();
-		}
-
-		return searchResults;
+		return buildObjectTree(searchResults, q);
 	}
 
 
@@ -100,6 +96,14 @@ public class FullTextSearch {
 		LOGGER.info("Indexed pages " + buildIdentifier);
 	}
 
+	private SearchTree buildObjectTree(List<SearchDao> searchResults, final String q) {
+		if(searchResults.isEmpty()) {
+			return SearchTree.empty();
+		}
+
+		return new SearchTree(searchResults, q);
+	}
+
 	private void indexSteps(List<PageSteps> pageStepsList, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
 		for(PageSteps pageSteps : pageStepsList) {
 			List<Step> resolvedSteps = new ArrayList<Step>();
@@ -116,7 +120,6 @@ public class FullTextSearch {
 		return scenarioDocuReader.loadStep(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 			usecase.getName(), scenario.getName(), stepDescription.getIndex());
 	}
-
 
 	public void updateAvailableBuilds(List<BuildImportSummary> availableBuilds) {
 		if(!searchAdapter.isEngineRunning()) {

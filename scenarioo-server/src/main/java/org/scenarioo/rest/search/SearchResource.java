@@ -17,8 +17,6 @@
 
 package org.scenarioo.rest.search;
 
-import java.util.List;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -27,8 +25,6 @@ import javax.ws.rs.core.Response;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.search.FullTextSearch;
-import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
-import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -39,35 +35,14 @@ public class SearchResource {
 	@GET
 	@Produces("application/json")
 	@Path("/search/{q}")
-	public ObjectIndex search(@PathParam("branchName") final String branchName,
-							  @PathParam("buildName") final String buildName, @PathParam("q") final String q) {
+	public ObjectTreeNode<ObjectReference> search(@PathParam("branchName") final String branchName,
+												  @PathParam("buildName") final String buildName, @PathParam("q") final String q) {
 
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
 
 		FullTextSearch search = new FullTextSearch();
-		List<ObjectReference> result = search.search(buildIdentifier, q);
-
-		if(result.isEmpty()) {
-			return new ObjectIndex();
-		}
-
-		ObjectReference first = result.remove(0);
-
-		ObjectDescription description = new ObjectDescription(first.getType(), first.getName());
-
-		ObjectTreeNode<ObjectReference> objectTreeNode = new ObjectTreeNode<ObjectReference>(first);
-		for(ObjectReference entry : result) {
-			ObjectTreeNode<ObjectReference> parent = new ObjectTreeNode<ObjectReference>(entry);
-			parent.addChild(objectTreeNode);
-			objectTreeNode = parent;
-		}
-
-		ObjectIndex index = new ObjectIndex();
-		index.setObject(description);
-		index.setReferenceTree(objectTreeNode);
-
-		return index;
+		return search.search(q, buildIdentifier).buildObjectTree();
 	}
 
 	@GET

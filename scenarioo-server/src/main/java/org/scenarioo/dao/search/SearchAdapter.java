@@ -17,13 +17,13 @@
 
 package org.scenarioo.dao.search;
 
+import org.scenarioo.dao.search.dao.SearchDao;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
-import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public interface SearchAdapter {
 
     boolean isEngineRunning();
 
-    List<ObjectReference> searchData(BuildIdentifier buildIdentifier, String q);
+    List<SearchDao> searchData(BuildIdentifier buildIdentifier, String q);
 
     void indexUseCases(UseCaseScenariosList useCaseScenariosList, BuildIdentifier buildIdentifier);
 

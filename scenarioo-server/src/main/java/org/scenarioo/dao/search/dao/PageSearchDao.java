@@ -22,7 +22,7 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
 
 @SuppressWarnings("unused")
-public class PageSearchDao {
+public class PageSearchDao implements SearchDao {
 
     private Page page;
     private MetaData _meta;
@@ -51,7 +51,7 @@ public class PageSearchDao {
         return _meta;
     }
 
-    public static class MetaData {
+	public static class MetaData {
         private String usecase;
         private String scenario;
 
@@ -64,12 +64,20 @@ public class PageSearchDao {
             this.usecase = usecase;
         }
 
-        public String getScenario() {
-            return scenario;
-        }
+		public String getUsecase() {
+			return usecase;
+		}
 
-        public String getUsecase() {
-            return usecase;
-        }
-    }
+		public void setUsecase(String usecase) {
+			this.usecase = usecase;
+		}
+
+		public String getScenario() {
+			return scenario;
+		}
+
+		public void setScenario(String scenario) {
+			this.scenario = scenario;
+		}
+	}
 }
