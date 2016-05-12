@@ -33,6 +33,7 @@ import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 import java.net.InetAddress;
@@ -73,7 +74,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
     }
 
     @Override
-    public List<String> searchData(BuildIdentifier buildIdentifier, final String q) {
+    public List<ObjectReference> searchData(BuildIdentifier buildIdentifier, final String q) {
         final String indexName = getIndexName(buildIdentifier);
 
         ElasticSearchSearcher elasticSearchSearcher = new ElasticSearchSearcher(indexName);

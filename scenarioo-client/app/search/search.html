@@ -17,10 +17,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumb></sc-breadcrumb>
 <h2 class="sc-pageTitle">Search</h2>
-<div>
-    <ul>
-        <li ng-repeat="result in results.resultSet track by $index">
-            {{result}}
-        </li>
-    </ul>
+<div class="sc-referenceTreeMetaData"
+     data-sc-filterable-table-tree
+     data-root-is-collapsed="false"
+     data-expand-first-child-up-to-root-node="true"
+     data-filter=""
+     data-treedata="results.resultSet.referenceTree.children"
+     data-treemodel="treemodel"
+     data-click-action="vm.goToRelatedView(node)"
+     data-first-column-title="References">
 </div>

@@ -137,7 +137,7 @@ angular.module('scenarioo.services')
                 }, {});
 
         searchService.search = getPromise($q, function (parameters, fnSuccess, fnError) {
-            return searchService.query(parameters, fnSuccess, fnError);
+            return searchService.get(parameters, fnSuccess, fnError);
         });
         searchService.checkStatus = getPromise($q, function (parameters, fnSuccess, fnError) {
             return statusService.query(parameters, fnSuccess, fnError);

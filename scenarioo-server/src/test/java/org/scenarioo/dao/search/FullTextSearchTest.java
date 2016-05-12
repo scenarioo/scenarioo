@@ -8,6 +8,7 @@ import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 import java.util.Collections;
@@ -44,8 +45,8 @@ public class FullTextSearchTest {
     @Test
     public void searchWithNoResults() {
         givenRunningEngineWithSearchResults();
-        List<String> result = fullTextSearch.search(new BuildIdentifier("testBranch", "testBuild"), "IDONOTEXIST");
-        assertEquals("No result found.", result.get(0));
+        List<ObjectReference> result = fullTextSearch.search(new BuildIdentifier("testBranch", "testBuild"), "IDONOTEXIST");
+		assertEquals(0, result.size());
     }
 
     private void givenNoRunningEngine() {
@@ -73,7 +74,7 @@ public class FullTextSearchTest {
         }
 
         @Override
-        public List<String> searchData(BuildIdentifier buildIdentifier, String q) {
+        public List<ObjectReference> searchData(BuildIdentifier buildIdentifier, String q) {
 			assertTrue("Should not be reachable", isRunning);
 
             return Collections.emptyList();
