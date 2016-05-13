@@ -25,5 +25,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      data-treedata="vm.results.resultSet.children"
      data-treemodel="vm.treemodel"
      data-click-action="vm.goToRelatedView(node)"
-     data-first-column-title="References">
+     data-first-column-title="References"
+     ng-show="vm.results.resultSet.children.length > 0">
+</div>
+
+<div class="alert alert-warning" ng-show="vm.results.resultSet.children.length === 0">
+    No results found.
 </div>
