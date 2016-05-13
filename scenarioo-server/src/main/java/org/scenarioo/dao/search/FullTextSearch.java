@@ -25,10 +25,10 @@ import org.scenarioo.dao.search.dao.*;
 import org.scenarioo.dao.search.elasticsearch.ElasticSearchAdapter;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
+import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
-import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -91,9 +91,23 @@ public class FullTextSearch {
 
 		searchAdapter.indexPages(pageStepsList, scenario, usecase, buildIdentifier);
 
-		indexSteps(pageStepsList, scenario, usecase, buildIdentifier);
-
 		LOGGER.info("Indexed pages " + buildIdentifier);
+	}
+
+	public void indexSteps(List<StepLink> stepLinkList, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
+		if(!searchAdapter.isEngineRunning()) {
+			LOGGER.info("No search engine running.");
+			return;
+		}
+
+		List<Step> resolvedSteps = new ArrayList<Step>();
+		for(StepLink stepLink : stepLinkList) {
+				resolvedSteps.add(resolveStep(stepLink, scenario, usecase, buildIdentifier));
+
+		}
+		searchAdapter.indexSteps(resolvedSteps, stepLinkList, scenario, usecase, buildIdentifier);
+
+		LOGGER.info("Indexed steps " + buildIdentifier);
 	}
 
 	private SearchTree buildObjectTree(List<SearchDao> searchResults, final String q) {
@@ -104,21 +118,9 @@ public class FullTextSearch {
 		return new SearchTree(searchResults, q);
 	}
 
-	private void indexSteps(List<PageSteps> pageStepsList, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
-		for(PageSteps pageSteps : pageStepsList) {
-			List<Step> resolvedSteps = new ArrayList<Step>();
-
-			for(StepDescription stepDescription : pageSteps.getSteps()) {
-				resolvedSteps.add(resolveStep(stepDescription, scenario, usecase, buildIdentifier));
-			}
-
-			searchAdapter.indexSteps(resolvedSteps, pageSteps.getPage(), scenario, usecase, buildIdentifier);
-		}
-	}
-
-	private Step resolveStep(StepDescription stepDescription, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
+	private Step resolveStep(StepLink stepLink, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
 		return scenarioDocuReader.loadStep(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
-			usecase.getName(), scenario.getName(), stepDescription.getIndex());
+			usecase.getName(), scenario.getName(), stepLink.getStepIndex());
 	}
 
 	public void updateAvailableBuilds(List<BuildImportSummary> availableBuilds) {

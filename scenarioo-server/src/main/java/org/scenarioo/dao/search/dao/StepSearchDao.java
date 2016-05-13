@@ -17,20 +17,21 @@
 
 package org.scenarioo.dao.search.dao;
 
+import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.*;
 
 @SuppressWarnings("unused")
 public class StepSearchDao implements SearchDao {
 
-    private Step step;
-    private MetaData _meta;
+	private Step step;
+	private MetaData _meta;
 
     public StepSearchDao() {
     }
 
-    public StepSearchDao(Step step, Page page, Scenario scenario, UseCase usecase) {
+    public StepSearchDao(Step step, StepLink stepLink, Scenario scenario, UseCase usecase) {
         this.step = step;
-        this._meta = new MetaData(page.getName(), scenario.getName(), usecase.getName());
+        this._meta = new MetaData(stepLink, step.getPage().getName(), scenario.getName(), usecase.getName());
     }
 
     public Step getStep() {
@@ -41,7 +42,7 @@ public class StepSearchDao implements SearchDao {
         this.step = step;
     }
 
-    public void set_meta(MetaData _meta) {
+	public void set_meta(MetaData _meta) {
         this._meta = _meta;
     }
 
@@ -50,6 +51,7 @@ public class StepSearchDao implements SearchDao {
     }
 
 	public static class MetaData {
+		private StepLink stepLink;
         private String page;
         private String usecase;
         private String scenario;
@@ -57,11 +59,20 @@ public class StepSearchDao implements SearchDao {
         public MetaData() {
         }
 
-        MetaData(String page, final String scenario, final String usecase) {
+        MetaData(StepLink stepLink, String page, final String scenario, final String usecase) {
+			this.stepLink = stepLink;
             this.page = page;
             this.scenario = scenario;
             this.usecase = usecase;
         }
+
+		public StepLink getStepLink() {
+			return stepLink;
+		}
+
+		public void setStepLink(StepLink stepLink) {
+			this.stepLink = stepLink;
+		}
 
 		public String getPage() {
 			return page;

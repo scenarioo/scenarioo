@@ -3,6 +3,7 @@ package org.scenarioo.dao.search;
 import org.junit.Test;
 import org.scenarioo.dao.search.dao.SearchDao;
 import org.scenarioo.dao.search.dao.StepSearchDao;
+import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.*;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
@@ -29,22 +30,32 @@ public class SearchTreeTest {
 
 		ObjectTreeNode<ObjectReference> objectTree = searchTree.buildObjectTree();
 
-		thenHasNodes(objectTree, "Use Case 1", "Scenario 1", "Page 1", "Step 1");
+		thenHasNodes(objectTree, "Use Case 1", "Scenario 1", "Page 1", "Page 1/3/2");
 	}
 
 	private SearchTree givenSearchTreeWithSingleStep() {
-		List<SearchDao> searchResults = new ArrayList<SearchDao>();
+		Page page = new Page();
+		page.setName("Page 1");
 		Step step = new Step();
 		StepDescription stepDescription = new StepDescription();
 		stepDescription.setTitle("Step 1");
 		step.setStepDescription(stepDescription);
-		Page page = new Page();
-		page.setName("Page 1");
+		step.setPage(page);
+
+		StepLink stepLink = new StepLink();
+		stepLink.setIndex(1);
+		stepLink.setStepInPageOccurrence(2);
+		stepLink.setPageOccurrence(3);
+
 		Scenario scenario = new Scenario();
 		scenario.setName("Scenario 1");
+
 		UseCase usecase = new UseCase();
 		usecase.setName("Use Case 1");
-		searchResults.add(new StepSearchDao(step, page, scenario, usecase));
+
+		List<SearchDao> searchResults = new ArrayList<SearchDao>();
+		searchResults.add(new StepSearchDao(step, stepLink, scenario, usecase));
+
 		return new SearchTree(searchResults, "");
 	}
 
