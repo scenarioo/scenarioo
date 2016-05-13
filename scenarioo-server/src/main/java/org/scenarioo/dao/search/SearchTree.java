@@ -25,27 +25,27 @@ import java.util.Collections;
 import java.util.List;
 
 public class SearchTree {
-    private List<SearchDao> searchResults;
-    private String q;
+	private List<SearchDao> searchResults;
+	private String q;
 
 	public static SearchTree empty() {
 		return new SearchTree(Collections.<SearchDao>emptyList(), "");
 	}
 
-    public SearchTree(List<SearchDao> searchResults, String q) {
-        this.searchResults = searchResults;
-        this.q = q;
-    }
+	public SearchTree(List<SearchDao> searchResults, String q) {
+		this.searchResults = searchResults;
+		this.q = q;
+	}
 
-    public ObjectTreeNode<ObjectReference> buildObjectTree() {
-        ObjectTreeNode<ObjectReference> rootNode = new ObjectTreeNode<ObjectReference>(new ObjectReference("search", q));
-        for (SearchDao entry : searchResults) {
+	public ObjectTreeNode<ObjectReference> buildObjectTree() {
+		ObjectTreeNode<ObjectReference> rootNode = new ObjectTreeNode<ObjectReference>(new ObjectReference("search", q));
+		for (SearchDao entry : searchResults) {
 			addNode(rootNode, entry);
 		}
-        return rootNode;
-    }
+		return rootNode;
+	}
 
-    private void addNode(ObjectTreeNode<ObjectReference> rootNode, SearchDao entry) {
+	private void addNode(ObjectTreeNode<ObjectReference> rootNode, SearchDao entry) {
 		if (entry instanceof UseCaseSearchDao) {
 			putUseCase(rootNode, (UseCaseSearchDao) entry);
 
@@ -60,7 +60,7 @@ public class SearchTree {
 		}
 	}
 
-    private ObjectTreeNode<ObjectReference> findChild(String entry, ObjectTreeNode<ObjectReference> useCaseNode) {
+	private ObjectTreeNode<ObjectReference> findChild(String entry, ObjectTreeNode<ObjectReference> useCaseNode) {
 		for (ObjectTreeNode<ObjectReference> scenario : useCaseNode.<ObjectReference>getChildren()) {
 			if (scenario.getItem().getName().equals(entry)) {
 				return scenario;
@@ -70,7 +70,7 @@ public class SearchTree {
 		return null;
 	}
 
-    private ObjectTreeNode<ObjectReference> getOrAddNode(ObjectTreeNode<ObjectReference> parentNode, String entry, String type) {
+	private ObjectTreeNode<ObjectReference> getOrAddNode(ObjectTreeNode<ObjectReference> parentNode, String entry, String type) {
 		ObjectTreeNode<ObjectReference> entryNode = findChild(entry, parentNode);
 
 		if (entryNode != null) {
@@ -83,44 +83,45 @@ public class SearchTree {
 		return scenarioNode;
 	}
 
-    private ObjectTreeNode<ObjectReference> getOrAddStep(ObjectTreeNode<ObjectReference> pageNode, String name) {
+	private ObjectTreeNode<ObjectReference> getOrAddStep(ObjectTreeNode<ObjectReference> pageNode, String name) {
 		return getOrAddNode(pageNode, name, "step");
 	}
 
-    private ObjectTreeNode<ObjectReference> getOrAddPage(ObjectTreeNode<ObjectReference> scenarioNode, String page) {
+	private ObjectTreeNode<ObjectReference> getOrAddPage(ObjectTreeNode<ObjectReference> scenarioNode, String page) {
 		return getOrAddNode(scenarioNode, page, "page");
 	}
 
-    private ObjectTreeNode<ObjectReference> getOrAddScenario(ObjectTreeNode<ObjectReference> useCaseNode, String scenario) {
+	private ObjectTreeNode<ObjectReference> getOrAddScenario(ObjectTreeNode<ObjectReference> useCaseNode, String scenario) {
 		return getOrAddNode(useCaseNode, scenario, "scenario");
 	}
 
-    private ObjectTreeNode<ObjectReference> getOrAddUseCase(ObjectTreeNode<ObjectReference> root, String usecase) {
+	private ObjectTreeNode<ObjectReference> getOrAddUseCase(ObjectTreeNode<ObjectReference> root, String usecase) {
 		return getOrAddNode(root, usecase, "usecase");
 	}
 
-    private ObjectTreeNode<ObjectReference> putStep(ObjectTreeNode<ObjectReference> root, StepSearchDao entry) {
+	private ObjectTreeNode<ObjectReference> putStep(ObjectTreeNode<ObjectReference> root, StepSearchDao entry) {
 		ObjectTreeNode<ObjectReference> useCaseNode = getOrAddUseCase(root, entry.get_meta().getUsecase());
 		ObjectTreeNode<ObjectReference> scenarioNode = getOrAddScenario(useCaseNode, entry.get_meta().getScenario());
 		ObjectTreeNode<ObjectReference> pageNode = getOrAddPage(scenarioNode, entry.get_meta().getPage());
 
-		return getOrAddStep(pageNode, entry.getStep().getStepDescription().getTitle());
+		return getOrAddStep(pageNode, String.format("%s/%s/%s", entry.getStep().getPage().getName(), entry.get_meta().getStepLink().getPageOccurrence(),
+			entry.get_meta().getStepLink().getStepInPageOccurrence()));
 	}
 
-    private ObjectTreeNode<ObjectReference> putPage(ObjectTreeNode<ObjectReference> root, PageSearchDao entry) {
+	private ObjectTreeNode<ObjectReference> putPage(ObjectTreeNode<ObjectReference> root, PageSearchDao entry) {
 		ObjectTreeNode<ObjectReference> useCaseNode = getOrAddUseCase(root, entry.get_meta().getUsecase());
 		ObjectTreeNode<ObjectReference> scenarioNode = getOrAddScenario(useCaseNode, entry.get_meta().getScenario());
 
 		return getOrAddPage(scenarioNode, entry.getPage().getName());
 	}
 
-    private ObjectTreeNode<ObjectReference> putScenario(ObjectTreeNode<ObjectReference> root, ScenarioSearchDao entry) {
+	private ObjectTreeNode<ObjectReference> putScenario(ObjectTreeNode<ObjectReference> root, ScenarioSearchDao entry) {
 		ObjectTreeNode<ObjectReference> useCaseNode = getOrAddUseCase(root, entry.get_meta().getUsecase());
 
 		return getOrAddScenario(useCaseNode, entry.getScenario().getName());
 	}
 
-    private ObjectTreeNode<ObjectReference> putUseCase(ObjectTreeNode<ObjectReference> rootNode, UseCaseSearchDao entry) {
+	private ObjectTreeNode<ObjectReference> putUseCase(ObjectTreeNode<ObjectReference> rootNode, UseCaseSearchDao entry) {
 		return getOrAddUseCase(rootNode, entry.getUseCase().getName());
 	}
 }

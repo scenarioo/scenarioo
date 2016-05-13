@@ -27,10 +27,10 @@ import org.scenarioo.dao.search.dao.ScenarioSearchDao;
 import org.scenarioo.dao.search.dao.StepSearchDao;
 import org.scenarioo.dao.search.dao.UseCaseSearchDao;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
+import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
-import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
@@ -96,9 +96,12 @@ class ElasticSearchIndexer {
         }
     }
 
-	void indexSteps(List<Step> stepsList, Page page, Scenario scenario, UseCase usecase) {
-		for(Step step : stepsList) {
-			StepSearchDao stepSearchDao = new StepSearchDao(step, page, scenario, usecase);
+	void indexSteps(List<Step> stepsList, List<StepLink> stepLinksList, Scenario scenario, UseCase usecase) {
+		for(int i = 0; i < stepsList.size(); i++) {
+			Step step = stepsList.get(i);
+			StepLink link = stepLinksList.get(i);
+
+			StepSearchDao stepSearchDao = new StepSearchDao(step, link, scenario, usecase);
 			indexDocument("step", stepSearchDao, step.getStepDescription().getTitle());
 		}
 	}

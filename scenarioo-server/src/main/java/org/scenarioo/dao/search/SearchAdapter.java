@@ -19,8 +19,8 @@ package org.scenarioo.dao.search;
 
 import org.scenarioo.dao.search.dao.SearchDao;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
+import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
-import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
@@ -40,7 +40,7 @@ public interface SearchAdapter {
 
     void indexPages(List<PageSteps> pageStepsList, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier);
 
-	void indexSteps(List<Step> steps, Page page, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier);
+	void indexSteps(List<Step> steps, List<StepLink> page, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier);
 
     void setupNewBuild(BuildIdentifier buildIdentifier);
 }
