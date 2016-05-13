@@ -57,6 +57,9 @@ public class SearchTree {
 
 		} else if (entry instanceof StepSearchDao) {
 			putStep(rootNode, (StepSearchDao) entry);
+
+		} else {
+			throw new IllegalStateException("SearchTree does not support the node " + entry);
 		}
 	}
 

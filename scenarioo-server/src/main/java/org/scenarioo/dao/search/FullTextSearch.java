@@ -69,7 +69,6 @@ public class FullTextSearch {
 		return buildObjectTree(searchResults, q);
 	}
 
-
 	public void indexUseCases(final UseCaseScenariosList useCaseScenariosList, final BuildIdentifier buildIdentifier) {
 		if(!searchAdapter.isEngineRunning()) {
 			LOGGER.info("No search engine running.");
@@ -111,10 +110,6 @@ public class FullTextSearch {
 	}
 
 	private SearchTree buildObjectTree(List<SearchDao> searchResults, final String q) {
-		if(searchResults.isEmpty()) {
-			return SearchTree.empty();
-		}
-
 		return new SearchTree(searchResults, q);
 	}
 
