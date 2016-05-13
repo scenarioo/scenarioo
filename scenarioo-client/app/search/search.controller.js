@@ -15,9 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('SearchController', function ($scope, $location, FullTextSearchService, SelectedBranchAndBuildService) {
-    $scope.results = {resultSet: []};
-    $scope.treemodel = [];
+angular.module('scenarioo.controllers').controller('SearchController', function ($location, FullTextSearchService, SelectedBranchAndBuildService, ReferenceTreeNavigationService) {
+    var vm = this;
+
+    vm.results = {resultSet: []};
+    vm.treemodel = [];
+    vm.goToRelatedView = goToRelatedView;
 
     var q = $location.search().q;
     doSearch();
@@ -25,16 +28,21 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
     function doSearch() {
         var selected = SelectedBranchAndBuildService.selected();
 
-        $scope.results.resultSet = FullTextSearchService.search({
+        FullTextSearchService.search({
                 q: q,
                 buildName: selected.build,
                 branchName: selected.branch
             }
         ).then(function onSuccess(result) {
-                $scope.results.resultSet = result;
+                vm.results.resultSet = result;
             },
             function onError(error) {
                 throw new Error('Failed to get search results', error);
             });
+    }
+
+    // Entry point when a tree entry is clicked
+    function goToRelatedView(nodeElement) {
+        $location.path(ReferenceTreeNavigationService.goToRelatedView(nodeElement, vm.treemodel));
     }
 });

@@ -59,7 +59,8 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
             })
             .when('/search', {
                 templateUrl: 'search/search.html',
-                controller: 'SearchController'
+                controller: 'SearchController',
+                controllerAs: 'vm'
             })
             .when('/object/:objectType/:objectName', {
                 templateUrl: 'objectRepository/objectRepository.html',
