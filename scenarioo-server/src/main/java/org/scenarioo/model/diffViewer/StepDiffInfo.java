@@ -32,6 +32,7 @@ public class StepDiffInfo extends AbstractDiffInfo {
 	private String pageName;
 	private int pageOccurrence;
 	private int stepInPageOccurrence;
+	private String comparisonScreenshotName;
 
 	/**
 	 * @see org.scenarioo.model.diffViewer.AbstractDiffInfo#hasChanges()
@@ -99,6 +100,21 @@ public class StepDiffInfo extends AbstractDiffInfo {
 	 */
 	public void setStepInPageOccurrence(final int stepInPageOccurrence) {
 		this.stepInPageOccurrence = stepInPageOccurrence;
+	}
+
+	/**
+	 * @return the comparisonScreenshotName
+	 */
+	public String getComparisonScreenshotName() {
+		return comparisonScreenshotName;
+	}
+
+	/**
+	 * @param comparisonScreenshotName
+	 *            the comparisonScreenshotName to set
+	 */
+	public void setComparisonScreenshotName(final String comparisonScreenshotName) {
+		this.comparisonScreenshotName = comparisonScreenshotName;
 	}
 
 }
