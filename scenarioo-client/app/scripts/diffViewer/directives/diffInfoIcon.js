@@ -34,10 +34,11 @@ angular.module('scenarioo.directives').directive('scDiffInfoIcon', function($sce
                 scope.unchangedPercentage = 100 + '%';
                 scope.infoText = $sce.trustAsHtml('This ' + scope.elementType + ' has no changes');
             } else {
-                if(scope.totalChildElements && scope.totalChildElements > 0) {
-                    var changedPercentage = (100 / scope.totalChildElements) * scope.diffInfo.changed;
-                    var addedPercentage = (100 / scope.totalChildElements) * scope.diffInfo.added;
-                    var removedPercentage = (100 / scope.totalChildElements) * scope.diffInfo.removed;
+                var totalChangedChildElements = scope.diffInfo.added + scope.diffInfo.removed + scope.diffInfo.changed;
+                if(totalChangedChildElements && totalChangedChildElements > 0) {
+                    var addedPercentage = (scope.diffInfo.added / totalChangedChildElements) * scope.diffInfo.changeRate;
+                    var removedPercentage = (scope.diffInfo.removed / totalChangedChildElements) * scope.diffInfo.changeRate;
+                    var changedPercentage = scope.diffInfo.changeRate - addedPercentage - removedPercentage;
 
                     scope.changedPercentage = changedPercentage + '%';
                     scope.addedPercentage = addedPercentage + '%';
@@ -72,7 +73,6 @@ angular.module('scenarioo.directives').directive('scDiffInfoIcon', function($sce
         restrict: 'E',
         scope: {
             diffInfo: '=',
-            totalChildElements: '@',
             elementType: '@',
             childElementType: '@'
         },
