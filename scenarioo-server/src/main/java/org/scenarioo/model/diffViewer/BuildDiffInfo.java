@@ -33,8 +33,7 @@ public class BuildDiffInfo extends StructureDiffInfo<String, UseCase> {
 		super();
 	}
 
-	public BuildDiffInfo(String buildName) {
+	public BuildDiffInfo(final String buildName) {
 		super(buildName);
 	}
-
 }

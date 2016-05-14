@@ -74,7 +74,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <td>{{scenarioSummary.scenario.description}}</td>
                 <td ng-repeat="property in useCase.propertiesToShow">{{scenarioSummary.scenario.details[property]}}</td>
                 <td>{{scenarioSummary.numberOfSteps}}</td>
-                <td ng-if="comparisonInfo.isDefined"><sc-diff-info-icon diff-info="scenarioSummary.diffInfo" total-child-elements="{{scenarioSummary.numberOfSteps + scenarioSummary.diffInfo.removed}}" element-type="scenario" child-element-type="step"></sc-diff-info-icon></td>
+                <td ng-if="comparisonInfo.isDefined"><sc-diff-info-icon diff-info="scenarioSummary.diffInfo" element-type="scenario" child-element-type="step"></sc-diff-info-icon></td>
             </tr>
             </tbody>
         </table>

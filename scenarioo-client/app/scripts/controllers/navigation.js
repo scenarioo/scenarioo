@@ -56,8 +56,7 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
                     if(selectedComparison.name === SelectedComparison.COMPARISON_DISABLED) {
                         $location.search(SelectedComparison.COMPARISON_KEY, selectedComparison.name);
                     }
-                    $scope.selectedComparison = selectedComparison.name;
-                    $scope.selectedChangeRate = selectedComparison.changeRate;
+                    $scope.selectedComparison = selectedComparison;
                 }
             );
         }
@@ -79,8 +78,7 @@ angular.module('scenarioo.controllers').controller('NavigationCtrl', function ($
 
     $scope.setComparisonBuild = function(comparisonBuild) {
         $location.search(SelectedComparison.COMPARISON_KEY, comparisonBuild.name);
-        $scope.selectedComparison = comparisonBuild.name;
-        $scope.selectedChangeRate = comparisonBuild.changeRate;
+        $scope.selectedComparison = comparisonBuild;
     };
 
     $scope.disableComparison = function() {
