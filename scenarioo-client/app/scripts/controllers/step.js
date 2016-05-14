@@ -359,6 +359,25 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         setDiffScreenShotUrl();
     }
 
+    function setComparisonScreenShotUrl() {
+        $scope.comparisonScreenShotUrl = DiffViewerService.getComparisonScreenShotUrl($scope.comparisonBranchName, $scope.comparisonBuildName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.comparisonScreenshotName);
+    }
+
+    // This URL is only used internally, not for sharing
+    function setDiffScreenShotUrl() {
+        if ($scope.changeRate === 0 || angular.isUndefined($scope.changeRate)){
+            $scope.diffScreenShotUrl = $scope.comparisonScreenShotUrl;
+        } else {
+            if (angular.isUndefined($scope.stepIdentifier)) {
+                return undefined;
+            }
+
+            var branchAndBuild = SelectedBranchAndBuild.selected();
+            var comparisonName = SelectedComparison.selected();
+            $scope.diffScreenShotUrl = DiffViewerService.getDiffScreenShotUrl($scope.step, branchAndBuild, comparisonName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.stepIndex );
+        }
+    }
+
     function loadComparisonFromServer(comparisonName) {
         ComparisonAliasResource.get(
             {
@@ -395,31 +414,12 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             $scope.changeRate = result.changeRate;
             $scope.diffInfo = result;
             $scope.diffInfo.changed = 1;
+            $scope.diffInfo.added = 0;
+            $scope.diffInfo.removed = 0;
             $scope.totalChildElements = 1;
             loadComparisonScreenshots();
         });
     }
-
-    function setComparisonScreenShotUrl() {
-        $scope.comparisonScreenShotUrl = DiffViewerService.getComparisonScreenShotUrl($scope.comparisonBranchName, $scope.comparisonBuildName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.comparisonScreenshotName);
-    }
-
-    // This URL is only used internally, not for sharing
-    function setDiffScreenShotUrl() {
-            if ($scope.changeRate === 0.0 || angular.isUndefined($scope.changeRate)){
-                return $scope.comparisonScreenShotUrl;
-            }
-            if (angular.isUndefined($scope.stepIdentifier)) {
-                return undefined;
-            }
-
-            var branchAndBuild = SelectedBranchAndBuild.selected();
-            var comparisonName = SelectedComparison.selected();
-
-        $scope.diffScreenShotUrl = DiffViewerService.getDiffScreenShotUrl($scope.step, branchAndBuild, comparisonName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.stepIndex );
-    }
-
-
 
     $scope.go = function (step) {
         $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + step.pageName + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
