@@ -118,7 +118,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <pre ng-bind="step.html.htmlSource" id="html-source">
                 </pre>
             </uib-tab>
-            <uib-tab heading="Comparison  {{changeRate | number:0}}%" id="comparison-tab" classes="{{comparisonTabClasses}}" ng-click="setActiveTab(2)" ng-if="comparisonInfo.isDefined">
+            <uib-tab id="comparison-tab" ng-click="setActiveTab(2)" ng-if="comparisonInfo.isDefined">
+                <uib-tab-heading>
+                    <span class="left">Comparison</span>
+                    <div class="diff-info-wrapper">
+                         <sc-diff-info-icon diff-info="diffInfo" total-child-elements="1" element-type="Screenshot" child-element-type="Screenshot"></sc-diff-info-icon>
+                    </div>
+                    </uib-tab-heading>
                 <div class="col-lg-6">
                     <div>
 

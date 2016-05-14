@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.services')
 
-    .factory('comparisonAliasResource', function (ScenariooResource) {
+    .factory('ComparisonAliasResource', function (ScenariooResource) {
         return ScenariooResource('/diffViewer/comparisonAlias/:comparisonName',
             {
                 comparisonName: '@comparisonName'
@@ -76,7 +76,7 @@ angular.module('scenarioo.services')
         }, {});
     })
 
-    .factory('stepDiffInfoResource', function (ScenariooResource) {
+    .factory('StepDiffInfoResource', function (ScenariooResource) {
         return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/:useCaseName/:scenarioName/:stepIndex/stepDiffInfo',
             {
                 baseBranchName: '@baseBranchName',
