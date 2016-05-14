@@ -64,15 +64,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </li>
 
         <!-- Comparison selection dropdown -->
-        <li class="dropdown" uib-dropdown is-open="status.isComparisonSelectionOpen" id="comparisonSelectionDropdown" ng-if="comparisonBuilds.length > 0">
+        <li class="dropdown" uib-dropdown is-open="status.isComparisonSelectionOpen" id="comparison-selection-dropdown" ng-if="comparisonBuilds.length > 0">
             <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                <sc-diff-info-icon ng-if="comparisonInfo.isDefined" diff-info="selectedComparison" total-child-elements="{{selectedComparison.numberOfUseCases + selectedComparison.removed}}" element-type="build" child-element-type="use case"></sc-diff-info-icon>
                 <i class="icon-asterisk"></i> Comparison:
-                {{selectedComparison}} <span ng-if="comparisonInfo.isDefined">({{selectedChangeRate | number:0}}%)</span>
+                {{selectedComparison.name}}
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
                 <li ng-repeat="comparisonBuild in comparisonBuilds">
-                    <a ng-click="setComparisonBuild(comparisonBuild)">{{comparisonBuild.name}} ({{comparisonBuild.changeRate | number: 0}}%)</a>
+                    <a ng-click="setComparisonBuild(comparisonBuild)">
+                        {{comparisonBuild.name}}
+                        <sc-diff-info-icon diff-info="comparisonBuild" total-child-elements="{{comparisonBuild.numberOfUseCases + comparisonBuild.removed}}" element-type="build" child-element-type="use case"></sc-diff-info-icon>
+                    </a>
+
                 </li>
                 <li>
                     <a ng-click="disableComparison()">{{COMPARISON_DISABLED}}</a>

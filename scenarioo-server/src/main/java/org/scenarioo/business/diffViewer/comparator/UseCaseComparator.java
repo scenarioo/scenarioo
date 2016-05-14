@@ -53,6 +53,7 @@ public class UseCaseComparator extends AbstractComparator {
 				comparisonBuildIdentifier.getBuildName());
 
 		final BuildDiffInfo buildDiffInfo = new BuildDiffInfo(comparisonName);
+		buildDiffInfo.setNumberOfUseCases(baseUseCases.size());
 		double useCaseChangeRateSum = 0;
 
 		for (final UseCase baseUseCase : baseUseCases) {
