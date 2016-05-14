@@ -36,15 +36,41 @@ angular.module('scenarioo.services').factory('DiffViewerService', function ($loc
 
     }
 
+    function getComparisonScreenShotUrl(comparisonBranchName, comparisonBuildName, usecaseName, scenarioName, comparisonScreenshotName){
 
+        if (angular.isUndefined(comparisonBranchName)) {
+            return undefined;
+        }
 
+        if (angular.isUndefined(comparisonBuildName)) {
+            return undefined;
+        }
+
+        if (angular.isUndefined(usecaseName)) {
+            return undefined;
+        }
+
+        if (angular.isUndefined(scenarioName)) {
+            return undefined;
+        }
+
+        if (angular.isUndefined(comparisonScreenshotName)) {
+            return undefined;
+        }
+        return HostnameAndPort.forLink() + 'rest/branch/' + comparisonBranchName + '/build/' + comparisonBuildName + '/usecase/' + usecaseName + '/scenario/' + scenarioName + '/image/' + comparisonScreenshotName;
+    }
 
 
      return {
-              /**
+         /**
          * Returns the Diff Screenshot URL
          */
-        getDiffScreenShotUrl: getDiffScreenShotUrl
+        getDiffScreenShotUrl: getDiffScreenShotUrl,
+
+         /**
+          * Returns the Comparison Screenshot URL
+          */
+         getComparisonScreenShotUrl: getComparisonScreenShotUrl
     };
 
 });

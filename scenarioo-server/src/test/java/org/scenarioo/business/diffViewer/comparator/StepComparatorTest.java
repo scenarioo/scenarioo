@@ -216,7 +216,7 @@ public class StepComparatorTest {
 		when(docuReader.loadSteps(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME, USE_CASE_NAME, SCENARIO_NAME))
 				.thenReturn(comparisonSteps);
 		when(screenshotComparator.compare(anyString(), anyString(), any(StepLink.class),
-				any(StepLink.class)))
+				anyString()))
 						.thenReturn(changeRate);
 	}
 

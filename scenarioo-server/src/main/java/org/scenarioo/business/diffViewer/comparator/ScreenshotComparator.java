@@ -71,12 +71,10 @@ public class ScreenshotComparator extends AbstractComparator {
 	 * @return {@link StepDiffInfo} with the summarized diff information.
 	 */
 	public double compare(final String baseUseCaseName, final String baseScenarioName, final StepLink baseStepLink,
-			final StepLink comparisonStepLink) {
+			final String comparisonScreenshotName) {
 		final BuildIdentifier comparisonBuildIdentifier = getComparisonBuildIdentifier(comparisonName);
 
 		final String baseScreenshotName = THREE_DIGIT_NUM_FORMAT.format(baseStepLink.getStepIndex())
-				+ SCREENSHOT_FILE_EXTENSION;
-		final String comparisonScreenshotName = THREE_DIGIT_NUM_FORMAT.format(comparisonStepLink.getStepIndex())
 				+ SCREENSHOT_FILE_EXTENSION;
 		final String diffScreenshotName = baseScreenshotName;
 
