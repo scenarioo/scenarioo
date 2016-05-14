@@ -29,8 +29,6 @@ import org.scenarioo.model.docu.entities.UseCase;
 @XmlSeeAlso(UseCase.class)
 public class BuildDiffInfo extends StructureDiffInfo<String, UseCase> {
 
-	private int numberOfUseCases;
-
 	public BuildDiffInfo() {
 		super();
 	}
@@ -38,13 +36,4 @@ public class BuildDiffInfo extends StructureDiffInfo<String, UseCase> {
 	public BuildDiffInfo(final String buildName) {
 		super(buildName);
 	}
-
-	public int getNumberOfUseCases() {
-		return numberOfUseCases;
-	}
-
-	public void setNumberOfUseCases(final int numberOfUseCases) {
-		this.numberOfUseCases = numberOfUseCases;
-	}
-
 }
