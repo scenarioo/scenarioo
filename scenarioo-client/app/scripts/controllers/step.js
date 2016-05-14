@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, Config, ScenarioResource, StepResource, HostnameAndPort,
+angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope, $routeParams, $location, $q, $window, $route, Config, ScenarioResource, StepResource, HostnameAndPort,
                                                                          SelectedBranchAndBuild, $filter, ScApplicationInfoPopup, GlobalHotkeysService, LabelConfigurationsResource, SharePageService,
-                                                                         ContextService, RelatedIssueResource, SketchIdsResource, BranchesAndBuilds, DiffViewerService, SelectedComparison, comparisonAliasResource, stepDiffInfoResource) {
+                                                                         ContextService, RelatedIssueResource, SketchIdsResource, BranchesAndBuilds, DiffViewerService, SelectedComparison, ComparisonAliasResource, StepDiffInfoResource) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -312,10 +312,28 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
         };
     }
 
-    $scope.tabs = [
-        {'title': 'Dynamic 1', 'active': true},
-        {'title': 'Dynamic 2', 'active': false},
-        {'title': 'Dynamic 3', 'active': false}];
+    $scope.activeTab = getActiveTab();
+
+    $scope.setActiveTab = function (activeTab) {
+        storeActiveTab(activeTab);
+    };
+
+    //  $route.reload necessary because of annotation calculation
+    $scope.setDefaultTab = function() {
+        storeActiveTab(0);
+        $route.reload();
+    };
+
+    function storeActiveTab(activeTab){
+        sessionStorage.setItem('activeTab', activeTab);
+    }
+    function getActiveTab() {
+        var activeTab = sessionStorage.getItem('activeTab');
+        if (!$scope.comparisonInfo.isDefined){
+            return 0;
+        }
+        return angular.isDefined(activeTab) ? parseInt(activeTab) : 0;
+    }
 
     // This URL is only used internally, not for sharing
     $scope.getScreenShotUrl = function () {
@@ -334,7 +352,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     };
 
     function loadComparisonFromServer(comparisonName) {
-        comparisonAliasResource.get(
+        ComparisonAliasResource.get(
             {
                 'comparisonName': comparisonName
             },
@@ -357,7 +375,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     }
 
     function loadChangeRate() {
-        stepDiffInfoResource.get({
+        StepDiffInfoResource.get({
             baseBranchName: SelectedBranchAndBuild.selected().branch,
             baseBuildName: SelectedBranchAndBuild.selected().build,
             comparisonName: $scope.comparisonName,
@@ -366,22 +384,10 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
             stepIndex: $scope.stepIndex
         }, function onSuccess(result){
             $scope.changeRate = result.changeRate;
-            colorizeComparisonTab(result.changeRate);
+            $scope.diffInfo = result;
+            $scope.diffInfo.changed = 1;
+            $scope.totalChildElements = 1;
         });
-    }
-
-    function colorizeComparisonTab(changeRate){
-        if (changeRate <= 20){
-            $scope.comparisonTabClasses = 'green';
-        } else if (changeRate <= 40){
-            $scope.comparisonTabClasses = 'orange';
-        }
-        /* TODO mscheube: is this still necessary?
-        else if (changeRate <= 60){
-
-        } else if (changeRate <= 80){
-
-        }*/
     }
 
 

@@ -108,16 +108,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- screenshot and information -->
 <sc-meta-data-panel linking-variable="stepShowMetadata" ng-hide="stepNotFound">
+
     <div>
-        <uib-tabset class="step-panes">
-            <uib-tab heading="Screenshot" id="screenshot-tab">
+        <uib-tabset class="step-panes"  active="activeTab">
+            <uib-tab heading="Screenshot" id="screenshot-tab" ng-click="setDefaultTab()">
                 <sc-annotated-screenshot screen-annotations="step.screenAnnotations" get-screen-shot-url="getScreenShotUrl" visibility-toggle="showScreenAnnotations" to-next-step-action="goToNextStep()"></sc-annotated-screenshot>
             </uib-tab>
-            <uib-tab heading="HTML" id="html-tab" ng-hide="!step.html.htmlSource">
+            <uib-tab heading="HTML" id="html-tab" ng-hide="!step.html.htmlSource" ng-click="setActiveTab(1)">
                 <pre ng-bind="step.html.htmlSource" id="html-source">
                 </pre>
             </uib-tab>
-            <uib-tab heading="Comparison  {{changeRate | number:0}}%" id="comparison-tab" classes="{{comparisonTabClasses}}" active="isActive" select="setActiveTab('comparison-tab')"ng-if="comparisonInfo.isDefined">
+            <uib-tab id="comparison-tab" ng-click="setActiveTab(2)" ng-if="comparisonInfo.isDefined">
+                <uib-tab-heading>
+                    <span class="left">Comparison</span>
+                    <div class="diff-info-wrapper">
+                         <sc-diff-info-icon diff-info="diffInfo" total-child-elements="1" element-type="Screenshot" child-element-type="Screenshot"></sc-diff-info-icon>
+                    </div>
+                    </uib-tab-heading>
                 <div class="col-lg-6">
                     <div>
 

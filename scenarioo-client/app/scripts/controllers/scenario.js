@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($scope, $q, $filter, $routeParams,
                                                                              $location, $window, ScenarioResource, HostnameAndPort, SelectedBranchAndBuild, SelectedComparison,
-                                                                             Config, PagesAndSteps, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, comparisonAliasResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
+                                                                             Config, PagesAndSteps, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, ComparisonAliasResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -172,7 +172,7 @@ angular.module('scenarioo.controllers').controller('ScenarioCtrl', function ($sc
 
     function loadDiffInfoData(pagesAndSteps, baseBranchName, baseBuildName, comparisonName) {
         if (pagesAndSteps && baseBranchName && baseBuildName && useCaseName && scenarioName){
-            comparisonAliasResource.get(
+            ComparisonAliasResource.get(
                 {'comparisonName': comparisonName},
                 function onSuccess(result) {
                     comparisonBranchName = result.comparisonBranchName;
