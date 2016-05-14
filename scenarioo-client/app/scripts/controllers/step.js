@@ -329,6 +329,9 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     }
     function getActiveTab() {
         var activeTab = sessionStorage.getItem('activeTab');
+        if (!$scope.comparisonInfo.isDefined){
+            return 0;
+        }
         return angular.isDefined(activeTab) ? parseInt(activeTab) : 0;
     }
 
