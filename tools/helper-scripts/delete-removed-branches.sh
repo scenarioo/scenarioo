@@ -7,14 +7,14 @@ SCENARIOO_DATA_ROOT=/put-absolute-path-to-your-scenarioo-data-root-dir-here
 
 # Detetc all branches currently available in GIT
 cd $DIR_LOCAL_REPO
-git fetch
+git fetch -p
 if (( $? )); then
   echo "Failure: git repo not available." >&2
   exit 1
 fi
 AVAILABLE_BRANCHES=$(git branch -r | awk '{print $1}' | sed 's/origin\///g' | sed 's/\//_/g')
 
-# Delete all branch directories from fiel system that are not inside AVAILABLE_BRANCHES anymore
+# Delete all branch directories from file system that are not inside AVAILABLE_BRANCHES anymore
 for BRANCH_DIR in $(find $SCENARIOO_DATA_ROOT/* -maxdepth 0 -type d) ; do
     if [ -f "$BRANCH_DIR/branch.xml" ]
     then
