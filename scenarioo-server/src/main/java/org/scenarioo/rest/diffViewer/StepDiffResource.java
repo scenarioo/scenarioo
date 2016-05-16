@@ -74,8 +74,10 @@ public class StepDiffResource {
 					comparisonName, useCaseName, scenarioName, Integer.parseInt(stepIndex));
 			return Response.ok(stepDiffInfo, MediaType.APPLICATION_JSON).build();
 		} catch (final ResourceNotFoundException e) {
+			StepDiffInfo stepDiffInfo = new StepDiffInfo();
+			stepDiffInfo.setChangeRate(100);
 			LOGGER.warn("Unable to get step diff info", e);
-			return Response.noContent().build();
+			return Response.ok(stepDiffInfo, MediaType.APPLICATION_JSON).build();
 		} catch (final Throwable e) {
 			LOGGER.warn("Unable to get step diff info", e);
 			return Response.serverError().build();
