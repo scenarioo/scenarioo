@@ -81,6 +81,7 @@ useCase('Create sketch')
 
                 step('Save issue');
                 editorPage.clickSaveButton();
+                editorPage.assertSaveSketchSuccessfulMessageIsDisplayed();
 
                 stepPage.goToPage('/step/Switch%20Language/search_article_in_german_and_switch_to_spanish/contentPage.jsp/0/0');
 
