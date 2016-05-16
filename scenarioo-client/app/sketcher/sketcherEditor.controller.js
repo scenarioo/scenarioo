@@ -149,9 +149,9 @@ function SketcherEditorController($rootScope, $scope, $location, $filter, $inter
     function contextBreadcrumbs() {
         var relatedStep;
 
-        if (vm.mode === MODE_EDIT && vm.currentIssue) {
+        if (vm.currentIssue) {
             relatedStep = vm.currentIssue.relatedStep;
-        } else if(vm.mode === MODE_CREATE && SketcherContextService.stepIdentifier) {
+        } else if(SketcherContextService.stepIdentifier) {
             relatedStep = SketcherContextService.stepIdentifier;
         } else {
             return '';
