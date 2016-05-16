@@ -127,17 +127,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </uib-tab-heading>
                 <div class="col-lg-6">
                     <div>
+                        <h3 class="step-comparison-title" >{{comparisonName}}</h3>
+                        <div class="clear" ng-if="diffInfo.changeRate==100">
+                           <p>No comparison screenshot because this is a new step.</p>
+                        </div>
+                        <div ng-if="diffInfo.changeRate!=100">
+                            <sc-diff-screenshot-button linking-variable="stepShowDiffScreenshot" class="step-comparison-button" ></sc-diff-screenshot-button>
+                            <div ng-show="stepShowDiffScreenshot" class="clear">
+                                 <sc-annotated-screenshot screen-shot-url="diffScreenShotUrl"></sc-annotated-screenshot>
+                            </div>
 
-                    <h3 class="step-comparison-title" >{{comparisonName}}</h3>
-
-                    <sc-diff-screenshot-button linking-variable="stepShowDiffScreenshot" class="step-comparison-button" ></sc-diff-screenshot-button>
-                    </div>
-                    <div ng-show="stepShowDiffScreenshot" class="step-comparison-image">
-                        <sc-annotated-screenshot screen-shot-url="diffScreenShotUrl"></sc-annotated-screenshot>
-                    </div>
-
-                    <div ng-show="!stepShowDiffScreenshot" class="step-comparison-image">
-                        <sc-annotated-screenshot screen-shot-url="comparisonScreenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
+                            <div ng-show="!stepShowDiffScreenshot" class="clear">
+                                <sc-annotated-screenshot screen-shot-url="comparisonScreenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
