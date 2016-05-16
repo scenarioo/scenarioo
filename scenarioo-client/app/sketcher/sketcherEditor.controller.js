@@ -20,8 +20,9 @@
 angular.module('scenarioo.controllers').controller('SketcherEditorController', SketcherEditorController);
 
 function SketcherEditorController($rootScope, $scope, $location, $filter, $interval, $routeParams,
-        SelectedBranchAndBuildService, ToolBoxService, DrawShapeService, DrawingPadService,  IssueResource, SketcherContextService,
-        LocalStorageService, ZoomPanService, $timeout, HostnameAndPort, StoreSketchService) {
+                                  SelectedBranchAndBuildService, ToolBoxService, DrawShapeService, DrawingPadService,
+                                  IssueResource, SketcherContextService, LocalStorageService, ZoomPanService, $timeout,
+                                  HostnameAndPort, StoreSketchService) {
 
     var vm = this;
     vm.savingSketch = StoreSketchService.isSavingSketchInProgress;

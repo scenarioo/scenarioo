@@ -17,8 +17,9 @@
 
 angular.module('scenarioo.controllers').controller('UseCaseController', UseCaseController);
 
-function UseCaseController($scope, $filter, $routeParams, $location, ScenarioResource, ConfigService, SelectedBranchAndBuildService,
-                     LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource) {
+function UseCaseController($scope, $filter, $routeParams, $location, ScenarioResource, ConfigService,
+                           SelectedBranchAndBuildService, LabelConfigurationsResource, RelatedIssueResource,
+                           SketchIdsResource) {
 
     var vm = this;
 

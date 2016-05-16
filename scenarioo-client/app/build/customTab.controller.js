@@ -17,8 +17,9 @@
 
 angular.module('scenarioo.controllers').controller('CustomTabController', CustomTabController);
 
-CustomTabController.$inject = ['BranchesAndBuildsService', '$location', 'CustomTabContentResource', 'SelectedBranchAndBuildService', 'TreeNodeService'];
-function CustomTabController(BranchesAndBuildsService, $location, CustomTabContentResource, SelectedBranchAndBuildService, TreeNodeService) {
+function CustomTabController(BranchesAndBuildsService, $location, CustomTabContentResource,
+                             SelectedBranchAndBuildService, TreeNodeService) {
+
     var vm = this;
     vm.searchField = '';
     vm.treemodel = [];

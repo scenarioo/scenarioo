@@ -17,7 +17,6 @@
 
 angular.module('scenarioo.controllers').controller('LabelColorsController', LabelColorsController);
 
-LabelColorsController.$inject = ['LabelConfigurationsResource', 'LabelConfigurationsListResource'];
 function LabelColorsController(LabelConfigurationsResource, LabelConfigurationsListResource) {
 
     var vm = this;

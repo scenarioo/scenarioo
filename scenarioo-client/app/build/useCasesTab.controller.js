@@ -17,8 +17,9 @@
 
 angular.module('scenarioo.controllers').controller('UseCasesTabController', UseCasesTabController);
 
-UseCasesTabController.$inject = ['$scope', '$location', '$filter', 'BranchesAndBuildsService', 'SelectedBranchAndBuildService', 'UseCasesResource', 'LabelConfigurationsResource'];
-function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsService, SelectedBranchAndBuildService, UseCasesResource, LabelConfigurationsResource) {
+function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsService, SelectedBranchAndBuildService,
+                               UseCasesResource, LabelConfigurationsResource) {
+
     var vm = this;
     vm.table = {
         search: {searchTerm: ''},
