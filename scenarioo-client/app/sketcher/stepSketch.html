@@ -84,7 +84,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <sc-collapsable-panel title="Sketch Context" key="stepSketchView-context" initially-expanded="true">
 
             <p>The sketch is based on this step from the documentation.</p>
-            <!-- what is missing: what branch and build ?? -->
+
+            <p id="usecase-context">
+                Branch: {{vm.stepSketch.relatedStep.branchName}}</a>
+            </p>
+
+            <p id="usecase-context">
+                Build: {{vm.stepSketch.relatedStep.buildName}}</a>
+            </p>
 
             <p id="usecase-context">
                 <a ng-href="{{vm.getUseCaseUrl()}}">Use Case: {{vm.stepSketch.relatedStep.usecaseName | scHumanReadable}}</a>
