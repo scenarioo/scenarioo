@@ -17,8 +17,8 @@
 
 angular.module('scenarioo.services').service('StoreSketchService', StoreSketchService);
 
-function StoreSketchService(LocalStorageService, SketcherContextService, StepSketchService, StepSketchResource, 
-                            IssueResource, IssueService, ScenarioSketchResource, $log, DrawingPadService) {
+function StoreSketchService(LocalStorageService, SketcherContextService, StepSketchResource,
+                            IssueResource, ScenarioSketchResource, $log, DrawingPadService) {
 
     var savingSketch = false,
         issueIdAfterSavingIssue,
@@ -61,11 +61,13 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
             issue.issueId = inputData.issueId;
         }
 
-        IssueService.saveIssue(issue, function (savedIssue) {
+        issue.$save(function (savedIssue) {
             issueIdAfterSavingIssue = savedIssue.issueId;
             saveScenarioSketch();
-        }, function (error) {
-            sketchSavedWithError(error);
+        },
+        function (error) {
+            $log.error(error);
+            sketchSavedWithError('Issue could not be saved');
         });
     }
 
@@ -124,11 +126,13 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
             stepSketch.stepSketchId = inputData.stepSketchId;
         }
 
-        StepSketchService.saveStepSketch(stepSketch, function (savedStepSketch) {
+        stepSketch.$save(function (savedStepSketch) {
             stepSketchIdAfterSavingStepSketch = savedStepSketch.stepSketchId;
             sketchSuccessfullySaved();
-        }, function (error) {
-            sketchSavedWithError(error);
+        },
+        function (error) {
+            $log.error(error);
+            sketchSavedWithError('StepSketch could not be saved');
         });
     }
 
