@@ -77,7 +77,7 @@ function ScenarioController($filter, $routeParams,
                 vm.useCase = result.useCase;
                 vm.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
                 vm.metadataTree = transformMetadataToTreeArray(pagesAndScenarios.scenario.details);
-                vm.scenarioInformationTree = createScenarioInformationTree(vm.scenario, result.scenarioStatistics);
+                vm.scenarioInformationTree = createScenarioInformationTree(vm.scenario, result.scenarioStatistics, vm.useCase);
                 scenarioStatistics = result.scenarioStatistics;
                 loadRelatedIssues();
 
@@ -165,8 +165,17 @@ function ScenarioController($filter, $routeParams,
         vm.searchFieldText = '';
     }
 
-    function createScenarioInformationTree(scenario, scenarioStatistics) {
+    function createScenarioInformationTree(scenario, scenarioStatistics, useCase) {
         var stepInformation = {};
+        stepInformation['Use Case'] = useCase.name;
+        if(useCase.description) {
+            stepInformation['Use Case Description'] = useCase.description;
+        }
+        stepInformation.Scenario = $filter('scHumanReadable')(scenario.name);
+        if(scenario.description) {
+            stepInformation['Scenario Description'] = scenario.description;
+        }
+
         stepInformation['Number of Pages'] = scenarioStatistics.numberOfPages;
         stepInformation['Number of Steps'] = scenarioStatistics.numberOfSteps;
         stepInformation.Status = scenario.status;
