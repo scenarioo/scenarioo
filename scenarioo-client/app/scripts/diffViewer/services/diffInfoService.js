@@ -38,9 +38,10 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
     }
 
     function enrichPagesAndStepsWithDiffInfos(pagesAndSteps, removedSteps, diffInfos) {
+        var stepIndex = 0;
         angular.forEach(pagesAndSteps, function(pageAndStep) {
             angular.forEach(pageAndStep.steps, function(step) {
-               step.diffInfo = getDiffInfo(diffInfos, step.index);
+                step.diffInfo = getDiffInfo(diffInfos, stepIndex++);
                 if(step.diffInfo.isAdded && pageAndStep.steps.length === 1) {
                     pageAndStep.page.isAdded = true;
                 }
@@ -52,7 +53,7 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
         });
 
         angular.forEach(pagesAndSteps, function(pageAndStep) {
-            pageAndStep.page.diffInfo = getPageDiffInfo((pageAndStep));
+            pageAndStep.page.diffInfo = getPageDiffInfo(pageAndStep);
         });
     }
 
