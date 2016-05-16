@@ -20,6 +20,7 @@ angular.module('scenarioo.controllers').controller('ScenarioController', Scenari
 function ScenarioController($filter, $routeParams,
           $location, ScenarioResource, HostnameAndPort, SelectedBranchAndBuildService,
           ConfigService, PagesAndStepsService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource) {
+
     var vm = this;
     vm.useCaseDescription = '';
     vm.scenario = {};

@@ -17,8 +17,9 @@
 
 angular.module('scenarioo.controllers').controller('ObjectRepositoryController', ObjectRepositoryController);
 
+function ObjectRepositoryController($routeParams, $location, ObjectIndexListResource, SelectedBranchAndBuildService,
+                                    TreeNodeService, $filter) {
 
-function ObjectRepositoryController($routeParams, $location, ObjectIndexListResource, SelectedBranchAndBuildService, TreeNodeService, $filter) {
     var vm = this;
 
     vm.treemodel = [];

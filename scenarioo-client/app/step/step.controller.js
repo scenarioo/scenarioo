@@ -15,9 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('StepController', function ($scope, $routeParams, $location, $q, $window, ConfigService, ScenarioResource, StepResource, HostnameAndPort,
-                                                                         SelectedBranchAndBuildService, $filter, ApplicationInfoPopupService, GlobalHotkeysService, LabelConfigurationsResource, SharePageService,
-                                                                         SketcherContextService, RelatedIssueResource, SketchIdsResource, SketcherLinkService) {
+angular.module('scenarioo.controllers').controller('StepController', StepController);
+
+function StepController($scope, $routeParams, $location, StepResource, HostnameAndPort, SelectedBranchAndBuildService,
+                        $filter, ApplicationInfoPopupService, GlobalHotkeysService, LabelConfigurationsResource,
+                        SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
+                        SketcherLinkService) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -424,4 +427,4 @@ angular.module('scenarioo.controllers').controller('StepController', function ($
             });
     }
 
-});
+}

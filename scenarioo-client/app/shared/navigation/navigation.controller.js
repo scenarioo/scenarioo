@@ -15,7 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('NavigationController', function ($scope, $location, LocalStorageService, BranchesAndBuildsService, SelectedBranchAndBuildService, $uibModal, ApplicationInfoPopupService, ConfigService, GlobalHotkeysService) {
+angular.module('scenarioo.controllers').controller('NavigationController', NavigationController);
+
+function NavigationController($scope, $location, LocalStorageService, BranchesAndBuildsService,
+                              SelectedBranchAndBuildService, ApplicationInfoPopupService, ConfigService,
+                              GlobalHotkeysService) {
 
     $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
         $scope.applicationName = ConfigService.applicationName();
@@ -108,4 +112,4 @@ angular.module('scenarioo.controllers').controller('NavigationController', funct
         ApplicationInfoPopupService.showApplicationInfoPopup();
     };
     
-});
+}

@@ -17,8 +17,8 @@
 
 angular.module('scenarioo.controllers').controller('GeneralSettingsController', GeneralSettingsController);
 
-GeneralSettingsController.$inject = ['$scope', 'BranchesResource', 'ConfigService'];
 function GeneralSettingsController($scope, BranchesResource, ConfigService) {
+
     var vm = this;
     vm.branches = [];
     vm.configuration = {};

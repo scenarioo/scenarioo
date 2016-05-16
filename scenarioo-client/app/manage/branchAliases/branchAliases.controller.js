@@ -17,7 +17,6 @@
 
 angular.module('scenarioo.controllers').controller('BranchAliasesController', BranchAliasesController);
 
-BranchAliasesController.$inject = ['$rootScope', 'BranchAliasesResource', 'BranchesResource'];
 function BranchAliasesController($rootScope, BranchAliasesResource, BranchesResource) {
 
     var vm = this;
