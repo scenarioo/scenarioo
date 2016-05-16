@@ -41,7 +41,7 @@ useCase('Create sketch')
                 // If somebody wants to try to implement this, go ahead please :-)
 
                 step('Enter information about the step');
-                editorPage.enterSketchInformation(sketchName);
+                editorPage.enterSketchInformation(sketchName, 'protractor e2e');
                 editorPage.assertSaveSketchSuccessfulMessageIsNotPresent();
 
                 step('Save issue');
@@ -77,7 +77,7 @@ useCase('Create sketch')
 
                 step('Enter information about the step');
                 editorPage.assertAuthorFieldIsEmpty();
-                editorPage.enterSketchInformation('Also created by automated test');
+                editorPage.enterSketchInformation('Also created by automated test', '');
 
                 step('Save issue');
                 editorPage.clickSaveButton();
@@ -89,7 +89,7 @@ useCase('Create sketch')
                 stepPage.clickCreateSketchButton();
 
                 step('Author information is now already filled in');
-                editorPage.assertAuthorFieldIsFilledAlready();
+                editorPage.assertAuthorFieldIsSetTo('protractor e2e');
             });
 
     });
