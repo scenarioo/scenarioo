@@ -42,6 +42,9 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
         angular.forEach(pagesAndSteps, function(pageAndStep) {
             angular.forEach(pageAndStep.steps, function(step) {
                 step.diffInfo = getDiffInfo(diffInfos, stepIndex++);
+                step.diffInfo.changed = 1;
+                step.diffInfo.added = 0;
+                step.diffInfo.removed = 0;
                 if(step.diffInfo.isAdded && pageAndStep.steps.length === 1) {
                     pageAndStep.page.isAdded = true;
                 }
