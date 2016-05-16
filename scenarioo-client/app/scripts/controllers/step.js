@@ -31,6 +31,7 @@ angular.module('scenarioo.controllers').controller('StepCtrl', function ($scope,
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
     var labels = $location.search().labels;
 
+
     $scope.modalScreenshotOptions = {
         backdropFade: true,
         dialogClass: 'modal modal-huge'
