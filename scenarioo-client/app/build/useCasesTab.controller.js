@@ -33,7 +33,7 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     vm.buildInformationTree = {};
     vm.metadataTreeBranches = {};
     vm.metadataTreeBuilds = {};
-    $scope.comparisonInfo = SelectedComparison.info;
+    vm.comparisonInfo = SelectedComparison.info;
 
     vm.goToUseCase = goToUseCase;
     vm.handleClick = handleClick;

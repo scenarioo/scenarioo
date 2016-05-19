@@ -43,6 +43,7 @@ function ScenarioController($filter, $routeParams,
     vm.resetSearchField = resetSearchField;
     vm.goToIssue = goToIssue;
     vm.getLabelStyle = getLabelStyle;
+    vm.comparisonInfo = SelectedComparison.info;
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
@@ -77,6 +78,7 @@ function ScenarioController($filter, $routeParams,
                 pagesAndScenarios = PagesAndStepsService.populatePagesAndStepsService(result);
                 vm.useCaseDescription = result.useCase.description;
                 vm.scenario = pagesAndScenarios.scenario;
+                vm.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
                 vm.useCase = result.useCase;
                 vm.metadataTree = transformMetadataToTreeArray(pagesAndScenarios.scenario.details);
                 vm.scenarioInformationTree = createScenarioInformationTree(vm.scenario, result.scenarioStatistics, vm.useCase);
@@ -214,7 +216,7 @@ function ScenarioController($filter, $routeParams,
                             StepDiffInfosResource.get(
                                 {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName, 'scenarioName': scenarioName},
                                 function onSuccess(stepDiffInfos) {
-                                    DiffInfoService.enrichPagesAndStepsWithDiffInfos(vm.pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
+                                    DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
                                 }
                             );
                         }
