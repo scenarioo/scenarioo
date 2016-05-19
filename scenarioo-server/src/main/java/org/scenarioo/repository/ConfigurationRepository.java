@@ -40,7 +40,7 @@ public class ConfigurationRepository {
 
 	public File getDocumentationDataDirectory() {
 		loadConfigurationIfNotLoadedYet();
-		String documentationDataDirectoryFromConfig = configuration.getTestDocumentationDirPath();
+		final String documentationDataDirectoryFromConfig = configuration.getTestDocumentationDirPath();
 		if (StringUtils.isBlank(documentationDataDirectoryFromConfig)) {
 			return getExampleDocumentationDirectoryAsFallback();
 		} else {
@@ -48,17 +48,9 @@ public class ConfigurationRepository {
 		}
 	}
 
-
-	public File getDesignDataDirectory() {
-		// TODO #478: I think we should be consistent "design data" or "sketcher" ?? Better use one or the other!
-		// I recommend to use "design-data" in the path name, because we might want to use it for more than just for sketches, right?
-		// This was once designed to contain all additional design data, that could be attached to scenario docu data.
-		File rootFolder = getDocumentationDataDirectory();
-		return new File(rootFolder, "scenarioo-application-data/sketcher");
-	}
-
+	// TODO pforster after merge: move to DiffViewer Writer/Reader
 	public File getDiffViewerDirectory() {
-		File rootFolder = getDocumentationDataDirectory();
+		final File rootFolder = getDocumentationDataDirectory();
 		return new File(rootFolder, "scenarioo-application-data/diffViewer");
 	}
 

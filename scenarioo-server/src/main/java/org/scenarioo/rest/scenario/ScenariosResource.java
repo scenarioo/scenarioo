@@ -24,7 +24,7 @@ import javax.ws.rs.Produces;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.repository.ConfigurationRepository;
@@ -40,7 +40,7 @@ public class ScenariosResource {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 	
-	private final AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
+	private final AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDao(
 			configurationRepository.getDocumentationDataDirectory());
 	
 	private final ScenarioDetailsMapper scenarioDetailsMapper = new ScenarioDetailsMapper();

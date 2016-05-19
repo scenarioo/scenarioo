@@ -100,7 +100,11 @@ angular.module('scenarioo.services').service('TestData', function () {
                 },
                 'status': 'success',
                 'description': 'User wants to search for a page and read it.',
-                'name': 'Find Page'
+                'name': 'Find Page',
+                'labels': {
+                    'empty': true,
+                    'labels': []
+                }
             },
             'pagesAndSteps': [
                 {'page': {'details': {}, 'name': 'startSearch.jsp'}, 'steps': [
@@ -119,7 +123,11 @@ angular.module('scenarioo.services').service('TestData', function () {
                 },
                 'status': 'success',
                 'description': 'User enters some text and finds multiple pages that contain this text.',
-                'name': 'find_page_with_text_on_page_from_multiple_results'
+                'name': 'find_page_with_text_on_page_from_multiple_results',
+                'labels': {
+                    'empty': true,
+                    'labels': []
+                }
             },
             'scenarioStatistics': {
                 'numberOfPages': 2,
@@ -280,7 +288,7 @@ angular.module('scenarioo.services').service('TestData', function () {
             {
                 tabId: 'usecases',
                 title: 'Use Cases',
-                contentViewUrl: 'views/mainUseCasesTab.html',
+                contentViewUrl: 'build/useCasesTab.html',
                 active: true
             }
         ]

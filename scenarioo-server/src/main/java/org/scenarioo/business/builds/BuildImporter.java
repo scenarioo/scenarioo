@@ -33,7 +33,7 @@ import org.apache.log4j.Logger;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.business.diffViewer.ComparisonExecutor;
 import org.scenarioo.business.lastSuccessfulScenarios.LastSuccessfulScenariosBuild;
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
@@ -255,7 +255,7 @@ public class BuildImporter {
 	
 	private static void saveBuildImportSummaries(final Map<BuildIdentifier, BuildImportSummary> buildImportSummaries) {
 		final List<BuildImportSummary> summariesToSave = new ArrayList<BuildImportSummary>(buildImportSummaries.values());
-		final ScenarioDocuAggregationDAO dao = new ScenarioDocuAggregationDAO(
+		final ScenarioDocuAggregationDao dao = new ScenarioDocuAggregationDao(
 				configurationRepository.getDocumentationDataDirectory());
 		dao.saveBuildImportSummaries(summariesToSave);
 	}

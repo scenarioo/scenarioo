@@ -17,6 +17,7 @@ var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:9
 
 console.log('PROTRACTOR_BASE_URL: ' + PROTRACTOR_BASE_URL);
 
+var prepareProtractor = require('./prepareProtractor');
 
 var exportsConfig = {
     framework: 'jasmine',
@@ -36,13 +37,7 @@ var exportsConfig = {
     // body, but is necessary if ng-app is on a descendant of <body>.
     rootElement: 'html',
 
-    onPrepare: function () {
-
-        // TODO #474: set a fixed window size to be used on every system when running e2e-tests
-        browser.driver.manage().window().maximize();
-
-        require('./test/protractorE2E/dsl/noWrappingDsl');
-    },
+    onPrepare: prepareProtractor,
 
     params: {
         // Used in our tests

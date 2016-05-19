@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.scenarioo.rest.base.StepIdentifier;
 
 /**
- * An issue is the top level element of the design domain. It can be referenced by
+ * An issue is the top level element for sketches. It can be referenced by
  * zero, one or several ScenarioSketches.
  */
 @XmlRootElement

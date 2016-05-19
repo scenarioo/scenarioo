@@ -15,7 +15,7 @@ util.inherits(ObjectDetailsPage, BaseWebPage);
 
 ObjectDetailsPage.prototype.clickNthTreeTableRow = function (rowNumberWithoutHeader) {
     element.all(by.css('#treeviewtable tbody tr')).then(function(elements) {
-        var nthRow = elements[rowNumberWithoutHeader + 1]; // + 1 because 0th row is the header
+        var nthRow = elements[rowNumberWithoutHeader];
         var link = nthRow.element(by.css('span'));
         link.click();
     });

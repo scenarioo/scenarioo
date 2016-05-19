@@ -25,18 +25,14 @@ import javax.ws.rs.Produces;
 import org.apache.log4j.Logger;
 import org.jboss.resteasy.annotations.cache.NoCache;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.sketcher.SketcherFiles;
-import org.scenarioo.repository.ConfigurationRepository;
-import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.dao.sketcher.SketcherDao;
 
 @Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/stepsketch/{stepSketchId}/")
 public class SketchImageResource {
 
 	private static final Logger LOGGER = Logger.getLogger(SketchImageResource.class);
 
-	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
-			.getConfigurationRepository();
-	private final SketcherFiles files = new SketcherFiles(configurationRepository.getDesignDataDirectory());
+	private final SketcherDao sketcherDao = new SketcherDao();
 
 	@GET
 	@Path("svg/{stepSketchId}")
@@ -50,9 +46,13 @@ public class SketchImageResource {
 
 		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
 
-		return files.getStepSketchSvgFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId);
+		return sketcherDao.getStepSketchSvgFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId);
 	}
 
+	/**
+	 * @param pngFileName
+	 *            Specify whether you want to load the original PNG file or the sketch PNG file.
+	 */
 	@GET
 	@Path("image/{pngFile}")
 	@Produces({ "image/png" })
@@ -67,7 +67,7 @@ public class SketchImageResource {
 
 		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
 
-		return files.getStepSketchPngFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId, pngFileName);
+		return sketcherDao.getStepSketchPngFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId, pngFileName);
 	}
 
 }

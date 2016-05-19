@@ -1,0 +1,109 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<sc-breadcrumbs></sc-breadcrumbs>
+<div class="row sc-space-top sc-space-bottom">
+    <div class="col-sm-8">
+        <div class="input-group">
+            <input type="text" class="ng-pristine ng-valid tableSearch form-control"
+                   data-toggle="tooltip" title="type words separated by spaces to search for" ng-model="vm.searchFieldText"
+                   placeholder="Search in scenario &quot;{{vm.scenario.name | scHumanReadable}}&quot;..."/>
+            <span class="input-group-btn">
+                <button type="button" ng-click="vm.resetSearchField()" class="btn btn-default">reset</button>
+            </span>
+        </div>
+    </div>
+    <div class="col-sm-4">
+		<div class="pull-right">
+			<button type="button" class=" btn btn-default" id="expandAllPages" ng-show="vm.isExpandAllPossible()" ng-click="vm.expandAll()">expand all</button>
+			<button type="button" class=" btn btn-default" id="collapseAllPages" ng-show="vm.isCollapseAllPossible()" ng-click="vm.collapseAll()">collapse all</button>
+			<sc-meta-data-button linking-variable="scenarioShowMetadata" local-storage-key="scenario" ></sc-meta-data-button>
+		</div>
+    </div>
+</div>
+
+<sc-meta-data-panel linking-variable="scenarioShowMetadata">
+    <div>
+        <!-- steps -->
+        <div class="row step-view">
+            <div ng-repeat="page in vm.pagesAndSteps">
+                <div ng-repeat="step in page.steps | scFilterArray:vm.searchFieldText" ng-show="$index == 0 || vm.showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !scenarioShowMetadata, 'col-md-6': scenarioShowMetadata, 'removed' : page.page.diffInfo.isRemoved}">
+                    <h2>
+                        <sc-diff-info-icon ng-if="$index == 0 && comparisonInfo.isDefined" diff-info="page.page.diffInfo" element-type="page" child-element-type="step"></sc-diff-info-icon>
+                        <span class="sc-truncate" ng-if="$index == 0" ng-init="pageIndex = $parent.$parent.$index">
+                            <span class="sc-no-truncate">
+                                <span ng-click="vm.toggleShowAllStepsForPage(pageIndex)" ng-show="page.steps.length > 1" uib-tooltip="show / hide additional steps of this page" tooltip-placement="top" class="toggle-show-all-steps-of-page">
+                                    <span ng-hide="vm.showAllStepsForPage(pageIndex)" class="icon-plus-sign link right"></span>
+                                    <span ng-show="vm.showAllStepsForPage(pageIndex)" class="icon-minus-sign link right"></span>
+                                </span>
+                            </span>
+                            Page {{pageIndex + 1}}: {{page.page.name}} ({{page.steps.length}} Steps)
+                        </span>
+                        <span ng-if="$index != 0">&nbsp;</span>
+                    </h2>
+                    <div ng-class="{'removed' : step.diffInfo.isRemoved}">
+                        <div class="step-title">
+                            <h3 class="sc-truncate">
+                                <sc-diff-info-icon ng-if="comparisonInfo.isDefined" diff-info="step.diffInfo" element-type="step"></sc-diff-info-icon>
+                                <a ng-if="!step.diffInfo.isRemoved" ng-href="{{vm.getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">Step {{step.index + 1}}{{ step.title ? ': ' + step.title : ''}}</a>
+                                <span ng-if="step.diffInfo.isRemoved">Step {{step.index + 1}}: {{step.title}}</span>
+                            </h3>
+                        </div>
+                        <div class="sc-screenshot-border sc-screenshot-scenario" >
+                            <a ng-if="!step.diffInfo.isRemoved" ng-href="{{vm.getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">
+                                <img ng-src="{{vm.getScreenShotUrl(step.screenshotFileName, step.diffInfo.isRemoved)}}" class="sc-screenshot"/>
+                            </a>
+                            <img ng-if="step.diffInfo.isRemoved" ng-src="{{getScreenShotUrl(step.screenshotFileName, step.diffInfo.isRemoved)}}" class="sc-screenshot"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+
+        <!-- scenario -->
+        <sc-collapsable-panel title="Scenario" key="scenarioView-scenario" initially-expanded="true">
+            <sc-tree data='vm.scenarioInformationTree'></sc-tree>
+        </sc-collapsable-panel>
+
+        <sc-collapsable-panel title="Related Sketches" key="scenarioView-relatedSketches" initially-expanded="true" ng-show="vm.hasAnyRelatedIssues">
+            <ul id="relatedSketches">
+                <li ng-repeat="issue in vm.relatedIssues"><a href="" ng-click="vm.goToIssue(issue)">{{issue.name}}</a></li>
+            </ul>
+        </sc-collapsable-panel>
+
+        <!-- labels -->
+        <sc-collapsable-panel title="Labels" key="scenarioView-labels" initially-expanded="false" ng-show="vm.hasAnyLabels">
+            <div class="sc-tree">
+                <ul>
+                    <li ng-show="vm.useCase.labels.labels">
+                        Use case:
+                        <span ng-repeat="label in vm.useCase.labels.labels" class="label label-info sc-label" ng-style="vm.getLabelStyle(label)">{{label}}</span>
+                    </li>
+                    <li ng-show="vm.scenario.labels.labels">
+                        Scenario:
+                        <span ng-repeat="label in vm.scenario.labels.labels" class="label label-info sc-label" ng-style="vm.getLabelStyle(label)">{{label}}</span>
+                    </li>
+                </ul>
+            </div>
+        </sc-collapsable-panel>
+
+        <!-- Metadata -->
+        <sc-metadata-tree metadata-tree="vm.metadataTree"></sc-metadata-tree>
+    </div>
+</sc-meta-data-panel>

@@ -1,0 +1,193 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<sc-breadcrumbs></sc-breadcrumbs>
+
+<div ng-show="stepNotFound" id="stepNotFoundErrorMessage">
+    <div class="alert alert-warning" role="alert">
+        <div class="sc-alert-title">The step you are looking for does not exist</div>
+        <p>URL: {{getCurrentUrl()}}</p>
+        <p>REST URL to get step: {{httpResponse.url}}</p>
+        <p>HTTP method: {{httpResponse.method}}</p>
+        <p>HTTP response status: {{httpResponse.status}}</p>
+        <p>Response data: {{httpResponse.data}}</p>
+    </div>
+</div>
+
+<div ng-show="fallback" id="fallbackMessage">
+    <div class="alert alert-warning" role="alert">
+        <div class="sc-alert-title">This is a fallback step</div>
+        <p class="sc-bold">The step you were looking for does not exist. Therefore we show you a different step of the same page. Here's what you actually see:</p>
+        <p>Usecase: {{stepIdentifier.usecaseName}}</p>
+        <p>Scenario: {{stepIdentifier.scenarioName}}</p>
+        <p>Page: {{stepIdentifier.pageName}}</p>
+        <p>Page occurrence: {{stepIdentifier.pageOccurrence}}</p>
+        <p>Step in page occurrence: {{stepIdentifier.stepInPageOccurrence}}</p>
+    </div>
+</div>
+
+<!-- Navigation toolbar -->
+<div class="step-navigation row sc-space-top sc-space-bottom" ng-hide="stepNotFound">
+
+    <!-- Step & Page Navigation -->
+    <div class="col-lg-5">
+
+        <!-- Pages navigation -->
+        <div class="btn-group">
+            <span ng-click="goToPreviousPage()" class="btn btn-default" ng-disabled="isFirstPage()" id="prevPageBtn">
+                <i class="icon-with-padding icon-large icon-double-angle-left" uib-tooltip="Previous Page [Ctrl+Left]" tooltip-placement="bottom"></i>
+            </span>
+            <span class="btn btn-default btn-no-hover"><span uib-tooltip="of all pages in this scenario" tooltip-placement="bottom">Page {{getCurrentPageIndexForDisplay()}} of {{stepStatistics.totalNumberOfPagesInScenario}}</span></span>
+            <span ng-click="goToNextPage()" class="btn btn-default" ng-disabled="isLastPage()" id="nextPageBtn">
+                <i class="icon-with-padding icon-large icon-double-angle-right" uib-tooltip="Next Page [Ctrl+Right]" tooltip-placement="bottom"></i>
+            </span>
+        </div>
+
+        &nbsp;
+
+        <!-- Steps navigation -->
+        <div class="btn-group">
+            <span ng-click="goToPreviousStep()" class="btn btn-default" ng-disabled="isFirstStep()" id="prevStepBtn">
+                <i class="icon-with-padding icon-large icon-angle-left" uib-tooltip="Previous Step [Left]" tooltip-placement="bottom"></i>
+            </span>
+            <span class="btn btn-default btn-no-hover"><span uib-tooltip="of all steps in this scenario" tooltip-placement="bottom">Step {{getCurrentStepIndexForDisplay()}} of {{stepStatistics.totalNumberOfStepsInScenario}}</span></span>
+            <span ng-click="goToNextStep()" class="btn btn-default" ng-disabled="isLastStep()" id="nextStepBtn">
+                <i class="icon-with-padding icon-large icon-angle-right" uib-tooltip="Next Step [Right]" tooltip-placement="bottom"></i>
+            </span>
+        </div>
+
+        &nbsp;
+
+        <!-- Substep information -->
+        <div class="btn-group">
+            <div class="btn btn-comment">Substep {{getStepIndexInCurrentPageForDisplay()}} of {{getNumberOfStepsInCurrentPageForDisplay()}} on current page</div>
+        </div>
+
+    </div>
+
+    <!-- Page variants navigation -->
+    <div class="col-lg-3">
+        <div class="btn-group">
+            <span ng-click="goToPreviousVariant()" class="btn btn-default" id="prevPageVariantBtn" ng-disabled="isFirstPageVariantStep()">
+                <i class="icon-with-padding icon-large icon-angle-up" uib-tooltip="Previous variant (potentially in other scenario) [Ctrl+Up]" tooltip-placement="bottom"></i>
+            </span>
+            <span class="btn btn-default btn-no-hover">
+                <span uib-tooltip="click here to see all page variants" tooltip-placement="bottom" id="pageVariantIndicator">
+                    <a ng-href="#/object/page/{{getPageNameUrlEncoded()}}" id="allPageVariants">
+                        Page-Variant {{stepNavigation.pageVariantIndex + 1}} of {{stepNavigation.pageVariantsCount}}
+                    </a>
+                </span>
+            </span>
+            <span ng-click="goToNextVariant()" class="btn btn-default" id="nextPageVariantBtn" ng-disabled="isLastPageVariantStep()">
+                <i class="icon-with-padding icon-large icon-angle-down" uib-tooltip="Next variant (potentially in other scenario) [Ctrl+Down]" tooltip-placement="bottom"></i>
+            </span>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="pull-right">
+            <sc-screen-annotations-button visibility-toggle="showScreenAnnotations" screen-annotations="step.screenAnnotations"></sc-screen-annotations-button>
+            <sc-meta-data-button linking-variable="stepShowMetadata" local-storage-key="step" ></sc-meta-data-button>
+        </div>
+    </div>
+</div>
+
+<!-- screenshot and information -->
+<sc-meta-data-panel linking-variable="stepShowMetadata" ng-hide="stepNotFound">
+
+    <div>
+        <uib-tabset class="step-panes"  active="activeTab">
+            <uib-tab heading="Screenshot" id="screenshot-tab" ng-click="setDefaultTab()">
+                <sc-annotated-screenshot screen-annotations="step.screenAnnotations" screen-shot-url="screenShotUrl" visibility-toggle="showScreenAnnotations" to-next-step-action="goToNextStep()"></sc-annotated-screenshot>
+            </uib-tab>
+            <uib-tab heading="HTML" id="html-tab" ng-hide="!step.html.htmlSource" ng-click="setActiveTab(1)">
+                <pre ng-bind="step.html.htmlSource" id="html-source">
+                </pre>
+            </uib-tab>
+            <uib-tab id="comparison-tab" ng-click="setActiveTab(2)" ng-if="comparisonInfo.isDefined">
+                <uib-tab-heading>
+                    <span class="left">Comparison</span>
+                    <div class="diff-info-wrapper">
+                         <sc-diff-info-icon diff-info="diffInfo" element-type="screenshot" child-element-type="screenshot"></sc-diff-info-icon>
+                    </div>
+                    </uib-tab-heading>
+                <div class="col-lg-6">
+                    <div>
+                        <h3 class="step-comparison-title" >{{comparisonName}}</h3>
+                        <div class="clear" ng-if="diffInfo.changeRate==100">
+                           <p>No comparison screenshot because this is a new step.</p>
+                        </div>
+                        <div ng-if="diffInfo.changeRate!=100">
+                            <sc-diff-screenshot-button linking-variable="stepShowDiffScreenshot" class="step-comparison-button" ></sc-diff-screenshot-button>
+                            <div ng-show="stepShowDiffScreenshot" class="clear">
+                                 <sc-annotated-screenshot screen-shot-url="diffScreenShotUrl"></sc-annotated-screenshot>
+                            </div>
+
+                            <div ng-show="!stepShowDiffScreenshot" class="clear">
+                                <sc-annotated-screenshot screen-shot-url="comparisonScreenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+                    <h3>{{baseBuildName}} </h3>
+                    <sc-annotated-screenshot screen-shot-url="screenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+
+    <div>
+        <!-- step -->
+        <sc-collapsable-panel title="Step" key="stepView-step" initially-expanded="false">
+            <sc-tree data='stepInformationTree'></sc-tree>
+        </sc-collapsable-panel>
+
+        <sc-collapsable-panel title="Related Sketches" key="stepView-relatedSketches" initially-expanded="true" ng-show="hasAnyRelatedIssues()">
+            <ul id="relatedSketches">
+                <li ng-repeat="issue in relatedIssues"><a href="" ng-click="goToIssue(issue)">{{issue.name}}</a></li>
+            </ul>
+        </sc-collapsable-panel>
+
+        <!-- labels -->
+        <sc-collapsable-panel title="Labels" key="stepView-labels" initially-expanded="false" ng-show="hasAnyLabels()">
+            <div class="sc-tree">
+                <ul>
+                    <li id="usecase-labels" ng-show="useCaseLabels.labels">
+                        Use case:
+                        <span ng-repeat="label in useCaseLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                    </li>
+                    <li id="scenario-labels" ng-show="scenarioLabels.labels">
+                        Scenario:
+                        <span ng-repeat="label in scenarioLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                    </li>
+                    <li id="step-labels" ng-show="step.stepDescription.labels.labels">
+                        Step:
+                        <span ng-repeat="label in step.stepDescription.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                    </li>
+                    <li id="page-labels" ng-show="step.page.labels.labels">
+                        Page:
+                        <span ng-repeat="label in step.page.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                    </li>
+                </ul>
+            </div>
+        </sc-collapsable-panel>
+        <!-- meta info -->
+        <sc-metadata-tree metadata-tree="metadataTree"></sc-metadata-tree>
+    </div>
+</sc-meta-data-panel>
