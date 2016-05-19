@@ -14,10 +14,12 @@
  */
 
 var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:9000';
-var BRANCH = process.env.BRANCH || 'unknown_branch';
+var BRANCH = process.env.BRANCH || 'local_dev';
 
 console.log('PROTRACTOR_BASE_URL: ' + PROTRACTOR_BASE_URL);
 console.log('BRANCH: ' + BRANCH);
+
+var prepareProtractor = require('./prepareProtractor');
 
 var exportsConfig = {
     framework: 'jasmine',
@@ -45,7 +47,10 @@ var exportsConfig = {
         var git = require('git-rev-sync');
 
         var scenarioo = require('scenarioo-js');
-        var scenariooReporter = scenarioo.reporter({
+
+        // Setup and configure the ScenariooJS jasmine reporter
+        scenarioo.setupJasmineReporter(jasmine, {
+
             targetDirectory: './scenariooDocumentation',
             branchName: 'scenarioo-self-docu',
             branchDescription: 'Scenarioo documenting itself.',
@@ -53,12 +58,17 @@ var exportsConfig = {
             revision: git.short(),
             pageNameExtractor: function (url) {
                 return url.pathname.substring(1);
+            },
+            reportStepOnExpectationFailed: true,
+            recordLastStepForStatus: {
+                failed: true,
+                success: true
             }
-        });
-        jasmine.getEnv().addReporter(scenariooReporter);
-        require('./test/protractorE2E/dsl/customExtendedDsl');
 
-        browser.driver.manage().window().maximize();
+        });
+
+        prepareProtractor();
+
     },
 
     params: {
@@ -74,7 +84,7 @@ var exportsConfig = {
         // If true, include stack traces in failures.
         includeStackTrace: true,
         // Default time to wait in ms before a test fails.
-        defaultTimeoutInterval: 30000
+        defaultTimeoutInterval: 40000
     }
 };
 

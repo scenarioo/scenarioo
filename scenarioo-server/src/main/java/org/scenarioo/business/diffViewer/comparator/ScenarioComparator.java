@@ -23,7 +23,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
@@ -40,10 +40,10 @@ public class ScenarioComparator extends AbstractComparator {
 
 	private StepComparator stepComparator = new StepComparator(baseBranchName, baseBuildName, comparisonName);
 
-	private AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
+	private AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDao(
 			configurationRepository.getDocumentationDataDirectory());
 
-	public ScenarioComparator(String baseBranchName, String baseBuildName, String comparisonName) {
+	public ScenarioComparator(final String baseBranchName, final String baseBuildName, final String comparisonName) {
 		super(baseBranchName, baseBuildName, comparisonName);
 	}
 
