@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div ng-repeat="page in vm.pagesAndSteps">
                 <div ng-repeat="step in page.steps | scFilterArray:vm.searchFieldText" ng-show="$index == 0 || vm.showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !scenarioShowMetadata, 'col-md-6': scenarioShowMetadata, 'removed' : page.page.diffInfo.isRemoved}">
                     <h2>
-                        <sc-diff-info-icon ng-if="$index == 0 && comparisonInfo.isDefined" diff-info="page.page.diffInfo" element-type="page" child-element-type="step"></sc-diff-info-icon>
+                        <sc-diff-info-icon ng-if="$index == 0 && vm.comparisonInfo.isDefined" diff-info="page.page.diffInfo" element-type="page" child-element-type="step"></sc-diff-info-icon>
                         <span class="sc-truncate" ng-if="$index == 0" ng-init="pageIndex = $parent.$parent.$index">
                             <span class="sc-no-truncate">
                                 <span ng-click="vm.toggleShowAllStepsForPage(pageIndex)" ng-show="page.steps.length > 1" uib-tooltip="show / hide additional steps of this page" tooltip-placement="top" class="toggle-show-all-steps-of-page">
@@ -58,7 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <div ng-class="{'removed' : step.diffInfo.isRemoved}">
                         <div class="step-title">
                             <h3 class="sc-truncate">
-                                <sc-diff-info-icon ng-if="comparisonInfo.isDefined" diff-info="step.diffInfo" element-type="step"></sc-diff-info-icon>
+                                <sc-diff-info-icon ng-if="vm.comparisonInfo.isDefined" diff-info="step.diffInfo" element-type="step"></sc-diff-info-icon>
                                 <a ng-if="!step.diffInfo.isRemoved" ng-href="{{vm.getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">Step {{step.index + 1}}{{ step.title ? ': ' + step.title : ''}}</a>
                                 <span ng-if="step.diffInfo.isRemoved">Step {{step.index + 1}}: {{step.title}}</span>
                             </h3>
@@ -67,7 +67,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <a ng-if="!step.diffInfo.isRemoved" ng-href="{{vm.getLinkToStep(step.page.name, step.page.pageOccurrence, $index)}}">
                                 <img ng-src="{{vm.getScreenShotUrl(step.screenshotFileName, step.diffInfo.isRemoved)}}" class="sc-screenshot"/>
                             </a>
-                            <img ng-if="step.diffInfo.isRemoved" ng-src="{{getScreenShotUrl(step.screenshotFileName, step.diffInfo.isRemoved)}}" class="sc-screenshot"/>
+                            <img ng-if="step.diffInfo.isRemoved" ng-src="{{vm.getScreenShotUrl(step.screenshotFileName, step.diffInfo.isRemoved)}}" class="sc-screenshot"/>
                         </div>
                     </div>
                 </div>
