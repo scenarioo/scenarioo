@@ -18,7 +18,7 @@
 angular.module('scenarioo.controllers').controller('UseCasesTabController', UseCasesTabController);
 
 function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsService, SelectedBranchAndBuildService,
-                               UseCasesResource, LabelConfigurationsResource) {
+                               SelectedComparison, DiffInfoService, UseCasesResource, LabelConfigurationsResource, BuildDiffInfoResource, UseCaseDiffInfosResource) {
 
     var vm = this;
     vm.table = {
@@ -33,8 +33,10 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     vm.buildInformationTree = {};
     vm.metadataTreeBranches = {};
     vm.metadataTreeBuilds = {};
+    $scope.comparisonInfo = SelectedComparison.info;
 
     vm.goToUseCase = goToUseCase;
+    vm.handleClick = handleClick;
     vm.onNavigatorTableHit = onNavigatorTableHit;
     vm.resetSearchField = resetSearchField;
 
@@ -55,9 +57,15 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
             vm.labelConfigurations = labelConfiguratins;
         });
     }
-    
+
     function goToUseCase(useCaseName) {
         $location.path('/usecase/' + useCaseName);
+    }
+
+    function handleClick(useCase){
+        if(!useCase.diffInfo || !useCase.diffInfo.isRemoved){
+            goToUseCase(useCase.name);
+        }
     }
 
     function onNavigatorTableHit(useCase) {
@@ -76,17 +84,20 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
             }
         }
     }
-    
-    function loadUseCases(selected) {
 
-        BranchesAndBuildsService.getBranchesAndBuildsService()
+    function loadUseCases(selected) {
+        BranchesAndBuildsService.getBranchesAndBuilds()
             .then(function onSuccess(branchesAndBuilds) {
                 vm.branchesAndBuilds = branchesAndBuilds;
             }).then(function () {
             UseCasesResource.query(
                 {'branchName': selected.branch, 'buildName': selected.build},
-                function onSuccess(result) {
-                    vm.useCases = result;
+                function onSuccess(useCases) {
+                    if(SelectedComparison.isDefined()) {
+                        loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
+                    } else {
+                        vm.useCases = useCases;
+                    }
 
                     var branch = vm.branchesAndBuilds.selectedBranch.branch;
                     var build = vm.branchesAndBuilds.selectedBuild.build;
@@ -96,7 +107,22 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
                     vm.metadataTreeBuilds = transformMetadataToTreeArray(build.details);
                 });
         });
+    }
 
+    function loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName) {
+        if(SelectedComparison.isDefined() && useCases && baseBranchName && baseBuildName) {
+            BuildDiffInfoResource.get(
+                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
+                function onSuccess(buildDiffInfo) {
+                    UseCaseDiffInfosResource.get(
+                        {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
+                        function onSuccess(useCaseDiffInfos) {
+                            vm.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
+                        }
+                    );
+                }
+            );
+        }
     }
 
     function createBranchInformationTree(branch) {
