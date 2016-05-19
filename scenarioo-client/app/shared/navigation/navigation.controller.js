@@ -28,14 +28,14 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     $scope.$on('branchesUpdated', function () {
         loadBranchesAndBuildsService();
     });
-    
+
     $scope.COMPARISON_DISABLED = SelectedComparison.COMPARISON_DISABLED;
     $scope.comparisonInfo = SelectedComparison.info;
-    
+
     SelectedBranchAndBuildService.callOnSelectionChange(loadBranchesAndBuildsService);
 
     function loadBranchesAndBuildsService() {
-        BranchesAndBuildsService.getBranchesAndBuildsService().then(function onSuccess(branchesAndBuilds) {
+        BranchesAndBuildsService.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
             $scope.branchesAndBuilds = branchesAndBuilds;
             loadComparisonBuilds();
         });
@@ -115,5 +115,4 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     $scope.showApplicationInfoPopup = function () {
         ApplicationInfoPopupService.showApplicationInfoPopup();
     };
-    
 }
