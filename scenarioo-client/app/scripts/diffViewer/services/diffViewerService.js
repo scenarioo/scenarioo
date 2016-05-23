@@ -19,45 +19,15 @@ angular.module('scenarioo.services').factory('DiffViewerService', function ($loc
 
 
     function getDiffScreenShotUrl(step, selected, comparisonName, usecaseName, scenarioName, stepIndex ) {
-
-        if (angular.isUndefined(step)) {
-            return undefined;
+        if(step && stepIndex && usecaseName){
+            return HostnameAndPort.forLink() + 'rest/diffViewer/' + selected.branch + '/' + selected.build + '/' + comparisonName + '/' + usecaseName + '/' + scenarioName + '/' + stepIndex + '/stepDiffScreenshot';
         }
-
-        if (angular.isUndefined(stepIndex)) {
-            return undefined;
-        }
-
-        if (angular.isUndefined(usecaseName)) {
-            return undefined;
-        }
-
-        return HostnameAndPort.forLink() + 'rest/diffViewer/' + selected.branch + '/' + selected.build + '/' + comparisonName + '/' + usecaseName + '/' + scenarioName + '/' + stepIndex + '/stepDiffScreenshot';
-
     }
 
     function getComparisonScreenShotUrl(comparisonBranchName, comparisonBuildName, usecaseName, scenarioName, comparisonScreenshotName){
-
-        if (angular.isUndefined(comparisonBranchName)) {
-            return undefined;
+        if(comparisonBranchName && comparisonBuildName && usecaseName && scenarioName && comparisonScreenshotName){
+            return HostnameAndPort.forLink() + 'rest/branch/' + comparisonBranchName + '/build/' + comparisonBuildName + '/usecase/' + usecaseName + '/scenario/' + scenarioName + '/image/' + comparisonScreenshotName;
         }
-
-        if (angular.isUndefined(comparisonBuildName)) {
-            return undefined;
-        }
-
-        if (angular.isUndefined(usecaseName)) {
-            return undefined;
-        }
-
-        if (angular.isUndefined(scenarioName)) {
-            return undefined;
-        }
-
-        if (angular.isUndefined(comparisonScreenshotName)) {
-            return undefined;
-        }
-        return HostnameAndPort.forLink() + 'rest/branch/' + comparisonBranchName + '/build/' + comparisonBuildName + '/usecase/' + usecaseName + '/scenario/' + scenarioName + '/image/' + comparisonScreenshotName;
     }
 
 

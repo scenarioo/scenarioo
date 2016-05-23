@@ -111,7 +111,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
                 $scope.scenarioLabels = result.scenarioLabels;
                 $scope.selectedBuild = selected.buildName;
                 loadRelatedIssues();
-                loadScreenshot();
+                initScreenshotUrl();
                 selectedComparison = SelectedComparison.selected();
                 loadComparisonFromServer(selectedComparison);
 
@@ -345,14 +345,14 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     }
     function getActiveTab() {
         var activeTab = sessionStorage.getItem('activeTab');
-        if (activeTab == null|| !$scope.comparisonInfo.isDefined){
+        if (activeTab == null || !$scope.comparisonInfo.isDefined){
             return 0;
         }
         return angular.isDefined(activeTab) ? parseInt(activeTab) : 0;
     }
 
     // This URL is only used internally, not for sharing
-    function loadScreenshot(){
+    function initScreenshotUrl(){
         if (angular.isUndefined($scope.step)) {
             return undefined;
         }
@@ -369,18 +369,18 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     }
 
     // This URL is only used internally, not for sharing
-    function loadComparisonScreenshots(){
-        setComparisonScreenShotUrl();
-        setDiffScreenShotUrl();
+    function initComparisonScreenshotURLs(){
+        initComparisonScreenshotUrl ();
+        initDiffScreenShotUrl();
     }
 
-    function setComparisonScreenShotUrl() {
+    function initComparisonScreenshotUrl () {
         $scope.comparisonScreenShotUrl = DiffViewerService.getComparisonScreenShotUrl($scope.comparisonBranchName, $scope.comparisonBuildName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.comparisonScreenshotName);
     }
 
     // This URL is only used internally, not for sharing
-    function setDiffScreenShotUrl() {
-        if ($scope.changeRate === 0 || angular.isUndefined($scope.changeRate)){
+    function initDiffScreenShotUrl() {
+        if ($scope.diffInfo.changeRate === 0 || angular.isUndefined($scope.diffInfo.changeRate)){
             $scope.diffScreenShotUrl = $scope.comparisonScreenShotUrl;
         } else {
             if (angular.isUndefined($scope.stepIdentifier)) {
@@ -417,23 +417,39 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     }
 
     function loadStepDiffInfo() {
-        StepDiffInfoResource.get({
+        StepDiffInfoResource.get(
+            {
             baseBranchName: SelectedBranchAndBuildService.selected().branch,
             baseBuildName: SelectedBranchAndBuildService.selected().build,
             comparisonName: $scope.comparisonName,
             useCaseName: useCaseName,
             scenarioName: scenarioName,
             stepIndex: $scope.stepIndex
-        }, function onSuccess(result){
-            $scope.comparisonScreenshotName = result.comparisonScreenshotName;
-            $scope.changeRate = result.changeRate;
-            $scope.diffInfo = result;
-            $scope.diffInfo.changed = 1;
-            $scope.diffInfo.added = 0;
-            $scope.diffInfo.removed = 0;
-            $scope.totalChildElements = 1;
-            loadComparisonScreenshots();
-        });
+            },
+            function onSuccess(result){
+                initChangedDiffInfo(result);
+            }, function onFailure() {
+                initAddedDiffInfo();
+            });
+    }
+
+    function initChangedDiffInfo(result){
+        $scope.comparisonScreenshotName = result.comparisonScreenshotName;
+        $scope.diffInfo = result;
+        $scope.diffInfo.changed = 1;
+        $scope.diffInfo.added = 0;
+        $scope.diffInfo.removed = 0;
+        $scope.totalChildElements = 1;
+        initComparisonScreenshotURLs();
+    }
+
+    function initAddedDiffInfo(){
+        $scope.diffInfo = {};
+        $scope.diffInfo.changeRate = 100;
+        $scope.diffInfo.changed = 0;
+        $scope.diffInfo.added = 1;
+        $scope.diffInfo.removed = 0;
+        $scope.totalChildElements = 1;
     }
 
     $scope.go = function (step) {
