@@ -211,6 +211,10 @@ angular.module('scenarioo.services').service('TestData', function () {
                         'labels' : ['page-label1', 'page-label2'],
                         'empty' : false
                     }
+                },
+                'diffInfo':{
+                    'isAdded': false,
+                    'isRemoved': false
                 }
             },
             'stepNavigation': {

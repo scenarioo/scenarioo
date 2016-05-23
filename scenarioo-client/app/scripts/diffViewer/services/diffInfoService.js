@@ -60,6 +60,10 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
         });
     }
 
+    function enrichStepWithDiffInfo(step, diffInfo) {
+                step.diffInfo = enrichDiffInfo(diffInfo);
+    }
+
     function addRemovedStep(pagesAndSteps, stepInfo) {
         var targetPageAndStep = null;
         angular.forEach(pagesAndSteps, function(pageAndStep) {
@@ -100,6 +104,10 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
 
     function getDiffInfo(diffInfos, key) {
         var diffInfo = diffInfos[key];
+        return enrichDiffInfo(diffInfo);
+    }
+
+    function enrichDiffInfo(diffInfo){
         if(diffInfo) {
             diffInfo.isAdded = false;
             diffInfo.isRemoved = false;
@@ -111,6 +119,7 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
         }
         return diffInfo;
     }
+
 
     function getRemovedDiffInfo() {
         var diffInfo = {};
@@ -167,6 +176,7 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
 
     return {
         getElementsWithDiffInfos: getElementsWithDiffInfos,
+        enrichStepWithDiffInfo: enrichStepWithDiffInfo,
         enrichPagesAndStepsWithDiffInfos: enrichPagesAndStepsWithDiffInfos
     };
 });

@@ -122,16 +122,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <uib-tab-heading>
                     <span class="left">Comparison</span>
                     <div class="diff-info-wrapper">
-                         <sc-diff-info-icon diff-info="diffInfo" element-type="screenshot" child-element-type="screenshot"></sc-diff-info-icon>
+                         <sc-diff-info-icon diff-info="step.diffInfo" element-type="screenshot" child-element-type="screenshot"></sc-diff-info-icon>
                     </div>
                     </uib-tab-heading>
                 <div class="col-lg-6">
                     <div>
                         <h3 class="step-comparison-title" >{{comparisonName}}</h3>
-                        <div class="clear" ng-if="diffInfo.changeRate==100">
+                        <div class="clear" ng-if="step.diffInfo.changeRate==100">
                            <p>No comparison screenshot because this is a new step.</p>
                         </div>
-                        <div ng-if="diffInfo.changeRate!=100">
+                        <div ng-if="step.diffInfo.changeRate!=100">
                             <sc-diff-screenshot-button linking-variable="stepShowDiffScreenshot" class="step-comparison-button" ></sc-diff-screenshot-button>
                             <div ng-show="stepShowDiffScreenshot" class="clear">
                                  <sc-annotated-screenshot screen-shot-url="diffScreenShotUrl"></sc-annotated-screenshot>

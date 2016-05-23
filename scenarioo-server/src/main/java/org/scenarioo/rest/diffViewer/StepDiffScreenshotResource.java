@@ -52,7 +52,7 @@ public class StepDiffScreenshotResource {
 	private DiffReader diffReader = new DiffReaderXmlImpl(configurationRepository.getDiffViewerDirectory());
 
 	@GET
-	@Produces("image/jpeg")
+	@Produces("image/png")
 	@Path("/stepDiffScreenshot")
 	public File getDiffScreenshot(
 			@PathParam("baseBranchName") final String baseBranchName,

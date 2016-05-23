@@ -20,7 +20,7 @@ angular.module('scenarioo.controllers').controller('StepController', StepControl
 function StepController($scope, $routeParams, $location, $route, StepResource, HostnameAndPort, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, GlobalHotkeysService, LabelConfigurationsResource,
                         SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
-                        SketcherLinkService, BranchesAndBuildsService, DiffViewerService, SelectedComparison, ComparisonConfigurationResource, StepDiffInfoResource) {
+                        SketcherLinkService, BranchesAndBuildsService, DiffViewerService, SelectedComparison, ComparisonConfigurationResource, StepDiffInfoResource, DiffInfoService) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -380,13 +380,11 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
 
     // This URL is only used internally, not for sharing
     function initDiffScreenShotUrl() {
-        if ($scope.diffInfo.changeRate === 0 || angular.isUndefined($scope.diffInfo.changeRate)){
+        if ($scope.step.diffInfo.changeRate === 0 || angular.isUndefined($scope.step.diffInfo.changeRate)){
             $scope.diffScreenShotUrl = $scope.comparisonScreenShotUrl;
-        } else {
-            if (angular.isUndefined($scope.stepIdentifier)) {
+        } else if (angular.isUndefined($scope.stepIdentifier)) {
                 return undefined;
-            }
-
+        } else {
             var branchAndBuild = SelectedBranchAndBuildService.selected();
             var comparisonName = SelectedComparison.selected();
             $scope.diffScreenShotUrl = DiffViewerService.getDiffScreenShotUrl($scope.step, branchAndBuild, comparisonName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.stepIndex );
@@ -427,29 +425,12 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
             stepIndex: $scope.stepIndex
             },
             function onSuccess(result){
-                initChangedDiffInfo(result);
+                $scope.comparisonScreenshotName = result.comparisonScreenshotName;
+                DiffInfoService.enrichStepWithDiffInfo($scope.step, result);
+                initComparisonScreenshotURLs();
             }, function onFailure() {
-                initAddedDiffInfo();
+                DiffInfoService.enrichStepWithDiffInfo($scope.step, null);
             });
-    }
-
-    function initChangedDiffInfo(result){
-        $scope.comparisonScreenshotName = result.comparisonScreenshotName;
-        $scope.diffInfo = result;
-        $scope.diffInfo.changed = 1;
-        $scope.diffInfo.added = 0;
-        $scope.diffInfo.removed = 0;
-        $scope.totalChildElements = 1;
-        initComparisonScreenshotURLs();
-    }
-
-    function initAddedDiffInfo(){
-        $scope.diffInfo = {};
-        $scope.diffInfo.changeRate = 100;
-        $scope.diffInfo.changed = 0;
-        $scope.diffInfo.added = 1;
-        $scope.diffInfo.removed = 0;
-        $scope.totalChildElements = 1;
     }
 
     $scope.go = function (step) {
