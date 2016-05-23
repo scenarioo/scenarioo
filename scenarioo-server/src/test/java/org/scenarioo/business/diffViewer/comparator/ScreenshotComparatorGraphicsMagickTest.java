@@ -20,7 +20,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.scenarioo.model.configuration.ComparisonAlias;
+import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.RepositoryLocator;
 
@@ -64,7 +64,7 @@ public class ScreenshotComparatorGraphicsMagickTest {
 	public static void tearDownClass() {
 		try {
 			FileUtils.deleteDirectory(ROOT_DIRECTORY);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new RuntimeException("Could not delete test data directory", e);
 		}
 	}
@@ -76,7 +76,7 @@ public class ScreenshotComparatorGraphicsMagickTest {
 
 	@Test
 	public void compareEqualScreenshots() {
-		double difference = screenshotComparator.compareScreenshots(BASE_SCREENSHOT,
+		final double difference = screenshotComparator.compareScreenshots(BASE_SCREENSHOT,
 				BASE_SCREENSHOT, DIFF_SCREENSHOT);
 		assertEquals("Difference of screenshots", 0, difference, DOUBLE_TOLERANCE);
 		assertTrue("No DiffScreenshot is saved", !DIFF_SCREENSHOT.exists());
@@ -84,7 +84,7 @@ public class ScreenshotComparatorGraphicsMagickTest {
 
 	@Test
 	public void compareDifferentScreenshots() {
-		double difference = screenshotComparator.compareScreenshots(BASE_SCREENSHOT,
+		final double difference = screenshotComparator.compareScreenshots(BASE_SCREENSHOT,
 				COMPARISON_SCREENSHOT_SAME_SIZE, DIFF_SCREENSHOT);
 		if (IS_GRAPHICS_MAGICK_INSTALLED) {
 			assertEquals("Difference of screenshots", SCREENSHOT_DIFFERENCE_SAME_SIZE, difference, DOUBLE_TOLERANCE);
@@ -96,7 +96,7 @@ public class ScreenshotComparatorGraphicsMagickTest {
 
 	@Test
 	public void compareDifferentSizedScreenshots() {
-		double difference = screenshotComparator.compareScreenshots(BASE_SCREENSHOT,
+		final double difference = screenshotComparator.compareScreenshots(BASE_SCREENSHOT,
 				COMPARISON_SCREENSHOT_LARGE, DIFF_SCREENSHOT);
 		if (IS_GRAPHICS_MAGICK_INSTALLED) {
 			assertEquals("Difference of screenshots", SCREENSHOT_DIFFERENCE_LARGE, difference, DOUBLE_TOLERANCE);
@@ -108,16 +108,15 @@ public class ScreenshotComparatorGraphicsMagickTest {
 
 	@Test
 	public void compareNonExistentScreenshots() {
-		Logger LOGGER = screenshotComparator.getLogger();
-		TestAppender appender = new TestAppender();
+		final Logger LOGGER = screenshotComparator.getLogger();
+		final TestAppender appender = new TestAppender();
 		LOGGER.addAppender(appender);
 
-
-		double difference = screenshotComparator.compareScreenshots(BASE_SCREENSHOT,
+		final double difference = screenshotComparator.compareScreenshots(BASE_SCREENSHOT,
 				NON_EXISTENT_SCREENSHOT, DIFF_SCREENSHOT);
 
-		List<LoggingEvent> log = appender.getLog();
-		LoggingEvent firstLogEntry = log.get(0);
+		final List<LoggingEvent> log = appender.getLog();
+		final LoggingEvent firstLogEntry = log.get(0);
 
 		assertEquals("Difference of screenshots", 0.0D, difference, DOUBLE_TOLERANCE);
 		assertEquals("Log Level", Level.WARN, firstLogEntry.getLevel());
@@ -127,31 +126,31 @@ public class ScreenshotComparatorGraphicsMagickTest {
 	}
 
 	private static boolean isGraphicsMagickInstalled() {
-		CompareCmd gmConsole = new CompareCmd(true);
+		final CompareCmd gmConsole = new CompareCmd(true);
 		gmConsole.setOutputConsumer(new ArrayListOutputConsumer());
-		IMOperation compareOperation = new IMOperation();
+		final IMOperation compareOperation = new IMOperation();
 		compareOperation.addRawArgs("-version");
 		try {
 			gmConsole.run(compareOperation);
 			return true;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			return false;
 		}
 	}
 
 	private static Configuration getTestConfiguration() {
 
-		ComparisonAlias comparisonAlias = new ComparisonAlias();
-		comparisonAlias.setBaseBranchName(BASE_BRANCH_NAME);
-		comparisonAlias.setComparisonBranchName(COMPARISON_BRANCH_NAME);
-		comparisonAlias.setComparisonBuildName(COMPARISON_BUILD_NAME);
-		comparisonAlias.setComparisonName(COMPARISON_NAME);
+		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
+		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);
+		comparisonConfiguration.setName(COMPARISON_NAME);
 
-		List<ComparisonAlias> comparisonAliases = new LinkedList<ComparisonAlias>();
-		comparisonAliases.add(comparisonAlias);
+		final List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
+		comparisonConfigurations.add(comparisonConfiguration);
 
-		Configuration configuration = RepositoryLocator.INSTANCE.getConfigurationRepository().getConfiguration();
-		configuration.setComparisonAliases(comparisonAliases);
+		final Configuration configuration = RepositoryLocator.INSTANCE.getConfigurationRepository().getConfiguration();
+		configuration.setComparisonConfigurations(comparisonConfigurations);
 
 		return configuration;
 	}
@@ -165,12 +164,13 @@ public class ScreenshotComparatorGraphicsMagickTest {
 		}
 
 		@Override
-		protected void append(LoggingEvent loggingEvent) {
+		protected void append(final LoggingEvent loggingEvent) {
 			log.add(loggingEvent);
 		}
 
 		@Override
 		public void close() {
+			// Not test relevant
 		}
 
 		public List<LoggingEvent> getLog() {

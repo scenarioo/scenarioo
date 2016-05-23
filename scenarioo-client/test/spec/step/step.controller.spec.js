@@ -19,7 +19,7 @@
 
 describe('StepController', function () {
 
-    var $scope, $routeParams, $location, $q, $window, ConfigService, ScenarioResource, StepResource, ComparisonAliasResource, StepDiffInfoResource,
+    var $scope, $routeParams, $location, $q, $window, ConfigService, ScenarioResource, StepResource, ComparisonConfigurationResource, StepDiffInfoResource,
         HostnameAndPort, SelectedBranchAndBuildService, BranchesResource, $controller, $httpBackend, TestData, RelatedIssueResource;
 
     var STEP_INFORMATION_TREE = {
@@ -33,7 +33,7 @@ describe('StepController', function () {
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_, _ScenarioResource_, _StepResource_, _ComparisonAliasResource_, _StepDiffInfoResource_, _HostnameAndPort_, _SelectedBranchAndBuildService_, _BranchesResource_, _$controller_, _$httpBackend_, _TestData_, LocalStorageService, _RelatedIssueResource_) {
+    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_, _ScenarioResource_, _StepResource_, _ComparisonConfigurationResource_, _StepDiffInfoResource_, _HostnameAndPort_, _SelectedBranchAndBuildService_, _BranchesResource_, _$controller_, _$httpBackend_, _TestData_, LocalStorageService, _RelatedIssueResource_) {
         $scope = _$rootScope_.$new();
         $routeParams = _$routeParams_;
         $location = _$location_;
@@ -43,7 +43,7 @@ describe('StepController', function () {
         ScenarioResource = _ScenarioResource_;
         RelatedIssueResource = _RelatedIssueResource_;
         StepResource = _StepResource_;
-        ComparisonAliasResource = _ComparisonAliasResource_;
+        ComparisonConfigurationResource = _ComparisonConfigurationResource_;
         StepDiffInfoResource = _StepDiffInfoResource_;
         HostnameAndPort = _HostnameAndPort_;
         BranchesResource = _BranchesResource_;
@@ -70,7 +70,7 @@ describe('StepController', function () {
                 SelectedBranchAndBuildService: SelectedBranchAndBuildService, ApplicationInfoPopupService: {}, SharePagePopupService: {}});
             spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
             spyOn(BranchesResource, 'query').and.callFake(getEmptyData());
-            spyOn(ComparisonAliasResource, 'get').and.callFake(getEmptyData());
+            spyOn(ComparisonConfigurationResource, 'get').and.callFake(getEmptyData());
             spyOn(StepDiffInfoResource, 'get').and.callFake(getEmptyData());
         });
 

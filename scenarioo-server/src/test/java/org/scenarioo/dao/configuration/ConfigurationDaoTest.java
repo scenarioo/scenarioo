@@ -12,7 +12,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.Test;
-import org.scenarioo.model.configuration.ComparisonAlias;
+import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.configuration.LabelConfiguration;
 
@@ -38,15 +38,15 @@ public class ConfigurationDaoTest {
 		final Configuration configuration = new Configuration();
 		final Map<String, LabelConfiguration> labelConfigurations = createLabelConfigurations();
 		configuration.setLabelConfigurations(labelConfigurations);
-		configuration.setComparisonAliases(createComparisonAliases());
+		configuration.setComparisonConfigurations(createComparisonConfigurations());
 
 		configurationDao.updateConfiguration(configuration);
 		final Configuration loadedConfiguration = configurationDao.loadConfiguration();
 
 		assertEquals(labelConfigurations, loadedConfiguration.getLabelConfigurations());
-		assertEquals(2, loadedConfiguration.getComparisonAliases().size());
-		assertComparisonAlias(COMPARISON_NAME1, loadedConfiguration.getComparisonAliases().get(0));
-		assertComparisonAlias(COMPARISON_NAME2, loadedConfiguration.getComparisonAliases().get(1));
+		assertEquals(2, loadedConfiguration.getComparisonConfigurations().size());
+		assertComparisonConfiguration(COMPARISON_NAME1, loadedConfiguration.getComparisonConfigurations().get(0));
+		assertComparisonConfiguration(COMPARISON_NAME2, loadedConfiguration.getComparisonConfigurations().get(1));
 	}
 
 	private Map<String, LabelConfiguration> createLabelConfigurations() {
@@ -65,27 +65,28 @@ public class ConfigurationDaoTest {
 		return labelConfig;
 	}
 
-	private void assertComparisonAlias(String expectedComparisonName, ComparisonAlias comparisonAlias) {
-		assertEquals(expectedComparisonName, comparisonAlias.getComparisonName());
-		assertEquals(BASE_BRANCH_NAME, comparisonAlias.getBaseBranchName());
-		assertEquals(COMPARISON_BRANCH_NAME, comparisonAlias.getComparisonBranchName());
-		assertEquals(COMPARISON_BUILD_NAME, comparisonAlias.getComparisonBuildName());
+	private void assertComparisonConfiguration(final String expectedComparisonName,
+			final ComparisonConfiguration comparisonConfiguration) {
+		assertEquals(expectedComparisonName, comparisonConfiguration.getName());
+		assertEquals(BASE_BRANCH_NAME, comparisonConfiguration.getBaseBranchName());
+		assertEquals(COMPARISON_BRANCH_NAME, comparisonConfiguration.getComparisonBranchName());
+		assertEquals(COMPARISON_BUILD_NAME, comparisonConfiguration.getComparisonBuildName());
 	}
 
-	private List<ComparisonAlias> createComparisonAliases() {
-		final List<ComparisonAlias> comparisonAliases = new LinkedList<ComparisonAlias>();
-		comparisonAliases.add(createComparisonAlias(COMPARISON_NAME1));
-		comparisonAliases.add(createComparisonAlias(COMPARISON_NAME2));
-		return comparisonAliases;
+	private List<ComparisonConfiguration> createComparisonConfigurations() {
+		final List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
+		comparisonConfigurations.add(createComparisonConfiguration(COMPARISON_NAME1));
+		comparisonConfigurations.add(createComparisonConfiguration(COMPARISON_NAME2));
+		return comparisonConfigurations;
 	}
 
-	private ComparisonAlias createComparisonAlias(String comparisonName) {
-		final ComparisonAlias comparisonAlias = new ComparisonAlias();
-		comparisonAlias.setBaseBranchName(BASE_BRANCH_NAME);
-		comparisonAlias.setComparisonBranchName(COMPARISON_BRANCH_NAME);
-		comparisonAlias.setComparisonBuildName(COMPARISON_BUILD_NAME);
-		comparisonAlias.setComparisonName(comparisonName);
-		return comparisonAlias;
+	private ComparisonConfiguration createComparisonConfiguration(final String comparisonName) {
+		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
+		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);
+		comparisonConfiguration.setName(comparisonName);
+		return comparisonConfiguration;
 	}
 
 }

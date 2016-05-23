@@ -49,7 +49,7 @@ public interface DiffReader {
 	 * @param baseBuildName
 	 *            the name of the base build name
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @return the build diff info
 	 */
 	BuildDiffInfo loadBuildDiffInfo(final String baseBranchName, final String baseBuildName,
@@ -63,7 +63,7 @@ public interface DiffReader {
 	 * @param baseBuildName
 	 *            the name of the base build name
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @return the use case diff infos
 	 */
 	List<UseCaseDiffInfo> loadUseCaseDiffInfos(final String baseBranchName, final String baseBuildName,
@@ -77,7 +77,7 @@ public interface DiffReader {
 	 * @param baseBuildName
 	 *            the name of the base build name
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @param useCaseName
 	 *            the name of the use case
 	 * @param scenarioName
@@ -97,7 +97,7 @@ public interface DiffReader {
 	 * @param baseBuildName
 	 *            the name of the base build name
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @param useCaseName
 	 *            the name of the use case
 	 * @return the scenario diff infos
@@ -113,7 +113,7 @@ public interface DiffReader {
 	 * @param baseBuildName
 	 *            the name of the base build name
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @param useCaseName
 	 *            the name of the use case
 	 * @param scenarioName
@@ -131,7 +131,7 @@ public interface DiffReader {
 	 * @param baseBuildName
 	 *            the name of the base build name
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @param useCaseName
 	 *            the name of the use case
 	 * @param scenarioName
@@ -149,7 +149,7 @@ public interface DiffReader {
 	 * @param baseBuildName
 	 *            the name of the base build name
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @param useCaseName
 	 *            the name of the use case
 	 * @param scenarioName
@@ -169,7 +169,7 @@ public interface DiffReader {
 	 * @param baseBuildName
 	 *            the name of the base build name
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @param useCaseName
 	 *            the name of the use case
 	 * @param scenarioName
@@ -190,7 +190,7 @@ public interface DiffReader {
 	 * @param baseBuildName
 	 *            the name of the base build name
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @return the log file
 	 */
 	File getBuildComparisonLogFile(final String baseBranchName, final String baseBuildName,

@@ -21,74 +21,43 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- * Represents a comparison alias to a comparison build.
- */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ComparisonAlias {
+public class ComparisonConfiguration {
 
-	private String comparisonName;
+	private String name;
 	private String baseBranchName;
 	private String comparisonBranchName;
 	private String comparisonBuildName;
 
-	/**
-	 * @return the comparisonName
-	 */
-	public String getComparisonName() {
-		return comparisonName;
+	public String getName() {
+		return name;
 	}
 
-	/**
-	 * @param comparisonName
-	 *            the comparisonName to set
-	 */
-	public void setComparisonName(final String comparisonName) {
-		this.comparisonName = comparisonName;
+	public void setName(final String name) {
+		this.name = name;
 	}
 
-	/**
-	 * @return the baseBranchName
-	 */
 	public String getBaseBranchName() {
 		return baseBranchName;
 	}
 
-	/**
-	 * @param baseBranchName
-	 *            the baseBranchName to set
-	 */
 	public void setBaseBranchName(final String baseBranchName) {
 		this.baseBranchName = baseBranchName;
 	}
 
-	/**
-	 * @return the comparisonBranchName
-	 */
 	public String getComparisonBranchName() {
 		return comparisonBranchName;
 	}
 
-	/**
-	 * @param comparisonBranchName
-	 *            the comparisonBranchName to set
-	 */
 	public void setComparisonBranchName(final String comparisonBranchName) {
 		this.comparisonBranchName = comparisonBranchName;
 	}
 
-	/**
-	 * @return the comparisonBuildName
-	 */
 	public String getComparisonBuildName() {
 		return comparisonBuildName;
 	}
 
-	/**
-	 * @param comparisonBuildName
-	 *            the comparisonBuildName to set
-	 */
 	public void setComparisonBuildName(final String comparisonBuildName) {
 		this.comparisonBuildName = comparisonBuildName;
 	}

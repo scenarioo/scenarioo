@@ -20,7 +20,7 @@ angular.module('scenarioo.controllers').controller('StepController', StepControl
 function StepController($scope, $routeParams, $location, $route, StepResource, HostnameAndPort, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, GlobalHotkeysService, LabelConfigurationsResource,
                         SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
-                        SketcherLinkService, BranchesAndBuildsService, DiffViewerService, SelectedComparison, ComparisonAliasResource, StepDiffInfoResource) {
+                        SketcherLinkService, BranchesAndBuildsService, DiffViewerService, SelectedComparison, ComparisonConfigurationResource, StepDiffInfoResource) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -394,7 +394,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     }
 
     function loadComparisonFromServer(comparisonName) {
-        ComparisonAliasResource.get(
+        ComparisonConfigurationResource.get(
             {
                 'comparisonName': comparisonName
             },

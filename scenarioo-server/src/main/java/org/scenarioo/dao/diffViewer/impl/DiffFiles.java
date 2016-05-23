@@ -85,7 +85,7 @@ public class DiffFiles {
 	 * @param baseBuildName
 	 *            the name of the base build
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @return the comparison directory
 	 */
 	public File getComparisonDirectory(final String baseBranchName, final String baseBuildName,
@@ -101,7 +101,7 @@ public class DiffFiles {
 	 * @param baseBuildName
 	 *            the name of the base build
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @return the build file
 	 */
 	public File getBuildFile(final String baseBranchName, final String baseBuildName,
@@ -131,7 +131,7 @@ public class DiffFiles {
 	 * @param baseBuildName
 	 *            the name of the base build
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @param useCaseName
 	 *            the name of the use case
 	 * @return the use case directory
@@ -150,7 +150,7 @@ public class DiffFiles {
 	 * @param baseBuildName
 	 *            the name of the base build
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @param useCaseName
 	 *            the name of the use case
 	 * @return the use case file
@@ -169,7 +169,7 @@ public class DiffFiles {
 	 * @param baseBuildName
 	 *            the name of the base build
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @return the use case files
 	 */
 	public List<File> getUseCaseFiles(final String baseBranchName, final String baseBuildName,
@@ -186,7 +186,7 @@ public class DiffFiles {
 	 * @param baseBuildName
 	 *            the name of the base build
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @param useCaseName
 	 *            the name of the use case
 	 * @param scenarioName
@@ -209,7 +209,7 @@ public class DiffFiles {
 	 * @param baseBuildName
 	 *            the name of the base build
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @param useCaseName
 	 *            the name of the use case
 	 * @param scenarioName
@@ -231,7 +231,7 @@ public class DiffFiles {
 	 * @param baseBuildName
 	 *            the name of the base build
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @param useCaseName
 	 *            the name of the use case
 	 * @return the scenario files
@@ -251,7 +251,7 @@ public class DiffFiles {
 	 * @param baseBuildName
 	 *            the name of the base build
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @param useCaseName
 	 *            the name of the use case
 	 * @param scenarioName
@@ -273,7 +273,7 @@ public class DiffFiles {
 	 * @param baseBuildName
 	 *            the name of the base build
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @param useCaseName
 	 *            the name of the use case
 	 * @param scenarioName
@@ -297,7 +297,7 @@ public class DiffFiles {
 	 * @param baseBuildName
 	 *            the name of the base build
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @param useCaseName
 	 *            the name of the use case
 	 * @param scenarioName
@@ -319,7 +319,7 @@ public class DiffFiles {
 	 * @param baseBuildName
 	 *            the name of the base build
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @param useCaseName
 	 *            the name of the use case
 	 * @param scenarioName
@@ -339,7 +339,7 @@ public class DiffFiles {
 	 * @param baseBuildName
 	 *            the name of the base build
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @param useCaseName
 	 *            the name of the use case
 	 * @param scenarioName
@@ -375,7 +375,7 @@ public class DiffFiles {
 	 * @param baseBuildName
 	 *            the name of the base build
 	 * @param comparisonName
-	 *            the name of the comparison alias
+	 *            the name of the comparison configuration
 	 * @return the log file
 	 */
 	public File getBuildComparisonLogFile(final String baseBranchName, final String baseBuildName,
