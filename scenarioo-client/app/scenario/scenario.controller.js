@@ -219,6 +219,8 @@ function ScenarioController($filter, $routeParams,
                                     DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
                                 }
                             );
+                        }, function onFailure() {
+                            DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, [], []);
                         }
                     );
                 }
