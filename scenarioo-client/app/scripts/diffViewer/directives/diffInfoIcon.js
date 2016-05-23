@@ -56,14 +56,17 @@ angular.module('scenarioo.directives').directive('scDiffInfoIcon', function($sce
         var changedInfoText = $filter('number')(diffInfo.changeRate, 0) + '% of this ' + elementType + ' has changed:';
         if(diffInfo.changed > 0) {
             changedInfoText += '<br />';
+            changedInfoText += '<span class="square changed"></span>';
             changedInfoText += diffInfo.changed + ' ' + childElementType + (diffInfo.changed === 1 ? '' : 's') + ' changed';
         }
         if(diffInfo.added > 0) {
             changedInfoText += '<br />';
+            changedInfoText += '<span class="square added"></span>';
             changedInfoText += diffInfo.added + ' ' + childElementType + (diffInfo.added === 1 ? '' : 's') + ' added';
         }
         if(diffInfo.removed > 0) {
             changedInfoText += '<br />';
+            changedInfoText += '<span class="square removed"></span>';
             changedInfoText += diffInfo.removed + ' ' + childElementType + (diffInfo.removed === 1 ? '' : 's') + ' removed';
         }
         return changedInfoText;
