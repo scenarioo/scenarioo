@@ -120,6 +120,8 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
                             vm.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
                         }
                     );
+                }, function onFailure(){
+                    vm.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, [], [], 'name');
                 }
             );
         }
