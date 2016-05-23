@@ -21,7 +21,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.scenarioo.model.configuration.ComparisonAlias;
+import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.RepositoryLocator;
 
@@ -78,39 +78,39 @@ public class ScreenshotComparatorMockitoTest {
 	public static void tearDownClass() {
 		try {
 			FileUtils.deleteDirectory(ROOT_DIRECTORY);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new RuntimeException("Could not delete test data directory", e);
 		}
 	}
 
 	@Test
 	public void testParseGmConsoleOutput() {
-		File mockScreenshot = new File("mockScreenshot.png");
+		final File mockScreenshot = new File("mockScreenshot.png");
 
 		try {
 			doNothing().when(gmConsole).run(any(IMOperation.class));
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.getStackTrace();
 		}
 
 		when(gmConsoleOutputConsumer.getOutput()).thenReturn(OUTPUT_CONSUMER_MOCK);
-		double difference = screenshotComparator.compareScreenshots(mockScreenshot, mockScreenshot, mockScreenshot);
+		final double difference = screenshotComparator.compareScreenshots(mockScreenshot, mockScreenshot, mockScreenshot);
 		assertEquals("Difference of screenshots", SCREENSHOT_DIFFERENCE, difference, DOUBLE_TOLERANCE);
 	}
 
 	private static Configuration getTestConfiguration() {
 
-		ComparisonAlias comparisonAlias = new ComparisonAlias();
-		comparisonAlias.setBaseBranchName(BASE_BRANCH_NAME);
-		comparisonAlias.setComparisonBranchName(COMPARISON_BRANCH_NAME);
-		comparisonAlias.setComparisonBuildName(COMPARISON_BUILD_NAME);
-		comparisonAlias.setComparisonName(COMPARISON_NAME);
+		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
+		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);
+		comparisonConfiguration.setName(COMPARISON_NAME);
 
-		List<ComparisonAlias> comparisonAliases = new LinkedList<ComparisonAlias>();
-		comparisonAliases.add(comparisonAlias);
+		final List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
+		comparisonConfigurations.add(comparisonConfiguration);
 
-		Configuration configuration = RepositoryLocator.INSTANCE.getConfigurationRepository().getConfiguration();
-		configuration.setComparisonAliases(comparisonAliases);
+		final Configuration configuration = RepositoryLocator.INSTANCE.getConfigurationRepository().getConfiguration();
+		configuration.setComparisonConfigurations(comparisonConfigurations);
 
 		return configuration;
 	}

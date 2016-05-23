@@ -26,7 +26,7 @@ import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
-import org.scenarioo.model.configuration.ComparisonAlias;
+import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -44,22 +44,23 @@ public class GlobalDiffResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/comparisonAlias/{comparisonName}")
-	public ComparisonAlias getComparisonAlias(@PathParam("comparisonName") final String comparisonName) {
-		LOGGER.info("REQUEST: getComparisonAlias(" + comparisonName + ")");
+	@Path("/comparisonConfiguration/{comparisonName}")
+	public ComparisonConfiguration getComparisonConfiguration(@PathParam("comparisonName") final String comparisonName) {
+		LOGGER.info("REQUEST: getComparisonConfiguration(" + comparisonName + ")");
 
-		return getComparisonAliasByName(comparisonName);
+		return getComparisonConfigurationByName(comparisonName);
 	}
 
-	private ComparisonAlias getComparisonAliasByName(final String comparisonName) {
+	private ComparisonConfiguration getComparisonConfigurationByName(final String comparisonName) {
 		final Configuration configuration = configurationRepository.getConfiguration();
-		final List<ComparisonAlias> comparisonAliases = configuration.getComparisonAliases();
-		for (final ComparisonAlias comparisonAlias : comparisonAliases) {
-			if (comparisonAlias.getComparisonName().equals(comparisonName)) {
-				return comparisonAlias;
+		final List<ComparisonConfiguration> comparisonConfigurations = configuration.getComparisonConfigurations();
+		for (final ComparisonConfiguration comparisonConfiguration : comparisonConfigurations) {
+			if (comparisonConfiguration.getName().equals(comparisonName)) {
+				return comparisonConfiguration;
 			}
 		}
-		throw new ResourceNotFoundException("No ComparisonAlias found for comparisonName '" + comparisonName + "'.");
+		throw new ResourceNotFoundException(
+				"No comparisonConfiguration found for comparisonName '" + comparisonName + "'.");
 	}
 
 }

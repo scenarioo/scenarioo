@@ -70,9 +70,9 @@ public class Configuration {
 	@XmlElement(name = "branchAlias")
 	private List<BranchAlias> branchAliases = new LinkedList<BranchAlias>();
 
-	@XmlElementWrapper(name = "comparisonAliases")
-	@XmlElement(name = "comparisonAlias")
-	private List<ComparisonAlias> comparisonAliases = new LinkedList<ComparisonAlias>();
+	@XmlElementWrapper(name = "comparisonConfigurations")
+	@XmlElement(name = "comparisonConfiguration")
+	private List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
 
 	private Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<String, LabelConfiguration>();
 
@@ -181,12 +181,12 @@ public class Configuration {
 		this.branchAliases = buildAliases;
 	}
 
-	public List<ComparisonAlias> getComparisonAliases() {
-		return comparisonAliases;
+	public List<ComparisonConfiguration> getComparisonConfigurations() {
+		return comparisonConfigurations;
 	}
 
-	public void setComparisonAliases(final List<ComparisonAlias> comparisonAliases) {
-		this.comparisonAliases = comparisonAliases;
+	public void setComparisonConfigurations(final List<ComparisonConfiguration> comparisonConfigurations) {
+		this.comparisonConfigurations = comparisonConfigurations;
 	}
 
 	public Map<String, LabelConfiguration> getLabelConfigurations() {
