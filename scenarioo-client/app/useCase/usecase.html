@@ -51,7 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tr>
             </thead>
             <tbody>
-            <tr ng-class="{'selected':$index==selectedRowIndex, 'removed': scenarioSummary.diffInfo.isRemoved}"
+            <tr ng-class="{'selected':$index==selectedRowIndex, 'added': scenarioSummary.diffInfo.isAdded, 'removed': scenarioSummary.diffInfo.isRemoved}"
                 ng-click="useCase.handleClick(useCase.useCase.name, scenarioSummary)"
                 class="link"
                 ng-repeat="scenarioSummary in filtered=(useCase.scenarios | scFilterArray: useCase.table.search.searchTerm | orderBy:useCase.table.sort.column:useCase.table.sort.reverse)">

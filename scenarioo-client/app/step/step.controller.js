@@ -449,6 +449,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
         $scope.diffInfo.changed = 0;
         $scope.diffInfo.added = 1;
         $scope.diffInfo.removed = 0;
+        $scope.diffInfo.isAdded = true;
         $scope.totalChildElements = 1;
     }
 
