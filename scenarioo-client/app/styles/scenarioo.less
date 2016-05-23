@@ -757,6 +757,27 @@ textarea#issueDescription {
 .tooltip.diff-icon-tooltip .tooltip-inner {
   white-space: nowrap;
   text-align:left;
+
+  .square {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #CCC;
+    margin-right: 3px;
+    margin-top: 2px;
+
+    &.changed {
+      background-color: #f0ad4e;
+    }
+
+    &.added {
+      background-color: #5cb85c;
+    }
+
+    &.removed {
+      background-color: #d9534f;
+    }
+  }
 }
 
 .usecase-table, .scenario-table {
