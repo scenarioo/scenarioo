@@ -22,7 +22,7 @@ import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffWriter;
 import org.scenarioo.dao.diffViewer.impl.DiffWriterXmlImpl;
-import org.scenarioo.model.configuration.ComparisonAlias;
+import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -69,27 +69,27 @@ public abstract class AbstractComparator {
 	}
 
 	protected BuildIdentifier getComparisonBuildIdentifier(final String comparisonName) {
-		final ComparisonAlias comparisonAlias = resolveComparisonName(comparisonName);
-		final BuildIdentifier comparisonBuildIdentifier = docuBuildsManager
-				.resolveBranchAndBuildAliases(
-						comparisonAlias.getComparisonBranchName(),
-						comparisonAlias.getComparisonBuildName());
+		final ComparisonConfiguration comparisonConfiguration = resolveComparisonName(comparisonName);
+		final BuildIdentifier comparisonBuildIdentifier = docuBuildsManager.resolveBranchAndBuildAliases(
+				comparisonConfiguration.getComparisonBranchName(),
+				comparisonConfiguration.getComparisonBuildName());
 		return comparisonBuildIdentifier;
 	}
 
-	private ComparisonAlias resolveComparisonName(final String comparisonName) {
+	private ComparisonConfiguration resolveComparisonName(final String comparisonName) {
 		if (StringUtils.isEmpty(comparisonName)) {
 			throw new IllegalArgumentException("Unable to resolve empty comparison name.");
 		}
 
 		final Configuration configuration = configurationRepository.getConfiguration();
-		for (final ComparisonAlias comparisonAlias : configuration.getComparisonAliases()) {
-			if (comparisonName.equals(comparisonAlias.getComparisonName())) {
-				return comparisonAlias;
+		for (final ComparisonConfiguration comparisonConfiguration : configuration.getComparisonConfigurations()) {
+			if (comparisonName.equals(comparisonConfiguration.getName())) {
+				return comparisonConfiguration;
 			}
 		}
 
-		throw new RuntimeException("Could not resolve a comparison alias for comparison name [" + comparisonName + "]");
+		throw new RuntimeException(
+				"Could not resolve a comparison configuration for comparison name [" + comparisonName + "]");
 	}
 
 }

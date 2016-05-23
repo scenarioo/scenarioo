@@ -37,7 +37,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffWriter;
-import org.scenarioo.model.configuration.ComparisonAlias;
+import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
@@ -256,17 +256,17 @@ public class UseCaseComparatorTest {
 
 	private static Configuration getTestConfiguration() {
 
-		final ComparisonAlias comparisonAlias = new ComparisonAlias();
-		comparisonAlias.setBaseBranchName(BASE_BRANCH_NAME);
-		comparisonAlias.setComparisonBranchName(COMPARISON_BRANCH_NAME);
-		comparisonAlias.setComparisonBuildName(COMPARISON_BUILD_NAME);
-		comparisonAlias.setComparisonName(COMPARISON_NAME);
+		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
+		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);
+		comparisonConfiguration.setName(COMPARISON_NAME);
 
-		final List<ComparisonAlias> comparisonAliases = new LinkedList<ComparisonAlias>();
-		comparisonAliases.add(comparisonAlias);
+		final List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
+		comparisonConfigurations.add(comparisonConfiguration);
 
 		final Configuration configuration = RepositoryLocator.INSTANCE.getConfigurationRepository().getConfiguration();
-		configuration.setComparisonAliases(comparisonAliases);
+		configuration.setComparisonConfigurations(comparisonConfigurations);
 
 		return configuration;
 	}

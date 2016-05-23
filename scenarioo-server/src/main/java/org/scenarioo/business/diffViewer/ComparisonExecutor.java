@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.business.diffViewer.comparator.BuildComparator;
-import org.scenarioo.model.configuration.ComparisonAlias;
+import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 
@@ -47,24 +47,24 @@ public class ComparisonExecutor {
 	private ExecutorService asyncComparisonExecutor = newAsyncComparisonExecutor();
 
 	public synchronized void doComparison(final String baseBranchName, final String baseBuildName) {
-		final List<ComparisonAlias> comparisonAliasesForBaseBranch = getComparisonAliasesForBaseBranch(baseBranchName);
-		for (final ComparisonAlias comparisonAlias : comparisonAliasesForBaseBranch) {
-			submitBuildForComparison(baseBranchName, baseBuildName, comparisonAlias);
+		final List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = getComparisonConfigurationsForBaseBranch(baseBranchName);
+		for (final ComparisonConfiguration comparisonConfiguration : comparisonConfigurationsForBaseBranch) {
+			submitBuildForComparison(baseBranchName, baseBuildName, comparisonConfiguration);
 		}
 
 	}
 
 	private synchronized void submitBuildForComparison(final String baseBranchName, final String baseBuildName,
-			final ComparisonAlias comparisonAlias) {
+			final ComparisonConfiguration comparisonConfiguration) {
 
 		LOGGER.info("Submitting build for Comparison. Base build [" + baseBranchName + "/"
-				+ baseBuildName + "] and comparison build [" + comparisonAlias.getComparisonBranchName() + "/"
-				+ comparisonAlias.getComparisonBuildName() + "]");
+				+ baseBuildName + "] and comparison build [" + comparisonConfiguration.getComparisonBranchName() + "/"
+				+ comparisonConfiguration.getComparisonBuildName() + "]");
 
 		asyncComparisonExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
-				runComparison(baseBranchName, baseBuildName, comparisonAlias.getComparisonName());
+				runComparison(baseBranchName, baseBuildName, comparisonConfiguration.getName());
 			}
 		});
 	}
@@ -96,16 +96,16 @@ public class ComparisonExecutor {
 		}
 	}
 
-	private synchronized List<ComparisonAlias> getComparisonAliasesForBaseBranch(final String baseBranchName) {
-		final List<ComparisonAlias> comparisonAliasesForBaseBranch = new LinkedList<ComparisonAlias>();
-		final List<ComparisonAlias> comparisonAliases = configurationRepository.getConfiguration()
-				.getComparisonAliases();
-		for (final ComparisonAlias comparisonAlias : comparisonAliases) {
-			if (baseBranchName.equals(comparisonAlias.getBaseBranchName())) {
-				comparisonAliasesForBaseBranch.add(comparisonAlias);
+	private synchronized List<ComparisonConfiguration> getComparisonConfigurationsForBaseBranch(final String baseBranchName) {
+		final List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = new LinkedList<ComparisonConfiguration>();
+		final List<ComparisonConfiguration> comparisonConfigurations = configurationRepository.getConfiguration()
+				.getComparisonConfigurations();
+		for (final ComparisonConfiguration comparisonConfiguration : comparisonConfigurations) {
+			if (baseBranchName.equals(comparisonConfiguration.getBaseBranchName())) {
+				comparisonConfigurationsForBaseBranch.add(comparisonConfiguration);
 			}
 		}
-		return comparisonAliasesForBaseBranch;
+		return comparisonConfigurationsForBaseBranch;
 	}
 
 	/**
