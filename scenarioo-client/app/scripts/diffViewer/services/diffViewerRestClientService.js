@@ -17,8 +17,8 @@
 
 angular.module('scenarioo.services')
 
-    .factory('ComparisonAliasResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/comparisonAlias/:comparisonName',
+    .factory('ComparisonConfigurationResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/comparisonConfiguration/:comparisonName',
             {
                 comparisonName: '@comparisonName'
             }, {});
