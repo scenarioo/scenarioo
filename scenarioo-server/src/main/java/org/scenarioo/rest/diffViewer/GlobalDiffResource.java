@@ -23,8 +23,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
@@ -47,19 +45,10 @@ public class GlobalDiffResource {
 	@GET
 	@Produces("application/json")
 	@Path("/comparisonAlias/{comparisonName}")
-	public Response getComparisonAlias(@PathParam("comparisonName") final String comparisonName) {
+	public ComparisonAlias getComparisonAlias(@PathParam("comparisonName") final String comparisonName) {
 		LOGGER.info("REQUEST: getComparisonAlias(" + comparisonName + ")");
 
-		try {
-			final ComparisonAlias comparisonAlias = getComparisonAliasByName(comparisonName);
-			return Response.ok(comparisonAlias, MediaType.APPLICATION_JSON).build();
-		} catch (final ResourceNotFoundException e) {
-			LOGGER.warn("Unable to get comparison alias", e);
-			return Response.noContent().build();
-		} catch (final Throwable e) {
-			LOGGER.warn("Unable to get comparison alias", e);
-			return Response.serverError().build();
-		}
+		return getComparisonAliasByName(comparisonName);
 	}
 
 	private ComparisonAlias getComparisonAliasByName(final String comparisonName) {

@@ -23,11 +23,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
@@ -52,51 +49,29 @@ public class BuildDiffResource {
 	@GET
 	@Produces("application/json")
 	@Path("/{comparisonName}/buildDiffInfo")
-	public Response getBuildDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
+	public BuildDiffInfo getBuildDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName) {
 		LOGGER.info("REQUEST: getBuildDiffInfo(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
 				+ ")");
 
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
-				baseBranchName,
-				baseBuildName);
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
+				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
-		try {
-			final BuildDiffInfo buildDiffInfo = diffReader.loadBuildDiffInfo(buildIdentifier.getBranchName(),
-					buildIdentifier.getBuildName(), comparisonName);
-			return Response.ok(buildDiffInfo, MediaType.APPLICATION_JSON).build();
-		} catch (final ResourceNotFoundException e) {
-			LOGGER.warn("Unable to get build diff info", e);
-			return Response.noContent().build();
-		} catch (final Throwable e) {
-			LOGGER.warn("Unable to get build diff info", e);
-			return Response.serverError().build();
-		}
+		return diffReader.loadBuildDiffInfo(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+				comparisonName);
 	}
 
 	@GET
 	@Produces("application/json")
 	@Path("/buildDiffInfos")
-	public Response getBuildDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
+	public List<BuildDiffInfo> getBuildDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName) {
 		LOGGER.info("REQUEST: getBuildDiffInfos(" + baseBranchName + ", " + baseBranchName + ")");
 
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
-				baseBranchName,
-				baseBuildName);
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
+				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
-		try {
-			final List<BuildDiffInfo> buildDiffInfos = diffReader.loadBuildDiffInfos(buildIdentifier.getBranchName(),
-					buildIdentifier.getBuildName());
-			return Response.ok(buildDiffInfos, MediaType.APPLICATION_JSON).build();
-		} catch (final ResourceNotFoundException e) {
-			LOGGER.warn("Unable to get build diff infos", e);
-			return Response.noContent().build();
-		} catch (final Throwable e) {
-			LOGGER.warn("Unable to get build diff infos", e);
-			return Response.serverError().build();
-		}
+		return diffReader.loadBuildDiffInfos(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 	}
-
 }

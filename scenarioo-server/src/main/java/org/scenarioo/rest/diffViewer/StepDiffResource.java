@@ -25,11 +25,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
@@ -54,7 +51,7 @@ public class StepDiffResource {
 	@GET
 	@Produces("application/json")
 	@Path("/{stepIndex}/stepDiffInfo")
-	public Response getStepDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
+	public StepDiffInfo getStepDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
 			@PathParam("useCaseName") final String useCaseName,
@@ -64,30 +61,17 @@ public class StepDiffResource {
 		LOGGER.info("REQUEST: getStepDiffInfo(" + baseBranchName + ", " + comparisonName
 				+ ", " + useCaseName + ", " + scenarioName + ", " + stepIndex + ")");
 
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
-				baseBranchName,
-				baseBuildName);
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
+				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
-		try {
-			final StepDiffInfo stepDiffInfo = diffReader.loadStepDiffInfo(buildIdentifier.getBranchName(),
-					buildIdentifier.getBuildName(),
-					comparisonName, useCaseName, scenarioName, Integer.parseInt(stepIndex));
-			return Response.ok(stepDiffInfo, MediaType.APPLICATION_JSON).build();
-		} catch (final ResourceNotFoundException e) {
-			StepDiffInfo stepDiffInfo = new StepDiffInfo();
-			stepDiffInfo.setChangeRate(100);
-			LOGGER.warn("Unable to get step diff info", e);
-			return Response.ok(stepDiffInfo, MediaType.APPLICATION_JSON).build();
-		} catch (final Throwable e) {
-			LOGGER.warn("Unable to get step diff info", e);
-			return Response.serverError().build();
-		}
+		return diffReader.loadStepDiffInfo(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+				comparisonName, useCaseName, scenarioName, Integer.parseInt(stepIndex));
 	}
 
 	@GET
 	@Produces("application/json")
 	@Path("/stepDiffInfos")
-	public Response getStepDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
+	public Map<Integer, StepDiffInfo> getStepDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
 			@PathParam("useCaseName") final String useCaseName,
@@ -96,22 +80,12 @@ public class StepDiffResource {
 				+ ", " + useCaseName + ", " + scenarioName + ")");
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
-				baseBranchName,
-				baseBuildName);
+				baseBranchName, baseBuildName);
 
-		try {
-			final List<StepDiffInfo> stepDiffInfos = diffReader.loadStepDiffInfos(buildIdentifier.getBranchName(),
-					buildIdentifier.getBuildName(),
-					comparisonName, useCaseName, scenarioName);
+		final List<StepDiffInfo> stepDiffInfos = diffReader.loadStepDiffInfos(buildIdentifier.getBranchName(),
+				buildIdentifier.getBuildName(), comparisonName, useCaseName, scenarioName);
 
-			return Response.ok(getStepDiffInfoMap(stepDiffInfos), MediaType.APPLICATION_JSON).build();
-		} catch (final ResourceNotFoundException e) {
-			LOGGER.warn("Unable to get scenario diff infos", e);
-			return Response.noContent().build();
-		} catch (final Throwable e) {
-			LOGGER.warn("Unable to get scenario diff infos", e);
-			return Response.serverError().build();
-		}
+		return getStepDiffInfoMap(stepDiffInfos);
 	}
 
 	private Map<Integer, StepDiffInfo> getStepDiffInfoMap(final List<StepDiffInfo> stepDiffInfos) {
