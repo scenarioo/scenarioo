@@ -17,18 +17,21 @@
 
 package org.scenarioo.rest.diffViewer;
 
+import java.io.File;
 import java.text.NumberFormat;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.diffViewer.DiffReader;
+import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
-import org.scenarioo.rest.diffViewer.logic.DiffScreenshotResponseFactory;
 import org.scenarioo.utils.NumberFormatCreator;
 
 /**
@@ -39,24 +42,25 @@ public class StepDiffScreenshotResource {
 
 	private static final Logger LOGGER = Logger.getLogger(StepDiffScreenshotResource.class);
 
-	private final DiffScreenshotResponseFactory diffScreenshotResponseFactory = new DiffScreenshotResponseFactory();
-
-	private static NumberFormat THREE_DIGIT_NUM_FORMAT = NumberFormatCreator
+	private static final NumberFormat THREE_DIGIT_NUM_FORMAT = NumberFormatCreator
 			.createNumberFormatWithMinimumIntegerDigits(3);
 
 	private static final String SCREENSHOT_FILE_EXTENSION = ".png";
 
+	private ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
+
+	private DiffReader diffReader = new DiffReaderXmlImpl(configurationRepository.getDiffViewerDirectory());
+
 	@GET
 	@Produces("image/jpeg")
 	@Path("/stepDiffScreenshot")
-	public Response getDiffScreenshot(
+	public File getDiffScreenshot(
 			@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
 			@PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName,
-			@PathParam("stepIndex") final int stepIndex
-			) {
+			@PathParam("stepIndex") final int stepIndex) {
 		LOGGER.info("REQUEST: getDiffScreenshot(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
 				+ ", " + usecaseName + ", " + scenarioName + ", " + stepIndex + ")");
 
@@ -64,10 +68,9 @@ public class StepDiffScreenshotResource {
 				baseBranchName,
 				baseBuildName);
 
-		String imageFileName = THREE_DIGIT_NUM_FORMAT.format(stepIndex) + SCREENSHOT_FILE_EXTENSION;
+		final String imageFileName = THREE_DIGIT_NUM_FORMAT.format(stepIndex) + SCREENSHOT_FILE_EXTENSION;
 
-		return diffScreenshotResponseFactory.createFoundImageResponse(buildIdentifier.getBranchName(),
-				buildIdentifier.getBuildName(), comparisonName,
-				usecaseName, scenarioName, imageFileName);
+		return diffReader.getScreenshotFile(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+				comparisonName, usecaseName, scenarioName, imageFileName);
 	}
 }

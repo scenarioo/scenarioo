@@ -25,11 +25,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
@@ -46,7 +43,7 @@ public class UseCaseDiffResource {
 
 	private static final Logger LOGGER = Logger.getLogger(UseCaseDiffResource.class);
 
-	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+	private ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
 	private DiffReader diffReader = new DiffReaderXmlImpl(configurationRepository.getDiffViewerDirectory());
@@ -54,7 +51,7 @@ public class UseCaseDiffResource {
 	@GET
 	@Produces("application/json")
 	@Path("/{useCaseName}/useCaseDiffInfo")
-	public Response getUseCaseDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
+	public UseCaseDiffInfo getUseCaseDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
 			@PathParam("useCaseName") final String useCaseName) {
@@ -65,45 +62,27 @@ public class UseCaseDiffResource {
 				baseBranchName,
 				baseBuildName);
 
-		try {
-			final UseCaseDiffInfo useCaseDiffInfo = diffReader.loadUseCaseDiffInfo(buildIdentifier.getBranchName(),
-					buildIdentifier.getBuildName(), comparisonName, useCaseName);
-			return Response.ok(useCaseDiffInfo, MediaType.APPLICATION_JSON).build();
-		} catch (final ResourceNotFoundException e) {
-			LOGGER.warn("Unable to get use case diff info", e);
-			return Response.noContent().build();
-		} catch (final Throwable e) {
-			LOGGER.warn("Unable to get use case diff info", e);
-			return Response.serverError().build();
-		}
+		return diffReader.loadUseCaseDiffInfo(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+				comparisonName, useCaseName);
+
 	}
 
 	@GET
 	@Produces("application/json")
 	@Path("/useCaseDiffInfos")
-	public Response getUseCaseDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
+	public Map<String, UseCaseDiffInfo> getUseCaseDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName) {
 		LOGGER.info("REQUEST: getUseCaseDiffInfos(" + baseBranchName + ", " + baseBuildName + ", " + comparisonName
 				+ ")");
 
-		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
-				baseBranchName,
-				baseBuildName);
+		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
+				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
-		try {
-			final List<UseCaseDiffInfo> useCaseDiffInfos = diffReader.loadUseCaseDiffInfos(
-					buildIdentifier.getBranchName(),
-					buildIdentifier.getBuildName(),
-					comparisonName);
-			return Response.ok(getUseCaseDiffInfoMap(useCaseDiffInfos), MediaType.APPLICATION_JSON).build();
-		} catch (final ResourceNotFoundException e) {
-			LOGGER.warn("Unable to get use case diff infos", e);
-			return Response.noContent().build();
-		} catch (final Throwable e) {
-			LOGGER.warn("Unable to get use case diff infos", e);
-			return Response.serverError().build();
-		}
+		final List<UseCaseDiffInfo> useCaseDiffInfos = diffReader.loadUseCaseDiffInfos(buildIdentifier.getBranchName(),
+				buildIdentifier.getBuildName(), comparisonName);
+		return getUseCaseDiffInfoMap(useCaseDiffInfos);
+
 	}
 
 	private Map<String, UseCaseDiffInfo> getUseCaseDiffInfoMap(final List<UseCaseDiffInfo> useCaseDiffInfos) {
