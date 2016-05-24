@@ -38,7 +38,7 @@ import org.scenarioo.rest.base.BuildIdentifier;
 /**
  * Handles requests for use case diff information.
  */
-@Path("/rest/diffViewer/{baseBranchName}/{baseBuildName}/{comparisonName}")
+@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}")
 public class UseCaseDiffResource {
 
 	private static final Logger LOGGER = Logger.getLogger(UseCaseDiffResource.class);
@@ -50,7 +50,7 @@ public class UseCaseDiffResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/{useCaseName}/useCaseDiffInfo")
+	@Path("/useCaseName/{useCaseName}/useCaseDiffInfo")
 	public UseCaseDiffInfo getUseCaseDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,

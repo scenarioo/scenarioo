@@ -18,15 +18,15 @@
 angular.module('scenarioo.services').factory('DiffViewerService', function ($location, $rootScope, HostnameAndPort) {
 
 
-    function getDiffScreenShotUrl(step, selected, comparisonName, usecaseName, scenarioName, stepIndex ) {
-        if(step && stepIndex && usecaseName){
-            return HostnameAndPort.forLink() + 'rest/diffViewer/' + selected.branch + '/' + selected.build + '/' + comparisonName + '/' + usecaseName + '/' + scenarioName + '/' + stepIndex + '/stepDiffScreenshot';
+    function getDiffScreenShotUrl(step, selected, comparisonName, useCaseName, scenarioName, stepIndex ) {
+        if(step && stepIndex && useCaseName){
+            return HostnameAndPort.forLink() + 'rest/diffViewer/baseBranchName/' + selected.branch + '/baseBuildName/' + selected.build + '/comparisonName/' + comparisonName + '/useCaseName/' + useCaseName + '/scenarioName/' + scenarioName + '/stepIndex/' + stepIndex + '/stepDiffScreenshot';
         }
     }
 
-    function getComparisonScreenShotUrl(comparisonBranchName, comparisonBuildName, usecaseName, scenarioName, comparisonScreenshotName){
-        if(comparisonBranchName && comparisonBuildName && usecaseName && scenarioName && comparisonScreenshotName){
-            return HostnameAndPort.forLink() + 'rest/branch/' + comparisonBranchName + '/build/' + comparisonBuildName + '/usecase/' + usecaseName + '/scenario/' + scenarioName + '/image/' + comparisonScreenshotName;
+    function getComparisonScreenShotUrl(comparisonBranchName, comparisonBuildName, useCaseName, scenarioName, comparisonScreenshotName){
+        if(comparisonBranchName && comparisonBuildName && useCaseName && scenarioName && comparisonScreenshotName){
+            return HostnameAndPort.forLink() + 'rest/branch/' + comparisonBranchName + '/build/' + comparisonBuildName + '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + comparisonScreenshotName;
         }
     }
 

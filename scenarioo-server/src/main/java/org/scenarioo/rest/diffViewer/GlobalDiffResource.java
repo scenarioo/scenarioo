@@ -44,7 +44,7 @@ public class GlobalDiffResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/comparisonConfiguration/{comparisonName}")
+	@Path("/comparisonConfiguration/comparisonName/{comparisonName}")
 	public ComparisonConfiguration getComparisonConfiguration(@PathParam("comparisonName") final String comparisonName) {
 		LOGGER.info("REQUEST: getComparisonConfiguration(" + comparisonName + ")");
 
