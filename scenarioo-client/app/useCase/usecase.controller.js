@@ -147,6 +147,8 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
                             vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
                         }
                     );
+                }, function onFailure() {
+                    vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, [], [], 'scenario.name');
                 }
             );
         }

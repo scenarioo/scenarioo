@@ -45,9 +45,6 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
                 step.diffInfo.changed = 1;
                 step.diffInfo.added = 0;
                 step.diffInfo.removed = 0;
-                if(step.diffInfo.isAdded && pageAndStep.steps.length === 1) {
-                    pageAndStep.page.isAdded = true;
-                }
             });
         });
 
@@ -149,10 +146,10 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
                 diffInfo.changed++;
             }
         });
-        if(diffInfo.added === 1 && pageAndStep.steps.length === 1) {
+        if(diffInfo.added === pageAndStep.steps.length) {
             diffInfo.isAdded = true;
         }
-        if(diffInfo.removed === 1 && pageAndStep.steps.length === 1) {
+        if(diffInfo.removed === pageAndStep.steps.length) {
             diffInfo.isRemoved = true;
         }
         diffInfo.changeRate = stepChangeRateSum / pageAndStep.steps.length;

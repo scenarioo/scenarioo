@@ -738,25 +738,70 @@ textarea#issueDescription {
     text-align: center;
     color: #333;
     line-height: 19px;
+    background-color: #FFFFFF;
+
+    span.added {
+      color: #5cb85c;
+      font-weight: normal;
+      background-color: #FFFFFF;
+    }
+
+    span.removed {
+      color: #d9534f;
+      font-weight: normal;
+      background-color: #FFFFFF;
+    }
   }
 }
 
 .tooltip.diff-icon-tooltip .tooltip-inner {
   white-space: nowrap;
   text-align:left;
+
+  .square {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #CCC;
+    margin-right: 3px;
+    margin-top: 2px;
+
+    &.changed {
+      background-color: #f0ad4e;
+    }
+
+    &.added {
+      background-color: #5cb85c;
+    }
+
+    &.removed {
+      background-color: #d9534f;
+    }
+  }
 }
 
 .usecase-table, .scenario-table {
   tr.removed {
-    opacity: 0.6;
     cursor: default;
+    background-color: #FDF2F1;
+  }
+
+  tr.added {
+    background-color: #F8FCF7;
   }
 }
 
 .step-view {
   .sc-truncate, h2 {
     line-height: 25px;
+    margin-bottom: 0px;
   }
+
+  h3.sc-truncate {
+    margin-top: 0px;
+    padding-top: 0.8em;
+  }
+
   .diff-info-wrapper {
     float: right;
     width: 70px;
@@ -765,13 +810,15 @@ textarea#issueDescription {
 }
 
 .sc-step-in-overview .removed, .sc-step-in-overview.removed {
-  opacity: 0.6;
   cursor: default;
+  background-color: #FDF2F1;
 }
 
-.sc-step-in-overview.removed .removed {
-  opacity: 1.0;
+.sc-step-in-overview .added, .sc-step-in-overview.added {
+  cursor: default;
+  background-color: #F8FCF7;
 }
+
 
 #comparison-selection-dropdown {
 
@@ -786,6 +833,7 @@ textarea#issueDescription {
       border-color: #9d9d9d;
       .change-rate {
         color: #9d9d9d;
+        background-color: transparent;
       }
     }
   }

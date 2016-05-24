@@ -32,6 +32,7 @@ angular.module('scenarioo.services')
         }, {});
     })
 
+
     .factory('BuildDiffInfoResource', function (ScenariooResource) {
         return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/buildDiffInfo', {
             baseBranchName: '@baseBranchName',
