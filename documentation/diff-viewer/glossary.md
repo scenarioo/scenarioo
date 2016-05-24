@@ -13,6 +13,6 @@
 | comparison scenario | Vergleichsszenario | comparisonScenario | scenario for comparison                                          |
 | comparison step   | Vergleichsschritt  | comparisonStep    | step for comparison                                                 |
 | comparison name   | Vergleichsname     | comparisonName    | name of comparison                                                  |
-| comparison alias  | Vergleichspseudonym| comparisonAlias   | alias for a comparison build                                        |
+| comparison configuration  | Vergleichskonfiguration | comparisonConfiguration | configuration for a comparison build                                        |
 | diff information  | Diff Information   | diffInfo          | information out of comparisons                                      |
 | diff screenshot   | Diff Screenshot    | diffScreenshot    | screenshot that shows differences between two different screenshots |
