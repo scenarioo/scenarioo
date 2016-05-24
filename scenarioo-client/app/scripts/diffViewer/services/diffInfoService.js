@@ -57,7 +57,12 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
         });
     }
 
-    function enrichStepWithDiffInfo(step, diffInfo) {
+    function enrichChangedStepWithDiffInfo(step, diffInfo) {
+                if(diffInfo){
+                    diffInfo.changed = 1;
+                    diffInfo.added = 0;
+                    diffInfo.removed = 0;
+                }
                 step.diffInfo = enrichDiffInfo(diffInfo);
     }
 
@@ -173,7 +178,7 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
 
     return {
         getElementsWithDiffInfos: getElementsWithDiffInfos,
-        enrichStepWithDiffInfo: enrichStepWithDiffInfo,
+        enrichChangedStepWithDiffInfo: enrichChangedStepWithDiffInfo,
         enrichPagesAndStepsWithDiffInfos: enrichPagesAndStepsWithDiffInfos
     };
 });

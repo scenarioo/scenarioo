@@ -128,10 +128,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <div class="col-lg-6">
                     <div>
                         <h3 class="step-comparison-title" >{{comparisonName}}</h3>
-                        <div class="clear" ng-if="step.diffInfo.changeRate==100">
+                        <div class="clear" ng-if="step.diffInfo.isAdded">
                            <p>No comparison screenshot because this is a new step.</p>
                         </div>
-                        <div ng-if="step.diffInfo.changeRate!=100">
+                        <div ng-if="!step.diffInfo.isAdded">
                             <sc-diff-screenshot-button linking-variable="stepShowDiffScreenshot" class="step-comparison-button" ></sc-diff-screenshot-button>
                             <div ng-show="stepShowDiffScreenshot" class="clear">
                                  <sc-annotated-screenshot screen-shot-url="diffScreenShotUrl"></sc-annotated-screenshot>
