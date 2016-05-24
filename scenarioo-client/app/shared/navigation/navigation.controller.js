@@ -61,6 +61,11 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
                         $location.search(SelectedComparison.COMPARISON_KEY, selectedComparison.name);
                     }
                     $scope.selectedComparison = selectedComparison;
+                }, function onFailure() {
+                    $scope.comparisonBuilds = [];
+                    SelectedComparison.setSelected(SelectedComparison.COMPARISON_DISABLED);
+                    $location.search(SelectedComparison.COMPARISON_KEY, SelectedComparison.COMPARISON_DISABLED);
+                    $scope.selectedComparison = undefined;
                 }
             );
         }

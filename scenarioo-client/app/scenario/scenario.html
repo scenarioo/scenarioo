@@ -41,7 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- steps -->
         <div class="row step-view">
             <div ng-repeat="page in vm.pagesAndSteps">
-                <div ng-repeat="step in page.steps | scFilterArray:vm.searchFieldText" ng-show="$index == 0 || vm.showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !scenarioShowMetadata, 'col-md-6': scenarioShowMetadata, 'removed' : page.page.diffInfo.isRemoved}">
+                <div ng-repeat="step in page.steps | scFilterArray:vm.searchFieldText" ng-show="$index == 0 || vm.showAllStepsForPage($parent.$index)" class="sc-step-in-overview" ng-class="{'col-md-4': !scenarioShowMetadata, 'col-md-6': scenarioShowMetadata, 'added' : page.page.diffInfo.isAdded, 'removed' : page.page.diffInfo.isRemoved}">
                     <h2>
                         <sc-diff-info-icon ng-if="$index == 0 && vm.comparisonInfo.isDefined" diff-info="page.page.diffInfo" element-type="page" child-element-type="step"></sc-diff-info-icon>
                         <span class="sc-truncate" ng-if="$index == 0" ng-init="pageIndex = $parent.$parent.$index">
@@ -55,7 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </span>
                         <span ng-if="$index != 0">&nbsp;</span>
                     </h2>
-                    <div ng-class="{'removed' : step.diffInfo.isRemoved}">
+                    <div ng-class="{'added' : step.diffInfo.isAdded, 'removed' : step.diffInfo.isRemoved}">
                         <div class="step-title">
                             <h3 class="sc-truncate">
                                 <sc-diff-info-icon ng-if="vm.comparisonInfo.isDefined" diff-info="step.diffInfo" element-type="step"></sc-diff-info-icon>

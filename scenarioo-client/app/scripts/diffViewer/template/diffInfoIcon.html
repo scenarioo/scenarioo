@@ -5,7 +5,9 @@
         <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{removedPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width' : removedPercentage }"></div>
         <div class="progress-bar progress-bar-default" role="progressbar" aria-valuenow="{{unchangedPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width' : unchangedPercentage }"></div>
         <div class="change-rate">
-            <span>{{diffInfo.changeRate | number:0}}%</span>
+            <span ng-if="!diffInfo.isAdded && !diffInfo.isRemoved">{{diffInfo.changeRate | number:0}}%</span>
+            <span ng-if="diffInfo.isAdded" class="added">added</span>
+            <span ng-if="diffInfo.isRemoved" class="removed">removed</span>
         </div>
     </div>
 </div>

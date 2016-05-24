@@ -47,7 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-class="{'selected':$index==selectedRowIndex, 'removed': useCase.diffInfo.isRemoved}" ng-repeat="useCase in filtered=(useCasesTab.useCases | scFilterArray: useCasesTab.table.search.searchTerm | orderBy: useCasesTab.table.sort.column: useCasesTab.table.sort.reverse)" ng-click="useCasesTab.handleClick(useCase)" class="link">
+                    <tr ng-class="{'selected':$index==selectedRowIndex, 'added': useCase.diffInfo.isAdded, 'removed': useCase.diffInfo.isRemoved}" ng-repeat="useCase in filtered=(useCasesTab.useCases | scFilterArray: useCasesTab.table.search.searchTerm | orderBy: useCasesTab.table.sort.column: useCasesTab.table.sort.reverse)" ng-click="useCasesTab.handleClick(useCase)" class="link">
                         <td>
                             <span ng-class="[getStatusStyleClass(useCase.status), 'label']">{{useCase.status}}</span>
                         </td>
