@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -71,7 +72,7 @@ public class BuildImporter {
 	 */
 	private final ExecutorService asyncBuildImportExecutor = newAsyncBuildImportExecutor();
 	
-	private ComparisonExecutor comparisonExecutor = new ComparisonExecutor();
+	private ComparisonExecutor comparisonExecutor = new ComparisonExecutor(asyncBuildImportExecutor);
 
 	private final LastSuccessfulScenariosBuild lastSuccessfulScenarioBuild = new LastSuccessfulScenariosBuild();
 	
@@ -122,20 +123,26 @@ public class BuildImporter {
 		final List<BuildImportSummary> buildsSortedByDateDescending = BuildByDateSorter
 				.sortBuildsByDateDescending(buildImportSummaries.values());
 
-        int importNeededBuildCounter = 0;
+		final List<BuildIdentifier> importNeededBuilds = new LinkedList<BuildIdentifier>();
 		for (final BuildImportSummary buildImportSummary : buildsSortedByDateDescending) {
 			if (buildImportSummary != null && buildImportSummary.getStatus().isImportNeeded()) {
-                importNeededBuildCounter++;
+				importNeededBuilds.add(buildImportSummary.getIdentifier());
 				submitBuildForImport(availableBuilds, buildImportSummary.getIdentifier());
 			}
 		}
-        return importNeededBuildCounter;
+
+		for (final BuildIdentifier buildIdentifier : importNeededBuilds) {
+			submitBuildForComparison(buildIdentifier);
+		}
+
+		return importNeededBuilds.size();
 	}
-	
+
 	public synchronized void submitBuildForReimport(final AvailableBuildsList availableBuilds,
 			final BuildIdentifier buildIdentifier) {
 		removeImportedBuildAndDerivedData(availableBuilds, buildIdentifier);
 		submitBuildForImport(availableBuilds, buildIdentifier);
+		submitBuildForComparison(buildIdentifier);
 		saveBuildImportSummaries(buildImportSummaries);
 	}
 	
@@ -186,6 +193,10 @@ public class BuildImporter {
 		});
 	}
 	
+	private void submitBuildForComparison(final BuildIdentifier buildIdentifier) {
+		comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+	}
+
 	private void importBuild(final AvailableBuildsList availableBuilds, BuildImportSummary summary) {
 		
 		BuildImportLogAppender buildImportLog = null;
@@ -215,8 +226,8 @@ public class BuildImporter {
 						+ summary.getIdentifier().getBuildName());
 			}
 
-			comparisonExecutor.doComparison(summary.getIdentifier().getBranchName(),
-					summary.getIdentifier().getBuildName());
+			// comparisonExecutor.doComparison(summary.getIdentifier().getBranchName(),
+			// summary.getIdentifier().getBuildName());
 
 			LOGGER.info(" ============= END OF BUILD IMPORT (success) ===========");
 		} catch (final Throwable e) {

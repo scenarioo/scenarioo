@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.StepInfo;
@@ -65,9 +66,8 @@ public class StepComparator extends AbstractComparator {
 	public ScenarioDiffInfo compare(final String baseUseCaseName, final String baseScenarioName) {
 		final BuildIdentifier comparisonBuildIdentifier = getComparisonBuildIdentifier(comparisonName);
 
-		final List<Step> baseSteps = docuReader.loadSteps(baseBranchName, baseBuildName, baseUseCaseName,
-				baseScenarioName);
-		final List<Step> comparisonSteps = docuReader.loadSteps(comparisonBuildIdentifier.getBranchName(),
+		final List<Step> baseSteps = loadSteps(baseBranchName, baseBuildName, baseUseCaseName, baseScenarioName);
+		final List<Step> comparisonSteps = loadSteps(comparisonBuildIdentifier.getBranchName(),
 				comparisonBuildIdentifier.getBuildName(), baseUseCaseName, baseScenarioName);
 
 		final List<StepLink> baseStepLinks = getStepLinks(baseSteps, baseUseCaseName, baseScenarioName);
@@ -140,6 +140,7 @@ public class StepComparator extends AbstractComparator {
 		}
 		return null;
 	}
+
 	private List<StepLink> getStepLinks(final List<Step> steps, final String useCaseName, final String scenarioName) {
 		// TODO pforster: refactor this method in a new class. also used in StepsAndPagesAggregator. Oder Wert einfach
 		// abspeichern beim aggregieren.
@@ -229,6 +230,15 @@ public class StepComparator extends AbstractComparator {
 			}
 		}
 		return null;
+	}
+
+	private List<Step> loadSteps(final String branchName, final String buildName, final String baseUseCaseName,
+			final String baseScenarioName) {
+		try {
+			return docuReader.loadSteps(branchName, buildName, baseUseCaseName, baseScenarioName);
+		} catch (final ResourceNotFoundException e) {
+			return new LinkedList<Step>();
+		}
 	}
 
 }
