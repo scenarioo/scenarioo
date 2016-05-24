@@ -38,7 +38,7 @@ import org.scenarioo.rest.base.BuildIdentifier;
 /**
  * Handles requests for step diff information.
  */
-@Path("/rest/diffViewer/{baseBranchName}/{baseBuildName}/{comparisonName}/{useCaseName}/{scenarioName}/")
+@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}/useCaseName/{useCaseName}/scenarioName/{scenarioName}/")
 public class StepDiffResource {
 
 	private static final Logger LOGGER = Logger.getLogger(StepDiffResource.class);
@@ -50,7 +50,7 @@ public class StepDiffResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/{stepIndex}/stepDiffInfo")
+	@Path("/stepIndex/{stepIndex}/stepDiffInfo")
 	public StepDiffInfo getStepDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,

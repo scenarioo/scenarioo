@@ -37,7 +37,7 @@ import org.scenarioo.utils.NumberFormatCreator;
 /**
  * Handles requests for diff screenshots.
  */
-@Path("/rest/diffViewer/{baseBranchName}/{baseBuildName}/{comparisonName}/{usecaseName}/{scenarioName}/{stepIndex}")
+@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}/useCaseName/{usecaseName}/scenarioName/{scenarioName}/stepIndex/{stepIndex}")
 public class StepDiffScreenshotResource {
 
 	private static final Logger LOGGER = Logger.getLogger(StepDiffScreenshotResource.class);

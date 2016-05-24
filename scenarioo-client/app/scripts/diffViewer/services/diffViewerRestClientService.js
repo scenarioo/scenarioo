@@ -18,7 +18,7 @@
 angular.module('scenarioo.services')
 
     .factory('ComparisonConfigurationResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/comparisonConfiguration/:comparisonName',
+        return ScenariooResource('/diffViewer/comparisonConfiguration/comparisonName/:comparisonName',
             {
                 comparisonName: '@comparisonName'
             }, {});
@@ -26,14 +26,14 @@ angular.module('scenarioo.services')
 
 
     .factory('BuildDiffInfosResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/buildDiffInfos', {
+        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/buildDiffInfos', {
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName'
         }, {});
     })
 
     .factory('BuildDiffInfoResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/buildDiffInfo', {
+        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/buildDiffInfo', {
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName'
@@ -41,7 +41,7 @@ angular.module('scenarioo.services')
     })
 
     .factory('UseCaseDiffInfoResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/:useCaseName/useCaseDiffInfo', {
+        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseName/:useCaseName/useCaseDiffInfo', {
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName',
@@ -50,7 +50,7 @@ angular.module('scenarioo.services')
     })
 
     .factory('UseCaseDiffInfosResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/useCaseDiffInfos', {
+        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseDiffInfos', {
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName'
@@ -58,7 +58,7 @@ angular.module('scenarioo.services')
     })
 
     .factory('ScenarioDiffInfoResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/:useCaseName/:scenarioName/scenarioDiffInfo', {
+        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseName/:useCaseName/scenarioName/:scenarioName/scenarioDiffInfo', {
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName',
@@ -68,7 +68,7 @@ angular.module('scenarioo.services')
     })
 
     .factory('ScenarioDiffInfosResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/:useCaseName/scenarioDiffInfos', {
+        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseName/:useCaseName/scenarioDiffInfos', {
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName',
@@ -77,7 +77,7 @@ angular.module('scenarioo.services')
     })
 
     .factory('StepDiffInfoResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/:useCaseName/:scenarioName/:stepIndex/stepDiffInfo',
+        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseName/:useCaseName/scenarioName/:scenarioName/stepIndex/:stepIndex/stepDiffInfo',
             {
                 baseBranchName: '@baseBranchName',
                 baseBuildName: '@baseBuildName',
@@ -89,7 +89,7 @@ angular.module('scenarioo.services')
     })
 
     .factory('StepDiffInfosResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/:baseBranchName/:baseBuildName/:comparisonName/:useCaseName/:scenarioName/stepDiffInfos', {
+        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseName/:useCaseName/scenarioName/:scenarioName/stepDiffInfos', {
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName',

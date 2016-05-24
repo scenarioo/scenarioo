@@ -36,7 +36,7 @@ import org.scenarioo.rest.base.BuildIdentifier;
 /**
  * Handles requests for build diff information.
  */
-@Path("/rest/diffViewer/{baseBranchName}/{baseBuildName}")
+@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}")
 public class BuildDiffResource {
 
 	private static final Logger LOGGER = Logger.getLogger(BuildDiffResource.class);
@@ -48,7 +48,7 @@ public class BuildDiffResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/{comparisonName}/buildDiffInfo")
+	@Path("/comparisonName/{comparisonName}/buildDiffInfo")
 	public BuildDiffInfo getBuildDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName) {
