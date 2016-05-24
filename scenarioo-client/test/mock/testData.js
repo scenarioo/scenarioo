@@ -213,6 +213,9 @@ angular.module('scenarioo.services').service('TestData', function () {
                     }
                 },
                 'diffInfo':{
+                    'changed': 1,
+                    'added': 0,
+                    'removed': 0,
                     'isAdded': false,
                     'isRemoved': false
                 }
