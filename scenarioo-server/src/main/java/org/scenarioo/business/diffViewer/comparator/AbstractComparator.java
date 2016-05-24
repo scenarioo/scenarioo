@@ -65,6 +65,9 @@ public abstract class AbstractComparator {
 		changeRateSum += childChangeRateSum;
 		changeRateSum += numberOfRemovedElements * ADDED_REMOVED_CHANGE_RATE;
 
+		if (numberOfBaseElements + numberOfRemovedElements < 1) {
+			return 0;
+		}
 		return changeRateSum / (numberOfBaseElements + numberOfRemovedElements);
 	}
 

@@ -20,9 +20,6 @@ package org.scenarioo.business.diffViewer;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.business.diffViewer.comparator.BuildComparator;
@@ -37,14 +34,14 @@ public class ComparisonExecutor {
 
 	private static final Logger LOGGER = Logger.getLogger(ComparisonExecutor.class);
 
-	private static final long KEEP_ALIVE_TIME = 60L;
-	private static final int MAXIMUM_POOL_SIZE = 1;
-	private static final int CORE_POOL_SIZE = 1;
-
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
-	private ExecutorService asyncComparisonExecutor = newAsyncComparisonExecutor();
+	private ExecutorService asyncComparisonExecutor;
+
+	public ComparisonExecutor(final ExecutorService executorService) {
+		asyncComparisonExecutor = executorService;
+	}
 
 	public synchronized void doComparison(final String baseBranchName, final String baseBuildName) {
 		final List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = getComparisonConfigurationsForBaseBranch(baseBranchName);
@@ -76,7 +73,7 @@ public class ComparisonExecutor {
 					baseBuildName, comparisonName);
 
 			LOGGER.info("============= START OF BUILD COMPARISON ================");
-			LOGGER.info("Comparing base build: " + baseBuildName + "/"
+			LOGGER.info("Comparing base build: " + baseBranchName + "/"
 					+ baseBuildName + " with defined comparison: " + comparisonName);
 			LOGGER.info("This might take a while ...");
 
@@ -106,13 +103,5 @@ public class ComparisonExecutor {
 			}
 		}
 		return comparisonConfigurationsForBaseBranch;
-	}
-
-	/**
-	 * Creates an executor that queues the passed tasks for execution by one single additional thread.
-	 */
-	private static ExecutorService newAsyncComparisonExecutor() {
-		return new ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, KEEP_ALIVE_TIME, TimeUnit.SECONDS,
-				new LinkedBlockingQueue<Runnable>());
 	}
 }
