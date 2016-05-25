@@ -78,7 +78,7 @@ public class StepComparatorTest {
 
 	@InjectMocks
 	private final StepComparator stepComparator = new StepComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME,
-			COMPARISON_NAME);
+			getComparisonConfiguration());
 
 	@BeforeClass
 	public static void setUpClass() {
@@ -237,11 +237,7 @@ public class StepComparatorTest {
 
 	private static Configuration getTestConfiguration() {
 
-		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
-		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
-		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
-		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);
-		comparisonConfiguration.setName(COMPARISON_NAME);
+		final ComparisonConfiguration comparisonConfiguration = getComparisonConfiguration();
 
 		final List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
 		comparisonConfigurations.add(comparisonConfiguration);
@@ -250,5 +246,14 @@ public class StepComparatorTest {
 		configuration.setComparisonConfigurations(comparisonConfigurations);
 
 		return configuration;
+	}
+
+	private static ComparisonConfiguration getComparisonConfiguration() {
+		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
+		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);
+		comparisonConfiguration.setName(COMPARISON_NAME);
+		return comparisonConfiguration;
 	}
 }

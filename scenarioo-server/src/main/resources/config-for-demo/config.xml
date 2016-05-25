@@ -57,31 +57,43 @@
     </branchAliases>
 	<comparisonConfigurations>
         <comparisonConfiguration>
-            <name>Comparison to Version 1.0</name>
+            <name>To Version 1.0</name>
             <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
             <comparisonBranchName>wikipedia-docu-example</comparisonBranchName>
             <comparisonBuildName>last successful</comparisonBuildName>
         </comparisonConfiguration>
 		<comparisonConfiguration>
-            <name>Comparison to Production</name>
+            <name>To Production</name>
             <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
             <comparisonBranchName>Production</comparisonBranchName>
             <comparisonBuildName>most recent</comparisonBuildName>
         </comparisonConfiguration>
 		<comparisonConfiguration>
-            <name>Comparison to last Sprint</name>
+            <name>To Projectstart</name>
+            <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
+            <comparisonBranchName>Production</comparisonBranchName>
+            <comparisonBuildName>2014-01-20</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>To Projectstart</name>
+            <baseBranchName>wikipedia-docu-example</baseBranchName>
+            <comparisonBranchName>Production</comparisonBranchName>
+            <comparisonBuildName>2014-01-20</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>To last Sprint</name>
             <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
             <comparisonBranchName>wikipedia-docu-example-dev</comparisonBranchName>
             <comparisonBuildName>2014-04-19</comparisonBuildName>
         </comparisonConfiguration>
 		<comparisonConfiguration>
-            <name>Comparison to last successful</name>
+            <name>To last successful (dev)</name>
             <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
             <comparisonBranchName>wikipedia-docu-example-dev</comparisonBranchName>
             <comparisonBuildName>last successful</comparisonBuildName>
         </comparisonConfiguration>
 		<comparisonConfiguration>
-            <name>Comparison to most recent</name>
+            <name>To most recent (dev)</name>
             <baseBranchName>Development</baseBranchName>
             <comparisonBranchName>Development</comparisonBranchName>
             <comparisonBuildName>most recent</comparisonBuildName>

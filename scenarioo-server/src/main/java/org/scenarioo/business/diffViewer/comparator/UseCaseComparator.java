@@ -21,10 +21,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.entities.UseCase;
-import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
  * Comparator to compare use cases of two builds. Results are persisted in a xml file.
@@ -34,10 +34,11 @@ public class UseCaseComparator extends AbstractComparator {
 	private static final Logger LOGGER = Logger.getLogger(UseCaseComparator.class);
 
 	private ScenarioComparator scenarioComparator = new ScenarioComparator(baseBranchName, baseBuildName,
-			comparisonName);
+			comparisonConfiguration);
 
-	public UseCaseComparator(final String baseBranchName, final String baseBuildName, final String comparisonName) {
-		super(baseBranchName, baseBuildName, comparisonName);
+	public UseCaseComparator(final String baseBranchName, final String baseBuildName,
+			final ComparisonConfiguration comparisonConfiguration) {
+		super(baseBranchName, baseBuildName, comparisonConfiguration);
 	}
 
 	/**
@@ -46,13 +47,12 @@ public class UseCaseComparator extends AbstractComparator {
 	 * @return {@link BuildDiffInfo} with the summarized diff information.
 	 */
 	public BuildDiffInfo compare() {
-		final BuildIdentifier comparisonBuildIdentifier = getComparisonBuildIdentifier(comparisonName);
-
 		final List<UseCase> baseUseCases = docuReader.loadUsecases(baseBranchName, baseBuildName);
-		final List<UseCase> comparisonUseCases = docuReader.loadUsecases(comparisonBuildIdentifier.getBranchName(),
-				comparisonBuildIdentifier.getBuildName());
+		final List<UseCase> comparisonUseCases = docuReader.loadUsecases(
+				comparisonConfiguration.getComparisonBranchName(),
+				comparisonConfiguration.getComparisonBuildName());
 
-		final BuildDiffInfo buildDiffInfo = new BuildDiffInfo(comparisonName);
+		final BuildDiffInfo buildDiffInfo = new BuildDiffInfo(comparisonConfiguration.getName());
 		double useCaseChangeRateSum = 0;
 
 		for (final UseCase baseUseCase : baseUseCases) {

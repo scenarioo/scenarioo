@@ -75,7 +75,7 @@ public class UseCaseComparatorTest {
 
 	@InjectMocks
 	private UseCaseComparator useCaseComparator = new UseCaseComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME,
-			COMPARISON_NAME);
+			getComparisonConfiguration());
 
 	@BeforeClass
 	public static void setUpClass() {
@@ -245,7 +245,8 @@ public class UseCaseComparatorTest {
 		return useCases;
 	}
 
-	private UseCaseDiffInfo getUseCaseDiffInfo(final double changeRate, final int added, final int changed, final int removed) {
+	private UseCaseDiffInfo getUseCaseDiffInfo(final double changeRate, final int added, final int changed,
+			final int removed) {
 		final UseCaseDiffInfo useCaseDiffInfo = new UseCaseDiffInfo();
 		useCaseDiffInfo.setChangeRate(changeRate);
 		useCaseDiffInfo.setAdded(added);
@@ -256,11 +257,7 @@ public class UseCaseComparatorTest {
 
 	private static Configuration getTestConfiguration() {
 
-		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
-		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
-		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
-		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);
-		comparisonConfiguration.setName(COMPARISON_NAME);
+		final ComparisonConfiguration comparisonConfiguration = getComparisonConfiguration();
 
 		final List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
 		comparisonConfigurations.add(comparisonConfiguration);
@@ -269,5 +266,14 @@ public class UseCaseComparatorTest {
 		configuration.setComparisonConfigurations(comparisonConfigurations);
 
 		return configuration;
+	}
+
+	private static ComparisonConfiguration getComparisonConfiguration() {
+		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
+		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);
+		comparisonConfiguration.setName(COMPARISON_NAME);
+		return comparisonConfiguration;
 	}
 }
