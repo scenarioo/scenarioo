@@ -19,7 +19,9 @@
 /**
  *  Service functionality to prepare diff info data to display.
  */
-angular.module('scenarioo.services').factory('DiffInfoService', function () {
+angular.module('scenarioo.services').service('DiffInfoService', DiffInfoService);
+
+function DiffInfoService() {
 
     function getElementsWithDiffInfos(elements, removedElements, diffInfos, pathToName) {
         var elementsWithDiffInfo = [];
@@ -122,7 +124,6 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
         return diffInfo;
     }
 
-
     function getRemovedDiffInfo() {
         var diffInfo = {};
         diffInfo.changeRate = 100;
@@ -181,4 +182,4 @@ angular.module('scenarioo.services').factory('DiffInfoService', function () {
         enrichChangedStepWithDiffInfo: enrichChangedStepWithDiffInfo,
         enrichPagesAndStepsWithDiffInfos: enrichPagesAndStepsWithDiffInfos
     };
-});
+}

@@ -15,11 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('DiffViewerService', function ($location, $rootScope, HostnameAndPort) {
+angular.module('scenarioo.services').service('ScreenshotUrlService', ScreenshotUrlService);
 
+function ScreenshotUrlService(HostnameAndPort) {
 
     function getDiffScreenShotUrl(step, selected, comparisonName, useCaseName, scenarioName, stepIndex ) {
-        if(step && stepIndex && useCaseName){
+        if(step && stepIndex >= 0 && useCaseName){
             return HostnameAndPort.forLink() + 'rest/diffViewer/baseBranchName/' + selected.branch + '/baseBuildName/' + selected.build + '/comparisonName/' + comparisonName + '/useCaseName/' + useCaseName + '/scenarioName/' + scenarioName + '/stepIndex/' + stepIndex + '/stepDiffScreenshot';
         }
     }
@@ -29,7 +30,6 @@ angular.module('scenarioo.services').factory('DiffViewerService', function ($loc
             return HostnameAndPort.forLink() + 'rest/branch/' + comparisonBranchName + '/build/' + comparisonBuildName + '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + comparisonScreenshotName;
         }
     }
-
 
      return {
          /**
@@ -42,5 +42,4 @@ angular.module('scenarioo.services').factory('DiffViewerService', function ($loc
           */
          getComparisonScreenShotUrl: getComparisonScreenShotUrl
     };
-
-});
+}

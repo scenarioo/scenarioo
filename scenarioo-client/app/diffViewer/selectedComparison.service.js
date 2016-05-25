@@ -15,7 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('SelectedComparison', function ($location, $rootScope, localStorageService) {
+angular.module('scenarioo.services').service('SelectedComparison', SelectedComparisonService);
+
+function SelectedComparisonService($location, $rootScope, localStorageService) {
     var COMPARISON_KEY = 'comparison';
     var COMPARISON_DISABLED = 'none';
     var selectedComparison;
@@ -109,5 +111,4 @@ angular.module('scenarioo.services').factory('SelectedComparison', function ($lo
          */
         info: info
     };
-
-});
+}
