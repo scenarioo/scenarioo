@@ -29,9 +29,9 @@ import org.im4java.process.ArrayListErrorConsumer;
 import org.im4java.process.ArrayListOutputConsumer;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
+import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
-import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.NumberFormatCreator;
 
 /**
@@ -49,8 +49,9 @@ public class ScreenshotComparator extends AbstractComparator {
 	private ArrayListOutputConsumer gmConsoleOutputConsumer;
 	private CompareCmd gmConsole;
 
-	public ScreenshotComparator(final String baseBranchName, final String baseBuildName, final String comparisonName) {
-		super(baseBranchName, baseBuildName, comparisonName);
+	public ScreenshotComparator(final String baseBranchName, final String baseBuildName,
+			final ComparisonConfiguration comparisonConfiguration) {
+		super(baseBranchName, baseBuildName, comparisonConfiguration);
 		gmConsole = new CompareCmd(true);
 		gmConsoleErrorConsumer = new ArrayListErrorConsumer();
 		gmConsoleOutputConsumer = new ArrayListOutputConsumer();
@@ -72,7 +73,6 @@ public class ScreenshotComparator extends AbstractComparator {
 	 */
 	public double compare(final String baseUseCaseName, final String baseScenarioName, final StepLink baseStepLink,
 			final String comparisonScreenshotName) {
-		final BuildIdentifier comparisonBuildIdentifier = getComparisonBuildIdentifier(comparisonName);
 
 		final String baseScreenshotName = THREE_DIGIT_NUM_FORMAT.format(baseStepLink.getStepIndex())
 				+ SCREENSHOT_FILE_EXTENSION;
@@ -81,10 +81,13 @@ public class ScreenshotComparator extends AbstractComparator {
 		final File baseScreenshot = docuReader.getScreenshotFile(baseBranchName,
 				baseBuildName, baseUseCaseName, baseScenarioName, baseScreenshotName);
 
-		final File comparisonScreenshot = docuReader.getScreenshotFile(comparisonBuildIdentifier.getBranchName(),
-				comparisonBuildIdentifier.getBuildName(), baseUseCaseName, baseScenarioName, comparisonScreenshotName);
+		final File comparisonScreenshot = docuReader.getScreenshotFile(
+				comparisonConfiguration.getComparisonBranchName(),
+				comparisonConfiguration.getComparisonBuildName(), baseUseCaseName, baseScenarioName,
+				comparisonScreenshotName);
 
-		final File diffScreenshot = diffReader.getScreenshotFile(baseBranchName, baseBuildName, comparisonName,
+		final File diffScreenshot = diffReader.getScreenshotFile(baseBranchName, baseBuildName,
+				comparisonConfiguration.getName(),
 				baseUseCaseName, baseScenarioName, diffScreenshotName);
 
 		return compareScreenshots(baseScreenshot, comparisonScreenshot, diffScreenshot);

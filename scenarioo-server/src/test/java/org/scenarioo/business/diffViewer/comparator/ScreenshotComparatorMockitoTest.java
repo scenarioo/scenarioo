@@ -38,15 +38,16 @@ public class ScreenshotComparatorMockitoTest {
 	private ArrayListOutputConsumer gmConsoleOutputConsumer;
 
 	@InjectMocks
-	private final ScreenshotComparator screenshotComparator = new ScreenshotComparator("baseUseCaseName",
-			"baseScenarioName",
-			"baseStepLink");
+	private final ScreenshotComparator screenshotComparator = new ScreenshotComparator(BASE_BRANCH_NAME,
+			BASE_BUILD_NAME,
+			getComparisonConfiguration());
 
 	private static final double SCREENSHOT_DIFFERENCE = 12.97;
 	private static final double DOUBLE_TOLERANCE = 0.01;
 	private static final ArrayList<String> OUTPUT_CONSUMER_MOCK;
 	private static final File ROOT_DIRECTORY = new File("tmp");
 	private static final String BASE_BRANCH_NAME = "baseBranch";
+	private static final String BASE_BUILD_NAME = "baseBuild";
 	private static final String COMPARISON_BRANCH_NAME = "comparisonBranch";
 	private static final String COMPARISON_BUILD_NAME = "comparisonBuild";
 	private static final String COMPARISON_NAME = "comparisonName";
@@ -100,11 +101,7 @@ public class ScreenshotComparatorMockitoTest {
 
 	private static Configuration getTestConfiguration() {
 
-		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
-		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
-		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
-		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);
-		comparisonConfiguration.setName(COMPARISON_NAME);
+		final ComparisonConfiguration comparisonConfiguration = getComparisonConfiguration();
 
 		final List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
 		comparisonConfigurations.add(comparisonConfiguration);
@@ -113,5 +110,14 @@ public class ScreenshotComparatorMockitoTest {
 		configuration.setComparisonConfigurations(comparisonConfigurations);
 
 		return configuration;
+	}
+
+	private static ComparisonConfiguration getComparisonConfiguration() {
+		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
+		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);
+		comparisonConfiguration.setName(COMPARISON_NAME);
+		return comparisonConfiguration;
 	}
 }

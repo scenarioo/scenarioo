@@ -28,8 +28,8 @@ import org.scenarioo.repository.RepositoryLocator;
  * @see ScreenshotComparator
  */
 public class ScreenshotComparatorGraphicsMagickTest {
-	ScreenshotComparator screenshotComparator = new ScreenshotComparator("baseUseCaseName", "baseScenarioName",
-			"baseStepLink");
+	ScreenshotComparator screenshotComparator = new ScreenshotComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME,
+			getComparisonConfiguration());
 	private static final String FILEPATH = "src/test/resources/org/scenarioo/business/diffViewer/";
 	private static final File BASE_SCREENSHOT = new File(FILEPATH + "baseScreenshot.png");
 	private static final File COMPARISON_SCREENSHOT_SAME_SIZE = new File(FILEPATH + "comparisonScreenshot.png");
@@ -43,6 +43,7 @@ public class ScreenshotComparatorGraphicsMagickTest {
 
 	private static final File ROOT_DIRECTORY = new File("tmp");
 	private static final String BASE_BRANCH_NAME = "baseBranch";
+	private static final String BASE_BUILD_NAME = "baseBuild";
 	private static final String COMPARISON_BRANCH_NAME = "comparisonBranch";
 	private static final String COMPARISON_BUILD_NAME = "comparisonBuild";
 	private static final String COMPARISON_NAME = "comparisonName";
@@ -140,11 +141,7 @@ public class ScreenshotComparatorGraphicsMagickTest {
 
 	private static Configuration getTestConfiguration() {
 
-		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
-		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
-		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
-		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);
-		comparisonConfiguration.setName(COMPARISON_NAME);
+		final ComparisonConfiguration comparisonConfiguration = getComparisonConfiguration();
 
 		final List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
 		comparisonConfigurations.add(comparisonConfiguration);
@@ -153,6 +150,15 @@ public class ScreenshotComparatorGraphicsMagickTest {
 		configuration.setComparisonConfigurations(comparisonConfigurations);
 
 		return configuration;
+	}
+
+	private static ComparisonConfiguration getComparisonConfiguration() {
+		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
+		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);
+		comparisonConfiguration.setName(COMPARISON_NAME);
+		return comparisonConfiguration;
 	}
 
 	class TestAppender extends AppenderSkeleton {

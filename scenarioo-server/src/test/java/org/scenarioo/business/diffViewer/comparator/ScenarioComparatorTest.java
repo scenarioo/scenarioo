@@ -82,7 +82,7 @@ public class ScenarioComparatorTest {
 
 	@InjectMocks
 	private ScenarioComparator scenarioComparator = new ScenarioComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME,
-			COMPARISON_NAME);
+			getComparisonConfiguration());
 
 	@BeforeClass
 	public static void setUpClass() {
@@ -283,7 +283,7 @@ public class ScenarioComparatorTest {
 
 	private static Configuration getTestConfiguration() {
 
-		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
+		final ComparisonConfiguration comparisonConfiguration = getComparisonConfiguration();
 		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
 		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
 		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);
@@ -296,5 +296,14 @@ public class ScenarioComparatorTest {
 		configuration.setComparisonConfigurations(comparisonConfigurations);
 
 		return configuration;
+	}
+
+	private static ComparisonConfiguration getComparisonConfiguration() {
+		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
+		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
+		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);
+		comparisonConfiguration.setName(COMPARISON_NAME);
+		return comparisonConfiguration;
 	}
 }

@@ -27,6 +27,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
+import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.StepInfo;
@@ -34,7 +35,6 @@ import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.StepDescription;
-import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.NumberFormatCreator;
 
 /**
@@ -48,10 +48,11 @@ public class StepComparator extends AbstractComparator {
 			.createNumberFormatWithMinimumIntegerDigits(3);
 
 	private ScreenshotComparator screenshotComparator = new ScreenshotComparator(baseBranchName, baseBuildName,
-			comparisonName);
+			comparisonConfiguration);
 
-	public StepComparator(final String baseBranchName, final String baseBuildName, final String comparisonName) {
-		super(baseBranchName, baseBuildName, comparisonName);
+	public StepComparator(final String baseBranchName, final String baseBuildName,
+			final ComparisonConfiguration comparisonConfiguration) {
+		super(baseBranchName, baseBuildName, comparisonConfiguration);
 	}
 
 	/**
@@ -64,11 +65,9 @@ public class StepComparator extends AbstractComparator {
 	 * @return {@link ScenarioDiffInfo} with the summarized diff information.
 	 */
 	public ScenarioDiffInfo compare(final String baseUseCaseName, final String baseScenarioName) {
-		final BuildIdentifier comparisonBuildIdentifier = getComparisonBuildIdentifier(comparisonName);
-
 		final List<Step> baseSteps = loadSteps(baseBranchName, baseBuildName, baseUseCaseName, baseScenarioName);
-		final List<Step> comparisonSteps = loadSteps(comparisonBuildIdentifier.getBranchName(),
-				comparisonBuildIdentifier.getBuildName(), baseUseCaseName, baseScenarioName);
+		final List<Step> comparisonSteps = loadSteps(comparisonConfiguration.getComparisonBranchName(),
+				comparisonConfiguration.getComparisonBuildName(), baseUseCaseName, baseScenarioName);
 
 		final List<StepLink> baseStepLinks = getStepLinks(baseSteps, baseUseCaseName, baseScenarioName);
 		final List<StepLink> comparisonStepLinks = getStepLinks(comparisonSteps, baseUseCaseName, baseScenarioName);

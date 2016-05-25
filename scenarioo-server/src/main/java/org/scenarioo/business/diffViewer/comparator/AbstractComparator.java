@@ -17,16 +17,13 @@
 
 package org.scenarioo.business.diffViewer.comparator;
 
-import org.apache.commons.lang3.StringUtils;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffWriter;
 import org.scenarioo.dao.diffViewer.impl.DiffWriterXmlImpl;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
-import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
-import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
  * Abstract comparator class. Contains common comparison functionality.
@@ -43,17 +40,18 @@ public abstract class AbstractComparator {
 	protected DiffWriter diffWriter;
 	protected String baseBranchName;
 	protected String baseBuildName;
-	protected String comparisonName;
+	protected ComparisonConfiguration comparisonConfiguration;
 
-	public AbstractComparator(final String baseBranchName, final String baseBuildName, final String comparisonName) {
+	public AbstractComparator(final String baseBranchName, final String baseBuildName,
+			final ComparisonConfiguration comparisonConfiguration) {
 		this.docuReader = new ScenarioDocuReader(
 				configurationRepository.getDocumentationDataDirectory());
 		this.diffWriter = new DiffWriterXmlImpl(configurationRepository.getDiffViewerDirectory(), baseBranchName,
 				baseBuildName,
-				comparisonName);
+				comparisonConfiguration.getName());
 		this.baseBranchName = baseBranchName;
 		this.baseBuildName = baseBuildName;
-		this.comparisonName = comparisonName;
+		this.comparisonConfiguration = comparisonConfiguration;
 	}
 
 	protected double calculateChangeRate(final double numberOfBaseElements, final double numberOfAddedElements,
@@ -69,30 +67,6 @@ public abstract class AbstractComparator {
 			return 0;
 		}
 		return changeRateSum / (numberOfBaseElements + numberOfRemovedElements);
-	}
-
-	protected BuildIdentifier getComparisonBuildIdentifier(final String comparisonName) {
-		final ComparisonConfiguration comparisonConfiguration = resolveComparisonName(comparisonName);
-		final BuildIdentifier comparisonBuildIdentifier = docuBuildsManager.resolveBranchAndBuildAliases(
-				comparisonConfiguration.getComparisonBranchName(),
-				comparisonConfiguration.getComparisonBuildName());
-		return comparisonBuildIdentifier;
-	}
-
-	private ComparisonConfiguration resolveComparisonName(final String comparisonName) {
-		if (StringUtils.isEmpty(comparisonName)) {
-			throw new IllegalArgumentException("Unable to resolve empty comparison name.");
-		}
-
-		final Configuration configuration = configurationRepository.getConfiguration();
-		for (final ComparisonConfiguration comparisonConfiguration : configuration.getComparisonConfigurations()) {
-			if (comparisonName.equals(comparisonConfiguration.getName())) {
-				return comparisonConfiguration;
-			}
-		}
-
-		throw new RuntimeException(
-				"Could not resolve a comparison configuration for comparison name [" + comparisonName + "]");
 	}
 
 }
