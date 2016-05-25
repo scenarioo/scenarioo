@@ -115,6 +115,8 @@ public class ComparisonExecutor {
 	private synchronized List<ComparisonConfiguration> getComparisonConfigurationsForBaseBranch(
 			final String baseBranchName) {
 		final List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = new LinkedList<ComparisonConfiguration>();
+
+		configurationRepository.reloadConfiguration();
 		final List<ComparisonConfiguration> comparisonConfigurations = configurationRepository.getConfiguration()
 				.getComparisonConfigurations();
 		final String resolvedBaseBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(baseBranchName);

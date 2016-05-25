@@ -57,13 +57,13 @@
     </branchAliases>
 	<comparisonConfigurations>
         <comparisonConfiguration>
-            <name>To Version 1.0</name>
+            <name>To last successful</name>
             <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
             <comparisonBranchName>wikipedia-docu-example</comparisonBranchName>
             <comparisonBuildName>last successful</comparisonBuildName>
         </comparisonConfiguration>
 		<comparisonConfiguration>
-            <name>To Production</name>
+            <name>To most recent</name>
             <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
             <comparisonBranchName>Production</comparisonBranchName>
             <comparisonBuildName>most recent</comparisonBuildName>
