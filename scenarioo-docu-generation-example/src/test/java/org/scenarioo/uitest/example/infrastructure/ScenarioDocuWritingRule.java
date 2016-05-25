@@ -29,14 +29,12 @@
 
 package org.scenarioo.uitest.example.infrastructure;
 
-import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.DOCU_BUILD_DIRECTORY;
-import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.EXAMPLE_BRANCH_NAME;
+import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
@@ -91,7 +89,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 	private Scenario createScenario(final Description testMethodDescription) {
 		Scenario scenario = new Scenario();
 		String description = "";
-		String name = createScenarioName(testMethodDescription);
+		String name = ScenarioConfiguration.getScenarioName(testMethodDescription, MultipleBuildsRule.getCurrentBuildRun());
 		scenario.setName(name);
 		
 		// store description and user role from test method's annotation (if any)
@@ -127,17 +125,6 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 		return scenario;
 	}
 	
-	private String createScenarioName(final Description testMethodDescription) {
-		DocuDescription description = testMethodDescription.getAnnotation(DocuDescription.class);
-		if (description != null && !StringUtils.isBlank(description.name())) {
-			return description.name();
-		} else {
-			// simply use the test name as scenario name if not set through
-			// description annotation.
-			return testMethodDescription.getMethodName();
-		}
-	}
-	
 	private static Details createLongLine() {
 		Details details = new Details();
 		details.addDetail("Long value with spaces",
@@ -169,7 +156,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 	
 	private void writeScenarioDescription(final Description testMethodDescription, Status status) {
 		
-		ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, EXAMPLE_BRANCH_NAME,
+		ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(),
 				MultipleBuildsRule.getCurrentBuildName());
 		
 		// Write scenario

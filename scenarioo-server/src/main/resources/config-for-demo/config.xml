@@ -43,7 +43,50 @@
     </buildstates>
     <createLastSuccessfulScenarioBuild>false</createLastSuccessfulScenarioBuild>
     <expandPagesInScenarioOverview>false</expandPagesInScenarioOverview>
-    <branchAliases/>
+    <branchAliases>
+        <branchAlias>
+            <name>Production</name>
+            <referencedBranch>wikipedia-docu-example</referencedBranch>
+            <description></description>
+        </branchAlias>
+		<branchAlias>
+            <name>Development</name>
+            <referencedBranch>wikipedia-docu-example-dev</referencedBranch>
+            <description></description>
+        </branchAlias>
+    </branchAliases>
+	<comparisonConfigurations>
+        <comparisonConfiguration>
+            <name>Comparison to Version 1.0</name>
+            <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
+            <comparisonBranchName>wikipedia-docu-example</comparisonBranchName>
+            <comparisonBuildName>last successful</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>Comparison to Production</name>
+            <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
+            <comparisonBranchName>Production</comparisonBranchName>
+            <comparisonBuildName>most recent</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>Comparison to last Sprint</name>
+            <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
+            <comparisonBranchName>wikipedia-docu-example-dev</comparisonBranchName>
+            <comparisonBuildName>2014-04-19</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>Comparison to last successful</name>
+            <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
+            <comparisonBranchName>wikipedia-docu-example-dev</comparisonBranchName>
+            <comparisonBuildName>last successful</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>Comparison to most recent</name>
+            <baseBranchName>Development</baseBranchName>
+            <comparisonBranchName>Development</comparisonBranchName>
+            <comparisonBuildName>most recent</comparisonBuildName>
+        </comparisonConfiguration>
+    </comparisonConfigurations>
     <labelConfigurations/>
     <customObjectTabs>
         <id>pages</id>
