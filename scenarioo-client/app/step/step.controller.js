@@ -20,7 +20,7 @@ angular.module('scenarioo.controllers').controller('StepController', StepControl
 function StepController($scope, $routeParams, $location, $route, StepResource, HostnameAndPort, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, GlobalHotkeysService, LabelConfigurationsResource,
                         SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
-                        SketcherLinkService, BranchesAndBuildsService, DiffViewerService, SelectedComparison, ComparisonConfigurationResource, StepDiffInfoResource, DiffInfoService) {
+                        SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, ComparisonConfigurationResource, StepDiffInfoResource, DiffInfoService) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -375,7 +375,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     }
 
     function initComparisonScreenshotUrl () {
-        $scope.comparisonScreenShotUrl = DiffViewerService.getComparisonScreenShotUrl($scope.comparisonBranchName, $scope.comparisonBuildName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.comparisonScreenshotName);
+        $scope.comparisonScreenShotUrl = ScreenshotUrlService.getComparisonScreenShotUrl($scope.comparisonBranchName, $scope.comparisonBuildName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.comparisonScreenshotName);
     }
 
     // This URL is only used internally, not for sharing
@@ -383,11 +383,11 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
         if ($scope.step.diffInfo.changeRate === 0 || angular.isUndefined($scope.step.diffInfo.changeRate)){
             $scope.diffScreenShotUrl = $scope.comparisonScreenShotUrl;
         } else if (angular.isUndefined($scope.stepIdentifier)) {
-                return undefined;
+            return undefined;
         } else {
             var branchAndBuild = SelectedBranchAndBuildService.selected();
             var comparisonName = SelectedComparison.selected();
-            $scope.diffScreenShotUrl = DiffViewerService.getDiffScreenShotUrl($scope.step, branchAndBuild, comparisonName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.stepIndex );
+            $scope.diffScreenShotUrl = ScreenshotUrlService.getDiffScreenShotUrl($scope.step, branchAndBuild, comparisonName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.stepIndex );
         }
     }
 
