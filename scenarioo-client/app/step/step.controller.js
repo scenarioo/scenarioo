@@ -426,10 +426,10 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
             },
             function onSuccess(result){
                 $scope.comparisonScreenshotName = result.comparisonScreenshotName;
-                DiffInfoService.enrichStepWithDiffInfo($scope.step, result);
+                DiffInfoService.enrichChangedStepWithDiffInfo($scope.step, result);
                 initComparisonScreenshotURLs();
             }, function onFailure() {
-                DiffInfoService.enrichStepWithDiffInfo($scope.step, null);
+                DiffInfoService.enrichChangedStepWithDiffInfo($scope.step, null);
             });
     }
 
