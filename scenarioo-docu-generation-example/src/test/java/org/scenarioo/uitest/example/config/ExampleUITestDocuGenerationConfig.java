@@ -46,6 +46,7 @@ public class ExampleUITestDocuGenerationConfig {
 	 * (e.g. "trunk" or "bugfix-branch-2013-11")
 	 */
 	public static final String EXAMPLE_BRANCH_NAME = "wikipedia-docu-example";
+	public static final String EXAMPLE_BRANCH_NAME_DEV = "wikipedia-docu-example-dev";
 	
 	static {
 		// Ensure that on start of test all old test results are removed.

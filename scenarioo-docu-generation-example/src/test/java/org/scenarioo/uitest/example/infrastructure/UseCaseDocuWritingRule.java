@@ -58,7 +58,7 @@ public class UseCaseDocuWritingRule implements TestRule {
 		return new Statement() {
 			
 			private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY,
-					EXAMPLE_BRANCH_NAME, MultipleBuildsRule.getCurrentBuildName());
+					MultipleBuildsRule.getCurrentBranchName(), MultipleBuildsRule.getCurrentBuildName());
 			
 			@Override
 			public void evaluate() throws Throwable {
@@ -81,7 +81,7 @@ public class UseCaseDocuWritingRule implements TestRule {
 	public static UseCase createUseCase(final Class<?> testClass) {
 		// Extract usecase name and description from concrete test class.
 		String description = "";
-		String name = createUseCaseName(testClass);
+		String name = UseCaseConfiguration.getUseCaseName(testClass, MultipleBuildsRule.getCurrentBuildRun());
 		DocuDescription docuDescription = testClass.getAnnotation(DocuDescription.class);
 		if (docuDescription != null) {
 			description = docuDescription.description();
