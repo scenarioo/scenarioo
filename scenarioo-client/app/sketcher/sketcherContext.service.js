@@ -18,11 +18,13 @@
 /**
  * This service knows where the user is currently on the page (which use cse, scenario, step, etc.).
  */
-angular.module('scenarioo.services').service('SketcherContextService', function () {
+angular.module('scenarioo.services').service('SketcherContextService', SketcherContextService);
+
+function SketcherContextService() {
 
     return {
         stepIdentifier: {},
         screenshotURL: ''
     };
 
-});
+}

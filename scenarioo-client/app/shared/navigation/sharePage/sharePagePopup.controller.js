@@ -15,7 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').controller('SharePagePopupController', function ($scope, $uibModalInstance, SharePageService, $location) {
+angular.module('scenarioo.services').controller('SharePagePopupController', SharePagePopupController);
+
+function SharePagePopupController($scope, $uibModalInstance, SharePageService, $location) {
 
     var currentBrowserLocation = $location.absUrl();
 
@@ -35,4 +37,4 @@ angular.module('scenarioo.services').controller('SharePagePopupController', func
         $uibModalInstance.dismiss('cancel');
     };
 
-});
+}

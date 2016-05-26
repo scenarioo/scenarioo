@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular
-    .module('scenarioo.services')
-    .factory('ToolBoxService', function (SelectTool, RectCompositeDrawTool, BorderCompositeDrawTool, LineDrawTool,
+angular.module('scenarioo.services').factory('ToolBoxService', ToolBoxService);
+
+function ToolBoxService(SelectTool, RectCompositeDrawTool, BorderCompositeDrawTool, LineDrawTool,
         NoteCompositeDrawTool, TextCompositeDrawTool, ButtonCompositeDrawTool, HighlightCompositeDrawTool) {
 
     return [
@@ -31,4 +31,4 @@ angular
         HighlightCompositeDrawTool
     ];
 
-});
+}
