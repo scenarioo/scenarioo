@@ -88,11 +88,13 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
             })
             .when('/editor', {
                 templateUrl: 'sketcher/sketcherEditor.html',
-                controller: 'SketcherEditorController'
+                controller: 'SketcherEditorController',
+                controllerAs: 'vm'
             })
             .when('/editor/:issueId/:scenarioSketchId/:stepSketchId', {
                 templateUrl: 'sketcher/sketcherEditor.html',
                 controller: 'SketcherEditorController',
+                controllerAs: 'vm',
                 issueId: '@issueId',
                 scenarioSketchId: '@scenarioSketchId',
                 stepSketchId: '@stepSketchId'

@@ -17,8 +17,9 @@
 
 angular.module('scenarioo.controllers').controller('UseCaseController', UseCaseController);
 
-function UseCaseController($scope, $filter, $routeParams, $location, ScenarioResource, ConfigService, SelectedBranchAndBuildService,
-                     LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource) {
+function UseCaseController($scope, $filter, $routeParams, $location, ScenarioResource, ConfigService,
+                           SelectedBranchAndBuildService, LabelConfigurationsResource, RelatedIssueResource,
+                           SketchIdsResource) {
 
     var vm = this;
 
@@ -142,6 +143,10 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
 
     function createUseCaseInformationTree(usecase) {
         var usecaseInformation = {};
+        usecaseInformation['Use Case'] = usecase.name;
+        if(usecase.description) {
+            usecaseInformation.Description = usecase.description;
+        }
         usecaseInformation.Status = usecase.status;
         return $filter('scMetadataTreeCreator')(usecaseInformation);
     }
