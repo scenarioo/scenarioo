@@ -19,7 +19,7 @@ angular.module('scenarioo.services').service('SelectedComparison', SelectedCompa
 
 function SelectedComparisonService($location, $rootScope, localStorageService) {
     var COMPARISON_KEY = 'comparison';
-    var COMPARISON_DISABLED = 'none';
+    var COMPARISON_DISABLED = 'Disabled';
     var selectedComparison;
     var initialValuesFromUrlAndCookieLoaded = false;
     var info = {isDefined: false };
