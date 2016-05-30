@@ -37,9 +37,9 @@ import org.scenarioo.rest.base.BuildIdentifier;
  * Handles requests for build diff information.
  */
 @Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}")
-public class BuildDiffResource {
+public class BuildDiffInfoResource {
 
-	private static final Logger LOGGER = Logger.getLogger(BuildDiffResource.class);
+	private static final Logger LOGGER = Logger.getLogger(BuildDiffInfoResource.class);
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();

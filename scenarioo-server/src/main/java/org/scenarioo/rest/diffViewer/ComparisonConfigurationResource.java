@@ -32,12 +32,12 @@ import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 
 /**
- * Handles requests for global diff informations.
+ * Handles requests for comparison configurations.
  */
 @Path("/rest/diffViewer")
-public class GlobalDiffResource {
+public class ComparisonConfigurationResource {
 
-	private static final Logger LOGGER = Logger.getLogger(GlobalDiffResource.class);
+	private static final Logger LOGGER = Logger.getLogger(ComparisonConfigurationResource.class);
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();

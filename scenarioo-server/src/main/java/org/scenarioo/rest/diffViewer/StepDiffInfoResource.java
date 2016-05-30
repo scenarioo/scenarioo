@@ -39,9 +39,9 @@ import org.scenarioo.rest.base.BuildIdentifier;
  * Handles requests for step diff information.
  */
 @Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}/useCaseName/{useCaseName}/scenarioName/{scenarioName}/")
-public class StepDiffResource {
+public class StepDiffInfoResource {
 
-	private static final Logger LOGGER = Logger.getLogger(StepDiffResource.class);
+	private static final Logger LOGGER = Logger.getLogger(StepDiffInfoResource.class);
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
