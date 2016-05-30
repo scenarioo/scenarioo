@@ -88,9 +88,6 @@ class ElasticSearchSearcher {
                 } else if (type.equals(FullTextSearch.SCENARIO)) {
                     results.add(parseScenario(searchHit));
 
-                } else if (type.equals(FullTextSearch.PAGE)) {
-                    results.add(parsePage(searchHit));
-
                 } else if (type.equals(FullTextSearch.STEP)) {
                     results.add(parseStep(searchHit));
 

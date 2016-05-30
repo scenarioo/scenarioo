@@ -89,10 +89,6 @@ public class FullTextSearchTest {
 			assertTrue("Should not be reachable", isRunning);
 		}
 
-        @Override
-        public void indexPages(List<PageSteps> pageStepsList, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
-			assertTrue("Should not be reachable", isRunning);        }
-
 		@Override
 		public void indexSteps(List<Step> steps, List<StepLink> page, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
 			assertTrue("Should not be reachable", isRunning);

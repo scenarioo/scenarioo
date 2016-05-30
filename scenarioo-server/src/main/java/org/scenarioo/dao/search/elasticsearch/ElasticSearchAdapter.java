@@ -114,14 +114,6 @@ public class ElasticSearchAdapter implements SearchAdapter {
         elasticSearchIndexer.indexUseCases(useCaseScenariosList);
     }
 
-    @Override
-    public void indexPages(List<PageSteps> pageStepsList, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
-        String indexName = getIndexName(buildIdentifier);
-
-        ElasticSearchIndexer elasticSearchIndexer = new ElasticSearchIndexer(indexName);
-        elasticSearchIndexer.indexPages(pageStepsList, scenario, usecase);
-    }
-
 	@Override
 	public void indexSteps(List<Step> steps, List<StepLink> page, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
 		String indexName = getIndexName(buildIdentifier);

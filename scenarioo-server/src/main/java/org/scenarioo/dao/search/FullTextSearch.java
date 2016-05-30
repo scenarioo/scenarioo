@@ -36,7 +36,6 @@ import org.scenarioo.rest.base.BuildIdentifier;
 public class FullTextSearch {
 
 	public static final String STEP = "step";
-	public static final String PAGE = "page";
 	public static final String SCENARIO = "scenario";
 	public static final String USECASE = "usecase";
 	private final static Logger LOGGER = Logger.getLogger(FullTextSearch.class);
@@ -83,18 +82,6 @@ public class FullTextSearch {
 		searchAdapter.indexUseCases(useCaseScenariosList, buildIdentifier);
 
 		LOGGER.info("Indexed build " + buildIdentifier);
-	}
-
-
-	public void indexPages(final List<PageSteps> pageStepsList, Scenario scenario, UseCase usecase, final BuildIdentifier buildIdentifier) {
-		if(!searchAdapter.isEngineRunning()) {
-			LOGGER.info("No search engine running.");
-			return;
-		}
-
-		searchAdapter.indexPages(pageStepsList, scenario, usecase, buildIdentifier);
-
-		LOGGER.info("Indexed pages " + buildIdentifier);
 	}
 
 	public void indexSteps(List<StepLink> stepLinkList, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
