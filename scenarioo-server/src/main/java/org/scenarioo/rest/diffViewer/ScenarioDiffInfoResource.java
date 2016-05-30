@@ -40,7 +40,7 @@ import org.scenarioo.rest.usecase.UseCasesResource;
  * Handles requests for scenario diff information.
  */
 @Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}/useCaseName/{useCaseName}")
-public class ScenarioDiffResource {
+public class ScenarioDiffInfoResource {
 
 	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
 

@@ -39,9 +39,9 @@ import org.scenarioo.rest.base.BuildIdentifier;
  * Handles requests for use case diff information.
  */
 @Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}")
-public class UseCaseDiffResource {
+public class UseCaseDiffInfoResource {
 
-	private static final Logger LOGGER = Logger.getLogger(UseCaseDiffResource.class);
+	private static final Logger LOGGER = Logger.getLogger(UseCaseDiffInfoResource.class);
 
 	private ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
