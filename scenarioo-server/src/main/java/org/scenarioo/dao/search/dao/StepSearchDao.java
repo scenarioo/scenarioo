@@ -31,7 +31,7 @@ public class StepSearchDao implements SearchDao {
 
     public StepSearchDao(Step step, StepLink stepLink, Scenario scenario, UseCase usecase) {
         this.step = step;
-        this._meta = new MetaData(stepLink, step.getPage().getName(), scenario.getName(), usecase.getName());
+        this._meta = new MetaData(stepLink, scenario.getName(), usecase.getName());
     }
 
     public Step getStep() {
@@ -52,16 +52,14 @@ public class StepSearchDao implements SearchDao {
 
 	public static class MetaData {
 		private StepLink stepLink;
-        private String page;
         private String usecase;
         private String scenario;
 
         public MetaData() {
         }
 
-        MetaData(StepLink stepLink, String page, final String scenario, final String usecase) {
+        MetaData(StepLink stepLink, final String scenario, final String usecase) {
 			this.stepLink = stepLink;
-            this.page = page;
             this.scenario = scenario;
             this.usecase = usecase;
         }
@@ -72,14 +70,6 @@ public class StepSearchDao implements SearchDao {
 
 		public void setStepLink(StepLink stepLink) {
 			this.stepLink = stepLink;
-		}
-
-		public String getPage() {
-			return page;
-		}
-
-		public void setPage(String page) {
-			this.page = page;
 		}
 
 		public String getUsecase() {

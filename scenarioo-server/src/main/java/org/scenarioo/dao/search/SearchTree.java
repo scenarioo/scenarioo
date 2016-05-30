@@ -52,9 +52,6 @@ public class SearchTree {
 		} else if (entry instanceof ScenarioSearchDao) {
 			putScenario(rootNode, (ScenarioSearchDao) entry);
 
-		} else if (entry instanceof PageSearchDao) {
-			putPage(rootNode, (PageSearchDao) entry);
-
 		} else if (entry instanceof StepSearchDao) {
 			putStep(rootNode, (StepSearchDao) entry);
 
@@ -90,10 +87,6 @@ public class SearchTree {
 		return getOrAddNode(pageNode, name, FullTextSearch.STEP);
 	}
 
-	private ObjectTreeNode<ObjectReference> getOrAddPage(ObjectTreeNode<ObjectReference> scenarioNode, String page) {
-		return getOrAddNode(scenarioNode, page, FullTextSearch.PAGE);
-	}
-
 	private ObjectTreeNode<ObjectReference> getOrAddScenario(ObjectTreeNode<ObjectReference> useCaseNode, String scenario) {
 		return getOrAddNode(useCaseNode, scenario, FullTextSearch.SCENARIO);
 	}
@@ -105,17 +98,9 @@ public class SearchTree {
 	private ObjectTreeNode<ObjectReference> putStep(ObjectTreeNode<ObjectReference> root, StepSearchDao entry) {
 		ObjectTreeNode<ObjectReference> useCaseNode = getOrAddUseCase(root, entry.get_meta().getUsecase());
 		ObjectTreeNode<ObjectReference> scenarioNode = getOrAddScenario(useCaseNode, entry.get_meta().getScenario());
-		ObjectTreeNode<ObjectReference> pageNode = getOrAddPage(scenarioNode, entry.get_meta().getPage());
 
-		return getOrAddStep(pageNode, String.format("%s/%s/%s", entry.getStep().getPage().getName(), entry.get_meta().getStepLink().getPageOccurrence(),
+		return getOrAddStep(scenarioNode, String.format("%s/%s/%s", entry.getStep().getPage().getName(), entry.get_meta().getStepLink().getPageOccurrence(),
 			entry.get_meta().getStepLink().getStepInPageOccurrence()));
-	}
-
-	private ObjectTreeNode<ObjectReference> putPage(ObjectTreeNode<ObjectReference> root, PageSearchDao entry) {
-		ObjectTreeNode<ObjectReference> useCaseNode = getOrAddUseCase(root, entry.get_meta().getUsecase());
-		ObjectTreeNode<ObjectReference> scenarioNode = getOrAddScenario(useCaseNode, entry.get_meta().getScenario());
-
-		return getOrAddPage(scenarioNode, entry.getPage().getName());
 	}
 
 	private ObjectTreeNode<ObjectReference> putScenario(ObjectTreeNode<ObjectReference> root, ScenarioSearchDao entry) {

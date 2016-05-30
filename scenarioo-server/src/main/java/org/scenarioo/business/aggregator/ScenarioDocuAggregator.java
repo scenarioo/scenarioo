@@ -267,7 +267,6 @@ public class ScenarioDocuAggregator {
 		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(usecase, scenario, steps, referencePath, objectRepository);
 		scenarioPageSteps.setPagesAndSteps(pageStepsList);
 		FullTextSearch fullTextSearch = new FullTextSearch(reader);
-		fullTextSearch.indexPages(pageStepsList, scenario, usecase, getBuildIdentifier());
 
 		List<StepLink> stepLinks = stepsAndPagesAggregator.calculateStepLinks(usecase, scenario, steps, referencePath, objectRepository);
 		fullTextSearch.indexSteps(stepLinks, scenario, usecase, getBuildIdentifier());

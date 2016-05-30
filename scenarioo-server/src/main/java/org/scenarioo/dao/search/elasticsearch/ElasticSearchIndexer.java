@@ -90,13 +90,6 @@ class ElasticSearchIndexer {
         }
     }
 
-    void indexPages(List<PageSteps> pageStepsList, Scenario scenario, UseCase usecase) {
-        for(PageSteps page : pageStepsList) {
-            PageSearchDao pageSearchDao = new PageSearchDao(page.getPage(), scenario, usecase);
-            indexPage(pageSearchDao);
-        }
-    }
-
 	void indexSteps(List<Step> stepsList, List<StepLink> stepLinksList, Scenario scenario, UseCase usecase) {
 		for(int i = 0; i < stepsList.size(); i++) {
 			Step step = stepsList.get(i);
@@ -113,10 +106,6 @@ class ElasticSearchIndexer {
 
     private void indexScenario(ScenarioSearchDao scenariosearchDao) {
         indexDocument(FullTextSearch.SCENARIO, scenariosearchDao, scenariosearchDao.getScenario().getName());
-    }
-
-    private void indexPage(PageSearchDao page) {
-        indexDocument(FullTextSearch.PAGE, page, page.getPage().getName());
     }
 
     private <T> void indexDocument(String type, T document, String documentName) {
