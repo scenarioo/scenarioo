@@ -182,7 +182,7 @@ describe('StepController', function () {
 
             var url = $scope.getCurrentUrlForSharing();
 
-            expect(url).toBe('http://server/#?comparison=none&branch=trunk&build=current&labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
+            expect(url).toBe('http://server/#?comparison=Disabled&branch=trunk&build=current&labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
         });
 
         it('getScreenshotUrlForSharing returns the correct URL for sharing, including the image file extension.', function() {
@@ -238,7 +238,7 @@ describe('StepController', function () {
             expect($scope.httpResponse.method).toEqual('GET');
             expect($scope.httpResponse.url).toEqual(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42');
             expect($scope.httpResponse.data).toEqual('');
-            expect($scope.getCurrentUrl()).toEqual('http://server/#?comparison=none&branch=trunk&build=current');
+            expect($scope.getCurrentUrl()).toEqual('http://server/#?comparison=Disabled&branch=trunk&build=current');
         });
 
         function tryToLoadNotExistingStep() {
