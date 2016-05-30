@@ -58,10 +58,10 @@ class ElasticSearchSearcher {
 
             this.indexName = indexName;
 
-            useCaseReader = generateUseCaseReader();
-            scenarioReader = generateScenarioReader();
-            pageReader = generatePageReader();
-            stepReader = generateStepReader();
+			useCaseReader = generateStandardReaders(UseCase.class, UseCaseSearchDao.class);
+			scenarioReader = generateStandardReaders(Scenario.class, ScenarioSearchDao.class);
+			pageReader = generateStandardReaders(Page.class, PageSearchDao.class);
+			stepReader = generateStandardReaders(StepDescription.class, StepSearchDao.class);
 
         } catch (UnknownHostException e) {
             LOGGER.info("no elasticsearch cluster running.");
@@ -142,41 +142,13 @@ class ElasticSearchSearcher {
 		return stepSearchDao;
     }
 
-    private ObjectReader generateUseCaseReader() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.getDeserializationConfig().addMixInAnnotations(UseCase.class,
-                IgnoreUseCaseSetStatusMixIn.class);
-        objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-
-        return objectMapper.reader(UseCaseSearchDao.class);
-    }
-
-	private ObjectReader generateScenarioReader() {
+	private ObjectReader generateStandardReaders(Class targetDao, Class targetSearchDao) {
 		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.getDeserializationConfig().addMixInAnnotations(Scenario.class,
+		objectMapper.getDeserializationConfig().addMixInAnnotations(targetDao,
 			IgnoreUseCaseSetStatusMixIn.class);
 		objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 
-		return objectMapper.reader(ScenarioSearchDao.class);
-	}
-
-	private ObjectReader generatePageReader() {
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-
-		return objectMapper.reader(PageSearchDao.class);
-	}
-
-	private ObjectReader generateStepReader() {
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.getDeserializationConfig().addMixInAnnotations(StepDescription.class,
-			IgnoreUseCaseSetStatusMixIn.class);
-		objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-
-		return objectMapper.reader(StepSearchDao.class);
+		return objectMapper.reader(targetSearchDao);
 	}
 }
