@@ -829,18 +829,26 @@ textarea#issueDescription {
 
 #comparison-selection-dropdown {
 
-  & > a .diff-info-wrapper {
-    float: right;
-    font-size: 14px;
-    margin-top: -3px;
-    padding-left: 10px;
-    width: 90px;
+  & > a {
+    white-space: nowrap;
+    padding-top: 14px;
+    line-height: 40px;
+    padding-bottom: 0px;
 
-    .progress.sc-diff-changes {
-      border-color: #9d9d9d;
-      .change-rate {
-        color: #9d9d9d;
-        background-color: transparent;
+    .diff-info-wrapper {
+      display: inline-block;
+      font-size: 14px;
+      position: relative;
+      bottom: -5px;
+      padding-left: 10px;
+      width: 90px;
+
+      .progress.sc-diff-changes {
+        border-color: #9d9d9d;
+        .change-rate {
+          color: #9d9d9d;
+          background-color: transparent;
+        }
       }
     }
   }
