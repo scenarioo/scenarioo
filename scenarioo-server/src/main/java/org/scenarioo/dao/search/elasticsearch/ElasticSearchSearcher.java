@@ -28,6 +28,7 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.IgnoreUseCaseSetStatusMixIn;
 import org.scenarioo.dao.search.dao.*;
 import org.scenarioo.model.docu.entities.*;
@@ -40,9 +41,9 @@ import java.util.Collections;
 import java.util.List;
 
 class ElasticSearchSearcher {
-    private final static Logger LOGGER = Logger.getLogger(ElasticSearchSearcher.class);
+	private final static Logger LOGGER = Logger.getLogger(ElasticSearchSearcher.class);
 
-    private String indexName;
+	private String indexName;
     private TransportClient client;
 
     private ObjectReader useCaseReader;
@@ -81,16 +82,16 @@ class ElasticSearchSearcher {
         for (SearchHit searchHit : hits) {
             try {
                 String type = searchHit.getType();
-                if (type.equals("usecase")) {
+                if (type.equals(FullTextSearch.USECASE)) {
                     results.add(parseUseCase(searchHit));
 
-                } else if (type.equals("scenario")) {
+                } else if (type.equals(FullTextSearch.SCENARIO)) {
                     results.add(parseScenario(searchHit));
 
-                } else if (type.equals("page")) {
+                } else if (type.equals(FullTextSearch.PAGE)) {
                     results.add(parsePage(searchHit));
 
-                } else if (type.equals("step")) {
+                } else if (type.equals(FullTextSearch.STEP)) {
                     results.add(parseStep(searchHit));
 
                 } else {

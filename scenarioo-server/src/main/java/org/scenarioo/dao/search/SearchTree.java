@@ -87,19 +87,19 @@ public class SearchTree {
 	}
 
 	private ObjectTreeNode<ObjectReference> getOrAddStep(ObjectTreeNode<ObjectReference> pageNode, String name) {
-		return getOrAddNode(pageNode, name, "step");
+		return getOrAddNode(pageNode, name, FullTextSearch.STEP);
 	}
 
 	private ObjectTreeNode<ObjectReference> getOrAddPage(ObjectTreeNode<ObjectReference> scenarioNode, String page) {
-		return getOrAddNode(scenarioNode, page, "page");
+		return getOrAddNode(scenarioNode, page, FullTextSearch.PAGE);
 	}
 
 	private ObjectTreeNode<ObjectReference> getOrAddScenario(ObjectTreeNode<ObjectReference> useCaseNode, String scenario) {
-		return getOrAddNode(useCaseNode, scenario, "scenario");
+		return getOrAddNode(useCaseNode, scenario, FullTextSearch.SCENARIO);
 	}
 
 	private ObjectTreeNode<ObjectReference> getOrAddUseCase(ObjectTreeNode<ObjectReference> root, String usecase) {
-		return getOrAddNode(root, usecase, "usecase");
+		return getOrAddNode(root, usecase, FullTextSearch.USECASE);
 	}
 
 	private ObjectTreeNode<ObjectReference> putStep(ObjectTreeNode<ObjectReference> root, StepSearchDao entry) {

@@ -22,6 +22,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.dao.PageSearchDao;
 import org.scenarioo.dao.search.dao.ScenarioSearchDao;
 import org.scenarioo.dao.search.dao.StepSearchDao;
@@ -41,9 +42,9 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 class ElasticSearchIndexer {
-    private final static Logger LOGGER = Logger.getLogger(ElasticSearchIndexer.class);
+	private final static Logger LOGGER = Logger.getLogger(ElasticSearchIndexer.class);
 
-    private TransportClient client;
+	private TransportClient client;
     private String indexName;
 
     ElasticSearchIndexer(String indexName) {
@@ -102,20 +103,20 @@ class ElasticSearchIndexer {
 			StepLink link = stepLinksList.get(i);
 
 			StepSearchDao stepSearchDao = new StepSearchDao(step, link, scenario, usecase);
-			indexDocument("step", stepSearchDao, step.getStepDescription().getTitle());
+			indexDocument(FullTextSearch.STEP, stepSearchDao, step.getStepDescription().getTitle());
 		}
 	}
 
     private void indexUseCase(UseCaseSearchDao useCaseSearchDao) {
-        indexDocument("usecase", useCaseSearchDao, useCaseSearchDao.getUseCase().getName());
+        indexDocument(FullTextSearch.USECASE, useCaseSearchDao, useCaseSearchDao.getUseCase().getName());
     }
 
     private void indexScenario(ScenarioSearchDao scenariosearchDao) {
-        indexDocument("scenario", scenariosearchDao, scenariosearchDao.getScenario().getName());
+        indexDocument(FullTextSearch.SCENARIO, scenariosearchDao, scenariosearchDao.getScenario().getName());
     }
 
     private void indexPage(PageSearchDao page) {
-        indexDocument("page", page, page.getPage().getName());
+        indexDocument(FullTextSearch.PAGE, page, page.getPage().getName());
     }
 
     private <T> void indexDocument(String type, T document, String documentName) {
