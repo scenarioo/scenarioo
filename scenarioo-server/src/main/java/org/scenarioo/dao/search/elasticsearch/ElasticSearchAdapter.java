@@ -18,6 +18,7 @@
 package org.scenarioo.dao.search.elasticsearch;
 
 import com.carrotsearch.hppc.cursors.ObjectCursor;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
@@ -34,8 +35,11 @@ import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
+import javax.security.auth.login.Configuration;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -44,13 +48,28 @@ import java.util.List;
 public class ElasticSearchAdapter implements SearchAdapter {
     private final static Logger LOGGER = Logger.getLogger(ElasticSearchAdapter.class);
 
+	private static final String DEFAULT_ENDPOINT = "localhost:9300";
 
-    private TransportClient client;
+	private TransportClient client;
+
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+		.getConfigurationRepository();
+	private String configuredEndpoint = configurationRepository.getConfiguration().getElasticsearchEndpoint();
 
     public ElasticSearchAdapter() {
+		String endpoint = configuredEndpoint;
+		if(StringUtils.isBlank(endpoint)) {
+			endpoint = DEFAULT_ENDPOINT;
+		}
+
+		int portSeparator = endpoint.lastIndexOf(':');
+
+		String host = endpoint.substring(0, portSeparator);
+		int port = Integer.parseInt(endpoint.substring(portSeparator + 1), 10);
+
         try {
-            client = TransportClient.builder().build()
-                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
+			client = TransportClient.builder().build()
+                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
 
         } catch (UnknownHostException e) {
             LOGGER.info("no elasticsearch cluster running.");
