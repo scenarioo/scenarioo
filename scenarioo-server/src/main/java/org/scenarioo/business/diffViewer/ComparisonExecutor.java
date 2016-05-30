@@ -54,7 +54,8 @@ public class ComparisonExecutor {
 	}
 
 	public synchronized void doComparison(final String baseBranchName, final String baseBuildName) {
-		final List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = getComparisonConfigurationsForBaseBranch(baseBranchName);
+		final List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = getComparisonConfigurationsForBaseBranch(
+				baseBranchName);
 		for (final ComparisonConfiguration comparisonConfiguration : comparisonConfigurationsForBaseBranch) {
 			submitBuildForComparison(baseBranchName, baseBuildName, comparisonConfiguration);
 		}
@@ -139,10 +140,12 @@ public class ComparisonExecutor {
 
 		BuildIdentifier comparisonBuildIdentifier = null;
 
-		if (comparisonConfiguration.getComparisonBuildName().equals(lastSuccessFulAlias)) {
+		if (comparisonConfiguration.getComparisonBuildName().equals(lastSuccessFulAlias) &&
+				comparisonConfiguration.getBaseBranchName().equals(comparisonConfiguration.getComparisonBranchName())) {
 			comparisonBuildIdentifier = getPreviousBuildIdentifier(
 					comparisonConfiguration, baseBuildName, true);
-		} else if (comparisonConfiguration.getComparisonBuildName().equals(mostRecentAlias)) {
+		} else if (comparisonConfiguration.getComparisonBuildName().equals(mostRecentAlias) &&
+				comparisonConfiguration.getBaseBranchName().equals(comparisonConfiguration.getComparisonBranchName())) {
 			comparisonBuildIdentifier = getPreviousBuildIdentifier(
 					comparisonConfiguration, baseBuildName, false);
 		} else {
