@@ -35,6 +35,10 @@ import org.scenarioo.rest.base.BuildIdentifier;
 
 public class FullTextSearch {
 
+	public static final String STEP = "step";
+	public static final String PAGE = "page";
+	public static final String SCENARIO = "scenario";
+	public static final String USECASE = "usecase";
 	private final static Logger LOGGER = Logger.getLogger(FullTextSearch.class);
 
 	private final ScenarioDocuReader scenarioDocuReader;
