@@ -87,8 +87,6 @@ function ScenarioController($filter, $routeParams,
                 if(SelectedComparison.isDefined()) {
                     var selectedBrandAndBuild = SelectedBranchAndBuildService.selected();
                     loadDiffInfoData(vm.pagesAndSteps, selectedBrandAndBuild.branch, selectedBrandAndBuild.build, SelectedComparison.selected());
-                } else {
-                    vm.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
                 }
 
                 loadRelatedIssues();

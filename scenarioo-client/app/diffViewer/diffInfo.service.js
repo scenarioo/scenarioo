@@ -79,7 +79,7 @@ function DiffInfoService() {
         if(targetPageAndStep === null) {
             var removedPage = {
                 name: stepInfo.stepLink.pageName,
-                pageOccurrence: stepInfo.stepLink.pageOccurence
+                pageOccurrence: stepInfo.stepLink.pageOccurrence
             };
             targetPageAndStep = {
                 page: removedPage,
@@ -89,7 +89,8 @@ function DiffInfoService() {
             pagesAndSteps.splice(insertIndex, 0, targetPageAndStep);
         }
 
-        stepInfo.stepDescription.title = stepInfo.stepDescription.title ? stepInfo.stepDescription.title : 'undefined';
+        stepInfo.stepDescription.title = stepInfo.stepDescription.title;
+        stepInfo.stepDescription.index = stepInfo.stepLink.stepInPageOccurrence;
         stepInfo.stepDescription.diffInfo = getRemovedDiffInfo();
 
         targetPageAndStep.steps.push(stepInfo.stepDescription);
