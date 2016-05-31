@@ -19,6 +19,7 @@ package org.scenarioo.business.diffViewer.comparator;
 
 import java.io.File;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -129,6 +130,8 @@ public class ScreenshotComparator extends AbstractComparator {
 		} catch (final Exception e) {
 			LOGGER.warn("Graphics Magick operation failed. Default screenshot changerate '"
 					+ CHANGERATE_SCREENSHOT_DEFAULT + "' gets returned.");
+			LOGGER.warn("gmoperation:" + gmOperation.toString());
+			LOGGER.warn("EXCEPTION: ", e);
 			if (gmConsoleErrorConsumer.getOutput().size() > 0) {
 				final String errorMessage = gmConsoleErrorConsumer.getOutput().get(0);
 				LOGGER.warn(errorMessage);
@@ -141,10 +144,16 @@ public class ScreenshotComparator extends AbstractComparator {
 	}
 
 	double getRmseValueFromOutput() {
-		if (gmConsoleOutputConsumer.getOutput().size() == 8) {
-			final String cmdOutput = gmConsoleOutputConsumer.getOutput().get(7);
+		ArrayList<String> gmConsoleOutput = gmConsoleOutputConsumer.getOutput();
+		String total = null;
+		for (String line : gmConsoleOutput) {
+			if (line.contains("Total")) {
+				total = line;
+			}
+		}
+		if (total != null) {
 			final Pattern p = Pattern.compile("\\d+\\.\\d+");
-			final Matcher m = p.matcher(cmdOutput);
+			final Matcher m = p.matcher(total);
 			if (m.find()) {
 				return Double.parseDouble(m.group(0)) * 100;
 			}
