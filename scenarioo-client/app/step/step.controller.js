@@ -20,7 +20,7 @@ angular.module('scenarioo.controllers').controller('StepController', StepControl
 function StepController($scope, $routeParams, $location, $route, StepResource, HostnameAndPort, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, GlobalHotkeysService, LabelConfigurationsResource,
                         SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
-                        SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, ComparisonConfigurationResource, StepDiffInfoResource, DiffInfoService) {
+                        SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, ComparisonConfigurationResource, StepDiffInfoResource, DiffInfoService, localStorageService) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -431,6 +431,47 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
             }, function onFailure() {
                 DiffInfoService.enrichChangedStepWithDiffInfo($scope.step, null);
             });
+    }
+
+    $scope.displayDiffScreenshotKey = 'DISPLAY_DIFF_SCREENSHOT';
+    $scope.displayComparisonScreenshotKey = 'DISPLAY_COMPARISON_SCREENSHOT';
+    $scope.displaySideBySideViewKey = 'DISPLAY_SIDE_BY_SIDE_VIEW';
+    $scope.displaySinglePageViewKey = 'DISPLAY_SINGLE_PAGE_VIEW';
+
+    $scope.comparisonViewOptions = {
+        DISPLAY_DIFF_SCREENSHOT : getInitValue($scope.displayDiffScreenshotKey),
+        DISPLAY_COMPARISON_SCREENSHOT : getInitValue($scope.displayComparisonScreenshotKey),
+        DISPLAY_SIDE_BY_SIDE_VIEW : getInitValue($scope.displaySideBySideViewKey),
+        DISPLAY_SINGLE_PAGE_VIEW : getInitValue($scope.displaySinglePageViewKey)
+    };
+
+    $scope.initStorageKeys= function(){
+        if($scope.comparisonViewOptions[$scope.displaySideBySideViewKey] && $scope.comparisonViewOptions[$scope.displaySinglePageViewKey]){
+            setStorageKey($scope.displaySinglePageViewKey, false);
+        }
+        if (localStorageService.get($scope.displayComparisonScreenshotKey) === null){
+            setStorageKeyValue($scope.displayComparisonScreenshotKey, false);
+        }
+    };
+
+    $scope.toggleStorageKey = function(storageKey) {
+        setStorageKey(storageKey, !$scope.comparisonViewOptions[storageKey]);
+    };
+
+    function setStorageKey(storageKey, value){
+        $scope.comparisonViewOptions[storageKey] = value;
+        localStorageService.set(storageKey, '' + value);
+    }
+
+    $scope.setActiveView = function(storageKey) {
+         if(!$scope.comparisonViewOptions[storageKey]){
+            $scope.toggleStorageKey($scope.displaySideBySideViewKey);
+            $scope.toggleStorageKey($scope.displaySinglePageViewKey);
+        }
+    };
+
+    function getInitValue(storageKey){
+        return localStorageService.get(storageKey) !== 'false';
     }
 
     $scope.go = function (step) {
