@@ -37,7 +37,7 @@ public class ScreenshotComparatorGraphicsMagickTest {
 	private static final File DIFF_SCREENSHOT = new File(FILEPATH + "diffScreenshot.png");
 	private static final File NON_EXISTENT_SCREENSHOT = new File(FILEPATH + "nonExistentScreenshot.png");
 	private static final double SCREENSHOT_DIFFERENCE_SAME_SIZE = 12.97;
-	private static final double SCREENSHOT_DIFFERENCE_LARGE = 15.35;
+	private static final double SCREENSHOT_DIFFERENCE_LARGE = 15.08;
 	private static final double DOUBLE_TOLERANCE = 0.01;
 	private static final boolean IS_GRAPHICS_MAGICK_INSTALLED = isGraphicsMagickInstalled();
 
