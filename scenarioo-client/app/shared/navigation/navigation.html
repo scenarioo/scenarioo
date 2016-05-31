@@ -67,7 +67,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <li class="dropdown" uib-dropdown is-open="status.isComparisonSelectionOpen" id="comparison-selection-dropdown" ng-if="comparisonBuilds.length > 0">
             <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
                 <i class="icon-asterisk"></i> Comparison:
-                {{selectedComparison.name === COMPARISON_DISABLED ? selectedComparison.name + ' (Available ' + comparisonBuilds.length + ')' : selectedComparison.name}}
+                {{comparisonInfo.isDefined ? selectedComparison.name : selectedComparison.name + ' (Available ' + comparisonBuilds.length + ')'}}
                 <span class="caret"></span>
                 <sc-diff-info-icon ng-if="comparisonInfo.isDefined" diff-info="selectedComparison" element-type="build" child-element-type="use case"></sc-diff-info-icon>
             </a>
@@ -78,8 +78,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <sc-diff-info-icon diff-info="comparisonBuild" element-type="build" child-element-type="use case"></sc-diff-info-icon>
                     </a>
                 </li>
-                <li>
-                    <a ng-click="disableComparison()">{{COMPARISON_DISABLED}} (Available {{comparisonBuilds.length}})</a>
+                <li ng-if="comparisonInfo.isDefined">
+                    <a ng-click="disableComparison()">Disable</a>
                 </li>
             </ul>
         </li>
