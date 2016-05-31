@@ -17,13 +17,6 @@
 
 angular.module('scenarioo.services')
 
-    .factory('ComparisonConfigurationResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/comparisonConfiguration/comparisonName/:comparisonName',
-            {
-                comparisonName: '@comparisonName'
-            }, {});
-    })
-
     .factory('BuildDiffInfosResource', function (ScenariooResource) {
         return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/buildDiffInfos', {
             baseBranchName: '@baseBranchName',

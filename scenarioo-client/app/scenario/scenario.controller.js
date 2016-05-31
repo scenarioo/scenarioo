@@ -19,7 +19,7 @@ angular.module('scenarioo.controllers').controller('ScenarioController', Scenari
 
 function ScenarioController($filter, $routeParams,
           $location, ScenarioResource, HostnameAndPort, SelectedBranchAndBuildService, SelectedComparison,
-          ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, ComparisonConfigurationResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
+          ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
 
     var vm = this;
     vm.useCaseDescription = '';
@@ -202,11 +202,11 @@ function ScenarioController($filter, $routeParams,
 
     function loadDiffInfoData(pagesAndSteps, baseBranchName, baseBuildName, comparisonName) {
         if (pagesAndSteps && baseBranchName && baseBuildName && useCaseName && scenarioName){
-            ComparisonConfigurationResource.get(
-                {'comparisonName': comparisonName},
-                function onSuccess(result) {
-                    comparisonBranchName = result.comparisonBranchName;
-                    comparisonBuildName = result.comparisonBuildName;
+            BuildDiffInfoResource.get(
+                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
+                function onSuccess(buildDiffInfo) {
+                    comparisonBranchName = buildDiffInfo.comparisonBranchName;
+                    comparisonBuildName = buildDiffInfo.comparisonBuildName;
 
                     ScenarioDiffInfoResource.get(
                         {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName, 'scenarioName': scenarioName},
