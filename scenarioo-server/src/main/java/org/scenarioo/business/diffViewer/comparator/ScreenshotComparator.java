@@ -111,8 +111,8 @@ public class ScreenshotComparator extends AbstractComparator {
 		}
 		final IMOperation gmOperation = new IMOperation();
 		gmOperation.metric("RMSE");
-		gmOperation.addImage(baseScreenshot.getPath());
 		gmOperation.addImage(comparisonScreenshot.getPath());
+		gmOperation.addImage(baseScreenshot.getPath());
 		gmOperation.addRawArgs("-highlight-style", "Tint");
 		gmOperation.addRawArgs("-file", diffScreenshot.getPath());
 		final double difference = runGraphicsMagickOperation(gmOperation);
