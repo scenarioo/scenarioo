@@ -17,6 +17,7 @@
 
 package org.scenarioo.business.diffViewer;
 
+import java.io.File;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,12 +28,15 @@ import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.files.ObjectFromDirectory;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.business.diffViewer.comparator.BuildComparator;
+import org.scenarioo.dao.diffViewer.DiffReader;
+import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.Status;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.utils.ThreadLogAppender;
 
 /**
  * Executes the comparisons for a base build. Each comparison is executed in a separate thread.
@@ -43,6 +47,8 @@ public class ComparisonExecutor {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
+
+	private DiffReader diffReader = new DiffReaderXmlImpl(configurationRepository.getDiffViewerDirectory());
 
 	private ScenarioDocuReader docuReader = new ScenarioDocuReader(
 			configurationRepository.getDocumentationDataDirectory());
@@ -79,10 +85,15 @@ public class ComparisonExecutor {
 
 	private void runComparison(final String baseBranchName, final String baseBuildName,
 			final ComparisonConfiguration comparisonConfiguration) {
-		BuildComparisonLogAppender buildComparisonLog = null;
+		ThreadLogAppender comparisonLog = null;
 		try {
-			buildComparisonLog = BuildComparisonLogAppender.createAndRegisterForLogsOfBuild(baseBranchName,
-					baseBuildName, comparisonConfiguration.getName());
+			final String comparisonName = comparisonConfiguration.getName();
+			final File comparisonLogFile = diffReader.getBuildComparisonLogFile(baseBranchName, baseBuildName,
+					comparisonName);
+			final String comparisonIdentifier = baseBranchName + "/" + baseBuildName + "/" + comparisonName;
+
+			comparisonLog = ThreadLogAppender.createAndRegisterForLogs(comparisonIdentifier,
+					comparisonLogFile);
 
 			LOGGER.info("============= START OF BUILD COMPARISON ================");
 			LOGGER.info("Comparing base build: " + baseBranchName + "/"
@@ -107,8 +118,8 @@ public class ComparisonExecutor {
 					+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName(), e);
 			LOGGER.info("============= END OF BUILD COMPARISON (failed) ===========");
 		} finally {
-			if (buildComparisonLog != null) {
-				buildComparisonLog.unregisterAndFlush();
+			if (comparisonLog != null) {
+				comparisonLog.unregisterAndFlush();
 			}
 		}
 	}
