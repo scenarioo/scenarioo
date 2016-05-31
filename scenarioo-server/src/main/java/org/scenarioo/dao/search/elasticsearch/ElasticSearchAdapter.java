@@ -29,7 +29,6 @@ import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.scenarioo.dao.search.SearchAdapter;
 import org.scenarioo.dao.search.dao.SearchDao;
-import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Scenario;
@@ -37,9 +36,9 @@ import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.rest.application.ContextPathHolder;
 import org.scenarioo.rest.base.BuildIdentifier;
 
-import javax.security.auth.login.Configuration;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -162,6 +161,6 @@ public class ElasticSearchAdapter implements SearchAdapter {
     }
 
     private String getIndexName(final BuildIdentifier buildIdentifier) {
-        return buildIdentifier.getBranchName() + "-" + buildIdentifier.getBuildName();
+        return ContextPathHolder.INSTANCE.getContextPath() + "-" + buildIdentifier.getBranchName() + "-" + buildIdentifier.getBuildName();
     }
 }
