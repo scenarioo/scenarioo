@@ -52,7 +52,9 @@ public class UseCaseComparator extends AbstractComparator {
 				comparisonConfiguration.getComparisonBranchName(),
 				comparisonConfiguration.getComparisonBuildName());
 
-		final BuildDiffInfo buildDiffInfo = new BuildDiffInfo(comparisonConfiguration.getName());
+		final BuildDiffInfo buildDiffInfo = new BuildDiffInfo(comparisonConfiguration.getName(),
+				comparisonConfiguration.getComparisonBranchName(), comparisonConfiguration.getComparisonBuildName());
+
 		double useCaseChangeRateSum = 0;
 
 		for (final UseCase baseUseCase : baseUseCases) {

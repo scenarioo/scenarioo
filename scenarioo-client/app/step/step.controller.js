@@ -20,7 +20,7 @@ angular.module('scenarioo.controllers').controller('StepController', StepControl
 function StepController($scope, $routeParams, $location, $route, StepResource, HostnameAndPort, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, GlobalHotkeysService, LabelConfigurationsResource,
                         SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
-                        SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, ComparisonConfigurationResource, StepDiffInfoResource, DiffInfoService, localStorageService) {
+                        SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, BuildDiffInfoResource, StepDiffInfoResource, DiffInfoService, localStorageService) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -112,8 +112,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
                 $scope.selectedBuild = selected.buildName;
                 loadRelatedIssues();
                 initScreenshotUrl();
-                selectedComparison = SelectedComparison.selected();
-                loadComparisonFromServer(selectedComparison);
+                loadComparisonFromServer(selected.branch, selected.build, SelectedComparison.selected());
 
                 $scope.hasAnyLabels = function () {
                     var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
@@ -391,21 +390,20 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
         }
     }
 
-    function loadComparisonFromServer(comparisonName) {
-        ComparisonConfigurationResource.get(
-            {
-                'comparisonName': comparisonName
-            },
-            function onSuccess(result) {
-                $scope.comparisonName = comparisonName;
-                $scope.comparisonBranchName = result.comparisonBranchName;
-                $scope.comparisonBuildName = result.comparisonBuildName;
+    function loadComparisonFromServer(baseBranchName, baseBuildName, comparisonName) {
+        BuildDiffInfoResource.get(
+            {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
+            function onSuccess(buildDiffInfo) {
+                $scope.comparisonName = buildDiffInfo.name;
+                $scope.comparisonBranchName = buildDiffInfo.comparisonBranchName;
+                $scope.comparisonBuildName = buildDiffInfo.comparisonBuildName;
                 getDisplayNameForBuildName();
                 loadStepDiffInfo();
-            }, function onFailure() {
+            }, function onFailure(){
                 $scope.comparisonBranchName = '';
                 $scope.comparisonBuildName = '';
-            });
+            }
+        );
     }
 
     function getDisplayNameForBuildName() {

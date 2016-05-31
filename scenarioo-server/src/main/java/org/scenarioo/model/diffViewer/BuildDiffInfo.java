@@ -29,11 +29,35 @@ import org.scenarioo.model.docu.entities.UseCase;
 @XmlSeeAlso(UseCase.class)
 public class BuildDiffInfo extends StructureDiffInfo<String, UseCase> {
 
+	private String comparisonBranchName;
+
+	private String comparisonBuildName;
+
 	public BuildDiffInfo() {
 		super();
 	}
 
-	public BuildDiffInfo(final String buildName) {
-		super(buildName);
+	public BuildDiffInfo(final String comparisonName, final String comparisonBranchName,
+			final String comparisonBuildName) {
+		super(comparisonName);
+		this.comparisonBranchName = comparisonBranchName;
+		this.comparisonBuildName = comparisonBuildName;
 	}
+
+	public String getComparisonBranchName() {
+		return comparisonBranchName;
+	}
+
+	public void setComparisonBranchName(final String comparisonBranchName) {
+		this.comparisonBranchName = comparisonBranchName;
+	}
+
+	public String getComparisonBuildName() {
+		return comparisonBuildName;
+	}
+
+	public void setComparisonBuildName(final String comparisonBuildName) {
+		this.comparisonBuildName = comparisonBuildName;
+	}
+
 }
