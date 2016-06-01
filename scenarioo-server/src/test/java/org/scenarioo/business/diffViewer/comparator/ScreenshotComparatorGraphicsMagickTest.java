@@ -20,9 +20,11 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.scenarioo.dao.diffViewer.impl.DiffFiles;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.utils.TestFileUtils;
 
 /**
  * @see ScreenshotComparator
@@ -55,9 +57,8 @@ public class ScreenshotComparatorGraphicsMagickTest {
 
 	@BeforeClass
 	public static void setUpClass() {
-		ROOT_DIRECTORY.mkdirs();
-		RepositoryLocator.INSTANCE.initializeConfigurationRepositoryForUnitTest(ROOT_DIRECTORY);
-		RepositoryLocator.INSTANCE.getConfigurationRepository().getDiffViewerDirectory().mkdirs();
+		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(ROOT_DIRECTORY);
+		DiffFiles.getDiffViewerDirectory().mkdirs();
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 	}
 

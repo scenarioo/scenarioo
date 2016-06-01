@@ -62,8 +62,6 @@ public class DiffWriterXmlImpl implements DiffWriter {
 	/**
 	 * Initialize with directory inside to generate the documentation contents.
 	 * 
-	 * @param destinationDirectory
-	 *            the directory where the content should be generated (this directory must be precreated by you!).
 	 * @param baseBranchName
 	 *            name of the branch we are generating content for
 	 * @param baseBuildName
@@ -71,14 +69,14 @@ public class DiffWriterXmlImpl implements DiffWriter {
 	 * @param comparisonName
 	 *            name of the comparison build
 	 */
-	public DiffWriterXmlImpl(final File destinationRootDirectory, final String baseBranchName,
+	public DiffWriterXmlImpl(final String baseBranchName,
 			final String baseBuildName,
 			final String comparisonName) {
 		checkIdentifier(baseBranchName);
 		checkIdentifier(baseBuildName);
 		checkIdentifier(comparisonName);
 
-		this.diffFiles = new DiffFiles(destinationRootDirectory);
+		this.diffFiles = new DiffFiles();
 		this.baseBranchName = baseBranchName;
 		this.baseBuildName = baseBuildName;
 		this.comparisonName = comparisonName;
