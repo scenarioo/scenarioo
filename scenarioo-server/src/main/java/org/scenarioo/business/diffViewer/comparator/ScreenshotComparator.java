@@ -58,7 +58,7 @@ public class ScreenshotComparator extends AbstractComparator {
 		gmConsoleOutputConsumer = new ArrayListOutputConsumer();
 		gmConsole.setErrorConsumer(gmConsoleErrorConsumer);
 		gmConsole.setOutputConsumer(gmConsoleOutputConsumer);
-		diffReader = new DiffReaderXmlImpl(configurationRepository.getDiffViewerDirectory());
+		diffReader = new DiffReaderXmlImpl();
 	}
 
 	/**
@@ -144,9 +144,9 @@ public class ScreenshotComparator extends AbstractComparator {
 	}
 
 	double getRmseValueFromOutput() {
-		ArrayList<String> gmConsoleOutput = gmConsoleOutputConsumer.getOutput();
+		final ArrayList<String> gmConsoleOutput = gmConsoleOutputConsumer.getOutput();
 		String total = null;
-		for (String line : gmConsoleOutput) {
+		for (final String line : gmConsoleOutput) {
 			if (line.contains("Total")) {
 				total = line;
 			}

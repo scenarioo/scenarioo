@@ -22,6 +22,8 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import org.scenarioo.api.util.files.FilesUtil;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.utils.NumberFormatCreator;
 
 /**
@@ -29,6 +31,7 @@ import org.scenarioo.utils.NumberFormatCreator;
  */
 public class DiffFiles {
 
+	private static final String DIFF_VIEWER_DIRECTORY = "scenarioo-application-data/diffViewer";
 	private static final String COMPARISON_LOGFILE_NAME = "comparison.derived.log";
 	private static final String DIRECTORY_NAME_SCENARIO_SCREENSHOTS = "screenshots";
 	private static final String DIRECTORY_NAME_SCENARIO_STEPS = "steps";
@@ -38,10 +41,10 @@ public class DiffFiles {
 	private static final NumberFormat THREE_DIGIT_NUM_FORMAT = NumberFormatCreator
 			.createNumberFormatWithMinimumIntegerDigits(3);
 
-	private final File rootDirectory;
+	private final File diffViewerDirectory;
 
-	public DiffFiles(final File rootDirectory) {
-		this.rootDirectory = rootDirectory;
+	public DiffFiles() {
+		diffViewerDirectory = getDiffViewerDirectory();
 	}
 
 	/**
@@ -49,8 +52,11 @@ public class DiffFiles {
 	 * 
 	 * @return the root directory
 	 */
-	public File getRootDirectory() {
-		return rootDirectory;
+	public static File getDiffViewerDirectory() {
+		final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+				.getConfigurationRepository();
+		final File rootDirectory = configurationRepository.getDocumentationDataDirectory();
+		return new File(rootDirectory, DIFF_VIEWER_DIRECTORY);
 	}
 
 	/**
@@ -61,7 +67,7 @@ public class DiffFiles {
 	 * @return the base branch directory
 	 */
 	public File getBaseBranchDirectory(final String baseBranchName) {
-		return new File(rootDirectory, FilesUtil.encodeName(baseBranchName));
+		return new File(diffViewerDirectory, FilesUtil.encodeName(baseBranchName));
 	}
 
 	/**
@@ -361,9 +367,9 @@ public class DiffFiles {
 	 * Checks if the root directory for the diff content exists.
 	 */
 	public void assertRootDirectoryExists() {
-		if (!rootDirectory.exists()) {
+		if (!diffViewerDirectory.exists()) {
 			throw new IllegalArgumentException("Directory for diff content does not exist: "
-					+ rootDirectory.getAbsolutePath());
+					+ diffViewerDirectory.getAbsolutePath());
 		}
 	}
 
