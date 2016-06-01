@@ -31,8 +31,6 @@ import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
-import org.scenarioo.repository.ConfigurationRepository;
-import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
@@ -43,10 +41,7 @@ public class UseCaseDiffInfoResource {
 
 	private static final Logger LOGGER = Logger.getLogger(UseCaseDiffInfoResource.class);
 
-	private ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
-			.getConfigurationRepository();
-
-	private DiffReader diffReader = new DiffReaderXmlImpl(configurationRepository.getDiffViewerDirectory());
+	private DiffReader diffReader = new DiffReaderXmlImpl();
 
 	@GET
 	@Produces("application/json")
