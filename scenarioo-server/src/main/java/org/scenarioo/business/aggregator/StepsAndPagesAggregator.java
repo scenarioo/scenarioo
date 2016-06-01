@@ -25,6 +25,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
+import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.steps.NeighborStep;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
@@ -48,7 +49,6 @@ public class StepsAndPagesAggregator {
 	private final BuildIdentifier build;
 
 	private final ScenarioDocuAggregationDao dao;
-	private List<StepLink> stepLinks;
 
 	public StepsAndPagesAggregator(final BuildIdentifier build, final ScenarioDocuAggregationDao dao) {
 		this.build = build;
@@ -60,7 +60,7 @@ public class StepsAndPagesAggregator {
 			final ObjectRepository objectRepository) {
 
 		List<PageSteps> pageStepsList = new ArrayList<PageSteps>();
-		stepLinks = new ArrayList<StepLink>(steps.size());
+		List<StepLink> stepLinks = new ArrayList<StepLink>(steps.size());
 		Map<String, Integer> pageOccurrences = new HashMap<String, Integer>();
 		Page page = null;
 		PageSteps pageSteps = null;
@@ -108,16 +108,11 @@ public class StepsAndPagesAggregator {
 
 		calculateNavigationAndPageVariantsData(stepLinks);
 
+		FullTextSearch fullTextSearch = new FullTextSearch();
+		fullTextSearch.indexSteps(steps, stepLinks, scenario, usecase, build);
+
 		return pageStepsList;
 
-	}
-
-	public List<StepLink> calculateStepLinks(final UseCase usecase, final Scenario scenario, final List<Step> steps, final List<ObjectReference> referencePath, final ObjectRepository objectRepository) {
-		if(stepLinks.isEmpty()) {
-			calculateScenarioPageSteps(usecase, scenario, steps, referencePath, objectRepository);
-		}
-
-		return stepLinks;
 	}
 
 	private void calculateNavigationAndPageVariantsData(final List<StepLink> stepLinks) {

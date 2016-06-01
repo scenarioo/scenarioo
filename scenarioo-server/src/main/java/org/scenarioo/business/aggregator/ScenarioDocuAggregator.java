@@ -33,7 +33,6 @@ import org.scenarioo.model.docu.aggregates.branches.BuildStatistics;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
-import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
@@ -119,7 +118,7 @@ public class ScenarioDocuAggregator {
 		LOGGER.info("  calculating aggregated data for build " + getBuildIdentifier() + " ... ");
 		UseCaseScenariosList useCaseScenariosList = calculateUseCaseScenariosList();
 
-		FullTextSearch fullTextSearch = new FullTextSearch(reader);
+		FullTextSearch fullTextSearch = new FullTextSearch();
 		fullTextSearch.indexUseCases(useCaseScenariosList, getBuildIdentifier());
 
 		for (UseCaseScenarios scenarios : useCaseScenariosList.getUseCaseScenarios()) {
@@ -266,10 +265,6 @@ public class ScenarioDocuAggregator {
 		PageNameSanitizer.sanitizePageNames(steps);
 		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(usecase, scenario, steps, referencePath, objectRepository);
 		scenarioPageSteps.setPagesAndSteps(pageStepsList);
-		FullTextSearch fullTextSearch = new FullTextSearch(reader);
-
-		List<StepLink> stepLinks = stepsAndPagesAggregator.calculateStepLinks(usecase, scenario, steps, referencePath, objectRepository);
-		fullTextSearch.indexSteps(stepLinks, scenario, usecase, getBuildIdentifier());
 
 		return scenarioPageSteps;
 	}

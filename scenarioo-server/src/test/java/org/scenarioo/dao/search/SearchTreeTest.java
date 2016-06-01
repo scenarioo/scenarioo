@@ -30,7 +30,7 @@ public class SearchTreeTest {
 
 		ObjectTreeNode<ObjectReference> objectTree = searchTree.buildObjectTree();
 
-		thenHasNodes(objectTree, "Use Case 1", "Scenario 1", "Page 1", "Page 1/3/2");
+		thenHasNodes(objectTree, "Use Case 1", "Scenario 1", "Page 1/3/2");
 	}
 
 	private SearchTree givenSearchTreeWithSingleStep() {
@@ -59,7 +59,7 @@ public class SearchTreeTest {
 		return new SearchTree(searchResults, "");
 	}
 
-	private void thenHasNodes(ObjectTreeNode<ObjectReference> objectTree, String useCase, String scenario, String page, String step) {
+	private void thenHasNodes(ObjectTreeNode<ObjectReference> objectTree, String useCase, String scenario, String step) {
 		assertEquals(1, objectTree.getChildren().size());
 
 		ObjectTreeNode<Object> useCaseNode = objectTree.getChildren().get(0);
@@ -70,11 +70,7 @@ public class SearchTreeTest {
 		assertEquals(scenario, ((ObjectReference) scenarioNode.getItem()).getName());
 		assertEquals(1, scenarioNode.getChildren().size());
 
-		ObjectTreeNode<Object> pageNode = scenarioNode.getChildren().get(0);
-		assertEquals(page, ((ObjectReference) pageNode.getItem()).getName());
-		assertEquals(1, pageNode.getChildren().size());
-
-		ObjectTreeNode<Object> stepNode = pageNode.getChildren().get(0);
+		ObjectTreeNode<Object> stepNode = scenarioNode.getChildren().get(0);
 		assertEquals(step, ((ObjectReference) stepNode.getItem()).getName());
 	}
 
