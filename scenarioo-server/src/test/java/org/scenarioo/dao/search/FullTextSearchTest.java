@@ -3,7 +3,6 @@ package org.scenarioo.dao.search;
 import org.junit.Test;
 import org.scenarioo.dao.search.dao.SearchDao;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
-import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Scenario;
@@ -50,11 +49,11 @@ public class FullTextSearchTest {
     }
 
     private void givenNoRunningEngine() {
-        fullTextSearch = new FullTextSearch(null, new SearchEngine(false));
+        fullTextSearch = new FullTextSearch(new SearchEngine(false));
     }
 
     private void givenRunningEngineWithSearchResults() {
-        fullTextSearch = new FullTextSearch(null, new SearchEngine(true));
+        fullTextSearch = new FullTextSearch(new SearchEngine(true));
     }
 
     private void thenJustReturns() {
