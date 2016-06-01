@@ -18,21 +18,17 @@
 package org.scenarioo.business.diffViewer.comparator;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
+import org.scenarioo.business.aggregator.StepsAndPagesAggregator;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.StepInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
-import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.utils.NumberFormatCreator;
@@ -49,6 +45,7 @@ public class StepComparator extends AbstractComparator {
 
 	private ScreenshotComparator screenshotComparator = new ScreenshotComparator(baseBranchName, baseBuildName,
 			comparisonConfiguration);
+	private StepsAndPagesAggregator stepAndPagesAggregator = new StepsAndPagesAggregator(null, null);
 
 	public StepComparator(final String baseBranchName, final String baseBuildName,
 			final ComparisonConfiguration comparisonConfiguration) {
@@ -69,8 +66,10 @@ public class StepComparator extends AbstractComparator {
 		final List<Step> comparisonSteps = loadSteps(comparisonConfiguration.getComparisonBranchName(),
 				comparisonConfiguration.getComparisonBuildName(), baseUseCaseName, baseScenarioName);
 
-		final List<StepLink> baseStepLinks = getStepLinks(baseSteps, baseUseCaseName, baseScenarioName);
-		final List<StepLink> comparisonStepLinks = getStepLinks(comparisonSteps, baseUseCaseName, baseScenarioName);
+		final List<StepLink> baseStepLinks = stepAndPagesAggregator.calculateStepLinks(baseSteps, baseUseCaseName,
+				baseScenarioName);
+		final List<StepLink> comparisonStepLinks = stepAndPagesAggregator.calculateStepLinks(comparisonSteps,
+				baseUseCaseName, baseScenarioName);
 
 		final ScenarioDiffInfo scenarioDiffInfo = new ScenarioDiffInfo(baseScenarioName);
 		double stepChangeRateSum = 0;
@@ -138,77 +137,6 @@ public class StepComparator extends AbstractComparator {
 			}
 		}
 		return null;
-	}
-
-	private List<StepLink> getStepLinks(final List<Step> steps, final String useCaseName, final String scenarioName) {
-		// TODO pforster: refactor this method in a new class. also used in StepsAndPagesAggregator. Oder Wert einfach
-		// abspeichern beim aggregieren.
-		final List<StepLink> stepLinks = new ArrayList<StepLink>(steps.size());
-		final Map<String, Integer> pageOccurrences = new HashMap<String, Integer>();
-		Page page = null;
-		int pageIndex = 0;
-		int index = 0;
-		int pageOccurrence = 0;
-		int stepInPageOccurrence = 0;
-
-		for (final Step step : steps) {
-
-			// Introduce a special dummy page for all steps not having any page to avoid problems.
-			if (step.getPage() == null || StringUtils.isBlank(step.getPage().getName())) {
-				step.setPage(new Page());
-				step.getPage().setName("unknownPage");
-			}
-
-			// Check for new page and update indexes and occurrence accordingly
-			if (isNewPage(page, step)) {
-				page = step.getPage();
-				stepInPageOccurrence = 0;
-				pageOccurrence = increasePageOccurrence(pageOccurrences, page);
-				if (index > 0) {
-					pageIndex++;
-				}
-			}
-
-			final StepLink stepLink = new StepLink(useCaseName,
-					scenarioName, index, pageIndex, getPageName(page),
-					pageOccurrence, stepInPageOccurrence);
-			stepLinks.add(stepLink);
-
-			index++;
-			stepInPageOccurrence++;
-		}
-		return stepLinks;
-	}
-
-	private boolean isNewPage(final Page page, final Step step) {
-		// TODO pforster: refactor this method in a new class. also used in StepsAndPagesAggregator. Oder Wert einfach
-		// abspeichern beim aggregieren.
-		return page == null || step.getPage() == null
-				|| !page.equals(step.getPage());
-	}
-
-	/**
-	 * Calculate the number of times this same page has already occurred and increase the occurrence in the passed
-	 * pageOccurrences accordingly.
-	 */
-	private int increasePageOccurrence(
-			final Map<String, Integer> pageOccurrences, final Page page) {
-		// TODO pforster: refactor this method in a new class. also used in StepsAndPagesAggregator. Oder Wert einfach
-		// abspeichern beim aggregieren.
-		final String pageKey = getPageName(page);
-		Integer occurrences = pageOccurrences.get(pageKey);
-		if (occurrences == null) {
-			occurrences = new Integer(0);
-			pageOccurrences.put(pageKey, occurrences);
-		} else {
-			occurrences = occurrences + 1;
-			pageOccurrences.put(pageKey, occurrences);
-		}
-		return occurrences.intValue();
-	}
-
-	private String getPageName(final Page page) {
-		return (page == null) ? null : page.getName();
 	}
 
 	private String getStepIdentifier(final StepLink stepLink) {
