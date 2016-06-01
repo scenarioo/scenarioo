@@ -379,8 +379,8 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
 
     // This URL is only used internally, not for sharing
     function initDiffScreenShotUrl() {
-        if ($scope.step.diffInfo.changeRate === 0 || angular.isUndefined($scope.step.diffInfo.changeRate)){
-            $scope.diffScreenShotUrl = $scope.comparisonScreenShotUrl;
+        if ($scope.step.diffInfo.changeRate === 0 || angular.isUndefined($scope.step.diffInfo.changeRate) || $scope.step.diffInfo.isAdded){
+            $scope.diffScreenShotUrl = $scope.screenShotUrl;
         } else if (angular.isUndefined($scope.stepIdentifier)) {
             return undefined;
         } else {
@@ -428,6 +428,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
                 initComparisonScreenshotURLs();
             }, function onFailure() {
                 DiffInfoService.enrichChangedStepWithDiffInfo($scope.step, null);
+                initDiffScreenShotUrl();
             });
     }
 
@@ -448,7 +449,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
             setStorageKey($scope.displaySinglePageViewKey, false);
         }
         if (localStorageService.get($scope.displayComparisonScreenshotKey) === null){
-            setStorageKeyValue($scope.displayComparisonScreenshotKey, false);
+            setStorageKey($scope.displayComparisonScreenshotKey, false);
         }
     };
 
