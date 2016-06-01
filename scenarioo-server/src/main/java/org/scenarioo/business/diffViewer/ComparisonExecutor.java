@@ -48,7 +48,7 @@ public class ComparisonExecutor {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
-	private DiffReader diffReader = new DiffReaderXmlImpl(configurationRepository.getDiffViewerDirectory());
+	private DiffReader diffReader = new DiffReaderXmlImpl();
 
 	private ScenarioDocuReader docuReader = new ScenarioDocuReader(
 			configurationRepository.getDocumentationDataDirectory());

@@ -37,6 +37,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffWriter;
+import org.scenarioo.dao.diffViewer.impl.DiffFiles;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
@@ -44,6 +45,7 @@ import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.utils.TestFileUtils;
 
 /**
  * Test cases for the use case comparator with mocked docu data.
@@ -79,9 +81,8 @@ public class UseCaseComparatorTest {
 
 	@BeforeClass
 	public static void setUpClass() {
-		ROOT_DIRECTORY.mkdirs();
-		RepositoryLocator.INSTANCE.initializeConfigurationRepositoryForUnitTest(ROOT_DIRECTORY);
-		RepositoryLocator.INSTANCE.getConfigurationRepository().getDiffViewerDirectory().mkdirs();
+		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(ROOT_DIRECTORY);
+		DiffFiles.getDiffViewerDirectory().mkdirs();
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 	}
 

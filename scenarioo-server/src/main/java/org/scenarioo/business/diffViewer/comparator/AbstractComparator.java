@@ -46,7 +46,7 @@ public abstract class AbstractComparator {
 			final ComparisonConfiguration comparisonConfiguration) {
 		this.docuReader = new ScenarioDocuReader(
 				configurationRepository.getDocumentationDataDirectory());
-		this.diffWriter = new DiffWriterXmlImpl(configurationRepository.getDiffViewerDirectory(), baseBranchName,
+		this.diffWriter = new DiffWriterXmlImpl(baseBranchName,
 				baseBuildName,
 				comparisonConfiguration.getName());
 		this.baseBranchName = baseBranchName;

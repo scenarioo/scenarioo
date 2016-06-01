@@ -29,8 +29,6 @@ import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
-import org.scenarioo.repository.ConfigurationRepository;
-import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.NumberFormatCreator;
 
@@ -47,9 +45,7 @@ public class StepDiffScreenshotResource {
 
 	private static final String SCREENSHOT_FILE_EXTENSION = ".png";
 
-	private ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
-
-	private DiffReader diffReader = new DiffReaderXmlImpl(configurationRepository.getDiffViewerDirectory());
+	private DiffReader diffReader = new DiffReaderXmlImpl();
 
 	@GET
 	@Produces("image/png")

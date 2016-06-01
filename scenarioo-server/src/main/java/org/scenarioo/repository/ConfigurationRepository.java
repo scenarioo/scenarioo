@@ -36,7 +36,6 @@ public class ConfigurationRepository {
 		}
 	}
 
-
 	public Configuration updateConfiguration(final Configuration configuration) {
 		configurationDAO.updateConfiguration(configuration);
 		this.configuration = configurationDAO.loadConfiguration();
@@ -51,12 +50,6 @@ public class ConfigurationRepository {
 		} else {
 			return new File(documentationDataDirectoryFromConfig);
 		}
-	}
-
-	// TODO pforster after merge: move to DiffViewer Writer/Reader
-	public File getDiffViewerDirectory() {
-		final File rootFolder = getDocumentationDataDirectory();
-		return new File(rootFolder, "scenarioo-application-data/diffViewer");
 	}
 
 	private File getExampleDocumentationDirectoryAsFallback() {

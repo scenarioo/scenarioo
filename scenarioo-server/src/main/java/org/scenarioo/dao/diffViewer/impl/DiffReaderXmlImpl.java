@@ -36,8 +36,8 @@ public class DiffReaderXmlImpl implements DiffReader {
 
 	private final DiffFiles diffFiles;
 
-	public DiffReaderXmlImpl(final File rootDirectory) {
-		this.diffFiles = new DiffFiles(rootDirectory);
+	public DiffReaderXmlImpl() {
+		this.diffFiles = new DiffFiles();
 	}
 
 	/**

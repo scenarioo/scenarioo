@@ -24,9 +24,11 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.scenarioo.dao.diffViewer.impl.DiffFiles;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.dao.diffViewer.impl.DiffWriterXmlImpl;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
@@ -38,6 +40,7 @@ import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.utils.TestFileUtils;
 
 /**
  * Test the write and read functionality of the {@link DiffWriterXmlImpl} and {@link DiffReaderXmlImpl}.
@@ -60,23 +63,29 @@ public class DiffWriterAndReaderTest {
 	private static final int REMOVED_VALUE = 3;
 	private static final int NUMBER_OF_FILES = 2;
 
-	private DiffWriter writer;
-	private DiffReader reader;
+	private DiffWriter writer = new DiffWriterXmlImpl(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
+	private DiffReader reader = new DiffReaderXmlImpl();
 
-	@Before
-	public void setUp() {
-		ROOT_DIRECTORY.mkdirs();
-		writer = new DiffWriterXmlImpl(ROOT_DIRECTORY, BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
-		reader = new DiffReaderXmlImpl(ROOT_DIRECTORY);
+	@BeforeClass
+	public static void setUpClass() {
+		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(ROOT_DIRECTORY);
+		TestFileUtils.createFolderAndClearContent(DiffFiles.getDiffViewerDirectory());
 	}
 
-	@After
-	public void tearDown() {
+	@AfterClass
+	public static void tearDownClass() {
 		try {
 			FileUtils.deleteDirectory(ROOT_DIRECTORY);
 		} catch (final IOException e) {
 			throw new RuntimeException("Could not delete test data directory", e);
 		}
+	}
+
+	@Before
+	public void setUp() {
+		TestFileUtils.createFolderAndClearContent(DiffFiles.getDiffViewerDirectory());
+		writer = new DiffWriterXmlImpl(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
+		reader = new DiffReaderXmlImpl();
 	}
 
 	@Test
@@ -134,7 +143,7 @@ public class DiffWriterAndReaderTest {
 	@Test
 	public void testWriteAndReadBuildDiffInfos() {
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
-			writer = new DiffWriterXmlImpl(ROOT_DIRECTORY, BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME + i);
+			writer = new DiffWriterXmlImpl(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME + i);
 			final BuildDiffInfo buildDiffInfo = getBuildDiffInfo(COMPARISON_NAME + i);
 			writer.saveBuildDiffInfo(buildDiffInfo);
 			writer.flush();
