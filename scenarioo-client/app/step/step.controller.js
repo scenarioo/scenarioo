@@ -448,7 +448,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
             setStorageKey($scope.displaySinglePageViewKey, false);
         }
         if (localStorageService.get($scope.displayComparisonScreenshotKey) === null){
-            setStorageKeyValue($scope.displayComparisonScreenshotKey, false);
+            setStorageKey($scope.displayComparisonScreenshotKey, false);
         }
     };
 
