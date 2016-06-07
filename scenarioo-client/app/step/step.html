@@ -139,18 +139,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <div ng-if="comparisonViewOptions[displaySinglePageViewKey]" style="display: inline">
                         <button type="button" class="btn btn-default" ng-click="toggleStorageKey(displayComparisonScreenshotKey)" ng-hide="comparisonViewOptions[displayComparisonScreenshotKey]"> <img ng-src="images/diffViewer/ComparisonScreenshot.png" class="step-comparison-icon"/>Switch to comparison screenshot</button>
-                        <button type="button" class="btn btn-default" ng-click="toggleStorageKey(displayComparisonScreenshotKey)" ng-show="comparisonViewOptions[displayComparisonScreenshotKey]"> <img ng-src="images/diffViewer/BaseScreenshot.png" class="step-comparison-icon"/>Switch to base screenshot</button>
+                        <button type="button" class="btn btn-default" ng-click="toggleStorageKey(displayComparisonScreenshotKey)" ng-show="comparisonViewOptions[displayComparisonScreenshotKey]"> <img ng-src="images/diffViewer/BaseScreenshot.png" class="step-comparison-icon"/>Switch to current screenshot</button>
                     </div>
                 </div>
                 <div ng-if="comparisonViewOptions[displaySideBySideViewKey]">
                     <div class="col-lg-6">
                         <div ng-if="!comparisonViewOptions[displayDiffScreenshotKey]" class="clear">
-                            <h3>{{baseBuildName}} (Base screenshot)</h3>
+                            <h3>{{baseBuildName}} (Current screenshot)</h3>
                             <sc-annotated-screenshot screen-shot-url="screenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
                         </div>
 
                         <div ng-if="comparisonViewOptions[displayDiffScreenshotKey]" class="clear">
-                            <h3>{{baseBuildName}} (Base screenshot highlighted)</h3>
+                            <h3>{{baseBuildName}} (Current screenshot highlighted)</h3>
                             <sc-annotated-screenshot screen-shot-url="diffScreenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
                         </div>
                     </div>
@@ -169,12 +169,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <div class="step-comparison-single-page" ng-if="!comparisonViewOptions[displaySideBySideViewKey]">
                     <div ng-if="!comparisonViewOptions[displayComparisonScreenshotKey]">
                         <div ng-if="!comparisonViewOptions[displayDiffScreenshotKey]">
-                            <h3>{{baseBuildName}} (Base screenshot)</h3>
+                            <h3>{{baseBuildName}} (Current screenshot)</h3>
                             <sc-annotated-screenshot screen-shot-url="screenShotUrl"></sc-annotated-screenshot>
                         </div>
 
                         <div ng-if="comparisonViewOptions[displayDiffScreenshotKey]">
-                            <h3>{{baseBuildName}} (Base screenshot highlighted)</h3>
+                            <h3>{{baseBuildName}} (Current screenshot highlighted)</h3>
                             <sc-annotated-screenshot screen-shot-url="diffScreenShotUrl"></sc-annotated-screenshot>
                         </div>
                     </div>

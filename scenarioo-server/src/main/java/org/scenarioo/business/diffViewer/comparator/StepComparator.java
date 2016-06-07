@@ -17,7 +17,6 @@
 
 package org.scenarioo.business.diffViewer.comparator;
 
-import java.text.NumberFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +30,6 @@ import org.scenarioo.model.diffViewer.StepInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.StepDescription;
-import org.scenarioo.utils.NumberFormatCreator;
 
 /**
  * Comparator to compare steps of two scenarios. Results are persisted in a xml file.
@@ -39,9 +37,6 @@ import org.scenarioo.utils.NumberFormatCreator;
 public class StepComparator extends AbstractComparator {
 
 	private static final Logger LOGGER = Logger.getLogger(StepComparator.class);
-	private static final String SCREENSHOT_FILE_EXTENSION = ".png";
-	private static NumberFormat THREE_DIGIT_NUM_FORMAT = NumberFormatCreator
-			.createNumberFormatWithMinimumIntegerDigits(3);
 
 	private ScreenshotComparator screenshotComparator = new ScreenshotComparator(baseBranchName, baseBuildName,
 			comparisonConfiguration);

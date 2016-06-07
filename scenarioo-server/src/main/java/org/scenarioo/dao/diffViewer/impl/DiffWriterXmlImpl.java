@@ -17,8 +17,6 @@
 
 package org.scenarioo.dao.diffViewer.impl;
 
-import static org.scenarioo.api.rules.CharacterChecker.*;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +28,6 @@ import java.util.concurrent.TimeUnit;
 import org.scenarioo.api.configuration.ScenarioDocuGeneratorConfiguration;
 import org.scenarioo.api.exception.ScenarioDocuSaveException;
 import org.scenarioo.api.exception.ScenarioDocuTimeoutException;
-import org.scenarioo.api.rules.CharacterChecker;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.dao.diffViewer.DiffWriter;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
@@ -72,10 +69,6 @@ public class DiffWriterXmlImpl implements DiffWriter {
 	public DiffWriterXmlImpl(final String baseBranchName,
 			final String baseBuildName,
 			final String comparisonName) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-		checkIdentifier(comparisonName);
-
 		this.diffFiles = new DiffFiles();
 		this.baseBranchName = baseBranchName;
 		this.baseBuildName = baseBuildName;
@@ -89,7 +82,6 @@ public class DiffWriterXmlImpl implements DiffWriter {
 	 */
 	@Override
 	public void saveBuildDiffInfo(final BuildDiffInfo buildDiffInfo) {
-		checkIdentifier(buildDiffInfo.getName());
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
@@ -104,7 +96,6 @@ public class DiffWriterXmlImpl implements DiffWriter {
 	 */
 	@Override
 	public void saveUseCaseDiffInfo(final UseCaseDiffInfo useCaseDiffInfo) {
-		checkIdentifier(useCaseDiffInfo.getName());
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
@@ -124,8 +115,6 @@ public class DiffWriterXmlImpl implements DiffWriter {
 	 */
 	@Override
 	public void saveScenarioDiffInfo(final ScenarioDiffInfo scenarioDiffInfo, final String useCaseName) {
-		checkIdentifier(useCaseName);
-		checkIdentifier(scenarioDiffInfo.getName());
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
@@ -147,8 +136,6 @@ public class DiffWriterXmlImpl implements DiffWriter {
 	 */
 	@Override
 	public void saveStepDiffInfo(final String useCaseName, final String scenarioName, final StepDiffInfo stepDiffInfo) {
-		CharacterChecker.checkIdentifier(useCaseName);
-		CharacterChecker.checkIdentifier(scenarioName);
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {

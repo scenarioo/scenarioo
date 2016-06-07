@@ -45,7 +45,7 @@ public class ComparisonExecutor {
 
 	private static final Logger LOGGER = Logger.getLogger(ComparisonExecutor.class);
 
-	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+	private ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
 	private DiffReader diffReader = new DiffReaderXmlImpl();

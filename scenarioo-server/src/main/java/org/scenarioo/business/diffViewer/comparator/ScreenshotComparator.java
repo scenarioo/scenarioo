@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -18,7 +18,6 @@
 package org.scenarioo.business.diffViewer.comparator;
 
 import java.io.File;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,7 +32,6 @@ import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
-import org.scenarioo.utils.NumberFormatCreator;
 
 /**
  * Comparator to compare screenshots of two steps. Results are persisted in a xml file.
@@ -41,12 +39,9 @@ import org.scenarioo.utils.NumberFormatCreator;
 public class ScreenshotComparator extends AbstractComparator {
 
 	private static final Logger LOGGER = Logger.getLogger(ScreenshotComparator.class);
-	private static final int CHANGERATE_SCREENSHOT_DEFAULT = 0;
-	private static final String SCREENSHOT_FILE_EXTENSION = ".png";
-	private static NumberFormat THREE_DIGIT_NUM_FORMAT = NumberFormatCreator
-			.createNumberFormatWithMinimumIntegerDigits(3);
-	private final DiffReader diffReader;
-	private final ArrayListErrorConsumer gmConsoleErrorConsumer;
+	private static final int SCREENSHOT_DEFAULT_CHANGE_RATE = 0;
+	private DiffReader diffReader;
+	private ArrayListErrorConsumer gmConsoleErrorConsumer;
 	private ArrayListOutputConsumer gmConsoleOutputConsumer;
 	private CompareCmd gmConsole;
 
@@ -63,7 +58,7 @@ public class ScreenshotComparator extends AbstractComparator {
 
 	/**
 	 * Compares the screenshots of the given step.
-	 * 
+	 *
 	 * @param baseUseCaseName
 	 *            the use case of the screenshots.
 	 * @param baseScenarioName
@@ -96,7 +91,7 @@ public class ScreenshotComparator extends AbstractComparator {
 
 	/**
 	 * Compares the given screenshots
-	 * 
+	 *
 	 * @param baseScreenshot
 	 *            The original screenshot
 	 * @param comparisonScreenshot
@@ -115,6 +110,7 @@ public class ScreenshotComparator extends AbstractComparator {
 		gmOperation.addImage(comparisonScreenshot.getPath());
 		gmOperation.addImage(baseScreenshot.getPath());
 		gmOperation.addRawArgs("-highlight-style", "Tint");
+		gmOperation.addRawArgs("-highlight-color", "#ffb400");
 		gmOperation.addRawArgs("-file", diffScreenshot.getPath());
 		final double difference = runGraphicsMagickOperation(gmOperation);
 		if (difference == 0.0) {
@@ -129,14 +125,14 @@ public class ScreenshotComparator extends AbstractComparator {
 			return getRmseValueFromOutput();
 		} catch (final Exception e) {
 			LOGGER.warn("Graphics Magick operation failed. Default screenshot changerate '"
-					+ CHANGERATE_SCREENSHOT_DEFAULT + "' gets returned.");
+					+ SCREENSHOT_DEFAULT_CHANGE_RATE + "' gets returned.");
 			LOGGER.warn("gmoperation:" + gmOperation.toString());
 			LOGGER.warn("EXCEPTION: ", e);
 			if (gmConsoleErrorConsumer.getOutput().size() > 0) {
 				final String errorMessage = gmConsoleErrorConsumer.getOutput().get(0);
 				LOGGER.warn(errorMessage);
 			}
-			return CHANGERATE_SCREENSHOT_DEFAULT;
+			return SCREENSHOT_DEFAULT_CHANGE_RATE;
 
 		} finally {
 			gmConsoleOutputConsumer.clear();

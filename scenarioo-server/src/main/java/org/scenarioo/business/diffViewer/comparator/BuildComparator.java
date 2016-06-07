@@ -25,6 +25,9 @@ import org.scenarioo.model.diffViewer.BuildDiffInfo;
  */
 public class BuildComparator extends AbstractComparator {
 
+	private UseCaseComparator useCaseComparator = new UseCaseComparator(baseBranchName, baseBuildName,
+			comparisonConfiguration);
+
 	public BuildComparator(final String baseBranchName, final String baseBuildName,
 			final ComparisonConfiguration comparisonConfiguration) {
 		super(baseBranchName, baseBuildName, comparisonConfiguration);
@@ -36,8 +39,7 @@ public class BuildComparator extends AbstractComparator {
 	 * @return {@link BuildDiffInfo} with the summarized diff information.
 	 */
 	public BuildDiffInfo compare() {
-		final BuildDiffInfo buildDiffInfo = new UseCaseComparator(baseBranchName, baseBuildName,
-				comparisonConfiguration).compare();
+		final BuildDiffInfo buildDiffInfo = useCaseComparator.compare();
 
 		diffWriter.saveBuildDiffInfo(buildDiffInfo);
 
