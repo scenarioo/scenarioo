@@ -17,6 +17,8 @@
 
 package org.scenarioo.business.diffViewer.comparator;
 
+import java.text.NumberFormat;
+
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffWriter;
@@ -24,6 +26,7 @@ import org.scenarioo.dao.diffViewer.impl.DiffWriterXmlImpl;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.utils.NumberFormatCreator;
 
 /**
  * Abstract comparator class. Contains common comparison functionality.
@@ -31,8 +34,11 @@ import org.scenarioo.repository.RepositoryLocator;
 public abstract class AbstractComparator {
 
 	private static final double ADDED_REMOVED_CHANGE_RATE = 100.0;
+	protected static final String SCREENSHOT_FILE_EXTENSION = ".png";
+	protected static final NumberFormat THREE_DIGIT_NUM_FORMAT = NumberFormatCreator
+			.createNumberFormatWithMinimumIntegerDigits(3);
 
-	protected final static ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+	protected static final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
 	protected ScenarioDocuBuildsManager docuBuildsManager = ScenarioDocuBuildsManager.INSTANCE;
