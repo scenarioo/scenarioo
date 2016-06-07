@@ -17,8 +17,6 @@
 
 package org.scenarioo.dao.diffViewer.impl;
 
-import static org.scenarioo.api.rules.CharacterChecker.*;
-
 import java.io.File;
 import java.util.List;
 
@@ -45,9 +43,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 	 */
 	@Override
 	public List<BuildDiffInfo> loadBuildDiffInfos(final String baseBranchName, final String baseBuildName) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-
 		final List<File> files = diffFiles.getBuildFiles(baseBranchName, baseBuildName);
 
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(BuildDiffInfo.class, files);
@@ -60,10 +55,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 	@Override
 	public BuildDiffInfo loadBuildDiffInfo(final String baseBranchName, final String baseBuildName,
 			final String comparisonName) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-		checkIdentifier(comparisonName);
-
 		final File file = diffFiles.getBuildFile(baseBranchName, baseBuildName, comparisonName);
 
 		return ScenarioDocuXMLFileUtil.unmarshal(BuildDiffInfo.class, file);
@@ -76,10 +67,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 	@Override
 	public List<UseCaseDiffInfo> loadUseCaseDiffInfos(final String baseBranchName, final String baseBuildName,
 			final String comparisonName) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-		checkIdentifier(comparisonName);
-
 		final List<File> files = diffFiles.getUseCaseFiles(baseBranchName, baseBuildName, comparisonName);
 
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(UseCaseDiffInfo.class, files);
@@ -92,11 +79,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 	@Override
 	public UseCaseDiffInfo loadUseCaseDiffInfo(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-		checkIdentifier(comparisonName);
-		checkIdentifier(useCaseName);
-
 		final File file = diffFiles.getUseCaseFile(baseBranchName, baseBuildName, comparisonName, useCaseName);
 
 		return ScenarioDocuXMLFileUtil.unmarshal(UseCaseDiffInfo.class, file);
@@ -109,11 +91,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 	@Override
 	public List<ScenarioDiffInfo> loadScenarioDiffInfos(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-		checkIdentifier(comparisonName);
-		checkIdentifier(useCaseName);
-
 		final List<File> files = diffFiles.getScenarioFiles(baseBranchName, baseBuildName, comparisonName, useCaseName);
 
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(ScenarioDiffInfo.class, files);
@@ -126,12 +103,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 	@Override
 	public ScenarioDiffInfo loadScenarioDiffInfo(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName, final String scenarioName) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-		checkIdentifier(comparisonName);
-		checkIdentifier(useCaseName);
-		checkIdentifier(scenarioName);
-
 		final File file = diffFiles.getScenarioFile(baseBranchName, baseBuildName, comparisonName, useCaseName,
 				scenarioName);
 
@@ -145,12 +116,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 	@Override
 	public List<StepDiffInfo> loadStepDiffInfos(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName, final String scenarioName) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-		checkIdentifier(comparisonName);
-		checkIdentifier(useCaseName);
-		checkIdentifier(scenarioName);
-
 		final List<File> files = diffFiles.getStepFiles(baseBranchName, baseBuildName, comparisonName, useCaseName,
 				scenarioName);
 
@@ -164,15 +129,8 @@ public class DiffReaderXmlImpl implements DiffReader {
 	@Override
 	public StepDiffInfo loadStepDiffInfo(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName, final String scenarioName, final int stepIndex) {
-		checkIdentifier(baseBranchName);
-		checkIdentifier(baseBuildName);
-		checkIdentifier(comparisonName);
-		checkIdentifier(useCaseName);
-		checkIdentifier(scenarioName);
-
 		final File file = diffFiles.getStepFile(baseBranchName, baseBuildName, comparisonName, useCaseName,
-				scenarioName,
-				stepIndex);
+				scenarioName, stepIndex);
 
 		return ScenarioDocuXMLFileUtil.unmarshal(StepDiffInfo.class, file);
 	}
@@ -185,9 +143,9 @@ public class DiffReaderXmlImpl implements DiffReader {
 	public File getScreenshotFile(final String baseBranchName, final String baseBuildName, final String comparisonName,
 			final String useCaseName,
 			final String scenarioName, final String imageName) {
-		return diffFiles.getScreenshotFile(checkIdentifier(baseBranchName),
-				checkIdentifier(baseBuildName), checkIdentifier(comparisonName), checkIdentifier(useCaseName),
-				checkIdentifier(scenarioName), imageName);
+		return diffFiles.getScreenshotFile(baseBranchName,
+				baseBuildName, comparisonName, useCaseName,
+				scenarioName, imageName);
 	}
 
 	/**

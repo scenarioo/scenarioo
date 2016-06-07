@@ -18,7 +18,6 @@
 package org.scenarioo.business.diffViewer.comparator;
 
 import java.io.File;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,7 +32,6 @@ import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
-import org.scenarioo.utils.NumberFormatCreator;
 
 /**
  * Comparator to compare screenshots of two steps. Results are persisted in a xml file.
@@ -41,12 +39,9 @@ import org.scenarioo.utils.NumberFormatCreator;
 public class ScreenshotComparator extends AbstractComparator {
 
 	private static final Logger LOGGER = Logger.getLogger(ScreenshotComparator.class);
-	private static final int CHANGERATE_SCREENSHOT_DEFAULT = 0;
-	private static final String SCREENSHOT_FILE_EXTENSION = ".png";
-	private static NumberFormat THREE_DIGIT_NUM_FORMAT = NumberFormatCreator
-			.createNumberFormatWithMinimumIntegerDigits(3);
-	private final DiffReader diffReader;
-	private final ArrayListErrorConsumer gmConsoleErrorConsumer;
+	private static final int SCREENSHOT_DEFAULT_CHANGE_RATE = 0;
+	private DiffReader diffReader;
+	private ArrayListErrorConsumer gmConsoleErrorConsumer;
 	private ArrayListOutputConsumer gmConsoleOutputConsumer;
 	private CompareCmd gmConsole;
 
@@ -129,14 +124,14 @@ public class ScreenshotComparator extends AbstractComparator {
 			return getRmseValueFromOutput();
 		} catch (final Exception e) {
 			LOGGER.warn("Graphics Magick operation failed. Default screenshot changerate '"
-					+ CHANGERATE_SCREENSHOT_DEFAULT + "' gets returned.");
+					+ SCREENSHOT_DEFAULT_CHANGE_RATE + "' gets returned.");
 			LOGGER.warn("gmoperation:" + gmOperation.toString());
 			LOGGER.warn("EXCEPTION: ", e);
 			if (gmConsoleErrorConsumer.getOutput().size() > 0) {
 				final String errorMessage = gmConsoleErrorConsumer.getOutput().get(0);
 				LOGGER.warn(errorMessage);
 			}
-			return CHANGERATE_SCREENSHOT_DEFAULT;
+			return SCREENSHOT_DEFAULT_CHANGE_RATE;
 
 		} finally {
 			gmConsoleOutputConsumer.clear();
