@@ -127,29 +127,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </uib-tab-heading>
 
                 <div class="buttonBar">
-                    <div class="btn-group" ng-init="initStorageKeys()" style="margin: 0 24px 0 15px;">
-                        <button type="button" ng-class="{active: comparisonViewOptions[displaySideBySideViewKey]}" ng-click="setActiveView(displaySideBySideViewKey)" class="btn btn-default"> <img ng-src="images/diffViewer/SideBySideView.png" class="step-comparison-icon"/>Side by side view</button>
-                        <button type="button" ng-class="{active: comparisonViewOptions[displaySinglePageViewKey]}" ng-click="setActiveView(displaySinglePageViewKey)" class="btn btn-default" ><img ng-src="images/diffViewer/SinglePageView.png" class="step-comparison-icon"/>Single page view</button>
+                    <div id="sc-step-comparison-buttons" class="btn-group" ng-init="initStorageKeys()">
+                        <button type="button" id="sc-side-by-side-view-button" ng-class="{active: comparisonViewOptions[displaySideBySideViewKey]}" ng-click="setActiveView(displaySideBySideViewKey)" class="btn btn-default"> <img ng-src="images/diffViewer/SideBySideView.png" class="sc-step-comparison-icon"/>Side by side view</button>
+                        <button type="button" id="sc-single-page-view-button" ng-class="{active: comparisonViewOptions[displaySinglePageViewKey]}" ng-click="setActiveView(displaySinglePageViewKey)" class="btn btn-default" ><img ng-src="images/diffViewer/SinglePageView.png" class="sc-step-comparison-icon"/>Single page view</button>
                     </div>
 
                      <div class="tooltip-wrapper" style="display: inline" title="{{comparisonViewOptions[displayComparisonScreenshotKey]?' Highlighting not possible on comparison screenshot' : ''}}">
-                        <button type="button" class="btn btn-default" ng-disabled="comparisonViewOptions[displayComparisonScreenshotKey] && !comparisonViewOptions[displaySideBySideViewKey]" ng-click="toggleStorageKey(displayDiffScreenshotKey)" ng-hide="comparisonViewOptions[displayDiffScreenshotKey]"><img ng-src="images/diffViewer/HighlightChanges.png" class="step-comparison-icon"/>Show Highlights</button>
-                        <button type="button" class="btn btn-default" ng-disabled="comparisonViewOptions[displayComparisonScreenshotKey] && !comparisonViewOptions[displaySideBySideViewKey]" ng-click="toggleStorageKey(displayDiffScreenshotKey)" ng-show="comparisonViewOptions[displayDiffScreenshotKey]"><img ng-src="images/diffViewer/NoHighlightChanges.png" class="step-comparison-icon"/>Hide Highlights</button>
+                        <button type="button" id="sc-show-highlights-button" class="btn btn-default" ng-disabled="comparisonViewOptions[displayComparisonScreenshotKey] && !comparisonViewOptions[displaySideBySideViewKey]" ng-click="toggleStorageKey(displayDiffScreenshotKey)" ng-hide="comparisonViewOptions[displayDiffScreenshotKey]"><img ng-src="images/diffViewer/HighlightChanges.png" class="sc-step-comparison-icon"/>Show highlights</button>
+                        <button type="button" id="sc-hide-highlights-button" class="btn btn-default" ng-disabled="comparisonViewOptions[displayComparisonScreenshotKey] && !comparisonViewOptions[displaySideBySideViewKey]" ng-click="toggleStorageKey(displayDiffScreenshotKey)" ng-show="comparisonViewOptions[displayDiffScreenshotKey]"><img ng-src="images/diffViewer/NoHighlightChanges.png" class="sc-step-comparison-icon"/>Hide highlights</button>
                      </div>
 
                     <div ng-if="comparisonViewOptions[displaySinglePageViewKey]" style="display: inline">
-                        <button type="button" class="btn btn-default" ng-click="toggleStorageKey(displayComparisonScreenshotKey)" ng-hide="comparisonViewOptions[displayComparisonScreenshotKey]"> <img ng-src="images/diffViewer/ComparisonScreenshot.png" class="step-comparison-icon"/>Switch to comparison screenshot</button>
-                        <button type="button" class="btn btn-default" ng-click="toggleStorageKey(displayComparisonScreenshotKey)" ng-show="comparisonViewOptions[displayComparisonScreenshotKey]"> <img ng-src="images/diffViewer/BaseScreenshot.png" class="step-comparison-icon"/>Switch to current screenshot</button>
+                        <div class="tooltip-wrapper" style="display: inline" title="{{step.diffInfo.isAdded ? ' Switching to comparison screenshot not possible on an added step' : ''}}">
+                            <button type="button" id="sc-switch-to-comparison-screenshot-button" class="btn btn-default" ng-disabled="step.diffInfo.isAdded" ng-click="toggleStorageKey(displayComparisonScreenshotKey)" ng-hide="comparisonViewOptions[displayComparisonScreenshotKey]"> <img ng-src="images/diffViewer/ComparisonScreenshot.png" class="sc-step-comparison-icon"/>Switch to comparison screenshot</button>
+                        </div>
+                        <button type="button" id="sc-switch-to-base-screenshot-button" class="btn btn-default" ng-click="toggleStorageKey(displayComparisonScreenshotKey)" ng-show="comparisonViewOptions[displayComparisonScreenshotKey]"> <img ng-src="images/diffViewer/BaseScreenshot.png" class="sc-step-comparison-icon"/>Switch to current screenshot</button>
                     </div>
                 </div>
-                <div ng-if="comparisonViewOptions[displaySideBySideViewKey]">
+                <div id="sc-step-comparison-side-by-side-view" ng-if="comparisonViewOptions[displaySideBySideViewKey]">
                     <div class="col-lg-6">
-                        <div ng-if="!comparisonViewOptions[displayDiffScreenshotKey]" class="clear">
+                        <div class="sc-base-screenshot" ng-if="!comparisonViewOptions[displayDiffScreenshotKey]" class="clear">
                             <h3>{{baseBuildName}} (Current screenshot)</h3>
                             <sc-annotated-screenshot screen-shot-url="screenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
                         </div>
 
-                        <div ng-if="comparisonViewOptions[displayDiffScreenshotKey]" class="clear">
+                        <div class="sc-diff-screenshot" ng-if="comparisonViewOptions[displayDiffScreenshotKey]" class="clear">
                             <h3>{{baseBuildName}} (Current screenshot highlighted)</h3>
                             <sc-annotated-screenshot screen-shot-url="diffScreenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
                         </div>
@@ -158,29 +160,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <div>
                             <h3 >{{comparisonName}} (Comparison screenshot)</h3>
                             <div ng-if="step.diffInfo.isAdded">
-                                <p>No comparison screenshot because this is a new step.</p>
+                                <p>No comparison screenshot because this is an added step.</p>
                             </div>
-                            <div ng-if="!step.diffInfo.isAdded">
+                            <div class="sc-comparison-screenshot" ng-if="!step.diffInfo.isAdded">
                                     <sc-annotated-screenshot screen-shot-url="comparisonScreenShotUrl"></sc-annotated-screenshot>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="step-comparison-single-page" ng-if="!comparisonViewOptions[displaySideBySideViewKey]">
+                <div id="sc-step-comparison-single-page-view" ng-if="!comparisonViewOptions[displaySideBySideViewKey]">
                     <div ng-if="!comparisonViewOptions[displayComparisonScreenshotKey]">
-                        <div ng-if="!comparisonViewOptions[displayDiffScreenshotKey]">
+                        <div class="sc-base-screenshot" ng-if="!comparisonViewOptions[displayDiffScreenshotKey]">
                             <h3>{{baseBuildName}} (Current screenshot)</h3>
                             <sc-annotated-screenshot screen-shot-url="screenShotUrl"></sc-annotated-screenshot>
                         </div>
 
-                        <div ng-if="comparisonViewOptions[displayDiffScreenshotKey]">
+                        <div class="sc-diff-screenshot" ng-if="comparisonViewOptions[displayDiffScreenshotKey]">
                             <h3>{{baseBuildName}} (Current screenshot highlighted)</h3>
                             <sc-annotated-screenshot screen-shot-url="diffScreenShotUrl"></sc-annotated-screenshot>
                         </div>
                     </div>
-                    <div ng-if="comparisonViewOptions[displayComparisonScreenshotKey]" >
-                        <h3>{{comparisonName}} (Comparison screenshot)</h3>
+                    <div class="sc-comparison-screenshot" ng-if="comparisonViewOptions[displayComparisonScreenshotKey]" >
+                        <div ng-if="step.diffInfo.isAdded">
+                            <h3>No comparison screenshot because this is an added step.</h3>
+                        </div>
+                        <div class="sc-comparison-screenshot" ng-if="!step.diffInfo.isAdded">
+                            <h3>{{comparisonName}} (Comparison screenshot)</h3>
                             <sc-annotated-screenshot screen-shot-url="comparisonScreenShotUrl"></sc-annotated-screenshot>
+                        </div>
+
                     </div>
                 </div>
             </uib-tab>
