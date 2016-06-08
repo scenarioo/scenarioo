@@ -75,4 +75,26 @@ BaseWebPage.prototype.startScenariooRevisited = function() {
     e2eUtils.initLocalStorage();
 };
 
+BaseWebPage.prototype.chooseBranch = function (branchName) {
+    // Open menu first, otherwise we cannot click
+    element(by.partialLinkText('Branch:')).click();
+    element(by.css('#branchSelectionDropdown .dropdown-menu')).element(by.partialLinkText(branchName)).click();
+};
+
+BaseWebPage.prototype.chooseBuild = function (buildName) {
+    // Open menu first, otherwise we cannot click
+    element(by.partialLinkText('Build:')).click();
+    element(by.css('#build-selection-dropdown .dropdown-menu')).element(by.partialLinkText(buildName)).click();
+};
+
+BaseWebPage.prototype.chooseComparison = function (comparisonName) {
+    // Open menu first, otherwise we cannot click
+    element(by.partialLinkText('Comparison:')).click();
+    element(by.css('#comparison-selection-dropdown .dropdown-menu')).element(by.partialLinkText(comparisonName)).click();
+};
+
+BaseWebPage.prototype.assertSelectedComparison = function (comparisonName) {
+    expect(element(by.css('#comparison-selection-dropdown > a')).getText()).toContain(comparisonName);
+};
+
 module.exports = BaseWebPage;

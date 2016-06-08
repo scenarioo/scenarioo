@@ -103,10 +103,4 @@ BranchAliasesPage.prototype.assertDuplicateAliasError = function () {
     expect(element(by.id('duplicateAliasErrorId')).isPresent()).toBe(true);
 };
 
-BranchAliasesPage.prototype.chooseBranch = function (branchName) {
-    // Open menu first, otherwise we cannot click
-    element(by.partialLinkText('Branch:')).click();
-    element(by.partialLinkText(branchName)).click();
-};
-
 module.exports = BranchAliasesPage;
