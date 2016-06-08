@@ -14,7 +14,7 @@ function HomePage(overridePath) {
     this.useCasesSearchField = element(by.id('useCasesSearchField'));
     this.aboutScenariooPopup = element(by.css('.modal.about-popup'));
     this.popupCloseButton = element(by.css('.modal-footer button.btn'));
-    this.stepView = element(by.css('table.usecase-table'));
+    this.usecaseTable = element(by.css('table.usecase-table'));
     this.showMetaDataButton = element(by.id('sc-showHideDetailsButton-show'));
     this.hideMetaDataButton = element(by.id('sc-showHideDetailsButton-hide'));
     this.metaDataPanel = element(by.id('sc-metadata-panel'));
@@ -58,13 +58,13 @@ HomePage.prototype.filterUseCases = function (filterQuery) {
 };
 
 HomePage.prototype.assertUseCasesShown = function (count) {
-    this.stepView.all(by.css('tbody tr')).then(function (elements) {
+    this.usecaseTable.all(by.css('tbody tr')).then(function (elements) {
         expect(elements.length).toBe(count);
     });
 };
 
 HomePage.prototype.selectUseCase = function(useCaseIndex) {
-    this.stepView.all(by.css('tbody tr')).then(function(elements) {
+    this.usecaseTable.all(by.css('tbody tr')).then(function(elements) {
         elements[useCaseIndex].click();
     });
 };
@@ -83,6 +83,21 @@ HomePage.prototype.assertMetaDataHidden = function() {
 
 HomePage.prototype.hideMetaData = function() {
     this.hideMetaDataButton.click();
+};
+
+HomePage.prototype.clickSortByChanges = function(){
+    this.usecaseTable.element(by.css('th.sort-diff-info')).click();
+};
+
+HomePage.prototype.assertNumberOfDiffInfos = function(count){
+    this.usecaseTable.all(by.css('.diff-info-wrapper')).then(function (elements) {
+        expect(elements.length).toBe(count);
+    });
+};
+
+HomePage.prototype.assertValueOfFirstDiffInfo = function(value){
+    var changeRateSpan = this.usecaseTable.element(by.css('.diff-info-wrapper:first-of-type .change-rate span'));
+    e2eUtils.assertTextPresentInElement(changeRateSpan, value);
 };
 
 HomePage.prototype.selectSketchesTab = function() {
