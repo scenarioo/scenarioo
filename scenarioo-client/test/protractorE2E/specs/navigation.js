@@ -3,6 +3,8 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
+var NUMBER_OF_AVAILABLE_COMPARISON = 6;
+
 useCase('Navigation')
     .description('Select Build and Comparison from navigation bar')
     .describe(function () {
@@ -29,7 +31,7 @@ useCase('Navigation')
                 step('last successful build selected');
                 step('6 Available Comparisons');
 
-                homePage.assertSelectedComparison('Disabled (Available 6)');
+                homePage.assertSelectedComparison('Disabled (Available ' + NUMBER_OF_AVAILABLE_COMPARISON + ')');
             });
 
         scenario('select comparison')

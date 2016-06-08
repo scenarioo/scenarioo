@@ -3,6 +3,7 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 var NUMBER_OF_USE_CASES = 4;
+var NUMBER_OF_SCENARIOS = 4;
 
 useCase('List scenarios')
     .description('After clicking on a use case, the user is presented with a list of all scenarios in this use case.')
@@ -35,4 +36,41 @@ useCase('List scenarios')
                 scenarioPage.expectOnlyCollapseAllButtonIsDisplayed();
             });
 
+        scenario('Display Diff-Information')
+            .it(function () {
+                homePage.goToPage();
+                step('display usecases on homepage');
+                homePage.assertPageIsDisplayed();
+                homePage.chooseComparison('To Projectstart');
+                step('To Projectstart comparison selected');
+                homePage.selectUseCase(1);
+                step('Use Case selected');
+
+                useCasePage.assertNumberOfDiffInfos(NUMBER_OF_SCENARIOS);
+
+                // Reset
+                homePage.chooseComparison('Disable');
+            });
+
+        scenario('Sort by Diff-Information')
+            .it(function () {
+                homePage.goToPage();
+                step('display usecases on homepage');
+                homePage.assertPageIsDisplayed();
+                homePage.chooseComparison('To Projectstart');
+                step('To Projectstart comparison selected');
+                homePage.selectUseCase(1);
+                step('Use Case selected');
+
+                useCasePage.clickSortByChanges();
+                useCasePage.assertValueOfFirstDiffInfo('0%');
+                step('Diff Infos sorted ascending');
+
+                useCasePage.clickSortByChanges();
+                useCasePage.assertValueOfFirstDiffInfo('7%');
+                step('Diff Infos sorted descending');
+
+                // Reset
+                homePage.chooseComparison('Disable');
+            });
     });

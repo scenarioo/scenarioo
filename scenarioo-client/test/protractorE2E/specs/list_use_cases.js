@@ -46,4 +46,37 @@ useCase('List use cases')
                 step('metadata shown');
             });
 
+        scenario('Display Diff-Information')
+            .it(function () {
+                homePage.goToPage();
+                step('display usecases on homepage');
+                homePage.chooseComparison('To Projectstart');
+                homePage.assertPageIsDisplayed();
+                step('To Projectstart comparison selected');
+
+                homePage.assertNumberOfDiffInfos(NUMBER_OF_USE_CASES);
+
+                // Reset
+                homePage.chooseComparison('Disable');
+            });
+
+        scenario('Sort by Diff-Information')
+            .it(function () {
+                homePage.goToPage();
+                step('display usecases on homepage');
+                homePage.chooseComparison('To Projectstart');
+                homePage.assertPageIsDisplayed();
+                step('To Projectstart comparison selected');
+
+                homePage.clickSortByChanges();
+                homePage.assertValueOfFirstDiffInfo('0%');
+                step('Diff Infos sorted ascending');
+
+                homePage.clickSortByChanges();
+                homePage.assertValueOfFirstDiffInfo('74%');
+                step('Diff Infos sorted descending');
+
+                // Reset
+                homePage.chooseComparison('Disable');
+            });
     });
