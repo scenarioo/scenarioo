@@ -40,6 +40,10 @@ HomePage.prototype.assertScenariooInfoDialogNotShown = function () {
     e2eUtils.assertElementNotPresentInDom(by.css('.modal-dialog.about-popup'));
 };
 
+HomePage.prototype.assertComparisonMenuNotShown = function () {
+    e2eUtils.assertElementNotPresentInDom(by.id('#comparison-selection-dropdown'));
+};
+
 HomePage.prototype.closeScenariooInfoDialogIfOpen = function () {
     browser.isElementPresent(by.css('.modal-footer button.btn')).then(function(present){
         if(present) {
