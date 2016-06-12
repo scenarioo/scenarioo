@@ -49,5 +49,8 @@ ScenarioPage.prototype.expectExpandAllAndCollapseAllButtonBothDisplayed = functi
     expect(collapseAllButton().isDisplayed()).toBeTruthy();
 };
 
+ScenarioPage.prototype.assertNoDiffInfoDisplayed = function () {
+    expect(element(by.css('.sc-container .diff-info-wrapper')).isPresent()).toBeFalsy();
+};
 
 module.exports = ScenarioPage;

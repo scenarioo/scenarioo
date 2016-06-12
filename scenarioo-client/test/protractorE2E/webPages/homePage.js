@@ -131,4 +131,8 @@ HomePage.prototype.assertCustomTabEntriesShown = function (count) {
     });
 };
 
+HomePage.prototype.assertNoDiffInfoDisplayed = function () {
+    expect(element(by.css('.sort-diff-info')).isPresent()).toBeFalsy();
+};
+
 module.exports = HomePage;

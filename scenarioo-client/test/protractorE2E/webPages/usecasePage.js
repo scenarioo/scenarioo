@@ -38,4 +38,8 @@ UsecasePage.prototype.assertValueOfFirstDiffInfo = function(value){
     e2eUtils.assertTextPresentInElement(changeRateSpan, value);
 };
 
+UsecasePage.prototype.assertNoDiffInfoDisplayed = function () {
+    expect(element(by.css('.sort-diff-info')).isPresent()).toBeFalsy();
+};
+
 module.exports = UsecasePage;
