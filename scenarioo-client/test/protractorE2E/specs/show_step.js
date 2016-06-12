@@ -146,18 +146,32 @@ useCase('Show step')
         scenario('Step without HTML source attached')
             .description('If the step data contains no html source data, the HTML tab should not be displayed at all')
             .it(function () {
-
                 stepPage.goToPage('/step/Donate/find_donate_page/startSearch.jsp/0/0');
                 stepPage.assertHtmlTabIsHidden();
                 step('A step with no HTML source attached');
             });
 
+
+        scenario('ScenarioPage with comparisons')
+            .description('Navigate back and forth through the scenario steps.')
+            .it(function () {
+                 usecasePage.goToPage('/scenario/Donate/find_donate_page?branch=wikipedia-docu-example&build=2014-03-19&comparison=To%20Projectstart&tab=usecases');
+                    stepPage.clickExpandAllPagesButton();
+                    stepPage.assertFirstChangedPageDiffIconTextEquals('68%');
+                    stepPage.assertFirstChangedStepDiffIconTextEquals('5%');
+                    stepPage.assertAddedStepDiffIconTextEqualsAdded();
+                    stepPage.assertRemovedStepDiffIconTextEqualsRemoved();
+                    stepPage.assertAddedPageDiffIconTextEqualsAdded();
+                    stepPage.assertRemovedPageDiffIconTextEqualsRemoved();
+                    step('Display one scenario');
+            });
+
         scenario('Screenshot comparison options')
             .description('Show all possible screenshot copmarison options')
             .it(function () {
-                var COMPARISON_SCREENSHOT_SRC = 'http://localhost:8080/scenarioo/rest/branch/wikipedia-docu-example/build/2014-01-20/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
-                var BASE_SCREENSHOT_SRC = 'http://localhost:8080/scenarioo/rest/branch/wikipedia-docu-example/build/last%20successful/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
-                var DIFF_SCREENSHOT_SRC = 'http://localhost:8080/scenarioo/rest/diffViewer/baseBranchName/wikipedia-docu-example/baseBuildName/last%20successful/comparisonName/To%20Projectstart/useCaseName/Find%20Page/scenarioName/find_page_title_unique_directly/stepIndex/2/stepDiffScreenshot';
+                var COMPARISON_SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/2014-01-20/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
+                var BASE_SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/last%20successful/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
+                var DIFF_SCREENSHOT_SRC = '/rest/diffViewer/baseBranchName/wikipedia-docu-example/baseBuildName/last%20successful/comparisonName/To%20Projectstart/useCaseName/Find%20Page/scenarioName/find_page_title_unique_directly/stepIndex/2/stepDiffScreenshot';
 
                 stepPage.goToPage('/step/Find%20Page/find_page_title_unique_directly/contentPage.jsp/0/0?branch=wikipedia-docu-example&build=last%20successful&comparison=To%20Projectstart');
                 step('A step');
@@ -198,7 +212,7 @@ useCase('Show step')
             .description('If the step is added in comparison to the other build, no comparison screenshot is shown')
             .it(function () {
 
-                var SCREENSHOT_SRC = 'http://localhost:8080/scenarioo/rest/branch/wikipedia-docu-example/build/last%20successful/usecase/Donate/scenario/find_donate_page/image/001.png';
+                var SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/last%20successful/usecase/Donate/scenario/find_donate_page/image/001.png';
 
                 stepPage.goToPage('/step/Donate/find_donate_page/startSearch.jsp/0/1?branch=wikipedia-docu-example&build=last%20successful&comparison=To%20Projectstart');
                 step('An added step');
