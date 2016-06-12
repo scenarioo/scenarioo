@@ -228,7 +228,9 @@ StepPage.prototype.clickExpandAllPagesButton = function () {
     element(by.id('expandAllPages')).click();
 };
 
-
+StepPage.prototype.assertNoDiffInfoDisplayed = function () {
+    expect(element(by.id('comparison-tab')).isPresent()).toBeFalsy();
+};
 
 StepPage.prototype.assertStepComparisonSideBySideViewIsActive= function () {
     expect(element(by.id('sc-side-by-side-view-button')).getAttribute('class')).toContain('active');
