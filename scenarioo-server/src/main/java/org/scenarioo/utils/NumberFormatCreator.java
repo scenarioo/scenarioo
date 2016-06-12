@@ -21,9 +21,6 @@ import java.text.NumberFormat;
 
 public class NumberFormatCreator {
 
-	/**
-	 * Generates a Number Format with the given number of minimum number of digits
-	 */
 	public static NumberFormat createNumberFormatWithMinimumIntegerDigits(
 			final int minimumIntegerDigits) {
 		final NumberFormat numberFormat = NumberFormat.getIntegerInstance();

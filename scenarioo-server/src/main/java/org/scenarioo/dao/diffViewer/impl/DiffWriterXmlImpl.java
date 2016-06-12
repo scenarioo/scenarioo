@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -35,9 +35,6 @@ import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 
-/**
- * Implements the diff info persistence via xml files.
- */
 public class DiffWriterXmlImpl implements DiffWriter {
 
 	private static final long KEEP_ALIVE_TIME = 60L;
@@ -57,14 +54,7 @@ public class DiffWriterXmlImpl implements DiffWriter {
 	private final List<RuntimeException> caughtExceptions = new ArrayList<RuntimeException>();
 
 	/**
-	 * Initialize with directory inside to generate the documentation contents.
-	 * 
-	 * @param baseBranchName
-	 *            name of the branch we are generating content for
-	 * @param baseBuildName
-	 *            name of the build (concrete identifier like revision and date) for which we are generating content.
-	 * @param comparisonName
-	 *            name of the comparison build
+	 * Initialize with directory to generate the documentation contents.
 	 */
 	public DiffWriterXmlImpl(final String baseBranchName,
 			final String baseBuildName,
@@ -77,9 +67,6 @@ public class DiffWriterXmlImpl implements DiffWriter {
 		createComparisonDirectoryIfNotYetExists();
 	}
 
-	/**
-	 * @see org.scenarioo.dao.diffViewer.DiffWriter#saveBuildDiffInfo(org.scenarioo.model.diffViewer.BuildDiffInfo)
-	 */
 	@Override
 	public void saveBuildDiffInfo(final BuildDiffInfo buildDiffInfo) {
 		executeAsyncWrite(new Runnable() {
@@ -91,9 +78,6 @@ public class DiffWriterXmlImpl implements DiffWriter {
 		});
 	}
 
-	/**
-	 * @see org.scenarioo.dao.diffViewer.DiffWriter#saveUseCaseDiffInfo(org.scenarioo.model.diffViewer.UseCaseDiffInfo)
-	 */
 	@Override
 	public void saveUseCaseDiffInfo(final UseCaseDiffInfo useCaseDiffInfo) {
 		executeAsyncWrite(new Runnable() {
@@ -109,10 +93,6 @@ public class DiffWriterXmlImpl implements DiffWriter {
 		});
 	}
 
-	/**
-	 * @see org.scenarioo.dao.diffViewer.DiffWriter#saveScenarioDiffInfo(org.scenarioo.model.diffViewer.ScenarioDiffInfo,
-	 *      java.lang.String)
-	 */
 	@Override
 	public void saveScenarioDiffInfo(final ScenarioDiffInfo scenarioDiffInfo, final String useCaseName) {
 		executeAsyncWrite(new Runnable() {
@@ -130,10 +110,6 @@ public class DiffWriterXmlImpl implements DiffWriter {
 		});
 	}
 
-	/**
-	 * @see org.scenarioo.dao.diffViewer.DiffWriter#saveStepDiffInfo(java.lang.String, java.lang.String,
-	 *      org.scenarioo.model.diffViewer.StepDiffInfo)
-	 */
 	@Override
 	public void saveStepDiffInfo(final String useCaseName, final String scenarioName, final StepDiffInfo stepDiffInfo) {
 		executeAsyncWrite(new Runnable() {
@@ -151,9 +127,6 @@ public class DiffWriterXmlImpl implements DiffWriter {
 		});
 	}
 
-	/**
-	 * @see org.scenarioo.dao.diffViewer.DiffWriter#flush()
-	 */
 	@Override
 	public void flush() {
 		final int timeoutInSeconds = ScenarioDocuGeneratorConfiguration.INSTANCE

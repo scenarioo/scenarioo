@@ -24,47 +24,14 @@ import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 
-/**
- * Interface to write diff information.
- */
 public interface DiffWriter {
 
-	/**
-	 * Saves the build diff information.
-	 * 
-	 * @param buildDiffInfo
-	 *            the build diff info to save
-	 */
 	public void saveBuildDiffInfo(final BuildDiffInfo buildDiffInfo);
 
-	/**
-	 * Saves the use case diff information.
-	 * 
-	 * @param useCaseDiffInfo
-	 *            the use case diff info to save
-	 */
 	public void saveUseCaseDiffInfo(final UseCaseDiffInfo useCaseDiffInfo);
 
-	/**
-	 * Saves the scenario diff information.
-	 * 
-	 * @param scenarioDiffInfo
-	 *            the scenario diff info to save
-	 * @param useCaseName
-	 *            the name of the use case
-	 */
 	public void saveScenarioDiffInfo(final ScenarioDiffInfo scenarioDiffInfo, final String useCaseName);
 
-	/**
-	 * Saves the step diff information.
-	 * 
-	 * @param useCaseName
-	 *            the name of the use case
-	 * @param scenarioName
-	 *            the name of the scenario
-	 * @param stepDiffInfo
-	 *            the step diff info to save
-	 */
 	public void saveStepDiffInfo(final String useCaseName, final String scenarioName, final StepDiffInfo stepDiffInfo);
 
 	/**

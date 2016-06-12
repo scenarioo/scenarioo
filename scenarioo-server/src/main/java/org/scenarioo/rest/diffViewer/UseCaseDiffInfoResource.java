@@ -33,9 +33,6 @@ import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.rest.base.BuildIdentifier;
 
-/**
- * Handles requests for use case diff information.
- */
 @Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}")
 public class UseCaseDiffInfoResource {
 

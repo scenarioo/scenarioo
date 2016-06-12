@@ -17,19 +17,10 @@
 
 package org.scenarioo.model.diffViewer;
 
-/**
- * Contains common values and functionality for all diff informations.
- */
 public abstract class AbstractDiffInfo {
 
 	private double changeRate;
 
-	/**
-	 * Checks if the diff information has any changes.
-	 * 
-	 * @return
-	 * 		true if there are any changes
-	 */
 	public abstract boolean hasChanges();
 
 	public double getChangeRate() {

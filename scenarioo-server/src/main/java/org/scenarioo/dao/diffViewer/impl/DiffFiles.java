@@ -26,9 +26,6 @@ import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.utils.NumberFormatCreator;
 
-/**
- * Represents the diff file structure.
- */
 public class DiffFiles {
 
 	private static final String DIFF_VIEWER_DIRECTORY = "scenarioo-application-data/diffViewer";
@@ -47,11 +44,6 @@ public class DiffFiles {
 		diffViewerDirectory = getDiffViewerDirectory();
 	}
 
-	/**
-	 * Gets the root directory for the diff files.
-	 * 
-	 * @return the root directory
-	 */
 	public static File getDiffViewerDirectory() {
 		final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 				.getConfigurationRepository();
@@ -59,146 +51,47 @@ public class DiffFiles {
 		return new File(rootDirectory, DIFF_VIEWER_DIRECTORY);
 	}
 
-	/**
-	 * Gets the base branch directory.
-	 * 
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @return the base branch directory
-	 */
 	public File getBaseBranchDirectory(final String baseBranchName) {
 		return new File(diffViewerDirectory, FilesUtil.encodeName(baseBranchName));
 	}
 
-	/**
-	 * Gets the base build directory.
-	 * 
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @param baseBuildName
-	 *            the name of the base build
-	 * @return the base build directory
-	 */
 	public File getBaseBuildDirectory(final String baseBranchName, final String baseBuildName) {
 		return new File(getBaseBranchDirectory(baseBranchName), FilesUtil.encodeName(baseBuildName));
 	}
 
-	/**
-	 * Gets the comparison directory.
-	 * 
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @param baseBuildName
-	 *            the name of the base build
-	 * @param comparisonName
-	 *            the name of the comparison configuration
-	 * @return the comparison directory
-	 */
 	public File getComparisonDirectory(final String baseBranchName, final String baseBuildName,
 			final String comparisonName) {
 		return new File(getBaseBuildDirectory(baseBranchName, baseBuildName), FilesUtil.encodeName(comparisonName));
 	}
 
-	/**
-	 * Gets the xml build file.
-	 * 
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @param baseBuildName
-	 *            the name of the base build
-	 * @param comparisonName
-	 *            the name of the comparison configuration
-	 * @return the build file
-	 */
 	public File getBuildFile(final String baseBranchName, final String baseBuildName,
 			final String comparisonName) {
 		return new File(getComparisonDirectory(baseBranchName, baseBuildName, comparisonName), FILE_NAME_BUILD);
 	}
 
-	/**
-	 * Gets a list of all xml build files.
-	 * 
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @param baseBuildName
-	 *            the name of the base build
-	 * @return a list of build files
-	 */
 	public List<File> getBuildFiles(final String baseBranchName, final String baseBuildName) {
 		return FilesUtil.getListOfFilesFromSubdirs(getBaseBuildDirectory(baseBranchName, baseBuildName),
 				FILE_NAME_BUILD);
 	}
 
-	/**
-	 * Gets the use case directory.
-	 * 
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @param baseBuildName
-	 *            the name of the base build
-	 * @param comparisonName
-	 *            the name of the comparison configuration
-	 * @param useCaseName
-	 *            the name of the use case
-	 * @return the use case directory
-	 */
 	public File getUseCaseDirectory(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName) {
 		return new File(getComparisonDirectory(baseBranchName, baseBuildName, comparisonName),
 				FilesUtil.encodeName(useCaseName));
 	}
 
-	/**
-	 * Gets the xml use case file.
-	 * 
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @param baseBuildName
-	 *            the name of the base build
-	 * @param comparisonName
-	 *            the name of the comparison configuration
-	 * @param useCaseName
-	 *            the name of the use case
-	 * @return the use case file
-	 */
 	public File getUseCaseFile(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName) {
 		return new File(getUseCaseDirectory(baseBranchName, baseBuildName, comparisonName, useCaseName),
 				FILE_NAME_USECASE);
 	}
 
-	/**
-	 * Gets a list of all xml use case files.
-	 * 
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @param baseBuildName
-	 *            the name of the base build
-	 * @param comparisonName
-	 *            the name of the comparison configuration
-	 * @return the use case files
-	 */
 	public List<File> getUseCaseFiles(final String baseBranchName, final String baseBuildName,
 			final String comparisonName) {
 		return FilesUtil.getListOfFilesFromSubdirs(
 				getComparisonDirectory(baseBranchName, baseBuildName, comparisonName), FILE_NAME_USECASE);
 	}
 
-	/**
-	 * Gets the scenario directory.
-	 * 
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @param baseBuildName
-	 *            the name of the base build
-	 * @param comparisonName
-	 *            the name of the comparison configuration
-	 * @param useCaseName
-	 *            the name of the use case
-	 * @param scenarioName
-	 *            the name of the scenario
-	 * @return the scenario directory
-	 */
 	public File getScenarioDirectory(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName,
 			final String scenarioName) {
@@ -207,21 +100,6 @@ public class DiffFiles {
 				FilesUtil.encodeName(scenarioName));
 	}
 
-	/**
-	 * Gets the xml scenario file.
-	 * 
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @param baseBuildName
-	 *            the name of the base build
-	 * @param comparisonName
-	 *            the name of the comparison configuration
-	 * @param useCaseName
-	 *            the name of the use case
-	 * @param scenarioName
-	 *            the name of the scenario
-	 * @return the scenario file
-	 */
 	public File getScenarioFile(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName,
 			final String scenarioName) {
@@ -229,19 +107,6 @@ public class DiffFiles {
 				FILE_NAME_SCENARIO);
 	}
 
-	/**
-	 * Gets a list of all xml scenario files.
-	 * 
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @param baseBuildName
-	 *            the name of the base build
-	 * @param comparisonName
-	 *            the name of the comparison configuration
-	 * @param useCaseName
-	 *            the name of the use case
-	 * @return the scenario files
-	 */
 	public List<File> getScenarioFiles(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName) {
 		return FilesUtil.getListOfFilesFromSubdirs(
@@ -249,21 +114,6 @@ public class DiffFiles {
 				FILE_NAME_SCENARIO);
 	}
 
-	/**
-	 * Gets the steps directory.
-	 * 
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @param baseBuildName
-	 *            the name of the base build
-	 * @param comparisonName
-	 *            the name of the comparison configuration
-	 * @param useCaseName
-	 *            the name of the use case
-	 * @param scenarioName
-	 *            the name of the scenario
-	 * @return the steps directory
-	 */
 	public File getStepsDirectory(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName,
 			final String scenarioName) {
@@ -271,23 +121,6 @@ public class DiffFiles {
 				DIRECTORY_NAME_SCENARIO_STEPS);
 	}
 
-	/**
-	 * Gets the xml step file.
-	 * 
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @param baseBuildName
-	 *            the name of the base build
-	 * @param comparisonName
-	 *            the name of the comparison configuration
-	 * @param useCaseName
-	 *            the name of the use case
-	 * @param scenarioName
-	 *            the name of the scenario
-	 * @param stepIndex
-	 *            the index of the step in the scenario
-	 * @return the step file
-	 */
 	public File getStepFile(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName,
 			final String scenarioName, final int stepIndex) {
@@ -295,21 +128,6 @@ public class DiffFiles {
 				THREE_DIGIT_NUM_FORMAT.format(stepIndex) + ".xml");
 	}
 
-	/**
-	 * Gets a list of all xml step files.
-	 * 
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @param baseBuildName
-	 *            the name of the base build
-	 * @param comparisonName
-	 *            the name of the comparison configuration
-	 * @param useCaseName
-	 *            the name of the use case
-	 * @param scenarioName
-	 *            the name of the scenario
-	 * @return the step files
-	 */
 	public List<File> getStepFiles(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName,
 			final String scenarioName) {
@@ -317,21 +135,6 @@ public class DiffFiles {
 				scenarioName));
 	}
 
-	/**
-	 * Gets the screenshots directory.
-	 * 
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @param baseBuildName
-	 *            the name of the base build
-	 * @param comparisonName
-	 *            the name of the comparison configuration
-	 * @param useCaseName
-	 *            the name of the use case
-	 * @param scenarioName
-	 *            the name of the scenario
-	 * @return the screenshots directory
-	 */
 	public File getScreenshotsDirectory(final String baseBranchName, final String baseBuildName,
 			final String comparisonName,
 			final String useCaseName, final String scenarioName) {
@@ -339,22 +142,6 @@ public class DiffFiles {
 				DIRECTORY_NAME_SCENARIO_SCREENSHOTS);
 	}
 
-	/**
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @param baseBuildName
-	 *            the name of the base build
-	 * @param comparisonName
-	 *            the name of the comparison configuration
-	 * @param useCaseName
-	 *            the name of the use case
-	 * @param scenarioName
-	 *            the name of the scenario
-	 * @param imageName
-	 *            the name of the image
-	 * @return A {@link File} object pointing to the PNG file of the step screenshot. The method does not care whether
-	 *         the file actually exists.
-	 */
 	public File getScreenshotFile(final String baseBranchName, final String baseBuildName,
 			final String comparisonName,
 			final String useCaseName, final String scenarioName, final String imageName) {
@@ -363,9 +150,6 @@ public class DiffFiles {
 				imageName);
 	}
 
-	/**
-	 * Checks if the root directory for the diff content exists.
-	 */
 	public void assertRootDirectoryExists() {
 		if (!diffViewerDirectory.exists()) {
 			throw new IllegalArgumentException("Directory for diff content does not exist: "
@@ -373,17 +157,6 @@ public class DiffFiles {
 		}
 	}
 
-	/**
-	 * Gets the log file for a comparison.
-	 * 
-	 * @param baseBranchName
-	 *            the name of the base branch
-	 * @param baseBuildName
-	 *            the name of the base build
-	 * @param comparisonName
-	 *            the name of the comparison configuration
-	 * @return the log file
-	 */
 	public File getBuildComparisonLogFile(final String baseBranchName, final String baseBuildName,
 			final String comparisonName) {
 		final File comparisonDirectory = getComparisonDirectory(baseBranchName, baseBuildName, comparisonName);

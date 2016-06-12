@@ -21,9 +21,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- * Contains the diff information for a step.
- */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StepDiffInfo extends AbstractDiffInfo {
@@ -34,85 +31,47 @@ public class StepDiffInfo extends AbstractDiffInfo {
 	private int stepInPageOccurrence;
 	private String comparisonScreenshotName;
 
-	/**
-	 * @see org.scenarioo.model.diffViewer.AbstractDiffInfo#hasChanges()
-	 */
 	@Override
 	public boolean hasChanges() {
 		return getChangeRate() != 0;
 	}
 
-	/**
-	 * @return the index
-	 */
 	public int getIndex() {
 		return index;
 	}
 
-	/**
-	 * @param index
-	 *            the index to set
-	 */
 	public void setIndex(final int index) {
 		this.index = index;
 	}
 
-	/**
-	 * @return the pageName
-	 */
 	public String getPageName() {
 		return pageName;
 	}
 
-	/**
-	 * @param pageName
-	 *            the pageName to set
-	 */
 	public void setPageName(final String pageName) {
 		this.pageName = pageName;
 	}
 
-	/**
-	 * @return the pageOccurrence
-	 */
 	public int getPageOccurrence() {
 		return pageOccurrence;
 	}
 
-	/**
-	 * @param pageOccurrence
-	 *            the pageOccurrence to set
-	 */
 	public void setPageOccurrence(final int pageOccurrence) {
 		this.pageOccurrence = pageOccurrence;
 	}
 
-	/**
-	 * @return the stepInPageOccurrence
-	 */
 	public int getStepInPageOccurrence() {
 		return stepInPageOccurrence;
 	}
 
-	/**
-	 * @param stepInPageOccurrence
-	 *            the stepInPageOccurrence to set
-	 */
 	public void setStepInPageOccurrence(final int stepInPageOccurrence) {
 		this.stepInPageOccurrence = stepInPageOccurrence;
 	}
 
-	/**
-	 * @return the comparisonScreenshotName
-	 */
 	public String getComparisonScreenshotName() {
 		return comparisonScreenshotName;
 	}
 
-	/**
-	 * @param comparisonScreenshotName
-	 *            the comparisonScreenshotName to set
-	 */
 	public void setComparisonScreenshotName(final String comparisonScreenshotName) {
 		this.comparisonScreenshotName = comparisonScreenshotName;
 	}

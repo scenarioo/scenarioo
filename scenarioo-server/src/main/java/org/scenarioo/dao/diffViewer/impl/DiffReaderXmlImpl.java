@@ -27,9 +27,6 @@ import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 
-/**
- * Implements the diff info access via xml files.
- */
 public class DiffReaderXmlImpl implements DiffReader {
 
 	private final DiffFiles diffFiles;
@@ -38,9 +35,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 		this.diffFiles = new DiffFiles();
 	}
 
-	/**
-	 * @see org.scenarioo.dao.diffViewer.DiffReader#loadBuildDiffInfos(java.lang.String, java.lang.String)
-	 */
 	@Override
 	public List<BuildDiffInfo> loadBuildDiffInfos(final String baseBranchName, final String baseBuildName) {
 		final List<File> files = diffFiles.getBuildFiles(baseBranchName, baseBuildName);
@@ -48,10 +42,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(BuildDiffInfo.class, files);
 	}
 
-	/**
-	 * @see org.scenarioo.dao.diffViewer.DiffReader#loadBuildDiffInfo(java.lang.String, java.lang.String,
-	 *      java.lang.String)
-	 */
 	@Override
 	public BuildDiffInfo loadBuildDiffInfo(final String baseBranchName, final String baseBuildName,
 			final String comparisonName) {
@@ -60,10 +50,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 		return ScenarioDocuXMLFileUtil.unmarshal(BuildDiffInfo.class, file);
 	}
 
-	/**
-	 * @see org.scenarioo.dao.diffViewer.DiffReader#loadUseCaseDiffInfos(java.lang.String, java.lang.String,
-	 *      java.lang.String)
-	 */
 	@Override
 	public List<UseCaseDiffInfo> loadUseCaseDiffInfos(final String baseBranchName, final String baseBuildName,
 			final String comparisonName) {
@@ -72,10 +58,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(UseCaseDiffInfo.class, files);
 	}
 
-	/**
-	 * @see org.scenarioo.dao.diffViewer.DiffReader#loadUseCaseDiffInfo(java.lang.String, java.lang.String,
-	 *      java.lang.String, java.lang.String)
-	 */
 	@Override
 	public UseCaseDiffInfo loadUseCaseDiffInfo(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName) {
@@ -84,10 +66,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 		return ScenarioDocuXMLFileUtil.unmarshal(UseCaseDiffInfo.class, file);
 	}
 
-	/**
-	 * @see org.scenarioo.dao.diffViewer.DiffReader#loadScenarioDiffInfos(java.lang.String, java.lang.String,
-	 *      java.lang.String, java.lang.String)
-	 */
 	@Override
 	public List<ScenarioDiffInfo> loadScenarioDiffInfos(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName) {
@@ -96,10 +74,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(ScenarioDiffInfo.class, files);
 	}
 
-	/**
-	 * @see org.scenarioo.dao.diffViewer.DiffReader#loadScenarioDiffInfo(java.lang.String, java.lang.String,
-	 *      java.lang.String, java.lang.String, java.lang.String)
-	 */
 	@Override
 	public ScenarioDiffInfo loadScenarioDiffInfo(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName, final String scenarioName) {
@@ -109,10 +83,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 		return ScenarioDocuXMLFileUtil.unmarshal(ScenarioDiffInfo.class, file);
 	}
 
-	/**
-	 * @see org.scenarioo.dao.diffViewer.DiffReader#loadStepDiffInfos(java.lang.String, java.lang.String,
-	 *      java.lang.String, java.lang.String, java.lang.String)
-	 */
 	@Override
 	public List<StepDiffInfo> loadStepDiffInfos(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName, final String scenarioName) {
@@ -122,10 +92,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(StepDiffInfo.class, files);
 	}
 
-	/**
-	 * @see org.scenarioo.dao.diffViewer.DiffReader#loadStepDiffInfo(java.lang.String, java.lang.String,
-	 *      java.lang.String, java.lang.String, java.lang.String, int)
-	 */
 	@Override
 	public StepDiffInfo loadStepDiffInfo(final String baseBranchName, final String baseBuildName,
 			final String comparisonName, final String useCaseName, final String scenarioName, final int stepIndex) {
@@ -135,10 +101,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 		return ScenarioDocuXMLFileUtil.unmarshal(StepDiffInfo.class, file);
 	}
 
-	/**
-	 * @see org.scenarioo.dao.diffViewer.DiffReader#getScreenshotFile(java.lang.String, java.lang.String,
-	 *      java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-	 */
 	@Override
 	public File getScreenshotFile(final String baseBranchName, final String baseBuildName, final String comparisonName,
 			final String useCaseName,
@@ -148,10 +110,6 @@ public class DiffReaderXmlImpl implements DiffReader {
 				scenarioName, imageName);
 	}
 
-	/**
-	 * @see org.scenarioo.dao.diffViewer.DiffReader#getBuildComparisonLogFile(java.lang.String, java.lang.String,
-	 *      java.lang.String)
-	 */
 	@Override
 	public File getBuildComparisonLogFile(final String baseBranchName, final String baseBuildName,
 			final String comparisonName) {

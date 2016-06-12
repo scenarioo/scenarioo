@@ -28,9 +28,6 @@ import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.utils.NumberFormatCreator;
 
-/**
- * Abstract comparator class. Contains common comparison functionality.
- */
 public abstract class AbstractComparator {
 
 	private static final double ADDED_REMOVED_CHANGE_RATE = 100.0;

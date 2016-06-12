@@ -42,9 +42,6 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.utils.TestFileUtils;
 
-/**
- * Test the write and read functionality of the {@link DiffWriterXmlImpl} and {@link DiffReaderXmlImpl}.
- */
 public class DiffWriterAndReaderTest {
 
 	private static final File ROOT_DIRECTORY = new File("tmpDiffViewerUnitTestFiles");

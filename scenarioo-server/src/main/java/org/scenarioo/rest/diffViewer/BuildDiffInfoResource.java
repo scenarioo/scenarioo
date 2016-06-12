@@ -31,9 +31,6 @@ import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.rest.base.BuildIdentifier;
 
-/**
- * Handles requests for build diff information.
- */
 @Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}")
 public class BuildDiffInfoResource {
 
