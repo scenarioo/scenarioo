@@ -16,9 +16,6 @@
  */
 
 
-/**
- *  Service functionality to prepare diff info data to display.
- */
 angular.module('scenarioo.services').service('DiffInfoService', DiffInfoService);
 
 function DiffInfoService() {
