@@ -23,9 +23,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.StepDescription;
 
-/**
- * Contains all information about a step.
- */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StepInfo {
 
@@ -33,32 +30,18 @@ public class StepInfo {
 	
 	private StepDescription stepDescription;
 
-	/**
-	 * @return the stepLink
-	 */
 	public StepLink getStepLink() {
 		return stepLink;
 	}
 
-	/**
-	 * @param stepLink
-	 *            the stepLink to set
-	 */
 	public void setStepLink(final StepLink stepLink) {
 		this.stepLink = stepLink;
 	}
 
-	/**
-	 * @return the stepDescription
-	 */
 	public StepDescription getStepDescription() {
 		return stepDescription;
 	}
 
-	/**
-	 * @param stepDescription
-	 *            the stepDescription to set
-	 */
 	public void setStepDescription(final StepDescription stepDescription) {
 		this.stepDescription = stepDescription;
 	}

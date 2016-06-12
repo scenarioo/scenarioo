@@ -32,9 +32,6 @@ import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.NumberFormatCreator;
 
-/**
- * Handles requests for diff screenshots.
- */
 @Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}/useCaseName/{usecaseName}/scenarioName/{scenarioName}/stepIndex/{stepIndex}")
 public class StepDiffScreenshotResource {
 

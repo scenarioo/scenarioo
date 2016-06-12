@@ -22,9 +22,6 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 
 import org.scenarioo.model.docu.entities.UseCase;
 
-/**
- * Contains the diff information for a Build.
- */
 @XmlRootElement
 @XmlSeeAlso(UseCase.class)
 public class BuildDiffInfo extends StructureDiffInfo<String, UseCase> {

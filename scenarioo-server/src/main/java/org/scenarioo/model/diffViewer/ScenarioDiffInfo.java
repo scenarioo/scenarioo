@@ -20,9 +20,6 @@ package org.scenarioo.model.diffViewer;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
-/**
- * Contains the diff information for a Scenario.
- */
 @XmlRootElement
 @XmlSeeAlso(StepInfo.class)
 public class ScenarioDiffInfo extends StructureDiffInfo<Integer, StepInfo> {

@@ -34,9 +34,6 @@ import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.usecase.UseCasesResource;
 
-/**
- * Handles requests for scenario diff information.
- */
 @Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}/useCaseName/{useCaseName}")
 public class ScenarioDiffInfoResource {
 

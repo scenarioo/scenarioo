@@ -26,9 +26,6 @@ import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.utils.TestFileUtils;
 
-/**
- * @see ScreenshotComparator
- */
 public class ScreenshotComparatorGraphicsMagickTest {
 	ScreenshotComparator screenshotComparator = new ScreenshotComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME,
 			getComparisonConfiguration());

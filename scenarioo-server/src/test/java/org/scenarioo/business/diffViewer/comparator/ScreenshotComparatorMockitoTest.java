@@ -27,9 +27,6 @@ import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.utils.TestFileUtils;
 
-/**
- * @see ScreenshotComparator
- */
 @RunWith(MockitoJUnitRunner.class)
 public class ScreenshotComparatorMockitoTest {
 

@@ -33,9 +33,6 @@ import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.rest.base.BuildIdentifier;
 
-/**
- * Handles requests for step diff information.
- */
 @Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}/useCaseName/{useCaseName}/scenarioName/{scenarioName}/")
 public class StepDiffInfoResource {
 

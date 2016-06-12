@@ -22,9 +22,6 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 
-/**
- * Contains the diff information for a UseCase.
- */
 @XmlRootElement
 @XmlSeeAlso(ScenarioSummary.class)
 public class UseCaseDiffInfo extends StructureDiffInfo<String, ScenarioSummary> {

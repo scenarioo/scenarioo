@@ -25,14 +25,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
-/**
- * Contains the diff information for a structure object.
- * 
- * @param <ADDED_TYPE>
- *            Type for added elements
- * @param <REMOVED_TYPE>
- *            Type for removed elements
- */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StructureDiffInfo<ADDED_TYPE, REMOVED_TYPE> extends AbstractDiffInfo {
 
@@ -57,100 +49,54 @@ public class StructureDiffInfo<ADDED_TYPE, REMOVED_TYPE> extends AbstractDiffInf
 		this.name = name;
 	}
 
-	/**
-	 * @see org.scenarioo.model.diffViewer.AbstractDiffInfo#hasChanges()
-	 */
 	@Override
 	public boolean hasChanges() {
 		return getChangeRate() != 0 || added != 0 || changed != 0 || removed != 0;
 	}
 
-	/**
-	 * @return the name
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * @param name
-	 *            the name to set
-	 */
 	public void setName(final String name) {
 		this.name = name;
 	}
 
-	/**
-	 * @return the added
-	 */
 	public int getAdded() {
 		return added;
 	}
 
-	/**
-	 * @param added
-	 *            the added to set
-	 */
 	public void setAdded(final int added) {
 		this.added = added;
 	}
 
-	/**
-	 * @return the changed
-	 */
 	public int getChanged() {
 		return changed;
 	}
 
-	/**
-	 * @param changed
-	 *            the changed to set
-	 */
 	public void setChanged(final int changed) {
 		this.changed = changed;
 	}
-
-	/**
-	 * @return the removed
-	 */
 	public int getRemoved() {
 		return removed;
 	}
 
-	/**
-	 * @param removed
-	 *            the removed to set
-	 */
 	public void setRemoved(final int removed) {
 		this.removed = removed;
 	}
 
-	/**
-	 * @return the addedElements
-	 */
 	public List<ADDED_TYPE> getAddedElements() {
 		return addedElements;
 	}
 
-	/**
-	 * @param addedElements
-	 *            the addedElements to set
-	 */
 	public void setAddedElements(List<ADDED_TYPE> addedElements) {
 		this.addedElements = addedElements;
 	}
 
-	/**
-	 * @return the removedElements
-	 */
 	public List<REMOVED_TYPE> getRemovedElements() {
 		return removedElements;
 	}
 
-	/**
-	 * @param removedElements
-	 *            the removedElements to set
-	 */
 	public void setRemovedElements(List<REMOVED_TYPE> removedElements) {
 		this.removedElements = removedElements;
 	}

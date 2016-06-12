@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -33,7 +33,7 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 /**
- * Comparator to compare scenarios of two use cases. Results are persisted in a xml file.
+ * Comparison results are persisted in a xml file.
  */
 public class ScenarioComparator extends AbstractComparator {
 
@@ -49,13 +49,6 @@ public class ScenarioComparator extends AbstractComparator {
 		super(baseBranchName, baseBuildName, comparisonConfiguration);
 	}
 
-	/**
-	 * Compares the scenarios of the given use case.
-	 * 
-	 * @param baseUseCaseName
-	 *            the use case to compare the scenarios.
-	 * @return {@link UseCaseDiffInfo} with the summarized diff information.
-	 */
 	public UseCaseDiffInfo compare(final String baseUseCaseName) {
 		final List<Scenario> baseScenarios = docuReader.loadScenarios(baseBranchName, baseBuildName, baseUseCaseName);
 		final List<Scenario> comparisonScenarios = docuReader.loadScenarios(

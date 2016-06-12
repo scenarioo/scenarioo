@@ -30,11 +30,10 @@ import org.im4java.process.ArrayListOutputConsumer;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
-import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 
 /**
- * Comparator to compare screenshots of two steps. Results are persisted in a xml file.
+ * Compares two Screenshots using GraphicsMagick
  */
 public class ScreenshotComparator extends AbstractComparator {
 
@@ -56,17 +55,6 @@ public class ScreenshotComparator extends AbstractComparator {
 		diffReader = new DiffReaderXmlImpl();
 	}
 
-	/**
-	 * Compares the screenshots of the given step.
-	 *
-	 * @param baseUseCaseName
-	 *            the use case of the screenshots.
-	 * @param baseScenarioName
-	 *            the scenario of the screenshots.
-	 * @param baseStepLink
-	 *            the step to compare the screenshots.
-	 * @return {@link StepDiffInfo} with the summarized diff information.
-	 */
 	public double compare(final String baseUseCaseName, final String baseScenarioName, final StepLink baseStepLink,
 			final String comparisonScreenshotName) {
 
@@ -90,15 +78,8 @@ public class ScreenshotComparator extends AbstractComparator {
 	}
 
 	/**
-	 * Compares the given screenshots
-	 *
-	 * @param baseScreenshot
-	 *            The original screenshot
-	 * @param comparisonScreenshot
-	 *            The comparison screenshot
-	 * @param diffScreenshot
-	 *            The generated screenshot that shows differences
-	 * @return
+	 * A Diff Screenshoot will be created and stored in the directory of the diffScreenshot path.
+	 * This directory, and all the parent directories, will be created if they do not exist.
 	 */
 	public double compareScreenshots(final File baseScreenshot, final File comparisonScreenshot,
 			final File diffScreenshot) {
@@ -119,6 +100,9 @@ public class ScreenshotComparator extends AbstractComparator {
 		return difference;
 	}
 
+	/**
+	 * The GraphicsMagick command will be initiaded by the IM4Java framework
+	 */
 	private double runGraphicsMagickOperation(final IMOperation gmOperation) {
 		try {
 			gmConsole.run(gmOperation);
@@ -139,6 +123,9 @@ public class ScreenshotComparator extends AbstractComparator {
 		}
 	}
 
+	/**
+	 * Reads the result from the GraphicsMagick console and parses the difference value.
+	 */
 	double getRmseValueFromOutput() {
 		final ArrayList<String> gmConsoleOutput = gmConsoleOutputConsumer.getOutput();
 		String total = null;
