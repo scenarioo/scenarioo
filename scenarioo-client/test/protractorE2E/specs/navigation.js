@@ -24,16 +24,14 @@ useCase('Navigation')
 			homePage.chooseBranch('wikipedia-docu-example');
 		});
 
-		scenario('6 comparison should be selectable')
-			.description('Selects a build from wikipedia-docu-example-dev and checks available')
+		scenario('Check selectable comparisons')
+			.description('Selects a build from wikipedia-docu-example-dev and checks if six comparisons are available')
 			.it(function () {
 				homePage.goToPage();
 				homePage.chooseBranch('wikipedia-docu-example-dev');
 				step('wikipedia-docu-example-dev branch selected');
 				homePage.chooseBuild('last successful');
 				step('last successful build selected');
-				step('6 Available Comparisons');
-
 				homePage.assertSelectedComparison('Disabled (Available ' + NUMBER_OF_AVAILABLE_COMPARISON + ')');
 			});
 
