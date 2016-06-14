@@ -295,12 +295,12 @@ StepPage.prototype.assertStepDiffScreenshotSrcEquals = function (expected) {
     expect(element(by.css('.sc-diff-screenshot img')).getAttribute('src')).toContain(expected);
 };
 
-StepPage.prototype.assertFirstChangedPageDiffIconTextEquals = function (expected) {
-    expect(element(by.css('.step-view div:first-child .sc-step-in-overview .sc-scenario-page-title .diff-info-wrapper span')).getText()).toBe(expected);
+StepPage.prototype.assertFirstChangedPageDiffIconHasValue = function () {
+    expect(element(by.css('.step-view div:first-child .sc-step-in-overview .sc-scenario-page-title .diff-info-wrapper span')).getText()).toContain('%');
 };
 
-StepPage.prototype.assertFirstChangedStepDiffIconTextEquals = function (expected) {
-    expect(element(by.css('.step-view div:first-child .sc-step-in-overview:first-child .step-title span')).getText()).toBe(expected);
+StepPage.prototype.assertFirstChangedStepDiffIconHasValue = function () {
+    expect(element(by.css('.step-view div:first-child .sc-step-in-overview:first-child .step-title span')).getText()).toContain('%');
 };
 
 StepPage.prototype.assertAddedPageDiffIconTextEqualsAdded = function () {
