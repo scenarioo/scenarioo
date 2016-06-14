@@ -108,7 +108,7 @@ angular.module('scenarioo.services').factory('BranchesAndBuildsService', functio
         if (isBuildAlias(build)) {
             return getDisplayNameForAliasBuild(build, returnShortText);
         } else {
-            return 'Revision ' + build.build.revision;
+            return build.build.name;
         }
     }
 
@@ -116,7 +116,7 @@ angular.module('scenarioo.services').factory('BranchesAndBuildsService', functio
         if (returnShortText) {
             return build.linkName;
         } else {
-            return build.linkName + ': ' + build.build.revision;
+            return build.linkName + ': ' + build.build.name;
         }
     }
 
