@@ -41,7 +41,7 @@ public class ScreenshotComparatorMockitoTest {
 			BASE_BUILD_NAME,
 			getComparisonConfiguration());
 
-	private static final double SCREENSHOT_DIFFERENCE = 12.97;
+	private static final double SCREENSHOT_DIFFERENCE = 14.11;
 	private static final double DOUBLE_TOLERANCE = 0.01;
 	private static final ArrayList<String> OUTPUT_CONSUMER_MOCK;
 	private static final File ROOT_DIRECTORY = new File("tmp");
@@ -54,14 +54,14 @@ public class ScreenshotComparatorMockitoTest {
 	static {
 		OUTPUT_CONSUMER_MOCK = new ArrayList<String>() {
 			{
-				add("Image Difference (RootMeanSquaredError):");
+				add("Image Difference (MeanAbsoluteError):");
 				add("            Normalized    Absolute");
 				add("           ============  ==========");
-				add("      Red: 0.0646782165       16.5");
-				add("    Green: 0.1787812120       45.6");
-				add("     Blue: 0.1765823425       45.0");
+				add("      Red: 0.0117114886      767.5");
+				add("    Green: 0.0343489217     2251.1");
+				add("     Blue: 0.0336219026     2203.4");
 				add("  Opacity: 0.0000000000        0.0");
-				add("    Total: 0.1297375400       33.1");
+				add("    Total: 0.0199205782     1305.5");
 			}
 		};
 	}
