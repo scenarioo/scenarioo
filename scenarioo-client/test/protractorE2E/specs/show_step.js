@@ -3,6 +3,9 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
+var COMPARISON_SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/2014-01-20/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
+var BASE_SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/last%20successful/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
+
 useCase('Show step')
     .description('Show a single step of a scenario. Includes the screenshot, metadata nad navigation buttons')
     .describe(function () {
@@ -169,10 +172,6 @@ useCase('Show step')
         scenario('Screenshot comparison options')
             .description('Show all possible screenshot copmarison options')
             .it(function () {
-                var COMPARISON_SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/2014-01-20/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
-                var BASE_SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/last%20successful/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
-                var DIFF_SCREENSHOT_SRC = '/rest/diffViewer/baseBranchName/wikipedia-docu-example/baseBuildName/last%20successful/comparisonName/To%20Projectstart/useCaseName/Find%20Page/scenarioName/find_page_title_unique_directly/stepIndex/2/stepDiffScreenshot';
-
                 stepPage.goToPage('/step/Find%20Page/find_page_title_unique_directly/contentPage.jsp/0/0?branch=wikipedia-docu-example&build=last%20successful&comparison=To%20Projectstart');
                 step('A step');
 
