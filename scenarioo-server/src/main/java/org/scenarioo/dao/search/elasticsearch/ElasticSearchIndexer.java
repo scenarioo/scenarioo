@@ -23,11 +23,9 @@ import org.codehaus.jackson.map.ObjectWriter;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.scenarioo.dao.search.FullTextSearch;
-import org.scenarioo.dao.search.dao.PageSearchDao;
 import org.scenarioo.dao.search.dao.ScenarioSearchDao;
 import org.scenarioo.dao.search.dao.StepSearchDao;
 import org.scenarioo.dao.search.dao.UseCaseSearchDao;
-import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
@@ -47,18 +45,10 @@ class ElasticSearchIndexer {
 	private TransportClient client;
     private String indexName;
 
-    ElasticSearchIndexer(String indexName) {
-        try {
-            this.client = TransportClient.builder().build()
-                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
-
-            this.indexName = indexName;
-
-        } catch (UnknownHostException e) {
-            LOGGER.info("no elasticsearch cluster running.");
-        }
-
-    }
+    ElasticSearchIndexer(String indexName, TransportClient client) {
+		this.client = client;
+		this.indexName = indexName;
+	}
 
     void setupCleanIndex(String indexName) {
         if(indexExists(indexName)) {
@@ -115,16 +105,16 @@ class ElasticSearchIndexer {
 
             client.prepareIndex(indexName, type).setSource(writer.writeValueAsBytes(document)).get();
 
-            LOGGER.debug("Indexed use case " + documentName + " for index " + indexName);
+//            LOGGER.debug("Indexed use case " + documentName + " for index " + indexName);
         } catch (IOException e) {
             LOGGER.error("Could not index use case " + documentName + ". Will skip this one.", e);
         }
     }
 
     private boolean indexExists(String indexName) {
-        return client.admin().indices()
-                .prepareExists(indexName)
-                .execute().actionGet().isExists();
+		return client.admin().indices()
+			.prepareExists(indexName)
+			.execute().actionGet().isExists();
     }
 
     private String createMappingForType(final String type) {
