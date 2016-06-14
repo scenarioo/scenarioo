@@ -3,6 +3,9 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
+var NUMBER_OF_ALIASES_IN_CONFIG = 2;
+var FIRST_TEST_ALIAS_INDEX = NUMBER_OF_ALIASES_IN_CONFIG;
+
 useCase('Manage branch aliases')
     .description('Define new branch aliases, edit existing ones and delete them.')
     .describe(function () {
@@ -19,7 +22,7 @@ useCase('Manage branch aliases')
                 branchAliasesPage.goToPage();
                 step('display the manage branch aliases page');
 
-                branchAliasesPage.assertNumberOfAliases(0);
+                branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
                 branchAliasesPage.enterAlias('Test Alias 1', 'wikipedia-docu-example', 'my description 1');
                 branchAliasesPage.enterAlias('Test Alias 2', 'wikipedia-docu-example', 'my description 2');
                 branchAliasesPage.save();
@@ -27,26 +30,26 @@ useCase('Manage branch aliases')
                 step('saved build aliases');
 
                 branchAliasesPage.reset();
-                branchAliasesPage.assertNumberOfAliases(2);
+                branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG + 2);
                 branchAliasesPage.openBranchSelectionMenu();
                 step('open branch menu with aliases');
                 branchAliasesPage.assertAliasesAreShownFirstInTheNavigationMenu();
 
-                branchAliasesPage.deleteAlias(0);
+                branchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
                 branchAliasesPage.save();
-                branchAliasesPage.assertNumberOfAliases(1);
+                branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG + 1);
                 branchAliasesPage.reset();
-                branchAliasesPage.assertNumberOfAliases(1);
-                step('removed first alias');
+                branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG + 1);
+                step('removed first test alias');
 
-                branchAliasesPage.updateAlias(0, 'updated alias', 'wikipedia-docu-example', 'updated description');
+                branchAliasesPage.updateAlias(FIRST_TEST_ALIAS_INDEX, 'updated alias', 'wikipedia-docu-example', 'updated description');
                 branchAliasesPage.save();
-                step('updated first alias');
+                step('updated first test alias');
 
-                branchAliasesPage.deleteAlias(0);
-                branchAliasesPage.deleteAlias(0);
+                branchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
+                branchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
                 branchAliasesPage.save();
-                step('all aliases removed');
+                step('all test aliases removed');
 
             });
 
@@ -54,7 +57,7 @@ useCase('Manage branch aliases')
             .description('Saving is not possible if referenced branch is not selected')
             .it(function () {
                 branchAliasesPage.goToPage();
-                branchAliasesPage.assertNumberOfAliases(0);
+                branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
                 branchAliasesPage.enterAlias('Test', '', 'my description');
                 branchAliasesPage.assertSaveNotPossible();
                 step('saving not possible because referenced branch is not selected');
@@ -64,17 +67,17 @@ useCase('Manage branch aliases')
             .description('Alias names have to be unique')
             .it(function () {
                 branchAliasesPage.goToPage();
-                branchAliasesPage.assertNumberOfAliases(0);
+                branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
                 branchAliasesPage.enterAlias('duplicate', 'wikipedia-docu-example', 'duplicate alias name');
                 branchAliasesPage.save();
-                branchAliasesPage.assertNumberOfAliases(1);
+                branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG + 1);
                 branchAliasesPage.enterAlias('duplicate', 'wikipedia-docu-example', 'duplicate alias name');
                 branchAliasesPage.save();
                 branchAliasesPage.assertDuplicateAliasError();
                 step('duplicate aliases are not allowed');
 
                 branchAliasesPage.reset();
-                branchAliasesPage.deleteAlias(0);
+                branchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
                 branchAliasesPage.save();
             });
 
