@@ -37,16 +37,16 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     $scope.comparisonInfo = SelectedComparison.info;
     $scope.activeTab = getActiveTab();
 
-    $scope.displayDiffScreenshotKey = 'DISPLAY_DIFF_SCREENSHOT';
-    $scope.displayComparisonScreenshotKey = 'DISPLAY_COMPARISON_SCREENSHOT';
-    $scope.displaySideBySideViewKey = 'DISPLAY_SIDE_BY_SIDE_VIEW';
-    $scope.displaySinglePageViewKey = 'DISPLAY_SINGLE_PAGE_VIEW';
+    $scope.displayDiffScreenshotKey = 'displayDiffScreenshot';
+    $scope.displayComparisonScreenshotKey = 'displayComparisonScreenshot';
+    $scope.displaySideBySideViewKey = 'displaySideBySideView';
+    $scope.displaySinglePageViewKey = 'displaySinglePageView';
 
     $scope.comparisonViewOptions = {
-        DISPLAY_DIFF_SCREENSHOT : getLocalStorageValue($scope.displayDiffScreenshotKey),
-        DISPLAY_COMPARISON_SCREENSHOT : getLocalStorageValue($scope.displayComparisonScreenshotKey),
-        DISPLAY_SIDE_BY_SIDE_VIEW : getLocalStorageValue($scope.displaySideBySideViewKey),
-        DISPLAY_SINGLE_PAGE_VIEW : getLocalStorageValue($scope.displaySinglePageViewKey)
+        displayDiffScreenshot : getLocalStorageValue($scope.displayDiffScreenshotKey),
+        displayComparisonScreenshot : getLocalStorageValue($scope.displayComparisonScreenshotKey),
+        displaySideBySideView : getLocalStorageValue($scope.displaySideBySideViewKey),
+        displaySinglePageView : getLocalStorageValue($scope.displaySinglePageViewKey)
     };
 
     activate();
