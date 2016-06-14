@@ -29,11 +29,25 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     var selectedComparison;
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
+    var labels = $location.search().labels;
+
     $scope.pageName = $routeParams.pageName;
     $scope.pageOccurrence = parseInt($routeParams.pageOccurrence, 10);
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
-    var labels = $location.search().labels;
+    $scope.comparisonInfo = SelectedComparison.info;
+    $scope.activeTab = getActiveTab();
 
+    $scope.displayDiffScreenshotKey = 'DISPLAY_DIFF_SCREENSHOT';
+    $scope.displayComparisonScreenshotKey = 'DISPLAY_COMPARISON_SCREENSHOT';
+    $scope.displaySideBySideViewKey = 'DISPLAY_SIDE_BY_SIDE_VIEW';
+    $scope.displaySinglePageViewKey = 'DISPLAY_SINGLE_PAGE_VIEW';
+
+    $scope.comparisonViewOptions = {
+        DISPLAY_DIFF_SCREENSHOT : getLocalStorageValue($scope.displayDiffScreenshotKey),
+        DISPLAY_COMPARISON_SCREENSHOT : getLocalStorageValue($scope.displayComparisonScreenshotKey),
+        DISPLAY_SIDE_BY_SIDE_VIEW : getLocalStorageValue($scope.displaySideBySideViewKey),
+        DISPLAY_SINGLE_PAGE_VIEW : getLocalStorageValue($scope.displaySinglePageViewKey)
+    };
 
     activate();
 
@@ -41,11 +55,9 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
         SketcherLinkService.showCreateOrEditSketchLinkInBreadcrumbs('Create Sketch', createSketch);
     }
 
-
     function createSketch() {
         $location.path('/editor/').search('mode', 'create');
     }
-
 
     $scope.modalScreenshotOptions = {
         backdropFade: true,
@@ -76,8 +88,6 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     };
 
     SelectedBranchAndBuildService.callOnSelectionChange(loadStep);
-
-    $scope.comparisonInfo = SelectedComparison.info;
 
     function loadStep(selected) {
         selectedBranchAndBuild = selected;
@@ -112,7 +122,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
                 $scope.selectedBuild = selected.buildName;
                 loadRelatedIssues();
                 initScreenshotUrl();
-                loadComparisonFromServer(selected.branch, selected.build, SelectedComparison.selected());
+                loadDiffInfoData(selected.branch, selected.build, SelectedComparison.selected());
 
                 $scope.hasAnyLabels = function () {
                     var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
@@ -327,8 +337,6 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
         };
     }
 
-    $scope.activeTab = getActiveTab();
-
     $scope.setActiveTab = function (activeTab) {
         storeActiveTab(activeTab);
     };
@@ -368,7 +376,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     }
 
     // This URL is only used internally, not for sharing
-    function initComparisonScreenshotURLs(){
+    function initScreenshotURLs(){
         initComparisonScreenshotUrl ();
         initDiffScreenShotUrl();
     }
@@ -379,34 +387,33 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
 
     // This URL is only used internally, not for sharing
     function initDiffScreenShotUrl() {
-        if ($scope.step.diffInfo.changeRate === 0 || angular.isUndefined($scope.step.diffInfo.changeRate) || $scope.step.diffInfo.isAdded){
+        if (!$scope.step.diffInfo.changeRate || $scope.step.diffInfo.changeRate === 0 || $scope.step.diffInfo.isAdded){
             $scope.diffScreenShotUrl = $scope.screenShotUrl;
-        } else if (angular.isUndefined($scope.stepIdentifier)) {
-            return undefined;
-        } else {
+        } else if ($scope.stepIdentifier) {
             var branchAndBuild = SelectedBranchAndBuildService.selected();
             var comparisonName = SelectedComparison.selected();
             $scope.diffScreenShotUrl = ScreenshotUrlService.getDiffScreenShotUrl($scope.step, branchAndBuild, comparisonName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.stepIndex );
         }
     }
 
-    function loadComparisonFromServer(baseBranchName, baseBuildName, comparisonName) {
+    function loadDiffInfoData(baseBranchName, baseBuildName, comparisonName) {
         BuildDiffInfoResource.get(
             {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
             function onSuccess(buildDiffInfo) {
                 $scope.comparisonName = buildDiffInfo.name;
                 $scope.comparisonBranchName = buildDiffInfo.comparisonBranchName;
                 $scope.comparisonBuildName = buildDiffInfo.comparisonBuildName;
-                getDisplayNameForBuildName();
+                initBaseBuildName();
                 loadStepDiffInfo();
             }, function onFailure(){
+                $scope.comparisonName = '';
                 $scope.comparisonBranchName = '';
                 $scope.comparisonBuildName = '';
             }
         );
     }
 
-    function getDisplayNameForBuildName() {
+    function initBaseBuildName() {
         BranchesAndBuildsService.getDisplayNameForBuildName(SelectedBranchAndBuildService.selected().branch, SelectedBranchAndBuildService.selected().build, false).then(function(result){
             $scope.baseBuildName = result;
         });
@@ -425,24 +432,13 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
             function onSuccess(result){
                 $scope.comparisonScreenshotName = result.comparisonScreenshotName;
                 DiffInfoService.enrichChangedStepWithDiffInfo($scope.step, result);
-                initComparisonScreenshotURLs();
-            }, function onFailure() {
+                initScreenshotURLs();
+            }, 
+            function onFailure() {
                 DiffInfoService.enrichChangedStepWithDiffInfo($scope.step, null);
                 initDiffScreenShotUrl();
             });
     }
-
-    $scope.displayDiffScreenshotKey = 'DISPLAY_DIFF_SCREENSHOT';
-    $scope.displayComparisonScreenshotKey = 'DISPLAY_COMPARISON_SCREENSHOT';
-    $scope.displaySideBySideViewKey = 'DISPLAY_SIDE_BY_SIDE_VIEW';
-    $scope.displaySinglePageViewKey = 'DISPLAY_SINGLE_PAGE_VIEW';
-
-    $scope.comparisonViewOptions = {
-        DISPLAY_DIFF_SCREENSHOT : getInitValue($scope.displayDiffScreenshotKey),
-        DISPLAY_COMPARISON_SCREENSHOT : getInitValue($scope.displayComparisonScreenshotKey),
-        DISPLAY_SIDE_BY_SIDE_VIEW : getInitValue($scope.displaySideBySideViewKey),
-        DISPLAY_SINGLE_PAGE_VIEW : getInitValue($scope.displaySinglePageViewKey)
-    };
 
     $scope.initStorageKeys= function(){
         if($scope.comparisonViewOptions[$scope.displaySideBySideViewKey] && $scope.comparisonViewOptions[$scope.displaySinglePageViewKey]){
@@ -469,7 +465,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
         }
     };
 
-    function getInitValue(storageKey){
+    function getLocalStorageValue(storageKey){
         return localStorageService.get(storageKey) !== 'false';
     }
 

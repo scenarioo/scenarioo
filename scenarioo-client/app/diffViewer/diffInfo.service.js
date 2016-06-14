@@ -57,12 +57,12 @@ function DiffInfoService() {
     }
 
     function enrichChangedStepWithDiffInfo(step, diffInfo) {
-                if(diffInfo){
-                    diffInfo.changed = 1;
-                    diffInfo.added = 0;
-                    diffInfo.removed = 0;
-                }
-                step.diffInfo = enrichDiffInfo(diffInfo);
+        if(diffInfo){
+            diffInfo.changed = 1;
+            diffInfo.added = 0;
+            diffInfo.removed = 0;
+        }
+        step.diffInfo = enrichDiffInfo(diffInfo);
     }
 
     function addRemovedStep(pagesAndSteps, stepInfo) {
@@ -105,8 +105,7 @@ function DiffInfoService() {
     }
 
     function getDiffInfo(diffInfos, key) {
-        var diffInfo = diffInfos[key];
-        return enrichDiffInfo(diffInfo);
+        return enrichDiffInfo(diffInfos[key]);
     }
 
     function enrichDiffInfo(diffInfo){
