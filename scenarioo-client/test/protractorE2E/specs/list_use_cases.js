@@ -69,11 +69,11 @@ useCase('List use cases')
                 step('To Projectstart comparison selected');
 
                 homePage.clickSortByChanges();
-                homePage.assertValueOfFirstDiffInfo('0%');
+                homePage.assertLastUseCase('Donate');
                 step('Diff Infos sorted ascending');
 
                 homePage.clickSortByChanges();
-                homePage.assertValueOfFirstDiffInfo('74%');
+                homePage.assertFirstUseCase('Donate');
                 step('Diff Infos sorted descending');
 
                 // Reset

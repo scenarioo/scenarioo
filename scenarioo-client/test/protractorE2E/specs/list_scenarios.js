@@ -63,11 +63,11 @@ useCase('List scenarios')
                 step('Use Case selected');
 
                 useCasePage.clickSortByChanges();
-                useCasePage.assertValueOfFirstDiffInfo('0%');
+                useCasePage.assertLastUseCase('Find page title unique directly');
                 step('Diff Infos sorted ascending');
 
                 useCasePage.clickSortByChanges();
-                useCasePage.assertValueOfFirstDiffInfo('7%');
+                useCasePage.assertFirstUseCase('Find page title unique directly');
                 step('Diff Infos sorted descending');
 
                 // Reset

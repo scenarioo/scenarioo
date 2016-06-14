@@ -95,9 +95,12 @@ HomePage.prototype.assertNumberOfDiffInfos = function(count){
     });
 };
 
-HomePage.prototype.assertValueOfFirstDiffInfo = function(value){
-    var changeRateSpan = this.usecaseTable.element(by.css('.diff-info-wrapper:first-of-type .change-rate span'));
-    e2eUtils.assertTextPresentInElement(changeRateSpan, value);
+HomePage.prototype.assertLastUseCase = function(lastName) {
+    e2eUtils.assertTextPresentInElement(this.usecaseTable.element(by.css('tr:last-of-type td:nth-of-type(2)')), lastName);
+};
+
+HomePage.prototype.assertFirstUseCase = function(firstName) {
+    e2eUtils.assertTextPresentInElement(this.usecaseTable.element(by.css('tr:first-of-type td:nth-of-type(2)')), firstName);
 };
 
 HomePage.prototype.selectSketchesTab = function() {
