@@ -49,7 +49,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 
 	private static final String DEFAULT_ENDPOINT = "localhost:9300";
 
-	private TransportClient client;
+	private static TransportClient client;
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 		.getConfigurationRepository();
@@ -66,13 +66,15 @@ public class ElasticSearchAdapter implements SearchAdapter {
 		String host = endpoint.substring(0, portSeparator);
 		int port = Integer.parseInt(endpoint.substring(portSeparator + 1), 10);
 
-        try {
-			client = TransportClient.builder().build()
-                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
+		if(client == null) {
+			try {
+				client = TransportClient.builder().build()
+					.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
 
-        } catch (UnknownHostException e) {
-            LOGGER.info("no elasticsearch cluster running.");
-        }
+			} catch (UnknownHostException e) {
+				LOGGER.info("no elasticsearch cluster running.");
+			}
+		}
 
     }
 
@@ -102,14 +104,15 @@ public class ElasticSearchAdapter implements SearchAdapter {
     @Override
     public void setupNewBuild(BuildIdentifier buildIdentifier) {
         String indexName = getIndexName(buildIdentifier);
-        new ElasticSearchIndexer(indexName).setupCleanIndex(indexName);
+
+		new ElasticSearchIndexer(indexName, client).setupCleanIndex(indexName);
     }
 
     @Override
     public void indexUseCases(UseCaseScenariosList useCaseScenariosList, BuildIdentifier buildIdentifier) {
-        String indexName = getIndexName(buildIdentifier);
+		String indexName = getIndexName(buildIdentifier);
 
-        ElasticSearchIndexer elasticSearchIndexer = new ElasticSearchIndexer(indexName);
+		ElasticSearchIndexer elasticSearchIndexer = new ElasticSearchIndexer(indexName, client);
         elasticSearchIndexer.indexUseCases(useCaseScenariosList);
     }
 
@@ -117,7 +120,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 	public void indexSteps(List<Step> steps, List<StepLink> stepLinks, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
 		String indexName = getIndexName(buildIdentifier);
 
-		ElasticSearchIndexer elasticSearchIndexer = new ElasticSearchIndexer(indexName);
+		ElasticSearchIndexer elasticSearchIndexer = new ElasticSearchIndexer(indexName, client);
 		elasticSearchIndexer.indexSteps(steps, stepLinks, scenario, usecase);
 	}
 
