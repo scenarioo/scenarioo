@@ -4,8 +4,8 @@ var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
 var NUMBER_OF_AVAILABLE_COMPARISON = 6;
-var BRANCH_WIKI = 'wikipedia-docu-example';
-var BRANCH_WIKI_DEV = 'wikipedia-docu-example-dev';
+var BRANCH_WIKI = 'Production';
+var BRANCH_WIKI_DEV = 'Development';
 var BUILD_LAST_SUCCESSFUL = 'last successful';
 var BUILD_JANUARY = '2014-01-20';
 var SECOND_USE_CASE = 1;
