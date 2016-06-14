@@ -62,13 +62,19 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
                     }
                     $scope.selectedComparison = selectedComparison;
                 }, function onFailure() {
-                    $scope.comparisonBuilds = [];
-                    SelectedComparison.setSelected(SelectedComparison.COMPARISON_DISABLED);
-                    $location.search(SelectedComparison.COMPARISON_KEY, SelectedComparison.COMPARISON_DISABLED);
-                    $scope.selectedComparison = undefined;
+                    resetComparisonSelection();
                 }
             );
+        } else {
+            resetComparisonSelection();
         }
+    }
+
+    function resetComparisonSelection(){
+        $scope.comparisonBuilds = [];
+        SelectedComparison.setSelected(SelectedComparison.COMPARISON_DISABLED);
+        $location.search(SelectedComparison.COMPARISON_KEY, SelectedComparison.COMPARISON_DISABLED);
+        $scope.selectedComparison = undefined;
     }
 
     $scope.setBranch = function (branch) {
