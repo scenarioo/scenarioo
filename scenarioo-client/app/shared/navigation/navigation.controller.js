@@ -19,7 +19,7 @@ angular.module('scenarioo.controllers').controller('NavigationController', Navig
 
 function NavigationController($scope, $location, LocalStorageService, BranchesAndBuildsService,
                               SelectedBranchAndBuildService, ApplicationInfoPopupService, ConfigService,
-                              GlobalHotkeysService, FullTextSearchService) {
+                              GlobalHotkeysService, SearchEngineStatusService) {
 
     $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
         $scope.applicationName = ConfigService.applicationName();
@@ -40,17 +40,9 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     };
 
     function getEngineRunning () {
-        var selected = SelectedBranchAndBuildService.selected();
-        FullTextSearchService.checkStatus({
-                buildName: selected.build,
-                branchName: selected.branch
-            }
-        ).then(function onSuccess() {
-                $scope.isEngineRunning = true;
-            },
-            function onError() {
-                $scope.isEngineRunning = false;
-            });
+        SearchEngineStatusService.isEngineRunning().then(function(status) {
+            $scope.isEngineRunning = status;
+        });
     }
 
     $scope.isEngineRunning = getEngineRunning();
