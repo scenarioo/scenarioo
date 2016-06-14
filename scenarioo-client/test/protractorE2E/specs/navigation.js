@@ -7,7 +7,7 @@ var NUMBER_OF_AVAILABLE_COMPARISON = 6;
 var BRANCH_WIKI = 'wikipedia-docu-example';
 var BRANCH_WIKI_DEV = 'wikipedia-docu-example-dev';
 var BUILD_LAST_SUCCESSFUL = 'last successful';
-var BUILD_REVISION = 'Revision 1290FE2';
+var BUILD_JANUARY = '2014-01-20';
 var SECOND_USE_CASE = 1;
 var SECOND_SCENARIO = 1;
 
@@ -85,8 +85,8 @@ useCase('Navigation')
 				homePage.goToPage();
 				homePage.chooseBranch(BRANCH_WIKI);
 				step('wikipedia-docu-example branch selected');
-				homePage.chooseBuild(BUILD_REVISION);
-				step('Revision 1290FE2 build selected');
+				homePage.chooseBuild(BUILD_JANUARY);
+				step('January build selected');
 
 				homePage.assertComparisonMenuNotShown();
 			});
