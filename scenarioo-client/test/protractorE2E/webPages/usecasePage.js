@@ -33,9 +33,12 @@ UsecasePage.prototype.assertNumberOfDiffInfos = function(count){
     });
 };
 
-UsecasePage.prototype.assertValueOfFirstDiffInfo = function(value){
-    var changeRateSpan = this.scenarioTable.element(by.css('.diff-info-wrapper:first-of-type .change-rate span'));
-    e2eUtils.assertTextPresentInElement(changeRateSpan, value);
+UsecasePage.prototype.assertLastUseCase = function(lastName) {
+    e2eUtils.assertTextPresentInElement(this.scenarioTable.element(by.css('tr:last-of-type td:nth-of-type(2)')), lastName);
+};
+
+UsecasePage.prototype.assertFirstUseCase = function(firstName) {
+    e2eUtils.assertTextPresentInElement(this.scenarioTable.element(by.css('tr:first-of-type td:nth-of-type(2)')), firstName);
 };
 
 UsecasePage.prototype.assertNoDiffInfoDisplayed = function () {

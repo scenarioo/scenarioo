@@ -78,19 +78,19 @@ BaseWebPage.prototype.startScenariooRevisited = function() {
 BaseWebPage.prototype.chooseBranch = function (branchName) {
     // Open menu first, otherwise we cannot click
     element(by.partialLinkText('Branch:')).click();
-    element(by.css('#branchSelectionDropdown .dropdown-menu')).element(by.partialLinkText(branchName)).click();
+    element(by.css('#branchSelectionDropdown .dropdown-menu')).all(by.partialLinkText(branchName)).first().click();
 };
 
 BaseWebPage.prototype.chooseBuild = function (buildName) {
     // Open menu first, otherwise we cannot click
     element(by.partialLinkText('Build:')).click();
-    element(by.css('#build-selection-dropdown .dropdown-menu')).element(by.partialLinkText(buildName)).click();
+    element(by.css('#build-selection-dropdown .dropdown-menu')).all(by.partialLinkText(buildName)).first().click();
 };
 
 BaseWebPage.prototype.chooseComparison = function (comparisonName) {
     // Open menu first, otherwise we cannot click
     element(by.partialLinkText('Comparison:')).click();
-    element(by.css('#comparison-selection-dropdown .dropdown-menu')).element(by.partialLinkText(comparisonName)).click();
+    element(by.css('#comparison-selection-dropdown .dropdown-menu')).all(by.partialLinkText(comparisonName)).first().click();
 };
 
 BaseWebPage.prototype.assertSelectedComparison = function (comparisonName) {
