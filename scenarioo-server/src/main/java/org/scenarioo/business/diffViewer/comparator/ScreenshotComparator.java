@@ -87,7 +87,7 @@ public class ScreenshotComparator extends AbstractComparator {
 			diffScreenshot.getParentFile().mkdirs();
 		}
 		final IMOperation gmOperation = new IMOperation();
-		gmOperation.metric("RMSE");
+		gmOperation.metric("MAE");
 		gmOperation.addImage(comparisonScreenshot.getPath());
 		gmOperation.addImage(baseScreenshot.getPath());
 		gmOperation.addRawArgs("-highlight-style", "Tint");
@@ -138,7 +138,7 @@ public class ScreenshotComparator extends AbstractComparator {
 			final Pattern p = Pattern.compile("\\d+\\.\\d+");
 			final Matcher m = p.matcher(total);
 			if (m.find()) {
-				return Double.parseDouble(m.group(0)) * 100;
+				return Math.sqrt(Double.parseDouble(m.group(0))) * 100;
 			}
 		}
 		throw new RuntimeException("Cannot parse Graphics Magick console output");
