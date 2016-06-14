@@ -4,6 +4,12 @@ var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
 var NUMBER_OF_AVAILABLE_COMPARISON = 6;
+var BRANCH_WIKI = 'wikipedia-docu-example';
+var BRANCH_WIKI_DEV = 'wikipedia-docu-example-dev';
+var BUILD_LAST_SUCCESSFUL = 'last successful';
+var BUILD_REVISION = 'Revision 1290FE2';
+var SECOND_USE_CASE = 1;
+var SECOND_SCENARIO = 1;
 
 useCase('Navigation')
 	.description('Select Build and Comparison from navigation bar')
@@ -20,17 +26,17 @@ useCase('Navigation')
 
 		afterEach(function () {
 			// Reset Selection
-			homePage.chooseBuild('last successful:');
-			homePage.chooseBranch('wikipedia-docu-example');
+			homePage.chooseBuild(BUILD_LAST_SUCCESSFUL + ':');
+			homePage.chooseBranch(BRANCH_WIKI);
 		});
 
 		scenario('Check selectable comparisons')
 			.description('Selects a build from wikipedia-docu-example-dev and checks if six comparisons are available')
 			.it(function () {
 				homePage.goToPage();
-				homePage.chooseBranch('wikipedia-docu-example-dev');
+				homePage.chooseBranch(BRANCH_WIKI_DEV);
 				step('wikipedia-docu-example-dev branch selected');
-				homePage.chooseBuild('last successful');
+				homePage.chooseBuild(BUILD_LAST_SUCCESSFUL);
 				step('last successful build selected');
 				homePage.assertSelectedComparison('Disabled (Available ' + NUMBER_OF_AVAILABLE_COMPARISON + ')');
 			});
@@ -39,9 +45,9 @@ useCase('Navigation')
 			.description('Selects a build from wikipedia-example-dev and selects to last successful (dev) as comparison')
 			.it(function () {
 				homePage.goToPage();
-				homePage.chooseBranch('wikipedia-docu-example-dev');
+				homePage.chooseBranch(BRANCH_WIKI_DEV);
 				step('wikipedia-docu-example-dev branch selected');
-				homePage.chooseBuild('last successful:');
+				homePage.chooseBuild(BUILD_LAST_SUCCESSFUL + ':');
 				step('last successful build selected');
 				homePage.chooseComparison('To last successful (dev)');
 				step('last successful (dev) comparison selected');
@@ -53,19 +59,19 @@ useCase('Navigation')
 			.description('Disables the diff viewer feature by selecting "Disable" in the comparison menu')
 			.it(function () {
 				homePage.goToPage();
-				homePage.chooseBranch('wikipedia-docu-example-dev');
+				homePage.chooseBranch(BRANCH_WIKI_DEV);
 				step('wikipedia-docu-example-dev branch selected');
-				homePage.chooseBuild('last successful:');
+				homePage.chooseBuild(BUILD_LAST_SUCCESSFUL + ':');
 				step('last successful build selected');
 				homePage.chooseComparison('To last successful (dev)');
 				step('last successful (dev) comparison selected');
                 homePage.chooseComparison('Disable');
                 homePage.assertNoDiffInfoDisplayed();
                 step('comparison Disabled');
-                homePage.selectUseCase(1);
+                homePage.selectUseCase(SECOND_USE_CASE);
 				usecasePage.assertNoDiffInfoDisplayed();
                 step('Check for diff elements in list of scenarios');
-				usecasePage.selectScenario(1);
+				usecasePage.selectScenario(SECOND_SCENARIO);
 				scenarioPage.assertNoDiffInfoDisplayed();
 				step('Check for diff elements in scenario');
 				scenarioPage.openStepByName('Step 1: Wikipedia Suche');
@@ -77,9 +83,9 @@ useCase('Navigation')
 			.description('if no comparison is available the comparison menu should be hidden')
 			.it(function () {
 				homePage.goToPage();
-				homePage.chooseBranch('wikipedia-docu-example');
+				homePage.chooseBranch(BRANCH_WIKI);
 				step('wikipedia-docu-example branch selected');
-				homePage.chooseBuild('Revision 1290FE2');
+				homePage.chooseBuild(BUILD_REVISION);
 				step('Revision 1290FE2 build selected');
 
 				homePage.assertComparisonMenuNotShown();

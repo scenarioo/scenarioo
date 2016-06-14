@@ -4,6 +4,9 @@ var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
 var NUMBER_OF_USE_CASES = 4;
+var COMPARISON_PROJECTSTART = 'To Projectstart';
+var COMPARISON_DISABLE = 'Disable';
+var USE_CASE_WITH_HIGHEST_DIFF = 'Donate';
 
 useCase('List use cases')
     .description('As soon as a branch and a build are selected, a list of use cases is shown.')
@@ -50,33 +53,33 @@ useCase('List use cases')
             .it(function () {
                 homePage.goToPage();
                 step('display usecases on homepage');
-                homePage.chooseComparison('To Projectstart');
+                homePage.chooseComparison(COMPARISON_PROJECTSTART);
                 homePage.assertPageIsDisplayed();
                 step('To Projectstart comparison selected');
 
                 homePage.assertNumberOfDiffInfos(NUMBER_OF_USE_CASES);
 
                 // Reset
-                homePage.chooseComparison('Disable');
+                homePage.chooseComparison(COMPARISON_DISABLE);
             });
 
         scenario('Sort by Diff-Information')
             .it(function () {
                 homePage.goToPage();
                 step('display usecases on homepage');
-                homePage.chooseComparison('To Projectstart');
+                homePage.chooseComparison(COMPARISON_PROJECTSTART);
                 homePage.assertPageIsDisplayed();
                 step('To Projectstart comparison selected');
 
                 homePage.clickSortByChanges();
-                homePage.assertLastUseCase('Donate');
+                homePage.assertLastUseCase(USE_CASE_WITH_HIGHEST_DIFF);
                 step('Diff Infos sorted ascending');
 
                 homePage.clickSortByChanges();
-                homePage.assertFirstUseCase('Donate');
+                homePage.assertFirstUseCase(USE_CASE_WITH_HIGHEST_DIFF);
                 step('Diff Infos sorted descending');
 
                 // Reset
-                homePage.chooseComparison('Disable');
+                homePage.chooseComparison(COMPARISON_DISABLE);
             });
     });
