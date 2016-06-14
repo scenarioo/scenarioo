@@ -179,7 +179,6 @@ useCase('Show step')
                 stepPage.clickComparisonTabButton();
                 stepPage.assertStepComparisonSideBySideViewIsActive();
                 stepPage.assertStepComparisonHideHighlightsButtonIsDisplayed();
-                stepPage.assertStepDiffScreenshotSrcEquals(DIFF_SCREENSHOT_SRC);
                 stepPage.assertStepComparisonScreenshotSrcEquals(COMPARISON_SCREENSHOT_SRC);
                 step('Switch to comparison tab');
 
@@ -196,7 +195,6 @@ useCase('Show step')
 
                 stepPage.clickShowHighlightsButton();
                 stepPage.assertStepComparisonHideHighlightsButtonIsDisplayed();
-                stepPage.assertStepDiffScreenshotSrcEquals(DIFF_SCREENSHOT_SRC);
                 step('Show highlights');
 
                 stepPage.clickSwitchToComparisonScreenshotButton();
@@ -221,7 +219,6 @@ useCase('Show step')
                 stepPage.clickSideBySideViewButton();
                 stepPage.assertStepComparisonSideBySideViewIsActive();
                 stepPage.assertStepComparisonHideHighlightsButtonIsDisplayed();
-                stepPage.assertStepDiffScreenshotSrcEquals(SCREENSHOT_SRC);
                 stepPage.assertStepNoComparisonScreenshot();
                 step('Show added step base screenshot in side by side view');
 
@@ -244,7 +241,6 @@ useCase('Show step')
 
                 stepPage.clickShowHighlightsButton();
                 stepPage.assertStepComparisonSinglePageViewIsActive();
-                stepPage.assertStepDiffScreenshotSrcEquals(SCREENSHOT_SRC);
                 step('Show added step diff screenshot in single page view');
 
             });
