@@ -25,8 +25,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
+/**
+ * @param <A>
+ *            Represents the added element type.
+ * @param <R>
+ *            Represents the removed element type.
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class StructureDiffInfo<ADDED_TYPE, REMOVED_TYPE> extends AbstractDiffInfo {
+public class StructureDiffInfo<A, R> extends AbstractDiffInfo {
 
 	private String name;
 	private int added;
@@ -35,11 +41,11 @@ public class StructureDiffInfo<ADDED_TYPE, REMOVED_TYPE> extends AbstractDiffInf
 
 	@XmlElementWrapper(name = "addedElements")
 	@XmlElement(name = "addedElement")
-	private List<ADDED_TYPE> addedElements = new LinkedList<ADDED_TYPE>();
+	private List<A> addedElements = new LinkedList<A>();
 
 	@XmlElementWrapper(name = "removedElements")
 	@XmlElement(name = "removedElemet")
-	private List<REMOVED_TYPE> removedElements = new LinkedList<REMOVED_TYPE>();
+	private List<R> removedElements = new LinkedList<R>();
 
 	public StructureDiffInfo() {
 		// Used for JAXB
@@ -77,6 +83,7 @@ public class StructureDiffInfo<ADDED_TYPE, REMOVED_TYPE> extends AbstractDiffInf
 	public void setChanged(final int changed) {
 		this.changed = changed;
 	}
+
 	public int getRemoved() {
 		return removed;
 	}
@@ -85,19 +92,19 @@ public class StructureDiffInfo<ADDED_TYPE, REMOVED_TYPE> extends AbstractDiffInf
 		this.removed = removed;
 	}
 
-	public List<ADDED_TYPE> getAddedElements() {
+	public List<A> getAddedElements() {
 		return addedElements;
 	}
 
-	public void setAddedElements(List<ADDED_TYPE> addedElements) {
+	public void setAddedElements(final List<A> addedElements) {
 		this.addedElements = addedElements;
 	}
 
-	public List<REMOVED_TYPE> getRemovedElements() {
+	public List<R> getRemovedElements() {
 		return removedElements;
 	}
 
-	public void setRemovedElements(List<REMOVED_TYPE> removedElements) {
+	public void setRemovedElements(final List<R> removedElements) {
 		this.removedElements = removedElements;
 	}
 }
