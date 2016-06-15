@@ -27,6 +27,7 @@ import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.StepInfo;
+import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.StepDescription;
@@ -34,12 +35,15 @@ import org.scenarioo.model.docu.entities.StepDescription;
 /**
  * Comparison results are persisted in a xml file.
  */
-public class StepComparator extends AbstractComparator {
+public class StepComparator extends AbstractStructureComparator<StepLink, Integer, StepInfo> {
 
 	private static final Logger LOGGER = Logger.getLogger(StepComparator.class);
 
 	private ScreenshotComparator screenshotComparator = new ScreenshotComparator(baseBranchName, baseBuildName,
 			comparisonConfiguration);
+	private String baseUseCaseName;
+	private String baseScenarioName;
+	private List<Step> comparisonSteps;
 	private StepsAndPagesAggregator stepAndPagesAggregator = new StepsAndPagesAggregator(null, null);
 
 	public StepComparator(final String baseBranchName, final String baseBuildName,
@@ -48,9 +52,12 @@ public class StepComparator extends AbstractComparator {
 	}
 
 	public ScenarioDiffInfo compare(final String baseUseCaseName, final String baseScenarioName) {
-		final List<Step> baseSteps = loadSteps(baseBranchName, baseBuildName, baseUseCaseName, baseScenarioName);
-		final List<Step> comparisonSteps = loadSteps(comparisonConfiguration.getComparisonBranchName(),
-				comparisonConfiguration.getComparisonBuildName(), baseUseCaseName, baseScenarioName);
+		this.baseUseCaseName = baseUseCaseName;
+		this.baseScenarioName = baseScenarioName;
+
+		final List<Step> baseSteps = loadSteps(baseBranchName, baseBuildName);
+		this.comparisonSteps = loadSteps(comparisonConfiguration.getComparisonBranchName(),
+				comparisonConfiguration.getComparisonBuildName());
 
 		final List<StepLink> baseStepLinks = stepAndPagesAggregator.calculateStepLinks(baseSteps, baseUseCaseName,
 				baseScenarioName);
@@ -58,71 +65,69 @@ public class StepComparator extends AbstractComparator {
 				baseUseCaseName, baseScenarioName);
 
 		final ScenarioDiffInfo scenarioDiffInfo = new ScenarioDiffInfo(baseScenarioName);
-		double stepChangeRateSum = 0;
 
-		for (final StepLink baseStepLink : baseStepLinks) {
-			final StepLink comparisonStepLink = getStepLinkByIdentifier(comparisonStepLinks,
-					getStepIdentifier(baseStepLink));
-			if (comparisonStepLink == null) {
-				LOGGER.debug("Found new step called [" + getStepIdentifier(baseStepLink) + "] in base branch ["
-						+ baseBranchName + "] and base build [" + baseBuildName + "] and base use case ["
-						+ baseUseCaseName + "] and base scenario [" + baseScenarioName + "]");
-				scenarioDiffInfo.setAdded(scenarioDiffInfo.getAdded() + 1);
-				scenarioDiffInfo.getAddedElements().add(baseStepLink.getStepIndex());
-			} else {
-				comparisonStepLinks.remove(comparisonStepLink);
-				final String comparisonScreenshotName = THREE_DIGIT_NUM_FORMAT
-						.format(comparisonStepLink.getStepIndex())
-						+ SCREENSHOT_FILE_EXTENSION;
+		calculateDiffInfo(baseStepLinks, comparisonStepLinks, scenarioDiffInfo);
 
-				final double changeRate = screenshotComparator.compare(baseUseCaseName, baseScenarioName,
-						baseStepLink, comparisonScreenshotName);
-
-				final StepDiffInfo stepDiffInfo = new StepDiffInfo();
-				stepDiffInfo.setChangeRate(changeRate);
-				stepDiffInfo.setIndex(baseStepLink.getStepIndex());
-				stepDiffInfo.setPageName(baseStepLink.getPageName());
-				stepDiffInfo.setPageOccurrence(baseStepLink.getPageOccurrence());
-				stepDiffInfo.setStepInPageOccurrence(baseStepLink.getStepInPageOccurrence());
-				stepDiffInfo.setComparisonScreenshotName(comparisonScreenshotName);
-
-				diffWriter.saveStepDiffInfo(baseUseCaseName, baseScenarioName, stepDiffInfo);
-
-				if (stepDiffInfo.hasChanges()) {
-					scenarioDiffInfo.setChanged(scenarioDiffInfo.getChanged() + 1);
-					stepChangeRateSum += stepDiffInfo.getChangeRate();
-				}
-			}
-		}
-		LOGGER.debug(comparisonStepLinks.size() + " steps were removed in base branch ["
-				+ baseBranchName + "] and base build [" + baseBuildName + "] and base use case ["
-				+ baseUseCaseName + "] and base scenario [" + baseScenarioName + "]");
-		scenarioDiffInfo.setRemoved(comparisonStepLinks.size());
-		scenarioDiffInfo.getRemovedElements().addAll(getStepInfos(comparisonStepLinks, comparisonSteps));
-		scenarioDiffInfo.setChangeRate(calculateChangeRate(baseSteps.size(), scenarioDiffInfo.getAdded(),
-				scenarioDiffInfo.getRemoved(), stepChangeRateSum));
+		LOGGER.info(getLogMessage(scenarioDiffInfo,
+				"Scenario " + baseBranchName + "/" + baseBuildName + "/" + baseUseCaseName + "/" + baseScenarioName));
 
 		return scenarioDiffInfo;
 	}
 
-	private List<StepInfo> getStepInfos(final List<StepLink> stepLinks, final List<Step> steps) {
+	@Override
+	protected double compareElement(final StepLink baseElement, final StepLink comparisonElement,
+			final StructureDiffInfo<Integer, StepInfo> diffInfo) {
+		if (comparisonElement == null) {
+			return 0;
+		} else {
+			final String comparisonScreenshotName = THREE_DIGIT_NUM_FORMAT
+					.format(comparisonElement.getStepIndex())
+					+ SCREENSHOT_FILE_EXTENSION;
+
+			final double changeRate = screenshotComparator.compare(baseUseCaseName, baseScenarioName,
+					baseElement, comparisonScreenshotName);
+
+			final StepDiffInfo stepDiffInfo = getStepDiffInfo(baseElement, comparisonScreenshotName, changeRate);
+
+			diffWriter.saveStepDiffInfo(baseUseCaseName, baseScenarioName, stepDiffInfo);
+
+			if (stepDiffInfo.hasChanges()) {
+				diffInfo.setChanged(diffInfo.getChanged() + 1);
+			}
+			return stepDiffInfo.getChangeRate();
+		}
+	}
+
+	private List<StepInfo> getStepInfos(final List<StepLink> stepLinks) {
 		final List<StepInfo> stepInfos = new LinkedList<StepInfo>();
 		for (final StepLink stepLink : stepLinks) {
 			final StepInfo stepInfo = new StepInfo();
 			stepInfo.setStepLink(stepLink);
-			stepInfo.setStepDescription(getStepDescription(stepLink, steps));
+			stepInfo.setStepDescription(getStepDescription(stepLink));
 			stepInfos.add(stepInfo);
 		}
 		return stepInfos;
 	}
 
-	private StepDescription getStepDescription(final StepLink stepLink, final List<Step> steps) {
-		for (final Step step : steps) {
+	private StepDescription getStepDescription(final StepLink stepLink) {
+		for (final Step step : comparisonSteps) {
 			if (step.getStepDescription() != null && stepLink.getStepIndex() == step.getStepDescription().getIndex()) {
 				return step.getStepDescription();
 			}
 		}
 		return null;
+	}
+
+	private StepDiffInfo getStepDiffInfo(final StepLink baseStepLink, final String comparisonScreenshotName,
+			final double changeRate) {
+		final StepDiffInfo stepDiffInfo = new StepDiffInfo();
+		stepDiffInfo.setChangeRate(changeRate);
+		stepDiffInfo.setIndex(baseStepLink.getStepIndex());
+		stepDiffInfo.setPageName(baseStepLink.getPageName());
+		stepDiffInfo.setPageOccurrence(baseStepLink.getPageOccurrence());
+		stepDiffInfo.setStepInPageOccurrence(baseStepLink.getStepInPageOccurrence());
+		stepDiffInfo.setComparisonScreenshotName(comparisonScreenshotName);
+		return stepDiffInfo;
 	}
 
 	private String getStepIdentifier(final StepLink stepLink) {
@@ -136,17 +141,7 @@ public class StepComparator extends AbstractComparator {
 		return stepIdentifier.toString();
 	}
 
-	private StepLink getStepLinkByIdentifier(final List<StepLink> stepLinks, final String stepIdentifier) {
-		for (final StepLink stepLink : stepLinks) {
-			if (stepIdentifier.equals(getStepIdentifier(stepLink))) {
-				return stepLink;
-			}
-		}
-		return null;
-	}
-
-	private List<Step> loadSteps(final String branchName, final String buildName, final String baseUseCaseName,
-			final String baseScenarioName) {
+	private List<Step> loadSteps(final String branchName, final String buildName) {
 		try {
 			return docuReader.loadSteps(branchName, buildName, baseUseCaseName, baseScenarioName);
 		} catch (final ResourceNotFoundException e) {
@@ -154,4 +149,18 @@ public class StepComparator extends AbstractComparator {
 		}
 	}
 
+	@Override
+	protected String getElementIdentifier(final StepLink element) {
+		return getStepIdentifier(element);
+	}
+
+	@Override
+	protected Integer getAddedElementValue(final StepLink element) {
+		return element.getStepIndex();
+	}
+
+	@Override
+	protected List<StepInfo> getRemovedElementValues(final List<StepLink> removedElements) {
+		return getStepInfos(removedElements);
+	}
 }
