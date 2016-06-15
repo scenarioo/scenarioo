@@ -26,6 +26,9 @@ import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.utils.NumberFormatCreator;
 
+/**
+ * Represents the XML structure in the file system.
+ */
 public class DiffFiles {
 
 	private static final String DIFF_VIEWER_DIRECTORY = "scenarioo-application-data/diffViewer";
