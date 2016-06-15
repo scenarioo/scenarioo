@@ -59,6 +59,9 @@ public class ComparisonExecutor {
 		asyncComparisonExecutor = executorService;
 	}
 
+	/**
+	 * Submits all comparisons for the given build.
+	 */
 	public synchronized void doComparison(final String baseBranchName, final String baseBuildName) {
 		final List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = getComparisonConfigurationsForBaseBranch(
 				baseBranchName);
@@ -68,6 +71,9 @@ public class ComparisonExecutor {
 
 	}
 
+	/**
+	 * Executes a comparison for the given build and comparison configuration in a separate thread.
+	 */
 	private synchronized void submitBuildForComparison(final String baseBranchName, final String baseBuildName,
 			final ComparisonConfiguration comparisonConfiguration) {
 
@@ -87,13 +93,7 @@ public class ComparisonExecutor {
 			final ComparisonConfiguration comparisonConfiguration) {
 		ThreadLogAppender comparisonLog = null;
 		try {
-			final String comparisonName = comparisonConfiguration.getName();
-			final File comparisonLogFile = diffReader.getBuildComparisonLogFile(baseBranchName, baseBuildName,
-					comparisonName);
-			final String comparisonIdentifier = baseBranchName + "/" + baseBuildName + "/" + comparisonName;
-
-			comparisonLog = ThreadLogAppender.createAndRegisterForLogs(comparisonIdentifier,
-					comparisonLogFile);
+			comparisonLog = registerLogFile(baseBranchName, baseBuildName, comparisonConfiguration);
 
 			LOGGER.info("============= START OF BUILD COMPARISON ================");
 			LOGGER.info("Comparing base build: " + baseBranchName + "/"
@@ -124,6 +124,9 @@ public class ComparisonExecutor {
 		}
 	}
 
+	/**
+	 * Reads the reloaded xml configuration and returns all comparison configurations for the given base branch.
+	 */
 	private synchronized List<ComparisonConfiguration> getComparisonConfigurationsForBaseBranch(
 			final String baseBranchName) {
 		final List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = new LinkedList<ComparisonConfiguration>();
@@ -142,6 +145,13 @@ public class ComparisonExecutor {
 		return comparisonConfigurationsForBaseBranch;
 	}
 
+	/**
+	 * Resolves branch and build aliases in a comparison configuration so that the effective branch and build name is in
+	 * the comparison configuration.
+	 * 
+	 * If in a comparison configuration the alias for last successful or most recent is used then we need to make sure
+	 * that on every execution time the correct previous build is used.
+	 */
 	protected ComparisonConfiguration resolveComparisonConfiguration(
 			final ComparisonConfiguration comparisonConfiguration,
 			final String baseBuildName) {
@@ -228,5 +238,16 @@ public class ComparisonExecutor {
 		resolvedComparisonConfiguration.setComparisonBuildName(comparisonBuildIdentifier.getBuildName());
 		resolvedComparisonConfiguration.setName(comparisonConfiguration.getName());
 		return resolvedComparisonConfiguration;
+	}
+
+	private ThreadLogAppender registerLogFile(final String baseBranchName, final String baseBuildName,
+			final ComparisonConfiguration comparisonConfiguration) {
+		final String comparisonName = comparisonConfiguration.getName();
+		final File comparisonLogFile = diffReader.getBuildComparisonLogFile(baseBranchName, baseBuildName,
+				comparisonName);
+		final String comparisonIdentifier = baseBranchName + "/" + baseBuildName + "/" + comparisonName;
+
+		return ThreadLogAppender.createAndRegisterForLogs(comparisonIdentifier,
+				comparisonLogFile);
 	}
 }

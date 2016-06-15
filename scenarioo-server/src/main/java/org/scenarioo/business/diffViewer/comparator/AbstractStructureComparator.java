@@ -33,6 +33,8 @@ import org.scenarioo.model.diffViewer.StructureDiffInfo;
  */
 public abstract class AbstractStructureComparator<E, A, R> extends AbstractComparator {
 
+	private static final double ADDED_REMOVED_CHANGE_RATE = 100.0;
+
 	public AbstractStructureComparator(final String baseBranchName, final String baseBuildName,
 			final ComparisonConfiguration comparisonConfiguration) {
 		super(baseBranchName, baseBuildName, comparisonConfiguration);
@@ -122,6 +124,21 @@ public abstract class AbstractStructureComparator<E, A, R> extends AbstractCompa
 		return null;
 	}
 
+	protected double calculateChangeRate(final double numberOfBaseElements, final double numberOfAddedElements,
+			final double numberOfRemovedElements,
+			final double childChangeRateSum) {
+
+		double changeRateSum = 0.0;
+		changeRateSum += numberOfAddedElements * ADDED_REMOVED_CHANGE_RATE;
+		changeRateSum += childChangeRateSum;
+		changeRateSum += numberOfRemovedElements * ADDED_REMOVED_CHANGE_RATE;
+
+		if (numberOfBaseElements + numberOfRemovedElements < 1) {
+			return 0;
+		}
+		return changeRateSum / (numberOfBaseElements + numberOfRemovedElements);
+	}
+
 	protected String getLogMessage(final StructureDiffInfo<A, R> diffInfo, final String identifier) {
 		final StringBuilder logMessage = new StringBuilder(identifier).append(" has");
 		logMessage.append(" addedElements: ").append(diffInfo.getAdded());
@@ -131,6 +148,9 @@ public abstract class AbstractStructureComparator<E, A, R> extends AbstractCompa
 		return logMessage.toString();
 	}
 
+	/**
+	 * Returns all elements of A which aren't in elements B.
+	 */
 	private List<E> getRelativeComplement(final List<E> elementsA, final List<E> elementsB) {
 		final List<E> relativeComplement = new LinkedList<E>();
 

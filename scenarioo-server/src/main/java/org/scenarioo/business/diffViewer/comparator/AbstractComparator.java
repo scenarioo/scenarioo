@@ -30,7 +30,6 @@ import org.scenarioo.utils.NumberFormatCreator;
 
 public abstract class AbstractComparator {
 
-	private static final double ADDED_REMOVED_CHANGE_RATE = 100.0;
 	protected static final String SCREENSHOT_FILE_EXTENSION = ".png";
 	protected static final NumberFormat THREE_DIGIT_NUM_FORMAT = NumberFormatCreator
 			.createNumberFormatWithMinimumIntegerDigits(3);
@@ -55,21 +54,6 @@ public abstract class AbstractComparator {
 		this.baseBranchName = baseBranchName;
 		this.baseBuildName = baseBuildName;
 		this.comparisonConfiguration = comparisonConfiguration;
-	}
-
-	protected double calculateChangeRate(final double numberOfBaseElements, final double numberOfAddedElements,
-			final double numberOfRemovedElements,
-			final double childChangeRateSum) {
-
-		double changeRateSum = 0.0;
-		changeRateSum += numberOfAddedElements * ADDED_REMOVED_CHANGE_RATE;
-		changeRateSum += childChangeRateSum;
-		changeRateSum += numberOfRemovedElements * ADDED_REMOVED_CHANGE_RATE;
-
-		if (numberOfBaseElements + numberOfRemovedElements < 1) {
-			return 0;
-		}
-		return changeRateSum / (numberOfBaseElements + numberOfRemovedElements);
 	}
 
 }

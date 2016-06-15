@@ -35,6 +35,9 @@ import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 
+/**
+ * XML Diff Writer which writes the xml files in a separate thread.
+ */
 public class DiffWriterXmlImpl implements DiffWriter {
 
 	private static final long KEEP_ALIVE_TIME = 60L;
