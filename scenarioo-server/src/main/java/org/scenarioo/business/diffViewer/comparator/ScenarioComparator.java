@@ -20,12 +20,12 @@ package org.scenarioo.business.diffViewer.comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
+import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
@@ -35,11 +35,12 @@ import org.scenarioo.rest.base.BuildIdentifier;
 /**
  * Comparison results are persisted in a xml file.
  */
-public class ScenarioComparator extends AbstractComparator {
+public class ScenarioComparator extends AbstractStructureComparator<Scenario, String, ScenarioSummary> {
 
 	private static final Logger LOGGER = Logger.getLogger(ScenarioComparator.class);
 
 	private StepComparator stepComparator = new StepComparator(baseBranchName, baseBuildName, comparisonConfiguration);
+	private String baseUseCaseName;
 
 	private AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDao(
 			configurationRepository.getDocumentationDataDirectory());
@@ -50,52 +51,42 @@ public class ScenarioComparator extends AbstractComparator {
 	}
 
 	public UseCaseDiffInfo compare(final String baseUseCaseName) {
+		this.baseUseCaseName = baseUseCaseName;
+
 		final List<Scenario> baseScenarios = docuReader.loadScenarios(baseBranchName, baseBuildName, baseUseCaseName);
 		final List<Scenario> comparisonScenarios = docuReader.loadScenarios(
 				comparisonConfiguration.getComparisonBranchName(),
 				comparisonConfiguration.getComparisonBuildName(), baseUseCaseName);
 
 		final UseCaseDiffInfo useCaseDiffInfo = new UseCaseDiffInfo(baseUseCaseName);
-		double scenarioChangeRateSum = 0;
 
-		for (final Scenario baseScenario : baseScenarios) {
-			if (StringUtils.isEmpty(baseScenario.getName())) {
-				throw new RuntimeException("Found empty name for scenario.");
-			}
+		calculateDiffInfo(baseScenarios, comparisonScenarios, useCaseDiffInfo);
 
-			final Scenario comparisonScenario = getScenarioByName(comparisonScenarios, baseScenario.getName());
-			if (comparisonScenario == null) {
-				LOGGER.debug("Found new scenario called [" + baseScenario.getName() + "] in base branch ["
-						+ baseBranchName + "] and base build [" + baseBuildName + "] and base use case ["
-						+ baseUseCaseName + "]");
-				useCaseDiffInfo.setAdded(useCaseDiffInfo.getAdded() + 1);
-				useCaseDiffInfo.getAddedElements().add(baseScenario.getName());
-			} else {
-				comparisonScenarios.remove(comparisonScenario);
-
-				final ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(baseUseCaseName, baseScenario.getName());
-
-				diffWriter.saveScenarioDiffInfo(scenarioDiffInfo, baseUseCaseName);
-
-				if (scenarioDiffInfo.hasChanges()) {
-					useCaseDiffInfo.setChanged(useCaseDiffInfo.getChanged() + 1);
-					scenarioChangeRateSum += scenarioDiffInfo.getChangeRate();
-				}
-			}
-		}
-		LOGGER.debug(comparisonScenarios.size() + " scenarios were removed in base branch ["
-				+ baseBranchName + "] and base build [" + baseBuildName + "] and base use case ["
-				+ baseUseCaseName + "]");
-		useCaseDiffInfo.setRemoved(comparisonScenarios.size());
-		useCaseDiffInfo.setRemovedElements(
-				getScenarioSummaries(comparisonScenarios, baseUseCaseName));
-		useCaseDiffInfo.setChangeRate(calculateChangeRate(baseScenarios.size(), useCaseDiffInfo.getAdded(),
-				useCaseDiffInfo.getRemoved(), scenarioChangeRateSum));
+		LOGGER.info(getLogMessage(useCaseDiffInfo,
+				"Use Case " + baseBranchName + "/" + baseBuildName + "/" + baseUseCaseName));
 
 		return useCaseDiffInfo;
 	}
 
-	private List<ScenarioSummary> getScenarioSummaries(final List<Scenario> scenarios, final String useCaseName) {
+	@Override
+	protected double compareElement(final Scenario baseElement, final Scenario comparisonElement,
+			final StructureDiffInfo<String, ScenarioSummary> diffInfo) {
+		if (comparisonElement == null) {
+			return 0;
+		} else {
+			final ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(baseUseCaseName,
+					baseElement.getName());
+
+			diffWriter.saveScenarioDiffInfo(scenarioDiffInfo, baseUseCaseName);
+
+			if (scenarioDiffInfo.hasChanges()) {
+				diffInfo.setChanged(diffInfo.getChanged() + 1);
+			}
+			return scenarioDiffInfo.getChangeRate();
+		}
+	}
+
+	private List<ScenarioSummary> getScenarioSummaries(final List<Scenario> scenarios) {
 		final List<ScenarioSummary> scenarioSummaries = new LinkedList<ScenarioSummary>();
 
 		if (scenarios.isEmpty()) {
@@ -106,7 +97,7 @@ public class ScenarioComparator extends AbstractComparator {
 				comparisonConfiguration.getComparisonBranchName(),
 				comparisonConfiguration.getComparisonBuildName());
 		final UseCaseScenarios useCaseScenarios = aggregatedDataReader.loadUseCaseScenarios(comparisonBuildIdentifier,
-				useCaseName);
+				baseUseCaseName);
 
 		for (final Scenario scenario : scenarios) {
 			for (final ScenarioSummary scenarioSummary : useCaseScenarios.getScenarios()) {
@@ -119,13 +110,18 @@ public class ScenarioComparator extends AbstractComparator {
 		return scenarioSummaries;
 	}
 
-	private Scenario getScenarioByName(final List<Scenario> scenarios, final String scenarioName) {
-		for (final Scenario scenario : scenarios) {
-			if (scenarioName.equals(scenario.getName())) {
-				return scenario;
-			}
-		}
-		return null;
+	@Override
+	protected String getElementIdentifier(final Scenario element) {
+		return element.getName();
 	}
 
+	@Override
+	protected String getAddedElementValue(final Scenario element) {
+		return element.getName();
+	}
+
+	@Override
+	protected List<ScenarioSummary> getRemovedElementValues(final List<Scenario> removedElements) {
+		return getScenarioSummaries(removedElements);
+	}
 }

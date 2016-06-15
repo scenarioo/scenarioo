@@ -19,17 +19,17 @@ package org.scenarioo.business.diffViewer.comparator;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
+import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.entities.UseCase;
 
 /**
  * Comparison results are persisted in a xml file.
  */
-public class UseCaseComparator extends AbstractComparator {
+public class UseCaseComparator extends AbstractStructureComparator<UseCase, String, UseCase> {
 
 	private static final Logger LOGGER = Logger.getLogger(UseCaseComparator.class);
 
@@ -50,48 +50,42 @@ public class UseCaseComparator extends AbstractComparator {
 		final BuildDiffInfo buildDiffInfo = new BuildDiffInfo(comparisonConfiguration.getName(),
 				comparisonConfiguration.getComparisonBranchName(), comparisonConfiguration.getComparisonBuildName());
 
-		double useCaseChangeRateSum = 0;
+		calculateDiffInfo(baseUseCases, comparisonUseCases, buildDiffInfo);
 
-		for (final UseCase baseUseCase : baseUseCases) {
-			if (StringUtils.isEmpty(baseUseCase.getName())) {
-				throw new RuntimeException("Found empty name for use case.");
-			}
-
-			final UseCase comparisonUseCase = getUseCaseByName(comparisonUseCases, baseUseCase.getName());
-			if (comparisonUseCase == null) {
-				LOGGER.debug("Found new use case called [" + baseUseCase.getName() + "] in base branch ["
-						+ baseBranchName + "] and base build [" + baseBuildName + "]");
-				buildDiffInfo.setAdded(buildDiffInfo.getAdded() + 1);
-				buildDiffInfo.getAddedElements().add(baseUseCase.getName());
-			} else {
-				comparisonUseCases.remove(comparisonUseCase);
-
-				final UseCaseDiffInfo useCaseDiffInfo = scenarioComparator.compare(baseUseCase.getName());
-
-				diffWriter.saveUseCaseDiffInfo(useCaseDiffInfo);
-
-				if (useCaseDiffInfo.hasChanges()) {
-					buildDiffInfo.setChanged(buildDiffInfo.getChanged() + 1);
-					useCaseChangeRateSum += useCaseDiffInfo.getChangeRate();
-				}
-			}
-		}
-		LOGGER.debug(comparisonUseCases.size() + " use cases were removed in base branch ["
-				+ baseBranchName + "] and base build [" + baseBuildName + "]");
-		buildDiffInfo.setRemoved(comparisonUseCases.size());
-		buildDiffInfo.getRemovedElements().addAll(comparisonUseCases);
-		buildDiffInfo.setChangeRate(calculateChangeRate(baseUseCases.size(), buildDiffInfo.getAdded(),
-				buildDiffInfo.getRemoved(), useCaseChangeRateSum));
+		LOGGER.info(getLogMessage(buildDiffInfo, "Build " + baseBranchName + "/" + baseBuildName));
 
 		return buildDiffInfo;
 	}
 
-	private UseCase getUseCaseByName(final List<UseCase> useCases, final String useCaseName) {
-		for (final UseCase useCase : useCases) {
-			if (useCaseName.equals(useCase.getName())) {
-				return useCase;
+	@Override
+	protected double compareElement(final UseCase baseElement, final UseCase comparisonElement,
+			final StructureDiffInfo<String, UseCase> diffInfo) {
+		if (comparisonElement == null) {
+			return 0;
+		} else {
+			final UseCaseDiffInfo useCaseDiffInfo = scenarioComparator.compare(baseElement.getName());
+
+			diffWriter.saveUseCaseDiffInfo(useCaseDiffInfo);
+
+			if (useCaseDiffInfo.hasChanges()) {
+				diffInfo.setChanged(diffInfo.getChanged() + 1);
 			}
+			return useCaseDiffInfo.getChangeRate();
 		}
-		return null;
+	}
+
+	@Override
+	protected String getElementIdentifier(final UseCase element) {
+		return element.getName();
+	}
+
+	@Override
+	protected String getAddedElementValue(final UseCase element) {
+		return element.getName();
+	}
+
+	@Override
+	protected List<UseCase> getRemovedElementValues(final List<UseCase> removedElements) {
+		return removedElements;
 	}
 }
