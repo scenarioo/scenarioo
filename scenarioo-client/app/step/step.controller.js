@@ -383,6 +383,30 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
 
     function initComparisonScreenshotUrl () {
         $scope.comparisonScreenShotUrl = ScreenshotUrlService.getComparisonScreenShotUrl($scope.comparisonBranchName, $scope.comparisonBuildName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.comparisonScreenshotName);
+        var build = BranchesAndBuildsService.getBuild($scope.comparisonBranchName, $scope.comparisonBuildName);
+        $scope.comparisonScreenShotDescription = $scope.branch;
+    }
+
+    function initBaseBuildName() {
+        BranchesAndBuildsService.getDisplayNameForBuildName(SelectedBranchAndBuildService.selected().branch, SelectedBranchAndBuildService.selected().build, false).then(function(result){
+            $scope.baseBuildName = result;
+        });
+    }
+
+    function initBaseBuild(){
+        BranchesAndBuildsService.getBuild(SelectedBranchAndBuildService.selected().branch, SelectedBranchAndBuildService.selected().build).then(function(result){
+            if(result){
+                $scope.baseBuild = result.build;
+            }
+        });
+    }
+
+    function initComparisonBuild(){
+        BranchesAndBuildsService.getBuild($scope.comparisonBranchName, $scope.comparisonBuildName).then(function(result){
+            if(result){
+                $scope.comparisonBuild = result.build;
+            }
+        });
     }
 
     // This URL is only used internally, not for sharing
@@ -404,6 +428,8 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
                 $scope.comparisonBranchName = buildDiffInfo.comparisonBranchName;
                 $scope.comparisonBuildName = buildDiffInfo.comparisonBuildName;
                 initBaseBuildName();
+                initBaseBuild();
+                initComparisonBuild();
                 loadStepDiffInfo();
             }, function onFailure(){
                 $scope.comparisonName = '';
@@ -411,12 +437,6 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
                 $scope.comparisonBuildName = '';
             }
         );
-    }
-
-    function initBaseBuildName() {
-        BranchesAndBuildsService.getDisplayNameForBuildName(SelectedBranchAndBuildService.selected().branch, SelectedBranchAndBuildService.selected().build, false).then(function(result){
-            $scope.baseBuildName = result;
-        });
     }
 
     function loadStepDiffInfo() {

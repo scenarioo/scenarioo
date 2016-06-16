@@ -58,27 +58,22 @@ public abstract class AbstractStructureComparator<E, A, R> extends AbstractCompa
 			final List<E> comparisonElements, final StructureDiffInfo<A, R> diffInfo) {
 		handleAddedElements(baseElements, comparisonElements, diffInfo);
 
-		final double stepChangeRateSum = compareElements(baseElements, comparisonElements, diffInfo);
+		final double elementChangeRateSum = compareElements(baseElements, comparisonElements, diffInfo);
 
 		handleRemovedElements(baseElements, comparisonElements, diffInfo);
 
 		diffInfo.setChangeRate(calculateChangeRate(baseElements.size(), diffInfo.getAdded(),
-				diffInfo.getRemoved(), stepChangeRateSum));
+				diffInfo.getRemoved(), elementChangeRateSum));
 	}
 
-	/**
-	 * Compares the base elements with the comparison elements.
-	 * 
-	 * @return the change rate sum of all use cases
-	 */
 	protected double compareElements(final List<E> baseElements, final List<E> comparisonElements,
 			final StructureDiffInfo<A, R> diffInfo) {
-		double useCaseChangeRateSum = 0;
+		double elementChangeRateSum = 0;
 		for (final E baseElement : baseElements) {
 			final E comparisonElement = getElementByIdentifier(comparisonElements, getElementIdentifier(baseElement));
-			useCaseChangeRateSum += compareElement(baseElement, comparisonElement, diffInfo);
+			elementChangeRateSum += compareElement(baseElement, comparisonElement, diffInfo);
 		}
-		return useCaseChangeRateSum;
+		return elementChangeRateSum;
 	}
 
 	protected void handleRemovedElements(final List<E> baseElements,
@@ -124,8 +119,8 @@ public abstract class AbstractStructureComparator<E, A, R> extends AbstractCompa
 		return null;
 	}
 
-	protected double calculateChangeRate(final double numberOfBaseElements, final double numberOfAddedElements,
-			final double numberOfRemovedElements,
+	protected double calculateChangeRate(final int numberOfBaseElements, final int numberOfAddedElements,
+			final int numberOfRemovedElements,
 			final double childChangeRateSum) {
 
 		double changeRateSum = 0.0;
@@ -133,7 +128,7 @@ public abstract class AbstractStructureComparator<E, A, R> extends AbstractCompa
 		changeRateSum += childChangeRateSum;
 		changeRateSum += numberOfRemovedElements * ADDED_REMOVED_CHANGE_RATE;
 
-		if (numberOfBaseElements + numberOfRemovedElements < 1) {
+		if (numberOfBaseElements + numberOfRemovedElements == 0) {
 			return 0;
 		}
 		return changeRateSum / (numberOfBaseElements + numberOfRemovedElements);
@@ -149,7 +144,7 @@ public abstract class AbstractStructureComparator<E, A, R> extends AbstractCompa
 	}
 
 	/**
-	 * Returns all elements of A which aren't in elements B.
+	 * Returns all elements of A which aren't in elements B. --> (A \ B) = {x € A | x !€ B}
 	 */
 	private List<E> getRelativeComplement(final List<E> elementsA, final List<E> elementsB) {
 		final List<E> relativeComplement = new LinkedList<E>();
