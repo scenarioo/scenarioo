@@ -106,7 +106,7 @@ public class ScreenshotComparator extends AbstractComparator {
 	private double runGraphicsMagickOperation(final IMOperation gmOperation) {
 		try {
 			gmConsole.run(gmOperation);
-			return getRmseValueFromOutput();
+			return getRmaeValueFromOutput();
 		} catch (final Exception e) {
 			LOGGER.warn("Graphics Magick operation failed. Default screenshot changerate '"
 					+ SCREENSHOT_DEFAULT_CHANGE_RATE + "' gets returned.");
@@ -126,7 +126,7 @@ public class ScreenshotComparator extends AbstractComparator {
 	/**
 	 * Reads the result from the GraphicsMagick console and parses the difference value.
 	 */
-	double getRmseValueFromOutput() {
+	double getRmaeValueFromOutput() {
 		final ArrayList<String> gmConsoleOutput = gmConsoleOutputConsumer.getOutput();
 		String total = null;
 		for (final String line : gmConsoleOutput) {
