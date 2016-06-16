@@ -32,8 +32,8 @@ angular.module('scenarioo.services').factory('BranchesAndBuildsService', functio
             if (SelectedBranchAndBuildService.isDefined()) {
                 var selected = SelectedBranchAndBuildService.selected();
 
-                loadedData.selectedBranch = getSelectedBranch(loadedData, selected.branch);
-                loadedData.selectedBuild = getSelectedBuild(loadedData.selectedBranch, selected.build);
+                loadedData.selectedBranch = getBranch(loadedData, selected.branch);
+                loadedData.selectedBuild = getBuild(loadedData.selectedBranch, selected.build);
             }
 
             deferred.resolve(loadedData);
@@ -44,7 +44,7 @@ angular.module('scenarioo.services').factory('BranchesAndBuildsService', functio
         return deferred.promise;
     };
 
-    function getSelectedBranch(loadedData, branchName) {
+    function getBranch(loadedData, branchName) {
         var index;
         for (index = 0; index < loadedData.branches.length; index++) {
             if (loadedData.branches[index].branch.name === branchName) {
@@ -54,11 +54,11 @@ angular.module('scenarioo.services').factory('BranchesAndBuildsService', functio
 
     }
 
-    function getSelectedBuild(selectedBranch, buildName) {
+    function getBuild(branch, buildName) {
         var index;
-        if (angular.isDefined(selectedBranch)) {
-            var allBuildsOnSelectedBranch = selectedBranch.builds;
-            for (index = 0; index < selectedBranch.builds.length; index++) {
+        if (angular.isDefined(branch)) {
+            var allBuildsOnSelectedBranch = branch.builds;
+            for (index = 0; index < branch.builds.length; index++) {
                 if (allBuildsOnSelectedBranch[index].linkName === buildName) {
                     return allBuildsOnSelectedBranch[index];
                 }
@@ -84,8 +84,8 @@ angular.module('scenarioo.services').factory('BranchesAndBuildsService', functio
 
 
         getBranchesAndBuildsData().then(function onSuccess(result){
-            var selectedBranch = getSelectedBranch(result, branchName);
-            var selectedBuild = getSelectedBuild(selectedBranch, buildName);
+            var selectedBranch = getBranch(result, branchName);
+            var selectedBuild = getBuild(selectedBranch, buildName);
             var baseBuildName = getDisplayNameForBuild(selectedBuild, returnShortText);
 
             deferred.resolve(baseBuildName);
@@ -136,12 +136,26 @@ angular.module('scenarioo.services').factory('BranchesAndBuildsService', functio
         return build.getDisplayNameForBuild === 'last successful scenarios';
     }
 
+
+    function getBuildByName(branchName, buildName) {
+        var deferred = $q.defer();
+
+        getBranchesAndBuildsData().then(function onSuccess(result){
+            var branch = getBranch(result, branchName);
+            var build = getBuild(branch, buildName);
+            deferred.resolve(build);
+        });
+
+        return deferred.promise;
+    }
+
     return {
         getBranchesAndBuilds: getBranchesAndBuildsData,
         getBranchDisplayName: getBranchDisplayName,
         isLastSuccessfulScenariosBuild: isLastSuccessfulScenariosBuild,
         isBuildAlias: isBuildAlias,
         getDisplayNameForBuild: getDisplayNameForBuild,
-        getDisplayNameForBuildName: getDisplayNameForBuildName
+        getDisplayNameForBuildName: getDisplayNameForBuildName,
+        getBuild: getBuildByName
     };
 });

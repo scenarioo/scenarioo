@@ -125,7 +125,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                          <sc-diff-info-icon diff-info="step.diffInfo" element-type="screenshot" child-element-type="screenshot"></sc-diff-info-icon>
                     </div>
                 </uib-tab-heading>
-
                 <div class="buttonBar">
                     <div id="sc-step-comparison-buttons" class="btn-group" ng-init="initStorageKeys()">
                         <button type="button" id="sc-side-by-side-view-button" ng-class="{active: comparisonViewOptions[displaySideBySideViewKey]}" ng-click="setActiveView(displaySideBySideViewKey)" class="btn btn-default"> <img ng-src="images/diffViewer/SideBySideView.png" class="sc-step-comparison-icon"/>Side by side view</button>
@@ -146,19 +145,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </div>
                 <div id="sc-step-comparison-side-by-side-view" ng-if="comparisonViewOptions[displaySideBySideViewKey]">
                     <div class="col-lg-6">
-                        <div class="sc-base-screenshot" ng-if="!comparisonViewOptions[displayDiffScreenshotKey]" class="clear">
-                            <h3>{{baseBuildName}} (Current screenshot)</h3>
+                        {{baseBuild.aliasName}}
+                        <div class="sc-base-screenshot clear" ng-if="!comparisonViewOptions[displayDiffScreenshotKey]">
+                            <sc-screenshot-title build="baseBuild" name="Current" alias="{{baseBuildName}}" highlights="false"></sc-screenshot-title>
                             <sc-annotated-screenshot screen-shot-url="screenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
                         </div>
 
-                        <div class="sc-diff-screenshot" ng-if="comparisonViewOptions[displayDiffScreenshotKey]" class="clear">
-                            <h3>{{baseBuildName}} (Current screenshot highlighted)</h3>
+                        <div class="sc-diff-screenshot clear" ng-if="comparisonViewOptions[displayDiffScreenshotKey]">
+                            <sc-screenshot-title build="baseBuild" name="Current" alias="{{baseBuildName}}" highlights="true"></sc-screenshot-title>
                             <sc-annotated-screenshot screen-shot-url="diffScreenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div>
-                            <h3 >{{comparisonName}} (Comparison screenshot)</h3>
+                            <sc-screenshot-title build="comparisonBuild" name="{{comparisonName}}" highlights="false"></sc-screenshot-title>
                             <div ng-if="step.diffInfo.isAdded">
                                 <p>No comparison screenshot because this is an added step.</p>
                             </div>
@@ -171,12 +171,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <div id="sc-step-comparison-single-page-view" ng-if="!comparisonViewOptions[displaySideBySideViewKey]">
                     <div ng-if="!comparisonViewOptions[displayComparisonScreenshotKey]">
                         <div class="sc-base-screenshot" ng-if="!comparisonViewOptions[displayDiffScreenshotKey]">
-                            <h3>{{baseBuildName}} (Current screenshot)</h3>
+                            <sc-screenshot-title build="baseBuild" name="Current" alias="{{baseBuildName}}" highlights="false"></sc-screenshot-title>
                             <sc-annotated-screenshot screen-shot-url="screenShotUrl"></sc-annotated-screenshot>
                         </div>
 
                         <div class="sc-diff-screenshot" ng-if="comparisonViewOptions[displayDiffScreenshotKey]">
-                            <h3>{{baseBuildName}} (Current screenshot highlighted)</h3>
+                            <sc-screenshot-title build="baseBuild" name="Current" alias="{{baseBuildName}}" highlights="true"></sc-screenshot-title>
                             <sc-annotated-screenshot screen-shot-url="diffScreenShotUrl"></sc-annotated-screenshot>
                         </div>
                     </div>
@@ -185,7 +185,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <h3>No comparison screenshot because this is an added step.</h3>
                         </div>
                         <div class="sc-comparison-screenshot" ng-if="!step.diffInfo.isAdded">
-                            <h3>{{comparisonName}} (Comparison screenshot)</h3>
+                            <sc-screenshot-title build="comparisonBuild" name="{{comparisonName}}" screenshot-type="comparisonScreenshot"></sc-screenshot-title>
                             <sc-annotated-screenshot screen-shot-url="comparisonScreenShotUrl"></sc-annotated-screenshot>
                         </div>
 
