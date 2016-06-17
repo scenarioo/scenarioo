@@ -43,7 +43,7 @@ import org.scenarioo.utils.ThreadLogAppender;
  */
 public class ComparisonExecutor {
 
-	private static final Logger LOGGER = Logger.getLogger(ComparisonExecutorTest.class);
+	private static final Logger LOGGER = Logger.getLogger(ComparisonExecutor.class);
 
 	private ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
