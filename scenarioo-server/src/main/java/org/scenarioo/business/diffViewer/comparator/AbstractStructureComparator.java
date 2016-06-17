@@ -144,7 +144,7 @@ public abstract class AbstractStructureComparator<E, A, R> extends AbstractCompa
 	}
 
 	/**
-	 * Returns all elements of A which aren't in elements B. --> (A \ B) = {x € A | x !€ B}
+	 * Returns all elements of A which aren't in elements B. --> (A \ B) = {x is element of A | x is not element of B}
 	 */
 	private List<E> getRelativeComplement(final List<E> elementsA, final List<E> elementsB) {
 		final List<E> relativeComplement = new LinkedList<E>();
