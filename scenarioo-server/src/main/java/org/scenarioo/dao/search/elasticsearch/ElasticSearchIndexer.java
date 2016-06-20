@@ -103,7 +103,7 @@ class ElasticSearchIndexer {
             ObjectMapper objectMapper = new ObjectMapper();
             ObjectWriter writer = objectMapper.writer();
 
-            client.prepareIndex(indexName, type).setSource(writer.writeValueAsBytes(document)).get();
+            client.prepareIndex(indexName, type).setSource(writer.writeValueAsBytes(document)).execute();
 
 //            LOGGER.debug("Indexed use case " + documentName + " for index " + indexName);
         } catch (IOException e) {
