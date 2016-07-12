@@ -17,6 +17,8 @@
 
 angular.module('scenarioo.controllers').controller('UseCasesTabController', UseCasesTabController);
 
+// TODO danielsuter select comparison could probably be merged into the SelectedBranchAndBuildService
+// Also why are we not using or listening to events?
 function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsService, SelectedBranchAndBuildService,
                                SelectedComparison, DiffInfoService, UseCasesResource, LabelConfigurationsResource, BuildDiffInfoResource, UseCaseDiffInfosResource) {
 
@@ -36,6 +38,7 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     vm.comparisonInfo = SelectedComparison.info;
 
     vm.goToUseCase = goToUseCase;
+    // TODO danielsuter improve naming -> function is called on click on a use case row
     vm.handleClick = handleClick;
     vm.onNavigatorTableHit = onNavigatorTableHit;
     vm.resetSearchField = resetSearchField;
@@ -93,6 +96,7 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
             UseCasesResource.query(
                 {'branchName': selected.branch, 'buildName': selected.build},
                 function onSuccess(useCases) {
+                    // TODO danielsuter isDefined = selected or available?
                     if(SelectedComparison.isDefined()) {
                         loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
                     } else {
@@ -110,6 +114,7 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     }
 
     function loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName) {
+        // TODO danielsuter duplicate is defined check
         if(SelectedComparison.isDefined() && useCases && baseBranchName && baseBuildName) {
             BuildDiffInfoResource.get(
                 {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
@@ -121,6 +126,7 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
                         }
                     );
                 }, function onFailure(){
+                    // TODO danielsuter this is probably a serious failure which we should not hide
                     vm.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, [], [], 'name');
                 }
             );
