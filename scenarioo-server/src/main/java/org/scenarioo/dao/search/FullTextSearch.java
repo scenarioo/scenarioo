@@ -54,7 +54,6 @@ public class FullTextSearch {
 
 	public SearchTree search(String q, BuildIdentifier buildIdentifier) {
 		if(!searchAdapter.isEngineRunning()) {
-			LOGGER.info("No search engine running.");
 			return SearchTree.empty();
 		}
 
@@ -65,25 +64,23 @@ public class FullTextSearch {
 
 	public void indexUseCases(final UseCaseScenariosList useCaseScenariosList, final BuildIdentifier buildIdentifier) {
 		if(!searchAdapter.isEngineRunning()) {
-			LOGGER.info("No search engine running.");
 			return;
 		}
 
 		searchAdapter.setupNewBuild(buildIdentifier);
 		searchAdapter.indexUseCases(useCaseScenariosList, buildIdentifier);
 
-		LOGGER.info("Indexed build " + buildIdentifier);
+		LOGGER.info("Indexed use cases for build " + buildIdentifier);
 	}
 
 	public void indexSteps(List<Step> steps, List<StepLink> stepLinkList, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
 		if(!searchAdapter.isEngineRunning()) {
-			LOGGER.info("No search engine running.");
 			return;
 		}
 
 		searchAdapter.indexSteps(steps, stepLinkList, scenario, usecase, buildIdentifier);
 
-		LOGGER.info("Indexed steps " + buildIdentifier);
+		LOGGER.debug("Indexed steps for use case " + usecase.getName());
 	}
 
 	private SearchTree buildObjectTree(List<SearchDao> searchResults, final String q) {
@@ -92,7 +89,6 @@ public class FullTextSearch {
 
 	public void updateAvailableBuilds(List<BuildImportSummary> availableBuilds) {
 		if(!searchAdapter.isEngineRunning()) {
-			LOGGER.info("No search engine running.");
 			return;
 		}
 
