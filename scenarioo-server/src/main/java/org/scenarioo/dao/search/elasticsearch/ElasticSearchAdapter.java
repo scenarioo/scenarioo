@@ -53,7 +53,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 		.getConfigurationRepository();
-	private String configuredEndpoint = configurationRepository.getConfiguration().getElasticsearchEndpoint();
+	private String configuredEndpoint = configurationRepository.getConfiguration().getElasticSearchEndpoint();
 
     public ElasticSearchAdapter() {
 		String endpoint = configuredEndpoint;
