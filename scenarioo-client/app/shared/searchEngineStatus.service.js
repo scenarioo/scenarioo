@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.services').factory('SearchEngineStatusService', function (SelectedBranchAndBuildService, FullTextSearchService) {
     return {
-        isEngineRunning: function() {
+        isSearchEngineRunning: function() {
             var selected = SelectedBranchAndBuildService.selected();
 
             var promise = FullTextSearchService.checkStatus({

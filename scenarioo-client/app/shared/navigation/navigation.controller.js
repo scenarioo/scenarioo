@@ -39,13 +39,13 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
         $location.path('/search').search('q=' + $scope.globalSearch.queryString);
     };
 
-    function getEngineRunning () {
-        SearchEngineStatusService.isEngineRunning().then(function(status) {
-            $scope.isEngineRunning = status;
+    function loadSearchEngineRunning () {
+        SearchEngineStatusService.isSearchEngineRunning().then(function(status) {
+            $scope.isSearchEngineRunning = status;
         });
     }
 
-    $scope.isEngineRunning = getEngineRunning();
+    $scope.isSearchEngineRunning = loadSearchEngineRunning();
 
     function loadBranchesAndBuildsService() {
         BranchesAndBuildsService.getBranchesAndBuildsService().then(function onSuccess(branchesAndBuilds) {
