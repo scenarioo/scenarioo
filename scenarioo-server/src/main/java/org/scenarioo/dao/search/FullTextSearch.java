@@ -20,7 +20,6 @@ package org.scenarioo.dao.search;
 import java.util.*;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.dao.search.dao.*;
 import org.scenarioo.dao.search.elasticsearch.ElasticSearchAdapter;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
@@ -59,7 +58,7 @@ public class FullTextSearch {
 
 		List<SearchDao> searchResults = searchAdapter.searchData(buildIdentifier, q);
 
-		return buildObjectTree(searchResults, q);
+		return new SearchTree(searchResults, q);
 	}
 
 	public void indexUseCases(final UseCaseScenariosList useCaseScenariosList, final BuildIdentifier buildIdentifier) {
@@ -81,10 +80,6 @@ public class FullTextSearch {
 		searchAdapter.indexSteps(steps, stepLinkList, scenario, usecase, buildIdentifier);
 
 		LOGGER.debug("Indexed steps for use case " + usecase.getName());
-	}
-
-	private SearchTree buildObjectTree(List<SearchDao> searchResults, final String q) {
-		return new SearchTree(searchResults, q);
 	}
 
 	public void updateAvailableBuilds(List<BuildImportSummary> availableBuilds) {
