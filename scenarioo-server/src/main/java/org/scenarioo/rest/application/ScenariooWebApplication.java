@@ -46,7 +46,7 @@ public class ScenariooWebApplication implements ServletContextListener {
 
 		initializeApplicationVersion(servletContextEvent.getServletContext());
 		loadConfiguration(servletContextEvent);
-		initializeApplicationContext(servletContextEvent.getServletContext());
+		initializeContextPath(servletContextEvent.getServletContext());
 
 		LOGGER.info("  Updating documentation content directory (will be done asynchronously ...)");
 		ScenarioDocuBuildsManager.INSTANCE.updateAllBuildsAndSubmitNewBuildsForImport();
@@ -118,7 +118,7 @@ public class ScenariooWebApplication implements ServletContextListener {
 		LOGGER.info("  Build date: " + ApplicationVersionHolder.INSTANCE.getApplicationVersion().getBuildDate());
 	}
 
-	private void initializeApplicationContext(ServletContext servletContext) {
+	private void initializeContextPath(ServletContext servletContext) {
 		String contextPath = servletContext.getContextPath();
 
 		ContextPathHolder.INSTANCE.setContextPath(contextPath.substring(1));
