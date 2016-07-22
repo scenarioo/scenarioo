@@ -24,7 +24,7 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService, Sear
     vm.configuration = {};
     vm.configuredBranch = {};
     vm.successfullyUpdatedConfiguration = false;
-    vm.isEngineRunning = false;
+    vm.isSearchEngineRunning = false;
     vm.resetConfiguration = resetConfiguration;
     vm.updateConfiguration = updateConfiguration;
 
@@ -37,7 +37,7 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService, Sear
         });
 
         ConfigService.load();
-        getEngineRunning();
+        loadSearchEngineRunning();
     }
 
     $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
@@ -57,9 +57,9 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService, Sear
         }
     }
 
-    function getEngineRunning () {
-        SearchEngineStatusService.isEngineRunning().then(function(status) {
-            vm.isEngineRunning = status;
+    function loadSearchEngineRunning () {
+        SearchEngineStatusService.isSearchEngineRunning().then(function(status) {
+            vm.isSearchEngineRunning = status;
         });
     }
 
