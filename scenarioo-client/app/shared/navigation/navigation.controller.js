@@ -40,8 +40,8 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     };
 
     function loadSearchEngineRunning () {
-        SearchEngineStatusService.isSearchEngineRunning().then(function(status) {
-            $scope.isSearchEngineRunning = status;
+        SearchEngineStatusService.isSearchEngineRunning().then(function(result) {
+            $scope.isSearchEngineRunning = result.searchEngineRunning;
         });
     }
 

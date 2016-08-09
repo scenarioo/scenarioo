@@ -58,8 +58,8 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService, Sear
     }
 
     function loadSearchEngineRunning () {
-        SearchEngineStatusService.isSearchEngineRunning().then(function(status) {
-            vm.isSearchEngineRunning = status;
+        SearchEngineStatusService.isSearchEngineRunning().then(function(result) {
+            vm.isSearchEngineRunning = result.searchEngineRunning;
         });
     }
 

@@ -15,24 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('SearchEngineStatusService', function (SelectedBranchAndBuildService, FullTextSearchService) {
+angular.module('scenarioo.services').factory('SearchEngineStatusService', function (ScenariooResource) {
+
+    var SearchEngineStatusResource = ScenariooResource('/searchEngineStatus', {});
+
     return {
         isSearchEngineRunning: function() {
-            var selected = SelectedBranchAndBuildService.selected();
-
-            var promise = FullTextSearchService.checkStatus({
-                    buildName: selected.build,
-                    branchName: selected.branch
-                }
-            ).then(function onSuccess() {
-                    return true;
-                },
-                function onError() {
-                    return false;
-                });
-
-            return promise;
+            return SearchEngineStatusResource.get().$promise;
         }
     }
-});
 
+});
