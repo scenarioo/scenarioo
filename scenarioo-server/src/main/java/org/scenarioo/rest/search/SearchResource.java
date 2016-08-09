@@ -21,7 +21,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.search.FullTextSearch;
@@ -29,12 +28,12 @@ import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
 import org.scenarioo.rest.base.BuildIdentifier;
 
-@Path("/rest/branch/{branchName}/build/{buildName}/")
+@Path("/rest")
 public class SearchResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/search/{q}")
+	@Path("/branch/{branchName}/build/{buildName}/search/{q}")
 	public ObjectTreeNode<ObjectReference> search(@PathParam("branchName") final String branchName,
 												  @PathParam("buildName") final String buildName, @PathParam("q") final String q) {
 
@@ -46,11 +45,8 @@ public class SearchResource {
 	}
 
 	@GET
-	@Path("/searchEngine")
-	public Response isEngineRunning() {
-		if(new FullTextSearch().isEngineRunning()){
-			return Response.ok().build();
-		}
-		return Response.status(Response.Status.NOT_FOUND).build();
+	@Path("/searchEngineStatus")
+	public SearchEngineStatusResponse getSearchEngineStatus() {
+		return new SearchEngineStatusResponse(new FullTextSearch().isEngineRunning());
 	}
 }
