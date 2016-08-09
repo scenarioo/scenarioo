@@ -54,19 +54,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
 
+        <h2>Full Text Search</h2>
+
         <div class="row sc-space-bottom">
-            <div class="col-lg-3">Search engine
-                &nbsp;<span class="glyphicon glyphicon-info-sign" tooltip="Application specific full text search engine."></span>
+            <div class="col-lg-3">Elasticsearch Endpoint
+                &nbsp;<span class="glyphicon glyphicon-info-sign" uib-tooltip="Scenarioo full text search requires an Elasticsearch installation to be reachable. By default localhost:9300 is used. You can configure a custom endpoint by setting the field elasticSearchEndpoint in config.xml."></span>
             </div>
-            <div class="col-lg-9" ng-show="!vm.isSearchEngineRunning" ng-cloak>
-                <div class="alert alert-warning">No search engine running</div>
-            </div>
-            <div class="col-lg-9" ng-show="vm.isSearchEngineRunning" ng-cloak>
-                <span>up and running!</span>
+            <div class="col-lg-9">
+                {{vm.searchEngineEndpoint}}
             </div>
         </div>
 
-        <h2>Branches and builds</h2>
+        <div class="row sc-space-bottom">
+            <div class="col-lg-3">Elasticsearch Status
+                &nbsp;<span class="glyphicon glyphicon-info-sign" uib-tooltip="Tells you whether Scenarioo can reach the above search engine endpoint. If it can't, the full text search feature is automatically disabled."></span>
+            </div>
+            <div class="col-lg-9" ng-show="!vm.isSearchEngineRunning" ng-cloak>
+                Not running / reachable <span class="glyphicon glyphicon-exclamation-sign"></span>
+            </div>
+            <div class="col-lg-9" ng-show="vm.isSearchEngineRunning" ng-cloak>
+                <span>Running and reachable</span>
+            </div>
+        </div>
+
+        <h2>Branches and Builds</h2>
 
         <div class="row sc-space-bottom">
             <div class="col-lg-3">Default Branch

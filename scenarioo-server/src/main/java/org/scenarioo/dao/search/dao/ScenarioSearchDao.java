@@ -19,7 +19,6 @@ package org.scenarioo.dao.search.dao;
 
 import org.scenarioo.model.docu.entities.Scenario;
 
-@SuppressWarnings("unused")
 public class ScenarioSearchDao implements SearchDao {
 
 	private Scenario scenario;
@@ -60,7 +59,7 @@ public class ScenarioSearchDao implements SearchDao {
 			this.usecase = usecase;
 		}
 
-		public void setUsecase(String usecase) {
+		public void setUsecase(final String usecase) {
 			this.usecase = usecase;
 		}
 

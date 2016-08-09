@@ -17,6 +17,13 @@
 
 package org.scenarioo.dao.search.elasticsearch;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -30,15 +37,13 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.IgnoreUseCaseSetStatusMixIn;
-import org.scenarioo.dao.search.dao.*;
-import org.scenarioo.model.docu.entities.*;
-
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import org.scenarioo.dao.search.dao.ScenarioSearchDao;
+import org.scenarioo.dao.search.dao.SearchDao;
+import org.scenarioo.dao.search.dao.StepSearchDao;
+import org.scenarioo.dao.search.dao.UseCaseSearchDao;
+import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.StepDescription;
+import org.scenarioo.model.docu.entities.UseCase;
 
 class ElasticSearchSearcher {
 	private final static Logger LOGGER = Logger.getLogger(ElasticSearchSearcher.class);
@@ -48,10 +53,9 @@ class ElasticSearchSearcher {
 
     private ObjectReader useCaseReader;
     private ObjectReader scenarioReader;
-    private ObjectReader pageReader;
     private ObjectReader stepReader;
 
-    ElasticSearchSearcher(String indexName) {
+    ElasticSearchSearcher(final String indexName) {
         try {
             this.client = TransportClient.builder().build()
                     .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
@@ -60,7 +64,6 @@ class ElasticSearchSearcher {
 
 			useCaseReader = generateStandardReaders(UseCase.class, UseCaseSearchDao.class);
 			scenarioReader = generateStandardReaders(Scenario.class, ScenarioSearchDao.class);
-			pageReader = generateStandardReaders(Page.class, PageSearchDao.class);
 			stepReader = generateStandardReaders(StepDescription.class, StepSearchDao.class);
 
         } catch (UnknownHostException e) {
@@ -68,7 +71,7 @@ class ElasticSearchSearcher {
         }
     }
 
-    List<SearchDao> search(String q) {
+    List<SearchDao> search(final String q) {
         SearchResponse searchResponse = executeSearch(q);
 
         if (searchResponse.getHits().getHits().length == 0) {
@@ -125,13 +128,6 @@ class ElasticSearchSearcher {
 		return scenarioSearchDao;
     }
 
-    private SearchDao parsePage(final SearchHit searchHit) throws IOException {
-        PageSearchDao pageSearchDao = pageReader.readValue(searchHit.getSourceRef()
-                .streamInput());
-
-		return pageSearchDao;
-    }
-
     private SearchDao parseStep(final SearchHit searchHit) throws IOException {
         StepSearchDao stepSearchDao = stepReader.readValue(searchHit.getSourceRef()
                 .streamInput());
@@ -139,7 +135,7 @@ class ElasticSearchSearcher {
 		return stepSearchDao;
     }
 
-	private ObjectReader generateStandardReaders(Class targetDao, Class targetSearchDao) {
+	private ObjectReader generateStandardReaders(final Class<?> targetDao, final Class<?> targetSearchDao) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.getDeserializationConfig().addMixInAnnotations(targetDao,
 			IgnoreUseCaseSetStatusMixIn.class);

@@ -18,5 +18,5 @@
 package org.scenarioo.dao.search.dao;
 
 public interface SearchDao {
-
+	// Marker
 }

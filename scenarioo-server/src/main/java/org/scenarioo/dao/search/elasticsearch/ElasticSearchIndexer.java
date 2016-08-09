@@ -17,11 +17,13 @@
 
 package org.scenarioo.dao.search.elasticsearch;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.dao.ScenarioSearchDao;
 import org.scenarioo.dao.search.dao.StepSearchDao;
@@ -34,23 +36,18 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.List;
-
 class ElasticSearchIndexer {
 	private final static Logger LOGGER = Logger.getLogger(ElasticSearchIndexer.class);
 
-	private TransportClient client;
-    private String indexName;
+	private final TransportClient client;
+    private final String indexName;
 
-    ElasticSearchIndexer(String indexName, TransportClient client) {
+    ElasticSearchIndexer(final String indexName, final TransportClient client) {
 		this.client = client;
 		this.indexName = indexName;
 	}
 
-    void setupCleanIndex(String indexName) {
+    void setupCleanIndex(final String indexName) {
         if(indexExists(indexName)) {
             client.admin().indices().prepareDelete(indexName).get();
 
@@ -65,7 +62,7 @@ class ElasticSearchIndexer {
         LOGGER.debug("Added new index " + indexName);
     }
 
-    void indexUseCases(UseCaseScenariosList useCaseScenariosList) {
+    void indexUseCases(final UseCaseScenariosList useCaseScenariosList) {
         for (UseCaseScenarios useCaseScenarios : useCaseScenariosList.getUseCaseScenarios()) {
             UseCaseSearchDao searchDao = new UseCaseSearchDao();
             searchDao.setUseCase(useCaseScenarios.getUseCase());
@@ -80,7 +77,7 @@ class ElasticSearchIndexer {
         }
     }
 
-	void indexSteps(List<Step> stepsList, List<StepLink> stepLinksList, Scenario scenario, UseCase usecase) {
+	void indexSteps(final List<Step> stepsList, final List<StepLink> stepLinksList, final Scenario scenario, final UseCase usecase) {
 		for(int i = 0; i < stepsList.size(); i++) {
 			Step step = stepsList.get(i);
 			StepLink link = stepLinksList.get(i);
@@ -90,15 +87,15 @@ class ElasticSearchIndexer {
 		}
 	}
 
-    private void indexUseCase(UseCaseSearchDao useCaseSearchDao) {
+    private void indexUseCase(final UseCaseSearchDao useCaseSearchDao) {
         indexDocument(FullTextSearch.USECASE, useCaseSearchDao, useCaseSearchDao.getUseCase().getName());
     }
 
-    private void indexScenario(ScenarioSearchDao scenariosearchDao) {
+    private void indexScenario(final ScenarioSearchDao scenariosearchDao) {
         indexDocument(FullTextSearch.SCENARIO, scenariosearchDao, scenariosearchDao.getScenario().getName());
     }
 
-    private <T> void indexDocument(String type, T document, String documentName) {
+    private <T> void indexDocument(final String type, final T document, final String documentName) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             ObjectWriter writer = objectMapper.writer();
@@ -111,7 +108,7 @@ class ElasticSearchIndexer {
         }
     }
 
-    private boolean indexExists(String indexName) {
+    private boolean indexExists(final String indexName) {
 		return client.admin().indices()
 			.prepareExists(indexName)
 			.execute().actionGet().isExists();
