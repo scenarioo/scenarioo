@@ -17,6 +17,8 @@
 
 package org.scenarioo.dao.search;
 
+import java.util.List;
+
 import org.scenarioo.dao.search.dao.SearchDao;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
@@ -25,11 +27,11 @@ import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.base.BuildIdentifier;
 
-import java.util.List;
-
 public interface SearchAdapter {
 
     boolean isEngineRunning();
+
+	String getEndpoint();
 
     List<SearchDao> searchData(BuildIdentifier buildIdentifier, String q);
 

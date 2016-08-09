@@ -21,7 +21,6 @@ import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
 
-@SuppressWarnings("unused")
 public class PageSearchDao implements SearchDao {
 
     private Page page;
@@ -30,7 +29,7 @@ public class PageSearchDao implements SearchDao {
     public PageSearchDao() {
     }
 
-    public PageSearchDao(Page page, Scenario scenario, UseCase usecase) {
+    public PageSearchDao(final Page page, final Scenario scenario, final UseCase usecase) {
         this.page = page;
         this._meta = new MetaData(scenario.getName(), usecase.getName());
     }
@@ -39,11 +38,11 @@ public class PageSearchDao implements SearchDao {
         return page;
     }
 
-    public void set_meta(MetaData _meta) {
+    public void set_meta(final MetaData _meta) {
         this._meta = _meta;
     }
 
-    public void setPage(Page page) {
+    public void setPage(final Page page) {
         this.page = page;
     }
 
@@ -55,7 +54,6 @@ public class PageSearchDao implements SearchDao {
         private String usecase;
         private String scenario;
 
-        @SuppressWarnings("unused")
         public MetaData() {
         }
 
@@ -68,7 +66,7 @@ public class PageSearchDao implements SearchDao {
 			return usecase;
 		}
 
-		public void setUsecase(String usecase) {
+		public void setUsecase(final String usecase) {
 			this.usecase = usecase;
 		}
 
@@ -76,7 +74,7 @@ public class PageSearchDao implements SearchDao {
 			return scenario;
 		}
 
-		public void setScenario(String scenario) {
+		public void setScenario(final String scenario) {
 			this.scenario = scenario;
 		}
 	}

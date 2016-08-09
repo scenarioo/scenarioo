@@ -17,7 +17,11 @@
 
 package org.scenarioo.dao.search.elasticsearch;
 
-import com.carrotsearch.hppc.cursors.ObjectCursor;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -39,10 +43,7 @@ import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.application.ContextPathHolder;
 import org.scenarioo.rest.base.BuildIdentifier;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
+import com.carrotsearch.hppc.cursors.ObjectCursor;
 
 public class ElasticSearchAdapter implements SearchAdapter {
     private final static Logger LOGGER = Logger.getLogger(ElasticSearchAdapter.class);
@@ -53,10 +54,9 @@ public class ElasticSearchAdapter implements SearchAdapter {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 		.getConfigurationRepository();
-	private String configuredEndpoint = configurationRepository.getConfiguration().getElasticSearchEndpoint();
+	private String endpoint = configurationRepository.getConfiguration().getElasticSearchEndpoint();
 
     public ElasticSearchAdapter() {
-		String endpoint = configuredEndpoint;
 		if(StringUtils.isBlank(endpoint)) {
 			endpoint = DEFAULT_ENDPOINT;
 		}
@@ -93,8 +93,13 @@ public class ElasticSearchAdapter implements SearchAdapter {
         }
     }
 
+	@Override
+	public String getEndpoint() {
+		return endpoint;
+	}
+
     @Override
-    public List<SearchDao> searchData(BuildIdentifier buildIdentifier, final String q) {
+    public List<SearchDao> searchData(final BuildIdentifier buildIdentifier, final String q) {
         final String indexName = getIndexName(buildIdentifier);
 
         ElasticSearchSearcher elasticSearchSearcher = new ElasticSearchSearcher(indexName);
@@ -102,14 +107,14 @@ public class ElasticSearchAdapter implements SearchAdapter {
     }
 
     @Override
-    public void setupNewBuild(BuildIdentifier buildIdentifier) {
+    public void setupNewBuild(final BuildIdentifier buildIdentifier) {
         String indexName = getIndexName(buildIdentifier);
 
 		new ElasticSearchIndexer(indexName, client).setupCleanIndex(indexName);
     }
 
     @Override
-    public void indexUseCases(UseCaseScenariosList useCaseScenariosList, BuildIdentifier buildIdentifier) {
+    public void indexUseCases(final UseCaseScenariosList useCaseScenariosList, final BuildIdentifier buildIdentifier) {
 		String indexName = getIndexName(buildIdentifier);
 
 		ElasticSearchIndexer elasticSearchIndexer = new ElasticSearchIndexer(indexName, client);
@@ -117,7 +122,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
     }
 
 	@Override
-	public void indexSteps(List<Step> steps, List<StepLink> stepLinks, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
+	public void indexSteps(final List<Step> steps, final List<StepLink> stepLinks, final Scenario scenario, final UseCase usecase, final BuildIdentifier buildIdentifier) {
 		String indexName = getIndexName(buildIdentifier);
 
 		ElasticSearchIndexer elasticSearchIndexer = new ElasticSearchIndexer(indexName, client);
@@ -125,7 +130,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 	}
 
 	@Override
-    public void updateAvailableBuilds(List<BuildIdentifier> availableBuilds) {
+    public void updateAvailableBuilds(final List<BuildIdentifier> availableBuilds) {
         List<String> existingIndices = getAvailableIndices();
         List<String> availableBuildNames = getAvailableBuildNames(availableBuilds);
 
@@ -149,7 +154,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
         return ret;
     }
 
-    private List<String> getAvailableBuildNames(List<BuildIdentifier> existingBuilds) {
+    private List<String> getAvailableBuildNames(final List<BuildIdentifier> existingBuilds) {
         List<String> buildNames = new ArrayList<String>();
 
         for(BuildIdentifier identifier : existingBuilds) {

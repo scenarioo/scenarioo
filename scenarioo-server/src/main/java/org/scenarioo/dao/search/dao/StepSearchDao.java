@@ -18,9 +18,10 @@
 package org.scenarioo.dao.search.dao;
 
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
-import org.scenarioo.model.docu.entities.*;
+import org.scenarioo.model.docu.entities.Scenario;
+import org.scenarioo.model.docu.entities.Step;
+import org.scenarioo.model.docu.entities.UseCase;
 
-@SuppressWarnings("unused")
 public class StepSearchDao implements SearchDao {
 
 	private Step step;
@@ -29,7 +30,7 @@ public class StepSearchDao implements SearchDao {
     public StepSearchDao() {
     }
 
-    public StepSearchDao(Step step, StepLink stepLink, Scenario scenario, UseCase usecase) {
+    public StepSearchDao(final Step step, final StepLink stepLink, final Scenario scenario, final UseCase usecase) {
         this.step = step;
         this._meta = new MetaData(stepLink, scenario.getName(), usecase.getName());
     }
@@ -38,11 +39,11 @@ public class StepSearchDao implements SearchDao {
         return step;
     }
 
-    public void setStep(Step step) {
+    public void setStep(final Step step) {
         this.step = step;
     }
 
-	public void set_meta(MetaData _meta) {
+	public void set_meta(final MetaData _meta) {
         this._meta = _meta;
     }
 
@@ -58,7 +59,7 @@ public class StepSearchDao implements SearchDao {
         public MetaData() {
         }
 
-        MetaData(StepLink stepLink, final String scenario, final String usecase) {
+        MetaData(final StepLink stepLink, final String scenario, final String usecase) {
 			this.stepLink = stepLink;
             this.scenario = scenario;
             this.usecase = usecase;
@@ -68,7 +69,7 @@ public class StepSearchDao implements SearchDao {
 			return stepLink;
 		}
 
-		public void setStepLink(StepLink stepLink) {
+		public void setStepLink(final StepLink stepLink) {
 			this.stepLink = stepLink;
 		}
 
@@ -76,7 +77,7 @@ public class StepSearchDao implements SearchDao {
 			return usecase;
 		}
 
-		public void setUsecase(String usecase) {
+		public void setUsecase(final String usecase) {
 			this.usecase = usecase;
 		}
 
@@ -84,7 +85,7 @@ public class StepSearchDao implements SearchDao {
 			return scenario;
 		}
 
-		public void setScenario(String scenario) {
+		public void setScenario(final String scenario) {
 			this.scenario = scenario;
 		}
 	}

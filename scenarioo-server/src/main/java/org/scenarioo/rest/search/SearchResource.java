@@ -47,6 +47,6 @@ public class SearchResource {
 	@GET
 	@Path("/searchEngineStatus")
 	public SearchEngineStatusResponse getSearchEngineStatus() {
-		return new SearchEngineStatusResponse(new FullTextSearch().isEngineRunning());
+		return new SearchEngineStatusResponse(new FullTextSearch());
 	}
 }

@@ -17,10 +17,11 @@
 
 package org.scenarioo.dao.search;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.dao.search.dao.*;
+import org.scenarioo.dao.search.dao.SearchDao;
 import org.scenarioo.dao.search.elasticsearch.ElasticSearchAdapter;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
@@ -43,7 +44,7 @@ public class FullTextSearch {
 		this(new ElasticSearchAdapter());
 	}
 
-	FullTextSearch(SearchAdapter search) {
+	FullTextSearch(final SearchAdapter search) {
 		this.searchAdapter = search;
 	}
 
@@ -51,7 +52,11 @@ public class FullTextSearch {
 		return searchAdapter.isEngineRunning();
 	}
 
-	public SearchTree search(String q, BuildIdentifier buildIdentifier) {
+	public String getEndpoint() {
+		return searchAdapter.getEndpoint();
+	}
+
+	public SearchTree search(final String q, final BuildIdentifier buildIdentifier) {
 		if(!searchAdapter.isEngineRunning()) {
 			return SearchTree.empty();
 		}
@@ -72,7 +77,7 @@ public class FullTextSearch {
 		LOGGER.info("Indexed use cases for build " + buildIdentifier);
 	}
 
-	public void indexSteps(List<Step> steps, List<StepLink> stepLinkList, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
+	public void indexSteps(final List<Step> steps, final List<StepLink> stepLinkList, final Scenario scenario, final UseCase usecase, final BuildIdentifier buildIdentifier) {
 		if(!searchAdapter.isEngineRunning()) {
 			return;
 		}
@@ -82,7 +87,7 @@ public class FullTextSearch {
 		LOGGER.debug("Indexed steps for use case " + usecase.getName());
 	}
 
-	public void updateAvailableBuilds(List<BuildImportSummary> availableBuilds) {
+	public void updateAvailableBuilds(final List<BuildImportSummary> availableBuilds) {
 		if(!searchAdapter.isEngineRunning()) {
 			return;
 		}
@@ -93,7 +98,7 @@ public class FullTextSearch {
 		LOGGER.info("Updated available builds.");
 	}
 
-	private List<BuildIdentifier> getAvailableBuildIdentifiers(List<BuildImportSummary> availableBuilds) {
+	private List<BuildIdentifier> getAvailableBuildIdentifiers(final List<BuildImportSummary> availableBuilds) {
 		List<BuildIdentifier> identifierList = new ArrayList<BuildIdentifier>();
 		for(BuildImportSummary buildSummary : availableBuilds) {
 			BuildIdentifier identifier = buildSummary.getIdentifier();
@@ -103,4 +108,5 @@ public class FullTextSearch {
 
 		return identifierList;
 	}
+
 }

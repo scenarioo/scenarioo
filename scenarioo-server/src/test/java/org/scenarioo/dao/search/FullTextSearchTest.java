@@ -1,5 +1,10 @@
 package org.scenarioo.dao.search;
 
+import static org.junit.Assert.*;
+
+import java.util.Collections;
+import java.util.List;
+
 import org.junit.Test;
 import org.scenarioo.dao.search.dao.SearchDao;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
@@ -9,11 +14,6 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.base.BuildIdentifier;
-
-import java.util.Collections;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 
 public class FullTextSearchTest {
@@ -57,13 +57,14 @@ public class FullTextSearchTest {
     }
 
     private void thenJustReturns() {
+		// for test
     }
 
     private class SearchEngine implements SearchAdapter {
 
-		private boolean isRunning;
+		private final boolean isRunning;
 
-		SearchEngine(boolean isRunning) {
+		SearchEngine(final boolean isRunning) {
 			this.isRunning = isRunning;
 		}
 
@@ -73,29 +74,34 @@ public class FullTextSearchTest {
         }
 
         @Override
-        public List<SearchDao> searchData(BuildIdentifier buildIdentifier, String q) {
+        public List<SearchDao> searchData(final BuildIdentifier buildIdentifier, final String q) {
 			assertTrue("Should not be reachable", isRunning);
 
             return Collections.emptyList();
         }
 
         @Override
-        public void indexUseCases(UseCaseScenariosList useCaseScenariosList, BuildIdentifier buildIdentifier) {
+        public void indexUseCases(final UseCaseScenariosList useCaseScenariosList, final BuildIdentifier buildIdentifier) {
 			assertTrue("Should not be reachable", isRunning);        }
 
         @Override
-        public void updateAvailableBuilds(List<BuildIdentifier> existingBuilds) {
+        public void updateAvailableBuilds(final List<BuildIdentifier> existingBuilds) {
 			assertTrue("Should not be reachable", isRunning);
 		}
 
 		@Override
-		public void indexSteps(List<Step> steps, List<StepLink> page, Scenario scenario, UseCase usecase, BuildIdentifier buildIdentifier) {
+		public void indexSteps(final List<Step> steps, final List<StepLink> page, final Scenario scenario, final UseCase usecase, final BuildIdentifier buildIdentifier) {
 			assertTrue("Should not be reachable", isRunning);
 		}
 
 		@Override
-        public void setupNewBuild(BuildIdentifier buildIdentifier) {
+        public void setupNewBuild(final BuildIdentifier buildIdentifier) {
 			assertTrue("Should not be reachable", isRunning);
+		}
+
+		@Override
+		public String getEndpoint() {
+			return "localhost:1234";
 		}
     }
 
