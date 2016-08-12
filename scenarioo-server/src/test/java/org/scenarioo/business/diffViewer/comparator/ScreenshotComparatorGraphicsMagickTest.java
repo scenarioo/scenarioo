@@ -137,6 +137,7 @@ public class ScreenshotComparatorGraphicsMagickTest {
 		}
 	}
 
+	// TODO danielsuter duplicated code
 	private static Configuration getTestConfiguration() {
 
 		final ComparisonConfiguration comparisonConfiguration = getComparisonConfiguration();
@@ -159,7 +160,7 @@ public class ScreenshotComparatorGraphicsMagickTest {
 		return comparisonConfiguration;
 	}
 
-	class TestAppender extends AppenderSkeleton {
+	private class TestAppender extends AppenderSkeleton {
 		private List<LoggingEvent> log = new ArrayList<LoggingEvent>();
 
 		@Override

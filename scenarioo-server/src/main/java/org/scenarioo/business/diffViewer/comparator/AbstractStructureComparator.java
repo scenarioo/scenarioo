@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -24,14 +24,14 @@ import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
 
 /**
- * @param <E>
+ * @param <ELEMENT_TYPE>
  *            Represents the element type. For example a use case.
- * @param <A>
+ * @param <ADDED_ELEMENT_TYPE>
  *            Represents the added element type in {@link StructureDiffInfo}.
- * @param <R>
+ * @param <REMOVED_ELEMENT_TYPE>
  *            Represents the removed element type in {@link StructureDiffInfo}.
  */
-public abstract class AbstractStructureComparator<E, A, R> extends AbstractComparator {
+public abstract class AbstractStructureComparator<ELEMENT_TYPE, ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> extends AbstractComparator {
 
 	private static final double ADDED_REMOVED_CHANGE_RATE = 100.0;
 
@@ -40,22 +40,22 @@ public abstract class AbstractStructureComparator<E, A, R> extends AbstractCompa
 		super(baseBranchName, baseBuildName, comparisonConfiguration);
 	}
 
-	protected abstract double compareElement(E baseElement, E comparisonElement, StructureDiffInfo<A, R> diffInfo);
+	protected abstract double compareElement(ELEMENT_TYPE baseElement, ELEMENT_TYPE comparisonElement, StructureDiffInfo<ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> diffInfo);
 
-	protected abstract String getElementIdentifier(E element);
+	protected abstract String getElementIdentifier(ELEMENT_TYPE element);
 
-	protected abstract A getAddedElementValue(E element);
+	protected abstract ADDED_ELEMENT_TYPE getAddedElementValue(ELEMENT_TYPE element);
 
-	protected abstract List<R> getRemovedElementValues(List<E> removedElements);
+	protected abstract List<REMOVED_ELEMENT_TYPE> getRemovedElementValues(List<ELEMENT_TYPE> removedElements);
 
-	protected void handleAddedElements(final List<E> baseElements, final List<E> comparisonElements,
-			final StructureDiffInfo<A, R> diffInfo) {
-		final List<E> addedElements = getAddedElements(baseElements, comparisonElements);
+	protected void handleAddedElements(final List<ELEMENT_TYPE> baseElements, final List<ELEMENT_TYPE> comparisonElements,
+									   final StructureDiffInfo<ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> diffInfo) {
+		final List<ELEMENT_TYPE> addedElements = getAddedElements(baseElements, comparisonElements);
 		setAddedDiffInfo(addedElements, diffInfo);
 	}
 
-	protected void calculateDiffInfo(final List<E> baseElements,
-			final List<E> comparisonElements, final StructureDiffInfo<A, R> diffInfo) {
+	protected void calculateDiffInfo(final List<ELEMENT_TYPE> baseElements,
+									 final List<ELEMENT_TYPE> comparisonElements, final StructureDiffInfo<ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> diffInfo) {
 		handleAddedElements(baseElements, comparisonElements, diffInfo);
 
 		final double elementChangeRateSum = compareElements(baseElements, comparisonElements, diffInfo);
@@ -66,52 +66,52 @@ public abstract class AbstractStructureComparator<E, A, R> extends AbstractCompa
 				diffInfo.getRemoved(), elementChangeRateSum));
 	}
 
-	protected double compareElements(final List<E> baseElements, final List<E> comparisonElements,
-			final StructureDiffInfo<A, R> diffInfo) {
+	protected double compareElements(final List<ELEMENT_TYPE> baseElements, final List<ELEMENT_TYPE> comparisonElements,
+									 final StructureDiffInfo<ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> diffInfo) {
 		double elementChangeRateSum = 0;
-		for (final E baseElement : baseElements) {
-			final E comparisonElement = getElementByIdentifier(comparisonElements, getElementIdentifier(baseElement));
+		for (final ELEMENT_TYPE baseElement : baseElements) {
+			final ELEMENT_TYPE comparisonElement = getElementByIdentifier(comparisonElements, getElementIdentifier(baseElement));
 			elementChangeRateSum += compareElement(baseElement, comparisonElement, diffInfo);
 		}
 		return elementChangeRateSum;
 	}
 
-	protected void handleRemovedElements(final List<E> baseElements,
-			final List<E> comparisonElements, final StructureDiffInfo<A, R> diffInfo) {
-		final List<E> removedElements = getRemovedElements(baseElements, comparisonElements);
+	protected void handleRemovedElements(final List<ELEMENT_TYPE> baseElements,
+										 final List<ELEMENT_TYPE> comparisonElements, final StructureDiffInfo<ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> diffInfo) {
+		final List<ELEMENT_TYPE> removedElements = getRemovedElements(baseElements, comparisonElements);
 		setRemovedDiffInfo(removedElements, diffInfo);
 	}
 
-	private List<A> getAddedElementValues(final List<E> addedElements) {
-		final List<A> addedElementNames = new LinkedList<A>();
-		for (final E addedElement : addedElements) {
+	private List<ADDED_ELEMENT_TYPE> getAddedElementValues(final List<ELEMENT_TYPE> addedElements) {
+		final List<ADDED_ELEMENT_TYPE> addedElementNames = new LinkedList<ADDED_ELEMENT_TYPE>();
+		for (final ELEMENT_TYPE addedElement : addedElements) {
 			addedElementNames.add(getAddedElementValue(addedElement));
 		}
 		return addedElementNames;
 	}
 
-	protected List<E> getAddedElements(final List<E> baseElements, final List<E> comparisonElements) {
+	protected List<ELEMENT_TYPE> getAddedElements(final List<ELEMENT_TYPE> baseElements, final List<ELEMENT_TYPE> comparisonElements) {
 		return getRelativeComplement(baseElements, comparisonElements);
 	}
 
-	protected List<E> getRemovedElements(final List<E> baseElements, final List<E> comparisonElements) {
+	protected List<ELEMENT_TYPE> getRemovedElements(final List<ELEMENT_TYPE> baseElements, final List<ELEMENT_TYPE> comparisonElements) {
 		return getRelativeComplement(comparisonElements, baseElements);
 	}
 
-	protected void setAddedDiffInfo(final List<E> addedElements,
-			final StructureDiffInfo<A, R> diffInfo) {
+	protected void setAddedDiffInfo(final List<ELEMENT_TYPE> addedElements,
+			final StructureDiffInfo<ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> diffInfo) {
 		diffInfo.setAdded(addedElements.size());
 		diffInfo.setAddedElements(getAddedElementValues(addedElements));
 	}
 
-	protected void setRemovedDiffInfo(final List<E> removedElements,
-			final StructureDiffInfo<A, R> diffInfo) {
+	protected void setRemovedDiffInfo(final List<ELEMENT_TYPE> removedElements,
+			final StructureDiffInfo<ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> diffInfo) {
 		diffInfo.setRemoved(removedElements.size());
 		diffInfo.setRemovedElements(getRemovedElementValues(removedElements));
 	}
 
-	protected E getElementByIdentifier(final List<E> elements, final String identifier) {
-		for (final E element : elements) {
+	protected ELEMENT_TYPE getElementByIdentifier(final List<ELEMENT_TYPE> elements, final String identifier) {
+		for (final ELEMENT_TYPE element : elements) {
 			if (identifier.equals(getElementIdentifier(element))) {
 				return element;
 			}
@@ -134,7 +134,7 @@ public abstract class AbstractStructureComparator<E, A, R> extends AbstractCompa
 		return changeRateSum / (numberOfBaseElements + numberOfRemovedElements);
 	}
 
-	protected String getLogMessage(final StructureDiffInfo<A, R> diffInfo, final String identifier) {
+	protected String getLogMessage(final StructureDiffInfo<ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> diffInfo, final String identifier) {
 		final StringBuilder logMessage = new StringBuilder(identifier).append(" has");
 		logMessage.append(" addedElements: ").append(diffInfo.getAdded());
 		logMessage.append(" changedElements: ").append(diffInfo.getChanged());
@@ -144,13 +144,13 @@ public abstract class AbstractStructureComparator<E, A, R> extends AbstractCompa
 	}
 
 	/**
-	 * Returns all elements of A which aren't in elements B. --> (A \ B) = {x is element of A | x is not element of B}
+	 * Returns all elements of ADDED_ELEMENT_TYPE which aren't in elements B. --> (ADDED_ELEMENT_TYPE \ B) = {x is element of ADDED_ELEMENT_TYPE | x is not element of B}
 	 */
-	private List<E> getRelativeComplement(final List<E> elementsA, final List<E> elementsB) {
-		final List<E> relativeComplement = new LinkedList<E>();
+	private List<ELEMENT_TYPE> getRelativeComplement(final List<ELEMENT_TYPE> elementsA, final List<ELEMENT_TYPE> elementsB) {
+		final List<ELEMENT_TYPE> relativeComplement = new LinkedList<ELEMENT_TYPE>();
 
-		for (final E elementA : elementsA) {
-			final E elementB = getElementByIdentifier(elementsB,
+		for (final ELEMENT_TYPE elementA : elementsA) {
+			final ELEMENT_TYPE elementB = getElementByIdentifier(elementsB,
 					getElementIdentifier(elementA));
 			if (elementB == null) {
 				relativeComplement.add(elementA);

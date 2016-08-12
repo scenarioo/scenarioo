@@ -35,13 +35,13 @@ public class ConfigurationDaoTest {
 
 	@Test
 	public void writeAndReadConfiguration() {
-		final Configuration configuration = new Configuration();
-		final Map<String, LabelConfiguration> labelConfigurations = createLabelConfigurations();
+		Configuration configuration = new Configuration();
+		Map<String, LabelConfiguration> labelConfigurations = createLabelConfigurations();
 		configuration.setLabelConfigurations(labelConfigurations);
 		configuration.setComparisonConfigurations(createComparisonConfigurations());
 
 		configurationDao.updateConfiguration(configuration);
-		final Configuration loadedConfiguration = configurationDao.loadConfiguration();
+		Configuration loadedConfiguration = configurationDao.loadConfiguration();
 
 		assertEquals(labelConfigurations, loadedConfiguration.getLabelConfigurations());
 		assertEquals(2, loadedConfiguration.getComparisonConfigurations().size());
@@ -50,7 +50,7 @@ public class ConfigurationDaoTest {
 	}
 
 	private Map<String, LabelConfiguration> createLabelConfigurations() {
-		final Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<String, LabelConfiguration>();
+		Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<String, LabelConfiguration>();
 		labelConfigurations.put("test", createLabelConfig("#1231231", "#1234231"));
 		labelConfigurations.put("test2", createLabelConfig("red", "#1234231"));
 		labelConfigurations.put("test3", createLabelConfig("black", "#1234231"));
@@ -59,14 +59,14 @@ public class ConfigurationDaoTest {
 	}
 
 	private LabelConfiguration createLabelConfig(final String foregroundColor, final String backgroundColor) {
-		final LabelConfiguration labelConfig = new LabelConfiguration();
+		LabelConfiguration labelConfig = new LabelConfiguration();
 		labelConfig.setForegroundColor(foregroundColor);
 		labelConfig.setBackgroundColor(backgroundColor);
 		return labelConfig;
 	}
 
-	private void assertComparisonConfiguration(final String expectedComparisonName,
-			final ComparisonConfiguration comparisonConfiguration) {
+	private void assertComparisonConfiguration(String expectedComparisonName,
+			ComparisonConfiguration comparisonConfiguration) {
 		assertEquals(expectedComparisonName, comparisonConfiguration.getName());
 		assertEquals(BASE_BRANCH_NAME, comparisonConfiguration.getBaseBranchName());
 		assertEquals(COMPARISON_BRANCH_NAME, comparisonConfiguration.getComparisonBranchName());
@@ -74,14 +74,14 @@ public class ConfigurationDaoTest {
 	}
 
 	private List<ComparisonConfiguration> createComparisonConfigurations() {
-		final List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
+		List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
 		comparisonConfigurations.add(createComparisonConfiguration(COMPARISON_NAME1));
 		comparisonConfigurations.add(createComparisonConfiguration(COMPARISON_NAME2));
 		return comparisonConfigurations;
 	}
 
-	private ComparisonConfiguration createComparisonConfiguration(final String comparisonName) {
-		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
+	private ComparisonConfiguration createComparisonConfiguration(String comparisonName) {
+		ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
 		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
 		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
 		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);

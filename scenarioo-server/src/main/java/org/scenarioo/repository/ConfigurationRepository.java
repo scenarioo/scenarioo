@@ -44,7 +44,7 @@ public class ConfigurationRepository {
 
 	public File getDocumentationDataDirectory() {
 		loadConfigurationIfNotLoadedYet();
-		final String documentationDataDirectoryFromConfig = configuration.getTestDocumentationDirPath();
+		String documentationDataDirectoryFromConfig = configuration.getTestDocumentationDirPath();
 		if (StringUtils.isBlank(documentationDataDirectoryFromConfig)) {
 			return getExampleDocumentationDirectoryAsFallback();
 		} else {
