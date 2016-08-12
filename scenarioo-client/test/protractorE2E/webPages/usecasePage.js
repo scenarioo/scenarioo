@@ -23,6 +23,7 @@ UsecasePage.prototype.selectScenario = function(scenarioIndex) {
     });
 };
 
+// TODO danielsuter remove click keyword
 UsecasePage.prototype.clickSortByChanges = function(){
     this.scenarioTable.element(by.css('th.sort-diff-info')).click();
 };

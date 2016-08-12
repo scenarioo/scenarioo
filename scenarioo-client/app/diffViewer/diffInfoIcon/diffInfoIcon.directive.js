@@ -15,7 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scDiffInfoIcon', scDiffInfoIcon);
+// TODO danielsuter doc
+// TODO danielsuter controller as feature https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#style-y075
+angular
+    .module('scenarioo.directives')
+    .directive('scDiffInfoIcon', scDiffInfoIcon);
 
 function scDiffInfoIcon() {
 

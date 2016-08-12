@@ -90,26 +90,27 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
 
     function loadUseCases(selected) {
         BranchesAndBuildsService.getBranchesAndBuilds()
+            // TODO danielsuter no extra then is required here
             .then(function onSuccess(branchesAndBuilds) {
                 vm.branchesAndBuilds = branchesAndBuilds;
             }).then(function () {
-            UseCasesResource.query(
-                {'branchName': selected.branch, 'buildName': selected.build},
-                function onSuccess(useCases) {
-                    // TODO danielsuter isDefined = selected or available?
-                    if(SelectedComparison.isDefined()) {
-                        loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
-                    } else {
-                        vm.useCases = useCases;
-                    }
+                UseCasesResource.query(
+                    {'branchName': selected.branch, 'buildName': selected.build},
+                    function onSuccess(useCases) {
+                        // TODO danielsuter isDefined = selected or available?
+                        if(SelectedComparison.isDefined()) {
+                            loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
+                        } else {
+                            vm.useCases = useCases;
+                        }
 
-                    var branch = vm.branchesAndBuilds.selectedBranch.branch;
-                    var build = vm.branchesAndBuilds.selectedBuild.build;
-                    vm.branchInformationTree = createBranchInformationTree(branch);
-                    vm.buildInformationTree = createBuildInformationTree(build);
-                    vm.metadataTreeBranches = transformMetadataToTreeArray(branch.details);
-                    vm.metadataTreeBuilds = transformMetadataToTreeArray(build.details);
-                });
+                        var branch = vm.branchesAndBuilds.selectedBranch.branch;
+                        var build = vm.branchesAndBuilds.selectedBuild.build;
+                        vm.branchInformationTree = createBranchInformationTree(branch);
+                        vm.buildInformationTree = createBuildInformationTree(build);
+                        vm.metadataTreeBranches = transformMetadataToTreeArray(branch.details);
+                        vm.metadataTreeBuilds = transformMetadataToTreeArray(build.details);
+                    });
         });
     }
 

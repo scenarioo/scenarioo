@@ -200,6 +200,8 @@ function ScenarioController($filter, $routeParams,
         return transformMetadataToTree(stepInformation);
     }
 
+    // TODO danielsuter we could make these requests in parallel, since they seem to be independent of each other
+    // also the error handling is not consistent, only if the last step fails, empty data will be injected
     function loadDiffInfoData(pagesAndSteps, baseBranchName, baseBuildName, comparisonName) {
         if (pagesAndSteps && baseBranchName && baseBuildName && useCaseName && scenarioName){
             BuildDiffInfoResource.get(
@@ -218,6 +220,7 @@ function ScenarioController($filter, $routeParams,
                                 }
                             );
                         }, function onFailure() {
+                            // TODO danielsuter silent failure, is this ok?
                             DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, [], []);
                         }
                     );

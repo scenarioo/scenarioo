@@ -195,6 +195,7 @@ StepPage.prototype.assertHtmlSourceEquals = function (expected) {
     expect(element(by.id('html-source')).getText()).toBe(expected);
 };
 
+// TODO danielsuter remove click keyword
 StepPage.prototype.clickComparisonTabButton = function () {
     element(by.id('comparison-tab')).click();
 };

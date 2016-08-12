@@ -22,7 +22,7 @@ function SelectedComparisonService($location, $rootScope, localStorageService) {
     var COMPARISON_DISABLED = 'Disabled';
     var selectedComparison;
     var initialValuesFromUrlAndCookieLoaded = false;
-    var info = {isDefined: false };
+    var info = {isDefined: false};
 
     function getSelectedComparison() {
         if (!initialValuesFromUrlAndCookieLoaded) {
@@ -36,9 +36,9 @@ function SelectedComparisonService($location, $rootScope, localStorageService) {
     }
 
     function setSelectedComparison(value) {
-        if(value) {
+        if (value) {
             selectedComparison = value;
-        }else {
+        } else {
             selectedComparison = getFromLocalStorageOrUrl(COMPARISON_KEY);
         }
         info.isDefined = isComparisonDefined();
@@ -80,8 +80,8 @@ function SelectedComparisonService($location, $rootScope, localStorageService) {
      * @returns true if comparison is specified (i.e. not 'undefined').
      */
     function isComparisonDefined() {
-        if (angular.isDefined(selectedComparison)){
-                return selectedComparison !== COMPARISON_DISABLED;
+        if (angular.isDefined(selectedComparison)) {
+            return selectedComparison !== COMPARISON_DISABLED;
         }
         return false;
     }
