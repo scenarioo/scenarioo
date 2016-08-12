@@ -19,27 +19,20 @@ angular.module('scenarioo.services').service('ScreenshotUrlService', ScreenshotU
 
 function ScreenshotUrlService(HostnameAndPort) {
 
-    function getDiffScreenShotUrl(step, selected, comparisonName, useCaseName, scenarioName, stepIndex ) {
-        if(step && stepIndex >= 0 && useCaseName){
+    function getDiffScreenShotUrl(step, selected, comparisonName, useCaseName, scenarioName, stepIndex) {
+        if (step && stepIndex >= 0 && useCaseName) {
             return HostnameAndPort.forLink() + 'rest/diffViewer/baseBranchName/' + selected.branch + '/baseBuildName/' + selected.build + '/comparisonName/' + comparisonName + '/useCaseName/' + useCaseName + '/scenarioName/' + scenarioName + '/stepIndex/' + stepIndex + '/stepDiffScreenshot';
         }
     }
 
-    function getComparisonScreenShotUrl(comparisonBranchName, comparisonBuildName, useCaseName, scenarioName, comparisonScreenshotName){
-        if(comparisonBranchName && comparisonBuildName && useCaseName && scenarioName && comparisonScreenshotName){
+    function getComparisonScreenShotUrl(comparisonBranchName, comparisonBuildName, useCaseName, scenarioName, comparisonScreenshotName) {
+        if (comparisonBranchName && comparisonBuildName && useCaseName && scenarioName && comparisonScreenshotName) {
             return HostnameAndPort.forLink() + 'rest/branch/' + comparisonBranchName + '/build/' + comparisonBuildName + '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + comparisonScreenshotName;
         }
     }
 
-     return {
-         /**
-         * Returns the Diff Screenshot URL
-         */
+    return {
         getDiffScreenShotUrl: getDiffScreenShotUrl,
-
-         /**
-          * Returns the Comparison Screenshot URL
-          */
-         getComparisonScreenShotUrl: getComparisonScreenShotUrl
+        getComparisonScreenShotUrl: getComparisonScreenShotUrl
     };
 }

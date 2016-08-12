@@ -137,7 +137,7 @@ public class DonateStepDataGenerator {
 				null,
 				null);
 
-		Map<String, String> generellStepToPageNameMap = getStepToPageNameMap(
+		Map<String, String> generalStepToPageNameMap = getStepToPageNameMap(
 				"startSearch.jsp",
 				null,
 				null,
@@ -151,9 +151,9 @@ public class DonateStepDataGenerator {
 		buildToPageName = new HashMap<BuildRun, Map<String, String>>();
 		buildToPageName.put(BuildRun.JANUARY, janStepToPageNameMap);
 		buildToPageName.put(BuildRun.FEBRUARY, febStepToPageNameMap);
-		buildToPageName.put(BuildRun.MARCH, generellStepToPageNameMap);
-		buildToPageName.put(BuildRun.APRIL, generellStepToPageNameMap);
-		buildToPageName.put(BuildRun.MAY, generellStepToPageNameMap);
+		buildToPageName.put(BuildRun.MARCH, generalStepToPageNameMap);
+		buildToPageName.put(BuildRun.APRIL, generalStepToPageNameMap);
+		buildToPageName.put(BuildRun.MAY, generalStepToPageNameMap);
 	}
 
 	private Map<String, String> getStepToPageNameMap(String... pageNames) {

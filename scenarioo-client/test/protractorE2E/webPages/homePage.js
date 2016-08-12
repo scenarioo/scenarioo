@@ -85,6 +85,7 @@ HomePage.prototype.hideMetaData = function() {
     this.hideMetaDataButton.click();
 };
 
+// TODO danielsuter remove click keyword
 HomePage.prototype.clickSortByChanges = function(){
     this.usecaseTable.element(by.css('th.sort-diff-info')).click();
 };
