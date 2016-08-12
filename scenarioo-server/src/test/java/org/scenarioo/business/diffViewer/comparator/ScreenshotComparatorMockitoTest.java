@@ -83,20 +83,16 @@ public class ScreenshotComparatorMockitoTest {
 	}
 
 	@Test
-	public void testParseGmConsoleOutput() {
-		final File mockScreenshot = new File("mockScreenshot.png");
-
-		try {
-			doNothing().when(gmConsole).run(any(IMOperation.class));
-		} catch (final Exception e) {
-			e.getStackTrace();
-		}
+	public void testParseGmConsoleOutput() throws Exception {
+		File mockScreenshot = new File("mockScreenshot.png");
+		doNothing().when(gmConsole).run(any(IMOperation.class));
 
 		when(gmConsoleOutputConsumer.getOutput()).thenReturn(OUTPUT_CONSUMER_MOCK);
 		final double difference = screenshotComparator.compareScreenshots(mockScreenshot, mockScreenshot, mockScreenshot);
 		assertEquals("Difference of screenshots", SCREENSHOT_DIFFERENCE, difference, DOUBLE_TOLERANCE);
 	}
 
+	// TODO danielsuter duplicated code
 	private static Configuration getTestConfiguration() {
 
 		final ComparisonConfiguration comparisonConfiguration = getComparisonConfiguration();
