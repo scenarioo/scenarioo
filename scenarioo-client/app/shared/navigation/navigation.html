@@ -65,7 +65,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ul>
 
     <ul class="nav navbar-nav pull-right">
-        <li ng-show="isSearchEngineRunning" ng-cloak  id="sc-global-search-box"><input ng-model="globalSearch.queryString" type="text"><button ng-click="search()">GO</button></li>
+        <li ng-show="isSearchEngineRunning" ng-cloak id="sc-global-search-box">
+            <form ng-submit="search()" class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-default">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+                <input class="form-control" ng-model="globalSearch.queryString" type="text">
+            </form>
+        </li>
         <li>
             <a href="#/manage"><span class="glyphicon glyphicon-cog"></span> Manage</a>
         </li>
