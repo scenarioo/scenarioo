@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.Settings;
 import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.dao.ScenarioSearchDao;
 import org.scenarioo.dao.search.dao.StepSearchDao;
@@ -55,10 +56,13 @@ class ElasticSearchIndexer {
         }
 
         client.admin().indices().prepareCreate(indexName)
-                .addMapping("scenario", createMappingForType("scenario"))
-                .addMapping("page", createMappingForType("page"))
-                .addMapping("step", createMappingForType("step"))
-                .get();
+			.setSettings(Settings.builder()
+				.put("index.number_of_shards", 1)
+				.put("index.number_of_replicas", 1))
+			.addMapping("scenario", createMappingForType("scenario"))
+			.addMapping("page", createMappingForType("page"))
+			.addMapping("step", createMappingForType("step"))
+			.get();
         LOGGER.debug("Added new index " + indexName);
     }
 
