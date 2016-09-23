@@ -4,7 +4,7 @@ var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
 useCase('Show step')
-    .description('Show a single step of a scenario. Includes the screenshot, metadata nad navigation buttons')
+    .description('Show a single step of a scenario. Includes the screenshot, metadata and navigation buttons')
     .describe(function () {
 
         var homePage = new pages.homePage();
