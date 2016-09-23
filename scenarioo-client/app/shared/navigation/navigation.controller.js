@@ -36,7 +36,21 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     };
 
     $scope.search = function () {
-        $location.path('/search').search('q=' + $scope.globalSearch.queryString);
+        var searchTerm = $scope.globalSearch.queryString;
+
+        // If the search term is blank, we just navigate back to the use cases list
+        if(!angular.isString(searchTerm) || searchTerm.trim() === '') {
+            $location.path('/&tab=usecases');
+            return;
+        }
+
+        // Cancel search, if the search term contains a slash (this is not supported because of Tomcat security restrictions)
+        if(searchTerm.indexOf('/') !== -1) {
+            $scope.globalSearch.queryString = searchTerm.replace('/', '<slash_not_supported>');
+            return;
+        }
+
+        $location.path('/search/' + searchTerm);
     };
 
     function loadSearchEngineRunning () {

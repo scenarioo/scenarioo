@@ -15,8 +15,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<sc-breadcrumb></sc-breadcrumb>
-<h2 class="sc-pageTitle">Search</h2>
+<sc-breadcrumbs></sc-breadcrumbs>
+
 <div class="sc-referenceTreeMetaData"
      data-sc-filterable-table-tree
      data-root-is-collapsed="false"
@@ -25,10 +25,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      data-treedata="vm.results.resultSet.children"
      data-treemodel="vm.treemodel"
      data-click-action="vm.goToRelatedView(node)"
-     data-first-column-title="References"
+     data-first-column-title="Search Results"
      ng-show="vm.results.resultSet.children.length > 0">
 </div>
 
 <div class="alert alert-warning" ng-show="vm.results.resultSet.children.length === 0">
-    No results found.
+    No result.
+</div>
+
+<div class="alert alert-danger" ng-show="vm.showSearchFailed">
+    An error occurred when executing the search query.
 </div>

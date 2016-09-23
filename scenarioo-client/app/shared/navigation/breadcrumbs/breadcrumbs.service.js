@@ -62,6 +62,11 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         label: '<strong>Sketch</strong>'
     };
 
+    var searchElement =
+    {
+        label: '<strong>Search Results for [searchTerm]</strong>'
+    };
+
     /**
      *  Configure breadcrumb paths that can be assigned to routes (see app.js) to display them as breadcrumbs for according pages.
      *  Key of the elements is the 'breadcrumbId', use it to link one of this path to a routing in app.js
@@ -94,6 +99,10 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
         'stepsketch': {
             breadcrumbPath: [homeElement, stepSketchElement]
+        },
+
+        'search': {
+            breadcrumbPath: [homeElement, searchElement]
         }
     };
 

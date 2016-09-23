@@ -79,7 +79,8 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
             pageOccurrence: parseInt($routeParams.pageOccurrence, 10),
             stepInPageOccurrence: parseInt($routeParams.stepInPageOccurrence, 10),
             objectType: $routeParams.objectType,
-            objectName: $routeParams.objectName
+            objectName: $routeParams.objectName,
+            searchTerm: encodeURIComponent($('<div/>').text($routeParams.searchTerm).html())
         };
     }
 
