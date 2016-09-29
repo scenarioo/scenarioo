@@ -200,8 +200,6 @@ function ScenarioController($filter, $routeParams,
         return transformMetadataToTree(stepInformation);
     }
 
-    // TODO danielsuter we could make these requests in parallel, since they seem to be independent of each other
-    // also the error handling is not consistent, only if the last step fails, empty data will be injected
     function loadDiffInfoData(pagesAndSteps, baseBranchName, baseBuildName, comparisonName) {
         if (pagesAndSteps && baseBranchName && baseBuildName && useCaseName && scenarioName){
             BuildDiffInfoResource.get(
@@ -209,21 +207,22 @@ function ScenarioController($filter, $routeParams,
                 function onSuccess(buildDiffInfo) {
                     comparisonBranchName = buildDiffInfo.comparisonBranchName;
                     comparisonBuildName = buildDiffInfo.comparisonBuildName;
+                }, function onFailure(error) {
+                    throw error;
+                }
+            );
 
-                    ScenarioDiffInfoResource.get(
+            ScenarioDiffInfoResource.get(
+                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName, 'scenarioName': scenarioName},
+                function onSuccess(scenarioDiffInfo) {
+                    StepDiffInfosResource.get(
                         {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName, 'scenarioName': scenarioName},
-                        function onSuccess(scenarioDiffInfo) {
-                            StepDiffInfosResource.get(
-                                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName, 'scenarioName': scenarioName},
-                                function onSuccess(stepDiffInfos) {
-                                    DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
-                                }
-                            );
-                        }, function onFailure() {
-                            // TODO danielsuter silent failure, is this ok?
-                            DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, [], []);
+                        function onSuccess(stepDiffInfos) {
+                            DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
                         }
                     );
+                }, function onFailure(error) {
+                    throw error;
                 }
             );
         }
@@ -250,7 +249,6 @@ function ScenarioController($filter, $routeParams,
             });
     }
 
-    // FIXME this code is duplicated. How can we extract it into a service?
     function getLabelStyle(labelName) {
         var labelConfig = labelConfigurations[labelName];
         if (labelConfig) {

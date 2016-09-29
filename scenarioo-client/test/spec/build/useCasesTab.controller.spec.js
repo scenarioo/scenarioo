@@ -41,7 +41,7 @@ describe('UseCasesTabController', function () {
         expect($location.path()).toBe('');
 
         var dummyUseCase = { name: 'DisplayWeather', diffInfo: {isRemoved: false} };
-        useCasesTabController.handleClick(dummyUseCase);
+        useCasesTabController.gotoUseCase(dummyUseCase);
 
         expect($location.path()).toBe('/usecase/DisplayWeather');
     });

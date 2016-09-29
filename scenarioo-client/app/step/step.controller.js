@@ -383,8 +383,6 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
 
     function initComparisonScreenshotUrl () {
         $scope.comparisonScreenShotUrl = ScreenshotUrlService.getComparisonScreenShotUrl($scope.comparisonBranchName, $scope.comparisonBuildName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.comparisonScreenshotName);
-        // TODO danielsuter this call can probably be removed
-        var build = BranchesAndBuildsService.getBuild($scope.comparisonBranchName, $scope.comparisonBuildName);
         $scope.comparisonScreenShotDescription = $scope.branch;
     }
 
