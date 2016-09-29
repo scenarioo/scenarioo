@@ -82,14 +82,14 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
 
     function loadUseCases(selected) {
         BranchesAndBuildsService.getBranchesAndBuilds()
-            // TODO danielsuter no extra then is required here
             .then(function onSuccess(branchesAndBuilds) {
                 vm.branchesAndBuilds = branchesAndBuilds;
-            }).then(function () {
+
                 UseCasesResource.query(
                     {'branchName': selected.branch, 'buildName': selected.build},
                     function onSuccess(useCases) {
                         // TODO danielsuter isDefined = selected or available?
+                        // comparison defined and not disabled
                         if(SelectedComparison.isDefined()) {
                             loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
                         } else {
@@ -107,8 +107,7 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     }
 
     function loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName) {
-        // TODO danielsuter duplicate is defined check
-        if(SelectedComparison.isDefined() && useCases && baseBranchName && baseBuildName) {
+        if(useCases && baseBranchName && baseBuildName) {
             BuildDiffInfoResource.get(
                 {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
                 function onSuccess(buildDiffInfo) {
@@ -118,9 +117,8 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
                             vm.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
                         }
                     );
-                }, function onFailure(){
-                    // TODO danielsuter this is probably a serious failure which we should not hide
-                    vm.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, [], [], 'name');
+                }, function onFailure(error){
+                    throw error;
                 }
             );
         }
