@@ -88,8 +88,6 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
                 UseCasesResource.query(
                     {'branchName': selected.branch, 'buildName': selected.build},
                     function onSuccess(useCases) {
-                        // TODO danielsuter isDefined = selected or available?
-                        // comparison defined and not disabled
                         if(SelectedComparison.isDefined()) {
                             loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
                         } else {
