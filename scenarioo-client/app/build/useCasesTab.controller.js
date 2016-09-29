@@ -37,13 +37,10 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     vm.metadataTreeBuilds = {};
     vm.comparisonInfo = SelectedComparison.info;
 
-    vm.goToUseCase = goToUseCase;
-    // TODO danielsuter improve naming -> function is called on click on a use case row
-    vm.handleClick = handleClick;
+    vm.gotoUseCase = gotoUseCase;
     vm.onNavigatorTableHit = onNavigatorTableHit;
     vm.resetSearchField = resetSearchField;
 
-    // FIXME this code is duplicated. How can we extract it into a service?
     vm.getLabelStyle = getLabelStyle;
 
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -55,19 +52,14 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     function activate() {
         SelectedBranchAndBuildService.callOnSelectionChange(loadUseCases);
 
-        // FIXME this code is duplicated. How can we extract it into a service?
         LabelConfigurationsResource.query({}, function (labelConfiguratins) {
             vm.labelConfigurations = labelConfiguratins;
         });
     }
 
-    function goToUseCase(useCaseName) {
-        $location.path('/usecase/' + useCaseName);
-    }
-
-    function handleClick(useCase){
+    function gotoUseCase(useCase){
         if(!useCase.diffInfo || !useCase.diffInfo.isRemoved){
-            goToUseCase(useCase.name);
+            $location.path('/usecase/' + useCase.name);
         }
     }
 
