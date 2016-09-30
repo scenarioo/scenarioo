@@ -17,8 +17,6 @@
 
 angular.module('scenarioo.controllers').controller('UseCasesTabController', UseCasesTabController);
 
-// TODO danielsuter select comparison could probably be merged into the SelectedBranchAndBuildService
-// Also why are we not using or listening to events?
 function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsService, SelectedBranchAndBuildService,
                                SelectedComparison, DiffInfoService, UseCasesResource, LabelConfigurationsResource, BuildDiffInfoResource, UseCaseDiffInfosResource) {
 
@@ -64,7 +62,7 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     }
 
     function onNavigatorTableHit(useCase) {
-        vm.goToUseCase(useCase.name);
+        vm.gotoUseCase(useCase);
     }
 
     function resetSearchField() {

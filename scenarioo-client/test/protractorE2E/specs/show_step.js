@@ -21,6 +21,7 @@ useCase('Show step')
 
         scenario('Navigation')
             .description('Navigate back and forth through the scenario steps.')
+            .labels(['happy'])
             .it(function () {
 
                 var ROUTE_OF_FIRST_STEP = '/step/Find%20Page/find_no_results/startSearch.jsp/0/0';
@@ -171,6 +172,7 @@ useCase('Show step')
 
         scenario('Screenshot comparison options')
             .description('Show all possible screenshot copmarison options')
+            .labels(['diff-viewer'])
             .it(function () {
                 stepPage.goToPage('/step/Find%20Page/find_page_title_unique_directly/contentPage.jsp/0/0?branch=wikipedia-docu-example&build=last%20successful&comparison=To%20Projectstart');
                 step('A step');
@@ -207,6 +209,7 @@ useCase('Show step')
 
         scenario('Screenshot comparison on added step')
             .description('If the step is added in comparison to the other build, no comparison screenshot is shown')
+            .labels(['diff-viewer'])
             .it(function () {
 
                 var SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/last%20successful/usecase/Donate/scenario/find_donate_page/image/001.png';

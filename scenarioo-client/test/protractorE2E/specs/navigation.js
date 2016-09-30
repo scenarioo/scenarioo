@@ -12,7 +12,8 @@ var SECOND_USE_CASE = 1;
 var SECOND_SCENARIO = 1;
 
 useCase('Navigation')
-	.description('Select Build and Comparison from navigation bar')
+    .labels(['diff-viewer'])
+    .description('Select Build and Comparison from navigation bar')
 	.describe(function () {
 
 		var homePage = new pages.homePage();
