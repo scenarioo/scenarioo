@@ -19,7 +19,7 @@ angular.module('scenarioo.directives').directive('scScreenshotTitle', scScreensh
 
 function scScreenshotTitle() {
 
-    var directive = {
+    return {
         restrict: 'E',
         scope: {
             build: '=',
@@ -27,9 +27,8 @@ function scScreenshotTitle() {
             alias: '@',
             highlights: '@'
         },
-        templateUrl: 'diffViewer/screenshotTitle/screenshotTitle.html',
+        templateUrl: 'diffViewer/screenshotTitle/screenshotTitle.html'
     };
-    return directive;
 }
 
 
