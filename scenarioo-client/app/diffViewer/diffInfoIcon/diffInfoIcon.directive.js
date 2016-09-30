@@ -15,14 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// TODO danielsuter controller as feature https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#style-y075
 angular
     .module('scenarioo.directives')
     .directive('scDiffInfoIcon', scDiffInfoIcon);
 
 function scDiffInfoIcon() {
 
-    var directive = {
+    return {
         restrict: 'E',
         scope: {
             diffInfo: '=',
@@ -30,70 +29,79 @@ function scDiffInfoIcon() {
             childElementType: '@'
         },
         templateUrl: 'diffViewer/diffInfoIcon/diffInfoIcon.html',
-        controller: controller
+        controller: DiffInfoIconController,
+        controllerAs: 'vm',
+        bindToController: true
     };
-    return directive;
+}
+DiffInfoIconController.$inject = ['$scope', '$sce', '$filter'];
+function DiffInfoIconController($scope, $sce, $filter) {
+    var vm = this;
+    vm.changedPercentage = '';
+    vm.addedPercentage = '';
+    vm.removedPercentage = '';
+    vm.unchangedPercentage = '';
 
-    function controller($scope, $sce, $filter) {
-        $scope.$watch('diffInfo', function(){
-            initValues($scope);
-        });
 
-        function initValues(scope) {
-            if(scope.diffInfo) {
-                scope.changedPercentage = 0 + '%';
-                scope.addedPercentage = 0 + '%';
-                scope.removedPercentage = 0 + '%';
-                scope.unchangedPercentage = 0 + '%';
+    $scope.$watch('vm.diffInfo', function(){
+        initValues(vm);
+    });
 
-                if(scope.diffInfo.isAdded) {
-                    scope.addedPercentage = 100 + '%';
-                    scope.infoText = $sce.trustAsHtml('This ' + scope.elementType + ' has been added');
-                } else if(scope.diffInfo.isRemoved){
-                    scope.removedPercentage = 100 + '%';
-                    scope.infoText = $sce.trustAsHtml('This ' + scope.elementType + ' has been removed');
-                } else if(scope.diffInfo.changeRate === 0) {
-                    scope.unchangedPercentage = 100 + '%';
-                    scope.infoText = $sce.trustAsHtml('This ' + scope.elementType + ' has no changes');
-                } else {
-                    var totalChangedChildElements = scope.diffInfo.added + scope.diffInfo.removed + scope.diffInfo.changed;
-                    if(totalChangedChildElements && totalChangedChildElements > 0) {
-                        var addedPercentage = (scope.diffInfo.added / totalChangedChildElements) * scope.diffInfo.changeRate;
-                        var removedPercentage = (scope.diffInfo.removed / totalChangedChildElements) * scope.diffInfo.changeRate;
-                        var changedPercentage = scope.diffInfo.changeRate - addedPercentage - removedPercentage;
+    function initValues(vm) {
+        if(vm.diffInfo) {
+            vm.changedPercentage = 0 + '%';
+            vm.addedPercentage = 0 + '%';
+            vm.removedPercentage = 0 + '%';
+            vm.unchangedPercentage = 0 + '%';
 
-                        scope.changedPercentage = changedPercentage + '%';
-                        scope.addedPercentage = addedPercentage + '%';
-                        scope.removedPercentage = removedPercentage + '%';
-                        scope.unchangedPercentage = 100 - changedPercentage - addedPercentage - removedPercentage + '%';
-                    }
+            if(vm.diffInfo.isAdded) {
+                vm.addedPercentage = 100 + '%';
+                vm.infoText = $sce.trustAsHtml('This ' + vm.elementType + ' has been added');
+            } else if(vm.diffInfo.isRemoved){
+                vm.removedPercentage = 100 + '%';
+                vm.infoText = $sce.trustAsHtml('This ' + vm.elementType + ' has been removed');
+            } else if(vm.diffInfo.changeRate === 0) {
+                vm.unchangedPercentage = 100 + '%';
+                vm.infoText = $sce.trustAsHtml('This ' + vm.elementType + ' has no changes');
+            } else {
+                var totalChangedChildElements = vm.diffInfo.added + vm.diffInfo.removed + vm.diffInfo.changed;
+                if(totalChangedChildElements && totalChangedChildElements > 0) {
+                    var addedPercentage = (vm.diffInfo.added / totalChangedChildElements) * vm.diffInfo.changeRate;
+                    var removedPercentage = (vm.diffInfo.removed / totalChangedChildElements) * vm.diffInfo.changeRate;
+                    var changedPercentage = vm.diffInfo.changeRate - addedPercentage - removedPercentage;
 
-                    var changedInfoText = buildChangedInfoText(scope.diffInfo, scope.elementType, scope.childElementType);
-                    scope.infoText = $sce.trustAsHtml(changedInfoText);
+                    vm.changedPercentage = changedPercentage + '%';
+                    vm.addedPercentage = addedPercentage + '%';
+                    vm.removedPercentage = removedPercentage + '%';
+                    vm.unchangedPercentage = 100 - changedPercentage - addedPercentage - removedPercentage + '%';
                 }
-            }
-        }
 
-        function buildChangedInfoText(diffInfo, elementType, childElementType) {
-            var changedInfoText = $filter('number')(diffInfo.changeRate, 0) + '% of this ' + elementType + ' has changed:';
-            if(diffInfo.changed > 0) {
-                changedInfoText += '<br />';
-                changedInfoText += '<span class="square changed"></span>';
-                changedInfoText += diffInfo.changed + ' ' + childElementType + (diffInfo.changed === 1 ? '' : 's') + ' changed';
+                var changedInfoText = buildChangedInfoText(vm.diffInfo, vm.elementType, vm.childElementType);
+                vm.infoText = $sce.trustAsHtml(changedInfoText);
             }
-            if(diffInfo.added > 0) {
-                changedInfoText += '<br />';
-                changedInfoText += '<span class="square added"></span>';
-                changedInfoText += diffInfo.added + ' ' + childElementType + (diffInfo.added === 1 ? '' : 's') + ' added';
-            }
-            if(diffInfo.removed > 0) {
-                changedInfoText += '<br />';
-                changedInfoText += '<span class="square removed"></span>';
-                changedInfoText += diffInfo.removed + ' ' + childElementType + (diffInfo.removed === 1 ? '' : 's') + ' removed';
-            }
-            return changedInfoText;
         }
     }
+
+    function buildChangedInfoText(diffInfo, elementType, childElementType) {
+        var changedInfoText = $filter('number')(diffInfo.changeRate, 0) + '% of this ' + elementType + ' has changed:';
+        if(diffInfo.changed > 0) {
+            changedInfoText += '<br />';
+            changedInfoText += '<span class="square changed"></span>';
+            changedInfoText += diffInfo.changed + ' ' + childElementType + (diffInfo.changed === 1 ? '' : 's') + ' changed';
+        }
+        if(diffInfo.added > 0) {
+            changedInfoText += '<br />';
+            changedInfoText += '<span class="square added"></span>';
+            changedInfoText += diffInfo.added + ' ' + childElementType + (diffInfo.added === 1 ? '' : 's') + ' added';
+        }
+        if(diffInfo.removed > 0) {
+            changedInfoText += '<br />';
+            changedInfoText += '<span class="square removed"></span>';
+            changedInfoText += diffInfo.removed + ' ' + childElementType + (diffInfo.removed === 1 ? '' : 's') + ' removed';
+        }
+        return changedInfoText;
+    }
 }
+
 
 
