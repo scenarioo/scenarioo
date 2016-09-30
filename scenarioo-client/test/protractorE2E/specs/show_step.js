@@ -175,7 +175,7 @@ useCase('Show step')
                 stepPage.goToPage('/step/Find%20Page/find_page_title_unique_directly/contentPage.jsp/0/0?branch=wikipedia-docu-example&build=last%20successful&comparison=To%20Projectstart');
                 step('A step');
 
-                stepPage.clickComparisonTabButton();
+                stepPage.openComparisonTab();
                 stepPage.assertStepComparisonSideBySideViewIsActive();
                 stepPage.assertStepComparisonHideHighlightsButtonIsDisplayed();
                 stepPage.assertStepComparisonScreenshotSrcEquals(COMPARISON_SCREENSHOT_SRC);
@@ -214,7 +214,7 @@ useCase('Show step')
                 stepPage.goToPage('/step/Donate/find_donate_page/startSearch.jsp/0/1?branch=wikipedia-docu-example&build=last%20successful&comparison=To%20Projectstart');
                 step('An added step');
 
-                stepPage.clickComparisonTabButton();
+                stepPage.openComparisonTab();
                 stepPage.clickSideBySideViewButton();
                 stepPage.assertStepComparisonSideBySideViewIsActive();
                 stepPage.assertStepComparisonHideHighlightsButtonIsDisplayed();
