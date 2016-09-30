@@ -33,7 +33,7 @@ public class BuildComparator extends AbstractComparator {
 		super(baseBranchName, baseBuildName, comparisonConfiguration);
 	}
 
-	public BuildDiffInfo compare() {
+	public BuildDiffInfo compareAndWrite() {
 		final BuildDiffInfo buildDiffInfo = useCaseComparator.compare();
 
 		diffWriter.saveBuildDiffInfo(buildDiffInfo);
