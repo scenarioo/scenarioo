@@ -19,6 +19,7 @@ package org.scenarioo.business.diffViewer;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
 
 import java.io.File;
 import java.util.Calendar;
@@ -47,31 +48,31 @@ import org.scenarioo.utils.TestFileUtils;
 @RunWith(MockitoJUnitRunner.class)
 public class ComparisonExecutorTest {
 
-	private static final int NUMBER_OF_COMPARISONS_FOR_BRANCH_1 = 5;
-	private static final int NUMBER_OF_COMPARISONS_FOR_BRANCH_2 = 1;
-	private static final File ROOT_DIRECTORY = new File("tmpDir");
-	private static final String BRANCH_NAME_1 = "branch1";
-	private static final String BRANCH_NAME_2 = "branch2";
-	private static final String BUILD_NAME_1 = "build1";
-	private static final String BUILD_NAME_2 = "build2";
-	private static final String BUILD_NAME_3 = "build3";
-	private static final String BUILD_NAME_ALIAS_LAST_SUCCESSFUL = "last successful";
-	private static final String BUILD_NAME_ALIAS_MOST_RECENT = "most recent";
-	private static final String COMPARISON_NAME = "comparison";
+	private static int NUMBER_OF_COMPARISONS_FOR_BRANCH_1 = 5;
+	private static int NUMBER_OF_COMPARISONS_FOR_BRANCH_2 = 1;
+	private static File ROOT_DIRECTORY = new File("tmpDir");
+	private static String BRANCH_NAME_1 = "branch1";
+	private static String BRANCH_NAME_2 = "branch2";
+	private static String BUILD_NAME_1 = "build1";
+	private static String BUILD_NAME_2 = "build2";
+	private static String BUILD_NAME_3 = "build3";
+	private static String BUILD_NAME_ALIAS_LAST_SUCCESSFUL = "last successful";
+	private static String BUILD_NAME_ALIAS_MOST_RECENT = "most recent";
+	private static String COMPARISON_NAME = "comparison";
 
 
 	private static ComparisonConfiguration comparisonConfiguration1 = getComparisonConfiguration(BRANCH_NAME_1,
-			BRANCH_NAME_1, BUILD_NAME_ALIAS_LAST_SUCCESSFUL);
+		BRANCH_NAME_1, BUILD_NAME_ALIAS_LAST_SUCCESSFUL, COMPARISON_NAME);
 	private static ComparisonConfiguration comparisonConfiguration2 = getComparisonConfiguration(BRANCH_NAME_1,
-			BRANCH_NAME_1, BUILD_NAME_ALIAS_MOST_RECENT);
+		BRANCH_NAME_1, BUILD_NAME_ALIAS_MOST_RECENT, COMPARISON_NAME);
 	private static ComparisonConfiguration comparisonConfiguration3 = getComparisonConfiguration(BRANCH_NAME_1,
-			BRANCH_NAME_2, BUILD_NAME_ALIAS_LAST_SUCCESSFUL);
+		BRANCH_NAME_2, BUILD_NAME_ALIAS_LAST_SUCCESSFUL, COMPARISON_NAME);
 	private static ComparisonConfiguration comparisonConfiguration4 = getComparisonConfiguration(BRANCH_NAME_1,
-			BRANCH_NAME_1, BUILD_NAME_1);
+		BRANCH_NAME_1, BUILD_NAME_1, COMPARISON_NAME);
 	private static ComparisonConfiguration comparisonConfiguration5 = getComparisonConfiguration(BRANCH_NAME_1,
-			BRANCH_NAME_2, BUILD_NAME_2);
+		BRANCH_NAME_2, BUILD_NAME_2, COMPARISON_NAME);
 	private static ComparisonConfiguration comparisonConfiguration6 = getComparisonConfiguration(BRANCH_NAME_2,
-			BRANCH_NAME_2, BUILD_NAME_3);
+		BRANCH_NAME_2, BUILD_NAME_3, COMPARISON_NAME);
 
 	private Build build1 = getBuild(BUILD_NAME_1, Status.SUCCESS, getDateBeforeDays(0));
 	private Build build2 = getBuild(BUILD_NAME_2, Status.FAILED, getDateBeforeDays(1));
@@ -98,13 +99,13 @@ public class ComparisonExecutorTest {
 		when(docuBuildsManager.resolveBranchAlias(BRANCH_NAME_2)).thenReturn(BRANCH_NAME_2);
 
 		when(docuBuildsManager.resolveBranchAndBuildAliases(BRANCH_NAME_1, BUILD_NAME_1))
-				.thenReturn(new BuildIdentifier(BRANCH_NAME_1, BUILD_NAME_1));
+			.thenReturn(new BuildIdentifier(BRANCH_NAME_1, BUILD_NAME_1));
 		when(docuBuildsManager.resolveBranchAndBuildAliases(BRANCH_NAME_2, BUILD_NAME_ALIAS_LAST_SUCCESSFUL))
-				.thenReturn(new BuildIdentifier(BRANCH_NAME_2, BUILD_NAME_1));
+			.thenReturn(new BuildIdentifier(BRANCH_NAME_2, BUILD_NAME_1));
 		when(docuBuildsManager.resolveBranchAndBuildAliases(BRANCH_NAME_2, BUILD_NAME_2))
-				.thenReturn(new BuildIdentifier(BRANCH_NAME_2, BUILD_NAME_2));
+			.thenReturn(new BuildIdentifier(BRANCH_NAME_2, BUILD_NAME_2));
 		when(docuBuildsManager.resolveBranchAndBuildAliases(BRANCH_NAME_2, BUILD_NAME_3))
-				.thenReturn(new BuildIdentifier(BRANCH_NAME_2, BUILD_NAME_3));
+			.thenReturn(new BuildIdentifier(BRANCH_NAME_2, BUILD_NAME_3));
 
 		when(docuReader.loadBuild(BRANCH_NAME_1, BUILD_NAME_1)).thenReturn(build1);
 		when(docuReader.loadBuild(BRANCH_NAME_1, BUILD_NAME_2)).thenReturn(build2);
@@ -115,8 +116,8 @@ public class ComparisonExecutorTest {
 
 	@Test
 	public void testGetComparisonConfigurationsForBaseBranch1() {
-		final List<ComparisonConfiguration> result = comparisonExecutor
-				.getComparisonConfigurationsForBaseBranch(BRANCH_NAME_1);
+		List<ComparisonConfiguration> result = comparisonExecutor
+			.getComparisonConfigurationsForBaseBranch(BRANCH_NAME_1);
 		assertEquals(NUMBER_OF_COMPARISONS_FOR_BRANCH_1, result.size());
 		assertEquals(comparisonConfiguration1, result.get(0));
 		assertEquals(comparisonConfiguration2, result.get(1));
@@ -127,16 +128,16 @@ public class ComparisonExecutorTest {
 
 	@Test
 	public void testGetComparisonConfigurationsForBaseBranch2() {
-		final List<ComparisonConfiguration> result = comparisonExecutor
-				.getComparisonConfigurationsForBaseBranch(BRANCH_NAME_2);
+		List<ComparisonConfiguration> result = comparisonExecutor
+			.getComparisonConfigurationsForBaseBranch(BRANCH_NAME_2);
 		assertEquals(NUMBER_OF_COMPARISONS_FOR_BRANCH_2, result.size());
 		assertEquals(comparisonConfiguration6, result.get(0));
 	}
 
 	@Test
 	public void testResolveComparisonConfigurationLastSuccessfulSameBranch() {
-		final ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
-				comparisonConfiguration1, BUILD_NAME_1);
+		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
+			comparisonConfiguration1, BUILD_NAME_1);
 		assertEquals(BRANCH_NAME_1, result.getBaseBranchName());
 		assertEquals(BRANCH_NAME_1, result.getComparisonBranchName());
 		assertEquals(BUILD_NAME_3, result.getComparisonBuildName());
@@ -144,8 +145,8 @@ public class ComparisonExecutorTest {
 
 	@Test
 	public void testResolveComparisonConfigurationMostRecentSameBranch() {
-		final ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
-				comparisonConfiguration2, BUILD_NAME_1);
+		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
+			comparisonConfiguration2, BUILD_NAME_1);
 		assertEquals(BRANCH_NAME_1, result.getBaseBranchName());
 		assertEquals(BRANCH_NAME_1, result.getComparisonBranchName());
 		assertEquals(BUILD_NAME_2, result.getComparisonBuildName());
@@ -153,8 +154,8 @@ public class ComparisonExecutorTest {
 
 	@Test
 	public void testResolveComparisonConfigurationLastSuccessfulOtherBranch() {
-		final ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
-				comparisonConfiguration3, BUILD_NAME_2);
+		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
+			comparisonConfiguration3, BUILD_NAME_2);
 		assertEquals(BRANCH_NAME_1, result.getBaseBranchName());
 		assertEquals(BRANCH_NAME_2, result.getComparisonBranchName());
 		assertEquals(BUILD_NAME_1, result.getComparisonBuildName());
@@ -162,15 +163,15 @@ public class ComparisonExecutorTest {
 
 	@Test
 	public void testResolveComparisonConfigurationSameBranchAndSameBuild() {
-		final ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
-				comparisonConfiguration4, BUILD_NAME_1);
+		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
+			comparisonConfiguration4, BUILD_NAME_1);
 		assertTrue(result == null);
 	}
 
 	@Test
 	public void testResolveComparisonConfigurationSameBranchAndBuildWithoutAlias() {
-		final ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
-				comparisonConfiguration5, BUILD_NAME_1);
+		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
+			comparisonConfiguration5, BUILD_NAME_1);
 		assertEquals(BRANCH_NAME_1, result.getBaseBranchName());
 		assertEquals(BRANCH_NAME_2, result.getComparisonBranchName());
 		assertEquals(BUILD_NAME_2, result.getComparisonBuildName());
@@ -178,8 +179,8 @@ public class ComparisonExecutorTest {
 
 	@Test
 	public void testResolveComparisonConfigurationOtherBranchAndBuildWithoutAlias() {
-		final ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
-				comparisonConfiguration6, BUILD_NAME_1);
+		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
+			comparisonConfiguration6, BUILD_NAME_1);
 		assertEquals(BRANCH_NAME_2, result.getBaseBranchName());
 		assertEquals(BRANCH_NAME_2, result.getComparisonBranchName());
 		assertEquals(BUILD_NAME_3, result.getComparisonBuildName());
@@ -187,7 +188,7 @@ public class ComparisonExecutorTest {
 
 	private static Configuration getTestConfiguration() {
 
-		final List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
+		List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
 		comparisonConfigurations.add(comparisonConfiguration1);
 		comparisonConfigurations.add(comparisonConfiguration2);
 		comparisonConfigurations.add(comparisonConfiguration3);
@@ -195,37 +196,27 @@ public class ComparisonExecutorTest {
 		comparisonConfigurations.add(comparisonConfiguration5);
 		comparisonConfigurations.add(comparisonConfiguration6);
 
-		final Configuration configuration = RepositoryLocator.INSTANCE.getConfigurationRepository().getConfiguration();
+		Configuration configuration = RepositoryLocator.INSTANCE.getConfigurationRepository().getConfiguration();
 		configuration.setComparisonConfigurations(comparisonConfigurations);
 
 		return configuration;
 	}
 
-	private Build getBuild(final String name, final Status status, final Date date) {
-		final Build build = new Build(name);
+	private Build getBuild(String name, Status status, Date date) {
+		Build build = new Build(name);
 		build.setDate(date);
 		build.setStatus(status);
 		return build;
 	}
-	// TODO danielsuter duplicated code
-	private static ComparisonConfiguration getComparisonConfiguration(final String baseBranch,
-			final String comparisonBranch, final String comparisonBuild) {
-		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
-		comparisonConfiguration.setBaseBranchName(baseBranch);
-		comparisonConfiguration.setComparisonBranchName(comparisonBranch);
-		comparisonConfiguration.setComparisonBuildName(comparisonBuild);
-		comparisonConfiguration.setName(COMPARISON_NAME);
-		return comparisonConfiguration;
-	}
 
-	private Date getDateBeforeDays(final int days) {
-		final Calendar calendar = Calendar.getInstance();
+	private Date getDateBeforeDays(int days) {
+		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DAY_OF_MONTH, -days);
 		return calendar.getTime();
 	}
 
 	private List<ObjectFromDirectory<Build>> getBuilds() {
-		final List<ObjectFromDirectory<Build>> builds = new LinkedList<ObjectFromDirectory<Build>>();
+		List<ObjectFromDirectory<Build>> builds = new LinkedList<ObjectFromDirectory<Build>>();
 		builds.add(new ObjectFromDirectory<Build>(build1, ROOT_DIRECTORY.getName()));
 		builds.add(new ObjectFromDirectory<Build>(build2, ROOT_DIRECTORY.getName()));
 		builds.add(new ObjectFromDirectory<Build>(build3, ROOT_DIRECTORY.getName()));

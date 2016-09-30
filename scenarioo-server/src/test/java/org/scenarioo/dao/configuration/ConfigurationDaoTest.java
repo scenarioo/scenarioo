@@ -1,6 +1,7 @@
 package org.scenarioo.dao.configuration;
 
 import static org.junit.Assert.*;
+import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +12,11 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+import org.scenarioo.business.diffViewer.comparator.ConfigurationFixture;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.configuration.LabelConfiguration;
@@ -21,16 +26,16 @@ import org.scenarioo.model.configuration.LabelConfiguration;
  */
 public class ConfigurationDaoTest {
 
-	private static final String BASE_BRANCH_NAME = "baseBranchName";
-	private static final String COMPARISON_BRANCH_NAME = "comparisonBranchName";
-	private static final String COMPARISON_BUILD_NAME = "comparisonBuildName";
 	private static final String COMPARISON_NAME1 = "comparisonName1";
 	private static final String COMPARISON_NAME2 = "comparisonName2";
-	private final ConfigurationDao configurationDao = new ConfigurationDaoImpl("tmp", null);
+	private ConfigurationDao configurationDao;
 
-	@AfterClass
-	public static void removeTemporaryData() throws IOException {
-		FileUtils.deleteDirectory(new File("tmp"));
+	@Rule
+	public TemporaryFolder folder = new TemporaryFolder();
+
+	@Before
+	public void init() throws IOException {
+		configurationDao = new ConfigurationDaoImpl(folder.newFolder().getPath(), null);
 	}
 
 	@Test
@@ -66,7 +71,7 @@ public class ConfigurationDaoTest {
 	}
 
 	private void assertComparisonConfiguration(String expectedComparisonName,
-			ComparisonConfiguration comparisonConfiguration) {
+											   ComparisonConfiguration comparisonConfiguration) {
 		assertEquals(expectedComparisonName, comparisonConfiguration.getName());
 		assertEquals(BASE_BRANCH_NAME, comparisonConfiguration.getBaseBranchName());
 		assertEquals(COMPARISON_BRANCH_NAME, comparisonConfiguration.getComparisonBranchName());
@@ -81,12 +86,7 @@ public class ConfigurationDaoTest {
 	}
 
 	private ComparisonConfiguration createComparisonConfiguration(String comparisonName) {
-		ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
-		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
-		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
-		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);
-		comparisonConfiguration.setName(comparisonName);
-		return comparisonConfiguration;
+		return ConfigurationFixture.getComparisonConfiguration(BASE_BRANCH_NAME, COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME, comparisonName);
 	}
 
 }
