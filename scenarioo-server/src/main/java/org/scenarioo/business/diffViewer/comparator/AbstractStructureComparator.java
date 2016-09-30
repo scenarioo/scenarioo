@@ -40,7 +40,7 @@ public abstract class AbstractStructureComparator<ELEMENT_TYPE, ADDED_ELEMENT_TY
 		super(baseBranchName, baseBuildName, comparisonConfiguration);
 	}
 
-	protected abstract double compareElement(ELEMENT_TYPE baseElement, ELEMENT_TYPE comparisonElement, StructureDiffInfo<ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> diffInfo);
+	protected abstract double compareElementAndWrite(ELEMENT_TYPE baseElement, ELEMENT_TYPE comparisonElement, StructureDiffInfo<ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> diffInfo);
 
 	protected abstract String getElementIdentifier(ELEMENT_TYPE element);
 
@@ -58,7 +58,7 @@ public abstract class AbstractStructureComparator<ELEMENT_TYPE, ADDED_ELEMENT_TY
 									 final List<ELEMENT_TYPE> comparisonElements, final StructureDiffInfo<ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> diffInfo) {
 		handleAddedElements(baseElements, comparisonElements, diffInfo);
 
-		final double elementChangeRateSum = compareElements(baseElements, comparisonElements, diffInfo);
+		final double elementChangeRateSum = compareElementsAndWrite(baseElements, comparisonElements, diffInfo);
 
 		handleRemovedElements(baseElements, comparisonElements, diffInfo);
 
@@ -66,12 +66,12 @@ public abstract class AbstractStructureComparator<ELEMENT_TYPE, ADDED_ELEMENT_TY
 				diffInfo.getRemoved(), elementChangeRateSum));
 	}
 
-	protected double compareElements(final List<ELEMENT_TYPE> baseElements, final List<ELEMENT_TYPE> comparisonElements,
-									 final StructureDiffInfo<ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> diffInfo) {
+	protected double compareElementsAndWrite(final List<ELEMENT_TYPE> baseElements, final List<ELEMENT_TYPE> comparisonElements,
+											 final StructureDiffInfo<ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> diffInfo) {
 		double elementChangeRateSum = 0;
 		for (final ELEMENT_TYPE baseElement : baseElements) {
 			final ELEMENT_TYPE comparisonElement = getElementByIdentifier(comparisonElements, getElementIdentifier(baseElement));
-			elementChangeRateSum += compareElement(baseElement, comparisonElement, diffInfo);
+			elementChangeRateSum += compareElementAndWrite(baseElement, comparisonElement, diffInfo);
 		}
 		return elementChangeRateSum;
 	}

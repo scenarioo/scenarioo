@@ -69,8 +69,8 @@ public class ScenarioComparator extends AbstractStructureComparator<Scenario, St
 	}
 
 	@Override
-	protected double compareElement(final Scenario baseElement, final Scenario comparisonElement,
-			final StructureDiffInfo<String, ScenarioSummary> diffInfo) {
+	protected double compareElementAndWrite(final Scenario baseElement, final Scenario comparisonElement,
+											final StructureDiffInfo<String, ScenarioSummary> diffInfo) {
 		if (comparisonElement == null) {
 			return 0;
 		} else {

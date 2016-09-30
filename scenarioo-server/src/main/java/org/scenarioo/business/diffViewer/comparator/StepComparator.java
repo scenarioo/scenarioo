@@ -75,8 +75,8 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 	}
 
 	@Override
-	protected double compareElement(final StepLink baseElement, final StepLink comparisonElement,
-			final StructureDiffInfo<Integer, StepInfo> diffInfo) {
+	protected double compareElementAndWrite(final StepLink baseElement, final StepLink comparisonElement,
+											final StructureDiffInfo<Integer, StepInfo> diffInfo) {
 		if (comparisonElement == null) {
 			return 0;
 		} else {

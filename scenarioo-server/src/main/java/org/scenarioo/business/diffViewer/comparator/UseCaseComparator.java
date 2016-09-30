@@ -58,8 +58,8 @@ public class UseCaseComparator extends AbstractStructureComparator<UseCase, Stri
 	}
 
 	@Override
-	protected double compareElement(final UseCase baseElement, final UseCase comparisonElement,
-			final StructureDiffInfo<String, UseCase> diffInfo) {
+	protected double compareElementAndWrite(final UseCase baseElement, final UseCase comparisonElement,
+											final StructureDiffInfo<String, UseCase> diffInfo) {
 		if (comparisonElement == null) {
 			return 0;
 		} else {
