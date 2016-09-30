@@ -71,11 +71,11 @@ useCase('List use cases')
                 homePage.assertPageIsDisplayed();
                 step('To Projectstart comparison selected');
 
-                homePage.clickSortByChanges();
+                homePage.sortByChanges();
                 homePage.assertLastUseCase(USE_CASE_WITH_HIGHEST_DIFF);
                 step('Diff Infos sorted ascending');
 
-                homePage.clickSortByChanges();
+                homePage.sortByChanges();
                 homePage.assertFirstUseCase(USE_CASE_WITH_HIGHEST_DIFF);
                 step('Diff Infos sorted descending');
 

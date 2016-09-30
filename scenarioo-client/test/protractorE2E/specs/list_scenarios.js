@@ -66,11 +66,11 @@ useCase('List scenarios')
                 homePage.selectUseCase(SECOND_USE_CASE);
                 step('Use Case selected');
 
-                useCasePage.clickSortByChanges();
+                useCasePage.sortByChanges();
                 useCasePage.assertLastUseCase(SCENARIO_WITH_HIGHEST_DIFF);
                 step('Diff Infos sorted ascending');
 
-                useCasePage.clickSortByChanges();
+                useCasePage.sortByChanges();
                 useCasePage.assertFirstUseCase(SCENARIO_WITH_HIGHEST_DIFF);
                 step('Diff Infos sorted descending');
 
