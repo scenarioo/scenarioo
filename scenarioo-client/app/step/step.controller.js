@@ -195,147 +195,142 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     }
 
     function bindStepNavigation() {
+        $scope.isFirstStep = isFirstStep;
+        $scope.isFirstPage = isFirstPage;
+        $scope.isLastPage = isLastPage;
+        $scope.goToPreviousStep = goToPreviousStep;
+        $scope.goToNextStep = goToNextStep;
+        $scope.goToPreviousPage = goToPreviousPage;
+        $scope.goToNextPage = goToNextPage;
+        $scope.goToFirstStep = goToFirstStep;
+        $scope.goToLastStep = goToLastStep;
+        $scope.isFirstPageVariantStep = isFirstPageVariantStep;
+        $scope.goToPreviousVariant = goToPreviousVariant;
+        $scope.isLastPageVariantStep = isLastPageVariantStep;
+        $scope.goToNextVariant = goToNextVariant;
+        $scope.getCurrentStepIndexForDisplay = getCurrentStepIndexForDisplay;
+        $scope.getCurrentPageIndexForDisplay = getCurrentPageIndexForDisplay;
+        $scope.getStepIndexInCurrentPageForDisplay = getStepIndexInCurrentPageForDisplay;
+        $scope.getNumberOfStepsInCurrentPageForDisplay = getNumberOfStepsInCurrentPageForDisplay;
+        $scope.isLastStep = isLastStep;
 
-        GlobalHotkeysService.registerPageHotkeyCode(37, function () {
-            // left arrow
-            $scope.goToPreviousStep();
-        });
-        GlobalHotkeysService.registerPageHotkeyCode(39, function () {
-            // right arrow
-            $scope.goToNextStep();
-        });
-        GlobalHotkeysService.registerPageHotkeyCode('ctrl+37', function () {
-            // control + left arrow
-            $scope.goToPreviousPage();
-        });
-        GlobalHotkeysService.registerPageHotkeyCode('ctrl+39', function () {
-            // control + right arrow
-            $scope.goToNextPage();
-        });
-        GlobalHotkeysService.registerPageHotkeyCode('ctrl+36', function () {
-            // control + HOME
-            $scope.goToFirstStep();
-        });
-        GlobalHotkeysService.registerPageHotkeyCode('ctrl+35', function () {
-            // control + END
-            $scope.goToLastStep();
-        });
-        GlobalHotkeysService.registerPageHotkeyCode('ctrl+38', function () {
-            // control + up arrow
-            $scope.goToPreviousVariant();
-        });
-        GlobalHotkeysService.registerPageHotkeyCode('ctrl+40', function () {
-            // control + down arrow
-            $scope.goToNextVariant();
-        });
+        GlobalHotkeysService.registerPageHotkeyCode(37, goToPreviousStep); // left arrow
+        GlobalHotkeysService.registerPageHotkeyCode(39, goToNextStep); // right arrow
+        GlobalHotkeysService.registerPageHotkeyCode('ctrl+37', goToPreviousPage); // control + left arrow
+        GlobalHotkeysService.registerPageHotkeyCode('ctrl+39', goToNextPage); // control + right arrow
+        GlobalHotkeysService.registerPageHotkeyCode('ctrl+36', goToFirstStep); // control + HOME
+        GlobalHotkeysService.registerPageHotkeyCode('ctrl+35', goToLastStep); // control + END
+        GlobalHotkeysService.registerPageHotkeyCode('ctrl+38', goToPreviousVariant); // control + up arrow
+        GlobalHotkeysService.registerPageHotkeyCode('ctrl+40', goToNextVariant); // control + down arrow
 
-        $scope.isFirstStep = function () {
+        function isFirstStep() {
             return $scope.stepNavigation && $scope.stepNavigation.stepIndex === 0;
-        };
+        }
 
-        $scope.isLastStep = function () {
+        function isLastStep() {
             return $scope.stepNavigation && $scope.stepNavigation.stepIndex === $scope.stepStatistics.totalNumberOfStepsInScenario - 1;
-        };
+        }
 
-        $scope.isFirstPage = function () {
+        function isFirstPage() {
             return $scope.stepNavigation && $scope.stepNavigation.pageIndex === 0;
-        };
+        }
 
-        $scope.isLastPage = function () {
+        function isLastPage() {
             return $scope.stepNavigation && $scope.stepNavigation.pageIndex === $scope.stepStatistics.totalNumberOfPagesInScenario - 1;
-        };
+        }
 
-        $scope.goToPreviousStep = function () {
+        function goToPreviousStep() {
             if (!$scope.stepNavigation || !$scope.stepNavigation.previousStep) {
                 return;
             }
             $scope.go($scope.stepNavigation.previousStep);
-        };
+        }
 
-        $scope.goToNextStep = function () {
+        function goToNextStep() {
             if (!$scope.stepNavigation || !$scope.stepNavigation.nextStep) {
                 return;
             }
             $scope.go($scope.stepNavigation.nextStep);
-        };
+        }
 
-        $scope.goToPreviousPage = function () {
+
+        function goToPreviousPage() {
             if (!$scope.stepNavigation || !$scope.stepNavigation.previousPage) {
                 return;
             }
             $scope.go($scope.stepNavigation.previousPage);
-        };
+        }
 
-        $scope.goToNextPage = function () {
+        function goToNextPage() {
             if (!$scope.stepNavigation || !$scope.stepNavigation.nextPage) {
                 return;
             }
             $scope.go($scope.stepNavigation.nextPage);
-        };
+        }
 
-        $scope.goToFirstStep = function () {
+        function goToFirstStep() {
             if (!$scope.stepNavigation || !$scope.stepNavigation.firstStep) {
                 return;
             }
             $scope.go($scope.stepNavigation.firstStep);
-        };
+        }
 
-        $scope.goToLastStep = function () {
+        function goToLastStep() {
             if (!$scope.stepNavigation || !$scope.stepNavigation.lastStep) {
                 return;
             }
             $scope.go($scope.stepNavigation.lastStep);
-        };
+        }
 
-        $scope.isFirstPageVariantStep = function () {
+        function isFirstPageVariantStep() {
             return angular.isUndefined($scope.stepNavigation) || $scope.stepNavigation.previousStepVariant === null;
-        };
+        }
 
-        $scope.goToPreviousVariant = function () {
+        function goToPreviousVariant() {
             if($scope.isFirstPageVariantStep()) {
                 return;
             }
             $scope.go($scope.stepNavigation.previousStepVariant);
-        };
+        }
 
-        $scope.isLastPageVariantStep = function () {
+        function isLastPageVariantStep() {
             return angular.isUndefined($scope.stepNavigation) || $scope.stepNavigation.nextStepVariant === null;
-        };
+        }
 
-        $scope.goToNextVariant = function () {
+        function goToNextVariant() {
             if($scope.isLastPageVariantStep()) {
                 return;
             }
             $scope.go($scope.stepNavigation.nextStepVariant);
-        };
+        }
 
-        $scope.getCurrentStepIndexForDisplay = function () {
+        function getCurrentStepIndexForDisplay() {
             if (angular.isUndefined($scope.stepNavigation)) {
                 return '?';
             }
             return $scope.stepNavigation.stepIndex + 1;
-        };
+        }
 
-        $scope.getCurrentPageIndexForDisplay = function () {
+        function getCurrentPageIndexForDisplay() {
             if (angular.isUndefined($scope.stepNavigation)) {
                 return '?';
             }
             return $scope.stepNavigation.pageIndex + 1;
-        };
+        }
 
-        $scope.getStepIndexInCurrentPageForDisplay = function () {
+        function getStepIndexInCurrentPageForDisplay() {
             if (angular.isUndefined($scope.stepNavigation)) {
                 return '?';
             }
             return $scope.stepNavigation.stepInPageOccurrence + 1;
-        };
+        }
 
-        $scope.getNumberOfStepsInCurrentPageForDisplay = function () {
+        function getNumberOfStepsInCurrentPageForDisplay() {
             if (angular.isUndefined($scope.stepStatistics)) {
                 return '?';
             }
             return $scope.stepStatistics.totalNumberOfStepsInPageOccurrence;
-        };
+        }
     }
 
     $scope.setActiveTab = function (activeTab) {

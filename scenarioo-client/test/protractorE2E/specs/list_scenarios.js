@@ -41,6 +41,7 @@ useCase('List scenarios')
             });
 
         scenario('Display Diff-Information')
+            .labels(['diff-viewer'])
             .it(function () {
                 homePage.goToPage();
                 step('display usecases on homepage');
@@ -57,6 +58,7 @@ useCase('List scenarios')
             });
 
         scenario('Sort by Diff-Information')
+            .labels(['diff-viewer'])
             .it(function () {
                 homePage.goToPage();
                 step('display usecases on homepage');
