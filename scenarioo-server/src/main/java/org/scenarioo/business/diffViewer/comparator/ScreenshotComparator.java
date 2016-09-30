@@ -28,6 +28,7 @@ import org.im4java.core.IMOperation;
 import org.im4java.process.ArrayListErrorConsumer;
 import org.im4java.process.ArrayListOutputConsumer;
 import org.scenarioo.dao.diffViewer.DiffReader;
+import org.scenarioo.dao.diffViewer.GraphicsMagickConfiguration;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
@@ -57,6 +58,9 @@ public class ScreenshotComparator extends AbstractComparator {
 
 	public double compare(final String baseUseCaseName, final String baseScenarioName, final StepLink baseStepLink,
 			final String comparisonScreenshotName) {
+		if(!GraphicsMagickConfiguration.isAvailable()) {
+			return 0.0;
+		}
 
 		final String baseScreenshotName = THREE_DIGIT_NUM_FORMAT.format(baseStepLink.getStepIndex())
 				+ SCREENSHOT_FILE_EXTENSION;
@@ -74,6 +78,15 @@ public class ScreenshotComparator extends AbstractComparator {
 				comparisonConfiguration.getName(),
 				baseUseCaseName, baseScenarioName, diffScreenshotName);
 
+		if(!baseScreenshot.exists()) {
+			LOGGER.warn("Base screenshot does not exist: " + baseScreenshot.getAbsolutePath());
+			return 0.0;
+		}
+		if(!comparisonScreenshot.exists()) {
+			LOGGER.warn("Comparison screenshot does not exist: " + baseScreenshot.getAbsolutePath());
+			return 0.0;
+		}
+
 		return compareScreenshots(baseScreenshot, comparisonScreenshot, diffScreenshot);
 	}
 
@@ -81,7 +94,7 @@ public class ScreenshotComparator extends AbstractComparator {
 	 * A Diff Screenshoot will be created and stored in the directory of the diffScreenshot path.
 	 * This directory, and all the parent directories, will be created if they do not exist.
 	 */
-	public double compareScreenshots(final File baseScreenshot, final File comparisonScreenshot,
+	double compareScreenshots(final File baseScreenshot, final File comparisonScreenshot,
 			final File diffScreenshot) {
 		if (diffScreenshot.getParentFile() != null) {
 			diffScreenshot.getParentFile().mkdirs();
