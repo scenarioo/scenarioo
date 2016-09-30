@@ -3,6 +3,7 @@ package org.scenarioo.business.diffViewer.comparator;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
+import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,9 +15,8 @@ import org.apache.commons.io.FileUtils;
 import org.im4java.core.CompareCmd;
 import org.im4java.core.IMOperation;
 import org.im4java.process.ArrayListOutputConsumer;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -38,18 +38,15 @@ public class ScreenshotComparatorMockitoTest {
 
 	@InjectMocks
 	private final ScreenshotComparator screenshotComparator = new ScreenshotComparator(BASE_BRANCH_NAME,
-			BASE_BUILD_NAME,
-			getComparisonConfiguration());
+		BASE_BUILD_NAME,
+		getComparisonConfiguration());
 
 	private static final double SCREENSHOT_DIFFERENCE = 14.11;
 	private static final double DOUBLE_TOLERANCE = 0.01;
 	private static final ArrayList<String> OUTPUT_CONSUMER_MOCK;
-	private static final File ROOT_DIRECTORY = new File("tmp");
-	private static final String BASE_BRANCH_NAME = "baseBranch";
-	private static final String BASE_BUILD_NAME = "baseBuild";
-	private static final String COMPARISON_BRANCH_NAME = "comparisonBranch";
-	private static final String COMPARISON_BUILD_NAME = "comparisonBuild";
-	private static final String COMPARISON_NAME = "comparisonName";
+
+	@ClassRule
+	public static TemporaryFolder folder = new TemporaryFolder();
 
 	static {
 		OUTPUT_CONSUMER_MOCK = new ArrayList<String>() {
@@ -67,19 +64,10 @@ public class ScreenshotComparatorMockitoTest {
 	}
 
 	@BeforeClass
-	public static void setUpClass() {
-		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(ROOT_DIRECTORY);
-		DiffFiles.getDiffViewerDirectory().mkdirs();
+	public static void setUpClass() throws IOException {
+		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(folder.newFolder());
+		assertTrue(DiffFiles.getDiffViewerDirectory().mkdirs());
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
-	}
-
-	@AfterClass
-	public static void tearDownClass() {
-		try {
-			FileUtils.deleteDirectory(ROOT_DIRECTORY);
-		} catch (final IOException e) {
-			throw new RuntimeException("Could not delete test data directory", e);
-		}
 	}
 
 	@Test
@@ -92,26 +80,4 @@ public class ScreenshotComparatorMockitoTest {
 		assertEquals("Difference of screenshots", SCREENSHOT_DIFFERENCE, difference, DOUBLE_TOLERANCE);
 	}
 
-	// TODO danielsuter duplicated code
-	private static Configuration getTestConfiguration() {
-
-		final ComparisonConfiguration comparisonConfiguration = getComparisonConfiguration();
-
-		final List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
-		comparisonConfigurations.add(comparisonConfiguration);
-
-		final Configuration configuration = RepositoryLocator.INSTANCE.getConfigurationRepository().getConfiguration();
-		configuration.setComparisonConfigurations(comparisonConfigurations);
-
-		return configuration;
-	}
-
-	private static ComparisonConfiguration getComparisonConfiguration() {
-		final ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
-		comparisonConfiguration.setBaseBranchName(BASE_BRANCH_NAME);
-		comparisonConfiguration.setComparisonBranchName(COMPARISON_BRANCH_NAME);
-		comparisonConfiguration.setComparisonBuildName(COMPARISON_BUILD_NAME);
-		comparisonConfiguration.setName(COMPARISON_NAME);
-		return comparisonConfiguration;
-	}
 }
