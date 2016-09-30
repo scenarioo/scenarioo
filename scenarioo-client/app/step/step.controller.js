@@ -20,7 +20,8 @@ angular.module('scenarioo.controllers').controller('StepController', StepControl
 function StepController($scope, $routeParams, $location, $route, StepResource, HostnameAndPort, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, GlobalHotkeysService, LabelConfigurationsResource,
                         SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
-                        SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, BuildDiffInfoResource, StepDiffInfoResource, DiffInfoService, localStorageService) {
+                        SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, BuildDiffInfoResource,
+                        StepDiffInfoResource, DiffInfoService, localStorageService) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -68,12 +69,10 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
         return encodeURIComponent($scope.pageName);
     };
 
-    // FIXME this code is duplicated. How can we extract it into a service?
     LabelConfigurationsResource.query({}, function (labelConfigurations) {
         $scope.labelConfigurations = labelConfigurations;
     });
 
-    // FIXME this code is duplicated. How can we extract it into a service?
     $scope.getLabelStyle = function (labelName) {
         if ($scope.labelConfigurations) {
             var labelConfig = $scope.labelConfigurations[labelName];
@@ -122,7 +121,9 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
                 $scope.selectedBuild = selected.buildName;
                 loadRelatedIssues();
                 initScreenshotUrl();
-                loadDiffInfoData(selected.branch, selected.build, SelectedComparison.selected());
+                if(SelectedComparison.isDefined()) {
+                    loadDiffInfoData(selected.branch, selected.build, SelectedComparison.selected());
+                }
 
                 $scope.hasAnyLabels = function () {
                     var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
@@ -439,6 +440,9 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     }
 
     function loadStepDiffInfo() {
+        // TODO danielsuter this will log an error 500 for added screenshots
+        // failure function will be executed nevertheless, why is that?
+        // We can not know if a screenshot is added, before we execute the call
         StepDiffInfoResource.get(
             {
             baseBranchName: SelectedBranchAndBuildService.selected().branch,
