@@ -243,7 +243,6 @@ angular.module('scenarioo.services')
         return ScenariooResource('/labelconfigurations', {}, {'query': {isArray: false}});
     });
 
-
 function getPromise($q, fn) {
     return function (parameters) {
         var deferred = $q.defer();

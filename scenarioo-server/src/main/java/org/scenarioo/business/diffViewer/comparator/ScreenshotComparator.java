@@ -114,7 +114,7 @@ public class ScreenshotComparator extends AbstractComparator {
 	}
 
 	/**
-	 * The GraphicsMagick command will be initiaded by the IM4Java framework
+	 * The GraphicsMagick command will be initiated by the IM4Java framework
 	 */
 	private double runGraphicsMagickOperation(final IMOperation gmOperation) {
 		try {

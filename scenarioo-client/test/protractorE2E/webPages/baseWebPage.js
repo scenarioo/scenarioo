@@ -7,6 +7,9 @@ function BaseWebPage(path) {
     this.path = path;
 }
 
+BaseWebPage.COMPARISON_DISABLE = 'Disable';
+
+
 BaseWebPage.prototype.assertPageIsDisplayed = function () {
     e2eUtils.assertRoute(this.path);
 };
@@ -91,6 +94,22 @@ BaseWebPage.prototype.chooseComparison = function (comparisonName) {
     // Open menu first, otherwise we cannot click
     element(by.partialLinkText('Comparison:')).click();
     element(by.css('#comparison-selection-dropdown .dropdown-menu')).all(by.partialLinkText(comparisonName)).first().click();
+};
+
+BaseWebPage.prototype.disableComparison = function () {
+    if(element(by.partialLinkText('Comparison:')).isPresent()) {
+        // Open menu first, otherwise we cannot click
+        element(by.partialLinkText('Comparison:')).click();
+        var comparisonElements = element(by.css('#comparison-selection-dropdown .dropdown-menu'));
+        var disableEntry = comparisonElements.element(by.partialLinkText('Disable'));
+        // It's not there if it's already disabled
+        disableEntry.isPresent().then(function(isPresent) {
+            if(isPresent) {
+                disableEntry.click();
+            }
+        });
+    }
+
 };
 
 BaseWebPage.prototype.assertSelectedComparison = function (comparisonName) {
