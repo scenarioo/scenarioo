@@ -56,9 +56,13 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     }
 
     function gotoUseCase(useCase){
-        if(!useCase.diffInfo || !useCase.diffInfo.isRemoved){
+        if(!isRemovedUseCase(useCase)){
             $location.path('/usecase/' + useCase.name);
         }
+    }
+
+    function isRemovedUseCase(useCase) {
+        return useCase.diffInfo && useCase.diffInfo.isRemoved;
     }
 
     function onNavigatorTableHit(useCase) {
