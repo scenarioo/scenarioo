@@ -51,7 +51,7 @@ public class BuildImporter {
 
 	private static final Logger LOGGER = Logger.getLogger(BuildImporter.class);
 
-	private static final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
 	private ScenarioDocuAggregationDao dao = new ScenarioDocuAggregationDao(
@@ -269,7 +269,7 @@ public class BuildImporter {
 		saveBuildImportSummaries(buildImportSummaries);
 	}
 
-	private static void saveBuildImportSummaries(Map<BuildIdentifier, BuildImportSummary> buildImportSummaries) {
+	private void saveBuildImportSummaries(Map<BuildIdentifier, BuildImportSummary> buildImportSummaries) {
 		List<BuildImportSummary> summariesToSave = new ArrayList<BuildImportSummary>(
 				buildImportSummaries.values());
 		ScenarioDocuAggregationDao dao = new ScenarioDocuAggregationDao(
