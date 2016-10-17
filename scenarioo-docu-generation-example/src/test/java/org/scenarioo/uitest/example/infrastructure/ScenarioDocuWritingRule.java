@@ -90,10 +90,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 	private Scenario createScenario(final Description testMethodDescription) {
 		Scenario scenario = new Scenario();
 		String description = "";
-		String name = MultipleBuildsDummyTestNameGenerator.getScenarioDumyName(testMethodDescription, MultipleBuildsRule.getCurrentBuildRun());
-		if(name == null) {
-			name = getNameFromMethod(testMethodDescription);
-		}
+		String name = getNameFromMethod(testMethodDescription);
 		scenario.setName(name);
 
 		// store description and user role from test method's annotation (if any)
@@ -130,14 +127,21 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 	}
 
 	private String getNameFromMethod(Description testMethodDescription) {
-			DocuDescription description = testMethodDescription.getAnnotation(DocuDescription.class);
-			if (description != null && !StringUtils.isBlank(description.name())) {
-				return description.name();
-			}
-
+		String name = null;
+		DocuDescription description = testMethodDescription.getAnnotation(DocuDescription.class);
+		if (description != null && !StringUtils.isBlank(description.name())) {
+			name = description.name();
+		} else {
 			// simply use the test name as scenario name if not set through
 			// description annotation.
-			return testMethodDescription.getMethodName();
+			name = testMethodDescription.getMethodName();
+		}
+
+		// just for dummy data for demo:
+		// change some names slightly depending on the build run
+		// for having useful demo data for diff viewer
+		return MultipleBuildsDummyTestNameGenerator.getDifferentScenarioNameForBuild(name);
+
 	}
 
 	private static Details createLongLine() {
