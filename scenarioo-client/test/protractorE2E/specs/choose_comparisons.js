@@ -11,7 +11,7 @@ var BUILD_JANUARY = '2014-01-20';
 var SECOND_USE_CASE = 1;
 var SECOND_SCENARIO = 1;
 
-useCase('Diff viewer - Comparable build choice')
+useCase('Diff viewer - Choose comparisons')
     .labels(['diff-viewer'])
     .description('Select Build and Comparison from navigation bar')
 	.describe(function () {

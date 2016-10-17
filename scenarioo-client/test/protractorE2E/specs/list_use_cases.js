@@ -62,16 +62,6 @@ useCase('List use cases')
                 step('To Projectstart comparison selected');
 
                 homePage.assertNumberOfDiffInfos(NUMBER_OF_USE_CASES);
-            });
-
-        scenario('Sort by Diff-Information')
-            .labels(['diff-viewer'])
-            .it(function () {
-                homePage.goToPage();
-                step('display usecases on homepage');
-                homePage.chooseComparison(COMPARISON_PROJECTSTART);
-                homePage.assertPageIsDisplayed();
-                step('To Projectstart comparison selected');
 
                 homePage.sortByChanges();
                 homePage.assertLastUseCase(USE_CASE_WITH_HIGHEST_DIFF);
