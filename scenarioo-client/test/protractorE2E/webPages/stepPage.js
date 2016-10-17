@@ -15,7 +15,6 @@ function StepPage(overridePath) {
 
 util.inherits(StepPage, BaseWebPage);
 
-// DISABLED
 StepPage.prototype.assertPreviousStepIsDisabled = function () {
     this.assertElementIsDisabled('prevStepBtn');
 };
@@ -32,7 +31,6 @@ StepPage.prototype.assertNextPageIsDisabled = function () {
     this.assertElementIsDisabled('nextPageBtn');
 };
 
-// ENABLED
 StepPage.prototype.assertPreviousStepIsEnabled = function () {
     this.assertElementIsEnabled('prevStepBtn');
 };
@@ -200,27 +198,27 @@ StepPage.prototype.openComparisonTab = function () {
 };
 
 
-StepPage.prototype.clickShowHighlightsButton = function () {
+StepPage.prototype.showHighlights = function () {
     element(by.id('sc-show-highlights-button')).click();
 };
 
-StepPage.prototype.clickHideHighlightsButton = function () {
+StepPage.prototype.hideHighlights = function () {
     element(by.id('sc-hide-highlights-button')).click();
 };
 
-StepPage.prototype.clickSideBySideViewButton = function () {
+StepPage.prototype.showSideBySideView = function () {
     element(by.id('sc-side-by-side-view-button')).click();
 };
 
-StepPage.prototype.clickSinglePageViewButton = function () {
+StepPage.prototype.showSinglePageView = function () {
     element(by.id('sc-single-page-view-button')).click();
 };
 
-StepPage.prototype.clickSwitchToComparisonScreenshotButton = function () {
+StepPage.prototype.switchToComparisonScreenshot = function () {
     element(by.id('sc-switch-to-comparison-screenshot-button')).click();
 };
 
-StepPage.prototype.clickSwitchToBaseScreenshotButton = function () {
+StepPage.prototype.switchToBaseScreenshot = function () {
     element(by.id('sc-switch-to-base-screenshot-button')).click();
 };
 

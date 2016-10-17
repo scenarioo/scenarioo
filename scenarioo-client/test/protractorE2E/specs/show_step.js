@@ -168,22 +168,22 @@ useCase('Show step')
                 stepPage.assertStepComparisonScreenshotSrcEquals(COMPARISON_SCREENSHOT_SRC);
                 step('Switch to comparison tab');
 
-                stepPage.clickHideHighlightsButton();
+                stepPage.hideHighlights();
                 stepPage.assertStepComparisonShowHighlightsButtonIsDisplayed();
                 stepPage.assertStepBaseScreenshotSrcEquals(BASE_SCREENSHOT_SRC);
                 step('Hide highlights');
 
-                stepPage.clickSinglePageViewButton();
+                stepPage.showSinglePageView();
                 stepPage.assertStepComparisonSinglePageViewIsActive();
                 stepPage.assertStepComparisonSwitchToComparisonScreenshotButtonIsDisplayed();
                 stepPage.assertStepBaseScreenshotSrcEquals(BASE_SCREENSHOT_SRC);
                 step('Show Single Page view');
 
-                stepPage.clickShowHighlightsButton();
+                stepPage.showHighlights();
                 stepPage.assertStepComparisonHideHighlightsButtonIsDisplayed();
                 step('Show highlights');
 
-                stepPage.clickSwitchToComparisonScreenshotButton();
+                stepPage.switchToComparisonScreenshot();
                 stepPage.assertStepComparisonSwitchToBaseScreenshotButtonIsDisplayed();
                 stepPage.assertStepComparisonScreenshotSrcEquals(COMPARISON_SCREENSHOT_SRC);
                 step('Switch to comparison screenshot');
@@ -203,30 +203,30 @@ useCase('Show step')
                 step('An added step');
 
                 stepPage.openComparisonTab();
-                stepPage.clickSideBySideViewButton();
+                stepPage.showSideBySideView();
                 stepPage.assertStepComparisonSideBySideViewIsActive();
                 stepPage.assertStepComparisonHideHighlightsButtonIsDisplayed();
                 stepPage.assertStepNoComparisonScreenshot();
                 step('Show added step base screenshot in side by side view');
 
-                stepPage.clickHideHighlightsButton();
+                stepPage.hideHighlights();
                 stepPage.assertStepComparisonShowHighlightsButtonIsDisplayed();
                 stepPage.assertStepBaseScreenshotSrcEquals(SCREENSHOT_SRC);
                 step('Show added step diff screenshot in side by side view');
 
                 // this test is only possible because the last selection in the previous step was the ComparisonScreenshot
-                stepPage.clickSinglePageViewButton();
+                stepPage.showSinglePageView();
                 stepPage.assertStepComparisonSinglePageViewIsActive();
                 stepPage.assertStepNoComparisonScreenshot();
                 step('Show added step comparison screenshot in single page view');
 
-                stepPage.clickSwitchToBaseScreenshotButton();
+                stepPage.switchToBaseScreenshot();
                 stepPage.assertStepComparisonSwitchToComparisonScreenshotButtonIsDisabled();
                 stepPage.assertStepComparisonShowHighlightsButtonIsDisplayed();
                 stepPage.assertStepBaseScreenshotSrcEquals(SCREENSHOT_SRC);
                 step('Show added step base screenshot in single page view');
 
-                stepPage.clickShowHighlightsButton();
+                stepPage.showHighlights();
                 stepPage.assertStepComparisonSinglePageViewIsActive();
                 step('Show added step diff screenshot in single page view');
 
