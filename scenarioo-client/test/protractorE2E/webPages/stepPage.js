@@ -15,7 +15,6 @@ function StepPage(overridePath) {
 
 util.inherits(StepPage, BaseWebPage);
 
-// DISABLED
 StepPage.prototype.assertPreviousStepIsDisabled = function () {
     this.assertElementIsDisabled('prevStepBtn');
 };
@@ -32,7 +31,6 @@ StepPage.prototype.assertNextPageIsDisabled = function () {
     this.assertElementIsDisabled('nextPageBtn');
 };
 
-// ENABLED
 StepPage.prototype.assertPreviousStepIsEnabled = function () {
     this.assertElementIsEnabled('prevStepBtn');
 };
@@ -200,33 +198,30 @@ StepPage.prototype.openComparisonTab = function () {
 };
 
 
-StepPage.prototype.clickShowHighlightsButton = function () {
+StepPage.prototype.showHighlights = function () {
     element(by.id('sc-show-highlights-button')).click();
 };
 
-StepPage.prototype.clickHideHighlightsButton = function () {
+StepPage.prototype.hideHighlights = function () {
     element(by.id('sc-hide-highlights-button')).click();
 };
 
-StepPage.prototype.clickSideBySideViewButton = function () {
+StepPage.prototype.showSideBySideView = function () {
     element(by.id('sc-side-by-side-view-button')).click();
 };
 
-StepPage.prototype.clickSinglePageViewButton = function () {
+StepPage.prototype.showSinglePageView = function () {
     element(by.id('sc-single-page-view-button')).click();
 };
 
-StepPage.prototype.clickSwitchToComparisonScreenshotButton = function () {
+StepPage.prototype.switchToComparisonScreenshot = function () {
     element(by.id('sc-switch-to-comparison-screenshot-button')).click();
 };
 
-StepPage.prototype.clickSwitchToBaseScreenshotButton = function () {
+StepPage.prototype.switchToBaseScreenshot = function () {
     element(by.id('sc-switch-to-base-screenshot-button')).click();
 };
 
-StepPage.prototype.clickExpandAllPagesButton = function () {
-    element(by.id('expandAllPages')).click();
-};
 
 StepPage.prototype.assertNoDiffInfoDisplayed = function () {
     expect(element(by.id('comparison-tab')).isPresent()).toBeFalsy();
@@ -289,30 +284,6 @@ StepPage.prototype.assertStepNoComparisonScreenshot = function (expected) {
 
 StepPage.prototype.assertStepBaseScreenshotSrcEquals = function (expected) {
     expect(element(by.css('.sc-base-screenshot img')).getAttribute('src')).toContain(expected);
-};
-
-StepPage.prototype.assertFirstChangedPageDiffIconHasValue = function () {
-    expect(element(by.css('.step-view div:first-child .sc-step-in-overview .sc-scenario-page-title .diff-info-wrapper span')).getText()).toContain('%');
-};
-
-StepPage.prototype.assertFirstChangedStepDiffIconHasValue = function () {
-    expect(element(by.css('.step-view div:first-child .sc-step-in-overview:first-child .step-title span')).getText()).toContain('%');
-};
-
-StepPage.prototype.assertAddedPageDiffIconTextEqualsAdded = function () {
-    expect(element(by.css('div.sc-step-in-overview.added:first-of-type .sc-scenario-page-title span.added')).getText()).toContain('added');
-};
-
-StepPage.prototype.assertAddedStepDiffIconTextEqualsAdded = function () {
-    expect(element(by.css('div.sc-step-in-overview.added:first-of-type .step-title:first-of-type span.added')).getText()).toContain('added');
-};
-
-StepPage.prototype.assertRemovedPageDiffIconTextEqualsRemoved = function () {
-    expect(element(by.css('div.sc-step-in-overview.removed:first-of-type .sc-scenario-page-title span.removed')).getText()).toContain('removed');
-};
-
-StepPage.prototype.assertRemovedStepDiffIconTextEqualsRemoved = function () {
-    expect(element(by.css('div.sc-step-in-overview.removed:first-of-type .step-title:first-of-type span.removed')).getText()).toContain('removed');
 };
 
 module.exports = StepPage;

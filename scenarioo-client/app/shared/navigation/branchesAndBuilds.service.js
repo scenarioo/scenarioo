@@ -79,14 +79,14 @@ angular.module('scenarioo.services').factory('BranchesAndBuildsService', functio
         return displayName;
     }
 
-    function getDisplayNameForBuildName(branchName, buildName, returnShortText) {
+    function getDisplayNameForBuildName(branchName, buildName) {
         var deferred = $q.defer();
 
 
         getBranchesAndBuildsData().then(function onSuccess(result){
             var selectedBranch = getBranch(result, branchName);
             var selectedBuild = getBuild(selectedBranch, buildName);
-            var baseBuildName = getDisplayNameForBuild(selectedBuild, returnShortText);
+            var baseBuildName = getDisplayNameForBuild(selectedBuild, false);
 
             deferred.resolve(baseBuildName);
         });

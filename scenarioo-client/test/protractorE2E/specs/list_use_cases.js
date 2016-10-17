@@ -5,7 +5,6 @@ var pages = require('./../webPages');
 
 var NUMBER_OF_USE_CASES = 4;
 var COMPARISON_PROJECTSTART = 'To Projectstart';
-var COMPARISON_DISABLE = 'Disable';
 var USE_CASE_WITH_HIGHEST_DIFF = 'Donate';
 
 useCase('List use cases')
@@ -16,6 +15,10 @@ useCase('List use cases')
 
         beforeEach(function () {
             homePage.initLocalStorage();
+        });
+
+        afterEach(function() {
+            homePage.disableComparison();
         });
 
         scenario('Display and filter usecases')
@@ -60,19 +63,6 @@ useCase('List use cases')
 
                 homePage.assertNumberOfDiffInfos(NUMBER_OF_USE_CASES);
 
-                // Reset
-                homePage.chooseComparison(COMPARISON_DISABLE);
-            });
-
-        scenario('Sort by Diff-Information')
-            .labels(['diff-viewer'])
-            .it(function () {
-                homePage.goToPage();
-                step('display usecases on homepage');
-                homePage.chooseComparison(COMPARISON_PROJECTSTART);
-                homePage.assertPageIsDisplayed();
-                step('To Projectstart comparison selected');
-
                 homePage.sortByChanges();
                 homePage.assertLastUseCase(USE_CASE_WITH_HIGHEST_DIFF);
                 step('Diff Infos sorted ascending');
@@ -80,8 +70,5 @@ useCase('List use cases')
                 homePage.sortByChanges();
                 homePage.assertFirstUseCase(USE_CASE_WITH_HIGHEST_DIFF);
                 step('Diff Infos sorted descending');
-
-                // Reset
-                homePage.chooseComparison(COMPARISON_DISABLE);
             });
     });
