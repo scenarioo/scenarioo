@@ -155,21 +155,6 @@ useCase('Show step')
                 step('A step with no HTML source attached');
             });
 
-
-        scenario('ScenarioPage with comparisons')
-            .description('Navigate back and forth through the scenario steps.')
-            .it(function () {
-                usecasePage.goToPage('/scenario/Donate/find_donate_page?branch=wikipedia-docu-example&build=2014-03-19&comparison=To%20Projectstart&tab=usecases');
-                stepPage.clickExpandAllPagesButton();
-                stepPage.assertFirstChangedPageDiffIconHasValue();
-                stepPage.assertFirstChangedStepDiffIconHasValue();
-                stepPage.assertAddedStepDiffIconTextEqualsAdded();
-                stepPage.assertRemovedStepDiffIconTextEqualsRemoved();
-                stepPage.assertAddedPageDiffIconTextEqualsAdded();
-                stepPage.assertRemovedPageDiffIconTextEqualsRemoved();
-                step('Display one scenario');
-            });
-
         scenario('Screenshot comparison options')
             .description('Show all possible screenshot copmarison options')
             .labels(['diff-viewer'])
