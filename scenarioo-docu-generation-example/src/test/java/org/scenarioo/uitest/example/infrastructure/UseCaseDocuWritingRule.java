@@ -81,10 +81,7 @@ public class UseCaseDocuWritingRule implements TestRule {
 	public static UseCase createUseCase(final Class<?> testClass) {
 		// Extract usecase name and description from concrete test class.
 		String description = "";
-		String name = UseCaseDummyConfiguration.getUseCaseName(testClass, MultipleBuildsRule.getCurrentBuildRun());
-		if(name == null) {
-			name = getNameFromClass(testClass);
-		}
+		String name = getNameFromClass(testClass);
 
 		DocuDescription docuDescription = testClass.getAnnotation(DocuDescription.class);
 		if (docuDescription != null) {
@@ -100,12 +97,22 @@ public class UseCaseDocuWritingRule implements TestRule {
 	}
 
 	private static String getNameFromClass(Class<?> testClass) {
+
+		String name = null;
 		DocuDescription description = testClass.getAnnotation(DocuDescription.class);
 		if (description != null && !StringUtils.isBlank(description.name())) {
-			return description.name();
+			name =  description.name();
 		}
-		// simply use the test class name as use case name if not set through description annotation.
-		return testClass.getSimpleName();
+		else {
+			// simply use the test class name as use case name if not set through description annotation.
+			name = testClass.getSimpleName();
+		}
+
+		// just for dummy data for demo:
+		// change some names slightly depending on the build run
+		// for having useful demo data for diff viewer
+		return MultipleBuildsDummyTestNameGenerator.getDifferentUseCaseNameForBuild(name);
+
 	}
 
 	private static void addLabelsIfPresentOnTestClass(final Class<?> testClass,
