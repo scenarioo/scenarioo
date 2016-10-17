@@ -63,8 +63,6 @@ function clearLocalStorage() {
 }
 
 var e2eUtils = {
-    
-    
 
     initLocalStorage: initLocalStorageIfRequired,
 
