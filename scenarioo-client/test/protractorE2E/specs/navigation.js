@@ -34,12 +34,13 @@ useCase('Navigation')
 		scenario('Check selectable comparisons')
 			.description('Selects a build from wikipedia-docu-example-dev and checks if six comparisons are available')
 			.it(function () {
-				homePage.goToPage();
-				homePage.chooseBranch(BRANCH_WIKI_DEV);
+                homePage.goToPage();
+                homePage.chooseBranch(BRANCH_WIKI_DEV);
 				step('wikipedia-docu-example-dev branch selected');
-				homePage.chooseBuild(BUILD_LAST_SUCCESSFUL);
-				step('last successful build selected');
-				homePage.assertSelectedComparison('Disabled (Available ' + NUMBER_OF_AVAILABLE_COMPARISON + ')');
+                homePage.chooseBuild(BUILD_LAST_SUCCESSFUL);
+                step('last successful build selected');
+                homePage.disableComparison();
+                homePage.assertSelectedComparison('Disabled (Available ' + NUMBER_OF_AVAILABLE_COMPARISON + ')');
 			});
 
 		scenario('select comparison')
