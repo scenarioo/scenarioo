@@ -173,7 +173,7 @@ public class ScreenshotComparator extends AbstractComparator {
 		this.gmConsole = cmd;
 	}
 
-	public Logger getLogger() {
+	public static Logger getLogger() {
 		return LOGGER;
 	}
 
