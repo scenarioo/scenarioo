@@ -10,7 +10,6 @@ import java.io.IOException;
 public class GraphicsMagickConfiguration {
 	private static Boolean isAvailable;
 
-
 	public static synchronized boolean isAvailable() {
 		if (isAvailable == null) {
 			isAvailable = isGraphicsMagickAvailable();
@@ -23,26 +22,14 @@ public class GraphicsMagickConfiguration {
 		gmConsole.setOutputConsumer(new ArrayListOutputConsumer());
 		IMOperation gmOperation = new IMOperation();
 		try {
-			gmConsole.run(gmOperation);
+			gmConsole.run(gmOperation.version());
 		} catch (IOException e) {
-			// Ignore, we only want to know if graphics magick could be found
-		} catch (InterruptedException e) {
-			// Ignore, we only want to know if graphics magick could be found
-		} catch (IM4JavaException e) {
-			return !isCausedByIOException(e);
-		}
-
-		return true;
-	}
-
-	private static boolean isCausedByIOException(Throwable e) {
-		Throwable cause = e.getCause();
-		if (cause == null) {
 			return false;
-		} else if (cause instanceof IOException) {
-			return true;
-		} else {
-			return isCausedByIOException(cause);
+		} catch (InterruptedException e) {
+			return false;
+		} catch (IM4JavaException e) {
+			return false;
 		}
+		return true;
 	}
 }
