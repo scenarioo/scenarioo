@@ -21,6 +21,10 @@ useCase('List scenarios')
             new pages.homePage().initLocalStorage();
         });
 
+        afterEach(function() {
+            homePage.disableComparison();
+        });
+
         scenario('Expand all, collapse all on scenario page')
             .it(function () {
                 homePage.goToPage();
@@ -53,8 +57,6 @@ useCase('List scenarios')
 
                 useCasePage.assertNumberOfDiffInfos(NUMBER_OF_SCENARIOS);
 
-                // Reset
-                homePage.chooseComparison(COMPARISON_DISABLE);
             });
 
         scenario('Sort by Diff-Information')
@@ -75,8 +77,5 @@ useCase('List scenarios')
                 useCasePage.sortByChanges();
                 useCasePage.assertFirstUseCase(SCENARIO_WITH_HIGHEST_DIFF);
                 step('Diff Infos sorted descending');
-
-                // Reset
-                homePage.chooseComparison(COMPARISON_DISABLE);
             });
     });

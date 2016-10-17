@@ -7,7 +7,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.scenarioo.uitest.example.testcases.FindPageUITest;
 import org.scenarioo.uitest.example.testcases.SwitchLanguageUITest;
 
-public class UseCaseConfiguration {
+/**
+ * Only used for testing. You would never use this in a production environment.
+ */
+public class UseCaseDummyConfiguration {
 
 	private static final Map<BuildRun, Map<String, String>> BUILD_TO_USECASE_MAP = new HashMap<BuildRun, Map<String, String>>();
 
@@ -28,14 +31,7 @@ public class UseCaseConfiguration {
 		if (StringUtils.isNotEmpty(configuredUseCaseName)) {
 			return configuredUseCaseName;
 		}
-
-		DocuDescription description = testClass.getAnnotation(DocuDescription.class);
-		if (description != null && !StringUtils.isBlank(description.name())) {
-			return description.name();
-		}
-
-		// simply use the test class name as use case name if not set through description annotation.
-		return testClass.getSimpleName();
+		return null;
 	}
 
 	private static String getConfiguredUseCaseName(String className, BuildRun build) {

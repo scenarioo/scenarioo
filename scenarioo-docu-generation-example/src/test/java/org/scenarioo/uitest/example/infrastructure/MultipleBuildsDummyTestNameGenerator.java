@@ -6,7 +6,10 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.runner.Description;
 
-public class ScenarioConfiguration {
+/**
+ * Only used for testing. You would never use this in a production environment.
+ */
+public class MultipleBuildsDummyTestNameGenerator {
 
 	private static final Map<BuildRun, Map<String, String>> BUILD_TO_SCENARIO_MAP = new HashMap<BuildRun, Map<String, String>>();
 
@@ -22,20 +25,12 @@ public class ScenarioConfiguration {
 		BUILD_TO_SCENARIO_MAP.put(BuildRun.MAY, mayTestMethodToName);
 	}
 
-	public static String getScenarioName(Description testMethodDescription, final BuildRun build) {
+	public static String getScenarioDumyName(Description testMethodDescription, final BuildRun build) {
 		String configuredScenarioName = getConfiguredScenarioName(testMethodDescription.getMethodName(), build);
 		if (StringUtils.isNotEmpty(configuredScenarioName)) {
 			return configuredScenarioName;
 		}
-
-		DocuDescription description = testMethodDescription.getAnnotation(DocuDescription.class);
-		if (description != null && !StringUtils.isBlank(description.name())) {
-			return description.name();
-		}
-		
-		// simply use the test name as scenario name if not set through
-		// description annotation.
-		return testMethodDescription.getMethodName();
+		return null;
 	}
 
 	private static String getConfiguredScenarioName(String methodName, BuildRun build) {

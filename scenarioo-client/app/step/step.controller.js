@@ -383,7 +383,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     }
 
     function initBaseBuildName() {
-        BranchesAndBuildsService.getDisplayNameForBuildName(SelectedBranchAndBuildService.selected().branch, SelectedBranchAndBuildService.selected().build, false).then(function(result){
+        BranchesAndBuildsService.getDisplayNameForBuildName(SelectedBranchAndBuildService.selected().branch, SelectedBranchAndBuildService.selected().build).then(function(result){
             $scope.baseBuildName = result;
         });
     }
