@@ -27,7 +27,6 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
 
     var selectedBranchAndBuild = {};
-    var selectedComparison;
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
     var labels = $location.search().labels;
@@ -54,6 +53,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
 
     function activate() {
         SketcherLinkService.showCreateOrEditSketchLinkInBreadcrumbs('Create Sketch', createSketch);
+        initStorageKeys();
     }
 
     function createSketch() {
@@ -438,6 +438,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
         // TODO danielsuter this will log an error 500 for added screenshots
         // failure function will be executed nevertheless, why is that?
         // We can not know if a screenshot is added, before we execute the call
+        // see http://stackoverflow.com/questions/22113286/prevent-http-errors-from-being-logged-in-browser-console
         StepDiffInfoResource.get(
             {
             baseBranchName: SelectedBranchAndBuildService.selected().branch,
@@ -458,7 +459,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
             });
     }
 
-    $scope.initStorageKeys= function(){
+    function initStorageKeys(){
         if($scope.comparisonViewOptions[$scope.displaySideBySideViewKey] && $scope.comparisonViewOptions[$scope.displaySinglePageViewKey]){
             setStorageKey($scope.displaySinglePageViewKey, false);
         }
