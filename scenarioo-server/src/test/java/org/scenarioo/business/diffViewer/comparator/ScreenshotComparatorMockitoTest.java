@@ -1,31 +1,30 @@
 package org.scenarioo.business.diffViewer.comparator;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
-import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.apache.commons.io.FileUtils;
 import org.im4java.core.CompareCmd;
 import org.im4java.core.IMOperation;
 import org.im4java.process.ArrayListOutputConsumer;
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
+import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.scenarioo.dao.diffViewer.impl.DiffFiles;
-import org.scenarioo.model.configuration.ComparisonConfiguration;
-import org.scenarioo.model.configuration.Configuration;
+import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.utils.TestFileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
+import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ScreenshotComparatorMockitoTest {
@@ -80,4 +79,12 @@ public class ScreenshotComparatorMockitoTest {
 		assertEquals("Difference of screenshots", SCREENSHOT_DIFFERENCE, difference, DOUBLE_TOLERANCE);
 	}
 
+	@Test
+	public void noComparisonIfScreenshotNotAvailable() throws Exception {
+		ScreenshotComparator comparator = spy(new ScreenshotComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME, getComparisonConfiguration()));
+		doReturn(true).when(comparator).isGraphicsMagickAvailable();
+		comparator.compare("dummy", "dummy", new StepLink("", "", 0, 0, "", 0, 0), "dummy");
+
+		verify(comparator, never()).compareScreenshots(any(File.class), any(File.class), any(File.class));
+	}
 }
