@@ -13,18 +13,18 @@ or on a separate machine.
 ## Configure Elasticsearch
 
 By default `config.xml` does not contain an Elasticsearch endpoint
-configuration. Whenever the `config.xml` file does not contain such a 
-configuration, Scenarioo uses `localhost:9300` to look for 
-Elasticsearch.
+configuration. That's why the full text search feature is switched off.
 
-If you want to set a different host and / or port for Elasticsearch,
-add the `elasticSearchEndpoint` tag to the configuration XML file.
-Here's an example:
+In order to enable the full text search feature, add the 
+`elasticSearchEndpoint` tag to the config.xml file and set the value
+to the host and port of your Elasticsearch instance.
+
+Here's an example using the default port of Elasticsearch:
 
 ```
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
-    <elasticSearchEndpoint>elasticsearch.internal.mycompany.com:7000</elasticSearchEndpoint>
+    <elasticSearchEndpoint>localhost:9300</elasticSearchEndpoint>
     <!-- omitted other config tags -->
 </configuration>
 ```

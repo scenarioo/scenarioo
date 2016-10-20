@@ -27,11 +27,10 @@ public class FullTextSearchTest {
         thenJustReturns();
     }
 
-    @Test
+	@Test(expected = SearchEngineNotRunningException.class)
     public void searchWithoutRunningEngine() {
         givenNoRunningEngine();
         fullTextSearch.search("hi", new BuildIdentifier("testBranch", "testBuild"));
-        thenJustReturns();
     }
 
     @Test
@@ -102,6 +101,11 @@ public class FullTextSearchTest {
 		@Override
 		public String getEndpoint() {
 			return "localhost:1234";
+		}
+
+		@Override
+		public boolean isSearchEndpointConfigured() {
+			return true;
 		}
     }
 

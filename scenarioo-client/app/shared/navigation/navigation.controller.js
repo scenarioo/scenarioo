@@ -38,9 +38,8 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     $scope.search = function () {
         var searchTerm = $scope.globalSearch.queryString;
 
-        // If the search term is blank, we just navigate back to the use cases list
+        // If the search term is blank nothing happens
         if(!angular.isString(searchTerm) || searchTerm.trim() === '') {
-            $location.path('/&tab=usecases');
             return;
         }
 
@@ -55,7 +54,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
 
     function loadSearchEngineRunning () {
         SearchEngineStatusService.isSearchEngineRunning().then(function(result) {
-            $scope.isSearchEngineRunning = result.searchEngineRunning;
+            $scope.isSearchEngineRunning = result.running;
         });
     }
 
