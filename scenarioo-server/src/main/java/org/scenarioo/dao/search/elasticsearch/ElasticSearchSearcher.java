@@ -135,12 +135,14 @@ class ElasticSearchSearcher {
 		return stepSearchDao;
     }
 
+	// TODO #552 Remove the IgnoreUseCaseSetStatusMixIn and the FAIL_ON_UNKNOWN_PROPERTIES setting
+	// as soon as we change the Scenarioo format to JSON. Then add the @JsonIgnore attribute
+	// to the all setStatus(Status value) helper methods.
 	private ObjectReader generateStandardReaders(final Class<?> targetDao, final Class<?> targetSearchDao) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.getDeserializationConfig().addMixInAnnotations(targetDao,
 			IgnoreUseCaseSetStatusMixIn.class);
 		objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
 
 		return objectMapper.reader(targetSearchDao);
 	}
