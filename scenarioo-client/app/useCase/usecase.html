@@ -47,11 +47,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     {{property | scHumanReadable}}
                 </th>
                 <th sc-sortable-column="numberOfSteps"># Steps</th>
+                <th sc-sortable-column="diffInfo.changeRate" class="sort-diff-info" ng-if="comparisonInfo.isDefined">Changes</th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-class="{'selected':$index==selectedRowIndex}"
-                ng-click="useCase.goToScenario(useCase.useCase.name, scenarioSummary.scenario.name)"
+            <tr ng-class="{'selected':$index==selectedRowIndex, 'added': scenarioSummary.diffInfo.isAdded, 'removed': scenarioSummary.diffInfo.isRemoved}"
+                ng-click="useCase.handleClick(useCase.useCase.name, scenarioSummary)"
                 class="link"
                 ng-repeat="scenarioSummary in filtered=(useCase.scenarios | scFilterArray: useCase.table.search.searchTerm | orderBy:useCase.table.sort.column:useCase.table.sort.reverse)">
                 <td>
@@ -63,15 +64,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                           ng-style="useCase.getLabelStyle(label)">{{label}}</span>
                 </td>
                 <td>
-                    <a><i class="icon-list-ul icon-with-padding" uib-tooltip="Go to scenario overview"
+                    <a ng-if="!scenarioSummary.diffInfo.isRemoved"><i class="icon-list-ul icon-with-padding" uib-tooltip="Go to scenario overview"
                           tooltip-placement="bottom"></i></a>
-                    <a ng-click="useCase.goToFirstStep(useCase.useCase.name, scenarioSummary.scenario.name)"
+                    <a ng-if="!scenarioSummary.diffInfo.isRemoved" ng-click="useCase.goToFirstStep(useCase.useCase.name, scenarioSummary.scenario.name)"
                        tooltip="Go to first step"
                        tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
                 </td>
                 <td>{{scenarioSummary.scenario.description}}</td>
                 <td ng-repeat="property in useCase.propertiesToShow">{{scenarioSummary.scenario.details[property]}}</td>
                 <td>{{scenarioSummary.numberOfSteps}}</td>
+                <td ng-if="comparisonInfo.isDefined"><sc-diff-info-icon diff-info="scenarioSummary.diffInfo" element-type="scenario" child-element-type="step"></sc-diff-info-icon></td>
             </tr>
             </tbody>
         </table>

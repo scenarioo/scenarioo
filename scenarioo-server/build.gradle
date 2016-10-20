@@ -30,6 +30,8 @@ dependencies {
     compile 'org.apache.xmlgraphics:batik-codec:1.8'
     compile 'org.apache.xmlgraphics:xmlgraphics-commons:1.5'
     compile 'com.thetransactioncompany:cors-filter:2.5'
+    compile 'org.im4java:im4java:1.4.0'
+    compile 'org.mockito:mockito-all:1.9.5'
     providedCompile 'javax.servlet:servlet-api:2.5'
 }
 

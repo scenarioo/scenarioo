@@ -54,7 +54,7 @@ public class SaveBranchAndBuildDescriptionExampleTest {
 	@BeforeClass
 	public static void createDocuWriter() {
 		DOCU_BUILD_DIRECTORY.mkdirs(); // make sure the root directory is precreated
-		docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, EXAMPLE_BRANCH_NAME, MultipleBuildsRule.getCurrentBuildName());
+		docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(), MultipleBuildsRule.getCurrentBuildName());
 	}
 	
 	@AfterClass
@@ -65,7 +65,7 @@ public class SaveBranchAndBuildDescriptionExampleTest {
 	@Test
 	public void write_branch_description() {
 		Branch branch = new Branch();
-		branch.setName(EXAMPLE_BRANCH_NAME);
+		branch.setName(MultipleBuildsRule.getCurrentBranchName());
 		branch.setDescription("Example documentation of the Wikipedia Web Application as an example. The content is generated from dummy data in the 'scenarioo-docu-generation-example' for testing and demonstration purposes.");
 		docuWriter.saveBranchDescription(branch);
 	}
