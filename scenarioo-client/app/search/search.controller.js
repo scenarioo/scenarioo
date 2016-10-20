@@ -20,6 +20,7 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
     var vm = this;
 
     vm.results = {resultSet: []};
+    vm.errorMessage = "";
     vm.searchTerm = $routeParams.searchTerm;
     vm.treemodel = [];
     vm.showSearchFailed = false;
@@ -35,12 +36,17 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
                 buildName: selected.build,
                 branchName: selected.branch
             }
-        ).then(function onSuccess(result) {
-                vm.results.resultSet = result;
-            },
-            function onError(error) {
+        ).then(function onSuccess(response) {
+            if(response.errorMessage) {
                 vm.showSearchFailed = true;
-            });
+                vm.errorMessage = response.errorMessage;
+            } else {
+                vm.results.resultSet = response.results;
+            }
+        },
+        function onError(error) {
+            vm.showSearchFailed = true;
+        });
     }
 
     // Entry point when a tree entry is clicked

@@ -29,6 +29,8 @@ import org.scenarioo.rest.base.BuildIdentifier;
 
 public interface SearchAdapter {
 
+	boolean isSearchEndpointConfigured();
+
     boolean isEngineRunning();
 
 	String getEndpoint();
