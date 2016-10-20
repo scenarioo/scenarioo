@@ -17,11 +17,6 @@
 
 package org.scenarioo.business.diffViewer.comparator;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.log4j.Logger;
 import org.im4java.core.CompareCmd;
 import org.im4java.core.IMOperation;
@@ -32,6 +27,11 @@ import org.scenarioo.dao.diffViewer.GraphicsMagickConfiguration;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Compares two Screenshots using GraphicsMagick
@@ -58,7 +58,7 @@ public class ScreenshotComparator extends AbstractComparator {
 
 	public double compare(final String baseUseCaseName, final String baseScenarioName, final StepLink baseStepLink,
 			final String comparisonScreenshotName) {
-		if(!GraphicsMagickConfiguration.isAvailable()) {
+		if(!isGraphicsMagickAvailable()) {
 			return 0.0;
 		}
 
@@ -88,6 +88,10 @@ public class ScreenshotComparator extends AbstractComparator {
 		}
 
 		return compareScreenshots(baseScreenshot, comparisonScreenshot, diffScreenshot);
+	}
+
+	boolean isGraphicsMagickAvailable() {
+		return GraphicsMagickConfiguration.isAvailable();
 	}
 
 	/**
