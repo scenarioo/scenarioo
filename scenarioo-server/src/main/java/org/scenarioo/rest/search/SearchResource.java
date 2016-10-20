@@ -22,8 +22,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.elasticsearch.index.IndexNotFoundException;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.search.FullTextSearch;
+import org.scenarioo.dao.search.SearchEngineNotRunningException;
+import org.scenarioo.dao.search.SearchFailedException;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -34,14 +37,23 @@ public class SearchResource {
 	@GET
 	@Produces("application/json")
 	@Path("/branch/{branchName}/build/{buildName}/search/{q}")
-	public ObjectTreeNode<ObjectReference> search(@PathParam("branchName") final String branchName,
+	public SearchResponse search(@PathParam("branchName") final String branchName,
 												  @PathParam("buildName") final String buildName, @PathParam("q") final String q) {
 
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
 
 		FullTextSearch search = new FullTextSearch();
-		return search.search(q, buildIdentifier).buildObjectTree();
+		try {
+			ObjectTreeNode<ObjectReference> results = search.search(q, buildIdentifier).buildObjectTree();
+			return new SearchResponse(results);
+		} catch (IndexNotFoundException e) {
+			return new SearchResponse("The search index was not found for the selected build.");
+		} catch (SearchEngineNotRunningException e) {
+			return new SearchResponse("The search engine is not running or not reachable for Scenarioo.");
+		} catch (SearchFailedException e) {
+			return new SearchResponse(e.getMessage());
+		}
 	}
 
 	@GET

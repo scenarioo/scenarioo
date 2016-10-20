@@ -56,12 +56,22 @@ public class FullTextSearch {
 		return searchAdapter.getEndpoint();
 	}
 
+	public boolean isSearchEngineEndpointConfigured() {
+		return searchAdapter.isSearchEndpointConfigured();
+	}
+
 	public SearchTree search(final String q, final BuildIdentifier buildIdentifier) {
 		if(!searchAdapter.isEngineRunning()) {
-			return SearchTree.empty();
+			throw new SearchEngineNotRunningException();
 		}
 
-		List<SearchDao> searchResults = searchAdapter.searchData(buildIdentifier, q);
+		List<SearchDao> searchResults;
+
+		try {
+			searchResults = searchAdapter.searchData(buildIdentifier, q);
+		} catch (Throwable t) {
+			throw new SearchFailedException(t);
+		}
 
 		return new SearchTree(searchResults, q);
 	}

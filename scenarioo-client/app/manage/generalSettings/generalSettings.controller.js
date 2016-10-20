@@ -24,8 +24,7 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService, Sear
     vm.configuration = {};
     vm.configuredBranch = {};
     vm.successfullyUpdatedConfiguration = false;
-    vm.isSearchEngineRunning = false;
-    vm.searchEngineEndpoint = '';
+    vm.searchEngineStatus = null;
     vm.resetConfiguration = resetConfiguration;
     vm.updateConfiguration = updateConfiguration;
 
@@ -60,8 +59,7 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService, Sear
 
     function loadSearchEngineStatus () {
         SearchEngineStatusService.isSearchEngineRunning().then(function(result) {
-            vm.isSearchEngineRunning = result.searchEngineRunning;
-            vm.searchEngineEndpoint = result.searchEngineEndpoint;
+            vm.searchEngineStatus = result;
         });
     }
 

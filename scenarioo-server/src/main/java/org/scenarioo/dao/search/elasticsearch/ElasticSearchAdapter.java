@@ -22,7 +22,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
@@ -48,35 +47,42 @@ import com.carrotsearch.hppc.cursors.ObjectCursor;
 public class ElasticSearchAdapter implements SearchAdapter {
     private final static Logger LOGGER = Logger.getLogger(ElasticSearchAdapter.class);
 
-	private static final String DEFAULT_ENDPOINT = "localhost:9300";
-
+	// It's ok that this is static because the Elasticsearch endpoint config can not be changed
+	// at runtime but only by restarting Scenarioo. If we ever make it possible to change
+	// the endpoint config in the UI (i.e. at runtime) then the client can not be created only
+	// once anymore but has to be recreated when changing the config.
 	private static TransportClient client;
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 		.getConfigurationRepository();
-	private String endpoint = configurationRepository.getConfiguration().getElasticSearchEndpoint();
+	private final String endpoint = configurationRepository.getConfiguration().getElasticSearchEndpoint();
 
     public ElasticSearchAdapter() {
-		if(StringUtils.isBlank(endpoint)) {
-			endpoint = DEFAULT_ENDPOINT;
+		if (client != null) {
+			// already initialized
+			return;
 		}
 
-		int portSeparator = endpoint.lastIndexOf(':');
+		if (!isSearchEndpointConfigured()) {
+			LOGGER.info("no valid elasticsearch endpoint configured.");
+			return;
+		}
 
-		String host = endpoint.substring(0, portSeparator);
-		int port = Integer.parseInt(endpoint.substring(portSeparator + 1), 10);
-
-		if(client == null) {
-			try {
-				client = TransportClient.builder().build()
+		try {
+			int portSeparator = endpoint.lastIndexOf(':');
+			String host = endpoint.substring(0, portSeparator);
+			int port = Integer.parseInt(endpoint.substring(portSeparator + 1), 10);
+			client = TransportClient.builder().build()
 					.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
-
-			} catch (UnknownHostException e) {
-				LOGGER.info("no elasticsearch cluster running.");
-			}
+		} catch (UnknownHostException e) {
+			LOGGER.info("no elasticsearch cluster running.");
 		}
-
     }
+
+	@Override
+	public boolean isSearchEndpointConfigured() {
+		return endpoint != null && endpoint.contains(":");
+	}
 
     @Override
     public boolean isEngineRunning() {
