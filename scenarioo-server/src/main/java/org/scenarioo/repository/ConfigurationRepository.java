@@ -26,6 +26,10 @@ public class ConfigurationRepository {
 		return configuration;
 	}
 
+	public void reloadConfiguration() {
+		configuration = configurationDAO.loadConfiguration();
+	}
+
 	private void loadConfigurationIfNotLoadedYet() {
 		if (configuration == null) {
 			configuration = configurationDAO.loadConfiguration();

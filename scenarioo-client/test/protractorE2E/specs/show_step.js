@@ -3,6 +3,9 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
+var COMPARISON_SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/2014-01-20/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
+var BASE_SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/last%20successful/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
+
 useCase('Show step')
     .description('Show a single step of a scenario. Includes the screenshot, metadata nad navigation buttons')
     .describe(function () {
@@ -18,6 +21,7 @@ useCase('Show step')
 
         scenario('Navigation')
             .description('Navigate back and forth through the scenario steps.')
+            .labels(['happy'])
             .it(function () {
 
                 var ROUTE_OF_FIRST_STEP = '/step/Find%20Page/find_no_results/startSearch.jsp/0/0';
@@ -146,10 +150,86 @@ useCase('Show step')
         scenario('Step without HTML source attached')
             .description('If the step data contains no html source data, the HTML tab should not be displayed at all')
             .it(function () {
-
                 stepPage.goToPage('/step/Donate/find_donate_page/startSearch.jsp/0/0');
                 stepPage.assertHtmlTabIsHidden();
                 step('A step with no HTML source attached');
+            });
+
+        scenario('Screenshot comparison options')
+            .description('Show all possible screenshot copmarison options')
+            .labels(['diff-viewer'])
+            .it(function () {
+                stepPage.goToPage('/step/Find%20Page/find_page_title_unique_directly/contentPage.jsp/0/0?branch=wikipedia-docu-example&build=last%20successful&comparison=To%20Projectstart');
+                step('A step');
+
+                stepPage.openComparisonTab();
+                stepPage.assertStepComparisonSideBySideViewIsActive();
+                stepPage.assertStepComparisonHideHighlightsButtonIsDisplayed();
+                stepPage.assertStepComparisonScreenshotSrcEquals(COMPARISON_SCREENSHOT_SRC);
+                step('Switch to comparison tab');
+
+                stepPage.hideHighlights();
+                stepPage.assertStepComparisonShowHighlightsButtonIsDisplayed();
+                stepPage.assertStepBaseScreenshotSrcEquals(BASE_SCREENSHOT_SRC);
+                step('Hide highlights');
+
+                stepPage.showSinglePageView();
+                stepPage.assertStepComparisonSinglePageViewIsActive();
+                stepPage.assertStepComparisonSwitchToComparisonScreenshotButtonIsDisplayed();
+                stepPage.assertStepBaseScreenshotSrcEquals(BASE_SCREENSHOT_SRC);
+                step('Show Single Page view');
+
+                stepPage.showHighlights();
+                stepPage.assertStepComparisonHideHighlightsButtonIsDisplayed();
+                step('Show highlights');
+
+                stepPage.switchToComparisonScreenshot();
+                stepPage.assertStepComparisonSwitchToBaseScreenshotButtonIsDisplayed();
+                stepPage.assertStepComparisonScreenshotSrcEquals(COMPARISON_SCREENSHOT_SRC);
+                step('Switch to comparison screenshot');
+
+                stepPage.clickScreenshotTabButton();
+                step('Switch back to Screenshot tab');
+            });
+
+        scenario('Screenshot comparison on added step')
+            .description('If the step is added in comparison to the other build, no comparison screenshot is shown')
+            .labels(['diff-viewer'])
+            .it(function () {
+
+                var SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/last%20successful/usecase/Donate/scenario/find_donate_page/image/001.png';
+
+                stepPage.goToPage('/step/Donate/find_donate_page/startSearch.jsp/0/1?branch=wikipedia-docu-example&build=last%20successful&comparison=To%20Projectstart');
+                step('An added step');
+
+                stepPage.openComparisonTab();
+                stepPage.showSideBySideView();
+                stepPage.assertStepComparisonSideBySideViewIsActive();
+                stepPage.assertStepComparisonHideHighlightsButtonIsDisplayed();
+                stepPage.assertStepNoComparisonScreenshot();
+                step('Show added step base screenshot in side by side view');
+
+                stepPage.hideHighlights();
+                stepPage.assertStepComparisonShowHighlightsButtonIsDisplayed();
+                stepPage.assertStepBaseScreenshotSrcEquals(SCREENSHOT_SRC);
+                step('Show added step diff screenshot in side by side view');
+
+                // this test is only possible because the last selection in the previous step was the ComparisonScreenshot
+                stepPage.showSinglePageView();
+                stepPage.assertStepComparisonSinglePageViewIsActive();
+                stepPage.assertStepNoComparisonScreenshot();
+                step('Show added step comparison screenshot in single page view');
+
+                stepPage.switchToBaseScreenshot();
+                stepPage.assertStepComparisonSwitchToComparisonScreenshotButtonIsDisabled();
+                stepPage.assertStepComparisonShowHighlightsButtonIsDisplayed();
+                stepPage.assertStepBaseScreenshotSrcEquals(SCREENSHOT_SRC);
+                step('Show added step base screenshot in single page view');
+
+                stepPage.showHighlights();
+                stepPage.assertStepComparisonSinglePageViewIsActive();
+                step('Show added step diff screenshot in single page view');
+
             });
 
     });

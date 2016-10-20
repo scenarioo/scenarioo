@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<build>
+<build xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <name>2014-02-21</name>
     <revision>1CAFE12</revision>
     <date>2014-02-21T00:00:00+01:00</date>

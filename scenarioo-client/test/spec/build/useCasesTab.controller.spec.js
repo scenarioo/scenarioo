@@ -40,7 +40,8 @@ describe('UseCasesTabController', function () {
     it('navigates to use case when link is clicked', function () {
         expect($location.path()).toBe('');
 
-        useCasesTabController.goToUseCase('DisplayWeather');
+        var dummyUseCase = { name: 'DisplayWeather', diffInfo: {isRemoved: false} };
+        useCasesTabController.gotoUseCase(dummyUseCase);
 
         expect($location.path()).toBe('/usecase/DisplayWeather');
     });
