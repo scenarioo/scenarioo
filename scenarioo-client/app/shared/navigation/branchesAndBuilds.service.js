@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.services').factory('BranchesAndBuildsService', function ($rootScope, ConfigService, BranchesResource, $q, SelectedBranchAndBuildService) {
 
-    var branchesAndBuildsData = function () {
+    var getBranchesAndBuildsData = function () {
         var deferred = $q.defer();
         BranchesResource.query({}, function findSelectedBranchAndBuild(branches) {
             if (branches.length === 0) {
@@ -32,21 +32,8 @@ angular.module('scenarioo.services').factory('BranchesAndBuildsService', functio
             if (SelectedBranchAndBuildService.isDefined()) {
                 var selected = SelectedBranchAndBuildService.selected();
 
-                var index;
-                for (index = 0; index < loadedData.branches.length; index++) {
-                    if (loadedData.branches[index].branch.name === selected.branch) {
-                        loadedData.selectedBranch = loadedData.branches[index];
-                    }
-                }
-
-                if (angular.isDefined(loadedData.selectedBranch)) {
-                    var allBuildsOnSelectedBranch = loadedData.selectedBranch.builds;
-                    for (index = 0; index < loadedData.selectedBranch.builds.length; index++) {
-                        if (allBuildsOnSelectedBranch[index].linkName === selected.build) {
-                            loadedData.selectedBuild = allBuildsOnSelectedBranch[index];
-                        }
-                    }
-                }
+                loadedData.selectedBranch = getBranch(loadedData, selected.branch);
+                loadedData.selectedBuild = getBuild(loadedData.selectedBranch, selected.build);
             }
 
             deferred.resolve(loadedData);
@@ -57,7 +44,118 @@ angular.module('scenarioo.services').factory('BranchesAndBuildsService', functio
         return deferred.promise;
     };
 
+    function getBranch(loadedData, branchName) {
+        var index;
+        for (index = 0; index < loadedData.branches.length; index++) {
+            if (loadedData.branches[index].branch.name === branchName) {
+                return loadedData.branches[index];
+            }
+        }
+
+    }
+
+    function getBuild(branch, buildName) {
+        var index;
+        if (angular.isDefined(branch)) {
+            var allBuildsOnSelectedBranch = branch.builds;
+            for (index = 0; index < branch.builds.length; index++) {
+                if (allBuildsOnSelectedBranch[index].linkName === buildName) {
+                    return allBuildsOnSelectedBranch[index];
+                }
+            }
+        }
+    }
+
+    function getBranchDisplayName(wrappedBranch) {
+
+        if (wrappedBranch === undefined) {
+            return null;
+        }
+
+        var displayName = wrappedBranch.branch.name;
+        if (wrappedBranch.alias) {
+            displayName = displayName + ' (' + wrappedBranch.branch.description + ')';
+        }
+        return displayName;
+    }
+
+    function getDisplayNameForBuildName(branchName, buildName) {
+        var deferred = $q.defer();
+
+
+        getBranchesAndBuildsData().then(function onSuccess(result){
+            var selectedBranch = getBranch(result, branchName);
+            var selectedBuild = getBuild(selectedBranch, buildName);
+            var baseBuildName = getDisplayNameForBuild(selectedBuild, false);
+
+            deferred.resolve(baseBuildName);
+        });
+
+
+        return deferred.promise;
+    }
+
+    function getDisplayNameForBuild(build, returnShortText) {
+        if (angular.isUndefined(build)) {
+            return '';
+        }
+
+        // The displayName is required for the special "last successful scenarios" build
+        if (angular.isDefined(build.displayName) && build.displayName !== null) {
+            return build.displayName;
+        }
+
+        if (isBuildAlias(build)) {
+            return getDisplayNameForAliasBuild(build, returnShortText);
+        } else {
+            return build.build.name;
+        }
+    }
+
+    function getDisplayNameForAliasBuild(build, returnShortText) {
+        if (returnShortText) {
+            return build.linkName;
+        } else {
+            return build.linkName + ': ' + build.build.name;
+        }
+    }
+
+    function isBuildAlias(build) {
+        if (angular.isUndefined(build)) {
+            return false;
+        }
+
+        return build.build.name !== build.linkName;
+    }
+
+    function isLastSuccessfulScenariosBuild(build) {
+        if (angular.isUndefined(build)) {
+            return false;
+        }
+
+        return build.getDisplayNameForBuild === 'last successful scenarios';
+    }
+
+
+    function getBuildByName(branchName, buildName) {
+        var deferred = $q.defer();
+
+        getBranchesAndBuildsData().then(function onSuccess(result){
+            var branch = getBranch(result, branchName);
+            var build = getBuild(branch, buildName);
+            deferred.resolve(build);
+        });
+
+        return deferred.promise;
+    }
+
     return {
-        getBranchesAndBuildsService: branchesAndBuildsData
+        getBranchesAndBuilds: getBranchesAndBuildsData,
+        getBranchDisplayName: getBranchDisplayName,
+        isLastSuccessfulScenariosBuild: isLastSuccessfulScenariosBuild,
+        isBuildAlias: isBuildAlias,
+        getDisplayNameForBuild: getDisplayNameForBuild,
+        getDisplayNameForBuildName: getDisplayNameForBuildName,
+        getBuild: getBuildByName
     };
 });
