@@ -11,6 +11,7 @@ useCase('View screen annotations')
 
         beforeEach(function () {
             new pages.homePage().initLocalStorage();
+            new pages.homePage().disableComparison();
         });
 
         scenario('Screen without annotations')

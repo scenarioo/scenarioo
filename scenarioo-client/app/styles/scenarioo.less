@@ -166,6 +166,13 @@ h4 {
   padding-bottom: 8px;
 }
 
+.navbar-inverse .navbar-nav > li > a {
+  color: #FFFFFF;
+  &:hover {
+    color: #9d9d9d;
+  }
+}
+
 #sc-global-search-box {
   padding-top: 3px;
 }
@@ -232,6 +239,50 @@ h4 {
   margin: 0 0 0 0;
   padding: 5px;
   border-radius: 3px;
+}
+
+.sc-step-comparison-icon{
+  height: 15px;
+  margin-right: 4px;
+  margin-top: -4px;
+}
+
+#sc-step-comparison-single-page-view{
+  padding: 0 15px;
+}
+
+#sc-step-comparison-buttons{
+  margin: 0 24px 0 15px;
+}
+
+.sc-highlight-color {
+  color: #ffb400;
+}
+
+.buttonBar .tooltip-wrapper {
+  display: inline;
+}
+
+#sc-diff-screenshot-toggle {
+  display: inline;
+}
+
+.clear{
+  clear: both;
+}
+
+#comparison-tab a {
+  height: 42px;
+}
+
+#comparison-tab .diff-info-wrapper {
+  float: right;
+  margin-left: 10px;
+  margin-top: -3px;
+}
+
+#comparison-tab .progress {
+  width: 50px;
 }
 
 // TODO Why was this needed?
@@ -682,4 +733,171 @@ textarea#issueDescription {
   display: block;
   clear: both;
   margin-bottom: 10px;
+}
+
+
+/* Diff Viewer */
+
+.progress.sc-diff-changes {
+  position: relative;
+  height: 25px;
+  margin-bottom: 0;
+  overflow: hidden;
+  max-width:155px;
+  border-radius: 5px 5px 5px 5px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+  background-color: transparent;
+  border: solid 1px #EAEAEA;
+
+  .progress-bar {
+    float: left;
+    width: 0;
+    height: 5px;
+    font-size: 12px;
+    line-height: 55px;
+    color: #000000;
+    text-align: center;
+    -webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+    -webkit-transition: width .6s ease;
+    -o-transition: width .6s ease;
+    transition: width .6s ease;
+  }
+
+  .progress-bar-default {
+    background-color: #f6f6f6;
+  }
+
+  .change-rate {
+    clear: both;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    line-height: 19px;
+    background-color: #FFFFFF;
+
+    span.added {
+      color: #5cb85c;
+      font-weight: normal;
+      background-color: #FFFFFF;
+    }
+
+    span.removed {
+      color: #d9534f;
+      font-weight: normal;
+      background-color: #FFFFFF;
+    }
+  }
+}
+
+.tooltip.diff-icon-tooltip .tooltip-inner {
+  white-space: nowrap;
+  text-align:left;
+  max-width: 300px;
+
+  .square {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #CCC;
+    margin-right: 3px;
+    margin-top: 2px;
+
+    &.changed {
+      background-color: #f0ad4e;
+    }
+
+    &.added {
+      background-color: #5cb85c;
+    }
+
+    &.removed {
+      background-color: #d9534f;
+    }
+  }
+}
+
+.usecase-table, .scenario-table {
+  tr.removed {
+    cursor: default;
+    background-color: #FDF2F1;
+  }
+
+  tr.added {
+    background-color: #F8FCF7;
+  }
+}
+
+.step-view {
+  .sc-truncate, h2 {
+    line-height: 25px;
+    margin-bottom: 0px;
+  }
+
+  h3.sc-truncate {
+    margin-top: 0px;
+    padding-top: 0.8em;
+  }
+
+  .diff-info-wrapper {
+    float: right;
+    width: 70px;
+    font-size: 14px;
+  }
+}
+
+.sc-step-in-overview .removed, .sc-step-in-overview.removed {
+  cursor: default;
+  background-color: #FDF2F1;
+}
+
+.sc-step-in-overview .added, .sc-step-in-overview.added {
+  cursor: default;
+  background-color: #F8FCF7;
+}
+
+
+#comparison-selection-dropdown {
+
+  & > a {
+    white-space: nowrap;
+    padding-top: 14px;
+    line-height: 40px;
+    padding-bottom: 0px;
+
+    .diff-info-wrapper {
+      display: inline-block;
+      font-size: 14px;
+      position: relative;
+      bottom: -5px;
+      padding-left: 10px;
+      width: 90px;
+
+      .progress.sc-diff-changes {
+        border-color: #9d9d9d;
+        .change-rate {
+          color: #9d9d9d;
+          background-color: transparent;
+        }
+      }
+    }
+  }
+  .dropdown-menu {
+    .diff-info-wrapper {
+      position: absolute;
+      top: 4px;
+      right: 10px;
+      width: 80px;
+      font-size: 14px;
+    }
+
+    li a {
+      line-height: 25px;
+      padding-bottom: 5px;
+      padding-top: 5px;
+      padding-right: 100px;
+      position: relative;
+    }
+  }
 }

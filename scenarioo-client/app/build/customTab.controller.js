@@ -46,7 +46,7 @@ function CustomTabController(BranchesAndBuildsService, $location, CustomTabConte
             loadContent();
         });
     }
-    
+
     function goToReferenceTree(nodeElement) {
         $location.path('/object/' + nodeElement.type + '/' + nodeElement.name);
     }
@@ -72,7 +72,7 @@ function CustomTabController(BranchesAndBuildsService, $location, CustomTabConte
 
     function loadContent() {
 
-        BranchesAndBuildsService.getBranchesAndBuildsService()
+        BranchesAndBuildsService.getBranchesAndBuilds()
             .then(function onSuccess(branchesAndBuilds) {
                 vm.branchesAndBuilds = branchesAndBuilds;
             })

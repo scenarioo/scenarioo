@@ -18,7 +18,7 @@ Contact the core development team if you want to use the same virtual machine to
 ## Prerequisites
 
  * Java JDK 1.7
-    * currently it is recommended to not yet use a JDK 1.8, because as @patrickschweizer told me, he had troubles with a JDK 8 to run the gradle build.
+    * currently it is recommended to not yet use a JDK 1.8, because as @patrickschweizer told me, he had troubles with a JDK 8 to run the gradle build. Therefore it is especially important to make sure that gradle is using JVM 1.7 as runtime (see later)
  * Take care to still set the language level to 1.6 in IntelliJ, because currently we still try to be backward compatible,
     for some projects that can not yet use Java 1.7 or 1.8 on their tomcat servers (for scenarioo 3.0 we will break that and can update to 1.8)
  * Tomcat 7 needs to be installed: http://tomcat.apache.org
@@ -29,14 +29,22 @@ Contact the core development team if you want to use the same virtual machine to
  * Install GIT
 
  * Keep in mind to **always commit with Unix style line endings**, also if you are working on Windows (make sure to configure GIT accordingly, if not yet!). 
-
+ 
+    * **For Windows:** We recommend to use following setting to ensure unix style line endings:
+       ```
+       git config --global core.autocrlf input
+       ```
+      If you not want to set this globaly, please set it at least for the scenarioo projects.
+      See for more info: https://help.github.com/articles/dealing-with-line-endings/
+      
  * **Make sure that you personalize your GIT by setting your username and email for commits (!! important !!)**:
 
      ```
       $ git config --global user.name "John Doe"             
       $ git config --global user.email johndoe@example.com
      ```
-     see also here: https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
+     **IMPORTANT - Set correct email:** Make sure to configure the same email of your github account, otherwise your commits will not be recognized as contributions by you on github! 
+     See also here: https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
 
  * For most things you will work with the IntelliJ GIT client or use the GIT command line
      * In case you are a GIT newbie please ask your developer colleagues to help you or refer to the very good (and free) book at: http://git-scm.com/book to get started
@@ -47,7 +55,7 @@ Contact the core development team if you want to use the same virtual machine to
  
  * (optional) you can use whatever other GIT tools you need
     * for working with github, github desktop might be helpful: https://desktop.github.com/
-    * on the linux developer VM we had once following additional tools installed:
+    * on the linux developer VM we had once following additional tools installed (probably not needed when working with IntelliJ):
        * gitk : Very rich functionality
        * git gui : gui to stage, stash, commit and push your changes 
        * gitg : Simple git interface (very nice git history tree)
@@ -55,10 +63,10 @@ Contact the core development team if you want to use the same virtual machine to
 
 ## Install NodeJS and NodeJS development tools
 
- * NodeJS: http://nodejs.org/download (newest version should be okay)
+ * NodeJS: http://nodejs.org/download (newest version should be okay: higher than 6.2 !)
    _Use the latest versions of nodejs / npm / bower and you should be fine. If you discover that something does not work with the latest version and you have to fix it, please inform the community about it so that they have a chance to upgrade their tools._
    
- * Install nodejs dev tools globaly:
+ * Install nodejs dev tools globaly (might not be needed anymore, but is useful for working on command line):
    `npm install -g gulp bower phantomjs protractor`
 
 ## Get the Sources
@@ -80,12 +88,16 @@ But this two repositories should be sufficient for most usual developers.
  
  * Install IntelliJ Plugins (this list is not yet consolidated):
      * Gradle (probably allready included, but not sure)
-     * NodeJs (if not included ?? not sure about that)
-     * Markdown Plugins
+     * NodeJs (if not allready included ?? not sure about that)
      * .gitignore plugin
      * Karma plugin (IntelliJ recommends this!)
-     * maybe more ... this is not yet well defined ...
-          
+     * Markdown Plugins:
+         * Make sure to only use "Markdown support" by Jetbrains (it is now the best and should be part of IntelliJ)
+         * disbale any other "Markdown"-Plugins (if you have, otherwise you might not be able to see and use the nice preview that comes with "Markdown support")
+         * Make sure to use the new nice "JavaFX"-preview for markdown under Settings/Markdown/Preview (you will like that!)
+         * after changing those plugins settings you might have to restart IntelliJ to let the changes take effect.
+         * if you open a markdown file you should see a blue MD icon in the file's editor tab, and be able to choose a side-by-side View wirh Preview that looks nicely (in editor's toolbar).
+                 
  * Import scenarioo web app by using "New project from existing sources":
      * choose 'scenarioo' folder
      * Import "From external model: Gradle" and use the gradle wrapper (default settings)
@@ -96,9 +108,9 @@ But this two repositories should be sufficient for most usual developers.
      
  * From "Gradle"-tab in intelliJ simply run the following gradle tasks, to build everything cleanly:
     * scenarioo-java: clean build test install
-    * (TODO following does not work yet out of intelliJ somehow ... but you can work in IntelliJ anyway .... ignore it for now)
-       scenarioo: clean build test (if you get some python errors in npm install part on windows, you can probably ignore this optional npm dependency problems 
-       and just try to tun it once again)
+    * scenarioo: clean build test
+         * take care to configure JVM 1.7 as runtime JVM for gradle, otherwise I got errors somehow when running this (Tab "Gradle">Button "Gradle Settings">Gradle JVM).
+         * And if you get some python errors in npm install part on windows, you can probably ignore this optional npm dependency problems and just try to run it once again
 
  * Configure a run configuration to run the installed [Tomcat 7](http://tomcat.apache.org) from IntelliJ
      * set the tomcat path to tomcat 7 installation
@@ -174,24 +186,23 @@ For more informations on how to develop, build and test scenarioo properly, plea
  
  * change something in the writer library and link to it in server during development
  * release new writer library
- * release new web app (currently not working becuase of problems with gradle build)
+ * release new web app (should work, when JVM is set to 1.7 for gradle)
  * release scenariooJS Library
  
+## Known Issues
+
+### General Issues
+
+ * There seems to be an issue, when not using JVM 1.7 for gradle. But when this is currently configured to 1,7, it works well :-) Has been documented above accordingly.
+
+### Only on Windows
  
-## Open points - To be considered / improved / solved
-
-### Problems to solve
-
-#### On Windows
-
- * Gradle build fails 
-     * probably only because npm install fails because of protractor optional dependencies having errors on windows (known issue)
-        * maybe try if it works, when protractor is installed explicitly without optional dependencies)
-
  * For updating the local webdriver you have to use the gulp task in client:
      * use `gulp webdriver_update`
      * then also "gulp test-e2e` should work now (without need to install protractor globaly anymore)
-   
+ 
+## Open points - To be considered / improved / solved
+
 ### from old setup to be integrated in this development setup instructions here
 
  * check your JavaScript code against our `.eslintrc` file!

@@ -19,13 +19,13 @@
 
 describe('StepController', function () {
 
-    var $scope, $routeParams, $location, $q, $window, ConfigService, ScenarioResource, StepResource,
-        HostnameAndPort, SelectedBranchAndBuildService, $controller, $httpBackend, TestData, RelatedIssueResource;
+    var $scope, $routeParams, $location, $q, $window, ConfigService, ScenarioResource, StepResource, BuildDiffInfoResource, StepDiffInfoResource,
+        HostnameAndPort, SelectedBranchAndBuildService, DiffInfoService, BranchesResource, $controller, $httpBackend, TestData, RelatedIssueResource;
 
     var STEP_INFORMATION_TREE = {
-        childNodes : [
+        childNodes: [
             { nodeLabel: 'Step title', nodeValue: 'Search results' },
-            { nodeLabel: 'Page name', childNodes: [  ], nodeValue: 'searchResults.jsp', nodeObjectName: 'searchResults.jsp' },
+            { nodeLabel: 'Page name', childNodes: [ ], nodeValue: 'searchResults.jsp', nodeObjectName: 'searchResults.jsp' },
             { nodeLabel: 'url', nodeValue: 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go' },
             { nodeLabel: 'Build status', nodeValue: 'success' }
         ]
@@ -33,7 +33,7 @@ describe('StepController', function () {
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_, _ScenarioResource_, _StepResource_, _HostnameAndPort_, _SelectedBranchAndBuildService_, _$controller_, _$httpBackend_, _TestData_, LocalStorageService, _RelatedIssueResource_) {
+    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_, _ScenarioResource_, _StepResource_, _BuildDiffInfoResource_, _StepDiffInfoResource_, _HostnameAndPort_, _SelectedBranchAndBuildService_, _DiffInfoService_, _BranchesResource_, _$controller_, _$httpBackend_, _TestData_, LocalStorageService, _RelatedIssueResource_) {
         $scope = _$rootScope_.$new();
         $routeParams = _$routeParams_;
         $location = _$location_;
@@ -43,8 +43,12 @@ describe('StepController', function () {
         ScenarioResource = _ScenarioResource_;
         RelatedIssueResource = _RelatedIssueResource_;
         StepResource = _StepResource_;
+        BuildDiffInfoResource = _BuildDiffInfoResource_;
+        StepDiffInfoResource = _StepDiffInfoResource_;
         HostnameAndPort = _HostnameAndPort_;
+        BranchesResource = _BranchesResource_;
         SelectedBranchAndBuildService = _SelectedBranchAndBuildService_;
+        DiffInfoService = _DiffInfoService_;
         $controller = _$controller_;
         $httpBackend = _$httpBackend_;
         TestData = _TestData_;
@@ -64,8 +68,11 @@ describe('StepController', function () {
             $routeParams.stepInPageOccurrence = 1;
             $controller('StepController', {$scope: $scope, $routeParams: $routeParams, $location: $location,
                 $q: $q, $window: $window, ConfigService: ConfigService, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostnameAndPort,
-                SelectedBranchAndBuildService: SelectedBranchAndBuildService, ApplicationInfoPopupService: {}, SharePagePopupService: {}});
+                SelectedBranchAndBuildService: SelectedBranchAndBuildService, DiffInfoService: DiffInfoService, ApplicationInfoPopupService: {}, SharePagePopupService: {}});
             spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
+            spyOn(BranchesResource, 'query').and.callFake(getEmptyData());
+            spyOn(BuildDiffInfoResource, 'get').and.callFake(getEmptyData());
+            spyOn(StepDiffInfoResource, 'get').and.callFake(getEmptyData());
         });
 
         it('loads the step data', function () {
@@ -175,7 +182,7 @@ describe('StepController', function () {
 
             var url = $scope.getCurrentUrlForSharing();
 
-            expect(url).toBe('http://server/#?branch=trunk&build=current&labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
+            expect(url).toBe('http://server/#?comparison=Disabled&branch=trunk&build=current&labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
         });
 
         it('getScreenshotUrlForSharing returns the correct URL for sharing, including the image file extension.', function() {
@@ -231,7 +238,7 @@ describe('StepController', function () {
             expect($scope.httpResponse.method).toEqual('GET');
             expect($scope.httpResponse.url).toEqual(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42');
             expect($scope.httpResponse.data).toEqual('');
-            expect($scope.getCurrentUrl()).toEqual('http://server/#?branch=trunk&build=current');
+            expect($scope.getCurrentUrl()).toEqual('http://server/#?comparison=Disabled&branch=trunk&build=current');
         });
 
         function tryToLoadNotExistingStep() {
@@ -245,6 +252,16 @@ describe('StepController', function () {
         }
 
     });
+
+    function getEmptyData() {
+        var DATA = {
+
+        };
+
+        return function(params, onSuccess) {
+            onSuccess(DATA);
+        };
+    }
 
 });
 

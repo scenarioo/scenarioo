@@ -33,7 +33,7 @@ function annotatedScreenshot() {
         controller: controller,
         scope: {
             screenAnnotations: '=',
-            getScreenShotUrl: '=',
+            screenShotUrl: '=',
             visibilityToggle: '=',
             toNextStepAction: '&'
         }

@@ -1,8 +1,7 @@
 package org.scenarioo.uitest.example.infrastructure;
 
 
-import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.DOCU_BUILD_DIRECTORY;
-import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.EXAMPLE_BRANCH_NAME;
+import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,12 +40,12 @@ public class MultipleBuildsRule implements TestRule {
 			}
 			
 			public void write_build_description() {
-				ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, EXAMPLE_BRANCH_NAME, MultipleBuildsRule.getCurrentBuildName());
+				ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, getCurrentBranchName(), getCurrentBuildName());
 				Build build = new Build();
-				build.setName(MultipleBuildsRule.getCurrentBuildName());
+				build.setName(getCurrentBuildName());
 				build.setDate(getDate());
-				build.setRevision(MultipleBuildsRule.getCurrentBuildRun().getRevision());
-				build.setStatus(MultipleBuildsRule.getCurrentBuildRun().getStatus());
+				build.setRevision(getCurrentBuildRun().getRevision());
+				build.setStatus(getCurrentBuildRun().getStatus());
 				docuWriter.saveBuildDescription(build);
 			}
 
@@ -65,8 +64,13 @@ public class MultipleBuildsRule implements TestRule {
 		return currentBuildRun;
 	}
 	
+	public static String getCurrentBranchName() {
+		return currentBuildRun.getBranchName();
+	}
+	
 	public static String getCurrentBuildName() {
 		return currentBuildRun.getDate();
 	}
+
 	
 }

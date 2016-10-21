@@ -1,3 +1,3 @@
-The folder scenarioDocuExample contains a sample file structure of a full Scenarioo Docu Build for one branch of your software development project.
+The folder scenarioDocuExample contains the sample demo data with a full file structure with several scenario docu builds organised in two sample branches.
 
-This example was produced by running the scenarioo-docu-generation-example.
+This example was produced by running the scenarioo-docu-generation-example and is also the same data that is used for our demo on the demo server.

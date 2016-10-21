@@ -18,18 +18,21 @@
 angular.module('scenarioo.controllers').controller('NavigationController', NavigationController);
 
 function NavigationController($scope, $location, LocalStorageService, BranchesAndBuildsService,
-                              SelectedBranchAndBuildService, ApplicationInfoPopupService, ConfigService,
-                              GlobalHotkeysService, SearchEngineStatusService) {
+                              SelectedBranchAndBuildService, SelectedComparison, ApplicationInfoPopupService, ConfigService,
+                              GlobalHotkeysService, BuildDiffInfosResource, SearchEngineStatusService) {
 
     $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
         $scope.applicationName = ConfigService.applicationName();
     });
 
     $scope.$on('branchesUpdated', function () {
-        loadBranchesAndBuildsService();
+        loadBranchesAndBuilds();
     });
 
-    SelectedBranchAndBuildService.callOnSelectionChange(loadBranchesAndBuildsService);
+    $scope.COMPARISON_DISABLED = SelectedComparison.COMPARISON_DISABLED;
+    $scope.comparisonInfo = SelectedComparison.info;
+
+    SelectedBranchAndBuildService.callOnSelectionChange(loadBranchesAndBuilds);
 
     $scope.globalSearch = {
         queryString: ''
@@ -60,40 +63,77 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
 
     $scope.isSearchEngineRunning = loadSearchEngineRunning();
 
-    function loadBranchesAndBuildsService() {
-        BranchesAndBuildsService.getBranchesAndBuildsService().then(function onSuccess(branchesAndBuilds) {
+    function loadBranchesAndBuilds() {
+        BranchesAndBuildsService.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
             $scope.branchesAndBuilds = branchesAndBuilds;
+            loadComparisonBuilds();
         });
+    }
+
+    function loadComparisonBuilds() {
+        if($scope.branchesAndBuilds && $scope.branchesAndBuilds.selectedBranch && $scope.branchesAndBuilds.selectedBuild) {
+            var baseBranchName = $scope.branchesAndBuilds.selectedBranch.branch.name;
+            var baseBuildName = $scope.branchesAndBuilds.selectedBuild.linkName;
+            BuildDiffInfosResource.query(
+                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName},
+                function onSuccess(buildDiffInfos) {
+                    $scope.comparisonBuilds = buildDiffInfos;
+                    var preSelectedComparison = SelectedComparison.selected();
+                    var selectedComparison = { name: SelectedComparison.COMPARISON_DISABLED, changeRate: 0 };
+                    angular.forEach($scope.comparisonBuilds, function(comparisonBuild) {
+                        if(comparisonBuild.name === preSelectedComparison) {
+                            selectedComparison = comparisonBuild;
+                        }
+                    });
+                    SelectedComparison.setSelected(selectedComparison.name);
+                    if(selectedComparison.name === SelectedComparison.COMPARISON_DISABLED) {
+                        $location.search(SelectedComparison.COMPARISON_KEY, selectedComparison.name);
+                    }
+                    $scope.selectedComparison = selectedComparison;
+                }, function onFailure() {
+                    resetComparisonSelection();
+                }
+            );
+        } else {
+            resetComparisonSelection();
+        }
+    }
+
+    function resetComparisonSelection(){
+        $scope.comparisonBuilds = [];
+        SelectedComparison.setSelected(SelectedComparison.COMPARISON_DISABLED);
+        $location.search(SelectedComparison.COMPARISON_KEY, SelectedComparison.COMPARISON_DISABLED);
+        $scope.selectedComparison = undefined;
     }
 
     $scope.setBranch = function (branch) {
         $scope.branchesAndBuilds.selectedBranch = branch;
         LocalStorageService.remove(SelectedBranchAndBuildService.BUILD_KEY);
+        LocalStorageService.remove(SelectedComparison.COMPARISON_KEY);
         $location.search(SelectedBranchAndBuildService.BRANCH_KEY, branch.branch.name);
     };
 
     $scope.setBuild = function (selectedBranch, build) {
         $scope.branchesAndBuilds.selectedBuild = build;
+        LocalStorageService.remove(SelectedComparison.COMPARISON_KEY);
         $location.search(SelectedBranchAndBuildService.BUILD_KEY, build.linkName);
+        loadComparisonBuilds($scope.branchesAndBuilds.selectedBranch.branch.name, $scope.branchesAndBuilds.selectedBuild.linkName);
+    };
+
+    $scope.setComparisonBuild = function(comparisonBuild) {
+        $location.search(SelectedComparison.COMPARISON_KEY, comparisonBuild.name);
+        $scope.selectedComparison = comparisonBuild;
+    };
+
+    $scope.disableComparison = function() {
+        var disabledComparison = { name: SelectedComparison.COMPARISON_DISABLED, changeRate: 0 };
+        $scope.setComparisonBuild(disabledComparison);
     };
 
     $scope.updating = false;
 
     $scope.getDisplayNameForBuild = function (build, returnShortText) {
-        if (angular.isUndefined(build)) {
-            return '';
-        }
-
-        // The displayName is required for the special "last successful scenarios" build
-        if (angular.isDefined(build.displayName) && build.displayName !== null) {
-            return build.displayName;
-        }
-
-        if ($scope.isBuildAlias(build)) {
-            return getDisplayNameForAliasBuild(build, returnShortText);
-        } else {
-            return build.build.name;
-        }
+        return BranchesAndBuildsService.getDisplayNameForBuild(build, returnShortText);
     };
 
     function getDisplayNameForAliasBuild(build, returnShortText) {
@@ -105,32 +145,15 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     }
 
     $scope.getBranchDisplayName = function (wrappedBranch) {
-
-        if (wrappedBranch === undefined) {
-            return null;
-        }
-
-        var displayName = wrappedBranch.branch.name;
-        if (wrappedBranch.alias) {
-            displayName = displayName + ' (' + wrappedBranch.branch.description + ')';
-        }
-        return displayName;
+        return BranchesAndBuildsService.getBranchDisplayName(wrappedBranch);
     };
 
     $scope.isBuildAlias = function (build) {
-        if (angular.isUndefined(build)) {
-            return false;
-        }
-
-        return build.build.name !== build.linkName;
+        return BranchesAndBuildsService.isBuildAlias(build);
     };
 
     $scope.isLastSuccessfulScenariosBuild = function (build) {
-        if (angular.isUndefined(build)) {
-            return false;
-        }
-
-        return build.getDisplayNameForBuild === 'last successful scenarios';
+        return BranchesAndBuildsService.isLastSuccessfulScenariosBuild(build);
     };
 
     GlobalHotkeysService.registerGlobalHotkey('i', function () {
@@ -140,5 +163,5 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     $scope.showApplicationInfoPopup = function () {
         ApplicationInfoPopupService.showApplicationInfoPopup();
     };
-
+    
 }
