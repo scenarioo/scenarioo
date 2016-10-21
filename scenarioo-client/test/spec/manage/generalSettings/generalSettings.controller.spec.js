@@ -34,6 +34,8 @@ describe('GeneralSettingsController', function () {
 
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches').respond(TestData.BRANCHES);
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/searchEngineStatus').respond({'searchEngineRunning':false});
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/branch_123/build/build_123/searchEngine').respond(404, false);
 
         $scope = $rootScope.$new();
         ConfigCtrl = $controller('GeneralSettingsController', {$scope: $scope, BranchesResource: BranchesResource, ConfigService: ConfigService});

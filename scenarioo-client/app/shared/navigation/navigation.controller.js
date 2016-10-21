@@ -19,7 +19,7 @@ angular.module('scenarioo.controllers').controller('NavigationController', Navig
 
 function NavigationController($scope, $location, LocalStorageService, BranchesAndBuildsService,
                               SelectedBranchAndBuildService, SelectedComparison, ApplicationInfoPopupService, ConfigService,
-                              GlobalHotkeysService, BuildDiffInfosResource) {
+                              GlobalHotkeysService, BuildDiffInfosResource, SearchEngineStatusService) {
 
     $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
         $scope.applicationName = ConfigService.applicationName();
@@ -33,6 +33,35 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     $scope.comparisonInfo = SelectedComparison.info;
 
     SelectedBranchAndBuildService.callOnSelectionChange(loadBranchesAndBuilds);
+
+    $scope.globalSearch = {
+        queryString: ''
+    };
+
+    $scope.search = function () {
+        var searchTerm = $scope.globalSearch.queryString;
+
+        // If the search term is blank nothing happens
+        if(!angular.isString(searchTerm) || searchTerm.trim() === '') {
+            return;
+        }
+
+        // Cancel search, if the search term contains a slash (this is not supported because of Tomcat security restrictions)
+        if(searchTerm.indexOf('/') !== -1) {
+            $scope.globalSearch.queryString = searchTerm.replace('/', '<slash_not_supported>');
+            return;
+        }
+
+        $location.path('/search/' + searchTerm);
+    };
+
+    function loadSearchEngineRunning () {
+        SearchEngineStatusService.isSearchEngineRunning().then(function(result) {
+            $scope.isSearchEngineRunning = result.running;
+        });
+    }
+
+    $scope.isSearchEngineRunning = loadSearchEngineRunning();
 
     function loadBranchesAndBuilds() {
         BranchesAndBuildsService.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
@@ -107,6 +136,14 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
         return BranchesAndBuildsService.getDisplayNameForBuild(build, returnShortText);
     };
 
+    function getDisplayNameForAliasBuild(build, returnShortText) {
+        if (returnShortText) {
+            return build.linkName;
+        } else {
+            return build.linkName + ': ' + build.build.name;
+        }
+    }
+
     $scope.getBranchDisplayName = function (wrappedBranch) {
         return BranchesAndBuildsService.getBranchDisplayName(wrappedBranch);
     };
@@ -126,4 +163,5 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     $scope.showApplicationInfoPopup = function () {
         ApplicationInfoPopupService.showApplicationInfoPopup();
     };
+    
 }

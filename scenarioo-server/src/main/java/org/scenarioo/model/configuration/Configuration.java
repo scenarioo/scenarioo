@@ -54,6 +54,8 @@ public class Configuration {
 
 	private String scenarioPropertiesInOverview;
 
+	private String elasticSearchEndpoint;
+
 	private String applicationName = "";
 
 	private String applicationInformation = "";
@@ -132,6 +134,14 @@ public class Configuration {
 
 	public void setScenarioPropertiesInOverview(final String scenarioPropertiesInOverview) {
 		this.scenarioPropertiesInOverview = scenarioPropertiesInOverview;
+	}
+
+	public String getElasticSearchEndpoint() {
+		return elasticSearchEndpoint;
+	}
+
+	public void setElasticSearchEndpoint(String elasticSearchEndpoint) {
+		this.elasticSearchEndpoint = elasticSearchEndpoint;
 	}
 
 	public String getApplicationName() {

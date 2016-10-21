@@ -8,10 +8,11 @@ useCase('View screen annotations')
     .describe(function () {
 
         var stepPage = new pages.stepPage();
+        var navigationPage = new pages.navigationPage();
 
         beforeEach(function () {
             new pages.homePage().initLocalStorage();
-            new pages.homePage().disableComparison();
+            //navigationPage.disableComparison();
         });
 
         scenario('Screen without annotations')

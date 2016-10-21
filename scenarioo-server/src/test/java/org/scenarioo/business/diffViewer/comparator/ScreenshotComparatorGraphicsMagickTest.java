@@ -1,12 +1,17 @@
 package org.scenarioo.business.diffViewer.comparator;
 
-import org.apache.log4j.Appender;
+import static org.junit.Assert.*;
+import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
-import org.apache.log4j.varia.NullAppender;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,14 +20,6 @@ import org.scenarioo.dao.diffViewer.GraphicsMagickConfiguration;
 import org.scenarioo.dao.diffViewer.impl.DiffFiles;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.utils.TestFileUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
 
 public class ScreenshotComparatorGraphicsMagickTest {
 	private ScreenshotComparator screenshotComparator;
@@ -48,23 +45,6 @@ public class ScreenshotComparatorGraphicsMagickTest {
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 		screenshotComparator = new ScreenshotComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME,
 			getComparisonConfiguration());
-	}
-
-	// Avoids massive logging which is expected
-	private Enumeration allAppenders;
-
-	@Before
-	public void removeAppenders() {
-		allAppenders = Logger.getRootLogger().getAllAppenders();
-		Logger.getRootLogger().removeAllAppenders();
-		Logger.getRootLogger().addAppender(new NullAppender());
-	}
-
-	@After
-	public void restoreAppenders() {
-		for (Object appender : Collections.list(allAppenders)) {
-			Logger.getRootLogger().addAppender((Appender) appender);
-		}
 	}
 
 	@Test
@@ -119,7 +99,7 @@ public class ScreenshotComparatorGraphicsMagickTest {
 	}
 
 	private class TestAppender extends AppenderSkeleton {
-		private List<LoggingEvent> log = new ArrayList<LoggingEvent>();
+		private final List<LoggingEvent> log = new ArrayList<LoggingEvent>();
 
 		@Override
 		public boolean requiresLayout() {

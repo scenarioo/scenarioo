@@ -1,0 +1,39 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<sc-breadcrumbs></sc-breadcrumbs>
+
+<div class="sc-referenceTreeMetaData"
+     data-sc-filterable-table-tree
+     data-root-is-collapsed="false"
+     data-expand-first-child-up-to-root-node="true"
+     data-filter=""
+     data-treedata="vm.results.resultSet.children"
+     data-treemodel="vm.treemodel"
+     data-click-action="vm.goToRelatedView(node)"
+     data-first-column-title="Search Results"
+     ng-show="vm.results.resultSet.children.length > 0">
+</div>
+
+<div class="alert alert-warning" ng-show="vm.results.resultSet.children.length === 0">
+    No result.
+</div>
+
+<div class="alert alert-danger" ng-show="vm.showSearchFailed">
+    An error occurred when executing the search query.
+    <span ng-show="vm.errorMessage"><br/>{{vm.errorMessage}}</span>
+</div>
