@@ -173,9 +173,9 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 		writeScenarioDescription(description, status);
 	}
 	
-	private void writeScenarioDescription(final Description testMethodDescription, final Status status) {
+	private void writeScenarioDescription(final Description testMethodDescription, Status status) {
 		
-		ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, EXAMPLE_BRANCH_NAME,
+		ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(),
 				MultipleBuildsRule.getCurrentBuildName());
 		
 		// Write scenario

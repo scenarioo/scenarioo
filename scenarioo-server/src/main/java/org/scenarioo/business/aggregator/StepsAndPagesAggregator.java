@@ -25,6 +25,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
+import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.steps.NeighborStep;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
@@ -54,18 +55,21 @@ public class StepsAndPagesAggregator {
 		this.dao = dao;
 	}
 
-	List<PageSteps> calculateScenarioPageSteps(UseCase usecase,
-											   Scenario scenario, List<Step> steps, List<ObjectReference> referencePath,
-											   ObjectRepository objectRepository) {
+	List<PageSteps> calculateScenarioPageSteps(final UseCase usecase,
+											   final Scenario scenario, final List<Step> steps, final List<ObjectReference> referencePath,
+											   final ObjectRepository objectRepository) {
 
 		List<StepLink> stepLinks = calculateStepLinks(steps, usecase.getName(), scenario.getName());
 		List<PageSteps> pageStepsList = getPageSteps(stepLinks, steps, referencePath, objectRepository);
+
+		new FullTextSearch().indexSteps(steps, stepLinks, scenario, usecase, build);
+
 		calculateNavigationAndPageVariantsData(stepLinks);
 
 		return pageStepsList;
 	}
 
-	public List<StepLink> calculateStepLinks(List<Step> steps, String useCaseName, String scenarioName) {
+	public List<StepLink> calculateStepLinks(final List<Step> steps, final String usecaseName, final String scenarioName) {
 		List<StepLink> stepLinks = new ArrayList<StepLink>(steps.size());
 		Map<String, Integer> pageOccurrences = new HashMap<String, Integer>();
 		Page page = null;
@@ -93,8 +97,8 @@ public class StepsAndPagesAggregator {
 				}
 			}
 
-			StepLink stepLink = new StepLink(useCaseName,
-				scenarioName, index, pageIndex, getPageName(page),
+			StepLink stepLink = new StepLink(usecaseName,
+					scenarioName, index, pageIndex, getPageName(page),
 				pageOccurrence, stepInPageOccurrence);
 			stepLinks.add(stepLink);
 
@@ -102,14 +106,11 @@ public class StepsAndPagesAggregator {
 			stepInPageOccurrence++;
 		}
 
-		FullTextSearch fullTextSearch = new FullTextSearch();
-		fullTextSearch.indexSteps(steps, stepLinks, scenario, usecase, build);
-
 		return stepLinks;
 	}
 
-	private List<PageSteps> getPageSteps(List<StepLink> stepLinks, List<Step> steps,
-										 List<ObjectReference> referencePath, ObjectRepository objectRepository) {
+	private List<PageSteps> getPageSteps(final List<StepLink> stepLinks, final List<Step> steps,
+										 final List<ObjectReference> referencePath, final ObjectRepository objectRepository) {
 		List<PageSteps> pageStepsList = new ArrayList<PageSteps>();
 		PageSteps pageSteps = null;
 		Page page = null;
@@ -133,7 +134,7 @@ public class StepsAndPagesAggregator {
 		return pageStepsList;
 	}
 
-	private void calculateNavigationAndPageVariantsData(List<StepLink> stepLinks) {
+	private void calculateNavigationAndPageVariantsData(final List<StepLink> stepLinks) {
 		if (stepLinks.size() == 0) {
 			return;
 		}
@@ -149,8 +150,8 @@ public class StepsAndPagesAggregator {
 		}
 	}
 
-	private NeighborStep getPreviousPage(List<StepLink> stepLinks,
-										 int currentStepIndex) {
+	private NeighborStep getPreviousPage(final List<StepLink> stepLinks,
+										 final int currentStepIndex) {
 		String currentPageName = stepLinks.get(currentStepIndex).getPageName();
 		for (int i = currentStepIndex - 1; i >= 0; i--) {
 			if (!stepLinks.get(i).getPageName().equals(currentPageName)) {
@@ -160,8 +161,8 @@ public class StepsAndPagesAggregator {
 		return null;
 	}
 
-	private NeighborStep getNextPage(List<StepLink> stepLinks,
-									 int currentStepIndex) {
+	private NeighborStep getNextPage(final List<StepLink> stepLinks,
+									 final int currentStepIndex) {
 		String currentPageName = stepLinks.get(currentStepIndex).getPageName();
 		for (int i = currentStepIndex + 1; i < stepLinks.size(); i++) {
 			if (!stepLinks.get(i).getPageName().equals(currentPageName)) {
@@ -171,7 +172,7 @@ public class StepsAndPagesAggregator {
 		return null;
 	}
 
-	private NeighborStep getPreviousStep(List<StepLink> stepLinks, int i) {
+	private NeighborStep getPreviousStep(final List<StepLink> stepLinks, final int i) {
 		if (i > 0) {
 			return new NeighborStep(stepLinks.get(i - 1));
 		} else {
@@ -179,7 +180,7 @@ public class StepsAndPagesAggregator {
 		}
 	}
 
-	private NeighborStep getNextStep(List<StepLink> stepLinks, int i) {
+	private NeighborStep getNextStep(final List<StepLink> stepLinks, final int i) {
 		if (i < stepLinks.size() - 1) {
 			return new NeighborStep(stepLinks.get(i + 1));
 		} else {
@@ -187,7 +188,7 @@ public class StepsAndPagesAggregator {
 		}
 	}
 
-	private boolean isNewPage(Page page, Step step) {
+	private boolean isNewPage(final Page page, final Step step) {
 		return page == null || step.getPage() == null || !page.equals(step.getPage());
 	}
 
@@ -196,7 +197,7 @@ public class StepsAndPagesAggregator {
 	 * pageOccurrences accordingly.
 	 */
 	private int increasePageOccurrence(
-		Map<String, Integer> pageOccurrences, Page page) {
+		final Map<String, Integer> pageOccurrences, final Page page) {
 		String pageKey = getPageName(page);
 		Integer occurrences = pageOccurrences.get(pageKey);
 		if (occurrences == null) {
@@ -209,7 +210,7 @@ public class StepsAndPagesAggregator {
 		return occurrences;
 	}
 
-	private String getPageName(Page page) {
+	private String getPageName(final Page page) {
 		return (page == null) ? null : page.getName();
 	}
 
@@ -220,10 +221,10 @@ public class StepsAndPagesAggregator {
 	 * be processed later.
 	 */
 	private void calculateNavigationAndPageVariantData(
-		NeighborStep firstStep,
-		NeighborStep previousPage, NeighborStep previousStep,
-		StepLink currentStep, NeighborStep nextStep,
-		NeighborStep nextPage, NeighborStep lastStep) {
+		final NeighborStep firstStep,
+		final NeighborStep previousPage, final NeighborStep previousStep,
+		final StepLink currentStep, final NeighborStep nextStep,
+		final NeighborStep nextPage, final NeighborStep lastStep) {
 
 		PageVariantNavigationData pageVariant = getPageVariantNavigationData(currentStep);
 
@@ -282,7 +283,7 @@ public class StepsAndPagesAggregator {
 	 * Get or create a page variant navigation data for current step's page
 	 */
 	private PageVariantNavigationData getPageVariantNavigationData(
-		StepLink stepLink) {
+		final StepLink stepLink) {
 		String pageName = stepLink.getPageName();
 		if (pageName == null) {
 			return null;
@@ -296,7 +297,7 @@ public class StepsAndPagesAggregator {
 		return pageVariant;
 	}
 
-	private boolean isSameScenario(StepLink step1, StepLink step2) {
+	private boolean isSameScenario(final StepLink step1, final StepLink step2) {
 		return step1.getUseCaseName().equals(step2.getUseCaseName())
 			&& step1.getScenarioName().equals(step2.getScenarioName());
 	}

@@ -78,42 +78,4 @@ BaseWebPage.prototype.startScenariooRevisited = function() {
     e2eUtils.initLocalStorage();
 };
 
-BaseWebPage.prototype.chooseBranch = function (branchName) {
-    // Open menu first, otherwise we cannot click
-    element(by.partialLinkText('Branch:')).click();
-    element(by.css('#branchSelectionDropdown .dropdown-menu')).all(by.partialLinkText(branchName)).first().click();
-};
-
-BaseWebPage.prototype.chooseBuild = function (buildName) {
-    // Open menu first, otherwise we cannot click
-    element(by.partialLinkText('Build:')).click();
-    element(by.css('#build-selection-dropdown .dropdown-menu')).all(by.partialLinkText(buildName)).first().click();
-};
-
-BaseWebPage.prototype.chooseComparison = function (comparisonName) {
-    // Open menu first, otherwise we cannot click
-    element(by.partialLinkText('Comparison:')).click();
-    element(by.css('#comparison-selection-dropdown .dropdown-menu')).all(by.partialLinkText(comparisonName)).first().click();
-};
-
-BaseWebPage.prototype.disableComparison = function () {
-    if(element(by.partialLinkText('Comparison:')).isPresent()) {
-        // Open menu first, otherwise we cannot click
-        element(by.partialLinkText('Comparison:')).click();
-        var comparisonElements = element(by.css('#comparison-selection-dropdown .dropdown-menu'));
-        var disableEntry = comparisonElements.element(by.partialLinkText('Disable'));
-        // It's not there if it's already disabled
-        disableEntry.isPresent().then(function(isPresent) {
-            if(isPresent) {
-                disableEntry.click();
-            }
-        });
-    }
-
-};
-
-BaseWebPage.prototype.assertSelectedComparison = function (comparisonName) {
-    expect(element(by.css('#comparison-selection-dropdown > a')).getText()).toContain(comparisonName);
-};
-
 module.exports = BaseWebPage;

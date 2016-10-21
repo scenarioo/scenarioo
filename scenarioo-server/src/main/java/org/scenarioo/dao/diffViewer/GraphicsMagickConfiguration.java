@@ -1,13 +1,12 @@
 package org.scenarioo.dao.diffViewer;
 
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
 import org.im4java.core.CompareCmd;
 import org.im4java.core.IM4JavaException;
 import org.im4java.core.IMOperation;
 import org.im4java.process.ArrayListOutputConsumer;
-import org.scenarioo.dao.basic.FileSystemOperationsDao;
-
-import java.io.IOException;
 
 public class GraphicsMagickConfiguration {
 	private static final Logger LOGGER = Logger.getLogger(GraphicsMagickConfiguration.class);
