@@ -3,6 +3,10 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
+var BRANCH_WIKI = 'Production';
+var NUMBER_OF_ALIASES_IN_CONFIG = 2;
+var FIRST_TEST_ALIAS_INDEX = NUMBER_OF_ALIASES_IN_CONFIG;
+
 useCase('Use branch aliases')
     .description('Select a branch by using an alias')
     .describe(function () {
@@ -38,9 +42,9 @@ useCase('Use branch aliases')
 
                 // Restore initial state for other tests
                 branchAliasesPage.goToPage();
-                branchAliasesPage.deleteAlias(0);
+                branchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
                 branchAliasesPage.save();
-                branchAliasesPage.chooseBranch('wikipedia-docu-example');
+                branchAliasesPage.chooseBranch(BRANCH_WIKI);
             });
 
     });

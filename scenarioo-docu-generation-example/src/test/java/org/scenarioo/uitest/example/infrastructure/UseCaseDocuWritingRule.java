@@ -48,18 +48,18 @@ import org.scenarioo.model.docu.entities.UseCase;
  * for each running test class as a Usecase inside the Scenarioo Documentation.
  */
 public class UseCaseDocuWritingRule implements TestRule {
-	
+
 	private static final Logger LOGGER = Logger.getLogger(UseCaseDocuWritingRule.class);
-	
+
 	@Override
 	public Statement apply(final Statement test, final Description testClassDescription) {
-		
+
 		// Statement to write use case description as soon as test class gets executed
 		return new Statement() {
-			
+
 			private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY,
-					EXAMPLE_BRANCH_NAME, MultipleBuildsRule.getCurrentBuildName());
-			
+					MultipleBuildsRule.getCurrentBranchName(), MultipleBuildsRule.getCurrentBuildName());
+
 			@Override
 			public void evaluate() throws Throwable {
 				try {
@@ -77,11 +77,12 @@ public class UseCaseDocuWritingRule implements TestRule {
 			}
 		};
 	}
-	
+
 	public static UseCase createUseCase(final Class<?> testClass) {
 		// Extract usecase name and description from concrete test class.
 		String description = "";
-		String name = createUseCaseName(testClass);
+		String name = getNameFromClass(testClass);
+
 		DocuDescription docuDescription = testClass.getAnnotation(DocuDescription.class);
 		if (docuDescription != null) {
 			description = docuDescription.description();
@@ -95,6 +96,25 @@ public class UseCaseDocuWritingRule implements TestRule {
 		return useCase;
 	}
 
+	private static String getNameFromClass(Class<?> testClass) {
+
+		String name = null;
+		DocuDescription description = testClass.getAnnotation(DocuDescription.class);
+		if (description != null && !StringUtils.isBlank(description.name())) {
+			name =  description.name();
+		}
+		else {
+			// simply use the test class name as use case name if not set through description annotation.
+			name = testClass.getSimpleName();
+		}
+
+		// just for dummy data for demo:
+		// change some names slightly depending on the build run
+		// for having useful demo data for diff viewer
+		return MultipleBuildsDummyTestNameGenerator.getDifferentUseCaseNameForBuild(name);
+
+	}
+
 	private static void addLabelsIfPresentOnTestClass(final Class<?> testClass,
 			UseCase useCase) {
 		Labels labels = testClass.getAnnotation(Labels.class);
@@ -102,7 +122,7 @@ public class UseCaseDocuWritingRule implements TestRule {
 			useCase.getLabels().setLabels(new HashSet<String>(Arrays.asList(labels.value())));
 		}
 	}
-	
+
 	public static String createUseCaseName(final Class<?> testClass) {
 		DocuDescription description = testClass.getAnnotation(DocuDescription.class);
 		if (description != null && !StringUtils.isBlank(description.name())) {
@@ -112,5 +132,5 @@ public class UseCaseDocuWritingRule implements TestRule {
 			return testClass.getSimpleName();
 		}
 	}
-	
+
 }

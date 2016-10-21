@@ -25,13 +25,15 @@ import org.scenarioo.api.files.ScenarioDocuFiles;
 import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
+import org.scenarioo.utils.NumberFormatCreator;
 
 /**
  * Defines locations of aggregated files containing aggregated (=derived) data from documentation input data.
  */
 public class ScenarioDocuAggregationFiles {
 	
-	private static NumberFormat THREE_DIGIT_NUM_FORMAT = createNumberFormatWithMinimumIntegerDigits(3);
+	private static NumberFormat THREE_DIGIT_NUM_FORMAT = NumberFormatCreator
+			.createNumberFormatWithMinimumIntegerDigits(3);
 	
 	private static final String DIRECTORY_NAME_OBJECT_INDEXES = "index";
 	private static final String DIRECTORY_NAME_OBJECTS = "objects.derived";
@@ -152,12 +154,7 @@ public class ScenarioDocuAggregationFiles {
 		return new File(stepNavigationsDir, THREE_DIGIT_NUM_FORMAT.format(stepIndex) + ".navigation.xml");
 	}
 	
-	private static NumberFormat createNumberFormatWithMinimumIntegerDigits(final int minimumIntegerDigits) {
-		final NumberFormat numberFormat = NumberFormat.getIntegerInstance();
-		numberFormat.setMinimumIntegerDigits(minimumIntegerDigits);
-		return numberFormat;
-	}
-	
+
 	public File getBuildDirectory(final BuildIdentifier buildIdentifier) {
 		return docuFiles.getBuildDirectory(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 	}

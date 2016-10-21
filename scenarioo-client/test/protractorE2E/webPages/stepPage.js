@@ -15,7 +15,6 @@ function StepPage(overridePath) {
 
 util.inherits(StepPage, BaseWebPage);
 
-// DISABLED
 StepPage.prototype.assertPreviousStepIsDisabled = function () {
     this.assertElementIsDisabled('prevStepBtn');
 };
@@ -32,7 +31,6 @@ StepPage.prototype.assertNextPageIsDisabled = function () {
     this.assertElementIsDisabled('nextPageBtn');
 };
 
-// ENABLED
 StepPage.prototype.assertPreviousStepIsEnabled = function () {
     this.assertElementIsEnabled('prevStepBtn');
 };
@@ -189,6 +187,103 @@ StepPage.prototype.assertTitleOfAnnotationPopupIs = function(expectedTitle) {
 
 StepPage.prototype.clickCreateSketchButton = function() {
     element(by.id('sketchThis')).click();
+};
+
+StepPage.prototype.assertHtmlSourceEquals = function (expected) {
+    expect(element(by.id('html-source')).getText()).toBe(expected);
+};
+
+StepPage.prototype.openComparisonTab = function () {
+    element(by.id('comparison-tab')).click();
+};
+
+
+StepPage.prototype.showHighlights = function () {
+    element(by.id('sc-show-highlights-button')).click();
+};
+
+StepPage.prototype.hideHighlights = function () {
+    element(by.id('sc-hide-highlights-button')).click();
+};
+
+StepPage.prototype.showSideBySideView = function () {
+    element(by.id('sc-side-by-side-view-button')).click();
+};
+
+StepPage.prototype.showSinglePageView = function () {
+    element(by.id('sc-single-page-view-button')).click();
+};
+
+StepPage.prototype.switchToComparisonScreenshot = function () {
+    element(by.id('sc-switch-to-comparison-screenshot-button')).click();
+};
+
+StepPage.prototype.switchToBaseScreenshot = function () {
+    element(by.id('sc-switch-to-base-screenshot-button')).click();
+};
+
+
+StepPage.prototype.assertNoDiffInfoDisplayed = function () {
+    expect(element(by.id('comparison-tab')).isPresent()).toBeFalsy();
+};
+
+StepPage.prototype.assertStepComparisonSideBySideViewIsActive= function () {
+    expect(element(by.id('sc-side-by-side-view-button')).getAttribute('class')).toContain('active');
+    expect(element(by.id('sc-single-page-view-button')).getAttribute('class')).not.toContain('active');
+    expect(element(by.id('sc-step-comparison-side-by-side-view')).isPresent()).toBeTruthy();
+    expect(element(by.id('sc-step-comparison-single-page-view')).isPresent()).toBeFalsy();
+};
+
+StepPage.prototype.assertStepComparisonSinglePageViewIsActive= function () {
+    expect(element(by.id('sc-side-by-side-view-button')).getAttribute('class')).not.toContain('active');
+    expect(element(by.id('sc-single-page-view-button')).getAttribute('class')).toContain('active');
+    expect(element(by.id('sc-step-comparison-side-by-side-view')).isPresent()).toBeFalsy();
+    expect(element(by.id('sc-step-comparison-single-page-view')).isPresent()).toBeTruthy();
+};
+
+StepPage.prototype.assertStepComparisonShowHighlightsButtonIsDisplayed= function () {
+    expect(element(by.id('sc-show-highlights-button')).isDisplayed()).toBeTruthy();
+    expect(element(by.id('sc-hide-highlights-button')).isDisplayed()).toBeFalsy();
+    expect(element(by.id('sc-show-highlights-button')).getAttribute('disabled')).toBeNull();
+    expect(element(by.id('sc-hide-highlights-button')).getAttribute('disabled')).toBeNull();
+};
+
+StepPage.prototype.assertStepComparisonHideHighlightsButtonIsDisplayed= function () {
+    expect(element(by.id('sc-show-highlights-button')).isDisplayed()).toBeFalsy();
+    expect(element(by.id('sc-hide-highlights-button')).isDisplayed()).toBeTruthy();
+    expect(element(by.id('sc-show-highlights-button')).getAttribute('disabled')).toBeNull();
+    expect(element(by.id('sc-hide-highlights-button')).getAttribute('disabled')).toBeNull();
+};
+
+StepPage.prototype.assertStepComparisonHighlightsButtonIsDisabled= function () {
+    expect(element(by.id('sc-show-highlights-button')).getAttribute('disabled')).toEqual('true');
+    expect(element(by.id('sc-hide-highlights-button')).getAttribute('disabled')).toEqual('true');
+};
+
+StepPage.prototype.assertStepComparisonSwitchToComparisonScreenshotButtonIsDisplayed = function () {
+    expect(element(by.id('sc-switch-to-comparison-screenshot-button')).isDisplayed()).toBeTruthy();
+    expect(element(by.id('sc-switch-to-base-screenshot-button')).isDisplayed()).toBeFalsy();
+};
+
+StepPage.prototype.assertStepComparisonSwitchToBaseScreenshotButtonIsDisplayed = function () {
+    expect(element(by.id('sc-switch-to-comparison-screenshot-button')).isDisplayed()).toBeFalsy();
+    expect(element(by.id('sc-switch-to-base-screenshot-button')).isDisplayed()).toBeTruthy();
+};
+
+StepPage.prototype.assertStepComparisonSwitchToComparisonScreenshotButtonIsDisabled = function () {
+    expect(element(by.id('sc-switch-to-comparison-screenshot-button')).getAttribute('disabled')).toEqual('true');
+};
+
+StepPage.prototype.assertStepComparisonScreenshotSrcEquals = function (expected) {
+    expect(element(by.css('.sc-comparison-screenshot img')).getAttribute('src')).toContain(expected);
+};
+
+StepPage.prototype.assertStepNoComparisonScreenshot = function (expected) {
+    expect(element(by.css('.sc-comparison-screenshot img')).isPresent()).toBeFalsy();
+};
+
+StepPage.prototype.assertStepBaseScreenshotSrcEquals = function (expected) {
+    expect(element(by.css('.sc-base-screenshot img')).getAttribute('src')).toContain(expected);
 };
 
 module.exports = StepPage;

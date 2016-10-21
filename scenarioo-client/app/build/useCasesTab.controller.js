@@ -18,7 +18,7 @@
 angular.module('scenarioo.controllers').controller('UseCasesTabController', UseCasesTabController);
 
 function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsService, SelectedBranchAndBuildService,
-                               UseCasesResource, LabelConfigurationsResource) {
+                               SelectedComparison, DiffInfoService, UseCasesResource, LabelConfigurationsResource, BuildDiffInfoResource, UseCaseDiffInfosResource) {
 
     var vm = this;
     vm.table = {
@@ -33,12 +33,12 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     vm.buildInformationTree = {};
     vm.metadataTreeBranches = {};
     vm.metadataTreeBuilds = {};
+    vm.comparisonInfo = SelectedComparison.info;
 
-    vm.goToUseCase = goToUseCase;
+    vm.gotoUseCase = gotoUseCase;
     vm.onNavigatorTableHit = onNavigatorTableHit;
     vm.resetSearchField = resetSearchField;
 
-    // FIXME this code is duplicated. How can we extract it into a service?
     vm.getLabelStyle = getLabelStyle;
 
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -50,18 +50,23 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     function activate() {
         SelectedBranchAndBuildService.callOnSelectionChange(loadUseCases);
 
-        // FIXME this code is duplicated. How can we extract it into a service?
         LabelConfigurationsResource.query({}, function (labelConfiguratins) {
             vm.labelConfigurations = labelConfiguratins;
         });
     }
-    
-    function goToUseCase(useCaseName) {
-        $location.path('/usecase/' + useCaseName);
+
+    function gotoUseCase(useCase){
+        if(!isRemovedUseCase(useCase)){
+            $location.path('/usecase/' + useCase.name);
+        }
+    }
+
+    function isRemovedUseCase(useCase) {
+        return useCase.diffInfo && useCase.diffInfo.isRemoved;
     }
 
     function onNavigatorTableHit(useCase) {
-        vm.goToUseCase(useCase.name);
+        vm.gotoUseCase(useCase);
     }
 
     function resetSearchField() {
@@ -76,27 +81,47 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
             }
         }
     }
-    
-    function loadUseCases(selected) {
 
-        BranchesAndBuildsService.getBranchesAndBuildsService()
+    function loadUseCases(selected) {
+        BranchesAndBuildsService.getBranchesAndBuilds()
             .then(function onSuccess(branchesAndBuilds) {
                 vm.branchesAndBuilds = branchesAndBuilds;
-            }).then(function () {
-            UseCasesResource.query(
-                {'branchName': selected.branch, 'buildName': selected.build},
-                function onSuccess(result) {
-                    vm.useCases = result;
 
-                    var branch = vm.branchesAndBuilds.selectedBranch.branch;
-                    var build = vm.branchesAndBuilds.selectedBuild.build;
-                    vm.branchInformationTree = createBranchInformationTree(branch);
-                    vm.buildInformationTree = createBuildInformationTree(build);
-                    vm.metadataTreeBranches = transformMetadataToTreeArray(branch.details);
-                    vm.metadataTreeBuilds = transformMetadataToTreeArray(build.details);
-                });
+                UseCasesResource.query(
+                    {'branchName': selected.branch, 'buildName': selected.build},
+                    function onSuccess(useCases) {
+                        if(SelectedComparison.isDefined()) {
+                            loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
+                        } else {
+                            vm.useCases = useCases;
+                        }
+
+                        var branch = vm.branchesAndBuilds.selectedBranch.branch;
+                        var build = vm.branchesAndBuilds.selectedBuild.build;
+                        vm.branchInformationTree = createBranchInformationTree(branch);
+                        vm.buildInformationTree = createBuildInformationTree(build);
+                        vm.metadataTreeBranches = transformMetadataToTreeArray(branch.details);
+                        vm.metadataTreeBuilds = transformMetadataToTreeArray(build.details);
+                    });
         });
+    }
 
+    function loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName) {
+        if(useCases && baseBranchName && baseBuildName) {
+            BuildDiffInfoResource.get(
+                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
+                function onSuccess(buildDiffInfo) {
+                    UseCaseDiffInfosResource.get(
+                        {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
+                        function onSuccess(useCaseDiffInfos) {
+                            vm.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
+                        }
+                    );
+                }, function onFailure(error){
+                    throw error;
+                }
+            );
+        }
     }
 
     function createBranchInformationTree(branch) {

@@ -18,8 +18,8 @@
 angular.module('scenarioo.controllers').controller('UseCaseController', UseCaseController);
 
 function UseCaseController($scope, $filter, $routeParams, $location, ScenarioResource, ConfigService,
-                           SelectedBranchAndBuildService, LabelConfigurationsResource, RelatedIssueResource,
-                           SketchIdsResource) {
+                           SelectedBranchAndBuildService, SelectedComparison, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource,
+                           SketchIdsResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource) {
 
     var vm = this;
 
@@ -41,6 +41,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     vm.hasAnyLabels = false;
 
     vm.resetSearchField = resetSearchField;
+    vm.handleClick = handleClick;
     vm.goToFirstStep = goToFirstStep;
     vm.goToScenario = goToScenario;
     vm.onNavigatorTableHit = onNavigatorTableHit;
@@ -57,8 +58,17 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         });
     }
 
+    $scope.comparisonInfo = SelectedComparison.info;
+
+
     function resetSearchField() {
         vm.table.search = {searchTerm: ''};
+    }
+
+    function handleClick(useCaseName, scenarioSummary) {
+        if(!scenarioSummary.diffInfo || !scenarioSummary.diffInfo.isRemoved){
+            goToScenario(useCaseName, scenarioSummary.scenario.name);
+        }
     }
 
     function goToScenario(useCaseName, scenarioName) {
@@ -98,8 +108,6 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         );
     }
 
-
-
     function loadScenariosAndUseCase(selected) {
         var useCaseName = $routeParams.useCaseName;
 
@@ -114,11 +122,36 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
 
     function onUseCaseLoaded(result) {
         vm.useCase = result.useCase;
-        vm.scenarios = result.scenarios;
         vm.usecaseInformationTree = createUseCaseInformationTree(vm.useCase);
         vm.metadataTree = $filter('scMetadataTreeListCreator')(vm.useCase.details);
         vm.hasAnyLabels = vm.useCase.labels && vm.useCase.labels.labels.length !== 0;
+
+        if(SelectedComparison.isDefined()) {
+            var selected = SelectedBranchAndBuildService.selected();
+            loadDiffInfoData(result.scenarios, selected.branch, selected.build, SelectedComparison.selected(), result.useCase.name);
+        } else {
+            vm.scenarios = result.scenarios;
+        }
+
         loadRelatedIssues();
+    }
+
+    function loadDiffInfoData(scenarios, baseBranchName, baseBuildName, comparisonName, useCaseName) {
+        if (scenarios && baseBranchName && baseBuildName && useCaseName){
+            UseCaseDiffInfoResource.get(
+                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName},
+                function onSuccess(useCaseDiffInfo) {
+                    ScenarioDiffInfosResource.get(
+                        {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName},
+                        function onSuccess(scenarioDiffInfos) {
+                            vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
+                        }
+                    );
+                }, function onFailure() {
+                    vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, [], [], 'scenario.name');
+                }
+            );
+        }
     }
 
     function loadRelatedIssues(){

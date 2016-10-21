@@ -4,6 +4,8 @@ var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
 var NUMBER_OF_USE_CASES = 4;
+var COMPARISON_PROJECTSTART = 'To Projectstart';
+var USE_CASE_WITH_HIGHEST_DIFF = 'Donate';
 
 useCase('List use cases')
     .description('As soon as a branch and a build are selected, a list of use cases is shown.')
@@ -13,6 +15,10 @@ useCase('List use cases')
 
         beforeEach(function () {
             homePage.initLocalStorage();
+        });
+
+        afterEach(function() {
+            homePage.disableComparison();
         });
 
         scenario('Display and filter usecases')
@@ -46,4 +52,23 @@ useCase('List use cases')
                 step('metadata shown');
             });
 
+        scenario('Display Diff-Information')
+            .labels(['diff-viewer'])
+            .it(function () {
+                homePage.goToPage();
+                step('display usecases on homepage');
+                homePage.chooseComparison(COMPARISON_PROJECTSTART);
+                homePage.assertPageIsDisplayed();
+                step('To Projectstart comparison selected');
+
+                homePage.assertNumberOfDiffInfos(NUMBER_OF_USE_CASES);
+
+                homePage.sortByChanges();
+                homePage.assertLastUseCase(USE_CASE_WITH_HIGHEST_DIFF);
+                step('Diff Infos sorted ascending');
+
+                homePage.sortByChanges();
+                homePage.assertFirstUseCase(USE_CASE_WITH_HIGHEST_DIFF);
+                step('Diff Infos sorted descending');
+            });
     });

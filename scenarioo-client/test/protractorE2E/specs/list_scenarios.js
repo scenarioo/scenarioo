@@ -3,6 +3,11 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 var NUMBER_OF_USE_CASES = 4;
+var NUMBER_OF_SCENARIOS = 4;
+var COMPARISON_PROJECTSTART = 'To Projectstart';
+var COMPARISON_DISABLE = 'Disable';
+var SECOND_USE_CASE = 1;
+var SCENARIO_WITH_HIGHEST_DIFF = 'Find page title unique directly';
 
 useCase('List scenarios')
     .description('After clicking on a use case, the user is presented with a list of all scenarios in this use case.')
@@ -16,13 +21,17 @@ useCase('List scenarios')
             new pages.homePage().initLocalStorage();
         });
 
+        afterEach(function() {
+            homePage.disableComparison();
+        });
+
         scenario('Expand all, collapse all on scenario page')
             .it(function () {
                 homePage.goToPage();
                 step('select a use case from the use case list');
                 homePage.assertPageIsDisplayed();
                 homePage.assertUseCasesShown(NUMBER_OF_USE_CASES);
-                homePage.selectUseCase(1);
+                homePage.selectUseCase(SECOND_USE_CASE);
                 step('select a scenario in the scenario list');
                 useCasePage.selectScenario(0);
                 step('all pages are collapsed by default, "expand all" button is visible');
@@ -35,4 +44,38 @@ useCase('List scenarios')
                 scenarioPage.expectOnlyCollapseAllButtonIsDisplayed();
             });
 
+        scenario('Display Diff-Information')
+            .labels(['diff-viewer'])
+            .it(function () {
+                homePage.goToPage();
+                step('display usecases on homepage');
+                homePage.assertPageIsDisplayed();
+                homePage.chooseComparison(COMPARISON_PROJECTSTART);
+                step('To Projectstart comparison selected');
+                homePage.selectUseCase(SECOND_USE_CASE);
+                step('Use Case selected');
+
+                useCasePage.assertNumberOfDiffInfos(NUMBER_OF_SCENARIOS);
+
+            });
+
+        scenario('Sort by Diff-Information')
+            .labels(['diff-viewer'])
+            .it(function () {
+                homePage.goToPage();
+                step('display usecases on homepage');
+                homePage.assertPageIsDisplayed();
+                homePage.chooseComparison('To Projectstart');
+                step('To Projectstart comparison selected');
+                homePage.selectUseCase(SECOND_USE_CASE);
+                step('Use Case selected');
+
+                useCasePage.sortByChanges();
+                useCasePage.assertLastUseCase(SCENARIO_WITH_HIGHEST_DIFF);
+                step('Diff Infos sorted ascending');
+
+                useCasePage.sortByChanges();
+                useCasePage.assertFirstUseCase(SCENARIO_WITH_HIGHEST_DIFF);
+                step('Diff Infos sorted descending');
+            });
     });

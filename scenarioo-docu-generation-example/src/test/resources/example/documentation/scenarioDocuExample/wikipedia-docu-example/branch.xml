@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<branch>
+<branch xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <name>wikipedia-docu-example</name>
     <description>Example documentation of the Wikipedia Web Application as an example. The content is generated from dummy data in the 'scenarioo-docu-generation-example' for testing and demonstration purposes.</description>
     <details/>
