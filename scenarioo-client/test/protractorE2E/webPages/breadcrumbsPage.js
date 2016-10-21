@@ -19,7 +19,7 @@ BreadcrumbPage.prototype.clickOnBreadcrumb = function(breadcrumbId) {
     this.breadcrumbs.element(by.id(breadcrumbId)).click();
 };
 
-BreadcrumbPage.prototype.assertUseCaseNameInBreadcrumb = function(breadcrumbId, useCaseName) {
+BreadcrumbPage.prototype.assertBreadcrumbElementText = function(breadcrumbId, useCaseName) {
     var useCaseElement =  this.breadcrumbs.element(by.id(breadcrumbId));
     expect(useCaseElement.getText()).toContain(useCaseName);
 };

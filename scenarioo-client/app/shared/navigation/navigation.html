@@ -75,11 +75,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <form ng-submit="search()" class="navbar-form navbar-left">
                 <div class="input-group">
                     <span class="input-group-btn">
-                        <button class="btn btn-default btn-sm">
+                        <button id="sc-global-search-box-button" class="btn btn-default btn-sm">
                             <span class="glyphicon glyphicon-search"></span>
                         </button>
                     </span>
-                    <input class="form-control input-sm" ng-model="globalSearch.queryString" type="text">
+                    <input id="sc-global-search-box-textfield" class="form-control input-sm" ng-model="globalSearch.queryString" type="text">
                 </div>
             </form>
         </li>
