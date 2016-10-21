@@ -14,13 +14,12 @@ def getVersionName = { ->
 }
 
 allprojects {
-	apply plugin: 'idea'
 	apply plugin: 'eclipse'
 
 	group = 'org.scenarioo'
     version = getVersionName()
-}
 
-task wrapper(type: Wrapper) {
-	gradleVersion = '2.12'
+    task wrapper(type: Wrapper) {
+        gradleVersion = '3.1'
+    }
 }

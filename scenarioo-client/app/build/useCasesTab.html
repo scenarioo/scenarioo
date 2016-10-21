@@ -43,10 +43,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <th sc-sortable-column="name">Name</th>
                         <th>Description</th>
                         <th sc-sortable-column="numberOfScenarios"># Scenarios</th>
+                        <th sc-sortable-column="diffInfo.changeRate" class="sort-diff-info" ng-if="useCasesTab.comparisonInfo.isDefined">Changes</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-class="{'selected':$index==selectedRowIndex}" ng-repeat="useCase in filtered=(useCasesTab.useCases | scFilterArray: useCasesTab.table.search.searchTerm | orderBy: useCasesTab.table.sort.column: useCasesTab.table.sort.reverse)" ng-click="useCasesTab.goToUseCase(useCase.name)" class="link">
+                    <tr ng-class="{'selected':$index==selectedRowIndex, 'added': useCase.diffInfo.isAdded, 'removed': useCase.diffInfo.isRemoved}" ng-repeat="useCase in filtered=(useCasesTab.useCases | scFilterArray: useCasesTab.table.search.searchTerm | orderBy: useCasesTab.table.sort.column: useCasesTab.table.sort.reverse)" ng-click="useCasesTab.gotoUseCase(useCase)" class="link">
                         <td>
                             <span ng-class="[getStatusStyleClass(useCase.status), 'label']">{{useCase.status}}</span>
                         </td>
@@ -56,6 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </td>
                         <td>{{useCase.description}}</td>
                         <td>{{useCase.numberOfScenarios}}</td>
+                        <td ng-if="useCasesTab.comparisonInfo.isDefined"><sc-diff-info-icon diff-info="useCase.diffInfo" element-type="use case" child-element-type="scenario"></sc-diff-info-icon></td>
                     </tr>
                 </tbody>
             </table>

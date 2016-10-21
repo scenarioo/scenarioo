@@ -1,0 +1,13 @@
+<div class="diff-info-wrapper">
+    <div class="progress sc-diff-changes" uib-tooltip-html="vm.infoText" tooltip-placement="right" tooltip-class="diff-icon-tooltip">
+        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{vm.changedPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width' : vm.changedPercentage }"></div>
+        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{vm.addedPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width' : vm.addedPercentage }"></div>
+        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{vm.removedPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width' : vm.removedPercentage }"></div>
+        <div class="progress-bar progress-bar-default" role="progressbar" aria-valuenow="{{vm.unchangedPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width' : vm.unchangedPercentage }"></div>
+        <div class="change-rate">
+            <span ng-if="!vm.diffInfo.isAdded && !vm.diffInfo.isRemoved">{{vm.diffInfo.changeRate | number:0}}%</span>
+            <span ng-if="vm.diffInfo.isAdded" class="added">added</span>
+            <span ng-if="vm.diffInfo.isRemoved" class="removed">removed</span>
+        </div>
+    </div>
+</div>

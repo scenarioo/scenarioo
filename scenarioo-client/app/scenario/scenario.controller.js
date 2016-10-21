@@ -18,8 +18,8 @@
 angular.module('scenarioo.controllers').controller('ScenarioController', ScenarioController);
 
 function ScenarioController($filter, $routeParams,
-          $location, ScenarioResource, HostnameAndPort, SelectedBranchAndBuildService,
-          ConfigService, PagesAndStepsService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource) {
+          $location, ScenarioResource, HostnameAndPort, SelectedBranchAndBuildService, SelectedComparison,
+          ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
 
     var vm = this;
     vm.useCaseDescription = '';
@@ -43,9 +43,12 @@ function ScenarioController($filter, $routeParams,
     vm.resetSearchField = resetSearchField;
     vm.goToIssue = goToIssue;
     vm.getLabelStyle = getLabelStyle;
+    vm.comparisonInfo = SelectedComparison.info;
 
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
+    var comparisonBranchName;
+    var comparisonBuildName;
     var selectedBranchAndBuild;
     var labelConfigurations = [];
     var pagesAndScenarios = [];
@@ -75,11 +78,17 @@ function ScenarioController($filter, $routeParams,
                 pagesAndScenarios = PagesAndStepsService.populatePagesAndStepsService(result);
                 vm.useCaseDescription = result.useCase.description;
                 vm.scenario = pagesAndScenarios.scenario;
-                vm.useCase = result.useCase;
                 vm.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
+                vm.useCase = result.useCase;
                 vm.metadataTree = transformMetadataToTreeArray(pagesAndScenarios.scenario.details);
                 vm.scenarioInformationTree = createScenarioInformationTree(vm.scenario, result.scenarioStatistics, vm.useCase);
                 scenarioStatistics = result.scenarioStatistics;
+
+                if(SelectedComparison.isDefined()) {
+                    var selectedBrandAndBuild = SelectedBranchAndBuildService.selected();
+                    loadDiffInfoData(vm.pagesAndSteps, selectedBrandAndBuild.branch, selectedBrandAndBuild.build, SelectedComparison.selected());
+                }
+
                 loadRelatedIssues();
 
                 var hasAnyUseCaseLabels = vm.useCase.labels.labels.length > 0;
@@ -89,7 +98,8 @@ function ScenarioController($filter, $routeParams,
                 if (ConfigService.expandPagesInScenarioOverview()) {
                     vm.expandAll();
                 }
-            });
+            }
+        );
     }
 
     function showAllStepsForPage(pageIndex) {
@@ -149,11 +159,18 @@ function ScenarioController($filter, $routeParams,
         }
     }
 
-    function getScreenShotUrl(imgName) {
+    function getScreenShotUrl(imgName, stepIsRemoved) {
         if (angular.isUndefined(selectedBranchAndBuild)) {
             return undefined;
         }
-        return HostnameAndPort.forLink() + 'rest/branch/' + selectedBranchAndBuild.branch + '/build/' + selectedBranchAndBuild.build +
+        var branch = selectedBranchAndBuild.branch;
+        var build = selectedBranchAndBuild.build;
+        if(SelectedComparison.isDefined() && stepIsRemoved) {
+            branch = comparisonBranchName;
+            build = comparisonBuildName;
+        }
+
+        return HostnameAndPort.forLink() + 'rest/branch/' + branch + '/build/' + build +
             '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
     }
 
@@ -166,7 +183,7 @@ function ScenarioController($filter, $routeParams,
         vm.searchFieldText = '';
     }
 
-    function createScenarioInformationTree(scenario, scenarioStatistics, useCase) {
+    function createScenarioInformationTree(scenario, statistics, useCase) {
         var stepInformation = {};
         stepInformation['Use Case'] = useCase.name;
         if(useCase.description) {
@@ -177,10 +194,38 @@ function ScenarioController($filter, $routeParams,
             stepInformation['Scenario Description'] = scenario.description;
         }
 
-        stepInformation['Number of Pages'] = scenarioStatistics.numberOfPages;
-        stepInformation['Number of Steps'] = scenarioStatistics.numberOfSteps;
+        stepInformation['Number of Pages'] = statistics.numberOfPages;
+        stepInformation['Number of Steps'] = statistics.numberOfSteps;
         stepInformation.Status = scenario.status;
         return transformMetadataToTree(stepInformation);
+    }
+
+    function loadDiffInfoData(pagesAndSteps, baseBranchName, baseBuildName, comparisonName) {
+        if (pagesAndSteps && baseBranchName && baseBuildName && useCaseName && scenarioName){
+            BuildDiffInfoResource.get(
+                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
+                function onSuccess(buildDiffInfo) {
+                    comparisonBranchName = buildDiffInfo.comparisonBranchName;
+                    comparisonBuildName = buildDiffInfo.comparisonBuildName;
+                }, function onFailure(error) {
+                    throw error;
+                }
+            );
+
+            ScenarioDiffInfoResource.get(
+                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName, 'scenarioName': scenarioName},
+                function onSuccess(scenarioDiffInfo) {
+                    StepDiffInfosResource.get(
+                        {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName, 'scenarioName': scenarioName},
+                        function onSuccess(stepDiffInfos) {
+                            DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
+                        }
+                    );
+                }, function onFailure(error) {
+                    throw error;
+                }
+            );
+        }
     }
 
     function loadRelatedIssues(){
@@ -204,7 +249,6 @@ function ScenarioController($filter, $routeParams,
             });
     }
 
-    // FIXME this code is duplicated. How can we extract it into a service?
     function getLabelStyle(labelName) {
         var labelConfig = labelConfigurations[labelName];
         if (labelConfig) {
