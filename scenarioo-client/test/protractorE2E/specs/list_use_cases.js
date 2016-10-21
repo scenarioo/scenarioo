@@ -12,13 +12,10 @@ useCase('List use cases')
     .describe(function () {
 
         var homePage = new pages.homePage();
+        var navigationPage = new pages.navigationPage();
 
         beforeEach(function () {
             homePage.initLocalStorage();
-        });
-
-        afterEach(function() {
-            homePage.disableComparison();
         });
 
         scenario('Display and filter usecases')
@@ -57,7 +54,7 @@ useCase('List use cases')
             .it(function () {
                 homePage.goToPage();
                 step('display usecases on homepage');
-                homePage.chooseComparison(COMPARISON_PROJECTSTART);
+                navigationPage.chooseComparison(COMPARISON_PROJECTSTART);
                 homePage.assertPageIsDisplayed();
                 step('To Projectstart comparison selected');
 
@@ -70,5 +67,6 @@ useCase('List use cases')
                 homePage.sortByChanges();
                 homePage.assertFirstUseCase(USE_CASE_WITH_HIGHEST_DIFF);
                 step('Diff Infos sorted descending');
+                navigationPage.disableComparison();
             });
     });

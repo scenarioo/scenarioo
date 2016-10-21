@@ -320,14 +320,12 @@ public class LastSuccessfulScenariosBuildTest {
 	}
 
 	private void givenUseCaseWithASuccessfulAndAFailedScenario() {
-		File importedBuildDirectory = getImportedBuildDirectory(buildImportSummary.getIdentifier());
 		String useCaseName = useCases[0];
-		File useCaseDirectory = new File(importedBuildDirectory, encode(useCaseName));
 		createScenario(SCENARIO_FAILED, Status.FAILED, useCaseName);
 		createScenario(SCENARIO_SUCCESS, Status.SUCCESS, useCaseName);
 	}
 
-	private void createScenario(String scenarioName, final Status status,
+	private void createScenario(final String scenarioName, final Status status,
 			final String useCaseName) {
 		ScenarioDocuWriter writer = new ScenarioDocuWriter(rootDirectory, BUILD_IDENTIFIER.getBranchName(),
 				BUILD_IDENTIFIER.getBuildName());
@@ -444,7 +442,6 @@ public class LastSuccessfulScenariosBuildTest {
 		File importedBuildDirectory = getImportedBuildDirectory(buildImportSummary.getIdentifier());
 		createUseCase(importedBuildDirectory, useCases[0], Status.SUCCESS);
 
-		File useCaseDirectory = getDirectoryOfFirstUseCase();
 		createScenario(scenarios[0], scenarioStatus, useCases[0]);
 	}
 
@@ -452,7 +449,6 @@ public class LastSuccessfulScenariosBuildTest {
 		File importedBuildDirectory = getImportedBuildDirectory(buildImportSummary.getIdentifier());
 		createUseCase(importedBuildDirectory, useCases[0], Status.FAILED);
 
-		File useCaseDirectory = getDirectoryOfFirstUseCase();
 		createScenario(scenarios[0], Status.SUCCESS, useCases[0]);
 	}
 
