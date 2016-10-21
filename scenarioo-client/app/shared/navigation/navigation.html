@@ -92,6 +92,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <li>
             <a href="" ng-click="showApplicationInfoPopup()" class="link"><span class="glyphicon glyphicon-info-sign"></span> Info</a>
         </li>
+        <li ng-show="isSearchEngineRunning" ng-cloak id="sc-global-search-box">
+            <form ng-submit="search()" class="navbar-form navbar-left">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button id="sc-global-search-box-button" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                    <input id="sc-global-search-box-textfield" class="form-control input-sm" ng-model="globalSearch.queryString" type="text">
+                </div>
+            </form>
+        </li>
     </ul>
 </div>
 

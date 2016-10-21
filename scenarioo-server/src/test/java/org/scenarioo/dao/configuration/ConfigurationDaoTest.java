@@ -3,15 +3,12 @@ package org.scenarioo.dao.configuration;
 import static org.junit.Assert.*;
 import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -70,8 +67,8 @@ public class ConfigurationDaoTest {
 		return labelConfig;
 	}
 
-	private void assertComparisonConfiguration(String expectedComparisonName,
-											   ComparisonConfiguration comparisonConfiguration) {
+	private void assertComparisonConfiguration(final String expectedComparisonName,
+											   final ComparisonConfiguration comparisonConfiguration) {
 		assertEquals(expectedComparisonName, comparisonConfiguration.getName());
 		assertEquals(BASE_BRANCH_NAME, comparisonConfiguration.getBaseBranchName());
 		assertEquals(COMPARISON_BRANCH_NAME, comparisonConfiguration.getComparisonBranchName());
@@ -85,7 +82,7 @@ public class ConfigurationDaoTest {
 		return comparisonConfigurations;
 	}
 
-	private ComparisonConfiguration createComparisonConfiguration(String comparisonName) {
+	private ComparisonConfiguration createComparisonConfiguration(final String comparisonName) {
 		return ConfigurationFixture.getComparisonConfiguration(BASE_BRANCH_NAME, COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME, comparisonName);
 	}
 

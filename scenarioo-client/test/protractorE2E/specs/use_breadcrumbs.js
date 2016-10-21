@@ -36,7 +36,7 @@ useCase('Use breadcrumbs')
                 useCasePage.selectScenario(3);
                 step('Selected scenario');
 
-                breadcrumbsPage.assertUseCaseNameInBreadcrumb('breadcrumb_1', 'Find Page');
+                breadcrumbsPage.assertBreadcrumbElementText('breadcrumb_1', 'Find Page');
                 breadcrumbsPage.clickOnBreadcrumb('breadcrumb_1');
                 step('Clicked on use case in breadcrumb');
 

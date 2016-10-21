@@ -151,7 +151,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 		details.addDetail("Long value without spaces",
 				"A_man_who_carries_a_cat_by_the_tail_learns_something_he_can_learn_in_no_other_way._--_Mark_Twain");
 		details.addDetail(
-				"A_very_long_metadata_label_without_any_spaces_just_to_test_whether_this_is_displayed_nicely.",
+				"A_very_long_metadata_label_without_any_spaces_just_to_test_whether_this_is_displayed_nicely",
 				"Cheers!");
 		return details;
 	}
@@ -163,29 +163,29 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 	protected void succeeded(final Description description) {
 		String methodName = description.getMethodName();
 		String className = description.getTestClass().getSimpleName();
-
+		
 		Status status = Status.SUCCESS;
 		if(BuildRunConfiguration.isScenarioFailing(className, methodName)) {
 			status = Status.FAILED;
 			LOGGER.info("Failing scenario " + className + "." + "methodName");
 		}
-
+		
 		writeScenarioDescription(description, status);
 	}
-
+	
 	private void writeScenarioDescription(final Description testMethodDescription, Status status) {
-
+		
 		ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(),
 				MultipleBuildsRule.getCurrentBuildName());
-
+		
 		// Write scenario
 		LOGGER.info("Generating Scenarioo Docu for Scenario " + useCase.getName() + "." + scenario.getName() + " ("
 				+ status.getKeyword() + ") : " + scenario.getDescription());
 		scenario.setStatus(status);
 		docuWriter.saveScenario(useCase, scenario);
-
+		
 		// Wait until asynch writing has finished.
 		docuWriter.flush();
 	}
-
+	
 }

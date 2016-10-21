@@ -16,13 +16,10 @@ useCase('List scenarios')
         var homePage = new pages.homePage();
         var useCasePage = new pages.usecasePage();
         var scenarioPage = new pages.scenarioPage();
+        var navigationPage = new pages.navigationPage();
 
         beforeEach(function () {
             new pages.homePage().initLocalStorage();
-        });
-
-        afterEach(function() {
-            homePage.disableComparison();
         });
 
         scenario('Expand all, collapse all on scenario page')
@@ -50,13 +47,13 @@ useCase('List scenarios')
                 homePage.goToPage();
                 step('display usecases on homepage');
                 homePage.assertPageIsDisplayed();
-                homePage.chooseComparison(COMPARISON_PROJECTSTART);
+                navigationPage.chooseComparison(COMPARISON_PROJECTSTART);
                 step('To Projectstart comparison selected');
                 homePage.selectUseCase(SECOND_USE_CASE);
                 step('Use Case selected');
 
                 useCasePage.assertNumberOfDiffInfos(NUMBER_OF_SCENARIOS);
-
+                navigationPage.disableComparison();
             });
 
         scenario('Sort by Diff-Information')
@@ -65,7 +62,7 @@ useCase('List scenarios')
                 homePage.goToPage();
                 step('display usecases on homepage');
                 homePage.assertPageIsDisplayed();
-                homePage.chooseComparison('To Projectstart');
+                navigationPage.chooseComparison('To Projectstart');
                 step('To Projectstart comparison selected');
                 homePage.selectUseCase(SECOND_USE_CASE);
                 step('Use Case selected');
@@ -77,5 +74,6 @@ useCase('List scenarios')
                 useCasePage.sortByChanges();
                 useCasePage.assertFirstUseCase(SCENARIO_WITH_HIGHEST_DIFF);
                 step('Diff Infos sorted descending');
+                navigationPage.disableComparison();
             });
     });

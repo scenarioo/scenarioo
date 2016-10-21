@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.runner.Description;
 
 /**
  * Only used for testing. You would never use this in a production environment.
@@ -50,7 +49,7 @@ public class MultipleBuildsDummyTestNameGenerator {
 
 	}
 
-	public static String getDifferentUseCaseNameForBuild(String name) {
+	public static String getDifferentUseCaseNameForBuild(final String name) {
 		String configuredUseCaseName = getConfiguredUseCaseName(name, MultipleBuildsRule.getCurrentBuildRun());
 		if (StringUtils.isNotEmpty(configuredUseCaseName)) {
 			return configuredUseCaseName;
@@ -60,7 +59,7 @@ public class MultipleBuildsDummyTestNameGenerator {
 		}
 	}
 
-	private static String getConfiguredUseCaseName(String className, BuildRun build) {
+	private static String getConfiguredUseCaseName(final String className, final BuildRun build) {
 		Map<String, String> testClassToName = BUILD_TO_USECASE_MAP.get(build);
 		if (testClassToName == null) {
 			return null;
@@ -69,7 +68,7 @@ public class MultipleBuildsDummyTestNameGenerator {
 	}
 
 
-	public static String getDifferentScenarioNameForBuild(String name) {
+	public static String getDifferentScenarioNameForBuild(final String name) {
 		String configuredScenarioName = getConfiguredScenarioName(name, MultipleBuildsRule.getCurrentBuildRun());
 		if (StringUtils.isNotEmpty(configuredScenarioName)) {
 			return configuredScenarioName;
@@ -79,7 +78,7 @@ public class MultipleBuildsDummyTestNameGenerator {
 		}
 	}
 
-	private static String getConfiguredScenarioName(String methodName, BuildRun build) {
+	private static String getConfiguredScenarioName(final String methodName, final BuildRun build) {
 		Map<String, String> testMethodToName = BUILD_TO_SCENARIO_MAP.get(build);
 		if (testMethodToName == null) {
 			return null;

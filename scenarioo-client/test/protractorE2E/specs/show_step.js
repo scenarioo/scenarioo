@@ -7,7 +7,7 @@ var COMPARISON_SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/2014-
 var BASE_SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/last%20successful/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
 
 useCase('Show step')
-    .description('Show a single step of a scenario. Includes the screenshot, metadata nad navigation buttons')
+    .description('Show a single step of a scenario. Includes the screenshot, metadata and navigation buttons')
     .describe(function () {
 
         var homePage = new pages.homePage();

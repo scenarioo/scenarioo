@@ -17,13 +17,14 @@
 
 angular.module('scenarioo.controllers').controller('GeneralSettingsController', GeneralSettingsController);
 
-function GeneralSettingsController($scope, BranchesResource, ConfigService) {
+function GeneralSettingsController($scope, BranchesResource, ConfigService, SearchEngineStatusService) {
 
     var vm = this;
     vm.branches = [];
     vm.configuration = {};
     vm.configuredBranch = {};
     vm.successfullyUpdatedConfiguration = false;
+    vm.searchEngineStatus = null;
     vm.resetConfiguration = resetConfiguration;
     vm.updateConfiguration = updateConfiguration;
 
@@ -36,6 +37,7 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService) {
         });
 
         ConfigService.load();
+        loadSearchEngineStatus();
     }
 
     $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
@@ -53,6 +55,12 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService) {
                 vm.configuredBranch = vm.branches[index];
             }
         }
+    }
+
+    function loadSearchEngineStatus () {
+        SearchEngineStatusService.isSearchEngineRunning().then(function(result) {
+            vm.searchEngineStatus = result;
+        });
     }
 
     function resetConfiguration() {

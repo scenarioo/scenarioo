@@ -16,6 +16,7 @@ useCase('Use branch aliases')
         var usecasePage = new pages.usecasePage();
         var scenarioPage = new pages.scenarioPage();
         var stepPage = new pages.stepPage();
+        var navigationPage = new pages.navigationPage();
 
         beforeEach(function () {
             new pages.homePage().initLocalStorage();
@@ -30,7 +31,7 @@ useCase('Use branch aliases')
                 branchAliasesPage.save();
                 step('Create new branch alias');
 
-                branchAliasesPage.chooseBranch('Latest dev');
+                navigationPage.chooseBranch('Latest dev');
                 step('choose branch alias');
 
                 homePage.goToPage();
@@ -44,7 +45,7 @@ useCase('Use branch aliases')
                 branchAliasesPage.goToPage();
                 branchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
                 branchAliasesPage.save();
-                branchAliasesPage.chooseBranch(BRANCH_WIKI);
+                navigationPage.chooseBranch(BRANCH_WIKI);
             });
 
     });
