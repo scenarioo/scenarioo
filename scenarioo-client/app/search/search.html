@@ -34,6 +34,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 </div>
 
 <div class="alert alert-danger" ng-show="vm.showSearchFailed">
+    <p>
     An error occurred when executing the search query.
     <span ng-show="vm.errorMessage"><br/>{{vm.errorMessage}}</span>
+    </p>
+    <p>
+    You can try to reimport the build for calculation of the search index and check that the Elastic Search Engine is configured correctly, running and reachable (see in "General Settings" under "Manage").
+    </p>
 </div>
