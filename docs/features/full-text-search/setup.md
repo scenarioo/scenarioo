@@ -35,3 +35,13 @@ Restart Scenarioo after making manual changes to the config file.
 
 Go to Manage -> General Settings -> Full Text Search in order to 
 check the Elasticsearch configuration and status.
+
+## Calculate Search Indexes 
+
+For making search available for a build you have to let scenarioo calculate its search index. This is done automatically, when a new build is published & imported to scenarioo.
+
+But for making the search index also available for your old builds, that do not have a search index yet, you have to do following manual steps:
+1. Go to: `Manage` / Tab `Builds`
+2. Select `Reimport` (icon at the right end of a build row) for reimporting and calculating the index for a build
+3. Wait until the import has completed
+
