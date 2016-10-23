@@ -288,7 +288,10 @@ angular.module('scenarioo.services').service('TestData', function () {
 
         VERSION: {
             version: '1.2.3',
-            buildDate: '1/7/2015, 05:00'
+            buildDate: '1/7/2015, 05:00',
+            apiVersion: '1.2.1',
+            aggregatedDataFormatVersion: '1.2.3',
+            releaseBranch: 'release-1.2'
         },
 
         TABS: [

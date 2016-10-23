@@ -27,6 +27,8 @@ import javax.servlet.ServletContextListener;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.version.ApplicationVersionHolder;
+import org.scenarioo.dao.context.ContextPathHolder;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -98,11 +100,11 @@ public class ScenariooWebApplication implements ServletContextListener {
 
 	private void initializeApplicationVersion(final ServletContext servletContext) {
 		final Properties properties = new Properties();
-		final InputStream inputStream = servletContext.getResourceAsStream("/WEB-INF/classes/version.properties");
 
+		final InputStream inputStream = servletContext.getResourceAsStream("/WEB-INF/classes/version.properties");
 		if (inputStream == null) {
 			LOGGER.warn("  version.properties not found, no version information available");
-			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown", "unknown", "unknown");
+			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown", "unknown", "unknown", "develop");
 			return;
 		}
 
@@ -110,8 +112,8 @@ public class ScenariooWebApplication implements ServletContextListener {
 			properties.load(inputStream);
 			ApplicationVersionHolder.INSTANCE.initializeFromProperties(properties);
 		} catch (final Exception e) {
-			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown", "unknown", "unknown");
-			e.printStackTrace();
+			ApplicationVersionHolder.INSTANCE.initialize("unknown", "unknown", "unknown", "unknown", "develop");
+			LOGGER.warn("  version.properties not found, no version information available", e);
 		}
 
 		LOGGER.info("  Version: " + ApplicationVersionHolder.INSTANCE.getApplicationVersion().getVersion());
