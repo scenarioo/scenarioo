@@ -2,7 +2,7 @@
 
 ## ESLint
 
-.js code has to conform to the checked in `.eslintrc` files. Configure your environment accordingly, see here for Webstorm: [WebStorm-IDE-Settings](WebStorm-IDE-Settings)
+.js code has to conform to the checked in `.eslintrc` files. Configure your environment accordingly, see here for Webstorm: [WebStorm-IDE-Settings](WebStorm-IDE-Settings.md)
 
 ## Don't write 'use strict'; and don't wrap JS code with IIFEs
 
@@ -94,7 +94,7 @@ TODO: Is this still up to date?
   * Examples: `sc-tree`, `sc-node-label`
 
 # Java
-* Formatting and code style must conform to the Eclipse settings defined here: https://github.com/scenarioo/scenarioo/wiki/Eclipse-IDE-Settings
+* Formatting and code style must conform to the Eclipse settings defined here: [Eclipse IDE Seetings](Eclipse-IDE-Settings.md)
 * Follow the clean code reccommendations from the "Clean Code" book
 * Order in a Java class:
   1. Fields
@@ -107,7 +107,7 @@ TODO: Is this still up to date?
 * Do not add the `serialVersionUID` to classes.
 
 # C&#35;
-* Formatting and code style must be conform with settings defined here:
+* Formatting and code style must conform with settings defined here:
 https://github.com/scenarioo/scenarioo-cs/blob/master/scenarioo-cs.sln.DotSettings
 
 # Licence Headers

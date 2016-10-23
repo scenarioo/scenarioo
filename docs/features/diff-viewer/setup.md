@@ -4,13 +4,13 @@ The Diff Viewer feature makes it possible to compare two different builds agains
 In three easy step, you are ready to compare your own builds:
 
 
-1. [Install  GraphicsMagick] (#1-install--graphicsmagick)
+1. [Install  GraphicsMagick](#1-install-graphicsmagick)
 2. [Add a comparison configuration](#2-add-a-comparison-configuration)
 3. [Start comparison](#3-start-comparison)
 4. [Delete a comparison](#4-delete-a-comparison)
 
-After that you are ready to use the Diff Viewer feature. Check out the [Diff Viewer End User Guide](https://github.com/magitnu/scenarioo/wiki/Diff-Viewer-End-User-Guide) for further details.
-## 1. Install  [GraphicsMagick] (http://www.graphicsmagick.org/) 
+After that you are ready to use the Diff Viewer feature. Check out the [Diff Viewer User Guide](user-guide.md) for further details.
+## 1. Install [GraphicsMagick](http://www.graphicsmagick.org/) 
 The [GraphicsMagick Image Processing System](http://www.graphicsmagick.org/) calls itself the swiss army knife of image processing. It is used by Diff Viewer feature to perform screenshot comparisons.
 
 ### Installation on Linux

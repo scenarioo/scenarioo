@@ -2,7 +2,7 @@ This page describes how to build, test, run the Scenarioo Viewer Webapp locally 
 
 # Prerequisites
 
-You need a correctly setup Development environment for working on sceanrioo as described here: [Development environment](Development Environment)
+You need a correctly setup Development environment for working on sceanrioo as described here: [Development Environment](Development-Environment.md)
 
 # Build, Test and Run the Scenarioo Viewer Web App
 
@@ -64,10 +64,10 @@ This process describes how you clean update all your sources and build everythin
       `gulp test`
       or use following command to run them everytime a file changes:
       `gulp test-watch`
-      for running javascript tests from inside WebStorm see also [Webstorm](./Development-Environment#webstorm)
+      for running javascript tests from inside WebStorm see also [Webstorm](./Development-Environment.md#webstorm)
       or use
       `npm test` which will call gulp under the hood
-  * run all E2E tests (=web tests): see [E2E Testing](e2eTesting)
+  * run all E2E tests (=web tests): see [E2E Testing](e2eTesting.md)
 
 **Well done, now you're ready to code!**
 

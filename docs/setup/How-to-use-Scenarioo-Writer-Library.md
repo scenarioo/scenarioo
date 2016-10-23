@@ -1,6 +1,6 @@
 # Existing Writer Libraries
 
-Before you start using a Scenarioo Writer Library, it is a good idea to look at the [core concepts of Scenarioo](Core-Concepts) first to understand the basics of the documentation that you want to generate by using such a writer library.
+Before you start using a Scenarioo Writer Library, it is a good idea to look at the [Core Concepts of Scenarioo](../features/README.md) first to understand the basics of the documentation that you want to generate by using such a writer library.
 
 If you are using one of the following languages / frameworks, then you are lucky. You can just start writing documentation for Scenarioo using one of these libraries:
 
@@ -10,4 +10,4 @@ If you are using one of the following languages / frameworks, then you are lucky
 
 # Other Languages / Frameworks
 
-If you use any other language / framework, there's probably no Scenarioo Writer library out there yet and you have to start creating a new one, which is not too difficult. Please read the [Scenarioo-Writer-Documentation-Format](Scenarioo-Writer-Documentation-Format) for this purpose.
+If you use any other language / framework, there's probably no Scenarioo Writer library out there yet and you have to start creating a new one, which is not too difficult. Please read the [Scenarioo-Writer-Documentation-Format](../features/Scenarioo-Writer-Documentation-Format.md) for this purpose.

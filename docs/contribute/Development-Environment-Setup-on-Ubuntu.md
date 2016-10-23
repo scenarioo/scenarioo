@@ -88,4 +88,4 @@ If you want to use the same tools that the Scenarioo core developers use, instal
 
 If this worked so far without ugly error messages, it looks all fine and you could work with your development environment. 
 
-How to build, test, start, configure and browse the Scenarioo Viewer Web app locally, please refer to the [Developer Guide](Developer Guide)
+How to build, test, start, configure and browse the Scenarioo Viewer Web app locally, please refer to the [Developer Guide](Developer-Guide.md)
