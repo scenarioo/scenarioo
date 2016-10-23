@@ -25,9 +25,9 @@ These guidelines may also contain some helpful practical hints.
     * Also place a short comment when you finished working on something for an issue or you are stuck etc., such that other know they could continue your work (in case the issue is not yet finished).
     * Assign an issue to "done", when you think that an issue is finished. If possible let it review by a colleague (ask them to review by putting a comment on the issue and assign it, the reviewer will then close the issue after the successful review).
 
-2. **Coding Guidelines**: Your code has to fulfill the Scenarioo Coding Guidelines before pushing to the repository: See [Coding-Guidelines](Coding-Guidelines)!
+2. **Coding Guidelines**: Your code has to fulfill the Scenarioo Coding Guidelines before pushing to the repository: See [Coding-Guidelines](Coding-Guidelines.md)!
 
-3. **Passing Unit Tests**: Do not push code to the repository before all unit tests and all end to end tests are green: See [Commit rules](Commit rules).
+3. **Passing Unit Tests**: Do not push code to the repository before all unit tests and all end to end tests are green: See [Commit rules](Commit-rules.md).
 
 4. **Commit comments:**
    * Place the number of the issue in your commit comments (like this: #nn) followed by the issue title and a short description what you exactly did. This helps to keep track and document what has been done for an issue. See following example for a proper commit comment for an example issue with number 88 and title "improve build import process":  

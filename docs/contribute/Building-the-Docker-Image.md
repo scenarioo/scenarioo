@@ -13,10 +13,10 @@ Prerequisite: You need to have docker installed on your machine. On Ubuntu this 
 where `x.y.z` stands for the Scenarioo version.
 build is the docker command and the -t options allows to tag/name the created image (repository/artifact:tag). For more options view the docs.
 6. Use `sudo docker images` to verify the existence of the created image
-7. Now your are ready to run (see ["Run Scenarioo"](Scenarioo-Viewer-Docker-Image)) or push (see "Push image to Dockerhub") your image.
+7. Now your are ready to run (see ["Run Scenarioo Docker Image"](../setup/Scenarioo-Viewer-Docker-Image#run-scenarioo-docker-image)) or push (see [Push image to Dockerhub](#Push-image-to-Dockerhub)) your image.
 
 ## Push image to Dockerhub
-To make an image public available it is necessary to push it to the Dockerhub. As soon as an image is publicly available on Dockerhub it can be run from everywhere without even pulling it in advance. Just run it as described (see ["Run Scenarioo"](Scenarioo-Viewer-Docker-Image)).  
+To make an image public available it is necessary to push it to the Dockerhub. As soon as an image is publicly available on Dockerhub it can be run from everywhere without even pulling it in advance. Just run it as described in ["Run Scenarioo Docker Image"](../setup/Scenarioo-Viewer-Docker-Image#run-scenarioo-docker-image).  
   
 1. Open a bash and check that the docker image is listed on the working machine:  
 `sudo docker images`

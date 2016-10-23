@@ -10,7 +10,7 @@ Before you push your commits you always have to perform the following steps:
    * Java unit tests
    * JavaScript unit tests (`gulp test`)
    * ESLint checks (`gulp lint`)
-   * Protractor end to end tests (see [e2e Testing](e2eTesting))
+   * Protractor end to end tests (see [e2e Testing](e2eTesting.md))
 
 It is also highly recommended to run this tests regularly and keep them green. Letting tests fails for longer time is not good and will lead to integration problems later.
 

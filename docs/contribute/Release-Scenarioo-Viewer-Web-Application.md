@@ -1,4 +1,6 @@
-We use git flow (see [branching strategy](Branching-strategy)). Therefore the procedure is:
+# Scenarioo Release Procedure
+
+We use git flow (see [branching strategy](Branching-strategy.md)). Therefore the procedure is:
 
 ### Increase internal format version
 
@@ -29,7 +31,7 @@ Set `org.scenarioo.business.aggregator.ServerVersion.DERIVED_FILE_FORMAT_VERSION
 
 * Create a new Docker image for this release according to [this manual](Building-the-Docker-Image)
 * Do not forget to update the usage instructions for the Docker Image:     
-    https://github.com/scenarioo/scenarioo/wiki/Scenarioo-Viewer-Docker-Image 
+    [Scenarioo Viewer Doker Image](../setup/Scenarioo-Viewer-Docker-Image.md) 
     (**!! change the version number in the example!**)
 
 ### Finish release notes and create links

@@ -1,15 +1,19 @@
-# Use as Docker Image
+# Setup of Scenarioo Viewer Web App
 
-Instead of installing the Scenarioo Viewer web app by yourself (as described below) you can simply run scenarioo as a docker image: See [Scenarioo Viewer Docker Image](Scenarioo-Viewer-Docker-Image) for instructions.
+## Use as Docker Image
 
-# Download as WAR
+Instead of installing the Scenarioo Viewer web app by yourself (as described below) you can simply run scenarioo as a docker image: See [Scenarioo Viewer Docker Image](Scenarioo-Viewer-Docker-Image.md) for instructions.
+
+## Download as WAR
 
 The latest stable Scenarioo web application WAR file can be downloaded from the release section:
 [Scenarioo Webapplication Releases](https://github.com/scenarioo/scenarioo/releases)
 
 Scenarioo requires Java 6 or higher.
 
-# Installation and Setup
+Further Release Candidate Versions are available through [Downloads & Links](downloads-and-links.md), if you want to to test newer versions not yet officially released.
+
+## Installation and Setup
 
 1. Install a tomcat webserver or any other favourite Java webserver (currently we recommend tomcat7, all other servers are currently untested to be compatible with scenarioo).
 

@@ -11,9 +11,9 @@ Contact the core development team if you want to use the same virtual machine to
 
 As this is an open source project, we would like to encourage contributions from any willing developer. Therefore this chapter tells you exactly what you need to get started with working on Scenarioo.
 
-> More specific setup instructions for Ubuntu see [Development Environment Setup on Ubuntu](Development Environment Setup on Ubuntu).
+> More specific setup instructions for Ubuntu see [Development Environment Setup on Ubuntu](Development-Environment-Setup-on-Ubuntu.md).
 
-> Develop using the scenarioo virtual machine [see here](Development-Environment-with-VM)
+> Develop using the scenarioo virtual machine [see here](Development-Environment-with-VM.md)
 
 ## General
 
@@ -37,7 +37,7 @@ _Use the latest versions of nodejs / npm / bower and you should be fine. If you 
 
 You can use your favourite Web IDE. It's best to use one that can check your JavaScript code against our `.eslintrc` file. We use [WebStorm](http://www.jetbrains.com/webstorm/).
 
-> See also [WebStorm IDE Settings](WebStorm-IDE-Settings).
+> See also [WebStorm IDE Settings](WebStorm-IDE-Settings.md).
 
 ## Server Development
 
@@ -46,11 +46,11 @@ For the server side, you need to install these tools:
 * **JDK 7**
 * **[Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/)** (Kepler) with these additional Plugins:
   * **Gradle IDE** (only pick this one!) from update site `http://dist.springsource.com/release/TOOLS/gradle`. Import the scenarioo root folder and all sub-projects into Eclipse using "Import Gradle Project".
-  * All developers have to use same formatting and other java settings in eclipse, as explained here: https://github.com/scenarioo/scenarioo/wiki/Eclipse-IDE-Settings
+  * All developers have to use same formatting and other java settings in eclipse, as explained here: [Eclipse IDE Settings](Eclipse-IDE-Settings.md)
 * **[Tomcat 7](http://tomcat.apache.org)** (running on port 8080)
   * Add the server to the _Servers_ view in Eclipse and publish the _scenarioo-server_ under the path _/scenarioo_ (should be correct by default).
  
-> See [Eclipse IDE Settings](Eclipse-IDE-Settings)
+> See [Eclipse IDE Settings](Eclipse-IDE-Settings.md)
 
 # GIT Usage, Settings and Tools
 
@@ -64,7 +64,7 @@ https://github.com/scenarioo/scenarioo-java
 
 However the best way to get used to work with git is to use the command line.
 
-Please refer to [branching strategy](Branching-strategy) about how we use branches and create releases.
+Please refer to [branching strategy](Branching-strategy.md) about how we use branches and create releases.
 
 ## Important GIT commands
 Please refer to the very good (and free) book at http://git-scm.com/book to get started with git. 
@@ -82,5 +82,5 @@ After execution of the appropriate VM-Updatescript there are three graphical git
 
 # Developer Guide
 
-How to build, test, start, configure and browse the Scenarioo Viewer Web app locally, please refer to the [Developer Guide](Developer Guide)
+How to build, test, start, configure and browse the Scenarioo Viewer Web app locally, please refer to the [Developer Guide](Developer-Guide.md)
 

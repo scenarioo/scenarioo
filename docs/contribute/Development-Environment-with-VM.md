@@ -39,7 +39,7 @@ if this file is missing (check it!) you first have to decide on your own, which 
 
 2. From now on you are prepared to simply call scenarioo/helper-scripts/updatevm.sh after each repository update to bring you VM to the appropriate updated/changed state to happily continue developing.
 
-Please make sure, that if you make an important change in the development environment to document it on this WIKI page and to provide an appropriate update script to the other developers by checking it in under scenarioo/vm-update-scripts. 
+Please make sure, that if you make an important change in the development environment to document it on this Markdown page and to provide an appropriate update script to the other developers by checking it in under scenarioo/vm-update-scripts. 
 
 ### Rules / Guidelines / Checklist for VM Update Scripts
 
