@@ -1,4 +1,5 @@
-#Diff Viewer End User Guide
+#Diff Viewer User Guide
+
 This guide describes how to use the Scenarioo Diff Viewer feature.
 The Diff Viewer feature makes it possible to compare two different builds against each other.
 Try out the following possibilities in your own environment or on our [Demo Site](http://demo.scenarioo.org/scenarioo-fork-diffviewer/)
@@ -18,14 +19,14 @@ If all the [preconditions] (#Preconditions) are met, you can start the Diff View
 You can change the selected comparison at any time, on every layer. It does not matter if you are on the page view or on the use case overview. The Diff Viewer will show the difference between the two builds immediately. The selected comparison will be stored in your browser. Therefore you can reload the page without loosing your selected comparison.
 
 The following screenshot shows the comparison menu on our [Demo Site](http://demo.scenarioo.org/scenarioo-fork-diffviewer/)
-![SelectComparison](images/EndUserGuide/SelectComparison.png)
+![SelectComparison](images/SelectComparison.png)
 
 ##Interpret changes
 Diff Information is integrated into existing pages. You will see the Diff Information right next to each associated item. The information is displayed in a progress-bar like diff icon.
 
 The following screenshot shows a diff icon example:
 
-![DiffIcon](images/EndUserGuide/DiffIcon.png)
+![DiffIcon](images/DiffIcon.png)
 
 **Color legend**
 * **green:** Number of new elements

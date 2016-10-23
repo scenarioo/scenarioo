@@ -1,5 +1,6 @@
-# Scenarioo Full Text Search Test Cases
+# Scenarioo Full Text Search - Specification by Example
 
+This test cases specify how the full text search is supposed to behave in different situations.
 
 ## Configuration of the search feature
 

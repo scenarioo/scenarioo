@@ -1,9 +1,19 @@
-# Setup Scenarioo for your project
+# Setup of the Scenarioo Viewer web application
 
-Place everything that helps setting up Scenarioo in a project here.
+How to setup the web application for browsing your generated user scenario documentations ...
 
-* How to use the APIs (link to API documentation where appropriate,
-  link to examples)  
-* How to configure scenarioo (config.xml, the "Manage" tab, etc.)
-* Typical issues and their solutions (e.g. what to do when I run out
-  of space for storing the documentation)
+[Scenarioo Viewer Web Application Setup](Scenarioo Viewer Web Application Setup)
+
+## Configuration
+
+Advanced configuration of the web application: [Configuration](Configuration)
+
+## Publish documentation data
+
+[Publish Documentation Data](Publish Documentation Data)
+
+# Usage of Scenarioo Writer libraries 
+
+How to use the Scenarioo writer libraries for generating user scenario documentations ...
+
+[How to use Scenarioo Writer](How-to-use-Scenarioo-Writer-Library)
