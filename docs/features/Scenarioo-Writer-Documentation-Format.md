@@ -10,7 +10,7 @@ The reference implementation is the Java version of the Scenarioo Writer Library
 
 ## File structure
 
-Scenarioo documentation data is stored in a certain structure of folders and files. The image below illustrates this. The folder structure reflects the domain model (see [Core Concepts](Core-Concepts)) of Scenarioo.
+Scenarioo documentation data is stored in a certain structure of folders and files. The image below illustrates this. The folder structure reflects the domain model (see [Core Concepts](README.md)) of Scenarioo.
 
 [![](https://cloud.githubusercontent.com/assets/5416988/3470916/a2e181bc-02be-11e4-99af-aaa42c222128.jpg)](https://cloud.githubusercontent.com/assets/5416988/3470838/f6fab378-02bd-11e4-8405-06d4d89c90a3.jpg)
 
