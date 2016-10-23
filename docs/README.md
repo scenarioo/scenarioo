@@ -1,12 +1,8 @@
 # Scenarioo Documentation
 
-All documentation of scenarioo is stored and versioned together with our software as Markdown documentation. The documentation is mainly structured into following subfolders:
+The documentation of scenarioo is stored and versioned together with our software as Markdown documentation. 
 
-* `setup`: How to setup scenarioo for a project
-* `features`: Overview of the core concepts and architecture and detailed informations for specific features of Scenarioo.
-* `contribute`: How developers can contribute to the Scenarioo Open Source Project
-
-The following sections gives a basic introduction to scenarioo and where to find more information for most important aspects and scenarios.
+The following sections gives a basic introduction to scenarioo and where to find more information for most important aspects in our documentation.
 
 ## What can Scenarioo do for me?
 
@@ -49,8 +45,16 @@ If you want to contribute to Scenarioo please carefully read and follow the guid
 
 [Information for Scenarioo Contributors](contribute/README.md)
 
-## Information for Scenarioo Writer developers
+## Information for Scenarioo Writer Developers
 
 The Scenarioo Writer library is a core part of Scenarioo. The Java version of this library is the reference implementation. Furthermore we maintain a library for C# and JavaScript. If you want to contribute to one of this libraries or want to start a new Scenarioo Writer library in a different language, you will find most important required information on the following page.
 
 [Scenarioo Writer Documentation Format](features/Scenarioo-Writer-Documentation-Format.md)
+
+## Scenarioo Documentation
+
+You can find further information in this documentation folder, which is structured into following major sections:
+
+* [Setup](setup/README.md): How to setup scenarioo for a project
+* [Features](features/README.md): Overview of the core concepts and architecture and detailed informations for specific features of Scenarioo.
+* [Contribute](contribute/README.md): How developers can contribute to the Scenarioo Open Source Project
