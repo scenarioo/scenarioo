@@ -27,6 +27,7 @@ import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.builds.BuildLink;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.dao.search.FullTextSearch;
+import org.scenarioo.dao.version.ApplicationVersionHolder;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.branches.BuildStatistics;
@@ -50,7 +51,7 @@ import org.scenarioo.rest.base.BuildIdentifier;
  * The aggregator reads the input docu files of a build and generates the aggregated docu files with additional
  * precalculated data (like indexes etc.).
  *
- * Make sure to adjust the value of {@link ScenarioDocuAggregator#CURRENT_FILE_FORMAT_VERSION} when the format of
+ * Make sure to adjust the value of `scenariooAggregatedDataFormatVersion` in gradle.build when the format of
  * generated data is extended or changed.
  *
  * TODO #194: Make build import more friendly:<br>
@@ -67,6 +68,8 @@ public class ScenarioDocuAggregator {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
+
+	private final String internalFormatVersion = ApplicationVersionHolder.INSTANCE.getApplicationVersion().getAggregatedDataFormatVersion();
 
 	/**
 	 * Import summary of the build currently being aggregated. Contains all info
@@ -100,7 +103,7 @@ public class ScenarioDocuAggregator {
 
 	public boolean isAggregatedDataForBuildAlreadyAvailableAndCurrentVersion() {
 		String version = dao.loadVersion(getBuildIdentifier());
-		return !StringUtils.isBlank(version) && version.equals(ServerVersion.DERIVED_FILE_FORMAT_VERSION);
+		return !StringUtils.isBlank(version) && version.equals(internalFormatVersion);
 	}
 
 	public void removeAggregatedDataForBuild() {
@@ -137,7 +140,7 @@ public class ScenarioDocuAggregator {
 
 		dao.saveLongObjectNamesIndex(getBuildIdentifier(), longObjectNamesResolver);
 
-		dao.saveVersion(getBuildIdentifier(), ServerVersion.DERIVED_FILE_FORMAT_VERSION);
+		dao.saveVersion(getBuildIdentifier(), internalFormatVersion);
 
 		buildSummary.setBuildStatistics(buildStatistics);
 	}
@@ -274,7 +277,7 @@ public class ScenarioDocuAggregator {
 		buildSummary.setBuildDescription(buildLink.getBuild());
 		String version = dao.loadVersion(buildIdentifier);
 		boolean aggregated = !StringUtils.isBlank(version);
-		boolean outdated = aggregated && !version.equals(ServerVersion.DERIVED_FILE_FORMAT_VERSION);
+		boolean outdated = aggregated && !version.equals(internalFormatVersion);
 		boolean error = buildSummary.getStatus().isFailed();
 		if (error) {
 			buildSummary.setStatus(BuildImportStatus.FAILED);
