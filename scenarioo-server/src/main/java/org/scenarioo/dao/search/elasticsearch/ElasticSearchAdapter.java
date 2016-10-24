@@ -39,7 +39,7 @@ import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
-import org.scenarioo.rest.application.ContextPathHolder;
+import org.scenarioo.dao.context.ContextPathHolder;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 import com.carrotsearch.hppc.cursors.ObjectCursor;

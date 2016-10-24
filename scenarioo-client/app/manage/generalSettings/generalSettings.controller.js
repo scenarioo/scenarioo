@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('GeneralSettingsController', GeneralSettingsController);
 
-function GeneralSettingsController($scope, BranchesResource, ConfigService, SearchEngineStatusService) {
+function GeneralSettingsController($scope, BranchesResource, ConfigService, VersionResource, SearchEngineStatusService) {
 
     var vm = this;
     vm.branches = [];
@@ -31,10 +31,17 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService, Sear
     activate();
 
     function activate() {
+
         BranchesResource.query({}, function (branches) {
             vm.branches = branches;
             calculateConfiguredBranch();
         });
+
+        VersionResource.get(
+            function onSuccess(result) {
+                vm.version = result;
+            }
+        );
 
         ConfigService.load();
         loadSearchEngineStatus();

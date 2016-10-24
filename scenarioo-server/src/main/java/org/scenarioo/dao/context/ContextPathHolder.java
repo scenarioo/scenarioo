@@ -1,4 +1,4 @@
-package org.scenarioo.rest.application;
+package org.scenarioo.dao.context;
 
 public enum ContextPathHolder {
 	INSTANCE;

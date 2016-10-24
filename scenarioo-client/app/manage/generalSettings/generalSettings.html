@@ -58,9 +58,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <div id="sc-search-not-configured-message" class="row sc-space-bottom" ng-show="vm.searchEngineStatus && !vm.searchEngineStatus.endpointConfigured" ng-cloak>
             <div class="col-lg-12">
-                Full text search is disabled. In order to activate it, go to the <code>config.xml</code> file and add the endpoint
-                of a running Elasticsearch instance
-                (e.g. <code>&lt;elasticSearchEndpoint&gt;localhost:9300&lt;/elasticSearchEndpoint&gt;</code>). Then restart Scenarioo.
+                Full text search is disabled. <br/>
+                See <a href="https://github.com/scenarioo/scenarioo/blob/{{vm.version.releaseBranch}}/docs/features/full-text-search/setup.md" target="_blank">Setup Instructions for Full Text Search</a> on how to configure and setup Full text search for Scenarioo.
             </div>
         </div>
 
@@ -77,11 +76,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div class="col-lg-3">Elasticsearch Status
                 &nbsp;<span class="glyphicon glyphicon-info-sign" uib-tooltip="Tells you whether Scenarioo can reach the above search engine endpoint. If it can't, the full text search feature is automatically disabled."></span>
             </div>
-            <div id="sc-search-endpoint-is-not-reachable" class="col-lg-9" ng-show="!vm.searchEngineStatus.running" ng-cloak>
+            <div id="sc-search-endpoint-is-not-reachable" class="col-lg-9" ng-show="!vm.searchEngineStatus.running">
                 Not running / reachable <span class="glyphicon glyphicon-exclamation-sign"></span>
             </div>
-            <div id="sc-search-endpoint-is-reachable" class="col-lg-9" ng-show="vm.searchEngineStatus.running" ng-cloak>
+            <div id="sc-search-endpoint-is-reachable" class="col-lg-9" ng-show="vm.searchEngineStatus.running">
                 <span>Running and reachable</span>
+            </div>
+        </div>
+
+        <div class="row sc-space-bottom" ng-show="vm.searchEngineStatus.endpointConfigured" ng-cloak>
+            <div class="col-lg-12">
+                See <a href="https://github.com/scenarioo/scenarioo/blob/{{vm.version.releaseBranch}}/docs/features/full-text-search/setup.md" target="_blank">Setup Instructions for Full Text Search</a> for more information.
             </div>
         </div>
 
