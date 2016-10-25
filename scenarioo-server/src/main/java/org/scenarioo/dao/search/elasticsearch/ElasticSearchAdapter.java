@@ -31,7 +31,7 @@ import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.scenarioo.dao.search.SearchAdapter;
-import org.scenarioo.dao.search.dao.SearchDao;
+import org.scenarioo.dao.search.dao.SearchResultsDao;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Scenario;
@@ -105,7 +105,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 	}
 
     @Override
-    public List<SearchDao> searchData(final BuildIdentifier buildIdentifier, final String q) {
+    public SearchResultsDao searchData(final BuildIdentifier buildIdentifier, final String q) {
         final String indexName = getIndexName(buildIdentifier);
 
         ElasticSearchSearcher elasticSearchSearcher = new ElasticSearchSearcher(indexName);

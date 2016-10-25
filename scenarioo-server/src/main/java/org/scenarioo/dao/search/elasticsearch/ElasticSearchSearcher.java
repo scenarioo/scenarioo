@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -39,10 +38,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.IgnoreUseCaseSetStatusMixIn;
-import org.scenarioo.dao.search.dao.ScenarioSearchDao;
-import org.scenarioo.dao.search.dao.SearchDao;
-import org.scenarioo.dao.search.dao.StepSearchDao;
-import org.scenarioo.dao.search.dao.UseCaseSearchDao;
+import org.scenarioo.dao.search.dao.*;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.UseCase;
@@ -74,12 +70,12 @@ class ElasticSearchSearcher {
         }
     }
 
-    List<SearchDao> search(final String q) {
+    SearchResultsDao search(final String q) {
         SearchResponse searchResponse = executeSearch(q);
 
         if (searchResponse.getHits().getHits().length == 0) {
             LOGGER.debug("No results found for " + q);
-            return Collections.emptyList();
+            return SearchResultsDao.noHits();
         }
 
         SearchHit[] hits = searchResponse.getHits().getHits();
@@ -105,7 +101,7 @@ class ElasticSearchSearcher {
             }
         }
 
-        return results;
+        return new SearchResultsDao(results, hits.length, searchResponse.getHits().getTotalHits());
     }
 
     private SearchResponse executeSearch(final String q) {
