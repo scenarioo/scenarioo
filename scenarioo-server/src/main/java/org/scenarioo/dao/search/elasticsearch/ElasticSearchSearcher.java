@@ -33,6 +33,8 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.unit.Fuzziness;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.scenarioo.dao.search.FullTextSearch;
@@ -109,8 +111,10 @@ class ElasticSearchSearcher {
         LOGGER.debug("Search in index " + indexName + " for " + q);
         SearchRequestBuilder setQuery = client.prepareSearch()
                 .setIndices(indexName)
-                .setSearchType(SearchType.QUERY_AND_FETCH)
-                .setQuery(QueryBuilders.queryStringQuery("*" + q + "*"));
+                .setSearchType(SearchType.QUERY_THEN_FETCH)
+				.setQuery(QueryBuilders.matchQuery("_all", q)
+					.fuzziness(Fuzziness.AUTO)
+					.operator(MatchQueryBuilder.Operator.AND));
 
         return setQuery.execute().actionGet();
     }
