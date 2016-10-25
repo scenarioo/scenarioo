@@ -41,7 +41,9 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
                 vm.showSearchFailed = true;
                 vm.errorMessage = response.errorMessage;
             } else {
-                vm.results.resultSet = response.results;
+                vm.results.resultSet = response.searchTree.results;
+                vm.hits = response.searchTree.hits;
+                vm.totalHits = response.searchTree.totalHits;
             }
         },
         function onError(error) {

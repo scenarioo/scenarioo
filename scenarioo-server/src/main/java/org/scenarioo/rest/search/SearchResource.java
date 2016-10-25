@@ -25,10 +25,9 @@ import javax.ws.rs.Produces;
 import org.elasticsearch.index.IndexNotFoundException;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.search.FullTextSearch;
+import org.scenarioo.dao.search.SearchTree;
 import org.scenarioo.dao.search.SearchEngineNotRunningException;
 import org.scenarioo.dao.search.SearchFailedException;
-import org.scenarioo.model.docu.entities.generic.ObjectReference;
-import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 @Path("/rest")
@@ -45,7 +44,7 @@ public class SearchResource {
 
 		FullTextSearch search = new FullTextSearch();
 		try {
-			ObjectTreeNode<ObjectReference> results = search.search(q, buildIdentifier).buildObjectTree();
+			SearchTree results = search.search(q, buildIdentifier);
 			return new SearchResponse(results);
 		} catch (IndexNotFoundException e) {
 			return new SearchResponse("The search index was not found for the selected build.");

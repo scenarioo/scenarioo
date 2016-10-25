@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
-import org.scenarioo.dao.search.dao.SearchDao;
+import org.scenarioo.dao.search.dao.SearchResultsDao;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
@@ -44,7 +44,8 @@ public class FullTextSearchTest {
     public void searchWithNoResults() {
         givenRunningEngineWithSearchResults();
         SearchTree result = fullTextSearch.search("IDONOTEXIST", new BuildIdentifier("testBranch", "testBuild"));
-		assertEquals(0, result.buildObjectTree().getChildren().size());
+		assertEquals(0, result.getResults().getChildren().size());
+		assertEquals(0, result.getTotalHits());
     }
 
     private void givenNoRunningEngine() {
@@ -73,10 +74,10 @@ public class FullTextSearchTest {
         }
 
         @Override
-        public List<SearchDao> searchData(final BuildIdentifier buildIdentifier, final String q) {
+        public SearchResultsDao searchData(final BuildIdentifier buildIdentifier, final String q) {
 			assertTrue("Should not be reachable", isRunning);
 
-            return Collections.emptyList();
+            return SearchResultsDao.noHits();
         }
 
         @Override
