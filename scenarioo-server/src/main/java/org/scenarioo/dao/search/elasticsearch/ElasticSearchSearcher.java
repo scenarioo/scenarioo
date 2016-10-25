@@ -49,6 +49,7 @@ import org.scenarioo.model.docu.entities.UseCase;
 
 class ElasticSearchSearcher {
 	private final static Logger LOGGER = Logger.getLogger(ElasticSearchSearcher.class);
+	private final static int MAX_SEARCH_RESULTS = 200;
 
 	private String indexName;
     private TransportClient client;
@@ -112,6 +113,7 @@ class ElasticSearchSearcher {
         SearchRequestBuilder setQuery = client.prepareSearch()
                 .setIndices(indexName)
                 .setSearchType(SearchType.QUERY_THEN_FETCH)
+				.setSize(MAX_SEARCH_RESULTS)
 				.setQuery(QueryBuilders.matchQuery("_all", q)
 					.fuzziness(Fuzziness.AUTO)
 					.operator(MatchQueryBuilder.Operator.AND));
