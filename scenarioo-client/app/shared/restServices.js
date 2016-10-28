@@ -128,7 +128,8 @@ angular.module('scenarioo.services')
             {
                 branchName: '@branchName',
                 buildName: '@buildName',
-                q: '@q'
+                q: '@q',
+                includeHtml: '@includeHtml'
             }, {});
 
         searchService.search = getPromise($q, function (parameters, fnSuccess, fnError) {

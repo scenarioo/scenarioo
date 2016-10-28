@@ -22,6 +22,7 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
     vm.results = {resultSet: []};
     vm.errorMessage = '';
     vm.searchTerm = $routeParams.searchTerm;
+    vm.includeHtml = $location.search().includeHtml;
     vm.treemodel = [];
     vm.showSearchFailed = false;
     vm.goToRelatedView = goToRelatedView;
@@ -33,6 +34,7 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
 
         FullTextSearchService.search({
                 q: vm.searchTerm,
+                includeHtml: vm.includeHtml,
                 buildName: selected.build,
                 branchName: selected.branch
             }

@@ -39,7 +39,8 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     };
 
     $scope.search = function () {
-        var searchTerm = $scope.globalSearch.queryString;
+        var searchTerm = $scope.globalSearch.queryString,
+            includeHtml = !!$scope.globalSearch.includeHtml;
 
         // If the search term is blank nothing happens
         if(!angular.isString(searchTerm) || searchTerm.trim() === '') {
@@ -52,7 +53,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
             return;
         }
 
-        $location.path('/search/' + searchTerm);
+        $location.url('/search/' + searchTerm + '?includeHtml=' + includeHtml);
     };
 
     function loadSearchEngineRunning () {
@@ -163,5 +164,5 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     $scope.showApplicationInfoPopup = function () {
         ApplicationInfoPopupService.showApplicationInfoPopup();
     };
-    
+
 }

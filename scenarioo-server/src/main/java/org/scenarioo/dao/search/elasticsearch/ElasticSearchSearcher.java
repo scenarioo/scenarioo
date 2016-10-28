@@ -42,6 +42,7 @@ import org.scenarioo.dao.search.dao.*;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.rest.search.SearchRequest;
 
 class ElasticSearchSearcher {
 	private final static Logger LOGGER = Logger.getLogger(ElasticSearchSearcher.class);
@@ -70,11 +71,11 @@ class ElasticSearchSearcher {
         }
     }
 
-    SearchResultsDao search(final String q) {
-        SearchResponse searchResponse = executeSearch(q);
+    SearchResultsDao search(final SearchRequest searchRequest) {
+        SearchResponse searchResponse = executeSearch(searchRequest);
 
         if (searchResponse.getHits().getHits().length == 0) {
-            LOGGER.debug("No results found for " + q);
+            LOGGER.debug("No results found for " + searchRequest);
             return SearchResultsDao.noHits();
         }
 
@@ -104,20 +105,29 @@ class ElasticSearchSearcher {
         return new SearchResultsDao(results, hits.length, searchResponse.getHits().getTotalHits());
     }
 
-    private SearchResponse executeSearch(final String q) {
-        LOGGER.debug("Search in index " + indexName + " for " + q);
-        SearchRequestBuilder setQuery = client.prepareSearch()
+    private SearchResponse executeSearch(final SearchRequest searchRequest) {
+        LOGGER.debug("Search in index " + indexName + " for " + searchRequest.getQ());
+
+		SearchRequestBuilder setQuery = client.prepareSearch()
                 .setIndices(indexName)
                 .setSearchType(SearchType.QUERY_THEN_FETCH)
 				.setSize(MAX_SEARCH_RESULTS)
-				.setQuery(QueryBuilders.matchQuery("_all", q)
+				.setQuery(QueryBuilders.multiMatchQuery(searchRequest.getQ(), getFieldNames(searchRequest))
 					.fuzziness(Fuzziness.AUTO)
 					.operator(MatchQueryBuilder.Operator.AND));
 
         return setQuery.execute().actionGet();
     }
 
-    private SearchDao parseUseCase(final SearchHit searchHit) throws IOException {
+	private String[] getFieldNames(SearchRequest searchRequest) {
+		if(searchRequest.includeHtml()) {
+			return new String[]{"_all", "step.html.htmlSource"};
+		} else {
+			return new String[]{"_all"};
+		}
+	}
+
+	private SearchDao parseUseCase(final SearchHit searchHit) throws IOException {
         UseCaseSearchDao useCaseResult = useCaseReader.readValue(searchHit.getSourceRef().streamInput());
 
 		return useCaseResult;
