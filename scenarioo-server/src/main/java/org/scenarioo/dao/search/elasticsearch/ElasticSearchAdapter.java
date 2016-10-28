@@ -43,6 +43,7 @@ import org.scenarioo.rest.application.ContextPathHolder;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 import com.carrotsearch.hppc.cursors.ObjectCursor;
+import org.scenarioo.rest.search.SearchRequest;
 
 public class ElasticSearchAdapter implements SearchAdapter {
     private final static Logger LOGGER = Logger.getLogger(ElasticSearchAdapter.class);
@@ -105,11 +106,11 @@ public class ElasticSearchAdapter implements SearchAdapter {
 	}
 
     @Override
-    public SearchResultsDao searchData(final BuildIdentifier buildIdentifier, final String q) {
-        final String indexName = getIndexName(buildIdentifier);
+    public SearchResultsDao searchData(final SearchRequest searchRequest) {
+        final String indexName = getIndexName(searchRequest.getBuildIdentifier());
 
         ElasticSearchSearcher elasticSearchSearcher = new ElasticSearchSearcher(indexName);
-        return elasticSearchSearcher.search(q);
+        return elasticSearchSearcher.search(searchRequest);
     }
 
     @Override

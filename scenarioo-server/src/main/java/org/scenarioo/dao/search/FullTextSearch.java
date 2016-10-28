@@ -30,6 +30,7 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.rest.search.SearchRequest;
 
 public class FullTextSearch {
 
@@ -60,7 +61,7 @@ public class FullTextSearch {
 		return searchAdapter.isSearchEndpointConfigured();
 	}
 
-	public SearchTree search(final String q, final BuildIdentifier buildIdentifier) {
+	public SearchTree search(SearchRequest searchRequest) {
 		if(!searchAdapter.isEngineRunning()) {
 			throw new SearchEngineNotRunningException();
 		}
@@ -68,12 +69,12 @@ public class FullTextSearch {
 		SearchResultsDao searchResults;
 
 		try {
-			searchResults = searchAdapter.searchData(buildIdentifier, q);
+			searchResults = searchAdapter.searchData(searchRequest);
 		} catch (Throwable t) {
 			throw new SearchFailedException(t);
 		}
 
-		return new SearchTree(searchResults, q);
+		return new SearchTree(searchResults, searchRequest);
 	}
 
 	public void indexUseCases(final UseCaseScenariosList useCaseScenariosList, final BuildIdentifier buildIdentifier) {

@@ -26,6 +26,7 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.rest.search.SearchRequest;
 
 public interface SearchAdapter {
 
@@ -35,7 +36,7 @@ public interface SearchAdapter {
 
 	String getEndpoint();
 
-    SearchResultsDao searchData(BuildIdentifier buildIdentifier, String q);
+    SearchResultsDao searchData(SearchRequest searchRequest);
 
     void indexUseCases(UseCaseScenariosList useCaseScenariosList, BuildIdentifier buildIdentifier);
 
