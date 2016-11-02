@@ -1,6 +1,9 @@
+# Code of Conduct
+
 This page is about how to behave and which rules to follow when developing for Scenarioo.
 
 All Scenarioo developers should carefully read this and follow these rules when working on Scenarioo.
+
 These guidelines may also contain some helpful practical hints.
 
 1. **Working with backlog items:**

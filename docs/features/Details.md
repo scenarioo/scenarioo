@@ -1,4 +1,4 @@
-## Details - Additional Documentation Information
+# Details - Additional Documentation Information
 
 Details are a generic data structure used for storing additional (application specific) information inside the Scenarioo documentation.
 

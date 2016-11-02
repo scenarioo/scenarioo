@@ -1,3 +1,5 @@
+# Safe Identifiers
+
 The following fields are used as identifiers:
 
 * branch name

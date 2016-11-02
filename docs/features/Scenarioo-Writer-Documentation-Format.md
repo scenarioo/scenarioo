@@ -1,3 +1,5 @@
+# Scenarioo Writer Documentation Format
+
 ## Why do I need a Scenarioo Writer?
 
 A Scenarioo Writer Library is used to store all documentation information that can then be displayed by the Scenarioo Viewer web application. Therefore such a writer has to store information in the format that Scenarioo can understand. This pages describe the exact format of the scenarioo documentation files a Writer has to support.

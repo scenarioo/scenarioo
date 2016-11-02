@@ -1,3 +1,5 @@
+# Scenarioo Version Numbers
+
 We use version numbers as described in the [semantic versioning](http://semver.org/) article.
 
 Format: `x.y.z`

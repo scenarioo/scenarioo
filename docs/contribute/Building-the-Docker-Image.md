@@ -1,4 +1,6 @@
-## Build Scenarioo Image
+# Scenarioo Docker Image
+
+## Build it
 
 Creating a Docker image means to create a ready-to-run-artifact. This includes setting up the infrastructure, installing the Scenarioo war file and configuring the webapp. This process can be made manually or can be registered as a task on your CI.
 
@@ -25,3 +27,7 @@ To make an image public available it is necessary to push it to the Dockerhub. A
 4. Check [Dockerhub](https://hub.docker.com/u/scenarioo/) to verify the image.
 
 Check the docs for further actions like deleting, tagging and other commands on images.
+
+## How to setup and use the Docker Image?
+
+See [Docker Image Setup Instructions](../setup/Scenarioo-Viewer-Docker-Image.md)
