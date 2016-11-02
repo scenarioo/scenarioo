@@ -6,7 +6,7 @@ develop [![Continuous Build Develop Branch](http://build.scenarioo.org/jenkins/j
 
 ## Automated Documentation of Applications with UI Tests
 
-Scenarioo is a tool to leverage the power of your UI Tests and to make them available as a documentation of your software system to all people invollved in the design, development, test, operation and management of your software system.
+Scenarioo is a tool to leverage the power of your UI Tests and to make them available as a documentation of your software system to all people involved in the design, development, test, operation and management of your software system.
 
 ### Webpage and Documentation
 
@@ -17,7 +17,7 @@ For more information about Scenarioo, consider the following resources:
 
 ### Live Demo
 
-You can see an Example Scenarioo Documentation and the Scenarioo Viewer Webapp in action in our Demo:
+You can see an Example Scenarioo Documentation and the Scenarioo Viewer Web App in action in our Demo:
 
 http://demo.scenarioo.org
 
