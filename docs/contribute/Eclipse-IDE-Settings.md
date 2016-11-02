@@ -1,3 +1,6 @@
+# Eclipse IDE Settings
+
+
 This page explains how to configure your Eclipse IDE properly, such that all developers share the same formatting and compiler settings and can work without producing problems or conflicts.
 
 You can find all needed eclipse setting files stored in following location:
@@ -7,9 +10,9 @@ https://github.com/scenarioo/scenarioo/tree/develop/ide-settings/eclipse
 
 All developers have to follow the following instructions to use the same eclipse formatting and compiler settings:
 
-# 1. Apply Preferences
+## 1. Apply Preferences
 
-## 1.1 Main Preferences
+### 1.1 Main Preferences
 
 The file preferences_codestyle.epf and preferences_compiler.epf contains following settings that should be similar for all developers for scenarioo: 
 * Global java code style preferences: format/imports/etc.
@@ -38,7 +41,7 @@ Import those settings into your eclipse, by performing the following steps:
 
 From now on, do not change any of these settings in the Eclipse preferences dialog. All developers should use the same settings.
 
-## 1.2 Codetemplates Preferences
+### 1.2 Codetemplates Preferences
 
 The codetemplates contain templates for new class files, methods etc. 
 The templates are different for different scenarioo projects because of the different licenses in the file headers.
@@ -54,7 +57,7 @@ Therefore you have to apply these settings project by project, as follows:
   * codetemplates-examples.xml	for scenraioo example projects that can be freely reused
 5. Choose [x] Automatically add comments for new methods and types
 
-## 1.3 Auto Save Action
+### 1.3 Auto Save Action
 
 Unfortunately the Auto Save settings can not easily be shared through files. 
 Therefore every developers MUST set the following manually (**bold settings are critical, different settings may cause merge conflicts!**):
@@ -100,7 +103,7 @@ Therefore every developers MUST set the following manually (**bold settings are 
    * the rest of the code should not be reformatted (also no removed trailing whitespaces or empty lines!)
    * contact a lead developer to find out what is wrong, in case this is not the case (do not continue with bad formatting settings like these)
 
-## 1.4 Editor Contentassist Templates
+### 1.4 Editor Contentassist Templates
 
 There are additional content assist templates for Eclipse that are helpful.
 
@@ -109,17 +112,17 @@ These can be imported as follows:
 1. Go to Window / Preferences / Java / Editor / Templates / Import ...
 2. Select all the files inside the folder 'editor-contentassist-templates' you want to import (only select those you do not have yet, otherwise you will get duplicates)
 
-# 2. Export Preferences
+## 2. Export Preferences
 In case you have changes to the eclipse settings that have to be shared with other developers ...
 
-## 2.1 Export Code Style Preferences
+### 2.1 Export Code Style Preferences
 
 1. File / Export ... / Preferences
 2. Choose "Java Code Style Preferences" only
 3. Export to file preferences_codestyle.epf
 4. Finish
 
-## 2.2 Export Compiler Preferences
+### 2.2 Export Compiler Preferences
 
 1. File / Export ... / Preferences
 2. Choose "Java Compiler Preferences" only
@@ -127,24 +130,24 @@ In case you have changes to the eclipse settings that have to be shared with oth
 4. Finish
 
 
-## 2.3 Export Codetemplate Preferences
+### 2.3 Export Codetemplate Preferences
 
 1. Go to the project where you changed the codetemplates. 
 2. Choose Properties / Java Code Style / Code Templates / Export All ...
 3. Choose the file where to export the codetemplates for current project or project type.
 
-## 2.4 Export Auto Save Preferences
+### 2.4 Export Auto Save Preferences
 
 Unfortunately these settings can not be shared through files, you have to change the manual setup description (see above) and inform all developers about these changes.
 
-## 2.5 Export Editor Contentassist Templates
+### 2.5 Export Editor Contentassist Templates
 
 1. Go to Window / Preferences / Java / Editor / Templates 
 2. Choose only the new or changed templates that you want to export and select Export ...
 3. Make a new file inside folder 'editor-contentassist-templates' for your templates to share.
 4. inform the developers later about the new file (as soon as commited and published, see 2.5)!
 
-## 2.6 Commiting your changed or new preference files
+### 2.6 Commiting your changed or new preference files
 	
 1. Before commiting your changed eclipse settings please compare your changes carefully: 
   * did you realy only change those parts of the preferences files that you wanted to change?

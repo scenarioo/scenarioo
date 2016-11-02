@@ -1,6 +1,10 @@
-##  VM Installation
+# Dev Env with VM
 
-**this page is probably outdated, we have a different VM that we use now, please contact us, if you need it!**
+**There is a new setup with IntelliJ that we recommend to use now: [Development Environment with IntelliJ](Development-Environment-with-IntelliJ.md)**
+
+**this page is probably outdated anyway, we have a different VM that we use now, please contact us, if you need it!**
+
+##  VM Installation
 
 We develop in an Ubuntu VM.
 Setup by: Benjamin Müller and Sandra Weber
