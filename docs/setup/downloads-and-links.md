@@ -1,23 +1,41 @@
 # Downloads and Links
-This page informs you where you can get the different versions (stable and unstable) of Scenarioo from and where you find a running demo instance for each of these versions on our CI/CD server.
 
-## Scenarioo Viewer Web Application
+This page informs you where you can get the different versions (stable and unstable) of Scenarioo from and where you find a running demo instance for each of these versions on our CI/CD/Demo-Server.
 
-* **[Official Stable WAR Releases](https://github.com/scenarioo/scenarioo/releases)**
+## Scenarioo Viewer Web App
 
-* **[Demonstration of Latest Official Release](http://demo.scenarioo.org)**  
+### Latest Stable Release
 
-* **[Unstable Latest Development Release](http://54.88.202.24/jenkins/job/scenarioo-develop/lastSuccessfulBuild/artifact/scenarioo-server/build/libs/)**: Use this WAR release for testing new features of latest and greatest major development branch.
+* **Download as WAR from [Official Releases](https://github.com/scenarioo/scenarioo/releases)**
 
-* **[Demonstration of Latest Development Release](http://54.88.202.24/scenarioo-develop)**: 
-Use this continuous demo deployment for testing new features before we release it.
+* **Live-Demo under [demo.scenarioo.org](http://demo.scenarioo.org)**
 
-* **[CI Build Server for all branches](http://ci.scenarioo.org)**: for special feature branches or forks, you also find continuous delivery packages in the build artifacts on the jenkins build server. And for each branch and fork there should also be an according continuous demo deployment running on an URL with following-pattern for testing: http://54.88.202.24/scenarioo-{put-your-branch-or-fork-name-here}
+### Release Candidate (develop)
 
-## Scenarioo Java Writer library
+Our current release candidate for the develop branch with the next version of Scenarioo can be found here (it may include unstable new functionality):
 
-**Download binary releases:**
-https://github.com/scenarioo/scenarioo-java/releases
+* **Download as WAR from [CI/CD-Build-Job-Artifacts](http://build.scenarioo.org/jenkins/job/scenarioo-develop/lastSuccessfulBuild/artifact/scenarioo-server/build/libs/)** 
 
-**Or simply use our Maven Repo:**
-https://github.com/scenarioo/mvn-repo 
+* **Live-Demo under [demo.scenarioo.org/scenarioo-develop](http://demo.scenarioo.org/scenarioo-develop)**
+
+### Other Special Versions
+
+For some important other feature branches or forks, there might be a build job in our CI/CD-Pipeline with a running demo instance:
+
+* **Check the [CI/CD-Build-Server](http://build.scenarioo.org)** for a job called `scenarioo-{name-of-branch}` or `scenarioo-fork-{name-of-fork}` 
+* Try out the running Demo under `http://demo.scenarioo.org/{put-same-name-as-the-build-job-here}`
+* You can download the WAR from last successful artifacts inside this build job, if you need it for deployment.
+
+## Scenarioo Writer libraries
+
+### Java
+
+https://github.com/scenarioo/scenarioo-java
+ 
+### C#
+ 
+https://github.com/scenarioo/scenarioo-cs 
+
+### JavaScript
+
+https://github.com/scenarioo/scenarioo-js
