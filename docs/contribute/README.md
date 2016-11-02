@@ -10,8 +10,8 @@ Before you start doing so, please read the following guidelines carefully. By se
 
 ## Coding
 * [Developer Guide](Developer-Guide.md)
-* [Code of Conduct: Rules & Guidelines](code-of-conduct.md)
-* [Coding Guidelines](Coding-Guidelines.md)
+* [Code of Conduct: Rules & Guidelines](Code-of-Conduct.md)
+* [Coding Guidelines](Coding-guidelines.md)
 * [End to End Testing](e2eTesting.md)
 * [Commit Rules](Commit-rules.md)
 
