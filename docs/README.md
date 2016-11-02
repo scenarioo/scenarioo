@@ -1,10 +1,19 @@
-# Scenarioo Documentation
+# Scenarioo
 
-The documentation of scenarioo is stored and versioned together with our software as Markdown documentation. 
+This documentation is about the Software Development and Testing Tool Scenarioo.
+ 
+Scenarioo can help you to make your UI Tests visible for everybody involved in your software development project, as a documentation or special test report of your software system's implemented functionality and its health.
+
+## Documentation Version 
+
+**Take care to pick the right version of our documentation from the release branches!**  
+We version our documentation together with our software on github as Markdown files. Take care to pick the correct documentation by selecting the appropriate Release Branch for your version of Scenarioo.
+
+## Scenarioo Overview
 
 The following sections gives a basic introduction to scenarioo and where to find more information for most important aspects in our documentation.
 
-## What can Scenarioo do for me?
+### What can Scenarioo do for me?
 
 Scenarioo is a tool that helps you create an up-to-date software documentation leveraging existing UI tests. This can be an essential part of a "living documentation system" as described by Gojko Adzic in his book "Specification by Example".
 
@@ -14,7 +23,7 @@ The Scenarioo Viewer web application lets you browse the documentation easily an
 
 For a more detailed introduction, visit our web page under http://www.scenarioo.org
 
-## What does Scenarioo consist of?
+### What does Scenarioo consist of?
 
 These are the parts of which Scenarioo is made of:
 
@@ -27,31 +36,31 @@ To generate the Scenarioo documentation files, you need to extend your UI tests 
 
 3. **Scenarioo Viewer web application for browsing the generated documentation**: The web app makes the documentation available to anybody that is interested in it. This includes developers, business analysts and even business people. Therefore it let's you easily browse use cases, scenarios and their steps. If you just need to know how to set up the web app, have a look at the [Scenarioo Viewer Web Application Setup](setup/Scenarioo-Viewer-Web-Application-Setup.md).
 
-## See Scenarioo in Action
+### See Scenarioo in Action
 
 Have a look at our demo: http://demo.scenarioo.org
 
 There are also demo links for next release candidates of Scenarioo that are currently under development, see [Downloads & Links](setup/downloads-and-links.md).
 
-## Setup & Use Scenarioo in Your Project
+### Setup & Use Scenarioo in Your Project
 
 If you are interested how you can use Scenarioo in your own project, have a look here:
 
 [How to Setup & Use Scenarioo](setup/README.md)
 
-## Contribute to Scenarioo
+### Contribute to Scenarioo
 
 If you want to contribute to Scenarioo please carefully read and follow the guidelines you find on this page:
 
 [Information for Scenarioo Contributors](contribute/README.md)
 
-## Information for Scenarioo Writer Developers
+### Information for Scenarioo Writer Developers
 
 The Scenarioo Writer library is a core part of Scenarioo. The Java version of this library is the reference implementation. Furthermore we maintain a library for C# and JavaScript. If you want to contribute to one of this libraries or want to start a new Scenarioo Writer library in a different language, you will find most important required information on the following page.
 
 [Scenarioo Writer Documentation Format](features/Scenarioo-Writer-Documentation-Format.md)
 
-## Scenarioo Documentation
+## Documentation Structure
 
 You can find further information in this documentation folder, which is structured into following major sections:
 
