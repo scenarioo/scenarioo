@@ -88,9 +88,4 @@ angular.module('scenarioo.services')
             useCaseName: '@useCaseName',
             scenarioName: '@scenarioName'
         }, {});
-    })
-
-    .factory('DiffViewerConfigResource', function (ScenariooResource) {
-        return ScenariooResource('/configuration/diffViewer', {});
-    })
-;
+    });
