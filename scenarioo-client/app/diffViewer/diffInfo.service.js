@@ -86,7 +86,6 @@ function DiffInfoService() {
             pagesAndSteps.splice(insertIndex, 0, targetPageAndStep);
         }
 
-        stepInfo.stepDescription.title = stepInfo.stepDescription.title;
         stepInfo.stepDescription.index = stepInfo.stepLink.stepInPageOccurrence;
         stepInfo.stepDescription.diffInfo = getRemovedDiffInfo();
 

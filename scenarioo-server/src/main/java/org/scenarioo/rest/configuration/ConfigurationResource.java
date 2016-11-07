@@ -24,6 +24,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
+import org.scenarioo.dao.diffViewer.GraphicsMagickConfiguration;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -41,7 +42,16 @@ public class ConfigurationResource {
 	public Configuration getConfiguration() {
 		return configurationRepository.getConfiguration();
 	}
-	
+
+	@GET
+	@Path("/diffViewer")
+	@Produces({ "application/json", "application/xml" })
+	public DiffViewerStatus getDiffViewerStatus() {
+		DiffViewerStatus status = new DiffViewerStatus();
+		status.setGraphicsMagickAvailable(GraphicsMagickConfiguration.isAvailable());
+		return status;
+	}
+
 	@POST
 	@Consumes({ "application/json", "application/xml" })
 	public void updateConfiguration(final Configuration configuration) {

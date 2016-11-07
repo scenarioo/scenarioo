@@ -26,14 +26,8 @@ public class GraphicsMagickConfiguration {
 		IMOperation gmOperation = new IMOperation();
 		try {
 			gmConsole.run(gmOperation.version());
-		} catch (IOException e) {
-			LOGGER.warn(e, e);
-			return false;
-		} catch (InterruptedException e) {
-			LOGGER.warn(e, e);
-			return false;
-		} catch (IM4JavaException e) {
-			LOGGER.warn(e, e);
+		} catch (IOException | InterruptedException | IM4JavaException e) {
+			LOGGER.warn("GraphicsMagick not available. Diff Viewer functionality won't be available.", e);
 			return false;
 		}
 		return true;
