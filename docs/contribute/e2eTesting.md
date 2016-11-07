@@ -1,12 +1,14 @@
+# E2E Testing with Protractor
+
 [Protractor](https://github.com/angular/protractor) is the UI testing tool for testing AngularJS apps. It uses [Selenium](http://www.seleniumhq.org/) to automate the browser.
 
 To write your own e2e tests, check our example e2e scenarios in `scenarioo-client\test\protractorE2E\specs`.
 
 For more infos on Protractor see [Protractor API documentation](http://angular.github.io/protractor/#/api).
 
-# Run all e2e tests
+## Run all e2e tests
 
-## Prerequisites
+### Prerequisites
 
  * Have a well configured and running Scenarioo server (Java backend)
    * The server has to use the newest version of demo configuration that is checked in here:  
@@ -28,7 +30,7 @@ For more infos on Protractor see [Protractor API documentation](http://angular.g
   ```
 
 
-## Run the tests
+### Run the tests
 
 Open your console and change into the client directory.
 

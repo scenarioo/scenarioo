@@ -1,14 +1,16 @@
-# Jenkins
+# Scenarioo CI/CD Build and Demo Server
+
+## Jenkins
 
 http://ci.scenarioo.org or http://build.scenarioo.org (both forward to http://54.88.202.24/jenkins)
 
-# Demos
+## Demos
 
 Latest release: http://54.88.202.24/scenarioo-master (or use shortcut http://demo.scenarioo.org)
 
 Development for future release: http://54.88.202.24/scenarioo-develop
 
-# Add a new branch to be built and deployed
+## Add a new branch to be built and deployed
 
 * Click "New Item" in the Jenkins menu
 * Set the name of the new build job to "scenarioo-{my-branch-name}"
@@ -21,19 +23,19 @@ It's important that you use exactly the same {my-branch-name} values for both oc
 
 We use nginx as a reverse proxy. Therefore you also have to add a configuration for the new Scenarioo instance URL in `/etc/nginx/sites-available/default`. Otherwise the demo is not reachable.
 
-# Maintenance of the build server
+## Maintenance of the build server
 
 The server is maintained by adiherzog and forkch. Contact them if you need a Jenkins account.
 
-# Setup of build server
+## Setup of build server
 
 There are a number of aliases defined in the .bash_aliases file of the ubuntu user. They all start with `sc-` and lead to the Tomcat, Jenkins and the Scenarioo data directories.
 
-# Demo Server
+## Demo Server
 
 Demo is available at http://54.88.202.24/scenarioo-{your-branch-name-here}
 
-## Restart tomcat manually
+### Restart tomcat manually
 
 1. SSH to the demo server:
 > ssh -i .ssh/Scenarioo-Keypair.pem ubuntu@54.88.202.24  
@@ -43,7 +45,7 @@ Demo is available at http://54.88.202.24/scenarioo-{your-branch-name-here}
 > sudo service tomcat7 stop  
 > sudo service tomcat7 start  
 
-## Automatic Restart of Tomcat
+### Automatic Restart of Tomcat
 
 Jenkins build 'smoketest' checks every 5 minutes if the demo (on master and develop) is currently available.
 (ATTENTION! this job is currently disabled and we should reactivate it and introduce an email on failure to lead devs)
@@ -65,6 +67,6 @@ Too see all defined cronjobs:
 */15 * * * * /root/restart_tomcat_if_smoketest_failed 
 ```
 
-# Setup of e2e tests on build server
+## Setup of e2e tests on build server
 
 ![End to End Tests Scenarioo Protractor](https://cloud.githubusercontent.com/assets/3780183/8078418/fe24f0b6-0f5d-11e5-87f2-1b738bc68d57.png)

@@ -10,22 +10,21 @@ Before you start doing so, please read the following guidelines carefully. By se
 
 ## Coding
 * [Developer Guide](Developer-Guide.md)
-* [Code of Conduct: Rules & Guidelines](code-of-conduct.md)
-* [Coding Guidelines](Coding-Guidelines.md)
+* [Code of Conduct: Rules & Guidelines](Code-of-Conduct.md)
+* [Coding Guidelines](Coding-guidelines.md)
 * [End to End Testing](e2eTesting.md)
-* [Commit rules](Commit-rules.md)
+* [Commit Rules](Commit-rules.md)
 
 ## Architecture & Concepts
 * [Architecture, Core Concepts and Features](../features/README.md)
 
 ## Branching and Releasing
 * [Versioning](Versioning.md)
-* [Branching strategy](Branching-strategy.md)
+* [Branching Strategy](Branching-strategy.md)
 * [Release Scenarioo Writer library](Release-Scenarioo-Writer-Library.md)
-* [Release Scenarioo Viewer web application](Release-Scenarioo-Viewer-Web-Application.md)
+* [Release Scenarioo Viewer Web Application](Release-Scenarioo-Viewer-Web-Application.md)
 
 ## Technologies
 Scenarioo is mainly based on following technologies:
 * AngularJS
 * RESTful Webservices with "JBoss resteasy"
-

@@ -1,10 +1,12 @@
+# Developer Guide
+
 This page describes how to build, test, run the Scenarioo Viewer Webapp locally for developers on their developer machine.
 
-# Prerequisites
+## Prerequisites
 
 You need a correctly setup Development environment for working on sceanrioo as described here: [Development Environment](Development-Environment.md)
 
-# Build, Test and Run the Scenarioo Viewer Web App
+## Build, Test and Run the Scenarioo Viewer Web App
 
 This process describes how you clean update all your sources and build everything needed to properly run the demo locally and to run tests:
 
@@ -74,7 +76,7 @@ This process describes how you clean update all your sources and build everythin
 Now have fun improving and extending Scenarioo, we are awaiting for your first pull request soon ;-)
 
 
-# Build WAR File for Server Deployement
+## Build WAR File for Server Deployement
 
 The following command creates a war file which contains the server and the client code.  
 
@@ -82,7 +84,7 @@ The following command creates a war file which contains the server and the clien
 ./gradlew war
 ```
 
-# Client package update strategy (package.json)
+## Client package update strategy (package.json)
 Packages should by specified statically
 ``` "gulp-ng-annotate": "2.0.x" ``` with only the bugfix version being dynamic. This will make our builds more stable. Specify the dynamic version by using the 'x' character.
 

@@ -1,4 +1,4 @@
-# DiffViewer glossary
+# DiffViewer Glossary
 
 | English           | German             | Code              | Description                                                         |
 | :---------------- | :--------------    | :---------------- | :------------------------------------------------------------------ |

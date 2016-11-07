@@ -1,10 +1,16 @@
-# Git
+# Dev Env Setup on Ubunut
+
+**There is a new setup with IntelliJ that we recommend to use now: [Development Environment with IntelliJ](Development-Environment-with-IntelliJ.md)**
+
+@adiherzog Still needed to keep this? Is this up to date? Can we remove some redundancy with other explanations?
+
+## Git
 
 ```
 sudo apt-get install git
 ```
 
-# NPM
+## NPM
 
 Install node.js (Version 0.10.33 or newer). See here for installation instructions: https://github.com/nodesource/distributions.
 
@@ -27,7 +33,7 @@ Now you are ready to install the few global node modules that we need for Scenar
 npm install -g gulp bower phantomjs
 ```
 
-# Clone the Scenarioo repositories
+## Clone the Scenarioo repositories
 
 If you did not clone the Scenarioo repo yet, do so now:
 
@@ -42,7 +48,7 @@ Next, install the local modules needed by the Scenarioo client. For this, you ha
 npm install
 ```
 
-# Java Development Kit for Java 6
+## Java Development Kit for Java 6
 
 Install Java 6 JDK and make sure it is the default Java version on your system. If you want to use WebStorm 9, the official Sun / Oracle Java version is required. Otherwise you can also use OpenJDK. We can recommend the following way to do it ([as described here](http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html)):
 
@@ -60,7 +66,7 @@ Alternatively you can also use OpenJDK.
 sudo apt-get install openjdk-7-jdk
 ```
 
-# Tomcat
+## Tomcat
 
 Just download and unzip. Don't use `apt-get` for this.
 
@@ -72,7 +78,7 @@ For running Scenarioo you need to speicify the folder where Scenarioo should sto
 <Parameter name="scenariooConfigurationDirectory" value=">>>path to a directory where your scenarioo config.xml will be or is stored<<<" override="true" description="Location of scenarioo config.xml file"/>
 ```
 
-# IDEs and Browsers
+## IDEs and Browsers
 
 If you want to use the same tools that the Scenarioo core developers use, install these:
 
@@ -84,7 +90,7 @@ If you want to use the same tools that the Scenarioo core developers use, instal
   * WebStorm 9
 * Firefox and Google Chrome
 
-# Build Scenarioo Viewer Web App
+## Build Scenarioo Viewer Web App
 
 If this worked so far without ugly error messages, it looks all fine and you could work with your development environment. 
 

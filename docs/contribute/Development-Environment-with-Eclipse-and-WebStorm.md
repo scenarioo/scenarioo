@@ -1,10 +1,10 @@
-Currently we try to migrate to a new developer setup using IntelliJ Ultimate.
+# Dev Env with Eclipse and WebStorm
 
-This page contains the old setup instructions, for those still working with the old setup, until the new setup is more stable.
+**There is a new setup with IntelliJ that we recommend to use now: [Development Environment with IntelliJ](Development-Environment-with-IntelliJ.md)**
 
-This page describes the setup of the development environment.
+This page contains the old setup instructions, for those still working with the old setup.
 
-# Setting up your own development environment
+## Setting up your own development environment
 
 Some of the core developers use a virtual machine with all the required tools for Scenarioo development.
 Contact the core development team if you want to use the same virtual machine to start more quickly.
@@ -80,7 +80,7 @@ After execution of the appropriate VM-Updatescript there are three graphical git
   * gitg : Simple git interface (very nice git history tree)
   * giggle : more of a git viewer to review changes in the files graphically
 
-# Developer Guide
+## Developer Guide
 
 How to build, test, start, configure and browse the Scenarioo Viewer Web app locally, please refer to the [Developer Guide](Developer-Guide.md)
 
