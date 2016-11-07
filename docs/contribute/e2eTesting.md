@@ -19,8 +19,14 @@ For more infos on Protractor see [Protractor API documentation](http://angular.g
 
  * Have protractor installed (done in quickstart, by **npm install**)
 
- * Have the chrome webdriver installed (make sure your chromebrowser is up-to-date, > v30.x)
+ * Have the chrome webdriver installed (make sure your chromebrowser is up-to-date, > v30.x).
+ This is done automatically if you use
+ ```
+ npm run test-e2e
+ ```
+ If there's a problem with the webdriver, try the following commands:
  
+  On Unix systems:
   ```
   ./node_modules/protractor/bin/webdriver-manager update --chrome
   ```
@@ -28,7 +34,7 @@ For more infos on Protractor see [Protractor API documentation](http://angular.g
   ```
   node ./node_modules/protractor/bin/webdriver-manager update
   ```
-  If protractor can't find its webdriver, try the following command
+  or
   ```  
   node node_modules\protractor\node_modules\webdriver-manager update
   ```
@@ -44,6 +50,8 @@ Open your console and change into the client directory.
 Serve the client using gulp:
 
    ```
+   npm start
+   or
    gulp serve
    ```
 
@@ -56,6 +64,8 @@ Open a 2nd console and run the tests:
 If you do not want to generate a scenarioo docu from the tests, run this:
 
    ```
+   npm run test-e2e
+   or
    gulp test-e2e
    ```
 
