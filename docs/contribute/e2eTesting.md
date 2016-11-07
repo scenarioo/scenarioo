@@ -28,7 +28,10 @@ For more infos on Protractor see [Protractor API documentation](http://angular.g
   ```
   node ./node_modules/protractor/bin/webdriver-manager update
   ```
-
+  If protractor can't find its webdriver, try the following command
+  ```  
+  node node_modules\protractor\node_modules\webdriver-manager update
+  ```
 
 ### Run the tests
 
