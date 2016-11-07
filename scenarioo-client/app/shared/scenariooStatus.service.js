@@ -15,14 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('SearchEngineStatusService', function (ScenariooResource) {
+angular.module('scenarioo.services').factory('ScenariooStatusService', function (ScenariooResource) {
 
     var SearchEngineStatusResource = ScenariooResource('/searchEngineStatus', {});
+    var DiffViewerConfigResource = ScenariooResource('/configuration/diffViewer', {});
 
     return {
         isSearchEngineRunning: function() {
             return SearchEngineStatusResource.get().$promise;
+        },
+
+        isDiffViewerImageProcessingAvailable: function () {
+            return DiffViewerConfigResource.get().$promise;
         }
     }
-
 });

@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('GeneralSettingsController', GeneralSettingsController);
 
-function GeneralSettingsController($scope, BranchesResource, ConfigService, VersionResource, SearchEngineStatusService, DiffViewerConfigResource) {
+function GeneralSettingsController($scope, BranchesResource, ConfigService, VersionResource, ScenariooStatusService) {
 
     var vm = this;
     vm.branches = [];
@@ -44,12 +44,8 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService, Vers
             }
         );
 
-        DiffViewerConfigResource.get(function onSuccess(result) {
-            vm.diffViewerAvailable = result.graphicsMagickAvailable;
-        });
-
         ConfigService.load();
-        loadSearchEngineStatus();
+        loadServiceStatus();
     }
 
     $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
@@ -69,9 +65,13 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService, Vers
         }
     }
 
-    function loadSearchEngineStatus () {
-        SearchEngineStatusService.isSearchEngineRunning().then(function(result) {
+    function loadServiceStatus () {
+        ScenariooStatusService.isSearchEngineRunning().then(function(result) {
             vm.searchEngineStatus = result;
+        });
+
+        ScenariooStatusService.isDiffViewerImageProcessingAvailable().then(function(result) {
+            vm.diffViewerAvailable = result.graphicsMagickAvailable;
         });
     }
 
