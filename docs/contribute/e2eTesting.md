@@ -22,7 +22,7 @@ For more infos on Protractor see [Protractor API documentation](http://angular.g
  * Have the chrome webdriver installed (make sure your chromebrowser is up-to-date, > v30.x).
  This is done automatically if you use
  ```
- npm run test-e2e
+ npm run pretest-e2e
  ```
  If there's a problem with the webdriver, try the following commands:
  
