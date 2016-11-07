@@ -200,27 +200,67 @@ function ScenarioController($filter, $routeParams,
         return transformMetadataToTree(stepInformation);
     }
 
+    function loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps) {
+        ScenarioDiffInfoResource.get(
+            {
+                'baseBranchName': baseBranchName,
+                'baseBuildName': baseBuildName,
+                'comparisonName': comparisonName,
+                'useCaseName': useCaseName,
+                'scenarioName': scenarioName
+            },
+            function onSuccess(scenarioDiffInfo) {
+                StepDiffInfosResource.get(
+                    {
+                        'baseBranchName': baseBranchName,
+                        'baseBuildName': baseBuildName,
+                        'comparisonName': comparisonName,
+                        'useCaseName': useCaseName,
+                        'scenarioName': scenarioName
+                    },
+                    function onSuccess(stepDiffInfos) {
+                        DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
+                    }
+                );
+            }, function onFailure(error) {
+                throw error;
+            }
+        );
+    }
+
+    function isAddedUseCase(buildDiffInfo) {
+        // ES 2015 find() method would be required here...
+        var isAddedUseCase = false;
+        angular.forEach(buildDiffInfo.addedElements, function (addedElement) {
+            if (addedElement === useCaseName) {
+                isAddedUseCase = true;
+            }
+        });
+        return isAddedUseCase;
+    }
+
+    function markPagesAndStepsAsAdded(pagesAndSteps) {
+        angular.forEach(pagesAndSteps, function (pageAndStep) {
+            pageAndStep.page.diffInfo = {isAdded: true};
+            angular.forEach(pageAndStep.steps, function (step) {
+                step.diffInfo = {isAdded: true};
+            });
+        });
+    }
+
     function loadDiffInfoData(pagesAndSteps, baseBranchName, baseBuildName, comparisonName) {
-        if (pagesAndSteps && baseBranchName && baseBuildName && useCaseName && scenarioName){
+        if (pagesAndSteps && baseBranchName && baseBuildName && useCaseName && scenarioName) {
             BuildDiffInfoResource.get(
                 {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
                 function onSuccess(buildDiffInfo) {
                     comparisonBranchName = buildDiffInfo.comparisonBranchName;
                     comparisonBuildName = buildDiffInfo.comparisonBuildName;
-                }, function onFailure(error) {
-                    throw error;
-                }
-            );
 
-            ScenarioDiffInfoResource.get(
-                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName, 'scenarioName': scenarioName},
-                function onSuccess(scenarioDiffInfo) {
-                    StepDiffInfosResource.get(
-                        {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName, 'scenarioName': scenarioName},
-                        function onSuccess(stepDiffInfos) {
-                            DiffInfoService.enrichPagesAndStepsWithDiffInfos(pagesAndSteps, scenarioDiffInfo.removedElements, stepDiffInfos);
-                        }
-                    );
+                    if (isAddedUseCase(buildDiffInfo)) {
+                        markPagesAndStepsAsAdded(pagesAndSteps);
+                    } else {
+                        loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps);
+                    }
                 }, function onFailure(error) {
                     throw error;
                 }
