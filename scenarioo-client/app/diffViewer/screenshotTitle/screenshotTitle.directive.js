@@ -25,7 +25,7 @@ function scScreenshotTitle() {
             build: '=',
             name: '@',
             alias: '@',
-            highlights: '@'
+            highlights: '='
         },
         templateUrl: 'diffViewer/screenshotTitle/screenshotTitle.html'
     };
