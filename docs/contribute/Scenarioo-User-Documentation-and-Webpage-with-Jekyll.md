@@ -1,9 +1,14 @@
+# Scenarioo Webpage and Documentation
+
+
+**TODO: this info here is probably not 100% accurate, ask @bruderol, this needs to be corrected!**
+
 We use Jekyll to generate our webpage and documentation on the github pages.
 
 What is special: 
 We do not directly maintain the docu files in the gh-pages branch. We edit our pages in the 'docu' directory on every branch and finaly release from the docu directory on master branch to gh-pages.
 
-## Jekyll Setup for generating documentation
+## Jekyll Setup for generating Webpage and Documentation
 
 You need to install Jekyll and all prerequisites on your development environment machine, as explained here under https://help.github.com/articles/using-jekyll-with-pages/.
 
