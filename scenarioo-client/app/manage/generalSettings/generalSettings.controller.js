@@ -17,13 +17,14 @@
 
 angular.module('scenarioo.controllers').controller('GeneralSettingsController', GeneralSettingsController);
 
-function GeneralSettingsController($scope, BranchesResource, ConfigService, VersionResource, SearchEngineStatusService) {
+function GeneralSettingsController($scope, BranchesResource, ConfigService, VersionResource, SearchEngineStatusService, DiffViewerConfigResource) {
 
     var vm = this;
     vm.branches = [];
     vm.configuration = {};
     vm.configuredBranch = {};
     vm.successfullyUpdatedConfiguration = false;
+    vm.diffViewerAvailable = null;
     vm.searchEngineStatus = null;
     vm.resetConfiguration = resetConfiguration;
     vm.updateConfiguration = updateConfiguration;
@@ -42,6 +43,10 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService, Vers
                 vm.version = result;
             }
         );
+
+        DiffViewerConfigResource.get(function onSuccess(result) {
+            vm.diffViewerAvailable = result.graphicsMagickAvailable;
+        });
 
         ConfigService.load();
         loadSearchEngineStatus();
