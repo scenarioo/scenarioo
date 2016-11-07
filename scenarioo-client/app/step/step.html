@@ -144,26 +144,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </div>
                 </div>
                 <div id="sc-step-comparison-side-by-side-view" ng-if="comparisonViewOptions[displaySideBySideViewKey]">
-                    <div class="col-lg-6">
-                        {{baseBuild.aliasName}}
-                        <div class="sc-base-screenshot clear" ng-if="!comparisonViewOptions[displayDiffScreenshotKey]">
-                            <sc-screenshot-title build="baseBuild" name="Current" alias="{{baseBuildName}}" highlights="false"></sc-screenshot-title>
-                            <sc-annotated-screenshot screen-shot-url="screenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <sc-screenshot-title build="baseBuild" name="Current" alias="{{baseBuildName}}"
+                                                 highlights="comparisonViewOptions[displayDiffScreenshotKey]" >
+                            </sc-screenshot-title>
                         </div>
-
-                        <div class="sc-diff-screenshot clear" ng-if="comparisonViewOptions[displayDiffScreenshotKey]">
-                            <sc-screenshot-title build="baseBuild" name="Current" alias="{{baseBuildName}}" highlights="true"></sc-screenshot-title>
-                            <sc-annotated-screenshot screen-shot-url="diffScreenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
+                        <div class="col-lg-6">
+                            <sc-screenshot-title build="comparisonBuild" name="{{comparisonName}}" highlights="false"></sc-screenshot-title>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div>
-                            <sc-screenshot-title build="comparisonBuild" name="{{comparisonName}}" highlights="false"></sc-screenshot-title>
-                            <div ng-if="step.diffInfo.isAdded">
-                                <p>No comparison screenshot because this is an added step.</p>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {{baseBuild.aliasName}}
+                            <div class="sc-base-screenshot clear" ng-if="!comparisonViewOptions[displayDiffScreenshotKey]">
+                                <sc-annotated-screenshot screen-shot-url="screenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
                             </div>
-                            <div class="sc-comparison-screenshot" ng-if="!step.diffInfo.isAdded">
-                                    <sc-annotated-screenshot screen-shot-url="comparisonScreenShotUrl"></sc-annotated-screenshot>
+
+                            <div class="sc-diff-screenshot clear" ng-if="comparisonViewOptions[displayDiffScreenshotKey]">
+                                <sc-annotated-screenshot screen-shot-url="diffScreenShotUrl" visibility-toggle="showScreenAnnotations"></sc-annotated-screenshot>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div>
+                                <div ng-if="step.diffInfo.isAdded">
+                                    <p>No comparison screenshot because this is an added step.</p>
+                                </div>
+                                <div class="sc-comparison-screenshot" ng-if="!step.diffInfo.isAdded">
+                                        <sc-annotated-screenshot screen-shot-url="comparisonScreenShotUrl"></sc-annotated-screenshot>
+                                </div>
                             </div>
                         </div>
                     </div>
