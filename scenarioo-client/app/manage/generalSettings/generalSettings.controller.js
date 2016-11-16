@@ -42,7 +42,7 @@ function GeneralSettingsController(BranchesResource, ConfigService, ApplicationS
 
             vm.version = status.version;
             vm.configuration = status.configuration;
-            vm.diffViewerAvailable = status.diffViewerStatus.isGraphicsMagickAvailable;
+            vm.diffViewerAvailable = status.diffViewerStatus.graphicsMagickAvailable;
             vm.searchEngineStatus = status.searchEngineStatus;
 
             calculateConfiguredBranch();
