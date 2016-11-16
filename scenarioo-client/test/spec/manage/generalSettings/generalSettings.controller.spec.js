@@ -41,7 +41,7 @@ describe('GeneralSettingsController', function () {
             'version': TestData.VERSION,
             'configuration': TestData.CONFIG,
             'diffViewerStatus': {
-                'isGraphicsMagickAvailable': false
+                'graphicsMagickAvailable': false
             }
         });
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/branch_123/build/build_123/searchEngine').respond(404, false);
