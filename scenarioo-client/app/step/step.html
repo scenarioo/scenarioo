@@ -138,14 +138,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <button type="button" id="sc-switch-to-base-screenshot-button" class="btn btn-default" ng-click="toggleStorageKey(displayComparisonScreenshotKey)" ng-show="comparisonViewOptions[displayComparisonScreenshotKey]"> <img ng-src="images/diffViewer/BaseScreenshot.png" class="sc-step-comparison-icon"/>Switch to current screenshot</button>
                     </div>
 
-                     <div class="tooltip-wrapper" uib-tooltip="{{comparisonViewOptions[displayComparisonScreenshotKey]?' Highlighting not possible on comparison screenshot' : ''}}">
-                        <button type="button" id="sc-show-highlights-button" class="btn btn-default" ng-disabled="comparisonViewOptions[displayComparisonScreenshotKey] && !comparisonViewOptions[displaySideBySideViewKey]" ng-click="toggleStorageKey(displayDiffScreenshotKey)" ng-hide="comparisonViewOptions[displayDiffScreenshotKey]">
+                    <div class="tooltip-wrapper" uib-tooltip="{{comparisonViewOptions[displayComparisonScreenshotKey]?' Highlighting not possible on comparison screenshot' : ''}}">
+                        <button type="button" id="sc-show-highlights-button" class="btn btn-default"
+                                ng-disabled="(comparisonViewOptions[displayComparisonScreenshotKey] && !comparisonViewOptions[displaySideBySideViewKey]) || step.diffInfo.changeRate === 0"
+                                ng-click="toggleStorageKey(displayDiffScreenshotKey)"
+                                ng-hide="comparisonViewOptions[displayDiffScreenshotKey]">
                             <img ng-src="images/diffViewer/HighlightChanges.png" class="sc-step-comparison-icon"/>Show highlights
                         </button>
-                        <button type="button" id="sc-hide-highlights-button" class="btn btn-default" ng-disabled="comparisonViewOptions[displayComparisonScreenshotKey] && !comparisonViewOptions[displaySideBySideViewKey]" ng-click="toggleStorageKey(displayDiffScreenshotKey)" ng-show="comparisonViewOptions[displayDiffScreenshotKey]">
+                        <button type="button" id="sc-hide-highlights-button" class="btn btn-default"
+                                ng-disabled="(comparisonViewOptions[displayComparisonScreenshotKey] && !comparisonViewOptions[displaySideBySideViewKey]) || step.diffInfo.changeRate === 0"
+                                ng-click="toggleStorageKey(displayDiffScreenshotKey)"
+                                ng-show="comparisonViewOptions[displayDiffScreenshotKey]">
                             <img ng-src="images/diffViewer/NoHighlightChanges.png" class="sc-step-comparison-icon"/>Hide highlights
                         </button>
-                     </div>
+                    </div>
 
                 </div>
                 <div id="sc-step-comparison-side-by-side-view" ng-if="comparisonViewOptions[displaySideBySideViewKey]">

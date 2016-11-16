@@ -466,7 +466,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
         if (localStorageService.get($scope.displayComparisonScreenshotKey) === null){
             setStorageKey($scope.displayComparisonScreenshotKey, false);
         }
-    };
+    }
 
     $scope.toggleStorageKey = function(storageKey) {
         setStorageKey(storageKey, !$scope.comparisonViewOptions[storageKey]);
