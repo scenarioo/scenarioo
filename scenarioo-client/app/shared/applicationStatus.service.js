@@ -15,14 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('SearchEngineStatusService', function (ScenariooResource) {
+angular.module('scenarioo.services').factory('ApplicationStatusService', function (ScenariooResource) {
 
     var SearchEngineStatusResource = ScenariooResource('/searchEngineStatus', {});
+    var ApplicationStatusResource = ScenariooResource('/configuration/applicationStatus', {});
 
     return {
         isSearchEngineRunning: function() {
             return SearchEngineStatusResource.get().$promise;
+        },
+
+        getApplicationStatus: function() {
+            return ApplicationStatusResource.get().$promise;
         }
     }
-
 });

@@ -5,17 +5,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.scenarioo.dao.search.FullTextSearch;
 
 @XmlRootElement
-public class SearchEngineStatusResponse {
+public class SearchEngineStatus {
 
 	private boolean running;
 	private boolean endpointConfigured;
 	private String endpoint;
 
-	public SearchEngineStatusResponse() {
+	public SearchEngineStatus() {
 		// for serializer
 	}
-	
-	public SearchEngineStatusResponse(final FullTextSearch fullTextSearch) {
+
+	public static SearchEngineStatus create() {
+		return new SearchEngineStatus(new FullTextSearch());
+	}
+
+	SearchEngineStatus(final FullTextSearch fullTextSearch) {
 		this.running = fullTextSearch.isEngineRunning();
 		this.setEndpointConfigured(fullTextSearch.isSearchEngineEndpointConfigured());
 		this.endpoint = fullTextSearch.getEndpoint();

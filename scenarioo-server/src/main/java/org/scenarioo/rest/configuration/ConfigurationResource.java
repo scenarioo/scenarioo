@@ -24,9 +24,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
+import org.scenarioo.dao.diffViewer.GraphicsMagickConfiguration;
+import org.scenarioo.dao.version.ApplicationVersionHolder;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.rest.search.SearchEngineStatus;
 
 @Path("/rest/configuration/")
 public class ConfigurationResource {
@@ -41,7 +44,22 @@ public class ConfigurationResource {
 	public Configuration getConfiguration() {
 		return configurationRepository.getConfiguration();
 	}
-	
+
+	@GET
+	@Path("/applicationStatus")
+	@Produces({ "application/json", "application/xml" })
+	public ApplicationStatus getApplicationStatus() {
+		ApplicationStatus applicationStatus = new ApplicationStatus();
+
+		DiffViewerStatus status = new DiffViewerStatus();
+		status.setGraphicsMagickAvailable(GraphicsMagickConfiguration.isAvailable());
+		applicationStatus.setDiffViewerStatus(status);
+		applicationStatus.setConfiguration(getConfiguration());
+		applicationStatus.setSearchEngineStatus(SearchEngineStatus.create());
+		applicationStatus.setVersion(ApplicationVersionHolder.INSTANCE.getApplicationVersion());
+		return applicationStatus;
+	}
+
 	@POST
 	@Consumes({ "application/json", "application/xml" })
 	public void updateConfiguration(final Configuration configuration) {

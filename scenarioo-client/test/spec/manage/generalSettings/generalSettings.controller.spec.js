@@ -36,6 +36,14 @@ describe('GeneralSettingsController', function () {
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/version').respond(TestData.VERSION);
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/searchEngineStatus').respond({'searchEngineRunning':false});
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration/applicationStatus').respond({
+            'searchEngineRunning':false,
+            'version': TestData.VERSION,
+            'configuration': TestData.CONFIG,
+            'diffViewerStatus': {
+                'isGraphicsMagickAvailable': false
+            }
+        });
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/branch_123/build/build_123/searchEngine').respond(404, false);
 
         $scope = $rootScope.$new();
@@ -65,11 +73,10 @@ describe('GeneralSettingsController', function () {
 
     describe('when reset button is clicked', function () {
         it('resets the config to the loaded values', function () {
-            $httpBackend.flush();
-
             changeAllValues();
 
             ConfigCtrl.resetConfiguration();
+            $httpBackend.flush();
 
             expect(ConfigCtrl.configuration).toEqualData(TestData.CONFIG);
         });

@@ -54,12 +54,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
 
+        <h2>Diff Viewer</h2>
+
+        <div id="sc-diff-viewer-not-configured-message" class="row sc-space-bottom" ng-show="!vm.diffViewerAvailable" ng-cloak>
+            <div class="col-lg-12">
+                Image comparison is <span class="sc-service-disabled">disabled</span>. Structural comparisons are enabled.<br/>
+                See <a href="https://github.com/scenarioo/scenarioo/blob/{{vm.version.releaseBranch}}/docs/features/diff-viewer/setup.md" target="_blank">Setup instructions for Diff Viewer</a> on how to configure and setup Diff Viewer for Scenarioo.
+            </div>
+        </div>
+
+        <div class="row sc-space-bottom" ng-show="vm.diffViewerAvailable" ng-cloak>
+            <div class="col-lg-12">
+                Image comparison is <span class="sc-service-enabled">enabled</span>. See <a href="https://github.com/scenarioo/scenarioo/blob/{{vm.version.releaseBranch}}/docs/features/diff-viewer/setup.md#2-add-a-comparison-configuration" target="_blank">Comparison Configuration documentation</a> for more information about configuring Diff Viewer.
+            </div>
+        </div>
+
         <h2>Full Text Search</h2>
 
         <div id="sc-search-not-configured-message" class="row sc-space-bottom" ng-show="vm.searchEngineStatus && !vm.searchEngineStatus.endpointConfigured" ng-cloak>
             <div class="col-lg-12">
-                Full text search is disabled. <br/>
-                See <a href="https://github.com/scenarioo/scenarioo/blob/{{vm.version.releaseBranch}}/docs/features/full-text-search/setup.md" target="_blank">Setup Instructions for Full Text Search</a> on how to configure and setup Full text search for Scenarioo.
+                Full text search is <span class="sc-service-disabled">disabled</span>. <br/>
+                See <a href="https://github.com/scenarioo/scenarioo/blob/{{vm.version.releaseBranch}}/docs/features/full-text-search/setup.md" target="_blank">Setup instructions for Full Text Search</a> on how to configure and setup Full text search for Scenarioo.
             </div>
         </div>
 
@@ -77,10 +92,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 &nbsp;<span class="glyphicon glyphicon-info-sign" uib-tooltip="Tells you whether Scenarioo can reach the above search engine endpoint. If it can't, the full text search feature is automatically disabled."></span>
             </div>
             <div id="sc-search-endpoint-is-not-reachable" class="col-lg-9" ng-show="!vm.searchEngineStatus.running">
-                Not running / reachable <span class="glyphicon glyphicon-exclamation-sign"></span>
+                <span class="sc-service-disabled">Not running / reachable</span> <span class="glyphicon glyphicon-exclamation-sign"></span>
             </div>
             <div id="sc-search-endpoint-is-reachable" class="col-lg-9" ng-show="vm.searchEngineStatus.running">
-                <span>Running and reachable</span>
+                <span class="sc-service-enabled">Running and reachable</span>
             </div>
         </div>
 
@@ -159,7 +174,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <h2>Display options</h2>
 
         <div class="row sc-space-bottom">
-            <div class="col-lg-3">Default state of pages in scenario overview</span>
+            <div class="col-lg-3">Default state of pages in scenario overview
             </div>
             <div class="col-lg-9">
                 <label>
