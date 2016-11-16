@@ -14,4 +14,4 @@ build/*
 TESTS-*.xml
 app/templates.js
 app/environment_config.js
-
+npm-debug.log.*
