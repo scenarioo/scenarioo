@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('GeneralSettingsController', GeneralSettingsController);
 
-function GeneralSettingsController($scope, BranchesResource, ConfigService, VersionResource, ScenariooStatusService) {
+function GeneralSettingsController(BranchesResource, ConfigService, ApplicationStatusService) {
 
     var vm = this;
     vm.branches = [];
@@ -38,20 +38,18 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService, Vers
             calculateConfiguredBranch();
         });
 
-        VersionResource.get(
-            function onSuccess(result) {
-                vm.version = result;
-            }
-        );
+        ApplicationStatusService.getApplicationStatus().then(function(status) {
 
-        ConfigService.load();
-        loadServiceStatus();
+            vm.version = status.version;
+            vm.configuration = status.configuration;
+            vm.diffViewerAvailable = status.diffViewerStatus.isGraphicsMagickAvailable;
+            vm.searchEngineStatus = status.searchEngineStatus;
+
+            calculateConfiguredBranch();
+
+        });
+
     }
-
-    $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
-        vm.configuration = ConfigService.getRawConfigDataCopy();
-        calculateConfiguredBranch();
-    });
 
     function calculateConfiguredBranch() {
         if (angular.isUndefined(vm.branches) || angular.isUndefined(vm.configuration)) {
@@ -63,16 +61,6 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService, Vers
                 vm.configuredBranch = vm.branches[index];
             }
         }
-    }
-
-    function loadServiceStatus () {
-        ScenariooStatusService.isSearchEngineRunning().then(function(result) {
-            vm.searchEngineStatus = result;
-        });
-
-        ScenariooStatusService.isDiffViewerImageProcessingAvailable().then(function(result) {
-            vm.diffViewerAvailable = result.graphicsMagickAvailable;
-        });
     }
 
     function resetConfiguration() {
@@ -87,5 +75,4 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService, Vers
             vm.successfullyUpdatedConfiguration = true;
         });
     }
-
 }

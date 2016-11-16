@@ -19,7 +19,7 @@ angular.module('scenarioo.controllers').controller('NavigationController', Navig
 
 function NavigationController($scope, $location, LocalStorageService, BranchesAndBuildsService,
                               SelectedBranchAndBuildService, SelectedComparison, ApplicationInfoPopupService, ConfigService,
-                              GlobalHotkeysService, BuildDiffInfosResource, ScenariooStatusService) {
+                              GlobalHotkeysService, BuildDiffInfosResource, ApplicationStatusService) {
 
     $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
         $scope.applicationName = ConfigService.applicationName();
@@ -56,7 +56,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     };
 
     function loadSearchEngineRunning () {
-        ScenariooStatusService.isSearchEngineRunning().then(function(result) {
+        ApplicationStatusService.isSearchEngineRunning().then(function(result) {
             $scope.isSearchEngineRunning = result.running;
         });
     }

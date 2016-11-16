@@ -58,7 +58,7 @@ public class SearchResource {
 
 	@GET
 	@Path("/searchEngineStatus")
-	public SearchEngineStatusResponse getSearchEngineStatus() {
-		return new SearchEngineStatusResponse(new FullTextSearch());
+	public SearchEngineStatus getSearchEngineStatus() {
+		return SearchEngineStatus.create();
 	}
 }
