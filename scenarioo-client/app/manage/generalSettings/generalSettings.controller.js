@@ -17,13 +17,14 @@
 
 angular.module('scenarioo.controllers').controller('GeneralSettingsController', GeneralSettingsController);
 
-function GeneralSettingsController($scope, BranchesResource, ConfigService, VersionResource, SearchEngineStatusService) {
+function GeneralSettingsController(BranchesResource, ConfigService, ApplicationStatusService) {
 
     var vm = this;
     vm.branches = [];
     vm.configuration = {};
     vm.configuredBranch = {};
     vm.successfullyUpdatedConfiguration = false;
+    vm.diffViewerAvailable = null;
     vm.searchEngineStatus = null;
     vm.resetConfiguration = resetConfiguration;
     vm.updateConfiguration = updateConfiguration;
@@ -37,20 +38,18 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService, Vers
             calculateConfiguredBranch();
         });
 
-        VersionResource.get(
-            function onSuccess(result) {
-                vm.version = result;
-            }
-        );
+        ApplicationStatusService.getApplicationStatus().then(function(status) {
 
-        ConfigService.load();
-        loadSearchEngineStatus();
+            vm.version = status.version;
+            vm.configuration = status.configuration;
+            vm.diffViewerAvailable = status.diffViewerStatus.isGraphicsMagickAvailable;
+            vm.searchEngineStatus = status.searchEngineStatus;
+
+            calculateConfiguredBranch();
+
+        });
+
     }
-
-    $scope.$on(ConfigService.CONFIG_LOADED_EVENT, function () {
-        vm.configuration = ConfigService.getRawConfigDataCopy();
-        calculateConfiguredBranch();
-    });
 
     function calculateConfiguredBranch() {
         if (angular.isUndefined(vm.branches) || angular.isUndefined(vm.configuration)) {
@@ -62,12 +61,6 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService, Vers
                 vm.configuredBranch = vm.branches[index];
             }
         }
-    }
-
-    function loadSearchEngineStatus () {
-        SearchEngineStatusService.isSearchEngineRunning().then(function(result) {
-            vm.searchEngineStatus = result;
-        });
     }
 
     function resetConfiguration() {
@@ -82,5 +75,4 @@ function GeneralSettingsController($scope, BranchesResource, ConfigService, Vers
             vm.successfullyUpdatedConfiguration = true;
         });
     }
-
 }

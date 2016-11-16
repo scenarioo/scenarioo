@@ -83,7 +83,7 @@ angular.module('scenarioo.services').service('ConfigService', function (ConfigRe
         },
 
         updateConfiguration: function (newConfig, successCallback) {
-            newConfig.$save(function () {
+            ConfigResource.save(newConfig, function () {
                 if (successCallback) {
                     doLoad();
                     successCallback();
