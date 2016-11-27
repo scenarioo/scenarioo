@@ -20,26 +20,46 @@ package org.scenarioo.dao.search;
 import org.scenarioo.dao.search.dao.*;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
-
-import java.util.Collections;
-import java.util.List;
+import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.rest.search.SearchRequest;
 
 public class SearchTree {
-	private List<SearchDao> searchResults;
-	private String q;
+	private final ObjectTreeNode<ObjectReference> results;
+	private final long hits;
+	private final long totalHits;
+	private final SearchRequest searchRequest;
 
 	public static SearchTree empty() {
-		return new SearchTree(Collections.<SearchDao>emptyList(), "");
+		return new SearchTree(SearchResultsDao.noHits(), new SearchRequest(new BuildIdentifier(), "", true));
 	}
 
-	public SearchTree(List<SearchDao> searchResults, String q) {
-		this.searchResults = searchResults;
-		this.q = q;
+	public SearchTree(SearchResultsDao searchResults, SearchRequest searchRequest) {
+		this.hits = searchResults.getHits();
+		this.totalHits = searchResults.getTotalHits();
+		this.searchRequest = searchRequest;
+
+		this.results = buildObjectTree(searchResults);
 	}
 
-	public ObjectTreeNode<ObjectReference> buildObjectTree() {
-		ObjectTreeNode<ObjectReference> rootNode = new ObjectTreeNode<ObjectReference>(new ObjectReference("search", q));
-		for (SearchDao entry : searchResults) {
+	public ObjectTreeNode<ObjectReference> getResults() {
+		return results;
+	}
+
+	public long getHits() {
+		return hits;
+	}
+
+	public long getTotalHits() {
+		return totalHits;
+	}
+
+	public SearchRequest getSearchRequest() {
+		return searchRequest;
+	}
+
+	private ObjectTreeNode<ObjectReference> buildObjectTree(SearchResultsDao searchResults) {
+		ObjectTreeNode<ObjectReference> rootNode = new ObjectTreeNode<>(new ObjectReference("search", searchRequest.getQ()));
+		for (SearchDao entry : searchResults.getResults()) {
 			addNode(rootNode, entry);
 		}
 		return rootNode;

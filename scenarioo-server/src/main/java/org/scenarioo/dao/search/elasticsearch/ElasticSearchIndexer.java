@@ -131,7 +131,17 @@ class ElasticSearchIndexer {
                 "					}" +
                 "				}" +
                 "			}" +
-                "		]" +
+                "		]," +
+				"		\"properties\": {" +
+				"			\"step\": {" +
+				"				\"properties\": {" +
+				"					\"html\": {" +
+				"						\"type\": \"object\"," +
+				"						\"include_in_all\": false" +
+				"					}" +
+				"				}" +
+				"			}" +
+				"		}" +
                 "	}" +
                 "}";
     }
