@@ -17,7 +17,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumbs></sc-breadcrumbs>
 
-<div class="sc-referenceTreeMetaData"
+<form class="navbar-form" >
+    <div class="form-group">
+        <input type="checkbox" ng-model="vm.includeHtml" ng-change="vm.changeIncludeHtml()" id="sc-search-include-html"/> Include HTML source in search results
+    </div>
+</form>
+
+<div class="sc-referenceTreeMetaData" id="sc-search-results-table"
      data-sc-filterable-table-tree
      data-root-is-collapsed="false"
      data-expand-first-child-up-to-root-node="true"
@@ -29,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
      ng-show="vm.results.resultSet.children.length > 0">
 </div>
 
-<div class="alert alert-warning" ng-show="vm.results.resultSet.children.length === 0">
+<div class="alert alert-warning" ng-show="vm.results.resultSet.children.length === 0" id="sc-search-no-results-message">
     No result.
 </div>
 

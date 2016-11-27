@@ -18,6 +18,7 @@ function initLocalStorage() {
         var injector = angular.element(document.body).injector();
         var LocalStorageService = injector.get('LocalStorageService');
         LocalStorageService.set('scenariooPreviouslyVisited', 'true');
+        LocalStorageService.set('scenarioo-searchIncludeHtml', 'false');
     });
     setPreviouslyVisitedInLocalStorage.then(function () {
         var visited = browser.executeScript(function() {

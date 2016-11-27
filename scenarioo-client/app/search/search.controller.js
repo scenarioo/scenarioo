@@ -16,16 +16,19 @@
  */
 
 angular.module('scenarioo.controllers').controller('SearchController', function ($routeParams, $location, FullTextSearchService,
-                                                                                 SelectedBranchAndBuildService, ReferenceTreeNavigationService) {
+                                                                                 SelectedBranchAndBuildService, ReferenceTreeNavigationService, LocalStorageService) {
+    var LOCAL_STORAGE_KEY_INCLUDE_HTML = 'scenarioo-searchIncludeHtml';
+
     var vm = this;
 
     vm.results = {resultSet: []};
     vm.errorMessage = '';
     vm.searchTerm = $routeParams.searchTerm;
-    vm.includeHtml = $location.search().includeHtml;
+    vm.includeHtml = LocalStorageService.get(LOCAL_STORAGE_KEY_INCLUDE_HTML) || 'false';
     vm.treemodel = [];
     vm.showSearchFailed = false;
     vm.goToRelatedView = goToRelatedView;
+    vm.changeIncludeHtml = changeIncludeHtml;
 
     doSearch();
 
@@ -51,6 +54,11 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
         function onError(error) {
             vm.showSearchFailed = true;
         });
+    }
+
+    function changeIncludeHtml() {
+        LocalStorageService.set(LOCAL_STORAGE_KEY_INCLUDE_HTML, vm.includeHtml);
+        doSearch();
     }
 
     // Entry point when a tree entry is clicked

@@ -27,7 +27,7 @@ useCase('Full Text Search')
             });
 
         scenario('Search with result')
-            .description('Search for a term that yealds some results.')
+            .description('Search for a term that yields some results.')
             .it(function() {
                 homePage.goToPage();
                 navigationPage.enterSearchTerm('donate.jsp');
@@ -36,7 +36,7 @@ useCase('Full Text Search')
                 navigationPage.clickSearchButton();
                 breadcrumbsPage.assertBreadcrumbElementText('breadcrumb_0', 'Home');
                 breadcrumbsPage.assertBreadcrumbElementText('breadcrumb_last_1', 'Search Results for donate');
-                searchResultsPage.assertResultTableTitle();
+                searchResultsPage.assertResultTableTitle('Search Results (showing 1 of 1 hits)');
                 searchResultsPage.assertNumberOfResultRows(3);
                 step('Search results');
 
@@ -44,5 +44,26 @@ useCase('Full Text Search')
                 stepPage.assertRoute('/step/Donate/find_donate_page/donate.jsp/0/0');
                 stepPage.assertScreenshotIsShown();
                 step('After navigating to a search result step');
+            });
+
+        scenario('Search with and without HTML source')
+            .description('By default the HTML source is not searched, but the user can select to also search it.')
+            .it(function() {
+                homePage.goToPage();
+                navigationPage.enterSearchTerm('body');
+                step('Search term body entered, which mainly appears in the html source code');
+
+                navigationPage.clickSearchButton();
+                breadcrumbsPage.assertBreadcrumbElementText('breadcrumb_0', 'Home');
+                breadcrumbsPage.assertBreadcrumbElementText('breadcrumb_last_1', 'Search Results for body');
+                searchResultsPage.assertNoResultsShown();
+                step('No results, as not searching in html source');
+                
+                searchResultsPage.clickIncludeHtml();
+                breadcrumbsPage.assertBreadcrumbElementText('breadcrumb_0', 'Home');
+                breadcrumbsPage.assertBreadcrumbElementText('breadcrumb_last_1', 'Search Results for body');
+                searchResultsPage.assertResultTableTitle('Search Results (showing 32 of 32 hits)');
+                searchResultsPage.assertNumberOfResultRows(43);
+                step('Many results, as now searching in html source as well');
             });
     });
