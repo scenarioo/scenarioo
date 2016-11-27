@@ -38,7 +38,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.IgnoreUseCaseSetStatusMixIn;
-import org.scenarioo.dao.search.dao.*;
+import org.scenarioo.dao.search.model.*;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.UseCase;
@@ -62,26 +62,26 @@ class ElasticSearchSearcher {
 
             this.indexName = indexName;
 
-			useCaseReader = generateStandardReaders(UseCase.class, UseCaseSearchDao.class);
-			scenarioReader = generateStandardReaders(Scenario.class, ScenarioSearchDao.class);
-			stepReader = generateStandardReaders(StepDescription.class, StepSearchDao.class);
+			useCaseReader = generateStandardReaders(UseCase.class, SearchableUseCase.class);
+			scenarioReader = generateStandardReaders(Scenario.class, SearchableScenario.class);
+			stepReader = generateStandardReaders(StepDescription.class, SearchableStep.class);
 
         } catch (UnknownHostException e) {
             LOGGER.info("no elasticsearch cluster running.");
         }
     }
 
-    SearchResultsDao search(final SearchRequest searchRequest) {
+    SearchResults search(final SearchRequest searchRequest) {
         SearchResponse searchResponse = executeSearch(searchRequest);
 
         if (searchResponse.getHits().getHits().length == 0) {
             LOGGER.debug("No results found for " + searchRequest);
-            return SearchResultsDao.noHits();
+            return SearchResults.noHits();
         }
 
         SearchHit[] hits = searchResponse.getHits().getHits();
 
-        List<SearchDao> results = new ArrayList<SearchDao>();
+        List<SearchableObject> results = new ArrayList<SearchableObject>();
         for (SearchHit searchHit : hits) {
             try {
                 String type = searchHit.getType();
@@ -102,7 +102,7 @@ class ElasticSearchSearcher {
             }
         }
 
-        return new SearchResultsDao(results, hits.length, searchResponse.getHits().getTotalHits());
+        return new SearchResults(results, hits.length, searchResponse.getHits().getTotalHits());
     }
 
     private SearchResponse executeSearch(final SearchRequest searchRequest) {
@@ -127,21 +127,21 @@ class ElasticSearchSearcher {
 		}
 	}
 
-	private SearchDao parseUseCase(final SearchHit searchHit) throws IOException {
-        UseCaseSearchDao useCaseResult = useCaseReader.readValue(searchHit.getSourceRef().streamInput());
+	private SearchableObject parseUseCase(final SearchHit searchHit) throws IOException {
+        SearchableUseCase useCaseResult = useCaseReader.readValue(searchHit.getSourceRef().streamInput());
 
 		return useCaseResult;
     }
 
-    private SearchDao parseScenario(final SearchHit searchHit) throws IOException {
-        ScenarioSearchDao scenarioSearchDao = scenarioReader.readValue(searchHit.getSourceRef()
+    private SearchableObject parseScenario(final SearchHit searchHit) throws IOException {
+        SearchableScenario scenarioSearchDao = scenarioReader.readValue(searchHit.getSourceRef()
                 .streamInput());
 
 		return scenarioSearchDao;
     }
 
-    private SearchDao parseStep(final SearchHit searchHit) throws IOException {
-        StepSearchDao stepSearchDao = stepReader.readValue(searchHit.getSourceRef()
+    private SearchableObject parseStep(final SearchHit searchHit) throws IOException {
+        SearchableStep stepSearchDao = stepReader.readValue(searchHit.getSourceRef()
                 .streamInput());
 
 		return stepSearchDao;

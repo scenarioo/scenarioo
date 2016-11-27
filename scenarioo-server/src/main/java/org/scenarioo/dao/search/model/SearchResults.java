@@ -15,8 +15,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.dao.search.dao;
+package org.scenarioo.dao.search.model;
 
-public interface SearchDao {
-	// Marker
+import java.util.Collections;
+import java.util.List;
+
+public class SearchResults {
+
+	private final List<SearchableObject> results;
+	private final long hits;
+	private long totalHits;
+
+	public static SearchResults noHits() {
+		return new SearchResults(Collections.<SearchableObject> emptyList(), 0, 0);
+	}
+
+	public SearchResults(List<SearchableObject> results, long hits, long totalHits) {
+		this.results = results;
+		this.totalHits = totalHits;
+		this.hits = hits;
+	}
+
+	public long getHits() {
+		return hits;
+	}
+
+	public long getTotalHits() {
+		return totalHits;
+	}
+
+	public List<SearchableObject> getResults() {
+		return results;
+	}
 }

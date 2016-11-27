@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
-import org.scenarioo.dao.search.dao.SearchResultsDao;
+import org.scenarioo.dao.search.model.SearchResults;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
@@ -75,10 +75,10 @@ public class FullTextSearchTest {
         }
 
         @Override
-        public SearchResultsDao searchData(final SearchRequest searchRequest) {
+        public SearchResults searchData(final SearchRequest searchRequest) {
 			assertTrue("Should not be reachable", isRunning);
 
-            return SearchResultsDao.noHits();
+            return SearchResults.noHits();
         }
 
         @Override

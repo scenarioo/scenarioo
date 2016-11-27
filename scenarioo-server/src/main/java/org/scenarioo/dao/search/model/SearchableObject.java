@@ -15,20 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.dao.search.dao;
+package org.scenarioo.dao.search.model;
 
-import org.scenarioo.model.docu.entities.UseCase;
-
-public class UseCaseSearchDao implements SearchDao {
-
-	private UseCase useCase;
-
-	public UseCase getUseCase() {
-		return useCase;
-	}
-
-	public void setUseCase(final UseCase useCase) {
-		this.useCase = useCase;
-	}
-
+public interface SearchableObject {
+	// Marker
 }

@@ -17,7 +17,7 @@
 
 package org.scenarioo.dao.search;
 
-import org.scenarioo.dao.search.dao.*;
+import org.scenarioo.dao.search.model.*;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.model.docu.entities.generic.ObjectTreeNode;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -30,10 +30,10 @@ public class SearchTree {
 	private final SearchRequest searchRequest;
 
 	public static SearchTree empty() {
-		return new SearchTree(SearchResultsDao.noHits(), new SearchRequest(new BuildIdentifier(), "", true));
+		return new SearchTree(SearchResults.noHits(), new SearchRequest(new BuildIdentifier(), "", true));
 	}
 
-	public SearchTree(SearchResultsDao searchResults, SearchRequest searchRequest) {
+	public SearchTree(SearchResults searchResults, SearchRequest searchRequest) {
 		this.hits = searchResults.getHits();
 		this.totalHits = searchResults.getTotalHits();
 		this.searchRequest = searchRequest;
@@ -57,23 +57,23 @@ public class SearchTree {
 		return searchRequest;
 	}
 
-	private ObjectTreeNode<ObjectReference> buildObjectTree(SearchResultsDao searchResults) {
+	private ObjectTreeNode<ObjectReference> buildObjectTree(SearchResults searchResults) {
 		ObjectTreeNode<ObjectReference> rootNode = new ObjectTreeNode<>(new ObjectReference("search", searchRequest.getQ()));
-		for (SearchDao entry : searchResults.getResults()) {
+		for (SearchableObject entry : searchResults.getResults()) {
 			addNode(rootNode, entry);
 		}
 		return rootNode;
 	}
 
-	private void addNode(ObjectTreeNode<ObjectReference> rootNode, SearchDao entry) {
-		if (entry instanceof UseCaseSearchDao) {
-			putUseCase(rootNode, (UseCaseSearchDao) entry);
+	private void addNode(ObjectTreeNode<ObjectReference> rootNode, SearchableObject entry) {
+		if (entry instanceof SearchableUseCase) {
+			putUseCase(rootNode, (SearchableUseCase) entry);
 
-		} else if (entry instanceof ScenarioSearchDao) {
-			putScenario(rootNode, (ScenarioSearchDao) entry);
+		} else if (entry instanceof SearchableScenario) {
+			putScenario(rootNode, (SearchableScenario) entry);
 
-		} else if (entry instanceof StepSearchDao) {
-			putStep(rootNode, (StepSearchDao) entry);
+		} else if (entry instanceof SearchableStep) {
+			putStep(rootNode, (SearchableStep) entry);
 
 		} else {
 			throw new IllegalStateException("SearchTree does not support the node " + entry);
@@ -115,21 +115,21 @@ public class SearchTree {
 		return getOrAddNode(root, usecase, FullTextSearch.USECASE);
 	}
 
-	private ObjectTreeNode<ObjectReference> putStep(ObjectTreeNode<ObjectReference> root, StepSearchDao entry) {
-		ObjectTreeNode<ObjectReference> useCaseNode = getOrAddUseCase(root, entry.get_meta().getUsecase());
-		ObjectTreeNode<ObjectReference> scenarioNode = getOrAddScenario(useCaseNode, entry.get_meta().getScenario());
+	private ObjectTreeNode<ObjectReference> putStep(ObjectTreeNode<ObjectReference> root, SearchableStep entry) {
+		ObjectTreeNode<ObjectReference> useCaseNode = getOrAddUseCase(root, entry.getSearchableObjectContext().getUsecase());
+		ObjectTreeNode<ObjectReference> scenarioNode = getOrAddScenario(useCaseNode, entry.getSearchableObjectContext().getScenario());
 
-		return getOrAddStep(scenarioNode, String.format("%s/%s/%s", entry.getStep().getPage().getName(), entry.get_meta().getStepLink().getPageOccurrence(),
-			entry.get_meta().getStepLink().getStepInPageOccurrence()));
+		return getOrAddStep(scenarioNode, String.format("%s/%s/%s", entry.getStep().getPage().getName(), entry.getSearchableObjectContext().getStepLink().getPageOccurrence(),
+			entry.getSearchableObjectContext().getStepLink().getStepInPageOccurrence()));
 	}
 
-	private ObjectTreeNode<ObjectReference> putScenario(ObjectTreeNode<ObjectReference> root, ScenarioSearchDao entry) {
-		ObjectTreeNode<ObjectReference> useCaseNode = getOrAddUseCase(root, entry.get_meta().getUsecase());
+	private ObjectTreeNode<ObjectReference> putScenario(ObjectTreeNode<ObjectReference> root, SearchableScenario entry) {
+		ObjectTreeNode<ObjectReference> useCaseNode = getOrAddUseCase(root, entry.getSearchableObjectContext().getUsecase());
 
 		return getOrAddScenario(useCaseNode, entry.getScenario().getName());
 	}
 
-	private ObjectTreeNode<ObjectReference> putUseCase(ObjectTreeNode<ObjectReference> rootNode, UseCaseSearchDao entry) {
+	private ObjectTreeNode<ObjectReference> putUseCase(ObjectTreeNode<ObjectReference> rootNode, SearchableUseCase entry) {
 		return getOrAddUseCase(rootNode, entry.getUseCase().getName());
 	}
 }
