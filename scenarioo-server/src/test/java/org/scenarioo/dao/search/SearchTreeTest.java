@@ -1,9 +1,9 @@
 package org.scenarioo.dao.search;
 
 import org.junit.Test;
-import org.scenarioo.dao.search.dao.SearchDao;
-import org.scenarioo.dao.search.dao.SearchResultsDao;
-import org.scenarioo.dao.search.dao.StepSearchDao;
+import org.scenarioo.dao.search.model.SearchableObject;
+import org.scenarioo.dao.search.model.SearchResults;
+import org.scenarioo.dao.search.model.SearchableStep;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.*;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
@@ -56,10 +56,10 @@ public class SearchTreeTest {
 		UseCase usecase = new UseCase();
 		usecase.setName("Use Case 1");
 
-		List<SearchDao> searchResults = new ArrayList<SearchDao>();
-		searchResults.add(new StepSearchDao(step, stepLink, scenario, usecase));
+		List<SearchableObject> searchResults = new ArrayList<SearchableObject>();
+		searchResults.add(new SearchableStep(step, stepLink, scenario, usecase));
 
-		return new SearchTree(new SearchResultsDao(searchResults, 4, 2), new SearchRequest(new BuildIdentifier(), "", false));
+		return new SearchTree(new SearchResults(searchResults, 4, 2), new SearchRequest(new BuildIdentifier(), "", false));
 	}
 
 	private void thenHasNodes(ObjectTreeNode<ObjectReference> objectTree, String useCase, String scenario, String step) {

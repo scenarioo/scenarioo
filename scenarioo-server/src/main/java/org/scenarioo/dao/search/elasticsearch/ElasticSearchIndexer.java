@@ -26,9 +26,9 @@ import org.codehaus.jackson.map.ObjectWriter;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.scenarioo.dao.search.FullTextSearch;
-import org.scenarioo.dao.search.dao.ScenarioSearchDao;
-import org.scenarioo.dao.search.dao.StepSearchDao;
-import org.scenarioo.dao.search.dao.UseCaseSearchDao;
+import org.scenarioo.dao.search.model.SearchableScenario;
+import org.scenarioo.dao.search.model.SearchableStep;
+import org.scenarioo.dao.search.model.SearchableUseCase;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
@@ -68,15 +68,10 @@ class ElasticSearchIndexer {
 
     void indexUseCases(final UseCaseScenariosList useCaseScenariosList) {
         for (UseCaseScenarios useCaseScenarios : useCaseScenariosList.getUseCaseScenarios()) {
-            UseCaseSearchDao searchDao = new UseCaseSearchDao();
-            searchDao.setUseCase(useCaseScenarios.getUseCase());
-
-            indexUseCase(searchDao);
+			indexUseCase(new SearchableUseCase(useCaseScenarios.getUseCase()));
 
             for (ScenarioSummary scenario : useCaseScenarios.getScenarios()) {
-                ScenarioSearchDao scenarioSearchDao = new ScenarioSearchDao(scenario.getScenario(), useCaseScenarios.getUseCase().getName());
-
-                indexScenario(scenarioSearchDao);
+                indexScenario(new SearchableScenario(scenario.getScenario(), useCaseScenarios.getUseCase().getName()));
             }
         }
     }
@@ -86,18 +81,21 @@ class ElasticSearchIndexer {
 			Step step = stepsList.get(i);
 			StepLink link = stepLinksList.get(i);
 
-			StepSearchDao stepSearchDao = new StepSearchDao(step, link, scenario, usecase);
-			indexDocument(FullTextSearch.STEP, stepSearchDao, step.getStepDescription().getTitle());
+			indexStep(new SearchableStep(step, link, scenario, usecase));
 		}
 	}
 
-    private void indexUseCase(final UseCaseSearchDao useCaseSearchDao) {
-        indexDocument(FullTextSearch.USECASE, useCaseSearchDao, useCaseSearchDao.getUseCase().getName());
+    private void indexUseCase(final SearchableUseCase searchableUseCase) {
+        indexDocument(FullTextSearch.USECASE, searchableUseCase, searchableUseCase.getUseCase().getName());
     }
 
-    private void indexScenario(final ScenarioSearchDao scenariosearchDao) {
+    private void indexScenario(final SearchableScenario scenariosearchDao) {
         indexDocument(FullTextSearch.SCENARIO, scenariosearchDao, scenariosearchDao.getScenario().getName());
     }
+
+	private void indexStep(final SearchableStep stepSearchDao) {
+		indexDocument(FullTextSearch.STEP, stepSearchDao, stepSearchDao.getStep().getStepDescription().getTitle());
+	}
 
     private <T> void indexDocument(final String type, final T document, final String documentName) {
         try {
@@ -125,7 +123,7 @@ class ElasticSearchIndexer {
                 "		\"dynamic_templates\": [" +
                 "			{" +
                 "				\"ignore_meta_data\": {" +
-                "					\"path_match\": \"_meta.*\"," +
+				"					\"path_match\": \"SearchableObjectContext.*\"," +
                 "					\"mapping\": {" +
                 "						\"index\": \"no\"" +
                 "					}" +

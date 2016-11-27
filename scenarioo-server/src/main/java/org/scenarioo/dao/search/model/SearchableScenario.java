@@ -15,22 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.dao.search.dao;
+package org.scenarioo.dao.search.model;
 
 import org.scenarioo.model.docu.entities.Scenario;
 
-public class ScenarioSearchDao implements SearchDao {
+public class SearchableScenario implements SearchableObject {
 
 	private Scenario scenario;
-	private MetaData _meta;
+	private SearchableObjectContext searchableObjectContext;
 
-
-	public ScenarioSearchDao() {
+	public SearchableScenario() {
 	}
 
-	public ScenarioSearchDao(final Scenario scenario, final String usecaseName) {
+	public SearchableScenario(final Scenario scenario, final String usecaseName) {
 		this.scenario = scenario;
-		this._meta = new MetaData(usecaseName);
+		this.searchableObjectContext = new SearchableObjectContext(usecaseName);
 	}
 
 	public Scenario getScenario() {
@@ -41,21 +40,21 @@ public class ScenarioSearchDao implements SearchDao {
 		this.scenario = scenario;
 	}
 
-	public MetaData get_meta() {
-		return _meta;
+	public SearchableObjectContext getSearchableObjectContext() {
+		return searchableObjectContext;
 	}
 
-	public void set_meta(final MetaData _meta) {
-		this._meta = _meta;
+	public void setSearchableObjectContext(final SearchableObjectContext searchableObjectContext) {
+		this.searchableObjectContext = searchableObjectContext;
 	}
 
-	public static class MetaData {
+	public static class SearchableObjectContext {
 		private String usecase;
 
-		public MetaData() {
+		public SearchableObjectContext() {
 		}
 
-		public MetaData(final String usecase) {
+		public SearchableObjectContext(final String usecase) {
 			this.usecase = usecase;
 		}
 

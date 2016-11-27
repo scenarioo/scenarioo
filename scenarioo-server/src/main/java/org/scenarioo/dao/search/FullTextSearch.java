@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.dao.search.dao.SearchResultsDao;
 import org.scenarioo.dao.search.elasticsearch.ElasticSearchAdapter;
+import org.scenarioo.dao.search.model.SearchResults;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
@@ -66,7 +66,7 @@ public class FullTextSearch {
 			throw new SearchEngineNotRunningException();
 		}
 
-		SearchResultsDao searchResults;
+		SearchResults searchResults;
 
 		try {
 			searchResults = searchAdapter.searchData(searchRequest);

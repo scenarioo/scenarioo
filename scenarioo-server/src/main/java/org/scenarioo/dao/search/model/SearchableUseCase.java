@@ -15,36 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.dao.search.dao;
+package org.scenarioo.dao.search.model;
 
-import java.util.Collections;
-import java.util.List;
+import org.scenarioo.model.docu.entities.UseCase;
 
-public class SearchResultsDao {
+public class SearchableUseCase implements SearchableObject {
 
-	private final List<SearchDao> results;
-	private final long hits;
-	private long totalHits;
+	private UseCase useCase;
 
-	public static SearchResultsDao noHits() {
-		return new SearchResultsDao(Collections.<SearchDao>emptyList(), 0, 0);
+	public SearchableUseCase() {
 	}
 
-	public SearchResultsDao(List<SearchDao> results, long hits, long totalHits) {
-		this.results = results;
-		this.totalHits = totalHits;
-		this.hits = hits;
+	public SearchableUseCase(UseCase useCase) {
+		this.useCase = useCase;
 	}
 
-	public long getHits() {
-		return hits;
+	public UseCase getUseCase() {
+		return useCase;
 	}
 
-	public long getTotalHits() {
-		return totalHits;
+	public void setUseCase(final UseCase useCase) {
+		this.useCase = useCase;
 	}
 
-	public List<SearchDao> getResults() {
-		return results;
-	}
 }

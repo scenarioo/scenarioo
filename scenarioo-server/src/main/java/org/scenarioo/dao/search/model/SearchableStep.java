@@ -15,24 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.dao.search.dao;
+package org.scenarioo.dao.search.model;
 
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 
-public class StepSearchDao implements SearchDao {
+public class SearchableStep implements SearchableObject {
 
 	private Step step;
-	private MetaData _meta;
+	private SearchableObjectContext searchableObjectContext;
 
-    public StepSearchDao() {
+    public SearchableStep() {
     }
 
-    public StepSearchDao(final Step step, final StepLink stepLink, final Scenario scenario, final UseCase usecase) {
+    public SearchableStep(final Step step, final StepLink stepLink, final Scenario scenario, final UseCase usecase) {
         this.step = step;
-        this._meta = new MetaData(stepLink, scenario.getName(), usecase.getName());
+        this.searchableObjectContext = new SearchableObjectContext(stepLink, scenario.getName(), usecase.getName());
     }
 
     public Step getStep() {
@@ -43,23 +43,23 @@ public class StepSearchDao implements SearchDao {
         this.step = step;
     }
 
-	public void set_meta(final MetaData _meta) {
-        this._meta = _meta;
+	public void setSearchableObjectContext(final SearchableObjectContext searchableObjectContext) {
+        this.searchableObjectContext = searchableObjectContext;
     }
 
-    public MetaData get_meta() {
-        return _meta;
+    public SearchableObjectContext getSearchableObjectContext() {
+        return searchableObjectContext;
     }
 
-	public static class MetaData {
+	public static class SearchableObjectContext {
 		private StepLink stepLink;
         private String usecase;
         private String scenario;
 
-        public MetaData() {
+        public SearchableObjectContext() {
         }
 
-        MetaData(final StepLink stepLink, final String scenario, final String usecase) {
+        SearchableObjectContext(final StepLink stepLink, final String scenario, final String usecase) {
 			this.stepLink = stepLink;
             this.scenario = scenario;
             this.usecase = usecase;
