@@ -30,7 +30,7 @@ useCase('Full Text Search')
             .description('Search for a term that yealds some results.')
             .it(function() {
                 homePage.goToPage();
-                navigationPage.enterSearchTerm('donate');
+                navigationPage.enterSearchTerm('donate.jsp');
                 step('Search term entered');
 
                 navigationPage.clickSearchButton();

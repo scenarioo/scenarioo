@@ -22,6 +22,7 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
     vm.results = {resultSet: []};
     vm.errorMessage = '';
     vm.searchTerm = $routeParams.searchTerm;
+    vm.includeHtml = $location.search().includeHtml;
     vm.treemodel = [];
     vm.showSearchFailed = false;
     vm.goToRelatedView = goToRelatedView;
@@ -33,6 +34,7 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
 
         FullTextSearchService.search({
                 q: vm.searchTerm,
+                includeHtml: vm.includeHtml,
                 buildName: selected.build,
                 branchName: selected.branch
             }
@@ -41,7 +43,9 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
                 vm.showSearchFailed = true;
                 vm.errorMessage = response.errorMessage;
             } else {
-                vm.results.resultSet = response.results;
+                vm.results.resultSet = response.searchTree.results;
+                vm.hits = response.searchTree.hits;
+                vm.totalHits = response.searchTree.totalHits;
             }
         },
         function onError(error) {

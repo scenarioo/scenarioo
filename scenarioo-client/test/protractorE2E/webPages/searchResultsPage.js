@@ -23,7 +23,7 @@ SearchResultsPage.prototype.clickSearchButton = function() {
 };
 
 SearchResultsPage.prototype.assertResultTableTitle = function() {
-    expect(element(by.id('sc-treeviewtable-title')).getText()).toBe('Search Results');
+    expect(element(by.id('sc-treeviewtable-title')).getText()).toBe('Search Results (showing 1 of 1 hits)');
 };
 
 SearchResultsPage.prototype.assertNumberOfResultRows = function(expectedNumber) {

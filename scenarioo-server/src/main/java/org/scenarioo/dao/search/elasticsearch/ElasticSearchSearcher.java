@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -33,20 +32,21 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.unit.Fuzziness;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.IgnoreUseCaseSetStatusMixIn;
-import org.scenarioo.dao.search.dao.ScenarioSearchDao;
-import org.scenarioo.dao.search.dao.SearchDao;
-import org.scenarioo.dao.search.dao.StepSearchDao;
-import org.scenarioo.dao.search.dao.UseCaseSearchDao;
+import org.scenarioo.dao.search.dao.*;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.rest.search.SearchRequest;
 
 class ElasticSearchSearcher {
 	private final static Logger LOGGER = Logger.getLogger(ElasticSearchSearcher.class);
+	private final static int MAX_SEARCH_RESULTS = 200;
 
 	private String indexName;
     private TransportClient client;
@@ -71,12 +71,12 @@ class ElasticSearchSearcher {
         }
     }
 
-    List<SearchDao> search(final String q) {
-        SearchResponse searchResponse = executeSearch(q);
+    SearchResultsDao search(final SearchRequest searchRequest) {
+        SearchResponse searchResponse = executeSearch(searchRequest);
 
         if (searchResponse.getHits().getHits().length == 0) {
-            LOGGER.debug("No results found for " + q);
-            return Collections.emptyList();
+            LOGGER.debug("No results found for " + searchRequest);
+            return SearchResultsDao.noHits();
         }
 
         SearchHit[] hits = searchResponse.getHits().getHits();
@@ -102,20 +102,32 @@ class ElasticSearchSearcher {
             }
         }
 
-        return results;
+        return new SearchResultsDao(results, hits.length, searchResponse.getHits().getTotalHits());
     }
 
-    private SearchResponse executeSearch(final String q) {
-        LOGGER.debug("Search in index " + indexName + " for " + q);
-        SearchRequestBuilder setQuery = client.prepareSearch()
+    private SearchResponse executeSearch(final SearchRequest searchRequest) {
+        LOGGER.debug("Search in index " + indexName + " for " + searchRequest.getQ());
+
+		SearchRequestBuilder setQuery = client.prepareSearch()
                 .setIndices(indexName)
-                .setSearchType(SearchType.QUERY_AND_FETCH)
-                .setQuery(QueryBuilders.queryStringQuery("*" + q + "*"));
+                .setSearchType(SearchType.QUERY_THEN_FETCH)
+				.setSize(MAX_SEARCH_RESULTS)
+				.setQuery(QueryBuilders.multiMatchQuery(searchRequest.getQ(), getFieldNames(searchRequest))
+					.fuzziness(Fuzziness.AUTO)
+					.operator(MatchQueryBuilder.Operator.AND));
 
         return setQuery.execute().actionGet();
     }
 
-    private SearchDao parseUseCase(final SearchHit searchHit) throws IOException {
+	private String[] getFieldNames(SearchRequest searchRequest) {
+		if(searchRequest.includeHtml()) {
+			return new String[]{"_all", "step.html.htmlSource"};
+		} else {
+			return new String[]{"_all"};
+		}
+	}
+
+	private SearchDao parseUseCase(final SearchHit searchHit) throws IOException {
         UseCaseSearchDao useCaseResult = useCaseReader.readValue(searchHit.getSourceRef().streamInput());
 
 		return useCaseResult;

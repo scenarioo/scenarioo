@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
-import org.scenarioo.dao.search.dao.SearchDao;
+import org.scenarioo.dao.search.dao.SearchResultsDao;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
@@ -14,6 +14,7 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.rest.search.SearchRequest;
 
 
 public class FullTextSearchTest {
@@ -30,7 +31,7 @@ public class FullTextSearchTest {
 	@Test(expected = SearchEngineNotRunningException.class)
     public void searchWithoutRunningEngine() {
         givenNoRunningEngine();
-        fullTextSearch.search("hi", new BuildIdentifier("testBranch", "testBuild"));
+        fullTextSearch.search(new SearchRequest(new BuildIdentifier("testBranch", "testBuild"), "hi", true));
     }
 
     @Test
@@ -43,8 +44,9 @@ public class FullTextSearchTest {
     @Test
     public void searchWithNoResults() {
         givenRunningEngineWithSearchResults();
-        SearchTree result = fullTextSearch.search("IDONOTEXIST", new BuildIdentifier("testBranch", "testBuild"));
-		assertEquals(0, result.buildObjectTree().getChildren().size());
+        SearchTree result = fullTextSearch.search(new SearchRequest(new BuildIdentifier("testBranch", "testBuild"), "IDONOTEXIST", true));
+		assertEquals(0, result.getResults().getChildren().size());
+		assertEquals(0, result.getTotalHits());
     }
 
     private void givenNoRunningEngine() {
@@ -73,10 +75,10 @@ public class FullTextSearchTest {
         }
 
         @Override
-        public List<SearchDao> searchData(final BuildIdentifier buildIdentifier, final String q) {
+        public SearchResultsDao searchData(final SearchRequest searchRequest) {
 			assertTrue("Should not be reachable", isRunning);
 
-            return Collections.emptyList();
+            return SearchResultsDao.noHits();
         }
 
         @Override
