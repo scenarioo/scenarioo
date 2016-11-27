@@ -39,8 +39,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
     };
 
     $scope.search = function () {
-        var searchTerm = $scope.globalSearch.queryString,
-            includeHtml = !!$scope.globalSearch.includeHtml;
+        var searchTerm = $scope.globalSearch.queryString;
 
         // If the search term is blank nothing happens
         if(!angular.isString(searchTerm) || searchTerm.trim() === '') {
@@ -53,7 +52,7 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
             return;
         }
 
-        $location.url('/search/' + searchTerm + '?includeHtml=' + includeHtml);
+        $location.url('/search/' + searchTerm);
     };
 
     function loadSearchEngineRunning () {
