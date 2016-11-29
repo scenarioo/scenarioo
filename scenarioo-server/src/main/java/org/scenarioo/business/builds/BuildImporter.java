@@ -100,8 +100,7 @@ public class BuildImporter {
 			for (BuildLink buildLink : branchBuilds.getBuilds()) {
 				// Take existent summary or create new one.
 				BuildIdentifier buildIdentifier = new BuildIdentifier(branchBuilds.getBranch().getName(),
-						buildLink
-								.getBuild().getName());
+						buildLink.getBuild().getName());
 				BuildImportSummary buildSummary = loadedBuildSummaries.get(buildIdentifier);
 				if (buildSummary == null) {
 					buildSummary = new BuildImportSummary(branchBuilds.getBranch().getName(), buildLink.getBuild());

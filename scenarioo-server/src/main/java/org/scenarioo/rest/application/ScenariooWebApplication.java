@@ -51,7 +51,7 @@ public class ScenariooWebApplication implements ServletContextListener {
 		initializeContextPath(servletContextEvent.getServletContext());
 
 		LOGGER.info("  Updating documentation content directory (will be done asynchronously ...)");
-		ScenarioDocuBuildsManager.INSTANCE.updateAllBuildsAndSubmitNewBuildsForImport();
+		ScenarioDocuBuildsManager.INSTANCE.updateBuildsIfValidDirectoryConfigured();
 
 		LOGGER.info("====================================================");
 		LOGGER.info("Scenarioo Viewer started succesfully.");
