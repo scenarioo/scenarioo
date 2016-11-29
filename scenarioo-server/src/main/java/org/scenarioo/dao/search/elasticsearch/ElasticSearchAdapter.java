@@ -30,6 +30,7 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.scenarioo.dao.context.ContextPathHolder;
 import org.scenarioo.dao.search.SearchAdapter;
 import org.scenarioo.dao.search.model.SearchResults;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
@@ -39,12 +40,10 @@ import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
-import org.scenarioo.dao.context.ContextPathHolder;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.rest.search.SearchRequest;
 
 import com.carrotsearch.hppc.cursors.ObjectCursor;
-
-import org.scenarioo.rest.search.SearchRequest;
 
 public class ElasticSearchAdapter implements SearchAdapter {
     private final static Logger LOGGER = Logger.getLogger(ElasticSearchAdapter.class);
@@ -139,7 +138,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 
 	@Override
     public void updateAvailableBuilds(final List<BuildIdentifier> availableBuilds) {
-        List<String> existingIndices = getAvailableIndices();
+		List<String> existingIndices = getAvailableIndicesOfCurrentContext();
         List<String> availableBuildNames = getAvailableBuildNames(availableBuilds);
 
         for(String index : existingIndices) {
@@ -150,16 +149,22 @@ public class ElasticSearchAdapter implements SearchAdapter {
         }
     }
 
-    private List<String> getAvailableIndices() {
+	/**
+	 * It's important to only get the indices that belong to the current context. Otherwise
+	 * we also delete indices of other contexts.
+	 */
+	private List<String> getAvailableIndicesOfCurrentContext() {
         ImmutableOpenMap<String, IndexMetaData> indices = client.admin().cluster()
                 .prepareState().get().getState()
                 .getMetaData().getIndices();
 
-        List<String> ret = new ArrayList<String>(indices.keys().size());
+        List<String> indicesOfCurrentContext = new ArrayList<String>(indices.keys().size());
         for (ObjectCursor<String> key : indices.keys()) {
-            ret.add(key.value);
+			if (key.value.startsWith(ContextPathHolder.INSTANCE.getContextPath())) {
+				indicesOfCurrentContext.add(key.value);
+			}
         }
-        return ret;
+        return indicesOfCurrentContext;
     }
 
     private List<String> getAvailableBuildNames(final List<BuildIdentifier> existingBuilds) {

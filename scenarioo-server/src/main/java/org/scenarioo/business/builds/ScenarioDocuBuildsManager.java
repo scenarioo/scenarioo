@@ -156,7 +156,7 @@ public class ScenarioDocuBuildsManager {
 	 * 
 	 * The calculation/importing/aggregating of the builds is scheduled to be done in a separate thread/executor.
 	 */
-	public void updateAllBuildsAndSubmitNewBuildsForImport() {
+	public void updateBuildsIfValidDirectoryConfigured() {
 		LOGGER.info("********************* update builds ********************************");
 		LOGGER.info("Updating available builds ...");
 		File docuDirectory = configurationRepository.getDocumentationDataDirectory();
@@ -167,15 +167,18 @@ public class ScenarioDocuBuildsManager {
 			LOGGER.error("No valid documentation directory is configured: " + docuDirectory.getAbsolutePath());
 			LOGGER.error("Please configure valid documentation directory in configuration UI");
 		} else {
-			LOGGER.info("  Processing documentation content data in directory: " + docuDirectory.getAbsoluteFile());
-			updateBuildImportStatesAndAvailableBuildsList();
-			longObjectNamesResolvers.clear();
-			buildImporter.submitUnprocessedBuildsForImport(availableBuilds);
-
-			new FullTextSearch().updateAvailableBuilds(buildImporter.getBuildImportSummariesAsList());
-
+			updateAllBuildsAndSubmitNewBuildsForImport(docuDirectory);
 		}
 		LOGGER.info("******************** update finished *******************************");
+	}
+
+	private void updateAllBuildsAndSubmitNewBuildsForImport(File docuDirectory) {
+		LOGGER.info("  Processing documentation content data in directory: " + docuDirectory.getAbsoluteFile());
+		updateBuildImportStatesAndAvailableBuildsList();
+		longObjectNamesResolvers.clear();
+		buildImporter.submitUnprocessedBuildsForImport(availableBuilds);
+
+		new FullTextSearch().updateAvailableBuilds(buildImporter.getBuildImportSummariesAsList());
 	}
 
 	private synchronized void updateBuildImportStatesAndAvailableBuildsList() {

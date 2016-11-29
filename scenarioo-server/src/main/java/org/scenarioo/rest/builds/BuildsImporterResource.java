@@ -57,7 +57,7 @@ public class BuildsImporterResource {
 	@Path("updateAndImport")
 	@Produces({ "application/xml", "application/json" })
 	public void updateAllBuildsAndSubmitNewBuildsForImport() {
-		ScenarioDocuBuildsManager.INSTANCE.updateAllBuildsAndSubmitNewBuildsForImport();
+		ScenarioDocuBuildsManager.INSTANCE.updateBuildsIfValidDirectoryConfigured();
 	}
 
 	@GET
