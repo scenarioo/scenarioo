@@ -160,7 +160,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 
         List<String> indicesOfCurrentContext = new ArrayList<String>(indices.keys().size());
         for (ObjectCursor<String> key : indices.keys()) {
-			if (key.value.startsWith(ContextPathHolder.INSTANCE.getContextPath())) {
+			if (key.value.startsWith(getContextPrefix())) {
 				indicesOfCurrentContext.add(key.value);
 			}
         }
@@ -182,6 +182,13 @@ public class ElasticSearchAdapter implements SearchAdapter {
     }
 
     private String getIndexName(final BuildIdentifier buildIdentifier) {
-        return ContextPathHolder.INSTANCE.getContextPath() + "-" + buildIdentifier.getBranchName() + "-" + buildIdentifier.getBuildName();
+		return getContextPrefix() + buildIdentifier.getBranchName() + "-" + buildIdentifier.getBuildName();
+	}
+
+	private String getContextPrefix() {
+		// using "---" in order to avoid name collisions with contexts that have the same prefix.
+		// e.g. "scenarioo-develop" should not include indices of "scenarioo-develop-pr" so that
+		// they are not deleted during cleanup of indices.
+		return ContextPathHolder.INSTANCE.getContextPath() + "---";
     }
 }

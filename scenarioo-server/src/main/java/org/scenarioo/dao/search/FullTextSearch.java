@@ -113,7 +113,6 @@ public class FullTextSearch {
 		List<BuildIdentifier> identifierList = new ArrayList<BuildIdentifier>();
 		for(BuildImportSummary buildSummary : availableBuilds) {
 			BuildIdentifier identifier = buildSummary.getIdentifier();
-
 			identifierList.add(identifier);
 		}
 
