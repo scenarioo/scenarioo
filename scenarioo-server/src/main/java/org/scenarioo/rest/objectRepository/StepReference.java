@@ -1,10 +1,12 @@
 package org.scenarioo.rest.objectRepository;
 
-public class StepObjects {
+public class StepReference {
+
+
     private final String stepDetailUrl;
     private final String screenShotUrl;
 
-    public StepObjects(String stepDetailUrl, String screenShotUrl) {
+    public StepReference(String stepDetailUrl, String screenShotUrl) {
         this.stepDetailUrl = stepDetailUrl;
         this.screenShotUrl = screenShotUrl;
     }
