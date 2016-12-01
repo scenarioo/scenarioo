@@ -50,105 +50,114 @@ import java.util.regex.Pattern;
 @Path("/rest/branch/{branchName}/build/{buildName}/object/{type}/{objectName}")
 public class ObjectStepResource extends AbstractBuildContentResource {
 
-    private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
-            .getConfigurationRepository();
+	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+		.getConfigurationRepository();
 
-    private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
+	private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
 
-    private final AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDao(
-            configurationRepository.getDocumentationDataDirectory(), longObjectNamesResolver);
+	private final AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDao(
+		configurationRepository.getDocumentationDataDirectory(), longObjectNamesResolver);
 
-    private final ScenarioLoader scenarioLoader = new ScenarioLoader(aggregatedDataReader);
-    private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
-    private final StepLoader stepLoader = new StepLoader(scenarioLoader, stepIndexResolver);
+	private final ScenarioLoader scenarioLoader = new ScenarioLoader(aggregatedDataReader);
+	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
+	private final StepLoader stepLoader = new StepLoader(scenarioLoader, stepIndexResolver);
 
-    @GET
-    @Path("/relatedstep")
-    @Produces({"application/json"})
-    public List<StepObjects> readStepDetails(@PathParam("branchName") final String branchName,
-                                             @PathParam("buildName") final String buildName,
-                                             @PathParam("type") final String objectType,
-                                             @PathParam("objectName") final String objectName) throws IOException {
+	/**
+	 * Get references to all steps, that contain a specific object.
+	 *
+	 * @param branchName branch to search in
+	 * @param buildName  build to searhc in
+	 * @param objectType type of the object
+	 * @param objectName name of the object
+	 * @return a flat list of step reference objects
+	 */
+	@GET
+	@Path("/steps")
+	@Produces({"application/json"})
+	public List<StepReference> getStepReferences(@PathParam("branchName") final String branchName,
+												 @PathParam("buildName") final String buildName,
+												 @PathParam("type") final String objectType,
+												 @PathParam("objectName") final String objectName) throws IOException {
 
-        List<StepLoaderResult> stepLoaderResults = getRelatedSteps(branchName, buildName, objectType, objectName);
-        return extractedRelatedObjects(stepLoaderResults);
-    }
+		List<StepLoaderResult> stepLoaderResults = getRelatedSteps(branchName, buildName, objectType, objectName);
+		return transformStepsToStepReferences(stepLoaderResults);
+	}
 
-    private List<StepLoaderResult> getRelatedSteps(@PathParam("branchName") String branchName, @PathParam("buildName") String buildName, @PathParam("type") String objectType, @PathParam("objectName") String objectName) {
-        BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
-                buildName);
+	private List<StepLoaderResult> getRelatedSteps(@PathParam("branchName") String branchName, @PathParam("buildName") String buildName, @PathParam("type") String objectType, @PathParam("objectName") String objectName) {
+		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
+			buildName);
 
-        ObjectIndex objectIndex = aggregatedDataReader.loadObjectIndex(buildIdentifier, objectType, objectName);
-        List<StepLoaderResult> stepLoaderResults = new ObjectList<StepLoaderResult>();
-        for (ObjectTreeNode<Object> useCaseTreeNode : objectIndex.getReferenceTree().getChildren()) {
-            visitUseCase(buildIdentifier, stepLoaderResults, useCaseTreeNode);
-        }
-        return stepLoaderResults;
-    }
+		ObjectIndex objectIndex = aggregatedDataReader.loadObjectIndex(buildIdentifier, objectType, objectName);
+		List<StepLoaderResult> stepLoaderResults = new ObjectList<StepLoaderResult>();
+		for (ObjectTreeNode<Object> useCaseTreeNode : objectIndex.getReferenceTree().getChildren()) {
+			visitUseCase(buildIdentifier, stepLoaderResults, useCaseTreeNode);
+		}
+		return stepLoaderResults;
+	}
 
-    private void visitUseCase(BuildIdentifier buildIdentifier, List<StepLoaderResult> stepLoaderResults, ObjectTreeNode<Object> useCaseTreeNode) {
-        if (useCaseTreeNode.getItem() instanceof ObjectReference) {
-            ObjectReference useCaseItem = (ObjectReference) useCaseTreeNode.getItem();
-            if (useCaseItem.getType().equals("usecase")) {
-                for (ObjectTreeNode<Object> scenarioTreeNode : useCaseTreeNode.getChildren()) {
-                    visitScenario(buildIdentifier, stepLoaderResults, useCaseItem, scenarioTreeNode);
-                }
-            }
-        }
-    }
+	private void visitUseCase(BuildIdentifier buildIdentifier, List<StepLoaderResult> stepLoaderResults, ObjectTreeNode<Object> useCaseTreeNode) {
+		if (useCaseTreeNode.getItem() instanceof ObjectReference) {
+			ObjectReference useCaseItem = (ObjectReference) useCaseTreeNode.getItem();
+			if (useCaseItem.getType().equals("usecase")) {
+				for (ObjectTreeNode<Object> scenarioTreeNode : useCaseTreeNode.getChildren()) {
+					visitScenario(buildIdentifier, stepLoaderResults, useCaseItem, scenarioTreeNode);
+				}
+			}
+		}
+	}
 
-    private void visitScenario(BuildIdentifier buildIdentifier, List<StepLoaderResult> stepLoaderResults, ObjectReference useCaseItem, ObjectTreeNode<Object> scenarioTreeNode) {
-        if (scenarioTreeNode.getItem() instanceof ObjectReference) {
-            ObjectReference scenarioTreeNodeItem = (ObjectReference) scenarioTreeNode.getItem();
-            if (scenarioTreeNodeItem.getType().equals("scenario")) {
-                for (ObjectTreeNode<Object> stepTreeNode : scenarioTreeNode.getChildren()) {
-                    visitStep(buildIdentifier, stepLoaderResults, useCaseItem, scenarioTreeNodeItem, stepTreeNode);
-                }
-            }
-        }
-    }
+	private void visitScenario(BuildIdentifier buildIdentifier, List<StepLoaderResult> stepLoaderResults, ObjectReference useCaseItem, ObjectTreeNode<Object> scenarioTreeNode) {
+		if (scenarioTreeNode.getItem() instanceof ObjectReference) {
+			ObjectReference scenarioTreeNodeItem = (ObjectReference) scenarioTreeNode.getItem();
+			if (scenarioTreeNodeItem.getType().equals("scenario")) {
+				for (ObjectTreeNode<Object> stepTreeNode : scenarioTreeNode.getChildren()) {
+					visitStep(buildIdentifier, stepLoaderResults, useCaseItem, scenarioTreeNodeItem, stepTreeNode);
+				}
+			}
+		}
+	}
 
-    private void visitStep(BuildIdentifier buildIdentifier, List<StepLoaderResult> stepLoaderResults, ObjectReference useCaseItem, ObjectReference scenarioTreeNodeItem, ObjectTreeNode<Object> stepTreeNode) {
-        if (stepTreeNode.getItem() instanceof ObjectReference) {
-            ObjectReference stepItem = (ObjectReference) stepTreeNode.getItem();
-            if (stepItem.getType().equals("step")) {
-                String[] split = stepItem.getName().split(Pattern.quote("/"));
-                StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, useCaseItem.getName(),
-                        scenarioTreeNodeItem.getName(), split[0],
-                        Integer.parseInt(split[1]), Integer.parseInt(split[2]));
-                StepLoaderResult stepLoaderResult = stepLoader.loadStep(stepIdentifier);
-                stepLoaderResults.add(stepLoaderResult);
-            }
-        }
-    }
+	private void visitStep(BuildIdentifier buildIdentifier, List<StepLoaderResult> stepLoaderResults, ObjectReference useCaseItem, ObjectReference scenarioTreeNodeItem, ObjectTreeNode<Object> stepTreeNode) {
+		if (stepTreeNode.getItem() instanceof ObjectReference) {
+			ObjectReference stepItem = (ObjectReference) stepTreeNode.getItem();
+			if (stepItem.getType().equals("step")) {
+				String[] split = stepItem.getName().split(Pattern.quote("/"));
+				StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, useCaseItem.getName(),
+					scenarioTreeNodeItem.getName(), split[0],
+					Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+				StepLoaderResult stepLoaderResult = stepLoader.loadStep(stepIdentifier);
+				stepLoaderResults.add(stepLoaderResult);
+			}
+		}
+	}
 
-    private List<StepObjects> extractedRelatedObjects(List<StepLoaderResult> stepLoaderResults) throws IOException {
-        ArrayList<StepObjects> stepDetailUrls = new ArrayList<StepObjects>();
-        for (StepLoaderResult stepLoaderResult : stepLoaderResults) {
-            String stepDetailUrl = generateStepDetailLink(stepLoaderResult);
-            String screenshotUrl = generateScreenshotLink(stepLoaderResult);
-            stepDetailUrls.add(new StepObjects(stepDetailUrl, screenshotUrl));
-        }
-        return stepDetailUrls;
-    }
+	private List<StepReference> transformStepsToStepReferences(List<StepLoaderResult> stepLoaderResults) throws IOException {
+		ArrayList<StepReference> stepDetailUrls = new ArrayList<StepReference>();
+		for (StepLoaderResult stepLoaderResult : stepLoaderResults) {
+			String stepDetailUrl = generateStepDetailLink(stepLoaderResult);
+			String screenshotUrl = generateScreenshotLink(stepLoaderResult);
+			stepDetailUrls.add(new StepReference(stepDetailUrl, screenshotUrl));
+		}
+		return stepDetailUrls;
+	}
 
-    private String generateScreenshotLink(StepLoaderResult stepLoaderResult) {
-        return String.format("rest/branch/%s/build/%s/usecase/%s/scenario/%s/image/%s",
-                stepLoaderResult.getStepIdentifier().getBranchName(),
-                stepLoaderResult.getStepIdentifier().getBuildName(),
-                stepLoaderResult.getStepIdentifier().getUsecaseName(),
-                stepLoaderResult.getStepIdentifier().getScenarioName(),
-                stepLoaderResult.getScreenshotFileName());
-    }
+	private String generateScreenshotLink(StepLoaderResult stepLoaderResult) {
+		return String.format("rest/branch/%s/build/%s/usecase/%s/scenario/%s/image/%s",
+			stepLoaderResult.getStepIdentifier().getBranchName(),
+			stepLoaderResult.getStepIdentifier().getBuildName(),
+			stepLoaderResult.getStepIdentifier().getUsecaseName(),
+			stepLoaderResult.getStepIdentifier().getScenarioName(),
+			stepLoaderResult.getScreenshotFileName());
+	}
 
-    private String generateStepDetailLink(StepLoaderResult stepLoaderResult) {
-        return String.format("rest/branch/%s/build/%s/usecase/%s/scenario/%s/pageName/%s/pageOccurrence/%d/stepInPageOccurrence/%d",
-                stepLoaderResult.getStepIdentifier().getBranchName(),
-                stepLoaderResult.getStepIdentifier().getBuildName(),
-                stepLoaderResult.getStepIdentifier().getUsecaseName(),
-                stepLoaderResult.getStepIdentifier().getScenarioName(),
-                stepLoaderResult.getStepIdentifier().getPageName(),
-                stepLoaderResult.getStepIdentifier().getPageOccurrence(),
-                stepLoaderResult.getStepIdentifier().getStepInPageOccurrence());
-    }
+	private String generateStepDetailLink(StepLoaderResult stepLoaderResult) {
+		return String.format("rest/branch/%s/build/%s/usecase/%s/scenario/%s/pageName/%s/pageOccurrence/%d/stepInPageOccurrence/%d",
+			stepLoaderResult.getStepIdentifier().getBranchName(),
+			stepLoaderResult.getStepIdentifier().getBuildName(),
+			stepLoaderResult.getStepIdentifier().getUsecaseName(),
+			stepLoaderResult.getStepIdentifier().getScenarioName(),
+			stepLoaderResult.getStepIdentifier().getPageName(),
+			stepLoaderResult.getStepIdentifier().getPageOccurrence(),
+			stepLoaderResult.getStepIdentifier().getStepInPageOccurrence());
+	}
 }
