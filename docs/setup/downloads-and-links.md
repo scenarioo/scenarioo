@@ -32,7 +32,7 @@ For some important other feature branches or forks, there might be a build job i
 
 https://github.com/scenarioo/scenarioo-java
  
-### C#
+### C&sharp;
  
 https://github.com/scenarioo/scenarioo-cs 
 
