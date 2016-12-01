@@ -48,7 +48,7 @@ function annotatedScreenshot() {
 
         var imageElement = element.find('img.sc-screenshot');
 
-        $(imageElement).load(updateImageScalingRatio);
+        $(imageElement).on('load', updateImageScalingRatio);
 
         $(window).resize(updateImageScalingRatio);
 
