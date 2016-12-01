@@ -7,4 +7,7 @@ Text can be searched inside:
 * steps and pages meta information
 * in visible text on screens as well as in HTMl source code of the screens
 
+## Setup Instructions
+
+See [Setup Instructions](setup.md) for how to configure and activate this feature.
 
