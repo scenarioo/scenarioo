@@ -17,21 +17,20 @@
 
 package org.scenarioo.rest.application;
 
-import java.io.InputStream;
-import java.util.Properties;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.context.ContextPathHolder;
+import org.scenarioo.dao.version.ApplicationVersionHolder;
+import org.scenarioo.model.configuration.Configuration;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
-import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.version.ApplicationVersionHolder;
-import org.scenarioo.dao.context.ContextPathHolder;
-import org.scenarioo.model.configuration.Configuration;
-import org.scenarioo.repository.ConfigurationRepository;
-import org.scenarioo.repository.RepositoryLocator;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * Scenarioo REST Services Web Application context that initializes data on startup of server.
@@ -75,7 +74,7 @@ public class ScenariooWebApplication implements ServletContextListener {
 
 	private String configureConfigurationDirectoryFromServerContext(final ServletContextEvent servletContextEvent) {
 		String configurationDirectory = servletContextEvent.getServletContext().getInitParameter(
-				"scenariooConfigurationDirectory");
+			"scenariooConfigurationDirectory");
 		if (StringUtils.isBlank(configurationDirectory)) {
 			// Fallback to old property name:
 			configurationDirectory = servletContextEvent.getServletContext().getInitParameter("configurationDirectory");
@@ -86,7 +85,7 @@ public class ScenariooWebApplication implements ServletContextListener {
 
 	private String configureConfigurationFilenameFromServerContext(final ServletContextEvent servletContextEvent) {
 		String configurationFilename = servletContextEvent.getServletContext().getInitParameter(
-				"scenariooConfigurationFilename");
+			"scenariooConfigurationFilename");
 		if (StringUtils.isBlank(configurationFilename)) {
 			// Fallback to old property name:
 			configurationFilename = servletContextEvent.getServletContext().getInitParameter("configurationFilename");
@@ -123,7 +122,23 @@ public class ScenariooWebApplication implements ServletContextListener {
 	private void initializeContextPath(ServletContext servletContext) {
 		String contextPath = servletContext.getContextPath();
 
-		ContextPathHolder.INSTANCE.setContextPath(contextPath.substring(1));
+		LOGGER.info("  Real Context Path: " + contextPath);
+
+		String sanitizedContextPath = sanitizeContextPath(contextPath);
+
+		LOGGER.info("  Stored Context Path: " + sanitizedContextPath);
+
+		ContextPathHolder.INSTANCE.setContextPath(sanitizedContextPath);
+	}
+
+	private String sanitizeContextPath(String contextPath) {
+		if (contextPath == null || contextPath.length() == 0) {
+			return "";
+		} else if (contextPath.startsWith("/")) {
+			return contextPath.substring(1);
+		} else {
+			return contextPath;
+		}
 	}
 
 	@Override
