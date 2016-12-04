@@ -38,7 +38,7 @@ This is the recommended setup, to get up started and productive most quickly!
      * In case you are a GIT newbie please ask your developer colleagues to help you or refer to the very good (and free) book at: http://git-scm.com/book to get started
      * Also following link might be helpful to understand how to work with the very good git client of IntelliJ: https://www.jetbrains.com/help/idea/2016.1/using-git-integration.html
       
- * Please refer to our **[branching strategy](Branching-strategy) about how we use branches and create releases**.
+ * Please refer to our **[branching strategy](https://github.com/scenarioo/scenarioo/blob/develop/docs/contribute/Branching-strategy.md) about how we use branches and create releases**.
     * using git flow for this might be very helpful: http://jeffkreeftmeijer.com/2010/why-arent-you-using-git-flow/
  
  * (optional) you can use whatever other GIT tools you need
@@ -155,7 +155,7 @@ But this two repositories should be sufficient for most usual developers.
 
 For more informations on how to develop, build and test scenarioo properly, please read the following carefully:  
  
-**[Developer Guide](https://github.com/scenarioo/scenarioo/wiki/Developer-Guide)**
+**[Developer Guide](https://github.com/scenarioo/scenarioo/blob/develop/docs/contribute/Developer-Guide.md)**
    
 ## Testing the setup
     
@@ -194,9 +194,8 @@ For more informations on how to develop, build and test scenarioo properly, plea
 ### from old setup to be integrated in this development setup instructions here
 
  * check your JavaScript code against our `.eslintrc` file!
- * See also [WebStorm IDE Settings](https://github.com/scenarioo/scenarioo/wiki/WebStorm-IDE-Settings).
- * All developers have to use same formatting and other java settings in eclipse, as explained here: https://github.com/scenarioo/scenarioo/wiki/Eclipse-IDE-Settings
- * See [Eclipse IDE Settings](https://github.com/scenarioo/scenarioo/wiki/Eclipse-IDE-Settings)
+ * See also [WebStorm IDE Settings](https://github.com/scenarioo/scenarioo/blob/develop/docs/contribute/WebStorm-IDE-Settings.md).
+ * All developers have to use same formatting and other java settings in eclipse, as explained [here](https://github.com/scenarioo/scenarioo/blob/develop/docs/contribute/Eclipse-IDE-Settings.md)
 
 ### should be improved
 
