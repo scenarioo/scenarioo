@@ -1,26 +1,26 @@
-# Content
+# Table of Content
 
 * [Downloads and Links](setup/downloads-and-links.md)
 
 * [Setup & Usage](setup/README.md)
-  * [Writing Content Using Writer Libraries](setup/How-to-use-Scenarioo-Writer-Library.md)
-  * [Scenarioo Viewer Web App Installation](setup/Scenarioo-Viewer-Web-Application-Setup.md)
-  * [Scenarioo Viewer Docker Image](setup/Scenarioo-Viewer-Docker-Image.md)
-  * [Scenarioo Viewer Configuration](setup/Configuration.md)
+  * [Install as Web App](setup/Scenarioo-Viewer-Web-Application-Setup.md)
+  * [Install as Docker Image](setup/Scenarioo-Viewer-Docker-Image.md)
+  * [Viewer Configuration](setup/Configuration.md)
+  * [Write Content Using Writer Libraries](setup/How-to-use-Scenarioo-Writer-Library.md)
   * [Publish Documentation Data](setup/Publish-Documentation-Data.md)
-  
-* [Features & Concepts](features/README.MD)
-  * [Scenarioo Documentation Format](features/Scenarioo-Writer-Documentation-Format.md)
-  * [Safe Identifiers](features/Safe-Identifiers.md)
-  * [Labels](features/Labels.md)
-  * [Details & Object Repository](features/Details.md)
+
+* [Features & Concepts](features/README.md)
+  * [Documentation Format](features/Scenarioo-Writer-Documentation-Format.md)
+    * [Safe Identifiers](features/Safe-Identifiers.md)
+    * [Labels](features/Labels.md)
+    * [Details & Object Repository](features/Details.md)
+    * [Scenarioo Format Validator](features/validator-component/Scenarioo-Validator.md)
   * [Full Text Search](features/full-text-search/README.md)
      * [Full Text Search Setup](features/full-text-search/setup.md)
      * [Full Text Search Specs](features/full-text-search/specifications.md)
-  * Diff Viewer
+  * [Diff Viewer](features/diff-viewer/README.md)
      * [Diff Viewer User Guide](features/diff-viewer/user-guide.md)
-     * [Diff Viewer Setup Instructions](docs/features/diff-viewer/setup.md)
-  * [Scenarioo Format Validator](features/validator-component/Scenarioo-Validator.md)
+     * [Diff Viewer Setup Instructions](features/diff-viewer/setup.md)
 
 * [Contributor Guide](contribute/README.md)
   * [Development Environment Setup](contribute/Development-Environment-with-IntelliJ.md)

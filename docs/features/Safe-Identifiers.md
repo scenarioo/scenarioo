@@ -1,6 +1,6 @@
 # Safe Identifiers
 
-The following fields are used as identifiers:
+The following fields are used as identifiers to identify their objects in the scenrioo documentation:
 
 * branch name
 * build name
@@ -9,8 +9,13 @@ The following fields are used as identifiers:
 * page name
 * object type
 * object name
-* label identifiers
+* label identifiers (with additional restrictions, see Labels)
 
-This means, that they can also be part of a URL. And because of that, the following characters are not allowed in identifiers:
+This identifiers are also used in URLs in the viewer web app to directly link to such resources. As well as to identify the same objects between different builds (e.g. for Diff Viewer feature).
+
+Because this identifiers are used in URLs the following characters are disallowed in such identifiers:
+
 * /
 * \
+
+Libraries should replace such characters by some other allowed character, like `_`, when writing the documentation. Scenarioo Writer Libraries usually take care of this for the user.
