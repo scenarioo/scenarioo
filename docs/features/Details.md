@@ -80,5 +80,7 @@ You could e.g. add a list of all service calls (as object descriptions) that occ
         </entry>
     </details>
 
-Thanks to the object repository you can then configure an additonal "custom object tab" to appear on the start page of the Scenarioo Viewer web app to make all objects of type "serviceCall" searchable in an additional tab on the Scenarioo Viewer start page. 
+Thanks to the object repository you can then configure an additonal "custom object tab" to appear on the start page of the Scenarioo Viewer web app to make all objects of type "serviceCall" searchable in an additional tab on the Scenarioo Viewer start page.
+ 
+ See [Configuration of Custom Object Tabs](../setup/Configuration.md#custom-object-tabs) for how to configure such custom object tabs to browse your details objects in Scenarioo.
 

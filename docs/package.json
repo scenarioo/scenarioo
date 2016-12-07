@@ -1,0 +1,10 @@
+{
+  "name": "scenarioo-docs",
+  "scripts": {
+    "start": "gitbook install && gitbook serve",
+    "build": "gitbook install && gitbook build"
+  },
+  "devDependencies": {
+    "gitbook-cli": "2.3.0"
+  }
+}
