@@ -4,11 +4,6 @@ This documentation is about the Software Development and Testing Tool "Scenarioo
  
 Scenarioo helps you visualizing and documenting the functionalities of your software system in a guidebook, that contains the important user interaction flows, generated out of your UI tests. Each so called "User Scenario" is presented as step by step page flow with screenshots and any additional useful information that you want to provide. This documentation is always up to date with the current implementation and available to everybody involved in your Software Development Lifecycle.
 
-## Documentation Version 
-
-**Take care to pick the right version of our documentation from the release branches!**  
-We version our documentation together with our software on github as Markdown files. Take care to pick the correct documentation by selecting the appropriate Release Branch for your version of Scenarioo.
-
 ## Scenarioo Overview
 
 The following sections gives a basic introduction to scenarioo and where to find more information for most important aspects in our documentation.
