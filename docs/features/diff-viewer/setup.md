@@ -1,8 +1,8 @@
 #Diff Viewer Installation and Configuration Guide
+
 This guide describes how you can set up the Diff Viewer feature.
 The Diff Viewer feature makes it possible to compare two different builds against each other.
 In three easy step, you are ready to compare your own builds:
-
 
 1. [Install  GraphicsMagick](#1-install-graphicsmagick)
 2. [Add a comparison configuration](#2-add-a-comparison-configuration)

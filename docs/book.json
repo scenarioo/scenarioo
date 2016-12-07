@@ -1,0 +1,6 @@
+{
+  "plugins": [
+    "puml",
+    "expandable-chapters"
+  ]
+}
