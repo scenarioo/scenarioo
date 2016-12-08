@@ -41,8 +41,8 @@ Further Release Candidate Versions are available through [Downloads & Links](dow
     * In future versions of scenarioo we will anyway change this, such that you can only configure one scenarioo data directory and this will be only configurable in the server configuration (and not through the globaly accessible config UI anymore). So by configuring this directory to point to the same scenarioConfigurationDirectory you are allready well prepared for updates to future scenarioo versions.
     
 7. **Setup Additional Features (Optional):** For being able to use following additional features, you have to follow additional setup instructions for using this special features that require additional configuration and setup steps:
-
-* **Full Text Search**: For searching any text in Scenarioo see [Full Text Search Setup Instructions](../features/full-text-search/setup.md)
-
-* **Diff-Viewer Screen Comparison** for Image-Comparison of Screenshots see [DiffViewer Setup Instructions](../features/diff-viewer/setup.md)
+    
+    * **Full Text Search**: For searching any text in Scenarioo see [Full Text Search Setup Instructions](../features/full-text-search/setup.md)
+    
+    * **Diff-Viewer Screen Comparison** for Image-Comparison of Screenshots see [DiffViewer Setup Instructions](../features/diff-viewer/setup.md)
 
