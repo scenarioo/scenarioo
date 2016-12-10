@@ -29,10 +29,11 @@
   * [Coding Guidelines](contribute/Coding-guidelines.md)
   * [End to End Testing](contribute/e2eTesting.md)
   * [Commit Rules](contribute/Commit-rules.md)
-  * [Versioning](contribute/Versioning.md)
   * [Branching Strategy](contribute/Branching-strategy.md)
-  * [Build and Demo Server](contribute/Build-Server.md)
+  * [Versioning](contribute/Versioning.md)
   * [Release Scenarioo Viewer Web Application](contribute/Release-Scenarioo-Viewer-Web-Application.md)
   * [Release Docker Image](contribute/Building-the-Docker-Image.md)   
   * [Release Scenarioo Writer Libraries](contribute/Release-Scenarioo-Writer-Library.md) 
+  * [Build and Demo Server](contribute/Build-Server.md)
   * [Webpage with Jekyll](contribute/Scenarioo-User-Documentation-and-Webpage-with-Jekyll.md)
+  
