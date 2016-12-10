@@ -1,6 +1,32 @@
 {
+  "gitbook": "3.2.2",
   "plugins": [
+    "-fontsettings",
+    "edit-link",
+    "github",
+    "expandable-chapters",
+    "sitemap",
     "puml",
-    "expandable-chapters"
-  ]
+    "ga"
+  ],
+  "title": "Scenarioo Documentation",
+  "variables": {
+    "version": "3.0.0"
+  },
+  "pluginsConfig": {
+    "edit-link": {
+      "base": "https://github.com/scenarioo/scenarioo/tree/develop/docs",
+      "label": "Edit This Page"
+    },
+    "github": {
+      "url": "https://github.com/scenarioo/scenarioo/"
+    },
+    "sitemap": {
+      "hostname": "http://scenarioo.org"
+    },
+    "ga": {
+      "token": "UA-21795453-5",
+      "configuration": "auto"
+    }
+  }
 }
