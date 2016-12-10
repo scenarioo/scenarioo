@@ -9,7 +9,7 @@ The Diff Viewer feature makes it possible to compare two different builds agains
 * At least one build should have been compared to generate Diff Information data
 
 ##Select a Comparison
-If all the [preconditions] (#Preconditions) are met, you can start the Diff Viewer feature by selecting a comparison in the comparison menu. The comparison menu is located in the header next to the build selection menu. The name of the comparison was defined during the [comparison configuration](setup.md#2-add-a-comparison-configuration). If no comparison menu is shown, then no comparison is available or the [preconditions] (#Preconditions) are not fulfilled.
+If all the [preconditions](#preconditions) are met, you can start the Diff Viewer feature by selecting a comparison in the comparison menu. The comparison menu is located in the header next to the build selection menu. The name of the comparison was defined during the [comparison configuration](setup.md#2-add-a-comparison-configuration). If no comparison menu is shown, then no comparison is available or the [preconditions](#preconditions) are not fulfilled.
 
 You can change the selected comparison at any time, on every layer. It does not matter if you are on the page view or on the use case overview. The Diff Viewer will show the difference between the two builds immediately. The selected comparison will be stored in your browser. Therefore you can reload the page without loosing your selected comparison.
 
@@ -72,7 +72,7 @@ Refer to the [glossary](glossary.md) for further details:
 
 
 ##Disable Diff Viewer
-On the same place where you [selected a comparison] (#select-a-comparison), you can disable the diff viewer feature.
+On the same place where you [selected a comparison](#select-a-comparison), you can disable the diff viewer feature.
 Simply select 'disable' in the comparison selection menu:
 
 ![DisableComparison](images/DisableComparison.png)
