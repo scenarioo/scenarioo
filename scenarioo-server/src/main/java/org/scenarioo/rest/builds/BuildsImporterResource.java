@@ -17,29 +17,26 @@
 
 package org.scenarioo.rest.builds;
 
-import java.io.File;
-import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
-
 import org.apache.log4j.Logger;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.business.uploadBuild.BuildUploader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
+import org.scenarioo.model.diffViewer.ComparisonResult;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Future;
 
 /**
  * This path has a security constraint for POST requests (see web.xml).
@@ -96,6 +93,35 @@ public class BuildsImporterResource {
 		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
 
 		ScenarioDocuBuildsManager.INSTANCE.reimportBuild(buildIdentifier);
+	}
+
+	@GET
+	@Path("importBuild/{branchName}/{buildName}/{comparisonBranchName}/{comparisonBuildName}/{comparisonName}")
+	@Produces({"application/json"})
+	public Response importBuild(
+		@PathParam("branchName") final String branchName,
+		@PathParam("buildName") final String buildName,
+		@PathParam("comparisonBranchName") final String comparisonBranchName,
+		@PathParam("comparisonBuildName") final String comparisonBuildName,
+		@PathParam("comparisonName") final String comparisonName) {
+
+		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
+		BuildIdentifier comparisonBuildIdentifier = new BuildIdentifier(comparisonBranchName, comparisonBuildName);
+
+		ArrayList<Future<ComparisonResult>> futureList = ScenarioDocuBuildsManager.INSTANCE.importBuild(buildIdentifier, comparisonBuildIdentifier, comparisonName);
+
+		List<ComparisonResult> comparisonResultList = new ArrayList<>();
+		for (Future<ComparisonResult> comparisonResultFuture : futureList) {
+			try {
+				comparisonResultList.add(comparisonResultFuture.get());
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		ComparisonResult[] results = comparisonResultList.toArray(new ComparisonResult[comparisonResultList.size()]);
+
+		return Response.ok(results).build();
 	}
 
 	@POST
