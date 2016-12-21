@@ -17,25 +17,12 @@
 
 package org.scenarioo.business.builds;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import org.apache.log4j.Logger;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.business.diffViewer.ComparisonExecutor;
 import org.scenarioo.business.lastSuccessfulScenarios.LastSuccessfulScenariosBuild;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
+import org.scenarioo.model.diffViewer.ComparisonResult;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
@@ -43,6 +30,10 @@ import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.ThreadLogAppender;
+
+import java.io.File;
+import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * Takes care of importing builds.
@@ -52,10 +43,10 @@ public class BuildImporter {
 	private static final Logger LOGGER = Logger.getLogger(BuildImporter.class);
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
-			.getConfigurationRepository();
+		.getConfigurationRepository();
 
 	private ScenarioDocuAggregationDao dao = new ScenarioDocuAggregationDao(
-			configurationRepository.getDocumentationDataDirectory());
+		configurationRepository.getDocumentationDataDirectory());
 
 	/**
 	 * Current state for all builds whether imported and aggregated correctly.
@@ -94,13 +85,13 @@ public class BuildImporter {
 	}
 
 	public synchronized void updateBuildImportStates(List<BranchBuilds> branchBuildsList,
-			Map<BuildIdentifier, BuildImportSummary> loadedBuildSummaries) {
+													 Map<BuildIdentifier, BuildImportSummary> loadedBuildSummaries) {
 		Map<BuildIdentifier, BuildImportSummary> result = new HashMap<BuildIdentifier, BuildImportSummary>();
 		for (BranchBuilds branchBuilds : branchBuildsList) {
 			for (BuildLink buildLink : branchBuilds.getBuilds()) {
 				// Take existent summary or create new one.
 				BuildIdentifier buildIdentifier = new BuildIdentifier(branchBuilds.getBranch().getName(),
-						buildLink.getBuild().getName());
+					buildLink.getBuild().getName());
 				BuildImportSummary buildSummary = loadedBuildSummaries.get(buildIdentifier);
 				if (buildSummary == null) {
 					buildSummary = new BuildImportSummary(branchBuilds.getBranch().getName(), buildLink.getBuild());
@@ -126,7 +117,7 @@ public class BuildImporter {
 	 */
 	public synchronized int submitUnprocessedBuildsForImport(AvailableBuildsList availableBuilds) {
 		List<BuildImportSummary> buildsSortedByDateDescending = BuildByDateSorter
-				.sortBuildsByDateDescending(buildImportSummaries.values());
+			.sortBuildsByDateDescending(buildImportSummaries.values());
 
 		List<BuildIdentifier> importNeededBuilds = new LinkedList<BuildIdentifier>();
 		for (BuildImportSummary buildImportSummary : buildsSortedByDateDescending) {
@@ -144,11 +135,21 @@ public class BuildImporter {
 	}
 
 	public synchronized void submitBuildForReimport(AvailableBuildsList availableBuilds,
-			BuildIdentifier buildIdentifier) {
+													BuildIdentifier buildIdentifier) {
 		removeImportedBuildAndDerivedData(availableBuilds, buildIdentifier);
 		submitBuildForImport(availableBuilds, buildIdentifier);
 		submitBuildForComparison(buildIdentifier);
 		saveBuildImportSummaries(buildImportSummaries);
+	}
+
+	public synchronized ArrayList<Future<ComparisonResult>> importBuild(AvailableBuildsList availableBuilds,
+																BuildIdentifier buildIdentifier, BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
+		removeImportedBuildAndDerivedData(availableBuilds, buildIdentifier);
+		submitBuildForImport(availableBuilds, buildIdentifier);
+		ArrayList<Future<ComparisonResult>> futureList = submitBuildForSingleComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName);
+		saveBuildImportSummaries(buildImportSummaries);
+
+		return futureList;
 	}
 
 	/**
@@ -156,7 +157,7 @@ public class BuildImporter {
 	 * that mark this build as processed.
 	 */
 	private synchronized void removeImportedBuildAndDerivedData(AvailableBuildsList availableBuilds,
-			BuildIdentifier buildIdentifier) {
+																BuildIdentifier buildIdentifier) {
 
 		// Do not do anything when build is unknown or already queued for asynchronous processing
 		BuildImportSummary summary = buildImportSummaries.get(buildIdentifier);
@@ -174,7 +175,7 @@ public class BuildImporter {
 	 * Submit any build for import.
 	 */
 	private synchronized void submitBuildForImport(final AvailableBuildsList availableBuilds,
-			BuildIdentifier buildIdentifier) {
+												   BuildIdentifier buildIdentifier) {
 
 		// Do not do anything when build is unknown or already queued
 		final BuildImportSummary summary = buildImportSummaries.get(buildIdentifier);
@@ -183,7 +184,7 @@ public class BuildImporter {
 		}
 
 		LOGGER.info("  Submitting build for import: " + buildIdentifier.getBranchName() + "/"
-				+ buildIdentifier.getBuildName());
+			+ buildIdentifier.getBuildName());
 		buildsInProcessingQueue.add(buildIdentifier);
 		summary.setStatus(BuildImportStatus.QUEUED_FOR_PROCESSING);
 		asyncBuildImportExecutor.execute(new Runnable() {
@@ -202,6 +203,10 @@ public class BuildImporter {
 		comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 	}
 
+	private ArrayList<Future<ComparisonResult>> submitBuildForSingleComparison(BuildIdentifier buildIdentifier, BuildIdentifier compareBuildIdentifier, String comparisonName) {
+		return comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), compareBuildIdentifier.getBranchName(), compareBuildIdentifier.getBuildName(), comparisonName);
+	}
+
 	private void importBuild(AvailableBuildsList availableBuilds, BuildImportSummary summary) {
 
 		ThreadLogAppender buildImportLog = null;
@@ -214,7 +219,7 @@ public class BuildImporter {
 
 			LOGGER.info(" ============= START OF BUILD IMPORT ================");
 			LOGGER.info("  Importing build: " + summary.getIdentifier().getBranchName() + "/"
-					+ summary.getIdentifier().getBuildName());
+				+ summary.getIdentifier().getBuildName());
 			LOGGER.info("  This might take a while ...");
 
 			summary = buildImportSummaries.get(summary.getIdentifier());
@@ -226,18 +231,18 @@ public class BuildImporter {
 				addSuccessfullyImportedBuild(availableBuilds, summary);
 				lastSuccessfulScenarioBuild.updateLastSuccessfulScenarioBuild(summary, this, availableBuilds);
 				LOGGER.info("  SUCCESS on importing build: " + summary.getIdentifier().getBranchName() + "/"
-						+ summary.getIdentifier().getBuildName());
+					+ summary.getIdentifier().getBuildName());
 			} else {
 				addSuccessfullyImportedBuild(availableBuilds, summary);
 				LOGGER.info("  ADDED ALREADY IMPORTED build: " + summary.getIdentifier().getBranchName() + "/"
-						+ summary.getIdentifier().getBuildName());
+					+ summary.getIdentifier().getBuildName());
 			}
 
 			LOGGER.info(" ============= END OF BUILD IMPORT (success) ===========");
 		} catch (Throwable e) {
 			recordBuildImportFinished(summary, BuildImportStatus.FAILED, e.getMessage());
 			LOGGER.error("  FAILURE on importing build " + summary.getIdentifier().getBranchName() + "/"
-					+ summary.getBuildDescription().getName(), e);
+				+ summary.getBuildDescription().getName(), e);
 			LOGGER.info(" ============= END OF BUILD IMPORT (failed) ===========");
 		} finally {
 			if (buildImportLog != null) {
@@ -247,18 +252,18 @@ public class BuildImporter {
 	}
 
 	private synchronized void addSuccessfullyImportedBuild(AvailableBuildsList availableBuilds,
-			BuildImportSummary summary) {
+														   BuildImportSummary summary) {
 		recordBuildImportFinished(summary, BuildImportStatus.SUCCESS);
 		availableBuilds.addImportedBuild(summary);
 	}
 
 	private synchronized void recordBuildImportFinished(BuildImportSummary summary,
-			BuildImportStatus buildStatus) {
+														BuildImportStatus buildStatus) {
 		recordBuildImportFinished(summary, buildStatus, null);
 	}
 
 	private synchronized void recordBuildImportFinished(BuildImportSummary summary,
-			BuildImportStatus buildStatus, String statusMessage) {
+														BuildImportStatus buildStatus, String statusMessage) {
 		summary = buildImportSummaries.get(summary.getIdentifier());
 		summary.setStatus(buildStatus);
 		summary.setStatusMessage(statusMessage);
@@ -270,9 +275,9 @@ public class BuildImporter {
 
 	private void saveBuildImportSummaries(Map<BuildIdentifier, BuildImportSummary> buildImportSummaries) {
 		List<BuildImportSummary> summariesToSave = new ArrayList<BuildImportSummary>(
-				buildImportSummaries.values());
+			buildImportSummaries.values());
 		ScenarioDocuAggregationDao dao = new ScenarioDocuAggregationDao(
-				configurationRepository.getDocumentationDataDirectory());
+			configurationRepository.getDocumentationDataDirectory());
 		dao.saveBuildImportSummaries(summariesToSave);
 	}
 
