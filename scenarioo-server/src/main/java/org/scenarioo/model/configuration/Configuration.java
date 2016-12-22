@@ -52,6 +52,8 @@ public class Configuration {
 
 	private String scenarioPropertiesInOverview;
 
+	private String elasticSearchEndpoint;
+
 	private String applicationName = "";
 
 	private String applicationInformation = "";
@@ -67,6 +69,10 @@ public class Configuration {
 	@XmlElementWrapper(name = "branchAliases")
 	@XmlElement(name = "branchAlias")
 	private List<BranchAlias> branchAliases = new LinkedList<BranchAlias>();
+
+	@XmlElementWrapper(name = "comparisonConfigurations")
+	@XmlElement(name = "comparisonConfiguration")
+	private List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
 
 	private Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<String, LabelConfiguration>();
 
@@ -120,6 +126,14 @@ public class Configuration {
 		this.scenarioPropertiesInOverview = scenarioPropertiesInOverview;
 	}
 
+	public String getElasticSearchEndpoint() {
+		return elasticSearchEndpoint;
+	}
+
+	public void setElasticSearchEndpoint(String elasticSearchEndpoint) {
+		this.elasticSearchEndpoint = elasticSearchEndpoint;
+	}
+
 	public String getApplicationName() {
 		return applicationName;
 	}
@@ -165,6 +179,14 @@ public class Configuration {
 
 	public void setBranchAliases(final List<BranchAlias> buildAliases) {
 		this.branchAliases = buildAliases;
+	}
+
+	public List<ComparisonConfiguration> getComparisonConfigurations() {
+		return comparisonConfigurations;
+	}
+
+	public void setComparisonConfigurations(final List<ComparisonConfiguration> comparisonConfigurations) {
+		this.comparisonConfigurations = comparisonConfigurations;
 	}
 
 	public Map<String, LabelConfiguration> getLabelConfigurations() {

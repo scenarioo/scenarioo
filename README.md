@@ -1,35 +1,40 @@
-Demo-Smoketest: [![Demo Smoketest Status](http://ci.scenarioo.org/job/smoketest/badge/icon)](http://ci.scenarioo.org/job/smoketest)
-E2E Tests: [![E2E Tests (of last changed/deployed branch)](http://ci.scenarioo.org/job/deploy-demo-and-run-e2e-tests/badge/icon)](http://ci.scenarioo.org/job/deploy-demo-and-run-e2e-tests)  
+Deployment & E2E Tests [![Demo Deployment & E2E Tests of last deployed Branch](http://build.scenarioo.org/jenkins/job/deploy-demo-and-run-e2e-tests/badge/icon)](http://build.scenarioo.org/jenkins/job/deploy-demo-and-run-e2e-tests) -
+  master [![Continuous Build Master Branch](http://build.scenarioo.org/jenkins/job/scenarioo-master/badge/icon)](http://build.scenarioo.org/jenkins/job/scenarioo-master) - 
+develop [![Continuous Build Develop Branch](http://build.scenarioo.org/jenkins/job/scenarioo-develop/badge/icon)](http://build.scenarioo.org/jenkins/job/scenarioo-develop)
 
-CI Master: [![CI Status Master Branch](http://ci.scenarioo.org/job/scenarioo-master/badge/icon)](http://ci.scenarioo.org/job/scenarioo-master)
-CI Develop: [![CI Status Develop Branch](http://ci.scenarioo.org/job/scenarioo-develop/badge/icon)](http://ci.scenarioo.org/job/scenarioo-develop)
+# Scenarioo
 
-Scenarioo
-==========
+## Automated Documentation of Applications with UI Tests
 
-Automated documentation of applications through UI testing.
+Scenarioo is a tool to leverage the power of your UI Tests and to make them available as a documentation of your software system to all people involved in the design, development, test, operation and management of your software system.
 
-Scenarioo helps you visualizing and documenting the functionalities of your software in a guidebook, that contains the important user interaction flows of your software, generated out of your UI tests. Each so called "User Scenario" is presented as step by step page flow with screenshots and any additional useful information that you want to provide.
-
-Scenarioo consists of a file format for such documentations, a web application that can browse and navigate such documentations (useful for all your stakeholders) and some APIs for use in your UI tests to produce such documentations (currently in Java, C# and JavaScript or you could develop such APIs on your own).
+### Webpage and Documentation
 
 For more information about Scenarioo, consider the following resources:
 
-http://www.scenarioo.org
+* **Webpage: http://www.scenarioo.org**
+* **Scenarioo Documentation: http://www.scenarioo.org/docs** 
 
-https://github.com/scenarioo/scenarioo/wiki
+### Live Demo
 
-Live-Demo 
+You can see an Example Scenarioo Documentation and the Scenarioo Viewer Web App in action in our Demo:
 
-* stable master-branch: http://demo.scenarioo.org
-* unstable develop-branch: http://54.88.202.24/scenarioo-develop/
+http://demo.scenarioo.org
 
-CI Build Status: 
+### Downloads & Links
 
-* master branch: [![CI Status Master Branch](http://ci.scenarioo.org/job/scenarioo-master/badge/icon)](http://ci.scenarioo.org/job/scenarioo-master)
-* develop branch: [![CI Status Develop Branch](http://ci.scenarioo.org/job/scenarioo-develop/badge/icon)](http://ci.scenarioo.org/job/scenarioo-develop)
-* Continuous Deployment and E2E Tests (for all branches): [![E2E Tests (of last changed/deployed branch)](http://ci.scenarioo.org/job/deploy-demo-and-run-e2e-tests/badge/icon)](http://ci.scenarioo.org/job/deploy-demo-and-run-e2e-tests)
-* Demo Smoketest: [![Demo Smoketest Status](http://ci.scenarioo.org/job/smoketest/badge/icon)](http://ci.scenarioo.org/job/smoketest)
+Downloads and more links, even for different releases (like forthcoming release candidates) can be found under [Downloads and Links](docs/setup/downloads-and-links.md)
 
-License: see https://github.com/scenarioo/scenarioo/blob/master/LICENSE.txt
+### CI/CD Build Server
 
+[http://build.scenarioo.org](http://build.scenarioo.org) 
+
+### License
+
+Scenarioo is mainly distributed under GNU General Public License, which enables you to use the tool freely.
+
+The Writer Libraries use GNU license with linking exception, for even freely linking it even in your commercial products (if needed at all).
+
+Most examples are even provided using BSD license, which even allows you to copy these code examples freely.
+
+See [LICENSE.txt](LICENSE.txt) and further LICENSE-files for different licenses of different components in some sub project folders and especially in our separate library and example repositories, hosted under [https://github.com/scenarioo](https://github.com/scenarioo)

@@ -179,7 +179,11 @@ angular.module('scenarioo.services').service('TestData', function () {
                 },
                 'status': 'success',
                 'description': 'User wants to search for a page and read it.',
-                'name': 'Find Page'
+                'name': 'Find Page',
+                'labels': {
+                    'empty': true,
+                    'labels': []
+                }
             },
             'pagesAndSteps': [
                 {
@@ -232,7 +236,11 @@ angular.module('scenarioo.services').service('TestData', function () {
                 },
                 'status': 'success',
                 'description': 'User enters some text and finds multiple pages that contain this text.',
-                'name': 'find_page_with_text_on_page_from_multiple_results'
+                'name': 'find_page_with_text_on_page_from_multiple_results',
+                'labels': {
+                    'empty': true,
+                    'labels': []
+                }
             },
             'scenarioStatistics': {
                 'numberOfPages': 2,
@@ -314,6 +322,13 @@ angular.module('scenarioo.services').service('TestData', function () {
                         'labels': ['page-label1', 'page-label2'],
                         'empty': false
                     }
+                },
+                'diffInfo':{
+                    'changed': 1,
+                    'added': 0,
+                    'removed': 0,
+                    'isAdded': false,
+                    'isRemoved': false
                 }
             },
             'stepNavigation': {
@@ -384,14 +399,17 @@ angular.module('scenarioo.services').service('TestData', function () {
 
         VERSION: {
             version: '1.2.3',
-            buildDate: '1/7/2015, 05:00'
+            buildDate: '1/7/2015, 05:00',
+            apiVersion: '1.2.1',
+            aggregatedDataFormatVersion: '1.2.3',
+            releaseBranch: 'release-1.2'
         },
 
         TABS: [
             {
                 tabId: 'usecases',
                 title: 'Use Cases',
-                contentViewUrl: 'views/mainUseCasesTab.html',
+                contentViewUrl: 'build/useCasesTab.html',
                 active: true
             }
         ]

@@ -17,18 +17,13 @@ var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:9
 
 console.log('PROTRACTOR_BASE_URL: ' + PROTRACTOR_BASE_URL);
 
+var prepareProtractor = require('./prepareProtractor');
 
 var exportsConfig = {
     framework: 'jasmine',
 
-    // The location of the selenium standalone server .jar file.
-    // seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.47.1.jar',
     // Do not use selenium server but instead connect directly to chrome
     directConnect: true,
-    // find its own unused port.
-    seleniumPort: null,
-    chromeDriver: './node_modules/protractor/selenium/chromedriver',
-    seleniumArgs: [],
 
     // Timeouts: https://angular.github.io/protractor/#/timeouts
     allScriptsTimeout: 20000,
@@ -36,21 +31,13 @@ var exportsConfig = {
 
     specs: [/* See gulpfile.js for specified tests */],
 
-    capabilities: {
-        'browserName': 'chrome'
-    },
-
     baseUrl: PROTRACTOR_BASE_URL,
 
     // CSS Selector for the element housing the angular app - this defaults to
     // body, but is necessary if ng-app is on a descendant of <body>.
     rootElement: 'html',
 
-    onPrepare: function () {
-        browser.driver.manage().window().maximize();
-
-        require('./test/protractorE2E/dsl/noWrappingDsl');
-    },
+    onPrepare: prepareProtractor,
 
     params: {
         // Used in our tests

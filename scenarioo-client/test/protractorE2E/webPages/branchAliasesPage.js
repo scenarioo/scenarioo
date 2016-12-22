@@ -32,10 +32,8 @@ BranchAliasesPage.prototype.openBranchSelectionMenu = function () {
 
 BranchAliasesPage.prototype.assertAliasesAreShownFirstInTheNavigationMenu = function () {
     var branchOptions = element.all(by.css('#branchSelectionDropdown .branchOption'));
-    expect(branchOptions.count()).toBe(3);
-    expect(branchOptions.get(0).getText()).toBe('Test Alias 1 (wikipedia-docu-example)');
-    expect(branchOptions.get(1).getText()).toBe('Test Alias 2 (wikipedia-docu-example)');
-    expect(branchOptions.get(2).getText()).toBe('wikipedia-docu-example');
+    expect(branchOptions.get(2).getText()).toBe('Test Alias 1 (wikipedia-docu-example)');
+    expect(branchOptions.get(3).getText()).toBe('Test Alias 2 (wikipedia-docu-example)');
 };
 
 BranchAliasesPage.prototype.enterAlias = function (name, referencedBranchName, description) {
@@ -103,12 +101,6 @@ BranchAliasesPage.prototype.assertAlias = function (rowIndex, expectedAlias, ref
 
 BranchAliasesPage.prototype.assertDuplicateAliasError = function () {
     expect(element(by.id('duplicateAliasErrorId')).isPresent()).toBe(true);
-};
-
-BranchAliasesPage.prototype.chooseBranch = function (branchName) {
-    // Open menu first, otherwise we cannot click
-    element(by.partialLinkText('Branch:')).click();
-    element(by.partialLinkText(branchName)).click();
 };
 
 module.exports = BranchAliasesPage;

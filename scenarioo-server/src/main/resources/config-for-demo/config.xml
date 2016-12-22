@@ -6,6 +6,7 @@
     <aliasForMostRecentBuild>most recent</aliasForMostRecentBuild>
     <aliasForLastSuccessfulBuild>last successful</aliasForLastSuccessfulBuild>
     <buildStatusForSuccessfulBuilds>success</buildStatusForSuccessfulBuilds>
+    <elasticSearchEndpoint>localhost:9300</elasticSearchEndpoint>
     <scenarioPropertiesInOverview></scenarioPropertiesInOverview>
     <applicationName></applicationName>
     <applicationInformation>&lt;h3&gt;Welcome to Scenarioo!&lt;/h3&gt;
@@ -43,7 +44,62 @@
     </buildstates>
     <createLastSuccessfulScenarioBuild>false</createLastSuccessfulScenarioBuild>
     <expandPagesInScenarioOverview>false</expandPagesInScenarioOverview>
-    <branchAliases/>
+    <branchAliases>
+        <branchAlias>
+            <name>Production</name>
+            <referencedBranch>wikipedia-docu-example</referencedBranch>
+            <description></description>
+        </branchAlias>
+		<branchAlias>
+            <name>Development</name>
+            <referencedBranch>wikipedia-docu-example-dev</referencedBranch>
+            <description></description>
+        </branchAlias>
+    </branchAliases>
+	<comparisonConfigurations>
+        <comparisonConfiguration>
+            <name>To last successful</name>
+            <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
+            <comparisonBranchName>wikipedia-docu-example</comparisonBranchName>
+            <comparisonBuildName>last successful</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>To most recent</name>
+            <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
+            <comparisonBranchName>Production</comparisonBranchName>
+            <comparisonBuildName>most recent</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>To Projectstart</name>
+            <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
+            <comparisonBranchName>Production</comparisonBranchName>
+            <comparisonBuildName>2014-01-20</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>To Projectstart</name>
+            <baseBranchName>wikipedia-docu-example</baseBranchName>
+            <comparisonBranchName>Production</comparisonBranchName>
+            <comparisonBuildName>2014-01-20</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>To last Sprint</name>
+            <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
+            <comparisonBranchName>wikipedia-docu-example-dev</comparisonBranchName>
+            <comparisonBuildName>2014-04-19</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>To last successful (dev)</name>
+            <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
+            <comparisonBranchName>wikipedia-docu-example-dev</comparisonBranchName>
+            <comparisonBuildName>last successful</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>To most recent (dev)</name>
+            <baseBranchName>Development</baseBranchName>
+            <comparisonBranchName>Development</comparisonBranchName>
+            <comparisonBuildName>most recent</comparisonBuildName>
+        </comparisonConfiguration>
+    </comparisonConfigurations>
     <labelConfigurations/>
     <customObjectTabs>
         <id>pages</id>

@@ -28,15 +28,15 @@ module.exports = function (config) {
             'app/components/angular/angular.js',
             'app/components/angular-resource/angular-resource.js',
             'app/components/angular-route/angular-route.js',
-            'app/components/angular-mocks/angular-*.js',
+            'app/components/angular-mocks/angular-mocks.js',
             'app/components/angular-local-storage/dist/angular-local-storage.min.js',
             'app/components/twigs/dist/twigs.js',
             'app/components/svg.js/dist/svg.js',
             'app/components/svg.draggable.js/dist/svg.draggable.js',
             'app/components/svg-pan-zoom/dist/svg-pan-zoom.js',
             'app/components/angular-unsavedChanges/dist/unsavedChanges.js',
-            'app/scripts/*.js',
-            'app/scripts/**/*.js',
+            'app/*.js',
+            'app/!(components)/**/*.js',
             'test/mock/**/*.js',
             'test/spec/**/*.js'
         ],
@@ -79,6 +79,9 @@ module.exports = function (config) {
 
         // If browser does not capture in given timeout [ms], kill it
         captureTimeout: 20000,
+        browserDisconnectTimeout : 10000,
+        browserDisconnectTolerance : 1,
+        browserNoActivityTimeout : 60000, //by default 10000
 
         // Continuous Integration mode
         // if true, it capture browsers, run tests and exit

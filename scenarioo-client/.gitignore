@@ -6,7 +6,13 @@ app/components
 .project
 test-results.xml
 coverage
-build
 .classpath
 .settings
 scenariodocu
+test-reports
+build/*
+TESTS-*.xml
+app/templates.js
+app/environment_config.js
+npm-debug.log*
+debug.log

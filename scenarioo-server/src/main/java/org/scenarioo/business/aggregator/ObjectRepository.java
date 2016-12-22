@@ -30,7 +30,7 @@ import java.util.Set;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.business.aggregator.customTabs.CustomObjectTabsAggregator;
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Labels;
@@ -55,7 +55,7 @@ public class ObjectRepository {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 	
-	private final ScenarioDocuAggregationDAO dao;
+	private final ScenarioDocuAggregationDao dao;
 	
 	private final BuildIdentifier buildIdentifier;
 	
@@ -68,7 +68,7 @@ public class ObjectRepository {
 	
 	private final CustomObjectTabsAggregator customObjectTabsAggregator;
 	
-	public ObjectRepository(final BuildIdentifier buildIdentifier, final ScenarioDocuAggregationDAO dao) {
+	public ObjectRepository(final BuildIdentifier buildIdentifier, final ScenarioDocuAggregationDao dao) {
 		this.buildIdentifier = buildIdentifier;
 		this.dao = dao;
 		customObjectTabsAggregator = new CustomObjectTabsAggregator(configurationRepository.getConfiguration()

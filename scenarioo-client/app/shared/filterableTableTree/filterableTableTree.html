@@ -1,0 +1,44 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div>
+    <table id="treeviewtable" class="table table-curved table-hover table-responsive">
+        <thead>
+            <tr>
+                <th id="sc-treeviewtable-title" style="width:25%; min-width: 500px;">{{firstColumnTitle}}</th>
+                <th style="min-width:500px;" ng-repeat="column in columns">{{column.columnTitle}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="node in treemodel" ng-show="node.isVisible">
+                <td id="node_{{$index}}" ng-class="{matchColor: node.matching}">
+                    <img id="img_{{$index}}" ng-style="{'padding-left': (node.level * 30) + 'px'}"
+                         ng-hide="isNodeIconEmpty(node)"
+                         style="position: absolute; white-space:nowrap; cursor:pointer;"
+                         ng-click="toggleCollapseNode(node)" ng-Dblclick="toggleAllChilds(node)" ng-src="{{node.icon}}">
+                    <span ng-style="{'padding-left': (node.level * 30 + 30) + 'px'}"
+                          style="word-break: break-all;display: inline-block;cursor:pointer"
+                          ng-click="clickAction({node:node})">{{node.type}}: {{formatNodeName(node)}}</span>
+                </td>
+
+                <td ng-repeat="column in columns" ng-class="{matchColor: node.matching}">
+                    {{node.columnData[column.propertyKey]}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

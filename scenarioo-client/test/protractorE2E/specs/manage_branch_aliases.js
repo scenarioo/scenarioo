@@ -3,79 +3,82 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-describeUseCaseE('Manage branch aliases', {
-    description: 'Define new branch aliases, edit existing ones and delete them.'
-}, function () {
+var NUMBER_OF_ALIASES_IN_CONFIG = 2;
+var FIRST_TEST_ALIAS_INDEX = NUMBER_OF_ALIASES_IN_CONFIG;
 
-    var branchAliasesPage = new pages.branchAliasesPage();
+useCase('Manage branch aliases')
+    .description('Define new branch aliases, edit existing ones and delete them.')
+    .describe(function () {
 
-    beforeEach(function(){
-        new pages.homePage().initLocalStorage();
+        var branchAliasesPage = new pages.branchAliasesPage();
+
+        beforeEach(function () {
+            new pages.homePage().initLocalStorage();
+        });
+
+        scenario('Add and remove')
+            .description('Branch aliases can be added and removed')
+            .it(function () {
+                branchAliasesPage.goToPage();
+                step('display the manage branch aliases page');
+
+                branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
+                branchAliasesPage.enterAlias('Test Alias 1', 'wikipedia-docu-example', 'my description 1');
+                branchAliasesPage.enterAlias('Test Alias 2', 'wikipedia-docu-example', 'my description 2');
+                branchAliasesPage.save();
+                // TODO: we should better wait and check for the success message of the save here (which does not yet appear immediately)! In general our tests do not assert much
+                step('saved build aliases');
+
+                branchAliasesPage.reset();
+                branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG + 2);
+                branchAliasesPage.openBranchSelectionMenu();
+                step('open branch menu with aliases');
+                branchAliasesPage.assertAliasesAreShownFirstInTheNavigationMenu();
+
+                branchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
+                branchAliasesPage.save();
+                branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG + 1);
+                branchAliasesPage.reset();
+                branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG + 1);
+                step('removed first test alias');
+
+                branchAliasesPage.updateAlias(FIRST_TEST_ALIAS_INDEX, 'updated alias', 'wikipedia-docu-example', 'updated description');
+                branchAliasesPage.save();
+                step('updated first test alias');
+
+                branchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
+                branchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
+                branchAliasesPage.save();
+                step('all test aliases removed');
+
+            });
+
+        scenario('Validation')
+            .description('Saving is not possible if referenced branch is not selected')
+            .it(function () {
+                branchAliasesPage.goToPage();
+                branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
+                branchAliasesPage.enterAlias('Test', '', 'my description');
+                branchAliasesPage.assertSaveNotPossible();
+                step('saving not possible because referenced branch is not selected');
+            });
+
+        scenario('Unique aliases')
+            .description('Alias names have to be unique')
+            .it(function () {
+                branchAliasesPage.goToPage();
+                branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
+                branchAliasesPage.enterAlias('duplicate', 'wikipedia-docu-example', 'duplicate alias name');
+                branchAliasesPage.save();
+                branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG + 1);
+                branchAliasesPage.enterAlias('duplicate', 'wikipedia-docu-example', 'duplicate alias name');
+                branchAliasesPage.save();
+                branchAliasesPage.assertDuplicateAliasError();
+                step('duplicate aliases are not allowed');
+
+                branchAliasesPage.reset();
+                branchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
+                branchAliasesPage.save();
+            });
+
     });
-
-    describeScenarioE('Add and remove', {
-        description: 'Branch aliases can be added and removed'
-    }, function () {
-        branchAliasesPage.goToPage();
-        scenarioo.saveStep('display the manage branch aliases page');
-
-        branchAliasesPage.assertNumberOfAliases(0);
-        branchAliasesPage.enterAlias('Test Alias 1', 'wikipedia-docu-example', 'my description 1');
-        branchAliasesPage.enterAlias('Test Alias 2', 'wikipedia-docu-example', 'my description 2');
-        branchAliasesPage.save();
-        // TODO: we should better wait and check for the success message of the save here (which does not yet appear immediately)! In general our tests do not assert much
-        scenarioo.saveStep('saved build aliases');
-
-        branchAliasesPage.reset();
-        branchAliasesPage.assertNumberOfAliases(2);
-        branchAliasesPage.openBranchSelectionMenu();
-        scenarioo.saveStep('open branch menu with aliases');
-        branchAliasesPage.assertAliasesAreShownFirstInTheNavigationMenu();
-
-        branchAliasesPage.deleteAlias(0);
-        branchAliasesPage.save();
-        branchAliasesPage.assertNumberOfAliases(1);
-        branchAliasesPage.reset();
-        branchAliasesPage.assertNumberOfAliases(1);
-        scenarioo.saveStep('removed first alias');
-
-        branchAliasesPage.updateAlias(0, 'updated alias', 'wikipedia-docu-example', 'updated description');
-        branchAliasesPage.save();
-        scenarioo.saveStep('updated first alias');
-
-        branchAliasesPage.deleteAlias(0);
-        branchAliasesPage.deleteAlias(0);
-        branchAliasesPage.save();
-        scenarioo.saveStep('all aliases removed');
-
-    });
-
-    describeScenarioE('Validation', {
-        description: 'Saving is not possible if referenced branch is not selected'
-    }, function() {
-        branchAliasesPage.goToPage();
-        branchAliasesPage.assertNumberOfAliases(0);
-        branchAliasesPage.enterAlias('Test', '', 'my description');
-        branchAliasesPage.assertSaveNotPossible();
-        scenarioo.saveStep('saving not possible because referenced branch is not selected');
-    });
-
-    describeScenarioE('Unique aliases', {
-        description: 'Alias names have to be unique'
-    }, function() {
-        branchAliasesPage.goToPage();
-        branchAliasesPage.assertNumberOfAliases(0);
-        branchAliasesPage.enterAlias('duplicate', 'wikipedia-docu-example', 'duplicate alias name');
-        branchAliasesPage.save();
-        branchAliasesPage.assertNumberOfAliases(1);
-        branchAliasesPage.enterAlias('duplicate', 'wikipedia-docu-example', 'duplicate alias name');
-        branchAliasesPage.save();
-        branchAliasesPage.assertDuplicateAliasError();
-        scenarioo.saveStep('duplicate aliases are not allowed');
-
-        branchAliasesPage.reset();
-        branchAliasesPage.deleteAlias(0);
-        branchAliasesPage.save();
-    });
-
-});

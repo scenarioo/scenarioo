@@ -33,9 +33,8 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.files.ScenarioDocuFiles;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
-import org.scenarioo.dao.sketcher.SketcherFiles;
-import org.scenarioo.dao.sketcher.SketcherReader;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
+import org.scenarioo.dao.sketcher.SketcherDao;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.sketcher.StepSketch;
@@ -54,13 +53,12 @@ public class StepSketchResource {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
-	private final SketcherFiles files = new SketcherFiles(configurationRepository.getDesignDataDirectory());
-	private final SketcherReader reader = new SketcherReader(configurationRepository.getDesignDataDirectory());
+	private final SketcherDao sketcherDao = new SketcherDao();
 
 	private final ScenarioDocuFiles docuFiles = new ScenarioDocuFiles(
 			configurationRepository.getDocumentationDataDirectory());
 	private final LongObjectNamesResolver longObjectNamesResolver = new LongObjectNamesResolver();
-	private final AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(
+	private final AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDao(
 			configurationRepository.getDocumentationDataDirectory(), longObjectNamesResolver);
 	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
 
@@ -77,7 +75,7 @@ public class StepSketchResource {
 
 		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
 
-		return reader.loadStepSketch(resolvedBranchName, issueId, scenarioSketchId, stepSketchId);
+		return sketcherDao.loadStepSketch(resolvedBranchName, issueId, scenarioSketchId, stepSketchId);
 	}
 
 	@POST
@@ -101,11 +99,10 @@ public class StepSketchResource {
 		stepSketch.setDateCreated(now);
 		stepSketch.setDateModified(now);
 
-		files.createStepSketchDirectory(resolvedBranchName, issueId, scenarioSketchId, stepSketch.getStepSketchId());
-		files.persistStepSketch(resolvedBranchName, issueId, scenarioSketchId, stepSketch);
+		sketcherDao.persistStepSketch(resolvedBranchName, issueId, scenarioSketchId, stepSketch);
 
 		stepSketch.setSvgXmlString(SvgSanitizer.sanitize(stepSketch.getSvgXmlString()));
-		files.persistSketchAsSvgAndPng(resolvedBranchName, issueId, scenarioSketchId, stepSketch);
+		sketcherDao.persistSketchAsSvgAndPng(resolvedBranchName, issueId, scenarioSketchId, stepSketch);
 
 		copyOriginalScreenshot(resolvedBranchName, issueId, scenarioSketchId, stepSketch);
 
@@ -125,7 +122,7 @@ public class StepSketchResource {
 				relatedStep.getBuildName(), relatedStep.getUsecaseName(), relatedStep.getScenarioName());
 		originalScreenshot = new File(screenshotsDirectory, stepIndex.getScreenshotFileName());
 
-		files.copyOriginalScreenshot(originalScreenshot, branchName, issueId, scenarioSketchId,
+		sketcherDao.copyOriginalScreenshot(originalScreenshot, branchName, issueId, scenarioSketchId,
 				stepSketch.getStepSketchId());
 	}
 
@@ -149,13 +146,13 @@ public class StepSketchResource {
 
 		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
 
-		final StepSketch stepSketch = reader.loadStepSketch(resolvedBranchName, issueId, scenarioSketchId,
+		final StepSketch stepSketch = sketcherDao.loadStepSketch(resolvedBranchName, issueId, scenarioSketchId,
 				stepSketchId);
 		
 		stepSketch.setSvgXmlString(SvgSanitizer.sanitize(updatedStepSketch.getSvgXmlString()));
 		stepSketch.setDateModified(new Date());
 
-		files.persistSketchAsSvgAndPng(resolvedBranchName, issueId, scenarioSketchId, stepSketch);
+		sketcherDao.persistSketchAsSvgAndPng(resolvedBranchName, issueId, scenarioSketchId, stepSketch);
 
 		return Response.ok(stepSketch, MediaType.APPLICATION_JSON).build();
 	}

@@ -27,7 +27,8 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDAO;
+import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
+import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.model.configuration.BranchAlias;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
@@ -56,36 +57,36 @@ import org.scenarioo.rest.base.BuildIdentifier;
  * </ul>
  */
 public class ScenarioDocuBuildsManager {
-	
+
 	private final static ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
-	
+
 	public static ScenarioDocuBuildsManager INSTANCE = new ScenarioDocuBuildsManager();
-	
+
 	private static final Logger LOGGER = Logger.getLogger(ScenarioDocuBuildsManager.class);
-	
+
 	/**
 	 * Cached long object name resolver for most recently loaded builds and branches. Is cleared whenever new builds are
 	 * imported.
 	 */
 	private final Map<BuildIdentifier, LongObjectNamesResolver> longObjectNamesResolvers = new HashMap<BuildIdentifier, LongObjectNamesResolver>();
-	
+
 	/**
 	 * Only the successfully imported builds that are available and can be accessed.
 	 */
 	private final AvailableBuildsList availableBuilds = new AvailableBuildsList();
-	
+
 	/**
 	 * Importer to hold current state of all builds and to import those that are not yet imported or are outdated.
 	 */
 	private final BuildImporter buildImporter = new BuildImporter();
-	
+
 	/**
 	 * Is a singleton. Use {@link #INSTANCE}.
 	 */
 	private ScenarioDocuBuildsManager() {
 	}
-	
+
 	/**
 	 * Get branch builds list with those builds that are currently available (have been already successfully imported).
 	 * 
@@ -94,35 +95,35 @@ public class ScenarioDocuBuildsManager {
 	public List<BranchBuilds> getAvailableBuilds() {
 		return availableBuilds.getBranchBuildsList();
 	}
-	
+
 	public void refreshBranchAliases() {
 		availableBuilds.refreshAliases();
 	}
-	
+
 	/**
 	 * Summaries about current states of all builds.
 	 */
 	public List<BuildImportSummary> getBuildImportSummaries() {
 		return buildImporter.getBuildImportSummariesAsList();
 	}
-	
+
 	/**
 	 * Resolves a potential alias build name but does not fail if build name is not recognized or not successful
 	 */
 	public String resolveAliasBuildNameUnchecked(final String branchName, final String buildName) {
 		return availableBuilds.resolveAliasBuildName(branchName, buildName);
 	}
-	
+
 	/**
 	 * Resolves branch and build names that might be aliases to their real names.
 	 */
 	public BuildIdentifier resolveBranchAndBuildAliases(final String branchName, final String buildName) {
 		String resolvedBranchName = resolveBranchAlias(branchName);
 		String resolvedBuildName = resolveBuildAlias(resolvedBranchName, buildName);
-		
+
 		return new BuildIdentifier(resolvedBranchName, resolvedBuildName);
 	}
-	
+
 	/**
 	 * Resolves possible alias names in 'buildName' for managed build alias links. Also validates that the passed branch
 	 * and build represents a valid build (imported successfully otherwise an exception is thrown)
@@ -134,7 +135,7 @@ public class ScenarioDocuBuildsManager {
 		validateBuildIsSuccessfullyImported(branchName, resolvedBuildName);
 		return resolvedBuildName;
 	}
-	
+
 	public String resolveBranchAlias(final String aliasOrRealBranchName) {
 		Configuration configuration = configurationRepository.getConfiguration();
 		List<BranchAlias> branchAliases = configuration.getBranchAliases();
@@ -143,10 +144,10 @@ public class ScenarioDocuBuildsManager {
 				return branchAlias.getReferencedBranch();
 			}
 		}
-		
+
 		return aliasOrRealBranchName;
 	}
-	
+
 	/**
 	 * Processes the content of configured documentation filesystem directory discovering newly added builds or branches
 	 * to calculate all data for them. Also updates the branches and builds list.
@@ -155,7 +156,7 @@ public class ScenarioDocuBuildsManager {
 	 * 
 	 * The calculation/importing/aggregating of the builds is scheduled to be done in a separate thread/executor.
 	 */
-	public void updateAllBuildsAndSubmitNewBuildsForImport() {
+	public void updateBuildsIfValidDirectoryConfigured() {
 		LOGGER.info("********************* update builds ********************************");
 		LOGGER.info("Updating available builds ...");
 		File docuDirectory = configurationRepository.getDocumentationDataDirectory();
@@ -166,14 +167,20 @@ public class ScenarioDocuBuildsManager {
 			LOGGER.error("No valid documentation directory is configured: " + docuDirectory.getAbsolutePath());
 			LOGGER.error("Please configure valid documentation directory in configuration UI");
 		} else {
-			LOGGER.info("  Processing documentation content data in directory: " + docuDirectory.getAbsoluteFile());
-			updateBuildImportStatesAndAvailableBuildsList();
-			longObjectNamesResolvers.clear();
-			buildImporter.submitUnprocessedBuildsForImport(availableBuilds);
+			updateAllBuildsAndSubmitNewBuildsForImport(docuDirectory);
 		}
 		LOGGER.info("******************** update finished *******************************");
 	}
-	
+
+	private void updateAllBuildsAndSubmitNewBuildsForImport(File docuDirectory) {
+		LOGGER.info("  Processing documentation content data in directory: " + docuDirectory.getAbsoluteFile());
+		updateBuildImportStatesAndAvailableBuildsList();
+		longObjectNamesResolvers.clear();
+		buildImporter.submitUnprocessedBuildsForImport(availableBuilds);
+
+		new FullTextSearch().updateAvailableBuilds(buildImporter.getBuildImportSummariesAsList());
+	}
+
 	private synchronized void updateBuildImportStatesAndAvailableBuildsList() {
 		LOGGER.info("Updating the list of available builds and their states ...");
 		Map<BuildIdentifier, BuildImportSummary> loadedBuildImportSummaries = loadBuildImportSummaries();
@@ -182,9 +189,9 @@ public class ScenarioDocuBuildsManager {
 		availableBuilds.updateBuildsWithSuccessfullyImportedBuilds(branchBuildsList,
 				buildImporter.getBuildImportSummaries());
 	}
-	
+
 	public static Map<BuildIdentifier, BuildImportSummary> loadBuildImportSummaries() {
-		AggregatedDocuDataReader dao = new ScenarioDocuAggregationDAO(
+		AggregatedDocuDataReader dao = new ScenarioDocuAggregationDao(
 				configurationRepository.getDocumentationDataDirectory());
 		List<BuildImportSummary> loadedSummaries = dao.loadBuildImportSummaries();
 		Map<BuildIdentifier, BuildImportSummary> result = new HashMap<BuildIdentifier, BuildImportSummary>();
@@ -193,12 +200,12 @@ public class ScenarioDocuBuildsManager {
 		}
 		return result;
 	}
-	
-	 public static List<BranchBuilds> loadBranchBuildsList() {
+
+	public static List<BranchBuilds> loadBranchBuildsList() {
 		File documentationDataDirectory = configurationRepository.getDocumentationDataDirectory();
 		final ScenarioDocuReader reader = new ScenarioDocuReader(documentationDataDirectory);
-		AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDAO(documentationDataDirectory);
-		
+		AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDao(documentationDataDirectory);
+
 		List<BranchBuilds> result = new ArrayList<BranchBuilds>();
 		List<Branch> branches = reader.loadBranches();
 		for (Branch branch : branches) {
@@ -207,19 +214,19 @@ public class ScenarioDocuBuildsManager {
 			branchBuilds.setBuilds(aggregatedDataReader.loadBuildLinks(branch.getName()));
 			result.add(branchBuilds);
 		}
-		
+
 		return result;
 	}
-	
+
 	/**
 	 * Schedule a build for re-import, even if the build was already imported once.
 	 */
 	public void reimportBuild(final BuildIdentifier buildIdentifier) {
 		buildImporter.submitBuildForReimport(availableBuilds, buildIdentifier);
 	}
-	
+
 	public LongObjectNamesResolver getLongObjectNameResolver(final BuildIdentifier buildIdentifier) {
-		AggregatedDocuDataReader dao = new ScenarioDocuAggregationDAO(
+		AggregatedDocuDataReader dao = new ScenarioDocuAggregationDao(
 				configurationRepository.getDocumentationDataDirectory());
 		validateBuildIsSuccessfullyImported(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		LongObjectNamesResolver longObjectNamesResolver = longObjectNamesResolvers.get(buildIdentifier);
@@ -229,7 +236,7 @@ public class ScenarioDocuBuildsManager {
 		}
 		return longObjectNamesResolver;
 	}
-	
+
 	/**
 	 * Throws an exception if the passed build is unavailable or not yet properly imported. Only passes if the build has
 	 * status {@link BuildImportStatus#SUCCESS}
@@ -242,5 +249,5 @@ public class ScenarioDocuBuildsManager {
 					+ ". It is unavailable, or not yet imported or updated successfully.");
 		}
 	}
-	
+
 }

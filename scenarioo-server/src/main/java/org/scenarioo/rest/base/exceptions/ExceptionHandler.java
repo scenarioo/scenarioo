@@ -29,7 +29,7 @@ import com.sun.istack.logging.Logger;
 @Provider
 public class ExceptionHandler implements ExceptionMapper<ResourceNotFoundException> {
 	
-	Logger LOGGER = Logger.getLogger(ExceptionHandler.class);
+	private Logger LOGGER = Logger.getLogger(ExceptionHandler.class);
 	
 	@Override
 	public Response toResponse(final ResourceNotFoundException exception) {
