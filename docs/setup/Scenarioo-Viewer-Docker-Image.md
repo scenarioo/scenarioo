@@ -12,15 +12,19 @@ To run the Scenarioo docker image it is necessary to install Docker. Visit the [
 
 You want to set up the scenarioo infrastructure and run the Scenarioo webapplication? It is a one-liner:
 
-1. Run `sudo docker run -it --rm --name scenarioo -p 8080:8080 -v $(pwd)/scenarioDocuExample:/doku scenarioo/webapp:2.2.0`  
+1. Run `sudo docker run -it --rm --name scenarioo -p 8080:8080 -v $(pwd)/scenarioDocuExample:/docu scenarioo/webapp:3.0.0`  
 with following parameters:    
 `--name` - defines a name for the container (= running image)  
-`-p` - maps a port of your host OS to the container internal port.  
-`-v` - defines where the Sceanrioo-Docu-Directory is located (watch out: if you use $(pwd) you have to run the command in a specific directory)  
+`-p` - maps a port of your host OS to the container's internal port.  
+`-v` - maps the directory where your Scenarioo documentation data and config will be stored (watch out: if you use $(pwd) you have to run the command in a specific directory)  
 
-2. Access [http://localhost:8080/scenarioo/](http://localhost:8080/scenarioo/) in your webbrowser to verify the running webclient.
+2. Access [http://localhost:8080/scenarioo/](http://localhost:8080/scenarioo/) in your webbrowser to verify the Viewer application is running.
 
-## More informations
+3. At this point, the Scenarioo configuration is only in memory. Go to Manage -> General Settings, add your application name and save the configuration.
+
+4. Start adding your documentation data to the mapped directory and let the Viewer application import it.
+
+## More information
 
 The scenarioo docker image is hosted here on [dockerhub](https://hub.docker.com/u/scenarioo/).
 
