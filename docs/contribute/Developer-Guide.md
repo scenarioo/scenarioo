@@ -27,16 +27,19 @@ This process describes how you clean update all your sources and build everythin
     ```
     cd ~/scenarioo
     git pull
-    ./gradlew clean build test
+    ./gradlew clean build test war
     ```
 
-3. Refresh and build in your IDE (Eclispe or IntelliJ)
-   * choose "refresh" on all projects (in Eclipse!)
-   * choose ">Gradle>Refresh all" on 'scenarioo' project, and if needed on all other projects
-   * if needed, choose ">Gradle>Refresh dependencies" (e.g. if some dependency is not found or automatic dependency management in turned off) on all server and example-data-generator projects.
+3. Refresh and build in your IDE
+   * Eclipse 
+     * choose "refresh" on all projects
+     * choose "Gradle > Refresh all" on 'scenarioo' project, and if needed on all other projects
+     * if needed, choose "Gradle > Refresh dependencies" (e.g. if some dependency is not found or automatic dependency management in turned off) on all server and example-data-generator projects.
+   * IntelliJ
+     * TODO: what is required?
 
 4. Generate the dummy test data:
-   * choose to run the `AllTests` JUnit test suite (Exlipse run configuration `scenarioo-docu-generation-example-all-webtest`) in project 'scenarioo-docu-generation-example`: this builds all dummy data of the 'wikipedia-docu-example' that you need for testing the Scenarioo web app (and running e2e tests later).
+   * Eclipse: choose to run the `AllTests` JUnit test suite (Exlipse run configuration `scenarioo-docu-generation-example-all-webtest`) in project 'scenarioo-docu-generation-example`: this builds all dummy data of the 'wikipedia-docu-example' that you need for testing the Scenarioo web app (and running e2e tests later).
 
 5. Start up the `scenarioo-server` in Tomcat (usually done in your IDE).
 
@@ -44,13 +47,13 @@ This process describes how you clean update all your sources and build everythin
     ```
     cd ~/scenarioo/scenarioo-client
     npm install
-    gulp serve
-    # then open the browser to browse the application 
-    # on given URL, usually http://localhost:9000
-    # if you change files in the client the browser will refresh automatically
+    npm start
     ```
+    Then open the browser to browse the application under http://localhost:9000
+    If you change files in the client the browser will refresh automatically
+    
     Some remarks about this:
-    * `npm install`: Installs node.js modules (mainly needed tools) as configured in `package.json`. They are placed in the folder `node_modules`. It also calls the relatively insalled bower binary to install frontend dependencies.
+    * `npm install`: Installs node.js modules (mainly needed tools) as configured in `package.json`. They are placed in the folder `node_modules`. It also calls the relatively installed bower binary to install frontend dependencies.
 
 7. Configure webapp correctly (if not yet) and browse it:
    * Go to the configuration page (under _Manage_ in the top right corner, then choose tab _General Settings_). You should see some preconfigured values, which means the client was able to reach the server.
@@ -63,9 +66,9 @@ This process describes how you clean update all your sources and build everythin
     * run all java unit tests inside scenarioo-java
     * run all java unit tests inside scenarioo/scenarioo-server
     * run all java-script unit tests inside scenarioo/scenarioo-client:
-      `gulp test`
+      `npm test`
       or use following command to run them everytime a file changes:
-      `gulp test-watch`
+      `npm run test-watch`
       for running javascript tests from inside WebStorm see also [Webstorm](./Development-Environment.md#webstorm)
       or use
       `npm test` which will call gulp under the hood
