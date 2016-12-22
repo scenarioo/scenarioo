@@ -81,15 +81,17 @@ Now have fun improving and extending Scenarioo, we are awaiting for your first p
 
 ## Build WAR File for Server Deployement
 
-The following command creates a war file which contains the server and the client code.  
+The following command creates a war file which contains the server and the client code.
 
 ```
 ./gradlew war
 ```
 
 ## Client package update strategy (package.json)
-Packages should by specified statically
-``` "gulp-ng-annotate": "2.0.x" ``` with only the bugfix version being dynamic. This will make our builds more stable. Specify the dynamic version by using the 'x' character.
 
-Npm packages may be checked by using the command ``` npm outdated ```. 
+Packages should by specified statically. 
+Example: ``` "gulp-ng-annotate": "2.0.x" ```.
 
+Only the bugfix version shall be dynamic. This will make our builds more stable. Specify the dynamic version by using the 'x' character.
+
+Npm packages may be checked by using the command ``` npm outdated ```. You can update outdated packages by using ```npm update```.
