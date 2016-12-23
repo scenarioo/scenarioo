@@ -40,20 +40,35 @@ function scBranchOrderByFilter() {
             return 1;
         }
 
-        // both are an alias or none is an alias -> use alphabetical ordering
-        var branchAName = branchA.branch.name.toLowerCase();
-        var branchBName = branchB.branch.name.toLowerCase();
+        if (branchA.alias === true) {
+            // both are an alias -> use alphabetical ordering
+            var branchAName = branchA.branch.name.toLowerCase();
+            var branchBName = branchB.branch.name.toLowerCase();
 
-        if (branchAName < branchBName) {
-            return -1;
+            if (branchAName < branchBName) {
+                return -1;
+            }
+
+            if (branchAName > branchBName) {
+                return 1;
+            }
+
+            return 0;
         }
 
-        if (branchBName < branchAName) {
+        // none is an alias -> order by build date DESC
+        var dateA = (branchA.builds.length != 0 ? branchA.builds[0].build.date : 0);
+        var dateB = (branchB.builds.length != 0 ? branchB.builds[0].build.date : 0);
+
+        if (dateA < dateB) {
             return 1;
         }
 
-        return 0;
+        if (dateA > dateB) {
+            return -1;
+        }
 
+        return 0;
     }
 
     return function (input) {
