@@ -11,7 +11,7 @@
                 ng-show="getIconClass(screenAnnotation) !== ''" ng-click="openInfoPopup(screenAnnotation)"></i>
     </div>
     <div>
-        <img ng-src="{{screenShotUrl}}" class="sc-screenshot sc-real-screenshot sc-screenshot-border"/>
-        <img ng-src="{{diffScreenShotUrl}}" class="sc-screenshot sc-diff-screenshot sc-screenshot-border" ng-hide="!showDiff"/>
+        <img ng-src="{{screenShotUrl}}" class="sc-screenshot sc-real-screenshot sc-screenshot-border" ng-style="{position: showDiff ? 'absolute':'static'}"/>
+        <img ng-src="{{diffScreenShotUrl}}" class="sc-screenshot sc-diff-screenshot sc-screenshot-border" ng-style="{position: 'absolute'}" ng-hide="!showDiff"/>
     </div>
 </div>
