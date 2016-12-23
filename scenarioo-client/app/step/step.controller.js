@@ -333,8 +333,10 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
         }
     }
 
+    //  $route.reload necessary because of align diff and real image size
     $scope.setActiveTab = function (activeTab) {
         storeActiveTab(activeTab);
+        $route.reload();
     };
 
     //  $route.reload necessary because of annotation calculation

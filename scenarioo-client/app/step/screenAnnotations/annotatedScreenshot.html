@@ -1,4 +1,4 @@
-<div class="sc-screenshot-border sc-annotated-screenshot-container">
+<div class="sc-annotated-screenshot-container">
     <div ng-show="visibilityToggle">
         <span ng-repeat="screenAnnotation in screenAnnotations" class="sc-screenshot-annotation" ng-class="{'sc-screenshot-annotation-with-action': hasClickAction(screenAnnotation)}"
               ng-style="getBoxCssStyle(screenAnnotation)" ng-click="doClickAction(screenAnnotation)" uib-tooltip="{{getTooltipText(screenAnnotation)}}" tooltip-placement="bottom">
@@ -7,8 +7,11 @@
             </span>
         </span>
         <i ng-repeat="screenAnnotation in screenAnnotations"
-           ng-class="[getIconClass(screenAnnotation), 'icon-large', 'sc-screnshot-annotation-icon']" ng-style="getIconCssStyle(screenAnnotation)"
+           ng-class="[getIconClass(screenAnnotation), 'icon-large', 'sc-screenshot-annotation-icon']" ng-style="getIconCssStyle(screenAnnotation)"
                 ng-show="getIconClass(screenAnnotation) !== ''" ng-click="openInfoPopup(screenAnnotation)"></i>
     </div>
-    <img ng-src="{{screenShotUrl}}" class="sc-screenshot"/>
+    <div>
+        <img ng-src="{{screenShotUrl}}" class="sc-screenshot sc-real-screenshot sc-screenshot-border"/>
+        <img ng-src="{{diffScreenShotUrl}}" class="sc-screenshot sc-diff-screenshot sc-screenshot-border" ng-hide="!showDiff"/>
+    </div>
 </div>
