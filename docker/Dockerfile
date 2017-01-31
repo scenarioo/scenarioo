@@ -2,10 +2,9 @@ FROM tomcat:8.5.9-jre8
 
 MAINTAINER Scenarioo
 
-# INSTALL GRAPHICS MAGICK
-# RUN add-apt-repository ppa:dhor/myway
+# INSTALL GRAPHICSMAGICK
 RUN apt-get update -y
-RUN apt-get install -y graphicsmagick
+RUN apt-get install -y graphicsmagick=1.3.20\*
 
 # REPLACE THE ORIGINAL CONTEXT.XML WITH THE MODIFIED VERSION TO OVERRIDE THE CONFIG FILE PATH
 COPY ./context.xml /usr/local/tomcat/conf/
