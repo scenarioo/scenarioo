@@ -1,5 +1,7 @@
 # Scenarioo
 
+Hallo Spec by Ex Group!
+
 This documentation is about the Software Development and Testing Tool "Scenarioo".
  
 Scenarioo helps you visualizing and documenting the functionalities of your software system in a guidebook, that contains the important user interaction flows, generated out of your UI tests. Each so called "User Scenario" is presented as step by step page flow with screenshots and any additional useful information that you want to provide. This documentation is always up to date with the current implementation and available to everybody involved in your Software Development Lifecycle.
