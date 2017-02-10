@@ -33,11 +33,11 @@ To generate the Scenarioo documentation files, you need to extend your UI tests 
 
 ### See Scenarioo in Action
 
-Have a look at our demo: http://demo.scenarioo.org
+Have a look at our Scenarioo Viewer Demo: http://demo.scenarioo.org
 
-See our collection of examples (some of them produce content data for our demo): [Examples](examples.md)
+And see our [Collection of Examples](examples.md) for how to produce documentation data content. Some content produced by those examples is what you can also see in our Viewer Demo as example content.
 
-There are also demo links for next release candidates of Scenarioo that are currently under development, see [Downloads & Links](setup/downloads-and-links.md).
+There are also demo links for next release candidates of the Scenarioo Viewer that are currently under development, see [Downloads & Links](setup/downloads-and-links.md).
 
 ### Setup & Use Scenarioo in Your Project
 
