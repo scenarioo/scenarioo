@@ -35,16 +35,4 @@ Further Release Candidate Versions are available through [Downloads & Links](dow
 
 5. Startup scenarioo through your browser using following URL: http://{your-ip-address-and-port-or-host-url}/scenarioo (e.g. http://localhost:8080/scenarioo )
 
-6. Configure your scenarioo webapplication in the "Manage" area (see top right link in the application) on the "Configuration" tab. 
-
-    * You have to configure the directory where you want to generate the documentation content into, which must also be a directory where the webapplication has write access and can create sub folders (see linux access right commands above). We recommend to configure the same directory, where you allready configured to store the configuration for scenarioo, such that you have all the scenarioo data stored in one place. 
-    * In future versions of scenarioo we will anyway change this, such that you can only configure one scenarioo data directory and this will be only configurable in the server configuration (and not through the globaly accessible config UI anymore). So by configuring this directory to point to the same scenarioConfigurationDirectory you are allready well prepared for updates to future scenarioo versions.
-    
-7. **Setup Additional Features (Optional):** For being able to use following additional features, you have to follow additional setup instructions for using this special features that require additional configuration and setup steps:
-    
-    * **Full Text Search**: For searching any text in Scenarioo see [Full Text Search Setup Instructions](../features/full-text-search/setup.md)
-    
-    * **Diff-Viewer Screen Comparison** for Image-Comparison of Screenshots see [DiffViewer Setup Instructions](../features/diff-viewer/setup.md)
-
-# Application exampels
-Several example projects that show case Scenarioo can be found [here](examples.md).
+6. Configure your viewer and advanced features as described in [Viewer Configuration](Configuration.md)
