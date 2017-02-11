@@ -13,9 +13,9 @@
     "font-awesome": "~3.2.1",
     "twigs": "0.1.3.1",
     "svg.js": "https://github.com/svgdotjs/svg.js.git#2.0.4",
-    "svg.draggable.js": "https://github.com/svgdotjs/svg.js.git#2.0.4",
-    "svg.select.js": "https://github.com/svgdotjs/svg.js.git#1.1.1",
-    "svg.resize.js": "https://github.com/svgdotjs/svg.js.git#1.1.1",
+    "svg.draggable.js": "https://github.com/svgdotjs/svg.draggable.js.git#2.0.0",
+    "svg.select.js": "https://github.com/Fuzzyma/svg.select.js.git#1.0.5",
+    "svg.resize.js": "https://github.com/parabolika66/svg.resize.js.git#1.1.3",
     "svg-pan-zoom": "~3.2.0",
     "angular-unsavedChanges": "~0.1.1"
   },
