@@ -1,10 +1,10 @@
 apply plugin: 'java'
 
 repositories {
-    maven {
-        url "https://raw.github.com/scenarioo/mvn-repo/master"
-    }
     mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/groups/public"
+    }
 }
 
 dependencies {
