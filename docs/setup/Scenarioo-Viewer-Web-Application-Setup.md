@@ -38,4 +38,4 @@ Further Release Candidate Versions are available through [Downloads & Links](dow
   * **Configure the directory under `Documentation Data Directory Path`** by providing the full absolute path to the directory you want to use to store all documentation data. 
   * **We strongly recommend to use the same path for this setting that you already configured for the config directory (see point 3).** First because the directory needs to have same access rights as described for config directory already. And second because in future scenarioo versions we will remove this setting and use only one directory for storing all the documentation data and config data in one central place. By configuring this directory to point to the same scenarioConfigurationDirectory you are allready well prepared for updates to future scenarioo versions.
 
-7. **Configure your Viewer and advanced features** as described in [Viewer Configuration](Configuration.md)
+7. **Configure your Viewer and advanced features (optional)** as described in [Viewer Configuration](Configuration.md). 
