@@ -1,6 +1,6 @@
 # Scenarioo by Example
 
-There are several example projects and a live demo that demonstrate usage of Scenarioo.
+There are several example projects and a live demo that demonstrate the usage of Scenarioo.
 
 * **[Scenarioo Self Documentation with Protractor and ScenariooJS](https://github.com/scenarioo/scenarioo/tree/develop/scenarioo-client/test/protractorE2E/specs):**
 We eat our own dog food: Scenarioo documenting itself using ScenariooJS and Protractor e2e tests.
