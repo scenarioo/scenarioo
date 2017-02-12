@@ -5,10 +5,10 @@
 * [Downloads and Links](setup/downloads-and-links.md)
 
 * [Setup & Usage](setup/README.md)
-  * [Install as Web App](setup/Scenarioo-Viewer-Web-Application-Setup.md)
-  * [Install as Docker Image](setup/Scenarioo-Viewer-Docker-Image.md)
+  * [Install Viewer Web App](setup/Scenarioo-Viewer-Web-Application-Setup.md)
+  * [Install Viewer Docker Image](setup/Scenarioo-Viewer-Docker-Image.md)
   * [Viewer Configuration](setup/Configuration.md)
-  * [Write Content Using Writer Libraries](setup/How-to-use-Scenarioo-Writer-Library.md)
+  * [Usage of Writer Libraries](setup/How-to-use-Scenarioo-Writer-Library.md)
   * [Publish Documentation Data](setup/Publish-Documentation-Data.md)
 
 * [Features & Concepts](features/README.md)
