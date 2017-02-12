@@ -8,7 +8,7 @@ All the listed configuration possibilities are optional and you only need to fol
 
 ## Full Text Search
 
-For eanbling full text search inside your scenarioo documentation you have to setup an elastic search engine, as described in [Full Text Search Setup Instructions](../features/full-text-search/setup.md)
+For enabling full text search inside your scenarioo documentation you have to setup an elastic search engine, as described in [Full Text Search Setup Instructions](../features/full-text-search/setup.md)
 
 ## Diff Viewer Comparisons
 
