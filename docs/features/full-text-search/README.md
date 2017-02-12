@@ -10,4 +10,3 @@ Text can be searched inside:
 ## Setup Instructions
 
 See [Setup Instructions](setup.md) for how to configure and activate this feature.
-

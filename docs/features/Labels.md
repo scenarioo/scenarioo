@@ -9,14 +9,14 @@ Labels are a list of strings (index words) that adhere to the following regular 
 They can be set on a Use Case, Scenario, Step (inside StepDescription) and a Page.
 
 Example:
-    ...
-    <step>
-    <page>
-        <name>contentPage.jsp</name>
-        <details/>
-        <labels>
-            <label>page-label1</label>
-            <label>page-label2</label>
-        </labels>
-    </page>
-    ...
+```
+<step>
+<page>
+    <name>contentPage.jsp</name>
+    <details/>
+    <labels>
+        <label>page-label1</label>
+        <label>page-label2</label>
+    </labels>
+</page>
+```
