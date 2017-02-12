@@ -1,4 +1,6 @@
-# Existing Writer Libraries
+# How to use Scenarioo Writer Libraries
+
+## Existing Writer Libraries
 
 Before you start using a Scenarioo Writer Library, it is a good idea to look at the [Core Concepts of Scenarioo](../features/README.md) first to understand the basics of the documentation that you want to generate by using such a writer library.
 
@@ -10,7 +12,10 @@ If you are using one of the following languages / frameworks, then you are lucky
 
 * [Scenarioo Writer for C#](https://github.com/scenarioo/scenarioo-cs/wiki/How-to-use-the-C%23-Scenarioo-Writer-Library)
 
+## Examples
 
-# Other Languages / Frameworks
+See [Scenarioo Examples](../examples.md) for how to use this libraries and integrate them into your ui tests to produce documentation output from your UI tests.
+
+## Other Languages / Frameworks
 
 If you use any other language / framework, there's probably no Scenarioo Writer library out there yet and you have to start creating a new one, which is not too difficult. Please read the [Scenarioo-Writer-Documentation-Format](../features/Scenarioo-Writer-Documentation-Format.md) for this purpose.
