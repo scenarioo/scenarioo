@@ -46,3 +46,5 @@ Further Release Candidate Versions are available through [Downloads & Links](dow
     
     * **Diff-Viewer Screen Comparison** for Image-Comparison of Screenshots see [DiffViewer Setup Instructions](../features/diff-viewer/setup.md)
 
+# Application exampels
+Several example projects that show case Scenarioo can be found [here](examples.md).
