@@ -1,6 +1,13 @@
-FROM tomcat:8.0
- 
+FROM tomcat:8.5.9-jre8
+
 MAINTAINER Scenarioo
+
+# INSTALL GRAPHICSMAGICK
+RUN apt-get update -y
+RUN apt-get install -y graphicsmagick=1.3.20\*
+
+# REPLACE THE ORIGINAL CONTEXT.XML WITH THE MODIFIED VERSION TO OVERRIDE THE CONFIG FILE PATH
+COPY ./context.xml /usr/local/tomcat/conf/
 
 # ADD WAR TO TOMCAT-WEBAPPS
 ADD ./scenarioo.war /usr/local/tomcat/webapps/
@@ -8,8 +15,8 @@ ADD ./scenarioo.war /usr/local/tomcat/webapps/
 # UNZIP WAR MANUALLY
 RUN unzip -o /usr/local/tomcat/webapps/scenarioo.war -d /usr/local/tomcat/webapps/scenarioo/
 
-# CHANGE DOKU-PATH IN CONFIG
-RUN sed -i "s/<testDocumentationDirPath>\/home\/scenarioo\/scenarioo\/scenarioo-docu-generation-example\/build\/scenarioDocuExample<\/testDocumentationDirPath>/<testDocumentationDirPath>\/doku<\/testDocumentationDirPath>/" /usr/local/tomcat/webapps/scenarioo/WEB-INF/classes/config.xml
+# CHANGE PATH TO DOCUMENTATION FILES IN THE DEFAULT CONFIG FILE
+RUN sed -i "s/<testDocumentationDirPath>\/home\/scenarioo\/scenarioo\/scenarioo-docu-generation-example\/build\/scenarioDocuExample<\/testDocumentationDirPath>/<testDocumentationDirPath>\/docu<\/testDocumentationDirPath>/" /usr/local/tomcat/webapps/scenarioo/WEB-INF/classes/config.xml
 
 # REMOVE WAR
 RUN rm /usr/local/tomcat/webapps/scenarioo.war
