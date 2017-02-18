@@ -84,15 +84,15 @@ war {
     from(sourceSets.main.output.classesDir) {
         into('WEB-INF/classes')
     }
-	archiveName 'scenarioo-' + version + '.war'
+	archiveName 'scenarioo-viewer-' + version + '.war'
 }
 
 war.doLast {
     copy {
         from ('build/libs/')
         into ('build/libs/')
-        include('scenarioo-' + version + '.war')
-        rename('scenarioo-' + version + '.war', 'scenarioo-latest.war')
+        include('scenarioo-viewer-' + version + '.war')
+        rename('scenarioo-viewer-' + version + '.war', 'scenarioo-latest.war')
     }
 }
 
