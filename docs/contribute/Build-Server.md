@@ -18,10 +18,15 @@ Development for future release: http://54.88.202.24/scenarioo-develop
 * Click "Ok"
 * Set the correct branch next to "Branches to build"
 * In the post-build task where the "deploy-demo-and-run-e2e-tests" task is called, set "BRANCH={my-branch-name}".
+* It's important that you use exactly the same {my-branch-name} values for both occurrences. It does not have to be the exact git branch name, but it should identify the branch. Only use alphanumeric characters and the dash in {my-branch-name}. Otherwise you may run into problems.
+* Save it
+* Choose to build once: "Build Now"
+* First run of the build run will usually fail (there seems to be a problem with clean build currently).
+* Choose to build again, usually the second build should succeed.
 
-It's important that you use exactly the same {my-branch-name} values for both occurrences. It does not have to be the exact git branch name, but it should identify the branch. Only use alphanumeric characters and the dash in {my-branch-name}. Otherwise you may run into problems.
+## Add a new Demo Instance to Nginx Proxy
 
-We use nginx as a reverse proxy. Therefore you also have to add a configuration for the new Scenarioo instance URL in `/etc/nginx/sites-available/default`. Otherwise the demo is not reachable.
+We use nginx as a reverse proxy. Therefore you also have to add a configuration for the new Scenarioo instance URL in `/etc/nginx/sites-available/default`. Otherwise the deployed demo will not be reachable publicly.
 
 ## Maintenance of the build server
 
