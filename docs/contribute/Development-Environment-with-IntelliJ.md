@@ -39,12 +39,12 @@ This is the recommended setup, to get up started and productive most quickly!
     git clone https://github.com/scenarioo/scenarioo.git
     ```
     * In case of troubles with `Filename too long` errors on windows:
-      ```
-      cd scenarioo
-      git config core.longpaths true
-      git checkout -f HEAD
-      ```
-      (if that does not help, check you have a new version of the windows git client!)
+        ```
+        cd scenarioo
+        git config core.longpaths true
+        git checkout -f HEAD
+        ```
+        (if that does not help, check you have a new version of the windows git client!)
 
  * For most things you will work with the IntelliJ GIT client or use the GIT command line
      * In case you are a GIT newbie please ask your developer colleagues to help you or refer to the very good (and free) book at: http://git-scm.com/book to get started
