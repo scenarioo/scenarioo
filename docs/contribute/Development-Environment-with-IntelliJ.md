@@ -39,6 +39,7 @@ This is the recommended setup, to get up started and productive most quickly!
     git clone https://github.com/scenarioo/scenarioo.git
     ```
     * In case of troubles with `Filename too long` errors on windows:
+    
         ```
         cd scenarioo
         git config core.longpaths true
