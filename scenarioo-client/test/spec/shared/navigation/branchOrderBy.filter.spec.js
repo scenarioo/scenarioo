@@ -50,13 +50,23 @@ describe('Filter scBranchOrderBy', function () {
                     alias: false,
                     branch: {
                         name: 'A'
-                    }
+                    },
+                    builds: [
+                        {
+                            build: {date: 0}
+                        }
+                    ]
                 },
                 {
                     alias: true,
                     branch: {
                         name: 'B'
-                    }
+                    },
+                    builds: [
+                        {
+                            build: {date: 1}
+                        }
+                    ]
                 }
             ];
 
@@ -71,7 +81,7 @@ describe('Filter scBranchOrderBy', function () {
 
             var inputArray = [
                 {
-                    alias: false,
+                    alias: true,
                     branch: {
                         name: 'Ae'
                     }
@@ -89,7 +99,7 @@ describe('Filter scBranchOrderBy', function () {
                     }
                 },
                 {
-                    alias: false,
+                    alias: true,
                     branch: {
                         name: 'aa'
                     }
@@ -98,9 +108,66 @@ describe('Filter scBranchOrderBy', function () {
 
             var result = scBranchOrderByFilter(inputArray);
 
-            expect(result[0].branch.name).toEqual('Ba');
+            expect(result[0].branch.name).toEqual('aa');
+            expect(result[1].branch.name).toEqual('Ae');
+            expect(result[2].branch.name).toEqual('Ba');
+            expect(result[3].branch.name).toEqual('be');
+        });
+
+        it('then by newest build date', function () {
+
+            var inputArray = [
+                {
+                    alias: false,
+                    branch: {
+                        name: 'Ae'
+                    },
+                    builds: [
+                        {
+                            build: {date: 1}
+                        }
+                    ]
+                },
+                {
+                    alias: false,
+                    branch: {
+                        name: 'Ba'
+                    },
+                    builds: [
+                        {
+                            build: {date: 2}
+                        }
+                    ]
+                },
+                {
+                    alias: false,
+                    branch: {
+                        name: 'be'
+                    },
+                    builds: [
+                        {
+                            build: {date: 3}
+                        }
+                    ]
+                },
+                {
+                    alias: false,
+                    branch: {
+                        name: 'aa'
+                    },
+                    builds: [
+                        {
+                            build: {date: 4}
+                        }
+                    ]
+                }
+            ];
+
+            var result = scBranchOrderByFilter(inputArray);
+
+            expect(result[0].branch.name).toEqual('aa');
             expect(result[1].branch.name).toEqual('be');
-            expect(result[2].branch.name).toEqual('aa');
+            expect(result[2].branch.name).toEqual('Ba');
             expect(result[3].branch.name).toEqual('Ae');
         });
 

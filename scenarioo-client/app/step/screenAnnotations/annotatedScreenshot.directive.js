@@ -34,6 +34,8 @@ function annotatedScreenshot() {
         scope: {
             screenAnnotations: '=',
             screenShotUrl: '=',
+            diffScreenShotUrl: '=',
+            showDiff: '=',
             visibilityToggle: '=',
             toNextStepAction: '&'
         }
@@ -46,17 +48,36 @@ function annotatedScreenshot() {
         scope.imageScalingRatio = 1;
         scope.imageNaturalHeight = 0;
 
-        var imageElement = element.find('img.sc-screenshot');
+        var realImageElement = element.find('img.sc-real-screenshot');
+        var diffImageElement = element.find('img.sc-diff-screenshot');
 
-        $(imageElement).on('load', updateImageScalingRatio);
+        var relevantImageElement = diffImageElement;
+        if (!scope.showDiff) {
+            relevantImageElement = realImageElement;
+        }
 
-        $(window).resize(updateImageScalingRatio);
+        $(relevantImageElement).on('load', updateImageScalingRatio);
+        $(window).on('resize', updateImageScalingRatio);
+
+        scope.$on('$destroy', function() {
+            $(window).off('resize', updateImageScalingRatio);
+            $(relevantImageElement).off('load', updateImageScalingRatio);
+        });
 
         function updateImageScalingRatio() {
-            var imageNaturalWidth = imageElement.get(0).naturalWidth;
-            var imageDisplayWidth = imageElement.width();
-            scope.imageNaturalHeight = imageElement.get(0).naturalHeight;
-            scope.imageScalingRatio = imageDisplayWidth / imageNaturalWidth;
+            var relevantNaturalWidth = relevantImageElement.get(0).naturalWidth;
+            var relevantDisplayWidth = relevantImageElement.width();
+            scope.imageNaturalHeight = relevantImageElement.get(0).naturalHeight;
+            scope.imageScalingRatio = relevantDisplayWidth / relevantNaturalWidth;
+
+            if (scope.showDiff) {
+                var realNaturalWidth = realImageElement.get(0).naturalWidth;
+                var realNaturalHeight = realImageElement.get(0).naturalHeight;
+
+                realImageElement.get(0).width = realNaturalWidth * scope.imageScalingRatio + 4;
+                realImageElement.get(0).height = realNaturalHeight * scope.imageScalingRatio + 4;
+            }
+
             scope.$digest();
         }
 
