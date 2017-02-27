@@ -6,24 +6,24 @@ develop [![Continuous Build Develop Branch](http://build.scenarioo.org/jenkins/j
 
 ## Automated Documentation of Applications with UI Tests
 
-Scenarioo is a tool to leverage the power of your UI Tests and to make them available as a documentation of your software system to all people involved in the design, development, test, operation and management of your software system.
+Scenarioo is a tool to leverage the power of your UI tests and to make them available as a documentation of your software system to all people involved in the design, development, test, operation and management of your software system.
 
-### Webpage and Documentation
+### Webpage & Documentation
 
-For more information about Scenarioo, consider the following resources:
+For more information about Scenarioo, see the following resources:
 
 * **Webpage: http://www.scenarioo.org**
 * **Scenarioo Documentation: http://www.scenarioo.org/docs** 
 
 ### Live Demo
 
-You can see an Example Scenarioo Documentation and the Scenarioo Viewer Web App in action in our Demo:
+You can see an example Scenarioo documentation and the Scenarioo Viewer Web App in action in our demo:
 
 http://demo.scenarioo.org
 
 ### Downloads & Links
 
-Downloads and more links, even for different releases (like forthcoming release candidates) can be found under [Downloads and Links](docs/setup/downloads-and-links.md)
+Downloads and more links, even for different releases (like forthcoming release candidates) can be found under [Downloads & Links](docs/setup/downloads-and-links.md)
 
 ### CI/CD Build Server
 
@@ -33,8 +33,8 @@ Downloads and more links, even for different releases (like forthcoming release 
 
 Scenarioo is mainly distributed under GNU General Public License, which enables you to use the tool freely.
 
-The Writer Libraries use GNU license with linking exception, for even freely linking it even in your commercial products (if needed at all).
+The Writer Libraries use GNU license with linking exception, for freely linking it even in your commercial products (if needed at all).
 
-Most examples are even provided using BSD license, which even allows you to copy these code examples freely.
+Most examples are provided using BSD license, which even allows you to copy these code examples freely.
 
-See [LICENSE.txt](LICENSE.txt) and further LICENSE-files for different licenses of different components in some sub project folders and especially in our separate library and example repositories, hosted under [https://github.com/scenarioo](https://github.com/scenarioo)
+See [LICENSE.txt](LICENSE.txt) and further LICENSE-files for different licenses of different components in some subproject folders and especially in our separate library and example repositories, hosted under [https://github.com/scenarioo](https://github.com/scenarioo)
