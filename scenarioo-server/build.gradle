@@ -122,9 +122,9 @@ uploadArchives {
             }
 
             pom.project {
-                name 'Scenarioo Docu Viewer'
+                name 'Scenarioo Viewer'
                 packaging 'war'
-                description 'Scenarioo Docu Viewer for automated Documentation using UI-E2E-Tests http://scenarioo.org'
+                description 'Scenarioo Viewer for automated Documentation using UI-E2E-Tests http://scenarioo.org'
                 url 'http://www.scenarioo.org'
 
                 scm {
