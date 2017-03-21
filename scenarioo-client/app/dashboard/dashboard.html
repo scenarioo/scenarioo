@@ -1,9 +1,14 @@
 <md-content>
     <div layout = "row">
+        <input flex type="text" ng-model="dashboard.firstOrder" />
+        <input flex type="text" ng-model="dashboard.secondOrder" />
+    </div>
+
+    <div layout = "row">
         <div layout = "column"
-             ng-repeat="feature in dashboard.features | orderBy: 'storyOrderNumber'">
+             ng-repeat="feature in dashboard.features | orderBy: dashboard.firstOrder">
             <feature-card card-color="#00b3ee" feature="feature" />
-            <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
+            <div ng-repeat="feature in feature.features | orderBy: dashboard.secondOrder">
                 <feature-card card-color="#f9e27d" feature="feature" />
             </div>
         </div>

@@ -2,16 +2,6 @@
 
 angular.module('scenarioo.controllers').controller('DashboardController', DashboardController);
 
-angular.module('scenarioo').component('featureCard', {
-    templateUrl: 'dashboard/comp/feature.card.html',
-    controllerAs: 'card',
-    bindings: {
-        cardColor: '@',
-        feature: '=',
-    }
-});
-
-
 function DashboardController($rootScope, $scope, $location, $http){
 
     var dashboard = this;
@@ -19,6 +9,9 @@ function DashboardController($rootScope, $scope, $location, $http){
 
     var date = new Date();
 
+    dashboard.firstOrder = 'storyOrderNumber';
+    dashboard.secondOrder = 'releaseDate';
+;
     var features = [
         {
             name: 'feature 1',
