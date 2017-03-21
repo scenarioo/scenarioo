@@ -22,7 +22,7 @@ angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.g
 angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule', 'scenarioo.templates']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
 
-angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations'])
+angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations', 'ngMaterial'])
 
     .config(function ($routeProvider) {
 
@@ -101,6 +101,14 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 scenarioSketchId: '@scenarioSketchId',
                 stepSketchId: '@stepSketchId'
             })
+
+            .when('/dashboard', {
+                templateUrl: 'dashboard/dashboard.html',
+                controller: 'DashboardController',
+                controllerAs: 'dashboard',
+                breadcrimbId: 'dashboard'
+            })
+
             .otherwise({
                 redirectTo: '/'
             });
