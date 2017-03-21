@@ -52,4 +52,7 @@ function DashboardController($rootScope, $scope, $location, $http){
     dashboard.features[1].features = features;
     dashboard.features[1].features[1].features = features;
 
+    function setView(viewName) {
+        //TODO
+    }
 }

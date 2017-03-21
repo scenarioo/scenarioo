@@ -28,6 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
     <div class="col-sm-4">
+        <button type="button" ng-click="dashboard.setView('detail')">D</button>
+        <button type="button" ng-click="dashboard.setView('dashboard')">S</button>
+        <button type="button" ng-click="dashboard.setView('accordion')" disabled>A</button>
         <sc-meta-data-button class="pull-right" linking-variable="accordionShowMetadata"
                              local-storage-key="accordion"></sc-meta-data-button>
     </div>

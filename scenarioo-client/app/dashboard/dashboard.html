@@ -1,11 +1,42 @@
-<md-content>
-    <div layout = "row">
-        <div layout = "column"
-             ng-repeat="feature in dashboard.features | orderBy: 'storyOrderNumber'">
-            <feature-card card-color="#00b3ee" feature="feature" />
-            <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
-                <feature-card card-color="#f9e27d" feature="feature" />
-            </div>
+<sc-breadcrumbs></sc-breadcrumbs>
+<div class="row sc-space-top sc-space-bottom">
+    <div class="col-sm-8">
+        <div class="input-group">
+            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
+                   title="type words separated by spaces to search for" ng-model="useCase.table.search.searchTerm"
+                   placeholder="Search in use case &quot;{{useCase.useCase.name | scHumanReadable}}&quot;..."/>
+            <span class="input-group-btn">
+                <button type="button" ng-click="dashboard.resetSearchField()" class="btn btn-default">reset</button>
+            </span>
         </div>
     </div>
-</md-content>
+    <div class="col-sm-4">
+        <button type="button" ng-click="dashboard.setView('detail')">D</button>
+        <button type="button" ng-click="dashboard.setView('dashboard')" disabled>S</button>
+        <button type="button" ng-click="dashboard.setView('accordion')">A</button>
+        <sc-meta-data-button class="pull-right" linking-variable="dashboardShowMetadata"
+                             local-storage-key="dashboard"></sc-meta-data-button>
+    </div>
+</div>
+
+<sc-meta-data-panel linking-variable="dashboardShowMetadata">
+    <div ng-controller="DashboardController">
+        <md-content>
+            <div layout = "row">
+                <div layout = "column"
+                     ng-repeat="feature in dashboard.features | orderBy: 'storyOrderNumber'">
+                    <feature-card card-color="#00b3ee" feature="feature" />
+                    <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
+                        <feature-card card-color="#f9e27d" feature="feature" />
+                    </div>
+                </div>
+            </div>
+        </md-content>
+    </div>
+
+    <div>
+        <div> Wichtige Metadata</div>
+        <!-- Metadata -->
+        <sc-metadata-tree metadata-tree="useCase.metadataTree"></sc-metadata-tree>
+    </div>
+</sc-meta-data-panel>
