@@ -8,6 +8,19 @@
             <span class="input-group-btn">
                 <button type="button" ng-click="dashboard.resetSearchField()" class="btn btn-default">reset</button>
             </span>
+<md-content>
+    <div layout = "row">
+        <input flex type="text" ng-model="dashboard.firstOrder" />
+        <input flex type="text" ng-model="dashboard.secondOrder" />
+    </div>
+
+    <div layout = "row">
+        <div layout = "column"
+             ng-repeat="feature in dashboard.features | orderBy: dashboard.firstOrder">
+            <feature-card card-color="#00b3ee" feature="feature" />
+            <div ng-repeat="feature in feature.features | orderBy: dashboard.secondOrder">
+                <feature-card card-color="#f9e27d" feature="feature" />
+            </div>
         </div>
     </div>
     <div class="col-sm-4">
