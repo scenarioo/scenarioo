@@ -13,7 +13,19 @@
     "build": "gulp build",
     "start": "gulp serve"
   },
-  "dependencies": {},
+  "dependencies": {
+    "del": "^2.2.2",
+    "gulp-connect": "^4.0.0",
+    "gulp-eslint": "^2.0.0",
+    "gulp-less": "^3.1.0",
+    "gulp-ng-annotate": "^2.0.0",
+    "gulp-rev": "^7.1.2",
+    "gulp-uglify": "^1.5.4",
+    "gulp-usemin": "^0.3.28",
+    "gulp-wrap": "^0.12.0",
+    "karma": "^0.13.22",
+    "lodash": "^4.12.0"
+  },
   "devDependencies": {
     "bower": "1.7.x",
     "del": "2.2.x",
