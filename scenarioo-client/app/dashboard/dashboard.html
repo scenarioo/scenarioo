@@ -1,14 +1,11 @@
-
 <md-content>
-
     <div layout = "row">
-
-        <div flex ng-repeat="feature in dashboard.features" style="padding: 5px">
-            <md-card >
-                {{feature.name}}
-            </md-card>
+        <div layout = "column"
+             ng-repeat="feature in dashboard.features | orderBy: 'storyOrderNumber'">
+            <feature-card card-color="#00b3ee" feature="feature" />
+            <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
+                <feature-card card-color="#f9e27d" feature="feature" />
+            </div>
         </div>
     </div>
-
-
 </md-content>
