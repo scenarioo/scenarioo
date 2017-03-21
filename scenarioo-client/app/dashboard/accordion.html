@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                    title="type words separated by spaces to search for" ng-model="useCase.table.search.searchTerm"
                    placeholder="Search in use case &quot;{{useCase.useCase.name | scHumanReadable}}&quot;..."/>
             <span class="input-group-btn">
-                <button type="button" ng-click="accordion.resetSearchField()" class="btn btn-default">reset</button>
+                <button type="button" ng-click="dashboard.resetSearchField()" class="btn btn-default">reset</button>
             </span>
         </div>
     </div>
@@ -34,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 </div>
 
 <sc-meta-data-panel linking-variable="accordionShowMetadata">
-    <div ng-controller="FeatureController">
+    <div ng-controller="DashboardController">
         <div class="checkbox">
             <label>
                 <input type="checkbox" ng-model="oneAtATime">
@@ -42,15 +42,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </label>
         </div>
         <uib-accordion close-others="oneAtATime">
-            <div uib-accordion-group class="panel-default">
-                <div uib-accordion-heading>
-                    <p>feature 1</p>
-                    <button>button 1</button>
+            <div ng-repeat="feature in dashboard.features | orderBy: 'storyOrderNumber'">
+                <div uib-accordion-group class="panel-default">
+                    <div uib-accordion-heading>
+                        <feature-card card-color="#00b3ee" feature="feature" />
+                    </div>
+                    <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
+                        <feature-card card-color="#f9e27d" feature="feature" />
+                    </div>
                 </div>
-                <p>content</p>
-            </div>
-            <div uib-accordion-group class="panel-default" heading="Feature 2">
-                <p>content2</p>
             </div>
         </uib-accordion>
     </div>

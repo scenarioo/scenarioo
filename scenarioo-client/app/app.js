@@ -41,17 +41,6 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 controller: 'ManageController',
                 controllerAs: 'vm',
                 breadcrumbId: 'manage'
-            })/*
-            .when('/accordeon', {
-                templateUrl: 'accordeon/accordion.html',
-                controller: 'AccordeonController',
-                controllerAs: 'accordeon'
-            })*/
-            .when('/feature/:featureName', {
-                templateUrl: 'feature/accordion.html',
-                controller: 'FeatureController',
-                controllerAs: 'feature',
-                useCaseName: '@featureName'
             })
             .when('/usecase/:useCaseName', {
                 templateUrl: 'useCase/usecase.html',
@@ -117,8 +106,15 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 templateUrl: 'dashboard/dashboard.html',
                 controller: 'DashboardController',
                 controllerAs: 'dashboard',
-                breadcrimbId: 'dashboard'
+                breadcrumbId: 'dashboard'
             })
+            .when('/accordion', {
+                templateUrl: 'dashboard/accordion.html',
+                controller: 'DashboardController',
+                controllerAs: 'dashboard',
+            })
+
+
 
             .otherwise({
                 redirectTo: '/'
