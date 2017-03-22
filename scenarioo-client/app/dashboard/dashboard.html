@@ -1,55 +1,38 @@
+
 <sc-breadcrumbs></sc-breadcrumbs>
-<div class="row sc-space-top sc-space-bottom">
-    <div class="col-sm-8">
-        <div class="input-group">
-            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
-                   title="type words separated by spaces to search for" ng-model="useCase.table.search.searchTerm"
-                   placeholder="Search in use case &quot;{{useCase.useCase.name | scHumanReadable}}&quot;..."/>
-            <span class="input-group-btn">
-                <button type="button" ng-click="dashboard.resetSearchField()" class="btn btn-default">reset</button>
-            </span>
-<md-content>
-    <div layout = "row">
-        <input flex type="text" ng-model="dashboard.firstOrder" />
-        <input flex type="text" ng-model="dashboard.secondOrder" />
-    </div>
 
-    <div layout = "row">
-        <div layout = "column"
-             ng-repeat="feature in dashboard.features | orderBy: dashboard.firstOrder">
-            <feature-card card-color="#00b3ee" feature="feature" />
-            <div ng-repeat="feature in feature.features | orderBy: dashboard.secondOrder">
-                <feature-card card-color="#f9e27d" feature="feature" />
-            </div>
+<div layout = "row">
+    <md-content flex>
+        <div layout = "row">
+            <md-input-container>
+                <label>SortBy</label>
+                <input flex type="text" ng-model="dashboard.firstOrder" />
+            </md-input-container>
+
+            <md-input-container>
+                <label>SortBy Subs</label>
+                <input flex type="text" ng-model="dashboard.secondOrder" />
+            </md-input-container>
         </div>
-    </div>
-    <div class="col-sm-4">
-        <button type="button" ng-click="dashboard.setView('detail')">D</button>
-        <button type="button" ng-click="dashboard.setView('dashboard')" disabled>S</button>
-        <button type="button" ng-click="dashboard.setView('accordion')">A</button>
-        <sc-meta-data-button class="pull-right" linking-variable="dashboardShowMetadata"
-                             local-storage-key="dashboard"></sc-meta-data-button>
-    </div>
-</div>
 
-<sc-meta-data-panel linking-variable="dashboardShowMetadata">
-    <div ng-controller="DashboardController">
-        <md-content>
-            <div layout = "row">
-                <div layout = "column"
-                     ng-repeat="feature in dashboard.features | orderBy: 'storyOrderNumber'">
-                    <feature-card card-color="#00b3ee" feature="feature" />
-                    <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
-                        <feature-card card-color="#f9e27d" feature="feature" />
-                    </div>
+        <div layout = "row">
+            <div layout = "column"
+                 ng-repeat="feature in dashboard.features | orderBy: dashboard.firstOrder">
+                <feature-card card-color="#00b3ee" feature="feature" />
+                <div ng-repeat="feature in feature.features | orderBy: dashboard.secondOrder">
+                    <feature-card card-color="#f9e27d" feature="feature" />
                 </div>
             </div>
-        </md-content>
-    </div>
+        </div>
+    </md-content>
 
-    <div>
-        <div> Wichtige Metadata</div>
-        <!-- Metadata -->
-        <sc-metadata-tree metadata-tree="useCase.metadataTree"></sc-metadata-tree>
-    </div>
-</sc-meta-data-panel>
+
+    <md-card flex="20">
+        <md-toolbar class="md-theme-light">
+            <h1 class="md-toolbar-tools">Sidenav Right</h1>
+        </md-toolbar>
+        <md-content layout-padding>
+            <span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. </span>
+        </md-content>
+    </md-card>
+</div>

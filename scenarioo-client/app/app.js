@@ -112,6 +112,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 templateUrl: 'dashboard/accordion.html',
                 controller: 'DashboardController',
                 controllerAs: 'dashboard',
+                breadcrumbId: 'dashboard'
             })
 
 
