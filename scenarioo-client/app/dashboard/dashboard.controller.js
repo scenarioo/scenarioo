@@ -2,25 +2,6 @@
 
 angular.module('scenarioo.controllers').controller('DashboardController', DashboardController);
 
-angular.module('scenarioo').component('featureCard', {
-    templateUrl: 'dashboard/comp/feature.card.html',
-    controllerAs: 'card',
-    bindings: {
-        cardColor: '@',
-        feature: '=',
-    }
-});
-
-
-angular.module('scenarioo').component('featureCard', {
-    templateUrl: 'dashboard/comp/feature.card.html',
-    controllerAs: 'card',
-    bindings: {
-        cardColor: '@',
-        feature: '=',
-    }
-});
-
 
 function DashboardController($rootScope, $scope, $location, $http){
 
