@@ -9,42 +9,139 @@ function DashboardController($rootScope, $scope, $location, $http){
 
 
     var date = new Date();
+    var date2 = new Date().setFullYear(date.getFullYear(), date.getMonth()+3, date.getDay());
 
     dashboard.firstOrder = 'storyOrderNumber';
     dashboard.secondOrder = 'releaseDate';
 ;
     var features = [
         {
-            name: 'feature 1',
-            storyOrderNumber: 2,
-            releaseDate: new Date().setFullYear(date.getFullYear(), date.getMonth(), date.getDay()+1)
-        },{
-            name: 'feature 2',
+            name: 'Maintain product Catalogue',
             storyOrderNumber: 1,
-            releaseDate: new Date().setFullYear(date.getFullYear(), date.getMonth(), date.getDay()+5)
+            releaseDate: date,
+            features: [
+                {
+                    name: 'CRUD of Products',
+                    storyOrderNumber: 1,
+                    releaseDate: date
+                },
+                {
+                    name: 'Maintain Tag Hierarchy',
+                    storyOrderNumber: 1,
+                    releaseDate: date
+                },
+            ]
         },{
-            name: 'feature 3',
-            storyOrderNumber: 0,
-            releaseDate: new Date().setFullYear(date.getFullYear(), date.getMonth(), date.getDay()+3)
+            name: 'Browse Products',
+            storyOrderNumber: 2,
+            releaseDate: date,
+            features: [
+                {
+                    name: 'View Product Detail',
+                    storyOrderNumber: 1,
+                    releaseDate: date
+                },
+                {
+                    name: 'Navigate by Tags',
+                    storyOrderNumber: 1,
+                    releaseDate: date
+                },
+                {
+                    name: 'Feature Product',
+                    storyOrderNumber: 1,
+                    releaseDate: date
+                },
+                {
+                    name: 'Advertise Specials',
+                    storyOrderNumber: 1,
+                    releaseDate: date
+                },
+                {
+                    name: 'Search Sauce',
+                    storyOrderNumber: 1,
+                    releaseDate: date2
+                },
+            ]
         },{
-            name: 'feature 4',
+            name: 'Shopping Card',
             storyOrderNumber: 3,
-            releaseDate: new Date().setFullYear(date.getFullYear(), date.getMonth(), date.getDay()+6)
+            releaseDate: date2,
+            features: [
+                {
+                    name: 'Maintain Cart',
+                    storyOrderNumber: 1,
+                    releaseDate: date
+                },
+                {
+                    name: 'Store Cart',
+                    storyOrderNumber: 1,
+                    releaseDate: date2
+                },
+            ]
         },{
-            name: 'feature 5',
+            name: 'Checkout & Pay',
             storyOrderNumber: 4,
-            releaseDate: new Date().setFullYear(date.getFullYear(), date.getMonth(), date.getDay()+2)
+            releaseDate: date,
+            features: [
+                {
+                    name: 'Complete Order',
+                    storyOrderNumber: 1,
+                    releaseDate: date
+                },{
+                    name: 'Confirm by Email',
+                    storyOrderNumber: 1,
+                    releaseDate: date
+                },{
+                    name: 'Order by Email',
+                    storyOrderNumber: 1,
+                    releaseDate: date
+                },
+                {
+                    name: 'Validate with Credit Card',
+                    storyOrderNumber: 1,
+                    releaseDate: date2
+                },
+            ]
         },{
-            name: 'feature 6',
+            name: 'Process Order',
             storyOrderNumber: 5,
-            releaseDate: new Date().setFullYear(date.getFullYear(), date.getMonth(), date.getDay()+4)
+            releaseDate: date2
+        },{
+            name: 'Stock and Delivery',
+            storyOrderNumber: 6,
+            releaseDate: date
+        },{
+            name: 'Register Customer',
+            storyOrderNumber: 7,
+            releaseDate: date2,
+            features: [
+                {
+                    name: 'Register Customer',
+                    storyOrderNumber: 1,
+                    releaseDate: date
+                },{
+                    name: 'Recover PW',
+                    storyOrderNumber: 1,
+                    releaseDate: date
+                },{
+                    name: 'Delete Customer',
+                    storyOrderNumber: 1,
+                    releaseDate: date
+                },
+                {
+                    name: 'Blacklist Customer',
+                    storyOrderNumber: 1,
+                    releaseDate: date2
+                },
+            ]
+        },{
+            name: 'Gift Cards',
+            storyOrderNumber: 8,
+            releaseDate: date
         },
     ];
 
     dashboard.features = features;
-    dashboard.features[0].features = features;
-    dashboard.features[1].features = features;
-    dashboard.features[1].features[1].features = features;
 
     function setView(viewName) {
         //TODO
