@@ -1,3 +1,4 @@
+
 <!-- scenarioo-client
 Copyright (C) 2014, scenarioo.org Development Team
 
@@ -28,49 +29,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
     </div>
     <div class="col-sm-4">
-        <button type="button" ng-click="dashboard.setView('detailNav')">D</button>
+        <button type="button" ng-click="dashboard.setView('detailNav')" disabled>D</button>
         <button type="button" ng-click="dashboard.setView('dashboard')">S</button>
-        <button type="button" ng-click="dashboard.setView('accordion')" disabled>A</button>
-        <sc-meta-data-button class="pull-right" linking-variable="accordionShowMetadata"
-                             local-storage-key="accordion"></sc-meta-data-button>
+        <button type="button" ng-click="dashboard.setView('accordion')">A</button>
+        <sc-meta-data-button class="pull-right" linking-variable="dashboardShowMetadata"
+                             local-storage-key="dashboard"></sc-meta-data-button>
     </div>
 </div>
 
-<sc-meta-data-panel linking-variable="accordionShowMetadata">
-    <div ng-controller="DashboardController">
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" ng-model="oneAtATime">
-                Open only one at a time
-            </label>
-        </div>
-        <uib-accordion close-others="oneAtATime">
-            <div ng-repeat="feature in dashboard.features | orderBy: 'storyOrderNumber'">
-                <div uib-accordion-group class="panel-default">
-                    <div uib-accordion-heading>
-                        <feature-card card-color="#00b3ee" feature="feature" />
-                    </div>
-                    <tabel>
-                        <tr>
-                            <th>Status</th>
-                            <th>Name</th>
-                            <th>Release date</th>
-                        </tr>
-                        <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
-                            <tr>
-                                <td>Passed</td>
-                                <td>{{feature.name}}</td>
-                                <td>{{feature.releaseDate | date}}</td>
-                            </tr>
-                        </div>
-                    </tabel>
-                </div>
-            </div>
-        </uib-accordion>
+<sc-meta-data-panel linking-variable="dashboardShowMetadata">
+    <div>
+        <h1>Subfeature Details</h1>
+        <span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. </span>
+        <br/>
+        <br/>
+        <span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. </span>
     </div>
 
-    <div>
-        <h2>Details zum angewählten feature</h2>
-        <span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. </span>
+    <div ng-controller="DashboardController">
+        <div ng-repeat="feature in dashboard.features | orderBy: 'storyOrderNumber'">
+            <a href="">{{feature.name}}</a>
+            <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
+                <a href=""> - {{feature.name}}</a>
+            </div>
+            <br/>
+        </div>
     </div>
 </sc-meta-data-panel>

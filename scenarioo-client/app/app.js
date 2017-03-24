@@ -114,6 +114,12 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 controllerAs: 'dashboard',
                 breadcrumbId: 'dashboard'
             })
+            .when('/detailNav', {
+                templateUrl: 'dashboard/detailNav.html',
+                controller: 'DashboardController',
+                controllerAs: 'dashboard',
+                breadcrumbId: 'detail'
+            })
 
 
 
