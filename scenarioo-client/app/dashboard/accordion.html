@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 </div>
 
 <sc-meta-data-panel linking-variable="accordionShowMetadata">
+    <!--
     <div ng-controller="DashboardController">
         <div class="checkbox">
             <label>
@@ -50,23 +51,54 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <div uib-accordion-heading>
                         <feature-card card-color="#00b3ee" feature="feature" />
                     </div>
-                    <tabel>
-                        <tr>
-                            <th>Status</th>
-                            <th>Name</th>
-                            <th>Release date</th>
-                        </tr>
-                        <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
-                            <tr>
-                                <td>Passed</td>
-                                <td>{{feature.name}}</td>
-                                <td>{{feature.releaseDate | date}}</td>
-                            </tr>
-                        </div>
-                    </tabel>
+                    <div>
+                        <tabel class="table table-bordered scenario-table" sc-keyboard-navigatable-table="filtered"
+                               sc-keyboard-navigatable-table-hit="useCase.onNavigatorTableHit">
+                            <thead>
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Name</th>
+                                    <th>Release date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
+                                <tr>
+                                    <td>{{feature.status}}</td>
+                                    <td>{{feature.name}}</td>
+                                    <td>{{feature.releaseDate | date}}</td>
+                                </tr>
+                            </div>
+                            </tbody>
+                        </tabel>
+                    </div>
                 </div>
             </div>
         </uib-accordion>
+    </div>-->
+
+    <div>
+        <table class="table table-bordered scenario-table" sc-keyboard-navigatable-table="filtered"
+               sc-keyboard-navigatable-table-hit="useCase.onNavigatorTableHit">
+            <thead>
+            <tr>
+                <th sc-sortable-column="status">Status</th>
+                <th sc-sortable-column="feature.name">Name</th>
+                <th sc-sortable-column="feature.name">Description</th>
+                <th sc-sortable-column="feature.date">Release Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="feature in dashboard.features | orderBy: 'storyOrderNumber'">
+                <td>
+                    <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{feature.status}}</span>
+                </td>
+                <td>{{feature.name}}</td>
+                <td>{{feature.name}} desc.</td>
+                <td>{{feature.releaseDate}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
     <div>
