@@ -1,8 +1,8 @@
 <div layout = "row">
-    <div flex class="button-open-sidepanel">
+    <div style="width: 50px;" class="button-open-sidepanel">
 
     </div>
-    <md-card style="{{sidepanel.panelStyle}}" class="sidepanel" id="{{sidepanel.id}}">
+    <md-card flex style="{{sidepanel.panelStyle}}" class="sidepanel" id="{{sidepanel.id}}">
         <md-toolbar  class="md-toolbar-tools" style="{{sidepanel.headerStyle}}">
             <div ng-transclude="header">
                 <h1>Title</h1>

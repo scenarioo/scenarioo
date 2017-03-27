@@ -32,13 +32,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <button type="button" ng-click="dashboard.setView('detailNav')" disabled>D</button>
         <button type="button" ng-click="dashboard.setView('dashboard')">S</button>
         <button type="button" ng-click="dashboard.setView('accordion')">A</button>
-        <sc-meta-data-button class="pull-right" linking-variable="dashboardShowMetadata"
-                             local-storage-key="dashboard"></sc-meta-data-button>
     </div>
 </div>
 
-<sc-meta-data-panel linking-variable="dashboardShowMetadata">
-    <div>
+<div layout = "row">
+    <div flex>
         <h1>Subfeature Details</h1>
         <span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. </span>
         <br/>
@@ -46,13 +44,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. </span>
     </div>
 
-    <div ng-controller="DashboardController">
-        <div ng-repeat="feature in dashboard.features | orderBy: 'storyOrderNumber'">
-            <a href="">{{feature.name}}</a>
-            <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
-                <a href=""> - {{feature.name}}</a>
+    <side-panel flex = "20">
+        <header><h1>Navigation</h1></header>
+        <content>
+            <div>
+                <div ng-repeat="feature in dashboard.features | orderBy: 'storyOrderNumber'">
+                    <a href="">{{feature.name}}</a>
+                    <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
+                        <a href=""> - {{feature.name}}</a>
+                    </div>
+                    <br/>
+                </div>
             </div>
-            <br/>
-        </div>
-    </div>
-</sc-meta-data-panel>
+        </content>
+    </side-panel>
+</div>
+
+
+
