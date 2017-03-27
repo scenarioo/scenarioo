@@ -17,8 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <sc-breadcrumbs></sc-breadcrumbs>
-<div class="row sc-space-top sc-space-bottom">
-    <div class="col-sm-8">
+<div layout = "row" class="sc-space-top sc-space-bottom">
+    <div flex>
         <div class="input-group">
             <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
                    title="type words separated by spaces to search for" ng-model="useCase.table.search.searchTerm"
@@ -28,11 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </span>
         </div>
     </div>
-    <div class="col-sm-4">
-        <button type="button" ng-click="dashboard.setView('detailNav')" disabled>D</button>
-        <button type="button" ng-click="dashboard.setView('dashboard')">S</button>
-        <button type="button" ng-click="dashboard.setView('accordion')">A</button>
-    </div>
+    <site-navigation current="detailNav" flex = "33"></site-navigation>
 </div>
 
 <div layout = "row">
