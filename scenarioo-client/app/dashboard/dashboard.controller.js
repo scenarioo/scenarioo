@@ -14,7 +14,7 @@ function DashboardController($rootScope, $scope, $location, $http){
     dashboard.firstOrder = 'storyOrderNumber';
     dashboard.secondOrder = 'releaseDate';
     dashboard.setView=setView;
-;
+    
     var features = [
         {
             name: 'Maintain product Catalogue',
