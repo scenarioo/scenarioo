@@ -1,0 +1,23 @@
+<div layout = "row">
+    <div style="width: 50px;" class="button-open-sidepanel">
+
+    </div>
+    <md-card flex style="{{sidepanel.panelStyle}}" class="sidepanel" id="{{sidepanel.id}}">
+        <md-toolbar  class="md-toolbar-tools" style="{{sidepanel.headerStyle}}">
+            <div ng-transclude="header">
+                <h1>Title</h1>
+            </div>
+        </md-toolbar>
+        <md-content layout="column" style="{{sidepanel.contentStyle}}">
+            <div ng-transclude="content">
+                <p>Absatz mit inhalt</p>
+            </div>
+            <div ng-click="close()"></div>
+        </md-content>
+    </md-card>
+</div>
+
+
+<style>
+    .sidepanel md-toolbar h1 {color: white;}
+</style>

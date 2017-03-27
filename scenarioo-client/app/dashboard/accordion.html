@@ -16,8 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <sc-breadcrumbs></sc-breadcrumbs>
-<div class="row sc-space-top sc-space-bottom">
-    <div class="col-sm-8">
+<div layout = "row" class="sc-space-top sc-space-bottom">
+    <div flex>
         <div class="input-group">
             <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
                    title="type words separated by spaces to search for" ng-model="useCase.table.search.searchTerm"
@@ -27,18 +27,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </span>
         </div>
     </div>
-    <div class="col-sm-4">
-        <button type="button" ng-click="dashboard.setView('detailNav')">D</button>
-        <button type="button" ng-click="dashboard.setView('dashboard')">S</button>
-        <button type="button" ng-click="dashboard.setView('accordion')" disabled>A</button>
-        <sc-meta-data-button class="pull-right" linking-variable="accordionShowMetadata"
-                             local-storage-key="accordion"></sc-meta-data-button>
-    </div>
+    <site-navigation current="accordion" flex = "33"></site-navigation>
 </div>
 
 <sc-meta-data-panel linking-variable="accordionShowMetadata">
-    <!--
     <div ng-controller="DashboardController">
+<div layout = "row">
+    <div flex>
         <div class="checkbox">
             <label>
                 <input type="checkbox" ng-model="oneAtATime">
@@ -75,7 +70,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </div>
             </div>
         </uib-accordion>
-    </div>-->
+    </div>
 
     <div>
         <table class="table table-bordered scenario-table" sc-keyboard-navigatable-table="filtered"
@@ -101,8 +96,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </table>
     </div>
 
-    <div>
-        <h2>Details zum angewählten feature</h2>
-        <span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. </span>
-    </div>
-</sc-meta-data-panel>
+    <side-panel flex="20">
+        <header><h1>Details zum angewählten feature</h1></header>
+        <content>
+            <span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. </span>
+        </content>
+    </side-panel>
+</div>
