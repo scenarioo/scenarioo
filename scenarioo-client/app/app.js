@@ -126,6 +126,12 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 controllerAs: 'dashboard',
                 breadcrumbId: 'list'
             })
+            .when('/tree', {
+                templateUrl: 'dashboard/tree.html',
+                controller: 'DashboardController',
+                controllerAs: 'dashboard',
+                breadcrumbId: 'tree'
+            })
 
 
             .otherwise({

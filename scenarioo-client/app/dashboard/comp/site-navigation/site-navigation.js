@@ -13,6 +13,9 @@ function SiteNavigationController($location){
         },{
             name: 'list',
             short: 'L'
+        },{
+            name: 'tree',
+            short: 'T'
         },
     ];
 
