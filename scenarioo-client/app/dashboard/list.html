@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 <div layout = "row">
-    <div flex>
+   <div flex>
         <table class="table table-bordered scenario-table" sc-keyboard-navigatable-table="filtered"
                sc-keyboard-navigatable-table-hit="useCase.onNavigatorTableHit">
             <thead>
@@ -55,6 +55,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tbody>
         </table>
     </div>
+ <!--   <div flex
+        data-sc-filterable-table-tree
+        data-root-is-collapsed="customTab.rootIsCollapsed"
+        data-expand-first-child-up-to-root-node="false"
+        data-filter="customTab.searchField"
+        data-treedata="customTab.tabContentTree"
+        data-treemodel="customTab.treemodel"
+        data-click-action="customTab.goToReferenceTree(node)"
+        data-columns="tab.columns">
+    </div>-->
+
     <side-panel flex="20">
         <header><h1>Details zum angewählten feature</h1></header>
         <content>
@@ -62,4 +73,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </content>
     </side-panel>
 </div>
-

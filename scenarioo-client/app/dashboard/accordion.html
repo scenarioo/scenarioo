@@ -70,31 +70,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </uib-accordion>
     </div>
-<!--
-    <div flex>
-        <table class="table table-bordered scenario-table" sc-keyboard-navigatable-table="filtered"
-               sc-keyboard-navigatable-table-hit="useCase.onNavigatorTableHit">
-            <thead>
-            <tr>
-                <th sc-sortable-column="status">Status</th>
-                <th sc-sortable-column="feature.name">Name</th>
-                <th sc-sortable-column="feature.name">Description</th>
-                <th sc-sortable-column="feature.date">Release Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="feature in dashboard.features | orderBy: 'storyOrderNumber'">
-                <td>
-                    <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{feature.status}}</span>
-                </td>
-                <td>{{feature.name}}</td>
-                <td>{{feature.name}} desc.</td>
-                <td>{{feature.releaseDate}}</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
--->
     <side-panel flex="20">
         <header><h1>Details zum angewählten feature</h1></header>
         <content>
