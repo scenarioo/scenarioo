@@ -10,6 +10,9 @@ function SiteNavigationController($location){
         },{
             name: 'accordion',
             short: 'A'
+        },{
+            name: 'list',
+            short: 'L'
         },
     ];
 

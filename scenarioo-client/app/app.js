@@ -120,7 +120,12 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 controllerAs: 'dashboard',
                 breadcrumbId: 'detail'
             })
-
+            .when('/list', {
+                templateUrl: 'dashboard/list.html',
+                controller: 'DashboardController',
+                controllerAs: 'dashboard',
+                breadcrumbId: 'list'
+            })
 
 
             .otherwise({

@@ -1,0 +1,65 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<sc-breadcrumbs></sc-breadcrumbs>
+<div layout = "row" class="sc-space-top sc-space-bottom">
+    <div flex>
+        <div class="input-group">
+            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
+                   title="type words separated by spaces to search for" ng-model="useCase.table.search.searchTerm"
+                   placeholder="Search in use case &quot;{{useCase.useCase.name | scHumanReadable}}&quot;..."/>
+            <span class="input-group-btn">
+                <button type="button" ng-click="dashboard.resetSearchField()" class="btn btn-default">reset</button>
+            </span>
+        </div>
+    </div>
+    <site-navigation current="list" flex = "33"></site-navigation>
+</div>
+
+
+<div layout = "row">
+    <div flex>
+        <table class="table table-bordered scenario-table" sc-keyboard-navigatable-table="filtered"
+               sc-keyboard-navigatable-table-hit="useCase.onNavigatorTableHit">
+            <thead>
+            <tr>
+                <th sc-sortable-column="status">Status</th>
+                <th sc-sortable-column="feature.name">Name</th>
+                <th sc-sortable-column="feature.name">Description</th>
+                <th sc-sortable-column="feature.date">Release Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="feature in dashboard.features | orderBy: 'storyOrderNumber'">
+                <td>
+                    <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{feature.status}}</span>
+                </td>
+                <td>{{feature.name}}</td>
+                <td>{{feature.name}} desc.</td>
+                <td>{{feature.releaseDate}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <side-panel flex="20">
+        <header><h1>Details zum angewählten feature</h1></header>
+        <content>
+            <span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. </span>
+        </content>
+    </side-panel>
+</div>
+
