@@ -121,9 +121,10 @@ But this two repositories should be sufficient for most usual developers.
         * Application context (!important!): /scenarioo   
      * on "Startup/Connection" tab: set environment variable "SCENARIOO_DATA" to following path: &lt;your-project-source-path&gt;\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
      
- * Run all tests of the sub-project "scenarioodocu-generation-example" (right click on folder and choose "Run 'All Tests'") 
-   to generate example documentation data in Folder build/scenarioDocuExample
-
+ * Run all tests of the sub-project "scenarioodocu-generation-example" to generate scenarioo example documentation data in Folder "build/scenarioDocuExample"
+    * select folder 'test' under 'src' folder 
+    * right click on 'test' folder and choose "Run 'All Tests'
+  
 ===== TODO issue #427 === 
 
      * when the issue #427 has been resolved, the following is obsolete: 

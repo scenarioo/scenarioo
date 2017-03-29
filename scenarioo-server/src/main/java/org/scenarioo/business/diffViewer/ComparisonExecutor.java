@@ -175,7 +175,7 @@ public class ComparisonExecutor {
 	}
 
 	private void logDuration(long startTime) {
-		long duration = System.currentTimeMillis() - startTime;
+		long duration = (System.currentTimeMillis() - startTime) / 1000;
 		long minutes = duration / 60;
 		long seconds = duration % 60;
 		LOGGER.info("Comparison finished in " + minutes + " min. " + seconds + " sec.");

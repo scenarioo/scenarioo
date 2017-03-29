@@ -2,7 +2,7 @@
 
 ## Release Java library
 
-See [scenarioo-java](https://github.com/scenarioo/scenarioo-java/wiki/Release-new-API-version) repo.
+See [Release Docu in scenarioo-java repo](https://github.com/scenarioo/scenarioo-java/blob/master/docs/release-new-api.md).
 
 ## Release C&#35; library
 

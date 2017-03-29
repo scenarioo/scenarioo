@@ -256,7 +256,7 @@ public class BuildImporter {
 	}
 
 	private void logDuration(long startTime) {
-		long duration = System.currentTimeMillis() - startTime;
+		long duration = (System.currentTimeMillis() - startTime) / 1000;
 		long minutes = duration / 60;
 		long seconds = duration % 60;
 		LOGGER.info("Build Import finished in " + minutes + " min. " + seconds + " sec.");
