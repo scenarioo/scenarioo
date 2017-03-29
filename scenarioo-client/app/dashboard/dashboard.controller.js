@@ -13,8 +13,7 @@ function DashboardController($rootScope, $scope, $location, $http){
 
     dashboard.firstOrder = 'storyOrderNumber';
     dashboard.secondOrder = 'releaseDate';
-    dashboard.setView=setView;
-    
+
     var features = [
         {
             name: 'Maintain product Catalogue',
@@ -169,8 +168,4 @@ function DashboardController($rootScope, $scope, $location, $http){
 
     dashboard.features = features;
 
-    function setView(viewName) {
-        console.log("change view");
-        $location.path('/'+viewName+'/');
-    }
 }

@@ -21,7 +21,7 @@ function SiteNavigationController($location){
 
     site.setView = function(viewName) {
 
-        console.log("change view to "+viewName);
+        console.log('change view to '+viewName);
         $location.path('/'+viewName+'/');
     };
 
