@@ -33,14 +33,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <div layout = "row">
     <md-content flex>
-        <markdown file="dashboard/test.md"></markdown>
+        <md-card ng-repeat="md in dashboard.feature.markdown">
+            <md-toolbar class="md-toolbar-tools">
+                <h1 style="color: white;">{{md.name}}</h1>
+            </md-toolbar>
+            <markdown file="{{md.file}}"></markdown>
+        </md-card>
+
     </md-content>
 
     <side-panel flex = "20">
         <header><h1>Navigation</h1></header>
         <content>
             <div>
-                <div ng-repeat="feature in dashboard.features | orderBy: 'storyOrderNumber'">
+                <div ng-repeat="feature in dashboard.feature.features | orderBy: 'storyOrderNumber'">
                     <a href="">{{feature.name}}</a>
                     <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
                         <a href=""> - {{feature.name}}</a>

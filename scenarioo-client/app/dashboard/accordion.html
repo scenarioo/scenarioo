@@ -40,7 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </label>
         </div>
         <uib-accordion close-others="oneAtATime">
-            <div ng-repeat="feature in dashboard.features | orderBy: 'storyOrderNumber'">
+            <div ng-repeat="feature in dashboard.feature.features | orderBy: 'storyOrderNumber'">
                 <div uib-accordion-group class="panel-default">
                     <div uib-accordion-heading>
                         <feature-card card-color="#00b3ee" feature="feature" />

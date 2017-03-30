@@ -166,6 +166,28 @@ function DashboardController($rootScope, $scope, $location, $http){
         },
     ];
 
-    dashboard.features = features;
+
+
+    var feature = {
+        name: 'Sauce Shop',
+        storyOrderNumber: 1,
+        releaseDate: date,
+        status: 'failed',
+        features: features,
+        markdown: [
+            {
+                name: 'Documentation Sauce Shop',
+                file: 'dashboard/test.md'
+            },
+            {
+                name: 'Some Test',
+                file: 'dashboard/test2.md'
+            }
+        ]
+    };
+
+
+
+    dashboard.feature = feature;
 
 }

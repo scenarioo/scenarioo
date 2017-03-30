@@ -44,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="feature in dashboard.features | orderBy: 'storyOrderNumber'">
+            <tr ng-repeat="feature in dashboard.feature.features | orderBy: 'storyOrderNumber'">
                 <td>
                     <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{feature.status}}</span>
                 </td>
