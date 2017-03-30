@@ -177,11 +177,11 @@ function DashboardController($rootScope, $scope, $location, $http){
         markdown: [
             {
                 name: 'Documentation Sauce Shop',
-                file: 'dashboard/test.md'
+                file: 'https://raw.githubusercontent.com/scenarioo/scenarioo/develop/README.md'
             },
             {
                 name: 'Some Test',
-                file: 'dashboard/test2.md'
+                file: 'https://raw.githubusercontent.com/showdownjs/showdown/master/README.md'
             }
         ]
     };
