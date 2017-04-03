@@ -60,6 +60,12 @@ public class Configuration {
 
 	private String applicationInformation = "";
 
+	/**
+	 * https://github.com/scenarioo/scenarioo/issues/601
+	 * Values: name-ascending, name-descending, last-build-date-descending
+	 */
+	private String branchSelectionListOrder = "name-ascending";
+
 	private Map<String, String> buildstates = new HashMap<String, String>();
 
 	/**
@@ -162,6 +168,14 @@ public class Configuration {
 
 	public void setApplicationInformation(final String applicationInformation) {
 		this.applicationInformation = applicationInformation;
+	}
+
+	public String getBranchSelectionListOrder() {
+		return branchSelectionListOrder;
+	}
+
+	public void setBranchSelectionListOrder(String branchSelectionListOrder) {
+		this.branchSelectionListOrder = branchSelectionListOrder;
 	}
 
 	public Map<String, String> getBuildstates() {

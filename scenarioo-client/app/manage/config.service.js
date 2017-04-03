@@ -116,6 +116,10 @@ angular.module('scenarioo.services').service('ConfigService', function (ConfigRe
 
         expandPagesInScenarioOverview: function () {
             return getValue('expandPagesInScenarioOverview');
+        },
+
+        branchSelectionListOrder: function () {
+            return getValue('branchSelectionListOrder');
         }
     };
 

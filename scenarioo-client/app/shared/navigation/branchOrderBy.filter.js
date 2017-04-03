@@ -18,20 +18,22 @@
 angular.module('scenarioo.filters').filter('scBranchOrderBy', scBranchOrderByFilter);
 
 
-function scBranchOrderByFilter() {
+function scBranchOrderByFilter(ConfigService) {
 
 
     /**
      * comparator function that will order given branch resource objects as follows:
-     *
      * 1. branches that are marked as "alias" before others
-     * 2. then alphabetically (case ignored)
+     * 2. then by the configuration value "branchSelectionListOrder"
+     *
+     * https://github.com/scenarioo/scenarioo/issues/601
      *
      * @param {object} branchA
      * @param {object} branchB
      * @returns {number}
      */
     function branchComparator(branchA, branchB) {
+
         if (branchA.alias === true && branchB.alias !== true) {
             return -1;
         }
@@ -39,6 +41,42 @@ function scBranchOrderByFilter() {
         if (branchB.alias === true && branchA.alias !== true) {
             return 1;
         }
+
+        var ordering = ConfigService.branchSelectionListOrder();
+
+        switch(ordering) {
+            case "name-descending":
+                return orderByNameDescending(branchA, branchB);
+            case "last-build-date-descending":
+                return orderByLastBuildDateDescending(branchA, branchB);
+            case "name-ascending":  //also the default behavior
+            default:
+                return orderByNameAscending(branchA, branchB);
+        }
+    }
+
+    function orderByNameAscending(branchA, branchB){
+
+        // both are an alias or none is an alias -> use alphabetical ordering
+        var branchAName = branchA.branch.name.toLowerCase();
+        var branchBName = branchB.branch.name.toLowerCase();
+
+        if (branchAName < branchBName) {
+            return -1;
+        }
+
+        if (branchBName < branchAName) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    function orderByNameDescending(branchA, branchB){
+        return orderByNameAscending(branchA, branchB) * -1;
+    }
+
+    function orderByLastBuildDateDescending(branchA, branchB){
 
         if (branchA.alias === true) {
             // both are an alias -> use alphabetical ordering
