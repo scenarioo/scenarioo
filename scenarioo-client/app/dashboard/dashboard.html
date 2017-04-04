@@ -31,7 +31,7 @@
         <div layout = "row">
             <div layout = "column"
                  ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOrder">
-                <feature-card card-color="#00b3ee" feature="feature" />
+                <span ng-click="dashboard.clickFeature(feature, '/dashboard')">Clickme</span><feature-card card-color="#00b3ee" feature="feature" />
                 <div ng-repeat="feature in feature.features | orderBy: dashboard.secondOrder">
                     <feature-card card-color="#f9e27d" feature="feature" />
                 </div>

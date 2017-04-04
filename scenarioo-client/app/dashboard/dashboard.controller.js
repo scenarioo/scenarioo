@@ -3,7 +3,7 @@
 angular.module('scenarioo.controllers').controller('DashboardController', DashboardController);
 
 
-function DashboardController($rootScope, $scope, $location, $http){
+function DashboardController(FeatureService, $rootScope, $scope, $location, $http){
 
     var dashboard = this;
 
@@ -189,8 +189,12 @@ function DashboardController($rootScope, $scope, $location, $http){
         ]
     };
 
+    dashboard.clickFeature = function(subFeature, location){
+        FeatureService.setFeature(subFeature);
+        dashboard.feature = subFeature;
+    };
 
 
-    dashboard.feature = feature;
+    dashboard.feature = FeatureService.getFeature();
 
 }
