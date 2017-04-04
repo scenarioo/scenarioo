@@ -11,6 +11,16 @@ angular.module('scenarioo').service('FeatureService',
         var date = new Date();
         var date2 = new Date().setFullYear(date.getFullYear(), date.getMonth()+3, date.getDay());
 
+        var markdown1 = [
+            {
+                name: 'Documentation Sauce Shop',
+                file: 'https://raw.githubusercontent.com/scenarioo/scenarioo/develop/README.md'
+            },
+            {
+                name: 'Some Test',
+                file: 'https://raw.githubusercontent.com/showdownjs/showdown/master/README.md'
+            }
+        ];
 
         var features22 = [
             {
@@ -18,17 +28,20 @@ angular.module('scenarioo').service('FeatureService',
                 storyOrderNumber: 1,
                 releaseDate: date,
                 status: 'failed',
+                markdown: markdown1,
                 features: [
                     {
                         name: 'CRUD of Products',
                         storyOrderNumber: 1,
                         releaseDate: date,
+                        markdown: markdown1,
                         status: 'failed'
                     },
                     {
                         name: 'Maintain Tag Hierarchy',
                         storyOrderNumber: 2,
                         releaseDate: date,
+                        markdown: markdown1,
                         status: 'passed'
                     },
                 ]
@@ -37,35 +50,41 @@ angular.module('scenarioo').service('FeatureService',
                 storyOrderNumber: 2,
                 releaseDate: date,
                 status: 'failed',
+                markdown: markdown1,
                 features: [
                     {
                         name: 'View Product Detail',
                         storyOrderNumber: 1,
                         releaseDate: date,
+                        markdown: markdown1,
                         status: 'failed'
                     },
                     {
                         name: 'Navigate by Tags',
                         storyOrderNumber: 2,
                         releaseDate: date,
+                        markdown: markdown1,
                         status: 'failed'
                     },
                     {
                         name: 'Feature Product',
                         storyOrderNumber: 3,
                         releaseDate: date,
+                        markdown: markdown1,
                         status: 'passed'
                     },
                     {
                         name: 'Advertise Specials',
                         storyOrderNumber: 4,
                         releaseDate: date,
+                        markdown: markdown1,
                         status: 'passed'
                     },
                     {
                         name: 'Search Sauce',
                         storyOrderNumber: 5,
                         releaseDate: date2,
+                        markdown: markdown1,
                         status: 'failed'
                     },
                 ]
@@ -74,17 +93,20 @@ angular.module('scenarioo').service('FeatureService',
                 storyOrderNumber: 3,
                 releaseDate: date2,
                 status: 'passed',
+                markdown: markdown1,
                 features: [
                     {
                         name: 'Maintain Cart',
                         storyOrderNumber: 1,
                         releaseDate: date,
+                        markdown: markdown1,
                         status: 'passed'
                     },
                     {
                         name: 'Store Cart',
                         storyOrderNumber: 2,
                         releaseDate: date2,
+                        markdown: markdown1,
                         status: 'passed'
                     },
                 ]
@@ -93,27 +115,32 @@ angular.module('scenarioo').service('FeatureService',
                 storyOrderNumber: 4,
                 releaseDate: date,
                 status: 'failed',
+                markdown: markdown1,
                 features: [
                     {
                         name: 'Complete Order',
                         storyOrderNumber: 1,
                         releaseDate: date,
                         status: 'failed',
+                        markdown: markdown1,
                         features: [
                             {
                                 name: 'Register Customer',
                                 storyOrderNumber: 1,
                                 releaseDate: date,
+                                markdown: markdown1,
                                 status: 'passed'
                             },{
                                 name: 'Recover PW',
                                 storyOrderNumber: 2,
                                 releaseDate: date,
+                                markdown: markdown1,
                                 status: 'failed'
                             },{
                                 name: 'Delete Customer',
                                 storyOrderNumber: 3,
                                 releaseDate: date,
+                                markdown: markdown1,
                                 status: 'passed'
                             },
                             {
@@ -121,27 +148,32 @@ angular.module('scenarioo').service('FeatureService',
                                 storyOrderNumber: 4,
                                 releaseDate: date2,
                                 status: 'failed',
+                                markdown: markdown1,
                                 features: [
                                     {
                                         name: 'Register Customer',
                                         storyOrderNumber: 1,
                                         releaseDate: date,
+                                        markdown: markdown1,
                                         status: 'passed'
                                     },{
                                         name: 'Recover PW',
                                         storyOrderNumber: 2,
                                         releaseDate: date,
+                                        markdown: markdown1,
                                         status: 'failed'
                                     },{
                                         name: 'Delete Customer',
                                         storyOrderNumber: 3,
                                         releaseDate: date,
+                                        markdown: markdown1,
                                         status: 'passed'
                                     },
                                     {
                                         name: 'Blacklist Customer',
                                         storyOrderNumber: 4,
                                         releaseDate: date2,
+                                        markdown: markdown1,
                                         status: 'failed'
                                     },
                                 ]
@@ -151,17 +183,20 @@ angular.module('scenarioo').service('FeatureService',
                         name: 'Confirm by Email',
                         storyOrderNumber: 2,
                         releaseDate: date,
+                        markdown: markdown1,
                         status: 'passed'
                     },{
                         name: 'Order by Email',
                         storyOrderNumber: 3,
                         releaseDate: date,
+                        markdown: markdown1,
                         status: 'failed'
                     },
                     {
                         name: 'Validate with Credit Card',
                         storyOrderNumber: 4,
                         releaseDate: date2,
+                        markdown: markdown1,
                         status: 'passed'
                     },
                 ]
@@ -169,38 +204,45 @@ angular.module('scenarioo').service('FeatureService',
                 name: 'Process Order',
                 storyOrderNumber: 5,
                 releaseDate: date2,
+                markdown: markdown1,
                 status: 'passed'
             },{
                 name: 'Stock and Delivery',
                 storyOrderNumber: 6,
                 releaseDate: date,
+                markdown: markdown1,
                 status: 'failed'
             },{
                 name: 'Register Customer',
                 storyOrderNumber: 7,
                 releaseDate: date2,
                 status: 'failed',
+                markdown: markdown1,
                 features: [
                     {
                         name: 'Register Customer',
                         storyOrderNumber: 1,
                         releaseDate: date,
+                        markdown: markdown1,
                         status: 'passed'
                     },{
                         name: 'Recover PW',
                         storyOrderNumber: 2,
                         releaseDate: date,
+                        markdown: markdown1,
                         status: 'failed'
                     },{
                         name: 'Delete Customer',
                         storyOrderNumber: 3,
                         releaseDate: date,
+                        markdown: markdown1,
                         status: 'passed'
                     },
                     {
                         name: 'Blacklist Customer',
                         storyOrderNumber: 4,
                         releaseDate: date2,
+                        markdown: markdown1,
                         status: 'failed'
                     },
                 ]
@@ -208,6 +250,7 @@ angular.module('scenarioo').service('FeatureService',
                 name: 'Gift Cards',
                 storyOrderNumber: 8,
                 releaseDate: date,
+                markdown: markdown1,
                 status: 'passed'
             },
         ];
@@ -220,16 +263,7 @@ angular.module('scenarioo').service('FeatureService',
             releaseDate: date,
             status: 'failed',
             features: features22,
-            markdown: [
-                {
-                    name: 'Documentation Sauce Shop',
-                    file: 'https://raw.githubusercontent.com/scenarioo/scenarioo/develop/README.md'
-                },
-                {
-                    name: 'Some Test',
-                    file: 'https://raw.githubusercontent.com/showdownjs/showdown/master/README.md'
-                }
-            ]
+            markdown: markdown1,
         };
 
     service.getFeature = function getFeature(){

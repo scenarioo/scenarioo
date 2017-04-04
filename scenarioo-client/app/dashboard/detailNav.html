@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
     <site-navigation current="detailNav" flex = "33"></site-navigation>
 </div>
-<!-- Problem: sameFiles.collapse toggle for the whole page-->
+<!-- Problem: sameFiles.collapse toggle markdown for the whole page-->
 <div layout = "row">
     <md-content flex>
         <md-card ng-repeat="fmd in dashboard.feature.markdown">
@@ -56,7 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </div>
                 </md-card>
                 <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
-                    <a href="" ng-click="dashboard.clickFeature(feature, '/detailNav')"> - {{feature.name}}</a>
+                    <span ng-click="dashboard.clickFeature(feature, '/detailNav')"> - {{feature.name}}</span>
                 </div>
             </div>
         </md-card>
@@ -67,9 +67,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <content>
             <div>
                 <div ng-repeat="feature in dashboard.feature.features | orderBy: 'storyOrderNumber'">
-                    <a href="">{{feature.name}}</a>
+                    <span ng-click="dashboard.clickFeature(feature, '/detailNav')">{{feature.name}}</span>
                     <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
-                        <a href=""> - {{feature.name}}</a>
+                        <span ng-click="dashboard.clickFeature(feature, '/detailNav')"> - {{feature.name}}</span>
                     </div>
                     <br/>
                 </div>

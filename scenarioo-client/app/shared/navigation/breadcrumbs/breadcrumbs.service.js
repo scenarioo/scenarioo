@@ -24,7 +24,8 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
     var homeElement =
     {
         label: '<i class="icon-home"></i> Home',
-        route: 'build/build.html'   // maybe better rename to linkUrl
+        //route: 'build/build.html'   // maybe better rename to linkUrl
+        route: 'dashboard/tree.html'
     };
 
     var manageElement =
@@ -71,6 +72,18 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         {
             label: '<strong>Dashboard</strong>'
         };
+    var detail =
+        {
+            label: '<strong>Detail</strong>'
+        };
+    var tree =
+        {
+            label: '<strong>Tree</strong>'
+        };
+    var list =
+        {
+            label: '<strong>List</strong>'
+        };
 
     /**
      *  Configure breadcrumb paths that can be assigned to routes (see app.js) to display them as breadcrumbs for according pages.
@@ -112,6 +125,15 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
         'dashboard': {
             breadcrumbPath: [homeElement, dashboard]
+        },
+        'detail': {
+            breadcrumbPath: [homeElement, detail]
+        },
+        'tree': {
+            breadcrumbPath: [homeElement, tree]
+        },
+        'list': {
+            breadcrumbPath: [homeElement, list]
         }
     };
 
