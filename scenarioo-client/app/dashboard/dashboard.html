@@ -41,6 +41,8 @@
             {{dashboard.feature.releaseDate | date}}
             <br/>
             {{dashboard.feature.status}}
+            <br/>
+            {{dashboard.computeDown(dashboard.feature, 'progress')}}
         </md-card>
 
 
