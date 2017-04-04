@@ -30,16 +30,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
     <site-navigation current="detailNav" flex = "33"></site-navigation>
 </div>
-
+<!-- Problem: sameFiles.collapse toggle for the whole page-->
 <div layout = "row">
     <md-content flex>
-        <md-card ng-repeat="md in dashboard.feature.markdown">
-            <md-toolbar class="md-toolbar-tools">
-                <h1 style="color: white;">{{md.name}}</h1>
-            </md-toolbar>
-            <markdown file="{{md.file}}"></markdown>
+        <md-card ng-repeat="fmd in dashboard.feature.markdown">
+            <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="fmd.isCollapsed = !fmd.isCollapsed">
+                <h1 style="color: white;">{{fmd.name}}</h1>
+            </button>
+            <div uib-collapse="fmd.isCollapsed">
+                <markdown file="{{fmd.file}}"></markdown>
+            </div>
         </md-card>
 
+        <md-card ng-repeat="feature in dashboard.feature.features | orderBy: 'storyOrderNumber'">
+            <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="feature.isCollapsed = !feature.isCollapsed">
+                <h2 style="color: white;">{{feature.name}}</h2>
+            </button>
+            <div uib-collapse="feature.isCollapsed" ng-show="!feature.isCollapsed">
+                <md-card ng-repeat="sfmd in dashboard.feature.markdown">
+                    <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="sfmd.isCollapsed = !sfmd.isCollapsed">
+                        <h1 style="color: white;">{{sfmd.name}}</h1>
+                    </button>
+                    <div uib-collapse="sfmd.isCollapsed" ng-show="!md.isCollapsed">
+                        <markdown file="{{sfmd.file}}"></markdown>
+                    </div>
+                </md-card>
+                <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
+                    <a href=""> - {{feature.name}}</a>
+                </div>
+            </div>
+        </md-card>
     </md-content>
 
     <side-panel flex = "20">

@@ -1,7 +1,7 @@
 function MDC($http, $sce) {
     var markdown = this;
 
-    showdown.setFlavor('allOn');
+    showdown.setFlavor('github');
     var converter = new showdown.Converter();
     $http.get(markdown.file).success(function (data){
         markdown.content = $sce.trustAsHtml(converter.makeHtml(data));

@@ -7,6 +7,9 @@ function DashboardController($rootScope, $scope, $location, $http){
 
     var dashboard = this;
 
+    dashboard.isNavCollapsed = false;
+    dashboard.isCollapsed = false;
+
 
     var date = new Date();
     var date2 = new Date().setFullYear(date.getFullYear(), date.getMonth()+3, date.getDay());
