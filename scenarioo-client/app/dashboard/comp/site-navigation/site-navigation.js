@@ -3,19 +3,16 @@ function SiteNavigationController($location){
     site.links = [
         {
             name: 'detailNav',
-            short: 'D'
+            short: 'Doku'
         },{
             name: 'dashboard',
-            short: 'S'
-        },{
-            name: 'accordion',
-            short: 'A'
+            short: 'Dashboard'
         },{
             name: 'list',
-            short: 'L'
+            short: 'Scenarios'
         },{
             name: 'tree',
-            short: 'T'
+            short: 'Feature-Tree'
         },
     ];
 
