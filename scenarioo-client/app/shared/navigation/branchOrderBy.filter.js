@@ -45,11 +45,11 @@ function scBranchOrderByFilter(ConfigService) {
         var ordering = ConfigService.branchSelectionListOrder();
 
         switch(ordering) {
-            case "name-descending":
+            case 'name-descending':
                 return orderByNameDescending(branchA, branchB);
-            case "last-build-date-descending":
+            case 'last-build-date-descending':
                 return orderByLastBuildDateDescending(branchA, branchB);
-            case "name-ascending":  //also the default behavior
+            case 'name-ascending':  //also the default behavior
             default:
                 return orderByNameAscending(branchA, branchB);
         }
