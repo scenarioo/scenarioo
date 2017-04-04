@@ -248,6 +248,10 @@ angular.module('scenarioo').service('FeatureService',
         localStorage.setItem(CURRENT_FEATURE, JSON.stringify(feature));
     };
 
+    service.getRootFeature = function getRootFeature() {
+      return stdfeature;
+    };
+
     var currentFeature = localStorage.getItem(CURRENT_FEATURE);
 
 

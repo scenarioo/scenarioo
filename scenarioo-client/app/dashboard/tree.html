@@ -32,16 +32,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 <div layout = "row">
-    <div flex
-         data-sc-filterable-table-tree
-         data-root-is-collapsed="customTab.rootIsCollapsed"
-         data-expand-first-child-up-to-root-node="false"
-         data-filter="customTab.searchField"
-         data-treedata="customTab.tabContentTree"
-         data-treemodel="customTab.treemodel"
-         data-click-action="customTab.goToReferenceTree(node)"
-         data-columns="tab.columns">
+    <div layout="column" flex>
+        <div ng-repeat="feature in dashboard.rootFeature.features">
+            <nav-tree feature="feature"/>
+        </div>
     </div>
+
 
     <side-panel flex="20">
         <header><h1>Details zum angewählten feature</h1></header>
