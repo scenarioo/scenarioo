@@ -1,4 +1,4 @@
-var CURRENT_FEATURE = "currentFeature";
+var CURRENT_FEATURE = 'currentFeature';
 
 localStorage.setItem(CURRENT_FEATURE, undefined);
 
