@@ -18,18 +18,21 @@ angular.module('scenarioo').service('FeatureService',
                 storyOrderNumber: 1,
                 releaseDate: date,
                 status: 'failed',
+                progress: 0.2,
                 features: [
                     {
                         name: 'CRUD of Products',
                         storyOrderNumber: 1,
                         releaseDate: date,
-                        status: 'failed'
+                        status: 'failed',
+                        progress: 0.2,
                     },
                     {
                         name: 'Maintain Tag Hierarchy',
                         storyOrderNumber: 2,
                         releaseDate: date,
-                        status: 'passed'
+                        status: 'passed',
+                        progress: 0.2,
                     },
                 ]
             },{
@@ -37,36 +40,42 @@ angular.module('scenarioo').service('FeatureService',
                 storyOrderNumber: 2,
                 releaseDate: date,
                 status: 'failed',
+                progress: 0.2,
                 features: [
                     {
                         name: 'View Product Detail',
                         storyOrderNumber: 1,
                         releaseDate: date,
-                        status: 'failed'
+                        status: 'failed',
+                        progress: 0.2,
                     },
                     {
                         name: 'Navigate by Tags',
                         storyOrderNumber: 2,
                         releaseDate: date,
-                        status: 'failed'
+                        status: 'failed',
+                        progress: 0.2,
                     },
                     {
                         name: 'Feature Product',
                         storyOrderNumber: 3,
                         releaseDate: date,
-                        status: 'passed'
+                        status: 'passed',
+                        progress: 0.2,
                     },
                     {
                         name: 'Advertise Specials',
                         storyOrderNumber: 4,
                         releaseDate: date,
-                        status: 'passed'
+                        status: 'passed',
+                        progress: 0.2,
                     },
                     {
                         name: 'Search Sauce',
                         storyOrderNumber: 5,
                         releaseDate: date2,
-                        status: 'failed'
+                        status: 'failed',
+                        progress: 0.2,
                     },
                 ]
             },{
