@@ -3,5 +3,6 @@ angular.module('scenarioo').component('navTree', {
     controllerAs: 'navTree',
     bindings: {
         feature:'=',
+        clickFeature:'=',
     }
 });

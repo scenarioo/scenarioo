@@ -34,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div layout = "row">
     <div layout="column" flex>
         <div ng-repeat="feature in dashboard.rootFeature.features">
-            <nav-tree feature="feature"/>
+            <nav-tree feature="feature" click-feature="dashboard.clickFeature"/>
         </div>
     </div>
 
