@@ -28,23 +28,6 @@
             </md-input-container>
         </div>
 
-        <md-card flex
-            style="
-                padding: 5px;
-                min-width: 15em;
-                min-height: 10em;
-                background-color: #003cee;
-                color: white;"
-        >
-            {{dashboard.feature.name}}
-            <br/>
-            {{dashboard.feature.releaseDate | date}}
-            <br/>
-            {{dashboard.feature.status}}
-            <br/>
-            {{dashboard.computeDown(dashboard.feature, 'progress')}}
-        </md-card>
-
 
         <div flex layout = "row">
             <div layout = "column"
@@ -58,10 +41,9 @@
     </md-content>
 
     <side-panel flex="20">
-        <header><h1>Sidenav Right</h1></header>
+        <header><h1>Details zum angewählten feature</h1></header>
         <content>
-            <h2>Subtitle</h2>
-            <span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. </span>
+            <feature-detail card-color="#00b3ee" feature="dashboard.feature" click="dashboard.clickFeature"></feature-detail>
         </content>
     </side-panel>
 
