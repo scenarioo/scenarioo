@@ -56,7 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </div>
                 </md-card>
                 <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
-                    <a href=""> - {{feature.name}}</a>
+                    <a href="" ng-click="dashboard.clickFeature(feature, '/detailNav')"> - {{feature.name}}</a>
                 </div>
             </div>
         </md-card>

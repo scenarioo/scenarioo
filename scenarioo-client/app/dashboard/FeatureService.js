@@ -98,7 +98,55 @@ angular.module('scenarioo').service('FeatureService',
                         name: 'Complete Order',
                         storyOrderNumber: 1,
                         releaseDate: date,
-                        status: 'failed'
+                        status: 'failed',
+                        features: [
+                            {
+                                name: 'Register Customer',
+                                storyOrderNumber: 1,
+                                releaseDate: date,
+                                status: 'passed'
+                            },{
+                                name: 'Recover PW',
+                                storyOrderNumber: 2,
+                                releaseDate: date,
+                                status: 'failed'
+                            },{
+                                name: 'Delete Customer',
+                                storyOrderNumber: 3,
+                                releaseDate: date,
+                                status: 'passed'
+                            },
+                            {
+                                name: 'Blacklist Customer',
+                                storyOrderNumber: 4,
+                                releaseDate: date2,
+                                status: 'failed',
+                                features: [
+                                    {
+                                        name: 'Register Customer',
+                                        storyOrderNumber: 1,
+                                        releaseDate: date,
+                                        status: 'passed'
+                                    },{
+                                        name: 'Recover PW',
+                                        storyOrderNumber: 2,
+                                        releaseDate: date,
+                                        status: 'failed'
+                                    },{
+                                        name: 'Delete Customer',
+                                        storyOrderNumber: 3,
+                                        releaseDate: date,
+                                        status: 'passed'
+                                    },
+                                    {
+                                        name: 'Blacklist Customer',
+                                        storyOrderNumber: 4,
+                                        releaseDate: date2,
+                                        status: 'failed'
+                                    },
+                                ]
+                            },
+                        ]
                     },{
                         name: 'Confirm by Email',
                         storyOrderNumber: 2,
