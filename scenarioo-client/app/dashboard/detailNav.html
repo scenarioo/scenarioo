@@ -47,7 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <h2 style="color: white;">{{feature.name}}</h2>
             </button>
             <div uib-collapse="feature.isCollapsed" ng-show="!feature.isCollapsed">
-                <md-card ng-repeat="sfmd in dashboard.feature.markdown">
+                <md-card ng-repeat="sfmd in feature.markdown">
                     <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="sfmd.isCollapsed = !sfmd.isCollapsed">
                         <h1 style="color: white;">{{sfmd.name}}</h1>
                     </button>
@@ -77,6 +77,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </content>
     </side-panel>
 </div>
-
-
 

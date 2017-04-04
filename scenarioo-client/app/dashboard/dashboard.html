@@ -15,7 +15,7 @@
 </div>
 
 <div layout = "row">
-    <md-content flex>
+    <md-content flex layout="column">
         <div layout = "row">
             <md-input-container>
                 <label>SortBy</label>
@@ -28,12 +28,28 @@
             </md-input-container>
         </div>
 
-        <div layout = "row">
+        <md-card flex
+            style="
+                padding: 5px;
+                min-width: 15em;
+                min-height: 10em;
+                background-color: #003cee;
+                color: white;"
+        >
+            {{dashboard.feature.name}}
+            <br/>
+            {{dashboard.feature.releaseDate | date}}
+            <br/>
+            {{dashboard.feature.status}}
+        </md-card>
+
+
+        <div flex layout = "row">
             <div layout = "column"
                  ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOrder">
-                <span ng-click="dashboard.clickFeature(feature, '/dashboard')">Clickme</span><feature-card card-color="#00b3ee" feature="feature" />
+                <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#00b3ee" feature="feature" />
                 <div ng-repeat="feature in feature.features | orderBy: dashboard.secondOrder">
-                    <feature-card card-color="#f9e27d" feature="feature" />
+                    <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#f9e27d" feature="feature" />
                 </div>
             </div>
         </div>
