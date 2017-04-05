@@ -14,9 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-angular.module('scenarioo.filters').filter('scBranchOrderBy', scBranchOrderByFilter);
-
+angular.module('scenarioo.filters').filter('scBranchOrderBy', ['ConfigService', function(ConfigService) { return scBranchOrderByFilter(ConfigService);}]);
 
 function scBranchOrderByFilter(ConfigService) {
 
@@ -34,6 +32,8 @@ function scBranchOrderByFilter(ConfigService) {
      */
     function branchComparator(branchA, branchB) {
 
+        var order = ConfigService.branchSelectionListOrder();
+
         if (branchA.alias === true && branchB.alias !== true) {
             return -1;
         }
@@ -42,9 +42,11 @@ function scBranchOrderByFilter(ConfigService) {
             return 1;
         }
 
-        var ordering = ConfigService.branchSelectionListOrder();
+        if(true){ //TODO Remove that if statement!
+            return orderByLastBuildDateDescending(branchA, branchB);
+        }
 
-        switch(ordering) {
+        switch(order) {
             case 'name-descending':
                 return orderByNameDescending(branchA, branchB);
             case 'last-build-date-descending':
