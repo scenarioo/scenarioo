@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <sc-breadcrumbs></sc-breadcrumbs>
+<site-navigation current="detailNav" flex = "33"></site-navigation>
 <div layout = "row" class="sc-space-top sc-space-bottom">
     <div flex>
         <div class="input-group">
@@ -28,17 +29,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </span>
         </div>
     </div>
-    <site-navigation current="detailNav" flex = "33"></site-navigation>
+    <div class="col-sm-4">
+        <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata"
+                             local-storage-key="usecase"></sc-meta-data-button>
+    </div>
 </div>
 <!-- Problem: sameFiles.collapse toggle markdown for the whole page-->
 <h1>Details of: {{dashboard.feature.name}}</h1>
-<div layout = "row">
+<button type="button" ng-click="dashboard.expandAll()">Expand all</button>
+<button type="button" ng-click="dashboard.collapseAll()">Collapse all</button>
+<sc-meta-data-panel linking-variable="useCaseShowMetadata">
     <md-content flex>
+
         <md-card ng-repeat="fmd in dashboard.feature.markdown">
             <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="fmd.isCollapsed = !fmd.isCollapsed">
                 <h1 style="color: white;">{{fmd.name}}</h1>
             </button>
             <div uib-collapse="fmd.isCollapsed">
+                <span>{{fmd.file}}, {{fmd.name}}</span>
+                <button type="button">Edit Original</button>
                 <markdown file="{{fmd.file}}"></markdown>
             </div>
         </md-card>
@@ -48,6 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <h2 style="color: white;">{{feature.name}}</h2>
             </button>
             <div uib-collapse="feature.isCollapsed" ng-show="!feature.isCollapsed">
+                <span ng-click="dashboard.clickFeature(feature, '/detailNav')">Checkout Feature</span>
                 <md-card ng-repeat="sfmd in feature.markdown">
                     <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="sfmd.isCollapsed = !sfmd.isCollapsed">
                         <h1 style="color: white;">{{sfmd.name}}</h1>
@@ -67,6 +77,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <header><h1>Navigation</h1></header>
         <content>
             <div>
+                <div ng-repeat="fmd in dashboard.feature.markdown">
+                    <span ng-click="fmd.isCollapsed=false">{{fmd.name}}</span>
+                </div>
                 <div ng-repeat="feature in dashboard.feature.features | orderBy: 'storyOrderNumber'">
                     <span ng-click="dashboard.clickFeature(feature, '/detailNav')">{{feature.name}}</span>
                     <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
@@ -77,5 +90,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </content>
     </side-panel>
-</div>
+</sc-meta-data-panel>
 

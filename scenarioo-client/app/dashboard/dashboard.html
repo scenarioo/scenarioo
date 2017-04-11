@@ -1,5 +1,6 @@
 
 <sc-breadcrumbs></sc-breadcrumbs>
+<site-navigation current="dashboard" flex = "33"></site-navigation>
 <div layout = "row" class="sc-space-top sc-space-bottom">
     <div flex>
         <div class="input-group">
@@ -11,10 +12,13 @@
             </span>
         </div>
     </div>
-    <site-navigation current="dashboard" flex = "33"></site-navigation>
+    <div class="col-sm-4">
+        <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata"
+                             local-storage-key="usecase"></sc-meta-data-button>
+    </div>
 </div>
 <h1>Storyboard of: {{dashboard.feature.name}}</h1>
-<div layout = "row">
+<sc-meta-data-panel linking-variable="useCaseShowMetadata">
     <md-content flex layout="column">
         <div layout = "row">
             <md-input-container>
@@ -27,8 +31,6 @@
                 <input flex type="text" ng-model="dashboard.secondOrder" />
             </md-input-container>
         </div>
-
-
         <div flex layout = "row">
             <div layout = "column"
                  ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOrder">
@@ -46,5 +48,4 @@
             <feature-detail card-color="#00b3ee" feature="dashboard.feature" click="dashboard.clickFeature"></feature-detail>
         </content>
     </side-panel>
-
-</div>
+</sc-meta-data-panel>

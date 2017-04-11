@@ -1,5 +1,7 @@
 <div flex>
-    <button type="button" ng-click="navTree.feature.isCollapsed = !navTree.feature.isCollapsed">+</button>
+    <span ng-if="navTree.feature.features.length>0">
+        <button type="button" ng-click="navTree.feature.isCollapsed = !navTree.feature.isCollapsed"><span>{{navTree.features.isCollapsed ? '+' : '-'}}</span></button>
+    </span>
     <span ng-click="navTree.clickFeature(navTree.feature, '/list')">{{navTree.feature.name}}</span>
     <li uib-collapse="navTree.feature.isCollapsed" ng-show="!navTree.feature.isCollapsed">
         <ul ng-repeat="feature in navTree.feature.features">

@@ -37,4 +37,12 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
     dashboard.rootFeature = FeatureService.getRootFeature();
     dashboard.feature = FeatureService.getFeature();
 
+    dashboard.expandAll = function() {
+        dashboard.feature.markdown.forEach(function (markdown) {markdown.isCollapsed=false;});
+        dashboard.feature.features.forEach(function (feature) {feature.isCollapsed=false;});
+    };
+    dashboard.collapseAll = function () {
+        dashboard.feature.markdown.forEach(function (markdown) {markdown.isCollapsed=true;});
+        dashboard.feature.features.forEach(function (feature) {feature.isCollapsed=true;});
+    };
 }

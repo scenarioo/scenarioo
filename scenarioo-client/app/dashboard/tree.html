@@ -16,6 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <sc-breadcrumbs></sc-breadcrumbs>
+<site-navigation current="tree" flex = "33"></site-navigation>
 <div layout = "row" class="sc-space-top sc-space-bottom">
     <div flex>
         <div class="input-group">
@@ -27,22 +28,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </span>
         </div>
     </div>
-    <site-navigation current="tree" flex = "33"></site-navigation>
+    <div class="col-sm-4">
+        <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata"
+                             local-storage-key="usecase"></sc-meta-data-button>
+    </div>
 </div>
 <h1>Tree of: {{dashboard.feature.name}}</h1>
-<div layout = "row">
+
+<sc-meta-data-panel linking-variable="useCaseShowMetadata">
     <div layout="column" flex>
         <div ng-repeat="feature in dashboard.rootFeature.features">
             <nav-tree feature="feature" click-feature="dashboard.clickFeature"/>
         </div>
     </div>
-
-
     <side-panel flex="20">
         <header><h1>Details zum angewählten feature</h1></header>
         <content>
             <feature-detail card-color="#00b3ee" feature="dashboard.feature" click="dashboard.clickFeature"></feature-detail>
         </content>
     </side-panel>
-</div>
+</sc-meta-data-panel>
 

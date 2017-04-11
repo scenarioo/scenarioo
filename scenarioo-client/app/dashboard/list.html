@@ -16,6 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <sc-breadcrumbs></sc-breadcrumbs>
+<site-navigation current="list" flex = "33"></site-navigation>
 <div layout = "row" class="sc-space-top sc-space-bottom">
     <div flex>
         <div class="input-group">
@@ -27,10 +28,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </span>
         </div>
     </div>
-    <site-navigation current="list" flex = "33"></site-navigation>
+    <div class="col-sm-4">
+        <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata"
+                             local-storage-key="usecase"></sc-meta-data-button>
+    </div>
 </div>
 <h1>List of: {{dashboard.feature.name}}</h1>
-<div layout = "row">
+<sc-meta-data-panel linking-variable="useCaseShowMetadata">
    <div flex>
         <table class="table table-bordered scenario-table" sc-keyboard-navigatable-table="filtered"
                sc-keyboard-navigatable-table-hit="useCase.onNavigatorTableHit">
@@ -60,4 +64,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <feature-detail card-color="#00b3ee" feature="dashboard.feature" click="dashboard.clickFeature"></feature-detail>
         </content>
     </side-panel>
-</div>
+</sc-meta-data-panel>

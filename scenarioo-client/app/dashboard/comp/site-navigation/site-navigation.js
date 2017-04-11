@@ -2,17 +2,17 @@ function SiteNavigationController($location){
     var site = this;
     site.links = [
         {
-            name: 'detailNav',
-            short: 'Doku'
+            name: 'tree',
+            short: 'Feature'
         },{
             name: 'dashboard',
             short: 'Dashboard'
         },{
+            name: 'detailNav',
+            short: 'Doku'
+        },{
             name: 'list',
             short: 'Scenarios'
-        },{
-            name: 'tree',
-            short: 'Feature-Tree'
         },
     ];
 
