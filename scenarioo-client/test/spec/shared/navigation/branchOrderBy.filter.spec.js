@@ -18,11 +18,28 @@
 'use strict';
 
 describe('Filter scBranchOrderBy', function () {
+
+    var ConfigService, $httpBackend, HostnameAndPort, TestData;
+
     var scBranchOrderByFilter;
+
+    beforeEach(module('scenarioo.controllers'));
+    beforeEach(angular.mock.module('scenarioo.services'));
 
     // load module
     beforeEach(module('scenarioo.filters'));
-    beforeEach(inject(function ($filter) {
+    beforeEach(inject(function ($filter, _ConfigService_, _$httpBackend_, _TestData_, _HostnameAndPort_) {
+
+        ConfigService = _ConfigService_;
+        $httpBackend = _$httpBackend_;
+        TestData = _TestData_;
+        HostnameAndPort = _HostnameAndPort_;
+
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG_BRANCH_SELECTION_1);
+
+        ConfigService.load();
+        $httpBackend.flush();
+
         scBranchOrderByFilter = $filter('scBranchOrderBy');
     }));
 

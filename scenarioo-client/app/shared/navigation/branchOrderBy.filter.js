@@ -33,6 +33,7 @@ function scBranchOrderByFilter(ConfigService) {
     function branchComparator(branchA, branchB) {
 
         var order = ConfigService.branchSelectionListOrder();
+        console.log('branchComporator order:', order);
 
         if (branchA.alias === true && branchB.alias !== true) {
             return -1;
@@ -40,10 +41,6 @@ function scBranchOrderByFilter(ConfigService) {
 
         if (branchB.alias === true && branchA.alias !== true) {
             return 1;
-        }
-
-        if(true){ //TODO Remove that if statement!
-            return orderByLastBuildDateDescending(branchA, branchB);
         }
 
         switch(order) {
