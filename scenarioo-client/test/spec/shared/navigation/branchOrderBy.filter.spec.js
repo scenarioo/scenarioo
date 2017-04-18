@@ -17,6 +17,37 @@
 
 'use strict';
 
+var CFG_LAST_BUILD_DATE_DESCENDING = { 'branchSelectionListOrder': 'last-build-date-descending' };
+var CFG_NAME_ASCENDING = { 'branchSelectionListOrder': 'name-ascending' };
+var CFG_NAME_DESCENDING = { 'branchSelectionListOrder': 'name-descending' };
+
+var DEFAULT_INPUT = [
+    {
+        alias: false,
+        branch: {
+            name: 'Ae'
+        }
+    },
+    {
+        alias: true,
+        branch: {
+            name: 'Ba'
+        }
+    },
+    {
+        alias: true,
+        branch: {
+            name: 'be'
+        }
+    },
+    {
+        alias: false,
+        branch: {
+            name: 'aa'
+        }
+    }
+];
+
 describe('Filter scBranchOrderBy', function () {
 
     var ConfigService, $httpBackend, HostnameAndPort, TestData;
@@ -28,22 +59,32 @@ describe('Filter scBranchOrderBy', function () {
 
     // load module
     beforeEach(module('scenarioo.filters'));
-    beforeEach(inject(function ($filter, _ConfigService_, _$httpBackend_, _TestData_, _HostnameAndPort_) {
+   // beforeEach(initConfig());
 
-        ConfigService = _ConfigService_;
-        $httpBackend = _$httpBackend_;
-        TestData = _TestData_;
-        HostnameAndPort = _HostnameAndPort_;
+    function initConfig(config){
+        inject(function ($filter, _ConfigService_, _$httpBackend_, _TestData_, _HostnameAndPort_) {
 
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG_BRANCH_SELECTION_1);
+            ConfigService = _ConfigService_;
+            $httpBackend = _$httpBackend_;
+            TestData = _TestData_;
+            HostnameAndPort = _HostnameAndPort_;
 
-        ConfigService.load();
-        $httpBackend.flush();
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(config);
 
-        scBranchOrderByFilter = $filter('scBranchOrderBy');
-    }));
+            ConfigService.load();
+            $httpBackend.flush();
+
+            scBranchOrderByFilter = $filter('scBranchOrderBy');
+        });
+    }
+
 
     describe('should handle invalid input gracefully:', function () {
+
+        it('initConfig', function () {
+            initConfig(CFG_LAST_BUILD_DATE_DESCENDING);
+        });
+
         it('string', function () {
             var result = scBranchOrderByFilter('someString');
             expect(result).toEqual('someString');
@@ -58,7 +99,11 @@ describe('Filter scBranchOrderBy', function () {
         });
     });
 
-    describe('should order given branch resource objects:', function () {
+    describe('should order given branch resource objects by last-build-date-descending:', function () {
+
+        it('initConfig', function () {
+            initConfig(CFG_LAST_BUILD_DATE_DESCENDING);
+        });
 
         it('alias branches first', function () {
 
@@ -187,8 +232,40 @@ describe('Filter scBranchOrderBy', function () {
             expect(result[2].branch.name).toEqual('Ba');
             expect(result[3].branch.name).toEqual('Ae');
         });
-
     });
 
+    describe('should order given branch resource objects by name-ascending:', function () {
 
+        it('initConfig', function () {
+            initConfig(CFG_NAME_ASCENDING);
+        });
+
+        it('then alphabetically (not case sensitive!)', function () {
+
+            var result = scBranchOrderByFilter(DEFAULT_INPUT);
+
+            expect(result[0].branch.name).toEqual('Ba');
+            expect(result[1].branch.name).toEqual('be');
+            expect(result[2].branch.name).toEqual('aa');
+            expect(result[3].branch.name).toEqual('Ae');
+        });
+    });
+
+    describe('should order given branch resource objects by name-descending:', function () {
+
+        it('initConfig', function () {
+            initConfig(CFG_NAME_DESCENDING);
+        });
+
+        it('then alphabetically (not case sensitive!)', function () {
+
+            var result = scBranchOrderByFilter(DEFAULT_INPUT);
+
+            expect(result[0].branch.name).toEqual('be');
+            expect(result[1].branch.name).toEqual('Ba');
+            expect(result[2].branch.name).toEqual('Ae');
+            expect(result[3].branch.name).toEqual('aa');
+        });
+
+    });
 });

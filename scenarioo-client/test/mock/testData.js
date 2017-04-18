@@ -19,9 +19,6 @@
 
 angular.module('scenarioo.services').service('TestData', function () {
     return {
-        CONFIG_BRANCH_SELECTION_1: {
-            'branchSelectionListOrder': 'last-build-date-descending'
-        },
 
         CONFIG: {
             'testDocumentationDirPath': 'webtestDocuContentExample',
