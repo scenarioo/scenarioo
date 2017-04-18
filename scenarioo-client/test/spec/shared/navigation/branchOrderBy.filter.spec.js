@@ -20,6 +20,7 @@
 var CFG_LAST_BUILD_DATE_DESCENDING = { 'branchSelectionListOrder': 'last-build-date-descending' };
 var CFG_NAME_ASCENDING = { 'branchSelectionListOrder': 'name-ascending' };
 var CFG_NAME_DESCENDING = { 'branchSelectionListOrder': 'name-descending' };
+var CFG_PROP_NOT_SET = {};
 
 var DEFAULT_INPUT = [
     {
@@ -238,6 +239,23 @@ describe('Filter scBranchOrderBy', function () {
 
         it('initConfig', function () {
             initConfig(CFG_NAME_ASCENDING);
+        });
+
+        it('then alphabetically (not case sensitive!)', function () {
+
+            var result = scBranchOrderByFilter(DEFAULT_INPUT);
+
+            expect(result[0].branch.name).toEqual('Ba');
+            expect(result[1].branch.name).toEqual('be');
+            expect(result[2].branch.name).toEqual('aa');
+            expect(result[3].branch.name).toEqual('Ae');
+        });
+    });
+
+    describe('should order given branch resource objects by config not correct. Default: name-ascending:', function () {
+
+        it('initConfig', function () {
+            initConfig(CFG_PROP_NOT_SET);
         });
 
         it('then alphabetically (not case sensitive!)', function () {
