@@ -17,6 +17,8 @@
 
 package org.scenarioo.model.configuration;
 
+import java.awt.*;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -61,6 +63,18 @@ public class Configuration {
 	private String applicationInformation = "";
 
 	private Map<String, String> buildstates = new HashMap<String, String>();
+
+	/**
+	 * RGB Hex Color
+	 * Pattern: 0xAARRGGBB <br/>
+	 * - AA: ALPHA. Transparency. Range from hex 00..ff <br />
+	 * - RR: RED. Range from hex 00..ff <br />
+	 * - GG: GREEN. Range from hex 00..ff <br />
+	 * - BB: BLUE. Range from hex 00..ff <br />
+	 *
+	 * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html#Color(int,%20boolean)"> docs.oracle.com</a>
+	 */
+	private String diffImageColorRgbaHex = "0xc8ff0000";
 
 	/**
 	 * Will create a physical build containing the last successful scenarios of a branch.
@@ -226,4 +240,13 @@ public class Configuration {
 		this.createLastSuccessfulScenarioBuild = createLastSuccessfulScenarioBuild;
 	}
 
+	public Color getDiffImageColor() {
+		//Required BigInteger. Because the hex value could be out of range (int is signed). With BigInteger we can avoid this issue.
+		int rgba = new BigInteger(diffImageColorRgbaHex.substring(2), 16).intValue();
+		return new Color(rgba, true);
+	}
+
+	public void setDiffImageColor(Color diffColor) {
+		this.diffImageColorRgbaHex = "0x" + Integer.toHexString(diffColor.getRGB());
+	}
 }
