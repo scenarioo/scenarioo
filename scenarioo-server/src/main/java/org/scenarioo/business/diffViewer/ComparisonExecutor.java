@@ -22,6 +22,7 @@ import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.files.ObjectFromDirectory;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.business.diffViewer.comparator.BuildComparator;
+import org.scenarioo.business.diffViewer.comparator.ComporatorParameter;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
@@ -91,6 +92,7 @@ public class ComparisonExecutor {
 		comparisonConfiguration.setComparisonBranchName(comparisonBranchName);
 		comparisonConfiguration.setComparisonBuildName(comparisonBuildName);
 
+
 		Future<ComparisonResult> result = submitBuildForComparison(baseBranchName, baseBuildName, comparisonConfiguration);
 		futureList.add(result);
 		return futureList;
@@ -106,6 +108,7 @@ public class ComparisonExecutor {
 			+ baseBuildName + "] and comparison build [" + comparisonConfiguration.getComparisonBranchName() + "/"
 			+ comparisonConfiguration.getComparisonBuildName() + "]");
 
+		//return asyncComparisonExecutor.submit(() -> runComparison(baseBranchName, baseBuildName, comparisonConfiguration));
 		return asyncComparisonExecutor.submit(new Callable<ComparisonResult>() {
 			@Override
 			public ComparisonResult call() {
@@ -139,7 +142,9 @@ public class ComparisonExecutor {
 				LOGGER.warn("No comparison build found for base build: " + baseBranchName + "/"
 					+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
 			} else {
-				buildDiffInfo = new BuildComparator(baseBranchName, baseBuildName, resolvedComparisonConfiguration).compareAndWrite();
+				ComporatorParameter cp = new ComporatorParameter(baseBranchName, baseBuildName, resolvedComparisonConfiguration,
+					configurationRepository.getConfiguration().getDiffImageColor());
+				buildDiffInfo = new BuildComparator(cp).compareAndWrite();
 			}
 
 			LOGGER.info("SUCCESS on comparing base build: " + baseBranchName + "/"

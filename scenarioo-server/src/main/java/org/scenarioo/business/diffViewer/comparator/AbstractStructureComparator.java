@@ -35,9 +35,8 @@ public abstract class AbstractStructureComparator<ELEMENT_TYPE, ADDED_ELEMENT_TY
 
 	private static final double ADDED_REMOVED_CHANGE_RATE = 100.0;
 
-	public AbstractStructureComparator(final String baseBranchName, final String baseBuildName,
-			final ComparisonConfiguration comparisonConfiguration) {
-		super(baseBranchName, baseBuildName, comparisonConfiguration);
+	public AbstractStructureComparator(ComporatorParameter parameter) {
+		super(parameter);
 	}
 
 	protected abstract double compareElementAndWrite(ELEMENT_TYPE baseElement, ELEMENT_TYPE comparisonElement, StructureDiffInfo<ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> diffInfo);

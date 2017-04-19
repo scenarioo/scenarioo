@@ -4,6 +4,7 @@ import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.RepositoryLocator;
 
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,6 +14,9 @@ public class ConfigurationFixture {
 	public static String COMPARISON_BRANCH_NAME = "comparisonBranch";
 	public static String COMPARISON_BUILD_NAME = "comparisonBuild";
 	public static String COMPARISON_NAME = "comparisonName";
+
+	public static ComporatorParameter COMPORATOR_PARAMETER = new ComporatorParameter(BASE_BRANCH_NAME, BASE_BUILD_NAME,
+		getComparisonConfiguration(), new Color(255, 0, 0, 200));
 
 	public static Configuration getTestConfiguration() {
 

@@ -25,12 +25,10 @@ import org.scenarioo.model.diffViewer.BuildDiffInfo;
  */
 public class BuildComparator extends AbstractComparator {
 
-	private UseCaseComparator useCaseComparator = new UseCaseComparator(baseBranchName, baseBuildName,
-			comparisonConfiguration);
+	private UseCaseComparator useCaseComparator = new UseCaseComparator(parameter);
 
-	public BuildComparator(final String baseBranchName, final String baseBuildName,
-			final ComparisonConfiguration comparisonConfiguration) {
-		super(baseBranchName, baseBuildName, comparisonConfiguration);
+	public BuildComparator(ComporatorParameter parameter) {
+		super(parameter);
 	}
 
 	public BuildDiffInfo compareAndWrite() {

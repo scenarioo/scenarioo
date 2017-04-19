@@ -39,15 +39,14 @@ public class ScenarioComparator extends AbstractStructureComparator<Scenario, St
 
 	private static final Logger LOGGER = Logger.getLogger(ScenarioComparator.class);
 
-	private StepComparator stepComparator = new StepComparator(baseBranchName, baseBuildName, comparisonConfiguration);
+	private StepComparator stepComparator = new StepComparator(parameter);
 	private String baseUseCaseName;
 
 	private AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDao(
 			configurationRepository.getDocumentationDataDirectory());
 
-	public ScenarioComparator(final String baseBranchName, final String baseBuildName,
-			final ComparisonConfiguration comparisonConfiguration) {
-		super(baseBranchName, baseBuildName, comparisonConfiguration);
+	public ScenarioComparator(ComporatorParameter parameter) {
+		super(parameter);
 	}
 
 	public UseCaseDiffInfo compare(final String baseUseCaseName) {

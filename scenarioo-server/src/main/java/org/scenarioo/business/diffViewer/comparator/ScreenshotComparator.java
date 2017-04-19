@@ -39,9 +39,8 @@ public class ScreenshotComparator extends AbstractComparator {
 	private static final int SCREENSHOT_DEFAULT_CHANGE_RATE = 0;
 	private DiffReader diffReader;
 
-	public ScreenshotComparator(final String baseBranchName, final String baseBuildName,
-								final ComparisonConfiguration comparisonConfiguration) {
-		super(baseBranchName, baseBuildName, comparisonConfiguration);
+	public ScreenshotComparator(ComporatorParameter parameter) {
+		super(parameter);
 		diffReader = new DiffReaderXmlImpl();
 	}
 
@@ -88,7 +87,8 @@ public class ScreenshotComparator extends AbstractComparator {
 		}
 
 		try {
-			int diffColor = new Color(255, 0, 0, 200).getRGB();
+			//int diffColor = new Color(255, 0, 0, 200).getRGB();
+			int diffColor = parameter.getDiffImageColor().getRGB();
 
 			BufferedImage oldImage = ImageIO.read(baseScreenshot);
 			BufferedImage newImage = ImageIO.read(comparisonScreenshot);
