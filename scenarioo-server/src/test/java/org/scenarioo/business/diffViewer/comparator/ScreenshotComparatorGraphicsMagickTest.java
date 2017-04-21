@@ -57,6 +57,8 @@ public class ScreenshotComparatorGraphicsMagickTest {
 
 	@Test
 	public void compareEqualScreenshots() {
+		DIFF_SCREENSHOT.delete();
+
 		final double difference = screenshotComparator.compareScreenshots(BASE_SCREENSHOT,
 			BASE_SCREENSHOT, DIFF_SCREENSHOT);
 

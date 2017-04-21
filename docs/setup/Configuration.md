@@ -43,7 +43,7 @@ This example is an extract from the demo configuration, for full example configu
 
 ## Branch Selection List Ordering
 
-The ordering of the Branch Selection is configurable. 
+The order of the branch entries in the top level navigation branch selection dropdown is configurable.
 
 Through an additional config property `branchSelectionListOrder` the following ordering options can be configured:
 * `name-ascending`: the branches are sorted by name alphabetically - default value, if value not set the behaviour is the same
@@ -52,7 +52,7 @@ Through an additional config property `branchSelectionListOrder` the following o
 
 Example:
 ```xml
-<branchSelectionListOrder>name-ascending</branchSelectionListOrder>
+<branchSelectionListOrder>name-descending</branchSelectionListOrder>
 ```
 
 ## IMPORTANT Remarks

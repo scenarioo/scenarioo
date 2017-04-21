@@ -61,7 +61,7 @@ public class Configuration {
 	private String applicationInformation = "";
 
 	/**
-	 * https://github.com/scenarioo/scenarioo/issues/601
+	 * The order of the branch entries in the top level navigation branch selection dropdown is configurable.
 	 * Values: name-ascending, name-descending, last-build-date-descending
 	 */
 	private String branchSelectionListOrder = "name-ascending";

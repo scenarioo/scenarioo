@@ -252,7 +252,7 @@ describe('Filter scBranchOrderBy', function () {
         });
     });
 
-    describe('should order given branch resource objects by config not correct. Default: name-ascending:', function () {
+    describe('Should order given branch resource objects by name ascending as a default', function () {
 
         it('initConfig', function () {
             initConfig(CFG_PROP_NOT_SET);

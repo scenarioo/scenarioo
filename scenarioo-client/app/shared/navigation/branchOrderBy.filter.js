@@ -32,9 +32,6 @@ function scBranchOrderByFilter(ConfigService) {
      */
     function branchComparator(branchA, branchB) {
 
-        var order = ConfigService.branchSelectionListOrder();
-        console.log('branchComporator order:', order);
-
         if (branchA.alias === true && branchB.alias !== true) {
             return -1;
         }
@@ -43,6 +40,7 @@ function scBranchOrderByFilter(ConfigService) {
             return 1;
         }
 
+        var order = ConfigService.branchSelectionListOrder();
         switch(order) {
             case 'name-descending':
                 return orderByNameDescending(branchA, branchB);
@@ -54,7 +52,7 @@ function scBranchOrderByFilter(ConfigService) {
         }
     }
 
-    function orderByNameAscending(branchA, branchB){
+    function orderByNameAscending(branchA, branchB) {
 
         // both are an alias or none is an alias -> use alphabetical ordering
         var branchAName = branchA.branch.name.toLowerCase();
@@ -71,26 +69,14 @@ function scBranchOrderByFilter(ConfigService) {
         return 0;
     }
 
-    function orderByNameDescending(branchA, branchB){
+    function orderByNameDescending(branchA, branchB) {
         return orderByNameAscending(branchA, branchB) * -1;
     }
 
-    function orderByLastBuildDateDescending(branchA, branchB){
+    function orderByLastBuildDateDescending(branchA, branchB) {
 
         if (branchA.alias === true) {
-            // both are an alias -> use alphabetical ordering
-            var branchAName = branchA.branch.name.toLowerCase();
-            var branchBName = branchB.branch.name.toLowerCase();
-
-            if (branchAName < branchBName) {
-                return -1;
-            }
-
-            if (branchAName > branchBName) {
-                return 1;
-            }
-
-            return 0;
+            return orderByNameAscending(branchA, branchB);
         }
 
         // none is an alias -> order by build date DESC
