@@ -42,8 +42,7 @@ public class ScreenshotComparatorGraphicsMagickTest {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(rootFolder.newFolder());
 		assertTrue(DiffFiles.getDiffViewerDirectory().mkdirs());
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
-		screenshotComparator = new ScreenshotComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME,
-			getComparisonConfiguration());
+		screenshotComparator = new ScreenshotComparator(COMPORATOR_PARAMETER);
 	}
 
 	@Test

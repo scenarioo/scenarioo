@@ -80,8 +80,7 @@ public class ScenarioComparatorTest {
 	private StepComparator stepComparator;
 
 	@InjectMocks
-	private final ScenarioComparator scenarioComparator = new ScenarioComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME,
-			getComparisonConfiguration());
+	private final ScenarioComparator scenarioComparator = new ScenarioComparator(COMPORATOR_PARAMETER);
 
 	@BeforeClass
 	public static void setUpClass() throws IOException {

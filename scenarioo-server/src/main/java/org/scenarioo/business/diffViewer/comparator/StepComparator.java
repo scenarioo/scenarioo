@@ -23,7 +23,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.aggregator.StepsAndPagesAggregator;
-import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.StepInfo;
@@ -39,16 +38,14 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 
 	private static final Logger LOGGER = Logger.getLogger(StepComparator.class);
 
-	private ScreenshotComparator screenshotComparator = new ScreenshotComparator(baseBranchName, baseBuildName,
-			comparisonConfiguration);
+	private ScreenshotComparator screenshotComparator = new ScreenshotComparator(parameter);
 	private String baseUseCaseName;
 	private String baseScenarioName;
 	private List<Step> comparisonSteps;
 	private StepsAndPagesAggregator stepAndPagesAggregator = new StepsAndPagesAggregator(null, null);
 
-	public StepComparator(final String baseBranchName, final String baseBuildName,
-			final ComparisonConfiguration comparisonConfiguration) {
-		super(baseBranchName, baseBuildName, comparisonConfiguration);
+	public StepComparator(ComparatorParameter parameter) {
+		super(parameter);
 	}
 
 	public ScenarioDiffInfo compare(final String baseUseCaseName, final String baseScenarioName) {

@@ -76,8 +76,7 @@ public class StepComparatorTest {
 	private ScreenshotComparator screenshotComparator;
 
 	@InjectMocks
-	private StepComparator stepComparator = new StepComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME,
-			getComparisonConfiguration());
+	private StepComparator stepComparator = new StepComparator(COMPORATOR_PARAMETER);
 
 	@BeforeClass
 	public static void setUpClass() throws IOException {
