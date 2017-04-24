@@ -23,7 +23,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.aggregator.StepsAndPagesAggregator;
-import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.StepInfo;
@@ -45,7 +44,7 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 	private List<Step> comparisonSteps;
 	private StepsAndPagesAggregator stepAndPagesAggregator = new StepsAndPagesAggregator(null, null);
 
-	public StepComparator(ComporatorParameter parameter) {
+	public StepComparator(ComparatorParameter parameter) {
 		super(parameter);
 	}
 

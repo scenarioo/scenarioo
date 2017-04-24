@@ -22,7 +22,7 @@ import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.files.ObjectFromDirectory;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.business.diffViewer.comparator.BuildComparator;
-import org.scenarioo.business.diffViewer.comparator.ComporatorParameter;
+import org.scenarioo.business.diffViewer.comparator.ComparatorParameter;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
@@ -77,7 +77,7 @@ public class ComparisonExecutor {
 				baseBranchName);
 
 		for (ComparisonConfiguration comparisonConfiguration : comparisonConfigurationsForBaseBranch) {
-			ComporatorParameter cp = new ComporatorParameter(baseBranchName, baseBuildName, comparisonConfiguration,
+			ComparatorParameter cp = new ComparatorParameter(baseBranchName, baseBuildName, comparisonConfiguration,
 				configurationRepository.getConfiguration().getDiffImageColor());
 
 			submitBuildForComparison(cp);
@@ -96,7 +96,7 @@ public class ComparisonExecutor {
 		comparisonConfiguration.setComparisonBranchName(comparisonBranchName);
 		comparisonConfiguration.setComparisonBuildName(comparisonBuildName);
 
-		ComporatorParameter cp = new ComporatorParameter(baseBranchName, baseBuildName, comparisonConfiguration,
+		ComparatorParameter cp = new ComparatorParameter(baseBranchName, baseBuildName, comparisonConfiguration,
 			configurationRepository.getConfiguration().getDiffImageColor());
 
 		Future<ComparisonResult> result = submitBuildForComparison(cp);
@@ -107,7 +107,7 @@ public class ComparisonExecutor {
 	/**
 	 * Executes a comparison for the given build and comparison configuration in a separate thread.
 	 */
-	private synchronized Future<ComparisonResult> submitBuildForComparison(ComporatorParameter cp) {
+	private synchronized Future<ComparisonResult> submitBuildForComparison(ComparatorParameter cp) {
 
 		LOGGER.info("Submitting build for Comparison. Base build [" + cp.getBaseBranchName() + "/"
 			+ cp.getBaseBuildName() + "] and comparison build [" + cp.getComparisonConfiguration().getComparisonBranchName() + "/"
@@ -122,7 +122,7 @@ public class ComparisonExecutor {
 		});
 	}
 
-	private ComparisonResult runComparison(ComporatorParameter cp) {
+	private ComparisonResult runComparison(ComparatorParameter cp) {
 
 		BuildDiffInfo buildDiffInfo = null;
 

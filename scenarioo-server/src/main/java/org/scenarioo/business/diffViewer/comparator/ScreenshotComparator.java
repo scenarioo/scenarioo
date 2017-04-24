@@ -20,11 +20,9 @@ package org.scenarioo.business.diffViewer.comparator;
 import org.apache.log4j.Logger;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
-import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.io.File;
@@ -39,7 +37,7 @@ public class ScreenshotComparator extends AbstractComparator {
 	private static final int SCREENSHOT_DEFAULT_CHANGE_RATE = 0;
 	private DiffReader diffReader;
 
-	public ScreenshotComparator(ComporatorParameter parameter) {
+	public ScreenshotComparator(ComparatorParameter parameter) {
 		super(parameter);
 		diffReader = new DiffReaderXmlImpl();
 	}

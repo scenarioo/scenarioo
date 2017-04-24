@@ -20,7 +20,6 @@ package org.scenarioo.business.diffViewer.comparator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
@@ -35,7 +34,7 @@ public class UseCaseComparator extends AbstractStructureComparator<UseCase, Stri
 
 	private ScenarioComparator scenarioComparator = new ScenarioComparator(parameter);
 
-	public UseCaseComparator(ComporatorParameter parameter) {
+	public UseCaseComparator(ComparatorParameter parameter) {
 		super(parameter);
 	}
 
