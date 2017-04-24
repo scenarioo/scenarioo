@@ -23,7 +23,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
-import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
@@ -45,7 +44,7 @@ public class ScenarioComparator extends AbstractStructureComparator<Scenario, St
 	private AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDao(
 			configurationRepository.getDocumentationDataDirectory());
 
-	public ScenarioComparator(ComporatorParameter parameter) {
+	public ScenarioComparator(ComparatorParameter parameter) {
 		super(parameter);
 	}
 

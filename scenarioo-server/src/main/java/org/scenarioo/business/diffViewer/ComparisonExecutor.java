@@ -22,7 +22,7 @@ import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.files.ObjectFromDirectory;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.business.diffViewer.comparator.BuildComparator;
-import org.scenarioo.business.diffViewer.comparator.ComporatorParameter;
+import org.scenarioo.business.diffViewer.comparator.ComparatorParameter;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
@@ -142,7 +142,7 @@ public class ComparisonExecutor {
 				LOGGER.warn("No comparison build found for base build: " + baseBranchName + "/"
 					+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
 			} else {
-				ComporatorParameter cp = new ComporatorParameter(baseBranchName, baseBuildName, resolvedComparisonConfiguration,
+				ComparatorParameter cp = new ComparatorParameter(baseBranchName, baseBuildName, resolvedComparisonConfiguration,
 					configurationRepository.getConfiguration().getDiffImageColor());
 				buildDiffInfo = new BuildComparator(cp).compareAndWrite();
 			}
