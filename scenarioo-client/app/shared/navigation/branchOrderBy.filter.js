@@ -24,19 +24,17 @@ function scBranchOrderByFilter(ConfigService) {
      * 1. branches that are marked as "alias" before others
      * 2. then by the configuration value "branchSelectionListOrder"
      *
-     * https://github.com/scenarioo/scenarioo/issues/601
-     *
      * @param {object} branchA
      * @param {object} branchB
      * @returns {number}
      */
     function branchComparator(branchA, branchB) {
 
-        if (branchA.alias === true && branchB.alias !== true) {
+        if (branchA.alias === true && branchB.alias === false) {
             return -1;
         }
 
-        if (branchB.alias === true && branchA.alias !== true) {
+        if (branchA.alias === false && branchB.alias === true) {
             return 1;
         }
 
@@ -58,15 +56,7 @@ function scBranchOrderByFilter(ConfigService) {
         var branchAName = branchA.branch.name.toLowerCase();
         var branchBName = branchB.branch.name.toLowerCase();
 
-        if (branchAName < branchBName) {
-            return -1;
-        }
-
-        if (branchBName < branchAName) {
-            return 1;
-        }
-
-        return 0;
+        return compare(branchAName, branchBName);
     }
 
     function orderByNameDescending(branchA, branchB) {
@@ -83,15 +73,17 @@ function scBranchOrderByFilter(ConfigService) {
         var dateA = (branchA.builds.length != 0 ? branchA.builds[0].build.date : 0);
         var dateB = (branchB.builds.length != 0 ? branchB.builds[0].build.date : 0);
 
-        if (dateA < dateB) {
+        return compare(dateA, dateB) * -1;
+    }
+
+    function compare(o1, o2) {
+        if (o1 > o2) {
             return 1;
-        }
-
-        if (dateA > dateB) {
+        } else if (o1 < o2) {
             return -1;
+        } else {
+            return 0;
         }
-
-        return 0;
     }
 
     return function (input) {

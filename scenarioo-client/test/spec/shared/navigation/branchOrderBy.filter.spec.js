@@ -26,25 +26,25 @@ var DEFAULT_INPUT = [
     {
         alias: false,
         branch: {
-            name: 'Ae'
+            name: 'feature-102'
         }
     },
     {
         alias: true,
         branch: {
-            name: 'Ba'
+            name: 'release-1.3'
         }
     },
     {
         alias: true,
         branch: {
-            name: 'be'
+            name: 'release-1.4'
         }
     },
     {
         alias: false,
         branch: {
-            name: 'aa'
+            name: 'feature-101'
         }
     }
 ];
@@ -245,10 +245,10 @@ describe('Filter scBranchOrderBy', function () {
 
             var result = scBranchOrderByFilter(DEFAULT_INPUT);
 
-            expect(result[0].branch.name).toEqual('Ba');
-            expect(result[1].branch.name).toEqual('be');
-            expect(result[2].branch.name).toEqual('aa');
-            expect(result[3].branch.name).toEqual('Ae');
+            expect(result[0].branch.name).toEqual('release-1.3');
+            expect(result[1].branch.name).toEqual('release-1.4');
+            expect(result[2].branch.name).toEqual('feature-101');
+            expect(result[3].branch.name).toEqual('feature-102');
         });
     });
 
@@ -262,10 +262,10 @@ describe('Filter scBranchOrderBy', function () {
 
             var result = scBranchOrderByFilter(DEFAULT_INPUT);
 
-            expect(result[0].branch.name).toEqual('Ba');
-            expect(result[1].branch.name).toEqual('be');
-            expect(result[2].branch.name).toEqual('aa');
-            expect(result[3].branch.name).toEqual('Ae');
+            expect(result[0].branch.name).toEqual('release-1.3');
+            expect(result[1].branch.name).toEqual('release-1.4');
+            expect(result[2].branch.name).toEqual('feature-101');
+            expect(result[3].branch.name).toEqual('feature-102');
         });
     });
 
@@ -279,11 +279,10 @@ describe('Filter scBranchOrderBy', function () {
 
             var result = scBranchOrderByFilter(DEFAULT_INPUT);
 
-            expect(result[0].branch.name).toEqual('be');
-            expect(result[1].branch.name).toEqual('Ba');
-            expect(result[2].branch.name).toEqual('Ae');
-            expect(result[3].branch.name).toEqual('aa');
+            expect(result[0].branch.name).toEqual('release-1.4');
+            expect(result[1].branch.name).toEqual('release-1.3');
+            expect(result[2].branch.name).toEqual('feature-102');
+            expect(result[3].branch.name).toEqual('feature-101');
         });
-
     });
 });
