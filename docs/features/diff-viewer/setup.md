@@ -1,96 +1,16 @@
-#Diff Viewer Installation and Configuration Guide
+#Configuration Guide
 
-This guide describes how you can set up the Diff Viewer feature.
+This guide describes how you can configure the Diff Viewer feature.
 The Diff Viewer feature makes it possible to compare two different builds against each other.
-In three easy step, you are ready to compare your own builds:
+In two easy step, you are ready to compare your own builds:
 
-1. [Install  GraphicsMagick](#1-install-graphicsmagick)
-2. [Add a comparison configuration](#2-add-a-comparison-configuration)
-3. [Start comparison](#3-start-comparison)
-4. [Delete a comparison](#4-delete-a-comparison)
+1. [Add a comparison configuration](#2-add-a-comparison-configuration)
+2. [Start comparison](#3-start-comparison)
+3. [Delete a comparison](#4-delete-a-comparison)
 
 After that you are ready to use the Diff Viewer feature. Check out the [Diff Viewer User Guide](user-guide.md) for further details.
-## 1. Install [GraphicsMagick](http://www.graphicsmagick.org/) 
-The [GraphicsMagick Image Processing System](http://www.graphicsmagick.org/) calls itself the swiss army knife of image processing. It is used by Diff Viewer feature to perform screenshot comparisons.
 
-### Installation on Linux
-Diff Viewer is successfully tested on Ubuntu 14.04.3 LTS with GraphicsMagick Version 1.3.18:
-
-Simply run the following command:
-
-   ```
-   sudo apt-get install graphicsmagick
-   ```
-
-
-If there is any error, add the ppa:dhor/myway repository:
-
-   ```
-   sudo add-apt-repository ppa:dhor/myway
-   sudo apt-get update
-   sudo apt-get install graphicsmagick
-   ```
-
-For more information refer to http://www.graphicsmagick.org/INSTALL-unix.html
-
-
-### Installation on Windows
-Download and run the GraphicsMagick installer for Windows with administrator privileges.
-Diff Viewer is successfully tested on Windows 10 with GraphicsMagick Version 1.3.23:
-ftp://ftp.graphicsmagick.org/pub/GraphicsMagick/windows/GraphicsMagick-1.3.22-windows-source.7z
-
-
-Follow the installation Guide:
-* You can leave the default settings.
-* After completing the installation, reopen all console windows/eclipse, so that they load the updated path variable.
-
-Detailed process:
-
-**Welcome**
- * click [next]
-
-**License Agreement**
- * Select
-   * [x] I accept the agreement
-   * [ ] I do not accept the agreement
- * click [next]
- 
-**Information**
- * click [Next>]
-
-**Select Destination Location**
- * Browse to your preferred installation folder
- * click [Next>]
-
-**Select Start Menu Folder**
- * Browse to your preferred start menu folder
- * click [Next>]
-
-** Select Additional Tasks**
-* Select 
-    * [ ] Create a desktop icon 
-    * [X] **Update executable search path (IMPORTANT!)**
-    * [ ] Associate supported file extensions
-    * [ ] Install PerlMagick for ActiveState Perl v...
-    * [ ] Install ImageMagickObject OLE Control for VBscript, Visual Basic, and WSH
-* click [Next>]
-
-**Ready to Install**
- * Check your selected folders
- * click [Next>]
-
-**Information**
- * click [Next>]
-
-**Completing ...**
- * [ ] View index.html
- * click [Finish>]
-
-**Reopen all cmd windows or eclipse, so that they get the new path variables**
-
-For more information refer to http://www.graphicsmagick.org/INSTALL-windows.html
-
-## 2. Add a comparison configuration
+## 1. Add a comparison configuration
 In your config.xml file you can edit the comparison configuration.
 It is possible to add one or more comparison configurations. On each import, all the configured comparisons get compared.
 You can delete a comparisonConfiguration, then it will not be compared in the feature. 
@@ -109,7 +29,7 @@ Each comparisonConfiguration has the following settings:
 Refer to the glossary for further details: https://github.com/magitnu/scenarioo/blob/develop/documentation/diff-viewer/glossary.md
 
 Sample configuration:
-   ```
+   ```xml
     ...
     <branchAliases/>
 
@@ -143,7 +63,7 @@ Sample configuration:
     ...
    ```
 
-## 3. Start comparison
+## 2. Start comparison
 To start the build comparison you have two options:
 * Reimport an existing build:
    * Scenario Viewer > Manage > Click on the reimport symbol next to the preferred build
@@ -157,7 +77,7 @@ You can find the log file in the following place:
 
 In future versions, there might be the possibility to start and configure comparisons in the web client.
 
-## 4. Delete a comparison
+## 3. Delete a comparison
 All comparisons are stored in the following folder:
 >scenarioo-application-data\diffViewer
 
