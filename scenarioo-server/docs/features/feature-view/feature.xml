@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feature>
+    <name>Feature-View</name>
+    <folderName>feature-view</folderName>
+    <description>Overview over the current subfeatures, compareable to todays usecase view</description>
+</feature>

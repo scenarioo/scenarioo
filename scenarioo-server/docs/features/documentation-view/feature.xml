@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feature>
+    <name>Documentation-View</name>
+    <folderName>documentation-view</folderName>
+    <description>Shows the documentation file and the spec file of a feature and the subfeatures with their files</description>
+</feature>

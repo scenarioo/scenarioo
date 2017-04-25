@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feature>
+    <name>GUI-Elements</name>
+    <folderName>gui-elements</folderName>
+    <description>The 4 new GUI views</description>
+    <status>success</status>
+    <featureNames>feature-view</featureNames>
+    <featureNames>scenarios-view</featureNames>
+    <featureNames>documentation-view</featureNames>
+    <featureNames>dashboard-view</featureNames>
+</feature>

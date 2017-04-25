@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feature>
+    <name>Scenario-View</name>
+    <folderName>scenario-view</folderName>
+    <description>Overview over the current scenarios, comparable to todays scenario view</description>
+</feature>
