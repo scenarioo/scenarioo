@@ -24,7 +24,7 @@ import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.
 public class ScreenshotComparatorMockitoTest {
 
 	@InjectMocks
-	private final ScreenshotComparator screenshotComparator = new ScreenshotComparator(COMPORATOR_PARAMETER);
+	private final ScreenshotComparator screenshotComparator = new ScreenshotComparator(COMPARATOR_PARAMETER);
 
 	@ClassRule
 	public static TemporaryFolder folder = new TemporaryFolder();
@@ -38,7 +38,7 @@ public class ScreenshotComparatorMockitoTest {
 
 	@Test
 	public void noComparisonIfScreenshotNotAvailable() throws Exception {
-		ScreenshotComparator comparator = spy(new ScreenshotComparator(COMPORATOR_PARAMETER));
+		ScreenshotComparator comparator = spy(new ScreenshotComparator(COMPARATOR_PARAMETER));
 		comparator.compare("dummy", "dummy", new StepLink("", "", 0, 0, "", 0, 0), "dummy");
 
 		verify(comparator, never()).compareScreenshots(any(File.class), any(File.class), any(File.class));

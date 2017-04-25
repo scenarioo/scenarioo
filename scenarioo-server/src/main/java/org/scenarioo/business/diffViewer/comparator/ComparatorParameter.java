@@ -12,6 +12,7 @@ public class ComparatorParameter {
 
 	public ComparatorParameter(String baseBranchName, String baseBuildName, ComparisonConfiguration comparisonConfiguration,
 							   Color diffImageColor) {
+
 		this.baseBranchName = baseBranchName;
 		this.baseBuildName = baseBuildName;
 		this.comparisonConfiguration = comparisonConfiguration;

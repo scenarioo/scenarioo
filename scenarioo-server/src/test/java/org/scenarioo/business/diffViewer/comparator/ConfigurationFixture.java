@@ -15,7 +15,7 @@ public class ConfigurationFixture {
 	public static String COMPARISON_BUILD_NAME = "comparisonBuild";
 	public static String COMPARISON_NAME = "comparisonName";
 
-	public static ComparatorParameter COMPORATOR_PARAMETER = new ComparatorParameter(BASE_BRANCH_NAME, BASE_BUILD_NAME,
+	public static ComparatorParameter COMPARATOR_PARAMETER = new ComparatorParameter(BASE_BRANCH_NAME, BASE_BUILD_NAME,
 		getComparisonConfiguration(), new Color(255, 0, 0, 200));
 
 	public static Configuration getTestConfiguration() {
