@@ -50,8 +50,6 @@ public class ConfigurationResource {
 	public ApplicationStatus getApplicationStatus() {
 		ApplicationStatus applicationStatus = new ApplicationStatus();
 
-		DiffViewerStatus status = new DiffViewerStatus();
-		applicationStatus.setDiffViewerStatus(status);
 		applicationStatus.setConfiguration(getConfiguration());
 		applicationStatus.setSearchEngineStatus(SearchEngineStatus.create());
 		applicationStatus.setVersion(ApplicationVersionHolder.INSTANCE.getApplicationVersion());

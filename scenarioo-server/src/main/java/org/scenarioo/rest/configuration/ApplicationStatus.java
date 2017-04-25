@@ -10,27 +10,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ApplicationStatus {
 
     private Configuration configuration;
-    private DiffViewerStatus diffViewerStatus;
     private SearchEngineStatus searchEngineStatus;
     private ApplicationVersion version;
-
-    public ApplicationStatus() {
-    }
-
-    public ApplicationStatus(Configuration configuration, DiffViewerStatus diffViewerStatus, SearchEngineStatus searchEngineStatus, ApplicationVersion version) {
-        this.configuration = configuration;
-        this.diffViewerStatus = diffViewerStatus;
-        this.searchEngineStatus = searchEngineStatus;
-        this.version = version;
-    }
 
     public Configuration getConfiguration() {
         return configuration;
     }
 
-    public DiffViewerStatus getDiffViewerStatus() {
-        return diffViewerStatus;
-    }
 
     public SearchEngineStatus getSearchEngineStatus() {
         return searchEngineStatus;
@@ -38,10 +24,6 @@ public class ApplicationStatus {
 
     public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
-    }
-
-    public void setDiffViewerStatus(DiffViewerStatus diffViewerStatus) {
-        this.diffViewerStatus = diffViewerStatus;
     }
 
     public void setSearchEngineStatus(SearchEngineStatus searchEngineStatus) {
