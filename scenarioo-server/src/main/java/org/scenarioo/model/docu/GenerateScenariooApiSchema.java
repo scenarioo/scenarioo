@@ -13,7 +13,7 @@ import java.util.*;
 public class GenerateScenariooApiSchema {
 
 	private static final File SCHEMA_LOCATION = new File("D:/scenarioo-api.xsd");
-
+/*
 	public static void main(String[] args) throws Exception {
 		Class[] classes = getClassesWithoutInterfacesAndTests("org.scenarioo.model.docu.feature.model");
 
@@ -21,7 +21,7 @@ public class GenerateScenariooApiSchema {
 		SchemaOutputResolver outputResolver = new MySchemaOutputResolver();
 		jaxbContext.generateSchema(outputResolver);
 	}
-
+*/
 	private static Class[] getClassesWithoutInterfacesAndTests(String packageName) throws ClassNotFoundException, IOException {
 		Class[] classes = getClasses(packageName);
 		List<Class<?>> filtered = new LinkedList<Class<?>>();
@@ -96,4 +96,5 @@ public class GenerateScenariooApiSchema {
 		}
 		return classes;
 	}
+
 }
