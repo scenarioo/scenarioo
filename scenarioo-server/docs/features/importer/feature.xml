@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<feature>
-    <name>Importer</name>
-    <folderName>importer</folderName>
-    <description>Imports the data to save it on the server</description>
-</feature>

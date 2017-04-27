@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<feature>
-    <name>Dashboard-View</name>
-    <folderName>dashboard-view</folderName>
-    <description>Dashboard mit Subfeature und subsubFeature Cards, welche sortiert und mit swimlanes geordnet werden können</description>
-</feature>

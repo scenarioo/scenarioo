@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<feature>
-    <name>Rest API</name>
-    <folderName>rest-api</folderName>
-    <description>All changes necessary to the Rest API</description>
-</feature>

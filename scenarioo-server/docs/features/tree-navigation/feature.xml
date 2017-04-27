@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<feature>
-    <name>Featrue Tree Navigation</name>
-    <folderName>tree-navigation</folderName>
-    <description>navigation to other featrues in currently sellected build</description>
-</feature>
