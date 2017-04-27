@@ -154,7 +154,7 @@ public class FeatureDocumentation {
 		ScenarioDocuXMLFileUtil.marshal(feature, new File(featureFolder.getAbsolutePath()+"/feature.xml"));
 	}
 
-	public static void main(String[] args){
+	public static void mainiii(String[] args){
 		baseFolder = new File("").getAbsolutePath()+"/scenarioo-server/docs/features/";
 		new File(baseFolder).mkdirs();
 
