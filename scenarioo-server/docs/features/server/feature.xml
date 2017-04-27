@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feature>
+    <name>Server</name>
+    <folderName>server</folderName>
+    <description>Contains all work todo on the server side</description>
+    <status>success</status>
+    <featureNames>importer</featureNames>
+    <featureNames>comparison</featureNames>
+    <featureNames>full-text-search</featureNames>
+    <featureNames>sketch-editor</featureNames>
+    <featureNames>rest-api</featureNames>
+</feature>

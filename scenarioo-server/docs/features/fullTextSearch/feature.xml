@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feature>
+    <name>Full Text Search</name>
+    <folderName>fullTextSearch</folderName>
+    <description>Every page must be searchable with full text search</description>
+</feature>

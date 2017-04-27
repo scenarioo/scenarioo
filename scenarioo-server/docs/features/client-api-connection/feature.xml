@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feature>
+    <name>Client API Connection</name>
+    <folderName>client-api-connection</folderName>
+    <description> all changes to the client side API</description>
+</feature>

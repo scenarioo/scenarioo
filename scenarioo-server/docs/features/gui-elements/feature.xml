@@ -8,4 +8,5 @@
     <featureNames>scenarios-view</featureNames>
     <featureNames>documentation-view</featureNames>
     <featureNames>dashboard-view</featureNames>
+    <featureNames>tree-navigation</featureNames>
 </feature>

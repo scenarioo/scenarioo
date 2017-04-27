@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feature>
+    <name>Comparison</name>
+    <folderName>comparison</folderName>
+    <description>Contains the work to do for the comparison with older builds</description>
+</feature>
