@@ -108,20 +108,14 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 controllerAs: 'dashboard',
                 breadcrumbId: 'dashboard'
             })
-            .when('/accordion', {
-                templateUrl: 'dashboard/accordion.html',
-                controller: 'DashboardController',
-                controllerAs: 'dashboard',
-                breadcrumbId: 'dashboard'
-            })
             .when('/detailNav', {
-                templateUrl: 'dashboard/detailNav.html',
+                templateUrl: 'dashboard/documentationView.html',
                 controller: 'DashboardController',
                 controllerAs: 'dashboard',
                 breadcrumbId: 'detail'
             })
             .when('/list', {
-                templateUrl: 'dashboard/list.html',
+                templateUrl: 'dashboard/scenarioView.html',
                 controller: 'DashboardController',
                 controllerAs: 'dashboard',
                 breadcrumbId: 'list'

@@ -173,6 +173,4 @@ public class FeatureDocumentation {
 		writeToFile(featureClientAPIConnection());
 		writeToFile(featureRestAPI());
 	}
-
-
 }
