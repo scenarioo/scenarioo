@@ -1,7 +1,11 @@
 <div>
-    <pageslide ps-open="true" ps-side="left" ps-auto-close="true" ps-push="true">
+    <button type="button" ng-click="checked=true">Open Navigation</button>
+    <pageslide ps-open="checked" ps-side="left" ps-push="true" ps-key-listener="true">
         <div>
-            <p> navigation tree</p>
+            <h1>Navigation</h1>
+            <div ng-repeat="feature in treeNav.rootFeature.features">
+                <nav-tree feature="feature" click-feature="treeNav.clickFeature"/>
+            </div>
         </div>
     </pageslide>
 </div>

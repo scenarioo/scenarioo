@@ -16,7 +16,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <sc-breadcrumbs></sc-breadcrumbs>
-<site-navigation current="tree" flex = "33"></site-navigation>
+<div layout = "row">
+    <site-navigation current="tree" flex = "33"></site-navigation>
+    <tree-nav root-feature="dashboard.rootFeature" click-feature="dashboard.clickFeature"></tree-nav>
+</div>
 <div layout = "row" class="sc-space-top sc-space-bottom">
     <div flex>
         <div class="input-group">
@@ -34,7 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 </div>
 <h1>Tree of: {{dashboard.feature.name}}</h1>
-
 <sc-meta-data-panel linking-variable="useCaseShowMetadata">
     <div layout="column" flex>
         <div ng-repeat="feature in dashboard.rootFeature.features">
