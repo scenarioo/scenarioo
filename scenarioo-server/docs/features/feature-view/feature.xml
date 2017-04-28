@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<useCase xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+    <name>Feature-View</name>
+    <description>Overview over the current subfeatures, compareable to todays usecase view</description>
+    <details/>
+    <labels/>
+    <folderName>feature-view</folderName>
+</useCase>

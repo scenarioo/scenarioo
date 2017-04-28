@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<useCase xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+    <name>Server</name>
+    <description>Contains all work todo on the server side</description>
+    <status>success</status>
+    <details/>
+    <labels/>
+    <folderName>server</folderName>
+    <featureNames>importer</featureNames>
+    <featureNames>comparison</featureNames>
+    <featureNames>full-text-search</featureNames>
+    <featureNames>sketch-editor</featureNames>
+    <featureNames>rest-api</featureNames>
+</useCase>

@@ -41,9 +41,9 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ImportFeature implements Serializable, Labelable, Detailable {
 
-	private String name;
-	private String description;
-	private String status;
+	public String name;
+	public String description;
+	public String status;
 
 	private Details details = new Details();
 	private Labels labels = new Labels();

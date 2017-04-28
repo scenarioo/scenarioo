@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<useCase xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+    <name>GUI-Elements</name>
+    <description>The 4 new GUI views</description>
+    <status>success</status>
+    <details/>
+    <labels/>
+    <folderName>gui-elements</folderName>
+    <featureNames>feature-view</featureNames>
+    <featureNames>scenarios-view</featureNames>
+    <featureNames>documentation-view</featureNames>
+    <featureNames>dashboard-view</featureNames>
+    <featureNames>tree-navigation</featureNames>
+</useCase>
