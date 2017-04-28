@@ -41,7 +41,7 @@ import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.scenarioo.api.ScenarioDocuWriter;
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.UseCase;
 
 /**
  * A {@link TestRule} to setup as a static {@link ClassRule} on your UI test classes to generate documentation content
@@ -64,7 +64,7 @@ public class UseCaseDocuWritingRule implements TestRule {
 			public void evaluate() throws Throwable {
 				try {
 					// Save use case description
-					ImportFeature useCase = createUseCase(testClassDescription.getTestClass());
+					UseCase useCase = createUseCase(testClassDescription.getTestClass());
 					LOGGER.info("Generating Scenarioo Docu for UseCase " + useCase.getName() + ": "
 							+ useCase.getDescription());
 					docuWriter.saveUseCase(useCase);
@@ -78,7 +78,7 @@ public class UseCaseDocuWritingRule implements TestRule {
 		};
 	}
 
-	public static ImportFeature createUseCase(final Class<?> testClass) {
+	public static UseCase createUseCase(final Class<?> testClass) {
 		// Extract usecase name and description from concrete test class.
 		String description = "";
 		String name = getNameFromClass(testClass);
@@ -88,7 +88,7 @@ public class UseCaseDocuWritingRule implements TestRule {
 			description = docuDescription.description();
 		}
 		// Create use case
-		ImportFeature useCase = new ImportFeature();
+		UseCase useCase = new UseCase();
 		useCase.setName(name);
 		useCase.setDescription(description);
 		useCase.addDetail("Webtest Class", testClass.getName());
@@ -116,7 +116,7 @@ public class UseCaseDocuWritingRule implements TestRule {
 	}
 
 	private static void addLabelsIfPresentOnTestClass(final Class<?> testClass,
-			ImportFeature useCase) {
+			UseCase useCase) {
 		Labels labels = testClass.getAnnotation(Labels.class);
 		if (labels != null) {
 			useCase.getLabels().setLabels(new HashSet<String>(Arrays.asList(labels.value())));
