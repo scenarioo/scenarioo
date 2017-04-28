@@ -25,10 +25,7 @@ import org.scenarioo.dao.aggregates.LastSuccessfulScenariosIndexDao;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
-import org.scenarioo.model.docu.entities.Build;
-import org.scenarioo.model.docu.entities.Scenario;
-import org.scenarioo.model.docu.entities.Status;
-import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.*;
 import org.scenarioo.model.lastSuccessfulScenarios.LastSuccessfulScenario;
 import org.scenarioo.model.lastSuccessfulScenarios.LastSuccessfulScenariosIndex;
 import org.scenarioo.repository.ConfigurationRepository;
@@ -605,13 +602,13 @@ public class LastSuccessfulScenariosBuildTest {
 		useCaseDirectory.mkdirs();
 		assertTrue(useCaseDirectory.exists());
 
-		UseCase useCase = new UseCase();
-		useCase.setStatus(status);
-		useCase.setName(useCaseName);
+		ImportFeature importFeature = new ImportFeature();
+		importFeature.setStatus(status);
+		importFeature.setName(useCaseName);
 
 		ScenarioDocuWriter scenarioDocuWriter = new ScenarioDocuWriter(rootDirectory, BUILD_IDENTIFIER.getBranchName(),
 				BUILD_IDENTIFIER.getBuildName());
-		scenarioDocuWriter.saveUseCase(useCase);
+		scenarioDocuWriter.saveUseCase(importFeature);
 		scenarioDocuWriter.flush();
 
 		File useCaseFile = new File(useCaseDirectory, FILE_NAME_USECASE);
@@ -627,13 +624,13 @@ public class LastSuccessfulScenariosBuildTest {
 
 	private void createUseCaseXmlFile(final File rootDirectory, final String buildName, final String useCaseName,
 			final String useCaseDescription) {
-		UseCase useCase = new UseCase();
-		useCase.setDescription(useCaseDescription);
-		useCase.setName(useCaseName);
+		ImportFeature importFeature = new ImportFeature();
+		importFeature.setDescription(useCaseDescription);
+		importFeature.setName(useCaseName);
 
 		ScenarioDocuWriter scenarioDocuWriter = new ScenarioDocuWriter(rootDirectory, BUILD_IDENTIFIER.getBranchName(),
 				buildName);
-		scenarioDocuWriter.saveUseCase(useCase);
+		scenarioDocuWriter.saveUseCase(importFeature);
 		scenarioDocuWriter.flush();
 	}
 
@@ -868,9 +865,9 @@ public class LastSuccessfulScenariosBuildTest {
 
 	private void expectCopiedUseCaseXmlFileHasStatusSuccess() {
 		ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(rootDirectory);
-		UseCase useCase = scenarioDocuReader.loadUsecase(BUILD_IDENTIFIER.getBranchName(),
+		ImportFeature importFeature = scenarioDocuReader.loadUsecase(BUILD_IDENTIFIER.getBranchName(),
 				LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME, useCases[0]);
-		assertEquals(Status.SUCCESS.getKeyword(), useCase.getStatus());
+		assertEquals(Status.SUCCESS.getKeyword(), importFeature.getStatus());
 	}
 
 	private void expectUseCaseXmlFileWasCopiedForTheFirstTwoUseCases() {
@@ -886,9 +883,9 @@ public class LastSuccessfulScenariosBuildTest {
 
 	private void assertUseCaseInLastSuccessfulScenariosBuildHasDescription(final ScenarioDocuReader scenarioDocuReader,
 			final String useCaseName, final String expectedDescription) {
-		UseCase useCase = scenarioDocuReader.loadUsecase(BUILD_IDENTIFIER.getBranchName(),
+		ImportFeature importFeature = scenarioDocuReader.loadUsecase(BUILD_IDENTIFIER.getBranchName(),
 				LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME, useCaseName);
-		assertEquals(expectedDescription, useCase.getDescription());
+		assertEquals(expectedDescription, importFeature.getDescription());
 	}
 
 	private LastSuccessfulScenario getScenarioFromIndex(final File useCaseDirectory,

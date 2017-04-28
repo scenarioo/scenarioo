@@ -35,7 +35,7 @@ import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
-import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.ImportFeature;
 
 class ElasticSearchIndexer {
 	private final static Logger LOGGER = Logger.getLogger(ElasticSearchIndexer.class);
@@ -68,15 +68,15 @@ class ElasticSearchIndexer {
 
     void indexUseCases(final UseCaseScenariosList useCaseScenariosList) {
         for (UseCaseScenarios useCaseScenarios : useCaseScenariosList.getUseCaseScenarios()) {
-			indexUseCase(new SearchableUseCase(useCaseScenarios.getUseCase()));
+			indexUseCase(new SearchableUseCase(useCaseScenarios.getImportFeature()));
 
             for (ScenarioSummary scenario : useCaseScenarios.getScenarios()) {
-                indexScenario(new SearchableScenario(scenario.getScenario(), useCaseScenarios.getUseCase().getName()));
+                indexScenario(new SearchableScenario(scenario.getScenario(), useCaseScenarios.getImportFeature().getName()));
             }
         }
     }
 
-	void indexSteps(final List<Step> stepsList, final List<StepLink> stepLinksList, final Scenario scenario, final UseCase usecase) {
+	void indexSteps(final List<Step> stepsList, final List<StepLink> stepLinksList, final Scenario scenario, final ImportFeature usecase) {
 		for(int i = 0; i < stepsList.size(); i++) {
 			Step step = stepsList.get(i);
 			StepLink link = stepLinksList.get(i);
@@ -86,7 +86,7 @@ class ElasticSearchIndexer {
 	}
 
     private void indexUseCase(final SearchableUseCase searchableUseCase) {
-        indexDocument(FullTextSearch.USECASE, searchableUseCase, searchableUseCase.getUseCase().getName());
+        indexDocument(FullTextSearch.USECASE, searchableUseCase, searchableUseCase.getImportFeature().getName());
     }
 
     private void indexScenario(final SearchableScenario scenariosearchDao) {

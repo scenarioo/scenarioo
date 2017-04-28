@@ -130,6 +130,6 @@ public class SearchTree {
 	}
 
 	private ObjectTreeNode<ObjectReference> putUseCase(ObjectTreeNode<ObjectReference> rootNode, SearchableUseCase entry) {
-		return getOrAddUseCase(rootNode, entry.getUseCase().getName());
+		return getOrAddUseCase(rootNode, entry.getImportFeature().getName());
 	}
 }

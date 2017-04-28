@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -39,7 +39,7 @@ import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.entities.Scenario;
-import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.ImportFeature;
 import org.scenarioo.utils.TestFileUtils;
 
 public class DiffWriterAndReaderTest {
@@ -219,7 +219,7 @@ public class DiffWriterAndReaderTest {
 
 	private BuildDiffInfo getBuildDiffInfo(final String name) {
 		return (BuildDiffInfo) initStructureDiffInfo(new BuildDiffInfo(), name, USE_CASE_NAME,
-				new UseCase(USE_CASE_NAME, null));
+				new ImportFeature(USE_CASE_NAME, null));
 	}
 
 	private UseCaseDiffInfo getUseCaseDiffInfo(final String name) {

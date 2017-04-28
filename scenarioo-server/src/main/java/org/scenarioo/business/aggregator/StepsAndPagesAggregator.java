@@ -30,11 +30,7 @@ import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.steps.NeighborStep;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
-import org.scenarioo.model.docu.entities.Page;
-import org.scenarioo.model.docu.entities.Scenario;
-import org.scenarioo.model.docu.entities.Step;
-import org.scenarioo.model.docu.entities.StepDescription;
-import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.*;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.rest.base.BuildIdentifier;
 
@@ -55,7 +51,7 @@ public class StepsAndPagesAggregator {
 		this.dao = dao;
 	}
 
-	List<PageSteps> calculateScenarioPageSteps(final UseCase usecase,
+	List<PageSteps> calculateScenarioPageSteps(final ImportFeature usecase,
 											   final Scenario scenario, final List<Step> steps, final List<ObjectReference> referencePath,
 											   final ObjectRepository objectRepository) {
 

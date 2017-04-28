@@ -17,25 +17,25 @@
 
 package org.scenarioo.dao.search.model;
 
-import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.ImportFeature;
 
 public class SearchableUseCase implements SearchableObject {
 
-	private UseCase useCase;
+	private ImportFeature importFeature;
 
 	public SearchableUseCase() {
 	}
 
-	public SearchableUseCase(UseCase useCase) {
-		this.useCase = useCase;
+	public SearchableUseCase(ImportFeature importFeature) {
+		this.importFeature = importFeature;
 	}
 
-	public UseCase getUseCase() {
-		return useCase;
+	public ImportFeature getImportFeature() {
+		return importFeature;
 	}
 
-	public void setUseCase(final UseCase useCase) {
-		this.useCase = useCase;
+	public void setImportFeature(final ImportFeature importFeature) {
+		this.importFeature = importFeature;
 	}
 
 }

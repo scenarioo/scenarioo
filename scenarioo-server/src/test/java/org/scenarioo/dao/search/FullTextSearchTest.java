@@ -12,7 +12,7 @@ import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
-import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.ImportFeature;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.search.SearchRequest;
 
@@ -91,7 +91,7 @@ public class FullTextSearchTest {
 		}
 
 		@Override
-		public void indexSteps(final List<Step> steps, final List<StepLink> page, final Scenario scenario, final UseCase usecase, final BuildIdentifier buildIdentifier) {
+		public void indexSteps(final List<Step> steps, final List<StepLink> page, final Scenario scenario, final ImportFeature usecase, final BuildIdentifier buildIdentifier) {
 			assertTrue("Should not be reachable", isRunning);
 		}
 

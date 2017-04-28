@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,7 +31,7 @@ import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseSummary;
-import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.ImportFeature;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -71,12 +71,12 @@ public class UseCasesResource {
 
 	private UseCaseSummary mapSummary(final UseCaseScenarios useCaseScenarios) {
 		final UseCaseSummary summary = new UseCaseSummary();
-		final UseCase useCase = useCaseScenarios.getUseCase();
-		summary.setName(useCase.getName());
-		summary.setDescription(useCase.getDescription());
-		summary.setStatus(useCase.getStatus());
+		final ImportFeature importFeature = useCaseScenarios.getImportFeature();
+		summary.setName(importFeature.getName());
+		summary.setDescription(importFeature.getDescription());
+		summary.setStatus(importFeature.getStatus());
 		summary.setNumberOfScenarios(useCaseScenarios.getScenarios().size());
-		summary.setLabels(useCase.getLabels());
+		summary.setLabels(importFeature.getLabels());
 		return summary;
 	}
 

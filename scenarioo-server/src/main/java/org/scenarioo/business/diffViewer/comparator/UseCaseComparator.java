@@ -24,12 +24,12 @@ import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
-import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.ImportFeature;
 
 /**
  * Comparison results are persisted in a xml file.
  */
-public class UseCaseComparator extends AbstractStructureComparator<UseCase, String, UseCase> {
+public class UseCaseComparator extends AbstractStructureComparator<ImportFeature, String, ImportFeature> {
 
 	private static final Logger LOGGER = Logger.getLogger(UseCaseComparator.class);
 
@@ -42,15 +42,15 @@ public class UseCaseComparator extends AbstractStructureComparator<UseCase, Stri
 	}
 
 	public BuildDiffInfo compare() {
-		final List<UseCase> baseUseCases = docuReader.loadUsecases(baseBranchName, baseBuildName);
-		final List<UseCase> comparisonUseCases = docuReader.loadUsecases(
+		final List<ImportFeature> baseImportFeatures = docuReader.loadUsecases(baseBranchName, baseBuildName);
+		final List<ImportFeature> comparisonImportFeatures = docuReader.loadUsecases(
 				comparisonConfiguration.getComparisonBranchName(),
 				comparisonConfiguration.getComparisonBuildName());
 
 		final BuildDiffInfo buildDiffInfo = new BuildDiffInfo(comparisonConfiguration.getName(),
 				comparisonConfiguration.getComparisonBranchName(), comparisonConfiguration.getComparisonBuildName());
 
-		calculateDiffInfo(baseUseCases, comparisonUseCases, buildDiffInfo);
+		calculateDiffInfo(baseImportFeatures, comparisonImportFeatures, buildDiffInfo);
 
 		LOGGER.info(getLogMessage(buildDiffInfo, "Build " + baseBranchName + "/" + baseBuildName));
 
@@ -58,8 +58,8 @@ public class UseCaseComparator extends AbstractStructureComparator<UseCase, Stri
 	}
 
 	@Override
-	protected double compareElementAndWrite(final UseCase baseElement, final UseCase comparisonElement,
-											final StructureDiffInfo<String, UseCase> diffInfo) {
+	protected double compareElementAndWrite(final ImportFeature baseElement, final ImportFeature comparisonElement,
+											final StructureDiffInfo<String, ImportFeature> diffInfo) {
 		if (comparisonElement == null) {
 			return 0;
 		} else {
@@ -75,17 +75,17 @@ public class UseCaseComparator extends AbstractStructureComparator<UseCase, Stri
 	}
 
 	@Override
-	protected String getElementIdentifier(final UseCase element) {
+	protected String getElementIdentifier(final ImportFeature element) {
 		return element.getName();
 	}
 
 	@Override
-	protected String getAddedElementValue(final UseCase element) {
+	protected String getAddedElementValue(final ImportFeature element) {
 		return element.getName();
 	}
 
 	@Override
-	protected List<UseCase> getRemovedElementValues(final List<UseCase> removedElements) {
+	protected List<ImportFeature> getRemovedElementValues(final List<ImportFeature> removedElements) {
 		return removedElements;
 	}
 }
