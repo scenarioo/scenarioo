@@ -59,7 +59,7 @@ angular.module('scenarioo').service('FeatureService',
                         storyOrderNumber: 2,
                         releaseDate: date,
                         markdown: markdown1,
-                        status: 'passed',
+                        status: 'success',
                         progress: 0.2,
                     },
                 ]
@@ -92,7 +92,7 @@ angular.module('scenarioo').service('FeatureService',
                         storyOrderNumber: 3,
                         releaseDate: date,
                         markdown: markdown1,
-                        status: 'passed',
+                        status: 'success',
                         progress: 0.2,
                     },
                     {
@@ -100,7 +100,7 @@ angular.module('scenarioo').service('FeatureService',
                         storyOrderNumber: 4,
                         releaseDate: date,
                         markdown: markdown1,
-                        status: 'passed',
+                        status: 'success',
                         progress: 0.2,
                     },
                     {
@@ -116,7 +116,7 @@ angular.module('scenarioo').service('FeatureService',
                 name: 'Shopping Card',
                 storyOrderNumber: 3,
                 releaseDate: date2,
-                status: 'passed',
+                status: 'success',
                 markdown: markdown1,
                 features: [
                     {
@@ -124,14 +124,14 @@ angular.module('scenarioo').service('FeatureService',
                         storyOrderNumber: 1,
                         releaseDate: date,
                         markdown: markdown1,
-                        status: 'passed'
+                        status: 'success'
                     },
                     {
                         name: 'Store Cart',
                         storyOrderNumber: 2,
                         releaseDate: date2,
                         markdown: markdown1,
-                        status: 'passed'
+                        status: 'success'
                     },
                 ]
             },{
@@ -153,7 +153,7 @@ angular.module('scenarioo').service('FeatureService',
                                 storyOrderNumber: 1,
                                 releaseDate: date,
                                 markdown: markdown1,
-                                status: 'passed'
+                                status: 'success'
                             },{
                                 name: 'Recover PW',
                                 storyOrderNumber: 2,
@@ -165,7 +165,7 @@ angular.module('scenarioo').service('FeatureService',
                                 storyOrderNumber: 3,
                                 releaseDate: date,
                                 markdown: markdown1,
-                                status: 'passed'
+                                status: 'success'
                             },
                             {
                                 name: 'Blacklist Customer',
@@ -179,7 +179,7 @@ angular.module('scenarioo').service('FeatureService',
                                         storyOrderNumber: 1,
                                         releaseDate: date,
                                         markdown: markdown1,
-                                        status: 'passed'
+                                        status: 'success'
                                     },{
                                         name: 'Recover PW',
                                         storyOrderNumber: 2,
@@ -191,7 +191,7 @@ angular.module('scenarioo').service('FeatureService',
                                         storyOrderNumber: 3,
                                         releaseDate: date,
                                         markdown: markdown1,
-                                        status: 'passed'
+                                        status: 'success'
                                     },
                                     {
                                         name: 'Blacklist Customer',
@@ -208,7 +208,7 @@ angular.module('scenarioo').service('FeatureService',
                         storyOrderNumber: 2,
                         releaseDate: date,
                         markdown: markdown1,
-                        status: 'passed'
+                        status: 'success'
                     },{
                         name: 'Order by Email',
                         storyOrderNumber: 3,
@@ -221,7 +221,7 @@ angular.module('scenarioo').service('FeatureService',
                         storyOrderNumber: 4,
                         releaseDate: date2,
                         markdown: markdown1,
-                        status: 'passed'
+                        status: 'success'
                     },
                 ]
             },{
@@ -229,7 +229,7 @@ angular.module('scenarioo').service('FeatureService',
                 storyOrderNumber: 5,
                 releaseDate: date2,
                 markdown: markdown1,
-                status: 'passed'
+                status: 'success'
             },{
                 name: 'Stock and Delivery',
                 storyOrderNumber: 6,
@@ -248,7 +248,7 @@ angular.module('scenarioo').service('FeatureService',
                         storyOrderNumber: 1,
                         releaseDate: date,
                         markdown: markdown1,
-                        status: 'passed'
+                        status: 'success'
                     },{
                         name: 'Recover PW',
                         storyOrderNumber: 2,
@@ -260,7 +260,7 @@ angular.module('scenarioo').service('FeatureService',
                         storyOrderNumber: 3,
                         releaseDate: date,
                         markdown: markdown1,
-                        status: 'passed'
+                        status: 'success'
                     },
                     {
                         name: 'Blacklist Customer',
@@ -275,7 +275,7 @@ angular.module('scenarioo').service('FeatureService',
                 storyOrderNumber: 8,
                 releaseDate: date,
                 markdown: markdown1,
-                status: 'passed'
+                status: 'success'
             },
         ];
 
