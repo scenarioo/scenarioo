@@ -75,13 +75,13 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         {
             label: '<strong>Detail</strong>'
         };
-    var tree =
+    var feature =
         {
-            label: '<strong>Tree</strong>'
+            label: '<strong>Feature</strong>'
         };
-    var list =
+    var testscenario =
         {
-            label: '<strong>List</strong>'
+            label: '<strong>Scenario</strong>'
         };
 
     /**
@@ -128,11 +128,11 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         'detail': {
             breadcrumbPath: [homeElement, detail]
         },
-        'tree': {
-            breadcrumbPath: [homeElement, tree]
+        'feature': {
+            breadcrumbPath: [homeElement, feature]
         },
-        'list': {
-            breadcrumbPath: [homeElement, list]
+        'testscenario': {
+            breadcrumbPath: [homeElement, testscenario]
         }
     };
 

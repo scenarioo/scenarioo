@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumbs></sc-breadcrumbs>
 <div layout = "row">
-    <site-navigation current="list" flex = "33"></site-navigation>
+    <site-navigation current="scenario" flex = "33"></site-navigation>
     <tree-nav root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
 </div>
 <div layout = "row" class="sc-space-top sc-space-bottom">
@@ -50,7 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="feature in dashboard.feature.features | orderBy: 'storyOrderNumber'" ng-click="dashboard.clickFeature(feature, '/list')">
+            <tr ng-repeat="feature in dashboard.feature.features | orderBy: 'storyOrderNumber'" ng-click="dashboard.clickFeature(feature, '/scenario')">
                 <td>
                     <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{feature.status}}</span>
                 </td>

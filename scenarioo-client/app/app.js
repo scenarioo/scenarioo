@@ -114,17 +114,17 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 controllerAs: 'dashboard',
                 breadcrumbId: 'detail'
             })
-            .when('/list', {
+            .when('/scenario', {
                 templateUrl: 'dashboard/scenarioView.html',
                 controller: 'DashboardController',
                 controllerAs: 'dashboard',
-                breadcrumbId: 'list'
+                breadcrumbId: 'scenario'
             })
-            .when('/tree', {
-                templateUrl: 'dashboard/tree.html',
+            .when('/feature', {
+                templateUrl: 'dashboard/featureView.html',
                 controller: 'DashboardController',
                 controllerAs: 'dashboard',
-                breadcrumbId: 'tree'
+                breadcrumbId: 'feature'
             })
             .when('/data', {
                 templateUrl: 'dashboard/data.html',
