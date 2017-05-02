@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <sc-breadcrumbs></sc-breadcrumbs>
 <div layout = "row">
     <site-navigation current="detailNav" flex = "33"></site-navigation>
-    <tree-nav root-feature="dashboard.rootFeature" click-feature="dashboard.clickFeature"></tree-nav>
+    <tree-nav root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
 </div>
 <div layout = "row" class="sc-space-top sc-space-bottom">
     <div flex>
@@ -57,7 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <md-card ng-repeat="feature in dashboard.feature.features | orderBy: 'storyOrderNumber'">
             <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="feature.isCollapsed = !feature.isCollapsed">
-                <h2 style="color: white;">{{feature.name}}</h2>
+                <h2 style="color: white;">{{feature.name}}, {{feature.status}}</h2>
             </button>
             <div uib-collapse="feature.isCollapsed" ng-show="!feature.isCollapsed">
                 <span ng-click="dashboard.clickFeature(feature, '/detailNav')">Checkout Feature</span>
@@ -69,28 +69,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <markdown file="{{sfmd.file}}"></markdown>
                     </div>
                 </md-card>
-                <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
-                    <span ng-click="dashboard.clickFeature(feature, '/detailNav')"> - {{feature.name}}</span>
-                </div>
             </div>
         </md-card>
     </md-content>
 
-    <side-panel flex = "20">
-        <header><h1>Navigation</h1></header>
+    <side-panel flex="20">
+        <header><h1>Details zum angewählten feature</h1></header>
         <content>
-            <div>
-                <div ng-repeat="fmd in dashboard.feature.markdown">
-                    <span ng-click="fmd.isCollapsed=false">{{fmd.name}}</span>
-                </div>
-                <div ng-repeat="feature in dashboard.feature.features | orderBy: 'storyOrderNumber'">
-                    <span ng-click="dashboard.clickFeature(feature, '/detailNav')">{{feature.name}}</span>
-                    <div ng-repeat="feature in feature.features | orderBy: 'releaseDate'">
-                        <span ng-click="dashboard.clickFeature(feature, '/detailNav')"> - {{feature.name}}</span>
-                    </div>
-                    <br/>
-                </div>
-            </div>
+            <feature-detail card-color="#00b3ee" feature="dashboard.feature" click="dashboard.clickFeature"></feature-detail>
         </content>
     </side-panel>
 </sc-meta-data-panel>

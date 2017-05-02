@@ -3,6 +3,7 @@ angular.module('scenarioo').component('treeNav', {
     controllerAs: 'treeNav',
     bindings: {
         rootFeature:'=',
+        currentFeature:'=',
         clickFeature:'='
     }
 });

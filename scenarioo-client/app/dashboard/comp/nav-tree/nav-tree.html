@@ -2,10 +2,17 @@
     <span ng-if="navTree.feature.features.length>0">
         <button type="button" ng-click="navTree.feature.isCollapsed = !navTree.feature.isCollapsed"><span>{{navTree.features.isCollapsed ? '+' : '-'}}</span></button>
     </span>
-    <span ng-click="navTree.clickFeature(navTree.feature, '/list')">{{navTree.feature.name}}</span>
+    <span ng-click="navTree.clickFeature(navTree.feature, '/list')">
+        <span ng-if="navTree.currentFeature.name==navTree.feature.name" style="color:red">
+            =>
+        </span>
+        <span ng-else>
+            {{navTree.feature.name}}
+        </span>
+    </span>
     <li uib-collapse="navTree.feature.isCollapsed" ng-show="!navTree.feature.isCollapsed">
-        <ul ng-repeat="feature in navTree.feature.features">
-            <nav-tree feature="feature" click-feature="navTree.clickFeature"></nav-tree>
+        <ul ng-repeat="feature1 in navTree.feature.features">
+            <nav-tree feature="feature1" current-feature="navTree.currentFeature" click-feature="navTree.clickFeature"></nav-tree>
         </ul>
     </li>
 </div>

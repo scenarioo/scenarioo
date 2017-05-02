@@ -3,9 +3,7 @@
     <pageslide ps-open="checked" ps-side="left" ps-push="true" ps-key-listener="true">
         <div>
             <h1>Navigation</h1>
-            <div ng-repeat="feature in treeNav.rootFeature.features">
-                <nav-tree feature="feature" click-feature="treeNav.clickFeature"/>
-            </div>
+            <nav-tree feature="treeNav.rootFeature" current-feature="treeNav.currentFeature" click-feature="treeNav.clickFeature"/>
         </div>
     </pageslide>
 </div>
