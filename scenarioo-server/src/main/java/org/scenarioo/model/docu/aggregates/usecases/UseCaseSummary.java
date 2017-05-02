@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.scenarioo.model.docu.aggregates.Feature;
+import org.scenarioo.model.docu.entities.ImportFeature;
 import org.scenarioo.model.docu.entities.Labels;
 
 /**
@@ -12,13 +14,13 @@ import org.scenarioo.model.docu.entities.Labels;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class UseCaseSummary {
-	private String status;
-	private String name;
-	private String description;
+public class UseCaseSummary extends Feature{
 	private int numberOfScenarios;
-	private Labels labels;
-	
+
+	public UseCaseSummary(ImportFeature importFeature) {
+		super(importFeature);
+	}
+
 	public String getStatus() {
 		return status;
 	}
@@ -51,12 +53,5 @@ public class UseCaseSummary {
 		this.numberOfScenarios = numberOfScenarios;
 	}
 
-	public Labels getLabels() {
-		return labels;
-	}
-
-	public void setLabels(Labels labels) {
-		this.labels = labels;
-	}
 
 }

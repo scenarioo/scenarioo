@@ -17,6 +17,8 @@
 
 package org.scenarioo.rest.usecase;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,9 +31,9 @@ import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
+import org.scenarioo.model.docu.aggregates.Feature;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseSummary;
-import org.scenarioo.model.docu.entities.ImportFeature;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -46,9 +48,7 @@ public class UseCasesResource {
 
 	AggregatedDocuDataReader dao = new ScenarioDocuAggregationDao(configurationRepository.getDocumentationDataDirectory());
 
-	/**
-	 * Lightweight call, which does not send all scenario information.
-	 */
+
 	@GET
 	@Produces({ "application/xml", "application/json" })
 	public List<UseCaseSummary> loadUseCaseSummaries(@PathParam("branchName") final String branchName,
@@ -62,21 +62,44 @@ public class UseCasesResource {
 
 		final List<UseCaseScenarios> useCaseScenariosList = dao.loadUseCaseScenariosList(buildIdentifier);
 
+
 		for (final UseCaseScenarios useCaseScenarios : useCaseScenariosList) {
 			result.add(mapSummary(useCaseScenarios));
 		}
 
-		return result;
+		return loadTree(result);
+	}
+
+
+
+	public List<UseCaseSummary> loadTree(List<UseCaseSummary> features){
+		List<UseCaseSummary> rootFeatures = new ArrayList<>();
+		HashSet<Feature> featureClear = new HashSet<>();
+		for (Feature feature: features){
+			for (String featureName : feature.featureNames){
+				System.out.println(featureName);
+				Feature clear = getFor(featureName, features);
+				feature.features.add(clear);
+				featureClear.add(clear);
+			}
+		}
+		features.removeAll(featureClear);
+		rootFeatures.addAll(features);
+		return rootFeatures;
+	}
+
+	private Feature getFor(String featureName, List<UseCaseSummary> features) {
+		for (Feature feature:features){
+			if (feature.folderName == null) continue;
+			if (feature.folderName.equals(featureName))
+				return feature;
+		}
+		return null;
 	}
 
 	private UseCaseSummary mapSummary(final UseCaseScenarios useCaseScenarios) {
-		final UseCaseSummary summary = new UseCaseSummary();
-		final ImportFeature importFeature = useCaseScenarios.getImportFeature();
-		summary.setName(importFeature.getName());
-		summary.setDescription(importFeature.getDescription());
-		summary.setStatus(importFeature.getStatus());
+		final UseCaseSummary summary = new UseCaseSummary(useCaseScenarios.getImportFeature());
 		summary.setNumberOfScenarios(useCaseScenarios.getScenarios().size());
-		summary.setLabels(importFeature.getLabels());
 		return summary;
 	}
 

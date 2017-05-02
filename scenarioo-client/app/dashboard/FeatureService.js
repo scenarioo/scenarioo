@@ -4,8 +4,23 @@ localStorage.setItem(CURRENT_FEATURE, undefined);
 
 
 angular.module('scenarioo').service('FeatureService',
-    function FeatureService () {
+    function FeatureService (SelectedBranchAndBuildService, UseCasesResource) {
     var service = this;
+
+    SelectedBranchAndBuildService.callOnSelectionChange(loadUseCases);
+    SelectedBranchAndBuildService.selected(loadUseCases);
+
+    SelectedBranchAndBuildService
+    function loadUseCases(selected) {
+
+                UseCasesResource.query(
+                    {'branchName': selected.branch, 'buildName': selected.build},
+                    function onSuccess(useCases) {
+                            service.stdfeature.features = useCases;
+
+                    });
+    }
+
 
 
         var date = new Date();
@@ -266,7 +281,7 @@ angular.module('scenarioo').service('FeatureService',
 
 
 
-        var stdfeature = {
+        service.stdfeature = {
             name: 'Sauce Shop',
             storyOrderNumber: 1,
             releaseDate: date,
@@ -278,7 +293,7 @@ angular.module('scenarioo').service('FeatureService',
     service.getFeature = function getFeature(){
         var feature = localStorage.getItem(CURRENT_FEATURE);
         if (feature == 'undefined'){
-            feature = stdfeature;
+            feature = service.stdfeature;
             service.setFeature(feature);
         } else {
             feature = JSON.parse(feature);
@@ -292,7 +307,7 @@ angular.module('scenarioo').service('FeatureService',
     };
 
     service.getRootFeature = function getRootFeature() {
-      return stdfeature;
+      return service.stdfeature;
     };
 
     var currentFeature = localStorage.getItem(CURRENT_FEATURE);
