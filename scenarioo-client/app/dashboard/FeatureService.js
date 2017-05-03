@@ -18,7 +18,7 @@ angular.module('scenarioo').service('FeatureService',
             function onSuccess(useCases) {
                 rootFeature.features = useCases;
                 rootFeature.name = selected.branch+ " "+ selected.build;
-                service.setFeature(rootFeature); //TODO remove when nav ready
+                //service.setFeature(rootFeature); //TODO remove when nav ready
             });
     };
 
@@ -45,7 +45,7 @@ angular.module('scenarioo').service('FeatureService',
         return rootFeature;
     };
 
-    //loadFeature();//TODO load from local storage... on page load
+    loadFeature();//TODO load from local storage... on page load
 
     SelectedBranchAndBuildService.callOnSelectionChange(function(selected){
         service.loadUseCases(selected);
