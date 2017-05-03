@@ -17,6 +17,8 @@ import org.scenarioo.model.docu.entities.Labels;
 public class UseCaseSummary extends Feature{
 	private int numberOfScenarios;
 
+	public UseCaseSummary(){}
+
 	public UseCaseSummary(ImportFeature importFeature) {
 		super(importFeature);
 	}

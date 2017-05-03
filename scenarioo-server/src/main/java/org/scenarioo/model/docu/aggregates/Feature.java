@@ -14,6 +14,9 @@ public class Feature extends ImportFeature {
 		super(importFeature);
 	}
 
+	public Feature() {
+	}
+
 	@Override
 	public String toString() {
 		String s = super.toString();
