@@ -25,7 +25,7 @@ var files = {
     aggregatedTemplates: ['./app/templates.js'],
     images: ['./app/images/**/*'],
     css: ['./app/styles/**/*.css'],
-    sources: ['./app/**/*.js', '!./app/components/**/*.js', '!./app/templates.js'],
+    sources: ['./app/**/*.js', '!./app/components/**/*.js', '!./app/dashboard/treeNav/angular-pageslide-directive.js', '!./app/templates.js'],
     tests: ['./test/**/*.js'],
     less: ['./app/styles/*.less']
 };
