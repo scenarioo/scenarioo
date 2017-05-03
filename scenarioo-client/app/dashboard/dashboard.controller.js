@@ -3,7 +3,7 @@
 angular.module('scenarioo.controllers').controller('DashboardController', DashboardController);
 
 
-function DashboardController(FeatureService, $rootScope, $scope, $location, $http){
+function DashboardController(FeatureService, $rootScope, $scope, $location, $http, $timeout, SelectedBranchAndBuildService){
 
     var dashboard = this;
 
@@ -16,26 +16,24 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
         console.log('test');
 
         FeatureService.setFeature(subFeature);
-        dashboard.feature = subFeature;
         console.log('loc' + location);
         $location.path(location);
     };
 
-    dashboard.computeDown = function(feature, field) {
-        var calc = 0;
-        if (feature.hasOwnProperty(field)) {
-            calc = feature[field];
-        }
-        if (feature.hasOwnProperty('features')) {
-            for (var i = 0; i < feature.features.length; i++) {
-                calc += dashboard.computeDown(feature.features[i], field);
-            }
-        }
-        return calc;
-    };
+    load();
 
-    dashboard.rootFeature = FeatureService.getRootFeature();
-    dashboard.feature = FeatureService.getFeature();
+    $rootScope.$watch(FeatureService.getFeature, function (feature) {
+        dashboard.feature = feature;
+    });
+
+    $rootScope.$watch(FeatureService.getRootFeature, function (feature) {
+        dashboard.rootFeature = feature;
+    });
+
+    function load() {
+        dashboard.rootFeature = FeatureService.getRootFeature();
+        dashboard.feature = FeatureService.getFeature();
+    }
 
     dashboard.expandAll = function() {
         dashboard.feature.markdown.forEach(function (markdown) {markdown.isCollapsed=false;});
