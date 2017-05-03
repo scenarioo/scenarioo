@@ -4,7 +4,7 @@ angular.module('scenarioo.controllers').controller('DataController', DataControl
 function DataController(BranchesAndBuildsService, UseCasesResource,ScenarioResource){
 
     var dat = this;
-
+/*
     BranchesAndBuildsService.getBranchesAndBuilds()
         .then(function onSuccess(branchesAndBuilds) {
             dat.viewdata = branchesAndBuilds;
@@ -58,7 +58,7 @@ function DataController(BranchesAndBuildsService, UseCasesResource,ScenarioResou
                 break;
             }
 
-        });
+        });*/
 
 
 }

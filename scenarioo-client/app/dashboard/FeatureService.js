@@ -17,7 +17,7 @@ angular.module('scenarioo').service('FeatureService',
             {'branchName': selected.branch, 'buildName': selected.build},
             function onSuccess(useCases) {
                 rootFeature.features = useCases;
-                rootFeature.name = selected.branch+ " "+ selected.build;
+                rootFeature.name = selected.branch+ ' '+ selected.build;
                 //service.setFeature(rootFeature); //TODO remove when nav ready
             });
     };

@@ -178,28 +178,28 @@
                     function psClose(slider, param) {
                         switch (param.side) {
                             case 'right':
-                                slider.style.right = "-" + param.size;
+                                slider.style.right = '-' + param.size;
                                 if (param.push) {
                                     body.style.right = '0px';
                                     body.style.left = '0px';
                                 }
                                 break;
                             case 'left':
-                                slider.style.left = "-" + param.size;
+                                slider.style.left = '-' + param.size;
                                 if (param.push) {
                                     body.style.left = '0px';
                                     body.style.right = '0px';
                                 }
                                 break;
                             case 'top':
-                                slider.style.top = "-" + param.size;
+                                slider.style.top = '-' + param.size;
                                 if (param.push) {
                                     body.style.top = '0px';
                                     body.style.bottom = '0px';
                                 }
                                 break;
                             case 'bottom':
-                                slider.style.bottom = "-" + param.size;
+                                slider.style.bottom = '-' + param.size;
                                 if (param.push) {
                                     body.style.bottom = '0px';
                                     body.style.top = '0px';
@@ -222,28 +222,28 @@
                     function psOpen(slider, param) {
                         switch (param.side) {
                             case 'right':
-                                slider.style.right = "0px";
+                                slider.style.right = '0px';
                                 if (param.push) {
                                     body.style.right = param.size;
                                     body.style.left = '-' + param.size;
                                 }
                                 break;
                             case 'left':
-                                slider.style.left = "0px";
+                                slider.style.left = '0px';
                                 if (param.push) {
                                     body.style.left = param.size;
                                     body.style.right = '-' + param.size;
                                 }
                                 break;
                             case 'top':
-                                slider.style.top = "0px";
+                                slider.style.top = '0px';
                                 if (param.push) {
                                     body.style.top = param.size;
                                     body.style.bottom = '-' + param.size;
                                 }
                                 break;
                             case 'bottom':
-                                slider.style.bottom = "0px";
+                                slider.style.bottom = '0px';
                                 if (param.push) {
                                     body.style.bottom = param.size;
                                     body.style.top = '-' + param.size;
