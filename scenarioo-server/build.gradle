@@ -99,9 +99,10 @@ war.doLast {
 war.dependsOn createVersionPropertiesFile
 war.dependsOn ":scenarioo-client:gulp"
 
-
-signing {
-    sign configurations.archives
+if(ossrhPassword) {
+    signing {
+        sign configurations.archives
+    }
 }
 
 tasks.withType(Javadoc) {
