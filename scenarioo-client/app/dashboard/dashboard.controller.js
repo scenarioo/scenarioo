@@ -6,6 +6,7 @@ angular.module('scenarioo.controllers').controller('DashboardController', Dashbo
 function DashboardController(FeatureService, $rootScope, $scope, $location, $http, $timeout, SelectedBranchAndBuildService){
 
     var dashboard = this;
+    dashboard.milestones = new Array();
 
     dashboard.isCollapsed = false;
 
@@ -21,6 +22,7 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
     };
 
     load();
+    getAllMilestones();
 
     $rootScope.$watch(FeatureService.getFeature, function (feature) {
         dashboard.feature = feature;
@@ -28,6 +30,9 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
 
     $rootScope.$watch(FeatureService.getRootFeature, function (feature) {
         dashboard.rootFeature = feature;
+        dashboard.milestones=[];
+        console.log("getRootFeature called!");
+        getAllMilestones();
     });
 
     function load() {
@@ -43,4 +48,26 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
         dashboard.feature.markdown.forEach(function (markdown) {markdown.isCollapsed=true;});
         dashboard.feature.features.forEach(function (feature) {feature.isCollapsed=true;});
     };
+
+    function getAllMilestones(){
+        getMilestone(dashboard.rootFeature);
+        sortMilestone();
+    }
+    function getMilestone(feature){
+
+        console.log("getMilestone", feature, feature.features, feature.features.length);
+        feature.features.forEach(function(x){
+            dashboard.milestones.push(x.milestone);
+            console.log("push milestone", x.milestone);
+           if(x.features!=null){
+               getMilestone(x);
+           }
+        });
+    }
+    function sortMilestone(){
+        dashboard.milestones.sort(function(a, b) {
+            return a.localeCompare(b);
+        });
+    }
 }
+
