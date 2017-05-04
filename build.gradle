@@ -20,8 +20,6 @@ ext.scenariooAggregatedDataFormatVersion = '2.1.0'
  */
 ext.scenariooReleaseBranch = 'release-3.0'
 
-ext.scenariooVersion = '3.0.1-SNAPSHOT'
-
 /*
  * Gets the version name from the latest Git tag
  * From: http://ryanharter.com/blog/2013/07/30/automatic-versioning-with-git-and-gradle/
@@ -41,7 +39,7 @@ allprojects {
 	apply plugin: 'eclipse'
 
 	group = 'org.scenarioo'
-    version = scenariooVersion
+    version = getVersionName()
 
     task wrapper(type: Wrapper) {
         gradleVersion = '3.1'
