@@ -165,7 +165,7 @@ public class ScenarioDocuAggregator {
 		for (ImportFeature usecase : usecases) {
 			UseCaseScenarios useCaseWithScenarios = new UseCaseScenarios();
 			List<Scenario> scenarios = reader.loadScenarios(getBuildIdentifier().getBranchName(),
-					getBuildIdentifier().getBuildName(), usecase.getName());
+					getBuildIdentifier().getBuildName(), usecase.folderName);
 
 			boolean atLeastOneScenarioFailed = false;
 			for (Scenario scenario : scenarios) {

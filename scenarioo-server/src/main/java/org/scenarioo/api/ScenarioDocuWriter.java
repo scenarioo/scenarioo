@@ -124,20 +124,20 @@ public class ScenarioDocuWriter {
 	 *            the use case description to write
 	 */
 	public void saveUseCase(final ImportFeature importFeature) {
-		checkIdentifier(importFeature.getName());
+		checkIdentifier(importFeature.folderName);
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				File destCaseDir = getUseCaseDirectory(importFeature.getName());
+				File destCaseDir = getUseCaseDirectory(importFeature.folderName);
 				createDirectoryIfNotYetExists(destCaseDir);
-				File destCaseFile = docuFiles.getUseCaseFile(branchName, buildName, importFeature.getName());
+				File destCaseFile = docuFiles.getUseCaseFile(branchName, buildName, importFeature.folderName);
 				ScenarioDocuXMLFileUtil.marshal(importFeature, destCaseFile);
 			}
 		});
 	}
 
 	public void saveScenario(final ImportFeature importFeature, final Scenario scenario) {
-		saveScenario(importFeature.getName(), scenario);
+		saveScenario(importFeature.folderName, scenario);
 	}
 
 	public void saveScenario(final String useCaseName, final Scenario scenario) {

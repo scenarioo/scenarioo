@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public class FeatureDocumentation {
 
 
+	public static final String FEATURE_XML = "/usecase.xml";
+
 	@Test
 	public void featureDashboardView() {
 		ImportFeature feature = new ImportFeature();
@@ -21,7 +23,7 @@ public class FeatureDocumentation {
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R3";
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + "/feature.xml").exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
 
 	@Test
@@ -34,7 +36,7 @@ public class FeatureDocumentation {
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + "/feature.xml").exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
 
 	@Test
@@ -47,7 +49,7 @@ public class FeatureDocumentation {
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + "/feature.xml").exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
 
 	@Test
@@ -60,7 +62,7 @@ public class FeatureDocumentation {
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + "/feature.xml").exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
 
 	@Test
@@ -79,7 +81,7 @@ public class FeatureDocumentation {
 		feature.status = Status.SUCCESS.getKeyword();
 		feature.milestone = "R1";
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + "/feature.xml").exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
 
 	@Test
@@ -92,7 +94,7 @@ public class FeatureDocumentation {
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + "/feature.xml").exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
 
 	@Test
@@ -109,7 +111,7 @@ public class FeatureDocumentation {
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + "/feature.xml").exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
 
 	@Test
@@ -128,7 +130,7 @@ public class FeatureDocumentation {
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + "/feature.xml").exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
 
 	@Test
@@ -141,7 +143,7 @@ public class FeatureDocumentation {
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R2";
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + "/feature.xml").exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
 
 	@Test
@@ -154,7 +156,7 @@ public class FeatureDocumentation {
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R2";
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + "/feature.xml").exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
 
 	@Test
@@ -167,7 +169,7 @@ public class FeatureDocumentation {
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R3";
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + "/feature.xml").exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
 
 	@Test
@@ -180,7 +182,7 @@ public class FeatureDocumentation {
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R2";
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + "/feature.xml").exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
 
 
@@ -193,7 +195,7 @@ public class FeatureDocumentation {
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + "/feature.xml").exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
 
 	@Test
@@ -205,7 +207,7 @@ public class FeatureDocumentation {
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + "/feature.xml").exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
 
 
@@ -215,7 +217,7 @@ public class FeatureDocumentation {
 		File folder = new File(baseFolder);
 		File featureFolder = new File(folder.getAbsolutePath() + "/" + feature.folderName);
 		featureFolder.mkdir();
-		ScenarioDocuXMLFileUtil.marshal(feature, new File(featureFolder.getAbsolutePath() + "/feature.xml"));
+		ScenarioDocuXMLFileUtil.marshal(feature, new File(featureFolder.getAbsolutePath() + FEATURE_XML));
 	}
 
 	@Before
@@ -223,5 +225,5 @@ public class FeatureDocumentation {
 		baseFolder = new File("").getAbsolutePath() + "/docs/features/";
 		new File(baseFolder).mkdirs();
 	}
-	
+
 }

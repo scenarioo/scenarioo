@@ -116,6 +116,13 @@ public class ScenarioDocuFiles {
 	}
 
 	public List<File> getScenarioFiles(final String branchName, final String buildName, final String useCaseName) {
+
+		System.out.println(branchName);
+		System.out.println(buildName);
+		System.out.println(useCaseName);
+
+		System.out.println(getUseCaseDirectory(branchName, buildName, useCaseName));
+
 		return FilesUtil.getListOfFilesFromSubdirs(getUseCaseDirectory(branchName, buildName, useCaseName),
 				FILE_NAME_SCENARIO);
 	}

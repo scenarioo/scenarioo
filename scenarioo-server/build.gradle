@@ -33,6 +33,8 @@ dependencies {
     compile 'org.im4java:im4java:1.4.0'
     compile 'org.mockito:mockito-all:1.9.5'
     compile 'org.elasticsearch:elasticsearch:2.3.1'
+
+
     providedCompile 'javax.servlet:servlet-api:2.5'
 }
 

@@ -36,25 +36,26 @@
         <div flex layout = "row">
             <div layout = "column" ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOrder">
                 <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#00b3ee" feature="feature" />
-                <!--<div ng-repeat="feature in feature.features | orderBy: dashboard.secondOrder">
+                <div ng-repeat="feature in feature.features | orderBy: dashboard.secondOrder">
                     <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#f9e27d" feature="feature" />
-                </div>-->
+                </div>
             </div>
             <!--
-            <div layout="row" ng-repeat="milestone in dashboard.getAllMilestones()">
+            <div layout="row" ng-repeat="milestone in dashboard.milestones">
                 <div layout="column" ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOder">
                     <div ng-repeat="subfeature in feature.features | orderBy: dashboard.secondOrder">
                         <!--<div ng-if(subfeature.milestone=milestone)>
                             <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#f9e27d" feature="feature" />
-                        <!--</div>
+                        </div>
                     </div>
                 </div>
                 {{milestone}}
             </div>-->
+            <!--
             Milestones:
             <div ng-repeat="milestone in dashboard.milestones">
                 {{milestone}}
-            </div>
+            </div>-->
         </div>
     </md-content>
 
