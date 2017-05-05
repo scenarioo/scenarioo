@@ -121,7 +121,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     }
 
     function onUseCaseLoaded(result) {
-        vm.useCase = result.useCase;
+        vm.useCase = result.feature;
         vm.usecaseInformationTree = createUseCaseInformationTree(vm.useCase);
         vm.metadataTree = $filter('scMetadataTreeListCreator')(vm.useCase.details);
         vm.hasAnyLabels = vm.useCase.labels && vm.useCase.labels.labels.length !== 0;

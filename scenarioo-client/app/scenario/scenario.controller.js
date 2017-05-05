@@ -76,10 +76,10 @@ function ScenarioController($filter, $routeParams,
             function (result) {
                 // Add page to the step to allow search for step- as well as page-properties
                 pagesAndScenarios = PagesAndStepsService.populatePagesAndStepsService(result);
-                vm.useCaseDescription = result.useCase.description;
+                vm.useCaseDescription = result.feature.description;
                 vm.scenario = pagesAndScenarios.scenario;
                 vm.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
-                vm.useCase = result.useCase;
+                vm.useCase = result.feature;
                 vm.metadataTree = transformMetadataToTreeArray(pagesAndScenarios.scenario.details);
                 vm.scenarioInformationTree = createScenarioInformationTree(vm.scenario, result.scenarioStatistics, vm.useCase);
                 scenarioStatistics = result.scenarioStatistics;

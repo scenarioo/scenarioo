@@ -68,10 +68,10 @@ class ElasticSearchIndexer {
 
     void indexUseCases(final UseCaseScenariosList useCaseScenariosList) {
         for (UseCaseScenarios useCaseScenarios : useCaseScenariosList.getUseCaseScenarios()) {
-			indexUseCase(new SearchableUseCase(useCaseScenarios.getImportFeature()));
+			indexUseCase(new SearchableUseCase(useCaseScenarios.getFeature()));
 
             for (ScenarioSummary scenario : useCaseScenarios.getScenarios()) {
-                indexScenario(new SearchableScenario(scenario.getScenario(), useCaseScenarios.getImportFeature().getName()));
+                indexScenario(new SearchableScenario(scenario.getScenario(), useCaseScenarios.getFeature().getName()));
             }
         }
     }

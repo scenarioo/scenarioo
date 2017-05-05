@@ -39,7 +39,7 @@ public class ScenarioPageSteps {
 
 	private Scenario scenario;
 
-	private ImportFeature importFeature;
+	private ImportFeature feature;
 
 	@XmlElementWrapper(name = "pagesAndSteps")
 	@XmlElement(name = "pageSteps")
@@ -60,12 +60,12 @@ public class ScenarioPageSteps {
 		return scenarioStatistics;
 	}
 
-	public ImportFeature getImportFeature() {
-		return importFeature;
+	public ImportFeature getFeature() {
+		return feature;
 	}
 
-	public void setImportFeature(final ImportFeature importFeature) {
-		this.importFeature = importFeature;
+	public void setFeature(final ImportFeature feature) {
+		this.feature = feature;
 	}
 
 	public List<PageSteps> getPagesAndSteps() {

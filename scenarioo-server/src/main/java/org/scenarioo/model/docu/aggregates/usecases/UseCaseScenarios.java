@@ -35,18 +35,18 @@ import org.scenarioo.model.docu.entities.ImportFeature;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UseCaseScenarios {
 
-	private ImportFeature importFeature;
+	private ImportFeature feature;
 
 	@XmlElementWrapper(name = "scenarios")
 	@XmlElement(name = "scenarioSummary")
 	private List<ScenarioSummary> scenarios = new ArrayList<ScenarioSummary>();
 
-	public ImportFeature getImportFeature() {
-		return importFeature;
+	public ImportFeature getFeature() {
+		return feature;
 	}
 
-	public void setImportFeature(final ImportFeature importFeature) {
-		this.importFeature = importFeature;
+	public void setFeature(final ImportFeature feature) {
+		this.feature = feature;
 	}
 
 	public List<ScenarioSummary> getScenarios() {

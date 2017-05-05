@@ -23,7 +23,7 @@ public class ScenarioDetailsMapper {
 		scenarioDetails.setPagesAndSteps(mapPages(pageSteps.getPagesAndSteps()));
 		scenarioDetails.setScenario(pageSteps.getScenario());
 		scenarioDetails.setScenarioStatistics(pageSteps.getScenarioStatistics());
-		scenarioDetails.setImportFeature(pageSteps.getImportFeature());
+		scenarioDetails.setFeature(pageSteps.getFeature());
 		return scenarioDetails;
 	}
 

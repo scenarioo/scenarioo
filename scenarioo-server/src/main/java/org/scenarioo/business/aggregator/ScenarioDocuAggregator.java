@@ -122,7 +122,7 @@ public class ScenarioDocuAggregator {
 
 		for (UseCaseScenarios scenarios : useCaseScenariosList.getUseCaseScenarios()) {
 			calulateAggregatedDataForUseCase(scenarios);
-			addUsecaseToBuildStatistics(scenarios.getImportFeature());
+			addUsecaseToBuildStatistics(scenarios.getFeature());
 		}
 		stepsAndPagesAggregator.completeAggregatedPageVariantDataInStepNavigations();
 
@@ -179,7 +179,7 @@ public class ScenarioDocuAggregator {
 				usecase.setStatus(atLeastOneScenarioFailed ? FAILED_STATE : SUCCESS_STATE);
 			}
 			useCaseWithScenarios.setScenarios(createScenarioSummaries(scenarios));
-			useCaseWithScenarios.setImportFeature(usecase);
+			useCaseWithScenarios.setFeature(usecase);
 			useCaseScenarios.add(useCaseWithScenarios);
 		}
 		result.setUseCaseScenarios(useCaseScenarios);
@@ -202,18 +202,18 @@ public class ScenarioDocuAggregator {
 
 	private void calulateAggregatedDataForUseCase(final UseCaseScenarios useCaseScenarios) {
 
-		LOGGER.info("    calculating aggregated data for use case : " + useCaseScenarios.getImportFeature().getName());
+		LOGGER.info("    calculating aggregated data for use case : " + useCaseScenarios.getFeature().getName());
 
 		List<ObjectReference> referencePath = objectRepository.addReferencedUseCaseObjects(useCaseScenarios
-				.getImportFeature());
+				.getFeature());
 
 		for (ScenarioSummary scenario : useCaseScenarios.getScenarios()) {
 			try {
-				calculateAggregatedDataForScenario(referencePath, useCaseScenarios.getImportFeature(), scenario);
+				calculateAggregatedDataForScenario(referencePath, useCaseScenarios.getFeature(), scenario);
 				addScenarioToBuildStatistics(scenario.getScenario());
 			} catch (ResourceNotFoundException ex) {
 				LOGGER.warn("could not load scenario " + scenario.getScenario().getName() + " in use case"
-						+ useCaseScenarios.getImportFeature().getName());
+						+ useCaseScenarios.getFeature().getName());
 			}
 		}
 
@@ -258,7 +258,7 @@ public class ScenarioDocuAggregator {
 															  final List<ObjectReference> referencePath) {
 
 		ScenarioPageSteps scenarioPageSteps = new ScenarioPageSteps();
-		scenarioPageSteps.setImportFeature(usecase);
+		scenarioPageSteps.setFeature(usecase);
 		scenarioPageSteps.setScenario(scenario);
 		List<Step> steps = reader.loadSteps(getBuildIdentifier().getBranchName(), getBuildIdentifier().getBuildName(), usecase.getName(), scenario.getName());
 		PageNameSanitizer.sanitizePageNames(steps);

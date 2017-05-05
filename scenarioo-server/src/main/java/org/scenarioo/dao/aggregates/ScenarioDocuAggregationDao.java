@@ -205,12 +205,12 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 	}
 
 	public void saveUseCaseScenarios(final BuildIdentifier buildIdentifier, final UseCaseScenarios useCaseScenarios) {
-		File scenariosFile = files.getUseCaseScenariosFile(buildIdentifier, useCaseScenarios.getImportFeature().getName());
+		File scenariosFile = files.getUseCaseScenariosFile(buildIdentifier, useCaseScenarios.getFeature().getName());
 		ScenarioDocuXMLFileUtil.marshal(useCaseScenarios, scenariosFile);
 	}
 
 	public void saveScenarioPageSteps(final BuildIdentifier buildIdentifier, final ScenarioPageSteps scenarioPageSteps) {
-		String usecaseName = scenarioPageSteps.getImportFeature().getName();
+		String usecaseName = scenarioPageSteps.getFeature().getName();
 		String scenarioName = scenarioPageSteps.getScenario().getName();
 		ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName);
 		File file = files.getScenarioStepsFile(scenarioIdentifier);

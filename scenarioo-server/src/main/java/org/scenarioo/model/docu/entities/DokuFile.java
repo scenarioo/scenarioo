@@ -11,7 +11,6 @@ import java.util.List;
 public class DokuFile {
 
 	public String name;
-	public String content;
 	public String url;
 	public FileType type;
 

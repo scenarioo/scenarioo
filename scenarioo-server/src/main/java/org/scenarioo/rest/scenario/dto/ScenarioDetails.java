@@ -19,7 +19,7 @@ public class ScenarioDetails {
 
 	private Scenario scenario;
 	private ScenarioStatistics scenarioStatistics;
-	private ImportFeature importFeature;
+	private ImportFeature feature;
 	private List<PageWithSteps> pagesAndSteps;
 
 	public Scenario getScenario() {
@@ -38,12 +38,12 @@ public class ScenarioDetails {
 		this.scenarioStatistics = scenarioStatistics;
 	}
 
-	public ImportFeature getImportFeature() {
-		return importFeature;
+	public ImportFeature getFeature() {
+		return feature;
 	}
 
-	public void setImportFeature(final ImportFeature importFeature) {
-		this.importFeature = importFeature;
+	public void setFeature(final ImportFeature feature) {
+		this.feature = feature;
 	}
 
 	public List<PageWithSteps> getPagesAndSteps() {

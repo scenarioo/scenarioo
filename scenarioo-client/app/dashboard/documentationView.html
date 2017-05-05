@@ -44,14 +44,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <sc-meta-data-panel linking-variable="useCaseShowMetadata">
     <md-content flex>
 
-        <md-card ng-repeat="fmd in dashboard.feature.markdown">
+        <md-card ng-show="dashboard.feature.markdown">
             <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="fmd.isCollapsed = !fmd.isCollapsed">
-                <h1 style="color: white;">{{fmd.name}}</h1>
+                <h1 style="color: white;">{{dashboard.feature.markdown.name}}</h1>
             </button>
             <div uib-collapse="fmd.isCollapsed">
-                <span>{{fmd.file}}, {{fmd.name}}</span>
-                <button type="button">Edit Original</button>
-                <markdown file="{{fmd.file}}"></markdown>
+                <!--<span>{{dashboard.feature.markdown.url}}, {{dashboard.feature.markdown.name}}</span>-->
+                <a ng-button ng-repeat="link in dashboard.feature.markdown.links" href="{{link.url}}">{{link.name}}</a>
+                <markdown file="{{dashboard.feature.markdown.url}}"></markdown>
+            </div>
+        </md-card>
+
+        <md-card ng-show="dashboard.feature.specification">
+            <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="fmd.isCollapsed = !fmd.isCollapsed">
+                <h1 style="color: white;">{{dashboard.feature.specification.name}}</h1>
+            </button>
+            <div uib-collapse="fmd.isCollapsed">
+                <!--<span>{{dashboard.feature.markdown.url}}, {{dashboard.feature.markdown.name}}</span>-->
+                <a ng-button ng-repeat="link in dashboard.feature.specification.links" href="{{link.url}}">{{link.name}}</a>
+                <markdown file="{{dashboard.feature.specification.url}}"></markdown>
             </div>
         </md-card>
 
@@ -60,7 +71,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <h2 style="color: white;">{{feature.name}}, {{feature.status}}</h2>
             </button>
             <div uib-collapse="feature.isCollapsed" ng-show="!feature.isCollapsed">
-                <span ng-click="dashboard.clickFeature(feature, '/detailNav')">Checkout Feature</span>
+                <a ng-click="dashboard.clickFeature(feature, '/detailNav')">Select {{feature.name}}</a>
                 <md-card ng-repeat="sfmd in feature.markdown">
                     <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="sfmd.isCollapsed = !sfmd.isCollapsed">
                         <h1 style="color: white;">{{sfmd.name}}</h1>

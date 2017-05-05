@@ -98,7 +98,7 @@ public class UseCasesResource {
 	}
 
 	private UseCaseSummary mapSummary(final UseCaseScenarios useCaseScenarios) {
-		final UseCaseSummary summary = new UseCaseSummary(useCaseScenarios.getImportFeature());
+		final UseCaseSummary summary = new UseCaseSummary(useCaseScenarios.getFeature());
 		summary.setNumberOfScenarios(useCaseScenarios.getScenarios().size());
 		return summary;
 	}
