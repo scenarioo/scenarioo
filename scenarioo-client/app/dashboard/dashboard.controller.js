@@ -39,10 +39,6 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
         return feat1 === feat2;
     };
 
-    dashboard.firstMilestone = function(milestone){
-        return dashboard.milestones.indexOf(milestone) === 0;
-    };
-
     function load() {
         dashboard.rootFeature = FeatureService.getRootFeature();
         dashboard.feature = FeatureService.getFeature();
