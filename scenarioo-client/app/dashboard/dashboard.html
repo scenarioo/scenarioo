@@ -33,24 +33,37 @@
                 <input flex type="text" ng-model="dashboard.secondOrder" />
             </md-input-container>
         </div>
-        <div flex layout = "row">
+        <div flex layout = "column">
+            <!--
             <div layout = "column" ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOrder">
                 <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#00b3ee" feature="feature" />
                 <div ng-repeat="feature in feature.features | orderBy: dashboard.secondOrder">
                     <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#f9e27d" feature="feature" />
                 </div>
             </div>
-            <!--
-            <div layout="row" ng-repeat="milestone in dashboard.milestones">
-                <div layout="column" ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOder">
-                    <div ng-repeat="subfeature in feature.features | orderBy: dashboard.secondOrder">
-                        <!--<div ng-if(subfeature.milestone=milestone)>
-                            <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#f9e27d" feature="feature" />
+            -->
+
+
+
+
+            <div ng-repeat="milestone in dashboard.milestones">
+
+                <h2>{{milestone}}</h2>
+
+                <div layout="row" >
+                    <div layout = "column" ng-repeat="topfeature in dashboard.feature.features | orderBy: dashboard.firstOder">
+                        <feature-card ng-show="dashboard.firstMilestone(milestone)" ng-click="dashboard.clickFeature(topfeature, '/dashboard')" card-color="#00b3ee" feature="topfeature" />
+                        <md-card style="min-width: 15em; padding-left:5px; height: 0px; padding-right: 5px;" ng-show="!dashboard.firstMilestone(milestone)"></md-card>
+                        <div ng-repeat="feature in topfeature.features | orderBy: dashboard.secondOrder">
+                            <div ng-if="dashboard.eq(milestone, feature.milestone)">
+                                <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#f9e27d" feature="feature" />
+                            </div>
                         </div>
                     </div>
                 </div>
-                {{milestone}}
-            </div>-->
+
+            </div>
+
             <!--
             Milestones:
             <div ng-repeat="milestone in dashboard.milestones">
