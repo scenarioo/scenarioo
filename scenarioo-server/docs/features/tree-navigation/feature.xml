@@ -2,7 +2,9 @@
 <useCase xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <name>Featrue Tree Navigation</name>
     <description>navigation to other featrues in currently sellected build</description>
+    <status>failed</status>
     <details/>
     <labels/>
     <folderName>tree-navigation</folderName>
+    <milestone>R2</milestone>
 </useCase>

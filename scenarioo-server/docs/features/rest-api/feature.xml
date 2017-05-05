@@ -2,7 +2,9 @@
 <useCase xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <name>Rest API</name>
     <description>All changes necessary to the Rest API</description>
+    <status>failed</status>
     <details/>
     <labels/>
     <folderName>rest-api</folderName>
+    <milestone>R1</milestone>
 </useCase>

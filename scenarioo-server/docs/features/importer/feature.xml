@@ -2,7 +2,9 @@
 <useCase xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <name>Importer</name>
     <description>Imports the data to save it on the server</description>
+    <status>failed</status>
     <details/>
     <labels/>
     <folderName>importer</folderName>
+    <milestone>R1</milestone>
 </useCase>

@@ -11,7 +11,7 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
     dashboard.isCollapsed = false;
 
     dashboard.firstOrder = 'storyOrderNumber';
-    dashboard.secondOrder = 'releaseDate';
+    dashboard.secondOrder = 'milestone';
 
     dashboard.clickFeature = function(subFeature, location){
         console.log('test');

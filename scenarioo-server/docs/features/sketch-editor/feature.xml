@@ -2,7 +2,9 @@
 <useCase xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <name>Sketch Editor</name>
     <description>Editor to annotate Screenshots with extra information like Textboxes, or markings</description>
+    <status>failed</status>
     <details/>
     <labels/>
     <folderName>sketch-editor</folderName>
+    <milestone>R3</milestone>
 </useCase>

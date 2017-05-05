@@ -2,7 +2,9 @@
 <useCase xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <name>Full Text Search</name>
     <description>Every page must be searchable with full text search</description>
+    <status>failed</status>
     <details/>
     <labels/>
     <folderName>full-text-search</folderName>
+    <milestone>R2</milestone>
 </useCase>

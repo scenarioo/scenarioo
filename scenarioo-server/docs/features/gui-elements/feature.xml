@@ -6,6 +6,7 @@
     <details/>
     <labels/>
     <folderName>gui-elements</folderName>
+    <milestone>R1</milestone>
     <featureNames>feature-view</featureNames>
     <featureNames>scenarios-view</featureNames>
     <featureNames>documentation-view</featureNames>

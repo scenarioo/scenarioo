@@ -2,7 +2,9 @@
 <useCase xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <name>Comparison</name>
     <description>Contains the work to do for the comparison with older builds</description>
+    <status>failed</status>
     <details/>
     <labels/>
     <folderName>comparison</folderName>
+    <milestone>R2</milestone>
 </useCase>

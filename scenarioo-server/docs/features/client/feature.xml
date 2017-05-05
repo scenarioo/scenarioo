@@ -2,9 +2,11 @@
 <useCase xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <name>Client</name>
     <description>Contains all work todo on the client side</description>
+    <status>failed</status>
     <details/>
     <labels/>
     <folderName>client</folderName>
+    <milestone>R1</milestone>
     <featureNames>gui-elements</featureNames>
     <featureNames>sketch-editor</featureNames>
     <featureNames>client-api-connection</featureNames>

@@ -2,10 +2,11 @@
 <useCase xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <name>Server</name>
     <description>Contains all work todo on the server side</description>
-    <status>success</status>
+    <status>failed</status>
     <details/>
     <labels/>
     <folderName>server</folderName>
+    <milestone>R1</milestone>
     <featureNames>importer</featureNames>
     <featureNames>comparison</featureNames>
     <featureNames>full-text-search</featureNames>
