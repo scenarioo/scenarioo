@@ -15,10 +15,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
+<div layout = "row">
+    <tree-nav size="dashboard.navsize" root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
+
+    <div flex layout-fill layout = "column" style="background-color: whitesmoke;">
+
 <sc-breadcrumbs></sc-breadcrumbs>
 <div layout = "row">
     <site-navigation current="feature" flex = "33"></site-navigation>
-    <tree-nav root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
 </div>
 <div layout = "row" class="sc-space-top sc-space-bottom">
     <div flex>
@@ -77,3 +81,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </side-panel>
 </sc-meta-data-panel>
 
+    </div>
+</div>

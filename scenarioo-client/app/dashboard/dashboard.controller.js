@@ -13,6 +13,9 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
     dashboard.firstOrder = 'storyOrderNumber';
     dashboard.secondOrder = 'milestone';
 
+    dashboard.navsize = (localStorage.getItem('MAV_SIZE_LEFT') != undefined)? localStorage.getItem('MAV_SIZE_LEFT'):200;
+
+
     dashboard.clickFeature = function(subFeature, location){
         console.log('test');
 

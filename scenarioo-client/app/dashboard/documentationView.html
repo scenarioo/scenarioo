@@ -15,11 +15,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+<div layout = "row">
+    <tree-nav size="dashboard.navsize" root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
 
+    <div flex layout-fill layout = "column" style="background-color: whitesmoke;">
 <sc-breadcrumbs></sc-breadcrumbs>
 <div layout = "row">
     <site-navigation current="detailNav" flex = "33"></site-navigation>
-    <tree-nav root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
 </div>
 <div layout = "row" class="sc-space-top sc-space-bottom">
     <div flex>
@@ -42,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <button type="button" ng-click="dashboard.expandAll()">Expand all</button>
 <button type="button" ng-click="dashboard.collapseAll()">Collapse all</button>
 <sc-meta-data-panel linking-variable="useCaseShowMetadata">
-    <md-content flex>
+    <div flex>
 
         <md-card ng-show="dashboard.feature.markdown">
             <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="fmd.isCollapsed = !fmd.isCollapsed">
@@ -82,7 +84,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </md-card>
             </div>
         </md-card>
-    </md-content>
+    </div>
 
     <side-panel flex="20">
         <header><h1>Details zum angewählten feature</h1></header>
@@ -92,3 +94,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </side-panel>
 </sc-meta-data-panel>
 
+
+    </div>
+</div>

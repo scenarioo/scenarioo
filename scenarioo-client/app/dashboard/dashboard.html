@@ -1,85 +1,94 @@
-<sc-breadcrumbs></sc-breadcrumbs>
+
+
 <div layout = "row">
-    <site-navigation current="dashboard" flex = "33"></site-navigation>
-    <tree-nav root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
-</div>
-<div layout = "row" class="sc-space-top sc-space-bottom">
-    <div flex>
-        <div class="input-group">
-            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
-                   title="type words separated by spaces to search for" ng-model="useCase.table.search.searchTerm"
-                   placeholder="Search in use case &quot;{{useCase.useCase.name | scHumanReadable}}&quot;..."/>
-            <span class="input-group-btn">
+    <tree-nav size="dashboard.navsize" root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
+
+    <div flex layout-fill layout = "column" style="background-color: whitesmoke;">
+
+        <sc-breadcrumbs></sc-breadcrumbs>
+        <div layout = "row">
+            <site-navigation current="dashboard" flex = "33"></site-navigation>
+        </div>
+        <div layout = "row" class="sc-space-top sc-space-bottom">
+            <div flex>
+                <div class="input-group">
+                    <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
+                           title="type words separated by spaces to search for" ng-model="useCase.table.search.searchTerm"
+                           placeholder="Search in use case &quot;{{useCase.useCase.name | scHumanReadable}}&quot;..."/>
+                    <span class="input-group-btn">
                 <button type="button" ng-click="dashboard.resetSearchField()" class="btn btn-default">reset</button>
             </span>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata"
-                             local-storage-key="usecase"></sc-meta-data-button>
-    </div>
-</div>
-<h1>Dashboard of: {{dashboard.feature.name}}</h1>
-<sc-meta-data-panel linking-variable="useCaseShowMetadata">
-    <md-content flex layout="column">
-        <div layout = "row">
-            <md-input-container>
-                <label>SortBy</label>
-                <input flex type="text" ng-model="dashboard.firstOrder" />
-            </md-input-container>
-
-            <md-input-container>
-                <label>SortBy Subs</label>
-                <input flex type="text" ng-model="dashboard.secondOrder" />
-            </md-input-container>
-        </div>
-        <div flex layout = "column">
-            <!--
-            <div layout = "column" ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOrder">
-                <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#00b3ee" feature="feature" />
-                <div ng-repeat="feature in feature.features | orderBy: dashboard.secondOrder">
-                    <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#f9e27d" feature="feature" />
                 </div>
             </div>
-            -->
-
-            <div layout="row">
-                <div ng-repeat="topfeature in dashboard.feature.features | orderBy: dashboard.firstOder">
-                    <feature-card ng-click="dashboard.clickFeature(topfeature, '/dashboard')" card-color="#00b3ee" feature="topfeature" />
-                </div>
+            <div class="col-sm-4">
+                <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata"
+                                     local-storage-key="usecase"></sc-meta-data-button>
             </div>
+        </div>
+        <h1>Dashboard of: {{dashboard.feature.name}}</h1>
+        <sc-meta-data-panel linking-variable="useCaseShowMetadata">
+            <div flex layout="column">
+                <div layout = "row">
+                    <md-input-container>
+                        <label>SortBy</label>
+                        <input flex type="text" ng-model="dashboard.firstOrder" />
+                    </md-input-container>
 
-
-
-            <div ng-repeat="milestone in dashboard.milestones">
-
-                <h2>{{milestone}}</h2>
-
-                <div layout="row" >
-                    <div layout = "column" ng-repeat="topfeature in dashboard.feature.features | orderBy: dashboard.firstOder">
-                        <md-card style="min-width: 15em; padding-left:5px; height: 0px; padding-right: 5px;"></md-card>
-                        <div ng-repeat="feature in topfeature.features | orderBy: dashboard.secondOrder">
-                            <div ng-if="dashboard.eq(milestone, feature.milestone)">
-                                <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#f9e27d" feature="feature" />
-                            </div>
+                    <md-input-container>
+                        <label>SortBy Subs</label>
+                        <input flex type="text" ng-model="dashboard.secondOrder" />
+                    </md-input-container>
+                </div>
+                <div flex layout = "column">
+                    <!--
+                    <div layout = "column" ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOrder">
+                        <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#00b3ee" feature="feature" />
+                        <div ng-repeat="feature in feature.features | orderBy: dashboard.secondOrder">
+                            <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#f9e27d" feature="feature" />
                         </div>
                     </div>
-                </div>
+                    -->
 
+                    <div layout="row">
+                        <div ng-repeat="topfeature in dashboard.feature.features | orderBy: dashboard.firstOder">
+                            <feature-card ng-click="dashboard.clickFeature(topfeature, '/dashboard')" card-color="#00b3ee" feature="topfeature" />
+                        </div>
+                    </div>
+
+
+
+                    <div ng-repeat="milestone in dashboard.milestones">
+
+                        <h2>{{milestone}}</h2>
+
+                        <div layout="row" >
+                            <div layout = "column" ng-repeat="topfeature in dashboard.feature.features | orderBy: dashboard.firstOder">
+                                <md-card style="min-width: 15em; padding-left:5px; height: 0px; padding-right: 5px;"></md-card>
+                                <div ng-repeat="feature in topfeature.features | orderBy: dashboard.secondOrder">
+                                    <div ng-if="dashboard.eq(milestone, feature.milestone)">
+                                        <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#f9e27d" feature="feature" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--
+                    Milestones:
+                    <div ng-repeat="milestone in dashboard.milestones">
+                        {{milestone}}
+                    </div>-->
+                </div>
             </div>
 
-            <!--
-            Milestones:
-            <div ng-repeat="milestone in dashboard.milestones">
-                {{milestone}}
-            </div>-->
-        </div>
-    </md-content>
+            <side-panel flex="20">
+                <header><h1>Details zum angewählten feature</h1></header>
+                <content>
+                    <feature-detail card-color="#00b3ee" feature="dashboard.feature" click="dashboard.clickFeature"></feature-detail>
+                </content>
+            </side-panel>
+        </sc-meta-data-panel>
 
-    <side-panel flex="20">
-        <header><h1>Details zum angewählten feature</h1></header>
-        <content>
-            <feature-detail card-color="#00b3ee" feature="dashboard.feature" click="dashboard.clickFeature"></feature-detail>
-        </content>
-    </side-panel>
-</sc-meta-data-panel>
+    </div>
+</div>

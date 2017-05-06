@@ -25,13 +25,11 @@ angular.module('scenarioo').service('FeatureService',
 
     function getMilestone(feature){
         var milestones = [];
-        console.log("getMilestone", feature, feature.features, feature.features.length);
         feature.features.forEach(function(currentFeature){
             if (currentFeature == null)return;
             if(currentFeature.milestone != null && milestones.indexOf(currentFeature.milestone) === -1){
                 milestones.push(currentFeature.milestone);
             }
-            console.log("push milestone", currentFeature.milestone);
             if(currentFeature.features!=null){
                 var childMilestones = getMilestone(currentFeature);
                 for (var i = 0; i < childMilestones.length; i++){
