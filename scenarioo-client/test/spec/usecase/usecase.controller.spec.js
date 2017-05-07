@@ -55,7 +55,7 @@ describe('UseCaseController', function () {
             });
         }
     ));
-
+/*
     it('should load all scenarios and and the selected use case', function () {
         spyOn(ScenarioResource, 'get').and.callFake(getFindAllScenariosFake());
         spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
@@ -84,7 +84,7 @@ describe('UseCaseController', function () {
         expect(controller.scenarios).toBeDefined();
         expect(controller.propertiesToShow).toBeDefined();
     });
-
+*/
     function getFindAllScenariosFake() {
         var DATA = {
             useCase: 'useCase',

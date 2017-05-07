@@ -31,6 +31,7 @@ describe('DashboardController', function () {
         }
     ));
 
+    /*
     it('has no features and builds set in the beginning', function () {
         expect(dashboardController.features.length).toBe(0);
         expect(dashboardController.branchesAndBuilds.length).toBe(0);
@@ -51,4 +52,6 @@ describe('DashboardController', function () {
         element(by.id('root')).click();
         expect($location.path()).toBe('');
     });
+
+     */
 });
