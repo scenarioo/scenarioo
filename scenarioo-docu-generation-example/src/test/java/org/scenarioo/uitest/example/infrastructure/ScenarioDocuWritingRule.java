@@ -42,9 +42,9 @@ import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.scenarioo.api.ScenarioDocuWriter;
+import org.scenarioo.model.docu.entities.ImportFeature;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Status;
-import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.docu.entities.generic.Details;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
@@ -60,13 +60,13 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 
 	private static final Logger LOGGER = Logger.getLogger(UseCaseDocuWritingRule.class);
 
-	private UseCase useCase;
+	private ImportFeature useCase;
 	private Scenario scenario;
 
 	/**
 	 * Get the usecase for current running test (as initialized by this rule)
 	 */
-	public UseCase getUseCase() {
+	public ImportFeature getUseCase() {
 		return useCase;
 	}
 
