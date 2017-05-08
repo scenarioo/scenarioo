@@ -16,84 +16,79 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <div layout = "row">
-    <tree-nav size="dashboard.navsize" root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
-
+    <tree-nav root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
     <div flex layout-fill layout = "column" style="background-color: whitesmoke;">
-<sc-breadcrumbs></sc-breadcrumbs>
-<div layout = "row">
-    <site-navigation current="detailNav" flex = "33"></site-navigation>
-</div>
-<div layout = "row" class="sc-space-top sc-space-bottom">
-    <div flex>
-        <div class="input-group">
-            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
-                   title="type words separated by spaces to search for" ng-model="useCase.table.search.searchTerm"
-                   placeholder="Search in use case &quot;{{useCase.useCase.name | scHumanReadable}}&quot;..."/>
-            <span class="input-group-btn">
-                <button type="button" ng-click="dashboard.resetSearchField()" class="btn btn-default">reset</button>
-            </span>
+        <sc-breadcrumbs></sc-breadcrumbs>
+        <div layout = "row">
+            <site-navigation current="detailNav" flex = "33"></site-navigation>
         </div>
-    </div>
-    <div class="col-sm-4">
-        <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata"
-                             local-storage-key="usecase"></sc-meta-data-button>
-    </div>
-</div>
-<!-- Problem: sameFiles.collapse toggle markdown for the whole page-->
-<h1>Details of: {{dashboard.feature.name}}</h1>
-<button type="button" ng-click="dashboard.expandAll()">Expand all</button>
-<button type="button" ng-click="dashboard.collapseAll()">Collapse all</button>
-<sc-meta-data-panel linking-variable="useCaseShowMetadata">
-    <div flex>
-
-        <md-card ng-show="dashboard.feature.markdown">
-            <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="fmd.isCollapsed = !fmd.isCollapsed">
-                <h1 style="color: white;">{{dashboard.feature.markdown.name}}</h1>
-            </button>
-            <div uib-collapse="fmd.isCollapsed">
-                <!--<span>{{dashboard.feature.markdown.url}}, {{dashboard.feature.markdown.name}}</span>-->
-                <a ng-button ng-repeat="link in dashboard.feature.markdown.links" href="{{link.url}}">{{link.name}}</a>
-                <markdown file="{{dashboard.feature.markdown.url}}"></markdown>
+        <div layout = "row" class="sc-space-top sc-space-bottom">
+            <div flex>
+                <div class="input-group">
+                    <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
+                           title="type words separated by spaces to search for" ng-model="useCase.table.search.searchTerm"
+                           placeholder="Search in use case &quot;{{useCase.useCase.name | scHumanReadable}}&quot;..."/>
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="dashboard.resetSearchField()" class="btn btn-default">reset</button>
+                    </span>
+                </div>
             </div>
-        </md-card>
-
-        <md-card ng-show="dashboard.feature.specification">
-            <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="fmd.isCollapsed = !fmd.isCollapsed">
-                <h1 style="color: white;">{{dashboard.feature.specification.name}}</h1>
-            </button>
-            <div uib-collapse="fmd.isCollapsed">
-                <!--<span>{{dashboard.feature.markdown.url}}, {{dashboard.feature.markdown.name}}</span>-->
-                <a ng-button ng-repeat="link in dashboard.feature.specification.links" href="{{link.url}}">{{link.name}}</a>
-                <markdown file="{{dashboard.feature.specification.url}}"></markdown>
+            <div class="col-sm-4">
+                <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata"
+                                     local-storage-key="usecase"></sc-meta-data-button>
             </div>
-        </md-card>
-
-        <md-card ng-repeat="feature in dashboard.feature.features | orderBy: 'storyOrderNumber'">
-            <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="feature.isCollapsed = !feature.isCollapsed">
-                <h2 style="color: white;">{{feature.name}}, {{feature.status}}</h2>
-            </button>
-            <div uib-collapse="feature.isCollapsed" ng-show="!feature.isCollapsed">
-                <a ng-click="dashboard.clickFeature(feature, '/detailNav')">Select {{feature.name}}</a>
-                <md-card ng-repeat="sfmd in feature.markdown">
-                    <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="sfmd.isCollapsed = !sfmd.isCollapsed">
-                        <h1 style="color: white;">{{sfmd.name}}</h1>
+        </div>
+        <!-- Problem: sameFiles.collapse toggle markdown for the whole page-->
+        <h1>Details of: {{dashboard.feature.name}}</h1>
+        <button type="button" ng-click="dashboard.expandAll()">Expand all</button>
+        <button type="button" ng-click="dashboard.collapseAll()">Collapse all</button>
+        <sc-meta-data-panel linking-variable="useCaseShowMetadata">
+            <div flex>
+                <md-card ng-show="dashboard.feature.markdown">
+                    <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="fmd.isCollapsed = !fmd.isCollapsed">
+                        <h1 style="color: white;">{{dashboard.feature.markdown.name}}</h1>
                     </button>
-                    <div uib-collapse="sfmd.isCollapsed" ng-show="!md.isCollapsed">
-                        <markdown file="{{sfmd.file}}"></markdown>
+                    <div uib-collapse="fmd.isCollapsed">
+                        <!--<span>{{dashboard.feature.markdown.url}}, {{dashboard.feature.markdown.name}}</span>-->
+                        <a ng-button ng-repeat="link in dashboard.feature.markdown.links" href="{{link.url}}">{{link.name}}</a>
+                        <markdown file="{{dashboard.feature.markdown.url}}"></markdown>
+                    </div>
+                </md-card>
+
+                <md-card ng-show="dashboard.feature.specification">
+                    <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="fmd.isCollapsed = !fmd.isCollapsed">
+                        <h1 style="color: white;">{{dashboard.feature.specification.name}}</h1>
+                    </button>
+                    <div uib-collapse="fmd.isCollapsed">
+                        <!--<span>{{dashboard.feature.markdown.url}}, {{dashboard.feature.markdown.name}}</span>-->
+                        <a ng-button ng-repeat="link in dashboard.feature.specification.links" href="{{link.url}}">{{link.name}}</a>
+                        <markdown file="{{dashboard.feature.specification.url}}"></markdown>
+                    </div>
+                </md-card>
+
+                <md-card ng-repeat="feature in dashboard.feature.features | orderBy: 'storyOrderNumber'">
+                    <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="feature.isCollapsed = !feature.isCollapsed">
+                        <h2 style="color: white;">{{feature.name}}, {{feature.status}}</h2>
+                    </button>
+                    <div uib-collapse="feature.isCollapsed" ng-show="!feature.isCollapsed">
+                        <a ng-click="dashboard.clickFeature(feature, '/detailNav')">Select {{feature.name}}</a>
+                        <md-card ng-repeat="sfmd in feature.markdown">
+                            <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="sfmd.isCollapsed = !sfmd.isCollapsed">
+                                <h1 style="color: white;">{{sfmd.name}}</h1>
+                            </button>
+                            <div uib-collapse="sfmd.isCollapsed" ng-show="!md.isCollapsed">
+                                <markdown file="{{sfmd.file}}"></markdown>
+                            </div>
+                        </md-card>
                     </div>
                 </md-card>
             </div>
-        </md-card>
-    </div>
-
-    <side-panel flex="20">
-        <header><h1>Details zum angewählten feature</h1></header>
-        <content>
-            <feature-detail card-color="#00b3ee" feature="dashboard.feature" click="dashboard.clickFeature"></feature-detail>
-        </content>
-    </side-panel>
-</sc-meta-data-panel>
-
-
+            <side-panel flex="20">
+                <header><h1>Details zum angewählten feature</h1></header>
+                <content>
+                    <feature-detail card-color="#00b3ee" feature="dashboard.feature" click="dashboard.clickFeature"></feature-detail>
+                </content>
+            </side-panel>
+        </sc-meta-data-panel>
     </div>
 </div>

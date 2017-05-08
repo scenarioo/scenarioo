@@ -1,12 +1,10 @@
-<div layout = "row" flex>
-    <div class="fuu" flex layout-fill layout="column">
-        <div>
-            <h1 style="
+<div flex layout-fill layout="column" style="background-color: #0e90d2" ng-click="treeNav.showNav = !treeNav.showNav">
+    >
+    <div layout-fill ng-hide="treeNav.showNav" style="background-color: white">
+        <h1 style="
 white-space: nowrap;
   overflow: hidden;">Navigation</h1>
-            <nav-tree feature="treeNav.rootFeature" current-feature="treeNav.currentFeature" click-feature="treeNav.clickFeature"/>
-        </div>
-    </div>
-    <div ng-mousedown="treeNav.resize()" layout="column" style="width: 20px; min-height: 30px; background-color: #00CCFF; cursor: ew-resize;">
+        <nav-tree feature="treeNav.rootFeature" current-feature="treeNav.currentFeature" click-feature="treeNav.clickFeature"/>
     </div>
 </div>
+
