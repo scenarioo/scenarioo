@@ -38,13 +38,25 @@ function BuildController($scope, $location, ConfigService) {
             {
                 index: 0,
                 tabId: 'usecases',
+                title: 'Features',
+                contentViewUrl: 'dashboard/featureView.html'
+            }
+        ];
+        vm.tabIndices.usecases = 0;
+    }
+/*
+    function defineInitialStaticTabs() {
+        vm.tabs = [
+            {
+                index: 0,
+                tabId: 'usecases',
                 title: 'Use Cases',
                 contentViewUrl: 'build/useCasesTab.html'
             }
         ];
         vm.tabIndices.usecases = 0;
     }
-
+*/
 
     function activate() {
         // Load configuration and trigger definition of tabs from config.
