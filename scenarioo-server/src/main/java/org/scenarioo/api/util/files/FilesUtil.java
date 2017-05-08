@@ -22,10 +22,13 @@
 
 package org.scenarioo.api.util.files;
 
+import com.fasterxml.jackson.dataformat.yaml.snakeyaml.util.UriEncoder;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -38,22 +41,16 @@ public class FilesUtil {
 	}
 
 	public static String decodeName(final String name) {
-		try {
-			return URLDecoder.decode(name, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new IllegalStateException(
-					"Unsupported UTF-8 charset. Scenarioo needs to run on a JVM or server environment that supports 'UTF-8'.",
-					e);
-		}
+		return UriEncoder.decode(name);
 	}
 
 	public static String encodeName(final String name) {
+		if (name.contains(" "))return UriEncoder.encode(name);
 		try {
-			return URLEncoder.encode(name, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new IllegalStateException(
-					"Unsupported UTF-8 charset. Scenarioo needs to run on a JVM or server environment that supports 'UTF-8'.",
-					e);
+			new URI(name);
+			return name;
+		} catch (URISyntaxException e) {
+			return UriEncoder.encode(name);
 		}
 	}
 

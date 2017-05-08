@@ -19,6 +19,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.ScenarioDocuWriter;
+import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.business.builds.AvailableBuildsList;
 import org.scenarioo.business.builds.BuildImporter;
@@ -401,7 +402,7 @@ public class LastSuccessfulScenariosBuildTest {
 		File scenarioDirectory = new File(useCaseDirectory, encode(scenarios[0]));
 		createDerivedFileAndDirectory(scenarioDirectory);
 
-		createScenario(scenarios[0], Status.SUCCESS, decode(useCaseDirectory.getName()));
+		createScenario(scenarios[0], Status.SUCCESS, encode(decode(useCaseDirectory.getName())));
 	}
 
 	private void createDerivedFileAndDirectory(final File directory) {
@@ -674,9 +675,8 @@ public class LastSuccessfulScenariosBuildTest {
 		try {
 			return new File(rootDirectory, BUILD_IDENTIFIER.getBranchName()
 					+ "/"
-					+ URLEncoder.encode(LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME,
-							"UTF-8"));
-		} catch (UnsupportedEncodingException e) {
+					+ FilesUtil.encodeName(LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME));
+		} catch (IllegalStateException e) {
 			fail("url encoding failed");
 			return null;
 		}
@@ -902,21 +902,14 @@ public class LastSuccessfulScenariosBuildTest {
 		}
 	}
 
-	private String encode(final String string) {
-		try {
-			return URLEncoder.encode(string, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			fail();
-			return null;
-		}
-	}
 
+	//TODO REMOVE
+	private String encode(final String string) {
+		return FilesUtil.encodeName(string);
+	}
+	//TODO REMOVE
 	private String decode(final String string) {
-		try {
-			return URLDecoder.decode(string, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
+		return FilesUtil.decodeName(string);
 	}
 
 }
