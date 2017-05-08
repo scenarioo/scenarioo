@@ -7,6 +7,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.scenarioo.model.docu.aggregates.Feature;
 import org.scenarioo.model.docu.entities.ImportFeature;
 import org.scenarioo.model.docu.entities.Labels;
+import org.scenarioo.model.docu.entities.Scenario;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a use case and some important aggregated data to display in use
@@ -16,6 +20,8 @@ import org.scenarioo.model.docu.entities.Labels;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UseCaseSummary extends Feature{
 	private int numberOfScenarios;
+
+	public List<ScenarioSummary> scenarios = new ArrayList<>();
 
 	public UseCaseSummary(){}
 

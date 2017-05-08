@@ -40,7 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                              local-storage-key="usecase"></sc-meta-data-button>
     </div>
 </div>
-<h1>List of: {{dashboard.feature.name}}</h1>
+<h1>Scenarios of: {{dashboard.feature.name}}</h1>
 <sc-meta-data-panel linking-variable="useCaseShowMetadata">
    <div flex>
         <table class="table table-bordered scenario-table" sc-keyboard-navigatable-table="filtered"
@@ -50,17 +50,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <th sc-sortable-column="status">Status</th>
                 <th sc-sortable-column="feature.name">Name</th>
                 <th sc-sortable-column="feature.name">Description</th>
-                <th sc-sortable-column="feature.date">Release Date</th>
+                <th sc-sortable-column="">#Steps</th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="feature in dashboard.feature.features | orderBy: 'storyOrderNumber'" ng-click="dashboard.clickFeature(feature, '/scenario')">
+            <tr ng-repeat="scenario in dashboard.feature.scenarios | orderBy: 'storyOrderNumber'" ng-click="dashboard.clickFeature(feature, '/scenario')">
+
                 <td>
-                    <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{feature.status}}</span>
+                    <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{scenario.scenario.status}}</span>
                 </td>
-                <td>{{feature.name}}</td>
-                <td>{{feature.name}} desc.</td>
-                <td>{{feature.milestone}}</td>
+                <td>{{scenario.scenario.name}}</td>
+                <td>{{scenario.scenario.description}}</td>
+                <td>{{scenario.getNumberOfSteps()}}</td>
             </tr>
             </tbody>
         </table>
