@@ -57,6 +57,10 @@
 			<transport-guarantee>NONE</transport-guarantee>
 		</user-data-constraint>
 	</security-constraint>
+	
+	<security-role>
+		<role-name>scenarioo-build-publisher</role-name>
+	</security-role>
 
 	<login-config>
 		<auth-method>BASIC</auth-method>
