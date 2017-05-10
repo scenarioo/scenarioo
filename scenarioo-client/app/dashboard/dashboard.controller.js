@@ -21,7 +21,9 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
 
         FeatureService.setFeature(subFeature);
         console.log('loc' + location);
-        $location.path(location);
+        if (location && location !== ''){
+            $location.path(location);
+        }
     };
 
     load();
