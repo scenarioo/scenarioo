@@ -4,7 +4,7 @@ white-space: nowrap;
     <span ng-if="navTree.feature.features.length>0">
         <button type="button" ng-click="navTree.feature.isCollapsed = !navTree.feature.isCollapsed"><span>{{navTree.features.isCollapsed ? '+' : '-'}}</span></button>
     </span>
-    <span ng-click="navTree.clickFeature(navTree.feature, '/scenario')">
+    <span ng-click="navTree.clickFeature(navTree.feature, '')">
         <span ng-if="navTree.currentFeature.name==navTree.feature.name" style="color:red">
             =>
         </span>
