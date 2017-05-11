@@ -12,16 +12,21 @@ public class FeatureDocumentation {
 
 
 	public static final String FEATURE_XML = "/usecase.xml";
+	public static final DokuFile md1 = new DokuFile("Markdown-Test","https://gerrit.googlesource.com/gitiles/+/HEAD/Documentation/markdown.md",FileType.MARKDOWN);
+	public static final DokuFile spec1 = new DokuFile("Specification-Test", "https://github.com/BA-Scenarioo-Agile-Dashboard/scenarioo/blob/develop/scenarioo-client/karma.conf.js", FileType.JAVASCRIPT);
 
 	@Test
 	public void featureDashboardView() {
 		ImportFeature feature = new ImportFeature();
 
 		feature.name = "Dashboard-View";
-		feature.description = "Dashboard mit Subfeature und subsubFeature Cards, welche sortiert und mit swimlanes geordnet werden können";
+		feature.description = "Dashboard-View shows all the subfeatures of the current feature with all their subfeatures (=subsubfeatures) for a better overview of the whole project.\n" +
+			"\tThe feature cards can be sortet, to  follow the story order or to show the closest release.";
 		feature.folderName = "dashboard-view";
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R3";
+		feature.markdown=md1;
+		feature.specification=spec1;
 		writeToFile(feature);
 		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
@@ -31,10 +36,12 @@ public class FeatureDocumentation {
 		ImportFeature feature = new ImportFeature();
 
 		feature.name = "Feature-View";
-		feature.description = "Overview over the current subfeatures, compareable to todays usecase view";
+		feature.description = "this view is compareable to the current useCase view and shows the subfeatures of the current feature. the table can be sorted very easy after various topics, like name, release date, number of subfeatures or scenarios, changes form the last build";
 		feature.folderName = "feature-view";
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";
+		feature.markdown=md1;
+		feature.specification=spec1;
 		writeToFile(feature);
 		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
@@ -48,6 +55,8 @@ public class FeatureDocumentation {
 		feature.folderName = "scenario-view";
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";
+		feature.markdown=md1;
+		feature.specification=spec1;
 		writeToFile(feature);
 		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
@@ -57,10 +66,12 @@ public class FeatureDocumentation {
 		ImportFeature feature = new ImportFeature();
 
 		feature.name = "Documentation-View";
-		feature.description = "Shows the documentation file and the spec file of a feature and the subfeatures with their files";
+		feature.description = "Shows the documentation file and the specification file of a feature and the subfeatures with their files. This view helps to explain the exact functions of a feature.";
 		feature.folderName = "documentation-view";
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";
+		feature.markdown=md1;
+		feature.specification=spec1;
 		writeToFile(feature);
 		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
@@ -70,16 +81,18 @@ public class FeatureDocumentation {
 		ImportFeature feature = new ImportFeature();
 
 		feature.name = "GUI-Elements";
-		feature.description = "The 4 new GUI views";
+		feature.description = "The 4 GUI views, of which two will be slightly changed from the old scenarioo and two will be totaly new";
 		feature.folderName = "gui-elements";
 		feature.featureNames = new ArrayList<String>();
 		feature.featureNames.add("feature-view");
-		feature.featureNames.add("scenarios-view");
+		feature.featureNames.add("scenario-view");
 		feature.featureNames.add("documentation-view");
 		feature.featureNames.add("dashboard-view");
 		feature.featureNames.add("tree-navigation");
 		feature.status = Status.SUCCESS.getKeyword();
 		feature.milestone = "R1";
+		feature.markdown=md1;
+		feature.specification=spec1;
 		writeToFile(feature);
 		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
@@ -89,10 +102,12 @@ public class FeatureDocumentation {
 		ImportFeature feature = new ImportFeature();
 
 		feature.name = "Importer";
-		feature.description = "Imports the data to save it on the server";
+		feature.description = "Imports the data and fits it to the new data structure on the server";
 		feature.folderName = "importer";
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";
+		feature.markdown=md1;
+		feature.specification=spec1;
 		writeToFile(feature);
 		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
@@ -102,7 +117,7 @@ public class FeatureDocumentation {
 		ImportFeature feature = new ImportFeature();
 
 		feature.name = "Client";
-		feature.description = "Contains all work todo on the client side";
+		feature.description = "Contains all work todo on the client side. Including all the Views, the api-connection and the Diff- and sketch functionality.";
 		feature.folderName = "client";
 		feature.featureNames = new ArrayList<String>();
 		feature.featureNames.add("gui-elements");
@@ -110,6 +125,8 @@ public class FeatureDocumentation {
 		feature.featureNames.add("client-api-connection");
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";
+		feature.markdown=md1;
+		feature.specification=spec1;
 		writeToFile(feature);
 		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
@@ -129,6 +146,8 @@ public class FeatureDocumentation {
 		feature.featureNames.add("rest-api");
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";
+		feature.markdown=md1;
+		feature.specification=spec1;
 		writeToFile(feature);
 		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
@@ -142,6 +161,8 @@ public class FeatureDocumentation {
 		feature.folderName = "comparison";
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R2";
+		feature.markdown=md1;
+		feature.specification=spec1;
 		writeToFile(feature);
 		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
@@ -155,6 +176,8 @@ public class FeatureDocumentation {
 		feature.folderName = "full-text-search";
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R2";
+		feature.markdown=md1;
+		feature.specification=spec1;
 		writeToFile(feature);
 		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
@@ -168,6 +191,8 @@ public class FeatureDocumentation {
 		feature.folderName = "sketch-editor";
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R3";
+		feature.markdown=md1;
+		feature.specification=spec1;
 		writeToFile(feature);
 		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
@@ -181,6 +206,8 @@ public class FeatureDocumentation {
 		feature.folderName = "tree-navigation";
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R2";
+		feature.markdown=md1;
+		feature.specification=spec1;
 		writeToFile(feature);
 		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
@@ -194,6 +221,8 @@ public class FeatureDocumentation {
 		feature.folderName = "rest-api";
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";
+		feature.markdown=md1;
+		feature.specification=spec1;
 		writeToFile(feature);
 		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
@@ -206,6 +235,8 @@ public class FeatureDocumentation {
 		feature.folderName = "client-api-connection";
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";
+		feature.markdown=md1;
+		feature.specification=spec1;
 		writeToFile(feature);
 		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}

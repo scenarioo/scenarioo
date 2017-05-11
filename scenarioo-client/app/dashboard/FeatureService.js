@@ -6,8 +6,7 @@ angular.module('scenarioo').service('FeatureService',
 
     var rootFeature = {
         name: 'Project',
-        features: [],
-        markdown: []
+        features: []
     };
 
     var selectedFeature = rootFeature;

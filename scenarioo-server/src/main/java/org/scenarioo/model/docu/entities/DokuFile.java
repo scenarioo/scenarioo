@@ -16,4 +16,16 @@ public class DokuFile {
 
 	public List<Link> links = new ArrayList<Link>();
 
+	public DokuFile(){}
+
+	public DokuFile(String name, String url, FileType type){
+		this.name=name;
+		this.url=url;
+		this.type=type;
+	}
+
+	public void addLink(Link link){
+		links.add(link);
+	}
+
 }

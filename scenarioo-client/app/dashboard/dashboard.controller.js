@@ -10,6 +10,7 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
 
     dashboard.isCollapsed = false;
 
+
     dashboard.firstOrder = 'storyOrderNumber';
     dashboard.secondOrder = 'milestone';
 
@@ -58,6 +59,8 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
         dashboard.feature.features.forEach(function (feature) {feature.isCollapsed=true;});
     };
 
-
+    dashboard.contains = function (feature, field) {
+        return feature[field] != null;
+    }
 }
 
