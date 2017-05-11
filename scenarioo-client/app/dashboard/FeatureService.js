@@ -90,7 +90,7 @@ angular.module('scenarioo').service('FeatureService',
     }
 
     service.setFeature = function setFeature(feature) {
-        currentFeatures = getCurrentFeatures();
+        var currentFeatures = getCurrentFeatures();
         currentFeatures[branch][build] = getFeatureString(feature, feature.name);
         localStorage.setItem(CURRENT_FEATURE, JSON.stringify(currentFeatures));
         loadFeature();
