@@ -46,7 +46,7 @@ describe('BuildController', function () {
     it('has a first static tab that is initialized with main use cases content', function () {
         $scope.$apply();
         $httpBackend.flush();
-        expect(BuildController.getLazyTabContentViewUrl(BuildController.tabs[0].index)).toEqual('build/useCasesTab.html');
+        expect(BuildController.getLazyTabContentViewUrl(BuildController.tabs[0].index)).toEqual('dashboard/featureView.html');
     });
 
     it('has additional dynamic custom tabs as configured in configuration, that are lazy loaded', function () {

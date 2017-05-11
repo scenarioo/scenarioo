@@ -26,17 +26,19 @@ import com.fasterxml.jackson.dataformat.yaml.snakeyaml.util.UriEncoder;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FilesUtil {
 
+	private static final Pattern PATTERN = Pattern.compile("[^A-Za-z0-9_\\-\\.]");
+
+	private static final int MAX_LENGTH = 127;
 	private FilesUtil() {
 	}
 
@@ -45,7 +47,27 @@ public class FilesUtil {
 	}
 
 	public static String encodeName(final String name) {
-		if (name.contains(" "))return UriEncoder.encode(name);
+		if (name.contains(" ") ||
+			name.contains("?")||
+			name.contains("&")||
+			name.contains(":")) {
+
+			StringBuffer sb = new StringBuffer();
+
+			Matcher m = PATTERN.matcher(name);
+
+			while (m.find()) {
+				String replacement = "%" + Integer.toHexString(m.group().charAt(0)).toUpperCase();
+				m.appendReplacement(sb, replacement);
+			}
+			m.appendTail(sb);
+
+			String encoded = sb.toString();
+
+			int end = Math.min(encoded.length(), MAX_LENGTH);
+			return encoded.substring(0, end);
+		}
+
 		try {
 			new URI(name);
 			return name;

@@ -65,7 +65,7 @@ angular.module('scenarioo').service('FeatureService',
         if (feature == undefined || feature.parentFeature == null || feature.parentFeature == undefined){
             return featureString;
         }
-        return getFeatureString(feature.parentFeature, feature.parentFeature.name+"/"+featureString);
+        return getFeatureString(feature.parentFeature, feature.parentFeature.name+'/'+featureString);
     }
 
     function getCurrentFeatures() {
@@ -109,8 +109,8 @@ angular.module('scenarioo').service('FeatureService',
         return milestones;
     };
 
-    var branch = "";
-    var build = "";
+    var branch = '';
+    var build = '';
 
     SelectedBranchAndBuildService.callOnSelectionChange(function(selected){
         branch = selected.branch;

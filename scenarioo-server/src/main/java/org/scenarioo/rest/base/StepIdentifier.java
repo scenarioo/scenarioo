@@ -219,7 +219,7 @@ public class StepIdentifier {
 
 		uriBuilder.append("?fallback=true");
 
-		return new URI(FilesUtil.encodeName(uriBuilder.toString()));
+		return new URI(uriBuilder.toString());
 	}
 
 	private String encode(final String urlParameter) throws UnsupportedEncodingException {
