@@ -1,5 +1,5 @@
 angular.module('scenarioo').component('treeNav', {
-    templateUrl: 'dashboard/treeNav/treeNav.html',
+    templateUrl: 'dashboard/comp/treeNav/treeNav.html',
     controllerAs: 'treeNav',
     bindings: {
         rootFeature:'=',

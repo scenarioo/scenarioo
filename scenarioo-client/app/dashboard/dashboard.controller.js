@@ -3,9 +3,14 @@
 angular.module('scenarioo.controllers').controller('DashboardController', DashboardController);
 
 
-function DashboardController(FeatureService, $rootScope, $scope, $location, $http, $timeout, SelectedBranchAndBuildService){
+function DashboardController(FeatureService, $rootScope, $scope, $location, $http, $timeout, SelectedBranchAndBuildService,
+                             $filter, BranchesAndBuildsService,SelectedComparison, DiffInfoService, UseCasesResource,
+                             LabelConfigurationsResource, BuildDiffInfoResource, UseCaseDiffInfosResource){
 
     var dashboard = this;
+    var transformMetadataToTree = $filter('scMetadataTreeCreator');
+    var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
+    var dateTimeFormatter = $filter('scDateTime');
     dashboard.milestones = [];
 
     dashboard.isCollapsed = false;
@@ -28,6 +33,7 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
     };
 
     load();
+    activate();
 
     $rootScope.$watch(FeatureService.getFeature, function (feature) {
         dashboard.feature = feature;
@@ -61,6 +67,66 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
 
     dashboard.contains = function (feature, field) {
         return feature[field] != null;
+    }
+
+    function activate() {
+        SelectedBranchAndBuildService.callOnSelectionChange(loadUseCases);
+
+        LabelConfigurationsResource.query({}, function (labelConfiguratins) {
+            dashboard.labelConfigurations = labelConfiguratins;
+        });
+    }
+    function loadUseCases(selected) {
+        BranchesAndBuildsService.getBranchesAndBuilds()
+            .then(function onSuccess(branchesAndBuilds) {
+                dashboard.branchesAndBuilds = branchesAndBuilds;
+
+                UseCasesResource.query(
+                    {'branchName': selected.branch, 'buildName': selected.build},
+                    function onSuccess(useCases) {
+                        if(SelectedComparison.isDefined()) {
+                            loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
+                        } else {
+                            dashboard.useCases = useCases;
+                        }
+
+                        var branch = dashboard.branchesAndBuilds.selectedBranch.branch;
+                        var build = dashboard.branchesAndBuilds.selectedBuild.build;
+                        dashboard.branchInformationTree = createBranchInformationTree(branch);
+                        dashboard.buildInformationTree = createBuildInformationTree(build);
+                        dashboard.metadataTreeBranches = transformMetadataToTreeArray(branch.details);
+                        dashboard.metadataTreeBuilds = transformMetadataToTreeArray(build.details);
+                    });
+            });
+    }
+    function loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName) {
+        if(useCases && baseBranchName && baseBuildName) {
+            BuildDiffInfoResource.get(
+                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
+                function onSuccess(buildDiffInfo) {
+                    UseCaseDiffInfosResource.get(
+                        {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
+                        function onSuccess(useCaseDiffInfos) {
+                            dashboard.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
+                        }
+                    );
+                }, function onFailure(error){
+                    throw error;
+                }
+            );
+        }
+    }
+    function createBranchInformationTree(branch) {
+        var branchInformationTree = {};
+        branchInformationTree.Description = branch.description;
+        return transformMetadataToTree(branchInformationTree);
+    }
+    function createBuildInformationTree(build) {
+        var buildInformationTree = {};
+        buildInformationTree.Date = dateTimeFormatter(build.date);
+        buildInformationTree.Revision = build.revision;
+        buildInformationTree.Status = build.status;
+        return transformMetadataToTree(buildInformationTree);
     }
 }
 
