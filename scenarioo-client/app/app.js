@@ -131,6 +131,11 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 controller: 'DataController',
                 controllerAs: 'dat'
             })
+            .when('/usecases', {
+                templateUrl: 'build/useCasesTab.html',
+                controller: 'UseCasesTabController',
+                controllerAs: 'useCasesTab'
+            })
 
 
             .otherwise({

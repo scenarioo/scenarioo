@@ -128,7 +128,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
 
         if(SelectedComparison.isDefined()) {
             var selected = SelectedBranchAndBuildService.selected();
-            loadDiffInfoData(result.scenarios, selected.branch, selected.build, SelectedComparison.selected(), result.useCase.name);
+            loadDiffInfoData(result.scenarios, selected.branch, selected.build, SelectedComparison.selected(), result.feature.name);
         } else {
             vm.scenarios = result.scenarios;
         }

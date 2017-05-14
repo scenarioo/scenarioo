@@ -1,7 +1,7 @@
 var CURRENT_FEATURE = 'currentFeature';
 
 angular.module('scenarioo').service('FeatureService',
-    function FeatureService (SelectedBranchAndBuildService, UseCasesResource) {
+    function FeatureService (SelectedBranchAndBuildService, UseCasesResource, SelectedComparison, BuildDiffInfoResource, UseCaseDiffInfosResource, DiffInfoService, ScenarioDiffInfosResource) {
     var service = this;
 
     var rootFeature = {
@@ -25,11 +25,11 @@ angular.module('scenarioo').service('FeatureService',
         UseCasesResource.query(
             {'branchName': selected.branch, 'buildName': selected.build},
             function onSuccess(useCases) {
-                rootFeature.features = useCases;
-                rootFeature.name = selected.branch+ ' '+ selected.build;
-                loadBackRefs(rootFeature, null);
-                loadFeature();
-                getAllMilestones();
+                if(SelectedComparison.isDefined()) {
+                    loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
+                } else {
+                    dashboard.useCases = useCases;
+                }
             });
     };
 
@@ -110,6 +110,111 @@ angular.module('scenarioo').service('FeatureService',
 
     var branch = '';
     var build = '';
+
+    function setInternalAfterLoad(features, baseBranchName, baseBuildName) {
+        rootFeature.features = features;
+        rootFeature.name = baseBranchName+ ' '+ baseBuildName;
+        loadBackRefs(rootFeature, null);
+        loadFeature();
+        getAllMilestones();
+    }
+
+        function def(val) {
+            if (val == null)
+                return false;
+            if (val == undefined)
+                return false;
+            return val !== 'undefinded';
+        }
+
+        function loadScenariosDiffInfo(useCases, baseBranchName, baseBuildName, comparisonName, ucdi, func) {
+            var retUseCases = [];
+            for(var i = 0; i < useCases.length; i++){
+                loadScenariosDiffInfoInt(useCases[i], baseBranchName, baseBuildName, comparisonName, ucdi, function (useCase) {
+                    retUseCases.push(useCase);
+                    if (retUseCases.length == useCases.length){
+                        func(retUseCases);
+                    }
+                });
+            }
+        }
+
+        function loadScenariosDiffInfoInt(feature, baseBranchName, baseBuildName, comparisonName, useCaseDiffInfo, func) {
+            if(!def(feature)) return;
+            var counter = 0;
+            if (def(feature.scenarios)){
+                ScenarioDiffInfosResource.get(
+                    {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': feature.name},
+                    function onSuccess(scenarioDiffInfos) {
+                        feature.scenarios = DiffInfoService.getElementsWithDiffInfos(feature.scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
+                        selfReady = true;
+                        ready();
+                    }
+                );
+            }
+
+            var featuresToAdd = [];
+            var subsReady = false;
+            var selfReady = false;
+
+            if (def(feature.features)){
+                for (var i = 0; i < feature.features.length; i++){
+                    loadScenariosDiffInfoInt(feature.features[i], baseBranchName, baseBuildName, comparisonName, useCaseDiffInfo, function (feature) {
+                        featuresToAdd.push(feature);
+                        if (featuresToAdd.length == feature.features.length){
+                            subsReady = true;
+                            ready();
+                        }
+                    });
+                }
+                if (feature.features.length === 0){
+                    subsReady = true;
+                    ready();
+                }
+            } else {
+                subsReady = true;
+                ready();
+            }
+
+            function ready() {
+                if (subsReady && selfReady){
+                    feature.features = featuresToAdd;
+                    func(feature);
+                }
+            }
+        }
+
+        function loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName) {
+        if(useCases && baseBranchName && baseBuildName) {
+            BuildDiffInfoResource.get(
+                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
+                function onSuccess(buildDiffInfo) {
+                    UseCaseDiffInfosResource.get(
+                        {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
+                        function onSuccess(useCaseDiffInfos) {
+                            var useCasesNew = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
+
+
+                            loadScenariosDiffInfo(useCasesNew, baseBranchName, baseBuildName, comparisonName, useCaseDiffInfos, function (useCasesToAdd) {
+                                setInternalAfterLoad(useCasesToAdd, baseBranchName, baseBuildName);
+                            });
+
+/*
+                            ScenarioDiffInfosResource.get(
+                                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName},
+                                function onSuccess(scenarioDiffInfos) {
+                                    vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
+                                }
+                            );*/
+
+                        }
+                    );
+                }, function onFailure(error){
+                    throw error;
+                }
+            );
+        }
+    }
 
     SelectedBranchAndBuildService.callOnSelectionChange(function(selected){
         branch = selected.branch;

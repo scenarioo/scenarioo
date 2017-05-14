@@ -51,6 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <th sc-sortable-column="feature.name">Name</th>
                 <th sc-sortable-column="feature.name">Description</th>
                 <th sc-sortable-column="">#Steps</th>
+                <th sc-sortable-column="diffInfo.changeRate" class="sort-diff-info" ng-if="dashboard.comparisonInfo.isDefined">Changes</th>
             </tr>
             </thead>
             <tbody>
@@ -59,9 +60,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <td>
                     <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{scenario.scenario.status}}</span>
                 </td>
-                <td>{{scenario.scenario.name}}</td>
+                <td>{{scenario.scenario.name | scHumanReadable}}</td>
                 <td>{{scenario.scenario.description}}</td>
                 <td>{{scenario.numberOfSteps}}</td>
+                <td ng-if="dashboard.comparisonInfo.isDefined"><sc-diff-info-icon diff-info="scenario.diffInfo" element-type="scenario" child-element-type="step"></sc-diff-info-icon></td>
             </tr>
             </tbody>
         </table>
