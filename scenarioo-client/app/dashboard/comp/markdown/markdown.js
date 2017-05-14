@@ -2,7 +2,7 @@ function MDC($http, $sce) {
     var markdown = this;
 
     markdown.highlight = function () {
-        var hls = document.getElementsByClassName("highlight");
+        var hls = document.getElementsByClassName('highlight');
         for (var i = 0; i < hls.length; i++){
             hljs.highlightBlock(hls.item(i));
         }
