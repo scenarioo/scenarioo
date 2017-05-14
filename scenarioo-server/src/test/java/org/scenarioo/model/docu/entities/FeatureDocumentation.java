@@ -12,8 +12,8 @@ public class FeatureDocumentation {
 
 
 	public static final String FEATURE_XML = "/usecase.xml";
-	public static final DokuFile md1 = new DokuFile("Markdown-Test","https://gerrit.googlesource.com/gitiles/+/HEAD/Documentation/markdown.md",FileType.MARKDOWN);
-	public static final DokuFile spec1 = new DokuFile("Specification-Test", "https://github.com/BA-Scenarioo-Agile-Dashboard/scenarioo/blob/develop/scenarioo-client/karma.conf.js", FileType.JAVASCRIPT);
+	public static final DokuFile md1 = new DokuFile("Markdown-Test","https://raw.githubusercontent.com/scenarioo/scenarioo/develop/README.md",FileType.MARKDOWN);
+	public static final DokuFile spec1 = new DokuFile("Specification-Test", "https://raw.githubusercontent.com/scenarioo/scenarioo/develop/scenarioo-client/test/spec/scenario/scenario.controller.spec.js", FileType.JAVASCRIPT);
 
 	@Test
 	public void featureDashboardView() {

@@ -56,18 +56,41 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
         dashboard.feature = FeatureService.getFeature();
     }
 
+    function def(val) {
+        if (val == null)
+            return false;
+        if (val == undefined)
+            return false;
+        return val !== 'undefinded';
+
+    }
+
     dashboard.expandAll = function() {
-        dashboard.feature.markdown.forEach(function (markdown) {markdown.isCollapsed=false;});
-        dashboard.feature.features.forEach(function (feature) {feature.isCollapsed=false;});
+        collapseAll(dashboard.feature, false);
     };
+
     dashboard.collapseAll = function () {
-        dashboard.feature.markdown.forEach(function (markdown) {markdown.isCollapsed=true;});
-        dashboard.feature.features.forEach(function (feature) {feature.isCollapsed=true;});
+        collapseAll(dashboard.feature, true);
     };
+
+    function collapseAll(feature, val) {
+        if( !def(feature) ) return;
+
+        if (def(feature.markdown))
+            feature.markdown.isCollapsed=val;
+        if (def(feature.specification))
+            feature.specification.isCollapsed=val;
+        if (def(feature.features)){
+            feature.features.isCollapsed=val;
+            for(var i = 0; i < feature.features.length; i++){
+                collapseAll(feature.features[i], val);
+            }
+        }
+    }
 
     dashboard.contains = function (feature, field) {
         return feature[field] != null;
-    }
+    };
 
     function activate() {
         SelectedBranchAndBuildService.callOnSelectionChange(loadUseCases);
