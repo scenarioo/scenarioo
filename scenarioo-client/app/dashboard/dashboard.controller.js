@@ -3,9 +3,9 @@
 angular.module('scenarioo.controllers').controller('DashboardController', DashboardController);
 
 
-function DashboardController(FeatureService, $rootScope, $scope, $location, $http, $timeout, SelectedBranchAndBuildService,
-                             $filter, BranchesAndBuildsService,SelectedComparison, DiffInfoService, UseCasesResource,
-                             LabelConfigurationsResource, BuildDiffInfoResource, UseCaseDiffInfosResource){
+function DashboardController(FeatureService, $rootScope,
+                             $filter,SelectedComparison,
+                             LabelConfigurationsResource){
 
     var dashboard = this;
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -15,26 +15,20 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
 
     dashboard.isCollapsed = false;
 
-
     dashboard.firstOrder = 'storyOrderNumber';
     dashboard.secondOrder = 'milestone';
 
     dashboard.navsize = (localStorage.getItem('MAV_SIZE_LEFT') != undefined)? localStorage.getItem('MAV_SIZE_LEFT'):200;
 
-
     dashboard.clickFeature = function(subFeature, location){
-        console.log('test');
-
         FeatureService.setFeature(subFeature);
-        console.log('loc' + location);
         if (location && location !== ''){
             $location.path(location);
         }
     };
 
-
     load();
-    //activate();
+    activate();
 
     dashboard.comparisonInfo = SelectedComparison.info;
     $rootScope.$watch(FeatureService.getFeature, function (feature) {
@@ -65,7 +59,6 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
         if (val == undefined)
             return false;
         return val !== 'undefinded';
-
     }
 
     dashboard.expandAll = function() {
@@ -96,8 +89,6 @@ function DashboardController(FeatureService, $rootScope, $scope, $location, $htt
     };
 
     function activate() {
-        //SelectedBranchAndBuildService.callOnSelectionChange(loadUseCases);
-
         LabelConfigurationsResource.query({}, function (labelConfiguratins) {
             dashboard.labelConfigurations = labelConfiguratins;
         });

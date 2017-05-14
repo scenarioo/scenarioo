@@ -1,5 +1,8 @@
 var CURRENT_FEATURE = 'currentFeature';
 
+var SUCCESS = 'success';
+var FAILED = 'failed';
+
 angular.module('scenarioo').service('FeatureService',
     function FeatureService (SelectedBranchAndBuildService, UseCasesResource, SelectedComparison, BuildDiffInfoResource, UseCaseDiffInfosResource, DiffInfoService, ScenarioDiffInfosResource) {
     var service = this;
@@ -28,7 +31,7 @@ angular.module('scenarioo').service('FeatureService',
                 if(SelectedComparison.isDefined()) {
                     loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
                 } else {
-                    dashboard.useCases = useCases;
+                    setInternalAfterLoad(useCases, selected.branch, selected.build);
                 }
             });
     };
@@ -117,6 +120,47 @@ angular.module('scenarioo').service('FeatureService',
         loadBackRefs(rootFeature, null);
         loadFeature();
         getAllMilestones();
+        calcStati();
+    }
+
+    function calcStati() {
+        getStati(rootFeature);
+    }
+
+    function getStati(feature) {
+        if (!def(feature))return;
+
+        var ignored = 0;
+        var failed = 0;
+        var success = 0;
+        var i = 0;
+        if (def(feature.scenarios)){
+            for (i = 0; i < feature.scenarios.length; i++){
+                if (feature.scenarios[i].scenario.status === SUCCESS){
+                    success++;
+                } else if (feature.scenarios[i].scenario.status === FAILED){
+                    failed++;
+                } else {
+                    ignored++;
+                }
+            }
+        }
+
+        if (def(feature.features)){
+            for (i = 0; i < feature.features.length; i++){
+                getStati(feature.features[i]);
+            }
+
+            for (i = 0; i < feature.features.length; i++){
+                ignored += feature.features[i].ignored;
+                failed += feature.features[i].failed;
+                success += feature.features[i].success;
+            }
+        }
+        feature.ignored = ignored;
+        feature.failed = failed;
+        feature.success = success;
+
     }
 
         function def(val) {
@@ -141,7 +185,10 @@ angular.module('scenarioo').service('FeatureService',
 
         function loadScenariosDiffInfoInt(feature, baseBranchName, baseBuildName, comparisonName, useCaseDiffInfo, func) {
             if(!def(feature)) return;
-            var counter = 0;
+            var featuresToAdd = [];
+            var subsReady = false;
+            var selfReady = false;
+
             if (def(feature.scenarios)){
                 ScenarioDiffInfosResource.get(
                     {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': feature.name},
@@ -152,10 +199,6 @@ angular.module('scenarioo').service('FeatureService',
                     }
                 );
             }
-
-            var featuresToAdd = [];
-            var subsReady = false;
-            var selfReady = false;
 
             if (def(feature.features)){
                 for (var i = 0; i < feature.features.length; i++){
@@ -194,19 +237,9 @@ angular.module('scenarioo').service('FeatureService',
                         function onSuccess(useCaseDiffInfos) {
                             var useCasesNew = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
 
-
                             loadScenariosDiffInfo(useCasesNew, baseBranchName, baseBuildName, comparisonName, useCaseDiffInfos, function (useCasesToAdd) {
                                 setInternalAfterLoad(useCasesToAdd, baseBranchName, baseBuildName);
                             });
-
-/*
-                            ScenarioDiffInfosResource.get(
-                                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName},
-                                function onSuccess(scenarioDiffInfos) {
-                                    vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
-                                }
-                            );*/
-
                         }
                     );
                 }, function onFailure(error){
