@@ -60,6 +60,7 @@
 	
 	<security-role>
 		<role-name>scenarioo-build-publisher</role-name>
+		<description>Users with this role are allowed to upload new builds (=report content) to scenarioo using the upload build REST endpoint.</description>
 	</security-role>
 
 	<login-config>
