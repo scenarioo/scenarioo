@@ -32,11 +32,14 @@ import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.model.docu.aggregates.Feature;
+import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
+import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseSummary;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.rest.base.ScenarioIdentifier;
 
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/")
 public class UseCasesResource {
@@ -64,6 +67,13 @@ public class UseCasesResource {
 
 
 		for (final UseCaseScenarios useCaseScenarios : useCaseScenariosList) {
+
+			for (ScenarioSummary scenarioSummary: useCaseScenarios.getScenarios()){
+				ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, useCaseScenarios.getFeature().name, scenarioSummary.getScenario().getName());
+				ScenarioPageSteps pageSteps = dao.loadScenarioPageSteps(scenarioIdentifier);
+
+				scenarioSummary.pageSteps = pageSteps;
+			}
 			result.add(mapSummary(useCaseScenarios));
 		}
 

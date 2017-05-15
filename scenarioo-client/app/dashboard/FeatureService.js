@@ -136,12 +136,26 @@ angular.module('scenarioo').service('FeatureService',
         var i = 0;
         if (def(feature.scenarios)){
             for (i = 0; i < feature.scenarios.length; i++){
-                if (feature.scenarios[i].scenario.status === SUCCESS){
-                    success++;
-                } else if (feature.scenarios[i].scenario.status === FAILED){
-                    failed++;
-                } else {
-                    ignored++;
+                if (!def(feature.scenarios[i].pageSteps) || !def(feature.scenarios[i].pageSteps.pagesAndSteps)) {
+                    continue;
+                }
+                for (var j = 0; j < feature.scenarios[i].pageSteps.pagesAndSteps.length; j++){
+                    if (!def(feature.scenarios[i].pageSteps.pagesAndSteps[j].steps)) {
+                        continue;
+                    }
+                    for (var k = 0; k < feature.scenarios[i].pageSteps.pagesAndSteps[j].steps.length; k++){
+                        if (!def(feature.scenarios[i].pageSteps.pagesAndSteps[j].steps[k].status)){
+                            ignored++;
+                            continue;
+                        }
+                        if (feature.scenarios[i].pageSteps.pagesAndSteps[j].steps[k].status === SUCCESS){
+                            success++;
+                        } else if (feature.scenarios[i].pageSteps.pagesAndSteps[j].steps[k].status === FAILED){
+                            failed++;
+                        } else {
+                            ignored++;
+                        }
+                    }
                 }
             }
         }
