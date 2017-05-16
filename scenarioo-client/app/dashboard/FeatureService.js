@@ -4,7 +4,7 @@ var SUCCESS = 'success';
 var FAILED = 'failed';
 
 angular.module('scenarioo').service('FeatureService',
-    function FeatureService ($rootScope, SelectedBranchAndBuildService, UseCasesResource, SelectedComparison, BuildDiffInfoResource, UseCaseDiffInfosResource, UseCaseDiffInfoResource, DiffInfoService, ScenarioDiffInfosResource) {
+    function FeatureService ($rootScope, SelectedBranchAndBuildService, UseCasesResource, SelectedComparison, BuildDiffInfoResource, UseCaseDiffInfosResource, UseCaseDiffInfoResource, DiffInfoService, ScenarioDiffInfosResource, $location) {
     var service = this;
 
     var rootFeature = {
@@ -60,6 +60,7 @@ angular.module('scenarioo').service('FeatureService',
             featuresArr.shift();
             selectFeature = getFeatureByArray(rootFeature.features, featuresArr, selectFeature);
         }
+
         selectedFeature = selectFeature;
     }
 
@@ -88,6 +89,13 @@ angular.module('scenarioo').service('FeatureService',
             currentFeatures[branch][build] = '';
             localStorage.setItem(CURRENT_FEATURE, JSON.stringify(currentFeatures));
         }
+
+        var params = $location.search();
+        if (params !== null && angular.isDefined(params['feature'])) {
+            value = params['feature'];
+            currentFeatures[branch][build] = value;
+        }
+
         return currentFeatures;
     }
 
@@ -95,9 +103,16 @@ angular.module('scenarioo').service('FeatureService',
         var currentFeatures = getCurrentFeatures();
         currentFeatures[branch][build] = getFeatureString(feature, feature.name);
         localStorage.setItem(CURRENT_FEATURE, JSON.stringify(currentFeatures));
+        $location.search('feature', currentFeatures[branch][build]);
         loadFeature();
         //selectedFeature = feature;
     };
+
+        $rootScope.$watch(function () {
+            return $location.search()['feature'];
+        }, function () {
+            loadFeature();
+        });
 
     service.getFeature = function () {
         return selectedFeature;
@@ -274,7 +289,6 @@ angular.module('scenarioo').service('FeatureService',
     });
 
     $rootScope.$watch(function () {
-        console.log('watch fired', SelectedComparison.selected());
         return SelectedComparison.selected();
     }, function () {
         reloadFromBranchBuild(SelectedBranchAndBuildService.selected());
