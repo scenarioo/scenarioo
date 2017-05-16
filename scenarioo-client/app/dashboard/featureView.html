@@ -53,7 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <th sc-sortable-column="numberOfSubfeatures"># Subfeatures</th>
                 <th sc-sortable-column="numberOfScenario"># Scenarios</th>
                 <th sc-sortable-column="numberOfTests"># Tests</th>
-                <th sc-sortable-column="diffInfo.changeRate" class="sort-diff-info" ng-if="feature.comparisonInfo.isDefined">Changes</th>
+                <th sc-sortable-column="diffInfo.changeRate" class="sort-diff-info" ng-if="dashboard.comparisonInfo.isDefined">Changes</th>
             </tr>
             </thead>
             <tbody>
@@ -72,7 +72,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <td><!--{{feature.tests.length>=1 ? feature.tests.length : '0'}} -->
                    <test-overview feature="dashboard.feature"></test-overview>
                 </td>
-                <td ng-if="feature.comparisonInfo.isDefined"><sc-diff-info-icon diff-info="useCase.diffInfo" element-type="use case" child-element-type="scenario"></sc-diff-info-icon></td>
+                <td ng-if="dashboard.comparisonInfo.isDefined"><sc-diff-info-icon diff-info="feature.diffInfo" element-type="use case" child-element-type="scenario"></sc-diff-info-icon></td>
             </tr>
             </tbody>
         </table>
