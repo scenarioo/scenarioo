@@ -30,11 +30,17 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
          * breadcrumbId: id of the breadcrumb elements to use for this page as defined in breadcrumbs.service.js
          */
         $routeProvider
-            .when('/', {
+           /* .when('/', {
                 templateUrl: 'build/build.html',
                 controller: 'BuildController',
                 controllerAs: 'main',
                 breadcrumbId: 'main'
+            })*/
+            .when('/', {
+                templateUrl: 'dashboard/featureView.html',
+                controller: 'DashboardController',
+                controllerAs: 'dashboard',
+                breadcrumbId: 'feature'
             })
             .when('/manage', {
                 templateUrl: 'manage/manage.html',
@@ -114,11 +120,11 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 controllerAs: 'dashboard',
                 breadcrumbId: 'detail'
             })
-            .when('/scenario', {
+            .when('/testScenarios', {
                 templateUrl: 'dashboard/scenarioView.html',
                 controller: 'DashboardController',
                 controllerAs: 'dashboard',
-                breadcrumbId: 'scenario'
+                breadcrumbId: 'testScenarios'
             })
             .when('/feature', {
                 templateUrl: 'dashboard/featureView.html',

@@ -24,7 +24,7 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
     var homeElement =
     {
         label: '<i class="icon-home"></i> Home',
-        route: 'build/build.html'   // maybe better rename to linkUrl
+        route: '/feature/'   // maybe better rename to linkUrl
     };
 
     var manageElement =
@@ -35,7 +35,7 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
     var useCaseElement =
     {
-        label: '<strong>Use Case:</strong> [usecase]',
+        label: '<strong>UseCase:</strong> [usecase]',
         route: '/usecase/:usecase/'
     };
 
@@ -69,19 +69,23 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
     var dashboard =
         {
-            label: '<strong>Dashboard</strong>'
+            label: '<strong>Dashboard</strong>',
+            route: '/dashboard/:usecase'
         };
     var detail =
         {
-            label: '<strong>Detail</strong>'
+            label: '<strong>Detail</strong>',
+            route: '/detailNav/:usecase'
         };
     var feature =
         {
-            label: '<strong>Feature</strong>'
+            label: '<strong>Feature</strong>',
+            route: '/feature/:usecase'
         };
-    var testscenario =
+    var testScenarios =
         {
-            label: '<strong>Scenario</strong>'
+            label: '<strong>Test Scenarios</strong>',
+            route: '/testScenarios'
         };
 
     /**
@@ -95,11 +99,11 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         },
 
         'scenario': {
-            breadcrumbPath: [homeElement, useCaseElement, scenarioElement]
+            breadcrumbPath: [homeElement, testScenarios, scenarioElement] // useCaseElement replaced with testScenarios
         },
 
         'step': {
-            breadcrumbPath: [homeElement, useCaseElement, scenarioElement, stepElement]
+            breadcrumbPath: [homeElement, testScenarios, scenarioElement, stepElement]  // useCaseElement replaced with testScenarios
         },
 
         'main': {
@@ -131,8 +135,8 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         'feature': {
             breadcrumbPath: [homeElement, feature]
         },
-        'testscenario': {
-            breadcrumbPath: [homeElement, testscenario]
+        'testScenarios': {
+            breadcrumbPath: [homeElement, testScenarios]
         }
     };
 

@@ -11,7 +11,7 @@ function SiteNavigationController($location){
             name: 'detailNav',
             short: 'Doku'
         },{
-            name: 'scenario',
+            name: 'testScenarios',
             short: 'Scenarios'
         },
     ];
