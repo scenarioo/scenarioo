@@ -237,9 +237,7 @@ describe('Filter scBranchOrderBy', function () {
 
     describe('should order given branch resource objects by name-ascending:', function () {
 
-        it('initConfig', function () {
-            initConfig(CFG_NAME_ASCENDING);
-        });
+        beforeEach(initConfig(CFG_NAME_ASCENDING));
 
         it('then alphabetically (not case sensitive!)', function () {
 
@@ -254,9 +252,7 @@ describe('Filter scBranchOrderBy', function () {
 
     describe('Should order given branch resource objects by name ascending as a default', function () {
 
-        it('initConfig', function () {
-            initConfig(CFG_PROP_NOT_SET);
-        });
+        beforeEach(initConfig(CFG_PROP_NOT_SET));
 
         it('then alphabetically (not case sensitive!)', function () {
 
@@ -271,9 +267,7 @@ describe('Filter scBranchOrderBy', function () {
 
     describe('should order given branch resource objects by name-descending:', function () {
 
-        it('initConfig', function () {
-            initConfig(CFG_NAME_DESCENDING);
-        });
+        beforeEach(initConfig(CFG_NAME_DESCENDING));
 
         it('then alphabetically (not case sensitive!)', function () {
 
