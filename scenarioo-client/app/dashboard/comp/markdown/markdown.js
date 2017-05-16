@@ -1,4 +1,4 @@
-function MDC($http, $sce) {
+function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort) {
     var markdown = this;
 
     markdown.highlight = function () {
@@ -10,7 +10,20 @@ function MDC($http, $sce) {
 
     showdown.setFlavor('github');
     var converter = new showdown.Converter();
-    $http.get(markdown.file).success(function (data){
+
+
+    var url = HostnameAndPort.forLink()+'rest/branch/' + SelectedBranchAndBuildService.selected().branch + '/build/' + SelectedBranchAndBuildService.selected().build +
+    '/documentation/' + encodeURIComponent(markdown.file);
+    if (markdown.file.startsWith('http')){
+        url = markdown.file;
+    }
+
+    $http({
+        url: url,
+        method: 'GET',
+        responseType: 'text',
+        transformResponse:null
+    }).success(function (data){
         markdown.content = $sce.trustAsHtml(
             '<pre class="highlight"><code>'+data+'</code></pre>'
         );

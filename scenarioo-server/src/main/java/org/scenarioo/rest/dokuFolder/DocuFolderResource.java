@@ -20,8 +20,6 @@ package org.scenarioo.rest.dokuFolder;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
-import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -29,10 +27,12 @@ import org.scenarioo.rest.base.BuildIdentifier;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 @Path("/rest/branch/{branchName}/build/{buildName}/documentation/{path}")
 public class DocuFolderResource {
@@ -43,7 +43,6 @@ public class DocuFolderResource {
 			.getConfigurationRepository();
 
 	@GET
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response getFile(@PathParam("path") final String path,
 							@PathParam("branchName") final String branchName,
 							@PathParam("buildName") final String buildName) {
@@ -55,18 +54,24 @@ public class DocuFolderResource {
 		File docuFolder = new File(configurationRepository.getDocumentationDataDirectory().getAbsolutePath() + "/" + buildIdentifier.getBranchName() +"/" + buildIdentifier.getBuildName() + "/docu");
 		if (!docuFolder.exists()){
 			LOGGER.info("No Documentaion directory found for build "+branchName+" / "+buildName);
-			return Response.ok("Not-Found").status(Response.Status.NOT_FOUND).build();
+			return null;
 		}
 
 		java.nio.file.Path filePath = docuFolder.toPath().resolve(new File(FilesUtil.decodeName(path)).toPath().normalize().toFile().getPath());
 		if (!filePath.toFile().exists()){
 			LOGGER.info("Did not find Documentation file "+path);
-			return Response.ok("Not-Found").status(Response.Status.NOT_FOUND).build();
+			return null;
 		}
 
-		return Response.ok(filePath.toFile(), MediaType.APPLICATION_OCTET_STREAM)
-			.header("Content-Disposition", "attachment; filename=\"" + filePath.toFile().getName() + "\"" ) //optional
-			.build();
-	}
+		if (!filePath.toFile().getAbsolutePath().startsWith(docuFolder.getAbsolutePath())){
+			LOGGER.info("Did not find Documentation file "+path+" in docu folder");
+			return null;
+		}
 
+		File file = filePath.toFile();
+
+		Response.ResponseBuilder response = Response.ok((Object) file);
+		response.header("Content-Disposition", "attachment; filename=\""+file.getName()+"\"");
+		return response.build();
+	}
 }
