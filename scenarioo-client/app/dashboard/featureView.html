@@ -72,7 +72,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <td><!--{{feature.tests.length>=1 ? feature.tests.length : '0'}} -->
                    <test-overview feature="feature"></test-overview>
                 </td>
-                <td ng-if="dashboard.comparisonInfo.isDefined"><sc-diff-info-icon diff-info="feature.diffInfo" element-type="use case" child-element-type="scenario"></sc-diff-info-icon></td>
+                <td ng-if="dashboard.comparisonInfo.isDefined"><sc-diff-info-icon diff-info="feature.diffInfo" element-type="feature" child-element-type="scenario"></sc-diff-info-icon></td>
             </tr>
             </tbody>
         </table>
