@@ -45,32 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <button type="button" ng-click="dashboard.expandAll()">Expand all</button>
                 <button type="button" ng-click="dashboard.collapseAll()">Collapse all</button>
 
-                <div ng-if="dashboard.contains(dashboard.feature,'markdown')">
-                    <!--Show Markdown -->
-                    <md-card>
-                        <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="dashboard.feature.markdown.isCollapsed = !dashboard.feature.markdown.isCollapsed">
-                            <h1 style="color: white;">{{dashboard.feature.markdown.name}}</h1>
-                        </button>
-                        <div uib-collapse="dashboard.feature.markdown.isCollapsed" ng-show="!dashboard.feature.markdown.isCollapsed">
-                            <!--<span>{{dashboard.feature.markdown.url}}, {{dashboard.feature.markdown.name}}</span>-->
-                            <!--<a ng-button ng-repeat="link in dashboard.feature.markdown.links" href="{{link.url}}">{{link.name}}</a>-->
-                            <markdown file="{{dashboard.feature.markdown.url}}"></markdown>
-                        </div>
-                    </md-card>
-                </div>
-                <div ng-if="dashboard.contains(dashboard.feature, 'specification')">
-                    <!--Show Specification -->
-                    <md-card>
-                        <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="dashboard.feature.specification.isCollapsed = !dashboard.feature.specification.isCollapsed">
-                            <h1 style="color: white;">{{dashboard.feature.specification.name}}</h1>
-                        </button>
-                        <div uib-collapse="dashboard.feature.specification.isCollapsed" ng-show="!dashboard.feature.specification.isCollapsed">
-                            <!--<span>{{dashboard.feature.markdown.url}}, {{dashboard.feature.markdown.name}}</span>-->
-                            <a ng-button ng-repeat="link in dashboard.feature.specification.links" href="{{link.url}}">{{link.name}}</a>
-                            <markdown file="{{dashboard.feature.specification.url}}"></markdown>
-                        </div>
-                    </md-card>
-                </div>
+                <file-viewer feature="dashboard.feature"></file-viewer>
 
                 <div ng-if="dashboard.contains(dashboard.feature, 'features')">
                     <!--Show Subfeatures -->
@@ -81,42 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <div uib-collapse="feature.isCollapsed" ng-show="!feature.isCollapsed">
                             <a ng-click="dashboard.clickFeature(feature, '/detailNav')">Select {{feature.name}}</a>
 
-                            <div ng-if="dashboard.contains(feature,'markdown')">
-                                <!--Show Markdown -->
-                                <md-card>
-                                    <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="feature.markdown.isCollapsed = !feature.markdown.isCollapsed">
-                                        <h1 style="color: white;">{{feature.markdown.name}}</h1>
-                                    </button>
-                                    <div uib-collapse="feature.markdown.isCollapsed" ng-show="!feature.markdown.isCollapsed">
-                                        <!--<span>{{feature.markdown.url}}, {{feature.markdown.name}}</span>-->
-                                        <!--<a ng-button ng-repeat="link in feature.markdown.links" href="{{link.url}}">{{link.name}}</a>-->
-                                        <markdown file="{{feature.markdown.url}}"></markdown>
-                                    </div>
-                                </md-card>
-                            </div>
-                            <div ng-if="dashboard.contains(feature, 'specification')">
-                                <!--Show Specification -->
-                                <md-card>
-                                    <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="feature.specification.isCollapsed = !feature.specification.isCollapsed">
-                                        <h1 style="color: white;">{{dashboard.feature.specification.name}}</h1>
-                                    </button>
-                                    <div uib-collapse="feature.specification.isCollapsed" ng-show="!feature.specification.isCollapsed">
-                                        <!--<span>{{feature.markdown.url}}, {{feature.markdown.name}}</span>-->
-                                        <a ng-button ng-repeat="link in feature.specification.links" href="{{link.url}}">{{link.name}}</a>
-                                        <markdown file="{{feature.specification.url}}"></markdown>
-                                    </div>
-                                </md-card>
-                            </div>
-                            <!--
-                            <md-card ng-repeat="sfmd in feature.markdown">
-                                <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="sfmd.isCollapsed = !sfmd.isCollapsed">
-                                    <h1 style="color: white;">{{sfmd.name}}</h1>
-                                </button>
-                                <div uib-collapse="sfmd.isCollapsed" ng-show="!md.isCollapsed">
-                                    <markdown file="{{sfmd.file}}"></markdown>
-                                </div>
-                            </md-card>
-                            -->
+                            <file-viewer feature="feature"></file-viewer>
                         </div>
                     </md-card>
                 </div>
