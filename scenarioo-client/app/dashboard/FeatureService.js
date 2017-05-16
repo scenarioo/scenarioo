@@ -142,7 +142,21 @@ angular.module('scenarioo').service('FeatureService',
         getStati(rootFeature);
     }
 
-    function getStati(feature) {
+        function getFeatureStatus(feature) {
+            var status = 'none';
+            if(feature.success > 0){
+                status = 'success';
+            }
+            if(feature.ignored > 0){
+                status = 'ignored';
+            }
+            if(feature.failed > 0){
+                status = 'failed';
+            }
+            return status;
+        }
+
+        function getStati(feature) {
         if (!def(feature))return;
 
         var ignored = 0;
@@ -189,6 +203,8 @@ angular.module('scenarioo').service('FeatureService',
         feature.ignored = ignored;
         feature.failed = failed;
         feature.success = success;
+
+        feature.status = getFeatureStatus(feature);
 
     }
 
