@@ -69,7 +69,7 @@ public class UseCasesResource {
 		for (final UseCaseScenarios useCaseScenarios : useCaseScenariosList) {
 
 			for (ScenarioSummary scenarioSummary: useCaseScenarios.getScenarios()){
-				ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, useCaseScenarios.getFeature().name, scenarioSummary.getScenario().getName());
+				ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, useCaseScenarios.getFeature().folderName, scenarioSummary.getScenario().getName());
 				ScenarioPageSteps pageSteps = dao.loadScenarioPageSteps(scenarioIdentifier);
 
 				scenarioSummary.pageSteps = pageSteps;
