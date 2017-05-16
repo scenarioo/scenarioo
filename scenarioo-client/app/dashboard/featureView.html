@@ -69,7 +69,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <td>{{feature.milestone}}</td>
                 <td>{{feature.features.length>=1 ? feature.features.length : '0'}}</td>
                 <td>{{feature.numberOfScenarios}}</td>
-                <td><!--{{feature.tests.length>=1 ? feature.tests.length : '0'}} -->no tests</td>
+                <td><!--{{feature.tests.length>=1 ? feature.tests.length : '0'}} -->
+                   <test-overview feature="dashboard.feature"></test-overview>
+                </td>
                 <td ng-if="feature.comparisonInfo.isDefined"><sc-diff-info-icon diff-info="useCase.diffInfo" element-type="use case" child-element-type="scenario"></sc-diff-info-icon></td>
             </tr>
             </tbody>

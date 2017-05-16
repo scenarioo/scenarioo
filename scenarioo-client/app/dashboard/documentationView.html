@@ -76,7 +76,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <!--Show Subfeatures -->
                     <md-card ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOrder">
                         <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="feature.isCollapsed = !feature.isCollapsed">
-                            <h2 style="color: white;">{{feature.name}}, {{feature.status}}</h2>
+                            <h2 style="color: white;">{{feature.name}}, {{feature.status}}, <test-overview feature="feature"></test-overview></h2>
                         </button>
                         <div uib-collapse="feature.isCollapsed" ng-show="!feature.isCollapsed">
                             <a ng-click="dashboard.clickFeature(feature, '/detailNav')">Select {{feature.name}}</a>
