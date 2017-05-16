@@ -260,7 +260,7 @@ public class ScenarioDocuAggregator {
 		ScenarioPageSteps scenarioPageSteps = new ScenarioPageSteps();
 		scenarioPageSteps.setFeature(usecase);
 		scenarioPageSteps.setScenario(scenario);
-		List<Step> steps = reader.loadSteps(getBuildIdentifier().getBranchName(), getBuildIdentifier().getBuildName(), usecase.getName(), scenario.getName());
+		List<Step> steps = reader.loadSteps(getBuildIdentifier().getBranchName(), getBuildIdentifier().getBuildName(), usecase.folderName, scenario.getName());
 		PageNameSanitizer.sanitizePageNames(steps);
 		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(usecase, scenario, steps, referencePath, objectRepository);
 		scenarioPageSteps.setPagesAndSteps(pageStepsList);

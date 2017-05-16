@@ -23,6 +23,7 @@
 package org.scenarioo.model.docu.entities;
 
 import org.scenarioo.api.rules.Preconditions;
+import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.model.docu.entities.generic.Details;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -104,6 +105,7 @@ public class ImportFeature implements Serializable, Labelable, Detailable {
 	 */
 	public void setName(final String name) {
 		this.name = name;
+		this.folderName = name;
 	}
 
 	public String getDescription() {

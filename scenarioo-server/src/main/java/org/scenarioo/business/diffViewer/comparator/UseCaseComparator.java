@@ -63,7 +63,7 @@ public class UseCaseComparator extends AbstractStructureComparator<ImportFeature
 		if (comparisonElement == null) {
 			return 0;
 		} else {
-			final UseCaseDiffInfo useCaseDiffInfo = scenarioComparator.compare(baseElement.getName());
+			final UseCaseDiffInfo useCaseDiffInfo = scenarioComparator.compare(baseElement.folderName);
 
 			diffWriter.saveUseCaseDiffInfo(useCaseDiffInfo);
 

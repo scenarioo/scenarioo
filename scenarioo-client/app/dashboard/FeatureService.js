@@ -4,7 +4,7 @@ var SUCCESS = 'success';
 var FAILED = 'failed';
 
 angular.module('scenarioo').service('FeatureService',
-    function FeatureService (SelectedBranchAndBuildService, UseCasesResource, SelectedComparison, BuildDiffInfoResource, UseCaseDiffInfosResource, DiffInfoService, ScenarioDiffInfosResource) {
+    function FeatureService ($rootScope, SelectedBranchAndBuildService, UseCasesResource, SelectedComparison, BuildDiffInfoResource, UseCaseDiffInfosResource, UseCaseDiffInfoResource, DiffInfoService, ScenarioDiffInfosResource) {
     var service = this;
 
     var rootFeature = {
@@ -202,23 +202,43 @@ angular.module('scenarioo').service('FeatureService',
             var featuresToAdd = [];
             var subsReady = false;
             var selfReady = false;
+            var featureDiffReady = false;
+            
+            UseCaseDiffInfoResource.get(
+                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': feature.folderName},
+                function onSuccess(useCaseDiffInfo) {
+                    feature.diffInfo = useCaseDiffInfo;
 
-            if (def(feature.scenarios)){
-                ScenarioDiffInfosResource.get(
-                    {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': feature.name},
-                    function onSuccess(scenarioDiffInfos) {
-                        feature.scenarios = DiffInfoService.getElementsWithDiffInfos(feature.scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
-                        selfReady = true;
-                        ready();
+                    if (def(feature.scenarios)){
+                        ScenarioDiffInfosResource.get(
+                            {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': feature.folderName},
+                            function onSuccess(scenarioDiffInfos) {
+                                feature.scenarios = DiffInfoService.getElementsWithDiffInfos(feature.scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
+                                selfReady = true;
+                                ready();
+                            }, function onFailure() {
+                                selfReady = true;
+                                ready();
+                            }
+                        );
                     }
-                );
-            }
+
+                    featureDiffReady = true;
+                    ready();
+                }, function onFailure() {
+                    featureDiffReady = true;
+                    ready();
+                }
+            );
+
+
 
             if (def(feature.features)){
                 for (var i = 0; i < feature.features.length; i++){
-                    loadScenariosDiffInfoInt(feature.features[i], baseBranchName, baseBuildName, comparisonName, useCaseDiffInfo, function (feature) {
-                        featuresToAdd.push(feature);
-                        if (featuresToAdd.length == feature.features.length){
+
+                    loadScenariosDiffInfoInt(feature.features[i], baseBranchName, baseBuildName, comparisonName, useCaseDiffInfo, function (returnFeture) {
+                        featuresToAdd.push(returnFeture);
+                        if (featuresToAdd.length === feature.features.length){
                             subsReady = true;
                             ready();
                         }
@@ -234,7 +254,7 @@ angular.module('scenarioo').service('FeatureService',
             }
 
             function ready() {
-                if (subsReady && selfReady){
+                if (subsReady && selfReady && featureDiffReady){
                     feature.features = featuresToAdd;
                     func(feature);
                 }
@@ -257,17 +277,28 @@ angular.module('scenarioo').service('FeatureService',
                         }
                     );
                 }, function onFailure(error){
-                    throw error;
+                    setInternalAfterLoad(useCases, baseBranchName, baseBuildName);
                 }
             );
         }
     }
 
     SelectedBranchAndBuildService.callOnSelectionChange(function(selected){
+        reloadFromBranchBuild(selected);
+    });
+
+    $rootScope.$watch(function () {
+        console.log('watch fired', SelectedComparison.selected());
+        return SelectedComparison.selected();
+    }, function () {
+        reloadFromBranchBuild(SelectedBranchAndBuildService.selected());
+    });
+
+    function reloadFromBranchBuild(selected) {
         branch = selected.branch;
         build = selected.build;
         service.loadUseCases(selected);
-    });
+    }
 
 
 
