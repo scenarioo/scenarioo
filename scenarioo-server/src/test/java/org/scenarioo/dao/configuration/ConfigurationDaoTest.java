@@ -4,7 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;

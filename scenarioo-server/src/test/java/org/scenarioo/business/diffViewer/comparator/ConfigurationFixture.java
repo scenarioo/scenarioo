@@ -4,7 +4,7 @@ import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.RepositoryLocator;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
 

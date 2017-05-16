@@ -2,7 +2,7 @@ package org.scenarioo.model.configuration;
 
 import org.junit.Test;
 
-import java.awt.*;
+import java.awt.Color;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;

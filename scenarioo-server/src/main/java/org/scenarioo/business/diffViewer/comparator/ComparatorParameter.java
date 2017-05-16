@@ -2,7 +2,7 @@ package org.scenarioo.business.diffViewer.comparator;
 
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class ComparatorParameter {
 	private final String baseBranchName;
