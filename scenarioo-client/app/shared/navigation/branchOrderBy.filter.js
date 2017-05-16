@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('scenarioo.filters').filter('scBranchOrderBy', ['ConfigService', function(ConfigService) { return scBranchOrderByFilter(ConfigService);}]);
+angular.module('scenarioo.filters').filter('scBranchOrderBy', ['ConfigService', scBranchOrderByFilter]);
 
 function scBranchOrderByFilter(ConfigService) {
 
