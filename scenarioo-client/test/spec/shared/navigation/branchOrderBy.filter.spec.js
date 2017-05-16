@@ -60,7 +60,6 @@ describe('Filter scBranchOrderBy', function () {
 
     // load module
     beforeEach(module('scenarioo.filters'));
-   // beforeEach(initConfig());
 
     function initConfig(config){
         inject(function ($filter, _ConfigService_, _$httpBackend_, _TestData_, _HostnameAndPort_) {
@@ -82,9 +81,7 @@ describe('Filter scBranchOrderBy', function () {
 
     describe('should handle invalid input gracefully:', function () {
 
-        it('initConfig', function () {
-            initConfig(CFG_LAST_BUILD_DATE_DESCENDING);
-        });
+        beforeEach(initConfig(CFG_LAST_BUILD_DATE_DESCENDING));
 
         it('string', function () {
             var result = scBranchOrderByFilter('someString');
@@ -102,9 +99,7 @@ describe('Filter scBranchOrderBy', function () {
 
     describe('should order given branch resource objects by last-build-date-descending:', function () {
 
-        it('initConfig', function () {
-            initConfig(CFG_LAST_BUILD_DATE_DESCENDING);
-        });
+        beforeEach(initConfig(CFG_LAST_BUILD_DATE_DESCENDING));
 
         it('alias branches first', function () {
 
