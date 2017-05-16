@@ -185,10 +185,10 @@ angular.module('scenarioo').service('FeatureService',
             return val !== 'undefinded';
         }
 
-        function loadScenariosDiffInfo(useCases, baseBranchName, baseBuildName, comparisonName, ucdi, func) {
+        function loadScenariosDiffInfo(useCases, baseBranchName, baseBuildName, comparisonName, func) {
             var retUseCases = [];
             for(var i = 0; i < useCases.length; i++){
-                loadScenariosDiffInfoInt(useCases[i], baseBranchName, baseBuildName, comparisonName, ucdi, function (useCase) {
+                loadScenariosDiffInfoInt(useCases[i], baseBranchName, baseBuildName, comparisonName, function (useCase) {
                     retUseCases.push(useCase);
                     if (retUseCases.length == useCases.length){
                         func(retUseCases);
@@ -197,13 +197,13 @@ angular.module('scenarioo').service('FeatureService',
             }
         }
 
-        function loadScenariosDiffInfoInt(feature, baseBranchName, baseBuildName, comparisonName, useCaseDiffInfo, func) {
+        function loadScenariosDiffInfoInt(feature, baseBranchName, baseBuildName, comparisonName, func) {
             if(!def(feature)) return;
             var featuresToAdd = [];
             var subsReady = false;
             var selfReady = false;
             var featureDiffReady = false;
-            
+
             UseCaseDiffInfoResource.get(
                 {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': feature.folderName},
                 function onSuccess(useCaseDiffInfo) {
@@ -236,7 +236,7 @@ angular.module('scenarioo').service('FeatureService',
             if (def(feature.features)){
                 for (var i = 0; i < feature.features.length; i++){
 
-                    loadScenariosDiffInfoInt(feature.features[i], baseBranchName, baseBuildName, comparisonName, useCaseDiffInfo, function (returnFeture) {
+                    loadScenariosDiffInfoInt(feature.features[i], baseBranchName, baseBuildName, comparisonName, function (returnFeture) {
                         featuresToAdd.push(returnFeture);
                         if (featuresToAdd.length === feature.features.length){
                             subsReady = true;
@@ -262,26 +262,12 @@ angular.module('scenarioo').service('FeatureService',
         }
 
         function loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName) {
-        if(useCases && baseBranchName && baseBuildName) {
-            BuildDiffInfoResource.get(
-                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
-                function onSuccess(buildDiffInfo) {
-                    UseCaseDiffInfosResource.get(
-                        {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
-                        function onSuccess(useCaseDiffInfos) {
-                            var useCasesNew = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
-
-                            loadScenariosDiffInfo(useCasesNew, baseBranchName, baseBuildName, comparisonName, useCaseDiffInfos, function (useCasesToAdd) {
-                                setInternalAfterLoad(useCasesToAdd, baseBranchName, baseBuildName);
-                            });
-                        }
-                    );
-                }, function onFailure(error){
-                    setInternalAfterLoad(useCases, baseBranchName, baseBuildName);
-                }
-            );
+            if(useCases && baseBranchName && baseBuildName) {
+                loadScenariosDiffInfo(useCases, baseBranchName, baseBuildName, comparisonName, function (useCasesToAdd) {
+                    setInternalAfterLoad(useCasesToAdd, baseBranchName, baseBuildName);
+                });
+            }
         }
-    }
 
     SelectedBranchAndBuildService.callOnSelectionChange(function(selected){
         reloadFromBranchBuild(selected);
