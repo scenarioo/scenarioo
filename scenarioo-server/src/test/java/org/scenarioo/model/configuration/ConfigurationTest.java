@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class ConfigurationTest {
 
-	public static final Color DEFAULT_DIFF_COLOR = new Color(255, 0, 0, 200);
+	public static final Color DEFAULT_DIFF_COLOR = new Color(237, 176, 77, 127);
 
 	private Configuration configuration = new Configuration();
 
@@ -26,7 +26,7 @@ public class ConfigurationTest {
 	@Test
 	public void testSetAndGetDiffImageColor() throws Exception {
 
-		Color expected = new Color(255, 0, 0, 255);
+		Color expected = new Color(237, 176, 77, 127);
 		configuration.setDiffImageColor(expected);
 
 		Color actual = configuration.getDiffImageColor();

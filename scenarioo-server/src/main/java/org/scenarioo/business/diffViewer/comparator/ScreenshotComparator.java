@@ -85,7 +85,6 @@ public class ScreenshotComparator extends AbstractComparator {
 		}
 
 		try {
-			//int diffColor = new Color(255, 0, 0, 200).getRGB();
 			int diffColor = parameter.getDiffImageColor().getRGB();
 
 			BufferedImage oldImage = ImageIO.read(baseScreenshot);
