@@ -23,7 +23,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
 
-public class ScreenshotComparatorGraphicsMagickTest {
+public class ScreenshotComparatorTest {
 	private ScreenshotComparator screenshotComparator;
 
 	private static final String FILEPATH = "src/test/resources/org/scenarioo/business/diffViewer/";
