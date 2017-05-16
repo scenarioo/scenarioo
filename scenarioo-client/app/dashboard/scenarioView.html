@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <sc-breadcrumbs></sc-breadcrumbs>
 <div layout = "row">
-    <site-navigation current="scenario" flex = "33"></site-navigation>
+    <site-navigation current="testScenarios" flex = "33"></site-navigation>
 </div>
 <div layout = "row" class="sc-space-top sc-space-bottom">
     <div flex>
@@ -42,9 +42,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 </div>
 <h1>Scenarios of: {{dashboard.feature.name}}</h1>
 <sc-meta-data-panel linking-variable="useCaseShowMetadata">
-   <div flex>
+    <div flex>
         <table class="table table-bordered scenario-table" sc-keyboard-navigatable-table="filtered"
-               sc-keyboard-navigatable-table-hit="useCase.onNavigatorTableHit">
+               sc-keyboard-navigatable-table-hit="dashboard.onNavigatorTableHit">
             <thead>
             <tr>
                 <th sc-sortable-column="status">Status</th>
@@ -55,10 +55,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="scenario in dashboard.feature.scenarios | orderBy: 'storyOrderNumber'" ng-click="dashboard.clickFeature(feature, '/scenario')">
-
+            <tr ng-repeat="scenario in dashboard.feature.scenarios | orderBy: 'storyOrderNumber'" ng-click="dashboard.handleClick(dashboard.feature.name, scenario)"
+                class="link">
                 <td>
-                    <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{scenario.scenario.status}}</span>
+                    <span class="label state" ng-class="getStatusStyleClass(scenario.scenario.status)">{{scenario.scenario.status}}</span>
                 </td>
                 <td>{{scenario.scenario.name | scHumanReadable}}</td>
                 <td>{{scenario.scenario.description}}</td>
@@ -67,6 +67,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tr>
             </tbody>
         </table>
+        <div flex ng-if="dashboard.feature.scenarios == undefined">
+            There are no scenarios in this feature!
+            <br/>
+            Please select an other feature in the Feature Explorer.
+        </div>
     </div>
     <side-panel flex="20">
         <header><h1>Details zum angewählten feature</h1></header>
@@ -75,7 +80,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </content>
     </side-panel>
 </sc-meta-data-panel>
-
 
     </div>
 </div>

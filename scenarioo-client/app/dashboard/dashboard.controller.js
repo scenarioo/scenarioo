@@ -5,14 +5,13 @@ angular.module('scenarioo.controllers').controller('DashboardController', Dashbo
 
 function DashboardController(FeatureService, $rootScope,
                              $filter,SelectedComparison,
-                             LabelConfigurationsResource){
+                             LabelConfigurationsResource, $location){
 
     var dashboard = this;
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var dateTimeFormatter = $filter('scDateTime');
     dashboard.milestones = [];
-
     dashboard.isCollapsed = false;
 
     dashboard.firstOrder = 'storyOrderNumber';
@@ -31,6 +30,7 @@ function DashboardController(FeatureService, $rootScope,
     activate();
 
     dashboard.comparisonInfo = SelectedComparison.info;
+
     $rootScope.$watch(FeatureService.getFeature, function (feature) {
         dashboard.feature = feature;
         dashboard.comparisonInfo = SelectedComparison.info;
@@ -92,6 +92,15 @@ function DashboardController(FeatureService, $rootScope,
         LabelConfigurationsResource.query({}, function (labelConfiguratins) {
             dashboard.labelConfigurations = labelConfiguratins;
         });
+    }
+
+    dashboard.handleClick = function(feature, scenarioSummary) {
+        if(!scenarioSummary.diffInfo || !scenarioSummary.diffInfo.isRemoved){
+            goToScenario(feature, scenarioSummary.scenario.name);
+        }
+    }
+    function goToScenario(feature, scenarioName) {
+        $location.path('/scenario/' + feature + '/' + scenarioName);
     }
 }
 
