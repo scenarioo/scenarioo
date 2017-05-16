@@ -4,17 +4,17 @@ This guide describes how you can set up the Diff Viewer feature.
 The Diff Viewer feature makes it possible to compare two different builds against each other.
 In two easy step, you are ready to compare your own builds:
 
-1. [Add a comparison configuration](#2-add-a-comparison-configuration)
-2. [Start comparison](#3-start-comparison)
-3. [Delete a comparison](#4-delete-a-comparison)
+1. [Add a comparison configuration](#add-a-comparison-configuration)
+2. [Start comparison](#start-comparison)
+3. [Delete a comparison](#delete-a-comparison)
 
 After that you are ready to use the Diff Viewer feature. Check out the [Diff Viewer User Guide](user-guide.md) for further details.
 
-## 1. Add a comparison configuration
+## Add a comparison configuration
 In your config.xml file you can edit the comparison configuration.
 It is possible to add one or more comparison configurations. On each import, all the configured comparisons get compared.
 You can delete a comparisonConfiguration, then it will not be compared in the feature. 
-The old comparisons will not be deleted automatically. Check out [Delete a comparison](#4-delete-a-comparison) for further details.
+The old comparisons will not be deleted automatically. Check out [Delete a comparison](#delete-a-comparison) for further details.
 
 Each comparisonConfiguration has the following settings:
 * **name**: Name of this specific comparison. The name gets displayed in the comparison selection menu.
@@ -63,7 +63,7 @@ Sample configuration:
     ...
    ```
 
-## 2. Start comparison
+## Start comparison
 To start the build comparison you have two options:
 * Reimport an existing build:
    * Scenario Viewer > Manage > Click on the reimport symbol next to the preferred build
@@ -77,7 +77,7 @@ You can find the log file in the following place:
 
 In future versions, there might be the possibility to start and configure comparisons in the web client.
 
-## 3. Delete a comparison
+## Delete a comparison
 All comparisons are stored in the following folder:
 >scenarioo-application-data\diffViewer
 
