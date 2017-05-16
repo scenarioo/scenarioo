@@ -33,6 +33,5 @@ public class ComparatorParameter {
 
 	public Color getDiffImageColor() {
 		return diffImageColor;
-		//return  new Color(255, 0, 0, 200);
 	}
 }

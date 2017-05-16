@@ -17,7 +17,7 @@
 
 package org.scenarioo.model.configuration;
 
-import java.awt.*;
+import java.awt.Color;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
