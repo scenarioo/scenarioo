@@ -14,61 +14,76 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+angular.module('scenarioo.filters').filter('scBranchOrderBy', ['ConfigService', scBranchOrderByFilter]);
 
-angular.module('scenarioo.filters').filter('scBranchOrderBy', scBranchOrderByFilter);
-
-
-function scBranchOrderByFilter() {
+function scBranchOrderByFilter(ConfigService) {
 
 
     /**
      * comparator function that will order given branch resource objects as follows:
-     *
      * 1. branches that are marked as "alias" before others
-     * 2. then alphabetically (case ignored)
+     * 2. then by the configuration value "branchSelectionListOrder"
      *
      * @param {object} branchA
      * @param {object} branchB
      * @returns {number}
      */
     function branchComparator(branchA, branchB) {
-        if (branchA.alias === true && branchB.alias !== true) {
+
+        if (branchA.alias === true && branchB.alias === false) {
             return -1;
         }
 
-        if (branchB.alias === true && branchA.alias !== true) {
+        if (branchA.alias === false && branchB.alias === true) {
             return 1;
         }
 
+        var order = ConfigService.branchSelectionListOrder();
+        switch(order) {
+            case 'name-descending':
+                return orderByNameDescending(branchA, branchB);
+            case 'last-build-date-descending':
+                return orderByLastBuildDateDescending(branchA, branchB);
+            case 'name-ascending':  //also the default behavior
+            default:
+                return orderByNameAscending(branchA, branchB);
+        }
+    }
+
+    function orderByNameAscending(branchA, branchB) {
+
+        // both are an alias or none is an alias -> use alphabetical ordering
+        var branchAName = branchA.branch.name.toLowerCase();
+        var branchBName = branchB.branch.name.toLowerCase();
+
+        return compare(branchAName, branchBName);
+    }
+
+    function orderByNameDescending(branchA, branchB) {
+        return orderByNameAscending(branchA, branchB) * -1;
+    }
+
+    function orderByLastBuildDateDescending(branchA, branchB) {
+
         if (branchA.alias === true) {
-            // both are an alias -> use alphabetical ordering
-            var branchAName = branchA.branch.name.toLowerCase();
-            var branchBName = branchB.branch.name.toLowerCase();
-
-            if (branchAName < branchBName) {
-                return -1;
-            }
-
-            if (branchAName > branchBName) {
-                return 1;
-            }
-
-            return 0;
+            return orderByNameAscending(branchA, branchB);
         }
 
         // none is an alias -> order by build date DESC
         var dateA = (branchA.builds.length != 0 ? branchA.builds[0].build.date : 0);
         var dateB = (branchB.builds.length != 0 ? branchB.builds[0].build.date : 0);
 
-        if (dateA < dateB) {
+        return compare(dateA, dateB) * -1;
+    }
+
+    function compare(o1, o2) {
+        if (o1 > o2) {
             return 1;
-        }
-
-        if (dateA > dateB) {
+        } else if (o1 < o2) {
             return -1;
+        } else {
+            return 0;
         }
-
-        return 0;
     }
 
     return function (input) {
