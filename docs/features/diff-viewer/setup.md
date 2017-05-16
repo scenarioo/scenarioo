@@ -1,4 +1,4 @@
-#Configuration Guide
+#Diff Viewer Setup Guide
 
 This guide describes how you can configure the Diff Viewer feature.
 The Diff Viewer feature makes it possible to compare two different builds against each other.
