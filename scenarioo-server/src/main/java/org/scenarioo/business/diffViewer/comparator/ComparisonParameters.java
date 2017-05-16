@@ -4,14 +4,14 @@ import org.scenarioo.model.configuration.ComparisonConfiguration;
 
 import java.awt.Color;
 
-public class ComparatorParameter {
+public class ComparisonParameters {
 	private final String baseBranchName;
 	private final String baseBuildName;
 	private final ComparisonConfiguration comparisonConfiguration;
 	private final Color diffImageColor;
 
-	public ComparatorParameter(String baseBranchName, String baseBuildName, ComparisonConfiguration comparisonConfiguration,
-							   Color diffImageColor) {
+	public ComparisonParameters(String baseBranchName, String baseBuildName, ComparisonConfiguration comparisonConfiguration,
+								Color diffImageColor) {
 
 		this.baseBranchName = baseBranchName;
 		this.baseBuildName = baseBuildName;

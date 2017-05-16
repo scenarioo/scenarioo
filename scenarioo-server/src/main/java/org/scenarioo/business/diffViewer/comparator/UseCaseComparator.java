@@ -32,10 +32,10 @@ public class UseCaseComparator extends AbstractStructureComparator<UseCase, Stri
 
 	private static final Logger LOGGER = Logger.getLogger(UseCaseComparator.class);
 
-	private ScenarioComparator scenarioComparator = new ScenarioComparator(parameter);
+	private ScenarioComparator scenarioComparator = new ScenarioComparator(parameters);
 
-	public UseCaseComparator(ComparatorParameter parameter) {
-		super(parameter);
+	public UseCaseComparator(ComparisonParameters parameters) {
+		super(parameters);
 	}
 
 	public BuildDiffInfo compare() {

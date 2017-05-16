@@ -38,14 +38,14 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 
 	private static final Logger LOGGER = Logger.getLogger(StepComparator.class);
 
-	private ScreenshotComparator screenshotComparator = new ScreenshotComparator(parameter);
+	private ScreenshotComparator screenshotComparator = new ScreenshotComparator(parameters);
 	private String baseUseCaseName;
 	private String baseScenarioName;
 	private List<Step> comparisonSteps;
 	private StepsAndPagesAggregator stepAndPagesAggregator = new StepsAndPagesAggregator(null, null);
 
-	public StepComparator(ComparatorParameter parameter) {
-		super(parameter);
+	public StepComparator(ComparisonParameters parameters) {
+		super(parameters);
 	}
 
 	public ScenarioDiffInfo compare(final String baseUseCaseName, final String baseScenarioName) {

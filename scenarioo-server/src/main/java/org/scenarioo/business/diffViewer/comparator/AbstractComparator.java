@@ -36,24 +36,24 @@ public abstract class AbstractComparator {
 	protected static final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 		.getConfigurationRepository();
 
-	protected ComparatorParameter parameter;
+	protected ComparisonParameters parameters;
 	protected ScenarioDocuReader docuReader;
 	protected DiffWriter diffWriter;
 	protected String baseBranchName;
 	protected String baseBuildName;
 	protected ComparisonConfiguration comparisonConfiguration;
 
-	public AbstractComparator(ComparatorParameter parameter) {
-		this.parameter = parameter;
-		this.baseBranchName = parameter.getBaseBranchName();
-		this.baseBuildName = parameter.getBaseBuildName();
-		this.comparisonConfiguration = parameter.getComparisonConfiguration();
+	public AbstractComparator(ComparisonParameters parameters) {
+		this.parameters = parameters;
+		this.baseBranchName = parameters.getBaseBranchName();
+		this.baseBuildName = parameters.getBaseBuildName();
+		this.comparisonConfiguration = parameters.getComparisonConfiguration();
 
 		this.docuReader = new ScenarioDocuReader(
 			configurationRepository.getDocumentationDataDirectory());
-		this.diffWriter = new DiffWriterXmlImpl(parameter.getBaseBranchName(),
-			parameter.getBaseBuildName(),
-			parameter.getComparisonConfiguration().getName());
+		this.diffWriter = new DiffWriterXmlImpl(parameters.getBaseBranchName(),
+			parameters.getBaseBuildName(),
+			parameters.getComparisonConfiguration().getName());
 	}
 
 }

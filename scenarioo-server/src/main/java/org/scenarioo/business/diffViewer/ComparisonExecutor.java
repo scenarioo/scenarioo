@@ -22,7 +22,7 @@ import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.files.ObjectFromDirectory;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.business.diffViewer.comparator.BuildComparator;
-import org.scenarioo.business.diffViewer.comparator.ComparatorParameter;
+import org.scenarioo.business.diffViewer.comparator.ComparisonParameters;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
@@ -107,7 +107,7 @@ public class ComparisonExecutor {
 		LOGGER.info("Submitting build for Comparison. Base build [" + baseBranchName + "/"
 			+ baseBuildName + "] and comparison build [" + comparisonConfiguration.getComparisonBranchName() + "/"
 			+ comparisonConfiguration.getComparisonBuildName() + "]");
-		
+
 		return asyncComparisonExecutor.submit(new Callable<ComparisonResult>() {
 			@Override
 			public ComparisonResult call() {
@@ -141,7 +141,7 @@ public class ComparisonExecutor {
 				LOGGER.warn("No comparison build found for base build: " + baseBranchName + "/"
 					+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
 			} else {
-				ComparatorParameter cp = new ComparatorParameter(baseBranchName, baseBuildName, resolvedComparisonConfiguration,
+				ComparisonParameters cp = new ComparisonParameters(baseBranchName, baseBuildName, resolvedComparisonConfiguration,
 					configurationRepository.getConfiguration().getDiffImageColor());
 				buildDiffInfo = new BuildComparator(cp).compareAndWrite();
 			}
