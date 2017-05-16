@@ -6,7 +6,6 @@ In two easy step, you are ready to compare your own builds:
 
 1. [Add a comparison configuration](#add-a-comparison-configuration)
 2. [Start comparison](#start-comparison)
-3. [Delete a comparison](#delete-a-comparison)
 
 After that you are ready to use the Diff Viewer feature. Check out the [Diff Viewer User Guide](user-guide.md) for further details.
 
