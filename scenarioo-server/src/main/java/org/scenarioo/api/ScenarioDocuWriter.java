@@ -67,7 +67,7 @@ public class ScenarioDocuWriter {
 	/**
 	 * Initialize with directory inside which to generate the documentation contents.
 	 *
-	 * @param destinationDirectory
+	 * @param destinationRootDirectory
 	 *            the directory where the content should be generated (this directory must be precreated by you!).
 	 * @param branchName
 	 *            name of the branch we are generating content for
@@ -156,7 +156,7 @@ public class ScenarioDocuWriter {
 	}
 
 	public void saveStep(final ImportFeature importFeature, final Scenario scenario, final Step step) {
-		saveStep(importFeature.getName(), scenario.getName(), step);
+		saveStep(importFeature.folderName, scenario.getName(), step);
 	}
 
 	/**
