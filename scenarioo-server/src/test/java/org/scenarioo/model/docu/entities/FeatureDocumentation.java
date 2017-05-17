@@ -91,8 +91,13 @@ public class FeatureDocumentation {
 		feature.featureNames.add("tree-navigation");
 		feature.status = Status.SUCCESS.getKeyword();
 		feature.milestone = "R1";
-		feature.markdown=md1;
+		feature.markdown=new DokuFile("GUI-Documentation", "GUI-Elements.md", FileType.MARKDOWN);
 		feature.specification=spec1;
+		feature.markdown.links = new ArrayList<>();
+		Link mdLink = new Link();
+		mdLink.name = "Original";
+		mdLink.url = "https://google.com";
+		feature.markdown.links.add(mdLink);
 		writeToFile(feature);
 		Assert.assertTrue(new File(baseFolder + "/" + feature.folderName + FEATURE_XML).exists());
 	}
