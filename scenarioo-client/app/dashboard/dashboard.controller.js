@@ -77,7 +77,7 @@ function DashboardController(FeatureService, $rootScope,
         if (def(feature.specification))
             feature.specification.isCollapsed=val;
         if (def(feature.features)){
-            feature.features.isCollapsed=val;
+            feature.isCollapsed=val;
             for(var i = 0; i < feature.features.length; i++){
                 collapseAll(feature.features[i], val);
             }
@@ -98,7 +98,8 @@ function DashboardController(FeatureService, $rootScope,
         if(!scenarioSummary.diffInfo || !scenarioSummary.diffInfo.isRemoved){
             goToScenario(feature, scenarioSummary.scenario.name);
         }
-    }
+    };
+
     function goToScenario(feature, scenarioName) {
         $location.path('/scenario/' + feature + '/' + scenarioName);
     }
