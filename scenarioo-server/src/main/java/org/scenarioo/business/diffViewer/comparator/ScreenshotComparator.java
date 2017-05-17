@@ -48,16 +48,16 @@ public class ScreenshotComparator extends AbstractComparator {
 		final String baseScreenshotName = THREE_DIGIT_NUM_FORMAT.format(baseStepLink.getStepIndex())
 			+ SCREENSHOT_FILE_EXTENSION;
 
-		final File baseScreenshot = docuReader.getScreenshotFile(baseBranchName,
-			baseBuildName, baseUseCaseName, baseScenarioName, baseScreenshotName);
+		final File baseScreenshot = docuReader.getScreenshotFile(parameters.getBaseBranchName(),
+			parameters.getBaseBuildName(), baseUseCaseName, baseScenarioName, baseScreenshotName);
 
 		final File comparisonScreenshot = docuReader.getScreenshotFile(
-			comparisonConfiguration.getComparisonBranchName(),
-			comparisonConfiguration.getComparisonBuildName(), baseUseCaseName, baseScenarioName,
+			parameters.getComparisonConfiguration().getComparisonBranchName(),
+			parameters.getComparisonConfiguration().getComparisonBuildName(), baseUseCaseName, baseScenarioName,
 			comparisonScreenshotName);
 
-		final File diffScreenshot = diffReader.getScreenshotFile(baseBranchName, baseBuildName,
-			comparisonConfiguration.getName(),
+		final File diffScreenshot = diffReader.getScreenshotFile(parameters.getBaseBranchName(), parameters.getBaseBuildName(),
+			parameters.getComparisonConfiguration().getName(),
 			baseUseCaseName, baseScenarioName, baseScreenshotName);
 
 		if (!baseScreenshot.exists()) {

@@ -52,9 +52,9 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 		this.baseUseCaseName = baseUseCaseName;
 		this.baseScenarioName = baseScenarioName;
 
-		final List<Step> baseSteps = loadSteps(baseBranchName, baseBuildName);
-		this.comparisonSteps = loadSteps(comparisonConfiguration.getComparisonBranchName(),
-				comparisonConfiguration.getComparisonBuildName());
+		final List<Step> baseSteps = loadSteps(parameters.getBaseBranchName(), parameters.getBaseBuildName());
+		this.comparisonSteps = loadSteps(parameters.getComparisonConfiguration().getComparisonBranchName(),
+			parameters.getComparisonConfiguration().getComparisonBuildName());
 
 		final List<StepLink> baseStepLinks = stepAndPagesAggregator.calculateStepLinks(baseSteps, baseUseCaseName,
 				baseScenarioName);
@@ -66,7 +66,7 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 		calculateDiffInfo(baseStepLinks, comparisonStepLinks, scenarioDiffInfo);
 
 		LOGGER.info(getLogMessage(scenarioDiffInfo,
-				"Scenario " + baseBranchName + "/" + baseBuildName + "/" + baseUseCaseName + "/" + baseScenarioName));
+				"Scenario " + parameters.getBaseBranchName() + "/" + parameters.getBaseBuildName() + "/" + baseUseCaseName + "/" + baseScenarioName));
 
 		return scenarioDiffInfo;
 	}
@@ -86,7 +86,7 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 
 			final StepDiffInfo stepDiffInfo = getStepDiffInfo(baseElement, comparisonScreenshotName, changeRate);
 
-			diffWriter.saveStepDiffInfo(baseUseCaseName, baseScenarioName, stepDiffInfo);
+			parameters.getDiffWriter().saveStepDiffInfo(baseUseCaseName, baseScenarioName, stepDiffInfo);
 
 			if (stepDiffInfo.hasChanges()) {
 				diffInfo.setChanged(diffInfo.getChanged() + 1);

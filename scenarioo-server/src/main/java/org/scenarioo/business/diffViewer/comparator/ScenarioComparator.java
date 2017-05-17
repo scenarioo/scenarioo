@@ -51,17 +51,17 @@ public class ScenarioComparator extends AbstractStructureComparator<Scenario, St
 	public UseCaseDiffInfo compare(final String baseUseCaseName) {
 		this.baseUseCaseName = baseUseCaseName;
 
-		final List<Scenario> baseScenarios = docuReader.loadScenarios(baseBranchName, baseBuildName, baseUseCaseName);
+		final List<Scenario> baseScenarios = docuReader.loadScenarios(parameters.getBaseBranchName(), parameters.getBaseBuildName(), baseUseCaseName);
 		final List<Scenario> comparisonScenarios = docuReader.loadScenarios(
-				comparisonConfiguration.getComparisonBranchName(),
-				comparisonConfiguration.getComparisonBuildName(), baseUseCaseName);
+			parameters.getComparisonConfiguration().getComparisonBranchName(),
+			parameters.getComparisonConfiguration().getComparisonBuildName(), baseUseCaseName);
 
 		final UseCaseDiffInfo useCaseDiffInfo = new UseCaseDiffInfo(baseUseCaseName);
 
 		calculateDiffInfo(baseScenarios, comparisonScenarios, useCaseDiffInfo);
 
 		LOGGER.info(getLogMessage(useCaseDiffInfo,
-				"Use Case " + baseBranchName + "/" + baseBuildName + "/" + baseUseCaseName));
+				"Use Case " + parameters.getBaseBranchName() + "/" + parameters.getBaseBuildName() + "/" + baseUseCaseName));
 
 		return useCaseDiffInfo;
 	}
@@ -75,7 +75,7 @@ public class ScenarioComparator extends AbstractStructureComparator<Scenario, St
 			final ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(baseUseCaseName,
 					baseElement.getName());
 
-			diffWriter.saveScenarioDiffInfo(scenarioDiffInfo, baseUseCaseName);
+			parameters.getDiffWriter().saveScenarioDiffInfo(scenarioDiffInfo, baseUseCaseName);
 
 			if (scenarioDiffInfo.hasChanges()) {
 				diffInfo.setChanged(diffInfo.getChanged() + 1);
@@ -92,8 +92,8 @@ public class ScenarioComparator extends AbstractStructureComparator<Scenario, St
 		}
 
 		final BuildIdentifier comparisonBuildIdentifier = new BuildIdentifier(
-				comparisonConfiguration.getComparisonBranchName(),
-				comparisonConfiguration.getComparisonBuildName());
+			parameters.getComparisonConfiguration().getComparisonBranchName(),
+			parameters.getComparisonConfiguration().getComparisonBuildName());
 		final UseCaseScenarios useCaseScenarios = aggregatedDataReader.loadUseCaseScenarios(comparisonBuildIdentifier,
 				baseUseCaseName);
 

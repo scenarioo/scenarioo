@@ -18,9 +18,6 @@
 package org.scenarioo.business.diffViewer.comparator;
 
 import org.scenarioo.api.ScenarioDocuReader;
-import org.scenarioo.dao.diffViewer.DiffWriter;
-import org.scenarioo.dao.diffViewer.impl.DiffWriterXmlImpl;
-import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.utils.NumberFormatCreator;
@@ -38,22 +35,12 @@ public abstract class AbstractComparator {
 
 	protected ComparisonParameters parameters;
 	protected ScenarioDocuReader docuReader;
-	protected DiffWriter diffWriter;
-	protected String baseBranchName;
-	protected String baseBuildName;
-	protected ComparisonConfiguration comparisonConfiguration;
 
 	public AbstractComparator(ComparisonParameters parameters) {
 		this.parameters = parameters;
-		this.baseBranchName = parameters.getBaseBranchName();
-		this.baseBuildName = parameters.getBaseBuildName();
-		this.comparisonConfiguration = parameters.getComparisonConfiguration();
 
 		this.docuReader = new ScenarioDocuReader(
 			configurationRepository.getDocumentationDataDirectory());
-		this.diffWriter = new DiffWriterXmlImpl(parameters.getBaseBranchName(),
-			parameters.getBaseBuildName(),
-			parameters.getComparisonConfiguration().getName());
 	}
 
 }
