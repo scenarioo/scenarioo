@@ -20,11 +20,9 @@ package org.scenarioo.business.diffViewer.comparator;
 import org.apache.log4j.Logger;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
-import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.io.File;
@@ -39,9 +37,8 @@ public class ScreenshotComparator extends AbstractComparator {
 	private static final int SCREENSHOT_DEFAULT_CHANGE_RATE = 0;
 	private DiffReader diffReader;
 
-	public ScreenshotComparator(final String baseBranchName, final String baseBuildName,
-								final ComparisonConfiguration comparisonConfiguration) {
-		super(baseBranchName, baseBuildName, comparisonConfiguration);
+	public ScreenshotComparator(ComparisonParameters parameters) {
+		super(parameters);
 		diffReader = new DiffReaderXmlImpl();
 	}
 
@@ -51,16 +48,16 @@ public class ScreenshotComparator extends AbstractComparator {
 		final String baseScreenshotName = THREE_DIGIT_NUM_FORMAT.format(baseStepLink.getStepIndex())
 			+ SCREENSHOT_FILE_EXTENSION;
 
-		final File baseScreenshot = docuReader.getScreenshotFile(baseBranchName,
-			baseBuildName, baseUseCaseName, baseScenarioName, baseScreenshotName);
+		final File baseScreenshot = docuReader.getScreenshotFile(parameters.getBaseBranchName(),
+			parameters.getBaseBuildName(), baseUseCaseName, baseScenarioName, baseScreenshotName);
 
 		final File comparisonScreenshot = docuReader.getScreenshotFile(
-			comparisonConfiguration.getComparisonBranchName(),
-			comparisonConfiguration.getComparisonBuildName(), baseUseCaseName, baseScenarioName,
+			parameters.getComparisonConfiguration().getComparisonBranchName(),
+			parameters.getComparisonConfiguration().getComparisonBuildName(), baseUseCaseName, baseScenarioName,
 			comparisonScreenshotName);
 
-		final File diffScreenshot = diffReader.getScreenshotFile(baseBranchName, baseBuildName,
-			comparisonConfiguration.getName(),
+		final File diffScreenshot = diffReader.getScreenshotFile(parameters.getBaseBranchName(), parameters.getBaseBuildName(),
+			parameters.getComparisonConfiguration().getName(),
 			baseUseCaseName, baseScenarioName, baseScreenshotName);
 
 		if (!baseScreenshot.exists()) {
@@ -88,7 +85,7 @@ public class ScreenshotComparator extends AbstractComparator {
 		}
 
 		try {
-			int diffColor = new Color(255, 0, 0, 200).getRGB();
+			int diffColor = parameters.getDiffImageColor().getRGB();
 
 			BufferedImage oldImage = ImageIO.read(baseScreenshot);
 			BufferedImage newImage = ImageIO.read(comparisonScreenshot);

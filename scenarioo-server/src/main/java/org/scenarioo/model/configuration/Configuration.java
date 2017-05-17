@@ -17,6 +17,7 @@
 
 package org.scenarioo.model.configuration;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -67,6 +68,18 @@ public class Configuration {
 	private String branchSelectionListOrder = "name-ascending";
 
 	private Map<String, String> buildstates = new HashMap<String, String>();
+
+	/**
+	 * RGB Hex Color
+	 * Pattern: 0xAARRGGBB <br/>
+	 * - AA: ALPHA. Transparency. Range from hex 00..ff <br />
+	 * - RR: RED. Range from hex 00..ff <br />
+	 * - GG: GREEN. Range from hex 00..ff <br />
+	 * - BB: BLUE. Range from hex 00..ff <br />
+	 *
+	 * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html#Color(int,%20boolean)"> docs.oracle.com</a>
+	 */
+	private String diffImageColorRgbaHex = "0x7FEDB04D";
 
 	/**
 	 * Will create a physical build containing the last successful scenarios of a branch.
@@ -240,4 +253,13 @@ public class Configuration {
 		this.createLastSuccessfulScenarioBuild = createLastSuccessfulScenarioBuild;
 	}
 
+	public Color getDiffImageColor() {
+		//Required Long. Because the positive hex value could be out of range of a signed integer. With Long we can avoid this issue.
+		int rgba = Long.decode(diffImageColorRgbaHex).intValue();
+		return new Color(rgba, true);
+	}
+
+	public void setDiffImageColor(Color diffColor) {
+		this.diffImageColorRgbaHex = "0x" + Integer.toHexString(diffColor.getRGB());
+	}
 }
