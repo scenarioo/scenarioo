@@ -42,17 +42,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <h1>Details of: {{dashboard.feature.name}}</h1>
         <sc-meta-data-panel linking-variable="useCaseShowMetadata">
             <div flex>
-                <button type="button" ng-click="dashboard.expandAll()">Expand all</button>
-                <button type="button" ng-click="dashboard.collapseAll()">Collapse all</button>
+                <button type="button" class="btn btn-default" ng-click="dashboard.expandAll()">Expand all</button>
+                <button type="button" class="btn btn-default" ng-click="dashboard.collapseAll()">Collapse all</button>
 
                 <file-viewer feature="dashboard.feature"></file-viewer>
 
                 <div ng-if="dashboard.contains(dashboard.feature, 'features')">
                     <!--Show Subfeatures -->
                     <md-card ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOrder">
-                        <button type="button" class="md-toolbar-tools btn btn-primary" ng-click="feature.isCollapsed = !feature.isCollapsed">
-                            <h2 style="color: white;">{{feature.name}}, {{feature.status}}, <test-overview feature="feature"></test-overview></h2>
-                        </button>
+                        <div style="width: 100%; background-color: #0e90d2;" class="md-toolbar-tools" ng-click="feature.isCollapsed = !feature.isCollapsed">
+                            <h2 style="color: white; width: 100%; text-align: center;">{{feature.name}}, <span ng-class="[getStatusStyleClass(feature.status), 'label']">{{feature.status}}</span>, <test-overview feature="feature"></test-overview></h2>
+                        </div>
                         <div uib-collapse="feature.isCollapsed" ng-show="!feature.isCollapsed">
                             <a ng-click="dashboard.clickFeature(feature, '/detailNav')">Select {{feature.name}}</a>
 

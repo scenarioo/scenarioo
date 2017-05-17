@@ -94,7 +94,7 @@ public class ImportFeature implements Serializable, Labelable, Detailable {
 	}
 
 	public String getName() {
-		return name;
+		return folderName;
 	}
 
 	/**

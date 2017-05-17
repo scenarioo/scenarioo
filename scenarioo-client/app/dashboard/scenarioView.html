@@ -55,7 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="scenario in dashboard.feature.scenarios | orderBy: 'storyOrderNumber'" ng-click="dashboard.handleClick(dashboard.feature.name, scenario)"
+            <tr ng-repeat="scenario in dashboard.feature.scenarios | orderBy: 'storyOrderNumber'" ng-click="dashboard.handleClick(dashboard.feature.folderName, scenario)"
                 class="link">
                 <td>
                     <span class="label state" ng-class="getStatusStyleClass(scenario.scenario.status)">{{scenario.scenario.status}}</span>
