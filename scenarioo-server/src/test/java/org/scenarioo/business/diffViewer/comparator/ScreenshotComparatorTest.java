@@ -4,6 +4,7 @@ import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,10 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
 
-public class ScreenshotComparatorGraphicsMagickTest {
+public class ScreenshotComparatorTest {
 	private ScreenshotComparator screenshotComparator;
 
 	private static final String FILEPATH = "src/test/resources/org/scenarioo/business/diffViewer/";
@@ -45,13 +47,22 @@ public class ScreenshotComparatorGraphicsMagickTest {
 		screenshotComparator = new ScreenshotComparator(COMPARATOR_PARAMETERS);
 	}
 
+	@After
+	public void cleanUpTest(){
+		if(DIFF_SCREENSHOT.exists()){
+			assertTrue("Unable to clean up the test data: " + DIFF_SCREENSHOT.getAbsolutePath(), DIFF_SCREENSHOT.delete());
+		}
+	}
+
 	@Test
 	public void compareEqualScreenshots() {
 		DIFF_SCREENSHOT.delete();
+
 		final double difference = screenshotComparator.compareScreenshots(BASE_SCREENSHOT,
 			BASE_SCREENSHOT, DIFF_SCREENSHOT);
+
 		assertEquals("Difference of screenshots", 0, difference, DOUBLE_TOLERANCE);
-		assertTrue("No DiffScreenshot is saved", !DIFF_SCREENSHOT.exists());
+		assertFalse("No DiffScreenshot expected.", DIFF_SCREENSHOT.exists());
 	}
 
 	@Test
@@ -88,7 +99,7 @@ public class ScreenshotComparatorGraphicsMagickTest {
 	}
 
 	private class TestAppender extends AppenderSkeleton {
-		private final List<LoggingEvent> log = new ArrayList<LoggingEvent>();
+		private final List<LoggingEvent> log = new ArrayList<>();
 
 		@Override
 		public boolean requiresLayout() {
@@ -105,8 +116,8 @@ public class ScreenshotComparatorGraphicsMagickTest {
 			// Not test relevant
 		}
 
-		public List<LoggingEvent> getLog() {
-			return new ArrayList<LoggingEvent>(log);
+		List<LoggingEvent> getLog() {
+			return new ArrayList<>(log);
 		}
 	}
 }

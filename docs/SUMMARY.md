@@ -22,7 +22,7 @@
      * [Full Text Search Specs](features/full-text-search/specifications.md)
   * [Diff Viewer](features/diff-viewer/README.md)
      * [Diff Viewer User Guide](features/diff-viewer/user-guide.md)
-     * [Diff Viewer Setup Instructions](features/diff-viewer/setup.md)
+     * [Diff Viewer Setup Guide](features/diff-viewer/setup.md)
 
 * [Contributor Guide](contribute/README.md)
   * [Development Environment Setup](contribute/Development-Environment-with-IntelliJ.md)

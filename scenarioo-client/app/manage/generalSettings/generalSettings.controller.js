@@ -24,7 +24,6 @@ function GeneralSettingsController(BranchesResource, ConfigService, ApplicationS
     vm.configuration = {};
     vm.configuredBranch = {};
     vm.successfullyUpdatedConfiguration = false;
-    vm.diffViewerAvailable = null;
     vm.searchEngineStatus = null;
     vm.resetConfiguration = resetConfiguration;
     vm.updateConfiguration = updateConfiguration;
@@ -42,7 +41,6 @@ function GeneralSettingsController(BranchesResource, ConfigService, ApplicationS
 
             vm.version = status.version;
             vm.configuration = status.configuration;
-            vm.diffViewerAvailable = status.diffViewerStatus.graphicsMagickAvailable;
             vm.searchEngineStatus = status.searchEngineStatus;
 
             calculateConfiguredBranch();

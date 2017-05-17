@@ -56,14 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <h2>Diff Viewer</h2>
 
-        <div id="sc-diff-viewer-not-configured-message" class="row sc-space-bottom" ng-show="!vm.diffViewerAvailable" ng-cloak>
-            <div class="col-lg-12">
-                Image comparison is <span class="sc-service-disabled">disabled</span>. Structural comparisons are enabled.<br/>
-                See <a href="https://github.com/scenarioo/scenarioo/blob/{{vm.version.releaseBranch}}/docs/features/diff-viewer/setup.md" target="_blank">Setup instructions for Diff Viewer</a> on how to configure and setup Diff Viewer for Scenarioo.
-            </div>
-        </div>
-
-        <div class="row sc-space-bottom" ng-show="vm.diffViewerAvailable" ng-cloak>
+        <div class="row sc-space-bottom" ng-show="true" ng-cloak>
             <div class="col-lg-12">
                 Image comparison is <span class="sc-service-enabled">enabled</span>. See <a href="https://github.com/scenarioo/scenarioo/blob/{{vm.version.releaseBranch}}/docs/features/diff-viewer/setup.md#2-add-a-comparison-configuration" target="_blank">Comparison Configuration documentation</a> for more information about configuring Diff Viewer.
             </div>

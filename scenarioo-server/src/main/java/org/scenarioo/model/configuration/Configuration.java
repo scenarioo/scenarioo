@@ -61,6 +61,12 @@ public class Configuration {
 
 	private String applicationInformation = "";
 
+	/**
+	 * The order of the branch entries in the top level navigation branch selection dropdown is configurable.
+	 * Values: name-ascending, name-descending, last-build-date-descending
+	 */
+	private String branchSelectionListOrder = "name-ascending";
+
 	private Map<String, String> buildstates = new HashMap<String, String>();
 
 	/**
@@ -175,6 +181,14 @@ public class Configuration {
 
 	public void setApplicationInformation(final String applicationInformation) {
 		this.applicationInformation = applicationInformation;
+	}
+
+	public String getBranchSelectionListOrder() {
+		return branchSelectionListOrder;
+	}
+
+	public void setBranchSelectionListOrder(String branchSelectionListOrder) {
+		this.branchSelectionListOrder = branchSelectionListOrder;
 	}
 
 	public Map<String, String> getBuildstates() {
