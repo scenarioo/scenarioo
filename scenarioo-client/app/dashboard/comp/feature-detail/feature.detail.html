@@ -16,8 +16,8 @@
     Description: {{card.feature.description}}
     <h4>Direct Childs</h4>
     <ul>
-        <li ng-repeat="feature in card.feature.features"><a ng-click="card.click(feature)">{{feature.name}}</a></li>
+        <li ng-repeat="feature in card.feature.features"><a ng-click="card.click(feature, '')">{{feature.name}}</a></li>
     </ul>
     <br/>
-    Parent Feature: <a ng-click="card.click(card.feature.parentFeature)">{{card.feature.parentFeature.name}}</a>
+    Parent Feature: <a ng-click="card.click(card.feature.parentFeature, '')">{{card.feature.parentFeature.name}}</a>
 </md-card>

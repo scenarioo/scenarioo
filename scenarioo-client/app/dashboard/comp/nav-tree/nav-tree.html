@@ -1,19 +1,24 @@
 <div flex style="
 white-space: nowrap;
-  overflow: hidden;">
-    <span ng-if="navTree.feature.features.length>0">
-        <button type="button" ng-click="navTree.feature.isCollapsed = !navTree.feature.isCollapsed"><span>{{navTree.features.isCollapsed ? '+' : '-'}}</span></button>
-    </span>
-    <span ng-click="navTree.clickFeature(navTree.feature, '')">
-        <span ng-if="navTree.currentFeature.name==navTree.feature.name" style="color:red">
-            =>
+  overflow: hidden;
+">
+    <div style="background-color: {{navTree.getBGColor()}}; color: {{navTree.getColor()}};">
+        <span ng-if="navTree.feature.features.length>0">
+            <div style="display: inline-block; text-align: center; width: 20px; height: 20px; border-style: dashed; border-color: darkgrey; border-width: 1px;" ng-click="navTree.feature.isCollapsed = !navTree.feature.isCollapsed">
+                <span ng-if="navTree.feature.isCollapsed">+</span>
+                <span ng-if="!navTree.feature.isCollapsed">-</span>
+            </div>
         </span>
-        <span ng-else>
+        <span ng-if="navTree.feature.features.length==0">
+
+            <div style="display: inline-block; text-align: center; width: 20px; height: 20px;"><span>|</span></div>
+        </span>
+        <span ng-click="navTree.clickFeature(navTree.feature, '')">
             {{navTree.feature.name}}
         </span>
-    </span>
+    </div>
     <li uib-collapse="navTree.feature.isCollapsed" ng-show="!navTree.feature.isCollapsed">
-        <ul ng-repeat="feature1 in navTree.feature.features">
+        <ul style="padding-left: 20px;" ng-repeat="feature1 in navTree.feature.features">
             <nav-tree feature="feature1" current-feature="navTree.currentFeature" click-feature="navTree.clickFeature"></nav-tree>
         </ul>
     </li>
