@@ -26,7 +26,7 @@ function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort, $rootS
     function replace(links, attr) {
         for (var j = 0; j < links.length; j++){
             var url = links[j].getAttribute(attr);
-            console.log('found url', url);
+            //console.log('found url', url);
             if (!url.startsWith('http')){
                 if (url.startsWith('/')) url = url.substring(1, url.length);
                 var newUrl = HostnameAndPort.forLink() + baseRestUrl + url;
