@@ -1,7 +1,7 @@
-<div flex layout-fill layout="column" style="background-color: #0e90d2;" ng-click="treeNav.showNav = !treeNav.showNav">
-    <span ng-show="treeNav.showNav" style="margin-top: 50px; color: whitesmoke; font-size: large; transform: rotate(90deg); width: 3em; text-wrap: none; "> Feature Explorer </span>
-    <span ng-hide="treeNav.showNav" style="color: whitesmoke;">X Close</span>
-    <div layout-fill ng-hide="treeNav.showNav" style="background-color: white; min-width: 250px;" ng-click="$event.stopPropagation();">
+<div flex layout-fill layout="column" style="background-color: #0e90d2;">
+    <span ng-show="!treeNav.showNav" style="margin-top: 50px; color: whitesmoke; font-size: large; transform: rotate(90deg); width: 3em; text-wrap: none; " ng-click="treeNav.showNav=true"> Feature Explorer </span>
+    <span ng-show="treeNav.showNav" style="color: whitesmoke;" ng-click="treeNav.showNav=false">X Close</span>
+    <div layout-fill ng-show="treeNav.showNav" style="background-color: white; min-width: 250px;" ng-click="$event.stopPropagation();">
         <h1 style="
 white-space: nowrap;
   overflow: hidden;"> Feature Explorer </h1>

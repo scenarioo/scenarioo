@@ -13,6 +13,7 @@ function DashboardController(FeatureService, $rootScope,
     var dateTimeFormatter = $filter('scDateTime');
     dashboard.milestones = [];
     dashboard.isCollapsed = false;
+    dashboard.isExplorerCollapsed = false;
 
     dashboard.firstOrder = 'storyOrderNumber';
     dashboard.secondOrder = 'milestone';
@@ -102,6 +103,10 @@ function DashboardController(FeatureService, $rootScope,
 
     function goToScenario(feature, scenarioName) {
         $location.path('/scenario/' + feature + '/' + scenarioName);
+    }
+    function containsSubsub(feature){
+        feature.features.forEach(function(sub){if(sub.features != null){return true;}});
+        return false;
     }
 }
 

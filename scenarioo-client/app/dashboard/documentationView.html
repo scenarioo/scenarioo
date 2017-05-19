@@ -17,13 +17,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <div layout = "row">
     <tree-nav root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
-    <div flex layout-fill layout = "column" style="background-color: whitesmoke;">
+
+    <div flex layout-fill layout = "column">
+
         <sc-breadcrumbs></sc-breadcrumbs>
-        <div layout = "row">
-            <site-navigation current="detailNav" flex = "33"></site-navigation>
-        </div>
+        <h1>Details of: {{dashboard.feature.name}}</h1>
         <div layout = "row" class="sc-space-top sc-space-bottom">
-            <!--<div flex>
+            <div flex>
                 <div class="input-group">
                     <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
                            title="type words separated by spaces to search for" ng-model="useCase.table.search.searchTerm"
@@ -32,33 +32,49 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <button type="button" ng-click="dashboard.resetSearchField()" class="btn btn-default">reset</button>
                     </span>
                 </div>
-            </div>-->
+            </div>
             <div class="col-sm-12">
                 <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata"
                                      local-storage-key="usecase"></sc-meta-data-button>
             </div>
         </div>
-
-        <h1>Details of: {{dashboard.feature.name}}</h1>
+        <div layout = "row">
+            <site-navigation current="detailNav" flex = "33"></site-navigation>
+        </div>
         <sc-meta-data-panel linking-variable="useCaseShowMetadata">
             <div flex>
-                <button type="button" class="btn btn-default" ng-click="dashboard.expandAll()">Expand all</button>
-                <button type="button" class="btn btn-default" ng-click="dashboard.collapseAll()">Collapse all</button>
+                <div style="margin-left: 1%">
+                    <button type="button" class="btn btn-default" ng-click="dashboard.expandAll()">Expand all</button>
+                    <button type="button" class="btn btn-default" ng-click="dashboard.collapseAll()">Collapse all</button>
 
-                <file-viewer feature="dashboard.feature"></file-viewer>
-
-                <div ng-if="dashboard.contains(dashboard.feature, 'features')">
-                    <!--Show Subfeatures -->
-                    <md-card ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOrder">
-                        <div style="width: 100%; background-color: #0e90d2;" class="md-toolbar-tools" ng-click="feature.isCollapsed = !feature.isCollapsed">
-                            <h2 style="color: white; width: 100%; text-align: center;">{{feature.name}}, <span ng-class="[getStatusStyleClass(feature.status), 'label']">{{feature.status}}</span>, <test-overview feature="feature"></test-overview></h2>
+                    <div ng-if="dashboard.contains(dashboard.feature, 'markdown') || dashboard.contains(dashboard.feature, 'specification')">
+                        <file-viewer feature="dashboard.feature"></file-viewer>
+                    </div>
+                    <div ng-if="!dashboard.contains(dashboard.feature, 'markdown') && !dashboard.contains(dashboard.feature, 'specification')">
+                        <br/>
+                        This feature doesn't contain a markdown or specification file.
+                        <br/>
+                        You're probably better of with the <a href="/#/testScenarios">Scenarios-View</a>
+                    </div>
+                    <div style="" ng-if="dashboard.contains(dashboard.feature, 'features')">
+                        <!--Show Subfeatures -->
+                        <div ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOrder">
+                            <div style="border-bottom: 2px solid dimgrey;" ng-click="feature.isCollapsed = !feature.isCollapsed">
+                                <h3>
+                                    <i class="glyphicon glyphicon-chevron-down"></i>{{feature.name}},
+                                    <test-overview feature="feature"></test-overview>
+                                    <a ng-click="dashboard.clickFeature(feature, '/detailNav')">Select feature</a>
+                                </h3>
+                            </div>
+                            <div uib-collapse="feature.isCollapsed" ng-show="!feature.isCollapsed" style="margin-left: 2%;">
+                                <file-viewer feature="feature"></file-viewer>
+                            </div>
                         </div>
-                        <div uib-collapse="feature.isCollapsed" ng-show="!feature.isCollapsed">
-                            <a ng-click="dashboard.clickFeature(feature, '/detailNav')">Select {{feature.name}}</a>
-
-                            <file-viewer feature="feature"></file-viewer>
-                        </div>
-                    </md-card>
+                    </div>
+                    <div ng-if="!dashboard.contains(dashboard.feature, 'features')">
+                        <br/>
+                        This feature doesn't contain any subfeatures.
+                    </div>
                 </div>
             </div>
             <side-panel flex="20">

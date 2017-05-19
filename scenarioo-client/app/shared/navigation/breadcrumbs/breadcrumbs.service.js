@@ -24,7 +24,7 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
     var homeElement =
     {
         label: '<i class="icon-home"></i> Home',
-        route: '/feature/'   // maybe better rename to linkUrl
+        route: '/feature/?feature=Home'             // maybe better rename to linkUrl
     };
 
     var manageElement =

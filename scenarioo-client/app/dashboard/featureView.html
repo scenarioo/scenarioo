@@ -18,12 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div layout = "row">
     <tree-nav size="dashboard.navsize" root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
 
-    <div flex layout-fill layout = "column" style="background-color: whitesmoke;">
+    <div flex layout-fill layout = "column">
 
 <sc-breadcrumbs></sc-breadcrumbs>
-<div layout = "row">
-    <site-navigation current="feature" flex = "33"></site-navigation>
-</div>
+        <h1>Features of: {{dashboard.feature.name}}</h1>
 <div layout = "row" class="sc-space-top sc-space-bottom">
     <!--<div flex>
         <div class="input-group">
@@ -39,11 +37,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata" local-storage-key="usecase"></sc-meta-data-button>
     </div>
 </div>
-<h1>Features of: {{dashboard.feature.name}}</h1>
+        <div layout = "row">
+            <site-navigation current="feature" flex = "33"></site-navigation>
+        </div>
 <sc-meta-data-panel linking-variable="useCaseShowMetadata">
     <div flex>
-        <!-- use cases table-->
-        <table class="table table-curved table-hover table-responsive usecase-table" sc-keyboard-navigatable-table="filtered" sc-keyboard-navigatable-table-hit="useCase.onNavigatorTableHit">
+
+        <table ng-if="dashboard.feature.features.length > 0" class="table table-curved table-hover table-responsive usecase-table" sc-keyboard-navigatable-table="filtered" sc-keyboard-navigatable-table-hit="useCase.onNavigatorTableHit">
             <thead>
             <tr>
                 <th sc-sortable-column="status">Status</th>
@@ -76,6 +76,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tr>
             </tbody>
         </table>
+        <div ng-if="dashboard.feature.features.length < 1">
+            <br/>
+            There are no subfeatures in this feature.
+            <br/>
+            You're probably better off with the <a href="/#/detailNav">Docs-View</a> or the <a href="/#/testScenarios">Scenarios-View</a>.
+        </div>
     </div>
     <side-panel flex="20">
         <header><h1>Details zum angewählten feature</h1></header>

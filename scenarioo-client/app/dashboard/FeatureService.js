@@ -131,7 +131,7 @@ angular.module('scenarioo').service('FeatureService',
 
     function setInternalAfterLoad(features, baseBranchName, baseBuildName) {
         rootFeature.features = features;
-        rootFeature.name = baseBranchName+ ' '+ baseBuildName;
+        rootFeature.name = 'Home';
         loadBackRefs(rootFeature, null);
         loadFeature();
         getAllMilestones();

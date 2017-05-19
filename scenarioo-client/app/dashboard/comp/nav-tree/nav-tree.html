@@ -4,9 +4,9 @@ white-space: nowrap;
 ">
     <div style="background-color: {{navTree.getBGColor()}}; color: {{navTree.getColor()}};">
         <span ng-if="navTree.feature.features.length>0">
-            <div style="display: inline-block; text-align: center; width: 20px; height: 20px; border-style: dashed; border-color: darkgrey; border-width: 1px;" ng-click="navTree.feature.isCollapsed = !navTree.feature.isCollapsed">
-                <span ng-if="navTree.feature.isCollapsed">+</span>
-                <span ng-if="!navTree.feature.isCollapsed">-</span>
+            <div style="display: inline-block; text-align: center; width: 20px; height: 20px; border-style: dashed; border-color: darkgrey; border-width: 1px;" ng-click="navTree.feature.isExplorerCollapsed = !navTree.feature.isExplorerCollapsed">
+                <span ng-if="navTree.feature.isExplorerCollapsed">+</span>
+                <span ng-if="!navTree.feature.isExplorerCollapsed">-</span>
             </div>
         </span>
         <span ng-if="navTree.feature.features.length==0">
@@ -17,7 +17,7 @@ white-space: nowrap;
             {{navTree.feature.name}}
         </span>
     </div>
-    <li uib-collapse="navTree.feature.isCollapsed" ng-show="!navTree.feature.isCollapsed">
+    <li uib-collapse="navTree.feature.isExplorerCollapsed" ng-show="!navTree.feature.isExplorerCollapsed">
         <ul style="padding-left: 20px;" ng-repeat="feature1 in navTree.feature.features">
             <nav-tree feature="feature1" current-feature="navTree.currentFeature" click-feature="navTree.clickFeature"></nav-tree>
         </ul>

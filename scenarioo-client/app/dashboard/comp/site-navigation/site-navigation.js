@@ -6,10 +6,10 @@ function SiteNavigationController($location){
             short: 'Feature'
         },{
             name: 'dashboard',
-            short: 'Dashboard'
+            short: 'Map'
         },{
             name: 'detailNav',
-            short: 'Doku'
+            short: 'Docs'
         },{
             name: 'testScenarios',
             short: 'Scenarios'

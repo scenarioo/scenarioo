@@ -18,14 +18,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div layout = "row">
     <tree-nav size="dashboard.navsize" root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
 
-    <div flex layout-fill layout = "column" style="background-color: whitesmoke;">
+    <div flex layout-fill layout = "column">
 
 <sc-breadcrumbs></sc-breadcrumbs>
-<div layout = "row">
-    <site-navigation current="testScenarios" flex = "33"></site-navigation>
-</div>
+        <h1>Scenarios of: {{dashboard.feature.name}}</h1>
 <div layout = "row" class="sc-space-top sc-space-bottom">
-    <!--<div flex>
+    <div flex>
         <div class="input-group">
             <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
                    title="type words separated by spaces to search for" ng-model="useCase.table.search.searchTerm"
@@ -34,16 +32,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <button type="button" ng-click="dashboard.resetSearchField()" class="btn btn-default">reset</button>
             </span>
         </div>
-    </div>-->
+    </div>
     <div class="col-sm-12">
         <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata"
                              local-storage-key="usecase"></sc-meta-data-button>
     </div>
 </div>
-<h1>Scenarios of: {{dashboard.feature.name}}</h1>
+        <div layout = "row">
+            <site-navigation current="testScenarios" flex = "33"></site-navigation>
+        </div>
 <sc-meta-data-panel linking-variable="useCaseShowMetadata">
     <div flex>
-        <table class="table table-bordered scenario-table" sc-keyboard-navigatable-table="filtered"
+
+        <table ng-if="dashboard.feature.scenarios != undefined" class="table table-bordered scenario-table" sc-keyboard-navigatable-table="filtered"
                sc-keyboard-navigatable-table-hit="dashboard.onNavigatorTableHit">
             <thead>
             <tr>
@@ -68,9 +69,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tbody>
         </table>
         <div flex ng-if="dashboard.feature.scenarios == undefined">
+            <br/>
             There are no scenarios in this feature!
             <br/>
-            Please select an other feature in the Feature Explorer.
+            You're probably better off with the <a href="/#/feature/">Feature-View</a> or the <a href="/#/detailNav">Docs-View</a>.
         </div>
     </div>
     <side-panel flex="20">
