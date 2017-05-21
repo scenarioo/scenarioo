@@ -104,8 +104,16 @@ function DashboardController(FeatureService, $rootScope,
     function goToScenario(feature, scenarioName) {
         $location.path('/scenario/' + feature + '/' + scenarioName);
     }
-    function containsSubsub(feature){
-        feature.features.forEach(function(sub){if(sub.features != null){return true;}});
+    dashboard.containsSubsub = function containsSubsub(feature){
+        if (!angular.isDefined(feature.features)){
+            return false;
+        }
+        for (var i = 0; i < feature.features.length ; i++){
+            if (angular.isDefined(feature.features[i].features) && feature.features[i].features.length > 0){
+                console.log(feature.features[i].features);
+                return true;
+            }
+        }
         return false;
     }
 }

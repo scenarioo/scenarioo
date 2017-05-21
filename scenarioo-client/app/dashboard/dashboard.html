@@ -28,7 +28,7 @@
         </div>
         <sc-meta-data-panel linking-variable="useCaseShowMetadata">
             <div flex layout="column">
-                <div ng-if="dashboard.containsSubsub(dashboard.feature)">
+                <div>
                     <div layout = "row">
                         <md-input-container>
                             <label>SortBy</label>
@@ -58,7 +58,7 @@
 
 
 
-                        <div ng-repeat="milestone in dashboard.milestones">
+                        <div ng-repeat="milestone in dashboard.milestones" ng-if="dashboard.containsSubsub(dashboard.feature)">
 
                             <h2>{{milestone}}</h2>
 

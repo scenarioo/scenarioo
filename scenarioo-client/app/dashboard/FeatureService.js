@@ -24,6 +24,17 @@ angular.module('scenarioo').service('FeatureService',
         }
     }
 
+    service.getSelectedFeatureNames = function () {
+        var featureString = getCurrentFeatures()[branch][build];
+        var featuresArr = featureString.split('/');
+        return featuresArr;
+    };
+
+    service.selectFromArray = function (array) {
+        var str = array.join('/');
+        $location.search('feature', str);
+    };
+
     service.loadUseCases = function loadUseCases(selected) {
         UseCasesResource.query(
             {'branchName': selected.branch, 'buildName': selected.build},
