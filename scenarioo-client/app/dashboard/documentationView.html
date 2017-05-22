@@ -26,16 +26,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div flex>
                 <div class="input-group">
                     <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
-                           title="type words separated by spaces to search for" ng-model="useCase.table.search.searchTerm"
-                           placeholder="Search in use case &quot;{{useCase.useCase.name | scHumanReadable}}&quot;..."/>
+                           title="type words separated by spaces to search for" ng-model="dashboard.table.search.searchTerm"
+                           placeholder="Search in use case &quot;{{dashboard.feature.name | scHumanReadable}}&quot;..."/>
                     <span class="input-group-btn">
-                        <button type="button" ng-click="dashboard.resetSearchField()" class="btn btn-default">reset</button>
-                    </span>
+                <button type="button" ng-click="dashboard.table.search.searchTerm=''" class="btn btn-default">reset</button>
+            </span>
                 </div>
             </div>
-            <div class="col-sm-12">
-                <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata"
-                                     local-storage-key="usecase"></sc-meta-data-button>
+            <div class="col-sm-4">
+                <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata" local-storage-key="feature"></sc-meta-data-button>
             </div>
         </div>
         <div layout = "row">
