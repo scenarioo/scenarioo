@@ -36,6 +36,12 @@ angular.module('scenarioo.directives').directive('scSortableColumn', function ($
                 element.append('&nbsp;&nbsp;');
                 element.append(iconCompiled);
                 element.bind('click', function () {
+                    if(!scope.table){
+                        scope.table = {
+                            search: {searchTerm: ''},
+                            sort: {column: 'name', reverse: false}
+                        };
+                    }
                     if (!scope.table.sort) {
                         scope.table.sort = {};
                     }

@@ -5,9 +5,16 @@ angular.module('scenarioo.controllers').controller('DashboardController', Dashbo
 
 function DashboardController(FeatureService, $rootScope,
                              $filter,SelectedComparison,
-                             LabelConfigurationsResource, $location){
+                             LabelConfigurationsResource, $location, $scope){
 
     var dashboard = this;
+
+    dashboard.table = {
+        search: {searchTerm: ''},
+        sort: {column: 'name', reverse: false}
+    };
+    $scope.table = dashboard.table;
+
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var dateTimeFormatter = $filter('scDateTime');

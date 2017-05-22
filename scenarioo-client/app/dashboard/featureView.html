@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div flex layout-fill layout = "column">
 
 <sc-breadcrumbs></sc-breadcrumbs>
-        <h1>Features of: {{dashboard.feature.name}}</h1>
+        <h1>{{dashboard.feature.name}}</h1>
 <div layout = "row" class="sc-space-top sc-space-bottom">
     <!--<div flex>
         <div class="input-group">
@@ -48,22 +48,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <tr>
                 <th sc-sortable-column="status">Status</th>
                 <th sc-sortable-column="name">Name</th>
-                <th>Description</th>
-                <th sc-sortable-column="date">Release Date</th>
-                <th sc-sortable-column="numberOfSubfeatures"># Subfeatures</th>
+                <th sc-sortable-column="description">Description</th>
+                <th sc-sortable-column="milestone">Release Date</th>
+                <th sc-sortable-column="features.length"># Subfeatures</th>
                 <th sc-sortable-column="numberOfScenario"># Scenarios</th>
-                <th sc-sortable-column="numberOfTests"># Tests</th>
+                <th sc-sortable-column="success"># Tests</th>
                 <th sc-sortable-column="diffInfo.changeRate" class="sort-diff-info" ng-if="dashboard.comparisonInfo.isDefined">Changes</th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="feature in dashboard.feature.features | orderBy: 'storyOrderNumber'" ng-click="dashboard.clickFeature(feature, '/feature')" class="link">
+            <tr ng-class="{'selected':$index==selectedRowIndex, 'added': feature.diffInfo.isAdded, 'removed': feature.diffInfo.isRemoved}"  ng-repeat="feature in dashboard.feature.features | scFilterArray: dashboard.table.search.searchTerm | orderBy: dashboard.table.sort.column: dashboard.table.sort.reverse" ng-click="dashboard.clickFeature(feature, '/feature')" class="link">
                 <td>
                     <span ng-class="[getStatusStyleClass(feature.status), 'label']">{{feature.status}}</span>
                 </td>
                 <td>
                     {{feature.name}}
-                    <span ><!--ng-repeat="label in useCase.labels.labels" class="label label-info sc-label" ng-style="useCasesTab.getLabelStyle(label)">{{label}}--> <strong>no label</strong></span>
+                    <!--<span >ng-repeat="label in useCase.labels.labels" class="label label-info sc-label" ng-style="useCasesTab.getLabelStyle(label)">{{label}} <strong>no label</strong></span>-->
                 </td>
                 <td>{{feature.description}}</td>
                 <td>{{feature.milestone}}</td>
