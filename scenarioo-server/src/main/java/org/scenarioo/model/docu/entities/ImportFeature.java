@@ -60,7 +60,7 @@ public class ImportFeature implements Serializable, Labelable, Detailable {
 	}
 
 
-	public String folderName; // Unique Folder name
+	public String id; // Unique Folder name
 	public String milestone; // string to filter by
 	public String type; // Display Type
 	public List<String> featureNames = new ArrayList<String>(); //Subfeatures FolderName!
@@ -72,7 +72,7 @@ public class ImportFeature implements Serializable, Labelable, Detailable {
 		this.labels = other.labels;
 		this.details = other.details;
 		this.name = other.name;
-		this.folderName = other.folderName;
+		this.id = other.id;
 		this.description = other.description;
 		this.milestone = other.milestone;
 		this.type = other.type;
@@ -94,7 +94,7 @@ public class ImportFeature implements Serializable, Labelable, Detailable {
 	}
 
 	public String getName() {
-		return folderName;
+		return id;
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class ImportFeature implements Serializable, Labelable, Detailable {
 	 */
 	public void setName(final String name) {
 		this.name = name;
-		this.folderName = name;
+		this.id = name;
 	}
 
 	public String getDescription() {

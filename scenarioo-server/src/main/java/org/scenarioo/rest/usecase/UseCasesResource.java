@@ -69,7 +69,7 @@ public class UseCasesResource {
 		for (final UseCaseScenarios useCaseScenarios : useCaseScenariosList) {
 
 			for (ScenarioSummary scenarioSummary: useCaseScenarios.getScenarios()){
-				ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, useCaseScenarios.getFeature().folderName, scenarioSummary.getScenario().getName());
+				ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, useCaseScenarios.getFeature().id, scenarioSummary.getScenario().getName());
 				ScenarioPageSteps pageSteps = dao.loadScenarioPageSteps(scenarioIdentifier);
 
 				scenarioSummary.pageSteps = pageSteps;
@@ -100,8 +100,8 @@ public class UseCasesResource {
 
 	private Feature getFor(String featureName, List<UseCaseSummary> features) {
 		for (Feature feature:features){
-			if (feature.folderName == null) continue;
-			if (feature.folderName.equals(featureName))
+			if (feature.id == null) continue;
+			if (feature.id.equals(featureName))
 				return feature;
 		}
 		return null;

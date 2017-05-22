@@ -161,8 +161,8 @@ public class BuildUploader {
 		}
 	}
 
-	private boolean targetBuildAlreadyExists(final String folderName, final File targetBranchDir) {
-		return new File(targetBranchDir, folderName).exists();
+	private boolean targetBuildAlreadyExists(final String id, final File targetBranchDir) {
+		return new File(targetBranchDir, id).exists();
 	}
 
 	private void moveEntireBranchDirectory(final File sourceBranchDir, final File targetBranchDir)

@@ -247,13 +247,13 @@ angular.module('scenarioo').service('FeatureService',
             var featureDiffReady = false;
 
             UseCaseDiffInfoResource.get(
-                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': feature.folderName},
+                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': feature.id},
                 function onSuccess(useCaseDiffInfo) {
                     feature.diffInfo = useCaseDiffInfo;
 
                     if (def(feature.scenarios)){
                         ScenarioDiffInfosResource.get(
-                            {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': feature.folderName},
+                            {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': feature.id},
                             function onSuccess(scenarioDiffInfos) {
                                 feature.scenarios = DiffInfoService.getElementsWithDiffInfos(feature.scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
                                 selfReady = true;

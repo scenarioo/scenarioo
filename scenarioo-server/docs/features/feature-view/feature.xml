@@ -5,6 +5,6 @@
     <status>failed</status>
     <details/>
     <labels/>
-    <folderName>feature-view</folderName>
+    <id>feature-view</id>
     <milestone>R1</milestone>
 </useCase>

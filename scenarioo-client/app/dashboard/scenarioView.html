@@ -55,7 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tr>
             </thead>
             <tbody>
-            <tr ng-class="{'selected':$index==selectedRowIndex, 'added': scenario.diffInfo.isAdded, 'removed': scenario.diffInfo.isRemoved}"   ng-repeat="scenario in dashboard.feature.scenarios | scFilterArray: dashboard.table.search.searchTerm | orderBy: dashboard.table.sort.column: dashboard.table.sort.reverse" ng-click="dashboard.handleClick(dashboard.feature.folderName, scenario)"
+            <tr ng-class="{'selected':$index==selectedRowIndex, 'added': scenario.diffInfo.isAdded, 'removed': scenario.diffInfo.isRemoved}"   ng-repeat="scenario in dashboard.feature.scenarios | scFilterArray: dashboard.table.search.searchTerm | orderBy: dashboard.table.sort.column: dashboard.table.sort.reverse" ng-click="dashboard.handleClick(dashboard.feature.id, scenario)"
                 class="link">
                 <td>
                     <span class="label state" ng-class="getStatusStyleClass(scenario.scenario.status)">{{scenario.scenario.status}}</span>

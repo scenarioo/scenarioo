@@ -91,7 +91,7 @@ public class UseCaseDocuWritingRule implements TestRule {
 		// Create use case
 		ImportFeature useCase = new ImportFeature();
 
-		useCase.folderName = FilesUtil.encodeName(name);
+		useCase.id = FilesUtil.encodeName(name);
 
 		useCase.setName(name);
 		useCase.setDescription(description);

@@ -55,7 +55,7 @@ public class StepsAndPagesAggregator {
 											   final Scenario scenario, final List<Step> steps, final List<ObjectReference> referencePath,
 											   final ObjectRepository objectRepository) {
 
-		List<StepLink> stepLinks = calculateStepLinks(steps, usecase.folderName, scenario.getName());
+		List<StepLink> stepLinks = calculateStepLinks(steps, usecase.id, scenario.getName());
 		List<PageSteps> pageStepsList = getPageSteps(stepLinks, steps, referencePath, objectRepository);
 
 		new FullTextSearch().indexSteps(steps, stepLinks, scenario, usecase, build);

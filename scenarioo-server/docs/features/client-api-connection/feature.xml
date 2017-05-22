@@ -5,6 +5,6 @@
     <status>failed</status>
     <details/>
     <labels/>
-    <folderName>client-api-connection</folderName>
+    <id>client-api-connection</id>
     <milestone>R1</milestone>
 </useCase>

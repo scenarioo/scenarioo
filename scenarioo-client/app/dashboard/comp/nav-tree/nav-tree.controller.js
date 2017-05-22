@@ -11,12 +11,12 @@ angular.module('scenarioo').component('navTree', {
         var color = 'lightskyblue';          //'#0e90d2'
 /*
         navTree.getColor = function(){
-            if(navTree.currentFeature.folderName===navTree.feature.folderName)
+            if(navTree.currentFeature.id===navTree.feature.id)
                 return 'white';
             return 'black';
         };*/
         navTree.getBGColor = function () {
-            if(navTree.currentFeature.folderName===navTree.feature.folderName)
+            if(navTree.currentFeature.id===navTree.feature.id)
                 return color;
             return 'white';
         };

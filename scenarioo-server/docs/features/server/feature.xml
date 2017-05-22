@@ -5,7 +5,7 @@
     <status>failed</status>
     <details/>
     <labels/>
-    <folderName>server</folderName>
+    <id>server</id>
     <milestone>R1</milestone>
     <featureNames>importer</featureNames>
     <featureNames>comparison</featureNames>

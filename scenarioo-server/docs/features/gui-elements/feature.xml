@@ -5,7 +5,7 @@
     <status>success</status>
     <details/>
     <labels/>
-    <folderName>gui-elements</folderName>
+    <id>gui-elements</id>
     <milestone>R1</milestone>
     <featureNames>feature-view</featureNames>
     <featureNames>scenarios-view</featureNames>
