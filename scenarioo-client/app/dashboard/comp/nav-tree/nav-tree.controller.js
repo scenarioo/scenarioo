@@ -16,7 +16,7 @@ angular.module('scenarioo').component('navTree', {
             return 'black';
         };*/
         navTree.getBGColor = function () {
-            if(navTree.currentFeature.id===navTree.feature.id)
+            if(navTree.currentFeature.id===navTree.feature.id && navTree.currentFeature.parentFeature.id===navTree.feature.parentFeature.id)
                 return color;
             return 'white';
         };
