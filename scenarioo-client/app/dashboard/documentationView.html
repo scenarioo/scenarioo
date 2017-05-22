@@ -60,7 +60,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <div ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOrder">
                             <div style="border-bottom: 2px solid dimgrey;" ng-click="feature.isCollapsed = !feature.isCollapsed">
                                 <h3>
-                                    <i class="glyphicon glyphicon-chevron-down"></i>{{feature.name}},
+                                    <i ng-show="!feature.isCollapsed" class="glyphicon glyphicon-chevron-down"></i>
+                                    <i ng-show="feature.isCollapsed" class="glyphicon glyphicon-chevron-right"></i>
+                                    {{feature.name}},
                                     <test-overview feature="feature"></test-overview>
                                     <a ng-click="dashboard.clickFeature(feature, '/detailNav')">Select feature</a>
                                 </h3>
