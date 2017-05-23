@@ -69,7 +69,7 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
     var dashboard =
         {
-            label: '<strong>Dashboard</strong>',
+            label: '<strong>Map</strong>',
             route: '/dashboard/:usecase'
         };
     var detail =
@@ -84,7 +84,7 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         };
     var testScenarios =
         {
-            label: '<strong>Test Scenarios</strong>',
+            label: 'Scenarios:',
             route: '/testScenarios'
         };
 
@@ -95,15 +95,15 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
     var breadcrumbPaths = {
 
         'usecase': {
-            breadcrumbPath: [homeElement, useCaseElement]
+            breadcrumbPath: [useCaseElement]
         },
 
         'scenario': {
-            breadcrumbPath: [homeElement, testScenarios, scenarioElement] // useCaseElement replaced with testScenarios
+            breadcrumbPath: [testScenarios, scenarioElement] // useCaseElement replaced with testScenarios
         },
 
         'step': {
-            breadcrumbPath: [homeElement, testScenarios, scenarioElement, stepElement]  // useCaseElement replaced with testScenarios
+            breadcrumbPath: [testScenarios, scenarioElement, stepElement]  // useCaseElement replaced with testScenarios
         },
 
         'main': {
@@ -111,32 +111,32 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         },
 
         'object': {
-            breadcrumbPath: [homeElement, objectElement]
+            breadcrumbPath: [objectElement]
         },
 
         'manage': {
-            breadcrumbPath: [homeElement, manageElement]
+            breadcrumbPath: [manageElement]
         },
 
         'stepsketch': {
-            breadcrumbPath: [homeElement, stepSketchElement]
+            breadcrumbPath: [stepSketchElement]
         },
 
         'search': {
-            breadcrumbPath: [homeElement, searchElement]
+            breadcrumbPath: [searchElement]
         },
 
         'dashboard': {
-            breadcrumbPath: [homeElement, dashboard]
+            breadcrumbPath: []
         },
         'detail': {
-            breadcrumbPath: [homeElement, detail]
+            breadcrumbPath: []
         },
         'feature': {
-            breadcrumbPath: [homeElement, feature]
+            breadcrumbPath: []
         },
         'testScenarios': {
-            breadcrumbPath: [homeElement, testScenarios]
+            breadcrumbPath: [testScenarios]
         }
     };
 

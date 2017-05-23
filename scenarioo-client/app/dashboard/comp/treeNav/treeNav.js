@@ -6,8 +6,21 @@ angular.module('scenarioo').component('treeNav', {
         currentFeature:'=',
         clickFeature:'=',
     },
-    controller: function () {
+    controller: function ($scope) {
         var treeNav=this;
         treeNav.showNav=true;
+
+        treeNav.openNav = function () {
+            if (!treeNav.showNav)
+                treeNav.showNav = true;
+        };
+
+        treeNav.closeNav = function ($event) {
+            console.log('test');
+            if (treeNav.showNav)
+                treeNav.showNav = false;
+            $event.stopPropagation();
+
+        };
     }
 });
