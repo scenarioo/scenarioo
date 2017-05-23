@@ -8,28 +8,28 @@ function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort, $rootS
         }
     }
 
-    function replaceLocalLinksInContainer() {
+    function replaceLocalLinksInContainer(ref) {
         var containers = document.getElementsByClassName('md-container');
         for (var i = 0; i < containers.length; i++){
             var container = containers[i];
 
             var links = container.getElementsByTagName('a');
-            replace(links,'href');
+            replace(links,'href', container.attributes['data-refer'].value);
             links = container.getElementsByTagName('img');
-            replace(links, 'src');
+            replace(links, 'src', container.attributes['data-refer'].value);
             for (var j = 0; j < links.length; j++) {
                 var url = links[j].setAttribute('style', (links[j].getAttribute('style')?links[j].getAttribute('style'):'')+'max-width:100%;');
             }
         }
     }
 
-    function replace(links, attr) {
+    function replace(links, attr, ref) {
         for (var j = 0; j < links.length; j++){
             var url = links[j].getAttribute(attr);
             //console.log('found url', url);
             if (!url.startsWith('http')){
                 if (url.startsWith('/')) url = url.substring(1, url.length);
-                var newUrl = HostnameAndPort.forLink() + baseRestUrl + url;
+                var newUrl = HostnameAndPort.forLink() + baseRestUrl + url + '&referer='+encodeURIComponent(ref);
                 links[j].setAttribute(attr, newUrl);
             }
         }
@@ -39,7 +39,7 @@ function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort, $rootS
     var converter = new showdown.Converter();
 
     var baseRestUrl = 'rest/branch/' + SelectedBranchAndBuildService.selected().branch + '/build/' + SelectedBranchAndBuildService.selected().build +
-        '/documentation/';
+        '/documentation?&path=';
     var newUrl = markdown.file;
     if (newUrl.startsWith('/')) newUrl = newUrl.substring(1, newUrl.length);
     var url = HostnameAndPort.forLink()+ baseRestUrl + encodeURIComponent(newUrl);
@@ -55,7 +55,7 @@ function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort, $rootS
     }).success(function (data){
         markdown.content = '';
         if (markdown.file.endsWith('.md')) {
-            markdown.content = $sce.trustAsHtml('<div class="md-container">'+converter.makeHtml(data)+'</div>');
+            markdown.content = $sce.trustAsHtml('<div class="md-container" data-refer="'+newUrl+'">'+converter.makeHtml(data)+'</div>');
         }else{
             markdown.content = $sce.trustAsHtml(
                 '<pre class="highlight"><code>'+data+'</code></pre>'

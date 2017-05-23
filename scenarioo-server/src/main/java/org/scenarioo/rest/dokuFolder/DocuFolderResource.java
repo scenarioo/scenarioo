@@ -27,6 +27,7 @@ import org.scenarioo.rest.base.BuildIdentifier;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +35,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-@Path("/rest/branch/{branchName}/build/{buildName}/documentation/{path}")
+@Path("/rest/branch/{branchName}/build/{buildName}/documentation")
 public class DocuFolderResource {
 
 	private static final Logger LOGGER = Logger.getLogger(DocuFolderResource.class);
@@ -43,9 +44,10 @@ public class DocuFolderResource {
 			.getConfigurationRepository();
 
 	@GET
-	public Response getFile(@PathParam("path") final String path,
+	public Response getFile(@QueryParam("path") final String path,
 							@PathParam("branchName") final String branchName,
-							@PathParam("buildName") final String buildName) {
+							@PathParam("buildName") final String buildName,
+							@QueryParam("referer") final String referer) {
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 			branchName,
@@ -56,8 +58,20 @@ public class DocuFolderResource {
 			LOGGER.info("No Documentaion directory found for build "+branchName+" / "+buildName);
 			return null;
 		}
+		java.nio.file.Path filePath;
+		String filePathStr = FilesUtil.decodeName(path);
 
-		java.nio.file.Path filePath = docuFolder.toPath().resolve(new File(FilesUtil.decodeName(path)).toPath().normalize().toFile().getPath());
+		filePath = docuFolder.toPath().resolve(filePathStr);
+		if (referer!=null) {
+			String refererPath = FilesUtil.decodeName(referer);
+			if (!refererPath.startsWith("http")){
+				int last = refererPath.lastIndexOf('/');
+				if (last == -1) last = 0;
+				String newPath = refererPath.substring(0, last);
+				filePath = docuFolder.toPath().resolve(newPath).resolve(filePathStr);
+			}
+		}
+
 		if (!filePath.toFile().exists()){
 			LOGGER.info("Did not find Documentation file "+path);
 			return null;
