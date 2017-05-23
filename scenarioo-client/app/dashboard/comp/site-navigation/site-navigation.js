@@ -17,7 +17,7 @@ function SiteNavigationController($location){
     ];
 
     site.setView = function(viewName) {
-
+        localStorage.setItem('latestView', viewName);
         console.log('change view to '+viewName);
         $location.path('/'+viewName+'/');
     };

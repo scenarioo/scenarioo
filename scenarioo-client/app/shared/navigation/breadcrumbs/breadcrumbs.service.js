@@ -99,11 +99,11 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         },
 
         'scenario': {
-            breadcrumbPath: [testScenarios, scenarioElement] // useCaseElement replaced with testScenarios
+            breadcrumbPath: [scenarioElement] // useCaseElement replaced with testScenarios
         },
 
         'step': {
-            breadcrumbPath: [testScenarios, scenarioElement, stepElement]  // useCaseElement replaced with testScenarios
+            breadcrumbPath: [scenarioElement, stepElement]  // useCaseElement replaced with testScenarios
         },
 
         'main': {
@@ -136,7 +136,7 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
             breadcrumbPath: []
         },
         'testScenarios': {
-            breadcrumbPath: [testScenarios]
+            breadcrumbPath: []
         }
     };
 

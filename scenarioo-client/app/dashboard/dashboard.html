@@ -28,8 +28,8 @@
         <sc-meta-data-panel linking-variable="useCaseShowMetadata">
             <div flex layout="column">
                 <div>
-                    <div layout = "row">
-                        <md-input-container>
+                    <div layout = "row" >
+                        <!--<md-input-container>
                             <label>SortBy</label>
                             <input flex type="text" ng-model="dashboard.firstOrder" />
                         </md-input-container>
@@ -37,30 +37,37 @@
                         <md-input-container>
                             <label>SortBy Subs</label>
                             <input flex type="text" ng-model="dashboard.secondOrder" />
-                        </md-input-container>
+                        </md-input-container>-->
+                        <div class="dropdown">
+                            <div class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort by<span class="caret"></span></div>
+                            <ul class="dropdown-menu">
+                                <li><a ng-model="dashboard.secondOrder">Milestone</a></li>
+                                <li><a ng-model="dashboard.firstOrder">Story order number</a></li>
+                            </ul>
+                        </div>
+
+
+                        <!-- Branch selection dropdown -->
+                        <div class="dropdown" type="button" uib-dropdown is-open="status.isdropdownopen" id="firstorderdrop">
+                            <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                                First Order:
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a ng-model="dashboard.firstOrder">Milestone</a></li>
+                                <li><a ng-model="dashboard.firstOrder">Story order number</a></li>
+                            </ul>
+                        </div>
+
                     </div>
                     <div flex layout = "column">
-                        <!--
-                        <div layout = "column" ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOrder">
-                            <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#00b3ee" feature="feature" />
-                            <div ng-repeat="feature in feature.features | orderBy: dashboard.secondOrder">
-                                <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#f9e27d" feature="feature" />
-                            </div>
-                        </div>
-                        -->
-
                         <div layout="row">
                             <div ng-repeat="topfeature in dashboard.feature.features | orderBy: dashboard.firstOrder">
                                 <feature-card ng-click="dashboard.clickFeature(topfeature, '/dashboard')" card-color="#00b3ee" feature="topfeature" />
                             </div>
                         </div>
-
-
-
                         <div ng-repeat="milestone in dashboard.milestones" ng-if="dashboard.containsSubsub(dashboard.feature)">
-
                             <h2>{{milestone}}</h2>
-
                             <div layout="row" >
                                 <div layout = "column" ng-repeat="topfeature in dashboard.feature.features | orderBy: dashboard.firstOrder">
                                     <md-card style="min-width: 15em; padding-left:5px; height: 0px; padding-right: 5px;"></md-card>
@@ -71,14 +78,7 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
-                        <!--
-                        Milestones:
-                        <div ng-repeat="milestone in dashboard.milestones">
-                            {{milestone}}
-                        </div>-->
                     </div>
                 </div>
                 <div ng-if="!dashboard.containsSubsub(dashboard.feature)">

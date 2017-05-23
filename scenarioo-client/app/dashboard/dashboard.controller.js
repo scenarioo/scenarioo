@@ -3,8 +3,7 @@
 angular.module('scenarioo.controllers').controller('DashboardController', DashboardController);
 
 
-function DashboardController(FeatureService, $rootScope,
-                             $filter,SelectedComparison,
+function DashboardController(FeatureService, $rootScope, SelectedComparison,
                              LabelConfigurationsResource, $location, $scope){
 
     var dashboard = this;
@@ -15,9 +14,6 @@ function DashboardController(FeatureService, $rootScope,
     };
     $scope.table = dashboard.table;
 
-    var transformMetadataToTree = $filter('scMetadataTreeCreator');
-    var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
-    var dateTimeFormatter = $filter('scDateTime');
     dashboard.milestones = [];
     dashboard.isCollapsed = false;
     dashboard.isExplorerCollapsed = false;

@@ -31,8 +31,13 @@ angular.module('scenarioo').service('FeatureService',
     };
 
     service.selectFromArray = function (array) {
+        var loc = localStorage.getItem('latestView');
+        if (array.length===1){
+            loc='feature';
+        }
         var str = array.join('/');
-        $location.search('feature', str);
+        var pos = '/' + loc + '?feature=' + str;
+        $location.url(pos);
     };
 
     service.loadUseCases = function loadUseCases(selected) {
