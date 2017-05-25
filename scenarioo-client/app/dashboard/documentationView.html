@@ -1,4 +1,3 @@
-
 <!-- scenarioo-client
 Copyright (C) 2014, scenarioo.org Development Team
 
@@ -17,9 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <div layout = "row">
     <tree-nav root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
-
     <div flex layout-fill layout = "column">
-
         <sc-breadcrumbs></sc-breadcrumbs>
         <h1>{{dashboard.feature.name}}</h1>
         <span>{{dashboard.feature.description}}</span>
@@ -46,7 +43,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <div style="margin-left: 1%">
                     <button type="button" class="btn btn-default" ng-click="dashboard.expandAll()">Expand all</button>
                     <button type="button" class="btn btn-default" ng-click="dashboard.collapseAll()">Collapse all</button>
-
                     <div ng-if="dashboard.contains(dashboard.feature, 'markdown') || dashboard.contains(dashboard.feature, 'specification')">
                         <file-viewer feature="dashboard.feature"></file-viewer>
                     </div>
@@ -56,8 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <br/>
                         You're probably better of with the <a href="/#/testScenarios">Scenarios-View</a>
                     </div>
-                    <div style="" ng-if="dashboard.contains(dashboard.feature, 'features')">
-                        <!--Show Subfeatures -->
+                    <div ng-if="dashboard.contains(dashboard.feature, 'features')">
                         <div ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOrder">
                             <div style="border-bottom: 2px solid dimgrey;" ng-click="feature.isCollapsed = !feature.isCollapsed">
                                 <h3>

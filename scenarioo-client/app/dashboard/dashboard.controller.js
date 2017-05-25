@@ -1,5 +1,3 @@
-
-
 angular.module('scenarioo.controllers').controller('DashboardController', DashboardController);
 
 
@@ -112,6 +110,7 @@ function DashboardController(FeatureService, $rootScope, SelectedComparison,
     function goToScenario(feature, scenarioName) {
         $location.path('/scenario/' + feature + '/' + scenarioName);
     }
+
     dashboard.containsSubsub = function containsSubsub(feature){
         if (!angular.isDefined(feature.features)){
             return false;

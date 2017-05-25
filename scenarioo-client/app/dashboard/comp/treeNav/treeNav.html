@@ -3,9 +3,7 @@
     <span ng-show="!treeNav.showNav" style="margin-top: 0px; color: whitesmoke; font-size: large; transform: rotate(90deg); width: 3em; text-wrap: none; "> Feature Explorer </span>
     <span ng-show="treeNav.showNav" style="color: whitesmoke; display: inline-block; width: 100%"  ng-click="treeNav.closeNav($event)">X Close</span>
     <div layout-fill ng-show="treeNav.showNav" style="background-color: white; min-width: 250px;" ng-click="$event.stopPropagation();">
-        <h1 style="
-white-space: nowrap;
-  overflow: hidden;"> Feature Explorer </h1>
+        <h1 style="white-space: nowrap; overflow: hidden;"> Feature Explorer </h1>
         <nav-tree feature="treeNav.rootFeature" current-feature="treeNav.currentFeature" click-feature="treeNav.clickFeature"/>
     </div>
 </div>

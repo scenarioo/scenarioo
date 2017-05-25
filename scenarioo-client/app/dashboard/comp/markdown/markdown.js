@@ -18,7 +18,7 @@ function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort, $rootS
             links = container.getElementsByTagName('img');
             replace(links, 'src', container.attributes['data-refer'].value);
             for (var j = 0; j < links.length; j++) {
-                var url = links[j].setAttribute('style', (links[j].getAttribute('style')?links[j].getAttribute('style'):'')+'max-width:100%;');
+                links[j].setAttribute('style', (links[j].getAttribute('style')?links[j].getAttribute('style'):'')+'max-width:100%;');
             }
         }
     }
@@ -28,7 +28,7 @@ function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort, $rootS
             var url = links[j].getAttribute(attr);
             //console.log('found url', url);
             if (!url.startsWith('http')){
-                if (url.startsWith('/')) url = url.substring(1, url.length);
+                url = replaceFirstSlash(url);
                 var newUrl = HostnameAndPort.forLink() + baseRestUrl + url + '&referer='+encodeURIComponent(ref);
                 links[j].setAttribute(attr, newUrl);
             }
@@ -41,7 +41,7 @@ function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort, $rootS
     var baseRestUrl = 'rest/branch/' + SelectedBranchAndBuildService.selected().branch + '/build/' + SelectedBranchAndBuildService.selected().build +
         '/documentation?&path=';
     var newUrl = markdown.file;
-    if (newUrl.startsWith('/')) newUrl = newUrl.substring(1, newUrl.length);
+    newUrl = replaceFirstSlash(newUrl);
     var url = HostnameAndPort.forLink()+ baseRestUrl + encodeURIComponent(newUrl);
     if (markdown.file.startsWith('http')){
         url = markdown.file;
@@ -57,15 +57,20 @@ function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort, $rootS
         if (markdown.file.endsWith('.md')) {
             markdown.content = $sce.trustAsHtml('<div class="md-container" data-refer="'+newUrl+'">'+converter.makeHtml(data)+'</div>');
         }else{
-            markdown.content = $sce.trustAsHtml(
-                '<pre class="highlight"><code>'+data+'</code></pre>'
-            );
+            markdown.content = $sce.trustAsHtml('<pre class="highlight"><code>'+data+'</code></pre>');
         }
         angular.element(document).ready(function () {
             replaceLocalLinksInContainer();
             highlight();
         });
     });
+}
+
+function replaceFirstSlash(url) {
+    if (url.startsWith('/')){
+        url = url.substring(1, url.length);
+    }
+    return url;
 }
 
 angular.module('scenarioo').component('markdown', {
