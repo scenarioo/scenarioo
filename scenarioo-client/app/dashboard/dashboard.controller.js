@@ -21,6 +21,11 @@ function DashboardController(FeatureService, $rootScope, SelectedComparison,
     dashboard.firstOrder = 'storyOrderNumber';
     dashboard.secondOrder = 'milestone';
 
+    dashboard.setOrder = function (order, type) {
+        dashboard[order] = type;
+        console.log(dashboard.firstOrder, dashboard.secondOrder);
+    }
+
     dashboard.navsize = (localStorage.getItem('MAV_SIZE_LEFT') != undefined)? localStorage.getItem('MAV_SIZE_LEFT'):200;
 
     dashboard.clickFeature = function(subFeature, location){
@@ -113,7 +118,6 @@ function DashboardController(FeatureService, $rootScope, SelectedComparison,
         }
         for (var i = 0; i < feature.features.length ; i++){
             if (angular.isDefined(feature.features[i].features) && feature.features[i].features.length > 0){
-                console.log(feature.features[i].features);
                 return true;
             }
         }

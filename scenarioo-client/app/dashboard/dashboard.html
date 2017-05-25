@@ -38,27 +38,28 @@
                             <label>SortBy Subs</label>
                             <input flex type="text" ng-model="dashboard.secondOrder" />
                         </md-input-container>-->
-                        <div class="dropdown">
-                            <div class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort by<span class="caret"></span></div>
-                            <ul class="dropdown-menu">
-                                <li><a ng-model="dashboard.secondOrder">Milestone</a></li>
-                                <li><a ng-model="dashboard.firstOrder">Story order number</a></li>
-                            </ul>
-                        </div>
-
 
                         <!-- Branch selection dropdown -->
-                        <div class="dropdown" type="button" uib-dropdown is-open="status.isdropdownopen" id="firstorderdrop">
+                        <div class="dropdown" type="button" uib-dropdown is-open="status.isfirstdropdownopen" id="firstorderdrop">
                             <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
-                                First Order:
+                                First order
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a ng-model="dashboard.firstOrder">Milestone</a></li>
-                                <li><a ng-model="dashboard.firstOrder">Story order number</a></li>
+                                <li><a ng-click="dashboard.setOrder('firstOrder', 'milestone')">Milestone</a></li>
+                                <li><a ng-click="dashboard.setOrder('firstOrder', 'storyOrderNumber')">Story order number</a></li>
                             </ul>
                         </div>
-
+                        <!--<div class="dropdown" type="button" uib-dropdown is-open="status.isseconddropdownopen" id="secondorderdrop">
+                            <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                                Second order
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a ng-click="dashboard.setOrder('secondOrder', 'milestone')">Milestone</a></li>
+                                <li><a ng-click="dashboard.setOrder('secondOrder', 'storyOrderNumber')">Story order number</a></li>
+                            </ul>
+                        </div>-->
                     </div>
                     <div flex layout = "column">
                         <div layout="row">
@@ -66,7 +67,8 @@
                                 <feature-card ng-click="dashboard.clickFeature(topfeature, '/dashboard')" card-color="#00b3ee" feature="topfeature" />
                             </div>
                         </div>
-                        <div ng-repeat="milestone in dashboard.milestones" ng-if="dashboard.containsSubsub(dashboard.feature)">
+
+                        <md-card style="background-color: whitesmoke" ng-repeat="milestone in dashboard.milestones" ng-if="dashboard.containsSubsub(dashboard.feature)">
                             <h2>{{milestone}}</h2>
                             <div layout="row" >
                                 <div layout = "column" ng-repeat="topfeature in dashboard.feature.features | orderBy: dashboard.firstOrder">
@@ -78,7 +80,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </md-card>
                     </div>
                 </div>
                 <div ng-if="!dashboard.containsSubsub(dashboard.feature)">
