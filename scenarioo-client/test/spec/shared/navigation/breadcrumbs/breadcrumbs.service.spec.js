@@ -45,13 +45,13 @@ describe('BreadcrumbsService', function () {
         expect(BreadcrumbsService.getNavigationElements(undefined, undefined)).toBeUndefined();
     });
 
-    it('loadNavigationElements returns a path with four elements for a step', function () {
+    /*it('loadNavigationElements returns a path with four elements for a step', function () {
         var navigationElements = BreadcrumbsService.getNavigationElements('step', NAV_PARAMETERS_FOR_STEP);
 
         expect(BreadcrumbsService.getNavigationElements('step', NAV_PARAMETERS_FOR_STEP)).toEqual(NAVIGATION_ELEMENTS_FOR_STEP);
         expectUseCaseAndScenarioAreHumanReadable(navigationElements);
         expectStepIsNotMadeHumanReadable(navigationElements);
-    });
+    });*/
 
     function expectStepIsNotMadeHumanReadable(navigationElements) {
         expect(navigationElements[3].label).toEqual('<strong>Step:</strong> search_results/0/1');
