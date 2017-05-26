@@ -1,5 +1,5 @@
 <div layout = "row">
-    <tree-nav size="dashboard.navsize" root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
+    <tree-nav root-feature="dashboard.rootFeature" current-feature="dashboard.feature"></tree-nav>
     <div flex layout-fill layout = "column">
         <sc-breadcrumbs></sc-breadcrumbs>
         <h1>{{dashboard.feature.name}}</h1>
@@ -71,7 +71,7 @@
                                 <div layout = "column" ng-repeat="topfeature in dashboard.feature.features | orderBy: dashboard.firstOrder | scFilterArray: dashboard.table.search.searchTerm: 'parentFeature' ">
                                     <md-card style="min-width: 15em; padding-left:5px; height: 0px; padding-right: 5px;"></md-card>
                                     <div ng-repeat="feature in topfeature.features | orderBy: dashboard.secondOrder">
-                                        <div ng-if="dashboard.eq(milestone, feature.milestone)">
+                                        <div ng-if="dashboard.equals(milestone, feature.milestone)">
                                             <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')" card-color="#f9e27d" feature="feature" />
                                         </div>
                                     </div>
@@ -91,7 +91,7 @@
             <side-panel flex="20">
                 <header><h1>Details zum angewählten feature</h1></header>
                 <content>
-                    <feature-detail card-color="#00b3ee" feature="dashboard.feature" click="dashboard.clickFeature"></feature-detail>
+                    <feature-detail card-color="#00b3ee" feature="dashboard.feature"></feature-detail>
                 </content>
             </side-panel>
         </sc-meta-data-panel>

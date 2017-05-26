@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <div layout = "row">
-    <tree-nav size="dashboard.navsize" root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
+    <tree-nav root-feature="dashboard.rootFeature" current-feature="dashboard.feature"></tree-nav>
     <div flex layout-fill layout = "column">
         <sc-breadcrumbs></sc-breadcrumbs>
         <h1>{{dashboard.feature.name}}</h1>
@@ -57,7 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         ng-repeat="scenario in dashboard.feature.scenarios |
                         scFilterArray: dashboard.table.search.searchTerm |
                         orderBy: dashboard.table.sort.column: dashboard.table.sort.reverse"
-                        ng-click="dashboard.handleClick(dashboard.feature.id, scenario)"
+                        ng-click="dashboard.clickScenario(dashboard.feature.id, scenario)"
                         class="link">
                         <td>
                             <span class="label state" ng-class="getStatusStyleClass(scenario.scenario.status)">{{scenario.scenario.status}}</span>
@@ -79,7 +79,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <side-panel flex="20">
                 <header><h1>Details zum angewählten feature</h1></header>
                 <content>
-                    <feature-detail card-color="#00b3ee" feature="dashboard.feature" click="dashboard.clickFeature"></feature-detail>
+                    <feature-detail card-color="#00b3ee" feature="dashboard.feature"></feature-detail>
                 </content>
             </side-panel>
         </sc-meta-data-panel>

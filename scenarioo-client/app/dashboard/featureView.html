@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <div layout = "row">
-    <tree-nav size="dashboard.navsize" root-feature="dashboard.rootFeature" current-feature="dashboard.feature" click-feature="dashboard.clickFeature"></tree-nav>
+    <tree-nav root-feature="dashboard.rootFeature" current-feature="dashboard.feature"></tree-nav>
     <div flex layout-fill layout = "column">
         <sc-breadcrumbs></sc-breadcrumbs>
         <h1>{{dashboard.feature.name}}</h1>
@@ -83,7 +83,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <side-panel flex="20">
                 <header><h1>Details zum angewählten feature</h1></header>
                 <content>
-                    <feature-detail card-color="#00b3ee" feature="dashboard.feature" click="dashboard.clickFeature"></feature-detail>
+                    <feature-detail card-color="#00b3ee" feature="dashboard.feature"></feature-detail>
                 </content>
             </side-panel>
         </sc-meta-data-panel>

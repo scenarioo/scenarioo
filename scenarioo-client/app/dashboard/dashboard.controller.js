@@ -11,56 +11,34 @@ function DashboardController(FeatureService, $rootScope, SelectedComparison,
         sort: {column: 'name', reverse: false}
     };
     $scope.table = dashboard.table;
-
     dashboard.milestones = [];
-    dashboard.isCollapsed = false;
-    dashboard.isExplorerCollapsed = false;
-
     dashboard.firstOrder = 'storyOrderNumber';
     dashboard.secondOrder = 'milestone';
 
     dashboard.setOrder = function (order, type) {
         dashboard[order] = type;
-        console.log(dashboard.firstOrder, dashboard.secondOrder);
-    }
-
-    dashboard.navsize = (localStorage.getItem('MAV_SIZE_LEFT') != undefined)? localStorage.getItem('MAV_SIZE_LEFT'):200;
-
-    dashboard.clickFeature = function(subFeature, location){
-        FeatureService.setFeature(subFeature);
-        if (location && location !== ''){
-            $location.path(location);
-        }
     };
 
-    load();
-    activate();
+    dashboard.clickFeature = FeatureService.clickFeature;
+    dashboard.equals = FeatureService.equals;
+    dashboard.contains = FeatureService.contains;
 
+    activate();
     dashboard.comparisonInfo = SelectedComparison.info;
 
     $rootScope.$watch(FeatureService.getFeature, function (feature) {
         dashboard.feature = feature;
-        dashboard.comparisonInfo = SelectedComparison.info;
     });
 
-    $rootScope.$watch(FeatureService.getRootFeature, function (feature) {
-        dashboard.rootFeature = feature;
+    $rootScope.$watch(FeatureService.getRootFeature, function (rootFeature) {
+        dashboard.rootFeature = rootFeature;
     });
 
-    $rootScope.$watch(FeatureService.getMilestones, function (feature) {
-        dashboard.milestones = feature;
+    $rootScope.$watch(FeatureService.getMilestones, function (milestone) {
+        dashboard.milestones = milestone;
     });
 
-    dashboard.eq = function (feat1, feat2) {
-        return feat1 === feat2;
-    };
-
-    function load() {
-        dashboard.rootFeature = FeatureService.getRootFeature();
-        dashboard.feature = FeatureService.getFeature();
-    }
-
-    function def(val) {
+    function isDefined(val) {
         if (val == null)
             return false;
         if (val == undefined)
@@ -69,21 +47,21 @@ function DashboardController(FeatureService, $rootScope, SelectedComparison,
     }
 
     dashboard.expandAll = function() {
-        collapseAll(dashboard.feature, false);
+        setCollapseState(dashboard.feature, false);
     };
 
     dashboard.collapseAll = function () {
-        collapseAll(dashboard.feature, true);
+        setCollapseState(dashboard.feature, true);
     };
 
-    function collapseAll(feature, val) {
-        if( !def(feature) ) return;
+    function setCollapseState(feature, val) {
+        if( !isDefined(feature) ) return;
 
-        if (def(feature.markdown))
+        if (isDefined(feature.markdown))
             feature.markdown.isCollapsed=val;
-        if (def(feature.specification))
+        if (isDefined(feature.specification))
             feature.specification.isCollapsed=val;
-        if (def(feature.features)){
+        if (isDefined(feature.features)){
             feature.isCollapsed=val;
             for(var i = 0; i < feature.features.length; i++){
                 collapseAll(feature.features[i], val);
@@ -91,17 +69,16 @@ function DashboardController(FeatureService, $rootScope, SelectedComparison,
         }
     }
 
-    dashboard.contains = function (feature, field) {
-        return feature[field] != null;
-    };
-
     function activate() {
+        dashboard.rootFeature = FeatureService.getRootFeature();
+        dashboard.feature = FeatureService.getFeature();
+
         LabelConfigurationsResource.query({}, function (labelConfiguratins) {
             dashboard.labelConfigurations = labelConfiguratins;
         });
     }
 
-    dashboard.handleClick = function(feature, scenarioSummary) {
+    dashboard.clickScenario = function(feature, scenarioSummary) {
         if(!scenarioSummary.diffInfo || !scenarioSummary.diffInfo.isRemoved){
             goToScenario(feature, scenarioSummary.scenario.name);
         }

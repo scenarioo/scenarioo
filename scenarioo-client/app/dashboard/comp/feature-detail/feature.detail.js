@@ -4,6 +4,9 @@ angular.module('scenarioo').component('featureDetail', {
     bindings: {
         cardColor: '@',
         feature: '=',
-        click: '=',
+    },
+    controller:function (FeatureService) {
+        var card = this;
+        card.clickFeature = FeatureService.clickFeature;
     }
 });

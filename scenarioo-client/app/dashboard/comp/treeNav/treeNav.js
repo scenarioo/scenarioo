@@ -4,7 +4,6 @@ angular.module('scenarioo').component('treeNav', {
     bindings: {
         rootFeature:'=',
         currentFeature:'=',
-        clickFeature:'=',
     },
     controller: function ($scope) {
         var treeNav=this;

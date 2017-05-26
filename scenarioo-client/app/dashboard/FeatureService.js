@@ -48,9 +48,24 @@ angular.module('scenarioo').service('FeatureService',
                     if(SelectedComparison.isDefined()) {
                         loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
                     } else {
-                        setInternalAfterLoad(useCases, selected.branch, selected.build);
+                        setInternalAfterLoad(useCases);
                     }
                 });
+        };
+
+        service.contains = function contains(feature, field) {
+            return feature[field] != null;
+        };
+
+        service.equals = function equals (feat1, feat2) {
+            return feat1 === feat2;
+        };
+
+        service.clickFeature = function clickFeature(subFeature, location){
+            setFeature(subFeature);
+            if (location && location !== ''){
+                $location.path(location);
+            }
         };
 
         function getFeatureByArray(features, featuresArray, selectedFeature) {
@@ -112,7 +127,7 @@ angular.module('scenarioo').service('FeatureService',
             return currentFeatures;
         }
 
-        service.setFeature = function setFeature(feature) {
+        function setFeature(feature) {
             var currentFeatures = getCurrentFeatures();
             currentFeatures[branch][build] = getFeatureString(feature, feature.name);
             localStorage.setItem(CURRENT_FEATURE, JSON.stringify(currentFeatures));
@@ -142,7 +157,7 @@ angular.module('scenarioo').service('FeatureService',
         var branch = '';
         var build = '';
 
-        function setInternalAfterLoad(features, baseBranchName, baseBuildName) {
+        function setInternalAfterLoad(features) {
             rootFeature.features = features;
             rootFeature.name = 'Home';
             loadBackRefs(rootFeature, null);
@@ -298,7 +313,7 @@ angular.module('scenarioo').service('FeatureService',
         function loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName) {
             if(useCases && baseBranchName && baseBuildName) {
                 loadScenariosDiffInfo(useCases, baseBranchName, baseBuildName, comparisonName, function (useCasesToAdd) {
-                    setInternalAfterLoad(useCasesToAdd, baseBranchName, baseBuildName);
+                    setInternalAfterLoad(useCasesToAdd);
                 });
             }
         }

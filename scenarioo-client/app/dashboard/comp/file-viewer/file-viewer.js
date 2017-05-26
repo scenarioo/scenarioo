@@ -4,10 +4,8 @@ angular.module('scenarioo').component('fileViewer', {
     bindings: {
         feature: '=',
     },
-    controller: function () {
+    controller: function (FeatureService) {
         var viewer = this;
-        viewer.contains = function(feature, field) {
-            return feature[field] != null;
-        };
+        viewer.contains = FeatureService.contains;
     } ,
 });
