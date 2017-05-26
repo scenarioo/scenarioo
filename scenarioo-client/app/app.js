@@ -143,7 +143,6 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 controllerAs: 'useCasesTab'
             })
 
-
             .otherwise({
                 redirectTo: '/'
             });

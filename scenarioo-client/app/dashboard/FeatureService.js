@@ -90,7 +90,7 @@ angular.module('scenarioo').service('FeatureService',
             var currentFeaturesString = localStorage.getItem(CURRENT_FEATURE);
             var currentFeatures = undefined;
             if (currentFeaturesString != 'undefined'){
-                var currentFeatures = JSON.parse(currentFeaturesString);
+                currentFeatures = JSON.parse(currentFeaturesString);
             }
             if (currentFeatures == undefined) {
                 currentFeatures = {};
@@ -343,6 +343,7 @@ angular.module('scenarioo').service('FeatureService',
             return milestones;
         }
         function sortMilestone(){
+            milestones = milestones.filter(function(m, i, a){ return i == a.indexOf(m) });
             milestones.sort(function(a, b) {
                 if (typeof a === 'string' && typeof b === 'string'){
                     return a.localeCompare(b);
