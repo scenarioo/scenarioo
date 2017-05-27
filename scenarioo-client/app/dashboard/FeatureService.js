@@ -339,31 +339,28 @@ angular.module('scenarioo').service('FeatureService',
             milestones = getMilestone(rootFeature);
             sortMilestone();
         }
+
         function getMilestone(feature){
+            if (!def(feature)) return [];
             var milestones = [];
+            if (def(feature.milestone)){
+                milestones.push(feature.milestone)
+            }
             feature.features.forEach(function(currentFeature){
                 if (currentFeature == null)return;
-                if(currentFeature.milestone != null && milestones.indexOf(currentFeature.milestone) === -1){
-                    milestones.push(currentFeature.milestone);
-                }
                 if(currentFeature.features!=null){
                     var childMilestones = getMilestone(currentFeature);
                     for (var i = 0; i < childMilestones.length; i++){
-                        if(milestones.indexOf(childMilestones[i]) === -1){
-                            milestones.push(childMilestones[i]);
-                        }
+                        milestones.push(childMilestones[i]);
                     }
                 }
             });
             return milestones;
         }
+        
         function sortMilestone(){
+            console.log(milestones);
             milestones = milestones.filter(function(m, i, a){ return i == a.indexOf(m) });
-            milestones.sort(function(a, b) {
-                if (typeof a === 'string' && typeof b === 'string'){
-                    return a.localeCompare(b);
-                }
-                return 0;
-            });
+            milestones.sort();
         }
     });
