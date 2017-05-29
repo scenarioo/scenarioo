@@ -31,6 +31,10 @@ describe('DashboardController', function () {
         }
     ));
 
+    it('test', function () {
+        expect(0).toBe(0);
+    });
+
     /*
     it('has no features and builds set in the beginning', function () {
         expect(dashboardController.features.length).toBe(0);

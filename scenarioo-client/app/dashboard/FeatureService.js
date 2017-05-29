@@ -2,7 +2,7 @@ var CURRENT_FEATURE = 'currentFeature';
 var SUCCESS = 'success';
 var FAILED = 'failed';
 
-angular.module('scenarioo').service('FeatureService',
+angular.module('scenarioo.services').service('FeatureService',
     function FeatureService ($rootScope, SelectedBranchAndBuildService, UseCasesResource, SelectedComparison,
                              BuildDiffInfoResource, UseCaseDiffInfosResource, UseCaseDiffInfoResource, DiffInfoService,
                              ScenarioDiffInfosResource, $location, LocalStorageNameService) {
@@ -111,8 +111,7 @@ angular.module('scenarioo').service('FeatureService',
             }
             var params = $location.search();
             if (params !== null && angular.isDefined(params['feature'])) {
-                value = params['feature'];
-                currentFeatures[branch][build] = value;
+                currentFeatures[branch][build] = params['feature'];
             }
             return currentFeatures;
         }
@@ -290,4 +289,6 @@ angular.module('scenarioo').service('FeatureService',
         }
 
         var uniq = function(m, i, a){ return i == a.indexOf(m) };
+
+        return service;
     });

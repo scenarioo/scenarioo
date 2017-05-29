@@ -1,4 +1,4 @@
-angular.module('scenarioo').service('SiteNavigationLinkService', function () {
+angular.module('scenarioo.services').service('SiteNavigationLinkService', function () {
     var service = this;
 
     service.links = [
