@@ -41,7 +41,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     vm.hasAnyLabels = false;
 
     vm.resetSearchField = resetSearchField;
-    vm.clickScenario = clickScenario;
+    vm.handleClick = handleClick;
     vm.goToFirstStep = goToFirstStep;
     vm.goToScenario = goToScenario;
     vm.onNavigatorTableHit = onNavigatorTableHit;

@@ -1,7 +1,6 @@
-<div layout = "row">
+<div layout = "row" ng-controller="DashboardController as dashboard">
     <tree-nav root-feature="dashboard.rootFeature" current-feature="dashboard.feature"></tree-nav>
     <div flex layout-fill layout = "column">
-        <sc-breadcrumbs></sc-breadcrumbs>
         <h1>{{dashboard.feature.name}}</h1>
         <span>{{dashboard.feature.description}}</span>
         <div layout = "row" class="sc-space-top sc-space-bottom">

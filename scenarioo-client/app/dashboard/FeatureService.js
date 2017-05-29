@@ -5,7 +5,7 @@ var FAILED = 'failed';
 angular.module('scenarioo').service('FeatureService',
     function FeatureService ($rootScope, SelectedBranchAndBuildService, UseCasesResource, SelectedComparison,
                              BuildDiffInfoResource, UseCaseDiffInfosResource, UseCaseDiffInfoResource, DiffInfoService,
-                             ScenarioDiffInfosResource, $location) {
+                             ScenarioDiffInfosResource, $location, LocalStorageNameService) {
         var service = this;
 
         var rootFeature = {
@@ -30,9 +30,10 @@ angular.module('scenarioo').service('FeatureService',
         };
 
         service.selectFromArray = function (array) {
-            var loc = localStorage.getItem('latestView');
+            var loc = localStorage.getItem(LocalStorageNameService.LATEST_VIEW_NAME);
             if (array.length===1){
                 loc='feature';
+                localStorage.setItem(LocalStorageNameService.LATEST_VIEW_NAME, 'feature');
             }
             var str = array.join('/');
             var pos = '/' + loc + '?feature=' + str;
