@@ -1,0 +1,11 @@
+<div layout = "row">
+    <md-nav-bar
+        md-selected-nav-item="siteNaviagtion.current"
+        nav-bar-aria-label="navigation links">
+        <div ng-repeat="link in siteNaviagtion.links" >
+            <md-nav-item onload="goto(siteNaviagtion.current);" md-nav-click="siteNaviagtion.setView(link.name);" name="{{link.name}}">
+                {{link.short}}
+            </md-nav-item>
+        </div>
+    </md-nav-bar>
+</div>

@@ -1,21 +1,23 @@
 <div ng-if="viewer.contains(viewer.feature, 'markdown')">
     <div style="border-bottom: 2px solid dimgrey;" ng-click="viewer.feature.markdown.isCollapsed = !viewer.feature.markdown.isCollapsed">
         <h3><i ng-show="!viewer.feature.markdown.isCollapsed" class="glyphicon glyphicon-chevron-down"></i>
-            <i ng-show="viewer.feature.markdown.isCollapsed" class="glyphicon glyphicon-chevron-right"></i>{{viewer.feature.markdown.name}}</h3>
+            <i ng-show="viewer.feature.markdown.isCollapsed" class="glyphicon glyphicon-chevron-right"></i>
+            {{viewer.feature.markdown.name}}
+        </h3>
     </div>
     <div style="background-color: white; " uib-collapse="viewer.feature.markdown.isCollapsed" ng-show="!viewer.feature.markdown.isCollapsed">
-        <!--<span>{{viewer.feature.markdown.url}}, {{viewer.feature.markdown.name}}</span>-->
-        <!--<a ng-button ng-repeat="link in viewer.feature.markdown.links" href="{{link.url}}">{{link.name}}</a>-->
         <markdown  file="{{viewer.feature.markdown.url}}"></markdown>
     </div>
 </div>
 <div ng-if="viewer.contains(viewer.feature, 'specification')">
     <div style="border-bottom: 2px solid dimgrey;" ng-click="viewer.feature.specification.isCollapsed = !viewer.feature.specification.isCollapsed">
         <h3><i ng-show="!viewer.feature.specification.isCollapsed" class="glyphicon glyphicon-chevron-down"></i>
-            <i ng-show="viewer.feature.specification.isCollapsed" class="glyphicon glyphicon-chevron-right"></i>{{viewer.feature.specification.name}}</h3>
+            <i ng-show="viewer.feature.specification.isCollapsed" class="glyphicon glyphicon-chevron-right"></i>
+            {{viewer.feature.specification.name}}
+        </h3>
     </div>
-    <div style="background-color: white;" uib-collapse="viewer.feature.specification.isCollapsed" ng-show="!viewer.feature.specification.isCollapsed">
-        <!--<span>{{viewer.feature.markdown.url}}, {{viewer.feature.markdown.name}}</span>-->
+    <div style="background-color: white;" uib-collapse="viewer.feature.specification.isCollapsed"
+         ng-show="!viewer.feature.specification.isCollapsed">
         <a ng-button ng-repeat="link in viewer.feature.specification.links" href="{{link.url}}">{{link.name}}</a>
         <markdown file="{{viewer.feature.specification.url}}"></markdown>
     </div>

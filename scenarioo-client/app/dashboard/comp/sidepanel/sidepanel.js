@@ -5,7 +5,4 @@ angular.module('scenarioo').component('sidePanel', {
         header: '?header',
         content: '?content'
     },
-    bindings: {
-
-    }
 });

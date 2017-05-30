@@ -1,5 +1,5 @@
 angular.module('scenarioo').component('featureDetail', {
-    templateUrl: 'dashboard/comp/feature-detail/feature.detail.html',
+    templateUrl: 'dashboard/comp/featureDetail/featureDetail.html',
     controllerAs: 'card',
     bindings: {
         feature: '=',

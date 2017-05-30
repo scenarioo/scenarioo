@@ -18,7 +18,7 @@ function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort) {
     }
 
     function replaceLocalLinksInContainer() {
-        var containers = document.getElementsByClassName('md-container');
+        var containers = document.getElementsByClassName('markdown-container');
         for (var i = 0; i < containers.length; i++){
             var container = containers[i];
 
@@ -63,7 +63,7 @@ function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort) {
     }).success(function (data){
         markdown.content = '';
         if (markdown.file.endsWith('.md')) {
-            markdown.content = $sce.trustAsHtml('<div class="md-container" data-refer="'+newUrl+'">'+converter.makeHtml(data)+'</div>');
+            markdown.content = $sce.trustAsHtml('<div class="markdown-container" data-refer="'+newUrl+'">'+converter.makeHtml(data)+'</div>');
         }else{
             markdown.content = $sce.trustAsHtml('<pre class="highlight"><code>'+data+'</code></pre>');
         }

@@ -39,7 +39,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
         <sc-meta-data-panel linking-variable="useCaseShowMetadata">
             <div flex>
-                <table ng-if="dashboard.feature.features.length > 0" class="table table-curved table-hover table-responsive usecase-table" sc-keyboard-navigatable-table="filtered" sc-keyboard-navigatable-table-hit="useCase.onNavigatorTableHit">
+                <table ng-if="dashboard.feature.features.length > 0"
+                       class="table table-curved table-hover table-responsive usecase-table"
+                       sc-keyboard-navigatable-table="filtered"
+                       sc-keyboard-navigatable-table-hit="useCase.onNavigatorTableHit">
                     <thead>
                     <tr>
                         <th sc-sortable-column="status">Status</th>
@@ -49,25 +52,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <th sc-sortable-column="features.length"># Subfeatures</th>
                         <th sc-sortable-column="numberOfScenario"># Scenarios</th>
                         <th sc-sortable-column="success"># Tests</th>
-                        <th sc-sortable-column="diffInfo.changeRate" class="sort-diff-info" ng-if="dashboard.comparisonInfo.isDefined">Changes</th>
+                        <th sc-sortable-column="diffInfo.changeRate" class="sort-diff-info"
+                            ng-if="dashboard.comparisonInfo.isDefined">Changes</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-class="{'selected':$index==selectedRowIndex, 'added': feature.diffInfo.isAdded, 'removed': feature.diffInfo.isRemoved}"  ng-repeat="feature in dashboard.feature.features | scFilterArray: dashboard.table.search.searchTerm : 'parentFeature' | orderBy: dashboard.table.sort.column: dashboard.table.sort.reverse" ng-click="dashboard.clickFeature(feature, '/feature')" class="link">
+                    <tr ng-class="{'selected':$index==selectedRowIndex,
+                        'added': feature.diffInfo.isAdded,
+                        'removed': feature.diffInfo.isRemoved}"  ng-repeat="feature in dashboard.feature.features |
+                        scFilterArray: dashboard.table.search.searchTerm : 'parentFeature' |
+                        orderBy: dashboard.table.sort.column: dashboard.table.sort.reverse"
+                        ng-click="dashboard.clickFeature(feature, '/feature')" class="link">
                         <td>
                             <span ng-class="[getStatusStyleClass(feature.status), 'label']">{{feature.status}}</span>
                         </td>
                         <td>
                             {{feature.name}}
-                            <!--<span >ng-repeat="label in feature.labels.labels" class="label label-info sc-label" ng-style="useCasesTab.getLabelStyle(label)">{{label}} <strong>no label</strong></span>-->
+                            <span ng-repeat="label in feature.labels.labels" class="label label-info sc-label" ng-style="dashboard.getLabelStyle(label)">{{label}}</span>
                         </td>
                         <td>{{feature.description}}</td>
                         <td>{{feature.milestone}}</td>
                         <td>{{feature.features.length>=1 ? feature.features.length : '0'}}</td>
                         <td>{{feature.numberOfScenarios}}</td>
-                        <td><!--{{feature.tests.length>=1 ? feature.tests.length : '0'}} -->
-                            <test-overview feature="feature"></test-overview>
-                        </td>
+                        <td><test-overview feature="feature"></test-overview></td>
                         <td ng-if="dashboard.comparisonInfo.isDefined"><sc-diff-info-icon diff-info="feature.diffInfo" element-type="feature" child-element-type="scenario"></sc-diff-info-icon></td>
                     </tr>
                     </tbody>

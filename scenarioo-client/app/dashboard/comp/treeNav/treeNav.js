@@ -5,19 +5,20 @@ angular.module('scenarioo').component('treeNav', {
         rootFeature:'=',
         currentFeature:'=',
     },
-    controller: function ($scope) {
-        var treeNav=this;
-        treeNav.showNav=true;
+    controller: function () {
+        var treeNav = this;
+        treeNav.showNav = true;
 
         treeNav.openNav = function () {
-            if (!treeNav.showNav)
+            if (!treeNav.showNav) {
                 treeNav.showNav = true;
+            }
         };
 
         treeNav.closeNav = function ($event) {
-            console.log('test');
-            if (treeNav.showNav)
+            if (treeNav.showNav){
                 treeNav.showNav = false;
+            }
             $event.stopPropagation();
 
         };

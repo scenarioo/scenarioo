@@ -1,5 +1,5 @@
 angular.module('scenarioo').component('navTree', {
-    templateUrl: 'dashboard/comp/nav-tree/nav-tree.html',
+    templateUrl: 'dashboard/comp/navTree/navTree.html',
     controllerAs: 'navTree',
     bindings: {
         feature:'=',

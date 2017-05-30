@@ -11,6 +11,7 @@ function DashboardController(FeatureService, $rootScope, SelectedComparison,
         sort: {column: 'name', reverse: false}
     };
     $scope.table = dashboard.table;
+    dashboard.labelConfigurations = undefined;
     dashboard.milestones = [];
     dashboard.firstOrder = 'storyOrderNumber';
     dashboard.secondOrder = 'milestone';
@@ -22,6 +23,7 @@ function DashboardController(FeatureService, $rootScope, SelectedComparison,
     dashboard.clickFeature = FeatureService.clickFeature;
     dashboard.equals = FeatureService.equals;
     dashboard.contains = FeatureService.contains;
+    dashboard.getLabelStyle = getLabelStyle;
 
     activate();
     dashboard.comparisonInfo = SelectedComparison.info;
@@ -57,14 +59,14 @@ function DashboardController(FeatureService, $rootScope, SelectedComparison,
     function setCollapseState(feature, val) {
         if( !isDefined(feature) ) return;
 
-        if (isDefined(feature.markdown))
-            feature.markdown.isCollapsed=val;
-        if (isDefined(feature.specification))
-            feature.specification.isCollapsed=val;
+        if (isDefined(feature.markdown)) feature.markdown.isCollapsed=val;
+
+        if (isDefined(feature.specification)) feature.specification.isCollapsed=val;
+
         if (isDefined(feature.features)){
             feature.isCollapsed=val;
             for(var i = 0; i < feature.features.length; i++){
-                collapseAll(feature.features[i], val);
+                setCollapseState(feature.features[i], val);
             }
         }
     }
@@ -98,6 +100,14 @@ function DashboardController(FeatureService, $rootScope, SelectedComparison,
             }
         }
         return false;
+    }
+    function getLabelStyle(labelName) {
+        if (dashboard.labelConfigurations) {
+            var labelConfig = vm.labelConfigurations[labelName];
+            if (labelConfig) {
+                return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
+            }
+        }
     }
 }
 

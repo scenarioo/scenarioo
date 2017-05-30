@@ -52,7 +52,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         You're probably better of with the <a href="/#/testScenarios">Scenarios-View</a>
                     </div>
                     <div ng-if="dashboard.contains(dashboard.feature, 'features')">
-                        <div ng-repeat="feature in dashboard.feature.features | orderBy: dashboard.firstOrder">
+                        <div ng-repeat="feature in dashboard.feature.features |
+                            scFilterArray: dashboard.table.search.searchTerm : 'parentFeature' |
+                            orderBy: dashboard.firstOrder">
                             <div style="border-bottom: 2px solid dimgrey;" ng-click="feature.isCollapsed = !feature.isCollapsed">
                                 <h3>
                                     <i ng-show="!feature.isCollapsed" class="glyphicon glyphicon-chevron-down"></i>

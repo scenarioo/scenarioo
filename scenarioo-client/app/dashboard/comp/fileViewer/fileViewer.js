@@ -1,5 +1,5 @@
 angular.module('scenarioo').component('fileViewer', {
-    templateUrl: 'dashboard/comp/file-viewer/file-viewer.html',
+    templateUrl: 'dashboard/comp/fileViewer/fileViewer.html',
     controllerAs: 'viewer',
     bindings: {
         feature: '=',

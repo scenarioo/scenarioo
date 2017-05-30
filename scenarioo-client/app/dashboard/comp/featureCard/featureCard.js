@@ -1,5 +1,5 @@
 angular.module('scenarioo').component('featureCard', {
-    templateUrl: 'dashboard/comp/feature-card/feature.card.html',
+    templateUrl: 'dashboard/comp/featureCard/featureCard.html',
     controllerAs: 'card',
     bindings: {
         cardColor: '@',
