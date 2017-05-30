@@ -1,4 +1,13 @@
-function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort, $rootScope) {
+angular.module('scenarioo').component('markdown', {
+    controllerAs:'markdown',
+    template:'<div ng-bind-html="markdown.content"></div>',
+    bindings:{
+        file: '@'
+    },
+    controller:MDC
+});
+
+function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort) {
     var markdown = this;
 
     function highlight() {
@@ -8,7 +17,7 @@ function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort, $rootS
         }
     }
 
-    function replaceLocalLinksInContainer(ref) {
+    function replaceLocalLinksInContainer() {
         var containers = document.getElementsByClassName('md-container');
         for (var i = 0; i < containers.length; i++){
             var container = containers[i];
@@ -23,14 +32,13 @@ function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort, $rootS
         }
     }
 
-    function replace(links, attr, ref) {
+    function replace(links, attributes, reference) {
         for (var j = 0; j < links.length; j++){
-            var url = links[j].getAttribute(attr);
-            //console.log('found url', url);
+            var url = links[j].getAttribute(attributes);
             if (!url.startsWith('http')){
                 url = replaceFirstSlash(url);
-                var newUrl = HostnameAndPort.forLink() + baseRestUrl + url + '&referer='+encodeURIComponent(ref);
-                links[j].setAttribute(attr, newUrl);
+                var newUrl = HostnameAndPort.forLink() + baseRestUrl + url + '&referer='+encodeURIComponent(reference);
+                links[j].setAttribute(attributes, newUrl);
             }
         }
     }
@@ -64,20 +72,14 @@ function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort, $rootS
             highlight();
         });
     });
-}
 
-function replaceFirstSlash(url) {
-    if (url.startsWith('/')){
-        url = url.substring(1, url.length);
+    function replaceFirstSlash(url) {
+        if (url.startsWith('/')){
+            url = url.substring(1, url.length);
+        }
+        return url;
     }
-    return url;
 }
 
-angular.module('scenarioo').component('markdown', {
-    controllerAs:'markdown',
-    template:'<div ng-bind-html="markdown.content"></div>',
-    bindings:{
-        file: '@'
-    },
-    controller:MDC
-});
+
+
