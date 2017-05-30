@@ -22,7 +22,7 @@
  */
 angular.module('scenarioo.controllers').controller('BuildController', BuildController);
 
-function BuildController($scope, $location, ConfigService) {
+function BuildController($scope, $location, ConfigService, LocalStorageNameService, SiteNavigationLinkService) {
 
     var vm = this;
     vm.tabs = undefined;
@@ -39,12 +39,12 @@ function BuildController($scope, $location, ConfigService) {
                 index: 0,
                 tabId: 'usecases',
                 title: 'Features',
-                contentViewUrl: 'dashboard/featureView.html'
+                contentViewUrl: 'REPLACE_FEATURE_VIEW'
             }
         ];
         vm.tabIndices.usecases = 0;
     }
-/*
+    /*
     function defineInitialStaticTabs() {
         vm.tabs = [
             {
@@ -56,7 +56,7 @@ function BuildController($scope, $location, ConfigService) {
         ];
         vm.tabIndices.usecases = 0;
     }
-*/
+     */
 
     function activate() {
         // Load configuration and trigger definition of tabs from config.
@@ -101,7 +101,17 @@ function BuildController($scope, $location, ConfigService) {
      */
     function getLazyTabContentViewUrl(tabIndex) {
         // Only return the tab src when tab is active
-        return vm.activeIndex === tabIndex ? vm.tabs[tabIndex].contentViewUrl : null;
+        var returnValue = vm.activeIndex === tabIndex ? vm.tabs[tabIndex].contentViewUrl : null;
+        if (returnValue === 'REPLACE_FEATURE_VIEW'){
+            var view = localStorage.getItem(LocalStorageNameService.LATEST_VIEW_NAME);
+            returnValue = SiteNavigationLinkService.links[0].template;
+            SiteNavigationLinkService.links.forEach(function (link) {
+                if (view === link.name){
+                    returnValue = link.template;
+                }
+            });
+        }
+        return returnValue
     }
 
     function setSelectedTabInUrl(tabIndex) {

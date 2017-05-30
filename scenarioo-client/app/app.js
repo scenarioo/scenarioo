@@ -30,18 +30,18 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
          * breadcrumbId: id of the breadcrumb elements to use for this page as defined in breadcrumbs.service.js
          */
         $routeProvider
-           /* .when('/', {
+            .when('/', {
                 templateUrl: 'build/build.html',
                 controller: 'BuildController',
                 controllerAs: 'main',
-                breadcrumbId: 'main'
-            })*/
-            .when('/', {
+                breadcrumbId: 'feature'
+            })
+            /*.when('/', {
                 templateUrl: 'dashboard/featureView.html',
                 controller: 'DashboardController',
                 controllerAs: 'dashboard',
                 breadcrumbId: 'feature'
-            })
+            })*/
             .when('/manage', {
                 templateUrl: 'manage/manage.html',
                 controller: 'ManageController',
@@ -109,28 +109,33 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
             })
 
             .when('/dashboard', {
-                templateUrl: 'dashboard/dashboard.html',
-                controller: 'DashboardController',
-                controllerAs: 'dashboard',
+                templateUrl: 'build/build.html',
+                controller: 'BuildController',
+                controllerAs: 'main',
                 breadcrumbId: 'dashboard'
             })
             .when('/detailNav', {
-                templateUrl: 'dashboard/documentationView.html',
-                controller: 'DashboardController',
-                controllerAs: 'dashboard',
+                templateUrl: 'build/build.html',
+                controller: 'BuildController',
+                controllerAs: 'main',
                 breadcrumbId: 'detail'
             })
             .when('/testScenarios', {
-                templateUrl: 'dashboard/scenarioView.html',
-                controller: 'DashboardController',
-                controllerAs: 'dashboard',
+                templateUrl: 'build/build.html',
+                controller: 'BuildController',
+                controllerAs: 'main',
                 breadcrumbId: 'testScenarios'
             })
             .when('/feature', {
+                templateUrl: 'build/build.html',
+                controller: 'BuildController',
+                controllerAs: 'main',
+                breadcrumbId: 'feature'
+                /*
                 templateUrl: 'dashboard/featureView.html',
                 controller: 'DashboardController',
                 controllerAs: 'dashboard',
-                breadcrumbId: 'feature'
+                breadcrumbId: 'feature'*/
             })
             .when('/data', {
                 templateUrl: 'dashboard/data.html',

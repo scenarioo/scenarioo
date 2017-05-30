@@ -2,10 +2,10 @@ var CURRENT_FEATURE = 'currentFeature';
 var SUCCESS = 'success';
 var FAILED = 'failed';
 
-angular.module('scenarioo').service('FeatureService',
+angular.module('scenarioo.services').service('FeatureService',
     function FeatureService ($rootScope, SelectedBranchAndBuildService, UseCasesResource, SelectedComparison,
                              BuildDiffInfoResource, UseCaseDiffInfosResource, UseCaseDiffInfoResource, DiffInfoService,
-                             ScenarioDiffInfosResource, $location) {
+                             ScenarioDiffInfosResource, $location, LocalStorageNameService) {
         var service = this;
 
         var rootFeature = {
@@ -16,13 +16,11 @@ angular.module('scenarioo').service('FeatureService',
         var selectedFeature = rootFeature;
 
         function loadBackRefs(feature, backref) {
-            if (feature == null || feature == undefined) return;
+            if (!def(feature)) return;
             feature.parentFeature = backref;
-            if (feature.features != undefined && feature.features != null){
-                for (var i = 0; i < feature.features.length; i++){
-                    loadBackRefs(feature.features[i], feature);
-                }
-            }
+            GetArray(feature.features).forEach(function (subFeature) {
+                loadBackRefs(subFeature, feature);
+            });
         }
 
         service.getSelectedFeatureNames = function () {
@@ -32,24 +30,21 @@ angular.module('scenarioo').service('FeatureService',
         };
 
         service.selectFromArray = function (array) {
-            var loc = localStorage.getItem('latestView');
+            var loc = localStorage.getItem(LocalStorageNameService.LATEST_VIEW_NAME);
             if (array.length===1){
                 loc='feature';
+                localStorage.setItem(LocalStorageNameService.LATEST_VIEW_NAME, 'feature');
             }
             var str = array.join('/');
             var pos = '/' + loc + '?feature=' + str;
             $location.url(pos);
         };
 
-        service.loadUseCases = function loadUseCases(selected) {
+        service.loadUseCases = function (selected) {
             UseCasesResource.query(
                 {'branchName': selected.branch, 'buildName': selected.build},
                 function onSuccess(useCases) {
-                    if(SelectedComparison.isDefined()) {
-                        loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
-                    } else {
-                        setInternalAfterLoad(useCases);
-                    }
+                    setInternalAfterLoad(useCases, selected);
                 });
         };
 
@@ -68,30 +63,25 @@ angular.module('scenarioo').service('FeatureService',
             }
         };
 
-        function getFeatureByArray(features, featuresArray, selectedFeature) {
-            if (features == undefined) return selectedFeature;
-            if (featuresArray.length > 0 && features.length > 0) {
-                var current = featuresArray[0];
-                featuresArray.shift();
-                for (var i = 0; i < features.length; i++){
-                    if (features[i] == null) continue;
-                    if (features[i].name === current){
-                        selectedFeature = getFeatureByArray(features[i].features, featuresArray, features[i]);
-                    }
-                }
+        function getFeatureByArray(currentFeature, featureNames, selectedFeature) {
+            if (featureNames.length === 0                ||
+                !def(currentFeature)                     ||
+                featureNames[0] !== currentFeature.name) {
+                return selectedFeature;
             }
+            selectedFeature = currentFeature;
+            featureNames.shift();
+
+            GetArray(currentFeature.features).forEach(function (subFeature) {
+                selectedFeature = getFeatureByArray(subFeature, featureNames, selectedFeature)
+            });
             return selectedFeature;
         }
 
         function loadFeature(){
             var featureString = getCurrentFeatures()[branch][build];
             var featuresArr = featureString.split('/');
-            var selectFeature = rootFeature;
-            if (rootFeature.name === featuresArr[0]){
-                featuresArr.shift();
-                selectFeature = getFeatureByArray(rootFeature.features, featuresArr, selectFeature);
-            }
-            selectedFeature = selectFeature;
+            selectedFeature = getFeatureByArray(rootFeature, featuresArr, rootFeature);
         }
 
         function getFeatureString(feature, featureString){
@@ -121,8 +111,7 @@ angular.module('scenarioo').service('FeatureService',
             }
             var params = $location.search();
             if (params !== null && angular.isDefined(params['feature'])) {
-                value = params['feature'];
-                currentFeatures[branch][build] = value;
+                currentFeatures[branch][build] = params['feature'];
             }
             return currentFeatures;
         }
@@ -157,9 +146,12 @@ angular.module('scenarioo').service('FeatureService',
         var branch = '';
         var build = '';
 
-        function setInternalAfterLoad(features) {
+        function setInternalAfterLoad(features, selected) {
             rootFeature.features = features;
             rootFeature.name = 'Home';
+            if(SelectedComparison.isDefined()) {
+                loadScenariosDiffInfoInt(rootFeature, selected.branch, selected.build, SelectedComparison.selected());
+            }
             loadBackRefs(rootFeature, null);
             loadFeature();
             getAllMilestones();
@@ -184,48 +176,47 @@ angular.module('scenarioo').service('FeatureService',
             return status;
         }
 
+        function GetArray(array) {
+            if (def(array)) return array;
+            return [];
+        }
+
         function getStati(feature) {
             if (!def(feature))return;
 
             var ignored = 0;
             var failed = 0;
             var success = 0;
-            var i = 0;
-            if (def(feature.scenarios)){
-                for (i = 0; i < feature.scenarios.length; i++){
-                    if (!def(feature.scenarios[i].pageSteps) || !def(feature.scenarios[i].pageSteps.pagesAndSteps)) {
-                        continue;
-                    }
-                    for (var j = 0; j < feature.scenarios[i].pageSteps.pagesAndSteps.length; j++){
-                        if (!def(feature.scenarios[i].pageSteps.pagesAndSteps[j].steps)) {
-                            continue;
+            GetArray(feature.scenarios).forEach(function (scenario) {
+                if (!def(scenario.pageSteps)) return;
+
+                GetArray(scenario.pageSteps.pagesAndSteps).forEach(function (pageSteps) {
+
+                    GetArray(pageSteps.steps).forEach(function (step) {
+
+                        if (!def(step.status)){
+                            ignored++;
+                            return;
                         }
-                        for (var k = 0; k < feature.scenarios[i].pageSteps.pagesAndSteps[j].steps.length; k++){
-                            if (!def(feature.scenarios[i].pageSteps.pagesAndSteps[j].steps[k].status)){
-                                ignored++;
-                                continue;
-                            }
-                            if (feature.scenarios[i].pageSteps.pagesAndSteps[j].steps[k].status === SUCCESS){
-                                success++;
-                            } else if (feature.scenarios[i].pageSteps.pagesAndSteps[j].steps[k].status === FAILED){
-                                failed++;
-                            } else {
-                                ignored++;
-                            }
+                        if (step.status === SUCCESS){
+                            success++;
+                        } else if (step.status === FAILED){
+                            failed++;
+                        } else {
+                            ignored++;
                         }
-                    }
-                }
-            }
-            if (def(feature.features)){
-                for (i = 0; i < feature.features.length; i++){
-                    getStati(feature.features[i]);
-                }
-                for (i = 0; i < feature.features.length; i++){
-                    ignored += feature.features[i].ignored;
-                    failed += feature.features[i].failed;
-                    success += feature.features[i].success;
-                }
-            }
+                    });
+                });
+            });
+
+            GetArray(feature.features).forEach(function (subFeature) {
+                getStati(subFeature);
+            });
+            GetArray(feature.features).forEach(function (subFeature) {
+                ignored += subFeature.ignored;
+                failed += subFeature.failed;
+                success += subFeature.success;
+            });
             feature.ignored = ignored;
             feature.failed = failed;
             feature.success = success;
@@ -240,82 +231,27 @@ angular.module('scenarioo').service('FeatureService',
             return val !== 'undefinded';
         }
 
-        function loadScenariosDiffInfo(useCases, baseBranchName, baseBuildName, comparisonName, func) {
-            var retUseCases = [];
-            for(var i = 0; i < useCases.length; i++){
-                loadScenariosDiffInfoInt(useCases[i], baseBranchName, baseBuildName, comparisonName, function (useCase) {
-                    retUseCases.push(useCase);
-                    if (retUseCases.length == useCases.length){
-                        func(retUseCases);
-                    }
-                });
-            }
-        }
-
-        function loadScenariosDiffInfoInt(feature, baseBranchName, baseBuildName, comparisonName, func) {
+        function loadScenariosDiffInfoInt(feature, baseBranchName, baseBuildName, comparisonName) {
             if(!def(feature)) return;
-            var featuresToAdd = [];
-            var subsReady = false;
-            var selfReady = false;
-            var featureDiffReady = false;
-
-            UseCaseDiffInfoResource.get(
-                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': feature.id},
-                function onSuccess(useCaseDiffInfo) {
+            if (def(feature.id)) {
+                var queryConfig = {
+                    'baseBranchName': baseBranchName,
+                    'baseBuildName': baseBuildName,
+                    'comparisonName': comparisonName,
+                    'useCaseName': feature.id
+                };
+                UseCaseDiffInfoResource.get(queryConfig, function onSuccess(useCaseDiffInfo) {
                     feature.diffInfo = useCaseDiffInfo;
-                    if (def(feature.scenarios)){
-                        ScenarioDiffInfosResource.get(
-                            {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': feature.id},
-                            function onSuccess(scenarioDiffInfos) {
-                                feature.scenarios = DiffInfoService.getElementsWithDiffInfos(feature.scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
-                                selfReady = true;
-                                ready();
-                            }, function onFailure() {
-                                selfReady = true;
-                                ready();
-                            }
-                        );
+                    if (def(feature.scenarios)) {
+                        ScenarioDiffInfosResource.get(queryConfig, function onSuccess(scenarioDiffInfos) {
+                            feature.scenarios = DiffInfoService.getElementsWithDiffInfos(feature.scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
+                        });
                     }
-                    featureDiffReady = true;
-                    ready();
-                }, function onFailure() {
-                    featureDiffReady = true;
-                    ready();
-                }
-            );
-            if (def(feature.features)){
-                for (var i = 0; i < feature.features.length; i++){
-                    loadScenariosDiffInfoInt(feature.features[i], baseBranchName, baseBuildName, comparisonName, function (returnFeature) {
-                        featuresToAdd.push(returnFeature);
-                        if (featuresToAdd.length === feature.features.length){
-                            subsReady = true;
-                            ready();
-                        }
-                    });
-                }
-                if (feature.features.length === 0){
-                    subsReady = true;
-                    ready();
-                }
-            } else {
-                subsReady = true;
-                ready();
-            }
-
-            function ready() {
-                if (subsReady && selfReady && featureDiffReady){
-                    feature.features = featuresToAdd;
-                    func(feature);
-                }
-            }
-        }
-
-        function loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName) {
-            if(useCases && baseBranchName && baseBuildName) {
-                loadScenariosDiffInfo(useCases, baseBranchName, baseBuildName, comparisonName, function (useCasesToAdd) {
-                    setInternalAfterLoad(useCasesToAdd);
                 });
             }
+            GetArray(feature.features).forEach(function (subFeature) {
+                loadScenariosDiffInfoInt(subFeature, baseBranchName, baseBuildName, comparisonName);
+            });
         }
 
         SelectedBranchAndBuildService.callOnSelectionChange(function(selected){
@@ -336,34 +272,23 @@ angular.module('scenarioo').service('FeatureService',
 
         var milestones = [];
         function getAllMilestones(){
-            milestones = getMilestone(rootFeature);
-            sortMilestone();
+            milestones = [];
+            getAllOfInArray(rootFeature, 'milestone', milestones);
+            milestones = milestones.filter(uniq);
+            milestones.sort();
         }
-        function getMilestone(feature){
-            var milestones = [];
+
+        function getAllOfInArray(feature, property, array){
+            if (!def(feature)) return;
+            if (def(feature[property])){
+                array.push(feature[property]);
+            }
             feature.features.forEach(function(currentFeature){
-                if (currentFeature == null)return;
-                if(currentFeature.milestone != null && milestones.indexOf(currentFeature.milestone) === -1){
-                    milestones.push(currentFeature.milestone);
-                }
-                if(currentFeature.features!=null){
-                    var childMilestones = getMilestone(currentFeature);
-                    for (var i = 0; i < childMilestones.length; i++){
-                        if(milestones.indexOf(childMilestones[i]) === -1){
-                            milestones.push(childMilestones[i]);
-                        }
-                    }
-                }
-            });
-            return milestones;
-        }
-        function sortMilestone(){
-            milestones = milestones.filter(function(m, i, a){ return i == a.indexOf(m) });
-            milestones.sort(function(a, b) {
-                if (typeof a === 'string' && typeof b === 'string'){
-                    return a.localeCompare(b);
-                }
-                return 0;
+                getAllOfInArray(currentFeature, property, array);
             });
         }
+
+        var uniq = function(m, i, a){ return i == a.indexOf(m) };
+
+        return service;
     });

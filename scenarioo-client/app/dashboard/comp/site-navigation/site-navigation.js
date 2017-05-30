@@ -1,23 +1,34 @@
-function SiteNavigationController($location){
-    var site = this;
-    site.links = [
+angular.module('scenarioo.services').service('SiteNavigationLinkService', function () {
+    var service = this;
+
+    service.links = [
         {
             name: 'feature',
-            short: 'Feature'
+            short: 'Feature',
+            template: 'dashboard/featureView.html'
         },{
             name: 'dashboard',
-            short: 'Map'
+            short: 'Map',
+            template: 'dashboard/dashboard.html'
         },{
             name: 'detailNav',
-            short: 'Docs'
+            short: 'Docs',
+            template: 'dashboard/documentationView.html'
         },{
             name: 'testScenarios',
-            short: 'Scenarios'
+            short: 'Scenarios',
+            template: 'dashboard/scenarioView.html'
         },
     ];
+});
+
+function SiteNavigationController($location, LocalStorageNameService, SiteNavigationLinkService){
+    var site = this;
+
+    site.links = SiteNavigationLinkService.links;
 
     site.setView = function(viewName) {
-        localStorage.setItem('latestView', viewName);
+        localStorage.setItem(LocalStorageNameService.LATEST_VIEW_NAME, viewName);
         console.log('change view to '+viewName);
         $location.path('/'+viewName+'/');
     };
