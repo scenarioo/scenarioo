@@ -1,13 +1,32 @@
+/* scenarioo-client
+ * Copyright (C) 2014, scenarioo.org Development Team
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 var CURRENT_FEATURE = 'currentFeature';
 var SUCCESS = 'success';
 var FAILED = 'failed';
+var DEFAULT_VIEW = 'feature';
+
 
 angular.module('scenarioo.services').service('FeatureService',
     function FeatureService ($rootScope, SelectedBranchAndBuildService, UseCasesResource, SelectedComparison,
-                             BuildDiffInfoResource, UseCaseDiffInfosResource, UseCaseDiffInfoResource, DiffInfoService,
+                             BuildDiffInfoResource, UseCaseDiffInfoResource, DiffInfoService,
                              ScenarioDiffInfosResource, $location, LocalStorageNameService) {
         var service = this;
-
+        var branch = '';
+        var build = '';
         var rootFeature = {
             name: 'Project',
             features: []
@@ -16,7 +35,7 @@ angular.module('scenarioo.services').service('FeatureService',
         var selectedFeature = rootFeature;
 
         function loadBackRefs(feature, backref) {
-            if (!def(feature)) return;
+            if (!isDefined(feature)) return;
             feature.parentFeature = backref;
             GetArray(feature.features).forEach(function (subFeature) {
                 loadBackRefs(subFeature, feature);
@@ -25,26 +44,26 @@ angular.module('scenarioo.services').service('FeatureService',
 
         service.getSelectedFeatureNames = function () {
             var featureString = getCurrentFeatures()[branch][build];
-            var featuresArr = featureString.split('/');
-            return featuresArr;
+            var featuresArray = featureString.split('/');
+            return featuresArray;
         };
 
         service.selectFromArray = function (array) {
-            var loc = localStorage.getItem(LocalStorageNameService.LATEST_VIEW_NAME);
+            var view = localStorage.getItem(LocalStorageNameService.LATEST_VIEW_NAME);
             if (array.length===1){
-                loc='feature';
-                localStorage.setItem(LocalStorageNameService.LATEST_VIEW_NAME, 'feature');
+                view=DEFAULT_VIEW;
+                localStorage.setItem(LocalStorageNameService.LATEST_VIEW_NAME, view);
             }
-            var str = array.join('/');
-            var pos = '/' + loc + '?feature=' + str;
-            $location.url(pos);
+            var featurePath = array.join('/');
+            var url = '/' + view + '?feature=' + featurePath;
+            $location.url(url);
         };
 
-        service.loadUseCases = function (selected) {
+        service.loadFeatures = function (selected) {
             UseCasesResource.query(
                 {'branchName': selected.branch, 'buildName': selected.build},
-                function onSuccess(useCases) {
-                    setInternalAfterLoad(useCases, selected);
+                function onSuccess(features) {
+                    setInternalAfterLoad(features, selected);
                 });
         };
 
@@ -63,17 +82,17 @@ angular.module('scenarioo.services').service('FeatureService',
             }
         };
 
-        function getFeatureByArray(currentFeature, featureNames, selectedFeature) {
-            if (featureNames.length === 0                ||
-                !def(currentFeature)                     ||
-                featureNames[0] !== currentFeature.name) {
+        function getFeatureByArray(currentFeature, subfeatures, selectedFeature) {
+            if (subfeatures.length === 0                ||
+                !isDefined(currentFeature)                     ||
+                subfeatures[0] !== currentFeature.name) {
                 return selectedFeature;
             }
             selectedFeature = currentFeature;
-            featureNames.shift();
+            subfeatures.shift();
 
             GetArray(currentFeature.features).forEach(function (subFeature) {
-                selectedFeature = getFeatureByArray(subFeature, featureNames, selectedFeature)
+                selectedFeature = getFeatureByArray(subFeature, subfeatures, selectedFeature)
             });
             return selectedFeature;
         }
@@ -122,7 +141,6 @@ angular.module('scenarioo.services').service('FeatureService',
             localStorage.setItem(CURRENT_FEATURE, JSON.stringify(currentFeatures));
             $location.search('feature', currentFeatures[branch][build]);
             loadFeature();
-            //selectedFeature = feature;
         };
 
         $rootScope.$watch(function () {
@@ -143,9 +161,6 @@ angular.module('scenarioo.services').service('FeatureService',
             return milestones;
         };
 
-        var branch = '';
-        var build = '';
-
         function setInternalAfterLoad(features, selected) {
             rootFeature.features = features;
             rootFeature.name = 'Home';
@@ -155,11 +170,11 @@ angular.module('scenarioo.services').service('FeatureService',
             loadBackRefs(rootFeature, null);
             loadFeature();
             getAllMilestones();
-            calcStati();
+            calculateStatus();
         }
 
-        function calcStati() {
-            getStati(rootFeature);
+        function calculateStatus() {
+            getStatus(rootFeature);
         }
 
         function getFeatureStatus(feature) {
@@ -177,53 +192,52 @@ angular.module('scenarioo.services').service('FeatureService',
         }
 
         function GetArray(array) {
-            if (def(array)) return array;
+            if (isDefined(array)) return array;
             return [];
         }
 
-        function getStati(feature) {
-            if (!def(feature))return;
+        function getStatus(feature) {
+            if (!isDefined(feature))return;
 
-            var ignored = 0;
-            var failed = 0;
-            var success = 0;
+            getScenarioStatusFrom(feature);
+            GetArray(feature.features).forEach(function (subFeature) {
+                getStatus(subFeature);
+            });
+            GetArray(feature.features).forEach(function (subFeature) {
+                feature.ignored += subFeature.ignored;
+                feature.failed += subFeature.failed;
+                feature.success += subFeature.success;
+            });
+            feature.status = getFeatureStatus(feature);
+        }
+        function getScenarioStatusFrom(feature){
+            feature.ignored = 0;
+            feature.failed = 0;
+            feature.success = 0;
             GetArray(feature.scenarios).forEach(function (scenario) {
-                if (!def(scenario.pageSteps)) return;
+                if (!isDefined(scenario.pageSteps)) return;
 
                 GetArray(scenario.pageSteps.pagesAndSteps).forEach(function (pageSteps) {
 
                     GetArray(pageSteps.steps).forEach(function (step) {
 
-                        if (!def(step.status)){
-                            ignored++;
+                        if (!isDefined(step.status)){
+                            feature.ignored++;
                             return;
                         }
                         if (step.status === SUCCESS){
-                            success++;
+                            feature.success++;
                         } else if (step.status === FAILED){
-                            failed++;
+                            feature.failed++;
                         } else {
-                            ignored++;
+                            feature.ignored++;
                         }
                     });
                 });
             });
-
-            GetArray(feature.features).forEach(function (subFeature) {
-                getStati(subFeature);
-            });
-            GetArray(feature.features).forEach(function (subFeature) {
-                ignored += subFeature.ignored;
-                failed += subFeature.failed;
-                success += subFeature.success;
-            });
-            feature.ignored = ignored;
-            feature.failed = failed;
-            feature.success = success;
-            feature.status = getFeatureStatus(feature);
         }
 
-        function def(val) {
+        function isDefined(val) {
             if (val == null)
                 return false;
             if (val == undefined)
@@ -232,25 +246,30 @@ angular.module('scenarioo.services').service('FeatureService',
         }
 
         function loadScenariosDiffInfoInt(feature, baseBranchName, baseBuildName, comparisonName) {
-            if(!def(feature)) return;
-            if (def(feature.id)) {
-                var queryConfig = {
-                    'baseBranchName': baseBranchName,
-                    'baseBuildName': baseBuildName,
-                    'comparisonName': comparisonName,
-                    'useCaseName': feature.id
-                };
-                UseCaseDiffInfoResource.get(queryConfig, function onSuccess(useCaseDiffInfo) {
-                    feature.diffInfo = useCaseDiffInfo;
-                    if (def(feature.scenarios)) {
-                        ScenarioDiffInfosResource.get(queryConfig, function onSuccess(scenarioDiffInfos) {
-                            feature.scenarios = DiffInfoService.getElementsWithDiffInfos(feature.scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
-                        });
-                    }
-                });
+            if(!isDefined(feature)) return;
+            if (isDefined(feature.id)) {
+                getFeatureDiffInfo(feature, baseBranchName, baseBuildName, comparisonName)
             }
             GetArray(feature.features).forEach(function (subFeature) {
                 loadScenariosDiffInfoInt(subFeature, baseBranchName, baseBuildName, comparisonName);
+            });
+        }
+
+        function getFeatureDiffInfo(feature, baseBranchName, baseBuildName, comparisonName) {
+            var queryConfig = {
+                'baseBranchName': baseBranchName,
+                'baseBuildName': baseBuildName,
+                'comparisonName': comparisonName,
+                'useCaseName': feature.id
+            };
+            UseCaseDiffInfoResource.get(queryConfig, function onSuccess(featureDiffInfo) {
+                feature.diffInfo = featureDiffInfo;
+                if (isDefined(feature.scenarios)) {
+                    ScenarioDiffInfosResource.get(queryConfig, function onSuccess(scenarioDiffInfos) {
+                        feature.scenarios = DiffInfoService.getElementsWithDiffInfos(feature.scenarios,
+                            featureDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
+                    });
+                }
             });
         }
 
@@ -267,20 +286,20 @@ angular.module('scenarioo.services').service('FeatureService',
         function reloadFromBranchBuild(selected) {
             branch = selected.branch;
             build = selected.build;
-            service.loadUseCases(selected);
+            service.loadFeatures(selected);
         }
 
         var milestones = [];
         function getAllMilestones(){
             milestones = [];
             getAllOfInArray(rootFeature, 'milestone', milestones);
-            milestones = milestones.filter(uniq);
+            milestones = milestones.filter(uniqe);
             milestones.sort();
         }
 
         function getAllOfInArray(feature, property, array){
-            if (!def(feature)) return;
-            if (def(feature[property])){
+            if (!isDefined(feature)) return;
+            if (isDefined(feature[property])){
                 array.push(feature[property]);
             }
             feature.features.forEach(function(currentFeature){
@@ -288,7 +307,7 @@ angular.module('scenarioo.services').service('FeatureService',
             });
         }
 
-        var uniq = function(m, i, a){ return i == a.indexOf(m) };
+        var uniqe = function(m, i, a){ return i == a.indexOf(m) };
 
         return service;
     });

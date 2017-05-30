@@ -48,7 +48,7 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     activate();
 
     function activate() {
-        SelectedBranchAndBuildService.callOnSelectionChange(loadUseCases);
+        SelectedBranchAndBuildService.callOnSelectionChange(loadFeatures);
 
         LabelConfigurationsResource.query({}, function (labelConfiguratins) {
             vm.labelConfigurations = labelConfiguratins;
