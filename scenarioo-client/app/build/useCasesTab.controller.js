@@ -82,7 +82,7 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
         }
     }
 
-    function loadUseCases(selected) {
+    function loadFeatures(selected) {
         BranchesAndBuildsService.getBranchesAndBuilds()
             .then(function onSuccess(branchesAndBuilds) {
                 vm.branchesAndBuilds = branchesAndBuilds;

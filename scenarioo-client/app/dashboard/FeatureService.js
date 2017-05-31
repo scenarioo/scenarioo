@@ -67,16 +67,16 @@ angular.module('scenarioo.services').service('FeatureService',
                 });
         };
 
-        service.contains = function contains(feature, field) {
+        service.contains = function(feature, field) {
             return feature[field] != null;
         };
 
-        service.equals = function equals (feat1, feat2) {
+        service.equals = function(feat1, feat2) {
             return feat1 === feat2;
         };
 
-        service.clickFeature = function clickFeature(subFeature, location){
-            setFeature(subFeature);
+        service.clickFeature = function(subFeature, location){
+            service.setFeature(subFeature);
             if (location && location !== ''){
                 $location.path(location);
             }
@@ -135,7 +135,7 @@ angular.module('scenarioo.services').service('FeatureService',
             return currentFeatures;
         }
 
-        function setFeature(feature) {
+        service.setFeature = function(feature) {
             var currentFeatures = getCurrentFeatures();
             currentFeatures[branch][build] = getFeatureString(feature, feature.name);
             localStorage.setItem(CURRENT_FEATURE, JSON.stringify(currentFeatures));
@@ -273,28 +273,32 @@ angular.module('scenarioo.services').service('FeatureService',
             });
         }
 
+        service.reloadFromBranchBuild = function(selected) {
+            branch = selected.branch;
+            build = selected.build;
+            service.loadFeatures(selected);
+        };
+
         SelectedBranchAndBuildService.callOnSelectionChange(function(selected){
-            reloadFromBranchBuild(selected);
+            service.reloadFromBranchBuild(selected);
         });
 
         $rootScope.$watch(function () {
             return SelectedComparison.selected();
         }, function () {
-            reloadFromBranchBuild(SelectedBranchAndBuildService.selected());
+            service.reloadFromBranchBuild(SelectedBranchAndBuildService.selected());
         });
 
-        function reloadFromBranchBuild(selected) {
-            branch = selected.branch;
-            build = selected.build;
-            service.loadFeatures(selected);
-        }
 
+        var unique = function(m, i, a){ return i == a.indexOf(m) };
         var milestones = [];
         function getAllMilestones(){
             milestones = [];
             getAllOfInArray(rootFeature, 'milestone', milestones);
-            milestones = milestones.filter(uniqe);
-            milestones.sort();
+            if (milestones.length > 0) {
+                milestones = milestones.filter(unique);
+                milestones.sort();
+            }
         }
 
         function getAllOfInArray(feature, property, array){
@@ -307,7 +311,7 @@ angular.module('scenarioo.services').service('FeatureService',
             });
         }
 
-        var uniqe = function(m, i, a){ return i == a.indexOf(m) };
+
 
         return service;
     });
