@@ -31,7 +31,6 @@ import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
-import org.scenarioo.model.docu.aggregates.Feature;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
@@ -84,11 +83,11 @@ public class UseCasesResource {
 
 	public List<UseCaseSummary> loadTree(List<UseCaseSummary> features){
 		List<UseCaseSummary> rootFeatures = new ArrayList<>();
-		HashSet<Feature> featureClear = new HashSet<>();
-		for (Feature feature: features){
+		HashSet<UseCaseSummary> featureClear = new HashSet<>();
+		for (UseCaseSummary feature: features){
 			for (String featureName : feature.featureNames){
 				System.out.println(featureName);
-				Feature clear = getFor(featureName, features);
+				UseCaseSummary clear = getFor(featureName, features);
 				feature.features.add(clear);
 				featureClear.add(clear);
 			}
@@ -98,8 +97,8 @@ public class UseCasesResource {
 		return rootFeatures;
 	}
 
-	private Feature getFor(String featureName, List<UseCaseSummary> features) {
-		for (Feature feature:features){
+	private UseCaseSummary getFor(String featureName, List<UseCaseSummary> features) {
+		for (UseCaseSummary feature:features){
 			if (feature.id == null) continue;
 			if (feature.id.equals(featureName))
 				return feature;

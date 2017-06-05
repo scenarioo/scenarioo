@@ -115,10 +115,11 @@ function DashboardController(FeatureService, $rootScope, SelectedComparison,
             }
         }
         return false;
-    }
+    };
+
     function getLabelStyle(labelName) {
         if (dashboard.labelConfigurations) {
-            var labelConfig = vm.labelConfigurations[labelName];
+            var labelConfig = dashboard.labelConfigurations[labelName];
             if (labelConfig) {
                 return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
             }
