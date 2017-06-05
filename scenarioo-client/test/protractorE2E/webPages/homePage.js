@@ -8,10 +8,10 @@ function HomePage(overridePath) {
     if (overridePath && overridePath.length > 0) {
         BaseWebPage.call(this, overridePath);
     } else {
-        BaseWebPage.call(this, '/');
+        BaseWebPage.call(this, '/usecases');
     }
 
-    this.featureSearchField = element(by.id('featureSearchField'));
+    this.featureSearchField = element(by.id('useCasesSearchField'));
     this.aboutScenariooPopup = element(by.css('.modal.about-popup'));
     this.popupCloseButton = element(by.css('.modal-footer button.btn'));
     this.usecaseTable = element(by.css('table.usecase-table'));

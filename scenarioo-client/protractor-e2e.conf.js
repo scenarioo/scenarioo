@@ -23,7 +23,7 @@ var exportsConfig = {
     framework: 'jasmine',
 
     // Do not use selenium server but instead connect directly to chrome
-    directConnect: false,
+    directConnect: true,
 
     // Timeouts: https://angular.github.io/protractor/#/timeouts
     allScriptsTimeout: 20000,
