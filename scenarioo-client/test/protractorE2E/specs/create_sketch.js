@@ -48,9 +48,9 @@ useCase('Create sketch')
                 editorPage.clickSaveButton();
                 editorPage.assertSaveSketchSuccessfulMessageIsDisplayed();
 
-                homePage.goToPage();
-                homePage.selectSketchesTab();
-                homePage.assertSketchesListContainsEntryWithSketchName(sketchName);
+                //homePage.goToPage();
+                //homePage.selectSketchesTab();
+                //homePage.assertSketchesListContainsEntryWithSketchName(sketchName);
             });
 
         scenario('New issue fail')
