@@ -39,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
         <sc-meta-data-panel linking-variable="useCaseShowMetadata">
             <div flex>
-                <div style="margin-left: 1%">
+                <div class="docMarg1">
                     <button type="button" class="btn btn-default" ng-click="dashboard.expandAll()">Expand all</button>
                     <button type="button" class="btn btn-default" ng-click="dashboard.collapseAll()">Collapse all</button>
                     <div ng-if="dashboard.contains(dashboard.feature, 'markdown') || dashboard.contains(dashboard.feature, 'specification')">
@@ -55,7 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <div ng-repeat="feature in dashboard.feature.features |
                             scFilterArray: dashboard.table.search.searchTerm : 'parentFeature' |
                             orderBy: dashboard.firstOrder">
-                            <div style="border-bottom: 2px solid dimgrey;" ng-click="feature.isCollapsed = !feature.isCollapsed">
+                            <div class="subfeatureSeparator" ng-click="feature.isCollapsed = !feature.isCollapsed">
                                 <h3>
                                     <i ng-show="!feature.isCollapsed" class="glyphicon glyphicon-chevron-down"></i>
                                     <i ng-show="feature.isCollapsed" class="glyphicon glyphicon-chevron-right"></i>
@@ -64,7 +64,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     <a ng-click="dashboard.clickFeature(feature, '/detailNav')">Select feature</a>
                                 </h3>
                             </div>
-                            <div uib-collapse="feature.isCollapsed" ng-show="!feature.isCollapsed" style="margin-left: 2%;">
+                            <div uib-collapse="feature.isCollapsed" ng-show="!feature.isCollapsed" class="docMarg2">
                                 <file-viewer feature="feature"></file-viewer>
                             </div>
                         </div>
@@ -84,3 +84,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </sc-meta-data-panel>
     </div>
 </div>
+
+<style>
+    .subfeatureSeparator {border-bottom: 2px solid dimgrey;}
+    .docMarg1 {margin-left: 1%;}
+    .docMarg2 {margin-left: 2%;}
+</style>

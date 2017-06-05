@@ -79,14 +79,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                               card-color="#00b3ee" feature="topfeature" />
                             </div>
                         </div>
-                        <md-card style="background-color: whitesmoke" ng-repeat="milestone in dashboard.milestones"
+                        <md-card class="milestoneBG" ng-repeat="milestone in dashboard.milestones"
                                  ng-if="dashboard.containsSubsub(dashboard.feature)">
                             <h2>{{milestone}}</h2>
                             <div layout="row" >
                                 <div layout = "column" ng-repeat="topfeature in dashboard.feature.features
                                 | orderBy: dashboard.firstOrder
                                 | scFilterArray: dashboard.table.search.searchTerm: 'parentFeature' ">
-                                    <md-card style="min-width: 15em; padding-left:5px; height: 0px; padding-right: 5px;"></md-card>
+                                    <md-card class="milestoneEmptyCard"></md-card>
                                     <div ng-repeat="feature in topfeature.features | orderBy: dashboard.secondOrder
                                     | scFilterArray: dashboard.table.search.searchTerm: 'parentFeature' ">
                                         <div ng-if="dashboard.equals(milestone, feature.milestone)">
@@ -116,3 +116,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </sc-meta-data-panel>
     </div>
 </div>
+
+<style>
+    .milestoneBG {background-color: whitesmoke}
+    .milestoneEmptyCard {min-width: 15em; padding-left:5px; height: 0px; padding-right: 5px;}
+</style>
