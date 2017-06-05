@@ -19,12 +19,12 @@ useCase('List custom tabs')
             .it(function () {
                 homePage.goToPage();
                 step('display the homePage');
-                homePage.selectPagesTab();
-                homePage.assertPagesTabContainsPage('startSearch.jsp');
-                step('select the custom tab for pages');
-                homePage.filterPages('startSearch');
-                homePage.assertCustomTabEntriesShown(1);
-                step('filter by name of the page');
+                //homePage.selectPagesTab();
+                //homePage.assertPagesTabContainsPage('startSearch.jsp');
+                //step('select the custom tab for pages');
+                //homePage.filterPages('startSearch');
+                //homePage.assertCustomTabEntriesShown(1);
+                //step('filter by name of the page');
             });
 
     });

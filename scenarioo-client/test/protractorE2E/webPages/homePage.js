@@ -8,10 +8,10 @@ function HomePage(overridePath) {
     if (overridePath && overridePath.length > 0) {
         BaseWebPage.call(this, overridePath);
     } else {
-        BaseWebPage.call(this, '/');
+        BaseWebPage.call(this, '/usecases');
     }
 
-    this.useCasesSearchField = element(by.id('useCasesSearchField'));
+    this.featureSearchField = element(by.id('useCasesSearchField'));
     this.aboutScenariooPopup = element(by.css('.modal.about-popup'));
     this.popupCloseButton = element(by.css('.modal-footer button.btn'));
     this.usecaseTable = element(by.css('table.usecase-table'));
@@ -28,7 +28,7 @@ util.inherits(HomePage, BaseWebPage);
 HomePage.prototype.assertPageIsDisplayed = function () {
     // call assertPageIsDisplayed on BaseWebPage
     BaseWebPage.prototype.assertPageIsDisplayed.apply(this);
-    expect(this.useCasesSearchField.isDisplayed()).toBe(true);
+    expect(this.featureSearchField.isDisplayed()).toBe(true);
 };
 
 HomePage.prototype.assertScenariooInfoDialogShown = function () {
@@ -53,8 +53,8 @@ HomePage.prototype.closeScenariooInfoDialogIfOpen = function () {
 };
 
 HomePage.prototype.filterUseCases = function (filterQuery) {
-    this.useCasesSearchField.clear();
-    this.useCasesSearchField.sendKeys(filterQuery);
+    this.featureSearchField.clear();
+    this.featureSearchField.sendKeys(filterQuery);
 };
 
 HomePage.prototype.assertUseCasesShown = function (count) {
