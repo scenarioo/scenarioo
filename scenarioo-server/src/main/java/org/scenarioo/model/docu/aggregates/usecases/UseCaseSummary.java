@@ -4,10 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.scenarioo.model.docu.aggregates.Feature;
 import org.scenarioo.model.docu.entities.ImportFeature;
-import org.scenarioo.model.docu.entities.Labels;
-import org.scenarioo.model.docu.entities.Scenario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +15,7 @@ import java.util.List;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class UseCaseSummary extends Feature{
+public class UseCaseSummary extends ImportFeature{
 	private int numberOfScenarios;
 
 	public List<ScenarioSummary> scenarios = new ArrayList<>();

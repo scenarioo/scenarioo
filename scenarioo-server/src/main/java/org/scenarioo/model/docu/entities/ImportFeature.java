@@ -23,7 +23,6 @@
 package org.scenarioo.model.docu.entities;
 
 import org.scenarioo.api.rules.Preconditions;
-import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.model.docu.entities.generic.Details;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -41,6 +40,9 @@ import java.util.List;
 @XmlRootElement(name = "useCase")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ImportFeature implements Serializable, Labelable, Detailable {
+
+	public List<ImportFeature> features = new ArrayList<>();
+
 
 	public String name;
 	public String description;
