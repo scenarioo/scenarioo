@@ -14,28 +14,34 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<div flex style="
-white-space: nowrap;
-  overflow: hidden;
-">
-    <div style="background-color: {{navTree.getBGColor()}};">
+<div flex class="navAll">
+    <div class="navActiveFeature {{navTree.feature.id}}">
         <span ng-if="navTree.feature.features.length>0">
-            <div style="display: inline-block; text-align: center; width: 20px; height: 20px; border-style: dashed; border-color: darkgrey; border-width: 1px;" ng-click="navTree.feature.isExplorerCollapsed = !navTree.feature.isExplorerCollapsed">
+            <div class="navExpandable" ng-click="navTree.feature.isExplorerCollapsed = !navTree.feature.isExplorerCollapsed">
                 <span ng-if="navTree.feature.isExplorerCollapsed">+</span>
                 <span ng-if="!navTree.feature.isExplorerCollapsed">-</span>
             </div>
         </span>
         <span ng-if="navTree.feature.features.length==0">
 
-            <div style="display: inline-block; text-align: center; width: 20px; height: 20px;"><span>|</span></div>
+            <div class="navNoChild"><span>|</span></div>
         </span>
         <span ng-click="navTree.clickFeature(navTree.feature, '')">
             {{navTree.feature.name}}
         </span>
     </div>
     <li uib-collapse="navTree.feature.isExplorerCollapsed" ng-show="!navTree.feature.isExplorerCollapsed">
-        <ul style="padding-left: 20px;" ng-repeat="feature1 in navTree.feature.features">
+        <ul class="navSubfeature" ng-repeat="feature1 in navTree.feature.features">
             <nav-tree feature="feature1" current-feature="navTree.currentFeature"></nav-tree>
         </ul>
     </li>
 </div>
+
+
+<style>
+    .navAll {white-space: nowrap; overflow: hidden;}
+    .navExpandable {display: inline-block; text-align: center; width: 20px; height: 20px; border-style: dashed; border-color: darkgrey; border-width: 1px;}
+    .navNoChild {display: inline-block; text-align: center; width: 20px; height: 20px;}
+    .navSubfeature { padding-left: 20px;}
+    .navActiveFeature.{{navTree.feature.id}} {background-color: {{navTree.getBGColor()}};}
+</style>
