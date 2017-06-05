@@ -14,13 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<md-card
-     style="
-        padding: 5px;
-        min-width: 15em;
-        min-height: 10em;
-        background-color: #e0f2be;
-     ">
+<md-card>
     {{card.feature.name}}
 <br/>
     {{card.feature.milestone}}
@@ -35,3 +29,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <br/>
     Parent Feature: <a ng-click="card.clickFeature(card.feature.parentFeature, '')">{{card.feature.parentFeature.name}}</a>
 </md-card>
+
+<style>
+    .card md-card {
+        padding: 5px;
+        min-width: 15em;
+        min-height: 10em;
+        background-color: #e0f2be;
+    }
+</style>

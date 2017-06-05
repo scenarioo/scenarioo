@@ -15,7 +15,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <span>
-    <span style="color: green;">&#9677;</span>{{overview.feature.success}} /
-    <span style="color: red;">&#9677;</span>{{overview.feature.failed}} /
-    <span style="color: darkorange;">&#9677;</span>{{overview.feature.ignored}}
+    <span class="success">&#9677;</span>{{overview.feature.success}} /
+    <span class="failed">&#9677;</span>{{overview.feature.failed}} /
+    <span class="ignored">&#9677;</span>{{overview.feature.ignored}}
 </span>
+
+<style>
+    .success {color: green;}
+    .failed {color: red;}
+    .ignored {color: darkorange;}
+</style>

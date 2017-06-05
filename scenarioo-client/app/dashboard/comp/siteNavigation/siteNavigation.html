@@ -15,11 +15,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <div layout = "row">
-    <md-nav-bar
-        md-selected-nav-item="siteNaviagtion.current"
-        nav-bar-aria-label="navigation links">
+    <md-nav-bar md-selected-nav-item="siteNaviagtion.current" nav-bar-aria-label="navigation links">
         <div ng-repeat="link in siteNaviagtion.links" >
-            <md-nav-item onload="goto(siteNaviagtion.current);" md-nav-click="siteNaviagtion.setView(link.name);" name="{{link.name}}">
+            <md-nav-item onload="goto(siteNaviagtion.current);"
+                         md-nav-click="siteNaviagtion.setView(link.name);" name="{{link.name}}">
                 {{link.short}}
             </md-nav-item>
         </div>

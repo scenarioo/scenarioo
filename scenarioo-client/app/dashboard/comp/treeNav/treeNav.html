@@ -14,12 +14,21 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<div flex layout-fill layout="column" style="background-color: #0e90d2;" ng-click="treeNav.openNav()">
-    <span style="font-size: 50px; color: whitesmoke;" ng-show="!treeNav.showNav" ><i class="glyphicon glyphicon-chevron-right"></i></span>
-    <span ng-show="!treeNav.showNav" style="margin-top: 0px; color: whitesmoke; font-size: large; transform: rotate(90deg); width: 3em; text-wrap: none; "> Feature Explorer </span>
-    <span ng-show="treeNav.showNav" style="color: whitesmoke; display: inline-block; width: 100%"  ng-click="treeNav.closeNav($event)">X Close</span>
+<div flex layout-fill layout="column" class="bgColor" ng-click="treeNav.openNav()">
+    <span class="closedSymbol" ng-show="!treeNav.showNav" ><i class="glyphicon glyphicon-chevron-right"></i></span>
+    <span ng-show="!treeNav.showNav" class="closeFeatureExplorer"> Feature Explorer </span>
+    <span ng-show="treeNav.showNav" class="openCloseSign"  ng-click="treeNav.closeNav($event)">X Close</span>
     <div layout-fill ng-show="treeNav.showNav" style="background-color: white; min-width: 250px;" ng-click="$event.stopPropagation();">
-        <h1 style="white-space: nowrap; overflow: hidden;"> Feature Explorer </h1>
+        <h1 class="openFeatureExplorer"> Feature Explorer </h1>
         <nav-tree feature="treeNav.rootFeature" current-feature="treeNav.currentFeature"/>
     </div>
 </div>
+
+
+<style>
+    .bgColor {background-color: #0e90d2;}
+    .closedSymbol {font-size: 50px; color: whitesmoke;}
+    .closeFeatureExplorer {margin-top: 0px; color: whitesmoke; font-size: large; transform: rotate(90deg); width: 3em; text-wrap: none; }
+    .openFeatureExplorer {white-space: nowrap; overflow: hidden;}
+    .openCloseSign {color: whitesmoke; display: inline-block; width: 100%}
+</style>
