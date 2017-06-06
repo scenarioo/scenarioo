@@ -13,7 +13,7 @@ useCase('Use branch aliases')
 
         var homePage = new pages.homePage();
         var branchAliasesPage = new pages.branchAliasesPage();
-        var usecasePage = new pages.usecasePage();
+        var featurePage = new pages.featurePage();
         var scenarioPage = new pages.scenarioPage();
         var stepPage = new pages.stepPage();
         var navigationPage = new pages.navigationPage();
@@ -35,8 +35,8 @@ useCase('Use branch aliases')
                 step('choose branch alias');
 
                 homePage.goToPage();
-                homePage.selectUseCase(1);
-                usecasePage.selectScenario(0);
+                homePage.selectFeature(1);
+                featurePage.selectScenario(0);
                 scenarioPage.openStepByName('Step 1: Wikipedia Suche');
                 stepPage.assertPreviousStepIsDisabled();
                 step('browse step using branch alias');

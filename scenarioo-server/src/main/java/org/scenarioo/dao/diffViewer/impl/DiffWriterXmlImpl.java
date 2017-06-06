@@ -31,9 +31,9 @@ import org.scenarioo.api.exception.ScenarioDocuTimeoutException;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
 import org.scenarioo.dao.diffViewer.DiffWriter;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
+import org.scenarioo.model.diffViewer.FeatureDiffInfo;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
-import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 
 /**
  * XML Diff Writer which writes the xml files in a separate thread.
@@ -82,31 +82,31 @@ public class DiffWriterXmlImpl implements DiffWriter {
 	}
 
 	@Override
-	public void saveUseCaseDiffInfo(final UseCaseDiffInfo useCaseDiffInfo) {
+	public void saveFeatureDiffInfo(final FeatureDiffInfo featureDiffInfo) {
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				final File destUseCaseDir = diffFiles.getUseCaseDirectory(baseBranchName, baseBuildName, comparisonName,
-						useCaseDiffInfo.getName());
-				createDirectoryIfNotYetExists(destUseCaseDir);
-				final File destUseCaseFile = diffFiles.getUseCaseFile(baseBranchName, baseBuildName, comparisonName,
-						useCaseDiffInfo.getName());
-				ScenarioDocuXMLFileUtil.marshal(useCaseDiffInfo, destUseCaseFile);
+				final File destFeatureDir = diffFiles.getFeatureDirectory(baseBranchName, baseBuildName, comparisonName,
+						featureDiffInfo.getName());
+				createDirectoryIfNotYetExists(destFeatureDir);
+				final File destFeatureFile = diffFiles.getFeatureFile(baseBranchName, baseBuildName, comparisonName,
+						featureDiffInfo.getName());
+				ScenarioDocuXMLFileUtil.marshal(featureDiffInfo, destFeatureFile);
 			}
 		});
 	}
 
 	@Override
-	public void saveScenarioDiffInfo(final ScenarioDiffInfo scenarioDiffInfo, final String useCaseName) {
+	public void saveScenarioDiffInfo(final ScenarioDiffInfo scenarioDiffInfo, final String featureName) {
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
 				final File destScenarioDir = diffFiles.getScenarioDirectory(baseBranchName, baseBuildName,
 						comparisonName,
-						useCaseName, scenarioDiffInfo.getName());
+						featureName, scenarioDiffInfo.getName());
 				createDirectoryIfNotYetExists(destScenarioDir);
 				final File destScenarioFile = diffFiles.getScenarioFile(baseBranchName, baseBuildName, comparisonName,
-						useCaseName,
+						featureName,
 						scenarioDiffInfo.getName());
 				ScenarioDocuXMLFileUtil.marshal(scenarioDiffInfo, destScenarioFile);
 			}
@@ -114,15 +114,15 @@ public class DiffWriterXmlImpl implements DiffWriter {
 	}
 
 	@Override
-	public void saveStepDiffInfo(final String useCaseName, final String scenarioName, final StepDiffInfo stepDiffInfo) {
+	public void saveStepDiffInfo(final String featureName, final String scenarioName, final StepDiffInfo stepDiffInfo) {
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
 				final File destStepsDir = diffFiles.getStepsDirectory(baseBranchName, baseBuildName, comparisonName,
-						useCaseName, scenarioName);
+						featureName, scenarioName);
 				createDirectoryIfNotYetExists(destStepsDir);
 				final File destStepFile = diffFiles.getStepFile(baseBranchName, baseBuildName, comparisonName,
-						useCaseName,
+						featureName,
 						scenarioName,
 						stepDiffInfo.getIndex());
 				ScenarioDocuXMLFileUtil.marshal(stepDiffInfo, destStepFile);

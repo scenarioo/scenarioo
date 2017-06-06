@@ -19,15 +19,15 @@ angular.module('scenarioo.services').service('ScreenshotUrlService', ScreenshotU
 
 function ScreenshotUrlService(HostnameAndPort) {
 
-    function getDiffScreenShotUrl(step, selected, comparisonName, useCaseName, scenarioName, stepIndex) {
-        if (step && stepIndex >= 0 && useCaseName) {
-            return HostnameAndPort.forLink() + 'rest/diffViewer/baseBranchName/' + selected.branch + '/baseBuildName/' + selected.build + '/comparisonName/' + comparisonName + '/useCaseName/' + useCaseName + '/scenarioName/' + scenarioName + '/stepIndex/' + stepIndex + '/stepDiffScreenshot';
+    function getDiffScreenShotUrl(step, selected, comparisonName, featureName, scenarioName, stepIndex) {
+        if (step && stepIndex >= 0 && featureName) {
+            return HostnameAndPort.forLink() + 'rest/diffViewer/baseBranchName/' + selected.branch + '/baseBuildName/' + selected.build + '/comparisonName/' + comparisonName + '/featureName/' + featureName + '/scenarioName/' + scenarioName + '/stepIndex/' + stepIndex + '/stepDiffScreenshot';
         }
     }
 
-    function getComparisonScreenShotUrl(comparisonBranchName, comparisonBuildName, useCaseName, scenarioName, comparisonScreenshotName) {
-        if (comparisonBranchName && comparisonBuildName && useCaseName && scenarioName && comparisonScreenshotName) {
-            return HostnameAndPort.forLink() + 'rest/branch/' + comparisonBranchName + '/build/' + comparisonBuildName + '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + comparisonScreenshotName;
+    function getComparisonScreenShotUrl(comparisonBranchName, comparisonBuildName, featureName, scenarioName, comparisonScreenshotName) {
+        if (comparisonBranchName && comparisonBuildName && featureName && scenarioName && comparisonScreenshotName) {
+            return HostnameAndPort.forLink() + 'rest/branch/' + comparisonBranchName + '/build/' + comparisonBuildName + '/feature/' + featureName + '/scenario/' + scenarioName + '/image/' + comparisonScreenshotName;
         }
     }
 

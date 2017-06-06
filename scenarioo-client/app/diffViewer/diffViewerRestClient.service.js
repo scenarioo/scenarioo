@@ -32,17 +32,17 @@ angular.module('scenarioo.services')
         }, {});
     })
 
-    .factory('UseCaseDiffInfoResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseName/:useCaseName/useCaseDiffInfo', {
+    .factory('FeatureDiffInfoResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/featureName/:featureName/featureDiffInfo', {
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName',
-            useCaseName: '@useCaseName'
+            featureName: '@featureName'
         }, {});
     })
 
-    .factory('UseCaseDiffInfosResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseDiffInfos', {
+    .factory('FeatureDiffInfosResource', function (ScenariooResource) {
+        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/featureDiffInfos', {
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName'
@@ -50,42 +50,42 @@ angular.module('scenarioo.services')
     })
 
     .factory('ScenarioDiffInfoResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseName/:useCaseName/scenarioName/:scenarioName/scenarioDiffInfo', {
+        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/featureName/:featureName/scenarioName/:scenarioName/scenarioDiffInfo', {
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName',
-            useCaseName: '@useCaseName',
+            featureName: '@featureName',
             scenarioName: '@scenarioName'
         }, {});
     })
 
     .factory('ScenarioDiffInfosResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseName/:useCaseName/scenarioDiffInfos', {
+        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/featureName/:featureName/scenarioDiffInfos', {
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName',
-            useCaseName: '@useCaseName'
+            featureName: '@featureName'
         }, {});
     })
 
     .factory('StepDiffInfoResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseName/:useCaseName/scenarioName/:scenarioName/stepIndex/:stepIndex/stepDiffInfo',
+        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/featureName/:featureName/scenarioName/:scenarioName/stepIndex/:stepIndex/stepDiffInfo',
             {
                 baseBranchName: '@baseBranchName',
                 baseBuildName: '@baseBuildName',
                 comparisonName: '@comparisonName',
-                useCaseName: '@useCaseName',
+                featureName: '@featureName',
                 scenarioName: '@scenarioName',
                 stepIndex: '@stepIndex'
             }, {});
     })
 
     .factory('StepDiffInfosResource', function (ScenariooResource) {
-        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseName/:useCaseName/scenarioName/:scenarioName/stepDiffInfos', {
+        return ScenariooResource('/diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/featureName/:featureName/scenarioName/:scenarioName/stepDiffInfos', {
             baseBranchName: '@baseBranchName',
             baseBuildName: '@baseBuildName',
             comparisonName: '@comparisonName',
-            useCaseName: '@useCaseName',
+            featureName: '@featureName',
             scenarioName: '@scenarioName'
         }, {});
     });

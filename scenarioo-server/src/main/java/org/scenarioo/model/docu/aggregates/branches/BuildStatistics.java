@@ -4,8 +4,8 @@ public class BuildStatistics {
 
 	private int numberOfFailedScenarios = 0;
 	private int numberOfSuccessfulScenarios = 0;
-	private int numberOfSuccessfulUseCases = 0;
-	private int numberOfFailedUseCases = 0;
+	private int numberOfSuccessfulFeatures = 0;
+	private int numberOfFailedFeatures = 0;
 
 	public int getNumberOfFailedScenarios() {
 		return numberOfFailedScenarios;
@@ -24,21 +24,21 @@ public class BuildStatistics {
 	}
 
 
-	public int getNumberOfSuccessfulUseCases() {
-		return numberOfSuccessfulUseCases;
+	public int getNumberOfSuccessfulFeatures() {
+		return numberOfSuccessfulFeatures;
 	}
 
 
-	public void setNumberOfSuccessfulUseCases(final int numberOfUseCases) {
-		this.numberOfSuccessfulUseCases = numberOfUseCases;
+	public void setNumberOfSuccessfulFeatures(final int numberOfFeatures) {
+		this.numberOfSuccessfulFeatures = numberOfFeatures;
 	}
 
-	public int getNumberOfFailedUseCases() {
-		return numberOfFailedUseCases;
+	public int getNumberOfFailedFeatures() {
+		return numberOfFailedFeatures;
 	}
 
-	public void setNumberOfFailedUseCases(final int numberOfFailedUseCases) {
-		this.numberOfFailedUseCases = numberOfFailedUseCases;
+	public void setNumberOfFailedFeatures(final int numberOfFailedFeatures) {
+		this.numberOfFailedFeatures = numberOfFailedFeatures;
 	}
 
 	public void incrementSuccessfulScenario() {
@@ -49,12 +49,12 @@ public class BuildStatistics {
 		numberOfFailedScenarios++;
 	}
 
-	public void incrementSuccessfulUseCase() {
-		numberOfSuccessfulUseCases++;
+	public void incrementSuccessfulFeature() {
+		numberOfSuccessfulFeatures++;
 	}
 
-	public void incrementFailedUseCase() {
-		numberOfFailedUseCases++;
+	public void incrementFailedFeature() {
+		numberOfFailedFeatures++;
 	}
 
 

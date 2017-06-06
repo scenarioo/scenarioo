@@ -244,16 +244,16 @@ public class UITestToolkitAbstraction {
 	}
 
 	private void saveStepData(final Step step) {
-		String useCaseName = test.getUseCase().id;
+		String featureName = test.getFeature().id;
 		String scenarioName = test.getScenario().getName();
-		docuWriter.saveStep(useCaseName, scenarioName, step);
+		docuWriter.saveStep(featureName, scenarioName, step);
 	}
 
 	private void saveStepWithScreenshot(final byte[] screenshot, final String status) {
-		String useCaseName = test.getUseCase().id;
+		String featureName = test.getFeature().id;
 		String scenarioName = test.getScenario().getName();
 		saveStepData(createStep(status));
-		docuWriter.saveScreenshotAsPng(useCaseName, scenarioName, stepIndex, screenshot);
+		docuWriter.saveScreenshotAsPng(featureName, scenarioName, stepIndex, screenshot);
 		lastScreenshot = screenshot;
 		stepIndex++;
 	}

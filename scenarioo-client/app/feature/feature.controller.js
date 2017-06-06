@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('scenarioo.controllers').controller('UseCaseController', UseCaseController);
+angular.module('scenarioo.controllers').controller('FeatureController', FeatureController);
 
-function UseCaseController($scope, $filter, $routeParams, $location, ScenarioResource, ConfigService,
+function FeatureController($scope, $filter, $routeParams, $location, ScenarioResource, ConfigService,
                            SelectedBranchAndBuildService, SelectedComparison, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource,
-                           SketchIdsResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource) {
+                           SketchIdsResource, FeatureDiffInfoResource, ScenarioDiffInfosResource) {
 
     var vm = this;
 
@@ -32,9 +32,9 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     $scope.table = vm.table; // expose "table" onto controller scope. is used at the moment by "sortableColumn" directive.
     vm.propertiesToShow = [];
     vm.labelConfigurations = {};
-    vm.useCase = {};
+    vm.feature = {};
     vm.scenarios = [];
-    vm.usecaseInformationTree = {};
+    vm.featureInformationTree = {};
     vm.metadataTree = {};
     vm.relatedIssues = {};
     vm.hasAnyLabels = false;
@@ -50,7 +50,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     activate();
 
     function activate() {
-        SelectedBranchAndBuildService.callOnSelectionChange(loadScenariosAndUseCase);
+        SelectedBranchAndBuildService.callOnSelectionChange(loadScenariosAndFeature);
 
         LabelConfigurationsResource.query({}, function (labelConfigurations) {
             vm.labelConfigurations = labelConfigurations;
@@ -64,18 +64,18 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         vm.table.search = {searchTerm: ''};
     }
 
-    function handleClick(useCaseName, scenarioSummary) {
+    function handleClick(featureName, scenarioSummary) {
         if(!scenarioSummary.diffInfo || !scenarioSummary.diffInfo.isRemoved){
-            goToScenario(useCaseName, scenarioSummary.scenario.name);
+            goToScenario(featureName, scenarioSummary.scenario.name);
         }
     }
 
-    function goToScenario(useCaseName, scenarioName) {
-        $location.path('/scenario/' + useCaseName + '/' + scenarioName);
+    function goToScenario(featureName, scenarioName) {
+        $location.path('/scenario/' + featureName + '/' + scenarioName);
     }
 
     function onNavigatorTableHit(scenario) {
-        goToScenario($routeParams.useCaseName, scenario.scenario.name);
+        goToScenario($routeParams.featureName, scenario.scenario.name);
     }
 
     // FIXME this code is duplicated. How can we extract it into a service?
@@ -89,7 +89,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         }
     }
 
-    function goToFirstStep(useCaseName, scenarioName) {
+    function goToFirstStep(featureName, scenarioName) {
         var selected = SelectedBranchAndBuildService.selected();
 
         // FIXME This could be improved, if the scenario service
@@ -98,32 +98,32 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
             {
                 branchName: selected.branch,
                 buildName: selected.build,
-                usecaseName: useCaseName,
+                featureName: featureName,
                 scenarioName: scenarioName
             },
             function onSuccess(scenarioResult) {
-                $location.path('/step/' + useCaseName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
+                $location.path('/step/' + featureName + '/' + scenarioName + '/' + scenarioResult.pagesAndSteps[0].page.name + '/0/0');
             }
         );
     }
 
-    function loadScenariosAndUseCase(selected) {
-        var useCaseName = $routeParams.useCaseName;
+    function loadScenariosAndFeature(selected) {
+        var featureName = $routeParams.featureName;
 
         ScenarioResource.get({
             branchName: selected.branch,
             buildName: selected.build,
-            usecaseName: useCaseName
-        }, onUseCaseLoaded);
+            featureName: featureName
+        }, onFeatureLoaded);
         vm.propertiesToShow = ConfigService.scenarioPropertiesInOverview();
 
     }
 
-    function onUseCaseLoaded(result) {
-        vm.useCase = result.feature;
-        vm.usecaseInformationTree = createUseCaseInformationTree(vm.useCase);
-        vm.metadataTree = $filter('scMetadataTreeListCreator')(vm.useCase.details);
-        vm.hasAnyLabels = vm.useCase.labels && vm.useCase.labels.labels.length !== 0;
+    function onFeatureLoaded(result) {
+        vm.feature = result.feature;
+        vm.featureInformationTree = createFeatureInformationTree(vm.feature);
+        vm.metadataTree = $filter('scMetadataTreeListCreator')(vm.feature.details);
+        vm.hasAnyLabels = vm.feature.labels && vm.feature.labels.labels.length !== 0;
 
         if(SelectedComparison.isDefined()) {
             var selected = SelectedBranchAndBuildService.selected();
@@ -135,15 +135,15 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         loadRelatedIssues();
     }
 
-    function loadDiffInfoData(scenarios, baseBranchName, baseBuildName, comparisonName, useCaseName) {
-        if (scenarios && baseBranchName && baseBuildName && useCaseName){
-            UseCaseDiffInfoResource.get(
-                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName},
-                function onSuccess(useCaseDiffInfo) {
+    function loadDiffInfoData(scenarios, baseBranchName, baseBuildName, comparisonName, featureName) {
+        if (scenarios && baseBranchName && baseBuildName && featureName){
+            FeatureDiffInfoResource.get(
+                {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'featureName': featureName},
+                function onSuccess(featureDiffInfo) {
                     ScenarioDiffInfosResource.get(
-                        {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'useCaseName': useCaseName},
+                        {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName, 'featureName': featureName},
                         function onSuccess(scenarioDiffInfos) {
-                            vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, useCaseDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
+                            vm.scenarios = DiffInfoService.getElementsWithDiffInfos(scenarios, featureDiffInfo.removedElements, scenarioDiffInfos, 'scenario.name');
                         }
                     );
                 }, function onFailure() {
@@ -157,7 +157,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         RelatedIssueResource.query({
             branchName: SelectedBranchAndBuildService.selected().branch,
             buildName: SelectedBranchAndBuildService.selected().build,
-            useCaseName: $routeParams.useCaseName
+            featureName: $routeParams.featureName
         }, function(result){
             vm.relatedIssues = result;
             vm.hasAnyRelatedIssues = vm.relatedIssues.length > 0;
@@ -173,14 +173,14 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
             });
     }
 
-    function createUseCaseInformationTree(usecase) {
-        var usecaseInformation = {};
-        usecaseInformation['Use Case'] = usecase.name;
-        if(usecase.description) {
-            usecaseInformation.Description = usecase.description;
+    function createFeatureInformationTree(feature) {
+        var featureInformation = {};
+        featureInformation['Feature'] = feature.name;
+        if(feature.description) {
+            featureInformation.Description = feature.description;
         }
-        usecaseInformation.Status = usecase.status;
-        return $filter('scMetadataTreeCreator')(usecaseInformation);
+        featureInformation.Status = feature.status;
+        return $filter('scMetadataTreeCreator')(featureInformation);
     }
 
 }

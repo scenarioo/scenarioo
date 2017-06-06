@@ -8,7 +8,7 @@ var BRANCH_WIKI = 'Production';
 var BRANCH_WIKI_DEV = 'Development';
 var BUILD_LAST_SUCCESSFUL = 'last successful';
 var BUILD_JANUARY = '2014-01-20';
-var SECOND_USE_CASE = 1;
+var SECOND_FEATURE = 1;
 var SECOND_SCENARIO = 1;
 
 useCase('Diff viewer - Choose comparisons')
@@ -17,7 +17,7 @@ useCase('Diff viewer - Choose comparisons')
 	.describe(function () {
 
 		var homePage = new pages.homePage();
-        var usecasePage = new pages.usecasePage();
+        var featurePage = new pages.featurePage();
 		var scenarioPage = new pages.scenarioPage();
 		var stepPage = new pages.stepPage();
         var navigationPage = new pages.navigationPage();
@@ -75,11 +75,11 @@ useCase('Diff viewer - Choose comparisons')
                 homePage.assertNoDiffInfoDisplayed();
                 step('comparison Disabled');
 
-                homePage.selectUseCase(SECOND_USE_CASE);
-				usecasePage.assertNoDiffInfoDisplayed();
+                homePage.selectFeature(SECOND_FEATURE);
+				featurePage.assertNoDiffInfoDisplayed();
                 step('Check for diff elements in list of scenarios');
 
-				usecasePage.selectScenario(SECOND_SCENARIO);
+				featurePage.selectScenario(SECOND_SCENARIO);
 				scenarioPage.assertNoDiffInfoDisplayed();
 				step('Check for diff elements in scenario');
 

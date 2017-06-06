@@ -17,24 +17,24 @@
 
 'use strict';
 
-describe('UseCaseController', function () {
+describe('FeatureController', function () {
 
     var BRANCH = 'branch_123',
         BUILD = 'build_123',
-        USE_CASE = 'LogIn';
+        FEATURE = 'LogIn';
 
-    var $scope, routeParams, controller, ScenarioResource, RelatedIssueResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource, SelectedBranchAndBuildService, $location, $httpBackend, HostnameAndPort;
+    var $scope, routeParams, controller, ScenarioResource, RelatedIssueResource, FeatureDiffInfoResource, ScenarioDiffInfosResource, SelectedBranchAndBuildService, $location, $httpBackend, HostnameAndPort;
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, _RelatedIssueResource_, _UseCaseDiffInfoResource_, _ScenarioDiffInfosResource_,
+    beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, _RelatedIssueResource_, _FeatureDiffInfoResource_, _ScenarioDiffInfosResource_,
                                 ConfigMock, _SelectedBranchAndBuildService_, _$location_, LocalStorageService, _$httpBackend_, _HostnameAndPort_) {
             $scope = $rootScope.$new();
             routeParams = $routeParams;
-            routeParams.useCaseName = USE_CASE;
+            routeParams.featureName = FEATURE;
             ScenarioResource = _ScenarioResource_;
             RelatedIssueResource = _RelatedIssueResource_;
-            UseCaseDiffInfoResource = _UseCaseDiffInfoResource_;
+            FeatureDiffInfoResource = _FeatureDiffInfoResource_;
             ScenarioDiffInfosResource = _ScenarioDiffInfosResource_;
             SelectedBranchAndBuildService = _SelectedBranchAndBuildService_;
             $location = _$location_;
@@ -43,23 +43,23 @@ describe('UseCaseController', function () {
 
             LocalStorageService.clearAll();
 
-            controller = $controller('UseCaseController', {
+            controller = $controller('FeatureController', {
                 $scope: $scope,
                 $routeParams: routeParams,
                 ConfigService: ConfigMock,
                 ScenarioResource: ScenarioResource,
                 RelatedIssueResource: RelatedIssueResource,
-                UseCaseDiffInfoResource: UseCaseDiffInfoResource,
+                FeatureDiffInfoResource: FeatureDiffInfoResource,
                 ScenarioDiffInfosResource: ScenarioDiffInfosResource,
                 SelectedBranchAndBuildService: SelectedBranchAndBuildService
             });
         }
     ));
 /*
-    it('should load all scenarios and and the selected use case', function () {
+    it('should load all scenarios and and the selected feature', function () {
         spyOn(ScenarioResource, 'get').and.callFake(getFindAllScenariosFake());
         spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
-        spyOn(UseCaseDiffInfoResource, 'get').and.callFake(getEmptyData());
+        spyOn(FeatureDiffInfoResource, 'get').and.callFake(getEmptyData());
         spyOn(ScenarioDiffInfosResource, 'get').and.callFake(getEmptyData());
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/labelconfigurations').respond({});
 
@@ -78,16 +78,16 @@ describe('UseCaseController', function () {
         expect(ScenarioResource.get).toHaveBeenCalledWith({
             'branchName': BRANCH,
             'buildName': BUILD,
-            'usecaseName': USE_CASE
+            'featureName': FEATURE
         }, jasmine.any(Function));
-        expect(controller.useCase).toBeDefined();
+        expect(controller.feature).toBeDefined();
         expect(controller.scenarios).toBeDefined();
         expect(controller.propertiesToShow).toBeDefined();
     });
 */
     function getFindAllScenariosFake() {
         var DATA = {
-            useCase: 'useCase',
+            feature: 'feature',
             scenarios: getFakeScenarios()
         };
 

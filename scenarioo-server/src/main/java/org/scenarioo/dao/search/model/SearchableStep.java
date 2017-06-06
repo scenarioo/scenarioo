@@ -30,9 +30,9 @@ public class SearchableStep implements SearchableObject {
     public SearchableStep() {
     }
 
-    public SearchableStep(final Step step, final StepLink stepLink, final Scenario scenario, final ImportFeature usecase) {
+    public SearchableStep(final Step step, final StepLink stepLink, final Scenario scenario, final ImportFeature feature) {
         this.step = step;
-        this.searchableObjectContext = new SearchableObjectContext(stepLink, scenario.getName(), usecase.getName());
+        this.searchableObjectContext = new SearchableObjectContext(stepLink, scenario.getName(), feature.getName());
     }
 
     public Step getStep() {
@@ -53,16 +53,16 @@ public class SearchableStep implements SearchableObject {
 
 	public static class SearchableObjectContext {
 		private StepLink stepLink;
-        private String usecase;
+        private String feature;
         private String scenario;
 
         public SearchableObjectContext() {
         }
 
-        SearchableObjectContext(final StepLink stepLink, final String scenario, final String usecase) {
+        SearchableObjectContext(final StepLink stepLink, final String scenario, final String feature) {
 			this.stepLink = stepLink;
             this.scenario = scenario;
-            this.usecase = usecase;
+            this.feature = feature;
         }
 
 		public StepLink getStepLink() {
@@ -73,12 +73,12 @@ public class SearchableStep implements SearchableObject {
 			this.stepLink = stepLink;
 		}
 
-		public String getUsecase() {
-			return usecase;
+		public String getFeature() {
+			return feature;
 		}
 
-		public void setUsecase(final String usecase) {
-			this.usecase = usecase;
+		public void setFeature(final String feature) {
+			this.feature = feature;
 		}
 
 		public String getScenario() {

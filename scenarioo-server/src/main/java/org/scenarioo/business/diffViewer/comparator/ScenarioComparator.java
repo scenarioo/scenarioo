@@ -24,11 +24,11 @@ import org.apache.log4j.Logger;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
+import org.scenarioo.model.diffViewer.FeatureDiffInfo;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
-import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
-import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
-import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
+import org.scenarioo.model.docu.aggregates.features.ScenarioSummary;
+import org.scenarioo.model.docu.aggregates.features.FeatureScenarios;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.rest.base.BuildIdentifier;
 
@@ -40,7 +40,7 @@ public class ScenarioComparator extends AbstractStructureComparator<Scenario, St
 	private static final Logger LOGGER = Logger.getLogger(ScenarioComparator.class);
 
 	private StepComparator stepComparator = new StepComparator(baseBranchName, baseBuildName, comparisonConfiguration);
-	private String baseUseCaseName;
+	private String baseFeatureName;
 
 	private AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDao(
 			configurationRepository.getDocumentationDataDirectory());
@@ -50,22 +50,22 @@ public class ScenarioComparator extends AbstractStructureComparator<Scenario, St
 		super(baseBranchName, baseBuildName, comparisonConfiguration);
 	}
 
-	public UseCaseDiffInfo compare(final String baseUseCaseName) {
-		this.baseUseCaseName = baseUseCaseName;
+	public FeatureDiffInfo compare(final String baseFeatureName) {
+		this.baseFeatureName = baseFeatureName;
 
-		final List<Scenario> baseScenarios = docuReader.loadScenarios(baseBranchName, baseBuildName, baseUseCaseName);
+		final List<Scenario> baseScenarios = docuReader.loadScenarios(baseBranchName, baseBuildName, baseFeatureName);
 		final List<Scenario> comparisonScenarios = docuReader.loadScenarios(
 				comparisonConfiguration.getComparisonBranchName(),
-				comparisonConfiguration.getComparisonBuildName(), baseUseCaseName);
+				comparisonConfiguration.getComparisonBuildName(), baseFeatureName);
 
-		final UseCaseDiffInfo useCaseDiffInfo = new UseCaseDiffInfo(baseUseCaseName);
+		final FeatureDiffInfo featureDiffInfo = new FeatureDiffInfo(baseFeatureName);
 
-		calculateDiffInfo(baseScenarios, comparisonScenarios, useCaseDiffInfo);
+		calculateDiffInfo(baseScenarios, comparisonScenarios, featureDiffInfo);
 
-		LOGGER.info(getLogMessage(useCaseDiffInfo,
-				"Use Case " + baseBranchName + "/" + baseBuildName + "/" + baseUseCaseName));
+		LOGGER.info(getLogMessage(featureDiffInfo,
+				"Use Case " + baseBranchName + "/" + baseBuildName + "/" + baseFeatureName));
 
-		return useCaseDiffInfo;
+		return featureDiffInfo;
 	}
 
 	@Override
@@ -74,10 +74,10 @@ public class ScenarioComparator extends AbstractStructureComparator<Scenario, St
 		if (comparisonElement == null) {
 			return 0;
 		} else {
-			final ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(baseUseCaseName,
+			final ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(baseFeatureName,
 					baseElement.getName());
 
-			diffWriter.saveScenarioDiffInfo(scenarioDiffInfo, baseUseCaseName);
+			diffWriter.saveScenarioDiffInfo(scenarioDiffInfo, baseFeatureName);
 
 			if (scenarioDiffInfo.hasChanges()) {
 				diffInfo.setChanged(diffInfo.getChanged() + 1);
@@ -96,11 +96,11 @@ public class ScenarioComparator extends AbstractStructureComparator<Scenario, St
 		final BuildIdentifier comparisonBuildIdentifier = new BuildIdentifier(
 				comparisonConfiguration.getComparisonBranchName(),
 				comparisonConfiguration.getComparisonBuildName());
-		final UseCaseScenarios useCaseScenarios = aggregatedDataReader.loadUseCaseScenarios(comparisonBuildIdentifier,
-				baseUseCaseName);
+		final FeatureScenarios featureScenarios = aggregatedDataReader.loadFeatureScenarios(comparisonBuildIdentifier,
+			baseFeatureName);
 
 		for (final Scenario scenario : scenarios) {
-			for (final ScenarioSummary scenarioSummary : useCaseScenarios.getScenarios()) {
+			for (final ScenarioSummary scenarioSummary : featureScenarios.getScenarios()) {
 				if (scenario.getName().equals(scenarioSummary.getScenario().getName())) {
 					scenarioSummaries.add(scenarioSummary);
 				}

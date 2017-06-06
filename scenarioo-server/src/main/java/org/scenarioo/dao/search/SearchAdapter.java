@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.scenarioo.dao.search.model.SearchResults;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
-import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.aggregates.features.FeatureScenariosList;
 import org.scenarioo.model.docu.entities.ImportFeature;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
@@ -38,11 +38,11 @@ public interface SearchAdapter {
 
     SearchResults searchData(SearchRequest searchRequest);
 
-    void indexUseCases(UseCaseScenariosList useCaseScenariosList, BuildIdentifier buildIdentifier);
+    void indexFeatures(FeatureScenariosList featureScenariosList, BuildIdentifier buildIdentifier);
 
     void updateAvailableBuilds(List<BuildIdentifier> existingBuilds);
 
-	void indexSteps(List<Step> steps, List<StepLink> page, Scenario scenario, ImportFeature usecase, BuildIdentifier buildIdentifier);
+	void indexSteps(List<Step> steps, List<StepLink> page, Scenario scenario, ImportFeature feature, BuildIdentifier buildIdentifier);
 
     void setupNewBuild(BuildIdentifier buildIdentifier);
 }

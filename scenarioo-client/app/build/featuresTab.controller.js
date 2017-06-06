@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('UseCasesTabController', UseCasesTabController);
+angular.module('scenarioo.controllers').controller('FeaturesTabController', FeaturesTabController);
 
-function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsService, SelectedBranchAndBuildService,
-                               SelectedComparison, DiffInfoService, UseCasesResource, LabelConfigurationsResource, BuildDiffInfoResource, UseCaseDiffInfosResource) {
+function FeaturesTabController($scope, $location, $filter, BranchesAndBuildsService, SelectedBranchAndBuildService,
+                               SelectedComparison, DiffInfoService, FeaturesResource, LabelConfigurationsResource, BuildDiffInfoResource, FeatureDiffInfosResource) {
 
     var vm = this;
     vm.table = {
@@ -28,14 +28,14 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     $scope.table = vm.table;
     vm.labelConfigurations = undefined;
     vm.branchesAndBuilds = [];
-    vm.useCases = [];
+    vm.features = [];
     vm.branchInformationTree = {};
     vm.buildInformationTree = {};
     vm.metadataTreeBranches = {};
     vm.metadataTreeBuilds = {};
     vm.comparisonInfo = SelectedComparison.info;
 
-    vm.gotoUseCase = gotoUseCase;
+    vm.gotoFeature = gotoFeature;
     vm.onNavigatorTableHit = onNavigatorTableHit;
     vm.resetSearchField = resetSearchField;
 
@@ -55,18 +55,18 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
         });
     }
 
-    function gotoUseCase(useCase){
-        if(!isRemovedUseCase(useCase)){
-            $location.path('/usecase/' + useCase.name);
+    function gotoFeature(feature){
+        if(!isRemovedFeature(feature)){
+            $location.path('/feature/' + feature.name);
         }
     }
 
-    function isRemovedUseCase(useCase) {
-        return useCase.diffInfo && useCase.diffInfo.isRemoved;
+    function isRemovedFeature(feature) {
+        return feature.diffInfo && feature.diffInfo.isRemoved;
     }
 
-    function onNavigatorTableHit(useCase) {
-        vm.gotoUseCase(useCase);
+    function onNavigatorTableHit(feature) {
+        vm.gotoFeature(feature);
     }
 
     function resetSearchField() {
@@ -87,13 +87,13 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
             .then(function onSuccess(branchesAndBuilds) {
                 vm.branchesAndBuilds = branchesAndBuilds;
 
-                UseCasesResource.query(
+                FeaturesResource.query(
                     {'branchName': selected.branch, 'buildName': selected.build},
-                    function onSuccess(useCases) {
+                    function onSuccess(features) {
                         if(SelectedComparison.isDefined()) {
-                            loadDiffInfoData(useCases, selected.branch, selected.build, SelectedComparison.selected());
+                            loadDiffInfoData(features, selected.branch, selected.build, SelectedComparison.selected());
                         } else {
-                            vm.useCases = useCases;
+                            vm.features = features;
                         }
 
                         var branch = vm.branchesAndBuilds.selectedBranch.branch;
@@ -106,15 +106,15 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
         });
     }
 
-    function loadDiffInfoData(useCases, baseBranchName, baseBuildName, comparisonName) {
-        if(useCases && baseBranchName && baseBuildName) {
+    function loadDiffInfoData(features, baseBranchName, baseBuildName, comparisonName) {
+        if(features && baseBranchName && baseBuildName) {
             BuildDiffInfoResource.get(
                 {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
                 function onSuccess(buildDiffInfo) {
-                    UseCaseDiffInfosResource.get(
+                    FeatureDiffInfosResource.get(
                         {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
-                        function onSuccess(useCaseDiffInfos) {
-                            vm.useCases = DiffInfoService.getElementsWithDiffInfos(useCases, buildDiffInfo.removedElements, useCaseDiffInfos, 'name');
+                        function onSuccess(featureDiffInfos) {
+                            vm.features = DiffInfoService.getElementsWithDiffInfos(features, buildDiffInfo.removedElements, featureDiffInfos, 'name');
                         }
                     );
                 }, function onFailure(error){

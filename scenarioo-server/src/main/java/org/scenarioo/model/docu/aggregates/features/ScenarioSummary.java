@@ -1,4 +1,4 @@
-package org.scenarioo.model.docu.aggregates.usecases;
+package org.scenarioo.model.docu.aggregates.features;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An imported Scenario in the scenario list of a use case.
+ * An imported Scenario in the scenario list of a feature.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

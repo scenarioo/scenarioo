@@ -89,40 +89,40 @@ public class ObjectStepResource extends AbstractBuildContentResource {
 
 		ObjectIndex objectIndex = aggregatedDataReader.loadObjectIndex(buildIdentifier, objectType, objectName);
 		List<StepLoaderResult> stepLoaderResults = new ObjectList<StepLoaderResult>();
-		for (ObjectTreeNode<Object> useCaseTreeNode : objectIndex.getReferenceTree().getChildren()) {
-			visitUseCase(buildIdentifier, stepLoaderResults, useCaseTreeNode);
+		for (ObjectTreeNode<Object> featureTreeNode : objectIndex.getReferenceTree().getChildren()) {
+			visitFeature(buildIdentifier, stepLoaderResults, featureTreeNode);
 		}
 		return stepLoaderResults;
 	}
 
-	private void visitUseCase(BuildIdentifier buildIdentifier, List<StepLoaderResult> stepLoaderResults, ObjectTreeNode<Object> useCaseTreeNode) {
-		if (useCaseTreeNode.getItem() instanceof ObjectReference) {
-			ObjectReference useCaseItem = (ObjectReference) useCaseTreeNode.getItem();
-			if (useCaseItem.getType().equals("usecase")) {
-				for (ObjectTreeNode<Object> scenarioTreeNode : useCaseTreeNode.getChildren()) {
-					visitScenario(buildIdentifier, stepLoaderResults, useCaseItem, scenarioTreeNode);
+	private void visitFeature(BuildIdentifier buildIdentifier, List<StepLoaderResult> stepLoaderResults, ObjectTreeNode<Object> featureTreeNode) {
+		if (featureTreeNode.getItem() instanceof ObjectReference) {
+			ObjectReference featureItem = (ObjectReference) featureTreeNode.getItem();
+			if (featureItem.getType().equals("feature")) {
+				for (ObjectTreeNode<Object> scenarioTreeNode : featureTreeNode.getChildren()) {
+					visitScenario(buildIdentifier, stepLoaderResults, featureItem, scenarioTreeNode);
 				}
 			}
 		}
 	}
 
-	private void visitScenario(BuildIdentifier buildIdentifier, List<StepLoaderResult> stepLoaderResults, ObjectReference useCaseItem, ObjectTreeNode<Object> scenarioTreeNode) {
+	private void visitScenario(BuildIdentifier buildIdentifier, List<StepLoaderResult> stepLoaderResults, ObjectReference featureItem, ObjectTreeNode<Object> scenarioTreeNode) {
 		if (scenarioTreeNode.getItem() instanceof ObjectReference) {
 			ObjectReference scenarioTreeNodeItem = (ObjectReference) scenarioTreeNode.getItem();
 			if (scenarioTreeNodeItem.getType().equals("scenario")) {
 				for (ObjectTreeNode<Object> stepTreeNode : scenarioTreeNode.getChildren()) {
-					visitStep(buildIdentifier, stepLoaderResults, useCaseItem, scenarioTreeNodeItem, stepTreeNode);
+					visitStep(buildIdentifier, stepLoaderResults, featureItem, scenarioTreeNodeItem, stepTreeNode);
 				}
 			}
 		}
 	}
 
-	private void visitStep(BuildIdentifier buildIdentifier, List<StepLoaderResult> stepLoaderResults, ObjectReference useCaseItem, ObjectReference scenarioTreeNodeItem, ObjectTreeNode<Object> stepTreeNode) {
+	private void visitStep(BuildIdentifier buildIdentifier, List<StepLoaderResult> stepLoaderResults, ObjectReference featureItem, ObjectReference scenarioTreeNodeItem, ObjectTreeNode<Object> stepTreeNode) {
 		if (stepTreeNode.getItem() instanceof ObjectReference) {
 			ObjectReference stepItem = (ObjectReference) stepTreeNode.getItem();
 			if (stepItem.getType().equals("step")) {
 				String[] split = stepItem.getName().split(Pattern.quote("/"));
-				StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, useCaseItem.getName(),
+				StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, featureItem.getName(),
 					scenarioTreeNodeItem.getName(), split[0],
 					Integer.parseInt(split[1]), Integer.parseInt(split[2]));
 				StepLoaderResult stepLoaderResult = stepLoader.loadStep(stepIdentifier);
@@ -142,19 +142,19 @@ public class ObjectStepResource extends AbstractBuildContentResource {
 	}
 
 	private String generateScreenshotLink(StepLoaderResult stepLoaderResult) {
-		return String.format("rest/branch/%s/build/%s/usecase/%s/scenario/%s/image/%s",
+		return String.format("rest/branch/%s/build/%s/feature/%s/scenario/%s/image/%s",
 			stepLoaderResult.getStepIdentifier().getBranchName(),
 			stepLoaderResult.getStepIdentifier().getBuildName(),
-			stepLoaderResult.getStepIdentifier().getUsecaseName(),
+			stepLoaderResult.getStepIdentifier().getFeatureName(),
 			stepLoaderResult.getStepIdentifier().getScenarioName(),
 			stepLoaderResult.getScreenshotFileName());
 	}
 
 	private String generateStepDetailLink(StepLoaderResult stepLoaderResult) {
-		return String.format("rest/branch/%s/build/%s/usecase/%s/scenario/%s/pageName/%s/pageOccurrence/%d/stepInPageOccurrence/%d",
+		return String.format("rest/branch/%s/build/%s/feature/%s/scenario/%s/pageName/%s/pageOccurrence/%d/stepInPageOccurrence/%d",
 			stepLoaderResult.getStepIdentifier().getBranchName(),
 			stepLoaderResult.getStepIdentifier().getBuildName(),
-			stepLoaderResult.getStepIdentifier().getUsecaseName(),
+			stepLoaderResult.getStepIdentifier().getFeatureName(),
 			stepLoaderResult.getStepIdentifier().getScenarioName(),
 			stepLoaderResult.getStepIdentifier().getPageName(),
 			stepLoaderResult.getStepIdentifier().getPageOccurrence(),

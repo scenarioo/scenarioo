@@ -5,7 +5,7 @@ import org.scenarioo.api.rules.CharacterChecker;
 /**
  * Object that can be labeled.
  *
- * A label is a string to categorize objects. Their goal is an easy distinction of use cases, scenarios etc. in the UI.
+ * A label is a string to categorize objects. Their goal is an easy distinction of features, scenarios etc. in the UI.
  * Comprehensive metadata should be added to the details of an object {@link Detailable}. Each object should only have a
  * small number of labels, ideally around 2 to 5.
  */

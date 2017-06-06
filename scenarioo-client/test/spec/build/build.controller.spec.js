@@ -43,7 +43,7 @@ describe('BuildController', function () {
         expect($scope.branchesAndBuilds).toBeUndefined();
     });
 
-    it('has a first static tab that is initialized with main use cases content', function () {
+    it('has a first static tab that is initialized with main features content', function () {
         $scope.$apply();
         $httpBackend.flush();
         expect(BuildController.getLazyTabContentViewUrl(BuildController.tabs[0].index)).toEqual('dashboard/featureView.html');

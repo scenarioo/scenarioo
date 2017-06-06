@@ -48,18 +48,18 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 controllerAs: 'vm',
                 breadcrumbId: 'manage'
             })
-            .when('/usecase/:useCaseName', {
-                templateUrl: 'useCase/usecase.html',
-                controller: 'UseCaseController',
-                controllerAs: 'useCase',
-                useCaseName: '@useCaseName',
-                breadcrumbId: 'usecase'
+            .when('/feature/:featureName', {
+                templateUrl: 'feature/feature.html',
+                controller: 'FeatureController',
+                controllerAs: 'feature',
+                featureName: '@featureName',
+                breadcrumbId: 'feature'
             })
-            .when('/scenario/:useCaseName/:scenarioName', {
+            .when('/scenario/:featureName/:scenarioName', {
                 templateUrl: 'scenario/scenario.html',
                 controller: 'ScenarioController',
                 controllerAs: 'vm',
-                useCaseName: '@useCaseName',
+                featureName: '@featureName',
                 scenarioName: '@scenarioName',
                 breadcrumbId: 'scenario'
             })
@@ -78,10 +78,10 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 objectName: '@objectName',
                 breadcrumbId: 'object'
             })
-            .when('/step/:useCaseName/:scenarioName/:pageName/:pageOccurrence/:stepInPageOccurrence', {
+            .when('/step/:featureName/:scenarioName/:pageName/:pageOccurrence/:stepInPageOccurrence', {
                 templateUrl: 'step/step.html',
                 controller: 'StepController',
-                useCaseName: '@useCaseName',
+                featureName: '@featureName',
                 scenarioName: '@scenarioName',
                 pageName: '@pageName',
                 pageOccurrence: '@pageOccurrence',
@@ -142,10 +142,10 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 controller: 'DataController',
                 controllerAs: 'dat'
             })
-            .when('/usecases', {
-                templateUrl: 'build/useCasesTab.html',
-                controller: 'UseCasesTabController',
-                controllerAs: 'useCasesTab'
+            .when('/features', {
+                templateUrl: 'build/featuresTab.html',
+                controller: 'FeaturesTabController',
+                controllerAs: 'featuresTab'
             })
 
             .otherwise({

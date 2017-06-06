@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -115,11 +115,11 @@ public class StepSketchResource {
 		if (stepSketch.getRelatedStep() == null) {
 			return;
 		}
-		
+
 		StepIdentifier relatedStep = stepSketch.getRelatedStep();
 		ResolveStepIndexResult stepIndex = resolveStepIndex(relatedStep);
 		File screenshotsDirectory = docuFiles.getScreenshotsDirectory(relatedStep.getBranchName(),
-				relatedStep.getBuildName(), relatedStep.getUsecaseName(), relatedStep.getScenarioName());
+				relatedStep.getBuildName(), relatedStep.getFeatureName(), relatedStep.getScenarioName());
 		originalScreenshot = new File(screenshotsDirectory, stepIndex.getScreenshotFileName());
 
 		sketcherDao.copyOriginalScreenshot(originalScreenshot, branchName, issueId, scenarioSketchId,
@@ -148,7 +148,7 @@ public class StepSketchResource {
 
 		final StepSketch stepSketch = sketcherDao.loadStepSketch(resolvedBranchName, issueId, scenarioSketchId,
 				stepSketchId);
-		
+
 		stepSketch.setSvgXmlString(SvgSanitizer.sanitize(updatedStepSketch.getSvgXmlString()));
 		stepSketch.setDateModified(new Date());
 

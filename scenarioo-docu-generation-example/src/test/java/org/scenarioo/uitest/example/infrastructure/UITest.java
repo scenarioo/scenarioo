@@ -43,10 +43,10 @@ import org.scenarioo.uitest.dummy.toolkit.UITestToolkit;
 public class UITest {
 
 	/**
-	 * Rule to write the use case information for each test class
+	 * Rule to write the feature information for each test class
 	 */
 	@ClassRule
-	public static UseCaseDocuWritingRule useCaseWritingRule = new UseCaseDocuWritingRule();
+	public static FeatureDocuWritingRule featureWritingRule = new FeatureDocuWritingRule();
 
 	/**
 	 * Rule to write the scenario information for each test
@@ -76,10 +76,10 @@ public class UITest {
 	}
 
 	/**
-	 * Get use case for which this test generates documentation.
+	 * Get feature for which this test generates documentation.
 	 */
-	public ImportFeature getUseCase() {
-		return scenarioWritingRule.getUseCase();
+	public ImportFeature getFeature() {
+		return scenarioWritingRule.getFeature();
 	}
 
 	/**

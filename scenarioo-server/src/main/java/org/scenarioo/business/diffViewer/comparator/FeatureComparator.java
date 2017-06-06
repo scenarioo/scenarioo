@@ -22,28 +22,28 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
+import org.scenarioo.model.diffViewer.FeatureDiffInfo;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
-import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.entities.ImportFeature;
 
 /**
  * Comparison results are persisted in a xml file.
  */
-public class UseCaseComparator extends AbstractStructureComparator<ImportFeature, String, ImportFeature> {
+public class FeatureComparator extends AbstractStructureComparator<ImportFeature, String, ImportFeature> {
 
-	private static final Logger LOGGER = Logger.getLogger(UseCaseComparator.class);
+	private static final Logger LOGGER = Logger.getLogger(FeatureComparator.class);
 
 	private ScenarioComparator scenarioComparator = new ScenarioComparator(baseBranchName, baseBuildName,
 			comparisonConfiguration);
 
-	public UseCaseComparator(final String baseBranchName, final String baseBuildName,
-			final ComparisonConfiguration comparisonConfiguration) {
+	public FeatureComparator(final String baseBranchName, final String baseBuildName,
+							 final ComparisonConfiguration comparisonConfiguration) {
 		super(baseBranchName, baseBuildName, comparisonConfiguration);
 	}
 
 	public BuildDiffInfo compare() {
-		final List<ImportFeature> baseImportFeatures = docuReader.loadUsecases(baseBranchName, baseBuildName);
-		final List<ImportFeature> comparisonImportFeatures = docuReader.loadUsecases(
+		final List<ImportFeature> baseImportFeatures = docuReader.loadFeatures(baseBranchName, baseBuildName);
+		final List<ImportFeature> comparisonImportFeatures = docuReader.loadFeatures(
 				comparisonConfiguration.getComparisonBranchName(),
 				comparisonConfiguration.getComparisonBuildName());
 
@@ -63,14 +63,14 @@ public class UseCaseComparator extends AbstractStructureComparator<ImportFeature
 		if (comparisonElement == null) {
 			return 0;
 		} else {
-			final UseCaseDiffInfo useCaseDiffInfo = scenarioComparator.compare(baseElement.id);
+			final FeatureDiffInfo featureDiffInfo = scenarioComparator.compare(baseElement.id);
 
-			diffWriter.saveUseCaseDiffInfo(useCaseDiffInfo);
+			diffWriter.saveFeatureDiffInfo(featureDiffInfo);
 
-			if (useCaseDiffInfo.hasChanges()) {
+			if (featureDiffInfo.hasChanges()) {
 				diffInfo.setChanged(diffInfo.getChanged() + 1);
 			}
-			return useCaseDiffInfo.getChangeRate();
+			return featureDiffInfo.getChangeRate();
 		}
 	}
 

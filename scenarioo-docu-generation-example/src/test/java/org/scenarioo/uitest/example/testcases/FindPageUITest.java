@@ -37,20 +37,20 @@ import org.scenarioo.uitest.example.infrastructure.Labels;
 import org.scenarioo.uitest.example.infrastructure.ScenarioDocuWritingRule;
 import org.scenarioo.uitest.example.infrastructure.UITest;
 import org.scenarioo.uitest.example.infrastructure.UITestToolkitAbstraction;
-import org.scenarioo.uitest.example.infrastructure.UseCaseDocuWritingRule;
+import org.scenarioo.uitest.example.infrastructure.FeatureDocuWritingRule;
 import org.scenarioo.uitest.example.issues.UserStories;
 
 /**
  * An example of how to use the Scenarioo API to generate User Scenario Documentation from your UI tests.
- * 
- * The structure of the tests assumes that one test class corresponds to the use cases and one test case corresponds to
- * a scenario of this use cases, which is a good practice to follow for structuring your UI tests and documenting your
+ *
+ * The structure of the tests assumes that one test class corresponds to the features and one test case corresponds to
+ * a scenario of this features, which is a good practice to follow for structuring your UI tests and documenting your
  * software by user scenarios.
- * 
+ *
  * The example also demonstrates how to hide the writing of the documentation inside your testing infrastructure, see
  * the base infrastructure testing classes on how the documentation writing is done: {@link UITest},
- * {@link UseCaseDocuWritingRule}, {@link ScenarioDocuWritingRule} and {@link UITestToolkitAbstraction}.
- * 
+ * {@link FeatureDocuWritingRule}, {@link ScenarioDocuWritingRule} and {@link UITestToolkitAbstraction}.
+ *
  * Hint for real implementation of your UI tests: In a real application we would recommend to use some additional
  * patterns to structure your probably more complex webtests: Instead of directly programming your tests against the
  * abstracted toolkit, we recommend to use the "PageObject" pattern and to introduce page components such that you can
@@ -74,7 +74,7 @@ public class FindPageUITest extends UITest {
 		toolkit.assertTextPresent("U2");
 		toolkit.clickLink("U2");
 	}
-	
+
 	@Test
 	@DocuDescription(description = "User enters exact unique page title and is navigated to the page directly.")
 	@UserStories({ 116 })
@@ -85,7 +85,7 @@ public class FindPageUITest extends UITest {
 		toolkit.clickButton("searchButton");
 		toolkit.assertTextPresent("Swiss football club");
 	}
-	
+
 	@Test
 	@DocuDescription(
 			description = "User enters exact page title that has ambiguities, he is navigated to the most relevant page directly and sees the ambiguities on top of the page.")
@@ -98,7 +98,7 @@ public class FindPageUITest extends UITest {
 		toolkit.clickLink("42 (number)");
 		toolkit.clickLink("42 - The answer to everything");
 	}
-	
+
 	@Test
 	@DocuDescription(description = "User enters text that is not found in pages content.")
 	@UserStories({ 117 })
@@ -111,5 +111,5 @@ public class FindPageUITest extends UITest {
 		toolkit.assertTextPresent("There where no results");
 		toolkit.assertTextPresent("Did you mean: scenario");
 	}
-	
+
 }

@@ -55,7 +55,7 @@ import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.
 @RunWith(MockitoJUnitRunner.class)
 public class StepComparatorTest {
 
-	private static String USE_CASE_NAME = "useCase";
+	private static String USE_CASE_NAME = "feature";
 	private static String SCENARIO_NAME = "scenario";
 	private static String PAGE_NAME_1 = "page1";
 	private static String PAGE_NAME_2 = "page2";

@@ -15,7 +15,7 @@ public enum Status {
 	SUCCESS("success"),
 
 	/**
-	 * Status for failed testing the corresponding step, scenario, use case or build.
+	 * Status for failed testing the corresponding step, scenario, feature or build.
 	 */
 	FAILED("failed");
 

@@ -84,8 +84,8 @@ angular.module('scenarioo.services').service('TestData', function () {
             }
         ],
 
-        USECASES: [
-            {'useCase': {'details': {'webtestClass': 'org.scenarioo.uitest.example.testcases.FindPageUITest'}, 'status': 'success', 'description': 'User wants to search for a page and read it.', 'name': 'Find Page'}, 'scenarios': [
+        FEATURES: [
+            {'feature': {'details': {'webtestClass': 'org.scenarioo.uitest.example.testcases.FindPageUITest'}, 'status': 'success', 'description': 'User wants to search for a page and read it.', 'name': 'Find Page'}, 'scenarios': [
                 {'details': {'userRole': 'unauthenticated'}, 'status': 'success', 'description': 'User enters text that is not found in pages content.', 'name': 'find_page_no_result'},
                 {'details': {'userRole': 'unauthenticated'}, 'status': 'success', 'description': 'User enters some text and finds multiple pages that contain this text.', 'name': 'find_page_with_text_on_page_from_multiple_results'},
                 {'details': {'userRole': 'unauthenticated'}, 'status': 'success', 'description': 'User enters page title that is ambiguous but matches directly a page, on the page he sees the list of other meanings, and can navigate to the page he meant.', 'name': 'find_page_with_title_ambiguous_navigate_to_other_meaning'},
@@ -94,7 +94,7 @@ angular.module('scenarioo.services').service('TestData', function () {
         ],
 
         SCENARIO: {
-            'useCase': {
+            'feature': {
                 'details': {
                     'webtestClass': 'org.scenarioo.uitest.example.testcases.FindPageUITest'
                 },
@@ -137,14 +137,14 @@ angular.module('scenarioo.services').service('TestData', function () {
 
         /**
          * Based on
-         * http://localhost:8080/scenarioo/rest/branch/wikipedia-docu-example/build/example-build/usecase/Find%20Page/scenario/find_page_with_text_on_page_from_multiple_results/pageName/searchResults.jsp/pageOccurrence/0/stepInPageOccurrence/0
+         * http://localhost:8080/scenarioo/rest/branch/wikipedia-docu-example/build/example-build/feature/Find%20Page/scenario/find_page_with_text_on_page_from_multiple_results/pageName/searchResults.jsp/pageOccurrence/0/stepInPageOccurrence/0
          * with simplified metadata.
          */
         STEP: {
             'stepIdentifier' : {
                 'branchName' : 'wikipedia-docu-example',
                 'buildName' : '2014-03-19',
-                'usecaseName' : 'Donate',
+                'featureName' : 'Donate',
                 'scenarioName' : 'find_donate_page',
                 'labels' : null,
                 'pageName' : 'startSearch.jsp',
@@ -156,7 +156,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'totalNumberOfStepsInPageOccurrence': 2,
                 'totalNumberOfPagesInScenario': 3
             },
-            'useCaseLabels' : {
+            'featureLabels' : {
                 'labels' : ['normal-case'],
                 'empty' : false
             },
@@ -225,7 +225,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'pageName': 'searchResults.jsp',
                 'stepInPageOccurrence': 0,
                 'previousStepVariant': {
-                    'useCaseName': 'Find Page',
+                    'featureName': 'Find Page',
                     'scenarioName': 'find_page_no_result',
                     'stepIndex': 2,
                     'pageName': 'searchResults.jsp',
@@ -249,7 +249,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'pageVariantIndex': 1,
                 'pageVariantScenarioIndex': 1,
                 'nextStepVariant': {
-                    'useCaseName': 'Find Page',
+                    'featureName': 'Find Page',
                     'scenarioName': 'find_page_with_text_on_page_from_multiple_results',
                     'stepIndex': 3,
                     'pageName': 'searchResults.jsp',
@@ -260,7 +260,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'pageVariantsCount': 3,
                 'pageVariantScenariosCount': 2,
                 'previousStepVariantInOtherScenario': {
-                    'useCaseName': 'Find Page',
+                    'featureName': 'Find Page',
                     'scenarioName': 'find_page_no_result',
                     'stepIndex': 2,
                     'pageName': 'searchResults.jsp',
@@ -296,9 +296,9 @@ angular.module('scenarioo.services').service('TestData', function () {
 
         TABS: [
             {
-                tabId: 'usecases',
+                tabId: 'features',
                 title: 'Use Cases',
-                contentViewUrl: 'build/useCasesTab.html',
+                contentViewUrl: 'build/featuresTab.html',
                 active: true
             }
         ]

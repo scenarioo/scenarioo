@@ -8,13 +8,13 @@ function HomePage(overridePath) {
     if (overridePath && overridePath.length > 0) {
         BaseWebPage.call(this, overridePath);
     } else {
-        BaseWebPage.call(this, '/usecases');
+        BaseWebPage.call(this, '/features');
     }
 
-    this.featureSearchField = element(by.id('useCasesSearchField'));
+    this.featureSearchField = element(by.id('featuresSearchField'));
     this.aboutScenariooPopup = element(by.css('.modal.about-popup'));
     this.popupCloseButton = element(by.css('.modal-footer button.btn'));
-    this.usecaseTable = element(by.css('table.usecase-table'));
+    this.featureTable = element(by.css('table.feature-table'));
     this.showMetaDataButton = element(by.id('sc-showHideDetailsButton-show'));
     this.hideMetaDataButton = element(by.id('sc-showHideDetailsButton-hide'));
     this.metaDataPanel = element(by.id('sc-metadata-panel'));
@@ -52,20 +52,20 @@ HomePage.prototype.closeScenariooInfoDialogIfOpen = function () {
     });
 };
 
-HomePage.prototype.filterUseCases = function (filterQuery) {
+HomePage.prototype.filterFeatures = function (filterQuery) {
     this.featureSearchField.clear();
     this.featureSearchField.sendKeys(filterQuery);
 };
 
-HomePage.prototype.assertUseCasesShown = function (count) {
-    this.usecaseTable.all(by.css('tbody tr')).then(function (elements) {
+HomePage.prototype.assertFeaturesShown = function (count) {
+    this.featureTable.all(by.css('tbody tr')).then(function (elements) {
         expect(elements.length).toBe(count);
     });
 };
 
-HomePage.prototype.selectUseCase = function(useCaseIndex) {
-    this.usecaseTable.all(by.css('tbody tr')).then(function(elements) {
-        elements[useCaseIndex].click();
+HomePage.prototype.selectFeature = function(featureIndex) {
+    this.featureTable.all(by.css('tbody tr')).then(function(elements) {
+        elements[featureIndex].click();
     });
 };
 
@@ -86,21 +86,21 @@ HomePage.prototype.hideMetaData = function() {
 };
 
 HomePage.prototype.sortByChanges = function(){
-    this.usecaseTable.element(by.css('th.sort-diff-info')).click();
+    this.featureTable.element(by.css('th.sort-diff-info')).click();
 };
 
 HomePage.prototype.assertNumberOfDiffInfos = function(count){
-    this.usecaseTable.all(by.css('.diff-info-wrapper')).then(function (elements) {
+    this.featureTable.all(by.css('.diff-info-wrapper')).then(function (elements) {
         expect(elements.length).toBe(count);
     });
 };
 
-HomePage.prototype.assertLastUseCase = function(lastName) {
-    e2eUtils.assertTextPresentInElement(this.usecaseTable.element(by.css('tr:last-of-type td:nth-of-type(2)')), lastName);
+HomePage.prototype.assertLastFeature = function(lastName) {
+    e2eUtils.assertTextPresentInElement(this.featureTable.element(by.css('tr:last-of-type td:nth-of-type(2)')), lastName);
 };
 
-HomePage.prototype.assertFirstUseCase = function(firstName) {
-    e2eUtils.assertTextPresentInElement(this.usecaseTable.element(by.css('tr:first-of-type td:nth-of-type(2)')), firstName);
+HomePage.prototype.assertFirstFeature = function(firstName) {
+    e2eUtils.assertTextPresentInElement(this.featureTable.element(by.css('tr:first-of-type td:nth-of-type(2)')), firstName);
 };
 
 HomePage.prototype.selectSketchesTab = function() {

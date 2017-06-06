@@ -1,4 +1,4 @@
-package org.scenarioo.model.docu.aggregates.usecases;
+package org.scenarioo.model.docu.aggregates.features;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -10,19 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a use case and some important aggregated data to display in use
+ * Represents a feature and some important aggregated data to display in use
  * cases list.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class UseCaseSummary extends ImportFeature{
+public class FeatureSummary extends ImportFeature{
 	private int numberOfScenarios;
 
 	public List<ScenarioSummary> scenarios = new ArrayList<>();
 
-	public UseCaseSummary(){}
+	public FeatureSummary(){}
 
-	public UseCaseSummary(ImportFeature importFeature) {
+	public FeatureSummary(ImportFeature importFeature) {
 		super(importFeature);
 	}
 

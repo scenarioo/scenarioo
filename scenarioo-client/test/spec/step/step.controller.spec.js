@@ -53,7 +53,7 @@ describe('StepController', function () {
         $httpBackend = _$httpBackend_;
         TestData = _TestData_;
 
-        $routeParams.useCaseName = 'uc';
+        $routeParams.featureName = 'uc';
         $routeParams.scenarioName = 'sc';
         $routeParams.pageName = 'pn';
         $routeParams.pageOccurrence = 0;
@@ -190,13 +190,13 @@ describe('StepController', function () {
 
             var url = $scope.getScreenshotUrlForSharing();
 
-            expect(url).toBe(HostnameAndPort.forLinkAbsolute() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1/image.png?labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
+            expect(url).toBe(HostnameAndPort.forLinkAbsolute() + 'rest/branch/trunk/build/current/feature/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1/image.png?labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
         });
 
         function loadPageContent() {
             $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
-            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
-            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1').respond(TestData.STEP);
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/feature/uc/scenario/sc').respond(TestData.SCENARIO);
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/feature/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1').respond(TestData.STEP);
             $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/labelconfigurations').respond({});
 
             ConfigService.load();
@@ -236,15 +236,15 @@ describe('StepController', function () {
             expect($scope.stepNotFound).toBeTruthy();
             expect($scope.httpResponse.status).toEqual(500);
             expect($scope.httpResponse.method).toEqual('GET');
-            expect($scope.httpResponse.url).toEqual(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42');
+            expect($scope.httpResponse.url).toEqual(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/feature/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42');
             expect($scope.httpResponse.data).toEqual('');
             expect($scope.getCurrentUrl()).toEqual('http://server/#?comparison=Disabled&branch=trunk&build=current');
         });
 
         function tryToLoadNotExistingStep() {
             $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
-            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
-            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42').respond(500, '');
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/feature/uc/scenario/sc').respond(TestData.SCENARIO);
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/feature/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42').respond(500, '');
             $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/labelconfigurations').respond({});
 
             ConfigService.load();

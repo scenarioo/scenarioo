@@ -21,8 +21,8 @@ var DEFAULT_VIEW = 'feature';
 
 
 angular.module('scenarioo.services').service('FeatureService',
-    function FeatureService ($rootScope, SelectedBranchAndBuildService, UseCasesResource, SelectedComparison,
-                             BuildDiffInfoResource, UseCaseDiffInfoResource, DiffInfoService,
+    function FeatureService ($rootScope, SelectedBranchAndBuildService, FeaturesResource, SelectedComparison,
+                             BuildDiffInfoResource, FeatureDiffInfoResource, DiffInfoService,
                              ScenarioDiffInfosResource, $location, LocalStorageNameService) {
         var service = this;
         var branch = '';
@@ -60,7 +60,7 @@ angular.module('scenarioo.services').service('FeatureService',
         };
 
         service.loadFeatures = function (selected) {
-            UseCasesResource.query(
+            FeaturesResource.query(
                 {'branchName': selected.branch, 'buildName': selected.build},
                 function onSuccess(features) {
                     setInternalAfterLoad(features, selected);
@@ -260,9 +260,9 @@ angular.module('scenarioo.services').service('FeatureService',
                 'baseBranchName': baseBranchName,
                 'baseBuildName': baseBuildName,
                 'comparisonName': comparisonName,
-                'useCaseName': feature.id
+                'featureName': feature.id
             };
-            UseCaseDiffInfoResource.get(queryConfig, function onSuccess(featureDiffInfo) {
+            FeatureDiffInfoResource.get(queryConfig, function onSuccess(featureDiffInfo) {
                 feature.diffInfo = featureDiffInfo;
                 if (isDefined(feature.scenarios)) {
                     ScenarioDiffInfosResource.get(queryConfig, function onSuccess(scenarioDiffInfos) {

@@ -110,9 +110,9 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             };
 
             scope.formatNodeName = function (node) {
-                // Only format scenario and usecase as human readable (all other text have to be generated how they should be displayed, by specification)
+                // Only format scenario and feature as human readable (all other text have to be generated how they should be displayed, by specification)
                 var name = node.name;
-                if ((node.type === 'scenario') || (node.type === 'usecase')) {
+                if ((node.type === 'scenario') || (node.type === 'feature')) {
                     name = $filter('scHumanReadable')(name);
                 }
                 return name;

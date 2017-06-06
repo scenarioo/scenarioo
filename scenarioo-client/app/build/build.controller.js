@@ -37,24 +37,24 @@ function BuildController($scope, $location, ConfigService, LocalStorageNameServi
         vm.tabs = [
             {
                 index: 0,
-                tabId: 'usecases',
+                tabId: 'features',
                 title: 'Features',
                 contentViewUrl: 'REPLACE_FEATURE_VIEW'
             }
         ];
-        vm.tabIndices.usecases = 0;
+        vm.tabIndices.features = 0;
     }
     /*
     function defineInitialStaticTabs() {
         vm.tabs = [
             {
                 index: 0,
-                tabId: 'usecases',
+                tabId: 'features',
                 title: 'Use Cases',
-                contentViewUrl: 'build/useCasesTab.html'
+                contentViewUrl: 'build/featuresTab.html'
             }
         ];
-        vm.tabIndices.usecases = 0;
+        vm.tabIndices.features = 0;
     }
      */
 

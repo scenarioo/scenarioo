@@ -8,18 +8,18 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Only used for testing. You would never use this in a production environment.
  *
- * This is only for getting some useful demo data with some use cases and scenarios having different name depending on the build run.
+ * This is only for getting some useful demo data with some features and scenarios having different name depending on the build run.
  */
 public class MultipleBuildsDummyTestNameGenerator {
 
 	private static final Map<BuildRun, Map<String, String>> BUILD_TO_SCENARIO_MAP = new HashMap<BuildRun, Map<String, String>>();
 
-	private static final Map<BuildRun, Map<String, String>> BUILD_TO_USECASE_MAP = new HashMap<BuildRun, Map<String, String>>();
+	private static final Map<BuildRun, Map<String, String>> BUILD_TO_FEATURE_MAP = new HashMap<BuildRun, Map<String, String>>();
 
 	static {
 
 		/**
-		 * Configure different use case names for some builds
+		 * Configure different feature names for some builds
 		 */
 
 		Map<String, String> aprilTestClassToName = new HashMap<String, String>();
@@ -29,8 +29,8 @@ public class MultipleBuildsDummyTestNameGenerator {
 		mayTestClassToName.put("Find Page", "FindPageUserInterfaceTest");
 		mayTestClassToName.put("Switch Language", "SwitchLanguageUserInterfaceTest");
 
-		BUILD_TO_USECASE_MAP.put(BuildRun.APRIL, aprilTestClassToName);
-		BUILD_TO_USECASE_MAP.put(BuildRun.MAY, mayTestClassToName);
+		BUILD_TO_FEATURE_MAP.put(BuildRun.APRIL, aprilTestClassToName);
+		BUILD_TO_FEATURE_MAP.put(BuildRun.MAY, mayTestClassToName);
 
 
 		/**
@@ -49,18 +49,18 @@ public class MultipleBuildsDummyTestNameGenerator {
 
 	}
 
-	public static String getDifferentUseCaseNameForBuild(final String name) {
-		String configuredUseCaseName = getConfiguredUseCaseName(name, MultipleBuildsRule.getCurrentBuildRun());
-		if (StringUtils.isNotEmpty(configuredUseCaseName)) {
-			return configuredUseCaseName;
+	public static String getDifferentFeatureNameForBuild(final String name) {
+		String configuredFeatureName = getConfiguredFeatureName(name, MultipleBuildsRule.getCurrentBuildRun());
+		if (StringUtils.isNotEmpty(configuredFeatureName)) {
+			return configuredFeatureName;
 		}
 		else {
 			return name;
 		}
 	}
 
-	private static String getConfiguredUseCaseName(final String className, final BuildRun build) {
-		Map<String, String> testClassToName = BUILD_TO_USECASE_MAP.get(build);
+	private static String getConfiguredFeatureName(final String className, final BuildRun build) {
+		Map<String, String> testClassToName = BUILD_TO_FEATURE_MAP.get(build);
 		if (testClassToName == null) {
 			return null;
 		}

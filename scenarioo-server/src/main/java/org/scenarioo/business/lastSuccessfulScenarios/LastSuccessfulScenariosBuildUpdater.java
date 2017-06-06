@@ -39,7 +39,7 @@ public class LastSuccessfulScenariosBuildUpdater {
 	 */
 	public static final String LAST_SUCCESSFUL_SCENARIO_BUILD_DISPLAY_NAME = "last successful scenarios";
 
-	private static final String FILE_NAME_USECASE = "usecase.xml";
+	private static final String FILE_NAME_FEATURE = "feature.xml";
 
 	private final FileSystemOperationsDao fileSystemOperations = new FileSystemOperationsDao();
 
@@ -83,18 +83,18 @@ public class LastSuccessfulScenariosBuildUpdater {
 		createLastSuccessfulBuildDirectoryIfItDoesNotExist(branchName);
 		createOrUpdateBuildXmlFile(branchName);
 
-		removeUseCasesAndScenariosThatDoNotExistAnymoreIfThisIsTheLatestBuild();
+		removeFeaturesAndScenariosThatDoNotExistAnymoreIfThisIsTheLatestBuild();
 
 		copySuccessfulScenariosToSuccessfulScenariosBuild();
 
-		copyUseCaseXmlFilesWhereverNecessary();
+		copyFeatureXmlFilesWhereverNecessary();
 
 		index.setLatestImportedBuildDate(buildImportSummary.getBuildDescription().getDate());
 
 		dao.saveLastSuccessfulScenariosIndex(index);
 	}
 
-	private void removeUseCasesAndScenariosThatDoNotExistAnymoreIfThisIsTheLatestBuild() {
+	private void removeFeaturesAndScenariosThatDoNotExistAnymoreIfThisIsTheLatestBuild() {
 		Date buildDate = buildImportSummary.getBuildDescription().getDate();
 		Date latestImportedBuildDate = index.getLatestImportedBuildDate();
 
@@ -105,7 +105,7 @@ public class LastSuccessfulScenariosBuildUpdater {
 		}
 
 		if (buildDate.after(latestImportedBuildDate)) {
-			removeUseCasesAndScenariosThatDoNotExistAnymore();
+			removeFeaturesAndScenariosThatDoNotExistAnymore();
 		}
 	}
 
@@ -131,49 +131,49 @@ public class LastSuccessfulScenariosBuildUpdater {
 		scenarioDocuWriter.flush();
 	}
 
-	private void removeUseCasesAndScenariosThatDoNotExistAnymore() {
-		String[] useCaseDirectories = getAllDirectoriesThatAreNotDerived(lastSuccessfulScenariosBuildFolder);
+	private void removeFeaturesAndScenariosThatDoNotExistAnymore() {
+		String[] featureDirectories = getAllDirectoriesThatAreNotDerived(lastSuccessfulScenariosBuildFolder);
 
-		for (String useCaseDirectory : useCaseDirectories) {
-			if (subdirectoryDoesNotExist(importedBuildFolder, useCaseDirectory)) {
-				removeUseCaseFromLastSuccessfulScenarios(useCaseDirectory);
+		for (String featureDirectory : featureDirectories) {
+			if (subdirectoryDoesNotExist(importedBuildFolder, featureDirectory)) {
+				removeFeatureFromLastSuccessfulScenarios(featureDirectory);
 			} else {
-				removeScenariosThatDoNotExistAnymore(useCaseDirectory);
+				removeScenariosThatDoNotExistAnymore(featureDirectory);
 			}
 		}
 	}
 
-	private void removeScenariosThatDoNotExistAnymore(final String useCaseDirectory) {
-		File useCaseDirectoryFile = new File(lastSuccessfulScenariosBuildFolder, useCaseDirectory);
-		File useCaseDirectoryFileInImportedBuilld = new File(importedBuildFolder, useCaseDirectory);
-		String[] scenarioDirectories = getAllDirectoriesThatAreNotDerived(useCaseDirectoryFile);
+	private void removeScenariosThatDoNotExistAnymore(final String featureDirectory) {
+		File featureDirectoryFile = new File(lastSuccessfulScenariosBuildFolder, featureDirectory);
+		File featureDirectoryFileInImportedBuilld = new File(importedBuildFolder, featureDirectory);
+		String[] scenarioDirectories = getAllDirectoriesThatAreNotDerived(featureDirectoryFile);
 
 		for (String scenarioDirectory : scenarioDirectories) {
-			if (subdirectoryDoesNotExist(useCaseDirectoryFileInImportedBuilld, scenarioDirectory)) {
-				removeScenarioFromLastSuccessfulScenarios(useCaseDirectoryFile, scenarioDirectory);
+			if (subdirectoryDoesNotExist(featureDirectoryFileInImportedBuilld, scenarioDirectory)) {
+				removeScenarioFromLastSuccessfulScenarios(featureDirectoryFile, scenarioDirectory);
 			}
 		}
 	}
 
-	private boolean subdirectoryDoesNotExist(final File importedBuildFolder, final String useCase) {
-		File useCaseDirectory = new File(importedBuildFolder, useCase);
-		return !useCaseDirectory.exists();
+	private boolean subdirectoryDoesNotExist(final File importedBuildFolder, final String feature) {
+		File featureDirectory = new File(importedBuildFolder, feature);
+		return !featureDirectory.exists();
 	}
 
-	private void removeUseCaseFromLastSuccessfulScenarios(final String useCaseDirectory) {
-		File useCaseDirectoryFile = new File(lastSuccessfulScenariosBuildFolder, useCaseDirectory);
+	private void removeFeatureFromLastSuccessfulScenarios(final String featureDirectory) {
+		File featureDirectoryFile = new File(lastSuccessfulScenariosBuildFolder, featureDirectory);
 		try {
-			FileUtils.deleteDirectory(useCaseDirectoryFile);
+			FileUtils.deleteDirectory(featureDirectoryFile);
 		} catch (IOException e) {
-			LOGGER.warn("Could not delete use case that does not exist anymore.", e);
+			LOGGER.warn("Could not delete feature that does not exist anymore.", e);
 		}
 
-		index.removeUseCase(UrlEncoding.decode(useCaseDirectory));
+		index.removeFeature(UrlEncoding.decode(featureDirectory));
 	}
 
-	private void removeScenarioFromLastSuccessfulScenarios(final File useCaseDirectoryFile,
+	private void removeScenarioFromLastSuccessfulScenarios(final File featureDirectoryFile,
 			final String scenarioDirectory) {
-		File scenarioDirectoryFile = new File(useCaseDirectoryFile, scenarioDirectory);
+		File scenarioDirectoryFile = new File(featureDirectoryFile, scenarioDirectory);
 
 		try {
 			FileUtils.deleteDirectory(scenarioDirectoryFile);
@@ -181,7 +181,7 @@ public class LastSuccessfulScenariosBuildUpdater {
 			LOGGER.warn("Could not delete scenario that does not exist anymore.", e);
 		}
 
-		index.removeScenario(UrlEncoding.decode(useCaseDirectoryFile.getName()), UrlEncoding.decode(scenarioDirectory));
+		index.removeScenario(UrlEncoding.decode(featureDirectoryFile.getName()), UrlEncoding.decode(scenarioDirectory));
 	}
 
 	private String[] getAllDirectoriesThatAreNotDerived(final File parentDirectory) {
@@ -231,63 +231,63 @@ public class LastSuccessfulScenariosBuildUpdater {
 		}
 	}
 
-	private void copyUseCaseXmlFilesWhereverNecessary() {
+	private void copyFeatureXmlFilesWhereverNecessary() {
 		File sourceBuildFolder = getBuildFolder(documentationDataDirectory, buildImportSummary.getIdentifier());
 		File destinationBuildFolder = lastSuccessfulScenariosBuildFolder;
 
-		String[] useCaseDirectories = getAllDirectoriesThatAreNotDerived(destinationBuildFolder);
+		String[] featureDirectories = getAllDirectoriesThatAreNotDerived(destinationBuildFolder);
 
-		for (String useCaseDirectory : useCaseDirectories) {
-			copyUseCaseXmlIfNecessary(sourceBuildFolder, destinationBuildFolder, useCaseDirectory);
+		for (String featureDirectory : featureDirectories) {
+			copyFeatureXmlIfNecessary(sourceBuildFolder, destinationBuildFolder, featureDirectory);
 		}
 	}
 
-	private void copyUseCaseXmlIfNecessary(final File sourceBuildFolder, final File destinationBuildFolder,
-			final String useCaseDirectory) {
-		File destinationUseCaseXmlFile = new File(destinationBuildFolder, useCaseDirectory + "/" + FILE_NAME_USECASE);
-		String useCaseName = UrlEncoding.decode(useCaseDirectory);
-		if (!destinationUseCaseXmlFile.exists() || destinationUseCaseXmlFileIsNotNewerThanCurrentBuild(useCaseName)) {
-			copyUseCaseXmlFile(destinationUseCaseXmlFile, sourceBuildFolder, useCaseDirectory);
+	private void copyFeatureXmlIfNecessary(final File sourceBuildFolder, final File destinationBuildFolder,
+			final String featureDirectory) {
+		File destinationFeatureXmlFile = new File(destinationBuildFolder, featureDirectory + "/" + FILE_NAME_FEATURE);
+		String featureName = UrlEncoding.decode(featureDirectory);
+		if (!destinationFeatureXmlFile.exists() || destinationFeatureXmlFileIsNotNewerThanCurrentBuild(featureName)) {
+			copyFeatureXmlFile(destinationFeatureXmlFile, sourceBuildFolder, featureDirectory);
 		}
 	}
 
-	private boolean destinationUseCaseXmlFileIsNotNewerThanCurrentBuild(final String useCaseName) {
+	private boolean destinationFeatureXmlFileIsNotNewerThanCurrentBuild(final String featureName) {
 		Date buildDate = buildImportSummary.getBuildDescription().getDate();
-		Date latestBuildDateOfUseCase = index.getLatestBuildDateOfUseCase(useCaseName);
-		return latestBuildDateOfUseCase == null || !latestBuildDateOfUseCase.after(buildDate);
+		Date latestBuildDateOfFeature = index.getLatestBuildDateOfFeature(featureName);
+		return latestBuildDateOfFeature == null || !latestBuildDateOfFeature.after(buildDate);
 	}
 
-	private void copyUseCaseXmlFile(final File destinationUseCaseXmlFile, final File sourceBuildFolder,
-			final String useCaseDirectory) {
-		File sourceUseCaseXmlFile = new File(sourceBuildFolder, useCaseDirectory + "/" + FILE_NAME_USECASE);
-		if (sourceUseCaseXmlFile.exists()) {
-			copyUseCaseXmlFileAndSetStatusToSuccess(useCaseDirectory);
+	private void copyFeatureXmlFile(final File destinationFeatureXmlFile, final File sourceBuildFolder,
+			final String featureDirectory) {
+		File sourceFeatureXmlFile = new File(sourceBuildFolder, featureDirectory + "/" + FILE_NAME_FEATURE);
+		if (sourceFeatureXmlFile.exists()) {
+			copyFeatureXmlFileAndSetStatusToSuccess(featureDirectory);
 		} else {
-			LOGGER.warn("File " + sourceUseCaseXmlFile + " does not exist.");
+			LOGGER.warn("File " + sourceFeatureXmlFile + " does not exist.");
 		}
 	}
 
-	private void copyUseCaseXmlFileAndSetStatusToSuccess(final String useCaseDirectory) {
-		ImportFeature importFeature = readUseCase(buildImportSummary.getIdentifier(), UrlEncoding.decode(useCaseDirectory));
+	private void copyFeatureXmlFileAndSetStatusToSuccess(final String featureDirectory) {
+		ImportFeature importFeature = readFeature(buildImportSummary.getIdentifier(), UrlEncoding.decode(featureDirectory));
 		importFeature.setStatus(Status.SUCCESS);
-		saveUseCaseXmlInLastSuccessfulScenariosBuild(UrlEncoding.decode(useCaseDirectory), importFeature);
+		saveFeatureXmlInLastSuccessfulScenariosBuild(UrlEncoding.decode(featureDirectory), importFeature);
 	}
 
-	private void saveUseCaseXmlInLastSuccessfulScenariosBuild(final String useCaseName, final ImportFeature importFeature) {
+	private void saveFeatureXmlInLastSuccessfulScenariosBuild(final String featureName, final ImportFeature importFeature) {
 		ScenarioDocuWriter scenarioDocuWriter = new ScenarioDocuWriter(documentationDataDirectory, buildImportSummary
 				.getIdentifier().getBranchName(),
 				LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
-		scenarioDocuWriter.saveUseCase(importFeature);
+		scenarioDocuWriter.saveFeature(importFeature);
 		scenarioDocuWriter.flush();
 	}
 
-	private ImportFeature readUseCase(final BuildIdentifier buildIdentifier, final String useCaseName) {
+	private ImportFeature readFeature(final BuildIdentifier buildIdentifier, final String featureName) {
 		ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(documentationDataDirectory);
 		return scenarioDocuReader.loadUsecase(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
-				useCaseName);
+				featureName);
 	}
 
-	private void copySuccessfulNewerScenarios(final String useCaseName, final File sourceFile,
+	private void copySuccessfulNewerScenarios(final String featureName, final File sourceFile,
 			final File destinationUsecaseFolder) {
 
 		Date buildDate = buildImportSummary.getBuildDescription().getDate();
@@ -301,14 +301,14 @@ public class LastSuccessfulScenariosBuildUpdater {
 			String scenarioName = UrlEncoding.decode(scenarioFolder.getName());
 
 			ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildImportSummary.getIdentifier(),
-					useCaseName, scenarioName);
+					featureName, scenarioName);
 
-			Date existingScenarioBuildDate = index.getScenarioBuildDate(useCaseName, scenarioName);
+			Date existingScenarioBuildDate = index.getScenarioBuildDate(featureName, scenarioName);
 
 			if (isScenarioSuccessful(documentationDataDirectory, scenarioIdentifier)
 					&& isScenarioNewerThanExisting(existingScenarioBuildDate, buildDate)) {
 				copyDirectoryWithoutDerivedFilesAndDirectories(scenarioFolder, destinationUsecaseFolder);
-				index.setScenarioBuildDate(useCaseName, scenarioName, buildDate);
+				index.setScenarioBuildDate(featureName, scenarioName, buildDate);
 				LOGGER.info("Copied successful scenario: " + scenarioFolder + " to " + destinationUsecaseFolder);
 			}
 		}
@@ -353,7 +353,7 @@ public class LastSuccessfulScenariosBuildUpdater {
 		Scenario scenario = null;
 		try {
 			scenario = reader.loadScenario(scenarioIdentifier.getBranchName(), scenarioIdentifier.getBuildName(),
-					scenarioIdentifier.getUsecaseName(), scenarioIdentifier.getScenarioName());
+					scenarioIdentifier.getFeatureName(), scenarioIdentifier.getScenarioName());
 		} catch (ResourceNotFoundException e) {
 			LOGGER.warn("Can't read scenario.xml file for scenario " + scenarioIdentifier + " in directory "
 					+ documentationDataDirectory);

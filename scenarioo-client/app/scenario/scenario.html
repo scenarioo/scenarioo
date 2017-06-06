@@ -90,9 +90,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <sc-collapsable-panel title="Labels" key="scenarioView-labels" initially-expanded="false" ng-show="vm.hasAnyLabels">
             <div class="sc-tree">
                 <ul>
-                    <li ng-show="vm.useCase.labels.labels">
+                    <li ng-show="vm.feature.labels.labels">
                         Use case:
-                        <span ng-repeat="label in vm.useCase.labels.labels" class="label label-info sc-label" ng-style="vm.getLabelStyle(label)">{{label}}</span>
+                        <span ng-repeat="label in vm.feature.labels.labels" class="label label-info sc-label" ng-style="vm.getLabelStyle(label)">{{label}}</span>
                     </li>
                     <li ng-show="vm.scenario.labels.labels">
                         Scenario:

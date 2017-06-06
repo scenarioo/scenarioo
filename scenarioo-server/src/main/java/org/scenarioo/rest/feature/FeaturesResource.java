@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.rest.usecase;
+package org.scenarioo.rest.feature;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,18 +32,18 @@ import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
-import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
-import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
-import org.scenarioo.model.docu.aggregates.usecases.UseCaseSummary;
+import org.scenarioo.model.docu.aggregates.features.FeatureScenarios;
+import org.scenarioo.model.docu.aggregates.features.ScenarioSummary;
+import org.scenarioo.model.docu.aggregates.features.FeatureSummary;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
 
-@Path("/rest/branch/{branchName}/build/{buildName}/usecase/")
-public class UseCasesResource {
+@Path("/rest/branch/{branchName}/build/{buildName}/feature/")
+public class FeaturesResource {
 
-	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
+	private static final Logger LOGGER = Logger.getLogger(FeaturesResource.class);
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
@@ -53,27 +53,27 @@ public class UseCasesResource {
 
 	@GET
 	@Produces({ "application/xml", "application/json" })
-	public List<UseCaseSummary> loadUseCaseSummaries(@PathParam("branchName") final String branchName,
+	public List<FeatureSummary> loadFeatureSummaries(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName) {
-		LOGGER.info("REQUEST: loadUseCaseSummaryList(" + branchName + ", " + buildName + ")");
-		final List<UseCaseSummary> result = new LinkedList<UseCaseSummary>();
+		LOGGER.info("REQUEST: loadFeatureSummaryList(" + branchName + ", " + buildName + ")");
+		final List<FeatureSummary> result = new LinkedList<FeatureSummary>();
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 				branchName,
 				buildName);
 
-		final List<UseCaseScenarios> useCaseScenariosList = dao.loadUseCaseScenariosList(buildIdentifier);
+		final List<FeatureScenarios> featureScenariosList = dao.loadFeatureScenariosList(buildIdentifier);
 
 
-		for (final UseCaseScenarios useCaseScenarios : useCaseScenariosList) {
+		for (final FeatureScenarios featureScenarios : featureScenariosList) {
 
-			for (ScenarioSummary scenarioSummary: useCaseScenarios.getScenarios()){
-				ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, useCaseScenarios.getFeature().id, scenarioSummary.getScenario().getName());
+			for (ScenarioSummary scenarioSummary: featureScenarios.getScenarios()){
+				ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, featureScenarios.getFeature().id, scenarioSummary.getScenario().getName());
 				ScenarioPageSteps pageSteps = dao.loadScenarioPageSteps(scenarioIdentifier);
 
 				scenarioSummary.pageSteps = pageSteps;
 			}
-			result.add(mapSummary(useCaseScenarios));
+			result.add(mapSummary(featureScenarios));
 		}
 
 		return loadTree(result);
@@ -81,13 +81,13 @@ public class UseCasesResource {
 
 
 
-	public List<UseCaseSummary> loadTree(List<UseCaseSummary> features){
-		List<UseCaseSummary> rootFeatures = new ArrayList<>();
-		HashSet<UseCaseSummary> featureClear = new HashSet<>();
-		for (UseCaseSummary feature: features){
+	public List<FeatureSummary> loadTree(List<FeatureSummary> features){
+		List<FeatureSummary> rootFeatures = new ArrayList<>();
+		HashSet<FeatureSummary> featureClear = new HashSet<>();
+		for (FeatureSummary feature: features){
 			for (String featureName : feature.featureNames){
 				System.out.println(featureName);
-				UseCaseSummary clear = getFor(featureName, features);
+				FeatureSummary clear = getFor(featureName, features);
 				feature.features.add(clear);
 				featureClear.add(clear);
 			}
@@ -97,8 +97,8 @@ public class UseCasesResource {
 		return rootFeatures;
 	}
 
-	private UseCaseSummary getFor(String featureName, List<UseCaseSummary> features) {
-		for (UseCaseSummary feature:features){
+	private FeatureSummary getFor(String featureName, List<FeatureSummary> features) {
+		for (FeatureSummary feature:features){
 			if (feature.id == null) continue;
 			if (feature.id.equals(featureName))
 				return feature;
@@ -106,10 +106,10 @@ public class UseCasesResource {
 		return null;
 	}
 
-	private UseCaseSummary mapSummary(final UseCaseScenarios useCaseScenarios) {
-		final UseCaseSummary summary = new UseCaseSummary(useCaseScenarios.getFeature());
-		summary.scenarios = useCaseScenarios.getScenarios();
-		summary.setNumberOfScenarios(useCaseScenarios.getScenarios().size());
+	private FeatureSummary mapSummary(final FeatureScenarios featureScenarios) {
+		final FeatureSummary summary = new FeatureSummary(featureScenarios.getFeature());
+		summary.scenarios = featureScenarios.getScenarios();
+		summary.setNumberOfScenarios(featureScenarios.getScenarios().size());
 		return summary;
 	}
 

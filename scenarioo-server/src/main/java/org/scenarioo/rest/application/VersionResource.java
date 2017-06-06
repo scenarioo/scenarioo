@@ -11,12 +11,12 @@ import org.scenarioo.dao.version.ApplicationVersion;
 import org.scenarioo.dao.version.ApplicationVersionHolder;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
-import org.scenarioo.rest.usecase.UseCasesResource;
+import org.scenarioo.rest.feature.FeaturesResource;
 
 @Path("/rest/version/")
 public class VersionResource {
 
-	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
+	private static final Logger LOGGER = Logger.getLogger(FeaturesResource.class);
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();

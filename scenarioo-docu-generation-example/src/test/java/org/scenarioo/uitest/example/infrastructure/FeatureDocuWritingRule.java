@@ -48,14 +48,14 @@ import org.scenarioo.model.docu.entities.ImportFeature;
  * A {@link TestRule} to setup as a static {@link ClassRule} on your UI test classes to generate documentation content
  * for each running test class as a Usecase inside the Scenarioo Documentation.
  */
-public class UseCaseDocuWritingRule implements TestRule {
+public class FeatureDocuWritingRule implements TestRule {
 
-	private static final Logger LOGGER = Logger.getLogger(UseCaseDocuWritingRule.class);
+	private static final Logger LOGGER = Logger.getLogger(FeatureDocuWritingRule.class);
 
 	@Override
 	public Statement apply(final Statement test, final Description testClassDescription) {
 
-		// Statement to write use case description as soon as test class gets executed
+		// Statement to write feature description as soon as test class gets executed
 		return new Statement() {
 
 			private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY,
@@ -64,11 +64,11 @@ public class UseCaseDocuWritingRule implements TestRule {
 			@Override
 			public void evaluate() throws Throwable {
 				try {
-					// Save use case description
-					ImportFeature useCase = createUseCase(testClassDescription.getTestClass());
-					LOGGER.info("Generating Scenarioo Docu for UseCase " + useCase.getName() + ": "
-							+ useCase.getDescription());
-					docuWriter.saveUseCase(useCase);
+					// Save feature description
+					ImportFeature feature = createFeature(testClassDescription.getTestClass());
+					LOGGER.info("Generating Scenarioo Docu for Feature " + feature.getName() + ": "
+							+ feature.getDescription());
+					docuWriter.saveFeature(feature);
 					// Run tests
 					test.evaluate();
 				} finally {
@@ -79,8 +79,8 @@ public class UseCaseDocuWritingRule implements TestRule {
 		};
 	}
 
-	public static ImportFeature createUseCase(final Class<?> testClass) {
-		// Extract usecase name and description from concrete test class.
+	public static ImportFeature createFeature(final Class<?> testClass) {
+		// Extract feature name and description from concrete test class.
 		String description = "";
 		String name = getNameFromClass(testClass);
 
@@ -88,16 +88,16 @@ public class UseCaseDocuWritingRule implements TestRule {
 		if (docuDescription != null) {
 			description = docuDescription.description();
 		}
-		// Create use case
-		ImportFeature useCase = new ImportFeature();
+		// Create feature
+		ImportFeature feature = new ImportFeature();
 
-		useCase.id = FilesUtil.encodeName(name);
+		feature.id = FilesUtil.encodeName(name);
 
-		useCase.setName(name);
-		useCase.setDescription(description);
-		useCase.addDetail("Webtest Class", testClass.getName());
-		addLabelsIfPresentOnTestClass(testClass, useCase);
-		return useCase;
+		feature.setName(name);
+		feature.setDescription(description);
+		feature.addDetail("Webtest Class", testClass.getName());
+		addLabelsIfPresentOnTestClass(testClass, feature);
+		return feature;
 	}
 
 	private static String getNameFromClass(Class<?> testClass) {
@@ -108,31 +108,31 @@ public class UseCaseDocuWritingRule implements TestRule {
 			name =  description.name();
 		}
 		else {
-			// simply use the test class name as use case name if not set through description annotation.
+			// simply use the test class name as feature name if not set through description annotation.
 			name = testClass.getSimpleName();
 		}
 
 		// just for dummy data for demo:
 		// change some names slightly depending on the build run
 		// for having useful demo data for diff viewer
-		return MultipleBuildsDummyTestNameGenerator.getDifferentUseCaseNameForBuild(name);
+		return MultipleBuildsDummyTestNameGenerator.getDifferentFeatureNameForBuild(name);
 
 	}
 
 	private static void addLabelsIfPresentOnTestClass(final Class<?> testClass,
-													  ImportFeature useCase) {
+													  ImportFeature feature) {
 		Labels labels = testClass.getAnnotation(Labels.class);
 		if (labels != null) {
-			useCase.getLabels().setLabels(new HashSet<String>(Arrays.asList(labels.value())));
+			feature.getLabels().setLabels(new HashSet<String>(Arrays.asList(labels.value())));
 		}
 	}
 
-	public static String createUseCaseName(final Class<?> testClass) {
+	public static String createFeatureName(final Class<?> testClass) {
 		DocuDescription description = testClass.getAnnotation(DocuDescription.class);
 		if (description != null && !StringUtils.isBlank(description.name())) {
 			return description.name();
 		} else {
-			// simply use the test class name as use case name if not set through description annotation.
+			// simply use the test class name as feature name if not set through description annotation.
 			return testClass.getSimpleName();
 		}
 	}

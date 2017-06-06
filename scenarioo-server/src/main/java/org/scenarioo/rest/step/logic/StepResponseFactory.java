@@ -48,7 +48,7 @@ public class StepResponseFactory {
 	private StepDetails getStepDetails(final StepLoaderResult stepLoaderResult, final StepIdentifier stepIdentifier,
 			final boolean fallback, final BuildIdentifier buildIdentifierBeforeAliasResolution) {
 		Step step = scenarioDocuReader.loadStep(stepIdentifier.getBranchName(), stepIdentifier.getBuildName(),
-				stepIdentifier.getUsecaseName(), stepIdentifier.getScenarioName(), stepLoaderResult.getStepIndex());
+				stepIdentifier.getFeatureName(), stepIdentifier.getScenarioName(), stepLoaderResult.getStepIndex());
 		PageNameSanitizer.sanitizePageName(step);
 
 		StepNavigation navigation = aggregatedDataReader.loadStepNavigation(stepIdentifier.getScenarioIdentifier(),
@@ -56,14 +56,14 @@ public class StepResponseFactory {
 		StepStatistics statistics = stepLoaderResult.getStepStatistics();
 
 		Scenario scenario = scenarioDocuReader.loadScenario(stepIdentifier.getBranchName(),
-				stepIdentifier.getBuildName(), stepIdentifier.getUsecaseName(), stepIdentifier.getScenarioName());
-		ImportFeature usecase = scenarioDocuReader.loadUsecase(stepIdentifier.getBranchName(), stepIdentifier.getBuildName(),
-				stepIdentifier.getUsecaseName());
+				stepIdentifier.getBuildName(), stepIdentifier.getFeatureName(), stepIdentifier.getScenarioName());
+		ImportFeature feature = scenarioDocuReader.loadUsecase(stepIdentifier.getBranchName(), stepIdentifier.getBuildName(),
+				stepIdentifier.getFeatureName());
 
 		StepIdentifier stepIdentifierWithPotentialAlias = stepIdentifier
 				.withDifferentBuildIdentifier(buildIdentifierBeforeAliasResolution);
 		return new StepDetails(stepIdentifierWithPotentialAlias, fallback, step, navigation, statistics,
-				usecase.getLabels(), scenario.getLabels());
+				feature.getLabels(), scenario.getLabels());
 	}
 
 	private Response redirectResponse(final StepLoaderResult stepImage,

@@ -47,9 +47,9 @@ import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
-import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
-import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
-import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.aggregates.features.FeatureScenarios;
+import org.scenarioo.model.docu.aggregates.features.ScenarioSummary;
+import org.scenarioo.model.docu.aggregates.features.FeatureScenariosList;
 import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
@@ -121,30 +121,30 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 	}
 
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadUseCaseScenariosList(org.scenarioo.rest.base.BuildIdentifier)
+	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadFeatureScenariosList(org.scenarioo.rest.base.BuildIdentifier)
 	 */
 	@Override
-	public List<UseCaseScenarios> loadUseCaseScenariosList(final BuildIdentifier buildIdentifier) {
-		File file = files.getUseCasesAndScenariosFile(buildIdentifier);
-		UseCaseScenariosList list = ScenarioDocuXMLFileUtil.unmarshal(UseCaseScenariosList.class, file);
-		return list.getUseCaseScenarios();
+	public List<FeatureScenarios> loadFeatureScenariosList(final BuildIdentifier buildIdentifier) {
+		File file = files.getFeaturesAndScenariosFile(buildIdentifier);
+		FeatureScenariosList list = ScenarioDocuXMLFileUtil.unmarshal(FeatureScenariosList.class, file);
+		return list.getFeatureScenarios();
 	}
 
 	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadUseCaseScenarios(java.lang.String, java.lang.String,
+	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadFeatureScenarios(java.lang.String, java.lang.String,
 	 *      java.lang.String)
 	 */
 	@Override
-	public UseCaseScenarios loadUseCaseScenarios(final BuildIdentifier buildIdentifier, final String useCaseName) {
-		File scenariosFile = files.getUseCaseScenariosFile(buildIdentifier, useCaseName);
-		UseCaseScenarios useCaseWithScenarios = ScenarioDocuXMLFileUtil
-				.unmarshal(UseCaseScenarios.class, scenariosFile);
-		enrichWithBuildDatesIfThisIsTheLastSuccessfulScenariosBuild(buildIdentifier, useCaseName, useCaseWithScenarios);
-		return useCaseWithScenarios;
+	public FeatureScenarios loadFeatureScenarios(final BuildIdentifier buildIdentifier, final String featureName) {
+		File scenariosFile = files.getFeatureScenariosFile(buildIdentifier, featureName);
+		FeatureScenarios featureWithScenarios = ScenarioDocuXMLFileUtil
+				.unmarshal(FeatureScenarios.class, scenariosFile);
+		enrichWithBuildDatesIfThisIsTheLastSuccessfulScenariosBuild(buildIdentifier, featureName, featureWithScenarios);
+		return featureWithScenarios;
 	}
 
 	private void enrichWithBuildDatesIfThisIsTheLastSuccessfulScenariosBuild(final BuildIdentifier buildIdentifier,
-			final String useCaseName, final UseCaseScenarios useCaseWithScenarios) {
+			final String featureName, final FeatureScenarios featureWithScenarios) {
 		if (!LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME.equals(buildIdentifier
 				.getBuildName())) {
 			return;
@@ -154,9 +154,9 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 
 		Date latestImportedBuildDate = index.getLatestImportedBuildDate();
 
-		for (ScenarioSummary scenario : useCaseWithScenarios.getScenarios()) {
+		for (ScenarioSummary scenario : featureWithScenarios.getScenarios()) {
 			// TODO Add the "old build date" to the ScenarioSummary on aggregation time and as a separate field.
-			Date buildDate = index.getBuildDateForScenario(useCaseName, scenario.getScenario().getName());
+			Date buildDate = index.getBuildDateForScenario(featureName, scenario.getScenario().getName());
 			if (buildDate == null || buildDate.equals(latestImportedBuildDate)) {
 				continue;
 			}
@@ -198,21 +198,21 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 		}
 	}
 
-	public void saveUseCaseScenariosList(final BuildIdentifier buildIdentifier,
-			final UseCaseScenariosList useCaseScenariosList) {
-		File file = files.getUseCasesAndScenariosFile(buildIdentifier);
-		ScenarioDocuXMLFileUtil.marshal(useCaseScenariosList, file);
+	public void saveFeatureScenariosList(final BuildIdentifier buildIdentifier,
+										 final FeatureScenariosList featureScenariosList) {
+		File file = files.getFeaturesAndScenariosFile(buildIdentifier);
+		ScenarioDocuXMLFileUtil.marshal(featureScenariosList, file);
 	}
 
-	public void saveUseCaseScenarios(final BuildIdentifier buildIdentifier, final UseCaseScenarios useCaseScenarios) {
-		File scenariosFile = files.getUseCaseScenariosFile(buildIdentifier, useCaseScenarios.getFeature().id);
-		ScenarioDocuXMLFileUtil.marshal(useCaseScenarios, scenariosFile);
+	public void saveFeatureScenarios(final BuildIdentifier buildIdentifier, final FeatureScenarios featureScenarios) {
+		File scenariosFile = files.getFeatureScenariosFile(buildIdentifier, featureScenarios.getFeature().id);
+		ScenarioDocuXMLFileUtil.marshal(featureScenarios, scenariosFile);
 	}
 
 	public void saveScenarioPageSteps(final BuildIdentifier buildIdentifier, final ScenarioPageSteps scenarioPageSteps) {
-		String usecaseName = scenarioPageSteps.getFeature().id;
+		String featureName = scenarioPageSteps.getFeature().id;
 		String scenarioName = scenarioPageSteps.getScenario().getName();
-		ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName);
+		ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, featureName, scenarioName);
 		File file = files.getScenarioStepsFile(scenarioIdentifier);
 		ScenarioDocuXMLFileUtil.marshal(scenarioPageSteps, file);
 	}

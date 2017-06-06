@@ -3,7 +3,7 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-var NUMBER_OF_USE_CASES = 4;
+var NUMBER_OF_FEATURES = 4;
 
 useCase('List custom tabs')
     .description('Custom tabs can be defined to show aggregated documentation data..')

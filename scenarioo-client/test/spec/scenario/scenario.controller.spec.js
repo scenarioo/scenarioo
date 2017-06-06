@@ -32,7 +32,7 @@ describe('ScenarioController', function () {
         HostNameAndPort = _HostnameAndPort_;
         RelatedIssueResource = _RelatedIssueResource_;
 
-        $routeParams.useCaseName = 'SearchUseCase';
+        $routeParams.featureName = 'SearchFeature';
         $routeParams.scenarioName = 'NotFoundScenario';
 
         LocalStorageService.clearAll();
@@ -50,7 +50,7 @@ describe('ScenarioController', function () {
 
     it('creates the correct link to a step', function () {
         var link = ScenarioController.getLinkToStep('searchPage.html', 2, 0);
-        expect(link).toBe('#/step/SearchUseCase/NotFoundScenario/searchPage.html/2/0');
+        expect(link).toBe('#/step/SearchFeature/NotFoundScenario/searchPage.html/2/0');
     });
 
     it('creates empty image link, if branch and build selection is unknown', function () {
@@ -62,7 +62,7 @@ describe('ScenarioController', function () {
         givenScenarioIsLoaded();
 
         var imageLink = ScenarioController.getScreenShotUrl('img.jpg');
-        expect(imageLink).toBe(HostNameAndPort.forLink() + 'rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario/image/img.jpg');
+        expect(imageLink).toBe(HostNameAndPort.forLink() + 'rest/branch/trunk/build/current/feature/SearchFeature/scenario/NotFoundScenario/image/img.jpg');
     });
 */
     it('does not show all steps of a page by default', function () {
@@ -140,7 +140,7 @@ describe('ScenarioController', function () {
         }
 
         $httpBackend.whenGET(HostNameAndPort.forLink() + 'rest/configuration').respond(config);
-        $httpBackend.whenGET(HostNameAndPort.forLink() + 'rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario').respond(TestData.SCENARIO);
+        $httpBackend.whenGET(HostNameAndPort.forLink() + 'rest/branch/trunk/build/current/feature/SearchFeature/scenario/NotFoundScenario').respond(TestData.SCENARIO);
         $httpBackend.whenGET(HostNameAndPort.forTest() + 'rest/labelconfigurations').respond({});
 
         ConfigService.load();
