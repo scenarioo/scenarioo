@@ -36,12 +36,6 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 controllerAs: 'main',
                 breadcrumbId: 'feature'
             })
-            /*.when('/', {
-                templateUrl: 'dashboard/featureView.html',
-                controller: 'DashboardController',
-                controllerAs: 'dashboard',
-                breadcrumbId: 'feature'
-            })*/
             .when('/manage', {
                 templateUrl: 'manage/manage.html',
                 controller: 'ManageController',
@@ -131,16 +125,6 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 controller: 'BuildController',
                 controllerAs: 'main',
                 breadcrumbId: 'feature'
-                /*
-                templateUrl: 'dashboard/featureView.html',
-                controller: 'DashboardController',
-                controllerAs: 'dashboard',
-                breadcrumbId: 'feature'*/
-            })
-            .when('/data', {
-                templateUrl: 'dashboard/data.html',
-                controller: 'DataController',
-                controllerAs: 'dat'
             })
             .when('/usecases', {
                 templateUrl: 'build/useCasesTab.html',
