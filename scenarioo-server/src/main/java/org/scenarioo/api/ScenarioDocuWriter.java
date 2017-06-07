@@ -124,20 +124,20 @@ public class ScenarioDocuWriter {
 	 *            the feature description to write
 	 */
 	public void saveFeature(final ImportFeature importFeature) {
-		checkIdentifier(importFeature.id);
+		checkIdentifier(importFeature.getId());
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				File destCaseDir = getFeatureDirectory(importFeature.id);
+				File destCaseDir = getFeatureDirectory(importFeature.getId());
 				createDirectoryIfNotYetExists(destCaseDir);
-				File destCaseFile = docuFiles.getFeatureFile(branchName, buildName, importFeature.id);
+				File destCaseFile = docuFiles.getFeatureFile(branchName, buildName, importFeature.getId());
 				ScenarioDocuXMLFileUtil.marshal(importFeature, destCaseFile);
 			}
 		});
 	}
 
 	public void saveScenario(final ImportFeature importFeature, final Scenario scenario) {
-		saveScenario(importFeature.id, scenario);
+		saveScenario(importFeature.getId(), scenario);
 	}
 
 	public void saveScenario(final String featureName, final Scenario scenario) {
@@ -156,7 +156,7 @@ public class ScenarioDocuWriter {
 	}
 
 	public void saveStep(final ImportFeature importFeature, final Scenario scenario, final Step step) {
-		saveStep(importFeature.id, scenario.getName(), step);
+		saveStep(importFeature.getId(), scenario.getName(), step);
 	}
 
 	/**

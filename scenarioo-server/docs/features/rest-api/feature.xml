@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <feature xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+    <details/>
+    <labels/>
+    <orderIndex>0</orderIndex>
     <name>Rest API</name>
     <description>All changes necessary to the Rest API</description>
     <status>failed</status>
-    <details/>
-    <labels/>
     <id>rest-api</id>
     <milestone>R1</milestone>
     <markdown>

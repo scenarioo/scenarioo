@@ -114,7 +114,7 @@ function StepSketchController($scope, $routeParams, $location, HostnameAndPort, 
         if(vm.stepSketch == null) {
             return undefined;
         }
-        return '#/feature/' + encodeURIComponent(vm.stepSketch.relatedStep.featureName);
+        return '#/feature/' + (vm.stepSketch.relatedStep.featureName);
     };
 
     function getScenarioUrl() {
@@ -122,7 +122,7 @@ function StepSketchController($scope, $routeParams, $location, HostnameAndPort, 
             return undefined;
         }
         var step = vm.stepSketch.relatedStep;
-        return '#/scenario/' + encodeURIComponent(step.featureName) + '/' + encodeURIComponent(step.scenarioName);
+        return '#/scenario/' + (step.featureName) + '/' + encodeURIComponent(step.scenarioName);
     };
 
     function getStepUrl(){
@@ -130,6 +130,6 @@ function StepSketchController($scope, $routeParams, $location, HostnameAndPort, 
             return undefined;
         }
         var step = vm.stepSketch.relatedStep;
-        return '#/step/' + encodeURIComponent(step.featureName) + '/' + encodeURIComponent(step.scenarioName) + '/' + encodeURIComponent(step.pageName) + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence;
+        return '#/step/' + (step.featureName) + '/' + encodeURIComponent(step.scenarioName) + '/' + encodeURIComponent(step.pageName) + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence;
     };
 };

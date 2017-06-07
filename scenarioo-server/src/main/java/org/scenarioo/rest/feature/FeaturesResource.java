@@ -68,7 +68,7 @@ public class FeaturesResource {
 		for (final FeatureScenarios featureScenarios : featureScenariosList) {
 
 			for (ScenarioSummary scenarioSummary: featureScenarios.getScenarios()){
-				ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, featureScenarios.getFeature().id, scenarioSummary.getScenario().getName());
+				ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, featureScenarios.getFeature().getId(), scenarioSummary.getScenario().getName());
 				ScenarioPageSteps pageSteps = dao.loadScenarioPageSteps(scenarioIdentifier);
 
 				scenarioSummary.pageSteps = pageSteps;
@@ -85,10 +85,10 @@ public class FeaturesResource {
 		List<FeatureSummary> rootFeatures = new ArrayList<>();
 		HashSet<FeatureSummary> featureClear = new HashSet<>();
 		for (FeatureSummary feature: features){
-			for (String featureName : feature.featureNames){
+			for (String featureName : feature.getFeatureNames()){
 				System.out.println(featureName);
 				FeatureSummary clear = getFor(featureName, features);
-				feature.features.add(clear);
+				feature.getFeatures().add(clear);
 				featureClear.add(clear);
 			}
 		}
@@ -99,8 +99,8 @@ public class FeaturesResource {
 
 	private FeatureSummary getFor(String featureName, List<FeatureSummary> features) {
 		for (FeatureSummary feature:features){
-			if (feature.id == null) continue;
-			if (feature.id.equals(featureName))
+			if (feature.getId() == null) continue;
+			if (feature.getId().equals(featureName))
 				return feature;
 		}
 		return null;

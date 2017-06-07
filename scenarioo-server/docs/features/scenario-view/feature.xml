@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <feature xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+    <details/>
+    <labels/>
+    <orderIndex>0</orderIndex>
     <name>Scenario-View</name>
     <description>Overview over the current scenarios, comparable to todays scenario view</description>
     <status>failed</status>
-    <details/>
-    <labels/>
     <id>scenario-view</id>
     <milestone>R1</milestone>
     <markdown>

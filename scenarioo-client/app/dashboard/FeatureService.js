@@ -312,8 +312,4 @@ angular.module('scenarioo.services').service('FeatureService',
                 getAllOfInArray(currentFeature, property, array);
             });
         }
-
-
-
-        return service;
     });

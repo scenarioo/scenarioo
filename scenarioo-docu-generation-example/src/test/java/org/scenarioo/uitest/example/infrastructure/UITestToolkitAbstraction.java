@@ -244,13 +244,13 @@ public class UITestToolkitAbstraction {
 	}
 
 	private void saveStepData(final Step step) {
-		String featureName = test.getFeature().id;
+		String featureName = test.getFeature().getId();
 		String scenarioName = test.getScenario().getName();
 		docuWriter.saveStep(featureName, scenarioName, step);
 	}
 
 	private void saveStepWithScreenshot(final byte[] screenshot, final String status) {
-		String featureName = test.getFeature().id;
+		String featureName = test.getFeature().getId();
 		String scenarioName = test.getScenario().getName();
 		saveStepData(createStep(status));
 		docuWriter.saveScreenshotAsPng(featureName, scenarioName, stepIndex, screenshot);

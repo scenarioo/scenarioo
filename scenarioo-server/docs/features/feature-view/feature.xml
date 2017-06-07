@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <feature xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+    <details/>
+    <labels/>
+    <orderIndex>0</orderIndex>
     <name>Feature-View</name>
     <description>this view is compareable to the current feature view and shows the subfeatures of the current feature. the table can be sorted very easy after various topics, like name, release date, number of subfeatures or scenarios, changes form the last build</description>
     <status>failed</status>
-    <details/>
-    <labels/>
     <id>feature-view</id>
     <milestone>R1</milestone>
     <markdown>

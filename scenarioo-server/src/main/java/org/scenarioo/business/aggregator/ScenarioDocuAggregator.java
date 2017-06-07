@@ -165,7 +165,7 @@ public class ScenarioDocuAggregator {
 		for (ImportFeature feature : features) {
 			FeatureScenarios featureWithScenarios = new FeatureScenarios();
 			List<Scenario> scenarios = reader.loadScenarios(getBuildIdentifier().getBranchName(),
-					getBuildIdentifier().getBuildName(), feature.id);
+					getBuildIdentifier().getBuildName(), feature.getId());
 
 			boolean atLeastOneScenarioFailed = false;
 			for (Scenario scenario : scenarios) {
@@ -202,7 +202,7 @@ public class ScenarioDocuAggregator {
 
 	private void calulateAggregatedDataForFeature(final FeatureScenarios featureScenarios) {
 
-		LOGGER.info("    calculating aggregated data for feature : " + featureScenarios.getFeature().getName());
+		LOGGER.info("    calculating aggregated data for feature : " + featureScenarios.getFeature().getId());
 
 		List<ObjectReference> referencePath = objectRepository.addReferencedFeatureObjects(featureScenarios
 				.getFeature());
@@ -213,7 +213,7 @@ public class ScenarioDocuAggregator {
 				addScenarioToBuildStatistics(scenario.getScenario());
 			} catch (ResourceNotFoundException ex) {
 				LOGGER.warn("could not load scenario " + scenario.getScenario().getName() + " in feature"
-						+ featureScenarios.getFeature().getName());
+						+ featureScenarios.getFeature().getId());
 			}
 		}
 
@@ -260,7 +260,7 @@ public class ScenarioDocuAggregator {
 		ScenarioPageSteps scenarioPageSteps = new ScenarioPageSteps();
 		scenarioPageSteps.setFeature(feature);
 		scenarioPageSteps.setScenario(scenario);
-		List<Step> steps = reader.loadSteps(getBuildIdentifier().getBranchName(), getBuildIdentifier().getBuildName(), feature.id, scenario.getName());
+		List<Step> steps = reader.loadSteps(getBuildIdentifier().getBranchName(), getBuildIdentifier().getBuildName(), feature.getId(), scenario.getName());
 		PageNameSanitizer.sanitizePageNames(steps);
 		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(feature, scenario, steps, referencePath, objectRepository);
 		scenarioPageSteps.setPagesAndSteps(pageStepsList);

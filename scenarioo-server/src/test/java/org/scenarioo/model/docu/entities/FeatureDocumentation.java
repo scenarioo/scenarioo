@@ -19,231 +19,231 @@ public class FeatureDocumentation {
 	public void featureDashboardView() {
 		ImportFeature feature = new ImportFeature();
 
-		feature.name = "Dashboard-View";
-		feature.description = "Dashboard-View shows all the subfeatures of the current feature with all their subfeatures (=subsubfeatures) for a better overview of the whole project.\n" +
-			"\tThe feature cards can be sortet, to  follow the story order or to show the closest release.";
-		feature.id = "dashboard-view";
-		feature.status = Status.FAILED.getKeyword();
-		feature.milestone = "R3";
-		feature.markdown=md1;
-		feature.specification=spec1;
+		feature.setName("Dashboard-View");
+		feature.setDescription("Dashboard-View shows all the subfeatures of the current feature with all their subfeatures (=subsubfeatures) for a better overview of the whole project.\n" +
+			"\tThe feature cards can be sortet, to  follow the story order or to show the closest release.");
+		feature.setId("dashboard-view");
+		feature.setStatus(Status.FAILED.getKeyword());
+		feature.setMilestone("R3");
+		feature.setMarkdown(md1);
+		feature.setSpecification(spec1);
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.id + FEATURE_XML).exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.getId() + FEATURE_XML).exists());
 	}
 
 	@Test
 	public void featureFeatureView() {
 		ImportFeature feature = new ImportFeature();
 
-		feature.name = "Feature-View";
-		feature.description = "this view is compareable to the current feature view and shows the subfeatures of the current feature. the table can be sorted very easy after various topics, like name, release date, number of subfeatures or scenarios, changes form the last build";
-		feature.id = "feature-view";
-		feature.status = Status.FAILED.getKeyword();
-		feature.milestone = "R1";
-		feature.markdown=md1;
-		feature.specification=spec1;
+		feature.setName("Feature-View");
+		feature.setDescription("this view is compareable to the current feature view and shows the subfeatures of the current feature. the table can be sorted very easy after various topics, like name, release date, number of subfeatures or scenarios, changes form the last build");
+		feature.setId("feature-view");
+		feature.setStatus(Status.FAILED.getKeyword());
+		feature.setMilestone("R1");
+		feature.setMarkdown(md1);
+		feature.setSpecification(spec1);
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.id + FEATURE_XML).exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.getId() + FEATURE_XML).exists());
 	}
 
 	@Test
 	public void featureScenarioView() {
 		ImportFeature feature = new ImportFeature();
 
-		feature.name = "Scenario-View";
-		feature.description = "Overview over the current scenarios, comparable to todays scenario view";
-		feature.id = "scenario-view";
-		feature.status = Status.FAILED.getKeyword();
-		feature.milestone = "R1";
-		feature.markdown=md1;
-		feature.specification=spec1;
+		feature.setName("Scenario-View");
+		feature.setDescription("Overview over the current scenarios, comparable to todays scenario view");
+		feature.setId("scenario-view");
+		feature.setStatus(Status.FAILED.getKeyword());
+		feature.setMilestone("R1");
+		feature.setMarkdown(md1);
+		feature.setSpecification(spec1);
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.id + FEATURE_XML).exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.getId() + FEATURE_XML).exists());
 	}
 
 	@Test
 	public void featureDocumentationView() {
 		ImportFeature feature = new ImportFeature();
 
-		feature.name = "Documentation-View";
-		feature.description = "Shows the documentation file and the specification file of a feature and the subfeatures with their files. This view helps to explain the exact functions of a feature.";
-		feature.id = "documentation-view";
-		feature.status = Status.FAILED.getKeyword();
-		feature.milestone = "R1";
-		feature.markdown=md1;
-		feature.specification=spec1;
+		feature.setName("Documentation-View");
+		feature.setDescription("Shows the documentation file and the specification file of a feature and the subfeatures with their files. This view helps to explain the exact functions of a feature.");
+		feature.setId("documentation-view");
+		feature.setStatus(Status.FAILED.getKeyword());
+		feature.setMilestone("R1");
+		feature.setMarkdown(md1);
+		feature.setSpecification(spec1);
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.id + FEATURE_XML).exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.getId() + FEATURE_XML).exists());
 	}
 
 	@Test
 	public void featureGUI() {
 		ImportFeature feature = new ImportFeature();
 
-		feature.name = "GUI-Elements";
-		feature.description = "The 4 GUI views, of which two will be slightly changed from the old scenarioo and two will be totaly new";
-		feature.id = "gui-elements";
-		feature.featureNames = new ArrayList<String>();
-		feature.featureNames.add("feature-view");
-		feature.featureNames.add("scenario-view");
-		feature.featureNames.add("documentation-view");
-		feature.featureNames.add("dashboard-view");
-		feature.featureNames.add("tree-navigation");
-		feature.status = Status.SUCCESS.getKeyword();
-		feature.milestone = "R1";
-		feature.markdown=new DokuFile("GUI-Documentation", "GUI-Elements.md", FileType.MARKDOWN);
-		feature.specification=spec1;
-		feature.markdown.links = new ArrayList<>();
+		feature.setName("GUI-Elements");
+		feature.setDescription("The 4 GUI views, of which two will be slightly changed from the old scenarioo and two will be totaly new");
+		feature.setId("gui-elements");
+		feature.setFeatureNames(new ArrayList<String>());
+		feature.getFeatureNames().add("feature-view");
+		feature.getFeatureNames().add("scenario-view");
+		feature.getFeatureNames().add("documentation-view");
+		feature.getFeatureNames().add("dashboard-view");
+		feature.getFeatureNames().add("tree-navigation");
+		feature.setStatus(Status.SUCCESS.getKeyword());
+		feature.setMilestone("R1");
+		feature.setMarkdown(new DokuFile("GUI-Documentation", "GUI-Elements.md", FileType.MARKDOWN));
+		feature.setSpecification(spec1);
+		feature.getMarkdown().links = new ArrayList<>();
 		Link mdLink = new Link();
 		mdLink.name = "Original";
 		mdLink.url = "https://google.com";
-		feature.markdown.links.add(mdLink);
+		feature.getMarkdown().links.add(mdLink);
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.id + FEATURE_XML).exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.getId() + FEATURE_XML).exists());
 	}
 
 	@Test
 	public void featureImporter() {
 		ImportFeature feature = new ImportFeature();
 
-		feature.name = "Importer";
-		feature.description = "Imports the data and fits it to the new data structure on the server";
-		feature.id = "importer";
-		feature.status = Status.FAILED.getKeyword();
-		feature.milestone = "R1";
-		feature.markdown=md1;
-		feature.specification=spec1;
+		feature.setName("Importer");
+		feature.setDescription("Imports the data and fits it to the new data structure on the server");
+		feature.setId("importer");
+		feature.setStatus(Status.FAILED.getKeyword());
+		feature.setMilestone("R1");
+		feature.setMarkdown(md1);
+		feature.setSpecification(spec1);
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.id + FEATURE_XML).exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.getId() + FEATURE_XML).exists());
 	}
 
 	@Test
 	public void featureClient() {
 		ImportFeature feature = new ImportFeature();
 
-		feature.name = "Client";
-		feature.description = "Contains all work todo on the client side. Including all the Views, the api-connection and the Diff- and sketch functionality.";
-		feature.id = "client";
-		feature.featureNames = new ArrayList<String>();
-		feature.featureNames.add("gui-elements");
-		feature.featureNames.add("sketch-editor");
-		feature.featureNames.add("client-api-connection");
-		feature.status = Status.FAILED.getKeyword();
-		feature.milestone = "R1";
-		feature.markdown=md1;
-		feature.specification=spec1;
+		feature.setName("Client");
+		feature.setDescription("Contains all work todo on the client side. Including all the Views, the api-connection and the Diff- and sketch functionality.");
+		feature.setId("client");
+		feature.setFeatureNames(new ArrayList<String>());
+		feature.getFeatureNames().add("gui-elements");
+		feature.getFeatureNames().add("sketch-editor");
+		feature.getFeatureNames().add("client-api-connection");
+		feature.setStatus(Status.FAILED.getKeyword());
+		feature.setMilestone("R1");
+		feature.setMarkdown(md1);
+		feature.setSpecification(spec1);
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.id + FEATURE_XML).exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.getId() + FEATURE_XML).exists());
 	}
 
 	@Test
 	public void featureServer() {
 		ImportFeature feature = new ImportFeature();
 
-		feature.name = "Server";
-		feature.description = "Contains all work todo on the server side";
-		feature.id = "server";
-		feature.featureNames = new ArrayList<String>();
-		feature.featureNames.add("importer");
-		feature.featureNames.add("comparison");
-		feature.featureNames.add("full-text-search");
-		feature.featureNames.add("sketch-editor");
-		feature.featureNames.add("rest-api");
-		feature.status = Status.FAILED.getKeyword();
-		feature.milestone = "R1";
-		feature.markdown=md1;
-		feature.specification=spec1;
+		feature.setName("Server");
+		feature.setDescription("Contains all work todo on the server side");
+		feature.setId("server");
+		feature.setFeatureNames(new ArrayList<String>());
+		feature.getFeatureNames().add("importer");
+		feature.getFeatureNames().add("comparison");
+		feature.getFeatureNames().add("full-text-search");
+		feature.getFeatureNames().add("sketch-editor");
+		feature.getFeatureNames().add("rest-api");
+		feature.setStatus(Status.FAILED.getKeyword());
+		feature.setMilestone("R1");
+		feature.setMarkdown(md1);
+		feature.setSpecification(spec1);
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.id + FEATURE_XML).exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.getId() + FEATURE_XML).exists());
 	}
 
 	@Test
 	public void featureComparison() {
 		ImportFeature feature = new ImportFeature();
 
-		feature.name = "Comparison";
-		feature.description = "Contains the work to do for the comparison with older builds";
-		feature.id = "comparison";
-		feature.status = Status.FAILED.getKeyword();
-		feature.milestone = "R2";
-		feature.markdown=md1;
-		feature.specification=spec1;
+		feature.setName("Comparison");
+		feature.setDescription("Contains the work to do for the comparison with older builds");
+		feature.setId("comparison");
+		feature.setStatus(Status.FAILED.getKeyword());
+		feature.setMilestone("R2");
+		feature.setMarkdown(md1);
+		feature.setSpecification(spec1);
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.id + FEATURE_XML).exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.getId() + FEATURE_XML).exists());
 	}
 
 	@Test
 	public void featureFullTextSearch() {
 		ImportFeature feature = new ImportFeature();
 
-		feature.name = "Full Text Search";
-		feature.description = "Every page must be searchable with full text search";
-		feature.id = "full-text-search";
-		feature.status = Status.FAILED.getKeyword();
-		feature.milestone = "R2";
-		feature.markdown=md1;
-		feature.specification=spec1;
+		feature.setName("Full Text Search");
+		feature.setDescription("Every page must be searchable with full text search");
+		feature.setId("full-text-search");
+		feature.setStatus(Status.FAILED.getKeyword());
+		feature.setMilestone("R2");
+		feature.setMarkdown(md1);
+		feature.setSpecification(spec1);
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.id + FEATURE_XML).exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.getId() + FEATURE_XML).exists());
 	}
 
 	@Test
 	public void featureSketchEditor() {
 		ImportFeature feature = new ImportFeature();
 
-		feature.name = "Sketch Editor";
-		feature.description = "Editor to annotate Screenshots with extra information like Textboxes, or markings";
-		feature.id = "sketch-editor";
-		feature.status = Status.FAILED.getKeyword();
-		feature.milestone = "R3";
-		feature.markdown=md1;
-		feature.specification=spec1;
+		feature.setName("Sketch Editor");
+		feature.setDescription("Editor to annotate Screenshots with extra information like Textboxes, or markings");
+		feature.setId("sketch-editor");
+		feature.setStatus(Status.FAILED.getKeyword());
+		feature.setMilestone("R3");
+		feature.setMarkdown(md1);
+		feature.setSpecification(spec1);
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.id + FEATURE_XML).exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.getId() + FEATURE_XML).exists());
 	}
 
 	@Test
 	public void featureTreeNavigation() {
 		ImportFeature feature = new ImportFeature();
 
-		feature.name = "Featrue Tree Navigation";
-		feature.description = "navigation to other featrues in currently sellected build";
-		feature.id = "tree-navigation";
-		feature.status = Status.FAILED.getKeyword();
-		feature.milestone = "R2";
-		feature.markdown=md1;
-		feature.specification=spec1;
+		feature.setName("Featrue Tree Navigation");
+		feature.setDescription("navigation to other featrues in currently sellected build");
+		feature.setId("tree-navigation");
+		feature.setStatus(Status.FAILED.getKeyword());
+		feature.setMilestone("R2");
+		feature.setMarkdown(md1);
+		feature.setSpecification(spec1);
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.id + FEATURE_XML).exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.getId() + FEATURE_XML).exists());
 	}
 
 
 	@Test
 	public void featureRestAPI() {
 		ImportFeature feature = new ImportFeature();
-		feature.name = "Rest API";
-		feature.description = "All changes necessary to the Rest API";
-		feature.id = "rest-api";
-		feature.status = Status.FAILED.getKeyword();
-		feature.milestone = "R1";
-		feature.markdown=md1;
-		feature.specification=spec1;
+		feature.setName("Rest API");
+		feature.setDescription("All changes necessary to the Rest API");
+		feature.setId("rest-api");
+		feature.setStatus(Status.FAILED.getKeyword());
+		feature.setMilestone("R1");
+		feature.setMarkdown(md1);
+		feature.setSpecification(spec1);
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.id + FEATURE_XML).exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.getId() + FEATURE_XML).exists());
 	}
 
 	@Test
 	public void featureClientAPIConnection() {
 		ImportFeature feature = new ImportFeature();
-		feature.name = "Client API Connection";
-		feature.description = " all changes to the client side API";
-		feature.id = "client-api-connection";
-		feature.status = Status.FAILED.getKeyword();
-		feature.milestone = "R1";
-		feature.markdown=md1;
-		feature.specification=spec1;
+		feature.setName("Client API Connection");
+		feature.setDescription(" all changes to the client side API");
+		feature.setId("client-api-connection");
+		feature.setStatus(Status.FAILED.getKeyword());
+		feature.setMilestone("R1");
+		feature.setMarkdown(md1);
+		feature.setSpecification(spec1);
 		writeToFile(feature);
-		Assert.assertTrue(new File(baseFolder + "/" + feature.id + FEATURE_XML).exists());
+		Assert.assertTrue(new File(baseFolder + "/" + feature.getId() + FEATURE_XML).exists());
 	}
 
 
@@ -251,7 +251,7 @@ public class FeatureDocumentation {
 
 	public void writeToFile(ImportFeature feature) {
 		File folder = new File(baseFolder);
-		File featureFolder = new File(folder.getAbsolutePath() + "/" + feature.id);
+		File featureFolder = new File(folder.getAbsolutePath() + "/" + feature.getId());
 		featureFolder.mkdir();
 		ScenarioDocuXMLFileUtil.marshal(feature, new File(featureFolder.getAbsolutePath() + FEATURE_XML));
 	}

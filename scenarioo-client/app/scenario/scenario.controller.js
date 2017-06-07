@@ -175,7 +175,7 @@ function ScenarioController($filter, $routeParams,
     }
 
     function getLinkToStep(pageName, pageOccurrence, stepInPageOccurrence) {
-        return '#/step/' + encodeURIComponent(featureName) + '/' + encodeURIComponent(scenarioName) + '/' + encodeURIComponent(pageName) +
+        return '#/step/' + (featureName) + '/' + encodeURIComponent(scenarioName) + '/' + encodeURIComponent(pageName) +
             '/' + pageOccurrence + '/' + stepInPageOccurrence;
     }
 

@@ -507,7 +507,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
 
         return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY] +
             '/build/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BUILD_KEY] +
-            '/feature/' + encodeURIComponent(featureName) +
+            '/feature/' + (featureName) +
             '/scenario/' + encodeURIComponent(scenarioName) +
             '/pageName/' + encodeURIComponent($scope.pageName) +
             '/pageOccurrence/' + $scope.pageOccurrence +

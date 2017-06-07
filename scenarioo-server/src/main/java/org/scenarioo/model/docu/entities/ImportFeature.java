@@ -23,6 +23,7 @@
 package org.scenarioo.model.docu.entities;
 
 import org.scenarioo.api.rules.Preconditions;
+import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.model.docu.entities.generic.Details;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -41,61 +42,68 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ImportFeature implements Serializable, Labelable, Detailable {
 
-	public List<ImportFeature> features = new ArrayList<>();
 
-
-	public String name;
-	public String description;
-	public String status;
 
 	private Details details = new Details();
 	private Labels labels = new Labels();
+
+
+
+
+	private List<ImportFeature> features = new ArrayList<>();
+	private int orderIndex;
+	private String name;
+	private String description;
+	private String status;
+	private String id; // Unique Folder name
+	private String milestone; // string to filter by
+	private String type; // Display Type
+	private List<String> featureNames = new ArrayList<String>();
+	private List<Link> links = new ArrayList<Link>();
+	private DokuFile markdown;
+	private DokuFile specification;
+
+
 
 	public ImportFeature() {
 	}
 
 	public ImportFeature(final String name, final String description) {
 		this();
-		this.name = name;
-		this.description = description;
-		this.status = "";
+		this.setName(name);
+		this.setDescription(description);
+		this.setStatus("");
 	}
-
-
-	public String id; // Unique Folder name
-	public String milestone; // string to filter by
-	public String type; // Display Type
-	public List<String> featureNames = new ArrayList<String>(); //Subfeatures FolderName!
-	public List<Link> links = new ArrayList<Link>();
-	public DokuFile markdown; //Or List
-	public DokuFile specification; //Or List
-
 	public ImportFeature(ImportFeature other) {
 		this.labels = other.labels;
 		this.details = other.details;
-		this.name = other.name;
-		this.id = other.id;
-		this.description = other.description;
-		this.milestone = other.milestone;
-		this.type = other.type;
-		this.status = other.status;
-		this.featureNames = other.featureNames;
-		this.links = other.links;
-		this.markdown = other.markdown;
-		this.specification = other.specification;
+		this.setName(other.getName());
+		this.setId(other.getId());
+		this.setDescription(other.getDescription());
+		this.setMilestone(other.getMilestone());
+		this.setType(other.getType());
+		this.setStatus(other.getStatus());
+		this.setFeatureNames(other.getFeatureNames());
+		this.setLinks(other.getLinks());
+		this.setMarkdown(other.getMarkdown());
+		this.setSpecification(other.getSpecification());
+		this.setOrderIndex(other.getOrderIndex());
 	}
 
 	@Override
 	public String toString() {
-		final String[] txt = {name};
-		for (String featureName: featureNames){
+		final String[] txt = {getName()};
+		for (String featureName: getFeatureNames()){
 			txt[0] += featureName;
 		}
 
 		return txt[0];
 	}
 
-	public String getName() {
+	public String getId() {
+		if (id == null || id.equals("")){
+			setId(FilesUtil.encodeName(getName()));
+		}
 		return id;
 	}
 
@@ -105,9 +113,8 @@ public class ImportFeature implements Serializable, Labelable, Detailable {
 	 * Make sure to use descriptive names that stay stable as much as possible between multiple builds, such that you
 	 * can compare features and its scenarios between different builds.
 	 */
-	public void setName(final String name) {
-		this.name = name;
-		this.id = name;
+	public void setNameAndId(final String name) {
+		this.setName(name);
 	}
 
 	public String getDescription() {
@@ -179,4 +186,79 @@ public class ImportFeature implements Serializable, Labelable, Detailable {
 		this.labels = labels;
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<String> getFeatureNames() {
+		return featureNames;
+	}
+
+	public void setFeatureNames(List<String> featureNames) {
+		this.featureNames = featureNames;
+	}
+
+	public List<ImportFeature> getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(List<ImportFeature> features) {
+		this.features = features;
+	}
+
+	public int getOrderIndex() {
+		return orderIndex;
+	}
+
+	public void setOrderIndex(int orderIndex) {
+		this.orderIndex = orderIndex;
+	}
+
+	public String getMilestone() {
+		return milestone;
+	}
+
+	public void setMilestone(String milestone) {
+		this.milestone = milestone;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public List<Link> getLinks() {
+		return links;
+	}
+
+	public void setLinks(List<Link> links) {
+		this.links = links;
+	}
+
+	public DokuFile getMarkdown() {
+		return markdown;
+	}
+
+	public void setMarkdown(DokuFile markdown) {
+		this.markdown = markdown;
+	}
+
+	public DokuFile getSpecification() {
+		return specification;
+	}
+
+	public void setSpecification(DokuFile specification) {
+		this.specification = specification;
+	}
 }
