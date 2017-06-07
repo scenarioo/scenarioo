@@ -31,10 +31,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
          */
         $routeProvider
             .when('/', {
-                templateUrl: 'build/build.html',
-                controller: 'BuildController',
-                controllerAs: 'main',
-                breadcrumbId: 'feature'
+                redirectTo: '/feature'
             })
             .when('/manage', {
                 templateUrl: 'manage/manage.html',
@@ -103,27 +100,27 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
             })
 
             .when('/dashboard', {
-                templateUrl: 'build/build.html',
-                controller: 'BuildController',
-                controllerAs: 'main',
+                templateUrl: 'dashboard/dashboard.html',
+                controller: 'DashboardController',
+                controllerAs: 'dashboard',
                 breadcrumbId: 'dashboard'
             })
             .when('/detailNav', {
-                templateUrl: 'build/build.html',
-                controller: 'BuildController',
-                controllerAs: 'main',
+                templateUrl: 'dashboard/documentationView.html',
+                controller: 'DashboardController',
+                controllerAs: 'dashboard',
                 breadcrumbId: 'detail'
             })
             .when('/testScenarios', {
-                templateUrl: 'build/build.html',
-                controller: 'BuildController',
-                controllerAs: 'main',
+                templateUrl: 'dashboard/scenarioView.html',
+                controller: 'DashboardController',
+                controllerAs: 'dashboard',
                 breadcrumbId: 'testScenarios'
             })
             .when('/feature', {
-                templateUrl: 'build/build.html',
-                controller: 'BuildController',
-                controllerAs: 'main',
+                templateUrl: 'dashboard/featureView.html',
+                controller: 'DashboardController',
+                controllerAs: 'dashboard',
                 breadcrumbId: 'feature'
             })
             .when('/features', {
