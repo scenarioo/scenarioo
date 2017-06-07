@@ -27,9 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                            ng-model="dashboard.table.search.searchTerm"
                            placeholder="Search in feature &quot;{{dashboard.feature.name | scHumanReadable}}&quot;..."/>
                     <span class="input-group-btn">
-                <button type="button" ng-click="dashboard.table.search.searchTerm=''"
+                        <button type="button" ng-click="dashboard.table.search.searchTerm=''"
                         class="btn btn-default">reset</button>
-            </span>
+                    </span>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -52,8 +52,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a ng-click="dashboard.setOrder('firstOrder', 'milestone')">Milestone</a></li>
-                                <li><a ng-click="dashboard.setOrder('firstOrder', 'storyOrderNumber')">
-                                    Story order number</a></li>
+                                <li><a ng-click="dashboard.setOrder('firstOrder', 'orderIndex')">
+                                    Order index</a></li>
                                 <li><a ng-click="dashboard.setOrder('firstOrder', 'name')">Name</a></li>
                             </ul>
                         </div>
@@ -65,8 +65,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a ng-click="dashboard.setOrder('secondOrder', 'milestone')">Milestone</a></li>
-                                <li><a ng-click="dashboard.setOrder('secondOrder', 'storyOrderNumber')">
-                                    Story order number</a></li>
+                                <li><a ng-click="dashboard.setOrder('secondOrder', 'orderIndex')">
+                                    Order index</a></li>
                                 <li><a ng-click="dashboard.setOrder('secondOrder', 'name')">Name</a></li>
                             </ul>
                         </div>
