@@ -1,37 +1,41 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.model.diffViewer;
+package org.scenarioo.dao.search.model;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
+import org.scenarioo.model.docu.entities.ImportFeature;
 
-import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
+public class SearchableFeature implements SearchableObject {
 
-@XmlRootElement
-@XmlSeeAlso(ScenarioSummary.class)
-public class UseCaseDiffInfo extends StructureDiffInfo<String, ScenarioSummary> {
+	private ImportFeature importFeature;
 
-	public UseCaseDiffInfo() {
-		super();
+	public SearchableFeature() {
 	}
 
-	public UseCaseDiffInfo(String useCaseName) {
-		super(useCaseName);
+	public SearchableFeature(ImportFeature importFeature) {
+		this.importFeature = importFeature;
+	}
+
+	public ImportFeature getImportFeature() {
+		return importFeature;
+	}
+
+	public void setImportFeature(final ImportFeature importFeature) {
+		this.importFeature = importFeature;
 	}
 
 }

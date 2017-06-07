@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -32,12 +32,12 @@ import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.rest.base.BuildIdentifier;
-import org.scenarioo.rest.usecase.UseCasesResource;
+import org.scenarioo.rest.feature.FeaturesResource;
 
-@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}/useCaseName/{useCaseName}")
+@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}/featureName/{featureName}")
 public class ScenarioDiffInfoResource {
 
-	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
+	private static final Logger LOGGER = Logger.getLogger(FeaturesResource.class);
 
 	private DiffReader diffReader = new DiffReaderXmlImpl();
 
@@ -47,10 +47,10 @@ public class ScenarioDiffInfoResource {
 	public ScenarioDiffInfo getScenarioDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
-			@PathParam("useCaseName") final String useCaseName,
+			@PathParam("featureName") final String featureName,
 			@PathParam("scenarioName") final String scenarioName) {
 		LOGGER.info("REQUEST: getScenarioDiffInfo(" + baseBranchName + ", " + baseBuildName + ", " + comparisonName
-				+ ", " + useCaseName + ", " + scenarioName + ")");
+				+ ", " + featureName + ", " + scenarioName + ")");
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 				baseBranchName,
@@ -58,7 +58,7 @@ public class ScenarioDiffInfoResource {
 
 		return diffReader.loadScenarioDiffInfo(buildIdentifier.getBranchName(),
 				buildIdentifier.getBuildName(),
-				comparisonName, useCaseName, scenarioName);
+				comparisonName, featureName, scenarioName);
 	}
 
 	@GET
@@ -67,15 +67,15 @@ public class ScenarioDiffInfoResource {
 	public Map<String, ScenarioDiffInfo> getScenarioDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
-			@PathParam("useCaseName") final String useCaseName) {
+			@PathParam("featureName") final String featureName) {
 		LOGGER.info("REQUEST: getScenarioDiffInfos(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
-				+ ", " + useCaseName + ")");
+				+ ", " + featureName + ")");
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
 		final List<ScenarioDiffInfo> scenarioDiffInfos = diffReader.loadScenarioDiffInfos(
-				buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), comparisonName, useCaseName);
+				buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), comparisonName, featureName);
 		return getScenarioDiffInfoMap(scenarioDiffInfos);
 
 	}

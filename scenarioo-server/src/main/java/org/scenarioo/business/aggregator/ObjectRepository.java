@@ -263,12 +263,12 @@ public class ObjectRepository {
 	}
 
 	/**
-	 * Add all objects referenced directly by this use case to the object repository.
+	 * Add all objects referenced directly by this feature to the object repository.
 	 *
-	 * @return the reference path for the passed use case to use as base path for belonging scenarios etc.
+	 * @return the reference path for the passed feature to use as base path for belonging scenarios etc.
 	 */
-	public List<ObjectReference> addReferencedUseCaseObjects(final ImportFeature importFeature) {
-		List<ObjectReference> referencePath = createPath(createObjectReference("usecase", importFeature.getName(),
+	public List<ObjectReference> addReferencedFeatureObjects(final ImportFeature importFeature) {
+		List<ObjectReference> referencePath = createPath(createObjectReference("feature", importFeature.getName(),
 				importFeature.getLabels()));
 		addObjects(referencePath, importFeature.getDetails());
 		addLabels(referencePath, importFeature.getLabels());
@@ -346,7 +346,7 @@ public class ObjectRepository {
 	}
 
 	public void updateAndSaveObjectIndexesForCurrentCase() {
-		LOGGER.info("      Writing object repository index files for last use case. This might take a while ...");
+		LOGGER.info("      Writing object repository index files for last feature. This might take a while ...");
 		for (Entry<ObjectReference, ObjectReferenceTreeBuilder> objectRefTreeBuilder : objectReferences.entrySet()) {
 			ObjectReference objectRef = objectRefTreeBuilder.getKey();
 			ObjectReferenceTreeBuilder referenceTreeBuilder = objectRefTreeBuilder.getValue();
@@ -368,7 +368,7 @@ public class ObjectRepository {
 			}
 		}
 		objectReferences.clear();
-		LOGGER.info("      Writing object repository index files for last use case finished (success).");
+		LOGGER.info("      Writing object repository index files for last feature finished (success).");
 	}
 
 	public void removeAnyExistingObjectData() {

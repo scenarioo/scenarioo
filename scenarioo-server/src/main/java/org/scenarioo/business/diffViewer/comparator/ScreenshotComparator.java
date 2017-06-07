@@ -56,7 +56,7 @@ public class ScreenshotComparator extends AbstractComparator {
 		diffReader = new DiffReaderXmlImpl();
 	}
 
-	public double compare(final String baseUseCaseName, final String baseScenarioName, final StepLink baseStepLink,
+	public double compare(final String baseFeatureName, final String baseScenarioName, final StepLink baseStepLink,
 			final String comparisonScreenshotName) {
 		if(!isGraphicsMagickAvailable()) {
 			return 0.0;
@@ -67,16 +67,16 @@ public class ScreenshotComparator extends AbstractComparator {
 		final String diffScreenshotName = baseScreenshotName;
 
 		final File baseScreenshot = docuReader.getScreenshotFile(baseBranchName,
-				baseBuildName, baseUseCaseName, baseScenarioName, baseScreenshotName);
+				baseBuildName, baseFeatureName, baseScenarioName, baseScreenshotName);
 
 		final File comparisonScreenshot = docuReader.getScreenshotFile(
 				comparisonConfiguration.getComparisonBranchName(),
-				comparisonConfiguration.getComparisonBuildName(), baseUseCaseName, baseScenarioName,
+				comparisonConfiguration.getComparisonBuildName(), baseFeatureName, baseScenarioName,
 				comparisonScreenshotName);
 
 		final File diffScreenshot = diffReader.getScreenshotFile(baseBranchName, baseBuildName,
 				comparisonConfiguration.getName(),
-				baseUseCaseName, baseScenarioName, diffScreenshotName);
+				baseFeatureName, baseScenarioName, diffScreenshotName);
 
 		if(!baseScreenshot.exists()) {
 			LOGGER.warn("Base screenshot does not exist: " + baseScreenshot.getAbsolutePath());

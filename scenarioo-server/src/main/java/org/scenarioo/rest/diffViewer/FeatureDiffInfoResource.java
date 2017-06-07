@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -30,59 +30,59 @@ import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
-import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
+import org.scenarioo.model.diffViewer.FeatureDiffInfo;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 @Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}")
-public class UseCaseDiffInfoResource {
+public class FeatureDiffInfoResource {
 
-	private static final Logger LOGGER = Logger.getLogger(UseCaseDiffInfoResource.class);
+	private static final Logger LOGGER = Logger.getLogger(FeatureDiffInfoResource.class);
 
 	private DiffReader diffReader = new DiffReaderXmlImpl();
 
 	@GET
 	@Produces("application/json")
-	@Path("/useCaseName/{useCaseName}/useCaseDiffInfo")
-	public UseCaseDiffInfo getUseCaseDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
-			@PathParam("baseBuildName") final String baseBuildName,
-			@PathParam("comparisonName") final String comparisonName,
-			@PathParam("useCaseName") final String useCaseName) {
-		LOGGER.info("REQUEST: getUseCaseDiffInfo(" + baseBranchName + ", " + baseBuildName + ", " + comparisonName
-				+ ", " + useCaseName + ")");
+	@Path("/featureName/{featureName}/featureDiffInfo")
+	public FeatureDiffInfo getFeatureDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
+											  @PathParam("baseBuildName") final String baseBuildName,
+											  @PathParam("comparisonName") final String comparisonName,
+											  @PathParam("featureName") final String featureName) {
+		LOGGER.info("REQUEST: getFeatureDiffInfo(" + baseBranchName + ", " + baseBuildName + ", " + comparisonName
+				+ ", " + featureName + ")");
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 				baseBranchName,
 				baseBuildName);
 
-		return diffReader.loadUseCaseDiffInfo(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
-				comparisonName, useCaseName);
+		return diffReader.loadFeatureDiffInfo(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+				comparisonName, featureName);
 
 	}
 
 	@GET
 	@Produces("application/json")
-	@Path("/useCaseDiffInfos")
-	public Map<String, UseCaseDiffInfo> getUseCaseDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
-			@PathParam("baseBuildName") final String baseBuildName,
-			@PathParam("comparisonName") final String comparisonName) {
-		LOGGER.info("REQUEST: getUseCaseDiffInfos(" + baseBranchName + ", " + baseBuildName + ", " + comparisonName
+	@Path("/featureDiffInfos")
+	public Map<String, FeatureDiffInfo> getFeatureDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
+															@PathParam("baseBuildName") final String baseBuildName,
+															@PathParam("comparisonName") final String comparisonName) {
+		LOGGER.info("REQUEST: getFeatureDiffInfos(" + baseBranchName + ", " + baseBuildName + ", " + comparisonName
 				+ ")");
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
-		final List<UseCaseDiffInfo> useCaseDiffInfos = diffReader.loadUseCaseDiffInfos(buildIdentifier.getBranchName(),
+		final List<FeatureDiffInfo> featureDiffInfos = diffReader.loadFeatureDiffInfos(buildIdentifier.getBranchName(),
 				buildIdentifier.getBuildName(), comparisonName);
-		return getUseCaseDiffInfoMap(useCaseDiffInfos);
+		return getFeatureDiffInfoMap(featureDiffInfos);
 
 	}
 
-	private Map<String, UseCaseDiffInfo> getUseCaseDiffInfoMap(final List<UseCaseDiffInfo> useCaseDiffInfos) {
-		final Map<String, UseCaseDiffInfo> useCaseDiffInfoMap = new HashMap<String, UseCaseDiffInfo>();
-		for (final UseCaseDiffInfo useCaseDiffInfo : useCaseDiffInfos) {
-			useCaseDiffInfoMap.put(useCaseDiffInfo.getName(), useCaseDiffInfo);
+	private Map<String, FeatureDiffInfo> getFeatureDiffInfoMap(final List<FeatureDiffInfo> featureDiffInfos) {
+		final Map<String, FeatureDiffInfo> featureDiffInfoMap = new HashMap<String, FeatureDiffInfo>();
+		for (final FeatureDiffInfo featureDiffInfo : featureDiffInfos) {
+			featureDiffInfoMap.put(featureDiffInfo.getName(), featureDiffInfo);
 		}
-		return useCaseDiffInfoMap;
+		return featureDiffInfoMap;
 	}
 
 }

@@ -39,7 +39,7 @@ public class ScenarioDocuFiles {
 
 	private static final String FILE_NAME_SCENARIO = "scenario.xml";
 
-	private static final String FILE_NAME_CASE = "usecase.xml";
+	private static final String FILE_NAME_CASE = "feature.xml";
 
 	private static final String FILE_NAME_BUILD = "build.xml";
 
@@ -90,64 +90,64 @@ public class ScenarioDocuFiles {
 		return FilesUtil.getListOfFilesFromSubdirs(getBranchDirectory(branchName), FILE_NAME_BUILD);
 	}
 
-	public File getUseCaseDirectory(final String branchName, final String buildName, final String useCaseName) {
-		File branchDirectory = new File(getBuildDirectory(branchName, buildName), FilesUtil.encodeName(useCaseName));
+	public File getFeatureDirectory(final String branchName, final String buildName, final String featureName) {
+		File branchDirectory = new File(getBuildDirectory(branchName, buildName), FilesUtil.encodeName(featureName));
 		return branchDirectory;
 	}
 
-	public File getUseCaseFile(final String branchName, final String buildName, final String useCaseName) {
-		return new File(getUseCaseDirectory(branchName, buildName, useCaseName), FILE_NAME_CASE);
+	public File getFeatureFile(final String branchName, final String buildName, final String featureName) {
+		return new File(getFeatureDirectory(branchName, buildName, featureName), FILE_NAME_CASE);
 	}
 
-	public List<File> getUseCaseFiles(final String branchName, final String buildName) {
+	public List<File> getFeatureFiles(final String branchName, final String buildName) {
 		return FilesUtil.getListOfFilesFromSubdirs(getBuildDirectory(branchName, buildName), FILE_NAME_CASE);
 	}
 
-	public File getScenarioDirectory(final String branchName, final String buildName, final String useCaseName,
+	public File getScenarioDirectory(final String branchName, final String buildName, final String featureName,
 			final String scenarioName) {
-		File branchDirectory = new File(getUseCaseDirectory(branchName, buildName, useCaseName),
+		File branchDirectory = new File(getFeatureDirectory(branchName, buildName, featureName),
 				FilesUtil.encodeName(scenarioName));
 		return branchDirectory;
 	}
 
-	public File getScenarioFile(final String branchName, final String buildName, final String useCaseName,
+	public File getScenarioFile(final String branchName, final String buildName, final String featureName,
 			final String scenarioName) {
-		return new File(getScenarioDirectory(branchName, buildName, useCaseName, scenarioName), FILE_NAME_SCENARIO);
+		return new File(getScenarioDirectory(branchName, buildName, featureName, scenarioName), FILE_NAME_SCENARIO);
 	}
 
-	public List<File> getScenarioFiles(final String branchName, final String buildName, final String useCaseName) {
+	public List<File> getScenarioFiles(final String branchName, final String buildName, final String featureName) {
 
 		System.out.println(branchName);
 		System.out.println(buildName);
-		System.out.println(useCaseName);
+		System.out.println(featureName);
 
-		System.out.println(getUseCaseDirectory(branchName, buildName, useCaseName));
+		System.out.println(getFeatureDirectory(branchName, buildName, featureName));
 
-		return FilesUtil.getListOfFilesFromSubdirs(getUseCaseDirectory(branchName, buildName, useCaseName),
+		return FilesUtil.getListOfFilesFromSubdirs(getFeatureDirectory(branchName, buildName, featureName),
 				FILE_NAME_SCENARIO);
 	}
 
-	public File getStepsDirectory(final String branchName, final String buildName, final String useCaseName,
+	public File getStepsDirectory(final String branchName, final String buildName, final String featureName,
 			final String scenarioName) {
-		File branchDirectory = new File(getScenarioDirectory(branchName, buildName, useCaseName, scenarioName),
+		File branchDirectory = new File(getScenarioDirectory(branchName, buildName, featureName, scenarioName),
 				DIRECTORY_NAME_SCENARIO_STEPS);
 		return branchDirectory;
 	}
 
-	public File getStepFile(final String branchName, final String buildName, final String useCaseName,
+	public File getStepFile(final String branchName, final String buildName, final String featureName,
 			final String scenarioName, final int stepIndex) {
-		return new File(getStepsDirectory(branchName, buildName, useCaseName, scenarioName),
+		return new File(getStepsDirectory(branchName, buildName, featureName, scenarioName),
 				THREE_DIGIT_NUM_FORMAT.format(stepIndex) + ".xml");
 	}
 
-	public List<File> getStepFiles(final String branchName, final String buildName, final String useCaseName,
+	public List<File> getStepFiles(final String branchName, final String buildName, final String featureName,
 			final String scenarioName) {
-		return FilesUtil.getListOfFiles(getStepsDirectory(branchName, buildName, useCaseName, scenarioName));
+		return FilesUtil.getListOfFiles(getStepsDirectory(branchName, buildName, featureName, scenarioName));
 	}
 
 	public File getScreenshotsDirectory(final String branchName, final String buildName,
-			final String useCaseName, final String scenarioName) {
-		return new File(getScenarioDirectory(branchName, buildName, useCaseName, scenarioName),
+			final String featureName, final String scenarioName) {
+		return new File(getScenarioDirectory(branchName, buildName, featureName, scenarioName),
 				DIRECTORY_NAME_SCENARIO_SCREENSHOTS);
 	}
 
@@ -156,8 +156,8 @@ public class ScenarioDocuFiles {
 	 *         the file actually exists.
 	 */
 	public File getScreenshotFile(final String branchName, final String buildName,
-			final String useCaseName, final String scenarioName, final int stepIndex) {
-		return new File(getScreenshotsDirectory(branchName, buildName, useCaseName, scenarioName),
+			final String featureName, final String scenarioName, final int stepIndex) {
+		return new File(getScreenshotsDirectory(branchName, buildName, featureName, scenarioName),
 				THREE_DIGIT_NUM_FORMAT.format(stepIndex) + ".png");
 	}
 

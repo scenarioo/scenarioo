@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<useCase xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+<feature xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <name>Feature-View</name>
-    <description>Overview over the current subfeatures, compareable to todays usecase view</description>
+    <description>this view is compareable to the current feature view and shows the subfeatures of the current feature. the table can be sorted very easy after various topics, like name, release date, number of subfeatures or scenarios, changes form the last build</description>
     <status>failed</status>
     <details/>
     <labels/>
     <id>feature-view</id>
     <milestone>R1</milestone>
-</useCase>
+    <markdown>
+        <name>Markdown-Test</name>
+        <url>https://raw.githubusercontent.com/scenarioo/scenarioo/develop/README.md</url>
+        <type>MARKDOWN</type>
+    </markdown>
+    <specification>
+        <name>Specification-Test</name>
+        <url>https://raw.githubusercontent.com/scenarioo/scenarioo/develop/scenarioo-client/test/spec/scenario/scenario.controller.spec.js</url>
+        <type>JAVASCRIPT</type>
+    </specification>
+</feature>

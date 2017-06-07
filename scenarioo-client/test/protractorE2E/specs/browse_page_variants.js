@@ -41,7 +41,7 @@ useCase('Browse page variants')
 
                 stepPage.clickAllPageVariantsLink();
                 stepPage.assertRoute('/object/page/contentPage.jsp');
-                step('Overview of page variants in all use cases.');
+                step('Overview of page variants in all features.');
 
                 objectDetailsPage.clickToExpand(3);
                 step('Expanded scenario with the steps that contain the page.');

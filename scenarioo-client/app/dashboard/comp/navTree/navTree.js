@@ -28,8 +28,15 @@ angular.module('scenarioo').component('navTree', {
         navTree.contains = FeatureService.contains;
 
         navTree.getBGColor = function () {
-            if(navTree.currentFeature.id===navTree.feature.id && ((navTree.currentFeature.parentFeature == null) || navTree.currentFeature.parentFeature.id===navTree.feature.parentFeature.id)){
-                return color;
+            if (navTree.currentFeature.name === navTree.feature.name) {
+                if (navTree.currentFeature.parentFeature == null) {
+                    return color;
+                }
+                if (navTree.feature.parentFeature != null) {
+                    if (navTree.currentFeature.parentFeature.name===navTree.feature.parentFeature.name) {
+                        return color;
+                    }
+                }
             }
             return 'white';
         };

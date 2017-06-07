@@ -33,11 +33,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description and other informations to store and display for one use case (usualy tested in same use case test class).
+ * Description and other informations to store and display for one feature (usualy tested in same feature test class).
  *
- * It is important that each usecase gets a unique 'name'.
+ * It is important that each feature gets a unique 'name'.
  */
-@XmlRootElement(name = "useCase")
+@XmlRootElement(name = "feature")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ImportFeature implements Serializable, Labelable, Detailable {
 
@@ -100,10 +100,10 @@ public class ImportFeature implements Serializable, Labelable, Detailable {
 	}
 
 	/**
-	 * A unique name for this usecase.
+	 * A unique name for this feature.
 	 *
 	 * Make sure to use descriptive names that stay stable as much as possible between multiple builds, such that you
-	 * can compare usecases and its scenarios between different builds.
+	 * can compare features and its scenarios between different builds.
 	 */
 	public void setName(final String name) {
 		this.name = name;
@@ -135,13 +135,13 @@ public class ImportFeature implements Serializable, Labelable, Detailable {
 	}
 
 	/**
-	 * (optional) Status of the whole use case: did all tests for this use case succeed or not?<br/>
+	 * (optional) Status of the whole feature: did all tests for this feature succeed or not?<br/>
 	 * Usual values are "success" or "failed".<br/>
 	 * But you can use application specific additional values, like "not implemented", "unknown" etc. where it makes
 	 * sense. Those additional values will be displayed in warning-style by the scenarioo webapplication.
 	 *
 	 * You do not have to set this value, if not set the value will be calculated from all contained scenarios, if no
-	 * scenario is marked as "failed" the use case will be marked as "success" otherwise as "failed".
+	 * scenario is marked as "failed" the feature will be marked as "success" otherwise as "failed".
 	 */
 	public void setStatus(final String status) {
 		this.status = status;

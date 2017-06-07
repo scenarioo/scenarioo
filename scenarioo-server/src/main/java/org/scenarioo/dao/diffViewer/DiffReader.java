@@ -21,9 +21,9 @@ import java.io.File;
 import java.util.List;
 
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
+import org.scenarioo.model.diffViewer.FeatureDiffInfo;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
-import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 
 public interface DiffReader {
 
@@ -32,26 +32,26 @@ public interface DiffReader {
 	BuildDiffInfo loadBuildDiffInfo(String baseBranchName, String baseBuildName,
 			String comparisonName);
 
-	List<UseCaseDiffInfo> loadUseCaseDiffInfos(String baseBranchName, String baseBuildName,
-			String comparisonName);
+	List<FeatureDiffInfo> loadFeatureDiffInfos(String baseBranchName, String baseBuildName,
+											   String comparisonName);
 
-	UseCaseDiffInfo loadUseCaseDiffInfo(String baseBranchName, String baseBuildName,
-			String comparisonName, String useCaseName);
+	FeatureDiffInfo loadFeatureDiffInfo(String baseBranchName, String baseBuildName,
+										String comparisonName, String featureName);
 
 	List<ScenarioDiffInfo> loadScenarioDiffInfos(String baseBranchName, String baseBuildName,
-			String comparisonName, String useCaseName);
+			String comparisonName, String featureName);
 
 	ScenarioDiffInfo loadScenarioDiffInfo(String baseBranchName, String baseBuildName,
-			String comparisonName, String useCaseName, String scenarioName);
+			String comparisonName, String featureName, String scenarioName);
 
 	List<StepDiffInfo> loadStepDiffInfos(String baseBranchName, String baseBuildName,
-			String comparisonName, String useCaseName, String scenarioName);
+			String comparisonName, String featureName, String scenarioName);
 
 	StepDiffInfo loadStepDiffInfo(String baseBranchName, String baseBuildName,
-			String comparisonName, String useCaseName, String scenarioName, int stepIndex);
+			String comparisonName, String featureName, String scenarioName, int stepIndex);
 
 	File getScreenshotFile(String baseBranchName, String baseBuildName, String comparisonName,
-			String useCaseName,
+			String featureName,
 			String scenarioName, String imageName);
 
 	File getBuildComparisonLogFile(String baseBranchName, String baseBuildName,

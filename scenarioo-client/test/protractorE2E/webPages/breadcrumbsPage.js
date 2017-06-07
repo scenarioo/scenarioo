@@ -19,9 +19,9 @@ BreadcrumbPage.prototype.clickOnBreadcrumb = function(breadcrumbId) {
     this.breadcrumbs.element(by.id(breadcrumbId)).click();
 };
 
-BreadcrumbPage.prototype.assertBreadcrumbElementText = function(breadcrumbId, useCaseName) {
-    //var useCaseElement =  this.breadcrumbs.element(by.id(breadcrumbId));
-    //expect(useCaseElement.getText()).toContain(useCaseName);
+BreadcrumbPage.prototype.assertBreadcrumbElementText = function(breadcrumbId, featureName) {
+    //var featureElement =  this.breadcrumbs.element(by.id(breadcrumbId));
+    //expect(featureElement.getText()).toContain(featureName);
 };
 
 BreadcrumbPage.prototype.assertThatTooltipIsShown = function(toolTipId, toolTipText){

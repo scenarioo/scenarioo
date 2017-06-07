@@ -31,7 +31,7 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.StepDescription;
 
 /**
- * Represents a scenario of a usecase with all its pages and steps.
+ * Represents a scenario of a feature with all its pages and steps.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -34,9 +34,9 @@ import org.scenarioo.model.docu.aggregates.branches.BuildStatistics;
 import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.model.docu.aggregates.scenarios.PageSteps;
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioPageSteps;
-import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
-import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
-import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.aggregates.features.FeatureScenarios;
+import org.scenarioo.model.docu.aggregates.features.ScenarioSummary;
+import org.scenarioo.model.docu.aggregates.features.FeatureScenariosList;
 import org.scenarioo.model.docu.entities.*;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.repository.ConfigurationRepository;
@@ -115,20 +115,20 @@ public class ScenarioDocuAggregator {
 		objectRepository.removeAnyExistingObjectData();
 
 		LOGGER.info("  calculating aggregated data for build " + getBuildIdentifier() + " ... ");
-		UseCaseScenariosList useCaseScenariosList = calculateUseCaseScenariosList();
+		FeatureScenariosList featureScenariosList = calculateFeatureScenariosList();
 
 		FullTextSearch fullTextSearch = new FullTextSearch();
-		fullTextSearch.indexUseCases(useCaseScenariosList, getBuildIdentifier());
+		fullTextSearch.indexFeatures(featureScenariosList, getBuildIdentifier());
 
-		for (UseCaseScenarios scenarios : useCaseScenariosList.getUseCaseScenarios()) {
-			calulateAggregatedDataForUseCase(scenarios);
-			addUsecaseToBuildStatistics(scenarios.getFeature());
+		for (FeatureScenarios scenarios : featureScenariosList.getFeatureScenarios()) {
+			calulateAggregatedDataForFeature(scenarios);
+			addFeatureToBuildStatistics(scenarios.getFeature());
 		}
 		stepsAndPagesAggregator.completeAggregatedPageVariantDataInStepNavigations();
 
 		saveAggregatedBuildStatusInBuildDescriptionIfEmpty();
 
-		dao.saveUseCaseScenariosList(getBuildIdentifier(), useCaseScenariosList);
+		dao.saveFeatureScenariosList(getBuildIdentifier(), featureScenariosList);
 
 		objectRepository.calculateAndSaveObjectLists();
 
@@ -150,22 +150,22 @@ public class ScenarioDocuAggregator {
 	}
 
 	private Status getBuildStatus(final BuildStatistics buildStatistics) {
-		if (buildStatistics.getNumberOfFailedScenarios() > 0 || buildStatistics.getNumberOfFailedUseCases() > 0) {
+		if (buildStatistics.getNumberOfFailedScenarios() > 0 || buildStatistics.getNumberOfFailedFeatures() > 0) {
 			return Status.FAILED;
 		} else {
 			return Status.SUCCESS;
 		}
 	}
 
-	private UseCaseScenariosList calculateUseCaseScenariosList() {
+	private FeatureScenariosList calculateFeatureScenariosList() {
 
-		UseCaseScenariosList result = new UseCaseScenariosList();
-		List<UseCaseScenarios> useCaseScenarios = new ArrayList<UseCaseScenarios>();
-		List<ImportFeature> usecases = reader.loadUsecases(getBuildIdentifier().getBranchName(), getBuildIdentifier().getBuildName());
-		for (ImportFeature usecase : usecases) {
-			UseCaseScenarios useCaseWithScenarios = new UseCaseScenarios();
+		FeatureScenariosList result = new FeatureScenariosList();
+		List<FeatureScenarios> featureScenarios = new ArrayList<FeatureScenarios>();
+		List<ImportFeature> features = reader.loadFeatures(getBuildIdentifier().getBranchName(), getBuildIdentifier().getBuildName());
+		for (ImportFeature feature : features) {
+			FeatureScenarios featureWithScenarios = new FeatureScenarios();
 			List<Scenario> scenarios = reader.loadScenarios(getBuildIdentifier().getBranchName(),
-					getBuildIdentifier().getBuildName(), usecase.id);
+					getBuildIdentifier().getBuildName(), feature.id);
 
 			boolean atLeastOneScenarioFailed = false;
 			for (Scenario scenario : scenarios) {
@@ -175,14 +175,14 @@ public class ScenarioDocuAggregator {
 				}
 			}
 
-			if (usecase.getStatus() == null) {
-				usecase.setStatus(atLeastOneScenarioFailed ? FAILED_STATE : SUCCESS_STATE);
+			if (feature.getStatus() == null) {
+				feature.setStatus(atLeastOneScenarioFailed ? FAILED_STATE : SUCCESS_STATE);
 			}
-			useCaseWithScenarios.setScenarios(createScenarioSummaries(scenarios));
-			useCaseWithScenarios.setFeature(usecase);
-			useCaseScenarios.add(useCaseWithScenarios);
+			featureWithScenarios.setScenarios(createScenarioSummaries(scenarios));
+			featureWithScenarios.setFeature(feature);
+			featureScenarios.add(featureWithScenarios);
 		}
-		result.setUseCaseScenarios(useCaseScenarios);
+		result.setFeatureScenarios(featureScenarios);
 		return result;
 	}
 
@@ -200,34 +200,34 @@ public class ScenarioDocuAggregator {
 		return summary;
 	}
 
-	private void calulateAggregatedDataForUseCase(final UseCaseScenarios useCaseScenarios) {
+	private void calulateAggregatedDataForFeature(final FeatureScenarios featureScenarios) {
 
-		LOGGER.info("    calculating aggregated data for use case : " + useCaseScenarios.getFeature().getName());
+		LOGGER.info("    calculating aggregated data for feature : " + featureScenarios.getFeature().getName());
 
-		List<ObjectReference> referencePath = objectRepository.addReferencedUseCaseObjects(useCaseScenarios
+		List<ObjectReference> referencePath = objectRepository.addReferencedFeatureObjects(featureScenarios
 				.getFeature());
 
-		for (ScenarioSummary scenario : useCaseScenarios.getScenarios()) {
+		for (ScenarioSummary scenario : featureScenarios.getScenarios()) {
 			try {
-				calculateAggregatedDataForScenario(referencePath, useCaseScenarios.getFeature(), scenario);
+				calculateAggregatedDataForScenario(referencePath, featureScenarios.getFeature(), scenario);
 				addScenarioToBuildStatistics(scenario.getScenario());
 			} catch (ResourceNotFoundException ex) {
-				LOGGER.warn("could not load scenario " + scenario.getScenario().getName() + " in use case"
-						+ useCaseScenarios.getFeature().getName());
+				LOGGER.warn("could not load scenario " + scenario.getScenario().getName() + " in feature"
+						+ featureScenarios.getFeature().getName());
 			}
 		}
 
-		dao.saveUseCaseScenarios(getBuildIdentifier(), useCaseScenarios);
+		dao.saveFeatureScenarios(getBuildIdentifier(), featureScenarios);
 
 		objectRepository.updateAndSaveObjectIndexesForCurrentCase();
 	}
 
-	private void addUsecaseToBuildStatistics(final ImportFeature usecase) {
-		String status = usecase.getStatus();
+	private void addFeatureToBuildStatistics(final ImportFeature feature) {
+		String status = feature.getStatus();
 		if (SUCCESS_STATE.equals(status)) {
-			buildStatistics.incrementSuccessfulUseCase();
+			buildStatistics.incrementSuccessfulFeature();
 		} else if (FAILED_STATE.equals(status)) {
-			buildStatistics.incrementFailedUseCase();
+			buildStatistics.incrementFailedFeature();
 		}
 	}
 
@@ -240,29 +240,29 @@ public class ScenarioDocuAggregator {
 		}
 	}
 
-	private void calculateAggregatedDataForScenario(List<ObjectReference> referencePath, final ImportFeature usecase,
+	private void calculateAggregatedDataForScenario(List<ObjectReference> referencePath, final ImportFeature feature,
 			final ScenarioSummary scenarioSummary) {
 		Scenario scenario = scenarioSummary.getScenario();
 
 		referencePath = objectRepository.addReferencedScenarioObjects(referencePath, scenario);
 
 		LOGGER.info("      calculating aggregated data for scenario : " + scenario.getName());
-		ScenarioPageSteps scenarioPageSteps = calculateAggregatedDataForSteps(usecase, scenario, referencePath);
+		ScenarioPageSteps scenarioPageSteps = calculateAggregatedDataForSteps(feature, scenario, referencePath);
 
 		scenarioSummary.setNumberOfSteps(scenarioPageSteps.getTotalNumberOfStepsInScenario());
 
 		dao.saveScenarioPageSteps(getBuildIdentifier(), scenarioPageSteps);
 	}
 
-	private ScenarioPageSteps calculateAggregatedDataForSteps(final ImportFeature usecase, final Scenario scenario,
+	private ScenarioPageSteps calculateAggregatedDataForSteps(final ImportFeature feature, final Scenario scenario,
 															  final List<ObjectReference> referencePath) {
 
 		ScenarioPageSteps scenarioPageSteps = new ScenarioPageSteps();
-		scenarioPageSteps.setFeature(usecase);
+		scenarioPageSteps.setFeature(feature);
 		scenarioPageSteps.setScenario(scenario);
-		List<Step> steps = reader.loadSteps(getBuildIdentifier().getBranchName(), getBuildIdentifier().getBuildName(), usecase.id, scenario.getName());
+		List<Step> steps = reader.loadSteps(getBuildIdentifier().getBranchName(), getBuildIdentifier().getBuildName(), feature.id, scenario.getName());
 		PageNameSanitizer.sanitizePageNames(steps);
-		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(usecase, scenario, steps, referencePath, objectRepository);
+		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(feature, scenario, steps, referencePath, objectRepository);
 		scenarioPageSteps.setPagesAndSteps(pageStepsList);
 
 		return scenarioPageSteps;

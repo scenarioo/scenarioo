@@ -25,7 +25,7 @@ import org.scenarioo.dao.search.elasticsearch.ElasticSearchAdapter;
 import org.scenarioo.dao.search.model.SearchResults;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
-import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.aggregates.features.FeatureScenariosList;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.ImportFeature;
@@ -36,7 +36,7 @@ public class FullTextSearch {
 
 	public static final String STEP = "step";
 	public static final String SCENARIO = "scenario";
-	public static final String USECASE = "usecase";
+	public static final String FEATURE = "feature";
 	private final static Logger LOGGER = Logger.getLogger(FullTextSearch.class);
 
 	private final SearchAdapter searchAdapter;
@@ -77,25 +77,25 @@ public class FullTextSearch {
 		return new SearchTree(searchResults, searchRequest);
 	}
 
-	public void indexUseCases(final UseCaseScenariosList useCaseScenariosList, final BuildIdentifier buildIdentifier) {
+	public void indexFeatures(final FeatureScenariosList featureScenariosList, final BuildIdentifier buildIdentifier) {
 		if(!searchAdapter.isEngineRunning()) {
 			return;
 		}
 
 		searchAdapter.setupNewBuild(buildIdentifier);
-		searchAdapter.indexUseCases(useCaseScenariosList, buildIdentifier);
+		searchAdapter.indexFeatures(featureScenariosList, buildIdentifier);
 
-		LOGGER.info("Indexed use cases for build " + buildIdentifier);
+		LOGGER.info("Indexed features for build " + buildIdentifier);
 	}
 
-	public void indexSteps(final List<Step> steps, final List<StepLink> stepLinkList, final Scenario scenario, final ImportFeature usecase, final BuildIdentifier buildIdentifier) {
+	public void indexSteps(final List<Step> steps, final List<StepLink> stepLinkList, final Scenario scenario, final ImportFeature feature, final BuildIdentifier buildIdentifier) {
 		if(!searchAdapter.isEngineRunning()) {
 			return;
 		}
 
-		searchAdapter.indexSteps(steps, stepLinkList, scenario, usecase, buildIdentifier);
+		searchAdapter.indexSteps(steps, stepLinkList, scenario, feature, buildIdentifier);
 
-		LOGGER.debug("Indexed steps for use case " + usecase.getName());
+		LOGGER.debug("Indexed steps for feature " + feature.getName());
 	}
 
 	public void updateAvailableBuilds(final List<BuildImportSummary> availableBuilds) {

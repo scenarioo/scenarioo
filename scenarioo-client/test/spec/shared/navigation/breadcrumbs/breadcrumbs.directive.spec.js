@@ -1,16 +1,16 @@
 /* scenarioo-client
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -43,7 +43,7 @@ describe('Directive :: scBreadcrumbss', function () {
         // mock routes
         $route.routes = {
             '/main': { },
-            '/usecase/:uid': { },
+            '/feature/:uid': { },
             '/scenario/:uid/:sid': { }
         };
 
@@ -92,7 +92,7 @@ describe('Directive :: scBreadcrumbss', function () {
     });
 
     it('2. Should consist of multiple breadcrumbs', function () {
-        breadcrumbWithPath('/scenario/usecaseId/scenarioId');
+        breadcrumbWithPath('/scenario/featureId/scenarioId');
 
         var innerScope = elem.scope();
         var breadcrumbs = innerScope.breadcrumbs;
@@ -113,7 +113,7 @@ describe('Directive :: scBreadcrumbss', function () {
         expectBreadCrumbToEqual(breadcrumbs[1], {
             text: '<strong>Use Case: </strong>',
             showTooltip: false,
-            href: '#/usecase/usecaseId',
+            href: '#/feature/featureId',
             isLast: false,
             tooltip: jasmine.any(String)
         });
@@ -122,14 +122,14 @@ describe('Directive :: scBreadcrumbss', function () {
         expectBreadCrumbToEqual(breadcrumbs[2], {
             text: 'Scenario: thisIsSomeTitle',
             showTooltip: false,
-            href: '#/scenario/usecaseId/scenarioId',
+            href: '#/scenario/featureId/scenarioId',
             isLast: true,
             tooltip: jasmine.any(String)
         });
     });
 
     it('3. Should consist of multiple breadcrumbs', function () {
-        breadcrumbWithPath('/scenario/usecaseIdWithAMuchTooLongNameWhichWillBeDisplayedInATooltipAndTheTooltipIsStrippedOfHTML/scenarioId');
+        breadcrumbWithPath('/scenario/featureIdWithAMuchTooLongNameWhichWillBeDisplayedInATooltipAndTheTooltipIsStrippedOfHTML/scenarioId');
 
         var innerScope = elem.scope();
         var breadcrumbs = innerScope.breadcrumbs;
@@ -139,7 +139,7 @@ describe('Directive :: scBreadcrumbss', function () {
             text: '<strong>Usecase</strong>: Usecase Id With A Much T..',
             showTooltip: true,
             tooltip: 'Usecase: Usecase Id With A Much Too Long Name Which Will Be Displayed In A Tooltip And The Tooltip Is Stripped Of HTML',
-            href: '#/usecase/usecaseIdWithAMuchTooLongNameWhichWillBeDisplayedInATooltipAndTheTooltipIsStrippedOfHTML',
+            href: '#/feature/featureIdWithAMuchTooLongNameWhichWillBeDisplayedInATooltipAndTheTooltipIsStrippedOfHTML',
             isLast: false
         });
     });

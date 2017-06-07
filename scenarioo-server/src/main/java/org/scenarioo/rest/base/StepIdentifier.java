@@ -3,7 +3,6 @@ package org.scenarioo.rest.base;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -42,15 +41,15 @@ public class StepIdentifier {
 		scenarioIdentifier = new ScenarioIdentifier();
 	}
 
-	public StepIdentifier(final BuildIdentifier buildIdentifier, final String usecaseName, final String scenarioName,
+	public StepIdentifier(final BuildIdentifier buildIdentifier, final String featureName, final String scenarioName,
 			final String pageName, final int pageOccurrence, final int stepInPageOccurrence) {
-		this(new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName), pageName, pageOccurrence,
+		this(new ScenarioIdentifier(buildIdentifier, featureName, scenarioName), pageName, pageOccurrence,
 				stepInPageOccurrence);
 	}
 
-	public StepIdentifier(final BuildIdentifier buildIdentifier, final String usecaseName, final String scenarioName,
+	public StepIdentifier(final BuildIdentifier buildIdentifier, final String featureName, final String scenarioName,
 			final String pageName, final int pageOccurrence, final int stepInPageOccurrence, final Set<String> labels) {
-		this(new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName), pageName, pageOccurrence,
+		this(new ScenarioIdentifier(buildIdentifier, featureName, scenarioName), pageName, pageOccurrence,
 				stepInPageOccurrence, labels);
 	}
 
@@ -81,7 +80,7 @@ public class StepIdentifier {
 	}
 
 	/**
-	 * Returns the same page in a different scenario of the same use case.
+	 * Returns the same page in a different scenario of the same feature.
 	 */
 	public static StepIdentifier forFallBackScenario(final StepIdentifier originalStepIdentifier,
 			final String fallbackUsecaseName, final String fallbackScenarioName, final int pageOccurrence,
@@ -129,12 +128,12 @@ public class StepIdentifier {
 	}
 
 	@XmlElement
-	public String getUsecaseName() {
-		return scenarioIdentifier.getUsecaseName();
+	public String getFeatureName() {
+		return scenarioIdentifier.getFeatureName();
 	}
 
-	public void setUsecaseName(final String usecaseName) {
-		scenarioIdentifier.setUsecaseName(usecaseName);
+	public void setFeatureName(final String featureName) {
+		scenarioIdentifier.setUsecaseName(featureName);
 	}
 
 	@XmlElement
@@ -207,7 +206,7 @@ public class StepIdentifier {
 
 		uriBuilder.append("/rest/branch/").append(encode(getBranchName()));
 		uriBuilder.append("/build/").append(encode(getBuildName()));
-		uriBuilder.append("/usecase/").append(encode(getUsecaseName()));
+		uriBuilder.append("/feature/").append(encode(getFeatureName()));
 		uriBuilder.append("/scenario/").append(encode(getScenarioName()));
 		uriBuilder.append("/pageName/").append(encode(getPageName()));
 		uriBuilder.append("/pageOccurrence/").append(encode(Integer.toString(getPageOccurrence())));

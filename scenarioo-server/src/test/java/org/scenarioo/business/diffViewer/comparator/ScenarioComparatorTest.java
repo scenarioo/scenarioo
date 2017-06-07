@@ -41,10 +41,10 @@ import org.scenarioo.dao.diffViewer.DiffWriter;
 import org.scenarioo.dao.diffViewer.impl.DiffFiles;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.configuration.Configuration;
+import org.scenarioo.model.diffViewer.FeatureDiffInfo;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
-import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
-import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
-import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
+import org.scenarioo.model.docu.aggregates.features.FeatureScenarios;
+import org.scenarioo.model.docu.aggregates.features.ScenarioSummary;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -56,7 +56,7 @@ import org.scenarioo.utils.TestFileUtils;
 @RunWith(MockitoJUnitRunner.class)
 public class ScenarioComparatorTest {
 
-	private static String USE_CASE_NAME = "useCase";
+	private static String USE_CASE_NAME = "feature";
 	private static String SCENARIO_NAME_1 = "scenario_1";
 	private static String SCENARIO_NAME_2 = "scenario_2";
 	private static String SCENARIO_NAME_3 = "scenario_3";
@@ -98,14 +98,14 @@ public class ScenarioComparatorTest {
 
 		initMocks(baseScenarios, comparisonScenarios, scenarioDiffInfo);
 
-		UseCaseDiffInfo useCaseDiffInfo = scenarioComparator.compare(USE_CASE_NAME);
+		FeatureDiffInfo featureDiffInfo = scenarioComparator.compare(USE_CASE_NAME);
 
-		assertEquals(0, useCaseDiffInfo.getChangeRate(), 0.0);
-		assertEquals(0, useCaseDiffInfo.getAdded());
-		assertEquals(0, useCaseDiffInfo.getChanged());
-		assertEquals(0, useCaseDiffInfo.getRemoved());
-		assertTrue(useCaseDiffInfo.getAddedElements().isEmpty());
-		assertTrue(useCaseDiffInfo.getRemovedElements().isEmpty());
+		assertEquals(0, featureDiffInfo.getChangeRate(), 0.0);
+		assertEquals(0, featureDiffInfo.getAdded());
+		assertEquals(0, featureDiffInfo.getChanged());
+		assertEquals(0, featureDiffInfo.getRemoved());
+		assertTrue(featureDiffInfo.getAddedElements().isEmpty());
+		assertTrue(featureDiffInfo.getRemovedElements().isEmpty());
 	}
 
 	@Test
@@ -116,15 +116,15 @@ public class ScenarioComparatorTest {
 
 		initMocks(baseScenarios, comparisonScenarios, scenarioDiffInfo);
 
-		UseCaseDiffInfo useCaseDiffInfo = scenarioComparator.compare(USE_CASE_NAME);
+		FeatureDiffInfo featureDiffInfo = scenarioComparator.compare(USE_CASE_NAME);
 
 		double expectedChangeRate = 100.0 / 3.0;
-		assertEquals(expectedChangeRate, useCaseDiffInfo.getChangeRate(), 0.0);
-		assertEquals(1, useCaseDiffInfo.getAdded());
-		assertEquals(0, useCaseDiffInfo.getChanged());
-		assertEquals(0, useCaseDiffInfo.getRemoved());
-		assertEquals(SCENARIO_NAME_3, useCaseDiffInfo.getAddedElements().get(0));
-		assertTrue(useCaseDiffInfo.getRemovedElements().isEmpty());
+		assertEquals(expectedChangeRate, featureDiffInfo.getChangeRate(), 0.0);
+		assertEquals(1, featureDiffInfo.getAdded());
+		assertEquals(0, featureDiffInfo.getChanged());
+		assertEquals(0, featureDiffInfo.getRemoved());
+		assertEquals(SCENARIO_NAME_3, featureDiffInfo.getAddedElements().get(0));
+		assertTrue(featureDiffInfo.getRemovedElements().isEmpty());
 	}
 
 	@Test
@@ -135,16 +135,16 @@ public class ScenarioComparatorTest {
 
 		initMocks(baseScenarios, comparisonScenarios, scenarioDiffInfo);
 
-		UseCaseDiffInfo useCaseDiffInfo = scenarioComparator.compare(USE_CASE_NAME);
+		FeatureDiffInfo featureDiffInfo = scenarioComparator.compare(USE_CASE_NAME);
 
 		double expectedChangeRate = 200.0 / 3.0;
-		assertEquals(expectedChangeRate, useCaseDiffInfo.getChangeRate(), 0.0);
-		assertEquals(2, useCaseDiffInfo.getAdded());
-		assertEquals(0, useCaseDiffInfo.getChanged());
-		assertEquals(0, useCaseDiffInfo.getRemoved());
-		assertEquals(SCENARIO_NAME_1, useCaseDiffInfo.getAddedElements().get(0));
-		assertEquals(SCENARIO_NAME_3, useCaseDiffInfo.getAddedElements().get(1));
-		assertTrue(useCaseDiffInfo.getRemovedElements().isEmpty());
+		assertEquals(expectedChangeRate, featureDiffInfo.getChangeRate(), 0.0);
+		assertEquals(2, featureDiffInfo.getAdded());
+		assertEquals(0, featureDiffInfo.getChanged());
+		assertEquals(0, featureDiffInfo.getRemoved());
+		assertEquals(SCENARIO_NAME_1, featureDiffInfo.getAddedElements().get(0));
+		assertEquals(SCENARIO_NAME_3, featureDiffInfo.getAddedElements().get(1));
+		assertTrue(featureDiffInfo.getRemovedElements().isEmpty());
 	}
 
 	@Test
@@ -156,15 +156,15 @@ public class ScenarioComparatorTest {
 
 		initMocks(baseScenarios, comparisonScenarios, scenarioDiffInfo);
 
-		UseCaseDiffInfo useCaseDiffInfo = scenarioComparator.compare(USE_CASE_NAME);
+		FeatureDiffInfo featureDiffInfo = scenarioComparator.compare(USE_CASE_NAME);
 
 		double expectedChangeRate = changeRatePerScenario;
-		assertEquals(expectedChangeRate, useCaseDiffInfo.getChangeRate(), 0.0);
-		assertEquals(0, useCaseDiffInfo.getAdded());
-		assertEquals(3, useCaseDiffInfo.getChanged());
-		assertEquals(0, useCaseDiffInfo.getRemoved());
-		assertTrue(useCaseDiffInfo.getAddedElements().isEmpty());
-		assertTrue(useCaseDiffInfo.getRemovedElements().isEmpty());
+		assertEquals(expectedChangeRate, featureDiffInfo.getChangeRate(), 0.0);
+		assertEquals(0, featureDiffInfo.getAdded());
+		assertEquals(3, featureDiffInfo.getChanged());
+		assertEquals(0, featureDiffInfo.getRemoved());
+		assertTrue(featureDiffInfo.getAddedElements().isEmpty());
+		assertTrue(featureDiffInfo.getRemovedElements().isEmpty());
 	}
 
 	@Test
@@ -176,15 +176,15 @@ public class ScenarioComparatorTest {
 
 		initMocks(baseScenarios, comparisonScenarios, scenarioDiffInfo);
 
-		UseCaseDiffInfo useCaseDiffInfo = scenarioComparator.compare(USE_CASE_NAME);
+		FeatureDiffInfo featureDiffInfo = scenarioComparator.compare(USE_CASE_NAME);
 
 		double expectedChangeRate = 100.0 / 2.0;
-		assertEquals(expectedChangeRate, useCaseDiffInfo.getChangeRate(), 0.0);
-		assertEquals(0, useCaseDiffInfo.getAdded());
-		assertEquals(0, useCaseDiffInfo.getChanged());
-		assertEquals(1, useCaseDiffInfo.getRemoved());
-		assertTrue(useCaseDiffInfo.getAddedElements().isEmpty());
-		assertEquals(removedScenario.getName(), useCaseDiffInfo.getRemovedElements().get(0).getScenario().getName());
+		assertEquals(expectedChangeRate, featureDiffInfo.getChangeRate(), 0.0);
+		assertEquals(0, featureDiffInfo.getAdded());
+		assertEquals(0, featureDiffInfo.getChanged());
+		assertEquals(1, featureDiffInfo.getRemoved());
+		assertTrue(featureDiffInfo.getAddedElements().isEmpty());
+		assertEquals(removedScenario.getName(), featureDiffInfo.getRemovedElements().get(0).getScenario().getName());
 	}
 
 	@Test
@@ -197,16 +197,16 @@ public class ScenarioComparatorTest {
 
 		initMocks(baseScenarios, comparisonScenarios, scenarioDiffInfo);
 
-		UseCaseDiffInfo useCaseDiffInfo = scenarioComparator.compare(USE_CASE_NAME);
+		FeatureDiffInfo featureDiffInfo = scenarioComparator.compare(USE_CASE_NAME);
 
 		double expectedChangeRate = 200.0 / 3.0;
-		assertEquals(expectedChangeRate, useCaseDiffInfo.getChangeRate(), 0.0);
-		assertEquals(0, useCaseDiffInfo.getAdded());
-		assertEquals(0, useCaseDiffInfo.getChanged());
-		assertEquals(2, useCaseDiffInfo.getRemoved());
-		assertTrue(useCaseDiffInfo.getAddedElements().isEmpty());
-		assertEquals(removedScenario1.getName(), useCaseDiffInfo.getRemovedElements().get(0).getScenario().getName());
-		assertEquals(removedScenario2.getName(), useCaseDiffInfo.getRemovedElements().get(1).getScenario().getName());
+		assertEquals(expectedChangeRate, featureDiffInfo.getChangeRate(), 0.0);
+		assertEquals(0, featureDiffInfo.getAdded());
+		assertEquals(0, featureDiffInfo.getChanged());
+		assertEquals(2, featureDiffInfo.getRemoved());
+		assertTrue(featureDiffInfo.getAddedElements().isEmpty());
+		assertEquals(removedScenario1.getName(), featureDiffInfo.getRemovedElements().get(0).getScenario().getName());
+		assertEquals(removedScenario2.getName(), featureDiffInfo.getRemovedElements().get(1).getScenario().getName());
 	}
 
 	@Test(expected = RuntimeException.class)
@@ -230,9 +230,9 @@ public class ScenarioComparatorTest {
 				.thenReturn(comparisonScenarios);
 		when(stepComparator.compare(anyString(), anyString())).thenReturn(scenarioDiffInfo);
 
-		UseCaseScenarios useCaseScenarios = getUseCaseScenarios(SCENARIO_NAME_1, SCENARIO_NAME_2, SCENARIO_NAME_3);
-		when(aggregatedDataReader.loadUseCaseScenarios(any(BuildIdentifier.class), anyString())).thenReturn(
-				useCaseScenarios);
+		FeatureScenarios featureScenarios = getFeatureScenarios(SCENARIO_NAME_1, SCENARIO_NAME_2, SCENARIO_NAME_3);
+		when(aggregatedDataReader.loadFeatureScenarios(any(BuildIdentifier.class), anyString())).thenReturn(
+			featureScenarios);
 	}
 
 	private List<Scenario> getScenarios(final String... names) {
@@ -245,7 +245,7 @@ public class ScenarioComparatorTest {
 		return scenarios;
 	}
 
-	private UseCaseScenarios getUseCaseScenarios(final String... names) {
+	private FeatureScenarios getFeatureScenarios(final String... names) {
 		List<ScenarioSummary> scenarioSummaries = new LinkedList<ScenarioSummary>();
 		for (String name : names) {
 			Scenario scenario = new Scenario();
@@ -255,10 +255,10 @@ public class ScenarioComparatorTest {
 			scenarioSummaries.add(scenarioSummary);
 		}
 
-		UseCaseScenarios useCaseScenarios = new UseCaseScenarios();
-		useCaseScenarios.setScenarios(scenarioSummaries);
+		FeatureScenarios featureScenarios = new FeatureScenarios();
+		featureScenarios.setScenarios(scenarioSummaries);
 
-		return useCaseScenarios;
+		return featureScenarios;
 	}
 
 	private ScenarioDiffInfo getScenarioDiffInfo(final double changeRate, final int added, final int changed, final int removed) {

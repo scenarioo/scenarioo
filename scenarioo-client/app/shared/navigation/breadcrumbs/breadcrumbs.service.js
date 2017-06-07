@@ -33,22 +33,22 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         route: 'manage/manage.html'
     };
 
-    var useCaseElement =
+    var featureElement =
     {
-        label: '<strong>UseCase:</strong> [usecase]',
-        route: '/usecase/:usecase/'
+        label: '<strong>Feature:</strong> [feature]',
+        route: '/feature/:feature/'
     };
 
     var scenarioElement =
     {
         label: '<strong>Scenario:</strong> [scenario]',
-        route: '/scenario/:usecase/:scenario/'
+        route: '/scenario/:feature/:scenario/'
     };
 
     var stepElement =
     {
         label: '<strong>Step:</strong> [pageName]/[pageOccurrence]/[stepInPageOccurrence]',
-        route: '/step/:usecase/:scenario/:pageName/:pageOccurrence/:stepInPageOccurrence/'
+        route: '/step/:feature/:scenario/:pageName/:pageOccurrence/:stepInPageOccurrence/'
     };
 
     var objectElement =
@@ -70,17 +70,17 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
     var dashboard =
         {
             label: '<strong>Map</strong>',
-            route: '/dashboard/:usecase'
+            route: '/dashboard/:feature'
         };
     var detail =
         {
             label: '<strong>Detail</strong>',
-            route: '/detailNav/:usecase'
+            route: '/detailNav/:feature'
         };
     var feature =
         {
             label: '<strong>Feature</strong>',
-            route: '/feature/:usecase'
+            route: '/feature/:feature'
         };
     var testScenarios =
         {
@@ -94,16 +94,16 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
      */
     var breadcrumbPaths = {
 
-        'usecase': {
-            breadcrumbPath: [useCaseElement]
+        'feature': {
+            breadcrumbPath: [featureElement]
         },
 
         'scenario': {
-            breadcrumbPath: [scenarioElement] // useCaseElement replaced with testScenarios
+            breadcrumbPath: [scenarioElement] // featureElement replaced with testScenarios
         },
 
         'step': {
-            breadcrumbPath: [scenarioElement, stepElement]  // useCaseElement replaced with testScenarios
+            breadcrumbPath: [scenarioElement, stepElement]  // featureElement replaced with testScenarios
         },
 
         'main': {
@@ -150,7 +150,7 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
         if (placeholders !== null) {
             angular.forEach(placeholders, function (placeholder) {
                 placeholder = placeholder.replace(':', '');
-                if (placeholder === 'usecase' || placeholder === 'scenario' || placeholder === 'issueId' || placeholder === 'scenarioSketchId') {
+                if (placeholder === 'feature' || placeholder === 'scenario' || placeholder === 'issueId' || placeholder === 'scenarioSketchId') {
                     text = text.replace(':' + placeholder, navParameter[placeholder]);
                 }
             });
@@ -161,7 +161,7 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
     function getText(navParameter, placeholder) {
         var value = navParameter[placeholder];
 
-        if (placeholder === 'usecase' || placeholder === 'scenario') {
+        if (placeholder === 'feature' || placeholder === 'scenario') {
             return $filter('scHumanReadable')(value);
         }
 

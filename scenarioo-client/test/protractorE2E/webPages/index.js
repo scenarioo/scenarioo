@@ -6,7 +6,7 @@
  */
 var HomePage = require('./homePage.js');
 var NavigationPage = require('./navigationPage.js');
-var UsecasePage = require('./usecasePage.js');
+var UsecasePage = require('./featurePage.js');
 var ScenarioPage = require('./scenarioPage.js');
 var StepPage = require('./stepPage.js');
 var EditorPage = require('./editorPage.js');
@@ -20,7 +20,7 @@ var SearchResultsPage = require('./searchResultsPage.js');
 module.exports = {
     homePage: HomePage,
     navigationPage: NavigationPage,
-    usecasePage: UsecasePage,
+    featurePage: UsecasePage,
     scenarioPage: ScenarioPage,
     stepPage: StepPage,
     editorPage: EditorPage,

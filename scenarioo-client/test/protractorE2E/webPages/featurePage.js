@@ -33,11 +33,11 @@ UsecasePage.prototype.assertNumberOfDiffInfos = function(count){
     });
 };
 
-UsecasePage.prototype.assertLastUseCase = function(lastName) {
+UsecasePage.prototype.assertLastFeature = function(lastName) {
     e2eUtils.assertTextPresentInElement(this.scenarioTable.element(by.css('tr:last-of-type td:nth-of-type(2)')), lastName);
 };
 
-UsecasePage.prototype.assertFirstUseCase = function(firstName) {
+UsecasePage.prototype.assertFirstFeature = function(firstName) {
     e2eUtils.assertTextPresentInElement(this.scenarioTable.element(by.css('tr:first-of-type td:nth-of-type(2)')), firstName);
 };
 

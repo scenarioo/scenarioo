@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<md-card class="featureCard {{card.feature.id}}">
+<md-card class="featureCard" style="background-color: {{card.cardColor}}">
     {{card.feature.name}}
 <br/>
     {{card.feature.milestone}}
@@ -23,12 +23,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <test-overview feature="card.feature"></test-overview>
     </div>
 </md-card>
-
-<style>
-    .featureCard.{{card.feature.id}}{
-        padding: 5px;
-        min-width: 15em;
-        min-height: 10em;
-        background-color: {{card.cardColor}};
-    }
-</style>

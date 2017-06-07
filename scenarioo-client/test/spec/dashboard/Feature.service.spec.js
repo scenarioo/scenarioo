@@ -7,7 +7,7 @@ describe('FeatureService', function () {
     beforeEach(module('scenarioo.services'));
 
 
-    var UseCasesResourceFake = {
+    var FeaturesResourceFake = {
         query: function (object, functionCallback) {
             functionCallback([
                 {
@@ -21,7 +21,7 @@ describe('FeatureService', function () {
 
     beforeEach(function () {
         module(function ($provide) {
-            $provide.value('UseCasesResource', UseCasesResourceFake);
+            $provide.value('FeaturesResource', FeaturesResourceFake);
         });
     });
 

@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<useCase xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+<feature xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <name>Importer</name>
-    <description>Imports the data to save it on the server</description>
+    <description>Imports the data and fits it to the new data structure on the server</description>
     <status>failed</status>
     <details/>
     <labels/>
     <id>importer</id>
     <milestone>R1</milestone>
-</useCase>
+    <markdown>
+        <name>Markdown-Test</name>
+        <url>https://raw.githubusercontent.com/scenarioo/scenarioo/develop/README.md</url>
+        <type>MARKDOWN</type>
+    </markdown>
+    <specification>
+        <name>Specification-Test</name>
+        <url>https://raw.githubusercontent.com/scenarioo/scenarioo/develop/scenarioo-client/test/spec/scenario/scenario.controller.spec.js</url>
+        <type>JAVASCRIPT</type>
+    </specification>
+</feature>

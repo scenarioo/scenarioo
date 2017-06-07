@@ -5,11 +5,11 @@ var pages = require('./../webPages');
 
 
 useCase('Use breadcrumbs')
-    .description('Breadcrumbs help navigating Scenarioo. They are used to navigate back to a use case or a scenario from a more detailed page.')
+    .description('Breadcrumbs help navigating Scenarioo. They are used to navigate back to a feature or a scenario from a more detailed page.')
     .describe(function () {
 
         var homePage = new pages.homePage();
-        var useCasePage = new pages.usecasePage();
+        var featurePage = new pages.featurePage();
         var breadcrumbsPage = new pages.breadcrumbsPage();
         var stepPage = new pages.stepPage();
 
@@ -18,27 +18,27 @@ useCase('Use breadcrumbs')
         });
 
         scenario('Navigate upwards')
-            .description('Navigate to the Home Page, filter for one use case, select scenario, click on breadcrumb')
+            .description('Navigate to the Home Page, filter for one feature, select scenario, click on breadcrumb')
             .it(function () {
 
                 homePage.goToPage();
                 step('Display the homePage');
 
                 homePage.assertPageIsDisplayed();
-                homePage.filterUseCases('User wants');
-                step('Enter filter criteria in use case overview');
-                homePage.assertUseCasesShown(1);
-                step('One use case found');
+                homePage.filterFeatures('User wants');
+                step('Enter filter criteria in feature overview');
+                homePage.assertFeaturesShown(1);
+                step('One feature found');
 
-                homePage.selectUseCase(0);
-                step('Selected found use case');
+                homePage.selectFeature(0);
+                step('Selected found feature');
 
-                useCasePage.selectScenario(3);
+                featurePage.selectScenario(3);
                 step('Selected scenario');
 
                 //breadcrumbsPage.assertBreadcrumbElementText('breadcrumb_1', 'Find Page');
                 //breadcrumbsPage.clickOnBreadcrumb('breadcrumb_1');
-                //step('Clicked on use case in breadcrumb');
+                //step('Clicked on feature in breadcrumb');
 
                 //breadcrumbsPage.clickOnBreadcrumb('breadcrumb_0');
                 //step('Clicked on home breadcrumb');

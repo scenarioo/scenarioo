@@ -31,13 +31,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </div>
             </div>
             <div class="col-sm-4">
-                <sc-meta-data-button class="pull-right" linking-variable="useCaseShowMetadata" local-storage-key="feature"></sc-meta-data-button>
+                <sc-meta-data-button class="pull-right" linking-variable="featureShowMetadata" local-storage-key="feature"></sc-meta-data-button>
             </div>
         </div>
         <div layout = "row">
             <site-navigation current="testScenarios" flex = "33"></site-navigation>
         </div>
-        <sc-meta-data-panel linking-variable="useCaseShowMetadata">
+        <sc-meta-data-panel linking-variable="featureShowMetadata">
             <div flex>
                 <table ng-if="dashboard.feature.scenarios != undefined" class="table table-bordered scenario-table"
                        sc-keyboard-navigatable-table="filtered">

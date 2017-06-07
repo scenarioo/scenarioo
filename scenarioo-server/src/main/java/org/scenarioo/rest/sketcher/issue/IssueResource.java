@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -153,14 +153,14 @@ public class IssueResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/related/{buildName}/{usecaseName}")
+	@Path("/related/{buildName}/{featureName}")
 	public Response relatedIssuesForUsecase(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName) {
-		LOGGER.info("REQUEST: relatedIssuesUsecase(" + branchName + ", " + buildName + ", " + usecaseName + ")");
+			@PathParam("buildName") final String buildName, @PathParam("featureName") final String featureName) {
+		LOGGER.info("REQUEST: relatedIssuesUsecase(" + branchName + ", " + buildName + ", " + featureName + ")");
 
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
-		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName,
+		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, featureName,
 				"", "", 0, 0);
 
 		return loadRelatedIssues(stepIdentifier);
@@ -168,16 +168,16 @@ public class IssueResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/related/{buildName}/{usecaseName}/{scenarioName}")
+	@Path("/related/{buildName}/{featureName}/{scenarioName}")
 	public Response relatedIssuesForScenario(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
+			@PathParam("buildName") final String buildName, @PathParam("featureName") final String featureName,
 			@PathParam("scenarioName") final String scenarioName) {
-		LOGGER.info("REQUEST: relatedIssuesScenario(" + branchName + ", " + buildName + ", " + usecaseName + ", "
+		LOGGER.info("REQUEST: relatedIssuesScenario(" + branchName + ", " + buildName + ", " + featureName + ", "
 				+ scenarioName + ")");
 
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
-		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName,
+		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, featureName,
 				scenarioName, "", 0, 0);
 
 		return loadRelatedIssues(stepIdentifier);
@@ -185,18 +185,18 @@ public class IssueResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/related/{buildName}/{usecaseName}/{scenarioName}/{pageName}/{pageOccurrence}/{stepInPageOccurrence}")
+	@Path("/related/{buildName}/{featureName}/{scenarioName}/{pageName}/{pageOccurrence}/{stepInPageOccurrence}")
 	public Response relatedIssuesForStep(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
+			@PathParam("buildName") final String buildName, @PathParam("featureName") final String featureName,
 			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
 			@PathParam("pageOccurrence") final int pageOccurrence,
 			@PathParam("stepInPageOccurrence") final int stepInPageOccurrence) {
-		LOGGER.info("REQUEST: relatedIssuesStep(" + branchName + ", " + buildName + ", " + usecaseName + ", "
+		LOGGER.info("REQUEST: relatedIssuesStep(" + branchName + ", " + buildName + ", " + featureName + ", "
 				+ scenarioName + ", " + pageName + ", " + pageOccurrence + ", " + stepInPageOccurrence + ")");
 
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
-		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName,
+		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, featureName,
 				scenarioName, pageName, pageOccurrence, stepInPageOccurrence);
 
 		return loadRelatedIssues(stepIdentifier);
@@ -232,13 +232,13 @@ public class IssueResource {
 
 		StepIdentifier relatedStep = issue.getRelatedStep();
 
-		return (useCaseIsEqual(stepIdentifier, relatedStep)
+		return (featureIsEqual(stepIdentifier, relatedStep)
 				&& scenarioNameNotSetOrEqual(stepIdentifier, relatedStep)
 				&& pageAndStepIndexNotSetOrEqual(stepIdentifier, relatedStep));
 	}
 
-	private boolean useCaseIsEqual(final StepIdentifier stepIdentifier, final StepIdentifier relatedStep) {
-		return relatedStep.getUsecaseName().equals(stepIdentifier.getUsecaseName());
+	private boolean featureIsEqual(final StepIdentifier stepIdentifier, final StepIdentifier relatedStep) {
+		return relatedStep.getFeatureName().equals(stepIdentifier.getFeatureName());
 	}
 
 	private boolean scenarioNameNotSetOrEqual(final StepIdentifier stepIdentifier, final StepIdentifier relatedStep) {

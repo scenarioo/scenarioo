@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class FeatureDocumentation {
 
 
-	public static final String FEATURE_XML = "/usecase.xml";
+	public static final String FEATURE_XML = "/feature.xml";
 	public static final DokuFile md1 = new DokuFile("Markdown-Test","https://raw.githubusercontent.com/scenarioo/scenarioo/develop/README.md",FileType.MARKDOWN);
 	public static final DokuFile spec1 = new DokuFile("Specification-Test", "https://raw.githubusercontent.com/scenarioo/scenarioo/develop/scenarioo-client/test/spec/scenario/scenario.controller.spec.js", FileType.JAVASCRIPT);
 
@@ -36,7 +36,7 @@ public class FeatureDocumentation {
 		ImportFeature feature = new ImportFeature();
 
 		feature.name = "Feature-View";
-		feature.description = "this view is compareable to the current useCase view and shows the subfeatures of the current feature. the table can be sorted very easy after various topics, like name, release date, number of subfeatures or scenarios, changes form the last build";
+		feature.description = "this view is compareable to the current feature view and shows the subfeatures of the current feature. the table can be sorted very easy after various topics, like name, release date, number of subfeatures or scenarios, changes form the last build";
 		feature.id = "feature-view";
 		feature.status = Status.FAILED.getKeyword();
 		feature.milestone = "R1";

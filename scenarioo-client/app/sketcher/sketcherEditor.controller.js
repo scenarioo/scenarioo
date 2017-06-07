@@ -159,7 +159,7 @@ function SketcherEditorController($rootScope, $scope, $location, $filter, $inter
 
         var humanReadableFilter = $filter('scHumanReadable');
 
-        return 'Use Case: ' + humanReadableFilter(relatedStep.usecaseName) + ' / Scenario: ' + humanReadableFilter(relatedStep.scenarioName)
+        return 'Use Case: ' + humanReadableFilter(relatedStep.featureName) + ' / Scenario: ' + humanReadableFilter(relatedStep.scenarioName)
             + ' / Step: ' + relatedStep.pageName + '/' + relatedStep.pageOccurrence + '/' + relatedStep.stepInPageOccurrence;
     }
 

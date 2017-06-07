@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div class="alert alert-warning" role="alert">
         <div class="sc-alert-title">This is a fallback step</div>
         <p class="sc-bold">The step you were looking for does not exist. Therefore we show you a different step of the same page. Here's what you actually see:</p>
-        <p>Usecase: {{stepIdentifier.usecaseName}}</p>
+        <p>Usecase: {{stepIdentifier.featureName}}</p>
         <p>Scenario: {{stepIdentifier.scenarioName}}</p>
         <p>Page: {{stepIdentifier.pageName}}</p>
         <p>Page occurrence: {{stepIdentifier.pageOccurrence}}</p>
@@ -231,9 +231,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <sc-collapsable-panel title="Labels" key="stepView-labels" initially-expanded="false" ng-show="hasAnyLabels()">
             <div class="sc-tree">
                 <ul>
-                    <li id="usecase-labels" ng-show="useCaseLabels.labels">
+                    <li id="feature-labels" ng-show="featureLabels.labels">
                         Use case:
-                        <span ng-repeat="label in useCaseLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                        <span ng-repeat="label in featureLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
                     <li id="scenario-labels" ng-show="scenarioLabels.labels">
                         Scenario:

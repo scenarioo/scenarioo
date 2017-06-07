@@ -118,19 +118,19 @@ public class ScenarioDocuWriter {
 	}
 
 	/**
-	 * Save the use case description to appropriate directory and file
+	 * Save the feature description to appropriate directory and file
 	 *
 	 * @param importFeature
-	 *            the use case description to write
+	 *            the feature description to write
 	 */
-	public void saveUseCase(final ImportFeature importFeature) {
+	public void saveFeature(final ImportFeature importFeature) {
 		checkIdentifier(importFeature.id);
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				File destCaseDir = getUseCaseDirectory(importFeature.id);
+				File destCaseDir = getFeatureDirectory(importFeature.id);
 				createDirectoryIfNotYetExists(destCaseDir);
-				File destCaseFile = docuFiles.getUseCaseFile(branchName, buildName, importFeature.id);
+				File destCaseFile = docuFiles.getFeatureFile(branchName, buildName, importFeature.id);
 				ScenarioDocuXMLFileUtil.marshal(importFeature, destCaseFile);
 			}
 		});
@@ -140,15 +140,15 @@ public class ScenarioDocuWriter {
 		saveScenario(importFeature.id, scenario);
 	}
 
-	public void saveScenario(final String useCaseName, final Scenario scenario) {
-		checkIdentifier(useCaseName);
+	public void saveScenario(final String featureName, final Scenario scenario) {
+		checkIdentifier(featureName);
 		checkIdentifier(scenario.getName());
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				File destScenarioDir = getScenarioDirectory(useCaseName, scenario.getName());
+				File destScenarioDir = getScenarioDirectory(featureName, scenario.getName());
 				createDirectoryIfNotYetExists(destScenarioDir);
-				File destScenarioFile = docuFiles.getScenarioFile(branchName, buildName, useCaseName,
+				File destScenarioFile = docuFiles.getScenarioFile(branchName, buildName, featureName,
 						scenario.getName());
 				ScenarioDocuXMLFileUtil.marshal(scenario, destScenarioFile);
 			}
@@ -163,23 +163,23 @@ public class ScenarioDocuWriter {
 	 * The page property of the step is optional, but it is recommended to use it. Page names are a central part of
 	 * Scenarioo.
 	 */
-	public void saveStep(final String useCaseName, final String scenarioName, final Step step) {
-		checkSaveStepPreconditions(useCaseName, scenarioName, step);
+	public void saveStep(final String featureName, final String scenarioName, final Step step) {
+		checkSaveStepPreconditions(featureName, scenarioName, step);
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				File destStepsDir = getScenarioStepsDirectory(useCaseName, scenarioName);
+				File destStepsDir = getScenarioStepsDirectory(featureName, scenarioName);
 				createDirectoryIfNotYetExists(destStepsDir);
-				calculateScreenshotFileNameIfNotSetWorkaround(useCaseName, scenarioName, step);
-				File destStepFile = docuFiles.getStepFile(branchName, buildName, useCaseName, scenarioName, step
+				calculateScreenshotFileNameIfNotSetWorkaround(featureName, scenarioName, step);
+				File destStepFile = docuFiles.getStepFile(branchName, buildName, featureName, scenarioName, step
 						.getStepDescription().getIndex());
 				ScenarioDocuXMLFileUtil.marshal(step, destStepFile);
 			}
 		});
 	}
 
-	private void checkSaveStepPreconditions(final String useCaseName, final String scenarioName, final Step step) {
-		CharacterChecker.checkIdentifier(useCaseName);
+	private void checkSaveStepPreconditions(final String featureName, final String scenarioName, final Step step) {
+		CharacterChecker.checkIdentifier(featureName);
 		CharacterChecker.checkIdentifier(scenarioName);
 		if (step.getPage() != null) {
 			CharacterChecker.checkIdentifier(step.getPage().getName());
@@ -192,11 +192,11 @@ public class ScenarioDocuWriter {
 		}
 	}
 
-	private void calculateScreenshotFileNameIfNotSetWorkaround(final String useCaseName, final String scenarioName,
+	private void calculateScreenshotFileNameIfNotSetWorkaround(final String featureName, final String scenarioName,
 			final Step step) {
 		StepDescription stepDescription = step.getStepDescription();
 		if (stepDescription != null && stepDescription.getScreenshotFileName() == null) {
-			File imageFile = docuFiles.getScreenshotFile(branchName, buildName, useCaseName, scenarioName,
+			File imageFile = docuFiles.getScreenshotFile(branchName, buildName, featureName, scenarioName,
 					stepDescription.getIndex());
 			stepDescription.setScreenshotFileName(imageFile.getName());
 		}
@@ -206,16 +206,16 @@ public class ScenarioDocuWriter {
 	 * In case you want to define your screenshot names differently than by step name, you can save it on your own, into
 	 * the following directory for a scenario.
 	 */
-	public File getScreenshotsDirectory(final String usecaseName, final String scenarioName) {
-		return docuFiles.getScreenshotsDirectory(branchName, buildName, checkIdentifier(usecaseName),
+	public File getScreenshotsDirectory(final String featureName, final String scenarioName) {
+		return docuFiles.getScreenshotsDirectory(branchName, buildName, checkIdentifier(featureName),
 				checkIdentifier(scenarioName));
 	}
 
 	/**
 	 * Get the file name of the file where the screenshot of a step is stored.
 	 */
-	public File getScreenshotFile(final String usecaseName, final String scenarioName, final int stepIndex) {
-		return docuFiles.getScreenshotFile(branchName, buildName, checkIdentifier(usecaseName),
+	public File getScreenshotFile(final String featureName, final String scenarioName, final int stepIndex) {
+		return docuFiles.getScreenshotFile(branchName, buildName, checkIdentifier(featureName),
 				checkIdentifier(scenarioName), stepIndex);
 	}
 
@@ -229,14 +229,14 @@ public class ScenarioDocuWriter {
 	 * @param pngScreenshot
 	 *            Screenshot in PNG format.
 	 */
-	public void saveScreenshotAsPng(final String useCaseName, final String scenarioName, final int stepIndex,
+	public void saveScreenshotAsPng(final String featureName, final String scenarioName, final int stepIndex,
 			final byte[] pngScreenshot) {
-		checkIdentifier(useCaseName);
+		checkIdentifier(featureName);
 		checkIdentifier(scenarioName);
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				final File screenshotFile = docuFiles.getScreenshotFile(branchName, buildName, useCaseName,
+				final File screenshotFile = docuFiles.getScreenshotFile(branchName, buildName, featureName,
 						scenarioName, stepIndex);
 				try {
 					FileUtils.writeByteArrayToFile(screenshotFile, pngScreenshot);
@@ -281,16 +281,16 @@ public class ScenarioDocuWriter {
 		return docuFiles.getBuildDirectory(branchName, buildName);
 	}
 
-	private File getUseCaseDirectory(final String useCaseName) {
-		return docuFiles.getUseCaseDirectory(branchName, buildName, useCaseName);
+	private File getFeatureDirectory(final String featureName) {
+		return docuFiles.getFeatureDirectory(branchName, buildName, featureName);
 	}
 
-	private File getScenarioDirectory(final String useCaseName, final String scenarioName) {
-		return docuFiles.getScenarioDirectory(branchName, buildName, useCaseName, scenarioName);
+	private File getScenarioDirectory(final String featureName, final String scenarioName) {
+		return docuFiles.getScenarioDirectory(branchName, buildName, featureName, scenarioName);
 	}
 
-	private File getScenarioStepsDirectory(final String useCaseName, final String scenarioName) {
-		return docuFiles.getStepsDirectory(branchName, buildName, useCaseName, scenarioName);
+	private File getScenarioStepsDirectory(final String featureName, final String scenarioName) {
+		return docuFiles.getStepsDirectory(branchName, buildName, featureName, scenarioName);
 	}
 
 	private void createBuildDirectoryIfNotYetExists() {

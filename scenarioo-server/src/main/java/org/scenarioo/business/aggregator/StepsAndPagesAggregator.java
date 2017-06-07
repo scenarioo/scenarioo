@@ -51,21 +51,21 @@ public class StepsAndPagesAggregator {
 		this.dao = dao;
 	}
 
-	List<PageSteps> calculateScenarioPageSteps(final ImportFeature usecase,
+	List<PageSteps> calculateScenarioPageSteps(final ImportFeature feature,
 											   final Scenario scenario, final List<Step> steps, final List<ObjectReference> referencePath,
 											   final ObjectRepository objectRepository) {
 
-		List<StepLink> stepLinks = calculateStepLinks(steps, usecase.id, scenario.getName());
+		List<StepLink> stepLinks = calculateStepLinks(steps, feature.id, scenario.getName());
 		List<PageSteps> pageStepsList = getPageSteps(stepLinks, steps, referencePath, objectRepository);
 
-		new FullTextSearch().indexSteps(steps, stepLinks, scenario, usecase, build);
+		new FullTextSearch().indexSteps(steps, stepLinks, scenario, feature, build);
 
 		calculateNavigationAndPageVariantsData(stepLinks);
 
 		return pageStepsList;
 	}
 
-	public List<StepLink> calculateStepLinks(final List<Step> steps, final String usecaseName, final String scenarioName) {
+	public List<StepLink> calculateStepLinks(final List<Step> steps, final String featureName, final String scenarioName) {
 		List<StepLink> stepLinks = new ArrayList<StepLink>(steps.size());
 		Map<String, Integer> pageOccurrences = new HashMap<String, Integer>();
 		Page page = null;
@@ -93,7 +93,7 @@ public class StepsAndPagesAggregator {
 				}
 			}
 
-			StepLink stepLink = new StepLink(usecaseName,
+			StepLink stepLink = new StepLink(featureName,
 					scenarioName, index, pageIndex, getPageName(page),
 				pageOccurrence, stepInPageOccurrence);
 			stepLinks.add(stepLink);
@@ -294,7 +294,7 @@ public class StepsAndPagesAggregator {
 	}
 
 	private boolean isSameScenario(final StepLink step1, final StepLink step2) {
-		return step1.getUseCaseName().equals(step2.getUseCaseName())
+		return step1.getFeatureName().equals(step2.getFeatureName())
 			&& step1.getScenarioName().equals(step2.getScenarioName());
 	}
 

@@ -15,9 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.model.docu.aggregates.usecases;
+package org.scenarioo.model.docu.aggregates.features;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -26,35 +25,32 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.scenarioo.model.docu.entities.ImportFeature;
-
 /**
- * Represents a use case with all its scenarios
+ * List of all features with its scenarios
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class UseCaseScenarios {
+public class FeatureScenariosList {
 
-	private ImportFeature feature;
+	private String version;
+	@XmlElementWrapper(name = "list")
+	@XmlElement(name = "featureScenarios")
+	private List<FeatureScenarios> featureScenarios;
 
-	@XmlElementWrapper(name = "scenarios")
-	@XmlElement(name = "scenarioSummary")
-	private List<ScenarioSummary> scenarios = new ArrayList<ScenarioSummary>();
-
-	public ImportFeature getFeature() {
-		return feature;
+	public String getVersion() {
+		return version;
 	}
 
-	public void setFeature(final ImportFeature feature) {
-		this.feature = feature;
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
-	public List<ScenarioSummary> getScenarios() {
-		return scenarios;
+	public List<FeatureScenarios> getFeatureScenarios() {
+		return featureScenarios;
 	}
 
-	public void setScenarios(final List<ScenarioSummary> scenarios) {
-		this.scenarios = scenarios;
+	public void setFeatureScenarios(List<FeatureScenarios> featureScenarios) {
+		this.featureScenarios = featureScenarios;
 	}
 
 }

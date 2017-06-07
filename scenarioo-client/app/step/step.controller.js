@@ -27,7 +27,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
 
     var selectedBranchAndBuild = {};
-    var useCaseName = $routeParams.useCaseName;
+    var featureName = $routeParams.featureName;
     var scenarioName = $routeParams.scenarioName;
     var labels = $location.search().labels;
 
@@ -99,7 +99,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
             {
                 'branchName': selected.branch,
                 'buildName': selected.build,
-                'usecaseName': useCaseName,
+                'featureName': featureName,
                 'scenarioName': scenarioName,
                 'pageName': $scope.pageName,
                 'pageOccurrence': $scope.pageOccurrence,
@@ -116,7 +116,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
                 $scope.stepNavigation = result.stepNavigation;
                 $scope.stepStatistics = result.stepStatistics;
                 $scope.stepIndex = result.stepNavigation.stepIndex;
-                $scope.useCaseLabels = result.useCaseLabels;
+                $scope.featureLabels = result.featureLabels;
                 $scope.scenarioLabels = result.scenarioLabels;
                 $scope.selectedBuild = selected.buildName;
                 loadRelatedIssues();
@@ -126,12 +126,12 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
                 }
 
                 $scope.hasAnyLabels = function () {
-                    var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
+                    var hasAnyFeatureLabels = $scope.featureLabels.labels.length > 0;
                     var hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
                     var hasAnyStepLabels = $scope.step.stepDescription.labels.labels.length > 0;
                     var hasAnyPageLabels = $scope.step.page.labels.labels.length > 0;
 
-                    return hasAnyUseCaseLabels || hasAnyScenarioLabels || hasAnyStepLabels || hasAnyPageLabels;
+                    return hasAnyFeatureLabels || hasAnyScenarioLabels || hasAnyStepLabels || hasAnyPageLabels;
                 };
 
                 SharePageService.setPageUrl($scope.getCurrentUrlForSharing());
@@ -155,7 +155,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
         SketcherContextService.stepIdentifier = {
             branchName: selectedBranchAndBuild.branch,
             buildName: selectedBranchAndBuild.build,
-            usecaseName: useCaseName,
+            featureName: featureName,
             scenarioName: scenarioName,
             pageName: $scope.pageName,
             pageOccurrence: $scope.pageOccurrence,
@@ -368,7 +368,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
 
         var selected = SelectedBranchAndBuildService.selected();
 
-        $scope.screenShotUrl = HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
+        $scope.screenShotUrl = HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/feature/' + $scope.stepIdentifier.featureName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
     }
 
     // This URL is only used internally, not for sharing
@@ -378,7 +378,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     }
 
     function initComparisonScreenshotUrl () {
-        $scope.comparisonScreenShotUrl = ScreenshotUrlService.getComparisonScreenShotUrl($scope.comparisonBranchName, $scope.comparisonBuildName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.comparisonScreenshotName);
+        $scope.comparisonScreenShotUrl = ScreenshotUrlService.getComparisonScreenShotUrl($scope.comparisonBranchName, $scope.comparisonBuildName, $scope.stepIdentifier.featureName, $scope.stepIdentifier.scenarioName, $scope.comparisonScreenshotName);
         $scope.comparisonScreenShotDescription = $scope.branch;
     }
 
@@ -411,7 +411,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
         } else if ($scope.stepIdentifier) {
             var branchAndBuild = SelectedBranchAndBuildService.selected();
             var comparisonName = SelectedComparison.selected();
-            $scope.diffScreenShotUrl = ScreenshotUrlService.getDiffScreenShotUrl($scope.step, branchAndBuild, comparisonName, $scope.stepIdentifier.usecaseName, $scope.stepIdentifier.scenarioName, $scope.stepIndex );
+            $scope.diffScreenShotUrl = ScreenshotUrlService.getDiffScreenShotUrl($scope.step, branchAndBuild, comparisonName, $scope.stepIdentifier.featureName, $scope.stepIdentifier.scenarioName, $scope.stepIndex );
         }
     }
 
@@ -444,7 +444,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
             baseBranchName: SelectedBranchAndBuildService.selected().branch,
             baseBuildName: SelectedBranchAndBuildService.selected().build,
             comparisonName: $scope.comparisonName,
-            useCaseName: useCaseName,
+            featureName: featureName,
             scenarioName: scenarioName,
             stepIndex: $scope.stepIndex
             },
@@ -489,7 +489,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     }
 
     $scope.go = function (step) {
-        $location.path('/step/' + (step.useCaseName || useCaseName) + '/' + (step.scenarioName || scenarioName) + '/' + step.pageName + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
+        $location.path('/step/' + (step.featureName || featureName) + '/' + (step.scenarioName || scenarioName) + '/' + step.pageName + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence);
     };
 
     $scope.getCurrentUrlForSharing = function () {
@@ -507,7 +507,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
 
         return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY] +
             '/build/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BUILD_KEY] +
-            '/usecase/' + encodeURIComponent(useCaseName) +
+            '/feature/' + encodeURIComponent(featureName) +
             '/scenario/' + encodeURIComponent(scenarioName) +
             '/pageName/' + encodeURIComponent($scope.pageName) +
             '/pageOccurrence/' + $scope.pageOccurrence +
@@ -531,8 +531,8 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
 
     var getAllLabels = function () {
         var allLabels = [];
-        if ($scope.useCaseLabels && $scope.scenarioLabels && $scope.step) {
-            allLabels = allLabels.concat($scope.useCaseLabels.labels).concat($scope.scenarioLabels.labels).concat($scope.step.stepDescription.labels.labels).concat($scope.step.page.labels.labels);
+        if ($scope.featureLabels && $scope.scenarioLabels && $scope.step) {
+            allLabels = allLabels.concat($scope.featureLabels.labels).concat($scope.scenarioLabels.labels).concat($scope.step.stepDescription.labels.labels).concat($scope.step.page.labels.labels);
         }
         return allLabels;
     };
@@ -554,7 +554,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
         RelatedIssueResource.query({
             branchName: SelectedBranchAndBuildService.selected().branch,
             buildName: SelectedBranchAndBuildService.selected().build,
-            useCaseName: useCaseName,
+            featureName: featureName,
             scenarioName: scenarioName,
             pageName: $scope.pageName,
             pageOccurence: $scope.pageOccurrence,

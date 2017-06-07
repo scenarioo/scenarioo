@@ -20,7 +20,7 @@ describe('BreadcrumbsService', function () {
     var BreadcrumbsService;
 
     var NAV_PARAMETERS_FOR_STEP = {
-        usecase: 'search_book',
+        feature: 'search_book',
         scenario: 'SearchBookThatDoesNotExist',
         pageName: 'search_results',
         pageOccurrence: 0,
@@ -29,7 +29,7 @@ describe('BreadcrumbsService', function () {
 
     var NAVIGATION_ELEMENTS_FOR_STEP = [
         { label: '<i class="icon-home"></i> Home', route: 'build/build.html', isLastNavigationElement: false, textForTooltip: ' Home' },
-        { label: '<strong>Use Case:</strong> Search book', route: '/usecase/search_book/', isLastNavigationElement: false, textForTooltip: 'Use Case: Search book' },
+        { label: '<strong>Use Case:</strong> Search book', route: '/feature/search_book/', isLastNavigationElement: false, textForTooltip: 'Use Case: Search book' },
         { label: '<strong>Scenario:</strong> Search Book That Does Not Exist', route: '/scenario/search_book/SearchBookThatDoesNotExist/', isLastNavigationElement: false, textForTooltip: 'Scenario: Search Book That Does Not Exist' },
         { label: '<strong>Step:</strong> search_results/0/1', route: '/step/search_book/SearchBookThatDoesNotExist/:pageName/:pageOccurrence/:stepInPageOccurrence/', isLastNavigationElement: true, textForTooltip: 'Step: search_results/0/1' }
     ];
@@ -49,7 +49,7 @@ describe('BreadcrumbsService', function () {
         var navigationElements = BreadcrumbsService.getNavigationElements('step', NAV_PARAMETERS_FOR_STEP);
 
         expect(BreadcrumbsService.getNavigationElements('step', NAV_PARAMETERS_FOR_STEP)).toEqual(NAVIGATION_ELEMENTS_FOR_STEP);
-        expectUseCaseAndScenarioAreHumanReadable(navigationElements);
+        expectFeatureAndScenarioAreHumanReadable(navigationElements);
         expectStepIsNotMadeHumanReadable(navigationElements);
     });*/
 
@@ -57,7 +57,7 @@ describe('BreadcrumbsService', function () {
         expect(navigationElements[3].label).toEqual('<strong>Step:</strong> search_results/0/1');
     }
 
-    function expectUseCaseAndScenarioAreHumanReadable(navigationElements) {
+    function expectFeatureAndScenarioAreHumanReadable(navigationElements) {
         expect(navigationElements[1].label).toEqual('<strong>Use Case:</strong> Search book');
         expect(navigationElements[2].label).toEqual('<strong>Scenario:</strong> Search Book That Does Not Exist');
     }

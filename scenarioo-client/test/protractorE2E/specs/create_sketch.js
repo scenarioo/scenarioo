@@ -8,7 +8,7 @@ useCase('Create sketch')
     .describe(function () {
 
         var homePage = new pages.homePage();
-        var usecasePage = new pages.usecasePage();
+        var featurePage = new pages.featurePage();
         var scenarioPage = new pages.scenarioPage();
         var stepPage = new pages.stepPage();
         var editorPage = new pages.editorPage();
@@ -25,11 +25,11 @@ useCase('Create sketch')
 
                 homePage.goToPage();
 
-                step('Select a use case from the list');
-                homePage.selectUseCase(1);
+                step('Select a feature from the list');
+                homePage.selectFeature(1);
 
                 step('Select a scenario from the list');
-                usecasePage.selectScenario(1);
+                featurePage.selectScenario(1);
 
                 step('Select a step from the scenario');
                 scenarioPage.openStepByName('Step 1: Wikipedia Suche');

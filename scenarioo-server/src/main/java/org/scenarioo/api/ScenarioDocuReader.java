@@ -68,51 +68,51 @@ public class ScenarioDocuReader {
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFilesWithDirNames(buildFiles, Build.class);
 	}
 
-	public List<ImportFeature> loadUsecases(final String branchName, final String buildName) {
-		List<File> files = docuFiles.getUseCaseFiles(checkIdentifier(branchName), checkIdentifier(buildName));
+	public List<ImportFeature> loadFeatures(final String branchName, final String buildName) {
+		List<File> files = docuFiles.getFeatureFiles(checkIdentifier(branchName), checkIdentifier(buildName));
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(ImportFeature.class, files);
 	}
 
-	public ImportFeature loadUsecase(final String branchName, final String buildName, final String useCaseName) {
-		File file = docuFiles.getUseCaseFile(checkIdentifier(branchName), checkIdentifier(buildName),
-				checkIdentifier(useCaseName));
+	public ImportFeature loadUsecase(final String branchName, final String buildName, final String featureName) {
+		File file = docuFiles.getFeatureFile(checkIdentifier(branchName), checkIdentifier(buildName),
+				checkIdentifier(featureName));
 		return ScenarioDocuXMLFileUtil.unmarshal(ImportFeature.class, file);
 	}
 
-	public List<Scenario> loadScenarios(final String branchName, final String buildName, final String useCaseName) {
+	public List<Scenario> loadScenarios(final String branchName, final String buildName, final String featureName) {
 		List<File> files = docuFiles.getScenarioFiles(checkIdentifier(branchName), checkIdentifier(buildName),
-				checkIdentifier(useCaseName));
+				checkIdentifier(featureName));
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(Scenario.class, files);
 	}
 
-	public Scenario loadScenario(final String branchName, final String buildName, final String useCaseName,
+	public Scenario loadScenario(final String branchName, final String buildName, final String featureName,
 			final String scenarioName) {
 		File file = docuFiles.getScenarioFile(checkIdentifier(branchName), checkIdentifier(buildName),
-				checkIdentifier(useCaseName), checkIdentifier(scenarioName));
+				checkIdentifier(featureName), checkIdentifier(scenarioName));
 		return ScenarioDocuXMLFileUtil.unmarshal(Scenario.class, file);
 	}
 
-	public List<Step> loadSteps(final String branchName, final String buildName, final String useCaseName,
+	public List<Step> loadSteps(final String branchName, final String buildName, final String featureName,
 			final String scenarioName) {
 		List<File> files = docuFiles.getStepFiles(checkIdentifier(branchName), checkIdentifier(buildName),
-				checkIdentifier(useCaseName), checkIdentifier(scenarioName));
+				checkIdentifier(featureName), checkIdentifier(scenarioName));
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(Step.class, files);
 	}
 
-	public Step loadStep(final String branchName, final String buildName, final String useCaseName,
+	public Step loadStep(final String branchName, final String buildName, final String featureName,
 			final String scenarioName, final int stepIndex) {
 		File file = docuFiles.getStepFile(checkIdentifier(branchName), checkIdentifier(buildName),
-				checkIdentifier(useCaseName), checkIdentifier(scenarioName), stepIndex);
+				checkIdentifier(featureName), checkIdentifier(scenarioName), stepIndex);
 		return ScenarioDocuXMLFileUtil.unmarshal(Step.class, file);
 	}
 
 	/**
 	 * Screenshot files are simply provided by path, the REST service will take care of streaming it.
 	 */
-	public File getScreenshotFile(final String branchName, final String buildName, final String useCaseName,
+	public File getScreenshotFile(final String branchName, final String buildName, final String featureName,
 			final String scenarioName, final String imageName) {
 		return new File(docuFiles.getScreenshotsDirectory(checkIdentifier(branchName), checkIdentifier(buildName),
-				checkIdentifier(useCaseName), checkIdentifier(scenarioName)), imageName);
+				checkIdentifier(featureName), checkIdentifier(scenarioName)), imageName);
 	}
 
 }

@@ -33,7 +33,7 @@ import java.io.Serializable;
 /**
  * Informations to store and display for one test scenario (one webtest).
  *
- * It is important that each scenario gets a unique 'name' inside its belonging usecase.
+ * It is important that each scenario gets a unique 'name' inside its belonging feature.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

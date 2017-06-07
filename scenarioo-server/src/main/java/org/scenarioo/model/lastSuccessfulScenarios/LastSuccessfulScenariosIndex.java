@@ -14,87 +14,87 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LastSuccessfulScenariosIndex {
-	
-	private final Map<String, UseCaseWithLastSuccessfulScenarios> useCases = new HashMap<String, UseCaseWithLastSuccessfulScenarios>();
+
+	private final Map<String, FeatureWithLastSuccessfulScenarios> features = new HashMap<String, FeatureWithLastSuccessfulScenarios>();
 	private Date latestImportedBuildDate;
-	
-	public UseCaseWithLastSuccessfulScenarios getUseCaseCreateIfNotNull(final String useCaseName) {
-		UseCaseWithLastSuccessfulScenarios useCase = useCases.get(useCaseName);
-		if (useCase == null) {
-			useCase = new UseCaseWithLastSuccessfulScenarios();
-			useCases.put(useCaseName, useCase);
+
+	public FeatureWithLastSuccessfulScenarios getFeatureCreateIfNotNull(final String featureName) {
+		FeatureWithLastSuccessfulScenarios feature = features.get(featureName);
+		if (feature == null) {
+			feature = new FeatureWithLastSuccessfulScenarios();
+			features.put(featureName, feature);
 		}
-		return useCase;
+		return feature;
 	}
-	
-	public UseCaseWithLastSuccessfulScenarios getUseCase(final String useCaseName) {
-		return useCases.get(useCaseName);
+
+	public FeatureWithLastSuccessfulScenarios getFeature(final String featureName) {
+		return features.get(featureName);
 	}
-	
-	public void setScenarioBuildDate(final String useCaseName, final String scenarioName, final Date time) {
-		getScenarioCreateIfNotNull(useCaseName, scenarioName).setBuildDate(time);
+
+	public void setScenarioBuildDate(final String featureName, final String scenarioName, final Date time) {
+		getScenarioCreateIfNotNull(featureName, scenarioName).setBuildDate(time);
 	}
-	
-	public Date getScenarioBuildDate(final String useCaseName, final String scenarioName) {
-		UseCaseWithLastSuccessfulScenarios useCase = getUseCase(useCaseName);
-		if (useCase == null) {
+
+	public Date getScenarioBuildDate(final String featureName, final String scenarioName) {
+		FeatureWithLastSuccessfulScenarios feature = getFeature(featureName);
+		if (feature == null) {
 			return null;
 		}
-		
-		LastSuccessfulScenario scenario = useCase.getScenario(scenarioName);
+
+		LastSuccessfulScenario scenario = feature.getScenario(scenarioName);
 		if (scenario == null) {
 			return null;
 		}
-		
+
 		return scenario.getBuildDate();
 	}
-	
-	private LastSuccessfulScenario getScenarioCreateIfNotNull(final String useCaseName, final String scenarioName) {
-		return getUseCaseCreateIfNotNull(useCaseName).getScenarioCreateIfNotNull(scenarioName);
+
+	private LastSuccessfulScenario getScenarioCreateIfNotNull(final String featureName, final String scenarioName) {
+		return getFeatureCreateIfNotNull(featureName).getScenarioCreateIfNotNull(scenarioName);
 	}
-	
-	private LastSuccessfulScenario getScenario(final String useCaseName, final String scenarioName) {
-		UseCaseWithLastSuccessfulScenarios useCase = getUseCase(useCaseName);
-		if (useCase == null) {
+
+	private LastSuccessfulScenario getScenario(final String featureName, final String scenarioName) {
+		FeatureWithLastSuccessfulScenarios feature = getFeature(featureName);
+		if (feature == null) {
 			return null;
 		}
-		return useCase.getScenario(scenarioName);
+		return feature.getScenario(scenarioName);
 	}
-	
+
 	public void setLatestImportedBuildDate(final Date latestImportedBuildDate) {
 		this.latestImportedBuildDate = latestImportedBuildDate;
 	}
-	
+
 	public Date getLatestImportedBuildDate() {
 		return latestImportedBuildDate;
 	}
-	
-	public void removeUseCase(final String useCaseName) {
-		useCases.remove(useCaseName);
+
+	public void removeFeature(final String featureName) {
+		features.remove(featureName);
 	}
-	
-	public void removeScenario(final String useCaseName, final String scenarioName) {
-		UseCaseWithLastSuccessfulScenarios useCaseWithLastSuccessfulScenarios = useCases.get(useCaseName);
-		if (useCaseWithLastSuccessfulScenarios != null) {
-			useCaseWithLastSuccessfulScenarios.removeScenario(scenarioName);
+
+	public void removeScenario(final String featureName, final String scenarioName) {
+		FeatureWithLastSuccessfulScenarios featureWithLastSuccessfulScenarios = features.get(featureName);
+		if (featureWithLastSuccessfulScenarios != null) {
+			featureWithLastSuccessfulScenarios.removeScenario(scenarioName);
 		}
 	}
-	
-	public Date getLatestBuildDateOfUseCase(final String useCaseName) {
-		UseCaseWithLastSuccessfulScenarios useCase = getUseCase(useCaseName);
-		if (useCase == null) {
+
+	public Date getLatestBuildDateOfFeature(final String featureName) {
+		FeatureWithLastSuccessfulScenarios feature = getFeature(featureName);
+		if (feature == null) {
 			return null;
 		}
-		
-		return useCase.getLatestBuildDateOfAllScenarios();
+
+		return feature.getLatestBuildDateOfAllScenarios();
 	}
-	
-	public Date getBuildDateForScenario(final String useCaseName, final String scenarioName) {
-		LastSuccessfulScenario scenario = getScenario(useCaseName, scenarioName);
+
+	public Date getBuildDateForScenario(final String featureName, final String scenarioName) {
+		LastSuccessfulScenario scenario = getScenario(featureName, scenarioName);
 		if (scenario == null) {
 			return null;
 		}
 		return scenario.getBuildDate();
 	}
-	
+
 }

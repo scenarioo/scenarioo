@@ -15,27 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.dao.search.model;
+package org.scenarioo.dao.search;
 
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.scenarioo.model.docu.entities.Status;
 
-public class SearchableUseCase implements SearchableObject {
-
-	private ImportFeature importFeature;
-
-	public SearchableUseCase() {
-	}
-
-	public SearchableUseCase(ImportFeature importFeature) {
-		this.importFeature = importFeature;
-	}
-
-	public ImportFeature getImportFeature() {
-		return importFeature;
-	}
-
-	public void setImportFeature(final ImportFeature importFeature) {
-		this.importFeature = importFeature;
-	}
-
+public abstract class IgnoreFeatureSetStatusMixIn {
+	@JsonIgnore
+	public abstract void setStatus(Status value);
 }

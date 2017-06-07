@@ -109,18 +109,18 @@ angular.module('scenarioo.services')
         return pageVariantService;
     })
 
-    .factory('UseCaseService', function (ScenariooResource, $q) {
-        var useCaseService = ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName',
+    .factory('FeatureService', function (ScenariooResource, $q) {
+        var featureService = ScenariooResource('/branch/:branchName/build/:buildName/feature/:featureName',
             {
                 branchName: '@branchName',
                 buildName: '@buildName',
-                usecaseName: '@usecaseName'
+                featureName: '@featureName'
             }, {});
 
-        useCaseService.getUseCase = getPromise($q, function (parameters, fnSuccess, fnError) {
-            return useCaseService.get(parameters, fnSuccess, fnError);
+        featureService.getFeature = getPromise($q, function (parameters, fnSuccess, fnError) {
+            return featureService.get(parameters, fnSuccess, fnError);
         });
-        return useCaseService;
+        return featureService;
     })
 
     .factory('FullTextSearchService', function (ScenariooResource, $q) {
@@ -140,11 +140,11 @@ angular.module('scenarioo.services')
     })
 
     .factory('StepResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName/pageName/:pageName/pageOccurrence/:pageOccurrence/stepInPageOccurrence/:stepInPageOccurrence',
+        return ScenariooResource('/branch/:branchName/build/:buildName/feature/:featureName/scenario/:scenarioName/pageName/:pageName/pageOccurrence/:pageOccurrence/stepInPageOccurrence/:stepInPageOccurrence',
             {
                 branchName: '@branchName',
                 buildName: '@buildName',
-                usecaseName: '@usecaseName',
+                featureName: '@featureName',
                 scenarioName: '@scenarioName',
                 pageName: '@pageName',
                 pageOccurrence: '@pageOccurrence',
@@ -157,21 +157,21 @@ angular.module('scenarioo.services')
         return ScenariooResource('/configuration', {});
     })
 
-    .factory('UseCasesResource', function (ScenariooResource) {
-        return ScenariooResource('/branche/:branchName/build/:buildName/usecase/:usecaseName',
+    .factory('FeaturesResource', function (ScenariooResource) {
+        return ScenariooResource('/branche/:branchName/build/:buildName/feature/:featureName',
             {
                 branchName: '@branchName',
                 buildName: '@buildName',
-                usecaseName: '@usecaseName'
+                featureName: '@featureName'
             }, {});
     })
 
     .factory('ScenarioResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName',
+        return ScenariooResource('/branch/:branchName/build/:buildName/feature/:featureName/scenario/:scenarioName',
             {
                 branchName: '@branchName',
                 buildName: '@buildName',
-                usecaseName: '@usecaseName',
+                featureName: '@featureName',
                 scenarioName: '@scenarioName'
             }, {});
     })
@@ -220,21 +220,21 @@ angular.module('scenarioo.services')
             }, {});
     })
 
-    .factory('UseCasesResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName',
+    .factory('FeaturesResource', function (ScenariooResource) {
+        return ScenariooResource('/branch/:branchName/build/:buildName/feature/:featureName',
             {
                 branchName: '@branchName',
                 buildName: '@buildName',
-                usecaseName: '@usecaseName'
+                featureName: '@featureName'
             }, {});
     })
 
     .factory('ScenarioResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/build/:buildName/usecase/:usecaseName/scenario/:scenarioName',
+        return ScenariooResource('/branch/:branchName/build/:buildName/feature/:featureName/scenario/:scenarioName',
             {
                 branchName: '@branchName',
                 buildName: '@buildName',
-                usecaseName: '@usecaseName',
+                featureName: '@featureName',
                 scenarioName: '@scenarioName'
             }, {});
     })
