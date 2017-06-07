@@ -19,7 +19,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <h3><i ng-show="!viewer.feature.markdown.isCollapsed" class="glyphicon glyphicon-chevron-down"></i>
             <i ng-show="viewer.feature.markdown.isCollapsed" class="glyphicon glyphicon-chevron-right"></i>
             {{viewer.feature.markdown.name}}
+
+            <a ng-repeat="link in viewer.feature.markdown.links" class="edit-link" href="{{link.url}}"> | {{link.name}}</a>
         </h3>
+
     </div>
     <div uib-collapse="viewer.feature.markdown.isCollapsed" ng-show="!viewer.feature.markdown.isCollapsed">
         <markdown  file="{{viewer.feature.markdown.url}}"></markdown>
@@ -30,11 +33,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <h3><i ng-show="!viewer.feature.specification.isCollapsed" class="glyphicon glyphicon-chevron-down"></i>
             <i ng-show="viewer.feature.specification.isCollapsed" class="glyphicon glyphicon-chevron-right"></i>
             {{viewer.feature.specification.name}}
+
+            <a ng-repeat="link in viewer.feature.specification.links" class="edit-link" href="{{link.url}}"> | {{link.name}}</a>
         </h3>
     </div>
     <div uib-collapse="viewer.feature.specification.isCollapsed"
          ng-show="!viewer.feature.specification.isCollapsed">
-        <a ng-button ng-repeat="link in viewer.feature.specification.links" href="{{link.url}}">{{link.name}}</a>
         <markdown file="{{viewer.feature.specification.url}}"></markdown>
     </div>
 </div>

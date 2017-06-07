@@ -1,3 +1,7 @@
 .fileTitle {
     border-bottom: 2px solid dimgrey;
 }
+
+.edit-link {
+    float: right;
+}
