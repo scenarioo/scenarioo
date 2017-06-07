@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <div flex class="navAll">
-    <div class="navActiveFeature {{navTree.feature.id}}">
+    <div class="navActiveFeature" style="background-color: {{navTree.getBGColor()}};">
         <span ng-if="navTree.feature.features.length>0">
             <div class="navExpandable" ng-click="navTree.feature.isExplorerCollapsed = !navTree.feature.isExplorerCollapsed">
                 <span ng-if="navTree.feature.isExplorerCollapsed">+</span>
@@ -36,12 +36,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </ul>
     </li>
 </div>
-
-
-<style>
-    .navAll {white-space: nowrap; overflow: hidden;}
-    .navExpandable {display: inline-block; text-align: center; width: 20px; height: 20px; border-style: dashed; border-color: darkgrey; border-width: 1px;}
-    .navNoChild {display: inline-block; text-align: center; width: 20px; height: 20px;}
-    .navSubfeature { padding-left: 20px;}
-    .navActiveFeature.{{navTree.feature.id}} {background-color: {{navTree.getBGColor()}};}
-</style>

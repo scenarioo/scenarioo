@@ -1,0 +1,5 @@
+.treeNav.bgColor {background-color: #0e90d2;}
+.treeNav .closedSymbol {font-size: 50px; color: whitesmoke;}
+.treeNav .closeFeatureExplorer {margin-top: 0px; color: whitesmoke; font-size: large; transform: rotate(90deg); width: 3em; text-wrap: none; }
+.treeNav .openFeatureExplorer {white-space: nowrap; overflow: hidden;}
+.treeNav .openCloseSign {color: whitesmoke; display: inline-block; width: 100%}

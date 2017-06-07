@@ -1,0 +1,4 @@
+.navAll {white-space: nowrap; overflow: hidden;}
+.navExpandable {display: inline-block; text-align: center; width: 20px; height: 20px; border-style: dashed; border-color: darkgrey; border-width: 1px;}
+.navNoChild {display: inline-block; text-align: center; width: 20px; height: 20px;}
+.navSubfeature { padding-left: 20px;}

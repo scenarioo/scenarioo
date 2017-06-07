@@ -29,6 +29,7 @@ angular.module('scenarioo.services').service('FeatureService',
         var build = '';
         var rootFeature = {
             name: 'Project',
+            id: 'Project',
             features: []
         };
 
