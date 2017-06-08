@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feature xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+    <name>Server</name>
+    <description>Contains all work todo on the server side</description>
+    <status>failed</status>
+    <details/>
+    <labels/>
+    <id>server</id>
+    <milestone>R1</milestone>
+    <featureNames>importer</featureNames>
+    <featureNames>comparison</featureNames>
+    <featureNames>full-text-search</featureNames>
+    <featureNames>sketch-editor</featureNames>
+    <featureNames>rest-api</featureNames>
+    <markdown>
+        <name>Markdown-Test</name>
+        <url>https://raw.githubusercontent.com/scenarioo/scenarioo/develop/README.md</url>
+        <type>MARKDOWN</type>
+    </markdown>
+    <specification>
+        <name>Specification-Test</name>
+        <url>https://raw.githubusercontent.com/scenarioo/scenarioo/develop/scenarioo-client/test/spec/scenario/scenario.controller.spec.js</url>
+        <type>JAVASCRIPT</type>
+    </specification>
+</feature>

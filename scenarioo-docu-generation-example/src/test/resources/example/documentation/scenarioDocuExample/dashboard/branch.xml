@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<branch xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+    <name>dashboard</name>
+    <description>Example documentation of the Agile Project Dashboard</description>
+    <details/>
+</branch>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<step xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+    <page>
+        <name>searchResults.jsp</name>
+        <details/>
+        <labels/>
+    </page>
+    <stepDescription>
+        <index>4</index>
+        <title></title>
+        <status>success</status>
+        <screenshotFileName>004.png</screenshotFileName>
+        <labels/>
+        <details/>
+    </stepDescription>
+    <metadata>
+        <details/>
+    </metadata>
+    <screenAnnotations/>
+</step>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <build xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
     <name>2014-05-19</name>
-    <revision>F398DA3</revision>
+    <revision>F398DA4</revision>
     <date>2014-05-19T00:00:00+02:00</date>
-    <status>success</status>
     <details/>
 </build>
