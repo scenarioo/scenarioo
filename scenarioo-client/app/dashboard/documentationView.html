@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <div layout = "row" ng-controller="DashboardController as dashboard">
-    <tree-nav root-feature="dashboard.rootFeature" current-feature="dashboard.feature"></tree-nav>
+    <feature-explorer root-feature="dashboard.rootFeature" current-feature="dashboard.feature"></feature-explorer>
     <div flex layout-fill layout = "column">
         <sc-breadcrumbs></sc-breadcrumbs>
         <h1>{{dashboard.feature.name}}</h1>

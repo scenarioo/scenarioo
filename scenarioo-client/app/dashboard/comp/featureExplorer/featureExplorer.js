@@ -14,26 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('scenarioo').component('treeNav', {
-    templateUrl: 'dashboard/comp/treeNav/treeNav.html',
-    controllerAs: 'treeNav',
+angular.module('scenarioo').component('featureExplorer', {
+    templateUrl: 'dashboard/comp/featureExplorer/featureExplorer.html',
+    controllerAs: 'featureExplorer',
     bindings: {
         rootFeature:'=',
         currentFeature:'=',
     },
     controller: function () {
-        var treeNav = this;
-        treeNav.showNav = true;
+        var featureExplorer = this;
+        featureExplorer.showNav = true;
 
-        treeNav.openNav = function () {
-            if (!treeNav.showNav) {
-                treeNav.showNav = true;
+        featureExplorer.openNav = function () {
+            if (!featureExplorer.showNav) {
+                featureExplorer.showNav = true;
             }
         };
 
-        treeNav.closeNav = function ($event) {
-            if (treeNav.showNav){
-                treeNav.showNav = false;
+        featureExplorer.closeNav = function ($event) {
+            if (featureExplorer.showNav){
+                featureExplorer.showNav = false;
             }
             $event.stopPropagation();
 

@@ -14,12 +14,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<div flex layout-fill layout="column" class="treeNav bgColor" ng-click="treeNav.openNav()">
-    <span class="closedSymbol" ng-show="!treeNav.showNav" ><i class="glyphicon glyphicon-chevron-right"></i></span>
-    <span ng-show="!treeNav.showNav" class="closeFeatureExplorer"> Feature Explorer </span>
-    <span ng-show="treeNav.showNav" class="openCloseSign"  ng-click="treeNav.closeNav($event)">X Close</span>
-    <div layout-fill ng-show="treeNav.showNav" style="background-color: white; min-width: 250px;" ng-click="$event.stopPropagation();">
+<div flex layout-fill layout="column" class="featureExplorer bgColor" ng-click="featureExplorer.openNav()">
+    <span class="closedSymbol" ng-show="!featureExplorer.showNav" ><i class="glyphicon glyphicon-chevron-right"></i></span>
+    <span ng-show="!featureExplorer.showNav" class="closeFeatureExplorer"> Feature Explorer </span>
+    <span ng-show="featureExplorer.showNav" class="openCloseSign"  ng-click="featureExplorer.closeNav($event)">X Close</span>
+    <div layout-fill ng-show="featureExplorer.showNav" style="background-color: white; min-width: 250px;" ng-click="$event.stopPropagation();">
         <h1 class="openFeatureExplorer"> Feature Explorer </h1>
-        <nav-tree feature="treeNav.rootFeature" current-feature="treeNav.currentFeature"/>
+        <nav-tree feature="featureExplorer.rootFeature" current-feature="featureExplorer.currentFeature"/>
     </div>
 </div>

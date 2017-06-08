@@ -40,11 +40,5 @@ angular.module('scenarioo').component('navTree', {
             }
             return 'white';
         };
-
-        navTree.hasSubfeature =function(){
-            console.log(contains(navTree.feature, 'features'));
-            return contains(navTree.feature, 'features');
-        };
-
     }
 });

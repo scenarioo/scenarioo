@@ -1,0 +1,5 @@
+.featureExplorer.bgColor {background-color: #0e90d2;}
+.featureExplorer .closedSymbol {font-size: 50px; color: whitesmoke;}
+.featureExplorer .closeFeatureExplorer {margin-top: 0px; color: whitesmoke; font-size: large; transform: rotate(90deg); width: 3em; text-wrap: none; }
+.featureExplorer .openFeatureExplorer {white-space: nowrap; overflow: hidden;}
+.featureExplorer .openCloseSign {color: whitesmoke; display: inline-block; width: 100%}
