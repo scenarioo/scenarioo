@@ -112,17 +112,6 @@
         <objectTypesToDisplay>label</objectTypesToDisplay>
     </customObjectTabs>
     <customObjectTabs>
-        <id>requirements</id>
-        <tabTitle>Requirements</tabTitle>
-        <objectTypesToDisplay>feature</objectTypesToDisplay>
-        <objectTypesToDisplay>epic</objectTypesToDisplay>
-        <objectTypesToDisplay>userStory</objectTypesToDisplay>
-        <customObjectDetailColumns>
-            <columnTitle>Description</columnTitle>
-            <propertyKey>description</propertyKey>
-        </customObjectDetailColumns>
-    </customObjectTabs>
-    <customObjectTabs>
         <id>calls</id>
         <tabTitle>Calls</tabTitle>
         <objectTypesToDisplay>service</objectTypesToDisplay>

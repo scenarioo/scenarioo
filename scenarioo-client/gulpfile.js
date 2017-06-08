@@ -230,6 +230,7 @@ gulp.task('copy-to-dist', ['environmentConstants', 'usemin', 'less'], function (
     /* copy third party files */
     gulp.src(['./app/components/font-awesome/font/*']).pipe(gulp.dest('./dist/font'));
     gulp.src(['./app/components/bootstrap/dist/fonts/*']).pipe(gulp.dest('./dist/fonts'));
+    gulp.src(['./app/dashboard/comp/**/*.css']).pipe(gulp.dest('./dist/dashboard/comp'));
 });
 
 /**

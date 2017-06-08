@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <feature xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+    <details/>
+    <labels/>
+    <orderIndex>0</orderIndex>
     <name>Dashboard-View</name>
     <description>Dashboard-View shows all the subfeatures of the current feature with all their subfeatures (=subsubfeatures) for a better overview of the whole project.
 	The feature cards can be sortet, to  follow the story order or to show the closest release.</description>
     <status>failed</status>
-    <details/>
-    <labels/>
     <id>dashboard-view</id>
     <milestone>R3</milestone>
     <markdown>

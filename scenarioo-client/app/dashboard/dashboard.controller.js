@@ -55,6 +55,8 @@ function DashboardController(FeatureService, $rootScope, SelectedComparison,
         dashboard.milestones = milestone;
     });
 
+    dashboard.mapFilter = FeatureService.milestoneFilter;
+
     function isDefined(val) {
         if (val == null)
             return false;

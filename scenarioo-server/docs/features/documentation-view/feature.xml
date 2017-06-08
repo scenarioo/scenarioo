@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <feature xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+    <details/>
+    <labels/>
+    <orderIndex>0</orderIndex>
     <name>Documentation-View</name>
     <description>Shows the documentation file and the specification file of a feature and the subfeatures with their files. This view helps to explain the exact functions of a feature.</description>
     <status>failed</status>
-    <details/>
-    <labels/>
     <id>documentation-view</id>
     <milestone>R1</milestone>
     <markdown>

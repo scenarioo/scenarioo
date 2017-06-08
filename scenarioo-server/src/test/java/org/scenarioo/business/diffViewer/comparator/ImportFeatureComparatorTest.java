@@ -228,7 +228,7 @@ public class ImportFeatureComparatorTest {
 		List<ImportFeature> importFeatures = new LinkedList<ImportFeature>();
 		for (String name : names) {
 			ImportFeature importFeature = new ImportFeature();
-			importFeature.setName(name);
+			importFeature.setNameAndId(name);
 			importFeatures.add(importFeature);
 		}
 		return importFeatures;

@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div layout = "row" ng-controller="DashboardController as dashboard">
     <tree-nav root-feature="dashboard.rootFeature" current-feature="dashboard.feature"></tree-nav>
     <div flex layout-fill layout = "column">
+        <sc-breadcrumbs></sc-breadcrumbs>
         <h1>{{dashboard.feature.name}}</h1>
         <span>{{dashboard.feature.description}}</span>
         <div layout = "row" class="sc-space-top sc-space-bottom">
@@ -89,7 +90,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     <md-card class="milestoneEmptyCard"></md-card>
                                     <div ng-repeat="feature in topfeature.features | orderBy: dashboard.secondOrder
                                     | scFilterArray: dashboard.table.search.searchTerm: 'parentFeature' ">
-                                        <div ng-if="dashboard.equals(milestone, feature.milestone)">
+                                        <div ng-if="dashboard.equals(milestone, feature[dashboard.mapFilter])">
                                             <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')"
                                                           card-color="#f9e27d" feature="feature" />
                                         </div>

@@ -63,7 +63,7 @@ public class FeatureComparator extends AbstractStructureComparator<ImportFeature
 		if (comparisonElement == null) {
 			return 0;
 		} else {
-			final FeatureDiffInfo featureDiffInfo = scenarioComparator.compare(baseElement.id);
+			final FeatureDiffInfo featureDiffInfo = scenarioComparator.compare(baseElement.getId());
 
 			diffWriter.saveFeatureDiffInfo(featureDiffInfo);
 
@@ -76,12 +76,12 @@ public class FeatureComparator extends AbstractStructureComparator<ImportFeature
 
 	@Override
 	protected String getElementIdentifier(final ImportFeature element) {
-		return element.getName();
+		return element.getId();
 	}
 
 	@Override
 	protected String getAddedElementValue(final ImportFeature element) {
-		return element.getName();
+		return element.getId();
 	}
 
 	@Override

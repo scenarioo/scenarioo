@@ -179,7 +179,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 				MultipleBuildsRule.getCurrentBuildName());
 
 		// Write scenario
-		LOGGER.info("Generating Scenarioo Docu for Scenario " + feature.getName() + "." + scenario.getName() + " ("
+		LOGGER.info("Generating Scenarioo Docu for Scenario " + feature.getId() + "." + scenario.getName() + " ("
 				+ status.getKeyword() + ") : " + scenario.getDescription());
 		scenario.setStatus(status);
 		docuWriter.saveScenario(feature, scenario);

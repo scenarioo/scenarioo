@@ -66,7 +66,7 @@ public class FeatureDocuWritingRule implements TestRule {
 				try {
 					// Save feature description
 					ImportFeature feature = createFeature(testClassDescription.getTestClass());
-					LOGGER.info("Generating Scenarioo Docu for Feature " + feature.getName() + ": "
+					LOGGER.info("Generating Scenarioo Docu for Feature " + feature.getId() + ": "
 							+ feature.getDescription());
 					docuWriter.saveFeature(feature);
 					// Run tests
@@ -91,9 +91,9 @@ public class FeatureDocuWritingRule implements TestRule {
 		// Create feature
 		ImportFeature feature = new ImportFeature();
 
-		feature.id = FilesUtil.encodeName(name);
+		feature.setId(FilesUtil.encodeName(name));
 
-		feature.setName(name);
+		feature.setNameAndId(name);
 		feature.setDescription(description);
 		feature.addDetail("Webtest Class", testClass.getName());
 		addLabelsIfPresentOnTestClass(testClass, feature);

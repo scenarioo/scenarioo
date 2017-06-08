@@ -5,9 +5,6 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -606,7 +603,7 @@ public class LastSuccessfulScenariosBuildTest {
 
 		ImportFeature importFeature = new ImportFeature();
 		importFeature.setStatus(status);
-		importFeature.setName(featureName);
+		importFeature.setNameAndId(featureName);
 
 		ScenarioDocuWriter scenarioDocuWriter = new ScenarioDocuWriter(rootDirectory, BUILD_IDENTIFIER.getBranchName(),
 				BUILD_IDENTIFIER.getBuildName());
@@ -628,7 +625,7 @@ public class LastSuccessfulScenariosBuildTest {
 			final String featureDescription) {
 		ImportFeature importFeature = new ImportFeature();
 		importFeature.setDescription(featureDescription);
-		importFeature.setName(featureName);
+		importFeature.setNameAndId(featureName);
 
 		ScenarioDocuWriter scenarioDocuWriter = new ScenarioDocuWriter(rootDirectory, BUILD_IDENTIFIER.getBranchName(),
 				buildName);

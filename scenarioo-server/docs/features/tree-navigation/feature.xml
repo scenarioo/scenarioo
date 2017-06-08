@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <feature xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+    <details/>
+    <labels/>
+    <orderIndex>0</orderIndex>
     <name>Featrue Tree Navigation</name>
     <description>navigation to other featrues in currently sellected build</description>
     <status>failed</status>
-    <details/>
-    <labels/>
     <id>tree-navigation</id>
     <milestone>R2</milestone>
     <markdown>

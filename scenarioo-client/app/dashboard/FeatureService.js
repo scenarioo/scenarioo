@@ -33,6 +33,8 @@ angular.module('scenarioo.services').service('FeatureService',
             features: []
         };
 
+        service.milestoneFilter = 'milestone';
+
         var selectedFeature = rootFeature;
 
         function loadBackRefs(feature, backref) {
@@ -45,8 +47,7 @@ angular.module('scenarioo.services').service('FeatureService',
 
         service.getSelectedFeatureNames = function () {
             var featureString = getCurrentFeatures()[branch][build];
-            var featuresArray = featureString.split('/');
-            return featuresArray;
+            return featureString.split('/');
         };
 
         service.selectFromArray = function (array) {
@@ -170,8 +171,8 @@ angular.module('scenarioo.services').service('FeatureService',
             }
             loadBackRefs(rootFeature, null);
             loadFeature();
-            getAllMilestones();
             calculateStatus();
+            getAllMilestones();
         }
 
         function calculateStatus() {
@@ -295,7 +296,7 @@ angular.module('scenarioo.services').service('FeatureService',
         var milestones = [];
         function getAllMilestones(){
             milestones = [];
-            getAllOfInArray(rootFeature, 'milestone', milestones);
+            getAllOfInArray(rootFeature, service.milestoneFilter, milestones);
             if (milestones.length > 0) {
                 milestones = milestones.filter(unique);
                 milestones.sort();
@@ -311,8 +312,4 @@ angular.module('scenarioo.services').service('FeatureService',
                 getAllOfInArray(currentFeature, property, array);
             });
         }
-
-
-
-        return service;
     });

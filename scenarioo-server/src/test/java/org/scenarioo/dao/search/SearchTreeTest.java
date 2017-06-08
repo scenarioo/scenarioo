@@ -54,7 +54,7 @@ public class SearchTreeTest {
 		scenario.setName("Scenario 1");
 
 		ImportFeature feature = new ImportFeature();
-		feature.setName("Use Case 1");
+		feature.setNameAndId("Use Case 1");
 
 		List<SearchableObject> searchResults = new ArrayList<SearchableObject>();
 		searchResults.add(new SearchableStep(step, stepLink, scenario, feature));
