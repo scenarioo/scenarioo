@@ -20,5 +20,13 @@ angular.module('scenarioo.services').service('LocalStorageNameService', function
     service.LATEST_VIEW_NAME = 'latestView';
     localStorage.setItem(service.LATEST_VIEW_NAME, 'feature');
 
+    service.CURRENT_FEATURE = 'currentFeature';
+
+    service.SUCCESS = 'success';
+
+    service.FAILED = 'failed';
+
+    service.DEFAULT_VIEW = 'defaultView';
+
     return service;
 });

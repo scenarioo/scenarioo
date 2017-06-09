@@ -14,12 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-var CURRENT_FEATURE = 'currentFeature';
-var SUCCESS = 'success';
-var FAILED = 'failed';
-var DEFAULT_VIEW = 'feature';
-
-
 angular.module('scenarioo.services').service('FeatureService',
     function FeatureService ($rootScope, SelectedBranchAndBuildService, FeaturesResource, SelectedComparison,
                              BuildDiffInfoResource, FeatureDiffInfoResource, DiffInfoService,
@@ -53,7 +47,7 @@ angular.module('scenarioo.services').service('FeatureService',
         service.selectFromArray = function (array) {
             var view = localStorage.getItem(LocalStorageNameService.LATEST_VIEW_NAME);
             if (array.length===1){
-                view=DEFAULT_VIEW;
+                view=LocalStorageNameService.DEFAULT_VIEW;
                 localStorage.setItem(LocalStorageNameService.LATEST_VIEW_NAME, view);
             }
             var featurePath = array.join('/');
@@ -84,17 +78,17 @@ angular.module('scenarioo.services').service('FeatureService',
             }
         };
 
-        function getFeatureByArray(currentFeature, subfeatures, selectedFeature) {
-            if (subfeatures.length === 0                ||
-                !isDefined(currentFeature)                     ||
-                subfeatures[0] !== currentFeature.name) {
+        function getFeatureByArray(currentFeature, featureNamePath, selectedFeature) {
+            if (featureNamePath.length === 0                ||
+                !isDefined(currentFeature)              ||
+                featureNamePath[0] !== currentFeature.name) {
                 return selectedFeature;
             }
             selectedFeature = currentFeature;
-            subfeatures.shift();
+            featureNamePath.shift();
 
             GetArray(currentFeature.features).forEach(function (subFeature) {
-                selectedFeature = getFeatureByArray(subFeature, subfeatures, selectedFeature)
+                selectedFeature = getFeatureByArray(subFeature, featureNamePath, selectedFeature)
             });
             return selectedFeature;
         }
@@ -113,7 +107,7 @@ angular.module('scenarioo.services').service('FeatureService',
         }
 
         function getCurrentFeatures() {
-            var currentFeaturesString = localStorage.getItem(CURRENT_FEATURE);
+            var currentFeaturesString = localStorage.getItem(LocalStorageNameService.CURRENT_FEATURE);
             var currentFeatures = undefined;
             if (currentFeaturesString != 'undefined'){
                 currentFeatures = JSON.parse(currentFeaturesString);
@@ -124,11 +118,11 @@ angular.module('scenarioo.services').service('FeatureService',
             if (currentFeatures[branch] == undefined) {
                 currentFeatures[branch] = {};
                 currentFeatures[branch][build] = '';
-                localStorage.setItem(CURRENT_FEATURE, JSON.stringify(currentFeatures));
+                localStorage.setItem(LocalStorageNameService.CURRENT_FEATURE, JSON.stringify(currentFeatures));
             }
             if (currentFeatures[branch][build] == undefined){
                 currentFeatures[branch][build] = '';
-                localStorage.setItem(CURRENT_FEATURE, JSON.stringify(currentFeatures));
+                localStorage.setItem(LocalStorageNameService.CURRENT_FEATURE, JSON.stringify(currentFeatures));
             }
             var params = $location.search();
             if (params !== null && angular.isDefined(params['feature'])) {
@@ -140,7 +134,7 @@ angular.module('scenarioo.services').service('FeatureService',
         service.setFeature = function(feature) {
             var currentFeatures = getCurrentFeatures();
             currentFeatures[branch][build] = getFeatureString(feature, feature.name);
-            localStorage.setItem(CURRENT_FEATURE, JSON.stringify(currentFeatures));
+            localStorage.setItem(LocalStorageNameService.CURRENT_FEATURE, JSON.stringify(currentFeatures));
             $location.search('feature', currentFeatures[branch][build]);
             loadFeature();
         };
@@ -227,9 +221,9 @@ angular.module('scenarioo.services').service('FeatureService',
                             feature.ignored++;
                             return;
                         }
-                        if (step.status === SUCCESS){
+                        if (step.status === LocalStorageNameService.SUCCESS){
                             feature.success++;
-                        } else if (step.status === FAILED){
+                        } else if (step.status === LocalStorageNameService.FAILED){
                             feature.failed++;
                         } else {
                             feature.ignored++;
