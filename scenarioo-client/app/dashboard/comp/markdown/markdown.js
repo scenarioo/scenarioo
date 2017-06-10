@@ -51,7 +51,7 @@ function MDC($http, $sce, SelectedBranchAndBuildService, HostnameAndPort) {
     function replace(links, attributes, reference) {
         for (var j = 0; j < links.length; j++){
             var url = links[j].getAttribute(attributes);
-            if (!url.startsWith('http')){
+            if (!url.startsWith('http') && url.indexOf('&referer=')===-1){
                 url = replaceFirstSlash(url);
                 var newUrl = HostnameAndPort.forLink() + baseRestUrl + url + '&referer='+encodeURIComponent(reference);
                 links[j].setAttribute(attributes, newUrl);
