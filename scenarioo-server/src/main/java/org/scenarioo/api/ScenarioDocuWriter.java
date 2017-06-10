@@ -120,24 +120,24 @@ public class ScenarioDocuWriter {
 	/**
 	 * Save the feature description to appropriate directory and file
 	 *
-	 * @param importFeature
+	 * @param feature
 	 *            the feature description to write
 	 */
-	public void saveFeature(final ImportFeature importFeature) {
-		checkIdentifier(importFeature.getId());
+	public void saveFeature(final Feature feature) {
+		checkIdentifier(feature.getId());
 		executeAsyncWrite(new Runnable() {
 			@Override
 			public void run() {
-				File destCaseDir = getFeatureDirectory(importFeature.getId());
+				File destCaseDir = getFeatureDirectory(feature.getId());
 				createDirectoryIfNotYetExists(destCaseDir);
-				File destCaseFile = docuFiles.getFeatureFile(branchName, buildName, importFeature.getId());
-				ScenarioDocuXMLFileUtil.marshal(importFeature, destCaseFile);
+				File destCaseFile = docuFiles.getFeatureFile(branchName, buildName, feature.getId());
+				ScenarioDocuXMLFileUtil.marshal(feature, destCaseFile);
 			}
 		});
 	}
 
-	public void saveScenario(final ImportFeature importFeature, final Scenario scenario) {
-		saveScenario(importFeature.getId(), scenario);
+	public void saveScenario(final Feature feature, final Scenario scenario) {
+		saveScenario(feature.getId(), scenario);
 	}
 
 	public void saveScenario(final String featureName, final Scenario scenario) {
@@ -155,8 +155,8 @@ public class ScenarioDocuWriter {
 		});
 	}
 
-	public void saveStep(final ImportFeature importFeature, final Scenario scenario, final Step step) {
-		saveStep(importFeature.getId(), scenario.getName(), step);
+	public void saveStep(final Feature feature, final Scenario scenario, final Step step) {
+		saveStep(feature.getId(), scenario.getName(), step);
 	}
 
 	/**

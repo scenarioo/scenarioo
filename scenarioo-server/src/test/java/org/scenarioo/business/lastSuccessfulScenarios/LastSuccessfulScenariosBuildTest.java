@@ -601,13 +601,13 @@ public class LastSuccessfulScenariosBuildTest {
 		featureDirectory.mkdirs();
 		assertTrue(featureDirectory.exists());
 
-		ImportFeature importFeature = new ImportFeature();
-		importFeature.setStatus(status);
-		importFeature.setNameAndId(featureName);
+		Feature feature = new Feature();
+		feature.setStatus(status);
+		feature.setNameAndId(featureName);
 
 		ScenarioDocuWriter scenarioDocuWriter = new ScenarioDocuWriter(rootDirectory, BUILD_IDENTIFIER.getBranchName(),
 				BUILD_IDENTIFIER.getBuildName());
-		scenarioDocuWriter.saveFeature(importFeature);
+		scenarioDocuWriter.saveFeature(feature);
 		scenarioDocuWriter.flush();
 
 		File featureFile = new File(featureDirectory, FILE_NAME_FEATURE);
@@ -623,13 +623,13 @@ public class LastSuccessfulScenariosBuildTest {
 
 	private void createFeatureXmlFile(final File rootDirectory, final String buildName, final String featureName,
 			final String featureDescription) {
-		ImportFeature importFeature = new ImportFeature();
-		importFeature.setDescription(featureDescription);
-		importFeature.setNameAndId(featureName);
+		Feature feature = new Feature();
+		feature.setDescription(featureDescription);
+		feature.setNameAndId(featureName);
 
 		ScenarioDocuWriter scenarioDocuWriter = new ScenarioDocuWriter(rootDirectory, BUILD_IDENTIFIER.getBranchName(),
 				buildName);
-		scenarioDocuWriter.saveFeature(importFeature);
+		scenarioDocuWriter.saveFeature(feature);
 		scenarioDocuWriter.flush();
 	}
 
@@ -863,9 +863,9 @@ public class LastSuccessfulScenariosBuildTest {
 
 	private void expectCopiedFeatureXmlFileHasStatusSuccess() {
 		ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(rootDirectory);
-		ImportFeature importFeature = scenarioDocuReader.loadUsecase(BUILD_IDENTIFIER.getBranchName(),
+		Feature feature = scenarioDocuReader.loadUsecase(BUILD_IDENTIFIER.getBranchName(),
 				LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME, features[0]);
-		assertEquals(Status.SUCCESS.getKeyword(), importFeature.getStatus());
+		assertEquals(Status.SUCCESS.getKeyword(), feature.getStatus());
 	}
 
 	private void expectFeatureXmlFileWasCopiedForTheFirstTwoFeatures() {
@@ -881,9 +881,9 @@ public class LastSuccessfulScenariosBuildTest {
 
 	private void assertFeatureInLastSuccessfulScenariosBuildHasDescription(final ScenarioDocuReader scenarioDocuReader,
 			final String featureName, final String expectedDescription) {
-		ImportFeature importFeature = scenarioDocuReader.loadUsecase(BUILD_IDENTIFIER.getBranchName(),
+		Feature feature = scenarioDocuReader.loadUsecase(BUILD_IDENTIFIER.getBranchName(),
 				LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME, featureName);
-		assertEquals(expectedDescription, importFeature.getDescription());
+		assertEquals(expectedDescription, feature.getDescription());
 	}
 
 	private LastSuccessfulScenario getScenarioFromIndex(final File featureDirectory,

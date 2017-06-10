@@ -35,7 +35,7 @@ import org.scenarioo.model.diffViewer.*;
 import org.scenarioo.model.diffViewer.FeatureDiffInfo;
 import org.scenarioo.model.docu.aggregates.features.ScenarioSummary;
 import org.scenarioo.model.docu.entities.Scenario;
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.utils.TestFileUtils;
 
 public class DiffWriterAndReaderTest {
@@ -215,7 +215,7 @@ public class DiffWriterAndReaderTest {
 
 	private BuildDiffInfo getBuildDiffInfo(final String name) {
 		return (BuildDiffInfo) initStructureDiffInfo(new BuildDiffInfo(), name, USE_CASE_NAME,
-				new ImportFeature(USE_CASE_NAME, null));
+				new Feature(USE_CASE_NAME, null));
 	}
 
 	private FeatureDiffInfo getFeatureDiffInfo(final String name) {

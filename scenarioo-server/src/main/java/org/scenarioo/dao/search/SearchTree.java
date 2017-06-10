@@ -130,6 +130,6 @@ public class SearchTree {
 	}
 
 	private ObjectTreeNode<ObjectReference> putFeature(ObjectTreeNode<ObjectReference> rootNode, SearchableFeature entry) {
-		return getOrAddFeature(rootNode, entry.getImportFeature().getName());
+		return getOrAddFeature(rootNode, entry.getFeature().getName());
 	}
 }

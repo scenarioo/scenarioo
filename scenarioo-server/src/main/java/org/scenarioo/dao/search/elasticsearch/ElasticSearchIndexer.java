@@ -33,9 +33,9 @@ import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.features.FeatureScenarios;
 import org.scenarioo.model.docu.aggregates.features.ScenarioSummary;
 import org.scenarioo.model.docu.aggregates.features.FeatureScenariosList;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
-import org.scenarioo.model.docu.entities.ImportFeature;
 
 class ElasticSearchIndexer {
 	private final static Logger LOGGER = Logger.getLogger(ElasticSearchIndexer.class);
@@ -76,7 +76,7 @@ class ElasticSearchIndexer {
         }
     }
 
-	void indexSteps(final List<Step> stepsList, final List<StepLink> stepLinksList, final Scenario scenario, final ImportFeature feature) {
+	void indexSteps(final List<Step> stepsList, final List<StepLink> stepLinksList, final Scenario scenario, final Feature feature) {
 		for(int i = 0; i < stepsList.size(); i++) {
 			Step step = stepsList.get(i);
 			StepLink link = stepLinksList.get(i);
@@ -86,7 +86,7 @@ class ElasticSearchIndexer {
 	}
 
     private void indexFeature(final SearchableFeature searchableFeature) {
-        indexDocument(FullTextSearch.FEATURE, searchableFeature, searchableFeature.getImportFeature().getName());
+        indexDocument(FullTextSearch.FEATURE, searchableFeature, searchableFeature.getFeature().getName());
     }
 
     private void indexScenario(final SearchableScenario scenariosearchDao) {

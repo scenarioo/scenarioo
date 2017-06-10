@@ -53,7 +53,7 @@ public class SearchTreeTest {
 		Scenario scenario = new Scenario();
 		scenario.setName("Scenario 1");
 
-		ImportFeature feature = new ImportFeature();
+		Feature feature = new Feature();
 		feature.setNameAndId("Use Case 1");
 
 		List<SearchableObject> searchResults = new ArrayList<SearchableObject>();

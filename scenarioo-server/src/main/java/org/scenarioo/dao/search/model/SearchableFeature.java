@@ -17,25 +17,25 @@
 
 package org.scenarioo.dao.search.model;
 
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 
 public class SearchableFeature implements SearchableObject {
 
-	private ImportFeature importFeature;
+	private Feature feature;
 
 	public SearchableFeature() {
 	}
 
-	public SearchableFeature(ImportFeature importFeature) {
-		this.importFeature = importFeature;
+	public SearchableFeature(Feature feature) {
+		this.feature = feature;
 	}
 
-	public ImportFeature getImportFeature() {
-		return importFeature;
+	public Feature getFeature() {
+		return feature;
 	}
 
-	public void setImportFeature(final ImportFeature importFeature) {
-		this.importFeature = importFeature;
+	public void setFeature(final Feature feature) {
+		this.feature = feature;
 	}
 
 }

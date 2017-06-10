@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <feature xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
-    <details/>
-    <labels/>
-    <orderIndex>0</orderIndex>
+    <id>client</id>
     <name>Client</name>
     <description>Contains all work todo on the client side. Including all the Views, the api-connection and the Diff- and sketch functionality.</description>
     <status>failed</status>
-    <id>client</id>
     <milestone>R1</milestone>
+    <orderIndex>0</orderIndex>
     <featureNames>gui-elements</featureNames>
     <featureNames>sketch-editor</featureNames>
     <featureNames>client-api-connection</featureNames>
@@ -21,4 +19,6 @@
         <url>https://raw.githubusercontent.com/scenarioo/scenarioo/develop/scenarioo-client/test/spec/scenario/scenario.controller.spec.js</url>
         <type>JAVASCRIPT</type>
     </specification>
+    <details/>
+    <labels/>
 </feature>

@@ -17,7 +17,7 @@ public class FeatureDocumentation {
 
 	@Test
 	public void featureDashboardView() {
-		ImportFeature feature = new ImportFeature();
+		Feature feature = new Feature();
 
 		feature.setName("Dashboard-View");
 		feature.setDescription("Dashboard-View shows all the subfeatures of the current feature with all their subfeatures (=subsubfeatures) for a better overview of the whole project.\n" +
@@ -33,7 +33,7 @@ public class FeatureDocumentation {
 
 	@Test
 	public void featureFeatureView() {
-		ImportFeature feature = new ImportFeature();
+		Feature feature = new Feature();
 
 		feature.setName("Feature-View");
 		feature.setDescription("this view is compareable to the current feature view and shows the subfeatures of the current feature. the table can be sorted very easy after various topics, like name, release date, number of subfeatures or scenarios, changes form the last build");
@@ -48,7 +48,7 @@ public class FeatureDocumentation {
 
 	@Test
 	public void featureScenarioView() {
-		ImportFeature feature = new ImportFeature();
+		Feature feature = new Feature();
 
 		feature.setName("Scenario-View");
 		feature.setDescription("Overview over the current scenarios, comparable to todays scenario view");
@@ -63,7 +63,7 @@ public class FeatureDocumentation {
 
 	@Test
 	public void featureDocumentationView() {
-		ImportFeature feature = new ImportFeature();
+		Feature feature = new Feature();
 
 		feature.setName("Documentation-View");
 		feature.setDescription("Shows the documentation file and the specification file of a feature and the subfeatures with their files. This view helps to explain the exact functions of a feature.");
@@ -78,7 +78,7 @@ public class FeatureDocumentation {
 
 	@Test
 	public void featureGUI() {
-		ImportFeature feature = new ImportFeature();
+		Feature feature = new Feature();
 
 		feature.setName("GUI-Elements");
 		feature.setDescription("The 4 GUI views, of which two will be slightly changed from the old scenarioo and two will be totaly new");
@@ -104,7 +104,7 @@ public class FeatureDocumentation {
 
 	@Test
 	public void featureImporter() {
-		ImportFeature feature = new ImportFeature();
+		Feature feature = new Feature();
 
 		feature.setName("Importer");
 		feature.setDescription("Imports the data and fits it to the new data structure on the server");
@@ -119,7 +119,7 @@ public class FeatureDocumentation {
 
 	@Test
 	public void featureClient() {
-		ImportFeature feature = new ImportFeature();
+		Feature feature = new Feature();
 
 		feature.setName("Client");
 		feature.setDescription("Contains all work todo on the client side. Including all the Views, the api-connection and the Diff- and sketch functionality.");
@@ -138,7 +138,7 @@ public class FeatureDocumentation {
 
 	@Test
 	public void featureServer() {
-		ImportFeature feature = new ImportFeature();
+		Feature feature = new Feature();
 
 		feature.setName("Server");
 		feature.setDescription("Contains all work todo on the server side");
@@ -159,7 +159,7 @@ public class FeatureDocumentation {
 
 	@Test
 	public void featureComparison() {
-		ImportFeature feature = new ImportFeature();
+		Feature feature = new Feature();
 
 		feature.setName("Comparison");
 		feature.setDescription("Contains the work to do for the comparison with older builds");
@@ -174,7 +174,7 @@ public class FeatureDocumentation {
 
 	@Test
 	public void featureFullTextSearch() {
-		ImportFeature feature = new ImportFeature();
+		Feature feature = new Feature();
 
 		feature.setName("Full Text Search");
 		feature.setDescription("Every page must be searchable with full text search");
@@ -189,7 +189,7 @@ public class FeatureDocumentation {
 
 	@Test
 	public void featureSketchEditor() {
-		ImportFeature feature = new ImportFeature();
+		Feature feature = new Feature();
 
 		feature.setName("Sketch Editor");
 		feature.setDescription("Editor to annotate Screenshots with extra information like Textboxes, or markings");
@@ -204,7 +204,7 @@ public class FeatureDocumentation {
 
 	@Test
 	public void featureTreeNavigation() {
-		ImportFeature feature = new ImportFeature();
+		Feature feature = new Feature();
 
 		feature.setName("Featrue Tree Navigation");
 		feature.setDescription("navigation to other featrues in currently sellected build");
@@ -220,7 +220,7 @@ public class FeatureDocumentation {
 
 	@Test
 	public void featureRestAPI() {
-		ImportFeature feature = new ImportFeature();
+		Feature feature = new Feature();
 		feature.setName("Rest API");
 		feature.setDescription("All changes necessary to the Rest API");
 		feature.setId("rest-api");
@@ -234,7 +234,7 @@ public class FeatureDocumentation {
 
 	@Test
 	public void featureClientAPIConnection() {
-		ImportFeature feature = new ImportFeature();
+		Feature feature = new Feature();
 		feature.setName("Client API Connection");
 		feature.setDescription(" all changes to the client side API");
 		feature.setId("client-api-connection");
@@ -249,7 +249,7 @@ public class FeatureDocumentation {
 
 	private String baseFolder = "";
 
-	public void writeToFile(ImportFeature feature) {
+	public void writeToFile(Feature feature) {
 		File folder = new File(baseFolder);
 		File featureFolder = new File(folder.getAbsolutePath() + "/" + feature.getId());
 		featureFolder.mkdir();

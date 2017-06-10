@@ -24,12 +24,12 @@ import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.FeatureDiffInfo;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 
 /**
  * Comparison results are persisted in a xml file.
  */
-public class FeatureComparator extends AbstractStructureComparator<ImportFeature, String, ImportFeature> {
+public class FeatureComparator extends AbstractStructureComparator<Feature, String, Feature> {
 
 	private static final Logger LOGGER = Logger.getLogger(FeatureComparator.class);
 
@@ -42,15 +42,15 @@ public class FeatureComparator extends AbstractStructureComparator<ImportFeature
 	}
 
 	public BuildDiffInfo compare() {
-		final List<ImportFeature> baseImportFeatures = docuReader.loadFeatures(baseBranchName, baseBuildName);
-		final List<ImportFeature> comparisonImportFeatures = docuReader.loadFeatures(
+		final List<Feature> baseFeatures = docuReader.loadFeatures(baseBranchName, baseBuildName);
+		final List<Feature> comparisonFeatures = docuReader.loadFeatures(
 				comparisonConfiguration.getComparisonBranchName(),
 				comparisonConfiguration.getComparisonBuildName());
 
 		final BuildDiffInfo buildDiffInfo = new BuildDiffInfo(comparisonConfiguration.getName(),
 				comparisonConfiguration.getComparisonBranchName(), comparisonConfiguration.getComparisonBuildName());
 
-		calculateDiffInfo(baseImportFeatures, comparisonImportFeatures, buildDiffInfo);
+		calculateDiffInfo(baseFeatures, comparisonFeatures, buildDiffInfo);
 
 		LOGGER.info(getLogMessage(buildDiffInfo, "Build " + baseBranchName + "/" + baseBuildName));
 
@@ -58,8 +58,8 @@ public class FeatureComparator extends AbstractStructureComparator<ImportFeature
 	}
 
 	@Override
-	protected double compareElementAndWrite(final ImportFeature baseElement, final ImportFeature comparisonElement,
-											final StructureDiffInfo<String, ImportFeature> diffInfo) {
+	protected double compareElementAndWrite(final Feature baseElement, final Feature comparisonElement,
+											final StructureDiffInfo<String, Feature> diffInfo) {
 		if (comparisonElement == null) {
 			return 0;
 		} else {
@@ -75,17 +75,17 @@ public class FeatureComparator extends AbstractStructureComparator<ImportFeature
 	}
 
 	@Override
-	protected String getElementIdentifier(final ImportFeature element) {
+	protected String getElementIdentifier(final Feature element) {
 		return element.getId();
 	}
 
 	@Override
-	protected String getAddedElementValue(final ImportFeature element) {
+	protected String getAddedElementValue(final Feature element) {
 		return element.getId();
 	}
 
 	@Override
-	protected List<ImportFeature> getRemovedElementValues(final List<ImportFeature> removedElements) {
+	protected List<Feature> getRemovedElementValues(final List<Feature> removedElements) {
 		return removedElements;
 	}
 }

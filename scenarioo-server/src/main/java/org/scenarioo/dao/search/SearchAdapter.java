@@ -22,7 +22,7 @@ import java.util.List;
 import org.scenarioo.dao.search.model.SearchResults;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.features.FeatureScenariosList;
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -42,7 +42,7 @@ public interface SearchAdapter {
 
     void updateAvailableBuilds(List<BuildIdentifier> existingBuilds);
 
-	void indexSteps(List<Step> steps, List<StepLink> page, Scenario scenario, ImportFeature feature, BuildIdentifier buildIdentifier);
+	void indexSteps(List<Step> steps, List<StepLink> page, Scenario scenario, Feature feature, BuildIdentifier buildIdentifier);
 
     void setupNewBuild(BuildIdentifier buildIdentifier);
 }

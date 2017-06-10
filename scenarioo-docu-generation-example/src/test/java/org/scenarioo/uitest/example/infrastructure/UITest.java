@@ -33,7 +33,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.uitest.dummy.toolkit.UITestToolkit;
 
@@ -78,7 +78,7 @@ public class UITest {
 	/**
 	 * Get feature for which this test generates documentation.
 	 */
-	public ImportFeature getFeature() {
+	public Feature getFeature() {
 		return scenarioWritingRule.getFeature();
 	}
 

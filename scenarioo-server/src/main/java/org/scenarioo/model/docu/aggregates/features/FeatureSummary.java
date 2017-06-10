@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +15,15 @@ import java.util.List;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class FeatureSummary extends ImportFeature{
+public class FeatureSummary extends Feature {
 	private int numberOfScenarios;
 
 	public List<ScenarioSummary> scenarios = new ArrayList<>();
 
 	public FeatureSummary(){}
 
-	public FeatureSummary(ImportFeature importFeature) {
-		super(importFeature);
+	public FeatureSummary(Feature feature) {
+		super(feature);
 	}
 
 	public int getNumberOfScenarios() {

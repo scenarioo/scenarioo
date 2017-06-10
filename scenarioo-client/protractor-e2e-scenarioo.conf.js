@@ -84,7 +84,7 @@ var exportsConfig = {
         // If true, include stack traces in failures.
         includeStackTrace: true,
         // Default time to wait in ms before a test fails.
-        defaultTimeoutInterval: 80000
+        defaultTimeoutInterval: 100000
     }
 };
 
