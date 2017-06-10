@@ -57,14 +57,14 @@ describe('ScenarioController', function () {
         var imageLink = ScenarioController.getScreenShotUrl('img.jpg');
         expect(imageLink).toBeUndefined();
     });
-/*
+
     it('creates the correct image link, if selected branch and build is known', function () {
         givenScenarioIsLoaded();
 
         var imageLink = ScenarioController.getScreenShotUrl('img.jpg');
         expect(imageLink).toBe(HostNameAndPort.forLink() + 'rest/branch/trunk/build/current/feature/SearchFeature/scenario/NotFoundScenario/image/img.jpg');
     });
-*/
+
     it('does not show all steps of a page by default', function () {
         expect(ScenarioController.showAllStepsForPage(0)).toBeFalsy();
         expect(ScenarioController.showAllStepsForPage(1)).toBeFalsy();
@@ -77,7 +77,7 @@ describe('ScenarioController', function () {
         ScenarioController.toggleShowAllStepsForPage(5);
         expect(ScenarioController.showAllStepsForPage(5)).toBeFalsy();
     });
-/*
+
     it('hides the "expand all" button, if all expandable pages are already expanded', function () {
         givenScenarioIsLoaded();
 
@@ -133,7 +133,7 @@ describe('ScenarioController', function () {
 
         expectAllPagesAreExpanded();
     });
-    */
+
     function givenScenarioIsLoaded(config) {
         if (angular.isUndefined(config)) {
             config = TestData.CONFIG;

@@ -22,8 +22,8 @@ angular.module('scenarioo.services').service('FeatureService',
         var branch = '';
         var build = '';
         var rootFeature = {
-            name: 'Project',
-            id: 'Project',
+            name: 'Home',
+            id: 'Home',
             features: []
         };
 
@@ -159,7 +159,6 @@ angular.module('scenarioo.services').service('FeatureService',
 
         function setInternalAfterLoad(features, selected) {
             rootFeature.features = features;
-            rootFeature.name = 'Home';
             if(SelectedComparison.isDefined()) {
                 loadScenariosDiffInfoInt(rootFeature, selected.branch, selected.build, SelectedComparison.selected());
             }

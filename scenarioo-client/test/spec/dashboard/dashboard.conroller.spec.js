@@ -21,21 +21,16 @@ describe('DashboardController', function () {
     var $location, $scope;
     var dashboardController;
 
-    beforeEach(module('scenarioo.services'));
-    beforeEach(module('scenarioo.controllers'));
-
-    beforeEach(inject(function ($controller, $rootScope, _$location_) {
-            $location = _$location_;
-
+    beforeEach(inject(function ($controller, $rootScope) {
             $scope = $rootScope.$new();
             dashboardController = $controller('DashboardController', {$scope: $scope});
         }
     ));
-/*
+
     it('test', function () {
         expect(0).toBe(0);
     });
-*/
+
     /*
     it('has no features and builds set in the beginning', function () {
         expect(dashboardController.features.length).toBe(0);

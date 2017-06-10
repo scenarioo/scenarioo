@@ -7,7 +7,7 @@ var NUMBER_OF_FEATURES = 4;
 var COMPARISON_PROJECTSTART = 'To Projectstart';
 var FEATURE_WITH_HIGHEST_DIFF = 'Donate';
 
-useCase('List features')
+useCase('List_features')
     .description('As soon as a branch and a build are selected, a list of features is shown.')
     .describe(function () {
 

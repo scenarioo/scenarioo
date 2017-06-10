@@ -3,7 +3,7 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-useCase('Create sketch')
+useCase('Create_sketch')
     .description('Create a sketch based on the screenshot of a step.')
     .describe(function () {
 

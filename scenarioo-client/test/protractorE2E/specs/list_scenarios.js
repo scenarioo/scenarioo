@@ -9,7 +9,7 @@ var COMPARISON_DISABLE = 'Disable';
 var SECOND_FEATURE = 1;
 var SCENARIO_WITH_HIGHEST_DIFF = 'Find page title unique directly';
 
-useCase('List scenarios')
+useCase('List_scenarios')
     .description('After clicking on a feature, the user is presented with a list of all scenarios in this feature.')
     .describe(function () {
 

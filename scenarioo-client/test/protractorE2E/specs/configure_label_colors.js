@@ -3,7 +3,7 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-useCase('Configure label colors')
+useCase('Configure_label_colors')
     .description('Each label string can be configured to be displayed in a certain color.')
     .describe(function () {
 
