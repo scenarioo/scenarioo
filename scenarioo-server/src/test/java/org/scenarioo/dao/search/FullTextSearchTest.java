@@ -9,10 +9,10 @@ import org.junit.Test;
 import org.scenarioo.dao.search.model.SearchResults;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
-import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.aggregates.features.FeatureScenariosList;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
-import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.search.SearchRequest;
 
@@ -22,9 +22,9 @@ public class FullTextSearchTest {
     private FullTextSearch fullTextSearch;
 
     @Test
-    public void indexUseCaseWithoutRunningEngine() {
+    public void indexFeatureWithoutRunningEngine() {
         givenNoRunningEngine();
-        fullTextSearch.indexUseCases(new UseCaseScenariosList(), new BuildIdentifier("testBranch", "testBuild"));
+        fullTextSearch.indexFeatures(new FeatureScenariosList(), new BuildIdentifier("testBranch", "testBuild"));
         thenJustReturns();
     }
 
@@ -82,7 +82,7 @@ public class FullTextSearchTest {
         }
 
         @Override
-        public void indexUseCases(final UseCaseScenariosList useCaseScenariosList, final BuildIdentifier buildIdentifier) {
+        public void indexFeatures(final FeatureScenariosList featureScenariosList, final BuildIdentifier buildIdentifier) {
 			assertTrue("Should not be reachable", isRunning);        }
 
         @Override
@@ -91,7 +91,7 @@ public class FullTextSearchTest {
 		}
 
 		@Override
-		public void indexSteps(final List<Step> steps, final List<StepLink> page, final Scenario scenario, final UseCase usecase, final BuildIdentifier buildIdentifier) {
+		public void indexSteps(final List<Step> steps, final List<StepLink> page, final Scenario scenario, final Feature feature, final BuildIdentifier buildIdentifier) {
 			assertTrue("Should not be reachable", isRunning);
 		}
 

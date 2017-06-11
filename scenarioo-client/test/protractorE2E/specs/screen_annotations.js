@@ -3,7 +3,7 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-useCase('View screen annotations')
+useCase('View_screen_annotations')
     .description('Screens can have visual annotations that e.g. mark where a click was done or where data was entered.')
     .describe(function () {
 

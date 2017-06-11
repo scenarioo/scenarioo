@@ -22,17 +22,17 @@ import org.scenarioo.api.exception.ScenarioDocuTimeoutException;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
-import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
+import org.scenarioo.model.diffViewer.FeatureDiffInfo;
 
 public interface DiffWriter {
 
 	void saveBuildDiffInfo(BuildDiffInfo buildDiffInfo);
 
-	void saveUseCaseDiffInfo(UseCaseDiffInfo useCaseDiffInfo);
+	void saveFeatureDiffInfo(FeatureDiffInfo featureDiffInfo);
 
-	void saveScenarioDiffInfo(ScenarioDiffInfo scenarioDiffInfo, String useCaseName);
+	void saveScenarioDiffInfo(ScenarioDiffInfo scenarioDiffInfo, String featureName);
 
-	void saveStepDiffInfo(String useCaseName, String scenarioName, StepDiffInfo stepDiffInfo);
+	void saveStepDiffInfo(String featureName, String scenarioName, StepDiffInfo stepDiffInfo);
 
 	/**
 	 * Finish asynchronous writing of all saved files. This has to be called in the end, to ensure all data saved in

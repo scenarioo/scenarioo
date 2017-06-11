@@ -66,8 +66,8 @@ public class SearchTree {
 	}
 
 	private void addNode(ObjectTreeNode<ObjectReference> rootNode, SearchableObject entry) {
-		if (entry instanceof SearchableUseCase) {
-			putUseCase(rootNode, (SearchableUseCase) entry);
+		if (entry instanceof SearchableFeature) {
+			putFeature(rootNode, (SearchableFeature) entry);
 
 		} else if (entry instanceof SearchableScenario) {
 			putScenario(rootNode, (SearchableScenario) entry);
@@ -80,8 +80,8 @@ public class SearchTree {
 		}
 	}
 
-	private ObjectTreeNode<ObjectReference> findChild(String entry, ObjectTreeNode<ObjectReference> useCaseNode) {
-		for (ObjectTreeNode<ObjectReference> scenario : useCaseNode.<ObjectReference>getChildren()) {
+	private ObjectTreeNode<ObjectReference> findChild(String entry, ObjectTreeNode<ObjectReference> featureNode) {
+		for (ObjectTreeNode<ObjectReference> scenario : featureNode.<ObjectReference>getChildren()) {
 			if (scenario.getItem().getName().equals(entry)) {
 				return scenario;
 			}
@@ -107,29 +107,29 @@ public class SearchTree {
 		return getOrAddNode(pageNode, name, FullTextSearch.STEP);
 	}
 
-	private ObjectTreeNode<ObjectReference> getOrAddScenario(ObjectTreeNode<ObjectReference> useCaseNode, String scenario) {
-		return getOrAddNode(useCaseNode, scenario, FullTextSearch.SCENARIO);
+	private ObjectTreeNode<ObjectReference> getOrAddScenario(ObjectTreeNode<ObjectReference> featureNode, String scenario) {
+		return getOrAddNode(featureNode, scenario, FullTextSearch.SCENARIO);
 	}
 
-	private ObjectTreeNode<ObjectReference> getOrAddUseCase(ObjectTreeNode<ObjectReference> root, String usecase) {
-		return getOrAddNode(root, usecase, FullTextSearch.USECASE);
+	private ObjectTreeNode<ObjectReference> getOrAddFeature(ObjectTreeNode<ObjectReference> root, String feature) {
+		return getOrAddNode(root, feature, FullTextSearch.FEATURE);
 	}
 
 	private ObjectTreeNode<ObjectReference> putStep(ObjectTreeNode<ObjectReference> root, SearchableStep entry) {
-		ObjectTreeNode<ObjectReference> useCaseNode = getOrAddUseCase(root, entry.getSearchableObjectContext().getUsecase());
-		ObjectTreeNode<ObjectReference> scenarioNode = getOrAddScenario(useCaseNode, entry.getSearchableObjectContext().getScenario());
+		ObjectTreeNode<ObjectReference> featureNode = getOrAddFeature(root, entry.getSearchableObjectContext().getFeature());
+		ObjectTreeNode<ObjectReference> scenarioNode = getOrAddScenario(featureNode, entry.getSearchableObjectContext().getScenario());
 
 		return getOrAddStep(scenarioNode, String.format("%s/%s/%s", entry.getStep().getPage().getName(), entry.getSearchableObjectContext().getStepLink().getPageOccurrence(),
 			entry.getSearchableObjectContext().getStepLink().getStepInPageOccurrence()));
 	}
 
 	private ObjectTreeNode<ObjectReference> putScenario(ObjectTreeNode<ObjectReference> root, SearchableScenario entry) {
-		ObjectTreeNode<ObjectReference> useCaseNode = getOrAddUseCase(root, entry.getSearchableObjectContext().getUsecase());
+		ObjectTreeNode<ObjectReference> featureNode = getOrAddFeature(root, entry.getSearchableObjectContext().getFeature());
 
-		return getOrAddScenario(useCaseNode, entry.getScenario().getName());
+		return getOrAddScenario(featureNode, entry.getScenario().getName());
 	}
 
-	private ObjectTreeNode<ObjectReference> putUseCase(ObjectTreeNode<ObjectReference> rootNode, SearchableUseCase entry) {
-		return getOrAddUseCase(rootNode, entry.getUseCase().getName());
+	private ObjectTreeNode<ObjectReference> putFeature(ObjectTreeNode<ObjectReference> rootNode, SearchableFeature entry) {
+		return getOrAddFeature(rootNode, entry.getFeature().getName());
 	}
 }

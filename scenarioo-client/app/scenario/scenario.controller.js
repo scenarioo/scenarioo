@@ -22,9 +22,9 @@ function ScenarioController($filter, $routeParams,
           ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
 
     var vm = this;
-    vm.useCaseDescription = '';
+    vm.featureDescription = '';
     vm.scenario = {};
-    vm.useCase = {};
+    vm.feature = {};
     vm.pagesAndSteps = {};
     vm.metadataTree = {};
     vm.scenarioInformationTree = {};
@@ -45,7 +45,7 @@ function ScenarioController($filter, $routeParams,
     vm.getLabelStyle = getLabelStyle;
     vm.comparisonInfo = SelectedComparison.info;
 
-    var useCaseName = $routeParams.useCaseName;
+    var featureName = $routeParams.featureName;
     var scenarioName = $routeParams.scenarioName;
     var comparisonBranchName;
     var comparisonBuildName;
@@ -70,18 +70,18 @@ function ScenarioController($filter, $routeParams,
             {
                 branchName: selected.branch,
                 buildName: selected.build,
-                usecaseName: useCaseName,
+                featureName: featureName,
                 scenarioName: scenarioName
             },
             function (result) {
                 // Add page to the step to allow search for step- as well as page-properties
                 pagesAndScenarios = PagesAndStepsService.populatePagesAndStepsService(result);
-                vm.useCaseDescription = result.useCase.description;
+                vm.featureDescription = result.feature.description;
                 vm.scenario = pagesAndScenarios.scenario;
                 vm.pagesAndSteps = pagesAndScenarios.pagesAndSteps;
-                vm.useCase = result.useCase;
+                vm.feature = result.feature;
                 vm.metadataTree = transformMetadataToTreeArray(pagesAndScenarios.scenario.details);
-                vm.scenarioInformationTree = createScenarioInformationTree(vm.scenario, result.scenarioStatistics, vm.useCase);
+                vm.scenarioInformationTree = createScenarioInformationTree(vm.scenario, result.scenarioStatistics, vm.feature);
                 scenarioStatistics = result.scenarioStatistics;
 
                 if(SelectedComparison.isDefined()) {
@@ -91,9 +91,9 @@ function ScenarioController($filter, $routeParams,
 
                 loadRelatedIssues();
 
-                var hasAnyUseCaseLabels = vm.useCase.labels.labels.length > 0;
+                var hasAnyFeatureLabels = vm.feature.labels.labels.length > 0;
                 var hasAnyScenarioLabels = vm.scenario.labels.labels.length > 0;
-                vm.hasAnyLabels = hasAnyUseCaseLabels || hasAnyScenarioLabels;
+                vm.hasAnyLabels = hasAnyFeatureLabels || hasAnyScenarioLabels;
 
                 if (ConfigService.expandPagesInScenarioOverview()) {
                     vm.expandAll();
@@ -171,11 +171,11 @@ function ScenarioController($filter, $routeParams,
         }
 
         return HostnameAndPort.forLink() + 'rest/branch/' + branch + '/build/' + build +
-            '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
+            '/feature/' + featureName + '/scenario/' + scenarioName + '/image/' + imgName;
     }
 
     function getLinkToStep(pageName, pageOccurrence, stepInPageOccurrence) {
-        return '#/step/' + encodeURIComponent(useCaseName) + '/' + encodeURIComponent(scenarioName) + '/' + encodeURIComponent(pageName) +
+        return '#/step/' + (featureName) + '/' + encodeURIComponent(scenarioName) + '/' + encodeURIComponent(pageName) +
             '/' + pageOccurrence + '/' + stepInPageOccurrence;
     }
 
@@ -183,11 +183,11 @@ function ScenarioController($filter, $routeParams,
         vm.searchFieldText = '';
     }
 
-    function createScenarioInformationTree(scenario, statistics, useCase) {
+    function createScenarioInformationTree(scenario, statistics, feature) {
         var stepInformation = {};
-        stepInformation['Use Case'] = useCase.name;
-        if(useCase.description) {
-            stepInformation['Use Case Description'] = useCase.description;
+        stepInformation['Use Case'] = feature.name;
+        if(feature.description) {
+            stepInformation['Use Case Description'] = feature.description;
         }
         stepInformation.Scenario = $filter('scHumanReadable')(scenario.name);
         if(scenario.description) {
@@ -206,7 +206,7 @@ function ScenarioController($filter, $routeParams,
                 'baseBranchName': baseBranchName,
                 'baseBuildName': baseBuildName,
                 'comparisonName': comparisonName,
-                'useCaseName': useCaseName,
+                'featureName': featureName,
                 'scenarioName': scenarioName
             },
             function onSuccess(scenarioDiffInfo) {
@@ -215,7 +215,7 @@ function ScenarioController($filter, $routeParams,
                         'baseBranchName': baseBranchName,
                         'baseBuildName': baseBuildName,
                         'comparisonName': comparisonName,
-                        'useCaseName': useCaseName,
+                        'featureName': featureName,
                         'scenarioName': scenarioName
                     },
                     function onSuccess(stepDiffInfos) {
@@ -228,15 +228,15 @@ function ScenarioController($filter, $routeParams,
         );
     }
 
-    function isAddedUseCase(buildDiffInfo) {
+    function isAddedFeature(buildDiffInfo) {
         // ES 2015 find() method would be required here...
-        var isAddedUseCase = false;
+        var isAddedFeature = false;
         angular.forEach(buildDiffInfo.addedElements, function (addedElement) {
-            if (addedElement === useCaseName) {
-                isAddedUseCase = true;
+            if (addedElement === featureName) {
+                isAddedFeature = true;
             }
         });
-        return isAddedUseCase;
+        return isAddedFeature;
     }
 
     function markPagesAndStepsAsAdded(pagesAndSteps) {
@@ -249,14 +249,14 @@ function ScenarioController($filter, $routeParams,
     }
 
     function loadDiffInfoData(pagesAndSteps, baseBranchName, baseBuildName, comparisonName) {
-        if (pagesAndSteps && baseBranchName && baseBuildName && useCaseName && scenarioName) {
+        if (pagesAndSteps && baseBranchName && baseBuildName && featureName && scenarioName) {
             BuildDiffInfoResource.get(
                 {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
                 function onSuccess(buildDiffInfo) {
                     comparisonBranchName = buildDiffInfo.comparisonBranchName;
                     comparisonBuildName = buildDiffInfo.comparisonBuildName;
 
-                    if (isAddedUseCase(buildDiffInfo)) {
+                    if (isAddedFeature(buildDiffInfo)) {
                         markPagesAndStepsAsAdded(pagesAndSteps);
                     } else {
                         loadStepDiffInfos(baseBranchName, baseBuildName, comparisonName, pagesAndSteps);
@@ -272,7 +272,7 @@ function ScenarioController($filter, $routeParams,
         RelatedIssueResource.query({
             branchName: SelectedBranchAndBuildService.selected().branch,
             buildName: SelectedBranchAndBuildService.selected().build,
-            useCaseName: $routeParams.useCaseName,
+            featureName: $routeParams.featureName,
             scenarioName: $routeParams.scenarioName
         }, function(result){
             vm.relatedIssues = result;

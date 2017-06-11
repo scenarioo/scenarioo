@@ -1,0 +1,112 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<sc-breadcrumbs></sc-breadcrumbs>
+<div class="row sc-space-top sc-space-bottom">
+    <div class="col-sm-8">
+        <div class="input-group">
+            <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
+                   title="type words separated by spaces to search for" ng-model="feature.table.search.searchTerm"
+                   placeholder="Search in feature &quot;{{feature.feature.name | scHumanReadable}}&quot;..."/>
+            <span class="input-group-btn">
+                <button type="button" ng-click="feature.resetSearchField()" class="btn btn-default">reset</button>
+            </span>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <sc-meta-data-button class="pull-right" linking-variable="featureShowMetadata"
+                             local-storage-key="feature"></sc-meta-data-button>
+    </div>
+</div>
+
+<sc-meta-data-panel linking-variable="featureShowMetadata">
+    <div>
+        <table class="table table-bordered scenario-table" sc-keyboard-navigatable-table="filtered"
+               sc-keyboard-navigatable-table-hit="feature.onNavigatorTableHit">
+            <thead>
+            <tr>
+                <th sc-sortable-column="status">Status</th>
+                <th sc-sortable-column="scenario.name">Scenario name</th>
+                <th>Actions</th>
+                <th>Description</th>
+                <th ng-repeat="property in propertiesToShow" sc-sortable-column="details.properties.{{property}}">
+                    {{property | scHumanReadable}}
+                </th>
+                <th sc-sortable-column="numberOfSteps"># Steps</th>
+                <th sc-sortable-column="diffInfo.changeRate" class="sort-diff-info" ng-if="comparisonInfo.isDefined">Changes</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-class="{'selected':$index==selectedRowIndex, 'added': scenarioSummary.diffInfo.isAdded, 'removed': scenarioSummary.diffInfo.isRemoved}"
+                ng-click="feature.clickScenario(feature.feature.name, scenarioSummary)"
+                class="link"
+                ng-repeat="scenarioSummary in filtered=(feature.scenarios | scFilterArray: feature.table.search.searchTerm | orderBy:feature.table.sort.column:feature.table.sort.reverse)">
+                <td>
+                    <span class="label state" ng-class="getStatusStyleClass(scenarioSummary.scenario.status)">{{scenarioSummary.scenario.status}}</span>
+                </td>
+                <td>
+                    {{scenarioSummary.scenario.name | scHumanReadable }}
+                    <span ng-repeat="label in scenarioSummary.scenario.labels.labels" class="label label-info sc-label"
+                          ng-style="feature.getLabelStyle(label)">{{label}}</span>
+                </td>
+                <td>
+                    <a ng-if="!scenarioSummary.diffInfo.isRemoved"><i class="icon-list-ul icon-with-padding" uib-tooltip="Go to scenario overview"
+                          tooltip-placement="bottom"></i></a>
+                    <a ng-if="!scenarioSummary.diffInfo.isRemoved" ng-click="feature.goToFirstStep(feature.feature.name, scenarioSummary.scenario.name)"
+                       tooltip="Go to first step"
+                       tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
+                </td>
+                <td>{{scenarioSummary.scenario.description}}</td>
+                <td ng-repeat="property in feature.propertiesToShow">{{scenarioSummary.scenario.details[property]}}</td>
+                <td>{{scenarioSummary.numberOfSteps}}</td>
+                <td ng-if="comparisonInfo.isDefined"><sc-diff-info-icon diff-info="scenarioSummary.diffInfo" element-type="scenario" child-element-type="step"></sc-diff-info-icon></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <!-- feature -->
+        <sc-collapsable-panel title="Use Case" key="featureView-feature" initially-expanded="true">
+            <sc-tree data='feature.featureInformationTree'></sc-tree>
+        </sc-collapsable-panel>
+
+        <sc-collapsable-panel title="Related Sketches" key="featureView-relatedSketches" initially-expanded="true" ng-show="feature.hasAnyRelatedIssues">
+            <ul  id="relatedSketches">
+                <li ng-repeat="issue in feature.relatedIssues"><a href="" ng-click="feature.goToIssue(issue)">{{issue.name}}</a></li>
+            </ul>
+        </sc-collapsable-panel>
+
+        <!-- labels -->
+        <sc-collapsable-panel title="Labels" key="featureView-labels" initially-expanded="false"
+                              ng-show="feature.hasAnyLabels">
+            <div class="sc-tree">
+                <ul>
+                    <li>
+                        Use case:
+                        <span ng-repeat="label in feature.feature.labels.labels" class="label label-info sc-label"
+                              ng-style="feature.getLabelStyle(label)">{{label}}</span>
+                    </li>
+                </ul>
+            </div>
+        </sc-collapsable-panel>
+
+        <!-- Metadata -->
+        <sc-metadata-tree metadata-tree="feature.metadataTree"></sc-metadata-tree>
+    </div>
+
+</sc-meta-data-panel>

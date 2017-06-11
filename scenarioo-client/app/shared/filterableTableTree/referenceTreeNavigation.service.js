@@ -18,7 +18,7 @@
 angular.module('scenarioo.services').factory('ReferenceTreeNavigationService', function () {
 
     var objType = {
-        usecase: 1,
+        feature: 1,
         scenario: 2,
         page: 3,
         step: 4,
@@ -44,13 +44,13 @@ angular.module('scenarioo.services').factory('ReferenceTreeNavigationService', f
     function buildLocationPath(navElement) {
         var locationPath = '';
 
-        if (navElement.objectType === objType.scenario || navElement.objectType === objType.usecase) {
-            locationPath = navElement.navigationType + '/' + navElement.useCaseName +
+        if (navElement.objectType === objType.scenario || navElement.objectType === objType.feature) {
+            locationPath = navElement.navigationType + '/' + navElement.featureName +
                 '/' + navElement.scenarioName;
         } else if (navElement.objectType === objType.page) {
             locationPath += 'object/page/' + navElement.pageName;
         } else if (navElement.objectType === objType.step) {
-            locationPath += 'step/' + navElement.useCaseName + '/' + navElement.scenarioName +
+            locationPath += 'step/' + navElement.featureName + '/' + navElement.scenarioName +
                 '/' + navElement.pageName + '/' +
                 navElement.pageOccurrence + '/' + navElement.stepInPageOccurrence;
         } else if (navElement.objectType === objType.object) {
@@ -72,9 +72,9 @@ angular.module('scenarioo.services').factory('ReferenceTreeNavigationService', f
     function populateNavigationElementRecursively(navigationElement, node, treeModel, isClickedNode) {
         if (angular.isDefined(node)) {
             switch (node.type) {
-                case 'usecase':
-                    setCommonNavigationElementFields(navigationElement, node, objType.usecase, isClickedNode);
-                    navigationElement.useCaseName = node.name;
+                case 'feature':
+                    setCommonNavigationElementFields(navigationElement, node, objType.feature, isClickedNode);
+                    navigationElement.featureName = node.name;
                     break;
                 case 'scenario':
                     setCommonNavigationElementFields(navigationElement, node, objType.scenario, isClickedNode);
@@ -102,7 +102,7 @@ angular.module('scenarioo.services').factory('ReferenceTreeNavigationService', f
         }
     }
 
-    // Build navigation path along the reference hierarchy tree (e.g. step / scenario / usecase)
+    // Build navigation path along the reference hierarchy tree (e.g. step / scenario / feature)
     // In case that some other objects should be navigated, the reference-tree will be called again with
     // selected object
     function buildNavigationElement(node, treeModel) {
@@ -110,7 +110,7 @@ angular.module('scenarioo.services').factory('ReferenceTreeNavigationService', f
             navigationType: '',
             navigationName: '',
             objectType: 0,
-            useCaseName: '',
+            featureName: '',
             scenarioName: '',
             scenarioPageName: '',
             pageName: null,

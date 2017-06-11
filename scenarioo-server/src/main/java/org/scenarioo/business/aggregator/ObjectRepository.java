@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -37,7 +37,7 @@ import org.scenarioo.model.docu.entities.Labels;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
-import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.generic.Details;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
@@ -49,32 +49,32 @@ import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 public class ObjectRepository {
-	
+
 	private static final Logger LOGGER = Logger.getLogger(ObjectRepository.class);
-	
+
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
-	
+
 	private final ScenarioDocuAggregationDao dao;
-	
+
 	private final BuildIdentifier buildIdentifier;
-	
+
 	private final Map<ObjectReference, ObjectReferenceTreeBuilder> objectReferences = new HashMap<ObjectReference, ObjectReferenceTreeBuilder>();
-	
+
 	private final Set<String> objectTypes = new HashSet<String>();
-	
+
 	private final Map<ObjectReference, ObjectReference> objectReferencePool = new HashMap<ObjectReference, ObjectReference>(
 			100000);
-	
+
 	private final CustomObjectTabsAggregator customObjectTabsAggregator;
-	
+
 	public ObjectRepository(final BuildIdentifier buildIdentifier, final ScenarioDocuAggregationDao dao) {
 		this.buildIdentifier = buildIdentifier;
 		this.dao = dao;
 		customObjectTabsAggregator = new CustomObjectTabsAggregator(configurationRepository.getConfiguration()
 				.getCustomObjectTabs(), dao, buildIdentifier);
 	}
-	
+
 	/**
 	 * Add all objects inside the passed generic object to the object repository for later saving.
 	 */
@@ -91,13 +91,13 @@ public class ObjectRepository {
 			addTreeObjects(referencePath, (ObjectTreeNode<?>) object);
 		}
 	}
-	
+
 	private void addTreeObjects(final List<ObjectReference> referencePath, final ObjectTreeNode<?> objectTree) {
-		
+
 		// Add node
 		Object node = objectTree.getItem();
 		addObject(referencePath, node);
-		
+
 		// Is there a node object to add to the referencePath?
 		ObjectReference nodeRef = null;
 		if (node instanceof ObjectDescription) {
@@ -106,7 +106,7 @@ public class ObjectRepository {
 		} else if (node instanceof ObjectReference) {
 			nodeRef = createObjectReference((ObjectReference) node);
 		}
-		
+
 		// Add children and details with correct path
 		if (nodeRef != null) {
 			referencePath.add(nodeRef);
@@ -118,12 +118,12 @@ public class ObjectRepository {
 			addListObjects(referencePath, objectTree.getChildren());
 		}
 	}
-	
+
 	/**
 	 * Add objects in the passed list of objects.
-	 * 
+	 *
 	 * Recursively resolves all subobjects, if any.
-	 * 
+	 *
 	 * @param referencePath
 	 *            the path of objects that referenced these list.
 	 */
@@ -132,12 +132,12 @@ public class ObjectRepository {
 			addObject(referencePath, object);
 		}
 	}
-	
+
 	/**
 	 * Add objects in the passed details map to the object repository for later saving.
-	 * 
+	 *
 	 * Recursively resolves all subobjects, if any.
-	 * 
+	 *
 	 * @param referencePath
 	 *            the path of objects that referenced these details.
 	 */
@@ -146,26 +146,26 @@ public class ObjectRepository {
 			addObject(referencePath, entry.getValue());
 		}
 	}
-	
+
 	/**
 	 * Add an object itself and all subobjects inside the internal details map to the object repository for later
 	 * saving.
-	 * 
+	 *
 	 * Recursively resolves all subobjects, if any.
-	 * 
+	 *
 	 * @param referencePath
 	 *            the path of objects that referenced these details.
 	 */
 	private void addObject(final List<ObjectReference> referencePath, final ObjectDescription object) {
 		addObject(referencePath, object, null);
 	}
-	
+
 	/**
 	 * Add an object itself and all subobjects inside the internal details map to the object repository for later
 	 * saving.
-	 * 
+	 *
 	 * Recursively resolves all subobjects, if any.
-	 * 
+	 *
 	 * @param referencePath
 	 *            the path of objects that referenced these details.
 	 * @param labels
@@ -173,9 +173,9 @@ public class ObjectRepository {
 	 */
 	private void addObject(final List<ObjectReference> referencePath, final ObjectDescription object,
 			final Labels labels) {
-		
+
 		customObjectTabsAggregator.aggregateRelevantObjectIntoCustomObjectTabTrees(referencePath, object);
-		
+
 		ObjectReference ref = createObjectReference(object.getType(), object.getName());
 		saveObject(object);
 		addObjectReference(referencePath, ref);
@@ -186,7 +186,7 @@ public class ObjectRepository {
 		}
 		referencePath.remove(referencePath.size() - 1);
 	}
-	
+
 	/**
 	 * Create reference or get it from pool if already available. This is done just to avoid out of memory because of a
 	 * lot of same references loaded from xml files.
@@ -194,7 +194,7 @@ public class ObjectRepository {
 	private ObjectReference createObjectReference(final ObjectReference node) {
 		return createObjectReference(node.getType(), node.getName());
 	}
-	
+
 	/**
 	 * Create reference or get it from pool if already available. This is done just to avoid out of memory because of a
 	 * lot of same references loaded from xml files.
@@ -213,7 +213,7 @@ public class ObjectRepository {
 			return newRef;
 		}
 	}
-	
+
 	private ObjectReference createObjectReference(final String type, final String name, final Labels labels) {
 		ObjectReferenceWithLabels newRef = new ObjectReferenceWithLabels(type, name, labels);
 		ObjectReference existingRef = objectReferencePool.get(newRef);
@@ -228,14 +228,14 @@ public class ObjectRepository {
 			return newRef;
 		}
 	}
-	
+
 	private void saveObject(final ObjectDescription object) {
 		objectTypes.add(object.getType());
 		if (!dao.isObjectDescriptionSaved(buildIdentifier, object)) {
 			dao.saveObjectDescription(buildIdentifier, object);
 		}
 	}
-	
+
 	/**
 	 * Put the object reference to an object into the objectReferences.
 	 */
@@ -247,13 +247,13 @@ public class ObjectRepository {
 		}
 		refTreeBuilder.addPath(referencePath);
 	}
-	
+
 	private List<ObjectReference> createPath(final ObjectReference objectReference) {
 		List<ObjectReference> result = new ArrayList<ObjectReference>(1);
 		result.add(objectReference);
 		return result;
 	}
-	
+
 	private List<ObjectReference> extendPath(final List<ObjectReference> referencePath,
 			final ObjectReference objectReference) {
 		List<ObjectReference> result = new ArrayList<ObjectReference>(referencePath.size() + 1);
@@ -261,20 +261,20 @@ public class ObjectRepository {
 		result.add(objectReference);
 		return result;
 	}
-	
+
 	/**
-	 * Add all objects referenced directly by this use case to the object repository.
-	 * 
-	 * @return the reference path for the passed use case to use as base path for belonging scenarios etc.
+	 * Add all objects referenced directly by this feature to the object repository.
+	 *
+	 * @return the reference path for the passed feature to use as base path for belonging scenarios etc.
 	 */
-	public List<ObjectReference> addReferencedUseCaseObjects(final UseCase useCase) {
-		List<ObjectReference> referencePath = createPath(createObjectReference("usecase", useCase.getName(),
-				useCase.getLabels()));
-		addObjects(referencePath, useCase.getDetails());
-		addLabels(referencePath, useCase.getLabels());
+	public List<ObjectReference> addReferencedFeatureObjects(final Feature feature) {
+		List<ObjectReference> referencePath = createPath(createObjectReference("feature", feature.getName(),
+				feature.getLabels()));
+		addObjects(referencePath, feature.getDetails());
+		addLabels(referencePath, feature.getLabels());
 		return referencePath;
 	}
-	
+
 	public List<ObjectReference> addReferencedScenarioObjects(List<ObjectReference> referencePath,
 			final Scenario scenario) {
 		referencePath = extendPath(referencePath,
@@ -283,7 +283,7 @@ public class ObjectRepository {
 		addLabels(referencePath, scenario.getLabels());
 		return referencePath;
 	}
-	
+
 	public void addPageAndStep(List<ObjectReference> referencePath, final Step step, final StepLink stepLink) {
 		ObjectReference stepReference = createObjectReference("step", stepLink.getStepIdentifierForObjectRepository(),
 				step.getStepDescription().getLabels());
@@ -294,7 +294,7 @@ public class ObjectRepository {
 		addPage(referencePath, step.getPage());
 		addLabels(referencePath, step.getStepDescription().getLabels());
 	}
-	
+
 	private void addScreenAnnotationObjects(final List<ObjectReference> referencePath,
 			final List<ScreenAnnotation> screenAnnotations) {
 		for (ScreenAnnotation screenAnnotation : screenAnnotations) {
@@ -309,13 +309,13 @@ public class ObjectRepository {
 		if (page == null) {
 			return;
 		}
-		
+
 		// Add page description as an object too
 		ObjectDescription pageDescription = new ObjectDescription("page", page.getName());
 		pageDescription.setDetails(page.getDetails());
 		addObject(referencePath, pageDescription, page.getLabels());
 	}
-	
+
 	/**
 	 * Add labels also as objects to the repository
 	 */
@@ -326,7 +326,7 @@ public class ObjectRepository {
 			addObject(referencePath, labelDescription);
 		}
 	}
-	
+
 	public void calculateAndSaveObjectLists() {
 		for (String type : objectTypes) {
 			LOGGER.info("    Writing object list for type '" + type + "' ...");
@@ -340,13 +340,13 @@ public class ObjectRepository {
 			LOGGER.info("    Finished successfully witing object list for type: " + type);
 		}
 	}
-	
+
 	public void saveCustomObjectTabTrees() {
 		customObjectTabsAggregator.saveAggregatedTreeStructures();
 	}
-	
+
 	public void updateAndSaveObjectIndexesForCurrentCase() {
-		LOGGER.info("      Writing object repository index files for last use case. This might take a while ...");
+		LOGGER.info("      Writing object repository index files for last feature. This might take a while ...");
 		for (Entry<ObjectReference, ObjectReferenceTreeBuilder> objectRefTreeBuilder : objectReferences.entrySet()) {
 			ObjectReference objectRef = objectRefTreeBuilder.getKey();
 			ObjectReferenceTreeBuilder referenceTreeBuilder = objectRefTreeBuilder.getValue();
@@ -368,13 +368,13 @@ public class ObjectRepository {
 			}
 		}
 		objectReferences.clear();
-		LOGGER.info("      Writing object repository index files for last use case finished (success).");
+		LOGGER.info("      Writing object repository index files for last feature finished (success).");
 	}
-	
+
 	public void removeAnyExistingObjectData() {
 		deleteDirectory(dao.getFiles().getObjectsDirectory(buildIdentifier));
 	}
-	
+
 	private static void deleteDirectory(final File directory) {
 		if (directory.exists()) {
 			try {
@@ -384,5 +384,5 @@ public class ObjectRepository {
 			}
 		}
 	}
-	
+
 }

@@ -27,9 +27,9 @@ public class SearchableScenario implements SearchableObject {
 	public SearchableScenario() {
 	}
 
-	public SearchableScenario(final Scenario scenario, final String usecaseName) {
+	public SearchableScenario(final Scenario scenario, final String featureName) {
 		this.scenario = scenario;
-		this.searchableObjectContext = new SearchableObjectContext(usecaseName);
+		this.searchableObjectContext = new SearchableObjectContext(featureName);
 	}
 
 	public Scenario getScenario() {
@@ -49,21 +49,21 @@ public class SearchableScenario implements SearchableObject {
 	}
 
 	public static class SearchableObjectContext {
-		private String usecase;
+		private String feature;
 
 		public SearchableObjectContext() {
 		}
 
-		public SearchableObjectContext(final String usecase) {
-			this.usecase = usecase;
+		public SearchableObjectContext(final String feature) {
+			this.feature = feature;
 		}
 
-		public void setUsecase(final String usecase) {
-			this.usecase = usecase;
+		public void setFeature(final String feature) {
+			this.feature = feature;
 		}
 
-		public String getUsecase() {
-			return usecase;
+		public String getFeature() {
+			return feature;
 		}
 
 	}

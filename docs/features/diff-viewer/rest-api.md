@@ -107,13 +107,13 @@ Example Response:
 Returns a UseCaseDiffInfo element
 
 Request URL:
->diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseName/:useCaseName/useCaseDiffInfo
+>diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseName/:useCaseName/featureDiffInfo
 
 Request Method:
 >GET
 
 Example Request:
->http://localhost:8080/scenarioo/rest/diffViewer/baseBranchName/Development/baseBuildName/2014-05-19/comparisonName/To%20last%20Sprint/useCaseName/Donate/useCaseDiffInfo
+>http://localhost:8080/scenarioo/rest/diffViewer/baseBranchName/Development/baseBuildName/2014-05-19/comparisonName/To%20last%20Sprint/useCaseName/Donate/featureDiffInfo
 
 Example Response:
 ```json
@@ -157,13 +157,13 @@ Example Response:
 Returns an array of UseCaseDiffInfo elements
 
 Request URL:
->diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/useCaseDiffInfos
+>diffViewer/baseBranchName/:baseBranchName/baseBuildName/:baseBuildName/comparisonName/:comparisonName/featureDiffInfos
 
 Request Method:
 >GET
 
 Example Request:
->http://localhost:8080/scenarioo/rest/diffViewer/baseBranchName/Development/baseBuildName/2014-05-19/comparisonName/To%20last%20Sprint/useCaseDiffInfos
+>http://localhost:8080/scenarioo/rest/diffViewer/baseBranchName/Development/baseBuildName/2014-05-19/comparisonName/To%20last%20Sprint/featureDiffInfos
 
 Example Response:
 ```json

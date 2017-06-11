@@ -85,16 +85,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <p>The sketch is based on this step from the documentation.</p>
 
-            <p id="usecase-context">
+            <p id="feature-context">
                 Branch: {{vm.stepSketch.relatedStep.branchName}}</a>
             </p>
 
-            <p id="usecase-context">
+            <p id="feature-context">
                 Build: {{vm.stepSketch.relatedStep.buildName}}</a>
             </p>
 
-            <p id="usecase-context">
-                <a ng-href="{{vm.getUseCaseUrl()}}">Use Case: {{vm.stepSketch.relatedStep.usecaseName | scHumanReadable}}</a>
+            <p id="feature-context">
+                <a ng-href="{{vm.getFeatureUrl()}}">Use Case: {{vm.stepSketch.relatedStep.featureName | scHumanReadable}}</a>
             </p>
 
             <p id="scenario-context">

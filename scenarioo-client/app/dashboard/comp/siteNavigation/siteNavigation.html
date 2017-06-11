@@ -1,0 +1,26 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<div layout = "row">
+    <md-nav-bar md-selected-nav-item="siteNaviagtion.current" nav-bar-aria-label="navigation links">
+        <div ng-repeat="link in siteNaviagtion.links" >
+            <md-nav-item onload="goto(siteNaviagtion.current);"
+                         md-nav-click="siteNaviagtion.setView(link.name);" name="{{link.name}}">
+                {{link.short}}
+            </md-nav-item>
+        </div>
+    </md-nav-bar>
+</div>

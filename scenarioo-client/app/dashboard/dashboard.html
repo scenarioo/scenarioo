@@ -1,0 +1,124 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<div layout = "row" ng-controller="DashboardController as dashboard">
+    <feature-explorer root-feature="dashboard.rootFeature" current-feature="dashboard.feature"></feature-explorer>
+    <div flex layout-fill layout = "column">
+        <sc-breadcrumbs></sc-breadcrumbs>
+        <h1>{{dashboard.feature.name}}</h1>
+        <span>{{dashboard.feature.description}}</span>
+        <div layout = "row" class="sc-space-top sc-space-bottom">
+            <div flex>
+                <div class="input-group">
+                    <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
+                           title="type words separated by spaces to search for"
+                           ng-model="dashboard.table.search.searchTerm"
+                           placeholder="Search in feature &quot;{{dashboard.feature.name | scHumanReadable}}&quot;..."/>
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="dashboard.table.search.searchTerm=''"
+                        class="btn btn-default">reset</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <sc-meta-data-button class="pull-right" linking-variable="featureShowMetadata"
+                                     local-storage-key="feature"></sc-meta-data-button>
+            </div>
+        </div>
+        <div layout = "row">
+            <site-navigation current="dashboard" flex = "33"></site-navigation>
+        </div>
+        <sc-meta-data-panel linking-variable="featureShowMetadata">
+            <div flex layout="column">
+                <div sc-keyboard-navigatable-table="filtered">
+                    <div layout = "row" >
+                        <div class="dropdown" type="button" uib-dropdown
+                             is-open="status.isfirstdropdownopen" id="firstorderdrop">
+                            <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                                First order
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a ng-click="dashboard.setOrder('firstOrder', 'milestone')">Milestone</a></li>
+                                <li><a ng-click="dashboard.setOrder('firstOrder', 'orderIndex')">
+                                    Order index</a></li>
+                                <li><a ng-click="dashboard.setOrder('firstOrder', 'name')">Name</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown" type="button" uib-dropdown is-open="status.isseconddropdownopen"
+                             id="secondorderdrop">
+                            <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                                Second order
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a ng-click="dashboard.setOrder('secondOrder', 'milestone')">Milestone</a></li>
+                                <li><a ng-click="dashboard.setOrder('secondOrder', 'orderIndex')">
+                                    Order index</a></li>
+                                <li><a ng-click="dashboard.setOrder('secondOrder', 'name')">Name</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div flex layout = "column">
+                        <div layout="row">
+                            <div ng-repeat="topfeature in dashboard.feature.features | orderBy: dashboard.firstOrder
+                            | scFilterArray: dashboard.table.search.searchTerm: 'parentFeature' ">
+                                <feature-card ng-click="dashboard.clickFeature(topfeature, '/dashboard')"
+                                              card-color="#00b3ee" feature="topfeature" />
+                            </div>
+                        </div>
+                        <md-card class="milestoneBG" ng-repeat="milestone in dashboard.milestones"
+                                 ng-if="dashboard.containsSubsub(dashboard.feature)">
+                            <h2>{{milestone}}</h2>
+                            <div layout="row" >
+                                <div layout = "column" ng-repeat="topfeature in dashboard.feature.features
+                                | orderBy: dashboard.firstOrder
+                                | scFilterArray: dashboard.table.search.searchTerm: 'parentFeature' ">
+                                    <md-card class="milestoneEmptyCard"></md-card>
+                                    <div ng-repeat="feature in topfeature.features | orderBy: dashboard.secondOrder
+                                    | scFilterArray: dashboard.table.search.searchTerm: 'parentFeature' ">
+                                        <div ng-if="dashboard.equals(milestone, feature[dashboard.mapFilter])">
+                                            <feature-card ng-click="dashboard.clickFeature(feature, '/dashboard')"
+                                                          card-color="#f9e27d" feature="feature" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </md-card>
+                    </div>
+                </div>
+                <div ng-if="!dashboard.containsSubsub(dashboard.feature)">
+                    <br/>
+                    This Feature doesn't contain any Subsubfeatures.
+                    <br/>
+                    You're probably better off with the <a href="#/feature/">Feature-View</a> or the
+                    <a href="#/detailNav">Docs-View</a>.
+                </div>
+            </div>
+            <side-panel flex="20">
+                <header><h1>Details zum angewählten feature</h1></header>
+                <content>
+                    <feature-detail feature="dashboard.feature"></feature-detail>
+                </content>
+            </side-panel>
+        </sc-meta-data-panel>
+    </div>
+</div>
+
+<style>
+    .milestoneBG {background-color: whitesmoke}
+    .milestoneEmptyCard {min-width: 15em; padding-left:5px; height: 0px; padding-right: 5px;}
+</style>

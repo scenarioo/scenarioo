@@ -15,11 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($routeParams, $location, $route, $compile, 
-                                                                            $filter, $sce, BreadcrumbsService, 
-                                                                            SharePagePopupService, SketcherLinkService) {
+angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($routeParams, $location, $route, $compile,
+                                                                            $filter, $sce, BreadcrumbsService,
+                                                                            SharePagePopupService, SketcherLinkService, FeatureService) {
 
     var limit = 50;
+
+    function getFeatureAppendix() {
+        var FeaturesArray = FeatureService.getSelectedFeatureNames();
+        var ret = [];
+        while(FeaturesArray.length > 0){
+            var val = {
+                name: FeaturesArray[FeaturesArray.length-1],
+                arr : JSON.parse(JSON.stringify(FeaturesArray))
+            };
+            ret.push(val);
+            FeaturesArray.pop();
+        }
+        ret.reverse();
+        return ret;
+    }
 
     return {
         restrict: 'E',
@@ -33,7 +48,10 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
             var navParameters = [];
             var breadcrumbId = $route.current.$$route.breadcrumbId;
 
-            // Get all relevant scenarioo navigation artifacts (e.g. scenarioName, usecaseName, pageIndex, ...)
+            scope.features = getFeatureAppendix();
+            scope.selectFeature = FeatureService.selectFromArray;
+
+            // Get all relevant scenarioo navigation artifacts (e.g. scenarioName, featureName, pageIndex, ...)
             navParameters = getNavigationParameters();
 
             var navElements = BreadcrumbsService.getNavigationElements(breadcrumbId, navParameters);
@@ -73,7 +91,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
 
     function getNavigationParameters() {
         return {
-            usecase: $routeParams.useCaseName,
+            feature: $routeParams.featureName,
             scenario: $routeParams.scenarioName,
             pageName: $routeParams.pageName,
             pageOccurrence: parseInt($routeParams.pageOccurrence, 10),

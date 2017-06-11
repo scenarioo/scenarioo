@@ -21,12 +21,13 @@ angular.module('scenarioo.filters').filter('scFilterArray', function () {
         return haystack.toLowerCase().indexOf(needle.toLowerCase()) > -1;
     }
 
-    function objectContainsAllSearchElements(object, filterString) {
+    function objectContainsAllSearchElements(object, filterString, excludedPropertiesString) {
         var searchElements = filterString.split(' ');
-
+        var excludedProperties = excludedPropertiesString.split(' ');
+        excludedProperties.push('$$hashKey');
         for (var i in searchElements) {
             if (typeof searchElements[i] === 'string') {
-                if (!objectContainsString(object, searchElements[i])) {
+                if (!objectContainsString(object, searchElements[i], excludedProperties)) {
                     return false;
                 }
             }
@@ -34,25 +35,28 @@ angular.module('scenarioo.filters').filter('scFilterArray', function () {
         return true;
     }
 
-    function objectContainsString(object, string) {
+    function objectContainsString(object, string, excluded) {
         var returnTrue = false;
-
-        angular.forEach(object, function (property) {
+        var searchedKeys = [];
+        angular.forEach(object, function (property, key) {
+            if (excluded.indexOf(key) !== -1){
+                return;
+            }
+            searchedKeys.push(key);
             if (!returnTrue) {
                 if (typeof property === 'string') {
                     if (contains(property, string)) {
                         returnTrue = true;
                     }
                 } else {
-                    returnTrue = objectContainsString(property, string);
+                    returnTrue = objectContainsString(property, string, excluded);
                 }
             }
         });
-
         return returnTrue;
     }
 
-    return function (array, filterString) {
+    return function (array, filterString, excludedProperties) {
 
         if (!angular.isArray(array)) {
             return array;
@@ -61,11 +65,15 @@ angular.module('scenarioo.filters').filter('scFilterArray', function () {
             return array;
         }
 
+        if (angular.isUndefined(excludedProperties) || typeof excludedProperties !== 'string') {
+            excludedProperties = '';
+        }
+
         var filteredModel = [];
 
         angular.forEach(array, function (arrayElement) {
             if (typeof arrayElement === 'object') {
-                if (objectContainsAllSearchElements(arrayElement, filterString)) {
+                if (objectContainsAllSearchElements(arrayElement, filterString, excludedProperties)) {
                     filteredModel.push(arrayElement);
                 }
             }

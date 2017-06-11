@@ -82,11 +82,11 @@ public class DonateStepDataGenerator {
 	}
 
 	private void saveStepWithScreenshot(final byte[] screenshot, String pageName) {
-		String useCaseName = uiTest.getUseCase().getName();
+		String featureName = uiTest.getFeature().getId();
 		String scenarioName = uiTest.getScenario().getName();
 		Step step = createStep(pageName);
-		docuWriter.saveStep(useCaseName, scenarioName, step);
-		docuWriter.saveScreenshotAsPng(useCaseName, scenarioName, stepIndex, screenshot);
+		docuWriter.saveStep(featureName, scenarioName, step);
+		docuWriter.saveScreenshotAsPng(featureName, scenarioName, stepIndex, screenshot);
 		stepIndex++;
 	}
 

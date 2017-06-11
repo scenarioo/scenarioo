@@ -1,0 +1,87 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<div layout = "row" ng-controller="DashboardController as dashboard">
+    <feature-explorer root-feature="dashboard.rootFeature" current-feature="dashboard.feature"></feature-explorer>
+    <div flex layout-fill layout = "column">
+        <sc-breadcrumbs></sc-breadcrumbs>
+        <h1>{{dashboard.feature.name}}</h1>
+        <span>{{dashboard.feature.description}}</span>
+        <div layout = "row" class="sc-space-top sc-space-bottom">
+            <div flex>
+                <div class="input-group">
+                    <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
+                           title="type words separated by spaces to search for" ng-model="dashboard.table.search.searchTerm"
+                           placeholder="Search in feature &quot;{{dashboard.feature.name | scHumanReadable}}&quot;..."/>
+                    <span class="input-group-btn">
+                <button type="button" ng-click="dashboard.table.search.searchTerm=''" class="btn btn-default">reset</button>
+            </span>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <sc-meta-data-button class="pull-right" linking-variable="featureShowMetadata" local-storage-key="feature"></sc-meta-data-button>
+            </div>
+        </div>
+        <div layout = "row">
+            <site-navigation current="testScenarios" flex = "33"></site-navigation>
+        </div>
+        <sc-meta-data-panel linking-variable="featureShowMetadata">
+            <div flex>
+                <table ng-if="dashboard.feature.scenarios != undefined" class="table table-bordered scenario-table"
+                       sc-keyboard-navigatable-table="filtered">
+                    <thead>
+                    <tr>
+                        <th sc-sortable-column="scenario.status">Status</th>
+                        <th sc-sortable-column="scenario.name">Name</th>
+                        <th sc-sortable-column="scenario.description">Description</th>
+                        <th sc-sortable-column="numberOfSteps">#Steps</th>
+                        <th sc-sortable-column="diffInfo.changeRate" class="sort-diff-info" ng-if="dashboard.comparisonInfo.isDefined">Changes</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-class="{'selected':$index==selectedRowIndex,
+                    'added': scenario.diffInfo.isAdded, 'removed': scenario.diffInfo.isRemoved}"
+                        ng-repeat="scenario in dashboard.feature.scenarios |
+                        scFilterArray: dashboard.table.search.searchTerm |
+                        orderBy: dashboard.table.sort.column: dashboard.table.sort.reverse"
+                        ng-click="dashboard.clickScenario(dashboard.feature.id, scenario)"
+                        class="link">
+                        <td>
+                            <span class="label state" ng-class="getStatusStyleClass(scenario.scenario.status)">{{scenario.scenario.status}}</span>
+                        </td>
+                        <td>{{scenario.scenario.name | scHumanReadable}}</td>
+                        <td>{{scenario.scenario.description}}</td>
+                        <td>{{scenario.numberOfSteps}}</td>
+                        <td ng-if="dashboard.comparisonInfo.isDefined"><sc-diff-info-icon diff-info="scenario.diffInfo" element-type="scenario" child-element-type="step"></sc-diff-info-icon></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div flex ng-if="dashboard.feature.scenarios == undefined">
+                    <br/>
+                    There are no scenarios in this feature!
+                    <br/>
+                    You're probably better off with the <a href="#/feature/">Feature-View</a> or the <a href="#/detailNav">Docs-View</a>.
+                </div>
+            </div>
+            <side-panel flex="20">
+                <header><h1>Details zum angewählten feature</h1></header>
+                <content>
+                    <feature-detail feature="dashboard.feature"></feature-detail>
+                </content>
+            </side-panel>
+        </sc-meta-data-panel>
+    </div>
+</div>

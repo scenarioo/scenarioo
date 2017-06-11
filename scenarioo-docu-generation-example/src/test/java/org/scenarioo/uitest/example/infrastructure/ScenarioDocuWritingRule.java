@@ -42,9 +42,9 @@ import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.scenarioo.api.ScenarioDocuWriter;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Status;
-import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.model.docu.entities.generic.Details;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
@@ -58,16 +58,16 @@ import org.scenarioo.uitest.example.issues.UserStories;
  */
 public class ScenarioDocuWritingRule extends TestWatcher {
 
-	private static final Logger LOGGER = Logger.getLogger(UseCaseDocuWritingRule.class);
+	private static final Logger LOGGER = Logger.getLogger(FeatureDocuWritingRule.class);
 
-	private UseCase useCase;
+	private Feature feature;
 	private Scenario scenario;
 
 	/**
-	 * Get the usecase for current running test (as initialized by this rule)
+	 * Get the feature for current running test (as initialized by this rule)
 	 */
-	public UseCase getUseCase() {
-		return useCase;
+	public Feature getFeature() {
+		return feature;
 	}
 
 	/**
@@ -78,12 +78,12 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 	}
 
 	/**
-	 * Initialize current running usecase and scenario before the test gets executed.
+	 * Initialize current running feature and scenario before the test gets executed.
 	 */
 	@Override
 	protected void starting(final Description testMethodDescription) {
 		LOGGER.info("Writing scenario " + testMethodDescription.getMethodName());
-		useCase = UseCaseDocuWritingRule.createUseCase(testMethodDescription.getTestClass());
+		feature = FeatureDocuWritingRule.createFeature(testMethodDescription.getTestClass());
 		scenario = createScenario(testMethodDescription);
 	}
 
@@ -163,29 +163,29 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 	protected void succeeded(final Description description) {
 		String methodName = description.getMethodName();
 		String className = description.getTestClass().getSimpleName();
-		
+
 		Status status = Status.SUCCESS;
 		if(BuildRunConfiguration.isScenarioFailing(className, methodName)) {
 			status = Status.FAILED;
 			LOGGER.info("Failing scenario " + className + "." + "methodName");
 		}
-		
+
 		writeScenarioDescription(description, status);
 	}
-	
+
 	private void writeScenarioDescription(final Description testMethodDescription, Status status) {
-		
+
 		ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(),
 				MultipleBuildsRule.getCurrentBuildName());
-		
+
 		// Write scenario
-		LOGGER.info("Generating Scenarioo Docu for Scenario " + useCase.getName() + "." + scenario.getName() + " ("
+		LOGGER.info("Generating Scenarioo Docu for Scenario " + feature.getId() + "." + scenario.getName() + " ("
 				+ status.getKeyword() + ") : " + scenario.getDescription());
 		scenario.setStatus(status);
-		docuWriter.saveScenario(useCase, scenario);
-		
+		docuWriter.saveScenario(feature, scenario);
+
 		// Wait until asynch writing has finished.
 		docuWriter.flush();
 	}
-	
+
 }

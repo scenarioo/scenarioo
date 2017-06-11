@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.scenarioo:scenarioo-java:' + scenariooApiVersion
+    //compile 'org.scenarioo:scenarioo-java:' + scenariooApiVersion
     compile 'org.apache.commons:commons-lang3:3.5'
     compile 'commons-io:commons-io:2.5'
     compile 'commons-codec:commons-codec:1.10'

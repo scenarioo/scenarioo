@@ -7,8 +7,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.model.docu.aggregates.scenarios.ScenarioStatistics;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.Scenario;
-import org.scenarioo.model.docu.entities.UseCase;
 
 /**
  * Information used for displaying the overview page of a scenario.
@@ -16,42 +16,42 @@ import org.scenarioo.model.docu.entities.UseCase;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ScenarioDetails {
-	
+
 	private Scenario scenario;
 	private ScenarioStatistics scenarioStatistics;
-	private UseCase useCase;
+	private Feature feature;
 	private List<PageWithSteps> pagesAndSteps;
-	
+
 	public Scenario getScenario() {
 		return scenario;
 	}
-	
+
 	public void setScenario(final Scenario scenario) {
 		this.scenario = scenario;
 	}
-	
+
 	public ScenarioStatistics getScenarioStatistics() {
 		return scenarioStatistics;
 	}
-	
+
 	public void setScenarioStatistics(final ScenarioStatistics scenarioStatistics) {
 		this.scenarioStatistics = scenarioStatistics;
 	}
-	
-	public UseCase getUseCase() {
-		return useCase;
+
+	public Feature getFeature() {
+		return feature;
 	}
-	
-	public void setUseCase(final UseCase useCase) {
-		this.useCase = useCase;
+
+	public void setFeature(final Feature feature) {
+		this.feature = feature;
 	}
-	
+
 	public List<PageWithSteps> getPagesAndSteps() {
 		return pagesAndSteps;
 	}
-	
+
 	public void setPagesAndSteps(final List<PageWithSteps> pages) {
 		this.pagesAndSteps = pages;
 	}
-	
+
 }

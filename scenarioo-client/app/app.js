@@ -18,11 +18,11 @@
 
 angular.module('scenarioo.filters', []);
 angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute', 'scenarioo.templates']);
-angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'unsavedChanges', 'scenarioo.templates']);
+angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'scenarioo.templates']);
 angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule', 'scenarioo.templates']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
 
-angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations'])
+angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations', 'ngMaterial'])
 
     .config(function ($routeProvider) {
 
@@ -31,10 +31,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
          */
         $routeProvider
             .when('/', {
-                templateUrl: 'build/build.html',
-                controller: 'BuildController',
-                controllerAs: 'main',
-                breadcrumbId: 'main'
+                redirectTo: '/feature'
             })
             .when('/manage', {
                 templateUrl: 'manage/manage.html',
@@ -42,18 +39,18 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 controllerAs: 'vm',
                 breadcrumbId: 'manage'
             })
-            .when('/usecase/:useCaseName', {
-                templateUrl: 'useCase/usecase.html',
-                controller: 'UseCaseController',
-                controllerAs: 'useCase',
-                useCaseName: '@useCaseName',
-                breadcrumbId: 'usecase'
+            .when('/feature/:featureName', {
+                templateUrl: 'feature/feature.html',
+                controller: 'FeatureController',
+                controllerAs: 'feature',
+                featureName: '@featureName',
+                breadcrumbId: 'feature'
             })
-            .when('/scenario/:useCaseName/:scenarioName', {
+            .when('/scenario/:featureName/:scenarioName', {
                 templateUrl: 'scenario/scenario.html',
                 controller: 'ScenarioController',
                 controllerAs: 'vm',
-                useCaseName: '@useCaseName',
+                featureName: '@featureName',
                 scenarioName: '@scenarioName',
                 breadcrumbId: 'scenario'
             })
@@ -72,10 +69,10 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 objectName: '@objectName',
                 breadcrumbId: 'object'
             })
-            .when('/step/:useCaseName/:scenarioName/:pageName/:pageOccurrence/:stepInPageOccurrence', {
+            .when('/step/:featureName/:scenarioName/:pageName/:pageOccurrence/:stepInPageOccurrence', {
                 templateUrl: 'step/step.html',
                 controller: 'StepController',
-                useCaseName: '@useCaseName',
+                featureName: '@featureName',
                 scenarioName: '@scenarioName',
                 pageName: '@pageName',
                 pageOccurrence: '@pageOccurrence',
@@ -101,6 +98,37 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 scenarioSketchId: '@scenarioSketchId',
                 stepSketchId: '@stepSketchId'
             })
+
+            .when('/dashboard', {
+                templateUrl: 'dashboard/dashboard.html',
+                controller: 'DashboardController',
+                controllerAs: 'dashboard',
+                breadcrumbId: 'dashboard'
+            })
+            .when('/detailNav', {
+                templateUrl: 'dashboard/documentationView.html',
+                controller: 'DashboardController',
+                controllerAs: 'dashboard',
+                breadcrumbId: 'detail'
+            })
+            .when('/testScenarios', {
+                templateUrl: 'dashboard/scenarioView.html',
+                controller: 'DashboardController',
+                controllerAs: 'dashboard',
+                breadcrumbId: 'testScenarios'
+            })
+            .when('/feature', {
+                templateUrl: 'dashboard/featureView.html',
+                controller: 'DashboardController',
+                controllerAs: 'dashboard',
+                breadcrumbId: 'feature'
+            })
+            .when('/features', {
+                templateUrl: 'build/featuresTab.html',
+                controller: 'FeaturesTabController',
+                controllerAs: 'featuresTab'
+            })
+
             .otherwise({
                 redirectTo: '/'
             });

@@ -24,7 +24,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title ng-controller="TitleController as title" ng-bind="title.text">Scenarioo</title>
-    <meta name="viewport" content="width=device-width">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Angular Material style sheet -->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
 
     <!-- build:vendorcss styles/vendor.css -->
     <link rel="stylesheet" href="components/font-awesome/css/font-awesome.min.css">
@@ -36,7 +39,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <link rel="stylesheet" href="styles/scenarioo.css">
     <!-- endbuild -->
 
+    <script src="https://cdn.rawgit.com/showdownjs/showdown/1.6.3/dist/showdown.min.js"></script>
+
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
+
+
+    <link rel="stylesheet" href="dashboard/comp/featureCard/featureCard.css">
+    <link rel="stylesheet" href="dashboard/comp/sidepanel/sidepanel.css">
+    <link rel="stylesheet" href="dashboard/comp/testOverview/testOverview.css">
+    <link rel="stylesheet" href="dashboard/comp/fileViewer/fileViewer.css">
+    <link rel="stylesheet" href="dashboard/comp/navTree/navTree.css">
+    <link rel="stylesheet" href="dashboard/comp/featureDetail/featureDetail.css">
+    <link rel="stylesheet" href="dashboard/comp/featureExplorer/featureExplorer.css">
 
 </head>
 
@@ -83,7 +100,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <script src="environment_config.js"></script>
     <script src="app.js"></script>
     <script src="build/build.controller.js"></script>
-    <script src="build/useCasesTab.controller.js"></script>
+    <script src="build/featuresTab.controller.js"></script>
     <script src="build/sketchesTab.controller.js"></script>
     <script src="build/customTab.controller.js"></script>
     <script src="manage/config.service.js"></script>
@@ -95,6 +112,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <script src="manage/labelColors/labelColors.controller.js"></script>
     <script src="objectRepository/objectRepository.controller.js"></script>
     <script src="scenario/scenario.controller.js"></script>
+    <script src="dashboard/LocalStorageName.service.js"></script>
     <script src="scenario/pagesAndSteps.service.js"></script>
     <script src="search/search.controller.js"></script>
     <script src="shared/navigation/branchesAndBuilds.service.js"></script>
@@ -162,7 +180,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <script src="step/screenAnnotations/screenAnnotationInfoPopup.controller.js"></script>
     <script src="step/screenAnnotations/screenAnnotations.service.js"></script>
     <script src="step/step.controller.js"></script>
-    <script src="useCase/usecase.controller.js"></script>
+    <script src="feature/feature.controller.js"></script>
 
     <script src="diffViewer/diffInfo.service.js"></script>
     <script src="diffViewer/diffInfoIcon/diffInfoIcon.directive.js"></script>
@@ -170,7 +188,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <script src="diffViewer/screenshotUrl.service.js"></script>
     <script src="diffViewer/diffViewerRestClient.service.js"></script>
     <script src="diffViewer/selectedComparison.service.js"></script>
-    <!-- endbuild -->
+    <script src="dashboard/FeatureService.js"></script>
+    <script src="dashboard/dashboard.controller.js"></script>
+    <script src="dashboard/comp/featureCard/featureCard.js"></script>
+    <script src="dashboard/comp/sidepanel/sidepanel.js"></script>
+    <script src="dashboard/comp/markdown/markdown.js"></script>
+    <script src="dashboard/comp/testOverview/testOverview.js"></script>
+    <script src="dashboard/comp/fileViewer/fileViewer.js"></script>
+    <script src="dashboard/comp/navTree/navTree.js"></script>
+    <script src="dashboard/comp/siteNavigation/siteNavigation.js"></script>
+    <script src="dashboard/comp/featureDetail/featureDetail.js"></script>
+    <script src="dashboard/comp/featureExplorer/featureExplorer.js"></script>
 
+
+    <!-- endbuild -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
 </body>
 </html>

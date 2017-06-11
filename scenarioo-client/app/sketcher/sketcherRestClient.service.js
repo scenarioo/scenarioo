@@ -46,11 +46,11 @@ angular.module('scenarioo.services')
     })
 
     .factory('RelatedIssueResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/issue/related/:buildName/:useCaseName/:scenarioName/:pageName/:pageOccurence/:stepInPageOccurrence',
+        return ScenariooResource('/branch/:branchName/issue/related/:buildName/:featureName/:scenarioName/:pageName/:pageOccurence/:stepInPageOccurrence',
             {
                 branchName: '@branchName',
                 buildName: '@buildName',
-                useCaseName: '@useCaseName',
+                featureName: '@featureName',
                 scenarioName: '@scenarioName',
                 pageName: '@pageName',
                 pageOccurence: '@pageOccurence',

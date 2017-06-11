@@ -1,0 +1,80 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div ng-controller="FeaturesTabController as featuresTab">
+
+    <div class="row sc-space-top sc-space-bottom">
+        <div class="col-sm-8">
+            <div class="input-group">
+                <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="featuresSearchField"
+                       data-toggle="tooltip" title="type words separated by spaces to search for"
+                       ng-model="featuresTab.table.search.searchTerm" placeholder="Search in features..."/>
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="featuresTab.resetSearchField()" class="btn btn-default">reset</button>
+                    </span>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <sc-meta-data-button class="pull-right" linking-variable="mainShowMetadata" local-storage-key="main" ></sc-meta-data-button>
+        </div>
+    </div>
+
+    <sc-meta-data-panel linking-variable="mainShowMetadata">
+        <div>
+            <!-- features table -->
+            <table class="table table-curved table-hover table-responsive feature-table" sc-keyboard-navigatable-table="filtered" sc-keyboard-navigatable-table-hit="featuresTab.onNavigatorTableHit" >
+                <thead>
+                    <tr>
+                        <th sc-sortable-column="status">Status</th>
+                        <th sc-sortable-column="name">Name</th>
+                        <th>Description</th>
+                        <th sc-sortable-column="numberOfScenarios"># Scenarios</th>
+                        <th sc-sortable-column="diffInfo.changeRate" class="sort-diff-info" ng-if="featuresTab.comparisonInfo.isDefined">Changes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-class="{'selected':$index==selectedRowIndex, 'added': feature.diffInfo.isAdded, 'removed': feature.diffInfo.isRemoved}" ng-repeat="feature in filtered=(featuresTab.features | scFilterArray: featuresTab.table.search.searchTerm | orderBy: featuresTab.table.sort.column: featuresTab.table.sort.reverse)" ng-click="featuresTab.gotoFeature(feature)" class="link">
+                        <td>
+                            <span ng-class="[getStatusStyleClass(feature.status), 'label']">{{feature.status}}</span>
+                        </td>
+                        <td>
+                            {{feature.name | scHumanReadable }}
+                            <span ng-repeat="label in feature.labels.labels" class="label label-info sc-label" ng-style="featuresTab.getLabelStyle(label)">{{label}}</span>
+                        </td>
+                        <td>{{feature.description}}</td>
+                        <td>{{feature.numberOfScenarios}}</td>
+                        <td ng-if="featuresTab.comparisonInfo.isDefined"><sc-diff-info-icon diff-info="feature.diffInfo" element-type="feature" child-element-type="scenario"></sc-diff-info-icon></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <!-- branch -->
+            <sc-collapsable-panel title="Branch" key="mainView-branch" initially-expanded="true">
+                <sc-tree data='featuresTab.branchInformationTree'></sc-tree>
+            </sc-collapsable-panel>
+
+            <!-- build -->
+            <sc-collapsable-panel title="Build" key="mainView-build" initially-expanded="true">
+                <sc-tree data='featuresTab.buildInformationTree'></sc-tree>
+            </sc-collapsable-panel>
+
+            <sc-metadata-tree metadata-tree="featuresTab.metadataTreeBranches"></sc-metadata-tree>
+            <sc-metadata-tree metadata-tree="featuresTab.metadataTreeBuilds"></sc-metadata-tree>
+        </div>
+    </sc-meta-data-panel>
+</div>

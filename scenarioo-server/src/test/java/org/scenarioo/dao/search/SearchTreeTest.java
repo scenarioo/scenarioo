@@ -53,23 +53,23 @@ public class SearchTreeTest {
 		Scenario scenario = new Scenario();
 		scenario.setName("Scenario 1");
 
-		UseCase usecase = new UseCase();
-		usecase.setName("Use Case 1");
+		Feature feature = new Feature();
+		feature.setNameAndId("Use Case 1");
 
 		List<SearchableObject> searchResults = new ArrayList<SearchableObject>();
-		searchResults.add(new SearchableStep(step, stepLink, scenario, usecase));
+		searchResults.add(new SearchableStep(step, stepLink, scenario, feature));
 
 		return new SearchTree(new SearchResults(searchResults, 4, 2), new SearchRequest(new BuildIdentifier(), "", false));
 	}
 
-	private void thenHasNodes(ObjectTreeNode<ObjectReference> objectTree, String useCase, String scenario, String step) {
+	private void thenHasNodes(ObjectTreeNode<ObjectReference> objectTree, String feature, String scenario, String step) {
 		assertEquals(1, objectTree.getChildren().size());
 
-		ObjectTreeNode<Object> useCaseNode = objectTree.getChildren().get(0);
-		assertEquals(useCase, ((ObjectReference) useCaseNode.getItem()).getName());
-		assertEquals(1, useCaseNode.getChildren().size());
+		ObjectTreeNode<Object> featureNode = objectTree.getChildren().get(0);
+		assertEquals(feature, ((ObjectReference) featureNode.getItem()).getName());
+		assertEquals(1, featureNode.getChildren().size());
 
-		ObjectTreeNode<Object> scenarioNode = useCaseNode.getChildren().get(0);
+		ObjectTreeNode<Object> scenarioNode = featureNode.getChildren().get(0);
 		assertEquals(scenario, ((ObjectReference) scenarioNode.getItem()).getName());
 		assertEquals(1, scenarioNode.getChildren().size());
 

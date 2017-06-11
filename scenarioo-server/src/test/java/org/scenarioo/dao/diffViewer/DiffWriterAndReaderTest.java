@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,15 +31,11 @@ import org.junit.Test;
 import org.scenarioo.dao.diffViewer.impl.DiffFiles;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.dao.diffViewer.impl.DiffWriterXmlImpl;
-import org.scenarioo.model.diffViewer.BuildDiffInfo;
-import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
-import org.scenarioo.model.diffViewer.StepDiffInfo;
-import org.scenarioo.model.diffViewer.StepInfo;
-import org.scenarioo.model.diffViewer.StructureDiffInfo;
-import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
-import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
+import org.scenarioo.model.diffViewer.*;
+import org.scenarioo.model.diffViewer.FeatureDiffInfo;
+import org.scenarioo.model.docu.aggregates.features.ScenarioSummary;
 import org.scenarioo.model.docu.entities.Scenario;
-import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.utils.TestFileUtils;
 
 public class DiffWriterAndReaderTest {
@@ -48,7 +44,7 @@ public class DiffWriterAndReaderTest {
 	private static final String BASE_BRANCH_NAME = "baseBranch";
 	private static final String BASE_BUILD_NAME = "baseBuild";
 	private static final String COMPARISON_NAME = "comparisonName";
-	private static final String USE_CASE_NAME = "useCase";
+	private static final String USE_CASE_NAME = "feature";
 	private static final String SCENARIO_NAME = "scenario";
 	private static final int STEP_INDEX = 1;
 	private static final int STEP_IN_PAGE_OCCURENCE = 1;
@@ -99,16 +95,16 @@ public class DiffWriterAndReaderTest {
 	}
 
 	@Test
-	public void testWriteAndReadUseCaseDiffInfo() {
-		final UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(USE_CASE_NAME);
+	public void testWriteAndReadFeatureDiffInfo() {
+		final FeatureDiffInfo featureDiffInfo = getFeatureDiffInfo(USE_CASE_NAME);
 
-		writer.saveUseCaseDiffInfo(useCaseDiffInfo);
+		writer.saveFeatureDiffInfo(featureDiffInfo);
 		writer.flush();
 
-		final UseCaseDiffInfo actualUseCaseDiffInfo = reader.loadUseCaseDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
+		final FeatureDiffInfo actualFeatureDiffInfo = reader.loadFeatureDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
 				COMPARISON_NAME, USE_CASE_NAME);
 
-		assertStructueDiffInfo(actualUseCaseDiffInfo, USE_CASE_NAME);
+		assertStructueDiffInfo(actualFeatureDiffInfo, USE_CASE_NAME);
 	}
 
 	@Test
@@ -155,20 +151,20 @@ public class DiffWriterAndReaderTest {
 	}
 
 	@Test
-	public void testWriteAndReadUseCaseDiffInfos() {
+	public void testWriteAndReadFeatureDiffInfos() {
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
-			final UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(USE_CASE_NAME + i);
-			writer.saveUseCaseDiffInfo(useCaseDiffInfo);
+			final FeatureDiffInfo featureDiffInfo = getFeatureDiffInfo(USE_CASE_NAME + i);
+			writer.saveFeatureDiffInfo(featureDiffInfo);
 		}
 		writer.flush();
 
-		final List<UseCaseDiffInfo> actualUseCaseDiffInfos = reader.loadUseCaseDiffInfos(BASE_BRANCH_NAME,
+		final List<FeatureDiffInfo> actualFeatureDiffInfos = reader.loadFeatureDiffInfos(BASE_BRANCH_NAME,
 				BASE_BUILD_NAME,
 				COMPARISON_NAME);
 
-		assertEquals(2, actualUseCaseDiffInfos.size());
+		assertEquals(2, actualFeatureDiffInfos.size());
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
-			assertStructueDiffInfo(actualUseCaseDiffInfos.get(i), USE_CASE_NAME + i);
+			assertStructueDiffInfo(actualFeatureDiffInfos.get(i), USE_CASE_NAME + i);
 		}
 	}
 
@@ -219,13 +215,13 @@ public class DiffWriterAndReaderTest {
 
 	private BuildDiffInfo getBuildDiffInfo(final String name) {
 		return (BuildDiffInfo) initStructureDiffInfo(new BuildDiffInfo(), name, USE_CASE_NAME,
-				new UseCase(USE_CASE_NAME, null));
+				new Feature(USE_CASE_NAME, null));
 	}
 
-	private UseCaseDiffInfo getUseCaseDiffInfo(final String name) {
+	private FeatureDiffInfo getFeatureDiffInfo(final String name) {
 		final ScenarioSummary scenarioSummary = new ScenarioSummary();
 		scenarioSummary.setScenario(new Scenario(SCENARIO_NAME, null));
-		return (UseCaseDiffInfo) initStructureDiffInfo(new UseCaseDiffInfo(), name, SCENARIO_NAME, scenarioSummary);
+		return (FeatureDiffInfo) initStructureDiffInfo(new FeatureDiffInfo(), name, SCENARIO_NAME, scenarioSummary);
 	}
 
 	private ScenarioDiffInfo getScenarioDiffInfo(final String name) {

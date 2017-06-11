@@ -77,7 +77,7 @@ public class SketcherDaoTest {
 				STEP_SKETCH_ID);
 		assertTrue("Expect step sketch directory (and all parent folders) to be created.", stepSketchDir.exists());
 		assertEquals("Expected path for step sketch file",
-				new File(filePath(ROOT_DIRECTORY, SketcherDao.SKETCHER_DIRECTORY, "Test+Branch", ISSUE_ID,
+				new File(filePath(ROOT_DIRECTORY, SketcherDao.SKETCHER_DIRECTORY, FilesUtil.encodeName("Test Branch"), ISSUE_ID,
 						SCENARIO_SKETCH_ID, STEP_SKETCH_ID))
 						.getAbsolutePath(), stepSketchDir.getPath());
 	}

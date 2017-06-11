@@ -35,6 +35,12 @@ apply from: "${rootProject.projectDir}/java.gradle"
 // because it would delete our version of the org.eclipse.jdt.ui.prefs
 cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt
 
+
+dependencies {
+	compile project(':scenarioo-server')
+}
+
+
 test {
     minHeapSize = "128m"
   	maxHeapSize = "512m"

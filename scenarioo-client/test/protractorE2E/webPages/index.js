@@ -6,7 +6,7 @@
  */
 var HomePage = require('./homePage.js');
 var NavigationPage = require('./navigationPage.js');
-var UsecasePage = require('./usecasePage.js');
+var UsecasePage = require('./featurePage.js');
 var ScenarioPage = require('./scenarioPage.js');
 var StepPage = require('./stepPage.js');
 var EditorPage = require('./editorPage.js');
@@ -17,10 +17,14 @@ var LabelConfigurationsPage = require('./labelConfigurationsPage.js');
 var BreadcrumbsPage = require('./breadcrumbsPage.js');
 var SearchResultsPage = require('./searchResultsPage.js');
 
+
+var FeatureView = require('./dashboard/featureView.js');
+var FeatureExplorer = require('./dashboard/featureExplorer.js');
+
 module.exports = {
     homePage: HomePage,
     navigationPage: NavigationPage,
-    usecasePage: UsecasePage,
+    featurePage: UsecasePage,
     scenarioPage: ScenarioPage,
     stepPage: StepPage,
     editorPage: EditorPage,
@@ -29,5 +33,7 @@ module.exports = {
     objectDetailsPage: ObjectDetailsPage,
     labelConfigurationsPage: LabelConfigurationsPage,
     breadcrumbsPage: BreadcrumbsPage,
-    searchResultsPage: SearchResultsPage
+    searchResultsPage: SearchResultsPage,
+    featureView: FeatureView,
+    featureExplorer: FeatureExplorer,
 };

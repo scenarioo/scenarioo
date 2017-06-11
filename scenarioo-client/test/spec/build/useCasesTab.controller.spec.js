@@ -17,10 +17,10 @@
 
 'use strict';
 
-describe('UseCasesTabController', function () {
+describe('FeaturesTabController', function () {
 
     var $location, $scope;
-    var useCasesTabController;
+    var featuresTabController;
 
     beforeEach(module('scenarioo.controllers'));
 
@@ -28,22 +28,22 @@ describe('UseCasesTabController', function () {
             $location = _$location_;
 
         $scope = $rootScope.$new();
-        useCasesTabController = $controller('UseCasesTabController', {$scope: $scope});
+        featuresTabController = $controller('FeaturesTabController', {$scope: $scope});
         }
     ));
 
-    it('has no usecases and builds set in the beginning', function () {
-        expect(useCasesTabController.useCases.length).toBe(0);
-        expect(useCasesTabController.branchesAndBuilds.length).toBe(0);
+    it('has no features and builds set in the beginning', function () {
+        expect(featuresTabController.features.length).toBe(0);
+        expect(featuresTabController.branchesAndBuilds.length).toBe(0);
     });
 
-    it('navigates to use case when link is clicked', function () {
+    it('navigates to feature when link is clicked', function () {
         expect($location.path()).toBe('');
 
-        var dummyUseCase = { name: 'DisplayWeather', diffInfo: {isRemoved: false} };
-        useCasesTabController.gotoUseCase(dummyUseCase);
+        var dummyFeature = { name: 'DisplayWeather', diffInfo: {isRemoved: false} };
+        featuresTabController.gotoFeature(dummyFeature);
 
-        expect($location.path()).toBe('/usecase/DisplayWeather');
+        expect($location.path()).toBe('/feature/DisplayWeather');
     });
 
 });

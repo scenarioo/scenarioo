@@ -3,7 +3,7 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-useCase('Browse page variants')
+useCase('Browse_page_variants')
     .description('On the step page the user can flip through all existing variants of the page.')
     .describe(function () {
 
@@ -41,7 +41,7 @@ useCase('Browse page variants')
 
                 stepPage.clickAllPageVariantsLink();
                 stepPage.assertRoute('/object/page/contentPage.jsp');
-                step('Overview of page variants in all use cases.');
+                step('Overview of page variants in all features.');
 
                 objectDetailsPage.clickToExpand(3);
                 step('Expanded scenario with the steps that contain the page.');

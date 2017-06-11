@@ -3,15 +3,15 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-var COMPARISON_SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/2014-01-20/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
-var BASE_SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/last%20successful/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
+var COMPARISON_SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/2014-01-20/feature/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
+var BASE_SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/last%20successful/feature/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
 
-useCase('Show step')
+useCase('Show_step')
     .description('Show a single step of a scenario. Includes the screenshot, metadata and navigation buttons')
     .describe(function () {
 
         var homePage = new pages.homePage();
-        var usecasePage = new pages.usecasePage();
+        var featurePage = new pages.featurePage();
         var scenarioPage = new pages.scenarioPage();
         var stepPage = new pages.stepPage();
 
@@ -29,12 +29,12 @@ useCase('Show step')
                 var ROUTE_OF_THIRD_STEP = '/step/Find%20Page/find_no_results/searchResults.jsp/0/0';
 
                 homePage.goToPage();
-                step('Display home page with list of use cases');
+                step('Display home page with list of features');
 
-                homePage.selectUseCase(1);
+                homePage.selectFeature(1);
                 step('Display list of scenarios');
 
-                usecasePage.selectScenario(1);
+                featurePage.selectScenario(1);
                 step('Display one scenario');
 
                 scenarioPage.openStepByName('Step 1: Wikipedia Suche');
@@ -98,7 +98,7 @@ useCase('Show step')
             .description('If the fallback mechanism finds multiple candidates, the one with the most matching labels is used.')
             .it(function () {
 
-                stepPage.goToPage('/step/RenamedUseCase/DeletedScenario/contentPage.jsp/111/222?labels=exact%20match,i18n,step-label-2,public,page-label1,page-label2');
+                stepPage.goToPage('/step/RenamedFeature/DeletedScenario/contentPage.jsp/111/222?labels=exact%20match,i18n,step-label-2,public,page-label1,page-label2');
 
                 stepPage.assertFallbackMessageIsShown();
                 stepPage.assertFallbackMessageContainsText('Usecase: Switch Language');
@@ -197,7 +197,7 @@ useCase('Show step')
             .labels(['diff-viewer'])
             .it(function () {
 
-                var SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/last%20successful/usecase/Donate/scenario/find_donate_page/image/001.png';
+                var SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/last%20successful/feature/Donate/scenario/find_donate_page/image/001.png';
 
                 stepPage.goToPage('/step/Donate/find_donate_page/startSearch.jsp/0/1?branch=wikipedia-docu-example&build=last%20successful&comparison=To%20Projectstart');
                 step('An added step');

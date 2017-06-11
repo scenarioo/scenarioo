@@ -3,7 +3,7 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-useCase('Full Text Search')
+useCase('Full_Text_Search')
     .description('Search within all information of the selected build.')
     .describe(function () {
 
@@ -58,7 +58,7 @@ useCase('Full Text Search')
                 breadcrumbsPage.assertBreadcrumbElementText('breadcrumb_last_1', 'Search Results for body');
                 searchResultsPage.assertNoResultsShown();
                 step('No results, as not searching in html source');
-                
+
                 searchResultsPage.clickIncludeHtml();
                 breadcrumbsPage.assertBreadcrumbElementText('breadcrumb_0', 'Home');
                 breadcrumbsPage.assertBreadcrumbElementText('breadcrumb_last_1', 'Search Results for body');

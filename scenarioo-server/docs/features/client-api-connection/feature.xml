@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feature xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+    <id>client-api-connection</id>
+    <name>Client API Connection</name>
+    <description> all changes to the client side API</description>
+    <status>failed</status>
+    <milestone>R1</milestone>
+    <orderIndex>0</orderIndex>
+    <markdown>
+        <name>Markdown-Test</name>
+        <url>https://raw.githubusercontent.com/scenarioo/scenarioo/develop/README.md</url>
+        <type>MARKDOWN</type>
+    </markdown>
+    <specification>
+        <name>Specification-Test</name>
+        <url>https://raw.githubusercontent.com/scenarioo/scenarioo/develop/scenarioo-client/test/spec/scenario/scenario.controller.spec.js</url>
+        <type>JAVASCRIPT</type>
+    </specification>
+    <details/>
+    <labels/>
+</feature>

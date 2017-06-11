@@ -1,0 +1,38 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<div flex class="navAll">
+    <div class="navActiveFeature" style="background-color: {{navTree.getBGColor()}};">
+        <span ng-if="navTree.feature.features.length>0">
+            <div class="navExpandable" ng-click="navTree.feature.isExplorerCollapsed = !navTree.feature.isExplorerCollapsed">
+                <span ng-if="navTree.feature.isExplorerCollapsed">+</span>
+                <span ng-if="!navTree.feature.isExplorerCollapsed">-</span>
+            </div>
+        </span>
+        <span ng-if="navTree.feature.features.length==0">
+
+            <div class="navNoChild"><span>|</span></div>
+        </span>
+        <span class="click-{{navTree.feature.id}}" ng-click="navTree.clickFeature(navTree.feature, '')">
+            {{navTree.feature.name}}
+        </span>
+    </div>
+    <li uib-collapse="navTree.feature.isExplorerCollapsed" ng-show="!navTree.feature.isExplorerCollapsed">
+        <ul class="navSubfeature" ng-repeat="feature1 in navTree.feature.features">
+            <nav-tree feature="feature1" current-feature="navTree.currentFeature"></nav-tree>
+        </ul>
+    </li>
+</div>

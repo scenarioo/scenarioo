@@ -161,6 +161,17 @@ gulp.task('test-e2e-scenarioo', function () {
         });
 });
 
+gulp.task('test-e2e-dashboard', function () {
+    gulp.src(['./test/protractorE2E/specs/dashboard/**/*.js'])
+        .pipe(protractor({
+            configFile: './protractor-e2e-scenarioo.conf.js'
+        }))
+        .on('error', function (e) {
+            throw e;
+        });
+});
+
+
 /**
  * Read constants from environments.json and write angular config file "environment_config.js"
  * specify environment like so:
@@ -230,6 +241,7 @@ gulp.task('copy-to-dist', ['environmentConstants', 'usemin', 'less'], function (
     /* copy third party files */
     gulp.src(['./app/components/font-awesome/font/*']).pipe(gulp.dest('./dist/font'));
     gulp.src(['./app/components/bootstrap/dist/fonts/*']).pipe(gulp.dest('./dist/fonts'));
+    gulp.src(['./app/dashboard/comp/**/*.css']).pipe(gulp.dest('./dist/dashboard/comp'));
 });
 
 /**

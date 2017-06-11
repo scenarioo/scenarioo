@@ -14,14 +14,14 @@ import org.scenarioo.rest.base.ScenarioIdentifier;
 import org.scenarioo.rest.base.StepIdentifier;
 
 public class ScreenshotResponseFactory {
-	
+
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
-	
+
 	private final ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(
 			configurationRepository.getDocumentationDataDirectory());
 	private final FallbackImageMarker fallbackImageMarker = new FallbackImageMarker();
-	
+
 	public Response createResponse(final StepLoaderResult stepLoaderResult, final boolean showFallbackStamp,
 			final BuildIdentifier buildIdentifierBeforeAliasResolution) {
 		if (stepLoaderResult.isRequestedStepFound()) {
@@ -32,37 +32,37 @@ public class ScreenshotResponseFactory {
 			return notFoundResponse();
 		}
 	}
-	
+
 	private Response foundImageResponse(final StepLoaderResult steLoaderResult, final boolean showFallbackStamp) {
 		return createFoundImageResponse(steLoaderResult.getStepIdentifier().getScenarioIdentifier(),
 				steLoaderResult.getScreenshotFileName(), showFallbackStamp);
 	}
-	
+
 	public Response createFoundImageResponse(final ScenarioIdentifier scenarioIdentifier, final String imageFileName,
 			final boolean showFallbackStamp) {
 		final BuildIdentifier buildIdentifier = scenarioIdentifier.getBuildIdentifier();
-		final String usecaseName = scenarioIdentifier.getUsecaseName();
+		final String featureName = scenarioIdentifier.getFeatureName();
 		final String scenarioName = scenarioIdentifier.getScenarioName();
-		
+
 		File screenshot = scenarioDocuReader.getScreenshotFile(buildIdentifier.getBranchName(),
-				buildIdentifier.getBuildName(), usecaseName, scenarioName, imageFileName);
-		
+				buildIdentifier.getBuildName(), featureName, scenarioName, imageFileName);
+
 		return createFoundImageResponse(imageFileName, screenshot, showFallbackStamp);
 	}
-	
+
 	private Response createFoundImageResponse(final String imgName, final File screenshot,
 			final boolean showFallbackStamp) {
 		if (screenshot == null || !screenshot.exists()) {
 			return notFoundResponse();
 		}
-		
+
 		if (showFallbackStamp) {
 			return createOkResponseWithFallbackStamp(imgName, screenshot);
 		} else {
 			return createOkResponse(imgName, screenshot);
 		}
 	}
-	
+
 	private Response createOkResponseWithFallbackStamp(final String imgName, final File screenshot) {
 		try {
 			byte[] stampedScreenshot = fallbackImageMarker.getMarkedImage(screenshot);
@@ -72,11 +72,11 @@ public class ScreenshotResponseFactory {
 			return notFoundResponse();
 		}
 	}
-	
+
 	private Response createOkResponse(final String imgName, final File screenshot) {
 		return Response.ok(screenshot).build();
 	}
-	
+
 	private Response redirectResponse(final StepLoaderResult stepImage,
 			final BuildIdentifier buildIdentifierBeforeAliasResolution) {
 		StepIdentifier stepIdentifier = stepImage.getStepIdentifier();
@@ -86,9 +86,9 @@ public class ScreenshotResponseFactory {
 		return Response.temporaryRedirect(
 				stepIdentifierWithPotentialAlias.getScreenshotUriForRedirect(screenshotFileNameExtension)).build();
 	}
-	
+
 	private Response notFoundResponse() {
 		return Response.status(Status.NOT_FOUND).build();
 	}
-	
+
 }

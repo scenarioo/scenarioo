@@ -37,15 +37,15 @@ import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.scenarioo.dao.search.FullTextSearch;
-import org.scenarioo.dao.search.IgnoreUseCaseSetStatusMixIn;
+import org.scenarioo.dao.search.IgnoreFeatureSetStatusMixIn;
 import org.scenarioo.dao.search.model.SearchResults;
 import org.scenarioo.dao.search.model.SearchableObject;
 import org.scenarioo.dao.search.model.SearchableScenario;
 import org.scenarioo.dao.search.model.SearchableStep;
-import org.scenarioo.dao.search.model.SearchableUseCase;
+import org.scenarioo.dao.search.model.SearchableFeature;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.StepDescription;
-import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.search.SearchRequest;
 
 class ElasticSearchSearcher {
@@ -55,7 +55,7 @@ class ElasticSearchSearcher {
 	private String indexName;
     private TransportClient client;
 
-    private ObjectReader useCaseReader;
+    private ObjectReader featureReader;
     private ObjectReader scenarioReader;
     private ObjectReader stepReader;
 
@@ -66,7 +66,7 @@ class ElasticSearchSearcher {
 
             this.indexName = indexName;
 
-			useCaseReader = generateStandardReaders(UseCase.class, SearchableUseCase.class);
+			featureReader = generateStandardReaders(Feature.class, SearchableFeature.class);
 			scenarioReader = generateStandardReaders(Scenario.class, SearchableScenario.class);
 			stepReader = generateStandardReaders(StepDescription.class, SearchableStep.class);
 
@@ -89,8 +89,8 @@ class ElasticSearchSearcher {
         for (SearchHit searchHit : hits) {
             try {
                 String type = searchHit.getType();
-                if (type.equals(FullTextSearch.USECASE)) {
-                    results.add(parseUseCase(searchHit));
+                if (type.equals(FullTextSearch.FEATURE)) {
+                    results.add(parseFeature(searchHit));
 
                 } else if (type.equals(FullTextSearch.SCENARIO)) {
                     results.add(parseScenario(searchHit));
@@ -131,10 +131,10 @@ class ElasticSearchSearcher {
 		}
 	}
 
-	private SearchableObject parseUseCase(final SearchHit searchHit) throws IOException {
-        SearchableUseCase useCaseResult = useCaseReader.readValue(searchHit.getSourceRef().streamInput());
+	private SearchableObject parseFeature(final SearchHit searchHit) throws IOException {
+        SearchableFeature searchableFeature = featureReader.readValue(searchHit.getSourceRef().streamInput());
 
-		return useCaseResult;
+		return searchableFeature;
     }
 
     private SearchableObject parseScenario(final SearchHit searchHit) throws IOException {
@@ -151,13 +151,13 @@ class ElasticSearchSearcher {
 		return stepSearchDao;
     }
 
-	// TODO #552 Remove the IgnoreUseCaseSetStatusMixIn and the FAIL_ON_UNKNOWN_PROPERTIES setting
+	// TODO #552 Remove the IgnoreFeatureSetStatusMixIn and the FAIL_ON_UNKNOWN_PROPERTIES setting
 	// as soon as we change the Scenarioo format to JSON. Then add the @JsonIgnore attribute
 	// to the all setStatus(Status value) helper methods.
 	private ObjectReader generateStandardReaders(final Class<?> targetDao, final Class<?> targetSearchDao) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.getDeserializationConfig().addMixInAnnotations(targetDao,
-			IgnoreUseCaseSetStatusMixIn.class);
+			IgnoreFeatureSetStatusMixIn.class);
 		objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		return objectMapper.reader(targetSearchDao);

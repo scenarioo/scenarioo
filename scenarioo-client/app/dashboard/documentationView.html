@@ -1,0 +1,93 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<div layout = "row" ng-controller="DashboardController as dashboard">
+    <feature-explorer root-feature="dashboard.rootFeature" current-feature="dashboard.feature"></feature-explorer>
+    <div flex layout-fill layout = "column">
+        <sc-breadcrumbs></sc-breadcrumbs>
+        <h1>{{dashboard.feature.name}}</h1>
+        <span>{{dashboard.feature.description}}</span>
+        <div layout = "row" class="sc-space-top sc-space-bottom">
+            <div flex>
+                <div class="input-group">
+                    <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip"
+                           title="type words separated by spaces to search for" ng-model="dashboard.table.search.searchTerm"
+                           placeholder="Search in feature &quot;{{dashboard.feature.name | scHumanReadable}}&quot;..."/>
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="dashboard.table.search.searchTerm=''" class="btn btn-default">reset</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <sc-meta-data-button class="pull-right" linking-variable="featureShowMetadata" local-storage-key="feature"></sc-meta-data-button>
+            </div>
+        </div>
+        <div layout = "row">
+            <site-navigation current="detailNav" flex = "33"></site-navigation>
+        </div>
+        <sc-meta-data-panel linking-variable="featureShowMetadata">
+            <div flex>
+                <div class="docMarg1">
+                    <button type="button" class="btn btn-default" ng-click="dashboard.expandAll()">Expand all</button>
+                    <button type="button" class="btn btn-default" ng-click="dashboard.collapseAll()">Collapse all</button>
+                    <div ng-if="dashboard.contains(dashboard.feature, 'markdown') || dashboard.contains(dashboard.feature, 'specification')">
+                        <file-viewer feature="dashboard.feature"></file-viewer>
+                    </div>
+                    <div ng-if="!dashboard.contains(dashboard.feature, 'markdown') && !dashboard.contains(dashboard.feature, 'specification')">
+                        <br/>
+                        This feature doesn't contain a markdown or specification file.
+                        <br/>
+                        You're probably better of with the <a href="#/testScenarios">Scenarios-View</a>
+                    </div>
+                    <div ng-if="dashboard.contains(dashboard.feature, 'features')">
+                        <div ng-repeat="feature in dashboard.feature.features |
+                            scFilterArray: dashboard.table.search.searchTerm : 'parentFeature' |
+                            orderBy: dashboard.firstOrder">
+                            <div class="subfeatureSeparator" ng-click="feature.isCollapsed = !feature.isCollapsed">
+                                <h3>
+                                    <i ng-show="!feature.isCollapsed" class="glyphicon glyphicon-chevron-down"></i>
+                                    <i ng-show="feature.isCollapsed" class="glyphicon glyphicon-chevron-right"></i>
+                                    {{feature.name}},
+                                    <test-overview feature="feature"></test-overview>
+                                    <a ng-click="dashboard.clickFeature(feature, '/detailNav')">Select feature</a>
+                                </h3>
+                            </div>
+                            <div uib-collapse="feature.isCollapsed" ng-show="!feature.isCollapsed" class="docMarg2">
+                                <file-viewer feature="feature"></file-viewer>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="!dashboard.contains(dashboard.feature, 'features')">
+                        <br/>
+                        This feature doesn't contain any subfeatures.
+                    </div>
+                </div>
+            </div>
+            <side-panel flex="20">
+                <header><h1>Details zum angewählten feature</h1></header>
+                <content>
+                    <feature-detail feature="dashboard.feature"></feature-detail>
+                </content>
+            </side-panel>
+        </sc-meta-data-panel>
+    </div>
+</div>
+
+<style>
+    .subfeatureSeparator {border-bottom: 2px solid dimgrey;}
+    .docMarg1 {margin-left: 1%;}
+    .docMarg2 {margin-left: 2%;}
+</style>

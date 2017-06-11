@@ -3,20 +3,20 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-useCase('Browse object details')
+useCase('Browse_object_details')
     .description('The object details view includes a reference tree with all Use Cases, '
         + 'Scenarios, Steps and other objects that reference this object.')
     .describe(function () {
 
         var objectDetailsPage = new pages.objectDetailsPage();
-        var usecasePage = new pages.usecasePage();
+        var featurePage = new pages.featurePage();
 
         beforeEach(function () {
             new pages.homePage().initLocalStorage();
         });
 
         scenario('Default expand and collapse')
-            .description('Only the first level of nodes (use cases) is expanded initially. All other tree levels are collapsed.')
+            .description('Only the first level of nodes (features) is expanded initially. All other tree levels are collapsed.')
             .it(function () {
                 objectDetailsPage.goToPage('/object/uiAction/example.action.StartInitAction');
                 step('Display object details page');
@@ -35,17 +35,17 @@ useCase('Browse object details')
                 step('Display object details page');
 
                 objectDetailsPage.clickNthTreeTableRow(0);
-                objectDetailsPage.assertRoute('/usecase/Find%20Page');
-                usecasePage.clickBrowserBackButton();
+                objectDetailsPage.assertRoute('/feature/Find%20Page');
+                featurePage.clickBrowserBackButton();
 
                 objectDetailsPage.clickNthTreeTableRow(1);
                 objectDetailsPage.assertRoute('/scenario/Find%20Page/find_multiple_results');
-                usecasePage.clickBrowserBackButton();
+                featurePage.clickBrowserBackButton();
 
                 objectDetailsPage.clickToExpand('1');
                 objectDetailsPage.clickNthTreeTableRow(2);
                 objectDetailsPage.assertRoute('/step/Find%20Page/find_multiple_results/startSearch.jsp/0/0');
-                usecasePage.clickBrowserBackButton();
+                featurePage.clickBrowserBackButton();
             });
 
         scenario('Search collapsed')

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feature xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+    <details>
+        <entry>
+            <key>Webtest Class</key>
+            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">org.scenarioo.uitest.example.testcases.SwitchLanguageUITest</value>
+        </entry>
+    </details>
+    <labels/>
+    <orderIndex>0</orderIndex>
+    <name>Switch Language</name>
+    <description>Search in a different language and switch language of current article.</description>
+    <id>Switch%20Language</id>
+</feature>

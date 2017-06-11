@@ -6,7 +6,7 @@ var pages = require('./../webPages');
 var NUMBER_OF_ALIASES_IN_CONFIG = 2;
 var FIRST_TEST_ALIAS_INDEX = NUMBER_OF_ALIASES_IN_CONFIG;
 
-useCase('Manage branch aliases')
+useCase('Manage_branch_aliases')
     .description('Define new branch aliases, edit existing ones and delete them.')
     .describe(function () {
 

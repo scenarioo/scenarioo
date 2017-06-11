@@ -25,7 +25,7 @@ function StepSketchController($scope, $routeParams, $location, HostnameAndPort, 
     vm.issueNotFound = false;
     vm.getSketchScreenshotUrl = getSketchScreenshotUrl;
     vm.getOriginalScreenshotUrl = getOriginalScreenshotUrl;
-    vm.getUseCaseUrl = getUseCaseUrl;
+    vm.getFeatureUrl = getFeatureUrl;
     vm.getScenarioUrl = getScenarioUrl;
     vm.getStepUrl = getStepUrl;
 
@@ -110,11 +110,11 @@ function StepSketchController($scope, $routeParams, $location, HostnameAndPort, 
         return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/original.png';
     };
 
-    function getUseCaseUrl() {
+    function getFeatureUrl() {
         if(vm.stepSketch == null) {
             return undefined;
         }
-        return '#/usecase/' + encodeURIComponent(vm.stepSketch.relatedStep.usecaseName);
+        return '#/feature/' + (vm.stepSketch.relatedStep.featureName);
     };
 
     function getScenarioUrl() {
@@ -122,7 +122,7 @@ function StepSketchController($scope, $routeParams, $location, HostnameAndPort, 
             return undefined;
         }
         var step = vm.stepSketch.relatedStep;
-        return '#/scenario/' + encodeURIComponent(step.usecaseName) + '/' + encodeURIComponent(step.scenarioName);
+        return '#/scenario/' + (step.featureName) + '/' + encodeURIComponent(step.scenarioName);
     };
 
     function getStepUrl(){
@@ -130,6 +130,6 @@ function StepSketchController($scope, $routeParams, $location, HostnameAndPort, 
             return undefined;
         }
         var step = vm.stepSketch.relatedStep;
-        return '#/step/' + encodeURIComponent(step.usecaseName) + '/' + encodeURIComponent(step.scenarioName) + '/' + encodeURIComponent(step.pageName) + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence;
+        return '#/step/' + (step.featureName) + '/' + encodeURIComponent(step.scenarioName) + '/' + encodeURIComponent(step.pageName) + '/' + step.pageOccurrence + '/' + step.stepInPageOccurrence;
     };
 };

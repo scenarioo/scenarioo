@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feature xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns3="http://www.scenarioo.org/scenarioo">
+    <id>gui-elements</id>
+    <name>GUI-Elements</name>
+    <description>The 4 GUI views, of which two will be slightly changed from the old scenarioo and two will be totaly new</description>
+    <status>success</status>
+    <milestone>R1</milestone>
+    <orderIndex>0</orderIndex>
+    <featureNames>feature-view</featureNames>
+    <featureNames>scenario-view</featureNames>
+    <featureNames>documentation-view</featureNames>
+    <featureNames>dashboard-view</featureNames>
+    <featureNames>tree-navigation</featureNames>
+    <markdown>
+        <name>GUI-Documentation</name>
+        <url>GUI-Elements.md</url>
+        <type>MARKDOWN</type>
+        <links>
+            <name>Original</name>
+            <url>https://google.com</url>
+        </links>
+    </markdown>
+    <specification>
+        <name>Specification-Test</name>
+        <url>https://raw.githubusercontent.com/scenarioo/scenarioo/develop/scenarioo-client/test/spec/scenario/scenario.controller.spec.js</url>
+        <type>JAVASCRIPT</type>
+    </specification>
+    <details/>
+    <labels/>
+</feature>

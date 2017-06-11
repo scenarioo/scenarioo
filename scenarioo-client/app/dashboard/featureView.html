@@ -1,0 +1,97 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<div layout = "row" ng-controller="DashboardController as dashboard">
+    <feature-explorer root-feature="dashboard.rootFeature" current-feature="dashboard.feature"></feature-explorer>
+    <div flex layout-fill layout = "column">
+        <sc-breadcrumbs></sc-breadcrumbs>
+        <h1>{{dashboard.feature.name}}</h1>
+        <span>{{dashboard.feature.description}}</span>
+        <div layout = "row" class="sc-space-top sc-space-bottom">
+            <div flex>
+                <div class="input-group">
+                    <input type="text" class="ng-pristine ng-valid tableSearch form-control" data-toggle="tooltip" id="featureSearchField"
+                           title="type words separated by spaces to search for" ng-model="dashboard.table.search.searchTerm"
+                           placeholder="Search in feature &quot;{{dashboard.feature.name | scHumanReadable}}&quot;..."/>
+                    <span class="input-group-btn">
+                        <button type="button" ng-click="dashboard.table.search.searchTerm=''" class="btn btn-default">reset</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <sc-meta-data-button class="pull-right" linking-variable="featureShowMetadata" local-storage-key="feature"></sc-meta-data-button>
+            </div>
+        </div>
+        <div layout = "row">
+            <site-navigation current="feature" flex = "33"></site-navigation>
+        </div>
+        <sc-meta-data-panel linking-variable="featureShowMetadata">
+            <div flex>
+                <table ng-if="dashboard.feature.features.length > 0"
+                       class="table table-curved table-hover table-responsive feature-table"
+                       sc-keyboard-navigatable-table="filtered">
+                    <thead>
+                    <tr>
+                        <th sc-sortable-column="status">Status</th>
+                        <th sc-sortable-column="name">Name</th>
+                        <th sc-sortable-column="description">Description</th>
+                        <th sc-sortable-column="milestone">Milestone</th>
+                        <th sc-sortable-column="features.length"># Subfeatures</th>
+                        <th sc-sortable-column="numberOfScenario"># Scenarios</th>
+                        <th sc-sortable-column="success"># Tests</th>
+                        <th sc-sortable-column="diffInfo.changeRate" class="sort-diff-info"
+                            ng-if="dashboard.comparisonInfo.isDefined">Changes</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-class="{'selected':$index==selectedRowIndex,
+                        'added': feature.diffInfo.isAdded,
+                        'removed': feature.diffInfo.isRemoved}"  ng-repeat="feature in dashboard.feature.features |
+                        scFilterArray: dashboard.table.search.searchTerm : 'parentFeature' |
+                        orderBy: dashboard.table.sort.column: dashboard.table.sort.reverse"
+                        ng-click="dashboard.clickFeature(feature, '/feature')" class="link">
+                        <td>
+                            <span ng-class="[getStatusStyleClass(feature.status), 'label']">{{feature.status}}</span>
+                        </td>
+                        <td>
+                            {{feature.name}}
+                            <span ng-repeat="label in feature.labels.labels" class="label label-info sc-label" ng-style="dashboard.getLabelStyle(label)">{{label}}</span>
+                        </td>
+                        <td>{{feature.description}}</td>
+                        <td>{{feature.milestone}}</td>
+                        <td>{{feature.features.length>=1 ? feature.features.length : '0'}}</td>
+                        <td>{{feature.numberOfScenarios}}</td>
+                        <td><test-overview feature="feature"></test-overview></td>
+                        <td ng-if="dashboard.comparisonInfo.isDefined"><sc-diff-info-icon diff-info="feature.diffInfo" element-type="feature" child-element-type="scenario"></sc-diff-info-icon></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div ng-if="dashboard.feature.features.length < 1">
+                    <br/>
+                    There are no subfeatures in this feature.
+                    <br/>
+                    You're probably better off with the <a href="#/detailNav">Docs-View</a> or the <a href="#/testScenarios">Scenarios-View</a>.
+                </div>
+            </div>
+            <side-panel flex="20">
+                <header><h1>Details zum angewählten feature</h1></header>
+                <content>
+                    <feature-detail feature="dashboard.feature"></feature-detail>
+                </content>
+            </side-panel>
+        </sc-meta-data-panel>
+    </div>
+</div>

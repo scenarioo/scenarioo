@@ -41,7 +41,7 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 
 	private ScreenshotComparator screenshotComparator = new ScreenshotComparator(baseBranchName, baseBuildName,
 			comparisonConfiguration);
-	private String baseUseCaseName;
+	private String baseFeatureName;
 	private String baseScenarioName;
 	private List<Step> comparisonSteps;
 	private StepsAndPagesAggregator stepAndPagesAggregator = new StepsAndPagesAggregator(null, null);
@@ -51,25 +51,25 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 		super(baseBranchName, baseBuildName, comparisonConfiguration);
 	}
 
-	public ScenarioDiffInfo compare(final String baseUseCaseName, final String baseScenarioName) {
-		this.baseUseCaseName = baseUseCaseName;
+	public ScenarioDiffInfo compare(final String baseFeatureName, final String baseScenarioName) {
+		this.baseFeatureName = baseFeatureName;
 		this.baseScenarioName = baseScenarioName;
 
 		final List<Step> baseSteps = loadSteps(baseBranchName, baseBuildName);
 		this.comparisonSteps = loadSteps(comparisonConfiguration.getComparisonBranchName(),
 				comparisonConfiguration.getComparisonBuildName());
 
-		final List<StepLink> baseStepLinks = stepAndPagesAggregator.calculateStepLinks(baseSteps, baseUseCaseName,
+		final List<StepLink> baseStepLinks = stepAndPagesAggregator.calculateStepLinks(baseSteps, baseFeatureName,
 				baseScenarioName);
 		final List<StepLink> comparisonStepLinks = stepAndPagesAggregator.calculateStepLinks(comparisonSteps,
-				baseUseCaseName, baseScenarioName);
+				baseFeatureName, baseScenarioName);
 
 		final ScenarioDiffInfo scenarioDiffInfo = new ScenarioDiffInfo(baseScenarioName);
 
 		calculateDiffInfo(baseStepLinks, comparisonStepLinks, scenarioDiffInfo);
 
 		LOGGER.info(getLogMessage(scenarioDiffInfo,
-				"Scenario " + baseBranchName + "/" + baseBuildName + "/" + baseUseCaseName + "/" + baseScenarioName));
+				"Scenario " + baseBranchName + "/" + baseBuildName + "/" + baseFeatureName + "/" + baseScenarioName));
 
 		return scenarioDiffInfo;
 	}
@@ -84,12 +84,12 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 					.format(comparisonElement.getStepIndex())
 					+ SCREENSHOT_FILE_EXTENSION;
 
-			final double changeRate = screenshotComparator.compare(baseUseCaseName, baseScenarioName,
+			final double changeRate = screenshotComparator.compare(baseFeatureName, baseScenarioName,
 					baseElement, comparisonScreenshotName);
 
 			final StepDiffInfo stepDiffInfo = getStepDiffInfo(baseElement, comparisonScreenshotName, changeRate);
 
-			diffWriter.saveStepDiffInfo(baseUseCaseName, baseScenarioName, stepDiffInfo);
+			diffWriter.saveStepDiffInfo(baseFeatureName, baseScenarioName, stepDiffInfo);
 
 			if (stepDiffInfo.hasChanges()) {
 				diffInfo.setChanged(diffInfo.getChanged() + 1);
@@ -143,7 +143,7 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 
 	private List<Step> loadSteps(final String branchName, final String buildName) {
 		try {
-			return docuReader.loadSteps(branchName, buildName, baseUseCaseName, baseScenarioName);
+			return docuReader.loadSteps(branchName, buildName, baseFeatureName, baseScenarioName);
 		} catch (final ResourceNotFoundException e) {
 			return new LinkedList<Step>();
 		}

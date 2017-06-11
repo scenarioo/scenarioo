@@ -69,13 +69,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <i class="icon-asterisk"></i> Comparison:
                 {{comparisonInfo.isDefined ? selectedComparison.name : selectedComparison.name + ' (Available ' + comparisonBuilds.length + ')'}}
                 <span class="caret"></span>
-                <sc-diff-info-icon ng-if="comparisonInfo.isDefined" diff-info="selectedComparison" element-type="build" child-element-type="use case"></sc-diff-info-icon>
+                <sc-diff-info-icon ng-if="comparisonInfo.isDefined" diff-info="selectedComparison" element-type="build" child-element-type="feature"></sc-diff-info-icon>
             </a>
             <ul class="dropdown-menu">
                 <li ng-repeat="comparisonBuild in comparisonBuilds">
                     <a ng-click="setComparisonBuild(comparisonBuild)">
                         {{comparisonBuild.name}}
-                        <sc-diff-info-icon diff-info="comparisonBuild" element-type="build" child-element-type="use case"></sc-diff-info-icon>
+                        <sc-diff-info-icon diff-info="comparisonBuild" element-type="build" child-element-type="feature"></sc-diff-info-icon>
                     </a>
                 </li>
                 <li ng-if="comparisonInfo.isDefined">

@@ -25,7 +25,7 @@ import org.scenarioo.model.diffViewer.StructureDiffInfo;
 
 /**
  * @param <ELEMENT_TYPE>
- *            Represents the element type. For example a use case.
+ *            Represents the element type. For example a feature.
  * @param <ADDED_ELEMENT_TYPE>
  *            Represents the added element type in {@link StructureDiffInfo}.
  * @param <REMOVED_ELEMENT_TYPE>

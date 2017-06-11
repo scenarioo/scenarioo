@@ -28,14 +28,14 @@ import org.elasticsearch.common.settings.Settings;
 import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.model.SearchableScenario;
 import org.scenarioo.dao.search.model.SearchableStep;
-import org.scenarioo.dao.search.model.SearchableUseCase;
+import org.scenarioo.dao.search.model.SearchableFeature;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
-import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
-import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
-import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenariosList;
+import org.scenarioo.model.docu.aggregates.features.FeatureScenarios;
+import org.scenarioo.model.docu.aggregates.features.ScenarioSummary;
+import org.scenarioo.model.docu.aggregates.features.FeatureScenariosList;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
-import org.scenarioo.model.docu.entities.UseCase;
 
 class ElasticSearchIndexer {
 	private final static Logger LOGGER = Logger.getLogger(ElasticSearchIndexer.class);
@@ -66,27 +66,27 @@ class ElasticSearchIndexer {
         LOGGER.debug("Added new index " + indexName);
     }
 
-    void indexUseCases(final UseCaseScenariosList useCaseScenariosList) {
-        for (UseCaseScenarios useCaseScenarios : useCaseScenariosList.getUseCaseScenarios()) {
-			indexUseCase(new SearchableUseCase(useCaseScenarios.getUseCase()));
+    void indexFeatures(final FeatureScenariosList featureScenariosList) {
+        for (FeatureScenarios featureScenarios : featureScenariosList.getFeatureScenarios()) {
+			indexFeature(new SearchableFeature(featureScenarios.getFeature()));
 
-            for (ScenarioSummary scenario : useCaseScenarios.getScenarios()) {
-                indexScenario(new SearchableScenario(scenario.getScenario(), useCaseScenarios.getUseCase().getName()));
+            for (ScenarioSummary scenario : featureScenarios.getScenarios()) {
+                indexScenario(new SearchableScenario(scenario.getScenario(), featureScenarios.getFeature().getName()));
             }
         }
     }
 
-	void indexSteps(final List<Step> stepsList, final List<StepLink> stepLinksList, final Scenario scenario, final UseCase usecase) {
+	void indexSteps(final List<Step> stepsList, final List<StepLink> stepLinksList, final Scenario scenario, final Feature feature) {
 		for(int i = 0; i < stepsList.size(); i++) {
 			Step step = stepsList.get(i);
 			StepLink link = stepLinksList.get(i);
 
-			indexStep(new SearchableStep(step, link, scenario, usecase));
+			indexStep(new SearchableStep(step, link, scenario, feature));
 		}
 	}
 
-    private void indexUseCase(final SearchableUseCase searchableUseCase) {
-        indexDocument(FullTextSearch.USECASE, searchableUseCase, searchableUseCase.getUseCase().getName());
+    private void indexFeature(final SearchableFeature searchableFeature) {
+        indexDocument(FullTextSearch.FEATURE, searchableFeature, searchableFeature.getFeature().getName());
     }
 
     private void indexScenario(final SearchableScenario scenariosearchDao) {
@@ -104,9 +104,9 @@ class ElasticSearchIndexer {
 
             client.prepareIndex(indexName, type).setSource(writer.writeValueAsBytes(document)).execute();
 
-//            LOGGER.debug("Indexed use case " + documentName + " for index " + indexName);
+//            LOGGER.debug("Indexed feature " + documentName + " for index " + indexName);
         } catch (IOException e) {
-            LOGGER.error("Could not index use case " + documentName + ". Will skip this one.", e);
+            LOGGER.error("Could not index feature " + documentName + ". Will skip this one.", e);
         }
     }
 
