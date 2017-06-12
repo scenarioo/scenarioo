@@ -61,7 +61,7 @@ public class Scenario implements Serializable, Labelable, Detailable {
 	}
 
 	/**
-	 * A unique name for this scenario inside the {@link ImportFeature} it belongs to.
+	 * A unique name for this scenario inside the {@link Feature} it belongs to.
 	 *
 	 * Make sure to use descriptive names that stay stable as much as possible, such that you can compare scenarios
 	 * between different builds.

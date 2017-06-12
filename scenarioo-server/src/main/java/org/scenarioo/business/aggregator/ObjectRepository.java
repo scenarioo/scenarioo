@@ -37,7 +37,7 @@ import org.scenarioo.model.docu.entities.Labels;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.generic.Details;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.model.docu.entities.generic.ObjectList;
@@ -267,11 +267,11 @@ public class ObjectRepository {
 	 *
 	 * @return the reference path for the passed feature to use as base path for belonging scenarios etc.
 	 */
-	public List<ObjectReference> addReferencedFeatureObjects(final ImportFeature importFeature) {
-		List<ObjectReference> referencePath = createPath(createObjectReference("feature", importFeature.getName(),
-				importFeature.getLabels()));
-		addObjects(referencePath, importFeature.getDetails());
-		addLabels(referencePath, importFeature.getLabels());
+	public List<ObjectReference> addReferencedFeatureObjects(final Feature feature) {
+		List<ObjectReference> referencePath = createPath(createObjectReference("feature", feature.getName(),
+				feature.getLabels()));
+		addObjects(referencePath, feature.getDetails());
+		addLabels(referencePath, feature.getLabels());
 		return referencePath;
 	}
 

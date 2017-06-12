@@ -42,7 +42,7 @@ import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.scenarioo.api.ScenarioDocuWriter;
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Status;
 import org.scenarioo.model.docu.entities.generic.Details;
@@ -60,13 +60,13 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 
 	private static final Logger LOGGER = Logger.getLogger(FeatureDocuWritingRule.class);
 
-	private ImportFeature feature;
+	private Feature feature;
 	private Scenario scenario;
 
 	/**
 	 * Get the feature for current running test (as initialized by this rule)
 	 */
-	public ImportFeature getFeature() {
+	public Feature getFeature() {
 		return feature;
 	}
 

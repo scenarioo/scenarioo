@@ -26,9 +26,9 @@ import org.scenarioo.dao.search.model.SearchResults;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.features.FeatureScenariosList;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
-import org.scenarioo.model.docu.entities.ImportFeature;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.search.SearchRequest;
 
@@ -88,7 +88,7 @@ public class FullTextSearch {
 		LOGGER.info("Indexed features for build " + buildIdentifier);
 	}
 
-	public void indexSteps(final List<Step> steps, final List<StepLink> stepLinkList, final Scenario scenario, final ImportFeature feature, final BuildIdentifier buildIdentifier) {
+	public void indexSteps(final List<Step> steps, final List<StepLink> stepLinkList, final Scenario scenario, final Feature feature, final BuildIdentifier buildIdentifier) {
 		if(!searchAdapter.isEngineRunning()) {
 			return;
 		}

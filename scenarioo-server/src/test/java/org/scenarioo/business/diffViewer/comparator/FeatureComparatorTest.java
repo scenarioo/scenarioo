@@ -31,7 +31,7 @@ import org.scenarioo.dao.diffViewer.DiffWriter;
 import org.scenarioo.dao.diffViewer.impl.DiffFiles;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.FeatureDiffInfo;
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.TestFileUtils;
@@ -50,7 +50,7 @@ import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.
  * Test cases for the feature comparator with mocked docu data.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ImportFeatureComparatorTest {
+public class FeatureComparatorTest {
 
 	private static String USE_CASE_NAME_1 = "feature_1";
 	private static String USE_CASE_NAME_2 = "feature_2";
@@ -85,11 +85,11 @@ public class ImportFeatureComparatorTest {
 
 	@Test
 	public void testCompareBuildsEqual() {
-		List<ImportFeature> baseImportFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
-		List<ImportFeature> comparisonImportFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
+		List<Feature> baseFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
+		List<Feature> comparisonFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
 		FeatureDiffInfo featureDiffInfo = getFeatureDiffInfo(0, 0, 0, 0);
 
-		initMocks(baseImportFeatures, comparisonImportFeatures, featureDiffInfo);
+		initMocks(baseFeatures, comparisonFeatures, featureDiffInfo);
 
 		BuildDiffInfo buildDiffInfo = featureComparator.compare();
 
@@ -103,11 +103,11 @@ public class ImportFeatureComparatorTest {
 
 	@Test
 	public void testCompareOneFeatureAdded() {
-		List<ImportFeature> baseImportFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
-		List<ImportFeature> comparisonImportFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2);
+		List<Feature> baseFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
+		List<Feature> comparisonFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2);
 		FeatureDiffInfo featureDiffInfo = getFeatureDiffInfo(0, 0, 0, 0);
 
-		initMocks(baseImportFeatures, comparisonImportFeatures, featureDiffInfo);
+		initMocks(baseFeatures, comparisonFeatures, featureDiffInfo);
 
 		BuildDiffInfo buildDiffInfo = featureComparator.compare();
 
@@ -122,11 +122,11 @@ public class ImportFeatureComparatorTest {
 
 	@Test
 	public void testCompareMultipleFeaturesAdded() {
-		List<ImportFeature> baseImportFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
-		List<ImportFeature> comparisonImportFeatures = getFeatures(USE_CASE_NAME_2);
+		List<Feature> baseFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
+		List<Feature> comparisonFeatures = getFeatures(USE_CASE_NAME_2);
 		FeatureDiffInfo featureDiffInfo = getFeatureDiffInfo(0, 0, 0, 0);
 
-		initMocks(baseImportFeatures, comparisonImportFeatures, featureDiffInfo);
+		initMocks(baseFeatures, comparisonFeatures, featureDiffInfo);
 
 		BuildDiffInfo buildDiffInfo = featureComparator.compare();
 
@@ -143,11 +143,11 @@ public class ImportFeatureComparatorTest {
 	@Test
 	public void testCompareFeatureChangedTo50Percentage() {
 		double changeRatePerFeature = 50.0;
-		List<ImportFeature> baseImportFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
-		List<ImportFeature> comparisonImportFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
+		List<Feature> baseFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
+		List<Feature> comparisonFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
 		FeatureDiffInfo featureDiffInfo = getFeatureDiffInfo(changeRatePerFeature, 1, 1, 1);
 
-		initMocks(baseImportFeatures, comparisonImportFeatures, featureDiffInfo);
+		initMocks(baseFeatures, comparisonFeatures, featureDiffInfo);
 
 		BuildDiffInfo buildDiffInfo = featureComparator.compare();
 
@@ -162,12 +162,12 @@ public class ImportFeatureComparatorTest {
 
 	@Test
 	public void testCompareOneFeatureRemoved() {
-		List<ImportFeature> baseImportFeatures = getFeatures(USE_CASE_NAME_1);
-		List<ImportFeature> comparisonImportFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2);
-		ImportFeature removedImportFeature = comparisonImportFeatures.get(1);
+		List<Feature> baseFeatures = getFeatures(USE_CASE_NAME_1);
+		List<Feature> comparisonFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2);
+		Feature removedFeature = comparisonFeatures.get(1);
 		FeatureDiffInfo featureDiffInfo = getFeatureDiffInfo(0, 0, 0, 0);
 
-		initMocks(baseImportFeatures, comparisonImportFeatures, featureDiffInfo);
+		initMocks(baseFeatures, comparisonFeatures, featureDiffInfo);
 
 		BuildDiffInfo buildDiffInfo = featureComparator.compare();
 
@@ -177,18 +177,18 @@ public class ImportFeatureComparatorTest {
 		assertEquals(0, buildDiffInfo.getChanged());
 		assertEquals(1, buildDiffInfo.getRemoved());
 		assertTrue(buildDiffInfo.getAddedElements().isEmpty());
-		assertEquals(removedImportFeature, buildDiffInfo.getRemovedElements().get(0));
+		assertEquals(removedFeature, buildDiffInfo.getRemovedElements().get(0));
 	}
 
 	@Test
 	public void testCompareMultipleFeaturesRemoved() {
-		List<ImportFeature> baseImportFeatures = getFeatures(USE_CASE_NAME_2);
-		List<ImportFeature> comparisonImportFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
-		ImportFeature removedImportFeature1 = comparisonImportFeatures.get(0);
-		ImportFeature removedImportFeature2 = comparisonImportFeatures.get(2);
+		List<Feature> baseFeatures = getFeatures(USE_CASE_NAME_2);
+		List<Feature> comparisonFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
+		Feature removedFeature1 = comparisonFeatures.get(0);
+		Feature removedFeature2 = comparisonFeatures.get(2);
 		FeatureDiffInfo featureDiffInfo = getFeatureDiffInfo(0, 0, 0, 0);
 
-		initMocks(baseImportFeatures, comparisonImportFeatures, featureDiffInfo);
+		initMocks(baseFeatures, comparisonFeatures, featureDiffInfo);
 
 		BuildDiffInfo buildDiffInfo = featureComparator.compare();
 
@@ -198,40 +198,40 @@ public class ImportFeatureComparatorTest {
 		assertEquals(0, buildDiffInfo.getChanged());
 		assertEquals(2, buildDiffInfo.getRemoved());
 		assertTrue(buildDiffInfo.getAddedElements().isEmpty());
-		assertEquals(removedImportFeature1, buildDiffInfo.getRemovedElements().get(0));
-		assertEquals(removedImportFeature2, buildDiffInfo.getRemovedElements().get(1));
+		assertEquals(removedFeature1, buildDiffInfo.getRemovedElements().get(0));
+		assertEquals(removedFeature2, buildDiffInfo.getRemovedElements().get(1));
 	}
 
 	@Test(expected = RuntimeException.class)
 	public void testCompareEmptyBaseFeatureName() {
-		List<ImportFeature> baseImportFeatures = getFeatures(USE_CASE_NAME_1, null);
-		List<ImportFeature> comparisonImportFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
+		List<Feature> baseFeatures = getFeatures(USE_CASE_NAME_1, null);
+		List<Feature> comparisonFeatures = getFeatures(USE_CASE_NAME_1, USE_CASE_NAME_2, USE_CASE_NAME_3);
 		FeatureDiffInfo featureDiffInfo = getFeatureDiffInfo(0, 0, 0, 0);
 
-		initMocks(baseImportFeatures, comparisonImportFeatures, featureDiffInfo);
+		initMocks(baseFeatures, comparisonFeatures, featureDiffInfo);
 
 		featureComparator.compare();
 	}
 
-	private void initMocks(List<ImportFeature> baseImportFeatures, List<ImportFeature> comparisonImportFeatures,
+	private void initMocks(List<Feature> baseFeatures, List<Feature> comparisonFeatures,
 						   FeatureDiffInfo featureDiffInfo) {
 		when(docuBuildsManager.resolveBranchAndBuildAliases(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME))
 			.thenReturn(new BuildIdentifier(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME));
 		when(docuReader.loadFeatures(BASE_BRANCH_NAME, BASE_BUILD_NAME)).thenReturn(
-			baseImportFeatures);
+			baseFeatures);
 		when(docuReader.loadFeatures(COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME)).thenReturn(
-			comparisonImportFeatures);
+			comparisonFeatures);
 		when(scenarioComparator.compare(anyString())).thenReturn(featureDiffInfo);
 	}
 
-	public List<ImportFeature> getFeatures(String... names) {
-		List<ImportFeature> importFeatures = new LinkedList<ImportFeature>();
+	public List<Feature> getFeatures(String... names) {
+		List<Feature> features = new LinkedList<Feature>();
 		for (String name : names) {
-			ImportFeature importFeature = new ImportFeature();
-			importFeature.setNameAndId(name);
-			importFeatures.add(importFeature);
+			Feature feature = new Feature();
+			feature.setNameAndId(name);
+			features.add(feature);
 		}
-		return importFeatures;
+		return features;
 	}
 
 	private FeatureDiffInfo getFeatureDiffInfo(double changeRate, int added, int changed,

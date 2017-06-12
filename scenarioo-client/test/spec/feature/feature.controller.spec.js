@@ -55,7 +55,7 @@ describe('FeatureController', function () {
             });
         }
     ));
-/*
+
     it('should load all scenarios and and the selected feature', function () {
         spyOn(ScenarioResource, 'get').and.callFake(getFindAllScenariosFake());
         spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
@@ -84,7 +84,7 @@ describe('FeatureController', function () {
         expect(controller.scenarios).toBeDefined();
         expect(controller.propertiesToShow).toBeDefined();
     });
-*/
+
     function getFindAllScenariosFake() {
         var DATA = {
             feature: 'feature',

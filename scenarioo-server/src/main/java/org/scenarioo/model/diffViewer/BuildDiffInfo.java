@@ -20,11 +20,11 @@ package org.scenarioo.model.diffViewer;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 
 @XmlRootElement
-@XmlSeeAlso(ImportFeature.class)
-public class BuildDiffInfo extends StructureDiffInfo<String, ImportFeature> {
+@XmlSeeAlso(Feature.class)
+public class BuildDiffInfo extends StructureDiffInfo<String, Feature> {
 
 	private String comparisonBranchName;
 

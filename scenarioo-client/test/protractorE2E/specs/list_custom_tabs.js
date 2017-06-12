@@ -5,7 +5,7 @@ var pages = require('./../webPages');
 
 var NUMBER_OF_FEATURES = 4;
 
-useCase('List custom tabs')
+useCase('List_custom_tabs')
     .description('Custom tabs can be defined to show aggregated documentation data..')
     .describe(function () {
 

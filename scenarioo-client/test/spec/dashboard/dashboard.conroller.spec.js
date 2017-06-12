@@ -24,18 +24,28 @@ describe('DashboardController', function () {
     beforeEach(module('scenarioo.services'));
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($controller, $rootScope, _$location_) {
+    beforeEach(inject(function ($controller, $rootScope, _$location_, _FeatureService_) {
             $location = _$location_;
 
-            $scope = $rootScope.$new();
-            dashboardController = $controller('DashboardController', {$scope: $scope});
+            console.log(_FeatureService_);
+
+            _FeatureService_.get(function (FeatureService) {
+                for (var key in FeatureService){
+                    console.log(key)
+                }
+                $scope = $rootScope.$new();
+                dashboardController = $controller('DashboardController', {$scope: $scope, FeatureService:FeatureService});
+
+                it('test', function () {
+                    expect(typeof dashboardController.clickFeature).toBe('function');
+                });
+
+            });
         }
     ));
-/*
-    it('test', function () {
-        expect(0).toBe(0);
-    });
-*/
+
+
+
     /*
     it('has no features and builds set in the beginning', function () {
         expect(dashboardController.features.length).toBe(0);

@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <div class="navNoChild"><span>|</span></div>
         </span>
-        <span ng-click="navTree.clickFeature(navTree.feature, '')">
+        <span class="click-{{navTree.feature.id}}" ng-click="navTree.clickFeature(navTree.feature, '')">
             {{navTree.feature.name}}
         </span>
     </div>

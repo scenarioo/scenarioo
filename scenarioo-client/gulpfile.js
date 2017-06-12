@@ -161,6 +161,17 @@ gulp.task('test-e2e-scenarioo', function () {
         });
 });
 
+gulp.task('test-e2e-dashboard', function () {
+    gulp.src(['./test/protractorE2E/specs/dashboard/**/*.js'])
+        .pipe(protractor({
+            configFile: './protractor-e2e-scenarioo.conf.js'
+        }))
+        .on('error', function (e) {
+            throw e;
+        });
+});
+
+
 /**
  * Read constants from environments.json and write angular config file "environment_config.js"
  * specify environment like so:

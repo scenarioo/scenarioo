@@ -17,6 +17,10 @@ var LabelConfigurationsPage = require('./labelConfigurationsPage.js');
 var BreadcrumbsPage = require('./breadcrumbsPage.js');
 var SearchResultsPage = require('./searchResultsPage.js');
 
+
+var FeatureView = require('./dashboard/featureView.js');
+var FeatureExplorer = require('./dashboard/featureExplorer.js');
+
 module.exports = {
     homePage: HomePage,
     navigationPage: NavigationPage,
@@ -29,5 +33,7 @@ module.exports = {
     objectDetailsPage: ObjectDetailsPage,
     labelConfigurationsPage: LabelConfigurationsPage,
     breadcrumbsPage: BreadcrumbsPage,
-    searchResultsPage: SearchResultsPage
+    searchResultsPage: SearchResultsPage,
+    featureView: FeatureView,
+    featureExplorer: FeatureExplorer,
 };

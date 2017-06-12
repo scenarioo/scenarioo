@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.StepDescription;
 
@@ -39,7 +39,7 @@ public class ScenarioPageSteps {
 
 	private Scenario scenario;
 
-	private ImportFeature feature;
+	private Feature feature;
 
 	@XmlElementWrapper(name = "pagesAndSteps")
 	@XmlElement(name = "pageSteps")
@@ -60,11 +60,11 @@ public class ScenarioPageSteps {
 		return scenarioStatistics;
 	}
 
-	public ImportFeature getFeature() {
+	public Feature getFeature() {
 		return feature;
 	}
 
-	public void setFeature(final ImportFeature feature) {
+	public void setFeature(final Feature feature) {
 		this.feature = feature;
 	}
 

@@ -3,7 +3,7 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-useCase('Full Text Search')
+useCase('Full_Text_Search')
     .description('Search within all information of the selected build.')
     .describe(function () {
 

@@ -161,8 +161,8 @@ public class ScenarioDocuAggregator {
 
 		FeatureScenariosList result = new FeatureScenariosList();
 		List<FeatureScenarios> featureScenarios = new ArrayList<FeatureScenarios>();
-		List<ImportFeature> features = reader.loadFeatures(getBuildIdentifier().getBranchName(), getBuildIdentifier().getBuildName());
-		for (ImportFeature feature : features) {
+		List<Feature> features = reader.loadFeatures(getBuildIdentifier().getBranchName(), getBuildIdentifier().getBuildName());
+		for (Feature feature : features) {
 			FeatureScenarios featureWithScenarios = new FeatureScenarios();
 			List<Scenario> scenarios = reader.loadScenarios(getBuildIdentifier().getBranchName(),
 					getBuildIdentifier().getBuildName(), feature.getId());
@@ -222,7 +222,7 @@ public class ScenarioDocuAggregator {
 		objectRepository.updateAndSaveObjectIndexesForCurrentCase();
 	}
 
-	private void addFeatureToBuildStatistics(final ImportFeature feature) {
+	private void addFeatureToBuildStatistics(final Feature feature) {
 		String status = feature.getStatus();
 		if (SUCCESS_STATE.equals(status)) {
 			buildStatistics.incrementSuccessfulFeature();
@@ -240,7 +240,7 @@ public class ScenarioDocuAggregator {
 		}
 	}
 
-	private void calculateAggregatedDataForScenario(List<ObjectReference> referencePath, final ImportFeature feature,
+	private void calculateAggregatedDataForScenario(List<ObjectReference> referencePath, final Feature feature,
 			final ScenarioSummary scenarioSummary) {
 		Scenario scenario = scenarioSummary.getScenario();
 
@@ -254,7 +254,7 @@ public class ScenarioDocuAggregator {
 		dao.saveScenarioPageSteps(getBuildIdentifier(), scenarioPageSteps);
 	}
 
-	private ScenarioPageSteps calculateAggregatedDataForSteps(final ImportFeature feature, final Scenario scenario,
+	private ScenarioPageSteps calculateAggregatedDataForSteps(final Feature feature, final Scenario scenario,
 															  final List<ObjectReference> referencePath) {
 
 		ScenarioPageSteps scenarioPageSteps = new ScenarioPageSteps();

@@ -40,41 +40,36 @@ import java.util.List;
  */
 @XmlRootElement(name = "feature")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ImportFeature implements Serializable, Labelable, Detailable {
+public class Feature implements Serializable, Labelable, Detailable {
+
+	private String id; // Unique Folder name
+	private String name;
+	private String description;
+	private String status;
+	private String milestone; // string to filter by
+	private String type; // Display Type
+	private int orderIndex;
+	private List<String> featureNames = new ArrayList<String>();
 
 
 
+	private List<Feature> features = new ArrayList<>();
+	private DokuFile markdown;
+	private DokuFile specification;
 	private Details details = new Details();
 	private Labels labels = new Labels();
 
 
-
-
-	private List<ImportFeature> features = new ArrayList<>();
-	private int orderIndex;
-	private String name;
-	private String description;
-	private String status;
-	private String id; // Unique Folder name
-	private String milestone; // string to filter by
-	private String type; // Display Type
-	private List<String> featureNames = new ArrayList<String>();
-	private List<Link> links = new ArrayList<Link>();
-	private DokuFile markdown;
-	private DokuFile specification;
-
-
-
-	public ImportFeature() {
+	public Feature() {
 	}
 
-	public ImportFeature(final String name, final String description) {
+	public Feature(final String name, final String description) {
 		this();
 		this.setName(name);
 		this.setDescription(description);
 		this.setStatus("");
 	}
-	public ImportFeature(ImportFeature other) {
+	public Feature(Feature other) {
 		this.labels = other.labels;
 		this.details = other.details;
 		this.setName(other.getName());
@@ -84,7 +79,6 @@ public class ImportFeature implements Serializable, Labelable, Detailable {
 		this.setType(other.getType());
 		this.setStatus(other.getStatus());
 		this.setFeatureNames(other.getFeatureNames());
-		this.setLinks(other.getLinks());
 		this.setMarkdown(other.getMarkdown());
 		this.setSpecification(other.getSpecification());
 		this.setOrderIndex(other.getOrderIndex());
@@ -206,11 +200,11 @@ public class ImportFeature implements Serializable, Labelable, Detailable {
 		this.featureNames = featureNames;
 	}
 
-	public List<ImportFeature> getFeatures() {
+	public List<Feature> getFeatures() {
 		return features;
 	}
 
-	public void setFeatures(List<ImportFeature> features) {
+	public void setFeatures(List<Feature> features) {
 		this.features = features;
 	}
 
@@ -236,14 +230,6 @@ public class ImportFeature implements Serializable, Labelable, Detailable {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	public List<Link> getLinks() {
-		return links;
-	}
-
-	public void setLinks(List<Link> links) {
-		this.links = links;
 	}
 
 	public DokuFile getMarkdown() {

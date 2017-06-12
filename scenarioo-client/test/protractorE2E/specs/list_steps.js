@@ -3,7 +3,7 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-useCase('List steps of scenario')
+useCase('List_steps_of_scenario')
     .description('Gives an overview of all steps in a scenario.')
     .describe(function () {
 

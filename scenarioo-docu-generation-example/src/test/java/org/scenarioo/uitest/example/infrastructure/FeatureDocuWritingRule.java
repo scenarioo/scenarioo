@@ -42,7 +42,7 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.api.util.files.FilesUtil;
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 
 /**
  * A {@link TestRule} to setup as a static {@link ClassRule} on your UI test classes to generate documentation content
@@ -65,7 +65,7 @@ public class FeatureDocuWritingRule implements TestRule {
 			public void evaluate() throws Throwable {
 				try {
 					// Save feature description
-					ImportFeature feature = createFeature(testClassDescription.getTestClass());
+					Feature feature = createFeature(testClassDescription.getTestClass());
 					LOGGER.info("Generating Scenarioo Docu for Feature " + feature.getId() + ": "
 							+ feature.getDescription());
 					docuWriter.saveFeature(feature);
@@ -79,7 +79,7 @@ public class FeatureDocuWritingRule implements TestRule {
 		};
 	}
 
-	public static ImportFeature createFeature(final Class<?> testClass) {
+	public static Feature createFeature(final Class<?> testClass) {
 		// Extract feature name and description from concrete test class.
 		String description = "";
 		String name = getNameFromClass(testClass);
@@ -89,7 +89,7 @@ public class FeatureDocuWritingRule implements TestRule {
 			description = docuDescription.description();
 		}
 		// Create feature
-		ImportFeature feature = new ImportFeature();
+		Feature feature = new Feature();
 
 		feature.setId(FilesUtil.encodeName(name));
 
@@ -120,7 +120,7 @@ public class FeatureDocuWritingRule implements TestRule {
 	}
 
 	private static void addLabelsIfPresentOnTestClass(final Class<?> testClass,
-													  ImportFeature feature) {
+													  Feature feature) {
 		Labels labels = testClass.getAnnotation(Labels.class);
 		if (labels != null) {
 			feature.getLabels().setLabels(new HashSet<String>(Arrays.asList(labels.value())));

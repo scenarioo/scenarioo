@@ -268,20 +268,20 @@ public class LastSuccessfulScenariosBuildUpdater {
 	}
 
 	private void copyFeatureXmlFileAndSetStatusToSuccess(final String featureDirectory) {
-		ImportFeature importFeature = readFeature(buildImportSummary.getIdentifier(), UrlEncoding.decode(featureDirectory));
-		importFeature.setStatus(Status.SUCCESS);
-		saveFeatureXmlInLastSuccessfulScenariosBuild(UrlEncoding.decode(featureDirectory), importFeature);
+		Feature feature = readFeature(buildImportSummary.getIdentifier(), UrlEncoding.decode(featureDirectory));
+		feature.setStatus(Status.SUCCESS);
+		saveFeatureXmlInLastSuccessfulScenariosBuild(UrlEncoding.decode(featureDirectory), feature);
 	}
 
-	private void saveFeatureXmlInLastSuccessfulScenariosBuild(final String featureName, final ImportFeature importFeature) {
+	private void saveFeatureXmlInLastSuccessfulScenariosBuild(final String featureName, final Feature feature) {
 		ScenarioDocuWriter scenarioDocuWriter = new ScenarioDocuWriter(documentationDataDirectory, buildImportSummary
 				.getIdentifier().getBranchName(),
 				LastSuccessfulScenariosBuildUpdater.LAST_SUCCESSFUL_SCENARIO_BUILD_NAME);
-		scenarioDocuWriter.saveFeature(importFeature);
+		scenarioDocuWriter.saveFeature(feature);
 		scenarioDocuWriter.flush();
 	}
 
-	private ImportFeature readFeature(final BuildIdentifier buildIdentifier, final String featureName) {
+	private Feature readFeature(final BuildIdentifier buildIdentifier, final String featureName) {
 		ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(documentationDataDirectory);
 		return scenarioDocuReader.loadUsecase(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 				featureName);

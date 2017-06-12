@@ -8,7 +8,7 @@ import org.scenarioo.business.aggregator.PageNameSanitizer;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.model.docu.aggregates.steps.StepNavigation;
 import org.scenarioo.model.docu.aggregates.steps.StepStatistics;
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -57,7 +57,7 @@ public class StepResponseFactory {
 
 		Scenario scenario = scenarioDocuReader.loadScenario(stepIdentifier.getBranchName(),
 				stepIdentifier.getBuildName(), stepIdentifier.getFeatureName(), stepIdentifier.getScenarioName());
-		ImportFeature feature = scenarioDocuReader.loadUsecase(stepIdentifier.getBranchName(), stepIdentifier.getBuildName(),
+		Feature feature = scenarioDocuReader.loadUsecase(stepIdentifier.getBranchName(), stepIdentifier.getBuildName(),
 				stepIdentifier.getFeatureName());
 
 		StepIdentifier stepIdentifierWithPotentialAlias = stepIdentifier

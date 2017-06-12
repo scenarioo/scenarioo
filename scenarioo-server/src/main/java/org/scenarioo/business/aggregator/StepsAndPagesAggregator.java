@@ -51,7 +51,7 @@ public class StepsAndPagesAggregator {
 		this.dao = dao;
 	}
 
-	List<PageSteps> calculateScenarioPageSteps(final ImportFeature feature,
+	List<PageSteps> calculateScenarioPageSteps(final Feature feature,
 											   final Scenario scenario, final List<Step> steps, final List<ObjectReference> referencePath,
 											   final ObjectRepository objectRepository) {
 

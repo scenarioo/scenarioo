@@ -43,7 +43,7 @@ import org.scenarioo.dao.search.model.SearchableObject;
 import org.scenarioo.dao.search.model.SearchableScenario;
 import org.scenarioo.dao.search.model.SearchableStep;
 import org.scenarioo.dao.search.model.SearchableFeature;
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.rest.search.SearchRequest;
@@ -66,7 +66,7 @@ class ElasticSearchSearcher {
 
             this.indexName = indexName;
 
-			featureReader = generateStandardReaders(ImportFeature.class, SearchableFeature.class);
+			featureReader = generateStandardReaders(Feature.class, SearchableFeature.class);
 			scenarioReader = generateStandardReaders(Scenario.class, SearchableScenario.class);
 			stepReader = generateStandardReaders(StepDescription.class, SearchableStep.class);
 

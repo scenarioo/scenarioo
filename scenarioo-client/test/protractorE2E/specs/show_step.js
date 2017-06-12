@@ -6,7 +6,7 @@ var pages = require('./../webPages');
 var COMPARISON_SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/2014-01-20/feature/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
 var BASE_SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/last%20successful/feature/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
 
-useCase('Show step')
+useCase('Show_step')
     .description('Show a single step of a scenario. Includes the screenshot, metadata and navigation buttons')
     .describe(function () {
 

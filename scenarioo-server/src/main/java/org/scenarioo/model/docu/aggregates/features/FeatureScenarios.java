@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 
 /**
  * Represents a feature with all its scenarios
@@ -35,17 +35,17 @@ import org.scenarioo.model.docu.entities.ImportFeature;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FeatureScenarios {
 
-	private ImportFeature feature;
+	private Feature feature;
 
 	@XmlElementWrapper(name = "scenarios")
 	@XmlElement(name = "scenarioSummary")
 	private List<ScenarioSummary> scenarios = new ArrayList<ScenarioSummary>();
 
-	public ImportFeature getFeature() {
+	public Feature getFeature() {
 		return feature;
 	}
 
-	public void setFeature(final ImportFeature feature) {
+	public void setFeature(final Feature feature) {
 		this.feature = feature;
 	}
 

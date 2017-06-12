@@ -68,15 +68,15 @@ public class ScenarioDocuReader {
 		return ScenarioDocuXMLFileUtil.unmarshalListOfFilesWithDirNames(buildFiles, Build.class);
 	}
 
-	public List<ImportFeature> loadFeatures(final String branchName, final String buildName) {
+	public List<Feature> loadFeatures(final String branchName, final String buildName) {
 		List<File> files = docuFiles.getFeatureFiles(checkIdentifier(branchName), checkIdentifier(buildName));
-		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(ImportFeature.class, files);
+		return ScenarioDocuXMLFileUtil.unmarshalListOfFiles(Feature.class, files);
 	}
 
-	public ImportFeature loadUsecase(final String branchName, final String buildName, final String featureName) {
+	public Feature loadUsecase(final String branchName, final String buildName, final String featureName) {
 		File file = docuFiles.getFeatureFile(checkIdentifier(branchName), checkIdentifier(buildName),
 				checkIdentifier(featureName));
-		return ScenarioDocuXMLFileUtil.unmarshal(ImportFeature.class, file);
+		return ScenarioDocuXMLFileUtil.unmarshal(Feature.class, file);
 	}
 
 	public List<Scenario> loadScenarios(final String branchName, final String buildName, final String featureName) {

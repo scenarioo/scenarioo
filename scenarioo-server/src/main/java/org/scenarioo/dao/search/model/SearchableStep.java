@@ -18,7 +18,7 @@
 package org.scenarioo.dao.search.model;
 
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 
@@ -30,7 +30,7 @@ public class SearchableStep implements SearchableObject {
     public SearchableStep() {
     }
 
-    public SearchableStep(final Step step, final StepLink stepLink, final Scenario scenario, final ImportFeature feature) {
+    public SearchableStep(final Step step, final StepLink stepLink, final Scenario scenario, final Feature feature) {
         this.step = step;
         this.searchableObjectContext = new SearchableObjectContext(stepLink, scenario.getName(), feature.getName());
     }

@@ -35,7 +35,7 @@ import org.scenarioo.dao.search.SearchAdapter;
 import org.scenarioo.dao.search.model.SearchResults;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.aggregates.features.FeatureScenariosList;
-import org.scenarioo.model.docu.entities.ImportFeature;
+import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.repository.ConfigurationRepository;
@@ -129,7 +129,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
     }
 
 	@Override
-	public void indexSteps(final List<Step> steps, final List<StepLink> stepLinks, final Scenario scenario, final ImportFeature feature, final BuildIdentifier buildIdentifier) {
+	public void indexSteps(final List<Step> steps, final List<StepLink> stepLinks, final Scenario scenario, final Feature feature, final BuildIdentifier buildIdentifier) {
 		String indexName = getIndexName(buildIdentifier);
 
 		ElasticSearchIndexer elasticSearchIndexer = new ElasticSearchIndexer(indexName, client);

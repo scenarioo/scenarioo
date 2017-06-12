@@ -3,7 +3,7 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-useCase('Browse object details')
+useCase('Browse_object_details')
     .description('The object details view includes a reference tree with all Use Cases, '
         + 'Scenarios, Steps and other objects that reference this object.')
     .describe(function () {

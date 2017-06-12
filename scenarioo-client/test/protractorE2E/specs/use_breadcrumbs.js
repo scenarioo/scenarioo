@@ -4,7 +4,7 @@ var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
 
-useCase('Use breadcrumbs')
+useCase('Use_breadcrumbs')
     .description('Breadcrumbs help navigating Scenarioo. They are used to navigate back to a feature or a scenario from a more detailed page.')
     .describe(function () {
 

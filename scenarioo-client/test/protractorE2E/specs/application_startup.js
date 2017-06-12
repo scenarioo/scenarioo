@@ -3,7 +3,7 @@
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-useCase('Application Startup')
+useCase('Application_Startup')
     .description('The user is presented with the about dialog on his first Scenarioo visit.')
     .describe(function () {
 
