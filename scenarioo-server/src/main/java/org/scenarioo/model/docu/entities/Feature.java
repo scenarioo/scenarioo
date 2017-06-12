@@ -51,8 +51,6 @@ public class Feature implements Serializable, Labelable, Detailable {
 	private int orderIndex;
 	private List<String> featureNames = new ArrayList<String>();
 
-
-
 	private List<Feature> features = new ArrayList<>();
 	private DokuFile markdown;
 	private DokuFile specification;
@@ -67,7 +65,6 @@ public class Feature implements Serializable, Labelable, Detailable {
 		this();
 		this.setName(name);
 		this.setDescription(description);
-		this.setStatus("");
 	}
 	public Feature(Feature other) {
 		this.labels = other.labels;

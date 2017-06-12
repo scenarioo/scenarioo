@@ -39,11 +39,15 @@ public class ScenarioDocuFiles {
 
 	private static final String FILE_NAME_SCENARIO = "scenario.xml";
 
+	// TODO - comment by Rolf: should be called "FILE_NAME_FEATURE"
 	private static final String FILE_NAME_CASE = "feature.xml";
 
 	private static final String FILE_NAME_BUILD = "build.xml";
 
 	private static final String FILE_NAME_BRANCH = "branch.xml";
+
+	// TODO - comment by Rolf: value should be `docs` - but somehow there seem to be other places where this has been implemented to be "docu" ??
+	private static final String DIRECTORY_NAME_DOCS = "docu";
 
 	private static NumberFormat THREE_DIGIT_NUM_FORMAT = createNumberFormatWithMinimumIntegerDigits(3);
 
@@ -159,6 +163,14 @@ public class ScenarioDocuFiles {
 			final String featureName, final String scenarioName, final int stepIndex) {
 		return new File(getScreenshotsDirectory(branchName, buildName, featureName, scenarioName),
 				THREE_DIGIT_NUM_FORMAT.format(stepIndex) + ".png");
+	}
+
+	/**
+	 * Get the directory to store arbitrary additional documents (like markdown files, gherkin files, etc.)
+	 * inside a build.
+	 */
+	public File getDocsDirectory(final String branchName, final String buildName) {
+		return new File(getBuildDirectory(branchName, buildName), DIRECTORY_NAME_DOCS);
 	}
 
 	private static NumberFormat createNumberFormatWithMinimumIntegerDigits(
