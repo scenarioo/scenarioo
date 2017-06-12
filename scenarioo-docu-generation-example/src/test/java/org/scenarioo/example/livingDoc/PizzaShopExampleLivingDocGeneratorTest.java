@@ -1,8 +1,6 @@
-package org.scenarioo.example.pizzaaas;
+package org.scenarioo.example.livingDoc;
 
 import org.junit.Test;
-import org.scenarioo.example.livingDoc.DocLinkConfig;
-import org.scenarioo.example.livingDoc.LivingDocGenerator;
 import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.model.docu.entities.Build;
 
