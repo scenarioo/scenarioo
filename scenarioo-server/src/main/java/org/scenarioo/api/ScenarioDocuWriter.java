@@ -322,8 +322,17 @@ public class ScenarioDocuWriter {
 	 * start to block further executions as soon as more than the configured write tasks are waiting for execution.
 	 */
 	private static ExecutorService newAsyncWriteExecutor() {
-		return new ThreadPoolExecutor(1, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(
-				ScenarioDocuGeneratorConfiguration.INSTANCE.getAsyncWriteBufferSize()));
+		ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(ScenarioDocuGeneratorConfiguration.INSTANCE.getAsyncWriteBufferSize()));
+		// as soon as the queue is full: start to execute writes synchronously
+		executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+		return executor;
 	}
 
+	/**
+	 * Get the directory to store arbitrary additional documents (like markdown files, gherkin files, etc.)
+	 * inside a build.
+	 */
+	public File getDocsDirectory() {
+		return docuFiles.getDocsDirectory(this.branchName, this.buildName);
+	}
 }
