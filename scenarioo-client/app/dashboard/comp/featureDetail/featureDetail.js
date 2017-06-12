@@ -23,5 +23,11 @@ angular.module('scenarioo').component('featureDetail', {
     controller:function (FeatureService) {
         var card = this;
         card.clickFeature = FeatureService.clickFeature;
+        card.getType = function (feature) {
+            if(typeof feature.type === 'string' && feature.type !== ''){
+                return feature.type;
+            }
+            return 'Feature';
+        }
     }
 });

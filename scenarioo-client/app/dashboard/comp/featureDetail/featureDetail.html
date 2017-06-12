@@ -17,7 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <md-card class="featureDetail">
     {{card.feature.name}}
     <br/>
-    {{card.feature.milestone}}
+    Type: {{card.getType(card.feature)}}
+    <br/>
+    Milestone: {{card.feature.milestone}}
     <br/>
     Status: {{card.feature.status}}
     <br/>
