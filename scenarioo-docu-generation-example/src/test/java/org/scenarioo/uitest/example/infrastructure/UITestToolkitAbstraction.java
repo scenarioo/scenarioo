@@ -30,13 +30,13 @@
 package org.scenarioo.uitest.example.infrastructure;
 
 import static org.scenarioo.api.util.IdentifierSanitizer.*;
-import static org.scenarioo.uitest.example.config.ExampleUITestDocuGenerationConfig.*;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuWriter;
+import org.scenarioo.example.util.BuildOutputDirResource;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.StepDescription;
@@ -72,12 +72,14 @@ public class UITestToolkitAbstraction {
 		TIME_MEASUREMENTS.addDetail("timeSpan", "1223");
 		TIME_MEASUREMENTS.addDetail("timeOffset", "12332");
 	}
+
 	private final UITestToolkit toolkit;
 
 	private final UITest test;
 
-	private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(),
-			MultipleBuildsRule.getCurrentBuildName());
+	private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(BuildOutputDirResource.DOCU_BUILD_DIRECTORY,
+		MultipleBuildsRule.getCurrentBranchName(),
+		MultipleBuildsRule.getCurrentBuildName());
 
 	private byte[] lastScreenshot = new byte[0];
 
@@ -107,42 +109,41 @@ public class UITestToolkitAbstraction {
 
 	public void enterText(final String textFieldId, final String text) {
 		addScreenAnnotation(textFieldId, ScreenAnnotationStyle.KEYBOARD, text, "Typed '" + text + "'",
-				"User entered text '" + text + "'.");
+			"User entered text '" + text + "'.");
 		toolkit.type(textFieldId, text);
 	}
 
 	public void clickButton(final String buttonId) {
 		addScreenAnnotation(buttonId, ScreenAnnotationStyle.CLICK, "", "Clicked Button",
-				"User clicked on button.");
+			"User clicked on button.");
 		saveStepWithScreenshotIfChanged();
 		toolkit.click(buttonId);
 		saveStepWithScreenshot();
 	}
 
 	private void addScreenAnnotation(final String elementId, final ScreenAnnotationStyle style,
-			final String screenText,
-			final String title, final String description) {
+									 final String screenText,
+									 final String title, final String description) {
 		addScreenAnnotation(elementId, style, screenText, title, description, null);
 	}
 
 	private void addScreenAnnotation(final String elementId, final ScreenAnnotationStyle style,
-			final String screenText, final String title, final String description, final String clickActionUrl) {
+									 final String screenText, final String title, final String description, final String clickActionUrl) {
 		ScreenRegion region = toolkit.getElementRegion(elementId);
 		if (region != null) {
 			addScreenAnnotation(elementId, style, screenText, title, description, clickActionUrl, region);
-		}
-		else {
+		} else {
 			LOGGER.warn("event on UI element with id='"
-					+ elementId
-					+ "' with undefined region in dummy data for screen snnotation --> no screen annotation is generated in scenarioo documentation data for this event");
+				+ elementId
+				+ "' with undefined region in dummy data for screen snnotation --> no screen annotation is generated in scenarioo documentation data for this event");
 		}
 	}
 
 	private void addScreenAnnotation(final String elementId, final ScreenAnnotationStyle style,
-			final String screenText, final String title,
-			final String description, final String clickActionUrl, final ScreenRegion region) {
+									 final String screenText, final String title,
+									 final String description, final String clickActionUrl, final ScreenRegion region) {
 		ScreenAnnotation annotation = new ScreenAnnotation(region.getX(), region.getY(), region.getWidth(),
-				region.getHeight());
+			region.getHeight());
 		annotation.setStyle(style);
 		annotation.setScreenText(screenText);
 		annotation.setTitle(title);
@@ -151,8 +152,7 @@ public class UITestToolkitAbstraction {
 			annotation.setClickAction(ScreenAnnotationClickAction.TO_URL);
 			annotation.setClickActionUrl(clickActionUrl);
 			annotation.setClickActionText("Open external documentation for this element");
-		}
-		else if (style == ScreenAnnotationStyle.CLICK) {
+		} else if (style == ScreenAnnotationStyle.CLICK) {
 			// Create click events with go to next step (for testing clickActions on annotations)
 			annotation.setClickAction(ScreenAnnotationClickAction.TO_NEXT_STEP);
 			// no clickActionText here for testing generic text for click actions
@@ -160,46 +160,45 @@ public class UITestToolkitAbstraction {
 		ObjectDescription elementDescription = new ObjectDescription("uiElement", elementId);
 		elementDescription.addDetail("elementId", elementId);
 		elementDescription
-				.addDetail(
-						"info",
-						"this is just an example to demonstrate that also screen annotations can have objects as detail data attached, e.g. the description of a ui element that was interacted with");
+			.addDetail(
+				"info",
+				"this is just an example to demonstrate that also screen annotations can have objects as detail data attached, e.g. the description of a ui element that was interacted with");
 		annotation.addDetail("element", elementDescription);
 		screenAnnotations.add(annotation);
 	}
 
 	public void addScreenAnnotationOnSameStep(final String annotationText, final ScreenAnnotationStyle annotationStyle,
-			final ScreenRegion region) {
+											  final ScreenRegion region) {
 		if (annotationStyle != null) {
-		addScreenAnnotation(
+			addScreenAnnotation(
 				"elementWithText=" + annotationText /* just a dummy element id (not realistic) */,
 				annotationStyle,
 				annotationText,
 				annotationStyle.name() + "-Annotation '" + annotationText + "'",
 				"Just an annotation to demonstarte annotation of type '"
-						+ annotationStyle
-						+ "' with text '"
-						+ annotationText
-							+ "' and a link to an external documentation as clickAction.\nAll annotations are produced on same step here, just for demo purposes.",
-					"https://en.wikipedia.org/wiki/" + annotationText, region);
-		}
-		else {
+					+ annotationStyle
+					+ "' with text '"
+					+ annotationText
+					+ "' and a link to an external documentation as clickAction.\nAll annotations are produced on same step here, just for demo purposes.",
+				"https://en.wikipedia.org/wiki/" + annotationText, region);
+		} else {
 			addScreenAnnotation(
-					"elementWithText=" + annotationText /* just a dummy element id (not realistic) */,
-					annotationStyle,
-					annotationText,
-					"Annotation '" + annotationText + "'",
-					"Just a default annotation with text '"
-							+ annotationText
-							+ "' and no special click action (styled slightly different, because of missing click action --> popup opens also when clicking annotation (not only on icon).\nAll annotations are produced on same step here, just for demo purposes.",
-					null, region);
+				"elementWithText=" + annotationText /* just a dummy element id (not realistic) */,
+				annotationStyle,
+				annotationText,
+				"Annotation '" + annotationText + "'",
+				"Just a default annotation with text '"
+					+ annotationText
+					+ "' and no special click action (styled slightly different, because of missing click action --> popup opens also when clicking annotation (not only on icon).\nAll annotations are produced on same step here, just for demo purposes.",
+				null, region);
 		}
 		toolkit.clickLinkWithText(annotationText);
 	}
 
 	public void clickLink(final String linkText) {
 		addScreenAnnotation("linkWithText=" + linkText /* just a dummy element id (not realistic) */,
-				ScreenAnnotationStyle.CLICK, "", "Clicked Link '" + linkText + "'", "User clicked on link with text '"
-						+ linkText + "'.");
+			ScreenAnnotationStyle.CLICK, "", "Clicked Link '" + linkText + "'", "User clicked on link with text '"
+				+ linkText + "'.");
 		saveStepWithScreenshotIfChanged();
 		toolkit.clickLinkWithText(linkText);
 		saveStepWithScreenshot();
@@ -213,8 +212,7 @@ public class UITestToolkitAbstraction {
 		byte[] screenshot = toolkit.takeScreenshot();
 		if (!lastScreenshot.equals(screenshot)) {
 			saveStepWithScreenshot(screenshot, "success");
-		}
-		else {
+		} else {
 			appendScreenAnnotationsToLastStep();
 		}
 	}
@@ -289,7 +287,7 @@ public class UITestToolkitAbstraction {
 	private StepMetadata createStepMetadata() {
 		StepMetadata metadata = new StepMetadata();
 		metadata.addDetail("Simulation Configuration", toolkit.getApplicationsState()
-				.getCurrentSimulationConfiguration());
+			.getCurrentSimulationConfiguration());
 		metadata.addDetail("Call Tree", toolkit.getApplicationsState().getCallTree());
 		metadata.addDetail("Huge Metadata Tree", createHugeMetadataTree());
 		metadata.addDetail("Made By", "Scenarioo-Team");

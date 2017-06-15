@@ -2,6 +2,7 @@ package org.scenarioo.example.dashboard;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
+import org.scenarioo.example.util.BuildOutputDirResource;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +16,7 @@ public class DashboardExampleDataTest {
 
 	@Test
 	public void copyDashboardTestDataToExampleDocuDataOutputDir() throws URISyntaxException, IOException {
-		File targetDir = new File("build/scenarioDocuExample/dashboard");
+		File targetDir = new File(BuildOutputDirResource.DOCU_BUILD_DIRECTORY, "dashboard");
 		File sourceDir = getResourceFile("example/documentation/scenarioDocuExample/dashboard");
 		FileUtils.copyDirectory(sourceDir, targetDir);
 	}

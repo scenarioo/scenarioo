@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.scenarioo.api.ScenarioDocuWriter;
+import org.scenarioo.example.util.BuildOutputDirResource;
 import org.scenarioo.model.docu.entities.Page;
 import org.scenarioo.model.docu.entities.Status;
 import org.scenarioo.model.docu.entities.Step;
@@ -23,8 +24,9 @@ public class DonateStepDataGenerator {
 	private int stepIndex = 0;
 	private Map<BuildRun, Map<String, String>> buildToPageName;
 
-	private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(),
-			MultipleBuildsRule.getCurrentBuildName());
+	private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(BuildOutputDirResource.DOCU_BUILD_DIRECTORY,
+		MultipleBuildsRule.getCurrentBranchName(),
+		MultipleBuildsRule.getCurrentBuildName());
 
 	public DonateStepDataGenerator(UITest uiTest) {
 		this.uiTest = uiTest;

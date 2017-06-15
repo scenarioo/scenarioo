@@ -42,6 +42,7 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.scenarioo.api.ScenarioDocuWriter;
 import org.scenarioo.api.util.files.FilesUtil;
+import org.scenarioo.example.util.BuildOutputDirResource;
 import org.scenarioo.model.docu.entities.Feature;
 
 /**
@@ -58,7 +59,7 @@ public class FeatureDocuWritingRule implements TestRule {
 		// Statement to write feature description as soon as test class gets executed
 		return new Statement() {
 
-			private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY,
+			private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(BuildOutputDirResource.DOCU_BUILD_DIRECTORY,
 					MultipleBuildsRule.getCurrentBranchName(), MultipleBuildsRule.getCurrentBuildName());
 
 			@Override

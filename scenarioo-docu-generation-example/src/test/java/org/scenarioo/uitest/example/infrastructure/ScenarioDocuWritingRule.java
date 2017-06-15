@@ -42,6 +42,7 @@ import org.junit.rules.TestRule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.scenarioo.api.ScenarioDocuWriter;
+import org.scenarioo.example.util.BuildOutputDirResource;
 import org.scenarioo.model.docu.entities.Feature;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.Status;
@@ -175,7 +176,7 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 
 	private void writeScenarioDescription(final Description testMethodDescription, Status status) {
 
-		ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(),
+		ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(BuildOutputDirResource.DOCU_BUILD_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(),
 				MultipleBuildsRule.getCurrentBuildName());
 
 		// Write scenario

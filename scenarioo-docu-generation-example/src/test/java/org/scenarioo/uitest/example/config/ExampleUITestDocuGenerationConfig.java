@@ -39,30 +39,11 @@ import org.apache.commons.io.FileUtils;
  */
 public class ExampleUITestDocuGenerationConfig {
 
-	public static final File DOCU_BUILD_DIRECTORY = new File("build/scenarioDocuExample");
-
 	/**
 	 * An example name for the branch in the example. Usually you would use the name of your real development branch
 	 * (e.g. "trunk" or "bugfix-branch-2013-11")
 	 */
 	public static final String EXAMPLE_BRANCH_NAME = "wikipedia-docu-example";
 	public static final String WIKIPEADIA_EXAMPLE_DEVELOP = "wikipedia-docu-example-dev";
-
-	static {
-		// Ensure that on start of test all old test results are removed.
-		deleteDirectory(DOCU_BUILD_DIRECTORY);
-
-		// Ensure that the build directory gets precreated, this is not handled by the Scenarioo Docu writer, if
-		// directory does not exist docu generation will fail.
-		DOCU_BUILD_DIRECTORY.mkdirs();
-	}
-
-	private static void deleteDirectory(final File docuBranchDir) {
-		try {
-			FileUtils.deleteDirectory(docuBranchDir);
-		} catch (IOException e) {
-			throw new RuntimeException("Could not delete test data directory", e);
-		}
-	}
 
 }
