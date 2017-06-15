@@ -9,7 +9,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
- * A Dummy test to cause the build to copy the test data for dashboard to the demo data directory
+ * A Dummy test to cause the build to copy the dummy test data for dashboard to the demo data directory
  */
 public class DashboardExampleDataTest {
 

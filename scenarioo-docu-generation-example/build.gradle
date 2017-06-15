@@ -46,4 +46,5 @@ test {
   	maxHeapSize = "512m"
   	scanForTestClasses = false
   	include '**/AllTests.class'
+	include 'org/scenarioo/example/**/*Test.class'
 }

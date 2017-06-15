@@ -48,6 +48,8 @@ public class PizzaShopExampleLivingDocGeneratorTest {
 		// Flush all asynch writing
 		generator.flush();
 
+		System.out.println("Pizza Shop Living Doc Example generated.");
+
 	}
 
 	private static File getResourceFile(final String relativeResourcePath) throws URISyntaxException {
