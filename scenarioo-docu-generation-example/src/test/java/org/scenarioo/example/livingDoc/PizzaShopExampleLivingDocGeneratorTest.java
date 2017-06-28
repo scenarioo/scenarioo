@@ -19,7 +19,8 @@ public class PizzaShopExampleLivingDocGeneratorTest {
 		String branchName = "PizzaaaS - Living Doc Example";
 		String buildName = "build-1";
 		File targetDir = BuildOutputDirResource.DOCU_BUILD_DIRECTORY;
-		File docFilesSourceDir = getResourceFile("example/pizza-shop-example");
+
+		File docFilesSourceDir = new File("../examples/pizzaaas-spec-by-ex/specs");
 		LivingDocGenerator generator = new LivingDocGenerator(targetDir, branchName, buildName);
 
 		// Write Branch Meta Data (container for several builds)
