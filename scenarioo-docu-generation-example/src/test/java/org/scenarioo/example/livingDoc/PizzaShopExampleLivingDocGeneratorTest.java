@@ -16,7 +16,7 @@ public class PizzaShopExampleLivingDocGeneratorTest {
 	public void generatePizzaShopExampleData() throws URISyntaxException {
 
 		// Config of generator:
-		String branchName = "PizzaaaS - Living Doc Example";
+		String branchName = "PizzaaaS-Living-Doc-Example";
 		String buildName = "build-1";
 		File targetDir = BuildOutputDirResource.DOCU_BUILD_DIRECTORY;
 
