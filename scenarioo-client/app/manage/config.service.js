@@ -20,7 +20,6 @@ angular.module('scenarioo.services').service('ConfigService', function (ConfigRe
     var CONFIG_LOADED_EVENT = 'configLoaded';
 
     var configData = {};
-    var dataDirectory;
 
     function getValue(key) {
         return configData[key];
@@ -28,8 +27,7 @@ angular.module('scenarioo.services').service('ConfigService', function (ConfigRe
 
     function doLoad() {
         ConfigResource.get({}, function (response) {
-            configData = response.configuration;
-            dataDirectory = response.dataDirectory;
+            configData = response;
             $rootScope.buildStateToClassMapping = configData.buildstates;
             $rootScope.getStatusStyleClass = function (buildStatus) {
                 var styleClassFromMapping = $rootScope.buildStateToClassMapping[buildStatus];
@@ -118,10 +116,6 @@ angular.module('scenarioo.services').service('ConfigService', function (ConfigRe
 
         expandPagesInScenarioOverview: function () {
             return getValue('expandPagesInScenarioOverview');
-        },
-
-        dataDirectoryPath: function () {
-            return dataDirectory;
         }
     };
 

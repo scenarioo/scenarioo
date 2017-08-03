@@ -25,8 +25,6 @@ describe('ConfigService', function () {
         BUILD_STATE_SUCCESS = 'success',
         BUILD_STATE_WARNING = 'warning',
         DUMMY_CONFIG_RESPONSE = {
-            'dataDirectory': 'webtestDocuContentExample',
-            'configuration': {
                 'defaultBuildName': 'current',
                 'scenarioPropertiesInOverview': 'userProfile, configuration',
                 'applicationInformation': 'This is my personal copy of Scenarioo :-)',
@@ -36,7 +34,6 @@ describe('ConfigService', function () {
                     BUILD_STATE_WARNING: 'label-warning'
                 },
                 'defaultBranchName': 'trunk'
-            }
         };
 
     beforeEach(angular.mock.module('scenarioo.services'));
@@ -57,7 +54,7 @@ describe('ConfigService', function () {
         expect($rootScope.$broadcast).toHaveBeenCalledWith(ConfigService.CONFIG_LOADED_EVENT);
 
         expect(ConfigService.scenarioPropertiesInOverview()).toBeDefined();
-        expect(ConfigService.applicationInformation()).toBe(DUMMY_CONFIG_RESPONSE.configuration.applicationInformation);
+        expect(ConfigService.applicationInformation()).toBe(DUMMY_CONFIG_RESPONSE.applicationInformation);
     }));
 
     it('contains build state to css class mapping as a map', inject(function (ConfigService, $httpBackend) {
@@ -67,9 +64,9 @@ describe('ConfigService', function () {
 
         expect(buildStateToClassMapping).toBeDefined();
         expect(getSize(buildStateToClassMapping)).toBe(3);
-        expect(buildStateToClassMapping[BUILD_STATE_FAILED]).toBe(DUMMY_CONFIG_RESPONSE.configuration.buildstates[BUILD_STATE_FAILED]);
-        expect(buildStateToClassMapping[BUILD_STATE_WARNING]).toBe(DUMMY_CONFIG_RESPONSE.configuration.buildstates[BUILD_STATE_WARNING]);
-        expect(buildStateToClassMapping[BUILD_STATE_SUCCESS]).toBe(DUMMY_CONFIG_RESPONSE.configuration.buildstates[BUILD_STATE_SUCCESS]);
+        expect(buildStateToClassMapping[BUILD_STATE_FAILED]).toBe(DUMMY_CONFIG_RESPONSE.buildstates[BUILD_STATE_FAILED]);
+        expect(buildStateToClassMapping[BUILD_STATE_WARNING]).toBe(DUMMY_CONFIG_RESPONSE.buildstates[BUILD_STATE_WARNING]);
+        expect(buildStateToClassMapping[BUILD_STATE_SUCCESS]).toBe(DUMMY_CONFIG_RESPONSE.buildstates[BUILD_STATE_SUCCESS]);
     }));
 
     it('contains additional columns for scenario overview', inject(function (ConfigService, $httpBackend) {

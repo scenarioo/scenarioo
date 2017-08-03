@@ -20,7 +20,6 @@
 angular.module('scenarioo.services').service('TestData', function () {
     return {
         CONFIG: {
-            'testDocumentationDirPath': 'webtestDocuContentExample',
             'defaultBuildName': 'current',
             'scenarioPropertiesInOverview': 'userProfile, configuration',
             'applicationInformation': 'This is my personal copy of Scenarioo :-)',
@@ -82,8 +81,6 @@ angular.module('scenarioo.services').service('TestData', function () {
         },
 
         CONFIG_PAGES_EXPANDED: {
-            'dataDirectory': 'webtestDocuContentExample',
-            'configuration': {
                 'defaultBuildName': 'current',
                 'scenarioPropertiesInOverview': 'userProfile, configuration',
                 'applicationInformation': 'This is my personal copy of Scenarioo :-)',
@@ -94,7 +91,6 @@ angular.module('scenarioo.services').service('TestData', function () {
                 },
                 'defaultBranchName': 'trunk',
                 'expandPagesInScenarioOverview': true,
-            }
         },
 
         BRANCHES: [

@@ -32,7 +32,7 @@ describe('BuildController', function () {
             var BRANCHES_URL = HostnameAndPort.forTest() + 'rest/branches';
             $httpBackend.whenGET(BRANCHES_URL).respond(TestData.BRANCHES);
 
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.GET_CONFIGURATION_RESPONSE);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
 
             $scope = $rootScope.$new();
             BuildController = $controller('BuildController', {$scope: $scope});

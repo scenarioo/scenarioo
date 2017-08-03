@@ -33,7 +33,7 @@ describe('GeneralSettingsController', function () {
         TestData = _TestData_;
 
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches').respond(TestData.BRANCHES);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.GET_CONFIGURATION_RESPONSE);
+        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/version').respond(TestData.VERSION);
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/searchEngineStatus').respond({'searchEngineRunning':false});
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration/applicationStatus').respond({

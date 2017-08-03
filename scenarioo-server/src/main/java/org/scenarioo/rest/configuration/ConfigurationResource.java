@@ -41,9 +41,8 @@ public class ConfigurationResource {
 
 	@GET
 	@Produces({ "application/json", "application/xml" })
-	public GetConfigurationResponse getConfiguration() {
-		return new GetConfigurationResponse(configurationRepository.getConfiguration(), configurationRepository
-				.getDocumentationDataDirectory().getAbsolutePath());
+	public Configuration getConfiguration() {
+		return configurationRepository.getConfiguration();
 	}
 
 	@GET
