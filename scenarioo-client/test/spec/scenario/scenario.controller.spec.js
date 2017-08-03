@@ -136,7 +136,7 @@ describe('ScenarioController', function () {
 
     function givenScenarioIsLoaded(config) {
         if (angular.isUndefined(config)) {
-            config = TestData.CONFIG;
+            config = TestData.GET_CONFIGURATION_RESPONSE;
         }
 
         $httpBackend.whenGET(HostNameAndPort.forLink() + 'rest/configuration').respond(config);

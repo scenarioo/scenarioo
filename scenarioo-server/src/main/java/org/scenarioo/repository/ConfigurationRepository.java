@@ -19,10 +19,6 @@ public class ConfigurationRepository {
 		return configuration;
 	}
 
-	public void reloadConfiguration() {
-		configuration = configurationDAO.loadConfiguration();
-	}
-
 	private void loadConfigurationIfNotLoadedYet() {
 		if (configuration == null) {
 			configuration = configurationDAO.loadConfiguration();
@@ -37,11 +33,6 @@ public class ConfigurationRepository {
 
 	public File getDocumentationDataDirectory() {
 		return configurationDAO.getConfigurationDirectory();
-	}
-
-	public File getDesignDataDirectory() {
-		File rootFolder = getDocumentationDataDirectory();
-		return new File(rootFolder, "scenarioo-application-data/sketcher");
 	}
 
 }

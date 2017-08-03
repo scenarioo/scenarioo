@@ -194,7 +194,7 @@ describe('StepController', function () {
         });
 
         function loadPageContent() {
-            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.GET_CONFIGURATION_RESPONSE);
             $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
             $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1').respond(TestData.STEP);
             $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/labelconfigurations').respond({});
@@ -242,7 +242,7 @@ describe('StepController', function () {
         });
 
         function tryToLoadNotExistingStep() {
-            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
+            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.GET_CONFIGURATION_RESPONSE);
             $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc').respond(TestData.SCENARIO);
             $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/42').respond(500, '');
             $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/labelconfigurations').respond({});
