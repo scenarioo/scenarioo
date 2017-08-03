@@ -10,7 +10,7 @@
     "test-watch": "gulp test-watch",
     "pretest-e2e": "gulp webdriver_update",
     "test-e2e": "gulp test-e2e",
-    "build": "gulp build",
+    "build": "webpack",
     "start": "gulp serve",
     "webpack": "webpack",
     "webpack-dev-server": "webpack-dev-server",
