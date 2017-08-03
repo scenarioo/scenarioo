@@ -19,6 +19,7 @@
   "dependencies": {
     "angular": "1.5.2",
     "angular-i18n": "1.5.2",
+    "angular-local-storage": "^0.2.7",
     "angular-resource": "1.5.2",
     "angular-route": "1.5.2",
     "angular-sanitize": "1.5.2",
