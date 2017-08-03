@@ -2,10 +2,6 @@
     "name": "scenarioo-client",
     "version": "0.0.0",
     "dependencies": {
-        "angular-local-storage": "~0.2.5",
-        "bootstrap": "~3.3.2",
-        "angular-bootstrap": "~1.2.2",
-        "font-awesome": "~3.2.1",
         "twigs": "0.2.3",
         "svg.js": "https://github.com/svgdotjs/svg.js.git#2.0.4",
         "svg.draggable.js": "https://github.com/svgdotjs/svg.draggable.js.git#2.0.0",

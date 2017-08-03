@@ -16,7 +16,7 @@
  */
 
 
-require('./components/bootstrap/dist/css/bootstrap.min.css');
+require('../node_modules/bootstrap/dist/css/bootstrap.min.css');
 require('./components/font-awesome/css/font-awesome.min.css');
 // TODO danielsuter use less
 require('./styles/scenarioo.css');
@@ -30,8 +30,8 @@ require('angular-sanitize');
 require('angular-route');
 
 
-require('./components/angular-bootstrap/ui-bootstrap-tpls.js');
-require('./components/angular-local-storage/dist/angular-local-storage.min.js');
+require('angular-ui-bootstrap');
+require('angular-local-storage');
 require('./components/twigs/dist/twigs.js');
 require('./components/angular-unsavedChanges/dist/unsavedChanges.js');
 
