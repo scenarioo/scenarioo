@@ -44,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div class="step-navigation row sc-space-top sc-space-bottom" ng-hide="stepNotFound">
 
     <!-- Step & Page Navigation -->
-    <div class="col-lg-5">
+    <div class="col-lg-8">
 
         <!-- Pages navigation -->
         <div class="btn-group">
@@ -64,7 +64,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <span ng-click="goToPreviousStep()" class="btn btn-default" ng-disabled="isFirstStep()" id="prevStepBtn">
                 <i class="icon-with-padding icon-large icon-angle-left" uib-tooltip="Previous Step [Left]" tooltip-placement="bottom"></i>
             </span>
-            <span class="btn btn-default btn-no-hover"><span uib-tooltip="of all steps in this scenario" tooltip-placement="bottom">Step {{getCurrentStepIndexForDisplay()}} of {{stepStatistics.totalNumberOfStepsInScenario}}</span></span>
+            <span class="btn btn-default btn-no-hover"><span uib-tooltip="of all steps in this scenario" tooltip-placement="bottom">Step {{getCurrentStepIndexForDisplay()}} of {{stepStatistics.totalNumberOfStepsInScenario}} (Step {{getStepIndexInCurrentPageForDisplay()}} of {{getNumberOfStepsInCurrentPageForDisplay()}} on Page)</span></span>
             <span ng-click="goToNextStep()" class="btn btn-default" ng-disabled="isLastStep()" id="nextStepBtn">
                 <i class="icon-with-padding icon-large icon-angle-right" uib-tooltip="Next Step [Right]" tooltip-placement="bottom"></i>
             </span>
@@ -72,15 +72,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         &nbsp;
 
-        <!-- Substep information -->
-        <div class="btn-group">
-            <div class="btn btn-comment">Substep {{getStepIndexInCurrentPageForDisplay()}} of {{getNumberOfStepsInCurrentPageForDisplay()}} on current page</div>
-        </div>
-
-    </div>
-
-    <!-- Page variants navigation -->
-    <div class="col-lg-3">
+        <!-- Page variants navigation -->
         <div class="btn-group">
             <span ng-click="goToPreviousVariant()" class="btn btn-default" id="prevPageVariantBtn" ng-disabled="isFirstPageVariantStep()">
                 <i class="icon-with-padding icon-large icon-angle-up" uib-tooltip="Previous variant (potentially in other scenario) [Ctrl+Up]" tooltip-placement="bottom"></i>
@@ -126,6 +118,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </div>
                 </uib-tab-heading>
                 <div class="buttonBar">
+                    <div class="tooltip-wrapper" uib-tooltip="{{comparisonViewOptions[displayComparisonScreenshotKey]?' Highlighting not possible on comparison screenshot' : ''}}">
+                        <button type="button" id="sc-show-highlights-button" class="btn btn-default"
+                                ng-disabled="step.diffInfo.changeRate === 0"
+                                ng-click="toggleStorageKey(displayDiffScreenshotKey)"
+                                ng-hide="comparisonViewOptions[displayDiffScreenshotKey]">
+                            <img ng-src="images/diffViewer/HighlightChanges.png" class="sc-step-comparison-icon"/>Show Highlights
+                        </button>
+                        <button type="button" id="sc-hide-highlights-button" class="btn btn-default"
+                                ng-disabled="step.diffInfo.changeRate === 0"
+                                ng-click="toggleStorageKey(displayDiffScreenshotKey)"
+                                ng-show="comparisonViewOptions[displayDiffScreenshotKey]">
+                            <img ng-src="images/diffViewer/NoHighlightChanges.png" class="sc-step-comparison-icon"/>Hide Highlights
+                        </button>
+                    </div>
                     <div id="sc-step-comparison-buttons" class="btn-group">
                         <button type="button" id="sc-side-by-side-view-button" ng-class="{active: comparisonViewOptions[displaySideBySideViewKey]}" ng-click="setActiveView(displaySideBySideViewKey)" class="btn btn-default"> <img ng-src="images/diffViewer/SideBySideView.png" class="sc-step-comparison-icon"/>Side by side view</button>
                         <button type="button" id="sc-single-page-view-button" ng-class="{active: comparisonViewOptions[displaySinglePageViewKey]}" ng-click="setActiveView(displaySinglePageViewKey)" class="btn btn-default" ><img ng-src="images/diffViewer/SinglePageView.png" class="sc-step-comparison-icon"/>Single page view</button>
@@ -137,22 +143,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </div>
                         <button type="button" id="sc-switch-to-base-screenshot-button" class="btn btn-default" ng-click="toggleStorageKey(displayComparisonScreenshotKey)" ng-show="comparisonViewOptions[displayComparisonScreenshotKey]"> <img ng-src="images/diffViewer/BaseScreenshot.png" class="sc-step-comparison-icon"/>Switch to current screenshot</button>
                     </div>
-
-                    <div class="tooltip-wrapper" uib-tooltip="{{comparisonViewOptions[displayComparisonScreenshotKey]?' Highlighting not possible on comparison screenshot' : ''}}">
-                        <button type="button" id="sc-show-highlights-button" class="btn btn-default"
-                                ng-disabled="step.diffInfo.changeRate === 0"
-                                ng-click="toggleStorageKey(displayDiffScreenshotKey)"
-                                ng-hide="comparisonViewOptions[displayDiffScreenshotKey]">
-                            <img ng-src="images/diffViewer/HighlightChanges.png" class="sc-step-comparison-icon"/>Show highlights
-                        </button>
-                        <button type="button" id="sc-hide-highlights-button" class="btn btn-default"
-                                ng-disabled="step.diffInfo.changeRate === 0"
-                                ng-click="toggleStorageKey(displayDiffScreenshotKey)"
-                                ng-show="comparisonViewOptions[displayDiffScreenshotKey]">
-                            <img ng-src="images/diffViewer/NoHighlightChanges.png" class="sc-step-comparison-icon"/>Hide highlights
-                        </button>
-                    </div>
-
                 </div>
                 <div id="sc-step-comparison-side-by-side-view" ng-if="comparisonViewOptions[displaySideBySideViewKey]">
                     <div class="row">
