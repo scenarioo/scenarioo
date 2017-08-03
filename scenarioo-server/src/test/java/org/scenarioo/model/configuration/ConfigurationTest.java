@@ -18,7 +18,7 @@ public class ConfigurationTest {
 	@Test
 	public void testDefaultDiffImageColor() throws Exception {
 
-		Color actual = configuration.getDiffImageColor();
+		Color actual = configuration.getDiffImageAwtColor();
 
 		assertThat(actual, is(DEFAULT_DIFF_COLOR));
 	}
@@ -27,9 +27,9 @@ public class ConfigurationTest {
 	public void testSetAndGetDiffImageColor() throws Exception {
 
 		Color expected = new Color(237, 176, 77, 127);
-		configuration.setDiffImageColor(expected);
+		configuration.setDiffImageAwtColor(expected);
 
-		Color actual = configuration.getDiffImageColor();
+		Color actual = configuration.getDiffImageAwtColor();
 		assertThat(actual, is(expected));
 	}
 }

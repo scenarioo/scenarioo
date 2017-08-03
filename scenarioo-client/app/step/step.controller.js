@@ -350,7 +350,10 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     }
     function getActiveTab() {
         var activeTab = sessionStorage.getItem('activeTab');
-        if (activeTab == null || !$scope.comparisonInfo.isDefined){
+        if (activeTab == null){
+            return 0;
+        }
+        if(activeTab == 2 && !$scope.comparisonInfo.isDefined) {
             return 0;
         }
         return angular.isDefined(activeTab) ? parseInt(activeTab) : 0;

@@ -95,7 +95,9 @@ StepPage.prototype.assertFallbackMessageContainsText = function (text) {
 };
 
 StepPage.prototype.assertScenarioLabelsContain = function (label) {
-    expect(element(by.id('scenario-labels')).getInnerHtml()).toContain(label);
+    let scenariooLabels = element(by.id('scenario-labels'));
+    let innerHtml = browser.executeScript("return arguments[0].innerHTML;", scenariooLabels);
+    expect(innerHtml).toContain(label);
 };
 
 StepPage.prototype.clickShareThisPageLink = function () {
@@ -150,8 +152,8 @@ StepPage.prototype.assertToolTipInBreadcrumb = function (expectedTooltip) {
 };
 
 StepPage.prototype.assertScreenshotIsShown = function() {
-    expect(element.all(by.className('sc-screenshot')).count()).toBe(1);
-    expect(element(by.className('sc-screenshot')).isDisplayed()).toBeTruthy();
+    expect(element.all(by.className('sc-real-screenshot')).count()).toBe(1);
+    expect(element(by.className('sc-real-screenshot')).isDisplayed()).toBeTruthy();
 };
 
 StepPage.prototype.assertNoScreenAnnotationsArePresent = function() {

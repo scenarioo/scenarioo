@@ -102,13 +102,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <sc-meta-data-panel linking-variable="stepShowMetadata" ng-hide="stepNotFound">
 
     <div>
-        <uib-tabset class="step-panes"  active="activeTab">
+        <uib-tabset class="step-panes" active="activeTab">
             <uib-tab heading="Screenshot" id="screenshot-tab" ng-click="setDefaultTab()">
                 <sc-annotated-screenshot screen-annotations="step.screenAnnotations" screen-shot-url="screenShotUrl" visibility-toggle="showScreenAnnotations" to-next-step-action="goToNextStep()"></sc-annotated-screenshot>
             </uib-tab>
             <uib-tab heading="HTML" id="html-tab" ng-hide="!step.html.htmlSource" ng-click="setActiveTab(1)">
-                <pre ng-bind="step.html.htmlSource" id="html-source">
-                </pre>
+                <pre ng-bind="step.html.htmlSource" id="html-source"></pre>
             </uib-tab>
             <uib-tab id="comparison-tab" ng-click="setActiveTab(2)" ng-if="comparisonInfo.isDefined">
                 <uib-tab-heading>

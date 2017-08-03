@@ -142,7 +142,7 @@ public class ComparisonExecutor {
 					+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
 			} else {
 				ComparisonParameters cp = new ComparisonParameters(baseBranchName, baseBuildName, resolvedComparisonConfiguration,
-					configurationRepository.getConfiguration().getDiffImageColor());
+					configurationRepository.getConfiguration().getDiffImageAwtColor());
 				buildDiffInfo = new BuildComparator(cp).compareAndWrite();
 			}
 

@@ -31,6 +31,15 @@ var exportsConfig = {
 
     specs: [/* See gulpfile.js for specified tests */],
 
+    capabilities: {
+        browserName: 'chrome',
+        chromeOptions: {
+            args : [
+                'disable-infobars'
+            ]
+        },
+    },
+
     baseUrl: PROTRACTOR_BASE_URL,
 
     // CSS Selector for the element housing the angular app - this defaults to

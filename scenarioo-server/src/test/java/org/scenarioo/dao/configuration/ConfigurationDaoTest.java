@@ -43,7 +43,7 @@ public class ConfigurationDaoTest {
 		Map<String, LabelConfiguration> labelConfigurations = createLabelConfigurations();
 		configuration.setLabelConfigurations(labelConfigurations);
 		configuration.setComparisonConfigurations(createComparisonConfigurations());
-		configuration.setDiffImageColor(Color.yellow);
+		configuration.setDiffImageAwtColor(Color.yellow);
 
 		configurationDao.updateConfiguration(configuration);
 		Configuration loadedConfiguration = configurationDao.loadConfiguration();
@@ -53,7 +53,7 @@ public class ConfigurationDaoTest {
 		assertComparisonConfiguration(COMPARISON_NAME1, loadedConfiguration.getComparisonConfigurations().get(0));
 		assertComparisonConfiguration(COMPARISON_NAME2, loadedConfiguration.getComparisonConfigurations().get(1));
 
-		assertThat(loadedConfiguration.getDiffImageColor(), is(Color.yellow));
+		assertThat(loadedConfiguration.getDiffImageAwtColor(), is(Color.yellow));
 	}
 
 	private Map<String, LabelConfiguration> createLabelConfigurations() {
