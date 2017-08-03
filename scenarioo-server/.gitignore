@@ -5,3 +5,4 @@ data
 .project
 .classpath
 .settings
+tmpDir

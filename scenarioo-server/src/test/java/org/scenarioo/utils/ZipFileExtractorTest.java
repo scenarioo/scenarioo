@@ -17,7 +17,7 @@ public class ZipFileExtractorTest {
 
 	@BeforeClass
 	public static void setupClass() {
-		zipFile = TestResourceFile.getResourceFile("org/scenarioo/utils/ZipFileExtractorTestData.zip");
+		zipFile = TestResourceFile.getResourceFile("../resources/org/scenarioo/utils/ZipFileExtractorTestData.zip");
 		Assert.assertTrue(zipFile.exists());
 	}
 
