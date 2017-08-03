@@ -39,7 +39,7 @@ describe('Filter scMetadataTreeListCreator', function () {
         }
     };
 
-    beforeEach(module('scenarioo.filters'));
+    beforeEach(angular.mock.module('scenarioo.filters'));
 
     var scMetadataTreeCreator;
     beforeEach(inject(function (_$filter_) {

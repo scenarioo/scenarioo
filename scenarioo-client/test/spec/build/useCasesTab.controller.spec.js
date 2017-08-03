@@ -22,7 +22,7 @@ describe('UseCasesTabController', function () {
     var $location, $scope;
     var useCasesTabController;
 
-    beforeEach(module('scenarioo.controllers'));
+    beforeEach(angular.mock.module('scenarioo.controllers'));
 
     beforeEach(inject(function ($controller, $rootScope, _$location_) {
             $location = _$location_;

@@ -20,28 +20,48 @@
 module.exports = function (config) {
 
     config.set({
+        frameworks: ['jasmine'],
+
+
         // base path, that will be used to resolve files and exclude
         basePath: '',
 
         // list of files / patterns to load in the browser
         files: [
-            'app/components/angular/angular.js',
-            'app/components/angular-resource/angular-resource.js',
-            'app/components/angular-route/angular-route.js',
-            'app/components/angular-mocks/angular-mocks.js',
-            'app/components/angular-local-storage/dist/angular-local-storage.min.js',
-            'app/components/twigs/dist/twigs.js',
-            'app/components/svg.js/dist/svg.js',
-            'app/components/svg.draggable.js/dist/svg.draggable.js',
-            'app/components/svg-pan-zoom/dist/svg-pan-zoom.js',
-            'app/components/angular-unsavedChanges/dist/unsavedChanges.js',
+            'node_modules/angular/angular.js',
+            'node_modules/angular-mocks/angular-mocks.js',
             'app/*.js',
-            'app/!(components)/**/*.js',
+            'app/!(components|sketcher)/**/*.js',
             'test/mock/**/*.js',
             'test/spec/**/*.js'
         ],
 
-        frameworks: ['jasmine'],
+        preprocessors: {
+            'node_modules/angular/angular.js': ['webpack'],
+            'node_modules/angular-mocks/angular-mocks.js': ['webpack'],
+            'app/*.js': ['webpack'],
+            'app/!(components|sketcher)/**/*.js': ['webpack'],
+            'test/mock/**/*.js': ['webpack'],
+            'test/spec/**/*.js': ['webpack']
+        },
+
+        webpack: require('./webpack.config'),
+
+        webpackMiddleware: {
+            noInfo: true,
+            // and use stats to turn off verbose output
+            stats: {
+                chunks: false
+            }
+        },
+
+        plugins: [
+            'karma-jasmine',
+            'karma-junit-reporter',
+            'karma-phantomjs-launcher',
+            'karma-webpack'
+        ],
+
 
         // list of files to exclude
         exclude: [],
@@ -85,7 +105,7 @@ module.exports = function (config) {
 
         // Continuous Integration mode
         // if true, it capture browsers, run tests and exit
-        singleRun: false
+        singleRun: true
     });
 
 };

@@ -19,9 +19,9 @@
 
 describe('ApplicationInfoPopupService', function () {
 
-    beforeEach(module('scenarioo.services'));
+    beforeEach(angular.mock.module('scenarioo.services'));
 
-    beforeEach(module(function ($provide) {
+    beforeEach(angular.mock.module(function ($provide) {
         $provide.value('$uibModal', {
                 open: function () {
                 }
@@ -75,7 +75,7 @@ describe('ApplicationInfoPopupService', function () {
 
 describe('Controller: ApplicationInfoController', function () {
 
-    beforeEach(module('scenarioo.controllers'));
+    beforeEach(angular.mock.module('scenarioo.controllers'));
 
     var $scope,
         ConfigService,

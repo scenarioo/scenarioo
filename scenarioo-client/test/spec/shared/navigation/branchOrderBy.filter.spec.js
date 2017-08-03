@@ -21,7 +21,7 @@ describe('Filter scBranchOrderBy', function () {
     var scBranchOrderByFilter;
 
     // load module
-    beforeEach(module('scenarioo.filters'));
+    beforeEach(angular.mock.module('scenarioo.filters'));
     beforeEach(inject(function ($filter) {
         scBranchOrderByFilter = $filter('scBranchOrderBy');
     }));

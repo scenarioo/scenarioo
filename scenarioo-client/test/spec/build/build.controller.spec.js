@@ -21,7 +21,7 @@ describe('BuildController', function () {
 
     var $location, $httpBackend, HostnameAndPort, TestData, $scope, BuildController;
 
-    beforeEach(module('scenarioo.controllers'));
+    beforeEach(angular.mock.module('scenarioo.controllers'));
 
     beforeEach(inject(function ($controller, $rootScope, _$location_, _$httpBackend_, _HostnameAndPort_, _TestData_) {
             $location = _$location_;

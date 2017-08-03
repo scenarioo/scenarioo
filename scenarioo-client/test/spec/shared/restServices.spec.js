@@ -19,7 +19,7 @@
 
 describe('Service :: restServices', function () {
 
-    beforeEach(module('scenarioo.services'));
+    beforeEach(angular.mock.module('scenarioo.services'));
 
     it('should inject ConfigResource', inject(function (ConfigResource) {
         expect(ConfigResource).not.toBeUndefined();
@@ -29,7 +29,7 @@ describe('Service :: restServices', function () {
     describe('HostnameAndPort :: development', function () {
 
         beforeEach(function () {
-            module(function ($provide) {
+            angular.mock.module(function ($provide) {
                 $provide.constant('ENV', 'development');
                 $provide.constant('BASE_URL', 'http://localhost:8080/scenarioo/');
             });
@@ -47,7 +47,7 @@ describe('Service :: restServices', function () {
     describe('HostnameAndPort :: production', function () {
 
         beforeEach(function () {
-            module(function ($provide) {
+            angular.mock.module(function ($provide) {
                 $provide.constant('ENV', 'production');
                 $provide.constant('BASE_URL', '');
             });

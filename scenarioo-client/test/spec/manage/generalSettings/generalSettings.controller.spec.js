@@ -21,7 +21,7 @@ describe('GeneralSettingsController', function () {
 
     var $rootScope, $controller, BranchesResource, ConfigService, $httpBackend, $scope, ConfigCtrl, HostnameAndPort, TestData;
 
-    beforeEach(module('scenarioo.controllers'));
+    beforeEach(angular.mock.module('scenarioo.controllers'));
 
     beforeEach(inject(function (_$rootScope_, _$controller_, _BranchesResource_, _ConfigService_, _$httpBackend_, _HostnameAndPort_, _TestData_) {
         $rootScope = _$rootScope_;

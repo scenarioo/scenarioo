@@ -4,12 +4,21 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var path = require('path');
 require('css-loader');
 
-module.exports = {
-    entry: {
-        app: './app/app.js',
-        //vendor: ['angular', 'filesaver.js', 'angular-route', 'angular-local-storage', 'jquery', 'bootstrap']
+/**
+ * Env
+ * Get npm lifecycle event to identify the environment
+ */
+var ENV = process.env.npm_lifecycle_event;
+var isTest = ENV === 'test' || ENV === 'test-watch';
+var isProd = ENV === 'build';
+
+var webpackConfig = {
+
+    entry: isTest ? void 0 : {
+        app: './app/app.js'
     },
-    output: {
+
+    output: isTest ? {} :  {
         path: __dirname + '/dist',
         filename: 'app.bundle.js'
     },
@@ -45,7 +54,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: "style-loader!css-loader",
+                loader: isTest ? 'null-loader': "style-loader!css-loader",
                 exclude: '/node_modules'
             },
             {
@@ -64,12 +73,17 @@ module.exports = {
             $: 'jquery',
             jquery: 'jquery',
             'window.jQuery': 'jquery'
-        }),
-         new HtmlWebpackPlugin({
-             template: './app/index.html'
-         }),
-        new CopyWebpackPlugin([{
-            from: './app/images', to: 'images'
-        }])
+        })
     ]
 };
+
+if (!isTest) {
+    webpackConfig.plugins.push(new HtmlWebpackPlugin({
+        template: './app/index.html'
+    }));
+    webpackConfig.plugins.push(new CopyWebpackPlugin([{
+        from: './app/images', to: 'images'
+    }]));
+}
+
+module.exports = webpackConfig;
