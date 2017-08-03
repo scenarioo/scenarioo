@@ -1,6 +1,7 @@
 build
 target
 data
+out
 .gradle
 .project
 .classpath
