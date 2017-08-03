@@ -44,7 +44,7 @@ public class ScreenshotComparatorTest {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(rootFolder.newFolder());
 		assertTrue(DiffFiles.getDiffViewerDirectory().mkdirs());
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
-		screenshotComparator = new ScreenshotComparator(COMPARATOR_PARAMETERS);
+		screenshotComparator = new ScreenshotComparator(getComparatorParameters());
 	}
 
 	@After
