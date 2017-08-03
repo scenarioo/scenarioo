@@ -2,11 +2,6 @@
     "name": "scenarioo-client",
     "version": "0.0.0",
     "dependencies": {
-        "angular": "1.5.2",
-        "angular-resource": "1.5.2",
-        "angular-sanitize": "1.5.2",
-        "angular-route": "1.5.2",
-        "angular-i18n": "1.5.2",
         "angular-local-storage": "~0.2.5",
         "bootstrap": "~3.3.2",
         "angular-bootstrap": "~1.2.2",

@@ -12,9 +12,18 @@
     "test-e2e": "gulp test-e2e",
     "build": "gulp build",
     "start": "gulp serve",
-      "webpack": "webpack"
+    "webpack": "webpack",
+    "webpack-dev-server": "webpack-dev-server",
+    "start:webpack": "webpack-dev-server --inline --progress --port 8500"
   },
-  "dependencies": {},
+  "dependencies": {
+    "angular": "1.5.2",
+    "angular-i18n": "1.5.2",
+    "angular-resource": "1.5.2",
+    "angular-route": "1.5.2",
+    "angular-sanitize": "1.5.2",
+    "jquery": "3.2.1"
+  },
   "devDependencies": {
     "bower": "1.7.x",
     "css-loader": "0.28.1",
@@ -50,7 +59,8 @@
     "raw-loader": "0.5.1",
     "requirejs": "2.2.x",
     "scenarioo-js": "3.0.x",
-    "webpack": "2.5.0"
+    "webpack": "2.5.0",
+    "webpack-dev-server": "2.4.5"
   },
   "engines": {
     "node": ">=4.4.0"

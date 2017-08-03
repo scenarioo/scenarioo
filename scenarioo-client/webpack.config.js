@@ -11,13 +11,21 @@ module.exports = {
     },
     output: {
         path: __dirname + '/dist',
-        filename: 'app.[hash].bundle.js'
+        filename: 'app.bundle.js'
     },
     // resolve: {
     //     alias: {
     //         constants: path.join(__dirname, 'constants', process.env.NODE_ENV)
     //     }
     // },
+    devServer: {
+        contentBase: path.join(__dirname, "app"),
+        compress: true,
+        port: 9000,
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        }
+    },
     module: {
         loaders: [
             {
@@ -46,16 +54,19 @@ module.exports = {
             },
             {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&minetype=image/svg+xml"}
 
-        ]
+        ],
     },
     plugins: [
         new webpack.ProvidePlugin({
             jQuery: 'jquery',
             $: 'jquery',
-            jquery: 'jquery'
+            jquery: 'jquery',
+            'window.jQuery': 'jquery'
+            //SVG: 'SVG'
         }),
-        new HtmlWebpackPlugin({
-            template: './app/index.html'
-        })
+         new HtmlWebpackPlugin({
+             template: './app/index.html'
+         }),
+
     ]
 };

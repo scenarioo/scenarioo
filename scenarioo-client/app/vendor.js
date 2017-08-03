@@ -1,17 +1,6 @@
-require('./components/jquery/dist/jquery.js');
-require('./components/angular/angular.js');
-require('./components/angular-resource/angular-resource.js');
-require('./components/angular-sanitize/angular-sanitize.js');
-require('./components/angular-route/angular-route.js');
-require('./components/angular-bootstrap/ui-bootstrap-tpls.js');
-require('./components/angular-local-storage/dist/angular-local-storage.min.js');
-require('./components/twigs/dist/twigs.js');
-require('./components/angular-i18n/angular-locale_en-us.js');
-require('./components/angular-i18n/angular-locale_de-de.js');
-require('./components/angular-i18n/angular-locale_de-ch.js');
-require('./components/svg.js/dist/svg.js');
-require('./components/svg.select.js/dist/svg.select.js');
-require('./components/svg.draggable.js/dist/svg.draggable.js');
-require('./components/svg.resize.js/dist/svg.resize.js');
-require('./components/svg-pan-zoom/dist/svg-pan-zoom.js');
-require('./components/angular-unsavedChanges/dist/unsavedChanges.js');
+
+// require('./components/svg.js/dist/svg.js');
+// require('./components/svg.select.js/dist/svg.select.js');
+// require('./components/svg.draggable.js/dist/svg.draggable.js');
+// require('./components/svg.resize.js/dist/svg.resize.js');
+// require('./components/svg-pan-zoom/dist/svg-pan-zoom.js');
