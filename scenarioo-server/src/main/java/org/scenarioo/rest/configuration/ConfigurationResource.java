@@ -56,6 +56,7 @@ public class ConfigurationResource {
 		status.setGraphicsMagickAvailable(GraphicsMagickConfiguration.isAvailable());
 		applicationStatus.setDiffViewerStatus(status);
 		applicationStatus.setConfiguration(configurationRepository.getConfiguration());
+		applicationStatus.setDocumentationDataDirectory(configurationRepository.getDocumentationDataDirectory().getAbsolutePath());
 		applicationStatus.setSearchEngineStatus(SearchEngineStatus.create());
 		applicationStatus.setVersion(ApplicationVersionHolder.INSTANCE.getApplicationVersion());
 		return applicationStatus;
