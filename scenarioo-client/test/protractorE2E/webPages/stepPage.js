@@ -95,8 +95,8 @@ StepPage.prototype.assertFallbackMessageContainsText = function (text) {
 };
 
 StepPage.prototype.assertScenarioLabelsContain = function (label) {
-    let scenariooLabels = element(by.id('scenario-labels'));
-    let innerHtml = browser.executeScript("return arguments[0].innerHTML;", scenariooLabels);
+    var scenariooLabels = element(by.id('scenario-labels'));
+    var innerHtml = browser.executeScript("return arguments[0].innerHTML;", scenariooLabels);
     expect(innerHtml).toContain(label);
 };
 
