@@ -97,8 +97,11 @@ public class ComparisonExecutor {
 			ComparisonConfiguration comparisonConfiguration) {
 		docuBuildsManager = ScenarioDocuBuildsManager.INSTANCE;
 		ThreadLogAppender comparisonLog = null;
+
 		try {
+
 			comparisonLog = registerLogFile(baseBranchName, baseBuildName, comparisonConfiguration);
+			long startTime = System.currentTimeMillis();
 
 			LOGGER.info("============= START OF BUILD COMPARISON ================");
 			LOGGER.info("Comparing base build: " + baseBranchName + "/"
@@ -117,6 +120,7 @@ public class ComparisonExecutor {
 
 			LOGGER.info("SUCCESS on comparing base build: " + baseBranchName + "/"
 					+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
+			logDuration(startTime);
 			LOGGER.info("============= END OF BUILD COMPARISON (success) ===========");
 		} catch (Throwable e) {
 			LOGGER.error("FAILURE on comparing build " + baseBranchName + "/"
@@ -127,6 +131,13 @@ public class ComparisonExecutor {
 				comparisonLog.unregisterAndFlush();
 			}
 		}
+	}
+
+	private void logDuration(long startTime) {
+		long duration = (System.currentTimeMillis() - startTime) / 1000;
+		long minutes = duration / 60;
+		long seconds = duration % 60;
+		LOGGER.info("Comparison finished in " + minutes + " min. " + seconds + " sec.");
 	}
 
 	/**

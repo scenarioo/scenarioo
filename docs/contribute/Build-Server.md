@@ -1,16 +1,20 @@
 # Scenarioo CI/CD Build and Demo Server
 
-## Jenkins
+## Jenkins CI/CD Build Server
 
 http://ci.scenarioo.org or http://build.scenarioo.org (both forward to http://54.88.202.24/jenkins)
 
+The server is maintained by adiherzog. Contact him if you need a Jenkins account.
+
 ## Demos
 
-Latest release: http://54.88.202.24/scenarioo-master (or use shortcut http://demo.scenarioo.org)
+Latest release: http://demo.scenarioo.org
 
-Development for future release: http://54.88.202.24/scenarioo-develop
+Development for future release: http://demo.scenarioo.org/scenarioo-develop
 
-## Add a new branch to be built and deployed
+Your special feature or release branch (if it has a CI/CD-build-job): http://demo.scenarioo.org/scenarioo-{branch-name}
+
+## Add new CI/CD build job for new branch
 
 * Click "New Item" in the Jenkins menu
 * Set the name of the new build job to "scenarioo-{my-branch-name}"
@@ -18,22 +22,41 @@ Development for future release: http://54.88.202.24/scenarioo-develop
 * Click "Ok"
 * Set the correct branch next to "Branches to build"
 * In the post-build task where the "deploy-demo-and-run-e2e-tests" task is called, set "BRANCH={my-branch-name}".
+* It's important that you use exactly the same {my-branch-name} values for both occurrences. It does not have to be the exact git branch name, but it should identify the branch. Only use alphanumeric characters and the dash in {my-branch-name}. Otherwise you may run into problems.
+* Save it
+* Choose to build once: "Build Now"
+* First run of the build run will usually fail (there seems to be a problem with clean build currently).
+* Choose to build again, usually the second build should succeed.
+* The demo once deployed should be available under: http://demo.scenarioo.org/scenarioo-{my-branch-name}
 
-It's important that you use exactly the same {my-branch-name} values for both occurrences. It does not have to be the exact git branch name, but it should identify the branch. Only use alphanumeric characters and the dash in {my-branch-name}. Otherwise you may run into problems.
+## Nginx Proxy Configurations
 
-We use nginx as a reverse proxy. Therefore you also have to add a configuration for the new Scenarioo instance URL in `/etc/nginx/sites-available/default`. Otherwise the demo is not reachable.
+Modifying NGINX proxy configuration files to redirect URLs on our demo/build server, can be done as follows:
 
-## Maintenance of the build server
+0. All the config files are found on the demo VM in following directory:
+/etc/nginx/sites-available
 
-The server is maintained by adiherzog and forkch. Contact them if you need a Jenkins account.
+1. Download/Upload config files
+    * Use SCP to copy files
+      * from server: `scp ubuntu@54.88.202.24:/etc/nginx/sites-available/* .`
+      * to server: `scp ./* ubuntu@54.88.202.24:/home/ubuntu/upload/sites-available`
+    * On windows use putty, pageant and pscp (all from putty)
+      * register the key for the VM with pageant
+      * then use pscp in same way as scp (see above)
+
+3. SSH to VM and copy the files from uploaded place to /etc/nginx/sites-available
+> cd ~/upload/sites-available
+> sudo cp ./<changed-file> /etc/nginx/sites-available/<changed-file>
+
+4. Only in case of a new config file: Generate link for new server files in `sites-enabled`:
+> sudo ln -s /etc/nginx/sites-available/<name-of-new-server-file> /etc/nginx/sites-enabled/
+
+5. Restart the NGINX Server
+> sudo service nginx restart
 
 ## Setup of build server
 
 There are a number of aliases defined in the .bash_aliases file of the ubuntu user. They all start with `sc-` and lead to the Tomcat, Jenkins and the Scenarioo data directories.
-
-## Demo Server
-
-Demo is available at http://54.88.202.24/scenarioo-{your-branch-name-here}
 
 ### Restart tomcat manually
 

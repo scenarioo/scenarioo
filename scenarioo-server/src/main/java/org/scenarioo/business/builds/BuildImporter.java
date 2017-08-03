@@ -207,9 +207,12 @@ public class BuildImporter {
 		ThreadLogAppender buildImportLog = null;
 
 		try {
+
+
 			File importLogFile = dao.getBuildImportLogFile(summary.getIdentifier());
 			buildImportLog = ThreadLogAppender.createAndRegisterForLogs(summary.getIdentifier(), importLogFile);
 
+			long startTime = System.currentTimeMillis();
 			buildsBeeingImported.add(summary.getIdentifier());
 
 			LOGGER.info(" ============= START OF BUILD IMPORT ================");
@@ -233,6 +236,7 @@ public class BuildImporter {
 						+ summary.getIdentifier().getBuildName());
 			}
 
+			logDuration(startTime);
 			LOGGER.info(" ============= END OF BUILD IMPORT (success) ===========");
 		} catch (Throwable e) {
 			recordBuildImportFinished(summary, BuildImportStatus.FAILED, e.getMessage());
@@ -244,6 +248,13 @@ public class BuildImporter {
 				buildImportLog.unregisterAndFlush();
 			}
 		}
+	}
+
+	private void logDuration(long startTime) {
+		long duration = (System.currentTimeMillis() - startTime) / 1000;
+		long minutes = duration / 60;
+		long seconds = duration % 60;
+		LOGGER.info("Build Import finished in " + minutes + " min. " + seconds + " sec.");
 	}
 
 	private synchronized void addSuccessfullyImportedBuild(AvailableBuildsList availableBuilds,

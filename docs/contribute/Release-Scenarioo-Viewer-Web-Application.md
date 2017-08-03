@@ -40,3 +40,20 @@ In `gradle.build` you have to adjust following version information:
 ### Finish release notes and create links
 * Attach the binary of the release (WAR-file) to the release notes (see area "Attach binaries by dropping them here ...").
 * Publish the release notes.
+
+
+### Upload to maven central
+1. You will need to specify the following properties in your gradle.properties located in your gradle home directory:
+
+```
+signing.keyId=BDCAAE60
+signing.password=#private key goes here#
+signing.secretKeyRingFile=#secret key file goes here#
+ossrhUsername=scenarioo
+ossrhPassword=#sonatype password goes here#
+```
+
+2. Change the version appropriately in the build.gradle
+3. `gradlew clean uploadArchives`
+4. Promote build to maven central:
+http://central.sonatype.org/pages/releasing-the-deployment.html

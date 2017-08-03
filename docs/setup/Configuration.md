@@ -1,15 +1,24 @@
-
-## Configuration
+# Viewer Configuration
 
 Most of the features that are configurable in Scenarioo can be configured directly through the Configuration pages inside the Scenarioo webapplication. Just use the link "Manage" in the upper right corner.
 
-This section describes some very special configurations that are not yet possible through the Scenarioo configuration pages directly.
+The following sections describe more advanced configuration options that can only be configured through the viewer's `config.xml` file and can not be configured yet through the Scenarioo configuration pages directly. 
 
-### Custom Object Tabs
+All the listed configuration possibilities are optional and you only need to follow these instructions if you want to use these additional features.
 
-By adding custom object tabs to your scenarioo home page, you can enable browsing all objects of some type(s) (almost the same way as use cases can be browsed on the entry page). 
+## Full Text Search
 
-This feature currently has to be enabled by adding some XML fragment to your Scenarioo configuration file.
+For enabling full text search inside your scenarioo documentation you have to setup an elastic search engine, as described in [Full Text Search Setup Instructions](../features/full-text-search/setup.md)
+
+## Diff Viewer Comparisons
+
+If you want to enable diff comparisons between two versions of your generated documentation builds (e.g. to see what changed in the last automated build run compared to another build run, including also screenshot comparisons) you have to follow the [DiffViewer Setup Instructions](../features/diff-viewer/setup.md)
+
+## Custom Object Tabs
+
+By adding custom object tabs to your scenarioo home page, you can enable browsing all objects of some type(s) (almost the same way as use cases can be browsed on the entry page). This feature currently has to be enabled by adding some XML fragment to your Scenarioo configuration file.
+
+How to add objects of arbitrary types as details to your scenarioo documentation content is described in [Details & Object Repository](../features/Details.md).
 
 The following XML fragment added to your configuration file, will make all your objects in your scenarioo documentation of the types listed as `<objectTypesToDisplay>` browsable in one searchable object tree inside a new tab called "Calls" on the home page of Scenarioo. This example lists all objects of type "service", "businessOperation" and "uiAction" in one tree, just as you can see it in the Demo of Scenarioo. Also the details properties "description" and "realName" are displayed in the resulting tree table as columns.
 
@@ -55,3 +64,4 @@ The default configuration since scenarioo version 2.0 already comes with two suc
      </customObjectTabs>
 ```
 In case you are using the default version 2.0 configuration and you do not want to see "Labels" and "Pages" in your documentation, you can remove those tabs by removing this configuration part from your config.xml file and restart the server.
+

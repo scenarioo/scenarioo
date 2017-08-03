@@ -31,8 +31,21 @@ This is the recommended setup, to get up started and productive most quickly!
       $ git config --global user.name "John Doe"             
       $ git config --global user.email johndoe@example.com
      ```
-     **IMPORTANT - Set correct email:** Make sure to configure the same email of your github account, otherwise your commits will not be recognized as contributions by you on github! 
+     **IMPORTANT - Set correct email: Make sure to configure the same email as registered in your github account**, otherwise your commits will not be recognized as contributions by you on github! 
      See also here: https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
+     
+ * **Checkout major repo:**
+    ```
+    git clone https://github.com/scenarioo/scenarioo.git
+    ```
+    * In case of troubles with `Filename too long` errors on windows:
+    
+        ```
+        cd scenarioo
+        git config core.longpaths true
+        git checkout -f HEAD
+        ```
+        (if that does not help, check you have a new version of the windows git client!)
 
  * For most things you will work with the IntelliJ GIT client or use the GIT command line
      * In case you are a GIT newbie please ask your developer colleagues to help you or refer to the very good (and free) book at: http://git-scm.com/book to get started
@@ -108,9 +121,10 @@ But this two repositories should be sufficient for most usual developers.
         * Application context (!important!): /scenarioo   
      * on "Startup/Connection" tab: set environment variable "SCENARIOO_DATA" to following path: &lt;your-project-source-path&gt;\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
      
- * Run all tests of the sub-project "scenarioodocu-generation-example" (right click on folder and choose "Run 'All Tests'") 
-   to generate example documentation data in Folder build/scenarioDocuExample
-
+ * Run all tests of the sub-project "scenarioodocu-generation-example" to generate scenarioo example documentation data in Folder "build/scenarioDocuExample"
+    * select folder 'test' under 'src' folder 
+    * right click on 'test' folder and choose "Run 'All Tests'
+  
 ===== TODO issue #427 === 
 
      * when the issue #427 has been resolved, the following is obsolete: 

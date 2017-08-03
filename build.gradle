@@ -1,7 +1,7 @@
 /**
  * Used Version of Scenarioo Java Library for reading scenarioo docu data
  */
-ext.scenariooApiVersion = '2.1.0'
+ext.scenariooApiVersion = '2.1.1'
 
 /**
  * Internal scenarioo format version of produced aggregation data (internal server format version).
@@ -32,6 +32,8 @@ def getVersionName = { ->
 	}
 	return stdout.toString().trim()
 }
+
+ext.versionWithGitCommit = getVersionName();
 
 allprojects {
 	apply plugin: 'eclipse'

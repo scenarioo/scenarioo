@@ -7,4 +7,6 @@ Text can be searched inside:
 * steps and pages meta information
 * in visible text on screens as well as in HTMl source code of the screens
 
-See [Setup Instructions for Full Text Search](setup.md) on how to setup the full text seaerch and use it.
+## Setup Instructions
+
+See [Setup Instructions](setup.md) for how to configure and activate this feature.
