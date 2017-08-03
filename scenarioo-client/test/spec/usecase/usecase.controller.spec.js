@@ -23,17 +23,16 @@ describe('UseCaseController', function () {
         BUILD = 'build_123',
         USE_CASE = 'LogIn';
 
-    var $scope, routeParams, controller, ScenarioResource, RelatedIssueResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource, SelectedBranchAndBuildService, $location, $httpBackend, HostnameAndPort;
+    var $scope, routeParams, controller, ScenarioResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource, SelectedBranchAndBuildService, $location, $httpBackend, HostnameAndPort;
 
     beforeEach(module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, _RelatedIssueResource_, _UseCaseDiffInfoResource_, _ScenarioDiffInfosResource_,
+    beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, _UseCaseDiffInfoResource_, _ScenarioDiffInfosResource_,
                                 ConfigMock, _SelectedBranchAndBuildService_, _$location_, LocalStorageService, _$httpBackend_, _HostnameAndPort_) {
             $scope = $rootScope.$new();
             routeParams = $routeParams;
             routeParams.useCaseName = USE_CASE;
             ScenarioResource = _ScenarioResource_;
-            RelatedIssueResource = _RelatedIssueResource_;
             UseCaseDiffInfoResource = _UseCaseDiffInfoResource_;
             ScenarioDiffInfosResource = _ScenarioDiffInfosResource_;
             SelectedBranchAndBuildService = _SelectedBranchAndBuildService_;
@@ -48,7 +47,6 @@ describe('UseCaseController', function () {
                 $routeParams: routeParams,
                 ConfigService: ConfigMock,
                 ScenarioResource: ScenarioResource,
-                RelatedIssueResource: RelatedIssueResource,
                 UseCaseDiffInfoResource: UseCaseDiffInfoResource,
                 ScenarioDiffInfosResource: ScenarioDiffInfosResource,
                 SelectedBranchAndBuildService: SelectedBranchAndBuildService

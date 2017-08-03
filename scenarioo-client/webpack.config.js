@@ -1,6 +1,6 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-//var CopyWebpackPlugin = require('copy-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var path = require('path');
 require('css-loader');
 
@@ -52,8 +52,10 @@ module.exports = {
                 test: /\.(woff|woff2|eot|ttf)$/i,
                 loader: "file-loader?name=fonts/[name]-[hash].[ext]"
             },
-            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&minetype=image/svg+xml"}
-
+            {
+                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+                loader: "url-loader?limit=10000&minetype=image/svg+xml"
+            }
         ],
     },
     plugins: [
@@ -62,11 +64,12 @@ module.exports = {
             $: 'jquery',
             jquery: 'jquery',
             'window.jQuery': 'jquery'
-            //SVG: 'SVG'
         }),
          new HtmlWebpackPlugin({
              template: './app/index.html'
          }),
-
+        new CopyWebpackPlugin([{
+            from: './app/images', to: 'images'
+        }])
     ]
 };

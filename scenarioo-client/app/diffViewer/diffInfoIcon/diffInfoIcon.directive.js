@@ -28,7 +28,7 @@ function scDiffInfoIcon() {
             elementType: '@',
             childElementType: '@'
         },
-        templateUrl: 'diffViewer/diffInfoIcon/diffInfoIcon.html',
+        template: require('./diffInfoIcon.html'),
         controller: DiffInfoIconController,
         controllerAs: 'vm',
         bindToController: true

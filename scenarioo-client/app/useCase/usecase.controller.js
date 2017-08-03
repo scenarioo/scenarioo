@@ -18,8 +18,8 @@
 angular.module('scenarioo.controllers').controller('UseCaseController', UseCaseController);
 
 function UseCaseController($scope, $filter, $routeParams, $location, ScenarioResource, ConfigService,
-                           SelectedBranchAndBuildService, SelectedComparison, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource,
-                           SketchIdsResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource) {
+                           SelectedBranchAndBuildService, SelectedComparison, DiffInfoService, LabelConfigurationsResource,
+                           UseCaseDiffInfoResource, ScenarioDiffInfosResource) {
 
     var vm = this;
 
@@ -133,7 +133,6 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
             vm.scenarios = result.scenarios;
         }
 
-        loadRelatedIssues();
     }
 
     function loadDiffInfoData(scenarios, baseBranchName, baseBuildName, comparisonName, useCaseName) {
@@ -154,24 +153,8 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         }
     }
 
-    function loadRelatedIssues(){
-        RelatedIssueResource.query({
-            branchName: SelectedBranchAndBuildService.selected().branch,
-            buildName: SelectedBranchAndBuildService.selected().build,
-            useCaseName: $routeParams.useCaseName
-        }, function(result){
-            vm.relatedIssues = result;
-            vm.hasAnyRelatedIssues = vm.relatedIssues.length > 0;
-        });
-    }
-
     function goToIssue(issue) {
-        var selectedBranch = SelectedBranchAndBuildService.selected().branch;
-        SketchIdsResource.get(
-            {'branchName': selectedBranch, 'issueId': issue.id },
-            function onSuccess(result) {
-                $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
-            });
+
     }
 
     function createUseCaseInformationTree(usecase) {

@@ -52,7 +52,6 @@ function BuildController($scope, $location, ConfigService) {
             var config = ConfigService.getRawConfigDataCopy();
             defineInitialStaticTabs();
             defineCustomTabsFromConfig(config);
-            defineLastStaticTabs();
             selectTabFromUrl();
         });
         ConfigService.load();
@@ -71,17 +70,6 @@ function BuildController($scope, $location, ConfigService) {
             });
             vm.tabIndices[customTab.id] = index + 1;
         });
-    }
-
-    function defineLastStaticTabs() {
-        var i = vm.tabs.length;
-        vm.tabs.push({
-            index: i,
-            tabId: 'sketches',
-            title: 'Sketches',
-            contentViewUrl: 'build/sketchesTab.html'
-        });
-        vm.tabIndices.sketches = i;
     }
 
     /**

@@ -19,7 +19,7 @@ angular.module('scenarioo.controllers').controller('ScenarioController', Scenari
 
 function ScenarioController($filter, $routeParams,
           $location, ScenarioResource, HostnameAndPort, SelectedBranchAndBuildService, SelectedComparison,
-          ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
+          ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, BuildDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
 
     var vm = this;
     vm.useCaseDescription = '';
@@ -88,8 +88,6 @@ function ScenarioController($filter, $routeParams,
                     var selectedBrandAndBuild = SelectedBranchAndBuildService.selected();
                     loadDiffInfoData(vm.pagesAndSteps, selectedBrandAndBuild.branch, selectedBrandAndBuild.build, SelectedComparison.selected());
                 }
-
-                loadRelatedIssues();
 
                 var hasAnyUseCaseLabels = vm.useCase.labels.labels.length > 0;
                 var hasAnyScenarioLabels = vm.scenario.labels.labels.length > 0;
@@ -268,25 +266,10 @@ function ScenarioController($filter, $routeParams,
         }
     }
 
-    function loadRelatedIssues(){
-        RelatedIssueResource.query({
-            branchName: SelectedBranchAndBuildService.selected().branch,
-            buildName: SelectedBranchAndBuildService.selected().build,
-            useCaseName: $routeParams.useCaseName,
-            scenarioName: $routeParams.scenarioName
-        }, function(result){
-            vm.relatedIssues = result;
-            vm.hasAnyRelatedIssues = vm.relatedIssues.length > 0;
-        });
-    }
+
 
     function goToIssue(issue) {
-        var selectedBranch = SelectedBranchAndBuildService.selected().branch;
-        SketchIdsResource.get(
-            {'branchName': selectedBranch, 'issueId': issue.id },
-            function onSuccess(result) {
-                $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
-            });
+
     }
 
     function getLabelStyle(labelName) {

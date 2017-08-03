@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($routeParams, $location, $route, $compile, 
-                                                                            $filter, $sce, BreadcrumbsService, 
-                                                                            SharePagePopupService, SketcherLinkService) {
+angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($routeParams, $location, $route, $compile,
+                                                                            $filter, $sce, BreadcrumbsService,
+                                                                            SharePagePopupService) {
 
     var limit = 50;
 
@@ -25,11 +25,10 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
         restrict: 'E',
         priority: 0,
         replace: true,
-        templateUrl: 'shared/navigation/breadcrumbs/breadcrumbs.html',
+        template: require('./breadcrumbs.html'),
         link: function (scope) {
 
             scope.breadcrumbs = [];
-            scope.sketcherLink = SketcherLinkService;
             var navParameters = [];
             var breadcrumbId = $route.current.$$route.breadcrumbId;
 

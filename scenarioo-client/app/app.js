@@ -16,6 +16,11 @@
  */
 
 
+require('./components/bootstrap/dist/css/bootstrap.min.css');
+require('./components/font-awesome/css/font-awesome.min.css');
+// TODO danielsuter use less
+require('./styles/scenarioo.css');
+
 /** vendor */
 require('jquery');
 require('angular');
@@ -48,26 +53,26 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
          */
         $routeProvider
             .when('/', {
-                templateUrl: 'build/build.html',
+                template: require('./build/build.html'),
                 controller: 'BuildController',
                 controllerAs: 'main',
                 breadcrumbId: 'main'
             })
             .when('/manage', {
-                templateUrl: 'manage/manage.html',
+                template: require('./manage/manage.html'),
                 controller: 'ManageController',
                 controllerAs: 'vm',
                 breadcrumbId: 'manage'
             })
             .when('/usecase/:useCaseName', {
-                templateUrl: 'useCase/usecase.html',
+                template: require('./useCase/usecase.html'),
                 controller: 'UseCaseController',
                 controllerAs: 'useCase',
                 useCaseName: '@useCaseName',
                 breadcrumbId: 'usecase'
             })
             .when('/scenario/:useCaseName/:scenarioName', {
-                templateUrl: 'scenario/scenario.html',
+                template: require('./scenario/scenario.html'),
                 controller: 'ScenarioController',
                 controllerAs: 'vm',
                 useCaseName: '@useCaseName',
@@ -75,14 +80,14 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 breadcrumbId: 'scenario'
             })
             .when('/search/:searchTerm', {
-                templateUrl: 'search/search.html',
+                template: require('./search/search.html'),
                 controller: 'SearchController',
                 controllerAs: 'vm',
                 breadcrumbId: 'search',
                 searchTerm: '@searchTerm'
             })
             .when('/object/:objectType/:objectName', {
-                templateUrl: 'objectRepository/objectRepository.html',
+                template: require('./objectRepository/objectRepository.html'),
                 controller: 'ObjectRepositoryController',
                 controllerAs: 'vm',
                 objectType: '@objectType',
@@ -90,7 +95,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 breadcrumbId: 'object'
             })
             .when('/step/:useCaseName/:scenarioName/:pageName/:pageOccurrence/:stepInPageOccurrence', {
-                templateUrl: 'step/step.html',
+                template: require('./step/step.html'),
                 controller: 'StepController',
                 useCaseName: '@useCaseName',
                 scenarioName: '@scenarioName',
@@ -100,18 +105,18 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 breadcrumbId: 'step'
             })
             .when('/stepsketch/:issueId/:scenarioSketchId/:stepSketchId', {
-                templateUrl: 'sketcher/stepSketch.html',
+                template: require('./sketcher/stepSketch.html'),
                 controller: 'StepSketchController',
                 controllerAs: 'vm',
                 breadcrumbId: 'stepsketch'
             })
             .when('/editor', {
-                templateUrl: 'sketcher/sketcherEditor.html',
+                template: require('./sketcher/sketcherEditor.html'),
                 controller: 'SketcherEditorController',
                 controllerAs: 'vm'
             })
             .when('/editor/:issueId/:scenarioSketchId/:stepSketchId', {
-                templateUrl: 'sketcher/sketcherEditor.html',
+                template: require('./sketcher/sketcherEditor.html'),
                 controller: 'SketcherEditorController',
                 controllerAs: 'vm',
                 issueId: '@issueId',
@@ -122,7 +127,17 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
                 redirectTo: '/'
             });
 
-    }).run(function ($rootScope, ConfigService, GlobalHotkeysService, $location, $uibModalStack, ApplicationInfoPopupService) {
+    }).run(function ($rootScope, ConfigService, GlobalHotkeysService, $location, $uibModalStack, ApplicationInfoPopupService, $templateCache) {
+
+    // These templates are loaded dynamically, thus we preload it and put it into our template cache.
+    $templateCache.put('shared/navigation/navigation.html', require('./shared/navigation/navigation.html'));
+    $templateCache.put('build/useCasesTab.html', require('./build/useCasesTab.html'));
+    $templateCache.put('build/useCasesTab.html', require('./build/useCasesTab.html'));
+    $templateCache.put('build/customTab.html', require('./build/customTab.html'));
+    $templateCache.put('manage/buildImport/buildsList.html', require('./manage/buildImport/buildsList.html'));
+    $templateCache.put('manage/generalSettings/generalSettings.html', require('./manage/generalSettings/generalSettings.html'));
+    $templateCache.put('manage/branchAliases/branchAliases.html', require('./manage/branchAliases/branchAliases.html'));
+    $templateCache.put('manage/labelColors/labelColors.html', require('./manage/labelColors/labelColors.html'));
 
 
     // Initialze modals to close when the location changes
@@ -200,6 +215,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     require('./shared/navigation/applicationInfoPopup.service.js');
     require('./shared/navigation/sharePage/sharePagePopup.controller.js');
     require('./shared/navigation/sharePage/sharePagePopup.service.js');
+/*
     require('./sketcher/sketcherContext.service.js');
     require('./sketcher/sketcherRestClient.service.js');
     require('./sketcher/stepSketch.controller.js');
@@ -224,6 +240,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     require('./sketcher/drawingPad/toolBox.service.js');
     require('./sketcher/sketcherEditor.controller.js');
     require('./sketcher/storeSketch.service.js');
+*/
     require('./step/screenAnnotations/annotatedScreenshot.directive.js');
     require('./step/screenAnnotations/screenAnnotationsButton.directive.js');
     require('./step/screenAnnotations/screenAnnotationInfoPopup.controller.js');
