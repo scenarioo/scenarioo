@@ -4,10 +4,7 @@ import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 import org.scenarioo.dao.diffViewer.impl.DiffFiles;
 import org.scenarioo.repository.RepositoryLocator;
@@ -32,6 +29,12 @@ public class ScreenshotComparatorTest {
 	private static final File COMPARISON_SCREENSHOT_LARGE = new File(FILEPATH + "comparisonScreenshotLarge.png");
 	private static final File DIFF_SCREENSHOT = new File(FILEPATH + "diffScreenshot.png");
 	private static final File NON_EXISTENT_SCREENSHOT = new File(FILEPATH + "nonExistentScreenshot.png");
+	private static final File BLUE_100 = new File(FILEPATH + "blue_100x100.png");
+	private static final File RED_100 = new File(FILEPATH + "red_100x100.png");
+	private static final File WHITE_100 = new File(FILEPATH + "white_100x100.png");
+	private static final File BLACK_100 = new File(FILEPATH + "black_100x100.png");
+	private static final File RED_200 = new File(FILEPATH + "red_200x100.png");
+	private static final File BLUE_RED_200 = new File(FILEPATH + "red_blue_200x100.png");
 	private static final double SCREENSHOT_DIFFERENCE_SAME_SIZE = 14.11;
 	private static final double SCREENSHOT_DIFFERENCE_LARGE = 24.01;
 	private static final double DOUBLE_TOLERANCE = 0.01;
@@ -55,32 +58,54 @@ public class ScreenshotComparatorTest {
 	}
 
 	@Test
-	public void compareEqualScreenshots() {
+	public void compare_sameSizeAndColor_returnsZero_andDoesNotCreateDiffImage() {
 		DIFF_SCREENSHOT.delete();
-
-		final double difference = screenshotComparator.compareScreenshots(BASE_SCREENSHOT,
-			BASE_SCREENSHOT, DIFF_SCREENSHOT);
-
-		assertEquals("Difference of screenshots", 0, difference, DOUBLE_TOLERANCE);
+		assertDifferenceForScreenshots(RED_100, RED_100, 0);
 		assertFalse("No DiffScreenshot expected.", DIFF_SCREENSHOT.exists());
 	}
 
 	@Test
-	public void compareDifferentScreenshots() {
-		final double difference = screenshotComparator.compareScreenshots(BASE_SCREENSHOT,
-			COMPARISON_SCREENSHOT_SAME_SIZE, DIFF_SCREENSHOT);
-		assertEquals("Difference of screenshots", SCREENSHOT_DIFFERENCE_SAME_SIZE, difference, DOUBLE_TOLERANCE);
+	public void compare_differentScreenshots() {
+		assertDifferenceForScreenshots(BASE_SCREENSHOT, COMPARISON_SCREENSHOT_SAME_SIZE, SCREENSHOT_DIFFERENCE_SAME_SIZE);
 	}
 
 	@Test
-	public void compareDifferentSizedScreenshots() {
-		final double difference = screenshotComparator.compareScreenshots(BASE_SCREENSHOT,
-			COMPARISON_SCREENSHOT_LARGE, DIFF_SCREENSHOT);
-		assertEquals("Difference of screenshots", SCREENSHOT_DIFFERENCE_LARGE, difference, DOUBLE_TOLERANCE);
+	public void compare_differentSizedScreenshots() {
+		assertDifferenceForScreenshots(BASE_SCREENSHOT, COMPARISON_SCREENSHOT_LARGE, SCREENSHOT_DIFFERENCE_LARGE);
+	}
+
+	@Ignore
+	@Test
+	public void compare_allRed_allBlue_returnsHundred() {
+		assertDifferenceForScreenshots(RED_100, BLUE_100, 100);
+	}
+
+	@Ignore
+	@Test
+	public void compare_allWhite_allBlack_returnsHundred() {
+		assertDifferenceForScreenshots(BLACK_100, WHITE_100, 100);
+	}
+
+	@Ignore
+	@Test
+	public void compare_bothRed_oneIsDoubleTheSize_returnsFifty() {
+		assertDifferenceForScreenshots(RED_100, RED_200, 50);
+	}
+
+	@Ignore
+	@Test
+	public void compare_allRed_redBlue_oneIsDoubleTheSize_returnsTwentyFife() {
+		assertDifferenceForScreenshots(RED_100, BLUE_RED_200, 25);
+	}
+
+	private void assertDifferenceForScreenshots(File baseScreenshot, File comparisonScreenshot, double expectedDifference) {
+		final double actualDifference
+			= screenshotComparator.compareScreenshots(baseScreenshot, comparisonScreenshot, DIFF_SCREENSHOT);
+		assertEquals("Difference of screenshots", expectedDifference, actualDifference, DOUBLE_TOLERANCE);
 	}
 
 	@Test
-	public void compareNonExistentScreenshots() {
+	public void compare_nonExistentScreenshots() {
 		Logger LOGGER = ScreenshotComparator.getLogger();
 		TestAppender appender = new TestAppender();
 		LOGGER.addAppender(appender);
