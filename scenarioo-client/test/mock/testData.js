@@ -48,38 +48,6 @@ angular.module('scenarioo.services').service('TestData', function () {
             ]
         },
 
-        GET_CONFIGURATION_RESPONSE: {
-            'dataDirectory': 'webtestDocuContentExample',
-            'configuration': {
-                'defaultBuildName': 'current',
-                'scenarioPropertiesInOverview': 'userProfile, configuration',
-                'applicationInformation': 'This is my personal copy of Scenarioo :-)',
-                'buildstates': {
-                    BUILD_STATE_FAILED: 'label-important',
-                    BUILD_STATE_SUCCESS: 'label-success',
-                    BUILD_STATE_WARNING: 'label-warning'
-                },
-                'defaultBranchName': 'trunk',
-                'customObjectTabs': [
-                    {
-                        'id': 'calls',
-                        'tabTitle': 'Calls',
-                        'objectTypesToDisplay': ['uiAction', 'businessOperation', 'service'],
-                        'customObjectDetailColumns': [
-                            {
-                                'columnTitle': 'Description',
-                                'propertyKey': 'description'
-                            },
-                            {
-                                'columnTitle': 'Real Service Name',
-                                'propertyKey': 'realName'
-                            }
-                        ]
-                    }
-                ]
-            }
-        },
-
         CONFIG_PAGES_EXPANDED: {
                 'defaultBuildName': 'current',
                 'scenarioPropertiesInOverview': 'userProfile, configuration',
