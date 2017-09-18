@@ -15,5 +15,9 @@ timestamps {
 					 junit '**/build/test-results/test/*.xml, scenarioo-client/TEST*.xml'
 				}
 		  }
+
+		  stage('Package') {
+				gradle 'distZip'
+		  }
 	 }
 }
