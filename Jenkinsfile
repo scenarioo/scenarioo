@@ -8,7 +8,7 @@ timestamps {
 				checkout scm
 		  }
 
-		  stage('Build and unit test'){
+		  stage('Build and unit test') {
 				try {
 					 gradle 'clean build'
 				} finally {
@@ -18,6 +18,8 @@ timestamps {
 
 		  stage('Package') {
 				gradle 'distZip'
+				archiveArtifacts 'scenarioo-server/build/libs/scenarioo-*.war, LICENSE.txt, README.md, ' +
+						  'scenarioo-docu-generation-example/build/scenarioDocuExample/, scenarioo-validator/build/distributions/*'
 		  }
 	 }
 }
