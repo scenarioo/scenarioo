@@ -97,7 +97,7 @@ public class BuildsImporterResource {
 
 	@GET
 	@Path("importBuild/{branchName}/{buildName}/{comparisonBranchName}/{comparisonBuildName}/{comparisonName}")
-	@Produces({"application/json"})
+	@Produces({"application/xml", "application/json"})
 	public Response importBuild(
 		@PathParam("branchName") final String branchName,
 		@PathParam("buildName") final String buildName,
@@ -126,7 +126,7 @@ public class BuildsImporterResource {
 
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Produces("application/json")
+	@Produces({ "application/xml", "application/json" })
 	public Response uploadBuildAsZipFile(final MultipartFormDataInput formData) {
 		return new BuildUploader().uploadBuild(formData);
 	}
