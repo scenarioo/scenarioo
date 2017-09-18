@@ -22,7 +22,7 @@ Each comparisonConfiguration has the following settings:
 * **comparisonBranchName**: Name or alias of the branch to which to compare (can be the same branch as well).
 * **comparisonBuildName**: The name or alias of the build to which to compare to. Some examples:
     * "last successful": alias for the last successful build (as configured in configuration as well)
-    * most recent: alias for the most recent build (as configured in configuration as well)
+    * "most recent": alias for the most recent build (as configured in configuration as well)
     * the original build name    
 
 Refer to the glossary for further details: [Diff Viewer Glossary](./glossary.md)
