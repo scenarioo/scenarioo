@@ -12,7 +12,7 @@
 ### Feature "Diff Viewer Plus"
 
 Many small improvements for the diff viewer feature:
-* [#596 Configure Highlight Color for Changes in DiffViewer Comparison Screenshots](https://github.com/scenarioo/scenarioo/issues/596): new property `diffImageColorRgbaHex` to customize the highlight color.
+* [#596 - Configure Highlight Color for Changes in DiffViewer Comparison Screenshots](https://github.com/scenarioo/scenarioo/issues/596): new property `diffImageColorRgbaHex` to customize the highlight color.
 * [#618 - New DiffViewer Internal Data Format](https://github.com/scenarioo/scenarioo/issues/618) The comparison builds need now less disk space because only a difference image per screenshot is stored. Also the comparisons are stored now inside the belonging build, such that the diffs get automatically cleaned up when deleting a build. See as well migration guide further below.
 * [#603 - Improved Comparison View](https://github.com/scenarioo/scenarioo/issues/603) to understand the comparison of two screenshots and the possible comparison view options better. Also highlighting of changes in both screenshots is now possible.
 * [#602 - Removed Dependency to GraphicMagick](https://github.com/scenarioo/scenarioo/issues/602): GraphicMagick needs not to be installed anymore to use the DiffViewer feature.
