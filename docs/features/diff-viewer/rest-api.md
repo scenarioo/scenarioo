@@ -9,8 +9,7 @@
 | scenarioName         | Name of the active scenairo      |
 | stepIndex            | Index of the active step      |
 
-Further information about these parameters can be found in the glossary:
-https://github.com/magitnu/scenarioo/blob/develop/documentation/diff-viewer/glossary.md
+Further information about these parameters can be found in the [DiffViewer Glossary](./glossary.md)
 
 ## API Calls
 ### BuildDiffInfos

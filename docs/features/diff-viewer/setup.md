@@ -12,22 +12,22 @@ After that you are ready to use the Diff Viewer feature. Check out the [Diff Vie
 ## Add a comparison configuration
 In your config.xml file you can edit the comparison configuration.
 It is possible to add one or more comparison configurations. On each import, all the configured comparisons get compared.
-You can delete a comparisonConfiguration, then it will not be compared in the feature. 
+You can delete a comparisonConfiguration, then it will not be compared in the future. 
 The old comparisons will not be deleted automatically. Check out [Delete a comparison](#delete-a-comparison) for further details.
 
 Each comparisonConfiguration has the following settings:
-* **name**: Name of this specific comparison. The name gets displayed in the comparison selection menu.
-* **baseBranchName**: Name of the base Branch. The comparison build gets only compared to the builds of this branch. It is possible to use branch aliases. 
-* **comparisonBranchName**: Name of the comparison branch.
-* **comparisonBuildName**: Name of the comparison build. This build gets compared to all builds in the defined baseBranch.
- * It is possible to compare to the following comparisons:
-   * last successful: The last successful build gets compared
-    * most recent: The most recent build gets compared
-    * the original buildname. For example '2014-01-20'
+* **name**: Name of the comparison. This is the name that gets displayed in the Viewer to select a comparison result for displaying it. 
+   As soon as the comparison is calculated for a build you can select it in the comparison selection menu in the frontend on that build.
+* **baseBranchName**: Name or alias of the branch for which to perform such a comparison calculation on each new build being imported for that branch. 
+* **comparisonBranchName**: Name or alias of the branch to which to compare (can be the same branch as well).
+* **comparisonBuildName**: The name or alias of the build to which to compare to. Some examples:
+    * "last successful": alias for the last successful build (as configured in configuration as well)
+    * most recent: alias for the most recent build (as configured in configuration as well)
+    * the original build name    
 
-Refer to the glossary for further details: https://github.com/magitnu/scenarioo/blob/develop/documentation/diff-viewer/glossary.md
+Refer to the glossary for further details: [Diff Viewer Glossary](./glossary.md)
 
-Sample configuration:
+Example Configuration:
    ```xml
     ...
     <branchAliases/>
