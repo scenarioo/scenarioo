@@ -15,7 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+group = 'org.scenarioo'
 
+apply plugin: 'maven'
+apply plugin: 'signing'
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 apply from: "${rootProject.projectDir}/java.gradle"
@@ -68,7 +71,7 @@ task createVersionPropertiesFile << {
     def releaseBranch = project.scenariooReleaseBranch
 
 	File versionFile = new File(sourceSets.main.output.classesDir.getAbsolutePath() + '/version.properties');
-	versionFile.write('version=' + version + '\n' +
+	versionFile.write('version=' + versionWithGitCommit + '\n' +
             'build-date=' + new Date() + '\n' +
             'apiVersion=' + apiVersion + '\n' +
             'aggregatedDataFormatVersion=' + aggregatedDataFormatVersion + '\n' +
@@ -80,17 +83,71 @@ war {
     from(sourceSets.main.output.classesDir) {
         into('WEB-INF/classes')
     }
-	archiveName 'scenarioo-' + version + '.war'
+	archiveName 'scenarioo-viewer-' + version + '.war'
 }
 
 war.doLast {
     copy {
         from ('build/libs/')
         into ('build/libs/')
-        include('scenarioo-' + version + '.war')
-        rename('scenarioo-' + version + '.war', 'scenarioo-latest.war')
+        include('scenarioo-viewer-' + version + '.war')
+        rename('scenarioo-viewer-' + version + '.war', 'scenarioo-latest.war')
     }
 }
 
 war.dependsOn createVersionPropertiesFile
 war.dependsOn ":scenarioo-client:gulp"
+
+if(ossrhPassword) {
+    signing {
+        sign configurations.archives
+    }
+}
+
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Scenarioo Viewer'
+                packaging 'war'
+                description 'Scenarioo Viewer for automated Documentation using UI-E2E-Tests http://scenarioo.org'
+                url 'http://www.scenarioo.org'
+
+                scm {
+                    connection 'https://github.com/scenarioo/scenarioo.git'
+                    developerConnection 'https://github.com/scenarioo/scenarioo.git'
+                    url 'https://github.com/scenarioo/scenarioo.git'
+                }
+
+                licenses {
+                    license {
+                        name 'GNU GENERAL PUBLIC LICENSE'
+                        url 'https://github.com/scenarioo/scenarioo/blob/develop/LICENSE.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'scenarioo'
+                        name 'Scenarioo'
+                        email 'contact@scenarioo.org'
+                    }
+                }
+            }
+        }
+    }
+}
