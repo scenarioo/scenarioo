@@ -1,7 +1,23 @@
 #!/bin/bash
 
 # Input values
-# $BRANCH => Set by previous Jenkins job.
+# --branch=BRANCH
+
+for i in "${@}"
+do
+    case ${i} in
+        --branch=*)
+            BRANCH="${i#*=}"
+            shift
+        ;;
+
+        *)
+            # unknown option
+        ;;
+    esac
+done
+
+
 
 npm -v
 node -v
@@ -70,7 +86,7 @@ do
       echo "Tomcat deployment available"
       break
    fi
-   if [ "$i" -gt 20]; then
+   if [ "$i" -gt 20 ]; then
       echo "ERROR: Timeout on waiting for tomcat deployment!"
       exit 2
    fi

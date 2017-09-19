@@ -21,5 +21,9 @@ timestamps {
 				archiveArtifacts 'scenarioo-server/build/libs/scenarioo-*.war, LICENSE.txt, README.md, ' +
 						  'scenarioo-docu-generation-example/build/scenarioDocuExample/, scenarioo-validator/build/distributions/*'
 		  }
+
+		  stage('Deploy') {
+				sh "./ci/deploy.sh --branch=${env.BRANCH_NAME}"
+		  }
 	 }
 }
