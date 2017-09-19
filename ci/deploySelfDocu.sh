@@ -1,7 +1,21 @@
 #!/bin/bash
 
 # Input values
-# $BRANCH => Set by previous Jenkins job.
+# --branch=BRANCH
+
+for i in "${@}"
+do
+    case ${i} in
+        --branch=*)
+            BRANCH="${i#*=}"
+            shift
+        ;;
+
+        *)
+            # unknown option
+        ;;
+    esac
+done
 
 # Properties
 SCENARIOO_DATA_ROOT=/var/lib/scenarioo
