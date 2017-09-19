@@ -154,7 +154,7 @@ public class ScreenshotComparator extends AbstractComparator {
 		double diffGreen = Math.abs(oldGreen - newGreen);
 		double diffBlue = Math.abs(oldBlue - newBlue);
 
-		return (diffRed + diffGreen + diffBlue) / 4;
+		return (diffRed + diffGreen + diffBlue) / 3;
 	}
 
 	public static Logger getLogger() {

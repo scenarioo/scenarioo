@@ -35,8 +35,8 @@ public class ScreenshotComparatorTest {
 	private static final File BLACK_100 = new File(FILEPATH + "black_100x100.png");
 	private static final File RED_200 = new File(FILEPATH + "red_200x100.png");
 	private static final File BLUE_RED_200 = new File(FILEPATH + "red_blue_200x100.png");
-	private static final double SCREENSHOT_DIFFERENCE_SAME_SIZE = 14.11;
-	private static final double SCREENSHOT_DIFFERENCE_LARGE = 24.01;
+	private static final double SCREENSHOT_DIFFERENCE_SAME_SIZE = 16.3;
+	private static final double SCREENSHOT_DIFFERENCE_LARGE = 27.73;
 	private static final double DOUBLE_TOLERANCE = 0.01;
 
 	@Rule
@@ -51,8 +51,8 @@ public class ScreenshotComparatorTest {
 	}
 
 	@After
-	public void cleanUpTest(){
-		if(DIFF_SCREENSHOT.exists()){
+	public void cleanUpTest() {
+		if (DIFF_SCREENSHOT.exists()) {
 			assertTrue("Unable to clean up the test data: " + DIFF_SCREENSHOT.getAbsolutePath(), DIFF_SCREENSHOT.delete());
 		}
 	}
@@ -74,28 +74,31 @@ public class ScreenshotComparatorTest {
 		assertDifferenceForScreenshots(BASE_SCREENSHOT, COMPARISON_SCREENSHOT_LARGE, SCREENSHOT_DIFFERENCE_LARGE);
 	}
 
-	@Ignore
 	@Test
-	public void compare_allRed_allBlue_returnsHundred() {
-		assertDifferenceForScreenshots(RED_100, BLUE_100, 100);
+	public void compare_allRed_allBlue_returnsHighValue() {
+		// 100% of pixels are different, but each pixel only changed around 80% of its color
+		assertDifferenceForScreenshots(RED_100, BLUE_100, 80.6);
 	}
 
-	@Ignore
 	@Test
 	public void compare_allWhite_allBlack_returnsHundred() {
+		// all pixels changed 100%
 		assertDifferenceForScreenshots(BLACK_100, WHITE_100, 100);
 	}
 
-	@Ignore
 	@Test
-	public void compare_bothRed_oneIsDoubleTheSize_returnsFifty() {
-		assertDifferenceForScreenshots(RED_100, RED_200, 50);
+	public void compare_bothRed_oneIsDoubleTheSize_returnsLessThanFifty() {
+		// 50% more pixels, but each does only count around 80% (depending on color)
+		// This is somehow strange and we might have to improve that in future that added
+		// pixels should always count as 100% changed pixels.
+		// But not that important.
+		assertDifferenceForScreenshots(RED_100, RED_200, 42.08);
 	}
 
-	@Ignore
 	@Test
-	public void compare_allRed_redBlue_oneIsDoubleTheSize_returnsTwentyFife() {
-		assertDifferenceForScreenshots(RED_100, BLUE_RED_200, 25);
+	public void compare_allRed_redBlue_oneIsDoubleTheSize_returnsMoreThanFifty() {
+		// 75% of pixels are different, but not every pixel has changed color by 100% --> 80% * 75% = 60%
+		assertDifferenceForScreenshots(RED_100, BLUE_RED_200, 58.63);
 	}
 
 	private void assertDifferenceForScreenshots(File baseScreenshot, File comparisonScreenshot, double expectedDifference) {
