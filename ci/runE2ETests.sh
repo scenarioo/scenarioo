@@ -1,4 +1,23 @@
 #!/bin/bash
+
+# Input values
+# --branch=BRANCH
+
+for i in "${@}"
+do
+    case ${i} in
+        --branch=*)
+            BRANCH="${i#*=}"
+            shift
+        ;;
+
+        *)
+            # unknown option
+        ;;
+    esac
+done
+
+
 ###
 ### Run e2e Tests (with self docu generation)
 ###

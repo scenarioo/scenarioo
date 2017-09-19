@@ -25,5 +25,9 @@ timestamps {
 		  stage('Deploy') {
 				sh "./ci/deploy.sh --branch=${env.BRANCH_NAME}"
 		  }
+
+		  stage('Run e2e tests') {
+				sh "./ci/runE2ETests.sh --branch=${env.BRANCH_NAME}"
+		  }
 	 }
 }
