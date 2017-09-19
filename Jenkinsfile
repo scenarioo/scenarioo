@@ -27,7 +27,11 @@ timestamps {
 		  }
 
 		  stage('Run e2e tests') {
-				sh "./ci/runE2ETests.sh --branch=${env.BRANCH_NAME}"
+				try {
+					 sh "./ci/runE2ETests.sh --branch=${env.BRANCH_NAME}"
+				} finally {
+					 junit 'scenarioo-client/test-reports/*.xml'
+				}
 		  }
 
 		  stage('Deploy self docu') {
