@@ -20,8 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div class="col-lg-3">
             <div class="input-group">
                 <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="buildsSearchField"
-                       data-toggle="tooltip" title="type words separated by spaces to search for"
-                       ng-model="vm.table.search.searchTerm" placeholder="Search build ..."/>
+                data-toggle="tooltip" title="type words separated by spaces to search for"
+                ng-model="vm.table.search.searchTerm" placeholder="Search build ..."/>
                 <span class="input-group-btn">
                     <button type="button" ng-click="vm.resetSearchField()" class="btn btn-default">reset</button>
                 </span>
@@ -35,38 +35,42 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </div>
 
     <!-- builds table -->
-    <table ng-table="tableParams" class="table table-curved table-hover table-responsive " ng-model="sort">
+    <table ng-table="tableParams" class="table table-curved table-responsive " ng-model="sort">
         <thead>
-        <tr>
-            <th sc-sortable-column="identifier.branchName">Branch</th>
-            <th sc-sortable-column="identifier.buildName">Build</th>
-            <th sc-sortable-column="buildDescription.date">Date</th>
-            <th sc-sortable-column="buildDescription.revision">Revision</th>
-            <th>Scenarios</th>
-            <th sc-sortable-column="buildDescription.status">Status</th>
-            <th sc-sortable-column="status">Import Status</th>
-        </tr>
+            <tr>
+                <th sc-sortable-column="identifier.branchName">Branch</th>
+                <th sc-sortable-column="identifier.buildName">Build</th>
+                <th sc-sortable-column="buildDescription.date">Date</th>
+                <th sc-sortable-column="buildDescription.revision">Revision</th>
+                <th>Scenarios</th>
+                <th sc-sortable-column="buildDescription.status">Build Status</th>
+                <th sc-sortable-column="status">Import Status</th>
+                <th>Log</th>
+                <th>Reimport</th>
+            </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="build in vm.buildImportStates | scFilterArray: vm.table.search.searchTerm | orderBy: vm.table.sort.column: vm.table.sort.reverse"
-            ng-click="vm.goToBuild(build)" class="link">
-            <td>{{build.identifier.branchName}}</td>
-            <td>{{build.identifier.buildName}}</td>
-            <td>{{build.buildDescription.date | scDateTime}}</td>
-            <td>{{build.buildDescription.revision}}</td>
-            <td>
-            	{{ build.buildStatistics.numberOfSuccessfulScenarios + build.buildStatistics.numberOfFailedScenarios }}
-            	<span ng-show="build.buildStatistics.numberOfFailedScenarios != 0">({{ build.buildStatistics.numberOfFailedScenarios }} failed)</span>
-            </td>
-            <td>
-                <span ng-class="[getStatusStyleClass(build.buildDescription.status), 'label']">{{build.buildDescription.status}}</span>
-            </td>
-            <td title="{{build.statusMessage}}"><span
-                    ng-class="[vm.getStyleClassForBuildImportStatus(build.status), 'label']">{{build.status}}</span> <a
-                    class="link pull-right" ng-click="vm.reimportBuild(build)" uib-tooltip="Reimport and update this build"
-                    tooltip-placement="bottom"><i class="icon-refresh icon-with-padding"></i></a></td>
-        </tr>
+            <tr ng-repeat="build in vm.buildImportStates | scFilterArray: vm.table.search.searchTerm | orderBy: vm.table.sort.column: vm.table.sort.reverse"
+                class="link">
+                <td>{{build.identifier.branchName}}</td>
+                <td>{{build.identifier.buildName}}</td>
+                <td>{{build.buildDescription.date | scDateTime}}</td>
+                <td>{{build.buildDescription.revision}}</td>
+                <td>
+                    {{ build.buildStatistics.numberOfSuccessfulScenarios + build.buildStatistics.numberOfFailedScenarios }}
+                    <span ng-show="build.buildStatistics.numberOfFailedScenarios != 0">({{ build.buildStatistics.numberOfFailedScenarios }} failed)</span>
+                </td>
+                <td>
+                    <span ng-class="[getStatusStyleClass(build.buildDescription.status), 'label']">{{build.buildDescription.status}}</span>
+                </td>
+                <td title="{{build.statusMessage}}"><span ng-class="[vm.getStyleClassForBuildImportStatus(build.status), 'label']">{{build.status}}</span> </td>
+                <td>
+                    <a class="link" ng-click="vm.goToBuild(build)" uib-tooltip="Show Import Log and Details" tooltip-placement="bottom"><i class="icon-list-alt icon-with-padding"></i></a>
+                </td>
+                <td>
+                    <a class="link" ng-click="vm.reimportBuild(build)" uib-tooltip="Reimport and update this build" tooltip-placement="bottom"><i class="icon-refresh icon-with-padding"></i></a>
+                </td>
+            </tr>
         </tbody>
     </table>
-
 </div>

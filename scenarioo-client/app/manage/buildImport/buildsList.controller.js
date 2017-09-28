@@ -17,13 +17,15 @@
 
 angular.module('scenarioo.controllers').controller('BuildsListController', BuildsListController);
 
-function BuildsListController($route, $uibModal, BuildImportStatesResource, BuildImportService, BuildReimportResource,
+function BuildsListController($scope, $route, $uibModal, BuildImportStatesResource, BuildImportService, BuildReimportResource,
                               BuildImportLogResource) {
 
     var vm = this;
 
     vm.buildImportStates = [];
     vm.table = {search: {searchTerm: ''}, sort: {column: 'buildDescription.date', reverse: true}, filtering: false};
+    $scope.table = vm.table; // expose "table" onto controller scope. is used at the moment by "sortableColumn" directive.
+    
     vm.updatingBuildsInProgress = false;
     var styleClassesForBuildImportStatus = {
         'SUCCESS': 'label-success',

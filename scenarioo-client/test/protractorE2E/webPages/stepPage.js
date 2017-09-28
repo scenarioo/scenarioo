@@ -95,7 +95,8 @@ StepPage.prototype.assertFallbackMessageContainsText = function (text) {
 };
 
 StepPage.prototype.assertScenarioLabelsContain = function (label) {
-    expect(element(by.id('scenario-labels')).getInnerHtml()).toContain(label);
+    this.openMetadataTabIfClosed('labels');
+    expect(element(by.id('scenario-labels')).getText()).toContain(label);
 };
 
 StepPage.prototype.clickShareThisPageLink = function () {
