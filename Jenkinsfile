@@ -1,5 +1,5 @@
 def gradle(tasks) {
-	 sh "./gradlew --info $tasks"
+	 sh "./gradlew --info --no-daemon $tasks"
 }
 
 timestamps {
