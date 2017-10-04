@@ -24,12 +24,16 @@ node -v
 
 # Properties
 TOMCAT_WEBAPPS=/var/lib/tomcat7/webapps
+
+# Scenarioo directories
 SCENARIOO_DATA_ROOT=/var/lib/scenarioo
-PIPELINE_BRANCH_DIR=/var/lib/jenkins/jobs/scenarioo-ci-pipeline/branches/$BRANCH
-BUILD_OUTPUT=$PIPELINE_BRANCH_DIR/lastSuccessful/archive
 BRANCH_DATA_DIR=$SCENARIOO_DATA_ROOT/scenarioDocuExample-$BRANCH
 CONFIG_XML=$BRANCH_DATA_DIR/config.xml
+
+# Jenkins directories
+PIPELINE_BRANCH_DIR=/var/lib/jenkins/jobs/scenarioo-ci-pipeline/branches/$BRANCH
 WORKSPACE_DIR=$(pwd)
+
 echo "Workspace Dir: $WORKSPACE_DIR"
 
 ###
@@ -52,11 +56,11 @@ rm -rf $BRANCH_DATA_DIR
 
 # Copy scenarioo wikipedia docu example data with new generated data.
 echo "Deploying 'scenarioo-docu-generator-example' documentation data (regenerated)"
-cp -rf $BUILD_OUTPUT/scenarioo-docu-generation-example/build/scenarioDocuExample $BRANCH_DATA_DIR
+cp -rf $WORKSPACE_DIR/scenarioo-docu-generation-example/build/scenarioDocuExample $BRANCH_DATA_DIR
 
 # Create config.xml with correct path to docu data
 echo "Creating config.xml for deployment"
-unzip -p $BUILD_OUTPUT/scenarioo-server/build/libs/scenarioo-latest.war WEB-INF/classes/config-for-demo/config.xml > $CONFIG_XML
+unzip -p $WORKSPACE_DIR/scenarioo-server/build/libs/scenarioo-latest.war WEB-INF/classes/config-for-demo/config.xml > $CONFIG_XML
 sed -i.bak "s/<applicationName>.*<\/applicationName>/<applicationName>$BRANCH branch<\/applicationName>/g" $CONFIG_XML
 # following line is only for debuging purpose:
 #more $CONFIG_XML
@@ -74,7 +78,7 @@ echo "<Context><Parameter name=\"scenariooDataDirectory\" value=\"$BRANCH_DATA_D
 
 # Deploy the application manually, because autoDeploy is set to "false"
 echo "Deploying the Scenarioo Web App"
-cp -f $BUILD_OUTPUT/scenarioo-server/build/libs/scenarioo-latest.war $TOMCAT_WEBAPPS/scenarioo-$BRANCH.war
+cp -f $WORKSPACE_DIR/scenarioo-server/build/libs/scenarioo-latest.war $TOMCAT_WEBAPPS/scenarioo-$BRANCH.war
 curl -u scenarioo:scenarioo-dev http://localhost:8080/manager/text/deploy\?path\=/scenarioo-$BRANCH
 
 
