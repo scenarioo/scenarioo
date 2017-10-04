@@ -6,6 +6,8 @@ Elasticsearch instance.
 
 ## Install Elasticsearch
 
+Scenarioo only works with Elasticsearch version 2.x (see [GitHub issue](https://github.com/scenarioo/scenarioo/issues/616)).
+
 Please refer to the official documentation to set up Elasticsearch.
 You can either install it on the same machine where you host Scenarioo
 or on a separate machine.

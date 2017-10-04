@@ -10,3 +10,7 @@ Text can be searched inside:
 ## Setup Instructions
 
 See [Setup Instructions](setup.md) for how to configure and activate this feature.
+
+## Known Limitations
+
+Scenarioo only works with Elasticsearch version 2.x (see [GitHub issue](https://github.com/scenarioo/scenarioo/issues/616)).

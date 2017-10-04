@@ -25,3 +25,4 @@ scenarioo-validator/build
 *.iml
 npm-debug.log
 scenarioo-latest.war
+out
