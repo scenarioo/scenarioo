@@ -19,6 +19,7 @@
 
 angular.module('scenarioo.services').service('TestData', function () {
     return {
+
         CONFIG: {
             'defaultBuildName': 'current',
             'scenarioPropertiesInOverview': 'userProfile, configuration',

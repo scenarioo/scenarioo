@@ -11,32 +11,13 @@ public class ApplicationStatus {
 
     private Configuration configuration;
 	private String documentationDataDirectory;
-	private DiffViewerStatus diffViewerStatus;
-	private SearchEngineStatus searchEngineStatus;
-	private ApplicationVersion version;
-
-    public ApplicationStatus() {
-    }
-
-	public ApplicationStatus(Configuration configuration,
-							 String documentationDataDirectory,
-							 DiffViewerStatus diffViewerStatus,
-							 SearchEngineStatus searchEngineStatus,
-							 ApplicationVersion version) {
-		this.configuration = configuration;
-		this.documentationDataDirectory = documentationDataDirectory;
-		this.diffViewerStatus = diffViewerStatus;
-		this.searchEngineStatus = searchEngineStatus;
-		this.version = version;
-    }
+    private SearchEngineStatus searchEngineStatus;
+    private ApplicationVersion version;
 
     public Configuration getConfiguration() {
         return configuration;
     }
 
-    public DiffViewerStatus getDiffViewerStatus() {
-        return diffViewerStatus;
-    }
 
     public SearchEngineStatus getSearchEngineStatus() {
         return searchEngineStatus;
@@ -44,10 +25,6 @@ public class ApplicationStatus {
 
     public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
-    }
-
-    public void setDiffViewerStatus(DiffViewerStatus diffViewerStatus) {
-        this.diffViewerStatus = diffViewerStatus;
     }
 
     public void setSearchEngineStatus(SearchEngineStatus searchEngineStatus) {

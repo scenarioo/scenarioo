@@ -17,9 +17,10 @@
 
 package org.scenarioo.business.diffViewer;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.getComparisonConfiguration;
 
 import java.io.File;
 import java.util.Calendar;
@@ -61,18 +62,12 @@ public class ComparisonExecutorTest {
 	private static String COMPARISON_NAME = "comparison";
 
 
-	private static ComparisonConfiguration comparisonConfiguration1 = getComparisonConfiguration(BRANCH_NAME_1,
-		BRANCH_NAME_1, BUILD_NAME_ALIAS_LAST_SUCCESSFUL, COMPARISON_NAME);
-	private static ComparisonConfiguration comparisonConfiguration2 = getComparisonConfiguration(BRANCH_NAME_1,
-		BRANCH_NAME_1, BUILD_NAME_ALIAS_MOST_RECENT, COMPARISON_NAME);
-	private static ComparisonConfiguration comparisonConfiguration3 = getComparisonConfiguration(BRANCH_NAME_1,
-		BRANCH_NAME_2, BUILD_NAME_ALIAS_LAST_SUCCESSFUL, COMPARISON_NAME);
-	private static ComparisonConfiguration comparisonConfiguration4 = getComparisonConfiguration(BRANCH_NAME_1,
-		BRANCH_NAME_1, BUILD_NAME_1, COMPARISON_NAME);
-	private static ComparisonConfiguration comparisonConfiguration5 = getComparisonConfiguration(BRANCH_NAME_1,
-		BRANCH_NAME_2, BUILD_NAME_2, COMPARISON_NAME);
-	private static ComparisonConfiguration comparisonConfiguration6 = getComparisonConfiguration(BRANCH_NAME_2,
-		BRANCH_NAME_2, BUILD_NAME_3, COMPARISON_NAME);
+	private static ComparisonConfiguration comparisonConfiguration1;
+	private static ComparisonConfiguration comparisonConfiguration2;
+	private static ComparisonConfiguration comparisonConfiguration3;
+	private static ComparisonConfiguration comparisonConfiguration4;
+	private static ComparisonConfiguration comparisonConfiguration5;
+	private static ComparisonConfiguration comparisonConfiguration6;
 
 	private Build build1 = getBuild(BUILD_NAME_1, Status.SUCCESS, getDateBeforeDays(0));
 	private Build build2 = getBuild(BUILD_NAME_2, Status.FAILED, getDateBeforeDays(1));
@@ -90,6 +85,20 @@ public class ComparisonExecutorTest {
 	@BeforeClass
 	public static void setUpClass() {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(ROOT_DIRECTORY);
+		File diffViewerFolder = new File(ROOT_DIRECTORY, "scenarioo-application-data/diffViewer");
+		diffViewerFolder.mkdirs();
+		comparisonConfiguration1 = getComparisonConfiguration(BRANCH_NAME_1,
+			BRANCH_NAME_1, BUILD_NAME_ALIAS_LAST_SUCCESSFUL, COMPARISON_NAME);
+		comparisonConfiguration2 = getComparisonConfiguration(BRANCH_NAME_1,
+			BRANCH_NAME_1, BUILD_NAME_ALIAS_MOST_RECENT, COMPARISON_NAME);
+		comparisonConfiguration3 = getComparisonConfiguration(BRANCH_NAME_1,
+			BRANCH_NAME_2, BUILD_NAME_ALIAS_LAST_SUCCESSFUL, COMPARISON_NAME);
+		comparisonConfiguration4 = getComparisonConfiguration(BRANCH_NAME_1,
+			BRANCH_NAME_1, BUILD_NAME_1, COMPARISON_NAME);
+		comparisonConfiguration5 = getComparisonConfiguration(BRANCH_NAME_1,
+			BRANCH_NAME_2, BUILD_NAME_2, COMPARISON_NAME);
+		comparisonConfiguration6 = getComparisonConfiguration(BRANCH_NAME_2,
+			BRANCH_NAME_2, BUILD_NAME_3, COMPARISON_NAME);
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 	}
 

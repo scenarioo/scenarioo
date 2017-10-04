@@ -24,7 +24,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.dao.diffViewer.GraphicsMagickConfiguration;
 import org.scenarioo.dao.version.ApplicationVersionHolder;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
@@ -51,9 +50,6 @@ public class ConfigurationResource {
 	public ApplicationStatus getApplicationStatus() {
 		ApplicationStatus applicationStatus = new ApplicationStatus();
 
-		DiffViewerStatus status = new DiffViewerStatus();
-		status.setGraphicsMagickAvailable(GraphicsMagickConfiguration.isAvailable());
-		applicationStatus.setDiffViewerStatus(status);
 		applicationStatus.setConfiguration(configurationRepository.getConfiguration());
 		applicationStatus.setDocumentationDataDirectory(configurationRepository.getDocumentationDataDirectory().getAbsolutePath());
 		applicationStatus.setSearchEngineStatus(SearchEngineStatus.create());

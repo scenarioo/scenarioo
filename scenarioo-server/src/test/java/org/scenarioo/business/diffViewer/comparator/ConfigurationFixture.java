@@ -4,6 +4,7 @@ import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.RepositoryLocator;
 
+import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,8 +15,12 @@ public class ConfigurationFixture {
 	public static String COMPARISON_BUILD_NAME = "comparisonBuild";
 	public static String COMPARISON_NAME = "comparisonName";
 
-	public static Configuration getTestConfiguration() {
+	public static ComparisonParameters getComparatorParameters() {
+		return new ComparisonParameters(BASE_BRANCH_NAME, BASE_BUILD_NAME,
+			getComparisonConfiguration(), new Color(255, 0, 0, 200));
+	}
 
+	public static Configuration getTestConfiguration() {
 		ComparisonConfiguration comparisonConfiguration = getComparisonConfiguration();
 
 		List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
@@ -27,6 +32,10 @@ public class ConfigurationFixture {
 		return configuration;
 	}
 
+	public static ComparisonConfiguration getComparisonConfiguration() {
+		return getComparisonConfiguration(BASE_BRANCH_NAME, COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME, COMPARISON_NAME);
+	}
+
 	public static ComparisonConfiguration getComparisonConfiguration(String baseBranch, String comparisonBranch, String comparisonBuild, String comparisonName) {
 		ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
 		comparisonConfiguration.setBaseBranchName(baseBranch);
@@ -34,9 +43,5 @@ public class ConfigurationFixture {
 		comparisonConfiguration.setComparisonBuildName(comparisonBuild);
 		comparisonConfiguration.setName(comparisonName);
 		return comparisonConfiguration;
-	}
-
-	public static ComparisonConfiguration getComparisonConfiguration() {
-		return getComparisonConfiguration(BASE_BRANCH_NAME, COMPARISON_BRANCH_NAME, COMPARISON_BUILD_NAME, COMPARISON_NAME);
 	}
 }

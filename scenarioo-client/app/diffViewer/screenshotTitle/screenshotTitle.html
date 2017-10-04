@@ -3,5 +3,4 @@
     <span ng-if="alias != ''">{{alias}}</span>
     <span ng-if="alias == ''">{{build.name}}</span>
     <span ng-if="build.date || build.revision">({{build.date | scDateTime}} {{build.revision}})</span>
-    <span class="sc-highlight-color" ng-if="highlights"> highlighted changes</span>
 </h3>

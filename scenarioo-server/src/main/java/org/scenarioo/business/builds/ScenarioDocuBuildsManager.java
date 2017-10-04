@@ -1,27 +1,21 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.scenarioo.business.builds;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
@@ -31,6 +25,7 @@ import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.model.configuration.BranchAlias;
 import org.scenarioo.model.configuration.Configuration;
+import org.scenarioo.model.diffViewer.ComparisonResult;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
@@ -39,6 +34,13 @@ import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Future;
 
 /**
  * <p>
@@ -89,7 +91,7 @@ public class ScenarioDocuBuildsManager {
 
 	/**
 	 * Get branch builds list with those builds that are currently available (have been already successfully imported).
-	 * 
+	 *
 	 * This list also contains aliases for most recent and last successful builds (which might be the same).
 	 */
 	public List<BranchBuilds> getAvailableBuilds() {
@@ -127,7 +129,7 @@ public class ScenarioDocuBuildsManager {
 	/**
 	 * Resolves possible alias names in 'buildName' for managed build alias links. Also validates that the passed branch
 	 * and build represents a valid build (imported successfully otherwise an exception is thrown)
-	 * 
+	 *
 	 * @return the name to use as build name for referencing this build.
 	 */
 	private String resolveBuildAlias(final String branchName, final String buildName) {
@@ -151,9 +153,9 @@ public class ScenarioDocuBuildsManager {
 	/**
 	 * Processes the content of configured documentation filesystem directory discovering newly added builds or branches
 	 * to calculate all data for them. Also updates the branches and builds list.
-	 * 
+	 *
 	 * This method should be called on server startup and whenever something on the filesystem changed.
-	 * 
+	 *
 	 * The calculation/importing/aggregating of the builds is scheduled to be done in a separate thread/executor.
 	 */
 	public void updateBuildsIfValidDirectoryConfigured() {
@@ -223,6 +225,10 @@ public class ScenarioDocuBuildsManager {
 	 */
 	public void reimportBuild(final BuildIdentifier buildIdentifier) {
 		buildImporter.submitBuildForReimport(availableBuilds, buildIdentifier);
+	}
+
+	public ArrayList<Future<ComparisonResult>> importBuild(final BuildIdentifier buildIdentifier, final BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
+		return buildImporter.importBuild(availableBuilds, buildIdentifier, comparisonBuildIdentifier, comparisonName);
 	}
 
 	public LongObjectNamesResolver getLongObjectNameResolver(final BuildIdentifier buildIdentifier) {
