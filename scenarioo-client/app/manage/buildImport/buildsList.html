@@ -50,8 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="build in vm.buildImportStates | scFilterArray: vm.table.search.searchTerm | orderBy: vm.table.sort.column: vm.table.sort.reverse"
-                class="link">
+            <tr ng-repeat="build in vm.buildImportStates | scFilterArray: vm.table.search.searchTerm | orderBy: vm.table.sort.column: vm.table.sort.reverse">
                 <td>{{build.identifier.branchName}}</td>
                 <td>{{build.identifier.buildName}}</td>
                 <td>{{build.buildDescription.date | scDateTime}}</td>
