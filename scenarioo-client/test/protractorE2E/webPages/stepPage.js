@@ -151,8 +151,8 @@ StepPage.prototype.assertToolTipInBreadcrumb = function (expectedTooltip) {
 };
 
 StepPage.prototype.assertScreenshotIsShown = function() {
-    expect(element.all(by.className('sc-screenshot')).count()).toBe(1);
-    expect(element(by.className('sc-screenshot')).isDisplayed()).toBeTruthy();
+    expect(element.all(by.className('sc-real-screenshot')).count()).toBe(1);
+    expect(element(by.className('sc-real-screenshot')).isDisplayed()).toBeTruthy();
 };
 
 StepPage.prototype.assertNoScreenAnnotationsArePresent = function() {
@@ -175,7 +175,7 @@ StepPage.prototype.clickShowScreenAnnotationsButton = function() {
 };
 
 StepPage.prototype.clickFirstScreenAnnotation = function() {
-    element.all(by.className('sc-screnshot-annotation-icon')).first().click();
+    element.all(by.className('sc-screenshot-annotation-icon')).first().click();
 };
 
 StepPage.prototype.assertScreenAnnotationPopupIsDisplayed = function() {

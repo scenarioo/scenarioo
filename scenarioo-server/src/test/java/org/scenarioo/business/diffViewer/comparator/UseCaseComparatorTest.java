@@ -73,8 +73,7 @@ public class UseCaseComparatorTest {
 	private ScenarioComparator scenarioComparator;
 
 	@InjectMocks
-	private UseCaseComparator useCaseComparator = new UseCaseComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME,
-		getComparisonConfiguration());
+	private UseCaseComparator useCaseComparator = new UseCaseComparator(getComparatorParameters());
 
 	@BeforeClass
 	public static void setUpClass() throws IOException {

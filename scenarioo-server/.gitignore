@@ -1,7 +1,9 @@
 build
 target
 data
+out
 .gradle
 .project
 .classpath
 .settings
+tmpDir

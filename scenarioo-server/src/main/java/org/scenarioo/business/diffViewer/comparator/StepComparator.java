@@ -23,7 +23,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.aggregator.StepsAndPagesAggregator;
-import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.StepInfo;
@@ -39,25 +38,23 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 
 	private static final Logger LOGGER = Logger.getLogger(StepComparator.class);
 
-	private ScreenshotComparator screenshotComparator = new ScreenshotComparator(baseBranchName, baseBuildName,
-			comparisonConfiguration);
+	private ScreenshotComparator screenshotComparator = new ScreenshotComparator(parameters);
 	private String baseUseCaseName;
 	private String baseScenarioName;
 	private List<Step> comparisonSteps;
 	private StepsAndPagesAggregator stepAndPagesAggregator = new StepsAndPagesAggregator(null, null);
 
-	public StepComparator(final String baseBranchName, final String baseBuildName,
-			final ComparisonConfiguration comparisonConfiguration) {
-		super(baseBranchName, baseBuildName, comparisonConfiguration);
+	public StepComparator(ComparisonParameters parameters) {
+		super(parameters);
 	}
 
 	public ScenarioDiffInfo compare(final String baseUseCaseName, final String baseScenarioName) {
 		this.baseUseCaseName = baseUseCaseName;
 		this.baseScenarioName = baseScenarioName;
 
-		final List<Step> baseSteps = loadSteps(baseBranchName, baseBuildName);
-		this.comparisonSteps = loadSteps(comparisonConfiguration.getComparisonBranchName(),
-				comparisonConfiguration.getComparisonBuildName());
+		final List<Step> baseSteps = loadSteps(parameters.getBaseBranchName(), parameters.getBaseBuildName());
+		this.comparisonSteps = loadSteps(parameters.getComparisonConfiguration().getComparisonBranchName(),
+			parameters.getComparisonConfiguration().getComparisonBuildName());
 
 		final List<StepLink> baseStepLinks = stepAndPagesAggregator.calculateStepLinks(baseSteps, baseUseCaseName,
 				baseScenarioName);
@@ -69,7 +66,7 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 		calculateDiffInfo(baseStepLinks, comparisonStepLinks, scenarioDiffInfo);
 
 		LOGGER.info(getLogMessage(scenarioDiffInfo,
-				"Scenario " + baseBranchName + "/" + baseBuildName + "/" + baseUseCaseName + "/" + baseScenarioName));
+				"Scenario " + parameters.getBaseBranchName() + "/" + parameters.getBaseBuildName() + "/" + baseUseCaseName + "/" + baseScenarioName));
 
 		return scenarioDiffInfo;
 	}
@@ -89,7 +86,7 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 
 			final StepDiffInfo stepDiffInfo = getStepDiffInfo(baseElement, comparisonScreenshotName, changeRate);
 
-			diffWriter.saveStepDiffInfo(baseUseCaseName, baseScenarioName, stepDiffInfo);
+			parameters.getDiffWriter().saveStepDiffInfo(baseUseCaseName, baseScenarioName, stepDiffInfo);
 
 			if (stepDiffInfo.hasChanges()) {
 				diffInfo.setChanged(diffInfo.getChanged() + 1);

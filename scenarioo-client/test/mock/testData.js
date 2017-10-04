@@ -19,6 +19,7 @@
 
 angular.module('scenarioo.services').service('TestData', function () {
     return {
+
         CONFIG: {
             'testDocumentationDirPath': 'webtestDocuContentExample',
             'defaultBuildName': 'current',
