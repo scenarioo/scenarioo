@@ -27,7 +27,8 @@ TOMCAT_WEBAPPS=/var/lib/tomcat7/webapps
 SCENARIOO_DATA_ROOT=/var/lib/scenarioo
 PIPELINE_BRANCH_DIR=/var/lib/jenkins/jobs/scenarioo-ci-pipeline/branches/$BRANCH
 BUILD_OUTPUT=$PIPELINE_BRANCH_DIR/lastSuccessful/archive
-CONFIG_XML=/home/ubuntu/.scenarioo/scenarioo-$BRANCH/config.xml
+BRANCH_DATA_DIR=$SCENARIOO_DATA_ROOT/scenarioDocuExample-$BRANCH
+CONFIG_XML=$BRANCH_DATA_DIR/config.xml
 WORKSPACE_DIR=$(pwd)
 echo "Workspace Dir: $WORKSPACE_DIR"
 
@@ -47,25 +48,22 @@ rm -rf $PIPELINE_BRANCH_DIR/workspace/scenarioo-client/test-reports
 
 # Cleanup documentation data that is deployed to the demo server
 echo "Cleanup old documentation data from demo server"
-rm -rf $SCENARIOO_DATA_ROOT/scenarioDocuExample-$BRANCH
+rm -rf $BRANCH_DATA_DIR
 
 # Copy scenarioo wikipedia docu example data with new generated data.
 echo "Deploying 'scenarioo-docu-generator-example' documentation data (regenerated)"
-cp -rf $BUILD_OUTPUT/scenarioo-docu-generation-example/build/scenarioDocuExample $SCENARIOO_DATA_ROOT/scenarioDocuExample-$BRANCH
+cp -rf $BUILD_OUTPUT/scenarioo-docu-generation-example/build/scenarioDocuExample $BRANCH_DATA_DIR
 
 # Create config.xml with correct path to docu data
 echo "Creating config.xml for deployment"
-mkdir -p /home/ubuntu/.scenarioo/scenarioo-$BRANCH
 unzip -p $BUILD_OUTPUT/scenarioo-server/build/libs/scenarioo-latest.war WEB-INF/classes/config-for-demo/config.xml > $CONFIG_XML
-sed -i.bak "s/<testDocumentationDirPath>.*<\/testDocumentationDirPath>/<testDocumentationDirPath>\/var\/lib\/scenarioo\/scenarioDocuExample-$BRANCH<\/testDocumentationDirPath>/g" $CONFIG_XML
 sed -i.bak "s/<applicationName>.*<\/applicationName>/<applicationName>$BRANCH branch<\/applicationName>/g" $CONFIG_XML
 # following line is only for debuging purpose:
 #more $CONFIG_XML
 
 # Write context file with path to config.xml file.
 echo "Creating context deployment descriptor"
-echo "<Context><Parameter name=\"scenariooConfigurationDirectory\" value=\"/home/ubuntu/.scenarioo/scenarioo-$BRANCH\" override=\"true\" description=\"Location of scenarioo config.xml file\"/></Context>" > "/etc/tomcat7/Catalina/localhost/scenarioo-$BRANCH.xml"
-#touch /etc/tomcat7/Catalina/localhost/scenarioo-$BRANCH.xml
+echo "<Context><Parameter name=\"scenariooDataDirectory\" value=\"$BRANCH_DATA_DIR\" override=\"true\" description=\"Location of scenarioo config.xml file\"/></Context>" > "/etc/tomcat7/Catalina/localhost/scenarioo-$BRANCH.xml"
 #following line is only for debuging purpose:
 #more /etc/tomcat7/Catalina/localhost/scenarioo-$BRANCH.xml
 
