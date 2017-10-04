@@ -25,7 +25,8 @@ node -v
 # Properties
 TOMCAT_WEBAPPS=/var/lib/tomcat7/webapps
 SCENARIOO_DATA_ROOT=/var/lib/scenarioo
-BUILD_OUTPUT=/var/lib/jenkins/jobs/scenarioo-$BRANCH/lastSuccessful/archive
+PIPELINE_BRANCH_DIR=/var/lib/jenkins/jobs/scenarioo-ci-pipeline/branches/$BRANCH
+BUILD_OUTPUT=$PIPELINE_BRANCH_DIR/lastSuccessful/archive
 CONFIG_XML=/home/ubuntu/.scenarioo/scenarioo-$BRANCH/config.xml
 WORKSPACE_DIR=$(pwd)
 echo "Workspace Dir: $WORKSPACE_DIR"
@@ -40,9 +41,9 @@ curl -u scenarioo:scenarioo-dev http://localhost:8080/manager/text/undeploy\?pat
 
 # Cleanup
 echo "Cleanup built self docu data"
-rm -rf /var/lib/jenkins/jobs/scenarioo-$BRANCH/workspace/scenarioo-client/scenariooDocumentation/scenarioo_self_docu
+rm -rf $PIPELINE_BRANCH_DIR/workspace/scenarioo-client/scenariooDocumentation/scenarioo_self_docu
 echo "Cleanup old test report data"
-rm -rf /var/lib/jenkins/jobs/scenarioo-$BRANCH/workspace/scenarioo-client/test-reports
+rm -rf $PIPELINE_BRANCH_DIR/workspace/scenarioo-client/test-reports
 
 # Cleanup documentation data that is deployed to the demo server
 echo "Cleanup old documentation data from demo server"
