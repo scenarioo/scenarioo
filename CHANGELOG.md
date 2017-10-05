@@ -24,6 +24,7 @@ Many small improvements for the diff viewer feature:
 Further small improvements:
 
 * [#601 - Branch Selection Order](https://github.com/scenarioo/scenarioo/issues/601): new configuration property `branchSelectionListOrder` to configure order of branches in the branch selection list. 
+* [#628 - Improve logging format (log4j.properties) to be less verbose](https://github.com/scenarioo/scenarioo/issues/628)
 
 ### Breaking Changes and Backwards Compatibility
 
