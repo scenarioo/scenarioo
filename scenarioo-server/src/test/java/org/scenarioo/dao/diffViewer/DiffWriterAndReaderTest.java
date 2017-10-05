@@ -1,27 +1,21 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.scenarioo.dao.diffViewer;
-
-import static org.junit.Assert.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
@@ -31,16 +25,18 @@ import org.junit.Test;
 import org.scenarioo.dao.diffViewer.impl.DiffFiles;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.dao.diffViewer.impl.DiffWriterXmlImpl;
-import org.scenarioo.model.diffViewer.BuildDiffInfo;
-import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
-import org.scenarioo.model.diffViewer.StepDiffInfo;
-import org.scenarioo.model.diffViewer.StepInfo;
-import org.scenarioo.model.diffViewer.StructureDiffInfo;
-import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
+import org.scenarioo.model.diffViewer.*;
 import org.scenarioo.model.docu.aggregates.usecases.ScenarioSummary;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.utils.TestFileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class DiffWriterAndReaderTest {
 
@@ -66,7 +62,6 @@ public class DiffWriterAndReaderTest {
 	@BeforeClass
 	public static void setUpClass() {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(ROOT_DIRECTORY);
-		TestFileUtils.createFolderAndClearContent(DiffFiles.getDiffViewerDirectory());
 	}
 
 	@AfterClass
@@ -80,7 +75,8 @@ public class DiffWriterAndReaderTest {
 
 	@Before
 	public void setUp() {
-		TestFileUtils.createFolderAndClearContent(DiffFiles.getDiffViewerDirectory());
+		File comparisonsFolder = new DiffFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
+		TestFileUtils.createFolderAndClearContent(comparisonsFolder);
 		writer = new DiffWriterXmlImpl(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
 		reader = new DiffReaderXmlImpl();
 	}
@@ -93,7 +89,7 @@ public class DiffWriterAndReaderTest {
 		writer.flush();
 
 		final BuildDiffInfo actualBuildDiffInfo = reader.loadBuildDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
-				COMPARISON_NAME);
+			COMPARISON_NAME);
 
 		assertStructueDiffInfo(actualBuildDiffInfo, COMPARISON_NAME);
 	}
@@ -106,7 +102,7 @@ public class DiffWriterAndReaderTest {
 		writer.flush();
 
 		final UseCaseDiffInfo actualUseCaseDiffInfo = reader.loadUseCaseDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
-				COMPARISON_NAME, USE_CASE_NAME);
+			COMPARISON_NAME, USE_CASE_NAME);
 
 		assertStructueDiffInfo(actualUseCaseDiffInfo, USE_CASE_NAME);
 	}
@@ -119,7 +115,7 @@ public class DiffWriterAndReaderTest {
 		writer.flush();
 
 		final ScenarioDiffInfo actualScenarioDiffInfo = reader.loadScenarioDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
-				COMPARISON_NAME, USE_CASE_NAME, SCENARIO_NAME);
+			COMPARISON_NAME, USE_CASE_NAME, SCENARIO_NAME);
 
 		assertStructueDiffInfo(actualScenarioDiffInfo, SCENARIO_NAME);
 	}
@@ -132,7 +128,7 @@ public class DiffWriterAndReaderTest {
 		writer.flush();
 
 		final StepDiffInfo actualStepDiffInfo = reader.loadStepDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
-				COMPARISON_NAME, USE_CASE_NAME, SCENARIO_NAME, STEP_INDEX);
+			COMPARISON_NAME, USE_CASE_NAME, SCENARIO_NAME, STEP_INDEX);
 
 		assertStepDiffInfo(actualStepDiffInfo, STEP_INDEX);
 	}
@@ -163,8 +159,8 @@ public class DiffWriterAndReaderTest {
 		writer.flush();
 
 		final List<UseCaseDiffInfo> actualUseCaseDiffInfos = reader.loadUseCaseDiffInfos(BASE_BRANCH_NAME,
-				BASE_BUILD_NAME,
-				COMPARISON_NAME);
+			BASE_BUILD_NAME,
+			COMPARISON_NAME);
 
 		assertEquals(2, actualUseCaseDiffInfos.size());
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
@@ -181,7 +177,7 @@ public class DiffWriterAndReaderTest {
 		writer.flush();
 
 		final List<ScenarioDiffInfo> actualScenarioDiffInfos = reader.loadScenarioDiffInfos(BASE_BRANCH_NAME,
-				BASE_BUILD_NAME, COMPARISON_NAME, USE_CASE_NAME);
+			BASE_BUILD_NAME, COMPARISON_NAME, USE_CASE_NAME);
 
 		assertEquals(2, actualScenarioDiffInfos.size());
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
@@ -198,7 +194,7 @@ public class DiffWriterAndReaderTest {
 		writer.flush();
 
 		final List<StepDiffInfo> actualStepDiffInfos = reader.loadStepDiffInfos(BASE_BRANCH_NAME, BASE_BUILD_NAME,
-				COMPARISON_NAME, USE_CASE_NAME, SCENARIO_NAME);
+			COMPARISON_NAME, USE_CASE_NAME, SCENARIO_NAME);
 
 		assertEquals(2, actualStepDiffInfos.size());
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
@@ -207,7 +203,7 @@ public class DiffWriterAndReaderTest {
 	}
 
 	private <A, R> void assertStructueDiffInfo(final StructureDiffInfo<A, R> actualStructureDiffInfo,
-			final String expectedName) {
+											   final String expectedName) {
 		assertEquals(expectedName, actualStructureDiffInfo.getName());
 		assertEquals(CHANGE_RATE, actualStructureDiffInfo.getChangeRate(), 0.0);
 		assertEquals(ADDED_VALUE, actualStructureDiffInfo.getAdded());
@@ -219,7 +215,7 @@ public class DiffWriterAndReaderTest {
 
 	private BuildDiffInfo getBuildDiffInfo(final String name) {
 		return (BuildDiffInfo) initStructureDiffInfo(new BuildDiffInfo(), name, USE_CASE_NAME,
-				new UseCase(USE_CASE_NAME, null));
+			new UseCase(USE_CASE_NAME, null));
 	}
 
 	private UseCaseDiffInfo getUseCaseDiffInfo(final String name) {
@@ -233,9 +229,9 @@ public class DiffWriterAndReaderTest {
 	}
 
 	private <A, R> StructureDiffInfo<A, R> initStructureDiffInfo(final StructureDiffInfo<A, R> diffInfo,
-			final String name,
-			final A addedElement,
-			final R removedElement) {
+																 final String name,
+																 final A addedElement,
+																 final R removedElement) {
 		diffInfo.setName(name);
 		diffInfo.setChangeRate(CHANGE_RATE);
 		diffInfo.setAdded(ADDED_VALUE);

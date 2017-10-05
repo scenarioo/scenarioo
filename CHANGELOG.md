@@ -17,6 +17,7 @@ Many small improvements for the diff viewer feature:
 * [#603 - Improved Comparison View](https://github.com/scenarioo/scenarioo/issues/603) to understand the comparison of two screenshots and the possible comparison view options better. Also highlighting of changes in both screenshots is now possible.
 * [#602 - Removed Dependency to GraphicMagick](https://github.com/scenarioo/scenarioo/issues/602): GraphicMagick needs not to be installed anymore to use the DiffViewer feature.
 * [#577 - Avoid Null Pointer Exceptions](https://github.com/scenarioo/scenarioo/issues/577): Do not log null pointer exceptions when there is just no step to compare too.
+* [#597 - Store diff information directly inside build](https://github.com/scenarioo/scenarioo/issues/597): Breaking change, needs reimport of builds to generate diff information again.
 
 ### Features "Small Improvements"
 
@@ -28,7 +29,7 @@ Further small improvements:
 
 * Changed configuration of data directory location: After installation you need to setup your data location and the configuration file as explained in the [Migration Guide](...TODO!!). This can not be configured through the frontend anymore.
 
-* Internal format of DiffViewer feature (build comparisons) has been changed and even the place where those are stored. After an update to the new version you will see no calculated comparisons anymore and need to reimport those builds for which you want to calculate and see comparisons.
+* Internal format of DiffViewer feature (build comparisons) has been changed and even the place where those are stored (#597). After an update to the new version you will see no calculated comparisons anymore and need to reimport those builds for which you want to calculate and see comparisons.
 
 Apart from that there are no breaking changes.
 

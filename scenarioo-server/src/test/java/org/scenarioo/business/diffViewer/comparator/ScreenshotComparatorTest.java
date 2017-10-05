@@ -45,7 +45,8 @@ public class ScreenshotComparatorTest {
 	@Before
 	public void setUpClass() throws IOException {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(rootFolder.newFolder());
-		assertTrue(DiffFiles.getDiffViewerDirectory().mkdirs());
+		File comparisonsFolder = new DiffFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
+		assertTrue(comparisonsFolder.mkdirs());
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 		screenshotComparator = new ScreenshotComparator(getComparatorParameters());
 	}
