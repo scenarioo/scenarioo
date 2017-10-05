@@ -10,38 +10,47 @@ properties([
 
 timestamps {
 	 node {
-		  stage('Checkout') {
-				checkout scm
-		  }
-
-		  stage('Build and unit test') {
-				try {
-					 gradle 'clean build'
-				} finally {
-					 junit '**/build/test-results/test/*.xml, scenarioo-client/TEST*.xml'
+		  try {
+				stage('Checkout') {
+					 checkout scm
 				}
-		  }
 
-		  stage('Package') {
-				gradle 'distZip'
-				archiveArtifacts 'scenarioo-server/build/libs/scenarioo-*.war, LICENSE.txt, README.md, ' +
-						  'scenarioo-docu-generation-example/build/scenarioDocuExample/, scenarioo-validator/build/distributions/*'
-		  }
+				githubNotify description: "Build: ${env.BUILD_NUMBER}",  status: 'PENDING'
 
-		  stage('Deploy') {
-				sh "./ci/deploy.sh --branch=${env.BRANCH_NAME}"
-		  }
-
-		  stage('Run e2e tests') {
-				try {
-					 sh "./ci/runE2ETests.sh --branch=${env.BRANCH_NAME}"
-				} finally {
-					 junit 'scenarioo-client/test-reports/*.xml'
+				stage('Build and unit test') {
+					 try {
+						  gradle 'clean build'
+					 } finally {
+						  junit '**/build/test-results/test/*.xml, scenarioo-client/TEST*.xml'
+					 }
 				}
-		  }
 
-		  stage('Deploy self docu') {
-				sh "./ci/deploySelfDocu.sh --branch=${env.BRANCH_NAME}"
+				stage('Package') {
+					 gradle 'distZip'
+					 archiveArtifacts 'scenarioo-server/build/libs/scenarioo-*.war, LICENSE.txt, README.md, ' +
+								'scenarioo-docu-generation-example/build/scenarioDocuExample/, scenarioo-validator/build/distributions/*'
+				}
+
+				stage('Deploy') {
+					 sh "./ci/deploy.sh --branch=${env.BRANCH_NAME}"
+				}
+
+				stage('Run e2e tests') {
+					 try {
+						  sh "./ci/runE2ETests.sh --branch=${env.BRANCH_NAME}"
+					 } finally {
+						  junit 'scenarioo-client/test-reports/*.xml'
+					 }
+				}
+
+				stage('Deploy self docu') {
+					 sh "./ci/deploySelfDocu.sh --branch=${env.BRANCH_NAME}"
+				}
+
+				githubNotify description: "Build: ${env.BUILD_NUMBER}",  status: 'SUCCESS'
+		  } catch (e) {
+				githubNotify description: "Build: ${env.BUILD_NUMBER}",  status: 'FAILURE'
+				throw e
 		  }
 	 }
 }
