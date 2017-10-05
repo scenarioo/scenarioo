@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ComparisonResult {
 
 	private BuildIdentifier baseBuild;
-	private BuildIdentifier compareBuild;
+	private BuildIdentifier comparisonBuild;
 
 	ComparisonConfiguration comparisonConfiguration;
 
@@ -43,12 +43,12 @@ public class ComparisonResult {
 		this.baseBuild = baseBuild;
 	}
 
-	public BuildIdentifier getCompareBuild() {
-		return compareBuild;
+	public BuildIdentifier getComparisonBuild() {
+		return comparisonBuild;
 	}
 
-	public void setCompareBuild(BuildIdentifier compareBuild) {
-		this.compareBuild = compareBuild;
+	public void setComparisonBuild(BuildIdentifier comparisonBuild) {
+		this.comparisonBuild = comparisonBuild;
 	}
 
 	public ComparisonConfiguration getComparisonConfiguration() {

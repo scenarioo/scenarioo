@@ -142,14 +142,18 @@ public class BuildImporter {
 		saveBuildImportSummaries(buildImportSummaries);
 	}
 
-	public synchronized ArrayList<Future<ComparisonResult>> importBuild(AvailableBuildsList availableBuilds,
-																BuildIdentifier buildIdentifier, BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
-		removeImportedBuildAndDerivedData(availableBuilds, buildIdentifier);
-		submitBuildForImport(availableBuilds, buildIdentifier);
-		ArrayList<Future<ComparisonResult>> futureList = submitBuildForSingleComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName);
+	public synchronized Future<ComparisonResult> importBuildAndCreateComparison(AvailableBuildsList availableBuilds,
+			BuildIdentifier baseBuild, BuildIdentifier comparisonBuild, String comparisonName) {
+
+		removeImportedBuildAndDerivedData(availableBuilds, baseBuild);
+		submitBuildForImport(availableBuilds, baseBuild);
+
+		Future<ComparisonResult> comparisonResult =
+			comparisonExecutor.submitBuildForSingleComparison(baseBuild, comparisonBuild, comparisonName);
+
 		saveBuildImportSummaries(buildImportSummaries);
 
-		return futureList;
+		return comparisonResult;
 	}
 
 	/**
@@ -183,7 +187,7 @@ public class BuildImporter {
 			return;
 		}
 
-		LOGGER.info("  Submitting build for import: " + buildIdentifier.getBranchName() + "/"
+		LOGGER.info("Submitting build for import: " + buildIdentifier.getBranchName() + "/"
 			+ buildIdentifier.getBuildName());
 		buildsInProcessingQueue.add(buildIdentifier);
 		summary.setStatus(BuildImportStatus.QUEUED_FOR_PROCESSING);
@@ -203,10 +207,6 @@ public class BuildImporter {
 		comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 	}
 
-	private ArrayList<Future<ComparisonResult>> submitBuildForSingleComparison(BuildIdentifier buildIdentifier, BuildIdentifier compareBuildIdentifier, String comparisonName) {
-		return comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), compareBuildIdentifier.getBranchName(), compareBuildIdentifier.getBuildName(), comparisonName);
-	}
-
 	private void importBuild(AvailableBuildsList availableBuilds, BuildImportSummary summary) {
 
 		ThreadLogAppender buildImportLog = null;
@@ -220,10 +220,9 @@ public class BuildImporter {
 			long startTime = System.currentTimeMillis();
 			buildsBeeingImported.add(summary.getIdentifier());
 
-			LOGGER.info(" ============= START OF BUILD IMPORT ================");
-			LOGGER.info("  Importing build: " + summary.getIdentifier().getBranchName() + "/"
+			LOGGER.info("=== START OF BUILD IMPORT ===");
+			LOGGER.info("Importing build: " + summary.getIdentifier().getBranchName() + "/"
 				+ summary.getIdentifier().getBuildName());
-			LOGGER.info("  This might take a while ...");
 
 			summary = buildImportSummaries.get(summary.getIdentifier());
 			summary.setStatus(BuildImportStatus.PROCESSING);
@@ -233,21 +232,21 @@ public class BuildImporter {
 				aggregator.calculateAggregatedDataForBuild();
 				addSuccessfullyImportedBuild(availableBuilds, summary);
 				lastSuccessfulScenarioBuild.updateLastSuccessfulScenarioBuild(summary, this, availableBuilds);
-				LOGGER.info("  SUCCESS on importing build: " + summary.getIdentifier().getBranchName() + "/"
+				LOGGER.info("SUCCESS on importing build: " + summary.getIdentifier().getBranchName() + "/"
 					+ summary.getIdentifier().getBuildName());
 			} else {
 				addSuccessfullyImportedBuild(availableBuilds, summary);
-				LOGGER.info("  ADDED ALREADY IMPORTED build: " + summary.getIdentifier().getBranchName() + "/"
+				LOGGER.info("ADDED ALREADY IMPORTED build: " + summary.getIdentifier().getBranchName() + "/"
 					+ summary.getIdentifier().getBuildName());
 			}
 
 			logDuration(startTime);
-			LOGGER.info(" ============= END OF BUILD IMPORT (success) ===========");
+			LOGGER.info("=== END OF BUILD IMPORT (success) ===");
 		} catch (Throwable e) {
 			recordBuildImportFinished(summary, BuildImportStatus.FAILED, e.getMessage());
-			LOGGER.error("  FAILURE on importing build " + summary.getIdentifier().getBranchName() + "/"
+			LOGGER.error("FAILURE on importing build " + summary.getIdentifier().getBranchName() + "/"
 				+ summary.getBuildDescription().getName(), e);
-			LOGGER.info(" ============= END OF BUILD IMPORT (failed) ===========");
+			LOGGER.info("=== END OF BUILD IMPORT (failed) ===");
 		} finally {
 			if (buildImportLog != null) {
 				buildImportLog.unregisterAndFlush();
