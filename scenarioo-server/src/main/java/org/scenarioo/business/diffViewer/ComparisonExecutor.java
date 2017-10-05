@@ -67,10 +67,7 @@ public class ComparisonExecutor {
 		docuBuildsManager = ScenarioDocuBuildsManager.INSTANCE;
 	}
 
-	/**
-	 * Submits all comparisons for the given build.
-	 */
-	public synchronized void doComparison(String baseBranchName, String baseBuildName) {
+	public synchronized void submitBuildForAllConfiguredComparisons(String baseBranchName, String baseBuildName) {
 		List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch =
 			getComparisonConfigurationsForBaseBranch(baseBranchName);
 
@@ -80,16 +77,13 @@ public class ComparisonExecutor {
 	}
 
 	public Future<ComparisonResult> submitBuildForSingleComparison(BuildIdentifier baseBuild,
-		BuildIdentifier comparisonBuild, String comparisonName) {
-
-		ComparisonConfiguration comparisonConfiguration = getComparisonConfiguration(baseBuild, comparisonBuild, comparisonName);
-
-		return submitBuildForComparison(baseBuild.getBranchName(), baseBuild.getBuildName(),
-			comparisonConfiguration);
+																   BuildIdentifier comparisonBuild, String comparisonName) {
+		ComparisonConfiguration comparisonConfiguration = createComparisonConfiguration(baseBuild, comparisonBuild, comparisonName);
+		return submitBuildForComparison(baseBuild.getBranchName(), baseBuild.getBuildName(), comparisonConfiguration);
 	}
 
-	private ComparisonConfiguration getComparisonConfiguration(BuildIdentifier baseBuild,
-			BuildIdentifier comparisonBuild, String comparisonName) {
+	private ComparisonConfiguration createComparisonConfiguration(BuildIdentifier baseBuild,
+																  BuildIdentifier comparisonBuild, String comparisonName) {
 		ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
 		comparisonConfiguration.setName(comparisonName);
 		comparisonConfiguration.setBaseBranchName(baseBuild.getBranchName());
@@ -98,11 +92,8 @@ public class ComparisonExecutor {
 		return comparisonConfiguration;
 	}
 
-	/**
-	 * Executes a comparison for the given build and comparison configuration in a separate thread.
-	 */
 	private synchronized Future<ComparisonResult> submitBuildForComparison(final String baseBranchName,
-			final String baseBuildName, final ComparisonConfiguration comparisonConfiguration) {
+																		   final String baseBuildName, final ComparisonConfiguration comparisonConfiguration) {
 
 		LOGGER.info("Submitting build for comparison:");
 		logBaseBuildAndComparisonConfiguration(baseBranchName, baseBuildName, comparisonConfiguration);
@@ -115,8 +106,7 @@ public class ComparisonExecutor {
 		});
 	}
 
-	private ComparisonResult runComparison(String baseBranchName,
-										   String baseBuildName,
+	private ComparisonResult runComparison(String baseBranchName, String baseBuildName,
 										   ComparisonConfiguration comparisonConfiguration) {
 
 		BuildDiffInfo buildDiffInfo = null;
@@ -131,9 +121,9 @@ public class ComparisonExecutor {
 			LOGGER.info("=== START OF BUILD COMPARISON ===");
 			logBaseBuildAndComparisonConfiguration(baseBranchName, baseBuildName, comparisonConfiguration);
 
-			ComparisonConfiguration resolvedComparisonConfiguration = resolveComparisonConfiguration(
-				comparisonConfiguration,
-				baseBuildName);
+			ComparisonConfiguration resolvedComparisonConfiguration =
+				resolveComparisonConfiguration(comparisonConfiguration, baseBuildName);
+
 			if (resolvedComparisonConfiguration == null) {
 				LOGGER.warn("No comparison build found for base build: " + baseBranchName + "/"
 					+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());

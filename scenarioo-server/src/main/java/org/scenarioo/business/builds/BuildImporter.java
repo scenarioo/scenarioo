@@ -204,7 +204,7 @@ public class BuildImporter {
 	}
 
 	private void submitBuildForComparison(BuildIdentifier buildIdentifier) {
-		comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+		comparisonExecutor.submitBuildForAllConfiguredComparisons(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 	}
 
 	private void importBuild(AvailableBuildsList availableBuilds, BuildImportSummary summary) {
