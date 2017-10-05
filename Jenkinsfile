@@ -2,6 +2,11 @@ def gradle(tasks) {
 	 sh "./gradlew --info --no-daemon $tasks"
 }
 
+def getEncodedBranchName() {
+	 String branchName = "${env.BRANCH_NAME}"
+	 return branchName.replace('/', '-').replace('#', '')
+}
+
 properties([
 		  disableConcurrentBuilds(),
 		  pipelineTriggers([
@@ -14,6 +19,8 @@ timestamps {
 		  stage('Checkout') {
 				checkout scm
 		  }
+
+		  def encodedBranchName = getEncodedBranchName()
 
 		  stage('Build and unit test') {
 				try {
@@ -30,19 +37,19 @@ timestamps {
 		  }
 
 		  stage('Deploy') {
-				sh "./ci/deploy.sh --branch=${env.BRANCH_NAME}"
+				sh "./ci/deploy.sh --branch=${encodedBranchName}"
 		  }
 
 		  stage('Run e2e tests') {
 				try {
-					 sh "./ci/runE2ETests.sh --branch=${env.BRANCH_NAME}"
+					 sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
 				} finally {
 					 junit 'scenarioo-client/test-reports/*.xml'
 				}
 		  }
 
 		  stage('Deploy self docu') {
-				sh "./ci/deploySelfDocu.sh --branch=${env.BRANCH_NAME}"
+				sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
 		  }
 	 }
 }
