@@ -22,15 +22,17 @@ timestamps {
 						  'scenarioo-docu-generation-example/build/scenarioDocuExample/, scenarioo-validator/build/distributions/*'
 		  }
 
-		  stage('Deploy') {
-				sh "./ci/deploy.sh --branch=${env.BRANCH_NAME}"
-		  }
+		  lock('deploy-and-e2e-tests') {
+				stage('Deploy') {
+					 sh "./ci/deploy.sh --branch=${env.BRANCH_NAME}"
+				}
 
-		  stage('Run e2e tests') {
-				try {
-					 sh "./ci/runE2ETests.sh --branch=${env.BRANCH_NAME}"
-				} finally {
-					 junit 'scenarioo-client/test-reports/*.xml'
+				stage('Run e2e tests') {
+					 try {
+						  sh "./ci/runE2ETests.sh --branch=${env.BRANCH_NAME}"
+					 } finally {
+						  junit 'scenarioo-client/test-reports/*.xml'
+					 }
 				}
 		  }
 
