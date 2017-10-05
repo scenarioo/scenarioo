@@ -37,4 +37,4 @@ cp -rf scenariooDocumentation/scenarioo-self-docu $SCENARIOO_DATA_ROOT/scenarioD
 rm -rf scenariooDocumentation/scenarioo-self-docu
 
 # Trigger scenarioo demo to import new builds
-curl http://demo.scenarioo.org/scenarioo-$BRANCH/rest/builds/updateAndImport
+curl http://localhost:8080/scenarioo-$BRANCH/rest/builds/updateAndImport

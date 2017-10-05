@@ -100,7 +100,7 @@ done
 echo "Waiting for Java web app to become available..."
 for i in `seq 1 20`
 do
-   if $(curl --output /dev/null --silent --head --fail http://demo.scenarioo.org/scenarioo-$BRANCH/rest/branches); then
+   if $(curl --output /dev/null --silent --head --fail http://localhost:8080/scenarioo-$BRANCH/rest/branches); then
       echo "Java web app available"
       break
    fi
