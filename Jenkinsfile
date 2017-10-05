@@ -3,6 +3,7 @@ def gradle(tasks) {
 }
 
 properties([
+		  disableConcurrentBuilds(),
 		  pipelineTriggers([
 					 [$class: 'GitHubPushTrigger']
 		  ])
