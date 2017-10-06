@@ -44,12 +44,9 @@ timestamps {
 				try {
 					 sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
 				} finally {
+					 sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
 					 junit 'scenarioo-client/test-reports/*.xml'
 				}
-		  }
-
-		  stage('Deploy self docu') {
-				sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
 		  }
 	 }
 }
