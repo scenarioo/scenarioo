@@ -22,7 +22,7 @@ done
 ### Run e2e Tests (with self docu generation)
 ###
 echo "Executing E2E tests"
-export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo-$BRANCH
+export PROTRACTOR_BASE_URL=http://34.230.29.33:8080/scenarioo-$BRANCH
 export DISPLAY=:99
 PIPELINE_BRANCH_DIR=/var/lib/jenkins/jobs/scenarioo-ci-pipeline/branches/$BRANCH
 cd $PIPELINE_BRANCH_DIR/workspace/scenarioo-client
