@@ -31,6 +31,15 @@ var exportsConfig = {
     allScriptsTimeout: 20000,
     getPageTimeout: 20000,
 
+    capabilities: {
+        browserName: 'chrome',
+        chromeOptions: {
+            args: [
+                'disable-infobars'
+            ]
+        },
+    },
+
     specs: [/* See gulpfile.js for specified tests */],
 
     baseUrl: PROTRACTOR_BASE_URL,

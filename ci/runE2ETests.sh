@@ -28,4 +28,4 @@ PIPELINE_BRANCH_DIR=/var/lib/jenkins/jobs/scenarioo-ci-pipeline/branches/$BRANCH
 cd $PIPELINE_BRANCH_DIR/workspace/scenarioo-client
 #./node_modules/gulp-protractor/node_modules/protractor/bin/webdriver-manager update
 gulp webdriver_update
-gulp test-e2e
+gulp test-e2e-scenarioo
