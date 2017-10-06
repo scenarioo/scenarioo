@@ -13,7 +13,6 @@ function getRoute(route) {
  */
 function initLocalStorage() {
     console.log('Initializing local storage for user revisiting scenarioo again');
-    step('before get');
     console.log('before get done');
     getRoute('/');
     console.log('get done');
@@ -52,7 +51,6 @@ function initLocalStorageIfRequired() {
  */
 function clearLocalStorage() {
     console.log('Clear local storage for user visiting for the first time');
-    step('before get');
     console.log('before get done');
     getRoute('/');
     console.log('get done');
