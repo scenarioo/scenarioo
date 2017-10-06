@@ -14,17 +14,11 @@ useCase('Application Startup')
             .it(function () {
                 homePage.startScenariooFirstTimeVisit();
                 step('About dialog is displayed on first access of Scenarioo');
-                browser.call(function () {
-                    console.log('test first step done');
-                });
                 homePage.assertPageIsDisplayed();
                 homePage.assertScenariooInfoDialogShown();
                 homePage.closeScenariooInfoDialogIfOpen();
                 homePage.assertScenariooInfoDialogNotShown();
                 step('About dialog is closed');
-                browser.call(function () {
-                    console.log('test done');
-                });
             });
 
         scenario('Later visits')
