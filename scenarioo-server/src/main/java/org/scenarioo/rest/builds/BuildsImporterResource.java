@@ -34,6 +34,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -94,9 +95,6 @@ public class BuildsImporterResource {
 		ScenarioDocuBuildsManager.INSTANCE.reimportBuild(buildIdentifier);
 	}
 
-	/**
-	 * Import a specific build and create the diff data for a specific comparison build.
-	 */
 	@GET
 	@Path("importBuild/{branchName}/{buildName}/{comparisonBranchName}/{comparisonBuildName}/{comparisonName}")
 	@Produces({"application/xml", "application/json"})
@@ -110,18 +108,20 @@ public class BuildsImporterResource {
 		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
 		BuildIdentifier comparisonBuildIdentifier = new BuildIdentifier(comparisonBranchName, comparisonBuildName);
 
-		Future<ComparisonResult> comparisonResultFuture =
-			ScenarioDocuBuildsManager.INSTANCE.importBuildAndCreateComparison(buildIdentifier,
-				comparisonBuildIdentifier, comparisonName);
+		ArrayList<Future<ComparisonResult>> futureList = ScenarioDocuBuildsManager.INSTANCE.importBuild(buildIdentifier, comparisonBuildIdentifier, comparisonName);
 
-		ComparisonResult comparisonResult;
-		try {
-			comparisonResult = comparisonResultFuture.get();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+		List<ComparisonResult> comparisonResultList = new ArrayList<>();
+		for (Future<ComparisonResult> comparisonResultFuture : futureList) {
+			try {
+				comparisonResultList.add(comparisonResultFuture.get());
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
 		}
 
-		return Response.ok(comparisonResult).build();
+		ComparisonResult[] results = comparisonResultList.toArray(new ComparisonResult[comparisonResultList.size()]);
+
+		return Response.ok(results).build();
 	}
 
 	@POST
