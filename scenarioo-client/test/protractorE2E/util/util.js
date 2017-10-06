@@ -13,19 +13,25 @@ function getRoute(route) {
  */
 function initLocalStorage() {
     console.log('Initializing local storage for user revisiting scenarioo again');
-    console.log('before get done');
+    browser.call(function () {
+        console.log('before get done');
+    });
     getRoute('/');
-    console.log('get done');
+    browser.call(function () {
+        console.log('get done');
+    });
     step('get done');
-    console.log('get done done');
-    var setPreviouslyVisitedInLocalStorage = browser.executeScript(function() {
+    browser.call(function () {
+        console.log('get done done');
+    });
+    var setPreviouslyVisitedInLocalStorage = browser.executeScript(function () {
         var injector = angular.element(document.body).injector();
         var LocalStorageService = injector.get('LocalStorageService');
         LocalStorageService.set('scenariooPreviouslyVisited', 'true');
         LocalStorageService.set('scenarioo-searchIncludeHtml', 'false');
     });
     setPreviouslyVisitedInLocalStorage.then(function () {
-        var visited = browser.executeScript(function() {
+        var visited = browser.executeScript(function () {
             var injector = angular.element(document.body).injector();
             var LocalStorageService = injector.get('LocalStorageService');
             return LocalStorageService.get('scenariooPreviouslyVisited');
@@ -56,13 +62,13 @@ function clearLocalStorage() {
     console.log('get done');
     step('get done');
     console.log('get done done');
-    var clearLocalStorageScript = browser.executeScript(function() {
+    var clearLocalStorageScript = browser.executeScript(function () {
         var injector = angular.element(document.body).injector();
         var LocalStorageService = injector.get('LocalStorageService');
         return LocalStorageService.clearAll();
     });
-    clearLocalStorageScript.then(function() {
-        var visited = browser.executeScript(function() {
+    clearLocalStorageScript.then(function () {
+        var visited = browser.executeScript(function () {
             var injector = angular.element(document.body).injector();
             var LocalStorageService = injector.get('LocalStorageService');
             return LocalStorageService.get('scenariooPreviouslyVisited');
@@ -132,7 +138,7 @@ var e2eUtils = {
         browser.navigate().back();
     },
 
-    refreshBrowser: function() {
+    refreshBrowser: function () {
         browser.navigate().refresh();
     }
 
