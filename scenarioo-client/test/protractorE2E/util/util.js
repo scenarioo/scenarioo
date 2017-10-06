@@ -31,7 +31,7 @@ function initLocalStorage() {
         LocalStorageService.set('scenarioo-searchIncludeHtml', 'false');
     });
     setPreviouslyVisitedInLocalStorage.then(function () {
-        console.log("Setting previouslyVisited in local storage done");
+        console.log('Setting previouslyVisited in local storage done');
         var visited = browser.executeScript(function () {
             var injector = angular.element(document.body).injector();
             var LocalStorageService = injector.get('LocalStorageService');
@@ -78,6 +78,7 @@ function clearLocalStorage() {
         return LocalStorageService.clearAll();
     });
     clearLocalStorageScript.then(function () {
+        console.log('Setting previouslyVisited in local storage done');
         var visited = browser.executeScript(function () {
             var injector = angular.element(document.body).injector();
             var LocalStorageService = injector.get('LocalStorageService');
