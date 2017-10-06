@@ -38,6 +38,9 @@ function initLocalStorage() {
         });
         expect(visited).toEqual('true');
     });
+    browser.call(function () {
+        console.log('get done done done');
+    });
 }
 
 /**
