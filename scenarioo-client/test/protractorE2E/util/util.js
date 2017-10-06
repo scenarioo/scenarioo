@@ -13,7 +13,12 @@ function getRoute(route) {
  */
 function initLocalStorage() {
     console.log('Initializing local storage for user revisiting scenarioo again');
+    step('before get');
+    console.log('before get done');
     getRoute('/');
+    console.log('get done');
+    step('get done');
+    console.log('get done done');
     var setPreviouslyVisitedInLocalStorage = browser.executeScript(function() {
         var injector = angular.element(document.body).injector();
         var LocalStorageService = injector.get('LocalStorageService');
@@ -47,7 +52,12 @@ function initLocalStorageIfRequired() {
  */
 function clearLocalStorage() {
     console.log('Clear local storage for user visiting for the first time');
+    step('before get');
+    console.log('before get done');
     getRoute('/');
+    console.log('get done');
+    step('get done');
+    console.log('get done done');
     var clearLocalStorageScript = browser.executeScript(function() {
         var injector = angular.element(document.body).injector();
         var LocalStorageService = injector.get('LocalStorageService');
