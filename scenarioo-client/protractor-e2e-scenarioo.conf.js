@@ -68,10 +68,10 @@ var exportsConfig = {
             pageNameExtractor: function (url) {
                 return url.pathname.substring(1);
             },
-            reportStepOnExpectationFailed: false,
+            reportStepOnExpectationFailed: true,
             recordLastStepForStatus: {
-                failed: false,
-                success: false
+                failed: true,
+                success: true
             }
 
         });
