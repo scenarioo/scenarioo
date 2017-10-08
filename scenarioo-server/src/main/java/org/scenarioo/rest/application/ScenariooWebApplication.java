@@ -38,6 +38,7 @@ import java.util.Properties;
 public class ScenariooWebApplication implements ServletContextListener {
 
 	private static final Logger LOGGER = Logger.getLogger(ScenariooWebApplication.class);
+	private final DocumentationPathLogic documentationPathLogic = new DocumentationPathLogic();
 
 	@Override
 	public void contextInitialized(final ServletContextEvent servletContextEvent) {
@@ -60,41 +61,15 @@ public class ScenariooWebApplication implements ServletContextListener {
 	private void loadConfiguration(final ServletContextEvent servletContextEvent) {
 		LOGGER.info("  Loading configuration ...");
 
-		final String configurationDirectory = configureConfigurationDirectoryFromServerContext(servletContextEvent);
-		final String configurationFilename = configureConfigurationFilenameFromServerContext(servletContextEvent);
+		final String configurationDirectoryPath = documentationPathLogic.getDocumentationPath(servletContextEvent);
 
-		RepositoryLocator.INSTANCE.initializeConfigurationRepository(configurationDirectory, configurationFilename);
+		RepositoryLocator.INSTANCE.initializeConfigurationRepository(configurationDirectoryPath);
 
 		final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
 		final Configuration configuration = configurationRepository.getConfiguration();
 
 		LOGGER.info("  Configuration loaded.");
-		LOGGER.info("  Configured documentation content directory: " + configuration.getTestDocumentationDirPath());
-	}
-
-	private String configureConfigurationDirectoryFromServerContext(final ServletContextEvent servletContextEvent) {
-		String configurationDirectory = servletContextEvent.getServletContext().getInitParameter(
-			"scenariooConfigurationDirectory");
-		if (StringUtils.isBlank(configurationDirectory)) {
-			// Fallback to old property name:
-			configurationDirectory = servletContextEvent.getServletContext().getInitParameter("configurationDirectory");
-		}
-		LOGGER.info("  configured configuration directory:  " + configurationDirectory);
-		return configurationDirectory;
-	}
-
-	private String configureConfigurationFilenameFromServerContext(final ServletContextEvent servletContextEvent) {
-		String configurationFilename = servletContextEvent.getServletContext().getInitParameter(
-			"scenariooConfigurationFilename");
-		if (StringUtils.isBlank(configurationFilename)) {
-			// Fallback to old property name:
-			configurationFilename = servletContextEvent.getServletContext().getInitParameter("configurationFilename");
-		}
-		if (StringUtils.isNotBlank(configurationFilename)) {
-			LOGGER.info("  overriding default configuration filename config.xml with:  " + configurationFilename);
-			return configurationFilename;
-		}
-		return null;
+		LOGGER.info("  Configured documentation content directory: " + configurationDirectoryPath);
 	}
 
 	private void initializeApplicationVersion(final ServletContext servletContext) {

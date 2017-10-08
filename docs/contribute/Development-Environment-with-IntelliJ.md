@@ -124,31 +124,8 @@ But this two repositories should be sufficient for most usual developers.
  * Run all tests of the sub-project "scenarioodocu-generation-example" to generate scenarioo example documentation data in Folder "build/scenarioDocuExample"
     * select folder 'test' under 'src' folder 
     * right click on 'test' folder and choose "Run 'All Tests'
-  
-===== TODO issue #427 === 
-
-     * when the issue #427 has been resolved, the following is obsolete: 
-     
-     ==== obsolete after #427 has been merged ====
-         
-     
-        * Start the server using the run configuration, you should see something like following in the server log on first startup:
- 
-            WARN  org.scenarioo.dao.configuration.ConfigurationDaoImpl: no configuration directory is configured in server context, therefore trying to use fallback directory in user home.
-            WARN  org.scenarioo.dao.configuration.ConfigurationDaoImpl:   file C:\Users\rbr\.scenarioo\config.xml does not exist --> loading default config.xml from classpath
- 
-        * Copy the file `scenarioo-server\src\main\resources\config-for-demo\config.xml` to the location where your server tries to load the configuration by default from (see server output).
-                    [TODO: this will change with the new directory configuration by @mi-we soon anyway, see issue # )
-                * change the configured documentation path configured inside this copied file to point to the following location instead:
-                    * &lt;your-project-source-path&gt;\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
-   
-        * Stop the server again            
-                    
-    ==== end of obsolete part after #427 has been merged ===
     
-    * then we have to test, that the above allready mentioned configuration of the variable "SCENARIOO_DATA" in tomcat run configuration works as expected.
-
-=== end of TODO for issue #427 ===
+ * Copy the `config.xml` file under "scenarioo-server/src/main/reources/config-for-demo" to the same "build/scenariooDocuExample" folder
  
  * Start the tomcat server by using the run configuration:
    you should see in the log output that it is importing the example documentation data properly.

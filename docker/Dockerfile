@@ -1,21 +1,13 @@
 FROM tomcat:8.5.9-jre8
 
 MAINTAINER Scenarioo
+LABEL description="A simple container running the Scenarioo viewer application on a Tomcat server."
 
-# REPLACE THE ORIGINAL CONTEXT.XML WITH THE MODIFIED VERSION TO OVERRIDE THE CONFIG FILE PATH
-COPY ./context.xml /usr/local/tomcat/conf/
+# SET THE SCENARIOO DATA DIRECTORY VIA THE ENVIRONMENT VARIABLE
+ENV SCENARIOO_DATA /doku
 
 # ADD WAR TO TOMCAT-WEBAPPS
 ADD ./scenarioo.war /usr/local/tomcat/webapps/
-
-# UNZIP WAR MANUALLY
-RUN unzip -o /usr/local/tomcat/webapps/scenarioo.war -d /usr/local/tomcat/webapps/scenarioo/
-
-# CHANGE PATH TO DOCUMENTATION FILES IN THE DEFAULT CONFIG FILE
-RUN sed -i "s/<testDocumentationDirPath>\/home\/scenarioo\/scenarioo\/scenarioo-docu-generation-example\/build\/scenarioDocuExample<\/testDocumentationDirPath>/<testDocumentationDirPath>\/docu<\/testDocumentationDirPath>/" /usr/local/tomcat/webapps/scenarioo/WEB-INF/classes/config.xml
-
-# REMOVE WAR
-RUN rm /usr/local/tomcat/webapps/scenarioo.war
 
 # RUN TOMCAT
 CMD ["catalina.sh", "run"]
