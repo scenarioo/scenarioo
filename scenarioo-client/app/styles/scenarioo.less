@@ -78,6 +78,14 @@ h4 {
   width: 150px !important;
 }
 
+.btn-default.focus, .btn-default:focus {
+    background-color: #fff;
+}
+
+.btn-no-btn {
+    cursor: default;
+}
+
 /** Breadcrumbs (basically styled by bootstrap!) **/
 
 .breadcrumb {
@@ -260,16 +268,8 @@ h4 {
   margin-top: -4px;
 }
 
-#sc-step-comparison-buttons{
-  margin: 0 24px 0 15px;
-}
-
-.buttonBar .tooltip-wrapper {
-  display: inline;
-}
-
-#sc-diff-screenshot-toggle {
-  display: inline;
+#sc-diff-viewer-changes-highlight-legend {
+    display: inline;
 }
 
 .clear{
@@ -819,7 +819,7 @@ textarea#issueDescription {
     margin-top: 2px;
 
     &.changed {
-      background-color: #f0ad4e;
+      background-color: #ff7e00;
     }
 
     &.added {
