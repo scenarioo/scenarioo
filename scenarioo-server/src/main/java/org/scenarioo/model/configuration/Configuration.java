@@ -43,8 +43,6 @@ public class Configuration {
 	public static final String DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD = "most recent";
 	public static final String DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD = "last successful";
 
-	private String testDocumentationDirPath;
-
 	private String defaultBranchName = "trunk";
 
 	private String defaultBuildName = DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD;
@@ -81,7 +79,7 @@ public class Configuration {
 	 *
 	 * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html#Color(int,%20boolean)"> docs.oracle.com</a>
 	 */
-	private String diffImageColor = "0x7FEDB04D";
+	private String diffImageColor = "0x7fff7e00";
 
 	/**
 	 * Will create a physical build containing the last successful scenarios of a branch.
@@ -100,14 +98,6 @@ public class Configuration {
 	private Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<String, LabelConfiguration>();
 
 	private List<CustomObjectTab> customObjectTabs = new ArrayList<CustomObjectTab>();
-
-	public String getTestDocumentationDirPath() {
-		return testDocumentationDirPath;
-	}
-
-	public void setTestDocumentationDirPath(final String testDocumentationDirPath) {
-		this.testDocumentationDirPath = testDocumentationDirPath;
-	}
 
 	public String getDefaultBranchName() {
 		return defaultBranchName;

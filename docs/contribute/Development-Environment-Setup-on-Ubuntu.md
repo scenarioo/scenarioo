@@ -75,7 +75,7 @@ Then add it in the Eclipse Servers section.
 For running Scenarioo you need to speicify the folder where Scenarioo should store its config.xml file. Add the following line to Tomcats context.xml file and set the value you want.
 
 ```
-<Parameter name="scenariooConfigurationDirectory" value=">>>path to a directory where your scenarioo config.xml will be or is stored<<<" override="true" description="Location of scenarioo config.xml file"/>
+<Parameter name="scenariooDataDirectory" value=">>>path to a directory where your scenarioo config.xml will be or is stored<<<" override="true" description="Location of scenarioo config.xml file"/>
 ```
 
 ## IDEs and Browsers
