@@ -17,14 +17,6 @@
 
 package org.scenarioo.dao.diffViewer.impl;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import org.scenarioo.api.configuration.ScenarioDocuGeneratorConfiguration;
 import org.scenarioo.api.exception.ScenarioDocuSaveException;
 import org.scenarioo.api.exception.ScenarioDocuTimeoutException;
@@ -34,6 +26,14 @@ import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * XML Diff Writer which writes the xml files in a separate thread.
@@ -155,7 +155,6 @@ public class DiffWriterXmlImpl implements DiffWriter {
 	}
 
 	private void createDirectoryIfNotYetExists(final File directory) {
-		diffFiles.assertRootDirectoryExists();
 		if (!directory.exists()) {
 			directory.mkdirs();
 		}

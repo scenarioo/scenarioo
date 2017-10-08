@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ApplicationStatus {
 
     private Configuration configuration;
+	private String documentationDataDirectory;
     private SearchEngineStatus searchEngineStatus;
     private ApplicationVersion version;
 
@@ -37,4 +38,12 @@ public class ApplicationStatus {
     public void setVersion(ApplicationVersion version) {
         this.version = version;
     }
+
+	public String getDocumentationDataDirectory() {
+		return documentationDataDirectory;
+	}
+
+	public void setDocumentationDataDirectory(String documentationDataDirectory) {
+		this.documentationDataDirectory = documentationDataDirectory;
+	}
 }

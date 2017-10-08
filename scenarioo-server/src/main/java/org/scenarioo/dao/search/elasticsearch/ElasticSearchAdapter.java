@@ -17,11 +17,7 @@
 
 package org.scenarioo.dao.search.elasticsearch;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.carrotsearch.hppc.cursors.ObjectCursor;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
@@ -43,7 +39,10 @@ import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.search.SearchRequest;
 
-import com.carrotsearch.hppc.cursors.ObjectCursor;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ElasticSearchAdapter implements SearchAdapter {
     private final static Logger LOGGER = Logger.getLogger(ElasticSearchAdapter.class);
@@ -158,7 +157,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
                 .prepareState().get().getState()
                 .getMetaData().getIndices();
 
-        List<String> indicesOfCurrentContext = new ArrayList<String>(indices.keys().size());
+        List<String> indicesOfCurrentContext = new ArrayList<>(indices.keys().size());
         for (ObjectCursor<String> key : indices.keys()) {
 			if (key.value.startsWith(getContextPrefix())) {
 				indicesOfCurrentContext.add(key.value);
@@ -168,7 +167,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
     }
 
     private List<String> getAvailableBuildNames(final List<BuildIdentifier> existingBuilds) {
-        List<String> buildNames = new ArrayList<String>();
+        List<String> buildNames = new ArrayList<>();
 
         for(BuildIdentifier identifier : existingBuilds) {
             buildNames.add(getIndexName(identifier));
@@ -182,7 +181,9 @@ public class ElasticSearchAdapter implements SearchAdapter {
     }
 
     private String getIndexName(final BuildIdentifier buildIdentifier) {
-		return getContextPrefix() + buildIdentifier.getBranchName() + "-" + buildIdentifier.getBuildName();
+		String index = getContextPrefix() + buildIdentifier.getBranchName() + "-" + buildIdentifier.getBuildName();
+		// index for elastic search must be lowercase
+		return index.toLowerCase();
 	}
 
 	private String getContextPrefix() {

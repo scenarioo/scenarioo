@@ -134,9 +134,9 @@ public class ComparisonExecutor {
 				+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
 			LOGGER.info("This might take a while ...");
 
-			ComparisonConfiguration resolvedComparisonConfiguration = resolveComparisonConfiguration(
-				comparisonConfiguration,
-				baseBuildName);
+			ComparisonConfiguration resolvedComparisonConfiguration =
+				resolveComparisonConfiguration(comparisonConfiguration, baseBuildName);
+
 			if (resolvedComparisonConfiguration == null) {
 				LOGGER.warn("No comparison build found for base build: " + baseBranchName + "/"
 					+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());

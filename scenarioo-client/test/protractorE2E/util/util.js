@@ -14,14 +14,14 @@ function getRoute(route) {
 function initLocalStorage() {
     console.log('Initializing local storage for user revisiting scenarioo again');
     getRoute('/');
-    var setPreviouslyVisitedInLocalStorage = browser.executeScript(function() {
+    var setPreviouslyVisitedInLocalStorage = browser.executeScript(function () {
         var injector = angular.element(document.body).injector();
         var LocalStorageService = injector.get('LocalStorageService');
         LocalStorageService.set('scenariooPreviouslyVisited', 'true');
         LocalStorageService.set('scenarioo-searchIncludeHtml', 'false');
     });
     setPreviouslyVisitedInLocalStorage.then(function () {
-        var visited = browser.executeScript(function() {
+        var visited = browser.executeScript(function () {
             var injector = angular.element(document.body).injector();
             var LocalStorageService = injector.get('LocalStorageService');
             return LocalStorageService.get('scenariooPreviouslyVisited');
@@ -48,13 +48,13 @@ function initLocalStorageIfRequired() {
 function clearLocalStorage() {
     console.log('Clear local storage for user visiting for the first time');
     getRoute('/');
-    var clearLocalStorageScript = browser.executeScript(function() {
+    var clearLocalStorageScript = browser.executeScript(function () {
         var injector = angular.element(document.body).injector();
         var LocalStorageService = injector.get('LocalStorageService');
         return LocalStorageService.clearAll();
     });
-    clearLocalStorageScript.then(function() {
-        var visited = browser.executeScript(function() {
+    clearLocalStorageScript.then(function () {
+        var visited = browser.executeScript(function () {
             var injector = angular.element(document.body).injector();
             var LocalStorageService = injector.get('LocalStorageService');
             return LocalStorageService.get('scenariooPreviouslyVisited');
@@ -124,7 +124,7 @@ var e2eUtils = {
         browser.navigate().back();
     },
 
-    refreshBrowser: function() {
+    refreshBrowser: function () {
         browser.navigate().refresh();
     }
 

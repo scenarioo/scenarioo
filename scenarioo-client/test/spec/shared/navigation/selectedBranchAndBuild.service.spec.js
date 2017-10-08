@@ -28,16 +28,15 @@ describe('SelectedBranchAndBuildService', function () {
     var BUILD_CONFIG = 'build_config';
 
     var DUMMY_CONFIG_RESPONSE = {
-        'defaultBuildName': BUILD_CONFIG,
-        'defaultBranchName': BRANCH_CONFIG,
-        'testDocumentationDirPath': 'webtestDocuContentExample',
-        'scenarioPropertiesInOverview': 'userProfile, configuration',
-        'applicationInformation': 'This is my personal copy of Scenarioo :-)',
-        'buildstates': {
-            BUILD_STATE_FAILED: 'label-important',
-            BUILD_STATE_SUCCESS: 'label-success',
-            BUILD_STATE_WARNING: 'label-warning'
-        }
+            'defaultBuildName': BUILD_CONFIG,
+            'defaultBranchName': BRANCH_CONFIG,
+            'scenarioPropertiesInOverview': 'userProfile, configuration',
+            'applicationInformation': 'This is my personal copy of Scenarioo :-)',
+            'buildstates': {
+                BUILD_STATE_FAILED: 'label-important',
+                BUILD_STATE_SUCCESS: 'label-success',
+                BUILD_STATE_WARNING: 'label-warning'
+            }
     };
 
     beforeEach(angular.mock.module('scenarioo.services'));
