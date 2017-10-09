@@ -17,7 +17,8 @@ Further Release Candidate Versions are available through [Downloads & Links](dow
 
 1. **Install a Tomcat Webserver** or any other favourite Java webserver Ttomcat 7, 8 or 9 should all work with Scenarioo 3).
 
-2. **Deploy the WAR** file into it, e.g. simply copy the WAR file into the webapps folder on tomcat. If you use a release candidate WAR file that has the version in the name, then make sure to rename the war to simply `scenarioo.war` before deploying it, because the name defines the context under which you can access the app.
+2. **Deploy the WAR** file into it, e.g. simply copy the WAR file into the webapps folder on tomcat. 
+  * If you use a release candidate WAR file that has the version in the name, then make sure to rename the war to simply `scenarioo.war` before deploying it, because the name defines the context under which you can access the app.
 
 3. **Configure the Scenarioo data directory** where Scenarioo can store and read its data. By default Scenarioo is using a folder `.scenarioo` in your "user.home"-directory.
   * To configure a different directory to use add the following line to context.xml in your webserver's installation directory (usually located in folder 'conf' of your tomcat installation):  
