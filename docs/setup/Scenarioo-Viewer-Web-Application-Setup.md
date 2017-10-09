@@ -15,7 +15,7 @@ Further Release Candidate Versions are available through [Downloads & Links](dow
 
 ## Installation and Setup
 
-1. **Install a Tomcat Webserver** or any other favourite Java webserver Ttomcat 7, 8 or 9 should all work with Scenarioo 3).
+1. **Install a Tomcat Webserver** or any other favourite Java webserver Tomcat 7, 8 or 9 should all work with Scenarioo).
 
 2. **Deploy the WAR** file into it, e.g. simply copy the WAR file into the webapps folder on tomcat. 
     * If you use a release candidate WAR file that has the version in the name, then make sure to rename the war to simply `scenarioo.war` before deploying it, because the name defines the context under which you can access the app.
