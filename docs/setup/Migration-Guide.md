@@ -32,4 +32,4 @@ Follow these simple steps to migrate:
 3. Optional but Recommended - only if you used Diff Viewer Comparisons before:
     * Delete all old diff viewer comparison data, which is stored in your docu data directory under `scenarioo-application-data\diffViewer`. 
     * From now on this data will be stored in a less disk space consuming format and inside the same directory where the build it belongs to is located.
-    * If you want to see comparisons for any of the old builds, you have to reimport these builds under `Manage / Builds`, this will also trigger recalculation of any configured comparisons. See [Diff Viewer Setup Guide](../feature/diff-viewer/setup.md) on how to configure such comparisons (which has NOT changed!).
+    * If you want to see comparisons for any of the old builds, you have to reimport these builds under `Manage / Builds`, this will also trigger recalculation of any configured comparisons. See [Diff Viewer Setup Guide](../features/diff-viewer/setup.md) on how to configure such comparisons (which has NOT changed!).
