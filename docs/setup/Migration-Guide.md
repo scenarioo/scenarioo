@@ -1,6 +1,6 @@
-# Migration Guide
+# Scenarioo Viewer Migration Guide
 
-## Scenarioo Viewer 3.x (or lower) to 4.x
+## 3.x to 4.x
 
 **Breaking Changes:**
 * Starting with version 4.x the path to your scenarioo documentation data has to be configured differently and the scenarioo configuration file (config.xml) is in the same directory as all your other scenarioo documentation data.
