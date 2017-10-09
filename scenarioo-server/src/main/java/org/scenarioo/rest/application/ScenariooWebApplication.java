@@ -59,17 +59,19 @@ public class ScenariooWebApplication implements ServletContextListener {
 	}
 
 	private void loadConfiguration(final ServletContextEvent servletContextEvent) {
-		LOGGER.info("  Loading configuration ...");
+		
 
 		final String configurationDirectoryPath = documentationPathLogic.getDocumentationPath(servletContextEvent);
+		LOGGER.info("  Configured scenarioo data directory: " + configurationDirectoryPath);
+		
+		LOGGER.info("  Loading configuration ...");
 
 		RepositoryLocator.INSTANCE.initializeConfigurationRepository(configurationDirectoryPath);
 
 		final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
 		final Configuration configuration = configurationRepository.getConfiguration();
 
-		LOGGER.info("  Configuration loaded.");
-		LOGGER.info("  Configured documentation content directory: " + configurationDirectoryPath);
+		LOGGER.info("  Configuration loaded.");		
 	}
 
 	private void initializeApplicationVersion(final ServletContext servletContext) {
