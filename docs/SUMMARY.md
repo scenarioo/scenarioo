@@ -1,5 +1,12 @@
 # Table of Content
 
+* [Tutorial](tutorial/README.md)
+  * [Use in Junit Tests](tutorial/01-use-in-junit-tests.md)
+  * Install Viewer Webapp (to be discussed ... should we merge that with current `setup` section ??)
+  * ...
+  * also to discuss: should we make tutorial just the introduction starting page?
+  * ...
+
 * [Scenarioo Examples](examples.md)
 
 * [Downloads and Links](setup/downloads-and-links.md)
