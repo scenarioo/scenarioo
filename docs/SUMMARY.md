@@ -1,22 +1,17 @@
 # Table of Content
 
-* [Tutorial](tutorial/README.md)
-  * [Use in Junit Tests](tutorial/01-use-in-junit-tests.md)
-  * Install Viewer Webapp (to be discussed ... should we merge that with current `setup` section ??)
-  * ...
-  * also to discuss: should we make tutorial just the introduction starting page?
-  * ...
+* [Introduction & Overview](README.md)
+  * [Scenarioo Examples](examples.md)
+  * [Downloads and Links](setup/downloads-and-links.md)
 
-* [Scenarioo Examples](examples.md)
-
-* [Downloads and Links](setup/downloads-and-links.md)
-
-* [Setup & Usage](setup/README.md)
+* [Getting Started](setup/README.md) -- TODO rename directory to `tutorial`?
+  * [Write Reports from Tests](setup/01-Write-Reports-From-Tests.md)
+     * TODO move [Tutorial](setup/tutorial.md) to above page
+     * TODO integrate [Usage of Writer Libraries](setup/How-to-use-Scenarioo-Writer-Library.md) into above page
   * [Install Viewer Web App](setup/Scenarioo-Viewer-Web-Application-Setup.md)
-  * [Install Viewer Docker Image](setup/Scenarioo-Viewer-Docker-Image.md)
-  * [Viewer Configuration](setup/Configuration.md)
-  * [Usage of Writer Libraries](setup/How-to-use-Scenarioo-Writer-Library.md)
+  * [Install Viewer Docker Image](setup/Scenarioo-Viewer-Docker-Image.md)    
   * [Publish Documentation Data](setup/Publish-Documentation-Data.md)
+  * [Viewer Configuration](setup/Configuration.md) -- TODO move to advanced feature descriptions that need special config!
 
 * [Features & Concepts](features/README.md)
   * [Documentation Format](features/Scenarioo-Writer-Documentation-Format.md)
