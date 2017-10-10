@@ -12,6 +12,7 @@
   * [Install Viewer Docker Image](setup/Scenarioo-Viewer-Docker-Image.md)
   * [Publish Reports](setup/Publish-Documentation-Data.md)
   * [Viewer Configuration](setup/Configuration.md) -- TODO move to advanced feature descriptions that need special config!
+  * TODO: align file names with link names and titles in the files - also adjust any exisitng links to those pages!
 
 * [Features & Concepts](features/README.md)
   * [Documentation Format](features/Scenarioo-Writer-Documentation-Format.md)
