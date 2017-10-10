@@ -9,8 +9,8 @@
      * TODO move [Tutorial](setup/tutorial.md) to above page
      * TODO integrate [Usage of Writer Libraries](setup/How-to-use-Scenarioo-Writer-Library.md) into above page
   * [Install Viewer Web App](setup/Scenarioo-Viewer-Web-Application-Setup.md)
-  * [Install Viewer Docker Image](setup/Scenarioo-Viewer-Docker-Image.md)    
-  * [Publish Documentation Data](setup/Publish-Documentation-Data.md)
+  * [Install Viewer Docker Image](setup/Scenarioo-Viewer-Docker-Image.md)
+  * [Publish Reports](setup/Publish-Documentation-Data.md)
   * [Viewer Configuration](setup/Configuration.md) -- TODO move to advanced feature descriptions that need special config!
 
 * [Features & Concepts](features/README.md)
