@@ -25,7 +25,7 @@ var webpackConfig = {
     devServer: {
         contentBase: path.join(__dirname, "app"),
         compress: true,
-        port: 9000,
+        port: 8500,
         headers: {
             'Access-Control-Allow-Origin': '*'
         },

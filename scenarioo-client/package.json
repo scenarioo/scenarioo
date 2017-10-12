@@ -15,7 +15,7 @@
     "webpack": "webpack",
     "webpack-dev-server": "webpack-dev-server",
     "karma": "karma",
-    "start:webpack": "webpack-dev-server --inline --progress --port 8500"
+    "start:webpack": "webpack-dev-server -d --inline --progress --port 8500"
   },
   "dependencies": {
     "angular": "1.5.2",
