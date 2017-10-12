@@ -22,17 +22,20 @@ var webpackConfig = {
         path: __dirname + '/dist',
         filename: 'app.bundle.js'
     },
-    // resolve: {
-    //     alias: {
-    //         constants: path.join(__dirname, 'constants', process.env.NODE_ENV)
-    //     }
-    // },
     devServer: {
         contentBase: path.join(__dirname, "app"),
         compress: true,
         port: 9000,
         headers: {
             'Access-Control-Allow-Origin': '*'
+        },
+        proxy: {
+            "/rest": {
+                "target": 'http://localhost:8080/scenarioo/rest',
+                "pathRewrite": { '^/rest': '' },
+                "changeOrigin": true,
+                "secure": false
+            }
         }
     },
     module: {
