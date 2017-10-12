@@ -7,7 +7,7 @@ function prepareProtractorForE2ETests() {
 
     setupJasmineXmlReporters();
     setupScenariooFluentDsl();
-    configureBrowserWindowSize();
+    //configureBrowserWindowSize();
     disableAnimations();
 
     /**

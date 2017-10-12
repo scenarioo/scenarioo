@@ -33,8 +33,6 @@ var webpackConfig = {
             "/rest": {
                 "target": 'http://localhost:8080/scenarioo/rest',
                 "pathRewrite": { '^/rest': '' },
-                "changeOrigin": true,
-                "secure": false
             }
         }
     },
