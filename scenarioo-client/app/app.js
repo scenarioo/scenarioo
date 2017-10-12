@@ -18,7 +18,6 @@
 
 require('../node_modules/bootstrap/dist/css/bootstrap.min.css');
 require('./components/font-awesome/css/font-awesome.min.css');
-// TODO danielsuter use less
 require('./styles/scenarioo.less');
 
 /** vendor */
@@ -40,6 +39,7 @@ angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute']);
 angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'unsavedChanges']);
 angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
+require('./shared/utils/number.filter');
 
 // TODO danielsuter, not needed anymore
 angular.module('scenarioo.config', [])

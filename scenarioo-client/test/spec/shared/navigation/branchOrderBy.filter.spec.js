@@ -55,7 +55,7 @@ describe('Filter scBranchOrderBy', function () {
 
     var scBranchOrderByFilter;
 
-    beforeEach(module('scenarioo.controllers'));
+    beforeEach(angular.mock.module('scenarioo.controllers'));
     beforeEach(angular.mock.module('scenarioo.services'));
 
     // load module
