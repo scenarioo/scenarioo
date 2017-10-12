@@ -44,11 +44,6 @@ var webpackConfig = {
                 loader:'file-loader?name=/images/[name].[ext]'
             },
             {
-                test: /\.(json)$/,
-                exclude: /node_modules/,
-                loader:'file-loader?name=[name].[ext]&context=./manifest.json'
-            },
-            {
                 test: /\.html$/,
                 loader: "raw-loader",
                 exclude: '/node_modules'
