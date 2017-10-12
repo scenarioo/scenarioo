@@ -59,6 +59,11 @@ var webpackConfig = {
                 exclude: '/node_modules'
             },
             {
+                test: /\.less/,
+                loader: isTest ? 'null-loader': "style-loader!css-loader!less-loader",
+                exclude: '/node_modules'
+            },
+            {
                 test: /\.(woff|woff2|eot|ttf)$/i,
                 loader: "file-loader?name=fonts/[name]-[hash].[ext]"
             },

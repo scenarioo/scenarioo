@@ -19,7 +19,7 @@
 require('../node_modules/bootstrap/dist/css/bootstrap.min.css');
 require('./components/font-awesome/css/font-awesome.min.css');
 // TODO danielsuter use less
-require('./styles/scenarioo.css');
+require('./styles/scenarioo.less');
 
 /** vendor */
 require('jquery');
