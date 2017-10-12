@@ -1,37 +1,38 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.scenarioo.dao.diffViewer.impl;
 
-import java.io.File;
-import java.text.NumberFormat;
-import java.util.List;
-
 import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.utils.NumberFormatCreator;
+
+import java.io.File;
+import java.text.NumberFormat;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Represents the XML structure in the file system.
  */
 public class DiffFiles {
 
-	private static final String DIFF_VIEWER_DIRECTORY = "scenarioo-application-data/diffViewer";
+	private static final String COMPARISONS_DIRECTORY = "comparisons.derived";
 	private static final String COMPARISON_LOGFILE_NAME = "comparison.derived.log";
 	private static final String DIRECTORY_NAME_SCENARIO_SCREENSHOTS = "screenshots";
 	private static final String DIRECTORY_NAME_SCENARIO_STEPS = "steps";
@@ -41,30 +42,30 @@ public class DiffFiles {
 	private static final NumberFormat THREE_DIGIT_NUM_FORMAT = NumberFormatCreator
 			.createNumberFormatWithMinimumIntegerDigits(3);
 
-	private final File diffViewerDirectory;
+	private final File rootDirectory;
 
 	public DiffFiles() {
-		diffViewerDirectory = getDiffViewerDirectory();
+		final ConfigurationRepository configurationRepository =
+			RepositoryLocator.INSTANCE.getConfigurationRepository();
+		this.rootDirectory = configurationRepository.getDocumentationDataDirectory();
 	}
 
-	public static File getDiffViewerDirectory() {
-		final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
-				.getConfigurationRepository();
-		final File rootDirectory = configurationRepository.getDocumentationDataDirectory();
-		return new File(rootDirectory, DIFF_VIEWER_DIRECTORY);
+	/**
+	 * Returns the directory of the build in the "base branch" that is being compared
+	 * with the configured "comparison build".
+	 */
+	public File getComparisonsDirectoryForBaseBuild(final String baseBranchName, final String baseBuildName) {
+		File branchDirectory = new File(this.rootDirectory, FilesUtil.encodeName(baseBranchName));
+		File buildDirectory = new File(branchDirectory, FilesUtil.encodeName(baseBuildName));
+		return new File(buildDirectory, COMPARISONS_DIRECTORY);
 	}
 
-	public File getBaseBranchDirectory(final String baseBranchName) {
-		return new File(diffViewerDirectory, FilesUtil.encodeName(baseBranchName));
-	}
-
-	public File getBaseBuildDirectory(final String baseBranchName, final String baseBuildName) {
-		return new File(getBaseBranchDirectory(baseBranchName), FilesUtil.encodeName(baseBuildName));
-	}
-
+	/**
+	 * Returns the directory where the comparison with the given "comparison name" is or will be stored.
+	 */
 	public File getComparisonDirectory(final String baseBranchName, final String baseBuildName,
 			final String comparisonName) {
-		return new File(getBaseBuildDirectory(baseBranchName, baseBuildName), FilesUtil.encodeName(comparisonName));
+		return new File(getComparisonsDirectoryForBaseBuild(baseBranchName, baseBuildName), FilesUtil.encodeName(comparisonName));
 	}
 
 	public File getBuildFile(final String baseBranchName, final String baseBuildName,
@@ -73,8 +74,12 @@ public class DiffFiles {
 	}
 
 	public List<File> getBuildFiles(final String baseBranchName, final String baseBuildName) {
-		return FilesUtil.getListOfFilesFromSubdirs(getBaseBuildDirectory(baseBranchName, baseBuildName),
-				FILE_NAME_BUILD);
+		File baseBuildDirectory = getComparisonsDirectoryForBaseBuild(baseBranchName, baseBuildName);
+		if (!baseBuildDirectory.exists() || !baseBuildDirectory.isDirectory()) {
+			return Collections.emptyList();
+		}
+		return FilesUtil.getListOfFilesFromSubdirs(baseBuildDirectory,
+			FILE_NAME_BUILD);
 	}
 
 	public File getUseCaseDirectory(final String baseBranchName, final String baseBuildName,
@@ -151,13 +156,6 @@ public class DiffFiles {
 		return new File(getScreenshotsDirectory(baseBranchName, baseBuildName, comparisonName, useCaseName,
 				scenarioName),
 				imageName);
-	}
-
-	public void assertRootDirectoryExists() {
-		if (!diffViewerDirectory.exists()) {
-			throw new IllegalArgumentException("Directory for diff content does not exist: "
-					+ diffViewerDirectory.getAbsolutePath());
-		}
 	}
 
 	public File getBuildComparisonLogFile(final String baseBranchName, final String baseBuildName,

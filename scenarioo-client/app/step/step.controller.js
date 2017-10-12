@@ -314,8 +314,10 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
         }
     }
 
+    //  $route.reload necessary because of align diff and real image size
     $scope.setActiveTab = function (activeTab) {
         storeActiveTab(activeTab);
+        $route.reload();
     };
 
     //  $route.reload necessary because of annotation calculation
@@ -329,7 +331,10 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     }
     function getActiveTab() {
         var activeTab = sessionStorage.getItem('activeTab');
-        if (activeTab == null || !$scope.comparisonInfo.isDefined){
+        if (activeTab == null){
+            return 0;
+        }
+        if(activeTab == 2 && !$scope.comparisonInfo.isDefined) {
             return 0;
         }
         return angular.isDefined(activeTab) ? parseInt(activeTab) : 0;

@@ -20,7 +20,6 @@ package org.scenarioo.business.diffViewer.comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
 
 /**
@@ -35,9 +34,8 @@ public abstract class AbstractStructureComparator<ELEMENT_TYPE, ADDED_ELEMENT_TY
 
 	private static final double ADDED_REMOVED_CHANGE_RATE = 100.0;
 
-	public AbstractStructureComparator(final String baseBranchName, final String baseBuildName,
-			final ComparisonConfiguration comparisonConfiguration) {
-		super(baseBranchName, baseBuildName, comparisonConfiguration);
+	public AbstractStructureComparator(ComparisonParameters parameters) {
+		super(parameters);
 	}
 
 	protected abstract double compareElementAndWrite(ELEMENT_TYPE baseElement, ELEMENT_TYPE comparisonElement, StructureDiffInfo<ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> diffInfo);

@@ -22,7 +22,7 @@ How to add objects of arbitrary types as details to your scenarioo documentation
 
 The following XML fragment added to your configuration file, will make all your objects in your scenarioo documentation of the types listed as `<objectTypesToDisplay>` browsable in one searchable object tree inside a new tab called "Calls" on the home page of Scenarioo. This example lists all objects of type "service", "businessOperation" and "uiAction" in one tree, just as you can see it in the Demo of Scenarioo. Also the details properties "description" and "realName" are displayed in the resulting tree table as columns.
 
-```
+```xml
     <customObjectTabs>
         <id>calls</id>
         <tabTitle>Calls</tabTitle>
@@ -41,7 +41,21 @@ The following XML fragment added to your configuration file, will make all your 
 ```
 This example is an extract from the demo configuration, for full example configuration file see [config.xml](https://github.com/scenarioo/scenarioo/blob/develop/scenarioo-server/src/main/resources/config-for-demo/config.xml)
 
-**IMPORTANT Remarks**: 
+## Branch Selection List Ordering
+
+The order of the branch entries in the top level navigation branch selection dropdown is configurable.
+
+Through an additional config property `branchSelectionListOrder` the following ordering options can be configured:
+* `name-ascending`: the branches are sorted by name alphabetically - default value, if value not set the behaviour is the same
+* `name-descending`: branches are sorted in descending order according their branch name - useful for projects that have names with version or release date or stuff like that inside
+* `last-build-date-descending`: branches are sorted by the last build date
+
+Example:
+```xml
+<branchSelectionListOrder>name-descending</branchSelectionListOrder>
+```
+
+## IMPORTANT Remarks
 
 1. Changing the configuration file manually always needs a server restart such that the changes take effect.
 
@@ -51,7 +65,7 @@ You can also define more than one such tab, and a tab can also only list objects
 
 The default configuration since scenarioo version 2.0 already comes with two such simple object tabs predefined: Labels and Pages, to list all pages and labels in your documentation. If you upgrade from version 1.x you have to manually enable this two tabs by adding the following to your configuration:
 
-```
+```xml
      <customObjectTabs>
         <id>pages</id>
         <tabTitle>Pages</tabTitle>

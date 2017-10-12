@@ -39,10 +39,7 @@ describe('GeneralSettingsController', function () {
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration/applicationStatus').respond({
             'searchEngineRunning':false,
             'version': TestData.VERSION,
-            'configuration': TestData.CONFIG,
-            'diffViewerStatus': {
-                'graphicsMagickAvailable': false
-            }
+            'configuration': TestData.CONFIG
         });
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/branch_123/build/build_123/searchEngine').respond(404, false);
 

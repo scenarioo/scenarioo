@@ -17,6 +17,9 @@
 
 package org.scenarioo.model.configuration;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -60,7 +63,25 @@ public class Configuration {
 
 	private String applicationInformation = "";
 
+	/**
+	 * The order of the branch entries in the top level navigation branch selection dropdown is configurable.
+	 * Values: name-ascending, name-descending, last-build-date-descending
+	 */
+	private String branchSelectionListOrder = "name-ascending";
+
 	private Map<String, String> buildstates = new HashMap<String, String>();
+
+	/**
+	 * RGB Hex Color
+	 * Pattern: 0xAARRGGBB <br/>
+	 * - AA: ALPHA. Transparency. Range from hex 00..ff <br />
+	 * - RR: RED. Range from hex 00..ff <br />
+	 * - GG: GREEN. Range from hex 00..ff <br />
+	 * - BB: BLUE. Range from hex 00..ff <br />
+	 *
+	 * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html#Color(int,%20boolean)"> docs.oracle.com</a>
+	 */
+	private String diffImageColor = "0x7FEDB04D";
 
 	/**
 	 * Will create a physical build containing the last successful scenarios of a branch.
@@ -164,6 +185,14 @@ public class Configuration {
 		this.applicationInformation = applicationInformation;
 	}
 
+	public String getBranchSelectionListOrder() {
+		return branchSelectionListOrder;
+	}
+
+	public void setBranchSelectionListOrder(String branchSelectionListOrder) {
+		this.branchSelectionListOrder = branchSelectionListOrder;
+	}
+
 	public Map<String, String> getBuildstates() {
 		return buildstates;
 	}
@@ -226,4 +255,23 @@ public class Configuration {
 		this.createLastSuccessfulScenarioBuild = createLastSuccessfulScenarioBuild;
 	}
 
+	public String getDiffImageColor() {
+		return diffImageColor;
+	}
+
+	public void setDiffImageColor(String color) {
+		this.diffImageColor = color;
+	}
+
+	@JsonIgnore
+	public Color getDiffImageAwtColor() {
+		//Required Long. Because the positive hex value could be out of range of a signed integer. With Long we can avoid this issue.
+		int rgba = Long.decode(diffImageColor).intValue();
+		return new Color(rgba, true);
+	}
+
+	@JsonIgnore
+	public void setDiffImageAwtColor(Color diffColor) {
+		this.diffImageColor = "0x" + Integer.toHexString(diffColor.getRGB());
+	}
 }

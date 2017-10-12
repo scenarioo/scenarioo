@@ -17,15 +17,6 @@
 
 package org.scenarioo.business.diffViewer.comparator;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
-import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
-
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -49,6 +40,18 @@ import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.TestFileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
+import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
 
 /**
  * Test cases for the scenario comparator with mocked docu data.
@@ -80,13 +83,13 @@ public class ScenarioComparatorTest {
 	private StepComparator stepComparator;
 
 	@InjectMocks
-	private final ScenarioComparator scenarioComparator = new ScenarioComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME,
-			getComparisonConfiguration());
+	private final ScenarioComparator scenarioComparator = new ScenarioComparator(getComparatorParameters());
 
 	@BeforeClass
 	public static void setUpClass() throws IOException {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(rootDirectory.newFolder());
-		assertTrue(DiffFiles.getDiffViewerDirectory().mkdirs());
+		File comparisonsFolder = new DiffFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
+		assertTrue(comparisonsFolder.mkdirs());
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 	}
 
