@@ -41,11 +41,7 @@ angular.module('scenarioo.services')
                 return baseUrl;
             },
             forLinkAbsolute: function () {
-                if (ENV === 'production') {
-                    return getBaseUrl();
-                } else if (ENV === 'development') {
-                    return baseUrl;
-                }
+                return getBaseUrl();
             }
         };
     })
