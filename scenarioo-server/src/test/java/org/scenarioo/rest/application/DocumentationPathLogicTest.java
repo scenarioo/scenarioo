@@ -9,6 +9,8 @@ import javax.servlet.ServletContextEvent;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
+
 public class DocumentationPathLogicTest {
 
 	private final ServletContext servletContext = mock(ServletContext.class);
@@ -47,9 +49,10 @@ public class DocumentationPathLogicTest {
 		when(systemEnvironment.getScenariooDataDirectory()).thenReturn(null);
 		when(systemEnvironment.getUserHome()).thenReturn("/home/someuser");
 
+		String expectedPath = new File("/home/someuser/.scenarioo").getAbsolutePath();
 		String actual = logic.getDocumentationPath(new ServletContextEvent(servletContext));
 
-		assertEquals("/home/someuser/.scenarioo", actual);
+		assertEquals(expectedPath, actual);
 	}
 
 }

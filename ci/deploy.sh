@@ -17,24 +17,20 @@ do
     esac
 done
 
-
-
 npm -v
 node -v
 
 # Properties
 TOMCAT_WEBAPPS=/var/lib/tomcat7/webapps
 
-# Scenarioo directories
+# Workspace Directory - all paths used should be defined relative to this
+WORKSPACE_DIR=$(pwd)
+echo "Workspace Dir: $WORKSPACE_DIR"
+
+# Scenarioo Docu Deployment Directories
 SCENARIOO_DATA_ROOT=/var/lib/scenarioo
 BRANCH_DATA_DIR=$SCENARIOO_DATA_ROOT/scenarioDocuExample-$BRANCH
 CONFIG_XML=$BRANCH_DATA_DIR/config.xml
-
-# Jenkins directories
-PIPELINE_BRANCH_DIR=/var/lib/jenkins/jobs/scenarioo-ci-pipeline/branches/$BRANCH
-WORKSPACE_DIR=$(pwd)
-
-echo "Workspace Dir: $WORKSPACE_DIR"
 
 ###
 ### CLEANUP and PREPARATION
@@ -44,11 +40,11 @@ echo "Workspace Dir: $WORKSPACE_DIR"
 echo "Undeploy webapplication"
 curl -u scenarioo:scenarioo-dev http://localhost:8080/manager/text/undeploy\?path\=/scenarioo-$BRANCH
 
-# Cleanup
+# Cleanup (TODO: should be avoided, better remove the whole build folder once, and everything should be put into that build folder!)
 echo "Cleanup built self docu data"
-rm -rf $PIPELINE_BRANCH_DIR/workspace/scenarioo-client/scenariooDocumentation/scenarioo_self_docu
+rm -rf ./scenarioo-client/scenariooDocumentation/scenarioo_self_docu
 echo "Cleanup old test report data"
-rm -rf $PIPELINE_BRANCH_DIR/workspace/scenarioo-client/test-reports
+rm -rf ./scenarioo-client/test-reports
 
 # Cleanup documentation data that is deployed to the demo server
 echo "Cleanup old documentation data from demo server"
@@ -56,7 +52,7 @@ rm -rf $BRANCH_DATA_DIR
 
 # Copy scenarioo wikipedia docu example data with new generated data.
 echo "Deploying 'scenarioo-docu-generator-example' documentation data (regenerated)"
-cp -rf $WORKSPACE_DIR/scenarioo-docu-generation-example/build/scenarioDocuExample $BRANCH_DATA_DIR
+cp -rf ./scenarioo-docu-generation-example/build/scenarioDocuExample $BRANCH_DATA_DIR
 
 # Create config.xml with correct path to docu data
 echo "Creating config.xml for deployment"

@@ -58,7 +58,7 @@ class DocumentationPathLogic {
 			configurationDirectory = new File(systemEnvironment.getUserHome(), USER_HOME_BASE_DIRECTORY).getAbsolutePath();
 		}
 
-		LOGGER.info("   Taking documentation data path from " + configSource);
+		LOGGER.info("   Taking documentation data path from " + configSource + ": " + configurationDirectory);
 		return configurationDirectory;
 	}
 }
