@@ -23,11 +23,17 @@ timestamps {
 		  def encodedBranchName = getEncodedBranchName()
 
 		  stage('Build and unit test') {
+
+		     ansiColor('xterm') {
+
 				try {
 					 gradle 'clean build'
 				} finally {
 					 junit '**/build/test-results/test/*.xml, scenarioo-client/TEST*.xml'
 				}
+
+			 }
+
 		  }
 
 		  stage('Package') {
@@ -37,16 +43,28 @@ timestamps {
 		  }
 
 		  stage('Deploy') {
-				sh "./ci/deploy.sh --branch=${encodedBranchName}"
+
+              ansiColor('xterm') {
+
+                  sh "./ci/deploy.sh --branch=${encodedBranchName}"
+
+              }
+
 		  }
 
 		  stage('Run e2e tests') {
-				try {
-					 sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
-				} finally {
-					 sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
-					 junit 'scenarioo-client/test-reports/*.xml'
-				}
+
+		      ansiColor('xterm') {
+
+                try {
+                     sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
+                } finally {
+                     sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
+                     junit 'scenarioo-client/test-reports/*.xml'
+                }
+
+			  }
+
 		  }
 	 }
 }
