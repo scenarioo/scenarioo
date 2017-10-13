@@ -17,8 +17,7 @@
 
 package org.scenarioo.rest.application;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+Conimport org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.context.ContextPathHolder;
 import org.scenarioo.dao.version.ApplicationVersionHolder;
@@ -38,7 +37,7 @@ import java.util.Properties;
 public class ScenariooWebApplication implements ServletContextListener {
 
 	private static final Logger LOGGER = Logger.getLogger(ScenariooWebApplication.class);
-	private final DocumentationPathLogic documentationPathLogic = new DocumentationPathLogic();
+	private final ScenariooDataPathLogic scenariooDataPathLogic = new ScenariooDataPathLogic();
 
 	@Override
 	public void contextInitialized(final ServletContextEvent servletContextEvent) {
@@ -59,11 +58,11 @@ public class ScenariooWebApplication implements ServletContextListener {
 	}
 
 	private void loadConfiguration(final ServletContextEvent servletContextEvent) {
-		
 
-		final String configurationDirectoryPath = documentationPathLogic.getDocumentationPath(servletContextEvent);
+
+		final String configurationDirectoryPath = scenariooDataPathLogic.getDataPath(servletContextEvent);
 		LOGGER.info("  Configured scenarioo data directory: " + configurationDirectoryPath);
-		
+
 		LOGGER.info("  Loading configuration ...");
 
 		RepositoryLocator.INSTANCE.initializeConfigurationRepository(configurationDirectoryPath);
@@ -71,7 +70,7 @@ public class ScenariooWebApplication implements ServletContextListener {
 		final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
 		final Configuration configuration = configurationRepository.getConfiguration();
 
-		LOGGER.info("  Configuration loaded.");		
+		LOGGER.info("  Configuration loaded.");
 	}
 
 	private void initializeApplicationVersion(final ServletContext servletContext) {
