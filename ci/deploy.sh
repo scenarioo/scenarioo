@@ -85,7 +85,7 @@ do
       echo "Tomcat deployment available"
       break
    fi
-   if [ "$i" -gt 20 ]; then
+   if [ "$i" -ge 20 ]; then
       echo "ERROR: Timeout on waiting for tomcat deployment!"
       exit 2
    fi
@@ -100,7 +100,7 @@ do
       echo "Java web app available"
       break
    fi
-   if [ "$i" -gt 20 ]; then
+   if [ "$i" -ge 20 ]; then
       echo "Timeout on waiting for Java web app"
       exit 2
    fi
