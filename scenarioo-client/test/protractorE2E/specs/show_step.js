@@ -227,7 +227,7 @@ useCase('Show step')
                 step('Show added step base screenshot in single page view');
 
                 stepPage.showHighlights();
-                stepPage.assertStepComparisonSinglePageViewIsActive();
+                stepPage.assertStepComparisonSideBySideViewIsActive();
                 step('Show added step diff screenshot in single page view');
 
             });
