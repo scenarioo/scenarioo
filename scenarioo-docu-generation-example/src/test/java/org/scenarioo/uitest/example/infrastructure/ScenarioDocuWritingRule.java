@@ -163,29 +163,29 @@ public class ScenarioDocuWritingRule extends TestWatcher {
 	protected void succeeded(final Description description) {
 		String methodName = description.getMethodName();
 		String className = description.getTestClass().getSimpleName();
-		
+
 		Status status = Status.SUCCESS;
 		if(BuildRunConfiguration.isScenarioFailing(className, methodName)) {
 			status = Status.FAILED;
 			LOGGER.info("Failing scenario " + className + "." + "methodName");
 		}
-		
+
 		writeScenarioDescription(description, status);
 	}
-	
+
 	private void writeScenarioDescription(final Description testMethodDescription, Status status) {
-		
-		ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(),
+
+		ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(SCENARIOO_DATA_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(),
 				MultipleBuildsRule.getCurrentBuildName());
-		
+
 		// Write scenario
 		LOGGER.info("Generating Scenarioo Docu for Scenario " + useCase.getName() + "." + scenario.getName() + " ("
 				+ status.getKeyword() + ") : " + scenario.getDescription());
 		scenario.setStatus(status);
 		docuWriter.saveScenario(useCase, scenario);
-		
+
 		// Wait until asynch writing has finished.
 		docuWriter.flush();
 	}
-	
+
 }

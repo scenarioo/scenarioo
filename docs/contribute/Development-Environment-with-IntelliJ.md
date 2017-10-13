@@ -108,7 +108,7 @@ But this two repositories should be sufficient for most usual developers.
      * Import "from external model: Gradle" and use the gradle wrapper (default settings)
      
  * From "Gradle"-tab in intelliJ simply run the following gradle tasks, to build everything cleanly:
-    * scenarioo-java: clean build test install
+    * scenarioo-java: `clean build test install` (this is needed as soon as your development branch uses latest snaphot of the writer!)
     * scenarioo: clean build test
          * take care to configure JVM 1.7 as runtime JVM for gradle, otherwise I got errors somehow when running this (Tab "Gradle">Button "Gradle Settings">Gradle JVM).
          * And if you get some python errors in npm install part on windows, you can probably ignore this optional npm dependency problems and just try to run it once again
@@ -122,11 +122,11 @@ But this two repositories should be sufficient for most usual developers.
      * on "Startup/Connection" tab: set environment variable "SCENARIOO_DATA" to following path: &lt;your-project-source-path&gt;\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
      
  * Run all tests of the sub-project "scenarioodocu-generation-example" to generate scenarioo example documentation data in Folder "build/scenarioDocuExample"
-    * select folder 'test' under 'src' folder 
-    * right click on 'test' folder and choose "Run 'All Tests'
-    
- * Copy the `config.xml` file under "scenarioo-server/src/main/reources/config-for-demo" to the same "build/scenariooDocuExample" folder
- 
+    * run `./graldlew clean test` (or by choosing it in the Gradle View in IntelliJ, which should as well work)
+    * alternativley: select folder 'test' under 'src' folder and right click on 'test' folder and choose "Run 'All Tests'
+    * it is recommended to remember a run config for this step to regenerate test data when needed. 
+    * **Hint for e2e tests:** This will bring the test data into the correct state (including viewer configuration in file config.xml) for running the e2e tests. It is required to rerun these tests before you execute e2e tests.
+          
  * Start the tomcat server by using the run configuration:
    you should see in the log output that it is importing the example documentation data properly.
   
