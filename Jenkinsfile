@@ -8,7 +8,7 @@ def getEncodedBranchName() {
 }
 
 def reportJenkinsSummary(summaryFile, title, summarySnippet) {
-    sh "echo '<section><![CDATA[<h2>${title}</h2> <div>${summarySnippet}</div>]]></section>' > ${summaryFile}"
+    sh "echo '<section><field><![CDATA[<h2>${title}</h2> <div>${summarySnippet}</div>]]></field></section>' > ${summaryFile}"
     archive '${summaryFile}'
     step([$class: 'ACIPluginPublisher', name: '${summaryFile}', shownOnProjectPage: true])
 }
@@ -30,6 +30,21 @@ timestamps {
 
         stage('Build and unit test') {
             ansiColor('xterm') {
+
+                reportJenkinsSummary('build.jenkins-summary.xml',
+                                                'Build started',
+                                                'Deployment expected on <a target=\"_blank\" '
+                                                    + 'href=\"http://demo.scenarioo.org/scenarioo-${encodedBranchName}\">'
+                                                    + 'http://demo.scenarioo.org/scenarioo-${encodedBranchName}'
+                                                    + '</a>')
+
+                reportJenkinsSummary('deploySelfDocu.jenkins-summary.xml',
+                                                'Scenarioo Self Docu',
+                                                'Self Docu at <a target=\"_blank\" '
+                                                    + 'href=\"http://demo.scenarioo.org/scenarioo-${encodedBranchName}\">'
+                                                    + 'http://demo.scenarioo.org/scenarioo-${encodedBranchName}'
+                                                    + '</a>')
+
 
                 try {
                      gradle 'clean build'
