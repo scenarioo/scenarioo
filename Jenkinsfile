@@ -8,7 +8,7 @@ def getEncodedBranchName() {
 }
 
 def reportJenkinsSummary(summaryFile, title, messageHtml) {
-    def overruleParentBorderStyle = "div.summary_report_table table.summary_report_table {border:none;} div..summary_report_table table.summary_report_table {border:none;}"
+    def overruleParentBorderStyle = ".summary_report_table {border:none;} .summary_report_table table {border:none;}"
     def cssStyles = "${overruleParentBorderStyle}"
     def contentHtml = "<h2>${title}</h2> <div>${messageHtml}</div>"
     def wrappedHtml = "<table><tr><td><![CDATA[ <style>${cssStyles}</style> ${contentHtml} ]]></td></tr></table>"
