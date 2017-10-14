@@ -8,7 +8,7 @@ def getEncodedBranchName() {
 }
 
 def reportJenkinsSummary(summaryFile, title, messageHtml) {
-    def styling = "<style>p.first {color:green;} p.second {color:blue;}"
+    // def styling = "<style>p.first {color:green;} p.second {color:blue;}"
     def contentHtml = "<h2>${title}</h2> <div>${messageHtml}</div>"
     def injectedTableStyle = "width=\"; border:none\""
     def wrappedHtml = "<table><tr><td ${injectedTableStyle}><![CDATA[${contentHtml}]]></td></tr></table>"
