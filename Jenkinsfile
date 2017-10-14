@@ -9,8 +9,8 @@ def getEncodedBranchName() {
 
 def reportJenkinsSummary(summaryFile, title, summarySnippet) {
     sh "echo '<section><field><![CDATA[<h2>${title}</h2> <div>${summarySnippet}</div>]]></field></section>' > ${summaryFile}"
-    archive $summaryFile
-    step([$class: 'ACIPluginPublisher', name: $summaryFile, shownOnProjectPage: true])
+    archive summaryFile
+    step([$class: 'ACIPluginPublisher', name: summaryFile, shownOnProjectPage: true])
 }
 
 properties([
