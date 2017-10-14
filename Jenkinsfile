@@ -8,11 +8,11 @@ def getEncodedBranchName() {
 }
 
 def reportJenkinsSummary(summaryFile, title, messageHtml) {
-    def overruleParentBorderStyle = ".summary_report_table {border:none;} .summary_report_table td {border:none;}"
-    def cssStyles = "${overruleParentBorderStyle}"
     def contentHtml = "<h2>${title}</h2> <div>${messageHtml}</div>"
-    def wrappedHtml = "<table><tr><td><![CDATA[ <style>${cssStyles}</style> ${contentHtml} ]]></td></tr></table>"
-    sh "echo '<section>${wrappedHtml}</section>' > ${summaryFile}"
+    def contentCss = ""
+    def overruleUglyPluginStyle = ".summary_report_table {border:none;} .summary_report_table td {border:none;}"
+    def htmlSnippet = "<style>${overruleUglyPluginStyle} ${contentCss}</style> ${contentHtml}"
+    sh "echo '<section><table><tr><td><![CDATA[ ${htmlSnippet} ]]></td></tr></table></section>' > ${summaryFile}"
     archive summaryFile
     step([$class: 'ACIPluginPublisher', name: summaryFile, shownOnProjectPage: true])
 }
@@ -35,21 +35,6 @@ timestamps {
         stage('Build and unit test') {
             ansiColor('xterm') {
 
-                reportJenkinsSummary('build.jenkins-summary.xml',
-                                                'Build started',
-                                                'Deployment expected on <a target=\"_blank\" '
-                                                    + 'href=\"http://demo.scenarioo.org/scenarioo-${encodedBranchName}\">'
-                                                    + 'http://demo.scenarioo.org/scenarioo-${encodedBranchName}'
-                                                    + '</a>')
-
-                reportJenkinsSummary('deploySelfDocu.jenkins-summary.xml',
-                                                'Scenarioo Self Docu',
-                                                'Self Docu at <a target=\"_blank\" '
-                                                    + 'href=\"http://demo.scenarioo.org/scenarioo-${encodedBranchName}\">'
-                                                    + 'http://demo.scenarioo.org/scenarioo-${encodedBranchName}'
-                                                    + '</a>')
-
-
                 try {
                      gradle 'clean build'
                 } finally {
@@ -70,21 +55,18 @@ timestamps {
 
                 try {
                     sh "./ci/deploy.sh --branch=${encodedBranchName}"
-                    reportJenkinsSummary('deploy.jenkins-summary.xml',
-                        'Scenarioo Demo Deployment',
-                        'Deployed to <a target=\"_blank\" '
-                            + 'href=\"http://demo.scenarioo.org/scenarioo-${encodedBranchName}\">'
-                            + 'http://demo.scenarioo.org/scenarioo-${encodedBranchName}'
-                            + '</a>')
+                    def demoUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
+                    reportJenkinsSummary("deploy.jenkins-summary.xml",
+                        "Scenarioo Demo Deployed",
+                        "Deployed to "
+                            + "<a target=\"_blank\" href=\"${demoUrl}\">"
+                            + "${demoUrl}</a>")
                 }
                 catch (e) {
-                    reportJenkinsSummary('deploy.jenkins-summary.xml',
-                            'Scenarioo Demo Deployment',
-                            '<b><font color="#ff0000">Deployment failed!</font></b>')
+                    reportJenkinsSummary("deploy-failed.jenkins-summary.xml",
+                            "Scenarioo Demo Deployment Failed",
+                            "<b><font color=\"#ff3333\">Deployment failed!</font></b>")
                 }
-
-
-
 
             }
         }
@@ -96,6 +78,12 @@ timestamps {
                          sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
                 } finally {
                          sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
+                         $selfDocuUrl = ""http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
+                         reportJenkinsSummary("deploySelfDocu.jenkins-summary.xml",
+                                              "Scenarioo Self Docu",
+                                              "E2E Test Reports at "
+                                              + "<a target=\"_blank\" href=\"${selfDocuUrl}\">"
+                                              + "${selfDocuUrl}</a>")
                          junit 'scenarioo-client/test-reports/*.xml'
                 }
 
