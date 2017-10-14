@@ -12,7 +12,7 @@ def reportJenkinsSummary(summaryFile, title, messageHtml) {
     def contentHtml = "<h2>${title}</h2> <div>${messageHtml}</div>"
     def injectedTableStyle = "width=\"; border:none\""
     def wrappedHtml = "<table><tr><td ${injectedTableStyle}><![CDATA[${contentHtml}]]></td></tr></table>"
-    sh "echo '<section>${snippetHtml}</section>' > ${summaryFile}"
+    sh "echo '<section>${wrappedHtml}</section>' > ${summaryFile}"
     archive summaryFile
     step([$class: 'ACIPluginPublisher', name: summaryFile, shownOnProjectPage: true])
 }
