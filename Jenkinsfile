@@ -8,10 +8,10 @@ def getEncodedBranchName() {
 }
 
 def reportJenkinsSummary(summaryFile, title, messageHtml) {
-    // def styling = "<style>p.first {color:green;} p.second {color:blue;}"
+    def styling = "<style>div..summary_report_table table.summary_report_table {border:none;} div..summary_report_table table.summary_report_table {border:none;}"
     def contentHtml = "<h2>${title}</h2> <div>${messageHtml}</div>"
     def injectedTableStyle = "width=\"; border:none\""
-    def wrappedHtml = "<table><tr><td ${injectedTableStyle}><![CDATA[${contentHtml}]]></td></tr></table>"
+    def wrappedHtml = "<table><tr><td ${injectedTableStyle}><![CDATA[ ${styling} ${contentHtml} ]]></td></tr></table>"
     sh "echo '<section>${wrappedHtml}</section>' > ${summaryFile}"
     archive summaryFile
     step([$class: 'ACIPluginPublisher', name: summaryFile, shownOnProjectPage: true])
