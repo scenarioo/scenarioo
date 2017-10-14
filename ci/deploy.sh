@@ -97,8 +97,5 @@ do
    sleep 3
 done
 
-# Report summary where the demo is deployed for display in Jenkins build page
-echo "<section name=\"\" fontcolor=\"\"><table><tr><td><![CDATA[<h2>Demo Deployment</h2> <div>Deployed to <br/> <a target=\"_blank\" href=\"http://demo.scenarioo.org/scenarioo-$BRANCH\">http://demo.scenarioo.org/scenarioo-$BRANCH</a></div>]]></td></tr></table></section>" > deploy.jenkins-summary-report.xml
-
 # Some extra time for avoiding timeouts later (TODO: we have to wait for all comparisons to finish here!)
 sleep 120

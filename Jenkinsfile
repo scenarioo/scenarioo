@@ -7,6 +7,12 @@ def getEncodedBranchName() {
 	 return branchName.replace('/', '-').replace('#', '')
 }
 
+def reportJenkinsSummary(summaryFile, title, summarySnippet) {
+    sh "echo '<section><table><tr><td><![CDATA[<h2>${title}</h2> <div>${summarySnippet}</div>]]></td></tr></table></section>' > ${summaryFile}"
+    archive '${summaryFile}'
+    step([$class: 'ACIPluginPublisher', name: '${summaryFile}', shownOnProjectPage: true])
+}
+
 properties([
 	disableConcurrentBuilds(),
 	pipelineTriggers([
@@ -43,9 +49,23 @@ timestamps {
         stage('Deploy') {
             ansiColor('xterm') {
 
-                sh "./ci/deploy.sh --branch=${encodedBranchName}"
-                archive 'deploy.jenkins-summary-report.xml'
-                step([$class: 'ACIPluginPublisher', name: 'deploy.jenkins-summary-report.xml', shownOnProjectPage: true])
+                try {
+                    sh "./ci/deploy.sh --branch=${encodedBranchName}"
+                    reportJenkinsSummary('deploy.jenkins-summary.xml',
+                        'Scenarioo Demo Deployment',
+                        'Deployed to <a target=\"_blank\" '
+                            + 'href=\"http://demo.scenarioo.org/scenarioo-${encodedBranchName}\">'
+                            + 'http://demo.scenarioo.org/scenarioo-${encodedBranchName}'
+                            + '</a>')
+                }
+                catch (e) {
+                    reportJenkinsSummary('deploy.jenkins-summary.xml',
+                            'Scenarioo Demo Deployment',
+                            '<b><font color="#ff0000">Deployment failed!</font></b>')
+                }
+
+
+
 
             }
         }
