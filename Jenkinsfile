@@ -44,6 +44,8 @@ timestamps {
             ansiColor('xterm') {
 
                 sh "./ci/deploy.sh --branch=${encodedBranchName}"
+                archive 'deploy.jenkins-summary-report.xml'
+                step([$class: 'ACIPluginPublisher', name: 'deploy.jenkins-summary-report.xml', shownOnProjectPage: true])
 
             }
         }
