@@ -78,7 +78,7 @@ timestamps {
                          sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
                 } finally {
                          sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
-                         $selfDocuUrl = ""http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
+                         $selfDocuUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}?branch=${encodedBranchName}"
                          reportJenkinsSummary("deploySelfDocu.jenkins-summary.xml",
                                               "Scenarioo Self Docu",
                                               "E2E Test Reports at "
