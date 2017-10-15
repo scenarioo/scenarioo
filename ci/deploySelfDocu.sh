@@ -44,7 +44,7 @@ cp -rp $SCENARIOO_DATA_BRANCH_ARCHIVE_DIR/* $SCENARIOO_DATA_BRANCH_DIR
 rm -rf $SCENARIOO_DATA_BRANCH_ARCHIVE_DIR
 
 # Deploy generated self docu of this build run
-echo "Deploy the generated self docu build"
+echo "Deploy the generated self docu build to $SCENARIOO_DATA_SELF_DOCU_DIR"
 cp -rf ./scenarioo-client/scenariooDocumentation/* $SCENARIOO_DATA_SELF_DOCU_DIR
 rm -rf ./scenarioo-client/scenariooDocumentation
 

@@ -22,7 +22,7 @@ do
     esac
 done
 
-echo "  Cleaning builds in directory $BRANCH_DIRECTORY"
+echo "  Cleaning scenarioo builds in directory $BRANCH_DIRECTORY"
 
 # Keep maximum number of builds
 # Caution: number must be one higher than the number of builds you want to keep

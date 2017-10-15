@@ -47,13 +47,13 @@ cp -rfp $BRANCH_DATA_DIR/pizza-* $BRANCH_DATA_ARCHIVE_DIR
 # wikipedia example not saved for restoring, this one was generated fresh by the scenarioo build
 
 # Cleanup (TODO: should be avoided, better remove the whole build folder once, and everything should be put into that build folder!)
-echo "Cleanup Old Self Docu Data"
+echo "Clean Old Self Docu Data"
 rm -rf ./scenarioo-client/scenariooDocumentation/scenarioo_self_docu
-echo "Cleanup Old E2E Test Reports"
+echo "Clean Old E2E Test Reports"
 rm -rf ./scenarioo-client/test-reports
 
 # Cleanup documentation data that is deployed to the demo server
-echo "Cleanup Old Demo Docu Data"
+echo "Clean Old Demo Docu Data"
 rm -rf $BRANCH_DATA_DIR
 
 # Copy scenarioo wikipedia docu example data with new generated data (including config.xml for demo).
