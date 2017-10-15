@@ -3,7 +3,7 @@
 # Script to Cleanup deployments and data of removed branches
 # also triggers removal of outdated self docu data builds for existing branches
 
-echo "Cleaning Up Deployments and Scenarioo Data ..."
+echo "Cleanup Deployments and Scenarioo Data ..."
 
 WORKSPACE_DIR=$(pwd)
 echo "Workspace Dir: $WORKSPACE_DIR"
@@ -28,8 +28,8 @@ for BRANCH_DIR in $(find $SCENARIOO_DATA_ROOT/* -maxdepth 0 -type d) ; do
             BRANCH_DOCU_NAME=$(basename $BRANCH_DOCU_DIR)
             # Only example data `wikipedia-` docu branch folders are never cleaned at all!
             # (also the application data directory should better not be cleaned up!)
-            if [[ -f "$BRANCH_DOCU_DIR/branch.xml" ]] && [[ $BRANCH_DOCU_NAME != "wikipedia"* ]]; then
-                echo " but clean published scnearioo docu builds for $BRANCH_DOCU_NAME ..."
+            if [[ -f "$BRANCH_DOCU_DIR/branch.xml" ]] && [[ $BRANCH_DOCU_NAME != *"wikipedia"* ]]; then
+                echo " but cleanup published scnearioo docu builds for $BRANCH_DOCU_NAME ..."
                 ./ci/cleanupOutdatedScenariooDocuBuilds.sh --dir=$BRANCH_DOCU_DIR
             fi
         done
