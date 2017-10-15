@@ -68,9 +68,10 @@ timestamps {
 
         stage('Package') {
             gradle 'distZip'
-            archiveArtifacts "scenarioo-server/build/libs/scenarioo-*.war, LICENSE.txt, README.md, "
-                         + "scenarioo-docu-generation-example/build/scenarioDocuExample/, "
-                         + "scenarioo-validator/build/distributions/*"
+            def artifacts = "scenarioo-server/build/libs/scenarioo-*.war, LICENSE.txt, README.md, "
+                            + "scenarioo-docu-generation-example/build/scenarioDocuExample/, "
+                            + "scenarioo-validator/build/distributions/*"
+            archiveArtifacts artifacts
         }
 
         stage('Deploy') {
