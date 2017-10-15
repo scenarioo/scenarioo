@@ -34,7 +34,7 @@ then
     SCENARIOO_DATA_SELF_DOCU_DIR=$SCENARIOO_DATA_ROOT/master
 else
     # Feature branches and develop branch are only reported to develop demo of scenarioo
-    SCENARIOO_DATA_SELF_DOCU_DIR = $SCENARIOO_DATA_ROOT/develop
+    SCENARIOO_DATA_SELF_DOCU_DIR=$SCENARIOO_DATA_ROOT/develop
 fi
 
 # Restore all archived documentation data to be reatained for this branch (was archived in deploy.sh before deploying)
