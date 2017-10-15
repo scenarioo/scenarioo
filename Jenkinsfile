@@ -39,11 +39,19 @@ properties([
 	disableConcurrentBuilds(),
 	pipelineTriggers([
 		[$class: 'GitHubPushTrigger']
-	])
+	]),
+	buildDiscarder(logRotator(
+	    artifactDaysToKeepStr: '10',
+	    artifactNumToKeepStr: '5',
+	    daysToKeepStr: '30',
+	    numToKeepStr: '20'
+	))
 ])
 
 timestamps {
+
 	node {
+
         stage('Checkout') {
             checkout scm
         }
