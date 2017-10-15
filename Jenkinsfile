@@ -8,7 +8,7 @@ def getEncodedBranchName() {
 }
 
 
-**
+/**
  * Output summary message on jenkins build page
  * with the link to scenarioo reports (self docu)
  * for current build run
