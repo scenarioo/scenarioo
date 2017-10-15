@@ -7,20 +7,6 @@ def getEncodedBranchName() {
 	 return branchName.replace('/', '-').replace('#', '')
 }
 
-
-/**
- * Output summary message on jenkins build page
- * with the link to scenarioo reports (self docu)
- * for current build run
- */
-def reportJenkinsSummaryScenariooReports(scenariooUrl, branchId, buildId) {
-    def scenariooReportUrl = "${scenariooUrl}?branch=${branchId}&build=${buildId}"
-    def title = "<h2>Scenarioo Reports</h2>"
-    def summary = "<a target=\"_blank\" href=\"${scenariooReportUrl}\">"
-                  + "Scenarioo E2E Test Reports for this build</a>"
-    reportJenkinsSummary("scenarioo-reports.jenkins-summary.xml", "${title} ${summary}")
-}
-
 /**
  * Output summary message to jenkins build page
  * with nice Scenarioo logo icon and styling
@@ -37,6 +23,18 @@ def reportJenkinsSummary(summaryFile, contentHtml) {
     step([$class: 'ACIPluginPublisher', name: summaryFile, shownOnProjectPage: true])
 }
 
+/**
+ * Output summary message on jenkins build page
+ * with the link to scenarioo reports (self docu)
+ * for current build run
+ */
+def reportJenkinsSummaryScenariooReports(scenariooUrl, branchId, buildId) {
+    def scenariooReportUrl = "${scenariooUrl}?branch=${branchId}&build=${buildId}"
+    def title = "<h2>Scenarioo Reports</h2>"
+    def summary = "<a target=\"_blank\" href=\"${scenariooReportUrl}\">"
+                  + "Scenarioo E2E Test Reports for this build</a>"
+    reportJenkinsSummary("scenarioo-reports.jenkins-summary.xml", "${title} ${summary}")
+}
 
 properties([
 	disableConcurrentBuilds(),
@@ -52,7 +50,6 @@ timestamps {
         }
 
         def encodedBranchName = getEncodedBranchName()
-
 
         stage('Build and unit test') {
             ansiColor('xterm') {
