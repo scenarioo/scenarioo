@@ -42,8 +42,8 @@ curl -u $TOMCAT_USERPASS http://localhost:8080/manager/text/undeploy\?path\=/sce
 
 # Backup all self docu and other important example docu reports to be restored after succesful deployment and testing of this scenarioo instance
 mkdir -p $BRANCH_DATA_ARCHIVE_DIR
-cp -rf $BRANCH_DATA_DIR/scenarioo-* $BRANCH_DATA_ARCHIVE_DIR
-cp -rf $BRANCH_DATA_DIR/pizza-* $BRANCH_DATA_ARCHIVE_DIR
+cp -rfp $BRANCH_DATA_DIR/scenarioo-* $BRANCH_DATA_ARCHIVE_DIR
+cp -rfp $BRANCH_DATA_DIR/pizza-* $BRANCH_DATA_ARCHIVE_DIR
 # wikipedia example not saved for restoring, this one was generated fresh by the scenarioo build
 
 # Cleanup (TODO: should be avoided, better remove the whole build folder once, and everything should be put into that build folder!)

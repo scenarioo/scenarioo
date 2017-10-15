@@ -40,7 +40,7 @@ fi
 # Restore all archived documentation data to be reatained for this branch (was archived in deploy.sh before deploying)
 # (this is needed to not loose all self docu builds on develop deployment or pizza-delivery and other examples)
 echo "Restoring Documentation Data: Self Docu and Examples"
-cp -r $SCENARIOO_DATA_BRANCH_ARCHIVE_DIR/* $SCENARIOO_DATA_BRANCH_DIR
+cp -rp $SCENARIOO_DATA_BRANCH_ARCHIVE_DIR/* $SCENARIOO_DATA_BRANCH_DIR
 rm -rf $SCENARIOO_DATA_BRANCH_ARCHIVE_DIR
 
 # Deploy generated self docu of this build run
