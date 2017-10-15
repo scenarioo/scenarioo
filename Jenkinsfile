@@ -81,13 +81,16 @@ timestamps {
             ansiColor('xterm') {
 
                 try {
-                    sh "./ci/deploy.sh --branch=${encodedBranchName}"
-                    def demoUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
-                    reportJenkinsSummary("deploy.jenkins-summary.xml",
-                        "<h2>Scenarioo Demo Deployed</h2>"
-                        + "Deployed to "
-                        + "<a target=\"_blank\" href=\"${demoUrl}\">"
-                        + "${demoUrl}</a>")
+
+                    withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
+                        sh "./ci/deploy.sh --branch=${encodedBranchName}"
+                        def demoUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
+                        reportJenkinsSummary("deploy.jenkins-summary.xml",
+                            "<h2>Scenarioo Demo Deployed</h2>"
+                            + "Deployed to "
+                            + "<a target=\"_blank\" href=\"${demoUrl}\">"
+                            + "${demoUrl}</a>")
+                    }
                 }
                 catch (e) {
                     reportJenkinsSummary("deploy-failed.jenkins-summary.xml",
@@ -104,14 +107,19 @@ timestamps {
                 try {
                          sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
                 } finally {
+                    withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
+                         sh "./ci/cleanup.sh --branch=${encodedBranchName}"
                          sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
                          def scenariooUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
                          reportJenkinsSummaryScenariooReports(scenariooUrl, "scenarioo-${encodedBranchName}", "build-${env.BUILD_NUMBER}")
                          junit 'scenarioo-client/test-reports/*.xml'
+                    }
                 }
 
             }
         }
+
+
 
 	}
 }

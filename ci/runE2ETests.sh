@@ -7,7 +7,7 @@ for i in "${@}"
 do
     case ${i} in
         --branch=*)
-            BRANCH="${i#*=}"
+            export BRANCH="${i#*=}"
             shift
         ;;
 

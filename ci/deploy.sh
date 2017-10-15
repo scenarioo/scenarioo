@@ -28,9 +28,9 @@ WORKSPACE_DIR=$(pwd)
 echo "Workspace Dir: $WORKSPACE_DIR"
 
 # Scenarioo Docu Deployment Directories
-SCENARIOO_DATA_ROOT=/var/lib/scenarioo
-BRANCH_DATA_DIR=$SCENARIOO_DATA_ROOT/scenarioDocuExample-$BRANCH
-CONFIG_XML=$BRANCH_DATA_DIR/config.xml
+SCENARIOO_DATA_ROOT=/var/lib/scenarioo/data
+BRANCH_DATA_DIR=$SCENARIOO_DATA_ROOT/$BRANCH
+BRANCH_DATA_ARCHIVE_DIR=/var/lib/scenarioo/data-archive/$BRANCH
 
 ###
 ### CLEANUP and PREPARATION
@@ -38,7 +38,13 @@ CONFIG_XML=$BRANCH_DATA_DIR/config.xml
 
 # Undeploy webapplication
 echo "Undeploy Old Scenarioo Web App"
-curl -u scenarioo:scenarioo-dev http://localhost:8080/manager/text/undeploy\?path\=/scenarioo-$BRANCH
+curl -u $TOMCAT_USERPASS http://localhost:8080/manager/text/undeploy\?path\=/scenarioo-$BRANCH
+
+# Backup all self docu and other important example docu reports to be restored after succesful deployment and testing of this scenarioo instance
+mkdir -p $BRANCH_DATA_ARCHIVE_DIR
+cp -rf $BRANCH_DATA_DIR/scenarioo-* $BRANCH_DATA_ARCHIVE_DIR
+cp -rf $BRANCH_DATA_DIR/pizza-* $BRANCH_DATA_ARCHIVE_DIR
+# wikipedia example not saved for restoring, this one was generated fresh by the scenarioo build
 
 # Cleanup (TODO: should be avoided, better remove the whole build folder once, and everything should be put into that build folder!)
 echo "Cleanup Old Self Docu Data"
@@ -65,7 +71,7 @@ echo "<Context><Parameter name=\"scenariooDataDirectory\" value=\"$BRANCH_DATA_D
 # Deploy the application manually, because autoDeploy is set to "false"
 echo "Deploying the Scenarioo Web App to Tomcat"
 cp -f $WORKSPACE_DIR/scenarioo-server/build/libs/scenarioo-latest.war $TOMCAT_WEBAPPS/scenarioo-$BRANCH.war
-curl -u scenarioo:scenarioo-dev http://localhost:8080/manager/text/deploy\?path\=/scenarioo-$BRANCH
+curl -u $TOMCAT_USERPASS http://localhost:8080/manager/text/deploy\?path\=/scenarioo-$BRANCH
 
 # Wait until tomcat deployment is done
 echo "Waiting for Scenarioo Viewer deployed on Tomcat ..."
