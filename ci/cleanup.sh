@@ -25,7 +25,7 @@ for BRANCH_DIR in $(find $SCENARIOO_DATA_ROOT/* -maxdepth 0 -type d) ; do
         echo "branch $BRANCH_NAME still exists - keep"
         # check for contained branches to clean outdated builds ...
         for BRANCH_DOCU_DIR in $(find $BRANCH_DIR/* -maxdepth 0 -type d) ; do
-            BRANCH_DOCU_NAME=$(basename $BRANCH_DIR)
+            BRANCH_DOCU_NAME=$(basename $BRANCH_DOCU_DIR)
             # Only example data `wikipedia-` docu branch folders are never cleaned at all!
             # (also the application data directory should better not be cleaned up!)
             if [[ -f "$BRANCH_DOCU_DIR/branch.xml" ]] && [[ $BRANCH_DOCU_NAME != "wikipedia"* ]]; then
