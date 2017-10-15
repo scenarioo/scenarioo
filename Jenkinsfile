@@ -33,7 +33,21 @@ def reportJenkinsSummaryScenariooReports(scenariooUrl, branchId, buildId) {
     def title = "<h2>Scenarioo Reports</h2>"
     def summary = "<a target=\"_blank\" href=\"${scenariooReportUrl}\">"
                   + "Scenarioo E2E Test Reports for this build</a>"
-    reportJenkinsSummary("scenarioo-reports.jenkins-summary.xml", "${title} ${summary}")
+
+    def summaryFile = "scenarioo-reports.jenkins-summary.xml"
+    def contentHtml = "${title} ${summary}"
+
+    // copy pasted code of other static method because call it somehow not permitted on jenkins here :-(
+def scenariooIconUrl = "https://raw.githubusercontent.com/scenarioo/scenarioo/develop/scenarioo-client/resources/LogoScenariooBlackQuadraticSmall.png"
+    def scenariooIconHtml = "<img src=\"${scenariooIconUrl}\" style=\"width: 48px; height: 48px; \" class=\"icon-scenarioo icon-xlg\">"
+    def contentHtmlWithIcon = "<table style=\"margin-top: 1em; margin-left:1em;\"><tbody><tr><td>${scenariooIconHtml}</td><td style=\"vertical-align:middle\">${contentHtml}</td></tr></tbody></table>"
+    def contentCss = ""
+    def overruleUglyPluginStyleCss = ".summary_report_table {border:none;} .summary_report_table td {border:none;}"
+    def htmlSnippet = "<style>${overruleUglyPluginStyleCss} ${contentCss}</style> ${contentHtmlWithIcon}"
+    sh "echo '<section><table><tr><td><![CDATA[ ${htmlSnippet} ]]></td></tr></table></section>' > ${summaryFile}"
+    archive summaryFile
+    step([$class: 'ACIPluginPublisher', name: summaryFile, shownOnProjectPage: true])
+
 }
 
 properties([
