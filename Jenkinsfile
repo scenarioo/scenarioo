@@ -1,20 +1,10 @@
 def gradle(tasks) {
-	 sh "./gradlew --info --no-daemon $tasks"
+	 sh "./gradlew --info -s --no-daemon $tasks"
 }
 
 def getEncodedBranchName() {
 	 String branchName = "${env.BRANCH_NAME}"
 	 return branchName.replace('/', '-').replace('#', '')
-}
-
-def reportJenkinsSummary(summaryFile, title, messageHtml) {
-    def contentHtml = "<h2>${title}</h2> <div>${messageHtml}</div>"
-    def contentCss = ""
-    def overruleUglyPluginStyle = ".summary_report_table {border:none;} .summary_report_table td {border:none;}"
-    def htmlSnippet = "<style>${overruleUglyPluginStyle} ${contentCss}</style> ${contentHtml}"
-    sh "echo '<section><table><tr><td><![CDATA[ ${htmlSnippet} ]]></td></tr></table></section>' > ${summaryFile}"
-    archive summaryFile
-    step([$class: 'ACIPluginPublisher', name: summaryFile, shownOnProjectPage: true])
 }
 
 properties([
@@ -46,8 +36,9 @@ timestamps {
 
         stage('Package') {
             gradle 'distZip'
-            archiveArtifacts 'scenarioo-server/build/libs/scenarioo-*.war, LICENSE.txt, README.md, ' +
-                        'scenarioo-docu-generation-example/build/scenarioDocuExample/, scenarioo-validator/build/distributions/*'
+            archiveArtifacts 'scenarioo-server/build/libs/scenarioo-*.war, LICENSE.txt, README.md, '
+                         + 'scenarioo-docu-generation-example/build/scenarioDocuExample/, '
+                         + 'scenarioo-validator/build/distributions/*'
         }
 
         stage('Deploy') {
@@ -57,15 +48,15 @@ timestamps {
                     sh "./ci/deploy.sh --branch=${encodedBranchName}"
                     def demoUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
                     reportJenkinsSummary("deploy.jenkins-summary.xml",
-                        "Scenarioo Demo Deployed",
-                        "Deployed to "
-                            + "<a target=\"_blank\" href=\"${demoUrl}\">"
-                            + "${demoUrl}</a>")
+                        "<h2>Scenarioo Demo Deployed</h2>"
+                        + "Deployed to "
+                        + "<a target=\"_blank\" href=\"${demoUrl}\">"
+                        + "${demoUrl}</a>")
                 }
                 catch (e) {
                     reportJenkinsSummary("deploy-failed.jenkins-summary.xml",
-                            "Scenarioo Demo Deployment Failed",
-                            "<b><font color=\"#ff3333\">Deployment failed!</font></b>")
+                            "<h2>Scenarioo Demo Deployment Failed</h2>"
+                            + "<b><font color=\"#ff3333\">Deployment failed!</font></b>")
                 }
 
             }
@@ -78,12 +69,8 @@ timestamps {
                          sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
                 } finally {
                          sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
-                         def selfDocuUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}?branch=${encodedBranchName}"
-                         reportJenkinsSummary("deploySelfDocu.jenkins-summary.xml",
-                                              "Scenarioo Self Docu",
-                                              "E2E Test Reports at "
-                                              + "<a target=\"_blank\" href=\"${selfDocuUrl}\">"
-                                              + "${selfDocuUrl}</a>")
+                         def scenariooUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
+                         reportJenkinsSummaryScenariooReports(scenariooUrl, "scenarioo-" + encodedBranchName, "build-${env.BUILD_NUMBER}")
                          junit 'scenarioo-client/test-reports/*.xml'
                 }
 
@@ -91,4 +78,33 @@ timestamps {
         }
 
 	}
+}
+
+/**
+ * Output summary message on jenkins build page
+ * with the link to scenarioo reports (self docu)
+ * for current build run
+ */
+def reportJenkinsSummaryScenariooReports(scenariooUrl, branchId, buildId) {
+    def scenariooReportUrl = "${scenariooUrl}?branch=${branchId}&build=${buildId}"
+    def title = "<h2>Scenarioo Reports</h2>"
+    def summary = "<a target=\"_blank\" href=\"${scenariooReportUrl}\">"
+                  + "Scenarioo E2E Test Reports for this build</a>"
+    reportJenkinsSummary("scenarioo-reports.jenkins-summary.xml", "${title} ${summary}")
+}
+
+/**
+ * Output summary message to jenkins build page
+ * with nice Scenarioo logo icon and styling
+ */
+def reportJenkinsSummary(summaryFile, contentHtml) {
+    def scenariooIconUrl = "https://raw.githubusercontent.com/scenarioo/scenarioo/develop/scenarioo-client/resources/LogoScenariooBlackQuadraticSmall.png"
+    def scenariooIconHtml = "<img src=\"${scenariooIconUrl}\" style=\"width: 48px; height: 48px; \" class=\"icon-scenarioo icon-xlg\">"
+    def contentHtmlWithIcon = "<table style=\"margin-top: 1em; margin-left:1em;\"><tbody><tr><td>${scenariooIconHtml}</td><td style=\"vertical-align:middle\">${contentHtml}</td></tr></tbody></table>"
+    def contentCss = ""
+    def overruleUglyPluginStyleCss = ".summary_report_table {border:none;} .summary_report_table td {border:none;}"
+    def htmlSnippet = "<style>${overruleUglyPluginStyleCss} ${contentCss}</style> ${contentHtmlWithIcon}"
+    sh "echo '<section><table><tr><td><![CDATA[ ${htmlSnippet} ]]></td></tr></table></section>' > ${summaryFile}"
+    archive summaryFile
+    step([$class: 'ACIPluginPublisher', name: summaryFile, shownOnProjectPage: true])
 }
