@@ -3,7 +3,7 @@
 # Script to Cleanup deployments and data of removed branches
 # also triggers removal of outdated self docu data builds for existing branches
 
-echo "Cleaning Up Deployments and Data of removed Branches ..."
+echo "Cleaning Up Deployments and Scenarioo Data ..."
 
 WORKSPACE_DIR=$(pwd)
 echo "Workspace Dir: $WORKSPACE_DIR"

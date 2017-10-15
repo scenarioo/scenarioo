@@ -48,6 +48,10 @@ echo "Deploy the generated self docu build"
 cp -rf ./scenarioo-client/scenariooDocumentation/* $SCENARIOO_DATA_SELF_DOCU_DIR
 rm -rf ./scenarioo-client/scenariooDocumentation
 
+# Do the cleanup of all directories and all data and deployments
+# (done as one of the last steps, since all data is now in its place where it can be cleaned up)
+./ci/cleanup.sh
+
 # Trigger relevant scenarioo demos to update and import new builds
 # (master and develop are always updated to also reflect potentialy removed self docu builds or deployed self docus during cleanup phase)
 curl $SCENARIOO_HOST_URL/scenarioo-master/rest/builds/updateAndImport

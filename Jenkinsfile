@@ -29,7 +29,8 @@ def reportJenkinsSummary(summaryFile, contentHtml) {
  * for current build run
  */
 def reportJenkinsSummaryScenariooReports(scenariooUrl, branchId, buildId) {
-    def scenariooReportUrl = "${scenariooUrl}?branch=${branchId}&build=${buildId}"
+    def scenariooReportUrl = "${scenariooUrl}/#/?branch=${branchId}&build=${buildId}"
+    echo "See Scenarioo E2E Test Reports for this build: ${scenariooReportUrl}"
     def title = "<h2>Scenarioo Reports</h2>"
     def summary = "<a target=\"_blank\" href=\"${scenariooReportUrl}\">Scenarioo E2E Test Reports for this build</a>"
     reportJenkinsSummary("scenarioo-reports.jenkins-summary.xml", "${title} ${summary}")
@@ -107,19 +108,19 @@ timestamps {
                 try {
                          sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
                 } finally {
+                    junit 'scenarioo-client/test-reports/*.xml'
                     withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
-                         sh "./ci/cleanup.sh --branch=${encodedBranchName}"
+                         # Only for the master branch the self docu is deployed to scenarioo-master
+                         # for all others: to scenarioo-develop
+                         def docuDeploymentScenariooInstance = encodedBranchName == "master" ? "master" : "develop"
+                         def scenariooUrl = "http://demo.scenarioo.org/scenarioo-${docuDeploymentScenariooInstance}"
                          sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
-                         def scenariooUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
                          reportJenkinsSummaryScenariooReports(scenariooUrl, "scenarioo-${encodedBranchName}", "build-${env.BUILD_NUMBER}")
-                         junit 'scenarioo-client/test-reports/*.xml'
                     }
                 }
 
             }
         }
-
-
 
 	}
 }
