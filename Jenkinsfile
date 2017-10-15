@@ -7,6 +7,37 @@ def getEncodedBranchName() {
 	 return branchName.replace('/', '-').replace('#', '')
 }
 
+
+**
+ * Output summary message on jenkins build page
+ * with the link to scenarioo reports (self docu)
+ * for current build run
+ */
+def reportJenkinsSummaryScenariooReports(scenariooUrl, branchId, buildId) {
+    def scenariooReportUrl = "${scenariooUrl}?branch=${branchId}&build=${buildId}"
+    def title = "<h2>Scenarioo Reports</h2>"
+    def summary = "<a target=\"_blank\" href=\"${scenariooReportUrl}\">"
+                  + "Scenarioo E2E Test Reports for this build</a>"
+    reportJenkinsSummary("scenarioo-reports.jenkins-summary.xml", "${title} ${summary}")
+}
+
+/**
+ * Output summary message to jenkins build page
+ * with nice Scenarioo logo icon and styling
+ */
+def reportJenkinsSummary(summaryFile, contentHtml) {
+    def scenariooIconUrl = "https://raw.githubusercontent.com/scenarioo/scenarioo/develop/scenarioo-client/resources/LogoScenariooBlackQuadraticSmall.png"
+    def scenariooIconHtml = "<img src=\"${scenariooIconUrl}\" style=\"width: 48px; height: 48px; \" class=\"icon-scenarioo icon-xlg\">"
+    def contentHtmlWithIcon = "<table style=\"margin-top: 1em; margin-left:1em;\"><tbody><tr><td>${scenariooIconHtml}</td><td style=\"vertical-align:middle\">${contentHtml}</td></tr></tbody></table>"
+    def contentCss = ""
+    def overruleUglyPluginStyleCss = ".summary_report_table {border:none;} .summary_report_table td {border:none;}"
+    def htmlSnippet = "<style>${overruleUglyPluginStyleCss} ${contentCss}</style> ${contentHtmlWithIcon}"
+    sh "echo '<section><table><tr><td><![CDATA[ ${htmlSnippet} ]]></td></tr></table></section>' > ${summaryFile}"
+    archive summaryFile
+    step([$class: 'ACIPluginPublisher', name: summaryFile, shownOnProjectPage: true])
+}
+
+
 properties([
 	disableConcurrentBuilds(),
 	pipelineTriggers([
@@ -22,8 +53,13 @@ timestamps {
 
         def encodedBranchName = getEncodedBranchName()
 
+
         stage('Build and unit test') {
             ansiColor('xterm') {
+
+                // just to try fast
+                def scenariooUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
+                reportJenkinsSummaryScenariooReports(scenariooUrl, "scenarioo-" + encodedBranchName, "build-${env.BUILD_NUMBER}")
 
                 try {
                      gradle 'clean build'
@@ -78,33 +114,4 @@ timestamps {
         }
 
 	}
-}
-
-/**
- * Output summary message on jenkins build page
- * with the link to scenarioo reports (self docu)
- * for current build run
- */
-def reportJenkinsSummaryScenariooReports(scenariooUrl, branchId, buildId) {
-    def scenariooReportUrl = "${scenariooUrl}?branch=${branchId}&build=${buildId}"
-    def title = "<h2>Scenarioo Reports</h2>"
-    def summary = "<a target=\"_blank\" href=\"${scenariooReportUrl}\">"
-                  + "Scenarioo E2E Test Reports for this build</a>"
-    reportJenkinsSummary("scenarioo-reports.jenkins-summary.xml", "${title} ${summary}")
-}
-
-/**
- * Output summary message to jenkins build page
- * with nice Scenarioo logo icon and styling
- */
-def reportJenkinsSummary(summaryFile, contentHtml) {
-    def scenariooIconUrl = "https://raw.githubusercontent.com/scenarioo/scenarioo/develop/scenarioo-client/resources/LogoScenariooBlackQuadraticSmall.png"
-    def scenariooIconHtml = "<img src=\"${scenariooIconUrl}\" style=\"width: 48px; height: 48px; \" class=\"icon-scenarioo icon-xlg\">"
-    def contentHtmlWithIcon = "<table style=\"margin-top: 1em; margin-left:1em;\"><tbody><tr><td>${scenariooIconHtml}</td><td style=\"vertical-align:middle\">${contentHtml}</td></tr></tbody></table>"
-    def contentCss = ""
-    def overruleUglyPluginStyleCss = ".summary_report_table {border:none;} .summary_report_table td {border:none;}"
-    def htmlSnippet = "<style>${overruleUglyPluginStyleCss} ${contentCss}</style> ${contentHtmlWithIcon}"
-    sh "echo '<section><table><tr><td><![CDATA[ ${htmlSnippet} ]]></td></tr></table></section>' > ${summaryFile}"
-    archive summaryFile
-    step([$class: 'ACIPluginPublisher', name: summaryFile, shownOnProjectPage: true])
 }
