@@ -56,7 +56,7 @@ timestamps {
 
                 // just to try fast
                 def scenariooUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
-                reportJenkinsSummaryScenariooReports(scenariooUrl, "scenarioo-" + encodedBranchName, "build-${env.BUILD_NUMBER}")
+                reportJenkinsSummaryScenariooReports(scenariooUrl, "scenarioo-${encodedBranchName}", "build-${env.BUILD_NUMBER}")
 
                 try {
                      gradle 'clean build'
