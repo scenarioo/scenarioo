@@ -53,10 +53,6 @@ timestamps {
         stage('Build and unit test') {
             ansiColor('xterm') {
 
-                // just to try fast
-                def scenariooUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
-                reportJenkinsSummaryScenariooReports(scenariooUrl, "scenarioo-${encodedBranchName}", "build-${env.BUILD_NUMBER}")
-
                 try {
                      gradle 'clean build'
                 } finally {
