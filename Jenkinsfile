@@ -18,7 +18,7 @@ def reportJenkinsSummary(summaryFile, contentHtml) {
     def contentCss = ""
     def overruleUglyPluginStyleCss = ".summary_report_table {border:none;border-spacing:0px;} .summary_report_table td {border:none;border-spacing:0px;}"
     def htmlSnippet = "<style>${overruleUglyPluginStyleCss} ${contentCss}</style> ${contentHtmlWithIcon}"
-    sh "echo '<section><table><tr><td width="; margin:0px; padding:0px;"><![CDATA[ ${htmlSnippet} ]]></td></tr></table></section>' > ${summaryFile}"
+    sh "echo '<section><table><tr><td width=\"; margin:0px; padding:0px;\"><![CDATA[ ${htmlSnippet} ]]></td></tr></table></section>' > ${summaryFile}"
     archive summaryFile
     step([$class: 'ACIPluginPublisher', name: summaryFile, shownOnProjectPage: true])
 }
