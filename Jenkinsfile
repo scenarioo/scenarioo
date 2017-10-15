@@ -31,8 +31,7 @@ def reportJenkinsSummary(summaryFile, contentHtml) {
 def reportJenkinsSummaryScenariooReports(scenariooUrl, branchId, buildId) {
     def scenariooReportUrl = "${scenariooUrl}?branch=${branchId}&build=${buildId}"
     def title = "<h2>Scenarioo Reports</h2>"
-    def summary = "<a target=\"_blank\" href=\"${scenariooReportUrl}\">"
-                  + "Scenarioo E2E Test Reports for this build</a>"
+    def summary = "<a target=\"_blank\" href=\"${scenariooReportUrl}\">Scenarioo E2E Test Reports for this build</a>"
     reportJenkinsSummary("scenarioo-reports.jenkins-summary.xml", "${title} ${summary}")
 }
 
@@ -103,7 +102,7 @@ timestamps {
                 } finally {
                          sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
                          def scenariooUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
-                         reportJenkinsSummaryScenariooReports(scenariooUrl, "scenarioo-" + encodedBranchName, "build-${env.BUILD_NUMBER}")
+                         reportJenkinsSummaryScenariooReports(scenariooUrl, "scenarioo-${encodedBranchName}", "build-${env.BUILD_NUMBER}")
                          junit 'scenarioo-client/test-reports/*.xml'
                 }
 
