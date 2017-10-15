@@ -110,8 +110,8 @@ timestamps {
                 } finally {
                     junit 'scenarioo-client/test-reports/*.xml'
                     withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
-                         # Only for the master branch the self docu is deployed to scenarioo-master
-                         # for all others: to scenarioo-develop
+                         // Only for the master branch the self docu is deployed to scenarioo-master
+                         // for all others: to scenarioo-develop
                          def docuDeploymentScenariooInstance = encodedBranchName == "master" ? "master" : "develop"
                          def scenariooUrl = "http://demo.scenarioo.org/scenarioo-${docuDeploymentScenariooInstance}"
                          sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
