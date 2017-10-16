@@ -21,7 +21,6 @@ def reportJenkinsSummary(summaryFile, contentHtml) {
     def htmlSnippet = "<style>${overruleUglyPluginStyleCss} ${contentCss}</style> ${contentHtmlWithIcon}"
     sh "echo '<section><table><tr><td width=\"; margin:0px; padding:0px;\"><![CDATA[ ${htmlSnippet} ]]></td></tr></table></section>' > ${summaryFile}"
     archive summaryFile
-
     step([$class: 'ACIPluginPublisher', name: summaryFile, shownOnProjectPage: 'true'])
 }
 
