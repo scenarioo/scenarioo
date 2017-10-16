@@ -10,6 +10,7 @@ def getEncodedBranchName() {
 /**
  * Output summary message to jenkins build page
  * with nice Scenarioo logo icon and styling
+ * using https://wiki.jenkins.io/display/JENKINS/Summary+Display+Plugin
  */
 def reportJenkinsSummary(summaryFile, contentHtml) {
     def scenariooIconUrl = "https://raw.githubusercontent.com/scenarioo/scenarioo/develop/scenarioo-client/resources/LogoScenariooBlackQuadraticSmall.png"
@@ -20,7 +21,8 @@ def reportJenkinsSummary(summaryFile, contentHtml) {
     def htmlSnippet = "<style>${overruleUglyPluginStyleCss} ${contentCss}</style> ${contentHtmlWithIcon}"
     sh "echo '<section><table><tr><td width=\"; margin:0px; padding:0px;\"><![CDATA[ ${htmlSnippet} ]]></td></tr></table></section>' > ${summaryFile}"
     archive summaryFile
-    step([$class: 'ACIPluginPublisher', name: summaryFile, shownOnProjectPage: true])
+
+    step([$class: 'ACIPluginPublisher', name: summaryFile, shownOnProjectPage: 'true'])
 }
 
 /**
