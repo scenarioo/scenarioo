@@ -43,7 +43,9 @@ timestamps {
         stage('Deploy') {
             ansiColor('xterm') {
 
-                sh "./ci/deploy.sh --branch=${encodedBranchName}"
+                withCredentials([usernamePassword(credentialsId: 'SCENARIOO_TOMCAT', passwordVariable: 'SCENARIOO_PASSWORD', usernameVariable: 'SCENARIOO_USER')]) {
+                    sh "./ci/deploy.sh --branch=${encodedBranchName} --user=${SCENARIOO_USER} --secret=${SCENARIOO_PASSWORD}"
+					 }
 
             }
         }

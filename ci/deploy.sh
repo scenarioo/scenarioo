@@ -11,6 +11,16 @@ do
             shift
         ;;
 
+        --user=*)
+            SCENARIOO_USER="${i#*=}"
+            shift
+        ;;
+
+        --secret=*)
+            SCENARIOO_SECRET="${i#*=}"
+            shift
+        ;;
+
         *)
             # unknown option
         ;;
@@ -38,7 +48,7 @@ CONFIG_XML=$BRANCH_DATA_DIR/config.xml
 
 # Undeploy webapplication
 echo "Undeploy Old Scenarioo Web App"
-curl -u scenarioo:scenarioo-dev http://localhost:8080/manager/text/undeploy\?path\=/scenarioo-$BRANCH
+curl -u $SCENARIOO_USER:$SCENARIOO_SECRET http://localhost:8080/manager/text/undeploy\?path\=/scenarioo-$BRANCH
 
 # Cleanup (TODO: should be avoided, better remove the whole build folder once, and everything should be put into that build folder!)
 echo "Cleanup Old Self Docu Data"
@@ -65,7 +75,7 @@ echo "<Context><Parameter name=\"scenariooDataDirectory\" value=\"$BRANCH_DATA_D
 # Deploy the application manually, because autoDeploy is set to "false"
 echo "Deploying the Scenarioo Web App to Tomcat"
 cp -f $WORKSPACE_DIR/scenarioo-server/build/libs/scenarioo-latest.war $TOMCAT_WEBAPPS/scenarioo-$BRANCH.war
-curl -u scenarioo:scenarioo-dev http://localhost:8080/manager/text/deploy\?path\=/scenarioo-$BRANCH
+curl -u $SCENARIOO_USER:$SCENARIOO_SECRET http://localhost:8080/manager/text/deploy\?path\=/scenarioo-$BRANCH
 
 # Wait until tomcat deployment is done
 echo "Waiting for Scenarioo Viewer deployed on Tomcat ..."
