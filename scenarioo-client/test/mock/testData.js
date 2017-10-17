@@ -21,7 +21,6 @@ angular.module('scenarioo.services').service('TestData', function () {
     return {
 
         CONFIG: {
-            'testDocumentationDirPath': 'webtestDocuContentExample',
             'defaultBuildName': 'current',
             'scenarioPropertiesInOverview': 'userProfile, configuration',
             'applicationInformation': 'This is my personal copy of Scenarioo :-)',
@@ -51,34 +50,81 @@ angular.module('scenarioo.services').service('TestData', function () {
         },
 
         CONFIG_PAGES_EXPANDED: {
-            'testDocumentationDirPath': 'webtestDocuContentExample',
-            'defaultBuildName': 'current',
-            'scenarioPropertiesInOverview': 'userProfile, configuration',
-            'applicationInformation': 'This is my personal copy of Scenarioo :-)',
-            'buildstates': {
-                BUILD_STATE_FAILED: 'label-important',
-                BUILD_STATE_SUCCESS: 'label-success',
-                BUILD_STATE_WARNING: 'label-warning'
-            },
-            'defaultBranchName': 'trunk',
-            'expandPagesInScenarioOverview': true
+                'defaultBuildName': 'current',
+                'scenarioPropertiesInOverview': 'userProfile, configuration',
+                'applicationInformation': 'This is my personal copy of Scenarioo :-)',
+                'buildstates': {
+                    BUILD_STATE_FAILED: 'label-important',
+                    BUILD_STATE_SUCCESS: 'label-success',
+                    BUILD_STATE_WARNING: 'label-warning'
+                },
+                'defaultBranchName': 'trunk',
+                'expandPagesInScenarioOverview': true,
         },
 
         BRANCHES: [
-            {'branch': {'description': 'Just an example development branch from example docu generation example.', 'name': 'release-branch-2013-11-14'}, 'builds': [
-                {'linkName': 'example-build', 'build': {'details': {}, 'status': 'success', 'revision': '123456', 'date': 1385284268394, 'name': 'example-build'}}
-            ]},
-            {'branch': {'description': 'Just an example development branch from example docu generation example.', 'name': 'release-branch-2014-01-16'}, 'builds': [
-                {'linkName': 'example-build', 'build': {'details': {}, 'status': 'success', 'revision': '123456', 'date': 1385284268394, 'name': 'example-build'}}
-            ]},
-            {'branch': {'description': 'Just an example development branch from example docu generation example.', 'name': 'trunk'}, 'builds': [
-                {'linkName': 'example-build', 'build': {'details': {}, 'status': 'success', 'revision': '123456', 'date': 1385284268394, 'name': 'example-build'}}
-            ]}
+            {
+                'branch': {
+                    'description': 'Just an example development branch from example docu generation example.',
+                    'name': 'release-branch-2013-11-14'
+                }, 'builds': [
+                {
+                    'linkName': 'example-build',
+                    'build': {
+                        'details': {},
+                        'status': 'success',
+                        'revision': '123456',
+                        'date': 1385284268394,
+                        'name': 'example-build'
+                    }
+                }
+            ]
+            },
+            {
+                'branch': {
+                    'description': 'Just an example development branch from example docu generation example.',
+                    'name': 'release-branch-2014-01-16'
+                }, 'builds': [
+                {
+                    'linkName': 'example-build',
+                    'build': {
+                        'details': {},
+                        'status': 'success',
+                        'revision': '123456',
+                        'date': 1385284268394,
+                        'name': 'example-build'
+                    }
+                }
+            ]
+            },
+            {
+                'branch': {
+                    'description': 'Just an example development branch from example docu generation example.',
+                    'name': 'trunk'
+                }, 'builds': [
+                {
+                    'linkName': 'example-build',
+                    'build': {
+                        'details': {},
+                        'status': 'success',
+                        'revision': '123456',
+                        'date': 1385284268394,
+                        'name': 'example-build'
+                    }
+                }
+            ]
+            }
         ],
 
         BUILD_IMPORT_STATES: [
             {
-                'buildDescription': {'details': {}, 'revision': '123456', 'status': 'success', 'date': 1388879915785, 'name': 'example-build'},
+                'buildDescription': {
+                    'details': {},
+                    'revision': '123456',
+                    'status': 'success',
+                    'date': 1388879915785,
+                    'name': 'example-build'
+                },
                 'importDate': 1388620336537,
                 'status': 'SUCCESS',
                 'identifier': {'branchName': 'wikipedia-docu-example', 'buildName': 'example-build'}
@@ -86,12 +132,39 @@ angular.module('scenarioo.services').service('TestData', function () {
         ],
 
         USECASES: [
-            {'useCase': {'details': {'webtestClass': 'org.scenarioo.uitest.example.testcases.FindPageUITest'}, 'status': 'success', 'description': 'User wants to search for a page and read it.', 'name': 'Find Page'}, 'scenarios': [
-                {'details': {'userRole': 'unauthenticated'}, 'status': 'success', 'description': 'User enters text that is not found in pages content.', 'name': 'find_page_no_result'},
-                {'details': {'userRole': 'unauthenticated'}, 'status': 'success', 'description': 'User enters some text and finds multiple pages that contain this text.', 'name': 'find_page_with_text_on_page_from_multiple_results'},
-                {'details': {'userRole': 'unauthenticated'}, 'status': 'success', 'description': 'User enters page title that is ambiguous but matches directly a page, on the page he sees the list of other meanings, and can navigate to the page he meant.', 'name': 'find_page_with_title_ambiguous_navigate_to_other_meaning'},
-                {'details': {'userRole': 'unauthenticated'}, 'status': 'success', 'description': 'User enters exact page title and finds it directly.', 'name': 'find_page_with_title_direct'}
-            ]}
+            {
+                'useCase': {
+                    'details': {'webtestClass': 'org.scenarioo.uitest.example.testcases.FindPageUITest'},
+                    'status': 'success',
+                    'description': 'User wants to search for a page and read it.',
+                    'name': 'Find Page'
+                }, 'scenarios': [
+                {
+                    'details': {'userRole': 'unauthenticated'},
+                    'status': 'success',
+                    'description': 'User enters text that is not found in pages content.',
+                    'name': 'find_page_no_result'
+                },
+                {
+                    'details': {'userRole': 'unauthenticated'},
+                    'status': 'success',
+                    'description': 'User enters some text and finds multiple pages that contain this text.',
+                    'name': 'find_page_with_text_on_page_from_multiple_results'
+                },
+                {
+                    'details': {'userRole': 'unauthenticated'},
+                    'status': 'success',
+                    'description': 'User enters page title that is ambiguous but matches directly a page, on the page he sees the list of other meanings, and can navigate to the page he meant.',
+                    'name': 'find_page_with_title_ambiguous_navigate_to_other_meaning'
+                },
+                {
+                    'details': {'userRole': 'unauthenticated'},
+                    'status': 'success',
+                    'description': 'User enters exact page title and finds it directly.',
+                    'name': 'find_page_with_title_direct'
+                }
+            ]
+            }
         ],
 
         SCENARIO: {
@@ -108,15 +181,49 @@ angular.module('scenarioo.services').service('TestData', function () {
                 }
             },
             'pagesAndSteps': [
-                {'page': {'details': {}, 'name': 'startSearch.jsp'}, 'steps': [
-                    {'details': {'url': 'http://www.wikipedia.org'}, 'status': 'success', 'title': 'Wikipedia Suche', 'screenshotFileName': '000.png', 'index': 0},
-                    {'details': {'url': 'http://www.wikipedia.org'}, 'status': 'success', 'title': 'Wikipedia Suche', 'screenshotFileName': '001.png', 'index': 1}
-                ]},
-                {'page': {'details': {}, 'name': 'searchResults.jsp'}, 'steps': [
-                    {'details': {'url': 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'}, 'status': 'success', 'title': 'Search results', 'screenshotFileName': '002.png', 'index': 2},
-                    {'details': {'url': 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'}, 'status': 'success', 'title': 'Search results', 'screenshotFileName': '003.png', 'index': 3},
-                    {'details': {'url': 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'}, 'status': 'success', 'title': 'Search results', 'screenshotFileName': '004.png', 'index': 4}
-                ]}
+                {
+                    'page': {'details': {}, 'name': 'startSearch.jsp'}, 'steps': [
+                    {
+                        'details': {'url': 'http://www.wikipedia.org'},
+                        'status': 'success',
+                        'title': 'Wikipedia Suche',
+                        'screenshotFileName': '000.png',
+                        'index': 0
+                    },
+                    {
+                        'details': {'url': 'http://www.wikipedia.org'},
+                        'status': 'success',
+                        'title': 'Wikipedia Suche',
+                        'screenshotFileName': '001.png',
+                        'index': 1
+                    }
+                ]
+                },
+                {
+                    'page': {'details': {}, 'name': 'searchResults.jsp'}, 'steps': [
+                    {
+                        'details': {'url': 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'},
+                        'status': 'success',
+                        'title': 'Search results',
+                        'screenshotFileName': '002.png',
+                        'index': 2
+                    },
+                    {
+                        'details': {'url': 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'},
+                        'status': 'success',
+                        'title': 'Search results',
+                        'screenshotFileName': '003.png',
+                        'index': 3
+                    },
+                    {
+                        'details': {'url': 'http://en.wikipedia.org/wiki/Special:Search?search=yourSearchText&go=Go'},
+                        'status': 'success',
+                        'title': 'Search results',
+                        'screenshotFileName': '004.png',
+                        'index': 4
+                    }
+                ]
+                }
             ],
             'scenario': {
                 'details': {
@@ -142,28 +249,28 @@ angular.module('scenarioo.services').service('TestData', function () {
          * with simplified metadata.
          */
         STEP: {
-            'stepIdentifier' : {
-                'branchName' : 'wikipedia-docu-example',
-                'buildName' : '2014-03-19',
-                'usecaseName' : 'Donate',
-                'scenarioName' : 'find_donate_page',
-                'labels' : null,
-                'pageName' : 'startSearch.jsp',
-                'pageOccurrence' : 0,
-                'stepInPageOccurrence' : 0
+            'stepIdentifier': {
+                'branchName': 'wikipedia-docu-example',
+                'buildName': '2014-03-19',
+                'usecaseName': 'Donate',
+                'scenarioName': 'find_donate_page',
+                'labels': null,
+                'pageName': 'startSearch.jsp',
+                'pageOccurrence': 0,
+                'stepInPageOccurrence': 0
             },
             'stepStatistics': {
                 'totalNumberOfStepsInScenario': 5,
                 'totalNumberOfStepsInPageOccurrence': 2,
                 'totalNumberOfPagesInScenario': 3
             },
-            'useCaseLabels' : {
-                'labels' : ['normal-case'],
-                'empty' : false
+            'useCaseLabels': {
+                'labels': ['normal-case'],
+                'empty': false
             },
-            'scenarioLabels' : {
-                'labels' : ['no results'],
-                'empty' : false
+            'scenarioLabels': {
+                'labels': ['no results'],
+                'empty': false
             },
             'step': {
                 'stepDescription': {
@@ -174,19 +281,17 @@ angular.module('scenarioo.services').service('TestData', function () {
                     'title': 'Search results',
                     'screenshotFileName': '002.png',
                     'index': 2,
-                    'labels' : {
-                        'labels' : ['step-label-0', 'public'],
-                        'empty' : false
+                    'labels': {
+                        'labels': ['step-label-0', 'public'],
+                        'empty': false
                     }
                 },
                 'metadata': {
                     'details': {
                         'simulationConfiguration': {
                             'details': {
-                                'overridenConfigModules': [
-                                ],
-                                'defaultConfigModules': [
-                                ]
+                                'overridenConfigModules': [],
+                                'defaultConfigModules': []
                             },
                             'name': 'ambiguoties_config',
                             'type': 'configuration'
@@ -208,9 +313,9 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'page': {
                     'details': {},
                     'name': 'searchResults.jsp',
-                    'labels' : {
-                        'labels' : ['page-label1', 'page-label2'],
-                        'empty' : false
+                    'labels': {
+                        'labels': ['page-label1', 'page-label2'],
+                        'empty': false
                     }
                 },
                 'diffInfo':{
