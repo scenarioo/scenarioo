@@ -20,7 +20,7 @@ angular.module('scenarioo.controllers').controller('StepController', StepControl
 function StepController($scope, $routeParams, $location, $route, StepResource, HostnameAndPort, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, GlobalHotkeysService, LabelConfigurationsResource,
                         SharePageService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, BuildDiffInfoResource,
-                        StepDiffInfoResource, DiffInfoService, localStorageService) {
+                        StepDiffInfoResource, DiffInfoService, localStorageService, ConfigService) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -36,22 +36,16 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     $scope.comparisonInfo = SelectedComparison.info;
     $scope.activeTab = getActiveTab();
 
-    $scope.displayDiffScreenshotKey = 'displayDiffScreenshot';
-    $scope.displayComparisonScreenshotKey = 'displayComparisonScreenshot';
-    $scope.displaySideBySideViewKey = 'displaySideBySideView';
-    $scope.displaySinglePageViewKey = 'displaySinglePageView';
-
     $scope.comparisonViewOptions = {
-        displayDiffScreenshot : getLocalStorageValue($scope.displayDiffScreenshotKey),
-        displayComparisonScreenshot : getLocalStorageValue($scope.displayComparisonScreenshotKey),
-        displaySideBySideView : getLocalStorageValue($scope.displaySideBySideViewKey),
-        displaySinglePageView : getLocalStorageValue($scope.displaySinglePageViewKey)
-    };
+        viewId : getLocalStorageValue('diffViewerStepComparisonViewId', 'SideBySide'),
+        changesHighlighted : getLocalStorageBool('diffViewerStepComparisonChangesHighlighted'),
+        diffImageColor: undefined
+     };
 
     activate();
 
     function activate() {
-        initStorageKeys();
+
     }
 
     function createSketch() {
@@ -445,33 +439,48 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
             });
     }
 
-    function initStorageKeys(){
-        if($scope.comparisonViewOptions[$scope.displaySideBySideViewKey] && $scope.comparisonViewOptions[$scope.displaySinglePageViewKey]){
-            setStorageKey($scope.displaySinglePageViewKey, false);
-        }
-        if (localStorageService.get($scope.displayComparisonScreenshotKey) === null){
-            setStorageKey($scope.displayComparisonScreenshotKey, false);
-        }
-    }
-
-    $scope.toggleStorageKey = function(storageKey) {
-        setStorageKey(storageKey, !$scope.comparisonViewOptions[storageKey]);
+     $scope.setComparisonView = function(viewId) {
+        $scope.comparisonViewOptions.viewId = viewId;
+        setLocalStorageValue('diffViewerStepComparisonViewId', viewId);
     };
 
-    function setStorageKey(storageKey, value){
-        $scope.comparisonViewOptions[storageKey] = value;
-        localStorageService.set(storageKey, '' + value);
-    }
-
-    $scope.setActiveView = function(storageKey) {
-         if(!$scope.comparisonViewOptions[storageKey]){
-            $scope.toggleStorageKey($scope.displaySideBySideViewKey);
-            $scope.toggleStorageKey($scope.displaySinglePageViewKey);
-        }
+    $scope.isComparisonView = function(viewId) {
+        return $scope.comparisonViewOptions.viewId === viewId;
     };
 
-    function getLocalStorageValue(storageKey){
+    $scope.switchComparisonSingleScreenView = function() {
+        var viewId = $scope.isComparisonView('CurrentScreen') ? 'OtherScreen' : 'CurrentScreen';
+        $scope.setComparisonView(viewId);
+    };
+
+    $scope.isComparisonChangesToBeHighlightedAvailable = function() {
+        return $scope.step.diffInfo.changeRate !== 0 && !$scope.step.diffInfo.isAdded;
+    };
+
+    $scope.isComparisonChangesHighlighted = function() {
+        // highlighting is turned on, and there are changes in this screenshot to be highlighted
+        return $scope.isComparisonChangesToBeHighlightedAvailable() && $scope.comparisonViewOptions.changesHighlighted;
+    };
+
+    $scope.toggleComparisonChangesHighlighted = function() {
+        $scope.comparisonViewOptions.changesHighlighted = !$scope.comparisonViewOptions.changesHighlighted;
+        setLocalStorageValue('diffViewerStepComparisonChangesHighlighted', $scope.comparisonViewOptions.changesHighlighted);
+    };
+
+    $scope.getComparisonViewHighlightChangesColor = function() {
+        return ConfigService.diffViewerDiffImageColor();
+    };
+
+    function getLocalStorageBool(storageKey){
         return localStorageService.get(storageKey) !== 'false';
+    }
+
+    function getLocalStorageValue(storageKey, value){
+        return localStorageService.get(storageKey) || value;
+    }
+
+    function setLocalStorageValue(storageKey, value){
+        localStorageService.set(storageKey, '' + value);
     }
 
     $scope.go = function (step) {
