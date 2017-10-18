@@ -220,10 +220,9 @@ public class BuildImporter {
 			long startTime = System.currentTimeMillis();
 			buildsBeeingImported.add(summary.getIdentifier());
 
-			LOGGER.info(" ============= START OF BUILD IMPORT ================");
-			LOGGER.info("  Importing build: " + summary.getIdentifier().getBranchName() + "/"
+			LOGGER.info("=== START OF BUILD IMPORT ===");
+			LOGGER.info("Importing build: " + summary.getIdentifier().getBranchName() + "/"
 				+ summary.getIdentifier().getBuildName());
-			LOGGER.info("  This might take a while ...");
 
 			summary = buildImportSummaries.get(summary.getIdentifier());
 			summary.setStatus(BuildImportStatus.PROCESSING);
@@ -233,21 +232,21 @@ public class BuildImporter {
 				aggregator.calculateAggregatedDataForBuild();
 				addSuccessfullyImportedBuild(availableBuilds, summary);
 				lastSuccessfulScenarioBuild.updateLastSuccessfulScenarioBuild(summary, this, availableBuilds);
-				LOGGER.info("  SUCCESS on importing build: " + summary.getIdentifier().getBranchName() + "/"
+				LOGGER.info("SUCCESS on importing build: " + summary.getIdentifier().getBranchName() + "/"
 					+ summary.getIdentifier().getBuildName());
 			} else {
 				addSuccessfullyImportedBuild(availableBuilds, summary);
-				LOGGER.info("  ADDED ALREADY IMPORTED build: " + summary.getIdentifier().getBranchName() + "/"
+				LOGGER.info("ADDED ALREADY IMPORTED build: " + summary.getIdentifier().getBranchName() + "/"
 					+ summary.getIdentifier().getBuildName());
 			}
 
 			logDuration(startTime);
-			LOGGER.info(" ============= END OF BUILD IMPORT (success) ===========");
+			LOGGER.info("=== END OF BUILD IMPORT (success) ===");
 		} catch (Throwable e) {
 			recordBuildImportFinished(summary, BuildImportStatus.FAILED, e.getMessage());
-			LOGGER.error("  FAILURE on importing build " + summary.getIdentifier().getBranchName() + "/"
+			LOGGER.error("FAILURE on importing build " + summary.getIdentifier().getBranchName() + "/"
 				+ summary.getBuildDescription().getName(), e);
-			LOGGER.info(" ============= END OF BUILD IMPORT (failed) ===========");
+			LOGGER.info("=== END OF BUILD IMPORT (failed) ===");
 		} finally {
 			if (buildImportLog != null) {
 				buildImportLog.unregisterAndFlush();

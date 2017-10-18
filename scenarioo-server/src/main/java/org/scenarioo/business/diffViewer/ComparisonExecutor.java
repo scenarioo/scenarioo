@@ -74,7 +74,7 @@ public class ComparisonExecutor {
 	public synchronized void doComparison(String baseBranchName, String baseBuildName) {
 		docuBuildsManager = ScenarioDocuBuildsManager.INSTANCE;
 		List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = getComparisonConfigurationsForBaseBranch(
-				baseBranchName);
+			baseBranchName);
 		for (ComparisonConfiguration comparisonConfiguration : comparisonConfigurationsForBaseBranch) {
 			submitBuildForComparison(baseBranchName, baseBuildName, comparisonConfiguration);
 		}
@@ -92,7 +92,6 @@ public class ComparisonExecutor {
 		comparisonConfiguration.setComparisonBranchName(comparisonBranchName);
 		comparisonConfiguration.setComparisonBuildName(comparisonBuildName);
 
-
 		Future<ComparisonResult> result = submitBuildForComparison(baseBranchName, baseBuildName, comparisonConfiguration);
 		futureList.add(result);
 		return futureList;
@@ -102,11 +101,10 @@ public class ComparisonExecutor {
 	 * Executes a comparison for the given build and comparison configuration in a separate thread.
 	 */
 	private synchronized Future<ComparisonResult> submitBuildForComparison(final String baseBranchName, final String baseBuildName,
-																   final ComparisonConfiguration comparisonConfiguration) {
+																		   final ComparisonConfiguration comparisonConfiguration) {
 
-		LOGGER.info("Submitting build for Comparison. Base build [" + baseBranchName + "/"
-			+ baseBuildName + "] and comparison build [" + comparisonConfiguration.getComparisonBranchName() + "/"
-			+ comparisonConfiguration.getComparisonBuildName() + "]");
+		LOGGER.info("Submitting build for comparison");
+		logBaseBuildAndComparisonConfiguration(baseBranchName, baseBuildName, comparisonConfiguration);
 
 		return asyncComparisonExecutor.submit(new Callable<ComparisonResult>() {
 			@Override
@@ -129,10 +127,8 @@ public class ComparisonExecutor {
 			comparisonLog = registerLogFile(baseBranchName, baseBuildName, comparisonConfiguration);
 			long startTime = System.currentTimeMillis();
 
-			LOGGER.info("============= START OF BUILD COMPARISON ================");
-			LOGGER.info("Comparing base build: " + baseBranchName + "/"
-				+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
-			LOGGER.info("This might take a while ...");
+			LOGGER.info("=== START OF BUILD COMPARISON ===");
+			logBaseBuildAndComparisonConfiguration(baseBranchName, baseBuildName, comparisonConfiguration);
 
 			ComparisonConfiguration resolvedComparisonConfiguration =
 				resolveComparisonConfiguration(comparisonConfiguration, baseBuildName);
@@ -149,17 +145,16 @@ public class ComparisonExecutor {
 			LOGGER.info("SUCCESS on comparing base build: " + baseBranchName + "/"
 				+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
 			logDuration(startTime);
-			LOGGER.info("============= END OF BUILD COMPARISON (success) ===========");
+			LOGGER.info("=== END OF BUILD COMPARISON (success) ===");
 		} catch (Throwable e) {
 			LOGGER.error("FAILURE on comparing build " + baseBranchName + "/"
 				+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName(), e);
-			LOGGER.info("============= END OF BUILD COMPARISON (failed) ===========");
+			LOGGER.info("=== END OF BUILD COMPARISON (failed) ===");
 		} finally {
 			if (comparisonLog != null) {
 				comparisonLog.unregisterAndFlush();
 			}
 		}
-
 
 		ComparisonResult comparisonResult = new ComparisonResult();
 		comparisonResult.setBaseBuild(new BuildIdentifier(baseBranchName, baseBuildName));
@@ -176,6 +171,12 @@ public class ComparisonExecutor {
 		}
 
 		return comparisonResult;
+	}
+
+	private void logBaseBuildAndComparisonConfiguration(String baseBranchName, String baseBuildName, ComparisonConfiguration comparisonConfiguration) {
+		LOGGER.info("Base build:               " + baseBranchName + "/" + baseBuildName);
+		LOGGER.info("Comparison configuration: " + comparisonConfiguration.getName());
+		LOGGER.info("Comparison build:         " + comparisonConfiguration.getComparisonBranchName() + "/" + comparisonConfiguration.getComparisonBuildName());
 	}
 
 	private void logDuration(long startTime) {
