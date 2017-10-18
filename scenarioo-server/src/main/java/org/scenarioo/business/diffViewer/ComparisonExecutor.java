@@ -80,7 +80,8 @@ public class ComparisonExecutor {
 		}
 	}
 
-	public ArrayList<Future<ComparisonResult>> doComparison(String baseBranchName, String baseBuildName, String comparisonBranchName, String comparisonBuildName, String comparisonName) {
+	public Future<ComparisonResult> doComparison(String baseBranchName, String baseBuildName,
+			String comparisonBranchName, String comparisonBuildName, String comparisonName) {
 
 		ArrayList<Future<ComparisonResult>> futureList = new ArrayList<Future<ComparisonResult>>();
 
@@ -92,9 +93,7 @@ public class ComparisonExecutor {
 		comparisonConfiguration.setComparisonBranchName(comparisonBranchName);
 		comparisonConfiguration.setComparisonBuildName(comparisonBuildName);
 
-		Future<ComparisonResult> result = submitBuildForComparison(baseBranchName, baseBuildName, comparisonConfiguration);
-		futureList.add(result);
-		return futureList;
+		return submitBuildForComparison(baseBranchName, baseBuildName, comparisonConfiguration);
 	}
 
 	/**

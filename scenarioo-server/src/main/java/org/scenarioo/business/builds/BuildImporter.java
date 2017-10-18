@@ -142,14 +142,16 @@ public class BuildImporter {
 		saveBuildImportSummaries(buildImportSummaries);
 	}
 
-	public synchronized ArrayList<Future<ComparisonResult>> importBuild(AvailableBuildsList availableBuilds,
-																BuildIdentifier buildIdentifier, BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
+	public synchronized Future<ComparisonResult> importBuildAndCreateComparison(AvailableBuildsList availableBuilds,
+			BuildIdentifier buildIdentifier, BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
+
 		removeImportedBuildAndDerivedData(availableBuilds, buildIdentifier);
 		submitBuildForImport(availableBuilds, buildIdentifier);
-		ArrayList<Future<ComparisonResult>> futureList = submitBuildForSingleComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName);
+		Future<ComparisonResult> comparisonResult =
+			submitBuildForSingleComparison(buildIdentifier, comparisonBuildIdentifier,comparisonName);
 		saveBuildImportSummaries(buildImportSummaries);
 
-		return futureList;
+		return comparisonResult;
 	}
 
 	/**
@@ -203,8 +205,9 @@ public class BuildImporter {
 		comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 	}
 
-	private ArrayList<Future<ComparisonResult>> submitBuildForSingleComparison(BuildIdentifier buildIdentifier, BuildIdentifier compareBuildIdentifier, String comparisonName) {
-		return comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), compareBuildIdentifier.getBranchName(), compareBuildIdentifier.getBuildName(), comparisonName);
+	private Future<ComparisonResult> submitBuildForSingleComparison(BuildIdentifier buildIdentifier, BuildIdentifier compareBuildIdentifier, String comparisonName) {
+		return comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+			compareBuildIdentifier.getBranchName(), compareBuildIdentifier.getBuildName(), comparisonName);
 	}
 
 	private void importBuild(AvailableBuildsList availableBuilds, BuildImportSummary summary) {

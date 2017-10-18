@@ -227,8 +227,8 @@ public class ScenarioDocuBuildsManager {
 		buildImporter.submitBuildForReimport(availableBuilds, buildIdentifier);
 	}
 
-	public ArrayList<Future<ComparisonResult>> importBuild(final BuildIdentifier buildIdentifier, final BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
-		return buildImporter.importBuild(availableBuilds, buildIdentifier, comparisonBuildIdentifier, comparisonName);
+	public Future<ComparisonResult> importBuildAndCreateComparison(final BuildIdentifier buildIdentifier, final BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
+		return buildImporter.importBuildAndCreateComparison(availableBuilds, buildIdentifier, comparisonBuildIdentifier, comparisonName);
 	}
 
 	public LongObjectNamesResolver getLongObjectNameResolver(final BuildIdentifier buildIdentifier) {
