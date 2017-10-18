@@ -39,7 +39,7 @@ The following XML fragment added to your configuration file, will make all your 
         </customObjectDetailColumns>
     </customObjectTabs>
 ```
-This example is an extract from the demo configuration, for full example configuration file see [config.xml](https://github.com/scenarioo/scenarioo/blob/develop/scenarioo-server/src/main/resources/config-for-demo/config.xml)
+This example is an extract from the demo configuration, for full example configuration file see [config.xml](https://github.com/scenarioo/scenarioo/blob/develop/scenarioo-docu-generation-example/src/test/resources/config-for-demo/config.xml)
 
 ## Branch Selection List Ordering
 

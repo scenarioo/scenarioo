@@ -24,10 +24,10 @@ apply plugin: 'eclipse-wtp'
 apply from: "${rootProject.projectDir}/java.gradle"
 
 dependencies {
-    compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.3.Final'
-    compile 'org.jboss.resteasy:resteasy-jaxb-provider:2.3.3.Final'
-    compile 'org.jboss.resteasy:resteasy-jackson-provider:2.3.3.Final'
-    compile 'org.jboss.resteasy:resteasy-multipart-provider:2.3.3.Final'
+    compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.7.Final'
+    compile 'org.jboss.resteasy:resteasy-jaxb-provider:2.3.7.Final'
+    compile 'org.jboss.resteasy:resteasy-jackson-provider:2.3.7.Final'
+    compile 'org.jboss.resteasy:resteasy-multipart-provider:2.3.7.Final'
     compile 'com.google.guava:guava-base:r03'
     compile 'org.apache.xmlgraphics:batik-transcoder:1.8'
     compile 'org.apache.xmlgraphics:batik-codec:1.8'

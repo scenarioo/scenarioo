@@ -50,7 +50,8 @@ public class ConfigurationResource {
 	public ApplicationStatus getApplicationStatus() {
 		ApplicationStatus applicationStatus = new ApplicationStatus();
 
-		applicationStatus.setConfiguration(getConfiguration());
+		applicationStatus.setConfiguration(configurationRepository.getConfiguration());
+		applicationStatus.setDocumentationDataDirectory(configurationRepository.getDocumentationDataDirectory().getAbsolutePath());
 		applicationStatus.setSearchEngineStatus(SearchEngineStatus.create());
 		applicationStatus.setVersion(ApplicationVersionHolder.INSTANCE.getApplicationVersion());
 		return applicationStatus;

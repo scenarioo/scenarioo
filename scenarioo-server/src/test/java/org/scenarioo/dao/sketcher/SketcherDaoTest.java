@@ -79,7 +79,7 @@ public class SketcherDaoTest {
 		assertEquals("Expected path for step sketch file",
 				new File(filePath(ROOT_DIRECTORY, SketcherDao.SKETCHER_DIRECTORY, "Test+Branch", ISSUE_ID,
 						SCENARIO_SKETCH_ID, STEP_SKETCH_ID))
-						.getAbsolutePath(), stepSketchDir.getPath());
+					.getAbsolutePath(), stepSketchDir.getAbsolutePath());
 	}
 
 	private void expectStepSketchPersisted() {

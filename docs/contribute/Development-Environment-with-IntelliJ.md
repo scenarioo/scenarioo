@@ -108,7 +108,7 @@ But this two repositories should be sufficient for most usual developers.
      * Import "from external model: Gradle" and use the gradle wrapper (default settings)
      
  * From "Gradle"-tab in intelliJ simply run the following gradle tasks, to build everything cleanly:
-    * scenarioo-java: clean build test install
+    * scenarioo-java: `clean build test install` (this is needed as soon as your development branch uses latest snaphot of the writer!)
     * scenarioo: clean build test
          * take care to configure JVM 1.7 as runtime JVM for gradle, otherwise I got errors somehow when running this (Tab "Gradle">Button "Gradle Settings">Gradle JVM).
          * And if you get some python errors in npm install part on windows, you can probably ignore this optional npm dependency problems and just try to run it once again
@@ -122,34 +122,11 @@ But this two repositories should be sufficient for most usual developers.
      * on "Startup/Connection" tab: set environment variable "SCENARIOO_DATA" to following path: &lt;your-project-source-path&gt;\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
      
  * Run all tests of the sub-project "scenarioodocu-generation-example" to generate scenarioo example documentation data in Folder "build/scenarioDocuExample"
-    * select folder 'test' under 'src' folder 
-    * right click on 'test' folder and choose "Run 'All Tests'
-  
-===== TODO issue #427 === 
-
-     * when the issue #427 has been resolved, the following is obsolete: 
-     
-     ==== obsolete after #427 has been merged ====
-         
-     
-        * Start the server using the run configuration, you should see something like following in the server log on first startup:
- 
-            WARN  org.scenarioo.dao.configuration.ConfigurationDaoImpl: no configuration directory is configured in server context, therefore trying to use fallback directory in user home.
-            WARN  org.scenarioo.dao.configuration.ConfigurationDaoImpl:   file C:\Users\rbr\.scenarioo\config.xml does not exist --> loading default config.xml from classpath
- 
-        * Copy the file `scenarioo-server\src\main\resources\config-for-demo\config.xml` to the location where your server tries to load the configuration by default from (see server output).
-                    [TODO: this will change with the new directory configuration by @mi-we soon anyway, see issue # )
-                * change the configured documentation path configured inside this copied file to point to the following location instead:
-                    * &lt;your-project-source-path&gt;\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
-   
-        * Stop the server again            
-                    
-    ==== end of obsolete part after #427 has been merged ===
-    
-    * then we have to test, that the above allready mentioned configuration of the variable "SCENARIOO_DATA" in tomcat run configuration works as expected.
-
-=== end of TODO for issue #427 ===
- 
+    * run `./graldlew clean test` (or by choosing it in the Gradle View in IntelliJ, which should as well work)
+    * alternativley: select folder 'test' under 'src' folder and right click on 'test' folder and choose "Run 'All Tests'
+    * it is recommended to remember a run config for this step to regenerate test data when needed. 
+    * **Hint for e2e tests:** This will bring the test data into the correct state (including viewer configuration in file config.xml) for running the e2e tests. It is required to rerun these tests before you execute e2e tests.
+          
  * Start the tomcat server by using the run configuration:
    you should see in the log output that it is importing the example documentation data properly.
   

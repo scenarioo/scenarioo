@@ -5,9 +5,9 @@
 ### Feature "Data Directory Configuration"
 
 * The data directory can not be configured through the config UI anymore (for security reasons)
-* The data directory needs to be configured via webapp context.xml properties or environment variables (or just by directory mapping on the docker container, similar to before).
+* The data directory needs to be configured via webapp context.xml properties or environment variable (or just by directory mapping on the docker container, similar to before).
 * The config.xml is now as well stored inside the same data directory. Make sure you move your old config.xml file to this same scenarioo data directory.
-* See [Migration Guide](...TODO!!) for more explanations.
+* See [Migration Guide](docs/setup/Migration-Guide.md) for more explanations.
 
 ### Feature "Diff Viewer Plus"
 
@@ -28,7 +28,7 @@ Further small improvements:
 
 ### Breaking Changes and Backwards Compatibility
 
-* Changed configuration of data directory location: After installation you need to setup your data location and the configuration file as explained in the [Migration Guide](...TODO!!). This can not be configured through the frontend anymore.
+* Changed configuration of data directory location: After installation you need to setup your data location and the configuration file as explained in the [Migration Guide](docs/setup/Migration-Guide.md). This can not be configured through the frontend anymore.
 
 * Internal format of DiffViewer feature (build comparisons) has been changed and even the place where those are stored (#597). After an update to the new version you will see no calculated comparisons anymore and need to reimport those builds for which you want to calculate and see comparisons.
 
