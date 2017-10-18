@@ -11,16 +11,6 @@ do
             shift
         ;;
 
-        --user=*)
-            SCENARIOO_USER="${i#*=}"
-            shift
-        ;;
-
-        --secret=*)
-            SCENARIOO_SECRET="${i#*=}"
-            shift
-        ;;
-
         *)
             # unknown option
         ;;
@@ -38,9 +28,9 @@ WORKSPACE_DIR=$(pwd)
 echo "Workspace Dir: $WORKSPACE_DIR"
 
 # Scenarioo Docu Deployment Directories
-SCENARIOO_DATA_ROOT=/var/lib/scenarioo
-BRANCH_DATA_DIR=$SCENARIOO_DATA_ROOT/scenarioDocuExample-$BRANCH
-CONFIG_XML=$BRANCH_DATA_DIR/config.xml
+SCENARIOO_DATA_ROOT=/var/lib/scenarioo/data
+BRANCH_DATA_DIR=$SCENARIOO_DATA_ROOT/$BRANCH
+BRANCH_DATA_ARCHIVE_DIR=/var/lib/scenarioo/data-archive/$BRANCH
 
 ###
 ### CLEANUP and PREPARATION
@@ -48,16 +38,22 @@ CONFIG_XML=$BRANCH_DATA_DIR/config.xml
 
 # Undeploy webapplication
 echo "Undeploy Old Scenarioo Web App"
-curl -u $SCENARIOO_USER:$SCENARIOO_SECRET http://localhost:8080/manager/text/undeploy\?path\=/scenarioo-$BRANCH
+curl -u $TOMCAT_USERPASS http://localhost:8080/manager/text/undeploy\?path\=/scenarioo-$BRANCH
+
+# Backup all self docu and other important example docu reports to be restored after succesful deployment and testing of this scenarioo instance
+mkdir -p $BRANCH_DATA_ARCHIVE_DIR
+cp -rfp $BRANCH_DATA_DIR/scenarioo-* $BRANCH_DATA_ARCHIVE_DIR
+cp -rfp $BRANCH_DATA_DIR/pizza-* $BRANCH_DATA_ARCHIVE_DIR
+# wikipedia example not saved for restoring, this one was generated fresh by the scenarioo build
 
 # Cleanup (TODO: should be avoided, better remove the whole build folder once, and everything should be put into that build folder!)
-echo "Cleanup Old Self Docu Data"
+echo "Clean Old Self Docu Data"
 rm -rf ./scenarioo-client/scenariooDocumentation/scenarioo_self_docu
-echo "Cleanup Old E2E Test Reports"
+echo "Clean Old E2E Test Reports"
 rm -rf ./scenarioo-client/test-reports
 
 # Cleanup documentation data that is deployed to the demo server
-echo "Cleanup Old Demo Docu Data"
+echo "Clean Old Demo Docu Data"
 rm -rf $BRANCH_DATA_DIR
 
 # Copy scenarioo wikipedia docu example data with new generated data (including config.xml for demo).
@@ -75,7 +71,7 @@ echo "<Context><Parameter name=\"scenariooDataDirectory\" value=\"$BRANCH_DATA_D
 # Deploy the application manually, because autoDeploy is set to "false"
 echo "Deploying the Scenarioo Web App to Tomcat"
 cp -f $WORKSPACE_DIR/scenarioo-server/build/libs/scenarioo-latest.war $TOMCAT_WEBAPPS/scenarioo-$BRANCH.war
-curl -u $SCENARIOO_USER:$SCENARIOO_SECRET http://localhost:8080/manager/text/deploy\?path\=/scenarioo-$BRANCH
+curl -u $TOMCAT_USERPASS http://localhost:8080/manager/text/deploy\?path\=/scenarioo-$BRANCH
 
 # Wait until tomcat deployment is done
 echo "Waiting for Scenarioo Viewer deployed on Tomcat ..."

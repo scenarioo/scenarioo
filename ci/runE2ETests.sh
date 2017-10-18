@@ -7,7 +7,7 @@ for i in "${@}"
 do
     case ${i} in
         --branch=*)
-            BRANCH="${i#*=}"
+            export BRANCH="${i#*=}"
             shift
         ;;
 
@@ -28,3 +28,6 @@ pushd scenarioo-client
 gulp webdriver_update
 gulp test-e2e-scenarioo
 popd
+
+# Remove sketcher data generated from e2e tests
+rm -rf /var/lib/scenarioo/data/$BRANCH/scenarioo-application-data/sketcher
