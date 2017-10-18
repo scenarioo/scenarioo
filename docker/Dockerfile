@@ -1,10 +1,10 @@
 FROM tomcat:8.5.9-jre8
 
 MAINTAINER Scenarioo
-LABEL description="A simple container running the Scenarioo viewer application on a Tomcat server."
+LABEL description="Scenarioo Viewer Web Application"
 
 # SET THE SCENARIOO DATA DIRECTORY VIA THE ENVIRONMENT VARIABLE
-ENV SCENARIOO_DATA /doku
+ENV SCENARIOO_DATA /scenarioo/data
 
 # ADD WAR TO TOMCAT-WEBAPPS
 ADD ./scenarioo.war /usr/local/tomcat/webapps/

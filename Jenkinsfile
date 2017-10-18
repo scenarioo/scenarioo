@@ -8,47 +8,60 @@ def getEncodedBranchName() {
 }
 
 properties([
-		  disableConcurrentBuilds(),
-		  pipelineTriggers([
-					 [$class: 'GitHubPushTrigger']
-		  ])
+	disableConcurrentBuilds(),
+	pipelineTriggers([
+		[$class: 'GitHubPushTrigger']
+	])
 ])
 
 timestamps {
-	 node {
-		  stage('Checkout') {
-				checkout scm
-		  }
+	node {
+        stage('Checkout') {
+            checkout scm
+        }
 
-		  def encodedBranchName = getEncodedBranchName()
+        def encodedBranchName = getEncodedBranchName()
 
-		  stage('Build and unit test') {
-				try {
-					 gradle 'clean build'
-				} finally {
-					 junit '**/build/test-results/test/*.xml, scenarioo-client/TEST*.xml'
-				}
-		  }
+        stage('Build and unit test') {
+            ansiColor('xterm') {
 
-		  stage('Package') {
-				gradle 'distZip'
-				archiveArtifacts 'scenarioo-server/build/libs/scenarioo-*.war, LICENSE.txt, README.md, ' +
-						  'scenarioo-docu-generation-example/build/scenarioDocuExample/, scenarioo-validator/build/distributions/*'
-		  }
+                try {
+                     gradle 'clean build'
+                } finally {
+                     junit '**/build/test-results/test/*.xml, scenarioo-client/TEST*.xml'
+                }
 
-		  stage('Deploy') {
-				withCredentials([usernamePassword(credentialsId: 'SCENARIOO_TOMCAT', passwordVariable: 'SCENARIOO_PASSWORD', usernameVariable: 'SCENARIOO_USER')]) {
-					 sh "./ci/deploy.sh --branch=${encodedBranchName} --user=${SCENARIOO_USER} --secret=${SCENARIOO_PASSWORD}"
-				}
-		  }
+            }
+        }
 
-		  stage('Run e2e tests') {
-				try {
-					 sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
-				} finally {
-					 sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
-					 junit 'scenarioo-client/test-reports/*.xml'
-				}
-		  }
-	 }
+        stage('Package') {
+            gradle 'distZip'
+            archiveArtifacts 'scenarioo-server/build/libs/scenarioo-*.war, LICENSE.txt, README.md, ' +
+                        'scenarioo-docu-generation-example/build/scenarioDocuExample/, scenarioo-validator/build/distributions/*'
+        }
+
+        stage('Deploy') {
+            ansiColor('xterm') {
+
+                withCredentials([usernamePassword(credentialsId: 'SCENARIOO_TOMCAT', passwordVariable: 'SCENARIOO_PASSWORD', usernameVariable: 'SCENARIOO_USER')]) {
+                    sh "./ci/deploy.sh --branch=${encodedBranchName} --user=${SCENARIOO_USER} --secret=${SCENARIOO_PASSWORD}"
+					 }
+
+            }
+        }
+
+        stage('Run e2e tests') {
+            ansiColor('xterm') {
+
+                try {
+                         sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
+                } finally {
+                         sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
+                         junit 'scenarioo-client/test-reports/*.xml'
+                }
+
+            }
+        }
+
+	}
 }

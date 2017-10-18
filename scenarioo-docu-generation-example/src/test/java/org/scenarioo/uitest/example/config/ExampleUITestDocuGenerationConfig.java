@@ -31,6 +31,7 @@ package org.scenarioo.uitest.example.config;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.commons.io.FileUtils;
 
@@ -39,7 +40,7 @@ import org.apache.commons.io.FileUtils;
  */
 public class ExampleUITestDocuGenerationConfig {
 
-	public static final File DOCU_BUILD_DIRECTORY = new File("build/scenarioDocuExample");
+	public static final File SCENARIOO_DATA_DIRECTORY = new File("build/scenarioDocuExample");
 
 	/**
 	 * An example name for the branch in the example. Usually you would use the name of your real development branch
@@ -49,12 +50,17 @@ public class ExampleUITestDocuGenerationConfig {
 	public static final String WIKIPEADIA_EXAMPLE_DEVELOP = "wikipedia-docu-example-dev";
 
 	static {
+
 		// Ensure that on start of test all old test results are removed.
-		deleteDirectory(DOCU_BUILD_DIRECTORY);
+		deleteDirectory(SCENARIOO_DATA_DIRECTORY);
 
 		// Ensure that the build directory gets precreated, this is not handled by the Scenarioo Docu writer, if
 		// directory does not exist docu generation will fail.
-		DOCU_BUILD_DIRECTORY.mkdirs();
+		SCENARIOO_DATA_DIRECTORY.mkdirs();
+
+		// Copy the config.xml for the scenarioo viewer into output folder for demo
+		// (for demo only, usually you wouldnt write that from your tests!).
+		copyConfigFileForDemo();
 	}
 
 	private static void deleteDirectory(final File docuBranchDir) {
@@ -62,6 +68,23 @@ public class ExampleUITestDocuGenerationConfig {
 			FileUtils.deleteDirectory(docuBranchDir);
 		} catch (IOException e) {
 			throw new RuntimeException("Could not delete test data directory", e);
+		}
+	}
+
+	/**
+	 * This is only copied to output dir to also have the config file needed for the viewer
+	 * for running e2e tests and our demo, usually you wouldn't write this file
+	 * from the tests (this is usually done through viewer admin UI or manually)
+	 * @throws IOException
+	 */
+	private static void copyConfigFileForDemo() {
+		try {
+			InputStream configFileStream = ExampleUITestDocuGenerationConfig.class
+				.getResourceAsStream("/config-for-demo/config.xml");
+			File destConfigFile = new File(SCENARIOO_DATA_DIRECTORY, "config.xml");
+			FileUtils.copyInputStreamToFile(configFileStream, destConfigFile);
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to copy config.xml for demo data");
 		}
 	}
 

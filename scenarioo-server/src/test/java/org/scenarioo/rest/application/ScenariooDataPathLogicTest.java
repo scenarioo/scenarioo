@@ -11,16 +11,16 @@ import org.junit.Test;
 
 import java.io.File;
 
-public class DocumentationPathLogicTest {
+public class ScenariooDataPathLogicTest {
 
 	private final ServletContext servletContext = mock(ServletContext.class);
 	private final SystemEnvironment systemEnvironment = mock(SystemEnvironment.class);
 
-	private DocumentationPathLogic logic;
+	private ScenariooDataPathLogic logic;
 
 	@Before
 	public void setUp() {
-		logic = new DocumentationPathLogic(systemEnvironment);
+		logic = new ScenariooDataPathLogic(systemEnvironment);
 	}
 
 	@Test
@@ -28,7 +28,7 @@ public class DocumentationPathLogicTest {
 		when(servletContext.getInitParameter("scenariooDataDirectory")).thenReturn("tmp/test");
 		when(systemEnvironment.getScenariooDataDirectory()).thenReturn("tmp/itShouldNotBeMe");
 
-		String actual = logic.getDocumentationPath(new ServletContextEvent(servletContext));
+		String actual = logic.getDataPath(new ServletContextEvent(servletContext));
 
 		assertEquals("tmp/test", actual);
 	}
@@ -38,7 +38,7 @@ public class DocumentationPathLogicTest {
 		when(servletContext.getInitParameter("scenariooDataDirectory")).thenReturn(null);
 		when(systemEnvironment.getScenariooDataDirectory()).thenReturn("tmp/test");
 
-		String actual = logic.getDocumentationPath(new ServletContextEvent(servletContext));
+		String actual = logic.getDataPath(new ServletContextEvent(servletContext));
 
 		assertEquals("tmp/test", actual);
 	}
@@ -50,7 +50,7 @@ public class DocumentationPathLogicTest {
 		when(systemEnvironment.getUserHome()).thenReturn("/home/someuser");
 
 		String expectedPath = new File("/home/someuser/.scenarioo").getAbsolutePath();
-		String actual = logic.getDocumentationPath(new ServletContextEvent(servletContext));
+		String actual = logic.getDataPath(new ServletContextEvent(servletContext));
 
 		assertEquals(expectedPath, actual);
 	}
