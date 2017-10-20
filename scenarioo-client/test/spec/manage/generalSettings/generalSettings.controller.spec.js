@@ -54,7 +54,7 @@ describe('GeneralSettingsController', function () {
 
             $httpBackend.flush();
 
-            expect(ConfigCtrl.configuration).toEqualData(TestData.CONFIG);
+            expect(ConfigCtrl.configuration).toEqual(TestData.CONFIG);
         });
 
         it('loads all branches and builds', function () {
@@ -75,7 +75,7 @@ describe('GeneralSettingsController', function () {
             ConfigCtrl.resetConfiguration();
             $httpBackend.flush();
 
-            expect(ConfigCtrl.configuration).toEqualData(TestData.CONFIG);
+            expect(ConfigCtrl.configuration).toEqual(TestData.CONFIG);
         });
     });
 

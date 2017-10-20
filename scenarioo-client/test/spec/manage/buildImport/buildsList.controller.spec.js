@@ -46,7 +46,7 @@ describe('BuildsListController', function () {
 
         $httpBackend.flush();
 
-        expect(BuildsListController.buildImportStates).toEqualData(TestData.BUILD_IMPORT_STATES);
+        expect(angular.equals(BuildsListController.buildImportStates, TestData.BUILD_IMPORT_STATES)).toBeTruthy();
     });
 
 });

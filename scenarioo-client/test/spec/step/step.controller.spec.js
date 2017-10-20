@@ -77,7 +77,7 @@ describe('StepController', function () {
 
         it('loads the step data', function () {
             loadPageContent();
-            expect($scope.step).toEqualData(TestData.STEP.step);
+            expect($scope.step).toEqual(TestData.STEP.step);
         });
 
         it('shows specific step information', function () {
