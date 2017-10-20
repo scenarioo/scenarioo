@@ -45,7 +45,7 @@ module.exports = function (config) {
             'test/spec/**/*.js': ['webpack']
         },
 
-        webpack: require('./webpack.config'),
+        webpack: require('./configs/webpack.config.test'),
 
         webpackMiddleware: {
             noInfo: true,
@@ -69,11 +69,6 @@ module.exports = function (config) {
         // test results reporter to use
         // possible values: dots || progress || growl
         reporters: ['progress', 'junit'],
-        //reporters = ['progress', 'junit', 'coverage'];
-
-        //preprocessors = {
-        //    'app/scripts/services/*.js' : 'coverage'
-        //}
 
         // web server port
         port: 7070,
