@@ -14,10 +14,12 @@
  */
 
 var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:9000';
-var BRANCH = process.env.BRANCH || 'local_dev';
+var BRANCH = process.env.BRANCH || 'HEAD';
+var BUILD_NAME = 'build-' + (process.env.BUILD_NUMBER || 'latest');
 
 console.log('PROTRACTOR_BASE_URL: ' + PROTRACTOR_BASE_URL);
 console.log('BRANCH: ' + BRANCH);
+console.log('BUILD_NAME: ' + BUILD_NAME);
 
 var prepareProtractor = require('./prepareProtractor');
 
@@ -49,21 +51,17 @@ var exportsConfig = {
     rootElement: 'html',
 
     onPrepare: function () {
-        // enable scenarioo userDocumentation (see more on http://www.scenarioo.org)
-        // pass in the current branch of your VCS you are testing, an arbitrary build name and the current revision you are testing.
-        var moment = require('moment');
-        var timeStamp = moment().format('YYYY.MM.DD_HH.mm.ss');
-        var git = require('git-rev-sync');
-
-        var scenarioo = require('scenarioo-js');
 
         // Setup and configure the ScenariooJS jasmine reporter
+        // See https://github.com/scenarioo/scenarioo-js/blob/develop/README.md
+        var git = require('git-rev-sync');
+        var scenarioo = require('scenarioo-js');
         scenarioo.setupJasmineReporter(jasmine, {
 
             targetDirectory: './scenariooDocumentation',
-            branchName: 'scenarioo-self-docu',
+            branchName: 'scenarioo-' + BRANCH,
             branchDescription: 'Scenarioo documenting itself.',
-            buildName: 'build_' + timeStamp,
+            buildName: BUILD_NAME,
             revision: git.short(),
             pageNameExtractor: function (url) {
                 return url.pathname.substring(1);
