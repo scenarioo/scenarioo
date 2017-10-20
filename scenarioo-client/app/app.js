@@ -25,14 +25,21 @@ require('jquery');
 require('angular');
 require('angular-resource');
 require('angular-sanitize');
-
 require('angular-route');
 
 
 require('angular-ui-bootstrap');
 require('angular-local-storage');
+
 require('./components/twigs/dist/twigs.js');
 require('./components/angular-unsavedChanges/dist/unsavedChanges.js');
+window.SVG = require('./components/svg.js/dist/svg');
+require('./components/svg.select.js/dist/svg.select');
+require('./components/svg.draggable.js/dist/svg.draggable');
+require('./components/svg.resize.js/dist/svg.resize');
+require('./components/svg-pan-zoom/dist/svg-pan-zoom');
+
+
 
 angular.module('scenarioo.filters', []);
 angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute']);
@@ -217,7 +224,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     require('./shared/navigation/applicationInfoPopup.service.js');
     require('./shared/navigation/sharePage/sharePagePopup.controller.js');
     require('./shared/navigation/sharePage/sharePagePopup.service.js');
-/*
+
     require('./sketcher/sketcherContext.service.js');
     require('./sketcher/sketcherRestClient.service.js');
     require('./sketcher/stepSketch.controller.js');
@@ -242,7 +249,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     require('./sketcher/drawingPad/toolBox.service.js');
     require('./sketcher/sketcherEditor.controller.js');
     require('./sketcher/storeSketch.service.js');
-*/
+
     require('./step/screenAnnotations/annotatedScreenshot.directive.js');
     require('./step/screenAnnotations/screenAnnotationsButton.directive.js');
     require('./step/screenAnnotations/screenAnnotationInfoPopup.controller.js');

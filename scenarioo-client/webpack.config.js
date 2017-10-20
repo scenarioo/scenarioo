@@ -18,7 +18,7 @@ var webpackConfig = {
         app: './app/app.js'
     },
 
-    output: isTest ? {} :  {
+    output: isTest ? {} : {
         path: __dirname + '/dist',
         filename: 'app.bundle.js'
     },
@@ -32,7 +32,7 @@ var webpackConfig = {
         proxy: {
             "/rest": {
                 "target": 'http://localhost:8080/scenarioo/rest',
-                "pathRewrite": { '^/rest': '' },
+                "pathRewrite": {'^/rest': ''},
             }
         }
     },
@@ -41,7 +41,7 @@ var webpackConfig = {
             {
                 test: /\.(jpg|jpeg|gif|png|ico)$/,
                 include: /images/,
-                loader:'file-loader?name=/images/[name].[ext]'
+                loader: 'file-loader?name=/images/[name].[ext]'
             },
             {
                 test: /\.html$/,
@@ -50,12 +50,12 @@ var webpackConfig = {
             },
             {
                 test: /\.css$/,
-                loader: isTest ? 'null-loader': "style-loader!css-loader",
+                loader: isTest ? 'null-loader' : "style-loader!css-loader",
                 exclude: '/node_modules'
             },
             {
                 test: /\.less/,
-                loader: isTest ? 'null-loader': "style-loader!css-loader!less-loader",
+                loader: isTest ? 'null-loader' : "style-loader!css-loader!less-loader",
                 exclude: '/node_modules'
             },
             {
@@ -84,7 +84,7 @@ if (!isTest) {
     }));
     webpackConfig.plugins.push(new CopyWebpackPlugin([{
         from: './app/images', to: 'images'
-    }]));
+    },]));
 }
 
 module.exports = webpackConfig;
