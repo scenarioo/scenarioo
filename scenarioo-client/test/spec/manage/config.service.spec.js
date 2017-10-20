@@ -19,8 +19,6 @@
 
 describe('ConfigService', function () {
 
-    var HostnameAndPort;
-
     var BUILD_STATE_FAILED = 'failed',
         BUILD_STATE_SUCCESS = 'success',
         BUILD_STATE_WARNING = 'warning',
@@ -37,10 +35,6 @@ describe('ConfigService', function () {
         };
 
     beforeEach(angular.mock.module('scenarioo.services'));
-
-    beforeEach(inject(function(_HostnameAndPort_) {
-        HostnameAndPort = _HostnameAndPort_;
-    }));
 
     it('should inject ConfigService', inject(function (ConfigService) {
         expect(ConfigService).not.toBeUndefined();
@@ -81,7 +75,7 @@ describe('ConfigService', function () {
     }));
 
     function loadConfigFromService(ConfigService, $httpBackend) {
-        $httpBackend.when('GET', HostnameAndPort.forTest() + 'rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
+        $httpBackend.when('GET', '/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
         ConfigService.load();
         $httpBackend.flush();
     }

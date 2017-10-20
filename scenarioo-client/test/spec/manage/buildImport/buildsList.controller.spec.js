@@ -19,19 +19,18 @@
 
 describe('BuildsListController', function () {
 
-    var $location, $httpBackend, HostnameAndPort, TestData, $scope, BuildsListController;
+    var $location, $httpBackend, TestData, $scope, BuildsListController;
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($controller, $rootScope, _$location_, _$httpBackend_, _HostnameAndPort_, _TestData_) {
+    beforeEach(inject(function ($controller, $rootScope, _$location_, _$httpBackend_, _TestData_) {
             $location = _$location_;
             $httpBackend = _$httpBackend_;
-            HostnameAndPort = _HostnameAndPort_;
             TestData = _TestData_;
 
             $scope = $rootScope.$new();
 
-            var BUILD_IMPORT_STATES_URL = HostnameAndPort.forTest() + 'rest/builds/buildImportSummaries';
+            var BUILD_IMPORT_STATES_URL = '/rest/builds/buildImportSummaries';
 
             $httpBackend.whenGET(BUILD_IMPORT_STATES_URL).respond(TestData.BUILD_IMPORT_STATES);
 

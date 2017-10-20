@@ -22,7 +22,7 @@ angular.module('scenarioo.controllers').controller('SketcherEditorController', S
 function SketcherEditorController($rootScope, $scope, $location, $filter, $interval, $routeParams,
                                   SelectedBranchAndBuildService, ToolBoxService, DrawShapeService, DrawingPadService,
                                   IssueResource, SketcherContextService, LocalStorageService, ZoomPanService, $timeout,
-                                  HostnameAndPort, StoreSketchService) {
+                                  StoreSketchService) {
 
     var vm = this;
     vm.savingSketch = StoreSketchService.isSavingSketchInProgress;
@@ -87,7 +87,7 @@ function SketcherEditorController($rootScope, $scope, $location, $filter, $inter
         }
 
         var selected = SelectedBranchAndBuildService.selected();
-        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + vm.currentIssue.issueId
+        return '/rest/branch/' + selected.branch + '/issue/' + vm.currentIssue.issueId
             + '/scenariosketch/' + vm.scenarioSketchId + '/stepsketch/' + vm.stepSketchId + '/svg/1';
     }
 
@@ -170,7 +170,7 @@ function SketcherEditorController($rootScope, $scope, $location, $filter, $inter
             return undefined;
         }
     }
-    
+
     function saveSketch() {
         DrawingPadService.unSelectAllShapes();
         StoreSketchService.saveIssueAndScenarioSketchAndStepSketch({
@@ -209,10 +209,10 @@ function SketcherEditorController($rootScope, $scope, $location, $filter, $inter
     }
 
     $rootScope.$on('savedSketchSuccessfully', function(result) {
-        
+
     });
-        
-        
+
+
     $rootScope.$on('drawingEnded', function (scope, shape) {
         // $scope.$apply is used to make sure that the button disabled directive updates in the view
         $scope.$apply(vm.activateTool(vm.toolBox[0]));

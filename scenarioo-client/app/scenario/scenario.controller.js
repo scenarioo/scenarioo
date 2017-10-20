@@ -18,7 +18,7 @@
 angular.module('scenarioo.controllers').controller('ScenarioController', ScenarioController);
 
 function ScenarioController($filter, $routeParams,
-          $location, ScenarioResource, HostnameAndPort, SelectedBranchAndBuildService, SelectedComparison,
+          $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparison,
           ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
 
     var vm = this;
@@ -170,7 +170,7 @@ function ScenarioController($filter, $routeParams,
             build = comparisonBuildName;
         }
 
-        return HostnameAndPort.forLink() + 'rest/branch/' + branch + '/build/' + build +
+        return '/rest/branch/' + branch + '/build/' + build +
             '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
     }
 

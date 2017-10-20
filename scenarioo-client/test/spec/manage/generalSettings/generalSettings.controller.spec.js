@@ -19,29 +19,28 @@
 
 describe('GeneralSettingsController', function () {
 
-    var $rootScope, $controller, BranchesResource, ConfigService, $httpBackend, $scope, ConfigCtrl, HostnameAndPort, TestData;
+    var $rootScope, $controller, BranchesResource, ConfigService, $httpBackend, $scope, ConfigCtrl, TestData;
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$controller_, _BranchesResource_, _ConfigService_, _$httpBackend_, _HostnameAndPort_, _TestData_) {
+    beforeEach(inject(function (_$rootScope_, _$controller_, _BranchesResource_, _ConfigService_, _$httpBackend_, _TestData_) {
         $rootScope = _$rootScope_;
         $controller = _$controller_;
         BranchesResource = _BranchesResource_;
         ConfigService = _ConfigService_;
         $httpBackend = _$httpBackend_;
-        HostnameAndPort = _HostnameAndPort_;
         TestData = _TestData_;
 
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branches').respond(TestData.BRANCHES);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/version').respond(TestData.VERSION);
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/searchEngineStatus').respond({'searchEngineRunning':false});
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration/applicationStatus').respond({
+        $httpBackend.whenGET('/rest/branches').respond(TestData.BRANCHES);
+        $httpBackend.whenGET('/rest/configuration').respond(TestData.CONFIG);
+        $httpBackend.whenGET('/rest/version').respond(TestData.VERSION);
+        $httpBackend.whenGET('/rest/searchEngineStatus').respond({'searchEngineRunning':false});
+        $httpBackend.whenGET('/rest/configuration/applicationStatus').respond({
             'searchEngineRunning':false,
             'version': TestData.VERSION,
             'configuration': TestData.CONFIG
         });
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/branch/branch_123/build/build_123/searchEngine').respond(404, false);
+        $httpBackend.whenGET('/rest/branch/branch_123/build/build_123/searchEngine').respond(404, false);
 
         $scope = $rootScope.$new();
         ConfigCtrl = $controller('GeneralSettingsController', {$scope: $scope, BranchesResource: BranchesResource, ConfigService: ConfigService});

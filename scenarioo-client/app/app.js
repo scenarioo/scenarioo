@@ -42,14 +42,9 @@ require('./components/svg.resize.js/dist/svg.resize');
 angular.module('scenarioo.filters', []);
 angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute']);
 angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'unsavedChanges']);
-angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule']);
+angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'LocalStorageModule']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
 require('./shared/utils/number.filter');
-
-// TODO danielsuter, not needed anymore
-angular.module('scenarioo.config', [])
-    .constant('BASE_URL', '')
-    .constant('ENV', 'development');
 
 angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations'])
 

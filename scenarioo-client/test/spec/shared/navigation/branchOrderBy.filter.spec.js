@@ -51,7 +51,7 @@ var DEFAULT_INPUT = [
 
 describe('Filter scBranchOrderBy', function () {
 
-    var ConfigService, $httpBackend, HostnameAndPort, TestData;
+    var ConfigService, $httpBackend, TestData;
 
     var scBranchOrderByFilter;
 
@@ -62,14 +62,13 @@ describe('Filter scBranchOrderBy', function () {
     });
 
     function initConfig(config) {
-        inject(function ($filter, _ConfigService_, _$httpBackend_, _TestData_, _HostnameAndPort_) {
+        inject(function ($filter, _ConfigService_, _$httpBackend_, _TestData_) {
 
             ConfigService = _ConfigService_;
             $httpBackend = _$httpBackend_;
             TestData = _TestData_;
-            HostnameAndPort = _HostnameAndPort_;
 
-            $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(config);
+            $httpBackend.whenGET('/rest/configuration').respond(config);
 
             ConfigService.load();
             $httpBackend.flush();

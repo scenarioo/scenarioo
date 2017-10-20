@@ -21,38 +21,12 @@ angular.module('scenarioo.services')
         $httpProvider.defaults.stripTrailingSlashes = false;
     })
 
-    .factory('HostnameAndPort', function (ENV, BASE_URL, $location) {
-        var baseUrl = BASE_URL;
-
-        var getBaseUrl = function () {
-            var url = $location.absUrl();
-            var urlParts = url.split('#');
-            return urlParts[0];
-        };
-
-        return {
-            forNgResource: function () {
-                return baseUrl.replace(/(:[0-9])/, '\\$1');
-            },
-            forTest: function () {
-                return baseUrl;
-            },
-            forLink: function () {
-                return baseUrl;
-            },
-            forLinkAbsolute: function () {
-                return getBaseUrl();
-            }
-        };
-    })
-
-
     /**
      * All resources in Scenarioo must be based on this ScenariooResource.
      */
-    .factory('ScenariooResource', function (HostnameAndPort, $resource) {
+    .factory('ScenariooResource', function ($resource) {
         return function (url, paramDefaults, actions) {
-            return $resource(HostnameAndPort.forNgResource() + 'rest' + url, paramDefaults, actions);
+            return $resource('/rest' + url, paramDefaults, actions);
         };
     })
 
@@ -65,10 +39,10 @@ angular.module('scenarioo.services')
         return ScenariooResource('/builds/buildImportSummaries', {}, {});
     })
 
-    .factory('BuildImportLogResource', function (HostnameAndPort, $http) {
+    .factory('BuildImportLogResource', function ($http) {
         return {
             get: function (branchName, buildName, onSuccess, onError) {
-                var callURL = HostnameAndPort.forLink() + 'rest/builds/importLogs/' + encodeURIComponent(branchName) + '/' + encodeURIComponent(buildName);
+                var callURL = '/rest/builds/importLogs/' + encodeURIComponent(branchName) + '/' + encodeURIComponent(buildName);
                 $http({method: 'GET', url: callURL, headers: {
                     'Accept': 'text/plain'
                 }}).success(onSuccess).error(onError);

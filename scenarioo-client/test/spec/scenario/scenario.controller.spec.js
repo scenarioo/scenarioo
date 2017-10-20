@@ -19,17 +19,16 @@
 
 describe('ScenarioController', function () {
 
-    var $scope, $httpBackend, $routeParams, ConfigService, TestData, HostNameAndPort, ScenarioController, RelatedIssueResource;
+    var $scope, $httpBackend, $routeParams, ConfigService, TestData, ScenarioController, RelatedIssueResource;
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($rootScope, $controller, _$httpBackend_, _$routeParams_, _ConfigService_, _TestData_, _HostnameAndPort_, LocalStorageService, _RelatedIssueResource_) {
+    beforeEach(inject(function ($rootScope, $controller, _$httpBackend_, _$routeParams_, _ConfigService_, _TestData_, LocalStorageService, _RelatedIssueResource_) {
         $scope = $rootScope.$new();
         $httpBackend = _$httpBackend_;
         $routeParams = _$routeParams_;
         ConfigService = _ConfigService_;
         TestData = _TestData_;
-        HostNameAndPort = _HostnameAndPort_;
         RelatedIssueResource = _RelatedIssueResource_;
 
         $routeParams.useCaseName = 'SearchUseCase';
@@ -62,7 +61,7 @@ describe('ScenarioController', function () {
         givenScenarioIsLoaded();
 
         var imageLink = ScenarioController.getScreenShotUrl('img.jpg');
-        expect(imageLink).toBe(HostNameAndPort.forLink() + 'rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario/image/img.jpg');
+        expect(imageLink).toBe('/rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario/image/img.jpg');
     });
 
     it('does not show all steps of a page by default', function () {
@@ -139,9 +138,9 @@ describe('ScenarioController', function () {
             config = TestData.CONFIG;
         }
 
-        $httpBackend.whenGET(HostNameAndPort.forLink() + 'rest/configuration').respond(config);
-        $httpBackend.whenGET(HostNameAndPort.forLink() + 'rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario').respond(TestData.SCENARIO);
-        $httpBackend.whenGET(HostNameAndPort.forTest() + 'rest/labelconfigurations').respond({});
+        $httpBackend.whenGET('/rest/configuration').respond(config);
+        $httpBackend.whenGET('/rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario').respond(TestData.SCENARIO);
+        $httpBackend.whenGET('/rest/labelconfigurations').respond({});
 
         ConfigService.load();
         $httpBackend.flush();

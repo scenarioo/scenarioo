@@ -19,20 +19,19 @@
 
 describe('BuildController', function () {
 
-    var $location, $httpBackend, HostnameAndPort, TestData, $scope, BuildController;
+    var $location, $httpBackend, TestData, $scope, BuildController;
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($controller, $rootScope, _$location_, _$httpBackend_, _HostnameAndPort_, _TestData_) {
+    beforeEach(inject(function ($controller, $rootScope, _$location_, _$httpBackend_, _TestData_) {
             $location = _$location_;
             $httpBackend = _$httpBackend_;
-            HostnameAndPort = _HostnameAndPort_;
             TestData = _TestData_;
 
-            var BRANCHES_URL = HostnameAndPort.forTest() + 'rest/branches';
+            var BRANCHES_URL = '/rest/branches';
             $httpBackend.whenGET(BRANCHES_URL).respond(TestData.BRANCHES);
 
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/configuration').respond(TestData.CONFIG);
+        $httpBackend.whenGET('/rest/configuration').respond(TestData.CONFIG);
 
             $scope = $rootScope.$new();
             BuildController = $controller('BuildController', {$scope: $scope});
