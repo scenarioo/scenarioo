@@ -5,6 +5,11 @@ var commonConfig = require('./webpack.config.common');
 var webpackConfig = merge(commonConfig, {
     devtool: 'source-map',
 
+    output: {
+        path: __dirname + '/../dist',
+        filename: 'app.bundle.[hash].js'
+    },
+
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.optimize.UglifyJsPlugin()
