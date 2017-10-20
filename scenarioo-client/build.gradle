@@ -37,6 +37,8 @@ clean {
     delete "dist"
 }
 
+test.dependsOn npm_test
+npm_test.dependsOn npmInstall
 build.dependsOn npm_run_build
 npm_run_build.dependsOn npmInstall
 
