@@ -29,7 +29,7 @@ var exportsConfig = {
     allScriptsTimeout: 20000,
     getPageTimeout: 20000,
 
-    specs: [/* See gulpfile.js for specified tests */],
+    specs: ['./test/protractorE2E/specs/**/*.js'],
 
     capabilities: {
         browserName: 'chrome',

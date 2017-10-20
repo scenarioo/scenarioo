@@ -42,7 +42,7 @@ var exportsConfig = {
         },
     },
 
-    specs: [/* See gulpfile.js for specified tests */],
+    specs: ['./test/protractorE2E/specs/**/*.js'],
 
     baseUrl: PROTRACTOR_BASE_URL,
 
