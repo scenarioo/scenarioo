@@ -32,7 +32,7 @@ require('angular-ui-bootstrap');
 require('angular-local-storage');
 
 require('./components/svg.select.js/dist/svg.select.css');
-require('./components/twigs/dist/twigs.js');
+require('twigs');
 require('./components/angular-unsavedChanges/dist/unsavedChanges.js');
 window.SVG = require('./components/svg.js/dist/svg');
 require('./components/svg.select.js/dist/svg.select');
@@ -145,6 +145,7 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     $templateCache.put('manage/generalSettings/generalSettings.html', require('./manage/generalSettings/generalSettings.html'));
     $templateCache.put('manage/branchAliases/branchAliases.html', require('./manage/branchAliases/branchAliases.html'));
     $templateCache.put('manage/labelColors/labelColors.html', require('./manage/labelColors/labelColors.html'));
+    $templateCache.put('build/sketchesTab.html', require('./build/sketchesTab.html'));
 
 
     // Initialze modals to close when the location changes

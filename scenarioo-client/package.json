@@ -27,7 +27,8 @@
         "angular-ui-bootstrap": "1.2.2",
         "bootstrap": "^3.3.7",
         "jquery": "3.2.1",
-        "svg-pan-zoom": "github:ariutta/svg-pan-zoom#3.2.11"
+        "svg-pan-zoom": "github:ariutta/svg-pan-zoom#3.2.11",
+        "twigs": "github:hatchteam/twigs#0.2.3"
     },
     "devDependencies": {
         "angular-mocks": "1.5.2",

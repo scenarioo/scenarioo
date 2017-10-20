@@ -3,7 +3,6 @@
     "version": "0.0.0",
     "dependencies": {
         "font-awesome": "~3.2.1",
-        "twigs": "0.2.3",
         "svg.js": "https://github.com/svgdotjs/svg.js.git#2.0.4",
         "svg.draggable.js": "https://github.com/svgdotjs/svg.draggable.js.git#2.0.0",
         "svg.select.js": "https://github.com/parabolika66/svg.select.js.git#~1.0.8",
@@ -11,11 +10,8 @@
         "angular-unsavedChanges": "~0.1.1"
     },
     "devDependencies": {
-        "angular-mocks": "1.5.2",
-        "angular-scenario": "1.5.2"
     },
     "resolutions": {
-        "svg.js": "2.0.4",
-        "angular": "1.5.2"
+        "svg.js": "2.0.4"
     }
 }
