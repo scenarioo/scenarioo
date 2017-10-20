@@ -107,7 +107,7 @@ describe('UseCaseController', function () {
                 }
         };
 
-        return function(params, onSuccess) {
+        return function (params, onSuccess) {
             onSuccess(DATA);
         };
     }
@@ -121,11 +121,9 @@ describe('UseCaseController', function () {
     }
 
     function getEmptyData() {
-        var DATA = {
+        var DATA = {};
 
-        };
-
-        return function(params, onSuccess) {
+        return function (params, onSuccess) {
             onSuccess(DATA);
         };
     }

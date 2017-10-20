@@ -103,9 +103,10 @@ module.exports = function (config) {
         browserDisconnectTolerance : 1,
         browserNoActivityTimeout : 60000, //by default 10000
 
+
         // Continuous Integration mode
         // if true, it capture browsers, run tests and exit
-        singleRun: true
+        singleRun: false
     });
 
 };
