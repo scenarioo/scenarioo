@@ -5,7 +5,7 @@ var pages = require('./../webPages');
 
 useCase('Create sketch')
     .description('Create a sketch based on the screenshot of a step.')
-    .xdescribe(function () {
+    .describe(function () {
 
         var homePage = new pages.homePage();
         var usecasePage = new pages.usecasePage();

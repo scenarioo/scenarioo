@@ -19,17 +19,18 @@
 
 describe('ScenarioController', function () {
 
-    var $scope, $httpBackend, $routeParams, ConfigService, TestData, HostNameAndPort, ScenarioController;
+    var $scope, $httpBackend, $routeParams, ConfigService, TestData, HostNameAndPort, ScenarioController, RelatedIssueResource;
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($rootScope, $controller, _$httpBackend_, _$routeParams_, _ConfigService_, _TestData_, _HostnameAndPort_, LocalStorageService) {
+    beforeEach(inject(function ($rootScope, $controller, _$httpBackend_, _$routeParams_, _ConfigService_, _TestData_, _HostnameAndPort_, LocalStorageService, _RelatedIssueResource_) {
         $scope = $rootScope.$new();
         $httpBackend = _$httpBackend_;
         $routeParams = _$routeParams_;
         ConfigService = _ConfigService_;
         TestData = _TestData_;
         HostNameAndPort = _HostnameAndPort_;
+        RelatedIssueResource = _RelatedIssueResource_;
 
         $routeParams.useCaseName = 'SearchUseCase';
         $routeParams.scenarioName = 'NotFoundScenario';
@@ -37,6 +38,8 @@ describe('ScenarioController', function () {
         LocalStorageService.clearAll();
 
         ScenarioController = $controller('ScenarioController', {$scope: $scope, ConfigService: ConfigService});
+
+        spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
     }));
 
     it('clears search field when resetSearchField() is called', function () {
@@ -149,4 +152,20 @@ describe('ScenarioController', function () {
         expect(ScenarioController.showAllStepsForPage(1)).toBeTruthy();
         expect(ScenarioController.showAllStepsForPage(2)).toBeFalsy(); // Scenario has only 2 pages
     }
+
+    function queryRelatedIssuesFake() {
+        var DATA = {
+            0:
+            {
+                id: '1',
+                name: 'fakeTestingIssue',
+                firstScenarioSketchId: '1'
+            }
+        };
+
+        return function(params, onSuccess) {
+            onSuccess(DATA);
+        };
+    }
+
 });

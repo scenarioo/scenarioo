@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($routeParams, $location, $route, $compile,
                                                                             $filter, $sce, BreadcrumbsService,
-                                                                            SharePagePopupService) {
+                                                                            SharePagePopupService, SketcherLinkService) {
 
     var limit = 50;
 
@@ -29,6 +29,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
         link: function (scope) {
 
             scope.breadcrumbs = [];
+            scope.sketcherLink = SketcherLinkService;
             var navParameters = [];
             var breadcrumbId = $route.current.$$route.breadcrumbId;
 

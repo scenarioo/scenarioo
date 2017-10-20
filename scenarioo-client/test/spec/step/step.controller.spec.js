@@ -20,7 +20,7 @@
 describe('StepController', function () {
 
     var $scope, $routeParams, $location, $q, $window, ConfigService, ScenarioResource, StepResource, BuildDiffInfoResource, StepDiffInfoResource,
-        HostnameAndPort, SelectedBranchAndBuildService, DiffInfoService, BranchesResource, $controller, $httpBackend, TestData;
+        HostnameAndPort, SelectedBranchAndBuildService, DiffInfoService, BranchesResource, $controller, $httpBackend, TestData, RelatedIssueResource;
 
     var STEP_INFORMATION_TREE = {
         childNodes: [
@@ -33,7 +33,7 @@ describe('StepController', function () {
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_, _ScenarioResource_, _StepResource_, _BuildDiffInfoResource_, _StepDiffInfoResource_, _HostnameAndPort_, _SelectedBranchAndBuildService_, _DiffInfoService_, _BranchesResource_, _$controller_, _$httpBackend_, _TestData_, LocalStorageService) {
+    beforeEach(inject(function (_$rootScope_, _$routeParams_, _$location_, _$q_, _$window_, _ConfigService_, _ScenarioResource_, _StepResource_, _BuildDiffInfoResource_, _StepDiffInfoResource_, _HostnameAndPort_, _SelectedBranchAndBuildService_, _DiffInfoService_, _BranchesResource_, _$controller_, _$httpBackend_, _TestData_, LocalStorageService, _RelatedIssueResource_) {
         $scope = _$rootScope_.$new();
         $routeParams = _$routeParams_;
         $location = _$location_;
@@ -41,6 +41,7 @@ describe('StepController', function () {
         $window = _$window_;
         ConfigService = _ConfigService_;
         ScenarioResource = _ScenarioResource_;
+        RelatedIssueResource = _RelatedIssueResource_;
         StepResource = _StepResource_;
         BuildDiffInfoResource = _BuildDiffInfoResource_;
         StepDiffInfoResource = _StepDiffInfoResource_;
@@ -68,6 +69,7 @@ describe('StepController', function () {
             $controller('StepController', {$scope: $scope, $routeParams: $routeParams, $location: $location,
                 $q: $q, $window: $window, ConfigService: ConfigService, ScenarioResource: ScenarioResource, StepResource: StepResource, HostnameAndPort: HostnameAndPort,
                 SelectedBranchAndBuildService: SelectedBranchAndBuildService, DiffInfoService: DiffInfoService, ApplicationInfoPopupService: {}, SharePagePopupService: {}});
+            spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
             spyOn(BranchesResource, 'query').and.callFake(getEmptyData());
             spyOn(BuildDiffInfoResource, 'get').and.callFake(getEmptyData());
             spyOn(StepDiffInfoResource, 'get').and.callFake(getEmptyData());
@@ -200,6 +202,21 @@ describe('StepController', function () {
             ConfigService.load();
             $httpBackend.flush();
             expect($scope.stepNotFound).toBeFalsy();
+        }
+
+        function queryRelatedIssuesFake() {
+            var DATA = {
+                0:
+                {
+                    id: '1',
+                    name: 'fakeTestingIssue',
+                    firstScenarioSketchId: '1'
+                }
+            };
+
+            return function(params, onSuccess) {
+                onSuccess(DATA);
+            };
         }
     });
 

@@ -23,16 +23,18 @@ describe('UseCaseController', function () {
         BUILD = 'build_123',
         USE_CASE = 'LogIn';
 
-    var $scope, routeParams, controller, ScenarioResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource, SelectedBranchAndBuildService, $location, $httpBackend, HostnameAndPort;
+    var $scope, routeParams, controller, ScenarioResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource,
+        SelectedBranchAndBuildService, $location, $httpBackend, HostnameAndPort, RelatedIssueResource;
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, _UseCaseDiffInfoResource_, _ScenarioDiffInfosResource_,
+    beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, _RelatedIssueResource_, _UseCaseDiffInfoResource_, _ScenarioDiffInfosResource_,
                                 ConfigMock, _SelectedBranchAndBuildService_, _$location_, LocalStorageService, _$httpBackend_, _HostnameAndPort_) {
             $scope = $rootScope.$new();
             routeParams = $routeParams;
             routeParams.useCaseName = USE_CASE;
             ScenarioResource = _ScenarioResource_;
+            RelatedIssueResource = _RelatedIssueResource_;
             UseCaseDiffInfoResource = _UseCaseDiffInfoResource_;
             ScenarioDiffInfosResource = _ScenarioDiffInfosResource_;
             SelectedBranchAndBuildService = _SelectedBranchAndBuildService_;
@@ -47,6 +49,7 @@ describe('UseCaseController', function () {
                 $routeParams: routeParams,
                 ConfigService: ConfigMock,
                 ScenarioResource: ScenarioResource,
+                RelatedIssueResource: RelatedIssueResource,
                 UseCaseDiffInfoResource: UseCaseDiffInfoResource,
                 ScenarioDiffInfosResource: ScenarioDiffInfosResource,
                 SelectedBranchAndBuildService: SelectedBranchAndBuildService
@@ -56,6 +59,7 @@ describe('UseCaseController', function () {
 
     it('should load all scenarios and and the selected use case', function () {
         spyOn(ScenarioResource, 'get').and.callFake(getFindAllScenariosFake());
+        spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
         spyOn(UseCaseDiffInfoResource, 'get').and.callFake(getEmptyData());
         spyOn(ScenarioDiffInfosResource, 'get').and.callFake(getEmptyData());
         $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/labelconfigurations').respond({});
@@ -89,6 +93,21 @@ describe('UseCaseController', function () {
         };
 
         return function (params, onSuccess) {
+            onSuccess(DATA);
+        };
+    }
+
+    function queryRelatedIssuesFake() {
+        var DATA = {
+            0:
+                {
+                    id: '1',
+                    name: 'fakeTestingIssue',
+                    firstScenarioSketchId: '1'
+                }
+        };
+
+        return function(params, onSuccess) {
             onSuccess(DATA);
         };
     }

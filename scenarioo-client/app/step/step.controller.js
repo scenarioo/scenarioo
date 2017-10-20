@@ -19,7 +19,8 @@ angular.module('scenarioo.controllers').controller('StepController', StepControl
 
 function StepController($scope, $routeParams, $location, $route, StepResource, HostnameAndPort, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, GlobalHotkeysService, LabelConfigurationsResource,
-                        SharePageService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, BuildDiffInfoResource,
+                        SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
+                        SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, BuildDiffInfoResource,
                         StepDiffInfoResource, DiffInfoService, localStorageService, ConfigService) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
@@ -45,7 +46,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     activate();
 
     function activate() {
-
+        SketcherLinkService.showCreateOrEditSketchLinkInBreadcrumbs('Create Sketch', createSketch);
     }
 
     function createSketch() {
@@ -111,6 +112,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
                 $scope.useCaseLabels = result.useCaseLabels;
                 $scope.scenarioLabels = result.scenarioLabels;
                 $scope.selectedBuild = selected.buildName;
+                loadRelatedIssues();
                 initScreenshotUrl();
                 if(SelectedComparison.isDefined()) {
                     loadDiffInfoData(selected.branch, selected.build, SelectedComparison.selected());
@@ -127,6 +129,8 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
 
                 SharePageService.setPageUrl($scope.getCurrentUrlForSharing());
                 SharePageService.setImageUrl($scope.getScreenshotUrlForSharing());
+
+                updateSketcherContextService();
             },
             function error(result) {
                 $scope.stepNotFound = true;
@@ -138,6 +142,20 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
                 };
             }
         );
+    }
+
+    function updateSketcherContextService() {
+        SketcherContextService.stepIdentifier = {
+            branchName: selectedBranchAndBuild.branch,
+            buildName: selectedBranchAndBuild.build,
+            usecaseName: useCaseName,
+            scenarioName: scenarioName,
+            pageName: $scope.pageName,
+            pageOccurrence: $scope.pageOccurrence,
+            stepInPageOccurrence: $scope.stepInPageOccurrence
+        };
+
+        SketcherContextService.screenshotURL = $scope.screenShotUrl;
     }
 
     function createStepInformationTree(result) {
@@ -542,10 +560,34 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
 
     $scope.$on('$destroy', function () {
         SharePageService.invalidateUrls();
+        SketcherLinkService.hideCreateOrEditSketchLinkInBreadcrumbs();
     });
 
-    function goToIssue(issue) {
+    function loadRelatedIssues() {
+        RelatedIssueResource.query({
+            branchName: SelectedBranchAndBuildService.selected().branch,
+            buildName: SelectedBranchAndBuildService.selected().build,
+            useCaseName: useCaseName,
+            scenarioName: scenarioName,
+            pageName: $scope.pageName,
+            pageOccurence: $scope.pageOccurrence,
+            stepInPageOccurrence: $scope.stepInPageOccurrence
+        }, function(result){
+            $scope.relatedIssues = result;
+            $scope.hasAnyRelatedIssues = function(){
+                return $scope.relatedIssues.length > 0;
+            };
+            $scope.goToIssue = goToIssue;
+        });
+    }
 
+    function goToIssue(issue) {
+        var selectedBranch = SelectedBranchAndBuildService.selected().branch;
+        SketchIdsResource.get(
+            {'branchName': selectedBranch, 'issueId': issue.id },
+            function onSuccess(result) {
+                $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
+            });
     }
 
 }
