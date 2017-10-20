@@ -17,9 +17,9 @@
 
 'use strict';
 
-var CFG_LAST_BUILD_DATE_DESCENDING = { 'branchSelectionListOrder': 'last-build-date-descending' };
-var CFG_NAME_ASCENDING = { 'branchSelectionListOrder': 'name-ascending' };
-var CFG_NAME_DESCENDING = { 'branchSelectionListOrder': 'name-descending' };
+var CFG_LAST_BUILD_DATE_DESCENDING = {'branchSelectionListOrder': 'last-build-date-descending'};
+var CFG_NAME_ASCENDING = {'branchSelectionListOrder': 'name-ascending'};
+var CFG_NAME_DESCENDING = {'branchSelectionListOrder': 'name-descending'};
 var CFG_PROP_NOT_SET = {};
 
 var DEFAULT_INPUT = [
@@ -55,13 +55,13 @@ describe('Filter scBranchOrderBy', function () {
 
     var scBranchOrderByFilter;
 
-    beforeEach(angular.mock.module('scenarioo.controllers'));
-    beforeEach(angular.mock.module('scenarioo.services'));
+    beforeEach(function () {
+        angular.mock.module('scenarioo.controllers');
+        angular.mock.module('scenarioo.services');
+        angular.mock.module('scenarioo.filters');
+    });
 
-    // load module
-    beforeEach(angular.mock.module('scenarioo.filters'));
-
-    function initConfig(config){
+    function initConfig(config) {
         inject(function ($filter, _ConfigService_, _$httpBackend_, _TestData_, _HostnameAndPort_) {
 
             ConfigService = _ConfigService_;
@@ -78,9 +78,11 @@ describe('Filter scBranchOrderBy', function () {
         });
     }
 
-    describe('should handle invalid input gracefully:', function () {
 
-        beforeEach(initConfig(CFG_LAST_BUILD_DATE_DESCENDING));
+    describe('should handle invalid input gracefully:', function () {
+        beforeEach(function () {
+            initConfig(CFG_LAST_BUILD_DATE_DESCENDING);
+        });
 
         it('string', function () {
             var result = scBranchOrderByFilter('someString');
@@ -97,11 +99,11 @@ describe('Filter scBranchOrderBy', function () {
     });
 
     describe('should order given branch resource objects by last-build-date-descending:', function () {
-
-        beforeEach(initConfig(CFG_LAST_BUILD_DATE_DESCENDING));
+        beforeEach(function () {
+            initConfig(CFG_LAST_BUILD_DATE_DESCENDING);
+        });
 
         it('alias branches first', function () {
-
             var inputArray = [
                 {
                     alias: false,
@@ -231,7 +233,9 @@ describe('Filter scBranchOrderBy', function () {
 
     describe('should order given branch resource objects by name-ascending:', function () {
 
-        beforeEach(initConfig(CFG_NAME_ASCENDING));
+        beforeEach(function () {
+            initConfig(CFG_NAME_ASCENDING);
+        });
 
         it('then alphabetically (not case sensitive!)', function () {
 
@@ -246,7 +250,9 @@ describe('Filter scBranchOrderBy', function () {
 
     describe('Should order given branch resource objects by name ascending as a default', function () {
 
-        beforeEach(initConfig(CFG_PROP_NOT_SET));
+        beforeEach(function () {
+            initConfig(CFG_PROP_NOT_SET);
+        });
 
         it('then alphabetically (not case sensitive!)', function () {
 
@@ -261,7 +267,9 @@ describe('Filter scBranchOrderBy', function () {
 
     describe('should order given branch resource objects by name-descending:', function () {
 
-        beforeEach(initConfig(CFG_NAME_DESCENDING));
+        beforeEach(function () {
+            initConfig(CFG_NAME_DESCENDING);
+        });
 
         it('then alphabetically (not case sensitive!)', function () {
 
