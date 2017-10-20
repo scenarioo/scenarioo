@@ -3,6 +3,7 @@ var merge = require('webpack-merge');
 var commonConfig = require('./webpack.config.common');
 
 var webpackConfig = merge(commonConfig, {
+    devtool: 'eval-source-map',
 
     devServer: {
         contentBase: path.join(__dirname, "app"),

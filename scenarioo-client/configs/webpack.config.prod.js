@@ -3,6 +3,8 @@ var merge = require('webpack-merge');
 var commonConfig = require('./webpack.config.common');
 
 var webpackConfig = merge(commonConfig, {
+    devtool: 'source-map',
+
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.optimize.UglifyJsPlugin()

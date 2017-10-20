@@ -11,6 +11,8 @@ var webpackConfig = {
 
     output: {},
 
+    devtool: 'inline-source-map',
+
     module: {
         loaders: [
             {
