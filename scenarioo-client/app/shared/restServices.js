@@ -26,7 +26,7 @@ angular.module('scenarioo.services')
      */
     .factory('ScenariooResource', function ($resource) {
         return function (url, paramDefaults, actions) {
-            return $resource('/rest' + url, paramDefaults, actions);
+            return $resource('rest' + url, paramDefaults, actions);
         };
     })
 
@@ -42,7 +42,7 @@ angular.module('scenarioo.services')
     .factory('BuildImportLogResource', function ($http) {
         return {
             get: function (branchName, buildName, onSuccess, onError) {
-                var callURL = '/rest/builds/importLogs/' + encodeURIComponent(branchName) + '/' + encodeURIComponent(buildName);
+                var callURL = 'rest/builds/importLogs/' + encodeURIComponent(branchName) + '/' + encodeURIComponent(buildName);
                 $http({method: 'GET', url: callURL, headers: {
                     'Accept': 'text/plain'
                 }}).success(onSuccess).error(onError);

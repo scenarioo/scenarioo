@@ -61,7 +61,7 @@ describe('UseCaseController', function () {
         spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
         spyOn(UseCaseDiffInfoResource, 'get').and.callFake(getEmptyData());
         spyOn(ScenarioDiffInfosResource, 'get').and.callFake(getEmptyData());
-        $httpBackend.whenGET('/rest/labelconfigurations').respond({});
+        $httpBackend.whenGET('rest/labelconfigurations').respond({});
 
         expect(SelectedBranchAndBuildService.selected().branch).toBeUndefined();
         expect(SelectedBranchAndBuildService.selected().build).toBeUndefined();

@@ -30,7 +30,7 @@ describe('BuildsListController', function () {
 
             $scope = $rootScope.$new();
 
-            var BUILD_IMPORT_STATES_URL = '/rest/builds/buildImportSummaries';
+            var BUILD_IMPORT_STATES_URL = 'rest/builds/buildImportSummaries';
 
             $httpBackend.whenGET(BUILD_IMPORT_STATES_URL).respond(TestData.BUILD_IMPORT_STATES);
 

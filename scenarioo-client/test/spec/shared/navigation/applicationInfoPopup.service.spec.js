@@ -95,7 +95,7 @@ describe('Controller: ApplicationInfoController', function () {
     }));
 
     it('should update applicationInformation if it changes in ConfigService', function () {
-        var VERSION_URL = '/rest/version';
+        var VERSION_URL = 'rest/version';
         $httpBackend.whenGET(VERSION_URL).respond(TestData.VERSION);
         $httpBackend.flush();
 

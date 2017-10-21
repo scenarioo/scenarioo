@@ -31,16 +31,16 @@ describe('GeneralSettingsController', function () {
         $httpBackend = _$httpBackend_;
         TestData = _TestData_;
 
-        $httpBackend.whenGET('/rest/branches').respond(TestData.BRANCHES);
-        $httpBackend.whenGET('/rest/configuration').respond(TestData.CONFIG);
-        $httpBackend.whenGET('/rest/version').respond(TestData.VERSION);
-        $httpBackend.whenGET('/rest/searchEngineStatus').respond({'searchEngineRunning':false});
-        $httpBackend.whenGET('/rest/configuration/applicationStatus').respond({
+        $httpBackend.whenGET('rest/branches').respond(TestData.BRANCHES);
+        $httpBackend.whenGET('rest/configuration').respond(TestData.CONFIG);
+        $httpBackend.whenGET('rest/version').respond(TestData.VERSION);
+        $httpBackend.whenGET('rest/searchEngineStatus').respond({'searchEngineRunning':false});
+        $httpBackend.whenGET('rest/configuration/applicationStatus').respond({
             'searchEngineRunning':false,
             'version': TestData.VERSION,
             'configuration': TestData.CONFIG
         });
-        $httpBackend.whenGET('/rest/branch/branch_123/build/build_123/searchEngine').respond(404, false);
+        $httpBackend.whenGET('rest/branch/branch_123/build/build_123/searchEngine').respond(404, false);
 
         $scope = $rootScope.$new();
         ConfigCtrl = $controller('GeneralSettingsController', {$scope: $scope, BranchesResource: BranchesResource, ConfigService: ConfigService});

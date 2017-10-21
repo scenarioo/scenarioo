@@ -68,7 +68,7 @@ describe('Filter scBranchOrderBy', function () {
             $httpBackend = _$httpBackend_;
             TestData = _TestData_;
 
-            $httpBackend.whenGET('/rest/configuration').respond(config);
+            $httpBackend.whenGET('rest/configuration').respond(config);
 
             ConfigService.load();
             $httpBackend.flush();

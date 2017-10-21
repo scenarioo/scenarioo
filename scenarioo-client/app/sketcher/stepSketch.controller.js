@@ -89,7 +89,7 @@ function StepSketchController($scope, $routeParams, $location, SelectedBranchAnd
 
         var selected = SelectedBranchAndBuildService.selected();
 
-        return '/rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
+        return 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
     };
 
     function getSketchScreenshotUrl() {
@@ -98,7 +98,7 @@ function StepSketchController($scope, $routeParams, $location, SelectedBranchAnd
         }
 
         var selected = SelectedBranchAndBuildService.selected();
-        return '/rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
+        return 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
     };
 
     function getOriginalScreenshotUrl() {
@@ -107,7 +107,7 @@ function StepSketchController($scope, $routeParams, $location, SelectedBranchAnd
         }
 
         var selected = SelectedBranchAndBuildService.selected();
-        return '/rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/original.png';
+        return 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/original.png';
     };
 
     function getUseCaseUrl() {

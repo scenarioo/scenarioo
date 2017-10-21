@@ -170,7 +170,7 @@ function ScenarioController($filter, $routeParams,
             build = comparisonBuildName;
         }
 
-        return '/rest/branch/' + branch + '/build/' + build +
+        return 'rest/branch/' + branch + '/build/' + build +
             '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
     }
 

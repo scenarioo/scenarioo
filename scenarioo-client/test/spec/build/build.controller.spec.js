@@ -28,10 +28,10 @@ describe('BuildController', function () {
             $httpBackend = _$httpBackend_;
             TestData = _TestData_;
 
-            var BRANCHES_URL = '/rest/branches';
+            var BRANCHES_URL = 'rest/branches';
             $httpBackend.whenGET(BRANCHES_URL).respond(TestData.BRANCHES);
 
-        $httpBackend.whenGET('/rest/configuration').respond(TestData.CONFIG);
+        $httpBackend.whenGET('rest/configuration').respond(TestData.CONFIG);
 
             $scope = $rootScope.$new();
             BuildController = $controller('BuildController', {$scope: $scope});

@@ -198,7 +198,7 @@ describe('SelectedBranchAndBuildService', function () {
     }
 
     function loadConfigFromService() {
-        $httpBackend.when('GET', '/rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
+        $httpBackend.when('GET', 'rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
         ConfigService.load();
         $httpBackend.flush();
     }

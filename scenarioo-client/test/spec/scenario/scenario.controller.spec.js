@@ -61,7 +61,7 @@ describe('ScenarioController', function () {
         givenScenarioIsLoaded();
 
         var imageLink = ScenarioController.getScreenShotUrl('img.jpg');
-        expect(imageLink).toBe('/rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario/image/img.jpg');
+        expect(imageLink).toBe('rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario/image/img.jpg');
     });
 
     it('does not show all steps of a page by default', function () {
@@ -138,9 +138,9 @@ describe('ScenarioController', function () {
             config = TestData.CONFIG;
         }
 
-        $httpBackend.whenGET('/rest/configuration').respond(config);
-        $httpBackend.whenGET('/rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario').respond(TestData.SCENARIO);
-        $httpBackend.whenGET('/rest/labelconfigurations').respond({});
+        $httpBackend.whenGET('rest/configuration').respond(config);
+        $httpBackend.whenGET('rest/branch/trunk/build/current/usecase/SearchUseCase/scenario/NotFoundScenario').respond(TestData.SCENARIO);
+        $httpBackend.whenGET('rest/labelconfigurations').respond({});
 
         ConfigService.load();
         $httpBackend.flush();
