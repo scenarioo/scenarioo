@@ -51,10 +51,12 @@ properties([
 ])
 
 timestamps {
+
 	 node {
-		  stage('Checkout') {
+
+		stage('Checkout') {
 				checkout scm
-		  }
+		}
 
         def encodedBranchName = getEncodedBranchName()
 
@@ -70,12 +72,12 @@ timestamps {
             }
         }
 
-		  stage('Package') {
+		stage('Package') {
 				gradle 'distZip'
 				archiveArtifacts ("scenarioo-server/build/libs/scenarioo-*.war, LICENSE.txt, README.md, "
 						  + "scenarioo-docu-generation-example/build/scenarioDocuExample/, "
                               + "scenarioo-validator/build/distributions/*")
-		  }
+		}
 
         stage('Deploy') {
             ansiColor('xterm') {
@@ -101,8 +103,10 @@ timestamps {
             }
         }
 
-		  stage('Run e2e tests') {
-				ansiColor('xterm') {try {
+		stage('Run e2e tests') {
+			ansiColor('xterm') {
+
+				try {
 					 sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
 				} finally {
 					junit 'scenarioo-client/test-reports/*.xml'
@@ -110,15 +114,14 @@ timestamps {
                          // Only for the master branch the self docu is deployed to scenarioo-master
                          // for all others: to scenarioo-develop
                          def docuDeploymentScenariooInstance = encodedBranchName == "master" ? "master" : "develop"
-                         def scenariooUrl = "http://demo.scenarioo.org/scenarioo-${docuDeploymentScenariooInstance}" sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
-					 reportJenkinsSummaryScenariooReports(scenariooUrl, "scenarioo-${encodedBranchName}", "build-${env.BUILD_NUMBER}")
+                         def scenariooUrl = "http://demo.scenarioo.org/scenarioo-${docuDeploymentScenariooInstance}"
+                         sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
+                         reportJenkinsSummaryScenariooReports(scenariooUrl, "scenarioo-${encodedBranchName}", "build-${env.BUILD_NUMBER}")
                     }
                 }
 
             }
-				}
-
-	 }}
+        }
 
 	}
 }
