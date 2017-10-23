@@ -28,9 +28,9 @@ WORKSPACE_DIR=$(pwd)
 echo "Workspace Dir: $WORKSPACE_DIR"
 
 # Scenarioo Docu Deployment Directories
-SCENARIOO_DATA_ROOT=/var/lib/scenarioo/data
-BRANCH_DATA_DIR=$SCENARIOO_DATA_ROOT/$BRANCH
-BRANCH_DATA_ARCHIVE_DIR=/var/lib/scenarioo/data-archive/$BRANCH
+SCENARIOO_DATA_ROOT=/var/lib/scenarioo
+BRANCH_DATA_DIR=$SCENARIOO_DATA_ROOT/scenarioDocuExample-$BRANCH
+CONFIG_XML=$BRANCH_DATA_DIR/config.xml
 
 ###
 ### CLEANUP and PREPARATION
@@ -40,20 +40,14 @@ BRANCH_DATA_ARCHIVE_DIR=/var/lib/scenarioo/data-archive/$BRANCH
 echo "Undeploy Old Scenarioo Web App"
 curl -u $TOMCAT_USERPASS http://localhost:8080/manager/text/undeploy\?path\=/scenarioo-$BRANCH
 
-# Backup all self docu and other important example docu reports to be restored after succesful deployment and testing of this scenarioo instance
-mkdir -p $BRANCH_DATA_ARCHIVE_DIR
-cp -rfp $BRANCH_DATA_DIR/scenarioo-* $BRANCH_DATA_ARCHIVE_DIR
-cp -rfp $BRANCH_DATA_DIR/pizza-* $BRANCH_DATA_ARCHIVE_DIR
-# wikipedia example not saved for restoring, this one was generated fresh by the scenarioo build
-
 # Cleanup (TODO: should be avoided, better remove the whole build folder once, and everything should be put into that build folder!)
-echo "Clean Old Self Docu Data"
+echo "Cleanup Old Self Docu Data"
 rm -rf ./scenarioo-client/scenariooDocumentation/scenarioo_self_docu
-echo "Clean Old E2E Test Reports"
+echo "Cleanup Old E2E Test Reports"
 rm -rf ./scenarioo-client/test-reports
 
 # Cleanup documentation data that is deployed to the demo server
-echo "Clean Old Demo Docu Data"
+echo "Cleanup Old Demo Docu Data"
 rm -rf $BRANCH_DATA_DIR
 
 # Copy scenarioo wikipedia docu example data with new generated data (including config.xml for demo).
