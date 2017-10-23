@@ -79,7 +79,7 @@ public class Configuration {
 	 *
 	 * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html#Color(int,%20boolean)"> docs.oracle.com</a>
 	 */
-	private String diffImageColor = "0x7FEDB04D";
+	private String diffImageColor = "0x7fff7e00";
 
 	/**
 	 * Will create a physical build containing the last successful scenarios of a branch.
