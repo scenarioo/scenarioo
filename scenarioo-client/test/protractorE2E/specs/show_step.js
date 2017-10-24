@@ -155,80 +155,73 @@ useCase('Show step')
                 step('A step with no HTML source attached');
             });
 
-        scenario('Screenshot comparison options')
-            .description('Show all possible screenshot copmarison options')
+        scenario('Screenshot comparison')
+            .description('Show screenshot comparison')
             .labels(['diff-viewer'])
             .it(function () {
                 stepPage.goToPage('/step/Find%20Page/find_page_title_unique_directly/contentPage.jsp/0/0?branch=wikipedia-docu-example&build=last%20successful&comparison=To%20Projectstart');
-                step('A step');
+                step('A changed step');
 
                 stepPage.openComparisonTab();
                 stepPage.assertStepComparisonSideBySideViewIsActive();
-                stepPage.assertStepComparisonHideHighlightsButtonIsDisplayed();
+                stepPage.expectHighlightsDisplayed();
                 stepPage.assertStepComparisonScreenshotSrcEquals(COMPARISON_SCREENSHOT_SRC);
+                stepPage.expectStepComparisonLegendText('Highlighted Changes in Screen');
                 step('Switch to comparison tab');
 
                 stepPage.hideHighlights();
-                stepPage.assertStepComparisonShowHighlightsButtonIsDisplayed();
+                stepPage.expectHighlightsHidden();
                 stepPage.assertStepBaseScreenshotSrcEquals(BASE_SCREENSHOT_SRC);
                 step('Hide highlights');
 
-                stepPage.showSinglePageView();
-                stepPage.assertStepComparisonSinglePageViewIsActive();
-                stepPage.assertStepComparisonSwitchToComparisonScreenshotButtonIsDisplayed();
-                stepPage.assertStepBaseScreenshotSrcEquals(BASE_SCREENSHOT_SRC);
-                step('Show Single Page view');
-
                 stepPage.showHighlights();
-                stepPage.assertStepComparisonHideHighlightsButtonIsDisplayed();
-                step('Show highlights');
+                stepPage.expectHighlightsDisplayed();
+                step('Show highlights again');
 
-                stepPage.switchToComparisonScreenshot();
-                stepPage.assertStepComparisonSwitchToBaseScreenshotButtonIsDisplayed();
+                stepPage.showComparisonCurrentScreenView();
+                stepPage.assertStepComparisonCurrentScreenViewIsActive();
+                stepPage.expectSwitchComparisonSingleScreensButtonEnabled();
+                stepPage.assertStepBaseScreenshotSrcEquals(BASE_SCREENSHOT_SRC);
+                step('Show Current Screen Only');
+
+                stepPage.switchComparisonSingleScreens();
+                stepPage.assertStepComparisonOtherScreenViewIsActive();
+                stepPage.expectSwitchComparisonSingleScreensButtonEnabled();
                 stepPage.assertStepComparisonScreenshotSrcEquals(COMPARISON_SCREENSHOT_SRC);
-                step('Switch to comparison screenshot');
+                step('Switch to Other screen');
 
                 stepPage.clickScreenshotTabButton();
                 step('Switch back to Screenshot tab');
             });
 
         scenario('Screenshot comparison on added step')
-            .description('If the step is added in comparison to the other build, no comparison screenshot is shown')
+            .description('For added steps no comparison screenshot is available.')
             .labels(['diff-viewer'])
             .it(function () {
 
                 var SCREENSHOT_SRC = '/rest/branch/wikipedia-docu-example/build/last%20successful/usecase/Donate/scenario/find_donate_page/image/001.png';
-
                 stepPage.goToPage('/step/Donate/find_donate_page/startSearch.jsp/0/1?branch=wikipedia-docu-example&build=last%20successful&comparison=To%20Projectstart');
                 step('An added step');
 
                 stepPage.openComparisonTab();
                 stepPage.showSideBySideView();
                 stepPage.assertStepComparisonSideBySideViewIsActive();
-                stepPage.assertStepComparisonHideHighlightsButtonIsDisplayed();
+                stepPage.expectHighlightsButtonHidden();
                 stepPage.assertStepNoComparisonScreenshot();
-                step('Show added step base screenshot in side by side view');
-
-                stepPage.hideHighlights();
-                stepPage.assertStepComparisonShowHighlightsButtonIsDisplayed();
                 stepPage.assertStepBaseScreenshotSrcEquals(SCREENSHOT_SRC);
-                step('Show added step diff screenshot in side by side view');
+                stepPage.expectSwitchComparisonSingleScreensButtonDisabled();
+                stepPage.expectStepComparisonOtherScreenViewIsDisabled();
+                stepPage.expectStepComparisonLegendText('Added Step: No Comparison');
+                step('Show added step current screenshot in side by side view');
 
-                // this test is only possible because the last selection in the previous step was the ComparisonScreenshot
-                stepPage.showSinglePageView();
-                stepPage.assertStepComparisonSinglePageViewIsActive();
+                stepPage.showComparisonCurrentScreenView();
+                stepPage.assertStepComparisonCurrentScreenViewIsActive();
+                stepPage.expectSwitchComparisonSingleScreensButtonDisabled();
+                stepPage.expectHighlightsButtonHidden();
                 stepPage.assertStepNoComparisonScreenshot();
-                step('Show added step comparison screenshot in single page view');
-
-                stepPage.switchToBaseScreenshot();
-                stepPage.assertStepComparisonSwitchToComparisonScreenshotButtonIsDisabled();
-                stepPage.assertStepComparisonShowHighlightsButtonIsDisplayed();
                 stepPage.assertStepBaseScreenshotSrcEquals(SCREENSHOT_SRC);
-                step('Show added step base screenshot in single page view');
-
-                stepPage.showHighlights();
-                stepPage.assertStepComparisonSinglePageViewIsActive();
-                step('Show added step diff screenshot in single page view');
+                stepPage.expectStepComparisonOtherScreenViewIsDisabled();
+                step('Show added step current screenshot in single page view');
 
             });
 

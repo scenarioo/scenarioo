@@ -120,7 +120,13 @@ angular.module('scenarioo.services').service('ConfigService', function (ConfigRe
 
         branchSelectionListOrder: function () {
             return getValue('branchSelectionListOrder');
+        },
+
+        diffViewerDiffImageColor: function () {
+            // this ugly code comverts hex values of the form `0x123ab5` to `#123ab5`
+            return '#' + ('00000' + getValue('diffImageColor')).toString(16).substr(-6);
         }
+
     };
 
     return serviceInstance;
