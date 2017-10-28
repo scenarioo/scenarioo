@@ -37,7 +37,8 @@ var exportsConfig = {
         browserName: 'chrome',
         chromeOptions: {
             args: [
-                'disable-infobars'
+                'disable-infobars',
+                'window-size=1280,800',
             ]
         },
     },
