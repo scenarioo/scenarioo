@@ -23,12 +23,13 @@ describe('UseCaseController', function () {
         BUILD = 'build_123',
         USE_CASE = 'LogIn';
 
-    var $scope, routeParams, controller, ScenarioResource, RelatedIssueResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource, SelectedBranchAndBuildService, $location, $httpBackend, HostnameAndPort;
+    var $scope, routeParams, controller, ScenarioResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource,
+        SelectedBranchAndBuildService, $location, $httpBackend, RelatedIssueResource;
 
-    beforeEach(module('scenarioo.controllers'));
+    beforeEach(angular.mock.module('scenarioo.controllers'));
 
     beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, _RelatedIssueResource_, _UseCaseDiffInfoResource_, _ScenarioDiffInfosResource_,
-                                ConfigMock, _SelectedBranchAndBuildService_, _$location_, LocalStorageService, _$httpBackend_, _HostnameAndPort_) {
+                                ConfigMock, _SelectedBranchAndBuildService_, _$location_, LocalStorageService, _$httpBackend_) {
             $scope = $rootScope.$new();
             routeParams = $routeParams;
             routeParams.useCaseName = USE_CASE;
@@ -39,7 +40,6 @@ describe('UseCaseController', function () {
             SelectedBranchAndBuildService = _SelectedBranchAndBuildService_;
             $location = _$location_;
             $httpBackend = _$httpBackend_;
-            HostnameAndPort = _HostnameAndPort_;
 
             LocalStorageService.clearAll();
 
@@ -61,7 +61,7 @@ describe('UseCaseController', function () {
         spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
         spyOn(UseCaseDiffInfoResource, 'get').and.callFake(getEmptyData());
         spyOn(ScenarioDiffInfosResource, 'get').and.callFake(getEmptyData());
-        $httpBackend.whenGET(HostnameAndPort.forTest() + 'rest/labelconfigurations').respond({});
+        $httpBackend.whenGET('rest/labelconfigurations').respond({});
 
         expect(SelectedBranchAndBuildService.selected().branch).toBeUndefined();
         expect(SelectedBranchAndBuildService.selected().build).toBeUndefined();
@@ -106,7 +106,7 @@ describe('UseCaseController', function () {
                 }
         };
 
-        return function(params, onSuccess) {
+        return function (params, onSuccess) {
             onSuccess(DATA);
         };
     }
@@ -120,11 +120,9 @@ describe('UseCaseController', function () {
     }
 
     function getEmptyData() {
-        var DATA = {
+        var DATA = {};
 
-        };
-
-        return function(params, onSuccess) {
+        return function (params, onSuccess) {
             onSuccess(DATA);
         };
     }

@@ -19,7 +19,7 @@
 
 describe('SelectedBranchAndBuildService', function () {
 
-    var SelectedBranchAndBuildService, ConfigService, LocalStorageService, $location, $rootScope, $httpBackend, HostnameAndPort;
+    var SelectedBranchAndBuildService, ConfigService, LocalStorageService, $location, $rootScope, $httpBackend;
     var BRANCH_COOKIE = 'branch_cookie';
     var BUILD_COOKIE = 'build_cookie';
     var BRANCH_URL = 'branch_url';
@@ -41,7 +41,7 @@ describe('SelectedBranchAndBuildService', function () {
 
     beforeEach(angular.mock.module('scenarioo.services'));
 
-    beforeEach(inject(function (_SelectedBranchAndBuildService_, _ConfigService_, _LocalStorageService_, _$location_, _$rootScope_, _$httpBackend_, _HostnameAndPort_) {
+    beforeEach(inject(function (_SelectedBranchAndBuildService_, _ConfigService_, _LocalStorageService_, _$location_, _$rootScope_, _$httpBackend_) {
         SelectedBranchAndBuildService = _SelectedBranchAndBuildService_;
         ConfigService = _ConfigService_;
         LocalStorageService = _LocalStorageService_;
@@ -49,7 +49,6 @@ describe('SelectedBranchAndBuildService', function () {
         $location = _$location_;
         $rootScope = _$rootScope_;
         $httpBackend = _$httpBackend_;
-        HostnameAndPort = _HostnameAndPort_;
     }));
 
     it('has undefined branch and build cookies by default', function () {
@@ -199,7 +198,7 @@ describe('SelectedBranchAndBuildService', function () {
     }
 
     function loadConfigFromService() {
-        $httpBackend.when('GET', HostnameAndPort.forTest() + 'rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
+        $httpBackend.when('GET', 'rest/configuration').respond(DUMMY_CONFIG_RESPONSE);
         ConfigService.load();
         $httpBackend.flush();
     }

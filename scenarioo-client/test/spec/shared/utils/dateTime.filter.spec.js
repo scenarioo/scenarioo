@@ -19,7 +19,7 @@
 
 describe('Filter scDateTime', function () {
 
-    beforeEach(module('scenarioo.filters'));
+    beforeEach(angular.mock.module('scenarioo.filters'));
 
     var DATE_TIMESTAMP = 1398892164148;
     var DATE_UNDEFINED;

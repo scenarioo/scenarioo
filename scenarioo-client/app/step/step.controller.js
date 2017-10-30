@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('StepController', StepController);
 
-function StepController($scope, $routeParams, $location, $route, StepResource, HostnameAndPort, SelectedBranchAndBuildService,
+function StepController($scope, $routeParams, $location, $route, StepResource, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, GlobalHotkeysService, LabelConfigurationsResource,
                         SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
                         SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, BuildDiffInfoResource,
@@ -366,7 +366,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
 
         var selected = SelectedBranchAndBuildService.selected();
 
-        $scope.screenShotUrl = HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
+        $scope.screenShotUrl = 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
     }
 
     // This URL is only used internally, not for sharing
@@ -518,7 +518,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
             return undefined;
         }
 
-        return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY] +
+        return 'rest/branch/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY] +
             '/build/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BUILD_KEY] +
             '/usecase/' + encodeURIComponent(useCaseName) +
             '/scenario/' + encodeURIComponent(scenarioName) +

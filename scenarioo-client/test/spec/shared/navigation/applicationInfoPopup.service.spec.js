@@ -19,9 +19,9 @@
 
 describe('ApplicationInfoPopupService', function () {
 
-    beforeEach(module('scenarioo.services'));
+    beforeEach(angular.mock.module('scenarioo.services'));
 
-    beforeEach(module(function ($provide) {
+    beforeEach(angular.mock.module(function ($provide) {
         $provide.value('$uibModal', {
                 open: function () {
                 }
@@ -75,19 +75,17 @@ describe('ApplicationInfoPopupService', function () {
 
 describe('Controller: ApplicationInfoController', function () {
 
-    beforeEach(module('scenarioo.controllers'));
+    beforeEach(angular.mock.module('scenarioo.controllers'));
 
     var $scope,
         ConfigService,
         $httpBackend,
-        HostnameAndPort,
         TestData;
 
-    beforeEach(inject(function ($controller, $rootScope, ConfigMock, _$httpBackend_, _HostnameAndPort_, _TestData_) {
+    beforeEach(inject(function ($controller, $rootScope, ConfigMock, _$httpBackend_, _TestData_) {
         ConfigService = ConfigMock;
         $scope = $rootScope.$new();
         $httpBackend = _$httpBackend_;
-        HostnameAndPort = _HostnameAndPort_;
         TestData = _TestData_;
         $controller('ApplicationInfoController', {
             $scope: $scope,
@@ -97,7 +95,7 @@ describe('Controller: ApplicationInfoController', function () {
     }));
 
     it('should update applicationInformation if it changes in ConfigService', function () {
-        var VERSION_URL = HostnameAndPort.forTest() + 'rest/version';
+        var VERSION_URL = 'rest/version';
         $httpBackend.whenGET(VERSION_URL).respond(TestData.VERSION);
         $httpBackend.flush();
 

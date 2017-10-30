@@ -7,7 +7,6 @@ function prepareProtractorForE2ETests() {
 
     setupJasmineXmlReporters();
     setupScenariooFluentDsl();
-    configureBrowserWindowSize();
     disableAnimations();
 
     /**
@@ -30,15 +29,6 @@ function prepareProtractorForE2ETests() {
         var scenarioo = require('scenarioo-js');
         scenarioo.setupFluentDsl();
         require('./test/protractorE2E/labelDefinitions');
-    }
-
-    /**
-     * Ensure to run tests allways in same resolution
-     */
-    function configureBrowserWindowSize() {
-        var width = 1280;
-        var height = 800;
-        browser.driver.manage().window().setSize(width, height);
     }
 
     function disableAnimations() {

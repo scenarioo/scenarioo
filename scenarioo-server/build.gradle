@@ -96,7 +96,7 @@ war.doLast {
 }
 
 war.dependsOn createVersionPropertiesFile
-war.dependsOn ":scenarioo-client:gulp"
+war.dependsOn ":scenarioo-client:build"
 
 if(ossrhPassword) {
     signing {

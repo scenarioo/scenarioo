@@ -37,12 +37,13 @@ var exportsConfig = {
         browserName: 'chrome',
         chromeOptions: {
             args: [
-                'disable-infobars'
+                'disable-infobars',
+                'window-size=1280,800',
             ]
         },
     },
 
-    specs: [/* See gulpfile.js for specified tests */],
+    specs: ['./test/protractorE2E/specs/**/*.js'],
 
     baseUrl: PROTRACTOR_BASE_URL,
 

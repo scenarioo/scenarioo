@@ -29,7 +29,7 @@ function screenAnnotationsButton(LocalStorageService, GlobalHotkeysService) {
             screenAnnotations: '=',
             visibilityToggle: '='
         },
-        templateUrl: 'step/screenAnnotations/screenAnnotationsButton.html',
+        template: require('./screenAnnotationsButton.html'),
         controller: ScreenAnnotationsButtonController,
         controllerAs: 'screenAnnotationsButton'
     };

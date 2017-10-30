@@ -233,7 +233,7 @@ describe('Filter scTreeDataOptimizer', function () {
     };
 
 
-    beforeEach(module('scenarioo.filters'));
+    beforeEach(angular.mock.module('scenarioo.filters'));
 
     var scTreeDataOptimizer;
     beforeEach(inject(function ($filter) {
