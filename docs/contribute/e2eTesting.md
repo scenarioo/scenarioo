@@ -43,12 +43,10 @@ Open your console and change into the client directory.
    cd scenarioo-client
    ```
 
-Serve the client using gulp:
+Serve the client:
 
    ```
    npm start
-   or
-   gulp serve
    ```
 
 Open a 2nd console and run the tests:
@@ -61,10 +59,8 @@ If you do not want to generate a scenarioo docu from the tests, run this:
 
    ```
    npm run test-e2e
-   or
-   gulp test-e2e
    ```
 
-Gulp runs the e2e tests according to the config file `protractor-e2e.conf.js` (no Scenarioo documentation) or `protractor-e2e-scenarioo.conf.js` (with Scenarioo documentation).
+Npm runs the e2e tests according to the config file `protractor-e2e.conf.js` (no Scenarioo documentation) or `protractor-e2e-scenarioo.conf.js` (with Scenarioo documentation).
 
 This should open a new browser window, run all tests and log test-information to the console.
