@@ -31,15 +31,6 @@ function prepareProtractorForE2ETests() {
         require('./test/protractorE2E/labelDefinitions');
     }
 
-    /**
-     * Ensure to run tests allways in same resolution
-     */
-    function configureBrowserWindowSize() {
-        var width = 1280;
-        var height = 800;
-        browser.driver.manage().window().setSize(width, height);
-    }
-
     function disableAnimations() {
 
         var disableNgAnimate = function () {
