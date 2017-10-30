@@ -56,7 +56,7 @@ timestamps {
 
         stage('Checkout') {
             checkout scm
-            git clean -d -f
+            sh "git clean -d -f"
         }
 
         def encodedBranchName = getEncodedBranchName()
