@@ -1,16 +1,11 @@
 'use strict';
 
-var scenarioo = require('scenarioo-js');
 
 var initialized = false;
 
 function getRoute(route) {
-    var url = browser.params.baseUrl + '/#' + route;
-    console.log('Going to navigate to route ' + url);
-    browser.get(url);
-    console.log('Going to wait for Angular');
+    browser.get(browser.params.baseUrl + '/#' + route);
     browser.waitForAngular();
-    console.log('Found Angular');
 }
 
 /**
@@ -19,7 +14,6 @@ function getRoute(route) {
 function initLocalStorage() {
     console.log('Initializing local storage for user revisiting scenarioo again');
     getRoute('/');
-    step("Clearing local storage");
     var setPreviouslyVisitedInLocalStorage = browser.executeScript(function () {
         var injector = angular.element(document.body).injector();
         var LocalStorageService = injector.get('LocalStorageService');
@@ -57,18 +51,15 @@ function clearLocalStorage() {
     var clearLocalStorageScript = browser.executeScript(function () {
         var injector = angular.element(document.body).injector();
         var LocalStorageService = injector.get('LocalStorageService');
-        console.log('Going to clear local storage');
         return LocalStorageService.clearAll();
     });
     clearLocalStorageScript.then(function () {
-        console.log('Cleared local storage');
         var visited = browser.executeScript(function () {
             var injector = angular.element(document.body).injector();
             var LocalStorageService = injector.get('LocalStorageService');
-            console.log('Going to read local storeage');
             return LocalStorageService.get('scenariooPreviouslyVisited');
         });
-        expect(visited).toEqual(null);
+        expect(visited).toBe(null);
     });
 }
 

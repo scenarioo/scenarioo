@@ -68,9 +68,7 @@ BaseWebPage.prototype.initLocalStorage = function () {
  */
 BaseWebPage.prototype.startScenariooFirstTimeVisit = function () {
     e2eUtils.clearLocalStorage();
-    console.log('Going to refresh browser');
     e2eUtils.refreshBrowser(); // reload needed to restart without cookies.
-    console.log('Reloaded browser');
 };
 
 /**

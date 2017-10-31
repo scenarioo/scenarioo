@@ -24,7 +24,6 @@ useCase('Application Startup')
         scenario('Later visits')
             .description('About dialog not open when previously visited.')
             .it(function () {
-                step('Before startScenariooRevisited()');
                 homePage.startScenariooRevisited();
                 step('About dialog not visible for previous visitors');
                 homePage.assertPageIsDisplayed();
