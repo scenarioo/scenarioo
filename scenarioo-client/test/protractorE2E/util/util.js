@@ -147,7 +147,7 @@ var e2eUtils = {
     },
 
     refreshBrowser: function () {
-        browser.navigate().refresh();
+        browser.refresh();
     }
 
 };
