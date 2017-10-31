@@ -5,12 +5,19 @@ var scenarioo = require('scenarioo-js');
 var initialized = false;
 
 function getRoute(route) {
+    var flow = protractor.promise.controlFlow();
     var url = browser.params.baseUrl + '/#' + route;
-    console.log('Going to navigate to route ' + url);
+    flow.execute(function() {
+        console.log('Going to navigate to route ' + url);
+    });
     browser.get(url);
-    console.log('Going to wait for Angular');
+    flow.execute(function() {
+        console.log('Going to wait for Angular');
+    });
     browser.waitForAngular();
-    console.log('Found Angular');
+    flow.execute(function() {
+        console.log('Found Angular');
+    });
 }
 
 /**
@@ -52,23 +59,29 @@ function initLocalStorageIfRequired() {
  * To realy see the dialog, a restart of the application is needed after (e.g. by page refresh!), this method only clears the storage.
  */
 function clearLocalStorage() {
-    console.log('Clear local storage for user visiting for the first time');
+    var flow = protractor.promise.controlFlow();
+    flow.execute(function() {
+        console.log('Clear local storage for user visiting for the first time');
+    });
     getRoute('/');
     var clearLocalStorageScript = browser.executeScript(function () {
         var injector = angular.element(document.body).injector();
         var LocalStorageService = injector.get('LocalStorageService');
-        console.log('Going to clear local storage');
         return LocalStorageService.clearAll();
     });
-    clearLocalStorageScript.then(function () {
+    flow.execute(function() {
         console.log('Cleared local storage');
+    });
+    clearLocalStorageScript.then(function () {
         var visited = browser.executeScript(function () {
             var injector = angular.element(document.body).injector();
             var LocalStorageService = injector.get('LocalStorageService');
-            console.log('Going to read local storeage');
             return LocalStorageService.get('scenariooPreviouslyVisited');
         });
         expect(visited).toEqual(null);
+    });
+    flow.execute(function() {
+        console.log('Asserted local storage');
     });
 }
 

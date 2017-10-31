@@ -67,10 +67,15 @@ BaseWebPage.prototype.initLocalStorage = function () {
  * Start scenarioo as a user that has never visited it before (visited cookie will not be set).
  */
 BaseWebPage.prototype.startScenariooFirstTimeVisit = function () {
+    var flow = protractor.promise.controlFlow();
     e2eUtils.clearLocalStorage();
-    console.log('Going to refresh browser');
+    flow.execute(function() {
+        console.log('Going to refresh browser');
+    });
     e2eUtils.refreshBrowser(); // reload needed to restart without cookies.
-    console.log('Reloaded browser');
+    flow.execute(function() {
+        console.log('Reloaded browser');
+    });
 };
 
 /**
