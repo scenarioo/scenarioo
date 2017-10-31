@@ -68,9 +68,11 @@ Add script to `package.json`:
   },
 ```
 
-Run the tests: `npm test`
+Run the test:
 
-Do not continue until your test runs successfully.
+```
+npm test
+```
 
 
 # Minimal Scenarioo Integration
@@ -115,6 +117,13 @@ b) In the test after navigating to the Wikipedia page:
 ```
 scenarioo.step("Start page");
 ```
+
+Run the test again (as we have integrated Scenarioo now):
+
+```
+npm test
+```
+
 
 # Install Viewer to Browse Output
 
