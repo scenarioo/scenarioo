@@ -75,7 +75,7 @@ npm test
 ```
 
 
-# Minimal Scenarioo Integration
+## Minimal Scenarioo Integration
 
 Add the scenarioo-js writer library:
 
@@ -125,7 +125,7 @@ npm test
 ```
 
 
-# Install Viewer to Browse Output
+## Install Viewer to Browse Output
 
 Download [Tomcat 9](https://tomcat.apache.org)
 
