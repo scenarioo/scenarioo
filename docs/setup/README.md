@@ -1,5 +1,9 @@
 # How To Setup & Use Scenarioo in Your Project
 
+## Quickstart with Scenarioo-JS
+
+If you are looking for the quickest possible start into Scenarioo, have a look at the [Quickstart with Scenarioo-JS](Quickstart-JS.md).
+
 ## Setup of the Scenarioo Viewer Web Application
 
 How to setup the Viewer Web Application for browsing your generated user scenario documentations ...
