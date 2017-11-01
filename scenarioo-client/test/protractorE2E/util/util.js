@@ -1,23 +1,11 @@
 'use strict';
 
-var scenarioo = require('scenarioo-js');
 
 var initialized = false;
 
 function getRoute(route) {
-    var flow = protractor.promise.controlFlow();
-    var url = browser.params.baseUrl + '/#' + route;
-    flow.execute(function() {
-        console.log('Going to navigate to route ' + url);
-    });
-    browser.get(url);
-    flow.execute(function() {
-        console.log('Going to wait for Angular');
-    });
+    browser.get(browser.params.baseUrl + '/#' + route);
     browser.waitForAngular();
-    flow.execute(function() {
-        console.log('Found Angular');
-    });
 }
 
 /**
@@ -26,7 +14,6 @@ function getRoute(route) {
 function initLocalStorage() {
     console.log('Initializing local storage for user revisiting scenarioo again');
     getRoute('/');
-    step('Clearing local storage');
     var setPreviouslyVisitedInLocalStorage = browser.executeScript(function () {
         var injector = angular.element(document.body).injector();
         var LocalStorageService = injector.get('LocalStorageService');
@@ -59,18 +46,12 @@ function initLocalStorageIfRequired() {
  * To realy see the dialog, a restart of the application is needed after (e.g. by page refresh!), this method only clears the storage.
  */
 function clearLocalStorage() {
-    var flow = protractor.promise.controlFlow();
-    flow.execute(function() {
-        console.log('Clear local storage for user visiting for the first time');
-    });
+    console.log('Clear local storage for user visiting for the first time');
     getRoute('/');
     var clearLocalStorageScript = browser.executeScript(function () {
         var injector = angular.element(document.body).injector();
         var LocalStorageService = injector.get('LocalStorageService');
         return LocalStorageService.clearAll();
-    });
-    flow.execute(function() {
-        console.log('Cleared local storage');
     });
     clearLocalStorageScript.then(function () {
         var visited = browser.executeScript(function () {
@@ -78,10 +59,7 @@ function clearLocalStorage() {
             var LocalStorageService = injector.get('LocalStorageService');
             return LocalStorageService.get('scenariooPreviouslyVisited');
         });
-        expect(visited).toEqual(null);
-    });
-    flow.execute(function() {
-        console.log('Asserted local storage');
+        expect(visited).toBe(null);
     });
 }
 
@@ -147,7 +125,7 @@ var e2eUtils = {
     },
 
     refreshBrowser: function () {
-        browser.refresh();
+        browser.navigate().refresh();
     }
 
 };

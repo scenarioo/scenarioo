@@ -12,19 +12,9 @@ useCase('Application Startup')
         scenario('First visit')
             .description('About dialog open on first access to Scenarioo to welcome new user.')
             .it(function () {
-                var flow = protractor.promise.controlFlow();
                 homePage.startScenariooFirstTimeVisit();
-                flow.execute(function() {
-                    console.log('Going to assert that page is displayed');
-                });
-                homePage.assertPageIsDisplayed();
-                flow.execute(function() {
-                    console.log('Going to record the first scenarioo step');
-                });
                 step('About dialog is displayed on first access of Scenarioo');
-                flow.execute(function() {
-                    console.log('Recorded the first scenarioo step');
-                });
+                homePage.assertPageIsDisplayed();
                 homePage.assertScenariooInfoDialogShown();
                 homePage.closeScenariooInfoDialogIfOpen();
                 homePage.assertScenariooInfoDialogNotShown();
@@ -34,7 +24,6 @@ useCase('Application Startup')
         scenario('Later visits')
             .description('About dialog not open when previously visited.')
             .it(function () {
-                step('Before startScenariooRevisited()');
                 homePage.startScenariooRevisited();
                 step('About dialog not visible for previous visitors');
                 homePage.assertPageIsDisplayed();
