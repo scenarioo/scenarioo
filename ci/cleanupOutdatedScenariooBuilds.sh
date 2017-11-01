@@ -41,7 +41,7 @@ done
 # Keep maximum number of even older builds
 # Caution: number must be one higher than the number of builds you want to keep
 NUM_BUILDS_TO_KEEP_PLUS_ONE=2
-NUM_DAYS_TO_KEEP=14
+NUM_DAYS_TO_KEEP=5
 for OLD_BUILD_DIR in $(find $BRANCH_DIRECTORY/* -maxdepth 0 -type d -ctime +$NUM_DAYS_TO_KEEP -printf '%T@ %p\n' | sort -k 1nr | sed 's/^[^ ]* //' | tail -n +$NUM_BUILDS_TO_KEEP_PLUS_ONE) ; do
     if [ -f "$OLD_BUILD_DIR/keep.txt" ]
     then
