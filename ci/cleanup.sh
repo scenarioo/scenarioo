@@ -30,7 +30,7 @@ for BRANCH_DIR in $(find $SCENARIOO_DATA_ROOT/* -maxdepth 0 -type d) ; do
             # (also the application data directory should better not be cleaned up!)
             if [[ -f "$BRANCH_DOCU_DIR/branch.xml" ]] && [[ $BRANCH_DOCU_NAME != *"wikipedia"* ]]; then
                 echo " but cleanup published scnearioo docu builds for $BRANCH_DOCU_NAME ..."
-                ./ci/cleanupOutdatedScenariooDocuBuilds.sh --dir=$BRANCH_DOCU_DIR
+                ./ci/cleanupOutdatedScenariooBuilds.sh --dir=$BRANCH_DOCU_DIR
             fi
         done
     else

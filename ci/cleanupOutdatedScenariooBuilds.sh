@@ -1,12 +1,13 @@
 #!/bin/bash
 
-# Clean up scenarioo documentation builds inside tha passed branch directory:
-# * Keep maximum 5 builds (if younger than 5 days)
-# * Keep maximum 1 build older than 5 days
+# Clean up scenarioo documentation builds inside tha passed scenarioo branch directory:
+# * Keep youngest build in any case
+# * Keep up to 5 builds younger than 5 days
 # * Keep all builds with a keep.txt file inside
+# * remove all other builds (exceeding 5 builds or older than 5 days)
 
 # Input values
-# --dir=<directory full path to clean>
+# --dir=<full path of branch directory to clean>
 
 for i in "${@}"
 do
