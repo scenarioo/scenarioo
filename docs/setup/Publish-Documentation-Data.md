@@ -33,7 +33,7 @@ Add a user to `tomcat-users.xml`. Assign it the role `scenarioo-build-publisher`
 Use e.g. `curl` to add a documentation build to Scenarioo. Here's an example:
 
 ```
-curl --user john:defineYourOwnPasswordHere -F"file=@build-to-post.zip" http://localhost:8080/scenarioo/rest/builds
+curl -f --user john:defineYourOwnPasswordHere -F"file=@build-to-post.zip" http://localhost:8080/scenarioo/rest/builds
 ```
 
 Please make sure you obey the following rules:
