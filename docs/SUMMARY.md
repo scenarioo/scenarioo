@@ -5,6 +5,7 @@
 * [Downloads and Links](setup/downloads-and-links.md)
 
 * [Setup & Usage](setup/README.md)
+  * [Quickstart with Scenarioo-JS](setup/Quickstart-JS.md)
   * [Install Viewer Web App](setup/Scenarioo-Viewer-Web-Application-Setup.md)
   * [Install Viewer Docker Image](setup/Scenarioo-Viewer-Docker-Image.md)
   * [Viewer Configuration](setup/Configuration.md)
