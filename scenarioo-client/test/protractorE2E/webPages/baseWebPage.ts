@@ -8,9 +8,6 @@ function BaseWebPage(path) {
     this.path = path;
 }
 
-BaseWebPage.COMPARISON_DISABLE = 'Disable';
-
-
 BaseWebPage.prototype.assertPageIsDisplayed = function () {
     e2eUtils.assertRoute(this.path);
 };

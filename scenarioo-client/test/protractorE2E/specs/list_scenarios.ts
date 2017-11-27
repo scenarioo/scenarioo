@@ -6,7 +6,6 @@ var pages = require('./../webPages');
 var NUMBER_OF_USE_CASES = 4;
 var NUMBER_OF_SCENARIOS = 4;
 var COMPARISON_PROJECTSTART = 'To Projectstart';
-var COMPARISON_DISABLE = 'Disable';
 var SECOND_USE_CASE = 1;
 var SCENARIO_WITH_HIGHEST_DIFF = 'Find page title unique directly';
 
