@@ -39,7 +39,7 @@ angular.module('scenarioo.directives').directive('scCollapsablePanel', function 
             initiallyExpanded: '@',
             panelIndex: '@'
         },
-        link: function (scope) {
+        link: function (scope: any) {
             if (scope.initiallyExpanded === 'true') {
                 initMetadataVisibilityAndExpandedSections(scope.key);
             }

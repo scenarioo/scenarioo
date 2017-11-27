@@ -32,7 +32,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
             firstColumnTitle: '@'
         },
         template: require('./filterableTableTree.html'),
-        link: function (scope) {
+        link: function (scope: any) {
             scope.treemodel = [];
 
             // Set's hotkey ESC to reset filter field
@@ -54,7 +54,7 @@ angular.module('scenarioo.directives').directive('scFilterableTableTree', functi
                 }
             }
 
-            function createNode(node, level, id, parent) {
+            function createNode(node, level, id, parent?) {
 
                 if (angular.isUndefined(node.item)) {
                     return 'No item defined on node';

@@ -57,9 +57,9 @@ angular.module('scenarioo.directives').directive('scKeyboardNavigatableTable', f
             scKeyboardNavigatableTable: '@',
             scKeyboardNavigatableTableHit: '='
         },
-        link: function (scope) {
+        link: function (scope: any) {
             var
-                parentScope = scope.$parent,
+                parentScope: any = scope.$parent,
                 currentCollection,
                 currentCollectionLength;
 

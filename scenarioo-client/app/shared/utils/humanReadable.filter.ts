@@ -27,7 +27,7 @@ angular.module('scenarioo.filters').filter('scHumanReadable', function () {
             // Camel Case
             // example 1: ThisIsSomeText
             var regex = /([a-z])([A-Z])/g;
-            var replaceFn = function (s, group0, group1) {
+            var replaceFn: any = function (s, group0, group1) {
                 return group0 + ' ' + group1;
             };
             // example 2: ABadExample

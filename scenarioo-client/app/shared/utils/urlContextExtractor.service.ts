@@ -32,7 +32,7 @@ angular.module('scenarioo.services')
             return contextPath.replace(/(^\/)|(\/$)/g, '');  // trim leading or trailing slashes
         }
 
-        function before(string, separator, optionalNotFoundResult) {
+        function before(string, separator, optionalNotFoundResult?) {
             var index = string.indexOf(separator);
             if (index >= 0) {
                 return string.substring(0, index);
@@ -42,7 +42,7 @@ angular.module('scenarioo.services')
             }
         }
 
-        function after(string, separator, optionalNotFoundResult) {
+        function after(string, separator, optionalNotFoundResult?) {
             var index = string.indexOf(separator);
             if (index >= 0) {
                 return string.substring(index + separator.length, string.length);

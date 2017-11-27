@@ -25,7 +25,7 @@ angular.module('scenarioo.services').factory('BranchesAndBuildsService', functio
                 return;
             }
 
-            var loadedData = {
+            var loadedData: any = {
                 branches: branches
             };
 

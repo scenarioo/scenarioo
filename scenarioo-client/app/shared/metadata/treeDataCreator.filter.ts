@@ -33,7 +33,7 @@ angular.module('scenarioo.filters').filter('scTreeDataCreator', function () {
     }
 
     function transformNode(node, nodeTitle) {
-        var transformedNode = {
+        var transformedNode: any = {
             nodeLabel: nodeTitle
         };
 

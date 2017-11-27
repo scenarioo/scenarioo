@@ -24,7 +24,7 @@ angular.module('scenarioo.directives').directive('scDebounce', function ($timeou
         restrict: 'A',
         require: 'ngModel',
         priority: 99,
-        link: function (scope, elm, attr, ngModelController) {
+        link: function (scope, elm, attr, ngModelController: any) {
             if (attr.type === 'radio' || attr.type === 'checkbox') {
                 return;
             }

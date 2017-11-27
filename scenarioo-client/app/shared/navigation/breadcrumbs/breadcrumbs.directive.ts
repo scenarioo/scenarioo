@@ -15,6 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {$} from "jquery";
+import * as angular from "angular";
+
 angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($routeParams, $location, $route, $compile,
                                                                             $filter, $sce, BreadcrumbsService,
                                                                             SharePagePopupService, SketcherLinkService) {
@@ -26,11 +29,11 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
         priority: 0,
         replace: true,
         template: require('./breadcrumbs.html'),
-        link: function (scope) {
+        link: function (scope: any) {
 
             scope.breadcrumbs = [];
             scope.sketcherLink = SketcherLinkService;
-            var navParameters = [];
+            var navParameters: any = [];
             var breadcrumbId = $route.current.$$route.breadcrumbId;
 
             // Get all relevant scenarioo navigation artifacts (e.g. scenarioName, usecaseName, pageIndex, ...)
