@@ -41,6 +41,7 @@
     "angular-route": "1.5.2",
     "angular-sanitize": "1.5.2",
     "angular-ui-bootstrap": "1.2.2",
+    "babel-polyfill": "^6.26.0",
     "bootstrap": "^3.3.7",
     "core-js": "2.5.1",
     "jquery": "3.2.1",

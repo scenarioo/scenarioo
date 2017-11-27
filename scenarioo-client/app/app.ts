@@ -18,11 +18,8 @@
 
 import {addRoutes} from "./app.routes";
 import * as angular from "angular";
-
-require('./vendor');
-
-require('./styles/scenarioo.less');
-
+import './vendor'
+import './styles/scenarioo.less'
 
 angular.module('scenarioo.filters', []);
 angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute']);
