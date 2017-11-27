@@ -19,7 +19,7 @@ angular.module('scenarioo.services').service('ConfigService', function (ConfigRe
 
     var CONFIG_LOADED_EVENT = 'configLoaded';
 
-    var configData = {};
+    var configData: any = {};
 
     function getValue(key) {
         return configData[key];
@@ -124,7 +124,7 @@ angular.module('scenarioo.services').service('ConfigService', function (ConfigRe
 
         diffViewerDiffImageColor: function () {
             // this ugly code comverts hex values of the form `0x123ab5` to `#123ab5`
-            return '#' + ('00000' + getValue('diffImageColor')).toString(16).substr(-6);
+            return '#' + ('00000' + getValue('diffImageColor')).toString().substr(-6);
         }
 
     };

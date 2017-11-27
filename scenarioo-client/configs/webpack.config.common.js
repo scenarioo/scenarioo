@@ -5,7 +5,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpackCommonConfig = {
 
     entry: {
-        app: './app/app.js'
+        app: './app/app.ts'
     },
 
     output: {
@@ -13,8 +13,16 @@ var webpackCommonConfig = {
         filename: 'app.bundle.js'
     },
 
+    resolve: {
+        extensions: ['.js', '.ts']
+    },
+
     module: {
         rules: [
+            {
+                test: /\.ts$/,
+                loader: 'ts-loader'
+            },
             {
                 test: /\.(jpg|jpeg|gif|png|ico)$/,
                 include: /images/,

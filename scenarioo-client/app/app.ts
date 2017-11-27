@@ -16,6 +16,9 @@
  */
 
 
+import {addRoutes} from "./app.routes";
+import * as angular from "angular";
+
 require('./vendor.js');
 
 require('./styles/scenarioo.less');
@@ -28,7 +31,6 @@ angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'LocalStorageModu
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
 require('./shared/utils/number.filter');
 
-var addRoutes = require('./app.routes');
 
 angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations'])
 

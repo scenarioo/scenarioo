@@ -1,4 +1,4 @@
-function addRoutes($routeProvider) {
+export function addRoutes($routeProvider) {
     /**
      * breadcrumbId: id of the breadcrumb elements to use for this page as defined in breadcrumbs.service.js
      */
@@ -78,5 +78,3 @@ function addRoutes($routeProvider) {
             redirectTo: '/'
         });
 }
-
-module.exports = addRoutes;
