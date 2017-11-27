@@ -16,6 +16,8 @@
  */
 
 /* eslint no-console:0 */
+import * as $ from "jquery"
+import * as angular from "angular";
 
 angular.module('scenarioo.services').factory('Tool', function (DrawingPadService) {
 

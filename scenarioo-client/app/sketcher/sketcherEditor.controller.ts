@@ -16,6 +16,8 @@
  */
 
 /* global SVG:false */
+import * as $ from "jquery"
+import * as angular from "angular";
 
 angular.module('scenarioo.controllers').controller('SketcherEditorController', SketcherEditorController);
 

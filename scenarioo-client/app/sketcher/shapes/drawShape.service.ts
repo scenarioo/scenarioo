@@ -17,6 +17,9 @@
 
 /* global SVG:false */
 
+import * as angular from "angular";
+declare const SVG: any;
+
 angular.module('scenarioo.services').service('DrawShapeService', function ($rootScope, ZoomPanService) {
 
     var SHAPE_SELECTED_EVENT = 'shapeSelected';

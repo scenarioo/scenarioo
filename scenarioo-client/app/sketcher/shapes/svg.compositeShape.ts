@@ -16,6 +16,8 @@
  */
 
 /* global SVG:false */
+declare const SVG: any;
+import * as $ from "jquery"
 
 SVG.CompositeShape = function (width, height, x, y, options) {
     var i;
@@ -244,11 +246,11 @@ SVG.extend(SVG.CompositeShape, {
     // http://stackoverflow.com/questions/4561845/firing-event-on-dom-attribute-change
     registerAttrChangeEvent: function () {
         var self = this;
-        window.MutationObserver = window.MutationObserver
-        || window.WebKitMutationObserver
-        || window.MozMutationObserver;
+        (<any> window).MutationObserver = (<any> window).MutationObserver
+        || (<any> window).WebKitMutationObserver
+        || (<any> window).MozMutationObserver;
 
-        if (window.MutationObserver || window.MutationObserver !== undefined) {
+        if ((<any> window).MutationObserver || (<any> window).MutationObserver !== undefined) {
             var target = self.node,
                 observer = new MutationObserver(function () {
                     self.update();

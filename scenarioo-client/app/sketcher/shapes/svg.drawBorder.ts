@@ -16,6 +16,7 @@
  */
 
 /* global SVG:false */
+declare const SVG: any;
 
 SVG.DrawBorder = function (width, height, x, y) {
 

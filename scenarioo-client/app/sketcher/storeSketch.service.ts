@@ -83,7 +83,7 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
             return;
         }
 
-        var scenarioSketch = {
+        var scenarioSketch: any = {
             branchName: inputData.branchName,
             author: inputData.issueAuthor,
             issueId: issueIdAfterSavingIssue
@@ -103,9 +103,9 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
             });
     }
 
-    function saveStepSketch(scenarioSketchId) {
+    function saveStepSketch() {
         if(!scenarioSketchIdAfterSavingScenarioSketch) {
-            sketchSavedWithError('Scenario sketch could not be saved.')
+            sketchSavedWithError('Scenario sketch could not be saved.');
             return;
         }
 
@@ -155,7 +155,7 @@ function StoreSketchService(LocalStorageService, SketcherContextService, StepSke
         LocalStorageService.set(AUTHOR_LOCAL_STORAGE_KEY, inputData.issueAuthor);
     }
 
-    function sketchSavedWithError(errorMessage, error) {
+    function sketchSavedWithError(errorMessage, error?) {
         addAlertCallback('danger', 'saveSketchFailedMessage', 'The sketch has not been saved. Reason: ' + errorMessage);
         $log.error(error);
         savingSketch = false;

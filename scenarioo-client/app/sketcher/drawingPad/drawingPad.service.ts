@@ -16,6 +16,10 @@
  */
 
 /* global SVG:false */
+import * as $ from "jquery"
+import * as angular from "angular";
+declare const SVG: any;
+
 
 angular.module('scenarioo.services').service('DrawingPadService', function ($rootScope, $routeParams, $http, SketcherContextService, DrawShapeService, ZoomPanService, $location, $log) {
 
@@ -178,11 +182,12 @@ angular.module('scenarioo.services').service('DrawingPadService', function ($roo
         var img = new Image();
         img.crossOrigin = 'Anonymous';
         img.onload = function () {
-            var canvas = document.createElement('CANVAS'),
+            var canvas: any = document.createElement('CANVAS'),
                 ctx = canvas.getContext('2d'),
                 dataURL;
-            canvas.height = this.height;
-            canvas.width = this.width;
+            // TODO typescript says these properties do not exist
+            canvas.height = (<any> this).height;
+            canvas.width = (<any> this).width;
             ctx.drawImage(this, 0, 0);
             dataURL = canvas.toDataURL();
             callback(dataURL);
