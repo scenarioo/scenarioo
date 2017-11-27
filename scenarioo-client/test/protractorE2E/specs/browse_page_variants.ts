@@ -1,4 +1,5 @@
 'use strict';
+import {scenario, step, useCase} from "scenarioo-js";
 
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');

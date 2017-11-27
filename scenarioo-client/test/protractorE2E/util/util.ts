@@ -1,4 +1,6 @@
 'use strict';
+import {browser, by, element} from "protractor";
+import * as angular from "angular";
 
 
 var initialized = false;

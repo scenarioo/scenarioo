@@ -1,4 +1,5 @@
 'use strict';
+import {browser, by, element} from "protractor";
 
 var BaseWebPage = require('./baseWebPage.js'),
     util = require('util');
