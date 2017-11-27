@@ -51,8 +51,8 @@ function ScenarioController($filter, $routeParams,
     var comparisonBuildName;
     var selectedBranchAndBuild;
     var labelConfigurations = [];
-    var pagesAndScenarios = [];
-    var scenarioStatistics = {};
+    var pagesAndScenarios: any = [];
+    var scenarioStatistics: any = {};
     var showAllSteps = [];
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -184,7 +184,7 @@ function ScenarioController($filter, $routeParams,
     }
 
     function createScenarioInformationTree(scenario, statistics, useCase) {
-        var stepInformation = {};
+        var stepInformation: any = {};
         stepInformation['Use Case'] = useCase.name;
         if(useCase.description) {
             stepInformation['Use Case Description'] = useCase.description;

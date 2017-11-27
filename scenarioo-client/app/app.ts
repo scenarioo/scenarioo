@@ -74,9 +74,9 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
 
 require('./build');
 require('./manage');
-require('./objectRepository/objectRepository.controller.js');
+require('./objectRepository/objectRepository.controller');
 require('./scenario');
-require('./search/search.controller.js');
+require('./search/search.controller');
 require('./shared');
 require('./sketcher');
 require('./step');
