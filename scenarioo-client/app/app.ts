@@ -19,7 +19,7 @@
 import {addRoutes} from "./app.routes";
 import * as angular from "angular";
 
-require('./vendor.js');
+require('./vendor');
 
 require('./styles/scenarioo.less');
 
@@ -86,4 +86,7 @@ require('./step');
 require('./useCase/usecase.controller.js');
 require('./diffViewer');
 
+
 angular.bootstrap(document, ['scenarioo']);
+// platformBrowserDynamic().bootstrapModule(AppModule);
+

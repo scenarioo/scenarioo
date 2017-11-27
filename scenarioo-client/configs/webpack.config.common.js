@@ -14,14 +14,18 @@ var webpackCommonConfig = {
     },
 
     resolve: {
-        extensions: ['.js', '.ts']
+        extensions: ['.js', '.ts'],
+        alias: {
+            "@angular/upgrade/static": "@angular/upgrade/bundles/upgrade-static.umd.js"
+        }
     },
 
     module: {
         rules: [
             {
                 test: /\.ts$/,
-                loader: 'ts-loader'
+                loader: 'ts-loader',
+                exclude: '/node_modules'
             },
             {
                 test: /\.(jpg|jpeg|gif|png|ico)$/,
@@ -68,6 +72,5 @@ var webpackCommonConfig = {
         }])
     ]
 };
-
 
 module.exports = webpackCommonConfig;
