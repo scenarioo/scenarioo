@@ -31,25 +31,19 @@ module.exports = function (config) {
             'node_modules/babel-polyfill/browser.js',
             'node_modules/angular/angular.js',
             'node_modules/angular-mocks/angular-mocks.js',
-            'app/*.js',
             'app/*.ts',
             'app/!(components)/**/*.js',
-            'test/mock/**/*.js',
             'test/mock/**/*.ts',
-            'test/spec/**/*.js',
             'test/spec/**/*.ts'
         ],
 
         preprocessors: {
             'node_modules/angular/angular.js': ['webpack'],
             'node_modules/angular-mocks/angular-mocks.js': ['webpack'],
-            'app/*.js': ['webpack'],
             'app/*.ts': ['webpack'],
             'app/!(components)/**/*.js': ['webpack'],
             'app/!(components)/**/*.ts': ['webpack'],
-            'test/mock/**/*.js': ['webpack'],
             'test/mock/**/*.ts': ['webpack'],
-            'test/spec/**/*.js': ['webpack'],
             'test/spec/**/*.ts': ['webpack']
         },
 
