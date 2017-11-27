@@ -32,7 +32,7 @@ module.exports = function (config) {
             'node_modules/angular/angular.js',
             'node_modules/angular-mocks/angular-mocks.js',
             'app/*.ts',
-            'app/!(components)/**/*.js',
+            'app/!(components)/**/*.ts',
             'test/mock/**/*.ts',
             'test/spec/**/*.ts'
         ],
@@ -41,7 +41,6 @@ module.exports = function (config) {
             'node_modules/angular/angular.js': ['webpack'],
             'node_modules/angular-mocks/angular-mocks.js': ['webpack'],
             'app/*.ts': ['webpack'],
-            'app/!(components)/**/*.js': ['webpack'],
             'app/!(components)/**/*.ts': ['webpack'],
             'test/mock/**/*.ts': ['webpack'],
             'test/spec/**/*.ts': ['webpack']

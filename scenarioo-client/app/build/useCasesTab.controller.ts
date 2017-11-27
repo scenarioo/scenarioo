@@ -125,13 +125,13 @@ function UseCasesTabController($scope, $location, $filter, BranchesAndBuildsServ
     }
 
     function createBranchInformationTree(branch) {
-        var branchInformationTree = {};
+        var branchInformationTree: any = {};
         branchInformationTree.Description = branch.description;
         return transformMetadataToTree(branchInformationTree);
     }
 
     function createBuildInformationTree(build) {
-        var buildInformationTree = {};
+        var buildInformationTree: any = {};
         buildInformationTree.Date = dateTimeFormatter(build.date);
         buildInformationTree.Revision = build.revision;
         buildInformationTree.Status = build.status;
