@@ -72,18 +72,18 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     ConfigService.load();
 });
 
-require('./build');
-require('./manage');
-require('./objectRepository/objectRepository.controller');
-require('./scenario');
-require('./search/search.controller');
-require('./shared');
-require('./sketcher');
-require('./step');
-require('./useCase/usecase.controller');
-require('./diffViewer');
+import './build';
+import './manage';
+import './objectRepository/objectRepository.controller';
+import './scenario';
+import './search/search.controller';
+import './shared';
+import './sketcher';
+import './step';
+import './useCase/usecase.controller';
+import './diffViewer';
 
 
 angular.bootstrap(document, ['scenarioo']);
-// platformBrowserDynamic().bootstrapModule(AppModule);
+//platformBrowserDynamic().bootstrapModule(AppModule);
 

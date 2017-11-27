@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -69,7 +70,10 @@ var webpackCommonConfig = {
         }),
         new CopyWebpackPlugin([{
             from: './app/images', to: 'images'
-        }])
+        }]),
+        // Fixes Critical dependency: the request of a dependency is an expression
+        // https://github.com/angular/angular/issues/20357
+        new webpack.ContextReplacementPlugin(/\@angular(\\|\/)core(\\|\/)esm5/, path.join(__dirname, './app')),
     ]
 };
 
