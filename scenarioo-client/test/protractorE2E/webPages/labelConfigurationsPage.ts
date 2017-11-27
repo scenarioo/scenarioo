@@ -1,7 +1,7 @@
 'use strict';
 import {by, element} from "protractor";
 
-var BaseWebPage = require('./baseWebPage.js'),
+var BaseWebPage = require('./baseWebPage'),
     util = require('util');
 
 function LabelConfigurationsPage(overridePath) {

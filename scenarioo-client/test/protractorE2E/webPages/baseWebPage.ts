@@ -1,7 +1,7 @@
 'use strict';
 import {by, element} from "protractor";
 
-var e2eUtils = require('../util/util.js');
+var e2eUtils = require('../util/util');
 
 
 function BaseWebPage(path) {

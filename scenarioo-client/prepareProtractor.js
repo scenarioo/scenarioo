@@ -5,6 +5,10 @@ var jasmineReporters = require('jasmine-reporters');
  */
 function prepareProtractorForE2ETests() {
 
+    require("ts-node").register({
+        project: "test/protractorE2E/tsconfig.json"
+    });
+
     setupJasmineXmlReporters();
     setupScenariooFluentDsl();
     disableAnimations();
@@ -28,7 +32,7 @@ function prepareProtractorForE2ETests() {
         // this is also needed if scenarioo documenztation is not enabled
         var scenarioo = require('scenarioo-js');
         scenarioo.setupFluentDsl();
-        require('./test/protractorE2E/labelDefinitions');
+        require('./test/protractorE2E/labelDefinitions.ts');
     }
 
     function disableAnimations() {

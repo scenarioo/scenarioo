@@ -1,7 +1,7 @@
 'use strict';
 import {browser, by, element, protractor} from "protractor";
 
-var BaseWebPage = require('./baseWebPage.js'),
+var BaseWebPage = require('./baseWebPage'),
     util = require('util');
 
 function ObjectDetailsPage(overridePath) {

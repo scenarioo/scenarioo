@@ -4,18 +4,18 @@
  *
  *  see https://code.google.com/p/selenium/wiki/PageObjects  for more info on the pageObjects pattern
  */
-var HomePage = require('./homePage.js');
-var NavigationPage = require('./navigationPage.js');
-var UsecasePage = require('./usecasePage.js');
-var ScenarioPage = require('./scenarioPage.js');
-var StepPage = require('./stepPage.js');
-var EditorPage = require('./editorPage.js');
-var GeneralSettingsPage = require('./generalSettingsPage.js');
-var BranchAliasesPage = require('./branchAliasesPage.js');
-var ObjectDetailsPage = require('./objectDetailsPage.js');
-var LabelConfigurationsPage = require('./labelConfigurationsPage.js');
-var BreadcrumbsPage = require('./breadcrumbsPage.js');
-var SearchResultsPage = require('./searchResultsPage.js');
+var HomePage = require('./homePage');
+var NavigationPage = require('./navigationPage');
+var UsecasePage = require('./usecasePage');
+var ScenarioPage = require('./scenarioPage');
+var StepPage = require('./stepPage');
+var EditorPage = require('./editorPage');
+var GeneralSettingsPage = require('./generalSettingsPage');
+var BranchAliasesPage = require('./branchAliasesPage');
+var ObjectDetailsPage = require('./objectDetailsPage');
+var LabelConfigurationsPage = require('./labelConfigurationsPage');
+var BreadcrumbsPage = require('./breadcrumbsPage');
+var SearchResultsPage = require('./searchResultsPage');
 
 module.exports = {
     homePage: HomePage,

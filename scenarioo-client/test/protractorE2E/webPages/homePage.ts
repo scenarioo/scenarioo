@@ -1,9 +1,9 @@
 'use strict';
 import {browser, by, element} from "protractor";
 
-var BaseWebPage = require('./baseWebPage.js'),
+var BaseWebPage = require('./baseWebPage'),
     util = require('util'),
-    e2eUtils = require('../util/util.js');
+    e2eUtils = require('../util/util');
 
 function HomePage(overridePath) {
     if (overridePath && overridePath.length > 0) {

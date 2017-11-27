@@ -1,6 +1,5 @@
 'use strict';
-import {browser, by, element} from "protractor";
-import * as angular from "angular";
+// import {browser, by, element} from "protractor";
 
 
 var initialized = false;
@@ -10,11 +9,11 @@ function getRoute(route) {
     browser.waitForAngular();
 }
 
-interface LocalStorageService {
-    set(key: string, value: string);
-    get(key: string): string;
-    clearAll();
-}
+// interface LocalStorageService {
+//     set(key: string, value: string);
+//     get(key: string): string;
+//     clearAll();
+// }
 
 /**
  * Initialize local storage to previously visited for web tests to run without about dialog open.
@@ -24,14 +23,14 @@ function initLocalStorage() {
     getRoute('/');
     var setPreviouslyVisitedInLocalStorage = browser.executeScript(function () {
         var injector = angular.element(document.body).injector();
-        var LocalStorageService: LocalStorageService = injector.get('LocalStorageService');
+        var LocalStorageService = injector.get('LocalStorageService');
         LocalStorageService.set('scenariooPreviouslyVisited', 'true');
         LocalStorageService.set('scenarioo-searchIncludeHtml', 'false');
     });
     setPreviouslyVisitedInLocalStorage.then(function () {
         var visited = browser.executeScript(function () {
             var injector = angular.element(document.body).injector();
-            var LocalStorageService: LocalStorageService = injector.get('LocalStorageService');
+            var LocalStorageService = injector.get('LocalStorageService');
             return LocalStorageService.get('scenariooPreviouslyVisited');
         });
         expect(visited).toEqual('true');
@@ -58,13 +57,13 @@ function clearLocalStorage() {
     getRoute('/');
     var clearLocalStorageScript = browser.executeScript(function () {
         var injector = angular.element(document.body).injector();
-        var LocalStorageService: LocalStorageService = injector.get('LocalStorageService');
+        var LocalStorageService = injector.get('LocalStorageService');
         return LocalStorageService.clearAll();
     });
     clearLocalStorageScript.then(function () {
         var visited = browser.executeScript(function () {
             var injector = angular.element(document.body).injector();
-            var LocalStorageService: LocalStorageService = injector.get('LocalStorageService');
+            var LocalStorageService = injector.get('LocalStorageService');
             return LocalStorageService.get('scenariooPreviouslyVisited');
         });
         expect(visited).toBe(null);
