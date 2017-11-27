@@ -121,7 +121,7 @@ function DiffInfoService() {
     }
 
     function getRemovedDiffInfo() {
-        var diffInfo = {};
+        var diffInfo: any = {};
         diffInfo.changeRate = 100;
         diffInfo.isAdded = false;
         diffInfo.isRemoved = true;

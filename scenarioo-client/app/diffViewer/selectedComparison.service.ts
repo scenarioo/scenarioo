@@ -35,7 +35,7 @@ function SelectedComparisonService($location, $rootScope, localStorageService) {
         return selectedComparison;
     }
 
-    function setSelectedComparison(value) {
+    function setSelectedComparison(value?) {
         if (value) {
             selectedComparison = value;
         } else {
