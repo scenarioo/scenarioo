@@ -133,7 +133,7 @@ describe('ScenarioController', function () {
         expectAllPagesAreExpanded();
     });
 
-    function givenScenarioIsLoaded(config) {
+    function givenScenarioIsLoaded(config?) {
         if (angular.isUndefined(config)) {
             config = TestData.CONFIG;
         }
