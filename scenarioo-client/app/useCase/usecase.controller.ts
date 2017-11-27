@@ -175,7 +175,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     }
 
     function createUseCaseInformationTree(usecase) {
-        var usecaseInformation = {};
+        var usecaseInformation: any = {};
         usecaseInformation['Use Case'] = usecase.name;
         if(usecase.description) {
             usecaseInformation.Description = usecase.description;

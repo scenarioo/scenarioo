@@ -16,6 +16,9 @@
  */
 
 
+import * as $ from "jquery"
+import * as angular from "angular";
+
 /**
  * Shows a screenshot plus annotations, if available. The annotations are shown as a separate layer on top of the
  * screenshot.

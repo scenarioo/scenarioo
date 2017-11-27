@@ -26,7 +26,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
 
-    var selectedBranchAndBuild = {};
+    var selectedBranchAndBuild: any = {};
     var useCaseName = $routeParams.useCaseName;
     var scenarioName = $routeParams.scenarioName;
     var labels = $location.search().labels;
@@ -342,7 +342,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         sessionStorage.setItem('activeTab', activeTab);
     }
     function getActiveTab() {
-        var activeTab = sessionStorage.getItem('activeTab');
+        var activeTab: any = sessionStorage.getItem('activeTab');
         if (activeTab == null){
             return 0;
         }

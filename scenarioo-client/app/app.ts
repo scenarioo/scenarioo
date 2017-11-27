@@ -80,7 +80,7 @@ require('./search/search.controller');
 require('./shared');
 require('./sketcher');
 require('./step');
-require('./useCase/usecase.controller.js');
+require('./useCase/usecase.controller');
 require('./diffViewer');
 
 

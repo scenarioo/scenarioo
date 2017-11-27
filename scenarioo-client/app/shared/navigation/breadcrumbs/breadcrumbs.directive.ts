@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {$} from "jquery";
+import * as $ from "jquery"
 import * as angular from "angular";
 
 angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($routeParams, $location, $route, $compile,

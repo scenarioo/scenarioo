@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.services').factory('ScreenAnnotationsService', function () {
 
-    var service = {};
+    var service: any = {};
     service.hasPopup = hasPopup;
     service.getIconClass = getIconClass;
     service.getTitleText = getTitleText;
