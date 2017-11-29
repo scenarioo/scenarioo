@@ -1,0 +1,58 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div ng-controller="ComparisonsController as vm">
+    <div class="row sc-space-top sc-space-bottom">
+        <div class="col-lg-3">
+            <div class="input-group">
+                <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="comparisonsSearchField"
+                data-toggle="tooltip" title="type words separated by spaces to search for"
+                ng-model="vm.table.search.searchTerm" placeholder="Search comparison ..."/>
+                <span class="input-group-btn">
+                    <button type="button" ng-click="vm.resetSearchField()" class="btn btn-default">reset</button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- comparisons table -->
+    <table ng-table="tableParams" class="table table-curved table-responsive " ng-model="sort">
+        <thead>
+            <tr>
+                <th sc-sortable-column="identifier.branchName">Branch</th>
+                <th sc-sortable-column="identifier.buildName">Build</th>
+                <th sc-sortable-column="buildDescription.date">Name</th>
+                <th sc-sortable-column="buildDescription.date">Build Date</th>
+                <th sc-sortable-column="buildDescription.status">Comparison Status</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="comparison in vm.comparisons | scFilterArray: vm.table.search.searchTerm | orderBy: vm.table.sort.column: vm.table.sort.reverse">
+                <td>{{comparison.baseBuild.branchName}}</td>
+                <td>{{comparison.baseBuild.buildName}}</td>
+                <td>{{comparison.comparisonConfiguration.name}}</td>
+                <td>{{comparison.baseBuildDate | scDateTime}}</td>
+                <td>
+                    <span ng-class="[getStyleClassForComparisonStatus(comparison.status), 'label']">{{comparison.status}}</span>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
