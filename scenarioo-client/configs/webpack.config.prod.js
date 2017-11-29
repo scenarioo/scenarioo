@@ -7,7 +7,7 @@ var webpackConfig = merge(commonConfig, {
 
     output: {
         path: __dirname + '/../dist',
-        filename: 'app.bundle.[hash].js'
+        filename: '[name].bundle.[hash].js'
     },
 
     plugins: [
