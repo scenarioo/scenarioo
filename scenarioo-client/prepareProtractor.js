@@ -32,7 +32,7 @@ function prepareProtractorForE2ETests() {
         // this is also needed if scenarioo documenztation is not enabled
         var scenarioo = require('scenarioo-js');
         scenarioo.setupFluentDsl();
-        require('./test/protractorE2E/labelDefinitions.js');
+        require('./test/protractorE2E/labelDefinitions');
     }
 
     function disableAnimations() {

@@ -1,7 +1,6 @@
 'use strict';
 import {scenario, step, useCase} from "scenarioo-js";
 
-var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
 var NUMBER_OF_ALIASES_IN_CONFIG = 2;
