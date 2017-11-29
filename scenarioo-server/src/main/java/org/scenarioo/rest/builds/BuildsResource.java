@@ -42,38 +42,37 @@ import java.util.concurrent.Future;
  * Only authenticated users with the required role can post new builds.
  */
 @Path("/rest/builds/")
-public class BuildsImporterResource {
+public class BuildsResource {
 
-	private static final Logger LOGGER = Logger.getLogger(BuildsImporterResource.class);
+	private static final Logger LOGGER = Logger.getLogger(BuildsResource.class);
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
-			.getConfigurationRepository();
+		.getConfigurationRepository();
 
 	@GET
 	@Path("updateAndImport")
-	@Produces({ "application/xml", "application/json" })
+	@Produces({"application/xml", "application/json"})
 	public void updateAllBuildsAndSubmitNewBuildsForImport() {
 		ScenarioDocuBuildsManager.INSTANCE.updateBuildsIfValidDirectoryConfigured();
 	}
 
 	@GET
 	@Path("buildImportSummaries")
-	@Produces({ "application/xml", "application/json" })
+	@Produces({"application/xml", "application/json"})
 	public List<BuildImportSummary> listImportedBuilds() {
-		LOGGER.info("REQUEST: listImportedBuilds()");
 		return ScenarioDocuBuildsManager.INSTANCE.getBuildImportSummaries();
 	}
 
 	@GET
 	@Path("importLogs/{branchName}/{buildName}")
-	@Produces({ "text/plain" })
+	@Produces({"text/plain"})
 	public Response loadBuildImportLog(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName) {
+									   @PathParam("buildName") final String buildName) {
 
 		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
 
 		ScenarioDocuAggregationDao dao = new ScenarioDocuAggregationDao(
-				configurationRepository.getDocumentationDataDirectory());
+			configurationRepository.getDocumentationDataDirectory());
 		File logFile = dao.getBuildImportLogFile(buildIdentifier);
 		if (logFile == null || !logFile.exists()) {
 			return Response.status(Status.BAD_REQUEST).build();
@@ -83,24 +82,69 @@ public class BuildsImporterResource {
 		return response.build();
 	}
 
+	/**
+	 * Imports the specified build and then calculates the configured comparisons.
+	 * Reimports the build if it's already imported.
+	 */
 	@GET
-	@Path("reimportBuild/{branchName}/{buildName}")
-	@Produces({ "application/xml", "application/json" })
-	public void reimportBuild(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName) {
+	@Path("{branchName}/{buildName}/import")
+	@Produces({"application/xml", "application/json"})
+	public void importBuild(@PathParam("branchName") final String branchName,
+							@PathParam("buildName") final String buildName) {
 
 		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
 
 		ScenarioDocuBuildsManager.INSTANCE.reimportBuild(buildIdentifier);
 	}
 
-	/**
-	  * Import a specific build and create the diff data for a specific comparison build.
-	  */
 	@GET
-	@Path("importBuild/{branchName}/{buildName}/{comparisonBranchName}/{comparisonBuildName}/{comparisonName}")
+	@Path("{branchName}/{buildName}/importStatus")
+	@Produces({"text/plain", "application/xml"})
+	public Response importStatusString(@PathParam("branchName") final String branchName,
+									   @PathParam("buildName") final String buildName) {
+
+		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
+		String importStatus = ScenarioDocuBuildsManager.INSTANCE.getImportStatus(buildIdentifier);
+
+		if (importStatus == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+
+		return Response.ok(importStatus).build();
+	}
+
+	@GET
+	@Path("{branchName}/{buildName}/importStatus")
+	@Produces({"application/json"})
+	public Response importStatusJson(@PathParam("branchName") final String branchName,
+									 @PathParam("buildName") final String buildName) {
+
+		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
+		String importStatus = ScenarioDocuBuildsManager.INSTANCE.getImportStatus(buildIdentifier);
+
+		if (importStatus == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+
+		return Response.ok(new ImportStatus(importStatus)).build();
+	}
+
+	/**
+	 * Imports the build (if not imported yet) and then calculates the comparisons synchronously.
+	 * <p>
+	 * Previously this was:
+	 * /rest/builds/importBuild/{branchName}/{buildName}/{comparisonBranchName}/{comparisonBuildName}/{comparisonName}
+	 * <p>
+	 * Set branchName and buildName for the build that should be imported and compared with the comparison build.
+	 * <p>
+	 * comparisonBranchName and comparisonBuildName must be the names of an existing build that is already imported or
+	 * scheduled for import. Import for this build is not triggered by this endpoint. You can use aliases for these two
+	 * values though.
+	 */
+	@GET
+	@Path("{branchName}/{buildName}/comparisons/{comparisonBranchName}/{comparisonBuildName}/{comparisonName}/importAndCompare")
 	@Produces({"application/xml", "application/json"})
-	public Response importBuild(
+	public Response importAndCompare(
 		@PathParam("branchName") final String branchName,
 		@PathParam("buildName") final String buildName,
 		@PathParam("comparisonBranchName") final String comparisonBranchName,
@@ -125,7 +169,7 @@ public class BuildsImporterResource {
 
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Produces({ "application/xml", "application/json" })
+	@Produces({"application/xml", "application/json"})
 	public Response uploadBuildAsZipFile(final MultipartFormDataInput formData) {
 		return new BuildUploader().uploadBuild(formData);
 	}

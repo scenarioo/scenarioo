@@ -26,6 +26,7 @@ import org.scenarioo.model.diffViewer.ComparisonResult;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
+import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -145,13 +146,36 @@ public class BuildImporter {
 	public synchronized Future<ComparisonResult> importBuildAndCreateComparison(AvailableBuildsList availableBuilds,
 			BuildIdentifier buildIdentifier, BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
 
-		removeImportedBuildAndDerivedData(availableBuilds, buildIdentifier);
-		submitBuildForImport(availableBuilds, buildIdentifier);
+		submitBuildForInitialImportIfNewBuild(availableBuilds, buildIdentifier);
+
 		Future<ComparisonResult> comparisonResult =
 			submitBuildForSingleComparison(buildIdentifier, comparisonBuildIdentifier,comparisonName);
+
 		saveBuildImportSummaries(buildImportSummaries);
 
 		return comparisonResult;
+	}
+
+	public BuildImportStatus getBuildImportStatus(BuildIdentifier buildIdentifier) {
+		BuildImportSummary buildImportSummary = buildImportSummaries.get(buildIdentifier);
+		return buildImportSummary != null ? buildImportSummary.getStatus() : null;
+	}
+
+	private void submitBuildForInitialImportIfNewBuild(AvailableBuildsList availableBuilds, BuildIdentifier buildIdentifier) {
+		BuildImportSummary buildImportSummary = buildImportSummaries.get(buildIdentifier);
+
+		if(buildImportSummary == null) {
+			buildImportSummary = createBuildImportSummary(buildIdentifier);
+			buildImportSummaries.put(buildIdentifier, buildImportSummary);
+			submitBuildForImport(availableBuilds, buildIdentifier);
+		} else {
+			LOGGER.info("Build already exists, not triggering import.");
+		}
+	}
+
+	private BuildImportSummary createBuildImportSummary(BuildIdentifier buildIdentifier) {
+		Build build = dao.loadBuild(buildIdentifier);
+		return new BuildImportSummary(buildIdentifier.getBranchName(), build);
 	}
 
 	/**
@@ -185,7 +209,7 @@ public class BuildImporter {
 			return;
 		}
 
-		LOGGER.info("  Submitting build for import: " + buildIdentifier.getBranchName() + "/"
+		LOGGER.info("Submitting build for import: " + buildIdentifier.getBranchName() + "/"
 			+ buildIdentifier.getBuildName());
 		buildsInProcessingQueue.add(buildIdentifier);
 		summary.setStatus(BuildImportStatus.QUEUED_FOR_PROCESSING);
@@ -265,9 +289,9 @@ public class BuildImporter {
 	}
 
 	private synchronized void addSuccessfullyImportedBuild(AvailableBuildsList availableBuilds,
-														   BuildImportSummary summary) {
-		recordBuildImportFinished(summary, BuildImportStatus.SUCCESS);
-		availableBuilds.addImportedBuild(summary);
+														   BuildImportSummary buildImportSummary) {
+		recordBuildImportFinished(buildImportSummary, BuildImportStatus.SUCCESS);
+		availableBuilds.addImportedBuild(buildImportSummary);
 	}
 
 	private synchronized void recordBuildImportFinished(BuildImportSummary summary,

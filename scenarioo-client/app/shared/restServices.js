@@ -81,7 +81,7 @@ angular.module('scenarioo.services')
     })
 
     .factory('BuildReimportResource', function (ScenariooResource) {
-        return ScenariooResource('/builds/reimportBuild/:branchName/:buildName',
+        return ScenariooResource('/builds/:branchName/:buildName/import',
             {
                 branchName: '@branchName',
                 buildName: '@buildName'

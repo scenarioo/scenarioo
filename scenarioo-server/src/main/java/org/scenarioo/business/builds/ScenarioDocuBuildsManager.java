@@ -256,4 +256,8 @@ public class ScenarioDocuBuildsManager {
 		}
 	}
 
+	public String getImportStatus(BuildIdentifier buildIdentifier) {
+		BuildImportStatus buildImportStatus = buildImporter.getBuildImportStatus(buildIdentifier);
+		return buildImportStatus != null ? buildImportStatus.name() : null;
+	}
 }

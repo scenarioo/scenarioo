@@ -17,13 +17,8 @@
 
 package org.scenarioo.business.builds;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
+import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.lastSuccessfulScenarios.LastSuccessfulScenariosBuildUpdater;
 import org.scenarioo.model.configuration.BranchAlias;
 import org.scenarioo.model.configuration.Configuration;
@@ -33,6 +28,9 @@ import org.scenarioo.model.docu.entities.Branch;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
+
+import java.io.File;
+import java.util.*;
 
 /**
  * Manages all the currently available builds and maintains aliases to the most recent builds for each branch.
@@ -115,7 +113,7 @@ public class AvailableBuildsList {
 	}
 
 	public synchronized void refreshAliases() {
-		List<BranchBuilds> physicalBuilds = getBranchBuildsWithouAliases();
+		List<BranchBuilds> physicalBuilds = getBranchBuildsWithoutAliases();
 		List<BranchBuilds> aliasBuilds = createBranchesFromAliases(physicalBuilds);
 		List<BranchBuilds> allBranches = new LinkedList<BranchBuilds>();
 
@@ -125,7 +123,7 @@ public class AvailableBuildsList {
 		this.branchBuildsList = allBranches;
 	}
 
-	private List<BranchBuilds> getBranchBuildsWithouAliases() {
+	private List<BranchBuilds> getBranchBuildsWithoutAliases() {
 		List<BranchBuilds> result = new LinkedList<BranchBuilds>();
 		for (BranchBuilds branchBuilds : this.branchBuildsList) {
 			if (!branchBuilds.isAlias()) {
@@ -168,21 +166,42 @@ public class AvailableBuildsList {
 	/**
 	 * Adding a newly imported build.
 	 */
-	public synchronized void addImportedBuild(final BuildImportSummary summary) {
+	public synchronized void addImportedBuild(final BuildImportSummary buildImportSummary) {
+		// Add to existing BranchBuilds if it exists for the branch
 		for (BranchBuilds branchBuilds : branchBuildsList) {
-			if (branchBuilds.getBranch().getName().equals(summary.getIdentifier().getBranchName())) {
-				BuildLink buildLink = new BuildLink();
-				buildLink.setLinkName(summary.getIdentifier().getBuildName());
-				buildLink.setBuild(summary.getBuildDescription());
-				setSpecialDisplayNameForLastSuccessfulScenariosBuild(buildLink);
-				branchBuilds.getBuilds().add(buildLink);
-				updateAliasesForRecentBuilds(branchBuilds);
-				BuildSorter.sort(branchBuilds.getBuilds());
+			if (branchBuilds.getBranch().getName().equals(buildImportSummary.getIdentifier().getBranchName())) {
+				addImportedBuild(buildImportSummary, branchBuilds);
 				return;
 			}
 		}
-		throw new IllegalStateException("Branch '" + summary.getIdentifier().getBranchName()
-				+ "' was not found in available builds list for newly imported build.");
+
+		// BranchBuilds does not exist yet for the given branch, so it has to be added
+		BranchBuilds newBranchBuild = addNewBranchToBranchBuilds(buildImportSummary);
+		addImportedBuild(buildImportSummary, newBranchBuild);
+	}
+
+	private BranchBuilds addNewBranchToBranchBuilds(BuildImportSummary buildImportSummary) {
+		File documentationDataDirectory = configurationRepository.getDocumentationDataDirectory();
+		final ScenarioDocuReader reader = new ScenarioDocuReader(documentationDataDirectory);
+		Branch branch = reader.loadBranch(buildImportSummary.getIdentifier().getBranchName());
+		BranchBuilds branchBuilds = new BranchBuilds();
+		branchBuilds.setBranch(branch);
+		branchBuilds.setAlias(isBranchAlias(branch.getName()));
+		return branchBuilds;
+	}
+
+	private boolean isBranchAlias(String branchName) {
+		return configurationRepository.getConfiguration().getBranchAliases().stream().anyMatch(alias -> alias.getName().equals(branchName));
+	}
+
+	private void addImportedBuild(BuildImportSummary buildImportSummary, BranchBuilds branchBuilds) {
+		BuildLink buildLink = new BuildLink();
+		buildLink.setLinkName(buildImportSummary.getIdentifier().getBuildName());
+		buildLink.setBuild(buildImportSummary.getBuildDescription());
+		setSpecialDisplayNameForLastSuccessfulScenariosBuild(buildLink);
+		branchBuilds.getBuilds().add(buildLink);
+		updateAliasesForRecentBuilds(branchBuilds);
+		BuildSorter.sort(branchBuilds.getBuilds());
 	}
 
 	// TODO [#248] Duplicate method in ScenarioDocuAggregationDAO
