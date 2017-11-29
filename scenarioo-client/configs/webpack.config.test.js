@@ -11,10 +11,18 @@ var webpackConfig = {
 
     output: {},
 
+    resolve: {
+        extensions: ['.js', '.ts']
+    },
+
     devtool: 'inline-source-map',
 
     module: {
-        loaders: [
+        rules: [
+            {
+                test: /\.ts$/,
+                loader: 'ts-loader'
+            },
             {
                 test: /\.(jpg|jpeg|gif|png|ico)$/,
                 include: /images/,

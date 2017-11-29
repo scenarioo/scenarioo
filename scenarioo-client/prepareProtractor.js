@@ -5,6 +5,10 @@ var jasmineReporters = require('jasmine-reporters');
  */
 function prepareProtractorForE2ETests() {
 
+    require("ts-node").register({
+        project: "test/protractorE2E/tsconfig.json"
+    });
+
     setupJasmineXmlReporters();
     setupScenariooFluentDsl();
     disableAnimations();

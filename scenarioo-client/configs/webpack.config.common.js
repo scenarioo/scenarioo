@@ -14,7 +14,7 @@ var webpackCommonConfig = {
     },
 
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.(jpg|jpeg|gif|png|ico)$/,
                 include: /images/,
