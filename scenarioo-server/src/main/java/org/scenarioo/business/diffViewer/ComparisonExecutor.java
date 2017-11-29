@@ -82,7 +82,7 @@ public class ComparisonExecutor {
 
 	public ArrayList<Future<ComparisonResult>> doComparison(String baseBranchName, String baseBuildName, String comparisonBranchName, String comparisonBuildName, String comparisonName) {
 
-		ArrayList<Future<ComparisonResult>> futureList = new ArrayList<Future<ComparisonResult>>();
+		ArrayList<Future<ComparisonResult>> futureList = new ArrayList<>();
 
 		docuBuildsManager = ScenarioDocuBuildsManager.INSTANCE;
 
@@ -106,12 +106,8 @@ public class ComparisonExecutor {
 		LOGGER.info("Submitting build for comparison");
 		logBaseBuildAndComparisonConfiguration(baseBranchName, baseBuildName, comparisonConfiguration);
 
-		return asyncComparisonExecutor.submit(new Callable<ComparisonResult>() {
-			@Override
-			public ComparisonResult call() {
-				return runComparison(baseBranchName, baseBuildName, comparisonConfiguration);
-			}
-		});
+		return asyncComparisonExecutor.submit(()
+			-> runComparison(baseBranchName, baseBuildName, comparisonConfiguration));
 	}
 
 	private ComparisonResult runComparison(String baseBranchName, String baseBuildName,
@@ -167,7 +163,7 @@ public class ComparisonExecutor {
 
 		comparisonResult.setComparisonConfiguration(comparisonConfiguration);
 		if (buildDiffInfo != null) {
-			comparisonResult.setRmaePercentage(buildDiffInfo.getChangeRate());
+			comparisonResult.setChangeRate(buildDiffInfo.getChangeRate());
 		}
 
 		return comparisonResult;
@@ -191,7 +187,7 @@ public class ComparisonExecutor {
 	 */
 	protected synchronized List<ComparisonConfiguration> getComparisonConfigurationsForBaseBranch(
 		String baseBranchName) {
-		List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = new LinkedList<ComparisonConfiguration>();
+		List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = new LinkedList<>();
 
 		List<ComparisonConfiguration> comparisonConfigurations = configurationRepository.getConfiguration()
 			.getComparisonConfigurations();

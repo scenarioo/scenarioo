@@ -23,6 +23,7 @@ import org.scenarioo.rest.base.BuildIdentifier;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -31,9 +32,15 @@ public class ComparisonResult {
 	private BuildIdentifier baseBuild;
 	private BuildIdentifier compareBuild;
 
-	ComparisonConfiguration comparisonConfiguration;
+	private ComparisonConfiguration comparisonConfiguration;
 
-	private String rmaePercentage;
+	private double changeRate;
+
+	private Date calculationDate;
+
+	private Date baseBuildDate;
+
+	private ComparisonCalculationStatus status;
 
 	public BuildIdentifier getBaseBuild() {
 		return baseBuild;
@@ -59,11 +66,35 @@ public class ComparisonResult {
 		this.comparisonConfiguration = comparisonConfiguration;
 	}
 
-	public String getRmaePercentage() {
-		return rmaePercentage;
+	public double getChangeRate() {
+		return changeRate;
 	}
 
-	public void setRmaePercentage(double rmaePercentage) {
-		this.rmaePercentage = "" + rmaePercentage;
+	public void setChangeRate(double changeRate) {
+		this.changeRate = changeRate;
+	}
+
+	public Date getCalculationDate() {
+		return calculationDate;
+	}
+
+	public void setCalculationDate(Date calculationDate) {
+		this.calculationDate = calculationDate;
+	}
+
+	public Date getBaseBuildDate() {
+		return baseBuildDate;
+	}
+
+	public void setBaseBuildDate(Date baseBuildDate) {
+		this.baseBuildDate = baseBuildDate;
+	}
+
+	public ComparisonCalculationStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ComparisonCalculationStatus status) {
+		this.status = status;
 	}
 }
