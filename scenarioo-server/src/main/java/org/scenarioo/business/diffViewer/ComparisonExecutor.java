@@ -106,8 +106,12 @@ public class ComparisonExecutor {
 		LOGGER.info("Submitting build for comparison");
 		logBaseBuildAndComparisonConfiguration(baseBranchName, baseBuildName, comparisonConfiguration);
 
-		return asyncComparisonExecutor.submit(()
-			-> runComparison(baseBranchName, baseBuildName, comparisonConfiguration));
+		return asyncComparisonExecutor.submit(new Callable<ComparisonResult>() {
+			@Override
+			public ComparisonResult call() {
+				return runComparison(baseBranchName, baseBuildName, comparisonConfiguration);
+			}
+		});
 	}
 
 	private ComparisonResult runComparison(String baseBranchName, String baseBuildName,
