@@ -6,12 +6,13 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpackCommonConfig = {
 
     entry: {
+        polyfills: './app/polyfills.ts',
         app: './app/app.ts'
     },
 
     output: {
         path: __dirname + '/dist',
-        filename: 'app.bundle.js'
+        filename: '[name].bundle.js'
     },
 
     resolve: {
@@ -74,6 +75,9 @@ var webpackCommonConfig = {
         // Fixes Critical dependency: the request of a dependency is an expression
         // https://github.com/angular/angular/issues/20357
         new webpack.ContextReplacementPlugin(/\@angular(\\|\/)core(\\|\/)esm5/, path.join(__dirname, './app')),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: ['polyfills']
+        })
     ]
 };
 

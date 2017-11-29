@@ -83,8 +83,7 @@ import './step';
 import './useCase/usecase.controller';
 import './diffViewer';
 
-// TODO does not work in tests
-// import './polyfills'
+
 import {AppModule} from "./app.module";
 import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
 
