@@ -163,6 +163,7 @@ public class BuildsResource {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		if(buildIsNotSuccessfullyImported(buildIdentifier)) {
+			LOGGER.info("Can't calculate comparison. Build " + branchName + "/" + buildName + " is not successfully imported.");
 			return Response.status(Status.PRECONDITION_FAILED).build();
 		}
 
