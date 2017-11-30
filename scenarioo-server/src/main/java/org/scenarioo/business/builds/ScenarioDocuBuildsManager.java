@@ -231,6 +231,10 @@ public class ScenarioDocuBuildsManager {
 		return buildImporter.importBuildAndCreateComparison(availableBuilds, buildIdentifier, comparisonBuildIdentifier, comparisonName);
 	}
 
+	public void submitBuildForSingleComparison(final BuildIdentifier buildIdentifier, final BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
+		buildImporter.submitBuildForSingleComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName);
+	}
+
 	public LongObjectNamesResolver getLongObjectNameResolver(final BuildIdentifier buildIdentifier) {
 		AggregatedDocuDataReader dao = new ScenarioDocuAggregationDao(
 				configurationRepository.getDocumentationDataDirectory());
@@ -256,8 +260,7 @@ public class ScenarioDocuBuildsManager {
 		}
 	}
 
-	public String getImportStatus(BuildIdentifier buildIdentifier) {
-		BuildImportStatus buildImportStatus = buildImporter.getBuildImportStatus(buildIdentifier);
-		return buildImportStatus != null ? buildImportStatus.name() : null;
+	public BuildImportStatus getImportStatus(BuildIdentifier buildIdentifier) {
+		return buildImporter.getBuildImportStatus(buildIdentifier);
 	}
 }

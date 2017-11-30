@@ -229,7 +229,7 @@ public class BuildImporter {
 		comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 	}
 
-	private Future<ComparisonResult> submitBuildForSingleComparison(BuildIdentifier buildIdentifier, BuildIdentifier compareBuildIdentifier, String comparisonName) {
+	public Future<ComparisonResult> submitBuildForSingleComparison(BuildIdentifier buildIdentifier, BuildIdentifier compareBuildIdentifier, String comparisonName) {
 		return comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 			compareBuildIdentifier.getBranchName(), compareBuildIdentifier.getBuildName(), comparisonName);
 	}
