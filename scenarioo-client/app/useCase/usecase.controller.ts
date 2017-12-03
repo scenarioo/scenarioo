@@ -21,7 +21,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
                            SelectedBranchAndBuildService, SelectedComparison, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource,
                            SketchIdsResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource) {
 
-    var vm = this;
+    const vm = this;
 
     vm.table = {
         search: {$: ''},
@@ -45,7 +45,6 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     vm.goToFirstStep = goToFirstStep;
     vm.goToScenario = goToScenario;
     vm.onNavigatorTableHit = onNavigatorTableHit;
-    vm.getLabelStyle = getLabelStyle;
     vm.goToIssue = goToIssue;
 
     activate();
@@ -77,17 +76,6 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
 
     function onNavigatorTableHit(scenario) {
         goToScenario($routeParams.useCaseName, scenario.scenario.name);
-    }
-
-    // FIXME this code is duplicated. How can we extract it into a service?
-    function getLabelStyle(labelName) {
-        var labelConfig = vm.labelConfigurations[labelName];
-        if (labelConfig) {
-            return {
-                'background-color': labelConfig.backgroundColor,
-                'color': labelConfig.foregroundColor
-            };
-        }
     }
 
     function goToFirstStep(useCaseName, scenarioName) {

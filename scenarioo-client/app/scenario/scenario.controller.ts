@@ -32,6 +32,7 @@ function ScenarioController($filter, $routeParams,
     vm.searchFieldText = '';
     vm.relatedIssues = [];
     vm.hasAnyRelatedIssues = false;
+    vm.labelConfigurations = {};
     vm.expandAll = expandAll;
     vm.showAllStepsForPage = showAllStepsForPage;
     vm.toggleShowAllStepsForPage = toggleShowAllStepsForPage;
@@ -42,7 +43,6 @@ function ScenarioController($filter, $routeParams,
     vm.getLinkToStep = getLinkToStep;
     vm.resetSearchField = resetSearchField;
     vm.goToIssue = goToIssue;
-    vm.getLabelStyle = getLabelStyle;
     vm.comparisonInfo = SelectedComparison.info;
 
     var useCaseName = $routeParams.useCaseName;
@@ -50,7 +50,6 @@ function ScenarioController($filter, $routeParams,
     var comparisonBranchName;
     var comparisonBuildName;
     var selectedBranchAndBuild;
-    var labelConfigurations = [];
     var pagesAndScenarios: any = [];
     var scenarioStatistics: any = {};
     var showAllSteps = [];
@@ -60,7 +59,7 @@ function ScenarioController($filter, $routeParams,
     SelectedBranchAndBuildService.callOnSelectionChange(loadScenario);
 
     LabelConfigurationsResource.query({}, function (queriedlabelConfigurations) {
-        labelConfigurations = queriedlabelConfigurations;
+        vm.labelConfigurations = queriedlabelConfigurations;
     });
 
 
@@ -287,12 +286,5 @@ function ScenarioController($filter, $routeParams,
             function onSuccess(result) {
                 $location.path('/stepsketch/' + issue.id + '/' + result.scenarioSketchId + '/' + result.stepSketchId);
             });
-    }
-
-    function getLabelStyle(labelName) {
-        var labelConfig = labelConfigurations[labelName];
-        if (labelConfig) {
-            return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
-        }
     }
 }

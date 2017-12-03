@@ -7,19 +7,19 @@
                   class="label label-info sc-label">{{label}}</span>
         </li>
         <li id="scenario-labels" *ngIf="scenarioLabels">
-            Use case:
+            Scenario:
             <span *ngFor="let label of scenarioLabels"
                   [ngStyle]="getLabelStyle(label)"
                   class="label label-info sc-label">{{label}}</span>
         </li>
         <li id="step-labels" *ngIf="stepLabels">
-            Use case:
+            Step:
             <span *ngFor="let label of stepLabels"
                   [ngStyle]="getLabelStyle(label)"
                   class="label label-info sc-label">{{label}}</span>
         </li>
         <li id="page-labels" *ngIf="pageLabels">
-            Use case:
+            Page:
             <span *ngFor="let label of pageLabels"
                   [ngStyle]="getLabelStyle(label)"
                   class="label label-info sc-label">{{label}}</span>
