@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
     selector: 'sc-label-metadata',
@@ -7,4 +7,29 @@ import {Component} from '@angular/core';
 })
 export class LabelMetadataComponent {
 
+    @Input()
+    useCaseLabels: string[];
+
+    @Input()
+    scenarioLabels: string[];
+
+    @Input()
+    pageLabels: string[];
+
+    @Input()
+    stepLabels: string[];
+
+    @Input()
+    labelConfigurations: any;
+
+    getLabelStyle(label: string) {
+        if (this.labelConfigurations) {
+            const labelConfig = this.labelConfigurations[label];
+            if (labelConfig) {
+                return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
+            }
+        }
+
+        return {}
+    }
 }

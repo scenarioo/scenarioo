@@ -1,1 +1,28 @@
-Hi from Angular 5!
+<div class="sc-tree">
+    <ul>
+        <li id="usecase-labels" *ngIf="useCaseLabels">
+            Use case:
+            <span *ngFor="let label of useCaseLabels"
+                  [ngStyle]="getLabelStyle(label)"
+                  class="label label-info sc-label">{{label}}</span>
+        </li>
+        <li id="scenario-labels" *ngIf="scenarioLabels">
+            Use case:
+            <span *ngFor="let label of scenarioLabels"
+                  [ngStyle]="getLabelStyle(label)"
+                  class="label label-info sc-label">{{label}}</span>
+        </li>
+        <li id="step-labels" *ngIf="stepLabels">
+            Use case:
+            <span *ngFor="let label of stepLabels"
+                  [ngStyle]="getLabelStyle(label)"
+                  class="label label-info sc-label">{{label}}</span>
+        </li>
+        <li id="page-labels" *ngIf="pageLabels">
+            Use case:
+            <span *ngFor="let label of pageLabels"
+                  [ngStyle]="getLabelStyle(label)"
+                  class="label label-info sc-label">{{label}}</span>
+        </li>
+    </ul>
+</div>

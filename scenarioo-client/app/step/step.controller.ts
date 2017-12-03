@@ -66,15 +66,6 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
         $scope.labelConfigurations = labelConfigurations;
     });
 
-    $scope.getLabelStyle = function (labelName) {
-        if ($scope.labelConfigurations) {
-            var labelConfig = $scope.labelConfigurations[labelName];
-            if (labelConfig) {
-                return {'background-color': labelConfig.backgroundColor, 'color': labelConfig.foregroundColor};
-            }
-        }
-    };
-
     $scope.showApplicationInfoPopup = function (tab) {
         ApplicationInfoPopupService.showApplicationInfoPopup(tab);
     };

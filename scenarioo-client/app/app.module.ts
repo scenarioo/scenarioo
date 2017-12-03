@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {LabelMetadataComponent} from './step/label-metadata/label-metadata.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -12,6 +13,7 @@ import {LabelMetadataComponent} from './step/label-metadata/label-metadata.compo
     ],
     imports: [
         BrowserModule,
+        FormsModule,
         UpgradeModule
     ]
 })
