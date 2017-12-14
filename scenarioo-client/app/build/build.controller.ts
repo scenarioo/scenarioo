@@ -41,6 +41,7 @@ function BuildController($scope, $location, ConfigService) {
                 title: 'Use Cases',
                 contentViewUrl: 'build/useCasesTab.html'
             }
+
         ];
         vm.tabIndices.usecases = 0;
     }
@@ -76,12 +77,19 @@ function BuildController($scope, $location, ConfigService) {
     function defineLastStaticTabs() {
         var i = vm.tabs.length;
         vm.tabs.push({
-            index: i,
-            tabId: 'sketches',
-            title: 'Sketches',
-            contentViewUrl: 'build/sketchesTab.html'
-        });
+                index: i,
+                tabId: 'sketches',
+                title: 'Sketches',
+                contentViewUrl: 'build/sketchesTab.html'
+            },
+            {
+                index: i+1,
+                tabId: 'useCasesNg',
+                title: 'Use Cases Ng',
+                contentViewUrl: 'build/useCasesTabNgx.html'
+            });
         vm.tabIndices.sketches = i;
+        vm.tabIndices.useCasesNg = i+1;
     }
 
     /**

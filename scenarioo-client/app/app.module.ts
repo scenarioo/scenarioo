@@ -5,13 +5,25 @@ import {LabelMetadataComponent} from './step/label-metadata/label-metadata.compo
 import {FormsModule} from '@angular/forms';
 import {LabelConfigurationService} from './services/label-configuration.service';
 import {HttpClientModule} from '@angular/common/http';
+import {UseCasesTabComponent} from './ngx/use-cases-tab/use-cases-tab.component';
+import {SidePanelLayoutComponent} from './ngx/shared/side-panel-layout/side-panel-layout.component';
+import {SideAreaComponent} from './ngx/shared/side-panel-layout/side-area.component';
+import {MainAreaComponent} from './ngx/shared/side-panel-layout/main-area.component';
+import {HeaderRowComponent} from './ngx/shared/side-panel-layout/header-row.component';
 
 @NgModule({
     declarations: [
-        LabelMetadataComponent
+        LabelMetadataComponent,
+        UseCasesTabComponent,
+        SidePanelLayoutComponent,
+        MainAreaComponent,
+        SideAreaComponent,
+        HeaderRowComponent
+
     ],
     entryComponents: [
         LabelMetadataComponent,
+        UseCasesTabComponent
     ],
     imports: [
         BrowserModule,
@@ -20,7 +32,7 @@ import {HttpClientModule} from '@angular/common/http';
         UpgradeModule
     ],
     providers: [
-        LabelConfigurationService,
+        LabelConfigurationService
     ]
 })
 export class AppModule {
