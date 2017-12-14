@@ -31,6 +31,7 @@ module.exports = function (config) {
             'node_modules/babel-polyfill/browser.js',
             'node_modules/angular/angular.js',
             'node_modules/angular-mocks/angular-mocks.js',
+            'app/app.ts',
             'app/*.ts',
             'app/!(components)/**/*.ts',
             'test/mock/**/*.ts',

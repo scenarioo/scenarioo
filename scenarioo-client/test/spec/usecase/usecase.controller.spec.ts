@@ -16,20 +16,25 @@
  */
 
 'use strict';
+import * as angular from 'angular';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+
 
 describe('UseCaseController', function () {
 
-    var BRANCH = 'branch_123',
+    const BRANCH = 'branch_123',
         BUILD = 'build_123',
         USE_CASE = 'LogIn';
 
-    var $scope, routeParams, controller, ScenarioResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource,
-        SelectedBranchAndBuildService, $location, $httpBackend, RelatedIssueResource;
+    let $scope, routeParams, controller, ScenarioResource, UseCaseDiffInfoResource, ScenarioDiffInfosResource,
+        SelectedBranchAndBuildService, $location, RelatedIssueResource;
+    let labelConfigurationService: any;
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
     beforeEach(inject(function ($rootScope, $routeParams, $controller, _ScenarioResource_, _RelatedIssueResource_, _UseCaseDiffInfoResource_, _ScenarioDiffInfosResource_,
-                                ConfigMock, _SelectedBranchAndBuildService_, _$location_, LocalStorageService, _$httpBackend_) {
+                                ConfigMock, _SelectedBranchAndBuildService_, _$location_, LocalStorageService) {
             $scope = $rootScope.$new();
             routeParams = $routeParams;
             routeParams.useCaseName = USE_CASE;
@@ -38,8 +43,13 @@ describe('UseCaseController', function () {
             UseCaseDiffInfoResource = _UseCaseDiffInfoResource_;
             ScenarioDiffInfosResource = _ScenarioDiffInfosResource_;
             SelectedBranchAndBuildService = _SelectedBranchAndBuildService_;
+            labelConfigurationService = {
+                get(): Observable<any> {
+                    return Observable.of({});
+                }
+            };
+
             $location = _$location_;
-            $httpBackend = _$httpBackend_;
 
             LocalStorageService.clearAll();
 
@@ -51,7 +61,8 @@ describe('UseCaseController', function () {
                 RelatedIssueResource: RelatedIssueResource,
                 UseCaseDiffInfoResource: UseCaseDiffInfoResource,
                 ScenarioDiffInfosResource: ScenarioDiffInfosResource,
-                SelectedBranchAndBuildService: SelectedBranchAndBuildService
+                SelectedBranchAndBuildService: SelectedBranchAndBuildService,
+                labelConfigurationService
             });
         }
     ));
@@ -61,13 +72,11 @@ describe('UseCaseController', function () {
         spyOn(RelatedIssueResource, 'query').and.callFake(queryRelatedIssuesFake());
         spyOn(UseCaseDiffInfoResource, 'get').and.callFake(getEmptyData());
         spyOn(ScenarioDiffInfosResource, 'get').and.callFake(getEmptyData());
-        $httpBackend.whenGET('rest/labelconfigurations').respond({});
 
         expect(SelectedBranchAndBuildService.selected().branch).toBeUndefined();
         expect(SelectedBranchAndBuildService.selected().build).toBeUndefined();
 
         $location.url('/new/path/?branch=' + BRANCH + '&build=' + BUILD);
-        $httpBackend.flush();
         $scope.$apply();
 
         expect(SelectedBranchAndBuildService.selected().branch).toBe(BRANCH);
@@ -86,7 +95,7 @@ describe('UseCaseController', function () {
     });
 
     function getFindAllScenariosFake() {
-        var DATA = {
+        const DATA = {
             useCase: 'useCase',
             scenarios: getFakeScenarios()
         };
@@ -97,7 +106,7 @@ describe('UseCaseController', function () {
     }
 
     function queryRelatedIssuesFake() {
-        var DATA = {
+        const DATA = {
             0:
                 {
                     id: '1',
@@ -112,7 +121,7 @@ describe('UseCaseController', function () {
     }
 
     function getFakeScenarios() {
-        var scenarios = [];
+        const scenarios = [];
         scenarios.push({
             name: 'scenario'
         });
@@ -120,7 +129,7 @@ describe('UseCaseController', function () {
     }
 
     function getEmptyData() {
-        var DATA = {};
+        const DATA = {};
 
         return function (params, onSuccess) {
             onSuccess(DATA);
