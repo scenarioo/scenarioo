@@ -39,6 +39,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     vm.metadataTree = {};
     vm.relatedIssues = {};
     vm.hasAnyLabels = false;
+    $scope.comparisonInfo = null; // initialized later in activate,  should be defined on vm as well (Style Guide!)
 
     vm.resetSearchField = resetSearchField;
     vm.handleClick = handleClick;
@@ -56,10 +57,8 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         LabelConfigurationsResource.query({}, function (labelConfigurations) {
             vm.labelConfigurations = labelConfigurations;
         });
+        $scope.comparisonInfo = SelectedComparison.info;
     }
-
-    $scope.comparisonInfo = SelectedComparison.info;
-
 
     function resetSearchField() {
         vm.table.search = {searchTerm: ''};
