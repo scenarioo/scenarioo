@@ -1,0 +1,79 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "scenarioo-client-cli"
+  },
+  "apps": [
+    {
+      "root": "src",
+      "outDir": "dist",
+      "assets": [
+        "assets",
+        "favicon.ico",
+        "images"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.app.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "prefix": "sc",
+      "styles": [
+        "styles.less",
+        "app/components/font-awesome/css/font-awesome.min.css",
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "app/components/svg.select.js/dist/svg.select.css"
+      ],
+      "scripts": [
+        "app/components/svg.js/dist/svg.js",
+        "app/components/svg.select.js/dist/svg.select.js",
+        "app/components/svg.draggable.js/dist/svg.draggable.js",
+        "app/components/svg.resize.js/dist/svg.resize.js",
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/angular/angular.min.js",
+        "../node_modules/angular-resource/angular-resource.js",
+        "../node_modules/angular-route/angular-route.js",
+        "../node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js",
+        "../node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
+        "../node_modules/angular-local-storage/dist/angular-local-storage.js",
+        "../node_modules/twigs/dist/twigs.js",
+        "app/components/angular-unsavedChanges/dist/unsavedChanges.js"
+
+      ],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    }
+  ],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [
+    {
+      "project": "src/tsconfig.app.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "src/tsconfig.spec.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "e2e/tsconfig.e2e.json",
+      "exclude": "**/node_modules/**"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "less",
+    "component": {}
+  }
+}

@@ -1,0 +1,49 @@
+<!doctype html>
+
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<html twg-global-hotkeys>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title ng-controller="TitleController as title" ng-bind="title.text">Scenarioo</title>
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+</head>
+
+<body ng-cloak>
+
+    <!--[if lte IE 8]>
+    <p>
+        Scenarioo does not support your browser (IE 8 or older). Please use a more recent browser, ideally Google Chrome
+        or Firefox.
+    </p>
+    <![endif]-->
+
+    <div ng-include="'shared/navigation/navigation.html'" ng-controller="NavigationController"></div>
+
+    <div class="sc-container">
+        <div ng-view></div>
+    </div>
+
+</body>
+</html>

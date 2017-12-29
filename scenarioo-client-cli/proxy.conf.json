@@ -1,0 +1,8 @@
+{
+  "/rest": {
+    "target": "http://localhost:8080/scenarioo/rest",
+    "pathRewrite": {
+      "^/rest": ""
+    }
+  }
+}

@@ -1,0 +1,50 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<sc-breadcrumbs></sc-breadcrumbs>
+
+<form class="navbar-form" >
+    <div class="form-group">
+        <input type="checkbox" ng-model="vm.includeHtml" ng-change="vm.changeIncludeHtml()" id="sc-search-include-html"/> Include HTML source in search results
+    </div>
+</form>
+
+<div class="sc-referenceTreeMetaData" id="sc-search-results-table"
+     data-sc-filterable-table-tree
+     data-root-is-collapsed="false"
+     data-expand-first-child-up-to-root-node="true"
+     data-filter=""
+     data-treedata="vm.results.resultSet.children"
+     data-treemodel="vm.treemodel"
+     data-click-action="vm.goToRelatedView(node)"
+     data-first-column-title="Search Results (showing {{vm.hits}} of {{vm.totalHits}} hits)"
+     ng-show="vm.results.resultSet.children.length > 0">
+</div>
+
+<div class="alert alert-warning" ng-show="vm.results.resultSet.children.length === 0" id="sc-search-no-results-message">
+    No result.
+</div>
+
+<div class="alert alert-danger" ng-show="vm.showSearchFailed">
+    <p>
+    An error occurred when executing the search query.
+    <span ng-show="vm.errorMessage"><br/>{{vm.errorMessage}}</span>
+    </p>
+    <p>
+    You can try to reimport the build for calculation of the search index and check that the Elastic Search Engine is configured correctly, running and reachable (see in "General Settings" under "Manage").
+    </p>
+</div>

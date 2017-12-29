@@ -1,0 +1,925 @@
+/* scenarioo-client
+ * Copyright (C) 2014, scenarioo.org Development Team
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/** Space to use to separate most important building blocks on page (bootstrap default is 20 px, but since we do not want to loose too much screen space, we reduce it) **/
+@vertical-space: 14px;
+
+/** General **/
+.link, .informationModal .nav-tabs {
+}
+
+.link-no-hover:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+h1, h2, h3, h4 {
+  color: #4B4B4B;
+  font-weight: normal;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0 0 20px;
+}
+
+h2 {
+  font-size: 1.4em;
+  border-bottom: 2px #CCCCCC solid;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  padding-bottom: 0.2em;
+}
+
+h3 {
+  font-size: 16px;
+  margin-top: 0.8em;
+  margin-bottom: 0.4em;
+}
+
+h4 {
+  font-size: 14px;
+}
+
+.icon-with-padding {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.hero-unit-hover:hover {
+  background-color: #F8F8F8;
+  border-radius: 6px 6px 6px 6px;
+}
+
+.controls div {
+  display: inline;
+  margin-bottom: @vertical-space;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.btn-wide {
+  width: 150px !important;
+}
+
+.btn-default.focus, .btn-default:focus {
+  background-color: #fff;
+}
+
+.btn-no-btn {
+  cursor: default;
+}
+
+/** Breadcrumbs (basically styled by bootstrap!) **/
+
+.breadcrumb {
+  display: inline-block;
+  margin-bottom: 0;
+  padding: 0 0 0 5px;
+  word-break: break-all;
+  background-color: #eee;
+}
+
+#sc-breadcrumbs {
+  background-color:#eee;
+  padding: 12px 10px 10px 10px;
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-bottom: 14px;
+}
+
+.nav, .link {
+  cursor: pointer;
+}
+
+/** Tables **/
+/*
+.table {
+    border-width: 2px;
+}
+.table thead {
+    background-color: whitesmoke;
+    background-image: linear-gradient(to bottom, #FFFFFF, #E6E6E6);
+}
+
+
+
+.table tbody tr:nth-child(2n) td {
+    background-color: 	#EEEEEE;
+}
+
+.table tbody tr:hover td {
+    background-color: #EBF5FF;
+}        */
+
+.table-curved {
+  border-collapse: separate;
+}
+
+.table-curved {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  border-left: 0;
+}
+
+.table-curved td, .table-curved th {
+  border-left: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+}
+
+.table-curved th {
+  border-top: none;
+}
+
+.table-curved th:first-child {
+  border-radius: 6px 0 0 0;
+}
+
+.table-curved th:last-child {
+  border-radius: 0 6px 0 0;
+}
+
+.table-curved th:only-child {
+  border-radius: 6px 6px 0 0;
+}
+
+.table-curved tr:last-child td:first-child {
+  border-radius: 0 0 0 6px;
+}
+
+.table-curved tr:last-child td:last-child {
+  border-radius: 0 0 6px 0;
+}
+
+/** Navigation **/
+@media screen and (max-width: 1024px) {
+  .header .builds .state {
+    display: none !important;
+  }
+}
+
+.navbar-nav > li > a.navbar-brand {
+  padding-top: 10px;
+}
+
+.navbar-nav > li > a {
+  padding-top: 24px;
+  padding-bottom: 8px;
+}
+
+.navbar-inverse {
+  background-color: #222;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: #FFFFFF;
+  &:hover {
+    color: #9d9d9d;
+  }
+}
+
+#sc-global-search-box {
+  padding-top: 3px;
+}
+
+#sc-global-search-box .input-sm {
+  padding: 3px 8px;
+  font-size: 14px;
+}
+
+.sc-nav-logo {
+  vertical-align: baseline;
+  float: left;
+}
+
+.sc-nav-application-name{
+  margin-left: 3px;
+  line-height: 48px;
+}
+
+.header .builds.dropdown .dropdown-menu {
+  width: 500px;
+}
+
+.header .dropdown .dropdown-menu,
+.header .dropdown .dropdown-menu li {
+  width: 100%;
+}
+
+.header .buildLabel {
+  padding-left: 20px;
+}
+
+/** Overview */
+.builds-information {
+  max-width: 800px;
+}
+
+.builds-information .accordion-heading {
+  background-color: #E6E6E6;
+}
+
+.builds-information .accordion-heading a {
+  color: #333333;
+  border: thin solid #999999;
+}
+
+.usecase-table tr.selected,.scenario-table tr.selected {
+  td, th {
+    background: #f5f5f5;
+  }
+}
+
+.sc-pageTitle {
+  border-bottom: 0px;
+  margin-top: 0.8em
+}
+
+.step-title {
+  margin: 0;
+  padding: 0;
+}
+
+.step-view {
+  margin: 0 0 0 0;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.sc-step-comparison-icon{
+  height: 15px;
+  margin-right: 4px;
+  margin-top: -4px;
+}
+
+#sc-diff-viewer-changes-highlight-legend {
+  display: inline;
+}
+
+.clear{
+  clear: both;
+}
+
+#comparison-tab a {
+  height: 42px;
+}
+
+#comparison-tab .diff-info-wrapper {
+  float: right;
+  margin-left: 10px;
+  margin-top: -3px;
+}
+
+#comparison-tab .progress {
+  width: 50px;
+}
+
+// TODO Why was this needed?
+//.meta-data .label {
+//  padding-top: 6px;
+//  font-size: 16px;
+//}
+
+.meta-data div.row-fluid div {
+  line-height: 20px;
+  padding: 0 10px;
+}
+
+.meta-data .row-fluid {
+  padding-bottom: 15px;
+}
+
+.meta-data dl {
+  margin: 8px 0;
+}
+
+.element-floating {
+  display: block;
+  float: left;
+}
+
+.sc-truncate {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/** Necessary for tooltips inside an element with class sc-truncate */
+.tooltip-inner {
+  white-space: normal;
+  overflow: auto;
+  text-overflow: clip;
+}
+
+/** Screenshots */
+.sc-screenshot-border {
+  border: 2px solid #DDDDDD;
+}
+
+div.sc-annotated-screenshot-container {
+  /** This is important for the correct positioning of the annotations on the screen */
+  position: relative;
+}
+
+img.sc-screenshot {
+  max-width: 100%;
+  width: auto;
+}
+
+div.sc-screenshot-scenario {
+  height: 320px;
+  overflow: hidden;
+  margin: 10px 0 10px 0;
+}
+
+/** Annotations on screenshots */
+
+span.sc-screenshot-annotation {
+  position: absolute;
+  display: block;
+  white-space: nowrap; /** currently ellipsis for overflow only works for single line texts, see following hack for making it work for multilines: http://www.mobify.com/blog/multiline-ellipsis-in-pure-css/ **/
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 2px rgb(255, 214, 51) solid;
+  background-color: rgba(255, 214, 51, 0.6);
+}
+
+span.sc-screenshot-annotation-text {
+  margin: 0px 1px 0px 1px;
+  color: #421313;
+}
+
+span.sc-screenshot-annotation-with-action {
+  border: 2px rgb(64, 64, 255) solid;
+}
+
+.sc-screenshot-annotation-icon {
+  position: absolute;
+  display: block;
+  border: 3px rgb(255, 214, 51) solid;
+  background-color: rgba(255, 214, 51, 1);
+}
+
+/** Configuration */
+.configuration textarea {
+  height: 150px;
+}
+
+/** Information */
+.informationModal .github-link a {
+  color: #5b5b5b !important;
+}
+
+.informationModal .github-link a:hover {
+  color: #7b7b7b !important;
+}
+
+.info-popup .tab-content {
+  margin: 20px 15px 0 15px;
+}
+
+.sc-service-enabled {
+  font-weight: bold;
+  color: #419641;
+}
+
+.sc-service-disabled {
+  font-weight: bold;
+  color: red;
+}
+
+/** Generic classes **/
+
+.sc-container {
+  margin: 0 15px 15px 15px;
+}
+
+.sc-space-top {
+  margin-top: @vertical-space;
+}
+
+.sc-space-top-large {
+  margin-top: 40px;
+}
+
+.sc-space-bottom {
+  margin-bottom: @vertical-space;
+}
+
+.sc-center {
+  text-align: center;
+}
+
+.navbar {
+  margin-bottom: 0;
+}
+
+
+
+.well {
+  /* reduced margins for not taking too much vertical space */
+  margin-top: @vertical-space;
+  margin-bottom: @vertical-space;
+}
+
+.tab-content {
+  /* reduced margins for not taking too much vertical space */
+  margin-top: @vertical-space;
+}
+
+.panel {
+  /* reduced margins for not taking too much vertical space */
+  margin-bottom: @vertical-space;
+}
+
+/** Overwrite Bootstrap styles **/
+.table > thead > tr > th {
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+label {
+  font-weight: normal;
+}
+
+/** Tree **/
+.sc-tree {
+  word-wrap: break-word;
+}
+
+.sc-tree ul {
+  margin-left: 0;
+  padding: 0;
+  padding-bottom: 2px;
+}
+
+/* tree view nodes: simple value items */
+.sc-tree li {
+  margin: 2px 0 6px 0;
+  padding-left: 4px;
+  list-style-type: none;
+}
+
+#relatedSketches li {
+  margin: 2px 0 6px 0;
+  padding-left: 4px;
+  list-style-type: none;
+}
+
+#relatedSketches {
+  margin-left: 0;
+  padding: 0;
+  padding-bottom: 2px;
+}
+
+/* tree view nodes: real child nodes */
+.sc-tree .sc-treeNodeChildren > ul > li {
+  margin: 2px 0 6px 0;
+  padding-left: 8px;
+  list-style-type: none;
+  border-left: #dddddd solid 1px;
+}
+
+.sc-node-label {
+  font-weight: normal;
+  color: #333333;
+}
+
+.sc-node-value {
+  font-weight: normal;
+  color: #666666;
+}
+
+.sc-treeNodeObjectTitle > .sc-node-label {
+  font-weight: bold;
+}
+
+.sc-treeNodeObjectTitle > .sc-node-value {
+  font-weight: bold;
+}
+
+/** Build Import Status Dialog (wider) **/
+.modal-wide .modal-dialog {
+  width: 75%;
+}
+
+/** Tree-Search View - reference Tree **/
+.matchColor {
+  background-color: #E8E8E8;
+}
+
+.sc-referenceTree {
+  font-size: 1.2em;
+  font-weight: bold;
+  border-bottom: 2px #CCCCCC solid;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  padding-bottom: 0.2em;
+}
+
+.sc-label {
+  margin-right: 2px;
+}
+
+.sc-alert-title{
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+.sc-color-field {
+  display: block;
+  width: 50px;
+  height: 25px;
+  margin-right: 2px;
+}
+
+
+.sc-color-field-selected {
+  border: 3px solid black;
+}
+
+.sc-color-chooser {
+  padding-left: 0px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+.sc-color-chooser li {
+  list-style-type: none;
+  display: table-cell;
+}
+
+.sc-error-span {
+  font-weight: bold;
+  color: red;
+}
+
+.sc-bold {
+  font-weight: bold;
+}
+
+/* sketcher */
+
+.sc-sketcher-bg-color {
+  background-color: #1abc9c;
+}
+.sc-sketcher-bg-color-light {
+  background-color: #d1f2eb;
+}
+.sc-sketcher-color {
+  color: #1abc9c;
+}
+.sc-sketcher-color-light {
+  color: #d1f2eb;
+}
+
+.sc-sketcher-container {
+  padding:20px;
+  width:100%;
+  float: left;
+}
+
+#sc-sketcher-toolbar {
+  height:30px;
+  margin-bottom: 20px;
+}
+
+.sc-sketcher-toolbar-right {
+  float:right;
+}
+
+#sc-sketcher-workspace {
+  min-height:600px;
+}
+
+#sc-sketcher-workspace #sc-sketcher-viewport {
+  background-color:#fff;
+  -webkit-box-shadow: 0 0 5px 0 #eee;
+  box-shadow: 0 0 5px 0 #eee;
+  overflow: hidden;
+  width: 100%;
+  height: 600px;
+  max-height: 600px;
+}
+
+
+#sc-sketcher-workspace .noteToolText textarea {
+  border: 0px solid #ccc;
+  background: none;
+  float: left;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  overflow: hidden;
+}
+#sc-sketcher-workspace .noteToolText button {
+  float: right;
+  margin: 5px;
+}
+
+#sc-sketcher-workspace #sketcher-original-screenshot {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#sc-sketcher-workspace #drawingPad {
+  position: relative;
+  width: inherit;
+  height: inherit;
+  min-width: inherit;
+  min-height: inherit;
+  max-width: inherit;
+  max-height: inherit;
+  overflow: hidden;
+}
+
+#sc-sketcher-workspace #drawingPad > svg {
+  max-width: inherit;
+  max-height: inherit;
+}
+
+#sc-sketcher-workspace .shapeTextWrapper {
+  position: absolute;
+}
+
+#sc-sketcher-workspace .shapeTextWrapper textarea.shapeText {
+  border: 0px solid #f00;
+  background: rgba(153,153,153,0.1);
+  float: left;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  resize: none;
+  overflow: hidden;
+  outline: 0;
+}
+
+#sc-context-breadcrumbs {
+  background-color: #eee;
+  width: 100%;
+  padding: 5px;
+  font-size: 90%;
+  color: #555;
+  border-top: 1px solid #ccc;
+  margin-bottom: 30px;
+}
+
+textarea#issueDescription {
+  height: 165px;
+}
+
+.tool-icon,
+.property-icon {
+  background-image: url('images/sketcher-icons-sprite.svg');
+  background-repeat: no-repeat;
+  width: 50px;
+  height: 33px;
+  display: block;
+}
+
+.tool-icon-default {
+  background-position: 50px center;
+}
+
+.tool-icon-select {
+  background-position: -450px center;
+}
+.tool-icon-border {
+  background-position: 0px center;
+}
+.tool-icon-rect {
+  background-position: -50px center;
+}
+.tool-icon-note {
+  background-position: -100px center;
+}
+.tool-icon-text {
+  background-position: -150px center;
+}
+.tool-icon-button {
+  background-position: -200px center;
+}
+.tool-icon-highlight {
+  background-position: -500px center;
+}
+.tool-icon-line {
+  background-position: -550px center;
+}
+.tool-icon-arrow {
+  background-position: -600px center;
+}
+
+
+.property-icon-front {
+  background-position: -400px center;
+}
+.property-icon-forward {
+  background-position: -350px center;
+}
+.property-icon-backward {
+  background-position: -300px center;
+}
+.property-icon-back {
+  background-position: -250px center;
+}
+
+#sc-sketcher-save-and-close-button:after {
+  content: '';
+  display: block;
+  clear: both;
+  margin-bottom: 10px;
+}
+
+
+/* Diff Viewer */
+
+.progress.sc-diff-changes {
+  position: relative;
+  height: 25px;
+  margin-bottom: 0;
+  overflow: hidden;
+  max-width:155px;
+  border-radius: 5px 5px 5px 5px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+  background-color: transparent;
+  border: solid 1px #EAEAEA;
+
+  .progress-bar {
+    float: left;
+    width: 0;
+    height: 5px;
+    font-size: 12px;
+    line-height: 55px;
+    color: #000000;
+    text-align: center;
+    -webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,.15);
+    -webkit-transition: width .6s ease;
+    -o-transition: width .6s ease;
+    transition: width .6s ease;
+  }
+
+  .progress-bar-default {
+    background-color: #f6f6f6;
+  }
+
+  .change-rate {
+    clear: both;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    line-height: 19px;
+    background-color: #FFFFFF;
+
+    span.added {
+      color: #5cb85c;
+      font-weight: normal;
+      background-color: #FFFFFF;
+    }
+
+    span.removed {
+      color: #d9534f;
+      font-weight: normal;
+      background-color: #FFFFFF;
+    }
+  }
+}
+
+.diff-info-wrapper {
+
+  .progress-bar-warning {
+    background-color: #f0ad4e;
+  }
+
+}
+
+.tooltip.diff-icon-tooltip .tooltip-inner {
+  white-space: nowrap;
+  text-align:left;
+  max-width: 300px;
+
+  .square {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #CCC;
+    margin-right: 3px;
+    margin-top: 2px;
+
+    &.changed {
+      background-color: #f0ad4e;
+    }
+
+    &.added {
+      background-color: #5cb85c;
+    }
+
+    &.removed {
+      background-color: #d9534f;
+    }
+  }
+}
+
+.usecase-table, .scenario-table {
+  tr.removed {
+    cursor: default;
+    background-color: #FDF2F1;
+  }
+
+  tr.added {
+    background-color: #F8FCF7;
+  }
+}
+
+.step-view {
+  .sc-truncate, h2 {
+    line-height: 25px;
+    margin-bottom: 0px;
+  }
+
+  h3.sc-truncate {
+    margin-top: 0px;
+    padding-top: 0.8em;
+  }
+
+  .diff-info-wrapper {
+    float: right;
+    width: 70px;
+    font-size: 14px;
+  }
+}
+
+.sc-step-in-overview .removed, .sc-step-in-overview.removed {
+  cursor: default;
+  background-color: #FDF2F1;
+}
+
+.sc-step-in-overview .added, .sc-step-in-overview.added {
+  cursor: default;
+  background-color: #F8FCF7;
+}
+
+
+#comparison-selection-dropdown {
+
+  & > a {
+    white-space: nowrap;
+    padding-top: 14px;
+    line-height: 40px;
+    padding-bottom: 0px;
+
+    .diff-info-wrapper {
+      display: inline-block;
+      font-size: 14px;
+      position: relative;
+      bottom: -5px;
+      padding-left: 10px;
+      width: 90px;
+
+      .progress.sc-diff-changes {
+        border-color: #9d9d9d;
+        .change-rate {
+          color: #9d9d9d;
+          background-color: transparent;
+        }
+      }
+    }
+  }
+  .dropdown-menu {
+    .diff-info-wrapper {
+      position: absolute;
+      top: 4px;
+      right: 10px;
+      width: 80px;
+      font-size: 14px;
+    }
+
+    li a {
+      line-height: 25px;
+      padding-bottom: 5px;
+      padding-top: 5px;
+      padding-right: 100px;
+      position: relative;
+    }
+  }
+}
