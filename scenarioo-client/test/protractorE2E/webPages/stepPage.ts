@@ -158,6 +158,7 @@ StepPage.prototype.assertScreenshotIsShown = function () {
 
 StepPage.prototype.assertNoScreenAnnotationsArePresent = function () {
     expect(element(by.className('sc-screenshot-annotation')).isPresent()).toBeFalsy();
+    expect(element(by.id('sc-showHideScreenAnnotationsButton')).isDisplayed()).toBeFalsy();
 };
 
 StepPage.prototype.assertNoScreenAnnotationsAreVisible = function () {

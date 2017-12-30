@@ -40,12 +40,17 @@ function screenAnnotationsButton(LocalStorageService, GlobalHotkeysService) {
 
         var vm = this;
         vm.toggleAnnotationsVisible = toggleAnnotationsVisible;
+        vm.isAnnotationsButtonVisible = isAnnotationsButtonVisible;
 
         activate();
 
         function activate() {
             initAnnotationsVisibleFromLocalStorage();
             GlobalHotkeysService.registerGlobalHotkey('a', vm.toggleAnnotationsVisible);
+        }
+
+        function isAnnotationsButtonVisible() {
+            return $scope.screenAnnotations != null && $scope.screenAnnotations.length > 0;
         }
 
         function initAnnotationsVisibleFromLocalStorage() {

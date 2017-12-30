@@ -31,6 +31,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     var scenarioName = $routeParams.scenarioName;
     var labels = $location.search().labels;
 
+    $scope.step = null; // loaded later, in activation
     $scope.pageName = $routeParams.pageName;
     $scope.pageOccurrence = parseInt($routeParams.pageOccurrence, 10);
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
@@ -47,6 +48,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
 
     function activate() {
         SketcherLinkService.showCreateOrEditSketchLinkInBreadcrumbs('Create Sketch', createSketch);
+        SelectedBranchAndBuildService.callOnSelectionChange(loadStep);
     }
 
     function createSketch() {
@@ -78,8 +80,6 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     $scope.showApplicationInfoPopup = function (tab) {
         ApplicationInfoPopupService.showApplicationInfoPopup(tab);
     };
-
-    SelectedBranchAndBuildService.callOnSelectionChange(loadStep);
 
     function loadStep(selected) {
         selectedBranchAndBuild = selected;
