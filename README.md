@@ -27,7 +27,7 @@ Downloads and more links, even for different releases (like forthcoming release 
 
 **Master:** Latest Stable Release [![Build Status](http://build.scenarioo.org/jenkins/buildStatus/icon?job=scenarioo/master)](http://build.scenarioo.org/jenkins/job/scenarioo/master)
 
-**Develop:** Current Development State [![Build Status](http://build.scenarioo.org/jenkins/buildStatus/icon?job=scenarioo/master)](http://build.scenarioo.org/jenkins/job/scenarioo/master)
+**Develop:** Current Development State [![Build Status](http://build.scenarioo.org/jenkins/buildStatus/icon?job=scenarioo/develop)](http://build.scenarioo.org/jenkins/job/scenarioo/develop)
 
 ### License
 
