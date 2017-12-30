@@ -83,3 +83,5 @@ require('./sketcher');
 require('./step');
 require('./useCase/usecase.controller.js');
 require('./diffViewer');
+
+angular.bootstrap(document, ['scenarioo']);

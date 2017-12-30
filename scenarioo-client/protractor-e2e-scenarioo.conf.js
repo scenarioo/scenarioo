@@ -43,7 +43,7 @@ var exportsConfig = {
         },
     },
 
-    specs: ['./test/protractorE2E/specs/**/*.js'],
+    specs: ['./test/protractorE2E/specs/**/*.ts'],
 
     baseUrl: PROTRACTOR_BASE_URL,
 

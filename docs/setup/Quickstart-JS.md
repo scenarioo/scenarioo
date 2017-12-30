@@ -35,14 +35,9 @@ describe("Wikipedia", function() {
 
     it("Look up Protractor", function() {
         browser.get("http://www.wikipedia.org");
-        scenarioo.step("Start page");
-
         element(by.id('searchInput')).sendKeys('Protractor');
-        scenarioo.step("Entered search term Protractor");
-
         element(by.css('#search-form button')).click();
         expect(element(by.id('firstHeading')).getText()).toBe("Protractor");
-        scenarioo.step("Article about Protractor");
     });
 
 });
@@ -104,18 +99,28 @@ scenarioo.setupJasmineReporter(jasmine, {
 });
 ```
 
-Extend test as follows.
+Change the test `wikipediaTest.js` by adding a `require` statement for Scenarioo and `scenarioo.step()` calls after each action:
 
-a) Add at the beginning of the file:
 
 ```
 var scenarioo = require("../node_modules/scenarioo-js");
-```
 
-b) In the test after navigating to the Wikipedia page:
+describe("Wikipedia", function() {
 
-```
-scenarioo.step("Start page");
+    it("Look up Protractor", function() {
+        browser.get("http://www.wikipedia.org");
+        scenarioo.step("Start page");
+
+        element(by.id('searchInput')).sendKeys('Protractor');
+        scenarioo.step("Entered search term");
+
+        element(by.css('#search-form button')).click();
+        scenarioo.step("Article about Protractor");
+
+        expect(element(by.id('firstHeading')).getText()).toBe("Protractor");
+    });
+
+});
 ```
 
 Run the test again (as we have integrated Scenarioo now):
@@ -123,6 +128,8 @@ Run the test again (as we have integrated Scenarioo now):
 ```
 npm test
 ```
+
+> Disclaimer: we are using the legacy (plain Jasmine) syntax for this example to keep it as simple as possible. We recommend using the [Scenarioo Fluent DSL](https://github.com/scenarioo/scenarioo-js/blob/develop/README.md#scenarioo-fluent-dsl) instead, as it has many advantages.
 
 
 ## Install Viewer to Browse Output

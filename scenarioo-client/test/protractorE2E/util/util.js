@@ -1,4 +1,5 @@
 'use strict';
+// import {browser, by, element} from "protractor";
 
 
 var initialized = false;
@@ -7,6 +8,12 @@ function getRoute(route) {
     browser.get(browser.params.baseUrl + '/#' + route);
     browser.waitForAngular();
 }
+
+// interface LocalStorageService {
+//     set(key: string, value: string);
+//     get(key: string): string;
+//     clearAll();
+// }
 
 /**
  * Initialize local storage to previously visited for web tests to run without about dialog open.
