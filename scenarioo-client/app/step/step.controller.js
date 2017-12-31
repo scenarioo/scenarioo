@@ -17,11 +17,11 @@
 
 angular.module('scenarioo.controllers').controller('StepController', StepController);
 
-function StepController($scope, $routeParams, $location, $route, StepResource, HostnameAndPort, SelectedBranchAndBuildService,
+function StepController($scope, $routeParams, $location, $route, StepResource, SelectedBranchAndBuildService,
                         $filter, ApplicationInfoPopupService, GlobalHotkeysService, LabelConfigurationsResource,
                         SharePageService, SketcherContextService, RelatedIssueResource, SketchIdsResource,
                         SketcherLinkService, BranchesAndBuildsService, ScreenshotUrlService, SelectedComparison, BuildDiffInfoResource,
-                        StepDiffInfoResource, DiffInfoService, localStorageService) {
+                        StepDiffInfoResource, DiffInfoService, localStorageService, ConfigService) {
 
     var transformMetadataToTreeArray = $filter('scMetadataTreeListCreator');
     var transformMetadataToTree = $filter('scMetadataTreeCreator');
@@ -31,29 +31,24 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     var scenarioName = $routeParams.scenarioName;
     var labels = $location.search().labels;
 
+    $scope.step = null; // loaded later, in activation
     $scope.pageName = $routeParams.pageName;
     $scope.pageOccurrence = parseInt($routeParams.pageOccurrence, 10);
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
     $scope.comparisonInfo = SelectedComparison.info;
     $scope.activeTab = getActiveTab();
 
-    $scope.displayDiffScreenshotKey = 'displayDiffScreenshot';
-    $scope.displayComparisonScreenshotKey = 'displayComparisonScreenshot';
-    $scope.displaySideBySideViewKey = 'displaySideBySideView';
-    $scope.displaySinglePageViewKey = 'displaySinglePageView';
-
     $scope.comparisonViewOptions = {
-        displayDiffScreenshot : getLocalStorageValue($scope.displayDiffScreenshotKey),
-        displayComparisonScreenshot : getLocalStorageValue($scope.displayComparisonScreenshotKey),
-        displaySideBySideView : getLocalStorageValue($scope.displaySideBySideViewKey),
-        displaySinglePageView : getLocalStorageValue($scope.displaySinglePageViewKey)
-    };
+        viewId : getLocalStorageValue('diffViewerStepComparisonViewId', 'SideBySide'),
+        changesHighlighted : getLocalStorageBool('diffViewerStepComparisonChangesHighlighted'),
+        diffImageColor: undefined
+     };
 
     activate();
 
     function activate() {
         SketcherLinkService.showCreateOrEditSketchLinkInBreadcrumbs('Create Sketch', createSketch);
-        initStorageKeys();
+        SelectedBranchAndBuildService.callOnSelectionChange(loadStep);
     }
 
     function createSketch() {
@@ -85,8 +80,6 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
     $scope.showApplicationInfoPopup = function (tab) {
         ApplicationInfoPopupService.showApplicationInfoPopup(tab);
     };
-
-    SelectedBranchAndBuildService.callOnSelectionChange(loadStep);
 
     function loadStep(selected) {
         selectedBranchAndBuild = selected;
@@ -373,7 +366,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
 
         var selected = SelectedBranchAndBuildService.selected();
 
-        $scope.screenShotUrl = HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
+        $scope.screenShotUrl = 'rest/branch/' + selected.branch + '/build/' + selected.build + '/usecase/' + $scope.stepIdentifier.usecaseName + '/scenario/' + $scope.stepIdentifier.scenarioName + '/image/' + imageName;
     }
 
     // This URL is only used internally, not for sharing
@@ -464,33 +457,48 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
             });
     }
 
-    function initStorageKeys(){
-        if($scope.comparisonViewOptions[$scope.displaySideBySideViewKey] && $scope.comparisonViewOptions[$scope.displaySinglePageViewKey]){
-            setStorageKey($scope.displaySinglePageViewKey, false);
-        }
-        if (localStorageService.get($scope.displayComparisonScreenshotKey) === null){
-            setStorageKey($scope.displayComparisonScreenshotKey, false);
-        }
-    }
-
-    $scope.toggleStorageKey = function(storageKey) {
-        setStorageKey(storageKey, !$scope.comparisonViewOptions[storageKey]);
+     $scope.setComparisonView = function(viewId) {
+        $scope.comparisonViewOptions.viewId = viewId;
+        setLocalStorageValue('diffViewerStepComparisonViewId', viewId);
     };
 
-    function setStorageKey(storageKey, value){
-        $scope.comparisonViewOptions[storageKey] = value;
-        localStorageService.set(storageKey, '' + value);
-    }
-
-    $scope.setActiveView = function(storageKey) {
-         if(!$scope.comparisonViewOptions[storageKey]){
-            $scope.toggleStorageKey($scope.displaySideBySideViewKey);
-            $scope.toggleStorageKey($scope.displaySinglePageViewKey);
-        }
+    $scope.isComparisonView = function(viewId) {
+        return $scope.comparisonViewOptions.viewId === viewId;
     };
 
-    function getLocalStorageValue(storageKey){
+    $scope.switchComparisonSingleScreenView = function() {
+        var viewId = $scope.isComparisonView('CurrentScreen') ? 'OtherScreen' : 'CurrentScreen';
+        $scope.setComparisonView(viewId);
+    };
+
+    $scope.isComparisonChangesToBeHighlightedAvailable = function() {
+        return $scope.step.diffInfo.changeRate !== 0 && !$scope.step.diffInfo.isAdded;
+    };
+
+    $scope.isComparisonChangesHighlighted = function() {
+        // highlighting is turned on, and there are changes in this screenshot to be highlighted
+        return $scope.isComparisonChangesToBeHighlightedAvailable() && $scope.comparisonViewOptions.changesHighlighted;
+    };
+
+    $scope.toggleComparisonChangesHighlighted = function() {
+        $scope.comparisonViewOptions.changesHighlighted = !$scope.comparisonViewOptions.changesHighlighted;
+        setLocalStorageValue('diffViewerStepComparisonChangesHighlighted', $scope.comparisonViewOptions.changesHighlighted);
+    };
+
+    $scope.getComparisonViewHighlightChangesColor = function() {
+        return ConfigService.diffViewerDiffImageColor();
+    };
+
+    function getLocalStorageBool(storageKey){
         return localStorageService.get(storageKey) !== 'false';
+    }
+
+    function getLocalStorageValue(storageKey, value){
+        return localStorageService.get(storageKey) || value;
+    }
+
+    function setLocalStorageValue(storageKey, value){
+        localStorageService.set(storageKey, '' + value);
     }
 
     $scope.go = function (step) {
@@ -510,7 +518,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, H
             return undefined;
         }
 
-        return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY] +
+        return 'rest/branch/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY] +
             '/build/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BUILD_KEY] +
             '/usecase/' + encodeURIComponent(useCaseName) +
             '/scenario/' + encodeURIComponent(scenarioName) +

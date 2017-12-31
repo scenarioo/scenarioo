@@ -22,11 +22,12 @@ Improvements to the Diff Viewer:
 * [#596 - Configure Highlight Color for Changes in DiffViewer Comparison Screenshots](https://github.com/scenarioo/scenarioo/issues/596): new config property `diffImageColorRgbaHex` to customize the highlight color.
 * [#577 - Avoid Null Pointer Exceptions](https://github.com/scenarioo/scenarioo/issues/577): Do not log null pointer exceptions when there is just no step to compare too.
 
-### Features "Small Improvements"
+### Features "Small Improvements & Fixes"
 
-Further small improvements:
+Further small improvements and bug fixes:
 
 * [#601 - Branch Selection Order](https://github.com/scenarioo/scenarioo/issues/601): new configuration property `branchSelectionListOrder` to configure order of branches in the branch selection list. 
+* [#630 - Hide Screen Annotation Button without Annotations](https://github.com/scenarioo/scenarioo/issues/630): bugfix to hide the button again if there are no annotations to display
 * [#628 - Improve logging format (log4j.properties) to be less verbose](https://github.com/scenarioo/scenarioo/issues/628)
 
 ### Breaking Changes and Backwards Compatibility

@@ -24,8 +24,7 @@ function scScreenshotTitle() {
         scope: {
             build: '=',
             name: '@',
-            alias: '@',
-            highlights: '='
+            alias: '@'
         },
         templateUrl: 'diffViewer/screenshotTitle/screenshotTitle.html'
     };

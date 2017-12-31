@@ -8,7 +8,7 @@
 
 ### Don't write 'use strict'; and don't wrap JS code with IIFEs
 
-Our gulp build adds this automatically to each *.js file.
+Our build adds this automatically to each *.js file.
 
 ### John Papa AngularJS Style Guide
 

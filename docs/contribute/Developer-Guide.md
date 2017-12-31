@@ -57,7 +57,7 @@ This process describes how you clean update all your sources and build everythin
 
 7. Configure webapp correctly (if not yet) and browse it:
    * Go to the configuration page (under _Manage_ in the top right corner, then choose tab _General Settings_). You should see some preconfigured values, which means the client was able to reach the server.
-   * Set the text field "Documentation Data Directory Path" to the path, were your dummy documentation data was generated (`<scenarioo-root>\scenarioo-docu-generation-example\build\scenarioDocuExample`) and save it. This will create or update your config.xml file in the folder that you specified in context.xml of the server.   
+   * In the field "Documentation Data Directory Path" you see where Scenarioo stores the `config.xml` file and where it expects documentation data. You can change the folder to a different one, see [Setup of Scenarioo Viewer Web App](../setup/Scenarioo-Viewer-Web-Application-Setup.md). You can either add your own `config.xml` file to this folder or let Scenarioo write the file the first time you save some configuration changes in the `Manage` section of Scenarioo.
    * In the _Builds_ tab on the _Manage_ page of Scenarioo you can click on the _Import & Update Builds_ link in the top right corner. You should see then that Scenarioo is either currently importing the build (state = PROCESSING) or already done with it (state = SUCCESS).
    * Reload the page, as soon as the state of the builds are SUCCESS the Branch _wikipedia-docu-example_ and it's builds should be selectable in the Scenarioo navigation bar. Select the build and navigate the example documentation. If you see a list of use cases, everything should be okay.
 
@@ -67,11 +67,6 @@ This process describes how you clean update all your sources and build everythin
     * run all java unit tests inside scenarioo/scenarioo-server
     * run all java-script unit tests inside scenarioo/scenarioo-client:
       `npm test`
-      or use following command to run them everytime a file changes:
-      `npm run test-watch`
-      for running javascript tests from inside WebStorm see also [Webstorm](./Development-Environment.md#webstorm)
-      or use
-      `npm test` which will call gulp under the hood
   * run all E2E tests (=web tests): see [E2E Testing](e2eTesting.md)
 
 **Well done, now you're ready to code!**

@@ -29,10 +29,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <div class="row sc-space-bottom">
             <div class="col-lg-3">Documentation Data Directory Path
-                &nbsp;<span class="glyphicon glyphicon-info-sign" uib-tooltip="Absolute path to the root directory where generated documentation builds for scenarioo are stored (web server needs read & write access to this folder)"></span>
+                &nbsp;<span class="glyphicon glyphicon-info-sign" uib-tooltip="Absolute path to the directory where the config.xml file and generated documentation data is stored (web server needs read & write access to this folder)"></span>
             </div>
             <div class="col-lg-9">
-                <input type="text" ng-model="vm.documentationDataDirectory" class="form-control" readonly/>
+                {{vm.documentationDataDirectory}}
             </div>
         </div>
 

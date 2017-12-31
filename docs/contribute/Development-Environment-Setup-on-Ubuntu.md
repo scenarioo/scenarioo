@@ -21,7 +21,7 @@ mkdir ~/.npm_global
 sudo npm config set prefix ~/.npm_global -g
 ```
 
-If you did this, the binaries that npm installs globally (typically `gulp` for example) will be linked from `~/.npm_global/bin`. Therefore you have to add this path to your `PATH` variable. You can do this by adding the following line to `~/.bash_aliases`.
+If you did this, the binaries that npm installs globally will be linked from `~/.npm_global/bin`. Therefore you have to add this path to your `PATH` variable. You can do this by adding the following line to `~/.bash_aliases`.
 
 ```
 export PATH="$PATH:$HOME/.npm_global/bin"
@@ -30,7 +30,7 @@ export PATH="$PATH:$HOME/.npm_global/bin"
 Now you are ready to install the few global node modules that we need for Scenarioo.
 
 ```
-npm install -g gulp bower phantomjs
+npm install -g bower phantomjs
 ```
 
 ## Clone the Scenarioo repositories

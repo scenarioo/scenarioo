@@ -31,7 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div ng-show="fallback" id="fallbackMessage">
     <div class="alert alert-warning" role="alert">
         <div class="sc-alert-title">This is a fallback step</div>
-        <p class="sc-bold">The step you were looking for does not exist. Therefore we show you a different step of the same page. Here's what you actually see:</p>
+        <p class="sc-bold">The step you were looking for does not exist. Therefore we show you a different step of the
+            same page. Here's what you actually see:</p>
         <p>Usecase: {{stepIdentifier.usecaseName}}</p>
         <p>Scenario: {{stepIdentifier.scenarioName}}</p>
         <p>Page: {{stepIdentifier.pageName}}</p>
@@ -49,11 +50,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- Pages navigation -->
         <div class="btn-group">
             <span ng-click="goToPreviousPage()" class="btn btn-default" ng-disabled="isFirstPage()" id="prevPageBtn">
-                <i class="icon-with-padding icon-large icon-double-angle-left" uib-tooltip="Previous Page [Ctrl+Left]" tooltip-placement="bottom"></i>
+                <i class="icon-with-padding icon-large icon-double-angle-left" uib-tooltip="Previous Page [Ctrl+Left]"
+                   tooltip-placement="bottom"></i>
             </span>
-            <span class="btn btn-default btn-no-hover"><span uib-tooltip="of all pages in this scenario" tooltip-placement="bottom">Page {{getCurrentPageIndexForDisplay()}} of {{stepStatistics.totalNumberOfPagesInScenario}}</span></span>
+            <span class="btn btn-default btn-no-hover"><span uib-tooltip="of all pages in this scenario"
+                                                             tooltip-placement="bottom">Page {{getCurrentPageIndexForDisplay()}} of {{stepStatistics.totalNumberOfPagesInScenario}}</span></span>
             <span ng-click="goToNextPage()" class="btn btn-default" ng-disabled="isLastPage()" id="nextPageBtn">
-                <i class="icon-with-padding icon-large icon-double-angle-right" uib-tooltip="Next Page [Ctrl+Right]" tooltip-placement="bottom"></i>
+                <i class="icon-with-padding icon-large icon-double-angle-right" uib-tooltip="Next Page [Ctrl+Right]"
+                   tooltip-placement="bottom"></i>
             </span>
         </div>
 
@@ -62,11 +66,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- Steps navigation -->
         <div class="btn-group">
             <span ng-click="goToPreviousStep()" class="btn btn-default" ng-disabled="isFirstStep()" id="prevStepBtn">
-                <i class="icon-with-padding icon-large icon-angle-left" uib-tooltip="Previous Step [Left]" tooltip-placement="bottom"></i>
+                <i class="icon-with-padding icon-large icon-angle-left" uib-tooltip="Previous Step [Left]"
+                   tooltip-placement="bottom"></i>
             </span>
-            <span class="btn btn-default btn-no-hover"><span uib-tooltip="of all steps in this scenario" tooltip-placement="bottom">Step {{getCurrentStepIndexForDisplay()}} of {{stepStatistics.totalNumberOfStepsInScenario}} (Step {{getStepIndexInCurrentPageForDisplay()}} of {{getNumberOfStepsInCurrentPageForDisplay()}} on Page)</span></span>
+            <span class="btn btn-default btn-no-hover"><span uib-tooltip="of all steps in this scenario"
+                                                             tooltip-placement="bottom">Step {{getCurrentStepIndexForDisplay()}} of {{stepStatistics.totalNumberOfStepsInScenario}} (Step {{getStepIndexInCurrentPageForDisplay()}} of {{getNumberOfStepsInCurrentPageForDisplay()}} on Page)</span></span>
             <span ng-click="goToNextStep()" class="btn btn-default" ng-disabled="isLastStep()" id="nextStepBtn">
-                <i class="icon-with-padding icon-large icon-angle-right" uib-tooltip="Next Step [Right]" tooltip-placement="bottom"></i>
+                <i class="icon-with-padding icon-large icon-angle-right" uib-tooltip="Next Step [Right]"
+                   tooltip-placement="bottom"></i>
             </span>
         </div>
 
@@ -74,26 +81,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <!-- Page variants navigation -->
         <div class="btn-group">
-            <span ng-click="goToPreviousVariant()" class="btn btn-default" id="prevPageVariantBtn" ng-disabled="isFirstPageVariantStep()">
-                <i class="icon-with-padding icon-large icon-angle-up" uib-tooltip="Previous variant (potentially in other scenario) [Ctrl+Up]" tooltip-placement="bottom"></i>
+            <span ng-click="goToPreviousVariant()" class="btn btn-default" id="prevPageVariantBtn"
+                  ng-disabled="isFirstPageVariantStep()">
+                <i class="icon-with-padding icon-large icon-angle-up"
+                   uib-tooltip="Previous variant (potentially in other scenario) [Ctrl+Up]"
+                   tooltip-placement="bottom"></i>
             </span>
             <span class="btn btn-default btn-no-hover">
-                <span uib-tooltip="click here to see all page variants" tooltip-placement="bottom" id="pageVariantIndicator">
+                <span uib-tooltip="click here to see all page variants" tooltip-placement="bottom"
+                      id="pageVariantIndicator">
                     <a ng-href="#/object/page/{{getPageNameUrlEncoded()}}" id="allPageVariants">
                         Page-Variant {{stepNavigation.pageVariantIndex + 1}} of {{stepNavigation.pageVariantsCount}}
                     </a>
                 </span>
             </span>
-            <span ng-click="goToNextVariant()" class="btn btn-default" id="nextPageVariantBtn" ng-disabled="isLastPageVariantStep()">
-                <i class="icon-with-padding icon-large icon-angle-down" uib-tooltip="Next variant (potentially in other scenario) [Ctrl+Down]" tooltip-placement="bottom"></i>
+            <span ng-click="goToNextVariant()" class="btn btn-default" id="nextPageVariantBtn"
+                  ng-disabled="isLastPageVariantStep()">
+                <i class="icon-with-padding icon-large icon-angle-down"
+                   uib-tooltip="Next variant (potentially in other scenario) [Ctrl+Down]"
+                   tooltip-placement="bottom"></i>
             </span>
         </div>
     </div>
 
     <div class="col-lg-4">
         <div class="pull-right">
-            <sc-screen-annotations-button visibility-toggle="showScreenAnnotations" screen-annotations="step.screenAnnotations"></sc-screen-annotations-button>
-            <sc-meta-data-button linking-variable="stepShowMetadata" local-storage-key="step" ></sc-meta-data-button>
+            <sc-screen-annotations-button visibility-toggle="showScreenAnnotations"
+                                          screen-annotations="step.screenAnnotations"></sc-screen-annotations-button>
+            <sc-meta-data-button linking-variable="stepShowMetadata" local-storage-key="step"></sc-meta-data-button>
         </div>
     </div>
 </div>
@@ -104,104 +119,189 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div>
         <uib-tabset class="step-panes" active="activeTab">
             <uib-tab heading="Screenshot" id="screenshot-tab" ng-click="setDefaultTab()">
-                <sc-annotated-screenshot screen-annotations="step.screenAnnotations" screen-shot-url="screenShotUrl" visibility-toggle="showScreenAnnotations" to-next-step-action="goToNextStep()"></sc-annotated-screenshot>
+                <sc-annotated-screenshot screen-annotations="step.screenAnnotations" screen-shot-url="screenShotUrl"
+                                         visibility-toggle="showScreenAnnotations"
+                                         to-next-step-action="goToNextStep()"></sc-annotated-screenshot>
             </uib-tab>
             <uib-tab heading="HTML" id="html-tab" ng-hide="!step.html.htmlSource" ng-click="setActiveTab(1)">
                 <pre ng-bind="step.html.htmlSource" id="html-source"></pre>
             </uib-tab>
+
+            <!-- Diff Viewer Step Comparison View -->
             <uib-tab id="comparison-tab" ng-click="setActiveTab(2)" ng-if="comparisonInfo.isDefined">
+
                 <uib-tab-heading>
                     <span class="left">Comparison</span>
                     <div class="diff-info-wrapper">
-                         <sc-diff-info-icon diff-info="step.diffInfo" element-type="screenshot" child-element-type="screenshot"></sc-diff-info-icon>
+                        <sc-diff-info-icon diff-info="step.diffInfo" element-type="screenshot"
+                                           child-element-type="screenshot"></sc-diff-info-icon>
                     </div>
                 </uib-tab-heading>
-                <div class="buttonBar">
-                    <div class="tooltip-wrapper" uib-tooltip="{{comparisonViewOptions[displayComparisonScreenshotKey]?' Highlighting not possible on comparison screenshot' : ''}}">
-                        <button type="button" id="sc-show-highlights-button" class="btn btn-default"
-                                ng-disabled="step.diffInfo.changeRate === 0"
-                                ng-click="toggleStorageKey(displayDiffScreenshotKey)"
-                                ng-hide="comparisonViewOptions[displayDiffScreenshotKey]">
-                            <img ng-src="images/diffViewer/HighlightChanges.png" class="sc-step-comparison-icon"/>Show Highlights
+
+                <div class="btn-toolbar" role="toolbar">
+
+                    <div class="btn-group" uib-tooltip="{{step.diffInfo.isAdded ? 'Added Step: Comparison Screen not available.' : ''}}">
+
+                        <button type="button" id="sc-step-comparison-side-by-side-view-button"
+                                ng-class="{active: isComparisonView('SideBySide') }"
+                                ng-click="setComparisonView('SideBySide')" class="btn btn-default">
+                            <img ng-src="images/diffViewer/SideBySideView.png" class="sc-step-comparison-icon"/>
+                            Side by Side
                         </button>
-                        <button type="button" id="sc-hide-highlights-button" class="btn btn-default"
-                                ng-disabled="step.diffInfo.changeRate === 0"
-                                ng-click="toggleStorageKey(displayDiffScreenshotKey)"
-                                ng-show="comparisonViewOptions[displayDiffScreenshotKey]">
-                            <img ng-src="images/diffViewer/NoHighlightChanges.png" class="sc-step-comparison-icon"/>Hide Highlights
+
+                        <button type="button" id="sc-step-comparison-current-screen-view-button"
+                                ng-class="{active: isComparisonView('CurrentScreen') }"
+                                ng-click="setComparisonView('CurrentScreen')" class="btn btn-default">
+                            <img ng-src="images/diffViewer/BaseScreenshot.png" class="sc-step-comparison-icon"/>
+                            Current Screen
                         </button>
-                    </div>
-                    <div id="sc-step-comparison-buttons" class="btn-group">
-                        <button type="button" id="sc-side-by-side-view-button" ng-class="{active: comparisonViewOptions[displaySideBySideViewKey]}" ng-click="setActiveView(displaySideBySideViewKey)" class="btn btn-default"> <img ng-src="images/diffViewer/SideBySideView.png" class="sc-step-comparison-icon"/>Side by side view</button>
-                        <button type="button" id="sc-single-page-view-button" ng-class="{active: comparisonViewOptions[displaySinglePageViewKey]}" ng-click="setActiveView(displaySinglePageViewKey)" class="btn btn-default" ><img ng-src="images/diffViewer/SinglePageView.png" class="sc-step-comparison-icon"/>Single page view</button>
+
+                        <button type="button" id="sc-step-comparison-other-screen-view-button"
+                                ng-class="{active: isComparisonView('OtherScreen') }"
+                                ng-disabled="step.diffInfo.isAdded"
+                                ng-click="setComparisonView('OtherScreen')"
+                                class="btn btn-default">
+                            <img ng-src="images/diffViewer/ComparisonScreenshot.png" class="sc-step-comparison-icon"/>
+                            Other Screen
+                        </button>
+
                     </div>
 
-                    <div id="sc-diff-screenshot-toggle" ng-if="comparisonViewOptions[displaySinglePageViewKey]">
-                        <div class="tooltip-wrapper" uib-tooltip="{{step.diffInfo.isAdded ? ' Switching to comparison screenshot not possible on an added step' : ''}}">
-                            <button type="button" id="sc-switch-to-comparison-screenshot-button" class="btn btn-default" ng-disabled="step.diffInfo.isAdded" ng-click="toggleStorageKey(displayComparisonScreenshotKey)" ng-hide="comparisonViewOptions[displayComparisonScreenshotKey]"> <img ng-src="images/diffViewer/ComparisonScreenshot.png" class="sc-step-comparison-icon"/>Switch to comparison screenshot</button>
-                        </div>
-                        <button type="button" id="sc-switch-to-base-screenshot-button" class="btn btn-default" ng-click="toggleStorageKey(displayComparisonScreenshotKey)" ng-show="comparisonViewOptions[displayComparisonScreenshotKey]"> <img ng-src="images/diffViewer/BaseScreenshot.png" class="sc-step-comparison-icon"/>Switch to current screenshot</button>
+                    <!-- Screen Version Switcher -->
+                    <div class="btn-group" uib-tooltip="Switch Screen Versions">
+                        <button type="button" id="sc-step-comparison-switch-screens-button" class="btn btn-default"
+                                ng-disabled="step.diffInfo.isAdded"
+                                ng-click="switchComparisonSingleScreenView()">
+                            <i class="icon-random sc-tep-comparison-icon"></i>
+                        </button>
                     </div>
+
+                    <!-- Highlights Toogle for steps with Changes and Legend for Highlighted Changes -->
+                    <div class="btn-group" >
+                        <button type="button" id="sc-step-comparison-highlight-changes-button" class="btn btn-default"
+                                ng-if="isComparisonChangesToBeHighlightedAvailable()"
+                                ng-class="{active: comparisonViewOptions.changesHighlighted }"
+                                ng-click="toggleComparisonChangesHighlighted()">
+                            <img ng-src="images/diffViewer/HighlightChanges.png" class="sc-step-comparison-icon"/>
+                            Highlight Changes
+                        </button>
+                    </div>
+
+                    <span id="sc-step-comparison-legend-info-text" class="btn-group">
+                        <span class="btn btn-no-btn" ng-if="isComparisonChangesHighlighted()" ng-style="{color: getComparisonViewHighlightChangesColor() }">
+                            Highlighted Changes in Screen
+                        </span>
+                        <span class="btn btn-no-btn" ng-if="step.diffInfo.isAdded">
+                            Added Step: No Comparison
+                        </span>
+                        <span class="btn btn-no-btn" ng-if="step.diffInfo.changeRate === 0">
+                            No Changes
+                        </span>
+                    </span>
+
                 </div>
-                <div id="sc-step-comparison-side-by-side-view" ng-if="comparisonViewOptions[displaySideBySideViewKey]">
+
+                <div id="sc-step-comparison-side-by-side-view" ng-if="isComparisonView('SideBySide')">
                     <div class="row">
                         <div class="col-lg-6">
-                            <sc-screenshot-title build="baseBuild" name="Current" alias="{{baseBuildName}}" highlights="comparisonViewOptions[displayDiffScreenshotKey]" ></sc-screenshot-title>
+                            <sc-screenshot-title build="baseBuild" name="Current" alias="{{baseBuildName}}"
+                                                 highlights="comparisonViewOptions.changesHighlighted"></sc-screenshot-title>
                         </div>
                         <div class="col-lg-6">
-                            <sc-screenshot-title build="comparisonBuild" name="{{comparisonName}}" highlights="comparisonViewOptions[displayDiffScreenshotKey]"></sc-screenshot-title>
+                            <sc-screenshot-title build="comparisonBuild" name="{{comparisonName}}"
+                                                 highlights="comparisonViewOptions.changesHighlighted"></sc-screenshot-title>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
                             {{baseBuild.aliasName}}
-                            <div class="sc-base-screenshot clear">
-                                <!-- don't bind comparisonViewOptions[displayDiffScreenshotKey] to show-diff since the element must be recreated from scratch when toggling highlights on/off to ensure proper relinking of the element with the javascript resize thingy -->
-                                <sc-annotated-screenshot screen-shot-url="screenShotUrl" diff-screen-shot-url="diffScreenShotUrl" show-diff="true" ng-if="comparisonViewOptions[displayDiffScreenshotKey]"></sc-annotated-screenshot>
-                                <sc-annotated-screenshot screen-shot-url="screenShotUrl" diff-screen-shot-url="diffScreenShotUrl" show-diff="false" ng-if="!comparisonViewOptions[displayDiffScreenshotKey]"></sc-annotated-screenshot>
+                            <div class="sc-step-comparison-current-screenshot clear">
+                                <!-- screenshot with or without highlights: modeled as two elements to ensure proper re-rendering -->
+                                <sc-annotated-screenshot screen-shot-url="screenShotUrl"
+                                                         diff-screen-shot-url="diffScreenShotUrl" show-diff="true"
+                                                         ng-if="comparisonViewOptions.changesHighlighted"></sc-annotated-screenshot>
+                                <sc-annotated-screenshot screen-shot-url="screenShotUrl"
+                                                         diff-screen-shot-url="diffScreenShotUrl" show-diff="false"
+                                                         ng-if="!comparisonViewOptions.changesHighlighted"></sc-annotated-screenshot>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div>
                                 <div ng-if="step.diffInfo.isAdded">
-                                    <p>No comparison screenshot because this is an added step.</p>
+                                    <p>Added Step: no comparison screen available.</p>
                                 </div>
-                                <div class="sc-comparison-screenshot" ng-if="!step.diffInfo.isAdded">
-                                    <!-- don't bind comparisonViewOptions[displayDiffScreenshotKey] to show-diff since the element must be recreated from scratch when toggling highlights on/off to ensure proper relinking of the element with the javascript resize thingy -->
-                                    <sc-annotated-screenshot screen-shot-url="comparisonScreenShotUrl" diff-screen-shot-url="diffScreenShotUrl" show-diff="true" ng-if="comparisonViewOptions[displayDiffScreenshotKey]"></sc-annotated-screenshot>
-                                    <sc-annotated-screenshot screen-shot-url="comparisonScreenShotUrl" diff-screen-shot-url="diffScreenShotUrl" show-diff="false" ng-if="!comparisonViewOptions[displayDiffScreenshotKey]"></sc-annotated-screenshot>
+                                <div class="sc-step-comparison-other-screenshot" ng-if="!step.diffInfo.isAdded">
+                                    <!-- screenshot with or without highlights: modeled as two elements to ensure proper re-rendering -->
+                                    <sc-annotated-screenshot screen-shot-url="comparisonScreenShotUrl"
+                                                             diff-screen-shot-url="diffScreenShotUrl" show-diff="true"
+                                                             ng-if="comparisonViewOptions.changesHighlighted"></sc-annotated-screenshot>
+                                    <sc-annotated-screenshot screen-shot-url="comparisonScreenShotUrl"
+                                                             diff-screen-shot-url="diffScreenShotUrl" show-diff="false"
+                                                             ng-if="!comparisonViewOptions.changesHighlighted"></sc-annotated-screenshot>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="sc-step-comparison-single-page-view" ng-if="!comparisonViewOptions[displaySideBySideViewKey]">
-                    <div ng-if="!comparisonViewOptions[displayComparisonScreenshotKey]">
-                        <sc-screenshot-title build="baseBuild" name="Current" alias="{{baseBuildName}}" highlights="comparisonViewOptions[displayDiffScreenshotKey]"></sc-screenshot-title>
 
-                        <div class="sc-base-screenshot">
-                            <!-- don't bind comparisonViewOptions[displayDiffScreenshotKey] to show-diff since the element must be recreated from scratch when toggling highlights on/off to ensure proper relinking of the element with the javascript resize thingy -->
-                            <sc-annotated-screenshot screen-shot-url="screenShotUrl" diff-screen-shot-url="diffScreenShotUrl" show-diff="true" ng-if="comparisonViewOptions[displayDiffScreenshotKey]"></sc-annotated-screenshot>
-                            <sc-annotated-screenshot screen-shot-url="screenShotUrl" diff-screen-shot-url="diffScreenShotUrl" show-diff="false" ng-if="!comparisonViewOptions[displayDiffScreenshotKey]"></sc-annotated-screenshot>
-                        </div>
+
+                <div id="sc-step-comparison-single-page-view"
+                     ng-if="isComparisonView('CurrentScreen') || isComparisonView('OtherScreen')">
+
+                    <!-- Comparison: Current Screen View -->
+                    <div class="sc-step-comparison-current-screenshot" ng-if="isComparisonView('CurrentScreen')">
+                        <sc-screenshot-title
+                            build="baseBuild"
+                            name="Current" alias="{{baseBuildName}}"
+                            highlights="comparisonViewOptions.changesHighlighted">
+                        </sc-screenshot-title>
+                        <!-- screenshot with or without highlights: modeled as two elements to ensure proper re-rendering -->
+                        <sc-annotated-screenshot
+                            screen-shot-url="screenShotUrl"
+                            diff-screen-shot-url="diffScreenShotUrl"
+                            show-diff="true"
+                            ng-if="comparisonViewOptions.changesHighlighted">
+                        </sc-annotated-screenshot>
+                        <sc-annotated-screenshot
+                            screen-shot-url="screenShotUrl"
+                            diff-screen-shot-url="diffScreenShotUrl"
+                            show-diff="false"
+                            ng-if="!comparisonViewOptions.changesHighlighted">
+                        </sc-annotated-screenshot>
                     </div>
 
-                    <div class="sc-comparison-screenshot" ng-if="comparisonViewOptions[displayComparisonScreenshotKey]" >
+                    <!-- Comparison: Other Screen View -->
+                    <div class="sc-step-comparison-other-screenshot" ng-if="isComparisonView('OtherScreen')">
                         <div ng-if="step.diffInfo.isAdded">
-                            <h3>No comparison screenshot because this is an added step.</h3>
+                            <h3>Added Step: no comparison screen available.</h3>
                         </div>
                         <div ng-if="!step.diffInfo.isAdded">
-                            <sc-screenshot-title build="comparisonBuild" name="Comparison: {{comparisonName}}" highlights="comparisonViewOptions[displayDiffScreenshotKey]"></sc-screenshot-title>
-
-                            <div class="sc-comparison-screenshot">
-                                <!-- don't bind comparisonViewOptions[displayDiffScreenshotKey] to show-diff since the element must be recreated from scratch when toggling highlights on/off to ensure proper relinking of the element with the javascript resize thingy -->
-                                <sc-annotated-screenshot screen-shot-url="comparisonScreenShotUrl" diff-screen-shot-url="diffScreenShotUrl" show-diff="true" ng-if="comparisonViewOptions[displayDiffScreenshotKey]"></sc-annotated-screenshot>
-                                <sc-annotated-screenshot screen-shot-url="comparisonScreenShotUrl" diff-screen-shot-url="diffScreenShotUrl" show-diff="false" ng-if="!comparisonViewOptions[displayDiffScreenshotKey]"></sc-annotated-screenshot>
-                            </div>
+                            <sc-screenshot-title
+                                build="comparisonBuild"
+                                name="Comparison: {{comparisonName}}"
+                                highlights="comparisonViewOptions.changesHighlighted">
+                            </sc-screenshot-title>
+                            <!-- screenshot with or without highlights: modeled as two elements to ensure proper re-rendering -->
+                            <sc-annotated-screenshot
+                                screen-shot-url="comparisonScreenShotUrl"
+                                diff-screen-shot-url="diffScreenShotUrl"
+                                show-diff="true"
+                                ng-if="comparisonViewOptions.changesHighlighted">
+                            </sc-annotated-screenshot>
+                            <sc-annotated-screenshot
+                                screen-shot-url="comparisonScreenShotUrl"
+                                diff-screen-shot-url="diffScreenShotUrl"
+                                show-diff="false"
+                                ng-if="!comparisonViewOptions.changesHighlighted">
+                            </sc-annotated-screenshot>
                         </div>
                     </div>
+
                 </div>
+
+
             </uib-tab>
+
         </uib-tabset>
     </div>
 
@@ -211,31 +311,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <sc-tree data='stepInformationTree'></sc-tree>
         </sc-collapsable-panel>
 
-        <sc-collapsable-panel title="Related Sketches" key="stepView-relatedSketches" initially-expanded="true" ng-show="hasAnyRelatedIssues()">
+        <sc-collapsable-panel title="Related Sketches" key="stepView-relatedSketches" initially-expanded="true"
+                              ng-show="hasAnyRelatedIssues()">
             <ul id="relatedSketches">
                 <li ng-repeat="issue in relatedIssues"><a href="" ng-click="goToIssue(issue)">{{issue.name}}</a></li>
             </ul>
         </sc-collapsable-panel>
 
         <!-- labels -->
-        <sc-collapsable-panel title="Labels" panel-index="labels" key="stepView-labels" initially-expanded="false" ng-show="hasAnyLabels()">
+        <sc-collapsable-panel title="Labels" panel-index="labels" key="stepView-labels" initially-expanded="false"
+                              ng-show="hasAnyLabels()">
             <div class="sc-tree">
                 <ul>
                     <li id="usecase-labels" ng-show="useCaseLabels.labels">
                         Use case:
-                        <span ng-repeat="label in useCaseLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                        <span ng-repeat="label in useCaseLabels.labels" class="label label-info sc-label"
+                              ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
                     <li id="scenario-labels" ng-show="scenarioLabels.labels">
                         Scenario:
-                        <span ng-repeat="label in scenarioLabels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                        <span ng-repeat="label in scenarioLabels.labels" class="label label-info sc-label"
+                              ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
                     <li id="step-labels" ng-show="step.stepDescription.labels.labels">
                         Step:
-                        <span ng-repeat="label in step.stepDescription.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                        <span ng-repeat="label in step.stepDescription.labels.labels" class="label label-info sc-label"
+                              ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
                     <li id="page-labels" ng-show="step.page.labels.labels">
                         Page:
-                        <span ng-repeat="label in step.page.labels.labels" class="label label-info sc-label" ng-style="getLabelStyle(label)">{{label}}</span>
+                        <span ng-repeat="label in step.page.labels.labels" class="label label-info sc-label"
+                              ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
                 </ul>
             </div>

@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('StepSketchController', StepSketchController);
 
-function StepSketchController($scope, $routeParams, $location, HostnameAndPort, SelectedBranchAndBuildService,
+function StepSketchController($scope, $routeParams, $location, SelectedBranchAndBuildService,
                               SharePageService, IssueResource, SketcherLinkService) {
 
     var vm = this;
@@ -89,7 +89,7 @@ function StepSketchController($scope, $routeParams, $location, HostnameAndPort, 
 
         var selected = SelectedBranchAndBuildService.selected();
 
-        return HostnameAndPort.forLinkAbsolute() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
+        return 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
     };
 
     function getSketchScreenshotUrl() {
@@ -98,7 +98,7 @@ function StepSketchController($scope, $routeParams, $location, HostnameAndPort, 
         }
 
         var selected = SelectedBranchAndBuildService.selected();
-        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
+        return 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/sketch.png';
     };
 
     function getOriginalScreenshotUrl() {
@@ -107,7 +107,7 @@ function StepSketchController($scope, $routeParams, $location, HostnameAndPort, 
         }
 
         var selected = SelectedBranchAndBuildService.selected();
-        return HostnameAndPort.forLink() + 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/original.png';
+        return 'rest/branch/' + selected.branch + '/issue/' + issueId + '/scenariosketch/' + scenarioSketchId + '/stepsketch/' + stepSketchId + '/image/original.png';
     };
 
     function getUseCaseUrl() {

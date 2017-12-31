@@ -68,7 +68,7 @@ This is the recommended setup, to get up started and productive most quickly!
    _Use the latest versions of nodejs / npm / bower and you should be fine. If you discover that something does not work with the latest version and you have to fix it, please inform the community about it so that they have a chance to upgrade their tools._
    
  * Install nodejs dev tools globaly (might not be needed anymore, but is useful for working on command line):
-   `npm install -g gulp bower phantomjs protractor`
+   `npm install -g bower phantomjs protractor`
 
 ## Get the Sources
 
@@ -135,8 +135,7 @@ But this two repositories should be sufficient for most usual developers.
    ```
    cd scenarioo-client
    npm install
-   bower install
-   gulp serve
+   npm serve
    # then open the browser to browse the application 
    # on given URL, usually http://localhost:9000
    # if you change files in the client the browser will refresh automatically
@@ -155,7 +154,6 @@ For more informations on how to develop, build and test scenarioo properly, plea
  [x] build and install scenarioo-java library (using gradle)
  [x] debugging the server (yes, check!)
  [x] run karma tests
- [x] gulp serve
  [x] run e2e-tests (runs very fast and very stable!)
  [x] develop ScenariooJS library
  [x] build ScenariooJS library
@@ -174,12 +172,6 @@ For more informations on how to develop, build and test scenarioo properly, plea
 
  * There seems to be an issue, when not using JVM 1.7 for gradle. But when this is currently configured to 1,7, it works well :-) Has been documented above accordingly.
 
-### Only on Windows
- 
- * For updating the local webdriver you have to use the gulp task in client:
-     * use `gulp webdriver_update`
-     * then also "gulp test-e2e` should work now (without need to install protractor globaly anymore)
- 
 ## Open points - To be considered / improved / solved
 
 ### from old setup to be integrated in this development setup instructions here

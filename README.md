@@ -1,7 +1,3 @@
-Deployment & E2E Tests [![Demo Deployment & E2E Tests of last deployed Branch](http://build.scenarioo.org/jenkins/job/deploy-demo-and-run-e2e-tests/badge/icon)](http://build.scenarioo.org/jenkins/job/deploy-demo-and-run-e2e-tests) -
-  master [![Continuous Build Master Branch](http://build.scenarioo.org/jenkins/job/scenarioo-master/badge/icon)](http://build.scenarioo.org/jenkins/job/scenarioo-master) - 
-develop [![Continuous Build Develop Branch](http://build.scenarioo.org/jenkins/job/scenarioo-develop/badge/icon)](http://build.scenarioo.org/jenkins/job/scenarioo-develop)
-
 # Scenarioo
 
 ## Automated Documentation of Applications with UI Tests
@@ -28,6 +24,10 @@ Downloads and more links, even for different releases (like forthcoming release 
 ### CI/CD Build Server
 
 [http://build.scenarioo.org](http://build.scenarioo.org) 
+
+**Master:** Latest Stable Release [![Build Status](http://build.scenarioo.org/jenkins/buildStatus/icon?job=scenarioo/master)](http://build.scenarioo.org/jenkins/job/scenarioo/job/master/)
+
+**Develop:** Current Development State [![Build Status](http://build.scenarioo.org/jenkins/buildStatus/icon?job=scenarioo/develop)](http://build.scenarioo.org/jenkins/job/scenarioo/job/develop/)
 
 ### License
 

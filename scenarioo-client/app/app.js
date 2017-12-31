@@ -16,96 +16,37 @@
  */
 
 
+require('./vendor.js');
+
+require('./styles/scenarioo.less');
+
+
 angular.module('scenarioo.filters', []);
-angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute', 'scenarioo.templates']);
-angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'unsavedChanges', 'scenarioo.templates']);
-angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'scenarioo.config', 'LocalStorageModule', 'scenarioo.templates']);
+angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute']);
+angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'unsavedChanges']);
+angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'LocalStorageModule']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
+require('./shared/utils/number.filter');
+
+var addRoutes = require('./app.routes');
 
 angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo.screenAnnotations'])
 
     .config(function ($routeProvider) {
+        addRoutes($routeProvider);
 
-        /**
-         * breadcrumbId: id of the breadcrumb elements to use for this page as defined in breadcrumbs.service.js
-         */
-        $routeProvider
-            .when('/', {
-                templateUrl: 'build/build.html',
-                controller: 'BuildController',
-                controllerAs: 'main',
-                breadcrumbId: 'main'
-            })
-            .when('/manage', {
-                templateUrl: 'manage/manage.html',
-                controller: 'ManageController',
-                controllerAs: 'vm',
-                breadcrumbId: 'manage'
-            })
-            .when('/usecase/:useCaseName', {
-                templateUrl: 'useCase/usecase.html',
-                controller: 'UseCaseController',
-                controllerAs: 'useCase',
-                useCaseName: '@useCaseName',
-                breadcrumbId: 'usecase'
-            })
-            .when('/scenario/:useCaseName/:scenarioName', {
-                templateUrl: 'scenario/scenario.html',
-                controller: 'ScenarioController',
-                controllerAs: 'vm',
-                useCaseName: '@useCaseName',
-                scenarioName: '@scenarioName',
-                breadcrumbId: 'scenario'
-            })
-            .when('/search/:searchTerm', {
-                templateUrl: 'search/search.html',
-                controller: 'SearchController',
-                controllerAs: 'vm',
-                breadcrumbId: 'search',
-                searchTerm: '@searchTerm'
-            })
-            .when('/object/:objectType/:objectName', {
-                templateUrl: 'objectRepository/objectRepository.html',
-                controller: 'ObjectRepositoryController',
-                controllerAs: 'vm',
-                objectType: '@objectType',
-                objectName: '@objectName',
-                breadcrumbId: 'object'
-            })
-            .when('/step/:useCaseName/:scenarioName/:pageName/:pageOccurrence/:stepInPageOccurrence', {
-                templateUrl: 'step/step.html',
-                controller: 'StepController',
-                useCaseName: '@useCaseName',
-                scenarioName: '@scenarioName',
-                pageName: '@pageName',
-                pageOccurrence: '@pageOccurrence',
-                stepInPageOccurrence: '@stepInPageOccurrence',
-                breadcrumbId: 'step'
-            })
-            .when('/stepsketch/:issueId/:scenarioSketchId/:stepSketchId', {
-                templateUrl: 'sketcher/stepSketch.html',
-                controller: 'StepSketchController',
-                controllerAs: 'vm',
-                breadcrumbId: 'stepsketch'
-            })
-            .when('/editor', {
-                templateUrl: 'sketcher/sketcherEditor.html',
-                controller: 'SketcherEditorController',
-                controllerAs: 'vm'
-            })
-            .when('/editor/:issueId/:scenarioSketchId/:stepSketchId', {
-                templateUrl: 'sketcher/sketcherEditor.html',
-                controller: 'SketcherEditorController',
-                controllerAs: 'vm',
-                issueId: '@issueId',
-                scenarioSketchId: '@scenarioSketchId',
-                stepSketchId: '@stepSketchId'
-            })
-            .otherwise({
-                redirectTo: '/'
-            });
+    }).run(function ($rootScope, ConfigService, GlobalHotkeysService, $location, $uibModalStack, ApplicationInfoPopupService, $templateCache) {
 
-    }).run(function ($rootScope, ConfigService, GlobalHotkeysService, $location, $uibModalStack, ApplicationInfoPopupService) {
+    // These templates are loaded dynamically, thus we preload it and put it into our template cache.
+    $templateCache.put('shared/navigation/navigation.html', require('./shared/navigation/navigation.html'));
+    $templateCache.put('build/useCasesTab.html', require('./build/useCasesTab.html'));
+    $templateCache.put('build/useCasesTab.html', require('./build/useCasesTab.html'));
+    $templateCache.put('build/customTab.html', require('./build/customTab.html'));
+    $templateCache.put('manage/buildImport/buildsList.html', require('./manage/buildImport/buildsList.html'));
+    $templateCache.put('manage/generalSettings/generalSettings.html', require('./manage/generalSettings/generalSettings.html'));
+    $templateCache.put('manage/branchAliases/branchAliases.html', require('./manage/branchAliases/branchAliases.html'));
+    $templateCache.put('manage/labelColors/labelColors.html', require('./manage/labelColors/labelColors.html'));
+    $templateCache.put('build/sketchesTab.html', require('./build/sketchesTab.html'));
 
 
     // Initialze modals to close when the location changes
@@ -132,4 +73,15 @@ angular.module('scenarioo', ['scenarioo.controllers', 'ui.bootstrap', 'scenarioo
     ConfigService.load();
 });
 
+require('./build');
+require('./manage');
+require('./objectRepository/objectRepository.controller.js');
+require('./scenario');
+require('./search/search.controller.js');
+require('./shared');
+require('./sketcher');
+require('./step');
+require('./useCase/usecase.controller.js');
+require('./diffViewer');
 
+angular.bootstrap(document, ['scenarioo']);

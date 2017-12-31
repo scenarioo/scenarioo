@@ -28,16 +28,11 @@ For the client side of Scenarioo, you need to install these tools:
 
 Official Download: http://nodejs.org/download (Windows, Mac, Linux Source)
 
-Install gulp, bower, PhantomJS globally:
-`npm install -g gulp bower phantomjs`
-
-_Use the latest versions of nodejs / npm / bower and you should be fine. If you discover that something does not work with the latest version and you have to fix it, please inform the community about it so that they have a chance to upgrade their tools._
+_Use the latest versions of nodejs / npm and you should be fine. If you discover that something does not work with the latest version and you have to fix it, please inform the community about it so that they have a chance to upgrade their tools._
 
 ### IDE for web development
 
-You can use your favourite Web IDE. It's best to use one that can check your JavaScript code against our `.eslintrc` file. We use [WebStorm](http://www.jetbrains.com/webstorm/).
-
-> See also [WebStorm IDE Settings](WebStorm-IDE-Settings.md).
+You can use your favourite Web IDE. It's best to use one that can check your JavaScript code against our `.eslintrc` file.
 
 ## Server Development
 

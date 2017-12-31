@@ -56,7 +56,7 @@ function BuildsListController($scope, $route, $uibModal, BuildImportStatesResour
     function goToBuild(build) {
         BuildImportLogResource.get(build.identifier.branchName, build.identifier.buildName, function onSuccess(log) {
             $uibModal.open({
-                templateUrl: 'manage/buildImport/buildImportDetails.html',
+                template: require('./buildImportDetails.html'),
                 controller: 'BuildImportDetailsController',
                 controllerAs: 'vm',
                 windowClass: 'modal-wide',
