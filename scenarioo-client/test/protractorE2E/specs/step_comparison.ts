@@ -23,11 +23,14 @@ useCase('Step - Comparison')
             .description('Show screenshot comparison')
             .labels(['diff-viewer'])
             .it(function () {
+
                 stepPage.goToPage('/step/Find%20Page/find_page_title_unique_directly/contentPage.jsp/0/0?branch=wikipedia-docu-example&build=last%20successful&comparison=To%20Projectstart');
                 step('Changed Step is displayed');
 
                 stepPage.openComparisonTab();
                 stepPage.assertStepComparisonSideBySideViewIsActive();
+                stepPage.expectStepComparisonCurrentScreenTitle('Current: last successful: 2014-03-19', 'March 19, 2014, 12:00 AM F398DA3');
+                stepPage.expectStepComparisonOtherScreenTitle('To Projectstart: 2014-01-20', 'January 20, 2014, 12:00 AM 1290FE2');
                 stepPage.expectHighlightsDisplayed();
                 stepPage.assertStepComparisonScreenshotSrcEquals(COMPARISON_SCREENSHOT_SRC);
                 stepPage.expectStepComparisonLegendText('Highlighted Changes in Screen');
@@ -44,12 +47,14 @@ useCase('Step - Comparison')
 
                 stepPage.showComparisonCurrentScreenView();
                 stepPage.assertStepComparisonCurrentScreenViewIsActive();
+                stepPage.expectStepComparisonCurrentScreenTitle('Current: last successful: 2014-03-19', 'March 19, 2014, 12:00 AM F398DA3');
                 stepPage.expectSwitchComparisonSingleScreensButtonEnabled();
                 stepPage.assertStepBaseScreenshotSrcEquals(BASE_SCREENSHOT_SRC);
                 step('Current Screen displayed with highlighted changes');
 
                 stepPage.switchComparisonSingleScreens();
                 stepPage.assertStepComparisonOtherScreenViewIsActive();
+                stepPage.expectStepComparisonOtherScreenTitle('To Projectstart: 2014-01-20', 'January 20, 2014, 12:00 AM 1290FE2');
                 stepPage.expectSwitchComparisonSingleScreensButtonEnabled();
                 stepPage.assertStepComparisonScreenshotSrcEquals(COMPARISON_SCREENSHOT_SRC);
                 step('Other Screen displayed with highlighted changes');
@@ -70,6 +75,8 @@ useCase('Step - Comparison')
                 stepPage.openComparisonTab();
                 stepPage.showSideBySideView();
                 stepPage.assertStepComparisonSideBySideViewIsActive();
+                stepPage.expectStepComparisonCurrentScreenTitle('Current: last successful: 2014-03-19', 'March 19, 2014, 12:00 AM F398DA3');
+                stepPage.expectStepComparisonOtherScreenTitle('To Projectstart: 2014-01-20', 'January 20, 2014, 12:00 AM 1290FE2');
                 stepPage.expectHighlightsButtonHidden();
                 stepPage.assertStepNoComparisonScreenshot();
                 stepPage.assertStepBaseScreenshotSrcEquals(SCREENSHOT_SRC);
@@ -80,6 +87,7 @@ useCase('Step - Comparison')
 
                 stepPage.showComparisonCurrentScreenView();
                 stepPage.assertStepComparisonCurrentScreenViewIsActive();
+                stepPage.expectStepComparisonCurrentScreenTitle('Current: last successful: 2014-03-19', 'March 19, 2014, 12:00 AM F398DA3');
                 stepPage.expectSwitchComparisonSingleScreensButtonDisabled();
                 stepPage.expectHighlightsButtonHidden();
                 stepPage.assertStepNoComparisonScreenshot();
