@@ -4,8 +4,8 @@ import {scenario, step, useCase} from "scenarioo-js";
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
 
-useCase('View screen annotations')
-    .description('Screens can have visual annotations that e.g. mark where a click was done or where data was entered.')
+useCase('Step - Screen Annotations')
+    .description('Screens can have visual annotations that e.g. mark where a click was done or where data was entered that can be displayed in step view.')
     .describe(function () {
 
         var stepPage = new pages.stepPage();
