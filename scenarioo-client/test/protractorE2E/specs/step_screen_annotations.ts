@@ -13,7 +13,6 @@ useCase('Step - Screen Annotations')
 
         beforeEach(function () {
             new pages.homePage().initLocalStorage();
-            //navigationPage.disableComparison();
         });
 
         scenario('Screen without annotations')

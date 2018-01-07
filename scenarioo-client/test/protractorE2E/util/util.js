@@ -1,9 +1,6 @@
 'use strict';
 // import {browser, by, element} from "protractor";
 
-
-var initialized = false;
-
 function getRoute(route) {
     browser.get(browser.params.baseUrl + '/#' + route);
     browser.waitForAngular();
@@ -24,8 +21,8 @@ function initLocalStorage() {
     var setPreviouslyVisitedInLocalStorage = browser.executeScript(function () {
         var injector = angular.element(document.body).injector();
         var LocalStorageService = injector.get('LocalStorageService');
+        LocalStorageService.clearAll();
         LocalStorageService.set('scenariooPreviouslyVisited', 'true');
-        LocalStorageService.set('scenarioo-searchIncludeHtml', 'false');
     });
     setPreviouslyVisitedInLocalStorage.then(function () {
         var visited = browser.executeScript(function () {
@@ -35,16 +32,6 @@ function initLocalStorage() {
         });
         expect(visited).toEqual('true');
     });
-}
-
-/**
- * Initialize local storage to previously visited for web tests to run without about dialog open (only if not previously intialized allready).
- */
-function initLocalStorageIfRequired() {
-    if (!initialized) {
-        initLocalStorage();
-        initialized = true;
-    }
 }
 
 /**
@@ -72,7 +59,7 @@ function clearLocalStorage() {
 
 var e2eUtils = {
 
-    initLocalStorage: initLocalStorageIfRequired,
+    initLocalStorage: initLocalStorage,
 
     clearLocalStorage: clearLocalStorage,
 
