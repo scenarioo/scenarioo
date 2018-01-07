@@ -15,14 +15,14 @@ useCase('Create sketch')
         var editorPage = new pages.editorPage();
 
         beforeEach(function () {
-            new pages.homePage().initLocalStorage();
+            homePage.initLocalStorage();
         });
 
         scenario('New issue success')
             .description('Create a new issue successfully')
             .it(function () {
 
-                var sketchName = 'Created by automated test';
+                var sketchName = 'automated test sketch 1';
 
                 homePage.goToPage();
 
@@ -76,11 +76,11 @@ useCase('Create sketch')
                 step('Click "Create Sketch" button');
                 stepPage.clickCreateSketchButton();
 
-                step('Enter information about the step');
+                step('Enter required sketch information');
                 editorPage.assertAuthorFieldIsEmpty();
-                editorPage.enterSketchInformation('Also created by automated test', '');
+                editorPage.enterSketchInformation('automated test sketch 2', 'protractor e2e');
 
-                step('Save issue');
+                step('Save sketch');
                 editorPage.clickSaveButton();
                 editorPage.assertSaveSketchSuccessfulMessageIsDisplayed();
 
