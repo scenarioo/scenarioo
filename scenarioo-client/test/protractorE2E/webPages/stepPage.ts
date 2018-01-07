@@ -295,11 +295,16 @@ StepPage.prototype.assertStepComparisonOtherScreenViewIsActive = function () {
 
 StepPage.prototype.expectStepComparisonCurrentScreenTitle = function(title: string, infoText: string) {
     expect(element(by.css('sc-screenshot-title[build="baseBuild"] h3')).getText()).toBe(title);
+    element(by.css('sc-screenshot-title[build="baseBuild"] h3 i.icon-info-sign')).click();
+    expect(element(by.css('sc-screenshot-title[build="baseBuild"] div.tooltip')).isDisplayed()).toBeTruthy();
+    expect(element(by.css('sc-screenshot-title[build="baseBuild"] div.tooltip')).getText()).toBe(infoText);
+    element(by.css('sc-screenshot-title[build="baseBuild"] h3')).click();
 };
 
 StepPage.prototype.expectStepComparisonOtherScreenTitle = function(title: string, infoText: string) {
     expect(element(by.css('sc-screenshot-title[build="comparisonBuild"] h3')).getText()).toBe(title);
     element(by.css('sc-screenshot-title[build="comparisonBuild"] h3 i.icon-info-sign')).click();
+    expect(element(by.css('sc-screenshot-title[build="comparisonBuild"] div.tooltip')).isDisplayed()).toBeTruthy();
     expect(element(by.css('sc-screenshot-title[build="comparisonBuild"] div.tooltip')).getText()).toBe(infoText);
     element(by.css('sc-screenshot-title[build="comparisonBuild"] h3')).click();
 };
