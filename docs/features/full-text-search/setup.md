@@ -21,6 +21,9 @@ In order to enable the full text search feature, add the
 `elasticSearchEndpoint` tag to the config.xml file and set the value
 to the host and port of your Elasticsearch instance.
 
+Please make sure to use the port for node communication of Elasticsearch,
+i.e. port `9300` in default installations of Elasticsearch.  
+
 Here's an example using the default port of Elasticsearch:
 
 ```

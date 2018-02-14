@@ -1,12 +1,13 @@
 <h3>
 
-    <span uib-tooltip="{{build.date | scDateTime}} {{build.revision}}"
-    tooltip-placement="bottom">
+    {{name}}:
+    <span ng-if="alias">{{alias}}</span>
+    <span ng-if="!alias">{{build.name}}</span>
 
-        {{name}}:
-        <span ng-if="alias">{{alias}}</span>
-        <span ng-if="!alias">{{build.name}}</span>
-
-    </span>
+    <!-- Date and Revision as icon tooltip -->
+    <i class="icon-info-sign"
+       uib-tooltip="{{build.date | scDateTime}} {{build.revision}}"
+       tooltip-placement="bottom">
+    </i>
 
 </h3>
