@@ -20,10 +20,9 @@ package org.scenarioo.dao.diffViewer.impl;
 import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
-import org.scenarioo.utils.NumberFormatCreator;
+import org.scenarioo.utils.NumberFormatter;
 
 import java.io.File;
-import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,8 +38,6 @@ public class DiffFiles {
 	private static final String FILE_NAME_BUILD = "build.xml";
 	private static final String FILE_NAME_USECASE = "usecase.xml";
 	private static final String FILE_NAME_SCENARIO = "scenario.xml";
-	private static final NumberFormat THREE_DIGIT_NUM_FORMAT = NumberFormatCreator
-			.createNumberFormatWithMinimumIntegerDigits(3);
 
 	private final File rootDirectory;
 
@@ -133,7 +130,7 @@ public class DiffFiles {
 			final String comparisonName, final String useCaseName,
 			final String scenarioName, final int stepIndex) {
 		return new File(getStepsDirectory(baseBranchName, baseBuildName, comparisonName, useCaseName, scenarioName),
-				THREE_DIGIT_NUM_FORMAT.format(stepIndex) + ".xml");
+				NumberFormatter.formatMinimumThreeDigits(stepIndex) + ".xml");
 	}
 
 	public List<File> getStepFiles(final String baseBranchName, final String baseBuildName,

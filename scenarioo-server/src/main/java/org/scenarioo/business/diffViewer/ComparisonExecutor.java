@@ -27,6 +27,7 @@ import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
+import org.scenarioo.model.diffViewer.ComparisonCalculationStatus;
 import org.scenarioo.model.diffViewer.ComparisonResult;
 import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.Status;
@@ -122,7 +123,6 @@ public class ComparisonExecutor {
 		ThreadLogAppender comparisonLog = null;
 
 		try {
-
 			comparisonLog = registerLogFile(baseBranchName, baseBuildName, comparisonConfiguration);
 			long startTime = System.currentTimeMillis();
 
@@ -136,9 +136,10 @@ public class ComparisonExecutor {
 				LOGGER.warn("No comparison build found for base build: " + baseBranchName + "/"
 					+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
 			} else {
-				ComparisonParameters cp = new ComparisonParameters(baseBranchName, baseBuildName, resolvedComparisonConfiguration,
+				ComparisonParameters comparisonParameters = new ComparisonParameters(baseBranchName, baseBuildName, resolvedComparisonConfiguration,
 					configurationRepository.getConfiguration().getDiffImageAwtColor());
-				buildDiffInfo = new BuildComparator(cp).compareAndWrite();
+				storeComparisonInProgressStatus(comparisonParameters);
+				buildDiffInfo = new BuildComparator().compareAndStoreResult(comparisonParameters);
 			}
 
 			LOGGER.info("SUCCESS on comparing base build: " + baseBranchName + "/"
@@ -170,6 +171,12 @@ public class ComparisonExecutor {
 		}
 
 		return comparisonResult;
+	}
+
+	private void storeComparisonInProgressStatus(ComparisonParameters comparisonParameters) {
+		BuildDiffInfo buildDiffInfo = new BuildDiffInfo();
+		buildDiffInfo.setComparisonCalculationStatus(ComparisonCalculationStatus.IN_PROGRESS);
+		comparisonParameters.getDiffWriter().saveBuildDiffInfo(buildDiffInfo);
 	}
 
 	private void logBaseBuildAndComparisonConfiguration(String baseBranchName, String baseBuildName, ComparisonConfiguration comparisonConfiguration) {

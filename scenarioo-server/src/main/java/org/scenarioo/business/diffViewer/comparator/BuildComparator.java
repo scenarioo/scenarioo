@@ -19,22 +19,11 @@ package org.scenarioo.business.diffViewer.comparator;
 
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 
-/**
- * Comparison results are persisted in a xml file.
- */
-public class BuildComparator extends AbstractComparator {
+public class BuildComparator {
 
-	private UseCaseComparator useCaseComparator = new UseCaseComparator(parameters);
-
-	public BuildComparator(ComparisonParameters parameters) {
-		super(parameters);
-	}
-
-	public BuildDiffInfo compareAndWrite() {
-		final BuildDiffInfo buildDiffInfo = useCaseComparator.compare();
-
+	public BuildDiffInfo compareAndStoreResult(ComparisonParameters parameters) {
+		final BuildDiffInfo buildDiffInfo = new UseCaseComparator(parameters).compare();
 		parameters.getDiffWriter().saveBuildDiffInfo(buildDiffInfo);
-
 		return buildDiffInfo;
 	}
 

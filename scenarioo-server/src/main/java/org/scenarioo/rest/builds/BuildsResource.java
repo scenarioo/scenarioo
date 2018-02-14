@@ -23,7 +23,6 @@ import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.business.uploadBuild.BuildUploader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.dao.basic.FileSystemOperationsDao;
-import org.scenarioo.model.diffViewer.ComparisonResult;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.repository.ConfigurationRepository;
@@ -37,7 +36,6 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.Future;
 
 /**
  * This path has a security constraint for POST requests (see web.xml).
@@ -135,95 +133,6 @@ public class BuildsResource {
 		}
 
 		return Response.ok(new ImportStatus(importStatus.name())).build();
-	}
-
-	/**
-	 * Queues a comparison calculation as specified. This allows the calculation of comparisons that are not
-	 * in the comparisons configuration. branchName can be a branch alias.
-	 *
-	 * @return
-	 * 404 NOT FOUND if the build specified by branchName/buildName does not exist.
-	 * 412 PRECONDITION FAILED if the build is not imported successfully.
-	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
-	 */
-	@GET
-	@Path("{branchName}/{buildName}/comparisons/{comparisonBranchName}/{comparisonBuildName}/{comparisonName}/calculate")
-	@Produces({"application/json"})
-	public Response calculateComparison(
-		@PathParam("branchName") final String branchName,
-		@PathParam("buildName") final String buildName,
-		@PathParam("comparisonBranchName") final String comparisonBranchName,
-		@PathParam("comparisonBuildName") final String comparisonBuildName,
-		@PathParam("comparisonName") final String comparisonName) {
-
-		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
-		BuildIdentifier buildIdentifier = new BuildIdentifier(resolvedBranchName, buildName);
-		if(buildFolderDoesNotExist(buildIdentifier)) {
-			LOGGER.info("Can't calculate comparison. Build " + branchName + "/" + buildName + " does not exist.");
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		if(buildIsNotSuccessfullyImported(buildIdentifier)) {
-			LOGGER.info("Can't calculate comparison. Build " + branchName + "/" + buildName + " is not successfully imported.");
-			return Response.status(Status.PRECONDITION_FAILED).build();
-		}
-
-		BuildIdentifier comparisonBuildIdentifier = new BuildIdentifier(comparisonBranchName, comparisonBuildName);
-
-		ScenarioDocuBuildsManager.INSTANCE.submitBuildForSingleComparison(buildIdentifier,
-			comparisonBuildIdentifier, comparisonName);
-
-		return Response.ok().build();
-	}
-
-	private boolean buildIsNotSuccessfullyImported(BuildIdentifier buildIdentifier) {
-		BuildImportStatus importStatus = ScenarioDocuBuildsManager.INSTANCE.getImportStatus(buildIdentifier);
-		return importStatus == null || !BuildImportStatus.SUCCESS.equals(importStatus);
-	}
-
-	/**
-	 * Imports the build (if not imported yet) and then calculates the comparisons synchronously. Be aware that this
-	 * call can be very slow when comparing large builds.
-	 * <p>
-	 * Previously this endpoint was:
-	 * /rest/builds/importBuild/{branchName}/{buildName}/{comparisonBranchName}/{comparisonBuildName}/{comparisonName}
-	 * <p>
-	 * Set branchName and buildName for the build that should be imported and compared with the comparison build.
-	 * branchName can be an alias, but buildName can't.
-	 * <p>
-	 * comparisonBranchName and comparisonBuildName must be the names of an existing build that is already imported or
-	 * scheduled for import. Import for this build is not triggered by this endpoint. You can use aliases for these two
-	 * values though.
-	 */
-	@GET
-	@Path("{branchName}/{buildName}/comparisons/{comparisonBranchName}/{comparisonBuildName}/{comparisonName}/importAndCompare")
-	@Produces({"application/xml", "application/json"})
-	public Response importAndCompare(
-		@PathParam("branchName") final String branchName,
-		@PathParam("buildName") final String buildName,
-		@PathParam("comparisonBranchName") final String comparisonBranchName,
-		@PathParam("comparisonBuildName") final String comparisonBuildName,
-		@PathParam("comparisonName") final String comparisonName) {
-
-		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
-		BuildIdentifier buildIdentifier = new BuildIdentifier(resolvedBranchName, buildName);
-		if(buildFolderDoesNotExist(buildIdentifier)) {
-			LOGGER.info("Can't import. Build " + branchName + "/" + buildName + " does not exist.");
-			return Response.status(Status.NOT_FOUND).build();
-		}
-
-		BuildIdentifier comparisonBuildIdentifier = new BuildIdentifier(comparisonBranchName, comparisonBuildName);
-
-		Future<ComparisonResult> comparisonResultFuture =
-			ScenarioDocuBuildsManager.INSTANCE.importBuildAndCreateComparison(buildIdentifier,
-				comparisonBuildIdentifier, comparisonName);
-
-		ComparisonResult comparisonResult;
-		try {
-			comparisonResult = comparisonResultFuture.get();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return Response.ok(comparisonResult).build();
 	}
 
 	private boolean buildFolderDoesNotExist(BuildIdentifier buildIdentifier) {

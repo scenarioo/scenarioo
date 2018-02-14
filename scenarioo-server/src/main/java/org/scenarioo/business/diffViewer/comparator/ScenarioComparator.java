@@ -17,9 +17,6 @@
 
 package org.scenarioo.business.diffViewer.comparator;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
@@ -31,14 +28,14 @@ import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.rest.base.BuildIdentifier;
 
-/**
- * Comparison results are persisted in a xml file.
- */
+import java.util.LinkedList;
+import java.util.List;
+
 public class ScenarioComparator extends AbstractStructureComparator<Scenario, String, ScenarioSummary> {
 
 	private static final Logger LOGGER = Logger.getLogger(ScenarioComparator.class);
 
-	private StepComparator stepComparator = new StepComparator(parameters);
+	private StepComparator stepComparator = new StepComparator(parameters, new ScreenshotComparator());
 	private String baseUseCaseName;
 
 	private AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDao(
@@ -51,8 +48,8 @@ public class ScenarioComparator extends AbstractStructureComparator<Scenario, St
 	public UseCaseDiffInfo compare(final String baseUseCaseName) {
 		this.baseUseCaseName = baseUseCaseName;
 
-		final List<Scenario> baseScenarios = docuReader.loadScenarios(parameters.getBaseBranchName(), parameters.getBaseBuildName(), baseUseCaseName);
-		final List<Scenario> comparisonScenarios = docuReader.loadScenarios(
+		final List<Scenario> baseScenarios = scenarioDocuReader.loadScenarios(parameters.getBaseBranchName(), parameters.getBaseBuildName(), baseUseCaseName);
+		final List<Scenario> comparisonScenarios = scenarioDocuReader.loadScenarios(
 			parameters.getComparisonConfiguration().getComparisonBranchName(),
 			parameters.getComparisonConfiguration().getComparisonBuildName(), baseUseCaseName);
 
