@@ -50,10 +50,9 @@ This is the recommended setup, to get up started and productive most quickly!
  * For most things you will work with the IntelliJ GIT client or use the GIT command line
      * In case you are a GIT newbie please ask your developer colleagues to help you or refer to the very good (and free) book at: http://git-scm.com/book to get started
      * Also following link might be helpful to understand how to work with the very good git client of IntelliJ: https://www.jetbrains.com/help/idea/2016.1/using-git-integration.html
-      
+
  * Please refer to our **[branching strategy](https://github.com/scenarioo/scenarioo/blob/develop/docs/contribute/Branching-strategy.md) about how we use branches and create releases**.
-    * using git flow for this might be very helpful: http://jeffkreeftmeijer.com/2010/why-arent-you-using-git-flow/
- 
+
  * (optional) you can use whatever other GIT tools you need
     * for working with github, github desktop might be helpful: https://desktop.github.com/
     * on the linux developer VM we had once following additional tools installed (probably not needed when working with IntelliJ):
