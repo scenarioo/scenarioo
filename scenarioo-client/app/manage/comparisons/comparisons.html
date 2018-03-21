@@ -16,7 +16,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <div ng-controller="ComparisonsController as vm">
-    <div class="row sc-space-top sc-space-bottom">
+    <div class="row sc-space-bottom" ng-show="true" ng-cloak>
+        <div class="col-lg-9">
+            See <a href="http://scenarioo.org/docs/features/diff-viewer/setup.html#2-add-a-comparison-configuration"
+                   target="_blank">Comparison Configuration documentation</a> for more information on how to configure
+            the Diff Viewer.
+        </div>
+    </div>
+
+    <div class="row sc-space-bottom" ng-show="true" ng-cloak>
         <div class="col-lg-3">
             <div class="input-group">
                 <input type="text" class="ng-pristine ng-valid tableSearch form-control" id="comparisonsSearchField"
