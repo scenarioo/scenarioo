@@ -21,8 +21,8 @@ import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.files.ObjectFromDirectory;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.business.diffViewer.comparator.BuildComparator;
 import org.scenarioo.business.diffViewer.comparator.ComparisonParameters;
+import org.scenarioo.business.diffViewer.comparator.UseCaseComparator;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
@@ -117,6 +117,7 @@ public class ComparisonExecutor {
 	private ComparisonResult runComparison(String baseBranchName, String baseBuildName,
 										   ComparisonConfiguration comparisonConfiguration) {
 
+		ComparisonParameters comparisonParameters = null;
 		BuildDiffInfo buildDiffInfo = null;
 
 		docuBuildsManager = ScenarioDocuBuildsManager.INSTANCE;
@@ -133,13 +134,14 @@ public class ComparisonExecutor {
 				resolveComparisonConfiguration(comparisonConfiguration, baseBuildName);
 
 			if (resolvedComparisonConfiguration == null) {
-				LOGGER.warn("No comparison build found for base build: " + baseBranchName + "/"
-					+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
-			} else {
-				ComparisonParameters comparisonParameters = new ComparisonParameters(baseBranchName, baseBuildName, resolvedComparisonConfiguration,
+					LOGGER.warn("No comparison build found for base build: " + baseBranchName + "/"
+						+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
+				} else {
+					comparisonParameters = new ComparisonParameters(baseBranchName, baseBuildName, resolvedComparisonConfiguration,
 					configurationRepository.getConfiguration().getDiffImageAwtColor());
-				storeComparisonInProgressStatus(comparisonParameters);
-				buildDiffInfo = new BuildComparator().compareAndStoreResult(comparisonParameters);
+				storeComparisonInProgress(comparisonParameters);
+				buildDiffInfo = new UseCaseComparator(comparisonParameters).compare();
+				storeComparisonSuccessful(comparisonParameters, buildDiffInfo);
 			}
 
 			LOGGER.info("SUCCESS on comparing base build: " + baseBranchName + "/"
@@ -147,6 +149,7 @@ public class ComparisonExecutor {
 			logDuration(startTime);
 			LOGGER.info("=== END OF BUILD COMPARISON (success) ===");
 		} catch (Throwable e) {
+			storeComparisonFailed(comparisonParameters);
 			LOGGER.error("FAILURE on comparing build " + baseBranchName + "/"
 				+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName(), e);
 			LOGGER.info("=== END OF BUILD COMPARISON (failed) ===");
@@ -173,9 +176,27 @@ public class ComparisonExecutor {
 		return comparisonResult;
 	}
 
-	private void storeComparisonInProgressStatus(ComparisonParameters comparisonParameters) {
+	private void storeComparisonInProgress(ComparisonParameters comparisonParameters) {
+		saveEmptyBuildDiffInfoWithStatus(comparisonParameters, ComparisonCalculationStatus.IN_PROGRESS);
+	}
+
+	private void storeComparisonSuccessful(ComparisonParameters comparisonParameters, BuildDiffInfo buildDiffInfo) {
+		comparisonParameters.getDiffWriter().saveBuildDiffInfo(buildDiffInfo);
+	}
+
+	private void storeComparisonFailed(ComparisonParameters comparisonParameters) {
+		saveEmptyBuildDiffInfoWithStatus(comparisonParameters, ComparisonCalculationStatus.FAILED);
+	}
+
+	private void saveEmptyBuildDiffInfoWithStatus(ComparisonParameters comparisonParameters,
+												  ComparisonCalculationStatus comparisonCalculationStatus) {
+		if(comparisonParameters == null) {
+			LOGGER.info("Can't save BuildDiffInfo for status " + comparisonCalculationStatus + " because" +
+				" comparisonParameters is null");
+			return;
+		}
 		BuildDiffInfo buildDiffInfo = new BuildDiffInfo();
-		buildDiffInfo.setComparisonCalculationStatus(ComparisonCalculationStatus.IN_PROGRESS);
+		buildDiffInfo.setComparisonCalculationStatus(comparisonCalculationStatus);
 		comparisonParameters.getDiffWriter().saveBuildDiffInfo(buildDiffInfo);
 	}
 
