@@ -48,7 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <td>{{comparison.comparisonConfiguration.name}}</td>
                 <td>{{comparison.baseBuildDate | scDateTime}}</td>
                 <td>
-                    <span ng-class="[getStyleClassForComparisonStatus(comparison.status), 'label']">{{comparison.status}}</span>
+                    <span ng-class="[vm.getStyleClassForComparisonStatus(comparison.status), 'label']">{{comparison.status}}</span>
                 </td>
                 <td>
                 </td>
