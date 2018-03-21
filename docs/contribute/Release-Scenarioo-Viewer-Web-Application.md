@@ -1,6 +1,8 @@
 # Scenarioo Release Procedure
 
-We use git flow (see [branching strategy](Branching-strategy.md)). Therefore the procedure is:
+We use the git flow branching strategy (see [branching strategy](Branching-strategy.md)).
+
+Whenever you see `<version>` in this guide we mean a version number in the form `1.2.0` (without `v`prefix).
 
 ### Set Release Version & Release Branch
 
@@ -15,15 +17,34 @@ In `gradle.build` you have to adjust following version information:
 
 ### Create release branch and make last fixes
 
-* Create a release branch, e.g. execute `git flow release start 1.0.1` while you have checked out the `develop` branch.
+* Create a release branch:
+  * Make sure you have checked out the `develop` branch.
+  * `git checkout -b release/<version> develop`
 * Test it thoroughly.
 * Fix the bugs you find and commit them to the release branch.
 * Push the release branch and make sure it builds on our [build server](Build-Server).
 
 ### Finalize release
-* Finalize the release, e.g. using `git flow release finish 1.0.1`. Add the correct tag when git flow asks you for the tag (we only use version numbers for tags, without a leading "v"). Git flow will merge the branch into `master` and `develop`. Therefore you have to push these two branches.
-* Push the tag to the master branch using `git push --tags`.
-* DO NOT delete the release branch. We will keep the release branch to provide links to the right documentation version and we can even reuse the release branch as a branch to do and test hotfixes on it.
+
+* Finalize the release:
+  * Fast forward master to release
+    ```
+    git checkout master
+    git merge --ff-only release/<version>
+    git push
+    git tag -a <version>
+    git push --tags
+    ```
+  * Merge release branch into develop (if not done yet)
+    ```
+    git checkout develop
+    git merge release/<version>
+    git branch -d release/<version>
+    git push
+    ```
+
+* DO NOT delete the release branch. We will keep the release branch to provide links to the right documentation version
+  and we can even reuse the release branch as a branch to do and test hotfixes on it.
 
 ### Build master branch
 
