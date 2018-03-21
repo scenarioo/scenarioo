@@ -5,7 +5,6 @@ import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.basic.FileSystemOperationsDao;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
-import org.scenarioo.model.diffViewer.ComparisonResult;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.rest.base.BuildIdentifier;
 
@@ -116,17 +115,17 @@ public class ComparisonsResource {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 
-		Future<ComparisonResult> comparisonResultFuture =
+		Future<BuildDiffInfo> buildDiffInfoFuture =
 			ScenarioDocuBuildsManager.INSTANCE.importBuildAndCreateComparison(buildIdentifier,
 				comparisonBuildIdentifier, comparisonName);
 
-		ComparisonResult comparisonResult;
+		BuildDiffInfo buildDiffInfo;
 		try {
-			comparisonResult = comparisonResultFuture.get();
+			buildDiffInfo = buildDiffInfoFuture.get();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		return Response.ok(comparisonResult).build();
+		return Response.ok(buildDiffInfo).build();
 	}
 
 	private BuildDiffInfo getComparisonCalculation(String branchName, String buildName, String comparisonName) {

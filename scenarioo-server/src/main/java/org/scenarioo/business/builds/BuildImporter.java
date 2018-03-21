@@ -22,7 +22,7 @@ import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.business.diffViewer.ComparisonExecutor;
 import org.scenarioo.business.lastSuccessfulScenarios.LastSuccessfulScenariosBuild;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
-import org.scenarioo.model.diffViewer.ComparisonResult;
+import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
@@ -143,17 +143,17 @@ public class BuildImporter {
 		saveBuildImportSummaries(buildImportSummaries);
 	}
 
-	public synchronized Future<ComparisonResult> importBuildAndCreateComparison(AvailableBuildsList availableBuilds,
+	public synchronized Future<BuildDiffInfo> importBuildAndCreateComparison(AvailableBuildsList availableBuilds,
 			BuildIdentifier buildIdentifier, BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
 
 		submitBuildForInitialImportIfNewBuild(availableBuilds, buildIdentifier);
 
-		Future<ComparisonResult> comparisonResult =
+		Future<BuildDiffInfo> buildDiffInfoFuture =
 			submitBuildForSingleComparison(buildIdentifier, comparisonBuildIdentifier,comparisonName);
 
 		saveBuildImportSummaries(buildImportSummaries);
 
-		return comparisonResult;
+		return buildDiffInfoFuture;
 	}
 
 	public BuildImportStatus getBuildImportStatus(BuildIdentifier buildIdentifier) {
@@ -229,7 +229,7 @@ public class BuildImporter {
 		comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 	}
 
-	public Future<ComparisonResult> submitBuildForSingleComparison(BuildIdentifier buildIdentifier, BuildIdentifier compareBuildIdentifier, String comparisonName) {
+	public Future<BuildDiffInfo> submitBuildForSingleComparison(BuildIdentifier buildIdentifier, BuildIdentifier compareBuildIdentifier, String comparisonName) {
 		return comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 			compareBuildIdentifier.getBranchName(), compareBuildIdentifier.getBuildName(), comparisonName);
 	}
