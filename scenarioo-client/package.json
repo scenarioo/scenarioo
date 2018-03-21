@@ -62,7 +62,7 @@
         "less": "^2.7.3",
         "less-loader": "^4.0.5",
         "lodash": "4.12.x",
-        "moment": "2.x",
+        "moment": "^2.21.0",
         "null-loader": "^0.1.1",
         "phantomjs-prebuilt": "^2.1.16",
         "protractor": "^5.2.0",
