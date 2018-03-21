@@ -58,11 +58,12 @@ import java.util.concurrent.Future;
  * using {@link #getAvailableBuilds()}.</li>
  * </ul>
  */
-public enum ScenarioDocuBuildsManager {
-	INSTANCE;
+public class ScenarioDocuBuildsManager {
 
 	private final static ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
+
+	public static ScenarioDocuBuildsManager INSTANCE = new ScenarioDocuBuildsManager();
 
 	private static final Logger LOGGER = Logger.getLogger(ScenarioDocuBuildsManager.class);
 

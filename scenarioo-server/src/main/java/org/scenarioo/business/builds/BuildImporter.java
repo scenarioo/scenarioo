@@ -69,7 +69,7 @@ public class BuildImporter {
 	 */
 	private final ExecutorService asyncBuildImportExecutor = newAsyncBuildImportExecutor();
 
-	private ComparisonExecutor comparisonExecutor = new ComparisonExecutor(asyncBuildImportExecutor);
+	private ComparisonExecutor comparisonExecutor = new ComparisonExecutor(asyncBuildImportExecutor, ScenarioDocuBuildsManager.INSTANCE);
 
 	private final LastSuccessfulScenariosBuild lastSuccessfulScenarioBuild = new LastSuccessfulScenariosBuild();
 
