@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('ComparisonsController', ComparisonsController);
 
-function ComparisonsController($scope, ComparisonsResource) {
+function ComparisonsController($scope, ComparisonsResource, $uibModal) {
 
     var vm = this;
 
@@ -34,6 +34,7 @@ function ComparisonsController($scope, ComparisonsResource) {
     };
     vm.resetSearchField = resetSearchField;
     vm.getStyleClassForComparisonStatus = getStyleClassForComparisonStatus;
+    vm.showComparisonDetails = showComparisonDetails;
 
     activate();
 
@@ -54,6 +55,26 @@ function ComparisonsController($scope, ComparisonsResource) {
         } else {
             return styleClassFromMapping;
         }
+    }
+
+    function showComparisonDetails(comparison) {
+        $uibModal.open({
+            template: require('./comparisonDetails.html'),
+            controller: 'ComparisonDetailsController',
+            controllerAs: 'vm',
+            windowClass: 'modal-    wide',
+            resolve: {
+                comparison: function () {
+                    return comparison;
+                },
+                log: function () {
+                    return "This is some test log";
+                },
+                getStyleClassForComparisonStatus: function () {
+                    return vm.getStyleClassForComparisonStatus;
+                }
+            }
+        });
     }
 }
 

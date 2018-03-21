@@ -59,6 +59,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <span ng-class="[vm.getStyleClassForComparisonStatus(comparison.status), 'label']">{{comparison.status}}</span>
                 </td>
                 <td>
+                    <a class="link" ng-click="vm.showComparisonDetails(comparison)"
+                       uib-tooltip="Show comparison log and details" tooltip-placement="bottom">
+                        <i class="icon-list-alt icon-with-padding"></i>
+                    </a>
                 </td>
             </tr>
         </tbody>
