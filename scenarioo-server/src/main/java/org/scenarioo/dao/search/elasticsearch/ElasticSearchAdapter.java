@@ -108,7 +108,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
     public SearchResults searchData(final SearchRequest searchRequest) {
         final String indexName = getIndexName(searchRequest.getBuildIdentifier());
 
-        ElasticSearchSearcher elasticSearchSearcher = new ElasticSearchSearcher(indexName);
+        ElasticSearchSearcher elasticSearchSearcher = new ElasticSearchSearcher(indexName, client);
         return elasticSearchSearcher.search(searchRequest);
     }
 

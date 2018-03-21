@@ -13,7 +13,7 @@
  *   default value: 'http://localhost:9000'
  */
 
-var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:9000';
+var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:8500';
 var BRANCH = process.env.BRANCH || 'HEAD';
 var BUILD_NAME = 'build-' + (process.env.BUILD_NUMBER || 'latest');
 
@@ -43,7 +43,7 @@ var exportsConfig = {
         },
     },
 
-    specs: ['./test/protractorE2E/specs/**/*.js'],
+    specs: ['./test/protractorE2E/specs/**/*.ts'],
 
     baseUrl: PROTRACTOR_BASE_URL,
 

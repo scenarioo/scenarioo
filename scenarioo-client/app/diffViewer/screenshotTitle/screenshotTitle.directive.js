@@ -26,7 +26,7 @@ function scScreenshotTitle() {
             name: '@',
             alias: '@'
         },
-        templateUrl: 'diffViewer/screenshotTitle/screenshotTitle.html'
+        template: require('./screenshotTitle.html')
     };
 }
 
