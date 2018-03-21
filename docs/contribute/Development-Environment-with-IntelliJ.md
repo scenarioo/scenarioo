@@ -6,7 +6,7 @@ This is the recommended setup, to get up started and productive most quickly!
 
 ## Caution: Version of Documentation for Developers
 
-The published documentation under http://www.scenarioo.org may not reflect the most recent changes of scenarioo development. This is the state of our documentation at the last official release. For reading the most recent version of our documentation we recommend browsing it directly here on our develop branch: https://github.com/scenarioo/scenarioo/tree/develop/docs (or use the edit link on top of each doku page to browse to the corresponding most recent markdown file for that page)
+The published documentation under http://www.scenarioo.org/docs may not reflect the most recent changes of scenarioo development. This is the state of our documentation at the last official release. For reading the most recent version of our documentation we recommend browsing it directly here on our develop branch: https://github.com/scenarioo/scenarioo/tree/develop/docs (or use the edit link on top of each doku page to browse to the corresponding most recent markdown file for that page)
 
 ## Prerequisites
 
