@@ -52,7 +52,7 @@ Serve the client:
 Open a 2nd console and run the tests:
 
    ```
-   gulp test-e2e-scenarioo
+   npm run test-e2e-scenarioo
    ```
 
 If you do not want to generate a scenarioo docu from the tests, run this:
