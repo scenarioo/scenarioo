@@ -1,22 +1,14 @@
 'use strict';
-// import {browser, by, element} from "protractor";
 
 function getRoute(route) {
     browser.get(browser.params.baseUrl + '/#' + route);
     browser.waitForAngular();
 }
 
-// interface LocalStorageService {
-//     set(key: string, value: string);
-//     get(key: string): string;
-//     clearAll();
-// }
-
 /**
- * Initialize local storage to previously visited for web tests to run without about dialog open.
+ * Initialize local storage to "previously visited" for web tests to run without about dialog open.
  */
 function initLocalStorage() {
-    console.log('Initializing local storage for user revisiting scenarioo again');
     getRoute('/');
     var setPreviouslyVisitedInLocalStorage = browser.executeScript(function () {
         var injector = angular.element(document.body).injector();
@@ -35,12 +27,12 @@ function initLocalStorage() {
 }
 
 /**
- * Clear local storage to not previously visited for web tests to run with about dialog open.
+ * Clear local storage to to simulate "first time user" for web tests to run with about dialog open.
  *
- * To realy see the dialog, a restart of the application is needed after (e.g. by page refresh!), this method only clears the storage.
+ * To really see the dialog, a restart of the application is needed after (e.g. by page refresh!),
+ * this method only clears the storage.
  */
 function clearLocalStorage() {
-    console.log('Clear local storage for user visiting for the first time');
     getRoute('/');
     var clearLocalStorageScript = browser.executeScript(function () {
         var injector = angular.element(document.body).injector();
@@ -58,12 +50,9 @@ function clearLocalStorage() {
 }
 
 var e2eUtils = {
-
-    initLocalStorage: initLocalStorage,
-
-    clearLocalStorage: clearLocalStorage,
-
     getRoute: getRoute,
+    initLocalStorage: initLocalStorage,
+    clearLocalStorage: clearLocalStorage,
 
     assertRoute: function (route) {
         browser.getCurrentUrl().then(function (url) {
