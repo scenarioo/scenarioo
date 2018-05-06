@@ -25,8 +25,7 @@ useCase('Manage branch aliases')
                 branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
                 branchAliasesPage.enterAlias('Test Alias 1', 'wikipedia-docu-example', 'my description 1');
                 branchAliasesPage.enterAlias('Test Alias 2', 'wikipedia-docu-example', 'my description 2');
-                branchAliasesPage.save();
-                // TODO: we should better wait and check for the success message of the save here (which does not yet appear immediately)! In general our tests do not assert much
+                branchAliasesPage.saveAndAssertSuccessMessage();
                 step('saved build aliases');
 
                 branchAliasesPage.reset();
@@ -36,21 +35,20 @@ useCase('Manage branch aliases')
                 branchAliasesPage.assertAliasesAreShownFirstInTheNavigationMenu();
 
                 branchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
-                branchAliasesPage.save();
+                branchAliasesPage.saveAndAssertSuccessMessage();
                 branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG + 1);
                 branchAliasesPage.reset();
                 branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG + 1);
                 step('removed first test alias');
 
                 branchAliasesPage.updateAlias(FIRST_TEST_ALIAS_INDEX, 'updated alias', 'wikipedia-docu-example', 'updated description');
-                branchAliasesPage.save();
+                branchAliasesPage.saveAndAssertSuccessMessage();
                 step('updated first test alias');
 
                 branchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
                 branchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
-                branchAliasesPage.save();
+                branchAliasesPage.saveAndAssertSuccessMessage();
                 step('all test aliases removed');
-
             });
 
         scenario('Validation')
@@ -69,7 +67,7 @@ useCase('Manage branch aliases')
                 branchAliasesPage.goToPage();
                 branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
                 branchAliasesPage.enterAlias('duplicate', 'wikipedia-docu-example', 'duplicate alias name');
-                branchAliasesPage.save();
+                branchAliasesPage.saveAndAssertSuccessMessage();
                 branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG + 1);
                 branchAliasesPage.enterAlias('duplicate', 'wikipedia-docu-example', 'duplicate alias name');
                 branchAliasesPage.save();
@@ -78,7 +76,7 @@ useCase('Manage branch aliases')
 
                 branchAliasesPage.reset();
                 branchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
-                branchAliasesPage.save();
+                branchAliasesPage.saveAndAssertSuccessMessage();
             });
 
     });
