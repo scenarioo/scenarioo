@@ -318,11 +318,11 @@ StepPage.prototype.assertStepNoComparisonScreenshot = function (expected) {
 };
 
 StepPage.prototype.assertStepComparisonScreenshotSrcEquals = function (expected) {
-    expect(element(by.css('.sc-step-comparison-other-screenshot img')).getAttribute('src')).toContain(expected);
+    expect(element(by.css('.sc-step-comparison-other-screenshot img.sc-real-screenshot')).getAttribute('src')).toContain(expected);
 };
 
 StepPage.prototype.assertStepBaseScreenshotSrcEquals = function (expected) {
-    expect(element(by.css('.sc-step-comparison-current-screenshot img')).getAttribute('src')).toContain(expected);
+    expect(element(by.css('.sc-step-comparison-current-screenshot img.sc-real-screenshot')).getAttribute('src')).toContain(expected);
 };
 
 module.exports = StepPage;
