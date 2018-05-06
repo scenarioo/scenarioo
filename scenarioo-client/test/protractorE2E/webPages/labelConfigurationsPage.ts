@@ -1,5 +1,5 @@
 'use strict';
-import {by, element} from "protractor";
+import {browser, by, element} from "protractor";
 
 var BaseWebPage = require('./baseWebPage'),
     util = require('util');
@@ -11,7 +11,7 @@ function LabelConfigurationsPage(overridePath) {
         BaseWebPage.call(this, '/manage?tab=labelConfigurations');
     }
 
-    this.labelConfigurationsTable = element(by.css('table.table-responsive'));
+    this.labelConfigurationsTable = element(by.id('label-configurations-table'));
     this.saveButton = element(by.css('input.btn[value="Save"]'));
     this.resetButton = element(by.css('input.btn[value="Reset"]'));
     this.savedSuccessfullyText = element(by.id('changed-label-config-successfully'));
@@ -20,9 +20,9 @@ function LabelConfigurationsPage(overridePath) {
 util.inherits(LabelConfigurationsPage, BaseWebPage);
 
 LabelConfigurationsPage.prototype.assertNumConfigurations = function(expectedCount) {
-    // There is always one row more than the expectedCount, because there's always an empty row
-    expect(element(by.id('label-configuration-' + expectedCount)).isDisplayed()).toBe(true);
-    expect(element(by.id('label-configuration-' + (expectedCount + 1))).isPresent()).toBe(false);
+    var tableElement = element(by.id('label-configurations-table'));
+    // adding one, because there's always an empty row
+    this.assertNumberOfTableRows(tableElement, expectedCount + 1);
 };
 
 LabelConfigurationsPage.prototype.addLabelConfiguration = function(labelName, colorIndex) {
@@ -58,13 +58,10 @@ LabelConfigurationsPage.prototype.updateLabelConfiguration = function(rowIndex, 
 };
 
 LabelConfigurationsPage.prototype.deleteLabelConfiguration = function(rowIndex) {
-    this.labelConfigurationsTable.all(by.css('tbody tr')).then(function(elements) {
-        var row = elements[rowIndex];
-        var deleteButton = row.element(by.css('input[value="Delete"]'));
-        deleteButton.click();
-    });
-
+    element(by.css('#label-configuration-' + rowIndex + ' input[value="Delete"]')).click();
+    this.assertNumberOfTableRows(this.labelConfigurationsTable, 1); // only the empty row is shown
     this.saveButton.click();
+    this.waitForElementVisible(element(by.id('changed-label-config-successfully')));
 };
 
 module.exports = LabelConfigurationsPage;
