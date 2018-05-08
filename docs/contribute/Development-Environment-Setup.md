@@ -1,12 +1,18 @@
-# Scenarioo Development Environment with IntelliJ
+# Scenarioo Development Environment
 
-This readme contains important developer information for developers on how to develop the open source project Scenarioo with IntelliJ.
+This guide helps you setting up all the tools you need to make a contribution to the Scenarioo source code using
+IntelliJ. This is the recommended setup.
 
-This is the recommended setup, to get up started and productive most quickly!
+The guide sometimes assumes that you use Windows. There are some additional notes for Ubuntu users documented under
+[Development Environment on Ubuntu](Development-Environment-Ubuntu.md).
 
 ## Caution: Version of Documentation for Developers
 
-The published documentation under http://www.scenarioo.org/docs may not reflect the most recent changes of scenarioo development. This is the state of our documentation at the last official release. For reading the most recent version of our documentation we recommend browsing it directly here on our develop branch: https://github.com/scenarioo/scenarioo/tree/develop/docs (or use the edit link on top of each doku page to browse to the corresponding most recent markdown file for that page)
+The published documentation under http://www.scenarioo.org/docs may not reflect the most recent changes of scenarioo 
+development. This is the state of our documentation at the last official release. For reading the most recent version of
+our documentation we recommend browsing it directly here on our develop branch: 
+https://github.com/scenarioo/scenarioo/tree/develop/docs (or use the edit link on top of each doku page to browse to the
+corresponding most recent markdown file for that page)
 
 ## Prerequisites
 
@@ -17,6 +23,9 @@ The published documentation under http://www.scenarioo.org/docs may not reflect 
     * you can also try Tomcat 8, which should also work, but might not yet be tested for this setup here
 
 ## Setup and Use of GIT 
+
+ * If you have not worked with git before, one way to get familiar with it is the very good (and free) book at 
+   http://git-scm.com/book
 
  * Install GIT
 
@@ -65,17 +74,18 @@ The published documentation under http://www.scenarioo.org/docs may not reflect 
        * gitg : Simple git interface (very nice git history tree)
        * giggle : more of a git viewer to review changes in the files graphically
 
-## Install NodeJS and NodeJS development tools
+## Node.js
 
- * NodeJS: http://nodejs.org/download (newest version should be okay: higher than 6.2 !)
-   _Use the latest versions of nodejs / npm / bower and you should be fine. If you discover that something does not work with the latest version and you have to fix it, please inform the community about it so that they have a chance to upgrade their tools._
-   
- * Install nodejs dev tools globaly (might not be needed anymore, but is useful for working on command line):
-   `npm install -g bower phantomjs protractor`
-   
+* Install `node 6.11.5` / `npm 3.10.10`
+  (we currently can't upgrade to a newer version because of issue 
+  [#656](https://github.com/scenarioo/scenarioo/issues/676))
+
 ## Elasticsearch
- * To run all E2E-Tests, you need to install Elasticsearch. The demo project is already configured to use Elasticsearch, so the config.xml does not need to be changed.
- * Please refer to the [install guide](../features/full-text-search/setup.md).
+
+ * To run all E2E tests, you need to install Elasticsearch. The demo project is already configured to use Elasticsearch,
+   so the config.xml does not need to be changed.
+ * Please refer to the [install guide](../features/full-text-search/setup.md) and make sure you install the correct
+   version.
 
 ## Get the Sources
 
@@ -95,8 +105,8 @@ But this two repositories should be sufficient for most usual developers.
      * License: either use one of our scenarioo open source licenses or even better get yourself a commercial personal license (especially if you also need it for commercial work!)
  
  * Install IntelliJ Plugins (this list is not yet consolidated):
-     * Gradle (probably allready included, but not sure)
-     * NodeJs (if not allready included ?? not sure about that)
+     * Gradle (probably already included, but not sure)
+     * NodeJs (if not already included ?? not sure about that)
      * .gitignore plugin
      * Karma plugin (IntelliJ recommends this!)
      * Markdown Plugins:
@@ -191,6 +201,3 @@ For more informations on how to develop, build and test scenarioo properly, plea
 
  * automation (skript or run config) to reset config before running e2e tests.
  * in general some run configs, maybe also some templates etc. that we can share for working more fast in IntelliJ.
- 
-
-

@@ -26,7 +26,7 @@
      * [Diff Viewer Setup Guide](features/diff-viewer/setup.md)
 
 * [Contributor Guide](contribute/README.md)
-  * [Development Environment Setup](contribute/Development-Environment-with-IntelliJ.md)
+  * [Development Environment Setup](contribute/Development-Environment-Setup.md)
   * [Developer Guide](contribute/Developer-Guide.md)
   * [Code of Conduct: Rules & Guidelines](contribute/Code-of-Conduct.md)
   * [Coding Guidelines](contribute/Coding-guidelines.md)
