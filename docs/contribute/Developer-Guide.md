@@ -4,7 +4,8 @@ This page describes how to build, test, run the Scenarioo Viewer Webapp locally 
 
 ## Prerequisites
 
-You need a correctly setup Development environment for working on sceanrioo as described here: [Development Environment](Development-Environment.md)
+You need a correctly setup development environment for working on Scenarioo as described here: 
+[Scenarioo Development Environment with IntelliJ](Development-Environment-Setup.md)
 
 ## Build, Test and Run the Scenarioo Viewer Web App
 
