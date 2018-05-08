@@ -1,6 +1,7 @@
 package org.scenarioo.rest.diffViewer;
 
 import org.apache.log4j.Logger;
+import org.scenarioo.business.builds.BranchAliasResolver;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.basic.FileSystemOperationsDao;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
@@ -108,7 +109,7 @@ public class ComparisonsResource {
 		@PathParam("comparisonName") final String comparisonName,
 		BuildIdentifier comparisonBuildIdentifier) {
 
-		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 		BuildIdentifier buildIdentifier = new BuildIdentifier(resolvedBranchName, buildName);
 		if(buildFolderDoesNotExist(buildIdentifier)) {
 			logger.info("Can't import. Build " + branchName + "/" + buildName + " does not exist.");
@@ -135,7 +136,7 @@ public class ComparisonsResource {
 	}
 
 	private BuildIdentifier resolveAndCreateBuildIdentifier(@PathParam("branchName") String branchName, @PathParam("buildName") String buildName) {
-		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 		return new BuildIdentifier(resolvedBranchName, buildName);
 	}
 

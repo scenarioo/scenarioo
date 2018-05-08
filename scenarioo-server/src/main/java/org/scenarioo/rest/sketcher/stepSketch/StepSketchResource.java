@@ -1,36 +1,25 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.scenarioo.rest.sketcher.stepSketch;
 
-import java.io.File;
-import java.util.Date;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import org.apache.log4j.Logger;
 import org.scenarioo.api.files.ScenarioDocuFiles;
+import org.scenarioo.business.builds.BranchAliasResolver;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
@@ -44,6 +33,12 @@ import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.StepIdentifier;
 import org.scenarioo.rest.step.logic.ResolveStepIndexResult;
 import org.scenarioo.rest.step.logic.StepIndexResolver;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.File;
+import java.util.Date;
 
 @Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/stepsketch")
 public class StepSketchResource {
@@ -73,7 +68,7 @@ public class StepSketchResource {
 		LOGGER.info("REQUEST: loadStepSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
 				+ stepSketchId + ")");
 
-		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
 		return sketcherDao.loadStepSketch(resolvedBranchName, issueId, scenarioSketchId, stepSketchId);
 	}
@@ -115,7 +110,7 @@ public class StepSketchResource {
 		if (stepSketch.getRelatedStep() == null) {
 			return;
 		}
-		
+
 		StepIdentifier relatedStep = stepSketch.getRelatedStep();
 		ResolveStepIndexResult stepIndex = resolveStepIndex(relatedStep);
 		File screenshotsDirectory = docuFiles.getScreenshotsDirectory(relatedStep.getBranchName(),
@@ -144,11 +139,11 @@ public class StepSketchResource {
 		LOGGER.info("REQUEST: updateStepSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
 				+ stepSketchId + ")");
 
-		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
 		final StepSketch stepSketch = sketcherDao.loadStepSketch(resolvedBranchName, issueId, scenarioSketchId,
 				stepSketchId);
-		
+
 		stepSketch.setSvgXmlString(SvgSanitizer.sanitize(updatedStepSketch.getSvgXmlString()));
 		stepSketch.setDateModified(new Date());
 

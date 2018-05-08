@@ -23,8 +23,6 @@ import org.scenarioo.business.aggregator.ScenarioDocuAggregator;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.dao.search.FullTextSearch;
-import org.scenarioo.model.configuration.BranchAlias;
-import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
@@ -58,11 +56,12 @@ import java.util.concurrent.Future;
  * using {@link #getAvailableBuilds()}.</li>
  * </ul>
  */
-public enum ScenarioDocuBuildsManager {
-	INSTANCE;
+public class ScenarioDocuBuildsManager implements AliasResolver {
 
 	private final static ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
+
+	public static ScenarioDocuBuildsManager INSTANCE = new ScenarioDocuBuildsManager();
 
 	private static final Logger LOGGER = Logger.getLogger(ScenarioDocuBuildsManager.class);
 
@@ -118,11 +117,17 @@ public enum ScenarioDocuBuildsManager {
 	/**
 	 * Resolves branch and build names that might be aliases to their real names.
 	 */
+	@Override
 	public BuildIdentifier resolveBranchAndBuildAliases(final String branchName, final String buildName) {
-		String resolvedBranchName = resolveBranchAlias(branchName);
+		String resolvedBranchName = this.resolveBranchAlias(branchName);
 		String resolvedBuildName = resolveBuildAlias(resolvedBranchName, buildName);
 
 		return new BuildIdentifier(resolvedBranchName, resolvedBuildName);
+	}
+
+	@Override
+	public String resolveBranchAlias(String aliasOrRealBranchName) {
+		return new BranchAliasResolver().resolveBranchAlias(aliasOrRealBranchName);
 	}
 
 	/**
@@ -135,18 +140,6 @@ public enum ScenarioDocuBuildsManager {
 		String resolvedBuildName = resolveAliasBuildNameUnchecked(branchName, buildName);
 		validateBuildIsSuccessfullyImported(branchName, resolvedBuildName);
 		return resolvedBuildName;
-	}
-
-	public String resolveBranchAlias(final String aliasOrRealBranchName) {
-		Configuration configuration = configurationRepository.getConfiguration();
-		List<BranchAlias> branchAliases = configuration.getBranchAliases();
-		for (BranchAlias branchAlias : branchAliases) {
-			if (branchAlias.getName().equals(aliasOrRealBranchName)) {
-				return branchAlias.getReferencedBranch();
-			}
-		}
-
-		return aliasOrRealBranchName;
 	}
 
 	/**
