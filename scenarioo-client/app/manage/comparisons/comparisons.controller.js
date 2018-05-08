@@ -68,7 +68,7 @@ function ComparisonsController($scope, ComparisonsResource, $uibModal) {
                     return comparison;
                 },
                 log: function () {
-                    return "This is some test log";
+                    return 'This is some test log';
                 },
                 getStyleClassForComparisonStatus: function () {
                     return vm.getStyleClassForComparisonStatus;

@@ -32,7 +32,7 @@ describe('ComparisonsController', function () {
             var COMPARISONS_REST_URL = 'rest/comparisons';
             $httpBackend.whenGET(COMPARISONS_REST_URL).respond(TestData.COMPARISONS);
 
-            ComparisonsController = $controller('ComparisonsController', {$scope: $scope});
+            ComparisonsController = $controller('ComparisonsController', {$scope: $scope, $uibModal: null});
         }
     ));
 
