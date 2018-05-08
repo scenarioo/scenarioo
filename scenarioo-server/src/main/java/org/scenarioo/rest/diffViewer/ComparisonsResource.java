@@ -20,8 +20,6 @@ public class ComparisonsResource {
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
-	private DiffViewerDao diffViewerDao = new DiffViewerDao();
-
 	/**
 	 * Queues a comparison calculation as specified. This allows the calculation of comparisons that are not
 	 * in the comparisons configuration. branchName can be a branch alias.
@@ -83,6 +81,7 @@ public class ComparisonsResource {
 						   @PathParam("buildName") final String buildName,
 						   @PathParam("comparisonName") final String comparisonName) {
 
+		DiffViewerDao diffViewerDao = new DiffViewerDao();
 		File logFile = diffViewerDao.getBuildComparisonLogFile(branchName, buildName, comparisonName);
 		if (logFile == null || !logFile.exists()) {
 			return Response.status(Status.BAD_REQUEST).build();
@@ -187,6 +186,7 @@ public class ComparisonsResource {
 	}
 
 	private BuildDiffInfo getBuildDiffInfo(String branchName, String buildName, String comparisonName) {
+		DiffViewerDao diffViewerDao = new DiffViewerDao();
 		try {
 			return diffViewerDao.loadBuildDiffInfo(branchName, buildName, comparisonName);
 		} catch (Exception e) {
