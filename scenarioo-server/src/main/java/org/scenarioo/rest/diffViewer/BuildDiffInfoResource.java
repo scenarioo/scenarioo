@@ -72,7 +72,7 @@ public class BuildDiffInfoResource {
 			.filter(new Predicate<BuildDiffInfo>() {
 				@Override
 				public boolean test(BuildDiffInfo buildDiffInfo) {
-					return ComparisonCalculationStatus.SUCCESS.equals(buildDiffInfo.getComparisonCalculationStatus());
+					return ComparisonCalculationStatus.SUCCESS.equals(buildDiffInfo.getStatus());
 				}
 			}).collect(Collectors.toList());
 	}

@@ -1,9 +1,7 @@
 package org.scenarioo.rest.diffViewer;
 
-import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.ComparisonCalculationStatus;
-import org.scenarioo.model.diffViewer.ComparisonCalculation;
 import org.scenarioo.rest.base.BuildIdentifier;
 
 import javax.ws.rs.GET;
@@ -16,7 +14,7 @@ import java.util.List;
  * Resource that returns information about all available comparison calculations, also the failed ones or still processing ones.
  */
 @Path("/rest/comparisons")
-public class AllComparisonsResource {
+public class ComparisonCalculationsResource {
 
 	@GET
 	@Produces({"application/xml", "application/json"})
@@ -31,15 +29,13 @@ public class AllComparisonsResource {
 	private BuildDiffInfo createComparisonResult(String branchName, String buildName, String comparisonName,
 													ComparisonCalculationStatus calculationStatus, double changeRate) {
 
+		BuildDiffInfo comparisonResult = new BuildDiffInfo();
+		comparisonResult.setComparisonName(comparisonName);
 		comparisonResult.setBaseBuild(new BuildIdentifier(branchName, buildName));
 		comparisonResult.setCompareBuild(new BuildIdentifier("develop", "2017-11-28"));
-		comparisonResult.setComparisonName(comparisonName);
-		comparisonResult.setComparisonConfiguration(comparisonConfiguration);
-
 		comparisonResult.setStatus(calculationStatus);
 		comparisonResult.setChangeRate(changeRate);
-
-		comparisonResult.setBaseBuildDate(new Date());
+		comparisonResult.setBaseBuildDate(null); // take care there could be diff infos without this date!
 		comparisonResult.setCalculationDate(new Date());
 
 		return comparisonResult;
