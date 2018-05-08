@@ -1,16 +1,16 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -30,10 +30,15 @@ public class TestResourceFile {
 	public static File getResourceFile(final String filePackageAndFilename) {
 		System.out.println("Base path: " + basePath);
 
-		if (basePath.getAbsolutePath().matches(".*build.classes.test.*")) {
+		if (basePath.getAbsolutePath().matches(".*build.classes.java.test.*")) {
 			// Gradle build
-			File correctedBasePath = new File(basePath.getAbsolutePath().replaceAll("build.classes.test",
+			File correctedBasePath = new File(basePath.getAbsolutePath().replaceAll("build.classes.java.test",
 					"build/resources/test"));
+			return new File(correctedBasePath, filePackageAndFilename);
+		} else if (basePath.getAbsolutePath().matches(".*out.test.classes*")) {
+			// IntelliJ build
+			File correctedBasePath = new File(basePath.getAbsolutePath().replaceAll("out.test.classes",
+				"out/test/resources"));
 			return new File(correctedBasePath, filePackageAndFilename);
 		} else {
 			// Eclipse build

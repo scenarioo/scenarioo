@@ -20,8 +20,7 @@ package org.scenarioo.business.diffViewer;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.files.ObjectFromDirectory;
-import org.scenarioo.api.rules.Preconditions;
-import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.business.builds.AliasResolver;
 import org.scenarioo.business.diffViewer.comparator.ComparisonParameters;
 import org.scenarioo.business.diffViewer.comparator.UseCaseComparator;
 import org.scenarioo.dao.diffViewer.DiffReader;
@@ -60,13 +59,11 @@ public class ComparisonExecutor {
 		configurationRepository.getDocumentationDataDirectory());
 
 	private ExecutorService asyncComparisonExecutor;
-	private ScenarioDocuBuildsManager scenarioDocuBuildsManager;
+	private AliasResolver aliasResolver;
 
-	public ComparisonExecutor(ExecutorService executorService, ScenarioDocuBuildsManager scenarioDocuBuildsManager) {
-		Preconditions.checkNotNull(executorService, "executorService must not be null");
-		Preconditions.checkNotNull(scenarioDocuBuildsManager, "scenarioDocuBuildsManager must not be null");
+	public ComparisonExecutor(ExecutorService executorService, AliasResolver aliasResolver) {
 		asyncComparisonExecutor = executorService;
-		this.scenarioDocuBuildsManager = scenarioDocuBuildsManager;
+		this.aliasResolver = aliasResolver;
 	}
 
 	/**
@@ -221,10 +218,9 @@ public class ComparisonExecutor {
 
 		List<ComparisonConfiguration> comparisonConfigurations = configurationRepository.getConfiguration()
 			.getComparisonConfigurations();
-		String resolvedBaseBranchName = scenarioDocuBuildsManager.resolveBranchAlias(baseBranchName);
+		String resolvedBaseBranchName = aliasResolver.resolveBranchAlias(baseBranchName);
 		for (ComparisonConfiguration comparisonConfiguration : comparisonConfigurations) {
-			String resolvedComparisonBranchName = scenarioDocuBuildsManager
-				.resolveBranchAlias(comparisonConfiguration.getBaseBranchName());
+			String resolvedComparisonBranchName = aliasResolver.resolveBranchAlias(comparisonConfiguration.getBaseBranchName());
 			if (resolvedBaseBranchName.equals(resolvedComparisonBranchName)) {
 				comparisonConfigurationsForBaseBranch.add(comparisonConfiguration);
 			}
@@ -257,7 +253,7 @@ public class ComparisonExecutor {
 			comparisonBuildIdentifier = getPreviousBuildIdentifier(
 				comparisonConfiguration, baseBuildName, false);
 		} else {
-			comparisonBuildIdentifier = scenarioDocuBuildsManager.resolveBranchAndBuildAliases(
+			comparisonBuildIdentifier = this.aliasResolver.resolveBranchAndBuildAliases(
 				comparisonConfiguration.getComparisonBranchName(),
 				comparisonConfiguration.getComparisonBuildName());
 		}
@@ -270,12 +266,10 @@ public class ComparisonExecutor {
 	}
 
 	private BuildIdentifier getPreviousBuildIdentifier(
-		ComparisonConfiguration comparisonConfiguration, String baseBuildName,
-		boolean needsSuccessfulBuild) {
+		ComparisonConfiguration comparisonConfiguration, String baseBuildName, boolean needsSuccessfulBuild) {
 
 		Build baseBuild = loadBaseBuild(comparisonConfiguration, baseBuildName);
-		String resolvedComparisonBranchName = scenarioDocuBuildsManager
-			.resolveBranchAlias(comparisonConfiguration.getComparisonBranchName());
+		String resolvedComparisonBranchName = aliasResolver.resolveBranchAlias(comparisonConfiguration.getComparisonBranchName());
 		Date baseBuildDate = baseBuild.getDate();
 		Date comparisonBuildDate = new Date(0);
 		Build comparisonBuild = null;
@@ -304,7 +298,7 @@ public class ComparisonExecutor {
 
 	private Build loadBaseBuild(ComparisonConfiguration comparisonConfiguration, String baseBuildName) {
 
-		BuildIdentifier resolvedBuildIdentifier = scenarioDocuBuildsManager
+		BuildIdentifier resolvedBuildIdentifier = this.aliasResolver
 			.resolveBranchAndBuildAliases(comparisonConfiguration.getBaseBranchName(), baseBuildName);
 		Build baseBuild = docuReader.loadBuild(resolvedBuildIdentifier.getBranchName(),
 			resolvedBuildIdentifier.getBuildName());
@@ -319,8 +313,7 @@ public class ComparisonExecutor {
 
 	private ComparisonConfiguration getResolvedComparisonConfiguration(
 		ComparisonConfiguration comparisonConfiguration, BuildIdentifier comparisonBuildIdentifier) {
-		String resolvedBaseBranchName = scenarioDocuBuildsManager
-			.resolveBranchAlias(comparisonConfiguration.getBaseBranchName());
+		String resolvedBaseBranchName = aliasResolver.resolveBranchAlias(comparisonConfiguration.getBaseBranchName());
 
 		ComparisonConfiguration resolvedComparisonConfiguration = new ComparisonConfiguration();
 		resolvedComparisonConfiguration.setBaseBranchName(resolvedBaseBranchName);

@@ -1,40 +1,26 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.scenarioo.rest.sketcher.issue;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
+import org.scenarioo.business.builds.BranchAliasResolver;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.sketcher.SketcherDao;
 import org.scenarioo.model.sketcher.Issue;
@@ -44,6 +30,15 @@ import org.scenarioo.rest.sketcher.issue.dto.IssueSummary;
 import org.scenarioo.rest.sketcher.issue.dto.IssueWithSketch;
 import org.scenarioo.rest.sketcher.issue.dto.SketchIds;
 import org.scenarioo.utils.IdGenerator;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 @Path("/rest/branch/{branchName}/issue")
 public class IssueResource {
@@ -60,7 +55,7 @@ public class IssueResource {
 	public Response loadIssueSummaries(@PathParam("branchName") final String branchName) {
 		LOGGER.info("REQUEST: loadIssueSummaries(" + branchName + ")");
 
-		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
 		try {
 			final List<Issue> issues = sketcherDao.loadIssues(resolvedBranchName);
@@ -77,7 +72,7 @@ public class IssueResource {
 			@PathParam("issueId") final String issueId) {
 		LOGGER.info("REQUEST: loadSketchIds(" + branchName + ", " + issueId + ")");
 
-		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
 		final IssueWithSketch issueWitchSketch = loadIssueAndSketch(resolvedBranchName, issueId);
 
@@ -93,7 +88,7 @@ public class IssueResource {
 			@PathParam("issueId") final String issueId) {
 		LOGGER.info("REQUEST: loadIssueWithSketch(" + branchName + ", " + issueId + ")");
 
-		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
 		IssueWithSketch result = null;
 
@@ -138,7 +133,7 @@ public class IssueResource {
 			final Issue updatedIssue) {
 		LOGGER.info("REQUEST: updateIssue(" + branchName + ", " + issueId + ", " + updatedIssue + ")");
 
-		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
+		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
 		final Issue existingIssue = sketcherDao.loadIssue(resolvedBranchName, issueId);
 		existingIssue.setDateModified(new Date());
