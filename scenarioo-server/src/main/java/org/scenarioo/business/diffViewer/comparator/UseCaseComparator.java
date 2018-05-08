@@ -17,17 +17,15 @@
 
 package org.scenarioo.business.diffViewer.comparator;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
+import org.scenarioo.model.diffViewer.ComparisonCalculationStatus;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.entities.UseCase;
 
-/**
- * Comparison results are persisted in a xml file.
- */
+import java.util.List;
+
 public class UseCaseComparator extends AbstractStructureComparator<UseCase, String, UseCase> {
 
 	private static final Logger LOGGER = Logger.getLogger(UseCaseComparator.class);
@@ -39,8 +37,8 @@ public class UseCaseComparator extends AbstractStructureComparator<UseCase, Stri
 	}
 
 	public BuildDiffInfo compare() {
-		final List<UseCase> baseUseCases = docuReader.loadUsecases(parameters.getBaseBranchName(), parameters.getBaseBuildName());
-		final List<UseCase> comparisonUseCases = docuReader.loadUsecases(
+		final List<UseCase> baseUseCases = scenarioDocuReader.loadUsecases(parameters.getBaseBranchName(), parameters.getBaseBuildName());
+		final List<UseCase> comparisonUseCases = scenarioDocuReader.loadUsecases(
 			parameters.getComparisonConfiguration().getComparisonBranchName(),
 			parameters.getComparisonConfiguration().getComparisonBuildName());
 
@@ -48,6 +46,7 @@ public class UseCaseComparator extends AbstractStructureComparator<UseCase, Stri
 			parameters.getComparisonConfiguration().getComparisonBranchName(), parameters.getComparisonConfiguration().getComparisonBuildName());
 
 		calculateDiffInfo(baseUseCases, comparisonUseCases, buildDiffInfo);
+		buildDiffInfo.setComparisonCalculationStatus(ComparisonCalculationStatus.SUCCESS);
 
 		LOGGER.info(getLogMessage(buildDiffInfo, "Build " + parameters.getBaseBranchName() + "/" + parameters.getBaseBuildName()));
 
@@ -85,4 +84,5 @@ public class UseCaseComparator extends AbstractStructureComparator<UseCase, Stri
 	protected List<UseCase> getRemovedElementValues(final List<UseCase> removedElements) {
 		return removedElements;
 	}
+
 }
