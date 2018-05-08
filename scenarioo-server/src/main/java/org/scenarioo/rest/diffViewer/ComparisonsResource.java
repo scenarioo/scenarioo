@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.BranchAliasResolver;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.basic.FileSystemOperationsDao;
-import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
+import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -186,7 +186,7 @@ public class ComparisonsResource {
 
 	private BuildDiffInfo getBuildDiffInfo(String branchName, String buildName, String comparisonName) {
 		try {
-			return new DiffReaderXmlImpl().loadBuildDiffInfo(branchName, buildName, comparisonName);
+			return new DiffViewerDao().loadBuildDiffInfo(branchName, buildName, comparisonName);
 		} catch(Exception e) {
 			logger.info("Comparison " + branchName + "/" + buildName + "/" + comparisonName + " does not exist.");
 			throw new WebApplicationException(Status.NOT_FOUND);
