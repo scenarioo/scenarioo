@@ -19,7 +19,7 @@
 
 describe('ComparisonDetailsController', function () {
 
-    var $httpBackend, $scope, $controller, ComparisonDetailsController;
+    var $httpBackend, $scope, $controller;
 
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
@@ -32,7 +32,7 @@ describe('ComparisonDetailsController', function () {
     ));
 
     it('loads log in the beginning', function () {
-        createController();
+        var ComparisonDetailsController = createController();
 
         var COMPARISON_LOG_REST_URL = 'rest/builds/develop/2018-05-08/comparisons/To%20most%20recent%20develop/log';
         $httpBackend.expectGET(COMPARISON_LOG_REST_URL).respond('Test log');
@@ -51,6 +51,6 @@ describe('ComparisonDetailsController', function () {
                 name: 'To most recent develop'
             }
         };
-        ComparisonDetailsController = $controller('ComparisonDetailsController', {$scope: $scope, $uibModalInstance: null, comparison: comparison});
+        return $controller('ComparisonDetailsController', {$scope: $scope, $uibModalInstance: null, comparison: comparison});
     }
 });

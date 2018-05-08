@@ -19,29 +19,29 @@
 
 describe('ComparisonsController', function () {
 
-    var $httpBackend, TestData, $scope, ComparisonsController;
+    var $httpBackend, $controller, $scope, TestData;
 
     beforeEach(angular.mock.module('scenarioo.controllers'));
 
-    beforeEach(inject(function ($controller, $rootScope, _$httpBackend_, _TestData_) {
+    beforeEach(inject(function (_$controller_, $rootScope, _$httpBackend_, _TestData_) {
             $httpBackend = _$httpBackend_;
             TestData = _TestData_;
-
+            $controller = _$controller_;
             $scope = $rootScope.$new();
-
-            var COMPARISONS_REST_URL = 'rest/comparisons';
-            $httpBackend.whenGET(COMPARISONS_REST_URL).respond(TestData.COMPARISONS);
-
-            ComparisonsController = $controller('ComparisonsController', {$scope: $scope, $uibModal: null});
         }
     ));
 
     it('loads comparisions in the beginning', function () {
-        $scope.$apply();
+        var ComparisonsController = createController();
 
+        var COMPARISONS_REST_URL = 'rest/comparisons';
+        $httpBackend.whenGET(COMPARISONS_REST_URL).respond(TestData.COMPARISONS);
         $httpBackend.flush();
 
         expect(angular.equals(ComparisonsController.comparisons, TestData.COMPARISONS)).toBeTruthy();
     });
 
+    function createController() {
+        return $controller('ComparisonsController', {$scope: $scope, $uibModal: null});
+    }
 });
