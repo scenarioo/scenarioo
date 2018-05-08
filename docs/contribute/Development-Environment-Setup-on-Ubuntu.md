@@ -1,4 +1,4 @@
-# Dev Env Setup on Ubunut
+# Dev Env Setup on Ubuntu
 
 **There is a new setup with IntelliJ that we recommend to use now: [Development Environment with IntelliJ](Development-Environment-with-IntelliJ.md)**
 
