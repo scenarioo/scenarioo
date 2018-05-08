@@ -49,7 +49,7 @@ This process describes how you clean update all your sources and build everythin
     npm install
     npm start
     ```
-    Then open the browser to browse the application under http://localhost:8500
+    Then open the browser to browse the application under http://localhost:8500/scenarioo/  (Caution: webpack needs to need the slash in the end!)
     If you change files in the client the browser will refresh automatically
     
     Some remarks about this:
