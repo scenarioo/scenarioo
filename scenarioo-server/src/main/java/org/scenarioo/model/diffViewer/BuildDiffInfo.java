@@ -87,7 +87,7 @@ public class BuildDiffInfo extends StructureDiffInfo<String, UseCase> {
 	}
 
 	public void setStatus(ComparisonCalculationStatus comparisonCalculationStatus) {
-		this.status = status;
+		this.status = comparisonCalculationStatus;
 	}
 
 	public Date getCalculationDate() {

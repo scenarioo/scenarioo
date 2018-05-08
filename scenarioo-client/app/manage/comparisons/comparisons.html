@@ -44,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <th sc-sortable-column="identifier.branchName">Branch</th>
                 <th sc-sortable-column="identifier.buildName">Build</th>
                 <th sc-sortable-column="buildDescription.date">Name</th>
-                <th sc-sortable-column="buildDescription.date">Build Date</th>
+                <th sc-sortable-column="buildDescription.date">Calculation Date</th>
                 <th sc-sortable-column="buildDescription.status">Comparison Status</th>
                 <th>Details</th>
             </tr>
@@ -53,8 +53,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <tr ng-repeat="comparison in vm.comparisons | scFilterArray: vm.table.search.searchTerm | orderBy: vm.table.sort.column: vm.table.sort.reverse">
                 <td>{{comparison.baseBuild.branchName}}</td>
                 <td>{{comparison.baseBuild.buildName}}</td>
-                <td>{{comparison.comparisonConfiguration.name}}</td>
-                <td>{{comparison.baseBuildDate | scDateTime}}</td>
+                <td>{{comparison.comparisonName}}</td>
+                <td>{{comparison.calculationDate | scDateTime}}</td>
                 <td>
                     <span ng-class="[vm.getStyleClassForComparisonStatus(comparison.status), 'label']">{{comparison.status}}</span>
                 </td>
