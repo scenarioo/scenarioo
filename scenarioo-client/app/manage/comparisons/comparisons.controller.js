@@ -50,9 +50,6 @@ function ComparisonsController($scope, $uibModal, ComparisonsResource, Compariso
             resolve: {
                 comparison: function () {
                     return comparison;
-                },
-                log: function () {
-                    return "This is some test log";
                 }
             }
         });

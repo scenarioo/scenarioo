@@ -17,13 +17,24 @@
 
 angular.module('scenarioo.controllers').controller('ComparisonDetailsController', ComparisonDetailsController);
 
-function ComparisonDetailsController($uibModalInstance, ComparisonStatusMapperService, comparison, log) {
+function ComparisonDetailsController($uibModalInstance, ComparisonStatusMapperService, ComparisonLogResource, comparison) {
 
     var vm = this;
     vm.comparison = comparison;
-    vm.log = log;
     vm.getStyleClassForComparisonStatus = ComparisonStatusMapperService.getStyleClassForComparisonStatus;
     vm.cancel = cancel;
+
+    activate();
+
+    function activate() {
+        ComparisonLogResource.get({
+            branchName: comparison.baseBuild.branchName,
+            buildName: comparison.baseBuild.buildName,
+            comparisonName: comparison.comparisonConfiguration.name
+        }, function(response) {
+            vm.log = response.content;
+        });
+    }
 
     function cancel() {
         $uibModalInstance.dismiss('cancel');
