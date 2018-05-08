@@ -23,8 +23,7 @@ import org.scenarioo.api.files.ObjectFromDirectory;
 import org.scenarioo.business.builds.AliasResolver;
 import org.scenarioo.business.diffViewer.comparator.ComparisonParameters;
 import org.scenarioo.business.diffViewer.comparator.UseCaseComparator;
-import org.scenarioo.dao.diffViewer.DiffReader;
-import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
+import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.ComparisonCalculationStatus;
@@ -53,7 +52,7 @@ public class ComparisonExecutor {
 	private ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 		.getConfigurationRepository();
 
-	private DiffReader diffReader = new DiffReaderXmlImpl();
+	private DiffViewerDao DiffViewerDao = new DiffViewerDao();
 
 	private ScenarioDocuReader docuReader = new ScenarioDocuReader(
 		configurationRepository.getDocumentationDataDirectory());
@@ -326,7 +325,7 @@ public class ComparisonExecutor {
 	private ThreadLogAppender registerLogFile(String baseBranchName, String baseBuildName,
 											  ComparisonConfiguration comparisonConfiguration) {
 		String comparisonName = comparisonConfiguration.getName();
-		File comparisonLogFile = diffReader.getBuildComparisonLogFile(baseBranchName, baseBuildName,
+		File comparisonLogFile = DiffViewerDao.getBuildComparisonLogFile(baseBranchName, baseBuildName,
 			comparisonName);
 		String comparisonIdentifier = baseBranchName + "/" + baseBuildName + "/" + comparisonName;
 

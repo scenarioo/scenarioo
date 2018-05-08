@@ -19,8 +19,7 @@ package org.scenarioo.rest.diffViewer;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.diffViewer.DiffReader;
-import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
+import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.NumberFormatter;
 
@@ -35,28 +34,28 @@ public class StepDiffScreenshotResource {
 
 	private static final Logger LOGGER = Logger.getLogger(StepDiffScreenshotResource.class);
 
-	private DiffReader diffReader = new DiffReaderXmlImpl();
+	private DiffViewerDao DiffViewerDao = new DiffViewerDao();
 
 	@GET
 	@Produces("image/png")
 	@Path("/stepDiffScreenshot")
 	public File getDiffScreenshot(
-			@PathParam("baseBranchName") final String baseBranchName,
-			@PathParam("baseBuildName") final String baseBuildName,
-			@PathParam("comparisonName") final String comparisonName,
-			@PathParam("usecaseName") final String usecaseName,
-			@PathParam("scenarioName") final String scenarioName,
-			@PathParam("stepIndex") final int stepIndex) {
+		@PathParam("baseBranchName") final String baseBranchName,
+		@PathParam("baseBuildName") final String baseBuildName,
+		@PathParam("comparisonName") final String comparisonName,
+		@PathParam("usecaseName") final String usecaseName,
+		@PathParam("scenarioName") final String scenarioName,
+		@PathParam("stepIndex") final int stepIndex) {
 		LOGGER.info("REQUEST: getDiffScreenshot(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
-				+ ", " + usecaseName + ", " + scenarioName + ", " + stepIndex + ")");
+			+ ", " + usecaseName + ", " + scenarioName + ", " + stepIndex + ")");
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
-				baseBranchName,
-				baseBuildName);
+			baseBranchName,
+			baseBuildName);
 
 		final String imageFileName = NumberFormatter.formatMinimumThreeDigits(stepIndex) + ".png";
 
-		return diffReader.getScreenshotFile(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
-				comparisonName, usecaseName, scenarioName, imageFileName);
+		return DiffViewerDao.getScreenshotFile(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+			comparisonName, usecaseName, scenarioName, imageFileName);
 	}
 }
