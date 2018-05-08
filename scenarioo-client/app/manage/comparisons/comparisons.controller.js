@@ -25,13 +25,6 @@ function ComparisonsController($scope, $uibModal, ComparisonsResource, Compariso
     vm.table = {search: {searchTerm: ''}, sort: {column: 'date', reverse: true}, filtering: false};
     $scope.table = vm.table; // expose "table" onto controller scope. is used at the moment by "sortableColumn" directive.
 
-    var styleClassesForComparisonStatus = {
-        'SUCCESS': 'label-success',
-        'FAILED': 'label-danger',
-        'UNPROCESSED': 'label-default',
-        'QUEUED_FOR_PROCESSING': 'label-info',
-        'PROCESSING': 'label-primary'
-    };
     vm.resetSearchField = resetSearchField;
     vm.getStyleClassForComparisonStatus = ComparisonStatusMapperService.getStyleClassForComparisonStatus;
     vm.showComparisonDetails = showComparisonDetails;
@@ -46,10 +39,6 @@ function ComparisonsController($scope, $uibModal, ComparisonsResource, Compariso
 
     function resetSearchField() {
         vm.table.search = {searchTerm: ''};
-    }
-
-    function getStyleClassForComparisonStatus(status) {
-        return ComparisonStatusMapperService.getStyleClassForComparisonStatus(status);
     }
 
     function showComparisonDetails(comparison) {
