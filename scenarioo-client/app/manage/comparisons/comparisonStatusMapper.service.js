@@ -15,20 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.controllers').controller('ComparisonDetailsController', ComparisonDetailsController);
+angular.module('scenarioo.services').factory('ComparisonStatusMapperService', function () {
 
-function ComparisonDetailsController($uibModalInstance, ComparisonStatusMapperService, comparison, log) {
+    var styleClassesForComparisonStatus = {
+        'SUCCESS': 'label-success',
+        'FAILED': 'label-danger',
+        'UNPROCESSED': 'label-default',
+        'QUEUED_FOR_PROCESSING': 'label-info',
+        'PROCESSING': 'label-primary'
+    };
 
-    var vm = this;
-    vm.comparison = comparison;
-    vm.log = log;
-    vm.getStyleClassForComparisonStatus = ComparisonStatusMapperService.getStyleClassForComparisonStatus;
-    vm.cancel = cancel;
-
-    function cancel() {
-        $uibModalInstance.dismiss('cancel');
+    function getStyleClassForComparisonStatus(status) {
+        var styleClassFromMapping = styleClassesForComparisonStatus[status];
+        if (angular.isUndefined(styleClassFromMapping)) {
+            return 'label-warning';
+        } else {
+            return styleClassFromMapping;
+        }
     }
 
-}
+    return {
+        getStyleClassForComparisonStatus: getStyleClassForComparisonStatus
+    }
 
-
+});
