@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('ComparisonsController', ComparisonsController);
 
-function ComparisonsController($scope, ComparisonsResource, $uibModal) {
+function ComparisonsController($scope, $uibModal, ComparisonsResource, ComparisonStatusMapperService) {
 
     var vm = this;
 
@@ -33,7 +33,7 @@ function ComparisonsController($scope, ComparisonsResource, $uibModal) {
         'PROCESSING': 'label-primary'
     };
     vm.resetSearchField = resetSearchField;
-    vm.getStyleClassForComparisonStatus = getStyleClassForComparisonStatus;
+    vm.getStyleClassForComparisonStatus = ComparisonStatusMapperService.getStyleClassForComparisonStatus;
     vm.showComparisonDetails = showComparisonDetails;
 
     activate();
@@ -49,12 +49,7 @@ function ComparisonsController($scope, ComparisonsResource, $uibModal) {
     }
 
     function getStyleClassForComparisonStatus(status) {
-        var styleClassFromMapping = styleClassesForComparisonStatus[status];
-        if (angular.isUndefined(styleClassFromMapping)) {
-            return 'label-warning';
-        } else {
-            return styleClassFromMapping;
-        }
+        return ComparisonStatusMapperService.getStyleClassForComparisonStatus(status);
     }
 
     function showComparisonDetails(comparison) {
@@ -62,16 +57,13 @@ function ComparisonsController($scope, ComparisonsResource, $uibModal) {
             template: require('./comparisonDetails.html'),
             controller: 'ComparisonDetailsController',
             controllerAs: 'vm',
-            windowClass: 'modal-    wide',
+            windowClass: 'modal-wide',
             resolve: {
                 comparison: function () {
                     return comparison;
                 },
                 log: function () {
-                    return 'This is some test log';
-                },
-                getStyleClassForComparisonStatus: function () {
-                    return vm.getStyleClassForComparisonStatus;
+                    return "This is some test log";
                 }
             }
         });
