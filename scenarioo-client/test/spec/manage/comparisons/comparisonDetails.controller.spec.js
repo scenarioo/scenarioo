@@ -47,9 +47,7 @@ describe('ComparisonDetailsController', function () {
                 branchName: 'develop',
                 buildName: '2018-05-08'
             },
-            comparisonConfiguration: {
-                name: 'To most recent develop'
-            }
+            comparisonName: 'To most recent develop'
         };
         return $controller('ComparisonDetailsController', {$scope: $scope, $uibModalInstance: null, comparison: comparison});
     }

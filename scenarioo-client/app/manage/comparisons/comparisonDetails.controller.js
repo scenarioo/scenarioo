@@ -30,7 +30,7 @@ function ComparisonDetailsController($uibModalInstance, ComparisonStatusMapperSe
         ComparisonLogResource.get({
             branchName: comparison.baseBuild.branchName,
             buildName: comparison.baseBuild.buildName,
-            comparisonName: comparison.comparisonName
+            comparisonName: comparison.name
         }, function(response) {
             vm.log = response.content;
         });
