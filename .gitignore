@@ -1,3 +1,9 @@
+# Ignore .idea files except basic run configurations
+/.idea/workspace.xml
+/.idea/libraries
+/.idea/modules
+/.idea/shelf
+
 classes/
 bin/
 *~
@@ -8,7 +14,6 @@ target/
 dist/
 node_modules/
 app/bower_components
-.idea
 .vm-update.log
 .gradle
 third-party
@@ -27,3 +32,5 @@ npm-debug.log
 scenarioo-latest.war
 out
 docker/logs
+
+
