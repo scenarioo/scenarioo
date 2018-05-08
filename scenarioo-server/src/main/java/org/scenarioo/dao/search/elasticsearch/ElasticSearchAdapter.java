@@ -25,7 +25,9 @@ import org.elasticsearch.client.transport.NoNodeAvailableException;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.scenarioo.dao.context.ContextPathHolder;
 import org.scenarioo.dao.search.SearchAdapter;
 import org.scenarioo.dao.search.model.SearchResults;
@@ -72,8 +74,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 			int portSeparator = endpoint.lastIndexOf(':');
 			String host = endpoint.substring(0, portSeparator);
 			int port = Integer.parseInt(endpoint.substring(portSeparator + 1), 10);
-			client = TransportClient.builder().build()
-					.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
+			client = new PreBuiltTransportClient(Settings.EMPTY).addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
 		} catch (UnknownHostException e) {
 			LOGGER.info("no elasticsearch cluster running.");
 		}

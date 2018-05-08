@@ -26,3 +26,4 @@ scenarioo-validator/build
 npm-debug.log
 scenarioo-latest.war
 out
+docker/logs

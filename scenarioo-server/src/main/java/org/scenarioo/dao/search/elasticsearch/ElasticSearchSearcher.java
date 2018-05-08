@@ -27,6 +27,7 @@ import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.scenarioo.dao.search.FullTextSearch;
@@ -104,7 +105,7 @@ class ElasticSearchSearcher {
 				.setSize(MAX_SEARCH_RESULTS)
 				.setQuery(QueryBuilders.multiMatchQuery(searchRequest.getQ(), getFieldNames(searchRequest))
 					.fuzziness(Fuzziness.AUTO)
-					.operator(MatchQueryBuilder.Operator.AND));
+					.operator(Operator.AND));
 
         return setQuery.execute().actionGet();
     }
