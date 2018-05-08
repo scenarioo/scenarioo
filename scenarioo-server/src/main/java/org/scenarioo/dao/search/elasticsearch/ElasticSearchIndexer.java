@@ -60,18 +60,13 @@ class ElasticSearchIndexer {
 			.setSettings(Settings.builder()
 				.put("index.number_of_shards", 1)
 				.put("index.number_of_replicas", 1))
-			.get();
-		client.admin().indices().preparePutMapping(indexName)
-			.setType("scenario")
-			.setSource(createMappingForType("scenario"), XContentType.JSON)
-			.get();
-		client.admin().indices().preparePutMapping(indexName)
-			.setType("page")
-			.setSource(createMappingForType("page"), XContentType.JSON)
-			.get();
-		client.admin().indices().preparePutMapping(indexName)
-			.setType("step")
-			.setSource(createMappingForType("step"), XContentType.JSON)
+			// Multi types are deprecated and not supported anymore in elasticsearch 6.x
+			// In the future we need the new join datatype for parent child relations
+			// https://www.elastic.co/blog/index-type-parent-child-join-now-future-in-elasticsearch
+			// https://www.elastic.co/guide/en/elasticsearch/reference/master/parent-join.html
+			.addMapping("scenario", createMappingForType("scenario"))
+			.addMapping("page", createMappingForType("page"))
+			.addMapping("step", createMappingForType("step"))
 			.get();
 		LOGGER.debug("Added new index " + indexName);
 	}
