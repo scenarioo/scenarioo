@@ -30,11 +30,6 @@
 apply plugin: 'maven'
 apply from: "${rootProject.projectDir}/java.gradle"
 
-
-// Prevent Eclipse "Gradle -> Refresh All" to execute cleanEclipseJdt,
-// because it would delete our version of the org.eclipse.jdt.ui.prefs
-cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt
-
 test {
     minHeapSize = "128m"
   	maxHeapSize = "512m"
