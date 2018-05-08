@@ -47,11 +47,6 @@ eclipse {
   }
 }
 
-// Prevent Eclipse "Gradle -> Refresh All" to execute cleanEclipseJdt,
-// because it would delete our version of the org.eclipse.jdt.ui.prefs file.
-cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt
-
-
 task printPathConfigInformationForNodeJSAndGrunt << {
 	if (project.hasProperty('pathToNodeJS')) {
         println "Path to Node JS was configued as: " + pathToNodeJS

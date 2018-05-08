@@ -20,14 +20,14 @@ package org.scenarioo.business.diffViewer;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.files.ObjectFromDirectory;
-import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.business.diffViewer.comparator.BuildComparator;
+import org.scenarioo.business.builds.AliasResolver;
 import org.scenarioo.business.diffViewer.comparator.ComparisonParameters;
+import org.scenarioo.business.diffViewer.comparator.UseCaseComparator;
 import org.scenarioo.dao.diffViewer.DiffReader;
 import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
-import org.scenarioo.model.diffViewer.ComparisonResult;
+import org.scenarioo.model.diffViewer.ComparisonCalculationStatus;
 import org.scenarioo.model.docu.entities.Build;
 import org.scenarioo.model.docu.entities.Status;
 import org.scenarioo.repository.ConfigurationRepository;
@@ -36,7 +36,6 @@ import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.ThreadLogAppender;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,25 +53,23 @@ public class ComparisonExecutor {
 	private ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 		.getConfigurationRepository();
 
-	private ScenarioDocuBuildsManager docuBuildsManager;
-
 	private DiffReader diffReader = new DiffReaderXmlImpl();
 
 	private ScenarioDocuReader docuReader = new ScenarioDocuReader(
 		configurationRepository.getDocumentationDataDirectory());
 
 	private ExecutorService asyncComparisonExecutor;
+	private AliasResolver aliasResolver;
 
-	public ComparisonExecutor(ExecutorService executorService) {
+	public ComparisonExecutor(ExecutorService executorService, AliasResolver aliasResolver) {
 		asyncComparisonExecutor = executorService;
-		docuBuildsManager = ScenarioDocuBuildsManager.INSTANCE;
+		this.aliasResolver = aliasResolver;
 	}
 
 	/**
 	 * Submits all comparisons for the given build.
 	 */
 	public synchronized void doComparison(String baseBranchName, String baseBuildName) {
-		docuBuildsManager = ScenarioDocuBuildsManager.INSTANCE;
 		List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = getComparisonConfigurationsForBaseBranch(
 			baseBranchName);
 		for (ComparisonConfiguration comparisonConfiguration : comparisonConfigurationsForBaseBranch) {
@@ -80,11 +77,8 @@ public class ComparisonExecutor {
 		}
 	}
 
-	public ArrayList<Future<ComparisonResult>> doComparison(String baseBranchName, String baseBuildName, String comparisonBranchName, String comparisonBuildName, String comparisonName) {
-
-		ArrayList<Future<ComparisonResult>> futureList = new ArrayList<>();
-
-		docuBuildsManager = ScenarioDocuBuildsManager.INSTANCE;
+	public Future<BuildDiffInfo> doComparison(String baseBranchName, String baseBuildName,
+											  String comparisonBranchName, String comparisonBuildName, String comparisonName) {
 
 		ComparisonConfiguration comparisonConfiguration = new ComparisonConfiguration();
 		comparisonConfiguration.setName(comparisonName);
@@ -92,54 +86,52 @@ public class ComparisonExecutor {
 		comparisonConfiguration.setComparisonBranchName(comparisonBranchName);
 		comparisonConfiguration.setComparisonBuildName(comparisonBuildName);
 
-		Future<ComparisonResult> result = submitBuildForComparison(baseBranchName, baseBuildName, comparisonConfiguration);
-		futureList.add(result);
-		return futureList;
+		return submitBuildForComparison(baseBranchName, baseBuildName, comparisonConfiguration);
 	}
 
 	/**
 	 * Executes a comparison for the given build and comparison configuration in a separate thread.
 	 */
-	private synchronized Future<ComparisonResult> submitBuildForComparison(final String baseBranchName, final String baseBuildName,
-																		   final ComparisonConfiguration comparisonConfiguration) {
+	private synchronized Future<BuildDiffInfo> submitBuildForComparison(final String baseBranchName, final String baseBuildName,
+																		final ComparisonConfiguration comparisonConfiguration) {
 
 		LOGGER.info("Submitting build for comparison");
 		logBaseBuildAndComparisonConfiguration(baseBranchName, baseBuildName, comparisonConfiguration);
 
-		return asyncComparisonExecutor.submit(new Callable<ComparisonResult>() {
+		return asyncComparisonExecutor.submit(new Callable<BuildDiffInfo>() {
 			@Override
-			public ComparisonResult call() {
+			public BuildDiffInfo call() {
 				return runComparison(baseBranchName, baseBuildName, comparisonConfiguration);
 			}
 		});
 	}
 
-	private ComparisonResult runComparison(String baseBranchName, String baseBuildName,
-										   ComparisonConfiguration comparisonConfiguration) {
-
-		BuildDiffInfo buildDiffInfo = null;
-
-		docuBuildsManager = ScenarioDocuBuildsManager.INSTANCE;
+	private BuildDiffInfo runComparison(String baseBranchName, String baseBuildName,
+										ComparisonConfiguration comparisonConfiguration) {
 		ThreadLogAppender comparisonLog = null;
+		ComparisonParameters comparisonParameters = new ComparisonParameters(baseBranchName, baseBuildName, comparisonConfiguration,
+			configurationRepository.getConfiguration().getDiffImageAwtColor());;
+		BuildDiffInfo buildDiffInfo = null;
+		ComparisonConfiguration resolvedComparisonConfiguration = null;
 
 		try {
-
 			comparisonLog = registerLogFile(baseBranchName, baseBuildName, comparisonConfiguration);
 			long startTime = System.currentTimeMillis();
 
 			LOGGER.info("=== START OF BUILD COMPARISON ===");
 			logBaseBuildAndComparisonConfiguration(baseBranchName, baseBuildName, comparisonConfiguration);
 
-			ComparisonConfiguration resolvedComparisonConfiguration =
-				resolveComparisonConfiguration(comparisonConfiguration, baseBuildName);
+			resolvedComparisonConfiguration = resolveComparisonConfiguration(comparisonConfiguration, baseBuildName);
 
 			if (resolvedComparisonConfiguration == null) {
 				LOGGER.warn("No comparison build found for base build: " + baseBranchName + "/"
 					+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
 			} else {
-				ComparisonParameters cp = new ComparisonParameters(baseBranchName, baseBuildName, resolvedComparisonConfiguration,
+				comparisonParameters = new ComparisonParameters(baseBranchName, baseBuildName, resolvedComparisonConfiguration,
 					configurationRepository.getConfiguration().getDiffImageAwtColor());
-				buildDiffInfo = new BuildComparator(cp).compareAndWrite();
+				storeComparisonInProgress(comparisonParameters);
+				buildDiffInfo = new UseCaseComparator(comparisonParameters).compare();
+				storeComparisonSuccessful(comparisonParameters, buildDiffInfo);
 			}
 
 			LOGGER.info("SUCCESS on comparing base build: " + baseBranchName + "/"
@@ -147,6 +139,7 @@ public class ComparisonExecutor {
 			logDuration(startTime);
 			LOGGER.info("=== END OF BUILD COMPARISON (success) ===");
 		} catch (Throwable e) {
+			buildDiffInfo = storeComparisonFailed(comparisonParameters);
 			LOGGER.error("FAILURE on comparing build " + baseBranchName + "/"
 				+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName(), e);
 			LOGGER.info("=== END OF BUILD COMPARISON (failed) ===");
@@ -156,22 +149,52 @@ public class ComparisonExecutor {
 			}
 		}
 
-		ComparisonResult comparisonResult = new ComparisonResult();
-		comparisonResult.setBaseBuild(new BuildIdentifier(baseBranchName, baseBuildName));
+		return buildDiffInfo;
+	}
 
-		String comparisonBranchName = comparisonConfiguration.getComparisonBranchName();
-		String comparisonBuildName = comparisonConfiguration.getComparisonBuildName();
-		BuildIdentifier resolvedBuildIdentifier = docuBuildsManager.resolveBranchAndBuildAliases(comparisonBranchName, comparisonBuildName);
+	private BuildDiffInfo storeComparisonInProgress(ComparisonParameters comparisonParameters) {
+		return saveBuildDiffInfoWithStatus(comparisonParameters, ComparisonCalculationStatus.PROCESSING);
+	}
 
-		comparisonResult.setCompareBuild(resolvedBuildIdentifier);
+	private void storeComparisonSuccessful(ComparisonParameters comparisonParameters, BuildDiffInfo buildDiffInfo) {
+		saveBuildDiffInfo(comparisonParameters, buildDiffInfo);
+	}
 
-		comparisonResult.setComparisonConfiguration(comparisonConfiguration);
-		if (buildDiffInfo != null) {
-			comparisonResult.setChangeRate(buildDiffInfo.getChangeRate());
+	private BuildDiffInfo storeComparisonFailed(ComparisonParameters comparisonParameters) {
+		return saveBuildDiffInfoWithStatus(comparisonParameters, ComparisonCalculationStatus.FAILED);
+	}
+
+	private BuildDiffInfo saveBuildDiffInfoWithStatus(ComparisonParameters comparisonParameters,
+													  ComparisonCalculationStatus comparisonCalculationStatus) {
+		BuildDiffInfo buildDiffInfo = new BuildDiffInfo();
+		buildDiffInfo.setStatus(comparisonCalculationStatus);
+		return saveBuildDiffInfo(comparisonParameters, buildDiffInfo);
+	}
+
+	private BuildDiffInfo saveBuildDiffInfo(ComparisonParameters comparisonParameters, BuildDiffInfo buildDiffInfo) {
+
+		if (comparisonParameters == null) {
+			LOGGER.warn("Can't save BuildDiffInfo with status " + buildDiffInfo.getStatus() + " because" +
+				" comparisonParameters is null");
+			return null;
 		}
 
-		return comparisonResult;
+		if (comparisonParameters.getComparisonConfiguration() == null) {
+			LOGGER.warn("Can't save BuildDiffInfo for status " + buildDiffInfo.getStatus() + " because" +
+				" comparisonConfiguration is null");
+			return null;
+		}
+
+		buildDiffInfo.setBaseBuild(new BuildIdentifier(comparisonParameters.getBaseBranchName(), comparisonParameters.getBaseBuildName()));
+		ComparisonConfiguration comparisonConfiguration = comparisonParameters.getComparisonConfiguration();
+		buildDiffInfo.setCompareBuild(new BuildIdentifier(comparisonConfiguration.getComparisonBuildName(), comparisonConfiguration.getComparisonBuildName()));
+		buildDiffInfo.setCalculationDate(new Date());
+
+		comparisonParameters.getDiffWriter().saveBuildDiffInfo(buildDiffInfo);
+		return buildDiffInfo;
+
 	}
+
 
 	private void logBaseBuildAndComparisonConfiguration(String baseBranchName, String baseBuildName, ComparisonConfiguration comparisonConfiguration) {
 		LOGGER.info("Base build:               " + baseBranchName + "/" + baseBuildName);
@@ -191,14 +214,13 @@ public class ComparisonExecutor {
 	 */
 	protected synchronized List<ComparisonConfiguration> getComparisonConfigurationsForBaseBranch(
 		String baseBranchName) {
-		List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = new LinkedList<>();
+		List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = new LinkedList<ComparisonConfiguration>();
 
 		List<ComparisonConfiguration> comparisonConfigurations = configurationRepository.getConfiguration()
 			.getComparisonConfigurations();
-		String resolvedBaseBranchName = docuBuildsManager.resolveBranchAlias(baseBranchName);
+		String resolvedBaseBranchName = aliasResolver.resolveBranchAlias(baseBranchName);
 		for (ComparisonConfiguration comparisonConfiguration : comparisonConfigurations) {
-			String resolvedComparisonBranchName = docuBuildsManager
-				.resolveBranchAlias(comparisonConfiguration.getBaseBranchName());
+			String resolvedComparisonBranchName = aliasResolver.resolveBranchAlias(comparisonConfiguration.getBaseBranchName());
 			if (resolvedBaseBranchName.equals(resolvedComparisonBranchName)) {
 				comparisonConfigurationsForBaseBranch.add(comparisonConfiguration);
 			}
@@ -231,7 +253,7 @@ public class ComparisonExecutor {
 			comparisonBuildIdentifier = getPreviousBuildIdentifier(
 				comparisonConfiguration, baseBuildName, false);
 		} else {
-			comparisonBuildIdentifier = docuBuildsManager.resolveBranchAndBuildAliases(
+			comparisonBuildIdentifier = this.aliasResolver.resolveBranchAndBuildAliases(
 				comparisonConfiguration.getComparisonBranchName(),
 				comparisonConfiguration.getComparisonBuildName());
 		}
@@ -244,12 +266,10 @@ public class ComparisonExecutor {
 	}
 
 	private BuildIdentifier getPreviousBuildIdentifier(
-		ComparisonConfiguration comparisonConfiguration, String baseBuildName,
-		boolean needsSuccessfulBuild) {
+		ComparisonConfiguration comparisonConfiguration, String baseBuildName, boolean needsSuccessfulBuild) {
 
 		Build baseBuild = loadBaseBuild(comparisonConfiguration, baseBuildName);
-		String resolvedComparisonBranchName = docuBuildsManager
-			.resolveBranchAlias(comparisonConfiguration.getComparisonBranchName());
+		String resolvedComparisonBranchName = aliasResolver.resolveBranchAlias(comparisonConfiguration.getComparisonBranchName());
 		Date baseBuildDate = baseBuild.getDate();
 		Date comparisonBuildDate = new Date(0);
 		Build comparisonBuild = null;
@@ -278,7 +298,7 @@ public class ComparisonExecutor {
 
 	private Build loadBaseBuild(ComparisonConfiguration comparisonConfiguration, String baseBuildName) {
 
-		BuildIdentifier resolvedBuildIdentifier = docuBuildsManager
+		BuildIdentifier resolvedBuildIdentifier = this.aliasResolver
 			.resolveBranchAndBuildAliases(comparisonConfiguration.getBaseBranchName(), baseBuildName);
 		Build baseBuild = docuReader.loadBuild(resolvedBuildIdentifier.getBranchName(),
 			resolvedBuildIdentifier.getBuildName());
@@ -293,8 +313,7 @@ public class ComparisonExecutor {
 
 	private ComparisonConfiguration getResolvedComparisonConfiguration(
 		ComparisonConfiguration comparisonConfiguration, BuildIdentifier comparisonBuildIdentifier) {
-		String resolvedBaseBranchName = docuBuildsManager
-			.resolveBranchAlias(comparisonConfiguration.getBaseBranchName());
+		String resolvedBaseBranchName = aliasResolver.resolveBranchAlias(comparisonConfiguration.getBaseBranchName());
 
 		ComparisonConfiguration resolvedComparisonConfiguration = new ComparisonConfiguration();
 		resolvedComparisonConfiguration.setBaseBranchName(resolvedBaseBranchName);

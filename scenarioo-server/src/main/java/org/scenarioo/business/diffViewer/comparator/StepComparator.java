@@ -17,9 +17,6 @@
 
 package org.scenarioo.business.diffViewer.comparator;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.business.aggregator.StepsAndPagesAggregator;
@@ -30,22 +27,24 @@ import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Step;
 import org.scenarioo.model.docu.entities.StepDescription;
+import org.scenarioo.utils.NumberFormatter;
 
-/**
- * Comparison results are persisted in a xml file.
- */
+import java.util.LinkedList;
+import java.util.List;
+
 public class StepComparator extends AbstractStructureComparator<StepLink, Integer, StepInfo> {
 
 	private static final Logger LOGGER = Logger.getLogger(StepComparator.class);
 
-	private ScreenshotComparator screenshotComparator = new ScreenshotComparator(parameters);
 	private String baseUseCaseName;
 	private String baseScenarioName;
 	private List<Step> comparisonSteps;
 	private StepsAndPagesAggregator stepAndPagesAggregator = new StepsAndPagesAggregator(null, null);
+	private ScreenshotComparator screenshotComparator;
 
-	public StepComparator(ComparisonParameters parameters) {
+	public StepComparator(ComparisonParameters parameters, ScreenshotComparator screenshotComparator) {
 		super(parameters);
+		this.screenshotComparator = screenshotComparator;
 	}
 
 	public ScenarioDiffInfo compare(final String baseUseCaseName, final String baseScenarioName) {
@@ -77,11 +76,10 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 		if (comparisonElement == null) {
 			return 0;
 		} else {
-			final String comparisonScreenshotName = THREE_DIGIT_NUM_FORMAT
-					.format(comparisonElement.getStepIndex())
-					+ SCREENSHOT_FILE_EXTENSION;
+			final String comparisonScreenshotName =
+				NumberFormatter.formatMinimumThreeDigits(comparisonElement.getStepIndex()) + ".png";
 
-			final double changeRate = screenshotComparator.compare(baseUseCaseName, baseScenarioName,
+			final double changeRate = screenshotComparator.compare(parameters, baseUseCaseName, baseScenarioName,
 					baseElement, comparisonScreenshotName);
 
 			final StepDiffInfo stepDiffInfo = getStepDiffInfo(baseElement, comparisonScreenshotName, changeRate);
@@ -140,7 +138,7 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 
 	private List<Step> loadSteps(final String branchName, final String buildName) {
 		try {
-			return docuReader.loadSteps(branchName, buildName, baseUseCaseName, baseScenarioName);
+			return scenarioDocuReader.loadSteps(branchName, buildName, baseUseCaseName, baseScenarioName);
 		} catch (final ResourceNotFoundException e) {
 			return new LinkedList<Step>();
 		}
