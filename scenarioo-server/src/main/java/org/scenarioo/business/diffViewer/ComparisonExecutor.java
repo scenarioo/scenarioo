@@ -20,6 +20,7 @@ package org.scenarioo.business.diffViewer;
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.api.files.ObjectFromDirectory;
+import org.scenarioo.api.rules.Preconditions;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.business.diffViewer.comparator.ComparisonParameters;
 import org.scenarioo.business.diffViewer.comparator.UseCaseComparator;
@@ -62,6 +63,8 @@ public class ComparisonExecutor {
 	private ScenarioDocuBuildsManager scenarioDocuBuildsManager;
 
 	public ComparisonExecutor(ExecutorService executorService, ScenarioDocuBuildsManager scenarioDocuBuildsManager) {
+		Preconditions.checkNotNull(executorService, "executorService must not be null");
+		Preconditions.checkNotNull(scenarioDocuBuildsManager, "scenarioDocuBuildsManager must not be null");
 		asyncComparisonExecutor = executorService;
 		this.scenarioDocuBuildsManager = scenarioDocuBuildsManager;
 	}
