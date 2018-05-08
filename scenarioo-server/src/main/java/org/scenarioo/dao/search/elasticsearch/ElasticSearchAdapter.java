@@ -74,9 +74,11 @@ public class ElasticSearchAdapter implements SearchAdapter {
 			int portSeparator = endpoint.lastIndexOf(':');
 			String host = endpoint.substring(0, portSeparator);
 			int port = Integer.parseInt(endpoint.substring(portSeparator + 1), 10);
-			client = new PreBuiltTransportClient(Settings.EMPTY).addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
+			client = new PreBuiltTransportClient(Settings.builder()
+				.put("cluster.name", "elasticsearch").build())
+				.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
 		} catch (UnknownHostException e) {
-			LOGGER.info("no elasticsearch cluster running.");
+			LOGGER.warn("No elasticsearch cluster running.");
 		}
     }
 
