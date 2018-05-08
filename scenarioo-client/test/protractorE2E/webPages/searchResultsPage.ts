@@ -37,7 +37,9 @@ SearchResultsPage.prototype.assertNoResultsShown = function() {
 };
 
 SearchResultsPage.prototype.openFirstScenarioAndClickStep = function() {
-    element(by.id('img_1')).click();
+    var image = element(by.id('img_1'));
+    this.waitForElementVisible(image);
+    image.click();
     element(by.css('#node_2 span')).click();
 };
 

@@ -1,5 +1,5 @@
 'use strict';
-import {by, element} from "protractor";
+import {browser, by, element, protractor} from "protractor";
 
 var e2eUtils = require('../util/util');
 
@@ -75,5 +75,15 @@ BaseWebPage.prototype.startScenariooFirstTimeVisit = function () {
 BaseWebPage.prototype.startScenariooRevisited = function() {
     e2eUtils.initLocalStorage();
 };
+
+BaseWebPage.prototype.waitForElementVisible = function(e) {
+    var EC = protractor.ExpectedConditions;
+    browser.wait(EC.visibilityOf(e), 5000);
+    expect(e.isDisplayed()).toBeTruthy();
+};
+
+BaseWebPage.prototype.assertNumberOfTableRows = function(tableElement, expectedNumer) {
+    expect(tableElement.all(by.css('tbody tr')).count()).toBe(expectedNumer);
+}
 
 module.exports = BaseWebPage;

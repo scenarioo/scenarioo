@@ -9,7 +9,7 @@
 
 
     <form name="labelConfigurationsForm">
-        <table class="table table-curved table-responsive">
+        <table class="table table-curved table-responsive" id="label-configurations-table">
             <thead>
                 <tr>
                     <th>Label Name</th>
@@ -20,7 +20,7 @@
             <tbody>
                 <tr ng-repeat="labelConfiguration in vm.labelConfigurations" id="label-configuration-{{$index}}">
                     <td>
-                        <input type="text" class="ng-pristine ng-valid form-control" ng-model="labelConfiguration.name" name="labelName" ng-change="vm.labelNameChanged()"/>                        
+                        <input type="text" class="ng-pristine ng-valid form-control" ng-model="labelConfiguration.name" name="labelName" ng-change="vm.labelNameChanged()"/>
                     </td>
                     <td style="vertical-align: middle;">
                         <ul class="sc-color-chooser">

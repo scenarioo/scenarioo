@@ -28,6 +28,7 @@ ObjectDetailsPage.prototype.clickToExpand = function (nodeId) {
     expect(node.isDisplayed()).toBe(true);
 
     var imageElement = node.element(by.id(imageId));
+    this.waitForElementVisible(imageElement);
     imageElement.click();
 };
 
@@ -73,6 +74,8 @@ ObjectDetailsPage.prototype.doubleClickOnNode = function(nodeId) {
     var node = element(by.id('node_' + nodeId));
     var imageId = 'img_' + nodeId;
     var imageElement = node.element(by.id(imageId));
+
+    this.waitForElementVisible(imageElement);
 
     imageElement.click();
     browser.actions().doubleClick(imageElement).perform();

@@ -4,6 +4,10 @@ This readme contains important developer information for developers on how to de
 
 This is the recommended setup, to get up started and productive most quickly!
 
+## Caution: Version of Documentation for Developers
+
+The published documentation under http://www.scenarioo.org/docs may not reflect the most recent changes of scenarioo development. This is the state of our documentation at the last official release. For reading the most recent version of our documentation we recommend browsing it directly here on our develop branch: https://github.com/scenarioo/scenarioo/tree/develop/docs (or use the edit link on top of each doku page to browse to the corresponding most recent markdown file for that page)
+
 ## Prerequisites
 
  * Java JDK 1.8 
@@ -50,10 +54,9 @@ This is the recommended setup, to get up started and productive most quickly!
  * For most things you will work with the IntelliJ GIT client or use the GIT command line
      * In case you are a GIT newbie please ask your developer colleagues to help you or refer to the very good (and free) book at: http://git-scm.com/book to get started
      * Also following link might be helpful to understand how to work with the very good git client of IntelliJ: https://www.jetbrains.com/help/idea/2016.1/using-git-integration.html
-      
+
  * Please refer to our **[branching strategy](https://github.com/scenarioo/scenarioo/blob/develop/docs/contribute/Branching-strategy.md) about how we use branches and create releases**.
-    * using git flow for this might be very helpful: http://jeffkreeftmeijer.com/2010/why-arent-you-using-git-flow/
- 
+
  * (optional) you can use whatever other GIT tools you need
     * for working with github, github desktop might be helpful: https://desktop.github.com/
     * on the linux developer VM we had once following additional tools installed (probably not needed when working with IntelliJ):
@@ -69,6 +72,10 @@ This is the recommended setup, to get up started and productive most quickly!
    
  * Install nodejs dev tools globaly (might not be needed anymore, but is useful for working on command line):
    `npm install -g bower phantomjs protractor`
+   
+## Elasticsearch
+ * To run all E2E-Tests, you need to install Elasticsearch. The demo project is already configured to use Elasticsearch, so the config.xml does not need to be changed.
+ * Please refer to the [install guide](../features/full-text-search/setup.md).
 
 ## Get the Sources
 
@@ -110,14 +117,14 @@ But this two repositories should be sufficient for most usual developers.
  * From "Gradle"-tab in intelliJ simply run the following gradle tasks, to build everything cleanly:
     * scenarioo-java: `clean build test install` (this is needed as soon as your development branch uses latest snaphot of the writer!)
     * scenarioo: clean build test
-         * take care to configure JVM 1.7 as runtime JVM for gradle, otherwise I got errors somehow when running this (Tab "Gradle">Button "Gradle Settings">Gradle JVM).
+         * take care to configure JVM 1.8 as runtime JVM for gradle (Tab "Gradle">Button "Gradle Settings">Gradle JVM).
          * And if you get some python errors in npm install part on windows, you can probably ignore this optional npm dependency problems and just try to run it once again
 
  * Configure a run configuration to run the installed [Tomcat 7](http://tomcat.apache.org) from IntelliJ
      * set the tomcat path to tomcat 7 installation
      * set it running on port 8080     
      * on "Deployment" tab: 
-        * choose to deploy the artifact "gradle....scenarioo-server...war" (not exploded) on startup
+        * choose to deploy the artifact "gradle....scenarioo-viewer...war" (not exploded) on startup
         * Application context (!important!): /scenarioo   
      * on "Startup/Connection" tab: set environment variable "SCENARIOO_DATA" to following path: &lt;your-project-source-path&gt;\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
      
@@ -135,9 +142,9 @@ But this two repositories should be sufficient for most usual developers.
    ```
    cd scenarioo-client
    npm install
-   npm serve
+   npm start
    # then open the browser to browse the application 
-   # on given URL, usually http://localhost:9000
+   # on given URL, usually http://localhost:8500
    # if you change files in the client the browser will refresh automatically
    ```
 
@@ -170,7 +177,7 @@ For more informations on how to develop, build and test scenarioo properly, plea
 
 ### General Issues
 
- * There seems to be an issue, when not using JVM 1.7 for gradle. But when this is currently configured to 1,7, it works well :-) Has been documented above accordingly.
+ * There seems to be an issue, when not using JVM 1.8 for gradle. But when this is currently configured to 1.8, it works well :-) Has been documented above accordingly.
 
 ## Open points - To be considered / improved / solved
 

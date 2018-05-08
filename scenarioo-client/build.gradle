@@ -33,6 +33,11 @@ buildscript {
     }
 }
 
+node {
+    version = '8.9.4'
+    download = true
+}
+
 clean {
     delete "dist"
 }

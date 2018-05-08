@@ -54,6 +54,11 @@ BranchAliasesPage.prototype.enterAlias = function (name, referencedBranchName, d
     });
 };
 
+BranchAliasesPage.prototype.saveAndAssertSuccessMessage = function () {
+    this.saveButton.click();
+    this.waitForElementVisible(element(by.id('updated-branch-aliases-successfully')));
+};
+
 BranchAliasesPage.prototype.save = function () {
     this.saveButton.click();
 };
