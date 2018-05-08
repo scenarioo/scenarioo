@@ -66,6 +66,23 @@ angular.module('scenarioo.services')
         return buildImportService;
     })
 
+    .factory('ComparisonLogResource', function (ScenariooResource) {
+        return ScenariooResource('/builds/:branchName/:buildName/comparisons/:comparisonName/log',
+            {
+                branchName: '@branchName',
+                buildName: '@buildName',
+                comparisonName: '@comparisonName'
+            }, {
+                get: {
+                    method: 'GET',
+                    headers: { 'Accept': 'text/plain'},
+                    transformResponse: function(data) {
+                        return {content: data};
+                    }
+                }
+            });
+    })
+
     .factory('PageVariantService', function (ScenariooResource, $q) {
         var pageVariantService = ScenariooResource('/branch/:branchName/build/:buildName/search/pagevariants/',
             {
@@ -227,6 +244,10 @@ angular.module('scenarioo.services')
 
     .factory('LabelConfigurationsResource', function (ScenariooResource) {
         return ScenariooResource('/labelconfigurations', {}, {'query': {isArray: false}});
+    })
+
+    .factory('ComparisonsResource', function (ScenariooResource) {
+        return ScenariooResource('/comparisons', {}, {});
     });
 
 function getPromise($q, fn) {

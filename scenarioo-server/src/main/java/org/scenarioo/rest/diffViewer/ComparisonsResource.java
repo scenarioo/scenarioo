@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.BranchAliasResolver;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.basic.FileSystemOperationsDao;
-import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
+import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -12,6 +12,7 @@ import org.scenarioo.rest.base.BuildIdentifier;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import java.io.File;
 import java.util.concurrent.Future;
 
 @Path("/rest/builds/{branchName}/{buildName}/comparisons/{comparisonName}")
@@ -19,12 +20,13 @@ public class ComparisonsResource {
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
+	private DiffViewerDao diffViewerDao = new DiffViewerDao();
+
 	/**
 	 * Queues a comparison calculation as specified. This allows the calculation of comparisons that are not
 	 * in the comparisons configuration. branchName can be a branch alias.
 	 *
-	 * @return
-	 * 404 NOT FOUND if the build specified by branchName/buildName does not exist.
+	 * @return 404 NOT FOUND if the build specified by branchName/buildName does not exist.
 	 * 412 PRECONDITION FAILED if the build is not imported successfully.
 	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
 	 */
@@ -49,35 +51,58 @@ public class ComparisonsResource {
 	/**
 	 * Returns the calculation status as a string. This allows the consumer to poll until the calculation is done.
 	 *
-	 * @return
-	 * 404 NOT FOUND if the build specified by branchName/buildName or the comparison does not exist.
+	 * @return 404 NOT FOUND if the build specified by branchName/buildName or the comparison does not exist.
 	 * 412 PRECONDITION FAILED if the build is not imported successfully.
 	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
 	 */
 	@GET
 	@Path("/calculationStatus")
 	@Produces({"text/plain"})
-	public Response status(
+	public Response getCalculationStatus(
 		@PathParam("branchName") final String branchName,
 		@PathParam("buildName") final String buildName,
 		@PathParam("comparisonName") final String comparisonName) {
 
 		BuildDiffInfo buildDiffInfo = getComparisonCalculation(branchName, buildName, comparisonName);
-		String status = buildDiffInfo.getComparisonCalculationStatus().toString();
+		String status = buildDiffInfo.getStatus().toString();
 		return Response.ok(status).build();
 	}
+
+
+	/**
+	 * Returns the calculation status as a string. This allows the consumer to poll until the calculation is done.
+	 *
+	 * @return 404 NOT FOUND if the build specified by branchName/buildName or the comparison does not exist.
+	 * 412 PRECONDITION FAILED if the build is not imported successfully.
+	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
+	 */
+	@GET
+	@Path("/log")
+	@Produces({"text/plain"})
+	public Response getLog(@PathParam("branchName") final String branchName,
+						   @PathParam("buildName") final String buildName,
+						   @PathParam("comparisonName") final String comparisonName) {
+
+		File logFile = diffViewerDao.getBuildComparisonLogFile(branchName, buildName, comparisonName);
+		if (logFile == null || !logFile.exists()) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		Response.ResponseBuilder response = Response.ok(logFile);
+		response.header("Content-Disposition", "attachment; filename=\"" + logFile + "\"");
+		return response.build();
+	}
+
 
 	/**
 	 * Returns the calculation object. It includes the status and in case of successful calculation also the result.
 	 *
-	 * @return
-	 * 404 NOT FOUND if the build specified by branchName/buildName or the comparison does not exist.
+	 * @return 404 NOT FOUND if the build specified by branchName/buildName or the comparison does not exist.
 	 * 412 PRECONDITION FAILED if the build is not imported successfully.
 	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
 	 */
 	@GET
 	@Produces({"application/json"})
-	public Response calculation(
+	public Response getCalculation(
 		@PathParam("branchName") final String branchName,
 		@PathParam("buildName") final String buildName,
 		@PathParam("comparisonName") final String comparisonName) {
@@ -111,7 +136,7 @@ public class ComparisonsResource {
 
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 		BuildIdentifier buildIdentifier = new BuildIdentifier(resolvedBranchName, buildName);
-		if(buildFolderDoesNotExist(buildIdentifier)) {
+		if (buildFolderDoesNotExist(buildIdentifier)) {
 			logger.info("Can't import. Build " + branchName + "/" + buildName + " does not exist.");
 			return Response.status(Status.NOT_FOUND).build();
 		}
@@ -163,9 +188,9 @@ public class ComparisonsResource {
 
 	private BuildDiffInfo getBuildDiffInfo(String branchName, String buildName, String comparisonName) {
 		try {
-			return new DiffReaderXmlImpl().loadBuildDiffInfo(branchName, buildName, comparisonName);
-		} catch(Exception e) {
-			logger.info("Comparison " + branchName + "/" + buildName + "/" + comparisonName + " does not exist.");
+			return diffViewerDao.loadBuildDiffInfo(branchName, buildName, comparisonName);
+		} catch (Exception e) {
+			logger.error("Could not load build diff info for  " + branchName + "/" + buildName + "/" + comparisonName + ".", e);
 			throw new WebApplicationException(Status.NOT_FOUND);
 		}
 	}

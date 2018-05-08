@@ -1,0 +1,82 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h3>Comparison of branch {{ vm.comparison.baseBuild.branchName }} and build {{ vm.comparison.baseBuild.buildName
+            }} - {{ vm.comparison.comparisonConfiguration.name }}</h3>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-group">
+            <b>Base Build</b>
+
+            <div class="row">
+                <div class="col-md-6">
+                    Branch: {{ vm.comparison.baseBuild.branchName }}
+                </div>
+                <div class="col-md-6">
+                    Build: {{ vm.comparison.baseBuild.buildName }}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b>Compared Build</b>
+
+            <div class="row">
+                <div class="col-md-6">
+                    Branch: {{ vm.comparison.compareBuild.branchName }}
+                </div>
+                <div class="col-md-6">
+                    Build: {{ vm.comparison.compareBuild.buildName }}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <b>Comparison details</b>
+
+            <div class="row">
+                <div class="col-md-8">
+                    Name: {{ vm.comparison.comparisonConfiguration.name }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    Change rate: {{ vm.comparison.changeRate }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    Status: <span ng-class="[vm.getStyleClassForComparisonStatus(vm.comparison.status), 'label']">{{vm.comparison.status}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="comparisonLog" class="control-label">Comparison Log</label>
+            <textarea id="comparisonLog" class="form-control" rows="10" wrap="off" readonly="true"
+                      title="the output of the comparison task on the server">{{vm.log }}</textarea>
+        </div>
+
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="vm.cancel()">Close</button>
+    </div>
+</div>
