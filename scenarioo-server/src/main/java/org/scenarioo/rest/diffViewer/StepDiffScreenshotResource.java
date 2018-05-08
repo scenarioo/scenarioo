@@ -47,9 +47,6 @@ public class StepDiffScreenshotResource {
 			@PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName,
 			@PathParam("stepIndex") final int stepIndex) {
-		LOGGER.info("REQUEST: getDiffScreenshot(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
-				+ ", " + usecaseName + ", " + scenarioName + ", " + stepIndex + ")");
-
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 				baseBranchName,
 				baseBuildName);
@@ -59,4 +56,5 @@ public class StepDiffScreenshotResource {
 		return diffReader.getScreenshotFile(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 				comparisonName, usecaseName, scenarioName, imageFileName);
 	}
+
 }

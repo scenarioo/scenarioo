@@ -41,11 +41,7 @@ public class SketchImageResource {
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId,
 			@PathParam("stepSketchId") final String stepSketchId) {
-		LOGGER.info("REQUEST: loadSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
-				+ stepSketchId + ")");
-
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
-
 		return sketcherDao.getStepSketchSvgFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId);
 	}
 
@@ -62,11 +58,7 @@ public class SketchImageResource {
 			@PathParam("scenarioSketchId") final String scenarioSketchId,
 			@PathParam("stepSketchId") final String stepSketchId,
 			@PathParam("pngFile") final String pngFileName) {
-		LOGGER.info("REQUEST: loadPngFile(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
-				+ stepSketchId + ", " + pngFileName + ")");
-
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
-
 		return sketcherDao.getStepSketchPngFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId, pngFileName);
 	}
 
