@@ -25,7 +25,7 @@ import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
 import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.model.configuration.BranchAlias;
 import org.scenarioo.model.configuration.Configuration;
-import org.scenarioo.model.diffViewer.ComparisonResult;
+import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.docu.aggregates.branches.BranchBuilds;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
@@ -48,8 +48,8 @@ import java.util.concurrent.Future;
  * </p>
  * <ul>
  * <li>
- * 1. Using {@link #updateAll()} all branches and builds are read and processed from the file system, this will
- * calculate any aggregated data using {@link ScenarioDocuAggregator}.</li>
+ * 1. Using {@link #updateAllBuildsAndSubmitNewBuildsForImport(File)}()} all branches and builds are read and processed from
+ * the file system, this will calculate any aggregated data using {@link ScenarioDocuAggregator}.</li>
  * <li>
  * 2. The manager knows all available builds and their states of import, that can be accessed using
  * {@link #getBuildImportSummaries()}.</li>
@@ -58,12 +58,11 @@ import java.util.concurrent.Future;
  * using {@link #getAvailableBuilds()}.</li>
  * </ul>
  */
-public class ScenarioDocuBuildsManager {
+public enum ScenarioDocuBuildsManager {
+	INSTANCE;
 
 	private final static ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
-
-	public static ScenarioDocuBuildsManager INSTANCE = new ScenarioDocuBuildsManager();
 
 	private static final Logger LOGGER = Logger.getLogger(ScenarioDocuBuildsManager.class);
 
@@ -227,8 +226,12 @@ public class ScenarioDocuBuildsManager {
 		buildImporter.submitBuildForReimport(availableBuilds, buildIdentifier);
 	}
 
-	public ArrayList<Future<ComparisonResult>> importBuild(final BuildIdentifier buildIdentifier, final BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
-		return buildImporter.importBuild(availableBuilds, buildIdentifier, comparisonBuildIdentifier, comparisonName);
+	public Future<BuildDiffInfo> importBuildAndCreateComparison(final BuildIdentifier buildIdentifier, final BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
+		return buildImporter.importBuildAndCreateComparison(availableBuilds, buildIdentifier, comparisonBuildIdentifier, comparisonName);
+	}
+
+	public void submitBuildForSingleComparison(final BuildIdentifier buildIdentifier, final BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
+		buildImporter.submitBuildForSingleComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName);
 	}
 
 	public LongObjectNamesResolver getLongObjectNameResolver(final BuildIdentifier buildIdentifier) {
@@ -256,4 +259,7 @@ public class ScenarioDocuBuildsManager {
 		}
 	}
 
+	public BuildImportStatus getImportStatus(BuildIdentifier buildIdentifier) {
+		return buildImporter.getBuildImportStatus(buildIdentifier);
+	}
 }

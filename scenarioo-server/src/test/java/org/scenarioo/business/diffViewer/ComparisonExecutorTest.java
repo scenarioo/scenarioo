@@ -17,17 +17,6 @@
 
 package org.scenarioo.business.diffViewer;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
-import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.getComparisonConfiguration;
-
-import java.io.File;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -45,6 +34,17 @@ import org.scenarioo.model.docu.entities.Status;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.TestFileUtils;
+
+import java.io.File;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.getComparisonConfiguration;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ComparisonExecutorTest {
@@ -80,7 +80,7 @@ public class ComparisonExecutorTest {
 	private ScenarioDocuReader docuReader;
 
 	@InjectMocks
-	private ComparisonExecutor comparisonExecutor = new ComparisonExecutor(null);
+	private ComparisonExecutor comparisonExecutor = new ComparisonExecutor(null, docuBuildsManager);
 
 	@BeforeClass
 	public static void setUpClass() {
