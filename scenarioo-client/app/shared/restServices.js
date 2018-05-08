@@ -227,6 +227,10 @@ angular.module('scenarioo.services')
 
     .factory('LabelConfigurationsResource', function (ScenariooResource) {
         return ScenariooResource('/labelconfigurations', {}, {'query': {isArray: false}});
+    })
+
+    .factory('ComparisonsResource', function (ScenariooResource) {
+        return ScenariooResource('/comparisons', {}, {});
     });
 
 function getPromise($q, fn) {

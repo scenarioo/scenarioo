@@ -28,18 +28,24 @@ function ManageController($location) {
         },
         {
             index: 1,
+            tabId: 'comparisons',
+            title: 'Comparisons',
+            contentViewUrl: 'manage/comparisons/comparisons.html'
+        },
+        {
+            index: 2,
             tabId: 'configuration',
             title: 'General Settings',
             contentViewUrl: 'manage/generalSettings/generalSettings.html'
         },
         {
-            index: 2,
+            index: 3,
             tabId: 'branchAliases',
             title: 'Branch Aliases',
             contentViewUrl: 'manage/branchAliases/branchAliases.html'
         },
         {
-            index: 3,
+            index: 4,
             tabId: 'labelConfigurations',
             title: 'Label Colors',
             contentViewUrl: 'manage/labelColors/labelColors.html'
