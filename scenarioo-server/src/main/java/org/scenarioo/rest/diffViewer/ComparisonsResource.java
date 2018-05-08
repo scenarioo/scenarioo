@@ -56,15 +56,38 @@ public class ComparisonsResource {
 	@GET
 	@Path("/calculationStatus")
 	@Produces({"text/plain"})
-	public Response status(
+	public Response getCalculationStatus(
 		@PathParam("branchName") final String branchName,
 		@PathParam("buildName") final String buildName,
 		@PathParam("comparisonName") final String comparisonName) {
 
 		BuildDiffInfo buildDiffInfo = getComparisonCalculation(branchName, buildName, comparisonName);
-		String status = buildDiffInfo.getComparisonCalculationStatus().toString();
+		String status = buildDiffInfo.getStatus().toString();
 		return Response.ok(status).build();
 	}
+
+
+	/**
+	 * Returns the calculation status as a string. This allows the consumer to poll until the calculation is done.
+	 *
+	 * @return
+	 * 404 NOT FOUND if the build specified by branchName/buildName or the comparison does not exist.
+	 * 412 PRECONDITION FAILED if the build is not imported successfully.
+	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
+	 */
+	@GET
+	@Path("/log")
+	@Produces({"text/plain"})
+	public Response getLog(
+		@PathParam("branchName") final String branchName,
+		@PathParam("buildName") final String buildName,
+		@PathParam("comparisonName") final String comparisonName) {
+		BuildDiffInfo buildDiffInfo = getComparisonCalculation(branchName, buildName, comparisonName);
+		String log = "TODO log cvoming soon .... "; // TODO #650 add loading of log here
+		return Response.ok(log).build();
+	}
+
+
 
 	/**
 	 * Returns the calculation object. It includes the status and in case of successful calculation also the result.
@@ -76,7 +99,7 @@ public class ComparisonsResource {
 	 */
 	@GET
 	@Produces({"application/json"})
-	public Response calculation(
+	public Response getCalculation(
 		@PathParam("branchName") final String branchName,
 		@PathParam("buildName") final String buildName,
 		@PathParam("comparisonName") final String comparisonName) {
