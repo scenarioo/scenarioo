@@ -99,6 +99,8 @@ timestamps {
                     reportJenkinsSummary("deploy-failed.jenkins-summary.xml",
                             "<h2>Scenarioo Demo Deployment Failed</h2>"
                             + "<b><font color=\"#ff3333\">Deployment failed!</font></b>")
+                    // Fail the entire build if the deployment fails
+                    throw e;
                 }
 
             }
