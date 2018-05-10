@@ -34,21 +34,21 @@ function ManageController($location) {
         },
         {
             index: 2,
-            tabId: 'configuration',
-            title: 'General Settings',
-            contentViewUrl: 'manage/generalSettings/generalSettings.html'
-        },
-        {
-            index: 3,
             tabId: 'branchAliases',
             title: 'Branch Aliases',
             contentViewUrl: 'manage/branchAliases/branchAliases.html'
         },
         {
-            index: 4,
+            index: 3,
             tabId: 'labelConfigurations',
             title: 'Label Colors',
             contentViewUrl: 'manage/labelColors/labelColors.html'
+        },
+        {
+            index: 4,
+            tabId: 'configuration',
+            title: 'General Settings',
+            contentViewUrl: 'manage/generalSettings/generalSettings.html'
         }
     ];
     vm.activeIndex = 0;
