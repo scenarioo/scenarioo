@@ -28,8 +28,6 @@ import java.util.Date;
 @XmlSeeAlso(UseCase.class)
 public class BuildDiffInfo extends StructureDiffInfo<String, UseCase> {
 
-	private String comparisonName;
-
 	private BuildIdentifier baseBuild;
 
 	private BuildIdentifier compareBuild;
@@ -48,14 +46,6 @@ public class BuildDiffInfo extends StructureDiffInfo<String, UseCase> {
 			final String comparisonBuildName) {
 		super(comparisonName);
 		this.compareBuild = new BuildIdentifier(comparisonBranchName, comparisonBuildName);
-	}
-
-	public String getComparisonName() {
-		return comparisonName;
-	}
-
-	public void setComparisonName(String comparisonName) {
-		this.comparisonName = comparisonName;
 	}
 
 	public BuildIdentifier getBaseBuild() {
