@@ -184,6 +184,7 @@ public class ComparisonExecutor {
 			return null;
 		}
 
+		buildDiffInfo.setComparisonName(comparisonParameters.getComparisonConfiguration().getName());
 		buildDiffInfo.setBaseBuild(new BuildIdentifier(comparisonParameters.getBaseBranchName(), comparisonParameters.getBaseBuildName()));
 		ComparisonConfiguration comparisonConfiguration = comparisonParameters.getComparisonConfiguration();
 		buildDiffInfo.setCompareBuild(new BuildIdentifier(comparisonConfiguration.getComparisonBuildName(), comparisonConfiguration.getComparisonBuildName()));
@@ -191,7 +192,6 @@ public class ComparisonExecutor {
 
 		comparisonParameters.getDiffWriter().saveBuildDiffInfo(buildDiffInfo);
 		return buildDiffInfo;
-
 	}
 
 
