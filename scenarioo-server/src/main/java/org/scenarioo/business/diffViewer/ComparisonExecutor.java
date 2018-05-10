@@ -187,7 +187,7 @@ public class ComparisonExecutor {
 		buildDiffInfo.setComparisonName(comparisonParameters.getComparisonConfiguration().getName());
 		buildDiffInfo.setBaseBuild(new BuildIdentifier(comparisonParameters.getBaseBranchName(), comparisonParameters.getBaseBuildName()));
 		ComparisonConfiguration comparisonConfiguration = comparisonParameters.getComparisonConfiguration();
-		buildDiffInfo.setCompareBuild(new BuildIdentifier(comparisonConfiguration.getComparisonBuildName(), comparisonConfiguration.getComparisonBuildName()));
+		buildDiffInfo.setCompareBuild(new BuildIdentifier(comparisonConfiguration.getComparisonBranchName(), comparisonConfiguration.getComparisonBuildName()));
 		buildDiffInfo.setCalculationDate(new Date());
 
 		comparisonParameters.getDiffWriter().saveBuildDiffInfo(buildDiffInfo);
