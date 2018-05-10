@@ -418,8 +418,8 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
             function onSuccess(buildDiffInfo) {
                 $scope.comparisonName = buildDiffInfo.name;
-                $scope.comparisonBranchName = buildDiffInfo.comparisonBranchName;
-                $scope.comparisonBuildName = buildDiffInfo.comparisonBuildName;
+                $scope.comparisonBranchName = buildDiffInfo.compareBuild.branchName;
+                $scope.comparisonBuildName = buildDiffInfo.compareBuild.buildName;
                 initBaseBuildName();
                 initBaseBuild();
                 initComparisonBuild();
