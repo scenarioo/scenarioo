@@ -53,8 +53,6 @@ public class IssueResource {
 	@GET
 	@Produces({ "application/json" })
 	public Response loadIssueSummaries(@PathParam("branchName") final String branchName) {
-		LOGGER.info("REQUEST: loadIssueSummaries(" + branchName + ")");
-
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
 		try {
@@ -70,8 +68,6 @@ public class IssueResource {
 	@Path("/{issueId}/ids")
 	public Response loadSketchIds(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId) {
-		LOGGER.info("REQUEST: loadSketchIds(" + branchName + ", " + issueId + ")");
-
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
 		final IssueWithSketch issueWitchSketch = loadIssueAndSketch(resolvedBranchName, issueId);
@@ -86,8 +82,6 @@ public class IssueResource {
 	@Path("/{issueId}")
 	public Response loadIssueWithSketch(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId) {
-		LOGGER.info("REQUEST: loadIssueWithSketch(" + branchName + ", " + issueId + ")");
-
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
 		IssueWithSketch result = null;
@@ -151,8 +145,6 @@ public class IssueResource {
 	@Path("/related/{buildName}/{usecaseName}")
 	public Response relatedIssuesForUsecase(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName) {
-		LOGGER.info("REQUEST: relatedIssuesUsecase(" + branchName + ", " + buildName + ", " + usecaseName + ")");
-
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName,
@@ -167,9 +159,6 @@ public class IssueResource {
 	public Response relatedIssuesForScenario(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName) {
-		LOGGER.info("REQUEST: relatedIssuesScenario(" + branchName + ", " + buildName + ", " + usecaseName + ", "
-				+ scenarioName + ")");
-
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName,
@@ -186,9 +175,6 @@ public class IssueResource {
 			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
 			@PathParam("pageOccurrence") final int pageOccurrence,
 			@PathParam("stepInPageOccurrence") final int stepInPageOccurrence) {
-		LOGGER.info("REQUEST: relatedIssuesStep(" + branchName + ", " + buildName + ", " + usecaseName + ", "
-				+ scenarioName + ", " + pageName + ", " + pageOccurrence + ", " + stepInPageOccurrence + ")");
-
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName,

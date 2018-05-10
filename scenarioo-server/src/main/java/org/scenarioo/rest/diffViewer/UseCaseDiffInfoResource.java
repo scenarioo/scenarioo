@@ -45,16 +45,12 @@ public class UseCaseDiffInfoResource {
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
 			@PathParam("useCaseName") final String useCaseName) {
-		LOGGER.info("REQUEST: getUseCaseDiffInfo(" + baseBranchName + ", " + baseBuildName + ", " + comparisonName
-				+ ", " + useCaseName + ")");
-
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 				baseBranchName,
 				baseBuildName);
 
 		return DiffViewerDao.loadUseCaseDiffInfo(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 				comparisonName, useCaseName);
-
 	}
 
 	@GET
@@ -63,16 +59,12 @@ public class UseCaseDiffInfoResource {
 	public Map<String, UseCaseDiffInfo> getUseCaseDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName) {
-		LOGGER.info("REQUEST: getUseCaseDiffInfos(" + baseBranchName + ", " + baseBuildName + ", " + comparisonName
-				+ ")");
-
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
 		final List<UseCaseDiffInfo> useCaseDiffInfos = DiffViewerDao.loadUseCaseDiffInfos(buildIdentifier.getBranchName(),
 				buildIdentifier.getBuildName(), comparisonName);
 		return getUseCaseDiffInfoMap(useCaseDiffInfos);
-
 	}
 
 	private Map<String, UseCaseDiffInfo> getUseCaseDiffInfoMap(final List<UseCaseDiffInfo> useCaseDiffInfos) {

@@ -47,10 +47,6 @@ public class StepDiffInfoResource {
 			@PathParam("useCaseName") final String useCaseName,
 			@PathParam("scenarioName") final String scenarioName,
 			@PathParam("stepIndex") final String stepIndex) {
-
-		LOGGER.info("REQUEST: getStepDiffInfo(" + baseBranchName + ", " + comparisonName
-				+ ", " + useCaseName + ", " + scenarioName + ", " + stepIndex + ")");
-
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
@@ -66,8 +62,6 @@ public class StepDiffInfoResource {
 			@PathParam("comparisonName") final String comparisonName,
 			@PathParam("useCaseName") final String useCaseName,
 			@PathParam("scenarioName") final String scenarioName) {
-		LOGGER.info("REQUEST: getStepDiffInfos(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
-				+ ", " + useCaseName + ", " + scenarioName + ")");
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 				baseBranchName, baseBuildName);

@@ -25,8 +25,7 @@ public class RequestLogInterceptor implements PreProcessInterceptor {
 
 	@Override
 	public ServerResponse preProcess(HttpRequest request, ResourceMethod method) throws Failure, WebApplicationException {
-		LOGGER.debug(request.getHttpMethod() + " " + request.getUri().getPath()
-			+ "\n                                      -> "
+		LOGGER.debug(request.getHttpMethod() + " " + request.getUri().getPath() + " -> "
 			+ method.getMethod().getName() + "(" + getParameterTypes(method.getMethod()) + ")");
 		return null;
 	}

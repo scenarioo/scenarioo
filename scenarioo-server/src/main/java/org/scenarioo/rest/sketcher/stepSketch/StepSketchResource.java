@@ -64,12 +64,7 @@ public class StepSketchResource {
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId,
 			@PathParam("stepSketchId") final String stepSketchId) {
-
-		LOGGER.info("REQUEST: loadStepSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
-				+ stepSketchId + ")");
-
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
-
 		return sketcherDao.loadStepSketch(resolvedBranchName, issueId, scenarioSketchId, stepSketchId);
 	}
 
@@ -79,10 +74,6 @@ public class StepSketchResource {
 	public Response storeStepSketch(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId, final StepSketch stepSketch) {
-
-		LOGGER.info("REQUEST: storeStepSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
-				+ stepSketch + ")");
-
 		BuildIdentifier resolvedBranchAndBuildAlias = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 				stepSketch.getRelatedStep().getBranchName(), stepSketch.getRelatedStep().getBuildName());
 		stepSketch.getRelatedStep().setBranchName(resolvedBranchAndBuildAlias.getBranchName());
@@ -135,10 +126,6 @@ public class StepSketchResource {
 			@PathParam("issueId") final String issueId,
 			@PathParam("scenarioSketchId") final String scenarioSketchId,
 			@PathParam("stepSketchId") final String stepSketchId, final StepSketch updatedStepSketch) {
-
-		LOGGER.info("REQUEST: updateStepSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ", "
-				+ stepSketchId + ")");
-
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
 		final StepSketch stepSketch = sketcherDao.loadStepSketch(resolvedBranchName, issueId, scenarioSketchId,

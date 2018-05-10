@@ -47,13 +47,9 @@ public class ScenarioDiffInfoResource {
 			@PathParam("comparisonName") final String comparisonName,
 			@PathParam("useCaseName") final String useCaseName,
 			@PathParam("scenarioName") final String scenarioName) {
-		LOGGER.info("REQUEST: getScenarioDiffInfo(" + baseBranchName + ", " + baseBuildName + ", " + comparisonName
-				+ ", " + useCaseName + ", " + scenarioName + ")");
-
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 				baseBranchName,
 				baseBuildName);
-
 		return DiffViewerDao.loadScenarioDiffInfo(buildIdentifier.getBranchName(),
 				buildIdentifier.getBuildName(),
 				comparisonName, useCaseName, scenarioName);
@@ -66,16 +62,12 @@ public class ScenarioDiffInfoResource {
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
 			@PathParam("useCaseName") final String useCaseName) {
-		LOGGER.info("REQUEST: getScenarioDiffInfos(" + baseBranchName + ", " + baseBranchName + ", " + comparisonName
-				+ ", " + useCaseName + ")");
-
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
 		final List<ScenarioDiffInfo> scenarioDiffInfos = DiffViewerDao.loadScenarioDiffInfos(
 				buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), comparisonName, useCaseName);
 		return getScenarioDiffInfoMap(scenarioDiffInfos);
-
 	}
 
 	private Map<String, ScenarioDiffInfo> getScenarioDiffInfoMap(final List<ScenarioDiffInfo> scenarioDiffInfos) {
