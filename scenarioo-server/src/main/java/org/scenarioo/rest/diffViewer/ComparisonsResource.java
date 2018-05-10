@@ -47,6 +47,33 @@ public class ComparisonsResource {
 	}
 
 	/**
+	 * Queues a comparison calculation of a comparison that already was calculated once, to recalculate it when needed.
+	 *
+	 * @return 404 NOT FOUND if the specified build or comparison does not exist
+	 * 412 PRECONDITION FAILED if the build is not imported successfully.
+	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
+	 */
+	@POST
+	@Path("/recalculate")
+	@Produces({"application/json"})
+	public Response recalculate(
+		@PathParam("branchName") final String branchName,
+		@PathParam("buildName") final String buildName,
+		@PathParam("comparisonName") final String comparisonName) {
+
+		BuildIdentifier buildIdentifier = resolveAndCreateBuildIdentifier(branchName, buildName);
+		checkBuildIsSuccessfullyImported(branchName, buildName, buildIdentifier);
+
+		BuildDiffInfo buildDiffInfo = getComparisonCalculation(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), comparisonName);
+		BuildIdentifier comparisonBuildIdentifier = buildDiffInfo.getCompareBuild();
+
+		ScenarioDocuBuildsManager.INSTANCE.submitBuildForSingleComparison(buildIdentifier,
+			comparisonBuildIdentifier, comparisonName);
+
+		return Response.ok().build();
+	}
+
+	/**
 	 * Returns the calculation status as a string. This allows the consumer to poll until the calculation is done.
 	 *
 	 * @return 404 NOT FOUND if the build specified by branchName/buildName or the comparison does not exist.
