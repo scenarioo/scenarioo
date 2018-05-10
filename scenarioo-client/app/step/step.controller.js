@@ -472,7 +472,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     };
 
     $scope.isComparisonChangesToBeHighlightedAvailable = function() {
-        return $scope.step.diffInfo.changeRate !== 0 && !$scope.step.diffInfo.isAdded;
+        return $scope.step && $scope.step.diffInfo && $scope.step.diffInfo.changeRate !== 0 && !$scope.step.diffInfo.isAdded;
     };
 
     $scope.isComparisonChangesHighlighted = function() {
