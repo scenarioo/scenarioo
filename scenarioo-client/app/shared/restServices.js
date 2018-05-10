@@ -43,9 +43,11 @@ angular.module('scenarioo.services')
         return {
             get: function (branchName, buildName, onSuccess, onError) {
                 var callURL = 'rest/builds/importLogs/' + encodeURIComponent(branchName) + '/' + encodeURIComponent(buildName);
-                $http({method: 'GET', url: callURL, headers: {
-                    'Accept': 'text/plain'
-                }}).success(onSuccess).error(onError);
+                $http({
+                    method: 'GET', url: callURL, headers: {
+                        'Accept': 'text/plain'
+                    }
+                }).success(onSuccess).error(onError);
             }
         };
     })
@@ -75,8 +77,8 @@ angular.module('scenarioo.services')
             }, {
                 get: {
                     method: 'GET',
-                    headers: { 'Accept': 'text/plain'},
-                    transformResponse: function(data) {
+                    headers: {'Accept': 'text/plain'},
+                    transformResponse: function (data) {
                         return {content: data};
                     }
                 }
@@ -248,6 +250,20 @@ angular.module('scenarioo.services')
 
     .factory('ComparisonsResource', function (ScenariooResource) {
         return ScenariooResource('/comparisons', {}, {});
+    })
+
+    .factory('ComparisonRecalculateResource', function (ScenariooResource) {
+        return ScenariooResource('/builds/:branchName/:buildName/comparisons/:comparisonName/recalculate',
+            {
+                branchName: '@branchName',
+                buildName: '@buildName',
+                comparisonName: '@comparisonName'
+            },
+            {
+                post: {
+                    method:'POST'
+                }
+            });
     });
 
 function getPromise($q, fn) {
