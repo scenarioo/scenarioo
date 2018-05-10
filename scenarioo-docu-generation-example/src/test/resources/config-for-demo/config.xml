@@ -7,7 +7,7 @@
     <buildStatusForSuccessfulBuilds>success</buildStatusForSuccessfulBuilds>
     <elasticSearchEndpoint>localhost:9300</elasticSearchEndpoint>
     <scenarioPropertiesInOverview></scenarioPropertiesInOverview>
-    <applicationName></applicationName>
+    <applicationName>Demo</applicationName>
     <applicationInformation>&lt;h3&gt;Welcome to Scenarioo!&lt;/h3&gt;
         &lt;br/&gt;
         &lt;p&gt;
