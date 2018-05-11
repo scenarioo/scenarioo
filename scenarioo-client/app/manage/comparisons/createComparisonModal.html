@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="comparisonName">Comparison Name</label>
-                    <input class="form-control" id="comparisonName" ng-value="vm.comparisonName">
+                    <input type="text" class="form-control" id="comparisonName" ng-model="vm.comparisonName" ng-change="vm.validateComparisonName()">
                 </div>
             </div>
         </div>
@@ -80,6 +80,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </div>
             </div>
         </div>
+
+        <div class="row" ng-if="vm.validationMessage">
+            <div class="col-md-12">
+                <uib-alert type="danger">
+                    {{vm.validationMessage}}
+                </uib-alert>
+            </div>
+        </div>
+
 
     </div>
 
