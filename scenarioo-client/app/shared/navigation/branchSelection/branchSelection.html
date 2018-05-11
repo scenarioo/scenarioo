@@ -1,14 +1,14 @@
 <li class="dropdown" uib-dropdown is-open="status.isBranchSelectionOpen" id="branchSelectionDropdown">
     <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
         <i class="icon-code-fork"></i> Branch:
-        <i class="icon-link" ng-show="selectedBranch.alias"></i>
+        <i class="icon-share-alt" ng-show="selectedBranch.alias"></i>
         {{getBranchDisplayName(selectedBranch)}}
         <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
         <li ng-repeat="branch in branchesAndBuilds.branches | scBranchOrderBy">
             <a ng-click="onBranchChange({branch: branch})" class="branchOption">
-                <i class="icon-link" ng-show="branch.alias"></i>
+                <i class="icon-share-alt" ng-show="branch.alias"></i>
                 {{getBranchDisplayName(branch)}}</a>
         </li>
     </ul>
