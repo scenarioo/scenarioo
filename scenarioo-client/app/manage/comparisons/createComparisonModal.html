@@ -26,7 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="comparisonName">Comparison Name</label>
-                    <input type="text" class="form-control" id="comparisonName" ng-model="vm.comparisonName" ng-change="vm.validateComparisonName()">
+                    <input type="text" class="form-control" id="comparisonName" ng-model="vm.comparisonName"
+                           ng-change="vm.validateComparisonName()">
                 </div>
             </div>
         </div>
@@ -34,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label>Target Build to Compare</label>
+                    <label>Target Build</label>
                     <div class="row">
                         <div class="col-md-12">
                             <ul class="nav nav-pills nav-stacked">
@@ -80,6 +81,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </div>
             </div>
         </div>
+
+        <!-- idea for the future ...
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="vm.isSaveAsConfiguredComparison">
+                            Configure automatic comparison of new builds on target branch with selected build.
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        -->
 
         <div class="row" ng-if="vm.validationMessage">
             <div class="col-md-12">
