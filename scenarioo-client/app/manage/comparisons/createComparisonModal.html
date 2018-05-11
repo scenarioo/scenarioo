@@ -20,12 +20,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <div class="modal-header">
         <h3 class="sc-modal-title">Create Comparison</h3>
     </div>
+
+
     <div class="modal-body">
 
         <div class="row">
             <div class="col-md-12">
+                <uib-alert type="info">
+                    <p>
+                        A Comparison will be calculated in background.
+                        Once calculated it can be selected from "Comparisons" in top navigation bar
+                        to display all changes in the build compared to another build.
+                    </p>
+                </uib-alert>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
                 <div class="form-group">
-                    <label for="comparisonName">Comparison Name</label>
+                    <label for="comparisonName">
+                        Comparison Name
+                        <i class="icon-info-sign"
+                           uib-tooltip="Under this name the comparison will be listed in comparison list on target build"
+                           tooltip-placement="right">
+                        </i>
+                    </label>
                     <input type="text" class="form-control" id="comparisonName" ng-model="vm.comparisonName"
                            ng-change="vm.validateComparisonName()">
                 </div>
@@ -35,7 +55,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label>Target Build</label>
+                    <label>Target Build
+                        <i class="icon-info-sign"
+                           uib-tooltip="The build on which you want to see changes compared to another build."
+                           tooltip-placement="right">
+                        </i>
+                    </label>
                     <div class="row">
                         <div class="col-md-12">
                             <ul class="nav nav-pills nav-stacked">
@@ -60,7 +85,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label>Compare with</label>
+                    <label>Compare with
+                        <i class="icon-info-sign"
+                           uib-tooltip="The build to compare with"
+                           tooltip-placement="right">
+                        </i>
+                    </label>
                     <div class="row">
                         <div class="col-md-12">
                             <ul class="nav nav-pills nav-stacked">
@@ -81,6 +111,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="well well-small">
+                        <p>
+                            <a href="#/manage?tab=comparisons">Comparisons List in Manage Area</a> shows all calculated Comparisons.
+                        </p>
+                        <p>
+                            See also <a href="http://scenarioo.org/docs/features/diff-viewer.html" target="_blank">How to Configure Automatically Calculated Comparisons for Your Builds<a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
         <!-- idea for the future ...
         <div class="row">
@@ -104,7 +151,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </uib-alert>
             </div>
         </div>
-
 
     </div>
 
