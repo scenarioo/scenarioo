@@ -5,7 +5,7 @@
                 <a id="breadcrumb_{{$index}}" ng-show="!breadcrumb.showTooltip && !breadcrumb.isLast"
                    href="{{breadcrumb.href}}" ng-bind-html="breadcrumb.text"></a>
                 <a id="tooltip_{{$index}}" ng-show="breadcrumb.showTooltip && !breadcrumb.isLast"
-                   tooltip="{{breadcrumb.tooltip}}" tooltip-placement="top" href="{{breadcrumb.href}}"
+                   uib-tooltip="{{breadcrumb.tooltip}}" tooltip-placement="top" href="{{breadcrumb.href}}"
                    ng-bind-html="breadcrumb.text"></a>
                 <span id="breadcrumb_last_{{$index}}" ng-show="breadcrumb.isLast" ng-bind-html="breadcrumb.text"></span>
             </li>
