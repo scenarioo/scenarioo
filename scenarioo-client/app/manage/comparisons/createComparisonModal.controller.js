@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('CreateComparisonModalController', CreateComparisonModalController);
 
-function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsService, BuildDiffInfosResource) {
+function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsService, BuildDiffInfosResource, ComparisonCreateResource) {
 
     var vm = this;
 
@@ -41,12 +41,12 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
     activate();
 
     function activate() {
-       BranchesAndBuildsService.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
+        BranchesAndBuildsService.getBranchesAndBuilds().then(function onSuccess(branchesAndBuilds) {
             vm.branchesAndBuilds = branchesAndBuilds;
             vm.baseBranch = branchesAndBuilds.selectedBranch;
             vm.baseBuild = branchesAndBuilds.selectedBuild;
             loadComparisonsOfCurrentBuild();
-       });
+        });
     }
 
     function loadComparisonsOfCurrentBuild() {
@@ -95,7 +95,7 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
         } else {
             // Check for unique comparison name
             vm.validationMessage = null;
-            vm.comparisonsOfCurrentBuild.forEach(function(comparison) {
+            vm.comparisonsOfCurrentBuild.forEach(function (comparison) {
                 if (comparison.name == vm.comparisonName) {
                     vm.validationMessage = 'Comparison with that name already exists on selected target build'
                 }
@@ -131,7 +131,7 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
     function validateDistinctBuilds() {
         if (vm.baseBuild && vm.comparisonBuild) {
             if (vm.baseBranch.branch.name === vm.comparisonBranch.branch.name && vm.baseBuild.build.name === vm.comparisonBuild.build.name) {
-                vm.validationMessage = "Please choose two distinct builds to compare!";
+                vm.validationMessage = 'Please choose two distinct builds to compare!';
                 return false;
             } else {
                 return validateSelectedComparisonNotYetExists();
@@ -141,7 +141,7 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
 
     function validateSelectedComparisonNotYetExists() {
         vm.validationMessage = null;
-        vm.comparisonsOfCurrentBuild.forEach(function(comparison) {
+        vm.comparisonsOfCurrentBuild.forEach(function (comparison) {
             if (isEqualBuild(comparison.baseBuild, vm.baseBranch, vm.baseBuild) && isEqualBuild(comparison.compareBuild, vm.comparisonBranch, vm.comparisonBuild)) {
                 vm.validationMessage = 'Comparison of selected builds already exists!';
             }
@@ -165,11 +165,31 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
     }
 
     function createComparison() {
+
         validateAllFields();
+
         if (!isValidInput()) {
             return;
         }
+
+        ComparisonCreateResource.post({
+            branchName: vm.baseBranch.branch.name,
+            buildName: vm.baseBuild.build.name,
+            comparisonName: vm.comparisonName
+        }, {
+                branchName: vm.comparisonBranch.branch.name,
+                buildName: vm.comparisonBuild.build.name
+        }, onSuccessCreation, onFailedCreation);
+
+    }
+
+    function onSuccessCreation() {
         $uibModalInstance.close();
+    }
+
+    function onFailedCreation() {
+        vm.validationMessage = 'Creation of new comparison failed for unknown reason.';
+        // keeps the modal open for showing the error.
     }
 
     function cancel() {
