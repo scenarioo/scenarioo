@@ -97,12 +97,18 @@ public class ComparisonExecutor {
 		LOGGER.info("Submitting build for comparison");
 		logBaseBuildAndComparisonConfiguration(baseBranchName, baseBuildName, comparisonConfiguration);
 
-		return asyncComparisonExecutor.submit(new Callable<BuildDiffInfo>() {
+		Future<BuildDiffInfo> futureComparison = asyncComparisonExecutor.submit(new Callable<BuildDiffInfo>() {
 			@Override
 			public BuildDiffInfo call() {
 				return runComparison(baseBranchName, baseBuildName, comparisonConfiguration);
 			}
 		});
+
+		ComparisonParameters comparisonParameters = new ComparisonParameters(baseBranchName, baseBuildName, comparisonConfiguration,
+			configurationRepository.getConfiguration().getDiffImageAwtColor());;
+		storeComparisonScheduled(comparisonParameters);
+
+		return futureComparison;
 	}
 
 	private BuildDiffInfo runComparison(String baseBranchName, String baseBuildName,
@@ -149,6 +155,10 @@ public class ComparisonExecutor {
 		}
 
 		return buildDiffInfo;
+	}
+
+	private BuildDiffInfo storeComparisonScheduled(ComparisonParameters comparisonParameters) {
+		return saveBuildDiffInfoWithStatus(comparisonParameters, ComparisonCalculationStatus.QUEUED_FOR_PROCESSING);
 	}
 
 	private BuildDiffInfo storeComparisonInProgress(ComparisonParameters comparisonParameters) {
