@@ -1,0 +1,91 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div class="modal-content">
+
+    <div class="modal-header">
+        <h3 class="sc-modal-title">Create Comparison</h3>
+    </div>
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="comparisonName">Comparison Name</label>
+                    <input class="form-control" id="comparisonName" ng-value="vm.comparisonName">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Target Build to Compare</label>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav nav-pills nav-stacked">
+                                <sc-branch-selection
+                                    branches-and-builds="vm.branchesAndBuilds"
+                                    selected-branch="vm.baseBranch"
+                                    on-branch-change="vm.setBaseBranch(branch)">
+                                </sc-branch-selection>
+                                <sc-build-selection
+                                    branches-and-builds="vm.branchesAndBuilds"
+                                    selected-branch="vm.baseBranch"
+                                    selected-build="vm.baseBuild"
+                                    on-build-change="vm.setBaseBuild(build)">
+                                </sc-build-selection>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Compare with</label>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav nav-pills nav-stacked">
+                                <sc-branch-selection
+                                    branches-and-builds="vm.branchesAndBuilds"
+                                    selected-branch="vm.comparisonBranch"
+                                    on-branch-change="vm.setComparisonBranch(branch)">
+                                </sc-branch-selection>
+                                <sc-build-selection
+                                    branches-and-builds="vm.branchesAndBuilds"
+                                    selected-branch="vm.comparisonBranch"
+                                    selected-build="vm.comparisonBuild"
+                                    on-build-change="vm.setComparisonBuild(build)">
+                                </sc-build-selection>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal" ng-click="vm.cancel()">Cancel</button>
+        <button class="btn btn-primary" ng-click="vm.createComparison()">Create</button>
+    </div>
+
+</div>

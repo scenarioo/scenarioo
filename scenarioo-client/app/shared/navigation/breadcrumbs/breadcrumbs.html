@@ -12,13 +12,37 @@
         </ol>
     </span>
     <span class="pull-right">
-        <a href="" ng-click="sketcherLink.executeLinkClickedAction()" ng-show="sketcherLink.isShowCreateOrEditSketchLink()" id="sketchThis"
-           tooltip="Click here to go to the sketcher" tooltip-placement="bottom">
-            <i class="glyphicon glyphicon-pencil"></i> {{sketcherLink.getCreateOrEditSketchLinkTitle()}}
-        </a>
+
+        <span
+            id="createComparisonBtn"
+            class="btn btn-sm btn-primary breadcrumb-button"
+            ng-click="createComparison()"
+            uib-tooltip="Compare current build with results from other build"
+            tooltip-placement="bottom">
+            <i class="icon-exchange"></i>
+            Create Comparison ...
+        </span>
         &nbsp;&nbsp;
-        <a href="" ng-click="showStepLinks()" style="margin-right: 5px;" id="shareThisPageLink">
-            <i class="glyphicon glyphicon-share"></i> Share this page
+
+        <span
+            id="sketchThis"
+            class="btn btn-sm btn-primary breadcrumb-button"
+            ng-click="sketcherLink.executeLinkClickedAction()"
+            ng-show="sketcherLink.isShowCreateOrEditSketchLink()"
+            uib-tooltip="Sketch on current screen to share with others"
+            tooltip-placement="bottom">
+            <i class="glyphicon glyphicon-pencil"></i>
+            Create Sketch ...
+        </span>
+        &nbsp;&nbsp;
+
+        <a id="shareThisPageLink"
+           href=""
+           ng-click="showStepLinks()"
+           style="margin-right: 5px;"
+           uib-tooltip="Share this page with others (using stable links)"
+           tooltip-placement="bottom">
+            <i class="glyphicon glyphicon-share"></i> Share
         </a>
     </span>
 </div>
