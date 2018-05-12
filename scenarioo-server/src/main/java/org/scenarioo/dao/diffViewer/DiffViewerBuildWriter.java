@@ -51,8 +51,6 @@ public class DiffViewerBuildWriter {
 
 	private final String comparisonName;
 
-	private final ExecutorService asyncWriteExecutor = newAsyncWriteExecutor();
-
 	private final List<RuntimeException> caughtExceptions = new ArrayList<RuntimeException>();
 
 	/**
@@ -70,33 +68,20 @@ public class DiffViewerBuildWriter {
 	}
 
 	public void saveBuildDiffInfo(final BuildDiffInfo buildDiffInfo) {
-		executeAsyncWrite(new Runnable() {
-			@Override
-			public void run() {
-				final File destBuildFile = diffFiles.getBuildFile(baseBranchName, baseBuildName, comparisonName);
-				ScenarioDocuXMLFileUtil.marshal(buildDiffInfo, destBuildFile);
-			}
-		});
+		final File destBuildFile = diffFiles.getBuildFile(baseBranchName, baseBuildName, comparisonName);
+		ScenarioDocuXMLFileUtil.marshal(buildDiffInfo, destBuildFile);
 	}
 
 	public void saveUseCaseDiffInfo(final UseCaseDiffInfo useCaseDiffInfo) {
-		executeAsyncWrite(new Runnable() {
-			@Override
-			public void run() {
-				final File destUseCaseDir = diffFiles.getUseCaseDirectory(baseBranchName, baseBuildName, comparisonName,
-					useCaseDiffInfo.getName());
-				createDirectoryIfNotYetExists(destUseCaseDir);
-				final File destUseCaseFile = diffFiles.getUseCaseFile(baseBranchName, baseBuildName, comparisonName,
-					useCaseDiffInfo.getName());
-				ScenarioDocuXMLFileUtil.marshal(useCaseDiffInfo, destUseCaseFile);
-			}
-		});
+		final File destUseCaseDir = diffFiles.getUseCaseDirectory(baseBranchName, baseBuildName, comparisonName,
+			useCaseDiffInfo.getName());
+		createDirectoryIfNotYetExists(destUseCaseDir);
+		final File destUseCaseFile = diffFiles.getUseCaseFile(baseBranchName, baseBuildName, comparisonName,
+			useCaseDiffInfo.getName());
+		ScenarioDocuXMLFileUtil.marshal(useCaseDiffInfo, destUseCaseFile);
 	}
 
 	public void saveScenarioDiffInfo(final ScenarioDiffInfo scenarioDiffInfo, final String useCaseName) {
-		executeAsyncWrite(new Runnable() {
-			@Override
-			public void run() {
 				final File destScenarioDir = diffFiles.getScenarioDirectory(baseBranchName, baseBuildName,
 					comparisonName,
 					useCaseName, scenarioDiffInfo.getName());
@@ -105,14 +90,9 @@ public class DiffViewerBuildWriter {
 					useCaseName,
 					scenarioDiffInfo.getName());
 				ScenarioDocuXMLFileUtil.marshal(scenarioDiffInfo, destScenarioFile);
-			}
-		});
 	}
 
 	public void saveStepDiffInfo(final String useCaseName, final String scenarioName, final StepDiffInfo stepDiffInfo) {
-		executeAsyncWrite(new Runnable() {
-			@Override
-			public void run() {
 				final File destStepsDir = diffFiles.getStepsDirectory(baseBranchName, baseBuildName, comparisonName,
 					useCaseName, scenarioName);
 				createDirectoryIfNotYetExists(destStepsDir);
@@ -121,39 +101,8 @@ public class DiffViewerBuildWriter {
 					scenarioName,
 					stepDiffInfo.getIndex());
 				ScenarioDocuXMLFileUtil.marshal(stepDiffInfo, destStepFile);
-			}
-		});
 	}
 
-	/**
-	 * Finish asynchronous writing of all saved files. This has to be called in the end, to ensure all data saved in
-	 * this generator is written to the filesystem.
-	 *
-	 * Will block until writing has finished or timeout occurs.
-	 *
-	 * @throws ScenarioDocuSaveException
-	 *             if any of the save commands throwed an exception during asynchronous execution.
-	 * @throws ScenarioDocuTimeoutException
-	 *             if waiting for the saving beeing finished exceeds the configured timeout
-	 */
-	public void flush() {
-		final int timeoutInSeconds = ScenarioDocuGeneratorConfiguration.INSTANCE
-			.getTimeoutWaitingForWritingFinishedInSeconds();
-		asyncWriteExecutor.shutdown();
-		try {
-			final boolean terminated = asyncWriteExecutor.awaitTermination(timeoutInSeconds, TimeUnit.SECONDS);
-			if (!terminated) {
-				asyncWriteExecutor.shutdownNow();
-				throw new ScenarioDocuTimeoutException(
-					"Timeout occured while waiting for diff files to be written. Writing of files took too long.");
-			}
-		} catch (final InterruptedException e) {
-			throw new RuntimeException("Async writing of scenarioo docu files was interrupted", e);
-		}
-		if (!caughtExceptions.isEmpty()) {
-			throw new ScenarioDocuSaveException(caughtExceptions);
-		}
-	}
 
 	private void createComparisonDirectoryIfNotYetExists() {
 		createDirectoryIfNotYetExists(diffFiles.getComparisonDirectory(baseBranchName, baseBuildName, comparisonName));
@@ -163,29 +112,6 @@ public class DiffViewerBuildWriter {
 		if (!directory.exists()) {
 			directory.mkdirs();
 		}
-	}
-
-	private void executeAsyncWrite(final Runnable writeTask) {
-		asyncWriteExecutor.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					writeTask.run();
-				} catch (final RuntimeException e) {
-					caughtExceptions.add(e);
-				}
-			}
-		});
-	}
-
-	/**
-	 * Creates an executor that queues the passed tasks for execution by one single additional thread. The executor will
-	 * start to block further executions as soon as more than the configured write tasks are waiting for execution.
-	 */
-	private static ExecutorService newAsyncWriteExecutor() {
-		return new ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, KEEP_ALIVE_TIME, TimeUnit.SECONDS,
-			new LinkedBlockingQueue<Runnable>(
-				ScenarioDocuGeneratorConfiguration.INSTANCE.getAsyncWriteBufferSize()));
 	}
 
 }

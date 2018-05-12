@@ -9,7 +9,7 @@ public class ComparisonParameters {
 
 	private final String baseBranchName;
 	private final String baseBuildName;
-	private ComparisonConfiguration comparisonConfiguration;
+	private final ComparisonConfiguration comparisonConfiguration;
 	private final Color diffImageColor;
 	private final DiffViewerBuildWriter diffWriter;
 
@@ -35,10 +35,6 @@ public class ComparisonParameters {
 
 	public ComparisonConfiguration getComparisonConfiguration() {
 		return comparisonConfiguration;
-	}
-
-	public void setComparisonConfiguration(ComparisonConfiguration comparisonConfiguration) {
-		this.comparisonConfiguration = comparisonConfiguration;
 	}
 
 	public Color getDiffImageColor() {

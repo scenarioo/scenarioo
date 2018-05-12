@@ -115,25 +115,22 @@ public class ComparisonExecutor {
 	private BuildDiffInfo calculateComparison(String baseBranchName, String baseBuildName,
 											  ComparisonConfiguration comparisonConfiguration) {
 
-		try {
-			ThreadLogAppender comparisonLog = null;
-			ComparisonParameters comparisonParameters = new ComparisonParameters(baseBranchName, baseBuildName, comparisonConfiguration,
-				configurationRepository.getConfiguration().getDiffImageAwtColor());
-			;
 			BuildDiffInfo buildDiffInfo = null;
 			ComparisonConfiguration resolvedComparisonConfiguration = null;
+			ThreadLogAppender comparisonLog = registerLogFile(baseBranchName, baseBuildName, comparisonConfiguration);
+			ComparisonParameters comparisonParameters = new ComparisonParameters(baseBranchName, baseBuildName, comparisonConfiguration,
+				configurationRepository.getConfiguration().getDiffImageAwtColor());
+			long startTime = System.currentTimeMillis();
 
 			try {
 
-				comparisonLog = registerLogFile(baseBranchName, baseBuildName, comparisonConfiguration);
-				long startTime = System.currentTimeMillis();
-
 				LOGGER.info("=== START OF BUILD COMPARISON ===");
 				logBaseBuildAndComparisonConfiguration(baseBranchName, baseBuildName, comparisonConfiguration);
-
 				resolvedComparisonConfiguration = resolveComparisonConfiguration(comparisonConfiguration, baseBuildName);
 
 				if (resolvedComparisonConfiguration == null) {
+
+					// SKIPPED: Either the builds have not been imported yet, or there is nothing to compare for this comparison
 					LOGGER.warn("No comparison build found for base build: " + baseBranchName + "/"
 						+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
 					buildDiffInfo = storeComparisonSkipped(comparisonParameters);
@@ -141,37 +138,40 @@ public class ComparisonExecutor {
 						+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
 					LOGGER.info("=== END OF BUILD COMPARISON (skipped) ===");
 
-					return buildDiffInfo;
-
 				} else {
-					comparisonParameters.setComparisonConfiguration(resolvedComparisonConfiguration);
+
+					// PROCESSING: Calculate the comparison ...
+					comparisonParameters = new ComparisonParameters(baseBranchName, baseBuildName, resolvedComparisonConfiguration,
+						configurationRepository.getConfiguration().getDiffImageAwtColor());
 					storeComparisonInProgress(comparisonParameters);
 					buildDiffInfo = new UseCaseComparator(comparisonParameters).compare();
+
+					// SUCCESS: Comparison done successfully.
 					storeComparisonSuccessful(comparisonParameters, buildDiffInfo);
+					LOGGER.info("SUCCESS on comparing base build: " + baseBranchName + "/"
+						+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
+					logDuration(startTime);
+					LOGGER.info("=== END OF BUILD COMPARISON (success) ===");
 				}
 
-				LOGGER.info("SUCCESS on comparing base build: " + baseBranchName + "/"
-					+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
-				logDuration(startTime);
-				LOGGER.info("=== END OF BUILD COMPARISON (success) ===");
+
 			} catch (Throwable e) {
+
+				// FAILED: there was an error on calculation of the Comparison
 				buildDiffInfo = storeComparisonFailed(comparisonParameters);
 				LOGGER.error("FAILURE on comparing build " + baseBranchName + "/"
 					+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName(), e);
 				LOGGER.info("=== END OF BUILD COMPARISON (failed) ===");
+
 			} finally {
+
+				// Write the log.
 				if (comparisonLog != null) {
 					comparisonLog.unregisterAndFlush();
 				}
-				comparisonParameters.getDiffWriter().flush();
 			}
 
 			return buildDiffInfo;
-		} catch (RuntimeException e) {
-			LOGGER.error("UNEXPECTED FAILURE on comparing build " + baseBranchName + "/"
-				+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName(), e);
-			throw e;
-		}
 	}
 
 	private BuildDiffInfo storeComparisonScheduled(ComparisonParameters comparisonParameters) {
@@ -201,7 +201,7 @@ public class ComparisonExecutor {
 		return saveBuildDiffInfo(comparisonParameters, buildDiffInfo);
 	}
 
-	private BuildDiffInfo saveBuildDiffInfo(ComparisonParameters comparisonParameters, BuildDiffInfo buildDiffInfo) {
+	private synchronized BuildDiffInfo saveBuildDiffInfo(ComparisonParameters comparisonParameters, BuildDiffInfo buildDiffInfo) {
 
 		if (comparisonParameters == null) {
 			LOGGER.warn("Can't save BuildDiffInfo with status " + buildDiffInfo.getStatus() + " because" +
