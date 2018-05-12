@@ -154,7 +154,7 @@ public class BuildImporter {
 			buildImportSummaries.put(buildIdentifier, buildImportSummary);
 			CompletableFuture<Future<BuildDiffInfo>> submittedFutureComparison = new CompletableFuture<>();
 			submitBuildForImport(availableBuilds, buildIdentifier);
-			Future<Future<BuildDiffInfo>> futureResult = submitSingleBuildComparisonAfterLastImport(buildIdentifier, comparisonBuildIdentifier, comparisonName)
+			Future<Future<BuildDiffInfo>> futureResult = submitSingleBuildComparisonAfterLastImport(buildIdentifier, comparisonBuildIdentifier, comparisonName);
 			saveBuildImportSummaries(buildImportSummaries);
 			return futureResult;
 		} else {
@@ -179,8 +179,8 @@ public class BuildImporter {
 	}
 
 	/**
-	 * Remove a build from the available builds list and mark it as unprocessed, also remove any available derived data
-	 * that mark this build as processed.
+	 * Remove a build from the available builds list and mark it as unprocessed,
+	 * also remove any available derived data that mark this build as processed.
 	 */
 	private synchronized void removeImportedBuildAndDerivedData(AvailableBuildsList availableBuilds,
 																BuildIdentifier buildIdentifier) {
