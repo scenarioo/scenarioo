@@ -38,9 +38,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 /**
  * Executes the comparisons for a base build. Each comparison is executed in a separate thread.
@@ -60,7 +58,18 @@ public class ComparisonExecutor {
 	private ExecutorService asyncComparisonExecutor;
 	private AliasResolver aliasResolver;
 
-	public ComparisonExecutor(ExecutorService executorService, AliasResolver aliasResolver) {
+	/**
+	 * Create comparison executor to execute comparisons in its own executors (to not block imports of builds and run comparisons of imported builds in parallel)
+	 */
+	public ComparisonExecutor(AliasResolver aliasResolver) {
+		asyncComparisonExecutor = newAsyncComparisonExecutor();
+		this.aliasResolver = aliasResolver;
+	}
+
+	/**
+	 * For unit testing only
+	 */
+	ComparisonExecutor(ExecutorService executorService, AliasResolver aliasResolver) {
 		asyncComparisonExecutor = executorService;
 		this.aliasResolver = aliasResolver;
 	}
@@ -367,4 +376,12 @@ public class ComparisonExecutor {
 		return ThreadLogAppender.createAndRegisterForLogs(comparisonIdentifier,
 			comparisonLogFile);
 	}
+
+	/**
+	 * Creates an executor that queues the passed tasks for execution by one single additional thread.
+	 */
+	private static ExecutorService newAsyncComparisonExecutor() {
+		return new ThreadPoolExecutor(1, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+	}
+
 }
