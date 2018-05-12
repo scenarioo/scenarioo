@@ -6,6 +6,7 @@ import org.jboss.resteasy.core.ResourceMethod;
 import org.jboss.resteasy.core.ServerResponse;
 import org.jboss.resteasy.spi.Failure;
 import org.jboss.resteasy.spi.HttpRequest;
+import org.jboss.resteasy.spi.interception.PostProcessInterceptor;
 import org.jboss.resteasy.spi.interception.PreProcessInterceptor;
 
 import javax.ws.rs.WebApplicationException;
@@ -19,7 +20,7 @@ import java.util.LinkedList;
  */
 @Provider
 @ServerInterceptor
-public class RequestLogInterceptor implements PreProcessInterceptor {
+public class RequestLogInterceptor implements PreProcessInterceptor{
 
 	private static final Logger LOGGER = Logger.getLogger(RequestLogInterceptor.class);
 
