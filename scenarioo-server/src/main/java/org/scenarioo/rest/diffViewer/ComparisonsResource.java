@@ -141,7 +141,7 @@ public class ComparisonsResource {
 	}
 
 	/**
-	 * Imports the build (if not imported yet) and then calculates the comparisons synchronously. Be aware that this
+	 * Imports the build (if not imported yet) and then calculates the comparison synchronously. Be aware that this
 	 * call can be very slow when comparing large builds.
 	 * <p>
 	 * Previously this endpoint was:
@@ -170,13 +170,13 @@ public class ComparisonsResource {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 
-		Future<BuildDiffInfo> buildDiffInfoFuture =
-			ScenarioDocuBuildsManager.INSTANCE.importBuildAndCreateComparison(buildIdentifier,
+		Future<Future<BuildDiffInfo>> buildDiffInfoFuture =
+			ScenarioDocuBuildsManager.INSTANCE.importBuildIfNewAndScheduleHiPrioComparison(buildIdentifier,
 				comparisonBuildIdentifier, comparisonName);
 
 		BuildDiffInfo buildDiffInfo;
 		try {
-			buildDiffInfo = buildDiffInfoFuture.get();
+			buildDiffInfo = buildDiffInfoFuture.get().get();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

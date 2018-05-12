@@ -219,8 +219,14 @@ public class ScenarioDocuBuildsManager implements AliasResolver {
 		buildImporter.submitBuildForReimport(availableBuilds, buildIdentifier);
 	}
 
-	public Future<BuildDiffInfo> importBuildAndCreateComparison(final BuildIdentifier buildIdentifier, final BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
-		return buildImporter.importBuildAndCreateComparison(availableBuilds, buildIdentifier, comparisonBuildIdentifier, comparisonName);
+	/**
+	 * Schedule import of build (if new) and once it was imported also schedule a comparison to be calculated on that same build.
+	 * @return buildDiffInfo as a double future ;-) - because waiting on a result from an asynchronous computation that triggers another asynchronous computation now ;-)
+	 */
+	public Future<Future<BuildDiffInfo>> importBuildIfNewAndScheduleHiPrioComparison(final BuildIdentifier buildIdentifier,
+																					 final BuildIdentifier comparisonBuildIdentifier,
+																					 String comparisonName) {
+		return buildImporter.importBuildIfNewAndScheduleHiPrioComparison(availableBuilds, buildIdentifier, comparisonBuildIdentifier, comparisonName);
 	}
 
 	public void submitBuildForSingleComparison(final BuildIdentifier buildIdentifier, final BuildIdentifier comparisonBuildIdentifier, String comparisonName) {

@@ -128,10 +128,6 @@ public class BuildImporter {
 			}
 		}
 
-		for (BuildIdentifier buildIdentifier : importNeededBuilds) {
-			comparisonExecutor.scheduleAllConfiguredComparisonsForOneBuild(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
-		}
-
 		return importNeededBuilds.size();
 	}
 
@@ -139,38 +135,49 @@ public class BuildImporter {
 													BuildIdentifier buildIdentifier) {
 		removeImportedBuildAndDerivedData(availableBuilds, buildIdentifier);
 		submitBuildForImport(availableBuilds, buildIdentifier);
-		comparisonExecutor.scheduleAllConfiguredComparisonsForOneBuild(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		saveBuildImportSummaries(buildImportSummaries);
 	}
 
-	public synchronized Future<BuildDiffInfo> importBuildAndCreateComparison(AvailableBuildsList availableBuilds,
-			BuildIdentifier buildIdentifier, BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
+	/**
+	 * Schedule import of build (if new) and once it was imported also schedule a comparison to be calculated on that same build.
+	 * @return buildDiffInfo as a double future ;-) - because waiting on a result from an asynchronous computation that triggers another asynchronous computation now ;-)
+	 */
+	public synchronized Future<Future<BuildDiffInfo>> importBuildIfNewAndScheduleHiPrioComparison(AvailableBuildsList availableBuilds,
+																							 BuildIdentifier buildIdentifier,
+																							 BuildIdentifier comparisonBuildIdentifier,
+																							 String comparisonName) {
 
-		submitBuildForInitialImportIfNewBuild(availableBuilds, buildIdentifier);
+		BuildImportSummary buildImportSummary = buildImportSummaries.get(buildIdentifier);
+		if (buildImportSummary == null) {
+			LOGGER.info("Build not exists yet, submitting new import with additional task for hi prio comparison calculation.");
+			buildImportSummary = createBuildImportSummary(buildIdentifier);
+			buildImportSummaries.put(buildIdentifier, buildImportSummary);
+			CompletableFuture<Future<BuildDiffInfo>> submittedFutureComparison = new CompletableFuture<>();
+			submitBuildForImport(availableBuilds, buildIdentifier, new Runnable() {
+				@Override
+				public void run() {
+					LOGGER.info("Scheduling hi prio comparison task first:");
+					submittedFutureComparison.complete(
+						submitSingleBuildComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName)
+					);
+				}
+			});
+			saveBuildImportSummaries(buildImportSummaries);
+			return submittedFutureComparison;
+		} else {
+			LOGGER.info("Build already exists, only triggering comparison on it ...");
+			CompletableFuture<Future<BuildDiffInfo>> submittedFutureComparison = new CompletableFuture<>();
+			submittedFutureComparison.complete(
+				submitSingleBuildComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName)
+			);
+			return submittedFutureComparison;
+		}
 
-		Future<BuildDiffInfo> buildDiffInfoFuture =
-			submitSingleBuildComparison(buildIdentifier, comparisonBuildIdentifier,comparisonName);
-
-		saveBuildImportSummaries(buildImportSummaries);
-
-		return buildDiffInfoFuture;
 	}
 
 	public BuildImportStatus getBuildImportStatus(BuildIdentifier buildIdentifier) {
 		BuildImportSummary buildImportSummary = buildImportSummaries.get(buildIdentifier);
 		return buildImportSummary != null ? buildImportSummary.getStatus() : null;
-	}
-
-	private void submitBuildForInitialImportIfNewBuild(AvailableBuildsList availableBuilds, BuildIdentifier buildIdentifier) {
-		BuildImportSummary buildImportSummary = buildImportSummaries.get(buildIdentifier);
-
-		if(buildImportSummary == null) {
-			buildImportSummary = createBuildImportSummary(buildIdentifier);
-			buildImportSummaries.put(buildIdentifier, buildImportSummary);
-			submitBuildForImport(availableBuilds, buildIdentifier);
-		} else {
-			LOGGER.info("Build already exists, not triggering import.");
-		}
 	}
 
 	private BuildImportSummary createBuildImportSummary(BuildIdentifier buildIdentifier) {
@@ -195,13 +202,29 @@ public class BuildImporter {
 		summary.setStatus(BuildImportStatus.UNPROCESSED);
 		ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator(summary);
 		aggregator.removeAggregatedDataForBuild();
+
+	}
+
+	/**
+	 * Submit a build for usual import.
+	 */
+	private synchronized void submitBuildForImport(final AvailableBuildsList availableBuilds,
+												   BuildIdentifier buildIdentifier) {
+		submitBuildForImport(availableBuilds, buildIdentifier, new Runnable() {
+			@Override
+			public void run() {
+				// do nothing for usual build after the import was done and before comparisons get scheduled.
+			}
+		});
 	}
 
 	/**
 	 * Submit any build for import.
+	 * <p>
+	 * After import task can be passed to be executed before any other comparisons are submitted for calculation (e.g. to submit requested hi prio comparison first).
 	 */
 	private synchronized void submitBuildForImport(final AvailableBuildsList availableBuilds,
-												   BuildIdentifier buildIdentifier) {
+												   BuildIdentifier buildIdentifier, Runnable afterImportTask) {
 
 		// Do not do anything when build is unknown or already queued
 		final BuildImportSummary summary = buildImportSummaries.get(buildIdentifier);
@@ -218,6 +241,8 @@ public class BuildImporter {
 			public void run() {
 				try {
 					importBuild(availableBuilds, summary);
+					afterImportTask.run();
+					comparisonExecutor.scheduleAllConfiguredComparisonsForOneBuild(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 				} catch (Throwable e) {
 					LOGGER.error("Unexpected error on build import.", e);
 				}

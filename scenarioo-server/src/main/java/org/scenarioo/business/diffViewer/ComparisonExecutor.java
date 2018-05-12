@@ -148,43 +148,56 @@ public class ComparisonExecutor {
 
 			BuildDiffInfo buildDiffInfo;
 			ComparisonConfiguration resolvedComparisonConfiguration;
-			ThreadLogAppender comparisonLog = registerLogFile(baseBranchName, baseBuildName, comparisonConfiguration);
+			ThreadLogAppender comparisonLog = null;
 			ComparisonParameters comparisonParameters = new ComparisonParameters(baseBranchName, baseBuildName, comparisonConfiguration,
 				configurationRepository.getConfiguration().getDiffImageAwtColor());
 			long startTime = System.currentTimeMillis();
 
+			// Precondition check: do nothing if comparison was allready calculated since scheduling it for calculation.
 			try {
-
-				LOGGER.info("=== START OF BUILD COMPARISON ===");
-				LOGGER.info(getComparisonConfigString(baseBranchName, baseBuildName, comparisonConfiguration));
-				resolvedComparisonConfiguration = resolveComparisonConfiguration(comparisonConfiguration, baseBuildName);
-
-				if (resolvedComparisonConfiguration == null) {
-
-					// SKIPPED: Either the builds have not been imported yet, or there is nothing to compare for this comparison
-					LOGGER.warn("No comparison build found for base build: " + baseBranchName + "/"
-						+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
-					buildDiffInfo = storeComparisonSkipped(comparisonParameters);
-					LOGGER.info("SKIPPED comparing base build: " + baseBranchName + "/"
-						+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
-					LOGGER.info("=== END OF BUILD COMPARISON (skipped) ===");
-
-				} else {
-
-					// PROCESSING: Calculate the comparison ...
-					comparisonParameters = new ComparisonParameters(baseBranchName, baseBuildName, resolvedComparisonConfiguration,
-						configurationRepository.getConfiguration().getDiffImageAwtColor());
-					storeComparisonInProgress(comparisonParameters);
-					buildDiffInfo = new UseCaseComparator(comparisonParameters).compare();
-
-					// SUCCESS: Comparison done successfully.
-					storeComparisonSuccessful(comparisonParameters, buildDiffInfo);
-					LOGGER.info("SUCCESS on comparing base build: " + baseBranchName + "/"
-						+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
-					logDuration(startTime);
-					LOGGER.info("=== END OF BUILD COMPARISON (success) ===");
+				if (!isComparisonInStateQueuedForComparison(baseBranchName, baseBuildName, comparisonConfiguration.getName())) {
+					// DO NOTHING: The comparison was already processed somehow inbetween (maybe same comparison was scheduled more than once)
+					LOGGER.info("Scheduled Comparsion has allready been calculated inbetween, not calculating it again: "
+						+ getComparisonConfigString(baseBranchName, baseBuildName, comparisonConfiguration));
+					return null;
 				}
+			} catch (Throwable ex) {
+				LOGGER.error("Exception in ComparisonExecutor task in precondition check for comparison: "
+					+ getComparisonConfigString(baseBranchName, baseBuildName, comparisonConfiguration), ex);
+			}
 
+
+			try {
+					comparisonLog = registerLogFile(baseBranchName, baseBuildName, comparisonConfiguration);
+					LOGGER.info("=== START OF BUILD COMPARISON ===");
+					LOGGER.info(getComparisonConfigString(baseBranchName, baseBuildName, comparisonConfiguration));
+					resolvedComparisonConfiguration = resolveComparisonConfiguration(comparisonConfiguration, baseBuildName);
+
+					if (resolvedComparisonConfiguration == null) {
+
+						// SKIPPED: Either the builds have not been imported yet, or there is nothing to compare for this comparison
+						LOGGER.warn("No comparison build found for base build: " + baseBranchName + "/"
+							+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
+						buildDiffInfo = storeComparisonSkipped(comparisonParameters);
+						LOGGER.info("SKIPPED comparing base build: " + baseBranchName + "/"
+							+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
+						LOGGER.info("=== END OF BUILD COMPARISON (skipped) ===");
+
+					} else {
+
+						// PROCESSING: Calculate the comparison ...
+						comparisonParameters = new ComparisonParameters(baseBranchName, baseBuildName, resolvedComparisonConfiguration,
+							configurationRepository.getConfiguration().getDiffImageAwtColor());
+						storeComparisonInProgress(comparisonParameters);
+						buildDiffInfo = new UseCaseComparator(comparisonParameters).compare();
+
+						// SUCCESS: Comparison done successfully.
+						storeComparisonSuccessful(comparisonParameters, buildDiffInfo);
+						LOGGER.info("SUCCESS on comparing base build: " + baseBranchName + "/"
+							+ baseBuildName + " with defined comparison: " + comparisonConfiguration.getName());
+						logDuration(startTime);
+						LOGGER.info("=== END OF BUILD COMPARISON (success) ===");
+					}
 
 			} catch (Throwable e) {
 
@@ -195,14 +208,22 @@ public class ComparisonExecutor {
 				LOGGER.info("=== END OF BUILD COMPARISON (failed) ===");
 
 			} finally {
-
-				// Write the log.
+				// Write the log into comparison log file.
 				if (comparisonLog != null) {
 					comparisonLog.unregisterAndFlush();
 				}
 			}
 
 			return buildDiffInfo;
+	}
+
+	private synchronized boolean isComparisonInStateQueuedForComparison(final String baseBranchName, final String baseBuildName, String comparisonName) {
+		try {
+			BuildDiffInfo diff = DiffViewerDao.loadBuildDiffInfo(baseBranchName, baseBuildName, comparisonName);
+			return diff != null && diff.getStatus() == ComparisonCalculationStatus.QUEUED_FOR_PROCESSING;
+		} catch (ResourceNotFoundException e) {
+			return false;
+		}
 	}
 
 	private void storeComparisonScheduled(ComparisonParameters comparisonParameters) {
