@@ -129,7 +129,7 @@ public class BuildImporter {
 		}
 
 		for (BuildIdentifier buildIdentifier : importNeededBuilds) {
-			submitBuildForComparison(buildIdentifier);
+			comparisonExecutor.scheduleAllConfiguredComparisonsForOneBuild(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		}
 
 		return importNeededBuilds.size();
@@ -139,7 +139,7 @@ public class BuildImporter {
 													BuildIdentifier buildIdentifier) {
 		removeImportedBuildAndDerivedData(availableBuilds, buildIdentifier);
 		submitBuildForImport(availableBuilds, buildIdentifier);
-		submitBuildForComparison(buildIdentifier);
+		comparisonExecutor.scheduleAllConfiguredComparisonsForOneBuild(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
 		saveBuildImportSummaries(buildImportSummaries);
 	}
 
@@ -149,7 +149,7 @@ public class BuildImporter {
 		submitBuildForInitialImportIfNewBuild(availableBuilds, buildIdentifier);
 
 		Future<BuildDiffInfo> buildDiffInfoFuture =
-			submitBuildForSingleComparison(buildIdentifier, comparisonBuildIdentifier,comparisonName);
+			submitSingleBuildComparison(buildIdentifier, comparisonBuildIdentifier,comparisonName);
 
 		saveBuildImportSummaries(buildImportSummaries);
 
@@ -225,12 +225,8 @@ public class BuildImporter {
 		});
 	}
 
-	private void submitBuildForComparison(BuildIdentifier buildIdentifier) {
-		comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
-	}
-
-	public Future<BuildDiffInfo> submitBuildForSingleComparison(BuildIdentifier buildIdentifier, BuildIdentifier compareBuildIdentifier, String comparisonName) {
-		return comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+	public Future<BuildDiffInfo> submitSingleBuildComparison(BuildIdentifier buildIdentifier, BuildIdentifier compareBuildIdentifier, String comparisonName) {
+		return comparisonExecutor.scheduleComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 			compareBuildIdentifier.getBranchName(), compareBuildIdentifier.getBuildName(), comparisonName);
 	}
 

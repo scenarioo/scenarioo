@@ -18,11 +18,11 @@
 angular.module('scenarioo.services').factory('ComparisonStatusMapperService', function () {
 
     var styleClassesForComparisonStatus = {
-        'SUCCESS': 'label-success',
-        'FAILED': 'label-danger',
-        'UNPROCESSED': 'label-default',
         'QUEUED_FOR_PROCESSING': 'label-info',
-        'PROCESSING': 'label-primary'
+        'PROCESSING': 'label-primary',
+        'SKIPPED': 'label-default',
+        'SUCCESS': 'label-success',
+        'FAILED': 'label-danger'
     };
 
     function getStyleClassForComparisonStatus(status) {
