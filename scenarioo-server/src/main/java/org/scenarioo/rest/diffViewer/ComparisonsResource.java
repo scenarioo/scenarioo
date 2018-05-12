@@ -34,7 +34,6 @@ public class ComparisonsResource {
 	@Consumes({"application/xml", "application/json"})
 	@Produces({"application/json"})
 	public Response calculate(
-
 		@PathParam("branchName") final String branchName,
 		@PathParam("buildName") final String buildName,
 		@PathParam("comparisonName") final String comparisonName,
