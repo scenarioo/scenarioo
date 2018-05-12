@@ -203,10 +203,14 @@ public class ScenarioDocuBuildsManager implements AliasResolver {
 		List<BranchBuilds> result = new ArrayList<BranchBuilds>();
 		List<Branch> branches = reader.loadBranches();
 		for (Branch branch : branches) {
-			BranchBuilds branchBuilds = new BranchBuilds();
-			branchBuilds.setBranch(branch);
-			branchBuilds.setBuilds(aggregatedDataReader.loadBuildLinks(branch.getName()));
-			result.add(branchBuilds);
+			try {
+				BranchBuilds branchBuilds = new BranchBuilds();
+				branchBuilds.setBranch(branch);
+				branchBuilds.setBuilds(aggregatedDataReader.loadBuildLinks(branch.getName()));
+				result.add(branchBuilds);
+			} catch (RuntimeException e) {
+				LOGGER.error("Could not load builds from branch with name '" + branch.getName() + "' - this branch is corrupt in file system - will be ignored.", e);
+			}
 		}
 
 		return result;
