@@ -19,6 +19,7 @@ package org.scenarioo.business.diffViewer;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.api.exception.ResourceNotFoundException;
 import org.scenarioo.api.files.ObjectFromDirectory;
 import org.scenarioo.business.builds.AliasResolver;
 import org.scenarioo.business.diffViewer.comparator.ComparisonParameters;
@@ -76,15 +77,36 @@ public class ComparisonExecutor {
 
 	/**
 	 * Submits all comparisons for the given build.
+	 *
+	 * Does not recalculate any comparisons that have allready been calculated in the filesystem.
 	 */
-	public synchronized void scheduleAllConfiguredComparisonsForOneBuild(String baseBranchName, String baseBuildName) {
+	public void scheduleAllConfiguredComparisonsForOneBuild(String baseBranchName, String baseBuildName) {
 		List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = getComparisonConfigurationsForBaseBranch(
 			baseBranchName);
+		LOGGER.info("Scheduling all comparisons for current build to be calculated in background:");
 		for (ComparisonConfiguration comparisonConfiguration : comparisonConfigurationsForBaseBranch) {
-			scheduleComparison(baseBranchName, baseBuildName, comparisonConfiguration);
+			if (!isComparisonAlreadyCalculated(baseBranchName, baseBuildName, comparisonConfiguration.getName())) {
+				scheduleComparison(baseBranchName, baseBuildName, comparisonConfiguration);
+			} else {
+				LOGGER.info("Comparison for build that already exists is not automatically recalculated: \n"
+					+ "     " + getComparisonConfigString(baseBranchName, baseBuildName, comparisonConfiguration));
+			}
 		}
 	}
 
+	private synchronized boolean isComparisonAlreadyCalculated(final String baseBranchName, final String baseBuildName, String comparisonName) {
+		try {
+			BuildDiffInfo diff = DiffViewerDao.loadBuildDiffInfo(baseBranchName, baseBuildName, comparisonName);
+			return diff != null && diff.getStatus() != null && diff.getStatus() != ComparisonCalculationStatus.QUEUED_FOR_PROCESSING;
+		} catch (ResourceNotFoundException e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Schedule a comparison calculation for a single build to become calculated
+	 * or even force to recalculate it (even if it allready exists).
+	 */
 	public Future<BuildDiffInfo> scheduleComparison(String baseBranchName, String baseBuildName,
 													String comparisonBranchName, String comparisonBuildName, String comparisonName) {
 
@@ -103,8 +125,8 @@ public class ComparisonExecutor {
 	private synchronized Future<BuildDiffInfo> scheduleComparison(final String baseBranchName, final String baseBuildName,
 																  final ComparisonConfiguration comparisonConfiguration) {
 
-		LOGGER.info("Scheduling Comparison for build");
-		logBaseBuildAndComparisonConfiguration(baseBranchName, baseBuildName, comparisonConfiguration);
+		LOGGER.info("Scheduling Comparison of build for background calculation: \n"
+			+ "     " + getComparisonConfigString(baseBranchName, baseBuildName, comparisonConfiguration));
 
 		Future<BuildDiffInfo> futureComparison = asyncComparisonExecutor.submit(new Callable<BuildDiffInfo>() {
 			@Override
@@ -124,8 +146,8 @@ public class ComparisonExecutor {
 	private BuildDiffInfo calculateComparison(String baseBranchName, String baseBuildName,
 											  ComparisonConfiguration comparisonConfiguration) {
 
-			BuildDiffInfo buildDiffInfo = null;
-			ComparisonConfiguration resolvedComparisonConfiguration = null;
+			BuildDiffInfo buildDiffInfo;
+			ComparisonConfiguration resolvedComparisonConfiguration;
 			ThreadLogAppender comparisonLog = registerLogFile(baseBranchName, baseBuildName, comparisonConfiguration);
 			ComparisonParameters comparisonParameters = new ComparisonParameters(baseBranchName, baseBuildName, comparisonConfiguration,
 				configurationRepository.getConfiguration().getDiffImageAwtColor());
@@ -134,7 +156,7 @@ public class ComparisonExecutor {
 			try {
 
 				LOGGER.info("=== START OF BUILD COMPARISON ===");
-				logBaseBuildAndComparisonConfiguration(baseBranchName, baseBuildName, comparisonConfiguration);
+				LOGGER.info(getComparisonConfigString(baseBranchName, baseBuildName, comparisonConfiguration));
 				resolvedComparisonConfiguration = resolveComparisonConfiguration(comparisonConfiguration, baseBuildName);
 
 				if (resolvedComparisonConfiguration == null) {
@@ -183,16 +205,16 @@ public class ComparisonExecutor {
 			return buildDiffInfo;
 	}
 
-	private BuildDiffInfo storeComparisonScheduled(ComparisonParameters comparisonParameters) {
-		return saveBuildDiffInfoWithStatus(comparisonParameters, ComparisonCalculationStatus.QUEUED_FOR_PROCESSING);
+	private void storeComparisonScheduled(ComparisonParameters comparisonParameters) {
+		saveBuildDiffInfoWithStatus(comparisonParameters, ComparisonCalculationStatus.QUEUED_FOR_PROCESSING);
 	}
 
 	private BuildDiffInfo storeComparisonSkipped(ComparisonParameters comparisonParameters) {
 		return saveBuildDiffInfoWithStatus(comparisonParameters, ComparisonCalculationStatus.SKIPPED);
 	}
 
-	private BuildDiffInfo storeComparisonInProgress(ComparisonParameters comparisonParameters) {
-		return saveBuildDiffInfoWithStatus(comparisonParameters, ComparisonCalculationStatus.PROCESSING);
+	private void storeComparisonInProgress(ComparisonParameters comparisonParameters) {
+		saveBuildDiffInfoWithStatus(comparisonParameters, ComparisonCalculationStatus.PROCESSING);
 	}
 
 	private void storeComparisonSuccessful(ComparisonParameters comparisonParameters, BuildDiffInfo buildDiffInfo) {
@@ -235,10 +257,8 @@ public class ComparisonExecutor {
 	}
 
 
-	private void logBaseBuildAndComparisonConfiguration(String baseBranchName, String baseBuildName, ComparisonConfiguration comparisonConfiguration) {
-		LOGGER.info("Base build:               " + baseBranchName + "/" + baseBuildName);
-		LOGGER.info("Comparison configuration: " + comparisonConfiguration.getName());
-		LOGGER.info("Comparison build:         " + comparisonConfiguration.getComparisonBranchName() + "/" + comparisonConfiguration.getComparisonBuildName());
+	private String getComparisonConfigString(String baseBranchName, String baseBuildName, ComparisonConfiguration comparisonConfiguration) {
+		return "Comparison " + comparisonConfiguration.getName() + " on target build " + baseBranchName + "/" + baseBuildName + " for comparing with build " + comparisonConfiguration.getComparisonBranchName() + "/" + comparisonConfiguration.getComparisonBuildName();
 	}
 
 	private void logDuration(long startTime) {
@@ -251,9 +271,9 @@ public class ComparisonExecutor {
 	/**
 	 * Reads the reloaded xml configuration and returns all comparison configurations for the given base branch.
 	 */
-	protected synchronized List<ComparisonConfiguration> getComparisonConfigurationsForBaseBranch(
+	synchronized List<ComparisonConfiguration> getComparisonConfigurationsForBaseBranch(
 		String baseBranchName) {
-		List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = new LinkedList<ComparisonConfiguration>();
+		List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = new LinkedList<>();
 
 		List<ComparisonConfiguration> comparisonConfigurations = configurationRepository.getConfiguration()
 			.getComparisonConfigurations();
@@ -274,7 +294,7 @@ public class ComparisonExecutor {
 	 * If in a comparison configuration the alias for last successful or most recent is used then we need to make sure
 	 * that on every execution time the correct previous build is used.
 	 */
-	protected ComparisonConfiguration resolveComparisonConfiguration(
+	ComparisonConfiguration resolveComparisonConfiguration(
 		ComparisonConfiguration comparisonConfiguration,
 		String baseBuildName) {
 
@@ -381,7 +401,7 @@ public class ComparisonExecutor {
 	 * Creates an executor that queues the passed tasks for execution by one single additional thread.
 	 */
 	private static ExecutorService newAsyncComparisonExecutor() {
-		return new ThreadPoolExecutor(1, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+		return new ThreadPoolExecutor(1, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
 	}
 
 }
