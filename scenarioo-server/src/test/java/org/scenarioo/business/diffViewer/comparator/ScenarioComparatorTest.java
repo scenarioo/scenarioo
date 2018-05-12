@@ -265,7 +265,7 @@ public class ScenarioComparatorTest {
 	}
 
 	private ScenarioDiffInfo getScenarioDiffInfo(final double changeRate, final int added, final int changed, final int removed) {
-		ScenarioDiffInfo scenarioDiffInfo = new ScenarioDiffInfo();
+		ScenarioDiffInfo scenarioDiffInfo = new ScenarioDiffInfo("fake scenario");
 		scenarioDiffInfo.setChangeRate(changeRate);
 		scenarioDiffInfo.setAdded(added);
 		scenarioDiffInfo.setChanged(changed);
