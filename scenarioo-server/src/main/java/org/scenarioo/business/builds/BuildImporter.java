@@ -140,32 +140,25 @@ public class BuildImporter {
 
 	/**
 	 * Schedule import of build (if new) and once it was imported also schedule a comparison to be calculated on that same build.
+	 *
 	 * @return buildDiffInfo as a double future ;-) - because waiting on a result from an asynchronous computation that triggers another asynchronous computation now ;-)
 	 */
 	public synchronized Future<Future<BuildDiffInfo>> importBuildIfNewAndScheduleHiPrioComparison(AvailableBuildsList availableBuilds,
-																							 BuildIdentifier buildIdentifier,
-																							 BuildIdentifier comparisonBuildIdentifier,
-																							 String comparisonName) {
-
+																								  BuildIdentifier buildIdentifier,
+																								  BuildIdentifier comparisonBuildIdentifier,
+																								  String comparisonName) {
 		BuildImportSummary buildImportSummary = buildImportSummaries.get(buildIdentifier);
 		if (buildImportSummary == null) {
 			LOGGER.info("Build not exists yet, submitting new import with additional task for hi prio comparison calculation.");
 			buildImportSummary = createBuildImportSummary(buildIdentifier);
 			buildImportSummaries.put(buildIdentifier, buildImportSummary);
 			CompletableFuture<Future<BuildDiffInfo>> submittedFutureComparison = new CompletableFuture<>();
-			submitBuildForImport(availableBuilds, buildIdentifier, new Runnable() {
-				@Override
-				public void run() {
-					LOGGER.info("Scheduling hi prio comparison task first:");
-					submittedFutureComparison.complete(
-						submitSingleBuildComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName)
-					);
-				}
-			});
+			submitBuildForImport(availableBuilds, buildIdentifier);
+			Future<Future<BuildDiffInfo>> futureResult = submitSingleBuildComparisonAfterLastImport(buildIdentifier, comparisonBuildIdentifier, comparisonName)
 			saveBuildImportSummaries(buildImportSummaries);
-			return submittedFutureComparison;
+			return futureResult;
 		} else {
-			LOGGER.info("Build already exists, only triggering comparison on it ...");
+			LOGGER.info("Build already exists, only triggering comparison dirextly, not waiting for any other build import to finish first.");
 			CompletableFuture<Future<BuildDiffInfo>> submittedFutureComparison = new CompletableFuture<>();
 			submittedFutureComparison.complete(
 				submitSingleBuildComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName)
@@ -206,25 +199,11 @@ public class BuildImporter {
 	}
 
 	/**
-	 * Submit a build for usual import.
+	 * Schedule a build to get imported.
+	 * After import it will trigger comparisons to get scheduled for that build once all other pending comparisons are done.
 	 */
 	private synchronized void submitBuildForImport(final AvailableBuildsList availableBuilds,
 												   BuildIdentifier buildIdentifier) {
-		submitBuildForImport(availableBuilds, buildIdentifier, new Runnable() {
-			@Override
-			public void run() {
-				// do nothing for usual build after the import was done and before comparisons get scheduled.
-			}
-		});
-	}
-
-	/**
-	 * Submit any build for import.
-	 * <p>
-	 * After import task can be passed to be executed before any other comparisons are submitted for calculation (e.g. to submit requested hi prio comparison first).
-	 */
-	private synchronized void submitBuildForImport(final AvailableBuildsList availableBuilds,
-												   BuildIdentifier buildIdentifier, Runnable afterImportTask) {
 
 		// Do not do anything when build is unknown or already queued
 		final BuildImportSummary summary = buildImportSummaries.get(buildIdentifier);
@@ -236,23 +215,65 @@ public class BuildImporter {
 			+ buildIdentifier.getBuildName());
 		buildsInProcessingQueue.add(buildIdentifier);
 		summary.setStatus(BuildImportStatus.QUEUED_FOR_PROCESSING);
+
+		// Schedule asynch import
 		asyncBuildImportExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					importBuild(availableBuilds, summary);
-					afterImportTask.run();
-					comparisonExecutor.scheduleAllConfiguredComparisonsForOneBuild(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+					scheduleAllComparisonsForBuild(buildIdentifier);
 				} catch (Throwable e) {
 					LOGGER.error("Unexpected error on build import.", e);
 				}
 			}
 		});
+
 	}
 
+	private void scheduleAllComparisonsForBuild(BuildIdentifier buildIdentifier) {
+		// The scheduling of comparisons is only done after all currently pending imports,
+		// just to ensure that first all pending imports have been done before a comparison is calculated.
+		// because comparisons could need import of other pending imports of builds
+		// before they can run.
+		asyncBuildImportExecutor.execute(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					comparisonExecutor.scheduleAllConfiguredComparisonsForOneBuild(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+				} catch (Throwable e) {
+					LOGGER.error("Unexpected error on scheduling comparisons for a build.", e);
+				}
+			}
+		});
+	}
+
+	/**
+	 * Submit a comparison to be immediately scheduled for asynch execution
+	 * without waiting for any pending build imports to happen first.
+	 */
 	public Future<BuildDiffInfo> submitSingleBuildComparison(BuildIdentifier buildIdentifier, BuildIdentifier compareBuildIdentifier, String comparisonName) {
 		return comparisonExecutor.scheduleComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 			compareBuildIdentifier.getBranchName(), compareBuildIdentifier.getBuildName(), comparisonName);
+	}
+
+	/**
+	 * Submit a comparison for execution but only schedule it for execution once the last scheduled build has been imported.
+	 */
+	private synchronized Future<Future<BuildDiffInfo>> submitSingleBuildComparisonAfterLastImport(BuildIdentifier buildIdentifier,
+																					 BuildIdentifier comparisonBuildIdentifier,
+																					 String comparisonName) {
+		CompletableFuture<Future<BuildDiffInfo>> completableBuildDiffInfoFuture = new CompletableFuture<>();
+		asyncBuildImportExecutor.execute(new Runnable() {
+				@Override
+				public void run() {
+					LOGGER.info("Scheduling comparison that was scheduled to happen after last build that was imported.");
+					completableBuildDiffInfoFuture.complete(
+						submitSingleBuildComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName)
+					);
+				}
+			});
+		return completableBuildDiffInfoFuture;
 	}
 
 	private void importBuild(AvailableBuildsList availableBuilds, BuildImportSummary summary) {
