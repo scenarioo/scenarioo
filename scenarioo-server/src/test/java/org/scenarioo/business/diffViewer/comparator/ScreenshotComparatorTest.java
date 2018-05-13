@@ -48,7 +48,7 @@ public class ScreenshotComparatorTest {
 		File comparisonsFolder = new DiffFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
 		assertTrue(comparisonsFolder.mkdirs());
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
-		screenshotComparator = new ScreenshotComparator(getComparatorParameters());
+		screenshotComparator = new ScreenshotComparator();
 	}
 
 	@After
@@ -104,7 +104,7 @@ public class ScreenshotComparatorTest {
 
 	private void assertDifferenceForScreenshots(File baseScreenshot, File comparisonScreenshot, double expectedDifference) {
 		final double actualDifference
-			= screenshotComparator.compareScreenshots(baseScreenshot, comparisonScreenshot, DIFF_SCREENSHOT);
+			= screenshotComparator.compareScreenshots(getComparatorParameters(), baseScreenshot, comparisonScreenshot, DIFF_SCREENSHOT);
 		assertEquals("Difference of screenshots", expectedDifference, actualDifference, DOUBLE_TOLERANCE);
 	}
 
@@ -114,7 +114,7 @@ public class ScreenshotComparatorTest {
 		TestAppender appender = new TestAppender();
 		LOGGER.addAppender(appender);
 
-		final double difference = screenshotComparator.compareScreenshots(BASE_SCREENSHOT,
+		final double difference = screenshotComparator.compareScreenshots(getComparatorParameters(), BASE_SCREENSHOT,
 			NON_EXISTENT_SCREENSHOT, DIFF_SCREENSHOT);
 
 		final List<LoggingEvent> log = appender.getLog();

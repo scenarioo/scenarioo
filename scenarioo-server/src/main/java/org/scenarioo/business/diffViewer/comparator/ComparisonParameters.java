@@ -7,6 +7,7 @@ import org.scenarioo.model.configuration.ComparisonConfiguration;
 import java.awt.Color;
 
 public class ComparisonParameters {
+
 	private final String baseBranchName;
 	private final String baseBuildName;
 	private final ComparisonConfiguration comparisonConfiguration;
@@ -42,4 +43,5 @@ public class ComparisonParameters {
 	}
 
 	public DiffWriter getDiffWriter() { return diffWriter; }
+
 }

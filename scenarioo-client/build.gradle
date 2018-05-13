@@ -34,7 +34,7 @@ buildscript {
 }
 
 node {
-    version = '8.9.4'
+    version = '6.11.5'
     download = true
 }
 

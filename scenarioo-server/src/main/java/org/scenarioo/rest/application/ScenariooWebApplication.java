@@ -45,12 +45,19 @@ public class ScenariooWebApplication implements ServletContextListener {
 		LOGGER.info("Scenarioo Viewer is starting up ...");
 		LOGGER.info("====================================================");
 
-		initializeApplicationVersion(servletContextEvent.getServletContext());
-		loadConfiguration(servletContextEvent);
-		initializeContextPath(servletContextEvent.getServletContext());
+		try {
+			initializeApplicationVersion(servletContextEvent.getServletContext());
+			loadConfiguration(servletContextEvent);
+			initializeContextPath(servletContextEvent.getServletContext());
 
-		LOGGER.info("  Updating documentation content directory (will be done asynchronously ...)");
-		ScenarioDocuBuildsManager.INSTANCE.updateBuildsIfValidDirectoryConfigured();
+			LOGGER.info("  Updating documentation content directory (will be done asynchronously ...)");
+			ScenarioDocuBuildsManager.INSTANCE.updateBuildsIfValidDirectoryConfigured();
+		} catch(RuntimeException e) {
+			LOGGER.error("====================================================");
+			LOGGER.error("Error during Scenarioo startup", e);
+			LOGGER.error("====================================================");
+			throw e;
+		}
 
 		LOGGER.info("====================================================");
 		LOGGER.info("Scenarioo Viewer started succesfully.");
