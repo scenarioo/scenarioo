@@ -1,8 +1,9 @@
 package org.scenarioo.rest.application;
 
 import org.scenarioo.rest.base.AbstractBuildContentResource;
+import org.scenarioo.rest.base.logging.ApplyRequestLogging;
 import org.scenarioo.rest.builds.BranchBuildsResource;
-import org.scenarioo.rest.builds.BuildsImporterResource;
+import org.scenarioo.rest.builds.BuildsResource;
 import org.scenarioo.rest.configuration.BranchAliasesResource;
 import org.scenarioo.rest.configuration.ConfigurationResource;
 import org.scenarioo.rest.configuration.LabelConfigurationsResource;
@@ -24,6 +25,7 @@ import javax.ws.rs.core.Application;
 import java.util.HashSet;
 import java.util.Set;
 
+@ApplyRequestLogging
 public class ScenariooRestApplication extends Application {
 
 	private Set<Object> singletons = new HashSet<Object>();
@@ -40,7 +42,8 @@ public class ScenariooRestApplication extends Application {
 		singletons.add(new ScreenshotResource());
 		singletons.add(new StepResource());
 		singletons.add(new BranchBuildsResource());
-		singletons.add(new BuildsImporterResource());
+		singletons.add(new BuildsResource());
+		singletons.add(new ComparisonsResource());
 		singletons.add(new SearchResource());
 		singletons.add(new ScenariosResource());
 		singletons.add(new GenericObjectsResource());
