@@ -79,6 +79,9 @@ public class ElasticSearchAdapter implements SearchAdapter {
 				.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
 		} catch (UnknownHostException e) {
 			LOGGER.warn("No elasticsearch cluster running.");
+		} catch (Throwable e) {
+			// Silently log the error in any case to not let Scenarioo crash just because Easticsearch connection fails somehow.
+			LOGGER.error("Could not connect to Elastic Search Engine", e);
 		}
     }
 
