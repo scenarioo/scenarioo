@@ -1,6 +1,8 @@
 package org.scenarioo.rest.application;
 
 import org.scenarioo.rest.base.AbstractBuildContentResource;
+import org.scenarioo.rest.base.exceptions.ResourceNotFoundExceptionHandler;
+import org.scenarioo.rest.base.exceptions.RuntimeExceptionHandler;
 import org.scenarioo.rest.base.logging.ApplyRequestLogging;
 import org.scenarioo.rest.builds.BranchBuildsResource;
 import org.scenarioo.rest.builds.BuildsResource;
@@ -32,6 +34,7 @@ public class ScenariooRestApplication extends Application {
 
 	public ScenariooRestApplication() {
 		// find . -name \*Resource.java
+		//does the order play a role in what order URLs get matched??
 		singletons.add(new BranchAliasesResource());
 		singletons.add(new ConfigurationResource());
 		singletons.add(new LabelConfigurationsResource());
@@ -39,13 +42,13 @@ public class ScenariooRestApplication extends Application {
 		singletons.add(new SketchImageResource());
 		singletons.add(new ScenarioSketchResource());
 		singletons.add(new IssueResource());
-		singletons.add(new ScreenshotResource());
 		singletons.add(new StepResource());
 		singletons.add(new BranchBuildsResource());
 		singletons.add(new BuildsResource());
 		singletons.add(new ComparisonsResource());
 		singletons.add(new SearchResource());
 		singletons.add(new ScenariosResource());
+		singletons.add(new ScreenshotResource());
 		singletons.add(new GenericObjectsResource());
 		singletons.add(new CustomTabsResource());
 		singletons.add(new ObjectStepResource());
@@ -56,7 +59,11 @@ public class ScenariooRestApplication extends Application {
 		singletons.add(new StepDiffInfoResource());
 		singletons.add(new VersionResource());
 		singletons.add(new UseCasesResource());
-		singletons.add(new AbstractBuildContentResource());
+
+		// Exception handlers
+		singletons.add(new ResourceNotFoundExceptionHandler());
+		singletons.add(new RuntimeExceptionHandler());
+
 	}
 
 	@Override
