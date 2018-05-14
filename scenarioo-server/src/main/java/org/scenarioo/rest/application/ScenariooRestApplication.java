@@ -1,5 +1,6 @@
 package org.scenarioo.rest.application;
 
+import org.apache.log4j.Logger;
 import org.scenarioo.rest.base.AbstractBuildContentResource;
 import org.scenarioo.rest.base.exceptions.ResourceNotFoundExceptionHandler;
 import org.scenarioo.rest.base.exceptions.RuntimeExceptionHandler;
@@ -30,11 +31,14 @@ import java.util.Set;
 @ApplyRequestLogging
 public class ScenariooRestApplication extends Application {
 
+	private static final Logger LOGGER = Logger.getLogger(ScenariooWebApplication.class);
+
 	private Set<Object> singletons = new HashSet<Object>();
 
 	public ScenariooRestApplication() {
 		// find . -name \*Resource.java
 		//does the order play a role in what order URLs get matched??
+		LOGGER.info("Register Scenarioo REST Services ...");
 		singletons.add(new BranchAliasesResource());
 		singletons.add(new ConfigurationResource());
 		singletons.add(new LabelConfigurationsResource());
@@ -63,6 +67,7 @@ public class ScenariooRestApplication extends Application {
 		// Exception handlers
 		singletons.add(new ResourceNotFoundExceptionHandler());
 		singletons.add(new RuntimeExceptionHandler());
+		LOGGER.info("Register Scenarioo REST Services done.");
 
 	}
 
