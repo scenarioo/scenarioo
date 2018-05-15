@@ -177,7 +177,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'name': 'Find Page',
                 'labels': {
                     'empty': true,
-                    'labels': []
+                    'label': []
                 }
             },
             'pagesAndSteps': [
@@ -234,7 +234,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'name': 'find_page_with_text_on_page_from_multiple_results',
                 'labels': {
                     'empty': true,
-                    'labels': []
+                    'label': []
                 }
             },
             'scenarioStatistics': {
@@ -282,7 +282,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                     'screenshotFileName': '002.png',
                     'index': 2,
                     'labels': {
-                        'labels': ['step-label-0', 'public'],
+                        'label': ['step-label-0', 'public'],
                         'empty': false
                     }
                 },
@@ -314,7 +314,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                     'details': {},
                     'name': 'searchResults.jsp',
                     'labels': {
-                        'labels': ['page-label1', 'page-label2'],
+                        'label': ['page-label1', 'page-label2'],
                         'empty': false
                     }
                 },
