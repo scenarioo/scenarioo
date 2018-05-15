@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
-import org.scenarioo.dao.diffViewer.impl.DiffFiles;
+import org.scenarioo.dao.diffViewer.DiffViewerFiles;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.utils.TestFileUtils;
 
@@ -45,7 +45,7 @@ public class ScreenshotComparatorTest {
 	@Before
 	public void setUpClass() throws IOException {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(rootFolder.newFolder());
-		File comparisonsFolder = new DiffFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
+		File comparisonsFolder = new DiffViewerFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
 		assertTrue(comparisonsFolder.mkdirs());
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 		screenshotComparator = new ScreenshotComparator();

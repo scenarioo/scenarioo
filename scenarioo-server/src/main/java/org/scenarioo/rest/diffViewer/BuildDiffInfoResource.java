@@ -19,8 +19,7 @@ package org.scenarioo.rest.diffViewer;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.diffViewer.DiffReader;
-import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
+import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.ComparisonCalculationStatus;
 import org.scenarioo.rest.base.BuildIdentifier;
@@ -38,7 +37,7 @@ public class BuildDiffInfoResource {
 
 	private static final Logger LOGGER = Logger.getLogger(BuildDiffInfoResource.class);
 
-	private DiffReader diffReader = new DiffReaderXmlImpl();
+	private DiffViewerDao diffViewerDao = new DiffViewerDao();
 
 	@GET
 	@Produces("application/json")
@@ -50,7 +49,7 @@ public class BuildDiffInfoResource {
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
-		return diffReader.loadBuildDiffInfo(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+		return diffViewerDao.loadBuildDiffInfo(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 				comparisonName);
 	}
 
@@ -62,13 +61,13 @@ public class BuildDiffInfoResource {
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
-		return diffReader
+		return diffViewerDao
 			.loadBuildDiffInfos(buildIdentifier.getBranchName(), buildIdentifier.getBuildName())
 			.stream()
 			.filter(new Predicate<BuildDiffInfo>() {
 				@Override
 				public boolean test(BuildDiffInfo buildDiffInfo) {
-					return ComparisonCalculationStatus.SUCCESS.equals(buildDiffInfo.getComparisonCalculationStatus());
+					return ComparisonCalculationStatus.SUCCESS.equals(buildDiffInfo.getStatus());
 				}
 			}).collect(Collectors.toList());
 	}

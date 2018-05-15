@@ -20,7 +20,7 @@
 // will produce build/install/scenarioo-validator/
 // see https://docs.gradle.org/current/userguide/application_plugin.html
 apply plugin: 'application'
-apply from: "${rootProject.projectDir}/java.gradle"
+apply from: "${rootProject.projectDir}/build-java.gradle"
 
 
 mainClassName = 'org.scenarioo.validator.ScenariooValidatorRunner'

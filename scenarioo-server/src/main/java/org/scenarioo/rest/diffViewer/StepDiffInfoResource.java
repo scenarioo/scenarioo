@@ -19,8 +19,7 @@ package org.scenarioo.rest.diffViewer;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.diffViewer.DiffReader;
-import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
+import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.rest.base.BuildIdentifier;
 
@@ -37,7 +36,7 @@ public class StepDiffInfoResource {
 
 	private static final Logger LOGGER = Logger.getLogger(StepDiffInfoResource.class);
 
-	private DiffReader diffReader = new DiffReaderXmlImpl();
+	private DiffViewerDao diffViewerDao = new DiffViewerDao();
 
 	@GET
 	@Produces("application/json")
@@ -51,7 +50,7 @@ public class StepDiffInfoResource {
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
-		return diffReader.loadStepDiffInfo(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+		return diffViewerDao.loadStepDiffInfo(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 				comparisonName, useCaseName, scenarioName, Integer.parseInt(stepIndex));
 	}
 
@@ -67,7 +66,7 @@ public class StepDiffInfoResource {
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 				baseBranchName, baseBuildName);
 
-		final List<StepDiffInfo> stepDiffInfos = diffReader.loadStepDiffInfos(buildIdentifier.getBranchName(),
+		final List<StepDiffInfo> stepDiffInfos = diffViewerDao.loadStepDiffInfos(buildIdentifier.getBranchName(),
 				buildIdentifier.getBuildName(), comparisonName, useCaseName, scenarioName);
 
 		return getStepDiffInfoMap(stepDiffInfos);

@@ -43,9 +43,11 @@ angular.module('scenarioo.services')
         return {
             get: function (branchName, buildName, onSuccess, onError) {
                 var callURL = 'rest/builds/importLogs/' + encodeURIComponent(branchName) + '/' + encodeURIComponent(buildName);
-                $http({method: 'GET', url: callURL, headers: {
-                    'Accept': 'text/plain'
-                }}).success(onSuccess).error(onError);
+                $http({
+                    method: 'GET', url: callURL, headers: {
+                        'Accept': 'text/plain'
+                    }
+                }).success(onSuccess).error(onError);
             }
         };
     })
@@ -64,6 +66,23 @@ angular.module('scenarioo.services')
             return buildImportService.get(parameters, fnSuccess, fnError);
         });
         return buildImportService;
+    })
+
+    .factory('ComparisonLogResource', function (ScenariooResource) {
+        return ScenariooResource('/builds/:branchName/:buildName/comparisons/:comparisonName/log',
+            {
+                branchName: '@branchName',
+                buildName: '@buildName',
+                comparisonName: '@comparisonName'
+            }, {
+                get: {
+                    method: 'GET',
+                    headers: {'Accept': 'text/plain'},
+                    transformResponse: function (data) {
+                        return {content: data};
+                    }
+                }
+            });
     })
 
     .factory('PageVariantService', function (ScenariooResource, $q) {
@@ -227,6 +246,24 @@ angular.module('scenarioo.services')
 
     .factory('LabelConfigurationsResource', function (ScenariooResource) {
         return ScenariooResource('/labelconfigurations', {}, {'query': {isArray: false}});
+    })
+
+    .factory('ComparisonsResource', function (ScenariooResource) {
+        return ScenariooResource('/comparisons', {}, {});
+    })
+
+    .factory('ComparisonRecalculateResource', function (ScenariooResource) {
+        return ScenariooResource('/builds/:branchName/:buildName/comparisons/:comparisonName/recalculate',
+            {
+                branchName: '@branchName',
+                buildName: '@buildName',
+                comparisonName: '@comparisonName'
+            },
+            {
+                post: {
+                    method:'POST'
+                }
+            });
     });
 
 function getPromise($q, fn) {

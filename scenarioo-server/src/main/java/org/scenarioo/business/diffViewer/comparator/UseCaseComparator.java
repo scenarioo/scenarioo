@@ -46,7 +46,7 @@ public class UseCaseComparator extends AbstractStructureComparator<UseCase, Stri
 			parameters.getComparisonConfiguration().getComparisonBranchName(), parameters.getComparisonConfiguration().getComparisonBuildName());
 
 		calculateDiffInfo(baseUseCases, comparisonUseCases, buildDiffInfo);
-		buildDiffInfo.setComparisonCalculationStatus(ComparisonCalculationStatus.SUCCESS);
+		buildDiffInfo.setStatus(ComparisonCalculationStatus.SUCCESS);
 
 		LOGGER.info(getLogMessage(buildDiffInfo, "Build " + parameters.getBaseBranchName() + "/" + parameters.getBaseBuildName()));
 

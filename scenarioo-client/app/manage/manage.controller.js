@@ -28,9 +28,9 @@ function ManageController($location) {
         },
         {
             index: 1,
-            tabId: 'configuration',
-            title: 'General Settings',
-            contentViewUrl: 'manage/generalSettings/generalSettings.html'
+            tabId: 'comparisons',
+            title: 'Comparisons',
+            contentViewUrl: 'manage/comparisons/comparisons.html'
         },
         {
             index: 2,
@@ -43,6 +43,12 @@ function ManageController($location) {
             tabId: 'labelConfigurations',
             title: 'Label Colors',
             contentViewUrl: 'manage/labelColors/labelColors.html'
+        },
+        {
+            index: 4,
+            tabId: 'configuration',
+            title: 'General Settings',
+            contentViewUrl: 'manage/generalSettings/generalSettings.html'
         }
     ];
     vm.activeIndex = 0;

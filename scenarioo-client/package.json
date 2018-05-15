@@ -20,6 +20,7 @@
         "webpack-dev-server": "webpack-dev-server",
         "karma": "karma",
         "start": "webpack-dev-server -d --inline --progress --port 8500",
+        "start-dev": "webpack-dev-server -d --inline --progress --port 8500 --watch",
         "eslint": "eslint",
         "lint": "eslint \"app/**/*.js\" \"test/**/*.js\" --ignore-pattern app/components"
     },
