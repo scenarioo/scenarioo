@@ -237,7 +237,7 @@ public class UseCaseComparatorTest {
 
 	private UseCaseDiffInfo getUseCaseDiffInfo(double changeRate, int added, int changed,
 											   int removed) {
-		UseCaseDiffInfo useCaseDiffInfo = new UseCaseDiffInfo();
+		UseCaseDiffInfo useCaseDiffInfo = new UseCaseDiffInfo("fake use case");
 		useCaseDiffInfo.setChangeRate(changeRate);
 		useCaseDiffInfo.setAdded(added);
 		useCaseDiffInfo.setChanged(changed);

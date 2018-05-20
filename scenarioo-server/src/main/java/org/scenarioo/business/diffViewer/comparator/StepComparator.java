@@ -48,6 +48,7 @@ public class StepComparator extends AbstractStructureComparator<StepLink, Intege
 	}
 
 	public ScenarioDiffInfo compare(final String baseUseCaseName, final String baseScenarioName) {
+
 		this.baseUseCaseName = baseUseCaseName;
 		this.baseScenarioName = baseScenarioName;
 

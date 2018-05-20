@@ -203,10 +203,14 @@ public class ScenarioDocuBuildsManager implements AliasResolver {
 		List<BranchBuilds> result = new ArrayList<BranchBuilds>();
 		List<Branch> branches = reader.loadBranches();
 		for (Branch branch : branches) {
-			BranchBuilds branchBuilds = new BranchBuilds();
-			branchBuilds.setBranch(branch);
-			branchBuilds.setBuilds(aggregatedDataReader.loadBuildLinks(branch.getName()));
-			result.add(branchBuilds);
+			try {
+				BranchBuilds branchBuilds = new BranchBuilds();
+				branchBuilds.setBranch(branch);
+				branchBuilds.setBuilds(aggregatedDataReader.loadBuildLinks(branch.getName()));
+				result.add(branchBuilds);
+			} catch (RuntimeException e) {
+				LOGGER.error("Could not load builds from branch with name '" + branch.getName() + "' - this branch is corrupt in file system - will be ignored.", e);
+			}
 		}
 
 		return result;
@@ -219,12 +223,18 @@ public class ScenarioDocuBuildsManager implements AliasResolver {
 		buildImporter.submitBuildForReimport(availableBuilds, buildIdentifier);
 	}
 
-	public Future<BuildDiffInfo> importBuildAndCreateComparison(final BuildIdentifier buildIdentifier, final BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
-		return buildImporter.importBuildAndCreateComparison(availableBuilds, buildIdentifier, comparisonBuildIdentifier, comparisonName);
+	/**
+	 * Schedule import of build (if new) and once it was imported also schedule a comparison to be calculated on that same build.
+	 * @return buildDiffInfo as a double future ;-) - because waiting on a result from an asynchronous computation that triggers another asynchronous computation now ;-)
+	 */
+	public Future<Future<BuildDiffInfo>> importBuildIfNewAndScheduleHiPrioComparison(final BuildIdentifier buildIdentifier,
+																					 final BuildIdentifier comparisonBuildIdentifier,
+																					 String comparisonName) {
+		return buildImporter.importBuildIfNewAndScheduleHiPrioComparison(availableBuilds, buildIdentifier, comparisonBuildIdentifier, comparisonName);
 	}
 
 	public void submitBuildForSingleComparison(final BuildIdentifier buildIdentifier, final BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
-		buildImporter.submitBuildForSingleComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName);
+		buildImporter.submitSingleBuildComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName);
 	}
 
 	public LongObjectNamesResolver getLongObjectNameResolver(final BuildIdentifier buildIdentifier) {
