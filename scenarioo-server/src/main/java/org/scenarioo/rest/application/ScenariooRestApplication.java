@@ -50,6 +50,7 @@ public class ScenariooRestApplication extends Application {
 		singletons.add(new BranchBuildsResource());
 		singletons.add(new BuildsResource());
 		singletons.add(new ComparisonsResource());
+		singletons.add(new ComparisonCalculationsResource());
 		singletons.add(new SearchResource());
 		singletons.add(new ScenariosResource());
 		singletons.add(new ScreenshotResource());
