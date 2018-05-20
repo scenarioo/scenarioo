@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}/useCaseName/{useCaseName}/scenarioName/{scenarioName}/")
+@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/")
 public class StepDiffInfoResource {
 
 	private static final Logger LOGGER = Logger.getLogger(StepDiffInfoResource.class);
@@ -40,7 +40,7 @@ public class StepDiffInfoResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/stepIndex/{stepIndex}/stepDiffInfo")
+	@Path("comparisonName/{comparisonName}/useCaseName/{useCaseName}/scenarioName/{scenarioName}/stepIndex/{stepIndex}/stepDiffInfo")
 	public StepDiffInfo getStepDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
@@ -56,7 +56,7 @@ public class StepDiffInfoResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/stepDiffInfos")
+	@Path("comparisonName/{comparisonName}/useCaseName/{useCaseName}/scenarioName/{scenarioName}/stepDiffInfos")
 	public Map<Integer, StepDiffInfo> getStepDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
