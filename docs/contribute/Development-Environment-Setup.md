@@ -122,10 +122,15 @@ But this two repositories should be sufficient for most usual developers.
      * set the tomcat path to tomcat 7 installation
      * set it running on port 8080     
      * on "Deployment" tab: 
-        * choose to deploy the artifact "gradle....scenarioo-viewer...war" (not exploded) on startup
-        * Application context (!important!): /scenarioo   
+        * choose `+` to deploy the artifact from "External Source ..."
+        * select `scenarioo-latest.war` from `sceanrioo-server/build/libs/`
+        * Choose to run the gradle `scenarioo-server:war` before launch
+        * IMPORTANT - Application context: `/scenarioo` 
+        * See also https://stackoverflow.com/questions/27610259/building-war-with-gradle-debugging-with-intellij-idea
+        * You can use `Control+F9` to trigger update of classes when server is running
      * on "Startup/Connection" tab: set environment variable "SCENARIOO_DATA" to following path: &lt;your-project-source-path&gt;\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
-     
+         * do not forget to also set the same in the "debug" mode!
+    
  * Run all tests of the sub-project "scenarioodocu-generation-example" to generate scenarioo example documentation data in Folder "build/scenarioDocuExample"
     * run `./graldlew clean test` (or by choosing it in the Gradle View in IntelliJ, which should as well work)
     * alternativley: select folder 'test' under 'src' folder and right click on 'test' folder and choose "Run 'All Tests'

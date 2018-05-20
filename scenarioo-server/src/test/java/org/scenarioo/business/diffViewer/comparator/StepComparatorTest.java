@@ -27,7 +27,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.diffViewer.impl.DiffFiles;
+import org.scenarioo.dao.diffViewer.DiffViewerFiles;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.model.docu.entities.Page;
@@ -75,7 +75,7 @@ public class StepComparatorTest {
 	@BeforeClass
 	public static void setUpClass() throws IOException {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(folder.newFolder());
-		File comparisonsFolder = new DiffFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
+		File comparisonsFolder = new DiffViewerFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
 		assertTrue(comparisonsFolder.mkdirs());
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 	}

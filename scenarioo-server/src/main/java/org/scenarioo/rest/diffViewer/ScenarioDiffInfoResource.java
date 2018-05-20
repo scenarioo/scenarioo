@@ -19,8 +19,7 @@ package org.scenarioo.rest.diffViewer;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.diffViewer.DiffReader;
-import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
+import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.usecase.UseCasesResource;
@@ -38,7 +37,7 @@ public class ScenarioDiffInfoResource {
 
 	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
 
-	private DiffReader diffReader = new DiffReaderXmlImpl();
+	private DiffViewerDao DiffViewerDao = new DiffViewerDao();
 
 	@GET
 	@Produces("application/json")
@@ -51,7 +50,7 @@ public class ScenarioDiffInfoResource {
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 				baseBranchName,
 				baseBuildName);
-		return diffReader.loadScenarioDiffInfo(buildIdentifier.getBranchName(),
+		return DiffViewerDao.loadScenarioDiffInfo(buildIdentifier.getBranchName(),
 				buildIdentifier.getBuildName(),
 				comparisonName, useCaseName, scenarioName);
 	}
@@ -66,7 +65,7 @@ public class ScenarioDiffInfoResource {
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
-		final List<ScenarioDiffInfo> scenarioDiffInfos = diffReader.loadScenarioDiffInfos(
+		final List<ScenarioDiffInfo> scenarioDiffInfos = DiffViewerDao.loadScenarioDiffInfos(
 				buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), comparisonName, useCaseName);
 		return getScenarioDiffInfoMap(scenarioDiffInfos);
 	}

@@ -21,7 +21,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
-apply from: "${rootProject.projectDir}/java.gradle"
+apply from: "${rootProject.projectDir}/build-java.gradle"
 
 dependencies {
     compile 'org.jboss.resteasy:resteasy-jaxrs:3.1.4.Final'

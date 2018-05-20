@@ -19,8 +19,7 @@ package org.scenarioo.business.diffViewer.comparator;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
-import org.scenarioo.dao.diffViewer.DiffReader;
-import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
+import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -36,7 +35,7 @@ public class ScreenshotComparator {
 
 	private static final Logger LOGGER = Logger.getLogger(ScreenshotComparator.class);
 	private static final int SCREENSHOT_DEFAULT_CHANGE_RATE = 0;
-	private DiffReader diffReader = new DiffReaderXmlImpl();
+	private DiffViewerDao DiffViewerDao = new DiffViewerDao();
 	protected static final ConfigurationRepository configurationRepository =
 		RepositoryLocator.INSTANCE.getConfigurationRepository();
 	private ScenarioDocuReader scenarioDocuReader =
@@ -55,7 +54,7 @@ public class ScreenshotComparator {
 			parameters.getComparisonConfiguration().getComparisonBuildName(), baseUseCaseName, baseScenarioName,
 			comparisonScreenshotName);
 
-		final File diffScreenshot = diffReader.getScreenshotFile(parameters.getBaseBranchName(), parameters.getBaseBuildName(),
+		final File diffScreenshot = DiffViewerDao.getScreenshotFile(parameters.getBaseBranchName(), parameters.getBaseBuildName(),
 			parameters.getComparisonConfiguration().getName(),
 			baseUseCaseName, baseScenarioName, baseScreenshotName);
 

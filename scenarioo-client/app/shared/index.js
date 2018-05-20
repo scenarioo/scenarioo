@@ -20,6 +20,8 @@ require('./metadata/metaDataButton.directive.js');
 require('./metadata/metaDataPanel.directive.js');
 require('./metadata/metaDataTree.directive.js');
 require('./metadata/collapsablePanel.directive.js');
+require('./navigation/branchSelection/branchSelection.directive');
+require('./navigation/buildSelection/buildSelection.directive');
 require('./navigation/navigation.controller.js');
 require('./navigation/title.controller.js');
 require('./utils/humanReadable.filter.js');

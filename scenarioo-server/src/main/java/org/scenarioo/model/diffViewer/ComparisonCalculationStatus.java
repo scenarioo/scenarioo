@@ -1,7 +1,9 @@
 package org.scenarioo.model.diffViewer;
 
 public enum ComparisonCalculationStatus {
-	IN_PROGRESS,
+	QUEUED_FOR_PROCESSING,
+	PROCESSING,
+	SKIPPED,
 	SUCCESS,
 	FAILED
 }

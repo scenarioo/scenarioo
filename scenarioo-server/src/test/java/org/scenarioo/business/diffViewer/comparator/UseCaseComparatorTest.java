@@ -27,8 +27,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.diffViewer.DiffWriter;
-import org.scenarioo.dao.diffViewer.impl.DiffFiles;
+import org.scenarioo.dao.diffViewer.DiffViewerDao;
+import org.scenarioo.dao.diffViewer.DiffViewerFiles;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.entities.UseCase;
@@ -68,7 +68,7 @@ public class UseCaseComparatorTest {
 	private ScenarioDocuReader docuReader;
 
 	@Mock
-	private DiffWriter diffWriter;
+	private DiffViewerDao diffWriter;
 
 	@Mock
 	private ScenarioComparator scenarioComparator;
@@ -79,7 +79,7 @@ public class UseCaseComparatorTest {
 	@BeforeClass
 	public static void setUpClass() throws IOException {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(folder.newFolder());
-		File comparisonsFolder = new DiffFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
+		File comparisonsFolder = new DiffViewerFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
 		assertTrue(comparisonsFolder.mkdirs());
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 	}
@@ -237,7 +237,7 @@ public class UseCaseComparatorTest {
 
 	private UseCaseDiffInfo getUseCaseDiffInfo(double changeRate, int added, int changed,
 											   int removed) {
-		UseCaseDiffInfo useCaseDiffInfo = new UseCaseDiffInfo();
+		UseCaseDiffInfo useCaseDiffInfo = new UseCaseDiffInfo("fake use case");
 		useCaseDiffInfo.setChangeRate(changeRate);
 		useCaseDiffInfo.setAdded(added);
 		useCaseDiffInfo.setChanged(changed);

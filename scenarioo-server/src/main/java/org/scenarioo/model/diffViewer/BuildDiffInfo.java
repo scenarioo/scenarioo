@@ -18,17 +18,25 @@
 package org.scenarioo.model.diffViewer;
 
 import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.rest.base.BuildIdentifier;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
+import java.util.Date;
 
 @XmlRootElement
 @XmlSeeAlso(UseCase.class)
 public class BuildDiffInfo extends StructureDiffInfo<String, UseCase> {
 
-	private String comparisonBranchName;
-	private String comparisonBuildName;
-	private ComparisonCalculationStatus comparisonCalculationStatus;
+	private BuildIdentifier baseBuild;
+
+	private BuildIdentifier compareBuild;
+
+	private ComparisonCalculationStatus status;
+
+	private Date calculationDate;
+
+	private Date baseBuildDate;
 
 	public BuildDiffInfo() {
 		super();
@@ -37,32 +45,47 @@ public class BuildDiffInfo extends StructureDiffInfo<String, UseCase> {
 	public BuildDiffInfo(final String comparisonName, final String comparisonBranchName,
 			final String comparisonBuildName) {
 		super(comparisonName);
-		this.comparisonBranchName = comparisonBranchName;
-		this.comparisonBuildName = comparisonBuildName;
+		this.compareBuild = new BuildIdentifier(comparisonBranchName, comparisonBuildName);
 	}
 
-	public String getComparisonBranchName() {
-		return comparisonBranchName;
+	public BuildIdentifier getBaseBuild() {
+		return baseBuild;
 	}
 
-	public void setComparisonBranchName(final String comparisonBranchName) {
-		this.comparisonBranchName = comparisonBranchName;
+	public void setBaseBuild(BuildIdentifier baseBuild) {
+		this.baseBuild = baseBuild;
 	}
 
-	public String getComparisonBuildName() {
-		return comparisonBuildName;
+	public Date getBaseBuildDate() {
+		return baseBuildDate;
 	}
 
-	public void setComparisonBuildName(final String comparisonBuildName) {
-		this.comparisonBuildName = comparisonBuildName;
+	public void setBaseBuildDate(Date baseBuildDate) {
+		this.baseBuildDate = baseBuildDate;
 	}
 
-	public ComparisonCalculationStatus getComparisonCalculationStatus() {
-		return comparisonCalculationStatus;
+	public BuildIdentifier getCompareBuild() {
+		return compareBuild;
 	}
 
-	public void setComparisonCalculationStatus(ComparisonCalculationStatus comparisonCalculationStatus) {
-		this.comparisonCalculationStatus = comparisonCalculationStatus;
+	public void setCompareBuild(BuildIdentifier compareBuild) {
+		this.compareBuild = compareBuild;
+	}
+
+	public ComparisonCalculationStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ComparisonCalculationStatus status) {
+		this.status = status;
+	}
+
+	public Date getCalculationDate() {
+		return calculationDate;
+	}
+
+	public void setCalculationDate(Date calculationDate) {
+		this.calculationDate = calculationDate;
 	}
 
 }
