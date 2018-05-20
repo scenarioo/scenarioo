@@ -323,14 +323,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                               ng-show="hasAnyLabels()">
             <div class="sc-tree">
                 <ul>
-                    <li id="usecase-labels" ng-show="useCaseLabels.labels">
+                    <li id="usecase-labels" ng-show="useCaseLabels.label">
                         Use case:
-                        <span ng-repeat="label in useCaseLabels.labels" class="label label-info sc-label"
+                        <span ng-repeat="label in useCaseLabels.label" class="label label-info sc-label"
                               ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
-                    <li id="scenario-labels" ng-show="scenarioLabels.labels">
+                    <li id="scenario-labels" ng-show="scenarioLabels.label">
                         Scenario:
-                        <span ng-repeat="label in scenarioLabels.labels" class="label label-info sc-label"
+                        <span ng-repeat="label in scenarioLabels.label" class="label label-info sc-label"
                               ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
                     <li id="step-labels" ng-show="step.stepDescription.labels.label">
