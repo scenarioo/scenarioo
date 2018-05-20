@@ -224,7 +224,7 @@ public class ScenarioDocuBuildsManager implements AliasResolver {
 	}
 
 	public void submitBuildForSingleComparison(final BuildIdentifier buildIdentifier, final BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
-		buildImporter.submitBuildForSingleComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName);
+		buildImporter.submitSingleBuildComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName);
 	}
 
 	public LongObjectNamesResolver getLongObjectNameResolver(final BuildIdentifier buildIdentifier) {

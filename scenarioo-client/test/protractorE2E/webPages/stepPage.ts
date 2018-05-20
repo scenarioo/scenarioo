@@ -147,7 +147,7 @@ StepPage.prototype.clickOnLink = function (linkId) {
 };
 
 StepPage.prototype.assertToolTipInBreadcrumb = function (expectedTooltip) {
-    var toolTip = element(by.id('tooltip_1')).getAttribute('tooltip');
+    var toolTip = element(by.id('tooltip_1')).getAttribute('uib-tooltip');
     expect(toolTip).toBe(expectedTooltip);
 };
 
