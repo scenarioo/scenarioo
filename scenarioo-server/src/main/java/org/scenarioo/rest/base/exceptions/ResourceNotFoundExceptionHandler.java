@@ -32,7 +32,7 @@ public class ResourceNotFoundExceptionHandler implements ExceptionMapper<Resourc
 
 	@Override
 	public Response toResponse(final ResourceNotFoundException exception) {
-		LOGGER.error("Resource not found", exception);
+		LOGGER.warn("Resource not found: " + exception.getMessage());
 		return Response.status(404).build();
 	}
 }
