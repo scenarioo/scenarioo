@@ -35,9 +35,11 @@ public class ScreenshotComparator {
 
 	private static final Logger LOGGER = Logger.getLogger(ScreenshotComparator.class);
 	private static final int SCREENSHOT_DEFAULT_CHANGE_RATE = 0;
-	private DiffViewerDao DiffViewerDao = new DiffViewerDao();
 	protected static final ConfigurationRepository configurationRepository =
 		RepositoryLocator.INSTANCE.getConfigurationRepository();
+
+	private DiffViewerDao diffViewerDao = new DiffViewerDao();
+
 	private ScenarioDocuReader scenarioDocuReader =
 		new ScenarioDocuReader(configurationRepository.getDocumentationDataDirectory());
 
@@ -54,7 +56,7 @@ public class ScreenshotComparator {
 			parameters.getComparisonConfiguration().getComparisonBuildName(), baseUseCaseName, baseScenarioName,
 			comparisonScreenshotName);
 
-		final File diffScreenshot = DiffViewerDao.getScreenshotFile(parameters.getBaseBranchName(), parameters.getBaseBuildName(),
+		final File diffScreenshot = diffViewerDao.getScreenshotFile(parameters.getBaseBranchName(), parameters.getBaseBuildName(),
 			parameters.getComparisonConfiguration().getName(),
 			baseUseCaseName, baseScenarioName, baseScreenshotName);
 

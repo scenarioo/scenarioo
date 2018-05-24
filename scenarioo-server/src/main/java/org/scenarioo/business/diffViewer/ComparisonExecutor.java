@@ -51,7 +51,7 @@ public class ComparisonExecutor {
 	private ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 		.getConfigurationRepository();
 
-	private DiffViewerDao DiffViewerDao = new DiffViewerDao();
+	private DiffViewerDao diffViewerDao = new DiffViewerDao();
 
 	private ScenarioDocuReader docuReader = new ScenarioDocuReader(
 		configurationRepository.getDocumentationDataDirectory());
@@ -410,7 +410,7 @@ public class ComparisonExecutor {
 	private ThreadLogAppender registerLogFile(String baseBranchName, String baseBuildName,
 											  ComparisonConfiguration comparisonConfiguration) {
 		String comparisonName = comparisonConfiguration.getName();
-		File comparisonLogFile = DiffViewerDao.getBuildComparisonLogFile(baseBranchName, baseBuildName,
+		File comparisonLogFile = diffViewerDao.getBuildComparisonLogFile(baseBranchName, baseBuildName,
 			comparisonName);
 		String comparisonIdentifier = baseBranchName + "/" + baseBuildName + "/" + comparisonName;
 
