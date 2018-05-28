@@ -152,7 +152,6 @@ public class BuildImporter {
 			LOGGER.info("Build not exists yet, submitting new import with additional task for hi prio comparison calculation.");
 			buildImportSummary = createBuildImportSummary(buildIdentifier);
 			buildImportSummaries.put(buildIdentifier, buildImportSummary);
-			CompletableFuture<Future<BuildDiffInfo>> submittedFutureComparison = new CompletableFuture<>();
 			submitBuildForImport(availableBuilds, buildIdentifier);
 			Future<Future<BuildDiffInfo>> futureResult = submitSingleBuildComparisonAfterLastImport(buildIdentifier, comparisonBuildIdentifier, comparisonName);
 			saveBuildImportSummaries(buildImportSummaries);
