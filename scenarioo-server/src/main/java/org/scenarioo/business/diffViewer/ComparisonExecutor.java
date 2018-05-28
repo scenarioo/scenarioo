@@ -96,7 +96,7 @@ public class ComparisonExecutor {
 
 	private synchronized boolean isComparisonAlreadyCalculated(final String baseBranchName, final String baseBuildName, String comparisonName) {
 		try {
-			BuildDiffInfo diff = DiffViewerDao.loadBuildDiffInfo(baseBranchName, baseBuildName, comparisonName);
+			BuildDiffInfo diff = diffViewerDao.loadBuildDiffInfo(baseBranchName, baseBuildName, comparisonName);
 			return diff != null && diff.getStatus() != null && diff.getStatus() != ComparisonCalculationStatus.QUEUED_FOR_PROCESSING;
 		} catch (ResourceNotFoundException e) {
 			return false;
@@ -219,7 +219,7 @@ public class ComparisonExecutor {
 
 	private synchronized boolean isComparisonInStateQueuedForComparison(final String baseBranchName, final String baseBuildName, String comparisonName) {
 		try {
-			BuildDiffInfo diff = DiffViewerDao.loadBuildDiffInfo(baseBranchName, baseBuildName, comparisonName);
+			BuildDiffInfo diff = diffViewerDao.loadBuildDiffInfo(baseBranchName, baseBuildName, comparisonName);
 			return diff != null && diff.getStatus() == ComparisonCalculationStatus.QUEUED_FOR_PROCESSING;
 		} catch (ResourceNotFoundException e) {
 			return false;
