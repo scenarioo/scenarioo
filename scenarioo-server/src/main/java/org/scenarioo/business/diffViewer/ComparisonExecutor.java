@@ -63,8 +63,7 @@ public class ComparisonExecutor {
 	 * Create comparison executor to execute comparisons in its own executors (to not block imports of builds and run comparisons of imported builds in parallel)
 	 */
 	public ComparisonExecutor(AliasResolver aliasResolver) {
-		asyncComparisonExecutor = newAsyncComparisonExecutor();
-		this.aliasResolver = aliasResolver;
+		this(newAsyncComparisonExecutor(), aliasResolver);
 	}
 
 	/**
