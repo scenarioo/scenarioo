@@ -215,7 +215,6 @@ public class BuildImporter {
 		buildsInProcessingQueue.add(buildIdentifier);
 		summary.setStatus(BuildImportStatus.QUEUED_FOR_PROCESSING);
 
-		// Schedule asynch import
 		asyncBuildImportExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
