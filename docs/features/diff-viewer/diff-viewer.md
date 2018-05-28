@@ -57,9 +57,9 @@ The following screenshot shows a diff icon example:
 
 ### Colors
 
-* **Green:** Number of new elements
-* **Orange:** Number of changed elements
-* **Red:** Number of removed elements
+* **Green:** New elements
+* **Orange:** Changed elements
+* **Red:** Removed elements
 
 ### Change Rate
 
