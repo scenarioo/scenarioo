@@ -78,7 +78,7 @@ public class ComparisonExecutor {
 	/**
 	 * Submits all comparisons for the given build.
 	 *
-	 * Does not recalculate any comparisons that have allready been calculated in the filesystem.
+	 * Does not recalculate any comparisons that have already been calculated in the filesystem.
 	 */
 	public void scheduleAllConfiguredComparisonsForOneBuild(String baseBranchName, String baseBuildName) {
 		List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = getComparisonConfigurationsForBaseBranch(
@@ -105,7 +105,7 @@ public class ComparisonExecutor {
 
 	/**
 	 * Schedule a comparison calculation for a single build to become calculated
-	 * or even force to recalculate it (even if it allready exists).
+	 * or even force to recalculate it (even if it already exists).
 	 */
 	public Future<BuildDiffInfo> scheduleComparison(String baseBranchName, String baseBuildName,
 													String comparisonBranchName, String comparisonBuildName, String comparisonName) {
@@ -153,11 +153,11 @@ public class ComparisonExecutor {
 				configurationRepository.getConfiguration().getDiffImageAwtColor());
 			long startTime = System.currentTimeMillis();
 
-			// Precondition check: do nothing if comparison was allready calculated since scheduling it for calculation.
+			// Precondition check: do nothing if comparison was already calculated since scheduling it for calculation.
 			try {
 				if (!isComparisonInStateQueuedForComparison(baseBranchName, baseBuildName, comparisonConfiguration.getName())) {
 					// DO NOTHING: The comparison was already processed somehow inbetween (maybe same comparison was scheduled more than once)
-					LOGGER.info("Scheduled Comparsion has allready been calculated inbetween, not calculating it again: "
+					LOGGER.info("Scheduled Comparison has already been calculated inbetween, not calculating it again: "
 						+ getComparisonConfigString(baseBranchName, baseBuildName, comparisonConfiguration));
 					return null;
 				}
