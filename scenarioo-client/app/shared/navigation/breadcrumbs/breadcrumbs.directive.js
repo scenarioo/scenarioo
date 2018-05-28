@@ -74,7 +74,7 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
             template: require('../../../manage/comparisons/createComparisonModal.html'),
             controller: 'CreateComparisonModalController',
             controllerAs: 'vm',
-            windowClass: 'modal-medium'
+            windowClass: 'modal-small'
         });
     }
 
