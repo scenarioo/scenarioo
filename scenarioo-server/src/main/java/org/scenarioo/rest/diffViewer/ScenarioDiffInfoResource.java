@@ -37,7 +37,7 @@ public class ScenarioDiffInfoResource {
 
 	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
 
-	private DiffViewerDao DiffViewerDao = new DiffViewerDao();
+	private DiffViewerDao diffViewerDao = new DiffViewerDao();
 
 	@GET
 	@Produces("application/json")
@@ -50,7 +50,7 @@ public class ScenarioDiffInfoResource {
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 				baseBranchName,
 				baseBuildName);
-		return DiffViewerDao.loadScenarioDiffInfo(buildIdentifier.getBranchName(),
+		return diffViewerDao.loadScenarioDiffInfo(buildIdentifier.getBranchName(),
 				buildIdentifier.getBuildName(),
 				comparisonName, useCaseName, scenarioName);
 	}
@@ -65,7 +65,7 @@ public class ScenarioDiffInfoResource {
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
-		final List<ScenarioDiffInfo> scenarioDiffInfos = DiffViewerDao.loadScenarioDiffInfos(
+		final List<ScenarioDiffInfo> scenarioDiffInfos = diffViewerDao.loadScenarioDiffInfos(
 				buildIdentifier.getBranchName(), buildIdentifier.getBuildName(), comparisonName, useCaseName);
 		return getScenarioDiffInfoMap(scenarioDiffInfos);
 	}
