@@ -21,8 +21,7 @@ corresponding most recent markdown file for that page).
  * Git
  * Java JDK 1.8
  * Tomcat 7 (recommended), 8 or 9
- * node 6.11.5 (comes with npm 3.10.10), we currently can't upgrade to a newer version because of issu 
-   [#656](https://github.com/scenarioo/scenarioo/issues/676).
+ * node 8.11.2 (comes with npm 5.6.0)
  * Elasticsearch 2.x (see [install guide](../features/full-text-search/setup.md) for details).
  * IntelliJ IDEA Ultimate (latest version, ask bruderol if you want to use an open source license)
 
