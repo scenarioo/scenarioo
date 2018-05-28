@@ -34,7 +34,7 @@ public class StepDiffScreenshotResource {
 
 	private static final Logger LOGGER = Logger.getLogger(StepDiffScreenshotResource.class);
 
-	private DiffViewerDao DiffViewerDao = new DiffViewerDao();
+	private DiffViewerDao diffViewerDao = new DiffViewerDao();
 
 	@GET
 	@Produces("image/png")
@@ -53,7 +53,7 @@ public class StepDiffScreenshotResource {
 
 		final String imageFileName = NumberFormatter.formatMinimumThreeDigits(stepIndex) + ".png";
 
-		return DiffViewerDao.getScreenshotFile(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+		return diffViewerDao.getScreenshotFile(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 			comparisonName, usecaseName, scenarioName, imageFileName);
 	}
 
