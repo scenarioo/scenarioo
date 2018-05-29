@@ -86,7 +86,11 @@ public class Configuration {
 	 */
 	private boolean createLastSuccessfulScenarioBuild = false;
 
+	/**
+	 * Should pages be expanded by default in the scenario overview page for one scenario?
+	 */
 	private boolean expandPagesInScenarioOverview = false;
+
 	@XmlElementWrapper(name = "branchAliases")
 	@XmlElement(name = "branchAlias")
 	private List<BranchAlias> branchAliases = new LinkedList<BranchAlias>();
