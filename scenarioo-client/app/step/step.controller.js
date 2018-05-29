@@ -47,7 +47,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     activate();
 
     function activate() {
-        SketcherLinkService.showCreateOrEditSketchLinkInBreadcrumbs('Create Sketch', createSketch);
+        SketcherLinkService.showCreateOrEditSketchLinkInBreadcrumbs('Create Sketch ...', createSketch);
         SelectedBranchAndBuildService.callOnSelectionChange(loadStep);
     }
 

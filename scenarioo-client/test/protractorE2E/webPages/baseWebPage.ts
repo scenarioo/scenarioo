@@ -70,7 +70,7 @@ BaseWebPage.prototype.startScenariooFirstTimeVisit = function () {
 };
 
 /**
- * Start scenarioo as a user that has allready visited it before (visited cookie will be set).
+ * Start scenarioo as a user that has already visited it before (visited cookie will be set).
  */
 BaseWebPage.prototype.startScenariooRevisited = function() {
     e2eUtils.initLocalStorage();

@@ -18,7 +18,7 @@
     * [Labels](features/Labels.md)
     * [Details & Object Repository](features/Details.md)
     * [Scenarioo Format Validator](features/validator-component/Scenarioo-Validator.md)
-  * [Diff Viewer](features/diff-viewer.md)
+  * [Diff Viewer](features/diff-viewer/diff-viewer.md)
   * [Full Text Search](features/full-text-search/README.md)
      * [Full Text Search Setup](features/full-text-search/setup.md)
      * [Full Text Search Specs](features/full-text-search/specifications.md)
