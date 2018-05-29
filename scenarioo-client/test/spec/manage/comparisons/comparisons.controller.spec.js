@@ -21,15 +21,16 @@ describe('ComparisonsController', function () {
 
     var $httpBackend, $controller, $scope, TestData;
 
-    beforeEach(angular.mock.module('scenarioo.controllers'));
-
-    beforeEach(inject(function (_$controller_, $rootScope, _$httpBackend_, _TestData_) {
-            $httpBackend = _$httpBackend_;
-            TestData = _TestData_;
-            $controller = _$controller_;
-            $scope = $rootScope.$new();
-        }
-    ));
+    beforeEach(function() {
+        angular.mock.module('scenarioo.controllers')
+        inject(function (_$controller_, $rootScope, _$httpBackend_, _TestData_) {
+                $httpBackend = _$httpBackend_;
+                TestData = _TestData_;
+                $controller = _$controller_;
+                $scope = $rootScope.$new();
+            }
+        );
+    });
 
     it('loads comparisions in the beginning', function () {
         var ComparisonsController = createController();
