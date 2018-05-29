@@ -151,7 +151,7 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
 
     function isEqualBuild(buildIdentifier, branch, build) {
         // if it is an alias, the name is somehow stored in the description field (very dirty, but that is how it currently is)
-        var branchNameToCompare = branch.alias ? branch.branch.description : branch.branch.name;
+        var branchNameToCompare = branch.isAlias ? branch.branch.description : branch.branch.name;
         return buildIdentifier.branchName === branchNameToCompare && buildIdentifier.buildName === build.build.name;
     }
 
