@@ -1,5 +1,7 @@
 'use strict';
-import {scenario, step, useCase} from "scenarioo-js";
+
+import { scenario, step, useCase } from "scenarioo-js";
+import * as Utils from "../util/util";
 
 var pages = require('./../webPages');
 
@@ -12,14 +14,14 @@ useCase('Manage branch aliases')
 
         var branchAliasesPage = new pages.branchAliasesPage();
 
-        beforeEach(function () {
-            new pages.homePage().initLocalStorage();
+        beforeEach(async function () {
+            await Utils.startScenariooRevisited();
         });
 
         scenario('Add and remove')
             .description('Branch aliases can be added and removed')
-            .it(function () {
-                branchAliasesPage.goToPage();
+            .it(async function () {
+                Utils.navigateToRoute();
                 step('display the manage branch aliases page');
 
                 branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
@@ -53,8 +55,8 @@ useCase('Manage branch aliases')
 
         scenario('Validation')
             .description('Saving is not possible if referenced branch is not selected')
-            .it(function () {
-                branchAliasesPage.goToPage();
+            .it(async function () {
+                Utils.navigateToRoute();
                 branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
                 branchAliasesPage.enterAlias('Test', '', 'my description');
                 branchAliasesPage.assertSaveNotPossible();
@@ -63,8 +65,8 @@ useCase('Manage branch aliases')
 
         scenario('Unique aliases')
             .description('Alias names have to be unique')
-            .it(function () {
-                branchAliasesPage.goToPage();
+            .it(async function () {
+                Utils.navigateToRoute();
                 branchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
                 branchAliasesPage.enterAlias('duplicate', 'wikipedia-docu-example', 'duplicate alias name');
                 branchAliasesPage.saveAndAssertSuccessMessage();

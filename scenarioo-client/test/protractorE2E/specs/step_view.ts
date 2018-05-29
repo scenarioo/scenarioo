@@ -1,5 +1,7 @@
 'use strict';
-import {scenario, step, useCase} from "scenarioo-js";
+
+import { scenario, step, useCase } from "scenarioo-js";
+import * as Utils from "../util/util";
 
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
@@ -16,20 +18,20 @@ useCase('Step - View')
         var scenarioPage = new pages.scenarioPage();
         var stepPage = new pages.stepPage();
 
-        beforeEach(function () {
-            new pages.homePage().initLocalStorage();
+        beforeEach(async function () {
+            await Utils.startScenariooRevisited();
         });
 
         scenario('Navigation')
             .description('Navigate back and forth through the scenario steps.')
             .labels(['happy'])
-            .it(function () {
+            .it(async function () {
 
                 var ROUTE_OF_FIRST_STEP = '/step/Find%20Page/find_no_results/startSearch.jsp/0/0';
                 var ROUTE_OF_SECOND_STEP = '/step/Find%20Page/find_no_results/startSearch.jsp/0/1';
                 var ROUTE_OF_THIRD_STEP = '/step/Find%20Page/find_no_results/searchResults.jsp/0/0';
 
-                homePage.goToPage();
+                Utils.navigateToRoute();
                 step('Display home page with list of use cases');
 
                 homePage.selectUseCase(1);
@@ -75,9 +77,9 @@ useCase('Step - View')
 
         scenario('Step does not exist')
             .description('If the requested step does not exist, an error message is shown.')
-            .it(function () {
+            .it(async function () {
 
-                stepPage.goToPage('/step/Find Page/find_no_results/inexistent_page.jsp/0/42');
+                Utils.navigateToRoute('/step/Find Page/find_no_results/inexistent_page.jsp/0/42');
                 stepPage.assertErrorMessageIsShown();
 
                 step('Error message.');
@@ -85,9 +87,9 @@ useCase('Step - View')
 
         scenario('Fallback step exists')
             .description('A fallback message is shown in case the page does not exist but a fallback is found.')
-            .it(function () {
+            .it(async function () {
 
-                stepPage.goToPage('/step/Find%20Page/renamed_scenario/searchResults.jsp/0/0');
+                Utils.navigateToRoute('/step/Find%20Page/renamed_scenario/searchResults.jsp/0/0');
 
                 stepPage.assertFallbackMessageIsShown();
                 stepPage.assertFallbackMessageContainsText('Scenario: find_multiple_results');
@@ -97,9 +99,9 @@ useCase('Step - View')
 
         scenario('Fallback to best match')
             .description('If the fallback mechanism finds multiple candidates, the one with the most matching labels is used.')
-            .it(function () {
+            .it(async function () {
 
-                stepPage.goToPage('/step/RenamedUseCase/DeletedScenario/contentPage.jsp/111/222?labels=exact%20match,i18n,step-label-2,public,page-label1,page-label2');
+                Utils.navigateToRoute('/step/RenamedUseCase/DeletedScenario/contentPage.jsp/111/222?labels=exact%20match,i18n,step-label-2,public,page-label1,page-label2');
 
                 stepPage.assertFallbackMessageIsShown();
                 stepPage.assertFallbackMessageContainsText('Usecase: Switch Language');
@@ -110,9 +112,9 @@ useCase('Step - View')
 
         scenario('Share step')
             .description('The step link popup shows the link to the step and to the image.')
-            .it(function () {
+            .it(async function () {
 
-                stepPage.goToPage('/step/Find Page/find_no_results/startSearch.jsp/0/0');
+                Utils.navigateToRoute('/step/Find Page/find_no_results/startSearch.jsp/0/0');
                 step('A step.');
 
                 stepPage.clickShareThisPageLink();
@@ -122,9 +124,9 @@ useCase('Step - View')
 
         scenario('Metadata with link to object')
             .description('Click on a object link in Call tree and jump to object example.action.StartInitAction')
-            .it(function () {
+            .it(async function () {
 
-                stepPage.goToPage('/step/Find%20Page/find_no_results/startSearch.jsp/0/0');
+                Utils.navigateToRoute('/step/Find%20Page/find_no_results/startSearch.jsp/0/0');
                 stepPage.openMetadataTabIfClosed(1);
                 step('Expand Call tree panel');
 
@@ -134,9 +136,9 @@ useCase('Step - View')
 
         scenario('HTML view of current step')
             .description('If the step data contains html source data, it should be displayed in the HTML tab')
-            .it(function () {
+            .it(async function () {
 
-                stepPage.goToPage('/step/Find%20Page/find_no_results/startSearch.jsp/0/0');
+                Utils.navigateToRoute('/step/Find%20Page/find_no_results/startSearch.jsp/0/0');
                 step('A step');
 
                 stepPage.clickHtmlTabButton();
@@ -150,8 +152,8 @@ useCase('Step - View')
 
         scenario('Step without HTML source attached')
             .description('If the step data contains no html source data, the HTML tab should not be displayed at all')
-            .it(function () {
-                stepPage.goToPage('/step/Donate/find_donate_page/startSearch.jsp/0/0');
+            .it(async function () {
+                Utils.navigateToRoute('/step/Donate/find_donate_page/startSearch.jsp/0/0');
                 stepPage.assertHtmlTabIsHidden();
                 step('A step with no HTML source attached');
             });

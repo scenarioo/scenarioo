@@ -1,90 +1,79 @@
 'use strict';
-import {browser, by, element, protractor} from "protractor";
 
-var BaseWebPage = require('./baseWebPage'),
-    util = require('util');
+import { browser, by, element, protractor } from "protractor";
+import * as Utils from "../util/util";
 
-function ObjectDetailsPage(overridePath) {
-    if (overridePath && overridePath.length > 0) {
-        BaseWebPage.call(this, overridePath);
-    } else {
-        BaseWebPage.call(this, '/');
-    }
-}
+export default class ObjectDetailsPage {
 
-util.inherits(ObjectDetailsPage, BaseWebPage);
-
-ObjectDetailsPage.prototype.clickNthTreeTableRow = function (rowNumberWithoutHeader) {
-    element.all(by.css('#treeviewtable tbody tr')).then(function(elements) {
-        var nthRow = elements[rowNumberWithoutHeader];
-        var link = nthRow.element(by.css('span'));
+    static async clickNthTreeTableRow(rowNumberWithoutHeader) {
+        const elements = await element.all(by.css('#treeviewtable tbody tr'));
+        const nthRow = elements[rowNumberWithoutHeader];
+        const link = await nthRow.element(by.css('span'));
         link.click();
-    });
-};
+    };
 
-ObjectDetailsPage.prototype.clickToExpand = function (nodeId) {
-    var node = element(by.id('node_' + nodeId));
-    var imageId = 'img_' + nodeId;
-    expect(node.isDisplayed()).toBe(true);
+    static async clickToExpand(nodeId) {
+        const node = element(by.id('node_' + nodeId));
+        const imageId = 'img_' + nodeId;
+        await expect(node.isDisplayed()).toBe(true);
 
-    var imageElement = node.element(by.id(imageId));
-    this.waitForElementVisible(imageElement);
-    imageElement.click();
-};
+        const imageElement = node.element(by.id(imageId));
+        await Utils.waitForElementVisible(imageElement);
+        imageElement.click();
+    };
 
-ObjectDetailsPage.prototype.assertTreeNodeStatus = function (nodeId, status) {
-    var node = element(by.id('node_' + nodeId));
-    var imageId = 'img_' + nodeId;
-    expect(node.getText()).not.toBe(null);
-    expect(node.isDisplayed()).toBe(true);
-    var imageElement = node.element(by.id(imageId));
-    var imgAttribute = imageElement.getAttribute('src');
-    expect(imgAttribute).toBe(browser.params.baseUrl + '/images/' + status + '.png');
-};
+    static async assertTreeNodeStatus(nodeId, status) {
+        const node = element(by.id('node_' + nodeId));
+        const imageId = 'img_' + nodeId;
+        await expect(node.getText()).not.toBe(null);
+        await expect(node.isDisplayed()).toBe(true);
+        const imageElement = node.element(by.id(imageId));
+        const imgAttribute = imageElement.getAttribute('src');
+        return expect(imgAttribute).toBe(browser.params.baseUrl + '/images/' + status + '.png');
+    };
 
-ObjectDetailsPage.prototype.assertNumberOfRows = function(expectedRowCount) {
-    element(protractor.By.tagName('tbody')).all(protractor.By.tagName('tr')).then(function(rows){
-        expect(rows.length).toBe(expectedRowCount);
-    });
-};
+    static async assertNumberOfRows(expectedRowCount) {
+        const rows = await element(protractor.By.tagName('tbody')).all(protractor.By.tagName('tr'));
+        return expect(rows.length).toBe(expectedRowCount);
+    };
 
-ObjectDetailsPage.prototype.enterSearchCriteria = function(searchCriteria) {
-    var searchField = element(by.name('searchCriteria'));
-    searchField.sendKeys(searchCriteria);
-};
+    static async enterSearchCriteria(searchCriteria) {
+        const searchField = element(by.name('searchCriteria'));
+        return searchField.sendKeys(searchCriteria);
+    };
 
-ObjectDetailsPage.prototype.assertRowToContainTextAndBeDisplayed = function(row, text) {
-    var matchElement = element(by.id('node_' + row));
-    expect(matchElement.getText()).toContain(text);
-    expect(matchElement.isDisplayed()).toBeTruthy();
-};
+    static async assertRowToContainTextAndBeDisplayed(row, text) {
+        const matchElement = element(by.id('node_' + row));
+        await expect(matchElement.getText()).toContain(text);
+        return expect(matchElement.isDisplayed()).toBeTruthy();
+    };
 
-ObjectDetailsPage.prototype.resetSearchCriteriaWithEsc = function() {
-    var searchField = element(by.name('searchCriteria'));
-    searchField.sendKeys(protractor.Key.ESCAPE);
-};
+    static async resetSearchCriteriaWithEsc() {
+        const searchField = element(by.name('searchCriteria'));
+        return searchField.sendKeys(protractor.Key.ESCAPE);
+    };
 
-ObjectDetailsPage.prototype.clickCollapseAll = function() {
-    var toggleButton = element(by.id('toggleButton'));
-    toggleButton.click();
-    expect(toggleButton.getText()).toContain('expand all');
-};
+    static async clickCollapseAll() {
+        const toggleButton = element(by.id('toggleButton'));
+        await toggleButton.click();
+        return expect(toggleButton.getText()).toContain('expand all');
+    };
 
-ObjectDetailsPage.prototype.doubleClickOnNode = function(nodeId) {
-    var node = element(by.id('node_' + nodeId));
-    var imageId = 'img_' + nodeId;
-    var imageElement = node.element(by.id(imageId));
+    static async doubleClickOnNode(nodeId) {
+        const node = element(by.id('node_' + nodeId));
+        const imageId = 'img_' + nodeId;
+        const imageElement = node.element(by.id(imageId));
 
-    this.waitForElementVisible(imageElement);
+        await Utils.waitForElementVisible(imageElement);
 
-    imageElement.click();
-    browser.actions().doubleClick(imageElement).perform();
-};
+        await imageElement.click();
+        return browser.actions().doubleClick(imageElement).perform();
+    };
 
-ObjectDetailsPage.prototype.assertTreeNodeIsDisplayed = function(nodeId) {
-    var node = element(by.id('node_' + nodeId));
-    expect(node.isDisplayed()).toBeTruthy();
-    expect(node.getText()).not.toBe(null);
-};
+    static async assertTreeNodeIsDisplayed(nodeId) {
+        const node = element(by.id('node_' + nodeId));
+        await expect(node.isDisplayed()).toBeTruthy();
+        await expect(node.getText()).not.toBe(null);
+    };
 
-module.exports = ObjectDetailsPage;
+}

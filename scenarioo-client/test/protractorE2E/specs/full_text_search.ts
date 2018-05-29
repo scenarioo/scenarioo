@@ -1,5 +1,7 @@
 'use strict';
-import {scenario, step, useCase} from "scenarioo-js";
+
+import { scenario, step, useCase } from "scenarioo-js";
+import * as Utils from "../util/util";
 
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
@@ -15,13 +17,13 @@ useCase('Full Text Search')
         var breadcrumbsPage = new pages.breadcrumbsPage();
         var stepPage = new pages.stepPage();
 
-        beforeEach(function () {
-            new pages.homePage().initLocalStorage();
+        beforeEach(async function () {
+            await Utils.startScenariooRevisited();
         });
 
         scenario('Configuration and status')
             .description('The admin page shows the configured elaasticsearch endpoint and whether it\'s reachable.')
-            .it(function () {
+            .it(async function () {
                 generalSettingsPage.goToPage();
                 generalSettingsPage.assertSearchEndpointConfiguredAndReachable();
                 step('Search endpoint is configured and reachable');
@@ -30,7 +32,7 @@ useCase('Full Text Search')
         scenario('Search with result')
             .description('Search for a term that yields some results.')
             .it(function() {
-                homePage.goToPage();
+                Utils.navigateToRoute();
                 navigationPage.enterSearchTerm('donate.jsp');
                 step('Search term entered');
 
@@ -50,7 +52,7 @@ useCase('Full Text Search')
         scenario('Search with and without HTML source')
             .description('By default the HTML source is not searched, but the user can select to also search it.')
             .it(function() {
-                homePage.goToPage();
+                Utils.navigateToRoute();
                 navigationPage.enterSearchTerm('body');
                 step('Search term body entered, which mainly appears in the html source code');
 
@@ -59,7 +61,7 @@ useCase('Full Text Search')
                 breadcrumbsPage.assertBreadcrumbElementText('breadcrumb_last_1', 'Search Results for body');
                 searchResultsPage.assertNoResultsShown();
                 step('No results, as not searching in html source');
-                
+
                 searchResultsPage.clickIncludeHtml();
                 breadcrumbsPage.assertBreadcrumbElementText('breadcrumb_0', 'Home');
                 breadcrumbsPage.assertBreadcrumbElementText('breadcrumb_last_1', 'Search Results for body');

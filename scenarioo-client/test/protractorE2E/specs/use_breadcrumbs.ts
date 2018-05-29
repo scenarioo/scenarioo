@@ -1,9 +1,10 @@
 'use strict';
-import {scenario, step, useCase} from "scenarioo-js";
+
+import { scenario, step, useCase } from "scenarioo-js";
+import * as Utils from "../util/util";
 
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
-
 
 useCase('Use breadcrumbs')
     .description('Breadcrumbs help navigating Scenarioo. They are used to navigate back to a use case or a scenario from a more detailed page.')
@@ -14,15 +15,15 @@ useCase('Use breadcrumbs')
         var breadcrumbsPage = new pages.breadcrumbsPage();
         var stepPage = new pages.stepPage();
 
-        beforeEach(function () {
-            new pages.homePage().initLocalStorage();
+        beforeEach(async function () {
+            await Utils.startScenariooRevisited();
         });
 
         scenario('Navigate upwards')
             .description('Navigate to the Home Page, filter for one use case, select scenario, click on breadcrumb')
-            .it(function () {
+            .it(async function () {
 
-                homePage.goToPage();
+                Utils.navigateToRoute();
                 step('Display the homePage');
 
                 homePage.assertPageIsDisplayed();
@@ -47,9 +48,9 @@ useCase('Use breadcrumbs')
 
         scenario('Tooltip in breadcrumbs')
             .description('Navigate to scenario and test for tooltip')
-            .it(function () {
+            .it(async function () {
 
-                stepPage.goToPage('/step/Find%20Page/find_page_with_text_on_page_from_multiple_results/searchResults.jsp/0/0');
+                Utils.navigateToRoute('/step/Find%20Page/find_page_with_text_on_page_from_multiple_results/searchResults.jsp/0/0');
                 step('Display steps and pages');
 
                 breadcrumbsPage.assertThatTooltipIsShown('tooltip_2', 'Scenario: Find page with ' +

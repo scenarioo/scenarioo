@@ -1,50 +1,47 @@
 'use strict';
-import {by, element} from "protractor";
 
-var BaseWebPage = require('./baseWebPage'),
-    util = require('util');
+import { by, element, ElementFinder } from "protractor";
+import * as Utils from "../util/util";
 
-function SearchResultsPage(overridePath) {
-    if (overridePath && overridePath.length > 0) {
-        BaseWebPage.call(this, overridePath);
-    } else {
-        BaseWebPage.call(this, '/');
-    }
+export default class SearchResultsPage {
+
+    private path: string = "/";
+    private static searchBox: ElementFinder = element(by.id('sc-global-search-box'));
+    private static searchBoxTextField: ElementFinder = element(by.id('sc-global-search-box-textfield'));
+
+    async enterSearchTerm(searchTerm) {
+        // TODO: fix
+        // this.searchBoxTextField.clear();
+        // this.searchBox.sendKeys(searchTerm);
+    };
+
+    async clickSearchButton() {
+        // TODO: fix
+        // this.searchBoxButton.click();
+    };
+
+    async assertResultTableTitle(expectedTitle) {
+        expect(element(by.id('sc-treeviewtable-title')).getText()).toBe(expectedTitle);
+    };
+
+    async assertNumberOfResultRows(expectedNumber) {
+        expect(element.all(by.css('#treeviewtable tbody tr')).count()).toBe(expectedNumber);
+    };
+
+    async assertNoResultsShown() {
+        expect(element(by.id('sc-search-no-results-message')).isDisplayed()).toBeTruthy();
+        expect(element(by.id('sc-search-results-table')).isDisplayed()).toBeFalsy();
+    };
+
+    async openFirstScenarioAndClickStep() {
+        var image = element(by.id('img_1'));
+        Utils.waitForElementVisible(image);
+        image.click();
+        element(by.css('#node_2 span')).click();
+    };
+
+    async clickIncludeHtml() {
+        element(by.id('sc-search-include-html')).click();
+    };
+
 }
-
-util.inherits(SearchResultsPage, BaseWebPage);
-
-SearchResultsPage.prototype.enterSearchTerm = function(searchTerm) {
-    this.searchBoxTextField.clear();
-    this.searchBox.sendKeys(searchTerm);
-};
-
-SearchResultsPage.prototype.clickSearchButton = function() {
-    this.searchBoxButton.click();
-};
-
-SearchResultsPage.prototype.assertResultTableTitle = function(expectedTitle) {
-    expect(element(by.id('sc-treeviewtable-title')).getText()).toBe(expectedTitle);
-};
-
-SearchResultsPage.prototype.assertNumberOfResultRows = function(expectedNumber) {
-    expect(element.all(by.css('#treeviewtable tbody tr')).count()).toBe(expectedNumber);
-};
-
-SearchResultsPage.prototype.assertNoResultsShown = function() {
-    expect(element(by.id('sc-search-no-results-message')).isDisplayed()).toBeTruthy();
-    expect(element(by.id('sc-search-results-table')).isDisplayed()).toBeFalsy();
-};
-
-SearchResultsPage.prototype.openFirstScenarioAndClickStep = function() {
-    var image = element(by.id('img_1'));
-    this.waitForElementVisible(image);
-    image.click();
-    element(by.css('#node_2 span')).click();
-};
-
-SearchResultsPage.prototype.clickIncludeHtml = function() {
-    element(by.id('sc-search-include-html')).click();
-};
-
-module.exports = SearchResultsPage;

@@ -1,5 +1,7 @@
 'use strict';
-import {scenario, step, useCase} from "scenarioo-js";
+
+import { scenario, step, useCase } from "scenarioo-js";
+import * as Utils from "../util/util";
 
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
@@ -11,14 +13,14 @@ useCase('Configure label colors')
         var labelConfigurationsPage = new pages.labelConfigurationsPage();
         var homePage = new pages.homePage();
 
-        beforeEach(function () {
-            new pages.homePage().initLocalStorage();
+        beforeEach(async function () {
+            await Utils.startScenariooRevisited();
         });
 
         scenario('Create, edit and delete label configurations')
-            .it(function () {
+            .it(async function () {
 
-                labelConfigurationsPage.goToPage();
+                Utils.navigateToRoute("/");
                 step('show label configurations');
 
                 labelConfigurationsPage.assertNumConfigurations(0);
@@ -26,7 +28,7 @@ useCase('Configure label colors')
                 labelConfigurationsPage.addLabelConfiguration('corner-case', 5);
                 step('add label configuration');
 
-                homePage.goToPage();
+                Utils.navigateToRoute("/");
                 step('navigate away from the label config page to some other page');
 
                 labelConfigurationsPage.goToPage();
@@ -38,9 +40,8 @@ useCase('Configure label colors')
 
                 labelConfigurationsPage.deleteLabelConfiguration(0);
 
-                labelConfigurationsPage.goToPage();
+                Utils.navigateToRoute("/");
                 labelConfigurationsPage.assertNumConfigurations(0);
-
             });
 
     });

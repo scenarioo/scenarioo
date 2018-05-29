@@ -1,5 +1,7 @@
 'use strict';
-import {scenario, step, useCase} from "scenarioo-js";
+
+import { scenario, step, useCase } from "scenarioo-js";
+import * as Utils from "../util/util";
 
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
@@ -19,15 +21,15 @@ useCase('Use branch aliases')
         var stepPage = new pages.stepPage();
         var navigationPage = new pages.navigationPage();
 
-        beforeEach(function () {
-            new pages.homePage().initLocalStorage();
+        beforeEach(async function () {
+            await Utils.startScenariooRevisited();
         });
 
         scenario('Select branch by alias')
             .description('Create an alias and assert browsing through steps works')
-            .it(function () {
+            .it(async function () {
 
-                branchAliasesPage.goToPage();
+                Utils.navigateToRoute();
                 branchAliasesPage.enterAlias('Latest dev', 'wikipedia-docu-example', 'alias to latest development release');
                 branchAliasesPage.save();
                 step('Create new branch alias');
@@ -35,7 +37,7 @@ useCase('Use branch aliases')
                 navigationPage.chooseBranch('Latest dev');
                 step('choose branch alias');
 
-                homePage.goToPage();
+                Utils.navigateToRoute();
                 homePage.selectUseCase(1);
                 usecasePage.selectScenario(0);
                 scenarioPage.openStepByName('Step 1: Wikipedia Suche');
@@ -43,7 +45,7 @@ useCase('Use branch aliases')
                 step('browse step using branch alias');
 
                 // Restore initial state for other tests
-                branchAliasesPage.goToPage();
+                Utils.navigateToRoute();
                 branchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
                 branchAliasesPage.save();
                 navigationPage.chooseBranch(BRANCH_WIKI);

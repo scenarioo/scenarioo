@@ -1,5 +1,7 @@
 'use strict';
-import {scenario, step, useCase} from "scenarioo-js";
+
+import { scenario, step, useCase } from "scenarioo-js";
+import * as Utils from "../util/util";
 
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
@@ -18,13 +20,13 @@ useCase('List scenarios')
         var scenarioPage = new pages.scenarioPage();
         var navigationPage = new pages.navigationPage();
 
-        beforeEach(function () {
-            new pages.homePage().initLocalStorage();
+        beforeEach(async function () {
+            await Utils.startScenariooRevisited();
         });
 
         scenario('Expand all, collapse all on scenario page')
-            .it(function () {
-                homePage.goToPage();
+            .it(async function () {
+                Utils.navigateToRoute();
                 step('select a use case from the use case list');
                 homePage.assertPageIsDisplayed();
                 homePage.assertUseCasesShown(NUMBER_OF_USE_CASES);
@@ -43,8 +45,8 @@ useCase('List scenarios')
 
         scenario('Display Diff-Information')
             .labels(['diff-viewer'])
-            .it(function () {
-                homePage.goToPage();
+            .it(async function () {
+                Utils.navigateToRoute();
                 step('display usecases on homepage');
                 homePage.assertPageIsDisplayed();
                 navigationPage.chooseComparison(COMPARISON_PROJECTSTART);
@@ -58,8 +60,8 @@ useCase('List scenarios')
 
         scenario('Sort by Diff-Information')
             .labels(['diff-viewer'])
-            .it(function () {
-                homePage.goToPage();
+            .it(async function () {
+                Utils.navigateToRoute();
                 step('display usecases on homepage');
                 homePage.assertPageIsDisplayed();
                 navigationPage.chooseComparison('To Projectstart');

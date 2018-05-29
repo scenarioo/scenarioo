@@ -1,5 +1,7 @@
 'use strict';
+
 import {scenario, step, useCase} from "scenarioo-js";
+import * as Utils from "../util/util";
 
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
@@ -14,17 +16,17 @@ useCase('Create sketch')
         var stepPage = new pages.stepPage();
         var editorPage = new pages.editorPage();
 
-        beforeEach(function () {
-            homePage.initLocalStorage();
+        beforeEach(async function () {
+            await Utils.startScenariooRevisited();
         });
 
         scenario('New issue success')
             .description('Create a new issue successfully')
-            .it(function () {
+            .it(async function () {
 
                 var sketchName = 'automated test sketch 1';
 
-                homePage.goToPage();
+                Utils.navigateToRoute();
 
                 step('Select a use case from the list');
                 homePage.selectUseCase(1);
@@ -49,15 +51,15 @@ useCase('Create sketch')
                 editorPage.clickSaveButton();
                 editorPage.assertSaveSketchSuccessfulMessageIsDisplayed();
 
-                homePage.goToPage();
+                Utils.navigateToRoute();
                 homePage.selectSketchesTab();
                 homePage.assertSketchesListContainsEntryWithSketchName(sketchName);
             });
 
         scenario('New issue fail')
             .description('Fail to create an issue because insufficient information was entered')
-            .it(function () {
-                stepPage.goToPage('/step/Find%20Page/find_no_results/startSearch.jsp/0/0');
+            .it(async function () {
+                Utils.navigateToRoute('/step/Find%20Page/find_no_results/startSearch.jsp/0/0');
 
                 step('click "Create Sketch" button');
                 stepPage.clickCreateSketchButton();
@@ -69,9 +71,9 @@ useCase('Create sketch')
 
         scenario('Remember author')
             .description('The author is remembered and automatically filled in for future issues')
-            .it(function () {
+            .it(async function () {
 
-                stepPage.goToPage('/step/Donate/find_donate_page/donate.jsp/0/0');
+                Utils.navigateToRoute('/step/Donate/find_donate_page/donate.jsp/0/0');
 
                 step('Click "Create Sketch" button');
                 stepPage.clickCreateSketchButton();
@@ -84,7 +86,7 @@ useCase('Create sketch')
                 editorPage.clickSaveButton();
                 editorPage.assertSaveSketchSuccessfulMessageIsDisplayed();
 
-                stepPage.goToPage('/step/Switch%20Language/search_article_in_german_and_switch_to_spanish/contentPage.jsp/0/0');
+                Utils.navigateToRoute('/step/Switch%20Language/search_article_in_german_and_switch_to_spanish/contentPage.jsp/0/0');
 
                 step('Go to a different step and create a sketch');
                 stepPage.clickCreateSketchButton();

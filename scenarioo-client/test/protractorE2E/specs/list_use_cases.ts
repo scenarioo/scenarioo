@@ -1,5 +1,7 @@
 'use strict';
-import {scenario, step, useCase} from "scenarioo-js";
+
+import { scenario, step, useCase } from "scenarioo-js";
+import * as Utils from "../util/util";
 
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
@@ -15,13 +17,13 @@ useCase('List use cases')
         var homePage = new pages.homePage();
         var navigationPage = new pages.navigationPage();
 
-        beforeEach(function () {
-            homePage.initLocalStorage();
+        beforeEach(async function () {
+            await Utils.startScenariooRevisited();
         });
 
         scenario('Display and filter usecases')
-            .it(function () {
-                homePage.goToPage();
+            .it(async function () {
+                Utils.navigateToRoute();
                 homePage.assertUseCasesShown(NUMBER_OF_USE_CASES);
                 step('display usecases on homepage');
                 homePage.assertPageIsDisplayed();
@@ -37,8 +39,8 @@ useCase('List use cases')
             });
 
         scenario('Show and hide metadata')
-            .it(function () {
-                homePage.goToPage();
+            .it(async function () {
+                Utils.navigateToRoute();
                 step('display the homePage, metadata shown');
                 homePage.assertPageIsDisplayed();
                 homePage.assertMetaDataShown();
@@ -52,8 +54,8 @@ useCase('List use cases')
 
         scenario('Display Diff-Information')
             .labels(['diff-viewer'])
-            .it(function () {
-                homePage.goToPage();
+            .it(async function () {
+                Utils.navigateToRoute();
                 step('display usecases on homepage');
                 navigationPage.chooseComparison(COMPARISON_PROJECTSTART);
                 homePage.assertPageIsDisplayed();

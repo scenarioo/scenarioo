@@ -29,7 +29,7 @@ var exportsConfig = {
     allScriptsTimeout: 20000,
     getPageTimeout: 20000,
 
-    specs: ['./test/protractorE2E/specs/**/*.ts'],
+    specs: ['./test/protractorE2E/specs/**/choose_comparisons.ts'],
 
     capabilities: {
         browserName: 'chrome',
@@ -63,7 +63,9 @@ var exportsConfig = {
         includeStackTrace: true,
         // Default time to wait in ms before a test fails.
         defaultTimeoutInterval: 30000
-    }
+    },
+
+    SELENIUM_PROMISE_MANAGER: 0
 };
 
 exports.config = exportsConfig;

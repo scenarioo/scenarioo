@@ -1,6 +1,7 @@
 'use strict';
 
-import {scenario, step, useCase} from "scenarioo-js";
+import { scenario, step, useCase } from "scenarioo-js";
+import * as Utils from "../util/util";
 
 const pages = require('./../webPages');
 
@@ -15,16 +16,16 @@ useCase('Step - Comparison')
         const scenarioPage = new pages.scenarioPage();
         const stepPage = new pages.stepPage();
 
-        beforeEach(function () {
-            new pages.homePage().initLocalStorage();
+        beforeEach(async function () {
+            await Utils.startScenariooRevisited();
         });
 
         scenario('Compare Screens')
             .description('Show screenshot comparison')
             .labels(['diff-viewer'])
-            .it(function () {
+            .it(async function () {
 
-                stepPage.goToPage('/step/Find%20Page/find_page_title_unique_directly/contentPage.jsp/0/0?branch=wikipedia-docu-example&build=last%20successful&comparison=To%20Projectstart');
+                Utils.navigateToRoute('/step/Find%20Page/find_page_title_unique_directly/contentPage.jsp/0/0?branch=wikipedia-docu-example&build=last%20successful&comparison=To%20Projectstart');
                 step('Changed Step is displayed');
 
                 stepPage.openComparisonTab();
@@ -66,10 +67,10 @@ useCase('Step - Comparison')
         scenario('Compare Added Step')
             .description('For added steps no comparison screenshot is available.')
             .labels(['diff-viewer'])
-            .it(function () {
+            .it(async function () {
 
                 const SCREENSHOT_SRC = 'rest/branch/wikipedia-docu-example/build/last%20successful/usecase/Donate/scenario/find_donate_page/image/001.png';
-                stepPage.goToPage('/step/Donate/find_donate_page/startSearch.jsp/0/1?branch=wikipedia-docu-example&build=last%20successful&comparison=To%20Projectstart');
+                Utils.navigateToRoute('/step/Donate/find_donate_page/startSearch.jsp/0/1?branch=wikipedia-docu-example&build=last%20successful&comparison=To%20Projectstart');
                 step('Added Step is displayed');
 
                 stepPage.openComparisonTab();

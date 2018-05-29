@@ -1,5 +1,7 @@
 'use strict';
-import {scenario, step, useCase} from "scenarioo-js";
+
+import { scenario, step, useCase } from "scenarioo-js";
+import * as Utils from "../util/util";
 
 var scenarioo = require('scenarioo-js');
 var pages = require('./../webPages');
@@ -12,13 +14,13 @@ useCase('List custom tabs')
 
         var homePage = new pages.homePage();
 
-        beforeEach(function () {
-            homePage.initLocalStorage();
+        beforeEach(async function () {
+            await Utils.startScenariooRevisited();
         });
 
         scenario('Display and filter pages')
-            .it(function () {
-                homePage.goToPage();
+            .it(async function () {
+                Utils.navigateToRoute();
                 step('display the homePage');
                 homePage.selectPagesTab();
                 homePage.assertPagesTabContainsPage('startSearch.jsp');
