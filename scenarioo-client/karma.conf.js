@@ -97,6 +97,8 @@ module.exports = function (config) {
         // if true, it capture browsers, run tests and exit
         singleRun: false,
 
+        // This tells the Karma server to serve the .ts files with a text/x-typescript mime type.
+        // It's required to make .ts files work in unit tests.
         mime: {
             'text/x-typescript': ['ts']
         }
