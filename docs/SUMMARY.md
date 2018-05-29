@@ -18,12 +18,10 @@
     * [Labels](features/Labels.md)
     * [Details & Object Repository](features/Details.md)
     * [Scenarioo Format Validator](features/validator-component/Scenarioo-Validator.md)
+  * [Diff Viewer](features/diff-viewer/diff-viewer.md)
   * [Full Text Search](features/full-text-search/README.md)
      * [Full Text Search Setup](features/full-text-search/setup.md)
      * [Full Text Search Specs](features/full-text-search/specifications.md)
-  * [Diff Viewer](features/diff-viewer/README.md)
-     * [Diff Viewer User Guide](features/diff-viewer/user-guide.md)
-     * [Diff Viewer Setup Guide](features/diff-viewer/setup.md)
 
 * [Contributor Guide](contribute/README.md)
   * [Development Environment Setup](contribute/Development-Environment-Setup.md)

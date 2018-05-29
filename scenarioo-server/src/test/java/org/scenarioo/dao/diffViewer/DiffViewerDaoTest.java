@@ -83,8 +83,6 @@ public class DiffViewerDaoTest {
 		final BuildDiffInfo buildDiffInfo = getBuildDiffInfo(COMPARISON_NAME);
 
 		buildWriter.saveBuildDiffInfo(buildDiffInfo);
-		buildWriter.flush();
-
 		final BuildDiffInfo actualBuildDiffInfo = dao.loadBuildDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
 			COMPARISON_NAME);
 
@@ -96,7 +94,6 @@ public class DiffViewerDaoTest {
 		final UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(USE_CASE_NAME);
 
 		buildWriter.saveUseCaseDiffInfo(useCaseDiffInfo);
-		buildWriter.flush();
 
 		final UseCaseDiffInfo actualUseCaseDiffInfo = dao.loadUseCaseDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
 			COMPARISON_NAME, USE_CASE_NAME);
@@ -109,7 +106,6 @@ public class DiffViewerDaoTest {
 		final ScenarioDiffInfo scenarioDiffInfo = getScenarioDiffInfo(SCENARIO_NAME);
 
 		buildWriter.saveScenarioDiffInfo(scenarioDiffInfo, USE_CASE_NAME);
-		buildWriter.flush();
 
 		final ScenarioDiffInfo actualScenarioDiffInfo = dao.loadScenarioDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
 			COMPARISON_NAME, USE_CASE_NAME, SCENARIO_NAME);
@@ -122,7 +118,6 @@ public class DiffViewerDaoTest {
 		final StepDiffInfo stepDiffInfo = getStepDiffInfo(STEP_INDEX);
 
 		buildWriter.saveStepDiffInfo(USE_CASE_NAME, SCENARIO_NAME, stepDiffInfo);
-		buildWriter.flush();
 
 		final StepDiffInfo actualStepDiffInfo = dao.loadStepDiffInfo(BASE_BRANCH_NAME, BASE_BUILD_NAME,
 			COMPARISON_NAME, USE_CASE_NAME, SCENARIO_NAME, STEP_INDEX);
@@ -136,7 +131,6 @@ public class DiffViewerDaoTest {
 			buildWriter = dao.getBuildDiffWriter(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME + i);
 			final BuildDiffInfo buildDiffInfo = getBuildDiffInfo(COMPARISON_NAME + i);
 			buildWriter.saveBuildDiffInfo(buildDiffInfo);
-			buildWriter.flush();
 		}
 
 		final List<BuildDiffInfo> actualBuildDiffInfos = dao.loadBuildDiffInfos(BASE_BRANCH_NAME, BASE_BUILD_NAME);
@@ -149,11 +143,11 @@ public class DiffViewerDaoTest {
 
 	@Test
 	public void testWriteAndReadUseCaseDiffInfos() {
+
 		for (int i = 0; i < NUMBER_OF_FILES; i++) {
 			final UseCaseDiffInfo useCaseDiffInfo = getUseCaseDiffInfo(USE_CASE_NAME + i);
 			buildWriter.saveUseCaseDiffInfo(useCaseDiffInfo);
 		}
-		buildWriter.flush();
 
 		final List<UseCaseDiffInfo> actualUseCaseDiffInfos = dao.loadUseCaseDiffInfos(BASE_BRANCH_NAME,
 			BASE_BUILD_NAME,
@@ -171,7 +165,6 @@ public class DiffViewerDaoTest {
 			final ScenarioDiffInfo scenarioDiffInfo = getScenarioDiffInfo(SCENARIO_NAME + i);
 			buildWriter.saveScenarioDiffInfo(scenarioDiffInfo, USE_CASE_NAME);
 		}
-		buildWriter.flush();
 
 		final List<ScenarioDiffInfo> actualScenarioDiffInfos = dao.loadScenarioDiffInfos(BASE_BRANCH_NAME,
 			BASE_BUILD_NAME, COMPARISON_NAME, USE_CASE_NAME);
@@ -188,7 +181,6 @@ public class DiffViewerDaoTest {
 			final StepDiffInfo stepDiffInfo = getStepDiffInfo(STEP_INDEX + i);
 			buildWriter.saveStepDiffInfo(USE_CASE_NAME, SCENARIO_NAME, stepDiffInfo);
 		}
-		buildWriter.flush();
 
 		final List<StepDiffInfo> actualStepDiffInfos = dao.loadStepDiffInfos(BASE_BRANCH_NAME, BASE_BUILD_NAME,
 			COMPARISON_NAME, USE_CASE_NAME, SCENARIO_NAME);

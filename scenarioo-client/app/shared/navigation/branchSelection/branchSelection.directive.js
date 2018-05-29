@@ -15,27 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.services').factory('ComparisonStatusMapperService', function () {
-
-    var styleClassesForComparisonStatus = {
-        'QUEUED_FOR_PROCESSING': 'label-info',
-        'PROCESSING': 'label-primary',
-        'SKIPPED': 'label-default',
-        'SUCCESS': 'label-success',
-        'FAILED': 'label-danger'
+angular.module('scenarioo.directives').directive('scBranchSelection', function ($routeParams, $location, $route, $compile,
+                                                                            $filter, $sce, $uibModal, BranchesAndBuildsService) {
+    return {
+        restrict: 'E',
+        replace: true,
+        template: require('./branchSelection.html'),
+        scope: {
+            branchesAndBuilds: '=',
+            selectedBranch: '=',
+            onBranchChange: '&'
+        },
+        link: function (scope) {
+            scope.getBranchDisplayName = getBranchDisplayName;
+        }
     };
 
-    function getStyleClassForComparisonStatus(status) {
-        var styleClassFromMapping = styleClassesForComparisonStatus[status];
-        if (angular.isUndefined(styleClassFromMapping)) {
-            return 'label-warning';
-        } else {
-            return styleClassFromMapping;
-        }
-    }
-
-    return {
-        getStyleClassForComparisonStatus: getStyleClassForComparisonStatus
+    function getBranchDisplayName(wrappedBranch) {
+        return BranchesAndBuildsService.getBranchDisplayName(wrappedBranch);
     }
 
 });

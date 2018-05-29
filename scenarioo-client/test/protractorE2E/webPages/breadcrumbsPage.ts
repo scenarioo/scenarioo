@@ -27,7 +27,7 @@ BreadcrumbPage.prototype.assertBreadcrumbElementText = function(breadcrumbId, us
 
 BreadcrumbPage.prototype.assertThatTooltipIsShown = function(toolTipId, toolTipText){
     var toolTipElement =  this.breadcrumbs.element(by.id(toolTipId));
-    var toolTipAttribute = toolTipElement.getAttribute('tooltip');
+    var toolTipAttribute = toolTipElement.getAttribute('uib-tooltip');
 
     expect(toolTipAttribute).toBe(toolTipText);
 };
