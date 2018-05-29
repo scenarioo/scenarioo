@@ -57,7 +57,7 @@ public class Configuration {
 
 	private String elasticSearchEndpoint = "localhost:9300";
 
-	private String elasticSearchClusterName = "scenarioo";
+	private String elasticSearchClusterName = "elasticsearch";
 
 	private String applicationName = "";
 

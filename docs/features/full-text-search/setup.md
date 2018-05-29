@@ -18,8 +18,8 @@ You can either install it on the same machine where you host Scenarioo or on a s
 You have to configure the endpoint URL and cluster name of the Elasticsearch cluster.
 
 By default following values are preconfigured for you:
-* elasticSearchEndpoint: localhost:9300
-* elasticSearchClusterName: scenarioo
+* elasticSearchEndpoint: localhost:9300 (usually the default of elasticsearch installations)
+* elasticSearchClusterName: elasticsearch (usually the default of elasticsearch installations)
 
 You can change those values in the `config.xml` file of scenarioo in your scenarioo data directory.
 
