@@ -22,7 +22,7 @@ corresponding most recent markdown file for that page).
  * Java JDK 1.8
  * Tomcat 7 (recommended), 8 or 9
  * node 8.11.2 (comes with npm 5.6.0)
- * Elasticsearch 2.x (see [install guide](../features/full-text-search/setup.md) for details).
+ * Elasticsearch 5.x (see [Full Text Search Setup Guide](../features/full-text-search/setup.md) for details).
  * IntelliJ IDEA Ultimate (latest version, ask bruderol if you want to use an open source license)
 
    

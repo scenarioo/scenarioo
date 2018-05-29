@@ -1,35 +1,35 @@
 # Setup Scenarioo Full Text Search
 
-Scenarioo Full Text Search is an optional feature, that is only
-activated if your config.xml file points to a reachable
-Elasticsearch instance.
+Scenarioo Full Text Search is an optional feature to search for all text in your scenarioo test documentation.
+
+To enable the feature and make it work you have to run an Elasticsearch server and configure scenarioo properly to connect to that server.
+
+If Scenarioo can not connect to the Elasticsearch server, the feature is disabled.
 
 ## Install Elasticsearch
 
-Scenarioo only works with Elasticsearch version 2.x (see [GitHub issue](https://github.com/scenarioo/scenarioo/issues/616)).
+Scenarioo currently uses Elasticsearch version 5.x, so you have to install an Elasticsearch Server of that version.
 
-Please refer to the official documentation to set up Elasticsearch.
-You can either install it on the same machine where you host Scenarioo
-or on a separate machine.
+Please refer to the official documentation to set up Elasticsearch. 
+You can either install it on the same machine where you host Scenarioo or on a separate machine.
 
 ## Configure Elasticsearch
 
-By default `config.xml` does not contain an Elasticsearch endpoint
-configuration. That's why the full text search feature is switched off.
+You have to configure the endpoint URL and cluster name of the Elasticsearch cluster.
 
-In order to enable the full text search feature, add the 
-`elasticSearchEndpoint` tag to the config.xml file and set the value
-to the host and port of your Elasticsearch instance.
+By default following values are preconfigured for you:
+* elasticSearchEndpoint: localhost:9300
+* elasticSearchClusterName: scenarioo
 
-Please make sure to use the port for node communication of Elasticsearch,
-i.e. port `9300` in default installations of Elasticsearch.  
+You can change those values in the `config.xml` file of scenarioo in your scenarioo data directory.
 
-Here's an example using the default port of Elasticsearch:
+Here's an example configuration for the search feature in the `config.xml`:
 
 ```
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
     <elasticSearchEndpoint>localhost:9300</elasticSearchEndpoint>
+    <elasticSearchClusterName>scenarioo</elasticSearchClusterName>
     <!-- omitted other config tags -->
 </configuration>
 ```
