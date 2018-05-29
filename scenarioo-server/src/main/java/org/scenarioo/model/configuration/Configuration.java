@@ -55,7 +55,9 @@ public class Configuration {
 
 	private String scenarioPropertiesInOverview;
 
-	private String elasticSearchEndpoint;
+	private String elasticSearchEndpoint = "localhost:9300";
+
+	private String elasticSearchClusterName = "scenarioo";
 
 	private String applicationName = "";
 
@@ -157,6 +159,14 @@ public class Configuration {
 
 	public void setElasticSearchEndpoint(String elasticSearchEndpoint) {
 		this.elasticSearchEndpoint = elasticSearchEndpoint;
+	}
+
+	public String getElasticSearchClusterName() {
+		return elasticSearchClusterName;
+	}
+
+	public void setElasticSearchClusterName(String elasticSearchClusterName) {
+		this.elasticSearchClusterName = elasticSearchClusterName;
 	}
 
 	public String getApplicationName() {
