@@ -17,42 +17,32 @@
 
 'use strict';
 
+var webpackConfig = require('./configs/webpack.config.test');
+
 module.exports = function (config) {
 
     config.set({
         frameworks: ['jasmine'],
-
 
         // base path, that will be used to resolve files and exclude
         basePath: '',
 
         // list of files / patterns to load in the browser
         files: [
-            'node_modules/angular/angular.js',
+            'app/app.js',
             'node_modules/angular-mocks/angular-mocks.js',
-            'app/*.js',
-            'app/*.ts',
-            'app/!(components)/**/*.js',
-            'test/mock/**/*.js',
-            'test/mock/**/*.ts',
+            'test/mock/*.ts',
             'test/spec/**/*.js',
             'test/spec/**/*.ts'
         ],
 
         preprocessors: {
-            'node_modules/angular/angular.js': ['webpack'],
-            'node_modules/angular-mocks/angular-mocks.js': ['webpack'],
-            'app/*.js': ['webpack'],
-            'app/*.ts': ['webpack'],
-            'app/!(components)/**/*.js': ['webpack'],
-            'app/!(components)/**/*.ts': ['webpack'],
-            'test/mock/**/*.js': ['webpack'],
-            'test/mock/**/*.ts': ['webpack'],
-            'test/spec/**/*.js': ['webpack'],
+            'app/app.js': ['webpack'],
+            'test/mock/*.ts': ['webpack'],
             'test/spec/**/*.ts': ['webpack']
         },
 
-        webpack: require('./configs/webpack.config.test'),
+        webpack: webpackConfig,
 
         webpackMiddleware: {
             noInfo: true,
@@ -65,10 +55,9 @@ module.exports = function (config) {
         plugins: [
             'karma-jasmine',
             'karma-junit-reporter',
-            'karma-phantomjs-launcher',
+            'karma-chrome-launcher',
             'karma-webpack'
         ],
-
 
         // list of files to exclude
         exclude: [],
@@ -95,9 +84,8 @@ module.exports = function (config) {
 
         // Start these browsers, currently available:
         // - Chrome
-        // - Firefox
-        // - PhantomJS
-        browsers: ['PhantomJS'],
+        // - ChromeHeadless
+        browsers: ['ChromeHeadless'],
 
         // If browser does not capture in given timeout [ms], kill it
         captureTimeout: 20000,
@@ -105,10 +93,15 @@ module.exports = function (config) {
         browserDisconnectTolerance : 1,
         browserNoActivityTimeout : 60000, //by default 10000
 
-
         // Continuous Integration mode
         // if true, it capture browsers, run tests and exit
-        singleRun: false
+        singleRun: false,
+
+        // This tells the Karma server to serve the .ts files with a text/x-typescript mime type.
+        // It's required to make .ts files work in unit tests.
+        mime: {
+            'text/x-typescript': ['ts']
+        }
     });
 
 };
