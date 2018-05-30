@@ -1,51 +1,42 @@
 # Scenarioo Webpage and Documentation
 
 
-**TODO: this info here is probably not 100% accurate, ask @bruderol, this needs to be corrected!**
+## Web Page
 
-We use Jekyll to generate our webpage and documentation on the github pages.
+The scnearioo.org webpage is maintained in repository 
+https://github.com/scenarioo/scenarioo.github.io
 
-What is special: 
-We do not directly maintain the docu files in the gh-pages branch. We edit our pages in the 'docu' directory on every branch and finaly release from the docu directory on master branch to gh-pages.
+The web page can be changed in that repo by simply do a PR to master.
 
-## Jekyll Setup for generating Webpage and Documentation
+See README.md in that repo for further detailed information.
 
-You need to install Jekyll and all prerequisites on your development environment machine, as explained here under https://help.github.com/articles/using-jekyll-with-pages/.
+Changes for further releases should not yet been made on master but prepared on special release branches, to be merged on the date of release.
 
-This was what I did on the scenarioo dev VM to get it installed:
+## Documentation
 
- * Install Ruby 2.x:
-   See also http://rvm.io/ for how to install ruby version manager (RVM) to get newest ruby version, I did the following steps on the VM:
-    * `sudo apt-get update`
-    * `gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3`
-    * `sudo apt-get install curl`
-    * `\curl -sSL https://get.rvm.io | bash -s stable`
-    * `source /home/scenarioo/.rvm/scripts/rvm`
-    * `rvm get stable`
-    * `rvm install ruby2.2.1`
- * Install Jekyll:
-    * `gem install bundler`
-    * call the following command inside the 'scenarioo.github.io' directory (where Gemfile is checked in): 
-      `bundle install`
+We do not use Wikis!
 
-## How to maintain/edit the docu
+All our repos have a docs folder with a markdown file documentation using gitbook tooling.
 
-Simply change the html and markdown files in the repository 'scenarioo.github.io'.
+The major scenarioo documentation is in major scenarioo repository here:
+https://github.com/scenarioo/scenarioo/tree/develop/docs
 
-**Attention**: If you work for documentation of a future release, then do not work on the main branch but change the docu on the appropriate branch!
+###  How to Publish Documentation
 
-## How to generate and review docu
+* Make sure the version of scenarioo/scenarioo you want to release docu for is checked out
 
-you can browse the webpage locally, by calling the following commands inside directory 'scenarioo.github.io':
- * `jekyll serve`
- * browse to localhost:4000
+* Is it docu for a new release version of scenarioo? If not, continue with next step, otherwise do the following first ... 
+  * Add configuration for this new version to configuration in https://github.com/scenarioo/scenarioo/blob/develop/docs/book.json
+  * Configure that version to be selected in the book.json
+  * In scenarioo.github.io web page repository: Create a new subfolder in folder `docs` for that new version
 
-To be sure that the compilation is similar and uptodate with github pages, you should maybe use the following instead:
- * TODO
+* Make sure the book.json has the correct version you are going to release selected in the configuration (`"selected": true`)
 
+* Run `npm run build` in `docs` folder.
 
-## How to release the docu to github pages
+* Copy the generated content to the scenarioo.github.io repository:
+    * Select all content of `docs/_book` to copy (without the .gitignore file)
+    * Copy to scenarioo.github.io repo into the correct sub folder of `docs` for the version you want to deploy
+    * Make sure the target folder is cleaned first, if there was already an old version of the docu deployed for that same version, before you copy.
 
-Follow the usual release process, and merge the changes you made to the master branch
-
-If you checkin on master branch your change is directly released.
+* Commit and push the new version to master branch on scenarioo.github.io
