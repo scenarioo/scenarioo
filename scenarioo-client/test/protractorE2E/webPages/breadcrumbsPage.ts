@@ -1,10 +1,10 @@
 'use strict';
 
-import { by, element, ElementFinder } from 'protractor';
+import { by, ElementFinder, $ } from 'protractor';
 
 export default class BreadcrumbPage {
 
-    private static breadcrumbs: ElementFinder = element(by.css('.breadcrumb'));
+    private static breadcrumbs: ElementFinder = $('.breadcrumb');
 
     static async clickOnBreadcrumb(breadcrumbId) {
         return this.breadcrumbs.element(by.id(breadcrumbId)).click();

@@ -1,13 +1,13 @@
 'use strict';
 
-import { by, element, ElementFinder } from 'protractor';
+import {by, element, ElementFinder, $, $$} from 'protractor';
 import * as Utils from '../util/util';
 
 export default class BranchAliasesPage {
 
-    private static branchAliasTable: ElementFinder = element(by.css('table.table-responsive'));
-    private static saveButton: ElementFinder = element(by.css('input.btn[value="Save"]'));
-    private static resetButton: ElementFinder = element(by.css('input.btn[value="Reset"]'));
+    private static branchAliasTable: ElementFinder = $('table.table-responsive');
+    private static saveButton: ElementFinder = $('input.btn[value="Save"]');
+    private static resetButton: ElementFinder = $('input.btn[value="Reset"]');
 
     static async goToPage() {
         return Utils.navigateToRoute('/manage?tab=branchAliases');
@@ -24,7 +24,7 @@ export default class BranchAliasesPage {
     }
 
     static async assertAliasesAreShownFirstInTheNavigationMenu() {
-        const branchOptions = element.all(by.css('#branchSelectionDropdown .branchOption'));
+        const branchOptions = $$('#branchSelectionDropdown .branchOption');
         await expect(branchOptions.get(2).getText()).toBe('Test Alias 1 (wikipedia-docu-example)');
         return expect(branchOptions.get(3).getText()).toBe('Test Alias 2 (wikipedia-docu-example)');
     }
@@ -35,13 +35,13 @@ export default class BranchAliasesPage {
         const rowToEditIndex = count - 1;
         const rowToEdit = rows.get(rowToEditIndex);
 
-        await rowToEdit.element(by.css('input[name="aliasName"]')).sendKeys(name);
+        await rowToEdit.$('input[name="aliasName"]').sendKeys(name);
         if (referencedBranchName !== '') {
             // 'select option:nth-child(1)
-            await rowToEdit.element(by.css('select[name="referencedBranch"]')).click();
-            await rowToEdit.element(by.css('select[name="referencedBranch"] option[value="' + referencedBranchName + '"]')).click();
+            await rowToEdit.$('select[name="referencedBranch"]').click();
+            await rowToEdit.$('select[name="referencedBranch"] option[value="' + referencedBranchName + '"]').click();
         }
-        return rowToEdit.element(by.css('input[name="aliasDescription"]')).sendKeys(description);
+        return rowToEdit.$('input[name="aliasDescription"]').sendKeys(description);
     }
 
     static async saveAndAssertSuccessMessage() {
@@ -69,15 +69,15 @@ export default class BranchAliasesPage {
         const rows = this.branchAliasTable.all(by.css('tbody tr'));
         const rowToEdit = rows.get(rowIndex);
 
-        const aliasNameField = rowToEdit.element(by.css('input[name="aliasName"]'));
-        const referencedBranchField = rowToEdit.element(by.css('select[name="referencedBranch"]'));
-        const aliasDescriptionField = rowToEdit.element(by.css('input[name="aliasDescription"]'));
+        const aliasNameField = rowToEdit.$('input[name="aliasName"]');
+        const referencedBranchField = rowToEdit.$('select[name="referencedBranch"]');
+        const aliasDescriptionField = rowToEdit.$('input[name="aliasDescription"]');
 
         await aliasNameField.clear();
         await aliasNameField.sendKeys(newAlias);
 
         if (referencedBranchName !== '') {
-            await referencedBranchField.element(by.css('option[value="' + referencedBranchName + '"]')).click();
+            await referencedBranchField.$('option[value="' + referencedBranchName + '"]').click();
         }
 
         await aliasDescriptionField.clear();

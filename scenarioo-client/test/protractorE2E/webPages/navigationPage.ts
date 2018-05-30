@@ -1,6 +1,6 @@
 'use strict';
 
-import { by, element, ElementFinder } from 'protractor';
+import { by, element, ElementFinder, $ } from 'protractor';
 
 export default class NavigationPage {
 
@@ -19,26 +19,26 @@ export default class NavigationPage {
     static async chooseBranch(branchName) {
         // Open menu first, otherwise we cannot click
         await element(by.partialLinkText('Branch:')).click();
-        return element(by.css('#branchSelectionDropdown .dropdown-menu')).all(by.partialLinkText(branchName)).first().click();
+        return $('#branchSelectionDropdown .dropdown-menu').all(by.partialLinkText(branchName)).first().click();
     }
 
     static async chooseBuild(buildName) {
         // Open menu first, otherwise we cannot click
         await element(by.partialLinkText('Build:')).click();
-        return element(by.css('#build-selection-dropdown .dropdown-menu')).all(by.partialLinkText(buildName)).first().click();
+        return $('#build-selection-dropdown .dropdown-menu').all(by.partialLinkText(buildName)).first().click();
     }
 
     static async chooseComparison(comparisonName) {
         // Open menu first, otherwise we cannot click
         await element(by.partialLinkText('Comparison:')).click();
-        return element(by.css('#comparison-selection-dropdown .dropdown-menu')).all(by.partialLinkText(comparisonName)).first().click();
+        return $('#comparison-selection-dropdown .dropdown-menu').all(by.partialLinkText(comparisonName)).first().click();
     }
 
     static async disableComparison() {
         // Open menu first, otherwise we cannot click
         await element(by.partialLinkText('Comparison:')).click();
 
-        const comparisonElements = element(by.css('#comparison-selection-dropdown .dropdown-menu'));
+        const comparisonElements = $('#comparison-selection-dropdown .dropdown-menu');
         const disableEntry = comparisonElements.element(by.partialLinkText('Disable'));
 
         // It's not there if it's already disabled
@@ -48,7 +48,7 @@ export default class NavigationPage {
     }
 
     static async assertSelectedComparison(comparisonName) {
-        return expect(element(by.css('#comparison-selection-dropdown > a')).getText()).toContain(comparisonName);
+        return expect($('#comparison-selection-dropdown > a').getText()).toContain(comparisonName);
     }
 
 }

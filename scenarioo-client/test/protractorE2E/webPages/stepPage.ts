@@ -1,6 +1,6 @@
 'use strict';
 
-import {browser, by, element} from 'protractor';
+import {$, browser, by, element} from 'protractor';
 import * as Utils from '../util/util';
 
 export default class StepPage {
@@ -122,7 +122,7 @@ export default class StepPage {
 
     static async openMetadataTabIfClosed(index) {
         const metadataPanelContentCss = '#metadata_panel_' + index + ' .metadata';
-        const displayed = await browser.findElement(by.css(metadataPanelContentCss)).isDisplayed();
+        const displayed = await $(metadataPanelContentCss).isDisplayed();
         if (!displayed) {
             return element(by.id('collapsable_panel_' + index)).click();
         }
@@ -252,8 +252,8 @@ export default class StepPage {
         await expect(element(by.id('sc-step-comparison-other-screen-view-button')).getAttribute('class')).not.toContain('active');
         await expect(element(by.id('sc-step-comparison-side-by-side-view')).isPresent()).toBeFalsy();
         await expect(element(by.id('sc-step-comparison-single-page-view')).isPresent()).toBeTruthy();
-        await expect(element(by.css('.sc-step-comparison-current-screenshot')).isPresent()).toBeTruthy();
-        return expect(element(by.css('.sc-step-comparison-other-screenshot')).isPresent()).toBeFalsy();
+        await expect($('.sc-step-comparison-current-screenshot').isPresent()).toBeTruthy();
+        return expect($('.sc-step-comparison-other-screenshot').isPresent()).toBeFalsy();
     }
 
     static async assertStepComparisonOtherScreenViewIsActive() {
@@ -262,24 +262,24 @@ export default class StepPage {
         await expect(element(by.id('sc-step-comparison-other-screen-view-button')).getAttribute('class')).toContain('active');
         await expect(element(by.id('sc-step-comparison-side-by-side-view')).isPresent()).toBeFalsy();
         await expect(element(by.id('sc-step-comparison-single-page-view')).isPresent()).toBeTruthy();
-        await expect(element(by.css('.sc-step-comparison-current-screenshot')).isPresent()).toBeFalsy();
-        return expect(element(by.css('.sc-step-comparison-other-screenshot')).isPresent()).toBeTruthy();
+        await expect($('.sc-step-comparison-current-screenshot').isPresent()).toBeFalsy();
+        return expect($('.sc-step-comparison-other-screenshot').isPresent()).toBeTruthy();
     }
 
     static async expectStepComparisonCurrentScreenTitle(title: string, infoText: string) {
-        await expect(element(by.css('sc-screenshot-title[build="baseBuild"] h3')).getText()).toBe(title);
-        await element(by.css('sc-screenshot-title[build="baseBuild"] h3 i.icon-info-sign')).click();
-        await expect(element(by.css('sc-screenshot-title[build="baseBuild"] div.tooltip')).isDisplayed()).toBeTruthy();
-        await expect(element(by.css('sc-screenshot-title[build="baseBuild"] div.tooltip')).getText()).toBe(infoText);
-        return element(by.css('sc-screenshot-title[build="baseBuild"] h3')).click();
+        await expect($('sc-screenshot-title[build="baseBuild"] h3').getText()).toBe(title);
+        await $('sc-screenshot-title[build="baseBuild"] h3 i.icon-info-sign').click();
+        await expect($('sc-screenshot-title[build="baseBuild"] div.tooltip').isDisplayed()).toBeTruthy();
+        await expect($('sc-screenshot-title[build="baseBuild"] div.tooltip').getText()).toBe(infoText);
+        return $('sc-screenshot-title[build="baseBuild"] h3').click();
     }
 
     static async expectStepComparisonOtherScreenTitle(title: string, infoText: string) {
-        await expect(element(by.css('sc-screenshot-title[build="comparisonBuild"] h3')).getText()).toBe(title);
-        await element(by.css('sc-screenshot-title[build="comparisonBuild"] h3 i.icon-info-sign')).click();
-        await expect(element(by.css('sc-screenshot-title[build="comparisonBuild"] div.tooltip')).isDisplayed()).toBeTruthy();
-        await expect(element(by.css('sc-screenshot-title[build="comparisonBuild"] div.tooltip')).getText()).toBe(infoText);
-        return element(by.css('sc-screenshot-title[build="comparisonBuild"] h3')).click();
+        await expect($('sc-screenshot-title[build="comparisonBuild"] h3').getText()).toBe(title);
+        await $('sc-screenshot-title[build="comparisonBuild"] h3 i.icon-info-sign').click();
+        await expect($('sc-screenshot-title[build="comparisonBuild"] div.tooltip').isDisplayed()).toBeTruthy();
+        await expect($('sc-screenshot-title[build="comparisonBuild"] div.tooltip').getText()).toBe(infoText);
+        return $('sc-screenshot-title[build="comparisonBuild"] h3').click();
     }
 
     static async expectStepComparisonOtherScreenViewIsDisabled() {
@@ -287,15 +287,15 @@ export default class StepPage {
     }
 
     static async assertStepNoComparisonScreenshot() {
-        return expect(element(by.css('.sc-step-comparison-other-screenshot img')).isPresent()).toBeFalsy();
+        return expect($('.sc-step-comparison-other-screenshot img').isPresent()).toBeFalsy();
     }
 
     static async assertStepComparisonScreenshotSrcEquals(expected) {
-        return expect(element(by.css('.sc-step-comparison-other-screenshot img.sc-real-screenshot')).getAttribute('src')).toContain(expected);
+        return expect($('.sc-step-comparison-other-screenshot img.sc-real-screenshot').getAttribute('src')).toContain(expected);
     }
 
     static async assertStepBaseScreenshotSrcEquals(expected) {
-        return expect(element(by.css('.sc-step-comparison-current-screenshot img.sc-real-screenshot')).getAttribute('src')).toContain(expected);
+        return expect($('.sc-step-comparison-current-screenshot img.sc-real-screenshot').getAttribute('src')).toContain(expected);
     }
 
 }

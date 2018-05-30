@@ -1,15 +1,15 @@
 'use strict';
 
-import { browser, by, element, ElementFinder } from 'protractor';
+import { browser, by, element, ElementFinder, $ } from 'protractor';
 import * as Utils from '../util/util';
 
 export default class HomePage {
 
     private static path: string = '/';
     private static useCasesSearchField: ElementFinder = element(by.id('useCasesSearchField'));
-    private static aboutScenariooPopup: ElementFinder = element(by.css('.modal.about-popup'));
-    private static popupCloseButton: ElementFinder = element(by.css('.modal-footer button.btn'));
-    private static usecaseTable: ElementFinder = element(by.css('table.usecase-table'));
+    private static aboutScenariooPopup: ElementFinder = $('.modal.about-popup');
+    private static popupCloseButton: ElementFinder = $('.modal-footer button.btn');
+    private static usecaseTable: ElementFinder = $('table.usecase-table');
     private static showMetaDataButton: ElementFinder = element(by.id('sc-showHideDetailsButton-show'));
     private static hideMetaDataButton: ElementFinder = element(by.id('sc-showHideDetailsButton-hide'));
     private static metaDataPanel: ElementFinder = element(by.id('sc-metadata-panel'));
@@ -37,7 +37,7 @@ export default class HomePage {
     static async closeScenariooInfoDialogIfOpen() {
         const present = await browser.isElementPresent(by.css('.modal-footer button.btn'));
         if (present) {
-            await element(by.css('.modal-footer button.btn')).click();
+            await $('.modal-footer button.btn').click();
         }
     }
 
@@ -75,7 +75,7 @@ export default class HomePage {
     }
 
     static async sortByChanges() {
-        return this.usecaseTable.element(by.css('th.sort-diff-info')).click();
+        return this.usecaseTable.$('th.sort-diff-info').click();
     }
 
     static async assertNumberOfDiffInfos(count) {
@@ -120,7 +120,7 @@ export default class HomePage {
     }
 
     static async assertNoDiffInfoDisplayed() {
-        return expect(element(by.css('.sort-diff-info')).isPresent()).toBeFalsy();
+        return expect($('.sort-diff-info').isPresent()).toBeFalsy();
     }
 
 }

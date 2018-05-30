@@ -1,14 +1,14 @@
 'use strict';
 
-import { browser, by, element, protractor } from 'protractor';
+import {$$, browser, by, element, protractor} from 'protractor';
 import * as Utils from '../util/util';
 
 export default class ObjectDetailsPage {
 
     static async clickNthTreeTableRow(rowNumberWithoutHeader) {
-        const elements = element.all(by.css('#treeviewtable tbody tr'));
+        const elements = $$('#treeviewtable tbody tr');
         const nthRow = elements.get(rowNumberWithoutHeader);
-        const link = nthRow.element(by.css('span'));
+        const link = nthRow.$('span');
         await link.click();
     }
 

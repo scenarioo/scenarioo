@@ -1,6 +1,6 @@
 'use strict';
 
-import {browser, by, element, protractor} from 'protractor';
+import {browser, by, element, protractor, $} from 'protractor';
 
 // Just to make TypeScript happy
 declare var angular: any;
@@ -98,7 +98,7 @@ export async function clickElementById(elementId) {
 }
 
 export async function type(value) {
-    return element(by.css('body')).sendKeys(value);
+    return $('body').sendKeys(value);
 }
 
 export async function waitForElementVisible(e) {

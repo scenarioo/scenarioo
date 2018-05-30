@@ -5,7 +5,6 @@ import * as Utils from '../util/util';
 
 export default class GeneralSettingsPage {
 
-    private static path: string = '/manage?tab=configuration';
     private static searchNotConfiguredMessage: ElementFinder = element(by.id('sc-search-not-configured-message'));
     private static configuredSearchEndpoint: ElementFinder = element(by.id('sc-configured-search-endpoint'));
     private static searchEndpointIsReachable: ElementFinder = element(by.id('sc-search-endpoint-is-reachable'));

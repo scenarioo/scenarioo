@@ -1,11 +1,11 @@
 'use strict';
 
-import { by, element, ElementFinder } from 'protractor';
+import { by, ElementFinder, $ } from 'protractor';
 import * as Utils from '../util/util';
 
 export default class UsecasePage {
 
-    private static scenarioTable: ElementFinder = element(by.css('table.scenario-table'));
+    private static scenarioTable: ElementFinder = $('table.scenario-table');
 
     static async selectScenario(scenarioIndex) {
         const elements = this.scenarioTable.all(by.css('tbody tr'));
@@ -13,7 +13,7 @@ export default class UsecasePage {
     }
 
     static async sortByChanges() {
-        return this.scenarioTable.element(by.css('th.sort-diff-info')).click();
+        return this.scenarioTable.$('th.sort-diff-info').click();
     }
 
     static async assertNumberOfDiffInfos(count) {
@@ -30,7 +30,7 @@ export default class UsecasePage {
     }
 
     static async assertNoDiffInfoDisplayed() {
-        return expect(element(by.css('.sort-diff-info')).isPresent()).toBeFalsy();
+        return expect($('.sort-diff-info').isPresent()).toBeFalsy();
     }
 
 }
