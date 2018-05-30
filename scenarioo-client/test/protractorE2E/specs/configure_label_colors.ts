@@ -1,8 +1,8 @@
 'use strict';
 
-import { scenario, step, useCase } from "scenarioo-js";
-import * as Utils from "../util/util";
-import LabelConfigurationsPage from "../webPages/labelConfigurationsPage";
+import { scenario, step, useCase } from 'scenarioo-js';
+import * as Utils from '../util/util';
+import LabelConfigurationsPage from '../webPages/labelConfigurationsPage';
 
 useCase('Configure label colors')
     .description('Each label string can be configured to be displayed in a certain color.')
@@ -22,7 +22,7 @@ useCase('Configure label colors')
                 await LabelConfigurationsPage.addLabelConfiguration('corner-case', 5);
                 step('add label configuration');
 
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 step('navigate away from the label config page to some other page');
 
                 await LabelConfigurationsPage.navigateToPage();

@@ -1,8 +1,8 @@
 'use strict';
 
-import { scenario, step, useCase } from "scenarioo-js";
-import * as Utils from "../util/util";
-import BranchAliasesPage from "../webPages/branchAliasesPage";
+import { scenario, step, useCase } from 'scenarioo-js';
+import * as Utils from '../util/util';
+import BranchAliasesPage from '../webPages/branchAliasesPage';
 
 const NUMBER_OF_ALIASES_IN_CONFIG = 2;
 const FIRST_TEST_ALIAS_INDEX = NUMBER_OF_ALIASES_IN_CONFIG;

@@ -1,6 +1,6 @@
 'use strict';
 
-import { by, element, ElementFinder } from "protractor";
+import { by, element, ElementFinder } from 'protractor';
 
 export default class ScenarioPage {
 

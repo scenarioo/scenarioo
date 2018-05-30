@@ -1,7 +1,7 @@
 'use strict';
 
-import * as Utils from "../util/util"
-import {by, element, ElementFinder} from "protractor";
+import * as Utils from '../util/util'
+import {by, element, ElementFinder} from 'protractor';
 
 export default class EditorPage {
 

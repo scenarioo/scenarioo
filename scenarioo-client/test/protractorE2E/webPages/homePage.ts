@@ -1,11 +1,11 @@
 'use strict';
 
-import { browser, by, element, ElementFinder } from "protractor";
-import * as Utils from "../util/util";
+import { browser, by, element, ElementFinder } from 'protractor';
+import * as Utils from '../util/util';
 
 export default class HomePage {
 
-    private static path: string = "/";
+    private static path: string = '/';
     private static useCasesSearchField: ElementFinder = element(by.id('useCasesSearchField'));
     private static aboutScenariooPopup: ElementFinder = element(by.css('.modal.about-popup'));
     private static popupCloseButton: ElementFinder = element(by.css('.modal-footer button.btn'));

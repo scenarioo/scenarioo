@@ -1,12 +1,12 @@
 'use strict';
 
-import { scenario, step, useCase } from "scenarioo-js";
-import * as Utils from "../util/util";
-import NavigationPage from "../webPages/navigationPage";
-import HomePage from "../webPages/homePage";
-import UsecasePage from "../webPages/usecasePage";
-import ScenarioPage from "../webPages/scenarioPage";
-import StepPage from "../webPages/stepPage";
+import { scenario, step, useCase } from 'scenarioo-js';
+import * as Utils from '../util/util';
+import NavigationPage from '../webPages/navigationPage';
+import HomePage from '../webPages/homePage';
+import UsecasePage from '../webPages/usecasePage';
+import ScenarioPage from '../webPages/scenarioPage';
+import StepPage from '../webPages/stepPage';
 
 const NUMBER_OF_AVAILABLE_COMPARISON = 6;
 const BRANCH_WIKI = 'Production';
@@ -34,7 +34,7 @@ useCase('Diff viewer - Choose comparisons')
 		scenario('Check selectable comparisons')
 			.description('Selects a build from wikipedia-docu-example-dev and checks if six comparisons are available')
 			.it(async function () {
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 await NavigationPage.chooseBranch(BRANCH_WIKI_DEV);
 				step('wikipedia-docu-example-dev branch selected');
                 await NavigationPage.chooseBuild(BUILD_LAST_SUCCESSFUL);
@@ -46,7 +46,7 @@ useCase('Diff viewer - Choose comparisons')
 		scenario('select comparison')
 			.description('Selects a build from wikipedia-example-dev and selects to last successful (dev) as comparison')
 			.it(async function () {
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 await NavigationPage.chooseBranch(BRANCH_WIKI_DEV);
 				step('wikipedia-docu-example-dev branch selected');
                 await NavigationPage.chooseBuild(BUILD_LAST_SUCCESSFUL + ':');
@@ -60,7 +60,7 @@ useCase('Diff viewer - Choose comparisons')
 		scenario('disable comparison')
 			.description('Disables the diff viewer feature by selecting "Disable" in the comparison menu')
 			.it(async function () {
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 await NavigationPage.chooseBranch(BRANCH_WIKI_DEV);
 				step('wikipedia-docu-example-dev branch selected');
 
@@ -90,7 +90,7 @@ useCase('Diff viewer - Choose comparisons')
 		scenario('hide comparison menu')
 			.description('if no comparison is available the comparison menu should be hidden')
 			.it(async function () {
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 await NavigationPage.chooseBranch(BRANCH_WIKI);
 				step('wikipedia-docu-example branch selected');
                 await NavigationPage.chooseBuild(BUILD_JANUARY);

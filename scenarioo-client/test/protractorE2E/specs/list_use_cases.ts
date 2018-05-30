@@ -1,9 +1,9 @@
 'use strict';
 
-import { scenario, step, useCase } from "scenarioo-js";
-import * as Utils from "../util/util";
-import NavigationPage from "../webPages/navigationPage";
-import HomePage from "../webPages/homePage";
+import { scenario, step, useCase } from 'scenarioo-js';
+import * as Utils from '../util/util';
+import NavigationPage from '../webPages/navigationPage';
+import HomePage from '../webPages/homePage';
 
 const NUMBER_OF_USE_CASES = 4;
 const COMPARISON_PROJECTSTART = 'To Projectstart';
@@ -19,7 +19,7 @@ useCase('List use cases')
 
         scenario('Display and filter usecases')
             .it(async function () {
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 await HomePage.assertUseCasesShown(NUMBER_OF_USE_CASES);
                 step('display usecases on homepage');
                 await HomePage.assertPageIsDisplayed();
@@ -36,7 +36,7 @@ useCase('List use cases')
 
         scenario('Show and hide metadata')
             .it(async function () {
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 step('display the homePage, metadata shown');
                 await HomePage.assertPageIsDisplayed();
                 await HomePage.assertMetaDataShown();
@@ -51,7 +51,7 @@ useCase('List use cases')
         scenario('Display Diff-Information')
             .labels(['diff-viewer'])
             .it(async function () {
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 step('display usecases on homepage');
                 await NavigationPage.chooseComparison(COMPARISON_PROJECTSTART);
                 await HomePage.assertPageIsDisplayed();

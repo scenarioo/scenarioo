@@ -1,10 +1,10 @@
 'use strict';
 
-import { scenario, step, useCase } from "scenarioo-js";
-import * as Utils from "../util/util";
-import HomePage from "../webPages/homePage";
-import UsecasePage from "../webPages/usecasePage";
-import BreadcrumbsPage from "../webPages/breadcrumbsPage";
+import { scenario, step, useCase } from 'scenarioo-js';
+import * as Utils from '../util/util';
+import HomePage from '../webPages/homePage';
+import UsecasePage from '../webPages/usecasePage';
+import BreadcrumbsPage from '../webPages/breadcrumbsPage';
 
 useCase('Use breadcrumbs')
     .description('Breadcrumbs help navigating Scenarioo. They are used to navigate back to a use case or a scenario from a more detailed page.')
@@ -17,7 +17,7 @@ useCase('Use breadcrumbs')
         scenario('Navigate upwards')
             .description('Navigate to the Home Page, filter for one use case, select scenario, click on breadcrumb')
             .it(async function () {
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 step('Display the homePage');
 
                 await HomePage.assertPageIsDisplayed();

@@ -1,8 +1,8 @@
 'use strict';
 
-import { scenario, step, useCase } from "scenarioo-js";
-import * as Utils from "../util/util";
-import HomePage from "../webPages/homePage";
+import { scenario, step, useCase } from 'scenarioo-js';
+import * as Utils from '../util/util';
+import HomePage from '../webPages/homePage';
 
 useCase('List custom tabs')
     .description('Custom tabs can be defined to show aggregated documentation data..')
@@ -14,7 +14,7 @@ useCase('List custom tabs')
 
         scenario('Display and filter pages')
             .it(async function () {
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 step('display the homePage');
                 await HomePage.selectPagesTab();
                 await HomePage.assertPagesTabContainsPage('startSearch.jsp');

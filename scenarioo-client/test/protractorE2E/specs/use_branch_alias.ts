@@ -1,13 +1,13 @@
 'use strict';
 
-import { scenario, step, useCase } from "scenarioo-js";
-import * as Utils from "../util/util";
-import HomePage from "../webPages/homePage";
-import BranchAliasesPage from "../webPages/branchAliasesPage";
-import UsecasePage from "../webPages/usecasePage";
-import ScenarioPage from "../webPages/scenarioPage";
-import StepPage from "../webPages/stepPage";
-import NavigationPage from "../webPages/navigationPage";
+import { scenario, step, useCase } from 'scenarioo-js';
+import * as Utils from '../util/util';
+import HomePage from '../webPages/homePage';
+import BranchAliasesPage from '../webPages/branchAliasesPage';
+import UsecasePage from '../webPages/usecasePage';
+import ScenarioPage from '../webPages/scenarioPage';
+import StepPage from '../webPages/stepPage';
+import NavigationPage from '../webPages/navigationPage';
 
 const BRANCH_WIKI = 'Production';
 const NUMBER_OF_ALIASES_IN_CONFIG = 2;
@@ -32,7 +32,7 @@ useCase('Use branch aliases')
                 await NavigationPage.chooseBranch('Latest dev');
                 step('choose branch alias');
 
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 await HomePage.selectUseCase(1);
                 await UsecasePage.selectScenario(0);
                 await ScenarioPage.openStepByName('Step 1: Wikipedia Suche');

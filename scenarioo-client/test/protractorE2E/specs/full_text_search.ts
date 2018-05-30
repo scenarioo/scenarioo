@@ -1,12 +1,12 @@
 'use strict';
 
-import { scenario, step, useCase } from "scenarioo-js";
-import * as Utils from "../util/util";
-import StepPage from "../webPages/stepPage";
-import BreadcrumbsPage from "../webPages/breadcrumbsPage";
-import SearchResultsPage from "../webPages/searchResultsPage";
-import NavigationPage from "../webPages/navigationPage";
-import GeneralSettingsPage from "../webPages/generalSettingsPage";
+import { scenario, step, useCase } from 'scenarioo-js';
+import * as Utils from '../util/util';
+import StepPage from '../webPages/stepPage';
+import BreadcrumbsPage from '../webPages/breadcrumbsPage';
+import SearchResultsPage from '../webPages/searchResultsPage';
+import NavigationPage from '../webPages/navigationPage';
+import GeneralSettingsPage from '../webPages/generalSettingsPage';
 
 useCase('Full Text Search')
     .description('Search within all information of the selected build.')
@@ -27,7 +27,7 @@ useCase('Full Text Search')
         scenario('Search with result')
             .description('Search for a term that yields some results.')
             .it(async function() {
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 await NavigationPage.enterSearchTerm('donate.jsp');
                 step('Search term entered');
 
@@ -47,7 +47,7 @@ useCase('Full Text Search')
         scenario('Search with and without HTML source')
             .description('By default the HTML source is not searched, but the user can select to also search it.')
             .it(async function() {
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 await NavigationPage.enterSearchTerm('body');
                 step('Search term body entered, which mainly appears in the html source code');
 

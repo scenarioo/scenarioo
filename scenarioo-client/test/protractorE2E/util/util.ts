@@ -1,6 +1,6 @@
 'use strict';
 
-import {browser, by, element, protractor} from "protractor";
+import {browser, by, element, protractor} from 'protractor';
 
 // Just to make TypeScript happy
 declare var angular: any;

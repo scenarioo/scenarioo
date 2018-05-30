@@ -1,9 +1,9 @@
 'use strict';
 
-import { scenario, step, useCase } from "scenarioo-js";
-import * as Utils from "../util/util";
-import StepPage from "../webPages/stepPage"
-import ObjectDetailsPage from "../webPages/objectDetailsPage"
+import { scenario, step, useCase } from 'scenarioo-js';
+import * as Utils from '../util/util';
+import StepPage from '../webPages/stepPage'
+import ObjectDetailsPage from '../webPages/objectDetailsPage'
 
 useCase('Browse page variants')
     .description('On the step page the user can flip through all existing variants of the page.')

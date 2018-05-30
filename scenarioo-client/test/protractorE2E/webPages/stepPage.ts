@@ -1,7 +1,7 @@
 'use strict';
 
-import {browser, by, element} from "protractor";
-import * as Utils from "../util/util";
+import {browser, by, element} from 'protractor';
+import * as Utils from '../util/util';
 
 export default class StepPage {
 

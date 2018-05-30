@@ -1,11 +1,11 @@
 'use strict';
 
-import { scenario, step, useCase } from "scenarioo-js";
-import * as Utils from "../util/util";
-import HomePage from "../webPages/homePage";
-import UsecasePage from "../webPages/usecasePage";
-import ScenarioPage from "../webPages/scenarioPage";
-import NavigationPage from "../webPages/navigationPage";
+import { scenario, step, useCase } from 'scenarioo-js';
+import * as Utils from '../util/util';
+import HomePage from '../webPages/homePage';
+import UsecasePage from '../webPages/usecasePage';
+import ScenarioPage from '../webPages/scenarioPage';
+import NavigationPage from '../webPages/navigationPage';
 
 const NUMBER_OF_USE_CASES = 4;
 const NUMBER_OF_SCENARIOS = 4;
@@ -23,7 +23,7 @@ useCase('List scenarios')
 
         scenario('Expand all, collapse all on scenario page')
             .it(async function () {
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 step('select a use case from the use case list');
                 await HomePage.assertPageIsDisplayed();
                 await HomePage.assertUseCasesShown(NUMBER_OF_USE_CASES);
@@ -43,7 +43,7 @@ useCase('List scenarios')
         scenario('Display Diff-Information')
             .labels(['diff-viewer'])
             .it(async function () {
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 step('display usecases on homepage');
                 await HomePage.assertPageIsDisplayed();
                 await NavigationPage.chooseComparison(COMPARISON_PROJECTSTART);
@@ -58,7 +58,7 @@ useCase('List scenarios')
         scenario('Sort by Diff-Information')
             .labels(['diff-viewer'])
             .it(async function () {
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 step('display usecases on homepage');
                 await HomePage.assertPageIsDisplayed();
                 await NavigationPage.chooseComparison('To Projectstart');

@@ -1,12 +1,12 @@
 'use strict';
 
-import { scenario, step, useCase } from "scenarioo-js";
-import * as Utils from "../util/util";
-import HomePage from "../webPages/homePage";
-import UsecasePage from "../webPages/usecasePage";
-import ScenarioPage from "../webPages/scenarioPage";
-import StepPage from "../webPages/stepPage";
-import EditorPage from "../webPages/editorPage";
+import { scenario, step, useCase } from 'scenarioo-js';
+import * as Utils from '../util/util';
+import HomePage from '../webPages/homePage';
+import UsecasePage from '../webPages/usecasePage';
+import ScenarioPage from '../webPages/scenarioPage';
+import StepPage from '../webPages/stepPage';
+import EditorPage from '../webPages/editorPage';
 
 useCase('Create sketch')
     .description('Create a sketch based on the screenshot of a step.')
@@ -21,7 +21,7 @@ useCase('Create sketch')
             .it(async function () {
                 const sketchName = 'automated test sketch 1';
 
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
 
                 step('Select a use case from the list');
                 await HomePage.selectUseCase(1);
@@ -46,7 +46,7 @@ useCase('Create sketch')
                 await EditorPage.clickSaveButton();
                 await EditorPage.assertSaveSketchSuccessfulMessageIsDisplayed();
 
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 await HomePage.selectSketchesTab();
                 return HomePage.assertSketchesListContainsEntryWithSketchName(sketchName);
             });

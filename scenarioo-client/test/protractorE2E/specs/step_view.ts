@@ -1,11 +1,11 @@
 'use strict';
 
-import { scenario, step, useCase } from "scenarioo-js";
-import * as Utils from "../util/util";
-import HomePage from "../webPages/homePage";
-import UsecasePage from "../webPages/usecasePage";
-import ScenarioPage from "../webPages/scenarioPage";
-import StepPage from "../webPages/stepPage";
+import { scenario, step, useCase } from 'scenarioo-js';
+import * as Utils from '../util/util';
+import HomePage from '../webPages/homePage';
+import UsecasePage from '../webPages/usecasePage';
+import ScenarioPage from '../webPages/scenarioPage';
+import StepPage from '../webPages/stepPage';
 
 useCase('Step - View')
     .description('Display steps of a scenario and navigate through it. Includes the screenshot, details data and navigation buttons')
@@ -23,7 +23,7 @@ useCase('Step - View')
                 const ROUTE_OF_SECOND_STEP = '/step/Find%20Page/find_no_results/startSearch.jsp/0/1';
                 const ROUTE_OF_THIRD_STEP = '/step/Find%20Page/find_no_results/searchResults.jsp/0/0';
 
-                await Utils.navigateToRoute("/");
+                await Utils.navigateToRoute('/');
                 step('Display home page with list of use cases');
 
                 await HomePage.selectUseCase(1);
