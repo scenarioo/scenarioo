@@ -8,7 +8,8 @@ Whenever you see `<version>` in this guide we mean a version number in the form 
 
 In `gradle.build` you have to adjust following version information:
 
-* `scenariooReleaseBranch`: this is the relase branch for this release, that we are going to keep for references into the documentation of eactly this same version. It makes it possible to do versioned links into the documentation. We do not use a tag for this links, since we want to link to the newest documentation files (no need for a release if docu is improved) but of the right major version.
+* `documentationVersion`: this is the version that identifies the documentation URL for this release, which is http://scenarioo.org/docs/{documentationVersion} for links into the documentation of that same release version.
+
 * `scenariooAggregatedDataFormatVersion`: set it to a new version in case the internal aggregated data format somehow changes, which nakes it necessary on an update, that all imported builds need to be reimported. Usually this should be the same as the Scenarioo version that you are going to release. If you are a 100% sure that the internal format did not change since the last release, you can keep the version from the previous release.
 
 ### Prepare release notes

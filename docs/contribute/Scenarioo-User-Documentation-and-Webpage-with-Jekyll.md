@@ -23,7 +23,7 @@ https://github.com/scenarioo/scenarioo/tree/develop/docs
 
 ###  How to Publish Documentation
 
-* Make sure the version of scenarioo/scenarioo you want to release docu for is checked out
+* Make sure the version of scenarioo/scenarioo you want to release docu for is checked out (usually `develop`, `master` or a release branch).
 
 * Is it docu for a new release version of scenarioo? If not, continue with next step, otherwise do the following first ... 
   * Add configuration for this new version to configuration in https://github.com/scenarioo/scenarioo/blob/develop/docs/book.json
@@ -38,5 +38,8 @@ https://github.com/scenarioo/scenarioo/tree/develop/docs
     * Select all content of `docs/_book` to copy (without the .gitignore file)
     * Copy to scenarioo.github.io repo into the correct sub folder of `docs` for the version you want to deploy
     * Make sure the target folder is cleaned first, if there was already an old version of the docu deployed for that same version, before you copy.
+    * If this is the docu of the current official released version, please publish both to its concrete version directory as well as to folder `master`.
+    
+* Commit and push the added / updated documentation versions to master branch on scenarioo.github.io
 
-* Commit and push the new version to master branch on scenarioo.github.io
+* When done: make sure that you changes to scenarioo/scenarioo are merged to develop and on develop verify in `book.json` that the Developer version is configured as selected again!

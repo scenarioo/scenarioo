@@ -64,14 +64,14 @@ task printPathConfigInformationForNodeJSAndGrunt << {
 task createVersionPropertiesFile << {
 	def aggregatedDataFormatVersion = project.scenariooAggregatedDataFormatVersion
 	def apiVersion = project.scenariooApiVersion
-    def releaseBranch = project.scenariooReleaseBranch
+    def documentationVersion = project.documentationVersion
 
 	File versionFile = new File(sourceSets.main.output.classesDir.getAbsolutePath() + '/version.properties');
 	versionFile.write('version=' + versionWithGitCommit + '\n' +
             'build-date=' + new Date() + '\n' +
             'apiVersion=' + apiVersion + '\n' +
             'aggregatedDataFormatVersion=' + aggregatedDataFormatVersion + '\n' +
-            'releaseBranch=' + releaseBranch + '\n')
+            'documentationVersion=' + documentationVersion + '\n')
 }
 
 war {
