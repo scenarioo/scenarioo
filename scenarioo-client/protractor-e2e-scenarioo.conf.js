@@ -13,7 +13,7 @@
  *   default value: 'http://localhost:9000'
  */
 
-var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:8500';
+var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:8500/scenarioo';
 var BRANCH = process.env.BRANCH || 'HEAD';
 var BUILD_NAME = 'build-' + (process.env.BUILD_NUMBER || 'latest');
 
