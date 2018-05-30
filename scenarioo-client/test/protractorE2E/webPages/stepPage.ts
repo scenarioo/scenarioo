@@ -109,7 +109,7 @@ export default class StepPage {
     }
 
     static async assertStepLinksDialogVisible() {
-        return browser.wait(async function () {
+        return browser.wait(async () => {
             return await element(by.id('stepLinksDialog')).isDisplayed();
         }, 10000);
     }
@@ -153,7 +153,7 @@ export default class StepPage {
 
     static async assertNumberOfVisibleScreenAnnotationsIs(expectedNumberOfScreenAnnotations) {
         await expect(element.all(by.className('sc-screenshot-annotation')).count()).toBe(expectedNumberOfScreenAnnotations);
-        return element.all(by.className('sc-screenshot-annotation')).each(async function (element) {
+        return element.all(by.className('sc-screenshot-annotation')).each(async (element) => {
             await expect(element.isDisplayed()).toBe(true);
         });
     }

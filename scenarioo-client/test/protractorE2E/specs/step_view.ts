@@ -9,16 +9,16 @@ import StepPage from '../webPages/stepPage';
 
 useCase('Step - View')
     .description('Display steps of a scenario and navigate through it. Includes the screenshot, details data and navigation buttons')
-    .describe(function () {
+    .describe(() => {
 
-        beforeEach(async function () {
+        beforeEach(async () => {
             await Utils.startScenariooRevisited();
         });
 
         scenario('Navigation')
             .description('Navigate back and forth through the scenario steps.')
             .labels(['happy'])
-            .it(async function () {
+            .it(async () => {
                 const ROUTE_OF_FIRST_STEP = '/step/Find%20Page/find_no_results/startSearch.jsp/0/0';
                 const ROUTE_OF_SECOND_STEP = '/step/Find%20Page/find_no_results/startSearch.jsp/0/1';
                 const ROUTE_OF_THIRD_STEP = '/step/Find%20Page/find_no_results/searchResults.jsp/0/0';
@@ -69,7 +69,7 @@ useCase('Step - View')
 
         scenario('Step does not exist')
             .description('If the requested step does not exist, an error message is shown.')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/step/Find Page/find_no_results/inexistent_page.jsp/0/42');
                 await StepPage.assertErrorMessageIsShown();
                 step('Error message.');
@@ -77,7 +77,7 @@ useCase('Step - View')
 
         scenario('Fallback step exists')
             .description('A fallback message is shown in case the page does not exist but a fallback is found.')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/step/Find%20Page/renamed_scenario/searchResults.jsp/0/0');
                 await StepPage.assertFallbackMessageIsShown();
                 await StepPage.assertFallbackMessageContainsText('Scenario: find_multiple_results');
@@ -86,7 +86,7 @@ useCase('Step - View')
 
         scenario('Fallback to best match')
             .description('If the fallback mechanism finds multiple candidates, the one with the most matching labels is used.')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/step/RenamedUseCase/DeletedScenario/contentPage.jsp/111/222?labels=exact%20match,i18n,step-label-2,public,page-label1,page-label2');
                 await StepPage.assertFallbackMessageIsShown();
                 await StepPage.assertFallbackMessageContainsText('Usecase: Switch Language');
@@ -97,7 +97,7 @@ useCase('Step - View')
 
         scenario('Share step')
             .description('The step link popup shows the link to the step and to the image.')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/step/Find Page/find_no_results/startSearch.jsp/0/0');
                 step('A step.');
 
@@ -108,7 +108,7 @@ useCase('Step - View')
 
         scenario('Metadata with link to object')
             .description('Click on a object link in Call tree and jump to object example.action.StartInitAction')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/step/Find%20Page/find_no_results/startSearch.jsp/0/0');
                 await StepPage.openMetadataTabIfClosed(1);
                 step('Expand Call tree panel');
@@ -119,7 +119,7 @@ useCase('Step - View')
 
         scenario('HTML view of current step')
             .description('If the step data contains html source data, it should be displayed in the HTML tab')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/step/Find%20Page/find_no_results/startSearch.jsp/0/0');
                 step('A step');
 
@@ -134,7 +134,7 @@ useCase('Step - View')
 
         scenario('Step without HTML source attached')
             .description('If the step data contains no html source data, the HTML tab should not be displayed at all')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/step/Donate/find_donate_page/startSearch.jsp/0/0');
                 await StepPage.assertHtmlTabIsHidden();
                 step('A step with no HTML source attached');

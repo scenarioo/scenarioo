@@ -47,13 +47,13 @@ export default class HomePage {
     }
 
     static async assertUseCasesShown(count) {
-        return this.usecaseTable.all(by.css('tbody tr')).then(function (elements) {
+        return this.usecaseTable.all(by.css('tbody tr')).then((elements) => {
             return expect(elements.length).toBe(count);
         });
     }
 
     static async selectUseCase(useCaseIndex) {
-        return this.usecaseTable.all(by.css('tbody tr')).then(function(elements) {
+        return this.usecaseTable.all(by.css('tbody tr')).then((elements) => {
             return elements[useCaseIndex].click();
         });
     }
@@ -79,7 +79,7 @@ export default class HomePage {
     }
 
     static async assertNumberOfDiffInfos(count){
-        this.usecaseTable.all(by.css('.diff-info-wrapper')).then(function (elements) {
+        this.usecaseTable.all(by.css('.diff-info-wrapper')).then((elements) => {
             return expect(elements.length).toBe(count);
         });
     }

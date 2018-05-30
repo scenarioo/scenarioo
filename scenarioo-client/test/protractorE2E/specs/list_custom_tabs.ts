@@ -6,14 +6,14 @@ import HomePage from '../webPages/homePage';
 
 useCase('List custom tabs')
     .description('Custom tabs can be defined to show aggregated documentation data..')
-    .describe(function () {
+    .describe(() => {
 
-        beforeEach(async function () {
+        beforeEach(async () => {
             await Utils.startScenariooRevisited();
         });
 
         scenario('Display and filter pages')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/');
                 step('display the homePage');
                 await HomePage.selectPagesTab();

@@ -15,14 +15,14 @@ const SCENARIO_WITH_HIGHEST_DIFF = 'Find page title unique directly';
 
 useCase('List scenarios')
     .description('After clicking on a use case, the user is presented with a list of all scenarios in this use case.')
-    .describe(function () {
+    .describe(() => {
 
-        beforeEach(async function () {
+        beforeEach(async () => {
             await Utils.startScenariooRevisited();
         });
 
         scenario('Expand all, collapse all on scenario page')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/');
                 step('select a use case from the use case list');
                 await HomePage.assertPageIsDisplayed();
@@ -42,7 +42,7 @@ useCase('List scenarios')
 
         scenario('Display Diff-Information')
             .labels(['diff-viewer'])
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/');
                 step('display usecases on homepage');
                 await HomePage.assertPageIsDisplayed();
@@ -57,7 +57,7 @@ useCase('List scenarios')
 
         scenario('Sort by Diff-Information')
             .labels(['diff-viewer'])
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/');
                 step('display usecases on homepage');
                 await HomePage.assertPageIsDisplayed();

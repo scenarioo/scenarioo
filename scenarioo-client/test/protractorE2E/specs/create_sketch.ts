@@ -10,15 +10,15 @@ import EditorPage from '../webPages/editorPage';
 
 useCase('Create sketch')
     .description('Create a sketch based on the screenshot of a step.')
-    .describe(function () {
+    .describe(() => {
 
-        beforeEach(async function () {
+        beforeEach(async () => {
             await Utils.startScenariooRevisited();
         });
 
         scenario('New issue success')
             .description('Create a new issue successfully')
-            .it(async function () {
+            .it(async () => {
                 const sketchName = 'automated test sketch 1';
 
                 await Utils.navigateToRoute('/');
@@ -53,7 +53,7 @@ useCase('Create sketch')
 
         scenario('New issue fail')
             .description('Fail to create an issue because insufficient information was entered')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/step/Find%20Page/find_no_results/startSearch.jsp/0/0');
 
                 step('click "Create Sketch" button');
@@ -66,7 +66,7 @@ useCase('Create sketch')
 
         scenario('Remember author')
             .description('The author is remembered and automatically filled in for future issues')
-            .it(async function () {
+            .it(async () => {
 
                 await Utils.navigateToRoute('/step/Donate/find_donate_page/donate.jsp/0/0');
 

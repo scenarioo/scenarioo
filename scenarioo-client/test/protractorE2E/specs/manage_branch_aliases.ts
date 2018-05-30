@@ -9,15 +9,15 @@ const FIRST_TEST_ALIAS_INDEX = NUMBER_OF_ALIASES_IN_CONFIG;
 
 useCase('Manage branch aliases')
     .description('Define new branch aliases, edit existing ones and delete them.')
-    .describe(function () {
+    .describe(() => {
 
-        beforeEach(async function () {
+        beforeEach(async () => {
             await Utils.startScenariooRevisited();
         });
 
         scenario('Add and remove')
             .description('Branch aliases can be added and removed')
-            .it(async function () {
+            .it(async () => {
                 await BranchAliasesPage.goToPage();
                 step('display the manage branch aliases page');
 
@@ -52,7 +52,7 @@ useCase('Manage branch aliases')
 
         scenario('Validation')
             .description('Saving is not possible if referenced branch is not selected')
-            .it(async function () {
+            .it(async () => {
                 await BranchAliasesPage.goToPage();
                 await BranchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
                 await BranchAliasesPage.enterAlias('Test', '', 'my description');
@@ -62,7 +62,7 @@ useCase('Manage branch aliases')
 
         scenario('Unique aliases')
             .description('Alias names have to be unique')
-            .it(async function () {
+            .it(async () => {
                 await BranchAliasesPage.goToPage();
                 await BranchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
                 await BranchAliasesPage.enterAlias('duplicate', 'wikipedia-docu-example', 'duplicate alias name');

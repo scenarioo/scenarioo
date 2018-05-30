@@ -8,15 +8,15 @@ import BreadcrumbsPage from '../webPages/breadcrumbsPage';
 
 useCase('Use breadcrumbs')
     .description('Breadcrumbs help navigating Scenarioo. They are used to navigate back to a use case or a scenario from a more detailed page.')
-    .describe(function () {
+    .describe(() => {
 
-        beforeEach(async function () {
+        beforeEach(async () => {
             await Utils.startScenariooRevisited();
         });
 
         scenario('Navigate upwards')
             .description('Navigate to the Home Page, filter for one use case, select scenario, click on breadcrumb')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/');
                 step('Display the homePage');
 
@@ -43,7 +43,7 @@ useCase('Use breadcrumbs')
 
         scenario('Tooltip in breadcrumbs')
             .description('Navigate to scenario and test for tooltip')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/step/Find%20Page/find_page_with_text_on_page_from_multiple_results/searchResults.jsp/0/0');
                 step('Display steps and pages');
 

@@ -15,15 +15,15 @@ const FIRST_TEST_ALIAS_INDEX = NUMBER_OF_ALIASES_IN_CONFIG;
 
 useCase('Use branch aliases')
     .description('Select a branch by using an alias')
-    .describe(function () {
+    .describe(() => {
 
-        beforeEach(async function () {
+        beforeEach(async () => {
             await Utils.startScenariooRevisited();
         });
 
         scenario('Select branch by alias')
             .description('Create an alias and assert browsing through steps works')
-            .it(async function () {
+            .it(async () => {
                 await BranchAliasesPage.goToPage();
                 await BranchAliasesPage.enterAlias('Latest dev', 'wikipedia-docu-example', 'alias to latest development release');
                 await BranchAliasesPage.save();

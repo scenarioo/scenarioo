@@ -6,14 +6,14 @@ import LabelConfigurationsPage from '../webPages/labelConfigurationsPage';
 
 useCase('Configure label colors')
     .description('Each label string can be configured to be displayed in a certain color.')
-    .describe(function () {
+    .describe(() => {
 
-        beforeEach(async function () {
+        beforeEach(async () => {
             await Utils.startScenariooRevisited();
         });
 
         scenario('Create, edit and delete label configurations')
-            .it(async function () {
+            .it(async () => {
                 await LabelConfigurationsPage.navigateToPage();
                 step('show label configurations');
 

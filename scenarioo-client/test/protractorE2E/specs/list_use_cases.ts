@@ -11,14 +11,14 @@ const USE_CASE_WITH_HIGHEST_DIFF = 'Donate';
 
 useCase('List use cases')
     .description('As soon as a branch and a build are selected, a list of use cases is shown.')
-    .describe(function () {
+    .describe(() => {
 
-        beforeEach(async function () {
+        beforeEach(async () => {
             await Utils.startScenariooRevisited();
         });
 
         scenario('Display and filter usecases')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/');
                 await HomePage.assertUseCasesShown(NUMBER_OF_USE_CASES);
                 step('display usecases on homepage');
@@ -35,7 +35,7 @@ useCase('List use cases')
             });
 
         scenario('Show and hide metadata')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/');
                 step('display the homePage, metadata shown');
                 await HomePage.assertPageIsDisplayed();
@@ -50,7 +50,7 @@ useCase('List use cases')
 
         scenario('Display Diff-Information')
             .labels(['diff-viewer'])
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/');
                 step('display usecases on homepage');
                 await NavigationPage.chooseComparison(COMPARISON_PROJECTSTART);

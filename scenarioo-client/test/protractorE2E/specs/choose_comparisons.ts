@@ -19,13 +19,13 @@ const SECOND_SCENARIO = 1;
 useCase('Diff viewer - Choose comparisons')
     .labels(['diff-viewer'])
     .description('Select Build and Comparison from navigation bar')
-	.describe(function () {
+	.describe(() => {
 
-		beforeEach(async function () {
+		beforeEach(async () => {
             await Utils.startScenariooRevisited();
 		});
 
-		afterEach(async function () {
+		afterEach(async () => {
 			// Reset Selection
             await NavigationPage.chooseBuild(BUILD_LAST_SUCCESSFUL + ':');
             await NavigationPage.chooseBranch(BRANCH_WIKI);
@@ -33,7 +33,7 @@ useCase('Diff viewer - Choose comparisons')
 
 		scenario('Check selectable comparisons')
 			.description('Selects a build from wikipedia-docu-example-dev and checks if six comparisons are available')
-			.it(async function () {
+			.it(async () => {
                 await Utils.navigateToRoute('/');
                 await NavigationPage.chooseBranch(BRANCH_WIKI_DEV);
 				step('wikipedia-docu-example-dev branch selected');
@@ -45,7 +45,7 @@ useCase('Diff viewer - Choose comparisons')
 
 		scenario('select comparison')
 			.description('Selects a build from wikipedia-example-dev and selects to last successful (dev) as comparison')
-			.it(async function () {
+			.it(async () => {
                 await Utils.navigateToRoute('/');
                 await NavigationPage.chooseBranch(BRANCH_WIKI_DEV);
 				step('wikipedia-docu-example-dev branch selected');
@@ -59,7 +59,7 @@ useCase('Diff viewer - Choose comparisons')
 
 		scenario('disable comparison')
 			.description('Disables the diff viewer feature by selecting "Disable" in the comparison menu')
-			.it(async function () {
+			.it(async () => {
                 await Utils.navigateToRoute('/');
                 await NavigationPage.chooseBranch(BRANCH_WIKI_DEV);
 				step('wikipedia-docu-example-dev branch selected');
@@ -89,7 +89,7 @@ useCase('Diff viewer - Choose comparisons')
 
 		scenario('hide comparison menu')
 			.description('if no comparison is available the comparison menu should be hidden')
-			.it(async function () {
+			.it(async () => {
                 await Utils.navigateToRoute('/');
                 await NavigationPage.chooseBranch(BRANCH_WIKI);
 				step('wikipedia-docu-example branch selected');

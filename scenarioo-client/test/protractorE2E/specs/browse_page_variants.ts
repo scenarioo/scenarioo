@@ -7,15 +7,15 @@ import ObjectDetailsPage from '../webPages/objectDetailsPage'
 
 useCase('Browse page variants')
     .description('On the step page the user can flip through all existing variants of the page.')
-    .describe(function () {
+    .describe(() => {
 
-        beforeEach(async function () {
+        beforeEach(async () => {
             await Utils.startScenariooRevisited();
         });
 
         scenario('Browse variants')
             .description('Navigate to previous / next page variants.')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/step/Switch%20Language/search_article_in_german_and_switch_to_spanish/contentPage.jsp/0/0');
                 await StepPage.assertPageVariantIndicatorValue('Page-Variant 8 of 10');
                 step('A step of the contentPage.jsp page.');
@@ -34,7 +34,7 @@ useCase('Browse page variants')
 
         scenario('Variant Overview')
             .description('Go to page variants overview page to select a different page variant.')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/step/Switch%20Language/search_article_in_german_and_switch_to_spanish/contentPage.jsp/0/0');
                 step('A step of the contentPage.jsp page.');
 

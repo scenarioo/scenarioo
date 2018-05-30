@@ -15,13 +15,13 @@ export async function navigateToRoute(route) {
  */
 export async function startScenariooRevisited() {
     await navigateToRoute('/');
-    await browser.executeScript(function () {
+    await browser.executeScript(() => {
         const injector = angular.element(document.body).injector();
         const LocalStorageService: any = injector.get('LocalStorageService');
         LocalStorageService.clearAll();
         LocalStorageService.set('scenariooPreviouslyVisited', 'true');
     });
-    const visited = await browser.executeScript(function () {
+    const visited = await browser.executeScript(() => {
         const injector = angular.element(document.body).injector();
         const LocalStorageService: any = injector.get('LocalStorageService');
         return LocalStorageService.get('scenariooPreviouslyVisited');
@@ -45,12 +45,12 @@ export async function startScenariooFirstTimeVisit() {
  */
 export async function clearLocalStorage() {
     await navigateToRoute('/');
-    await browser.executeScript(function () {
+    await browser.executeScript(() => {
         const injector = angular.element(document.body).injector();
         const LocalStorageService: any = injector.get('LocalStorageService');
         return LocalStorageService.clearAll();
     });
-    const visited = await browser.executeScript(function () {
+    const visited = await browser.executeScript(() => {
         const injector = angular.element(document.body).injector();
         const LocalStorageService: any = injector.get('LocalStorageService');
         return LocalStorageService.get('scenariooPreviouslyVisited');

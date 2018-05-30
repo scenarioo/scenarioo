@@ -7,15 +7,15 @@ import ObjectDetailsPage from '../webPages/objectDetailsPage'
 useCase('Browse object details')
     .description('The object details view includes a reference tree with all Use Cases, '
         + 'Scenarios, Steps and other objects that reference this object.')
-    .describe(function () {
+    .describe(() => {
 
-        beforeEach(async function () {
+        beforeEach(async () => {
             await Utils.startScenariooRevisited();
         });
 
         scenario('Default expand and collapse')
             .description('Only the first level of nodes (use cases) is expanded initially. All other tree levels are collapsed.')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/object/uiAction/example.action.StartInitAction');
                 step('Display object details page');
                 await ObjectDetailsPage.assertNumberOfRows(29);
@@ -28,7 +28,7 @@ useCase('Browse object details')
 
         scenario('Nodes have links')
             .description('Nodes in the object reference tree are linked to their respective Scenario pages.')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/object/uiAction/example.action.StartInitAction');
                 step('Display object details page');
 
@@ -48,7 +48,7 @@ useCase('Browse object details')
 
         scenario('Search collapsed')
             .description('Collapse all, one match will be found with entered search criteria.')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/object/uiAction/example.action.StartInitAction');
                 step('Display object details page');
                 await ObjectDetailsPage.clickCollapseAll();
@@ -63,7 +63,7 @@ useCase('Browse object details')
 
         scenario('Double click')
             .description('Double click on root node expands all child nodes.')
-            .it(async function () {
+            .it(async () => {
                 await Utils.navigateToRoute('/object/uiAction/example.action.StartInitAction');
                 step('Display object details page');
                 await ObjectDetailsPage.clickCollapseAll();
