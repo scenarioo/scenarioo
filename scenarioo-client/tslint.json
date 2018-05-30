@@ -13,7 +13,8 @@
         "align": false,
         "member-ordering": false,
         "max-line-length": false,
-        "ordered-imports": false
+        "ordered-imports": false,
+        "no-console": false
     },
     "rulesDirectory": []
 }
