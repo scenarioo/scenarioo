@@ -8,12 +8,13 @@ Currently this documentation might not be complete but at least have some hint a
 
 * Java JDK (whatever versions scenarioo needs)
 * Tomcat (whatever version scenarioo needs, currently 7 ? )
-* Docker 
-* Elastic Search Server 2 (direct package installation)
-* Elastic Search Server 5 as docker image
+* [Docker](docker.md) 
+* [Elastic Search Server 2 (direct package installation)](Elasticsearch-2.md)
+* [Elastic Search Server 5 as docker image](Elasticsearch-5.md)
 * Jenkins CI Server
+* [Nginx as a proxy](nginx.md)
 * more ... to be completed 
 
-## Further instructions for different tool installations
+## Further instructions for different tool installations and configurations
 
 See further md files in this folder.
