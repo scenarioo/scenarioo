@@ -19,6 +19,14 @@ docker stop elasticsearch5
 docker start elasticsearch5
 ```
 
+## See Logs of Elasticsearch
+
+To see logs in case of problems for debugging:
+
+```
+docker logs elasticsearch5
+```
+
 ## Register as a System Service
 
 Register as a service using the start script in ./servicescripts/elasticsearch5.
