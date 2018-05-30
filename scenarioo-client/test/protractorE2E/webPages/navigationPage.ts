@@ -42,7 +42,7 @@ export default class NavigationPage {
         const disableEntry = comparisonElements.element(by.partialLinkText('Disable'));
 
         // It's not there if it's already disabled
-        if(await disableEntry.isPresent()) {
+        if (await disableEntry.isPresent()) {
             return disableEntry.click();
         }
     }

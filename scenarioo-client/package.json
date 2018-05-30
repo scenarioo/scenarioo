@@ -14,7 +14,7 @@
         "pretest-e2e-scenarioo": "webdriver-manager update",
         "test-e2e-scenarioo": "protractor protractor-e2e-scenarioo.conf.js",
         "protractor": "protractor",
-        "prebuild": "npm run lint-js",
+        "prebuild": "npm run lint-js && npm run lint-ts",
         "build": "webpack --config configs/webpack.config.prod.js",
         "webpack": "webpack",
         "webpack-dev-server": "webpack-dev-server",

@@ -68,12 +68,12 @@ export async function assertPageIsDisplayed(path: string) {
     return assertRoute(path);
 }
 
-export async function assertTextPresentInElement(element, expectedText) {
-    await expect(await element.getText()).toContain(expectedText);
+export async function assertTextPresentInElement(e, expectedText) {
+    await expect(await e.getText()).toContain(expectedText);
 }
 
-export async function assertElementNotPresentInDom(by) {
-    const elements = await browser.findElements(by);
+export async function assertElementNotPresentInDom(elementBy) {
+    const elements = await browser.findElements(elementBy);
     await expect(await elements.length).toBe(0);
 }
 

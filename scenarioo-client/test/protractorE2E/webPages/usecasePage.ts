@@ -1,8 +1,7 @@
 'use strict';
 
 import { by, element, ElementFinder } from 'protractor';
-
-const Utils = require('../util/util');
+import * as Utils from '../util/util';
 
 export default class UsecasePage {
 
@@ -13,11 +12,11 @@ export default class UsecasePage {
         return elements[scenarioIndex].click();
     }
 
-    static async sortByChanges(){
+    static async sortByChanges() {
         return this.scenarioTable.element(by.css('th.sort-diff-info')).click();
     }
 
-    static async assertNumberOfDiffInfos(count){
+    static async assertNumberOfDiffInfos(count) {
         const elements = await this.scenarioTable.all(by.css('.diff-info-wrapper'));
         return expect(elements.length).toBe(count);
     }

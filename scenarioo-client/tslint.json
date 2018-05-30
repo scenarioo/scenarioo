@@ -6,7 +6,12 @@
     "jsRules": {},
     "rules": {
         "quotemark": [true, "single", "avoid-escape", "avoid-template"],
-        "member-access": false
+        "member-access": false,
+        "indent": false,
+        "align": false,
+        "member-ordering": false,
+        "max-line-length": false,
+        "ordered-imports": false
     },
     "rulesDirectory": []
 }

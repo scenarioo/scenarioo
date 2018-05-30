@@ -153,8 +153,8 @@ export default class StepPage {
 
     static async assertNumberOfVisibleScreenAnnotationsIs(expectedNumberOfScreenAnnotations) {
         await expect(element.all(by.className('sc-screenshot-annotation')).count()).toBe(expectedNumberOfScreenAnnotations);
-        return element.all(by.className('sc-screenshot-annotation')).each(async (element) => {
-            await expect(element.isDisplayed()).toBe(true);
+        return element.all(by.className('sc-screenshot-annotation')).each(async (e) => {
+            await expect(e.isDisplayed()).toBe(true);
         });
     }
 
@@ -264,7 +264,7 @@ export default class StepPage {
         await expect(element(by.id('sc-step-comparison-single-page-view')).isPresent()).toBeTruthy();
         await expect(element(by.css('.sc-step-comparison-current-screenshot')).isPresent()).toBeFalsy();
         return expect(element(by.css('.sc-step-comparison-other-screenshot')).isPresent()).toBeTruthy();
-    };
+    }
 
     static async expectStepComparisonCurrentScreenTitle(title: string, infoText: string) {
         await expect(element(by.css('sc-screenshot-title[build="baseBuild"] h3')).getText()).toBe(title);
@@ -280,7 +280,7 @@ export default class StepPage {
         await expect(element(by.css('sc-screenshot-title[build="comparisonBuild"] div.tooltip')).isDisplayed()).toBeTruthy();
         await expect(element(by.css('sc-screenshot-title[build="comparisonBuild"] div.tooltip')).getText()).toBe(infoText);
         return element(by.css('sc-screenshot-title[build="comparisonBuild"] h3')).click();
-    };
+    }
 
     static async expectStepComparisonOtherScreenViewIsDisabled() {
         return expect(element(by.id('sc-step-comparison-other-screen-view-button')).getAttribute('disabled')).toEqual('true');

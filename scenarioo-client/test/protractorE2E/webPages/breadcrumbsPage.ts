@@ -15,7 +15,7 @@ export default class BreadcrumbPage {
         return expect(useCaseElement.getText()).toContain(useCaseName);
     }
 
-    static async assertThatTooltipIsShown(toolTipId, toolTipText){
+    static async assertThatTooltipIsShown(toolTipId, toolTipText) {
         const toolTipElement =  this.breadcrumbs.element(by.id(toolTipId));
         const toolTipAttribute = await toolTipElement.getAttribute('uib-tooltip');
 
@@ -23,4 +23,3 @@ export default class BreadcrumbPage {
     }
 
 }
-

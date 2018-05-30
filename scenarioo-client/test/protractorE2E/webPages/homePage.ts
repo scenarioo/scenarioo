@@ -36,7 +36,7 @@ export default class HomePage {
 
     static async closeScenariooInfoDialogIfOpen() {
         const present = await browser.isElementPresent(by.css('.modal-footer button.btn'));
-        if(present) {
+        if (present) {
             await element(by.css('.modal-footer button.btn')).click();
         }
     }
@@ -74,11 +74,11 @@ export default class HomePage {
         return this.hideMetaDataButton.click();
     }
 
-    static async sortByChanges(){
+    static async sortByChanges() {
         return this.usecaseTable.element(by.css('th.sort-diff-info')).click();
     }
 
-    static async assertNumberOfDiffInfos(count){
+    static async assertNumberOfDiffInfos(count) {
         this.usecaseTable.all(by.css('.diff-info-wrapper')).then((elements) => {
             return expect(elements.length).toBe(count);
         });
@@ -115,7 +115,7 @@ export default class HomePage {
     }
 
     static async assertCustomTabEntriesShown(count) {
-        const elements = await element(by.id('treeviewtable')).all(by.css('tbody tr')).filter(e => e.isDisplayed());
+        const elements = await element(by.id('treeviewtable')).all(by.css('tbody tr')).filter((e) => e.isDisplayed());
         // Not a great workaround, at the moment the filterable table header column is also a normal tr
         return expect(elements.length).toBe(count);
     }
