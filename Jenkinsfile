@@ -143,10 +143,11 @@ timestamps {
         if (env.BRANCH_NAME == "develop") {
             stage("Publish Markdown Docu ${env.BRANCH_NAME}") {
                 ansiColor('xterm') {
-                sh 'pushd docs'
-                sh 'npm run deployDocsDevelop'
-                sh 'popd'
-                reportJenkinsSummaryGitbookMarkdownDocu(env.BRANCH_NAME)
+                    sh 'pushd docs'
+                    sh 'npm run deployDocsDevelop'
+                    sh 'popd'
+                    reportJenkinsSummaryGitbookMarkdownDocu(env.BRANCH_NAME)
+                }
             }
         }
 
