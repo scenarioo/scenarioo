@@ -133,7 +133,7 @@ export default class StepPage {
     };
 
     static async assertToolTipInBreadcrumb(expectedTooltip) {
-        const toolTip = await element(by.id('tooltip_1')).getAttribute('tooltip');
+        const toolTip = await element(by.id('tooltip_1')).getAttribute('uib-tooltip');
         await expect(toolTip).toBe(expectedTooltip);
     };
 

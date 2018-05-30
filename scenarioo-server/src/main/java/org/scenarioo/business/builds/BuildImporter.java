@@ -69,7 +69,7 @@ public class BuildImporter {
 	 */
 	private final ExecutorService asyncBuildImportExecutor = newAsyncBuildImportExecutor();
 
-	private ComparisonExecutor comparisonExecutor = new ComparisonExecutor(asyncBuildImportExecutor, new LazyAliasResolver());
+	private ComparisonExecutor comparisonExecutor = new ComparisonExecutor(new LazyAliasResolver());
 
 	private final LastSuccessfulScenariosBuild lastSuccessfulScenarioBuild = new LastSuccessfulScenariosBuild();
 
@@ -128,10 +128,6 @@ public class BuildImporter {
 			}
 		}
 
-		for (BuildIdentifier buildIdentifier : importNeededBuilds) {
-			submitBuildForComparison(buildIdentifier);
-		}
-
 		return importNeededBuilds.size();
 	}
 
@@ -139,38 +135,41 @@ public class BuildImporter {
 													BuildIdentifier buildIdentifier) {
 		removeImportedBuildAndDerivedData(availableBuilds, buildIdentifier);
 		submitBuildForImport(availableBuilds, buildIdentifier);
-		submitBuildForComparison(buildIdentifier);
 		saveBuildImportSummaries(buildImportSummaries);
 	}
 
-	public synchronized Future<BuildDiffInfo> importBuildAndCreateComparison(AvailableBuildsList availableBuilds,
-			BuildIdentifier buildIdentifier, BuildIdentifier comparisonBuildIdentifier, String comparisonName) {
+	/**
+	 * Schedule import of build (if new) and once it was imported also schedule a comparison to be calculated on that same build.
+	 *
+	 * @return buildDiffInfo as a double future ;-) - because waiting on a result from an asynchronous computation that triggers another asynchronous computation now ;-)
+	 */
+	public synchronized Future<Future<BuildDiffInfo>> importBuildIfNewAndScheduleHiPrioComparison(AvailableBuildsList availableBuilds,
+																								  BuildIdentifier buildIdentifier,
+																								  BuildIdentifier comparisonBuildIdentifier,
+																								  String comparisonName) {
+		BuildImportSummary buildImportSummary = buildImportSummaries.get(buildIdentifier);
+		if (buildImportSummary == null) {
+			LOGGER.info("Build not exists yet, submitting new import with additional task for hi prio comparison calculation.");
+			buildImportSummary = createBuildImportSummary(buildIdentifier);
+			buildImportSummaries.put(buildIdentifier, buildImportSummary);
+			submitBuildForImport(availableBuilds, buildIdentifier);
+			Future<Future<BuildDiffInfo>> futureResult = submitSingleBuildComparisonAfterLastImport(buildIdentifier, comparisonBuildIdentifier, comparisonName);
+			saveBuildImportSummaries(buildImportSummaries);
+			return futureResult;
+		} else {
+			LOGGER.info("Build already exists, only triggering comparison dirextly, not waiting for any other build import to finish first.");
+			CompletableFuture<Future<BuildDiffInfo>> submittedFutureComparison = new CompletableFuture<>();
+			submittedFutureComparison.complete(
+				submitSingleBuildComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName)
+			);
+			return submittedFutureComparison;
+		}
 
-		submitBuildForInitialImportIfNewBuild(availableBuilds, buildIdentifier);
-
-		Future<BuildDiffInfo> buildDiffInfoFuture =
-			submitBuildForSingleComparison(buildIdentifier, comparisonBuildIdentifier,comparisonName);
-
-		saveBuildImportSummaries(buildImportSummaries);
-
-		return buildDiffInfoFuture;
 	}
 
 	public BuildImportStatus getBuildImportStatus(BuildIdentifier buildIdentifier) {
 		BuildImportSummary buildImportSummary = buildImportSummaries.get(buildIdentifier);
 		return buildImportSummary != null ? buildImportSummary.getStatus() : null;
-	}
-
-	private void submitBuildForInitialImportIfNewBuild(AvailableBuildsList availableBuilds, BuildIdentifier buildIdentifier) {
-		BuildImportSummary buildImportSummary = buildImportSummaries.get(buildIdentifier);
-
-		if(buildImportSummary == null) {
-			buildImportSummary = createBuildImportSummary(buildIdentifier);
-			buildImportSummaries.put(buildIdentifier, buildImportSummary);
-			submitBuildForImport(availableBuilds, buildIdentifier);
-		} else {
-			LOGGER.info("Build already exists, not triggering import.");
-		}
 	}
 
 	private BuildImportSummary createBuildImportSummary(BuildIdentifier buildIdentifier) {
@@ -179,8 +178,8 @@ public class BuildImporter {
 	}
 
 	/**
-	 * Remove a build from the available builds list and mark it as unprocessed, also remove any available derived data
-	 * that mark this build as processed.
+	 * Remove a build from the available builds list and mark it as unprocessed,
+	 * also remove any available derived data that mark this build as processed.
 	 */
 	private synchronized void removeImportedBuildAndDerivedData(AvailableBuildsList availableBuilds,
 																BuildIdentifier buildIdentifier) {
@@ -195,10 +194,12 @@ public class BuildImporter {
 		summary.setStatus(BuildImportStatus.UNPROCESSED);
 		ScenarioDocuAggregator aggregator = new ScenarioDocuAggregator(summary);
 		aggregator.removeAggregatedDataForBuild();
+
 	}
 
 	/**
-	 * Submit any build for import.
+	 * Schedule a build to get imported.
+	 * After import it will trigger comparisons to get scheduled for that build once all other pending comparisons are done.
 	 */
 	private synchronized void submitBuildForImport(final AvailableBuildsList availableBuilds,
 												   BuildIdentifier buildIdentifier) {
@@ -213,25 +214,64 @@ public class BuildImporter {
 			+ buildIdentifier.getBuildName());
 		buildsInProcessingQueue.add(buildIdentifier);
 		summary.setStatus(BuildImportStatus.QUEUED_FOR_PROCESSING);
+
 		asyncBuildImportExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					importBuild(availableBuilds, summary);
+					scheduleAllComparisonsForBuild(buildIdentifier);
 				} catch (Throwable e) {
 					LOGGER.error("Unexpected error on build import.", e);
 				}
 			}
 		});
+
 	}
 
-	private void submitBuildForComparison(BuildIdentifier buildIdentifier) {
-		comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+	private void scheduleAllComparisonsForBuild(BuildIdentifier buildIdentifier) {
+		// The scheduling of comparisons is only done after all currently pending imports,
+		// just to ensure that first all pending imports have been done before a comparison is calculated.
+		// because comparisons could need import of other pending imports of builds
+		// before they can run.
+		asyncBuildImportExecutor.execute(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					comparisonExecutor.scheduleAllConfiguredComparisonsForOneBuild(buildIdentifier.getBranchName(), buildIdentifier.getBuildName());
+				} catch (Throwable e) {
+					LOGGER.error("Unexpected error on scheduling comparisons for a build.", e);
+				}
+			}
+		});
 	}
 
-	public Future<BuildDiffInfo> submitBuildForSingleComparison(BuildIdentifier buildIdentifier, BuildIdentifier compareBuildIdentifier, String comparisonName) {
-		return comparisonExecutor.doComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+	/**
+	 * Submit a comparison to be immediately scheduled for asynch execution
+	 * without waiting for any pending build imports to happen first.
+	 */
+	public Future<BuildDiffInfo> submitSingleBuildComparison(BuildIdentifier buildIdentifier, BuildIdentifier compareBuildIdentifier, String comparisonName) {
+		return comparisonExecutor.scheduleComparison(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 			compareBuildIdentifier.getBranchName(), compareBuildIdentifier.getBuildName(), comparisonName);
+	}
+
+	/**
+	 * Submit a comparison for execution but only schedule it for execution once the last scheduled build has been imported.
+	 */
+	private synchronized Future<Future<BuildDiffInfo>> submitSingleBuildComparisonAfterLastImport(BuildIdentifier buildIdentifier,
+																					 BuildIdentifier comparisonBuildIdentifier,
+																					 String comparisonName) {
+		CompletableFuture<Future<BuildDiffInfo>> completableBuildDiffInfoFuture = new CompletableFuture<>();
+		asyncBuildImportExecutor.execute(new Runnable() {
+				@Override
+				public void run() {
+					LOGGER.info("Scheduling comparison that was scheduled to happen after last build that was imported.");
+					completableBuildDiffInfoFuture.complete(
+						submitSingleBuildComparison(buildIdentifier, comparisonBuildIdentifier, comparisonName)
+					);
+				}
+			});
+		return completableBuildDiffInfoFuture;
 	}
 
 	private void importBuild(AvailableBuildsList availableBuilds, BuildImportSummary summary) {

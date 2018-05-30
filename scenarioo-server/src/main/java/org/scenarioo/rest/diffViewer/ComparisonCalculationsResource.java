@@ -1,5 +1,6 @@
 package org.scenarioo.rest.diffViewer;
 
+import org.apache.log4j.Logger;
 import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.ComparisonCalculationStatus;
@@ -17,12 +18,19 @@ import java.util.List;
 @Path("/rest/comparisons")
 public class ComparisonCalculationsResource {
 
+	private static final Logger LOGGER = Logger.getLogger(ComparisonCalculationsResource.class);
+
 	private DiffViewerDao diffViewerDao = new DiffViewerDao();
 
 	@GET
 	@Produces({"application/xml", "application/json"})
 	public List<BuildDiffInfo> listAllComparisonResults() {
-		return diffViewerDao.loadAllBuildDiffInfos();
+		try {
+			return diffViewerDao.loadAllBuildDiffInfos();
+		} catch (Throwable e) {
+			LOGGER.error("Could not load comparison list (corrupted data?)", e);
+			throw e;
+		}
 	}
 
 }

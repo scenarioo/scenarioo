@@ -1,6 +1,7 @@
 package org.scenarioo.rest.diffViewer;
 
 import org.apache.log4j.Logger;
+import org.jboss.resteasy.annotations.Body;
 import org.scenarioo.business.builds.BranchAliasResolver;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.basic.FileSystemOperationsDao;
@@ -25,17 +26,18 @@ public class ComparisonsResource {
 	 * in the comparisons configuration. branchName can be a branch alias.
 	 *
 	 * @return 404 NOT FOUND if the build specified by branchName/buildName does not exist.
-	 * 412 PRECONDITION FAILED if the build is not imported successfully.
+	 * 412 PRECONDITION FAILED if the build was not imported successfully.
 	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
 	 */
 	@POST
 	@Path("/calculate")
+	@Consumes({"application/xml", "application/json"})
 	@Produces({"application/json"})
 	public Response calculate(
 		@PathParam("branchName") final String branchName,
 		@PathParam("buildName") final String buildName,
 		@PathParam("comparisonName") final String comparisonName,
-		BuildIdentifier comparisonBuildIdentifier) {
+		final BuildIdentifier comparisonBuildIdentifier) {
 
 		BuildIdentifier buildIdentifier = resolveAndCreateBuildIdentifier(branchName, buildName);
 		checkBuildIsSuccessfullyImported(branchName, buildName, buildIdentifier);
@@ -138,7 +140,7 @@ public class ComparisonsResource {
 	}
 
 	/**
-	 * Imports the build (if not imported yet) and then calculates the comparisons synchronously. Be aware that this
+	 * Imports the build (if not imported yet) and then calculates the comparison synchronously. Be aware that this
 	 * call can be very slow when comparing large builds.
 	 * <p>
 	 * Previously this endpoint was:
@@ -167,13 +169,13 @@ public class ComparisonsResource {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 
-		Future<BuildDiffInfo> buildDiffInfoFuture =
-			ScenarioDocuBuildsManager.INSTANCE.importBuildAndCreateComparison(buildIdentifier,
+		Future<Future<BuildDiffInfo>> buildDiffInfoFuture =
+			ScenarioDocuBuildsManager.INSTANCE.importBuildIfNewAndScheduleHiPrioComparison(buildIdentifier,
 				comparisonBuildIdentifier, comparisonName);
 
 		BuildDiffInfo buildDiffInfo;
 		try {
-			buildDiffInfo = buildDiffInfoFuture.get();
+			buildDiffInfo = buildDiffInfoFuture.get().get();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

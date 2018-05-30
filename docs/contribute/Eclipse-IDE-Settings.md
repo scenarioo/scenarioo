@@ -33,7 +33,7 @@ Import those settings into your eclipse, by performing the following steps:
     * click "Apply"
     * click "OK"
 5. **IMPORTANT: MAKE SURE TO TEST WHETHER YOUR FORMAT SETTINGS ARE CORRECTLY APPLIED BEFORE CONTINUING AS FOLLOWS:** This is important because otherwise you or other developer might have merging troubles because of too much unwanted changes because of unwnated reformattings of existing code.
-       * Choose a unchanged Java File from scenarioo-server in Eclipse and open it (choose one that is allready formated correctly, e.g. use the class ObjectReferenceTreeBuilder for testing this). 
+       * Choose a unchanged Java File from scenarioo-server in Eclipse and open it (choose one that is already formated correctly, e.g. use the class ObjectReferenceTreeBuilder for testing this). 
        * Select Ctrl+Shift+F to format the whole file
        * Since you did not change anything in the file, it should not reformat anything
        * Make a diff to see which changes have been done to the file, there should be no changes at all.

@@ -68,7 +68,7 @@ angular.module('scenarioo.services').factory('BranchesAndBuildsService', functio
 
     function getBranchDisplayName(wrappedBranch) {
 
-        if (wrappedBranch === undefined) {
+        if (!wrappedBranch) {
             return null;
         }
 
@@ -96,7 +96,7 @@ angular.module('scenarioo.services').factory('BranchesAndBuildsService', functio
     }
 
     function getDisplayNameForBuild(build, returnShortText) {
-        if (angular.isUndefined(build)) {
+        if (!build) {
             return '';
         }
 
@@ -121,7 +121,7 @@ angular.module('scenarioo.services').factory('BranchesAndBuildsService', functio
     }
 
     function isBuildAlias(build) {
-        if (angular.isUndefined(build)) {
+        if (!build) {
             return false;
         }
 
@@ -129,7 +129,7 @@ angular.module('scenarioo.services').factory('BranchesAndBuildsService', functio
     }
 
     function isLastSuccessfulScenariosBuild(build) {
-        if (angular.isUndefined(build)) {
+        if (!build) {
             return false;
         }
 
