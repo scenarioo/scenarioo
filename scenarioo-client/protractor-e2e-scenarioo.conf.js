@@ -95,7 +95,7 @@ var exportsConfig = {
         defaultTimeoutInterval: 80000
     },
 
-    SELENIUM_PROMISE_MANAGER: 1
+    SELENIUM_PROMISE_MANAGER: 0
 };
 
 exports.config = exportsConfig;
