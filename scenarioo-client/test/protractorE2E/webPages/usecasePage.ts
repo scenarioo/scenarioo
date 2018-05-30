@@ -8,8 +8,8 @@ export default class UsecasePage {
     private static scenarioTable: ElementFinder = element(by.css('table.scenario-table'));
 
     static async selectScenario(scenarioIndex) {
-        const elements = await this.scenarioTable.all(by.css('tbody tr'));
-        return elements[scenarioIndex].click();
+        const elements = this.scenarioTable.all(by.css('tbody tr'));
+        return elements.get(scenarioIndex).click();
     }
 
     static async sortByChanges() {
@@ -17,8 +17,8 @@ export default class UsecasePage {
     }
 
     static async assertNumberOfDiffInfos(count) {
-        const elements = await this.scenarioTable.all(by.css('.diff-info-wrapper'));
-        return expect(elements.length).toBe(count);
+        const elements = this.scenarioTable.all(by.css('.diff-info-wrapper'));
+        return expect(elements.count()).toBe(count);
     }
 
     static async assertLastUseCase(lastName) {

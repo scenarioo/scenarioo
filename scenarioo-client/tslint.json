@@ -6,6 +6,8 @@
     "jsRules": {},
     "rules": {
         "quotemark": [true, "single", "avoid-escape", "avoid-template"],
+        "no-floating-promises": true,
+        "await-promise": true,
         "member-access": false,
         "indent": false,
         "align": false,

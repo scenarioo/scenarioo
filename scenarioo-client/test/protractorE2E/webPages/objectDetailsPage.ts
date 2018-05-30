@@ -6,10 +6,10 @@ import * as Utils from '../util/util';
 export default class ObjectDetailsPage {
 
     static async clickNthTreeTableRow(rowNumberWithoutHeader) {
-        const elements = await element.all(by.css('#treeviewtable tbody tr'));
-        const nthRow = elements[rowNumberWithoutHeader];
-        const link = await nthRow.element(by.css('span'));
-        link.click();
+        const elements = element.all(by.css('#treeviewtable tbody tr'));
+        const nthRow = elements.get(rowNumberWithoutHeader);
+        const link = nthRow.element(by.css('span'));
+        await link.click();
     }
 
     static async clickToExpand(nodeId) {
@@ -19,7 +19,7 @@ export default class ObjectDetailsPage {
 
         const imageElement = node.element(by.id(imageId));
         await Utils.waitForElementVisible(imageElement);
-        imageElement.click();
+        return imageElement.click();
     }
 
     static async assertTreeNodeStatus(nodeId, status) {
@@ -33,8 +33,8 @@ export default class ObjectDetailsPage {
     }
 
     static async assertNumberOfRows(expectedRowCount) {
-        const rows = await element(protractor.By.tagName('tbody')).all(protractor.By.tagName('tr'));
-        return expect(rows.length).toBe(expectedRowCount);
+        const rows = element(protractor.By.tagName('tbody')).all(protractor.By.tagName('tr'));
+        return expect(rows.count()).toBe(expectedRowCount);
     }
 
     static async enterSearchCriteria(searchCriteria) {

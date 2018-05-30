@@ -74,7 +74,7 @@ export async function assertTextPresentInElement(e, expectedText) {
 
 export async function assertElementNotPresentInDom(elementBy) {
     const elements = await browser.findElements(elementBy);
-    await expect(await elements.length).toBe(0);
+    await expect(elements.length).toBe(0);
 }
 
 export async function clickBrowserBackButton() {

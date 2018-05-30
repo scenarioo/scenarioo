@@ -9,7 +9,7 @@ useCase('Step - Screen Annotations')
     .describe(() => {
 
         beforeEach(async () => {
-            await await Utils.startScenariooRevisited();
+            await Utils.startScenariooRevisited();
         });
 
         scenario('Screen without annotations')

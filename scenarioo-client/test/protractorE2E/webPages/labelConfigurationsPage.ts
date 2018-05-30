@@ -20,11 +20,12 @@ export default class LabelConfigurationsPage {
     }
 
     static async addLabelConfiguration(labelName, colorIndex) {
-        const elements = await this.labelConfigurationsTable.all(by.css('tbody tr'));
-        const lastRow = elements[elements.length - 1];
+        const elements = this.labelConfigurationsTable.all(by.css('tbody tr'));
+        const numberOfElements = await elements.count();
+        const lastRow = elements.get(numberOfElements - 1);
         const labelNameField = lastRow.element(by.css('input[name="labelName"]'));
-        const colors = await lastRow.all(by.css('ul li span'));
-        await colors[colorIndex].click();
+        const colors = lastRow.all(by.css('ul li span'));
+        await colors.get(colorIndex).click();
         await labelNameField.sendKeys(labelName);
 
         await this.saveButton.click();
@@ -32,11 +33,11 @@ export default class LabelConfigurationsPage {
     }
 
     static async updateLabelConfiguration(rowIndex, labelName, colorIndex) {
-        const elements = await this.labelConfigurationsTable.all(by.css('tbody tr'));
-        const row = elements[rowIndex];
+        const elements = this.labelConfigurationsTable.all(by.css('tbody tr'));
+        const row = elements.get(rowIndex);
         const labelNameField = row.element(by.css('input[name="labelName"]'));
-        const colors = await row.all(by.css('ul li span'));
-        await colors[colorIndex].click();
+        const colors = row.all(by.css('ul li span'));
+        await colors.get(colorIndex).click();
 
         await labelNameField.clear();
         await labelNameField.sendKeys(labelName);

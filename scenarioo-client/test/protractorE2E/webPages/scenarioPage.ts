@@ -17,8 +17,8 @@ export default class ScenarioPage {
     }
 
     static async toggleShowAllStepsOfPage(pageIndex) {
-        const elements = await this.stepView.all(by.css('.toggle-show-all-steps-of-page'));
-        return elements[pageIndex].click();
+        const elements = this.stepView.all(by.css('.toggle-show-all-steps-of-page'));
+        return elements.get(pageIndex).click();
     }
 
     static async assertFirstChangedPageDiffIconHasValue() {

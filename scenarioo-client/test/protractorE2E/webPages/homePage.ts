@@ -79,9 +79,8 @@ export default class HomePage {
     }
 
     static async assertNumberOfDiffInfos(count) {
-        this.usecaseTable.all(by.css('.diff-info-wrapper')).then((elements) => {
-            return expect(elements.length).toBe(count);
-        });
+        const elements = this.usecaseTable.all(by.css('.diff-info-wrapper'));
+        return expect(elements.count()).toBe(count);
     }
 
     static async assertLastUseCase(lastName) {
@@ -115,9 +114,9 @@ export default class HomePage {
     }
 
     static async assertCustomTabEntriesShown(count) {
-        const elements = await element(by.id('treeviewtable')).all(by.css('tbody tr')).filter((e) => e.isDisplayed());
+        const elements = element(by.id('treeviewtable')).all(by.css('tbody tr')).filter((e) => e.isDisplayed());
         // Not a great workaround, at the moment the filterable table header column is also a normal tr
-        return expect(elements.length).toBe(count);
+        return expect(elements.count()).toBe(count);
     }
 
     static async assertNoDiffInfoDisplayed() {
