@@ -17,22 +17,22 @@
 
 package org.scenarioo.rest.base.exceptions;
 
-import org.apache.log4j.Logger;
-import org.scenarioo.api.exception.ResourceNotFoundException;
-
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-@Provider
-public class ExceptionHandler implements ExceptionMapper<ResourceNotFoundException> {
+import org.scenarioo.api.exception.ResourceNotFoundException;
 
-	private static final Logger LOGGER = Logger.getLogger(ExceptionHandler.class);
+import org.apache.log4j.Logger;
+
+@Provider
+public class ResourceNotFoundExceptionHandler implements ExceptionMapper<ResourceNotFoundException> {
+
+	private Logger LOGGER = Logger.getLogger(ResourceNotFoundExceptionHandler.class);
 
 	@Override
 	public Response toResponse(final ResourceNotFoundException exception) {
-		LOGGER.error("Resource not found", exception);
+		LOGGER.warn("Resource not found: " + exception.getMessage());
 		return Response.status(404).build();
 	}
-
 }

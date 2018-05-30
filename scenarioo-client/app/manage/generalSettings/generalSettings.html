@@ -19,8 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <div class="alert alert-success fade-out" ng-show="vm.successfullyUpdatedConfiguration">
         The configuration has been successfully updated.
-        <a ng-click="vm.successfullyUpdatedConfiguration=false" class="pull-right link link-no-hover" style="color: #468847"><i
-                class="icon-remove icon"></i></a>
+        <a ng-click="vm.successfullyUpdatedConfiguration=false" class="pull-right link link-no-hover"
+           style="color: #468847"><i
+            class="icon-remove icon"></i></a>
     </div>
 
     <form novalidate class="configuration">
@@ -29,7 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <div class="row sc-space-bottom">
             <div class="col-lg-3">Documentation Data Directory Path
-                &nbsp;<span class="glyphicon glyphicon-info-sign" uib-tooltip="Absolute path to the directory where the config.xml file and generated documentation data is stored (web server needs read & write access to this folder)"></span>
+                &nbsp;<span class="glyphicon glyphicon-info-sign"
+                            uib-tooltip="Absolute path to the directory where the config.xml file and generated documentation data is stored (web server needs read & write access to this folder)"></span>
             </div>
             <div class="col-lg-9">
                 {{vm.documentationDataDirectory}}
@@ -38,16 +40,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <div class="row sc-space-bottom">
             <div class="col-lg-3">Application Name
-                &nbsp;<span class="glyphicon glyphicon-info-sign" uib-tooltip="Name of your documented application. Is shown in the browser title bar and in the navigation bar."></span>
+                &nbsp;<span class="glyphicon glyphicon-info-sign"
+                            uib-tooltip="Name of your documented application. Is shown in the browser title bar and in the navigation bar."></span>
             </div>
             <div class="col-lg-9">
-                <input type="text" ng-model="vm.configuration.applicationName" class="form-control" />
+                <input type="text" ng-model="vm.configuration.applicationName" class="form-control"/>
             </div>
         </div>
 
         <div class="row sc-space-bottom">
             <div class="col-lg-3">Application Welcome Message
-                &nbsp;<span class="glyphicon glyphicon-info-sign" uib-tooltip="Application specific welcome message to show to users of your scenarioo documentation in info popup dialog. This is the place to explain to your stakeholders how your scenarioo documentation is structured. It is also recommended to place an email link here, where your stakeholders could ask questions or give feedback about the documentation."></span>
+                &nbsp;<span class="glyphicon glyphicon-info-sign"
+                            uib-tooltip="Application specific welcome message to show to users of your scenarioo documentation in info popup dialog. This is the place to explain to your stakeholders how your scenarioo documentation is structured. It is also recommended to place an email link here, where your stakeholders could ask questions or give feedback about the documentation."></span>
             </div>
             <div class="col-lg-9">
                 <textarea ng-model="vm.configuration.applicationInformation" class="form-control"></textarea>
@@ -56,16 +60,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <h2>Full Text Search</h2>
 
-        <div id="sc-search-not-configured-message" class="row sc-space-bottom" ng-show="vm.searchEngineStatus && !vm.searchEngineStatus.endpointConfigured" ng-cloak>
+        <div id="sc-search-not-configured-message" class="row sc-space-bottom"
+             ng-show="vm.searchEngineStatus && !vm.searchEngineStatus.endpointConfigured" ng-cloak>
             <div class="col-lg-12">
                 Full text search is <span class="sc-service-disabled">disabled</span>. <br/>
-                See <a href="https://github.com/scenarioo/scenarioo/blob/{{vm.version.releaseBranch}}/docs/features/full-text-search/setup.md" target="_blank">Setup instructions for Full Text Search</a> on how to configure and setup Full text search for Scenarioo.
+                See <a
+                href="https://github.com/scenarioo/scenarioo/blob/{{vm.version.releaseBranch}}/docs/features/full-text-search/setup.md"
+                target="_blank">Setup instructions for Full Text Search</a> on how to configure and setup Full text
+                search for Scenarioo.
             </div>
         </div>
 
         <div class="row sc-space-bottom" ng-show="vm.searchEngineStatus.endpointConfigured" ng-cloak>
             <div class="col-lg-3">Elasticsearch Endpoint
-                &nbsp;<span class="glyphicon glyphicon-info-sign" uib-tooltip="Scenarioo full text search requires an Elasticsearch installation to be reachable. You can change the endpoint in the elasticSearchEndpoint tag in config.xml."></span>
+                &nbsp;<span class="glyphicon glyphicon-info-sign"
+                            uib-tooltip="Scenarioo full text search requires an Elasticsearch installation to be reachable. You can change the endpoint in the elasticSearchEndpoint tag in config.xml."></span>
             </div>
             <div class="col-lg-9" id="sc-configured-search-endpoint">
                 {{vm.searchEngineStatus.endpoint}}
@@ -73,11 +82,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </div>
 
         <div class="row sc-space-bottom" ng-show="vm.searchEngineStatus.endpointConfigured" ng-cloak>
+            <div class="col-lg-3">Elasticsearch Cluster Name
+                &nbsp;<span class="glyphicon glyphicon-info-sign"
+                            uib-tooltip="Elasticsearch cluster name used for scenarioo. Can be configured in config.xml in your scenarioo data directory."></span>
+            </div>
+            <div class="col-lg-9" id="sc-configured-search-cluster-name">
+                {{vm.configuration.elasticSearchClusterName}}
+            </div>
+        </div>
+
+        <div class="row sc-space-bottom" ng-show="vm.searchEngineStatus.endpointConfigured" ng-cloak>
             <div class="col-lg-3">Elasticsearch Status
-                &nbsp;<span class="glyphicon glyphicon-info-sign" uib-tooltip="Tells you whether Scenarioo can reach the above search engine endpoint. If it can't, the full text search feature is automatically disabled."></span>
+                &nbsp;<span class="glyphicon glyphicon-info-sign"
+                            uib-tooltip="Tells you whether Scenarioo can reach the above search engine endpoint. If it can't, the full text search feature is automatically disabled."></span>
             </div>
             <div id="sc-search-endpoint-is-not-reachable" class="col-lg-9" ng-show="!vm.searchEngineStatus.running">
-                <span class="sc-service-disabled">Not running / reachable</span> <span class="glyphicon glyphicon-exclamation-sign"></span>
+                <span class="sc-service-disabled">
+                    Not running / reachable
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                </span>
             </div>
             <div id="sc-search-endpoint-is-reachable" class="col-lg-9" ng-show="vm.searchEngineStatus.running">
                 <span class="sc-service-enabled">Running and reachable</span>
@@ -86,7 +109,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <div class="row sc-space-bottom" ng-show="vm.searchEngineStatus.endpointConfigured" ng-cloak>
             <div class="col-lg-12">
-                See <a href="https://github.com/scenarioo/scenarioo/blob/{{vm.version.releaseBranch}}/docs/features/full-text-search/setup.md" target="_blank">Setup Instructions for Full Text Search</a> for more information.
+                See <a
+                href="https://github.com/scenarioo/scenarioo/blob/{{vm.version.releaseBranch}}/docs/features/full-text-search/setup.md"
+                target="_blank">Setup Instructions for Full Text Search</a> for more information.
             </div>
         </div>
 
@@ -94,7 +119,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <div class="row sc-space-bottom">
             <div class="col-lg-3">Default Branch
-                &nbsp;<span class="glyphicon glyphicon-info-sign" uib-tooltip="Branch to select by default for first-time visitors."></span>
+                &nbsp;<span class="glyphicon glyphicon-info-sign"
+                            uib-tooltip="Branch to select by default for first-time visitors."></span>
             </div>
             <div class="col-lg-9">
                 <select ng-model="vm.configuration.defaultBranchName"
@@ -105,7 +131,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <div class="row sc-space-bottom">
             <div class="col-lg-3">Default Build
-                &nbsp;<span class="glyphicon glyphicon-info-sign" uib-tooltip="Build to select by default for first-time visitors."></span>
+                &nbsp;<span class="glyphicon glyphicon-info-sign"
+                            uib-tooltip="Build to select by default for first-time visitors."></span>
             </div>
             <div class="col-lg-9">
                 <select ng-model="vm.configuration.defaultBuildName"
@@ -116,21 +143,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
         <div class="row sc-space-bottom ">
-            <div class="col-lg-3">Most Recent Build Alias&nbsp;<span class="glyphicon glyphicon-info-sign" uib-tooltip="An alias build name for always refering to the most recent build inside a branch (no matter whether the build was successful or not)."></span></div>
+            <div class="col-lg-3">Most Recent Build Alias&nbsp;<span class="glyphicon glyphicon-info-sign"
+                                                                     uib-tooltip="An alias build name for always refering to the most recent build inside a branch (no matter whether the build was successful or not)."></span>
+            </div>
             <div class="col-lg-9">
-                <input type="text" ng-model="vm.configuration.aliasForMostRecentBuild" class="form-control" />
+                <input type="text" ng-model="vm.configuration.aliasForMostRecentBuild" class="form-control"/>
             </div>
         </div>
         <div class="row sc-space-bottom">
-            <div class="col-lg-3">Last Successful Build Alias&nbsp;<span class="glyphicon glyphicon-info-sign" uib-tooltip="An alias build name for always refering to the last build that was successful inside a branch."></span></div>
+            <div class="col-lg-3">Last Successful Build Alias&nbsp;<span class="glyphicon glyphicon-info-sign"
+                                                                         uib-tooltip="An alias build name for always refering to the last build that was successful inside a branch."></span>
+            </div>
             <div class="col-lg-9">
-                <input type="text" ng-model="vm.configuration.aliasForLastSuccessfulBuild" class="form-control" />
+                <input type="text" ng-model="vm.configuration.aliasForLastSuccessfulBuild" class="form-control"/>
             </div>
         </div>
 
         <div class="row sc-space-bottom">
             <div class="col-lg-3">Create last successful scenario build
-                <span class="glyphicon glyphicon-info-sign" uib-tooltip="Creates a virtual build containing the latest successful scenarios aggregated over all builds of a branch "></span>
+                <span class="glyphicon glyphicon-info-sign"
+                      uib-tooltip="Creates a virtual build containing the latest successful scenarios aggregated over all builds of a branch "></span>
             </div>
             <div class="col-lg-9">
                 <label>
@@ -144,7 +176,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
 
-        <h2>Additional columns</h2>
+        <h2>Additional Columns</h2>
 
         <div class="row sc-space-bottom">
             <div class="col-lg-3">Additional Scenario Details Property Columns
@@ -156,7 +188,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
 
-        <h2>Display options</h2>
+        <h2>Display Options</h2>
 
         <div class="row sc-space-bottom">
             <div class="col-lg-3">Default state of pages in scenario overview
@@ -173,7 +205,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
 
-        <h2>Status styling  &nbsp;<span class="glyphicon glyphicon-info-sign" uib-tooltip="This status styles can currently only be changed in the scenario config file on the server directly (see section 'buildstates'). There you could add additional styles for application-specific statuses. Otherwise all such undefined application-specific statuses are styled in warnings-style by default."></span></h2>
+        <h2>Status Styling &nbsp;<span class="glyphicon glyphicon-info-sign"
+                                       uib-tooltip="This status styles can currently only be changed in the scenario config file on the server directly (see section 'buildstates'). There you could add additional styles for application-specific statuses. Otherwise all such undefined application-specific statuses are styled in warnings-style by default."></span>
+        </h2>
 
         <div class="row sc-space-bottom" ng-repeat="(buildStatus, buildStyle) in vm.configuration.buildstates">
             <div class="col-lg-3">

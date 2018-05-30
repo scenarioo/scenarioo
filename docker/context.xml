@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Context configuration for the Scenarioo docker image, derived from the original contents of the Aopache Tomcat 8.5.9 container -->
-<Context>
-    <WatchedResource>WEB-INF/web.xml</WatchedResource>
-    <WatchedResource>${catalina.base}/conf/web.xml</WatchedResource>
-
-    <Parameter name="scenariooConfigurationDirectory" value="/docu" override="true"
-               description="Location of scenarioo config.xml file"/>
-</Context>

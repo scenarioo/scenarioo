@@ -24,25 +24,25 @@ var CFG_PROP_NOT_SET = {};
 
 var DEFAULT_INPUT = [
     {
-        alias: false,
+        isAlias: false,
         branch: {
             name: 'feature-102'
         }
     },
     {
-        alias: true,
+        isAlias: true,
         branch: {
             name: 'release-1.3'
         }
     },
     {
-        alias: true,
+        isAlias: true,
         branch: {
             name: 'release-1.4'
         }
     },
     {
-        alias: false,
+        isAlias: false,
         branch: {
             name: 'feature-101'
         }
@@ -105,7 +105,7 @@ describe('Filter scBranchOrderBy', function () {
         it('alias branches first', function () {
             var inputArray = [
                 {
-                    alias: false,
+                    isAlias: false,
                     branch: {
                         name: 'A'
                     },
@@ -116,7 +116,7 @@ describe('Filter scBranchOrderBy', function () {
                     ]
                 },
                 {
-                    alias: true,
+                    isAlias: true,
                     branch: {
                         name: 'B'
                     },
@@ -139,25 +139,25 @@ describe('Filter scBranchOrderBy', function () {
 
             var inputArray = [
                 {
-                    alias: true,
+                    isAlias: true,
                     branch: {
                         name: 'Ae'
                     }
                 },
                 {
-                    alias: true,
+                    isAlias: true,
                     branch: {
                         name: 'Ba'
                     }
                 },
                 {
-                    alias: true,
+                    isAlias: true,
                     branch: {
                         name: 'be'
                     }
                 },
                 {
-                    alias: true,
+                    isAlias: true,
                     branch: {
                         name: 'aa'
                     }
@@ -176,7 +176,7 @@ describe('Filter scBranchOrderBy', function () {
 
             var inputArray = [
                 {
-                    alias: false,
+                    isAlias: false,
                     branch: {
                         name: 'Ae'
                     },
@@ -187,7 +187,7 @@ describe('Filter scBranchOrderBy', function () {
                     ]
                 },
                 {
-                    alias: false,
+                    isAlias: false,
                     branch: {
                         name: 'Ba'
                     },
@@ -198,7 +198,7 @@ describe('Filter scBranchOrderBy', function () {
                     ]
                 },
                 {
-                    alias: false,
+                    isAlias: false,
                     branch: {
                         name: 'be'
                     },
@@ -209,7 +209,7 @@ describe('Filter scBranchOrderBy', function () {
                     ]
                 },
                 {
-                    alias: false,
+                    isAlias: false,
                     branch: {
                         name: 'aa'
                     },

@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}")
+@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/")
 public class UseCaseDiffInfoResource {
 
 	private static final Logger LOGGER = Logger.getLogger(UseCaseDiffInfoResource.class);
@@ -40,7 +40,7 @@ public class UseCaseDiffInfoResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/useCaseName/{useCaseName}/useCaseDiffInfo")
+	@Path("comparisonName/{comparisonName}/useCaseName/{useCaseName}/useCaseDiffInfo")
 	public UseCaseDiffInfo getUseCaseDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
@@ -55,7 +55,7 @@ public class UseCaseDiffInfoResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/useCaseDiffInfos")
+	@Path("comparisonName/{comparisonName}/useCaseDiffInfos")
 	public Map<String, UseCaseDiffInfo> getUseCaseDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName) {

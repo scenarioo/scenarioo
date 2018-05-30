@@ -73,7 +73,7 @@ angular.module('scenarioo.services').factory('BranchesAndBuildsService', functio
         }
 
         var displayName = wrappedBranch.branch.name;
-        if (wrappedBranch.alias) {
+        if (wrappedBranch.isAlias) {
             displayName = displayName + ' (' + wrappedBranch.branch.description + ')';
         }
         return displayName;

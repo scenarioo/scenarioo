@@ -36,6 +36,10 @@
 	<servlet>
 		<servlet-name>ResteasyServlet</servlet-name>
 		<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>org.scenarioo.rest.application.ScenariooRestApplication</param-value>
+		</init-param>
 	</servlet>
 
 	<servlet-mapping>
@@ -57,7 +61,7 @@
 			<transport-guarantee>NONE</transport-guarantee>
 		</user-data-constraint>
 	</security-constraint>
-	
+
 	<security-role>
 		<role-name>scenarioo-build-publisher</role-name>
 		<description>Users with this role are allowed to upload new builds (=report content) to scenarioo using the upload build REST endpoint.</description>

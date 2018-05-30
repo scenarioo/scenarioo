@@ -62,7 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </td>
                 <td>
                     {{scenarioSummary.scenario.name | scHumanReadable }}
-                    <span ng-repeat="label in scenarioSummary.scenario.labels.labels" class="label label-info sc-label"
+                    <span ng-repeat="label in scenarioSummary.scenario.labels.label" class="label label-info sc-label"
                           ng-style="useCase.getLabelStyle(label)">{{label}}</span>
                 </td>
                 <td>
@@ -108,7 +108,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ul>
                     <li>
                         Use case:
-                        <span ng-repeat="label in useCase.useCase.labels.labels" class="label label-info sc-label"
+                        <span ng-repeat="label in useCase.useCase.labels.label" class="label label-info sc-label"
                               ng-style="useCase.getLabelStyle(label)">{{label}}</span>
                     </li>
                 </ul>

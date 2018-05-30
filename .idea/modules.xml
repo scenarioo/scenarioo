@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scenarioo.iml" filepath="$PROJECT_DIR$/.idea/modules/scenarioo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scenarioo.iml" filepath="$PROJECT_DIR$/scenarioo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scenarioo-client/scenarioo-client.iml" filepath="$PROJECT_DIR$/.idea/modules/scenarioo-client/scenarioo-client.iml" group="scenarioo-client" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scenarioo-client/scenarioo-client_main.iml" filepath="$PROJECT_DIR$/.idea/modules/scenarioo-client/scenarioo-client_main.iml" group="scenarioo-client" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scenarioo-client/scenarioo-client_test.iml" filepath="$PROJECT_DIR$/.idea/modules/scenarioo-client/scenarioo-client_test.iml" group="scenarioo-client" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scenarioo-docu-generation-example/scenarioo-docu-generation-example.iml" filepath="$PROJECT_DIR$/.idea/modules/scenarioo-docu-generation-example/scenarioo-docu-generation-example.iml" group="scenarioo-docu-generation-example" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scenarioo-docu-generation-example/scenarioo-docu-generation-example_main.iml" filepath="$PROJECT_DIR$/.idea/modules/scenarioo-docu-generation-example/scenarioo-docu-generation-example_main.iml" group="scenarioo-docu-generation-example" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scenarioo-docu-generation-example/scenarioo-docu-generation-example_test.iml" filepath="$PROJECT_DIR$/.idea/modules/scenarioo-docu-generation-example/scenarioo-docu-generation-example_test.iml" group="scenarioo-docu-generation-example" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scenarioo-java.iml" filepath="$PROJECT_DIR$/.idea/modules/scenarioo-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scenarioo-java_main.iml" filepath="$PROJECT_DIR$/.idea/modules/scenarioo-java_main.iml" group="scenarioo-java" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scenarioo-java_test.iml" filepath="$PROJECT_DIR$/.idea/modules/scenarioo-java_test.iml" group="scenarioo-java" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scenarioo-server/scenarioo-server.iml" filepath="$PROJECT_DIR$/.idea/modules/scenarioo-server/scenarioo-server.iml" group="scenarioo-server" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scenarioo-server/scenarioo-server_main.iml" filepath="$PROJECT_DIR$/.idea/modules/scenarioo-server/scenarioo-server_main.iml" group="scenarioo-server" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scenarioo-server/scenarioo-server_test.iml" filepath="$PROJECT_DIR$/.idea/modules/scenarioo-server/scenarioo-server_test.iml" group="scenarioo-server" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scenarioo-validator/scenarioo-validator.iml" filepath="$PROJECT_DIR$/.idea/modules/scenarioo-validator/scenarioo-validator.iml" group="scenarioo-validator" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scenarioo-validator/scenarioo-validator_main.iml" filepath="$PROJECT_DIR$/.idea/modules/scenarioo-validator/scenarioo-validator_main.iml" group="scenarioo-validator" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scenarioo-validator/scenarioo-validator_test.iml" filepath="$PROJECT_DIR$/.idea/modules/scenarioo-validator/scenarioo-validator_test.iml" group="scenarioo-validator" />
+    </modules>
+  </component>
+</project>

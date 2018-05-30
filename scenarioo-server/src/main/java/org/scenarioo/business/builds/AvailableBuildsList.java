@@ -31,7 +31,6 @@ import org.scenarioo.rest.base.BuildIdentifier;
 
 import java.io.File;
 import java.util.*;
-import java.util.function.Predicate;
 
 /**
  * Manages all the currently available builds and maintains aliases to the most recent builds for each branch.
@@ -193,12 +192,7 @@ public class AvailableBuildsList {
 
 	private boolean isBranchAlias(String branchName) {
 		return configurationRepository.getConfiguration().getBranchAliases().stream()
-			.anyMatch(new Predicate<BranchAlias>() {
-				@Override
-				public boolean test(BranchAlias branchAlias) {
-					return branchAlias.getName().equals(branchName);
-				}
-			});
+			.anyMatch(branchAlias -> branchAlias.getName().equals(branchName));
 	}
 
 	private void addImportedBuild(BuildImportSummary buildImportSummary, BranchBuilds branchBuilds) {

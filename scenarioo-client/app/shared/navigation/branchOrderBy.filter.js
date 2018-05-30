@@ -30,11 +30,11 @@ function scBranchOrderByFilter(ConfigService) {
      */
     function branchComparator(branchA, branchB) {
 
-        if (branchA.alias === true && branchB.alias === false) {
+        if (branchA.isAlias === true && branchB.isAlias === false) {
             return -1;
         }
 
-        if (branchA.alias === false && branchB.alias === true) {
+        if (branchA.isAlias === false && branchB.isAlias === true) {
             return 1;
         }
 
@@ -65,7 +65,7 @@ function scBranchOrderByFilter(ConfigService) {
 
     function orderByLastBuildDateDescending(branchA, branchB) {
 
-        if (branchA.alias === true) {
+        if (branchA.isAlias === true) {
             return orderByNameAscending(branchA, branchB);
         }
 
