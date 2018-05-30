@@ -66,7 +66,7 @@ corresponding most recent markdown file for that page).
      * In case you are a GIT newbie please ask your developer colleagues to help you or refer to the very good (and free) book at: http://git-scm.com/book to get started
      * Also following link might be helpful to understand how to work with the very good git client of IntelliJ: https://www.jetbrains.com/help/idea/2016.1/using-git-integration.html
 
- * Please refer to our **[branching strategy](https://github.com/scenarioo/scenarioo/blob/develop/docs/contribute/Branching-strategy.md) about how we use branches and create releases**.
+ * Please refer to our **[Branching Strategy](Branching-strategy.md) about how we use branches and create releases**.
 
  * (optional) you can use whatever other GIT tools you need
     * for working with github, github desktop might be helpful: https://desktop.github.com/
@@ -153,10 +153,7 @@ But this two repositories should be sufficient for most usual developers.
 
 ## Developer Guide
 
-For more informations on how to develop, build and test scenarioo properly, please read the following carefully:  
- 
-**[Developer Guide](https://github.com/scenarioo/scenarioo/blob/develop/docs/contribute/Developer-Guide.md)**
-
+For more informations on how to develop, build and test scenarioo properly, please read the [Developer Guide](Developer-Guide.md)!
    
 ## Testing the Setup
     
@@ -188,8 +185,6 @@ For more informations on how to develop, build and test scenarioo properly, plea
 ### from old setup to be integrated in this development setup instructions here
 
  * check your JavaScript code against our `.eslintrc` file!
- * See also [WebStorm IDE Settings](https://github.com/scenarioo/scenarioo/blob/develop/docs/contribute/WebStorm-IDE-Settings.md).
- * All developers have to use same formatting and other java settings in eclipse, as explained [here](https://github.com/scenarioo/scenarioo/blob/develop/docs/contribute/Eclipse-IDE-Settings.md)
 
 ### should be improved
 
