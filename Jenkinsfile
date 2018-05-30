@@ -37,6 +37,20 @@ def reportJenkinsSummaryScenariooReports(scenariooUrl, branchId, buildId) {
     reportJenkinsSummary("scenarioo-reports.jenkins-summary.xml", "${title} ${summary}")
 }
 
+/**
+ * Output summary message on jenkins build page
+ * with the link to updated gitbook markdown docu
+ * for current build run
+ */
+def reportJenkinsSummaryGitbookMarkdownDocu(docuVersionName) {
+    def markdownDocuUrl = "http://www.scenarioo.org/docs/${docuVersionName}/"
+    echo "Scenarioo Gitbook Markdown Docu on Webpage updated: ${markdownDocuUrl}"
+    def title = "<h2>Published Documentation on Webpage</h2>"
+    def summary = "<a target=\"_blank\" href=\"${markdownDocuUrl}\">Scenarioo Gitbook Docs for ${docuVersionName}</a>"
+    reportJenkinsSummary("scenarioo-gitbook-markdown-docu.jenkins-summary.xml", "${title} ${summary}")
+}
+
+
 properties([
 	disableConcurrentBuilds(),
 	pipelineTriggers([
@@ -123,6 +137,16 @@ timestamps {
                     }
                 }
 
+            }
+        }
+
+        if (env.BRANCH_NAME == "develop") {
+            stage("Publish Markdown Docu ${env.BRANCH_NAME}") {
+                ansiColor('xterm') {
+                sh 'pushd docs'
+                sh 'npm run deployDocsDevelop'
+                sh 'popd'
+                reportJenkinsSummaryGitbookMarkdownDocu(env.BRANCH_NAME)
             }
         }
 
