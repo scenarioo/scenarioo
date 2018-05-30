@@ -2,7 +2,7 @@
 
 import { scenario, step, useCase } from 'scenarioo-js';
 import * as Utils from '../util/util';
-import ObjectDetailsPage from '../webPages/objectDetailsPage'
+import ObjectDetailsPage from '../webPages/objectDetailsPage';
 
 useCase('Browse object details')
     .description('The object details view includes a reference tree with all Use Cases, '
