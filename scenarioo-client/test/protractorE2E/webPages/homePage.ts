@@ -86,42 +86,42 @@ export default class HomePage {
 
     static async assertLastUseCase(lastName) {
         return Utils.assertTextPresentInElement(this.usecaseTable.element(by.css('tr:last-of-type td:nth-of-type(2)')), lastName);
-    };
+    }
 
     static async assertFirstUseCase(firstName) {
         return Utils.assertTextPresentInElement(this.usecaseTable.element(by.css('tr:first-of-type td:nth-of-type(2)')), firstName);
-    };
+    }
 
     static async selectSketchesTab() {
         return this.sketchesTab.click();
-    };
+    }
 
     static async assertSketchesListContainsEntryWithSketchName(sketchName) {
         return Utils.assertTextPresentInElement(element(by.id('sc-sketches-list')), sketchName);
-    };
+    }
 
     static async selectPagesTab() {
         return this.pagesTab.click();
-    };
+    }
 
     static async assertPagesTabContainsPage(pageName) {
         return Utils.assertTextPresentInElement(element(by.id('treeviewtable')), pageName);
-    };
+    }
 
     static async filterPages(filterQuery) {
         const pagesSearchField = element(by.id('pagesSearchField'));
         await pagesSearchField.clear();
         return pagesSearchField.sendKeys(filterQuery);
-    };
+    }
 
     static async assertCustomTabEntriesShown(count) {
         const elements = await element(by.id('treeviewtable')).all(by.css('tbody tr')).filter(e => e.isDisplayed());
         // Not a great workaround, at the moment the filterable table header column is also a normal tr
         return expect(elements.length).toBe(count);
-    };
+    }
 
     static async assertNoDiffInfoDisplayed() {
         return expect(element(by.css('.sort-diff-info')).isPresent()).toBeFalsy();
-    };
+    }
 
 }

@@ -20,6 +20,6 @@ export default class GeneralSettingsPage {
         await expect(this.configuredSearchEndpoint.getText()).toBe('localhost:9300');
         await expect(this.searchEndpointIsNotReachable.isDisplayed()).toBeFalsy();
         return expect(this.searchEndpointIsReachable.isDisplayed()).toBeTruthy();
-    };
+    }
 
 }

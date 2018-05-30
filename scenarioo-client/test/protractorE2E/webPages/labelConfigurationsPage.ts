@@ -17,7 +17,7 @@ export default class LabelConfigurationsPage {
         const tableElement = element(by.id('label-configurations-table'));
         // adding one, because there's always an empty row
         return Utils.assertNumberOfTableRows(tableElement, expectedCount + 1);
-    };
+    }
 
     static async addLabelConfiguration(labelName, colorIndex) {
         const elements = await this.labelConfigurationsTable.all(by.css('tbody tr'));
@@ -29,7 +29,7 @@ export default class LabelConfigurationsPage {
 
         await this.saveButton.click();
         return expect(this.savedSuccessfullyText.isDisplayed()).toBe(true);
-    };
+    }
 
     static async updateLabelConfiguration(rowIndex, labelName, colorIndex) {
         const elements = await this.labelConfigurationsTable.all(by.css('tbody tr'));
@@ -42,13 +42,13 @@ export default class LabelConfigurationsPage {
         await labelNameField.sendKeys(labelName);
 
         return this.saveButton.click();
-    };
+    }
 
     static async deleteLabelConfiguration(rowIndex) {
         await element(by.css('#label-configuration-' + rowIndex + ' input[value="Delete"]')).click();
         await Utils.assertNumberOfTableRows(this.labelConfigurationsTable, 1); // only the empty row is shown
         await this.saveButton.click();
         return Utils.waitForElementVisible(element(by.id('changed-label-config-successfully')));
-    };
+    }
 
 }

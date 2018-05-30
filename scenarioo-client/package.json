@@ -14,7 +14,7 @@
         "pretest-e2e-scenarioo": "webdriver-manager update",
         "test-e2e-scenarioo": "protractor protractor-e2e-scenarioo.conf.js",
         "protractor": "protractor",
-        "prebuild": "npm run lint",
+        "prebuild": "npm run lint-js && npm run lint-ts",
         "build": "webpack --config configs/webpack.config.prod.js",
         "webpack": "webpack",
         "webpack-dev-server": "webpack-dev-server",
@@ -22,7 +22,9 @@
         "start": "webpack-dev-server -d --inline --progress --port 8500",
         "start-dev": "webpack-dev-server -d --inline --progress --port 8500 --watch",
         "eslint": "eslint",
-        "lint": "eslint \"app/**/*.js\" \"test/**/*.js\" --ignore-pattern app/components"
+        "tslint": "tslint",
+        "lint-js": "eslint \"app/**/*.js\" \"test/**/*.js\" --ignore-pattern app/components",
+        "lint-ts": "tslint \"test/protractorE2E/**/*.ts\" --exclude app/components"
     },
     "dependencies": {
         "angular": "1.5.2",
@@ -72,6 +74,7 @@
         "style-loader": "^0.18.2",
         "ts-loader": "3.1.1",
         "ts-node": "3.3.0",
+        "tslint": "^5.10.0",
         "url-loader": "^0.5.9",
         "webpack": "2.5.0",
         "webpack-dev-server": "2.4.5",

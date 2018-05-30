@@ -23,31 +23,31 @@ export default class EditorPage {
     static async clickSaveButton() {
         await expect(this.saveButton.isEnabled()).toBeTruthy();
         return this.saveButton.click();
-    };
+    }
 
     static async assertSaveButtonIsDisabled() {
         return expect(this.saveButton.isEnabled()).toBe(false);
-    };
+    }
 
     static async assertPageIsDisplayed() {
         return expect(this.saveButton.isDisplayed()).toBe(true);
-    };
+    }
 
     static async assertAuthorFieldIsEmpty() {
         return expect(this.issueAuthorTextField.getText()).toBe('');
-    };
+    }
 
     static async assertAuthorFieldIsSetTo(expectedAuthor) {
         return expect(this.issueAuthorTextField.getAttribute('value')).toBe(expectedAuthor);
-    };
+    }
 
     static async assertSaveSketchSuccessfulMessageIsNotPresent() {
         return expect(this.saveSketchSuccessfulMessage.isPresent()).toBe(false);
-    };
+    }
 
     static async assertSaveSketchSuccessfulMessageIsDisplayed() {
         await Utils.waitForElementVisible(this.saveSketchSuccessfulMessage);
         return expect(this.saveSketchSuccessfulMessage.isDisplayed()).toBe(true);
-    };
+    }
 
 }

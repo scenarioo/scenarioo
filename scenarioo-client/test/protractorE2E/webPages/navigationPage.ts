@@ -10,29 +10,29 @@ export default class NavigationPage {
     static async enterSearchTerm(searchTerm) {
         await this.searchBoxTextField.clear();
         return this.searchBoxTextField.sendKeys(searchTerm);
-    };
+    }
 
     static async clickSearchButton() {
         return this.searchBoxButton.click();
-    };
+    }
 
     static async chooseBranch(branchName) {
         // Open menu first, otherwise we cannot click
         await element(by.partialLinkText('Branch:')).click();
         return element(by.css('#branchSelectionDropdown .dropdown-menu')).all(by.partialLinkText(branchName)).first().click();
-    };
+    }
 
     static async chooseBuild(buildName) {
         // Open menu first, otherwise we cannot click
         await element(by.partialLinkText('Build:')).click();
         return element(by.css('#build-selection-dropdown .dropdown-menu')).all(by.partialLinkText(buildName)).first().click();
-    };
+    }
 
     static async chooseComparison(comparisonName) {
         // Open menu first, otherwise we cannot click
         await element(by.partialLinkText('Comparison:')).click();
         return element(by.css('#comparison-selection-dropdown .dropdown-menu')).all(by.partialLinkText(comparisonName)).first().click();
-    };
+    }
 
     static async disableComparison() {
         // Open menu first, otherwise we cannot click
@@ -45,10 +45,10 @@ export default class NavigationPage {
         if(await disableEntry.isPresent()) {
             return disableEntry.click();
         }
-    };
+    }
 
     static async assertSelectedComparison(comparisonName) {
         return expect(element(by.css('#comparison-selection-dropdown > a')).getText()).toContain(comparisonName);
-    };
+    }
 
 }
