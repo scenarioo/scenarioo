@@ -7,13 +7,15 @@
     "expandable-chapters",
     "sitemap",
     "puml",
-    "ga"
+    "ga",
+    "versions"
   ],
   "title": "Scenarioo Documentation",
   "variables": {
     "version": "3.0.0"
   },
   "pluginsConfig": {
+
     "edit-link": {
       "base": "https://github.com/scenarioo/scenarioo/edit/develop/docs",
       "label": "Edit This Page"
@@ -27,6 +29,20 @@
     "ga": {
       "token": "UA-21795453-5",
       "configuration": "auto"
+    },
+    "versions": {
+      "gitbookConfigURL": "https://raw.githubusercontent.com/scenarioo/scenarioo/develop/docs/book.json",
+      "options": [
+        {
+          "value": "https://scenarioo.org/docs/develop",
+          "text": "Developer Version (Unreleased)"
+        },
+        {
+          "value": "https://scenarioo.org/docs/3.0",
+          "text": "Version 3.0",
+          "selected": true
+        }
+      ]
     }
   }
 }
