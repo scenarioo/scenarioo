@@ -10,10 +10,16 @@ If Scenarioo can not connect to the Elasticsearch server, the feature is disable
 
 Scenarioo currently uses Elasticsearch version 5.6.9, so you have to install an Elasticsearch Server that is compatible with that version.
 
+Using docker this is as simple as follows:
+```
+docker pull docker.elastic.co/elasticsearch/elasticsearch:5.6.9
+docker run -d -name elasticsearch5 -p 9200:9200 -p 9300:9300 -e cluster.name=elasticsearch -e xpack.ml.enabled=false -e xpack.security.enabled=false docker.elastic.co/elasticsearch/elasticsearch:5.6.9 
+```
+
 Please refer to the official documentation to set up Elasticsearch. 
 You can either install it on the same machine where you host Scenarioo or on a separate machine.
 
-## Configure Elasticsearch
+## Configure Elasticsearch in Scenarioo
 
 You have to configure the endpoint URL and cluster name of the Elasticsearch cluster.
 

@@ -22,7 +22,7 @@ corresponding most recent markdown file for that page).
  * Java JDK 1.8
  * Tomcat 7 (recommended), 8 or 9
  * node 8.11.2 (comes with npm 5.6.0)
- * Elasticsearch 5.6.9 (see [Full Text Search Setup Guide](../features/full-text-search/setup.md) for details).
+ * Elasticsearch 5.6.9 (see [Elasticsearch 5 Setup Instructions for CI](../contribute/ci-server-setup/Elasticsearch-5.md) for how to setup the same as on CI, or [Full Text Search Setup Guide](../features/full-text-search/setup.md) for details).
  * IntelliJ IDEA Ultimate (latest version, ask bruderol if you want to use an open source license)
 
    
