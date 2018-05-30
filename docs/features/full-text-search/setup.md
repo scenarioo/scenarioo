@@ -8,7 +8,7 @@ If Scenarioo can not connect to the Elasticsearch server, the feature is disable
 
 ## Install Elasticsearch
 
-Scenarioo currently uses Elasticsearch version 5.x, so you have to install an Elasticsearch Server of that version.
+Scenarioo currently uses Elasticsearch version 5.6.9, so you have to install an Elasticsearch Server that is compatible with that version.
 
 Please refer to the official documentation to set up Elasticsearch. 
 You can either install it on the same machine where you host Scenarioo or on a separate machine.

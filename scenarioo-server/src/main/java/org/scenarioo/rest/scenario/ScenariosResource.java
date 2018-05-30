@@ -47,7 +47,6 @@ public class ScenariosResource {
 
 	@GET
 	@Produces({ "application/xml", "application/json" })
-	@Path("")
 	public UseCaseScenarios readUseCaseScenarios(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName) {
 

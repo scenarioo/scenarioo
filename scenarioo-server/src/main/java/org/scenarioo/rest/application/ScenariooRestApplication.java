@@ -37,7 +37,6 @@ public class ScenariooRestApplication extends Application {
 
 	public ScenariooRestApplication() {
 		// find . -name \*Resource.java
-		//does the order play a role in what order URLs get matched??
 		LOGGER.info("Register Scenarioo REST Services ...");
 		singletons.add(new BranchAliasesResource());
 		singletons.add(new ConfigurationResource());

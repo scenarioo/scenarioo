@@ -7,7 +7,7 @@ docker pull docker.elastic.co/elasticsearch/elasticsearch:5.6.9
 docker run -d -name elasticsearch5 -p 9205:9200 -p 9305:9300 -e cluster.name=elasticsearch -e xpack.ml.enabled=false -e xpack.security.enabled=false docker.elastic.co/elasticsearch/elasticsearch:5.6.9 
 ```
 
-Set port values that do not conflict with other existing installation (e.g. Elasticsearch2 whoch is currently running in parallel)
+Set port values that do not conflict with other existing installation (e.g. Elasticsearch 2 which is currently running in parallel)
 
 ## Start and Stop
 
