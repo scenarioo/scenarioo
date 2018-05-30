@@ -37,6 +37,12 @@ describe('ComparisonsController', function () {
 
         var COMPARISONS_REST_URL = 'rest/comparisons';
         $httpBackend.whenGET(COMPARISONS_REST_URL).respond(TestData.COMPARISONS);
+        $httpBackend.whenGET('rest/configuration/applicationStatus').respond({
+            'searchEngineRunning':false,
+            'version': TestData.VERSION,
+            'configuration': TestData.CONFIG
+        });
+
         $httpBackend.flush();
 
         expect(angular.equals(ComparisonsController.comparisons, TestData.COMPARISONS)).toBeTruthy();
