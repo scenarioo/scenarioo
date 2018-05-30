@@ -34,11 +34,11 @@
       "gitbookConfigURL": "https://raw.githubusercontent.com/scenarioo/scenarioo/develop/docs/book.json",
       "options": [
         {
-          "value": "https://scenarioo.org/docs/develop",
+          "value": "http://scenarioo.org/docs/develop",
           "text": "Developer Version (Unreleased)"
         },
         {
-          "value": "https://scenarioo.org/docs/3.0",
+          "value": "http://scenarioo.org/docs/3.0",
           "text": "Version 3.0",
           "selected": true
         }
