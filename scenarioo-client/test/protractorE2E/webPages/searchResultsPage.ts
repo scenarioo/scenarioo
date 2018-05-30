@@ -5,43 +5,41 @@ import * as Utils from "../util/util";
 
 export default class SearchResultsPage {
 
-    private path: string = "/";
     private static searchBox: ElementFinder = element(by.id('sc-global-search-box'));
     private static searchBoxTextField: ElementFinder = element(by.id('sc-global-search-box-textfield'));
+    private static searchBoxButton = element(by.id('sc-global-search-box-button'));
 
-    async enterSearchTerm(searchTerm) {
-        // TODO: fix
-        // this.searchBoxTextField.clear();
-        // this.searchBox.sendKeys(searchTerm);
+    static async enterSearchTerm(searchTerm) {
+        await this.searchBoxTextField.clear();
+        return this.searchBox.sendKeys(searchTerm);
     };
 
-    async clickSearchButton() {
-        // TODO: fix
-        // this.searchBoxButton.click();
+    static async clickSearchButton() {
+        return this.searchBoxButton.click();
     };
 
-    async assertResultTableTitle(expectedTitle) {
-        expect(element(by.id('sc-treeviewtable-title')).getText()).toBe(expectedTitle);
+    static async assertResultTableTitle(expectedTitle) {
+        return expect(element(by.id('sc-treeviewtable-title')).getText()).toBe(expectedTitle);
     };
 
-    async assertNumberOfResultRows(expectedNumber) {
-        expect(element.all(by.css('#treeviewtable tbody tr')).count()).toBe(expectedNumber);
+    static async assertNumberOfResultRows(expectedNumber) {
+        return expect(element.all(by.css('#treeviewtable tbody tr')).count()).toBe(expectedNumber);
     };
 
-    async assertNoResultsShown() {
-        expect(element(by.id('sc-search-no-results-message')).isDisplayed()).toBeTruthy();
-        expect(element(by.id('sc-search-results-table')).isDisplayed()).toBeFalsy();
+    static async assertNoResultsShown() {
+        await expect(element(by.id('sc-search-no-results-message')).isDisplayed()).toBeTruthy();
+        return expect(element(by.id('sc-search-results-table')).isDisplayed()).toBeFalsy();
     };
 
-    async openFirstScenarioAndClickStep() {
+    static async openFirstScenarioAndClickStep() {
         var image = element(by.id('img_1'));
-        Utils.waitForElementVisible(image);
-        image.click();
-        element(by.css('#node_2 span')).click();
+        await Utils.waitForElementVisible(image);
+        await image.click();
+        return element(by.css('#node_2 span')).click();
     };
 
-    async clickIncludeHtml() {
-        element(by.id('sc-search-include-html')).click();
+    static async clickIncludeHtml() {
+        return element(by.id('sc-search-include-html')).click();
     };
 
 }

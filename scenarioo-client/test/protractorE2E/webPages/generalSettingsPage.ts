@@ -1,21 +1,25 @@
 'use strict';
-import {by, element, ElementFinder} from "protractor";
 
-var util = require('util');
+import { by, element, ElementFinder } from "protractor";
+import * as Utils from "../util/util";
 
 export default class GeneralSettingsPage {
 
-    private path: string = '/manage?tab=configuration';
-    private searchNotConfiguredMessage: ElementFinder = element(by.id('sc-search-not-configured-message'));
-    private configuredSearchEndpoint: ElementFinder = element(by.id('sc-configured-search-endpoint'));
-    private searchEndpointIsReachable: ElementFinder = element(by.id('sc-search-endpoint-is-reachable'));
-    private searchEndpointIsNotReachable: ElementFinder = element(by.id('sc-search-endpoint-is-not-reachable'));
+    private static path: string = '/manage?tab=configuration';
+    private static searchNotConfiguredMessage: ElementFinder = element(by.id('sc-search-not-configured-message'));
+    private static configuredSearchEndpoint: ElementFinder = element(by.id('sc-configured-search-endpoint'));
+    private static searchEndpointIsReachable: ElementFinder = element(by.id('sc-search-endpoint-is-reachable'));
+    private static searchEndpointIsNotReachable: ElementFinder = element(by.id('sc-search-endpoint-is-not-reachable'));
 
-    async assertSearchEndpointConfiguredAndReachable() {
-        expect(this.searchNotConfiguredMessage.isDisplayed()).toBeFalsy();
-        expect(this.configuredSearchEndpoint.getText()).toBe('localhost:9300');
-        expect(this.searchEndpointIsNotReachable.isDisplayed()).toBeFalsy();
-        expect(this.searchEndpointIsReachable.isDisplayed()).toBeTruthy();
+    static async goToPage() {
+        return Utils.navigateToRoute('/manage?tab=configuration');
+    }
+
+    static async assertSearchEndpointConfiguredAndReachable() {
+        await expect(this.searchNotConfiguredMessage.isDisplayed()).toBeFalsy();
+        await expect(this.configuredSearchEndpoint.getText()).toBe('localhost:9300');
+        await expect(this.searchEndpointIsNotReachable.isDisplayed()).toBeFalsy();
+        return expect(this.searchEndpointIsReachable.isDisplayed()).toBeTruthy();
     };
 
 }
