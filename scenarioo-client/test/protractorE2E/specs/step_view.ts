@@ -7,9 +7,6 @@ import UsecasePage from "../webPages/usecasePage";
 import ScenarioPage from "../webPages/scenarioPage";
 import StepPage from "../webPages/stepPage";
 
-var COMPARISON_SCREENSHOT_SRC = 'rest/branch/wikipedia-docu-example/build/2014-01-20/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
-var BASE_SCREENSHOT_SRC = 'rest/branch/wikipedia-docu-example/build/last%20successful/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
-
 useCase('Step - View')
     .description('Display steps of a scenario and navigate through it. Includes the screenshot, details data and navigation buttons')
     .describe(function () {
@@ -22,9 +19,9 @@ useCase('Step - View')
             .description('Navigate back and forth through the scenario steps.')
             .labels(['happy'])
             .it(async function () {
-                var ROUTE_OF_FIRST_STEP = '/step/Find%20Page/find_no_results/startSearch.jsp/0/0';
-                var ROUTE_OF_SECOND_STEP = '/step/Find%20Page/find_no_results/startSearch.jsp/0/1';
-                var ROUTE_OF_THIRD_STEP = '/step/Find%20Page/find_no_results/searchResults.jsp/0/0';
+                const ROUTE_OF_FIRST_STEP = '/step/Find%20Page/find_no_results/startSearch.jsp/0/0';
+                const ROUTE_OF_SECOND_STEP = '/step/Find%20Page/find_no_results/startSearch.jsp/0/1';
+                const ROUTE_OF_THIRD_STEP = '/step/Find%20Page/find_no_results/searchResults.jsp/0/0';
 
                 await Utils.navigateToRoute("/");
                 step('Display home page with list of use cases');

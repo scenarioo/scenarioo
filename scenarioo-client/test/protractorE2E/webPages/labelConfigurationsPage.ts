@@ -1,6 +1,6 @@
 'use strict';
 
-import { browser, by, element, ElementFinder } from "protractor";
+import { by, element, ElementFinder } from "protractor";
 import * as Utils from "../util/util";
 
 export default class LabelConfigurationsPage {

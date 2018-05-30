@@ -32,7 +32,7 @@ export default class SearchResultsPage {
     };
 
     static async openFirstScenarioAndClickStep() {
-        var image = element(by.id('img_1'));
+        const image = element(by.id('img_1'));
         await Utils.waitForElementVisible(image);
         await image.click();
         return element(by.css('#node_2 span')).click();

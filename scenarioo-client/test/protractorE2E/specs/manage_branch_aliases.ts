@@ -4,8 +4,8 @@ import { scenario, step, useCase } from "scenarioo-js";
 import * as Utils from "../util/util";
 import BranchAliasesPage from "../webPages/branchAliasesPage";
 
-var NUMBER_OF_ALIASES_IN_CONFIG = 2;
-var FIRST_TEST_ALIAS_INDEX = NUMBER_OF_ALIASES_IN_CONFIG;
+const NUMBER_OF_ALIASES_IN_CONFIG = 2;
+const FIRST_TEST_ALIAS_INDEX = NUMBER_OF_ALIASES_IN_CONFIG;
 
 useCase('Manage branch aliases')
     .description('Define new branch aliases, edit existing ones and delete them.')

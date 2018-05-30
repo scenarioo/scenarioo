@@ -2,11 +2,10 @@
 
 import { by, element, ElementFinder } from "protractor";
 
-var e2eUtils = require('../util/util');
+const Utils = require('../util/util');
 
 export default class UsecasePage {
 
-    private static path: string = "/";
     private static scenarioTable: ElementFinder = element(by.css('table.scenario-table'));
 
     static async selectScenario(scenarioIndex) {
@@ -24,11 +23,11 @@ export default class UsecasePage {
     };
 
     static async assertLastUseCase(lastName) {
-        return e2eUtils.assertTextPresentInElement(this.scenarioTable.element(by.css('tr:last-of-type td:nth-of-type(2)')), lastName);
+        return Utils.assertTextPresentInElement(this.scenarioTable.element(by.css('tr:last-of-type td:nth-of-type(2)')), lastName);
     };
 
     static async assertFirstUseCase(firstName) {
-        return e2eUtils.assertTextPresentInElement(this.scenarioTable.element(by.css('tr:first-of-type td:nth-of-type(2)')), firstName);
+        return Utils.assertTextPresentInElement(this.scenarioTable.element(by.css('tr:first-of-type td:nth-of-type(2)')), firstName);
     };
 
     static async assertNoDiffInfoDisplayed() {

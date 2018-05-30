@@ -35,16 +35,14 @@ export default class NavigationPage {
     };
 
     static async disableComparison() {
-        let isPresent = await element(by.partialLinkText('Comparison:')).isPresent();
         // Open menu first, otherwise we cannot click
         await element(by.partialLinkText('Comparison:')).click();
 
-        var comparisonElements = element(by.css('#comparison-selection-dropdown .dropdown-menu'));
-        var disableEntry = comparisonElements.element(by.partialLinkText('Disable'));
+        const comparisonElements = element(by.css('#comparison-selection-dropdown .dropdown-menu'));
+        const disableEntry = comparisonElements.element(by.partialLinkText('Disable'));
 
         // It's not there if it's already disabled
-        isPresent = await disableEntry.isPresent();
-        if(isPresent) {
+        if(await disableEntry.isPresent()) {
             return disableEntry.click();
         }
     };

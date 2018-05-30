@@ -64,11 +64,6 @@ export async function assertRoute(route) {
     await expect(currentUrlWithoutSearch).toBe(browser.params.baseUrl + '/#' + route);
 }
 
-export async function assertRouteNot(route) {
-    const url = await browser.getCurrentUrl();
-    await expect(url).not.toBe(browser.params.baseUrl + '/#' + route);
-}
-
 export async function assertPageIsDisplayed(path: string) {
     return assertRoute(path);
 }
@@ -78,32 +73,8 @@ export async function assertTextPresentInElement(element, expectedText) {
 }
 
 export async function assertElementNotPresentInDom(by) {
-    const elements = await browser.findElements(by)
+    const elements = await browser.findElements(by);
     await expect(await elements.length).toBe(0);
-}
-
-export async function generateRandomString(length) {
-    return Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, length);
-}
-
-export async function selectOption(selector, item) {
-    var selectList, desiredOption;
-
-    selectList = element(selector);
-    await selectList.click();
-
-    const options = await selectList.findElements(by.tagName('option'))
-    options.some(function (option) {
-        const text = option.getText()
-        if (item === text) {
-            desiredOption = option;
-            return true;
-        }
-    });
-
-    if (desiredOption) {
-        await desiredOption.click();
-    }
 }
 
 export async function clickBrowserBackButton() {

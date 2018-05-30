@@ -1,7 +1,7 @@
 'use strict';
 
 import { browser, by, element, ElementFinder } from "protractor";
-import * as e2eUtils from "../util/util";
+import * as Utils from "../util/util";
 
 export default class HomePage {
 
@@ -17,7 +17,7 @@ export default class HomePage {
     private static pagesTab: ElementFinder = element(by.id('sc-main-tab-pages'));
 
     static async assertPageIsDisplayed() {
-        await e2eUtils.assertPageIsDisplayed(this.path);
+        await Utils.assertPageIsDisplayed(this.path);
         return expect(this.useCasesSearchField.isDisplayed()).toBe(true);
     }
 
@@ -27,11 +27,11 @@ export default class HomePage {
     }
 
     static async assertScenariooInfoDialogNotShown() {
-        return e2eUtils.assertElementNotPresentInDom(by.css('.modal-dialog.about-popup'));
+        return Utils.assertElementNotPresentInDom(by.css('.modal-dialog.about-popup'));
     }
 
     static async assertComparisonMenuNotShown() {
-        return e2eUtils.assertElementNotPresentInDom(by.id('#comparison-selection-dropdown'));
+        return Utils.assertElementNotPresentInDom(by.id('#comparison-selection-dropdown'));
     }
 
     static async closeScenariooInfoDialogIfOpen() {
@@ -85,11 +85,11 @@ export default class HomePage {
     }
 
     static async assertLastUseCase(lastName) {
-        return e2eUtils.assertTextPresentInElement(this.usecaseTable.element(by.css('tr:last-of-type td:nth-of-type(2)')), lastName);
+        return Utils.assertTextPresentInElement(this.usecaseTable.element(by.css('tr:last-of-type td:nth-of-type(2)')), lastName);
     };
 
     static async assertFirstUseCase(firstName) {
-        return e2eUtils.assertTextPresentInElement(this.usecaseTable.element(by.css('tr:first-of-type td:nth-of-type(2)')), firstName);
+        return Utils.assertTextPresentInElement(this.usecaseTable.element(by.css('tr:first-of-type td:nth-of-type(2)')), firstName);
     };
 
     static async selectSketchesTab() {
@@ -97,7 +97,7 @@ export default class HomePage {
     };
 
     static async assertSketchesListContainsEntryWithSketchName(sketchName) {
-        return e2eUtils.assertTextPresentInElement(element(by.id('sc-sketches-list')), sketchName);
+        return Utils.assertTextPresentInElement(element(by.id('sc-sketches-list')), sketchName);
     };
 
     static async selectPagesTab() {
@@ -105,7 +105,7 @@ export default class HomePage {
     };
 
     static async assertPagesTabContainsPage(pageName) {
-        return e2eUtils.assertTextPresentInElement(element(by.id('treeviewtable')), pageName);
+        return Utils.assertTextPresentInElement(element(by.id('treeviewtable')), pageName);
     };
 
     static async filterPages(filterQuery) {
