@@ -35,12 +35,12 @@
       "options": [
         {
           "value": "https://scenarioo.org/docs/develop",
-          "text": "Developer Version (Unreleased)"
+          "text": "Developer Version (Unreleased)",
+          "selected": true
         },
         {
           "value": "https://scenarioo.org/docs/3.0",
-          "text": "Version 3.0",
-          "selected": true
+          "text": "Version 3.0"
         }
       ]
     }
