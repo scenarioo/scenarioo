@@ -13,7 +13,7 @@ function GeneralSettingsPage(overridePath) {
 
     this.searchNotConfiguredMessage = element(by.id('sc-search-not-configured-message'));
     this.configuredSearchEndpoint = element(by.id('sc-configured-search-endpoint'));
-    this.configuredSearchEndpoint = element(by.id('sc-configured-search-cluster-name'));
+    this.configuredSearchClusterName = element(by.id('sc-configured-search-cluster-name'));
     this.searchEndpointIsReachable = element(by.id('sc-search-endpoint-is-reachable'));
     this.searchEndpointIsNotReachable = element(by.id('sc-search-endpoint-is-not-reachable'));
 }
