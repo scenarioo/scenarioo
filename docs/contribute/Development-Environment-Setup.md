@@ -7,13 +7,18 @@ The guide sometimes assumes that you use Windows. There are some additional note
 [Development Environment on Ubuntu](Development-Environment-Ubuntu.md).
 
 
-## Caution: Version of Documentation for Developers
+## Documentation for Developers
 
-The published documentation under http://www.scenarioo.org/docs may not reflect the most recent changes of scenarioo 
-development. This is the state of our documentation at the last official release. For reading the most recent version of
-our documentation we recommend browsing it directly here on our develop branch: 
-https://github.com/scenarioo/scenarioo/tree/develop/docs (or use the edit link on top of each doku page to browse to the
-corresponding most recent markdown file for that page).
+The published documentation under http://www.scenarioo.org/docs/develop should reflect the most recent changes of scenarioo 
+development. This is the state of our documentation on develop branch.
+
+If our automated docs publishing on develop branch works, that docu should be up to date (you can verify it on jenkins in the scenarioo/develop job).
+
+If not, you can find the newest sources of our documentation here:
+https://github.com/scenarioo/scenarioo/tree/develop/docs 
+(or use the edit link on top of each doku page to browse to the corresponding most recent markdown file for that page).
+
+If during setup you find some information that is outdated in the documentation please help to improve it and contribute the changes as a Pull Request. Thanks a lot!
 
 
 ## Install Tools
