@@ -145,7 +145,7 @@ timestamps {
             def (branchPrefix, releaseBranchVesion) = env.BRANCH_NAME.tokenize('/')
             // def docsVersionFolder = env.BRANCH_NAME.startsWith("release/") ? releaseBranchVesion : env.BRANCH_NAME
 
-            stage("Publish Markdown Docu ${env.BRANCH_NAME}") {
+            stage("Publish Markdown Docs ${docsVersionFolder}") {
                 ansiColor('xterm') {
                     withCredentials([usernameColonPassword(credentialsId: 'scenarioo-ci', variable: 'GIT_USERPASS')]) {
                         sh "./ci/publishGitbookMarkdownDocu.sh --docsDistributionFolder=${docsVersionFolder}"
