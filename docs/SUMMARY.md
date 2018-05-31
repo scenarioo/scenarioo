@@ -35,7 +35,7 @@
   * [Release Scenarioo Viewer Web Application](contribute/Release-Scenarioo-Viewer-Web-Application.md)
   * [Release Docker Image](contribute/Building-the-Docker-Image.md)   
   * [Release Scenarioo Writer Libraries](contribute/Release-Scenarioo-Writer-Library.md) 
-  * [Documentation & Webpage](contribute/Scenarioo-User-Documentation-and-Webpage-with-Jekyll.md)
+  * [Documentation & Webpage](contribute/Documentation-and-Webpage.md)
   * [CI and Demo Server](contribute/Build-Server.md)
   * [CI & Tools Installation/Configuration](contribute/ci-server-setup/README.md)
     * [Nginx Proxy](contribute/ci-server-setup/nginx.md)        
