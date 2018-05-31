@@ -82,7 +82,7 @@ timestamps {
 
             stage("Publish Markdown Docs ${docsVersionFolder}") {
                 ansiColor('xterm') {
-                    withCredentials([usernameColonPassword(credentialsId: 'scenarioo-ci', variable: 'GIT_USERPASS')]) {
+                    withCredentials([usernameColonPassword(credentialsId: 'efe50290-8cf4-4d93-9835-3e5774a129ff', variable: 'GIT_USERPASS')]) {
                         sh "./ci/publishGitbookMarkdownDocu.sh --docsDistributionFolder=${docsVersionFolder}"
                         reportJenkinsSummaryGitbookMarkdownDocu(docsVersionFolder)
                     }
