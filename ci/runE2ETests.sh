@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Input values
 # --branch=BRANCH

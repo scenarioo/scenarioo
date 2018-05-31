@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Script to Cleanup deployments and data of removed branches
 # also triggers removal of outdated self docu data builds for existing branches

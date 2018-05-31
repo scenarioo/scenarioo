@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Input values
 # --docsDistributionFolder=master|develop|version
