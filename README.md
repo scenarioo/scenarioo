@@ -9,7 +9,9 @@ Scenarioo is a tool to leverage the power of your UI tests and to make them avai
 For more information about Scenarioo, see the following resources:
 
 * **Webpage: http://www.scenarioo.org**
-* **Scenarioo Documentation: http://www.scenarioo.org/docs** 
+* **Scenarioo Documentation for Latest Official Release: http://www.scenarioo.org/docs/master** 
+* **Scenarioo Documentation for Contributors (unreleased version): http://www.scenarioo.org/docs/develop** 
+
 
 ### Live Demo
 
