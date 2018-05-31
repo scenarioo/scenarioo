@@ -13,7 +13,7 @@
  *   default value: 'http://localhost:9000'
  */
 
-var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:8500';
+var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:8500/scenarioo';
 var BRANCH = process.env.BRANCH || 'HEAD';
 var BUILD_NAME = 'build-' + (process.env.BUILD_NUMBER || 'latest');
 
@@ -64,9 +64,7 @@ var exportsConfig = {
             branchDescription: 'Scenarioo documenting itself.',
             buildName: BUILD_NAME,
             revision: git.short(),
-            pageNameExtractor: function (url) {
-                return url.pathname.substring(1);
-            },
+            pageNameExtractor: extractPageNameFromUrl,
             reportStepOnExpectationFailed: true,
             recordLastStepForStatus: {
                 failed: true,
@@ -95,5 +93,18 @@ var exportsConfig = {
         defaultTimeoutInterval: 80000
     }
 };
+
+function extractPageNameFromUrl (url) {
+    const hash = url.hash;
+    if (hash) {
+        // Angular page path is in the hash only, rest of the url is not interesting (is just the APP base url)
+        // also remove "#/" at the beginning.
+        const pageName = hash.substring(2, hash.indexOf("?"));
+        return result = pageName === '' ? 'home' : pageName;
+    } else {
+        // Map all other pages to undefined pages
+        return "undefined";
+    }
+}
 
 exports.config = exportsConfig;
