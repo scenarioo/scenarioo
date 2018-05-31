@@ -142,8 +142,8 @@ timestamps {
 */
         def docsVersionFolder = "develop"
         // if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master" || env.BRANCH_NAME.startsWith("release")) {
-            def (branchPrefix, releaseBranchVesion) = env.BRANCH_NAME.tokenize('/')
-            // def docsVersionFolder = env.BRANCH_NAME.startsWith("release/") ? releaseBranchVesion : env.BRANCH_NAME
+            def branchNameTokens = env.BRANCH_NAME.tokenize('/')
+            // def docsVersionFolder = env.BRANCH_NAME.startsWith("release/") ? branchNameTokens[1] : env.BRANCH_NAME
 
             stage("Publish Markdown Docs ${docsVersionFolder}") {
                 ansiColor('xterm') {
