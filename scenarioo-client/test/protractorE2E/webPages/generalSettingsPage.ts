@@ -22,7 +22,7 @@ util.inherits(GeneralSettingsPage, BaseWebPage);
 
 GeneralSettingsPage.prototype.assertSearchEndpointConfiguredAndReachable = function () {
     expect(this.searchNotConfiguredMessage.isDisplayed()).toBeFalsy();
-    expect(this.configuredSearchEndpoint.getText()).toBe('localhost:9305');
+    expect(this.configuredSearchEndpoint.getText()).toBe('elasticsearch:9300');
     expect(this.configuredSearchClusterName.getText()).toBe('elasticsearch');
     expect(this.searchEndpointIsNotReachable.isDisplayed()).toBeFalsy();
     expect(this.searchEndpointIsReachable.isDisplayed()).toBeTruthy();
