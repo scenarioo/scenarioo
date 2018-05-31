@@ -140,7 +140,7 @@ timestamps {
             }
         }
 
-        if (env.BRANCH_NAME == "develop") {
+        // if (env.BRANCH_NAME == "develop") {
             stage("Publish Markdown Docu ${env.BRANCH_NAME}") {
                 ansiColor('xterm') {
                     sh 'pushd docs'
@@ -149,7 +149,7 @@ timestamps {
                     reportJenkinsSummaryGitbookMarkdownDocu(env.BRANCH_NAME)
                 }
             }
-        }
+        // }
 
 	}
 }
