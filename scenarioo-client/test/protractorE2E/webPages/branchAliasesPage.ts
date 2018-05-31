@@ -3,33 +3,33 @@
 import {by, element, ElementFinder, $, $$} from 'protractor';
 import * as Utils from '../util/util';
 
-export default class BranchAliasesPage {
+class BranchAliasesPage {
 
-    private static branchAliasTable: ElementFinder = $('table.table-responsive');
-    private static saveButton: ElementFinder = $('input.btn[value="Save"]');
-    private static resetButton: ElementFinder = $('input.btn[value="Reset"]');
+    private branchAliasTable: ElementFinder = $('table.table-responsive');
+    private saveButton: ElementFinder = $('input.btn[value="Save"]');
+    private resetButton: ElementFinder = $('input.btn[value="Reset"]');
 
-    static async goToPage() {
+    async goToPage() {
         return Utils.navigateToRoute('/manage?tab=branchAliases');
     }
 
-    static async assertNumberOfAliases(expectedCount) {
+    async assertNumberOfAliases(expectedCount) {
         const rows = this.branchAliasTable.all(by.css('tbody tr'));
         // + 1 due to empty row
         return expect(rows.count()).toBe(expectedCount + 1);
     }
 
-    static async openBranchSelectionMenu() {
+    async openBranchSelectionMenu() {
         return element(by.id('branchSelectionDropdown')).click();
     }
 
-    static async assertAliasesAreShownFirstInTheNavigationMenu() {
+    async assertAliasesAreShownFirstInTheNavigationMenu() {
         const branchOptions = $$('#branchSelectionDropdown .branchOption');
         await expect(branchOptions.get(2).getText()).toBe('Test Alias 1 (wikipedia-docu-example)');
         return expect(branchOptions.get(3).getText()).toBe('Test Alias 2 (wikipedia-docu-example)');
     }
 
-    static async enterAlias(name, referencedBranchName, description) {
+    async enterAlias(name, referencedBranchName, description) {
         const rows = this.branchAliasTable.all(by.css('tbody tr'));
         const count = await rows.count();
         const rowToEditIndex = count - 1;
@@ -44,28 +44,28 @@ export default class BranchAliasesPage {
         return rowToEdit.$('input[name="aliasDescription"]').sendKeys(description);
     }
 
-    static async saveAndAssertSuccessMessage() {
+    async saveAndAssertSuccessMessage() {
         await this.saveButton.click();
         return Utils.waitForElementVisible(element(by.id('updated-branch-aliases-successfully')));
     }
 
-    static async save() {
+    async save() {
         return this.saveButton.click();
     }
 
-    static async reset() {
+    async reset() {
         return this.resetButton.click();
     }
 
-    static async assertSaveNotPossible() {
+    async assertSaveNotPossible() {
         return expect(this.saveButton.isEnabled()).toBe(false);
     }
 
-    static async deleteAlias(rowIndex) {
+    async deleteAlias(rowIndex) {
         return this.branchAliasTable.all(by.css('tbody tr input.btn[value="Delete"]')).get(rowIndex).click();
     }
 
-    static async updateAlias(rowIndex, newAlias, referencedBranchName, newDescription) {
+    async updateAlias(rowIndex, newAlias, referencedBranchName, newDescription) {
         const rows = this.branchAliasTable.all(by.css('tbody tr'));
         const rowToEdit = rows.get(rowIndex);
 
@@ -84,8 +84,10 @@ export default class BranchAliasesPage {
         return aliasDescriptionField.sendKeys(newDescription);
     }
 
-    static async assertDuplicateAliasError() {
+    async assertDuplicateAliasError() {
         return expect(element(by.id('duplicateAliasErrorId')).isPresent()).toBe(true);
     }
 
 }
+
+export default new BranchAliasesPage();

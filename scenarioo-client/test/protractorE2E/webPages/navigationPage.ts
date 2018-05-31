@@ -2,39 +2,39 @@
 
 import { by, element, ElementFinder, $ } from 'protractor';
 
-export default class NavigationPage {
+class NavigationPage {
 
-    private static searchBoxTextField: ElementFinder = element(by.id('sc-global-search-box-textfield'));
-    private static searchBoxButton: ElementFinder = element(by.id('sc-global-search-box-button'));
+    private searchBoxTextField: ElementFinder = element(by.id('sc-global-search-box-textfield'));
+    private searchBoxButton: ElementFinder = element(by.id('sc-global-search-box-button'));
 
-    static async enterSearchTerm(searchTerm) {
+    async enterSearchTerm(searchTerm) {
         await this.searchBoxTextField.clear();
         return this.searchBoxTextField.sendKeys(searchTerm);
     }
 
-    static async clickSearchButton() {
+    async clickSearchButton() {
         return this.searchBoxButton.click();
     }
 
-    static async chooseBranch(branchName) {
+    async chooseBranch(branchName) {
         // Open menu first, otherwise we cannot click
         await element(by.partialLinkText('Branch:')).click();
         return $('#branchSelectionDropdown .dropdown-menu').all(by.partialLinkText(branchName)).first().click();
     }
 
-    static async chooseBuild(buildName) {
+    async chooseBuild(buildName) {
         // Open menu first, otherwise we cannot click
         await element(by.partialLinkText('Build:')).click();
         return $('#build-selection-dropdown .dropdown-menu').all(by.partialLinkText(buildName)).first().click();
     }
 
-    static async chooseComparison(comparisonName) {
+    async chooseComparison(comparisonName) {
         // Open menu first, otherwise we cannot click
         await element(by.partialLinkText('Comparison:')).click();
         return $('#comparison-selection-dropdown .dropdown-menu').all(by.partialLinkText(comparisonName)).first().click();
     }
 
-    static async disableComparison() {
+    async disableComparison() {
         // Open menu first, otherwise we cannot click
         await element(by.partialLinkText('Comparison:')).click();
 
@@ -47,8 +47,10 @@ export default class NavigationPage {
         }
     }
 
-    static async assertSelectedComparison(comparisonName) {
+    async assertSelectedComparison(comparisonName) {
         return expect($('#comparison-selection-dropdown > a').getText()).toContain(comparisonName);
     }
 
 }
+
+export default new NavigationPage();

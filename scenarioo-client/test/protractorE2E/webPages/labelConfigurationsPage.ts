@@ -3,23 +3,23 @@
 import { by, element, ElementFinder, $ } from 'protractor';
 import * as Utils from '../util/util';
 
-export default class LabelConfigurationsPage {
+class LabelConfigurationsPage {
 
-    private static labelConfigurationsTable: ElementFinder = element(by.id('label-configurations-table'));
-    private static saveButton: ElementFinder = $('input.btn[value="Save"]');
-    private static savedSuccessfullyText: ElementFinder = element(by.id('changed-label-config-successfully'));
+    private labelConfigurationsTable: ElementFinder = element(by.id('label-configurations-table'));
+    private saveButton: ElementFinder = $('input.btn[value="Save"]');
+    private savedSuccessfullyText: ElementFinder = element(by.id('changed-label-config-successfully'));
 
-    static async navigateToPage() {
+    async navigateToPage() {
         return Utils.navigateToRoute('/manage?tab=labelConfigurations');
     }
 
-    static async assertNumConfigurations(expectedCount) {
+    async assertNumConfigurations(expectedCount) {
         const tableElement = element(by.id('label-configurations-table'));
         // adding one, because there's always an empty row
         return Utils.assertNumberOfTableRows(tableElement, expectedCount + 1);
     }
 
-    static async addLabelConfiguration(labelName, colorIndex) {
+    async addLabelConfiguration(labelName, colorIndex) {
         const elements = this.labelConfigurationsTable.all(by.css('tbody tr'));
         const numberOfElements = await elements.count();
         const lastRow = elements.get(numberOfElements - 1);
@@ -32,7 +32,7 @@ export default class LabelConfigurationsPage {
         return expect(this.savedSuccessfullyText.isDisplayed()).toBe(true);
     }
 
-    static async updateLabelConfiguration(rowIndex, labelName, colorIndex) {
+    async updateLabelConfiguration(rowIndex, labelName, colorIndex) {
         const elements = this.labelConfigurationsTable.all(by.css('tbody tr'));
         const row = elements.get(rowIndex);
         const labelNameField = row.$('input[name="labelName"]');
@@ -45,7 +45,7 @@ export default class LabelConfigurationsPage {
         return this.saveButton.click();
     }
 
-    static async deleteLabelConfiguration(rowIndex) {
+    async deleteLabelConfiguration(rowIndex) {
         await $('#label-configuration-' + rowIndex + ' input[value="Delete"]').click();
         await Utils.assertNumberOfTableRows(this.labelConfigurationsTable, 1); // only the empty row is shown
         await this.saveButton.click();
@@ -53,3 +53,5 @@ export default class LabelConfigurationsPage {
     }
 
 }
+
+export default new LabelConfigurationsPage();

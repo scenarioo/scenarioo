@@ -3,124 +3,124 @@
 import {$, browser, by, element} from 'protractor';
 import * as Utils from '../util/util';
 
-export default class StepPage {
+class StepPage {
 
-    static async assertPreviousStepIsDisabled() {
+    async assertPreviousStepIsDisabled() {
         return Utils.assertElementIsDisabled('prevStepBtn');
     }
 
-    static async assertPreviousPageIsDisabled() {
+    async assertPreviousPageIsDisabled() {
         return Utils.assertElementIsDisabled('prevPageBtn');
     }
 
-    static async assertNextStepIsDisabled() {
+    async assertNextStepIsDisabled() {
         return Utils.assertElementIsDisabled('nextStepBtn');
     }
 
-    static async assertNextPageIsDisabled() {
+    async assertNextPageIsDisabled() {
         return Utils.assertElementIsDisabled('nextPageBtn');
     }
 
-    static async assertPreviousStepIsEnabled() {
+    async assertPreviousStepIsEnabled() {
         return Utils.assertElementIsEnabled('prevStepBtn');
     }
 
-    static async assertPreviousPageIsEnabled() {
+    async assertPreviousPageIsEnabled() {
         return Utils.assertElementIsEnabled('prevPageBtn');
     }
 
-    static async assertNextStepIsEnabled() {
+    async assertNextStepIsEnabled() {
         return Utils.assertElementIsEnabled('nextStepBtn');
     }
 
-    static async assertNextPageIsEnabled() {
+    async assertNextPageIsEnabled() {
         return Utils.assertElementIsEnabled('nextPageBtn');
     }
 
-    static async goToNextStep() {
+    async goToNextStep() {
         return Utils.clickElementById('nextStepBtn');
     }
 
-    static async goToNextPage() {
+    async goToNextPage() {
         return Utils.clickElementById('nextPageBtn');
     }
 
-    static async goToPreviousStep() {
+    async goToPreviousStep() {
         return Utils.clickElementById('prevStepBtn');
     }
 
-    static async goToPreviousPage() {
+    async goToPreviousPage() {
         return Utils.clickElementById('prevPageBtn');
     }
 
-    static async goToPreviousPageVariant() {
+    async goToPreviousPageVariant() {
         return Utils.clickElementById('prevPageVariantBtn');
     }
 
-    static async goToNextPageVariant() {
+    async goToNextPageVariant() {
         return Utils.clickElementById('nextPageVariantBtn');
     }
 
-    static async assertNextPageVariantButtonIsDisabled() {
+    async assertNextPageVariantButtonIsDisabled() {
         return Utils.assertElementIsDisabled('nextPageVariantBtn');
     }
 
-    static async clickAllPageVariantsLink() {
+    async clickAllPageVariantsLink() {
         return Utils.clickElementById('allPageVariants');
     }
 
-    static async assertErrorMessageIsShown() {
+    async assertErrorMessageIsShown() {
         await expect(element(by.id('stepNotFoundErrorMessage')).isDisplayed()).toBeTruthy();
         await expect(element(by.id('fallbackMessage')).isDisplayed()).toBeFalsy();
     }
 
-    static async assertFallbackMessageIsShown() {
+    async assertFallbackMessageIsShown() {
         await expect(element(by.id('fallbackMessage')).isDisplayed()).toBeTruthy();
         return expect(element(by.id('stepNotFoundErrorMessage')).isDisplayed()).toBeFalsy();
     }
 
-    static async assertFallbackMessageContainsText(text) {
+    async assertFallbackMessageContainsText(text) {
         return expect(element(by.id('fallbackMessage')).getText()).toContain(text);
     }
 
-    static async assertScenarioLabelsContain(label) {
+    async assertScenarioLabelsContain(label) {
         await this.openMetadataTabIfClosed('labels');
         return expect(element(by.id('scenario-labels')).getText()).toContain(label);
     }
 
-    static async clickShareThisPageLink() {
+    async clickShareThisPageLink() {
         return element(by.id('shareThisPageLink')).click();
     }
 
-    static async clickHtmlTabButton() {
+    async clickHtmlTabButton() {
         return element(by.id('html-tab')).click();
     }
 
-    static async clickScreenshotTabButton() {
+    async clickScreenshotTabButton() {
         return element(by.id('screenshot-tab')).click();
     }
 
-    static async assertHtmlTabIsHidden() {
+    async assertHtmlTabIsHidden() {
         return expect(element(by.id('html-tab')).isDisplayed()).toBe(false);
     }
 
-    static async assertHtmlSourceEquals(expected) {
+    async assertHtmlSourceEquals(expected) {
         return expect(element(by.id('html-source')).getText()).toBe(expected);
     }
 
-    static async assertStepLinksDialogVisible() {
+    async assertStepLinksDialogVisible() {
         return browser.wait(async () => {
             return await element(by.id('stepLinksDialog')).isDisplayed();
         }, 10000);
     }
 
-    static async assertPageVariantIndicatorValue(value) {
+    async assertPageVariantIndicatorValue(value) {
         const pageVariantIndicator = element(by.id('pageVariantIndicator'));
         await expect(pageVariantIndicator.isDisplayed()).toBeTruthy();
         return expect(pageVariantIndicator.getText()).toBe(value);
     }
 
-    static async openMetadataTabIfClosed(index) {
+    async openMetadataTabIfClosed(index) {
         const metadataPanelContentCss = '#metadata_panel_' + index + ' .metadata';
         const displayed = await $(metadataPanelContentCss).isDisplayed();
         if (!displayed) {
@@ -128,117 +128,117 @@ export default class StepPage {
         }
     }
 
-    static async clickOnLink(linkId) {
+    async clickOnLink(linkId) {
         return element(by.id(linkId)).click();
     }
 
-    static async assertToolTipInBreadcrumb(expectedTooltip) {
+    async assertToolTipInBreadcrumb(expectedTooltip) {
         const toolTip = await element(by.id('tooltip_1')).getAttribute('uib-tooltip');
         await expect(toolTip).toBe(expectedTooltip);
     }
 
-    static async assertScreenshotIsShown() {
+    async assertScreenshotIsShown() {
         await expect(element.all(by.className('sc-real-screenshot')).count()).toBe(1);
         return expect(element(by.className('sc-real-screenshot')).isDisplayed()).toBeTruthy();
     }
 
-    static async assertNoScreenAnnotationsArePresent() {
+    async assertNoScreenAnnotationsArePresent() {
         await expect(element(by.className('sc-screenshot-annotation')).isPresent()).toBeFalsy();
         return expect(element(by.id('sc-showHideScreenAnnotationsButton')).isDisplayed()).toBeFalsy();
     }
 
-    static async assertNoScreenAnnotationsAreVisible() {
+    async assertNoScreenAnnotationsAreVisible() {
         return expect(element.all(by.className('sc-screenshot-annotation')).isDisplayed()).toEqual([false, false]);
     }
 
-    static async assertNumberOfVisibleScreenAnnotationsIs(expectedNumberOfScreenAnnotations) {
+    async assertNumberOfVisibleScreenAnnotationsIs(expectedNumberOfScreenAnnotations) {
         await expect(element.all(by.className('sc-screenshot-annotation')).count()).toBe(expectedNumberOfScreenAnnotations);
         return element.all(by.className('sc-screenshot-annotation')).each(async (e) => {
             await expect(e.isDisplayed()).toBe(true);
         });
     }
 
-    static async clickShowScreenAnnotationsButton() {
+    async clickShowScreenAnnotationsButton() {
         return element(by.id('sc-showHideScreenAnnotationsButton')).click();
     }
 
-    static async clickFirstScreenAnnotation() {
+    async clickFirstScreenAnnotation() {
         return element.all(by.className('sc-screenshot-annotation-icon')).first().click();
     }
 
-    static async assertScreenAnnotationPopupIsDisplayed() {
+    async assertScreenAnnotationPopupIsDisplayed() {
         return expect(element(by.className('modal-content')).isDisplayed()).toBe(true);
     }
 
-    static async assertTitleOfAnnotationPopupIs(expectedTitle) {
+    async assertTitleOfAnnotationPopupIs(expectedTitle) {
         return expect(element(by.className('modal-header')).getText()).toEqual(expectedTitle);
     }
 
-    static async clickCreateSketchButton() {
+    async clickCreateSketchButton() {
         return element(by.id('sketchThis')).click();
     }
 
-    static async openComparisonTab() {
+    async openComparisonTab() {
         return element(by.id('comparison-tab')).click();
     }
 
-    static async toggleHighlights() {
+    async toggleHighlights() {
         return element(by.id('sc-step-comparison-highlight-changes-button')).click();
     }
 
-    static async expectHighlightsDisplayed() {
+    async expectHighlightsDisplayed() {
         await expect(element(by.id('sc-step-comparison-highlight-changes-button')).isDisplayed()).toBeTruthy();
         return expect(element(by.id('sc-step-comparison-highlight-changes-button')).getAttribute('class')).toContain('active');
     }
 
-    static async expectHighlightsHidden() {
+    async expectHighlightsHidden() {
         await expect(element(by.id('sc-step-comparison-highlight-changes-button')).isDisplayed()).toBeTruthy();
         return expect(element(by.id('sc-step-comparison-highlight-changes-button')).getAttribute('class')).not.toContain('active');
     }
 
-    static async showHighlights() {
+    async showHighlights() {
         await this.toggleHighlights();
         return this.expectHighlightsDisplayed();
     }
 
-    static async hideHighlights() {
+    async hideHighlights() {
         await this.toggleHighlights();
         return this.expectHighlightsHidden();
     }
 
-    static async expectHighlightsButtonHidden() {
+    async expectHighlightsButtonHidden() {
         return expect(element(by.id('sc-step-comparison-highlight-changes-button')).isPresent()).toBeFalsy();
     }
 
-    static async showSideBySideView() {
+    async showSideBySideView() {
         return element(by.id('sc-step-comparison-side-by-side-view-button')).click();
     }
 
-    static async showComparisonCurrentScreenView() {
+    async showComparisonCurrentScreenView() {
         return element(by.id('sc-step-comparison-current-screen-view-button')).click();
     }
 
-    static async switchComparisonSingleScreens() {
+    async switchComparisonSingleScreens() {
         return element(by.id('sc-step-comparison-switch-screens-button')).click();
     }
 
-    static async expectSwitchComparisonSingleScreensButtonDisabled() {
+    async expectSwitchComparisonSingleScreensButtonDisabled() {
         return expect(element(by.id('sc-step-comparison-switch-screens-button')).getAttribute('disabled')).toEqual('true');
     }
 
-    static async expectSwitchComparisonSingleScreensButtonEnabled() {
+    async expectSwitchComparisonSingleScreensButtonEnabled() {
         return expect(element(by.id('sc-step-comparison-switch-screens-button')).getAttribute('disabled')).toBeFalsy();
     }
 
-    static async expectStepComparisonLegendText(legendText) {
+    async expectStepComparisonLegendText(legendText) {
         return expect(element(by.id('sc-step-comparison-legend-info-text')).getText()).toContain(legendText);
     }
 
-    static async assertNoDiffInfoDisplayed() {
+    async assertNoDiffInfoDisplayed() {
         return expect(element(by.id('comparison-tab')).isPresent()).toBeFalsy();
     }
 
-    static async assertStepComparisonSideBySideViewIsActive() {
+    async assertStepComparisonSideBySideViewIsActive() {
         await expect(element(by.id('sc-step-comparison-side-by-side-view-button')).getAttribute('class')).toContain('active');
         await expect(element(by.id('sc-step-comparison-current-screen-view-button')).getAttribute('class')).not.toContain('active');
         await expect(element(by.id('sc-step-comparison-other-screen-view-button')).getAttribute('class')).not.toContain('active');
@@ -246,7 +246,7 @@ export default class StepPage {
         return expect(element(by.id('sc-step-comparison-single-page-view')).isPresent()).toBeFalsy();
     }
 
-    static async assertStepComparisonCurrentScreenViewIsActive() {
+    async assertStepComparisonCurrentScreenViewIsActive() {
         await expect(element(by.id('sc-step-comparison-side-by-side-view-button')).getAttribute('class')).not.toContain('active');
         await expect(element(by.id('sc-step-comparison-current-screen-view-button')).getAttribute('class')).toContain('active');
         await expect(element(by.id('sc-step-comparison-other-screen-view-button')).getAttribute('class')).not.toContain('active');
@@ -256,7 +256,7 @@ export default class StepPage {
         return expect($('.sc-step-comparison-other-screenshot').isPresent()).toBeFalsy();
     }
 
-    static async assertStepComparisonOtherScreenViewIsActive() {
+    async assertStepComparisonOtherScreenViewIsActive() {
         await expect(element(by.id('sc-step-comparison-side-by-side-view-button')).getAttribute('class')).not.toContain('active');
         await expect(element(by.id('sc-step-comparison-current-screen-view-button')).getAttribute('class')).not.toContain('active');
         await expect(element(by.id('sc-step-comparison-other-screen-view-button')).getAttribute('class')).toContain('active');
@@ -266,7 +266,7 @@ export default class StepPage {
         return expect($('.sc-step-comparison-other-screenshot').isPresent()).toBeTruthy();
     }
 
-    static async expectStepComparisonCurrentScreenTitle(title: string, infoText: string) {
+    async expectStepComparisonCurrentScreenTitle(title: string, infoText: string) {
         await expect($('sc-screenshot-title[build="baseBuild"] h3').getText()).toBe(title);
         await $('sc-screenshot-title[build="baseBuild"] h3 i.icon-info-sign').click();
         await expect($('sc-screenshot-title[build="baseBuild"] div.tooltip').isDisplayed()).toBeTruthy();
@@ -274,7 +274,7 @@ export default class StepPage {
         return $('sc-screenshot-title[build="baseBuild"] h3').click();
     }
 
-    static async expectStepComparisonOtherScreenTitle(title: string, infoText: string) {
+    async expectStepComparisonOtherScreenTitle(title: string, infoText: string) {
         await expect($('sc-screenshot-title[build="comparisonBuild"] h3').getText()).toBe(title);
         await $('sc-screenshot-title[build="comparisonBuild"] h3 i.icon-info-sign').click();
         await expect($('sc-screenshot-title[build="comparisonBuild"] div.tooltip').isDisplayed()).toBeTruthy();
@@ -282,20 +282,22 @@ export default class StepPage {
         return $('sc-screenshot-title[build="comparisonBuild"] h3').click();
     }
 
-    static async expectStepComparisonOtherScreenViewIsDisabled() {
+    async expectStepComparisonOtherScreenViewIsDisabled() {
         return expect(element(by.id('sc-step-comparison-other-screen-view-button')).getAttribute('disabled')).toEqual('true');
     }
 
-    static async assertStepNoComparisonScreenshot() {
+    async assertStepNoComparisonScreenshot() {
         return expect($('.sc-step-comparison-other-screenshot img').isPresent()).toBeFalsy();
     }
 
-    static async assertStepComparisonScreenshotSrcEquals(expected) {
+    async assertStepComparisonScreenshotSrcEquals(expected) {
         return expect($('.sc-step-comparison-other-screenshot img.sc-real-screenshot').getAttribute('src')).toContain(expected);
     }
 
-    static async assertStepBaseScreenshotSrcEquals(expected) {
+    async assertStepBaseScreenshotSrcEquals(expected) {
         return expect($('.sc-step-comparison-current-screenshot img.sc-real-screenshot').getAttribute('src')).toContain(expected);
     }
 
 }
+
+export default new StepPage();

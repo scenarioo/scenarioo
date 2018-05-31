@@ -2,66 +2,68 @@
 
 import { by, element, ElementFinder, $ } from 'protractor';
 
-export default class ScenarioPage {
+class ScenarioPage {
 
-    private static stepView: ElementFinder = $('div.step-view');
-    private static expandAllButton: ElementFinder = element(by.id('expandAllPages'));
-    private static collapseAllButton: ElementFinder =  element(by.id('collapseAllPages'));
+    private stepView: ElementFinder = $('div.step-view');
+    private expandAllButton: ElementFinder = element(by.id('expandAllPages'));
+    private collapseAllButton: ElementFinder =  element(by.id('collapseAllPages'));
 
-    static async openStepByName(stepName) {
+    async openStepByName(stepName) {
         return this.stepView.element(by.linkText(stepName)).click();
     }
 
-    static async expandAllPages() {
+    async expandAllPages() {
         return this.expandAllButton.click();
     }
 
-    static async toggleShowAllStepsOfPage(pageIndex) {
+    async toggleShowAllStepsOfPage(pageIndex) {
         const elements = this.stepView.all(by.css('.toggle-show-all-steps-of-page'));
         return elements.get(pageIndex).click();
     }
 
-    static async assertFirstChangedPageDiffIconHasValue() {
+    async assertFirstChangedPageDiffIconHasValue() {
         return expect($('.step-view div:first-child .sc-step-in-overview .sc-scenario-page-title .diff-info-wrapper span').getText()).toContain('%');
     }
 
-    static async assertFirstChangedStepDiffIconHasValue() {
+    async assertFirstChangedStepDiffIconHasValue() {
         return expect($('.step-view div:first-child .sc-step-in-overview:first-child .step-title span').getText()).toContain('%');
     }
 
-    static async assertAddedPageDiffIconTextEqualsAdded() {
+    async assertAddedPageDiffIconTextEqualsAdded() {
         return expect($('div.sc-step-in-overview.added:first-of-type .sc-scenario-page-title span.added').getText()).toContain('added');
     }
 
-    static async assertAddedStepDiffIconTextEqualsAdded() {
+    async assertAddedStepDiffIconTextEqualsAdded() {
         return expect($('div.sc-step-in-overview.added:first-of-type .step-title:first-of-type span.added').getText()).toContain('added');
     }
 
-    static async assertRemovedPageDiffIconTextEqualsRemoved() {
+    async assertRemovedPageDiffIconTextEqualsRemoved() {
         return expect($('div.sc-step-in-overview.removed:first-of-type .sc-scenario-page-title span.removed').getText()).toContain('removed');
     }
 
-    static async assertRemovedStepDiffIconTextEqualsRemoved() {
+    async assertRemovedStepDiffIconTextEqualsRemoved() {
         return expect($('div.sc-step-in-overview.removed:first-of-type .step-title:first-of-type span.removed').getText()).toContain('removed');
     }
 
-    static async expectOnlyExpandAllButtonIsDisplayed() {
+    async expectOnlyExpandAllButtonIsDisplayed() {
         await expect(this.expandAllButton.isDisplayed()).toBeTruthy();
         return expect(this.collapseAllButton.isDisplayed()).toBeFalsy();
     }
 
-    static async expectOnlyCollapseAllButtonIsDisplayed() {
+    async expectOnlyCollapseAllButtonIsDisplayed() {
         await expect(this.expandAllButton.isDisplayed()).toBeFalsy();
         return expect(this.collapseAllButton.isDisplayed()).toBeTruthy();
     }
 
-    static async expectExpandAllAndCollapseAllButtonBothDisplayed() {
+    async expectExpandAllAndCollapseAllButtonBothDisplayed() {
         await expect(this.expandAllButton.isDisplayed()).toBeTruthy();
         return expect(this.collapseAllButton.isDisplayed()).toBeTruthy();
     }
 
-    static async assertNoDiffInfoDisplayed() {
+    async assertNoDiffInfoDisplayed() {
         return expect($('.sc-container .diff-info-wrapper').isPresent()).toBeFalsy();
     }
 
 }
+
+export default new ScenarioPage();

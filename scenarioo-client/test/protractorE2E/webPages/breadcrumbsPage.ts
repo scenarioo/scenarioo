@@ -2,20 +2,20 @@
 
 import { by, ElementFinder, $ } from 'protractor';
 
-export default class BreadcrumbPage {
+class BreadcrumbPage {
 
-    private static breadcrumbs: ElementFinder = $('.breadcrumb');
+    private breadcrumbs: ElementFinder = $('.breadcrumb');
 
-    static async clickOnBreadcrumb(breadcrumbId) {
+    async clickOnBreadcrumb(breadcrumbId) {
         return this.breadcrumbs.element(by.id(breadcrumbId)).click();
     }
 
-    static async assertBreadcrumbElementText(breadcrumbId, useCaseName) {
+    async assertBreadcrumbElementText(breadcrumbId, useCaseName) {
         const useCaseElement =  this.breadcrumbs.element(by.id(breadcrumbId));
         return expect(useCaseElement.getText()).toContain(useCaseName);
     }
 
-    static async assertThatTooltipIsShown(toolTipId, toolTipText) {
+    async assertThatTooltipIsShown(toolTipId, toolTipText) {
         const toolTipElement =  this.breadcrumbs.element(by.id(toolTipId));
         const toolTipAttribute = await toolTipElement.getAttribute('uib-tooltip');
 
@@ -23,3 +23,5 @@ export default class BreadcrumbPage {
     }
 
 }
+
+export default new BreadcrumbPage();
