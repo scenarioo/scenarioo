@@ -74,7 +74,7 @@ timestamps {
         }
 
         def encodedBranchName = getEncodedBranchName()
-
+/*
         stage('Build and unit test') {
             ansiColor('xterm') {
 
@@ -139,16 +139,17 @@ timestamps {
 
             }
         }
-
-        def docuVersionFolder = "develop"
-        // if (env.BRANCH_NAME == "develop") {
-            // def docuVersionFolder = env.BRANCH_NAME
+*/
+        def docsVersionFolder = "develop"
+        // if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master" || env.BRANCH_NAME.startsWith("release")) {
+            def (branchPrefix, releaseBranchVesion) = env.BRANCH_NAME.tokenize('/')
+            // def docsVersionFolder = env.BRANCH_NAME.startsWith("release/") ? releaseBranchVesion : env.BRANCH_NAME
 
             stage("Publish Markdown Docu ${env.BRANCH_NAME}") {
                 ansiColor('xterm') {
                     withCredentials([usernameColonPassword(credentialsId: 'scenarioo-ci', variable: 'GIT_USERPASS')]) {
-                        sh "./ci/publishGitbookMarkdownDocu.sh --docsDistributionFolder=${docuVersionFolder}"
-                        reportJenkinsSummaryGitbookMarkdownDocu(docuVersionFolder)
+                        sh "./ci/publishGitbookMarkdownDocu.sh --docsDistributionFolder=${docsVersionFolder}"
+                        reportJenkinsSummaryGitbookMarkdownDocu(docsVersionFolder)
                     }
                 }
             }

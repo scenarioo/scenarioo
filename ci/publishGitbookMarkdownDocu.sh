@@ -20,9 +20,11 @@ done
 ###
 ### Publish docu
 ###
-echo "Publishing Gitbook Markdown Documentation for $VERSION"
+echo "Publishing Gitbook Markdown Documentation for $DOCS_FOLDER"
 pushd docs
 npm install
 npm run build
-npm run gh-pages -- --dist _book --repo https://$GIT_USERPASS@github.com/scenarioo/scenarioo.github.io.git --branch test --dest docs/$DOCS_FOLDER --message "Publish Docs for $DOCS_FOLDER"
+echo "Publishing Docs to http://www.scenarioo.org/docs/$DOCS_FOLDER ..."
+npm run gh-pages -- --dist _book --repo https://$GIT_USERPASS@github.com/scenarioo/scenarioo.github.io.git --branch master --dest docs/$DOCS_FOLDER --message "Publish docs for $DOCS_FOLDER"
+echo "Publishing done to http://www.scenarioo.org/docs/$DOCS_FOLDER"
 popd
