@@ -22,6 +22,7 @@ done
 ###
 echo "Publishing Gitbook Markdown Documentation $NPM_TASK"
 pushd docs
+npm install
 npm run $NPM_TASK
 popd
 
