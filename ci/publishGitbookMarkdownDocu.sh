@@ -24,3 +24,4 @@ echo "Publishing Gitbook Markdown Documentation $NPM_TASK"
 pushd docs
 npm run $NPM_TASK
 popd
+
