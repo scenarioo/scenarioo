@@ -59,7 +59,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                     BUILD_STATE_WARNING: 'label-warning'
                 },
                 'defaultBranchName': 'trunk',
-                'expandPagesInScenarioOverview': true,
+                'expandPagesInScenarioOverview': true
         },
 
         BRANCHES: [
@@ -128,6 +128,21 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'importDate': 1388620336537,
                 'status': 'SUCCESS',
                 'identifier': {'branchName': 'wikipedia-docu-example', 'buildName': 'example-build'}
+            }
+        ],
+
+        COMPARISONS: [
+            {
+                'baseBuild': {
+                    'branchName': 'wikipedia-docu-example',
+                    'buildName': '2014-03-19'
+                },
+                'comparisonConfiguration': {
+                    'name': 'To Projectstart'
+                },
+                'changeRate': 20.924199759808403,
+                'state': 'SUCCESS',
+                'baseBuildDate': 1388879915785
             }
         ],
 
@@ -265,11 +280,11 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'totalNumberOfPagesInScenario': 3
             },
             'useCaseLabels': {
-                'labels': ['normal-case'],
+                'label': ['normal-case'],
                 'empty': false
             },
             'scenarioLabels': {
-                'labels': ['no results'],
+                'label': ['no results'],
                 'empty': false
             },
             'step': {

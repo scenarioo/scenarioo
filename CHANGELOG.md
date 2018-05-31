@@ -37,10 +37,10 @@ as explained in the [Migration Guide](docs/setup/Migration-Guide.md). This can n
 
 * **Internal format of comparisons between builds (DiffViewer feature) has changed:** After an update to the new version you will see no calculated comparisons on old builds anymore and need to reimport those builds for which you want to calculate and see comparisons again. See Step 3 in [Migration Guide](docs/setup/Migration-Guide.md).
 
+* **Full Text Search needs Elastic Search Version 5:** We upgraded the full text search feature to use ElasticSearch 5.6.9. If you want to use that feature your have to configure a compatible ElasticSearch server and a cluster name as described in [Full Text Search Setup Guide](docs/features/full-text-search/setup.md)
 
 * **Some undocumented REST services for the frontend have slightly changed their URLs:** in case you used these services you have to adjust the usage:
     * `/builds/reimportBuild/{branchName}/{buildName}` is now `/builds/:branchName/:buildName/import`
-
 
 Apart from that there are no breaking changes.
 

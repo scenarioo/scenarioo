@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ElasticSearchAdapter implements SearchAdapter {
+
     private final static Logger LOGGER = Logger.getLogger(ElasticSearchAdapter.class);
 
 	// It's ok that this is static because the Elasticsearch endpoint config can not be changed
@@ -57,7 +58,10 @@ public class ElasticSearchAdapter implements SearchAdapter {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 		.getConfigurationRepository();
+
 	private final String endpoint = configurationRepository.getConfiguration().getElasticSearchEndpoint();
+
+	private final String clusterName = configurationRepository.getConfiguration().getElasticSearchClusterName();
 
     public ElasticSearchAdapter() {
 		if (client != null) {
@@ -75,7 +79,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
 			String host = endpoint.substring(0, portSeparator);
 			int port = Integer.parseInt(endpoint.substring(portSeparator + 1), 10);
 			client = new PreBuiltTransportClient(Settings.builder()
-				.put("cluster.name", "elasticsearch").build())
+				.put("cluster.name", clusterName).build())
 				.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
 		} catch (UnknownHostException e) {
 			LOGGER.warn("No elasticsearch cluster running.");

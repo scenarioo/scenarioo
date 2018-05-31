@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.scenarioo.dao.diffViewer.impl;
+package org.scenarioo.dao.diffViewer;
 
 import org.scenarioo.api.util.files.FilesUtil;
 import org.scenarioo.repository.ConfigurationRepository;
@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Represents the XML structure in the file system.
  */
-public class DiffFiles {
+public class DiffViewerFiles {
 
 	private static final String COMPARISONS_DIRECTORY = "comparisons.derived";
 	private static final String COMPARISON_LOGFILE_NAME = "comparison.derived.log";
@@ -41,7 +41,7 @@ public class DiffFiles {
 
 	private final File rootDirectory;
 
-	public DiffFiles() {
+	public DiffViewerFiles() {
 		final ConfigurationRepository configurationRepository =
 			RepositoryLocator.INSTANCE.getConfigurationRepository();
 		this.rootDirectory = configurationRepository.getDocumentationDataDirectory();

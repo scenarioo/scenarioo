@@ -47,7 +47,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     activate();
 
     function activate() {
-        SketcherLinkService.showCreateOrEditSketchLinkInBreadcrumbs('Create Sketch', createSketch);
+        SketcherLinkService.showCreateOrEditSketchLinkInBreadcrumbs('Create Sketch ...', createSketch);
         SelectedBranchAndBuildService.callOnSelectionChange(loadStep);
     }
 
@@ -119,8 +119,8 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
                 }
 
                 $scope.hasAnyLabels = function () {
-                    var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
-                    var hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
+                    var hasAnyUseCaseLabels = $scope.useCaseLabels.label.length > 0;
+                    var hasAnyScenarioLabels = $scope.scenarioLabels.label.length > 0;
                     var hasAnyStepLabels = $scope.step.stepDescription.labels.label.length > 0;
                     var hasAnyPageLabels = $scope.step.page.labels.label.length > 0;
 
@@ -418,8 +418,8 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
             function onSuccess(buildDiffInfo) {
                 $scope.comparisonName = buildDiffInfo.name;
-                $scope.comparisonBranchName = buildDiffInfo.comparisonBranchName;
-                $scope.comparisonBuildName = buildDiffInfo.comparisonBuildName;
+                $scope.comparisonBranchName = buildDiffInfo.compareBuild.branchName;
+                $scope.comparisonBuildName = buildDiffInfo.compareBuild.buildName;
                 initBaseBuildName();
                 initBaseBuild();
                 initComparisonBuild();
@@ -472,7 +472,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     };
 
     $scope.isComparisonChangesToBeHighlightedAvailable = function() {
-        return $scope.step.diffInfo.changeRate !== 0 && !$scope.step.diffInfo.isAdded;
+        return $scope.step && $scope.step.diffInfo && $scope.step.diffInfo.changeRate !== 0 && !$scope.step.diffInfo.isAdded;
     };
 
     $scope.isComparisonChangesHighlighted = function() {
@@ -545,7 +545,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     var getAllLabels = function () {
         var allLabels = [];
         if ($scope.useCaseLabels && $scope.scenarioLabels && $scope.step) {
-            allLabels = allLabels.concat($scope.useCaseLabels.labels).concat($scope.scenarioLabels.labels).concat($scope.step.stepDescription.labels.label).concat($scope.step.page.labels.label);
+            allLabels = allLabels.concat($scope.useCaseLabels.label).concat($scope.scenarioLabels.label).concat($scope.step.stepDescription.labels.label).concat($scope.step.page.labels.label);
         }
         return allLabels;
     };

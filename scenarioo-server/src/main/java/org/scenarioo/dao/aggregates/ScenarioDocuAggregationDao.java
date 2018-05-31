@@ -95,9 +95,6 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 		this.longObjectNameResolver = longObjectNameResolver;
 	}
 
-	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadVersion(java.lang.String, java.lang.String)
-	 */
 	@Override
 	public String loadVersion(final BuildIdentifier buildIdentifier) {
 		File versionFile = files.getVersionFile(buildIdentifier);
@@ -130,10 +127,6 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 		return list.getUseCaseScenarios();
 	}
 
-	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadUseCaseScenarios(java.lang.String, java.lang.String,
-	 *      java.lang.String)
-	 */
 	@Override
 	public UseCaseScenarios loadUseCaseScenarios(final BuildIdentifier buildIdentifier, final String useCaseName) {
 		File scenariosFile = files.getUseCaseScenariosFile(buildIdentifier, useCaseName);
@@ -369,10 +362,6 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 		ScenarioDocuXMLFileUtil.marshal(longObjectNamesResolver, longObjectNamesFile);
 	}
 
-	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadLongObjectNamesIndex(java.lang.String,
-	 *      java.lang.String)
-	 */
 	@Override
 	public LongObjectNamesResolver loadLongObjectNamesIndex(final BuildIdentifier buildIdentifier) {
 		File longObjectNamesFile = files.getLongObjectNamesIndexFile(buildIdentifier);
@@ -400,10 +389,6 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 		return loadStepNavigation(ScenarioIdentifier.fromStepLink(build, step), step.getStepIndex());
 	}
 
-	/**
-	 * @see org.scenarioo.dao.aggregates.AggregatedDocuDataReader#loadStepNavigation(org.scenarioo.rest.base.BuildIdentifier,
-	 *      java.lang.String, java.lang.String, int)
-	 */
 	@Override
 	public StepNavigation loadStepNavigation(final ScenarioIdentifier scenarioIdentifier, final int stepIndex) {
 		File stepNavigationFile = files.getStepNavigationFile(scenarioIdentifier, stepIndex);
@@ -425,14 +410,12 @@ public class ScenarioDocuAggregationDao implements AggregatedDocuDataReader {
 	@Override
 	public List<BuildLink> loadBuildLinks(final String branchName) {
 		List<ObjectFromDirectory<Build>> builds = scenarioDocuReader.loadBuilds(branchName);
-
 		List<BuildLink> result = new ArrayList<BuildLink>();
 		for (ObjectFromDirectory<Build> build : builds) {
 			BuildLink link = new BuildLink(build.getObject(), FilesUtil.decodeName(build.getDirectoryName()));
 			setSpecialDisplayNameForLastSuccessfulScenariosBuild(link);
 			result.add(link);
 		}
-
 		return result;
 	}
 

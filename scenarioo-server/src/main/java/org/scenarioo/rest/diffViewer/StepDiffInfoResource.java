@@ -19,8 +19,7 @@ package org.scenarioo.rest.diffViewer;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.diffViewer.DiffReader;
-import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
+import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.rest.base.BuildIdentifier;
 
@@ -32,16 +31,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}/useCaseName/{useCaseName}/scenarioName/{scenarioName}/")
+@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/")
 public class StepDiffInfoResource {
 
 	private static final Logger LOGGER = Logger.getLogger(StepDiffInfoResource.class);
 
-	private DiffReader diffReader = new DiffReaderXmlImpl();
+	private DiffViewerDao diffViewerDao = new DiffViewerDao();
 
 	@GET
 	@Produces("application/json")
-	@Path("/stepIndex/{stepIndex}/stepDiffInfo")
+	@Path("comparisonName/{comparisonName}/useCaseName/{useCaseName}/scenarioName/{scenarioName}/stepIndex/{stepIndex}/stepDiffInfo")
 	public StepDiffInfo getStepDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
@@ -51,13 +50,13 @@ public class StepDiffInfoResource {
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
-		return diffReader.loadStepDiffInfo(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+		return diffViewerDao.loadStepDiffInfo(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 				comparisonName, useCaseName, scenarioName, Integer.parseInt(stepIndex));
 	}
 
 	@GET
 	@Produces("application/json")
-	@Path("/stepDiffInfos")
+	@Path("comparisonName/{comparisonName}/useCaseName/{useCaseName}/scenarioName/{scenarioName}/stepDiffInfos")
 	public Map<Integer, StepDiffInfo> getStepDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
@@ -67,7 +66,7 @@ public class StepDiffInfoResource {
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 				baseBranchName, baseBuildName);
 
-		final List<StepDiffInfo> stepDiffInfos = diffReader.loadStepDiffInfos(buildIdentifier.getBranchName(),
+		final List<StepDiffInfo> stepDiffInfos = diffViewerDao.loadStepDiffInfos(buildIdentifier.getBranchName(),
 				buildIdentifier.getBuildName(), comparisonName, useCaseName, scenarioName);
 
 		return getStepDiffInfoMap(stepDiffInfos);

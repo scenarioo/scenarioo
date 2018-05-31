@@ -19,8 +19,7 @@ package org.scenarioo.rest.diffViewer;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.diffViewer.DiffReader;
-import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
+import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.rest.base.BuildIdentifier;
 
@@ -32,16 +31,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}")
+@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/")
 public class UseCaseDiffInfoResource {
 
 	private static final Logger LOGGER = Logger.getLogger(UseCaseDiffInfoResource.class);
 
-	private DiffReader diffReader = new DiffReaderXmlImpl();
+	private DiffViewerDao diffViewerDao = new DiffViewerDao();
 
 	@GET
 	@Produces("application/json")
-	@Path("/useCaseName/{useCaseName}/useCaseDiffInfo")
+	@Path("comparisonName/{comparisonName}/useCaseName/{useCaseName}/useCaseDiffInfo")
 	public UseCaseDiffInfo getUseCaseDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
@@ -50,20 +49,20 @@ public class UseCaseDiffInfoResource {
 				baseBranchName,
 				baseBuildName);
 
-		return diffReader.loadUseCaseDiffInfo(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+		return diffViewerDao.loadUseCaseDiffInfo(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 				comparisonName, useCaseName);
 	}
 
 	@GET
 	@Produces("application/json")
-	@Path("/useCaseDiffInfos")
+	@Path("comparisonName/{comparisonName}/useCaseDiffInfos")
 	public Map<String, UseCaseDiffInfo> getUseCaseDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName) {
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
-		final List<UseCaseDiffInfo> useCaseDiffInfos = diffReader.loadUseCaseDiffInfos(buildIdentifier.getBranchName(),
+		final List<UseCaseDiffInfo> useCaseDiffInfos = diffViewerDao.loadUseCaseDiffInfos(buildIdentifier.getBranchName(),
 				buildIdentifier.getBuildName(), comparisonName);
 		return getUseCaseDiffInfoMap(useCaseDiffInfos);
 	}

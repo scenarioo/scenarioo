@@ -28,7 +28,7 @@
  */
 
 apply plugin: 'maven'
-apply from: "${rootProject.projectDir}/java.gradle"
+apply from: "${rootProject.projectDir}/build-java.gradle"
 
 test {
     minHeapSize = "128m"

@@ -47,7 +47,7 @@ import java.util.regex.Pattern;
 /**
  * Resource for getting the URLs for screenshots for a certain object
  */
-@Path("/rest/branch/{branchName}/build/{buildName}/object/{type}/{objectName}")
+@Path("/rest/branch/{branchName}/build/{buildName}/object/")
 public class ObjectStepResource extends AbstractBuildContentResource {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
@@ -72,7 +72,7 @@ public class ObjectStepResource extends AbstractBuildContentResource {
 	 * @return a flat list of step reference objects
 	 */
 	@GET
-	@Path("/steps")
+	@Path("{type}/{objectName}/steps")
 	@Produces({"application/json"})
 	public List<StepReference> getStepReferences(@PathParam("branchName") final String branchName,
 												 @PathParam("buildName") final String buildName,
@@ -83,7 +83,7 @@ public class ObjectStepResource extends AbstractBuildContentResource {
 		return transformStepsToStepReferences(stepLoaderResults);
 	}
 
-	private List<StepLoaderResult> getRelatedSteps(@PathParam("branchName") String branchName, @PathParam("buildName") String buildName, @PathParam("type") String objectType, @PathParam("objectName") String objectName) {
+	private List<StepLoaderResult> getRelatedSteps(String branchName, String buildName, String objectType, String objectName) {
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 			buildName);
 

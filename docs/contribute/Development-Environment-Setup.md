@@ -21,9 +21,8 @@ corresponding most recent markdown file for that page).
  * Git
  * Java JDK 1.8
  * Tomcat 7 (recommended), 8 or 9
- * node 6.11.5 (comes with npm 3.10.10), we currently can't upgrade to a newer version because of issu 
-   [#656](https://github.com/scenarioo/scenarioo/issues/676).
- * Elasticsearch 2.x (see [install guide](../features/full-text-search/setup.md) for details).
+ * node 8.11.2 (comes with npm 5.6.0)
+ * Elasticsearch 5.6.9 (see [Elasticsearch 5 Setup Instructions for CI](../contribute/ci-server-setup/Elasticsearch-5.md) for how to setup the same as on CI, or [Full Text Search Setup Guide](../features/full-text-search/setup.md) for details).
  * IntelliJ IDEA Ultimate (latest version, ask bruderol if you want to use an open source license)
 
    
@@ -122,10 +121,15 @@ But this two repositories should be sufficient for most usual developers.
      * set the tomcat path to tomcat 7 installation
      * set it running on port 8080     
      * on "Deployment" tab: 
-        * choose to deploy the artifact "gradle....scenarioo-viewer...war" (not exploded) on startup
-        * Application context (!important!): /scenarioo   
+        * choose `+` to deploy the artifact from "External Source ..."
+        * select `scenarioo-latest.war` from `sceanrioo-server/build/libs/`
+        * Choose to run the gradle `scenarioo-server:war` before launch
+        * IMPORTANT - Application context: `/scenarioo` 
+        * See also https://stackoverflow.com/questions/27610259/building-war-with-gradle-debugging-with-intellij-idea
+        * You can use `Control+F9` to trigger update of classes when server is running
      * on "Startup/Connection" tab: set environment variable "SCENARIOO_DATA" to following path: &lt;your-project-source-path&gt;\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
-     
+         * do not forget to also set the same in the "debug" mode!
+    
  * Run all tests of the sub-project "scenarioodocu-generation-example" to generate scenarioo example documentation data in Folder "build/scenarioDocuExample"
     * run `./graldlew clean test` (or by choosing it in the Gradle View in IntelliJ, which should as well work)
     * alternativley: select folder 'test' under 'src' folder and right click on 'test' folder and choose "Run 'All Tests'

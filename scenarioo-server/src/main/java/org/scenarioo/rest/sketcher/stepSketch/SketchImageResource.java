@@ -27,7 +27,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-@Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/stepsketch/{stepSketchId}/")
+@Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/stepsketch")
 public class SketchImageResource {
 
 	private static final Logger LOGGER = Logger.getLogger(SketchImageResource.class);
@@ -35,7 +35,7 @@ public class SketchImageResource {
 	private final SketcherDao sketcherDao = new SketcherDao();
 
 	@GET
-	@Path("svg/{stepSketchId}")
+	@Path("{stepSketchId}/svg/{stepSketchId}")
 	@Produces({ "image/svg+xml" })
 	public Object loadSketch(@PathParam("branchName") final String branchName,
 			@PathParam("issueId") final String issueId,
@@ -50,7 +50,7 @@ public class SketchImageResource {
 	 *            Specify whether you want to load the original PNG file or the sketch PNG file.
 	 */
 	@GET
-	@Path("image/{pngFile}")
+	@Path("{stepSketchId}/image/{pngFile}")
 	@Produces({ "image/png" })
 	@NoCache
 	public Object loadPngFile(@PathParam("branchName") final String branchName,
