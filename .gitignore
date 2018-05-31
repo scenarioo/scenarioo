@@ -1,5 +1,7 @@
 # Ignore .idea files except basic run configurations
 /.idea/workspace.xml
+/.idea/modules.xml
+/.idea/vcs.xml
 /.idea/libraries
 /.idea/modules
 /.idea/shelf
