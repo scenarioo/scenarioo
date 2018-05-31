@@ -4,7 +4,7 @@
     "start": "gitbook install && gitbook serve",
     "build": "gitbook install && gitbook build",
     "deployDocsHelp": "gh-pages --help",
-    "deployDocsDevelop": "gitbook install && gitbook build && gh-pages --dist _book --repo https://github.com/scenarioo/scenarioo.github.io.git --branch test --dest docs/develop --message \"Automatic Deployment of Docu develop\""
+    "deployDocsDevelop": "gitbook install && gitbook build && gh-pages --dist _book --repo https://github.com/scenarioo/scenarioo.github.io.git --branch test --dest docs/develop --message \"Publish docs for develop\""
   },
   "devDependencies": {
     "gh-pages": "^1.1.0",
