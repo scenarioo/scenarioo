@@ -98,9 +98,9 @@ function extractPageNameFromUrl (url) {
     const hash = url.hash;
     if (hash) {
         // Angular page path is in the hash only, rest of the url is not interesting (is just the APP base url)
-        // also remove "#/" at the beginning.
+        // Also remove "#/" at the beginning and additional query params at the end to identify a page.
         const pageName = hash.substring(2, hash.indexOf("?"));
-        return result = pageName === '' ? 'home' : pageName;
+        return pageName === '' ? 'home' : pageName;
     } else {
         // Map all other pages to undefined pages
         return "undefined";
