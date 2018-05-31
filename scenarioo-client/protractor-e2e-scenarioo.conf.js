@@ -64,9 +64,7 @@ var exportsConfig = {
             branchDescription: 'Scenarioo documenting itself.',
             buildName: BUILD_NAME,
             revision: git.short(),
-            pageNameExtractor: function (url) {
-                return url.pathname.substring(1);
-            },
+            pageNameExtractor: extractPageNameFromUrl,
             reportStepOnExpectationFailed: true,
             recordLastStepForStatus: {
                 failed: true,
@@ -97,5 +95,18 @@ var exportsConfig = {
 
     SELENIUM_PROMISE_MANAGER: 0
 };
+
+function extractPageNameFromUrl (url) {
+    const hash = url.hash;
+    if (hash) {
+        // Angular page path is in the hash only, rest of the url is not interesting (is just the APP base url)
+        // Also remove "#/" at the beginning and additional query params at the end to identify a page.
+        const pageName = hash.substring(2, hash.indexOf("?"));
+        return pageName === '' ? 'home' : pageName;
+    } else {
+        // Map all other pages to undefined pages
+        return "undefined";
+    }
+}
 
 exports.config = exportsConfig;
