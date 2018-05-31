@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Input values
-# --npmTask=npmTaskToExecute
+# --docsDistributionFolder=master|develop|version
 
 for i in "${@}"
 do
     case ${i} in
-        --npmTask=*)
-            export NPM_TASK="${i#*=}"
+        --docsDistributionFolder=*)
+            export DOCS_FOLDER="${i#*=}"
             shift
         ;;
 
@@ -20,9 +20,9 @@ done
 ###
 ### Publish docu
 ###
-echo "Publishing Gitbook Markdown Documentation $NPM_TASK"
+echo "Publishing Gitbook Markdown Documentation for $VERSION"
 pushd docs
 npm install
-npm run $NPM_TASK
+npm run build
+npm run gh-pages -- --dist _book --repo https://$GIT_USERPASS@github.com/scenarioo/scenarioo.github.io.git --branch test --dest docs/$DOCS_FOLDER --message "Publish Docs for $DOCS_FOLDER"
 popd
-

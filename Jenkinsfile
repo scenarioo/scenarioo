@@ -140,11 +140,16 @@ timestamps {
             }
         }
 
+        def docuVersionFolder = "develop"
         // if (env.BRANCH_NAME == "develop") {
+            // def docuVersionFolder = env.BRANCH_NAME
+
             stage("Publish Markdown Docu ${env.BRANCH_NAME}") {
                 ansiColor('xterm') {
-                    sh "./ci/publishGitbookMarkdownDocu.sh --npmTask=deployDocsDevelop"
-                    reportJenkinsSummaryGitbookMarkdownDocu("develop")
+                    withCredentials([usernameColonPassword(credentialsId: 'scenarioo-ci', variable: 'GIT_USERPASS')]) {
+                        sh "./ci/publishGitbookMarkdownDocu.sh --docsDistributionFolder=${docuVersionFolder}"
+                        reportJenkinsSummaryGitbookMarkdownDocu(docuVersionFolder)
+                    }
                 }
             }
         // }
