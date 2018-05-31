@@ -42,7 +42,7 @@ function BranchAliasesController($rootScope, BranchAliasesResource, BranchesReso
             var index;
             for(index = 0; index < branches.length; index++) {
                 var branch = branches[index];
-                if(!branch.alias) {
+                if(!branch.isAlias) {
                     branchesWithoutAliases.push(branch);
                 }
             }

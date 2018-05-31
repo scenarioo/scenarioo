@@ -29,7 +29,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}")
@@ -64,11 +63,8 @@ public class BuildDiffInfoResource {
 		return diffViewerDao
 			.loadBuildDiffInfos(buildIdentifier.getBranchName(), buildIdentifier.getBuildName())
 			.stream()
-			.filter(new Predicate<BuildDiffInfo>() {
-				@Override
-				public boolean test(BuildDiffInfo buildDiffInfo) {
-					return ComparisonCalculationStatus.SUCCESS.equals(buildDiffInfo.getStatus());
-				}
-			}).collect(Collectors.toList());
+			.filter(buildDiffInfo ->
+				ComparisonCalculationStatus.SUCCESS.equals(buildDiffInfo.getStatus())
+			).collect(Collectors.toList());
 	}
 }

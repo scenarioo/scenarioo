@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/comparisonName/{comparisonName}/useCaseName/{useCaseName}")
+@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/")
 public class ScenarioDiffInfoResource {
 
 	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
@@ -41,7 +41,7 @@ public class ScenarioDiffInfoResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/scenarioName/{scenarioName}/scenarioDiffInfo")
+	@Path("comparisonName/{comparisonName}/useCaseName/{useCaseName}/scenarioName/{scenarioName}/scenarioDiffInfo")
 	public ScenarioDiffInfo getScenarioDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,
@@ -57,7 +57,7 @@ public class ScenarioDiffInfoResource {
 
 	@GET
 	@Produces("application/json")
-	@Path("/scenarioDiffInfos")
+	@Path("comparisonName/{comparisonName}/useCaseName/{useCaseName}/scenarioDiffInfos")
 	public Map<String, ScenarioDiffInfo> getScenarioDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
 			@PathParam("baseBuildName") final String baseBuildName,
 			@PathParam("comparisonName") final String comparisonName,

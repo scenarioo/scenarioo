@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="scenarioo-client_main" target="1.8" />
+      <module name="scenarioo-client_test" target="1.8" />
+      <module name="scenarioo-docu-generation-example_main" target="1.8" />
+      <module name="scenarioo-docu-generation-example_test" target="1.8" />
+      <module name="scenarioo-java_main" target="1.6" />
+      <module name="scenarioo-java_test" target="1.6" />
+      <module name="scenarioo-server_main" target="1.8" />
+      <module name="scenarioo-server_test" target="1.8" />
+      <module name="scenarioo-validator_main" target="1.8" />
+      <module name="scenarioo-validator_test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

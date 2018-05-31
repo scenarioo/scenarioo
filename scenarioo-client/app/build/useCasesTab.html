@@ -53,7 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </td>
                         <td>
                             {{useCase.name | scHumanReadable }}
-                            <span ng-repeat="label in useCase.labels.labels" class="label label-info sc-label" ng-style="useCasesTab.getLabelStyle(label)">{{label}}</span>
+                            <span ng-repeat="label in useCase.labels.label" class="label label-info sc-label" ng-style="useCasesTab.getLabelStyle(label)">{{label}}</span>
                         </td>
                         <td>{{useCase.description}}</td>
                         <td>{{useCase.numberOfScenarios}}</td>
