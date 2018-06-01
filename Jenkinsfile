@@ -98,15 +98,16 @@ timestamps {
             ansiColor('xterm') {
 
                 try {
-
-                    withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
-                        sh "./ci/deploy.sh --branch=${encodedBranchName}"
-                        def demoUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
-                        reportJenkinsSummary("deploy.jenkins-summary.xml",
-                            "<h2>Scenarioo Demo Deployed</h2>"
-                            + "Deployed to "
-                            + "<a target=\"_blank\" href=\"${demoUrl}\">"
-                            + "${demoUrl}</a>")
+                    lock("tomcat") {
+                        withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
+                            sh "./ci/deploy.sh --branch=${encodedBranchName}"
+                            def demoUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
+                            reportJenkinsSummary("deploy.jenkins-summary.xml",
+                                "<h2>Scenarioo Demo Deployed</h2>"
+                                + "Deployed to "
+                                + "<a target=\"_blank\" href=\"${demoUrl}\">"
+                                + "${demoUrl}</a>")
+                        }
                     }
                 }
                 catch (e) {
