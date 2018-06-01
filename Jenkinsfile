@@ -98,7 +98,7 @@ timestamps {
             ansiColor('xterm') {
 
                 try {
-                    lock("tomcat") {
+                    lock("tomcat") { // no parallel deployments to tomcat
                         withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
                             sh "./ci/deploy.sh --branch=${encodedBranchName}"
                             def demoUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
@@ -125,7 +125,9 @@ timestamps {
             ansiColor('xterm') {
 
                 try {
-                         sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
+                    lock("tomcat") { // no parallel e2e test executions against tomcat
+                        sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
+                    }
                 } finally {
                     junit 'scenarioo-client/test-reports/*.xml'
                     withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
