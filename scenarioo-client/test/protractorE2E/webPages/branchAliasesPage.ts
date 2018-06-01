@@ -5,9 +5,9 @@ import * as Utils from '../util/util';
 
 class BranchAliasesPage {
 
-    private branchAliasTable: ElementFinder = $('table.table-responsive');
-    private saveButton: ElementFinder = $('input.btn[value="Save"]');
-    private resetButton: ElementFinder = $('input.btn[value="Reset"]');
+    private branchAliasTable = $('table.table-responsive');
+    private saveButton = $('input.btn[value="Save"]');
+    private resetButton = $('input.btn[value="Reset"]');
 
     async goToPage() {
         return Utils.navigateToRoute('/manage?tab=branchAliases');

@@ -23,7 +23,7 @@ useCase('Step - View')
                 const ROUTE_OF_SECOND_STEP = '/step/Find%20Page/find_no_results/startSearch.jsp/0/1';
                 const ROUTE_OF_THIRD_STEP = '/step/Find%20Page/find_no_results/searchResults.jsp/0/0';
 
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await step('Display home page with list of use cases');
 
                 await HomePage.selectUseCase(1);

@@ -4,8 +4,8 @@ import { by, element, ElementFinder, $ } from 'protractor';
 
 class NavigationPage {
 
-    private searchBoxTextField: ElementFinder = element(by.id('sc-global-search-box-textfield'));
-    private searchBoxButton: ElementFinder = element(by.id('sc-global-search-box-button'));
+    private searchBoxTextField = element(by.id('sc-global-search-box-textfield'));
+    private searchBoxButton = element(by.id('sc-global-search-box-button'));
 
     async enterSearchTerm(searchTerm) {
         await this.searchBoxTextField.clear();

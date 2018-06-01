@@ -21,7 +21,7 @@ useCase('Create sketch')
             .it(async () => {
                 const sketchName = 'automated test sketch 1';
 
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
 
                 await step('Select a use case from the list');
                 await HomePage.selectUseCase(1);
@@ -46,7 +46,7 @@ useCase('Create sketch')
                 await EditorPage.clickSaveButton();
                 await EditorPage.assertSaveSketchSuccessfulMessageIsDisplayed();
 
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await HomePage.selectSketchesTab();
                 return HomePage.assertSketchesListContainsEntryWithSketchName(sketchName);
             });

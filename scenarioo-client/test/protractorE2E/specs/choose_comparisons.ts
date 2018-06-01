@@ -34,7 +34,7 @@ useCase('Diff viewer - Choose comparisons')
 		scenario('Check selectable comparisons')
 			.description('Selects a build from wikipedia-docu-example-dev and checks if six comparisons are available')
 			.it(async () => {
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await NavigationPage.chooseBranch(BRANCH_WIKI_DEV);
 				await step('wikipedia-docu-example-dev branch selected');
                 await NavigationPage.chooseBuild(BUILD_LAST_SUCCESSFUL);
@@ -46,7 +46,7 @@ useCase('Diff viewer - Choose comparisons')
 		scenario('select comparison')
 			.description('Selects a build from wikipedia-example-dev and selects to last successful (dev) as comparison')
 			.it(async () => {
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await NavigationPage.chooseBranch(BRANCH_WIKI_DEV);
 				await step('wikipedia-docu-example-dev branch selected');
                 await NavigationPage.chooseBuild(BUILD_LAST_SUCCESSFUL + ':');
@@ -60,7 +60,7 @@ useCase('Diff viewer - Choose comparisons')
 		scenario('disable comparison')
 			.description('Disables the diff viewer feature by selecting "Disable" in the comparison menu')
 			.it(async () => {
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await NavigationPage.chooseBranch(BRANCH_WIKI_DEV);
 				await step('wikipedia-docu-example-dev branch selected');
 
@@ -90,7 +90,7 @@ useCase('Diff viewer - Choose comparisons')
 		scenario('hide comparison menu')
 			.description('if no comparison is available the comparison menu should be hidden')
 			.it(async () => {
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await NavigationPage.chooseBranch(BRANCH_WIKI);
 				await step('wikipedia-docu-example branch selected');
                 await NavigationPage.chooseBuild(BUILD_JANUARY);

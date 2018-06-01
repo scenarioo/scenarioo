@@ -23,7 +23,7 @@ useCase('List scenarios')
 
         scenario('Expand all, collapse all on scenario page')
             .it(async () => {
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await step('select a use case from the use case list');
                 await HomePage.assertPageIsDisplayed();
                 await HomePage.assertUseCasesShown(NUMBER_OF_USE_CASES);
@@ -43,7 +43,7 @@ useCase('List scenarios')
         scenario('Display Diff-Information')
             .labels(['diff-viewer'])
             .it(async () => {
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await step('display usecases on homepage');
                 await HomePage.assertPageIsDisplayed();
                 await NavigationPage.chooseComparison(COMPARISON_PROJECTSTART);
@@ -58,7 +58,7 @@ useCase('List scenarios')
         scenario('Sort by Diff-Information')
             .labels(['diff-viewer'])
             .it(async () => {
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await step('display usecases on homepage');
                 await HomePage.assertPageIsDisplayed();
                 await NavigationPage.chooseComparison('To Projectstart');

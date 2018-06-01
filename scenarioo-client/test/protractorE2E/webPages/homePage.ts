@@ -6,15 +6,19 @@ import * as Utils from '../util/util';
 class HomePage {
 
     private path: string = '/';
-    private useCasesSearchField: ElementFinder = element(by.id('useCasesSearchField'));
-    private aboutScenariooPopup: ElementFinder = $('.modal.about-popup');
-    private popupCloseButton: ElementFinder = $('.modal-footer button.btn');
-    private usecaseTable: ElementFinder = $('table.usecase-table');
-    private showMetaDataButton: ElementFinder = element(by.id('sc-showHideDetailsButton-show'));
-    private hideMetaDataButton: ElementFinder = element(by.id('sc-showHideDetailsButton-hide'));
-    private metaDataPanel: ElementFinder = element(by.id('sc-metadata-panel'));
-    private sketchesTab: ElementFinder = element(by.id('sc-main-tab-sketches'));
-    private pagesTab: ElementFinder = element(by.id('sc-main-tab-pages'));
+    private useCasesSearchField = element(by.id('useCasesSearchField'));
+    private aboutScenariooPopup = $('.modal.about-popup');
+    private popupCloseButton = $('.modal-footer button.btn');
+    private usecaseTable = $('table.usecase-table');
+    private showMetaDataButton = element(by.id('sc-showHideDetailsButton-show'));
+    private hideMetaDataButton = element(by.id('sc-showHideDetailsButton-hide'));
+    private metaDataPanel = element(by.id('sc-metadata-panel'));
+    private sketchesTab = element(by.id('sc-main-tab-sketches'));
+    private pagesTab = element(by.id('sc-main-tab-pages'));
+
+    async goToPage() {
+        return Utils.navigateToRoute(this.path);
+    }
 
     async assertPageIsDisplayed() {
         await Utils.assertPageIsDisplayed(this.path);

@@ -14,7 +14,7 @@ useCase('List custom tabs')
 
         scenario('Display and filter pages')
             .it(async () => {
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await step('display the homePage');
                 await HomePage.selectPagesTab();
                 await HomePage.assertPagesTabContainsPage('startSearch.jsp');

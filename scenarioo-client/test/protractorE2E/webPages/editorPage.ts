@@ -5,11 +5,11 @@ import {by, element, ElementFinder} from 'protractor';
 
 class EditorPage {
 
-    private saveButton: ElementFinder = element(by.id('save'));
-    private saveSketchSuccessfulMessage: ElementFinder = element(by.id('saveSketchSuccessfulMessage'));
-    private issueNameTextField: ElementFinder = element(by.id('issueName'));
-    private issueAuthorTextField: ElementFinder = element(by.id('issueAuthor'));
-    private issueDescriptionTextField: ElementFinder = element(by.id('issueDescription'));
+    private saveButton = element(by.id('save'));
+    private saveSketchSuccessfulMessage = element(by.id('saveSketchSuccessfulMessage'));
+    private issueNameTextField = element(by.id('issueName'));
+    private issueAuthorTextField = element(by.id('issueAuthor'));
+    private issueDescriptionTextField = element(by.id('issueDescription'));
 
     async enterSketchInformation(sketchName, author) {
         await this.issueNameTextField.clear();

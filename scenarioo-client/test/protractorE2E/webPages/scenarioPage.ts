@@ -4,9 +4,9 @@ import { by, element, ElementFinder, $ } from 'protractor';
 
 class ScenarioPage {
 
-    private stepView: ElementFinder = $('div.step-view');
-    private expandAllButton: ElementFinder = element(by.id('expandAllPages'));
-    private collapseAllButton: ElementFinder =  element(by.id('collapseAllPages'));
+    private stepView = $('div.step-view');
+    private expandAllButton = element(by.id('expandAllPages'));
+    private collapseAllButton =  element(by.id('collapseAllPages'));
 
     async openStepByName(stepName) {
         return this.stepView.element(by.linkText(stepName)).click();

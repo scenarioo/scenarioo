@@ -2,6 +2,7 @@
 
 import { scenario, step, useCase } from 'scenarioo-js';
 import * as Utils from '../util/util';
+import HomePage from '../webPages/homePage';
 import LabelConfigurationsPage from '../webPages/labelConfigurationsPage';
 
 useCase('Configure label colors')
@@ -22,7 +23,7 @@ useCase('Configure label colors')
                 await LabelConfigurationsPage.addLabelConfiguration('corner-case', 5);
                 await step('add label configuration');
 
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await step('navigate away from the label config page to some other page');
 
                 await LabelConfigurationsPage.navigateToPage();

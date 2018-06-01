@@ -5,7 +5,7 @@ import * as Utils from '../util/util';
 
 class UsecasePage {
 
-    private scenarioTable: ElementFinder = $('table.scenario-table');
+    private scenarioTable = $('table.scenario-table');
 
     async selectScenario(scenarioIndex) {
         const elements = this.scenarioTable.all(by.css('tbody tr'));

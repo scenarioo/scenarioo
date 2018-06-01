@@ -2,6 +2,7 @@
 
 import { scenario, step, useCase } from 'scenarioo-js';
 import * as Utils from '../util/util';
+import HomePage from '../webPages/homePage';
 import StepPage from '../webPages/stepPage';
 import BreadcrumbsPage from '../webPages/breadcrumbsPage';
 import SearchResultsPage from '../webPages/searchResultsPage';
@@ -27,7 +28,7 @@ useCase('Full Text Search')
         scenario('Search with result')
             .description('Search for a term that yields some results.')
             .it(async () => {
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await NavigationPage.enterSearchTerm('donate.jsp');
                 await step('Search term entered');
 
@@ -47,7 +48,7 @@ useCase('Full Text Search')
         scenario('Search with and without HTML source')
             .description('By default the HTML source is not searched, but the user can select to also search it.')
             .it(async () => {
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await NavigationPage.enterSearchTerm('body');
                 await step('Search term body entered, which mainly appears in the html source code');
 

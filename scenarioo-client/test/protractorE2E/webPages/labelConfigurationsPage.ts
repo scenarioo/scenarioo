@@ -5,9 +5,9 @@ import * as Utils from '../util/util';
 
 class LabelConfigurationsPage {
 
-    private labelConfigurationsTable: ElementFinder = element(by.id('label-configurations-table'));
-    private saveButton: ElementFinder = $('input.btn[value="Save"]');
-    private savedSuccessfullyText: ElementFinder = element(by.id('changed-label-config-successfully'));
+    private labelConfigurationsTable = element(by.id('label-configurations-table'));
+    private saveButton = $('input.btn[value="Save"]');
+    private savedSuccessfullyText = element(by.id('changed-label-config-successfully'));
 
     async navigateToPage() {
         return Utils.navigateToRoute('/manage?tab=labelConfigurations');

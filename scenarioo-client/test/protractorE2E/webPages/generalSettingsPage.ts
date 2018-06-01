@@ -5,11 +5,11 @@ import * as Utils from '../util/util';
 
 class GeneralSettingsPage {
 
-    private searchNotConfiguredMessage: ElementFinder = element(by.id('sc-search-not-configured-message'));
-    private configuredSearchEndpoint: ElementFinder = element(by.id('sc-configured-search-endpoint'));
-    private configuredSearchClusterName: ElementFinder = element(by.id('sc-configured-search-cluster-name'));
-    private searchEndpointIsReachable: ElementFinder = element(by.id('sc-search-endpoint-is-reachable'));
-    private searchEndpointIsNotReachable: ElementFinder = element(by.id('sc-search-endpoint-is-not-reachable'));
+    private searchNotConfiguredMessage = element(by.id('sc-search-not-configured-message'));
+    private configuredSearchEndpoint = element(by.id('sc-configured-search-endpoint'));
+    private configuredSearchClusterName = element(by.id('sc-configured-search-cluster-name'));
+    private searchEndpointIsReachable = element(by.id('sc-search-endpoint-is-reachable'));
+    private searchEndpointIsNotReachable = element(by.id('sc-search-endpoint-is-not-reachable'));
 
     async goToPage() {
         return Utils.navigateToRoute('/manage?tab=configuration');

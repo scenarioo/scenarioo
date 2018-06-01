@@ -32,7 +32,7 @@ useCase('Use branch aliases')
                 await NavigationPage.chooseBranch('Latest dev');
                 await step('choose branch alias');
 
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await HomePage.selectUseCase(1);
                 await UsecasePage.selectScenario(0);
                 await ScenarioPage.openStepByName('Step 1: Wikipedia Suche');

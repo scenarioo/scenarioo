@@ -19,7 +19,7 @@ useCase('List use cases')
 
         scenario('Display and filter usecases')
             .it(async () => {
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await HomePage.assertUseCasesShown(NUMBER_OF_USE_CASES);
                 await step('display usecases on homepage');
                 await HomePage.assertPageIsDisplayed();
@@ -36,7 +36,7 @@ useCase('List use cases')
 
         scenario('Show and hide metadata')
             .it(async () => {
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await step('display the homePage, metadata shown');
                 await HomePage.assertPageIsDisplayed();
                 await HomePage.assertMetaDataShown();
@@ -51,7 +51,7 @@ useCase('List use cases')
         scenario('Display Diff-Information')
             .labels(['diff-viewer'])
             .it(async () => {
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await step('display usecases on homepage');
                 await NavigationPage.chooseComparison(COMPARISON_PROJECTSTART);
                 await HomePage.assertPageIsDisplayed();

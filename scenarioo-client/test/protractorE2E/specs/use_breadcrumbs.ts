@@ -17,7 +17,7 @@ useCase('Use breadcrumbs')
         scenario('Navigate upwards')
             .description('Navigate to the Home Page, filter for one use case, select scenario, click on breadcrumb')
             .it(async () => {
-                await Utils.navigateToRoute('/');
+                await HomePage.goToPage();
                 await step('Display the homePage');
 
                 await HomePage.assertPageIsDisplayed();

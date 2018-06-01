@@ -4,7 +4,7 @@ import { by, ElementFinder, $ } from 'protractor';
 
 class BreadcrumbPage {
 
-    private breadcrumbs: ElementFinder = $('.breadcrumb');
+    private breadcrumbs = $('.breadcrumb');
 
     async clickOnBreadcrumb(breadcrumbId) {
         return this.breadcrumbs.element(by.id(breadcrumbId)).click();
