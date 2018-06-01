@@ -327,8 +327,7 @@ public class ComparisonExecutor {
 	/**
 	 * Reads the reloaded xml configuration and returns all comparison configurations for the given base branch.
 	 */
-	synchronized List<ComparisonConfiguration> getComparisonConfigurationsForBaseBranch(
-		String baseBranchName) {
+	synchronized List<ComparisonConfiguration> getComparisonConfigurationsForBaseBranch(String baseBranchName) {
 		List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = new LinkedList<>();
 
 		List<ComparisonConfiguration> comparisonConfigurations = configurationRepository.getConfiguration()
@@ -338,7 +337,7 @@ public class ComparisonExecutor {
 			String resolvedComparisonBranchName = aliasResolver.resolveBranchAlias(comparisonConfiguration.getBaseBranchName());
 			if (resolvedBaseBranchName.equals(resolvedComparisonBranchName)
 				|| resolvedBaseBranchName.matches(resolvedComparisonBranchName)) {
-				comparisonConfigurationsForBaseBranch.add(comparisonConfiguration);
+				comparisonConfigurationsForBaseBranch.add(new ComparisonConfiguration(comparisonConfiguration, baseBranchName));
 			}
 		}
 		return comparisonConfigurationsForBaseBranch;
