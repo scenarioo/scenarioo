@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('CreateComparisonModalController', CreateComparisonModalController);
 
-function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsService, BuildDiffInfosResource, ComparisonCreateResource) {
+function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsService, BuildDiffInfosResource, ComparisonCreateResource, ApplicationStatusService) {
 
     var vm = this;
 
@@ -28,6 +28,7 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
     vm.comparisonBranch = null;
     vm.comparisonBuild = null;
     vm.validationMessage = null;
+    vm.version = {};
 
     vm.validateComparisonName = validateComparisonName;
     vm.setBaseBranch = setBaseBranch;
@@ -46,6 +47,10 @@ function CreateComparisonModalController($uibModalInstance, BranchesAndBuildsSer
             vm.baseBranch = branchesAndBuilds.selectedBranch;
             vm.baseBuild = branchesAndBuilds.selectedBuild;
             loadComparisonsOfCurrentBuild();
+        });
+
+        ApplicationStatusService.getApplicationStatus().then(function(status) {
+            vm.version = status.version;
         });
     }
 

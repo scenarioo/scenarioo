@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Clean up scenarioo documentation builds inside tha passed scenarioo branch directory:
 # * Keep youngest build in any case

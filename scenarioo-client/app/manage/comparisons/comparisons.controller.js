@@ -17,7 +17,7 @@
 
 angular.module('scenarioo.controllers').controller('ComparisonsController', ComparisonsController);
 
-function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, ComparisonRecalculateResource, ComparisonStatusMapperService) {
+function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, ComparisonRecalculateResource, ComparisonStatusMapperService, ApplicationStatusService) {
 
     var vm = this;
 
@@ -30,6 +30,7 @@ function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, C
     vm.showComparisonDetails = showComparisonDetails;
     vm.recalculateComparison = recalculateComparison;
     vm.refresh = refresh;
+    vm.version = {};
 
     activate();
 
@@ -37,6 +38,11 @@ function ComparisonsController($scope, $uibModal, $route, ComparisonsResource, C
         ComparisonsResource.query({}, function(comparisons) {
             vm.comparisons = comparisons;
         });
+
+        ApplicationStatusService.getApplicationStatus().then(function(status) {
+            vm.version = status.version;
+        });
+
     }
 
     function resetSearchField() {

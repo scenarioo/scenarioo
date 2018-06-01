@@ -3,13 +3,16 @@
 ## 3.x to 4.x
 
 **Breaking Changes:**
+
 * Starting with version 4.x the path to your scenarioo documentation data has to be configured differently and the scenarioo configuration file (config.xml) must be located in the same directory as all your other scenarioo documentation data.
+
+* For the full text search Scenarioo now uses newer Elasticsearch Server Version 5.6.9, you will have to upgrade that as well, in case you want to continue to use this feature.
+
 * Also all already calculated diff viewer comparison data is not valid for the new version anymore and therefore has to be recalculated after update by simply reimporting those builds for which you still want to see calculated diff viewer comparisons.
 
 **Migration:**
 
 Follow these simple steps to migrate:
-
 
 0. Make sure you know what is the scenarioo data directory configured on your old Scenarioo installation:
 
@@ -26,11 +29,16 @@ Follow these simple steps to migrate:
            * you can later remove those settings for the config file location from your context.xml, if you configured it there, since the location is now fix in your data directory and can not be configured separately anymore in newer versions. 
         * If you do not find the config file at all: this might mean that you never saved your configuration, scenarioo might just be running using its internal default configuration. Go to `Manage`-Tab in the scenarioo viewer web app and choose `General Settings / Save` this will save the file for you with current settings.
      * When you found the config file then copy it to the scenarioo data directory
-        * Copy the file in the root of your scenarioo data path (see step 0 if you forgot)
+        * Copy the file to the root of your scenarioo data path (see step 0 if you forgot)
         * In case your config file had a different name, then rename the copied file to `config.xml` (this file can not be named differently anymore!)
         * You can also remove the setting `testDocumentationDirPath` from the copied file's content, since it will be ignored in future versions (see next point on how to configure that directory in new versions).
-    
-2. Configure, update and restart Scenarioo:
+        
+2. If your old installation had an Elasticsearch server configured - which is only the case if you find the config property "elasticSearchEndpoint" in config.xml - then you have to setup a newer Elasticsearch server of appropriate version:
+    * Install and configure an Elasticsearch server with newer version 5.6.9
+    * See [Full Text Search Setup Guide](../features/full-text-search/setup.md) for further instructions. 
+    * If you want to generate search indexes on the new server for existing scenarioo documentation builds, you can trigger a reimport for those builds in the Scenarioo Manage Builds tab later (once scenarioo upgrade is done).
+        
+3. Configure, update and restart Scenarioo:
     * Using Scenarioo Docker Image:
       * simply stop the old scenarioo and restart a new one as explained here: [Scenarioo Viewer Docker Image](Scenarioo-Viewer-Docker-Image.md)
       * take care to configure your scenarioo data path on startup properly, as explained in above link, by using the slightly changed parameter to map your documentation data directory to `/scenarioo/data` inside the container (this path is different in new verson).
@@ -42,7 +50,7 @@ Follow these simple steps to migrate:
         * for more information on that see [Web Application Setup](Scenarioo-Viewer-Web-Application-Setup.md)
       * Download and install newest WAR and restart your server as explained in [Web Application Setup](Scenarioo-Viewer-Web-Application-Setup.md)
          
-3. Optional but Recommended - only if you used Diff Viewer Comparisons before:
+4. Optional but Recommended - only if you used Diff Viewer Comparisons before:
     * Delete all old diff viewer comparison data, which is stored in your docu data directory under `scenarioo-application-data\diffViewer`. 
     * From now on this data will be stored in a less disk space consuming format and inside the same directory where the build it belongs to is located.
     * If you want to see comparisons for any of the old builds, you have to reimport these builds under `Manage / Builds`, this will also trigger recalculation of any configured comparisons. See [Diff Viewer Setup Guide](../features/diff-viewer/setup.md) on how to configure such comparisons (which has NOT changed!).

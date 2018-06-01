@@ -26,7 +26,13 @@ For some important other feature branches or forks, there might be a build job i
 * Try out the running Demo under `http://demo.scenarioo.org/{put-same-name-as-the-build-job-here}`
 * You can download the WAR from last successful artifacts inside this build job, if you need it for deployment.
 
-## Scenarioo Writer libraries
+## Scenarioo Writer Libraries
+
+These are the libraries you can use in your tests to write scenarioo documentation reports on test execution:
+
+### JavaScript
+
+https://github.com/scenarioo/scenarioo-js
 
 ### Java
 
@@ -35,7 +41,3 @@ https://github.com/scenarioo/scenarioo-java
 ### C&sharp;
  
 https://github.com/scenarioo/scenarioo-cs 
-
-### JavaScript
-
-https://github.com/scenarioo/scenarioo-js

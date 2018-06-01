@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Script to Cleanup deployments and data of removed branches
 # also triggers removal of outdated self docu data builds for existing branches
@@ -42,6 +43,8 @@ for BRANCH_DIR in $(find $SCENARIOO_DATA_ROOT/* -maxdepth 0 -type d) ; do
         echo "   remove branch's self docu data directory"
         rm -rf $SCENARIOO_DATA_ROOT/develop/scenarioo-$BRANCH_NAME
         echo "   undeploy branch's scenarioo web app instance"
-        curl -u $TOMCAT_USERPASS http://localhost:8080/manager/text/undeploy\?path\=/scenarioo-$BRANCH
+        curl -u $TOMCAT_USERPASS http://localhost:8080/manager/text/undeploy\?path\=/scenarioo-$BRANCH_NAME
+        rm -f /var/lib/tomcat7/webapps/scenarioo-$BRANCH_NAME.war
+        rm -rf /var/lib/tomcat7/webapps/scenarioo-$BRANCH_NAME
     fi
 done
