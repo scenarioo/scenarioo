@@ -1,5 +1,8 @@
 ## Notes from Installation by @adiherzog
 
+!!! 2018-06-02: Elasticsearch 2 is not installed on the CI anymore
+
+
 https://www.elastic.co/
 
 Install version 2.x as described here for Ubuntu: https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-repositories.html

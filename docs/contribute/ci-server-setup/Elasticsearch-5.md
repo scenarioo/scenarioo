@@ -38,5 +38,15 @@ Register as a service using the start script in ./servicescripts/elasticsearch5.
 * Register the service to start on startup:
     ```
     sudo update-rc.d elasticsearch5 defaults 95 10
-    sudo /etc/init.d/elasticsearch start
+    sudo /etc/init.d/elasticsearch5 start
     ```
+
+## Configure max_map_count
+
+To avoid this error message: `max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]`
+
+Configure: 
+
+`sudo sysctl -w vm.max_map_count=262144`
+
+Source: https://github.com/docker-library/elasticsearch/issues/111
