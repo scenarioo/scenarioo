@@ -17,6 +17,7 @@
 
 package org.scenarioo.business.diffViewer;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -42,6 +43,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
@@ -51,7 +53,7 @@ import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.
 public class ComparisonExecutorTest {
 
 	private static int NUMBER_OF_COMPARISONS_FOR_BRANCH_1 = 5;
-	private static int NUMBER_OF_COMPARISONS_FOR_BRANCH_2 = 1;
+	private static int NUMBER_OF_COMPARISONS_FOR_BRANCH_2 = 2;
 	private static File ROOT_DIRECTORY = new File("tmpDir");
 	private static String BRANCH_NAME_1 = "branch1";
 	private static String BRANCH_NAME_2 = "branch2";
@@ -62,12 +64,17 @@ public class ComparisonExecutorTest {
 	private static String BUILD_NAME_ALIAS_MOST_RECENT = "most recent";
 	private static String COMPARISON_NAME = "comparison";
 
+	private static String ALL_BRANCHES_REGEXP = "branch.*";
+
 	private static ComparisonConfiguration comparisonConfiguration1;
 	private static ComparisonConfiguration comparisonConfiguration2;
 	private static ComparisonConfiguration comparisonConfiguration3;
 	private static ComparisonConfiguration comparisonConfiguration4;
-	private static ComparisonConfiguration comparisonConfiguration5;
+	private static ComparisonConfiguration comparisonConfiguration5WithRegexp;
 	private static ComparisonConfiguration comparisonConfiguration6;
+
+	private static ComparisonConfiguration comparisonConfiguration5MatchedForBranch1;
+	private static ComparisonConfiguration comparisonConfiguration5MatchedForBranch2;
 
 	private Build build1 = getBuild(BUILD_NAME_1, Status.SUCCESS, getDateBeforeDays(0));
 	private Build build2 = getBuild(BUILD_NAME_2, Status.FAILED, getDateBeforeDays(1));
@@ -89,6 +96,7 @@ public class ComparisonExecutorTest {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(ROOT_DIRECTORY);
 		File diffViewerFolder = new File(ROOT_DIRECTORY, "scenarioo-application-data/diffViewer");
 		diffViewerFolder.mkdirs();
+
 		comparisonConfiguration1 = getComparisonConfiguration(BRANCH_NAME_1,
 			BRANCH_NAME_1, BUILD_NAME_ALIAS_LAST_SUCCESSFUL, COMPARISON_NAME);
 		comparisonConfiguration2 = getComparisonConfiguration(BRANCH_NAME_1,
@@ -97,10 +105,16 @@ public class ComparisonExecutorTest {
 			BRANCH_NAME_2, BUILD_NAME_ALIAS_LAST_SUCCESSFUL, COMPARISON_NAME);
 		comparisonConfiguration4 = getComparisonConfiguration(BRANCH_NAME_1,
 			BRANCH_NAME_1, BUILD_NAME_1, COMPARISON_NAME);
-		comparisonConfiguration5 = getComparisonConfiguration(BRANCH_NAME_1,
+		comparisonConfiguration5WithRegexp = getComparisonConfiguration(ALL_BRANCHES_REGEXP,
 			BRANCH_NAME_2, BUILD_NAME_2, COMPARISON_NAME);
 		comparisonConfiguration6 = getComparisonConfiguration(BRANCH_NAME_2,
 			BRANCH_NAME_2, BUILD_NAME_3, COMPARISON_NAME);
+
+		comparisonConfiguration5MatchedForBranch1 = getComparisonConfiguration(BRANCH_NAME_1,
+			BRANCH_NAME_2, BUILD_NAME_2, COMPARISON_NAME);
+		comparisonConfiguration5MatchedForBranch2 = getComparisonConfiguration(BRANCH_NAME_2,
+			BRANCH_NAME_2, BUILD_NAME_2, COMPARISON_NAME);
+
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 	}
 
@@ -108,6 +122,7 @@ public class ComparisonExecutorTest {
 	public void setUp() {
 		when(aliasResolver.resolveBranchAlias(BRANCH_NAME_1)).thenReturn(BRANCH_NAME_1);
 		when(aliasResolver.resolveBranchAlias(BRANCH_NAME_2)).thenReturn(BRANCH_NAME_2);
+		when(aliasResolver.resolveBranchAlias(ALL_BRANCHES_REGEXP)).thenReturn(ALL_BRANCHES_REGEXP);
 
 		when(aliasResolver.resolveBranchAndBuildAliases(BRANCH_NAME_1, BUILD_NAME_1))
 			.thenReturn(new BuildIdentifier(BRANCH_NAME_1, BUILD_NAME_1));
@@ -132,11 +147,11 @@ public class ComparisonExecutorTest {
 		List<ComparisonConfiguration> result = comparisonExecutor
 			.getComparisonConfigurationsForBaseBranch(BRANCH_NAME_1);
 		assertEquals(NUMBER_OF_COMPARISONS_FOR_BRANCH_1, result.size());
-		assertEquals(comparisonConfiguration1, result.get(0));
-		assertEquals(comparisonConfiguration2, result.get(1));
-		assertEquals(comparisonConfiguration3, result.get(2));
-		assertEquals(comparisonConfiguration4, result.get(3));
-		assertEquals(comparisonConfiguration5, result.get(4));
+		assertThat(result.get(0)).isEqualToComparingFieldByField(comparisonConfiguration1);
+		assertThat(result.get(1)).isEqualToComparingFieldByField(comparisonConfiguration2);
+		assertThat(result.get(2)).isEqualToComparingFieldByField(comparisonConfiguration3);
+		assertThat(result.get(3)).isEqualToComparingFieldByField(comparisonConfiguration4);
+		assertThat(result.get(4)).isEqualToComparingFieldByField(comparisonConfiguration5MatchedForBranch1);
 	}
 
 	@Test
@@ -144,7 +159,8 @@ public class ComparisonExecutorTest {
 		List<ComparisonConfiguration> result = comparisonExecutor
 			.getComparisonConfigurationsForBaseBranch(BRANCH_NAME_2);
 		assertEquals(NUMBER_OF_COMPARISONS_FOR_BRANCH_2, result.size());
-		assertEquals(comparisonConfiguration6, result.get(0));
+		assertThat(result.get(0)).isEqualToComparingFieldByField(comparisonConfiguration5MatchedForBranch2);
+		assertThat(result.get(1)).isEqualToComparingFieldByField(comparisonConfiguration6);
 	}
 
 	// TODO Fix or delete
@@ -187,8 +203,12 @@ public class ComparisonExecutorTest {
 
 	@Test
 	public void testResolveComparisonConfigurationSameBranchAndBuildWithoutAlias() {
+
+		ComparisonConfiguration  config = getComparisonConfiguration(BRANCH_NAME_1,
+			BRANCH_NAME_2, BUILD_NAME_2, COMPARISON_NAME);
+
 		ComparisonConfiguration result = comparisonExecutor.resolveComparisonConfiguration(
-			comparisonConfiguration5, BUILD_NAME_1);
+			config, BUILD_NAME_1);
 		assertEquals(BRANCH_NAME_1, result.getBaseBranchName());
 		assertEquals(BRANCH_NAME_2, result.getComparisonBranchName());
 		assertEquals(BUILD_NAME_2, result.getComparisonBuildName());
@@ -205,12 +225,12 @@ public class ComparisonExecutorTest {
 
 	private static Configuration getTestConfiguration() {
 
-		List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<ComparisonConfiguration>();
+		List<ComparisonConfiguration> comparisonConfigurations = new LinkedList<>();
 		comparisonConfigurations.add(comparisonConfiguration1);
 		comparisonConfigurations.add(comparisonConfiguration2);
 		comparisonConfigurations.add(comparisonConfiguration3);
 		comparisonConfigurations.add(comparisonConfiguration4);
-		comparisonConfigurations.add(comparisonConfiguration5);
+		comparisonConfigurations.add(comparisonConfiguration5WithRegexp);
 		comparisonConfigurations.add(comparisonConfiguration6);
 
 		Configuration configuration = RepositoryLocator.INSTANCE.getConfigurationRepository().getConfiguration();
@@ -233,10 +253,10 @@ public class ComparisonExecutorTest {
 	}
 
 	private List<ObjectFromDirectory<Build>> getBuilds() {
-		List<ObjectFromDirectory<Build>> builds = new LinkedList<ObjectFromDirectory<Build>>();
-		builds.add(new ObjectFromDirectory<Build>(build1, ROOT_DIRECTORY.getName()));
-		builds.add(new ObjectFromDirectory<Build>(build2, ROOT_DIRECTORY.getName()));
-		builds.add(new ObjectFromDirectory<Build>(build3, ROOT_DIRECTORY.getName()));
+		List<ObjectFromDirectory<Build>> builds = new LinkedList<>();
+		builds.add(new ObjectFromDirectory<>(build1, ROOT_DIRECTORY.getName()));
+		builds.add(new ObjectFromDirectory<>(build2, ROOT_DIRECTORY.getName()));
+		builds.add(new ObjectFromDirectory<>(build3, ROOT_DIRECTORY.getName()));
 		return builds;
 	}
 

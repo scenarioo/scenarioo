@@ -15,11 +15,15 @@ This file lists the changes in newer versions of scenarioo.
 
 Improvements to the Diff Viewer:
 
-* [#602 - Removed Dependency to GraphicMagick](https://github.com/scenarioo/scenarioo/issues/602): GraphicMagick needs not to be installed anymore to use the DiffViewer feature.
-* [#618 - New DiffViewer Internal Diff Screen Format](https://github.com/scenarioo/scenarioo/issues/618) The comparison builds need now less disk space because only a difference image per screenshot is stored. Needs reimport of builds to see comparisons again, see [Migration Guide](docs/setup/Migration-Guide.md).
-* [#597 - Store diff information directly inside build](https://github.com/scenarioo/scenarioo/issues/597): Also the comparisons are stored now inside the belonging build directories, such that the diffs get automatically cleaned up when deleting a build. Breaking change, see [Migration Guide](docs/setup/Migration-Guide.md).
+* [#650 - Manage Comparisons View](https://github.com/scenarioo/scenarioo/issues/650): To see all calculated comparisons, their error logs and have the ability to trigger a comparison for recalculation if needed.
+* [#692 - Create Comparison Manually through the Web Frontend](https://github.com/scenarioo/scenarioo/issues/692): user can create a comparison through a modal dialog.
 * [#603 - Improved Comparison View](https://github.com/scenarioo/scenarioo/issues/603) to understand the comparison of two screenshots and the possible comparison view options better. Also highlighting of changes is now available in both screenshots.
 * [#596 - Configure Highlight Color for Changes in DiffViewer Comparison Screenshots](https://github.com/scenarioo/scenarioo/issues/596): new config property `diffImageColorRgbaHex` to customize the highlight color.
+* [#673 - Comparison Configurations with Regexp for base branches to compare](https://github.com/scenarioo/scenarioo/issues/673): allow to define comparisons against another build to be calculated on multiple branches selected by regexp (e.g. for all feature branches)
+* [#604 - Background Calculation of Comparisons](https://github.com/scenarioo/scenarioo/issues/604): to not block builds from being imported while a comparison is computed.
+* [#597 - Store diff information directly inside build](https://github.com/scenarioo/scenarioo/issues/597): Also the comparisons are stored now inside the belonging build directories, such that the diffs get automatically cleaned up when deleting a build. Breaking change, see [Migration Guide](docs/setup/Migration-Guide.md).
+* [#602 - Removed Dependency to GraphicMagick](https://github.com/scenarioo/scenarioo/issues/602): GraphicMagick needs not to be installed anymore to use the DiffViewer feature.
+* [#618 - New DiffViewer Internal Diff Screen Format](https://github.com/scenarioo/scenarioo/issues/618) The comparison builds need now less disk space because only a difference image per screenshot is stored. Needs reimport of builds to see comparisons again, see [Migration Guide](docs/setup/Migration-Guide.md).
 * [#577 - Avoid Null Pointer Exceptions](https://github.com/scenarioo/scenarioo/issues/577): Do not log null pointer exceptions when there is just no step to compare too.
 
 ### Features "Small Improvements & Fixes"

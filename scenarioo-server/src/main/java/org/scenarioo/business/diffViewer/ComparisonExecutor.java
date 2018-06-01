@@ -127,12 +127,7 @@ public class ComparisonExecutor {
 		LOGGER.info("Scheduling Comparison of build for background calculation: \n"
 			+ "     " + getComparisonConfigString(baseBranchName, baseBuildName, comparisonConfiguration));
 
-		Future<BuildDiffInfo> futureComparison = asyncComparisonExecutor.submit(new Callable<BuildDiffInfo>() {
-			@Override
-			public BuildDiffInfo call() {
-				return calculateComparison(baseBranchName, baseBuildName, comparisonConfiguration);
-			}
-		});
+		Future<BuildDiffInfo> futureComparison = asyncComparisonExecutor.submit(() -> calculateComparison(baseBranchName, baseBuildName, comparisonConfiguration));
 
 		ComparisonParameters comparisonParameters = new ComparisonParameters(baseBranchName, baseBuildName, comparisonConfiguration,
 			configurationRepository.getConfiguration().getDiffImageAwtColor());
@@ -241,16 +236,15 @@ public class ComparisonExecutor {
 		return logAppender;
 	}
 
-	private BuildDiffInfo storeAndLogComparisonSkipped(ComparisonParameters comparisonParameters) {
+	private void storeAndLogComparisonSkipped(ComparisonParameters comparisonParameters) {
 		LOGGER.warn("No comparison build found for base build: " + comparisonParameters.getBaseBranchName()
 			+ "/" + comparisonParameters.getBaseBuildName()
 			+ " with defined comparison: " + comparisonParameters.getComparisonConfiguration().getName());
-		BuildDiffInfo buildDiffInfo = saveBuildDiffInfoWithStatus(comparisonParameters, ComparisonCalculationStatus.SKIPPED);
+		saveBuildDiffInfoWithStatus(comparisonParameters, ComparisonCalculationStatus.SKIPPED);
 		LOGGER.info("SKIPPED comparing base build: " + comparisonParameters.getBaseBranchName()
 			+ "/" + comparisonParameters.getBaseBuildName()
 			+ " with defined comparison: " + comparisonParameters.getComparisonConfiguration().getName());
 		LOGGER.info("=== END OF BUILD COMPARISON (skipped) ===");
-		return buildDiffInfo;
 	}
 
 	private void storeComparisonAsProcessing(ComparisonParameters comparisonParameters) {
@@ -327,17 +321,17 @@ public class ComparisonExecutor {
 	/**
 	 * Reads the reloaded xml configuration and returns all comparison configurations for the given base branch.
 	 */
-	synchronized List<ComparisonConfiguration> getComparisonConfigurationsForBaseBranch(
-		String baseBranchName) {
+	synchronized List<ComparisonConfiguration> getComparisonConfigurationsForBaseBranch(String baseBranchName) {
 		List<ComparisonConfiguration> comparisonConfigurationsForBaseBranch = new LinkedList<>();
 
 		List<ComparisonConfiguration> comparisonConfigurations = configurationRepository.getConfiguration()
 			.getComparisonConfigurations();
 		String resolvedBaseBranchName = aliasResolver.resolveBranchAlias(baseBranchName);
 		for (ComparisonConfiguration comparisonConfiguration : comparisonConfigurations) {
-			String resolvedComparisonBranchName = aliasResolver.resolveBranchAlias(comparisonConfiguration.getBaseBranchName());
-			if (resolvedBaseBranchName.equals(resolvedComparisonBranchName)) {
-				comparisonConfigurationsForBaseBranch.add(comparisonConfiguration);
+			String resolvedConfigurationBaseBranchName = aliasResolver.resolveBranchAlias(comparisonConfiguration.getBaseBranchName());
+			if (resolvedBaseBranchName.equals(resolvedConfigurationBaseBranchName)
+				|| resolvedBaseBranchName.matches(resolvedConfigurationBaseBranchName)) {
+				comparisonConfigurationsForBaseBranch.add(new ComparisonConfiguration(comparisonConfiguration, resolvedBaseBranchName));
 			}
 		}
 		return comparisonConfigurationsForBaseBranch;
@@ -357,21 +351,21 @@ public class ComparisonExecutor {
 		String lastSuccessFulAlias = configurationRepository.getConfiguration().getAliasForLastSuccessfulBuild();
 		String mostRecentAlias = configurationRepository.getConfiguration().getAliasForMostRecentBuild();
 
+		String baseBranchName = this.aliasResolver.resolveBranchAlias(comparisonConfiguration.getBaseBranchName());
+		String comparisonBranchName = this.aliasResolver.resolveBranchAlias(comparisonConfiguration.getComparisonBranchName());
+		boolean isBuildsFromSameBranch = baseBranchName.equals(comparisonBranchName);
+		boolean isComparisonToLastSuccessBuild = comparisonConfiguration.getComparisonBuildName().equals(lastSuccessFulAlias);
+		boolean isComparisonToMostRecentBuild = comparisonConfiguration.getComparisonBuildName().equals(mostRecentAlias);
+		boolean isComparisonToBuildAlias = isComparisonToLastSuccessBuild ||isComparisonToMostRecentBuild;
+
 		BuildIdentifier comparisonBuildIdentifier;
 
-		if (comparisonConfiguration.getComparisonBuildName().equals(lastSuccessFulAlias) &&
-			comparisonConfiguration.getBaseBranchName().equals(comparisonConfiguration.getComparisonBranchName())) {
-
+		if 	(isBuildsFromSameBranch && isComparisonToBuildAlias) {
+			// In this case we have to interpret the aliases "last succesful" or "most recent" relative to current build.
 			comparisonBuildIdentifier = getPreviousBuildIdentifier(
-				comparisonConfiguration, baseBuildName, true);
-
-		} else if (comparisonConfiguration.getComparisonBuildName().equals(mostRecentAlias) &&
-			comparisonConfiguration.getBaseBranchName().equals(comparisonConfiguration.getComparisonBranchName())) {
-
-			comparisonBuildIdentifier = getPreviousBuildIdentifier(
-				comparisonConfiguration, baseBuildName, false);
-
+					comparisonConfiguration, baseBuildName, isComparisonToLastSuccessBuild);
 		} else {
+			// Otherwise simply resolve with usual alias resolving to current defined aliases
 			comparisonBuildIdentifier = this.aliasResolver.resolveBranchAndBuildAliases(
 				comparisonConfiguration.getComparisonBranchName(),
 				comparisonConfiguration.getComparisonBuildName());

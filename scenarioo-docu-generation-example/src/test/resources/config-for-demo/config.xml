@@ -58,6 +58,18 @@
     </branchAliases>
 	<comparisonConfigurations>
         <comparisonConfiguration>
+            <name>To Develop</name>
+            <baseBranchName>scenarioo-feature-.*</baseBranchName>
+            <comparisonBranchName>scenarioo-develop</comparisonBranchName>
+            <comparisonBuildName>last successful</comparisonBuildName>
+        </comparisonConfiguration>
+        <comparisonConfiguration>
+            <name>To Last Release</name>
+            <baseBranchName>scenarioo-develop</baseBranchName>
+            <comparisonBranchName>scenarioo-master</comparisonBranchName>
+            <comparisonBuildName>last successful</comparisonBuildName>
+        </comparisonConfiguration>
+        <comparisonConfiguration>
             <name>To last successful</name>
             <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
             <comparisonBranchName>wikipedia-docu-example</comparisonBranchName>
@@ -71,13 +83,7 @@
         </comparisonConfiguration>
 		<comparisonConfiguration>
             <name>To Projectstart</name>
-            <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
-            <comparisonBranchName>Production</comparisonBranchName>
-            <comparisonBuildName>2014-01-20</comparisonBuildName>
-        </comparisonConfiguration>
-		<comparisonConfiguration>
-            <name>To Projectstart</name>
-            <baseBranchName>wikipedia-docu-example</baseBranchName>
+            <baseBranchName>wikipedia-docu-.*</baseBranchName>
             <comparisonBranchName>Production</comparisonBranchName>
             <comparisonBuildName>2014-01-20</comparisonBuildName>
         </comparisonConfiguration>
