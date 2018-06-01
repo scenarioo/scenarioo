@@ -336,7 +336,8 @@ public class ComparisonExecutor {
 		String resolvedBaseBranchName = aliasResolver.resolveBranchAlias(baseBranchName);
 		for (ComparisonConfiguration comparisonConfiguration : comparisonConfigurations) {
 			String resolvedComparisonBranchName = aliasResolver.resolveBranchAlias(comparisonConfiguration.getBaseBranchName());
-			if (resolvedBaseBranchName.equals(resolvedComparisonBranchName)) {
+			if (resolvedBaseBranchName.equals(resolvedComparisonBranchName)
+				|| resolvedBaseBranchName.matches(resolvedComparisonBranchName)) {
 				comparisonConfigurationsForBaseBranch.add(comparisonConfiguration);
 			}
 		}
