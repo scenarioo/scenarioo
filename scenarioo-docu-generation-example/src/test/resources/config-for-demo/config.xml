@@ -59,7 +59,7 @@
 	<comparisonConfigurations>
         <comparisonConfiguration>
             <name>To Develop</name>
-            <baseBranchName>scenarioo-feature-*</baseBranchName>
+            <baseBranchName>scenarioo-feature-.*</baseBranchName>
             <comparisonBranchName>scenarioo-develop</comparisonBranchName>
             <comparisonBuildName>last successful</comparisonBuildName>
         </comparisonConfiguration>
