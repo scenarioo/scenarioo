@@ -45,8 +45,12 @@ Register as a service using the start script in ./servicescripts/elasticsearch5.
 
 To avoid this error message: `max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]`
 
-Configure: 
+Temporary configuration: 
 
 `sudo sysctl -w vm.max_map_count=262144`
+
+Permanent configuration:
+
+Change the value in `/etc/sysctl.conf` to `vm.max_map_count=262144`
 
 Source: https://github.com/docker-library/elasticsearch/issues/111
