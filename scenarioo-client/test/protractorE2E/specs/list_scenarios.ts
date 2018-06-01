@@ -24,19 +24,19 @@ useCase('List scenarios')
         scenario('Expand all, collapse all on scenario page')
             .it(async () => {
                 await Utils.navigateToRoute('/');
-                step('select a use case from the use case list');
+                await step('select a use case from the use case list');
                 await HomePage.assertPageIsDisplayed();
                 await HomePage.assertUseCasesShown(NUMBER_OF_USE_CASES);
                 await HomePage.selectUseCase(SECOND_USE_CASE);
-                step('select a scenario in the scenario list');
+                await step('select a scenario in the scenario list');
                 await UsecasePage.selectScenario(0);
-                step('all pages are collapsed by default, "expand all" button is visible');
+                await step('all pages are collapsed by default, "expand all" button is visible');
                 await ScenarioPage.expectOnlyExpandAllButtonIsDisplayed();
                 await ScenarioPage.toggleShowAllStepsOfPage(0);
-                step('"expand all" button and "collapse all" button are both visible');
+                await step('"expand all" button and "collapse all" button are both visible');
                 await ScenarioPage.expectExpandAllAndCollapseAllButtonBothDisplayed();
                 await ScenarioPage.toggleShowAllStepsOfPage(1);
-                step('Only "collapse all" visible');
+                await step('Only "collapse all" visible');
                 await ScenarioPage.expectOnlyCollapseAllButtonIsDisplayed();
             });
 
@@ -44,12 +44,12 @@ useCase('List scenarios')
             .labels(['diff-viewer'])
             .it(async () => {
                 await Utils.navigateToRoute('/');
-                step('display usecases on homepage');
+                await step('display usecases on homepage');
                 await HomePage.assertPageIsDisplayed();
                 await NavigationPage.chooseComparison(COMPARISON_PROJECTSTART);
-                step('To Projectstart comparison selected');
+                await step('To Projectstart comparison selected');
                 await HomePage.selectUseCase(SECOND_USE_CASE);
-                step('Use Case selected');
+                await step('Use Case selected');
 
                 await UsecasePage.assertNumberOfDiffInfos(NUMBER_OF_SCENARIOS);
                 await NavigationPage.disableComparison();
@@ -59,20 +59,20 @@ useCase('List scenarios')
             .labels(['diff-viewer'])
             .it(async () => {
                 await Utils.navigateToRoute('/');
-                step('display usecases on homepage');
+                await step('display usecases on homepage');
                 await HomePage.assertPageIsDisplayed();
                 await NavigationPage.chooseComparison('To Projectstart');
-                step('To Projectstart comparison selected');
+                await step('To Projectstart comparison selected');
                 await HomePage.selectUseCase(SECOND_USE_CASE);
-                step('Use Case selected');
+                await step('Use Case selected');
 
                 await UsecasePage.sortByChanges();
                 await UsecasePage.assertLastUseCase(SCENARIO_WITH_HIGHEST_DIFF);
-                step('Diff Infos sorted ascending');
+                await step('Diff Infos sorted ascending');
 
                 await UsecasePage.sortByChanges();
                 await UsecasePage.assertFirstUseCase(SCENARIO_WITH_HIGHEST_DIFF);
-                step('Diff Infos sorted descending');
+                await step('Diff Infos sorted descending');
                 await NavigationPage.disableComparison();
             });
     });

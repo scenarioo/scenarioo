@@ -18,7 +18,7 @@ useCase('Step - Screen Annotations')
                 await Utils.navigateToRoute('/step/Find Page/find_multiple_results/startSearch.jsp/0/0');
                 await StepPage.assertScreenshotIsShown();
                 await StepPage.assertNoScreenAnnotationsArePresent();
-                step('No screen annotations are shown');
+                await step('No screen annotations are shown');
             });
 
         scenario('Screen with annotations')
@@ -27,7 +27,7 @@ useCase('Step - Screen Annotations')
                 await Utils.navigateToRoute('/step/Find Page/find_multiple_results/startSearch.jsp/0/1');
                 await StepPage.assertScreenshotIsShown();
                 await StepPage.assertNumberOfVisibleScreenAnnotationsIs(2);
-                step('Two screen annotations are shown');
+                await step('Two screen annotations are shown');
             });
 
         scenario('Show and hide annotations')
@@ -36,15 +36,15 @@ useCase('Step - Screen Annotations')
                 await Utils.navigateToRoute('/step/Find Page/find_multiple_results/startSearch.jsp/0/1');
                 await StepPage.assertScreenshotIsShown();
                 await StepPage.assertNumberOfVisibleScreenAnnotationsIs(2);
-                step('Two screen annotations are shown');
+                await step('Two screen annotations are shown');
 
                 await StepPage.clickShowScreenAnnotationsButton();
                 await StepPage.assertNoScreenAnnotationsAreVisible();
-                step('Screen annotations are hidden');
+                await step('Screen annotations are hidden');
 
                 await StepPage.clickShowScreenAnnotationsButton();
                 await StepPage.assertNumberOfVisibleScreenAnnotationsIs(2);
-                step('Two screen annotations are shown');
+                await step('Two screen annotations are shown');
             });
 
         scenario('Popup')
@@ -53,12 +53,12 @@ useCase('Step - Screen Annotations')
                 await Utils.navigateToRoute('/step/Technical%20Corner%20Cases/dummy_scenario_with_screen_annotations_of_all_types_on_one_page/specialPageWithOnlyOneVariant.jsp/0/1');
                 await StepPage.assertScreenshotIsShown();
                 await StepPage.assertNumberOfVisibleScreenAnnotationsIs(11);
-                step('Eleven screen annotations are shown');
+                await step('Eleven screen annotations are shown');
 
                 await StepPage.clickFirstScreenAnnotation();
                 await StepPage.assertScreenAnnotationPopupIsDisplayed();
                 await StepPage.assertTitleOfAnnotationPopupIs('  DEFAULT-Annotation \'Life Is Beautiful\'');
-                step('Popup is shown');
+                await step('Popup is shown');
             });
 
     });

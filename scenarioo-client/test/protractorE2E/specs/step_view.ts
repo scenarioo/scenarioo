@@ -24,13 +24,13 @@ useCase('Step - View')
                 const ROUTE_OF_THIRD_STEP = '/step/Find%20Page/find_no_results/searchResults.jsp/0/0';
 
                 await Utils.navigateToRoute('/');
-                step('Display home page with list of use cases');
+                await step('Display home page with list of use cases');
 
                 await HomePage.selectUseCase(1);
-                step('Display list of scenarios');
+                await step('Display list of scenarios');
 
                 await UsecasePage.selectScenario(1);
-                step('Display one scenario');
+                await step('Display one scenario');
 
                 await ScenarioPage.openStepByName('Step 1: Wikipedia Suche');
                 await Utils.assertRoute(ROUTE_OF_FIRST_STEP);
@@ -38,7 +38,7 @@ useCase('Step - View')
                 await StepPage.assertPreviousPageIsDisabled();
                 await StepPage.assertNextStepIsEnabled();
                 await StepPage.assertNextPageIsEnabled();
-                step('First step of scenario. Back buttons are disabled.');
+                await step('First step of scenario. Back buttons are disabled.');
 
                 await StepPage.goToNextStep();
                 await Utils.assertRoute(ROUTE_OF_SECOND_STEP);
@@ -46,7 +46,7 @@ useCase('Step - View')
                 await StepPage.assertPreviousPageIsDisabled();
                 await StepPage.assertNextStepIsEnabled();
                 await StepPage.assertNextPageIsEnabled();
-                step('Second step of scenario. Previous step button is now active.');
+                await step('Second step of scenario. Previous step button is now active.');
 
                 await StepPage.goToNextPage();
                 await Utils.assertRoute(ROUTE_OF_THIRD_STEP);
@@ -54,7 +54,7 @@ useCase('Step - View')
                 await StepPage.assertPreviousPageIsEnabled();
                 await StepPage.assertNextStepIsDisabled();
                 await StepPage.assertNextPageIsDisabled();
-                step('Second step of scenario. Previous step button is now active.');
+                await step('Second step of scenario. Previous step button is now active.');
 
                 await StepPage.goToPreviousStep();
                 await Utils.assertRoute(ROUTE_OF_SECOND_STEP);
@@ -64,7 +64,7 @@ useCase('Step - View')
                 await StepPage.assertPreviousPageIsDisabled();
                 await StepPage.assertNextStepIsEnabled();
                 await StepPage.assertNextPageIsEnabled();
-                step('Back on the first step.');
+                await step('Back on the first step.');
             });
 
         scenario('Step does not exist')
@@ -72,7 +72,7 @@ useCase('Step - View')
             .it(async () => {
                 await Utils.navigateToRoute('/step/Find Page/find_no_results/inexistent_page.jsp/0/42');
                 await StepPage.assertErrorMessageIsShown();
-                step('Error message.');
+                await step('Error message.');
             });
 
         scenario('Fallback step exists')
@@ -81,7 +81,7 @@ useCase('Step - View')
                 await Utils.navigateToRoute('/step/Find%20Page/renamed_scenario/searchResults.jsp/0/0');
                 await StepPage.assertFallbackMessageIsShown();
                 await StepPage.assertFallbackMessageContainsText('Scenario: find_multiple_results');
-                step('Fallback message.');
+                await step('Fallback message.');
             });
 
         scenario('Fallback to best match')
@@ -92,18 +92,18 @@ useCase('Step - View')
                 await StepPage.assertFallbackMessageContainsText('Usecase: Switch Language');
                 await StepPage.assertFallbackMessageContainsText('Scenario: search_article_in_german_and_switch_to_spanish');
                 await StepPage.assertScenarioLabelsContain('i18n');
-                step('Of the 10 page variants, a fallback step with an i18n label is returned.');
+                await step('Of the 10 page variants, a fallback step with an i18n label is returned.');
             });
 
         scenario('Share step')
             .description('The step link popup shows the link to the step and to the image.')
             .it(async () => {
                 await Utils.navigateToRoute('/step/Find Page/find_no_results/startSearch.jsp/0/0');
-                step('A step.');
+                await step('A step.');
 
                 await StepPage.clickShareThisPageLink();
                 await StepPage.assertStepLinksDialogVisible();
-                step('Step links dialog.');
+                await step('Step links dialog.');
             });
 
         scenario('Metadata with link to object')
@@ -111,7 +111,7 @@ useCase('Step - View')
             .it(async () => {
                 await Utils.navigateToRoute('/step/Find%20Page/find_no_results/startSearch.jsp/0/0');
                 await StepPage.openMetadataTabIfClosed(1);
-                step('Expand Call tree panel');
+                await step('Expand Call tree panel');
 
                 await StepPage.clickOnLink('uiAction_example.action.StartInitAction');
                 await StepPage.assertToolTipInBreadcrumb('uiAction: example.action.StartInitAction');
@@ -121,15 +121,15 @@ useCase('Step - View')
             .description('If the step data contains html source data, it should be displayed in the HTML tab')
             .it(async () => {
                 await Utils.navigateToRoute('/step/Find%20Page/find_no_results/startSearch.jsp/0/0');
-                step('A step');
+                await step('A step');
 
                 await StepPage.clickHtmlTabButton();
-                step('Switch to HTML tab');
+                await step('Switch to HTML tab');
 
                 await StepPage.assertHtmlSourceEquals('<html>\n<head>\n</head>\n<body>\n   <p>just some dummy html code</p>\n</body>\n</html>');
 
                 await StepPage.clickScreenshotTabButton();
-                step('Switch back to Screenshot tab');
+                await step('Switch back to Screenshot tab');
             });
 
         scenario('Step without HTML source attached')
@@ -137,7 +137,7 @@ useCase('Step - View')
             .it(async () => {
                 await Utils.navigateToRoute('/step/Donate/find_donate_page/startSearch.jsp/0/0');
                 await StepPage.assertHtmlTabIsHidden();
-                step('A step with no HTML source attached');
+                await step('A step with no HTML source attached');
             });
 
     });

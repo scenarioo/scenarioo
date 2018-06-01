@@ -19,18 +19,18 @@ useCase('Manage branch aliases')
             .description('Branch aliases can be added and removed')
             .it(async () => {
                 await BranchAliasesPage.goToPage();
-                step('display the manage branch aliases page');
+                await step('display the manage branch aliases page');
 
                 await BranchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
                 await BranchAliasesPage.enterAlias('Test Alias 1', 'wikipedia-docu-example', 'my description 1');
                 await BranchAliasesPage.enterAlias('Test Alias 2', 'wikipedia-docu-example', 'my description 2');
                 await BranchAliasesPage.saveAndAssertSuccessMessage();
-                step('saved build aliases');
+                await step('saved build aliases');
 
                 await BranchAliasesPage.reset();
                 await BranchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG + 2);
                 await BranchAliasesPage.openBranchSelectionMenu();
-                step('open branch menu with aliases');
+                await step('open branch menu with aliases');
                 await BranchAliasesPage.assertAliasesAreShownFirstInTheNavigationMenu();
 
                 await BranchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
@@ -38,16 +38,16 @@ useCase('Manage branch aliases')
                 await BranchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG + 1);
                 await BranchAliasesPage.reset();
                 await BranchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG + 1);
-                step('removed first test alias');
+                await step('removed first test alias');
 
                 await BranchAliasesPage.updateAlias(FIRST_TEST_ALIAS_INDEX, 'updated alias', 'wikipedia-docu-example', 'updated description');
                 await BranchAliasesPage.saveAndAssertSuccessMessage();
-                step('updated first test alias');
+                await step('updated first test alias');
 
                 await BranchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
                 await BranchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);
                 await BranchAliasesPage.saveAndAssertSuccessMessage();
-                step('all test aliases removed');
+                await step('all test aliases removed');
             });
 
         scenario('Validation')
@@ -57,7 +57,7 @@ useCase('Manage branch aliases')
                 await BranchAliasesPage.assertNumberOfAliases(NUMBER_OF_ALIASES_IN_CONFIG);
                 await BranchAliasesPage.enterAlias('Test', '', 'my description');
                 await BranchAliasesPage.assertSaveNotPossible();
-                step('saving not possible because referenced branch is not selected');
+                await step('saving not possible because referenced branch is not selected');
             });
 
         scenario('Unique aliases')
@@ -71,7 +71,7 @@ useCase('Manage branch aliases')
                 await BranchAliasesPage.enterAlias('duplicate', 'wikipedia-docu-example', 'duplicate alias name');
                 await BranchAliasesPage.save();
                 await BranchAliasesPage.assertDuplicateAliasError();
-                step('duplicate aliases are not allowed');
+                await step('duplicate aliases are not allowed');
 
                 await BranchAliasesPage.reset();
                 await BranchAliasesPage.deleteAlias(FIRST_TEST_ALIAS_INDEX);

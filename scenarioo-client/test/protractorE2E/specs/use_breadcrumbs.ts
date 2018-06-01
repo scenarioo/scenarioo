@@ -18,38 +18,38 @@ useCase('Use breadcrumbs')
             .description('Navigate to the Home Page, filter for one use case, select scenario, click on breadcrumb')
             .it(async () => {
                 await Utils.navigateToRoute('/');
-                step('Display the homePage');
+                await step('Display the homePage');
 
                 await HomePage.assertPageIsDisplayed();
                 await HomePage.filterUseCases('User wants');
-                step('Enter filter criteria in use case overview');
+                await step('Enter filter criteria in use case overview');
 
                 await HomePage.assertUseCasesShown(1);
-                step('One use case found');
+                await step('One use case found');
 
                 await HomePage.selectUseCase(0);
-                step('Selected found use case');
+                await step('Selected found use case');
 
                 await UsecasePage.selectScenario(3);
-                step('Selected scenario');
+                await step('Selected scenario');
 
                 await BreadcrumbsPage.assertBreadcrumbElementText('breadcrumb_1', 'Find Page');
                 await BreadcrumbsPage.clickOnBreadcrumb('breadcrumb_1');
-                step('Clicked on use case in breadcrumb');
+                await step('Clicked on use case in breadcrumb');
 
                 await BreadcrumbsPage.clickOnBreadcrumb('breadcrumb_0');
-                step('Clicked on home breadcrumb');
+                await step('Clicked on home breadcrumb');
             });
 
         scenario('Tooltip in breadcrumbs')
             .description('Navigate to scenario and test for tooltip')
             .it(async () => {
                 await Utils.navigateToRoute('/step/Find%20Page/find_page_with_text_on_page_from_multiple_results/searchResults.jsp/0/0');
-                step('Display steps and pages');
+                await step('Display steps and pages');
 
                 await BreadcrumbsPage.assertThatTooltipIsShown('tooltip_2', 'Scenario: Find page with ' +
                     'text on page from multiple results');
-                step('Test that tooltip explicit exists');
+                await step('Test that tooltip explicit exists');
             });
 
     });

@@ -12,19 +12,19 @@ useCase('Application Startup')
             .description('About dialog open on first access to Scenarioo to welcome new user.')
             .it(async () => {
                 await Utils.startScenariooFirstTimeVisit();
-                step('About dialog is displayed on first access of Scenarioo');
+                await step('About dialog is displayed on first access of Scenarioo');
                 await HomePage.assertPageIsDisplayed();
                 await HomePage.assertScenariooInfoDialogShown();
                 await HomePage.closeScenariooInfoDialogIfOpen();
                 await HomePage.assertScenariooInfoDialogNotShown();
-                step('About dialog is closed');
+                await step('About dialog is closed');
             });
 
         scenario('Later visits')
             .description('About dialog not open when previously visited.')
             .it(async () => {
                 await Utils.startScenariooRevisited();
-                step('About dialog not visible for previous visitors');
+                await step('About dialog not visible for previous visitors');
                 await HomePage.assertPageIsDisplayed();
                 await HomePage.assertScenariooInfoDialogNotShown();
             });

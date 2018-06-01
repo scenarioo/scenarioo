@@ -26,7 +26,7 @@ useCase('List steps of scenario')
                 await ScenarioPage.assertRemovedStepDiffIconTextEqualsRemoved();
                 await ScenarioPage.assertAddedPageDiffIconTextEqualsAdded();
                 await ScenarioPage.assertRemovedPageDiffIconTextEqualsRemoved();
-                step('Display one scenario');
+                await step('Display one scenario');
                 await NavigationPage.disableComparison();
             });
     });

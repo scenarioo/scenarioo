@@ -15,13 +15,13 @@ useCase('List custom tabs')
         scenario('Display and filter pages')
             .it(async () => {
                 await Utils.navigateToRoute('/');
-                step('display the homePage');
+                await step('display the homePage');
                 await HomePage.selectPagesTab();
                 await HomePage.assertPagesTabContainsPage('startSearch.jsp');
-                step('select the custom tab for pages');
+                await step('select the custom tab for pages');
                 await HomePage.filterPages('startSearch');
                 await HomePage.assertCustomTabEntriesShown(1);
-                step('filter by name of the page');
+                await step('filter by name of the page');
             });
 
     });

@@ -15,22 +15,22 @@ useCase('Configure label colors')
         scenario('Create, edit and delete label configurations')
             .it(async () => {
                 await LabelConfigurationsPage.navigateToPage();
-                step('show label configurations');
+                await step('show label configurations');
 
                 await LabelConfigurationsPage.assertNumConfigurations(0);
 
                 await LabelConfigurationsPage.addLabelConfiguration('corner-case', 5);
-                step('add label configuration');
+                await step('add label configuration');
 
                 await Utils.navigateToRoute('/');
-                step('navigate away from the label config page to some other page');
+                await step('navigate away from the label config page to some other page');
 
                 await LabelConfigurationsPage.navigateToPage();
                 await LabelConfigurationsPage.assertNumConfigurations(1);
-                step('go back to label config page, label is still there');
+                await step('go back to label config page, label is still there');
 
                 await LabelConfigurationsPage.updateLabelConfiguration(0, 'updated', 4);
-                step('update label configuration');
+                await step('update label configuration');
 
                 await LabelConfigurationsPage.deleteLabelConfiguration(0);
 

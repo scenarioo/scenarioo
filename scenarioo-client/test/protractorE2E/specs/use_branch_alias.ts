@@ -27,17 +27,17 @@ useCase('Use branch aliases')
                 await BranchAliasesPage.goToPage();
                 await BranchAliasesPage.enterAlias('Latest dev', 'wikipedia-docu-example', 'alias to latest development release');
                 await BranchAliasesPage.save();
-                step('Create new branch alias');
+                await step('Create new branch alias');
 
                 await NavigationPage.chooseBranch('Latest dev');
-                step('choose branch alias');
+                await step('choose branch alias');
 
                 await Utils.navigateToRoute('/');
                 await HomePage.selectUseCase(1);
                 await UsecasePage.selectScenario(0);
                 await ScenarioPage.openStepByName('Step 1: Wikipedia Suche');
                 await StepPage.assertPreviousStepIsDisabled();
-                step('browse step using branch alias');
+                await step('browse step using branch alias');
 
                 // Restore initial state for other tests
                 await BranchAliasesPage.goToPage();
