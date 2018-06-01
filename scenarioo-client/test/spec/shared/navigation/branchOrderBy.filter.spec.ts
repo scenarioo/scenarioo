@@ -55,7 +55,7 @@ describe('Filter scBranchOrderBy', function () {
 
     var scBranchOrderByFilter;
 
-    beforeEach(function () {
+    beforeEach(async function () {
         angular.mock.module('scenarioo.controllers');
         angular.mock.module('scenarioo.services');
         angular.mock.module('scenarioo.filters');
@@ -79,7 +79,7 @@ describe('Filter scBranchOrderBy', function () {
 
 
     describe('should handle invalid input gracefully:', function () {
-        beforeEach(function () {
+        beforeEach(async function () {
             initConfig(CFG_LAST_BUILD_DATE_DESCENDING);
         });
 
@@ -98,7 +98,7 @@ describe('Filter scBranchOrderBy', function () {
     });
 
     describe('should order given branch resource objects by last-build-date-descending:', function () {
-        beforeEach(function () {
+        beforeEach(async function () {
             initConfig(CFG_LAST_BUILD_DATE_DESCENDING);
         });
 
@@ -232,7 +232,7 @@ describe('Filter scBranchOrderBy', function () {
 
     describe('should order given branch resource objects by name-ascending:', function () {
 
-        beforeEach(function () {
+        beforeEach(async function () {
             initConfig(CFG_NAME_ASCENDING);
         });
 
@@ -249,7 +249,7 @@ describe('Filter scBranchOrderBy', function () {
 
     describe('Should order given branch resource objects by name ascending as a default', function () {
 
-        beforeEach(function () {
+        beforeEach(async function () {
             initConfig(CFG_PROP_NOT_SET);
         });
 
@@ -266,7 +266,7 @@ describe('Filter scBranchOrderBy', function () {
 
     describe('should order given branch resource objects by name-descending:', function () {
 
-        beforeEach(function () {
+        beforeEach(async function () {
             initConfig(CFG_NAME_DESCENDING);
         });
 

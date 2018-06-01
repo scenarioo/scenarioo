@@ -1,67 +1,57 @@
 'use strict';
-import {browser, by, element} from "protractor";
 
-var BaseWebPage = require('./baseWebPage'),
-    util = require('util');
+import { by, element, ElementFinder, $ } from 'protractor';
+import * as Utils from '../util/util';
 
-function LabelConfigurationsPage(overridePath) {
-    if (overridePath && overridePath.length > 0) {
-        BaseWebPage.call(this, overridePath);
-    } else {
-        BaseWebPage.call(this, '/manage?tab=labelConfigurations');
+class LabelConfigurationsPage {
+
+    private labelConfigurationsTable = element(by.id('label-configurations-table'));
+    private saveButton = $('input.btn[value="Save"]');
+    private savedSuccessfullyText = element(by.id('changed-label-config-successfully'));
+
+    async navigateToPage() {
+        return Utils.navigateToRoute('/manage?tab=labelConfigurations');
     }
 
-    this.labelConfigurationsTable = element(by.id('label-configurations-table'));
-    this.saveButton = element(by.css('input.btn[value="Save"]'));
-    this.resetButton = element(by.css('input.btn[value="Reset"]'));
-    this.savedSuccessfullyText = element(by.id('changed-label-config-successfully'));
+    async assertNumConfigurations(expectedCount) {
+        const tableElement = element(by.id('label-configurations-table'));
+        // adding one, because there's always an empty row
+        return Utils.assertNumberOfTableRows(tableElement, expectedCount + 1);
+    }
+
+    async addLabelConfiguration(labelName, colorIndex) {
+        const elements = this.labelConfigurationsTable.all(by.css('tbody tr'));
+        const numberOfElements = await elements.count();
+        const lastRow = elements.get(numberOfElements - 1);
+        const labelNameField = lastRow.$('input[name="labelName"]');
+        const colors = lastRow.all(by.css('ul li span'));
+        await colors.get(colorIndex).click();
+        await labelNameField.sendKeys(labelName);
+
+        await this.saveButton.click();
+        return expect(this.savedSuccessfullyText.isDisplayed()).toBe(true);
+    }
+
+    async updateLabelConfiguration(rowIndex, labelName, colorIndex) {
+        const elements = this.labelConfigurationsTable.all(by.css('tbody tr'));
+        const row = elements.get(rowIndex);
+        const labelNameField = row.$('input[name="labelName"]');
+        const colors = row.all(by.css('ul li span'));
+        await colors.get(colorIndex).click();
+
+        await labelNameField.clear();
+        await labelNameField.sendKeys(labelName);
+
+        return this.saveButton.click();
+    }
+
+    async deleteLabelConfiguration(rowIndex) {
+        await $('#label-configuration-' + rowIndex + ' input[value="Delete"]').click();
+        await Utils.assertNumberOfTableRows(this.labelConfigurationsTable, 1); // only the empty row is shown
+        await this.saveButton.click();
+        return Utils.waitForElementVisible(element(by.id('changed-label-config-successfully')));
+    }
+
 }
 
-util.inherits(LabelConfigurationsPage, BaseWebPage);
-
-LabelConfigurationsPage.prototype.assertNumConfigurations = function(expectedCount) {
-    var tableElement = element(by.id('label-configurations-table'));
-    // adding one, because there's always an empty row
-    this.assertNumberOfTableRows(tableElement, expectedCount + 1);
-};
-
-LabelConfigurationsPage.prototype.addLabelConfiguration = function(labelName, colorIndex) {
-    this.labelConfigurationsTable.all(by.css('tbody tr')).then(function(elements) {
-        var lastRow = elements[elements.length - 1];
-        var labelNameField = lastRow.element(by.css('input[name="labelName"]'));
-        lastRow.all(by.css('ul li span')).then(function(colors) {
-            colors[colorIndex].click();
-        });
-
-        labelNameField.sendKeys(labelName);
-
-    });
-
-    this.saveButton.click();
-    expect(this.savedSuccessfullyText.isDisplayed()).toBe(true);
-};
-
-LabelConfigurationsPage.prototype.updateLabelConfiguration = function(rowIndex, labelName, colorIndex) {
-    this.labelConfigurationsTable.all(by.css('tbody tr')).then(function(elements) {
-        var row = elements[rowIndex];
-        var labelNameField = row.element(by.css('input[name="labelName"]'));
-        row.all(by.css('ul li span')).then(function(colors) {
-            colors[colorIndex].click();
-        });
-
-        labelNameField.clear();
-        labelNameField.sendKeys(labelName);
-
-    });
-
-    this.saveButton.click();
-};
-
-LabelConfigurationsPage.prototype.deleteLabelConfiguration = function(rowIndex) {
-    element(by.css('#label-configuration-' + rowIndex + ' input[value="Delete"]')).click();
-    this.assertNumberOfTableRows(this.labelConfigurationsTable, 1); // only the empty row is shown
-    this.saveButton.click();
-    this.waitForElementVisible(element(by.id('changed-label-config-successfully')));
-};
-
-module.exports = LabelConfigurationsPage;
+export default new LabelConfigurationsPage();

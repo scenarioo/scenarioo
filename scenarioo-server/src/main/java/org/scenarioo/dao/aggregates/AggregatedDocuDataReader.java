@@ -1,8 +1,5 @@
 package org.scenarioo.dao.aggregates;
 
-import java.io.File;
-import java.util.List;
-
 import org.scenarioo.business.builds.BuildLink;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.model.docu.aggregates.objects.CustomObjectTabTree;
@@ -17,6 +14,9 @@ import org.scenarioo.model.docu.entities.generic.ObjectList;
 import org.scenarioo.model.docu.entities.generic.ObjectReference;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * Contains all the read operation that can be done on the aggregated documentation data.

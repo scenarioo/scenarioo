@@ -1,35 +1,27 @@
 'use strict';
-import {by, element} from "protractor";
 
-var BaseWebPage = require('./baseWebPage'),
-    util = require('util');
+import { by, ElementFinder, $ } from 'protractor';
 
-function BreadcrumbPage(overridePath) {
-    if (overridePath && overridePath.length > 0) {
-        BaseWebPage.call(this, overridePath);
-    } else {
-        BaseWebPage.call(this, '/');
+class BreadcrumbPage {
+
+    private breadcrumbs = $('.breadcrumb');
+
+    async clickOnBreadcrumb(breadcrumbId) {
+        return this.breadcrumbs.element(by.id(breadcrumbId)).click();
     }
 
-    this.breadcrumbs = element(by.css('.breadcrumb'));
+    async assertBreadcrumbElementText(breadcrumbId, useCaseName) {
+        const useCaseElement =  this.breadcrumbs.element(by.id(breadcrumbId));
+        return expect(useCaseElement.getText()).toContain(useCaseName);
+    }
+
+    async assertThatTooltipIsShown(toolTipId, toolTipText) {
+        const toolTipElement =  this.breadcrumbs.element(by.id(toolTipId));
+        const toolTipAttribute = await toolTipElement.getAttribute('uib-tooltip');
+
+        return expect(toolTipAttribute).toBe(toolTipText);
+    }
+
 }
 
-util.inherits(BreadcrumbPage, BaseWebPage);
-
-BreadcrumbPage.prototype.clickOnBreadcrumb = function(breadcrumbId) {
-    this.breadcrumbs.element(by.id(breadcrumbId)).click();
-};
-
-BreadcrumbPage.prototype.assertBreadcrumbElementText = function(breadcrumbId, useCaseName) {
-    var useCaseElement =  this.breadcrumbs.element(by.id(breadcrumbId));
-    expect(useCaseElement.getText()).toContain(useCaseName);
-};
-
-BreadcrumbPage.prototype.assertThatTooltipIsShown = function(toolTipId, toolTipText){
-    var toolTipElement =  this.breadcrumbs.element(by.id(toolTipId));
-    var toolTipAttribute = toolTipElement.getAttribute('uib-tooltip');
-
-    expect(toolTipAttribute).toBe(toolTipText);
-};
-
-module.exports = BreadcrumbPage;
+export default new BreadcrumbPage();

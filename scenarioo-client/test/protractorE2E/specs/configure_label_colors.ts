@@ -1,46 +1,42 @@
 'use strict';
-import {scenario, step, useCase} from "scenarioo-js";
 
-var scenarioo = require('scenarioo-js');
-var pages = require('./../webPages');
+import { scenario, step, useCase } from 'scenarioo-js';
+import * as Utils from '../util/util';
+import HomePage from '../webPages/homePage';
+import LabelConfigurationsPage from '../webPages/labelConfigurationsPage';
 
 useCase('Configure label colors')
     .description('Each label string can be configured to be displayed in a certain color.')
-    .describe(function () {
+    .describe(() => {
 
-        var labelConfigurationsPage = new pages.labelConfigurationsPage();
-        var homePage = new pages.homePage();
-
-        beforeEach(function () {
-            new pages.homePage().initLocalStorage();
+        beforeEach(async () => {
+            await Utils.startScenariooRevisited();
         });
 
         scenario('Create, edit and delete label configurations')
-            .it(function () {
+            .it(async () => {
+                await LabelConfigurationsPage.navigateToPage();
+                await step('show label configurations');
 
-                labelConfigurationsPage.goToPage();
-                step('show label configurations');
+                await LabelConfigurationsPage.assertNumConfigurations(0);
 
-                labelConfigurationsPage.assertNumConfigurations(0);
+                await LabelConfigurationsPage.addLabelConfiguration('corner-case', 5);
+                await step('add label configuration');
 
-                labelConfigurationsPage.addLabelConfiguration('corner-case', 5);
-                step('add label configuration');
+                await HomePage.goToPage();
+                await step('navigate away from the label config page to some other page');
 
-                homePage.goToPage();
-                step('navigate away from the label config page to some other page');
+                await LabelConfigurationsPage.navigateToPage();
+                await LabelConfigurationsPage.assertNumConfigurations(1);
+                await step('go back to label config page, label is still there');
 
-                labelConfigurationsPage.goToPage();
-                labelConfigurationsPage.assertNumConfigurations(1);
-                step('go back to label config page, label is still there');
+                await LabelConfigurationsPage.updateLabelConfiguration(0, 'updated', 4);
+                await step('update label configuration');
 
-                labelConfigurationsPage.updateLabelConfiguration(0, 'updated', 4);
-                step('update label configuration');
+                await LabelConfigurationsPage.deleteLabelConfiguration(0);
 
-                labelConfigurationsPage.deleteLabelConfiguration(0);
-
-                labelConfigurationsPage.goToPage();
-                labelConfigurationsPage.assertNumConfigurations(0);
-
+                await LabelConfigurationsPage.navigateToPage();
+                await LabelConfigurationsPage.assertNumConfigurations(0);
             });
 
     });

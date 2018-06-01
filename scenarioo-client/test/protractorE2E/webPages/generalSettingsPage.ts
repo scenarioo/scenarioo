@@ -1,31 +1,28 @@
 'use strict';
-import {by, element} from "protractor";
 
-var BaseWebPage = require('./baseWebPage'),
-    util = require('util');
+import { by, element, ElementFinder } from 'protractor';
+import * as Utils from '../util/util';
 
-function GeneralSettingsPage(overridePath) {
-    if (overridePath && overridePath.length > 0) {
-        BaseWebPage.call(this, overridePath);
-    } else {
-        BaseWebPage.call(this, '/manage?tab=configuration');
+class GeneralSettingsPage {
+
+    private searchNotConfiguredMessage = element(by.id('sc-search-not-configured-message'));
+    private configuredSearchEndpoint = element(by.id('sc-configured-search-endpoint'));
+    private configuredSearchClusterName = element(by.id('sc-configured-search-cluster-name'));
+    private searchEndpointIsReachable = element(by.id('sc-search-endpoint-is-reachable'));
+    private searchEndpointIsNotReachable = element(by.id('sc-search-endpoint-is-not-reachable'));
+
+    async goToPage() {
+        return Utils.navigateToRoute('/manage?tab=configuration');
     }
 
-    this.searchNotConfiguredMessage = element(by.id('sc-search-not-configured-message'));
-    this.configuredSearchEndpoint = element(by.id('sc-configured-search-endpoint'));
-    this.configuredSearchClusterName = element(by.id('sc-configured-search-cluster-name'));
-    this.searchEndpointIsReachable = element(by.id('sc-search-endpoint-is-reachable'));
-    this.searchEndpointIsNotReachable = element(by.id('sc-search-endpoint-is-not-reachable'));
+    async assertSearchEndpointConfiguredAndReachable() {
+        await expect(this.searchNotConfiguredMessage.isDisplayed()).toBeFalsy();
+        await expect(this.configuredSearchEndpoint.getText()).toBe('localhost:9305');
+        await expect(this.configuredSearchClusterName.getText()).toBe('elasticsearch');
+        await expect(this.searchEndpointIsNotReachable.isDisplayed()).toBeFalsy();
+        await expect(this.searchEndpointIsReachable.isDisplayed()).toBeTruthy();
+    }
+
 }
 
-util.inherits(GeneralSettingsPage, BaseWebPage);
-
-GeneralSettingsPage.prototype.assertSearchEndpointConfiguredAndReachable = function () {
-    expect(this.searchNotConfiguredMessage.isDisplayed()).toBeFalsy();
-    expect(this.configuredSearchEndpoint.getText()).toBe('localhost:9305');
-    expect(this.configuredSearchClusterName.getText()).toBe('elasticsearch');
-    expect(this.searchEndpointIsNotReachable.isDisplayed()).toBeFalsy();
-    expect(this.searchEndpointIsReachable.isDisplayed()).toBeTruthy();
-};
-
-module.exports = GeneralSettingsPage;
+export default new GeneralSettingsPage();
