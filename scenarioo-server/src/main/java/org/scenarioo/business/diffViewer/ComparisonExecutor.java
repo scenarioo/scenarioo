@@ -334,10 +334,10 @@ public class ComparisonExecutor {
 			.getComparisonConfigurations();
 		String resolvedBaseBranchName = aliasResolver.resolveBranchAlias(baseBranchName);
 		for (ComparisonConfiguration comparisonConfiguration : comparisonConfigurations) {
-			String resolvedComparisonBranchName = aliasResolver.resolveBranchAlias(comparisonConfiguration.getBaseBranchName());
-			if (resolvedBaseBranchName.equals(resolvedComparisonBranchName)
-				|| resolvedBaseBranchName.matches(resolvedComparisonBranchName)) {
-				comparisonConfigurationsForBaseBranch.add(new ComparisonConfiguration(comparisonConfiguration, baseBranchName));
+			String resolvedConfigurationBaseBranchName = aliasResolver.resolveBranchAlias(comparisonConfiguration.getBaseBranchName());
+			if (resolvedBaseBranchName.equals(resolvedConfigurationBaseBranchName)
+				|| resolvedBaseBranchName.matches(resolvedConfigurationBaseBranchName)) {
+				comparisonConfigurationsForBaseBranch.add(new ComparisonConfiguration(comparisonConfiguration, resolvedBaseBranchName));
 			}
 		}
 		return comparisonConfigurationsForBaseBranch;
