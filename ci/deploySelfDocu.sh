@@ -34,9 +34,10 @@ SCENARIOO_DATA_SELF_DOCU_MASTER_DIR=$SCENARIOO_DATA_ROOT/master
 
 # Restore all archived documentation data to be reatained for this branch (was archived in deploy.sh before deploying)
 # (this is needed to not loose all self docu builds on develop deployment or pizza-delivery and other examples)
+# [additional remark: the `|| true` is needed here to not let it fail if there was no archived data to be copied (e.g. for feature branches)]
 echo "Restoring Documentation Data: Self Docu and Examples"
-cp -rp $SCENARIOO_DATA_BRANCH_ARCHIVE_DIR/* $SCENARIOO_DATA_BRANCH_DIR
-rm -rf $SCENARIOO_DATA_BRANCH_ARCHIVE_DIR
+cp -rp $SCENARIOO_DATA_BRANCH_ARCHIVE_DIR/* $SCENARIOO_DATA_BRANCH_DIR || true
+rm -rf $SCENARIOO_DATA_BRANCH_ARCHIVE_DIR || true
 
 # Deploy generated self docu of this build run
 echo "Deploy the generated self docu build to $SCENARIOO_DATA_SELF_DOCU_DIR"
