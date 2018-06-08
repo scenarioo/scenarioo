@@ -1,5 +1,7 @@
 # Scenarioo Viewer Migration Guide
 
+Guide on how to upgrade for major versions of scenarioo.
+
 ## 3.x to 4.x
 
 **Breaking Changes:**

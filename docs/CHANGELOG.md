@@ -9,7 +9,7 @@ This file lists the changes in newer versions of scenarioo.
 * The data directory can not be configured through the config UI anymore (for security reasons)
 * The data directory can now be configured through an environment variable or in webserver's context.xml properties (or just by directory mapping on the docker container, similar to before).
 * The configuration file of scenarioo is now as well stored in same data directory. Make sure you move your old config.xml file to this same scenarioo data directory.
-* See [Migration Guide](docs/setup/Migration-Guide.md) for more detailed explanations.
+* See [Migration Guide](setup/Migration-Guide.md) for more detailed explanations.
 
 ### Feature "Diff Viewer Plus"
 
@@ -23,9 +23,9 @@ Improvements to the Diff Viewer for Visual Regression Testing:
 * [#673 - Comparison Configurations with Regexp for base branches to compare](https://github.com/scenarioo/scenarioo/issues/673): allow to define comparisons against another build to be calculated on multiple branches selected by regexp (e.g. for all feature branches)
 * [#596 - Configure Highlight Color for Changes in DiffViewer Comparison Screenshots](https://github.com/scenarioo/scenarioo/issues/596): new config property `diffImageColorRgbaHex` to customize the highlight color.
 * [#604 - Background Calculation of Comparisons](https://github.com/scenarioo/scenarioo/issues/604): to not block builds from being imported while a comparison is computed.
-* [#597 - Store diff information directly inside build](https://github.com/scenarioo/scenarioo/issues/597): Also the comparisons are stored now inside the belonging build directories, such that the diffs get automatically cleaned up when deleting a build. Breaking change, see [Migration Guide](docs/setup/Migration-Guide.md).
+* [#597 - Store diff information directly inside build](https://github.com/scenarioo/scenarioo/issues/597): Also the comparisons are stored now inside the belonging build directories, such that the diffs get automatically cleaned up when deleting a build. Breaking change, see [Migration Guide](setup/Migration-Guide.md).
 * [#602 - Removed Dependency to GraphicMagick](https://github.com/scenarioo/scenarioo/issues/602): GraphicMagick needs not to be installed anymore to use the DiffViewer feature.
-* [#618 - New DiffViewer Internal Diff Screen Format](https://github.com/scenarioo/scenarioo/issues/618) The comparison builds need now less disk space because only a difference image per screenshot is stored. Needs reimport of builds to see comparisons again, see [Migration Guide](docs/setup/Migration-Guide.md).
+* [#618 - New DiffViewer Internal Diff Screen Format](https://github.com/scenarioo/scenarioo/issues/618) The comparison builds need now less disk space because only a difference image per screenshot is stored. Needs reimport of builds to see comparisons again, see [Migration Guide](setup/Migration-Guide.md).
 * [#577 - Avoid Null Pointer Exceptions](https://github.com/scenarioo/scenarioo/issues/577): Do not log null pointer exceptions when there is just no step to compare too.
 
 ### Features "Small Improvements & Fixes"
@@ -39,11 +39,11 @@ Further small improvements and bug fixes:
 ### Breaking Changes and Backwards Compatibility
 
 * **Changed configuration of data directory location:** You need to setup your data location and the configuration file 
-as explained in the [Migration Guide](docs/setup/Migration-Guide.md). This can not be configured through the frontend anymore.
+as explained in the [Migration Guide](setup/Migration-Guide.md). This can not be configured through the frontend anymore.
 
-* **Internal format of comparisons between builds (DiffViewer feature) has changed:** After an update to the new version you will see no calculated comparisons on old builds anymore and need to reimport those builds for which you want to calculate and see comparisons again. See Step 3 in [Migration Guide](docs/setup/Migration-Guide.md).
+* **Internal format of comparisons between builds (DiffViewer feature) has changed:** After an update to the new version you will see no calculated comparisons on old builds anymore and need to reimport those builds for which you want to calculate and see comparisons again. See Step 3 in [Migration Guide](setup/Migration-Guide.md).
 
-* **Full Text Search needs Elastic Search Version 5:** We upgraded the full text search feature to use ElasticSearch 5.6.9. If you want to use that feature your have to configure a compatible ElasticSearch server and a cluster name as described in [Full Text Search Setup Guide](docs/features/full-text-search/setup.md)
+* **Full Text Search needs Elastic Search Version 5:** We upgraded the full text search feature to use ElasticSearch 5.6.9. If you want to use that feature your have to configure a compatible ElasticSearch server and a cluster name as described in [Full Text Search Setup Guide](features/full-text-search/setup.md)
 
 * **Some undocumented REST services for the frontend have slightly changed their URLs:** in case you used these services you have to adjust the usage:
     * `/builds/reimportBuild/{branchName}/{buildName}` is now `/builds/:branchName/:buildName/import`
