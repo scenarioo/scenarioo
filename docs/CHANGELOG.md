@@ -1,6 +1,4 @@
-# Scenarioo
-
-This file lists the changes in newer versions of scenarioo.
+# Scenarioo Release Notes
 
 ## Version 4.0.0 
 
@@ -50,7 +48,7 @@ as explained in the [Migration Guide](setup/Migration-Guide.md). This can not be
 
 Apart from that there are no breaking changes.
 
-The Java Writer Library in use is still version 2.1 which is compatible with Java 6. 
+The Java Writer Library in use is still version 2.1 which is still compatible with Java 6 and upwards. 
 Also the internal format version is not increased (still 2.1) so that your existing documentation data 
 does not even have to be reimported after the upgrade and will continue to work with the new version (except for the comparisons).
 
