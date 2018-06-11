@@ -2,8 +2,8 @@
 
 import { scenario, step, useCase } from 'scenarioo-js';
 import * as Utils from '../util/util';
-import ScenarioPage from '../webPages/scenarioPage';
-import NavigationPage from '../webPages/navigationPage';
+import ScenarioPage from '../pages/scenarioPage';
+import NavigationPage from '../pages/navigationPage';
 
 useCase('List steps of scenario')
     .description('Gives an overview of all steps in a scenario.')

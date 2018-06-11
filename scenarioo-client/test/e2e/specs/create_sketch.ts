@@ -2,11 +2,11 @@
 
 import { scenario, step, useCase } from 'scenarioo-js';
 import * as Utils from '../util/util';
-import HomePage from '../webPages/homePage';
-import UsecasePage from '../webPages/usecasePage';
-import ScenarioPage from '../webPages/scenarioPage';
-import StepPage from '../webPages/stepPage';
-import EditorPage from '../webPages/editorPage';
+import HomePage from '../pages/homePage';
+import UsecasePage from '../pages/usecasePage';
+import ScenarioPage from '../pages/scenarioPage';
+import StepPage from '../pages/stepPage';
+import EditorPage from '../pages/editorPage';
 
 useCase('Create sketch')
     .description('Create a sketch based on the screenshot of a step.')

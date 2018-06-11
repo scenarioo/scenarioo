@@ -2,7 +2,7 @@
 
 import { scenario, step, useCase } from 'scenarioo-js';
 import * as Utils from '../util/util';
-import StepPage from '../webPages/stepPage';
+import StepPage from '../pages/stepPage';
 
 const COMPARISON_SCREENSHOT_SRC = 'rest/branch/wikipedia-docu-example/build/2014-01-20/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';
 const BASE_SCREENSHOT_SRC = 'rest/branch/wikipedia-docu-example/build/last%20successful/usecase/Find%20Page/scenario/find_page_title_unique_directly/image/002.png';

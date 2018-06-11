@@ -2,11 +2,11 @@
 
 import { scenario, step, useCase } from 'scenarioo-js';
 import * as Utils from '../util/util';
-import NavigationPage from '../webPages/navigationPage';
-import HomePage from '../webPages/homePage';
-import UsecasePage from '../webPages/usecasePage';
-import ScenarioPage from '../webPages/scenarioPage';
-import StepPage from '../webPages/stepPage';
+import NavigationPage from '../pages/navigationPage';
+import HomePage from '../pages/homePage';
+import UsecasePage from '../pages/usecasePage';
+import ScenarioPage from '../pages/scenarioPage';
+import StepPage from '../pages/stepPage';
 
 const NUMBER_OF_AVAILABLE_COMPARISON = 6;
 const BRANCH_WIKI = 'Production';

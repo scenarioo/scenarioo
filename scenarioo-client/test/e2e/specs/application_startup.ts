@@ -2,7 +2,7 @@
 
 import { scenario, step, useCase } from 'scenarioo-js';
 import * as Utils from '../util/util';
-import HomePage from '../webPages/homePage';
+import HomePage from '../pages/homePage';
 
 useCase('Application Startup')
     .description('The user is presented with the about dialog on his first Scenarioo visit.')

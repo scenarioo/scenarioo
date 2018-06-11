@@ -2,12 +2,12 @@
 
 import { scenario, step, useCase } from 'scenarioo-js';
 import * as Utils from '../util/util';
-import HomePage from '../webPages/homePage';
-import BranchAliasesPage from '../webPages/branchAliasesPage';
-import UsecasePage from '../webPages/usecasePage';
-import ScenarioPage from '../webPages/scenarioPage';
-import StepPage from '../webPages/stepPage';
-import NavigationPage from '../webPages/navigationPage';
+import HomePage from '../pages/homePage';
+import BranchAliasesPage from '../pages/branchAliasesPage';
+import UsecasePage from '../pages/usecasePage';
+import ScenarioPage from '../pages/scenarioPage';
+import StepPage from '../pages/stepPage';
+import NavigationPage from '../pages/navigationPage';
 
 const BRANCH_WIKI = 'Production';
 const NUMBER_OF_ALIASES_IN_CONFIG = 2;

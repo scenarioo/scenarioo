@@ -2,7 +2,7 @@
 
 import { scenario, step, useCase } from 'scenarioo-js';
 import * as Utils from '../util/util';
-import StepPage from '../webPages/stepPage';
+import StepPage from '../pages/stepPage';
 
 useCase('Step - Screen Annotations')
     .description('Screens can have visual annotations that e.g. mark where a click was done or where data was entered that can be displayed in step view.')

@@ -2,8 +2,8 @@
 
 import { scenario, step, useCase } from 'scenarioo-js';
 import * as Utils from '../util/util';
-import NavigationPage from '../webPages/navigationPage';
-import HomePage from '../webPages/homePage';
+import NavigationPage from '../pages/navigationPage';
+import HomePage from '../pages/homePage';
 
 const NUMBER_OF_USE_CASES = 4;
 const COMPARISON_PROJECTSTART = 'To Projectstart';

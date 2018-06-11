@@ -2,10 +2,10 @@
 
 import { scenario, step, useCase } from 'scenarioo-js';
 import * as Utils from '../util/util';
-import HomePage from '../webPages/homePage';
-import UsecasePage from '../webPages/usecasePage';
-import ScenarioPage from '../webPages/scenarioPage';
-import StepPage from '../webPages/stepPage';
+import HomePage from '../pages/homePage';
+import UsecasePage from '../pages/usecasePage';
+import ScenarioPage from '../pages/scenarioPage';
+import StepPage from '../pages/stepPage';
 
 useCase('Step - View')
     .description('Display steps of a scenario and navigate through it. Includes the screenshot, details data and navigation buttons')
