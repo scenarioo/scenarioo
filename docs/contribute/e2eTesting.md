@@ -35,12 +35,12 @@ Change into the client directory:
 Run the tests and also generate Scenarioo documentation (uses config file `protractor-e2e-scenarioo.conf.js`):
 
    ```
-   npm run test-e2e-scenarioo
+   npm run e2e-scenarioo
    ```
 
 Only run the tests, without generating Scenarioo documentation (uses config file `protractor-e2e.conf.js`):
    ```
-   npm run test-e2e
+   npm run e2e
    ```
 
 This should open a new browser window, run all tests and log test-information to the console.

@@ -136,7 +136,7 @@ gulp.task('test-watch', ['environmentConstants'], function (done) {
 /**
  * Run protractor ui tests (without generating Scenarioo documentation)
  */
-gulp.task('test-e2e', function () {
+gulp.task('e2e', function () {
     gulp.src(['./test/e2e/specs/**/*.js'])
         .pipe(protractor({
             configFile: './protractor-e2e.conf.js'
@@ -151,7 +151,7 @@ gulp.task('webdriver_update', webdriver_update); // eslint-disable-line no-undef
 /**
  * Run protractor ui tests and generate Scenarioo documentation from them.
  */
-gulp.task('test-e2e-scenarioo', function () {
+gulp.task('e2e-scenarioo', function () {
     gulp.src(['./test/e2e/specs/**/*.js'])
         .pipe(protractor({
             configFile: './protractor-e2e-scenarioo.conf.js'
