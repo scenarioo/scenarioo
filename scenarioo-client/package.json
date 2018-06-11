@@ -24,7 +24,7 @@
         "start-dev": "webpack-dev-server -d --inline --progress --port 8500 --watch",
         "lint-all": "npm run lint-js && npm run lint-ts-e2e",
         "lint-js": "eslint \"app/**/*.js\" \"test/**/*.js\" --ignore-pattern app/components",
-        "lint-ts-e2e": "tslint \"test/protractorE2E/**/*.ts\" --exclude app/components --project tsconfig.json"
+        "lint-ts-e2e": "tslint \"test/e2e/**/*.ts\" --exclude app/components --project tsconfig.json"
     },
     "dependencies": {
         "angular": "1.5.2",

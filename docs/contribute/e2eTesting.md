@@ -3,7 +3,7 @@
 [Protractor](https://github.com/angular/protractor) is the UI testing tool for testing AngularJS apps.
 It uses [Selenium](http://www.seleniumhq.org/) to control the browser.
 
-To write your own E2E tests, check our example E2E scenarios in `scenarioo-client\test\protractorE2E\specs`.
+To write your own E2E tests, check our example E2E scenarios in `scenarioo-client\test\e2e\specs`.
 
 For more information on Protractor see [Protractor API Docs](http://angular.github.io/protractor/#/api).
 
