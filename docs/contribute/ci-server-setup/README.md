@@ -6,8 +6,8 @@ Currently this documentation might not be complete but at least have some hint a
 
 ## What is installed on the CI Server?
 
-* Java JDK (whatever versions scenarioo needs)
-* Tomcat (whatever version scenarioo needs, currently 7 ? )
+* Java JDK (whatever versions Scenarioo needs)
+* Tomcat (whatever version Scenarioo needs, currently 7 ? )
 * [Docker](docker.md) 
 * [Elastic Search Server 2 (direct package installation)](Elasticsearch-2.md)
 * [Elastic Search Server 5 as docker image](Elasticsearch-5.md)

@@ -12,7 +12,7 @@ Documentation data can be published in two ways.
 
 ## B) HTTP POST request
 
-Since version 2.1.0 of the scenarioo viewewr web application we also allow adding new documentation data using a HTTP POST request to a REST endpoint. This is only possible as an authenticated user that has the role `scenarioo-build-publisher`.
+Since version 2.1.0 of the Scenarioo viewer web application we also allow adding new documentation data using a HTTP POST request to a REST endpoint. This is only possible as an authenticated user that has the role `scenarioo-build-publisher`.
 
 > We strongly recommend to use HTTPS for this in order to safely transmit the authentication information.
 

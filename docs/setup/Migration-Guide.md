@@ -6,7 +6,7 @@ Guide on how to upgrade for major versions of scenarioo.
 
 **Breaking Changes:**
 
-* Starting with version 4.x the path to your scenarioo documentation data has to be configured differently and the scenarioo configuration file (config.xml) must be located in the same directory as all your other scenarioo documentation data.
+* Starting with version 4.x the path to your Scenarioo documentation data has to be configured differently and the Scenarioo configuration file (config.xml) must be located in the same directory as all your other Scenarioo documentation data.
 
 * For the full text search Scenarioo now uses newer Elasticsearch Server Version 5.6.9, you will have to upgrade that as well, in case you want to continue to use this feature.
 
@@ -16,34 +16,34 @@ Guide on how to upgrade for major versions of scenarioo.
 
 Follow these simple steps to migrate:
 
-0. Make sure you know what is the scenarioo data directory configured on your old Scenarioo installation:
+0. Make sure you know what is the Scenarioo data directory configured on your old Scenarioo installation:
 
-    * Simply go to the `Manage`-Tab in the old version of scenarioo viewer web app and choose `General Settings` to see `Documentation Data Directory Path` (this setting will not be available in the new UI anymore! It will be just read only in future!).
+    * Simply go to the `Manage`-Tab in the old version of Scenarioo viewer web app and choose `General Settings` to see `Documentation Data Directory Path` (this setting will not be available in the new UI anymore! It will be just read only in future!).
     * Or: check value of `testDocumentationDirPath` in your config.xml file (see next step)
 
-1. Copy the scenarioo config.xml file to that same data directory where all your other scenarioo documentation data is stored, as explained here:
+1. Copy the Scenarioo config.xml file to that same data directory where all your other Scenarioo documentation data is stored, as explained here:
     * How to find the config file:
         * Scenarioo Docker Image: 
-           * the config file was stored before only inside the docker container, in directory `{user.home}/.scenarioo` - so just copy it from there and in the future the config will also survive, even when you start a new scenarioo docker container, which is an important benefit of this change!
+           * the config file was stored before only inside the docker container, in directory `{user.home}/.scenarioo` - so just copy it from there and in the future the config will also survive, even when you start a new Scenarioo docker container, which is an important benefit of this change!
         * Scenarioo on Tomcat or other web servers:
            * you will find the config.xml file under `{user.home}/.scenarioo` or in the config directory that you configured in your webserver's `context.xml` file in property `scenariooConfigurationDirectory` or `configurationDirectory`.
            * the file might have been even configured to have a different name than config.xml in your context.xml file using property `scenariooConfigurationFilename` or `configurationFilename` (you will have to rename that file to `context.xml` after you copied it!).
            * you can later remove those settings for the config file location from your context.xml, if you configured it there, since the location is now fix in your data directory and can not be configured separately anymore in newer versions. 
-        * If you do not find the config file at all: this might mean that you never saved your configuration, scenarioo might just be running using its internal default configuration. Go to `Manage`-Tab in the scenarioo viewer web app and choose `General Settings / Save` this will save the file for you with current settings.
-     * When you found the config file then copy it to the scenarioo data directory
-        * Copy the file to the root of your scenarioo data path (see step 0 if you forgot)
+        * If you do not find the config file at all: this might mean that you never saved your configuration, Scenarioo might just be running using its internal default configuration. Go to `Manage`-Tab in the Scenarioo viewer web app and choose `General Settings / Save` this will save the file for you with current settings.
+     * When you found the config file then copy it to the Scenarioo data directory
+        * Copy the file to the root of your Scenarioo data path (see step 0 if you forgot)
         * In case your config file had a different name, then rename the copied file to `config.xml` (this file can not be named differently anymore!)
         * You can also remove the setting `testDocumentationDirPath` from the copied file's content, since it will be ignored in future versions (see next point on how to configure that directory in new versions).
         
 2. If your old installation had an Elasticsearch server configured - which is only the case if you find the config property "elasticSearchEndpoint" in config.xml - then you have to setup a newer Elasticsearch server of appropriate version:
     * Install and configure an Elasticsearch server with newer version 5.6.9
     * See [Full Text Search Setup Guide](../features/full-text-search/setup.md) for further instructions. 
-    * If you want to generate search indexes on the new server for existing scenarioo documentation builds, you can trigger a reimport for those builds in the Scenarioo Manage Builds tab later (once scenarioo upgrade is done).
+    * If you want to generate search indexes on the new server for existing Scenarioo documentation builds, you can trigger a reimport for those builds in the Scenarioo Manage Builds tab later (once Scenarioo upgrade is done).
         
 3. Configure, update and restart Scenarioo:
     * Using Scenarioo Docker Image:
-      * simply stop the old scenarioo and restart a new one as explained here: [Scenarioo Viewer Docker Image](Scenarioo-Viewer-Docker-Image.md)
-      * take care to configure your scenarioo data path on startup properly, as explained in above link, by using the slightly changed parameter to map your documentation data directory to `/scenarioo/data` inside the container (this path is different in new verson).
+      * simply stop the old Scenarioo and restart a new one as explained here: [Scenarioo Viewer Docker Image](Scenarioo-Viewer-Docker-Image.md)
+      * take care to configure your Scenarioo data path on startup properly, as explained in above link, by using the slightly changed parameter to map your documentation data directory to `/scenarioo/data` inside the container (this path is different in new verson).
     * Using WAR Deployment e.g. on Tomcat:
       * Configure the docu data directory in one of the following ways:
         * if the directory was `.scenarioo` in user's home, which is the default, you do not have to change anything.

@@ -144,7 +144,7 @@ Add line to `context.xml` of Tomcat pointing to the subfolder `scenarioo-output`
 <Parameter name="scenariooDataDirectory" value="D:\Code\scenarioo-demo\scenarioo-output" override="true" />
 ```
 
-Download the [latest scenarioo development build](http://build.scenarioo.org/jenkins/job/scenarioo-ci-pipeline/job/develop/lastSuccessfulBuild/artifact/scenarioo-server/build/libs/). (This is currently required because the released version does not have the simple configuration option we use here yet).
+Download the [latest Scenarioo development build](http://build.scenarioo.org/jenkins/job/scenarioo-ci-pipeline/job/develop/lastSuccessfulBuild/artifact/scenarioo-server/build/libs/). (This is currently required because the released version does not have the simple configuration option we use here yet).
 
 Move Scenarioo `*.war` file into `webapps` folder of Tomcat and rename it to `scenarioo.war`.
 
