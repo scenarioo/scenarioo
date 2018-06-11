@@ -1,7 +1,7 @@
 'use strict';
 
 import {$$, browser, by, element, protractor} from 'protractor';
-import * as Utils from '../util/util';
+import * as Utils from '../util';
 
 class ObjectDetailsPage {
 

@@ -1,7 +1,7 @@
 'use strict';
 
 import { scenario, step, useCase } from 'scenarioo-js';
-import * as Utils from '../util/util';
+import * as Utils from '../util';
 import StepPage from '../pages/stepPage';
 
 useCase('Step - Screen Annotations')

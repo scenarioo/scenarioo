@@ -1,7 +1,7 @@
 'use strict';
 
 import { scenario, step, useCase } from 'scenarioo-js';
-import * as Utils from '../util/util';
+import * as Utils from '../util';
 import ObjectDetailsPage from '../pages/objectDetailsPage';
 
 useCase('Browse object details')

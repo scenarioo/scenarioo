@@ -1,7 +1,7 @@
 'use strict';
 
 import { scenario, step, useCase } from 'scenarioo-js';
-import * as Utils from '../util/util';
+import * as Utils from '../util';
 import ScenarioPage from '../pages/scenarioPage';
 import NavigationPage from '../pages/navigationPage';
 
