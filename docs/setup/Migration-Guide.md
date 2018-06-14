@@ -28,7 +28,7 @@ Follow these simple steps to migrate:
         * Scenarioo Docker Image: 
            * so far the config file was only stored inside the docker container, in the directory `{user.home}/.scenarioo` - so just copy it from there and in the future the config will survive even when you start a new Scenarioo docker container, which is an important benefit of this change!
         * Scenarioo on Tomcat or other web servers:
-           * you will find the `config.xml` file under `{user.home}/.scenarioo` or in the config directory that you configured in your webservers `context.xml` file in property `scenariooConfigurationDirectory` or `configurationDirectory`.
+           * you will find the `config.xml` file under `{user.home}/.scenarioo` or in the config directory that you configured in your webserver's `context.xml` file in property `scenariooConfigurationDirectory` or `configurationDirectory`.
            * the file might have been even configured to have a different name than `config.xml` in your `context.xml` file using property `scenariooConfigurationFilename` or `configurationFilename` (you will have to rename that file to `config.xml` after you copied it!).
            * you can later remove those settings for the config file location from your `context.xml`, if you configured it there, since the location is now fix in your data directory and can not be configured separately anymore. 
         * If you do not find the config file at all: this might mean that you never saved your configuration, Scenarioo might just be running using its internal default configuration. Go to `Manage`-Tab in the Scenarioo viewer web app and choose `General Settings / Save` this will save the file for you with current settings.

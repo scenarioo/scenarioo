@@ -100,7 +100,7 @@ A scenario is made up of steps. Each step describes one interaction event in you
 * For each step, there is an XML file in the steps folder (complex type `step` in XML schema), this step files are just numbered like 000.xml, 001.xml, etc.
 * Each step references an image file inside the 'screenshots' directory through the mandatory field `stepDescription.screenshotFileName`. This screenshots can be of any web image format: we recommend PNG, but could also be JPEG, whichever better fits your application or the current step, depending on the content of the current screen. Usually PNG is the best fit, unless a screen is graphically very complex and contains a lot of bitmap images like fotos.
 * Mandatory fields: 
-  * `stepDescription` (complexType): contains the most important properties to describe a step (also displayed on the Scenarioo overview for each step of the scenarioo):
+  * `stepDescription` (complexType): contains the most important properties to describe a step (also displayed on the scenario overview for each step of the scenarioo):
     * `index`: the number of the step (sequential number, starting with 0 for first step)
     * `screenshotFileName`: the name of the step screenshot file inside the `screenshots` directory (usually something like '000.png', where 000 is the index of the step and '.png' the used image format)
 * Recommended fields:
