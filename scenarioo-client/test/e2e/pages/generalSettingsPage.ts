@@ -1,7 +1,7 @@
 'use strict';
 
 import { by, element, ElementFinder } from 'protractor';
-import * as Utils from '../util/util';
+import * as Utils from '../util';
 
 class GeneralSettingsPage {
 

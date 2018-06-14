@@ -29,7 +29,7 @@ var exportsConfig = {
     allScriptsTimeout: 20000,
     getPageTimeout: 20000,
 
-    specs: ['./test/protractorE2E/specs/**/*.ts'],
+    specs: ['./test/e2e/specs/**/*.ts'],
 
     capabilities: {
         browserName: 'chrome',

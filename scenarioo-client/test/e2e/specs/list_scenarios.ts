@@ -1,11 +1,11 @@
 'use strict';
 
 import { scenario, step, useCase } from 'scenarioo-js';
-import * as Utils from '../util/util';
-import HomePage from '../webPages/homePage';
-import UsecasePage from '../webPages/usecasePage';
-import ScenarioPage from '../webPages/scenarioPage';
-import NavigationPage from '../webPages/navigationPage';
+import * as Utils from '../util';
+import HomePage from '../pages/homePage';
+import UsecasePage from '../pages/usecasePage';
+import ScenarioPage from '../pages/scenarioPage';
+import NavigationPage from '../pages/navigationPage';
 
 const NUMBER_OF_USE_CASES = 4;
 const NUMBER_OF_SCENARIOS = 4;

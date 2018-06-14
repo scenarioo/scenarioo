@@ -1,10 +1,10 @@
 'use strict';
 
 import { scenario, step, useCase } from 'scenarioo-js';
-import * as Utils from '../util/util';
-import HomePage from '../webPages/homePage';
-import UsecasePage from '../webPages/usecasePage';
-import BreadcrumbsPage from '../webPages/breadcrumbsPage';
+import * as Utils from '../util';
+import HomePage from '../pages/homePage';
+import UsecasePage from '../pages/usecasePage';
+import BreadcrumbsPage from '../pages/breadcrumbsPage';
 
 useCase('Use breadcrumbs')
     .description('Breadcrumbs help navigating Scenarioo. They are used to navigate back to a use case or a scenario from a more detailed page.')
