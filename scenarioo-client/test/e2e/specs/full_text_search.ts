@@ -1,13 +1,13 @@
 'use strict';
 
 import { scenario, step, useCase } from 'scenarioo-js';
-import * as Utils from '../util/util';
-import HomePage from '../webPages/homePage';
-import StepPage from '../webPages/stepPage';
-import BreadcrumbsPage from '../webPages/breadcrumbsPage';
-import SearchResultsPage from '../webPages/searchResultsPage';
-import NavigationPage from '../webPages/navigationPage';
-import GeneralSettingsPage from '../webPages/generalSettingsPage';
+import * as Utils from '../util';
+import HomePage from '../pages/homePage';
+import StepPage from '../pages/stepPage';
+import BreadcrumbsPage from '../pages/breadcrumbsPage';
+import SearchResultsPage from '../pages/searchResultsPage';
+import NavigationPage from '../pages/navigationPage';
+import GeneralSettingsPage from '../pages/generalSettingsPage';
 
 useCase('Full Text Search')
     .description('Search within all information of the selected build.')

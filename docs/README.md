@@ -6,7 +6,7 @@ Scenarioo helps you visualizing and documenting the functionalities of your soft
 
 ## Scenarioo Overview
 
-The following sections gives a basic introduction to scenarioo and where to find more information for most important aspects in our documentation.
+The following sections gives a basic introduction to Scenarioo and where to find more information for most important aspects in our documentation.
 
 ### What can Scenarioo do for me?
 
@@ -61,6 +61,6 @@ The Scenarioo Writer library is a core part of Scenarioo. The Java version of th
 
 You can find further information in this documentation folder, which is structured into following major sections:
 
-* [Setup](setup/README.md): How to setup scenarioo for a project
+* [Setup](setup/README.md): How to setup Scenarioo for a project
 * [Features](features/README.md): Overview of the core concepts and architecture and detailed informations for specific features of Scenarioo.
 * [Contribute](contribute/README.md): How developers can contribute to the Scenarioo Open Source Project

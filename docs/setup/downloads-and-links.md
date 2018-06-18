@@ -28,7 +28,7 @@ For some important other feature branches or forks, there might be a build job i
 
 ## Scenarioo Writer Libraries
 
-These are the libraries you can use in your tests to write scenarioo documentation reports on test execution:
+These are the libraries you can use in your tests to write Scenarioo documentation reports on test execution:
 
 ### JavaScript
 

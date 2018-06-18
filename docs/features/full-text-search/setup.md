@@ -1,8 +1,8 @@
 # Setup Scenarioo Full Text Search
 
-Scenarioo Full Text Search is an optional feature to search for all text in your scenarioo test documentation.
+Scenarioo Full Text Search is an optional feature to search for all text in your Scenarioo test documentation.
 
-To enable the feature and make it work you have to run an Elasticsearch server and configure scenarioo properly to connect to that server.
+To enable the feature and make it work you have to run an Elasticsearch server and configure Scenarioo properly to connect to that server.
 
 If Scenarioo can not connect to the Elasticsearch server, the feature is disabled.
 
@@ -27,7 +27,7 @@ By default following values are preconfigured for you:
 * elasticSearchEndpoint: localhost:9300 (usually the default of elasticsearch installations)
 * elasticSearchClusterName: elasticsearch (usually the default of elasticsearch installations)
 
-You can change those values in the `config.xml` file of scenarioo in your scenarioo data directory.
+You can change those values in the `config.xml` file of Scenarioo in your Scenarioo data directory.
 
 Here's an example configuration for the search feature in the `config.xml`:
 
@@ -49,7 +49,7 @@ check the Elasticsearch configuration and status.
 
 ## Calculate Search Indexes 
 
-For making search available for a build you have to let scenarioo calculate its search index. This is done automatically, when a new build is published & imported to scenarioo.
+For making search available for a build you have to let Scenarioo calculate its search index. This is done automatically, when a new build is published & imported to scenarioo.
 
 But for making the search index also available for your old builds, that do not have a search index yet, you have to do following manual steps:
 

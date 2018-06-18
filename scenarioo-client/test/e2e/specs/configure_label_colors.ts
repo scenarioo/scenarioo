@@ -1,9 +1,9 @@
 'use strict';
 
 import { scenario, step, useCase } from 'scenarioo-js';
-import * as Utils from '../util/util';
-import HomePage from '../webPages/homePage';
-import LabelConfigurationsPage from '../webPages/labelConfigurationsPage';
+import * as Utils from '../util';
+import HomePage from '../pages/homePage';
+import LabelConfigurationsPage from '../pages/labelConfigurationsPage';
 
 useCase('Configure label colors')
     .description('Each label string can be configured to be displayed in a certain color.')
