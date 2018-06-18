@@ -5,10 +5,9 @@
   * [Downloads and Links](setup/downloads-and-links.md)
 
 * [Getting Started](setup/README.md) -- TODO rename directory to `tutorial`?
-  * [Quickstart with Scenarioo-JS](setup/Quickstart-JS.md)
-  * [Write Reports from Tests](setup/01-Write-Reports-From-Tests.md)
-     * TODO move [Tutorial](setup/tutorial.md) to above page
-     * TODO integrate [Usage of Writer Libraries](setup/How-to-use-Scenarioo-Writer-Library.md) into above page
+  * [Write Reports from Tests](setup/How-to-use-Scenarioo-Writer-Library.md)
+     * [Quickstart with Scenarioo-JS](setup/Quickstart-JS.md)
+     * [Use Scenarioo in Java Selenium Tests](setup/tutorial.md)
   * [Install Viewer Web App](setup/Scenarioo-Viewer-Web-Application-Setup.md)
   * [Install Viewer Docker Image](setup/Scenarioo-Viewer-Docker-Image.md)
   * [Publish Reports](setup/Publish-Documentation-Data.md)
