@@ -15,21 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($routeParams, $location, $route, $compile, 
-                                                                            $filter, $sce, BreadcrumbsService, 
+angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($routeParams, $location, $route, $compile,
+                                                                            $filter, $sce, $uibModal, BreadcrumbsService,
                                                                             SharePagePopupService, SketcherLinkService) {
-
     var limit = 50;
 
     return {
         restrict: 'E',
         priority: 0,
         replace: true,
-        templateUrl: 'shared/navigation/breadcrumbs/breadcrumbs.html',
+        template: require('./breadcrumbs.html'),
         link: function (scope) {
 
             scope.breadcrumbs = [];
             scope.sketcherLink = SketcherLinkService;
+            scope.createComparison = createComparison
+
             var navParameters = [];
             var breadcrumbId = $route.current.$$route.breadcrumbId;
 
@@ -64,8 +65,18 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
             scope.showStepLinks = function () {
                 SharePagePopupService.showShareStepPopup();
             };
+
         }
     };
+
+    function createComparison() {
+        $uibModal.open({
+            template: require('../../../manage/comparisons/createComparisonModal.html'),
+            controller: 'CreateComparisonModalController',
+            controllerAs: 'vm',
+            windowClass: 'modal-small'
+        });
+    }
 
     function getShortenedLabelText(breadcrumbItem, isLabelTextShortened) {
         return isLabelTextShortened ? getShortenedText(breadcrumbItem.label) : breadcrumbItem.label;

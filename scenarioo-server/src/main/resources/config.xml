@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
-    <testDocumentationDirPath>/home/scenarioo/scenarioo/scenarioo-docu-generation-example/build/scenarioDocuExample</testDocumentationDirPath>
     <defaultBranchName>master</defaultBranchName>
     <defaultBuildName>last successful</defaultBuildName>
     <aliasForMostRecentBuild>most recent</aliasForMostRecentBuild>
-    <aliasForLastSuccessfulBuild>last successful</aliasForLastSuccessfulBuild>
+    <elasticSearchEndpoint>localhost:9300</elasticSearchEndpoint>
+    <elasticSearchClusterName>elasticsearch</elasticSearchClusterName>
     <scenarioPropertiesInOverview></scenarioPropertiesInOverview>
     <applicationName></applicationName>
     <applicationInformation>&lt;h3&gt;Welcome to Scenarioo!&lt;/h3&gt;

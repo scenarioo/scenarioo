@@ -40,28 +40,28 @@ import org.scenarioo.uitest.example.infrastructure.MultipleBuildsRule;
 
 /**
  * A simple example test to show how to save example branch and build description files.
- * 
+ *
  * Usually you would create these files from inside your CI build scripts or somewhere inside your UI testing
  * framework/infrastructure that runs all your UI tests.
- * 
+ *
  * The branch description might even be created manually (as an xml file in your documentation directory), whenever you
  * create a new branch.
  */
 public class SaveBranchAndBuildDescriptionExampleTest {
-	
+
 	private static ScenarioDocuWriter docuWriter;
-	
+
 	@BeforeClass
 	public static void createDocuWriter() {
-		DOCU_BUILD_DIRECTORY.mkdirs(); // make sure the root directory is precreated
-		docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(), MultipleBuildsRule.getCurrentBuildName());
+		SCENARIOO_DATA_DIRECTORY.mkdirs(); // make sure the root directory is precreated
+		docuWriter = new ScenarioDocuWriter(SCENARIOO_DATA_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(), MultipleBuildsRule.getCurrentBuildName());
 	}
-	
+
 	@AfterClass
 	public static void flushAllAsynchronouslyWrittenData() {
 		docuWriter.flush();
 	}
-	
+
 	@Test
 	public void write_branch_description() {
 		Branch branch = new Branch();
@@ -69,5 +69,5 @@ public class SaveBranchAndBuildDescriptionExampleTest {
 		branch.setDescription("Example documentation of the Wikipedia Web Application as an example. The content is generated from dummy data in the 'scenarioo-docu-generation-example' for testing and demonstration purposes.");
 		docuWriter.saveBranchDescription(branch);
 	}
-	
+
 }

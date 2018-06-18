@@ -28,9 +28,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
         <div class="col-lg-9">
-            <a href="" ng-click="vm.importAndUpdateBuilds()" class="link pull-right"><span class="glyphicon"
-                                                                                        ng-class="{'glyphicon-download': !vm.updatingBuildsInProgress, 'glyphicon-refresh': updatingBuildsInProgress }"></span>
-                Import &amp; Update Builds</a>
+            <a href="" ng-click="vm.importAndUpdateBuilds()" class="link pull-right">
+                <span class="glyphicon glyphicon-refresh"></span>
+                Import &amp; Update Builds
+            </a>
         </div>
     </div>
 
@@ -42,10 +43,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <th sc-sortable-column="identifier.buildName">Build</th>
                 <th sc-sortable-column="buildDescription.date">Date</th>
                 <th sc-sortable-column="buildDescription.revision">Revision</th>
+                <th>Use Cases</th>
                 <th>Scenarios</th>
                 <th sc-sortable-column="buildDescription.status">Build Status</th>
                 <th sc-sortable-column="status">Import Status</th>
-                <th>Log</th>
+                <th>Details & Log</th>
                 <th>Reimport</th>
             </tr>
         </thead>
@@ -56,6 +58,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <td>{{build.buildDescription.date | scDateTime}}</td>
                 <td>{{build.buildDescription.revision}}</td>
                 <td>
+                    {{ build.buildStatistics.numberOfSuccessfulUseCases + build.buildStatistics.numberOfFailedUseCases }}
+                    <span ng-show="build.buildStatistics.numberOfFailedUseCases != 0">({{ build.buildStatistics.numberOfFailedUseCases }} failed)</span>
+                </td>
+                <td>
                     {{ build.buildStatistics.numberOfSuccessfulScenarios + build.buildStatistics.numberOfFailedScenarios }}
                     <span ng-show="build.buildStatistics.numberOfFailedScenarios != 0">({{ build.buildStatistics.numberOfFailedScenarios }} failed)</span>
                 </td>
@@ -64,10 +70,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </td>
                 <td title="{{build.statusMessage}}"><span ng-class="[vm.getStyleClassForBuildImportStatus(build.status), 'label']">{{build.status}}</span> </td>
                 <td>
-                    <a class="link" ng-click="vm.goToBuild(build)" uib-tooltip="Show Import Log and Details" tooltip-placement="bottom"><i class="icon-list-alt icon-with-padding"></i></a>
+                    <a class="link" ng-click="vm.goToBuild(build)" uib-tooltip="Show Import Log and Details" tooltip-placement="bottom"><i class="icon-list-alt icon-with-padding"></i> Details & Log</a>
                 </td>
                 <td>
-                    <a class="link" ng-click="vm.reimportBuild(build)" uib-tooltip="Reimport and update this build" tooltip-placement="bottom"><i class="icon-refresh icon-with-padding"></i></a>
+                    <a class="link" ng-click="vm.reimportBuild(build)" uib-tooltip="Reimport and update this build" tooltip-placement="bottom"><i class="icon-refresh icon-with-padding"></i> Reimport</a>
                 </td>
             </tr>
         </tbody>

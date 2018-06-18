@@ -23,7 +23,7 @@ public class DonateStepDataGenerator {
 	private int stepIndex = 0;
 	private Map<BuildRun, Map<String, String>> buildToPageName;
 
-	private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(),
+	private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(SCENARIOO_DATA_DIRECTORY, MultipleBuildsRule.getCurrentBranchName(),
 			MultipleBuildsRule.getCurrentBuildName());
 
 	public DonateStepDataGenerator(UITest uiTest) {

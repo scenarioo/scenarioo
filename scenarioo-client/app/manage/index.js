@@ -1,0 +1,11 @@
+require('./config.service');
+require('./manage.controller');
+require('./buildImport/buildsList.controller');
+require('./buildImport/buildImportDetails.controller');
+require('./comparisons/comparisons.controller');
+require('./comparisons/comparisonDetails.controller');
+require('./comparisons/createComparisonModal.controller');
+require('./comparisons/comparisonStatusMapper.service');
+require('./generalSettings/generalSettings.controller');
+require('./branchAliases/branchAliases.controller');
+require('./labelColors/labelColors.controller');

@@ -34,7 +34,7 @@ public class ConfigurationDaoTest {
 
 	@Before
 	public void init() throws IOException {
-		configurationDao = new ConfigurationDaoImpl(folder.newFolder().getPath(), null);
+		configurationDao = new ConfigurationDaoImpl(folder.newFolder().getPath());
 	}
 
 	@Test

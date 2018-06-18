@@ -1,5 +1,9 @@
 # How To Setup & Use Scenarioo in Your Project
 
+## Quickstart with Scenarioo-JS
+
+If you are looking for the quickest possible start into Scenarioo, have a look at the [Quickstart with Scenarioo-JS](Quickstart-JS.md). Depending on your setup it might be better to use the [C#](https://github.com/scenarioo/scenarioo-cs) or [Java](https://github.com/scenarioo/scenarioo-java) writer library instead though (tutorials pending).
+
 ## Setup of the Scenarioo Viewer Web Application
 
 How to setup the Viewer Web Application for browsing your generated user scenario documentations ...

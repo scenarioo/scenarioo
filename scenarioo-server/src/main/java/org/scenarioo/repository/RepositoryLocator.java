@@ -19,9 +19,8 @@ public enum RepositoryLocator {
 		
 	}
 	
-	public void initializeConfigurationRepository(final String configurationDirectory,
-			final String configurationFilename) {
-		ConfigurationDao configurationDao = new ConfigurationDaoImpl(configurationDirectory, configurationFilename);
+	public void initializeConfigurationRepository(final String configurationDirectory) {
+		ConfigurationDao configurationDao = new ConfigurationDaoImpl(configurationDirectory);
 		configurationRepository = new ConfigurationRepository(configurationDao);
 	}
 	

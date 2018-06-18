@@ -18,9 +18,12 @@
 package org.scenarioo.business.diffViewer.comparator;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.dao.diffViewer.DiffReader;
-import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
+import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.utils.NumberFormatter;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -28,35 +31,32 @@ import java.awt.image.DataBuffer;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Compares two Screenshots using magic.
- */
-public class ScreenshotComparator extends AbstractComparator {
+public class ScreenshotComparator {
 
 	private static final Logger LOGGER = Logger.getLogger(ScreenshotComparator.class);
 	private static final int SCREENSHOT_DEFAULT_CHANGE_RATE = 0;
-	private DiffReader diffReader;
+	protected static final ConfigurationRepository configurationRepository =
+		RepositoryLocator.INSTANCE.getConfigurationRepository();
 
-	public ScreenshotComparator(ComparisonParameters parameters) {
-		super(parameters);
-		diffReader = new DiffReaderXmlImpl();
-	}
+	private DiffViewerDao diffViewerDao = new DiffViewerDao();
 
-	public double compare(final String baseUseCaseName, final String baseScenarioName, final StepLink baseStepLink,
-						  final String comparisonScreenshotName) {
+	private ScenarioDocuReader scenarioDocuReader =
+		new ScenarioDocuReader(configurationRepository.getDocumentationDataDirectory());
 
-		final String baseScreenshotName = THREE_DIGIT_NUM_FORMAT.format(baseStepLink.getStepIndex())
-			+ SCREENSHOT_FILE_EXTENSION;
+	public double compare(ComparisonParameters parameters, final String baseUseCaseName, final String baseScenarioName,
+						  final StepLink baseStepLink, final String comparisonScreenshotName) {
 
-		final File baseScreenshot = docuReader.getScreenshotFile(parameters.getBaseBranchName(),
+		final String baseScreenshotName = NumberFormatter.formatMinimumThreeDigits(baseStepLink.getStepIndex()) + ".png";
+
+		final File baseScreenshot = scenarioDocuReader.getScreenshotFile(parameters.getBaseBranchName(),
 			parameters.getBaseBuildName(), baseUseCaseName, baseScenarioName, baseScreenshotName);
 
-		final File comparisonScreenshot = docuReader.getScreenshotFile(
+		final File comparisonScreenshot = scenarioDocuReader.getScreenshotFile(
 			parameters.getComparisonConfiguration().getComparisonBranchName(),
 			parameters.getComparisonConfiguration().getComparisonBuildName(), baseUseCaseName, baseScenarioName,
 			comparisonScreenshotName);
 
-		final File diffScreenshot = diffReader.getScreenshotFile(parameters.getBaseBranchName(), parameters.getBaseBuildName(),
+		final File diffScreenshot = diffViewerDao.getScreenshotFile(parameters.getBaseBranchName(), parameters.getBaseBuildName(),
 			parameters.getComparisonConfiguration().getName(),
 			baseUseCaseName, baseScenarioName, baseScreenshotName);
 
@@ -69,14 +69,14 @@ public class ScreenshotComparator extends AbstractComparator {
 			return 0.0;
 		}
 
-		return compareScreenshots(baseScreenshot, comparisonScreenshot, diffScreenshot);
+		return compareScreenshots(parameters, baseScreenshot, comparisonScreenshot, diffScreenshot);
 	}
 
 	/**
 	 * A Diff Screenshot will be created and stored in the directory of the diffScreenshot path.
 	 * This directory, and all the parent directories, will be created if they do not exist.
 	 */
-	double compareScreenshots(final File baseScreenshot,
+	double compareScreenshots(ComparisonParameters parameters, final File baseScreenshot,
 							  final File comparisonScreenshot,
 							  final File diffScreenshot) {
 

@@ -5,6 +5,7 @@
   * [Downloads and Links](setup/downloads-and-links.md)
 
 * [Getting Started](setup/README.md) -- TODO rename directory to `tutorial`?
+  * [Quickstart with Scenarioo-JS](setup/Quickstart-JS.md)
   * [Write Reports from Tests](setup/01-Write-Reports-From-Tests.md)
      * TODO move [Tutorial](setup/tutorial.md) to above page
      * TODO integrate [Usage of Writer Libraries](setup/How-to-use-Scenarioo-Writer-Library.md) into above page
@@ -20,25 +21,27 @@
     * [Labels](features/Labels.md)
     * [Details & Object Repository](features/Details.md)
     * [Scenarioo Format Validator](features/validator-component/Scenarioo-Validator.md)
+  * [Diff Viewer](features/diff-viewer/diff-viewer.md)
   * [Full Text Search](features/full-text-search/README.md)
      * [Full Text Search Setup](features/full-text-search/setup.md)
      * [Full Text Search Specs](features/full-text-search/specifications.md)
-  * [Diff Viewer](features/diff-viewer/README.md)
-     * [Diff Viewer User Guide](features/diff-viewer/user-guide.md)
-     * [Diff Viewer Setup Guide](features/diff-viewer/setup.md)
 
 * [Contributor Guide](contribute/README.md)
-  * [Development Environment Setup](contribute/Development-Environment-with-IntelliJ.md)
+  * [Development Environment Setup](contribute/Development-Environment-Setup.md)
   * [Developer Guide](contribute/Developer-Guide.md)
-  * [Code of Conduct: Rules & Guidelines](contribute/Code-of-Conduct.md)
   * [Coding Guidelines](contribute/Coding-guidelines.md)
   * [End to End Testing](contribute/e2eTesting.md)
+  * [Documentation & Webpage](contribute/Documentation-and-Webpage.md)
+  * [Code of Conduct: Rules & Guidelines](contribute/Code-of-Conduct.md)
   * [Commit Rules](contribute/Commit-rules.md)
   * [Branching Strategy](contribute/Branching-strategy.md)
   * [Versioning](contribute/Versioning.md)
   * [Release Scenarioo Viewer Web Application](contribute/Release-Scenarioo-Viewer-Web-Application.md)
   * [Release Docker Image](contribute/Building-the-Docker-Image.md)   
   * [Release Scenarioo Writer Libraries](contribute/Release-Scenarioo-Writer-Library.md) 
-  * [Build and Demo Server](contribute/Build-Server.md)
-  * [Webpage with Jekyll](contribute/Scenarioo-User-Documentation-and-Webpage-with-Jekyll.md)
-  
+  * [CI and Demo Server](contribute/Build-Server.md)
+  * [CI & Tools Installation/Configuration](contribute/ci-server-setup/README.md)
+    * [Nginx Proxy](contribute/ci-server-setup/nginx.md)        
+    * [Docker Installation](contribute/ci-server-setup/docker.md)
+    * [Elasticsearch 5 Installation](contribute/ci-server-setup/Elasticsearch-5.md)
+    * [Deprecated: Elasticsearch 2 Installation](contribute/ci-server-setup/Elasticsearch-2.md)

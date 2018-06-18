@@ -13,11 +13,13 @@
  *   default value: 'http://localhost:9000'
  */
 
-var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:9000';
-var BRANCH = process.env.BRANCH || 'local_dev';
+var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:8500/scenarioo';
+var BRANCH = process.env.BRANCH || 'HEAD';
+var BUILD_NAME = 'build-' + (process.env.BUILD_NUMBER || 'latest');
 
 console.log('PROTRACTOR_BASE_URL: ' + PROTRACTOR_BASE_URL);
 console.log('BRANCH: ' + BRANCH);
+console.log('BUILD_NAME: ' + BUILD_NAME);
 
 var prepareProtractor = require('./prepareProtractor');
 
@@ -31,7 +33,17 @@ var exportsConfig = {
     allScriptsTimeout: 20000,
     getPageTimeout: 20000,
 
-    specs: [/* See gulpfile.js for specified tests */],
+    capabilities: {
+        browserName: 'chrome',
+        chromeOptions: {
+            args: [
+                'disable-infobars',
+                'window-size=1280,800',
+            ]
+        },
+    },
+
+    specs: ['./test/protractorE2E/specs/**/*.ts'],
 
     baseUrl: PROTRACTOR_BASE_URL,
 
@@ -40,25 +52,19 @@ var exportsConfig = {
     rootElement: 'html',
 
     onPrepare: function () {
-        // enable scenarioo userDocumentation (see more on http://www.scenarioo.org)
-        // pass in the current branch of your VCS you are testing, an arbitrary build name and the current revision you are testing.
-        var moment = require('moment');
-        var timeStamp = moment().format('YYYY.MM.DD_HH.mm.ss');
-        var git = require('git-rev-sync');
-
-        var scenarioo = require('scenarioo-js');
 
         // Setup and configure the ScenariooJS jasmine reporter
+        // See https://github.com/scenarioo/scenarioo-js/blob/develop/README.md
+        var git = require('git-rev-sync');
+        var scenarioo = require('scenarioo-js');
         scenarioo.setupJasmineReporter(jasmine, {
 
             targetDirectory: './scenariooDocumentation',
-            branchName: 'scenarioo-self-docu',
+            branchName: 'scenarioo-' + BRANCH,
             branchDescription: 'Scenarioo documenting itself.',
-            buildName: 'build_' + timeStamp,
+            buildName: BUILD_NAME,
             revision: git.short(),
-            pageNameExtractor: function (url) {
-                return url.pathname.substring(1);
-            },
+            pageNameExtractor: extractPageNameFromUrl,
             reportStepOnExpectationFailed: true,
             recordLastStepForStatus: {
                 failed: true,
@@ -85,7 +91,22 @@ var exportsConfig = {
         includeStackTrace: true,
         // Default time to wait in ms before a test fails.
         defaultTimeoutInterval: 80000
-    }
+    },
+
+    SELENIUM_PROMISE_MANAGER: 0
 };
+
+function extractPageNameFromUrl (url) {
+    const hash = url.hash;
+    if (hash) {
+        // Angular page path is in the hash only, rest of the url is not interesting (is just the APP base url)
+        // Also remove "#/" at the beginning and additional query params at the end to identify a page.
+        const pageName = hash.substring(2, hash.indexOf("?"));
+        return pageName === '' ? 'home' : pageName;
+    } else {
+        // Map all other pages to undefined pages
+        return "undefined";
+    }
+}
 
 exports.config = exportsConfig;

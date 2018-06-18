@@ -18,7 +18,7 @@
 angular.module('scenarioo.controllers').controller('ScenarioController', ScenarioController);
 
 function ScenarioController($filter, $routeParams,
-          $location, ScenarioResource, HostnameAndPort, SelectedBranchAndBuildService, SelectedComparison,
+          $location, ScenarioResource, SelectedBranchAndBuildService, SelectedComparison,
           ConfigService, PagesAndStepsService, DiffInfoService, LabelConfigurationsResource, RelatedIssueResource, SketchIdsResource, BuildDiffInfoResource, ScenarioDiffInfoResource, StepDiffInfosResource) {
 
     var vm = this;
@@ -91,8 +91,8 @@ function ScenarioController($filter, $routeParams,
 
                 loadRelatedIssues();
 
-                var hasAnyUseCaseLabels = vm.useCase.labels.labels.length > 0;
-                var hasAnyScenarioLabels = vm.scenario.labels.labels.length > 0;
+                var hasAnyUseCaseLabels = vm.useCase.labels.label.length > 0;
+                var hasAnyScenarioLabels = vm.scenario.labels.label.length > 0;
                 vm.hasAnyLabels = hasAnyUseCaseLabels || hasAnyScenarioLabels;
 
                 if (ConfigService.expandPagesInScenarioOverview()) {
@@ -170,7 +170,7 @@ function ScenarioController($filter, $routeParams,
             build = comparisonBuildName;
         }
 
-        return HostnameAndPort.forLink() + 'rest/branch/' + branch + '/build/' + build +
+        return 'rest/branch/' + branch + '/build/' + build +
             '/usecase/' + useCaseName + '/scenario/' + scenarioName + '/image/' + imgName;
     }
 
@@ -253,8 +253,8 @@ function ScenarioController($filter, $routeParams,
             BuildDiffInfoResource.get(
                 {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
                 function onSuccess(buildDiffInfo) {
-                    comparisonBranchName = buildDiffInfo.comparisonBranchName;
-                    comparisonBuildName = buildDiffInfo.comparisonBuildName;
+                    comparisonBranchName = buildDiffInfo.compareBuild.branchName;
+                    comparisonBuildName = buildDiffInfo.compareBuild.buildName;
 
                     if (isAddedUseCase(buildDiffInfo)) {
                         markPagesAndStepsAsAdded(pagesAndSteps);

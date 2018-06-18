@@ -216,8 +216,8 @@ public class ScenarioDocuAggregator {
 				calculateAggregatedDataForScenario(referencePath, useCaseScenarios.getUseCase(), scenario);
 				addScenarioToBuildStatistics(scenario.getScenario());
 			} catch (ResourceNotFoundException ex) {
-				LOGGER.warn("could not load scenario " + scenario.getScenario().getName() + " in use case"
-						+ useCaseScenarios.getUseCase().getName());
+				LOGGER.error("Could not load scenario " + scenario.getScenario().getName() + " in use case"
+						+ useCaseScenarios.getUseCase().getName() + " - will be ignored in statistics and aggregated data.", ex);
 			}
 		}
 
@@ -237,9 +237,9 @@ public class ScenarioDocuAggregator {
 
 	private void addScenarioToBuildStatistics(final Scenario scenario) {
 		String status = scenario.getStatus();
-		if (SUCCESS_STATE.equals(status)) {
+		if (SUCCESS_STATE.equalsIgnoreCase(status)) {
 			buildStatistics.incrementSuccessfulScenario();
-		} else if (FAILED_STATE.equals(status)) {
+		} else if (FAILED_STATE.equalsIgnoreCase(status)) {
 			buildStatistics.incrementFailedScenario();
 		}
 	}
@@ -264,7 +264,13 @@ public class ScenarioDocuAggregator {
 		ScenarioPageSteps scenarioPageSteps = new ScenarioPageSteps();
 		scenarioPageSteps.setUseCase(usecase);
 		scenarioPageSteps.setScenario(scenario);
-		List<Step> steps = reader.loadSteps(getBuildIdentifier().getBranchName(), getBuildIdentifier().getBuildName(), usecase.getName(), scenario.getName());
+
+		List<Step> steps = new ArrayList<>();
+		try {
+			steps = reader.loadSteps(getBuildIdentifier().getBranchName(), getBuildIdentifier().getBuildName(), usecase.getName(), scenario.getName());
+		} catch (ResourceNotFoundException e) {
+			// this simply means there are no steps --> move on
+		}
 		PageNameSanitizer.sanitizePageNames(steps);
 		List<PageSteps> pageStepsList = stepsAndPagesAggregator.calculateScenarioPageSteps(usecase, scenario, steps, referencePath, objectRepository);
 		scenarioPageSteps.setPagesAndSteps(pageStepsList);

@@ -1,0 +1,145 @@
+<!-- scenarioo-client
+Copyright (C) 2014, scenarioo.org Development Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<div class="modal-content">
+
+    <div class="modal-header">
+        <h1 class="modal-title">Create Comparison</h1>
+    </div>
+
+
+    <div class="modal-body">
+
+        <div class="row">
+            <div class="col-md-12">
+                <uib-alert type="info">
+                    <p>
+                        A Comparison will be calculated in background.
+                        Once calculated it can be selected from "Comparisons" in top navigation bar
+                        to display all changes in the build compared to another build.
+                    </p>
+                </uib-alert>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="comparisonName">
+                        Comparison Name
+                        <i class="icon-info-sign"
+                           uib-tooltip="Under this name the comparison will be listed in comparison list on target build"
+                           tooltip-placement="right">
+                        </i>
+                    </label>
+                    <input type="text" class="form-control" id="comparisonName" ng-model="vm.comparisonName"
+                           ng-change="vm.validateComparisonName()">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Target Build
+                        <i class="icon-info-sign"
+                           uib-tooltip="The build on which you want to see changes compared to another build."
+                           tooltip-placement="right">
+                        </i>
+                    </label>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav nav-pills nav-stacked">
+                                <sc-branch-selection
+                                    branches-and-builds="vm.branchesAndBuilds"
+                                    selected-branch="vm.baseBranch"
+                                    on-branch-change="vm.setBaseBranch(branch)">
+                                </sc-branch-selection>
+                                <sc-build-selection
+                                    branches-and-builds="vm.branchesAndBuilds"
+                                    selected-branch="vm.baseBranch"
+                                    selected-build="vm.baseBuild"
+                                    on-build-change="vm.setBaseBuild(build)">
+                                </sc-build-selection>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Compare with
+                        <i class="icon-info-sign"
+                           uib-tooltip="The build to compare with"
+                           tooltip-placement="right">
+                        </i>
+                    </label>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav nav-pills nav-stacked">
+                                <sc-branch-selection
+                                    branches-and-builds="vm.branchesAndBuilds"
+                                    selected-branch="vm.comparisonBranch"
+                                    on-branch-change="vm.setComparisonBranch(branch)">
+                                </sc-branch-selection>
+                                <sc-build-selection
+                                    branches-and-builds="vm.branchesAndBuilds"
+                                    selected-branch="vm.comparisonBranch"
+                                    selected-build="vm.comparisonBuild"
+                                    on-build-change="vm.setComparisonBuild(build)">
+                                </sc-build-selection>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="well well-small">
+                        <p>
+                            <a href="#/manage?tab=comparisons">Comparisons List in Manage Area</a> shows all calculated Comparisons.
+                        </p>
+                        <p>
+                            See also <a href="http://scenarioo.org/docs/{{vm.version.documentationVersion}}/features/diff-viewer/diff-viewer.html" target="_blank">How to Configure Automatically Calculated Comparisons for Your Builds</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" ng-if="vm.validationMessage">
+            <div class="col-md-12">
+                <uib-alert type="danger">
+                    {{vm.validationMessage}}
+                </uib-alert>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal" ng-click="vm.cancel()">Cancel</button>
+        <button class="btn btn-primary" ng-click="vm.createComparison()">Create</button>
+    </div>
+
+</div>

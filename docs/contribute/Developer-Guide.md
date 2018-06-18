@@ -4,19 +4,23 @@ This page describes how to build, test, run the Scenarioo Viewer Webapp locally 
 
 ## Prerequisites
 
-You need a correctly setup Development environment for working on sceanrioo as described here: [Development Environment](Development-Environment.md)
+You need a correctly setup development environment for working on Scenarioo as described here: 
+[Development Environment Setup](Development-Environment-Setup.md)
 
 ## Build, Test and Run the Scenarioo Viewer Web App
 
 This process describes how you clean update all your sources and build everything needed to properly run the demo locally and to run tests:
 
-0. you need to have cloned all sources (if not yet):
+0. You need to have cloned all sources (if not yet):
     ```
     git clone https://github.com/scenarioo/scenarioo.git scenarioo
+    ```
+    Depending on whether the current development state of the sources needs to have a lates and greates snapshot version of the Scenarioo Writer Library `scenarioo-java`, you might as well have to clone and build the writer library repo (check `scenariooApiVersion` property at top of our build file `build.gradle` to see whether it uses a `SNAèSHOT`-version, or try it without it, if you're feeling lucky):
+    ```
     git clone https://github.com/scenarioo/scenarioo-java.git scenarioo-java
     ```
 
-1. Update and build the writer library and install the newest SNAPSHOT in local maven repo (only needed for develop and feature branches to use the newest development SNAPSHOT)
+1. In case current version uses SNAPSHOT version of `scenariioo-java`: Update and build the writer library and install the newest SNAPSHOT in local maven repo:
      ```
      cd scenarioo-java
      git pull
@@ -31,17 +35,17 @@ This process describes how you clean update all your sources and build everythin
     ```
 
 3. Refresh and build in your IDE
-   * Eclipse 
-     * choose "refresh" on all projects
-     * choose "Gradle > Refresh all" on 'scenarioo' project, and if needed on all other projects
-     * if needed, choose "Gradle > Refresh dependencies" (e.g. if some dependency is not found or automatic dependency management in turned off) on all server and example-data-generator projects.
-   * IntelliJ
-     * TODO: what is required?
+    * for more information on how to work in IntelliJ see [Development Environment Setup](Development-Environment-Setup.md)  
 
 4. Generate the dummy test data:
-   * Eclipse: choose to run the `AllTests` JUnit test suite (Exlipse run configuration `scenarioo-docu-generation-example-all-webtest`) in project 'scenarioo-docu-generation-example`: this builds all dummy data of the 'wikipedia-docu-example' that you need for testing the Scenarioo web app (and running e2e tests later).
+   * This was already done by running all tests.
+   * But if you just want to clean your test data to a good state again, you can also choose 
+     to only run all tests inside project `scenarioo-docu-generation-example`: 
+     this sub module builds all dummy data of the 'wikipedia-docu-example' that you need 
+     for testing the Scenarioo web app (and running e2e tests later).
+     
 
-5. Start up the `scenarioo-server` in Tomcat (usually done in your IDE).
+5. Start up the `scenarioo-server` in Tomcat (usually done in your IDE), see [Development Environment Setup](Development-Environment-Setup.md) for more info on that.
 
 6. Build, serve and browse the client of the web app:
     ```
@@ -49,7 +53,7 @@ This process describes how you clean update all your sources and build everythin
     npm install
     npm start
     ```
-    Then open the browser to browse the application under http://localhost:9000
+    Then open the browser to browse the application under http://localhost:8500/scenarioo/  (Caution: webpack needs to need the slash in the end!)
     If you change files in the client the browser will refresh automatically
     
     Some remarks about this:
@@ -57,7 +61,7 @@ This process describes how you clean update all your sources and build everythin
 
 7. Configure webapp correctly (if not yet) and browse it:
    * Go to the configuration page (under _Manage_ in the top right corner, then choose tab _General Settings_). You should see some preconfigured values, which means the client was able to reach the server.
-   * Set the text field "Documentation Data Directory Path" to the path, were your dummy documentation data was generated (`<scenarioo-root>\scenarioo-docu-generation-example\build\scenarioDocuExample`) and save it. This will create or update your config.xml file in the folder that you specified in context.xml of the server.   
+   * In the field "Documentation Data Directory Path" you see where Scenarioo stores the `config.xml` file and where it expects documentation data. You can change the folder to a different one, see [Setup of Scenarioo Viewer Web App](../setup/Scenarioo-Viewer-Web-Application-Setup.md). You can either add your own `config.xml` file to this folder or let Scenarioo write the file the first time you save some configuration changes in the `Manage` section of Scenarioo.
    * In the _Builds_ tab on the _Manage_ page of Scenarioo you can click on the _Import & Update Builds_ link in the top right corner. You should see then that Scenarioo is either currently importing the build (state = PROCESSING) or already done with it (state = SUCCESS).
    * Reload the page, as soon as the state of the builds are SUCCESS the Branch _wikipedia-docu-example_ and it's builds should be selectable in the Scenarioo navigation bar. Select the build and navigate the example documentation. If you see a list of use cases, everything should be okay.
 
@@ -67,11 +71,6 @@ This process describes how you clean update all your sources and build everythin
     * run all java unit tests inside scenarioo/scenarioo-server
     * run all java-script unit tests inside scenarioo/scenarioo-client:
       `npm test`
-      or use following command to run them everytime a file changes:
-      `npm run test-watch`
-      for running javascript tests from inside WebStorm see also [Webstorm](./Development-Environment.md#webstorm)
-      or use
-      `npm test` which will call gulp under the hood
   * run all E2E tests (=web tests): see [E2E Testing](e2eTesting.md)
 
 **Well done, now you're ready to code!**
@@ -89,9 +88,12 @@ The following command creates a war file which contains the server and the clien
 
 ## Client package update strategy (package.json)
 
-Packages should by specified statically. 
-Example: ``` "gulp-ng-annotate": "2.0.x" ```.
+Packages should b specified statically. 
+Example: ``` "gulp-ng-annotate": "2.0.2" ```.
 
-Only the bugfix version shall be dynamic. This will make our builds more stable. Specify the dynamic version by using the 'x' character.
+**Remark by Rolf:** I changed this to from `2.0.x` to `2.0.2` to use the specific version even for minor version.
+Reason: we should never automatically use newer minor versions - experiences sho that it can always happen that even a minor update of a dependency makes scenarioo not work anymore - and this is not acceptable that somebody can not work because just the day before they introduced a bug in a minor version --> Murphies Law! 
+Therefore I think we should use fix versions for all dependencies! 
+(this replaced old comment, which was: "Only the bugfix version shall be dynamic. This will make our builds more stable. Specify the dynamic version by using the 'x' character.")
 
-Npm packages may be checked by using the command ``` npm outdated ```. You can update outdated packages by using ```npm update```.
+Npm packages may be checked by using the command ``` npm outdated ```. You can update outdated packages by using ```npm update``` - but if you do so, you have to ensure that everything still works (e2e tests?) and inform developers in case new npm version is needed!

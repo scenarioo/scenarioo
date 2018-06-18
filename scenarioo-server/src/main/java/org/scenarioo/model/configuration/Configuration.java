@@ -43,8 +43,6 @@ public class Configuration {
 	public static final String DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD = "most recent";
 	public static final String DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD = "last successful";
 
-	private String testDocumentationDirPath;
-
 	private String defaultBranchName = "trunk";
 
 	private String defaultBuildName = DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD;
@@ -57,7 +55,9 @@ public class Configuration {
 
 	private String scenarioPropertiesInOverview;
 
-	private String elasticSearchEndpoint;
+	private String elasticSearchEndpoint = "localhost:9300";
+
+	private String elasticSearchClusterName = "elasticsearch";
 
 	private String applicationName = "";
 
@@ -81,14 +81,18 @@ public class Configuration {
 	 *
 	 * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html#Color(int,%20boolean)"> docs.oracle.com</a>
 	 */
-	private String diffImageColor = "0x7FEDB04D";
+	private String diffImageColor = "0x7fff7e00";
 
 	/**
 	 * Will create a physical build containing the last successful scenarios of a branch.
 	 */
 	private boolean createLastSuccessfulScenarioBuild = false;
 
+	/**
+	 * Should pages be expanded by default in the scenario overview page for one scenario?
+	 */
 	private boolean expandPagesInScenarioOverview = false;
+
 	@XmlElementWrapper(name = "branchAliases")
 	@XmlElement(name = "branchAlias")
 	private List<BranchAlias> branchAliases = new LinkedList<BranchAlias>();
@@ -100,14 +104,6 @@ public class Configuration {
 	private Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<String, LabelConfiguration>();
 
 	private List<CustomObjectTab> customObjectTabs = new ArrayList<CustomObjectTab>();
-
-	public String getTestDocumentationDirPath() {
-		return testDocumentationDirPath;
-	}
-
-	public void setTestDocumentationDirPath(final String testDocumentationDirPath) {
-		this.testDocumentationDirPath = testDocumentationDirPath;
-	}
 
 	public String getDefaultBranchName() {
 		return defaultBranchName;
@@ -163,6 +159,14 @@ public class Configuration {
 
 	public void setElasticSearchEndpoint(String elasticSearchEndpoint) {
 		this.elasticSearchEndpoint = elasticSearchEndpoint;
+	}
+
+	public String getElasticSearchClusterName() {
+		return elasticSearchClusterName;
+	}
+
+	public void setElasticSearchClusterName(String elasticSearchClusterName) {
+		this.elasticSearchClusterName = elasticSearchClusterName;
 	}
 
 	public String getApplicationName() {

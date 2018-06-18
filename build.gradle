@@ -18,7 +18,7 @@ ext.scenariooAggregatedDataFormatVersion = '2.1.0'
 /**
  * Name of the release branch of this scenarioo version, which is used for links to the versioned documentation.
  */
-ext.scenariooReleaseBranch = 'release-3.0'
+ext.documentationVersion = 'develop'
 
 /*
  * Gets the version name from the latest Git tag
@@ -42,6 +42,6 @@ allprojects {
     version = getVersionName()
 
     task wrapper(type: Wrapper) {
-        gradleVersion = '3.1'
+        gradleVersion = '4.7'
     }
 }

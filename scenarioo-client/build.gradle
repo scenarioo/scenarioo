@@ -14,10 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-import org.gradle.api.tasks.Exec
-import org.apache.tools.ant.taskdefs.condition.Os
-
 apply plugin: 'java'
 apply plugin: 'com.moowork.node'
 
@@ -33,16 +29,19 @@ buildscript {
     }
 }
 
-task gulp(type: Exec) {
-  commandLine = ["node", "node_modules/gulp/bin/gulp", "build", "--production"]
-  inputs.file "gulpfile.js"
+node {
+    version = '8.11.2'
+    download = true
 }
 
 clean {
     delete "dist"
 }
 
-build.dependsOn gulp
-gulp.dependsOn npmInstall
+test.dependsOn npm_test
+npm_test.dependsOn npmInstall
+build.dependsOn npm_run_build
+npm_run_build.dependsOn npmInstall
+
 // Make sure we always get the latest dependencies
 tasks.npmInstall.outputs.upToDateWhen { return false }

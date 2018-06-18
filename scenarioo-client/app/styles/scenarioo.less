@@ -78,6 +78,14 @@ h4 {
   width: 150px !important;
 }
 
+.btn-default.focus, .btn-default:focus {
+    background-color: #fff;
+}
+
+.btn-no-btn {
+    cursor: default;
+}
+
 /** Breadcrumbs (basically styled by bootstrap!) **/
 
 .breadcrumb {
@@ -94,6 +102,10 @@ h4 {
   margin-left: -15px;
   margin-right: -15px;
   margin-bottom: 14px;
+}
+
+.breadcrumb-button {
+    margin-top: -6px;
 }
 
 .nav, .link {
@@ -260,16 +272,8 @@ h4 {
   margin-top: -4px;
 }
 
-#sc-step-comparison-buttons{
-  margin: 0 24px 0 15px;
-}
-
-.buttonBar .tooltip-wrapper {
-  display: inline;
-}
-
-#sc-diff-screenshot-toggle {
-  display: inline;
+#sc-diff-viewer-changes-highlight-legend {
+    display: inline;
 }
 
 .clear{
@@ -515,7 +519,7 @@ label {
   font-weight: bold;
 }
 
-/** Build Import Status Dialog (wider) **/
+/** Almost Full Screen Dialogs **/
 .modal-wide .modal-dialog {
   width: 75%;
 }
@@ -803,6 +807,14 @@ textarea#issueDescription {
       background-color: #FFFFFF;
     }
   }
+}
+
+.diff-info-wrapper {
+
+    .progress-bar-warning {
+        background-color: #f0ad4e;
+    }
+
 }
 
 .tooltip.diff-icon-tooltip .tooltip-inner {
