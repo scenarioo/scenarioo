@@ -246,6 +246,3 @@ public class ScenariooRule implements TestRule {
   }
 }
 ```
-## More Documentation
-
-See <a href="http://www.scenarioo.org/docs" target="_blank">Scenarioo Documentation</a>
