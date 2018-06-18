@@ -14,33 +14,6 @@ For enabling full text search inside your scenarioo documentation you have to se
 
 If you want to enable diff comparisons between two versions of your generated documentation builds (e.g. to see what changed in the last automated build run compared to another build run, including also screenshot comparisons) you have to follow the [DiffViewer Setup Instructions](../features/diff-viewer/setup.md)
 
-## Custom Object Tabs
-
-By adding custom object tabs to your scenarioo home page, you can enable browsing all objects of some type(s) (almost the same way as use cases can be browsed on the entry page). This feature currently has to be enabled by adding some XML fragment to your Scenarioo configuration file.
-
-How to add objects of arbitrary types as details to your scenarioo documentation content is described in [Details & Object Repository](../features/Details.md).
-
-The following XML fragment added to your configuration file, will make all your objects in your scenarioo documentation of the types listed as `<objectTypesToDisplay>` browsable in one searchable object tree inside a new tab called "Calls" on the home page of Scenarioo. This example lists all objects of type "service", "businessOperation" and "uiAction" in one tree, just as you can see it in the Demo of Scenarioo. Also the details properties "description" and "realName" are displayed in the resulting tree table as columns.
-
-```xml
-    <customObjectTabs>
-        <id>calls</id>
-        <tabTitle>Calls</tabTitle>
-        <objectTypesToDisplay>service</objectTypesToDisplay>
-        <objectTypesToDisplay>businessOperation</objectTypesToDisplay>
-        <objectTypesToDisplay>uiAction</objectTypesToDisplay>
-        <customObjectDetailColumns>
-            <columnTitle>Description</columnTitle>
-            <propertyKey>description</propertyKey>
-        </customObjectDetailColumns>
-        <customObjectDetailColumns>
-            <columnTitle>Real Name for Service</columnTitle>
-            <propertyKey>realName</propertyKey>
-        </customObjectDetailColumns>
-    </customObjectTabs>
-```
-This example is an extract from the demo configuration, for full example configuration file see [config.xml](https://github.com/scenarioo/scenarioo/blob/develop/scenarioo-docu-generation-example/src/test/resources/config-for-demo/config.xml)
-
 ## Branch Selection List Ordering
 
 The order of the branch entries in the top level navigation branch selection dropdown is configurable.
