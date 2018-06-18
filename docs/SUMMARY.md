@@ -2,16 +2,16 @@
 
 * [Introduction & Overview](README.md)
   * [Scenarioo Examples](examples.md)
-  * [Downloads and Links](setup/downloads-and-links.md)
+  * [Downloads and Links](tutorial/downloads-and-links.md)
 
-* [Getting Started](setup/README.md) -- TODO rename directory to `tutorial`?
-  * [Install Viewer Web App](setup/Scenarioo-Viewer-Web-Application-Setup.md)
-  * [Write Reports from Tests](setup/How-to-use-Scenarioo-Writer-Library.md)
-     * [Quickstart with Scenarioo-JS](setup/Quickstart-JS.md)
-     * [Use Scenarioo in Java Selenium Tests](setup/Using-Scenarioo-In-Java-Selenium-Tests.md)
-  * [Install Viewer Docker Image](setup/Scenarioo-Viewer-Docker-Image.md)
-  * [Publish Reports](setup/Publish-Documentation-Data.md)
-  * [Viewer Configuration](setup/Configuration.md) -- TODO move to advanced feature descriptions that need special config!
+* [Getting Started](tutorial/README.md)
+  * [Install Viewer Web App](tutorial/Scenarioo-Viewer-Web-Application-Setup.md)
+  * [Write Reports from Tests](tutorial/How-to-use-Scenarioo-Writer-Library.md)
+     * [Quickstart with Scenarioo-JS](tutorial/Quickstart-JS.md)
+     * [Use Scenarioo in Java Selenium Tests](tutorial/Using-Scenarioo-In-Java-Selenium-Tests.md)
+  * [Install Viewer Docker Image](tutorial/Scenarioo-Viewer-Docker-Image.md)
+  * [Publish Reports](tutorial/Publish-Documentation-Data.md)
+  * [Viewer Configuration](tutorial/Configuration.md) -- TODO move to advanced feature descriptions that need special config!
 
 * [Features & Concepts](features/README.md)
   * [Documentation Format](features/Scenarioo-Writer-Documentation-Format.md)

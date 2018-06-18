@@ -21,7 +21,7 @@ The Scenarioo Object Repository will index all your objects of type `ObjectDescr
 
 You can easily add additional so called "custom object tabs" to the start page of your scenarioo documentation in the Scenarioo Viewer web app. Such a "custom object tab" let's you browse all objects of one or serveral object types. Through this you can enable all Scenarioo Viewer users to easily find all occurrences of a specific object in your scenarioo documentation.
 
-See [Configuration of Custom Object Tabs](../setup/Configuration.md#custom-object-tabs) for how to configure such additional tabs for making your objects searchable.
+See [Configuration of Custom Object Tabs](../tutorial/Configuration.md#custom-object-tabs) for how to configure such additional tabs for making your objects searchable.
 
 ### Details Data Structure Examples
 
@@ -82,5 +82,5 @@ You could e.g. add a list of all service calls (as object descriptions) that occ
 
 Thanks to the object repository you can then configure an additonal "custom object tab" to appear on the start page of the Scenarioo Viewer web app to make all objects of type "serviceCall" searchable in an additional tab on the Scenarioo Viewer start page.
  
- See [Configuration of Custom Object Tabs](../setup/Configuration.md#custom-object-tabs) for how to configure such custom object tabs to browse your details objects in Scenarioo.
+ See [Configuration of Custom Object Tabs](../tutorial/Configuration.md#custom-object-tabs) for how to configure such custom object tabs to browse your details objects in Scenarioo.
 

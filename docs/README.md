@@ -27,9 +27,9 @@ These are the parts of which Scenarioo is made of:
 1. **Scenarioo Documentation Format**: A file format and folder structure for storing the automatic documentation of your user scenarios out of UI tests. As a user of Scenarioo you do not need to know much about this exact format, because you probably just want to use one of the existing writer libraries to write this format. If you want to know more details about the format, have a look at the [Scenarioo-Writer-Documentation-Format](features/Scenarioo-Writer-Documentation-Format.md).
 
 2. **Scenarioo Writer libraries for different languages (currently available for Java, C# and JavaScript)**:
-To generate the Scenarioo documentation files, you need to extend your UI tests (written in e.g. Protractor, Selenium, Robotium, etc.) so that they store information about use cases and scenarios into a documentation folder. The Scenarioo writer library helps you with this task. The Scenarioo Writer library knows how the documentation data has to be stored on disk, so that you can concentrate on supplying the relevant information. Have a look at [How to use a Scenarioo Writer Library](setup/How-to-use-Scenarioo-Writer-Library.md) to find out more.
+To generate the Scenarioo documentation files, you need to extend your UI tests (written in e.g. Protractor, Selenium, Robotium, etc.) so that they store information about use cases and scenarios into a documentation folder. The Scenarioo writer library helps you with this task. The Scenarioo Writer library knows how the documentation data has to be stored on disk, so that you can concentrate on supplying the relevant information. Have a look at [How to use a Scenarioo Writer Library](tutorial/How-to-use-Scenarioo-Writer-Library.md) to find out more.
 
-3. **Scenarioo Viewer web application for browsing the generated documentation**: The web app makes the documentation available to anybody that is interested in it. This includes developers, business analysts and even business people. Therefore it let's you easily browse use cases, scenarios and their steps. If you just need to know how to set up the web app, have a look at the [Scenarioo Viewer Web Application Setup](setup/Scenarioo-Viewer-Web-Application-Setup.md).
+3. **Scenarioo Viewer web application for browsing the generated documentation**: The web app makes the documentation available to anybody that is interested in it. This includes developers, business analysts and even business people. Therefore it let's you easily browse use cases, scenarios and their steps. If you just need to know how to set up the web app, have a look at the [Scenarioo Viewer Web Application Setup](tutorial/Scenarioo-Viewer-Web-Application-Setup.md).
 
 ### See Scenarioo in Action
 
@@ -37,13 +37,13 @@ Have a look at our Scenarioo Viewer Demo: http://demo.scenarioo.org
 
 And see our [Collection of Examples](examples.md) for how to produce documentation data content. Some content produced by those examples is what you can also see in our Viewer Demo as example content.
 
-There are also demo links for next release candidates of the Scenarioo Viewer that are currently under development, see [Downloads & Links](setup/downloads-and-links.md).
+There are also demo links for next release candidates of the Scenarioo Viewer that are currently under development, see [Downloads & Links](tutorial/downloads-and-links.md).
 
 ### Setup & Use Scenarioo in Your Project
 
 If you are interested how you can use Scenarioo in your own project, have a look here:
 
-[How to Setup & Use Scenarioo](setup/README.md)
+[How to Setup & Use Scenarioo](tutorial/README.md)
 
 ### Contribute to Scenarioo
 
@@ -61,6 +61,6 @@ The Scenarioo Writer library is a core part of Scenarioo. The Java version of th
 
 You can find further information in this documentation folder, which is structured into following major sections:
 
-* [Setup](setup/README.md): How to setup scenarioo for a project
+* [Setup](tutorial/README.md): How to setup scenarioo for a project
 * [Features](features/README.md): Overview of the core concepts and architecture and detailed informations for specific features of Scenarioo.
 * [Contribute](contribute/README.md): How developers can contribute to the Scenarioo Open Source Project
