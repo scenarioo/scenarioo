@@ -11,7 +11,7 @@
      * [Use Scenarioo in Java Selenium Tests](tutorial/Using-Scenarioo-In-Java-Selenium-Tests.md)
   * [Install Viewer Docker Image](tutorial/Scenarioo-Viewer-Docker-Image.md)
   * [Publish Reports](tutorial/Publish-Documentation-Data.md)
-  * [Viewer Configuration](tutorial/Configuration.md) -- TODO move to advanced feature descriptions that need special config!
+  * [Viewer Configuration](tutorial/Configuration.md)
 
 * [Features & Concepts](features/README.md)
   * [Documentation Format](features/Scenarioo-Writer-Documentation-Format.md)
