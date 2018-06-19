@@ -12,6 +12,16 @@
   * [Install Viewer Docker Image](tutorial/Scenarioo-Viewer-Docker-Image.md)
   * [Publish Reports](tutorial/Publish-Documentation-Data.md)
   * [Viewer Configuration](tutorial/Configuration.md)
+* [Downloads and Links](setup/downloads-and-links.md)
+
+* [Setup & Usage](setup/README.md)
+  * [Quickstart with Scenarioo-JS](setup/Quickstart-JS.md)
+  * [Install Viewer Web App](setup/Scenarioo-Viewer-Web-Application-Setup.md)
+  * [Install Viewer Docker Image](setup/Scenarioo-Viewer-Docker-Image.md)
+  * [Viewer Configuration](setup/Configuration.md)
+  * [Usage of Writer Libraries](setup/How-to-use-Scenarioo-Writer-Library.md)
+  * [Publish Documentation Data](setup/Publish-Documentation-Data.md)
+  * [Migration Guide](setup/Migration-Guide.md)
 
 * [Features & Concepts](features/README.md)
   * [Documentation Format](features/Scenarioo-Writer-Documentation-Format.md)
@@ -43,3 +53,5 @@
     * [Docker Installation](contribute/ci-server-setup/docker.md)
     * [Elasticsearch 5 Installation](contribute/ci-server-setup/Elasticsearch-5.md)
     * [Deprecated: Elasticsearch 2 Installation](contribute/ci-server-setup/Elasticsearch-2.md)
+    
+* [Version Changelog](CHANGELOG.md)    

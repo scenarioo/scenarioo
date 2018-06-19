@@ -19,8 +19,8 @@ How to set up and run the Scenarioo Viewer Web App as a docker image:
     with following parameters:    
     * `--name` - defines a name for the container (= running image)  
     * `-p` - maps a port of your host OS to the container's internal port.  
-    * `-v` - maps the directory where your Scenarioo documentation data and config will be stored, simply replace `/home/user/your-scenarioo-docu-folder` by the absolute path to the folder where you want scenarioo to read from and store in the documentation and config data. Make sure that the docker image wil have read and write access to this directory for storing its data (on linux use simply `sudo chmod ug+rws <scenarioo-docu-directory>` or see [Viewer Web App Setup](Scenarioo-Viewer-Web-Application-Setup.md) for more information in case of problems).  
-    * **Remark for Backwards-Compatibility when migrating an existing docker setup (version 2.x or before) to the newest docker image version:** the new docker image will as well store its config file inside the configured data directory, this was not the case for earlier docker image versions out of the box. Therefore you might have to migrate your settings from config files inside your old docker containers to the new container, if you had any special settings configured before. In future this wont be an issue anymore, since the config file is now as well stored in your configured scenarioo data directory.
+    * `-v` - maps the directory where your Scenarioo documentation data and config will be stored, simply replace `/home/user/your-scenarioo-docu-folder` by the absolute path to the folder where you want Scenarioo to read from and store in the documentation and config data. Make sure that the docker image wil have read and write access to this directory for storing its data (on linux use simply `sudo chmod ug+rws <scenarioo-docu-directory>` or see [Viewer Web App Setup](Scenarioo-Viewer-Web-Application-Setup.md) for more information in case of problems).  
+    * **Remark for Backwards-Compatibility when migrating an existing docker setup (version 2.x or before) to the newest docker image version:** the new docker image will as well store its config file inside the configured data directory, this was not the case for earlier docker image versions out of the box. Therefore you might have to migrate your settings from config files inside your old docker containers to the new container, if you had any special settings configured before. In future this wont be an issue anymore, since the config file is now as well stored in your configured Scenarioo data directory.
 
 
 2. Access [http://localhost:8080/scenarioo/](http://localhost:8080/scenarioo/) in your web browser to verify the Viewer application is running.
@@ -33,7 +33,7 @@ How to set up and run the Scenarioo Viewer Web App as a docker image:
 
 ## More Information
 
-* [DockerHub](https://hub.docker.com/u/scenarioo/) for the official scenarioo docker image that we provide.
+* [DockerHub](https://hub.docker.com/u/scenarioo/) for the official Scenarioo docker image that we provide.
 
 * [Docker](https://docs.docker.com/) for more information and documentation about docker.
 

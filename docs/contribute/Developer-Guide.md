@@ -92,7 +92,7 @@ Packages should b specified statically.
 Example: ``` "gulp-ng-annotate": "2.0.2" ```.
 
 **Remark by Rolf:** I changed this to from `2.0.x` to `2.0.2` to use the specific version even for minor version.
-Reason: we should never automatically use newer minor versions - experiences sho that it can always happen that even a minor update of a dependency makes scenarioo not work anymore - and this is not acceptable that somebody can not work because just the day before they introduced a bug in a minor version --> Murphies Law! 
+Reason: we should never automatically use newer minor versions - experiences sho that it can always happen that even a minor update of a dependency makes Scenarioo not work anymore - and this is not acceptable that somebody can not work because just the day before they introduced a bug in a minor version --> Murphies Law! 
 Therefore I think we should use fix versions for all dependencies! 
 (this replaced old comment, which was: "Only the bugfix version shall be dynamic. This will make our builds more stable. Specify the dynamic version by using the 'x' character.")
 

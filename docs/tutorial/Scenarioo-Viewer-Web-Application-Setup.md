@@ -2,7 +2,7 @@
 
 ## Use as Docker Image
 
-Instead of installing the Scenarioo Viewer web app by yourself (as described below) you can simply run scenarioo as a docker image: See [Scenarioo Viewer Docker Image](Scenarioo-Viewer-Docker-Image.md) for instructions.
+Instead of installing the Scenarioo Viewer web app by yourself (as described below) you can simply run Scenarioo as a docker image: See [Scenarioo Viewer Docker Image](Scenarioo-Viewer-Docker-Image.md) for instructions.
 
 ## Download as WAR
 

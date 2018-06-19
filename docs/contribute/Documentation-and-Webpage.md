@@ -19,7 +19,7 @@ We do not use Wikis!
 
 All our repos have a docs folder with a markdown file documentation using gitbook tooling.
 
-The sources for the major scenarioo documentation is in major scenarioo repository here:
+The sources for the major Scenarioo documentation is in major Scenarioo repository here:
 https://github.com/scenarioo/scenarioo/tree/develop/docs
 
 This docu is deployed as a part of our webpage using gitbook tooling under following URLs for different product versions:

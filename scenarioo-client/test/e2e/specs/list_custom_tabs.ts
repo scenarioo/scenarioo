@@ -1,8 +1,8 @@
 'use strict';
 
 import { scenario, step, useCase } from 'scenarioo-js';
-import * as Utils from '../util/util';
-import HomePage from '../webPages/homePage';
+import * as Utils from '../util';
+import HomePage from '../pages/homePage';
 
 useCase('List custom tabs')
     .description('Custom tabs can be defined to show aggregated documentation data..')

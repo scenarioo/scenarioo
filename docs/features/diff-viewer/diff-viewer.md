@@ -99,7 +99,7 @@ Simply select 'Disable' in the comparison selection menu:
 
 You can configure Scenarioo to automatically compute comparisons for you on each new build on a specific branch.
 
-In the scenarioo `config.xml` file you can edit the comparison configuration. It is possible to add one or more comparison configurations. On each import, all the configured comparisons get compared.
+In the Scenarioo `config.xml` file you can edit the comparison configuration. It is possible to add one or more comparison configurations. On each import, all the configured comparisons get compared.
 You can delete a comparisonConfiguration, then it will not be compared in the future. The old comparisons will not be deleted automatically. Check out [Delete Comparison](#delete-comparisons) for further details.
 
 Each comparisonConfiguration has the following settings:
