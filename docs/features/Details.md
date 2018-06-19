@@ -23,7 +23,7 @@ You can easily add additional so called "custom object tabs" to the start page o
 
 ### Adding Custom Object Tabs to the Homepage
 
-By adding custom object tabs to your scenarioo home page, you can enable browsing all objects of some type(s) (almost the same way as use cases can be browsed on the entry page). This feature currently has to be enabled by adding some XML fragment to your Scenarioo configuration file (`config.xml`).
+By adding custom object tabs to your Scenarioo home page, you can enable browsing all objects of some type(s) (almost the same way as use cases can be browsed on the entry page). This feature currently has to be enabled by adding some XML fragment to your Scenarioo configuration file (`config.xml`).
 
 The following XML fragment added to your configuration file, will make all your objects in your scenarioo documentation of the types listed as `<objectTypesToDisplay>` browsable in one searchable object tree inside a new tab called "Calls" on the home page of Scenarioo. This example lists all objects of type "service", "businessOperation" and "uiAction" in one tree, just as you can see it in the Demo of Scenarioo. Also the details properties "description" and "realName" are displayed in the resulting tree table as columns.
 
