@@ -20,15 +20,15 @@ Improvements to the Diff Viewer for Visual Regression Testing:
 * [#673 - Comparison Configurations with Regexp for base branches to compare](https://github.com/scenarioo/scenarioo/issues/673): allow to define comparisons against another build to be calculated on multiple branches selected by regexp (e.g. for all feature branches).
 * [#596 - Configure Highlight Color for Changes in DiffViewer Comparison Screenshots](https://github.com/scenarioo/scenarioo/issues/596): new config property `diffImageColorRgbaHex` to customize the highlight color.
 * [#604 - Background Calculation of Comparisons](https://github.com/scenarioo/scenarioo/issues/604): to not block builds from being imported while a comparison is computed.
-* [#597 - Store diff information directly inside build](https://github.com/scenarioo/scenarioo/issues/597): Also the comparisons are stored now inside the belonging build directories, such that the diffs get automatically cleaned up when deleting a build. Breaking change, see [Migration Guide](Migration-Guide.md).
-* [#602 - Removed Dependency to GraphicMagick](https://github.com/scenarioo/scenarioo/issues/602): GraphicMagick needs not to be installed anymore to use the DiffViewer feature.
-* [#618 - New Diff Viewer Internal Diff Screen Format](https://github.com/scenarioo/scenarioo/issues/618) The comparison builds need now less disk space because only a difference image per screenshot is stored. Needs reimport of builds to see comparisons again, see [Migration Guide](Migration-Guide.md).
-* [#577 - Avoid Null Pointer Exceptions](https://github.com/scenarioo/scenarioo/issues/577): Do not log null pointer exceptions when there is just no step to compare too.
+* [#597 - Store diff information directly inside build](https://github.com/scenarioo/scenarioo/issues/597): the comparisons are now stored inside the build directory, such that the comparisons get automatically cleaned up when deleting a build. Breaking change, see [Migration Guide](Migration-Guide.md).
+* [#602 - Removed Dependency to GraphicsMagick](https://github.com/scenarioo/scenarioo/issues/602): GraphicsMagick needs not to be installed anymore to use the DiffViewer feature.
+* [#618 - New Diff Viewer Internal Diff Screen Format](https://github.com/scenarioo/scenarioo/issues/618) The comparisons need less disk space because only a difference image per screenshot is stored. Needs reimport of builds to see comparisons again, see [Migration Guide](Migration-Guide.md).
+* [#577 - Avoid Null Pointer Exceptions](https://github.com/scenarioo/scenarioo/issues/577): do not log null pointer exceptions when there is just no step to compare to.
 
 ### Features "Small Improvements & Fixes"
 
 Further small improvements and bug fixes:
-``
+
 * [#601 - Branch Selection Order](https://github.com/scenarioo/scenarioo/issues/601): new configuration property `branchSelectionListOrder` to configure order of branches in the branch selection list. 
 * [#630 - Hide Screen Annotation Button if there are no Annotations](https://github.com/scenarioo/scenarioo/issues/630): bugfix to hide the button if there are no annotations to display.
 * [#628 - Improve logging format (log4j.properties) to be less verbose](https://github.com/scenarioo/scenarioo/issues/628).
