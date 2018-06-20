@@ -21,7 +21,7 @@ http://demo.scenarioo.org
 
 ### Downloads & Links
 
-Downloads and more links, even for different releases (like forthcoming release candidates) can be found under [Downloads & Links](docs/setup/downloads-and-links.md)
+Downloads and more links, even for different releases (like forthcoming release candidates) can be found under [Downloads & Links](docs/downloads-and-links.md)
 
 ### CI/CD Build Server
 
