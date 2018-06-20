@@ -18,4 +18,4 @@ See [Scenarioo Examples](../examples.md) for how to use this libraries and integ
 
 ## Other Languages / Frameworks
 
-If you use any other language / framework, there's probably no Scenarioo Writer library out there yet and you have to start creating a new one, which is not too difficult. Please read the [Scenarioo-Writer-Documentation-Format](../features/Scenarioo-Writer-Documentation-Format.md) for this purpose.
+If you use any other language / framework, there's probably no Scenarioo Writer library out there yet and you have to start creating a new one, which is not too difficult. Please read the [Scenarioo-Writer-Documentation-Format](../features/Scenarioo-Writer-Documentation-Format.md) for this purpose and let us know if you create a library for other technologies.

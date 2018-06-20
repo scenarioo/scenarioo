@@ -1,8 +1,19 @@
 # How To Setup & Use Scenarioo in Your Project
 
-## Quickstart with Scenarioo-JS
+## Usage of Scenarioo Writer Libraries 
 
-If you are looking for the quickest possible start into Scenarioo, have a look at the [Quickstart with Scenarioo-JS](Quickstart-JS.md). Depending on your setup it might be better to use the [C#](https://github.com/scenarioo/scenarioo-cs) or [Java](https://github.com/scenarioo/scenarioo-java) writer library instead though (tutorials pending).
+You can use scenarioo writer librariues to write scenarioo documentation reports from your tests. General information about using Scenarioo writer libraries in your tests in any technology can be found here:
+[How to use Scenarioo Writer](How-to-use-Scenarioo-Writer-Library.md)
+
+Easiest way to start is to pick one of the quickstart tutorials below for the technology that fits best for you.
+
+## Quickstart in Javascript
+
+Are you writing your tests in Javascript? Are you using protractor or WebriverJS for your UI tests? This is probably the quickest and easiest way to use Screnarioo. Just have a look at the [Quickstart with Scenarioo-JS](Quickstart-JS.md). 
+
+## Quickstart in C# or Java
+
+Checkout our [Quickstart with Java](Quickstart-Java.md), for C# it is allmost the same, as explained in this tutorial. 
 
 ## Setup of the Scenarioo Viewer Web Application
 
@@ -11,12 +22,6 @@ How to setup the Viewer Web Application for browsing your generated user scenari
 [Scenarioo Viewer Web Application Setup](Scenarioo-Viewer-Web-Application-Setup.md)
 
 [Advanced Configuration of Scenarioo Viewer](Configuration.md)
-
-## Usage of Scenarioo Writer Libraries 
-
-How to use the Scenarioo writer libraries for producing user scenario documentation out of your tests ...
-
-[How to use Scenarioo Writer](How-to-use-Scenarioo-Writer-Library.md)
 
 ## Publish Documentation Data
 
