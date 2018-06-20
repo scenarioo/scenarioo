@@ -2,13 +2,6 @@
 
 ## Version 4.0.0 
 
-### Feature "Configuration"
-
-* The data directory can not be configured through the config UI anymore (for security reasons)
-* The data directory can now be configured through an environment variable or in the `context.xml` file of the web server (or just by directory mapping on the docker container, similar to before).
-* The configuration file of Scenarioo is now stored in the data directory. Make sure you move your old `config.xml` file to the data directory.
-* See [Migration Guide](Migration-Guide.md) for more detailed explanations.
-
 ### Feature "Diff Viewer Plus"
 
 Improvements to the Diff Viewer for Visual Regression Testing:
@@ -24,6 +17,13 @@ Improvements to the Diff Viewer for Visual Regression Testing:
 * [#602 - Removed Dependency to GraphicsMagick](https://github.com/scenarioo/scenarioo/issues/602): GraphicsMagick needs not to be installed anymore to use the DiffViewer feature.
 * [#618 - New Diff Viewer Internal Diff Screen Format](https://github.com/scenarioo/scenarioo/issues/618) The comparisons need less disk space because only a difference image per screenshot is stored. Needs reimport of builds to see comparisons again, see [Migration Guide](Migration-Guide.md).
 * [#577 - Avoid Null Pointer Exceptions](https://github.com/scenarioo/scenarioo/issues/577): do not log null pointer exceptions when there is just no step to compare to.
+
+### Feature "Configuration"
+
+* The data directory can not be configured through the config UI anymore (for security reasons)
+* The data directory can now be configured through an environment variable or in the `context.xml` file of the web server (or just by directory mapping on the docker container, similar to before).
+* The configuration file of Scenarioo is now stored in the data directory. Make sure you move your old `config.xml` file to the data directory.
+* See [Migration Guide](Migration-Guide.md) for more detailed explanations.
 
 ### Features "Small Improvements & Fixes"
 
@@ -54,11 +54,11 @@ does not even have to be reimported after the upgrade and will continue to work 
 
 ### Fixed Issues
 
-All issues fixed in this release: [List of fixed issues](https://github.com/scenarioo/scenarioo/milestone/33?closed=1).
+All issues fixed in this release: [List of Fixed Issues](https://github.com/scenarioo/scenarioo/milestone/33?closed=1).
 
 ### Known Issues
 
-Please visit our [list of known issues on GitHub](https://github.com/scenarioo/scenarioo/labels/known-issue).
+Please visit our [List of Known Issues on GitHub](https://github.com/scenarioo/scenarioo/labels/known-issue).
 
 ### Feedback and Support
 

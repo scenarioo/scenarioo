@@ -8,7 +8,7 @@ Before you start using a Scenarioo Writer Library, it is a good idea to look at 
 
 If you are using one of the following languages / frameworks, then you are lucky. You can just start writing documentation for Scenarioo using one of the libraries listed here.
 
-### Javascript / TypeScript
+### JavaScript / TypeScript
 
 Are you writing your tests in TypeScript or JavaScript? Are you using protractor or WebriverJS for your UI tests? This is a very good choice and probably the quickest and easiest way to use Screnarioo. 
 
