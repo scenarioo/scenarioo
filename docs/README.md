@@ -1,8 +1,10 @@
 # Scenarioo
 
-This documentation is about the Software Development and Testing Tool "Scenarioo".
+This documentation is about the Software Development and Testing Tool "Scenarioo". 
  
 Scenarioo helps you visualizing and documenting the functionalities of your software system in a guidebook, that contains the important user interaction flows, generated out of your UI tests. Each so called "User Scenario" is presented as step by step page flow with screenshots and any additional useful information that you want to provide. This documentation is always up to date with the current implementation and available to everybody involved in your Software Development Lifecycle.
+
+For more hi level introduction about what scenarioo is, please refer to our web page: http://www.scenarioo.org
 
 ## Scenarioo Overview
 
@@ -15,8 +17,6 @@ Scenarioo is a tool that helps you create an up-to-date software documentation l
 With Scenarioo you can document your frontend application from a business and user perspective. Each UI test scenario is documented as a flow of screens. For a better overview, these scenarios are grouped into use cases. This gives a good high level picture of what an application is capable of and what typical scenarios you had in mind when implementing it.
 
 The Scenarioo Viewer web application lets you browse the documentation easily and lets you jump from screen to screen, almost like a cangaroo (therefore our logo).
-
-For a more detailed introduction, visit our web page under http://www.scenarioo.org
 
 ### What does Scenarioo consist of?
 
@@ -37,7 +37,7 @@ Have a look at our Scenarioo Viewer Demo: http://demo.scenarioo.org
 
 And see our [Collection of Examples](examples.md) for how to produce documentation data content. Some content produced by those examples is what you can also see in our Viewer Demo as example content.
 
-There are also demo links for next release candidates of the Scenarioo Viewer that are currently under development, see [Downloads & Links](tutorial/downloads-and-links.md).
+There are also demo links for next release candidates of the Scenarioo Viewer that are currently under development, see [Downloads & Links](downloads-and-links.md).
 
 ### Setup & Use Scenarioo in Your Project
 

@@ -11,7 +11,7 @@ The latest stable Scenarioo web application WAR file can be downloaded from the 
 
 Scenarioo requires Java 6 or higher.
 
-Further Release Candidate Versions are available through [Downloads & Links](downloads-and-links.md), if you want to to test newer versions not yet officially released.
+Further Release Candidate Versions are available through [Downloads & Links](../downloads-and-links.md), if you want to to test newer versions not yet officially released.
 
 ## Installation and Setup
 

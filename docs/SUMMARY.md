@@ -2,18 +2,17 @@
 
 * [Introduction & Overview](README.md)
   * [Scenarioo Examples](examples.md)
-  * [Downloads and Links](tutorial/downloads-and-links.md)
+  * [Downloads and Links](downloads-and-links.md)
 
 * [Getting Started](tutorial/README.md)
-  * [Install Viewer Web App](tutorial/Scenarioo-Viewer-Web-Application-Setup.md)
   * [Write Reports from Tests](tutorial/How-to-use-Scenarioo-Writer-Library.md)
      * [Quickstart with Scenarioo-JS](tutorial/Quickstart-JS.md)
-     * [Use Scenarioo in Java Selenium Tests](tutorial/Using-Scenarioo-In-Java-Selenium-Tests.md)
+     * [Quickstart in Java](tutorial/Quickstart-Java.md)
+  * [Install Viewer Web App](tutorial/Scenarioo-Viewer-Web-Application-Setup.md)
   * [Install Viewer Docker Image](tutorial/Scenarioo-Viewer-Docker-Image.md)
   * [Publish Reports](tutorial/Publish-Documentation-Data.md)
   * [Viewer Configuration](tutorial/Configuration.md)
-  * [Migration Guide](tutorial/Migration-Guide.md)
-
+    
 * [Features & Concepts](features/README.md)
   * [Documentation Format](features/Scenarioo-Writer-Documentation-Format.md)
     * [Safe Identifiers](features/Safe-Identifiers.md)
@@ -44,5 +43,7 @@
     * [Docker Installation](contribute/ci-server-setup/docker.md)
     * [Elasticsearch 5 Installation](contribute/ci-server-setup/Elasticsearch-5.md)
     * [Deprecated: Elasticsearch 2 Installation](contribute/ci-server-setup/Elasticsearch-2.md)
+  
     
 * [Version Changelog](CHANGELOG.md)    
+* [Migration Guide](Migration-Guide.md)

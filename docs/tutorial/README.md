@@ -1,8 +1,8 @@
-# How To Setup & Use Scenarioo in Your Project
+# Getting Started - Setup and Usage
 
 ## Usage of Scenarioo Writer Libraries 
 
-You can use scenarioo writer librariues to write scenarioo documentation reports from your tests. General information about using Scenarioo writer libraries in your tests in any technology can be found here:
+You can use Scenarioo writer libraries to write Scenarioo documentation reports from your tests. General information about using Scenarioo writer libraries in your tests in any technology can be found here:
 [How to use Scenarioo Writer](How-to-use-Scenarioo-Writer-Library.md)
 
 Easiest way to start is to pick one of the quickstart tutorials below for the technology that fits best for you.

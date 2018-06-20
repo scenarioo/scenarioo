@@ -7,7 +7,7 @@
 * The data directory can not be configured through the config UI anymore (for security reasons)
 * The data directory can now be configured through an environment variable or in the `context.xml` file of the web server (or just by directory mapping on the docker container, similar to before).
 * The configuration file of Scenarioo is now stored in the data directory. Make sure you move your old `config.xml` file to the data directory.
-* See [Migration Guide](docs/tutorial/Migration-Guide.md) for more detailed explanations.
+* See [Migration Guide](Migration-Guide.md) for more detailed explanations.
 
 ### Feature "Diff Viewer Plus"
 
@@ -20,15 +20,15 @@ Improvements to the Diff Viewer for Visual Regression Testing:
 * [#673 - Comparison Configurations with Regexp for base branches to compare](https://github.com/scenarioo/scenarioo/issues/673): allow to define comparisons against another build to be calculated on multiple branches selected by regexp (e.g. for all feature branches).
 * [#596 - Configure Highlight Color for Changes in DiffViewer Comparison Screenshots](https://github.com/scenarioo/scenarioo/issues/596): new config property `diffImageColorRgbaHex` to customize the highlight color.
 * [#604 - Background Calculation of Comparisons](https://github.com/scenarioo/scenarioo/issues/604): to not block builds from being imported while a comparison is computed.
-* [#597 - Store diff information directly inside build](https://github.com/scenarioo/scenarioo/issues/597): Also the comparisons are stored now inside the belonging build directories, such that the diffs get automatically cleaned up when deleting a build. Breaking change, see [Migration Guide](docs/tutorial/Migration-Guide.md).
+* [#597 - Store diff information directly inside build](https://github.com/scenarioo/scenarioo/issues/597): Also the comparisons are stored now inside the belonging build directories, such that the diffs get automatically cleaned up when deleting a build. Breaking change, see [Migration Guide](Migration-Guide.md).
 * [#602 - Removed Dependency to GraphicMagick](https://github.com/scenarioo/scenarioo/issues/602): GraphicMagick needs not to be installed anymore to use the DiffViewer feature.
-* [#618 - New Diff Viewer Internal Diff Screen Format](https://github.com/scenarioo/scenarioo/issues/618) The comparison builds need now less disk space because only a difference image per screenshot is stored. Needs reimport of builds to see comparisons again, see [Migration Guide](docs/tutorial/Migration-Guide.md).
+* [#618 - New Diff Viewer Internal Diff Screen Format](https://github.com/scenarioo/scenarioo/issues/618) The comparison builds need now less disk space because only a difference image per screenshot is stored. Needs reimport of builds to see comparisons again, see [Migration Guide](Migration-Guide.md).
 * [#577 - Avoid Null Pointer Exceptions](https://github.com/scenarioo/scenarioo/issues/577): Do not log null pointer exceptions when there is just no step to compare too.
 
 ### Features "Small Improvements & Fixes"
 
 Further small improvements and bug fixes:
-
+``
 * [#601 - Branch Selection Order](https://github.com/scenarioo/scenarioo/issues/601): new configuration property `branchSelectionListOrder` to configure order of branches in the branch selection list. 
 * [#630 - Hide Screen Annotation Button if there are no Annotations](https://github.com/scenarioo/scenarioo/issues/630): bugfix to hide the button if there are no annotations to display.
 * [#628 - Improve logging format (log4j.properties) to be less verbose](https://github.com/scenarioo/scenarioo/issues/628).
@@ -37,9 +37,9 @@ Further small improvements and bug fixes:
 ### Breaking Changes and Backwards Compatibility
 
 * **Changed configuration of data directory location:** you need to setup your data location and the configuration file 
-as explained in the [Migration Guide](docs/tutorial/Migration-Guide.md). This can not be configured through the frontend anymore.
+as explained in the [Migration Guide](Migration-Guide.md). This can not be configured through the frontend anymore.
 
-* **Internal format of comparisons between builds (DiffViewer feature) has changed:** after an update to the new version you will see no calculated comparisons on old builds anymore and need to reimport those builds for which you want to calculate and see comparisons again. See step 3 in [Migration Guide](docs/tutorial/Migration-Guide.md).
+* **Internal format of comparisons between builds (DiffViewer feature) has changed:** after an update to the new version you will see no calculated comparisons on old builds anymore and need to reimport those builds for which you want to calculate and see comparisons again. See step 3 in [Migration Guide](Migration-Guide.md).
 
 * **Full Text Search needs Elasticsearch Version 5:** we upgraded the full text search feature to use Elasticsearch 5.6.9. If you want to use that feature your have to configure a compatible Elasticsearch server and a cluster name as described in [Full Text Search Setup Guide](features/full-text-search/setup.md)
 

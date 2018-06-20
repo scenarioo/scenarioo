@@ -23,7 +23,7 @@ Usually this should be the same as the Scenarioo version that you are going to r
 ## Prepare Release Notes and Migration Guide
 
 * Go to file `CHANGELOG.md` and prepare the release notes for the next version
-* If needed write a migration guide for the new version in [Migration Guide](../tutorial/Migration-Guide.md)
+* If needed write a migration guide for the new version in [Migration Guide](../Migration-Guide.md)
 * Let both review by the team and finalize these important release documents.
 
 ## Create Release Branch and Stabilize
