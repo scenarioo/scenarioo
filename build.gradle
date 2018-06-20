@@ -35,8 +35,18 @@ def getVersionName = { ->
 
 ext.versionWithGitCommit = getVersionName();
 
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.3.RELEASE")
+	}
+}
+
 allprojects {
 	apply plugin: 'eclipse'
+	apply plugin: 'io.spring.dependency-management'
 
 	group = 'org.scenarioo'
     version = getVersionName()

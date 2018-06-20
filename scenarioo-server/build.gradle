@@ -22,6 +22,8 @@ apply plugin: 'signing'
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 apply from: "${rootProject.projectDir}/build-java.gradle"
+apply plugin: 'org.springframework.boot'
+
 
 dependencies {
     compile 'org.jboss.resteasy:resteasy-jaxrs:3.1.4.Final'
@@ -37,6 +39,8 @@ dependencies {
     compile 'org.elasticsearch:elasticsearch:5.6.9'
     compile 'org.elasticsearch.client:transport:5.6.9'
     providedCompile 'javax.servlet:servlet-api:2.5'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 
 eclipse {
