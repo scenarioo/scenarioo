@@ -10,7 +10,6 @@ require('angular-ui-bootstrap');
 require('angular-local-storage');
 
 require('twigs');
-require('./components/angular-unsavedChanges/dist/unsavedChanges.js');
 require('./components/svg.select.js/dist/svg.select.css');
 window.SVG = require('./components/svg.js/dist/svg');
 require('./components/svg.select.js/dist/svg.select');
