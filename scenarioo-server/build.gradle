@@ -78,15 +78,17 @@ task createVersionPropertiesFile << {
             'documentationVersion=' + documentationVersion + '\n')
 }
 
-war {
-    from '../scenarioo-client/dist'
-    from(sourceSets.main.output.classesDir) {
-        into('WEB-INF/classes')
+bootWar {
+    from('../scenarioo-client/dist') {
+        into('WEB-INF/classes/static')
     }
-	archiveName 'scenarioo-viewer-' + version + '.war'
+//    from(sourceSets.main.output.classesDir) {
+//        into('WEB-INF/classes')
+//    }
+//	archiveName 'scenarioo-viewer-' + version + '.war'
 }
 
-war.doLast {
+bootWar.doLast {
     copy {
         from ('build/libs/')
         into ('build/libs/')
