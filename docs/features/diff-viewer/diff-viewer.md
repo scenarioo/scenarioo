@@ -99,7 +99,7 @@ Simply select 'Disable' in the comparison selection menu:
 
 You can configure Scenarioo to automatically compute comparisons for you on each new build on a specific branch.
 
-In the scenarioo `config.xml` file you can edit the comparison configuration. It is possible to add one or more comparison configurations. On each import, all the configured comparisons get compared.
+In the Scenarioo `config.xml` file you can edit the comparison configuration. It is possible to add one or more comparison configurations. On each import, all the configured comparisons get compared.
 You can delete a comparisonConfiguration, then it will not be compared in the future. The old comparisons will not be deleted automatically. Check out [Delete Comparison](#delete-comparisons) for further details.
 
 Each comparisonConfiguration has the following settings:
@@ -155,7 +155,7 @@ Once you configured automatic comparisons to be calculated you can trigger autom
 * Reimport an existing build:
    * Scenario Viewer > Manage > Click on the reimport symbol next to the preferred build
    * NOTE: The "Import & Update Builds" Button will only start a comparison if a build gets imported for the first time.
-* Create a new build and upload it to Scenarioo in the usual way (see [Publish Scenarioo Documentation Data](../../setup/Publish-Documentation-Data.md)).
+* Create a new build and upload it to Scenarioo in the usual way (see [Publish Scenarioo Documentation Data](../../tutorial/Publish-Documentation-Data.md)).
 
 ## Manage Comparisons
 

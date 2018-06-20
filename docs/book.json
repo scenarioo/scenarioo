@@ -15,7 +15,6 @@
     "version": "3.0.0"
   },
   "pluginsConfig": {
-
     "edit-link": {
       "base": "https://github.com/scenarioo/scenarioo/edit/develop/docs",
       "label": "Edit This Page"
@@ -35,7 +34,11 @@
       "options": [
         {
           "value": "http://scenarioo.org/docs/develop",
-          "text": "Developer Version (Unreleased)",
+          "text": "Developer Version (Unreleased)"
+        },
+        {
+          "value": "http://scenarioo.org/docs/4.0",
+          "text": "Version 4.0",
           "selected": true
         },
         {

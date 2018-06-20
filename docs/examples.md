@@ -2,7 +2,7 @@
 
 There are several example projects and a live demo that demonstrate the usage of Scenarioo.
 
-* **[Scenarioo Self Documentation with Protractor and ScenariooJS](https://github.com/scenarioo/scenarioo/tree/develop/scenarioo-client/test/protractorE2E/specs):**
+* **[Scenarioo Self Documentation with Protractor and ScenariooJS](https://github.com/scenarioo/scenarioo/tree/develop/scenarioo-client/test/e2e/specs):**
 We eat our own dog food: Scenarioo documents itself using ScenariooJS and Protractor e2e tests.
 Scenarioo Reports of this tests can be browsed in our [Viewer Demo inside Branch `scenarioo-self-docu`](http://demo.scenarioo.org/scenarioo-master/#/?branch=scenarioo-self-docu&build=last%20successful).
 

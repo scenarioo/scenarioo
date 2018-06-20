@@ -1,10 +1,10 @@
 package org.scenarioo.rest.application;
 
 import org.apache.log4j.Logger;
-import org.scenarioo.rest.base.AbstractBuildContentResource;
 import org.scenarioo.rest.base.exceptions.ResourceNotFoundExceptionHandler;
 import org.scenarioo.rest.base.exceptions.RuntimeExceptionHandler;
 import org.scenarioo.rest.base.logging.ApplyRequestLogging;
+import org.scenarioo.rest.base.logging.RequestLogggingFilter;
 import org.scenarioo.rest.builds.BranchBuildsResource;
 import org.scenarioo.rest.builds.BuildsResource;
 import org.scenarioo.rest.configuration.BranchAliasesResource;
@@ -67,8 +67,10 @@ public class ScenariooRestApplication extends Application {
 		// Exception handlers
 		singletons.add(new ResourceNotFoundExceptionHandler());
 		singletons.add(new RuntimeExceptionHandler());
-		LOGGER.info("Register Scenarioo REST Services done.");
 
+		// Request logging
+		singletons.add(new RequestLogggingFilter());
+		LOGGER.info("Register Scenarioo REST Services done.");
 	}
 
 	@Override

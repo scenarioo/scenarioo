@@ -1,6 +1,6 @@
 # Full Text Search
 
-The full text search enables user to use any textual information inside the scenarioo documentation and to find use cases, scenarios, steps where the searched text occurs.
+The full text search enables user to use any textual information inside the Scenarioo documentation and to find use cases, scenarios, steps where the searched text occurs.
 
 Text can be searched inside:
 * use case and scenario descriptions and meta information
