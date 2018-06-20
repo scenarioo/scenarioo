@@ -1,29 +1,15 @@
-#Tutorial
+# Quickstart with Java 
 
-## Using Scenarioo in Java Selenium Tests
+This tutorial uses the **Scenarioo Writer Library for Java** with **JUnit** and **Selenium**. It demonstrates how to basically integrate Scenarioo into your tests. 
 
-This tutorial uses **Selenium** with Java and the **Scenarioo Writer Library for Java**. Just continue to read.
- 
-## Using Scenarioo in C# Selenium Tests
+**Are you using a different testing toolkit than JUnit or Selenium or even C# instead of Java?** you should still continue to read, since using Scenarioo Writer in C# or with any other testing toolkit than JUnit/Selenium is similar to what is explained here.
 
-Using Scenarioo in C# tests is very similar to the examples in Java in this tutorial, so this tutorial might also be interesting for you.
-
-More specific information about the C# Writer Library can be found here: 
-<a href="https://github.com/scenarioo/scenarioo-cs/wiki/How-to-use-the-C%23-Scenarioo-Writer-Library" target="_blank">Scenarioo C# Writer Library Wiki</a>
-
-## Using Scenarioo in Javascript Protractor or WebdriverJS Tests
-
-Please refer to the following documentation, for how easy it is to use it in your Javascript tests with Protractor or WebdriverJS:
-<a href="https://github.com/scenarioo/scenarioo-js/blob/master/README.md" target="_blank">ScenariooJS Writer Library</a>
 
 ## Setup the Scenarioo Viewer Web App
-1. If you haven't already, download a tomcat application server from http://tomcat.apache.org/.
-2. Deploy the Scenarioo client application from https://github.com/scenarioo/scenarioo/releases by copying the war file into the web apps folder.
-3. Set the context parameter within the conf/context.xml of your tomcat to a writable directory (e.g. your user home).
 
-```
-    <Parameter name="configurationDirectory" value="/home/myuser/scenarioo/" override="true" description="Location of scenarioo config.xml file"/>
-```
+For browsing generated docu outputs in this example you need a running Scenarioo Viewer instance.
+
+Please refer to [Install Viewer Web App](Scenarioo-Viewer-Web-Application-Setup.md) for how to setup the viewer first.
 
 ## Demo web app and Selenium tests
 We are testing a static GitHub website available on <a href="http://scenarioo.github.io/scenarioo-hello-world-app/index.html" target="_blank">http://scenarioo.github.io/scenarioo-hello-world-app/index.html</a>. There are two tests for one use case with two different scenarios:
@@ -42,6 +28,7 @@ Execute the tests first, either in your favorite IDE or using gradle
 
 
 ## Import example build
+
 There's already a generated scenarioo build in the data folder. The structure is
 
 File										        | Description
@@ -51,7 +38,6 @@ branch/build/build.xml 				                | contains information about your bui
 branch/build/usecase1/usecase.xml 	                | contains name, description and generic information about your use case
 branch/build/usecase1/scenario1/scenario.xml        | contains name, description and generic information about your use case
 branch/build/usecase1/scenario1/screenshots/*.png   | contains a screenshot per steps branch/build/usecase1/scenario1/steps/*.xml | contains an xml per step specifying a variety of information
-
 
 
 First we will tell Scenarioo where it can find the above data. Browse to your Scenarioo web app and open 'Manage' -> 'General Settings'. Insert an absolute path to the documentation data into the field 'Documentation Data Directory Path'. Next open the tab 'Builds' and press ' Import & Update Builds'. Now the specified build will appear.

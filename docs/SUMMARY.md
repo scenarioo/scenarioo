@@ -5,12 +5,12 @@
   * [Downloads and Links](downloads-and-links.md)
 
 * [Getting Started](tutorial/README.md)
-  * [Write Reports from Tests](tutorial/How-to-use-Scenarioo-Writer-Library.md)
-     * [Quickstart with Scenarioo-JS](tutorial/Quickstart-JS.md)
-     * [Quickstart in Java](tutorial/Quickstart-Java.md)
+  * [Write Documentation from Tests](tutorial/How-to-use-Scenarioo-Writer-Library.md)
+     * [Quickstart with ScenariooJS](tutorial/Quickstart-JS.md)
+     * [Quickstart with Java](tutorial/Quickstart-Java.md)
   * [Install Viewer Web App](tutorial/Scenarioo-Viewer-Web-Application-Setup.md)
   * [Install Viewer Docker Image](tutorial/Scenarioo-Viewer-Docker-Image.md)
-  * [Publish Reports](tutorial/Publish-Documentation-Data.md)
+  * [Publish Documentation](tutorial/Publish-Documentation-Data.md)
   * [Viewer Configuration](tutorial/Configuration.md)
     
 * [Features & Concepts](features/README.md)

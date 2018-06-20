@@ -1,7 +1,8 @@
-# Quickstart with Scenarioo-JS
+# Quickstart with ScenariooJS
 
 The aim of this page is to describe the minimal viable setup of Scenarioo from scratch using `protractor` and the `scenarioo-js` writer library.
 
+For more detailed informations about Scenarioo-JS and its usage please refer to the documentation of ScenariooJS here: [ScenariooJS Documentation](https://www.npmjs.com/package/scenarioo-js)
 
 ## Prerequisites
 
@@ -134,26 +135,26 @@ npm test
 
 ## Install Viewer to Browse Output
 
-Download [Tomcat 9](https://tomcat.apache.org)
+* Download [Tomcat 9](https://tomcat.apache.org)
 
-Unzip Tomcat
+* Unzip Tomcat
 
-Add line to `context.xml` of Tomcat pointing to the subfolder `scenarioo-output` of your project:
+* Add line to `context.xml` of Tomcat pointing to the subfolder `scenarioo-output` of your project:
 
 ```
 <Parameter name="scenariooDataDirectory" value="D:\Code\scenarioo-demo\scenarioo-output" override="true" />
 ```
 
-Download the [latest Scenarioo development build](http://build.scenarioo.org/jenkins/job/scenarioo-ci-pipeline/job/develop/lastSuccessfulBuild/artifact/scenarioo-server/build/libs/). (This is currently required because the released version does not have the simple configuration option we use here yet).
+* Download the [latest Scenarioo development build](http://build.scenarioo.org/jenkins/job/scenarioo-ci-pipeline/job/develop/lastSuccessfulBuild/artifact/scenarioo-server/build/libs/). (This is currently required because the released version does not have the simple configuration option we use here yet).
 
-Move Scenarioo `*.war` file into `webapps` folder of Tomcat and rename it to `scenarioo.war`.
+* Move Scenarioo `*.war` file into `webapps` folder of Tomcat and rename it to `scenarioo.war`.
 
-Start up Tomcat using the startup script (`startup.bat` or `startup.sh` depending on your platform).
+* Start up Tomcat using the startup script (`startup.bat` or `startup.sh` depending on your platform).
 
-Access Scenarioo viewer under: [http://localhost:8080/scenarioo]()
+* Access Scenarioo viewer under: http://localhost:8080/scenarioo
 
-If you can't access this page, make sure no other application is using port `8080`.
+* If you can't access this page, make sure no other application is using port `8080`.
 
-Click the use case "Wikipedia" and then the scenario "Look up Protractor". You should see this screen:
+* Click the use case "Wikipedia" and then the scenario "Look up Protractor". You should see this screen:
 
 ![Scenarioo showing steps of the scenario](Quickstart-JS.png)
