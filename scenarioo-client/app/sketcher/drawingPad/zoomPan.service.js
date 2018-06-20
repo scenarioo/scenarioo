@@ -16,6 +16,7 @@
  */
 
 /* global svgPanZoom:false */
+var svgPanZoom = require('svg-pan-zoom');
 
 angular.module('scenarioo.services').service('ZoomPanService', function ($rootScope) {
 

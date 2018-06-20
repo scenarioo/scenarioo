@@ -13,19 +13,19 @@ public class ApplicationVersion {
 	}
 
 	public ApplicationVersion(final String version, final String buildDate, final String apiVersion,
-			final String aggregatedDataFormatVersion, final String releaseBranch) {
+			final String aggregatedDataFormatVersion, final String documentationVersion) {
 		this.version = version;
 		this.buildDate = buildDate;
 		this.apiVersion = apiVersion;
 		this.aggregatedDataFormatVersion = aggregatedDataFormatVersion;
-		this.releaseBranch = releaseBranch;
+		this.documentationVersion = documentationVersion;
 	}
 
 	private String version;
 	private String buildDate;
 	private String apiVersion;
 	private String aggregatedDataFormatVersion;
-	private String releaseBranch;
+	private String documentationVersion;
 
 	public String getVersion() {
 		return version;
@@ -43,7 +43,8 @@ public class ApplicationVersion {
 		return aggregatedDataFormatVersion;
 	}
 
-	public String getReleaseBranch() {
-		return releaseBranch;
+	public String getDocumentationVersion() {
+		return documentationVersion;
 	}
+
 }

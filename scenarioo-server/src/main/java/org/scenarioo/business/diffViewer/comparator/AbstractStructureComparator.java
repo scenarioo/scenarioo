@@ -17,11 +17,13 @@
 
 package org.scenarioo.business.diffViewer.comparator;
 
+import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.model.diffViewer.StructureDiffInfo;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
+
 import java.util.LinkedList;
 import java.util.List;
-
-import org.scenarioo.model.configuration.ComparisonConfiguration;
-import org.scenarioo.model.diffViewer.StructureDiffInfo;
 
 /**
  * @param <ELEMENT_TYPE>
@@ -31,13 +33,19 @@ import org.scenarioo.model.diffViewer.StructureDiffInfo;
  * @param <REMOVED_ELEMENT_TYPE>
  *            Represents the removed element type in {@link StructureDiffInfo}.
  */
-public abstract class AbstractStructureComparator<ELEMENT_TYPE, ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> extends AbstractComparator {
+public abstract class AbstractStructureComparator<ELEMENT_TYPE, ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> {
+
+	protected static final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
+		.getConfigurationRepository();
+
+	protected ComparisonParameters parameters;
+	protected ScenarioDocuReader scenarioDocuReader;
 
 	private static final double ADDED_REMOVED_CHANGE_RATE = 100.0;
 
-	public AbstractStructureComparator(final String baseBranchName, final String baseBuildName,
-			final ComparisonConfiguration comparisonConfiguration) {
-		super(baseBranchName, baseBuildName, comparisonConfiguration);
+	public AbstractStructureComparator(ComparisonParameters parameters) {
+		this.parameters = parameters;
+		this.scenarioDocuReader = new ScenarioDocuReader(configurationRepository.getDocumentationDataDirectory());
 	}
 
 	protected abstract double compareElementAndWrite(ELEMENT_TYPE baseElement, ELEMENT_TYPE comparisonElement, StructureDiffInfo<ADDED_ELEMENT_TYPE, REMOVED_ELEMENT_TYPE> diffInfo);
@@ -159,4 +167,5 @@ public abstract class AbstractStructureComparator<ELEMENT_TYPE, ADDED_ELEMENT_TY
 
 		return relativeComplement;
 	}
+
 }

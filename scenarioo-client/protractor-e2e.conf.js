@@ -13,7 +13,7 @@
  *   default value: 'http://localhost:9000'
  */
 
-var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:9000';
+var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:8500/scenarioo';
 
 console.log('PROTRACTOR_BASE_URL: ' + PROTRACTOR_BASE_URL);
 
@@ -29,7 +29,17 @@ var exportsConfig = {
     allScriptsTimeout: 20000,
     getPageTimeout: 20000,
 
-    specs: [/* See gulpfile.js for specified tests */],
+    specs: ['./test/e2e/specs/**/*.ts'],
+
+    capabilities: {
+        browserName: 'chrome',
+        chromeOptions: {
+            args : [
+                'disable-infobars',
+                'window-size=1280,800',
+            ]
+        },
+    },
 
     baseUrl: PROTRACTOR_BASE_URL,
 
@@ -53,7 +63,9 @@ var exportsConfig = {
         includeStackTrace: true,
         // Default time to wait in ms before a test fails.
         defaultTimeoutInterval: 30000
-    }
+    },
+
+    SELENIUM_PROMISE_MANAGER: 0
 };
 
 exports.config = exportsConfig;

@@ -1,12 +1,12 @@
 # Scenarioo Validator
 
-The Scenarioo Validator is a command line tool that validates produced scenarioo documentation folders and files.
+The Scenarioo Validator is a command line tool that validates produced Scenarioo documentation folders and files.
 
-It is helpful when developing writer libraries (scenarioo-cs, scenarioo-js) in order to assure that the produced output can be successfully imported by the scenarioo application.
+It is helpful when developing writer libraries (scenarioo-cs, scenarioo-js) in order to assure that the produced output can be successfully imported by the Scenarioo application.
 
 ## Usage
 
-After you checked out the scenarioo source-code, you can run the following command in order to build the validator tool:
+After you checked out the Scenarioo source-code, you can run the following command in order to build the validator tool:
 
 `$ ./gradlew clean build installApp`
 

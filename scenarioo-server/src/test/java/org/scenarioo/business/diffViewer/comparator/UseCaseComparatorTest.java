@@ -27,8 +27,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.diffViewer.DiffWriter;
-import org.scenarioo.dao.diffViewer.impl.DiffFiles;
+import org.scenarioo.dao.diffViewer.DiffViewerDao;
+import org.scenarioo.dao.diffViewer.DiffViewerFiles;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
 import org.scenarioo.model.docu.entities.UseCase;
@@ -36,6 +36,7 @@ import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.utils.TestFileUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -67,19 +68,19 @@ public class UseCaseComparatorTest {
 	private ScenarioDocuReader docuReader;
 
 	@Mock
-	private DiffWriter diffWriter;
+	private DiffViewerDao diffWriter;
 
 	@Mock
 	private ScenarioComparator scenarioComparator;
 
 	@InjectMocks
-	private UseCaseComparator useCaseComparator = new UseCaseComparator(BASE_BRANCH_NAME, BASE_BUILD_NAME,
-		getComparisonConfiguration());
+	private UseCaseComparator useCaseComparator = new UseCaseComparator(getComparatorParameters());
 
 	@BeforeClass
 	public static void setUpClass() throws IOException {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(folder.newFolder());
-		assertTrue(DiffFiles.getDiffViewerDirectory().mkdirs());
+		File comparisonsFolder = new DiffViewerFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
+		assertTrue(comparisonsFolder.mkdirs());
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 	}
 
@@ -236,7 +237,7 @@ public class UseCaseComparatorTest {
 
 	private UseCaseDiffInfo getUseCaseDiffInfo(double changeRate, int added, int changed,
 											   int removed) {
-		UseCaseDiffInfo useCaseDiffInfo = new UseCaseDiffInfo();
+		UseCaseDiffInfo useCaseDiffInfo = new UseCaseDiffInfo("fake use case");
 		useCaseDiffInfo.setChangeRate(changeRate);
 		useCaseDiffInfo.setAdded(added);
 		useCaseDiffInfo.setChanged(changed);

@@ -1,7 +1,7 @@
 /**
  * Used Version of Scenarioo Java Library for reading scenarioo docu data
  */
-ext.scenariooApiVersion = '2.1.0'
+ext.scenariooApiVersion = '2.1.1'
 
 /**
  * Internal scenarioo format version of produced aggregation data (internal server format version).
@@ -18,7 +18,7 @@ ext.scenariooAggregatedDataFormatVersion = '2.1.0'
 /**
  * Name of the release branch of this scenarioo version, which is used for links to the versioned documentation.
  */
-ext.scenariooReleaseBranch = 'release-3.0'
+ext.documentationVersion = '4.0'
 
 /*
  * Gets the version name from the latest Git tag
@@ -33,6 +33,8 @@ def getVersionName = { ->
 	return stdout.toString().trim()
 }
 
+ext.versionWithGitCommit = getVersionName();
+
 allprojects {
 	apply plugin: 'eclipse'
 
@@ -40,6 +42,6 @@ allprojects {
     version = getVersionName()
 
     task wrapper(type: Wrapper) {
-        gradleVersion = '3.1'
+        gradleVersion = '4.7'
     }
 }

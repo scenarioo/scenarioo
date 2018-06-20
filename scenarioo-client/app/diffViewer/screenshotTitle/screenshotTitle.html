@@ -1,7 +1,13 @@
 <h3>
+
     {{name}}:
-    <span ng-if="alias != ''">{{alias}}</span>
-    <span ng-if="alias == ''">{{build.name}}</span>
-    <span ng-if="build.date || build.revision">({{build.date | scDateTime}} {{build.revision}})</span>
-    <span class="sc-highlight-color" ng-if="highlights"> highlighted changes</span>
+    <span ng-if="alias">{{alias}}</span>
+    <span ng-if="!alias">{{build.name}}</span>
+
+    <!-- Date and Revision as icon tooltip -->
+    <i class="icon-info-sign"
+       uib-tooltip="{{build.date | scDateTime}} {{build.revision}}"
+       tooltip-placement="bottom">
+    </i>
+
 </h3>

@@ -6,20 +6,6 @@
 
 	<display-name>Scenarioo</display-name>
 
-	<filter>
-		<filter-name>CORS</filter-name>
-		<filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
-        <init-param>
-                <param-name>cors.allowOrigin</param-name>
-                <param-value>http://localhost:9000</param-value>
-        </init-param>
-	</filter>
-
-	<filter-mapping>
-		<filter-name>CORS</filter-name>
-		<url-pattern>/rest/*</url-pattern>
-	</filter-mapping>
-
 	<listener>
 		<listener-class>org.scenarioo.rest.application.ScenariooWebApplication</listener-class>
 	</listener>
@@ -36,6 +22,10 @@
 	<servlet>
 		<servlet-name>ResteasyServlet</servlet-name>
 		<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>org.scenarioo.rest.application.ScenariooRestApplication</param-value>
+		</init-param>
 	</servlet>
 
 	<servlet-mapping>
@@ -57,6 +47,11 @@
 			<transport-guarantee>NONE</transport-guarantee>
 		</user-data-constraint>
 	</security-constraint>
+
+	<security-role>
+		<role-name>scenarioo-build-publisher</role-name>
+		<description>Users with this role are allowed to upload new builds (=report content) to scenarioo using the upload build REST endpoint.</description>
+	</security-role>
 
 	<login-config>
 		<auth-method>BASIC</auth-method>

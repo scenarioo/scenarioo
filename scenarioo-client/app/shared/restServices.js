@@ -21,42 +21,12 @@ angular.module('scenarioo.services')
         $httpProvider.defaults.stripTrailingSlashes = false;
     })
 
-    .factory('HostnameAndPort', function (ENV, BASE_URL, $location) {
-        var baseUrl = BASE_URL;
-
-        var getBaseUrl = function () {
-            var url = $location.absUrl();
-            var urlParts = url.split('#');
-            return urlParts[0];
-        };
-
-        return {
-            forNgResource: function () {
-                return baseUrl.replace(/(:[0-9])/, '\\$1');
-            },
-            forTest: function () {
-                return baseUrl;
-            },
-            forLink: function () {
-                return baseUrl;
-            },
-            forLinkAbsolute: function () {
-                if (ENV === 'production') {
-                    return getBaseUrl();
-                } else if (ENV === 'development') {
-                    return baseUrl;
-                }
-            }
-        };
-    })
-
-
     /**
      * All resources in Scenarioo must be based on this ScenariooResource.
      */
-    .factory('ScenariooResource', function (HostnameAndPort, $resource) {
+    .factory('ScenariooResource', function ($resource) {
         return function (url, paramDefaults, actions) {
-            return $resource(HostnameAndPort.forNgResource() + 'rest' + url, paramDefaults, actions);
+            return $resource('rest' + url, paramDefaults, actions);
         };
     })
 
@@ -69,19 +39,21 @@ angular.module('scenarioo.services')
         return ScenariooResource('/builds/buildImportSummaries', {}, {});
     })
 
-    .factory('BuildImportLogResource', function (HostnameAndPort, $http) {
+    .factory('BuildImportLogResource', function ($http) {
         return {
             get: function (branchName, buildName, onSuccess, onError) {
-                var callURL = HostnameAndPort.forLink() + 'rest/builds/importLogs/' + encodeURIComponent(branchName) + '/' + encodeURIComponent(buildName);
-                $http({method: 'GET', url: callURL, headers: {
-                    'Accept': 'text/plain'
-                }}).success(onSuccess).error(onError);
+                var callURL = 'rest/builds/importLogs/' + encodeURIComponent(branchName) + '/' + encodeURIComponent(buildName);
+                $http({
+                    method: 'GET', url: callURL, headers: {
+                        'Accept': 'text/plain'
+                    }
+                }).success(onSuccess).error(onError);
             }
         };
     })
 
     .factory('BuildReimportResource', function (ScenariooResource) {
-        return ScenariooResource('/builds/reimportBuild/:branchName/:buildName',
+        return ScenariooResource('/builds/:branchName/:buildName/import',
             {
                 branchName: '@branchName',
                 buildName: '@buildName'
@@ -257,6 +229,55 @@ angular.module('scenarioo.services')
 
     .factory('LabelConfigurationsResource', function (ScenariooResource) {
         return ScenariooResource('/labelconfigurations', {}, {'query': {isArray: false}});
+    })
+
+    .factory('ComparisonsResource', function (ScenariooResource) {
+        return ScenariooResource('/comparisons', {}, {});
+    })
+
+    .factory('ComparisonLogResource', function (ScenariooResource) {
+        return ScenariooResource('/builds/:branchName/:buildName/comparisons/:comparisonName/log',
+            {
+                branchName: '@branchName',
+                buildName: '@buildName',
+                comparisonName: '@comparisonName'
+            }, {
+                get: {
+                    method: 'GET',
+                    headers: {'Accept': 'text/plain'},
+                    transformResponse: function (data) {
+                        return {content: data};
+                    }
+                }
+            });
+    })
+
+    .factory('ComparisonCreateResource', function (ScenariooResource) {
+        return ScenariooResource('/builds/:branchName/:buildName/comparisons/:comparisonName/calculate',
+            {
+                branchName: '@branchName',
+                buildName: '@buildName',
+                comparisonName: '@comparisonName'
+            },
+            {
+                post: {
+                    method:'POST'
+                }
+            });
+    })
+
+    .factory('ComparisonRecalculateResource', function (ScenariooResource) {
+        return ScenariooResource('/builds/:branchName/:buildName/comparisons/:comparisonName/recalculate',
+            {
+                branchName: '@branchName',
+                buildName: '@buildName',
+                comparisonName: '@comparisonName'
+            },
+            {
+                post: {
+                    method:'POST'
+                }
+            });
     });
 
 function getPromise($q, fn) {

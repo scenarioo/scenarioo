@@ -9,13 +9,13 @@
 
 
     <form name="labelConfigurationsForm">
-        <table class="table table-curved table-hover table-responsive" >
+        <table class="table table-curved table-responsive" id="label-configurations-table">
             <thead>
-            <tr>
-                <th>Label Name</th>
-                <th>Color</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>Label Name</th>
+                    <th>Color</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="labelConfiguration in vm.labelConfigurations" id="label-configuration-{{$index}}">
@@ -26,7 +26,7 @@
                         <ul class="sc-color-chooser">
                             <li ng-repeat="color in vm.availableColors">
                                 <span style="background-color: {{color.backgroundColor}};" class="sc-color-field" ng-click="vm.selectColor(labelConfiguration, color)"
-                                        ng-class="{'sc-color-field-selected' : color.backgroundColor === labelConfiguration.backgroundColor}"></span>
+                                    ng-class="{'sc-color-field-selected' : color.backgroundColor === labelConfiguration.backgroundColor}"></span>
                             </li>
                         </ul>
 

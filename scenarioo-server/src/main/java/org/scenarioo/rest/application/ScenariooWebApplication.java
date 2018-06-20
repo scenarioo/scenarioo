@@ -17,21 +17,19 @@
 
 package org.scenarioo.rest.application;
 
-import java.io.InputStream;
-import java.util.Properties;
+import org.apache.log4j.Logger;
+import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
+import org.scenarioo.dao.context.ContextPathHolder;
+import org.scenarioo.dao.version.ApplicationVersionHolder;
+import org.scenarioo.model.configuration.Configuration;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
-import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
-import org.scenarioo.dao.version.ApplicationVersionHolder;
-import org.scenarioo.dao.context.ContextPathHolder;
-import org.scenarioo.model.configuration.Configuration;
-import org.scenarioo.repository.ConfigurationRepository;
-import org.scenarioo.repository.RepositoryLocator;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * Scenarioo REST Services Web Application context that initializes data on startup of server.
@@ -39,6 +37,7 @@ import org.scenarioo.repository.RepositoryLocator;
 public class ScenariooWebApplication implements ServletContextListener {
 
 	private static final Logger LOGGER = Logger.getLogger(ScenariooWebApplication.class);
+	private final ScenariooDataPathLogic scenariooDataPathLogic = new ScenariooDataPathLogic();
 
 	@Override
 	public void contextInitialized(final ServletContextEvent servletContextEvent) {
@@ -46,12 +45,19 @@ public class ScenariooWebApplication implements ServletContextListener {
 		LOGGER.info("Scenarioo Viewer is starting up ...");
 		LOGGER.info("====================================================");
 
-		initializeApplicationVersion(servletContextEvent.getServletContext());
-		loadConfiguration(servletContextEvent);
-		initializeContextPath(servletContextEvent.getServletContext());
+		try {
+			initializeApplicationVersion(servletContextEvent.getServletContext());
+			loadConfiguration(servletContextEvent);
+			initializeContextPath(servletContextEvent.getServletContext());
 
-		LOGGER.info("  Updating documentation content directory (will be done asynchronously ...)");
-		ScenarioDocuBuildsManager.INSTANCE.updateBuildsIfValidDirectoryConfigured();
+			LOGGER.info("  Updating documentation content directory (will be done asynchronously ...)");
+			ScenarioDocuBuildsManager.INSTANCE.updateBuildsIfValidDirectoryConfigured();
+		} catch(RuntimeException e) {
+			LOGGER.error("====================================================");
+			LOGGER.error("Error during Scenarioo startup", e);
+			LOGGER.error("====================================================");
+			throw e;
+		}
 
 		LOGGER.info("====================================================");
 		LOGGER.info("Scenarioo Viewer started succesfully.");
@@ -59,43 +65,19 @@ public class ScenariooWebApplication implements ServletContextListener {
 	}
 
 	private void loadConfiguration(final ServletContextEvent servletContextEvent) {
+
+
+		final String configurationDirectoryPath = scenariooDataPathLogic.getDataPath(servletContextEvent);
+		LOGGER.info("  Configured scenarioo data directory: " + configurationDirectoryPath);
+
 		LOGGER.info("  Loading configuration ...");
 
-		final String configurationDirectory = configureConfigurationDirectoryFromServerContext(servletContextEvent);
-		final String configurationFilename = configureConfigurationFilenameFromServerContext(servletContextEvent);
-
-		RepositoryLocator.INSTANCE.initializeConfigurationRepository(configurationDirectory, configurationFilename);
+		RepositoryLocator.INSTANCE.initializeConfigurationRepository(configurationDirectoryPath);
 
 		final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE.getConfigurationRepository();
 		final Configuration configuration = configurationRepository.getConfiguration();
 
 		LOGGER.info("  Configuration loaded.");
-		LOGGER.info("  Configured documentation content directory: " + configuration.getTestDocumentationDirPath());
-	}
-
-	private String configureConfigurationDirectoryFromServerContext(final ServletContextEvent servletContextEvent) {
-		String configurationDirectory = servletContextEvent.getServletContext().getInitParameter(
-				"scenariooConfigurationDirectory");
-		if (StringUtils.isBlank(configurationDirectory)) {
-			// Fallback to old property name:
-			configurationDirectory = servletContextEvent.getServletContext().getInitParameter("configurationDirectory");
-		}
-		LOGGER.info("  configured configuration directory:  " + configurationDirectory);
-		return configurationDirectory;
-	}
-
-	private String configureConfigurationFilenameFromServerContext(final ServletContextEvent servletContextEvent) {
-		String configurationFilename = servletContextEvent.getServletContext().getInitParameter(
-				"scenariooConfigurationFilename");
-		if (StringUtils.isBlank(configurationFilename)) {
-			// Fallback to old property name:
-			configurationFilename = servletContextEvent.getServletContext().getInitParameter("configurationFilename");
-		}
-		if (StringUtils.isNotBlank(configurationFilename)) {
-			LOGGER.info("  overriding default configuration filename config.xml with:  " + configurationFilename);
-			return configurationFilename;
-		}
-		return null;
 	}
 
 	private void initializeApplicationVersion(final ServletContext servletContext) {
@@ -123,7 +105,23 @@ public class ScenariooWebApplication implements ServletContextListener {
 	private void initializeContextPath(ServletContext servletContext) {
 		String contextPath = servletContext.getContextPath();
 
-		ContextPathHolder.INSTANCE.setContextPath(contextPath.substring(1));
+		LOGGER.info("  Real Context Path: " + contextPath);
+
+		String sanitizedContextPath = sanitizeContextPath(contextPath);
+
+		LOGGER.info("  Stored Context Path: " + sanitizedContextPath);
+
+		ContextPathHolder.INSTANCE.setContextPath(sanitizedContextPath);
+	}
+
+	private String sanitizeContextPath(String contextPath) {
+		if (contextPath == null || contextPath.length() == 0) {
+			return "";
+		} else if (contextPath.startsWith("/")) {
+			return contextPath.substring(1);
+		} else {
+			return contextPath;
+		}
 	}
 
 	@Override

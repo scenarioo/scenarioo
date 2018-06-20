@@ -17,13 +17,9 @@
 
 package org.scenarioo.business.diffViewer.comparator;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
-import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
 import org.scenarioo.model.diffViewer.StructureDiffInfo;
 import org.scenarioo.model.diffViewer.UseCaseDiffInfo;
@@ -32,38 +28,37 @@ import org.scenarioo.model.docu.aggregates.usecases.UseCaseScenarios;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.rest.base.BuildIdentifier;
 
-/**
- * Comparison results are persisted in a xml file.
- */
+import java.util.LinkedList;
+import java.util.List;
+
 public class ScenarioComparator extends AbstractStructureComparator<Scenario, String, ScenarioSummary> {
 
 	private static final Logger LOGGER = Logger.getLogger(ScenarioComparator.class);
 
-	private StepComparator stepComparator = new StepComparator(baseBranchName, baseBuildName, comparisonConfiguration);
+	private StepComparator stepComparator = new StepComparator(parameters, new ScreenshotComparator());
 	private String baseUseCaseName;
 
 	private AggregatedDocuDataReader aggregatedDataReader = new ScenarioDocuAggregationDao(
 			configurationRepository.getDocumentationDataDirectory());
 
-	public ScenarioComparator(final String baseBranchName, final String baseBuildName,
-			final ComparisonConfiguration comparisonConfiguration) {
-		super(baseBranchName, baseBuildName, comparisonConfiguration);
+	public ScenarioComparator(ComparisonParameters parameters) {
+		super(parameters);
 	}
 
 	public UseCaseDiffInfo compare(final String baseUseCaseName) {
 		this.baseUseCaseName = baseUseCaseName;
 
-		final List<Scenario> baseScenarios = docuReader.loadScenarios(baseBranchName, baseBuildName, baseUseCaseName);
-		final List<Scenario> comparisonScenarios = docuReader.loadScenarios(
-				comparisonConfiguration.getComparisonBranchName(),
-				comparisonConfiguration.getComparisonBuildName(), baseUseCaseName);
+		final List<Scenario> baseScenarios = scenarioDocuReader.loadScenarios(parameters.getBaseBranchName(), parameters.getBaseBuildName(), baseUseCaseName);
+		final List<Scenario> comparisonScenarios = scenarioDocuReader.loadScenarios(
+			parameters.getComparisonConfiguration().getComparisonBranchName(),
+			parameters.getComparisonConfiguration().getComparisonBuildName(), baseUseCaseName);
 
 		final UseCaseDiffInfo useCaseDiffInfo = new UseCaseDiffInfo(baseUseCaseName);
 
 		calculateDiffInfo(baseScenarios, comparisonScenarios, useCaseDiffInfo);
 
 		LOGGER.info(getLogMessage(useCaseDiffInfo,
-				"Use Case " + baseBranchName + "/" + baseBuildName + "/" + baseUseCaseName));
+				"Use Case " + parameters.getBaseBranchName() + "/" + parameters.getBaseBuildName() + "/" + baseUseCaseName));
 
 		return useCaseDiffInfo;
 	}
@@ -77,7 +72,7 @@ public class ScenarioComparator extends AbstractStructureComparator<Scenario, St
 			final ScenarioDiffInfo scenarioDiffInfo = stepComparator.compare(baseUseCaseName,
 					baseElement.getName());
 
-			diffWriter.saveScenarioDiffInfo(scenarioDiffInfo, baseUseCaseName);
+			parameters.getDiffWriter().saveScenarioDiffInfo(scenarioDiffInfo, baseUseCaseName);
 
 			if (scenarioDiffInfo.hasChanges()) {
 				diffInfo.setChanged(diffInfo.getChanged() + 1);
@@ -94,8 +89,8 @@ public class ScenarioComparator extends AbstractStructureComparator<Scenario, St
 		}
 
 		final BuildIdentifier comparisonBuildIdentifier = new BuildIdentifier(
-				comparisonConfiguration.getComparisonBranchName(),
-				comparisonConfiguration.getComparisonBuildName());
+			parameters.getComparisonConfiguration().getComparisonBranchName(),
+			parameters.getComparisonConfiguration().getComparisonBuildName());
 		final UseCaseScenarios useCaseScenarios = aggregatedDataReader.loadUseCaseScenarios(comparisonBuildIdentifier,
 				baseUseCaseName);
 

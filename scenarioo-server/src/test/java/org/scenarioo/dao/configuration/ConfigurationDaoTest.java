@@ -1,8 +1,10 @@
 package org.scenarioo.dao.configuration;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.scenarioo.business.diffViewer.comparator.ConfigurationFixture.*;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -32,7 +34,7 @@ public class ConfigurationDaoTest {
 
 	@Before
 	public void init() throws IOException {
-		configurationDao = new ConfigurationDaoImpl(folder.newFolder().getPath(), null);
+		configurationDao = new ConfigurationDaoImpl(folder.newFolder().getPath());
 	}
 
 	@Test
@@ -41,6 +43,7 @@ public class ConfigurationDaoTest {
 		Map<String, LabelConfiguration> labelConfigurations = createLabelConfigurations();
 		configuration.setLabelConfigurations(labelConfigurations);
 		configuration.setComparisonConfigurations(createComparisonConfigurations());
+		configuration.setDiffImageAwtColor(Color.yellow);
 
 		configurationDao.updateConfiguration(configuration);
 		Configuration loadedConfiguration = configurationDao.loadConfiguration();
@@ -49,6 +52,8 @@ public class ConfigurationDaoTest {
 		assertEquals(2, loadedConfiguration.getComparisonConfigurations().size());
 		assertComparisonConfiguration(COMPARISON_NAME1, loadedConfiguration.getComparisonConfigurations().get(0));
 		assertComparisonConfiguration(COMPARISON_NAME2, loadedConfiguration.getComparisonConfigurations().get(1));
+
+		assertThat(loadedConfiguration.getDiffImageAwtColor(), is(Color.yellow));
 	}
 
 	private Map<String, LabelConfiguration> createLabelConfigurations() {

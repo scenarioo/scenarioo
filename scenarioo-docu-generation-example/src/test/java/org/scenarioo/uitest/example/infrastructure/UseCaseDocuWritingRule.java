@@ -57,7 +57,7 @@ public class UseCaseDocuWritingRule implements TestRule {
 		// Statement to write use case description as soon as test class gets executed
 		return new Statement() {
 
-			private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(DOCU_BUILD_DIRECTORY,
+			private final ScenarioDocuWriter docuWriter = new ScenarioDocuWriter(SCENARIOO_DATA_DIRECTORY,
 					MultipleBuildsRule.getCurrentBranchName(), MultipleBuildsRule.getCurrentBuildName());
 
 			@Override

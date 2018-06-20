@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
-    <testDocumentationDirPath>/home/scenarioo/scenarioo/scenarioo-docu-generation-example/build/scenarioDocuExample</testDocumentationDirPath>
     <defaultBranchName>master</defaultBranchName>
     <defaultBuildName>last successful</defaultBuildName>
     <aliasForMostRecentBuild>most recent</aliasForMostRecentBuild>
-    <aliasForLastSuccessfulBuild>last successful</aliasForLastSuccessfulBuild>
+    <elasticSearchEndpoint>localhost:9300</elasticSearchEndpoint>
+    <elasticSearchClusterName>elasticsearch</elasticSearchClusterName>
     <scenarioPropertiesInOverview></scenarioPropertiesInOverview>
     <applicationName></applicationName>
     <applicationInformation>&lt;h3&gt;Welcome to Scenarioo!&lt;/h3&gt;
@@ -16,7 +16,7 @@
     Please put your application specific welcome message to your user's of Scenarioo here. This is the place where you might want to explain the appication specific structure of your Scenarioo documentation, such that new user's of this tool will quickly find their way through your user scenarios of your application.
 &lt;/p&gt;
 &lt;p&gt;
-    To start exploring the features of Scenarioo, simply choose one of the example use cases and then one of its secenarios to browse step by step through the pages and screenshots of one tested user scenario. 
+    To start exploring the features of Scenarioo, simply choose one of the example use cases and then one of its secenarios to browse step by step through the pages and screenshots of one tested user scenario.
 &lt;/p&gt;
 &lt;p&gt;
    We also recommend you to put an email address for your stakeholders here, in case they have questions or feedback about the documentation:&lt;/br&gt;
@@ -26,6 +26,7 @@
    In case you want to contact the Scenarioo Development Team, please refer to the info popup tab 'Contacts'. We are looking forward to get your feedback. Thank you!
 &lt;/p&gt;
 &lt;p&gt;&lt;b&gt;Have fun!&lt;/b&gt;&lt;/p&gt;</applicationInformation>
+    <branchSelectionListOrder>name-ascending</branchSelectionListOrder>
     <buildstates>
         <entry>
             <key>failed</key>
@@ -53,7 +54,7 @@
         <id>pages</id>
         <tabTitle>Pages</tabTitle>
         <objectTypesToDisplay>page</objectTypesToDisplay>
-    </customObjectTabs>  
+    </customObjectTabs>
     <customObjectTabs>
         <id>labels</id>
         <tabTitle>Labels</tabTitle>

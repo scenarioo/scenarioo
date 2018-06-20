@@ -1,34 +1,42 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.scenarioo.model.diffViewer;
 
+import org.scenarioo.model.docu.entities.UseCase;
+import org.scenarioo.rest.base.BuildIdentifier;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
-
-import org.scenarioo.model.docu.entities.UseCase;
+import java.util.Date;
 
 @XmlRootElement
 @XmlSeeAlso(UseCase.class)
 public class BuildDiffInfo extends StructureDiffInfo<String, UseCase> {
 
-	private String comparisonBranchName;
+	private BuildIdentifier baseBuild;
 
-	private String comparisonBuildName;
+	private BuildIdentifier compareBuild;
+
+	private ComparisonCalculationStatus status;
+
+	private Date calculationDate;
+
+	private Date baseBuildDate;
 
 	public BuildDiffInfo() {
 		super();
@@ -37,24 +45,47 @@ public class BuildDiffInfo extends StructureDiffInfo<String, UseCase> {
 	public BuildDiffInfo(final String comparisonName, final String comparisonBranchName,
 			final String comparisonBuildName) {
 		super(comparisonName);
-		this.comparisonBranchName = comparisonBranchName;
-		this.comparisonBuildName = comparisonBuildName;
+		this.compareBuild = new BuildIdentifier(comparisonBranchName, comparisonBuildName);
 	}
 
-	public String getComparisonBranchName() {
-		return comparisonBranchName;
+	public BuildIdentifier getBaseBuild() {
+		return baseBuild;
 	}
 
-	public void setComparisonBranchName(final String comparisonBranchName) {
-		this.comparisonBranchName = comparisonBranchName;
+	public void setBaseBuild(BuildIdentifier baseBuild) {
+		this.baseBuild = baseBuild;
 	}
 
-	public String getComparisonBuildName() {
-		return comparisonBuildName;
+	public Date getBaseBuildDate() {
+		return baseBuildDate;
 	}
 
-	public void setComparisonBuildName(final String comparisonBuildName) {
-		this.comparisonBuildName = comparisonBuildName;
+	public void setBaseBuildDate(Date baseBuildDate) {
+		this.baseBuildDate = baseBuildDate;
+	}
+
+	public BuildIdentifier getCompareBuild() {
+		return compareBuild;
+	}
+
+	public void setCompareBuild(BuildIdentifier compareBuild) {
+		this.compareBuild = compareBuild;
+	}
+
+	public ComparisonCalculationStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ComparisonCalculationStatus status) {
+		this.status = status;
+	}
+
+	public Date getCalculationDate() {
+		return calculationDate;
+	}
+
+	public void setCalculationDate(Date calculationDate) {
+		this.calculationDate = calculationDate;
 	}
 
 }

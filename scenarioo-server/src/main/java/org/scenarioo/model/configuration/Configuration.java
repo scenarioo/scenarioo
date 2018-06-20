@@ -17,6 +17,9 @@
 
 package org.scenarioo.model.configuration;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -40,8 +43,6 @@ public class Configuration {
 	public static final String DEFAULT_ALIAS_FOR_MOST_RECENT_BUILD = "most recent";
 	public static final String DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD = "last successful";
 
-	private String testDocumentationDirPath;
-
 	private String defaultBranchName = "trunk";
 
 	private String defaultBuildName = DEFAULT_ALIAS_FOR_LAST_SUCCESSFUL_BUILD;
@@ -54,20 +55,44 @@ public class Configuration {
 
 	private String scenarioPropertiesInOverview;
 
-	private String elasticSearchEndpoint;
+	private String elasticSearchEndpoint = "localhost:9300";
+
+	private String elasticSearchClusterName = "elasticsearch";
 
 	private String applicationName = "";
 
 	private String applicationInformation = "";
 
+	/**
+	 * The order of the branch entries in the top level navigation branch selection dropdown is configurable.
+	 * Values: name-ascending, name-descending, last-build-date-descending
+	 */
+	private String branchSelectionListOrder = "name-ascending";
+
 	private Map<String, String> buildstates = new HashMap<String, String>();
+
+	/**
+	 * RGB Hex Color
+	 * Pattern: 0xAARRGGBB <br/>
+	 * - AA: ALPHA. Transparency. Range from hex 00..ff <br />
+	 * - RR: RED. Range from hex 00..ff <br />
+	 * - GG: GREEN. Range from hex 00..ff <br />
+	 * - BB: BLUE. Range from hex 00..ff <br />
+	 *
+	 * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/awt/Color.html#Color(int,%20boolean)"> docs.oracle.com</a>
+	 */
+	private String diffImageColor = "0x7fff7e00";
 
 	/**
 	 * Will create a physical build containing the last successful scenarios of a branch.
 	 */
 	private boolean createLastSuccessfulScenarioBuild = false;
 
+	/**
+	 * Should pages be expanded by default in the scenario overview page for one scenario?
+	 */
 	private boolean expandPagesInScenarioOverview = false;
+
 	@XmlElementWrapper(name = "branchAliases")
 	@XmlElement(name = "branchAlias")
 	private List<BranchAlias> branchAliases = new LinkedList<BranchAlias>();
@@ -79,14 +104,6 @@ public class Configuration {
 	private Map<String, LabelConfiguration> labelConfigurations = new LinkedHashMap<String, LabelConfiguration>();
 
 	private List<CustomObjectTab> customObjectTabs = new ArrayList<CustomObjectTab>();
-
-	public String getTestDocumentationDirPath() {
-		return testDocumentationDirPath;
-	}
-
-	public void setTestDocumentationDirPath(final String testDocumentationDirPath) {
-		this.testDocumentationDirPath = testDocumentationDirPath;
-	}
 
 	public String getDefaultBranchName() {
 		return defaultBranchName;
@@ -144,6 +161,14 @@ public class Configuration {
 		this.elasticSearchEndpoint = elasticSearchEndpoint;
 	}
 
+	public String getElasticSearchClusterName() {
+		return elasticSearchClusterName;
+	}
+
+	public void setElasticSearchClusterName(String elasticSearchClusterName) {
+		this.elasticSearchClusterName = elasticSearchClusterName;
+	}
+
 	public String getApplicationName() {
 		return applicationName;
 	}
@@ -162,6 +187,14 @@ public class Configuration {
 
 	public void setApplicationInformation(final String applicationInformation) {
 		this.applicationInformation = applicationInformation;
+	}
+
+	public String getBranchSelectionListOrder() {
+		return branchSelectionListOrder;
+	}
+
+	public void setBranchSelectionListOrder(String branchSelectionListOrder) {
+		this.branchSelectionListOrder = branchSelectionListOrder;
 	}
 
 	public Map<String, String> getBuildstates() {
@@ -226,4 +259,23 @@ public class Configuration {
 		this.createLastSuccessfulScenarioBuild = createLastSuccessfulScenarioBuild;
 	}
 
+	public String getDiffImageColor() {
+		return diffImageColor;
+	}
+
+	public void setDiffImageColor(String color) {
+		this.diffImageColor = color;
+	}
+
+	@JsonIgnore
+	public Color getDiffImageAwtColor() {
+		//Required Long. Because the positive hex value could be out of range of a signed integer. With Long we can avoid this issue.
+		int rgba = Long.decode(diffImageColor).intValue();
+		return new Color(rgba, true);
+	}
+
+	@JsonIgnore
+	public void setDiffImageAwtColor(Color diffColor) {
+		this.diffImageColor = "0x" + Integer.toHexString(diffColor.getRGB());
+	}
 }

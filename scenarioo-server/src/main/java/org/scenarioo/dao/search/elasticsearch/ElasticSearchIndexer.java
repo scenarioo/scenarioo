@@ -25,6 +25,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.model.SearchableScenario;
 import org.scenarioo.dao.search.model.SearchableStep;
@@ -41,43 +42,47 @@ class ElasticSearchIndexer {
 	private final static Logger LOGGER = Logger.getLogger(ElasticSearchIndexer.class);
 
 	private final TransportClient client;
-    private final String indexName;
+	private final String indexName;
 
-    ElasticSearchIndexer(final String indexName, final TransportClient client) {
+	ElasticSearchIndexer(final String indexName, final TransportClient client) {
 		this.client = client;
 		this.indexName = indexName;
 	}
 
-    void setupCleanIndex(final String indexName) {
-        if(indexExists(indexName)) {
-            client.admin().indices().prepareDelete(indexName).get();
+	void setupCleanIndex(final String indexName) {
+		if (indexExists(indexName)) {
+			client.admin().indices().prepareDelete(indexName).get();
 
-            LOGGER.debug("Removed existing index " + indexName);
-        }
+			LOGGER.debug("Removed existing index " + indexName);
+		}
 
-        client.admin().indices().prepareCreate(indexName)
+		client.admin().indices().prepareCreate(indexName)
 			.setSettings(Settings.builder()
 				.put("index.number_of_shards", 1)
 				.put("index.number_of_replicas", 1))
+			// Multi types are deprecated and not supported anymore in elasticsearch 6.x
+			// In the future we need the new join datatype for parent child relations
+			// https://www.elastic.co/blog/index-type-parent-child-join-now-future-in-elasticsearch
+			// https://www.elastic.co/guide/en/elasticsearch/reference/master/parent-join.html
 			.addMapping("scenario", createMappingForType("scenario"))
 			.addMapping("page", createMappingForType("page"))
 			.addMapping("step", createMappingForType("step"))
 			.get();
-        LOGGER.debug("Added new index " + indexName);
-    }
+		LOGGER.debug("Added new index " + indexName);
+	}
 
-    void indexUseCases(final UseCaseScenariosList useCaseScenariosList) {
-        for (UseCaseScenarios useCaseScenarios : useCaseScenariosList.getUseCaseScenarios()) {
+	void indexUseCases(final UseCaseScenariosList useCaseScenariosList) {
+		for (UseCaseScenarios useCaseScenarios : useCaseScenariosList.getUseCaseScenarios()) {
 			indexUseCase(new SearchableUseCase(useCaseScenarios.getUseCase()));
 
-            for (ScenarioSummary scenario : useCaseScenarios.getScenarios()) {
-                indexScenario(new SearchableScenario(scenario.getScenario(), useCaseScenarios.getUseCase().getName()));
-            }
-        }
-    }
+			for (ScenarioSummary scenario : useCaseScenarios.getScenarios()) {
+				indexScenario(new SearchableScenario(scenario.getScenario(), useCaseScenarios.getUseCase().getName()));
+			}
+		}
+	}
 
 	void indexSteps(final List<Step> stepsList, final List<StepLink> stepLinksList, final Scenario scenario, final UseCase usecase) {
-		for(int i = 0; i < stepsList.size(); i++) {
+		for (int i = 0; i < stepsList.size(); i++) {
 			Step step = stepsList.get(i);
 			StepLink link = stepLinksList.get(i);
 
@@ -85,62 +90,62 @@ class ElasticSearchIndexer {
 		}
 	}
 
-    private void indexUseCase(final SearchableUseCase searchableUseCase) {
-        indexDocument(FullTextSearch.USECASE, searchableUseCase, searchableUseCase.getUseCase().getName());
-    }
+	private void indexUseCase(final SearchableUseCase searchableUseCase) {
+		indexDocument(FullTextSearch.USECASE, searchableUseCase, searchableUseCase.getUseCase().getName());
+	}
 
-    private void indexScenario(final SearchableScenario scenariosearchDao) {
-        indexDocument(FullTextSearch.SCENARIO, scenariosearchDao, scenariosearchDao.getScenario().getName());
-    }
+	private void indexScenario(final SearchableScenario scenariosearchDao) {
+		indexDocument(FullTextSearch.SCENARIO, scenariosearchDao, scenariosearchDao.getScenario().getName());
+	}
 
 	private void indexStep(final SearchableStep stepSearchDao) {
 		indexDocument(FullTextSearch.STEP, stepSearchDao, stepSearchDao.getStep().getStepDescription().getTitle());
 	}
 
-    private <T> void indexDocument(final String type, final T document, final String documentName) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            ObjectWriter writer = objectMapper.writer();
+	private <T> void indexDocument(final String type, final T document, final String documentName) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			ObjectWriter writer = objectMapper.writer();
 
-            client.prepareIndex(indexName, type).setSource(writer.writeValueAsBytes(document)).execute();
+			client.prepareIndex(indexName, type).setSource(writer.writeValueAsBytes(document)).execute();
 
 //            LOGGER.debug("Indexed use case " + documentName + " for index " + indexName);
-        } catch (IOException e) {
-            LOGGER.error("Could not index use case " + documentName + ". Will skip this one.", e);
-        }
-    }
+		} catch (IOException e) {
+			LOGGER.error("Could not index use case " + documentName + ". Will skip this one.", e);
+		}
+	}
 
-    private boolean indexExists(final String indexName) {
+	private boolean indexExists(final String indexName) {
 		return client.admin().indices()
 			.prepareExists(indexName)
 			.execute().actionGet().isExists();
-    }
+	}
 
-    private String createMappingForType(final String type) {
+	private String createMappingForType(final String type) {
 
-        return "{" +
-                "	\"" + type + "\":	{" +
-                "		\"dynamic_templates\": [" +
-                "			{" +
-                "				\"ignore_meta_data\": {" +
-				"					\"path_match\": \"SearchableObjectContext.*\"," +
-                "					\"mapping\": {" +
-                "						\"index\": \"no\"" +
-                "					}" +
-                "				}" +
-                "			}" +
-                "		]," +
-				"		\"properties\": {" +
-				"			\"step\": {" +
-				"				\"properties\": {" +
-				"					\"html\": {" +
-				"						\"type\": \"object\"," +
-				"						\"include_in_all\": false" +
-				"					}" +
-				"				}" +
-				"			}" +
-				"		}" +
-                "	}" +
-                "}";
-    }
+		return "{" +
+			"	\"" + type + "\":	{" +
+			"		\"dynamic_templates\": [" +
+			"			{" +
+			"				\"ignore_meta_data\": {" +
+			"					\"path_match\": \"SearchableObjectContext.*\"," +
+			"					\"mapping\": {" +
+			"						\"index\": \"no\"" +
+			"					}" +
+			"				}" +
+			"			}" +
+			"		]," +
+			"		\"properties\": {" +
+			"			\"step\": {" +
+			"				\"properties\": {" +
+			"					\"html\": {" +
+			"						\"type\": \"object\"," +
+			"						\"include_in_all\": false" +
+			"					}" +
+			"				}" +
+			"			}" +
+			"		}" +
+			"	}" +
+			"}";
+	}
 }

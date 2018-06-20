@@ -47,7 +47,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     {{property | scHumanReadable}}
                 </th>
                 <th sc-sortable-column="numberOfSteps"># Steps</th>
-                <th sc-sortable-column="diffInfo.changeRate" class="sort-diff-info" ng-if="comparisonInfo.isDefined">Changes</th>
+                <th sc-sortable-column="diffInfo.changeRate" class="sort-diff-info" ng-if="comparisonInfo.isDefined">
+                    Changes
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -60,20 +62,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </td>
                 <td>
                     {{scenarioSummary.scenario.name | scHumanReadable }}
-                    <span ng-repeat="label in scenarioSummary.scenario.labels.labels" class="label label-info sc-label"
+                    <span ng-repeat="label in scenarioSummary.scenario.labels.label" class="label label-info sc-label"
                           ng-style="useCase.getLabelStyle(label)">{{label}}</span>
                 </td>
                 <td>
-                    <a ng-if="!scenarioSummary.diffInfo.isRemoved"><i class="icon-list-ul icon-with-padding" uib-tooltip="Go to scenario overview"
-                          tooltip-placement="bottom"></i></a>
-                    <a ng-if="!scenarioSummary.diffInfo.isRemoved" ng-click="useCase.goToFirstStep(useCase.useCase.name, scenarioSummary.scenario.name)"
-                       tooltip="Go to first step"
+                    <a ng-if="!scenarioSummary.diffInfo.isRemoved">
+                        <i class="icon-list-ul icon-with-padding"
+                           uib-tooltip="Go to scenario overview"
+                           tooltip-placement="bottom"></i></a>
+                    <a ng-if="!scenarioSummary.diffInfo.isRemoved"
+                       ng-click="useCase.goToFirstStep(useCase.useCase.name, scenarioSummary.scenario.name)"
+                       uib-tooltip="Go to first step"
                        tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
                 </td>
                 <td>{{scenarioSummary.scenario.description}}</td>
                 <td ng-repeat="property in useCase.propertiesToShow">{{scenarioSummary.scenario.details[property]}}</td>
                 <td>{{scenarioSummary.numberOfSteps}}</td>
-                <td ng-if="comparisonInfo.isDefined"><sc-diff-info-icon diff-info="scenarioSummary.diffInfo" element-type="scenario" child-element-type="step"></sc-diff-info-icon></td>
+                <td ng-if="comparisonInfo.isDefined">
+                    <sc-diff-info-icon diff-info="scenarioSummary.diffInfo" element-type="scenario"
+                                       child-element-type="step"></sc-diff-info-icon>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -85,9 +93,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <sc-tree data='useCase.usecaseInformationTree'></sc-tree>
         </sc-collapsable-panel>
 
-        <sc-collapsable-panel title="Related Sketches" key="useCaseView-relatedSketches" initially-expanded="true" ng-show="useCase.hasAnyRelatedIssues">
-            <ul  id="relatedSketches">
-                <li ng-repeat="issue in useCase.relatedIssues"><a href="" ng-click="useCase.goToIssue(issue)">{{issue.name}}</a></li>
+        <sc-collapsable-panel title="Related Sketches" key="useCaseView-relatedSketches" initially-expanded="true"
+                              ng-show="useCase.hasAnyRelatedIssues">
+            <ul id="relatedSketches">
+                <li ng-repeat="issue in useCase.relatedIssues"><a href="" ng-click="useCase.goToIssue(issue)">{{issue.name}}</a>
+                </li>
             </ul>
         </sc-collapsable-panel>
 
@@ -98,7 +108,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ul>
                     <li>
                         Use case:
-                        <span ng-repeat="label in useCase.useCase.labels.labels" class="label label-info sc-label"
+                        <span ng-repeat="label in useCase.useCase.labels.label" class="label label-info sc-label"
                               ng-style="useCase.getLabelStyle(label)">{{label}}</span>
                     </li>
                 </ul>

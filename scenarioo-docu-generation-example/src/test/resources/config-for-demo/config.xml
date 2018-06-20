@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration>
+    <defaultBranchName>wikipedia-docu-example</defaultBranchName>
+    <defaultBuildName>last successful</defaultBuildName>
+    <aliasForMostRecentBuild>most recent</aliasForMostRecentBuild>
+    <aliasForLastSuccessfulBuild>last successful</aliasForLastSuccessfulBuild>
+    <buildStatusForSuccessfulBuilds>success</buildStatusForSuccessfulBuilds>
+    <elasticSearchEndpoint>localhost:9305</elasticSearchEndpoint>
+    <elasticSearchClusterName>elasticsearch</elasticSearchClusterName>
+    <scenarioPropertiesInOverview></scenarioPropertiesInOverview>
+    <applicationName>Demo</applicationName>
+    <applicationInformation>&lt;h3&gt;Welcome to Scenarioo!&lt;/h3&gt;
+        &lt;br/&gt;
+        &lt;p&gt;
+        You can change this welcome message and all other settings of Scenarioo on the configuration page (under 'Manage').
+        &lt;/p&gt;
+        &lt;p&gt;
+        Please put your application specific welcome message to your user's of Scenarioo here. This is the place where you might want to explain the appication specific structure of your Scenarioo documentation, such that new user's of this tool will quickly find their way through your user scenarios of your application.
+        &lt;/p&gt;
+        &lt;p&gt;
+        To start exploring the features of Scenarioo, simply choose one of the example use cases and then one of its secenarios to browse step by step through the pages and screenshots of one tested user scenario.
+        &lt;/p&gt;
+        &lt;p&gt;
+        We also recommend you to put an email address for your stakeholders here, in case they have questions or feedback about the documentation:&lt;/br&gt;
+        &lt;a href=&quot;mailto:your.email@yourcompany.com&quot;&gt;your.email@yourcompany.com&lt;/a&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+        In case you want to contact the Scenarioo Development Team, please refer to the info popup tab 'Contacts'. We are looking forward to get your feedback. Thank you!
+        &lt;/p&gt;
+        &lt;p&gt;&lt;b&gt;Have fun!&lt;/b&gt;&lt;/p&gt;</applicationInformation>
+    <buildstates>
+        <entry>
+            <key>failed</key>
+            <value>label-danger</value>
+        </entry>
+        <entry>
+            <key>success</key>
+            <value>label-success</value>
+        </entry>
+        <entry>
+            <key>warning</key>
+            <value>label-warning</value>
+        </entry>
+    </buildstates>
+    <createLastSuccessfulScenarioBuild>false</createLastSuccessfulScenarioBuild>
+    <expandPagesInScenarioOverview>false</expandPagesInScenarioOverview>
+    <branchAliases>
+        <branchAlias>
+            <name>Production</name>
+            <referencedBranch>wikipedia-docu-example</referencedBranch>
+            <description></description>
+        </branchAlias>
+		<branchAlias>
+            <name>Development</name>
+            <referencedBranch>wikipedia-docu-example-dev</referencedBranch>
+            <description></description>
+        </branchAlias>
+    </branchAliases>
+	<comparisonConfigurations>
+        <comparisonConfiguration>
+            <name>To Develop</name>
+            <baseBranchName>scenarioo-feature-.*</baseBranchName>
+            <comparisonBranchName>scenarioo-develop</comparisonBranchName>
+            <comparisonBuildName>last successful</comparisonBuildName>
+        </comparisonConfiguration>
+        <comparisonConfiguration>
+            <name>To Last Release</name>
+            <baseBranchName>scenarioo-develop</baseBranchName>
+            <comparisonBranchName>scenarioo-master</comparisonBranchName>
+            <comparisonBuildName>last successful</comparisonBuildName>
+        </comparisonConfiguration>
+        <comparisonConfiguration>
+            <name>To last successful</name>
+            <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
+            <comparisonBranchName>wikipedia-docu-example</comparisonBranchName>
+            <comparisonBuildName>last successful</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>To most recent</name>
+            <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
+            <comparisonBranchName>Production</comparisonBranchName>
+            <comparisonBuildName>most recent</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>To Projectstart</name>
+            <baseBranchName>wikipedia-docu-.*</baseBranchName>
+            <comparisonBranchName>Production</comparisonBranchName>
+            <comparisonBuildName>2014-01-20</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>To last Sprint</name>
+            <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
+            <comparisonBranchName>wikipedia-docu-example-dev</comparisonBranchName>
+            <comparisonBuildName>2014-04-19</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>To last successful (dev)</name>
+            <baseBranchName>wikipedia-docu-example-dev</baseBranchName>
+            <comparisonBranchName>wikipedia-docu-example-dev</comparisonBranchName>
+            <comparisonBuildName>last successful</comparisonBuildName>
+        </comparisonConfiguration>
+		<comparisonConfiguration>
+            <name>To most recent (dev)</name>
+            <baseBranchName>Development</baseBranchName>
+            <comparisonBranchName>Development</comparisonBranchName>
+            <comparisonBuildName>most recent</comparisonBuildName>
+        </comparisonConfiguration>
+    </comparisonConfigurations>
+    <labelConfigurations/>
+    <customObjectTabs>
+        <id>pages</id>
+        <tabTitle>Pages</tabTitle>
+        <objectTypesToDisplay>page</objectTypesToDisplay>
+    </customObjectTabs>
+    <customObjectTabs>
+        <id>labels</id>
+        <tabTitle>Labels</tabTitle>
+        <objectTypesToDisplay>label</objectTypesToDisplay>
+    </customObjectTabs>
+    <customObjectTabs>
+        <id>requirements</id>
+        <tabTitle>Requirements</tabTitle>
+        <objectTypesToDisplay>feature</objectTypesToDisplay>
+        <objectTypesToDisplay>epic</objectTypesToDisplay>
+        <objectTypesToDisplay>userStory</objectTypesToDisplay>
+        <customObjectDetailColumns>
+            <columnTitle>Description</columnTitle>
+            <propertyKey>description</propertyKey>
+        </customObjectDetailColumns>
+    </customObjectTabs>
+    <customObjectTabs>
+        <id>calls</id>
+        <tabTitle>Calls</tabTitle>
+        <objectTypesToDisplay>service</objectTypesToDisplay>
+        <objectTypesToDisplay>businessOperation</objectTypesToDisplay>
+        <objectTypesToDisplay>uiAction</objectTypesToDisplay>
+        <customObjectDetailColumns>
+            <columnTitle>Description</columnTitle>
+            <propertyKey>description</propertyKey>
+        </customObjectDetailColumns>
+        <customObjectDetailColumns>
+            <columnTitle>Real Name for Service</columnTitle>
+            <propertyKey>realName</propertyKey>
+        </customObjectDetailColumns>
+    </customObjectTabs>
+    <customObjectTabs>
+        <id>uiElements</id>
+        <tabTitle>UI Elements</tabTitle>
+        <objectTypesToDisplay>uiElement</objectTypesToDisplay>
+    </customObjectTabs>
+</configuration>

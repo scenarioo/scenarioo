@@ -28,7 +28,7 @@ function scDiffInfoIcon() {
             elementType: '@',
             childElementType: '@'
         },
-        templateUrl: 'diffViewer/diffInfoIcon/diffInfoIcon.html',
+        template: require('./diffInfoIcon.html'),
         controller: DiffInfoIconController,
         controllerAs: 'vm',
         bindToController: true
@@ -41,11 +41,19 @@ function DiffInfoIconController($scope, $sce, $filter) {
     vm.addedPercentage = '';
     vm.removedPercentage = '';
     vm.unchangedPercentage = '';
-
+    vm.displayPercentageChanged = displayPercentageChanged;
 
     $scope.$watch('vm.diffInfo', function(){
         initValues(vm);
     });
+
+    // Avoids showing "NaN" while the diffInfo is being loaded
+    function displayPercentageChanged() {
+        if(!vm.diffInfo || vm.diffInfo.isAdded || vm.diffInfo.isRemoved) {
+            return false;
+        }
+        return true;
+    }
 
     function initValues(vm) {
         if(vm.diffInfo) {
@@ -53,6 +61,7 @@ function DiffInfoIconController($scope, $sce, $filter) {
             vm.addedPercentage = 0 + '%';
             vm.removedPercentage = 0 + '%';
             vm.unchangedPercentage = 0 + '%';
+            var roundedChangeRate = Math.ceil(vm.diffInfo.changeRate);
 
             if(vm.diffInfo.isAdded) {
                 vm.addedPercentage = 100 + '%';
@@ -60,15 +69,15 @@ function DiffInfoIconController($scope, $sce, $filter) {
             } else if(vm.diffInfo.isRemoved){
                 vm.removedPercentage = 100 + '%';
                 vm.infoText = $sce.trustAsHtml('This ' + vm.elementType + ' has been removed');
-            } else if(vm.diffInfo.changeRate === 0) {
+            } else if(roundedChangeRate === 0) {
                 vm.unchangedPercentage = 100 + '%';
                 vm.infoText = $sce.trustAsHtml('This ' + vm.elementType + ' has no changes');
             } else {
                 var totalChangedChildElements = vm.diffInfo.added + vm.diffInfo.removed + vm.diffInfo.changed;
                 if(totalChangedChildElements && totalChangedChildElements > 0) {
-                    var addedPercentage = (vm.diffInfo.added / totalChangedChildElements) * vm.diffInfo.changeRate;
-                    var removedPercentage = (vm.diffInfo.removed / totalChangedChildElements) * vm.diffInfo.changeRate;
-                    var changedPercentage = vm.diffInfo.changeRate - addedPercentage - removedPercentage;
+                    var addedPercentage = (vm.diffInfo.added / totalChangedChildElements) * roundedChangeRate;
+                    var removedPercentage = (vm.diffInfo.removed / totalChangedChildElements) * roundedChangeRate;
+                    var changedPercentage = roundedChangeRate - addedPercentage - removedPercentage;
 
                     vm.changedPercentage = changedPercentage + '%';
                     vm.addedPercentage = addedPercentage + '%';
@@ -83,7 +92,7 @@ function DiffInfoIconController($scope, $sce, $filter) {
     }
 
     function buildChangedInfoText(diffInfo, elementType, childElementType) {
-        var changedInfoText = $filter('number')(diffInfo.changeRate, 0) + '% of this ' + elementType + ' has changed:';
+        var changedInfoText = $filter('scRoundUp')(diffInfo.changeRate) + '% of this ' + elementType + ' has changed:';
         if(diffInfo.changed > 0) {
             changedInfoText += '<br />';
             changedInfoText += '<span class="square changed"></span>';

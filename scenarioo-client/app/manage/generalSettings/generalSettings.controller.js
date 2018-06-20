@@ -22,9 +22,9 @@ function GeneralSettingsController(BranchesResource, ConfigService, ApplicationS
     var vm = this;
     vm.branches = [];
     vm.configuration = {};
+    vm.documentationDataDirectory = null;
     vm.configuredBranch = {};
     vm.successfullyUpdatedConfiguration = false;
-    vm.diffViewerAvailable = null;
     vm.searchEngineStatus = null;
     vm.resetConfiguration = resetConfiguration;
     vm.updateConfiguration = updateConfiguration;
@@ -42,8 +42,8 @@ function GeneralSettingsController(BranchesResource, ConfigService, ApplicationS
 
             vm.version = status.version;
             vm.configuration = status.configuration;
-            vm.diffViewerAvailable = status.diffViewerStatus.graphicsMagickAvailable;
             vm.searchEngineStatus = status.searchEngineStatus;
+            vm.documentationDataDirectory = status.documentationDataDirectory;
 
             calculateConfiguredBranch();
 

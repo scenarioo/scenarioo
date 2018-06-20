@@ -17,31 +17,47 @@
 
 'use strict';
 
+var webpackConfig = require('./configs/webpack.config.test');
+
 module.exports = function (config) {
 
     config.set({
+        frameworks: ['jasmine'],
+
         // base path, that will be used to resolve files and exclude
         basePath: '',
 
         // list of files / patterns to load in the browser
         files: [
-            'app/components/angular/angular.js',
-            'app/components/angular-resource/angular-resource.js',
-            'app/components/angular-route/angular-route.js',
-            'app/components/angular-mocks/angular-mocks.js',
-            'app/components/angular-local-storage/dist/angular-local-storage.min.js',
-            'app/components/twigs/dist/twigs.js',
-            'app/components/svg.js/dist/svg.js',
-            'app/components/svg.draggable.js/dist/svg.draggable.js',
-            'app/components/svg-pan-zoom/dist/svg-pan-zoom.js',
-            'app/components/angular-unsavedChanges/dist/unsavedChanges.js',
-            'app/*.js',
-            'app/!(components)/**/*.js',
-            'test/mock/**/*.js',
-            'test/spec/**/*.js'
+            'app/app.js',
+            'node_modules/angular-mocks/angular-mocks.js',
+            'test/mock/*.ts',
+            'test/spec/**/*.js',
+            'test/spec/**/*.ts'
         ],
 
-        frameworks: ['jasmine'],
+        preprocessors: {
+            'app/app.js': ['webpack'],
+            'test/mock/*.ts': ['webpack'],
+            'test/spec/**/*.ts': ['webpack']
+        },
+
+        webpack: webpackConfig,
+
+        webpackMiddleware: {
+            noInfo: true,
+            // and use stats to turn off verbose output
+            stats: {
+                chunks: false
+            }
+        },
+
+        plugins: [
+            'karma-jasmine',
+            'karma-junit-reporter',
+            'karma-chrome-launcher',
+            'karma-webpack'
+        ],
 
         // list of files to exclude
         exclude: [],
@@ -49,11 +65,6 @@ module.exports = function (config) {
         // test results reporter to use
         // possible values: dots || progress || growl
         reporters: ['progress', 'junit'],
-        //reporters = ['progress', 'junit', 'coverage'];
-
-        //preprocessors = {
-        //    'app/scripts/services/*.js' : 'coverage'
-        //}
 
         // web server port
         port: 7070,
@@ -73,9 +84,8 @@ module.exports = function (config) {
 
         // Start these browsers, currently available:
         // - Chrome
-        // - Firefox
-        // - PhantomJS
-        browsers: ['PhantomJS'],
+        // - ChromeHeadless
+        browsers: ['ChromeHeadless'],
 
         // If browser does not capture in given timeout [ms], kill it
         captureTimeout: 20000,
@@ -85,7 +95,13 @@ module.exports = function (config) {
 
         // Continuous Integration mode
         // if true, it capture browsers, run tests and exit
-        singleRun: false
+        singleRun: false,
+
+        // This tells the Karma server to serve the .ts files with a text/x-typescript mime type.
+        // It's required to make .ts files work in unit tests.
+        mime: {
+            'text/x-typescript': ['ts']
+        }
     });
 
 };

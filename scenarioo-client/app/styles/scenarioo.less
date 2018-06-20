@@ -78,6 +78,14 @@ h4 {
   width: 150px !important;
 }
 
+.btn-default.focus, .btn-default:focus {
+    background-color: #fff;
+}
+
+.btn-no-btn {
+    cursor: default;
+}
+
 /** Breadcrumbs (basically styled by bootstrap!) **/
 
 .breadcrumb {
@@ -85,6 +93,19 @@ h4 {
   margin-bottom: 0;
   padding: 0 0 0 5px;
   word-break: break-all;
+  background-color: #eee;
+}
+
+#sc-breadcrumbs {
+  background-color:#eee;
+  padding: 12px 10px 10px 10px;
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-bottom: 14px;
+}
+
+.breadcrumb-button {
+    margin-top: -6px;
 }
 
 .nav, .link {
@@ -164,6 +185,10 @@ h4 {
 .navbar-nav > li > a {
   padding-top: 24px;
   padding-bottom: 8px;
+}
+
+.navbar-inverse {
+  background-color: #222;
 }
 
 .navbar-inverse .navbar-nav > li > a {
@@ -247,24 +272,8 @@ h4 {
   margin-top: -4px;
 }
 
-#sc-step-comparison-single-page-view{
-  padding: 0 15px;
-}
-
-#sc-step-comparison-buttons{
-  margin: 0 24px 0 15px;
-}
-
-.sc-highlight-color {
-  color: #ffb400;
-}
-
-.buttonBar .tooltip-wrapper {
-  display: inline;
-}
-
-#sc-diff-screenshot-toggle {
-  display: inline;
+#sc-diff-viewer-changes-highlight-legend {
+    display: inline;
 }
 
 .clear{
@@ -324,7 +333,7 @@ h4 {
 }
 
 /** Screenshots */
-div.sc-screenshot-border {
+.sc-screenshot-border {
   border: 2px solid #DDDDDD;
 }
 
@@ -365,7 +374,7 @@ span.sc-screenshot-annotation-with-action {
   border: 2px rgb(64, 64, 255) solid;
 }
 
-.sc-screnshot-annotation-icon {
+.sc-screenshot-annotation-icon {
   position: absolute;
   display: block;
   border: 3px rgb(255, 214, 51) solid;
@@ -423,8 +432,7 @@ span.sc-screenshot-annotation-with-action {
 }
 
 .navbar {
-  /* reduced margins for not taking too much vertical space */
-  margin-bottom: @vertical-space;
+  margin-bottom: 0;
 }
 
 
@@ -511,7 +519,7 @@ label {
   font-weight: bold;
 }
 
-/** Build Import Status Dialog (wider) **/
+/** Almost Full Screen Dialogs **/
 .modal-wide .modal-dialog {
   width: 75%;
 }
@@ -799,6 +807,14 @@ textarea#issueDescription {
       background-color: #FFFFFF;
     }
   }
+}
+
+.diff-info-wrapper {
+
+    .progress-bar-warning {
+        background-color: #f0ad4e;
+    }
+
 }
 
 .tooltip.diff-icon-tooltip .tooltip-inner {

@@ -5,7 +5,7 @@ We are happy to see that you are interested in contributing to Scenarioo.
 Before you start doing so, please read the following guidelines carefully. By setting up your development environment accordingly and obeying the rules you can avoid many problems that could otherwise arise.
 
 ## Setup
-* [Development Environment Setup](Development-Environment.md)
+* [Development Environment Setup](Development-Environment-Setup.md)
 * [Build and Demo Server](Build-Server.md)
 
 ## Coding

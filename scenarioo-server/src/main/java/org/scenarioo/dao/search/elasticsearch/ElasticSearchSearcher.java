@@ -17,12 +17,6 @@
 
 package org.scenarioo.dao.search.elasticsearch;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -31,22 +25,22 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.IgnoreUseCaseSetStatusMixIn;
-import org.scenarioo.dao.search.model.SearchResults;
-import org.scenarioo.dao.search.model.SearchableObject;
-import org.scenarioo.dao.search.model.SearchableScenario;
-import org.scenarioo.dao.search.model.SearchableStep;
-import org.scenarioo.dao.search.model.SearchableUseCase;
+import org.scenarioo.dao.search.model.*;
 import org.scenarioo.model.docu.entities.Scenario;
 import org.scenarioo.model.docu.entities.StepDescription;
 import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.rest.search.SearchRequest;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 class ElasticSearchSearcher {
 	private final static Logger LOGGER = Logger.getLogger(ElasticSearchSearcher.class);
@@ -59,20 +53,13 @@ class ElasticSearchSearcher {
     private ObjectReader scenarioReader;
     private ObjectReader stepReader;
 
-    ElasticSearchSearcher(final String indexName) {
-        try {
-            this.client = TransportClient.builder().build()
-                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
-
+    ElasticSearchSearcher(final String indexName, TransportClient client) {
+            this.client = client;
             this.indexName = indexName;
 
 			useCaseReader = generateStandardReaders(UseCase.class, SearchableUseCase.class);
 			scenarioReader = generateStandardReaders(Scenario.class, SearchableScenario.class);
 			stepReader = generateStandardReaders(StepDescription.class, SearchableStep.class);
-
-        } catch (UnknownHostException e) {
-            LOGGER.info("no elasticsearch cluster running.");
-        }
     }
 
     SearchResults search(final SearchRequest searchRequest) {
@@ -85,7 +72,7 @@ class ElasticSearchSearcher {
 
         SearchHit[] hits = searchResponse.getHits().getHits();
 
-        List<SearchableObject> results = new ArrayList<SearchableObject>();
+        List<SearchableObject> results = new ArrayList<>();
         for (SearchHit searchHit : hits) {
             try {
                 String type = searchHit.getType();
@@ -118,7 +105,7 @@ class ElasticSearchSearcher {
 				.setSize(MAX_SEARCH_RESULTS)
 				.setQuery(QueryBuilders.multiMatchQuery(searchRequest.getQ(), getFieldNames(searchRequest))
 					.fuzziness(Fuzziness.AUTO)
-					.operator(MatchQueryBuilder.Operator.AND));
+					.operator(Operator.AND));
 
         return setQuery.execute().actionGet();
     }

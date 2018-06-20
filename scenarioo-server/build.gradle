@@ -15,24 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+group = 'org.scenarioo'
 
+apply plugin: 'maven'
+apply plugin: 'signing'
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
-apply from: "${rootProject.projectDir}/java.gradle"
+apply from: "${rootProject.projectDir}/build-java.gradle"
 
 dependencies {
-    compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.3.Final'
-    compile 'org.jboss.resteasy:resteasy-jaxb-provider:2.3.3.Final'
-    compile 'org.jboss.resteasy:resteasy-jackson-provider:2.3.3.Final'
-    compile 'org.jboss.resteasy:resteasy-multipart-provider:2.3.3.Final'
+    compile 'org.jboss.resteasy:resteasy-jaxrs:3.1.4.Final'
+    compile 'org.jboss.resteasy:resteasy-jaxb-provider:3.1.4.Final'
+    compile 'org.jboss.resteasy:resteasy-jackson-provider:3.1.4.Final'
+    compile 'org.jboss.resteasy:resteasy-multipart-provider:3.1.4.Final'
     compile 'com.google.guava:guava-base:r03'
     compile 'org.apache.xmlgraphics:batik-transcoder:1.8'
     compile 'org.apache.xmlgraphics:batik-codec:1.8'
     compile 'org.apache.xmlgraphics:xmlgraphics-commons:1.5'
-    compile 'com.thetransactioncompany:cors-filter:2.5'
-    compile 'org.im4java:im4java:1.4.0'
     compile 'org.mockito:mockito-all:1.9.5'
-    compile 'org.elasticsearch:elasticsearch:2.3.1'
+    compile 'org.elasticsearch:elasticsearch:5.6.9'
+    compile 'org.elasticsearch.client:transport:5.6.9'
     providedCompile 'javax.servlet:servlet-api:2.5'
 }
 
@@ -44,11 +46,6 @@ eclipse {
     }
   }
 }
-
-// Prevent Eclipse "Gradle -> Refresh All" to execute cleanEclipseJdt,
-// because it would delete our version of the org.eclipse.jdt.ui.prefs file.
-cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt
-
 
 task printPathConfigInformationForNodeJSAndGrunt << {
 	if (project.hasProperty('pathToNodeJS')) {
@@ -66,14 +63,14 @@ task printPathConfigInformationForNodeJSAndGrunt << {
 task createVersionPropertiesFile << {
 	def aggregatedDataFormatVersion = project.scenariooAggregatedDataFormatVersion
 	def apiVersion = project.scenariooApiVersion
-    def releaseBranch = project.scenariooReleaseBranch
+    def documentationVersion = project.documentationVersion
 
 	File versionFile = new File(sourceSets.main.output.classesDir.getAbsolutePath() + '/version.properties');
-	versionFile.write('version=' + version + '\n' +
+	versionFile.write('version=' + versionWithGitCommit + '\n' +
             'build-date=' + new Date() + '\n' +
             'apiVersion=' + apiVersion + '\n' +
             'aggregatedDataFormatVersion=' + aggregatedDataFormatVersion + '\n' +
-            'releaseBranch=' + releaseBranch + '\n')
+            'documentationVersion=' + documentationVersion + '\n')
 }
 
 war {
@@ -81,17 +78,71 @@ war {
     from(sourceSets.main.output.classesDir) {
         into('WEB-INF/classes')
     }
-	archiveName 'scenarioo-' + version + '.war'
+	archiveName 'scenarioo-viewer-' + version + '.war'
 }
 
 war.doLast {
     copy {
         from ('build/libs/')
         into ('build/libs/')
-        include('scenarioo-' + version + '.war')
-        rename('scenarioo-' + version + '.war', 'scenarioo-latest.war')
+        include('scenarioo-viewer-' + version + '.war')
+        rename('scenarioo-viewer-' + version + '.war', 'scenarioo-latest.war')
     }
 }
 
 war.dependsOn createVersionPropertiesFile
-war.dependsOn ":scenarioo-client:gulp"
+war.dependsOn ":scenarioo-client:build"
+
+if(ossrhPassword) {
+    signing {
+        sign configurations.archives
+    }
+}
+
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Scenarioo Viewer'
+                packaging 'war'
+                description 'Scenarioo Viewer for automated Documentation using UI-E2E-Tests http://scenarioo.org'
+                url 'http://www.scenarioo.org'
+
+                scm {
+                    connection 'https://github.com/scenarioo/scenarioo.git'
+                    developerConnection 'https://github.com/scenarioo/scenarioo.git'
+                    url 'https://github.com/scenarioo/scenarioo.git'
+                }
+
+                licenses {
+                    license {
+                        name 'GNU GENERAL PUBLIC LICENSE'
+                        url 'https://github.com/scenarioo/scenarioo/blob/develop/LICENSE.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'scenarioo'
+                        name 'Scenarioo'
+                        email 'contact@scenarioo.org'
+                    }
+                }
+            }
+        }
+    }
+}

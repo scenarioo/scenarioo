@@ -18,167 +18,146 @@
 package org.scenarioo.business.diffViewer.comparator;
 
 import org.apache.log4j.Logger;
-import org.im4java.core.CompareCmd;
-import org.im4java.core.IMOperation;
-import org.im4java.process.ArrayListErrorConsumer;
-import org.im4java.process.ArrayListOutputConsumer;
-import org.scenarioo.dao.diffViewer.DiffReader;
-import org.scenarioo.dao.diffViewer.GraphicsMagickConfiguration;
-import org.scenarioo.dao.diffViewer.impl.DiffReaderXmlImpl;
-import org.scenarioo.model.configuration.ComparisonConfiguration;
+import org.scenarioo.api.ScenarioDocuReader;
+import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.docu.aggregates.steps.StepLink;
+import org.scenarioo.repository.ConfigurationRepository;
+import org.scenarioo.repository.RepositoryLocator;
+import org.scenarioo.utils.NumberFormatter;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.IOException;
 
-/**
- * Compares two Screenshots using GraphicsMagick
- */
-public class ScreenshotComparator extends AbstractComparator {
+public class ScreenshotComparator {
 
 	private static final Logger LOGGER = Logger.getLogger(ScreenshotComparator.class);
 	private static final int SCREENSHOT_DEFAULT_CHANGE_RATE = 0;
-	private DiffReader diffReader;
-	private ArrayListErrorConsumer gmConsoleErrorConsumer;
-	private ArrayListOutputConsumer gmConsoleOutputConsumer;
-	private CompareCmd gmConsole;
+	protected static final ConfigurationRepository configurationRepository =
+		RepositoryLocator.INSTANCE.getConfigurationRepository();
 
-	public ScreenshotComparator(final String baseBranchName, final String baseBuildName,
-			final ComparisonConfiguration comparisonConfiguration) {
-		super(baseBranchName, baseBuildName, comparisonConfiguration);
-		gmConsole = new CompareCmd(true);
-		gmConsoleErrorConsumer = new ArrayListErrorConsumer();
-		gmConsoleOutputConsumer = new ArrayListOutputConsumer();
-		gmConsole.setErrorConsumer(gmConsoleErrorConsumer);
-		gmConsole.setOutputConsumer(gmConsoleOutputConsumer);
-		diffReader = new DiffReaderXmlImpl();
-	}
+	private DiffViewerDao diffViewerDao = new DiffViewerDao();
 
-	public double compare(final String baseUseCaseName, final String baseScenarioName, final StepLink baseStepLink,
-			final String comparisonScreenshotName) {
-		if(!isGraphicsMagickAvailable()) {
-			return 0.0;
-		}
+	private ScenarioDocuReader scenarioDocuReader =
+		new ScenarioDocuReader(configurationRepository.getDocumentationDataDirectory());
 
-		final String baseScreenshotName = THREE_DIGIT_NUM_FORMAT.format(baseStepLink.getStepIndex())
-				+ SCREENSHOT_FILE_EXTENSION;
-		final String diffScreenshotName = baseScreenshotName;
+	public double compare(ComparisonParameters parameters, final String baseUseCaseName, final String baseScenarioName,
+						  final StepLink baseStepLink, final String comparisonScreenshotName) {
 
-		final File baseScreenshot = docuReader.getScreenshotFile(baseBranchName,
-				baseBuildName, baseUseCaseName, baseScenarioName, baseScreenshotName);
+		final String baseScreenshotName = NumberFormatter.formatMinimumThreeDigits(baseStepLink.getStepIndex()) + ".png";
 
-		final File comparisonScreenshot = docuReader.getScreenshotFile(
-				comparisonConfiguration.getComparisonBranchName(),
-				comparisonConfiguration.getComparisonBuildName(), baseUseCaseName, baseScenarioName,
-				comparisonScreenshotName);
+		final File baseScreenshot = scenarioDocuReader.getScreenshotFile(parameters.getBaseBranchName(),
+			parameters.getBaseBuildName(), baseUseCaseName, baseScenarioName, baseScreenshotName);
 
-		final File diffScreenshot = diffReader.getScreenshotFile(baseBranchName, baseBuildName,
-				comparisonConfiguration.getName(),
-				baseUseCaseName, baseScenarioName, diffScreenshotName);
+		final File comparisonScreenshot = scenarioDocuReader.getScreenshotFile(
+			parameters.getComparisonConfiguration().getComparisonBranchName(),
+			parameters.getComparisonConfiguration().getComparisonBuildName(), baseUseCaseName, baseScenarioName,
+			comparisonScreenshotName);
 
-		if(!baseScreenshot.exists()) {
+		final File diffScreenshot = diffViewerDao.getScreenshotFile(parameters.getBaseBranchName(), parameters.getBaseBuildName(),
+			parameters.getComparisonConfiguration().getName(),
+			baseUseCaseName, baseScenarioName, baseScreenshotName);
+
+		if (!baseScreenshot.exists()) {
 			LOGGER.warn("Base screenshot does not exist: " + baseScreenshot.getAbsolutePath());
 			return 0.0;
 		}
-		if(!comparisonScreenshot.exists()) {
+		if (!comparisonScreenshot.exists()) {
 			LOGGER.warn("Comparison screenshot does not exist: " + baseScreenshot.getAbsolutePath());
 			return 0.0;
 		}
 
-		return compareScreenshots(baseScreenshot, comparisonScreenshot, diffScreenshot);
-	}
-
-	boolean isGraphicsMagickAvailable() {
-		return GraphicsMagickConfiguration.isAvailable();
+		return compareScreenshots(parameters, baseScreenshot, comparisonScreenshot, diffScreenshot);
 	}
 
 	/**
-	 * A Diff Screenshoot will be created and stored in the directory of the diffScreenshot path.
+	 * A Diff Screenshot will be created and stored in the directory of the diffScreenshot path.
 	 * This directory, and all the parent directories, will be created if they do not exist.
 	 */
-	double compareScreenshots(final File baseScreenshot, final File comparisonScreenshot,
-			final File diffScreenshot) {
+	double compareScreenshots(ComparisonParameters parameters, final File baseScreenshot,
+							  final File comparisonScreenshot,
+							  final File diffScreenshot) {
+
 		if (diffScreenshot.getParentFile() != null) {
 			diffScreenshot.getParentFile().mkdirs();
 		}
-		final IMOperation gmOperation = new IMOperation();
-		gmOperation.metric("MAE");
-		gmOperation.addImage(comparisonScreenshot.getPath());
-		gmOperation.addImage(baseScreenshot.getPath());
-		gmOperation.addRawArgs("-highlight-style", "Tint");
-		gmOperation.addRawArgs("-highlight-color", "#ffb400");
-		gmOperation.addRawArgs("-file", diffScreenshot.getPath());
-		final double difference = runGraphicsMagickOperation(gmOperation);
-		if (difference == 0.0) {
-			diffScreenshot.delete();
-		}
-		return difference;
-	}
 
-	/**
-	 * The GraphicsMagick command will be initiated by the IM4Java framework
-	 */
-	private double runGraphicsMagickOperation(final IMOperation gmOperation) {
 		try {
-			gmConsole.run(gmOperation);
-			return getRmaeValueFromOutput();
-		} catch (final Exception e) {
-			LOGGER.warn("Graphics Magick operation failed. Default screenshot changerate '"
-					+ SCREENSHOT_DEFAULT_CHANGE_RATE + "' gets returned.");
-			LOGGER.warn("gmoperation:" + gmOperation.toString());
-			LOGGER.warn("EXCEPTION: ", e);
-			if (gmConsoleErrorConsumer.getOutput().size() > 0) {
-				final String errorMessage = gmConsoleErrorConsumer.getOutput().get(0);
-				LOGGER.warn(errorMessage);
+			int diffColor = parameters.getDiffImageColor().getRGB();
+
+			BufferedImage oldImage = ImageIO.read(baseScreenshot);
+			BufferedImage newImage = ImageIO.read(comparisonScreenshot);
+
+			// create images with the maximum required size to ensure that both images fit
+			int unifiedWidth = Math.max(oldImage.getWidth(), newImage.getWidth());
+			int unifiedHeight = Math.max(oldImage.getHeight(), newImage.getHeight());
+
+			// convert images to ARGB format to ensure that the data buffers store one pixel as ARGB
+			BufferedImage oldImageArgb = new BufferedImage(unifiedWidth, unifiedHeight, BufferedImage.TYPE_INT_ARGB);
+			BufferedImage newImageArgb = new BufferedImage(unifiedWidth, unifiedHeight, BufferedImage.TYPE_INT_ARGB);
+
+			// for simplicity paint both images on the upper left corner of the compare image since searching the sub-image is too expensive
+			// areas not covered by images are transparent which will lead to a maximum difference on all 3 measured color channels
+			oldImageArgb.getGraphics().drawImage(oldImage, 0, 0, null);
+			newImageArgb.getGraphics().drawImage(newImage, 0, 0, null);
+
+			BufferedImage diffImage = new BufferedImage(Math.max(oldImageArgb.getWidth(), newImageArgb.getWidth()), Math.max(oldImageArgb.getHeight(), oldImageArgb.getHeight()), BufferedImage.TYPE_INT_ARGB);
+
+			boolean diffAvailable = false;
+			double absoluteErrorTotal = 0;
+
+			// improve performance by accessing data buffers directly since methods to access pixels through BufferedImage are passed through the ColorModel which slows things down
+			DataBuffer oldImageBuffer = oldImageArgb.getRaster().getDataBuffer();
+			DataBuffer newImageBuffer = newImageArgb.getRaster().getDataBuffer();
+			DataBuffer diffImageBuffer = diffImage.getRaster().getDataBuffer();
+
+			int totalPixels = oldImageBuffer.getSize();
+
+			for (int n = 0; n < oldImageBuffer.getSize(); n++) {
+				int oldPixel = oldImageBuffer.getElem(n);
+				int newPixel = newImageBuffer.getElem(n);
+
+				if (oldPixel != newPixel) {
+					diffAvailable = true;
+					diffImageBuffer.setElem(n, diffColor);
+
+					absoluteErrorTotal += calculateAbsoluteError(oldPixel, newPixel);
+				}
 			}
+
+			double mae = absoluteErrorTotal / totalPixels;
+
+			if (diffAvailable) {
+				ImageIO.write(diffImage, "PNG", diffScreenshot);
+			}
+
+			return Math.sqrt(mae) * 100;
+		} catch (IOException ex) {
+			LOGGER.warn("Failed to compare images (base: " + baseScreenshot + ", comparison: " + comparisonScreenshot + ")", ex);
 			return SCREENSHOT_DEFAULT_CHANGE_RATE;
-
-		} finally {
-			gmConsoleOutputConsumer.clear();
 		}
 	}
 
-	/**
-	 * Reads the result from the GraphicsMagick console and parses the difference value.
-	 */
-	double getRmaeValueFromOutput() {
-		final ArrayList<String> gmConsoleOutput = gmConsoleOutputConsumer.getOutput();
-		String total = null;
-		for (final String line : gmConsoleOutput) {
-			if (line.contains("Total")) {
-				total = line;
-			}
-		}
-		if (total != null) {
-			final Pattern p = Pattern.compile("\\d+\\.\\d+");
-			final Matcher m = p.matcher(total);
-			if (m.find()) {
-				return Math.sqrt(Double.parseDouble(m.group(0))) * 100;
-			}
-		}
-		throw new RuntimeException("Cannot parse Graphics Magick console output");
-	}
+	private double calculateAbsoluteError(int oldPixel, int newPixel) {
 
-	public ArrayListOutputConsumer getCmdOutputConsumer() {
-		return gmConsoleOutputConsumer;
-	}
+		double oldRed = ((oldPixel >> 16) & 0x000000FF) / 255.;
+		double oldGreen = ((oldPixel >> 8) & 0x000000FF) / 255.;
+		double oldBlue = ((oldPixel) & 0x000000FF) / 255.;
 
-	public void setCmdOutputConsumer(final ArrayListOutputConsumer cmdOutputConsumer) {
-		this.gmConsoleOutputConsumer = cmdOutputConsumer;
-	}
+		double newRed = ((newPixel >> 16) & 0x000000FF) / 255.;
+		double newGreen = ((newPixel >> 8) & 0x000000FF) / 255.;
+		double newBlue = ((newPixel) & 0x000000FF) / 255.;
 
-	public CompareCmd getCmd() {
-		return gmConsole;
-	}
+		double diffRed = Math.abs(oldRed - newRed);
+		double diffGreen = Math.abs(oldGreen - newGreen);
+		double diffBlue = Math.abs(oldBlue - newBlue);
 
-	public void setCmd(final CompareCmd cmd) {
-		this.gmConsole = cmd;
+		return (diffRed + diffGreen + diffBlue) / 3;
 	}
 
 	public static Logger getLogger() {
 		return LOGGER;
 	}
-
 }
