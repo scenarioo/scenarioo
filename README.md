@@ -12,7 +12,6 @@ For more information about Scenarioo, see the following resources:
 * **Scenarioo Documentation for Latest Official Release: http://www.scenarioo.org/docs/master** 
 * **Scenarioo Documentation for Contributors (unreleased version): http://www.scenarioo.org/docs/develop** 
 
-
 ### Live Demo
 
 You can see an example Scenarioo documentation and the Scenarioo Viewer Web App in action in our demo:
