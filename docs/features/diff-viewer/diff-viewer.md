@@ -155,7 +155,7 @@ Once you configured automatic comparisons to be calculated you can trigger autom
 * Reimport an existing build:
    * Scenario Viewer > Manage > Click on the reimport symbol next to the preferred build
    * NOTE: The "Import & Update Builds" Button will only start a comparison if a build gets imported for the first time.
-* Create a new build and upload it to Scenarioo in the usual way (see [Publish Scenarioo Documentation Data](../../setup/Publish-Documentation-Data.md)).
+* Create a new build and upload it to Scenarioo in the usual way (see [Publish Scenarioo Documentation Data](../../tutorial/Publish-Documentation-Data.md)).
 
 ## Manage Comparisons
 

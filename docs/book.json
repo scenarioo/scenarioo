@@ -15,7 +15,6 @@
     "version": "3.0.0"
   },
   "pluginsConfig": {
-
     "edit-link": {
       "base": "https://github.com/scenarioo/scenarioo/edit/develop/docs",
       "label": "Edit This Page"

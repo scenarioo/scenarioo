@@ -17,13 +17,13 @@ Usually this should be the same as the Scenarioo version that you are going to r
 
 **Search Documentation for occurences of old verison number and replace with new version:**
 * Do a global search for the old version!
-* update [Scenarioo Viewer Doker Image](../setup/Scenarioo-Viewer-Docker-Image.md)
+* update [Scenarioo Viewer Doker Image](../tutorial/Scenarioo-Viewer-Docker-Image.md)
 * update any other occurences 
                    
 ## Prepare Release Notes and Migration Guide
 
 * Go to file `CHANGELOG.md` and prepare the release notes for the next version
-* If needed write a migration guide for the new version in [Migration Guide](../setup/Migration-Guide.md)
+* If needed write a migration guide for the new version in [Migration Guide](../Migration-Guide.md)
 * Let both review by the team and finalize these important release documents.
 
 ## Create Release Branch and Stabilize
@@ -74,7 +74,7 @@ Usually this should be the same as the Scenarioo version that you are going to r
 
 * Create a new Docker image for this release according to [this manual](Building-the-Docker-Image)
 * Do not forget to update the usage instructions for the Docker Image:     
-    [Scenarioo Viewer Doker Image](../setup/Scenarioo-Viewer-Docker-Image.md) 
+    [Scenarioo Viewer Doker Image](../tutorial/Scenarioo-Viewer-Docker-Image.md) 
     (**!! change the version number in the example!**)
 
 ### Publish the Release on Github
