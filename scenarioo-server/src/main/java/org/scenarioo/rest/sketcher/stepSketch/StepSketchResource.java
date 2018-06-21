@@ -17,7 +17,6 @@
 
 package org.scenarioo.rest.sketcher.stepSketch;
 
-import org.apache.log4j.Logger;
 import org.scenarioo.api.files.ScenarioDocuFiles;
 import org.scenarioo.business.builds.BranchAliasResolver;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
@@ -33,17 +32,16 @@ import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.StepIdentifier;
 import org.scenarioo.rest.step.logic.ResolveStepIndexResult;
 import org.scenarioo.rest.step.logic.StepIndexResolver;
+import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.util.Date;
 
-@Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/stepsketch")
+@RestController
+@RequestMapping("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/stepsketch")
 public class StepSketchResource {
-
-	private static final Logger LOGGER = Logger.getLogger(StepSketchResource.class);
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
@@ -57,23 +55,20 @@ public class StepSketchResource {
 			configurationRepository.getDocumentationDataDirectory(), longObjectNamesResolver);
 	private final StepIndexResolver stepIndexResolver = new StepIndexResolver();
 
-	@GET
-	@Produces({ "application/json" })
-	@Path("/{stepSketchId}")
-	public StepSketch loadStepSketch(@PathParam("branchName") final String branchName,
-			@PathParam("issueId") final String issueId,
-			@PathParam("scenarioSketchId") final String scenarioSketchId,
-			@PathParam("stepSketchId") final String stepSketchId) {
+	@GetMapping("/{stepSketchId}")
+	public StepSketch loadStepSketch(@PathVariable("branchName") final String branchName,
+			@PathVariable("issueId") final String issueId,
+			@PathVariable("scenarioSketchId") final String scenarioSketchId,
+			@PathVariable("stepSketchId") final String stepSketchId) {
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 		return sketcherDao.loadStepSketch(resolvedBranchName, issueId, scenarioSketchId, stepSketchId);
 	}
 
-	@POST
-	@Consumes({ "application/json" })
-	@Produces({ "application/json" })
-	public Response storeStepSketch(@PathParam("branchName") final String branchName,
-			@PathParam("issueId") final String issueId,
-			@PathParam("scenarioSketchId") final String scenarioSketchId, final StepSketch stepSketch) {
+	@PostMapping
+	public Response storeStepSketch(@PathVariable("branchName") final String branchName,
+									@PathVariable("issueId") final String issueId,
+									@PathVariable("scenarioSketchId") final String scenarioSketchId,
+									@RequestBody  final StepSketch stepSketch) {
 		BuildIdentifier resolvedBranchAndBuildAlias = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 				stepSketch.getRelatedStep().getBranchName(), stepSketch.getRelatedStep().getBuildName());
 		stepSketch.getRelatedStep().setBranchName(resolvedBranchAndBuildAlias.getBranchName());
@@ -97,7 +92,7 @@ public class StepSketchResource {
 
 	private void copyOriginalScreenshot(final String branchName, final String issueId, final String scenarioSketchId,
 			final StepSketch stepSketch) {
-		File originalScreenshot = null;
+		File originalScreenshot;
 		if (stepSketch.getRelatedStep() == null) {
 			return;
 		}
@@ -114,18 +109,15 @@ public class StepSketchResource {
 
 	private ResolveStepIndexResult resolveStepIndex(final StepIdentifier relatedStep) {
 		ScenarioPageSteps scenario = aggregatedDataReader.loadScenarioPageSteps(relatedStep.getScenarioIdentifier());
-		ResolveStepIndexResult stepIndex = stepIndexResolver.resolveStepIndex(scenario, relatedStep);
-		return stepIndex;
+		return stepIndexResolver.resolveStepIndex(scenario, relatedStep);
 	}
 
-	@POST
-	@Consumes({ "application/json" })
-	@Produces({ "application/json" })
-	@Path("/{stepSketchId}")
-	public Response updateStepSketch(@PathParam("branchName") final String branchName,
-			@PathParam("issueId") final String issueId,
-			@PathParam("scenarioSketchId") final String scenarioSketchId,
-			@PathParam("stepSketchId") final String stepSketchId, final StepSketch updatedStepSketch) {
+	@PostMapping("/{stepSketchId}")
+	public Response updateStepSketch(@PathVariable("branchName") final String branchName,
+									 @PathVariable("issueId") final String issueId,
+									 @PathVariable("scenarioSketchId") final String scenarioSketchId,
+									 @PathVariable("stepSketchId") final String stepSketchId,
+									 @RequestBody final StepSketch updatedStepSketch) {
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
 		final StepSketch stepSketch = sketcherDao.loadStepSketch(resolvedBranchName, issueId, scenarioSketchId,

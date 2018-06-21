@@ -17,11 +17,6 @@
 
 package org.scenarioo.rest.step;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
@@ -39,8 +34,10 @@ import org.scenarioo.rest.step.logic.ScreenshotResponseFactory;
 import org.scenarioo.rest.step.logic.StepIndexResolver;
 import org.scenarioo.rest.step.logic.StepLoader;
 import org.scenarioo.rest.step.logic.StepLoaderResult;
+import org.springframework.web.bind.annotation.*;
 
-@Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/")
+@RestController
+@RequestMapping("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/")
 public class ScreenshotResource {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
@@ -59,12 +56,10 @@ public class ScreenshotResource {
 	 * This method is used internally for loading the image of a step. It is the faster method, because it already knows
 	 * the filename of the image.
 	 */
-	@GET
-	@Produces("image/jpeg")
-	@Path("{scenarioName}/image/{imageFileName}")
-	public Response getScreenshot(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
-			@PathParam("scenarioName") final String scenarioName, @PathParam("imageFileName") final String imageFileName) {
+	@GetMapping(path = "{scenarioName}/image/{imageFileName}", produces = "image/jpeg")
+	public Response getScreenshot(@PathVariable("branchName") final String branchName,
+			@PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
+			@PathVariable("scenarioName") final String scenarioName, @PathVariable("imageFileName") final String imageFileName) {
 
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
@@ -77,15 +72,13 @@ public class ScreenshotResource {
 	 * This method is used for sharing screenshot images. It is a bit slower, because the image filename has to be
 	 * resolved first. But it is also more stable, because it uses the new "stable" URL pattern.
 	 */
-	@GET
-	@Produces("image/jpeg")
-	@Path("{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}/image.{extension}")
-	public Response getScreenshotStable(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
-			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
-			@PathParam("pageOccurrence") final int pageOccurrence,
-			@PathParam("stepInPageOccurrence") final int stepInPageOccurrence,
-			@QueryParam("fallback") final boolean fallback, @QueryParam("labels") final String labels) {
+	@GetMapping(path = "{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}/image.{extension}", produces = "image/jpeg")
+	public Response getScreenshotStable(@PathVariable("branchName") final String branchName,
+										@PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
+										@PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
+										@PathVariable("pageOccurrence") final int pageOccurrence,
+										@PathVariable("stepInPageOccurrence") final int stepInPageOccurrence,
+										@RequestParam("fallback") final boolean fallback, @RequestParam("labels") final String labels) {
 
 		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, buildName);
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,

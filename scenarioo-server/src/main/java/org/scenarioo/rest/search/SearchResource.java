@@ -17,22 +17,20 @@
 
 package org.scenarioo.rest.search;
 
-import javax.ws.rs.*;
-
 import org.elasticsearch.index.IndexNotFoundException;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.search.*;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.springframework.web.bind.annotation.*;
 
-@Path("/rest")
+@RestController
+@RequestMapping("/rest")
 public class SearchResource {
 
-	@GET
-	@Produces("application/json")
-	@Path("/branch/{branchName}/build/{buildName}/search/{q}")
-	public SearchResponse search(@PathParam("branchName") final String branchName,
-								 @PathParam("buildName") final String buildName, @PathParam("q") final String q,
-								 @QueryParam("includeHtml") boolean includeHtml) {
+	@GetMapping("/branch/{branchName}/build/{buildName}/search/{q}")
+	public SearchResponse search(@PathVariable("branchName") final String branchName,
+								 @PathVariable("buildName") final String buildName, @PathVariable("q") final String q,
+								 @RequestParam("includeHtml") boolean includeHtml) {
 
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
@@ -50,8 +48,7 @@ public class SearchResource {
 		}
 	}
 
-	@GET
-	@Path("/searchEngineStatus")
+	@GetMapping("/searchEngineStatus")
 	public SearchEngineStatus getSearchEngineStatus() {
 		return SearchEngineStatus.create();
 	}

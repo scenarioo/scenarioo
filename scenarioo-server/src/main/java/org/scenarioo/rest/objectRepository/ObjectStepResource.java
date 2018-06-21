@@ -34,12 +34,11 @@ import org.scenarioo.rest.step.logic.ScenarioLoader;
 import org.scenarioo.rest.step.logic.StepIndexResolver;
 import org.scenarioo.rest.step.logic.StepLoader;
 import org.scenarioo.rest.step.logic.StepLoaderResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -47,7 +46,8 @@ import java.util.regex.Pattern;
 /**
  * Resource for getting the URLs for screenshots for a certain object
  */
-@Path("/rest/branch/{branchName}/build/{buildName}/object/")
+@RestController
+@RequestMapping("/rest/branch/{branchName}/build/{buildName}/object/")
 public class ObjectStepResource extends AbstractBuildContentResource {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
@@ -71,13 +71,11 @@ public class ObjectStepResource extends AbstractBuildContentResource {
 	 * @param objectName name of the object
 	 * @return a flat list of step reference objects
 	 */
-	@GET
-	@Path("{type}/{objectName}/steps")
-	@Produces({"application/json"})
-	public List<StepReference> getStepReferences(@PathParam("branchName") final String branchName,
-												 @PathParam("buildName") final String buildName,
-												 @PathParam("type") final String objectType,
-												 @PathParam("objectName") final String objectName) throws IOException {
+	@GetMapping("{type}/{objectName}/steps")
+	public List<StepReference> getStepReferences(@PathVariable("branchName") final String branchName,
+												 @PathVariable("buildName") final String buildName,
+												 @PathVariable("type") final String objectType,
+												 @PathVariable("objectName") final String objectName) {
 
 		List<StepLoaderResult> stepLoaderResults = getRelatedSteps(branchName, buildName, objectType, objectName);
 		return transformStepsToStepReferences(stepLoaderResults);
@@ -88,7 +86,7 @@ public class ObjectStepResource extends AbstractBuildContentResource {
 			buildName);
 
 		ObjectIndex objectIndex = aggregatedDataReader.loadObjectIndex(buildIdentifier, objectType, objectName);
-		List<StepLoaderResult> stepLoaderResults = new ObjectList<StepLoaderResult>();
+		List<StepLoaderResult> stepLoaderResults = new ObjectList<>();
 		for (ObjectTreeNode<Object> useCaseTreeNode : objectIndex.getReferenceTree().getChildren()) {
 			visitUseCase(buildIdentifier, stepLoaderResults, useCaseTreeNode);
 		}
@@ -131,8 +129,8 @@ public class ObjectStepResource extends AbstractBuildContentResource {
 		}
 	}
 
-	private List<StepReference> transformStepsToStepReferences(List<StepLoaderResult> stepLoaderResults) throws IOException {
-		ArrayList<StepReference> stepDetailUrls = new ArrayList<StepReference>();
+	private List<StepReference> transformStepsToStepReferences(List<StepLoaderResult> stepLoaderResults) {
+		ArrayList<StepReference> stepDetailUrls = new ArrayList<>();
 		for (StepLoaderResult stepLoaderResult : stepLoaderResults) {
 			String stepDetailUrl = generateStepDetailLink(stepLoaderResult);
 			String screenshotUrl = generateScreenshotLink(stepLoaderResult);

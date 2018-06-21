@@ -17,33 +17,29 @@
 
 package org.scenarioo.rest.diffViewer;
 
-import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.diffViewer.ComparisonCalculationStatus;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}")
+@RestController
+@RequestMapping("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}")
 public class BuildDiffInfoResource {
-
-	private static final Logger LOGGER = Logger.getLogger(BuildDiffInfoResource.class);
 
 	private DiffViewerDao diffViewerDao = new DiffViewerDao();
 
-	@GET
-	@Produces("application/json")
-	@Path("/comparisonName/{comparisonName}/buildDiffInfo")
-	public BuildDiffInfo getBuildDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
-			@PathParam("baseBuildName") final String baseBuildName,
-			@PathParam("comparisonName") final String comparisonName) {
+	@GetMapping("/comparisonName/{comparisonName}/buildDiffInfo")
+	public BuildDiffInfo getBuildDiffInfo(@PathVariable("baseBranchName") final String baseBranchName,
+			@PathVariable("baseBuildName") final String baseBuildName,
+			@PathVariable("comparisonName") final String comparisonName) {
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
@@ -52,11 +48,9 @@ public class BuildDiffInfoResource {
 				comparisonName);
 	}
 
-	@GET
-	@Produces("application/json")
-	@Path("/buildDiffInfos")
-	public List<BuildDiffInfo> getBuildDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
-			@PathParam("baseBuildName") final String baseBuildName) {
+	@GetMapping("/buildDiffInfos")
+	public List<BuildDiffInfo> getBuildDiffInfos(@PathVariable("baseBranchName") final String baseBranchName,
+			@PathVariable("baseBuildName") final String baseBuildName) {
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
