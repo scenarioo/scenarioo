@@ -18,7 +18,6 @@
 package org.scenarioo.rest.builds;
 
 import org.apache.log4j.Logger;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.business.uploadBuild.BuildUploader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
@@ -28,12 +27,12 @@ import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.Response.Status;
 import java.io.File;
 import java.util.List;
 
@@ -61,7 +60,7 @@ public class BuildsResource {
 	}
 
 	@GetMapping(value = "importLogs/{branchName}/{buildName}", produces = MediaType.TEXT_PLAIN_VALUE)
-	public Response loadBuildImportLog(@PathVariable("branchName") final String branchName,
+	public ResponseEntity loadBuildImportLog(@PathVariable("branchName") final String branchName,
 									   @PathVariable("buildName") final String buildName) {
 
 		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
@@ -70,9 +69,10 @@ public class BuildsResource {
 			configurationRepository.getDocumentationDataDirectory());
 		File logFile = dao.getBuildImportLogFile(buildIdentifier);
 		if (logFile == null || !logFile.exists()) {
-			return Response.status(Status.BAD_REQUEST).build();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		ResponseBuilder response = Response.ok(logFile);
+		ResponseEntity.BodyBuilder response = ResponseEntity.ok();
+		response.body(logFile);
 		response.header("Content-Disposition", "attachment; filename=\"" + logFile + "\"");
 		return response.build();
 	}
@@ -81,47 +81,47 @@ public class BuildsResource {
 	 * Queues the import / reimport of the specified build and then calculates the configured comparisons.
 	 */
 	@GetMapping("{branchName}/{buildName}/import")
-	public Response importBuild(@PathVariable("branchName") final String branchName,
+	public ResponseEntity importBuild(@PathVariable("branchName") final String branchName,
 								@PathVariable("buildName") final String buildName) {
 
 		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
 		BuildIdentifier buildIdentifier = new BuildIdentifier(resolvedBranchName, buildName);
 		if(buildFolderDoesNotExist(buildIdentifier)) {
 			LOGGER.info("Can't import. Build " + branchName + "/" + buildName + " does not exist.");
-			return Response.status(Status.NOT_FOUND).build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 
 		ScenarioDocuBuildsManager.INSTANCE.reimportBuild(buildIdentifier);
 
-		return Response.ok().build();
+		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping(value = "{branchName}/{buildName}/importStatus", produces = MediaType.TEXT_PLAIN_VALUE)
-	public Response importStatusString(@PathVariable("branchName") final String branchName,
+	public ResponseEntity importStatusString(@PathVariable("branchName") final String branchName,
 									   @PathVariable("buildName") final String buildName) {
 
 		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
 		BuildImportStatus importStatus = ScenarioDocuBuildsManager.INSTANCE.getImportStatus(buildIdentifier);
 
 		if (importStatus == null) {
-			return Response.status(Status.NOT_FOUND).build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 
-		return Response.ok(importStatus).build();
+		return ResponseEntity.ok(importStatus);
 	}
 
 	@GetMapping("{branchName}/{buildName}/importStatus")
-	public Response importStatusJson(@PathVariable("branchName") final String branchName,
+	public ResponseEntity importStatusJson(@PathVariable("branchName") final String branchName,
 									 @PathVariable("buildName") final String buildName) {
 
 		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
 		BuildImportStatus importStatus = ScenarioDocuBuildsManager.INSTANCE.getImportStatus(buildIdentifier);
 
 		if (importStatus == null) {
-			return Response.status(Status.NOT_FOUND).build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 
-		return Response.ok(new ImportStatus(importStatus.name())).build();
+		return ResponseEntity.ok(new ImportStatus(importStatus.name()));
 	}
 
 	private boolean buildFolderDoesNotExist(BuildIdentifier buildIdentifier) {
@@ -130,7 +130,7 @@ public class BuildsResource {
 	}
 
 	@PostMapping(consumes = MediaType.TEXT_PLAIN_VALUE)
-	public Response uploadBuildAsZipFile(@RequestBody final MultipartFormDataInput formData) {
+	public ResponseEntity uploadBuildAsZipFile(@RequestBody final MultipartFile formData) {
 		return new BuildUploader().uploadBuild(formData);
 	}
 

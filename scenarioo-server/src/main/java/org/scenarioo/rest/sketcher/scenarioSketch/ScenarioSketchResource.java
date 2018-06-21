@@ -22,10 +22,10 @@ import org.scenarioo.business.builds.BranchAliasResolver;
 import org.scenarioo.dao.sketcher.SketcherDao;
 import org.scenarioo.model.sketcher.ScenarioSketch;
 import org.scenarioo.utils.IdGenerator;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.Date;
 
 @RestController
@@ -37,8 +37,8 @@ public class ScenarioSketchResource {
 	private final SketcherDao sketcherDao = new SketcherDao();
 
 	@PostMapping
-	public Response storeScenarioSketch(@PathVariable("branchName") final String branchName,
-			@RequestBody final ScenarioSketch scenarioSketch) {
+	public ResponseEntity storeScenarioSketch(@PathVariable("branchName") final String branchName,
+											  @RequestBody final ScenarioSketch scenarioSketch) {
 		LOGGER.info("REQUEST: storeScenarioSketch(" + branchName + ", " + scenarioSketch + ")");
 
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
@@ -50,11 +50,11 @@ public class ScenarioSketchResource {
 
 		sketcherDao.persistScenarioSketch(resolvedBranchName, scenarioSketch.getIssueId(), scenarioSketch);
 
-		return Response.ok(scenarioSketch, MediaType.APPLICATION_JSON).build();
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(scenarioSketch);
 	}
 
 	@PostMapping("/{scenarioSketchId}")
-	public Response updateScenarioSketch(@PathVariable("branchName") final String branchName,
+	public ResponseEntity updateScenarioSketch(@PathVariable("branchName") final String branchName,
 										 @PathVariable("issueId") final String issueId,
 										 @PathVariable("scenarioSketchId") final String scenarioSketchId,
 										 @RequestBody  final ScenarioSketch updatedScenarioSketch) {
@@ -68,7 +68,7 @@ public class ScenarioSketchResource {
 
 		sketcherDao.persistScenarioSketch(resolvedBranchName, scenarioSketchId, scenarioSketch);
 
-		return Response.ok(updatedScenarioSketch, MediaType.APPLICATION_JSON).build();
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(updatedScenarioSketch);
 	}
 
 }

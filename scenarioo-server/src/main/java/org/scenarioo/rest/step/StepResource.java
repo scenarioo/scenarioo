@@ -17,8 +17,6 @@
 
 package org.scenarioo.rest.step;
 
-import javax.ws.rs.core.Response;
-
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
@@ -35,6 +33,7 @@ import org.scenarioo.rest.step.logic.StepIndexResolver;
 import org.scenarioo.rest.step.logic.StepLoader;
 import org.scenarioo.rest.step.logic.StepLoaderResult;
 import org.scenarioo.rest.step.logic.StepResponseFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -65,12 +64,12 @@ public class StepResource {
 	 * Get a step with all its data (meta data, html, ...) together with additional calculated navigation data
 	 */
 	@GetMapping
-	public Response loadStep(@PathVariable("branchName") final String branchName,
-							 @PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
-							 @PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
-							 @PathVariable("pageOccurrence") final int pageOccurrence,
-							 @PathVariable("stepInPageOccurrence") final int stepInPageOccurrence,
-							 @RequestParam("fallback") final boolean addFallbackInfo, @RequestParam("labels") final String labels) {
+	public ResponseEntity loadStep(@PathVariable("branchName") final String branchName,
+								   @PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
+								   @PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
+								   @PathVariable("pageOccurrence") final int pageOccurrence,
+								   @PathVariable("stepInPageOccurrence") final int stepInPageOccurrence,
+								   @RequestParam("fallback") final boolean addFallbackInfo, @RequestParam("labels") final String labels) {
 
 		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, buildName);
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,

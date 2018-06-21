@@ -27,9 +27,8 @@ import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
 import org.scenarioo.rest.base.StepIdentifier;
 import org.scenarioo.rest.step.logic.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.ws.rs.core.Response;
 
 @RestController
 @RequestMapping("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario")
@@ -52,7 +51,7 @@ public class ScreenshotResource {
 	 * the filename of the image.
 	 */
 	@GetMapping(path = "{scenarioName}/image/{imageFileName}", produces = "image/jpeg")
-	public Response getScreenshot(@PathVariable("branchName") final String branchName,
+	public ResponseEntity getScreenshot(@PathVariable("branchName") final String branchName,
 			@PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
 			@PathVariable("scenarioName") final String scenarioName, @PathVariable("imageFileName") final String imageFileName) {
 
@@ -68,12 +67,12 @@ public class ScreenshotResource {
 	 * resolved first. But it is also more stable, because it uses the new "stable" URL pattern.
 	 */
 	@GetMapping(path = "{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}/image.{extension}", produces = "image/jpeg")
-	public Response getScreenshotStable(@PathVariable("branchName") final String branchName,
-										@PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
-										@PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
-										@PathVariable("pageOccurrence") final int pageOccurrence,
-										@PathVariable("stepInPageOccurrence") final int stepInPageOccurrence,
-										@RequestParam("fallback") final boolean fallback, @RequestParam("labels") final String labels) {
+	public ResponseEntity getScreenshotStable(@PathVariable("branchName") final String branchName,
+											  @PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
+											  @PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
+											  @PathVariable("pageOccurrence") final int pageOccurrence,
+											  @PathVariable("stepInPageOccurrence") final int stepInPageOccurrence,
+											  @RequestParam("fallback") final boolean fallback, @RequestParam("labels") final String labels) {
 
 		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, buildName);
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,

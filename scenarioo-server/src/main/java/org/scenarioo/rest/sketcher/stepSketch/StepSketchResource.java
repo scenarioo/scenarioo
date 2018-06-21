@@ -32,10 +32,10 @@ import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.StepIdentifier;
 import org.scenarioo.rest.step.logic.ResolveStepIndexResult;
 import org.scenarioo.rest.step.logic.StepIndexResolver;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.io.File;
 import java.util.Date;
 
@@ -65,10 +65,10 @@ public class StepSketchResource {
 	}
 
 	@PostMapping
-	public Response storeStepSketch(@PathVariable("branchName") final String branchName,
-									@PathVariable("issueId") final String issueId,
-									@PathVariable("scenarioSketchId") final String scenarioSketchId,
-									@RequestBody  final StepSketch stepSketch) {
+	public ResponseEntity storeStepSketch(@PathVariable("branchName") final String branchName,
+										  @PathVariable("issueId") final String issueId,
+										  @PathVariable("scenarioSketchId") final String scenarioSketchId,
+										  @RequestBody  final StepSketch stepSketch) {
 		BuildIdentifier resolvedBranchAndBuildAlias = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 				stepSketch.getRelatedStep().getBranchName(), stepSketch.getRelatedStep().getBuildName());
 		stepSketch.getRelatedStep().setBranchName(resolvedBranchAndBuildAlias.getBranchName());
@@ -87,7 +87,7 @@ public class StepSketchResource {
 
 		copyOriginalScreenshot(resolvedBranchName, issueId, scenarioSketchId, stepSketch);
 
-		return Response.ok(stepSketch, MediaType.APPLICATION_JSON).build();
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(stepSketch);
 	}
 
 	private void copyOriginalScreenshot(final String branchName, final String issueId, final String scenarioSketchId,
@@ -113,7 +113,7 @@ public class StepSketchResource {
 	}
 
 	@PostMapping("/{stepSketchId}")
-	public Response updateStepSketch(@PathVariable("branchName") final String branchName,
+	public ResponseEntity updateStepSketch(@PathVariable("branchName") final String branchName,
 									 @PathVariable("issueId") final String issueId,
 									 @PathVariable("scenarioSketchId") final String scenarioSketchId,
 									 @PathVariable("stepSketchId") final String stepSketchId,
@@ -128,7 +128,7 @@ public class StepSketchResource {
 
 		sketcherDao.persistSketchAsSvgAndPng(resolvedBranchName, issueId, scenarioSketchId, stepSketch);
 
-		return Response.ok(stepSketch, MediaType.APPLICATION_JSON).build();
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(stepSketch);
 	}
 
 }

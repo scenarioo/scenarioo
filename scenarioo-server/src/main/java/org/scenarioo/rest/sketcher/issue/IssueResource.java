@@ -30,10 +30,11 @@ import org.scenarioo.rest.sketcher.issue.dto.IssueSummary;
 import org.scenarioo.rest.sketcher.issue.dto.IssueWithSketch;
 import org.scenarioo.rest.sketcher.issue.dto.SketchIds;
 import org.scenarioo.utils.IdGenerator;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -51,19 +52,19 @@ public class IssueResource {
 	 * Lists all issues for the given branch. Used to display the branches in the "Sketches" tab on branch level.
 	 */
 	@GetMapping
-	public Response loadIssueSummaries(@PathVariable("branchName") final String branchName) {
+	public ResponseEntity loadIssueSummaries(@PathVariable("branchName") final String branchName) {
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
 		try {
 			final List<Issue> issues = sketcherDao.loadIssues(resolvedBranchName);
-			return Response.ok(createIssueSummaries(issues), MediaType.APPLICATION_JSON).build();
+			return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(createIssueSummaries(issues));
 		} catch (ResourceNotFoundException e) {
-			return Response.noContent().build();
+			return ResponseEntity.noContent().build();
 		}
 	}
 
 	@GetMapping("/{issueId}/ids")
-	public Response loadSketchIds(@PathVariable("branchName") final String branchName,
+	public ResponseEntity loadSketchIds(@PathVariable("branchName") final String branchName,
 			@PathVariable("issueId") final String issueId) {
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
@@ -71,12 +72,12 @@ public class IssueResource {
 
 		SketchIds sketchIds = SketchIds.fromIssueWithSketch(issueWitchSketch);
 
-		return Response.ok(sketchIds, MediaType.APPLICATION_JSON).build();
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(sketchIds);
 	}
 
 	@GetMapping("/{issueId}")
-	public Response loadIssueWithSketch(@PathVariable("branchName") final String branchName,
-			@PathVariable("issueId") final String issueId) {
+	public ResponseEntity loadIssueWithSketch(@PathVariable("branchName") final String branchName,
+											  @PathVariable("issueId") final String issueId) {
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
 		IssueWithSketch result;
@@ -84,16 +85,16 @@ public class IssueResource {
 		try {
 			result = loadIssueAndSketch(resolvedBranchName, issueId);
 		} catch (ResourceNotFoundException e) {
-			return Response.status(Response.Status.NOT_FOUND).build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 
 		result.getStepSketch().setSvgXmlString(null); // we don't need it here, so we can save some data
 
-		return Response.ok(result, MediaType.APPLICATION_JSON).build();
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(result);
 	}
 
 	@PostMapping
-	public Response storeNewIssue(@RequestBody final Issue newIssue) {
+	public ResponseEntity storeNewIssue(@RequestBody final Issue newIssue) {
 		LOGGER.info("REQUEST: storeNewIssue(" + newIssue.getRelatedStep().getBranchName() + ")");
 
 		BuildIdentifier resolvedBranchAndBuildAlias = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
@@ -109,11 +110,11 @@ public class IssueResource {
 
 		sketcherDao.persistIssue(resolvedBranchAndBuildAlias.getBranchName(), newIssue);
 
-		return Response.ok(newIssue, MediaType.APPLICATION_JSON).build();
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(newIssue);
 	}
 
 	@PostMapping("/{issueId}")
-	public Response updateIssue(@PathVariable("branchName") final String branchName,
+	public ResponseEntity updateIssue(@PathVariable("branchName") final String branchName,
 			@PathVariable("issueId") final String issueId,
 			@RequestBody  final Issue updatedIssue) {
 		LOGGER.info("REQUEST: updateIssue(" + branchName + ", " + issueId + ", " + updatedIssue + ")");
@@ -128,11 +129,11 @@ public class IssueResource {
 
 		sketcherDao.persistIssue(resolvedBranchName, existingIssue);
 
-		return Response.ok(existingIssue, MediaType.APPLICATION_JSON).build();
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(existingIssue);
 	}
 
 	@GetMapping("/related/{buildName}/{usecaseName}")
-	public Response relatedIssuesForUsecase(@PathVariable("branchName") final String branchName,
+	public ResponseEntity relatedIssuesForUsecase(@PathVariable("branchName") final String branchName,
 			@PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName) {
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
@@ -143,7 +144,7 @@ public class IssueResource {
 	}
 
 	@GetMapping("/related/{buildName}/{usecaseName}/{scenarioName}")
-	public Response relatedIssuesForScenario(@PathVariable("branchName") final String branchName,
+	public ResponseEntity relatedIssuesForScenario(@PathVariable("branchName") final String branchName,
 			@PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
 			@PathVariable("scenarioName") final String scenarioName) {
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
@@ -155,7 +156,7 @@ public class IssueResource {
 	}
 
 	@GetMapping("/related/{buildName}/{usecaseName}/{scenarioName}/{pageName}/{pageOccurrence}/{stepInPageOccurrence}")
-	public Response relatedIssuesForStep(@PathVariable("branchName") final String branchName,
+	public ResponseEntity relatedIssuesForStep(@PathVariable("branchName") final String branchName,
 			@PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
 			@PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
 			@PathVariable("pageOccurrence") final int pageOccurrence,
@@ -168,14 +169,14 @@ public class IssueResource {
 		return loadRelatedIssues(stepIdentifier);
 	}
 
-	private Response loadRelatedIssues(final StepIdentifier stepIdentifier) {
+	private ResponseEntity loadRelatedIssues(final StepIdentifier stepIdentifier) {
 		try {
 			final List<Issue> issues = sketcherDao.loadIssues(stepIdentifier.getBranchName());
 			List<IssueSummary> relatedIssues = selectOnlyRelatedIssues(stepIdentifier, issues);
-			return Response.ok(relatedIssues, MediaType.APPLICATION_JSON).build();
+			return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(relatedIssues);
 		}
 		catch (ResourceNotFoundException e) {
-			return Response.noContent().build();
+			return ResponseEntity.noContent().build();
 		}
 	}
 
