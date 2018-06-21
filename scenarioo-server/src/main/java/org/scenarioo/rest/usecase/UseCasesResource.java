@@ -35,7 +35,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rest/branch/{branchName}/build/{buildName}/usecase/")
+@RequestMapping("/rest/branch/{branchName}/build/{buildName}/usecase")
 public class UseCasesResource {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE

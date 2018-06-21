@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/")
+@RequestMapping("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario")
 public class ScenariosResource {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE

@@ -26,7 +26,7 @@ import org.scenarioo.rest.search.SearchEngineStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/rest/configuration/")
+@RequestMapping("/rest/configuration")
 public class ConfigurationResource {
 
 	private static final Logger LOGGER = Logger.getLogger(ConfigurationResource.class);
@@ -35,13 +35,11 @@ public class ConfigurationResource {
 			.getConfigurationRepository();
 
 	@GetMapping
-//	@Produces({ "application/json", "application/xml" })
 	public Configuration getConfiguration() {
 		return configurationRepository.getConfiguration();
 	}
 
 	@GetMapping("/applicationStatus")
-//	@Produces({ "application/json", "application/xml" })
 	public ApplicationStatus getApplicationStatus() {
 		ApplicationStatus applicationStatus = new ApplicationStatus();
 
@@ -53,7 +51,6 @@ public class ConfigurationResource {
 	}
 
 	@PostMapping
-//	@Consumes({ "application/json", "application/xml" })
 	public void updateConfiguration(@RequestBody final Configuration configuration) {
 		LOGGER.info("Saving configuration.");
 		configurationRepository.updateConfiguration(configuration);

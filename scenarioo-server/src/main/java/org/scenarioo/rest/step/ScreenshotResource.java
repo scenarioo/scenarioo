@@ -17,8 +17,6 @@
 
 package org.scenarioo.rest.step;
 
-import javax.ws.rs.core.Response;
-
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
@@ -28,16 +26,13 @@ import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
 import org.scenarioo.rest.base.ScenarioIdentifier;
 import org.scenarioo.rest.base.StepIdentifier;
-import org.scenarioo.rest.step.logic.LabelsQueryParamParser;
-import org.scenarioo.rest.step.logic.ScenarioLoader;
-import org.scenarioo.rest.step.logic.ScreenshotResponseFactory;
-import org.scenarioo.rest.step.logic.StepIndexResolver;
-import org.scenarioo.rest.step.logic.StepLoader;
-import org.scenarioo.rest.step.logic.StepLoaderResult;
+import org.scenarioo.rest.step.logic.*;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.core.Response;
+
 @RestController
-@RequestMapping("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/")
+@RequestMapping("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario")
 public class ScreenshotResource {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE

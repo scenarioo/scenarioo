@@ -47,7 +47,7 @@ import java.util.regex.Pattern;
  * Resource for getting the URLs for screenshots for a certain object
  */
 @RestController
-@RequestMapping("/rest/branch/{branchName}/build/{buildName}/object/")
+@RequestMapping("/rest/branch/{branchName}/build/{buildName}/object")
 public class ObjectStepResource extends AbstractBuildContentResource {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE

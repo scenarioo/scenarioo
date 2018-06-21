@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.File;
 
 @RestController
-@RequestMapping("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/")
+@RequestMapping("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}")
 public class StepDiffScreenshotResource {
 
 	private static final Logger LOGGER = Logger.getLogger(StepDiffScreenshotResource.class);

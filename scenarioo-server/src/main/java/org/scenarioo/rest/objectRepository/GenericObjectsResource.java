@@ -17,8 +17,6 @@
 
 package org.scenarioo.rest.objectRepository;
 
-import java.util.List;
-
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
@@ -30,12 +28,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * Resource for getting access to generic objects stored inside the documentation with detail informations about where
  * such objects are referenced (on which steps, pages etc.)
  */
 @RestController
-@RequestMapping("/rest/branch/{branchName}/build/{buildName}/object/")
+@RequestMapping("/rest/branch/{branchName}/build/{buildName}/object")
 public class GenericObjectsResource extends AbstractBuildContentResource {
 
 	@GetMapping("{type}")
