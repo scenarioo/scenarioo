@@ -31,6 +31,12 @@
             </tbody>
         </table>
 
+        <div class="alert alert-success fade-out sc-space-top" id="changed-label-config-successfully" ng-show="vm.successfullyUpdatedLabelConfigurations">
+            The label configurations have been successfully updated.
+            <a ng-click="vm.successfullyUpdatedLabelConfigurations=false" class="pull-right link link-no-hover" style="color: #468847">
+                <i class="icon-remove icon"></i></a>
+        </div>
+
         <div class="row sc-space-top-large">
             <div class="col-lg-12" style="text-align: right">
                 <input type="button" value="Reset" class="btn btn-wide btn-default" ng-click="vm.reset()"/>
@@ -39,9 +45,4 @@
         </div>
     </form>
 
-    <div class="alert alert-success fade-out sc-space-top" id="changed-label-config-successfully" ng-show="vm.successfullyUpdatedLabelConfigurations">
-        The label configurations have been successfully updated.
-        <a ng-click="vm.successfullyUpdatedLabelConfigurations=false" class="pull-right link link-no-hover" style="color: #468847">
-            <i class="icon-remove icon"></i></a>
-    </div>
 </div>

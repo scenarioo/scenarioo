@@ -52,6 +52,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </tbody>
         </table>
 
+        <div class="alert alert-success fade-out sc-space-top" id="updated-branch-aliases-successfully" ng-show="vm.successfullyUpdatedBranchAliases">
+            The branch aliases have been successfully updated.
+            <a ng-click="vm.successfullyUpdatedBranchAliases=false" class="pull-right link link-no-hover" style="color: #468847"><i
+                class="icon-remove icon"></i></a>
+        </div>
+
+        <div class="alert alert-danger fade-out sc-space-top" ng-show="vm.uniqueError" id="duplicateAliasErrorId">
+            <strong>Your branch aliases are not unique.</strong> Please make sure each name is only used once.
+        </div>
         <div class="row sc-space-top-large">
             <div class="col-lg-12" style="text-align: right">
                 <input type="button" value="Reset" class="btn btn-wide btn-default" ng-click="vm.reset()"/>
@@ -59,13 +68,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
     </form>
-    <div class="alert alert-success fade-out sc-space-top" id="updated-branch-aliases-successfully" ng-show="vm.successfullyUpdatedBranchAliases">
-        The branch aliases have been successfully updated.
-        <a ng-click="vm.successfullyUpdatedBranchAliases=false" class="pull-right link link-no-hover" style="color: #468847"><i
-            class="icon-remove icon"></i></a>
-    </div>
-
-    <div class="alert alert-danger fade-out sc-space-top" ng-show="vm.uniqueError" id="duplicateAliasErrorId">
-        <strong>Your branch aliases are not unique.</strong> Please make sure each name is only used once.
-    </div>
 </div>
