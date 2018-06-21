@@ -59,8 +59,8 @@ properties([
 	buildDiscarder(logRotator(
 	    artifactDaysToKeepStr: '10',
 	    artifactNumToKeepStr: '5',
-	    daysToKeepStr: '30',
-	    numToKeepStr: '20'
+	    daysToKeepStr: '10',
+	    numToKeepStr: '5'
 	))
 ])
 
@@ -90,8 +90,7 @@ timestamps {
         stage('Package') {
             gradle 'distZip'
             archiveArtifacts ("scenarioo-server/build/libs/scenarioo-*.war, LICENSE.txt, README.md, "
-                              + "scenarioo-docu-generation-example/build/scenarioDocuExample/, "
-                              + "scenarioo-validator/build/distributions/*")
+                              + "scenarioo-docu-generation-example/build/scenarioDocuExample/")
         }
 
         stage('Deploy') {

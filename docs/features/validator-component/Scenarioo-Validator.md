@@ -4,23 +4,25 @@ The Scenarioo Validator is a command line tool that validates produced Scenarioo
 
 It is helpful when developing writer libraries (scenarioo-cs, scenarioo-js) in order to assure that the produced output can be successfully imported by the Scenarioo application.
 
+
 ## Usage
 
-After you checked out the Scenarioo source-code, you can run the following command in order to build the validator tool:
+Run this command in the `scenarioo-validator` folder to build the validator:
 
-`$ ./gradlew clean build installApp`
+`$ ./gradlew clean installDist`
 
-This will produce the folder **scenarioo/scenarioo-validator/build/install/scenarioo-validator** containing all needed libraries as well as start scripts for UNIX and windows.
+From the folder `scenarioo-validator` navigate to `build/install/scenarioo-validator/bin`.
 
-On UNIX systems run
+Run the validator by providing the path to your documentation data directory.
 
-`$ ./scenarioo-validator/build/install/scenarioo-validator/bin/scenarioo-validator <PATH_TO_YOUR_DOCU_DIRECTORY>`
+Linux:
 
-On Windows run the .bat file
+`$ ./scenarioo-validator <PATH_TO_YOUR_DOCU_DIRECTORY>`
 
-`$ ./scenarioo-validator/build/install/scenarioo-validator/bin/scenarioo-validator.bat <PATH_TO_YOUR_DOCU_DIRECTORY>`
+Windows:
 
-**NOTE**: a prebuilt version of the tool can be found here http://54.88.202.24/jenkins/job/scenarioo-develop/lastSuccessfulBuild/artifact/scenarioo-validator/build/distributions/scenarioo-validator-latest.zip (built during CI on develop branch)
+`$ ./scenarioo-validator.bat <PATH_TO_YOUR_DOCU_DIRECTORY>`
+
 
 ## Options
 
@@ -29,6 +31,7 @@ On Windows run the .bat file
  -c,--clean-derived   If set, derived files will be deleted before
                       validation
 ```
+
 
 ## Implementation Details
 
