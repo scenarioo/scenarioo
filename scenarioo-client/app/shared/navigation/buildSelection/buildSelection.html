@@ -9,7 +9,7 @@
         </span>
         {{getDisplayNameForBuild(selectedBuild, true)}} ({{selectedBuild.build.date | scDateOnly}})&nbsp;
         <span ng-class="[getStatusStyleClass(selectedBuild.build.status), 'label']">{{selectedBuild.build.status}}</span>
-        <div class="icon-with-padding"><b class="caret"></b></div>
+        <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
         <li ng-repeat="build in selectedBranch.builds">
