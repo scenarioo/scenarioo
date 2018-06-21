@@ -27,6 +27,9 @@
         "lint-ts-e2e": "tslint \"test/e2e/**/*.ts\" --exclude app/components --project tsconfig.json"
     },
     "dependencies": {
+        "@fortawesome/fontawesome": "^1.1.8",
+        "@fortawesome/fontawesome-free-solid": "^5.0.13",
+        "@fortawesome/fontawesome-free-brands": "^5.0.13",
         "angular": "1.5.2",
         "angular-i18n": "1.5.2",
         "angular-local-storage": "^0.2.7",

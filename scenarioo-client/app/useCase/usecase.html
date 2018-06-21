@@ -66,14 +66,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                           ng-style="useCase.getLabelStyle(label)">{{label}}</span>
                 </td>
                 <td>
-                    <a ng-if="!scenarioSummary.diffInfo.isRemoved">
-                        <i class="icon-list-ul icon-with-padding"
-                           uib-tooltip="Go to scenario overview"
-                           tooltip-placement="bottom"></i></a>
+                    <a ng-if="!scenarioSummary.diffInfo.isRemoved"
+                       uib-tooltip="Go to scenario overview" tooltip-placement="bottom">
+                        <i class="fas fa-fw fa-list-ul"></i>
+                    </a>
                     <a ng-if="!scenarioSummary.diffInfo.isRemoved"
                        ng-click="useCase.goToFirstStep(useCase.useCase.name, scenarioSummary.scenario.name)"
                        uib-tooltip="Go to first step"
-                       tooltip-placement="bottom"><i class="icon-tablet icon-with-padding"></i></a>
+                       tooltip-placement="bottom">
+                        <i class="fas fa-fw fa-tablet-alt"></i>
+                    </a>
                 </td>
                 <td>{{scenarioSummary.scenario.description}}</td>
                 <td ng-repeat="property in useCase.propertiesToShow">{{scenarioSummary.scenario.details[property]}}</td>

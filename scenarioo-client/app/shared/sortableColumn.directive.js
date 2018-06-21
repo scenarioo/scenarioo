@@ -27,9 +27,9 @@ angular.module('scenarioo.directives').directive('scSortableColumn', function ($
                 }
                 element.addClass('link');
 
-                var iconString = '<i class="icon-sort" ng-show="table.sort.column != \'' + scSortableColumn + '\'"></i>' +
-                    '<i class="icon-sort-up" ng-show="table.sort.column == \'' + scSortableColumn + '\' && !table.sort.reverse"></i>' +
-                    '<i class="icon-sort-down" ng-show="table.sort.column == \'' + scSortableColumn + '\' && table.sort.reverse"></i>';
+                var iconString = '<span ng-show="table.sort.column != \'' + scSortableColumn + '\'"><i class="fas fa-sort"></i></span>' +
+                    '<span ng-show="table.sort.column == \'' + scSortableColumn + '\' && !table.sort.reverse"><i class="fas fa-sort-up"></i></span>' +
+                    '<span ng-show="table.sort.column == \'' + scSortableColumn + '\' && table.sort.reverse"><i class="fas fa-sort-down"></i></span>';
 
                 var iconElement = angular.element(iconString);
                 var iconCompiled = $compile(iconElement)(scope);

@@ -1,5 +1,5 @@
 require('../node_modules/bootstrap/dist/css/bootstrap.min.css');
-require('./components/font-awesome/css/font-awesome.min.css');
+require('./fontawesome-icons');
 
 require('jquery');
 require('angular');
