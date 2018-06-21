@@ -30,17 +30,17 @@ import org.scenarioo.rest.sketcher.issue.dto.IssueSummary;
 import org.scenarioo.rest.sketcher.issue.dto.IssueWithSketch;
 import org.scenarioo.rest.sketcher.issue.dto.SketchIds;
 import org.scenarioo.utils.IdGenerator;
+import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-@Path("/rest/branch/{branchName}/issue")
+@RestController
+@RequestMapping("/rest/branch/{branchName}/issue")
 public class IssueResource {
 
 	private static final Logger LOGGER = Logger.getLogger(IssueResource.class);
@@ -50,24 +50,21 @@ public class IssueResource {
 	/**
 	 * Lists all issues for the given branch. Used to display the branches in the "Sketches" tab on branch level.
 	 */
-	@GET
-	@Produces({ "application/json" })
-	public Response loadIssueSummaries(@PathParam("branchName") final String branchName) {
+	@GetMapping
+	public Response loadIssueSummaries(@PathVariable("branchName") final String branchName) {
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
 		try {
 			final List<Issue> issues = sketcherDao.loadIssues(resolvedBranchName);
-			return Response.ok(createIssueSummaries(resolvedBranchName, issues), MediaType.APPLICATION_JSON).build();
+			return Response.ok(createIssueSummaries(issues), MediaType.APPLICATION_JSON).build();
 		} catch (ResourceNotFoundException e) {
 			return Response.noContent().build();
 		}
 	}
 
-	@GET
-	@Produces({ "application/json" })
-	@Path("/{issueId}/ids")
-	public Response loadSketchIds(@PathParam("branchName") final String branchName,
-			@PathParam("issueId") final String issueId) {
+	@GetMapping("/{issueId}/ids")
+	public Response loadSketchIds(@PathVariable("branchName") final String branchName,
+			@PathVariable("issueId") final String issueId) {
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
 		final IssueWithSketch issueWitchSketch = loadIssueAndSketch(resolvedBranchName, issueId);
@@ -77,19 +74,17 @@ public class IssueResource {
 		return Response.ok(sketchIds, MediaType.APPLICATION_JSON).build();
 	}
 
-	@GET
-	@Produces({ "application/json" })
-	@Path("/{issueId}")
-	public Response loadIssueWithSketch(@PathParam("branchName") final String branchName,
-			@PathParam("issueId") final String issueId) {
+	@GetMapping("/{issueId}")
+	public Response loadIssueWithSketch(@PathVariable("branchName") final String branchName,
+			@PathVariable("issueId") final String issueId) {
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 
-		IssueWithSketch result = null;
+		IssueWithSketch result;
 
 		try {
 			result = loadIssueAndSketch(resolvedBranchName, issueId);
 		} catch (ResourceNotFoundException e) {
-			return Response.status(Status.NOT_FOUND).build();
+			return Response.status(Response.Status.NOT_FOUND).build();
 		}
 
 		result.getStepSketch().setSvgXmlString(null); // we don't need it here, so we can save some data
@@ -97,9 +92,8 @@ public class IssueResource {
 		return Response.ok(result, MediaType.APPLICATION_JSON).build();
 	}
 
-	@POST
-	@Consumes("application/json")
-	public Response storeNewIssue(final Issue newIssue) {
+	@PostMapping
+	public Response storeNewIssue(@RequestBody final Issue newIssue) {
 		LOGGER.info("REQUEST: storeNewIssue(" + newIssue.getRelatedStep().getBranchName() + ")");
 
 		BuildIdentifier resolvedBranchAndBuildAlias = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
@@ -118,13 +112,10 @@ public class IssueResource {
 		return Response.ok(newIssue, MediaType.APPLICATION_JSON).build();
 	}
 
-	@POST
-	@Consumes("application/json")
-	@Produces("application/json")
-	@Path("/{issueId}")
-	public Response updateIssue(@PathParam("branchName") final String branchName,
-			@PathParam("issueId") final String issueId,
-			final Issue updatedIssue) {
+	@PostMapping("/{issueId}")
+	public Response updateIssue(@PathVariable("branchName") final String branchName,
+			@PathVariable("issueId") final String issueId,
+			@RequestBody  final Issue updatedIssue) {
 		LOGGER.info("REQUEST: updateIssue(" + branchName + ", " + issueId + ", " + updatedIssue + ")");
 
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
@@ -140,11 +131,9 @@ public class IssueResource {
 		return Response.ok(existingIssue, MediaType.APPLICATION_JSON).build();
 	}
 
-	@GET
-	@Produces("application/json")
-	@Path("/related/{buildName}/{usecaseName}")
-	public Response relatedIssuesForUsecase(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName) {
+	@GetMapping("/related/{buildName}/{usecaseName}")
+	public Response relatedIssuesForUsecase(@PathVariable("branchName") final String branchName,
+			@PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName) {
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName,
@@ -153,12 +142,10 @@ public class IssueResource {
 		return loadRelatedIssues(stepIdentifier);
 	}
 
-	@GET
-	@Produces("application/json")
-	@Path("/related/{buildName}/{usecaseName}/{scenarioName}")
-	public Response relatedIssuesForScenario(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
-			@PathParam("scenarioName") final String scenarioName) {
+	@GetMapping("/related/{buildName}/{usecaseName}/{scenarioName}")
+	public Response relatedIssuesForScenario(@PathVariable("branchName") final String branchName,
+			@PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
+			@PathVariable("scenarioName") final String scenarioName) {
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName,
@@ -167,14 +154,12 @@ public class IssueResource {
 		return loadRelatedIssues(stepIdentifier);
 	}
 
-	@GET
-	@Produces("application/json")
-	@Path("/related/{buildName}/{usecaseName}/{scenarioName}/{pageName}/{pageOccurrence}/{stepInPageOccurrence}")
-	public Response relatedIssuesForStep(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
-			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
-			@PathParam("pageOccurrence") final int pageOccurrence,
-			@PathParam("stepInPageOccurrence") final int stepInPageOccurrence) {
+	@GetMapping("/related/{buildName}/{usecaseName}/{scenarioName}/{pageName}/{pageOccurrence}/{stepInPageOccurrence}")
+	public Response relatedIssuesForStep(@PathVariable("branchName") final String branchName,
+			@PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
+			@PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
+			@PathVariable("pageOccurrence") final int pageOccurrence,
+			@PathVariable("stepInPageOccurrence") final int stepInPageOccurrence) {
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
 		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName,
@@ -196,7 +181,7 @@ public class IssueResource {
 
 	private List<IssueSummary> selectOnlyRelatedIssues(final StepIdentifier stepIdentifier,
 			final List<Issue> issues) {
-		final List<IssueSummary> result = new ArrayList<IssueSummary>();
+		final List<IssueSummary> result = new ArrayList<>();
 		for (final Issue issue : issues) {
 			if (isRelatedIssue(issue, stepIdentifier)) {
 				result.add(IssueSummary.createFromIssue(issue));
@@ -234,8 +219,8 @@ public class IssueResource {
 				&& stepIdentifier.getStepInPageOccurrence() == relatedStep.getStepInPageOccurrence());
 	}
 
-	private List<IssueSummary> createIssueSummaries(final String branchName, final List<Issue> issues) {
-		final List<IssueSummary> issueSummaries = new LinkedList<IssueSummary>();
+	private List<IssueSummary> createIssueSummaries(final List<Issue> issues) {
+		final List<IssueSummary> issueSummaries = new LinkedList<>();
 		for (final Issue issue : issues) {
 			issueSummaries.add(IssueSummary.createFromIssue(issue));
 		}

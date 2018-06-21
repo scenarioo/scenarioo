@@ -17,36 +17,32 @@
 
 package org.scenarioo.rest.diffViewer;
 
-import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.diffViewer.StepDiffInfo;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Path("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/")
+@RestController
+@RequestMapping("/rest/diffViewer/baseBranchName/{baseBranchName}/baseBuildName/{baseBuildName}/")
 public class StepDiffInfoResource {
-
-	private static final Logger LOGGER = Logger.getLogger(StepDiffInfoResource.class);
 
 	private DiffViewerDao diffViewerDao = new DiffViewerDao();
 
-	@GET
-	@Produces("application/json")
-	@Path("comparisonName/{comparisonName}/useCaseName/{useCaseName}/scenarioName/{scenarioName}/stepIndex/{stepIndex}/stepDiffInfo")
-	public StepDiffInfo getStepDiffInfo(@PathParam("baseBranchName") final String baseBranchName,
-			@PathParam("baseBuildName") final String baseBuildName,
-			@PathParam("comparisonName") final String comparisonName,
-			@PathParam("useCaseName") final String useCaseName,
-			@PathParam("scenarioName") final String scenarioName,
-			@PathParam("stepIndex") final String stepIndex) {
+	@GetMapping("comparisonName/{comparisonName}/useCaseName/{useCaseName}/scenarioName/{scenarioName}/stepIndex/{stepIndex}/stepDiffInfo")
+	public StepDiffInfo getStepDiffInfo(@PathVariable("baseBranchName") final String baseBranchName,
+			@PathVariable("baseBuildName") final String baseBuildName,
+			@PathVariable("comparisonName") final String comparisonName,
+			@PathVariable("useCaseName") final String useCaseName,
+			@PathVariable("scenarioName") final String scenarioName,
+			@PathVariable("stepIndex") final String stepIndex) {
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE
 				.resolveBranchAndBuildAliases(baseBranchName, baseBuildName);
 
@@ -54,14 +50,12 @@ public class StepDiffInfoResource {
 				comparisonName, useCaseName, scenarioName, Integer.parseInt(stepIndex));
 	}
 
-	@GET
-	@Produces("application/json")
-	@Path("comparisonName/{comparisonName}/useCaseName/{useCaseName}/scenarioName/{scenarioName}/stepDiffInfos")
-	public Map<Integer, StepDiffInfo> getStepDiffInfos(@PathParam("baseBranchName") final String baseBranchName,
-			@PathParam("baseBuildName") final String baseBuildName,
-			@PathParam("comparisonName") final String comparisonName,
-			@PathParam("useCaseName") final String useCaseName,
-			@PathParam("scenarioName") final String scenarioName) {
+	@GetMapping("comparisonName/{comparisonName}/useCaseName/{useCaseName}/scenarioName/{scenarioName}/stepDiffInfos")
+	public Map<Integer, StepDiffInfo> getStepDiffInfos(@PathVariable("baseBranchName") final String baseBranchName,
+			@PathVariable("baseBuildName") final String baseBuildName,
+			@PathVariable("comparisonName") final String comparisonName,
+			@PathVariable("useCaseName") final String useCaseName,
+			@PathVariable("scenarioName") final String scenarioName) {
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 				baseBranchName, baseBuildName);
@@ -73,7 +67,7 @@ public class StepDiffInfoResource {
 	}
 
 	private Map<Integer, StepDiffInfo> getStepDiffInfoMap(final List<StepDiffInfo> stepDiffInfos) {
-		final Map<Integer, StepDiffInfo> stepDiffInfoMap = new HashMap<Integer, StepDiffInfo>();
+		final Map<Integer, StepDiffInfo> stepDiffInfoMap = new HashMap<>();
 		for (final StepDiffInfo stepDiffInfo : stepDiffInfos) {
 			stepDiffInfoMap.put(stepDiffInfo.getIndex(), stepDiffInfo);
 		}

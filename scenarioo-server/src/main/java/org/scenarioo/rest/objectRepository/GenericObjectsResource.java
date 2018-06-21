@@ -19,30 +19,28 @@ package org.scenarioo.rest.objectRepository;
 
 import java.util.List;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.rest.base.AbstractBuildContentResource;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Resource for getting access to generic objects stored inside the documentation with detail informations about where
  * such objects are referenced (on which steps, pages etc.)
  */
-@Path("/rest/branch/{branchName}/build/{buildName}/object/")
+@RestController
+@RequestMapping("/rest/branch/{branchName}/build/{buildName}/object/")
 public class GenericObjectsResource extends AbstractBuildContentResource {
 
-	@GET
-	@Produces({ "application/xml", "application/json" })
-	@Path("{type}")
-	public List<ObjectDescription> readList(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName, @PathParam("type") final String type) {
+	@GetMapping("{type}")
+	public List<ObjectDescription> readList(@PathVariable("branchName") final String branchName,
+			@PathVariable("buildName") final String buildName, @PathVariable("type") final String type) {
 
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
@@ -50,12 +48,10 @@ public class GenericObjectsResource extends AbstractBuildContentResource {
 		return getDAO(buildIdentifier).loadObjectsList(buildIdentifier, type).getItems();
 	}
 
-	@GET
-	@Produces({ "application/xml", "application/json" })
-	@Path("{type}/{name}/")
-	public ObjectIndex readObjectIndex(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName, @PathParam("type") final String objectType,
-			@PathParam("name") final String objectName) {
+	@GetMapping("{type}/{name}/")
+	public ObjectIndex readObjectIndex(@PathVariable("branchName") final String branchName,
+			@PathVariable("buildName") final String buildName, @PathVariable("type") final String objectType,
+			@PathVariable("name") final String objectName) {
 
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);
