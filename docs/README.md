@@ -6,6 +6,12 @@ Scenarioo helps you visualizing and documenting the functionalities of your soft
 
 For more hi level introduction about what scenarioo is, please refer to our web page: http://www.scenarioo.org
 
+## Video: A Short Introduction to Scenarioo
+
+Shows the essential features of Scenarioo and gives you some first insights into the Scenarioo documentation format structure.
+
+<p><iframe width="883" height="497" src="https://www.youtube-nocookie.com/embed/C_Omyu190V4?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></p>
+
 ## Scenarioo Overview
 
 The following sections gives a basic introduction to Scenarioo and where to find more information for most important aspects in our documentation.
