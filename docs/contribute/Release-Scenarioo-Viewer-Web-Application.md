@@ -41,7 +41,7 @@ Usually this should be the same as the Scenarioo version that you are going to r
     },
     ```
 * Push the release branch and make sure it builds on our [build server](Build-Server).
-* Configure the new release branch to be not allowed to delete on github (we keep release branches for maintanance of major releases!)
+* Configure the new release branch to be not allowed to delete on github (under `Settings\Branches`) - since we keep release branches for maintanance of major releases!
 * Merge the release branch (with changes for docu) to develop branch.
 * On the develop branch: change the docu version back to "develop" (selection in dropdown and edit link) to be ready for development for next release again.
 * Inform the team about the release branch and that release stabilisation has to be done on that branch as follows.
