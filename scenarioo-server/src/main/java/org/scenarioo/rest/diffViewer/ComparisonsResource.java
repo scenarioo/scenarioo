@@ -8,11 +8,10 @@ import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import java.io.File;
 import java.util.concurrent.Future;
 
@@ -31,7 +30,7 @@ public class ComparisonsResource {
 	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
 	 */
 	@PostMapping("/calculate")
-	public Response calculate(
+	public ResponseEntity calculate(
 		@PathVariable("branchName") final String branchName,
 		@PathVariable("buildName") final String buildName,
 		@PathVariable("comparisonName") final String comparisonName,
@@ -43,7 +42,7 @@ public class ComparisonsResource {
 		ScenarioDocuBuildsManager.INSTANCE.submitBuildForSingleComparison(buildIdentifier,
 			comparisonBuildIdentifier, comparisonName);
 
-		return Response.ok().build();
+		return ResponseEntity.ok().build();
 	}
 
 	/**
@@ -54,7 +53,7 @@ public class ComparisonsResource {
 	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
 	 */
 	@PostMapping("/recalculate")
-	public Response recalculate(
+	public ResponseEntity recalculate(
 		@PathVariable("branchName") final String branchName,
 		@PathVariable("buildName") final String buildName,
 		@PathVariable("comparisonName") final String comparisonName) {
@@ -68,7 +67,7 @@ public class ComparisonsResource {
 		ScenarioDocuBuildsManager.INSTANCE.submitBuildForSingleComparison(buildIdentifier,
 			comparisonBuildIdentifier, comparisonName);
 
-		return Response.ok().build();
+		return ResponseEntity.ok().build();
 	}
 
 	/**
@@ -79,14 +78,14 @@ public class ComparisonsResource {
 	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
 	 */
 	@GetMapping(path = "/calculationStatus", produces = "text/plain")
-	public Response getCalculationStatus(
+	public ResponseEntity getCalculationStatus(
 		@PathVariable("branchName") final String branchName,
 		@PathVariable("buildName") final String buildName,
 		@PathVariable("comparisonName") final String comparisonName) {
 
 		BuildDiffInfo buildDiffInfo = getComparisonCalculation(branchName, buildName, comparisonName);
 		String status = buildDiffInfo.getStatus().toString();
-		return Response.ok(status).build();
+		return ResponseEntity.ok(status);
 	}
 
 
@@ -98,16 +97,17 @@ public class ComparisonsResource {
 	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
 	 */
 	@GetMapping(path = "/log", produces = "text/plain")
-	public Response getLog(@PathVariable("branchName") final String branchName,
+	public ResponseEntity getLog(@PathVariable("branchName") final String branchName,
 						   @PathVariable("buildName") final String buildName,
 						   @PathVariable("comparisonName") final String comparisonName) {
 
 		DiffViewerDao diffViewerDao = new DiffViewerDao();
 		File logFile = diffViewerDao.getBuildComparisonLogFile(branchName, buildName, comparisonName);
 		if (logFile == null || !logFile.exists()) {
-			return Response.status(Status.BAD_REQUEST).build();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		Response.ResponseBuilder response = Response.ok(logFile);
+		ResponseEntity.BodyBuilder response = ResponseEntity.ok();
+		response.body(logFile);
 		response.header("Content-Disposition", "attachment; filename=\"" + logFile + "\"");
 		return response.build();
 	}
@@ -121,13 +121,13 @@ public class ComparisonsResource {
 	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
 	 */
 	@GetMapping
-	public Response getCalculation(
+	public ResponseEntity getCalculation(
 		@PathVariable("branchName") final String branchName,
 		@PathVariable("buildName") final String buildName,
 		@PathVariable("comparisonName") final String comparisonName) {
 
 		BuildDiffInfo buildDiffInfo = getComparisonCalculation(branchName, buildName, comparisonName);
-		return Response.ok(buildDiffInfo).build();
+		return ResponseEntity.ok(buildDiffInfo);
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class ComparisonsResource {
 	 * values though.
 	 */
 	@PostMapping("importAndCompare")
-	public Response importAndCompare(
+	public ResponseEntity importAndCompare(
 		@PathVariable("branchName") final String branchName,
 		@PathVariable("buildName") final String buildName,
 		@PathVariable("comparisonName") final String comparisonName,
@@ -155,7 +155,7 @@ public class ComparisonsResource {
 		BuildIdentifier buildIdentifier = new BuildIdentifier(resolvedBranchName, buildName);
 		if (buildFolderDoesNotExist(buildIdentifier)) {
 			logger.info("Can't import. Build " + branchName + "/" + buildName + " does not exist.");
-			return Response.status(Status.NOT_FOUND).build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 
 		Future<Future<BuildDiffInfo>> buildDiffInfoFuture =
@@ -168,7 +168,7 @@ public class ComparisonsResource {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		return Response.ok(buildDiffInfo).build();
+		return ResponseEntity.ok(buildDiffInfo);
 	}
 
 	private BuildDiffInfo getComparisonCalculation(String branchName, String buildName, String comparisonName) {
@@ -185,11 +185,11 @@ public class ComparisonsResource {
 	private void checkBuildIsSuccessfullyImported(@PathVariable("branchName") String branchName, @PathVariable("buildName") String buildName, BuildIdentifier buildIdentifier) {
 		if (buildFolderDoesNotExist(buildIdentifier)) {
 			logger.info("Build " + branchName + "/" + buildName + " does not exist.");
-			throw new WebApplicationException(Status.NOT_FOUND);
+			throw new NotFoundException();
 		}
 		if (buildIsNotSuccessfullyImported(buildIdentifier)) {
 			logger.info("Build " + branchName + "/" + buildName + " is not successfully imported.");
-			throw new WebApplicationException(Status.PRECONDITION_FAILED);
+			throw new PreconditionFailedException();
 		}
 	}
 
@@ -209,8 +209,14 @@ public class ComparisonsResource {
 			return diffViewerDao.loadBuildDiffInfo(branchName, buildName, comparisonName);
 		} catch (Exception e) {
 			logger.error("Could not load build diff info for  " + branchName + "/" + buildName + "/" + comparisonName + ".", e);
-			throw new WebApplicationException(Status.NOT_FOUND);
+			throw new NotFoundException();
 		}
 	}
+
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	private class NotFoundException extends RuntimeException {}
+
+	@ResponseStatus(HttpStatus.PRECONDITION_FAILED)
+	private class PreconditionFailedException extends RuntimeException {}
 
 }
