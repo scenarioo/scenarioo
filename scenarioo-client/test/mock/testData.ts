@@ -280,11 +280,11 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'totalNumberOfPagesInScenario': 3
             },
             'useCaseLabels': {
-                'label': ['normal-case'],
+                'labels': ['normal-case'],
                 'empty': false
             },
             'scenarioLabels': {
-                'label': ['no results'],
+                'labels': ['no results'],
                 'empty': false
             },
             'step': {
