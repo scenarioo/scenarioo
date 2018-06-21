@@ -30,7 +30,7 @@
       "configuration": "auto"
     },
     "versions": {
-      "gitbookConfigURL": "https://raw.githubusercontent.com/scenarioo/scenarioo/develop/docs/book.json",
+      "gitbookConfigURL": "https://raw.githubusercontent.com/scenarioo/scenarioo/master/docs/book.json",
       "options": [
         {
           "value": "http://scenarioo.org/docs/develop",
