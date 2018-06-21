@@ -10,7 +10,7 @@ For more hi level introduction about what scenarioo is, please refer to our web 
 
 Shows the essential features of Scenarioo and gives you some first insights into the Scenarioo documentation format structure.
 
-<p><iframe width="883" height="497" src="https://www.youtube-nocookie.com/embed/C_Omyu190V4?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></p>
+<p><iframe width="770" height="433" src="https://www.youtube-nocookie.com/embed/C_Omyu190V4?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></p>
 
 ## Scenarioo Overview
 
