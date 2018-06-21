@@ -1,7 +1,7 @@
 package org.scenarioo;
 
 import org.scenarioo.rest.application.ScenariooWebApplication;
-import org.scenarioo.rest.base.logging.RequestLogggingFilter;
+import org.scenarioo.rest.base.logging.RequestLoggingFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +22,6 @@ public class ScenariooViewerApplication implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new RequestLogggingFilter());
+		registry.addInterceptor(new RequestLoggingFilter());
 	}
 }

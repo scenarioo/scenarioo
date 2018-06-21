@@ -14,9 +14,9 @@ import java.util.List;
 /**
  * Logs every HTTP request and the method that is called by it.
  */
-public class RequestLogggingFilter implements HandlerInterceptor {
+public class RequestLoggingFilter implements HandlerInterceptor {
 
-	private static final Logger LOGGER = Logger.getLogger(RequestLogggingFilter.class);
+	private static final Logger LOGGER = Logger.getLogger(RequestLoggingFilter.class);
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
