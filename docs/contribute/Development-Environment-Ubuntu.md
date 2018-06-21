@@ -23,10 +23,10 @@ If you did this, the binaries that npm installs globally will be linked from `~/
 export PATH="$PATH:$HOME/.npm_global/bin"
 ```
 
-Now you are ready to install the few global node modules that we need for Scenarioo.
+Now you are ready to install the global node module that we need for Scenarioo.
 
 ```
-npm install -g bower phantomjs
+npm install -g phantomjs
 ```
 
 

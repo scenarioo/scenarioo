@@ -10,8 +10,8 @@ require('angular-ui-bootstrap');
 require('angular-local-storage');
 
 require('twigs');
-require('./components/svg.select.js/dist/svg.select.css');
-window.SVG = require('./components/svg.js/dist/svg');
-require('./components/svg.select.js/dist/svg.select');
-require('./components/svg.draggable.js/dist/svg.draggable');
-require('./components/svg.resize.js/dist/svg.resize');
+require('../node_modules/svg.select.js/dist/svg.select.css');
+window.SVG = require('../node_modules/svg.js/dist/svg');
+require('../node_modules/svg.select.js/dist/svg.select');
+require('../node_modules/svg.draggable.js/dist/svg.draggable');
+require('../node_modules/svg.resize.js/dist/svg.resize');
