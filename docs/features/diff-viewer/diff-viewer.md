@@ -13,8 +13,8 @@ The following sections describe how you can create, browse, configure, manage an
 3. [Browse Comparison Differences](#browse-comparison-differences)
 4. [Hide Comparisons](#hide-comparisons)
 5. [Configuration of Automatic Comparisons](#configuration-of-automatic-comparisons)
-6. [Manage Comparisons](#manage-comparisons)
-7. [Integrate Comparisons in CI Pipeline](#integrate-comparisons-in-ci-pipeline)
+6. [Integrate Comparisons in CI Pipeline](#integrate-comparisons-in-ci-pipeline)
+7. [Manage Comparisons](#manage-comparisons)
 8. [Delete Comparisons](#delete-comparisons)
 
 ## Create Comparison Manually
@@ -158,15 +158,20 @@ Once you configured automatic comparisons to be calculated you can trigger autom
    * NOTE: The "Import & Update Builds" Button will only start a comparison if a build gets imported for the first time.
 * Create a new build and upload it to Scenarioo in the usual way (see [Publish Scenarioo Documentation Data](../../tutorial/Publish-Documentation-Data.md)).
 
+
+## Integrate Comparisons in CI Pipeline
+
+You can trigger comparisons from your CI pipeline to do visual regression testing.
+
+See: [Diff Viewer REST API](diff-viewer-rest-api.md).
+
+
 ## Manage Comparisons
 
 In the `Manage`-view there is a `Comparisons` tab that lists all calculated comparisons with further information. 
 
 There you can also see error logs in case a calculation of a comparison failed in the `Details & Logs` dialog.
 
-## Integrate Comparisons in CI Pipeline
-
-See: [Diff Viewer REST API](diff-viewer-rest-api.md).
 
 ## Delete Comparisons
 

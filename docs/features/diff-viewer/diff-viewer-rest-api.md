@@ -4,9 +4,9 @@ The Diff Viewer REST API is intended for people who want to include visual regre
 
 Parameters:
 
-* `branchName` / `buildName` in URL: build to compare with the comparison build
+* `branchName` / `buildName` in URL: build to compare with the comparison build. This is the build where the comparison will show up in the selection dropdown.
 * `comparisonName`: name under which the comparison will be available for selection
-* `banchName` / `buildName` in payload: comparison build
+* `banchName` / `buildName` in payload: the build the above build is compared with
 
 ## Calculate Configured Comparisons
 
@@ -22,9 +22,6 @@ Payload:
 
 `{ "branchName": "{comparisonBranchName}", "buildName": "{comparisonBuildName}" }`
 
-The response looks the same as the one returned by the [Get Calculation](#get-calculation) endpoint.
-
-In Scenarioo 3.0.0 the URL was different: `importBuild/{branchName}/{buildName}/{comparisonBranchName}/{comparisonBuildName}/{comparisonName}`.
 
 ## Request Comparison Calculation
 
@@ -57,42 +54,3 @@ The return value is one of these:
 Returns the calculation object. This can be used to read the overall change rate (field `changeRate`).
 
 `GET /rest/builds/{branchName}/{buildName}/comparisons/{comparisonName}`
-
-Example response:
-
-```
-{
-    "changeRate": 73.33333333333334,
-    "name": "To last Sprint",
-    "added": 1,
-    "changed": 2,
-    "removed": 1,
-    "addedElements": [
-        "SwitchLanguageUserInterfaceTest"
-    ],
-    "removedElements": [
-        {
-            "name": "Switch Language",
-            "description": "Search in a different language and switch language of current article.",
-            "status": null,
-            "details": {
-                "Webtest Class": "org.scenarioo.uitest.example.testcases.SwitchLanguageUITest"
-            },
-            "labels": {
-                "label": []
-            }
-        }
-    ],
-    "baseBuild": {
-        "branchName": "wikipedia-docu-example-dev",
-        "buildName": "2014-05-19"
-    },
-    "compareBuild": {
-        "branchName": "wikipedia-docu-example-dev",
-        "buildName": "2014-04-19"
-    },
-    "status": "SUCCESS",
-    "calculationDate": 1529565030511,
-    "baseBuildDate": null
-}
-```

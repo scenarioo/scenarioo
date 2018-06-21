@@ -45,7 +45,6 @@ as explained in the [Migration Guide](Migration-Guide.md). This can not be confi
 
 * **Some undocumented REST endpoints for the frontend have slightly changed:** in case you used these services you have to adjust the usage:
     * `/builds/reimportBuild/{branchName}/{buildName}` is now `/builds/:branchName/:buildName/import`
-    * `/importBuild/{branchName}/{buildName}/{comparisonBranchName}/{comparisonBuildName}/{comparisonName}` is now `/builds/{branchName}/{buildName}/comparisons/{comparisonName}/importAndCompare`
 
 Apart from that there are no breaking changes.
 
