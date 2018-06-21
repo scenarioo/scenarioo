@@ -22,6 +22,8 @@ Payload:
 
 `{ "branchName": "{comparisonBranchName}", "buildName": "{comparisonBuildName}" }`
 
+The response looks the same as the one returned by the [Get Calculation](#get-calculation) endpoint.
+
 In Scenarioo 3.0.0 the URL was different: `importBuild/{branchName}/{buildName}/{comparisonBranchName}/{comparisonBuildName}/{comparisonName}`.
 
 ## Request Comparison Calculation
