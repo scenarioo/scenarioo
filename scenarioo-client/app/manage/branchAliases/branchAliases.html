@@ -17,16 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <div ng-controller="BranchAliasesController as vm">
 
-    <div class="alert alert-success fade-out" id="updated-branch-aliases-successfully" ng-show="vm.successfullyUpdatedBranchAliases">
-        The branch aliases have been successfully updated.
-        <a ng-click="vm.successfullyUpdatedBranchAliases=false" class="pull-right link link-no-hover" style="color: #468847"><i
-                class="icon-remove icon"></i></a>
-    </div>
-
-    <div class="alert alert-danger fade-out" ng-show="vm.uniqueError" id="duplicateAliasErrorId">
-        <strong>Your branch aliases are not unique.</strong> Please make sure each name is only used once.
-    </div>
-
     <form name="branchAliasesForm">
         <table class="table table-curved table-responsive" >
             <thead>
@@ -69,4 +59,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
     </form>
+    <div class="alert alert-success fade-out sc-space-top" id="updated-branch-aliases-successfully" ng-show="vm.successfullyUpdatedBranchAliases">
+        The branch aliases have been successfully updated.
+        <a ng-click="vm.successfullyUpdatedBranchAliases=false" class="pull-right link link-no-hover" style="color: #468847"><i
+            class="icon-remove icon"></i></a>
+    </div>
+
+    <div class="alert alert-danger fade-out sc-space-top" ng-show="vm.uniqueError" id="duplicateAliasErrorId">
+        <strong>Your branch aliases are not unique.</strong> Please make sure each name is only used once.
+    </div>
 </div>
