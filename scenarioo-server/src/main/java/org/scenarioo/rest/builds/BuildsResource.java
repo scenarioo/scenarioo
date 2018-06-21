@@ -34,6 +34,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 /**
@@ -61,7 +63,7 @@ public class BuildsResource {
 
 	@GetMapping(value = "importLogs/{branchName}/{buildName}", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity loadBuildImportLog(@PathVariable("branchName") final String branchName,
-									   @PathVariable("buildName") final String buildName) {
+											 @PathVariable("buildName") final String buildName) {
 
 		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
 
@@ -71,10 +73,19 @@ public class BuildsResource {
 		if (logFile == null || !logFile.exists()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		ResponseEntity.BodyBuilder response = ResponseEntity.ok();
-		response.body(logFile);
-		response.header("Content-Disposition", "attachment; filename=\"" + logFile + "\"");
-		return response.build();
+
+		return ResponseEntity
+			.ok()
+			.header("Content-Disposition", "attachment; filename=\"" + logFile + "\"")
+			.body(getLogfileContent(logFile));
+	}
+
+	private byte[] getLogfileContent(File logFile) {
+		try {
+			return Files.readAllBytes(logFile.toPath());
+		} catch (IOException e) {
+			throw new RuntimeException("Unable to read logfile: ", e);
+		}
 	}
 
 	/**
@@ -82,11 +93,11 @@ public class BuildsResource {
 	 */
 	@GetMapping("{branchName}/{buildName}/import")
 	public ResponseEntity importBuild(@PathVariable("branchName") final String branchName,
-								@PathVariable("buildName") final String buildName) {
+									  @PathVariable("buildName") final String buildName) {
 
 		String resolvedBranchName = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAlias(branchName);
 		BuildIdentifier buildIdentifier = new BuildIdentifier(resolvedBranchName, buildName);
-		if(buildFolderDoesNotExist(buildIdentifier)) {
+		if (buildFolderDoesNotExist(buildIdentifier)) {
 			LOGGER.info("Can't import. Build " + branchName + "/" + buildName + " does not exist.");
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
@@ -98,7 +109,7 @@ public class BuildsResource {
 
 	@GetMapping(value = "{branchName}/{buildName}/importStatus", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity importStatusString(@PathVariable("branchName") final String branchName,
-									   @PathVariable("buildName") final String buildName) {
+											 @PathVariable("buildName") final String buildName) {
 
 		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
 		BuildImportStatus importStatus = ScenarioDocuBuildsManager.INSTANCE.getImportStatus(buildIdentifier);
@@ -112,7 +123,7 @@ public class BuildsResource {
 
 	@GetMapping("{branchName}/{buildName}/importStatus")
 	public ResponseEntity importStatusJson(@PathVariable("branchName") final String branchName,
-									 @PathVariable("buildName") final String buildName) {
+										   @PathVariable("buildName") final String buildName) {
 
 		BuildIdentifier buildIdentifier = new BuildIdentifier(branchName, buildName);
 		BuildImportStatus importStatus = ScenarioDocuBuildsManager.INSTANCE.getImportStatus(buildIdentifier);
