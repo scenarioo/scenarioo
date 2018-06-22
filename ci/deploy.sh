@@ -58,9 +58,12 @@ rm -rf $BRANCH_DATA_DIR
 
 # Copy scenarioo wikipedia docu example data with new generated data (including config.xml for demo).
 echo "Deploying Demo Docu Data (regenerated)"
-cp -rf ./scenarioo-docu-generation-example/build/scenarioDocuExample $BRANCH_DATA_DIR
+cp -rf scenarioo-docu-generation-example/build/scenarioDocuExample $BRANCH_DATA_DIR
 
-# Configure Scemarioo Deployment Context: Location of Scenarioo Data Directory for this branch
+# Delete example data to save space
+rm -rf scenarioo-docu-generation-example/build/scenarioDocuExample
+
+# Configure Scenarioo Deployment Context: Location of Scenarioo Data Directory for this branch
 echo "Configure Scemarioo Deployment Context (data dir for this branch)"
 echo "<Context><Parameter name=\"scenariooDataDirectory\" value=\"$BRANCH_DATA_DIR\" override=\"true\" description=\"Location of scenarioo config.xml file\"/></Context>" > "/etc/tomcat7/Catalina/localhost/scenarioo-$BRANCH.xml"
 
