@@ -24,31 +24,30 @@ import org.scenarioo.dao.version.ApplicationVersionHolder;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 import java.io.InputStream;
 import java.util.Properties;
 
 /**
  * Scenarioo REST Services Web Application context that initializes data on startup of server.
  */
-public class ScenariooWebApplication implements ServletContextListener {
+public class ScenariooInitializer implements ServletContextInitializer {
 
-	private static final Logger LOGGER = Logger.getLogger(ScenariooWebApplication.class);
+	private static final Logger LOGGER = Logger.getLogger(ScenariooInitializer.class);
 	private final ScenariooDataPathLogic scenariooDataPathLogic = new ScenariooDataPathLogic();
 
 	@Override
-	public void contextInitialized(final ServletContextEvent servletContextEvent) {
+	public void onStartup(ServletContext servletContext) {
 		LOGGER.info("====================================================");
 		LOGGER.info("Scenarioo Viewer is starting up ...");
 		LOGGER.info("====================================================");
 
 		try {
-			initializeApplicationVersion(servletContextEvent.getServletContext());
-			loadConfiguration(servletContextEvent);
-			initializeContextPath(servletContextEvent.getServletContext());
+			initializeApplicationVersion(servletContext);
+			loadConfiguration(servletContext);
+			initializeContextPath(servletContext);
 
 			LOGGER.info("  Updating documentation content directory (will be done asynchronously ...)");
 			ScenarioDocuBuildsManager.INSTANCE.updateBuildsIfValidDirectoryConfigured();
@@ -64,10 +63,8 @@ public class ScenariooWebApplication implements ServletContextListener {
 		LOGGER.info("====================================================");
 	}
 
-	private void loadConfiguration(final ServletContextEvent servletContextEvent) {
-
-
-		final String configurationDirectoryPath = scenariooDataPathLogic.getDataPath(servletContextEvent);
+	private void loadConfiguration(final ServletContext servletContext) {
+		final String configurationDirectoryPath = scenariooDataPathLogic.getDataPath(servletContext);
 		LOGGER.info("  Configured scenarioo data directory: " + configurationDirectoryPath);
 
 		LOGGER.info("  Loading configuration ...");
@@ -123,12 +120,4 @@ public class ScenariooWebApplication implements ServletContextListener {
 			return contextPath;
 		}
 	}
-
-	@Override
-	public void contextDestroyed(final ServletContextEvent arg0) {
-		LOGGER.info("===================================================");
-		LOGGER.info("Scenarioo Viewer stopped.");
-		LOGGER.info("===================================================");
-	}
-
 }

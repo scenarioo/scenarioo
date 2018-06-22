@@ -6,33 +6,6 @@
 
 	<display-name>Scenarioo</display-name>
 
-	<filter>
-		<filter-name>CORS</filter-name>
-		<filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
-        <init-param>
-                <param-name>cors.allowOrigin</param-name>
-                <param-value>http://localhost:9000</param-value>
-        </init-param>
-	</filter>
-
-	<filter-mapping>
-		<filter-name>CORS</filter-name>
-		<url-pattern>/rest/*</url-pattern>
-	</filter-mapping>
-
-	<listener>
-		<listener-class>org.scenarioo.rest.application.ScenariooWebApplication</listener-class>
-	</listener>
-
-	<listener>
-		<listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
-	</listener>
-
-	<context-param>
-		<param-name>resteasy.scan</param-name>
-		<param-value>true</param-value>
-	</context-param>
-
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Adding new builds requires authentication</web-resource-name>
