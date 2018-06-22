@@ -6,19 +6,6 @@
 
 	<display-name>Scenarioo</display-name>
 
-	<listener>
-		<listener-class>org.scenarioo.rest.application.ScenariooWebApplication</listener-class>
-	</listener>
-
-	<listener>
-		<listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
-	</listener>
-
-	<context-param>
-		<param-name>resteasy.scan</param-name>
-		<param-value>true</param-value>
-	</context-param>
-
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Adding new builds requires authentication</web-resource-name>
