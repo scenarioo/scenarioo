@@ -20,6 +20,7 @@
     * [Details & Object Repository](features/Details.md)
     * [Scenarioo Format Validator](features/validator-component/Scenarioo-Validator.md)
   * [Diff Viewer](features/diff-viewer/diff-viewer.md)
+    * [Diff Viewer REST API](features/diff-viewer/diff-viewer-rest-api.md)
   * [Full Text Search](features/full-text-search/README.md)
      * [Full Text Search Setup](features/full-text-search/setup.md)
      * [Full Text Search Specs](features/full-text-search/specifications.md)
