@@ -28,8 +28,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
-import org.scenarioo.dao.diffViewer.DiffWriter;
-import org.scenarioo.dao.diffViewer.impl.DiffFiles;
+import org.scenarioo.dao.diffViewer.DiffViewerDao;
+import org.scenarioo.dao.diffViewer.DiffViewerFiles;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.model.diffViewer.ScenarioDiffInfo;
@@ -74,7 +74,7 @@ public class ScenarioComparatorTest {
 	private ScenarioDocuReader docuReader;
 
 	@Mock
-	private DiffWriter diffWriter;
+	private DiffViewerDao diffWriter;
 
 	@Mock
 	private AggregatedDocuDataReader aggregatedDataReader;
@@ -88,7 +88,7 @@ public class ScenarioComparatorTest {
 	@BeforeClass
 	public static void setUpClass() throws IOException {
 		TestFileUtils.createFolderAndSetItAsRootInConfigurationForUnitTest(rootDirectory.newFolder());
-		File comparisonsFolder = new DiffFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
+		File comparisonsFolder = new DiffViewerFiles().getComparisonDirectory(BASE_BRANCH_NAME, BASE_BUILD_NAME, COMPARISON_NAME);
 		assertTrue(comparisonsFolder.mkdirs());
 		RepositoryLocator.INSTANCE.getConfigurationRepository().updateConfiguration(getTestConfiguration());
 	}
@@ -265,7 +265,7 @@ public class ScenarioComparatorTest {
 	}
 
 	private ScenarioDiffInfo getScenarioDiffInfo(final double changeRate, final int added, final int changed, final int removed) {
-		ScenarioDiffInfo scenarioDiffInfo = new ScenarioDiffInfo();
+		ScenarioDiffInfo scenarioDiffInfo = new ScenarioDiffInfo("fake scenario");
 		scenarioDiffInfo.setChangeRate(changeRate);
 		scenarioDiffInfo.setAdded(added);
 		scenarioDiffInfo.setChanged(changed);

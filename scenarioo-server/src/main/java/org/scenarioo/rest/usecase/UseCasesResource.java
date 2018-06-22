@@ -1,29 +1,21 @@
 /* scenarioo-server
  * Copyright (C) 2014, scenarioo.org Development Team
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.scenarioo.rest.usecase;
-
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
@@ -35,6 +27,13 @@ import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import java.util.LinkedList;
+import java.util.List;
 
 @Path("/rest/branch/{branchName}/build/{buildName}/usecase/")
 public class UseCasesResource {
@@ -53,7 +52,6 @@ public class UseCasesResource {
 	@Produces({ "application/xml", "application/json" })
 	public List<UseCaseSummary> loadUseCaseSummaries(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName) {
-		LOGGER.info("REQUEST: loadUseCaseSummaryList(" + branchName + ", " + buildName + ")");
 		final List<UseCaseSummary> result = new LinkedList<UseCaseSummary>();
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(

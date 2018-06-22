@@ -1,17 +1,17 @@
 package org.scenarioo.business.diffViewer.comparator;
 
-import org.scenarioo.dao.diffViewer.DiffWriter;
-import org.scenarioo.dao.diffViewer.impl.DiffWriterXmlImpl;
+import org.scenarioo.dao.diffViewer.DiffViewerBuildWriter;
 import org.scenarioo.model.configuration.ComparisonConfiguration;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class ComparisonParameters {
+
 	private final String baseBranchName;
 	private final String baseBuildName;
 	private final ComparisonConfiguration comparisonConfiguration;
 	private final Color diffImageColor;
-	private final DiffWriter diffWriter;
+	private final DiffViewerBuildWriter diffWriter;
 
 	public ComparisonParameters(String baseBranchName, String baseBuildName, ComparisonConfiguration comparisonConfiguration,
 								Color diffImageColor) {
@@ -21,7 +21,7 @@ public class ComparisonParameters {
 		this.comparisonConfiguration = comparisonConfiguration;
 		this.diffImageColor = diffImageColor;
 
-		diffWriter = new DiffWriterXmlImpl(baseBranchName, baseBuildName,
+		diffWriter = new DiffViewerBuildWriter(baseBranchName, baseBuildName,
 			comparisonConfiguration.getName());
 	}
 
@@ -41,5 +41,6 @@ public class ComparisonParameters {
 		return diffImageColor;
 	}
 
-	public DiffWriter getDiffWriter() { return diffWriter; }
+	public DiffViewerBuildWriter getDiffWriter() { return diffWriter; }
+
 }

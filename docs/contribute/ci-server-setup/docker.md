@@ -1,0 +1,11 @@
+## Notes by @bruderol
+
+Installed docker according to https://docs.docker.com/install/linux/docker-ce/ubuntu
+
+Those were the commands I used
+```
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+sudo apt-get install docker-ce
+```

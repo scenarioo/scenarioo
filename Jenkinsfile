@@ -37,6 +37,20 @@ def reportJenkinsSummaryScenariooReports(scenariooUrl, branchId, buildId) {
     reportJenkinsSummary("scenarioo-reports.jenkins-summary.xml", "${title} ${summary}")
 }
 
+/**
+ * Output summary message on jenkins build page
+ * with the link to updated gitbook markdown docu
+ * for current build run
+ */
+def reportJenkinsSummaryGitbookMarkdownDocu(docuVersionName) {
+    def markdownDocuUrl = "http://www.scenarioo.org/docs/${docuVersionName}/"
+    echo "Scenarioo Gitbook Markdown Docu on Webpage updated: ${markdownDocuUrl}"
+    def title = "<h2>Published Documentation on Webpage</h2>"
+    def summary = "<a target=\"_blank\" href=\"${markdownDocuUrl}\">Scenarioo Gitbook Docs for ${docuVersionName}</a>"
+    reportJenkinsSummary("scenarioo-gitbook-markdown-docu.jenkins-summary.xml", "${title} ${summary}")
+}
+
+
 properties([
 	disableConcurrentBuilds(),
 	pipelineTriggers([
@@ -84,21 +98,24 @@ timestamps {
             ansiColor('xterm') {
 
                 try {
-
-                    withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
-                        sh "./ci/deploy.sh --branch=${encodedBranchName}"
-                        def demoUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
-                        reportJenkinsSummary("deploy.jenkins-summary.xml",
-                            "<h2>Scenarioo Demo Deployed</h2>"
-                            + "Deployed to "
-                            + "<a target=\"_blank\" href=\"${demoUrl}\">"
-                            + "${demoUrl}</a>")
+                    lock("tomcat") { // no parallel deployments to tomcat
+                        withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
+                            sh "./ci/deploy.sh --branch=${encodedBranchName}"
+                            def demoUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
+                            reportJenkinsSummary("deploy.jenkins-summary.xml",
+                                "<h2>Scenarioo Demo Deployed</h2>"
+                                + "Deployed to "
+                                + "<a target=\"_blank\" href=\"${demoUrl}\">"
+                                + "${demoUrl}</a>")
+                        }
                     }
                 }
                 catch (e) {
                     reportJenkinsSummary("deploy-failed.jenkins-summary.xml",
                             "<h2>Scenarioo Demo Deployment Failed</h2>"
                             + "<b><font color=\"#ff3333\">Deployment failed!</font></b>")
+                    // Fail the entire build if the deployment fails
+                    throw e;
                 }
 
             }
@@ -108,7 +125,9 @@ timestamps {
             ansiColor('xterm') {
 
                 try {
-                         sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
+                    lock("tomcat") { // no parallel e2e test executions against tomcat
+                        sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
+                    }
                 } finally {
                     junit 'scenarioo-client/test-reports/*.xml'
                     withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
@@ -124,5 +143,21 @@ timestamps {
             }
         }
 
+
+        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master" || env.BRANCH_NAME.startsWith("release")) {
+            def branchNameTokens = env.BRANCH_NAME.tokenize('/')
+            def docsVersionFolder = env.BRANCH_NAME.startsWith("release/") ? branchNameTokens[1] : env.BRANCH_NAME
+
+            stage("Publish Markdown Docs ${docsVersionFolder}") {
+                ansiColor('xterm') {
+                    withCredentials([usernameColonPassword(credentialsId: 'efe50290-8cf4-4d93-9835-3e5774a129ff', variable: 'GIT_USERPASS')]) {
+                        sh "./ci/publishGitbookMarkdownDocu.sh --docsDistributionFolder=${docsVersionFolder}"
+                        reportJenkinsSummaryGitbookMarkdownDocu(docsVersionFolder)
+                    }
+                }
+            }
+        }
+
 	}
+
 }

@@ -59,7 +59,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                     BUILD_STATE_WARNING: 'label-warning'
                 },
                 'defaultBranchName': 'trunk',
-                'expandPagesInScenarioOverview': true,
+                'expandPagesInScenarioOverview': true
         },
 
         BRANCHES: [
@@ -131,6 +131,21 @@ angular.module('scenarioo.services').service('TestData', function () {
             }
         ],
 
+        COMPARISONS: [
+            {
+                'baseBuild': {
+                    'branchName': 'wikipedia-docu-example',
+                    'buildName': '2014-03-19'
+                },
+                'comparisonConfiguration': {
+                    'name': 'To Projectstart'
+                },
+                'changeRate': 20.924199759808403,
+                'state': 'SUCCESS',
+                'baseBuildDate': 1388879915785
+            }
+        ],
+
         USECASES: [
             {
                 'useCase': {
@@ -177,7 +192,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'name': 'Find Page',
                 'labels': {
                     'empty': true,
-                    'labels': []
+                    'label': []
                 }
             },
             'pagesAndSteps': [
@@ -234,7 +249,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'name': 'find_page_with_text_on_page_from_multiple_results',
                 'labels': {
                     'empty': true,
-                    'labels': []
+                    'label': []
                 }
             },
             'scenarioStatistics': {
@@ -265,11 +280,11 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'totalNumberOfPagesInScenario': 3
             },
             'useCaseLabels': {
-                'labels': ['normal-case'],
+                'label': ['normal-case'],
                 'empty': false
             },
             'scenarioLabels': {
-                'labels': ['no results'],
+                'label': ['no results'],
                 'empty': false
             },
             'step': {
@@ -282,7 +297,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                     'screenshotFileName': '002.png',
                     'index': 2,
                     'labels': {
-                        'labels': ['step-label-0', 'public'],
+                        'label': ['step-label-0', 'public'],
                         'empty': false
                     }
                 },
@@ -314,7 +329,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                     'details': {},
                     'name': 'searchResults.jsp',
                     'labels': {
-                        'labels': ['page-label1', 'page-label2'],
+                        'label': ['page-label1', 'page-label2'],
                         'empty': false
                     }
                 },
@@ -397,7 +412,7 @@ angular.module('scenarioo.services').service('TestData', function () {
             buildDate: '1/7/2015, 05:00',
             apiVersion: '1.2.1',
             aggregatedDataFormatVersion: '1.2.3',
-            releaseBranch: 'release-1.2'
+            documentationVersion: '4.0'
         },
 
         TABS: [

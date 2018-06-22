@@ -4,7 +4,7 @@
 
 ### ESLint
 
-.js code has to conform to the checked in `.eslintrc` files. Configure your environment accordingly, see here for Webstorm: [WebStorm-IDE-Settings](WebStorm-IDE-Settings.md)
+.js code has to conform to the checked in `.eslintrc` files. 
 
 ### Don't write 'use strict'; and don't wrap JS code with IIFEs
 
@@ -112,5 +112,5 @@ https://github.com/scenarioo/scenarioo-cs/blob/master/scenarioo-cs.sln.DotSettin
 ## Licence Headers
 In every sourcefile (*.java, *.gradle, *.js, *.css, *.html,...) the correct licence header must be contained. In the versioned eclipse project the settings have been adjusted accordingly and new Java file while automatically contain the correct headers (depending on the module -server, -api and -docu-generation-example) for all other files (e.g. gradle files or properties) please always make sure that the correct header is included before adding to version control.
 
-For the scenarioo-client module the code template settings (for *.js, *.css and *.html) in your favourite IDE must be configured by yourself (for WebStorms see below).
+For the scenarioo-client module the code template settings (for *.js, *.css and *.html) in your favourite IDE must be configured by yourself (see below).
 ![Code templates in WebStorms](https://raw.github.com/scenarioo/scenarioo/gh-pages/images/code_templates_in_webstorms.png)

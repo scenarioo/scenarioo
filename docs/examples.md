@@ -2,12 +2,13 @@
 
 There are several example projects and a live demo that demonstrate the usage of Scenarioo.
 
-* **[Scenarioo Self Documentation with Protractor and ScenariooJS](https://github.com/scenarioo/scenarioo/tree/develop/scenarioo-client/test/protractorE2E/specs):**
-We eat our own dog food: Scenarioo documenting itself using ScenariooJS and Protractor e2e tests.
-Output of this tests can be browsed in our [Viewer Demo inside Branch `scenarioo-self-docu`](http://demo.scenarioo.org/scenarioo-master/#/?branch=scenarioo-self-docu&build=last%20successful).
+* **[Scenarioo Self Documentation with Protractor and ScenariooJS](https://github.com/scenarioo/scenarioo/tree/develop/scenarioo-client/test/e2e/specs):**
+We eat our own dog food: Scenarioo documents itself using ScenariooJS and Protractor e2e tests.
+Scenarioo Reports of this tests can be browsed in our [Viewer Demo inside Branch `scenarioo-self-docu`](http://demo.scenarioo.org/scenarioo-master/#/?branch=scenarioo-self-docu&build=last%20successful).
 
 * **[Pizza Shop - Basic Java Selenium Tests Example](https://github.com/scenarioo/pizza-delivery):**
-This project shows how to use Scenarioo in very basic and simple Selenium web tests in Java to document and test a simple pizza delivery web page. Output of this tests is not yet available in our Viewer Demo.
+This project shows how to use Scenarioo in very basic and simple Selenium web tests in Java to document and test a simple pizza delivery web page. 
+Scenarioo Reports of this tests can be browsed in our [Viewer Demo inside Branch `pizza-delivery-master`](http://demo.scenarioo.org/scenarioo-master/#/?branch=pizza-delivery-master&build=last%20successful).
 
 * **[Scenarioo Hello World - Very Basic Java Selenium Tests Example](https://github.com/scenarioo/scenarioo-hello-world):**
 Another basic and simple example on how to use Scenarioo in simple Selenum web tests. 

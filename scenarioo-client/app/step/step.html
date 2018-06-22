@@ -172,7 +172,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <button type="button" id="sc-step-comparison-switch-screens-button" class="btn btn-default"
                                 ng-disabled="step.diffInfo.isAdded"
                                 ng-click="switchComparisonSingleScreenView()">
-                            <i class="icon-random sc-tep-comparison-icon"></i>
+                            <i class="icon-random"></i>
                         </button>
                     </div>
 
@@ -278,7 +278,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <div ng-if="!step.diffInfo.isAdded">
                             <sc-screenshot-title
                                 build="comparisonBuild"
-                                name="Comparison: {{comparisonName}}"
+                                name="{{comparisonName}}"
                                 highlights="comparisonViewOptions.changesHighlighted">
                             </sc-screenshot-title>
                             <!-- screenshot with or without highlights: modeled as two elements to ensure proper re-rendering -->
@@ -321,10 +321,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- labels -->
         <sc-collapsable-panel title="Labels" panel-index="labels" key="stepView-labels" initially-expanded="false"
                               ng-if="hasAnyLabels()">
-            <sc-label-metadata [scenario-labels]="scenarioLabels.labels"
+            <sc-label-metadata [scenario-labels]="scenarioLabels.label"
                                [use-case-labels]="useCaseLabels.labels"
-                               [step-labels]="step.stepDescription.labels.labels"
-                               [page-labels]="step.page.labels.labels"
+                               [step-labels]="step.stepDescription.labels.label"
+                               [page-labels]="step.page.labels.label"
                                [label-configurations]="labelConfigurations">
             </sc-label-metadata>
         </sc-collapsable-panel>

@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ConfigurationFixture {
+
 	public static String BASE_BRANCH_NAME = "baseBranch";
 	public static String BASE_BUILD_NAME = "baseBuild";
 	public static String COMPARISON_BRANCH_NAME = "comparisonBranch";
@@ -44,4 +45,5 @@ public class ConfigurationFixture {
 		comparisonConfiguration.setName(comparisonName);
 		return comparisonConfiguration;
 	}
+
 }

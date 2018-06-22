@@ -17,11 +17,12 @@
 
 'use strict';
 
+var webpackConfig = require('./configs/webpack.config.test');
+
 module.exports = function (config) {
 
     config.set({
         frameworks: ['jasmine'],
-
 
         // base path, that will be used to resolve files and exclude
         basePath: '',
@@ -47,7 +48,7 @@ module.exports = function (config) {
             'test/spec/**/*.ts': ['webpack']
         },
 
-        webpack: require('./configs/webpack.config.test'),
+        webpack: webpackConfig,
 
         webpackMiddleware: {
             noInfo: true,
@@ -60,7 +61,7 @@ module.exports = function (config) {
         plugins: [
             'karma-jasmine',
             'karma-junit-reporter',
-            'karma-phantomjs-launcher',
+            'karma-chrome-launcher',
             'karma-webpack'
         ],
 
@@ -90,9 +91,8 @@ module.exports = function (config) {
 
         // Start these browsers, currently available:
         // - Chrome
-        // - Firefox
-        // - PhantomJS
-        browsers: ['PhantomJS'],
+        // - ChromeHeadless
+        browsers: ['ChromeHeadless'],
 
         // If browser does not capture in given timeout [ms], kill it
         captureTimeout: 20000,
@@ -103,7 +103,13 @@ module.exports = function (config) {
 
         // Continuous Integration mode
         // if true, it capture browsers, run tests and exit
-        singleRun: false
+        singleRun: false,
+
+        // This tells the Karma server to serve the .ts files with a text/x-typescript mime type.
+        // It's required to make .ts files work in unit tests.
+        mime: {
+            'text/x-typescript': ['ts']
+        }
     });
 
 };

@@ -41,11 +41,19 @@ function DiffInfoIconController($scope, $sce, $filter) {
     vm.addedPercentage = '';
     vm.removedPercentage = '';
     vm.unchangedPercentage = '';
-
+    vm.displayPercentageChanged = displayPercentageChanged;
 
     $scope.$watch('vm.diffInfo', function(){
         initValues(vm);
     });
+
+    // Avoids showing "NaN" while the diffInfo is being loaded
+    function displayPercentageChanged() {
+        if(!vm.diffInfo || vm.diffInfo.isAdded || vm.diffInfo.isRemoved) {
+            return false;
+        }
+        return true;
+    }
 
     function initValues(vm) {
         if(vm.diffInfo) {

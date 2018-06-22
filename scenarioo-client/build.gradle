@@ -14,10 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-import org.gradle.api.tasks.Exec
-import org.apache.tools.ant.taskdefs.condition.Os
-
 apply plugin: 'java'
 apply plugin: 'com.moowork.node'
 
@@ -31,6 +27,11 @@ buildscript {
     dependencies {
         classpath "com.moowork.gradle:gradle-node-plugin:0.12"
     }
+}
+
+node {
+    version = '8.11.2'
+    download = true
 }
 
 clean {

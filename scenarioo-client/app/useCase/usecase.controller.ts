@@ -42,6 +42,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
     vm.metadataTree = {};
     vm.relatedIssues = {};
     vm.hasAnyLabels = false;
+    $scope.comparisonInfo = null; // initialized later in activate,  should be defined on vm as well (Style Guide!)
 
     vm.resetSearchField = resetSearchField;
     vm.handleClick = handleClick;
@@ -61,10 +62,8 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         labelConfigurationService.get().subscribe(loadedLabelConfigurations => {
             labelConfigurations = loadedLabelConfigurations;
         });
+        $scope.comparisonInfo = SelectedComparison.info;
     }
-
-    $scope.comparisonInfo = SelectedComparison.info;
-
 
     function resetSearchField() {
         vm.table.search = {searchTerm: ''};
@@ -125,7 +124,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         vm.useCase = result.useCase;
         vm.usecaseInformationTree = createUseCaseInformationTree(vm.useCase);
         vm.metadataTree = $filter('scMetadataTreeListCreator')(vm.useCase.details);
-        vm.hasAnyLabels = vm.useCase.labels && vm.useCase.labels.labels.length !== 0;
+        vm.hasAnyLabels = vm.useCase.labels && vm.useCase.labels.label.length !== 0;
 
         if (SelectedComparison.isDefined()) {
             var selected = SelectedBranchAndBuildService.selected();

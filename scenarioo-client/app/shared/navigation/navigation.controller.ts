@@ -132,30 +132,6 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
 
     $scope.updating = false;
 
-    $scope.getDisplayNameForBuild = function (build, returnShortText) {
-        return BranchesAndBuildsService.getDisplayNameForBuild(build, returnShortText);
-    };
-
-    function getDisplayNameForAliasBuild(build, returnShortText) {
-        if (returnShortText) {
-            return build.linkName;
-        } else {
-            return build.linkName + ': ' + build.build.name;
-        }
-    }
-
-    $scope.getBranchDisplayName = function (wrappedBranch) {
-        return BranchesAndBuildsService.getBranchDisplayName(wrappedBranch);
-    };
-
-    $scope.isBuildAlias = function (build) {
-        return BranchesAndBuildsService.isBuildAlias(build);
-    };
-
-    $scope.isLastSuccessfulScenariosBuild = function (build) {
-        return BranchesAndBuildsService.isLastSuccessfulScenariosBuild(build);
-    };
-
     GlobalHotkeysService.registerGlobalHotkey('i', function () {
         $scope.showApplicationInfoPopup();
     });

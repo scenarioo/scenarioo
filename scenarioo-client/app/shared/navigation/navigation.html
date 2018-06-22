@@ -25,57 +25,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </li>
 
         <!-- Branch selection dropdown -->
-        <li class="dropdown" uib-dropdown is-open="status.isBranchSelectionOpen" id="branchSelectionDropdown">
-            <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
-                <span class="glyphicon glyphicon-hdd"></span> Branch:
-                <span class="glyphicon glyphicon-share-alt" ng-show="branchesAndBuilds.selectedBranch.alias"></span>
-                {{getBranchDisplayName(branchesAndBuilds.selectedBranch)}}
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li ng-repeat="branch in branchesAndBuilds.branches | scBranchOrderBy">
-                    <a ng-click="setBranch(branch)" class="branchOption">
-                        <span class="glyphicon glyphicon-share-alt" ng-show="branch.alias"></span>
-                        {{getBranchDisplayName(branch)}}</a>
-                </li>
-            </ul>
-        </li>
+        <sc-branch-selection
+           branches-and-builds="branchesAndBuilds"
+           selected-branch="branchesAndBuilds.selectedBranch"
+           on-branch-change="setBranch(branch)">
+        </sc-branch-selection>
 
         <!-- Build selection dropdown -->
-        <li class="dropdown" uib-dropdown is-open="status.isBuildSelectionOpen" id="build-selection-dropdown">
-            <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
-                <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Build:
-                <span class="glyphicon glyphicon-share-alt" ng-show="isBuildAlias(branchesAndBuilds.selectedBuild)"></span>
-                <span class="glyphicon glyphicon-ok" ng-show="isLastSuccessfulScenariosBuild(branchesAndBuilds.selectedBuild)"></span>
-                {{getDisplayNameForBuild(branchesAndBuilds.selectedBuild, true)}} ({{branchesAndBuilds.selectedBuild.build.date | scDateOnly}})&nbsp;
-                <span ng-class="[getStatusStyleClass(branchesAndBuilds.selectedBuild.build.status), 'label']">{{branchesAndBuilds.selectedBuild.build.status}}</span>
-                <div class="icon-with-padding"><b class="caret"></b></div>
-            </a>
-            <ul class="dropdown-menu">
-                <li ng-repeat="build in branchesAndBuilds.selectedBranch.builds">
-                    <a ng-click="setBuild(selectedBranch, build)">
-                        <span class="glyphicon glyphicon-share-alt" ng-show="isBuildAlias(build)"></span>
-                        <span class="glyphicon glyphicon-ok" ng-show="isLastSuccessfulScenariosBuild(build)"></span>
-                        {{getDisplayNameForBuild(build, false)}} ({{build.build.date | scDateTime}})&nbsp;
-                        <span ng-class="[getStatusStyleClass(build.build.status), 'label']">{{build.build.status}}</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+        <sc-build-selection
+            branches-and-builds="branchesAndBuilds"
+            selected-branch="branchesAndBuilds.selectedBranch"
+            selected-build="branchesAndBuilds.selectedBuild"
+            on-build-change="setBuild(selectedBranch, build)">
+        </sc-build-selection>
 
         <!-- Comparison selection dropdown -->
-        <li class="dropdown" uib-dropdown is-open="status.isComparisonSelectionOpen" id="comparison-selection-dropdown" ng-if="comparisonBuilds.length > 0">
+        <li class="dropdown" uib-dropdown is-open="status.isComparisonSelectionOpen"
+            id="comparison-selection-dropdown" ng-if="comparisonBuilds.length > 0">
             <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
-                <i class="icon-asterisk"></i> Comparison:
+                <i class="icon-exchange"></i> Comparison:
                 {{comparisonInfo.isDefined ? selectedComparison.name : selectedComparison.name + ' (Available ' + comparisonBuilds.length + ')'}}
                 <span class="caret"></span>
-                <sc-diff-info-icon ng-if="comparisonInfo.isDefined" diff-info="selectedComparison" element-type="build" child-element-type="use case"></sc-diff-info-icon>
+                <sc-diff-info-icon ng-if="comparisonInfo.isDefined" diff-info="selectedComparison"
+                                   element-type="build"
+                                   child-element-type="use case"></sc-diff-info-icon>
             </a>
             <ul class="dropdown-menu">
                 <li ng-repeat="comparisonBuild in comparisonBuilds">
                     <a ng-click="setComparisonBuild(comparisonBuild)">
                         {{comparisonBuild.name}}
-                        <sc-diff-info-icon diff-info="comparisonBuild" element-type="build" child-element-type="use case"></sc-diff-info-icon>
+                        <sc-diff-info-icon diff-info="comparisonBuild" element-type="build"
+                                           child-element-type="use case"></sc-diff-info-icon>
                     </a>
                 </li>
                 <li ng-if="comparisonInfo.isDefined">
@@ -83,6 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </li>
             </ul>
         </li>
+
     </ul>
 
     <ul class="nav navbar-nav pull-right">
@@ -90,7 +71,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <a href="#/manage"><span class="glyphicon glyphicon-cog"></span> Manage</a>
         </li>
         <li>
-            <a href="" ng-click="showApplicationInfoPopup()" class="link"><span class="glyphicon glyphicon-info-sign"></span> Info</a>
+            <a href="" ng-click="showApplicationInfoPopup()" class="link">
+            <span class="glyphicon glyphicon-info-sign"></span> Info</a>
         </li>
         <li ng-show="isSearchEngineRunning" ng-cloak id="sc-global-search-box">
             <form ng-submit="search()" class="navbar-form navbar-left">
@@ -100,7 +82,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <span class="glyphicon glyphicon-search"></span>
                         </button>
                     </span>
-                    <input id="sc-global-search-box-textfield" class="form-control input-sm" ng-model="globalSearch.queryString" type="text">
+                    <input id="sc-global-search-box-textfield" class="form-control input-sm"
+                           ng-model="globalSearch.queryString" type="text">
                 </div>
             </form>
         </li>

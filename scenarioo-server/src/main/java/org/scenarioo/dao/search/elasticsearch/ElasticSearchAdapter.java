@@ -25,7 +25,9 @@ import org.elasticsearch.client.transport.NoNodeAvailableException;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.scenarioo.dao.context.ContextPathHolder;
 import org.scenarioo.dao.search.SearchAdapter;
 import org.scenarioo.dao.search.model.SearchResults;
@@ -45,6 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ElasticSearchAdapter implements SearchAdapter {
+
     private final static Logger LOGGER = Logger.getLogger(ElasticSearchAdapter.class);
 
 	// It's ok that this is static because the Elasticsearch endpoint config can not be changed
@@ -55,7 +58,10 @@ public class ElasticSearchAdapter implements SearchAdapter {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 		.getConfigurationRepository();
+
 	private final String endpoint = configurationRepository.getConfiguration().getElasticSearchEndpoint();
+
+	private final String clusterName = configurationRepository.getConfiguration().getElasticSearchClusterName();
 
     public ElasticSearchAdapter() {
 		if (client != null) {
@@ -72,10 +78,14 @@ public class ElasticSearchAdapter implements SearchAdapter {
 			int portSeparator = endpoint.lastIndexOf(':');
 			String host = endpoint.substring(0, portSeparator);
 			int port = Integer.parseInt(endpoint.substring(portSeparator + 1), 10);
-			client = TransportClient.builder().build()
-					.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
+			client = new PreBuiltTransportClient(Settings.builder()
+				.put("cluster.name", clusterName).build())
+				.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
 		} catch (UnknownHostException e) {
-			LOGGER.info("no elasticsearch cluster running.");
+			LOGGER.warn("No elasticsearch cluster running.");
+		} catch (Throwable e) {
+			// Silently log the error in any case to not let Scenarioo crash just because Easticsearch connection fails somehow.
+			LOGGER.error("Could not connect to Elastic Search Engine", e);
 		}
     }
 
@@ -108,7 +118,7 @@ public class ElasticSearchAdapter implements SearchAdapter {
     public SearchResults searchData(final SearchRequest searchRequest) {
         final String indexName = getIndexName(searchRequest.getBuildIdentifier());
 
-        ElasticSearchSearcher elasticSearchSearcher = new ElasticSearchSearcher(indexName);
+        ElasticSearchSearcher elasticSearchSearcher = new ElasticSearchSearcher(indexName, client);
         return elasticSearchSearcher.search(searchRequest);
     }
 

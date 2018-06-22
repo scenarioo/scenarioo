@@ -90,8 +90,8 @@ function ScenarioController($filter, $routeParams,
 
                 loadRelatedIssues();
 
-                var hasAnyUseCaseLabels = vm.useCase.labels.labels.length > 0;
-                var hasAnyScenarioLabels = vm.scenario.labels.labels.length > 0;
+                var hasAnyUseCaseLabels = vm.useCase.labels.label.length > 0;
+                var hasAnyScenarioLabels = vm.scenario.labels.label.length > 0;
                 vm.hasAnyLabels = hasAnyUseCaseLabels || hasAnyScenarioLabels;
 
                 if (ConfigService.expandPagesInScenarioOverview()) {
@@ -252,8 +252,8 @@ function ScenarioController($filter, $routeParams,
             BuildDiffInfoResource.get(
                 {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
                 function onSuccess(buildDiffInfo) {
-                    comparisonBranchName = buildDiffInfo.comparisonBranchName;
-                    comparisonBuildName = buildDiffInfo.comparisonBuildName;
+                    comparisonBranchName = buildDiffInfo.compareBuild.branchName;
+                    comparisonBuildName = buildDiffInfo.compareBuild.buildName;
 
                     if (isAddedUseCase(buildDiffInfo)) {
                         markPagesAndStepsAsAdded(pagesAndSteps);

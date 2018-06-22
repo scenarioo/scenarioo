@@ -19,9 +19,8 @@ import * as $ from "jquery"
 import * as angular from "angular";
 
 angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($routeParams, $location, $route, $compile,
-                                                                            $filter, $sce, BreadcrumbsService,
+                                                                            $filter, $sce, $uibModal, BreadcrumbsService,
                                                                             SharePagePopupService, SketcherLinkService) {
-
     var limit = 50;
 
     return {
@@ -33,6 +32,8 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
 
             scope.breadcrumbs = [];
             scope.sketcherLink = SketcherLinkService;
+            scope.createComparison = createComparison
+
             var navParameters: any = [];
             var breadcrumbId = $route.current.$$route.breadcrumbId;
 
@@ -67,8 +68,18 @@ angular.module('scenarioo.directives').directive('scBreadcrumbs', function ($rou
             scope.showStepLinks = function () {
                 SharePagePopupService.showShareStepPopup();
             };
+
         }
     };
+
+    function createComparison() {
+        $uibModal.open({
+            template: require('../../../manage/comparisons/createComparisonModal.html'),
+            controller: 'CreateComparisonModalController',
+            controllerAs: 'vm',
+            windowClass: 'modal-small'
+        });
+    }
 
     function getShortenedLabelText(breadcrumbItem, isLabelTextShortened) {
         return isLabelTextShortened ? getShortenedText(breadcrumbItem.label) : breadcrumbItem.label;

@@ -37,9 +37,9 @@ public enum ApplicationVersionHolder {
 	}
 
 	public void initialize(final String version, final String buildDate, final String apiVersion,
-			final String aggregatedDataFormatVersion, String releaseBranch) {
+			final String aggregatedDataFormatVersion, String documentationVersion) {
 		applicationVersion = new ApplicationVersion(version, buildDate, apiVersion,
-				aggregatedDataFormatVersion, releaseBranch);
+				aggregatedDataFormatVersion, documentationVersion);
 	}
 
 	public void initializeFromProperties(final Properties versionProperties) {
@@ -47,8 +47,8 @@ public enum ApplicationVersionHolder {
 		String buildDate = versionProperties.getProperty("build-date");
 		String apiVersion = versionProperties.getProperty("apiVersion");
 		String aggregatedDataFormatVersion = versionProperties.getProperty("aggregatedDataFormatVersion");
-		String releaseBranch = versionProperties.getProperty("releaseBranch");
-		initialize(version, buildDate, apiVersion, aggregatedDataFormatVersion, releaseBranch);
+		String documentationVersion = versionProperties.getProperty("documentationVersion");
+		initialize(version, buildDate, apiVersion, aggregatedDataFormatVersion, documentationVersion);
 	}
 
 	public ApplicationVersion getApplicationVersion() {

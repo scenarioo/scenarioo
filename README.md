@@ -1,7 +1,3 @@
-Deployment & E2E Tests [![Demo Deployment & E2E Tests of last deployed Branch](http://build.scenarioo.org/jenkins/job/deploy-demo-and-run-e2e-tests/badge/icon)](http://build.scenarioo.org/jenkins/job/deploy-demo-and-run-e2e-tests) -
-  master [![Continuous Build Master Branch](http://build.scenarioo.org/jenkins/job/scenarioo-master/badge/icon)](http://build.scenarioo.org/jenkins/job/scenarioo-master) - 
-develop [![Continuous Build Develop Branch](http://build.scenarioo.org/jenkins/job/scenarioo-develop/badge/icon)](http://build.scenarioo.org/jenkins/job/scenarioo-develop)
-
 # Scenarioo
 
 ## Automated Documentation of Applications with UI Tests
@@ -13,7 +9,8 @@ Scenarioo is a tool to leverage the power of your UI tests and to make them avai
 For more information about Scenarioo, see the following resources:
 
 * **Webpage: http://www.scenarioo.org**
-* **Scenarioo Documentation: http://www.scenarioo.org/docs** 
+* **Scenarioo Documentation for Latest Official Release: http://www.scenarioo.org/docs/master** 
+* **Scenarioo Documentation for Contributors (unreleased version): http://www.scenarioo.org/docs/develop** 
 
 ### Live Demo
 
@@ -23,11 +20,15 @@ http://demo.scenarioo.org
 
 ### Downloads & Links
 
-Downloads and more links, even for different releases (like forthcoming release candidates) can be found under [Downloads & Links](docs/setup/downloads-and-links.md)
+Downloads and more links, even for different releases (like forthcoming release candidates) can be found under [Downloads & Links](docs/downloads-and-links.md)
 
 ### CI/CD Build Server
 
 [http://build.scenarioo.org](http://build.scenarioo.org) 
+
+**Master:** Latest Stable Release [![Build Status](http://build.scenarioo.org/jenkins/buildStatus/icon?job=scenarioo/master)](http://build.scenarioo.org/jenkins/job/scenarioo/job/master/)
+
+**Develop:** Current Development State [![Build Status](http://build.scenarioo.org/jenkins/buildStatus/icon?job=scenarioo/develop)](http://build.scenarioo.org/jenkins/job/scenarioo/job/develop/)
 
 ### License
 

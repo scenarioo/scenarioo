@@ -31,6 +31,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     var scenarioName = $routeParams.scenarioName;
     var labels = $location.search().labels;
 
+    $scope.step = null; // loaded later, in activation
     $scope.pageName = $routeParams.pageName;
     $scope.pageOccurrence = parseInt($routeParams.pageOccurrence, 10);
     $scope.stepInPageOccurrence = parseInt($routeParams.stepInPageOccurrence, 10);
@@ -46,7 +47,8 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     activate();
 
     function activate() {
-        SketcherLinkService.showCreateOrEditSketchLinkInBreadcrumbs('Create Sketch', createSketch);
+        SketcherLinkService.showCreateOrEditSketchLinkInBreadcrumbs('Create Sketch ...', createSketch);
+        SelectedBranchAndBuildService.callOnSelectionChange(loadStep);
     }
 
     function createSketch() {
@@ -69,8 +71,6 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     $scope.showApplicationInfoPopup = function (tab) {
         ApplicationInfoPopupService.showApplicationInfoPopup(tab);
     };
-
-    SelectedBranchAndBuildService.callOnSelectionChange(loadStep);
 
     function loadStep(selected) {
         selectedBranchAndBuild = selected;
@@ -110,10 +110,10 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
                 }
 
                 $scope.hasAnyLabels = function () {
-                    var hasAnyUseCaseLabels = $scope.useCaseLabels.labels.length > 0;
-                    var hasAnyScenarioLabels = $scope.scenarioLabels.labels.length > 0;
-                    var hasAnyStepLabels = $scope.step.stepDescription.labels.labels.length > 0;
-                    var hasAnyPageLabels = $scope.step.page.labels.labels.length > 0;
+                    var hasAnyUseCaseLabels = $scope.useCaseLabels.label.length > 0;
+                    var hasAnyScenarioLabels = $scope.scenarioLabels.label.length > 0;
+                    var hasAnyStepLabels = $scope.step.stepDescription.labels.label.length > 0;
+                    var hasAnyPageLabels = $scope.step.page.labels.label.length > 0;
 
                     return hasAnyUseCaseLabels || hasAnyScenarioLabels || hasAnyStepLabels || hasAnyPageLabels;
                 };
@@ -409,8 +409,8 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             {'baseBranchName': baseBranchName, 'baseBuildName': baseBuildName, 'comparisonName': comparisonName},
             function onSuccess(buildDiffInfo) {
                 $scope.comparisonName = buildDiffInfo.name;
-                $scope.comparisonBranchName = buildDiffInfo.comparisonBranchName;
-                $scope.comparisonBuildName = buildDiffInfo.comparisonBuildName;
+                $scope.comparisonBranchName = buildDiffInfo.compareBuild.branchName;
+                $scope.comparisonBuildName = buildDiffInfo.compareBuild.buildName;
                 initBaseBuildName();
                 initBaseBuild();
                 initComparisonBuild();
@@ -463,7 +463,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     };
 
     $scope.isComparisonChangesToBeHighlightedAvailable = function() {
-        return $scope.step.diffInfo.changeRate !== 0 && !$scope.step.diffInfo.isAdded;
+        return $scope.step && $scope.step.diffInfo && $scope.step.diffInfo.changeRate !== 0 && !$scope.step.diffInfo.isAdded;
     };
 
     $scope.isComparisonChangesHighlighted = function() {
@@ -536,7 +536,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
     var getAllLabels = function () {
         var allLabels = [];
         if ($scope.useCaseLabels && $scope.scenarioLabels && $scope.step) {
-            allLabels = allLabels.concat($scope.useCaseLabels.labels).concat($scope.scenarioLabels.labels).concat($scope.step.stepDescription.labels.labels).concat($scope.step.page.labels.labels);
+            allLabels = allLabels.concat($scope.useCaseLabels.label).concat($scope.scenarioLabels.label).concat($scope.step.stepDescription.labels.label).concat($scope.step.page.labels.label);
         }
         return allLabels;
     };

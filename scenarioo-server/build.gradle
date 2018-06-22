@@ -21,20 +21,20 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
-apply from: "${rootProject.projectDir}/java.gradle"
+apply from: "${rootProject.projectDir}/build-java.gradle"
 
 dependencies {
-    compile 'org.jboss.resteasy:resteasy-jaxrs:2.3.7.Final'
-    compile 'org.jboss.resteasy:resteasy-jaxb-provider:2.3.7.Final'
-    compile 'org.jboss.resteasy:resteasy-jackson-provider:2.3.7.Final'
-    compile 'org.jboss.resteasy:resteasy-multipart-provider:2.3.7.Final'
+    compile 'org.jboss.resteasy:resteasy-jaxrs:3.1.4.Final'
+    compile 'org.jboss.resteasy:resteasy-jaxb-provider:3.1.4.Final'
+    compile 'org.jboss.resteasy:resteasy-jackson-provider:3.1.4.Final'
+    compile 'org.jboss.resteasy:resteasy-multipart-provider:3.1.4.Final'
     compile 'com.google.guava:guava-base:r03'
     compile 'org.apache.xmlgraphics:batik-transcoder:1.8'
     compile 'org.apache.xmlgraphics:batik-codec:1.8'
     compile 'org.apache.xmlgraphics:xmlgraphics-commons:1.5'
-    compile 'com.thetransactioncompany:cors-filter:2.5'
     compile 'org.mockito:mockito-all:1.9.5'
-    compile 'org.elasticsearch:elasticsearch:2.3.1'
+    compile 'org.elasticsearch:elasticsearch:5.6.9'
+    compile 'org.elasticsearch.client:transport:5.6.9'
     providedCompile 'javax.servlet:servlet-api:2.5'
 }
 
@@ -46,11 +46,6 @@ eclipse {
     }
   }
 }
-
-// Prevent Eclipse "Gradle -> Refresh All" to execute cleanEclipseJdt,
-// because it would delete our version of the org.eclipse.jdt.ui.prefs file.
-cleanEclipse.dependsOn = cleanEclipse.taskDependencies.values - cleanEclipseJdt
-
 
 task printPathConfigInformationForNodeJSAndGrunt << {
 	if (project.hasProperty('pathToNodeJS')) {
@@ -68,14 +63,14 @@ task printPathConfigInformationForNodeJSAndGrunt << {
 task createVersionPropertiesFile << {
 	def aggregatedDataFormatVersion = project.scenariooAggregatedDataFormatVersion
 	def apiVersion = project.scenariooApiVersion
-    def releaseBranch = project.scenariooReleaseBranch
+    def documentationVersion = project.documentationVersion
 
 	File versionFile = new File(sourceSets.main.output.classesDir.getAbsolutePath() + '/version.properties');
 	versionFile.write('version=' + versionWithGitCommit + '\n' +
             'build-date=' + new Date() + '\n' +
             'apiVersion=' + apiVersion + '\n' +
             'aggregatedDataFormatVersion=' + aggregatedDataFormatVersion + '\n' +
-            'releaseBranch=' + releaseBranch + '\n')
+            'documentationVersion=' + documentationVersion + '\n')
 }
 
 war {

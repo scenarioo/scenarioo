@@ -17,4 +17,4 @@ The following model shows the most basic structure of the Scenarioo documentatio
 <!-- Drawing created by adiherzog using draw.io. Please contact him for changes. -->
 ![Scenarioo Domain Model](https://cloud.githubusercontent.com/assets/3780183/5059236/ed86776c-6d13-11e4-9be0-dc7af4942447.png)
 
-A more detailed description about the scenarioo documentation format can be found here: [Scenarioo Writer Documentation Format](Scenarioo-Writer-Documentation-Format.md)
+A more detailed description about the Scenarioo documentation format can be found here: [Scenarioo Writer Documentation Format](Scenarioo-Writer-Documentation-Format.md)

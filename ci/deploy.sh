@@ -40,7 +40,7 @@ BRANCH_DATA_ARCHIVE_DIR=/var/lib/scenarioo/data-archive/$BRANCH
 echo "Undeploy Old Scenarioo Web App"
 curl -u $TOMCAT_USERPASS http://localhost:8080/manager/text/undeploy\?path\=/scenarioo-$BRANCH
 
-# Backup all self docu and other important example docu reports to be restored after succesful deployment and testing of this scenarioo instance
+# Backup all self docu and other important example docu reports to be restored after successful deployment and testing of this scenarioo instance
 mkdir -p $BRANCH_DATA_ARCHIVE_DIR
 cp -rfp $BRANCH_DATA_DIR/scenarioo-* $BRANCH_DATA_ARCHIVE_DIR
 cp -rfp $BRANCH_DATA_DIR/pizza-* $BRANCH_DATA_ARCHIVE_DIR

@@ -47,7 +47,7 @@ angular.module('scenarioo.services').factory('ScreenAnnotationsService', functio
 
     function getDescriptionSection(annotation) {
         if (getTitleText(annotation) === annotation.description) {
-            return ''; // allready displayed in title
+            return ''; // already displayed in title
         }
         else {
             return annotation.description;

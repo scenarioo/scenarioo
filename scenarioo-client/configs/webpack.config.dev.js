@@ -9,13 +9,14 @@ var webpackConfig = merge(commonConfig, {
         contentBase: path.join(__dirname, "app"),
         compress: true,
         port: 8500,
+        publicPath: '/scenarioo/',
         headers: {
             'Access-Control-Allow-Origin': '*'
         },
         proxy: {
-            "/rest": {
+            "/scenarioo/rest": {
                 "target": 'http://localhost:8080/scenarioo/rest',
-                "pathRewrite": {'^/rest': ''}
+                "pathRewrite": {'^/scenarioo/rest': ''}
             }
         }
     }
