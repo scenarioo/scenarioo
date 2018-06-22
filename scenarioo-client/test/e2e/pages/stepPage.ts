@@ -268,7 +268,7 @@ class StepPage {
 
     async expectStepComparisonCurrentScreenTitle(title: string, infoText: string) {
         await expect($('sc-screenshot-title[build="baseBuild"] h3').getText()).toBe(title);
-        await $('sc-screenshot-title[build="baseBuild"] h3 i.fa-info-circle').click();
+        await $('sc-screenshot-title[build="baseBuild"] h3 span[uib-tooltip]').click();
         await expect($('sc-screenshot-title[build="baseBuild"] div.tooltip').isDisplayed()).toBeTruthy();
         await expect($('sc-screenshot-title[build="baseBuild"] div.tooltip').getText()).toBe(infoText);
         return $('sc-screenshot-title[build="baseBuild"] h3').click();
@@ -276,7 +276,7 @@ class StepPage {
 
     async expectStepComparisonOtherScreenTitle(title: string, infoText: string) {
         await expect($('sc-screenshot-title[build="comparisonBuild"] h3').getText()).toBe(title);
-        await $('sc-screenshot-title[build="comparisonBuild"] h3 i.fa-info-circle').click();
+        await $('sc-screenshot-title[build="comparisonBuild"] h3 span[uib-tooltip]').click();
         await expect($('sc-screenshot-title[build="comparisonBuild"] div.tooltip').isDisplayed()).toBeTruthy();
         await expect($('sc-screenshot-title[build="comparisonBuild"] div.tooltip').getText()).toBe(infoText);
         return $('sc-screenshot-title[build="comparisonBuild"] h3').click();
