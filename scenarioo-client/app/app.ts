@@ -23,7 +23,7 @@ import './styles/scenarioo.less'
 
 angular.module('scenarioo.filters', []);
 angular.module('scenarioo.screenAnnotations', ['scenarioo.filters', 'ngRoute']);
-angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys', 'unsavedChanges']);
+angular.module('scenarioo.directives', ['scenarioo.filters', 'ngRoute', 'twigs.globalHotkeys']);
 angular.module('scenarioo.services', ['ngResource', 'ngRoute', 'LocalStorageModule']);
 angular.module('scenarioo.controllers', ['scenarioo.services', 'scenarioo.directives']);
 require('./shared/utils/number.filter');

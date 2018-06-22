@@ -50,14 +50,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- Pages navigation -->
         <div class="btn-group">
             <span ng-click="goToPreviousPage()" class="btn btn-default" ng-disabled="isFirstPage()" id="prevPageBtn">
-                <i class="icon-with-padding icon-large icon-double-angle-left" uib-tooltip="Previous Page [Ctrl+Left]"
-                   tooltip-placement="bottom"></i>
+                <span uib-tooltip="Previous Page [Ctrl+Left]" tooltip-placement="bottom">
+                    <i class="fas fa-fw fa-lg fa-angle-double-left"></i>
+                </span>
             </span>
             <span class="btn btn-default btn-no-hover"><span uib-tooltip="of all pages in this scenario"
                                                              tooltip-placement="bottom">Page {{getCurrentPageIndexForDisplay()}} of {{stepStatistics.totalNumberOfPagesInScenario}}</span></span>
             <span ng-click="goToNextPage()" class="btn btn-default" ng-disabled="isLastPage()" id="nextPageBtn">
-                <i class="icon-with-padding icon-large icon-double-angle-right" uib-tooltip="Next Page [Ctrl+Right]"
-                   tooltip-placement="bottom"></i>
+                <span uib-tooltip="Next Page [Ctrl+Right]" tooltip-placement="bottom">
+                    <i class="fas fa-fw fa-lg fa-angle-double-right"></i>
+                </span>
             </span>
         </div>
 
@@ -66,14 +68,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- Steps navigation -->
         <div class="btn-group">
             <span ng-click="goToPreviousStep()" class="btn btn-default" ng-disabled="isFirstStep()" id="prevStepBtn">
-                <i class="icon-with-padding icon-large icon-angle-left" uib-tooltip="Previous Step [Left]"
-                   tooltip-placement="bottom"></i>
+                <span uib-tooltip="Previous Step [Left]" tooltip-placement="bottom">
+                    <i class="fas fa-fw fa-lg fa-angle-left"></i>
+                </span>
             </span>
             <span class="btn btn-default btn-no-hover"><span uib-tooltip="of all steps in this scenario"
                                                              tooltip-placement="bottom">Step {{getCurrentStepIndexForDisplay()}} of {{stepStatistics.totalNumberOfStepsInScenario}} (Step {{getStepIndexInCurrentPageForDisplay()}} of {{getNumberOfStepsInCurrentPageForDisplay()}} on Page)</span></span>
             <span ng-click="goToNextStep()" class="btn btn-default" ng-disabled="isLastStep()" id="nextStepBtn">
-                <i class="icon-with-padding icon-large icon-angle-right" uib-tooltip="Next Step [Right]"
-                   tooltip-placement="bottom"></i>
+                <span uib-tooltip="Next Step [Right]" tooltip-placement="bottom">
+                    <i class="fas fa-fw fa-lg fa-angle-right"></i>
+                </span>
             </span>
         </div>
 
@@ -83,9 +87,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div class="btn-group">
             <span ng-click="goToPreviousVariant()" class="btn btn-default" id="prevPageVariantBtn"
                   ng-disabled="isFirstPageVariantStep()">
-                <i class="icon-with-padding icon-large icon-angle-up"
-                   uib-tooltip="Previous variant (potentially in other scenario) [Ctrl+Up]"
-                   tooltip-placement="bottom"></i>
+                <span uib-tooltip="Previous variant (potentially in other scenario) [Ctrl+Up]" tooltip-placement="bottom">
+                    <i class="fas fa-fw fa-lg fa-angle-up"></i>
+                </span>
             </span>
             <span class="btn btn-default btn-no-hover">
                 <span uib-tooltip="click here to see all page variants" tooltip-placement="bottom"
@@ -97,9 +101,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </span>
             <span ng-click="goToNextVariant()" class="btn btn-default" id="nextPageVariantBtn"
                   ng-disabled="isLastPageVariantStep()">
-                <i class="icon-with-padding icon-large icon-angle-down"
-                   uib-tooltip="Next variant (potentially in other scenario) [Ctrl+Down]"
-                   tooltip-placement="bottom"></i>
+                <span uib-tooltip="Next variant (potentially in other scenario) [Ctrl+Down]" tooltip-placement="bottom">
+                    <i class="fas fa-fw fa-lg fa-angle-down"></i>
+                </span>
             </span>
         </div>
     </div>
@@ -172,7 +176,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <button type="button" id="sc-step-comparison-switch-screens-button" class="btn btn-default"
                                 ng-disabled="step.diffInfo.isAdded"
                                 ng-click="switchComparisonSingleScreenView()">
-                            <i class="icon-random"></i>
+                            <i class="fas fa-random"></i>
                         </button>
                     </div>
 
