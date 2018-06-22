@@ -23,13 +23,13 @@ angular.module('scenarioo.services').factory('BreadcrumbsService', function ($fi
 
     var homeElement =
     {
-        label: '<i class="icon-home"></i> Home',
+        label: '<i class="fas fa-home"></i> Home',
         route: 'build/build.html'   // maybe better rename to linkUrl
     };
 
     var manageElement =
     {
-        label: '<i class="icon-cogs"></i> Manage',
+        label: '<i class="fas fa-cogs"></i> Manage',
         route: 'manage/manage.html'
     };
 

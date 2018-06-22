@@ -16,7 +16,6 @@ target/
 .tmp
 dist/
 node_modules/
-app/bower_components
 .vm-update.log
 .gradle
 third-party

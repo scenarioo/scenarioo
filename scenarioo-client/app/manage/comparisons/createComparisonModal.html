@@ -41,10 +41,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <div class="form-group">
                     <label for="comparisonName">
                         Comparison Name
-                        <i class="icon-info-sign"
-                           uib-tooltip="Under this name the comparison will be listed in comparison list on target build"
-                           tooltip-placement="right">
-                        </i>
+                        <span uib-tooltip="Under this name the comparison will be listed in comparison list on target build"
+                              tooltip-placement="right">
+                            <i class="fas fa-info-circle"/>
+                        </span>
                     </label>
                     <input type="text" class="form-control" id="comparisonName" ng-model="vm.comparisonName"
                            ng-change="vm.validateComparisonName()">
@@ -56,10 +56,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Target Build
-                        <i class="icon-info-sign"
-                           uib-tooltip="The build on which you want to see changes compared to another build."
-                           tooltip-placement="right">
-                        </i>
+                        <span uib-tooltip="The build on which you want to see changes compared to another build."
+                              tooltip-placement="right">
+                            <i class="fas fa-info-circle"/>
+                        </span>
                     </label>
                     <div class="row">
                         <div class="col-md-12">
@@ -86,10 +86,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Compare with
-                        <i class="icon-info-sign"
-                           uib-tooltip="The build to compare with"
-                           tooltip-placement="right">
-                        </i>
+                        <span uib-tooltip="The build to compare with"
+                              tooltip-placement="right">
+                            <i class="fas fa-info-circle"/>
+                        </span>
                     </label>
                     <div class="row">
                         <div class="col-md-12">

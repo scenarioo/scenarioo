@@ -70,10 +70,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </td>
                 <td title="{{build.statusMessage}}"><span ng-class="[vm.getStyleClassForBuildImportStatus(build.status), 'label']">{{build.status}}</span> </td>
                 <td>
-                    <a class="link" ng-click="vm.goToBuild(build)" uib-tooltip="Show Import Log and Details" tooltip-placement="bottom"><i class="icon-list-alt icon-with-padding"></i> Details & Log</a>
+                    <a class="link" ng-click="vm.goToBuild(build)" uib-tooltip="Show Import Log and Details" tooltip-placement="bottom"><i class="fas fa-list-alt fa-fw"></i> Details & Log</a>
                 </td>
                 <td>
-                    <a class="link" ng-click="vm.reimportBuild(build)" uib-tooltip="Reimport and update this build" tooltip-placement="bottom"><i class="icon-refresh icon-with-padding"></i> Reimport</a>
+                    <a class="link" ng-click="vm.reimportBuild(build)" uib-tooltip="Reimport and update this build" tooltip-placement="bottom"><i class="fas fa-sync fa-fw"></i> Reimport</a>
                 </td>
             </tr>
         </tbody>
