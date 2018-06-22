@@ -34,3 +34,5 @@ import './utils/dateOnly.filter';
 import './navigation/applicationInfoPopup.service';
 import './navigation/sharePage/sharePagePopup.controller';
 import './navigation/sharePage/sharePagePopup.service';
+import './navigation/branchSelection/branchSelection.directive';
+import './navigation/buildSelection/buildSelection.directive';
