@@ -17,7 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <div ng-controller="GeneralSettingsController as vm">
 
-
     <form novalidate class="configuration">
 
         <h2>General</h2>
@@ -217,19 +216,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </div>
         </div>
 
-        <div class="alert alert-success fade-out sc-space-top" ng-show="vm.successfullyUpdatedConfiguration">
+        <div class="alert alert-success fade-out" ng-show="vm.successfullyUpdatedConfiguration">
             The configuration has been successfully updated.
             <a ng-click="vm.successfullyUpdatedConfiguration=false" class="pull-right link link-no-hover"
                style="color: #468847"><i
                 class="icon-remove icon"></i></a>
         </div>
-        
+
         <div class="row sc-space-top">
             <div class="col-lg-12" style="text-align: right">
                 <input type="button" ng-click="vm.resetConfiguration()" value="Reset" class="btn btn-wide btn-default"/>
                 <input type="button" ng-click="vm.updateConfiguration()" value="Save" class="btn btn-wide btn-primary"/>
             </div>
         </div>
-    </form>
 
+    </form>
 </div>
