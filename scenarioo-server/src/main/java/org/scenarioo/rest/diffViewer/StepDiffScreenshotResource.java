@@ -21,7 +21,10 @@ import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.rest.base.FileResponseCreator;
 import org.scenarioo.utils.NumberFormatter;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +41,7 @@ public class StepDiffScreenshotResource {
 	private DiffViewerDao diffViewerDao = new DiffViewerDao();
 
 	@GetMapping(path = "comparisonName/{comparisonName}/useCaseName/{usecaseName}/scenarioName/{scenarioName}/stepIndex/{stepIndex}/stepDiffScreenshot", produces = "image/png")
-	public File getDiffScreenshot(
+	public ResponseEntity<InputStreamResource> getDiffScreenshot(
 			@PathVariable("baseBranchName") final String baseBranchName,
 			@PathVariable("baseBuildName") final String baseBuildName,
 			@PathVariable("comparisonName") final String comparisonName,
@@ -52,8 +55,9 @@ public class StepDiffScreenshotResource {
 
 		final String imageFileName = NumberFormatter.formatMinimumThreeDigits(stepIndex) + ".png";
 
-		return diffViewerDao.getScreenshotFile(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
+		File screenshotFile = diffViewerDao.getScreenshotFile(buildIdentifier.getBranchName(), buildIdentifier.getBuildName(),
 			comparisonName, usecaseName, scenarioName, imageFileName);
+		return FileResponseCreator.createImageFileResponse(screenshotFile);
 	}
 
 }

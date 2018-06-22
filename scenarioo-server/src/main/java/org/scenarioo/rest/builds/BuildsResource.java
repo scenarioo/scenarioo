@@ -27,6 +27,7 @@ import org.scenarioo.model.docu.aggregates.branches.BuildImportSummary;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.rest.base.FileResponseCreator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +35,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 
 /**
@@ -74,18 +73,7 @@ public class BuildsResource {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 
-		return ResponseEntity
-			.ok()
-			.header("Content-Disposition", "attachment; filename=\"" + logFile + "\"")
-			.body(getLogfileContent(logFile));
-	}
-
-	private byte[] getLogfileContent(File logFile) {
-		try {
-			return Files.readAllBytes(logFile.toPath());
-		} catch (IOException e) {
-			throw new RuntimeException("Unable to read logfile: ", e);
-		}
+		return FileResponseCreator.createLogFileResponse(logFile);
 	}
 
 	/**

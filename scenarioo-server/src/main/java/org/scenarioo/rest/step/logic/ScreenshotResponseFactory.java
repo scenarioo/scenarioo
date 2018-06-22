@@ -7,6 +7,7 @@ import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.rest.base.FileResponseCreator;
 import org.scenarioo.rest.base.ScenarioIdentifier;
 import org.scenarioo.rest.base.StepIdentifier;
 import org.springframework.http.HttpHeaders;
@@ -74,7 +75,7 @@ public class ScreenshotResponseFactory {
 	}
 
 	private ResponseEntity createOkResponse(final File screenshot) {
-		return ResponseEntity.ok(screenshot);
+		return FileResponseCreator.createImageFileResponse(screenshot);
 	}
 
 	private ResponseEntity redirectResponse(final StepLoaderResult stepImage,

@@ -8,6 +8,7 @@ import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.rest.base.FileResponseCreator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -106,10 +107,7 @@ public class ComparisonsResource {
 		if (logFile == null || !logFile.exists()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		ResponseEntity.BodyBuilder response = ResponseEntity.ok();
-		response.body(logFile);
-		response.header("Content-Disposition", "attachment; filename=\"" + logFile + "\"");
-		return response.build();
+		return FileResponseCreator.createLogFileResponse(logFile);
 	}
 
 
