@@ -78,10 +78,7 @@ bootWar {
     from('../scenarioo-client/dist') {
         into('WEB-INF/classes/static')
     }
-//    from(sourceSets.main.output.classesDir) {
-//        into('WEB-INF/classes')
-//    }
-//	archiveName 'scenarioo-viewer-' + version + '.war'
+	archiveName 'scenarioo-viewer-' + version + '.war'
 }
 
 bootWar.doLast {
