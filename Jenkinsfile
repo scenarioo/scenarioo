@@ -59,8 +59,8 @@ properties([
 	buildDiscarder(logRotator(
 	    artifactDaysToKeepStr: '10',
 	    artifactNumToKeepStr: '5',
-	    daysToKeepStr: '30',
-	    numToKeepStr: '20'
+	    daysToKeepStr: '10',
+	    numToKeepStr: '5'
 	))
 ])
 
@@ -90,8 +90,7 @@ timestamps {
         stage('Package') {
             gradle 'distZip'
             archiveArtifacts ("scenarioo-server/build/libs/scenarioo-*.war, LICENSE.txt, README.md, "
-                              + "scenarioo-docu-generation-example/build/scenarioDocuExample/, "
-                              + "scenarioo-validator/build/distributions/*")
+                              + "scenarioo-docu-generation-example/build/scenarioDocuExample/")
         }
 
         stage('Deploy') {
@@ -123,9 +122,8 @@ timestamps {
 
         stage('Run e2e tests') {
             ansiColor('xterm') {
-
                 try {
-                    lock("tomcat") { // no parallel e2e test executions against tomcat
+                    lock("chrome") { // only one chrome running e2e tests at once for stability
                         sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
                     }
                 } finally {
