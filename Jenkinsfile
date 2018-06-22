@@ -93,7 +93,6 @@ timestamps {
                               + "scenarioo-docu-generation-example/build/scenarioDocuExample/")
         }
 
-        /*
         stage('Deploy') {
             ansiColor('xterm') {
 
@@ -120,7 +119,6 @@ timestamps {
 
             }
         }
-        */
 
         stage('Run e2e tests') {
             ansiColor('xterm') {
