@@ -123,7 +123,9 @@ timestamps {
         stage('Run e2e tests') {
             ansiColor('xterm') {
                 try {
-                    sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
+                    lock("chrome") { // only one chrome running e2e tests at once for stability
+                        sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
+                    }
                 } finally {
                     junit 'scenarioo-client/test-reports/*.xml'
                     withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
