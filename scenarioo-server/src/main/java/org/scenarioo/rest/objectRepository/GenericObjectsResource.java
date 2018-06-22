@@ -48,7 +48,7 @@ public class GenericObjectsResource extends AbstractBuildContentResource {
 		return getDAO(buildIdentifier).loadObjectsList(buildIdentifier, type).getItems();
 	}
 
-	@GetMapping("{type}/{name}/")
+	@GetMapping("{type}/{name}")
 	public ObjectIndex readObjectIndex(@PathVariable("branchName") final String branchName,
 			@PathVariable("buildName") final String buildName, @PathVariable("type") final String objectType,
 			@PathVariable("name") final String objectName) {
