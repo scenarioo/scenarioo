@@ -11,8 +11,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.scenarioo.dao.context.ContextPathHolder;
 
 /**
  * Contains all the properties needed to identify a step unambiguously.
@@ -203,6 +205,10 @@ public class StepIdentifier {
 	private URI getStepUri(final RedirectType redirectType, final String screenshotFileNameExtension)
 			throws UnsupportedEncodingException, URISyntaxException {
 		StringBuilder uriBuilder = new StringBuilder();
+		String contextPath = ContextPathHolder.INSTANCE.getContextPath();
+		if(StringUtils.isNotBlank(contextPath)) {
+			uriBuilder.append("/").append(contextPath);
+		}
 
 		uriBuilder.append("/rest/branch/").append(encode(getBranchName()));
 		uriBuilder.append("/build/").append(encode(getBuildName()));
