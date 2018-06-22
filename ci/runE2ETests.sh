@@ -25,7 +25,7 @@ export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo-$BRANCH
 export DISPLAY=:99
 
 pushd scenarioo-client
-npm run test-e2e-scenarioo
+npm run e2e-scenarioo
 popd
 
 # Remove sketcher data generated from e2e tests

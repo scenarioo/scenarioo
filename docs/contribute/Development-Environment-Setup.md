@@ -9,7 +9,7 @@ The guide sometimes assumes that you use Windows. There are some additional note
 
 ## Documentation for Developers
 
-The published documentation under http://www.scenarioo.org/docs/develop should reflect the most recent changes of scenarioo 
+The published documentation under http://www.scenarioo.org/docs/develop should reflect the most recent changes of Scenarioo 
 development. This is the state of our documentation on develop branch.
 
 If our automated docs publishing on develop branch works, that docu should be up to date (you can verify it on jenkins in the scenarioo/develop job).
@@ -42,7 +42,7 @@ If during setup you find some information that is outdated in the documentation 
        ```
        git config --global core.autocrlf input
        ```
-      If you not want to set this globaly, please set it at least for the scenarioo projects.
+      If you not want to set this globaly, please set it at least for the Scenarioo projects.
       See for more info: https://help.github.com/articles/dealing-with-line-endings/
       
  * **Make sure that you personalize your GIT by setting your username and email for commits (!! important !!)**:
@@ -108,7 +108,7 @@ But this two repositories should be sufficient for most usual developers.
          * after changing those plugins settings you might have to restart IntelliJ to let the changes take effect.
          * if you open a markdown file you should see a blue MD icon in the file's editor tab, and be able to choose a side-by-side View wirh Preview that looks nicely (in editor's toolbar).
                  
- * Import scenarioo web app by using "New project from existing sources":
+ * Import Scenarioo web app by using "New project from existing sources":
      * choose 'scenarioo' folder
      * Import "From external model: Gradle" and use the gradle wrapper (default settings)
  * By using **"File/New module"** you can add additional repositories to be part of the same project setup in one IntelliJ window:
@@ -135,7 +135,7 @@ But this two repositories should be sufficient for most usual developers.
      * on "Startup/Connection" tab: set environment variable "SCENARIOO_DATA" to following path: &lt;your-project-source-path&gt;\scenarioo\scenarioo-docu-generation-example\build\scenarioDocuExample
          * do not forget to also set the same in the "debug" mode!
     
- * Run all tests of the sub-project "scenarioodocu-generation-example" to generate scenarioo example documentation data in Folder "build/scenarioDocuExample"
+ * Run all tests of the sub-project "scenarioodocu-generation-example" to generate Scenarioo example documentation data in Folder "build/scenarioDocuExample"
     * run `./graldlew clean test` (or by choosing it in the Gradle View in IntelliJ, which should as well work)
     * alternativley: select folder 'test' under 'src' folder and right click on 'test' folder and choose "Run 'All Tests'
     * it is recommended to remember a run config for this step to regenerate test data when needed. 
@@ -158,7 +158,7 @@ But this two repositories should be sufficient for most usual developers.
 
 ## Developer Guide
 
-For more informations on how to develop, build and test scenarioo properly, please read the [Developer Guide](Developer-Guide.md)!
+For more informations on how to develop, build and test Scenarioo properly, please read the [Developer Guide](Developer-Guide.md)!
    
 ## Testing the Setup
     

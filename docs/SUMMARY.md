@@ -1,17 +1,18 @@
 # Table of Content
 
-* [Scenarioo Examples](examples.md)
+* [Introduction & Overview](README.md)
+  * [Scenarioo Examples](examples.md)
+  * [Downloads and Links](downloads-and-links.md)
 
-* [Downloads and Links](setup/downloads-and-links.md)
-
-* [Setup & Usage](setup/README.md)
-  * [Quickstart with Scenarioo-JS](setup/Quickstart-JS.md)
-  * [Install Viewer Web App](setup/Scenarioo-Viewer-Web-Application-Setup.md)
-  * [Install Viewer Docker Image](setup/Scenarioo-Viewer-Docker-Image.md)
-  * [Viewer Configuration](setup/Configuration.md)
-  * [Usage of Writer Libraries](setup/How-to-use-Scenarioo-Writer-Library.md)
-  * [Publish Documentation Data](setup/Publish-Documentation-Data.md)
-
+* [Getting Started](tutorial/README.md)
+  * [Write Documentation from Tests](tutorial/How-to-use-Scenarioo-Writer-Library.md)
+     * [Quickstart with ScenariooJS](tutorial/Quickstart-JS.md)
+     * [Quickstart with Java](tutorial/Quickstart-Java.md)
+  * [Install Viewer Web App](tutorial/Scenarioo-Viewer-Web-Application-Setup.md)
+  * [Install Viewer Docker Image](tutorial/Scenarioo-Viewer-Docker-Image.md)
+  * [Publish Documentation](tutorial/Publish-Documentation-Data.md)
+  * [Viewer Configuration](tutorial/Configuration.md)
+    
 * [Features & Concepts](features/README.md)
   * [Documentation Format](features/Scenarioo-Writer-Documentation-Format.md)
     * [Safe Identifiers](features/Safe-Identifiers.md)
@@ -19,6 +20,7 @@
     * [Details & Object Repository](features/Details.md)
     * [Scenarioo Format Validator](features/validator-component/Scenarioo-Validator.md)
   * [Diff Viewer](features/diff-viewer/diff-viewer.md)
+    * [Diff Viewer REST API](features/diff-viewer/diff-viewer-rest-api.md)
   * [Full Text Search](features/full-text-search/README.md)
      * [Full Text Search Setup](features/full-text-search/setup.md)
      * [Full Text Search Specs](features/full-text-search/specifications.md)
@@ -42,3 +44,7 @@
     * [Docker Installation](contribute/ci-server-setup/docker.md)
     * [Elasticsearch 5 Installation](contribute/ci-server-setup/Elasticsearch-5.md)
     * [Deprecated: Elasticsearch 2 Installation](contribute/ci-server-setup/Elasticsearch-2.md)
+  
+    
+* [Version Changelog](CHANGELOG.md)    
+* [Migration Guide](Migration-Guide.md)

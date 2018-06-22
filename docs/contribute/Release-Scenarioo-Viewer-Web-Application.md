@@ -17,13 +17,13 @@ Usually this should be the same as the Scenarioo version that you are going to r
 
 **Search Documentation for occurences of old verison number and replace with new version:**
 * Do a global search for the old version!
-* update [Scenarioo Viewer Doker Image](../setup/Scenarioo-Viewer-Docker-Image.md)
+* update [Scenarioo Viewer Doker Image](../tutorial/Scenarioo-Viewer-Docker-Image.md)
 * update any other occurences 
                    
 ## Prepare Release Notes and Migration Guide
 
 * Go to file `CHANGELOG.md` and prepare the release notes for the next version
-* If needed write a migration guide for the new version in [Migration Guide](../setup/Migration-Guide.md)
+* If needed write a migration guide for the new version in [Migration Guide](../Migration-Guide.md)
 * Let both review by the team and finalize these important release documents.
 
 ## Create Release Branch and Stabilize
@@ -31,8 +31,19 @@ Usually this should be the same as the Scenarioo version that you are going to r
 * Create a release branch:
   * Make sure you have checked out the `develop` branch and are updated to latest changes.
   * `git checkout -b release/<version> develop`
+* Change on the release branch in `docs/book.json` the following properties to the new version of the docu:
+    * the selected version in the dropdown to point to right version (move `"selected": true`)
+    * the edit link for editing the docu to point to the correct version of the release branch (instead of `develop`): 
+    ```
+    "edit-link": {
+      "base": "https://github.com/scenarioo/scenarioo/edit/release/4.0/docs/",
+      "label": "Edit This Page"
+    },
+    ```
 * Push the release branch and make sure it builds on our [build server](Build-Server).
-* On the develop branch: change the docu version back to "develop" to be ready for development for next release.
+* Configure the new release branch to be not allowed to delete on github (under `Settings\Branches`) - since we keep release branches for maintanance of major releases!
+* Merge the release branch (with changes for docu) to develop branch.
+* On the develop branch: change the docu version back to "develop" (selection in dropdown and edit link) to be ready for development for next release again.
 * Inform the team about the release branch and that release stabilisation has to be done on that branch as follows.
 * Test the release version thoroughly on the demo.
 * Ask some devs to maybe do some release candidate testing in their projects.
@@ -49,45 +60,55 @@ Usually this should be the same as the Scenarioo version that you are going to r
    
 * If for the release the web page needs to be upgraded prepare so on a special release branch as well.
  
-## Merge and Build Final Release
+## Build Final Release Package
 
-* **Finalize the release by merging:**
-  * Fast forward master to release
+Once everything is ready to release and well tested, proceed as follows:
+
+  * Tag the release (on release branch):
     ```
-    git checkout master
-    git merge --ff-only release/<version>
-    git push
     git tag -a <version>
     git push --tags
     ```
-  * Merge release branch into develop (if not done yet)
-    ```
-    git checkout develop
-    git merge release/<version>
-    git push
-    ```
-  * Make sure the master branch builds on the build server. As the build uses the git tag as a version number, it's important to distribute a build artifact that was build after the tag was pushed!
-
-* **DO NOT delete the release branch. We will keep the release branch to do improvements on the documentation for the just released version (or if ever needed: for hotfixes as well)**. Because usually short after a release we get feedback about how to improve that version of the docu. Such things have still to be fixed on the release branch and merged both to master and develop, such that those changes are in the published documentation of that version!
+    We use version number like `4.0.0` (NO `v` prefix!)
+    
+  * Trigger a release build on our jenkins with the new tag on the release branch.
+    As the build uses the git tag as a version number, it's important to distribute a build artifact that was build after the tag was pushed!
+    
+  * Once the build has completed on release branch download the built WAR file (the one with the version number) as the final release artifact (to be published later)
 
 ### Build Docker Image and Publish to Dockerhub
 
 * Create a new Docker image for this release according to [this manual](Building-the-Docker-Image)
 * Do not forget to update the usage instructions for the Docker Image:     
-    [Scenarioo Viewer Doker Image](../setup/Scenarioo-Viewer-Docker-Image.md) 
+    [Scenarioo Viewer Doker Image](../tutorial/Scenarioo-Viewer-Docker-Image.md) 
     (**!! change the version number in the example!**)
 
 ### Publish the Release on Github
 
+* Fast forward master to release
+    ```
+    git checkout master
+    git merge --ff-only release/<version>
+    git push
+    ```
+  
+* Merge release branch into develop (if not done yet)
+    ```
+    git checkout develop
+    git merge release/<version>
+    git push
+    ```
+    
+* **DO NOT delete the release branch. We will keep the release branch to do improvements on the documentation for the just released version (or if ever needed: for hotfixes as well)**. Because usually short after a release we get feedback about how to improve that version of the docu. Such things have still to be fixed on the release branch and merged both to master and develop, such that those changes are in the published documentation of that version!
 * Create a release on github to make the release publicly visible: https://github.com/scenarioo/scenarioo/releases. 
 * For description use the release notes of that release version from CHANGELOG.md in the release description on github.
 * Make sure you safe it first only as a draft and do not publish them yet.  
 * Attach the binary of the release (WAR-file) to the release notes (see area "Attach binaries by dropping them here ...").
 * Publish the release when done.
 
-### Publish the Release on Maven Central
+### Publish the Release as signed WAR on Maven Central
 
-1. You will need to specify the following properties in your gradle.properties located in your gradle home directory:
+1. You will need to specify the following properties in your `gradle.properties` located in your gradle home directory:
 
 ```
 signing.keyId=BDCAAE60
@@ -102,10 +123,15 @@ ossrhPassword=#sonatype password goes here#
 4. Promote build to maven central:
 http://central.sonatype.org/pages/releasing-the-deployment.html
 
+### Publish the Release on Webpage, Twitter and Newsletter
+
+* **Update the Webpage (if needed):** Merge the prepared changes for the webpage for the release (release branch on scenarioo.github.io repository) to master to update the webpage for the release (if needed)
+* **Post on Twitter:** Send out a notfication about the new released version on our Twitter news channel: scenarioo_org (Login with our master password)
+* **Send out Newsletter** to scenarioo-news@googlegroups.com
+* **Post it on Yammer and other important news channels**
+
 ### Release Postprocessing
 
 **Change following things on develop branch** to prepare for further work on further releases:
 * Check `documentationVersion` in `build.gradle` is changed to `develop` again, such that it points to current latest and greatest developer docu, until we do a new release
-* Verify that in `docs/book.json` the develop version of the docu is marked as selected again.
-
- 
+* Verify that in `docs/book.json` the develop version of the docu is marked as selected again and the edit link points to the develop branch again.

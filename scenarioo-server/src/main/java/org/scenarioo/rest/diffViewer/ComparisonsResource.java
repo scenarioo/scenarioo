@@ -132,9 +132,6 @@ public class ComparisonsResource {
 	 * Imports the build (if not imported yet) and then calculates the comparison synchronously. Be aware that this
 	 * call can be very slow when comparing large builds.
 	 * <p>
-	 * Previously this endpoint was:
-	 * /rest/builds/importBuild/{branchName}/{buildName}/{comparisonBranchName}/{comparisonBuildName}/{comparisonName}
-	 * <p>
 	 * Set branchName and buildName for the build that should be imported and compared with the comparison build.
 	 * branchName can be an alias, but buildName can't.
 	 * <p>
