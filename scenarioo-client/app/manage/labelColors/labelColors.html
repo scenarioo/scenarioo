@@ -1,5 +1,8 @@
 <div ng-controller="LabelColorsController as vm" ng-init="color = 'red'">
 
+
+
+
     <form name="labelConfigurationsForm">
         <table class="table table-curved table-responsive" id="label-configurations-table">
             <thead>
@@ -30,11 +33,11 @@
                 </tr>
             </tbody>
         </table>
-
-        <div class="alert alert-success fade-out sc-space-top" id="changed-label-config-successfully" ng-show="vm.successfullyUpdatedLabelConfigurations">
+        <div class="alert alert-success fade-out" id="changed-label-config-successfully" ng-show="vm.successfullyUpdatedLabelConfigurations">
             The label configurations have been successfully updated.
             <a ng-click="vm.successfullyUpdatedLabelConfigurations=false" class="pull-right link link-no-hover" style="color: #468847">
-                <i class="icon-remove icon"></i></a>
+                <i class="fas fa-times"></i>
+            </a>
         </div>
 
         <div class="row sc-space-top-large">

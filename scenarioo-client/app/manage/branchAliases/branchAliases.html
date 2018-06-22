@@ -17,7 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <div ng-controller="BranchAliasesController as vm">
 
-
     <form name="branchAliasesForm">
         <table class="table table-curved table-responsive" >
             <thead>
@@ -56,7 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <div class="alert alert-success fade-out" id="updated-branch-aliases-successfully" ng-show="vm.successfullyUpdatedBranchAliases">
             The branch aliases have been successfully updated.
             <a ng-click="vm.successfullyUpdatedBranchAliases=false" class="pull-right link link-no-hover" style="color: #468847"><i
-                class="icon-remove icon"></i></a>
+                class="fas fa-times"></i></a>
         </div>
 
         <div class="alert alert-danger fade-out" ng-show="vm.uniqueError" id="duplicateAliasErrorId">
