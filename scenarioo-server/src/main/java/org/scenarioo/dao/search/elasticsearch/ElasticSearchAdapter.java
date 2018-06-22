@@ -18,6 +18,7 @@
 package org.scenarioo.dao.search.elasticsearch;
 
 import com.carrotsearch.hppc.cursors.ObjectCursor;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
@@ -200,6 +201,11 @@ public class ElasticSearchAdapter implements SearchAdapter {
 		// using "---" in order to avoid name collisions with contexts that have the same prefix.
 		// e.g. "scenarioo-develop" should not include indices of "scenarioo-develop-pr" so that
 		// they are not deleted during cleanup of indices.
-		return ContextPathHolder.INSTANCE.getContextPath() + "---";
+		String contextPath = ContextPathHolder.INSTANCE.getContextPath();
+		if(StringUtils.isBlank(contextPath)) {
+			//Elasticsearch indexes may not start with -, _ or +
+			contextPath = "rootContext";
+		}
+		return contextPath + "---";
     }
 }
