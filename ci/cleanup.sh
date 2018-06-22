@@ -19,12 +19,12 @@ if (( $? )); then
   exit 1
 fi
 AVAILABLE_BRANCHES=$(git branch -r | awk '{print $1}' | sed 's/origin\///g' | sed 's/\//\-/g' | sed 's/\#//g' )
-
+echo "Available Branches:"
+echo "$AVAILABLE_BRANCHES"
 echo "$AVAILABLE_BRANCHES" | grep -Fxq "develop" | {
     echo "ERROR on cleanup: develop branch not found in branches, stopping here and doing no cleanup";
     exit -1;
 }
-
 echo "$AVAILABLE_BRANCHES" | grep -Fxq "master" | {
     echo "ERROR on cleanup: master branch not found in branches, stopping here and doing no cleanup";
     exit -1;
