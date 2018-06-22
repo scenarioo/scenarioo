@@ -22,10 +22,7 @@ import org.scenarioo.model.configuration.BranchAlias;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,7 +40,7 @@ public class BranchAliasesResource {
 	}
 
 	@PostMapping
-	public void updateBranchAliases(final List<BranchAlias> branchAliases) {
+	public void updateBranchAliases(@RequestBody final List<BranchAlias> branchAliases) {
 		Configuration configuration = configurationRepository.getConfiguration();
 		configuration.setBranchAliases(branchAliases);
 		configurationRepository.updateConfiguration(configuration);
