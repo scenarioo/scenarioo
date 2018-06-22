@@ -30,7 +30,7 @@ public class SearchResource {
 	@GetMapping("/branch/{branchName}/build/{buildName}/search/{q}")
 	public SearchResponse search(@PathVariable("branchName") final String branchName,
 								 @PathVariable("buildName") final String buildName, @PathVariable("q") final String q,
-								 @RequestParam("includeHtml") boolean includeHtml) {
+								 @RequestParam(value = "includeHtml", required = false) boolean includeHtml) {
 
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
 				buildName);

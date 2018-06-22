@@ -69,7 +69,7 @@ public class StepResource {
 								   @PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
 								   @PathVariable("pageOccurrence") final int pageOccurrence,
 								   @PathVariable("stepInPageOccurrence") final int stepInPageOccurrence,
-								   @RequestParam("fallback") final boolean addFallbackInfo, @RequestParam("labels") final String labels) {
+								   @RequestParam(value = "fallback", required = false) final boolean addFallbackInfo, @RequestParam(value = "labels", required = false) final String labels) {
 
 		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, buildName);
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,

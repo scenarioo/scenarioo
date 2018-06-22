@@ -72,7 +72,7 @@ public class ScreenshotResource {
 											  @PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
 											  @PathVariable("pageOccurrence") final int pageOccurrence,
 											  @PathVariable("stepInPageOccurrence") final int stepInPageOccurrence,
-											  @RequestParam("fallback") final boolean fallback, @RequestParam("labels") final String labels) {
+											  @RequestParam(value="fallback", required = false) final boolean fallback, @RequestParam(value="labels", required = false) final String labels) {
 
 		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, buildName);
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
