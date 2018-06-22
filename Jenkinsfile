@@ -122,11 +122,8 @@ timestamps {
 
         stage('Run e2e tests') {
             ansiColor('xterm') {
-
                 try {
-                    lock("tomcat") { // no parallel e2e test executions against tomcat
-                        sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
-                    }
+                    sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
                 } finally {
                     junit 'scenarioo-client/test-reports/*.xml'
                     withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
