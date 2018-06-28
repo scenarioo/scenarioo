@@ -23,7 +23,10 @@ angular.module('scenarioo.controllers').controller('SearchController', function 
 
     vm.results = {resultSet: []};
     vm.errorMessage = '';
-    vm.searchTerm = $routeParams.searchTerm;
+
+    // to also support slashes in search terms in angular routes we have to encode twice and decode manually, see https://github.com/angular/angular.js/issues/10479
+    vm.searchTerm = decodeURIComponent($routeParams.searchTerm);
+
     vm.includeHtml = LocalStorageService.get(LOCAL_STORAGE_KEY_INCLUDE_HTML) || 'false';
     vm.treemodel = [];
     vm.showSearchFailed = false;
