@@ -36,8 +36,7 @@ var exportsConfig = {
         chromeOptions: {
             args : [
                 'disable-infobars',
-                'window-size=1280,800',
-                'headless'
+                'window-size=1280,800'
             ]
         },
     },
