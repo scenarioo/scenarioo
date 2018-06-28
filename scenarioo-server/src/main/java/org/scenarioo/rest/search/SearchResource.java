@@ -21,15 +21,16 @@ import org.elasticsearch.index.IndexNotFoundException;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.search.*;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/rest")
 public class SearchResource {
 
-	@GetMapping("/branch/{branchName}/build/{buildName}/search/{q}")
+	@GetMapping(path="/branch/{branchName}/build/{buildName}/search", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public SearchResponse search(@PathVariable("branchName") final String branchName,
-								 @PathVariable("buildName") final String buildName, @PathVariable("q") final String q,
+								 @PathVariable("buildName") final String buildName, @RequestParam("q") final String q,
 								 @RequestParam(value = "includeHtml", required = false) boolean includeHtml) {
 
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
