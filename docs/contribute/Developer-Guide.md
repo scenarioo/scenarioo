@@ -57,11 +57,11 @@ This process describes how you clean update all your sources and build everythin
     If you change files in the client the browser will refresh automatically
     
     Some remarks about this:
-    * `npm install`: Installs node.js modules (mainly needed tools) as configured in `package.json`. They are placed in the folder `node_modules`. It also calls the relatively installed bower binary to install frontend dependencies.
+    * `npm install`: Installs node.js modules (mainly needed tools) as configured in `package.json`. They are placed in the folder `node_modules`.
 
 7. Configure webapp correctly (if not yet) and browse it:
    * Go to the configuration page (under _Manage_ in the top right corner, then choose tab _General Settings_). You should see some preconfigured values, which means the client was able to reach the server.
-   * In the field "Documentation Data Directory Path" you see where Scenarioo stores the `config.xml` file and where it expects documentation data. You can change the folder to a different one, see [Setup of Scenarioo Viewer Web App](../setup/Scenarioo-Viewer-Web-Application-Setup.md). You can either add your own `config.xml` file to this folder or let Scenarioo write the file the first time you save some configuration changes in the `Manage` section of Scenarioo.
+   * In the field "Documentation Data Directory Path" you see where Scenarioo stores the `config.xml` file and where it expects documentation data. You can change the folder to a different one, see [Setup of Scenarioo Viewer Web App](../tutorial/Scenarioo-Viewer-Web-Application-Setup.md). You can either add your own `config.xml` file to this folder or let Scenarioo write the file the first time you save some configuration changes in the `Manage` section of Scenarioo.
    * In the _Builds_ tab on the _Manage_ page of Scenarioo you can click on the _Import & Update Builds_ link in the top right corner. You should see then that Scenarioo is either currently importing the build (state = PROCESSING) or already done with it (state = SUCCESS).
    * Reload the page, as soon as the state of the builds are SUCCESS the Branch _wikipedia-docu-example_ and it's builds should be selectable in the Scenarioo navigation bar. Select the build and navigate the example documentation. If you see a list of use cases, everything should be okay.
 

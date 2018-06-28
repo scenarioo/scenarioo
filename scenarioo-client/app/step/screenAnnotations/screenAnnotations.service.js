@@ -73,15 +73,15 @@ angular.module('scenarioo.services').factory('ScreenAnnotationsService', functio
 
         // Icons from http://fortawesome.github.io/Font-Awesome/3.2.1/icons/
         var styleToIconClassMap = {
-            CLICK: 'icon-hand-up',
-            KEYBOARD: 'icon-keyboard',
-            EXPECTED: 'icon-check',
-            NAVIGATE_TO_URL: 'icon-globe',
-            ERROR: 'icon-exclamation-sign',
-            WARN: 'icon-warning-sign',
-            INFO: 'icon-info-sign',
-            HIGHLIGHT: 'icon-quote-right',
-            DEFAULT: 'icon-comment-alt'
+            CLICK: 'fa-hand-point-up',
+            KEYBOARD: 'fa-keyboard',
+            EXPECTED: 'fa-check-square',
+            NAVIGATE_TO_URL: 'fa-globe',
+            ERROR: 'fa-exclamation-circle',
+            WARN: 'fa-exclamation-triangle',
+            INFO: 'fa-info-circle',
+            HIGHLIGHT: 'fa-quote-right',
+            DEFAULT: 'fa-comment'
         };
 
         if (angular.isUndefined(screenAnnotation.style)) {

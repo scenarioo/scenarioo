@@ -17,7 +17,6 @@ import java.util.List;
  * Logs every HTTP request and the method that is called by it.
  */
 @Provider
-@ApplyRequestLogging
 public class RequestLogggingFilter implements ContainerRequestFilter {
 
 	private static final Logger LOGGER = Logger.getLogger(RequestLogggingFilter.class);

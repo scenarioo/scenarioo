@@ -5,10 +5,30 @@ Refer to the main guide:
 Ubuntu specific additions.
 
 
+## Java Development Kit
+
+Install thee needed Java JDK (see dev env docu) and make sure it is the default Java version on your system.
+
+Here's the recommended way to do it: https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04
+
+Execute `java -version` to make sure the version is the right one.
+
+
+## Tomcat
+
+Just download and unzip. Don't use `apt-get` for this.
+
+
 ## Node.js
 
 Install node.js (check [Development Environment with IntelliJ](Development-Environment-Setup.md) to see which 
 version we currently use). [Installation instruction](https://github.com/nodesource/distributions).
+
+### Solve Problems with Global NPM Dependencies
+
+Scenarioo should not need any global dependencies anymore - if everything is run thorugh our package.json (see skripts area!)!
+
+Nevertheless, here is some old instruction how you can make global dependencies work in case of access right problems on Linux:
 
 To prevent problems with access rights of globally installed node modules (the ones where use use `npm install -g`) we suggest to create your own folder for storing global modules. One way to achieve this is to create a folder in your home directory and set it as the prefix for global npm installs. The idea is inspired by this [Stackoverflow post](http://stackoverflow.com/a/21712034/581553).
 
@@ -22,23 +42,3 @@ If you did this, the binaries that npm installs globally will be linked from `~/
 ```
 export PATH="$PATH:$HOME/.npm_global/bin"
 ```
-
-Now you are ready to install the few global node modules that we need for Scenarioo.
-
-```
-npm install -g bower phantomjs
-```
-
-
-## Java Development Kit for Java 8
-
-Install Java 8 JDK and make sure it is the default Java version on your system.
-
-Here's the recommended way to do it: https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04
-
-Execute `java -version` to make sure the version is 1.8.x.
-
-
-## Tomcat
-
-Just download and unzip. Don't use `apt-get` for this.

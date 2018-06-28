@@ -11,11 +11,11 @@ The latest stable Scenarioo web application WAR file can be downloaded from the 
 
 Scenarioo requires Java 6 or higher.
 
-Further Release Candidate Versions are available through [Downloads & Links](downloads-and-links.md), if you want to to test newer versions not yet officially released.
+Further Release Candidate Versions are available through [Downloads & Links](../downloads-and-links.md), if you want to to test newer versions not yet officially released.
 
 ## Installation and Setup
 
-1. **Install a Tomcat Webserver** or any other favourite Java webserver (Tomcat 7, 8 or 9 should all work with Scenarioo).
+1. **Install a Tomcat Webserver** or any other favourite Java webserver (Tomcat 7, 8 or 9 should all work with Scenarioo). You can download and unzip one from from http://tomcat.apache.org/ 
 
 2. **Deploy the WAR** file into it, e.g. simply copy the WAR file into the webapps folder on tomcat. 
     * If you use a release candidate WAR file that has the version in the name, then make sure to rename the war to simply `scenarioo.war` before deploying it, because the name defines the context under which you can access the app.
@@ -35,4 +35,4 @@ Further Release Candidate Versions are available through [Downloads & Links](dow
 
 5. **Startup Scenarioo Viewer Web App** through your browser using following URL: http://{your-ip-address-and-port-or-host-url}/scenarioo (e.g. http://localhost:8080/scenarioo )
 
-6. **Configure your Viewer and advanced features (optional)** as described in [Viewer Configuration](Configuration.md). 
+6. **Configure your Viewer and advanced features (optional)** as described in [Viewer Configuration](Configuration.md).

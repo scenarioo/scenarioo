@@ -39,20 +39,20 @@ Follow these simple steps to migrate:
         
 2. If your old installation had an Elasticsearch server configured - which is only the case if you find the config property "elasticSearchEndpoint" in `config.xml` - then you have to setup a newer Elasticsearch server of appropriate version:
     * Install and configure an Elasticsearch server with newer version 5.6.9
-    * See [Full Text Search Setup Guide](../features/full-text-search/setup.md) for further instructions. 
+    * See [Full Text Search Setup Guide](features/full-text-search/setup.md) for further instructions. 
     * If you want to generate search indexes on the new server for existing Scenarioo documentation builds, you can trigger a reimport for those builds in the Scenarioo Manage Builds tab later (once Scenarioo upgrade is done).
         
 3. Configure, update and restart Scenarioo:
     * Using Scenarioo Docker Image:
-      * simply stop the old Scenarioo and restart a new one as explained here: [Scenarioo Viewer Docker Image](Scenarioo-Viewer-Docker-Image.md)
+      * simply stop the old Scenarioo and restart a new one as explained here: [Scenarioo Viewer Docker Image](tutorial/Scenarioo-Viewer-Docker-Image.md)
       * take care to configure your Scenarioo data path on startup properly, as explained in above link, by using the slightly changed parameter to map your documentation data directory to `/scenarioo/data` inside the container (this path is different in new verson).
     * Using WAR Deployment, e.g. on Tomcat:
       * Configure the docu data directory in one of the following ways:
         * if the directory was `.scenarioo` in user's home, which is the default, you do not have to change anything.
         * you can configure the directory now by setting an environment variable `SCENARIOO_DATA`
         * or you can set it in `context.xml` of your webserver as a context variable called `scenariooDataDirectory`
-        * for more information on that see [Web Application Setup](Scenarioo-Viewer-Web-Application-Setup.md)
-      * Download and install newest WAR and restart your server as explained in [Web Application Setup](Scenarioo-Viewer-Web-Application-Setup.md)
+        * for more information on that see [Web Application Setup](tutorial/Scenarioo-Viewer-Web-Application-Setup.md)
+      * Download and install newest WAR and restart your server as explained in [Web Application Setup](tutorial/Scenarioo-Viewer-Web-Application-Setup.md)
          
 4. Optional but Recommended - only if you used Diff Viewer Comparisons before:
     * Delete all old Diff Viewer comparison data, which is stored in your docu data directory under `scenarioo-application-data\diffViewer`. 
