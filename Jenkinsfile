@@ -92,70 +92,70 @@ timestamps {
             archiveArtifacts ("scenarioo-server/build/libs/scenarioo-*.war, LICENSE.txt, README.md, "
                               + "scenarioo-docu-generation-example/build/scenarioDocuExample/")
         }
-
-        stage('Deploy') {
-            ansiColor('xterm') {
-
-                try {
-                    lock("tomcat") { // no parallel deployments to tomcat
-                        withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
-                            sh "./ci/deploy.sh --branch=${encodedBranchName}"
-                            def demoUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
-                            reportJenkinsSummary("deploy.jenkins-summary.xml",
-                                "<h2>Scenarioo Demo Deployed</h2>"
-                                + "Deployed to "
-                                + "<a target=\"_blank\" href=\"${demoUrl}\">"
-                                + "${demoUrl}</a>")
-                        }
-                    }
-                }
-                catch (e) {
-                    reportJenkinsSummary("deploy-failed.jenkins-summary.xml",
-                            "<h2>Scenarioo Demo Deployment Failed</h2>"
-                            + "<b><font color=\"#ff3333\">Deployment failed!</font></b>")
-                    // Fail the entire build if the deployment fails
-                    throw e;
-                }
-
-            }
-        }
-
-        stage('Run e2e tests') {
-            ansiColor('xterm') {
-                try {
-                    lock("chrome") { // only one chrome running e2e tests at once for stability
-                        sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
-                    }
-                } finally {
-                    junit 'scenarioo-client/test-reports/*.xml'
-                    withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
-                         // Only for the master branch the self docu is deployed to scenarioo-master
-                         // for all others: to scenarioo-develop
-                         def docuDeploymentScenariooInstance = encodedBranchName == "master" ? "master" : "develop"
-                         def scenariooUrl = "http://demo.scenarioo.org/scenarioo-${docuDeploymentScenariooInstance}"
-                         sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
-                         reportJenkinsSummaryScenariooReports(scenariooUrl, "scenarioo-${encodedBranchName}", "build-${env.BUILD_NUMBER}")
-                    }
-                }
-
-            }
-        }
-
-
-        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master" || env.BRANCH_NAME.startsWith("release")) {
-            def branchNameTokens = env.BRANCH_NAME.tokenize('/')
-            def docsVersionFolder = env.BRANCH_NAME.startsWith("release/") ? branchNameTokens[1] : env.BRANCH_NAME
-
-            stage("Publish Markdown Docs ${docsVersionFolder}") {
-                ansiColor('xterm') {
-                    withCredentials([usernameColonPassword(credentialsId: 'efe50290-8cf4-4d93-9835-3e5774a129ff', variable: 'GIT_USERPASS')]) {
-                        sh "./ci/publishGitbookMarkdownDocu.sh --docsDistributionFolder=${docsVersionFolder}"
-                        reportJenkinsSummaryGitbookMarkdownDocu(docsVersionFolder)
-                    }
-                }
-            }
-        }
-
-	}
+// DEACTIVATED BECAUSE Tomcat 8.5 IS NEEDED ON CI
+//        stage('Deploy') {
+//            ansiColor('xterm') {
+//
+//                try {
+//                    lock("tomcat") { // no parallel deployments to tomcat
+//                        withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
+//                            sh "./ci/deploy.sh --branch=${encodedBranchName}"
+//                            def demoUrl = "http://demo.scenarioo.org/scenarioo-${encodedBranchName}"
+//                            reportJenkinsSummary("deploy.jenkins-summary.xml",
+//                                "<h2>Scenarioo Demo Deployed</h2>"
+//                                + "Deployed to "
+//                                + "<a target=\"_blank\" href=\"${demoUrl}\">"
+//                                + "${demoUrl}</a>")
+//                        }
+//                    }
+//                }
+//                catch (e) {
+//                    reportJenkinsSummary("deploy-failed.jenkins-summary.xml",
+//                            "<h2>Scenarioo Demo Deployment Failed</h2>"
+//                            + "<b><font color=\"#ff3333\">Deployment failed!</font></b>")
+//                    // Fail the entire build if the deployment fails
+//                    throw e;
+//                }
+//
+//            }
+//        }
+//
+//        stage('Run e2e tests') {
+//            ansiColor('xterm') {
+//                try {
+//                    lock("chrome") { // only one chrome running e2e tests at once for stability
+//                        sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
+//                    }
+//                } finally {
+//                    junit 'scenarioo-client/test-reports/*.xml'
+//                    withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
+//                         // Only for the master branch the self docu is deployed to scenarioo-master
+//                         // for all others: to scenarioo-develop
+//                         def docuDeploymentScenariooInstance = encodedBranchName == "master" ? "master" : "develop"
+//                         def scenariooUrl = "http://demo.scenarioo.org/scenarioo-${docuDeploymentScenariooInstance}"
+//                         sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
+//                         reportJenkinsSummaryScenariooReports(scenariooUrl, "scenarioo-${encodedBranchName}", "build-${env.BUILD_NUMBER}")
+//                    }
+//                }
+//
+//            }
+//        }
+//
+//
+//        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master" || env.BRANCH_NAME.startsWith("release")) {
+//            def branchNameTokens = env.BRANCH_NAME.tokenize('/')
+//            def docsVersionFolder = env.BRANCH_NAME.startsWith("release/") ? branchNameTokens[1] : env.BRANCH_NAME
+//
+//            stage("Publish Markdown Docs ${docsVersionFolder}") {
+//                ansiColor('xterm') {
+//                    withCredentials([usernameColonPassword(credentialsId: 'efe50290-8cf4-4d93-9835-3e5774a129ff', variable: 'GIT_USERPASS')]) {
+//                        sh "./ci/publishGitbookMarkdownDocu.sh --docsDistributionFolder=${docsVersionFolder}"
+//                        reportJenkinsSummaryGitbookMarkdownDocu(docsVersionFolder)
+//                    }
+//                }
+//            }
+//        }
+//
+//	}
 
 }
