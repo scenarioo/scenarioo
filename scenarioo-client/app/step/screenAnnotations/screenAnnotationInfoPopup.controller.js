@@ -57,10 +57,10 @@ function ScreenAnnotationInfoPopupController($window, $filter, ScreenAnnotations
 
     function getClickActionIconStyle() {
         if (vm.annotation.clickAction === 'TO_NEXT_STEP') {
-            return 'icon-chevron-right';
+            return 'fa-chevron-right';
         }
         else {
-            return 'icon-external-link';
+            return 'fa-external-link-alt';
         }
     }
 

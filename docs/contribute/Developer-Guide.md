@@ -57,7 +57,7 @@ This process describes how you clean update all your sources and build everythin
     If you change files in the client the browser will refresh automatically
     
     Some remarks about this:
-    * `npm install`: Installs node.js modules (mainly needed tools) as configured in `package.json`. They are placed in the folder `node_modules`. It also calls the relatively installed bower binary to install frontend dependencies.
+    * `npm install`: Installs node.js modules (mainly needed tools) as configured in `package.json`. They are placed in the folder `node_modules`.
 
 7. Configure webapp correctly (if not yet) and browse it:
    * Go to the configuration page (under _Manage_ in the top right corner, then choose tab _General Settings_). You should see some preconfigured values, which means the client was able to reach the server.

@@ -15,10 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// produces an executable jar for the scenarioo-validator.
-// Run this with ./gradlew installApp
-// will produce build/install/scenarioo-validator/
-// see https://docs.gradle.org/current/userguide/application_plugin.html
+/**
+ * Produces an executable jar for the scenarioo-validator.
+ * Run using ./gradlew clean installDist
+ * will produce build/install/scenarioo-validator/...
+ * see https://docs.gradle.org/current/userguide/application_plugin.html
+ */
+
 apply plugin: 'application'
 apply from: "${rootProject.projectDir}/build-java.gradle"
 apply plugin: 'org.springframework.boot'

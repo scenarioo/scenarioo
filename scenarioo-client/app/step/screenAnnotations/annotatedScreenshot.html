@@ -6,9 +6,11 @@
                 {{getBoxText(screenAnnotation)}}
             </span>
         </span>
-        <i ng-repeat="screenAnnotation in screenAnnotations"
-           ng-class="[getIconClass(screenAnnotation), 'icon-large', 'sc-screenshot-annotation-icon']" ng-style="getIconCssStyle(screenAnnotation)"
-                ng-show="getIconClass(screenAnnotation) !== ''" ng-click="openInfoPopup(screenAnnotation)"></i>
+        <span ng-repeat="screenAnnotation in screenAnnotations"
+              class="sc-screenshot-annotation-icon" ng-style="getIconCssStyle(screenAnnotation)"
+              ng-show="getIconClass(screenAnnotation) !== ''" ng-click="openInfoPopup(screenAnnotation)">
+            <i class="fas fa-lg" ng-class="[getIconClass(screenAnnotation)]"></i>
+        </span>
     </div>
     <div>
         <img ng-src="{{screenShotUrl}}" class="sc-screenshot sc-real-screenshot sc-screenshot-border" ng-style="{position: showDiff ? 'absolute':'static'}"/>

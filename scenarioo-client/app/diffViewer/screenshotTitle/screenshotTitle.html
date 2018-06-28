@@ -5,9 +5,7 @@
     <span ng-if="!alias">{{build.name}}</span>
 
     <!-- Date and Revision as icon tooltip -->
-    <i class="icon-info-sign"
-       uib-tooltip="{{build.date | scDateTime}} {{build.revision}}"
-       tooltip-placement="bottom">
-    </i>
-
+    <span uib-tooltip="{{build.date | scDateTime}} {{build.revision}}" tooltip-placement="bottom">
+        <i class="fas fa-info-circle"/>
+    </span>
 </h3>
