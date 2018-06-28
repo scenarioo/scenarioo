@@ -74,7 +74,7 @@ echo "<Context><Parameter name=\"scenariooDataDirectory\" value=\"$BRANCH_DATA_D
 # Deploy the application manually, because autoDeploy is set to "false"
 echo "Deploying the Scenarioo Web App to Tomcat"
 cp -f $WORKSPACE_DIR/scenarioo-server/build/libs/scenarioo-latest.war $TOMCAT_WEBAPPS/scenarioo-$BRANCH.war
-curl -f -u $TOMCAT_USERPASS http://localhost:8080/manager/text/deploy\?path\=/scenarioo-$BRANCH
+curl -f -u $TOMCAT_USERPASS http://localhost:8080/manager/text/deploy\?path\=/scenarioo-$BRANCH\&war=file:$TOMCAT_WEBAPPS/scenarioo-$BRANCH.war
 
 # Wait until tomcat deployment is done
 echo "Waiting for Scenarioo Viewer deployed on Tomcat ..."
