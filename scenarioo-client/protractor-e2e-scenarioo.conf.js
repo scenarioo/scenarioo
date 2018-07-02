@@ -39,6 +39,7 @@ var exportsConfig = {
             args: [
                 'disable-infobars',
                 'window-size=1280,800',
+                'headless'
             ]
         },
     },
