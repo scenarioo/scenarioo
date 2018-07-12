@@ -10,6 +10,7 @@ import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Collections;
@@ -36,5 +37,11 @@ public class ScenariooViewerApplication extends SpringBootServletInitializer imp
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new RequestLoggingFilter());
+	}
+
+	@Override
+	public void configurePathMatch(PathMatchConfigurer configurer) {
+		// turn off all suffix pattern matching
+		configurer.setUseSuffixPatternMatch(false);
 	}
 }
