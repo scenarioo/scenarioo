@@ -1,11 +1,14 @@
 # Ignore .idea files except basic run configurations
-/.idea/workspace.xml
-/.idea/modules.xml
-/.idea/vcs.xml
-/.idea/libraries
-/.idea/modules
-/.idea/artifacts/Gradle*
-/.idea/shelf
+.idea/workspace.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/libraries
+.idea/modules
+.idea/artifacts/Gradle*
+.idea/shelf
+.idea/markdown-exported-files.xml
+.idea/markdown-navigator.xml
+.idea/markdown-navigator/profile_settings.xml
 
 classes/
 bin/
@@ -34,5 +37,4 @@ npm-debug.log
 scenarioo-latest.war
 out
 docker/logs
-
 
