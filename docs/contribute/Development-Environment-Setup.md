@@ -25,16 +25,15 @@ If during setup you find some information that is outdated in the documentation 
 
  * Git
  * Java JDK 1.8
- * Tomcat 7 (recommended), 8 or 9
+ * Tomcat 7, 8 or 9
  * node 8.11.2 (comes with npm 5.6.0)
  * Elasticsearch 5.6.9 (see [Elasticsearch 5 Setup Instructions for CI](../contribute/ci-server-setup/Elasticsearch-5.md) for how to setup the same as on CI, or [Full Text Search Setup Guide](../features/full-text-search/setup.md) for details).
  * IntelliJ IDEA Ultimate (latest version, ask bruderol if you want to use an open source license)
 
-   
+
 ## Setup and Use of Git
 
- * If you have not worked with git before, one way to get familiar with it is the very good (and free) book at 
-   http://git-scm.com/book
+ * If you have not worked with git before, one way to get familiar with it is the very good (and free) book at http://git-scm.com/book
 
  * Keep in mind to **always commit with Unix style line endings**, also if you are working on Windows (make sure to configure GIT accordingly, if not yet!). 
  
@@ -91,31 +90,40 @@ You need to clone at least the following repositories:
 
 There are more interesting repositories with more examples and other writer libraries available under https://github.com/scenarioo
 
-But this two repositories should be sufficient for most usual developers.
+But these two repositories should be sufficient for most developers.
 
 
 ## Setup Projects in IntelliJ
 
- * Install IntelliJ Plugins (this list is not yet consolidated):
-     * Gradle (probably already included, but not sure)
-     * NodeJs (if not already included ?? not sure about that)
-     * .gitignore plugin
-     * Karma plugin (IntelliJ recommends this!)
-     * Markdown Plugins:
-         * Make sure to only use "Markdown support" by Jetbrains (it is now the best and should be part of IntelliJ)
-         * disbale any other "Markdown"-Plugins (if you have, otherwise you might not be able to see and use the nice preview that comes with "Markdown support")
-         * Make sure to use the new nice "JavaFX"-preview for markdown under Settings/Markdown/Preview (you will like that!)
-         * after changing those plugins settings you might have to restart IntelliJ to let the changes take effect.
-         * if you open a markdown file you should see a blue MD icon in the file's editor tab, and be able to choose a side-by-side View wirh Preview that looks nicely (in editor's toolbar).
-                 
- * Import Scenarioo web app by using "New project from existing sources":
-     * choose 'scenarioo' folder
-     * Import "From external model: Gradle" and use the gradle wrapper (default settings)
- * By using **"File/New module"** you can add additional repositories to be part of the same project setup in one IntelliJ window:
-     * Import 'scenarioo-java' by using "New module from existing sources":
-     * choose 'scenarioo-java' folder
-     * Import "from external model: Gradle" and use the gradle wrapper (default settings)
-     
+### IntelliJ Plugins
+
+IntelliJ Ultimate comes with plugins for *Gradle* and *NodeJs*, so you don't have to add them.
+
+We recommend installing the following plugins too:
+
+* *.ignore*: makes working with .gitignore easier, e.g. by coloring ignored files and folders.
+* *Markdown support* or *Markdown Navigator*, depending on which one you like more.
+* *Karma*: if you want to create a run config for karma tests.
+
+### Open Scenarioo Viewer and Java Writer Library
+
+Make sure the `scenarioo` repository and the `scenarioo-java` repository are both checked out next to each other in the same parent folder.
+
+In IntellJ open the folder that contains the `scenarioo` repository using the "Open" option in the "Welcome to IntelliJ IDEA" dialogue or using "File" -> "Open..." if you have already opened a different project. Don't use the "import" function.
+
+### Open Scenarioo Java Writer Library in Same Window
+
+Skip this step if you just opened the `scenarioo` repository as described in the previous section.
+
+If you want to work on the `scenarioo-java` library in the same IntelliJ window, you can do this by adding another module:
+
+* "File" -> "New" -> "Module from Existing Sources..." 
+* Choose 'scenarioo-java' folder
+* Select "Import Module from external model" and choose "Gradle"
+* USe default settings (gradle wrapper)
+
+### Running Scenarioo in IntelliJ
+
  * From "Gradle"-tab in intelliJ simply run the following gradle tasks, to build everything cleanly:
     * scenarioo-java: `clean build test install` (this is needed as soon as your development branch uses latest snaphot of the writer!)
     * scenarioo: clean build test
