@@ -97,12 +97,10 @@ But these two repositories should be sufficient for most developers.
 
 ### IntelliJ Plugins
 
-IntelliJ Ultimate comes with plugins for *Gradle* and *NodeJs*, so you don't have to add them.
-
-We recommend installing the following plugins too:
+We recommend installing the following plugins:
 
 * *.ignore*: makes working with .gitignore easier, e.g. by coloring ignored files and folders.
-* *Markdown support* or *Markdown Navigator*, depending on which one you like more.
+* *Markdown support*: for markdown preview (there's a bug in IntelliJ 2018.1 regarding rendering quality of the preview, consider using the workaround documented here: https://youtrack.jetbrains.com/issue/IDEA-193493)
 * *Karma*: if you want to create a run config for karma tests.
 
 ### Open Scenarioo Viewer and Java Writer Library
@@ -120,9 +118,33 @@ If you want to work on the `scenarioo-java` library in the same IntelliJ window,
 * "File" -> "New" -> "Module from Existing Sources..." 
 * Choose 'scenarioo-java' folder
 * Select "Import Module from external model" and choose "Gradle"
-* USe default settings (gradle wrapper)
+* Use default settings (gradle wrapper)
 
-### Running Scenarioo in IntelliJ
+
+### Create Test Data
+
+Create test data using the run configuration `Scenarioo - Generate Testdata`.
+
+
+### Set Up Tomcat in IntelliJ
+
+* Enable the "Application Servers View" (search it in the Ctrl+Shift+A dialog).
+* Make sure the "Tomcat and TomEE Integration" plugin is active.
+* In the Settings go to "Build, Execution, Deployment" > "Application Servers" and add a Tomcat server that is installed on your machine.
+* Add a run configuration of type "Tomcat Server" / "Local"
+  * In the section "before launch" add a "Run Another Configuration" task and select the task "Scenarioo - Server [war]".
+  * In the tab "Deployment" click the "+" and add an artifact from an "External Source". Select the file "scenarioo-server/build/libs/scenarioo-latest.war".
+  * Set "Application context" to "/scenarioo".
+* Now start this run configuration. You should see a log message saying "Scenarioo Viewer started succesfully.".
+
+
+### Run Frontend for Development
+
+* Start the run config "Scenarioo - Client Start".
+* Navigate to `http://localhost:8500/scenarioo/` in the browser. You should see the Scenarioo viewer.
+
+
+TODO: integrate the following into the new chapters above.
 
  * From "Gradle"-tab in intelliJ simply run the following gradle tasks, to build everything cleanly:
     * scenarioo-java: `clean build test install` (this is needed as soon as your development branch uses latest snaphot of the writer!)

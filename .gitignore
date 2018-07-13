@@ -6,9 +6,6 @@
 .idea/modules
 .idea/artifacts/Gradle*
 .idea/shelf
-.idea/markdown-exported-files.xml
-.idea/markdown-navigator.xml
-.idea/markdown-navigator/profile_settings.xml
 
 classes/
 bin/
