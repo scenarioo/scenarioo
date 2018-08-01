@@ -189,7 +189,7 @@ describe('StepController', function () {
 
             var url = $scope.getScreenshotUrlForSharing();
 
-            expect(url).toBe('rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1/image.png?labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
+            expect(url).toBe('http://server/rest/branch/trunk/build/current/usecase/uc/scenario/sc/pageName/pn/pageOccurrence/0/stepInPageOccurrence/1/image.png?labels=normal-case,no%20results,step-label-0,public,page-label1,page-label2');
         });
 
         function loadPageContent() {
