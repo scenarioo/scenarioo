@@ -34,7 +34,7 @@ import org.scenarioo.rest.base.ScenarioIdentifier;
 import org.scenarioo.rest.scenario.dto.ScenarioDetails;
 import org.scenarioo.rest.scenario.mapper.ScenarioDetailsMapper;
 
-@Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/")
+@Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario")
 public class ScenariosResource {
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
@@ -58,7 +58,7 @@ public class ScenariosResource {
 
 	@GET
 	@Produces({ "application/xml", "application/json" })
-	@Path("{scenarioName}")
+	@Path("/{scenarioName}")
 	public ScenarioDetails readScenarioWithPagesAndSteps(@PathParam("branchName") final String branchName,
 			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
 			@PathParam("scenarioName") final String scenarioName) {
