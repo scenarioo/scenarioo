@@ -298,6 +298,13 @@ class StepPage {
         return expect($('.sc-step-comparison-current-screenshot img.sc-real-screenshot').getAttribute('src')).toContain(expected);
     }
 
+    async assertPageLink(pageLink: string) {
+        return expect($('#stepLinkField').getAttribute('value')).toBe(pageLink);
+    }
+
+    async assertScreenshotLink(screenshotLink: string) {
+        return expect($('#screenshotLinkField').getAttribute('value')).toBe(screenshotLink);
+    }
 }
 
 export default new StepPage();
