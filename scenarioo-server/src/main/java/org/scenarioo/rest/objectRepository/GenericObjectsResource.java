@@ -23,10 +23,8 @@ import org.scenarioo.model.docu.aggregates.objects.ObjectIndex;
 import org.scenarioo.model.docu.entities.generic.ObjectDescription;
 import org.scenarioo.rest.base.AbstractBuildContentResource;
 import org.scenarioo.rest.base.BuildIdentifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -48,13 +46,13 @@ public class GenericObjectsResource extends AbstractBuildContentResource {
 		return getDAO(buildIdentifier).loadObjectsList(buildIdentifier, type).getItems();
 	}
 
-	@GetMapping("{type}/{name}")
+	@GetMapping(path = "{type}/name", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ObjectIndex readObjectIndex(@PathVariable("branchName") final String branchName,
-			@PathVariable("buildName") final String buildName, @PathVariable("type") final String objectType,
-			@PathVariable("name") final String objectName) {
+									   @PathVariable("buildName") final String buildName, @PathVariable("type") final String objectType,
+			@RequestParam("name") final String objectName) {
 
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
-				buildName);
+			buildName);
 
 		AggregatedDocuDataReader aggregatedDataReader = getDAO(buildIdentifier);
 		return aggregatedDataReader.loadObjectIndex(buildIdentifier, objectType, objectName);

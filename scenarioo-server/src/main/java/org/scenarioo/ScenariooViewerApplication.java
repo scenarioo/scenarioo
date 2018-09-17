@@ -9,12 +9,12 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.Collections;
 
+@Configuration
 @SpringBootApplication
 public class ScenariooViewerApplication extends SpringBootServletInitializer implements WebMvcConfigurer {
 
@@ -43,5 +43,10 @@ public class ScenariooViewerApplication extends SpringBootServletInitializer imp
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		// turn off all suffix pattern matching
 		configurer.setUseSuffixPatternMatch(false);
+	}
+
+	@Override
+	public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+		configurer.favorPathExtension(false);
 	}
 }
