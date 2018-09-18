@@ -76,6 +76,12 @@ allprojects {
 			dependency 'commons-codec:commons-codec:1.10'
 			dependency 'commons-cli:commons-cli:1.3.1'
 
+			//These libraries are no longer provided in Java 9+, thus we need to add them manually
+			dependency 'javax.xml.bind:jaxb-api:2.2.11'
+			dependency 'com.sun.xml.bind:jaxb-core:2.2.11'
+			dependency 'com.sun.xml.bind:jaxb-impl:2.2.11'
+			dependency 'javax.activation:activation:1.1.1'
+
 			dependency 'log4j:log4j:1.2.17'
 			//Spring Boot 2.0.2 uses log4j 2.10.0 which has a known bug which is fixed in 2.11.0
 			dependency 'org.apache.logging.log4j:log4j-api:2.11.0'

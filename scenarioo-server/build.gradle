@@ -36,6 +36,12 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
+    //These libraries are no longer provided in Java 9+, thus we need to add them manually
+    compile 'javax.xml.bind:jaxb-api'
+    compile 'com.sun.xml.bind:jaxb-core'
+    compile 'com.sun.xml.bind:jaxb-impl'
+    compile 'javax.activation:activation'
+
     testCompile 'org.mockito:mockito-all'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
