@@ -20,6 +20,12 @@ Further Release Candidate Versions are available through [Downloads & Links](../
      server.servlet.contextPath=/scenarioo
      ```
      If this file is missing, the app can be reached under the default context `scenarioo`.
+     
+     The Tomcat access log can also be enabled using `application.properties`. Just add the following entries:
+     ```
+     server.tomcat.accesslog.enabled=true
+     server.tomcat.accesslog.directory=<absolute path to log-directory>
+     ```
 
 2. **Execute the WAR** file with Java, e.g 
      ```
@@ -30,7 +36,7 @@ Further Release Candidate Versions are available through [Downloads & Links](../
 ### Installing Scenarioo into a Webserver
 Alternatively you can install your favorite Webserver and deploy the WAR into it.
 
-1. **Install a Tomcat Webserver** or any other favourite Java webserver (Tomcat 8.5.30+ or 9 should all work with Scenarioo). You can download and unzip one from from http://tomcat.apache.org/ 
+1. **Install a Tomcat Webserver** or any other favourite Java webserver (Tomcat 8.5.31+ or 9 should all work with Scenarioo). You can download and unzip one from from http://tomcat.apache.org/ 
 
 2. **Deploy the WAR** file into it, e.g. simply copy the WAR file into the webapps folder on tomcat. 
     * If you use a release candidate WAR file that has the version in the name, then make sure to rename the war to simply `scenarioo.war` before deploying it, because the name defines the context under which you can access the app.
