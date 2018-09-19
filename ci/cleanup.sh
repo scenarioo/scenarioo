@@ -55,7 +55,7 @@ for BRANCH_DIR in $(find $SCENARIOO_DATA_ROOT/* -maxdepth 0 -type d) ; do
         rm -rf $SCENARIOO_DATA_ROOT/develop/scenarioo-$BRANCH_NAME
         echo "   undeploy branch's scenarioo web app instance"
         curl -u $TOMCAT_USERPASS http://localhost:8080/manager/text/undeploy\?path\=/scenarioo-$BRANCH_NAME
-        rm -f /var/lib/tomcat7/webapps/scenarioo-$BRANCH_NAME.war
-        rm -rf /var/lib/tomcat7/webapps/scenarioo-$BRANCH_NAME
+        rm -f /var/lib/tomcat8/webapps/scenarioo-$BRANCH_NAME.war
+        rm -rf /var/lib/tomcat8/webapps/scenarioo-$BRANCH_NAME
     fi
 done
