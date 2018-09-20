@@ -31,7 +31,7 @@ This process describes how you clean update all your sources and build everythin
     ```
     cd ~/scenarioo
     git pull
-    ./gradlew clean build test war
+    ./gradlew clean build test bootWar
     ```
 
 3. Refresh and build in your IDE
@@ -80,10 +80,10 @@ Now have fun improving and extending Scenarioo, we are awaiting for your first p
 
 ## Build WAR File for Server Deployement
 
-The following command creates a war file which contains the server and the client code.
+The following command creates an executable war file which contains a tomcat server as well as the server and the client code.
 
 ```
-./gradlew war
+./gradlew bootWar
 ```
 
 ## Client package update strategy (package.json)
