@@ -29,11 +29,19 @@ jobs:
                 SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample java -jar scenarioo-server/build/libs/scenarioo-latest.war > scenarioo-server.log &
                 export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
                 export BRANCH="$CIRCLE_BRANCH"
+                sleep 1m || true
+                curl -I $PROTRACTOR_BASE_URL || true
+                curl $PROTRACTOR_BASE_URL || true
+                curl -o page.html $PROTRACTOR_BASE_URL || true
                 ./gradlew scenarioo-client:runE2eCircleCi
                 pkill java
               when: always
           - store_artifacts:
               path: scenarioo-server.log
+          - store_artifacts:
+              path: scenarioo-client/scenariooDocumentation
+          - store_artifacts:
+              path: page.html
           - run:
               name: Collect test results
               command: |
