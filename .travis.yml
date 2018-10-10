@@ -1,3 +1,5 @@
+branches:
+  only: feature/755-investigate-cloud-ci
 language: java
 install: true
 jdk:
