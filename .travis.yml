@@ -1,5 +1,5 @@
 branches:
-  only: feature/755-investigate-cloud-ci
+  only: /^feature.*$/
 language: java
 install: true
 jdk:
