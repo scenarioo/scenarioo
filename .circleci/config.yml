@@ -12,7 +12,7 @@ jobs:
               command: ./gradlew clean build -x test
           - run:
               name: Unit tests
-              command: ./gradlew test -x scenarioo-client:npm_test
+              command: ./gradlew test -x scenarioo-client:npm_test --continue
           - run:
               name: JS tests
               command: ./gradlew scenarioo-client:npm_test
