@@ -26,17 +26,15 @@ jobs:
           - run:
               name: E2E tests
               command: |
-                SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample java -Xms512m -Xmx512m -jar scenarioo-server/build/libs/scenarioo-latest.war > scenarioo-server.log &
+                export SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample
+                java -Xms1024m -Xmx1024m -jar scenarioo-server/build/libs/scenarioo-latest.war > scenarioo-server.log &
                 echo "After start"
                 export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
                 export BRANCH="$CIRCLE_BRANCH"
-                echo "Before sleep"
-                sleep 1m || true
-                echo "After sleep"
                 curl -I $PROTRACTOR_BASE_URL || true
                 curl $PROTRACTOR_BASE_URL || true
+                ./gradlew scenarioo-client:runE2eCircleCi
                 curl -o page.html $PROTRACTOR_BASE_URL || true
-                pkill java
               when: always
           - store_artifacts:
               path: scenarioo-server.log
