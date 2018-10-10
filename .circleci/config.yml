@@ -20,6 +20,7 @@ jobs:
                 cp -pR scenarioo-server/build/test-results/test test-results/server
                 cp -pR scenarioo-client/TESTS* test-results/javascript
                 cp -pR scenarioo-docu-generation-example/build/test-results/test test-results/docu
+              when: always
           - store_test_results:
               path: test-results
 #          - store_artifacts:
