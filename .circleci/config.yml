@@ -33,7 +33,6 @@ jobs:
                 curl -I $PROTRACTOR_BASE_URL || true
                 curl $PROTRACTOR_BASE_URL || true
                 curl -o page.html $PROTRACTOR_BASE_URL || true
-                ./gradlew scenarioo-client:runE2eCircleCi
                 pkill java
               when: always
           - store_artifacts:
