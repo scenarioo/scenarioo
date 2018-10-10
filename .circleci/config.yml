@@ -4,6 +4,14 @@ jobs:
     docker:
       # See https://circleci.com/docs/2.0/circleci-images/ ...
       - image: circleci/openjdk:8-jdk-browsers
+      - image: docker.elastic.co/elasticsearch/elasticsearch:5.6.9
+          environment:
+            - cluster.name=elasticsearch
+            - xpack.ml.enabled=false
+            - xpack.security.enabled=false
+          ports:
+            - "9200:9200"
+            - "9300:9300"
     working_directory: ~/repo
     steps:
           - checkout
@@ -18,10 +26,22 @@ jobs:
               command: ./gradlew scenarioo-client:npm_test
               when: always
           - run:
+              name: E2E tests
+              command: |
+                SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample java -jar scenarioo-server/build/libs/scenarioo-latest.war > scenarioo-server.log &
+                webdriver-manager update
+                export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
+                export BRANCH="$CIRCLE_BRANCH"
+                cd scenarioo-client && npm run e2e-circleci
+                pkill java
+          - store_artifacts:
+              path: scenarioo-server.log
+          - run:
               name: Collect test results
               command: |
                 mkdir -p test-results/javascript
                 cp -pR scenarioo-client/TESTS* test-results/javascript || true
+                cp -pR scenarioo-client/test-reports test-results/e2e || true
                 cp -pR scenarioo-server/build/test-results/test test-results/server || true
                 cp -pR scenarioo-docu-generation-example/build/test-results/test test-results/docu || true
               when: always
@@ -29,5 +49,6 @@ jobs:
               path: test-results
           - store_artifacts:
               path: test-results
+# Enable once we are ready to deploy it automatically on our server
 #          - store_artifacts:
 #              path: scenarioo-server/build/libs/scenarioo-latest.war
