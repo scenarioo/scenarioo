@@ -73,12 +73,28 @@ task createVersionPropertiesFile << {
 	def apiVersion = project.scenariooApiVersion
     def documentationVersion = project.documentationVersion
 
-	File versionFile = new File(sourceSets.main.output.classesDir.getAbsolutePath() + '/version.properties');
+	File versionFile = new File(sourceSets.main.output.classesDir.getAbsolutePath() + '/version.properties')
 	versionFile.write('version=' + versionWithGitCommit + '\n' +
             'build-date=' + new Date() + '\n' +
             'apiVersion=' + apiVersion + '\n' +
             'aggregatedDataFormatVersion=' + aggregatedDataFormatVersion + '\n' +
             'documentationVersion=' + documentationVersion + '\n')
+}
+
+bootJar {
+    from('../scenarioo-client/dist') {
+        into('static')
+    }
+    archiveName 'scenarioo-viewer-' + version + '.jar'
+}
+
+bootJar.doLast {
+    copy {
+        from ('build/libs/')
+        into ('build/libs/')
+        include('scenarioo-viewer-' + version + '.jar')
+        rename('scenarioo-viewer-' + version + '.jar', 'scenarioo-latest.jar')
+    }
 }
 
 bootWar {
