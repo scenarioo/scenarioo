@@ -21,13 +21,9 @@ jobs:
               name: Collect test results
               command: |
                 mkdir -p test-results/javascript
-                ls -l scenarioo-server/build/test-results/test || true
-                cp -pR scenarioo-server/build/test-results/test test-results/server || true
-                ls -l scenarioo-client/ || true
                 cp -pR scenarioo-client/TESTS* test-results/javascript || true
-                ls -l scenarioo-docu-generation-example/build/test-results/test || true
+                cp -pR scenarioo-server/build/test-results/test test-results/server || true
                 cp -pR scenarioo-docu-generation-example/build/test-results/test test-results/docu || true
-                ls -l test-results/* || true
               when: always
           - store_test_results:
               path: test-results

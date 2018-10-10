@@ -35,20 +35,22 @@ import org.scenarioo.uitest.example.infrastructure.DocuDescription;
 import org.scenarioo.uitest.example.infrastructure.DonateStepDataGenerator;
 import org.scenarioo.uitest.example.infrastructure.UITest;
 
+import static org.junit.Assert.assertTrue;
+
 /**
- * This use case is especially made for testing "visual regression testing". Therefore the three different builds of 
+ * This use case is especially made for testing "visual regression testing". Therefore the three different builds of
  * this use case have all kinds of variations in their screenshots and in the scenario step sequence.
  */
 @DocuDescription(name = "Donate", description = "Donate money to Wikipedia.")
 public class DonateTest extends UITest {
-	
+
 	private DonateStepDataGenerator generator = new DonateStepDataGenerator(this);
-	
+
 	@After
 	public void after() {
 		generator.flush();
 	}
-	
+
 	@Test
 	@DocuDescription(description = "User tries to find out how to donate to Wikipedia.")
 	public void find_donate_page() {
@@ -61,6 +63,7 @@ public class DonateTest extends UITest {
 		generator.clickDonateLinkToSeeDonatePage();
 		generator.clickPrivacyPolicyToSeePrivacyPolicy();
 		generator.clickSwissGermanLink();
+		assertTrue("Test CI reporting", false);
 	}
-	
+
 }
