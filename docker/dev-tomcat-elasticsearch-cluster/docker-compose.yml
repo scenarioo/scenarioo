@@ -6,6 +6,7 @@ services:
       - "8080:8080"
       - "1043:1043"
     environment:
+      - SCENARIOO_ELASTIC_SEARCH_ENDPOINT=elasticsearch:9300
       - SCENARIOO_DATA=/scenarioo/data
       - JPDA_ADDRESS=1043
       - JPDA_TRANSPORT=dt_socket

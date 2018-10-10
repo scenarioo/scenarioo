@@ -10,11 +10,12 @@
       </option>
       <option name="taskNames">
         <list>
+          <option value="clean" />
           <option value="test" />
         </list>
       </option>
       <option name="vmOptions" value="" />
     </ExternalSystemSettings>
-    <method />
+    <method v="2" />
   </configuration>
 </component>
