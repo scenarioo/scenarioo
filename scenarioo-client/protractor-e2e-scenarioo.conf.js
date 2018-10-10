@@ -30,8 +30,8 @@ var exportsConfig = {
     directConnect: true,
 
     // Timeouts: https://angular.github.io/protractor/#/timeouts
-    allScriptsTimeout: 500,
-    getPageTimeout: 500,
+    allScriptsTimeout: 10000,
+    getPageTimeout: 10000,
 
     capabilities: {
         browserName: 'chrome',
