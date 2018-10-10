@@ -16,6 +16,7 @@
 var PROTRACTOR_BASE_URL = process.env.PROTRACTOR_BASE_URL || 'http://localhost:8500/scenarioo';
 var BRANCH = process.env.BRANCH || 'HEAD';
 var BUILD_NAME = 'build-' + (process.env.BUILD_NUMBER || 'latest');
+var SCENARIOO_TARGET_DIRECTORY = process.env.SCENARIOO_TARGET_DIRECTORY || './scenariooDocumentation';
 
 console.log('PROTRACTOR_BASE_URL: ' + PROTRACTOR_BASE_URL);
 console.log('BRANCH: ' + BRANCH);
@@ -60,8 +61,7 @@ var exportsConfig = {
         var git = require('git-rev-sync');
         var scenarioo = require('scenarioo-js');
         scenarioo.setupJasmineReporter(jasmine, {
-
-            targetDirectory: './scenariooDocumentation',
+            targetDirectory: SCENARIOO_TARGET_DIRECTORY,
             branchName: 'scenarioo-' + BRANCH,
             branchDescription: 'Scenarioo documenting itself.',
             buildName: BUILD_NAME,
@@ -72,7 +72,6 @@ var exportsConfig = {
                 failed: true,
                 success: true
             }
-
         });
 
         prepareProtractor();
