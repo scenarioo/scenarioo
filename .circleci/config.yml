@@ -27,11 +27,12 @@ jobs:
               name: E2E tests
               command: |
                 export SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample
-                java -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -jar scenarioo-server/build/libs/scenarioo-latest.war > scenarioo-server.log || echo "Process died $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> scenarioo-server.log &
+                java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war > scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> scenarioo-server.log &
                 export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
                 export BRANCH="$CIRCLE_BRANCH"
                 sleep 30  # Give server some time because of comparisons
-                ./gradlew scenarioo-client:runE2eCircleCi
+                export GRADLE_OPTS=-Xms800m -Xmx800m
+                ./gradlew scenarioo-client:runE2eCircleCi || echo "E2E gradle died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> scenarioo-server.log
           - store_artifacts:
               path: scenarioo-server.log
           - store_artifacts:
