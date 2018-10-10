@@ -27,21 +27,14 @@ jobs:
               name: E2E tests
               command: |
                 export SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample
-                java -Xms1024m -Xmx1024m -jar scenarioo-server/build/libs/scenarioo-latest.war > scenarioo-server.log &
-                echo "After start"
+                java -Xms1500m -Xmx1500m -jar scenarioo-server/build/libs/scenarioo-latest.war > scenarioo-server.log &
                 export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
                 export BRANCH="$CIRCLE_BRANCH"
-                curl -I $PROTRACTOR_BASE_URL || true
-                curl $PROTRACTOR_BASE_URL || true
                 ./gradlew scenarioo-client:runE2eCircleCi
-                curl -o page.html $PROTRACTOR_BASE_URL || true
-              when: always
           - store_artifacts:
               path: scenarioo-server.log
           - store_artifacts:
               path: scenarioo-client/scenariooDocumentation
-          - store_artifacts:
-              path: page.html
           - run:
               name: Collect test results
               command: |
