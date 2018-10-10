@@ -41,6 +41,7 @@ jobs:
                 cp -pR scenarioo-client/TESTS* test-results/javascript || true
                 cp -pR scenarioo-client/test-reports test-results/e2e || true
                 cp -pR scenarioo-server/build/test-results/test test-results/server || true
+                cp -pR scenarioo-validator/build/test-results/test test-results/validator || true
                 cp -pR scenarioo-docu-generation-example/build/test-results/test test-results/docu || true
               when: always
           - store_test_results:
