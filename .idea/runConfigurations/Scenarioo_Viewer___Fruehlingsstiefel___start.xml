@@ -4,7 +4,7 @@
     <option name="SPRING_BOOT_MAIN_CLASS" value="org.scenarioo.ScenariooViewerApplication" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <envs>
-      <env name="SCENARIOO_DATA" value="$PROJECT_DIR$\scenarioo-docu-generation-example\build\scenarioDocuExample" />
+      <env name="SCENARIOO_DATA" value="$PROJECT_DIR$/scenarioo-docu-generation-example/build/scenarioDocuExample" />
     </envs>
     <method v="2">
       <option name="Gradle.BeforeRunTask" enabled="true" tasks="build bootWar" externalProjectPath="scenarioo" vmOptions="" scriptParameters="-x test -x scenarioo-client:build -x scenarioo-validator:build" />
