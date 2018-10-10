@@ -1,5 +1,7 @@
 # CI Server Setup
 
+**MIGRATION TO CIRCLE CI:** See [Circle CI](circle-ci.md) for more information!
+
 This folder contains some doucmentation baout how our CI server is setup and what is installed on it.
 
 Currently this documentation might not be complete but at least have some hint about what we installed recently.
