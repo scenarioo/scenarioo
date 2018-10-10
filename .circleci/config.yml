@@ -31,6 +31,7 @@ jobs:
                 export BRANCH="$CIRCLE_BRANCH"
                 cd scenarioo-client && npm run e2e-circleci
                 pkill java
+              when: always
           - store_artifacts:
               path: scenarioo-server.log
           - run:
