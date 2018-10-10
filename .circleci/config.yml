@@ -9,6 +9,7 @@ jobs:
           cluster.name: elasticsearch
           xpack.ml.enabled: false
           xpack.security.enabled: false
+          ES_JAVA_OPTS: -Xms512m -Xmx512m
     working_directory: ~/repo
     steps:
           - checkout
