@@ -26,7 +26,6 @@ jobs:
               name: E2E tests
               command: |
                 SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample java -jar scenarioo-server/build/libs/scenarioo-latest.war > scenarioo-server.log &
-                webdriver-manager update
                 export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
                 export BRANCH="$CIRCLE_BRANCH"
                 cd scenarioo-client && npm run e2e-circleci
