@@ -31,7 +31,7 @@ jobs:
                 export SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample
                 java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war > test-results/scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> test-results/scenarioo-server.log &
                 export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
-                export SCENARIOO_TARGET_DIRECTORY="../test-results/e2eScenariooDocumentation"
+                export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
                 export BRANCH="$CIRCLE_BRANCH"
                 sleep 30  # Give server some time because of comparisons
                 export GRADLE_OPTS="-Xms300m -Xmx300m"
@@ -50,6 +50,8 @@ jobs:
               path: test-results
           - store_artifacts:
               path: test-results
+          - store_artifacts:
+              path: e2eScenariooDocu
 # Enable once we are ready to deploy it automatically on our server
 #          - store_artifacts:
 #              path: scenarioo-server/build/libs/scenarioo-latest.war
