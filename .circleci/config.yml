@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      # See https://circleci.com/docs/2.0/circleci-images/
+      # See https://circleci.com/docs/2.0/circleci-images/ ...
       - image: circleci/openjdk:8-jdk-browsers
     working_directory: ~/repo
     steps:
