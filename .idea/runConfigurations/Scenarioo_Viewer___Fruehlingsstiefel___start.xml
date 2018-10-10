@@ -7,7 +7,7 @@
       <env name="SCENARIOO_DATA" value="$PROJECT_DIR$/scenarioo-docu-generation-example/build/scenarioDocuExample" />
     </envs>
     <method v="2">
-      <option name="Gradle.BeforeRunTask" enabled="true" tasks="build bootWar" externalProjectPath="scenarioo" vmOptions="" scriptParameters="-x test -x scenarioo-client:build -x scenarioo-validator:build" />
+      <option name="Gradle.BeforeRunTask" enabled="true" tasks="build bootWar" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="-x test -x scenarioo-client:build -x scenarioo-validator:build" />
     </method>
   </configuration>
 </component>
