@@ -26,6 +26,7 @@ jobs:
           - run:
               name: E2E tests
               command: |
+                ./gradlew --stop
                 export SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample
                 java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war > scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> scenarioo-server.log &
                 export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
