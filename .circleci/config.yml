@@ -1,0 +1,19 @@
+version: 2
+jobs:
+  build:
+    docker:
+      # See https://circleci.com/docs/2.0/circleci-images/
+      - image: circleci/openjdk:8-jdk-browsers
+    working_directory: ~/repo
+    steps:
+          - checkout
+          - run:
+              name: Clean & install
+              command: ./gradlew clean build -x test
+          - run:
+              name: Unit tests
+              command: ./gradlew test
+          - store_test_results:
+              path: scenarioo-server/build/test-results
+          - store_artifacts:
+              path: scenarioo-server/build/libs/scenarioo-latest.war
