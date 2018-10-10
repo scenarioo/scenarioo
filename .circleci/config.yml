@@ -27,9 +27,10 @@ jobs:
               name: E2E tests
               command: |
                 export SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample
-                java -Xms1500m -Xmx1500m -jar scenarioo-server/build/libs/scenarioo-latest.war > scenarioo-server.log &
+                java -Xms1024m -Xmx1024m -jar scenarioo-server/build/libs/scenarioo-latest.war > scenarioo-server.log || echo "Process died $?" >> scenarioo-server.log &
                 export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
                 export BRANCH="$CIRCLE_BRANCH"
+                sleep 30  # Give server some time because of comparisons
                 ./gradlew scenarioo-client:runE2eCircleCi
           - store_artifacts:
               path: scenarioo-server.log
