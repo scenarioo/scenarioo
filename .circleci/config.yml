@@ -27,9 +27,12 @@ jobs:
               name: E2E tests
               command: |
                 SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample java -jar scenarioo-server/build/libs/scenarioo-latest.war > scenarioo-server.log &
+                echo "After start"
                 export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
                 export BRANCH="$CIRCLE_BRANCH"
+                echo "Before sleep"
                 sleep 1m || true
+                echo "After sleep"
                 curl -I $PROTRACTOR_BASE_URL || true
                 curl $PROTRACTOR_BASE_URL || true
                 curl -o page.html $PROTRACTOR_BASE_URL || true
