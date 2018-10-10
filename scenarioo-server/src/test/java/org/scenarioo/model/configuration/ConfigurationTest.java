@@ -6,7 +6,6 @@ import java.awt.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 
 
@@ -32,6 +31,5 @@ public class ConfigurationTest {
 
 		Color actual = configuration.getDiffImageAwtColor();
 		assertThat(actual, is(expected));
-		assertTrue("Test CI reporting", false);
 	}
 }
