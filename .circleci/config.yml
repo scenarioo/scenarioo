@@ -14,6 +14,9 @@ jobs:
               name: Unit tests
               command: ./gradlew test
           - store_test_results:
-              path: scenarioo-server/build/test-results
+              path:
+                - scenarioo-server/build/test-results
+                - scenarioo-client/TESTS*
+                - scenarioo-docu-generation-example/build/test-results
           - store_artifacts:
               path: scenarioo-server/build/libs/scenarioo-latest.war
