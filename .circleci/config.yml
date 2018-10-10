@@ -31,7 +31,7 @@ jobs:
               when: always
           - store_test_results:
               path: test-results
-          -store_artifacts:
+          - store_artifacts:
               path: test-results
 #          - store_artifacts:
 #              path: scenarioo-server/build/libs/scenarioo-latest.war
