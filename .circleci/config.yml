@@ -31,7 +31,7 @@ jobs:
                 export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
                 export BRANCH="$CIRCLE_BRANCH"
                 sleep 30  # Give server some time because of comparisons
-                export GRADLE_OPTS="-Xms800m -Xmx800m"
+                export GRADLE_OPTS="-Xms300m -Xmx300m"
                 ./gradlew scenarioo-client:runE2eCircleCi || echo "E2E gradle died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> scenarioo-server.log
           - store_artifacts:
               path: scenarioo-server.log
