@@ -18,11 +18,11 @@
 package org.scenarioo.dao.configuration;
 
 import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.io.InputStream;
 
 import org.apache.log4j.Logger;
 import org.scenarioo.api.util.xml.ScenarioDocuXMLFileUtil;
+import org.scenarioo.api.util.xml.ScenarioDocuXMLUtil;
 import org.scenarioo.model.configuration.Configuration;
 
 /**
@@ -46,7 +46,11 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
 		File configFile = getFileSystemConfigFile();
 		if (!configFile.exists()) {
 			LOGGER.warn("  file " + configFile + " does not exist --> loading default config.xml from classpath");
-			return ScenarioDocuXMLFileUtil.unmarshal(Configuration.class, getDefaultConfigFile());
+			try (InputStream stream = ConfigurationDaoImpl.class.getClassLoader().getResourceAsStream(CONFIG_FILE_NAME)) {
+				return ScenarioDocuXMLUtil.unmarshal(Configuration.class, stream);
+			} catch (Exception e) {
+				throw new RuntimeException("Could not load default config file from JAR/WAR/Resources", e);
+			}
 		}
 		else {
 			LOGGER.info("  loading configuration from file: " + configFile);
@@ -70,20 +74,6 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
 	private File getFileSystemConfigFile() {
 		final File configurationPath = new File(configurationDirectory);
 		return new File(configurationPath, CONFIG_FILE_NAME);
-	}
-
-	private File getDefaultConfigFile() {
-		final URL resourceUrl = ConfigurationDaoImpl.class.getClassLoader().getResource(CONFIG_FILE_NAME);
-		File defaultConfigFile = null;
-		try {
-			defaultConfigFile = new File(resourceUrl.toURI());
-		} catch (final URISyntaxException e) {
-			throw new IllegalStateException("Default configuration file is not accessable.", e);
-		}
-		if (defaultConfigFile == null || !defaultConfigFile.exists()) {
-			throw new IllegalStateException("Default configuration file is missing.");
-		}
-		return defaultConfigFile;
 	}
 
 }
