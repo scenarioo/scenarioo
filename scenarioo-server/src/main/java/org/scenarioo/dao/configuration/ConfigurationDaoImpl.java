@@ -43,6 +43,16 @@ public class ConfigurationDaoImpl implements ConfigurationDao {
 
 	@Override
 	public Configuration loadConfiguration() {
+		Configuration config= loadConfigFile();
+		String elasticSearchEndpointOverride = System.getenv("SCENARIOO_ELASTIC_SEARCH_ENDPOINT");
+		if (elasticSearchEndpointOverride != null) {
+			LOGGER.info("Config elasticSearchEndpoint has been overwritten by environment variable SCENARIOO_ELASTIC_SEARCH_ENDPOINT: " + elasticSearchEndpointOverride);
+			config.setElasticSearchEndpoint(elasticSearchEndpointOverride);
+		}
+		return config;
+	}
+
+	private Configuration loadConfigFile() {
 		File configFile = getFileSystemConfigFile();
 		if (!configFile.exists()) {
 			LOGGER.warn("  file " + configFile + " does not exist --> loading default config.xml from classpath");

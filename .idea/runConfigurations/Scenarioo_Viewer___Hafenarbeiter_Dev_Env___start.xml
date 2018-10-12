@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Scenarioo Viewer - Hafenarbeiter Dev Env - start" type="docker-deploy" factoryName="docker-compose.yml" server-name="Docker">
+    <deployment type="docker-compose.yml">
+      <settings>
+        <option name="sourceFilePath" value="docker/dev-tomcat-elasticsearch-cluster/docker-compose.yml" />
+        <option name="startBrowserSettings">
+          <browser url="http://127.0.0.1" />
+        </option>
+      </settings>
+    </deployment>
+    <method v="2">
+      <option name="Gradle.BeforeRunTask" enabled="true" tasks="build bootWar" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="-x test -x scenarioo-client:build -x scenarioo-validator:build" />
+    </method>
+  </configuration>
+</component>
