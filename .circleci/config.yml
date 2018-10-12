@@ -26,6 +26,10 @@ jobs:
               command: ./gradlew scenarioo-client:npm_test --no-daemon
               when: always
           - run:
+              name: JS/TS lint
+              command: ./gradlew scenarioo-client:runLinter --no-daemon
+              when: always
+          - run:
               name: E2E tests
               command: |
                 export SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample

@@ -49,3 +49,7 @@ tasks.npmInstall.outputs.upToDateWhen { return false }
 task runE2eCircleCi(type: NpmTask) {
     args = ['run', 'e2e-circleci']
 }
+
+task runLinter(type: NpmTask) {
+    args = ['run', 'lint-ci']
+}
