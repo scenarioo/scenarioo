@@ -1,0 +1,48 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Scenarioo - Hafenarbeiter Kater" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
+    <deployment type="dockerfile">
+      <settings>
+        <option name="JSONFilePath" value="" />
+        <option name="command" value="" />
+        <option name="commandLineOptions" value="" />
+        <option name="containerName" value="scenarioo-dev-tomcat" />
+        <option name="contextFolderPath" value="scenarioo-server/build/libs" />
+        <option name="entrypoint" value="" />
+        <option name="imageTag" value="scenarioo/dev-tomcat:local" />
+        <option name="portBindings">
+          <list>
+            <DockerPortBindingImpl>
+              <option name="containerPort" value="8080" />
+              <option name="hostPort" value="8080" />
+            </DockerPortBindingImpl>
+            <DockerPortBindingImpl>
+              <option name="containerPort" value="1043" />
+              <option name="hostPort" value="1043" />
+            </DockerPortBindingImpl>
+          </list>
+        </option>
+        <option name="sourceFilePath" value="docker/dev-tomcat/Dockerfile" />
+        <option name="startBrowserSettings">
+          <browser url="http://127.0.0.1" />
+        </option>
+        <option name="volumeBindings">
+          <list>
+            <DockerVolumeBindingImpl>
+              <option name="containerPath" value="/scenarioo/data" />
+              <option name="hostPath" value="$PROJECT_DIR$/scenarioo-docu-generation-example/build/scenarioDocuExample" />
+            </DockerVolumeBindingImpl>
+            <DockerVolumeBindingImpl>
+              <option name="containerPath" value="/usr/local/tomcat/webapps/scenarioo.war" />
+              <option name="hostPath" value="$PROJECT_DIR$/scenarioo-server/build/libs/scenarioo-latest.war" />
+            </DockerVolumeBindingImpl>
+            <DockerVolumeBindingImpl>
+              <option name="containerPath" value="/usr/local/tomcat/logs" />
+              <option name="hostPath" value="$PROJECT_DIR$/scenarioo-server/build/logs" />
+            </DockerVolumeBindingImpl>
+          </list>
+        </option>
+      </settings>
+    </deployment>
+    <method v="2" />
+  </configuration>
+</component>

@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Scenarioo Viewer - Kater - start" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" activateToolWindowBeforeRun="false" APPLICATION_SERVER_NAME="Tomcat 8" ALTERNATIVE_JRE_ENABLED="false" show_console_on_std_err="true" show_console_on_std_out="true">
+  <configuration default="false" name="Scenarioo - Kater" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" activateToolWindowBeforeRun="false" APPLICATION_SERVER_NAME="Tomcat" ALTERNATIVE_JRE_ENABLED="false" show_console_on_std_err="true" show_console_on_std_out="true">
     <option name="OPEN_IN_BROWSER" value="false" />
     <option name="UPDATING_POLICY" value="restart-server" />
     <deployment>
@@ -51,7 +51,7 @@
       </SHUTDOWN>
       <EnvironmentVariables>
         <option name="NAME" value="SCENARIOO_DATA" />
-        <option name="VALUE" value="$PROJECT_DIR$/scenarioo-docu-generation-example/build/scenarioDocuExample"/>
+        <option name="VALUE" value="$PROJECT_DIR$/scenarioo-docu-generation-example/build/scenarioDocuExample" />
         <option name="IS_PREDEFINED" value="false" />
       </EnvironmentVariables>
     </ConfigurationWrapper>

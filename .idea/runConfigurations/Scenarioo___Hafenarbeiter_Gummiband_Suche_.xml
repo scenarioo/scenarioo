@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Scenarioo - Gummiband Suche - Start" type="docker-deploy" factoryName="docker-image" server-name="Docker">
+  <configuration default="false" name="Scenarioo - Hafenarbeiter Gummiband Suche " type="docker-deploy" factoryName="docker-image" server-name="Docker">
     <deployment type="docker-image">
       <settings>
         <option name="JSONFilePath" value="" />

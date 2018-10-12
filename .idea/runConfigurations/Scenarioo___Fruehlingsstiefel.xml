@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Scenarioo Viewer - Fruehlingsstiefel - start" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="Scenarioo - Fruehlingsstiefel" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="scenarioo-server_main" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="org.scenarioo.ScenariooViewerApplication" />
     <option name="ALTERNATIVE_JRE_PATH" />
