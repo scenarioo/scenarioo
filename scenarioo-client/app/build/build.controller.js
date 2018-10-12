@@ -37,7 +37,7 @@ function BuildController($scope, $location, ConfigService) {
         vm.tabs = [
             {
                 index: 0,
-                tabId: 'usecases',
+                tabId: "usecases",
                 title: 'Use Cases',
                 contentViewUrl: 'build/useCasesTab.html'
             }
