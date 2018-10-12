@@ -1,7 +1,5 @@
 # CI Server Setup
 
-**MIGRATION TO CIRCLE CI:** See [Circle CI](circle-ci.md) for more information!
-
 This folder contains some doucmentation baout how our CI server is setup and what is installed on it.
 
 Currently this documentation might not be complete but at least have some hint about what we installed recently.
@@ -16,6 +14,10 @@ Currently this documentation might not be complete but at least have some hint a
 * Jenkins CI Server
 * [Nginx as a proxy](nginx.md)
 * more ... to be completed 
+
+## Circle CI evaluation
+
+We started to port the CI pipeline to Circle CI. For more information: see [Circle CI](circle-ci.md)
 
 ## Further instructions for different tool installations and configurations
 
