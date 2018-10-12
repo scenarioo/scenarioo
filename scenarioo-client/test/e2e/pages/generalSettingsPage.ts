@@ -1,6 +1,6 @@
 'use strict';
 
-import { by, element, ElementFinder } from 'protractor';
+import {by, element} from 'protractor';
 import * as Utils from '../util';
 
 class GeneralSettingsPage {
@@ -17,7 +17,7 @@ class GeneralSettingsPage {
 
     async assertSearchEndpointConfiguredAndReachable() {
         await expect(this.searchNotConfiguredMessage.isDisplayed()).toBeFalsy();
-        await expect(this.configuredSearchEndpoint.getText()).toBe('localhost:9305');
+        await expect(this.configuredSearchEndpoint.getText()).toBe('localhost:9300');
         await expect(this.configuredSearchClusterName.getText()).toBe('elasticsearch');
         await expect(this.searchEndpointIsNotReachable.isDisplayed()).toBeFalsy();
         await expect(this.searchEndpointIsReachable.isDisplayed()).toBeTruthy();
