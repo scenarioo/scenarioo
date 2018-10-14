@@ -18,11 +18,10 @@ where `x.y.z` stands for the Scenarioo version you are building the docker image
 7. Now you are ready to run (see ["Run Scenarioo Docker Image"](../tutorial/Scenarioo-Viewer-Docker-Image#run-scenarioo-docker-image)) or push (see [Push image to Dockerhub](#Push-image-to-Dockerhub)) your image.
 
 ## Push image to Dockerhub
-To make an image public available it is necessary to push it to the Dockerhub. As soon as an image is publicly available on Dockerhub it can be run from everywhere without even pulling it in advance. Just run it as described in ["Run Scenarioo Docker Image"](../tutorial/Scenarioo-Viewer-Docker-Image#run-scenarioo-docker-image).  
   
 1. Open a bash and check that the docker image is listed on the working machine:  
 `sudo docker images`
-2. Run `sudo docker login` for authentication. You will be asked for the username (scenarioo) and the password.
+2. Run `sudo docker login` for authentication. You will be asked for the username (scenarioo) and the password (usual scenarioo master password).
 3. Run the command: `sudo docker push scenarioo/webapp:x.y.z` where `x.y.z` stands for the Scenarioo version.
 4. Check [Dockerhub](https://hub.docker.com/u/scenarioo/) to verify the image.
 
