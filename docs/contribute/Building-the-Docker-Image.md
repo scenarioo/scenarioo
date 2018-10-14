@@ -6,8 +6,8 @@ Creating a Docker image means to create a ready-to-run-artifact. This includes s
 
 Prerequisite: You need to have docker installed on your machine. On Ubuntu this can be done by running `sudo apt-get install docker.io`.
 
-1. You find the necessary Dockerfile in the directory [docker](https://github.com/scenarioo/scenarioo/tree/develop/docker).
-2. Locate the scenarioo.war you want to deploy. For official docker image releases download the official released WAR from https://github.com/scenarioo/scenarioo/releases 
+1. You find the necessary Dockerfile in the directory [docker](https://github.com/scenarioo/scenarioo/tree/develop/docker/scenarioo).
+2. Locate the scenarioo.war you want to deploy. For official docker image releases download the official released WAR from https://github.com/scenarioo/scenarioo/releases or use the output of the release branch jenkins build (scenario-<version>.war with exact correct version number! Please check!) 
 3. Put the `scenarioo.war` next to the Dockerfile into same directory and rename the WAR to `scenarioo.war` without version number.
 4. Open a bash and navigate to the directory which contains the files
 5. Now run the following command:  
