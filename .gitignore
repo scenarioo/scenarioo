@@ -34,5 +34,11 @@ npm-debug.log
 scenarioo-latest.war
 out
 docker/logs
+docker/scenarioo-ci/scenarioDocuExample
+docker/scenarioo-ci/scenarioo.war
+e2eScenariooDocu
+test-results
+
+
 
 

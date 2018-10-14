@@ -65,16 +65,21 @@ jobs:
               name: Create and push docker image
               command: |
                 ENCODED_BRANCH=`echo $CIRCLE_BRANCH | tr / - | sed 's/#//g'`
-                TAG="$ENCODED_BRANCH-$CIRCLE_BUILD_NUM"
+                TAG="$ENCODED_BRANCH-BUILD_$CIRCLE_PREVIOUS_BUILD_NUM"
                 DOCKER_BUILD_DIR="docker/scenarioo-ci"
+                DOCKER_HUB_REPO="cgrossde/scenarioo-dev"
+                echo "Copy WAR and scenarioo results of this build into docker image"
                 cp scenarioo-server/build/libs/scenarioo-latest.war $DOCKER_BUILD_DIR/scenarioo.war
                 cp -pR scenarioo-docu-generation-example/build/scenarioDocuExample $DOCKER_BUILD_DIR
                 cp -pR e2eScenariooDocu/* $DOCKER_BUILD_DIR/scenarioDocuExample
                 cd $DOCKER_BUILD_DIR
-                docker build -t cgrossde/scenarioo-dev:$TAG .
+                echo "Build and push docker image to Docker Hub"
+                docker build -t $DOCKER_HUB_REPO:$TAG .
                 docker login -u $DOCKER_USER -p $DOCKER_PASS
                 docker push cgrossde/scenarioo-dev:$TAG
-                echo "CREATED AND PUSHED: cgrossde/scenarioo-dev:$TAG"
+                echo "CREATED AND PUSHED: $DOCKER_HUB_REPO:$TAG"
+                echo "Run it with: docker run --rm --name scenarioo-citest -p 8080:8080 $DOCKER_HUB_REPO:$TAG"
+                echo "Then visit: http://localhost:8080/scenarioo"
 
 
 # Enable once we are ready to deploy it automatically on our server
