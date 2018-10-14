@@ -64,17 +64,17 @@ jobs:
           - run:
               name: Create and push docker image
               command: |
-              ENCODED_BRANCH=`echo $CIRCLE_BRANCH | tr / - | sed 's/#//g'`
-              TAG="$ENCODED_BRANCH-$CIRCLE_BUILD_NUM"
-              DOCKER_BUILD_DIR="docker/scenarioo-ci"
-              cp scenarioo-server/build/libs/scenarioo-latest.war $DOCKER_BUILD_DIR/scenarioo.war
-              cp -pR scenarioo-docu-generation-example/build/scenarioDocuExample $DOCKER_BUILD_DIR
-              cp -pR e2eScenariooDocu/* $DOCKER_BUILD_DIR/scenarioDocuExample
-              cd $DOCKER_BUILD_DIR
-              docker build -t cgrossde/scenarioo-dev:$TAG .
-              docker login -u $DOCKER_USER -p $DOCKER_PASS
-              docker push cgrossde/scenarioo-dev:$TAG
-              echo "CREATED AND PUSHED: cgrossde/scenarioo-dev:$TAG"
+                ENCODED_BRANCH=`echo $CIRCLE_BRANCH | tr / - | sed 's/#//g'`
+                TAG="$ENCODED_BRANCH-$CIRCLE_BUILD_NUM"
+                DOCKER_BUILD_DIR="docker/scenarioo-ci"
+                cp scenarioo-server/build/libs/scenarioo-latest.war $DOCKER_BUILD_DIR/scenarioo.war
+                cp -pR scenarioo-docu-generation-example/build/scenarioDocuExample $DOCKER_BUILD_DIR
+                cp -pR e2eScenariooDocu/* $DOCKER_BUILD_DIR/scenarioDocuExample
+                cd $DOCKER_BUILD_DIR
+                docker build -t cgrossde/scenarioo-dev:$TAG .
+                docker login -u $DOCKER_USER -p $DOCKER_PASS
+                docker push cgrossde/scenarioo-dev:$TAG
+                echo "CREATED AND PUSHED: cgrossde/scenarioo-dev:$TAG"
 
 
 # Enable once we are ready to deploy it automatically on our server
