@@ -59,7 +59,7 @@ jobs:
 
           # Build Docker image with build WAR and generated docu
           - setup_remote_docker:   # Creates a safe environment where docker commands are executed
-            docker_layer_caching: true # Speed up builds
+              docker_layer_caching: true # Speed up builds
           # build and push Docker image
           - run: |
               ENCODED_BRANCH=`echo $CIRCLE_BRANCH | tr / - | sed 's/#//g'`
