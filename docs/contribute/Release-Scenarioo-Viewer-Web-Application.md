@@ -57,7 +57,7 @@ Usually this should be the same as the Scenarioo version that you are going to r
     git checkout master
     git merge --ff-only release/<version>
     git push
-    git tag -a <version>
+    git tag -a <version> -m "Release <version>"
     git push --tags
     ```
   * Merge release branch into develop (if not done yet)
