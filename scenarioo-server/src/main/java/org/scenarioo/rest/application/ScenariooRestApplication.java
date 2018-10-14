@@ -20,7 +20,6 @@ import org.scenarioo.rest.sketcher.issue.IssueResource;
 import org.scenarioo.rest.sketcher.scenarioSketch.ScenarioSketchResource;
 import org.scenarioo.rest.sketcher.stepSketch.SketchImageResource;
 import org.scenarioo.rest.sketcher.stepSketch.StepSketchResource;
-import org.scenarioo.rest.step.ScreenshotResource;
 import org.scenarioo.rest.step.StepResource;
 import org.scenarioo.rest.usecase.UseCasesResource;
 
@@ -52,7 +51,6 @@ public class ScenariooRestApplication extends Application {
 		singletons.add(new ComparisonCalculationsResource());
 		singletons.add(new SearchResource());
 		singletons.add(new ScenariosResource());
-		singletons.add(new ScreenshotResource());
 		singletons.add(new GenericObjectsResource());
 		singletons.add(new CustomTabsResource());
 		singletons.add(new ObjectStepResource());
