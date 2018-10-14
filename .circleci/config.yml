@@ -61,7 +61,9 @@ jobs:
           - setup_remote_docker:   # Creates a safe environment where docker commands are executed
               docker_layer_caching: true # Speed up builds
           # build and push Docker image
-          - run: |
+          - run:
+              name: Create and push docker image
+              command: |
               ENCODED_BRANCH=`echo $CIRCLE_BRANCH | tr / - | sed 's/#//g'`
               TAG="$ENCODED_BRANCH-$CIRCLE_BUILD_NUM"
               DOCKER_BUILD_DIR="docker/scenarioo-ci"
@@ -72,6 +74,7 @@ jobs:
               docker build -t cgrossde/scenarioo-dev:$TAG .
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push cgrossde/scenarioo-dev:$TAG
+              echo "CREATED AND PUSHED: cgrossde/scenarioo-dev:$TAG"
 
 
 # Enable once we are ready to deploy it automatically on our server
