@@ -1,0 +1,61 @@
+version: 2
+jobs:
+  build:
+    docker:
+      # See https://circleci.com/docs/2.0/circleci-images/ ...
+      - image: circleci/openjdk:8-jdk-browsers
+      - image: docker.elastic.co/elasticsearch/elasticsearch:5.6.9
+        environment:
+          cluster.name: elasticsearch
+          xpack.ml.enabled: false
+          xpack.security.enabled: false
+          ES_JAVA_OPTS: -Xms512m -Xmx512m
+    working_directory: ~/repo
+    steps:
+          - checkout
+          - run:
+              name: Clean & install
+              command: |
+                mkdir -p test-results
+                ./gradlew clean build -x test --no-daemon
+          - run:
+              name: Unit tests
+              command: ./gradlew test -x scenarioo-client:npm_test --continue --no-daemon
+          - run:
+              name: JS tests
+              command: ./gradlew scenarioo-client:npm_test --no-daemon
+              when: always
+          - run:
+              name: JS/TS lint
+              command: ./gradlew scenarioo-client:runLinter --no-daemon
+              when: always
+          - run:
+              name: E2E tests
+              command: |
+                export SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample
+                java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war > test-results/scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> test-results/scenarioo-server.log &
+                export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
+                export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
+                export BRANCH="$CIRCLE_BRANCH"
+                sleep 30  # Give server some time because of comparisons
+                export GRADLE_OPTS="-Xms300m -Xmx300m"
+                ./gradlew scenarioo-client:runE2eCircleCi --no-daemon
+          - run:
+              name: Collect test results
+              command: |
+                mkdir -p test-results/javascript
+                cp -pR scenarioo-client/TESTS* test-results/javascript || true
+                cp -pR scenarioo-client/test-reports test-results/e2e || true
+                cp -pR scenarioo-server/build/test-results/test test-results/server || true
+                cp -pR scenarioo-validator/build/test-results/test test-results/validator || true
+                cp -pR scenarioo-docu-generation-example/build/test-results/test test-results/docu || true
+              when: always
+          - store_test_results:
+              path: test-results
+          - store_artifacts:
+              path: test-results
+          - store_artifacts:
+              path: e2eScenariooDocu
+# Enable once we are ready to deploy it automatically on our server
+#          - store_artifacts:
+#              path: scenarioo-server/build/libs/scenarioo-latest.war
