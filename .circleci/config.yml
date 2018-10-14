@@ -37,6 +37,7 @@ jobs:
                 export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
                 export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
                 export BRANCH="$CIRCLE_BRANCH"
+                export BUILD="$CIRCLE_PREVIOUS_BUILD_NUM"
                 sleep 30  # Give server some time because of comparisons
                 export GRADLE_OPTS="-Xms300m -Xmx300m"
                 ./gradlew scenarioo-client:runE2eCircleCi --no-daemon
