@@ -34,14 +34,14 @@ angular.module('scenarioo.services').factory('SharePageService', function () {
     // Service interface
     return {
         /**
-         * Make sure to call resetAll when the URL you set here becomes invalid.
+         * Make sure to call invalidateUrls when the URL you set here becomes invalid.
          */
         setPageUrl: function (pageUrl) {
             shareLinks.pageUrl = pageUrl;
         },
 
         /**
-         * Make sure to call resetAll when the URL you set here becomes invalid.
+         * Make sure to call invalidateUrls when the URL you set here becomes invalid.
          */
         setImageUrl: function (imageUrl) {
             shareLinks.imageUrl = imageUrl;
