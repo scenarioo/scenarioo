@@ -1,11 +1,12 @@
 version: '3'
 services:
   scenarioo:
-    image: tomcat:8.5.30-jre8
+    image: tomcat:8.5.9-jre8
     ports:
       - "8080:8080"
       - "1043:1043"
     environment:
+      - SCENARIOO_ELASTIC_SEARCH_ENDPOINT=elasticsearch:9300
       - SCENARIOO_DATA=/scenarioo/data
       - JPDA_ADDRESS=1043
       - JPDA_TRANSPORT=dt_socket
@@ -13,9 +14,9 @@ services:
     depends_on:
       - elasticsearch
     volumes:
-      - ../scenarioo-docu-generation-example/build/scenarioDocuExample:/scenarioo/data
-      - ../scenarioo-server/build/libs/scenarioo-latest.war:/usr/local/tomcat/webapps/scenarioo.war
-      - ./logs:/usr/local/tomcat/logs
+      - ../../scenarioo-docu-generation-example/build/scenarioDocuExample:/scenarioo/data
+      - ../../scenarioo-server/build/libs/scenarioo-latest.war:/usr/local/tomcat/webapps/scenarioo.war
+      - ../../scenarioo-server/build/logs:/usr/local/tomcat/logs
     command: ["catalina.sh", "jpda", "run"]
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:5.6.9

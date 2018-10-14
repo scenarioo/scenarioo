@@ -110,3 +110,11 @@ export async function waitForElementVisible(e) {
 export async function assertNumberOfTableRows(tableElement, expectedNumer) {
     return expect(tableElement.all(by.css('tbody tr')).count()).toBe(expectedNumer);
 }
+
+/**
+ * Returns the URL where Scenarioo is hosted, e.g. "http://demo.scenarioo.org/scenarioo-master/" for the
+ * demo of the master branch.
+ */
+export function getBaseUrl() {
+    return browser.params.baseUrl;
+}
