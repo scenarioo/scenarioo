@@ -42,9 +42,9 @@
   * [CI & Tools Installation/Configuration](contribute/ci-server-setup/README.md)
     * [Nginx Proxy](contribute/ci-server-setup/nginx.md)        
     * [Docker Installation](contribute/ci-server-setup/docker.md)
-    * [Elasticsearch 5 Installation](contribute/ci-server-setup/Elasticsearch-5.md)
-    * [Deprecated: Elasticsearch 2 Installation](contribute/ci-server-setup/Elasticsearch-2.md)
-  
+    * [Elasticsearch](contribute/ci-server-setup/Elasticsearch.md)
+    * [Tomcat](contribute/ci-server-setup/tomcat.md)
+    
     
 * [Version Changelog](CHANGELOG.md)    
 * [Migration Guide](Migration-Guide.md)
