@@ -44,6 +44,7 @@ describe('UseCasesTabController', function () {
         useCasesTabController.gotoUseCase(dummyUseCase);
 
         expect($location.path()).toBe('/usecase/DisplayWeather');
+        expect(true).toBe(false); // Fail on purpose to test new Github Checks API integration
     });
 
 });
