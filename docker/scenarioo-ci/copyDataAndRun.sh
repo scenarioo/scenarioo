@@ -6,4 +6,4 @@
 cp -pR /scenarioo/currentBuildData /scenarioo/data
 
 # Start tomcat
-$CATALINA_HOME/catalina.sh run
+$CATALINA_HOME/bin/catalina.sh run
