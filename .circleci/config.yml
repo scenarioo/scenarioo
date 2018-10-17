@@ -80,6 +80,7 @@ jobs:
                 cp scenarioo-server/build/libs/scenarioo-latest.war $DOCKER_BUILD_DIR/scenarioo.war
                 # Keep the image smaller and only include E2E test results for now
                 # cp -pR scenarioo-docu-generation-example/build/scenarioDocuExample $DOCKER_BUILD_DIR
+                mkdir -p $DOCKER_BUILD_DIR/scenarioDocuExample
                 cp -pR e2eScenariooDocu/* $DOCKER_BUILD_DIR/scenarioDocuExample
                 cd $DOCKER_BUILD_DIR
                 echo "Build and push docker image to Docker Hub"
