@@ -55,7 +55,7 @@ jobs:
               name: Publish docu on demo.scenarioo.org/scenarioo-develop
               command: |
                 pushd e2eScenariooDocu
-                zip -r ../e2eScenariooDocu.zip ./$CIRCLE_BRANCH
+                zip -r ../e2eScenariooDocu.zip ./*
                 popd
                 curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org:8080/scenarioo-develop/rest/builds
               when: always
