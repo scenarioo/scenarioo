@@ -14,7 +14,7 @@ ADD ./scenarioo.war /usr/local/tomcat/webapps/
 # This way we can merge the lastest results in this image with possibly
 # already existing scenarioo runs present in /scenarioo/data.
 ADD ./scenarioDocuExample /scenarioo/currentBuildData
-ADD copyDataAndRun.sh /root/copyDataAndRun.sh
+ADD ./copyDataAndRun.sh /root/copyDataAndRun.sh
 
 # RUN TOMCAT
-CMD ["./root/copyDataAndRun.sh"]
+CMD ["/root/copyDataAndRun.sh"]
