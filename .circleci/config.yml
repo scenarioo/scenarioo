@@ -59,14 +59,19 @@ jobs:
                 popd
                 curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org:8080/scenarioo-develop/rest/builds
               when: always
+          - run:
+              name: Checksum artifacts and move to dist folder
+              command: |
+                mkdir -p dist
+                mv e2eScenariooDocu.zip dist
+                mv scenarioo-server/build/libs/scenarioo-latest.war dist/scenarioo.war
+                sha256 dist/e2eScenariooDocu.zip > dist/e2eScenariooDocu.zip.sha256
+                sha256 dist/scenarioo.war > dist/scenarioo.war.sha256
           - store_test_results:
               path: test-results
           - store_artifacts:
               path: test-results
               destination: /test-results
           - store_artifacts:
-              path: e2eScenariooDocu.zip
-              destination: /e2eScenariooDocu.zip
-          - store_artifacts:
-              path: scenarioo-server/build/libs/scenarioo-latest.war
-              destination: scenarioo.war
+              path: dist
+              destination: /
