@@ -1,0 +1,58 @@
+version: 2
+jobs:
+  build:
+    docker:
+      # See https://circleci.com/docs/2.0/circleci-images/ ...
+      - image: circleci/openjdk:8-jdk-browsers
+    working_directory: ~/repo
+    steps:
+          - checkout
+          - run:
+              name: Clean & install
+              command: |
+                mkdir -p test-results
+                ./gradlew clean build -x test --no-daemon
+          - run:
+              name: Unit tests
+              command: ./gradlew test -x scenarioo-client:npm_test --continue --no-daemon
+          - run:
+              name: JS tests
+              command: ./gradlew scenarioo-client:npm_test --no-daemon
+              when: always
+# No E2E or Lint tests on master
+          - run:
+              name: Collect test results
+              command: |
+                mkdir -p test-results/javascript
+                cp -pR scenarioo-client/TESTS* test-results/javascript || true
+                cp -pR scenarioo-server/build/test-results/test test-results/server || true
+                cp -pR scenarioo-validator/build/test-results/test test-results/validator || true
+                cp -pR scenarioo-docu-generation-example/build/test-results/test test-results/docu || true
+              when: always
+# For now it's just testing => no E2E test => don't publish. In the future publish to master & develop
+#          - run:
+#              name: Publish docu on demo.scenarioo.org/scenarioo-develop
+#              command: |
+#                pushd e2eScenariooDocu
+#                zip -r ../e2eScenariooDocu.zip ./*
+#                popd
+#                curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org:8080/scenarioo-develop/rest/builds
+#              when: always
+          # Master is not spring yet => fake E2E docu and use docu-generation-example instead
+          - run:
+              name: Fake E2E data for master
+              command: |
+                pushd scenarioo-docu-generation-example/build/scenarioDocuExample
+                zip -r ../../../e2eScenariooDocu.zip ./*
+                popd
+          - store_test_results:
+              path: test-results
+          - store_artifacts:
+              path: test-results
+              destination: /test-results
+          - store_artifacts:
+              path: e2eScenariooDocu.zip
+              destination: /e2eScenariooDocu.zip
+          - store_artifacts:
+              path: scenarioo-server/build/libs/scenarioo-latest.war
+              destination: scenarioo.war
