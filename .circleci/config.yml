@@ -64,34 +64,9 @@ jobs:
           - store_artifacts:
               path: test-results
               destination: /test-results
-
-          # Build Docker image with build WAR and generated docu
-          - setup_remote_docker:   # Creates a safe environment where docker commands are executed
-              docker_layer_caching: true # Speed up builds
-          # build and push Docker image
-          - run:
-              name: Create and push docker image
-              command: |
-                ENCODED_BRANCH=`echo $CIRCLE_BRANCH | tr / - | sed 's/#//g'`
-                TAG="$ENCODED_BRANCH-BUILD_$CIRCLE_BUILD_NUM"
-                DOCKER_BUILD_DIR="docker/scenarioo-ci"
-                DOCKER_HUB_REPO="cgrossde/scenarioo-dev"
-                echo "Copy WAR and scenarioo results of this build into docker image"
-                cp scenarioo-server/build/libs/scenarioo-latest.war $DOCKER_BUILD_DIR/scenarioo.war
-                # Keep the image smaller and only include E2E test results for now
-                # cp -pR scenarioo-docu-generation-example/build/scenarioDocuExample $DOCKER_BUILD_DIR
-                mkdir -p $DOCKER_BUILD_DIR/scenarioDocuExample
-                cp -pR e2eScenariooDocu/* $DOCKER_BUILD_DIR/scenarioDocuExample
-                cd $DOCKER_BUILD_DIR
-                echo "Build and push docker image to Docker Hub"
-                docker build -t $DOCKER_HUB_REPO:$TAG .
-                docker login -u $DOCKER_USER -p $DOCKER_PASS
-                docker push cgrossde/scenarioo-dev:$TAG
-                echo;echo;echo "CREATED AND PUSHED: $DOCKER_HUB_REPO:$TAG"
-                echo "Run it with: docker run --rm --name scenarioo-citest -p 8080:8080 $DOCKER_HUB_REPO:$TAG"
-                echo "Then visit: http://localhost:8080/scenarioo"
-
-
-# Enable once we are ready to deploy it automatically on our server
-#          - store_artifacts:
-#              path: scenarioo-server/build/libs/scenarioo-latest.war
+          - store_artifacts:
+              path: e2eScenariooDocu.zip
+              destination: /e2eScenariooDocu.zip
+          - store_artifacts:
+              path: scenarioo-server/build/libs/scenarioo-latest.war
+              destination: scenarioo.war
