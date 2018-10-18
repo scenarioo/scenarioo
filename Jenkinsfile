@@ -131,6 +131,7 @@ timestamps {
                 } finally {
 
                     // Important to do this part in any case - to not loose old archived scenarioo reports!!
+                    // credentials are needed here to cleanup tomcat deployments and not for docu deployments to scenarioo
                     withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
                                              // Only for the master branch the self docu is deployed to scenarioo-master
                                              // for all others: to scenarioo-develop
