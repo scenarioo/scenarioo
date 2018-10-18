@@ -65,8 +65,8 @@ jobs:
                 mkdir -p dist
                 mv e2eScenariooDocu.zip dist
                 mv scenarioo-server/build/libs/scenarioo-latest.war dist/scenarioo.war
-                sha256 dist/e2eScenariooDocu.zip > dist/e2eScenariooDocu.zip.sha256
-                sha256 dist/scenarioo.war > dist/scenarioo.war.sha256
+                sha256sum dist/e2eScenariooDocu.zip | awk '{ print $1 }' > dist/e2eScenariooDocu.zip.sha256
+                sha256sum dist/scenarioo.war | awk '{ print $1 }' > dist/scenarioo.war.sha256
           - store_test_results:
               path: test-results
           - store_artifacts:
