@@ -1,5 +1,11 @@
 # Scenarioo Release Notes
 
+## Version 4.0.1
+
+### Bugfixes
+
+* [#751 - Sharing Step Screenshot](https://github.com/scenarioo/scenarioo/issues/751) Sharing screenshot images through direct links with other applications works again, also the share this page dialog shows the correct link again.
+
 ## Version 4.0.0 
 
 ### Feature "Diff Viewer Plus"

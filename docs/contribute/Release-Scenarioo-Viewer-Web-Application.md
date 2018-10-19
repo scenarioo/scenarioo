@@ -39,7 +39,9 @@ Usually this should be the same as the Scenarioo version that you are going to r
 * Fix the bugs you find and merge the fixes to the release branch (instead of develop directly!).
 * Also proceed with further release preparations as explained in next sections
 
-## Prepare Documentation and Webpage for new Release Version
+## Prepare Documentation and Webpage for new Release
+
+### For Major Versions
 
 * See [Documentation and Webpage](Documentation-and-Webpage.md) for further instructions how to configure the documentation for a new release.
  
@@ -48,6 +50,12 @@ Usually this should be the same as the Scenarioo version that you are going to r
    * Verify also in the published docu for the new version, that the correct new version is displayed and selected in upper left version selection dropdown.
    
 * If for the release the web page needs to be upgraded prepare so on a special release branch as well.
+
+### For any Version - even for patches
+
+* Do not forget to update the usage instructions for the Docker Image to use the newest version:     
+    [Scenarioo Viewer Docker Image](../tutorial/Scenarioo-Viewer-Docker-Image.md) 
+    (**!! change the version number in the example!**)
  
 ## Merge and Build Final Release
 
@@ -57,7 +65,7 @@ Usually this should be the same as the Scenarioo version that you are going to r
     git checkout master
     git merge --ff-only release/<version>
     git push
-    git tag -a <version>
+    git tag -a <version> -m "Release <version>"
     git push --tags
     ```
   * Merge release branch into develop (if not done yet)
@@ -72,17 +80,14 @@ Usually this should be the same as the Scenarioo version that you are going to r
 
 ### Build Docker Image and Publish to Dockerhub
 
-* Create a new Docker image for this release according to [this manual](Building-the-Docker-Image)
-* Do not forget to update the usage instructions for the Docker Image:     
-    [Scenarioo Viewer Doker Image](../tutorial/Scenarioo-Viewer-Docker-Image.md) 
-    (**!! change the version number in the example!**)
+* Create and publish a new Docker image for this release according to [this manual](Building-the-Docker-Image)
 
 ### Publish the Release on Github
 
 * Create a release on github to make the release publicly visible: https://github.com/scenarioo/scenarioo/releases. 
 * For description use the release notes of that release version from CHANGELOG.md in the release description on github.
 * Make sure you safe it first only as a draft and do not publish them yet.  
-* Attach the binary of the release (WAR-file) to the release notes (see area "Attach binaries by dropping them here ...").
+* Attach the binary of the release (WAR-file having the right clean version number downloaded from jenkins) to the release notes (see area "Attach binaries by dropping them here ...").
 * Publish the release when done.
 
 ### Publish the Release on Maven Central
@@ -107,5 +112,3 @@ http://central.sonatype.org/pages/releasing-the-deployment.html
 **Change following things on develop branch** to prepare for further work on further releases:
 * Check `documentationVersion` in `build.gradle` is changed to `develop` again, such that it points to current latest and greatest developer docu, until we do a new release
 * Verify that in `docs/book.json` the develop version of the docu is marked as selected again.
-
- 
