@@ -94,6 +94,8 @@ jobs:
           - run:
               name: Commit and push
               command: |
+                git config --global user.email "admin@scenarioo.org"
+                git config --global user.name "CircleCI"
                 git add .
                 git commit -m "Deploy demo for $CIRCLE_BRANCH, build: $CIRCLE_BUILD_URL"
                 git push
