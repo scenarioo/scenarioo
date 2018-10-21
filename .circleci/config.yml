@@ -18,12 +18,12 @@ jobs:
           - run:
               name: Persist $CIRCLE_BUILD_NUM for deploy job
               command: |
-                pwd
-                echo "$CIRCLE_BUILD_NUM" >> BUILD_NUM
+                mkdir workspace
+                echo "$CIRCLE_BUILD_NUM" >> workspace/BUILD_NUM
                 ls
           - persist_to_workspace:
               root: .
-                - BUILD_NUM
+                - workspace
           - run:
               name: Clean & install
               command: |
