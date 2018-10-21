@@ -90,7 +90,9 @@ jobs:
                 git clone -q git@github.com:cgrossde/scenarioo-infrastructure.git .
           - run:
               name: Deploy demo of branch
-              command: ./infra.sh deployDemo "$CIRCLE_BRANCH" "$CIRCLE_BUILD_NUM" "$CIRCLE_USERNAME" "$CIRCLE_PULL_REQUEST" "$CIRCLE_PR_NUMBER"
+              command: |
+                echo "./infra.sh deployDemo \"$CIRCLE_BRANCH\" \"$CIRCLE_BUILD_NUM\" \"$CIRCLE_USERNAME\" \"$CIRCLE_PULL_REQUEST\" \"$CIRCLE_PR_NUMBER\""
+                ./infra.sh deployDemo "$CIRCLE_BRANCH" "$CIRCLE_BUILD_NUM" "$CIRCLE_USERNAME" "$CIRCLE_PULL_REQUEST" "$CIRCLE_PR_NUMBER"
           - run:
               name: Commit and push
               command: |
