@@ -110,7 +110,7 @@ jobs:
             git config --global user.name "CircleCI"
             git add demos overviewpage
             git diff
-            git commit -m "Deploy demo for $CIRCLE_BRANCH \nBuild: $CIRCLE_BUILD_URL"
+            git commit -m "Deploy demo for $CIRCLE_BRANCH  - Build: $CIRCLE_BUILD_URL by $CIRCLE_USERNAME"
             git push
 
 workflows:
