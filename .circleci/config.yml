@@ -81,15 +81,12 @@ jobs:
       - image: circleci/openjdk:8-jdk-browsers
     working_directory: ~/infra
     steps:
-          - add_ssh_keys:
-                fingerprints:
-                  - "25:3c:89:4b:d7:de:17:df:a1:b2:04:8f:e8:3c:c0:45"
           - run:
               name: Checkout scenarioo-infrastructure
-              command: git clone https://github.com/cgrossde/scenarioo-infrastructure
+              command: git clone git@github.com:cgrossde/scenarioo-infrastructure.git || ssh -T git@github.com
           - run:
               name: Deploy demo of branch
-              command: ./infra.sh deployBranch "$CIRCLE_BRANCH" "$CIRCLE_BUILD_NUM" "$CIRCLE_USERNAME" "$CIRCLE_PULL_REQUEST" "$CIRCLE_PR_NUMBER"
+              command: cd scenarioo-infrastructure && ./infra.sh deployBranch "$CIRCLE_BRANCH" "$CIRCLE_BUILD_NUM" "$CIRCLE_USERNAME" "$CIRCLE_PULL_REQUEST" "$CIRCLE_PR_NUMBER"
           - run:
               name: Commit and push
               command: |
@@ -102,7 +99,7 @@ jobs:
 
 workflows:
   version: 2
-  build_and_test:
+  build_and_deploy:
     jobs:
       - build
       - deploy
