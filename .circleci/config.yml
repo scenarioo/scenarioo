@@ -22,7 +22,7 @@ jobs:
                 echo "$CIRCLE_BUILD_NUM" >> workspace/BUILD_NUM
                 ls
           - persist_to_workspace:
-              root: .
+              root: /home/circleci/repo
                 - workspace
           - run:
               name: Clean & install
