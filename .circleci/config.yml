@@ -21,7 +21,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - workspace
+            - BUILD_NUM
       - run:
           name: Clean & install
           command: |
