@@ -85,7 +85,7 @@ jobs:
               name: Checkout scenarioo-infrastructure
               command: |
                 mkdir -p ~/.ssh
-                chown 700 ~/.ssh
+                sudo chmod 700 ~/.ssh
                 ssh-keyscan github.com >> ~/.ssh/known_hosts
                 git clone -q git@github.com:cgrossde/scenarioo-infrastructure.git || ssh -T git@github.com
           - run:
