@@ -83,9 +83,7 @@ jobs:
     steps:
           - run:
               name: Checkout scenarioo-infrastructure
-              command: |
-                ssh-keyscan github.com >> ~/.ssh/known_hosts
-                git clone git@github.com:cgrossde/scenarioo-infrastructure.git || ssh -T git@github.com
+              command: git clone -q git@github.com:cgrossde/scenarioo-infrastructure.git || ssh -T git@github.com
           - run:
               name: Deploy demo of branch
               command: cd scenarioo-infrastructure && ./infra.sh deployBranch "$CIRCLE_BRANCH" "$CIRCLE_BUILD_NUM" "$CIRCLE_USERNAME" "$CIRCLE_PULL_REQUEST" "$CIRCLE_PR_NUMBER"
