@@ -99,20 +99,20 @@ jobs:
             git clone -q git@github.com:cgrossde/scenarioo-infrastructure.git .
       - attach_workspace: &attach_workspace
           at: .
-      - run: export CIRCLE_BUILD_NUM="$(cat BUILD_NUM)"
+      - run: export ORIGINAL_BUILD="$(cat BUILD_NUM)" && rm BUILD_NUM
       - run:
           name: Deploy demo of branch
           command: |
-            echo "./infra.sh deployDemo \"$CIRCLE_BRANCH\" \"$CIRCLE_BUILD_NUM\" \"$CIRCLE_USERNAME\" \"$CIRCLE_PULL_REQUEST\" \"$CIRCLE_PR_NUMBER\""
-            ./infra.sh deployDemo "$CIRCLE_BRANCH" "$CIRCLE_BUILD_NUM" "$CIRCLE_USERNAME" "$CIRCLE_PULL_REQUEST" "$CIRCLE_PR_NUMBER"
+            echo "./infra.sh deployDemo \"$CIRCLE_BRANCH\" \"$ORIGINAL_BUILD\" \"$CIRCLE_USERNAME\" \"$CIRCLE_PULL_REQUEST\" \"$CIRCLE_PR_NUMBER\""
+            ./infra.sh deployDemo "$CIRCLE_BRANCH" "$ORIGINAL_BUILD" "$CIRCLE_USERNAME" "$CIRCLE_PULL_REQUEST" "$CIRCLE_PR_NUMBER"
       - run:
           name: Commit and push
           command: |
             git config --global user.email "admin@scenarioo.org"
             git config --global user.name "CircleCI"
-            git add .
+            git add demos pages
             git diff
-            git commit -m "Deploy demo for $CIRCLE_BRANCH, build: $CIRCLE_BUILD_URL"
+            git commit -m "Deploy demo for $CIRCLE_BRANCH \nBuild: $CIRCLE_BUILD_URL"
             git push
 
 workflows:
