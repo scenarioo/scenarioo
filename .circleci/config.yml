@@ -79,7 +79,7 @@ jobs:
           # here to use it during the deploy for getting the artifacts
           - run: echo "$CIRCLE_BUILD_NUM" >> BUILD_NUM
           - persist_to_workspace:
-              root: /tmp
+              root: ~/repo
                 - BUILD_NUM
   deploy:
     docker:
@@ -88,7 +88,7 @@ jobs:
     working_directory: ~/infra
     steps:
           - attach_workspace: &attach_workspace
-              at: /tmp
+              at: ~/infra
           - run: export CIRCLE_BUILD_NUM="$(cat /tmp/BUILD_NUM)"
           - run:
               name: Checkout scenarioo-infrastructure
