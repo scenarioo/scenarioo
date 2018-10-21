@@ -99,6 +99,7 @@ jobs:
                 git config --global user.email "admin@scenarioo.org"
                 git config --global user.name "CircleCI"
                 git add .
+                git diff
                 git commit -m "Deploy demo for $CIRCLE_BRANCH, build: $CIRCLE_BUILD_URL"
                 git push
 
