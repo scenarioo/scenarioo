@@ -77,10 +77,14 @@ jobs:
               destination: /
           # Unfortunately each workflow job has it's own build number. Therefore we need to persist this jobs number
           # here to use it during the deploy for getting the artifacts
-          - run: echo "$CIRCLE_BUILD_NUM" >> BUILD_NUM
+          - run:
+              name: Persist $CIRCLE_BUILD_NUM for deploy job
+              command: |
+                mkdir workspace
+                echo "$CIRCLE_BUILD_NUM" >> workspace/BUILD_NUM
           - persist_to_workspace:
               root: ~/repo
-                - BUILD_NUM
+                - workspace
   deploy:
     docker:
       # See https://circleci.com/docs/2.0/circleci-images/ ...
@@ -89,7 +93,7 @@ jobs:
     steps:
           - attach_workspace: &attach_workspace
               at: ~/infra
-          - run: export CIRCLE_BUILD_NUM="$(cat /tmp/BUILD_NUM)"
+          - run: export CIRCLE_BUILD_NUM="$(cat workspace/BUILD_NUM)"
           - run:
               name: Checkout scenarioo-infrastructure
               command: |
@@ -111,9 +115,6 @@ jobs:
                 git diff
                 git commit -m "Deploy demo for $CIRCLE_BRANCH, build: $CIRCLE_BUILD_URL"
                 git push
-
-
-
 
 workflows:
   version: 2
