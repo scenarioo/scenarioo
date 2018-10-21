@@ -18,11 +18,10 @@ jobs:
           - run:
               name: Persist $CIRCLE_BUILD_NUM for deploy job
               command: |
-                mkdir workspace
-                echo "$CIRCLE_BUILD_NUM" >> workspace/BUILD_NUM
+                echo "$CIRCLE_BUILD_NUM" >> BUILD_NUM
           - persist_to_workspace:
-              root: /home/circleci/repo/workspace
-                - .
+              root: .
+                - BUILD_NUM
           - run:
               name: Clean & install
               command: |
@@ -92,8 +91,8 @@ jobs:
     working_directory: ~/infra
     steps:
           - attach_workspace: &attach_workspace
-              at: /home/circleci/infra
-          - run: export CIRCLE_BUILD_NUM="$(cat workspace/BUILD_NUM)"
+              at: .
+          - run: export CIRCLE_BUILD_NUM="$(cat BUILD_NUM)"
           - run:
               name: Checkout scenarioo-infrastructure
               command: |
