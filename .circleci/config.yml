@@ -13,6 +13,16 @@ jobs:
     working_directory: ~/repo
     steps:
           - checkout
+          # Unfortunately each workflow job has it's own build number. Therefore we need to persist this jobs number
+          # here to use it during the deploy for getting the artifacts
+          - run:
+              name: Persist $CIRCLE_BUILD_NUM for deploy job
+              command: |
+                mkdir workspace
+                echo "$CIRCLE_BUILD_NUM" >> workspace/BUILD_NUM
+          - persist_to_workspace:
+              root: /home/circleci/repo/workspace
+                - .
           - run:
               name: Clean & install
               command: |
@@ -75,16 +85,6 @@ jobs:
           - store_artifacts:
               path: dist
               destination: /
-          # Unfortunately each workflow job has it's own build number. Therefore we need to persist this jobs number
-          # here to use it during the deploy for getting the artifacts
-          - run:
-              name: Persist $CIRCLE_BUILD_NUM for deploy job
-              command: |
-                mkdir workspace
-                echo "$CIRCLE_BUILD_NUM" >> workspace/BUILD_NUM
-          - persist_to_workspace:
-              root: /home/circleci/repo/workspace
-                - .
   deploy:
     docker:
       # See https://circleci.com/docs/2.0/circleci-images/ ...
