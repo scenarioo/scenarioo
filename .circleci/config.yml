@@ -15,15 +15,17 @@ jobs:
           - checkout
           # Unfortunately each workflow job has it's own build number. Therefore we need to persist this jobs number
           # here to use it during the deploy for getting the artifacts
+          - attach_workspace:
+              at: /tmp
           - run:
               name: Persist $CIRCLE_BUILD_NUM for deploy job
               command: |
                 mkdir workspace
-                echo "$CIRCLE_BUILD_NUM" >> workspace/BUILD_NUM
-                ls
+                echo "$CIRCLE_BUILD_NUM" >> /tmp/BUILD_NUM
+                ls /tmp
           - persist_to_workspace:
-              root: /home/circleci/repo
-                - workspace
+              root: /tmp
+                - BUILD_NUM
           - run:
               name: Clean & install
               command: |
