@@ -83,8 +83,8 @@ jobs:
                 mkdir workspace
                 echo "$CIRCLE_BUILD_NUM" >> workspace/BUILD_NUM
           - persist_to_workspace:
-              root: ~/repo
-                - workspace
+              root: /home/circleci/repo/workspace
+                - .
   deploy:
     docker:
       # See https://circleci.com/docs/2.0/circleci-images/ ...
@@ -92,7 +92,7 @@ jobs:
     working_directory: ~/infra
     steps:
           - attach_workspace: &attach_workspace
-              at: ~/infra
+              at: /home/circleci/infra
           - run: export CIRCLE_BUILD_NUM="$(cat workspace/BUILD_NUM)"
           - run:
               name: Checkout scenarioo-infrastructure
