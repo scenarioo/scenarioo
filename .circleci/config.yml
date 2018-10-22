@@ -6,29 +6,29 @@ jobs:
       - image: circleci/openjdk:8-jdk-browsers
     working_directory: ~/repo
     steps:
-          - checkout
-          - run:
-              name: Clean & install
-              command: |
-                mkdir -p test-results
-                ./gradlew clean build -x test --no-daemon
-          - run:
-              name: Unit tests
-              command: ./gradlew test -x scenarioo-client:npm_test --continue --no-daemon
-          - run:
-              name: JS tests
-              command: ./gradlew scenarioo-client:npm_test --no-daemon
-              when: always
+      - checkout
+      - run:
+          name: Clean & install
+          command: |
+            mkdir -p test-results
+            ./gradlew clean build -x test --no-daemon
+      - run:
+          name: Unit tests
+          command: ./gradlew test -x scenarioo-client:npm_test --continue --no-daemon
+      - run:
+          name: JS tests
+          command: ./gradlew scenarioo-client:npm_test --no-daemon
+          when: always
 # No E2E or Lint tests on master
-          - run:
-              name: Collect test results
-              command: |
-                mkdir -p test-results/javascript
-                cp -pR scenarioo-client/TESTS* test-results/javascript || true
-                cp -pR scenarioo-server/build/test-results/test test-results/server || true
-                cp -pR scenarioo-validator/build/test-results/test test-results/validator || true
-                cp -pR scenarioo-docu-generation-example/build/test-results/test test-results/docu || true
-              when: always
+      - run:
+          name: Collect test results
+          command: |
+            mkdir -p test-results/javascript
+            cp -pR scenarioo-client/TESTS* test-results/javascript || true
+            cp -pR scenarioo-server/build/test-results/test test-results/server || true
+            cp -pR scenarioo-validator/build/test-results/test test-results/validator || true
+            cp -pR scenarioo-docu-generation-example/build/test-results/test test-results/docu || true
+          when: always
 # For now it's just testing => no E2E test => don't publish. In the future publish to master & develop
 #          - run:
 #              name: Publish docu on demo.scenarioo.org/scenarioo-develop
@@ -38,26 +38,72 @@ jobs:
 #                popd
 #                curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org:8080/scenarioo-develop/rest/builds
 #              when: always
-          # Master is not spring yet => fake E2E docu and use docu-generation-example instead
-          - run:
-              name: Fake E2E data for master
-              command: |
-                pushd scenarioo-docu-generation-example/build/scenarioDocuExample
-                zip -r ../../../e2eScenariooDocu.zip ./*
-                popd
-          - run:
-              name: Checksum artifacts and move to dist folder
-              command: |
-                mkdir -p dist
-                mv e2eScenariooDocu.zip dist
-                mv scenarioo-server/build/libs/scenarioo-latest.war dist/scenarioo.war
-                sha256sum dist/e2eScenariooDocu.zip | awk '{ print $1 }' > dist/e2eScenariooDocu.zip.sha256
-                sha256sum dist/scenarioo.war | awk '{ print $1 }' > dist/scenarioo.war.sha256
-          - store_test_results:
-              path: test-results
-          - store_artifacts:
-              path: test-results
-              destination: /test-results
-          - store_artifacts:
-              path: dist
-              destination: /
+      # Master is not spring yet => fake E2E docu and use docu-generation-example instead
+      - run:
+          name: Fake E2E data for master
+          command: |
+            pushd scenarioo-docu-generation-example/build/scenarioDocuExample
+            zip -r ../../../e2eScenariooDocu.zip ./*
+            popd
+      - run:
+          name: Checksum artifacts and move to dist folder
+          command: |
+            mkdir -p dist
+            mv e2eScenariooDocu.zip dist
+            mv scenarioo-server/build/libs/scenarioo-latest.war dist/scenarioo.war
+            sha256sum dist/e2eScenariooDocu.zip | awk '{ print $1 }' > dist/e2eScenariooDocu.zip.sha256
+            sha256sum dist/scenarioo.war | awk '{ print $1 }' > dist/scenarioo.war.sha256
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
+          destination: /test-results
+      - store_artifacts:
+          path: dist
+          destination: /
+      # Unfortunately each workflow job has it's own build number. Therefore we need to persist this jobs number
+      # here to use it during the deploy for getting the artifacts
+      - run:
+          name: Persist $CIRCLE_BUILD_NUM for deploy job
+          command: echo "$CIRCLE_BUILD_NUM" >> BUILD_NUM
+      - persist_to_workspace:
+          root: .
+          paths:
+            - BUILD_NUM
+  deploy:
+    docker:
+      # See https://circleci.com/docs/2.0/circleci-images/ ...
+      - image: circleci/openjdk:8-jdk-browsers
+    working_directory: ~/infra
+    steps:
+      - run:
+          name: Checkout scenarioo-infrastructure
+          command: |
+            mkdir -p ~/.ssh
+            sudo chmod 700 ~/.ssh
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+            git clone -q git@github.com:cgrossde/scenarioo-infrastructure.git .
+      - attach_workspace: &attach_workspace
+          at: .
+      - run:
+          name: Deploy demo of branch
+          command: |
+            ./infra.sh deployDemo "$CIRCLE_BRANCH" "$(cat BUILD_NUM)" "$CIRCLE_USERNAME" "$CIRCLE_PULL_REQUEST" && rm BUILD_NUM
+      - run:
+          name: Commit and push
+          command: |
+            git config --global user.email "admin@scenarioo.org"
+            git config --global user.name "CircleCI"
+            git add demos overviewpage
+            git diff
+            git commit -m "Deploy demo for $CIRCLE_BRANCH  - Build: $CIRCLE_BUILD_URL by $CIRCLE_USERNAME"
+            git push
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
