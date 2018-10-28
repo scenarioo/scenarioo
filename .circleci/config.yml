@@ -96,7 +96,7 @@ jobs:
             mkdir -p ~/.ssh
             sudo chmod 700 ~/.ssh
             ssh-keyscan github.com >> ~/.ssh/known_hosts
-            git clone -q git@github.com:cgrossde/scenarioo-infrastructure.git .
+            git clone -q git@github.com:scenarioo/scenarioo-infrastructure.git .
       - attach_workspace: &attach_workspace
           at: .
       - run:
