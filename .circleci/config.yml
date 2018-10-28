@@ -90,6 +90,12 @@ jobs:
       - image: circleci/openjdk:8-jdk-browsers
     working_directory: ~/infra
     steps:
+      # Add keys with write access to scenarioo-infrastructure:
+      #  Add private key on Circle CI: https://circleci.com/gh/scenarioo/scenarioo/edit#ssh
+      #  And public key on Github: https://github.com/scenarioo/scenarioo-infrastructure/settings/keys
+      - add_ssh_keys:
+            fingerprints:
+              - "6c:90:aa:bc:f6:16:a2:10:0c:95:80:7a:b7:b7:3c:0f"
       - run:
           name: Checkout scenarioo-infrastructure
           command: |
