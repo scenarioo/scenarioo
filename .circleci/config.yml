@@ -113,10 +113,10 @@ jobs:
           name: Commit and push
           command: |
             git config --global user.email "admin@scenarioo.org"
-            git config --global user.name "CircleCI"
+            git config --global user.name "scenarioo-ci"
             git add demos overviewpage
             git diff
-            git commit -m "Deploy demo for $CIRCLE_BRANCH  - Build: $CIRCLE_BUILD_URL by $CIRCLE_USERNAME"
+            git commit -m "Deploy demo for $CIRCLE_BRANCH  - Build: $CIRCLE_BUILD_URL triggered by $CIRCLE_USERNAME"
             git push
 
 workflows:
