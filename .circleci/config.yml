@@ -156,3 +156,12 @@ workflows:
       - deploy:
           requires:
             - build
+      - update_gitbook:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+                - /^release\/*/
