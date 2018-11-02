@@ -156,8 +156,10 @@ workflows:
       - deploy:
           requires:
             - build
-          ignore:
-            - /-nodemo$/
+          filters:
+            branches:
+              ignore:
+                - /-nodemo$/
       - update_gitbook:
           requires:
             - build
