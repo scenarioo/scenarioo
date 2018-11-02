@@ -31,7 +31,6 @@ jobs:
           when: always
       - run:
           name: Archive Wikipedia example docu
-          name: Archive Wikipedia example docu
           command: |
             pushd scenarioo-docu-generation-example/build/scenarioDocuExample
             zip -r ../../../exampleScenariooDocu.zip ./*
