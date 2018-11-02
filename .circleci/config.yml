@@ -95,7 +95,7 @@ jobs:
   deploy:
     docker:
       # See https://circleci.com/docs/2.0/circleci-images/ ...
-      - image: circleci/openjdk:8-jdk-browsers
+      - image: circleci/node:8-stretch
     working_directory: ~/infra
     steps:
       # Add keys with write access to scenarioo-infrastructure:
@@ -126,6 +126,27 @@ jobs:
             git diff
             git commit -m "Deploy demo for $CIRCLE_BRANCH  - Build: $CIRCLE_BUILD_URL triggered by $CIRCLE_USERNAME"
             git push
+
+  update_gitbook:
+    docker:
+      - image: circleci/node:8-stretch
+    working_directory: ~/gitbook
+    steps:
+      - checkout
+      - run:
+          name: Determine docu version
+      - run:
+          name: Install dependencies
+          command: cd docs && npm install
+      - run:
+          name: Generate docu
+          command: cd docs && npm run build
+      - run:
+          name: Publishing Docs to http://www.scenarioo.org/docs
+          command: |
+            export DOCU_VERSION=`echo $CIRCLE_BRANCH | sed 's/release\///'`
+            npm run gh-pages -- --dist _book --repo https://$DOCU_GIT_USERPASS@github.com/scenarioo/scenarioo.github.io.git --branch master --dest docs/$DOCU_VERSION --message "Publish docs for $DOCU_VERSION"
+
 
 workflows:
   version: 2
