@@ -142,11 +142,13 @@ jobs:
             fingerprints:
               - "82:b8:ea:d9:58:04:7d:09:fd:95:15:de:bc:1b:7c:b7"
       - run:
-          name: Configure github ssh connection for docs deployment
+          name: Configure git && github ssh connection for docs deployment
           command: |
             mkdir -p ~/.ssh
             sudo chmod 700 ~/.ssh
-            ssh-keyscan github.com >> ~/.ssh/known_hosts            
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+            git config --global user.email "admin@scenarioo.org"
+            git config --global user.name "scenarioo-ci"
       - checkout
       - run:
           name: Install dependencies
