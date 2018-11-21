@@ -128,7 +128,7 @@ public class BuildsResource {
 		return !dao.buildFolderExists(buildIdentifier);
 	}
 
-	@PostMapping(consumes = MediaType.TEXT_PLAIN_VALUE)
+	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity uploadBuildAsZipFile(@RequestBody final MultipartFile formData) {
 		return new BuildUploader().uploadBuild(formData);
 	}
