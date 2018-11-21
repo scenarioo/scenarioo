@@ -66,7 +66,7 @@ jobs:
             zip -r ../e2eScenariooDocu.zip ./*
             popd
             curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org:8080/scenarioo-develop/rest/builds
-            echo "Self docu for this build can be browsed under: http://demo.scenarioo.org/scenarioo-develop/#/?branch=${BRANCH}&build=build-${$CIRCLE_BUILD_NUM}"
+            echo "Self docu for this build can be browsed under: http://demo.scenarioo.org/scenarioo-develop/#/?branch=${BRANCH}&build=build-${CIRCLE_BUILD_NUM}"
           when: always
       - run:
           name: Checksum artifacts and move to dist folder for deploy job
