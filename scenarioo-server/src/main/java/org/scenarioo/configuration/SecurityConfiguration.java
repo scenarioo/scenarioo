@@ -1,4 +1,4 @@
-package org.scenarioo;
+package org.scenarioo.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,9 +15,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http
 			.csrf().disable()
 			.authorizeRequests()
-			.antMatchers(HttpMethod.POST, "/rest/builds").authenticated()
+			.antMatchers(HttpMethod.POST, "/rest/builds").hasRole("scenarioo-build-publisher")
 			.anyRequest().permitAll()
 			.and()
 			.httpBasic();
 	}
+
 }
