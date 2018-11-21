@@ -86,7 +86,7 @@ jobs:
       # Unfortunately each workflow job has it's own build number. Therefore we need to persist this jobs number
       # here to use it during the deploy for getting the artifacts
       - run:
-          name: Persist ${CIRCLE_BUILD_NUM} for deploy job
+          name: Persist value of $CIRCLE_BUILD_NUM for deploy job
           command: echo "$CIRCLE_BUILD_NUM" >> BUILD_NUM
       - persist_to_workspace:
           root: .
@@ -156,6 +156,7 @@ jobs:
           command: |            
             export DOCU_VERSION=`echo $CIRCLE_BRANCH | sed 's/release\///' | sed 's/feature\///'`
             echo "Publish docs for $DOCU_VERSION"
+            cd docs
             npm run gh-pages -- --dist _book --repo git@github.com:scenarioo/scenarioo.github.io.git --branch master --dest docs/$DOCU_VERSION --message "Publish docs for $DOCU_VERSION"
 
 workflows:
