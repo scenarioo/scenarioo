@@ -17,17 +17,17 @@ jobs:
           name: Clean & install
           command: |
             mkdir -p test-results
-            ./gradlew clean build -x test --no-daemon
+            ./gradlew clean build -x test --no-daemon -s
       - run:
           name: Unit tests
-          command: ./gradlew test -x scenarioo-client:npm_test --continue --no-daemon
+          command: ./gradlew test -x scenarioo-client:npm_test --continue --no-daemon -s
       - run:
           name: JS tests
-          command: ./gradlew scenarioo-client:npm_test --no-daemon
+          command: ./gradlew scenarioo-client:npm_test --no-daemon -s
           when: always
       - run:
           name: JS/TS lint
-          command: ./gradlew scenarioo-client:runLinter --no-daemon
+          command: ./gradlew scenarioo-client:runLinter --no-daemon -s
           when: always
       - run:
           name: Archive generated example scenarioo docu data of Wikipedia
@@ -47,7 +47,7 @@ jobs:
             echo "Scenarioo Self-Docu will be stored under branch / build name: ${BRANCH}/build-${CIRCLE_BUILD_NUM}"
             sleep 30  # Give server some time because of comparisons
             export GRADLE_OPTS="-Xms300m -Xmx300m"
-            ./gradlew scenarioo-client:runE2eCircleCi --no-daemon
+            ./gradlew scenarioo-client:runE2eCircleCi --no-daemon -s
       - run:
           name: Collect test results
           command: |
