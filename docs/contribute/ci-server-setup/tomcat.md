@@ -1,4 +1,23 @@
+# Tomcat 8
+
+We use tomcat 8 - but since the docu for how tomcat8 was setup is missing, please refer to old docu from tomcat 7 setup below
+
+## Tomcat Users
+
+After the installation of tomcat 8 do not forget to configure a scenarioo user with role to upload scenarioo documentation files over our REST API as follows:
+
+* go to `/var/lib/tomcat8/conf/tomcat-users.xml`
+* Add user entries as follows:
+   ```
+   <role rolename="scenarioo-build-publisher"/>
+   <user username="scenarioo" password="<our-password>" roles="scenarioo-build-publisher"/>
+   ```
+* Please use our usual password when configuring this (please ask if in doubt!)
+
+
 # Tomcat 7
+
+This part is old docu to be replaced with tomcat8 docu - TODO
 
 ## Installation
 

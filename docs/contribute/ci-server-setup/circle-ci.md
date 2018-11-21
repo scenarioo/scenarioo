@@ -1,26 +1,5 @@
 # Circle CI
 
-## Why?
-
-* Reduce load on our server => Ability to run more demo instance on it & increase stability, no more shaky builds on coding days
-* We don't have to maintain jenkins anymore and can simplify our setup/maintenance
-* Circle CI not Travis? Travis doesn't support test reporting. Circle CI is fucking fast.
-* Future: Github Checks API integration for even more information in PRs https://blog.github.com/2018-05-07-introducing-checks-api/
-
-## TODOs
-
-* Publish artifact
-* Deploy artifact on our server
-* Import scenarioo docu from E2E run
-* Disable E2E tests on our server
-* Write documentation
-* [DONE] Run unit tests
-* [DONE] Report test results of tests
-* [DONE] Add elastic search docker image
-* [DONE] Run E2E tests
-* [DONE] Fix memory issues
-* [DONE] Report E2E tests
-
 ## Configuration
 
 * We are on an open-source plan of Circle CI with up to 4 instances in parallel
@@ -28,6 +7,34 @@
 * Copy everything you want to keep into `./test-results`. These files will be persisted as artifacts
 * There you can also find the logging output of the scenarioo server: `./test-results/scenarioo-server.log`
 
+## Environment vars - Context
+
+In Circle CI environment vars are grouped in contexts. We store all variables in the context `Scenarioo`. It can be modified here: https://circleci.com/gh/organizations/scenarioo/settings#contexts
+
+The following variables are needed:
+ * `TOMCAT_USER_PASSWORD`: Used to secure the publish scenarioo docu endpoint. Defaults to: 'scenarioo' and user is always 'scenarioo'.
+ * `CIRLCE_TOKEN`: Used to download WAR and scenarioo docu artifacts from CircleCI
+ * `DOCU_GIT_USERPASS`: `user:password` Used to publish our docu with gitbook.
+ 
+## SSH Keys
+
+We need a commit key pair and a deploy key pair for our infrastructure to work.
+
+### Commit key pair
+
+To commit to the `scenarioo-infrastructure` repository we need to configure an SSH key. 
+
+* Generate one with: `ssh-keygen -t rsa -b 4096 -C "scenarioo ci"`
+* Add the private key on Circle CI: https://circleci.com/gh/scenarioo/scenarioo/edit#ssh
+* Add public key on Github to allow commits: https://github.com/scenarioo/scenarioo-infrastructure/settings/keys
+* Add the fingerprint of the SSH key to the deploy job in `.circleci/config.yml` of the `scenarioo/scenarioo` repository
+
+### Deploy key pair
+
+To deploy the server using ansible we need an authorized key pair of the host we want to deploy to.
+
+* Add the private key here: https://circleci.com/gh/scenarioo/scenarioo-infrastructure/edit#ssh
+* Add the fingerprint of the SSH key to the deploy job in `.circleci/config.yml` of the `scenarioo/scenarioo-infrastructure` repository
 
 
 ## Debugging

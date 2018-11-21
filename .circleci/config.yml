@@ -30,6 +30,12 @@ jobs:
           command: ./gradlew scenarioo-client:runLinter --no-daemon
           when: always
       - run:
+          name: Archive Wikipedia example docu
+          command: |
+            pushd scenarioo-docu-generation-example/build/scenarioDocuExample
+            zip -r ../../../exampleScenariooDocu.zip ./*
+            popd
+      - run:
           name: E2E tests
           command: |
             export SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample
@@ -60,12 +66,14 @@ jobs:
             curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org:8080/scenarioo-develop/rest/builds
           when: always
       - run:
-          name: Checksum artifacts and move to dist folder
+          name: Checksum artifacts and move to dist folder for deploy job
           command: |
             mkdir -p dist
             mv e2eScenariooDocu.zip dist
+            mv exampleScenariooDocu.zip dist
             mv scenarioo-server/build/libs/scenarioo-latest.war dist/scenarioo.war
             sha256sum dist/e2eScenariooDocu.zip | awk '{ print $1 }' > dist/e2eScenariooDocu.zip.sha256
+            sha256sum dist/exampleScenariooDocu.zip | awk '{ print $1 }' > dist/exampleScenariooDocu.zip.sha256
             sha256sum dist/scenarioo.war | awk '{ print $1 }' > dist/scenarioo.war.sha256
       - store_test_results:
           path: test-results
@@ -78,7 +86,7 @@ jobs:
       # Unfortunately each workflow job has it's own build number. Therefore we need to persist this jobs number
       # here to use it during the deploy for getting the artifacts
       - run:
-          name: Persist $CIRCLE_BUILD_NUM for deploy job
+          name: Persist ${CIRCLE_BUILD_NUM} for deploy job
           command: echo "$CIRCLE_BUILD_NUM" >> BUILD_NUM
       - persist_to_workspace:
           root: .
@@ -87,7 +95,7 @@ jobs:
   deploy:
     docker:
       # See https://circleci.com/docs/2.0/circleci-images/ ...
-      - image: circleci/openjdk:8-jdk-browsers
+      - image: circleci/node:8-stretch
     working_directory: ~/infra
     steps:
       # Add keys with write access to scenarioo-infrastructure:
@@ -119,6 +127,37 @@ jobs:
             git commit -m "Deploy demo for $CIRCLE_BRANCH  - Build: $CIRCLE_BUILD_URL triggered by $CIRCLE_USERNAME"
             git push
 
+  publish_docs:
+    docker:
+      - image: circleci/node:8-stretch
+    working_directory: ~/gitbook
+    steps:
+      # Add keys with write access to scenarioo.github.io:
+      #  Add private key on Circle CI: https://circleci.com/gh/scenarioo/scenarioo/edit#ssh
+      #  And public key on Github: https://github.com/scenarioo/scenarioo.github.io/settings/keys
+      - add_ssh_keys:
+            fingerprints:
+              - "82:b8:ea:d9:58:04:7d:09:fd:95:15:de:bc:1b:7c:b7"
+      - run:
+          name: Configure github ssh connection for docs deployment
+          command: |
+            mkdir -p ~/.ssh
+            sudo chmod 700 ~/.ssh
+            ssh-keyscan github.com >> ~/.ssh/known_hosts            
+      - checkout
+      - run:
+          name: Install dependencies
+          command: cd docs && npm install
+      - run:
+          name: Generate docu
+          command: cd docs && npm run build
+      - run:
+          name: Publishing Docs to http://www.scenarioo.org/docs
+          command: |            
+            export DOCU_VERSION=`echo $CIRCLE_BRANCH | sed 's/release\///' | sed 's/feature\///'`
+            echo "Publish docs for $DOCU_VERSION"
+            npm run gh-pages -- --dist _book --repo git@github.com:scenarioo/scenarioo.github.io.git --branch master --dest docs/$DOCU_VERSION --message "Publish docs for $DOCU_VERSION"
+
 workflows:
   version: 2
   build_and_deploy:
@@ -127,3 +166,18 @@ workflows:
       - deploy:
           requires:
             - build
+          filters:
+            branches:
+              ignore:
+                - /--nodemo/
+                - /--no-demo/
+      - publish_docs:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+                - /^release\/.*/
+                - /^feature\/.*/
