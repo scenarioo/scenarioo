@@ -176,8 +176,6 @@ workflows:
                 - /--nodemo/
                 - /--no-demo/
       - publish_docs:
-          requires:
-            - build
           filters:
             branches:
               only:
