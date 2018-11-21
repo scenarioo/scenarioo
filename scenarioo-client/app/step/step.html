@@ -327,24 +327,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                               ng-show="hasAnyLabels()">
             <div class="sc-tree">
                 <ul>
-                    <li id="usecase-labels" ng-show="useCaseLabels.label">
+                    <li id="usecase-labels" ng-show="useCaseLabels.labels">
                         Use case:
-                        <span ng-repeat="label in useCaseLabels.label" class="label label-info sc-label"
+                        <span ng-repeat="label in useCaseLabels.labels" class="label label-info sc-label"
                               ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
-                    <li id="scenario-labels" ng-show="scenarioLabels.label">
+                    <li id="scenario-labels" ng-show="scenarioLabels.labels">
                         Scenario:
-                        <span ng-repeat="label in scenarioLabels.label" class="label label-info sc-label"
+                        <span ng-repeat="label in scenarioLabels.labels" class="label label-info sc-label"
                               ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
-                    <li id="step-labels" ng-show="step.stepDescription.labels.label">
+                    <li id="step-labels" ng-show="step.stepDescription.labels.labels">
                         Step:
-                        <span ng-repeat="label in step.stepDescription.labels.label" class="label label-info sc-label"
+                        <span ng-repeat="label in step.stepDescription.labels.labels" class="label label-info sc-label"
                               ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
-                    <li id="page-labels" ng-show="step.page.labels.label">
+                    <li id="page-labels" ng-show="step.page.labels.labels">
                         Page:
-                        <span ng-repeat="label in step.page.labels.label" class="label label-info sc-label"
+                        <span ng-repeat="label in step.page.labels.labels" class="label label-info sc-label"
                               ng-style="getLabelStyle(label)">{{label}}</span>
                     </li>
                 </ul>

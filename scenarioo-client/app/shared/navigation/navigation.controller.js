@@ -46,13 +46,11 @@ function NavigationController($scope, $location, LocalStorageService, BranchesAn
             return;
         }
 
-        // Cancel search, if the search term contains a slash (this is not supported because of Tomcat security restrictions)
-        if(searchTerm.indexOf('/') !== -1) {
-            $scope.globalSearch.queryString = searchTerm.replace('/', '<slash_not_supported>');
-            return;
-        }
-
-        $location.url('/search/' + searchTerm);
+        // Since angular odes not support encoded slashes in routes, we have to encode it twice.
+        // See https://github.com/angular/angular.js/issues/10479
+        var searchUrl = '/search/' + encodeURIComponent(encodeURIComponent(searchTerm));
+        console.log(searchUrl);
+        $location.url(searchUrl);
     };
 
     function loadSearchEngineRunning () {

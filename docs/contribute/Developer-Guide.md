@@ -31,7 +31,7 @@ This process describes how you clean update all your sources and build everythin
     ```
     cd ~/scenarioo
     git pull
-    ./gradlew clean build test war
+    ./gradlew clean build test bootWar
     ```
 
 3. Refresh and build in your IDE
@@ -53,7 +53,7 @@ This process describes how you clean update all your sources and build everythin
     npm install
     npm start
     ```
-    Then open the browser to browse the application under http://localhost:8500/scenarioo/  (Caution: webpack needs to need the slash in the end!)
+    Then open the browser to browse the application under http://localhost:8500/scenarioo/  (Caution: webpack needs the slash at the end!)
     If you change files in the client the browser will refresh automatically
     
     Some remarks about this:
@@ -80,10 +80,10 @@ Now have fun improving and extending Scenarioo, we are awaiting for your first p
 
 ## Build WAR File for Server Deployement
 
-The following command creates a war file which contains the server and the client code.
+The following command creates an executable war file which contains a tomcat server as well as the server and the client code.
 
 ```
-./gradlew war
+./gradlew bootWar
 ```
 
 ## Client package update strategy (package.json)

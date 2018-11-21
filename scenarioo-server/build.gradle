@@ -22,20 +22,28 @@ apply plugin: 'signing'
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 apply from: "${rootProject.projectDir}/build-java.gradle"
+apply plugin: 'org.springframework.boot'
+
 
 dependencies {
-    compile 'org.jboss.resteasy:resteasy-jaxrs:3.1.4.Final'
-    compile 'org.jboss.resteasy:resteasy-jaxb-provider:3.1.4.Final'
-    compile 'org.jboss.resteasy:resteasy-jackson-provider:3.1.4.Final'
-    compile 'org.jboss.resteasy:resteasy-multipart-provider:3.1.4.Final'
-    compile 'com.google.guava:guava-base:r03'
-    compile 'org.apache.xmlgraphics:batik-transcoder:1.8'
-    compile 'org.apache.xmlgraphics:batik-codec:1.8'
-    compile 'org.apache.xmlgraphics:xmlgraphics-commons:1.5'
-    compile 'org.mockito:mockito-all:1.9.5'
-    compile 'org.elasticsearch:elasticsearch:5.6.9'
-    compile 'org.elasticsearch.client:transport:5.6.9'
-    providedCompile 'javax.servlet:servlet-api:2.5'
+    compile 'com.google.guava:guava-base'
+    compile 'org.apache.xmlgraphics:batik-transcoder'
+    compile 'org.apache.xmlgraphics:batik-codec'
+    compile 'org.apache.xmlgraphics:xmlgraphics-commons'
+    compile 'com.thetransactioncompany:cors-filter'
+    compile 'org.elasticsearch:elasticsearch'
+    compile 'org.elasticsearch.client:transport'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+    //These libraries are no longer provided in Java 9+, thus we need to add them manually
+    compile 'javax.xml.bind:jaxb-api'
+    compile 'com.sun.xml.bind:jaxb-core'
+    compile 'com.sun.xml.bind:jaxb-impl'
+    compile 'javax.activation:activation'
+
+    testCompile 'org.mockito:mockito-all'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 
 eclipse {
@@ -65,7 +73,7 @@ task createVersionPropertiesFile << {
 	def apiVersion = project.scenariooApiVersion
     def documentationVersion = project.documentationVersion
 
-	File versionFile = new File(sourceSets.main.output.classesDir.getAbsolutePath() + '/version.properties');
+	File versionFile = new File(sourceSets.main.output.classesDir.getAbsolutePath() + '/version.properties')
 	versionFile.write('version=' + versionWithGitCommit + '\n' +
             'build-date=' + new Date() + '\n' +
             'apiVersion=' + apiVersion + '\n' +
@@ -73,15 +81,30 @@ task createVersionPropertiesFile << {
             'documentationVersion=' + documentationVersion + '\n')
 }
 
-war {
-    from '../scenarioo-client/dist'
-    from(sourceSets.main.output.classesDir) {
-        into('WEB-INF/classes')
+bootJar {
+    from('../scenarioo-client/dist') {
+        into('static')
+    }
+    archiveName 'scenarioo-viewer-' + version + '.jar'
+}
+
+bootJar.doLast {
+    copy {
+        from ('build/libs/')
+        into ('build/libs/')
+        include('scenarioo-viewer-' + version + '.jar')
+        rename('scenarioo-viewer-' + version + '.jar', 'scenarioo-latest.jar')
+    }
+}
+
+bootWar {
+    from('../scenarioo-client/dist') {
+        into('WEB-INF/classes/static')
     }
 	archiveName 'scenarioo-viewer-' + version + '.war'
 }
 
-war.doLast {
+bootWar.doLast {
     copy {
         from ('build/libs/')
         into ('build/libs/')

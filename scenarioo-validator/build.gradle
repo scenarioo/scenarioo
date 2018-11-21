@@ -24,14 +24,20 @@
 
 apply plugin: 'application'
 apply from: "${rootProject.projectDir}/build-java.gradle"
+apply plugin: 'org.springframework.boot'
 
 mainClassName = 'org.scenarioo.validator.ScenariooValidatorRunner'
 
 dependencies {
+    // Since Spring Boot builds a fat jar with a different structure, we need to depend on the project (for transitive deps) and
+    // the output of the main sourceset explicitly (for the server classes)
+    // See also https://stackoverflow.com/a/48770018
     compile project(':scenarioo-server')
-    compile 'commons-cli:commons-cli:1.3.1'
-    compile 'org.apache.commons:commons-collections4:4.1'
+    compile project(':scenarioo-server').sourceSets.main.output
+    compile 'commons-cli:commons-cli'
+    compile 'org.apache.commons:commons-collections4'
 }
+
 
 distZip.doLast {
     copy {
@@ -42,3 +48,5 @@ distZip.doLast {
         rename(originalZipName, 'scenarioo-validator-latest.zip')
     }
 }
+
+

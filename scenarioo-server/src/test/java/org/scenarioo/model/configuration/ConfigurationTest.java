@@ -2,10 +2,10 @@ package org.scenarioo.model.configuration;
 
 import org.junit.Test;
 
-import java.awt.Color;
+import java.awt.*;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 
 
@@ -16,7 +16,7 @@ public class ConfigurationTest {
 	private Configuration configuration = new Configuration();
 
 	@Test
-	public void testDefaultDiffImageColor() throws Exception {
+	public void testDefaultDiffImageColor() {
 
 		Color actual = configuration.getDiffImageAwtColor();
 
@@ -24,7 +24,7 @@ public class ConfigurationTest {
 	}
 
 	@Test
-	public void testSetAndGetDiffImageColor() throws Exception {
+	public void testSetAndGetDiffImageColor() {
 
 		Color expected = new Color(237, 176, 77, 127);
 		configuration.setDiffImageAwtColor(expected);

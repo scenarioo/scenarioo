@@ -94,7 +94,6 @@ timestamps {
             archiveArtifacts ("scenarioo-server/build/libs/scenarioo-*.war, LICENSE.txt, README.md, "
                               + "scenarioo-docu-generation-example/build/scenarioDocuExample/")
         }
-
         stage('Deploy') {
             ansiColor('xterm') {
 
@@ -164,6 +163,6 @@ timestamps {
             }
         }
 
-	}
+    }
 
 }

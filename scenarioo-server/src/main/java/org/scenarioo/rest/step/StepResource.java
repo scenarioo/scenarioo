@@ -17,13 +17,6 @@
 
 package org.scenarioo.rest.step;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
-
 import org.apache.log4j.Logger;
 import org.scenarioo.api.ScenarioDocuReader;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
@@ -33,11 +26,18 @@ import org.scenarioo.model.docu.aggregates.objects.LongObjectNamesResolver;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
-import org.scenarioo.rest.base.ScenarioIdentifier;
 import org.scenarioo.rest.base.StepIdentifier;
-import org.scenarioo.rest.step.logic.*;
+import org.scenarioo.rest.step.logic.LabelsQueryParamParser;
+import org.scenarioo.rest.step.logic.ScenarioLoader;
+import org.scenarioo.rest.step.logic.StepIndexResolver;
+import org.scenarioo.rest.step.logic.StepLoader;
+import org.scenarioo.rest.step.logic.StepLoaderResult;
+import org.scenarioo.rest.step.logic.StepResponseFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Path("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario")
+@RestController
+@RequestMapping("/rest/branch/{branchName}/build/{buildName}/usecase/{usecaseName}/scenario/{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}")
 public class StepResource {
 
 	private static final Logger LOGGER = Logger.getLogger(StepResource.class);
@@ -56,22 +56,20 @@ public class StepResource {
 
 	private final ScenarioDocuReader scenarioDocuReader = new ScenarioDocuReader(
 			configurationRepository.getDocumentationDataDirectory());
+
 	private final StepResponseFactory stepResponseFactory = new StepResponseFactory(aggregatedDataReader,
 			scenarioDocuReader);
-	private final ScreenshotResponseFactory screenshotResponseFactory = new ScreenshotResponseFactory();
 
 	/**
 	 * Get a step with all its data (meta data, html, ...) together with additional calculated navigation data
 	 */
-	@GET
-	@Produces({ "application/json" })
-	@Path("/{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}")
-	public Response loadStep(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
-			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
-			@PathParam("pageOccurrence") final int pageOccurrence,
-			@PathParam("stepInPageOccurrence") final int stepInPageOccurrence,
-			@QueryParam("fallback") final boolean addFallbackInfo, @QueryParam("labels") final String labels) {
+	@GetMapping
+	public ResponseEntity loadStep(@PathVariable("branchName") final String branchName,
+								   @PathVariable("buildName") final String buildName, @PathVariable("usecaseName") final String usecaseName,
+								   @PathVariable("scenarioName") final String scenarioName, @PathVariable("pageName") final String pageName,
+								   @PathVariable("pageOccurrence") final int pageOccurrence,
+								   @PathVariable("stepInPageOccurrence") final int stepInPageOccurrence,
+								   @RequestParam(value = "fallback", required = false) final boolean addFallbackInfo, @RequestParam(value = "labels", required = false) final String labels) {
 
 		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, buildName);
 		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
@@ -85,49 +83,6 @@ public class StepResource {
 
 		return stepResponseFactory.createResponse(stepLoaderResult, stepIdentifier,
 				buildIdentifierBeforeAliasResolution, addFallbackInfo);
-	}
-
-	/**
-	 * This method is used for sharing screenshot images. It is a bit slower, because the image filename has to be
-	 * resolved first. But it is also more stable, because it uses the new "stable" URL pattern.
-	 */
-	@GET
-	@Produces({"image/jpeg", "image/png"})
-	@Path("/{scenarioName}/pageName/{pageName}/pageOccurrence/{pageOccurrence}/stepInPageOccurrence/{stepInPageOccurrence}/image.{extension}")
-	public Response getScreenshotStable(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
-			@PathParam("scenarioName") final String scenarioName, @PathParam("pageName") final String pageName,
-			@PathParam("pageOccurrence") final int pageOccurrence,
-			@PathParam("stepInPageOccurrence") final int stepInPageOccurrence,
-			@QueryParam("fallback") final boolean fallback, @QueryParam("labels") final String labels) {
-
-		BuildIdentifier buildIdentifierBeforeAliasResolution = new BuildIdentifier(branchName, buildName);
-		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
-			buildName);
-		StepIdentifier stepIdentifier = new StepIdentifier(buildIdentifier, usecaseName, scenarioName, pageName,
-			pageOccurrence, stepInPageOccurrence, labelsQueryParamParser.parseLabels(labels));
-
-		StepLoaderResult stepImageInfo = stepLoader.loadStep(stepIdentifier);
-
-		return screenshotResponseFactory.createResponse(stepImageInfo, fallback, buildIdentifierBeforeAliasResolution);
-	}
-
-	/**
-	 * This method is used internally for loading the image of a step. It is the faster method, because it already knows
-	 * the filename of the image.
-	 */
-	@GET
-	@Produces({"image/jpeg", "image/png"})
-	@Path("/{scenarioName}/image/{imageFileName}")
-	public Response getScreenshot(@PathParam("branchName") final String branchName,
-								  @PathParam("buildName") final String buildName, @PathParam("usecaseName") final String usecaseName,
-								  @PathParam("scenarioName") final String scenarioName, @PathParam("imageFileName") final String imageFileName) {
-
-		BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(branchName,
-			buildName);
-		ScenarioIdentifier scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, usecaseName, scenarioName);
-
-		return screenshotResponseFactory.createFoundImageResponse(scenarioIdentifier, imageFileName, false);
 	}
 
 }

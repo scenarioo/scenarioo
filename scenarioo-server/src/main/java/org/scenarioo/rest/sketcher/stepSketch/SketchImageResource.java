@@ -17,49 +17,47 @@
 
 package org.scenarioo.rest.sketcher.stepSketch;
 
-import org.apache.log4j.Logger;
-import org.jboss.resteasy.annotations.cache.NoCache;
 import org.scenarioo.business.builds.BranchAliasResolver;
 import org.scenarioo.dao.sketcher.SketcherDao;
+import org.scenarioo.rest.base.FileResponseCreator;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import java.io.File;
 
-@Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/stepsketch")
+@RestController
+@RequestMapping("/rest/branch/{branchName}/issue/{issueId}/scenariosketch/{scenarioSketchId}/stepsketch")
 public class SketchImageResource {
-
-	private static final Logger LOGGER = Logger.getLogger(SketchImageResource.class);
 
 	private final SketcherDao sketcherDao = new SketcherDao();
 
-	@GET
-	@Path("{stepSketchId}/svg/{stepSketchId}")
-	@Produces({ "image/svg+xml" })
-	public Object loadSketch(@PathParam("branchName") final String branchName,
-			@PathParam("issueId") final String issueId,
-			@PathParam("scenarioSketchId") final String scenarioSketchId,
-			@PathParam("stepSketchId") final String stepSketchId) {
+	@GetMapping(path = "{stepSketchId}/svg/{stepSketchId}", produces = "image/svg+xml")
+	public ResponseEntity<InputStreamResource> loadSketch(@PathVariable("branchName") final String branchName,
+			@PathVariable("issueId") final String issueId,
+			@PathVariable("scenarioSketchId") final String scenarioSketchId,
+			@PathVariable("stepSketchId") final String stepSketchId) {
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
-		return sketcherDao.getStepSketchSvgFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId);
+		File svgFile = sketcherDao.getStepSketchSvgFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId);
+		return FileResponseCreator.createImageFileResponse(svgFile);
 	}
 
 	/**
 	 * @param pngFileName
 	 *            Specify whether you want to load the original PNG file or the sketch PNG file.
 	 */
-	@GET
-	@Path("{stepSketchId}/image/{pngFile}")
-	@Produces({ "image/png" })
-	@NoCache
-	public Object loadPngFile(@PathParam("branchName") final String branchName,
-			@PathParam("issueId") final String issueId,
-			@PathParam("scenarioSketchId") final String scenarioSketchId,
-			@PathParam("stepSketchId") final String stepSketchId,
-			@PathParam("pngFile") final String pngFileName) {
+	@GetMapping(path = "{stepSketchId}/image/{pngFile}", produces = "image/png" )
+	public ResponseEntity<InputStreamResource> loadPngFile(@PathVariable("branchName") final String branchName,
+														   @PathVariable("issueId") final String issueId,
+														   @PathVariable("scenarioSketchId") final String scenarioSketchId,
+														   @PathVariable("stepSketchId") final String stepSketchId,
+														   @PathVariable("pngFile") final String pngFileName) {
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
-		return sketcherDao.getStepSketchPngFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId, pngFileName);
+		File pngFile = sketcherDao.getStepSketchPngFile(resolvedBranchName, issueId, scenarioSketchId, stepSketchId, pngFileName);
+		return FileResponseCreator.createImageFileResponse(pngFile);
 	}
 
 }
