@@ -159,7 +159,8 @@ workflows:
           filters:
             branches:
               ignore:
-                - /-nodemo$/
+                - /--nodemo/
+                - /--no-demo/
       - update_gitbook:
           requires:
             - build
