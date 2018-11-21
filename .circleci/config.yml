@@ -159,7 +159,7 @@ jobs:
       - run:
           name: Publishing Docs to http://www.scenarioo.org/docs
           command: |            
-            export DOCU_VERSION=`echo $CIRCLE_BRANCH | sed 's/release\///' | sed 's/feature\///'`
+            export DOCU_VERSION=`echo $CIRCLE_BRANCH | sed 's/release\///'`
             echo "Publish docs for $DOCU_VERSION"
             cd docs
             npm run gh-pages -- --dist _book --repo git@github.com:scenarioo/scenarioo.github.io.git --branch master --dest docs/$DOCU_VERSION --message "Publish docs for $DOCU_VERSION"
@@ -184,4 +184,3 @@ workflows:
                 - master
                 - develop
                 - /^release\/.*/
-                - /^feature\/.*/
