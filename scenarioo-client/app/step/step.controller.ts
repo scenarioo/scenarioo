@@ -509,7 +509,7 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             return undefined;
         }
 
-        return 'rest/branch/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY] +
+        return getUrlPartBeforeHash($location.absUrl()) + 'rest/branch/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BRANCH_KEY] +
             '/build/' + SelectedBranchAndBuildService.selected()[SelectedBranchAndBuildService.BUILD_KEY] +
             '/usecase/' + encodeURIComponent(useCaseName) +
             '/scenario/' + encodeURIComponent(scenarioName) +
@@ -517,6 +517,10 @@ function StepController($scope, $routeParams, $location, $route, StepResource, S
             '/pageOccurrence/' + $scope.pageOccurrence +
             '/stepInPageOccurrence/' + $scope.stepInPageOccurrence + '/image.' + getImageFileExtension() + createLabelUrl('?', getAllLabels());
     };
+
+    function getUrlPartBeforeHash(url) {
+        return url.split('#')[0];
+    }
 
     var getImageFileExtension = function () {
         if (angular.isUndefined($scope.step)) {

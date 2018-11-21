@@ -71,6 +71,8 @@ timestamps {
         stage('Checkout') {
             checkout scm
             sh "git clean -x -d -f"
+            echo "Building Version:"
+            sh "git describe"
         }
 
         def encodedBranchName = getEncodedBranchName()
@@ -127,15 +129,21 @@ timestamps {
                         sh "./ci/runE2ETests.sh --branch=${encodedBranchName}"
                     }
                 } finally {
-                    junit 'scenarioo-client/test-reports/*.xml'
+
+                    // Important to do this part in any case - to not loose old archived scenarioo reports!!
+                    // credentials are needed here to cleanup tomcat deployments and not for docu deployments to scenarioo
                     withCredentials([usernameColonPassword(credentialsId: 'SCENARIOO_TOMCAT', variable: 'TOMCAT_USERPASS')]) {
-                         // Only for the master branch the self docu is deployed to scenarioo-master
-                         // for all others: to scenarioo-develop
-                         def docuDeploymentScenariooInstance = encodedBranchName == "master" ? "master" : "develop"
-                         def scenariooUrl = "http://demo.scenarioo.org/scenarioo-${docuDeploymentScenariooInstance}"
-                         sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
-                         reportJenkinsSummaryScenariooReports(scenariooUrl, "scenarioo-${encodedBranchName}", "build-${env.BUILD_NUMBER}")
+                                             // Only for the master branch the self docu is deployed to scenarioo-master
+                                             // for all others: to scenarioo-develop
+                                             def docuDeploymentScenariooInstance = encodedBranchName == "master" ? "master" : "develop"
+                                             def scenariooUrl = "http://demo.scenarioo.org/scenarioo-${docuDeploymentScenariooInstance}"
+                                             sh "./ci/deploySelfDocu.sh --branch=${encodedBranchName}"
+                                             reportJenkinsSummaryScenariooReports(scenariooUrl, "scenarioo-${encodedBranchName}", "build-${env.BUILD_NUMBER}")
                     }
+
+                    // this one will let the build fail if there are no reports
+                    junit 'scenarioo-client/test-reports/*.xml'
+
                 }
 
             }

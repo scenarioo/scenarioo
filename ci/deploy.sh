@@ -21,7 +21,7 @@ npm -v
 node -v
 
 # Properties
-TOMCAT_WEBAPPS=/var/lib/tomcat7/webapps
+TOMCAT_WEBAPPS=/var/lib/tomcat8/webapps
 
 # Workspace Directory - all paths used should be defined relative to this
 WORKSPACE_DIR=$(pwd)
@@ -65,7 +65,7 @@ rm -rf scenarioo-docu-generation-example/build/scenarioDocuExample
 
 # Configure Scenarioo Deployment Context: Location of Scenarioo Data Directory for this branch
 echo "Configure Scemarioo Deployment Context (data dir for this branch)"
-echo "<Context><Parameter name=\"scenariooDataDirectory\" value=\"$BRANCH_DATA_DIR\" override=\"true\" description=\"Location of scenarioo config.xml file\"/></Context>" > "/etc/tomcat7/Catalina/localhost/scenarioo-$BRANCH.xml"
+echo "<Context><Parameter name=\"scenariooDataDirectory\" value=\"$BRANCH_DATA_DIR\" override=\"true\" description=\"Location of scenarioo config.xml file\"/></Context>" > "/etc/tomcat8/Catalina/localhost/scenarioo-$BRANCH.xml"
 
 ###
 ### DEPLOYMENT
@@ -73,8 +73,7 @@ echo "<Context><Parameter name=\"scenariooDataDirectory\" value=\"$BRANCH_DATA_D
 
 # Deploy the application manually, because autoDeploy is set to "false"
 echo "Deploying the Scenarioo Web App to Tomcat"
-cp -f $WORKSPACE_DIR/scenarioo-server/build/libs/scenarioo-latest.war $TOMCAT_WEBAPPS/scenarioo-$BRANCH.war
-curl -f -u $TOMCAT_USERPASS http://localhost:8080/manager/text/deploy\?path\=/scenarioo-$BRANCH
+curl -u $TOMCAT_USERPASS http://localhost:8080/manager/text/deploy\?path\=/scenarioo-$BRANCH\&war\=file:$WORKSPACE_DIR/scenarioo-server/build/libs/scenarioo-latest.war
 
 # Wait until tomcat deployment is done
 echo "Waiting for Scenarioo Viewer deployed on Tomcat ..."
