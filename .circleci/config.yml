@@ -42,12 +42,14 @@ jobs:
           name: E2E tests
           command: |
             export SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample
+            echo "Starting Scenarioo"
             java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war > test-results/scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> test-results/scenarioo-server.log &
             export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
             export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
             export BUILD_NUMBER="$CIRCLE_BUILD_NUM"
-            echo "Scenarioo Self-Docu will be stored under branch / build name: scenarioo-${BRANCH}/build-${CIRCLE_BUILD_NUM}"
+            echo "Sleeping 30s until Scenarioo is started up and imported all test build data ... "
             sleep 30  # Give server some time because of comparisons
+            echo "Running e2e tests and generating scenarioo self-docu e2e test reports for branch / build name: scenarioo-${BRANCH}/build-${CIRCLE_BUILD_NUM}"
             export GRADLE_OPTS="-Xms300m -Xmx300m"
             ./gradlew scenarioo-client:runE2eCircleCi --no-daemon -s
       - run:
@@ -61,7 +63,7 @@ jobs:
             cp -pR scenarioo-docu-generation-example/build/test-results/test test-results/docu || true
           when: always
       - run:
-          name: Publish scenarioo e2e self-docu on demo.scenarioo.org/scenarioo-develop
+          name: Publish scenarioo self-docu e2e test reports to http://demo.scenarioo.org/scenarioo-develop
           command: |
             mkdir -p dist
             pushd e2eScenariooDocu
