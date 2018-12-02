@@ -13,6 +13,8 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
+      - run: Configure Environment for Job
+        command: echo -e "export BRANCH=`echo $CIRCLE_BRANCH | sed 's/\//\-/' | sed 's/\#/\-/'`" >> $BASH_ENV
       - run:
           name: Clean & install
           command: |
@@ -42,7 +44,6 @@ jobs:
             java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war > test-results/scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> test-results/scenarioo-server.log &
             export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
             export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
-            export BRANCH=`echo $CIRCLE_BRANCH | sed 's/\//\-/' | sed 's/\#/\-/'`
             export BUILD_NUMBER="$CIRCLE_BUILD_NUM"
             echo "Scenarioo Self-Docu will be stored under branch / build name: ${BRANCH}/build-${CIRCLE_BUILD_NUM}"
             sleep 30  # Give server some time because of comparisons
@@ -61,17 +62,17 @@ jobs:
       - run:
           name: Publish scenarioo e2e self-docu on demo.scenarioo.org/scenarioo-develop
           command: |
-            export BRANCH=`echo $CIRCLE_BRANCH | sed 's/\//\-/' | sed 's/\#/\-/'`
+            mkdir -p dist
             pushd e2eScenariooDocu
             zip -r ../e2eScenariooDocu.zip ./*
             popd
             curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org:8080/scenarioo-develop/rest/builds
-            echo "scenarioo self-docu e2e test reports:\nhttp://demo.scenarioo.org/scenarioo-develop/#/?branch=${BRANCH}&build=build-${CIRCLE_BUILD_NUM}\n" >> ./dist/build-summary.txt
+            echo -e "scenarioo self-docu e2e test reports:\nhttp://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-${CIRCLE_BUILD_NUM}\n" >> ./dist/build-result-summary.txt
+            echo "scenarioo self-docu e2e test reports published to http://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-${CIRCLE_BUILD_NUM}"
           when: always
       - run:
           name: Checksum artifacts and move to dist folder for deploy job
           command: |
-            mkdir -p dist
             mv e2eScenariooDocu.zip dist
             mv exampleScenariooDocu.zip dist
             mv scenarioo-server/build/libs/scenarioo-latest.war dist/scenarioo.war
@@ -100,6 +101,7 @@ jobs:
           command: |
             echo "Build Result Summary: \n"
             cat ./dist/build-result-summary.txt
+
   deploy:
     docker:
       # See https://circleci.com/docs/2.0/circleci-images/ ...
