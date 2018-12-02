@@ -46,7 +46,7 @@ jobs:
             export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
             export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
             export BUILD_NUMBER="$CIRCLE_BUILD_NUM"
-            echo "Scenarioo Self-Docu will be stored under branch / build name: ${BRANCH}/build-${CIRCLE_BUILD_NUM}"
+            echo "Scenarioo Self-Docu will be stored under branch / build name: scenarioo-${BRANCH}/build-${CIRCLE_BUILD_NUM}"
             sleep 30  # Give server some time because of comparisons
             export GRADLE_OPTS="-Xms300m -Xmx300m"
             ./gradlew scenarioo-client:runE2eCircleCi --no-daemon -s
