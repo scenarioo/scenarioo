@@ -39,7 +39,7 @@ jobs:
             zip -r ../../../exampleScenariooDocu.zip ./*
             popd
       - run:
-          name: WARNING: currently NO E2E tests for master!
+          name: WARNING - currently NO E2E tests for master!
           command: |
             echo "Master branch currently does not run e2e tests"
       - run:
@@ -52,7 +52,7 @@ jobs:
             cp -pR scenarioo-docu-generation-example/build/test-results/test test-results/docu || true
           when: always
       - run:
-          name: WARNING: currently NO scenarioo self-docu e2e test reports to http://demo.scenarioo.org/scenarioo-develop
+          name: WARNING - currently NO scenarioo self-docu e2e test reports to http://demo.scenarioo.org/scenarioo-develop
           command: |
             mkdir -p dist
             pushd scenarioo-docu-generation-example/build/scenarioDocuExample
