@@ -14,23 +14,26 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Configure Environment for Job
+          command: echo -e "export BRANCH=`echo $CIRCLE_BRANCH | sed 's/\//\-/' | sed 's/\#/\-/'`" >> $BASH_ENV
+      - run:
           name: Clean & install
           command: |
             mkdir -p test-results
-            ./gradlew clean build -x test --no-daemon
+            ./gradlew clean build -x test --no-daemon -s
       - run:
           name: Unit tests
-          command: ./gradlew test -x scenarioo-client:npm_test --continue --no-daemon
+          command: ./gradlew test -x scenarioo-client:npm_test --continue --no-daemon -s
       - run:
           name: JS tests
-          command: ./gradlew scenarioo-client:npm_test --no-daemon
+          command: ./gradlew scenarioo-client:npm_test --no-daemon -s
           when: always
       - run:
           name: JS/TS lint
-          command: ./gradlew scenarioo-client:runLinter --no-daemon
+          command: ./gradlew scenarioo-client:runLinter --no-daemon -s
           when: always
       - run:
-          name: Archive Wikipedia example docu
+          name: Archive generated example scenarioo docu data of Wikipedia
           command: |
             pushd scenarioo-docu-generation-example/build/scenarioDocuExample
             zip -r ../../../exampleScenariooDocu.zip ./*
@@ -39,14 +42,16 @@ jobs:
           name: E2E tests
           command: |
             export SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample
+            echo "Starting Scenarioo"
             java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war > test-results/scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> test-results/scenarioo-server.log &
             export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
             export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
-            export BRANCH="$CIRCLE_BRANCH"
             export BUILD_NUMBER="$CIRCLE_BUILD_NUM"
+            echo "Sleeping 30s until Scenarioo is started up and imported all test build data ... "
             sleep 30  # Give server some time because of comparisons
+            echo "Running e2e tests and generating scenarioo self-docu e2e test reports for branch / build name: scenarioo-${BRANCH}/build-${CIRCLE_BUILD_NUM}"
             export GRADLE_OPTS="-Xms300m -Xmx300m"
-            ./gradlew scenarioo-client:runE2eCircleCi --no-daemon
+            ./gradlew scenarioo-client:runE2eCircleCi --no-daemon -s
       - run:
           name: Collect test results
           command: |
@@ -58,17 +63,19 @@ jobs:
             cp -pR scenarioo-docu-generation-example/build/test-results/test test-results/docu || true
           when: always
       - run:
-          name: Publish docu on demo.scenarioo.org/scenarioo-develop
+          name: Publish scenarioo self-docu e2e test reports to http://demo.scenarioo.org/scenarioo-develop
           command: |
+            mkdir -p dist
             pushd e2eScenariooDocu
             zip -r ../e2eScenariooDocu.zip ./*
             popd
             curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org:8080/scenarioo-develop/rest/builds
+            echo -e "scenarioo self-docu e2e test reports:\nhttp://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-${CIRCLE_BUILD_NUM}\n" >> ./dist/build-result-summary.txt
+            echo "scenarioo self-docu e2e test reports published to http://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-${CIRCLE_BUILD_NUM}"
           when: always
       - run:
           name: Checksum artifacts and move to dist folder for deploy job
           command: |
-            mkdir -p dist
             mv e2eScenariooDocu.zip dist
             mv exampleScenariooDocu.zip dist
             mv scenarioo-server/build/libs/scenarioo-latest.war dist/scenarioo.war
@@ -86,12 +93,18 @@ jobs:
       # Unfortunately each workflow job has it's own build number. Therefore we need to persist this jobs number
       # here to use it during the deploy for getting the artifacts
       - run:
-          name: Persist ${CIRCLE_BUILD_NUM} for deploy job
+          name: Persist value of $CIRCLE_BUILD_NUM for deploy job
           command: echo "$CIRCLE_BUILD_NUM" >> BUILD_NUM
       - persist_to_workspace:
           root: .
           paths:
             - BUILD_NUM
+      - run:
+          name: Build Result Summary
+          command: |
+            echo "Build Result Summary: \n"
+            cat ./dist/build-result-summary.txt
+
   deploy:
     docker:
       # See https://circleci.com/docs/2.0/circleci-images/ ...
@@ -139,11 +152,13 @@ jobs:
             fingerprints:
               - "82:b8:ea:d9:58:04:7d:09:fd:95:15:de:bc:1b:7c:b7"
       - run:
-          name: Configure github ssh connection for docs deployment
+          name: Configure git && github ssh connection for docs deployment
           command: |
             mkdir -p ~/.ssh
             sudo chmod 700 ~/.ssh
-            ssh-keyscan github.com >> ~/.ssh/known_hosts            
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+            git config --global user.email "admin@scenarioo.org"
+            git config --global user.name "scenarioo-ci"
       - checkout
       - run:
           name: Install dependencies
@@ -154,8 +169,9 @@ jobs:
       - run:
           name: Publishing Docs to http://www.scenarioo.org/docs
           command: |            
-            export DOCU_VERSION=`echo $CIRCLE_BRANCH | sed 's/release\///' | sed 's/feature\///'`
+            export DOCU_VERSION=`echo $CIRCLE_BRANCH | sed 's/release\///'`
             echo "Publish docs for $DOCU_VERSION"
+            cd docs
             npm run gh-pages -- --dist _book --repo git@github.com:scenarioo/scenarioo.github.io.git --branch master --dest docs/$DOCU_VERSION --message "Publish docs for $DOCU_VERSION"
 
 workflows:
@@ -172,12 +188,9 @@ workflows:
                 - /--nodemo/
                 - /--no-demo/
       - publish_docs:
-          requires:
-            - build
           filters:
             branches:
               only:
                 - master
                 - develop
                 - /^release\/.*/
-                - /^feature\/.*/
