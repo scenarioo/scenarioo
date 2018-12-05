@@ -29,10 +29,6 @@ jobs:
           command: ./gradlew scenarioo-client:npm_test --no-daemon -s
           when: always
       - run:
-          name: JS/TS lint
-          command: ./gradlew scenarioo-client:runLinter --no-daemon -s
-          when: always
-      - run:
           name: Archive generated example scenarioo docu data of Wikipedia
           command: |
             pushd scenarioo-docu-generation-example/build/scenarioDocuExample
