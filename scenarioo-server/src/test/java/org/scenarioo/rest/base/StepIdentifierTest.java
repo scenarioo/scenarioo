@@ -44,6 +44,7 @@ public class StepIdentifierTest {
 
 	@Test
 	public void redirectUrlForStepWithoutContextPath() {
+		// remark: this test might be flaky when executed in parallel with other tests, see dependency to ContextPathHolder singleton :-(
 		String contextPath = ContextPathHolder.INSTANCE.getContextPath();
 		ContextPathHolder.INSTANCE.setContextPath("");
 		try {
