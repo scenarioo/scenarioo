@@ -42,4 +42,18 @@ public class StepIdentifierTest {
 		assertEquals("fallback=true", stepIdentifier.getStepUriForRedirect().getQuery());
 	}
 
+	@Test
+	public void redirectUrlForStepWithoutContextPath() {
+		String contextPath = ContextPathHolder.INSTANCE.getContextPath();
+		ContextPathHolder.INSTANCE.setContextPath("");
+		try {
+			assertEquals(
+				"/rest/branch/bugfix-branch/build/build-2014-08-12/usecase/Find the answer/scenario/Actually find it/pageName/pageName1/pageOccurrence/0/stepInPageOccurrence/0",
+				stepIdentifier.getStepUriForRedirect().getPath());
+			assertEquals("fallback=true", stepIdentifier.getStepUriForRedirect().getQuery());
+		} finally {
+			ContextPathHolder.INSTANCE.setContextPath(contextPath);
+		}
+	}
+
 }
