@@ -89,7 +89,18 @@ bootJar.doLast {
 bootWar {
     from('../scenarioo-client/dist') {
         into('WEB-INF/classes/static')
+    }
+    archiveName 'scenarioo-viewer-' + version + '.war'
+}
+
 bootWar.doLast {
+    copy {
+        from ('build/libs/')
+        into ('build/libs/')
+        include('scenarioo-viewer-' + version + '.war')
+        rename('scenarioo-viewer-' + version + '.war', 'scenarioo-latest.war')
+    }
+}
 
 war.dependsOn createVersionPropertiesFile
 war.dependsOn ":scenarioo-client:build"
