@@ -47,35 +47,24 @@ eclipse {
   }
 }
 
-task printPathConfigInformationForNodeJSAndGrunt << {
-	if (project.hasProperty('pathToNodeJS')) {
-        println "Path to Node JS was configued as: " + pathToNodeJS
-    } else {
-    	println "Path to Node JS not specified, set property 'pathToNodeJS' in case the PATH variable is not set properly or not propagated to the client's build script."
-    }
-    if (project.hasProperty('installGrunt')) {
-        println "installGrunt is specified, this will trigger installation of grunt in client build: " + installGrunt + " (this value should be 'installGrunt')"
-    } else {
-        println "installGrunt: property is undefined, this means grunt is assumed to be installed already."
-    }
-}
+task createVersionPropertiesFile {
+	doLast {
+		def aggregatedDataFormatVersion = project.scenariooAggregatedDataFormatVersion
+		def apiVersion = project.scenariooApiVersion
+		def documentationVersion = project.documentationVersion
 
-task createVersionPropertiesFile << {
-	def aggregatedDataFormatVersion = project.scenariooAggregatedDataFormatVersion
-	def apiVersion = project.scenariooApiVersion
-    def documentationVersion = project.documentationVersion
-
-	File versionFile = new File(sourceSets.main.output.classesDir.getAbsolutePath() + '/version.properties');
-	versionFile.write('version=' + versionWithGitCommit + '\n' +
-            'build-date=' + new Date() + '\n' +
-            'apiVersion=' + apiVersion + '\n' +
-            'aggregatedDataFormatVersion=' + aggregatedDataFormatVersion + '\n' +
-            'documentationVersion=' + documentationVersion + '\n')
+		File versionFile = new File(sourceSets.main.output.classesDirs.getAbsolutePath() + '/version.properties');
+		versionFile.write('version=' + versionWithGitCommit + '\n' +
+				'build-date=' + new Date() + '\n' +
+				'apiVersion=' + apiVersion + '\n' +
+				'aggregatedDataFormatVersion=' + aggregatedDataFormatVersion + '\n' +
+				'documentationVersion=' + documentationVersion + '\n')
+	}
 }
 
 war {
     from '../scenarioo-client/dist'
-    from(sourceSets.main.output.classesDir) {
+    from(sourceSets.main.output.classesDirs) {
         into('WEB-INF/classes')
     }
 	archiveName 'scenarioo-viewer-' + version + '.war'
