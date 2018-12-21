@@ -192,7 +192,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'name': 'Find Page',
                 'labels': {
                     'empty': true,
-                    'label': []
+                    'labels': []
                 }
             },
             'pagesAndSteps': [
@@ -249,7 +249,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'name': 'find_page_with_text_on_page_from_multiple_results',
                 'labels': {
                     'empty': true,
-                    'label': []
+                    'labels': []
                 }
             },
             'scenarioStatistics': {
@@ -280,11 +280,11 @@ angular.module('scenarioo.services').service('TestData', function () {
                 'totalNumberOfPagesInScenario': 3
             },
             'useCaseLabels': {
-                'label': ['normal-case'],
+                'labels': ['normal-case'],
                 'empty': false
             },
             'scenarioLabels': {
-                'label': ['no results'],
+                'labels': ['no results'],
                 'empty': false
             },
             'step': {
@@ -297,7 +297,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                     'screenshotFileName': '002.png',
                     'index': 2,
                     'labels': {
-                        'label': ['step-label-0', 'public'],
+                        'labels': ['step-label-0', 'public'],
                         'empty': false
                     }
                 },
@@ -329,7 +329,7 @@ angular.module('scenarioo.services').service('TestData', function () {
                     'details': {},
                     'name': 'searchResults.jsp',
                     'labels': {
-                        'label': ['page-label1', 'page-label2'],
+                        'labels': ['page-label1', 'page-label2'],
                         'empty': false
                     }
                 },

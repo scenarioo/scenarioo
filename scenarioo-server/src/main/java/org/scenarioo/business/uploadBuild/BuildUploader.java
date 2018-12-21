@@ -1,20 +1,11 @@
 package org.scenarioo.business.uploadBuild;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Date;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.log4j.Logger;
-import org.jboss.resteasy.plugins.providers.multipart.InputPart;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
@@ -22,6 +13,11 @@ import org.scenarioo.utils.ZipFileExtractor;
 import org.scenarioo.utils.ZipFileExtractor.ZipFileExtractionException;
 
 import com.google.common.base.Preconditions;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
+
 
 public class BuildUploader {
 
@@ -50,40 +46,29 @@ public class BuildUploader {
 		}
 	}
 
-	public Response uploadBuild(final MultipartFormDataInput formData) {
-		InputPart inputPart = validateFormDataAndGetInputPart(formData);
-		Preconditions.checkArgument(MediaType.APPLICATION_OCTET_STREAM_TYPE.equals(inputPart.getMediaType()),
-				"Media type of input part must be application/octet-stream but is " + inputPart.getMediaType());
+	public ResponseEntity uploadBuild(final MultipartFile file) {
+		Preconditions.checkArgument(!file.isEmpty());
+		Preconditions.checkArgument(MediaType.APPLICATION_OCTET_STREAM_VALUE.equals(file.getContentType()));
 
 		LOGGER.info("Receiving build by POST request.");
 
 		try {
-			saveAndExtractBuildAndStartImport(inputPart);
+			saveAndExtractBuildAndStartImport(file);
 		} catch (BuildUploaderException e) {
 			LOGGER.error("An error occured while adding a build by POST request.", e);
-			return Response.status(500).entity("Could not add build, see server log for details.\n").build();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Could not add build, see server log for details.\n");
 		}
 
-		return Response.ok("Build successfully added to Scenarioo.\n").build();
+		return ResponseEntity.ok("Build successfully added to Scenarioo.\n");
 	}
 
-	private InputPart validateFormDataAndGetInputPart(final MultipartFormDataInput formData) {
-		Preconditions.checkNotNull(formData);
-		Preconditions.checkNotNull(formData.getFormDataMap());
-		Preconditions.checkNotNull(formData.getFormDataMap().get("file"));
-		Preconditions.checkArgument(formData.getFormDataMap().get("file").size() == 1);
-
-		return formData.getFormDataMap().get("file").get(0);
-	}
-
-	private void saveAndExtractBuildAndStartImport(final InputPart inputPart) throws BuildUploaderException {
+	private void saveAndExtractBuildAndStartImport(final MultipartFile file) throws BuildUploaderException {
 		File documentationDataDirectory = configurationRepository.getDocumentationDataDirectory();
 		File temporaryWorkDirectory = new File(documentationDataDirectory, "uploadedBuild_"
 				+ Long.toString(new Date().getTime()));
 		File uploadedZipFile = new File(temporaryWorkDirectory, "uploadedFile.zip");
 
-		try {
-			InputStream inputStream = inputPart.getBody(InputStream.class, null);
+		try(InputStream inputStream = new ByteArrayInputStream(file.getBytes())) {
 			FileUtils.copyInputStreamToFile(inputStream, uploadedZipFile);
 		} catch (IOException e) {
 			throw new BuildUploaderException("Failed to write file.", e);

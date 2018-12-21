@@ -91,8 +91,8 @@ function ScenarioController($filter, $routeParams,
 
                 loadRelatedIssues();
 
-                var hasAnyUseCaseLabels = vm.useCase.labels.label.length > 0;
-                var hasAnyScenarioLabels = vm.scenario.labels.label.length > 0;
+                var hasAnyUseCaseLabels = vm.useCase.labels.labels.length > 0;
+                var hasAnyScenarioLabels = vm.scenario.labels.labels.length > 0;
                 vm.hasAnyLabels = hasAnyUseCaseLabels || hasAnyScenarioLabels;
 
                 if (ConfigService.expandPagesInScenarioOverview()) {

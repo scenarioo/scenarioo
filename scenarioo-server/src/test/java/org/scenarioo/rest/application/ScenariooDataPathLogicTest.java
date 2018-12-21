@@ -1,15 +1,14 @@
 package org.scenarioo.rest.application;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.servlet.ServletContext;
 import java.io.File;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ScenariooDataPathLogicTest {
 
@@ -28,7 +27,7 @@ public class ScenariooDataPathLogicTest {
 		when(servletContext.getInitParameter("scenariooDataDirectory")).thenReturn("tmp/test");
 		when(systemEnvironment.getScenariooDataDirectory()).thenReturn("tmp/itShouldNotBeMe");
 
-		String actual = logic.getDataPath(new ServletContextEvent(servletContext));
+		String actual = logic.getDataPath(servletContext);
 
 		assertEquals("tmp/test", actual);
 	}
@@ -38,7 +37,7 @@ public class ScenariooDataPathLogicTest {
 		when(servletContext.getInitParameter("scenariooDataDirectory")).thenReturn(null);
 		when(systemEnvironment.getScenariooDataDirectory()).thenReturn("tmp/test");
 
-		String actual = logic.getDataPath(new ServletContextEvent(servletContext));
+		String actual = logic.getDataPath(servletContext);
 
 		assertEquals("tmp/test", actual);
 	}
@@ -50,7 +49,7 @@ public class ScenariooDataPathLogicTest {
 		when(systemEnvironment.getUserHome()).thenReturn("/home/someuser");
 
 		String expectedPath = new File("/home/someuser/.scenarioo").getAbsolutePath();
-		String actual = logic.getDataPath(new ServletContextEvent(servletContext));
+		String actual = logic.getDataPath(servletContext);
 
 		assertEquals(expectedPath, actual);
 	}

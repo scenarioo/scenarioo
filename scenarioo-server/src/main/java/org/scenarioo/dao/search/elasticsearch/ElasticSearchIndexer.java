@@ -20,12 +20,11 @@ package org.scenarioo.dao.search.elasticsearch;
 import java.io.IOException;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.xcontent.XContentType;
 import org.scenarioo.dao.search.FullTextSearch;
 import org.scenarioo.dao.search.model.SearchableScenario;
 import org.scenarioo.dao.search.model.SearchableStep;

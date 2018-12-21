@@ -8,12 +8,12 @@ import org.scenarioo.dao.version.ApplicationVersionHolder;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.usecase.UseCasesResource;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-
-@Path("/rest/version/")
+@RestController
+@RequestMapping("/rest/version")
 public class VersionResource {
 
 	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
@@ -23,8 +23,7 @@ public class VersionResource {
 
 	AggregatedDocuDataReader dao = new ScenarioDocuAggregationDao(configurationRepository.getDocumentationDataDirectory());
 
-	@GET
-	@Produces({ "application/xml", "application/json" })
+	@GetMapping
 	public ApplicationVersion getVersionInformation() {
 		return ApplicationVersionHolder.INSTANCE.getApplicationVersion();
 	}
