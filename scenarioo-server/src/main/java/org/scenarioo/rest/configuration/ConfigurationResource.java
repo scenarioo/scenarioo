@@ -17,20 +17,16 @@
 
 package org.scenarioo.rest.configuration;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-
 import org.apache.log4j.Logger;
 import org.scenarioo.dao.version.ApplicationVersionHolder;
 import org.scenarioo.model.configuration.Configuration;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.search.SearchEngineStatus;
+import org.springframework.web.bind.annotation.*;
 
-@Path("/rest/configuration/")
+@RestController
+@RequestMapping("/rest/configuration")
 public class ConfigurationResource {
 
 	private static final Logger LOGGER = Logger.getLogger(ConfigurationResource.class);
@@ -38,15 +34,12 @@ public class ConfigurationResource {
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
-	@GET
-	@Produces({ "application/json", "application/xml" })
+	@GetMapping
 	public Configuration getConfiguration() {
 		return configurationRepository.getConfiguration();
 	}
 
-	@GET
-	@Path("/applicationStatus")
-	@Produces({ "application/json", "application/xml" })
+	@GetMapping("/applicationStatus")
 	public ApplicationStatus getApplicationStatus() {
 		ApplicationStatus applicationStatus = new ApplicationStatus();
 
@@ -57,9 +50,8 @@ public class ConfigurationResource {
 		return applicationStatus;
 	}
 
-	@POST
-	@Consumes({ "application/json", "application/xml" })
-	public void updateConfiguration(final Configuration configuration) {
+	@PostMapping
+	public void updateConfiguration(@RequestBody final Configuration configuration) {
 		LOGGER.info("Saving configuration.");
 		configurationRepository.updateConfiguration(configuration);
 	}

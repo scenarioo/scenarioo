@@ -14,6 +14,10 @@ Currently this documentation might not be complete but at least have some hint a
 * [Nginx as a proxy](nginx.md)
 * more ... to be completed 
 
+## Circle CI evaluation
+
+We started to port the CI pipeline to Circle CI. For more information: see [Circle CI](circle-ci.md)
+
 ## Further instructions for different tool installations and configurations
 
 See further md files in this folder.

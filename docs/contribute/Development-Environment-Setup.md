@@ -117,13 +117,13 @@ But this two repositories should be sufficient for most usual developers.
      * Import "from external model: Gradle" and use the gradle wrapper (default settings)
      
  * From "Gradle"-tab in intelliJ simply run the following gradle tasks, to build everything cleanly:
-    * scenarioo-java: `clean build test install` (this is needed as soon as your development branch uses latest snaphot of the writer!)
-    * scenarioo: clean build test
+    * scenarioo-java: `clean build install` (this is needed as soon as your development branch uses latest snaphot of the writer!)
+    * scenarioo: `clean build`
          * take care to configure JVM 1.8 as runtime JVM for gradle (Tab "Gradle">Button "Gradle Settings">Gradle JVM).
-         * And if you get some python errors in npm install part on windows, you can probably ignore this optional npm dependency problems and just try to run it once again
+         * And if you get some python errors in npm install part on windows, you can probably ignore this optional npm dependency problems and just try to run it once again (or use something like `npm install -g npm-build-tools` to fix it)
 
- * Configure a run configuration to run the installed [Tomcat 7](http://tomcat.apache.org) from IntelliJ
-     * set the tomcat path to tomcat 7 installation
+ * Configure a run configuration to run the installed [Tomcat 8](http://tomcat.apache.org) from IntelliJ
+     * set the tomcat path to tomcat 8 installation
      * set it running on port 8080     
      * on "Deployment" tab: 
         * choose `+` to deploy the artifact from "External Source ..."

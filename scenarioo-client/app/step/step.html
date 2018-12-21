@@ -325,10 +325,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- labels -->
         <sc-collapsable-panel title="Labels" panel-index="labels" key="stepView-labels" initially-expanded="false"
                               ng-if="hasAnyLabels()">
-            <sc-label-metadata [scenario-labels]="scenarioLabels.label"
+            <sc-label-metadata [scenario-labels]="scenarioLabels.labels"
                                [use-case-labels]="useCaseLabels.labels"
-                               [step-labels]="step.stepDescription.labels.label"
-                               [page-labels]="step.page.labels.label"
+                               [step-labels]="step.stepDescription.labels.labels"
+                               [page-labels]="step.page.labels.labels"
                                [label-configurations]="labelConfigurations">
             </sc-label-metadata>
         </sc-collapsable-panel>

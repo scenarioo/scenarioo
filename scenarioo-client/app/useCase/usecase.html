@@ -62,7 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </td>
                 <td>
                     {{scenarioSummary.scenario.name | scHumanReadable }}
-                    <span ng-repeat="label in scenarioSummary.scenario.labels.label" class="label label-info sc-label"
+                    <span ng-repeat="label in scenarioSummary.scenario.labels.labels" class="label label-info sc-label"
                           ng-style="useCase.getLabelStyle(label)">{{label}}</span>
                 </td>
                 <td>
@@ -106,7 +106,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <!-- labels -->
         <sc-collapsable-panel title="Labels" key="useCaseView-labels" initially-expanded="false"
                               ng-show="useCase.hasAnyLabels">
-            <sc-label-metadata [use-case-labels]="useCase.useCase.labels.label"
+            <sc-label-metadata [use-case-labels]="useCase.useCase.labels.labels"
                                [label-configurations]="vm.labelConfigurations">
             </sc-label-metadata>
         </sc-collapsable-panel>

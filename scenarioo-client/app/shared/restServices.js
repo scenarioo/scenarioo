@@ -96,7 +96,7 @@ angular.module('scenarioo.services')
     })
 
     .factory('FullTextSearchService', function (ScenariooResource, $q) {
-        var searchService = ScenariooResource('/branch/:branchName/build/:buildName/search/:q',
+        var searchService = ScenariooResource('/branch/:branchName/build/:buildName/search?q=:q',
             {
                 branchName: '@branchName',
                 buildName: '@buildName',
@@ -183,7 +183,7 @@ angular.module('scenarioo.services')
     })
 
     .factory('ObjectIndexListResource', function (ScenariooResource) {
-        return ScenariooResource('/branch/:branchName/build/:buildName/object/:objectType/:objectName',
+        return ScenariooResource('/branch/:branchName/build/:buildName/object/:objectType/name?name=:objectName',
             {
                 branchName: '@branchName',
                 buildName: '@buildName',

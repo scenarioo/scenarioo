@@ -8,13 +8,13 @@ repositories {
 }
 
 dependencies {
-    compile 'org.scenarioo:scenarioo-java:' + scenariooApiVersion
-    compile 'org.apache.commons:commons-lang3:3.5'
-    compile 'commons-io:commons-io:2.5'
-    compile 'commons-codec:commons-codec:1.10'
-    compile 'log4j:log4j:1.2.17'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.assertj:assertj-core:3.10.0'
+    compile 'org.scenarioo:scenarioo-java'
+    compile 'org.apache.commons:commons-lang3'
+    compile 'commons-io:commons-io'
+    compile 'commons-codec:commons-codec'
+    compile 'log4j:log4j'
+    testCompile 'junit:junit'
+    testCompile 'org.assertj:assertj-core'
 }
 
 sourceCompatibility = '1.8'

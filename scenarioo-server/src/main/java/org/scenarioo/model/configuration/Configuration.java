@@ -17,7 +17,7 @@
 
 package org.scenarioo.model.configuration;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.awt.Color;
 import java.util.ArrayList;

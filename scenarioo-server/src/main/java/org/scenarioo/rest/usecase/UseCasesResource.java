@@ -17,7 +17,6 @@
 
 package org.scenarioo.rest.usecase;
 
-import org.apache.log4j.Logger;
 import org.scenarioo.business.builds.ScenarioDocuBuildsManager;
 import org.scenarioo.dao.aggregates.AggregatedDocuDataReader;
 import org.scenarioo.dao.aggregates.ScenarioDocuAggregationDao;
@@ -27,32 +26,30 @@ import org.scenarioo.model.docu.entities.UseCase;
 import org.scenarioo.repository.ConfigurationRepository;
 import org.scenarioo.repository.RepositoryLocator;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import java.util.LinkedList;
 import java.util.List;
 
-@Path("/rest/branch/{branchName}/build/{buildName}/usecase/")
+@RestController
+@RequestMapping("/rest/branch/{branchName}/build/{buildName}/usecase")
 public class UseCasesResource {
-
-	private static final Logger LOGGER = Logger.getLogger(UseCasesResource.class);
 
 	private final ConfigurationRepository configurationRepository = RepositoryLocator.INSTANCE
 			.getConfigurationRepository();
 
-	AggregatedDocuDataReader dao = new ScenarioDocuAggregationDao(configurationRepository.getDocumentationDataDirectory());
+	private AggregatedDocuDataReader dao = new ScenarioDocuAggregationDao(configurationRepository.getDocumentationDataDirectory());
 
 	/**
 	 * Lightweight call, which does not send all scenario information.
 	 */
-	@GET
-	@Produces({ "application/xml", "application/json" })
-	public List<UseCaseSummary> loadUseCaseSummaries(@PathParam("branchName") final String branchName,
-			@PathParam("buildName") final String buildName) {
-		final List<UseCaseSummary> result = new LinkedList<UseCaseSummary>();
+	@GetMapping
+	public List<UseCaseSummary> loadUseCaseSummaries(@PathVariable("branchName") final String branchName,
+			@PathVariable("buildName") final String buildName) {
+		final List<UseCaseSummary> result = new LinkedList<>();
 
 		final BuildIdentifier buildIdentifier = ScenarioDocuBuildsManager.INSTANCE.resolveBranchAndBuildAliases(
 				branchName,

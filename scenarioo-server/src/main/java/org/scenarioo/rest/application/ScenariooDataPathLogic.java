@@ -17,12 +17,11 @@
 
 package org.scenarioo.rest.application;
 
-import java.io.File;
-
-import javax.servlet.ServletContextEvent;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+
+import javax.servlet.ServletContext;
+import java.io.File;
 
 /**
  * Provides methods to get the configured path to the documentation and the config file name.
@@ -43,9 +42,9 @@ class ScenariooDataPathLogic {
 		this.systemEnvironment = systemEnvironment;
 	}
 
-	String getDataPath(final ServletContextEvent servletContextEvent) {
+	String getDataPath(final ServletContext servletContext) {
 		String configSource = "servlet context";
-		String configurationDirectory = servletContextEvent.getServletContext().getInitParameter(
+		String configurationDirectory = servletContext.getInitParameter(
 				"scenariooDataDirectory");
 
 		if (StringUtils.isBlank(configurationDirectory)) {

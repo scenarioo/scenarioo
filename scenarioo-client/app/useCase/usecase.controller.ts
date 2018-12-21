@@ -124,7 +124,7 @@ function UseCaseController($scope, $filter, $routeParams, $location, ScenarioRes
         vm.useCase = result.useCase;
         vm.usecaseInformationTree = createUseCaseInformationTree(vm.useCase);
         vm.metadataTree = $filter('scMetadataTreeListCreator')(vm.useCase.details);
-        vm.hasAnyLabels = vm.useCase.labels && vm.useCase.labels.label.length !== 0;
+        vm.hasAnyLabels = vm.useCase.labels && vm.useCase.labels.labels.length !== 0;
 
         if (SelectedComparison.isDefined()) {
             var selected = SelectedBranchAndBuildService.selected();
