@@ -19,31 +19,37 @@ public class StepIdentifierTest {
 		scenarioIdentifier = new ScenarioIdentifier(buildIdentifier, StepTestData.USECASE_NAME_VALID,
 				StepTestData.SCENARIO_NAME_VALID);
 		stepIdentifier = new StepIdentifier(scenarioIdentifier, StepTestData.PAGE_NAME_VALID_1, 0, 0);
+
+		// Caution: this test relies on ContextPathHolder singleton's value --> not meant to be excecuted in parallel with other tests changing this value
+		ContextPathHolder.INSTANCE.setContextPath("scenarioo");
 	}
 
 	@Test
 	public void redirectUrlForScreenshot() {
+		// remark: this test might be flaky when executed in parallel with other tests, see dependency to ContextPathHolder singleton :-(
 		assertEquals(
-				"/rest/branch/bugfix-branch/build/build-2014-08-12/usecase/Find the answer/scenario/Actually find it/pageName/pageName1/pageOccurrence/0/stepInPageOccurrence/0/image.jpeg",
+				"/scenarioo/rest/branch/bugfix-branch/build/build-2014-08-12/usecase/Find the answer/scenario/Actually find it/pageName/pageName1/pageOccurrence/0/stepInPageOccurrence/0/image.jpeg",
 				stepIdentifier.getScreenshotUriForRedirect("jpeg").getPath());
 		assertEquals("fallback=true", stepIdentifier.getScreenshotUriForRedirect(".jpeg").getQuery());
 	}
 
 	@Test
 	public void redirectUrlForStep() {
+		// remark: this test might be flaky when executed in parallel with other tests, see dependency to ContextPathHolder singleton :-(
 		assertEquals(
-				"/rest/branch/bugfix-branch/build/build-2014-08-12/usecase/Find the answer/scenario/Actually find it/pageName/pageName1/pageOccurrence/0/stepInPageOccurrence/0",
+				"/scenarioo/rest/branch/bugfix-branch/build/build-2014-08-12/usecase/Find the answer/scenario/Actually find it/pageName/pageName1/pageOccurrence/0/stepInPageOccurrence/0",
 				stepIdentifier.getStepUriForRedirect().getPath());
 		assertEquals("fallback=true", stepIdentifier.getStepUriForRedirect().getQuery());
 	}
 
 	@Test
-	public void redirectUrlForStepWithContextPath() {
+	public void redirectUrlForStepWithoutContextPath() {
+		// remark: this test might be flaky when executed in parallel with other tests, see dependency to ContextPathHolder singleton :-(
 		String contextPath = ContextPathHolder.INSTANCE.getContextPath();
-		ContextPathHolder.INSTANCE.setContextPath("scenariooContext");
+		ContextPathHolder.INSTANCE.setContextPath("");
 		try {
 			assertEquals(
-				"/scenariooContext/rest/branch/bugfix-branch/build/build-2014-08-12/usecase/Find the answer/scenario/Actually find it/pageName/pageName1/pageOccurrence/0/stepInPageOccurrence/0",
+				"/rest/branch/bugfix-branch/build/build-2014-08-12/usecase/Find the answer/scenario/Actually find it/pageName/pageName1/pageOccurrence/0/stepInPageOccurrence/0",
 				stepIdentifier.getStepUriForRedirect().getPath());
 			assertEquals("fallback=true", stepIdentifier.getStepUriForRedirect().getQuery());
 		} finally {
