@@ -27,4 +27,4 @@ Before you start doing so, please read the following guidelines carefully. By se
 ## Technologies
 Scenarioo is mainly based on following technologies:
 * AngularJS
-* RESTful Webservices with "JBoss resteasy"
+* RESTful Webservices with "Spring Boot"

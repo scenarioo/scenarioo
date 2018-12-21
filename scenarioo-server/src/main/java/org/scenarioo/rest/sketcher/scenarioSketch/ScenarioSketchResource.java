@@ -22,24 +22,23 @@ import org.scenarioo.business.builds.BranchAliasResolver;
 import org.scenarioo.dao.sketcher.SketcherDao;
 import org.scenarioo.model.sketcher.ScenarioSketch;
 import org.scenarioo.utils.IdGenerator;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.Date;
 
-@Path("/rest/branch/{branchName}/issue/{issueId}/scenariosketch")
+@RestController
+@RequestMapping("/rest/branch/{branchName}/issue/{issueId}/scenariosketch")
 public class ScenarioSketchResource {
 
 	private static final Logger LOGGER = Logger.getLogger(ScenarioSketchResource.class);
 
 	private final SketcherDao sketcherDao = new SketcherDao();
 
-	@POST
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Response storeScenarioSketch(@PathParam("branchName") final String branchName,
-			final ScenarioSketch scenarioSketch) {
+	@PostMapping
+	public ResponseEntity storeScenarioSketch(@PathVariable("branchName") final String branchName,
+											  @RequestBody final ScenarioSketch scenarioSketch) {
 		LOGGER.info("REQUEST: storeScenarioSketch(" + branchName + ", " + scenarioSketch + ")");
 
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
@@ -51,16 +50,14 @@ public class ScenarioSketchResource {
 
 		sketcherDao.persistScenarioSketch(resolvedBranchName, scenarioSketch.getIssueId(), scenarioSketch);
 
-		return Response.ok(scenarioSketch, MediaType.APPLICATION_JSON).build();
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(scenarioSketch);
 	}
 
-	@POST
-	@Consumes("application/json")
-	@Produces("application/json")
-	@Path("/{scenarioSketchId}")
-	public Response updateScenarioSketch(@PathParam("branchName") final String branchName,
-			@PathParam("issueId") final String issueId,
-			@PathParam("scenarioSketchId") final String scenarioSketchId, final ScenarioSketch updatedScenarioSketch) {
+	@PostMapping("/{scenarioSketchId}")
+	public ResponseEntity updateScenarioSketch(@PathVariable("branchName") final String branchName,
+										 @PathVariable("issueId") final String issueId,
+										 @PathVariable("scenarioSketchId") final String scenarioSketchId,
+										 @RequestBody  final ScenarioSketch updatedScenarioSketch) {
 		LOGGER.info("REQUEST: updateScenarioSketch(" + branchName + ", " + issueId + ", " + scenarioSketchId + ")");
 
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
@@ -71,7 +68,7 @@ public class ScenarioSketchResource {
 
 		sketcherDao.persistScenarioSketch(resolvedBranchName, scenarioSketchId, scenarioSketch);
 
-		return Response.ok(updatedScenarioSketch, MediaType.APPLICATION_JSON).build();
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(updatedScenarioSketch);
 	}
 
 }

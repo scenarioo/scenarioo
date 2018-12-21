@@ -1,4 +1,4 @@
-FROM tomcat:8.5.9-jre8
+FROM openjdk:8-jre
 
 MAINTAINER Scenarioo
 LABEL description="Scenarioo Viewer Web Application"
@@ -7,7 +7,7 @@ LABEL description="Scenarioo Viewer Web Application"
 ENV SCENARIOO_DATA /scenarioo/data
 
 # ADD WAR TO TOMCAT-WEBAPPS
-ADD ./scenarioo.war /usr/local/tomcat/webapps/
+ADD ./scenarioo-latest.war /scenarioo/bin/scenarioo.war
 
 # RUN TOMCAT
-CMD ["catalina.sh", "run"]
+CMD java -Xms400m -Xmx800m -jar /scenarioo/bin/scenarioo.war

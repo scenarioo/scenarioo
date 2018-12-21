@@ -8,14 +8,16 @@ import org.scenarioo.dao.diffViewer.DiffViewerDao;
 import org.scenarioo.model.diffViewer.BuildDiffInfo;
 import org.scenarioo.model.docu.aggregates.branches.BuildImportStatus;
 import org.scenarioo.rest.base.BuildIdentifier;
+import org.scenarioo.rest.base.FileResponseCreator;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import java.io.File;
 import java.util.concurrent.Future;
 
-@Path("/rest/builds/{branchName}/{buildName}/comparisons/{comparisonName}")
+@RestController
+@RequestMapping("/rest/builds/{branchName}/{buildName}/comparisons/{comparisonName}")
 public class ComparisonsResource {
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
@@ -28,15 +30,12 @@ public class ComparisonsResource {
 	 * 412 PRECONDITION FAILED if the build was not imported successfully.
 	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
 	 */
-	@POST
-	@Path("/calculate")
-	@Consumes({"application/xml", "application/json"})
-	@Produces({"application/json"})
-	public Response calculate(
-		@PathParam("branchName") final String branchName,
-		@PathParam("buildName") final String buildName,
-		@PathParam("comparisonName") final String comparisonName,
-		final BuildIdentifier comparisonBuildIdentifier) {
+	@PostMapping("/calculate")
+	public ResponseEntity calculate(
+		@PathVariable("branchName") final String branchName,
+		@PathVariable("buildName") final String buildName,
+		@PathVariable("comparisonName") final String comparisonName,
+		@RequestBody final BuildIdentifier comparisonBuildIdentifier) {
 
 		BuildIdentifier buildIdentifier = resolveAndCreateBuildIdentifier(branchName, buildName);
 		checkBuildIsSuccessfullyImported(branchName, buildName, buildIdentifier);
@@ -44,7 +43,7 @@ public class ComparisonsResource {
 		ScenarioDocuBuildsManager.INSTANCE.submitBuildForSingleComparison(buildIdentifier,
 			comparisonBuildIdentifier, comparisonName);
 
-		return Response.ok().build();
+		return ResponseEntity.ok().build();
 	}
 
 	/**
@@ -54,13 +53,11 @@ public class ComparisonsResource {
 	 * 412 PRECONDITION FAILED if the build is not imported successfully.
 	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
 	 */
-	@POST
-	@Path("/recalculate")
-	@Produces({"application/json"})
-	public Response recalculate(
-		@PathParam("branchName") final String branchName,
-		@PathParam("buildName") final String buildName,
-		@PathParam("comparisonName") final String comparisonName) {
+	@PostMapping("/recalculate")
+	public ResponseEntity recalculate(
+		@PathVariable("branchName") final String branchName,
+		@PathVariable("buildName") final String buildName,
+		@PathVariable("comparisonName") final String comparisonName) {
 
 		BuildIdentifier buildIdentifier = resolveAndCreateBuildIdentifier(branchName, buildName);
 		checkBuildIsSuccessfullyImported(branchName, buildName, buildIdentifier);
@@ -71,7 +68,7 @@ public class ComparisonsResource {
 		ScenarioDocuBuildsManager.INSTANCE.submitBuildForSingleComparison(buildIdentifier,
 			comparisonBuildIdentifier, comparisonName);
 
-		return Response.ok().build();
+		return ResponseEntity.ok().build();
 	}
 
 	/**
@@ -81,17 +78,15 @@ public class ComparisonsResource {
 	 * 412 PRECONDITION FAILED if the build is not imported successfully.
 	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
 	 */
-	@GET
-	@Path("/calculationStatus")
-	@Produces({"text/plain"})
-	public Response getCalculationStatus(
-		@PathParam("branchName") final String branchName,
-		@PathParam("buildName") final String buildName,
-		@PathParam("comparisonName") final String comparisonName) {
+	@GetMapping(path = "/calculationStatus", produces = "text/plain")
+	public ResponseEntity getCalculationStatus(
+		@PathVariable("branchName") final String branchName,
+		@PathVariable("buildName") final String buildName,
+		@PathVariable("comparisonName") final String comparisonName) {
 
 		BuildDiffInfo buildDiffInfo = getComparisonCalculation(branchName, buildName, comparisonName);
 		String status = buildDiffInfo.getStatus().toString();
-		return Response.ok(status).build();
+		return ResponseEntity.ok(status);
 	}
 
 
@@ -102,21 +97,17 @@ public class ComparisonsResource {
 	 * 412 PRECONDITION FAILED if the build is not imported successfully.
 	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
 	 */
-	@GET
-	@Path("/log")
-	@Produces({"text/plain"})
-	public Response getLog(@PathParam("branchName") final String branchName,
-						   @PathParam("buildName") final String buildName,
-						   @PathParam("comparisonName") final String comparisonName) {
+	@GetMapping(path = "/log", produces = "text/plain")
+	public ResponseEntity getLog(@PathVariable("branchName") final String branchName,
+						   @PathVariable("buildName") final String buildName,
+						   @PathVariable("comparisonName") final String comparisonName) {
 
 		DiffViewerDao diffViewerDao = new DiffViewerDao();
 		File logFile = diffViewerDao.getBuildComparisonLogFile(branchName, buildName, comparisonName);
 		if (logFile == null || !logFile.exists()) {
-			return Response.status(Status.BAD_REQUEST).build();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		Response.ResponseBuilder response = Response.ok(logFile);
-		response.header("Content-Disposition", "attachment; filename=\"" + logFile + "\"");
-		return response.build();
+		return FileResponseCreator.createLogFileResponse(logFile);
 	}
 
 
@@ -127,15 +118,14 @@ public class ComparisonsResource {
 	 * 412 PRECONDITION FAILED if the build is not imported successfully.
 	 * 200 OK otherwise (does not indicate successful comparison calculation, as this happens asynchronously)
 	 */
-	@GET
-	@Produces({"application/json"})
-	public Response getCalculation(
-		@PathParam("branchName") final String branchName,
-		@PathParam("buildName") final String buildName,
-		@PathParam("comparisonName") final String comparisonName) {
+	@GetMapping
+	public ResponseEntity getCalculation(
+		@PathVariable("branchName") final String branchName,
+		@PathVariable("buildName") final String buildName,
+		@PathVariable("comparisonName") final String comparisonName) {
 
 		BuildDiffInfo buildDiffInfo = getComparisonCalculation(branchName, buildName, comparisonName);
-		return Response.ok(buildDiffInfo).build();
+		return ResponseEntity.ok(buildDiffInfo);
 	}
 
 	/**
@@ -149,20 +139,18 @@ public class ComparisonsResource {
 	 * scheduled for import. Import for this build is not triggered by this endpoint. You can use aliases for these two
 	 * values though.
 	 */
-	@POST
-	@Path("importAndCompare")
-	@Produces({"application/xml", "application/json"})
-	public Response importAndCompare(
-		@PathParam("branchName") final String branchName,
-		@PathParam("buildName") final String buildName,
-		@PathParam("comparisonName") final String comparisonName,
-		BuildIdentifier comparisonBuildIdentifier) {
+	@PostMapping("importAndCompare")
+	public ResponseEntity importAndCompare(
+		@PathVariable("branchName") final String branchName,
+		@PathVariable("buildName") final String buildName,
+		@PathVariable("comparisonName") final String comparisonName,
+		@RequestBody BuildIdentifier comparisonBuildIdentifier) {
 
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 		BuildIdentifier buildIdentifier = new BuildIdentifier(resolvedBranchName, buildName);
 		if (buildFolderDoesNotExist(buildIdentifier)) {
 			logger.info("Can't import. Build " + branchName + "/" + buildName + " does not exist.");
-			return Response.status(Status.NOT_FOUND).build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 
 		Future<Future<BuildDiffInfo>> buildDiffInfoFuture =
@@ -175,7 +163,7 @@ public class ComparisonsResource {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		return Response.ok(buildDiffInfo).build();
+		return ResponseEntity.ok(buildDiffInfo);
 	}
 
 	private BuildDiffInfo getComparisonCalculation(String branchName, String buildName, String comparisonName) {
@@ -184,25 +172,25 @@ public class ComparisonsResource {
 		return getBuildDiffInfo(branchName, buildName, comparisonName);
 	}
 
-	private BuildIdentifier resolveAndCreateBuildIdentifier(@PathParam("branchName") String branchName, @PathParam("buildName") String buildName) {
+	private BuildIdentifier resolveAndCreateBuildIdentifier(@PathVariable("branchName") String branchName, @PathVariable("buildName") String buildName) {
 		String resolvedBranchName = new BranchAliasResolver().resolveBranchAlias(branchName);
 		return new BuildIdentifier(resolvedBranchName, buildName);
 	}
 
-	private void checkBuildIsSuccessfullyImported(@PathParam("branchName") String branchName, @PathParam("buildName") String buildName, BuildIdentifier buildIdentifier) {
+	private void checkBuildIsSuccessfullyImported(@PathVariable("branchName") String branchName, @PathVariable("buildName") String buildName, BuildIdentifier buildIdentifier) {
 		if (buildFolderDoesNotExist(buildIdentifier)) {
 			logger.info("Build " + branchName + "/" + buildName + " does not exist.");
-			throw new WebApplicationException(Status.NOT_FOUND);
+			throw new NotFoundException();
 		}
 		if (buildIsNotSuccessfullyImported(buildIdentifier)) {
 			logger.info("Build " + branchName + "/" + buildName + " is not successfully imported.");
-			throw new WebApplicationException(Status.PRECONDITION_FAILED);
+			throw new PreconditionFailedException();
 		}
 	}
 
 	private boolean buildIsNotSuccessfullyImported(BuildIdentifier buildIdentifier) {
 		BuildImportStatus importStatus = ScenarioDocuBuildsManager.INSTANCE.getImportStatus(buildIdentifier);
-		return importStatus == null || !BuildImportStatus.SUCCESS.equals(importStatus);
+		return !BuildImportStatus.SUCCESS.equals(importStatus);
 	}
 
 	private boolean buildFolderDoesNotExist(BuildIdentifier buildIdentifier) {
@@ -216,8 +204,14 @@ public class ComparisonsResource {
 			return diffViewerDao.loadBuildDiffInfo(branchName, buildName, comparisonName);
 		} catch (Exception e) {
 			logger.error("Could not load build diff info for  " + branchName + "/" + buildName + "/" + comparisonName + ".", e);
-			throw new WebApplicationException(Status.NOT_FOUND);
+			throw new NotFoundException();
 		}
 	}
+
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	private class NotFoundException extends RuntimeException {}
+
+	@ResponseStatus(HttpStatus.PRECONDITION_FAILED)
+	private class PreconditionFailedException extends RuntimeException {}
 
 }

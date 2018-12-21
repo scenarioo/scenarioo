@@ -17,16 +17,15 @@
 
 package org.scenarioo.dao.search.elasticsearch;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectReader;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.unit.Fuzziness;
-import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
@@ -76,18 +75,20 @@ class ElasticSearchSearcher {
         for (SearchHit searchHit : hits) {
             try {
                 String type = searchHit.getType();
-                if (type.equals(FullTextSearch.USECASE)) {
-                    results.add(parseUseCase(searchHit));
-
-                } else if (type.equals(FullTextSearch.SCENARIO)) {
-                    results.add(parseScenario(searchHit));
-
-                } else if (type.equals(FullTextSearch.STEP)) {
-                    results.add(parseStep(searchHit));
-
-                } else {
-                    LOGGER.error("No type mapping for " + searchHit.getType() + " known.");
-                }
+				switch (type) {
+					case FullTextSearch.USECASE:
+						results.add(parseUseCase(searchHit));
+						break;
+					case FullTextSearch.SCENARIO:
+						results.add(parseScenario(searchHit));
+						break;
+					case FullTextSearch.STEP:
+						results.add(parseStep(searchHit));
+						break;
+					default:
+						LOGGER.error("No type mapping for " + searchHit.getType() + " known.");
+						break;
+				}
             } catch (IOException e) {
                 LOGGER.error("Could not parse entry " + searchHit.getSourceAsString(), e);
             }
@@ -119,23 +120,17 @@ class ElasticSearchSearcher {
 	}
 
 	private SearchableObject parseUseCase(final SearchHit searchHit) throws IOException {
-        SearchableUseCase useCaseResult = useCaseReader.readValue(searchHit.getSourceRef().streamInput());
-
-		return useCaseResult;
+		return useCaseReader.<SearchableUseCase>readValue(searchHit.getSourceRef().streamInput());
     }
 
     private SearchableObject parseScenario(final SearchHit searchHit) throws IOException {
-        SearchableScenario scenarioSearchDao = scenarioReader.readValue(searchHit.getSourceRef()
-                .streamInput());
-
-		return scenarioSearchDao;
+		return scenarioReader.<SearchableScenario>readValue(searchHit.getSourceRef()
+				.streamInput());
     }
 
     private SearchableObject parseStep(final SearchHit searchHit) throws IOException {
-        SearchableStep stepSearchDao = stepReader.readValue(searchHit.getSourceRef()
-                .streamInput());
-
-		return stepSearchDao;
+		return stepReader.<SearchableStep>readValue(searchHit.getSourceRef()
+				.streamInput());
     }
 
 	// TODO #552 Remove the IgnoreUseCaseSetStatusMixIn and the FAIL_ON_UNKNOWN_PROPERTIES setting
@@ -143,10 +138,9 @@ class ElasticSearchSearcher {
 	// to the all setStatus(Status value) helper methods.
 	private ObjectReader generateStandardReaders(final Class<?> targetDao, final Class<?> targetSearchDao) {
 		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.getDeserializationConfig().addMixInAnnotations(targetDao,
-			IgnoreUseCaseSetStatusMixIn.class);
-		objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		objectMapper.addMixIn(targetDao, IgnoreUseCaseSetStatusMixIn.class);
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-		return objectMapper.reader(targetSearchDao);
+		return objectMapper.readerFor(targetSearchDao);
 	}
 }

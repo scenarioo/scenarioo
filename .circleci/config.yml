@@ -29,33 +29,50 @@ jobs:
           command: ./gradlew scenarioo-client:npm_test --no-daemon -s
           when: always
       - run:
+          name: JS/TS lint
+          command: ./gradlew scenarioo-client:runLinter --no-daemon -s
+          when: always
+      - run:
           name: Archive generated example scenarioo docu data of Wikipedia
           command: |
             pushd scenarioo-docu-generation-example/build/scenarioDocuExample
             zip -r ../../../exampleScenariooDocu.zip ./*
             popd
       - run:
-          name: WARNING - currently NO E2E tests for master!
+          name: E2E tests
           command: |
-            echo "Master branch currently does not run e2e tests"
+            export SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample
+            echo "Starting Scenarioo"
+            java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war > test-results/scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> test-results/scenarioo-server.log &
+            export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
+            export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
+            export BUILD_NUMBER="$CIRCLE_BUILD_NUM"
+            echo "Sleeping 30s until Scenarioo is started up and imported all test build data ... "
+            sleep 30  # Give server some time because of comparisons
+            echo "Running e2e tests and generating scenarioo self-docu e2e test reports for branch / build name: scenarioo-${BRANCH}/build-${CIRCLE_BUILD_NUM}"
+            export GRADLE_OPTS="-Xms300m -Xmx300m"
+            ./gradlew scenarioo-client:runE2eCircleCi --no-daemon -s
       - run:
           name: Collect test results
           command: |
             mkdir -p test-results/javascript
             cp -pR scenarioo-client/TESTS* test-results/javascript || true
+            cp -pR scenarioo-client/test-reports test-results/e2e || true
             cp -pR scenarioo-server/build/test-results/test test-results/server || true
             cp -pR scenarioo-validator/build/test-results/test test-results/validator || true
             cp -pR scenarioo-docu-generation-example/build/test-results/test test-results/docu || true
           when: always
       - run:
-          name: WARNING - currently NO scenarioo self-docu e2e test reports to http://demo.scenarioo.org/scenarioo-develop
+          name: Publish scenarioo self-docu e2e test reports to http://demo.scenarioo.org/scenarioo-develop
           command: |
             mkdir -p dist
-            pushd scenarioo-docu-generation-example/build/scenarioDocuExample
-            zip -r ../../../e2eScenariooDocu.zip ./*
+            pushd e2eScenariooDocu
+            zip -r ../e2eScenariooDocu.zip ./*
             popd
-            echo -e "scenarioo self-docu e2e test reports:\nNOT AVAILABLE FOR master branch currently - NO e2e tests have been run for this distribution!\n" >> ./dist/build-result-summary.txt
-            echo "e2eSceanriooDocu.zip was faked with dummy data and is not published further"
+            curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org:8080/scenarioo-develop/rest/builds
+            echo -e "scenarioo self-docu e2e test reports:\nhttp://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-${CIRCLE_BUILD_NUM}\n" >> ./dist/build-result-summary.txt
+            echo "scenarioo self-docu e2e test reports published to http://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-${CIRCLE_BUILD_NUM}"
+          when: always
       - run:
           name: Checksum artifacts and move to dist folder for deploy job
           command: |
