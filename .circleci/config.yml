@@ -63,13 +63,23 @@ jobs:
             cp -pR scenarioo-docu-generation-example/build/test-results/test test-results/docu || true
           when: always
       - run:
-          name: Publish scenarioo self-docu e2e test reports to http://demo.scenarioo.org/scenarioo-develop
+          name: Package Self Docu E2E test reports into ZIP
           command: |
-            mkdir -p dist
             pushd e2eScenariooDocu
             zip -r ../e2eScenariooDocu.zip ./*
             popd
-            curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org:8080/scenarioo-develop/rest/builds
+          when: always
+      - run:
+          name: Test REST Endpoint for Scenarioo Docu Publishing: Upload of self docu
+          command: |
+            echo "Test the self docu e2e test reports are uploadable to current scenarioo product version under test - to ensure the changes will not break uploading of self docu."
+            curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://localhost:8080/scenarioo/rest/builds
+      - run:
+          name: Publish Self Docu E2E Test Reports to http://demo.scenarioo.org/scenarioo-develop
+          command: |
+            mkdir -p dist
+            echo "Uploading self docu e2e test reports to develop demo ..."
+            curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org/scenarioo-develop/rest/builds
             echo -e "scenarioo self-docu e2e test reports:\nhttp://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-${CIRCLE_BUILD_NUM}\n" >> ./dist/build-result-summary.txt
             echo "scenarioo self-docu e2e test reports published to http://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-${CIRCLE_BUILD_NUM}"
           when: always
