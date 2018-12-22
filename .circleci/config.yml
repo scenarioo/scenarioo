@@ -70,7 +70,7 @@ jobs:
             popd
           when: always
       - run:
-          name: Test REST Endpoint for Scenarioo Docu Publishing: Upload of self docu
+          name: Test REST Endpoint for Scenarioo Docu Publishing by uploding self docu
           command: |
             echo "Test the self docu e2e test reports are uploadable to current scenarioo product version under test - to ensure the changes will not break uploading of self docu."
             curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://localhost:8080/scenarioo/rest/builds
