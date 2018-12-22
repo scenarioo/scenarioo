@@ -69,7 +69,7 @@ jobs:
             pushd e2eScenariooDocu
             zip -r ../e2eScenariooDocu.zip ./*
             popd
-            curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org:8080/scenarioo-develop/rest/builds || echo "ERROR: failed to upload " >> ./dist/build-result-summary.txt
+            curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org:8080/scenarioo-develop/rest/builds
             echo -e "scenarioo self-docu e2e test reports:\nhttp://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-${CIRCLE_BUILD_NUM}\n" >> ./dist/build-result-summary.txt
             echo "scenarioo self-docu e2e test reports published to http://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-${CIRCLE_BUILD_NUM}"
           when: always
@@ -102,7 +102,7 @@ jobs:
       - run:
           name: Build Result Summary
           command: |
-            echo "Build Result Summary: \n"
+            echo -e "Build Result Summary: \n"
             cat ./dist/build-result-summary.txt
           when: always
 
