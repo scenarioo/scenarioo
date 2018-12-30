@@ -2,7 +2,6 @@
 /.idea/**
 !/.idea/encodings.xml
 !/.idea/codeStyleSettings.xml
-!/.idea/gradle.xml
 !/.idea/misc.xml
 !/.idea/compiler.xml
 !/.idea/runConfigurations
