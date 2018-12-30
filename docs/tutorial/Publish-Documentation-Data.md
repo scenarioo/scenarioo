@@ -16,24 +16,59 @@ Since version 2.1.0 of the Scenarioo viewer web application we also allow adding
 
 > We strongly recommend to use HTTPS for this in order to safely transmit the authentication information.
 
-### Configure a user
+### Configure the user/password
 
-Add a user to `tomcat-users.xml`. Assign it the role `scenarioo-build-publisher` and choose a strong password. Here's an example:
+By default, Sring Security in a Spring Boot 2 application configures a user `user` with a random password to secure all REST endpoints.
+In this case, the default user name has been set to `scenarioo`. The random password is printed in the log output at application startup and looks like this:
 
 ```
-<?xml version="1.0" encoding="UTF-8"?>
-<tomcat-users>
-    <role rolename="scenarioo-build-publisher"/>
-    <user username="john" password="defineYourOwnPasswordHere" roles="scenarioo-build-publisher"/>
-</tomcat-users>
+Using generated security password: 67f584b8-04e6-46b3-af57-90f037c0ca5b
 ```
+
+Based on the flexibility of Spring Boot configuration property resolution, there are various ways how the user/password combination can be overridden.
+
+#### Provide an application.properties file
+
+*Suitable for: Running Scenarioo as standalone WAR*
+
+```
+spring.security.user.name=scenarioo
+spring.security.user.password=somePassword
+```
+
+#### Provide as environment variables
+
+*Suitable for: Running Scenarioo as Docker image or standalone WAR*
+
+Because of the underlying configuration property resolution, it is possible to define them as environment variables like this:
+
+```
+SPRING_SECURITY_USER_NAME=scenarioo
+SPRING_SECURITY_USER_PASSWORD=somePassword
+```
+
+#### Provide as servlet context parameters
+
+*Suitable for: Running Scenarioo on a separate Tomcat webserver*
+
+To configure user and password on a Tomcat, you can provide the respective properties as servlet context init parameters in the `context.xml`.
+
+```
+<Context>
+    <Parameter name="spring.security.user.name" value="scenarioo" override="true" description="HTTP user for publishing documentation data"/>
+    <Parameter name="spring.security.user.password" value="somePassword" override="true" description="HTTP password for publishing documentation data"/>
+</Context>    
+```
+
+There are a lot more ways how these properties can be exposed to the application. For a full list, please refer to the [Externalized Configuration](https://docs.spring.io/spring-boot/docs/2.0.2.RELEASE/reference/html/boot-features-external-config.html#boot-features-external-config) 
+section in the official Spring Boot documentation.
 
 ### Usage
 
 Use e.g. `curl` to add a documentation build to Scenarioo. Here's an example:
 
 ```
-curl -f --user john:defineYourOwnPasswordHere -F"file=@build-to-post.zip" http://localhost:8080/scenarioo/rest/builds
+curl -f --user scenarioo:somePassword -F"file=@build-to-post.zip" http://localhost:8080/scenarioo/rest/builds
 ```
 
 Please make sure you obey the following rules:

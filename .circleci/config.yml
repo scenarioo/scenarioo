@@ -102,8 +102,9 @@ jobs:
       - run:
           name: Build Result Summary
           command: |
-            echo "Build Result Summary: \n"
+            echo -e "Build Result Summary: \n"
             cat ./dist/build-result-summary.txt
+          when: always
 
   deploy:
     docker:

@@ -14,7 +14,7 @@ Scenarioo requires Java 8 or higher.
 Further Release Candidate Versions are available through [Downloads & Links](../downloads-and-links.md), if you want to to test newer versions not yet officially released.
 
 ## Installation and Setup
-### Running Scenarioo with the provided Tomcat Webserver
+### Running Scenarioo as standalone application
 1. **Configure the context** under which the app should be deployed by creating the file `config/application.properties` next to the downloaded war, with the following entry
      ```
      server.servlet.contextPath=/scenarioo
