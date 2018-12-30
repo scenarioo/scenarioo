@@ -1,5 +1,16 @@
 # Scenarioo Release Notes
 
+## Version 5.0.0
+
+### Migration to a Spring Boot based application
+
+* [#724 - Migration to Spring Boot](https://github.com/scenarioo/scenarioo/issues/724)
+* [#778 - Use Spring Security for REST endpoints](https://github.com/scenarioo/scenarioo/issues/788)
+
+With version 5, the Scenarioo application has been migrated to Spring Boot. 
+This also includes switching from servlet based security configuration to Spring security for some REST endpoints.
+For more details, please refer to the [Migration Guide](Migration-Guide.md)
+
 ## Version 4.0.1
 
 ### Bugfixes

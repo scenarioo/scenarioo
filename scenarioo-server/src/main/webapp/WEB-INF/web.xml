@@ -6,26 +6,6 @@
 
 	<display-name>Scenarioo</display-name>
 
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>Adding new builds requires authentication</web-resource-name>
-			<url-pattern>/rest/builds</url-pattern>
-			<http-method>POST</http-method>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>scenarioo-build-publisher</role-name>
-		</auth-constraint>
-		<user-data-constraint>
-			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
-			<transport-guarantee>NONE</transport-guarantee>
-		</user-data-constraint>
-	</security-constraint>
-
-	<security-role>
-		<role-name>scenarioo-build-publisher</role-name>
-		<description>Users with this role are allowed to upload new builds (=report content) to scenarioo using the upload build REST endpoint.</description>
-	</security-role>
-
 	<login-config>
 		<auth-method>BASIC</auth-method>
 	</login-config>
