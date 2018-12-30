@@ -1,5 +1,5 @@
 # Ignore .idea files except basic run configurations
-/.idea/**
+/.idea
 !/.idea/encodings.xml
 !/.idea/codeStyleSettings.xml
 !/.idea/misc.xml
