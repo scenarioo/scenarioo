@@ -43,7 +43,7 @@ jobs:
           command: |
             export SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample
             echo "Starting Scenarioo"
-            java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war > test-results/scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> test-results/scenarioo-server.log &
+            java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war -Dspring.security.user.password=justfortest > test-results/scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> test-results/scenarioo-server.log &
 
             export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
             export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
@@ -59,7 +59,7 @@ jobs:
             pushd e2eScenariooDocu
             zip -r ../e2eScenariooDocu.zip ./*
             popd
-            curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://localhost:8080/scenarioo/rest/builds
+            curl -f --user scenarioo:justfortest -F"file=@e2eScenariooDocu.zip" http://localhost:8080/scenarioo/rest/builds
 
       - run:
           name: Collect test results
