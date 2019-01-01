@@ -63,15 +63,16 @@ public class BuildUploader {
 	}
 
 	private void saveAndExtractBuildAndStartImport(final MultipartFile file) throws BuildUploaderException {
+
 		File documentationDataDirectory = configurationRepository.getDocumentationDataDirectory();
 		File temporaryWorkDirectory = new File(documentationDataDirectory, "uploadedBuild_"
 				+ Long.toString(new Date().getTime()));
 		File uploadedZipFile = new File(temporaryWorkDirectory, "uploadedFile.zip");
 
-		try(InputStream inputStream = new ByteArrayInputStream(file.getBytes())) {
-			FileUtils.copyInputStreamToFile(inputStream, uploadedZipFile);
+		try {
+			file.transferTo(uploadedZipFile);
 		} catch (IOException e) {
-			throw new BuildUploaderException("Failed to write file.", e);
+			throw new BuildUploaderException("Failed to write file: " + uploadedZipFile.getAbsolutePath(), e);
 		}
 
 		try {
