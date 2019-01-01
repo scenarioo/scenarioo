@@ -34,15 +34,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.annotation.MultipartConfig;
 import java.io.File;
 import java.util.List;
 
 /**
- * This path has a security constraint for POST requests (see web.xml).
+ * Resource for publishing and importing builds.
+ *
+ * This path has a security constraint for POST requests, @see {@link org.scenarioo.configuration.SecurityConfiguration}
  * Only authenticated users with the required role can post new builds.
  */
 @RestController
 @RequestMapping("/rest/builds")
+@MultipartConfig(maxFileSize = -1, maxRequestSize = -1)
 public class BuildsResource {
 
 	private static final Logger LOGGER = Logger.getLogger(BuildsResource.class);
