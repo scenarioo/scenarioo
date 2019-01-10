@@ -48,10 +48,7 @@ This should open a new browser window, run all tests and log test-information to
 
 ### Debug Protractor Tests
 
-You can add either `browser.pause()` or `browser.debugger()` in your test code to set a breakpoint and start debugging
-from there. For details please see: http://blog.ng-book.com/debugging-protractor-tests/
-
-Please note that this approach does not work in nodejs 8.x anymore. See issue [676](https://github.com/scenarioo/scenarioo/issues/676).
+Now that we are using async / await in the tests you can just set breakpoints in the IDE.
 
 
 ### Manually update ChromeDriver
