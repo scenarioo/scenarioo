@@ -69,6 +69,8 @@ allprojects {
 
 			dependency 'org.elasticsearch:elasticsearch:5.6.9'
 			dependency 'org.elasticsearch.client:transport:5.6.9'
+			dependency 'org.elasticsearch.client:elasticsearch-rest-client:5.6.9'
+			dependency 'org.elasticsearch.plugin:transport-netty4-client:5.6.9'
 
 			dependency 'org.apache.commons:commons-lang3:3.5'
 			dependency 'org.apache.commons:commons-collections4:4.1'
