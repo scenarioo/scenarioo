@@ -133,7 +133,7 @@ public class BuildsResource {
 	}
 
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity uploadBuildAsZipFile(@RequestBody final MultipartFile formData) {
+	public ResponseEntity uploadBuildAsZipFile(@RequestParam("file") final MultipartFile formData) {
 		return new BuildUploader().uploadBuild(formData);
 	}
 
