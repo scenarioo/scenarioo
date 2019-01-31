@@ -42,8 +42,9 @@ jobs:
           name: E2E tests
           command: |
             export SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample
+            export SPRING_SECURITY_USER_PASSWORD=justfortest
             echo "Starting Scenarioo"
-            java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war -Dspring.security.user.password=justfortest > test-results/scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> test-results/scenarioo-server.log &
+            java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war > test-results/scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> test-results/scenarioo-server.log &
 
             export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
             export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
@@ -183,7 +184,7 @@ jobs:
           command: cd docs && npm run build
       - run:
           name: Publishing Docs to http://www.scenarioo.org/docs
-          command: |            
+          command: |
             export DOCU_VERSION=`echo $CIRCLE_BRANCH | sed 's/release\///'`
             echo "Publish docs for $DOCU_VERSION"
             cd docs
