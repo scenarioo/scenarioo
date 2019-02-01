@@ -83,8 +83,7 @@ jobs:
           name: Publish Self Docu E2E Test Reports to http://demo.scenarioo.org/scenarioo-develop
           command: |
             mkdir -p dist
-            #TODO #787 reactivate when develop is updated
-            #curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org/scenarioo-develop/rest/builds
+            curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org/scenarioo-develop/rest/builds
             echo -e "scenarioo self-docu e2e test reports:\nhttp://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-${CIRCLE_BUILD_NUM}\n" >> ./dist/build-result-summary.txt
             echo "scenarioo self-docu e2e test reports published to http://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-${CIRCLE_BUILD_NUM}"
           when: always
