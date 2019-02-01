@@ -11,7 +11,6 @@ import GeneralSettingsPage from '../pages/generalSettingsPage';
 
 useCase('Full Text Search')
     .description('Search within all information of the selected build.')
-    .pending('Unknown elastic search problem, working on it')
     .describe(() => {
 
         beforeEach(async () => {
