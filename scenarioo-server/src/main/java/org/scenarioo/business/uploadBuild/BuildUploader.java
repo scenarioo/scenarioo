@@ -67,6 +67,8 @@ public class BuildUploader {
 		File documentationDataDirectory = configurationRepository.getDocumentationDataDirectory();
 		File temporaryWorkDirectory = new File(documentationDataDirectory, "uploadedBuild_"
 				+ Long.toString(new Date().getTime()));
+		boolean tempDirCreated = temporaryWorkDirectory.mkdir();
+		LOGGER.info("TempDir " + temporaryWorkDirectory.getAbsolutePath() + " created: " + tempDirCreated);
 		File uploadedZipFile = new File(temporaryWorkDirectory, "uploadedFile.zip");
 
 		try {
