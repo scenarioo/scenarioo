@@ -40,6 +40,10 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
+		/* Newer versions of Spring Boot cause problems with ElasticSearch 5.6.9.
+		 * If we want to update then we need to thoroughly test ElasticSearch (web tests are fine)
+		 * and probably have set the versions of certain dependencies to a fixed value.
+		 */
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
 	}
 }
