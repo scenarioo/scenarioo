@@ -46,7 +46,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/rest/builds")
-@MultipartConfig(maxFileSize = -1, maxRequestSize = -1)
 public class BuildsResource {
 
 	private static final Logger LOGGER = Logger.getLogger(BuildsResource.class);
