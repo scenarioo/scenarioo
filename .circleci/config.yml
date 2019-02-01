@@ -42,16 +42,26 @@ jobs:
           name: E2E tests
           command: |
             export SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample
+            export SPRING_SECURITY_USER_PASSWORD=justfortest
             echo "Starting Scenarioo"
             java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war > test-results/scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> test-results/scenarioo-server.log &
+
             export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
             export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
             export BUILD_NUMBER="$CIRCLE_BUILD_NUM"
             echo "Sleeping 30s until Scenarioo is started up and imported all test build data ... "
             sleep 30  # Give server some time because of comparisons
+
             echo "Running e2e tests and generating scenarioo self-docu e2e test reports for branch / build name: scenarioo-${BRANCH}/build-${CIRCLE_BUILD_NUM}"
             export GRADLE_OPTS="-Xms300m -Xmx300m"
             ./gradlew scenarioo-client:runE2eCircleCi --no-daemon -s
+
+            echo "Test the self docu e2e test reports are uploadable to current scenarioo product version under test - to ensure the changes will not break uploading of self docu."
+            pushd e2eScenariooDocu
+            zip -r ../e2eScenariooDocu.zip ./*
+            popd
+            curl -f --user scenarioo:justfortest -F"file=@e2eScenariooDocu.zip" http://localhost:8080/scenarioo/rest/builds
+
       - run:
           name: Collect test results
           command: |
@@ -63,13 +73,18 @@ jobs:
             cp -pR scenarioo-docu-generation-example/build/test-results/test test-results/docu || true
           when: always
       - run:
-          name: Publish scenarioo self-docu e2e test reports to http://demo.scenarioo.org/scenarioo-develop
+          name: Package Self Docu E2E test reports into ZIP
           command: |
-            mkdir -p dist
             pushd e2eScenariooDocu
             zip -r ../e2eScenariooDocu.zip ./*
             popd
-            curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org:8080/scenarioo-develop/rest/builds
+          when: always
+      - run:
+          name: Publish Self Docu E2E Test Reports to http://demo.scenarioo.org/scenarioo-develop
+          command: |
+            mkdir -p dist
+            #TODO #787 reactivate when develop is updated
+            #curl -f --user scenarioo:$TOMCAT_USER_PASSWORD -F"file=@e2eScenariooDocu.zip" http://demo.scenarioo.org/scenarioo-develop/rest/builds
             echo -e "scenarioo self-docu e2e test reports:\nhttp://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-${CIRCLE_BUILD_NUM}\n" >> ./dist/build-result-summary.txt
             echo "scenarioo self-docu e2e test reports published to http://demo.scenarioo.org/scenarioo-develop/#/?branch=scenarioo-${BRANCH}&build=build-${CIRCLE_BUILD_NUM}"
           when: always
@@ -169,7 +184,7 @@ jobs:
           command: cd docs && npm run build
       - run:
           name: Publishing Docs to http://www.scenarioo.org/docs
-          command: |            
+          command: |
             export DOCU_VERSION=`echo $CIRCLE_BRANCH | sed 's/release\///'`
             echo "Publish docs for $DOCU_VERSION"
             cd docs
