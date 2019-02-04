@@ -26,9 +26,9 @@ Downloads and more links, even for different releases (like forthcoming release 
 
 [https://circleci.com/gh/scenarioo](https://circleci.com/gh/scenarioo) 
 
-**Master:** Latest Stable Release [![Build Status](https://circleci.com/gh/scenarioo/scenarioo/tree/master)
+**Master:** Latest Stable Release [![Build Status](https://circleci.com/gh/scenarioo/scenarioo/tree/master)](https://circleci.com/gh/scenarioo/scenarioo/tree/master)
 
-**Develop:** Current Development State [![Build Status](https://circleci.com/gh/scenarioo/scenarioo/tree/develop)
+**Develop:** Current Development State [![Build Status](https://circleci.com/gh/scenarioo/scenarioo/tree/develop)](https://circleci.com/gh/scenarioo/scenarioo/tree/develop)
 
 ### License
 
