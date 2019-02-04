@@ -66,8 +66,10 @@ class ObjectDetailsPage {
 
         await Utils.waitForElementVisible(imageElement);
 
-        await imageElement.click();
-        return browser.actions().doubleClick(imageElement).perform();
+        // Browser action DoubleClick stopped working:
+        // return browser.actions().doubleClick(imageElement).perform();
+        // Workaround from https://stackoverflow.com/questions/44356348/selenium-3-x-double-click-not-working
+        return browser.executeScript("document.getElementById('" + imageId + "').dispatchEvent(new Event('dblclick'));");
     }
 
     async assertTreeNodeIsDisplayed(nodeId) {
