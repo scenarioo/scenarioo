@@ -15,9 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* global SVG:false */
-import * as $ from "jquery"
-import * as angular from "angular";
 
 angular.module('scenarioo.controllers').controller('SketcherEditorController', SketcherEditorController);
 
