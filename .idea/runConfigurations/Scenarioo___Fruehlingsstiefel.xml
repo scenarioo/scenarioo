@@ -2,12 +2,14 @@
   <configuration default="false" name="Scenarioo - Fruehlingsstiefel" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="scenarioo-server_main" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="org.scenarioo.ScenariooViewerApplication" />
+    <option name="VM_PARAMETERS" value="-Dspring.security.user.password=changeit" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <envs>
       <env name="SCENARIOO_DATA" value="$PROJECT_DIR$/scenarioo-docu-generation-example/build/scenarioDocuExample" />
     </envs>
     <method v="2">
       <option name="Gradle.BeforeRunTask" enabled="true" tasks="build bootWar" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="-x test -x scenarioo-client:build -x scenarioo-validator:build" />
+      <option name="MakeProject" enabled="true" />
     </method>
   </configuration>
 </component>

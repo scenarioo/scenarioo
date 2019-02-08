@@ -35,6 +35,9 @@ dependencies {
     compile 'org.elasticsearch.client:transport'
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'commons-io:commons-io'
+    compile 'commons-fileupload:commons-fileupload'
+
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
     //These libraries are no longer provided in Java 9+, thus we need to add them manually

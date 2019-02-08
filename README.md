@@ -24,11 +24,11 @@ Downloads and more links, even for different releases (like forthcoming release 
 
 ### CI/CD Build Server
 
-[http://build.scenarioo.org](http://build.scenarioo.org) 
+[https://circleci.com/gh/scenarioo](https://circleci.com/gh/scenarioo) 
 
-**Master:** Latest Stable Release [![Build Status](http://build.scenarioo.org/jenkins/buildStatus/icon?job=scenarioo/master)](http://build.scenarioo.org/jenkins/job/scenarioo/job/master/)
+**Master:** Latest Stable Release [![Build Status](https://circleci.com/gh/scenarioo/scenarioo/tree/master)](https://circleci.com/gh/scenarioo/scenarioo/tree/master)
 
-**Develop:** Current Development State [![Build Status](http://build.scenarioo.org/jenkins/buildStatus/icon?job=scenarioo/develop)](http://build.scenarioo.org/jenkins/job/scenarioo/job/develop/)
+**Develop:** Current Development State [![Build Status](https://circleci.com/gh/scenarioo/scenarioo/tree/develop)](https://circleci.com/gh/scenarioo/scenarioo/tree/develop)
 
 ### License
 
