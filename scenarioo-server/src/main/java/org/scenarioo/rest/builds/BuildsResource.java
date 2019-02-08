@@ -38,7 +38,9 @@ import java.io.File;
 import java.util.List;
 
 /**
- * This path has a security constraint for POST requests (see web.xml).
+ * Resource for publishing and importing builds.
+ *
+ * This path has a security constraint for POST requests, @see {@link org.scenarioo.configuration.SecurityConfiguration}
  * Only authenticated users with the required role can post new builds.
  */
 @RestController
@@ -129,7 +131,7 @@ public class BuildsResource {
 	}
 
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity uploadBuildAsZipFile(@RequestBody final MultipartFile formData) {
+	public ResponseEntity uploadBuildAsZipFile(@RequestParam("file") final MultipartFile formData) {
 		return new BuildUploader().uploadBuild(formData);
 	}
 

@@ -1,11 +1,14 @@
 # Ignore .idea files except basic run configurations
-/.idea/workspace.xml
-/.idea/modules.xml
-/.idea/vcs.xml
-/.idea/libraries
-/.idea/modules
-/.idea/artifacts/Gradle*
-/.idea/shelf
+/.idea
+!/.idea/codeStyleSettings.xml
+!/.idea/compiler.xml
+!/.idea/encodings.xml
+!/.idea/misc.xml
+!/.idea/artifacts/scenarioo*
+!/.idea/codeStyles
+!/.idea/runConfigurations
+!/.idea/inspectionProfiles
+
 
 classes/
 bin/
