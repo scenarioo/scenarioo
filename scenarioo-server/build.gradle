@@ -106,7 +106,9 @@ bootWar.doLast {
     }
 }
 
+bootWar.dependsOn createVersionPropertiesFile
 war.dependsOn createVersionPropertiesFile
+bootWar.dependsOn ":scenarioo-client:build"
 war.dependsOn ":scenarioo-client:build"
 
 if(ossrhPassword) {
