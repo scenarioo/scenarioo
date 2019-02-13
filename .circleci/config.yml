@@ -44,10 +44,7 @@ jobs:
             export SCENARIOO_DATA=./scenarioo-docu-generation-example/build/scenarioDocuExample
             export SPRING_SECURITY_USER_PASSWORD=justfortest
             echo "Starting Scenarioo"
-            # To prevent a race condition between Spring Boot and ElasticSearch both trying to configure Netty
-            # we have to disable this through a System Property.
-            # See: https://discuss.elastic.co/t/contradictory-and-sometimes-poor-advice-given-for-es-set-netty-runtime-available-processors/148014
-            java -Xms800m -Xmx800m -Des.set.netty.runtime.available.processors=false -jar scenarioo-server/build/libs/scenarioo-latest.war > test-results/scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> test-results/scenarioo-server.log &
+            java -Xms800m -Xmx800m -jar scenarioo-server/build/libs/scenarioo-latest.war > test-results/scenarioo-server.log || echo "Scenarioo server died. Exit code: $? see https://circleci.com/blog/how-to-handle-java-oom-errors/" >> test-results/scenarioo-server.log &
 
             export PROTRACTOR_BASE_URL=http://localhost:8080/scenarioo
             export SCENARIOO_TARGET_DIRECTORY="../e2eScenariooDocu"
