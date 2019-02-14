@@ -63,7 +63,7 @@ useCase('Browse object details')
 
         scenario('Double click')
             .description('Double click on root node expands all child nodes.')
-            .xit(async () => {
+            .it(async () => {
                 await Utils.navigateToRoute('/object/uiAction/example.action.StartInitAction');
                 await step('Display object details page');
                 await ObjectDetailsPage.clickCollapseAll();
