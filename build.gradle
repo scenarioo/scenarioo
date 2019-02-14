@@ -55,8 +55,8 @@ allprojects {
 	group = 'org.scenarioo'
     version = getVersionName()
 
-    task wrapper(type: Wrapper) {
-        gradleVersion = '4.7'
+    wrapper {
+        gradleVersion = '4.10.3'
     }
 
 	dependencyManagement {

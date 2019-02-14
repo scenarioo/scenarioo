@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.Collections;
 
 @Configuration
@@ -21,6 +22,16 @@ public class ScenariooViewerApplication extends SpringBootServletInitializer imp
 
 	public static void main(String[] args) {
 		SpringApplication.run(ScenariooViewerApplication.class, args);
+	}
+
+	/**
+	 * To prevent a race condition between Spring Boot and ElasticSearch both trying to configure Netty
+	 * we have to disable this through a System Property.
+	 * See: https://discuss.elastic.co/t/contradictory-and-sometimes-poor-advice-given-for-es-set-netty-runtime-available-processors/148014
+	 */
+	@PostConstruct
+	private void setSystemPropertyForElasticSearch() {
+		System.setProperty("es.set.netty.runtime.available.processors", Boolean.FALSE.toString());
 	}
 
 	@Bean
